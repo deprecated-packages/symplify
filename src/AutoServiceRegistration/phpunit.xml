@@ -4,12 +4,12 @@
 >
     <testsuites>
         <testsuite>
-            <directory>src/AutoServiceRegistration/tests</directory>
+            <directory>tests</directory>
         </testsuite>
     </testsuites>
     <filter>
         <whitelist>
-            <directory suffix=".php">src/AutoServiceRegistration/src</directory>
+            <directory suffix=".php">src</directory>
         </whitelist>
     </filter>
 </phpunit>
