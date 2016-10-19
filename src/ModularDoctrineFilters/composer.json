@@ -22,7 +22,7 @@
         "symfony/form": "^3.0",
         "symfony/framework-bundle": "^3.0",
         "symfony/validator": "^3.0",
-        "symplify/coding-standard": "^0.3",
+        "symplify/coding-standard": "^1.0",
         "twig/twig": "^1.24"
     },
     "autoload": {
