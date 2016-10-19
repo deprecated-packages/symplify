@@ -11,8 +11,8 @@ use Symplify\AutoServiceRegistration\ServiceClass\ServiceClassFinder;
 use Symplify\AutoServiceRegistration\Symfony\Config\Definition\Configuration;
 use Symplify\AutoServiceRegistration\Symfony\DependencyInjection\Compiler\AutoRegisterServicesCompilerPass;
 use Symplify\AutoServiceRegistration\Symfony\SymplifyAutoServiceRegistrationBundle;
-use Symplify\AutoServiceRegistration\Tests\DependencyInjection\Compiler\AutoRegisterServicesCompilerPassSource\SomeRepository;
-use Symplify\AutoServiceRegistration\Tests\Symfony\DependencyInjection\Compiler\AutoRegisterServicesCompilerPassSource\SomeController;
+use Symplify\AutoServiceRegistration\Tests\Symfony\Source\SomeController;
+use Symplify\AutoServiceRegistration\Tests\Symfony\Source\SomeRepository;
 
 final class AutoRegisterServicesCompilerPassTest extends TestCase
 {
