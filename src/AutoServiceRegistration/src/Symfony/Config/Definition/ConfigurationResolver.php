@@ -45,7 +45,10 @@ final class ConfigurationResolver
         return $this->getResolvedConfiguration()[Configuration::CLASS_SUFFIXES_TO_SEEK];
     }
 
-    private function getResolvedConfiguration()
+    /**
+     * @return string[]
+     */
+    private function getResolvedConfiguration() : array
     {
         if ($this->resolvedConfiguration) {
             return $this->resolvedConfiguration;

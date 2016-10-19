@@ -24,5 +24,19 @@
         "psr-4": {
             "Symplify\\AutoServiceRegistration\\Tests\\": "tests"
         }
+    },
+    "scripts": {
+        "check-cs": [
+            "vendor/bin/symplify-cs check src/AutoServiceRegistration/src",
+            "vendor/bin/symplify-cs check src/AutoServiceRegistration/tests",
+            "vendor/bin/symplify-cs check src/ModularDoctrineFilters/src",
+            "vendor/bin/symplify-cs check src/ModularDoctrineFilters/tests"
+        ],
+        "fix-cs": [
+            "vendor/bin/symplify-cs fix src/AutoServiceRegistration/src",
+            "vendor/bin/symplify-cs fix src/AutoServiceRegistration/tests",
+            "vendor/bin/symplify-cs fix src/ModularDoctrineFilters/src",
+            "vendor/bin/symplify-cs fix src/ModularDoctrineFilters/tests"
+        ]
     }
 }

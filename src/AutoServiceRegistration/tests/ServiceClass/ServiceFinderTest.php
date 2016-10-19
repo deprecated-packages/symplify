@@ -24,8 +24,8 @@ final class ServiceFinderTest extends TestCase
     public function provideData() : array
     {
         return [
-            [[__DIR__ . '/ServiceFinderSource'], ['Controller'], [SomeController::class]],
-            [[__DIR__ . '/ServiceFinderSource'], ['Repository'], [SomeRepository::class]],
+            [[__DIR__.'/ServiceFinderSource'], ['Controller'], [SomeController::class]],
+            [[__DIR__.'/ServiceFinderSource'], ['Repository'], [SomeRepository::class]],
         ];
     }
 }
