@@ -1,0 +1,28 @@
+{
+    "name": "symplify/auto-service-registration",
+    "description": "Register your service by suffix scan instead of manual writing.",
+    "keywords": ["Symfony", "autowire", "auto", "registration", "dependency injection"],
+    "license": "MIT",
+    "require": {
+        "php": "~7.0",
+        "nette/robot-loader": "^2.4",
+        "symfony/config": "^3.0",
+        "symfony/dependency-injection": "^3.0",
+        "symfony/http-kernel": "^3.0"
+    },
+    "require-dev": {
+        "nette/utils": "^2.4",
+        "symplify/coding-standard": "^0.3",
+        "phpunit/phpunit": "^5.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "Symplify\\AutoServiceRegistration\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Symplify\\AutoServiceRegistration\\Tests\\": "tests"
+        }
+    }
+}
