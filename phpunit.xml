@@ -1,15 +1,15 @@
 <phpunit
-    bootstrap="tests/bootstrap.php"
+    bootstrap="vendor/autoload.php"
     colors="true"
 >
     <testsuites>
         <testsuite>
-            <directory>src/AutoServiceRegistration/tests</directory>
+            <directory>src/*/tests</directory>
         </testsuite>
     </testsuites>
     <filter>
         <whitelist>
-            <directory suffix=".php">src/AutoServiceRegistration/src</directory>
+            <directory suffix=".php">src/*/src</directory>
         </whitelist>
     </filter>
 </phpunit>
