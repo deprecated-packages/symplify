@@ -1,0 +1,42 @@
+{
+    "name": "symplify/modular-doctrine-filters",
+    "description": "Adds simple service support for Doctrine filters, allowing modularity.",
+    "keywords": ["Symfony", "Doctrine", "SQL", "filter", "modular"],
+    "license": "MIT",
+    "authors": [
+        { "name": "Tomáš Votruba", "homepage": "http://tomasvotruba.cz" }
+    ],
+    "require": {
+        "php": "^7.0",
+        "doctrine/dbal": "^2.4",
+        "doctrine/orm": "^2.4",
+        "symfony/config": "^3.0",
+        "symfony/dependency-injection": "^3.0",
+        "symfony/event-dispatcher": "^3.0",
+        "symfony/http-kernel": "^3.0"
+    },
+    "require-dev": {
+        "doctrine/doctrine-bundle": "^1.6",
+        "nette/utils": "^2.3",
+        "phpunit/phpunit": "^5.4",
+        "symfony/form": "^3.0",
+        "symfony/framework-bundle": "^3.0",
+        "symfony/validator": "^3.0",
+        "symplify/coding-standard": "^0.3",
+        "twig/twig": "^1.24"
+    },
+    "autoload": {
+        "psr-4": {
+            "Symplify\\ModularDoctrineFilters\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Symplify\\ModularDoctrineFilters\\Tests\\": "tests"
+        }
+    },
+    "scripts": {
+        "check-cs": "vendor/bin/symplify-cs check src tests",
+        "fix-cs": "vendor/bin/symplify-cs fix src tests"
+    }
+}
