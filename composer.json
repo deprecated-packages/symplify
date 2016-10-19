@@ -8,22 +8,40 @@
         "nette/robot-loader": "^2.4",
         "symfony/config": "^3.0",
         "symfony/dependency-injection": "^3.0",
-        "symfony/http-kernel": "^3.0"
+        "symfony/http-kernel": "^3.0",
+        "symfony/event-dispatcher": "^3.0",
+
+        "doctrine/dbal": "^2.4",
+        "doctrine/orm": "^2.4"
     },
     "require-dev": {
-        "nette/utils": "^2.4",
+        "phpunit/phpunit": "^5.5",
         "symplify/coding-standard": "^0.3",
-        "phpunit/phpunit": "^5.5"
+
+        "nette/utils": "^2.4",
+
+        "doctrine/doctrine-bundle": "^1.6",
+
+        "symfony/form": "^3.0",
+        "symfony/framework-bundle": "^3.0",
+        "symfony/validator": "^3.0",
+        "twig/twig": "^1.24"
     },
     "autoload": {
         "psr-4": {
-            "Symplify\\": "src"
+            "Symplify\\AutoServiceRegistration\\": "src/AutoServiceRegistration/src",
+            "Symplify\\ModularDoctrineFilters\\": "src/ModularDoctrineFilters/src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Symplify\\AutoServiceRegistration\\Tests\\": "tests"
+            "Symplify\\AutoServiceRegistration\\Tests\\": "src/AutoServiceRegistration/tests",
+            "Symplify\\ModularDoctrineFilters\\Tests\\": "src/ModularDoctrineFilters/tests"
         }
+    },
+    "replace": {
+        "symplify/auto-service-registration": "self.version",
+        "symplify/modular-doctrine-filters": "self.version"
     },
     "scripts": {
         "check-cs": [
