@@ -1,63 +1,30 @@
-# Auto Register Services By Class Name Suffix
+# Symplify main repository
 
-Register every Controller, Repository or Command in your app. 
+This is developement repository = ALL PRs and ISSUEs HERE!
 
-No need to do that manually in `config.yml` files. Very useful in large projects to keep configs clean.
- 
-
-[![Build Status](https://img.shields.io/travis/Symplify/AutoServiceRegistration.svg?style=flat-square)](https://travis-ci.org/Symplify/AutoServiceRegistration)
-[![Quality Score](https://img.shields.io/scrutinizer/g/Symplify/AutoServiceRegistration.svg?style=flat-square)](https://scrutinizer-ci.com/g/Symplify/AutoServiceRegistration)
-[![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/Symplify/AutoServiceRegistration.svg?style=flat-square)](https://scrutinizer-ci.com/g/Symplify/AutoServiceRegistration)
-[![Downloads](https://img.shields.io/packagist/dt/symplify/auto-service-registration.svg?style=flat-square)](https://packagist.org/packages/symplify/auto-service-registration)
-[![Latest stable](https://img.shields.io/packagist/v/symplify/auto-service-registration.svg?style=flat-square)](https://packagist.org/packages/symplify/auto-service-registration)
+[![Build Status](https://img.shields.io/travis/Symplify/Symplify.svg?style=flat-square)](https://travis-ci.org/Symplify/Symplify)
+[![Quality Score](https://img.shields.io/scrutinizer/g/Symplify/Symplify.svg?style=flat-square)](https://scrutinizer-ci.com/g/Symplify/Symplify)
+[![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/Symplify/Symplify.svg?style=flat-square)](https://scrutinizer-ci.com/g/Symplify/Symplify)
+[![Downloads](https://img.shields.io/packagist/dt/symplify/symplify.svg?style=flat-square)](https://packagist.org/packages/symplify/symplify)
+[![Latest stable](https://img.shields.io/packagist/v/symplify/symplify.svg?style=flat-square)](https://packagist.org/packages/symplify/symplify)
 
 
 ## Install
 
 ```bash
-composer require symplify/auto-service-registration
-```
-
-Add bundle to `AppKernel.php`:
-
-```php
-class AppKernel extends Kernel
-{
-    public function registerBundles()
-    {
-        $bundles = [
-            new Symplify\AutoServiceRegistration\Symfony\SymplifyAutoServiceRegistrationBundle(),
-            // ...
-        ];
-    }
-}
+composer require symplify/symplify
 ```
 
 
-## Usage
-
-```yml
-# app/config/config.yml with default value
-symplify_auto_service_registration:
-    directories_to_scan: # where to scan classes
-        - %kernel.root_dir%
-        - %kernel.root_dir%/src
-    class_suffixes_to_seek: # what class name suffixes to look for
-        - Controller
-```
-
-That's all :)
-
-
-# Testing
+## Testing
 
 ```bash
-vendor/bin/symplify-cs check src tests
+composer check-cs
 vendor/bin/phpunit
 ```
 
 
-# Contributing
+## Contributing
 
 Rules are simple:
 
