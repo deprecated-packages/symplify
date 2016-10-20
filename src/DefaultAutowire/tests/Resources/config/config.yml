@@ -1,0 +1,42 @@
+parameters:
+    kernel.secret: 123
+
+
+services:
+    some_service:
+        class: Symplify\DefaultAutowire\Tests\Source\SomeService
+
+    some_autowired_service:
+        class: Symplify\DefaultAutowire\Tests\Source\SomeAutowiredService
+
+    some_repository:
+        class: Symplify\DefaultAutowire\Tests\Resources\Repository\SomeRepository
+
+    event_dispatcher:
+        class: Symfony\Component\EventDispatcher\EventDispatcher
+
+    traceable_event_disptacher:
+        class: Symfony\Component\EventDispatcher\Debug\TraceableEventDispatcher
+
+    some_service_with_optional_dependencies:
+        class: Symplify\DefaultAutowire\Tests\Source\SomeServiceWithOptionalConstructorArguments
+        arguments:
+            - '@some_service'
+
+    some_built_autowired_service_factory:
+        class: Symplify\DefaultAutowire\Tests\Source\SomeBuiltAutowiredServiceFactory
+
+    some_built_autowired_service:
+        class: Symplify\DefaultAutowire\Tests\Source\SomeBuiltAutowiredService
+        factory: ['@some_built_autowired_service_factory', 'create']
+
+    some_built_service_with_optional_dependencies:
+        class: Symplify\DefaultAutowire\Tests\Source\SomeServiceWithOptionalConstructorArguments
+        factory:
+            - Symplify\DefaultAutowire\Tests\Source\SomeServiceWithOptionalConstructorArgumentsFactory
+            - 'create'
+
+doctrine:
+    orm:
+    dbal:
+        memory: true

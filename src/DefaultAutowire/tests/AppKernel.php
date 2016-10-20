@@ -1,24 +1,19 @@
 <?php
 
-namespace Symplify\ActionAutowire\Tests;
+namespace Symplify\DefaultAutowire\Tests;
 
-use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
+use Doctrine\Bundle\DoctrineBundle\DoctrineBundle;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\HttpKernel\Kernel;
-use Symplify\ActionAutowire\SymplifyActionAutowireBundle;
+use Symplify\DefaultAutowire\SymplifyDefaultAutowireBundle;
 
 final class AppKernel extends Kernel
 {
-    public function __construct()
-    {
-        parent::__construct('ActionAutowire', true);
-    }
-
     public function registerBundles()
     {
         return [
-            new FrameworkBundle(),
-            new SymplifyActionAutowireBundle(),
+            new SymplifyDefaultAutowireBundle(),
+            new DoctrineBundle(),
         ];
     }
 

@@ -36,6 +36,7 @@
         "psr-4": {
             "Symplify\\ActionAutowire\\": "src/ActionAutowire/src",
             "Symplify\\AutoServiceRegistration\\": "src/AutoServiceRegistration/src",
+            "Symplify\\DefaultAutowire\\": "src/DefaultAutowire/src",
             "Symplify\\ModularDoctrineFilters\\": "src/ModularDoctrineFilters/src",
             "Symplify\\ModularRouting\\": "src/ModularRouting/src"
         }
@@ -44,6 +45,7 @@
         "psr-4": {
             "Symplify\\ActionAutowire\\Tests\\": "src/ActionAutowire/tests",
             "Symplify\\AutoServiceRegistration\\Tests\\": "src/AutoServiceRegistration/tests",
+            "Symplify\\DefaultAutowire\\Tests\\": "src/DefaultAutowire/tests",
             "Symplify\\ModularDoctrineFilters\\Tests\\": "src/ModularDoctrineFilters/tests",
             "Symplify\\ModularRouting\\Tests\\": "src/ModularRouting/tests"
         }
@@ -54,6 +56,8 @@
             "vendor/bin/symplify-cs check src/ActionAutowire/tests",
             "vendor/bin/symplify-cs check src/AutoServiceRegistration/src",
             "vendor/bin/symplify-cs check src/AutoServiceRegistration/tests",
+            "vendor/bin/symplify-cs check src/DefaultAutowire/src",
+            "vendor/bin/symplify-cs check src/DefaultAutowire/tests",
             "vendor/bin/symplify-cs check src/ModularDoctrineFilters/src",
             "vendor/bin/symplify-cs check src/ModularDoctrineFilters/tests",
             "vendor/bin/symplify-cs check src/ModularRouting/src",
@@ -64,6 +68,8 @@
             "vendor/bin/symplify-cs fix src/ActionAutowire/tests",
             "vendor/bin/symplify-cs fix src/AutoServiceRegistration/src",
             "vendor/bin/symplify-cs fix src/AutoServiceRegistration/tests",
+            "vendor/bin/symplify-cs fix src/DefaultAutowire/src",
+            "vendor/bin/symplify-cs fix src/DefaultAutowire/tests",
             "vendor/bin/symplify-cs fix src/ModularDoctrineFilters/src",
             "vendor/bin/symplify-cs fix src/ModularDoctrineFilters/tests",
             "vendor/bin/symplify-cs fix src/ModularRouting/src",

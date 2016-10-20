@@ -1,0 +1,30 @@
+{
+    "name": "symplify/default-autowire",
+    "description": "Adds autowire to services when needed.",
+    "license": "MIT",
+    "require": {
+        "php": "^7.0",
+        "symfony/config": "~3.0",
+        "symfony/dependency-injection": "~3.0",
+        "symfony/http-kernel": "~3.0"
+    },
+    "require-dev": {
+        "nette/utils": "^2.4",
+        "tracy/tracy": "^2.4",
+        "phpunit/phpunit": "^5.5",
+        "symplify/coding-standard": "^1.0",
+        "doctrine/doctrine-bundle": "^1.6",
+        "doctrine/orm": "^2.5",
+        "symfony/form": "^3.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Symplify\\DefaultAutowire\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Symplify\\DefaultAutowire\\Tests\\": "tests"
+        }
+    }
+}
