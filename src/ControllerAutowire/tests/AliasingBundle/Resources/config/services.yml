@@ -1,0 +1,3 @@
+services:
+    some_alias.controller_resolver:
+        class: Symplify\ControllerAutowire\Tests\AliasingBundle\HttpKernel\SomeControllerResolver
