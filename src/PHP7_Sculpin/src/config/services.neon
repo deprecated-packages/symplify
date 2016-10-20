@@ -1,0 +1,49 @@
+services:
+    # configuration
+    - Symplify\PHP7_Sculpin\Configuration\Configuration
+    - Symplify\PHP7_Sculpin\Configuration\Parser\YamlAndNeonParser
+
+    # console
+    - Symplify\PHP7_Sculpin\Console\Application
+    - Symplify\PHP7_Sculpin\Console\Command\GenerateCommand(%sourceDir%, %outputDir%)
+    - Symplify\PHP7_Sculpin\Console\Command\PushToGithubCommand(%outputDir%)
+    - Symfony\Component\Console\Output\ConsoleOutput
+
+    # core
+    - Symplify\PHP7_Sculpin\Application\SculpinApplication
+
+    # source
+    - Symplify\PHP7_Sculpin\Source\SourceFileStorage
+    - Symplify\PHP7_Sculpin\Source\SourceFileFilter\ConfigurationSourceFilter
+    - Symplify\PHP7_Sculpin\Source\SourceFileFilter\LayoutSourceFilter
+    - Symplify\PHP7_Sculpin\Source\SourceFileFilter\PostSourceFilter
+    - Symplify\PHP7_Sculpin\Source\SourceFileFilter\RenderableSourceFilter
+    - Symplify\PHP7_Sculpin\Source\SourceFileFilter\StaticSourceFilter
+
+    # renderable
+    - Symplify\PHP7_Sculpin\Renderable\File\FileFactory(%sourceDir%)
+    - Symplify\PHP7_Sculpin\Renderable\RenderableFilesProcessor
+    - Michelf\MarkdownExtra
+
+    # renderable - latte
+    - Symplify\PHP7_Sculpin\Renderable\Latte\DynamicStringLoader
+    -
+        class: Latte\Engine
+        setup:
+            - setLoader()
+
+    # renderable - decorators
+    - Symplify\PHP7_Sculpin\Renderable\Configuration\ConfigurationDecorator
+    - Symplify\PHP7_Sculpin\Renderable\Latte\LatteDecorator
+    - Symplify\PHP7_Sculpin\Renderable\Routing\RouteDecorator(%postRoute%)
+    - Symplify\PHP7_Sculpin\Renderable\Markdown\MarkdownDecorator
+
+    # output
+    - Symplify\PHP7_Sculpin\Output\FileSystemWriter(%sourceDir%, %outputDir%)
+
+    # github
+    - Symplify\PHP7_Sculpin\Github\GihubPublishingProcess
+
+    # http
+    - Symplify\PHP7_Sculpin\HttpServer\HttpServer(%outputDir%)
+    - Symplify\PHP7_Sculpin\HttpServer\ResponseWriter

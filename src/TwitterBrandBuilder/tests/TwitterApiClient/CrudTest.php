@@ -22,6 +22,8 @@ final class CrudTest extends TestCase
 
     public function testMediaUpload()
     {
+        $this->markTestSkipped('slow');
+
         $media = $this->twitterApiClient->uploadMedia(__DIR__.'/CrudSource/img.png');
         $this->assertContains('image/png', $media->getImageType());
 

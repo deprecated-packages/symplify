@@ -1,0 +1,31 @@
+<?php
+
+namespace Symplify\PHP7_Sculpin\DI\Container;
+
+use Nette\DI\Container;
+use Nette\Utils\FileSystem;
+use PHPUnit\Framework\TestCase;
+
+final class ContainerFactoryTest extends TestCase
+{
+    /**
+     * @var string
+     */
+    private $sourceDirectory = __DIR__.'/../../../source';
+
+    protected function setUp()
+    {
+        FileSystem::createDir($this->sourceDirectory);
+    }
+
+    public function testCreate()
+    {
+        $container = (new ContainerFactory())->create();
+        $this->assertInstanceOf(Container::class, $container);
+    }
+
+    protected function tearDown()
+    {
+        FileSystem::delete($this->sourceDirectory);
+    }
+}

@@ -42,7 +42,9 @@ final class InfoTest extends TestCase
 
     public function testGetRetweetsOfMe()
     {
-        $tweets = $this->twitterApiClient->getRetweetsOfMe();
+        $this->markTestSkipped('slow');
+
+        $tweets = $this->twitterApiClient->getRetcweetsOfMe();
         $this->assertContains('travis CI and tests', $tweets[0]->getText());
     }
 

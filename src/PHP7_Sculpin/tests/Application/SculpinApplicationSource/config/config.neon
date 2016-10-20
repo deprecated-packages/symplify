@@ -1,0 +1,6 @@
+extensions:
+    sculpin: Symplify\PHP7_Sculpin\DI\SculpinCompilerExtension
+
+sculpin:
+    sourceDir: %appDir%/../../../tests/Application/SculpinApplicationSource/source
+    outputDir: %appDir%/../../../tests/Application/SculpinApplicationSource/output

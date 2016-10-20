@@ -6,13 +6,19 @@
         "php": "~7.0",
 
         "abraham/twitteroauth": "~0.7",
+        "michelf/php-markdown": "~1.6",
+        "react/http": "~0.4",
 
         "doctrine/dbal": "^2.5",
         "doctrine/orm": "^2.5",
 
-        "nette/robot-loader": "^2.4",
+        "nette/bootstrap": "~2.4",
         "nette/di": "~2.4",
+        "nette/finder": "~2.4",
         "nette/http": "~2.4",
+        "latte/latte": "~2.4",
+        "nette/utils": "~2.4",
+        "nette/robot-loader": "~2.4",
 
         "symfony/config": "^3.0",
         "symfony/console": "^3.0",
@@ -59,7 +65,8 @@
             "Symplify\\ModularDoctrineFilters\\": "src/ModularDoctrineFilters/src",
             "Symplify\\ModularRouting\\": "src/ModularRouting/src",
             "Symplify\\NetteAdapterForSymfonyBundles\\": "src/NetteAdapterForSymfonyBundles/src",
-            "Symplify\\TwitterBrandBuilder\\": "src/TwitterBrandBuilder/src"
+            "Symplify\\TwitterBrandBuilder\\": "src/TwitterBrandBuilder/src",
+            "Symplify\\PHP7_Sculpin\\": "src/PHP7_Sculpin/src"
         }
     },
     "autoload-dev": {
@@ -72,7 +79,9 @@
             "Symplify\\ModularDoctrineFilters\\Tests\\": "src/ModularDoctrineFilters/tests",
             "Symplify\\ModularRouting\\Tests\\": "src/ModularRouting/tests",
             "Symplify\\NetteAdapterForSymfonyBundles\\Tests\\": "src/NetteAdapterForSymfonyBundles/tests",
-            "Symplify\\TwitterBrandBuilder\\Tests\\": "src/TwitterBrandBuilder/tests"
+            "Symplify\\TwitterBrandBuilder\\Tests\\": "src/TwitterBrandBuilder/tests",
+            "Symplify\\PHP7_Sculpin\\Tests\\": "src/PHP7_Sculpin/tests",
+            "React\\Tests\\Http\\": "vendor/react/http/tests"
         }
     },
     "scripts": {
@@ -110,7 +119,9 @@
             "vendor/bin/symplify-cs fix src/NetteAdapterForSymfonyBundles/src",
             "vendor/bin/symplify-cs fix src/NetteAdapterForSymfonyBundles/tests",
             "vendor/bin/symplify-cs fix src/TwitterBrandBuilder/src",
-            "vendor/bin/symplify-cs fix src/TwitterBrandBuilder/tests"
+            "vendor/bin/symplify-cs fix src/TwitterBrandBuilder/tests",
+            "vendor/bin/symplify-cs fix src/PHP7_Sculpin/src",
+            "vendor/bin/symplify-cs fix src/PHP7_Sculpin/tests"
         ]
     }
 }
