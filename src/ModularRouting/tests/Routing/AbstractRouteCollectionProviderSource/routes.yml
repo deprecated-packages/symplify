@@ -1,0 +1,4 @@
+yml-loaded-file:
+    path: "/yml-route"
+    defaults:
+        _controller: "YmlLoadedController"

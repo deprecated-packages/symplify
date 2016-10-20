@@ -1,7 +1,6 @@
 {
     "name": "symplify/modular-doctrine-filters",
     "description": "Adds simple service support for Doctrine filters, allowing modularity.",
-    "keywords": ["Symfony", "Doctrine", "SQL", "filter", "modular"],
     "license": "MIT",
     "authors": [
         { "name": "Tomáš Votruba", "homepage": "http://tomasvotruba.cz" }

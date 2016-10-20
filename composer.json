@@ -1,7 +1,6 @@
 {
     "name": "symplify/symplify",
-    "description": "Register your service by suffix scan instead of manual writing.",
-    "keywords": ["Symfony", "autowire", "auto", "registration", "dependency injection"],
+    "description": "Main repository for Symplify packages development.",
     "license": "MIT",
     "require": {
         "php": "~7.0",
@@ -12,36 +11,41 @@
         "symfony/event-dispatcher": "^3.0",
         "symfony/yaml": "^3.0",
         "symfony/property-access": "^3.0",
+        "symfony/routing": "^3.0",
+        "symfony/twig-bundle": "^3.0",
+        "symfony-cmf/routing-bundle": "dev-master as 1.4",
 
-        "doctrine/dbal": "^2.4",
-        "doctrine/orm": "^2.4"
+        "doctrine/dbal": "^2.5",
+        "doctrine/orm": "^2.5"
     },
     "require-dev": {
         "phpunit/phpunit": "^5.5",
         "symplify/coding-standard": "^1.0",
 
         "nette/utils": "^2.4",
+        "tracy/tracy": "^2.4",
 
         "doctrine/doctrine-bundle": "^1.6",
 
         "symfony/form": "^3.0",
         "symfony/framework-bundle": "^3.0",
         "symfony/validator": "^3.0",
-        "twig/twig": "^1.24",
-        "tracy/tracy": "^2.4"
+        "twig/twig": "^1.24"
     },
     "autoload": {
         "psr-4": {
             "Symplify\\ActionAutowire\\": "src/ActionAutowire/src",
             "Symplify\\AutoServiceRegistration\\": "src/AutoServiceRegistration/src",
-            "Symplify\\ModularDoctrineFilters\\": "src/ModularDoctrineFilters/src"
+            "Symplify\\ModularDoctrineFilters\\": "src/ModularDoctrineFilters/src",
+            "Symplify\\ModularRouting\\": "src/ModularRouting/src"
         }
     },
     "autoload-dev": {
         "psr-4": {
             "Symplify\\ActionAutowire\\Tests\\": "src/ActionAutowire/tests",
             "Symplify\\AutoServiceRegistration\\Tests\\": "src/AutoServiceRegistration/tests",
-            "Symplify\\ModularDoctrineFilters\\Tests\\": "src/ModularDoctrineFilters/tests"
+            "Symplify\\ModularDoctrineFilters\\Tests\\": "src/ModularDoctrineFilters/tests",
+            "Symplify\\ModularRouting\\Tests\\": "src/ModularRouting/tests"
         }
     },
     "scripts": {
@@ -51,7 +55,9 @@
             "vendor/bin/symplify-cs check src/AutoServiceRegistration/src",
             "vendor/bin/symplify-cs check src/AutoServiceRegistration/tests",
             "vendor/bin/symplify-cs check src/ModularDoctrineFilters/src",
-            "vendor/bin/symplify-cs check src/ModularDoctrineFilters/tests"
+            "vendor/bin/symplify-cs check src/ModularDoctrineFilters/tests",
+            "vendor/bin/symplify-cs check src/ModularRouting/src",
+            "vendor/bin/symplify-cs check src/ModularRouting/tests"
         ],
         "fix-cs": [
             "vendor/bin/symplify-cs fix src/ActionAutowire/src",
@@ -59,7 +65,9 @@
             "vendor/bin/symplify-cs fix src/AutoServiceRegistration/src",
             "vendor/bin/symplify-cs fix src/AutoServiceRegistration/tests",
             "vendor/bin/symplify-cs fix src/ModularDoctrineFilters/src",
-            "vendor/bin/symplify-cs fix src/ModularDoctrineFilters/tests"
+            "vendor/bin/symplify-cs fix src/ModularDoctrineFilters/tests",
+            "vendor/bin/symplify-cs fix src/ModularRouting/src",
+            "vendor/bin/symplify-cs fix src/ModularRouting/tests"
         ]
     }
 }

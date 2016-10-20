@@ -1,0 +1,5 @@
+services:
+    symplify.modular_routing.modular_router:
+        class: Symplify\ModularRouting\Routing\ModularRouter
+        tags:
+            - { name: router, priority: 50 }

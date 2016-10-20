@@ -1,7 +1,6 @@
 {
     "name": "symplify/auto-service-registration",
     "description": "Register your service by suffix scan instead of manual writing.",
-    "keywords": ["Symfony", "autowire", "auto", "registration", "dependency injection"],
     "license": "MIT",
     "require": {
         "php": "~7.0",

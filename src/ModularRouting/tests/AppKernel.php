@@ -1,10 +1,13 @@
 <?php
 
-namespace Symplify\AutoServiceRegistration\Tests\Symfony;
+namespace Symplify\ModularRouting\Tests;
 
+use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
+use Symfony\Bundle\TwigBundle\TwigBundle;
+use Symfony\Cmf\Bundle\RoutingBundle\CmfRoutingBundle;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\HttpKernel\Kernel;
-use Symplify\AutoServiceRegistration\Symfony\SymplifyAutoServiceRegistrationBundle;
+use Symplify\ModularRouting\SymplifyModularRoutingBundle;
 
 final class AppKernel extends Kernel
 {
@@ -16,7 +19,10 @@ final class AppKernel extends Kernel
     public function registerBundles() : array
     {
         return [
-            new SymplifyAutoServiceRegistrationBundle(),
+            new FrameworkBundle(),
+            new CmfRoutingBundle(),
+            new SymplifyModularRoutingBundle(),
+            new TwigBundle(),
         ];
     }
 
