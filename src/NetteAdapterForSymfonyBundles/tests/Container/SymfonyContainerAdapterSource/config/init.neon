@@ -1,0 +1,16 @@
+application:
+	scanDirs: false
+	scanComposer: false
+
+extensions:
+	symfonyBundles: Symplify\NetteAdapterForSymfonyBundles\DI\NetteAdapterForSymfonyBundlesExtension
+
+symfonyBundles:
+	bundles:
+		doctrine_bundle: Doctrine\Bundle\DoctrineBundle\DoctrineBundle
+	parameters:
+		doctrine_bundle:
+			dbal:
+				default_connection: default
+			orm:
+				proxy_namespace: Proxies

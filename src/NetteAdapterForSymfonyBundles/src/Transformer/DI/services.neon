@@ -1,0 +1,10 @@
+services:
+	- Symplify\NetteAdapterForSymfonyBundles\Compiler\FakeReferencesPass
+	- Symplify\NetteAdapterForSymfonyBundles\Transformer\ArgumentsTransformer
+	- Symplify\NetteAdapterForSymfonyBundles\Transformer\ContainerBuilderTransformer
+	- Symplify\NetteAdapterForSymfonyBundles\Transformer\ServiceDefinitionTransformer
+	- Symplify\NetteAdapterForSymfonyBundles\Transformer\ParametersTransformer
+	-
+		class: Symfony\Component\DependencyInjection\ContainerBuilder
+		setup:
+			- addCompilerPass(@Symplify\NetteAdapterForSymfonyBundles\Compiler\FakeReferencesPass)
