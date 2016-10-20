@@ -8,7 +8,7 @@ git subsplit publish --heads="master" src/ControllerAutowire:git@github.com:Symp
 git subsplit publish --heads="master" src/DefaultAutowire:git@github.com:Symplify/DefaultAutowire.git
 git subsplit publish --heads="master" src/ModularDoctrineFilters:git@github.com:Symplify/ModularDoctrineFilters.git
 git subsplit publish --heads="master" src/ModularRouting:git@github.com:Symplify/ModularRouting.git
-git subsplit publish --heads="master" src/NetteAdapterForSymfonyBundles:git@github.com:Symplify/ModularRouting.git
+git subsplit publish --heads="master" src/NetteAdapterForSymfonyBundles:git@github.com:Symplify/NetteAdapterForSymfonyBundles.git
 git subsplit publish --heads="master" src/TwitterBrandBuilder:git@github.com:Symplify/TwitterBrandBuilder.git
 
 rm -rf .subsplit/
