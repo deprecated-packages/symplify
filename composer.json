@@ -5,6 +5,8 @@
     "require": {
         "php": "~7.0",
 
+        "abraham/twitteroauth": "~0.7",
+
         "doctrine/dbal": "^2.5",
         "doctrine/orm": "^2.5",
 
@@ -56,7 +58,8 @@
             "Symplify\\DefaultAutowire\\": "src/DefaultAutowire/src",
             "Symplify\\ModularDoctrineFilters\\": "src/ModularDoctrineFilters/src",
             "Symplify\\ModularRouting\\": "src/ModularRouting/src",
-            "Symplify\\NetteAdapterForSymfonyBundles\\": "src/NetteAdapterForSymfonyBundles/src"
+            "Symplify\\NetteAdapterForSymfonyBundles\\": "src/NetteAdapterForSymfonyBundles/src",
+            "Symplify\\TwitterBrandBuilder\\": "src/TwitterBrandBuilder/src"
         }
     },
     "autoload-dev": {
@@ -68,7 +71,8 @@
             "Symplify\\DefaultAutowire\\Tests\\": "src/DefaultAutowire/tests",
             "Symplify\\ModularDoctrineFilters\\Tests\\": "src/ModularDoctrineFilters/tests",
             "Symplify\\ModularRouting\\Tests\\": "src/ModularRouting/tests",
-            "Symplify\\NetteAdapterForSymfonyBundles\\Tests\\": "src/NetteAdapterForSymfonyBundles/tests"
+            "Symplify\\NetteAdapterForSymfonyBundles\\Tests\\": "src/NetteAdapterForSymfonyBundles/tests",
+            "Symplify\\TwitterBrandBuilder\\Tests\\": "src/TwitterBrandBuilder/tests"
         }
     },
     "scripts": {
@@ -86,7 +90,9 @@
             "vendor/bin/symplify-cs check src/ModularRouting/src",
             "vendor/bin/symplify-cs check src/ModularRouting/tests",
             "vendor/bin/symplify-cs check src/NetteAdapterForSymfonyBundles/src",
-            "vendor/bin/symplify-cs check src/NetteAdapterForSymfonyBundles/tests"
+            "vendor/bin/symplify-cs check src/NetteAdapterForSymfonyBundles/tests",
+            "vendor/bin/symplify-cs check src/TwitterBrandBuilder/src",
+            "vendor/bin/symplify-cs check src/TwitterBrandBuilder/tests"
         ],
         "fix-cs": [
             "vendor/bin/symplify-cs fix src/ActionAutowire/src",
@@ -102,7 +108,9 @@
             "vendor/bin/symplify-cs fix src/ModularRouting/src",
             "vendor/bin/symplify-cs fix src/ModularRouting/tests",
             "vendor/bin/symplify-cs fix src/NetteAdapterForSymfonyBundles/src",
-            "vendor/bin/symplify-cs fix src/NetteAdapterForSymfonyBundles/tests"
+            "vendor/bin/symplify-cs fix src/NetteAdapterForSymfonyBundles/tests",
+            "vendor/bin/symplify-cs fix src/TwitterBrandBuilder/src",
+            "vendor/bin/symplify-cs fix src/TwitterBrandBuilder/tests"
         ]
     }
 }
