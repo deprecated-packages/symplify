@@ -8,8 +8,10 @@
         "nette/robot-loader": "^2.4",
         "symfony/config": "^3.0",
         "symfony/dependency-injection": "^3.0",
-        "symfony/http-kernel": "^3.0",
+        "symfony/http-kernel": "^3.1",
         "symfony/event-dispatcher": "^3.0",
+        "symfony/yaml": "^3.0",
+        "symfony/property-access": "^3.0",
 
         "doctrine/dbal": "^2.4",
         "doctrine/orm": "^2.4"
@@ -25,33 +27,35 @@
         "symfony/form": "^3.0",
         "symfony/framework-bundle": "^3.0",
         "symfony/validator": "^3.0",
-        "twig/twig": "^1.24"
+        "twig/twig": "^1.24",
+        "tracy/tracy": "^2.4"
     },
     "autoload": {
         "psr-4": {
+            "Symplify\\ActionAutowire\\": "src/ActionAutowire/src",
             "Symplify\\AutoServiceRegistration\\": "src/AutoServiceRegistration/src",
             "Symplify\\ModularDoctrineFilters\\": "src/ModularDoctrineFilters/src"
         }
     },
     "autoload-dev": {
         "psr-4": {
+            "Symplify\\ActionAutowire\\Tests\\": "src/ActionAutowire/tests",
             "Symplify\\AutoServiceRegistration\\Tests\\": "src/AutoServiceRegistration/tests",
             "Symplify\\ModularDoctrineFilters\\Tests\\": "src/ModularDoctrineFilters/tests"
         }
     },
-    "replace": {
-        "symplify/auto-service-registration": "self.version",
-        "symplify/modular-doctrine-filters": "self.version",
-        "symplify/coding-standard": "self.version"
-    },
     "scripts": {
         "check-cs": [
+            "vendor/bin/symplify-cs check src/ActionAutowire/src",
+            "vendor/bin/symplify-cs check src/ActionAutowire/tests",
             "vendor/bin/symplify-cs check src/AutoServiceRegistration/src",
             "vendor/bin/symplify-cs check src/AutoServiceRegistration/tests",
             "vendor/bin/symplify-cs check src/ModularDoctrineFilters/src",
             "vendor/bin/symplify-cs check src/ModularDoctrineFilters/tests"
         ],
         "fix-cs": [
+            "vendor/bin/symplify-cs fix src/ActionAutowire/src",
+            "vendor/bin/symplify-cs fix src/ActionAutowire/tests",
             "vendor/bin/symplify-cs fix src/AutoServiceRegistration/src",
             "vendor/bin/symplify-cs fix src/AutoServiceRegistration/tests",
             "vendor/bin/symplify-cs fix src/ModularDoctrineFilters/src",

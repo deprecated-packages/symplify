@@ -1,0 +1,9 @@
+parameters:
+    kernel.secret: 123
+
+
+services:
+    some_controller:
+        class: Symplify\ActionAutowire\Tests\Controller\SomeController
+    some_service:
+        class: Symplify\ActionAutowire\Tests\CompleteSource\SomeService

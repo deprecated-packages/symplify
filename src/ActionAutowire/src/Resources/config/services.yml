@@ -1,0 +1,11 @@
+services:
+    symplify.action_autowire.service_locator:
+        class: Symplify\ActionAutowire\DependencyInjection\ServiceLocator
+        arguments:
+            - "@service_container"
+
+    symplify.service_value_resolver:
+        class: Symplify\ActionAutowire\HttpKernel\Controller\ServiceActionValueResolver
+        autowire: true
+        tags:
+            - { name: controller.argument_value_resolver }
