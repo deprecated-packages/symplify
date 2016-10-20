@@ -1,0 +1,23 @@
+<?xml version="1.0" ?>
+<ruleset name="Symplify">
+	<description>The Symplify coding standard.</description>
+
+	<!-- Classes -->
+	<rule ref="SymplifyCodingStandard.Classes.FinalInterface" />
+
+	<!-- Commenting -->
+	<rule ref="SymplifyCodingStandard.Commenting.BlockPropertyComment" />
+	<rule ref="SymplifyCodingStandard.Commenting.MethodComment" />
+	<rule ref="SymplifyCodingStandard.Commenting.MethodReturnType" />
+	<rule ref="SymplifyCodingStandard.Commenting.VarPropertyComment" />
+
+	<!-- Debug -->
+	<rule ref="SymplifyCodingStandard.Debug.DebugFunctionCall" />
+
+	<!-- Namespace -->
+	<rule ref="SymplifyCodingStandard.Namespaces.ClassNamesWithoutPreSlash" />
+
+	<!-- Naming -->
+	<rule ref="SymplifyCodingStandard.Naming.AbstractClassName"/>
+	<rule ref="SymplifyCodingStandard.Naming.InterfaceName"/>
+</ruleset>

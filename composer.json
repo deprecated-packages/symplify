@@ -5,6 +5,9 @@
     "require": {
         "php": "~7.0",
         "nette/robot-loader": "^2.4",
+
+        "symfony/console": "^3.0",
+        "symfony/process": "^3.0",
         "symfony/config": "^3.0",
         "symfony/dependency-injection": "^3.0",
         "symfony/http-kernel": "^3.1",
@@ -14,6 +17,9 @@
         "symfony/routing": "^3.0",
         "symfony/twig-bundle": "^3.0",
         "symfony-cmf/routing-bundle": "dev-master as 1.4",
+
+        "friendsofphp/php-cs-fixer": "^1.12",
+        "squizlabs/php_codesniffer": "^2.7",
 
         "doctrine/dbal": "^2.5",
         "doctrine/orm": "^2.5"
@@ -36,6 +42,7 @@
         "psr-4": {
             "Symplify\\ActionAutowire\\": "src/ActionAutowire/src",
             "Symplify\\AutoServiceRegistration\\": "src/AutoServiceRegistration/src",
+            "Symplify\\CodingStandard\\": "src/CodingStandard/src",
             "Symplify\\DefaultAutowire\\": "src/DefaultAutowire/src",
             "Symplify\\ModularDoctrineFilters\\": "src/ModularDoctrineFilters/src",
             "Symplify\\ModularRouting\\": "src/ModularRouting/src"
@@ -45,6 +52,7 @@
         "psr-4": {
             "Symplify\\ActionAutowire\\Tests\\": "src/ActionAutowire/tests",
             "Symplify\\AutoServiceRegistration\\Tests\\": "src/AutoServiceRegistration/tests",
+            "Symplify\\CodingStandard\\Tests\\": "src/CodingStandard/tests",
             "Symplify\\DefaultAutowire\\Tests\\": "src/DefaultAutowire/tests",
             "Symplify\\ModularDoctrineFilters\\Tests\\": "src/ModularDoctrineFilters/tests",
             "Symplify\\ModularRouting\\Tests\\": "src/ModularRouting/tests"
@@ -56,6 +64,8 @@
             "vendor/bin/symplify-cs check src/ActionAutowire/tests",
             "vendor/bin/symplify-cs check src/AutoServiceRegistration/src",
             "vendor/bin/symplify-cs check src/AutoServiceRegistration/tests",
+            "vendor/bin/symplify-cs check src/CodingStandard/src",
+            "vendor/bin/symplify-cs check src/CodingStandard/tests",
             "vendor/bin/symplify-cs check src/DefaultAutowire/src",
             "vendor/bin/symplify-cs check src/DefaultAutowire/tests",
             "vendor/bin/symplify-cs check src/ModularDoctrineFilters/src",
@@ -68,6 +78,8 @@
             "vendor/bin/symplify-cs fix src/ActionAutowire/tests",
             "vendor/bin/symplify-cs fix src/AutoServiceRegistration/src",
             "vendor/bin/symplify-cs fix src/AutoServiceRegistration/tests",
+            "vendor/bin/symplify-cs fix src/CodingStandard/src",
+            "vendor/bin/symplify-cs fix src/CodingStandard/tests",
             "vendor/bin/symplify-cs fix src/DefaultAutowire/src",
             "vendor/bin/symplify-cs fix src/DefaultAutowire/tests",
             "vendor/bin/symplify-cs fix src/ModularDoctrineFilters/src",

@@ -1,0 +1,1 @@
+Checked all files in %f seconds, %f MB memory used

@@ -1,0 +1,32 @@
+{
+    "name": "symplify/coding-standard",
+    "description": "Set of rules for PHP_CodeSniffer preferring tabs and based on Nette coding standard.",
+    "license": "MIT",
+    "authors": [
+        { "name": "Tomáš Votruba", "email": "tomas.vot@gmail.com", "homepage": "http://tomasvotruba.cz" }
+    ],
+    "require": {
+        "php": "^7.0",
+        "friendsofphp/php-cs-fixer": "^1.12",
+        "squizlabs/php_codesniffer": "^2.7",
+        "symfony/console": "^3.0",
+        "symfony/process": "^3.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^5.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "Symplify\\CodingStandard\\": "src",
+            "SymplifyCodingStandard\\": "src/SymplifyCodingStandard"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Symplify\\CodingStandard\\Tests\\": "tests"
+        }
+    },
+    "bin": [
+        "bin/symplify-cs"
+    ]
+}

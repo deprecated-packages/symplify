@@ -1,0 +1,16 @@
+[31mE[0m
+
+
+[1mFILE: %stests/Runner/Psr2RunnerSource/SomeClass.php.inc[0m
+----------------------------------------------------------------------
+[1mFOUND 1 ERROR AFFECTING 1 LINE[0m
+----------------------------------------------------------------------
+ 5 | [31mERROR[0m | [x] [1mOpening brace of a class must be on the line after the
+   |       |     definition[0m
+   |       |     (PSR2.Classes.ClassDeclaration.OpenBraceNewLine)
+----------------------------------------------------------------------
+[1mPHPCBF CAN FIX THE 1 MARKED SNIFF VIOLATIONS AUTOMATICALLY[0m
+----------------------------------------------------------------------
+
+Time: %fms; Memory: %fMb
+
