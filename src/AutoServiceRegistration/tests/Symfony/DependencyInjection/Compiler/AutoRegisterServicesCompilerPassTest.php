@@ -53,13 +53,13 @@ final class AutoRegisterServicesCompilerPassTest extends TestCase
     {
         return [
             [
-                [__DIR__.'/AutoRegisterServicesCompilerPassSource'],
+                [__DIR__.'/../../Source'],
                 ['Controller'],
                 1,
                 SomeController::class,
             ],
             [
-                [__DIR__.'/AutoRegisterServicesCompilerPassSource'],
+                [__DIR__.'/../../Source'],
                 ['Repository'],
                 1,
                 SomeRepository::class,

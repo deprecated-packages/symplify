@@ -1,6 +1,2 @@
 /vendor
 composer.lock
-
-# temporary workaround for Symfony Kernel cache and logs
-/**/cache
-/**/logs

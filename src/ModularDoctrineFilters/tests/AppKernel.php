@@ -12,9 +12,9 @@ use Symplify\ModularDoctrineFilters\SymplifyModularDoctrineFiltersBundle;
 
 final class AppKernel extends Kernel
 {
-    public function __construct($environment, $debug)
+    public function __construct()
     {
-        parent::__construct($environment, 'true');
+        parent::__construct(rand(1,100), true);
     }
 
     public function registerBundles() : array
