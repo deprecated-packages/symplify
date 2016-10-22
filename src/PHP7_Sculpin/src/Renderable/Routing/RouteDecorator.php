@@ -10,9 +10,9 @@ declare(strict_types=1);
 namespace Symplify\PHP7_Sculpin\Renderable\Routing;
 
 use Symplify\PHP7_Sculpin\Contract\Renderable\DecoratorInterface;
-use Symplify\PHP7_Sculpin\Utils\PathNormalizer;
 use Symplify\PHP7_Sculpin\Renderable\File\File;
 use Symplify\PHP7_Sculpin\Renderable\File\PostFile;
+use Symplify\PHP7_Sculpin\Utils\PathNormalizer;
 
 final class RouteDecorator implements DecoratorInterface
 {

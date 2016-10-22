@@ -43,7 +43,7 @@ This is layout!
 Contact us!
 
 CONTENT
-        , $file->getContent());
+, $file->getContent());
     }
 
     public function testDecorateFileWithAnotherLayout()
@@ -62,7 +62,7 @@ This is layout!
 Contact us with another layout!
 
 CONTENT
-        , $file->getContent());
+, $file->getContent());
     }
 
     public function testDecorateFileWithLayout()
@@ -81,7 +81,7 @@ This is layout!
 Contact us!
 
 CONTENT
-            , $file->getContent());
+, $file->getContent());
     }
 
     private function createLatteEngine(ILoader $loader) : Engine
