@@ -17,10 +17,14 @@ use PHP_CodeSniffer_Standards_AbstractVariableSniff;
  * - Property should have docblock comment.
  *
  * @see PHP_CodeSniffer_Standards_AbstractVariableSniff is used, because it's very difficult to
- * separate properties from variables (in args, method etc.). This class does is for us.
+ * separate properties from variables (in args, method etc.). This class does is for us
  */
 final class VarPropertyCommentSniff extends PHP_CodeSniffer_Standards_AbstractVariableSniff
 {
+    /**
+     * @param PHP_CodeSniffer_File $file
+     * @param int $position
+     */
     protected function processMemberVar(PHP_CodeSniffer_File $file, $position)
     {
         $commentString = $this->getPropertyComment($file, $position);
@@ -32,10 +36,18 @@ final class VarPropertyCommentSniff extends PHP_CodeSniffer_Standards_AbstractVa
         $file->addError('Property should have docblock comment and @var type.', $position);
     }
 
+    /**
+     * @param PHP_CodeSniffer_File $file
+     * @param int $position
+     */
     protected function processVariable(PHP_CodeSniffer_File $file, $position)
     {
     }
 
+    /**
+     * @param PHP_CodeSniffer_File $file
+     * @param int $position
+     */
     protected function processVariableInString(PHP_CodeSniffer_File $file, $position)
     {
     }

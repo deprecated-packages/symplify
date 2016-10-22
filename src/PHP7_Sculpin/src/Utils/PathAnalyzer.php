@@ -30,7 +30,11 @@ final class PathAnalyzer
 
     public static function detectFilenameWithoutDate(SplFileInfo $file) : string
     {
-        preg_match('/(\d{4})[\/\-]*(\d{2})[\/\-]*(\d{2})[\/\-]*(.+?)(\.[^\.]+|\.[^\.]+\.[^\.]+)$/', $file->getFilename(), $matches);
+        preg_match(
+            '/(\d{4})[\/\-]*(\d{2})[\/\-]*(\d{2})[\/\-]*(.+?)(\.[^\.]+|\.[^\.]+\.[^\.]+)$/',
+            $file->getFilename(),
+            $matches
+        );
 
         return $matches[4];
     }
