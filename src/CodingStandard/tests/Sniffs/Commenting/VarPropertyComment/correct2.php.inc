@@ -6,9 +6,16 @@ namespace SomeNamespace;
 class SomeClass
 {
 
-	/**
-	 * {@inheritdoc}
-	 */
+    /**
+     * @var int
+     */
 	public $count;
+
+
+	public function getSome($count)
+	{
+		$count;
+		$this->count;
+	}
 
 }

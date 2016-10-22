@@ -17,6 +17,5 @@ final class VarPropertyCommentSniffTest extends TestCase
         $this->assertSame(1, $codeSnifferRunner->getErrorCountInFile(__DIR__.'/wrong4.php.inc'));
         $this->assertSame(0, $codeSnifferRunner->getErrorCountInFile(__DIR__.'/correct.php.inc'));
         $this->assertSame(0, $codeSnifferRunner->getErrorCountInFile(__DIR__.'/correct2.php.inc'));
-        $this->assertSame(0, $codeSnifferRunner->getErrorCountInFile(__DIR__.'/correct3.php.inc'));
     }
 }
