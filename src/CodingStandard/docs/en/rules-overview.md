@@ -36,7 +36,7 @@ class SomeClass
 
 ## VarPropertyCommentSniff (Commenting)
 
-- Property should have docblock comment (except for {@inheritdoc}).
+- Property should have docblock comment.
  
 ```php
 class SomeClass
