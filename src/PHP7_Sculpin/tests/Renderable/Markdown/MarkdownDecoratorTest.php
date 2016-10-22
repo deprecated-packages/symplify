@@ -1,12 +1,15 @@
 <?php
 
-namespace Symplify\PHP7_Sculpin\Renderable\Markdown;
+declare(strict_types=1);
+
+namespace Symplify\PHP7_Sculpin\Tests\Renderable\Markdown;
 
 use Michelf\MarkdownExtra;
 use PHPUnit\Framework\TestCase;
 use SplFileInfo;
 use Symplify\PHP7_Sculpin\Renderable\File\File;
 use Symplify\PHP7_Sculpin\Renderable\File\FileFactory;
+use Symplify\PHP7_Sculpin\Renderable\Markdown\MarkdownDecorator;
 
 final class MarkdownDecoratorTest extends TestCase
 {

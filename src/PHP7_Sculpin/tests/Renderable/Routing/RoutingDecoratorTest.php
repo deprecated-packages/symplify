@@ -1,9 +1,12 @@
 <?php
 
-namespace Symplify\PHP7_Sculpin\Renderable\Routing;
+declare(strict_types=1);
+
+namespace Symplify\PHP7_Sculpin\Tests\Renderable\Routing;
 
 use PHPUnit\Framework\TestCase;
 use Symplify\PHP7_Sculpin\Renderable\File\FileFactory;
+use Symplify\PHP7_Sculpin\Renderable\Routing\RouteDecorator;
 
 final class RoutingDecoratorTest extends TestCase
 {

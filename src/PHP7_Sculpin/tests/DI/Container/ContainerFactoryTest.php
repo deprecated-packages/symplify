@@ -1,10 +1,13 @@
 <?php
 
-namespace Symplify\PHP7_Sculpin\DI\Container;
+declare(strict_types=1);
+
+namespace Symplify\PHP7_Sculpin\Tests\DI\Container;
 
 use Nette\DI\Container;
 use Nette\Utils\FileSystem;
 use PHPUnit\Framework\TestCase;
+use Symplify\PHP7_Sculpin\DI\Container\ContainerFactory;
 
 final class ContainerFactoryTest extends TestCase
 {

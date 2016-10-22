@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Symplify\PHP7_Sculpin\Tests\Renderable\File;
 
 use PHPUnit\Framework\TestCase;
