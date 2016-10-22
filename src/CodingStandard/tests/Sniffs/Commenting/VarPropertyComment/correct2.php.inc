@@ -6,9 +6,9 @@ namespace SomeNamespace;
 class SomeClass
 {
 
-    /**
-     * @var int
-     */
+	/**
+	 * @var int
+	 */
 	public $count;
 
 
