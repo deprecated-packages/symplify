@@ -39,6 +39,8 @@ final class ControllerFinder implements ControllerFinderInterface
         $robot->acceptFiles = '*' . $this->namePart . '.php';
         $robot->rebuild();
 
-        return array_keys($robot->getIndexedClasses());
+        $indexedClasses = array_keys($robot->getIndexedClasses());
+        sort($indexedClasses);
+        return $indexedClasses;
     }
 }
