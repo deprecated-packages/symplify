@@ -60,6 +60,10 @@ final class RenderableFilesProcessorTest extends TestCase
 
     protected function tearDown()
     {
+        if (getenv('APPVEYOR')) { // AppVeyor doesn't have rights to delete
+            return;
+        }
+
         FileSystem::delete(__DIR__.'/RenderFilesProcessorSource/output');
     }
 }

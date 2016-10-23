@@ -10,27 +10,46 @@ final class PhpCsFixerProcessBuilderTest extends TestCase
     public function test()
     {
         $builder = new PhpCsFixerProcessBuilder('directory');
+
+        $builder->setFixers('fixers');
+
         $this->assertSame(
-            "'./vendor/bin/php-cs-fixer' 'fix' 'directory'",
+            $this->makeWindowsOsCompatible("'./vendor/bin/php-cs-fixer' 'fix' 'directory' '--fixers=fixers'"),
             $builder->getProcess()->getCommandLine()
         );
 
-        $builder->setFixers('fixers');
         $this->assertSame(
-            "'./vendor/bin/php-cs-fixer' 'fix' 'directory' '--fixers=fixers'",
+            $this->makeWindowsOsCompatible("'./vendor/bin/php-cs-fixer' 'fix' 'directory' '--fixers=fixers'"),
             $builder->getProcess()->getCommandLine()
         );
 
         $builder->setLevel('level5');
         $this->assertSame(
-            "'./vendor/bin/php-cs-fixer' 'fix' 'directory' '--fixers=fixers' '--level=level5'",
-            $builder->getProcess()->getCommandLine()
+            $this->makeWindowsOsCompatible(
+                "'./vendor/bin/php-cs-fixer' 'fix' 'directory' '--fixers=fixers' '--level=level5'"
+            ), $builder->getProcess()->getCommandLine()
         );
 
         $builder->enableDryRun();
         $this->assertSame(
-            "'./vendor/bin/php-cs-fixer' 'fix' 'directory' '--fixers=fixers' '--level=level5' '--dry-run' '--diff'",
-            $builder->getProcess()->getCommandLine()
+            $this->makeWindowsOsCompatible(
+                "'./vendor/bin/php-cs-fixer' 'fix' 'directory' '--fixers=fixers' '--level=level5' '--dry-run' '--diff'"
+            ), $builder->getProcess()->getCommandLine()
         );
+    }
+
+
+    private function makeWindowsOsCompatible(string $command) : string
+    {
+        if (!$this->isWindows()) {
+            return $command;
+        }
+
+        return str_replace(['"', "'"], ["'", '"'], $command);
+    }
+
+    private function isWindows() : bool
+    {
+        return '\\' === DIRECTORY_SEPARATOR;
     }
 }

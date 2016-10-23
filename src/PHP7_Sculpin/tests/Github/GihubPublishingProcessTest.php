@@ -50,6 +50,10 @@ final class GihubPublishingProcessTest extends TestCase
 
     protected function tearDown()
     {
+        if (getenv('APPVEYOR')) { // AppVeyor doesn't have rights to delete
+            return;
+        }
+
         FileSystem::delete($this->outputDirectory.DIRECTORY_SEPARATOR.'.git');
     }
 }

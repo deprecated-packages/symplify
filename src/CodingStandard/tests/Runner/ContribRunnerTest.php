@@ -21,10 +21,7 @@ final class ContribRunnerTest extends TestCase
     {
         $output = $this->runner->runForDirectory(__DIR__.'/ContribRunnerSource');
 
-        $this->assertStringMatchesFormat(
-            file_get_contents(__DIR__.'/ContribRunnerSource/expected.txt'),
-            $output
-        );
+        $this->assertStringMatchesFormat('Checked all files in %f seconds, %f MB memory used', $output);
     }
 
     public function testHasErrors()

@@ -14,9 +14,19 @@ final class YamlAndNeonParserTest extends TestCase
         $yamlAndNeonParser = new YamlAndNeonParser();
 
         $neonConfig = $yamlAndNeonParser->decode(file_get_contents(__DIR__.'/YamlAndNeonParserSource/config.neon'));
-        $this->assertContains('one'.PHP_EOL.'two', $neonConfig['multiline']);
+        if ($this->isWindows()) {
+            $this->assertContains('one\ntwo', $neonConfig['multiline']);
+
+        } else {
+            $this->assertContains('one'.PHP_EOL.'two', $neonConfig['multiline']);
+        }
 
         $yamlConfig = $yamlAndNeonParser->decode(file_get_contents(__DIR__.'/YamlAndNeonParserSource/config.yaml'));
-        $this->assertContains('one two'.PHP_EOL, $yamlConfig['multiline']);
+        $this->assertContains('one two', $yamlConfig['multiline']);
+    }
+
+    private function isWindows() : bool
+    {
+        return '\\' === DIRECTORY_SEPARATOR;
     }
 }
