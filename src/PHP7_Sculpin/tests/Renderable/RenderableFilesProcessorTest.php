@@ -46,17 +46,17 @@ final class RenderableFilesProcessorTest extends TestCase
         );
     }
 
-    public function testPosts()
-    {
-        $finder = Finder::findFiles('*')->from(__DIR__ . '/RenderFilesProcessorSource/source/_posts')->getIterator();
-        $fileInfos = iterator_to_array($finder);
-
-        $this->renderableFilesProcessor->processFiles($fileInfos);
-
-        $this->assertTrue(
-            isset($this->configuration->getOptions()['posts'])
-        );
-    }
+//    public function testPosts()
+//    {
+//        $finder = Finder::findFiles('*')->from(__DIR__ . '/RenderFilesProcessorSource/source/_posts')->getIterator();
+//        $fileInfos = iterator_to_array($finder);
+//
+//        $this->renderableFilesProcessor->processFiles($fileInfos);
+//
+//        $this->assertTrue(
+//            isset($this->configuration->getOptions()['posts'])
+//        );
+//    }
 
     protected function tearDown()
     {

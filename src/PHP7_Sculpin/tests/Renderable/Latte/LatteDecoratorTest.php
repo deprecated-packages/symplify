@@ -34,32 +34,17 @@ final class LatteDecoratorTest extends TestCase
 
     public function testDecorateFile()
     {
-        $fileInfo = new SplFileInfo(__DIR__ . '/LatteDecoratorSource/contact.latte');
-        $file = new File($fileInfo, 'contact.latte');
+        $fileInfo = new SplFileInfo(__DIR__ . '/LatteDecoratorSource/fileWithoutLayout.latte');
+        $file = new File($fileInfo, 'fileWithoutLayout');
         $this->latteDecorator->decorateFile($file);
 
-        $this->assertContains('This is layout!', $file->getContent());
-        $this->assertContains('Contact us!', $file->getContent());
-    }
-
-    public function testDecorateFileWithAnotherLayout()
-    {
-        $fileInfo = new SplFileInfo(__DIR__ . '/LatteDecoratorSource/contactWithAnotherLayout.latte');
-        $file = new File($fileInfo, 'contactWithAnotherLayout.latte');
-        $file->setConfiguration([
-            'layout' => 'default',
-        ]);
-
-        $this->latteDecorator->decorateFile($file);
-
-        $this->assertContains('This is layout!', $file->getContent());
-        $this->assertContains('Contact us with another layout!', $file->getContent());
+        $this->assertContains('Contact me!', $file->getContent());
     }
 
     public function testDecorateFileWithLayout()
     {
-        $fileInfo = new SplFileInfo(__DIR__ . '/LatteDecoratorSource/fileWithLayout.latte');
-        $file = new File($fileInfo, 'fileWithLayout.latte');
+        $fileInfo = new SplFileInfo(__DIR__ . '/LatteDecoratorSource/contact.latte');
+        $file = new File($fileInfo, 'contact.latte');
         $file->setConfiguration([
             'layout' => 'default',
         ]);
@@ -83,12 +68,7 @@ final class LatteDecoratorTest extends TestCase
         $loader = new DynamicStringLoader();
         $loader->addTemplate(
             'default',
-            file_get_contents(__DIR__ . '/LatteDecoratorSource/@default.latte')
-        );
-
-        $loader->addTemplate(
-            'anotherLayout',
-            file_get_contents(__DIR__ . '/LatteDecoratorSource/@anotherLayout.latte')
+            file_get_contents(__DIR__ . '/LatteDecoratorSource/default.latte')
         );
 
         return $loader;

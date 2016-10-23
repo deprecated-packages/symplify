@@ -68,10 +68,6 @@ final class LatteDecorator implements DecoratorInterface
             return;
         }
 
-        if (Strings::startsWith($file->getContent(), '{layout')) {
-            return;
-        }
-
         $layoutLine = sprintf('{layout "%s"}', $file->getLayout());
         $file->changeContent($layoutLine . $file->getContent());
     }
