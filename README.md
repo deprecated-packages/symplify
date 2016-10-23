@@ -6,7 +6,6 @@ This is developement repository = ALL PRs and ISSUEs HERE!
 [![Build Status](https://img.shields.io/travis/Symplify/Symplify.svg?style=flat-square)](https://travis-ci.org/Symplify/Symplify)
 [![Quality Score](https://img.shields.io/scrutinizer/g/Symplify/Symplify.svg?style=flat-square)](https://scrutinizer-ci.com/g/Symplify/Symplify)
 [![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/Symplify/Symplify.svg?style=flat-square)](https://scrutinizer-ci.com/g/Symplify/Symplify)
-[![Downloads](https://img.shields.io/packagist/dt/symplify/symplify.svg?style=flat-square)](https://packagist.org/packages/symplify/symplify)
 [![Latest stable](https://img.shields.io/packagist/v/symplify/symplify.svg?style=flat-square)](https://packagist.org/packages/symplify/symplify)
 
 
