@@ -79,7 +79,7 @@ final class RenderableFilesProcessor
      */
     public function processFiles(array $fileInfos)
     {
-        if (!count($fileInfos)) {
+        if (! count($fileInfos)) {
             return;
         }
 

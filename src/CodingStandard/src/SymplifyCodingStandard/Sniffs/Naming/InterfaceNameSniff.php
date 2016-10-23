@@ -62,7 +62,7 @@ final class InterfaceNameSniff implements PHP_CodeSniffer_Sniff
     private function getInterfaceName()
     {
         $namePosition = $this->getInterfaceNamePosition();
-        if (!$namePosition) {
+        if (! $namePosition) {
             return false;
         }
 

@@ -62,12 +62,12 @@ final class VarPropertyCommentSniff extends PHP_CodeSniffer_Standards_AbstractVa
         $tokens = $file->getTokens();
         if ($tokens[$commentEnd]['code'] !== T_DOC_COMMENT_CLOSE_TAG) {
             return '';
-        } else {
-            // Make sure the comment we have found belongs to us.
-            $commentFor = $file->findNext(T_VARIABLE, $commentEnd + 1);
-            if ($commentFor !== $position) {
-                return '';
-            }
+        }
+
+        // Make sure the comment we have found belongs to us.
+        $commentFor = $file->findNext(T_VARIABLE, $commentEnd + 1);
+        if ($commentFor !== $position) {
+            return '';
         }
 
         $commentStart = $file->findPrevious(T_DOC_COMMENT_OPEN_TAG, $position);

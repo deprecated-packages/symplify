@@ -36,7 +36,7 @@ final class ControllerFinder implements ControllerFinderInterface
             $robot->addDirectory($dir);
         }
         $robot->ignoreDirs .= ', Tests';
-        $robot->acceptFiles = '*'.$this->namePart.'.php';
+        $robot->acceptFiles = '*' . $this->namePart . '.php';
         $robot->rebuild();
 
         return array_keys($robot->getIndexedClasses());

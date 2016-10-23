@@ -43,10 +43,10 @@ final class RouteDecorator implements DecoratorInterface
         }
 
         if ($this->isFileNonHtml($file)) {
-            return $file->getBaseName().'.'.$file->getPrimaryExtension();
+            return $file->getBaseName() . '.' . $file->getPrimaryExtension();
         }
 
-        return $file->getBaseName().DIRECTORY_SEPARATOR.'index.html';
+        return $file->getBaseName() . DIRECTORY_SEPARATOR . 'index.html';
     }
 
     private function isFileIndex(File $file) : bool

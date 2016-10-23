@@ -40,7 +40,7 @@ final class LoadFiltersCompilerPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $containerBuilder)
     {
-        if (!$containerBuilder->hasDefinition(self::NAME_CONFIGURATION)) {
+        if (! $containerBuilder->hasDefinition(self::NAME_CONFIGURATION)) {
             return;
         }
 

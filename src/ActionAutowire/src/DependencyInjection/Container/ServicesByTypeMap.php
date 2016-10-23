@@ -24,13 +24,13 @@ final class ServicesByTypeMap
     {
         $reflectionClass = new ReflectionClass($serviceClass);
         foreach ($reflectionClass->getInterfaceNames() as $interfaceName) {
-            if (!isset($this->classes[$interfaceName])) {
+            if (! isset($this->classes[$interfaceName])) {
                 $this->classes[$interfaceName] = [];
             }
             $this->classes[$interfaceName][] = $serviceId;
         }
         do {
-            if (!isset($this->classes[$reflectionClass->getName()])) {
+            if (! isset($this->classes[$reflectionClass->getName()])) {
                 $this->classes[$reflectionClass->getName()] = [];
             }
             $this->classes[$reflectionClass->getName()][] = $serviceId;

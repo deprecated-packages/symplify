@@ -35,7 +35,7 @@ final class ConfigurationDecorator
 
     private function setConfigurationToFileIfFoundAny(string $content, File $file)
     {
-        if (!preg_match('/^(\s*[-]+\s*|\s*)$/', $content)) {
+        if (! preg_match('/^(\s*[-]+\s*|\s*)$/', $content)) {
             $configuration = $this->yamlAndNeonParser->decode($content);
             $file->setConfiguration($configuration);
         }

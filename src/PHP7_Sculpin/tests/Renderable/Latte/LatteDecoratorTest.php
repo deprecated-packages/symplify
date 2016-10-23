@@ -34,7 +34,7 @@ final class LatteDecoratorTest extends TestCase
 
     public function testDecorateFile()
     {
-        $fileInfo = new SplFileInfo(__DIR__.'/LatteDecoratorSource/contact.latte');
+        $fileInfo = new SplFileInfo(__DIR__ . '/LatteDecoratorSource/contact.latte');
         $file = new File($fileInfo, 'contact.latte');
         $this->latteDecorator->decorateFile($file);
 
@@ -44,7 +44,7 @@ final class LatteDecoratorTest extends TestCase
 
     public function testDecorateFileWithAnotherLayout()
     {
-        $fileInfo = new SplFileInfo(__DIR__.'/LatteDecoratorSource/contactWithAnotherLayout.latte');
+        $fileInfo = new SplFileInfo(__DIR__ . '/LatteDecoratorSource/contactWithAnotherLayout.latte');
         $file = new File($fileInfo, 'contactWithAnotherLayout.latte');
         $file->setConfiguration([
             'layout' => 'default',
@@ -58,7 +58,7 @@ final class LatteDecoratorTest extends TestCase
 
     public function testDecorateFileWithLayout()
     {
-        $fileInfo = new SplFileInfo(__DIR__.'/LatteDecoratorSource/fileWithLayout.latte');
+        $fileInfo = new SplFileInfo(__DIR__ . '/LatteDecoratorSource/fileWithLayout.latte');
         $file = new File($fileInfo, 'fileWithLayout.latte');
         $file->setConfiguration([
             'layout' => 'default',
@@ -83,12 +83,12 @@ final class LatteDecoratorTest extends TestCase
         $loader = new DynamicStringLoader();
         $loader->addTemplate(
             'default',
-            file_get_contents(__DIR__.'/LatteDecoratorSource/@default.latte')
+            file_get_contents(__DIR__ . '/LatteDecoratorSource/@default.latte')
         );
 
         $loader->addTemplate(
             'anotherLayout',
-            file_get_contents(__DIR__.'/LatteDecoratorSource/@anotherLayout.latte')
+            file_get_contents(__DIR__ . '/LatteDecoratorSource/@anotherLayout.latte')
         );
 
         return $loader;

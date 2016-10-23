@@ -36,7 +36,7 @@ final class RegisterControllersPassTest extends TestCase
 
         $containerBuilder->prependExtensionConfig(SymplifyControllerAutowireBundle::ALIAS, [
             'controller_dirs' => [
-                __DIR__.'/RegisterControllersPassSource',
+                __DIR__ . '/RegisterControllersPassSource',
             ],
         ]);
         $this->registerControllersPass->process($containerBuilder);
@@ -57,14 +57,14 @@ final class RegisterControllersPassTest extends TestCase
         $containerBuilder = new ContainerBuilder();
         $containerBuilder->prependExtensionConfig(SymplifyControllerAutowireBundle::ALIAS, [
             'controller_dirs' => [
-                __DIR__.'/RegisterControllersPassSource',
+                __DIR__ . '/RegisterControllersPassSource',
             ],
         ]);
 
         $controllerDefition = new Definition(SomeController::class);
         $containerBuilder->setDefinition(
             'symplify.controllerautowire.tests.dependencyinjection.'
-                .'compiler.registercontrollerspasssource.somecontroller',
+                . 'compiler.registercontrollerspasssource.somecontroller',
             $controllerDefition
         );
         $this->assertCount(1, $containerBuilder->getDefinitions());

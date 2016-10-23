@@ -22,7 +22,7 @@ final class Psr2RunnerTest extends TestCase
     {
         $this->assertFalse($this->runner->hasErrors());
 
-        $output = $this->runner->runForDirectory(__DIR__.'/Psr2RunnerSource');
+        $output = $this->runner->runForDirectory(__DIR__ . '/Psr2RunnerSource');
 
         $this->assertContains('PSR2.Classes.ClassDeclaration.OpenBraceNewLine', $output);
         $this->assertTrue($this->runner->hasErrors());
@@ -30,10 +30,10 @@ final class Psr2RunnerTest extends TestCase
 
     public function testFixDirectory()
     {
-        $filePath = __DIR__.'/Psr2RunnerSource/SomeClass.php.inc';
+        $filePath = __DIR__ . '/Psr2RunnerSource/SomeClass.php.inc';
         $fileBackup = file_get_contents($filePath);
 
-        $this->runner->fixDirectory(__DIR__.'/Psr2RunnerSource');
+        $this->runner->fixDirectory(__DIR__ . '/Psr2RunnerSource');
         $fixedFile = file_get_contents($filePath);
         $this->assertNotSame($fixedFile, $fileBackup);
 

@@ -10,7 +10,7 @@ final class FactoryTest extends TestCase
 {
     public function testFactory()
     {
-        $container = (new ContainerFactory())->createWithConfig(__DIR__.'/FactorySource/config/init.neon');
+        $container = (new ContainerFactory())->createWithConfig(__DIR__ . '/FactorySource/config/init.neon');
 
         /** @var EntityManager $entityManager */
         $entityManager = $container->getByType(EntityManager::class);

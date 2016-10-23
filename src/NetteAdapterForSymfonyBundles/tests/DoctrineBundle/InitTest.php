@@ -18,7 +18,7 @@ final class InitTest extends TestCase
 
     public function __construct()
     {
-        $this->container = (new ContainerFactory())->createWithConfig(__DIR__.'/config/init.neon');
+        $this->container = (new ContainerFactory())->createWithConfig(__DIR__ . '/config/init.neon');
     }
 
     public function testGetService()

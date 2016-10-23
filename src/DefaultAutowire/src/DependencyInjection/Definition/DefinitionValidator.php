@@ -13,11 +13,11 @@ final class DefinitionValidator
 {
     public function validate(Definition $definition) : bool
     {
-        if (!$definition->isPublic() || $definition->isAbstract()) {
+        if (! $definition->isPublic() || $definition->isAbstract()) {
             return false;
         }
 
-        if (null === $definition->getClass() || !class_exists($definition->getClass())) {
+        if (null === $definition->getClass() || ! class_exists($definition->getClass())) {
             return false;
         }
 

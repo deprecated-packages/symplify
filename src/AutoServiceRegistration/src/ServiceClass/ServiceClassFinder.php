@@ -25,7 +25,7 @@ final class ServiceClassFinder
             $robot->addDirectory($dir);
         }
         $robot->ignoreDirs .= ', Tests';
-        $robot->acceptFiles = '*'.implode('.php,*', $classSuffixesToSeek).'.php';
+        $robot->acceptFiles = '*' . implode('.php,*', $classSuffixesToSeek) . '.php';
         $robot->rebuild();
 
         return array_keys($robot->getIndexedClasses());

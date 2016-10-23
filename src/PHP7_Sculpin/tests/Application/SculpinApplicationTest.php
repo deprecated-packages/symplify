@@ -25,7 +25,7 @@ final class SculpinApplicationTest extends TestCase
 
     protected function setUp()
     {
-        $container = (new ContainerFactory())->createWithConfig(__DIR__.'/SculpinApplicationSource/config/config.neon');
+        $container = (new ContainerFactory())->createWithConfig(__DIR__ . '/SculpinApplicationSource/config/config.neon');
         $this->sculpinApplication = $container->getByType(SculpinApplication::class);
         $this->dynamicStringLoader = $container->getByType(DynamicStringLoader::class);
     }
@@ -34,15 +34,15 @@ final class SculpinApplicationTest extends TestCase
     {
         $runCommand = new RunCommand(
             false,
-            __DIR__.'/SculpinApplicationSource/source',
-            __DIR__.'/SculpinApplicationSource/output'
+            __DIR__ . '/SculpinApplicationSource/source',
+            __DIR__ . '/SculpinApplicationSource/output'
         );
         $this->sculpinApplication->runCommand($runCommand);
 
-        $this->assertFileExists(__DIR__.'/SculpinApplicationSource/output/index.html');
+        $this->assertFileExists(__DIR__ . '/SculpinApplicationSource/output/index.html');
         $this->assertFileEquals(
-            __DIR__.'/SculpinApplicationSource/expected-index.html',
-            __DIR__.'/SculpinApplicationSource/output/index.html'
+            __DIR__ . '/SculpinApplicationSource/expected-index.html',
+            __DIR__ . '/SculpinApplicationSource/output/index.html'
         );
 
         $this->assertNotEmpty($this->dynamicStringLoader->getContent('default'));
@@ -59,6 +59,6 @@ final class SculpinApplicationTest extends TestCase
 
     protected function tearDown()
     {
-        FileSystem::delete(__DIR__.'/SculpinApplicationSource/output');
+        FileSystem::delete(__DIR__ . '/SculpinApplicationSource/output');
     }
 }

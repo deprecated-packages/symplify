@@ -17,7 +17,7 @@ final class CodeSnifferRunner
     public function __construct(string $sniff)
     {
         $this->codeSniffer = new PHP_CodeSniffer();
-        $this->codeSniffer->initStandard(__DIR__.'/../src/SymplifyCodingStandard/ruleset.xml', [$sniff]);
+        $this->codeSniffer->initStandard(__DIR__ . '/../src/SymplifyCodingStandard/ruleset.xml', [$sniff]);
     }
 
     public function getErrorCountInFile(string $source) : int
@@ -41,7 +41,7 @@ final class CodeSnifferRunner
 
     private function ensureFileExists(string $source)
     {
-        if (!file_exists($source)) {
+        if (! file_exists($source)) {
             throw new FileNotFoundException(
                 sprintf('File "%s" was not found.', $source)
             );

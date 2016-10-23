@@ -24,7 +24,7 @@ final class DynamicStringLoaderTest extends TestCase
         $loader = new DynamicStringLoader();
         $loader->addTemplate(
             'default',
-            file_get_contents(__DIR__.'/LatteDecoratorSource/@default.latte')
+            file_get_contents(__DIR__ . '/LatteDecoratorSource/@default.latte')
         );
 
         return $loader;

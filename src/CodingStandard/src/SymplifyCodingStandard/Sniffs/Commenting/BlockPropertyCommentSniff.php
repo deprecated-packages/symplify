@@ -59,7 +59,7 @@ final class BlockPropertyCommentSniff implements PHP_CodeSniffer_Sniff
     private function isPropertyOrMethodComment(int $position) : bool
     {
         $nextPropertyOrMethodPosition = $this->file->findNext([T_VARIABLE, T_FUNCTION], $position + 1);
-        if (!$nextPropertyOrMethodPosition) {
+        if (! $nextPropertyOrMethodPosition) {
             return false;
         }
 

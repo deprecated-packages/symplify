@@ -26,7 +26,7 @@ final class FileFactoryTest extends TestCase
 
     public function test()
     {
-        $file = $this->createFileFromPath(__DIR__.'/FileFactorySource/someFile.latte');
+        $file = $this->createFileFromPath(__DIR__ . '/FileFactorySource/someFile.latte');
 
         $this->assertInstanceOf(File::class, $file);
         $this->assertNotInstanceOf(PostFile::class, $file);
@@ -35,7 +35,7 @@ final class FileFactoryTest extends TestCase
         $this->assertSame([], $file->getConfiguration());
         $this->assertSame('Some content', $file->getContent());
 
-        $file->setOutputPath('someRemoteFile'.DIRECTORY_SEPARATOR.'index.html');
+        $file->setOutputPath('someRemoteFile' . DIRECTORY_SEPARATOR . 'index.html');
         $this->assertSame('someRemoteFile', $file->getRelativeUrl());
         $this->assertSame('someFile', $file->getBaseName());
         $this->assertSame('', $file->getLayout());
@@ -43,7 +43,7 @@ final class FileFactoryTest extends TestCase
 
     public function testPost()
     {
-        $postFile = $this->createFileFromPath(__DIR__.'/FileFactorySource/_posts/2016-01-01-somePost.latte');
+        $postFile = $this->createFileFromPath(__DIR__ . '/FileFactorySource/_posts/2016-01-01-somePost.latte');
 
         $this->assertInstanceOf(PostFile::class, $postFile);
 
@@ -57,7 +57,7 @@ final class FileFactoryTest extends TestCase
      */
     public function testInvalidPostName()
     {
-        $this->createFileFromPath(__DIR__.'/FileFactorySource/_posts/somePost.latte');
+        $this->createFileFromPath(__DIR__ . '/FileFactorySource/_posts/somePost.latte');
     }
 
     /**

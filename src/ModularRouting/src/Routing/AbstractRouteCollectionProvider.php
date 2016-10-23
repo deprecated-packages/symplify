@@ -26,7 +26,7 @@ abstract class AbstractRouteCollectionProvider implements RouteCollectionProvide
 
     protected function loadRouteCollectionFromFile(string $path) : RouteCollection
     {
-        if (!file_exists($path)) {
+        if (! file_exists($path)) {
             throw new FileNotFoundException(
                 sprintf('File "%s" was not found.', $path)
             );

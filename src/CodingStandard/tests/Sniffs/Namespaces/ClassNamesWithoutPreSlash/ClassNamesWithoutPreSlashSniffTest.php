@@ -11,7 +11,7 @@ final class ClassNamesWithoutPreSlashSniffTest extends TestCase
     {
         $codeSnifferRunner = new CodeSnifferRunner('SymplifyCodingStandard.Namespaces.ClassNamesWithoutPreSlash');
 
-        $this->assertSame(1, $codeSnifferRunner->getErrorCountInFile(__DIR__.'/wrong.php.inc'));
-        $this->assertSame(0, $codeSnifferRunner->getErrorCountInFile(__DIR__.'/correct.php.inc'));
+        $this->assertSame(1, $codeSnifferRunner->getErrorCountInFile(__DIR__ . '/wrong.php.inc'));
+        $this->assertSame(0, $codeSnifferRunner->getErrorCountInFile(__DIR__ . '/correct.php.inc'));
     }
 }

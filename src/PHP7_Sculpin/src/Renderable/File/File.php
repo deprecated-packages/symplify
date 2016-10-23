@@ -57,7 +57,7 @@ class File
 
     public function getBaseName() : string
     {
-        return $this->fileInfo->getBasename('.'.$this->fileInfo->getExtension());
+        return $this->fileInfo->getBasename('.' . $this->fileInfo->getExtension());
     }
 
     public function getPrimaryExtension() : string
@@ -77,7 +77,7 @@ class File
 
     public function getRelativeUrl() : string
     {
-        if ($position = strpos($this->outputPath, DIRECTORY_SEPARATOR.'index.html')) {
+        if ($position = strpos($this->outputPath, DIRECTORY_SEPARATOR . 'index.html')) {
             $directoryPath = substr($this->outputPath, 0, $position);
 
             return str_replace('\\', '/', $directoryPath);

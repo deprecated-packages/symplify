@@ -11,7 +11,7 @@ final class DebugFunctionCallSniffTest extends TestCase
     {
         $codeSnifferRunner = new CodeSnifferRunner('SymplifyCodingStandard.Debug.DebugFunctionCall');
 
-        $this->assertSame(1, $codeSnifferRunner->getErrorCountInFile(__DIR__.'/wrong.php.inc'));
-        $this->assertSame(0, $codeSnifferRunner->getErrorCountInFile(__DIR__.'/correct.php.inc'));
+        $this->assertSame(1, $codeSnifferRunner->getErrorCountInFile(__DIR__ . '/wrong.php.inc'));
+        $this->assertSame(0, $codeSnifferRunner->getErrorCountInFile(__DIR__ . '/correct.php.inc'));
     }
 }

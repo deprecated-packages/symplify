@@ -67,12 +67,12 @@ final class HttpServer
         $this->port = $port;
 
         $this->reactHttpServer->on('request', function (Request $request, Response $response) {
-            $path = $this->outputDirectory.'/'.ltrim(rawurldecode($request->getPath()), '/');
+            $path = $this->outputDirectory . '/' . ltrim(rawurldecode($request->getPath()), '/');
             if (is_dir($path)) {
                 $path .= '/index.html';
             }
 
-            if (!file_exists($path)) {
+            if (! file_exists($path)) {
                 $this->responseWriter->send404Response($request, $response);
             } else {
                 $this->responseWriter->send200Response($request, $response, $path);

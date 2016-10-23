@@ -14,7 +14,7 @@ final class ContainerFactoryTest extends TestCase
     /**
      * @var string
      */
-    private $sourceDirectory = __DIR__.'/../../../source';
+    private $sourceDirectory = __DIR__ . '/../../../source';
 
     protected function setUp()
     {

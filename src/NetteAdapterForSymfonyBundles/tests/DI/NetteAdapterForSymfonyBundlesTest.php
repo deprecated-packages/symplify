@@ -35,7 +35,7 @@ final class NetteAdapterForSymfonyBundlesTest extends TestCase
 
     public function testLoadBundlesEmpty()
     {
-        $bundles = (new Loader())->load(__DIR__.'/NetteAdapterForSymfonyBundlesSource/bundles.neon');
+        $bundles = (new Loader())->load(__DIR__ . '/NetteAdapterForSymfonyBundlesSource/bundles.neon');
         $this->extension->setConfig($bundles);
         $this->extension->loadConfiguration();
         $this->extension->beforeCompile();

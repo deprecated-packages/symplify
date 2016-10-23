@@ -22,7 +22,7 @@ final class FileTest extends TestCase
 
     public function testGetRelativeSource()
     {
-        $fileInfo = new SplFileInfo(__DIR__.'/FileFactorySource/someFile.latte');
+        $fileInfo = new SplFileInfo(__DIR__ . '/FileFactorySource/someFile.latte');
         $file = $this->fileFactory->create($fileInfo);
 
         $this->assertStringEndsWith('/FileFactorySource/someFile.latte', $file->getRelativeSource());
@@ -30,7 +30,7 @@ final class FileTest extends TestCase
 
     public function testGetPrimaryExtension()
     {
-        $fileInfo = new SplFileInfo(__DIR__.'/FileSource/some.html.latte');
+        $fileInfo = new SplFileInfo(__DIR__ . '/FileSource/some.html.latte');
         $file = $this->fileFactory->create($fileInfo);
 
         $this->assertSame('html', $file->getPrimaryExtension());

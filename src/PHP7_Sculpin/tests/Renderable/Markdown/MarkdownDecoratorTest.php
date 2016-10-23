@@ -25,7 +25,7 @@ final class MarkdownDecoratorTest extends TestCase
 
     public function testNotMarkdown()
     {
-        $file = $this->createFileFromFilePath(__DIR__.'/MarkdownDecoratorSource/someFile.latte');
+        $file = $this->createFileFromFilePath(__DIR__ . '/MarkdownDecoratorSource/someFile.latte');
         $this->markdownDecorator->decorateFile($file);
 
         $this->assertContains('# Content...', $file->getContent());
@@ -33,7 +33,7 @@ final class MarkdownDecoratorTest extends TestCase
 
     public function testMarkdown()
     {
-        $file = $this->createFileFromFilePath(__DIR__.'/MarkdownDecoratorSource/someFile.md');
+        $file = $this->createFileFromFilePath(__DIR__ . '/MarkdownDecoratorSource/someFile.md');
         $this->markdownDecorator->decorateFile($file);
 
         $this->assertContains('<h1>Content...</h1>', $file->getContent());

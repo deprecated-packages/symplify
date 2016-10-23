@@ -39,7 +39,7 @@ final class SculpinCompilerExtensionTest extends TestCase
     {
         $extension = new SculpinCompilerExtension();
         $extension->setConfig([
-            'sourceDir' => __DIR__.'/SculpinCompilerExtensionSource',
+            'sourceDir' => __DIR__ . '/SculpinCompilerExtensionSource',
         ]);
 
         $extension->setCompiler(new Compiler(new ContainerBuilder()), null);

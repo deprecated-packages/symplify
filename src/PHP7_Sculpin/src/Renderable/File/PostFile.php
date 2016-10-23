@@ -51,7 +51,7 @@ final class PostFile extends File
 
     private function ensurePathStartsWithDate(SplFileInfo $fileInfo)
     {
-        if (!PathAnalyzer::startsWithDate($fileInfo)) {
+        if (! PathAnalyzer::startsWithDate($fileInfo)) {
             throw new Exception(
                 'Post name has to start with a date in "Y-m-d" format. E.g. "2016-01-01-name.md".'
             );

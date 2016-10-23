@@ -12,7 +12,7 @@ final class ContainerFactory
 {
     public function create() : Container
     {
-        return $this->createWithConfig(__DIR__.'/config/default.neon');
+        return $this->createWithConfig(__DIR__ . '/config/default.neon');
     }
 
     public function createWithConfig(string $config) : Container
@@ -26,7 +26,7 @@ final class ContainerFactory
 
     public static function createAndReturnTempDir() : string
     {
-        $tempDir = sys_get_temp_dir().'/php7_sculpin';
+        $tempDir = sys_get_temp_dir() . '/php7_sculpin';
         FileSystem::delete($tempDir);
         FileSystem::createDir($tempDir);
 

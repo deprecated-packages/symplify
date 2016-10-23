@@ -24,9 +24,9 @@ final class ControllerFinderTest extends TestCase
 
     public function testFindControllersInDirs()
     {
-        $controllers = $this->controllerFinder->findControllersInDirs([__DIR__.'/ControllerFinderSource']);
+        $controllers = $this->controllerFinder->findControllersInDirs([__DIR__ . '/ControllerFinderSource']);
 
-        $this->assertEquals(
+        $this->assertSame(
             [SomeController::class, SomeOtherController::class],
             $controllers,
             '',

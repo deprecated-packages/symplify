@@ -44,7 +44,7 @@ final class ConfigurationDecoratorTest extends TestCase
     public function provideDataForDecorateFile() : array
     {
         return [
-            [__DIR__.'/ConfigurationDecoratorSource/someFile.latte', 'Content...', [
+            [__DIR__ . '/ConfigurationDecoratorSource/someFile.latte', 'Content...', [
                 'key' => 'value',
             ]],
         ];

@@ -135,7 +135,7 @@ final class SculpinApplication
     private function loadLayoutsToLatteLoader(array $layoutFiles)
     {
         foreach ($layoutFiles as $layoutFile) {
-            $name = $layoutFile->getBasename('.'.$layoutFile->getExtension());
+            $name = $layoutFile->getBasename('.' . $layoutFile->getExtension());
             $content = file_get_contents($layoutFile->getRealPath());
             $this->dynamicStringLoader->addTemplate($name, $content);
         }

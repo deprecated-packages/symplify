@@ -38,7 +38,7 @@ final class FileSystemWriter
     {
         foreach ($files as $file) {
             $relativeDestination = substr($file->getPathname(), strlen($this->sourceDirectory));
-            $absoluteDestination = $this->outputDirectory.$relativeDestination;
+            $absoluteDestination = $this->outputDirectory . $relativeDestination;
 
             FileSystem::copy($file->getRealPath(), $absoluteDestination, true);
         }
@@ -50,7 +50,7 @@ final class FileSystemWriter
     public function copyRenderableFiles(array $files)
     {
         foreach ($files as $file) {
-            $absoluteDestination = $this->outputDirectory.DIRECTORY_SEPARATOR.$file->getOutputPath();
+            $absoluteDestination = $this->outputDirectory . DIRECTORY_SEPARATOR . $file->getOutputPath();
             FileSystem::createDir(dirname($absoluteDestination));
             file_put_contents($absoluteDestination, $file->getContent());
         }

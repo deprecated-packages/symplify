@@ -21,17 +21,17 @@ final class SymfonyRunnerTest extends TestCase
     {
         $this->assertFalse($this->runner->hasErrors());
 
-        $this->runner->runForDirectory(__DIR__.'/SymfonyRunnerSource');
+        $this->runner->runForDirectory(__DIR__ . '/SymfonyRunnerSource');
 
         $this->assertFalse($this->runner->hasErrors());
     }
 
     public function testFixDirectory()
     {
-        $filePath = __DIR__.'/SymfonyRunnerSource/SomeClass.php.inc';
+        $filePath = __DIR__ . '/SymfonyRunnerSource/SomeClass.php.inc';
         $fileBackup = file_get_contents($filePath);
 
-        $this->runner->fixDirectory(__DIR__.'/SymfonyRunnerSource');
+        $this->runner->fixDirectory(__DIR__ . '/SymfonyRunnerSource');
         $fixedFile = file_get_contents($filePath);
         $this->assertSame($fixedFile, $fileBackup);
 

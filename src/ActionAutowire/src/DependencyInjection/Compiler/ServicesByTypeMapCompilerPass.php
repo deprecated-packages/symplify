@@ -31,7 +31,7 @@ final class ServicesByTypeMapCompilerPass implements CompilerPassInterface
     {
         $parameterBag = $containerBuilder->getParameterBag();
         foreach ($containerBuilder->getDefinitions() as $serviceId => $definition) {
-            if (!$this->isValidServiceDefinition($definition)) {
+            if (! $this->isValidServiceDefinition($definition)) {
                 continue;
             }
 
@@ -48,11 +48,11 @@ final class ServicesByTypeMapCompilerPass implements CompilerPassInterface
             return false;
         }
 
-        if (!$definition->isPublic()) {
+        if (! $definition->isPublic()) {
             return false;
         }
 
-        if (!$definition->getClass()) {
+        if (! $definition->getClass()) {
             return false;
         }
 

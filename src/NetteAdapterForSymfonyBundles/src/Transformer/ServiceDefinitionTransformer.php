@@ -56,7 +56,7 @@ final class ServiceDefinitionTransformer
     private function transformTagsFromNetteToSymfony(array $tags) : array
     {
         foreach ($tags as $key => $tag) {
-            if (!is_array($tag)) {
+            if (! is_array($tag)) {
                 $tags[$key] = [[$tag]];
             }
         }
@@ -74,7 +74,7 @@ final class ServiceDefinitionTransformer
                 $createMethod = $factory[1];
 
                 // note: possible issue - static vs dynamic?
-                $factory = ['@'.$serviceReference, $createMethod];
+                $factory = ['@' . $serviceReference, $createMethod];
             }
             $netteDefinition->setFactory($factory);
         }

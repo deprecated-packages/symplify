@@ -20,8 +20,8 @@ final class PathNormalizerTest extends TestCase
     public function provideDataForNormalize() : array
     {
         return [
-            ['dir-one'.DIRECTORY_SEPARATOR.'dir-two', 'dir-one\dir-two'],
-            ['dir-one'.DIRECTORY_SEPARATOR.'dir-two', 'dir-one/dir-two'],
+            ['dir-one' . DIRECTORY_SEPARATOR . 'dir-two', 'dir-one\dir-two'],
+            ['dir-one' . DIRECTORY_SEPARATOR . 'dir-two', 'dir-one/dir-two'],
         ];
     }
 }
