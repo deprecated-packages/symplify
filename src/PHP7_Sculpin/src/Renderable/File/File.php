@@ -77,7 +77,7 @@ class File
 
     public function getRelativeUrl() : string
     {
-        if ($position = strpos($this->outputPath, '/index.html')) {
+        if ($position = strpos($this->outputPath, DIRECTORY_SEPARATOR.'index.html')) {
             return substr($this->outputPath, 0, $position);
         }
 
