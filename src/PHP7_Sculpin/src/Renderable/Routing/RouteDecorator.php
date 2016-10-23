@@ -43,6 +43,10 @@ final class RouteDecorator implements DecoratorInterface
         }
 
         if ($this->isFileNonHtml($file)) {
+            if (in_array($file->getExtension(), ['latte', 'md'])) {
+                return $file->getBaseName();
+            }
+
             return $file->getBaseName() . '.' . $file->getPrimaryExtension();
         }
 

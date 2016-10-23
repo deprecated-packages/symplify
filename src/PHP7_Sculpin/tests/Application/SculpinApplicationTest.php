@@ -45,6 +45,9 @@ final class SculpinApplicationTest extends TestCase
             __DIR__ . '/SculpinApplicationSource/output/index.html'
         );
 
+        $this->assertFileExists(__DIR__ . '/SculpinApplicationSource/output/feed.xml');
+        $this->assertFileExists(__DIR__ . '/SculpinApplicationSource/output/atom.rss');
+
         $this->assertNotEmpty($this->dynamicStringLoader->getContent('default'));
     }
 
