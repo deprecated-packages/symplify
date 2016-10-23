@@ -12,7 +12,7 @@ namespace Symplify\PHP7_Sculpin\DI;
 use Nette\DI\Compiler;
 use Nette\DI\CompilerExtension;
 use Symfony\Component\Console\Command\Command;
-use Symplify\PHP7_Sculpin\Console\Application;
+use Symplify\PHP7_Sculpin\Console\ConsoleApplication;
 use Symplify\PHP7_Sculpin\Contract\Source\SourceFileFilter\SourceFileFilterInterface;
 use Symplify\PHP7_Sculpin\DI\Helper\TypeAndCollectorTrait;
 use Symplify\PHP7_Sculpin\Source\SourceFileStorage;
@@ -39,7 +39,7 @@ final class SculpinCompilerExtension extends CompilerExtension
 
     public function beforeCompile()
     {
-        $this->collectByType(Application::class, Command::class, 'add');
+        $this->collectByType(ConsoleApplication::class, Command::class, 'add');
         $this->collectByType(SourceFileStorage::class, SourceFileFilterInterface::class, 'addSourceFileFilter');
     }
 

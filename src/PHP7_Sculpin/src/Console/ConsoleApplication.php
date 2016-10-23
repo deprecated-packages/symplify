@@ -14,7 +14,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputOption;
 
-final class Application extends BaseApplication
+final class ConsoleApplication extends BaseApplication
 {
     public function __construct()
     {

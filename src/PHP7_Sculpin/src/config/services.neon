@@ -4,7 +4,7 @@ services:
     - Symplify\PHP7_Sculpin\Configuration\Parser\YamlAndNeonParser
 
     # console
-    - Symplify\PHP7_Sculpin\Console\Application
+    - Symplify\PHP7_Sculpin\Console\ConsoleApplication
     - Symplify\PHP7_Sculpin\Console\Command\GenerateCommand(%sourceDir%, %outputDir%)
     - Symplify\PHP7_Sculpin\Console\Command\PushToGithubCommand(%outputDir%)
     - Symfony\Component\Console\Output\ConsoleOutput

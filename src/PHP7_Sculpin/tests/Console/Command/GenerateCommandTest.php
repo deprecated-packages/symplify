@@ -8,7 +8,7 @@ use Nette\Utils\FileSystem;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Output\NullOutput;
-use Symplify\PHP7_Sculpin\Console\Application;
+use Symplify\PHP7_Sculpin\Console\ConsoleApplication;
 use Symplify\PHP7_Sculpin\DI\Container\ContainerFactory;
 
 final class GenerateCommandTest extends TestCase
@@ -41,12 +41,12 @@ final class GenerateCommandTest extends TestCase
         FileSystem::delete(__DIR__ . '/GenerateCommandSource/output');
     }
 
-    protected function getApplicationForConfig(string $config) : Application
+    protected function getApplicationForConfig(string $config) : ConsoleApplication
     {
         $container = (new ContainerFactory())->createWithConfig($config);
 
-        /* @var Application $application */
-        $application = $container->getByType(Application::class);
+        /* @var ConsoleApplication $application */
+        $application = $container->getByType(ConsoleApplication::class);
         $application->setAutoExit(false);
 
         return $application;
