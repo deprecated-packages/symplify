@@ -90,7 +90,7 @@ final class MethodReturnTypeSniff implements PHP_CodeSniffer_Sniff
 
     private function getMethodComment() : string
     {
-        if (!$this->hasMethodComment()) {
+        if (! $this->hasMethodComment()) {
             return '';
         }
 

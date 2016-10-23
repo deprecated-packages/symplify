@@ -20,7 +20,7 @@ final class DefaultAutowireTypesCompilerPass implements CompilerPassInterface
     {
         $autowireTypes = $this->getAutowireTypes($containerBuilder);
         foreach ($autowireTypes as $type => $serviceName) {
-            if (!$containerBuilder->has($serviceName)) {
+            if (! $containerBuilder->has($serviceName)) {
                 continue;
             }
 

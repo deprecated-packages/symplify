@@ -26,7 +26,7 @@ final class RenderableFilesProcessorTest extends TestCase
     protected function setUp()
     {
         $container = (new ContainerFactory())->createWithConfig(
-            __DIR__.'/RenderFilesProcessorSource/config/config.neon'
+            __DIR__ . '/RenderFilesProcessorSource/config/config.neon'
         );
         $this->renderableFilesProcessor = $container->getByType(RenderableFilesProcessor::class);
         $this->configuration = $container->getByType(Configuration::class);
@@ -34,21 +34,21 @@ final class RenderableFilesProcessorTest extends TestCase
 
     public function test()
     {
-        $finder = Finder::findFiles('*')->from(__DIR__.'/RenderFilesProcessorSource/source')->getIterator();
+        $finder = Finder::findFiles('*')->from(__DIR__ . '/RenderFilesProcessorSource/source')->getIterator();
         $fileInfos = iterator_to_array($finder);
 
         $this->renderableFilesProcessor->processFiles($fileInfos);
 
-        $this->assertFileExists(__DIR__.'/RenderFilesProcessorSource/output/file/index.html');
+        $this->assertFileExists(__DIR__ . '/RenderFilesProcessorSource/output/file/index.html');
         $this->assertFileEquals(
-            __DIR__.'/RenderFilesProcessorSource/file-expected.html',
-            __DIR__.'/RenderFilesProcessorSource/output/file/index.html'
+            __DIR__ . '/RenderFilesProcessorSource/file-expected.html',
+            __DIR__ . '/RenderFilesProcessorSource/output/file/index.html'
         );
     }
 
     public function testPosts()
     {
-        $finder = Finder::findFiles('*')->from(__DIR__.'/RenderFilesProcessorSource/source/_posts')->getIterator();
+        $finder = Finder::findFiles('*')->from(__DIR__ . '/RenderFilesProcessorSource/source/_posts')->getIterator();
         $fileInfos = iterator_to_array($finder);
 
         $this->renderableFilesProcessor->processFiles($fileInfos);
@@ -64,6 +64,6 @@ final class RenderableFilesProcessorTest extends TestCase
             return;
         }
 
-        FileSystem::delete(__DIR__.'/RenderFilesProcessorSource/output');
+        FileSystem::delete(__DIR__ . '/RenderFilesProcessorSource/output');
     }
 }

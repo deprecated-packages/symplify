@@ -24,7 +24,7 @@ final class CrudTest extends TestCase
     {
         $this->markTestSkipped('slow');
 
-        $media = $this->twitterApiClient->uploadMedia(__DIR__.'/CrudSource/img.png');
+        $media = $this->twitterApiClient->uploadMedia(__DIR__ . '/CrudSource/img.png');
         $this->assertContains('image/png', $media->getImageType());
 
         return $media->getId();
@@ -36,7 +36,7 @@ final class CrudTest extends TestCase
     public function testUpdate(int $mediaId)
     {
         $tweet = $this->twitterApiClient->update(
-            'TEST TWEET TO BE DELETED'.rand(),
+            'TEST TWEET TO BE DELETED' . rand(),
             [$mediaId]
         );
         $this->assertContains('TEST TWEET TO BE DELETED', $tweet->getText());

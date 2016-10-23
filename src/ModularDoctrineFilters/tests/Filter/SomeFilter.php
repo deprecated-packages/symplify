@@ -12,6 +12,6 @@ final class SomeFilter implements FilterInterface
      */
     public function addFilterConstraint(ClassMetadata $targetEntity, string $targetTableAlias) : string
     {
-        return $targetTableAlias.'.enabled=0';
+        return $targetTableAlias . '.enabled=0';
     }
 }

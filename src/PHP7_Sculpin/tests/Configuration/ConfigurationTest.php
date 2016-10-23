@@ -32,8 +32,8 @@ final class ConfigurationTest extends TestCase
 
     public function testLoadFromFiles()
     {
-        $neonConfigFile = new SplFileInfo(__DIR__.'/ConfigurationSource/config.neon');
-        $yamlConfigFile = new SplFileInfo(__DIR__.'/ConfigurationSource/config.yaml');
+        $neonConfigFile = new SplFileInfo(__DIR__ . '/ConfigurationSource/config.neon');
+        $yamlConfigFile = new SplFileInfo(__DIR__ . '/ConfigurationSource/config.yaml');
         $this->configuration->loadOptionsFromFiles([$neonConfigFile, $yamlConfigFile]);
 
         $this->assertSame([

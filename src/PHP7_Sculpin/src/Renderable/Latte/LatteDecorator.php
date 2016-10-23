@@ -64,7 +64,7 @@ final class LatteDecorator implements DecoratorInterface
 
     private function prependLayoutToFileContent(File $file)
     {
-        if (!$file->getLayout()) {
+        if (! $file->getLayout()) {
             return;
         }
 
@@ -73,6 +73,6 @@ final class LatteDecorator implements DecoratorInterface
         }
 
         $layoutLine = sprintf('{layout "%s"}', $file->getLayout());
-        $file->changeContent($layoutLine.$file->getContent());
+        $file->changeContent($layoutLine . $file->getContent());
     }
 }

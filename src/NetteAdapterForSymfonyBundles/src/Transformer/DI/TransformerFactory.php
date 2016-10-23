@@ -35,10 +35,10 @@ final class TransformerFactory
     public function create() : Container
     {
         $configurator = new Configurator();
-        $configurator->addConfig(__DIR__.'/services.neon');
+        $configurator->addConfig(__DIR__ . '/services.neon');
         $configurator->setTempDirectory($this->tempDir);
         if (class_exists('Nette\Bridges\ApplicationDI\ApplicationExtension')) {
-            $configurator->addConfig(__DIR__.'/setup.neon');
+            $configurator->addConfig(__DIR__ . '/setup.neon');
         }
         $container = $configurator->createContainer();
 

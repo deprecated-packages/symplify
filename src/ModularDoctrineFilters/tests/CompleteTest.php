@@ -34,7 +34,7 @@ final class CompleteTest extends TestCase
     public function testEnableFiltersViaSubscriber()
     {
         $request = new Request();
-        $request->attributes->set('_controller', SomeController::class.'::someAction');
+        $request->attributes->set('_controller', SomeController::class . '::someAction');
 
         $filters = $this->entityManager->getFilters();
         $this->assertCount(0, $filters->getEnabledFilters());

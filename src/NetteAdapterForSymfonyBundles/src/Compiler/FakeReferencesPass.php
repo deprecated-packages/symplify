@@ -47,7 +47,7 @@ final class FakeReferencesPass implements CompilerPassInterface
      */
     private function processDefinition($definition)
     {
-        if (!$definition instanceof Definition) {
+        if (! $definition instanceof Definition) {
             return;
         }
 
@@ -61,7 +61,7 @@ final class FakeReferencesPass implements CompilerPassInterface
      */
     private function processReferences($arguments)
     {
-        if (!is_array($arguments)) {
+        if (! is_array($arguments)) {
             return;
         }
 
@@ -77,7 +77,7 @@ final class FakeReferencesPass implements CompilerPassInterface
      */
     private function addMissingDefinitionReferenceToContainer($argument)
     {
-        if (!$this->isMissingDefinitionReference($argument)) {
+        if (! $this->isMissingDefinitionReference($argument)) {
             return;
         }
 
@@ -86,7 +86,7 @@ final class FakeReferencesPass implements CompilerPassInterface
             $serviceName = (new ReflectionClass($serviceName))->name;
         }
 
-        if (!$this->container->has($serviceName)) {
+        if (! $this->container->has($serviceName)) {
             $this->container->setDefinition($serviceName, new Definition(stdClass::class));
         }
     }

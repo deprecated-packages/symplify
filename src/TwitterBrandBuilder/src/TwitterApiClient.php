@@ -118,7 +118,7 @@ final class TwitterApiClient
     public function searchHashtag(string $hashtag) : array
     {
         $searchResult = $this->connection->get('search/tweets', [
-            'q' => '#'.$hashtag,
+            'q' => '#' . $hashtag,
         ]);
 
         return $this->tweetHydrator->hydrateList($searchResult->statuses);

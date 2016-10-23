@@ -40,11 +40,11 @@ final class PhpCsProcessBuilder implements ProcessBuilderInterface
 
     public function setStandard(string $standard)
     {
-        $this->builder->add('--standard='.$standard);
+        $this->builder->add('--standard=' . $standard);
     }
 
     public function setExtensions(string $extensions)
     {
-        $this->builder->add('--extensions='.$extensions);
+        $this->builder->add('--extensions=' . $extensions);
     }
 }

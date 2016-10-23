@@ -43,7 +43,7 @@ final class CompleteTest extends TestCase
     public function testGetAutowiredControllerAction()
     {
         $request = new Request();
-        $request->attributes->set('_controller', SomeController::class.'::someServiceAwareAction');
+        $request->attributes->set('_controller', SomeController::class . '::someServiceAwareAction');
 
         $controller = $this->controllerResolver->getController($request);
         $arguments = $this->controllerResolver->getArguments($request, $controller);

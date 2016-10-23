@@ -27,7 +27,7 @@ final class DefinitionAnalyzer
 
     public function shouldDefinitionBeAutowired(ContainerBuilder $containerBuilder, Definition $definition) : bool
     {
-        if (!$this->definitionValidator->validate($definition)) {
+        if (! $this->definitionValidator->validate($definition)) {
             return false;
         }
 
@@ -35,9 +35,9 @@ final class DefinitionAnalyzer
 
         if ($isFactory) {
             return $this->shouldFactoryBuiltDefinitionBeAutowired($containerBuilder, $definition);
-        } else {
-            return $this->shouldClassDefinitionBeAutowired($definition);
         }
+
+        return $this->shouldClassDefinitionBeAutowired($definition);
     }
 
     /**
@@ -65,7 +65,7 @@ final class DefinitionAnalyzer
 
         $factoryMethodReflection = new ReflectionMethod($class, $method);
 
-        if (!$this->hasMethodArguments($factoryMethodReflection)) {
+        if (! $this->hasMethodArguments($factoryMethodReflection)) {
             return false;
         }
 
@@ -73,7 +73,7 @@ final class DefinitionAnalyzer
             return false;
         }
 
-        if (!$this->haveMissingArgumentsTypehints($definition, $factoryMethodReflection)) {
+        if (! $this->haveMissingArgumentsTypehints($definition, $factoryMethodReflection)) {
             return false;
         }
 
@@ -83,8 +83,8 @@ final class DefinitionAnalyzer
     private function shouldClassDefinitionBeAutowired(Definition $definition) : bool
     {
         $classReflection = new ReflectionClass($definition->getClass());
-        if (!$classReflection->hasMethod('__construct')
-            || !$this->hasMethodArguments($classReflection->getConstructor())
+        if (! $classReflection->hasMethod('__construct')
+            || ! $this->hasMethodArguments($classReflection->getConstructor())
         ) {
             return false;
         }
@@ -94,7 +94,7 @@ final class DefinitionAnalyzer
             return false;
         }
 
-        if (!$this->haveMissingArgumentsTypehints($definition, $constructorReflection)) {
+        if (! $this->haveMissingArgumentsTypehints($definition, $constructorReflection)) {
             return false;
         }
 
@@ -125,13 +125,13 @@ final class DefinitionAnalyzer
         ReflectionMethod $constructorReflection
     ) : bool {
         $arguments = $definition->getArguments();
-        if (!count($arguments)) {
+        if (! count($arguments)) {
             return true;
         }
 
         $i = 0;
         foreach ($constructorReflection->getParameters() as $parameterReflection) {
-            if (!isset($arguments[$i])) {
+            if (! isset($arguments[$i])) {
                 if ($parameterReflection->isDefaultValueAvailable()) {
                     ++$i;
                     continue;

@@ -90,8 +90,8 @@ final class PushToGithubCommand extends Command
 
     private function ensureGithubRepositorySlugIsValid(string $repositorySlug)
     {
-        $repositoryUrl = 'https://github.com/'.$repositorySlug;
-        if (!$this->doesUrlExist($repositoryUrl)) {
+        $repositoryUrl = 'https://github.com/' . $repositorySlug;
+        if (! $this->doesUrlExist($repositoryUrl)) {
             throw new \Exception(sprintf(
                 'Repository "%s" is not accessible. Try fixing the "%s" slug.',
                 $repositoryUrl,
@@ -103,7 +103,7 @@ final class PushToGithubCommand extends Command
     private function doesUrlExist(string $url) : bool
     {
         $fileHeaders = @get_headers($url);
-        if (!$fileHeaders || $fileHeaders[0] === 'HTTP/1.1 404 Not Found') {
+        if (! $fileHeaders || $fileHeaders[0] === 'HTTP/1.1 404 Not Found') {
             return false;
         }
 

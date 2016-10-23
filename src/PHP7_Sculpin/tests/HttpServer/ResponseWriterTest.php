@@ -16,7 +16,7 @@ final class ResponseWriterTest extends TestCase
     /**
      * @var string
      */
-    private $someFilePath = __DIR__.'/ResponseWriterSource/someFile.txt';
+    private $someFilePath = __DIR__ . '/ResponseWriterSource/someFile.txt';
 
     /**
      * @var BufferedOutput

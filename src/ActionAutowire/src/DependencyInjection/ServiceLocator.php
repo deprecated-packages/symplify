@@ -36,7 +36,7 @@ final class ServiceLocator
      */
     public function getByType(string $type)
     {
-        if (!isset($this->serviceByTypeMap[$type])) {
+        if (! isset($this->serviceByTypeMap[$type])) {
             return false;
         }
 

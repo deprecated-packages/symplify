@@ -23,7 +23,7 @@ final class RoutingDecoratorTest extends TestCase
 
     public function test()
     {
-        $fileInfo = new SplFileInfo(__DIR__.'/RoutingDecoratorSource/someFile.latte');
+        $fileInfo = new SplFileInfo(__DIR__ . '/RoutingDecoratorSource/someFile.latte');
         $file = (new FileFactory('sourceDirectory'))->create($fileInfo);
 
         $this->routeDecorator->decorateFile($file);
@@ -32,7 +32,7 @@ final class RoutingDecoratorTest extends TestCase
 
     public function testStaticFile()
     {
-        $fileInfo = new SplFileInfo(__DIR__.'/RoutingDecoratorSource/static.css');
+        $fileInfo = new SplFileInfo(__DIR__ . '/RoutingDecoratorSource/static.css');
         $file = (new FileFactory('sourceDirectory'))->create($fileInfo);
 
         $this->routeDecorator->decorateFile($file);
@@ -41,13 +41,13 @@ final class RoutingDecoratorTest extends TestCase
 
     public function testIndexFile()
     {
-        $fileInfo = new SplFileInfo(__DIR__.'/RoutingDecoratorSource/index.html');
+        $fileInfo = new SplFileInfo(__DIR__ . '/RoutingDecoratorSource/index.html');
         $file = (new FileFactory('sourceDirectory'))->create($fileInfo);
 
         $this->routeDecorator->decorateFile($file);
         $this->assertSame('index.html', $file->getRelativeUrl());
 
-        $fileInfo = new SplFileInfo(__DIR__.'/RoutingDecoratorSource/index.latte');
+        $fileInfo = new SplFileInfo(__DIR__ . '/RoutingDecoratorSource/index.latte');
         $file = (new FileFactory('sourceDirectory'))->create($fileInfo);
 
         $this->routeDecorator->decorateFile($file);
@@ -56,7 +56,7 @@ final class RoutingDecoratorTest extends TestCase
 
     public function testPostFile()
     {
-        $fileInfo = new SplFileInfo(__DIR__.'/RoutingDecoratorSource/_posts/2016-10-10-somePost.html');
+        $fileInfo = new SplFileInfo(__DIR__ . '/RoutingDecoratorSource/_posts/2016-10-10-somePost.html');
         $file = (new FileFactory('sourceDirectory'))->create($fileInfo);
 
         $this->routeDecorator->decorateFile($file);

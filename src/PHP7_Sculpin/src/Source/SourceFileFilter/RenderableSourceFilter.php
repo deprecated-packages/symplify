@@ -23,7 +23,7 @@ final class RenderableSourceFilter implements SourceFileFilterInterface
 
     public function matchesFileSource(SplFileInfo $fileInfo) : bool
     {
-        if (Strings::contains($fileInfo->getPath(), DIRECTORY_SEPARATOR.'_')) {
+        if (Strings::contains($fileInfo->getPath(), DIRECTORY_SEPARATOR . '_')) {
             return false;
         }
 

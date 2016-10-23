@@ -33,7 +33,7 @@ final class ResponseWriter
         ]);
 
         $response->end(
-            '<h1>404 - Not Found</h1>'.
+            '<h1>404 - Not Found</h1>' .
             '<p>Sculpin web server could not find the requested resource.</p>'
         );
     }
@@ -68,6 +68,6 @@ final class ResponseWriter
             $wrapClose = '</error>';
         }
 
-        return $wrapOpen.$message.$wrapClose;
+        return $wrapOpen . $message . $wrapClose;
     }
 }

@@ -58,7 +58,7 @@ final class RegisterControllersPass implements CompilerPassInterface
         foreach ($controllers as $controller) {
             $id = $this->buildControllerIdFromClass($controller);
 
-            if (!$containerBuilder->hasDefinition($id)) {
+            if (! $containerBuilder->hasDefinition($id)) {
                 $definition = $this->buildControllerDefinitionFromClass($controller);
             } else {
                 $definition = $containerBuilder->getDefinition($id);

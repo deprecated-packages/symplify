@@ -38,12 +38,12 @@ final class PhpCsFixerProcessBuilder implements ProcessBuilderInterface
 
     public function setLevel(string $level)
     {
-        $this->builder->add('--level='.$level);
+        $this->builder->add('--level=' . $level);
     }
 
     public function setFixers(string $fixers)
     {
-        $this->builder->add('--fixers='.$fixers);
+        $this->builder->add('--fixers=' . $fixers);
     }
 
     public function enableDryRun()

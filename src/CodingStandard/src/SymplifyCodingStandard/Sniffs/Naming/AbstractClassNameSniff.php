@@ -44,7 +44,7 @@ final class AbstractClassNameSniff implements PHP_CodeSniffer_Sniff
         $this->file = $file;
         $this->position = $position;
 
-        if (!$this->isClassAbstract()) {
+        if (! $this->isClassAbstract()) {
             return;
         }
 
@@ -72,7 +72,7 @@ final class AbstractClassNameSniff implements PHP_CodeSniffer_Sniff
     private function getClassName()
     {
         $namePosition = $this->file->findNext(T_STRING, $this->position);
-        if (!$namePosition) {
+        if (! $namePosition) {
             return false;
         }
 

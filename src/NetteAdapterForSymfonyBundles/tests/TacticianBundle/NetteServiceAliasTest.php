@@ -19,7 +19,7 @@ final class NetteServiceAliasTest extends TestCase
 
     public function __construct()
     {
-        $this->container = (new ContainerFactory())->createWithConfig(__DIR__.'/config/netteServiceAlias.neon');
+        $this->container = (new ContainerFactory())->createWithConfig(__DIR__ . '/config/netteServiceAlias.neon');
     }
 
     public function testSymfonyServiceReferencing()

@@ -15,20 +15,20 @@ final class GenerateCommandTest extends TestCase
 {
     public function test()
     {
-        $application = $this->getApplicationForConfig(__DIR__.'/GenerateCommandSource/config/config.neon');
+        $application = $this->getApplicationForConfig(__DIR__ . '/GenerateCommandSource/config/config.neon');
 
         $input = new ArgvInput(['Application name', 'generate']);
 
         $result = $application->run($input, new NullOutput());
         $this->assertSame(0, $result);
 
-        $this->assertFileExists(__DIR__.'/GenerateCommandSource/output/index.html');
+        $this->assertFileExists(__DIR__ . '/GenerateCommandSource/output/index.html');
     }
 
     public function testException()
     {
         $application = $this->getApplicationForConfig(
-            __DIR__.'/GenerateCommandSource/config/configWithMissingSource.neon'
+            __DIR__ . '/GenerateCommandSource/config/configWithMissingSource.neon'
         );
 
         $input = new ArgvInput(['Application name', 'generate']);
@@ -38,7 +38,7 @@ final class GenerateCommandTest extends TestCase
 
     protected function tearDown()
     {
-        FileSystem::delete(__DIR__.'/GenerateCommandSource/output');
+        FileSystem::delete(__DIR__ . '/GenerateCommandSource/output');
     }
 
     protected function getApplicationForConfig(string $config) : Application

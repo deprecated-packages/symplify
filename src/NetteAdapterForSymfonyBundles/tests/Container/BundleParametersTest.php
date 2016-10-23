@@ -18,7 +18,7 @@ final class BundleParametersTest extends TestCase
     public function __construct()
     {
         $this->container = (new ContainerFactory())->createWithConfig(
-            __DIR__.'/SymfonyContainerAdapterSource/config/init.neon'
+            __DIR__ . '/SymfonyContainerAdapterSource/config/init.neon'
         );
     }
 

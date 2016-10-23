@@ -15,12 +15,12 @@ final class FileSystemWriterTest extends TestCase
     /**
      * @var string
      */
-    private $sourceDirectory = __DIR__.'/FileSystemWriterSource/source';
+    private $sourceDirectory = __DIR__ . '/FileSystemWriterSource/source';
 
     /**
      * @var string
      */
-    private $outputDirectory = __DIR__.'/FileSystemWriterSource/output';
+    private $outputDirectory = __DIR__ . '/FileSystemWriterSource/output';
 
     /**
      * @var FileSystemWriter
@@ -34,19 +34,19 @@ final class FileSystemWriterTest extends TestCase
 
     public function testCopyStaticFiles()
     {
-        $files = [new SplFileInfo($this->sourceDirectory.'/index.html')];
+        $files = [new SplFileInfo($this->sourceDirectory . '/index.html')];
         $this->fileSystemWriter->copyStaticFiles($files);
 
         $this->assertFileEquals(
-            $this->sourceDirectory.'/index.html',
-            $this->outputDirectory.'/index.html'
+            $this->sourceDirectory . '/index.html',
+            $this->outputDirectory . '/index.html'
         );
     }
 
     public function testCopyRenderableFiles()
     {
         $file = new File(
-            new SplFileInfo($this->sourceDirectory.'/contact.latte'),
+            new SplFileInfo($this->sourceDirectory . '/contact.latte'),
             'contact.html'
         );
         $file->setOutputPath('contact.html');
@@ -54,8 +54,8 @@ final class FileSystemWriterTest extends TestCase
         $this->fileSystemWriter->copyRenderableFiles([$file]);
 
         $this->assertFileEquals(
-            $this->sourceDirectory.'/contact.latte',
-            $this->outputDirectory.'/contact.html'
+            $this->sourceDirectory . '/contact.latte',
+            $this->outputDirectory . '/contact.html'
         );
     }
 

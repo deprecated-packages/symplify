@@ -16,7 +16,7 @@ final class AliasingExtension implements ExtensionInterface
      */
     public function load(array $config, ContainerBuilder $containerBuilder)
     {
-        $loader = new YamlFileLoader($containerBuilder, new FileLocator(__DIR__.'/../Resources/config'));
+        $loader = new YamlFileLoader($containerBuilder, new FileLocator(__DIR__ . '/../Resources/config'));
         $loader->load('services.yml');
     }
 

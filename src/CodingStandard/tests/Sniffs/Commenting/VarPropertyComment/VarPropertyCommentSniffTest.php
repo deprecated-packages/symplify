@@ -11,11 +11,11 @@ final class VarPropertyCommentSniffTest extends TestCase
     {
         $codeSnifferRunner = new CodeSnifferRunner('SymplifyCodingStandard.Commenting.VarPropertyComment');
 
-        $this->assertSame(1, $codeSnifferRunner->getErrorCountInFile(__DIR__.'/wrong.php.inc'));
-        $this->assertSame(1, $codeSnifferRunner->getErrorCountInFile(__DIR__.'/wrong2.php.inc'));
-        $this->assertSame(1, $codeSnifferRunner->getErrorCountInFile(__DIR__.'/wrong3.php.inc'));
-        $this->assertSame(1, $codeSnifferRunner->getErrorCountInFile(__DIR__.'/wrong4.php.inc'));
-        $this->assertSame(0, $codeSnifferRunner->getErrorCountInFile(__DIR__.'/correct.php.inc'));
-        $this->assertSame(0, $codeSnifferRunner->getErrorCountInFile(__DIR__.'/correct2.php.inc'));
+        $this->assertSame(1, $codeSnifferRunner->getErrorCountInFile(__DIR__ . '/wrong.php.inc'));
+        $this->assertSame(1, $codeSnifferRunner->getErrorCountInFile(__DIR__ . '/wrong2.php.inc'));
+        $this->assertSame(1, $codeSnifferRunner->getErrorCountInFile(__DIR__ . '/wrong3.php.inc'));
+        $this->assertSame(1, $codeSnifferRunner->getErrorCountInFile(__DIR__ . '/wrong4.php.inc'));
+        $this->assertSame(0, $codeSnifferRunner->getErrorCountInFile(__DIR__ . '/correct.php.inc'));
+        $this->assertSame(0, $codeSnifferRunner->getErrorCountInFile(__DIR__ . '/correct2.php.inc'));
     }
 }

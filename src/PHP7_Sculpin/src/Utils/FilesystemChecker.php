@@ -15,7 +15,7 @@ final class FilesystemChecker
 {
     public static function ensureDirectoryExists(string $directory)
     {
-        if (!is_dir($directory)) {
+        if (! is_dir($directory)) {
             throw new MissingDirectoryException(
                 sprintf('Directory "%s" was not found.', $directory)
             );

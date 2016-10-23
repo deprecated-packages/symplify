@@ -22,7 +22,7 @@ final class SymplifyRunnerTest extends TestCase
     {
         $this->assertFalse($this->runner->hasErrors());
 
-        $output = $this->runner->runForDirectory(__DIR__.'/SymplifyRunnerSource');
+        $output = $this->runner->runForDirectory(__DIR__ . '/SymplifyRunnerSource');
 
         $this->assertTrue($this->runner->hasErrors());
         $this->assertContains('SymplifyCodingStandard.Classes.FinalInterface', $output);
@@ -30,10 +30,10 @@ final class SymplifyRunnerTest extends TestCase
 
     public function testFixDirectory()
     {
-        $filePath = __DIR__.'/SymplifyRunnerSource/SomeClass.php.inc';
+        $filePath = __DIR__ . '/SymplifyRunnerSource/SomeClass.php.inc';
         $fileBackup = file_get_contents($filePath);
 
-        $this->runner->fixDirectory(__DIR__.'/SymplifyRunnerSource');
+        $this->runner->fixDirectory(__DIR__ . '/SymplifyRunnerSource');
         $fixedFile = file_get_contents($filePath);
         $this->assertNotSame($fixedFile, $fileBackup);
 

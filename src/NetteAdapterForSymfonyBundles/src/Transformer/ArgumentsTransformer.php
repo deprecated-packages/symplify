@@ -59,7 +59,7 @@ final class ArgumentsTransformer
             );
             $this->netteContainerBuilder->addDefinition($name, $netteServiceDefinition);
 
-            return '@'.$name;
+            return '@' . $name;
         }
 
         return $argument;
@@ -74,7 +74,7 @@ final class ArgumentsTransformer
             $name = $this->netteContainerBuilder->getByType($className);
         }
 
-        return '@'.$name;
+        return '@' . $name;
     }
 
     private function getServiceDefinitionTransformer() : ServiceDefinitionTransformer

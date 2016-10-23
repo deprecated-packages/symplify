@@ -49,10 +49,10 @@ final class ReplaceControllerResolverPass implements CompilerPassInterface
             $containerBuilder->setDefinition('default.controller_resolver', $definition);
         } else {
             $oldResolver = $containerBuilder->getDefinition($controllerResolverServiceName);
-            $containerBuilder->setDefinition('old.'.$controllerResolverServiceName, $oldResolver);
+            $containerBuilder->setDefinition('old.' . $controllerResolverServiceName, $oldResolver);
             $containerBuilder->removeDefinition($controllerResolverServiceName);
 
-            $definition = $this->createDefinitionWithDecoratingResolver('old.'.$controllerResolverServiceName);
+            $definition = $this->createDefinitionWithDecoratingResolver('old.' . $controllerResolverServiceName);
 
             $containerBuilder->setDefinition('symplify.autowire_controller_controller_resolver', $definition);
             $containerBuilder->setAlias(

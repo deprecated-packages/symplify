@@ -17,7 +17,7 @@ final class NetteTagsTest extends TestCase
 
     public function __construct()
     {
-        $this->container = (new ContainerFactory())->createWithConfig(__DIR__.'/config/netteTags.neon');
+        $this->container = (new ContainerFactory())->createWithConfig(__DIR__ . '/config/netteTags.neon');
     }
 
     public function testTags()

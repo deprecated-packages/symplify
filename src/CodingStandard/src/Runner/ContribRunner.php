@@ -59,7 +59,7 @@ final class ContribRunner implements RunnerInterface
 
     /**
      * See here a bit bellow for all custom fixers:
-     * https://github.com/FriendsOfPHP/PHP-CS-Fixer#usage
+     * https://github.com/FriendsOfPHP/PHP-CS-Fixer#usage.
      */
     private function getCustomFixers() : string
     {
@@ -87,7 +87,7 @@ final class ContribRunner implements RunnerInterface
 
     /**
      * Todo: add later when refactoring to PHP use and own process.
-     * http://stackoverflow.com/questions/35121798/how-to-configure-headercommentfixer-in-php-cs-fixer
+     * http://stackoverflow.com/questions/35121798/how-to-configure-headercommentfixer-in-php-cs-fixer.
      */
     private function setupFixers()
     {

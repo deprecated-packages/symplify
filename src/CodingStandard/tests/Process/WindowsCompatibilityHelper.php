@@ -8,7 +8,7 @@ final class WindowsCompatibilityHelper
 {
     public static function makeWindowsOsCompatible(string $command) : string
     {
-        if (!self::isWindows()) {
+        if (! self::isWindows()) {
             return $command;
         }
 

@@ -23,7 +23,7 @@ final class ConfigurationResolver implements ConfigurationResolverInterface
 
     public function resolveFromContainerBuilder(ContainerBuilder $containerBuilder) : array
     {
-        if (!$this->resolvedConfiguration) {
+        if (! $this->resolvedConfiguration) {
             $processor = new Processor();
             $configs = $containerBuilder->getExtensionConfig(SymplifyControllerAutowireBundle::ALIAS);
             $configs = $processor->processConfiguration(new Configuration(), $configs);
