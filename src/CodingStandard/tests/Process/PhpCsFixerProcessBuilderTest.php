@@ -16,27 +16,31 @@ final class PhpCsFixerProcessBuilderTest extends TestCase
         $this->assertSame(
             WindowsCompatibilityHelper::makeWindowsOsCompatible(
                 "'./vendor/bin/php-cs-fixer' 'fix' 'directory' '--fixers=fixers'"
-            ), $builder->getProcess()->getCommandLine()
+            ),
+            $builder->getProcess()->getCommandLine()
         );
 
         $this->assertSame(
             WindowsCompatibilityHelper::makeWindowsOsCompatible(
                 "'./vendor/bin/php-cs-fixer' 'fix' 'directory' '--fixers=fixers'"
-            ), $builder->getProcess()->getCommandLine()
+            ),
+            $builder->getProcess()->getCommandLine()
         );
 
         $builder->setLevel('level5');
         $this->assertSame(
             WindowsCompatibilityHelper::makeWindowsOsCompatible(
                 "'./vendor/bin/php-cs-fixer' 'fix' 'directory' '--fixers=fixers' '--level=level5'"
-            ), $builder->getProcess()->getCommandLine()
+            ),
+            $builder->getProcess()->getCommandLine()
         );
 
         $builder->enableDryRun();
         $this->assertSame(
             WindowsCompatibilityHelper::makeWindowsOsCompatible(
                 "'./vendor/bin/php-cs-fixer' 'fix' 'directory' '--fixers=fixers' '--level=level5' '--dry-run' '--diff'"
-            ), $builder->getProcess()->getCommandLine()
+            ),
+            $builder->getProcess()->getCommandLine()
         );
     }
 }
