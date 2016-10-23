@@ -34,7 +34,7 @@ final class RenderableFilesProcessorTest extends TestCase
 
     public function test()
     {
-        $finder = Finder::find('*')->from(__DIR__.'/RenderFilesProcessorSource/source')->getIterator();
+        $finder = Finder::findFiles('*')->from(__DIR__.'/RenderFilesProcessorSource/source')->getIterator();
         $fileInfos = iterator_to_array($finder);
 
         $this->renderableFilesProcessor->processFiles($fileInfos);
@@ -48,12 +48,7 @@ final class RenderableFilesProcessorTest extends TestCase
 
     public function testPosts()
     {
-        // fails for unknown reason: https://ci.appveyor.com/project/TomasVotruba/symplify/build/1.0.19#L458
-        if (getenv('APPVEYOR')) {
-            return;
-        }
-
-        $finder = Finder::find('*')->from(__DIR__.'/RenderFilesProcessorSource/source/_posts')->getIterator();
+        $finder = Finder::findFiles('*')->from(__DIR__.'/RenderFilesProcessorSource/source/_posts')->getIterator();
         $fileInfos = iterator_to_array($finder);
 
         $this->renderableFilesProcessor->processFiles($fileInfos);
