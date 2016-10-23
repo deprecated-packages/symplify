@@ -20,7 +20,7 @@ final class YamlAndNeonParser
         try {
             return Neon::decode($content);
         } catch (Throwable $throwable) {
-            return  Yaml::parse($content);
+            return Yaml::parse($content);
         }
     }
 }

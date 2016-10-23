@@ -1,10 +1,13 @@
 <?php
 
-namespace Symplify\PHP7_Sculpin\Renderable\Configuration;
+declare(strict_types=1);
+
+namespace Symplify\PHP7_Sculpin\Tests\Renderable\Configuration;
 
 use PHPUnit\Framework\TestCase;
 use SplFileInfo;
 use Symplify\PHP7_Sculpin\Configuration\Parser\YamlAndNeonParser;
+use Symplify\PHP7_Sculpin\Renderable\Configuration\ConfigurationDecorator;
 use Symplify\PHP7_Sculpin\Renderable\File\FileFactory;
 
 final class ConfigurationDecoratorTest extends TestCase

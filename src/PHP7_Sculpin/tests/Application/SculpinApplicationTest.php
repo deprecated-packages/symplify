@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Symplify\PHP7_Sculpin\Tests\Application;
 
 use Nette\Utils\FileSystem;

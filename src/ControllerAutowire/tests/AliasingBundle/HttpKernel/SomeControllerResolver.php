@@ -9,10 +9,16 @@ use Symfony\Component\HttpKernel\Controller\ControllerResolverInterface;
 
 final class SomeControllerResolver implements ControllerResolverInterface
 {
+    /**
+     * {@inheritdoc}
+     */
     public function getController(Request $request)
     {
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getArguments(Request $request, $controller)
     {
     }

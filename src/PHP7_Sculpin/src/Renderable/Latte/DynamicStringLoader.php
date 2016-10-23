@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace Symplify\PHP7_Sculpin\Renderable\Latte;
 
 use Latte\ILoader;
+use RuntimeException;
 
 /**
  * Inspired by @see \Latte\Loaders\StringLoader.
@@ -35,7 +36,7 @@ final class DynamicStringLoader implements ILoader
             return $this->templates[$name];
         }
 
-        throw new \RuntimeException(
+        throw new RuntimeException(
             sprintf('Missing template "%s".', $name)
         );
     }

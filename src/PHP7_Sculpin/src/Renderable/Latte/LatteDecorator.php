@@ -11,8 +11,8 @@ namespace Symplify\PHP7_Sculpin\Renderable\Latte;
 
 use Latte\Engine;
 use Nette\Utils\Strings;
-use Symplify\PHP7_Sculpin\Contract\Renderable\DecoratorInterface;
 use Symplify\PHP7_Sculpin\Configuration\Configuration;
+use Symplify\PHP7_Sculpin\Contract\Renderable\DecoratorInterface;
 use Symplify\PHP7_Sculpin\Renderable\File\File;
 
 final class LatteDecorator implements DecoratorInterface

@@ -33,7 +33,8 @@ final class GihubPublishingProcess
 
         if (getenv('TRAVIS')) {
             $this->runScript(sprintf(
-                'git push --force --quiet "${%s}" master:gh-pages > /dev/null 2>&1', $githubRepository
+                'git push --force --quiet "${%s}" master:gh-pages > /dev/null 2>&1',
+                $githubRepository
             ), $outputDirectory);
         }
     }

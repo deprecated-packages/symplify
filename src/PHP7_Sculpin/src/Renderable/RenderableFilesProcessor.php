@@ -10,8 +10,8 @@ declare(strict_types=1);
 namespace Symplify\PHP7_Sculpin\Renderable;
 
 use SplFileInfo;
-use Symplify\PHP7_Sculpin\Output\FileSystemWriter;
 use Symplify\PHP7_Sculpin\Configuration\Configuration;
+use Symplify\PHP7_Sculpin\Output\FileSystemWriter;
 use Symplify\PHP7_Sculpin\Renderable\Configuration\ConfigurationDecorator;
 use Symplify\PHP7_Sculpin\Renderable\File\File;
 use Symplify\PHP7_Sculpin\Renderable\File\FileFactory;

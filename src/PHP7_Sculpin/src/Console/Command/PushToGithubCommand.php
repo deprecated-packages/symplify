@@ -93,7 +93,9 @@ final class PushToGithubCommand extends Command
         $repositoryUrl = 'https://github.com/'.$repositorySlug;
         if (!$this->doesUrlExist($repositoryUrl)) {
             throw new \Exception(sprintf(
-                'Repository "%s" is not accessible. Try fixing the "%s" slug.', $repositoryUrl, $repositorySlug
+                'Repository "%s" is not accessible. Try fixing the "%s" slug.',
+                $repositoryUrl,
+                $repositorySlug
             ));
         }
     }
@@ -108,7 +110,7 @@ final class PushToGithubCommand extends Command
         return true;
     }
 
-    private function createGithubRepositoryUrlWithToken(string  $token, string $repositorySlug) : string
+    private function createGithubRepositoryUrlWithToken(string $token, string $repositorySlug) : string
     {
         return sprintf(
             'https://%s@github.com/%s.git',

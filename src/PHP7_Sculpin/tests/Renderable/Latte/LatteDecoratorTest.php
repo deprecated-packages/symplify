@@ -7,6 +7,7 @@ namespace Symplify\PHP7_Sculpin\Tests\Renderable\Latte;
 use Latte\Engine;
 use Latte\ILoader;
 use PHPUnit\Framework\TestCase;
+use SplFileInfo;
 use Symplify\PHP7_Sculpin\Configuration\Configuration;
 use Symplify\PHP7_Sculpin\Configuration\Parser\YamlAndNeonParser;
 use Symplify\PHP7_Sculpin\Renderable\File\File;
@@ -33,22 +34,16 @@ final class LatteDecoratorTest extends TestCase
 
     public function testDecorateFile()
     {
-        $fileInfo = new \SplFileInfo(__DIR__.'/LatteDecoratorSource/contact.latte');
+        $fileInfo = new SplFileInfo(__DIR__.'/LatteDecoratorSource/contact.latte');
         $file = new File($fileInfo, 'contact.latte');
         $this->latteDecorator->decorateFile($file);
 
-        $this->assertSame(<<<'CONTENT'
-This is layout!
-
-Contact us!
-
-CONTENT
-        , $file->getContent());
+        $this->assertContains('This is layout!'.PHP_EOL.PHP_EOL.'Contact us!', $file->getContent());
     }
 
     public function testDecorateFileWithAnotherLayout()
     {
-        $fileInfo = new \SplFileInfo(__DIR__.'/LatteDecoratorSource/contactWithAnotherLayout.latte');
+        $fileInfo = new SplFileInfo(__DIR__.'/LatteDecoratorSource/contactWithAnotherLayout.latte');
         $file = new File($fileInfo, 'contactWithAnotherLayout.latte');
         $file->setConfiguration([
             'layout' => 'default',
@@ -56,18 +51,12 @@ CONTENT
 
         $this->latteDecorator->decorateFile($file);
 
-        $this->assertSame(<<<'CONTENT'
-This is layout!
-
-Contact us with another layout!
-
-CONTENT
-        , $file->getContent());
+        $this->assertContains('This is layout!'.PHP_EOL.PHP_EOL.'Contact us with another layout!', $file->getContent());
     }
 
     public function testDecorateFileWithLayout()
     {
-        $fileInfo = new \SplFileInfo(__DIR__.'/LatteDecoratorSource/fileWithLayout.latte');
+        $fileInfo = new SplFileInfo(__DIR__.'/LatteDecoratorSource/fileWithLayout.latte');
         $file = new File($fileInfo, 'fileWithLayout.latte');
         $file->setConfiguration([
             'layout' => 'default',
@@ -75,13 +64,7 @@ CONTENT
 
         $this->latteDecorator->decorateFile($file);
 
-        $this->assertSame(<<<'CONTENT'
-This is layout!
-
-Contact us!
-
-CONTENT
-            , $file->getContent());
+        $this->assertContains('This is layout!'.PHP_EOL.PHP_EOL.'Contact us!', $file->getContent());
     }
 
     private function createLatteEngine(ILoader $loader) : Engine

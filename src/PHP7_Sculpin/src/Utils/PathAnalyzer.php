@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of Symplify
  * Copyright (c) 2016 Tomas Votruba (http://tomasvotruba.cz).
@@ -28,7 +30,11 @@ final class PathAnalyzer
 
     public static function detectFilenameWithoutDate(SplFileInfo $file) : string
     {
-        preg_match('/(\d{4})[\/\-]*(\d{2})[\/\-]*(\d{2})[\/\-]*(.+?)(\.[^\.]+|\.[^\.]+\.[^\.]+)$/', $file->getFilename(), $matches);
+        preg_match(
+            '/(\d{4})[\/\-]*(\d{2})[\/\-]*(\d{2})[\/\-]*(.+?)(\.[^\.]+|\.[^\.]+\.[^\.]+)$/',
+            $file->getFilename(),
+            $matches
+        );
 
         return $matches[4];
     }

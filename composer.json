@@ -19,6 +19,7 @@
         "latte/latte": "~2.4",
         "nette/utils": "~2.4",
         "nette/robot-loader": "~2.4",
+        "tracy/tracy": "^2.4",
 
         "symfony/config": "^3.0",
         "symfony/console": "^3.0",
@@ -48,7 +49,6 @@
         "nette/application": "~2.4",
         "nette/bootstrap": "~2.4",
         "nette/utils": "^2.4",
-        "tracy/tracy": "^2.4",
 
         "symfony/form": "^3.0",
         "symfony/framework-bundle": "^3.0",
@@ -86,42 +86,12 @@
     },
     "scripts": {
         "check-cs": [
-            "vendor/bin/symplify-cs check src/ActionAutowire/src",
-            "vendor/bin/symplify-cs check src/ActionAutowire/tests",
-            "vendor/bin/symplify-cs check src/AutoServiceRegistration/src",
-            "vendor/bin/symplify-cs check src/AutoServiceRegistration/tests",
-            "vendor/bin/symplify-cs check src/CodingStandard/src",
-            "vendor/bin/symplify-cs check src/CodingStandard/tests",
-            "vendor/bin/symplify-cs check src/DefaultAutowire/src",
-            "vendor/bin/symplify-cs check src/DefaultAutowire/tests",
-            "vendor/bin/symplify-cs check src/ModularDoctrineFilters/src",
-            "vendor/bin/symplify-cs check src/ModularDoctrineFilters/tests",
-            "vendor/bin/symplify-cs check src/ModularRouting/src",
-            "vendor/bin/symplify-cs check src/ModularRouting/tests",
-            "vendor/bin/symplify-cs check src/NetteAdapterForSymfonyBundles/src",
-            "vendor/bin/symplify-cs check src/NetteAdapterForSymfonyBundles/tests",
-            "vendor/bin/symplify-cs check src/TwitterBrandBuilder/src",
-            "vendor/bin/symplify-cs check src/TwitterBrandBuilder/tests"
+            "vendor/bin/symplify-cs check src/*/src",
+            "vendor/bin/symplify-cs check src/*/tests"
         ],
         "fix-cs": [
-            "vendor/bin/symplify-cs fix src/ActionAutowire/src",
-            "vendor/bin/symplify-cs fix src/ActionAutowire/tests",
-            "vendor/bin/symplify-cs fix src/AutoServiceRegistration/src",
-            "vendor/bin/symplify-cs fix src/AutoServiceRegistration/tests",
-            "vendor/bin/symplify-cs fix src/CodingStandard/src",
-            "vendor/bin/symplify-cs fix src/CodingStandard/tests",
-            "vendor/bin/symplify-cs fix src/DefaultAutowire/src",
-            "vendor/bin/symplify-cs fix src/DefaultAutowire/tests",
-            "vendor/bin/symplify-cs fix src/ModularDoctrineFilters/src",
-            "vendor/bin/symplify-cs fix src/ModularDoctrineFilters/tests",
-            "vendor/bin/symplify-cs fix src/ModularRouting/src",
-            "vendor/bin/symplify-cs fix src/ModularRouting/tests",
-            "vendor/bin/symplify-cs fix src/NetteAdapterForSymfonyBundles/src",
-            "vendor/bin/symplify-cs fix src/NetteAdapterForSymfonyBundles/tests",
-            "vendor/bin/symplify-cs fix src/TwitterBrandBuilder/src",
-            "vendor/bin/symplify-cs fix src/TwitterBrandBuilder/tests",
-            "vendor/bin/symplify-cs fix src/PHP7_Sculpin/src",
-            "vendor/bin/symplify-cs fix src/PHP7_Sculpin/tests"
+            "vendor/bin/symplify-cs fix src/*/src",
+            "vendor/bin/symplify-cs fix src/*/tests"
         ]
     }
 }
