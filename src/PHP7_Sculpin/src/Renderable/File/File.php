@@ -9,7 +9,6 @@ declare(strict_types=1);
 
 namespace Symplify\PHP7_Sculpin\Renderable\File;
 
-use Nette\Utils\Strings;
 use SplFileInfo;
 
 class File
@@ -80,6 +79,7 @@ class File
     {
         if ($position = strpos($this->outputPath, DIRECTORY_SEPARATOR.'index.html')) {
             $directoryPath = substr($this->outputPath, 0, $position);
+
             return str_replace('\\', '/', $directoryPath);
         }
 

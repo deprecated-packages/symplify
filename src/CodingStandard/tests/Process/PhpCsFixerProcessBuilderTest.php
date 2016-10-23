@@ -14,42 +14,29 @@ final class PhpCsFixerProcessBuilderTest extends TestCase
         $builder->setFixers('fixers');
 
         $this->assertSame(
-            $this->makeWindowsOsCompatible("'./vendor/bin/php-cs-fixer' 'fix' 'directory' '--fixers=fixers'"),
-            $builder->getProcess()->getCommandLine()
+            WindowsCompatibilityHelper::makeWindowsOsCompatible(
+                "'./vendor/bin/php-cs-fixer' 'fix' 'directory' '--fixers=fixers'"
+            ), $builder->getProcess()->getCommandLine()
         );
 
         $this->assertSame(
-            $this->makeWindowsOsCompatible("'./vendor/bin/php-cs-fixer' 'fix' 'directory' '--fixers=fixers'"),
-            $builder->getProcess()->getCommandLine()
+            WindowsCompatibilityHelper::makeWindowsOsCompatible(
+                "'./vendor/bin/php-cs-fixer' 'fix' 'directory' '--fixers=fixers'"
+            ), $builder->getProcess()->getCommandLine()
         );
 
         $builder->setLevel('level5');
         $this->assertSame(
-            $this->makeWindowsOsCompatible(
+            WindowsCompatibilityHelper::makeWindowsOsCompatible(
                 "'./vendor/bin/php-cs-fixer' 'fix' 'directory' '--fixers=fixers' '--level=level5'"
             ), $builder->getProcess()->getCommandLine()
         );
 
         $builder->enableDryRun();
         $this->assertSame(
-            $this->makeWindowsOsCompatible(
+            WindowsCompatibilityHelper::makeWindowsOsCompatible(
                 "'./vendor/bin/php-cs-fixer' 'fix' 'directory' '--fixers=fixers' '--level=level5' '--dry-run' '--diff'"
             ), $builder->getProcess()->getCommandLine()
         );
-    }
-
-
-    private function makeWindowsOsCompatible(string $command) : string
-    {
-        if (!$this->isWindows()) {
-            return $command;
-        }
-
-        return str_replace(['"', "'"], ["'", '"'], $command);
-    }
-
-    private function isWindows() : bool
-    {
-        return '\\' === DIRECTORY_SEPARATOR;
     }
 }
