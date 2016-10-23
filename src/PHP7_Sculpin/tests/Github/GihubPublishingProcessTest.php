@@ -14,7 +14,7 @@ final class GihubPublishingProcessTest extends TestCase
     /**
      * @var string
      */
-    private $outputDirectory = __DIR__.'/GithubPublishingProcessSource';
+    private $outputDirectory = __DIR__.DIRECTORY_SEPARATOR.'GithubPublishingProcessSource';
 
     /**
      * @var GihubPublishingProcess
@@ -41,15 +41,19 @@ final class GihubPublishingProcessTest extends TestCase
 
     public function testPushDirectoryContentToRepository()
     {
-        $this->assertFileNotExists($this->outputDirectory.'/.git');
+        $this->assertFileNotExists($this->outputDirectory.DIRECTORY_SEPARATOR.'.git');
 
         $this->githubPublishingProcess->pushDirectoryContentToRepository($this->outputDirectory, '');
 
-        $this->assertFileExists($this->outputDirectory.'/.git');
+        $this->assertFileExists($this->outputDirectory.DIRECTORY_SEPARATOR.'.git');
     }
 
     protected function tearDown()
     {
-        FileSystem::delete($this->outputDirectory.'/.git');
+        if (getenv('APPVEYOR')) { // AppVeyor doesn't have rights to delete
+            return;
+        }
+
+        FileSystem::delete($this->outputDirectory.DIRECTORY_SEPARATOR.'.git');
     }
 }

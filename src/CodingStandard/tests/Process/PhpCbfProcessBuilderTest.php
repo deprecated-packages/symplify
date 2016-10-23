@@ -11,19 +11,25 @@ final class PhpCbfProcessBuilderTest extends TestCase
     {
         $builder = new PhpCbfProcessBuilder('directory');
         $this->assertSame(
-            "'./vendor/bin/phpcbf' 'directory'",
+            WindowsCompatibilityHelper::makeWindowsOsCompatible(
+                "'./vendor/bin/phpcbf' 'directory'"
+            ),
             $builder->getProcess()->getCommandLine()
         );
 
         $builder->setExtensions('php5');
         $this->assertSame(
-            "'./vendor/bin/phpcbf' 'directory' '--extensions=php5'",
+            WindowsCompatibilityHelper::makeWindowsOsCompatible(
+                "'./vendor/bin/phpcbf' 'directory' '--extensions=php5'"
+            ),
             $builder->getProcess()->getCommandLine()
         );
 
         $builder->setStandard('standard');
         $this->assertSame(
-            "'./vendor/bin/phpcbf' 'directory' '--extensions=php5' '--standard=standard'",
+            WindowsCompatibilityHelper::makeWindowsOsCompatible(
+                "'./vendor/bin/phpcbf' 'directory' '--extensions=php5' '--standard=standard'"
+            ),
             $builder->getProcess()->getCommandLine()
         );
     }

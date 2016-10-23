@@ -20,20 +20,12 @@ final class SymplifyRunnerTest extends TestCase
 
     public function testRunForDirectory()
     {
+        $this->assertFalse($this->runner->hasErrors());
+
         $output = $this->runner->runForDirectory(__DIR__.'/SymplifyRunnerSource');
 
-        $this->assertStringMatchesFormat(
-            file_get_contents(__DIR__.'/SymplifyRunnerSource/expected.txt'),
-            $output
-        );
-    }
-
-    public function testHasErrors()
-    {
-        $this->assertFalse($this->runner->hasErrors());
-        $this->runner->runForDirectory(__DIR__.'/SymplifyRunnerSource');
-
         $this->assertTrue($this->runner->hasErrors());
+        $this->assertContains('SymplifyCodingStandard.Classes.FinalInterface', $output);
     }
 
     public function testFixDirectory()

@@ -13,6 +13,6 @@ final class PathNormalizer
 {
     public static function normalize(string $path) : string
     {
-        return strtr($path, '\\', DIRECTORY_SEPARATOR);
+        return str_replace(['\\', '/'], [DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR], $path);
     }
 }

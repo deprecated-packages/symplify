@@ -2,6 +2,7 @@
 
 This is developement repository = ALL PRs and ISSUEs HERE!
 
+[![Build Status Windows](https://img.shields.io/appveyor/ci/tomasvotruba/Symplify.svg?style=flat-square)](https://ci.appveyor.com/project/TomasVotruba/Symplify)
 [![Build Status](https://img.shields.io/travis/Symplify/Symplify.svg?style=flat-square)](https://travis-ci.org/Symplify/Symplify)
 [![Quality Score](https://img.shields.io/scrutinizer/g/Symplify/Symplify.svg?style=flat-square)](https://scrutinizer-ci.com/g/Symplify/Symplify)
 [![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/Symplify/Symplify.svg?style=flat-square)](https://scrutinizer-ci.com/g/Symplify/Symplify)

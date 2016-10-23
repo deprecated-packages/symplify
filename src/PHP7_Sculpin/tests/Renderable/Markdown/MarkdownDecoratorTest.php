@@ -28,7 +28,7 @@ final class MarkdownDecoratorTest extends TestCase
         $file = $this->createFileFromFilePath(__DIR__.'/MarkdownDecoratorSource/someFile.latte');
         $this->markdownDecorator->decorateFile($file);
 
-        $this->assertSame('# Content...'.PHP_EOL, $file->getContent());
+        $this->assertContains('# Content...', $file->getContent());
     }
 
     public function testMarkdown()
@@ -36,7 +36,7 @@ final class MarkdownDecoratorTest extends TestCase
         $file = $this->createFileFromFilePath(__DIR__.'/MarkdownDecoratorSource/someFile.md');
         $this->markdownDecorator->decorateFile($file);
 
-        $this->assertSame('<h1>Content...</h1>'.PHP_EOL, $file->getContent());
+        $this->assertContains('<h1>Content...</h1>', $file->getContent());
     }
 
     private function createFileFromFilePath(string $filePath) : File

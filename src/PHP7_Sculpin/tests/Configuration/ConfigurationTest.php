@@ -37,8 +37,8 @@ final class ConfigurationTest extends TestCase
         $this->configuration->loadOptionsFromFiles([$neonConfigFile, $yamlConfigFile]);
 
         $this->assertSame([
-            'multiline' => 'one'.PHP_EOL.'two'.PHP_EOL.'three',
-            'another_multiline' => 'one two three'.PHP_EOL,
+            'key' => 'value',
+            'another_key' => 'another_value',
         ], $this->configuration->getOptions());
     }
 }

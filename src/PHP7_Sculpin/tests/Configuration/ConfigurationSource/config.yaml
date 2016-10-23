@@ -1,4 +1,1 @@
-another_multiline: >
-    one
-    two
-    three
+another_key: another_value

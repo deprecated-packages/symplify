@@ -34,7 +34,7 @@ final class RenderableFilesProcessorTest extends TestCase
 
     public function test()
     {
-        $finder = Finder::find('*')->from(__DIR__.'/RenderFilesProcessorSource/source')->getIterator();
+        $finder = Finder::findFiles('*')->from(__DIR__.'/RenderFilesProcessorSource/source')->getIterator();
         $fileInfos = iterator_to_array($finder);
 
         $this->renderableFilesProcessor->processFiles($fileInfos);
@@ -48,7 +48,7 @@ final class RenderableFilesProcessorTest extends TestCase
 
     public function testPosts()
     {
-        $finder = Finder::find('*')->from(__DIR__.'/RenderFilesProcessorSource/source/_posts')->getIterator();
+        $finder = Finder::findFiles('*')->from(__DIR__.'/RenderFilesProcessorSource/source/_posts')->getIterator();
         $fileInfos = iterator_to_array($finder);
 
         $this->renderableFilesProcessor->processFiles($fileInfos);
@@ -60,6 +60,10 @@ final class RenderableFilesProcessorTest extends TestCase
 
     protected function tearDown()
     {
+        if (getenv('APPVEYOR')) { // AppVeyor doesn't have rights to delete
+            return;
+        }
+
         FileSystem::delete(__DIR__.'/RenderFilesProcessorSource/output');
     }
 }

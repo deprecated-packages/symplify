@@ -38,7 +38,8 @@ final class LatteDecoratorTest extends TestCase
         $file = new File($fileInfo, 'contact.latte');
         $this->latteDecorator->decorateFile($file);
 
-        $this->assertContains('This is layout!'.PHP_EOL.PHP_EOL.'Contact us!', $file->getContent());
+        $this->assertContains('This is layout!', $file->getContent());
+        $this->assertContains('Contact us!', $file->getContent());
     }
 
     public function testDecorateFileWithAnotherLayout()
@@ -51,7 +52,8 @@ final class LatteDecoratorTest extends TestCase
 
         $this->latteDecorator->decorateFile($file);
 
-        $this->assertContains('This is layout!'.PHP_EOL.PHP_EOL.'Contact us with another layout!', $file->getContent());
+        $this->assertContains('This is layout!', $file->getContent());
+        $this->assertContains('Contact us with another layout!', $file->getContent());
     }
 
     public function testDecorateFileWithLayout()
@@ -64,7 +66,8 @@ final class LatteDecoratorTest extends TestCase
 
         $this->latteDecorator->decorateFile($file);
 
-        $this->assertContains('This is layout!'.PHP_EOL.PHP_EOL.'Contact us!', $file->getContent());
+        $this->assertContains('This is layout!', $file->getContent());
+        $this->assertContains('Contact us!', $file->getContent());
     }
 
     private function createLatteEngine(ILoader $loader) : Engine

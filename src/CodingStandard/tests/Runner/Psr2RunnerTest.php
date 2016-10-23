@@ -20,19 +20,11 @@ final class Psr2RunnerTest extends TestCase
 
     public function testRunForDirectory()
     {
+        $this->assertFalse($this->runner->hasErrors());
+
         $output = $this->runner->runForDirectory(__DIR__.'/Psr2RunnerSource');
 
-        $this->assertStringMatchesFormat(
-            file_get_contents(__DIR__.'/Psr2RunnerSource/expected.txt'),
-            $output
-        );
-    }
-
-    public function testHasErrors()
-    {
-        $this->assertFalse($this->runner->hasErrors());
-        $this->runner->runForDirectory(__DIR__.'/Psr2RunnerSource');
-
+        $this->assertContains('PSR2.Classes.ClassDeclaration.OpenBraceNewLine', $output);
         $this->assertTrue($this->runner->hasErrors());
     }
 
