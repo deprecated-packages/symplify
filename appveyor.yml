@@ -1,4 +1,8 @@
 build: false
+clone_depth: 1
+
+except:
+  - master # build only on PRs
 
 platform: x64
 
