@@ -19,9 +19,6 @@ final class SymfonyRunner implements RunnerInterface
      */
     private $hasErrors = false;
 
-    /**
-     * {@inheritdoc}
-     */
     public function runForDirectory(string $directory) : string
     {
         $builder = new PhpCsFixerProcessBuilder($directory);
@@ -37,17 +34,11 @@ final class SymfonyRunner implements RunnerInterface
         return $process->getOutput();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function hasErrors() : bool
     {
         return $this->hasErrors;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function fixDirectory(string $directory) : string
     {
         $builder = new PhpCsFixerProcessBuilder($directory);

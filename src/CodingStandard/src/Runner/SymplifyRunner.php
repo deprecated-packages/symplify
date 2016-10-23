@@ -30,9 +30,6 @@ final class SymplifyRunner implements RunnerInterface
         $this->extensions = $extensions;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function runForDirectory(string $directory) : string
     {
         $builder = new PhpCsProcessBuilder($directory);
@@ -47,17 +44,11 @@ final class SymplifyRunner implements RunnerInterface
         return $process->getOutput();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function hasErrors() : bool
     {
         return $this->hasErrors;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function fixDirectory(string $directory) : string
     {
         $builder = new PhpCbfProcessBuilder($directory);
@@ -70,10 +61,7 @@ final class SymplifyRunner implements RunnerInterface
         return $process->getOutput();
     }
 
-    /**
-     * @param string $output
-     */
-    private function detectErrorsInOutput($output)
+    private function detectErrorsInOutput(string $output)
     {
         if (strpos($output, 'ERROR') !== false) {
             $this->hasErrors = true;

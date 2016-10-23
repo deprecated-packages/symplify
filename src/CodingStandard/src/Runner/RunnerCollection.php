@@ -19,16 +19,13 @@ final class RunnerCollection implements RunnerCollectionInterface
      */
     private $runners = [];
 
-    /**
-     * {@inheritdoc}
-     */
     public function addRunner(RunnerInterface $runner)
     {
         $this->runners[] = $runner;
     }
 
     /**
-     * {@inheritdoc}
+     * @return RunnerInterface[]
      */
     public function getRunners() : array
     {

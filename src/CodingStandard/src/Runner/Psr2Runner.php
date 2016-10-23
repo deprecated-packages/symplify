@@ -30,9 +30,6 @@ final class Psr2Runner implements RunnerInterface
         $this->extensions = $extensions;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function runForDirectory(string $directory) : string
     {
         $builder = new PhpCsProcessBuilder($directory);
@@ -47,17 +44,11 @@ final class Psr2Runner implements RunnerInterface
         return $process->getOutput();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function hasErrors() : bool
     {
         return $this->hasErrors;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function fixDirectory(string $directory) : string
     {
         $builder = new PhpCbfProcessBuilder($directory);
