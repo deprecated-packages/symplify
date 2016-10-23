@@ -41,6 +41,7 @@ final class ControllerFinder implements ControllerFinderInterface
 
         $indexedClasses = array_keys($robot->getIndexedClasses());
         sort($indexedClasses);
+
         return $indexedClasses;
     }
 }
