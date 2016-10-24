@@ -24,6 +24,16 @@ final class Configuration
      */
     private $yamlAndNeonParser;
 
+    /**
+     * @var string
+     */
+    private $sourceDirectory;
+
+    /**
+     * @var string
+     */
+    private $outputDirectory;
+
     public function __construct(YamlAndNeonParser $yamlAndNeonParser)
     {
         $this->yamlAndNeonParser = $yamlAndNeonParser;
@@ -52,5 +62,25 @@ final class Configuration
     public function getOptions() : array
     {
         return $this->options;
+    }
+
+    public function setSourceDirectory(string $sourceDirectory)
+    {
+        $this->sourceDirectory = $sourceDirectory;
+    }
+
+    public function getSourceDirectory() : string
+    {
+        return $this->sourceDirectory;
+    }
+
+    public function setOutputDirectory(string $outputDirectory)
+    {
+        $this->outputDirectory = $outputDirectory;
+    }
+
+    public function getOutputDirectory() : string
+    {
+        return $this->outputDirectory;
     }
 }

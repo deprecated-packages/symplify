@@ -7,6 +7,8 @@ namespace Symplify\PHP7_Sculpin\Tests\Output;
 use Nette\Utils\FileSystem;
 use PHPUnit\Framework\TestCase;
 use SplFileInfo;
+use Symplify\PHP7_Sculpin\Configuration\Configuration;
+use Symplify\PHP7_Sculpin\Configuration\Parser\YamlAndNeonParser;
 use Symplify\PHP7_Sculpin\Output\FileSystemWriter;
 use Symplify\PHP7_Sculpin\Renderable\File\File;
 
@@ -29,7 +31,11 @@ final class FileSystemWriterTest extends TestCase
 
     protected function setUp()
     {
-        $this->fileSystemWriter = new FileSystemWriter($this->sourceDirectory, $this->outputDirectory);
+        $configuration = new Configuration(new YamlAndNeonParser());
+        $configuration->setSourceDirectory($this->sourceDirectory);
+        $configuration->setOutputDirectory($this->outputDirectory);
+
+        $this->fileSystemWriter = new FileSystemWriter($configuration);
     }
 
     public function testCopyStaticFiles()

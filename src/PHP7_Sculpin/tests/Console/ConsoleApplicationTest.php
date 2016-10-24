@@ -32,6 +32,5 @@ final class ConsoleApplicationTest extends TestCase
         $definition = $this->consoleApplication->getDefinition();
         $this->assertSame(1, $definition->getArgumentCount());
         $this->assertTrue($definition->hasOption('help'));
-        $this->assertTrue($definition->hasOption('version'));
     }
 }

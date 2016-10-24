@@ -11,17 +11,18 @@ namespace Symplify\PHP7_Sculpin\Renderable\File;
 
 use Nette\Utils\Strings;
 use SplFileInfo;
+use Symplify\PHP7_Sculpin\Configuration\Configuration;
 
 final class FileFactory
 {
     /**
-     * @var string
+     * @var Configuration
      */
-    private $sourceDirectory;
+    private $configuration;
 
-    public function __construct(string $sourceDirectory)
+    public function __construct(Configuration $configuration)
     {
-        $this->sourceDirectory = $sourceDirectory;
+        $this->configuration = $configuration;
     }
 
     /**
@@ -29,7 +30,7 @@ final class FileFactory
      */
     public function create(SplFileInfo $file) : File
     {
-        $relativeSource = substr($file->getPathname(), strlen($this->sourceDirectory));
+        $relativeSource = substr($file->getPathname(), strlen($this->configuration->getSourceDirectory()));
         $relativeSource = ltrim($relativeSource, DIRECTORY_SEPARATOR);
 
         if (Strings::endsWith($file->getPath(), '_posts')) {

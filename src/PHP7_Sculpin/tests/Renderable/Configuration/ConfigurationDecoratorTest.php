@@ -6,6 +6,7 @@ namespace Symplify\PHP7_Sculpin\Tests\Renderable\Configuration;
 
 use PHPUnit\Framework\TestCase;
 use SplFileInfo;
+use Symplify\PHP7_Sculpin\Configuration\Configuration;
 use Symplify\PHP7_Sculpin\Configuration\Parser\YamlAndNeonParser;
 use Symplify\PHP7_Sculpin\Renderable\Configuration\ConfigurationDecorator;
 use Symplify\PHP7_Sculpin\Renderable\File\FileFactory;
@@ -30,7 +31,9 @@ final class ConfigurationDecoratorTest extends TestCase
     public function testDecorateFile(string $filePath, string $fileContent, array $expectedConfiguration)
     {
         $fileInfo = new SplFileInfo($filePath);
-        $filePath = (new FileFactory('sourceDirectory'))->create($fileInfo);
+        $configuration = new Configuration(new YamlAndNeonParser());
+        $configuration->setSourceDirectory('sourceDirectory');
+        $filePath = (new FileFactory($configuration))->create($fileInfo);
 
         $this->assertSame([], $filePath->getConfiguration());
         $this->assertNotSame($fileContent, $filePath->getContent());

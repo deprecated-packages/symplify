@@ -20,27 +20,12 @@ use Throwable;
 final class GenerateCommand extends Command
 {
     /**
-     * @var string
-     */
-    private $sourceDirectory;
-
-    /**
-     * @var string
-     */
-    private $outputDirectory;
-
-    /**
      * @var SculpinApplication
      */
     private $sculpinApplication;
 
-    public function __construct(
-        string $sourceDirectory,
-        string $outputDirectory,
-        SculpinApplication $sculpinApplication
-    ) {
-        $this->sourceDirectory = $sourceDirectory;
-        $this->outputDirectory = $outputDirectory;
+    public function __construct(SculpinApplication $sculpinApplication)
+    {
         $this->sculpinApplication = $sculpinApplication;
 
         parent::__construct();
@@ -51,6 +36,21 @@ final class GenerateCommand extends Command
         $this->setName('generate');
         $this->setDescription('Generate a site from source.');
         $this->addOption('server', null, InputOption::VALUE_NONE, 'Start local server to host your generated site.');
+
+        $this->addOption(
+            'source',
+            null,
+            InputOption::VALUE_REQUIRED,
+            'Directory to load page FROM.',
+            getcwd().DIRECTORY_SEPARATOR.'source'
+        );
+        $this->addOption(
+            'output',
+            null,
+            InputOption::VALUE_REQUIRED,
+            'Directory to generate page TO.',
+            getcwd().DIRECTORY_SEPARATOR.'output'
+        );
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -58,9 +58,10 @@ final class GenerateCommand extends Command
         try {
             $runCommand = new RunCommand(
                 (bool) $input->getOption('server'),
-                $this->sourceDirectory,
-                $this->outputDirectory
+                $input->getOption('source'),
+                $input->getOption('output')
             );
+
             $this->sculpinApplication->runCommand($runCommand);
 
             $output->writeln('<info>Website was successfully generated.</info>');

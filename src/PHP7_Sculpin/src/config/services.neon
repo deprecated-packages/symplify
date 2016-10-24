@@ -5,8 +5,8 @@ services:
 
     # console
     - Symplify\PHP7_Sculpin\Console\ConsoleApplication
-    - Symplify\PHP7_Sculpin\Console\Command\GenerateCommand(%sourceDir%, %outputDir%)
-    - Symplify\PHP7_Sculpin\Console\Command\PushToGithubCommand(%outputDir%)
+    - Symplify\PHP7_Sculpin\Console\Command\GenerateCommand
+    - Symplify\PHP7_Sculpin\Console\Command\PushToGithubCommand
     - Symfony\Component\Console\Output\ConsoleOutput
 
     # core
@@ -21,7 +21,7 @@ services:
     - Symplify\PHP7_Sculpin\Source\SourceFileFilter\StaticSourceFilter
 
     # renderable
-    - Symplify\PHP7_Sculpin\Renderable\File\FileFactory(%sourceDir%)
+    - Symplify\PHP7_Sculpin\Renderable\File\FileFactory
     - Symplify\PHP7_Sculpin\Renderable\RenderableFilesProcessor
     - Michelf\MarkdownExtra
 
@@ -39,7 +39,7 @@ services:
     - Symplify\PHP7_Sculpin\Renderable\Markdown\MarkdownDecorator
 
     # output
-    - Symplify\PHP7_Sculpin\Output\FileSystemWriter(%sourceDir%, %outputDir%)
+    - Symplify\PHP7_Sculpin\Output\FileSystemWriter
 
     # github
     - Symplify\PHP7_Sculpin\Github\GihubPublishingProcess

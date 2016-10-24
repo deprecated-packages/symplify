@@ -1,6 +1,0 @@
-extensions:
-    sculpin: Symplify\PHP7_Sculpin\DI\SculpinCompilerExtension
-
-sculpin:
-    sourceDir: %appDir%/../../../tests/Renderable/RenderFilesProcessorSource/source
-    outputDir: %appDir%/../../../tests/Renderable/RenderFilesProcessorSource/output

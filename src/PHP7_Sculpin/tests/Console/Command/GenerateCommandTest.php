@@ -7,19 +7,39 @@ namespace Symplify\PHP7_Sculpin\Tests\Console\Command;
 use Nette\Utils\FileSystem;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Input\ArgvInput;
+use Symfony\Component\Console\Input\InputDefinition;
+use Symfony\Component\Console\Input\StringInput;
 use Symfony\Component\Console\Output\NullOutput;
 use Symplify\PHP7_Sculpin\Console\ConsoleApplication;
 use Symplify\PHP7_Sculpin\DI\Container\ContainerFactory;
 
 final class GenerateCommandTest extends TestCase
 {
+    /**
+     * @var ConsoleApplication
+     */
+    private $application;
+
+    protected function setUp()
+    {
+        $container = (new ContainerFactory())->create();
+
+        /* @var ConsoleApplication $application */
+        $this->application = $container->getByType(ConsoleApplication::class);
+        $this->application->setAutoExit(false);
+    }
+
+
     public function test()
     {
-        $application = $this->getApplicationForConfig(__DIR__ . '/GenerateCommandSource/config/config.neon');
+        $stringInput = sprintf(
+            'generate --source %s --output %s',
+            __DIR__.'/GenerateCommandSource/source',
+            __DIR__.'/GenerateCommandSource/output'
+        );
 
-        $input = new ArgvInput(['Application name', 'generate']);
-
-        $result = $application->run($input, new NullOutput());
+        $input = new StringInput($stringInput);
+        $result = $this->application->run($input, new NullOutput());
         $this->assertSame(0, $result);
 
         $this->assertFileExists(__DIR__ . '/GenerateCommandSource/output/index.html');
@@ -27,28 +47,17 @@ final class GenerateCommandTest extends TestCase
 
     public function testException()
     {
-        $application = $this->getApplicationForConfig(
-            __DIR__ . '/GenerateCommandSource/config/configWithMissingSource.neon'
+        $stringInput = sprintf(
+            'generate --source %s',
+            __DIR__.'/GenerateCommandSource/missing'
         );
+        $input = new StringInput($stringInput);
 
-        $input = new ArgvInput(['Application name', 'generate']);
-
-        $this->assertSame(1, $application->run($input, new NullOutput()));
+        $this->assertSame(1, $this->application->run($input, new NullOutput()));
     }
 
     protected function tearDown()
     {
         FileSystem::delete(__DIR__ . '/GenerateCommandSource/output');
-    }
-
-    protected function getApplicationForConfig(string $config) : ConsoleApplication
-    {
-        $container = (new ContainerFactory())->createWithConfig($config);
-
-        /* @var ConsoleApplication $application */
-        $application = $container->getByType(ConsoleApplication::class);
-        $application->setAutoExit(false);
-
-        return $application;
     }
 }

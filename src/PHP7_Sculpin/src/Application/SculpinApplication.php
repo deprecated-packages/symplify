@@ -92,6 +92,8 @@ final class SculpinApplication
 
     private function processCommand(RunCommand $runCommand)
     {
+        $this->loadConfigurationWithDirectories($runCommand);
+
         FilesystemChecker::ensureDirectoryExists($runCommand->getSourceDirectory());
 
         $this->loadSourcesFromSourceDirectory($runCommand->getSourceDirectory());
@@ -110,6 +112,12 @@ final class SculpinApplication
 
         // 5. render files
         $this->renderableFilesProcessor->processFiles($this->sourceFileStorage->getRenderableFiles());
+    }
+
+    private function loadConfigurationWithDirectories(RunCommand $runCommand)
+    {
+        $this->configuration->setSourceDirectory($runCommand->getSourceDirectory());
+        $this->configuration->setOutputDirectory($runCommand->getOutputDirectory());
     }
 
     private function loadSourcesFromSourceDirectory(string $sourceDirectory)

@@ -1,6 +1,2 @@
 extensions:
     sculpin: Symplify\PHP7_Sculpin\DI\SculpinCompilerExtension
-
-sculpin:
-    sourceDir: missing
-    outputDir: %appDir%/../../../tests/Console/Command/GenerateCommandSource/output

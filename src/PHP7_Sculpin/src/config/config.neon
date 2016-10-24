@@ -2,6 +2,4 @@ extensions:
     sculpin: Symplify\PHP7_Sculpin\DI\SculpinCompilerExtension
 
 sculpin:
-    sourceDir: %appDir%/../../../source
-    outputDir: %appDir%/../../../output
     postRoute: blog/:year/:month/:day/:filename
