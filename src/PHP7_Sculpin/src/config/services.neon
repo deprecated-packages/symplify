@@ -47,3 +47,5 @@ services:
     # http
     - Symplify\PHP7_Sculpin\HttpServer\HttpServer
     - Symplify\PHP7_Sculpin\HttpServer\ResponseWriter
+    - Mimey\MimeTypes
+    - Symplify\PHP7_Sculpin\HttpServer\MimeType\MimeTypeDetector

@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace Symplify\PHP7_Sculpin\Tests\HttpServer;
 
+use Mimey\MimeTypes;
 use PHPUnit\Framework\TestCase;
 use React\Http\Request;
 use React\Http\Response;
 use React\Tests\Http\ConnectionStub;
 use Symfony\Component\Console\Output\BufferedOutput;
+use Symplify\PHP7_Sculpin\HttpServer\MimeType\MimeTypeDetector;
 use Symplify\PHP7_Sculpin\HttpServer\ResponseWriter;
 
 final class ResponseWriterTest extends TestCase
@@ -31,7 +33,8 @@ final class ResponseWriterTest extends TestCase
     protected function setUp()
     {
         $this->bufferedOutput = new BufferedOutput();
-        $this->responseWriter = new ResponseWriter($this->bufferedOutput);
+        $mimeTypeDetector = new MimeTypeDetector(new MimeTypes());
+        $this->responseWriter = new ResponseWriter($this->bufferedOutput, $mimeTypeDetector);
     }
 
     public function testSend200Response()
@@ -44,7 +47,7 @@ final class ResponseWriterTest extends TestCase
         $this->responseWriter->send200Response($request, $response, $this->someFilePath);
 
         $this->assertContains('HTTP/1.1 200 OK', $connectionStub->getData());
-        $this->assertContains('Content-Type: text/html', $connectionStub->getData());
+        $this->assertContains('Content-Type: text/plain', $connectionStub->getData());
         $this->assertContains(file_get_contents($this->someFilePath), $connectionStub->getData());
 
         $this->assertContains('Response code "200" for path: "/"', $this->bufferedOutput->fetch());

@@ -12,6 +12,7 @@ namespace Symplify\PHP7_Sculpin\HttpServer;
 use React\Http\Request;
 use React\Http\Response;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symplify\PHP7_Sculpin\HttpServer\MimeType\MimeTypeDetector;
 
 final class ResponseWriter
 {
@@ -20,9 +21,15 @@ final class ResponseWriter
      */
     private $output;
 
-    public function __construct(OutputInterface $output)
+    /**
+     * @var MimeTypeDetector
+     */
+    private $mimeTypeDetector;
+
+    public function __construct(OutputInterface $output, MimeTypeDetector $mimeTypeDetector)
     {
         $this->output = $output;
+        $this->mimeTypeDetector = $mimeTypeDetector;
     }
 
     public function send404Response(Request $request, Response $response)
@@ -41,7 +48,7 @@ final class ResponseWriter
     public function send200Response(Request $request, Response $response, string $path)
     {
         $response->writeHead(200, [
-            'Content-Type' => 'text/html',
+            'Content-Type' => $this->mimeTypeDetector->detectForFilename($path),
         ]);
 
         $this->writeResponse(200, $request->getPath());
