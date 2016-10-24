@@ -45,5 +45,5 @@ services:
     - Symplify\PHP7_Sculpin\Github\GihubPublishingProcess
 
     # http
-    - Symplify\PHP7_Sculpin\HttpServer\HttpServer(%outputDir%)
+    - Symplify\PHP7_Sculpin\HttpServer\HttpServer
     - Symplify\PHP7_Sculpin\HttpServer\ResponseWriter

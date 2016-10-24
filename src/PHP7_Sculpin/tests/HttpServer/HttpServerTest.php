@@ -6,6 +6,8 @@ namespace Symplify\PHP7_Sculpin\Tests\HttpServer;
 
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Output\NullOutput;
+use Symplify\PHP7_Sculpin\Configuration\Configuration;
+use Symplify\PHP7_Sculpin\Configuration\Parser\YamlAndNeonParser;
 use Symplify\PHP7_Sculpin\HttpServer\HttpServer;
 use Symplify\PHP7_Sculpin\HttpServer\ResponseWriter;
 
@@ -19,7 +21,9 @@ final class HttpServerTest extends TestCase
     protected function setUp()
     {
         $output = new NullOutput();
-        $this->httpServer = new HttpServer('outputDirectory', $output, new ResponseWriter($output));
+        $configuration = new Configuration(new YamlAndNeonParser());
+        $configuration->setOutputDirectory('outputDirectory');
+        $this->httpServer = new HttpServer($configuration, $output, new ResponseWriter($output));
     }
 
     public function test()

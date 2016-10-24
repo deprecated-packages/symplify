@@ -15,13 +15,14 @@ use React\Http\Response;
 use React\Http\Server as ReactHttpServer;
 use React\Socket\Server as ReactSocketServer;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symplify\PHP7_Sculpin\Configuration\Configuration;
 
 final class HttpServer
 {
     /**
-     * @var string
+     * @var Configuration
      */
-    private $outputDirectory;
+    private $configuration;
 
     /**
      * @var StreamSelectLoop
@@ -53,9 +54,9 @@ final class HttpServer
      */
     private $responseWriter;
 
-    public function __construct(string $outputDirectory, OutputInterface $output, ResponseWriter $responseWriter)
+    public function __construct(Configuration $configuration, OutputInterface $output, ResponseWriter $responseWriter)
     {
-        $this->outputDirectory = $outputDirectory;
+        $this->configuration = $configuration;
         $this->output = $output;
         $this->responseWriter = $responseWriter;
     }
@@ -67,7 +68,7 @@ final class HttpServer
         $this->port = $port;
 
         $this->reactHttpServer->on('request', function (Request $request, Response $response) {
-            $path = $this->outputDirectory . '/' . ltrim(rawurldecode($request->getPath()), '/');
+            $path = $this->configuration->getOutputDirectory() . '/' . ltrim(rawurldecode($request->getPath()), '/');
             if (is_dir($path)) {
                 $path .= '/index.html';
             }
