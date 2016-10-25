@@ -34,8 +34,8 @@ final class GenerateCommandTest extends TestCase
     {
         $stringInput = sprintf(
             'generate --source %s --output %s',
-            __DIR__.'/GenerateCommandSource/source',
-            __DIR__.'/GenerateCommandSource/output'
+            __DIR__ . DIRECTORY_SEPARATOR . 'GenerateCommandSource' . DIRECTORY_SEPARATOR . 'source',
+            __DIR__ . DIRECTORY_SEPARATOR . 'GenerateCommandSource' . DIRECTORY_SEPARATOR . 'output'
         );
 
         $input = new StringInput($stringInput);
@@ -49,7 +49,7 @@ final class GenerateCommandTest extends TestCase
     {
         $stringInput = sprintf(
             'generate --source %s',
-            __DIR__.'/GenerateCommandSource/missing'
+            __DIR__.DIRECTORY_SEPARATOR.'GenerateCommandSource'.'missing'
         );
         $input = new StringInput($stringInput);
 
@@ -58,6 +58,6 @@ final class GenerateCommandTest extends TestCase
 
     protected function tearDown()
     {
-        FileSystem::delete(__DIR__ . '/GenerateCommandSource/output');
+        FileSystem::delete(__DIR__ . DIRECTORY_SEPARATOR . 'GenerateCommandSource' . DIRECTORY_SEPARATOR . 'output');
     }
 }
