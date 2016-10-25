@@ -102,7 +102,7 @@ final class SculpinApplication
         $this->fileSystemWriter->copyStaticFiles($this->sourceFileStorage->getStaticFiles());
 
         // 2. collect configuration
-        $this->configuration->loadOptionsFromFiles($this->sourceFileStorage->getConfigurationFiles());
+        $this->configuration->loadFromFiles($this->sourceFileStorage->getConfigurationFiles());
 
         // 3. collect layouts
         $this->loadLayoutsToLatteLoader($this->sourceFileStorage->getLayoutFiles());

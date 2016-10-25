@@ -55,7 +55,7 @@ final class RenderableFilesProcessorTest extends TestCase
         $this->renderableFilesProcessor->processFiles($fileInfos);
 
         $this->assertTrue(
-            isset($this->configuration->getOptions()['posts'])
+            isset($this->configuration->getGlobalVariables()['posts'])
         );
     }
 

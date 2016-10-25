@@ -20,7 +20,9 @@ final class RoutingDecoratorTest extends TestCase
 
     protected function setUp()
     {
-        $this->routeDecorator = new RouteDecorator('blog/:title');
+        $configuration = new Configuration(new YamlAndNeonParser());
+        $configuration->setPostRoute('blog/:title');
+        $this->routeDecorator = new RouteDecorator($configuration);
     }
 
     public function test()

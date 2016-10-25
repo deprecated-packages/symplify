@@ -52,7 +52,7 @@ final class Configuration
     /**
      * @param SplFileInfo[] $files
      */
-    public function loadOptionsFromFiles(array $files)
+    public function loadFromFiles(array $files)
     {
         foreach ($files as $file) {
             $decodedOptions = $this->yamlAndNeonParser->decodeFromFile($file->getRealPath());
@@ -94,6 +94,11 @@ final class Configuration
         return $this->outputDirectory;
     }
 
+    public function setPostRoute(string $postRoute)
+    {
+        $this->postRoute = $postRoute;
+    }
+
     public function getPostRoute() : string
     {
         return $this->postRoute;
@@ -105,7 +110,7 @@ final class Configuration
             return $options;
         }
 
-        $this->postRoute = $options['configuration']['postRoute'];
+        $this->setPostRoute($options['configuration']['postRoute']);
         unset($options['configuration']['postRoute']);
 
         return $options;
