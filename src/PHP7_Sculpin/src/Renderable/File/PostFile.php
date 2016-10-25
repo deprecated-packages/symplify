@@ -9,12 +9,13 @@ declare(strict_types=1);
 
 namespace Symplify\PHP7_Sculpin\Renderable\File;
 
+use ArrayAccess;
 use DateTimeInterface;
 use Exception;
 use SplFileInfo;
 use Symplify\PHP7_Sculpin\Utils\PathAnalyzer;
 
-final class PostFile extends File implements \ArrayAccess
+final class PostFile extends AbstractFile implements ArrayAccess
 {
     /**
      * @var DateTimeInterface
@@ -29,10 +30,10 @@ final class PostFile extends File implements \ArrayAccess
     public function __construct(SplFileInfo $fileInfo, string $relativeSource)
     {
         parent::__construct($fileInfo, $relativeSource);
+
         $this->ensurePathStartsWithDate($fileInfo);
 
-        $this->configuration['date'] = $this->date = PathAnalyzer::detectDate($fileInfo);
-
+        $this->date = PathAnalyzer::detectDate($fileInfo);
         $this->filenameWithoutDate = PathAnalyzer::detectFilenameWithoutDate($fileInfo);
     }
 
@@ -55,6 +56,10 @@ final class PostFile extends File implements \ArrayAccess
     {
         if ($offset === 'content') {
             return $this->getContent();
+        }
+
+        if ($offset === 'date') {
+            return $this->getDate();
         }
 
         if (!isset($this->configuration[$offset])) {

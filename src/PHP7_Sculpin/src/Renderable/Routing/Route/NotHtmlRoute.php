@@ -9,15 +9,12 @@ declare(strict_types=1);
 
 namespace Symplify\PHP7_Sculpin\Renderable\Routing\Route;
 
-use Symplify\PHP7_Sculpin\Configuration\Configuration;
 use Symplify\PHP7_Sculpin\Contract\Renderable\Routing\Route\RouteInterface;
-use Symplify\PHP7_Sculpin\Renderable\File\File;
-use Symplify\PHP7_Sculpin\Renderable\File\PostFile;
-use Symplify\PHP7_Sculpin\Utils\PathNormalizer;
+use Symplify\PHP7_Sculpin\Renderable\File\AbstractFile;
 
 final class NotHtmlRoute implements RouteInterface
 {
-    public function matches(File $file) : bool
+    public function matches(AbstractFile $file) : bool
     {
         return in_array(
             $file->getPrimaryExtension(),
@@ -25,7 +22,7 @@ final class NotHtmlRoute implements RouteInterface
         );
     }
 
-    public function buildOutputPath(File $file) : string
+    public function buildOutputPath(AbstractFile $file) : string
     {
         if (in_array($file->getExtension(), ['latte', 'md'])) {
             return $file->getBaseName();
@@ -34,7 +31,7 @@ final class NotHtmlRoute implements RouteInterface
         return $file->getBaseName() . '.' . $file->getPrimaryExtension();
     }
 
-    public function buildRelativeUrl(File $file) : string
+    public function buildRelativeUrl(AbstractFile $file) : string
     {
         return $this->buildOutputPath($file);
     }

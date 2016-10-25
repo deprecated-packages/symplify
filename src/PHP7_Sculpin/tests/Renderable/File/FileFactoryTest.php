@@ -10,6 +10,7 @@ use PHPUnit\Framework\TestCase;
 use SplFileInfo;
 use Symplify\PHP7_Sculpin\Configuration\Configuration;
 use Symplify\PHP7_Sculpin\Configuration\Parser\YamlAndNeonParser;
+use Symplify\PHP7_Sculpin\Renderable\File\AbstractFile;
 use Symplify\PHP7_Sculpin\Renderable\File\File;
 use Symplify\PHP7_Sculpin\Renderable\File\FileFactory;
 use Symplify\PHP7_Sculpin\Renderable\File\PostFile;
@@ -69,7 +70,7 @@ final class FileFactoryTest extends TestCase
     /**
      * @return File|PostFile
      */
-    private function createFileFromPath(string $filePath) : File
+    private function createFileFromPath(string $filePath) : AbstractFile
     {
         $fileInfo = new SplFileInfo($filePath);
 

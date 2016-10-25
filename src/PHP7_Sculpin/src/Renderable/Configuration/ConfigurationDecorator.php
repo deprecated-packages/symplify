@@ -10,7 +10,7 @@ declare(strict_types=1);
 namespace Symplify\PHP7_Sculpin\Renderable\Configuration;
 
 use Symplify\PHP7_Sculpin\Configuration\Parser\YamlAndNeonParser;
-use Symplify\PHP7_Sculpin\Renderable\File\File;
+use Symplify\PHP7_Sculpin\Renderable\File\AbstractFile;
 
 final class ConfigurationDecorator
 {
@@ -24,7 +24,7 @@ final class ConfigurationDecorator
         $this->yamlAndNeonParser = $yamlAndNeonParser;
     }
 
-    public function decorateFile(File $file)
+    public function decorateFile(AbstractFile $file)
     {
         if (preg_match('/^\s*(?:---[\s]*[\r\n]+)(.*?)(?:---[\s]*[\r\n]+)(.*?)$/s', $file->getContent(), $matches)) {
             $file->changeContent($matches[2]);
@@ -33,7 +33,7 @@ final class ConfigurationDecorator
         }
     }
 
-    private function setConfigurationToFileIfFoundAny(string $content, File $file)
+    private function setConfigurationToFileIfFoundAny(string $content, AbstractFile $file)
     {
         if (! preg_match('/^(\s*[-]+\s*|\s*)$/', $content)) {
             $configuration = $this->yamlAndNeonParser->decode($content);

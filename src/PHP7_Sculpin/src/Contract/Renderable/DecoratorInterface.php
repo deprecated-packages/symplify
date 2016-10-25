@@ -9,9 +9,9 @@ declare(strict_types=1);
 
 namespace Symplify\PHP7_Sculpin\Contract\Renderable;
 
-use Symplify\PHP7_Sculpin\Renderable\File\File;
+use Symplify\PHP7_Sculpin\Renderable\File\AbstractFile;
 
 interface DecoratorInterface
 {
-    public function decorateFile(File $file);
+    public function decorateFile(AbstractFile $file);
 }

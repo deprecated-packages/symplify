@@ -10,21 +10,22 @@ declare(strict_types=1);
 namespace Symplify\PHP7_Sculpin\Renderable\Routing\Route;
 
 use Symplify\PHP7_Sculpin\Contract\Renderable\Routing\Route\RouteInterface;
+use Symplify\PHP7_Sculpin\Renderable\File\AbstractFile;
 use Symplify\PHP7_Sculpin\Renderable\File\File;
 
 final class IndexRoute implements RouteInterface
 {
-    public function matches(File $file) : bool
+    public function matches(AbstractFile $file) : bool
     {
         return $file->getBaseName() === 'index';
     }
 
-    public function buildOutputPath(File $file) : string
+    public function buildOutputPath(AbstractFile $file) : string
     {
         return 'index.html';
     }
 
-    public function buildRelativeUrl(File $file) : string
+    public function buildRelativeUrl(AbstractFile $file) : string
     {
         return '/';
     }

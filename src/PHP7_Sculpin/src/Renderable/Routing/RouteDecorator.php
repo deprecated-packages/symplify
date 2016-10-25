@@ -9,10 +9,9 @@ declare(strict_types=1);
 
 namespace Symplify\PHP7_Sculpin\Renderable\Routing;
 
-use Symplify\PHP7_Sculpin\Configuration\Configuration;
 use Symplify\PHP7_Sculpin\Contract\Renderable\DecoratorInterface;
 use Symplify\PHP7_Sculpin\Contract\Renderable\Routing\Route\RouteInterface;
-use Symplify\PHP7_Sculpin\Renderable\File\File;
+use Symplify\PHP7_Sculpin\Renderable\File\AbstractFile;
 
 final class RouteDecorator implements DecoratorInterface
 {
@@ -26,7 +25,7 @@ final class RouteDecorator implements DecoratorInterface
         $this->routes[] = $route;
     }
 
-    public function decorateFile(File $file)
+    public function decorateFile(AbstractFile $file)
     {
         foreach ($this->routes as $route) {
             if ($route->matches($file)) {

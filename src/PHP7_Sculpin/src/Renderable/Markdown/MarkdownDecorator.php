@@ -11,7 +11,7 @@ namespace Symplify\PHP7_Sculpin\Renderable\Markdown;
 
 use Michelf\MarkdownExtra;
 use Symplify\PHP7_Sculpin\Contract\Renderable\DecoratorInterface;
-use Symplify\PHP7_Sculpin\Renderable\File\File;
+use Symplify\PHP7_Sculpin\Renderable\File\AbstractFile;
 
 final class MarkdownDecorator implements DecoratorInterface
 {
@@ -25,7 +25,7 @@ final class MarkdownDecorator implements DecoratorInterface
         $this->markdownExtra = $markdown;
     }
 
-    public function decorateFile(File $file)
+    public function decorateFile(AbstractFile $file)
     {
         // skip due to HTML content incompatibility
         if ($file->getExtension() !== 'md') {

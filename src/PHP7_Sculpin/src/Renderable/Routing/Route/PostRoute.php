@@ -11,7 +11,7 @@ namespace Symplify\PHP7_Sculpin\Renderable\Routing\Route;
 
 use Symplify\PHP7_Sculpin\Configuration\Configuration;
 use Symplify\PHP7_Sculpin\Contract\Renderable\Routing\Route\RouteInterface;
-use Symplify\PHP7_Sculpin\Renderable\File\File;
+use Symplify\PHP7_Sculpin\Renderable\File\AbstractFile;
 use Symplify\PHP7_Sculpin\Renderable\File\PostFile;
 use Symplify\PHP7_Sculpin\Utils\PathNormalizer;
 
@@ -27,7 +27,7 @@ final class PostRoute implements RouteInterface
         $this->configuration = $configuration;
     }
 
-    public function matches(File $file) : bool
+    public function matches(AbstractFile $file) : bool
     {
         return $file instanceof PostFile;
     }
@@ -35,7 +35,7 @@ final class PostRoute implements RouteInterface
     /**
      * @param PostFile $file
      */
-    public function buildOutputPath(File $file) : string
+    public function buildOutputPath(AbstractFile $file) : string
     {
         return PathNormalizer::normalize($this->buildRelativeUrl($file) . '/index.html');
     }
@@ -43,7 +43,7 @@ final class PostRoute implements RouteInterface
     /**
      * @param PostFile $file
      */
-    public function buildRelativeUrl(File $file) : string
+    public function buildRelativeUrl(AbstractFile $file) : string
     {
         $permalink = $this->configuration->getPostRoute();
         $permalink = preg_replace('/:year/', $file->getDateInFormat('Y'), $permalink);

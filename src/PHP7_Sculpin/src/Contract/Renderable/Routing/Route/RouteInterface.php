@@ -9,13 +9,13 @@ declare(strict_types=1);
 
 namespace Symplify\PHP7_Sculpin\Contract\Renderable\Routing\Route;
 
-use Symplify\PHP7_Sculpin\Renderable\File\File;
+use Symplify\PHP7_Sculpin\Renderable\File\AbstractFile;
 
 interface RouteInterface
 {
-    public function matches(File $file) : bool;
+    public function matches(AbstractFile $file) : bool;
 
-    public function buildOutputPath(File $file) : string;
+    public function buildOutputPath(AbstractFile $file) : string;
 
-    public function buildRelativeUrl(File $file) : string;
+    public function buildRelativeUrl(AbstractFile $file) : string;
 }
