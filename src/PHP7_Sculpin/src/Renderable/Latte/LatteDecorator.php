@@ -10,10 +10,9 @@ declare(strict_types=1);
 namespace Symplify\PHP7_Sculpin\Renderable\Latte;
 
 use Latte\Engine;
-use Nette\Utils\Strings;
 use Symplify\PHP7_Sculpin\Configuration\Configuration;
 use Symplify\PHP7_Sculpin\Contract\Renderable\DecoratorInterface;
-use Symplify\PHP7_Sculpin\Renderable\File\File;
+use Symplify\PHP7_Sculpin\Renderable\File\AbstractFile;
 use Symplify\PHP7_Sculpin\Renderable\File\PostFile;
 
 final class LatteDecorator implements DecoratorInterface
@@ -43,7 +42,7 @@ final class LatteDecorator implements DecoratorInterface
         $this->dynamicStringLoader = $dynamicStringLoader;
     }
 
-    public function decorateFile(File $file)
+    public function decorateFile(AbstractFile $file)
     {
         $options = $this->configuration->getGlobalVariables();
 
@@ -55,25 +54,40 @@ final class LatteDecorator implements DecoratorInterface
             $parameters['post'] = $file;
         }
 
+        // 1. render inner post content; might be generic to any sub-layouts
+        if ($file instanceof PostFile) {
+            $this->addTemplateToDynamicLatteStringLoader($file);
+            $htmlContent = $this->latteEngine->renderToString($file->getBaseName(), $parameters);
+            $file->changeContent($htmlContent);
+        }
+
+        // 2. render outer with layout
         $this->prependLayoutToFileContent($file);
         $this->addTemplateToDynamicLatteStringLoader($file);
-
         $htmlContent = $this->latteEngine->renderToString($file->getBaseName(), $parameters);
+
+        // 3. trim left-over {layout tag}, probably bug-fix
+        if ($file instanceof PostFile) {
+            $htmlContent = preg_replace("/{[^)]+}/","",$htmlContent);
+        }
+
         $file->changeContent($htmlContent);
     }
 
-    private function addTemplateToDynamicLatteStringLoader(File $file)
+    private function addTemplateToDynamicLatteStringLoader(AbstractFile $file)
     {
-        $this->dynamicStringLoader->addTemplate($file->getBaseName(), $file->getContent());
+        $this->dynamicStringLoader->addTemplate(
+            $file->getBaseName(), $file->getContent()
+        );
     }
 
-    private function prependLayoutToFileContent(File $file)
+    private function prependLayoutToFileContent(AbstractFile $file)
     {
-        if (! $file->getLayout()) {
+        if ( ! $file->getLayout()) {
             return;
         }
 
         $layoutLine = sprintf('{layout "%s"}', $file->getLayout());
-        $file->changeContent($layoutLine . $file->getContent());
+        $file->changeContent($layoutLine . PHP_EOL . PHP_EOL . $file->getContent());
     }
 }
