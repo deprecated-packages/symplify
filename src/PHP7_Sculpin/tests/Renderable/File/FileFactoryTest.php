@@ -40,6 +40,8 @@ final class FileFactoryTest extends TestCase
         $this->assertSame('Some content', $file->getContent());
 
         $file->setOutputPath('someRemoteFile' . DIRECTORY_SEPARATOR . 'index.html');
+        $file->setRelativeUrl('someRemoteFile');
+
         $this->assertSame('someRemoteFile', $file->getRelativeUrl());
         $this->assertSame('someFile', $file->getBaseName());
         $this->assertSame('', $file->getLayout());

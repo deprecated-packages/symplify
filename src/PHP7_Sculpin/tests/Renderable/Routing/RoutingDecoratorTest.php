@@ -39,7 +39,7 @@ final class RoutingDecoratorTest extends TestCase
 
         $this->routeDecorator->decorateFile($file);
         $this->assertSame('someFile', $file->getRelativeUrl());
-        $this->assertSame('someFile/index.html', $file->getOutputPath());
+        $this->assertSame('someFile' . DIRECTORY_SEPARATOR . 'index.html', $file->getOutputPath());
     }
 
     public function testStaticFile()
