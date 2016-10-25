@@ -35,8 +35,13 @@ services:
     # renderable - decorators
     - Symplify\PHP7_Sculpin\Renderable\Configuration\ConfigurationDecorator
     - Symplify\PHP7_Sculpin\Renderable\Latte\LatteDecorator
-    - Symplify\PHP7_Sculpin\Renderable\Routing\RouteDecorator
     - Symplify\PHP7_Sculpin\Renderable\Markdown\MarkdownDecorator
+    - Symplify\PHP7_Sculpin\Renderable\Routing\RouteDecorator
+
+    # routing
+    - Symplify\PHP7_Sculpin\Renderable\Routing\Route\IndexRoute
+    - Symplify\PHP7_Sculpin\Renderable\Routing\Route\PostRoute
+    - Symplify\PHP7_Sculpin\Renderable\Routing\Route\NotHtmlRoute
 
     # output
     - Symplify\PHP7_Sculpin\Output\FileSystemWriter

@@ -48,7 +48,21 @@ class File
     public function setOutputPath(string $outputPath)
     {
         $this->outputPath = $outputPath;
-        $this->configuration['relativeUrl'] = $this->determineUrlFromOutputPath($outputPath);
+    }
+
+    public function getOutputPath() : string
+    {
+        return $this->outputPath;
+    }
+
+    public function setRelativeUrl(string $relativeUrl)
+    {
+        $this->configuration['relativeUrl'] = $relativeUrl;
+    }
+
+    public function getRelativeUrl() : string
+    {
+        return $this->configuration['relativeUrl'];
     }
 
     public function getRelativeSource() : string
@@ -76,11 +90,6 @@ class File
         return $this->fileInfo->getExtension();
     }
 
-    public function getRelativeUrl() : string
-    {
-        return $this->configuration['relativeUrl'];
-    }
-
     public function getContent() : string
     {
         return $this->content;
@@ -101,22 +110,8 @@ class File
         return $this->configuration;
     }
 
-    public function getOutputPath() : string
-    {
-        return $this->outputPath;
-    }
-
     public function getLayout() : string
     {
         return $this->configuration['layout'] ?? '';
-    }
-
-    private function determineUrlFromOutputPath(string $outputPath) : string
-    {
-        if ($position = strpos($outputPath, '/index.html')) {
-            return substr($outputPath, 0, $position);
-        }
-
-        return $outputPath;
     }
 }

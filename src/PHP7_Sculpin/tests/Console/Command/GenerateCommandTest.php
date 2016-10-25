@@ -29,7 +29,6 @@ final class GenerateCommandTest extends TestCase
         $this->application->setAutoExit(false);
     }
 
-
     public function test()
     {
         $stringInput = sprintf(

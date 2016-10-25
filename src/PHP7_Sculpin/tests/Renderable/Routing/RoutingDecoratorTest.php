@@ -9,6 +9,9 @@ use SplFileInfo;
 use Symplify\PHP7_Sculpin\Configuration\Configuration;
 use Symplify\PHP7_Sculpin\Configuration\Parser\YamlAndNeonParser;
 use Symplify\PHP7_Sculpin\Renderable\File\FileFactory;
+use Symplify\PHP7_Sculpin\Renderable\Routing\Route\IndexRoute;
+use Symplify\PHP7_Sculpin\Renderable\Routing\Route\NotHtmlRoute;
+use Symplify\PHP7_Sculpin\Renderable\Routing\Route\PostRoute;
 use Symplify\PHP7_Sculpin\Renderable\Routing\RouteDecorator;
 
 final class RoutingDecoratorTest extends TestCase
@@ -22,7 +25,11 @@ final class RoutingDecoratorTest extends TestCase
     {
         $configuration = new Configuration(new YamlAndNeonParser());
         $configuration->setPostRoute('blog/:title');
-        $this->routeDecorator = new RouteDecorator($configuration);
+
+        $this->routeDecorator = new RouteDecorator();
+        $this->routeDecorator->addRoute(new IndexRoute());
+        $this->routeDecorator->addRoute(new PostRoute($configuration));
+        $this->routeDecorator->addRoute(new NotHtmlRoute());
     }
 
     public function test()
@@ -32,6 +39,7 @@ final class RoutingDecoratorTest extends TestCase
 
         $this->routeDecorator->decorateFile($file);
         $this->assertSame('someFile', $file->getRelativeUrl());
+        $this->assertSame('someFile/index.html', $file->getOutputPath());
     }
 
     public function testStaticFile()
@@ -41,6 +49,7 @@ final class RoutingDecoratorTest extends TestCase
 
         $this->routeDecorator->decorateFile($file);
         $this->assertSame('static.css', $file->getRelativeUrl());
+        $this->assertSame('static.css', $file->getOutputPath());
     }
 
     public function testIndexFile()
@@ -49,13 +58,15 @@ final class RoutingDecoratorTest extends TestCase
         $file = $this->getFileFactory()->create($fileInfo);
 
         $this->routeDecorator->decorateFile($file);
-        $this->assertSame('index.html', $file->getRelativeUrl());
+        $this->assertSame('index.html', $file->getOutputPath());
+        $this->assertSame('/', $file->getRelativeUrl());
 
         $fileInfo = new SplFileInfo(__DIR__ . '/RoutingDecoratorSource/index.latte');
         $file = $this->getFileFactory()->create($fileInfo);
 
         $this->routeDecorator->decorateFile($file);
-        $this->assertSame('index.html', $file->getRelativeUrl());
+        $this->assertSame('index.html', $file->getOutputPath());
+        $this->assertSame('/', $file->getRelativeUrl());
     }
 
     public function testPostFile()
