@@ -116,7 +116,7 @@ final class RenderableFilesProcessor
     private function setPostsToConfiguration(array $files)
     {
         if (reset($files) instanceof PostFile) {
-            $this->configuration->addOption('posts', $files);
+            $this->configuration->addGlobalVarialbe('posts', $files);
         }
     }
 

@@ -25,7 +25,7 @@ final class SculpinApplicationTest extends TestCase
 
     protected function setUp()
     {
-        $container = (new ContainerFactory())->createWithConfig(__DIR__ . '/SculpinApplicationSource/config/config.neon');
+        $container = (new ContainerFactory())->create();
         $this->sculpinApplication = $container->getByType(SculpinApplication::class);
         $this->dynamicStringLoader = $container->getByType(DynamicStringLoader::class);
     }

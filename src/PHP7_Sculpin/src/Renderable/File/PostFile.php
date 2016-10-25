@@ -14,7 +14,7 @@ use Exception;
 use SplFileInfo;
 use Symplify\PHP7_Sculpin\Utils\PathAnalyzer;
 
-final class PostFile extends File
+final class PostFile extends File implements \ArrayAccess
 {
     /**
      * @var DateTimeInterface
@@ -30,7 +30,9 @@ final class PostFile extends File
     {
         parent::__construct($fileInfo, $relativeSource);
         $this->ensurePathStartsWithDate($fileInfo);
-        $this->date = PathAnalyzer::detectDate($fileInfo);
+
+        $this->configuration['date'] = $this->date = PathAnalyzer::detectDate($fileInfo);
+
         $this->filenameWithoutDate = PathAnalyzer::detectFilenameWithoutDate($fileInfo);
     }
 
@@ -47,6 +49,39 @@ final class PostFile extends File
     public function getFilenameWithoutDate() : string
     {
         return $this->filenameWithoutDate;
+    }
+
+    public function offsetGet($offset)
+    {
+        if ($offset === 'content') {
+            return $this->getContent();
+        }
+
+        if (!isset($this->configuration[$offset])) {
+            throw new \Exception(sprintf(
+                'Value "%s" was not found for "%s" object. Available values are "%s"',
+                $offset,
+                get_class(),
+                implode('", "', array_keys($this->configuration))
+            ));
+        }
+
+        return $this->configuration[$offset];
+    }
+
+    public function offsetExists($offset)
+    {
+        throw new Exception('not supported');
+    }
+
+    public function offsetSet($offset, $value)
+    {
+        throw new Exception('not supported');
+    }
+
+    public function offsetUnset($offset)
+    {
+        throw new Exception('not supported');
     }
 
     private function ensurePathStartsWithDate(SplFileInfo $fileInfo)

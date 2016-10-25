@@ -19,6 +19,11 @@ class File
     protected $fileInfo;
 
     /**
+     * @var array
+     */
+    protected $configuration = [];
+
+    /**
      * @var string
      */
     private $relativeSource;
@@ -33,11 +38,6 @@ class File
      */
     private $content;
 
-    /**
-     * @var array
-     */
-    private $configuration = [];
-
     public function __construct(SplFileInfo $fileInfo, string $relativeSource)
     {
         $this->relativeSource = $relativeSource;
@@ -48,6 +48,7 @@ class File
     public function setOutputPath(string $outputPath)
     {
         $this->outputPath = $outputPath;
+        $this->configuration['relativeUrl'] = $this->determineUrlFromOutputPath($outputPath);
     }
 
     public function getRelativeSource() : string
@@ -77,13 +78,7 @@ class File
 
     public function getRelativeUrl() : string
     {
-        if ($position = strpos($this->outputPath, DIRECTORY_SEPARATOR . 'index.html')) {
-            $directoryPath = substr($this->outputPath, 0, $position);
-
-            return str_replace('\\', '/', $directoryPath);
-        }
-
-        return $this->outputPath;
+        return $this->configuration['relativeUrl'];
     }
 
     public function getContent() : string
@@ -98,7 +93,7 @@ class File
 
     public function setConfiguration(array $configuration)
     {
-        $this->configuration = $configuration;
+        $this->configuration += $configuration;
     }
 
     public function getConfiguration() : array
@@ -114,5 +109,14 @@ class File
     public function getLayout() : string
     {
         return $this->configuration['layout'] ?? '';
+    }
+
+    private function determineUrlFromOutputPath(string $outputPath) : string
+    {
+        if ($position = strpos($outputPath, '/index.html')) {
+            return substr($outputPath, 0, $position);
+        }
+
+        return $outputPath;
     }
 }

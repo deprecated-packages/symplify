@@ -35,7 +35,7 @@ services:
     # renderable - decorators
     - Symplify\PHP7_Sculpin\Renderable\Configuration\ConfigurationDecorator
     - Symplify\PHP7_Sculpin\Renderable\Latte\LatteDecorator
-    - Symplify\PHP7_Sculpin\Renderable\Routing\RouteDecorator(%postRoute%)
+    - Symplify\PHP7_Sculpin\Renderable\Routing\RouteDecorator
     - Symplify\PHP7_Sculpin\Renderable\Markdown\MarkdownDecorator
 
     # output

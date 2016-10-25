@@ -14,6 +14,7 @@ use Nette\Utils\Strings;
 use Symplify\PHP7_Sculpin\Configuration\Configuration;
 use Symplify\PHP7_Sculpin\Contract\Renderable\DecoratorInterface;
 use Symplify\PHP7_Sculpin\Renderable\File\File;
+use Symplify\PHP7_Sculpin\Renderable\File\PostFile;
 
 final class LatteDecorator implements DecoratorInterface
 {
@@ -44,11 +45,15 @@ final class LatteDecorator implements DecoratorInterface
 
     public function decorateFile(File $file)
     {
-        $options = $this->configuration->getOptions();
+        $options = $this->configuration->getGlobalVariables();
 
         $parameters = $file->getConfiguration() + $options + [
             'posts' => $options['posts'] ?? [],
         ];
+
+        if ($file instanceof PostFile) {
+            $parameters['post'] = $file;
+        }
 
         $this->prependLayoutToFileContent($file);
         $this->addTemplateToDynamicLatteStringLoader($file);

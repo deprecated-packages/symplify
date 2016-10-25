@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace Symplify\PHP7_Sculpin\Renderable\Routing;
 
+use Symplify\PHP7_Sculpin\Configuration\Configuration;
 use Symplify\PHP7_Sculpin\Contract\Renderable\DecoratorInterface;
 use Symplify\PHP7_Sculpin\Renderable\File\File;
 use Symplify\PHP7_Sculpin\Renderable\File\PostFile;
@@ -17,13 +18,13 @@ use Symplify\PHP7_Sculpin\Utils\PathNormalizer;
 final class RouteDecorator implements DecoratorInterface
 {
     /**
-     * @var string
+     * @var Configuration
      */
-    private $postRoute;
+    private $configuration;
 
-    public function __construct(string $postRoute)
+    public function __construct(Configuration $configuration)
     {
-        $this->postRoute = $postRoute;
+        $this->configuration = $configuration;
     }
 
     public function decorateFile(File $file)
@@ -39,7 +40,7 @@ final class RouteDecorator implements DecoratorInterface
 
         if ($this->isPostFile($file)) {
             /* @var PostFile $file */
-            return $this->createOutputPathForPostFile($file, $this->postRoute);
+            return $this->createOutputPathForPostFile($file, $this->configuration->getPostRoute());
         }
 
         if ($this->isFileNonHtml($file)) {
@@ -76,8 +77,7 @@ final class RouteDecorator implements DecoratorInterface
         $permalink = $postRoute;
         $permalink = preg_replace('/:year/', $file->getDateInFormat('Y'), $permalink);
         $permalink = preg_replace('/:month/', $file->getDateInFormat('m'), $permalink);
-        $permalink = preg_replace('/:day/', $file->getDateInFormat('j'), $permalink);
-        $permalink = preg_replace('/:filename/', $file->getFilenameWithoutDate(), $permalink);
+        $permalink = preg_replace('/:day/', $file->getDateInFormat('d'), $permalink);
         $permalink = preg_replace('/:title/', $file->getFilenameWithoutDate(), $permalink);
         $permalink .= '/index.html';
 

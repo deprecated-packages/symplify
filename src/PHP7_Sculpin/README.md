@@ -19,10 +19,60 @@ composer require symplify/php7_sculpin
 
 ### Base commands
 
+#### Generate content from `/source` to `/output` in HTML
+
 ```
 vendor/bin/sculpin generate
 vendor/bin/sculpin generate --server
 ```
+
+#### Push content of `/output` to Github pages
+
+```
+vendor/bin/sculpin push-to-github-pages
+```
+
+### Configuration
+
+#### Global variables
+
+EVERY `.neon` or `.yaml` found in `/source` directory is loaded to global variables.
+You can store variables, lists of data etc.
+
+So this...
+
+```yaml
+# config/config.neon
+siteUrl: http://github.com
+socials:
+    facebook: http://facebook.com/github
+```
+
+...can be displayed in any template as:
+
+```twig
+# _layouts/default.latte
+<p>Welcome to: {$siteUrl}</p>
+
+<p>Checkout my FB page: {$socials['facebook']}</p>
+```
+
+#### Special configuration
+
+To configure post url address just modify:
+
+```yaml
+# config/config.neon
+configuration:
+    postRoute: blog/:year/:month/:day/:title # default one
+    # will produce post detail link: blog/2016/12/01/how-to-host-open-source-blog-for-free
+    
+    # other examples:
+    # :year/:month/:title => 2016/12/how-to-host-open-source-blog-for-free
+    # :year/:title => 2016/how-to-host-open-source-blog-for-free
+    # blog/:title => blog/how-to-host-open-source-blog-for-free
+```
+
 
 [ico-version]: https://img.shields.io/packagist/v/Symplify/PHP7_Sculpin.svg?style=flat-square
 [ico-travis]: https://img.shields.io/travis/Symplify/PHP7_Sculpin/master.svg?style=flat-square
