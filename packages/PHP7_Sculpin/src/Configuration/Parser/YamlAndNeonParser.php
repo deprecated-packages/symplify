@@ -18,6 +18,7 @@ final class YamlAndNeonParser
     public function decodeFromFile(string $filePath) : array
     {
         $fileContent = file_get_contents($filePath);
+
         return $this->decode($fileContent);
     }
 

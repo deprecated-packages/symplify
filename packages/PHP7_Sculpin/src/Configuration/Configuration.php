@@ -106,7 +106,7 @@ final class Configuration
 
     private function extractPostRoute(array $options) : array
     {
-        if (!isset($options['configuration']['postRoute'])) {
+        if (! isset($options['configuration']['postRoute'])) {
             return $options;
         }
 

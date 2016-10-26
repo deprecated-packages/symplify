@@ -21,6 +21,7 @@ final class ClearLogAndCacheTestListener extends PHPUnit_Framework_BaseTestListe
             FileSystem::delete($path);
         }
     }
+
     /**
      * @return string[]
      */

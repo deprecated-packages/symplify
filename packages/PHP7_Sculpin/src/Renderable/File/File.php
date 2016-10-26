@@ -11,5 +11,4 @@ namespace Symplify\PHP7_Sculpin\Renderable\File;
 
 final class File extends AbstractFile
 {
-
 }

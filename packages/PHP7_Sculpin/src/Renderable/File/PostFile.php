@@ -62,7 +62,7 @@ final class PostFile extends AbstractFile implements ArrayAccess
             return $this->getDate();
         }
 
-        if (!isset($this->configuration[$offset])) {
+        if (! isset($this->configuration[$offset])) {
             throw new \Exception(sprintf(
                 'Value "%s" was not found for "%s" object. Available values are "%s"',
                 $offset,

@@ -6,8 +6,6 @@ namespace Symplify\PHP7_Sculpin\Tests\Console\Command;
 
 use Nette\Utils\FileSystem;
 use PHPUnit\Framework\TestCase;
-use Symfony\Component\Console\Input\ArgvInput;
-use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\StringInput;
 use Symfony\Component\Console\Output\NullOutput;
 use Symplify\PHP7_Sculpin\Console\ConsoleApplication;
@@ -48,7 +46,7 @@ final class GenerateCommandTest extends TestCase
     {
         $stringInput = sprintf(
             'generate --source %s',
-            __DIR__.DIRECTORY_SEPARATOR.'GenerateCommandSource'.'missing'
+            __DIR__ . DIRECTORY_SEPARATOR . 'GenerateCommandSource' . 'missing'
         );
         $input = new StringInput($stringInput);
 

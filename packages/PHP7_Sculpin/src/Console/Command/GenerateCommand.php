@@ -42,14 +42,14 @@ final class GenerateCommand extends Command
             null,
             InputOption::VALUE_REQUIRED,
             'Directory to load page FROM.',
-            getcwd().DIRECTORY_SEPARATOR.'source'
+            getcwd() . DIRECTORY_SEPARATOR . 'source'
         );
         $this->addOption(
             'output',
             null,
             InputOption::VALUE_REQUIRED,
             'Directory to generate page TO.',
-            getcwd().DIRECTORY_SEPARATOR.'output'
+            getcwd() . DIRECTORY_SEPARATOR . 'output'
         );
     }
 

@@ -31,6 +31,7 @@ final class RouteDecorator implements DecoratorInterface
             if ($route->matches($file)) {
                 $file->setOutputPath($route->buildOutputPath($file));
                 $file->setRelativeUrl($route->buildRelativeUrl($file));
+
                 return;
             }
         }

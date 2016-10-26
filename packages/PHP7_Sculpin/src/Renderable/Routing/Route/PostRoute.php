@@ -49,6 +49,7 @@ final class PostRoute implements RouteInterface
         $permalink = preg_replace('/:year/', $file->getDateInFormat('Y'), $permalink);
         $permalink = preg_replace('/:month/', $file->getDateInFormat('m'), $permalink);
         $permalink = preg_replace('/:day/', $file->getDateInFormat('d'), $permalink);
+
         return preg_replace('/:title/', $file->getFilenameWithoutDate(), $permalink);
     }
 }

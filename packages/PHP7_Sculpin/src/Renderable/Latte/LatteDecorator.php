@@ -68,7 +68,7 @@ final class LatteDecorator implements DecoratorInterface
 
         // 3. trim left-over {layout tag}, probably bug-fix
         if ($file instanceof PostFile) {
-            $htmlContent = preg_replace("/{[^)]+}/","",$htmlContent);
+            $htmlContent = preg_replace('/{[^)]+}/', '', $htmlContent);
         }
 
         $file->changeContent($htmlContent);
@@ -77,13 +77,14 @@ final class LatteDecorator implements DecoratorInterface
     private function addTemplateToDynamicLatteStringLoader(AbstractFile $file)
     {
         $this->dynamicStringLoader->addTemplate(
-            $file->getBaseName(), $file->getContent()
+            $file->getBaseName(),
+            $file->getContent()
         );
     }
 
     private function prependLayoutToFileContent(AbstractFile $file)
     {
-        if ( ! $file->getLayout()) {
+        if (! $file->getLayout()) {
             return;
         }
 

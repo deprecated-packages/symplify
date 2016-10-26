@@ -23,9 +23,9 @@ final class ConsoleApplication extends BaseApplication
 
     protected function getDefaultInputDefinition() : InputDefinition
     {
-        return new InputDefinition(array(
+        return new InputDefinition([
             new InputArgument('command', InputArgument::REQUIRED, 'The command to execute'),
             new InputOption('--help', '-h', InputOption::VALUE_NONE, 'Display this help message'),
-        ));
+        ]);
     }
 }

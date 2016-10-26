@@ -47,7 +47,7 @@ final class PushToGithubCommand extends Command
             null,
             InputOption::VALUE_REQUIRED,
             'Directory where was output saved TO.',
-            getcwd().DIRECTORY_SEPARATOR.'output'
+            getcwd() . DIRECTORY_SEPARATOR . 'output'
         );
     }
 

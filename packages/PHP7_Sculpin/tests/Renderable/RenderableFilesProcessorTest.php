@@ -29,8 +29,8 @@ final class RenderableFilesProcessorTest extends TestCase
         $this->renderableFilesProcessor = $container->getByType(RenderableFilesProcessor::class);
         $this->configuration = $container->getByType(Configuration::class);
 
-        $this->configuration->setSourceDirectory(__DIR__.'/RenderFilesProcessorSource/source');
-        $this->configuration->setOutputDirectory(__DIR__.'/RenderFilesProcessorSource/output');
+        $this->configuration->setSourceDirectory(__DIR__ . '/RenderFilesProcessorSource/source');
+        $this->configuration->setOutputDirectory(__DIR__ . '/RenderFilesProcessorSource/output');
     }
 
     public function test()
