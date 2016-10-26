@@ -64,7 +64,7 @@ final class PushToGithubCommand extends Command
             );
 
             $this->gihubPublishingProcess->pushDirectoryContentToRepository(
-                $input->getOption('outputDirectory'),
+                $input->getOption('output'),
                 $githubRepository
             );
 
