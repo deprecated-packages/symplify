@@ -33,12 +33,12 @@ final class GenerateCommandTest extends TestCase
     {
         $stringInput = sprintf(
             'generate --source %s --output %s',
-            __DIR__ . DIRECTORY_SEPARATOR . 'GenerateCommandSource' . DIRECTORY_SEPARATOR . 'source',
-            __DIR__ . DIRECTORY_SEPARATOR . 'GenerateCommandSource' . DIRECTORY_SEPARATOR . 'output'
+            'src/PHP7_Sculpin/tests/Console/Command/GenerateCommandSource/source',
+            'src/PHP7_Sculpin/tests/Console/Command/GenerateCommandSource/output'
         );
 
         $input = new StringInput($stringInput);
-        $result = $this->application->run($input, new NullOutput());
+        $result = $this->application->run($input); //, new NullOutput());
         $this->assertSame(0, $result);
 
         $this->assertFileExists(__DIR__ . '/GenerateCommandSource/output/index.html');
