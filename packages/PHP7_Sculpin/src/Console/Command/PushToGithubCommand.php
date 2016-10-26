@@ -56,8 +56,6 @@ final class PushToGithubCommand extends Command
         try {
             $this->ensureInputIsValid($input);
 
-            $this->gihubPublishingProcess->setupTravisIdentityToGit();
-
             $githubRepository = $this->createGithubRepositoryUrlWithToken(
                 $input->getOption('token'),
                 $input->getArgument('repository-slug')

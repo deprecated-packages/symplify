@@ -9,43 +9,41 @@ declare(strict_types=1);
 
 namespace Symplify\PHP7_Sculpin\Github;
 
-use Symfony\Component\Process\Process;
+use GitWrapper\GitWrapper;
 use Symplify\PHP7_Sculpin\Utils\FilesystemChecker;
 
 final class GihubPublishingProcess
 {
-    public function setupTravisIdentityToGit()
-    {
-        if (getenv('TRAVIS')) {
-            $this->runScript('git config --global user.email "travis@travis-ci.org"');
-            $this->runScript('git config --global user.name "Travis"');
-        }
-    }
+    /**
+     * @var string
+     */
+    const CONFIG_EMAIL = 'travis@travis-ci.org';
+
+    /**
+     * @var string
+     */
+    const CONFIG_NAME = 'Travis';
 
     public function pushDirectoryContentToRepository(string $outputDirectory, string $githubRepository)
     {
         FilesystemChecker::ensureDirectoryExists($outputDirectory);
 
-        $this->runScript(
-            'git init && git add . && git commit -m "Regenerate output"',
-            $outputDirectory
-        );
+        $git = (new GitWrapper())->init($outputDirectory);
 
         if (getenv('TRAVIS')) {
-            $this->runScript(sprintf(
-                'git push --force --quiet "${%s}" master:gh-pages > /dev/null 2>&1',
-                $githubRepository
-            ), $outputDirectory);
-        }
-    }
-
-    private function runScript(string $script, string $workingDirectory = null)
-    {
-        $process = new Process($script);
-        if ($workingDirectory) {
-            $process->setWorkingDirectory($workingDirectory);
+            $git->config('user.email', self::CONFIG_EMAIL);
+            $git->config('user.name', self::CONFIG_NAME);
         }
 
-        $process->run();
+        $git->checkout('gh-pages', [
+            'orphan' => true,
+        ]);
+        $git->add('.');
+        $git->commit('Regenerate output');
+        $git->addRemote('origin', $githubRepository);
+        $git->push('origin', 'gh-pages', [
+            'force' => true,
+            'quiet' => true,
+        ]);
     }
 }
