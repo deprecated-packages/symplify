@@ -1,15 +1,18 @@
 <phpunit
-    bootstrap="tests/bootstrap.php"
+    bootstrap="vendor/autoload.php"
     colors="true"
 >
     <testsuites>
         <testsuite>
-            <directory>src/*/tests</directory>
+            <directory>packages/*/tests</directory>
         </testsuite>
     </testsuites>
     <filter>
         <whitelist>
-            <directory suffix=".php">src/*/src</directory>
+            <directory suffix=".php">packages/*/src</directory>
         </whitelist>
     </filter>
+    <listeners>
+        <listener class="Symplify\Tests\ClearLogAndCacheTestListener" />
+    </listeners>
 </phpunit>

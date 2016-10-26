@@ -33,8 +33,8 @@ final class GenerateCommandTest extends TestCase
     {
         $stringInput = sprintf(
             'generate --source %s --output %s',
-            'src/PHP7_Sculpin/tests/Console/Command/GenerateCommandSource/source',
-            'src/PHP7_Sculpin/tests/Console/Command/GenerateCommandSource/output'
+            'packages/PHP7_Sculpin/tests/Console/Command/GenerateCommandSource/source',
+            'packages/PHP7_Sculpin/tests/Console/Command/GenerateCommandSource/output'
         );
 
         $input = new StringInput($stringInput);
