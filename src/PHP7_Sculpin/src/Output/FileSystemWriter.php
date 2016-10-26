@@ -11,24 +11,19 @@ namespace Symplify\PHP7_Sculpin\Output;
 
 use Nette\Utils\FileSystem;
 use SplFileInfo;
+use Symplify\PHP7_Sculpin\Configuration\Configuration;
 use Symplify\PHP7_Sculpin\Renderable\File\File;
 
 final class FileSystemWriter
 {
     /**
-     * @var string
+     * @var Configuration
      */
-    private $sourceDirectory;
+    private $configuration;
 
-    /**
-     * @var string
-     */
-    private $outputDirectory;
-
-    public function __construct(string $sourceDirectory, string $outputDirectory)
+    public function __construct(Configuration $configuration)
     {
-        $this->sourceDirectory = $sourceDirectory;
-        $this->outputDirectory = $outputDirectory;
+        $this->configuration = $configuration;
     }
 
     /**
@@ -37,8 +32,8 @@ final class FileSystemWriter
     public function copyStaticFiles(array $files)
     {
         foreach ($files as $file) {
-            $relativeDestination = substr($file->getPathname(), strlen($this->sourceDirectory));
-            $absoluteDestination = $this->outputDirectory . $relativeDestination;
+            $relativeDestination = substr($file->getPathname(), strlen($this->configuration->getSourceDirectory()));
+            $absoluteDestination = $this->configuration->getOutputDirectory() . $relativeDestination;
 
             FileSystem::copy($file->getRealPath(), $absoluteDestination, true);
         }
@@ -50,7 +45,10 @@ final class FileSystemWriter
     public function copyRenderableFiles(array $files)
     {
         foreach ($files as $file) {
-            $absoluteDestination = $this->outputDirectory . DIRECTORY_SEPARATOR . $file->getOutputPath();
+            $absoluteDestination = $this->configuration->getOutputDirectory()
+                . DIRECTORY_SEPARATOR
+                . $file->getOutputPath();
+
             FileSystem::createDir(dirname($absoluteDestination));
             file_put_contents($absoluteDestination, $file->getContent());
         }

@@ -17,15 +17,10 @@ final class ContainerFactory
 {
     public function create() : Container
     {
-        return $this->createWithConfig(__DIR__ . '/../../config/config.neon');
-    }
-
-    public function createWithConfig(string $configFilePath) : Container
-    {
         $configurator = new Configurator();
         $configurator->setDebugMode(true);
         $configurator->setTempDirectory($this->createAndReturnTempDir());
-        $configurator->addConfig($configFilePath);
+        $configurator->addConfig(__DIR__ . '/../../config/config.neon');
 
         return $configurator->createContainer();
     }

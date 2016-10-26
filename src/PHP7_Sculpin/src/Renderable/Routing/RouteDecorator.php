@@ -10,73 +10,32 @@ declare(strict_types=1);
 namespace Symplify\PHP7_Sculpin\Renderable\Routing;
 
 use Symplify\PHP7_Sculpin\Contract\Renderable\DecoratorInterface;
-use Symplify\PHP7_Sculpin\Renderable\File\File;
-use Symplify\PHP7_Sculpin\Renderable\File\PostFile;
-use Symplify\PHP7_Sculpin\Utils\PathNormalizer;
+use Symplify\PHP7_Sculpin\Contract\Renderable\Routing\Route\RouteInterface;
+use Symplify\PHP7_Sculpin\Renderable\File\AbstractFile;
 
 final class RouteDecorator implements DecoratorInterface
 {
     /**
-     * @var string
+     * @var RouteInterface[]
      */
-    private $postRoute;
+    private $routes = [];
 
-    public function __construct(string $postRoute)
+    public function addRoute(RouteInterface $route)
     {
-        $this->postRoute = $postRoute;
+        $this->routes[] = $route;
     }
 
-    public function decorateFile(File $file)
+    public function decorateFile(AbstractFile $file)
     {
-        $file->setOutputPath($this->detectFileOutputPath($file));
-    }
-
-    private function detectFileOutputPath(File $file) : string
-    {
-        if ($this->isFileIndex($file)) {
-            return 'index.html';
+        foreach ($this->routes as $route) {
+            if ($route->matches($file)) {
+                $file->setOutputPath($route->buildOutputPath($file));
+                $file->setRelativeUrl($route->buildRelativeUrl($file));
+                return;
+            }
         }
 
-        if ($this->isPostFile($file)) {
-            /* @var PostFile $file */
-            return $this->createOutputPathForPostFile($file, $this->postRoute);
-        }
-
-        if ($this->isFileNonHtml($file)) {
-            return $file->getBaseName() . '.' . $file->getPrimaryExtension();
-        }
-
-        return $file->getBaseName() . DIRECTORY_SEPARATOR . 'index.html';
-    }
-
-    private function isFileIndex(File $file) : bool
-    {
-        return $file->getBaseName() === 'index';
-    }
-
-    private function isFileNonHtml(File $file) : bool
-    {
-        return in_array(
-            $file->getPrimaryExtension(),
-            ['xml', 'rss', 'json', 'atom', 'css']
-        );
-    }
-
-    private function isPostFile(File $file) : bool
-    {
-        return $file instanceof PostFile;
-    }
-
-    private function createOutputPathForPostFile(PostFile $file, string $postRoute) : string
-    {
-        $permalink = $postRoute;
-        $permalink = preg_replace('/:year/', $file->getDateInFormat('Y'), $permalink);
-        $permalink = preg_replace('/:month/', $file->getDateInFormat('m'), $permalink);
-        $permalink = preg_replace('/:day/', $file->getDateInFormat('j'), $permalink);
-        $permalink = preg_replace('/:filename/', $file->getFilenameWithoutDate(), $permalink);
-        $permalink = preg_replace('/:title/', $file->getFilenameWithoutDate(), $permalink);
-        $permalink .= '/index.html';
-
-        return PathNormalizer::normalize($permalink);
+        $file->setOutputPath($file->getBaseName() . DIRECTORY_SEPARATOR . 'index.html');
+        $file->setRelativeUrl($file->getBaseName());
     }
 }

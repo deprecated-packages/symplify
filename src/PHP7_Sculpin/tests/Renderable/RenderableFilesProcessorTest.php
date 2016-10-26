@@ -25,11 +25,12 @@ final class RenderableFilesProcessorTest extends TestCase
 
     protected function setUp()
     {
-        $container = (new ContainerFactory())->createWithConfig(
-            __DIR__ . '/RenderFilesProcessorSource/config/config.neon'
-        );
+        $container = (new ContainerFactory())->create();
         $this->renderableFilesProcessor = $container->getByType(RenderableFilesProcessor::class);
         $this->configuration = $container->getByType(Configuration::class);
+
+        $this->configuration->setSourceDirectory(__DIR__.'/RenderFilesProcessorSource/source');
+        $this->configuration->setOutputDirectory(__DIR__.'/RenderFilesProcessorSource/output');
     }
 
     public function test()
@@ -54,7 +55,7 @@ final class RenderableFilesProcessorTest extends TestCase
         $this->renderableFilesProcessor->processFiles($fileInfos);
 
         $this->assertTrue(
-            isset($this->configuration->getOptions()['posts'])
+            isset($this->configuration->getGlobalVariables()['posts'])
         );
     }
 

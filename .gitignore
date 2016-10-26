@@ -1,2 +1,6 @@
 /vendor
 composer.lock
+
+# PHP7_Sculpin
+/source
+/output

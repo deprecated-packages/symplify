@@ -25,7 +25,7 @@ final class SculpinApplicationTest extends TestCase
 
     protected function setUp()
     {
-        $container = (new ContainerFactory())->createWithConfig(__DIR__ . '/SculpinApplicationSource/config/config.neon');
+        $container = (new ContainerFactory())->create();
         $this->sculpinApplication = $container->getByType(SculpinApplication::class);
         $this->dynamicStringLoader = $container->getByType(DynamicStringLoader::class);
     }
@@ -44,6 +44,9 @@ final class SculpinApplicationTest extends TestCase
             __DIR__ . '/SculpinApplicationSource/expected-index.html',
             __DIR__ . '/SculpinApplicationSource/output/index.html'
         );
+
+        $this->assertFileExists(__DIR__ . '/SculpinApplicationSource/output/feed.xml');
+        $this->assertFileExists(__DIR__ . '/SculpinApplicationSource/output/atom.rss');
 
         $this->assertNotEmpty($this->dynamicStringLoader->getContent('default'));
     }

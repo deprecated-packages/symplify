@@ -8,6 +8,7 @@
         "abraham/twitteroauth": "~0.7",
         "michelf/php-markdown": "~1.6",
         "react/http": "~0.4",
+        "ralouphie/mimey": "^1.0",
 
         "doctrine/dbal": "^2.5",
         "doctrine/orm": "^2.5",

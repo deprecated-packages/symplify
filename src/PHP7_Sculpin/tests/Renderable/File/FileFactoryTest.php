@@ -8,6 +8,9 @@ use DateTimeInterface;
 use Exception;
 use PHPUnit\Framework\TestCase;
 use SplFileInfo;
+use Symplify\PHP7_Sculpin\Configuration\Configuration;
+use Symplify\PHP7_Sculpin\Configuration\Parser\YamlAndNeonParser;
+use Symplify\PHP7_Sculpin\Renderable\File\AbstractFile;
 use Symplify\PHP7_Sculpin\Renderable\File\File;
 use Symplify\PHP7_Sculpin\Renderable\File\FileFactory;
 use Symplify\PHP7_Sculpin\Renderable\File\PostFile;
@@ -21,7 +24,9 @@ final class FileFactoryTest extends TestCase
 
     protected function setUp()
     {
-        $this->fileFactory = new FileFactory('sourceDirectory');
+        $configuration = new Configuration(new YamlAndNeonParser());
+        $configuration->setSourceDirectory('sourceDirectory');
+        $this->fileFactory = new FileFactory($configuration);
     }
 
     public function test()
@@ -36,6 +41,8 @@ final class FileFactoryTest extends TestCase
         $this->assertSame('Some content', $file->getContent());
 
         $file->setOutputPath('someRemoteFile' . DIRECTORY_SEPARATOR . 'index.html');
+        $file->setRelativeUrl('someRemoteFile');
+
         $this->assertSame('someRemoteFile', $file->getRelativeUrl());
         $this->assertSame('someFile', $file->getBaseName());
         $this->assertSame('', $file->getLayout());
@@ -63,7 +70,7 @@ final class FileFactoryTest extends TestCase
     /**
      * @return File|PostFile
      */
-    private function createFileFromPath(string $filePath) : File
+    private function createFileFromPath(string $filePath) : AbstractFile
     {
         $fileInfo = new SplFileInfo($filePath);
 

@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace Symplify\PHP7_Sculpin\Console\Command;
 
+use Exception;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -20,18 +21,12 @@ use Throwable;
 final class PushToGithubCommand extends Command
 {
     /**
-     * @var string
-     */
-    private $outputDirectory;
-
-    /**
      * @var GihubPublishingProcess
      */
     private $gihubPublishingProcess;
 
-    public function __construct(string $outputDirectory, GihubPublishingProcess $gihubPublishingProcess)
+    public function __construct(GihubPublishingProcess $gihubPublishingProcess)
     {
-        $this->outputDirectory = $outputDirectory;
         $this->gihubPublishingProcess = $gihubPublishingProcess;
 
         parent::__construct();
@@ -47,6 +42,13 @@ final class PushToGithubCommand extends Command
             'Repository slug, e.g. "TomasVotruba/tomasvotruba.cz".'
         );
         $this->addOption('token', null, InputOption::VALUE_REQUIRED, 'Github token.');
+        $this->addOption(
+            'output',
+            null,
+            InputOption::VALUE_REQUIRED,
+            'Directory where was output saved TO.',
+            getcwd().DIRECTORY_SEPARATOR.'output'
+        );
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -61,7 +63,10 @@ final class PushToGithubCommand extends Command
                 $input->getArgument('repository-slug')
             );
 
-            $this->gihubPublishingProcess->pushDirectoryContentToRepository($this->outputDirectory, $githubRepository);
+            $this->gihubPublishingProcess->pushDirectoryContentToRepository(
+                $input->getOption('outputDirectory'),
+                $githubRepository
+            );
 
             $output->writeln('<info>Website was successfully pushed to Github pages.</info>');
 
@@ -84,7 +89,7 @@ final class PushToGithubCommand extends Command
     private function ensureTokenOptionIsSet(string $token)
     {
         if ($token === '') {
-            throw new \Exception('Set token value via "--token=<GITHUB_TOKEN>" option.');
+            throw new Exception('Set token value via "--token=<GITHUB_TOKEN>" option.');
         }
     }
 
@@ -92,7 +97,7 @@ final class PushToGithubCommand extends Command
     {
         $repositoryUrl = 'https://github.com/' . $repositorySlug;
         if (! $this->doesUrlExist($repositoryUrl)) {
-            throw new \Exception(sprintf(
+            throw new Exception(sprintf(
                 'Repository "%s" is not accessible. Try fixing the "%s" slug.',
                 $repositoryUrl,
                 $repositorySlug

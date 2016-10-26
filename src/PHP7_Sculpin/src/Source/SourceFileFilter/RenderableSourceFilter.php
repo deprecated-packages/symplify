@@ -27,6 +27,6 @@ final class RenderableSourceFilter implements SourceFileFilterInterface
             return false;
         }
 
-        return in_array($fileInfo->getExtension(), ['html', 'twig', 'latte', 'md']);
+        return in_array($fileInfo->getExtension(), ['html', 'twig', 'latte', 'md', 'rss', 'xml']);
     }
 }

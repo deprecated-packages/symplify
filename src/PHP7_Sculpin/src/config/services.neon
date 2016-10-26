@@ -4,9 +4,9 @@ services:
     - Symplify\PHP7_Sculpin\Configuration\Parser\YamlAndNeonParser
 
     # console
-    - Symplify\PHP7_Sculpin\Console\Application
-    - Symplify\PHP7_Sculpin\Console\Command\GenerateCommand(%sourceDir%, %outputDir%)
-    - Symplify\PHP7_Sculpin\Console\Command\PushToGithubCommand(%outputDir%)
+    - Symplify\PHP7_Sculpin\Console\ConsoleApplication
+    - Symplify\PHP7_Sculpin\Console\Command\GenerateCommand
+    - Symplify\PHP7_Sculpin\Console\Command\PushToGithubCommand
     - Symfony\Component\Console\Output\ConsoleOutput
 
     # core
@@ -21,7 +21,7 @@ services:
     - Symplify\PHP7_Sculpin\Source\SourceFileFilter\StaticSourceFilter
 
     # renderable
-    - Symplify\PHP7_Sculpin\Renderable\File\FileFactory(%sourceDir%)
+    - Symplify\PHP7_Sculpin\Renderable\File\FileFactory
     - Symplify\PHP7_Sculpin\Renderable\RenderableFilesProcessor
     - Michelf\MarkdownExtra
 
@@ -35,15 +35,22 @@ services:
     # renderable - decorators
     - Symplify\PHP7_Sculpin\Renderable\Configuration\ConfigurationDecorator
     - Symplify\PHP7_Sculpin\Renderable\Latte\LatteDecorator
-    - Symplify\PHP7_Sculpin\Renderable\Routing\RouteDecorator(%postRoute%)
     - Symplify\PHP7_Sculpin\Renderable\Markdown\MarkdownDecorator
+    - Symplify\PHP7_Sculpin\Renderable\Routing\RouteDecorator
+
+    # routing
+    - Symplify\PHP7_Sculpin\Renderable\Routing\Route\IndexRoute
+    - Symplify\PHP7_Sculpin\Renderable\Routing\Route\PostRoute
+    - Symplify\PHP7_Sculpin\Renderable\Routing\Route\NotHtmlRoute
 
     # output
-    - Symplify\PHP7_Sculpin\Output\FileSystemWriter(%sourceDir%, %outputDir%)
+    - Symplify\PHP7_Sculpin\Output\FileSystemWriter
 
     # github
     - Symplify\PHP7_Sculpin\Github\GihubPublishingProcess
 
     # http
-    - Symplify\PHP7_Sculpin\HttpServer\HttpServer(%outputDir%)
+    - Symplify\PHP7_Sculpin\HttpServer\HttpServer
     - Symplify\PHP7_Sculpin\HttpServer\ResponseWriter
+    - Mimey\MimeTypes
+    - Symplify\PHP7_Sculpin\HttpServer\MimeType\MimeTypeDetector

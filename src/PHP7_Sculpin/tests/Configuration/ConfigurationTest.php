@@ -21,24 +21,24 @@ final class ConfigurationTest extends TestCase
         $this->configuration = new Configuration(new YamlAndNeonParser());
     }
 
-    public function testAddOption()
+    public function testAddGlobalVariable()
     {
-        $this->configuration->addOption('key', 'value');
+        $this->configuration->addGlobalVarialbe('key', 'value');
 
         $this->assertSame([
             'key' => 'value',
-        ], $this->configuration->getOptions());
+        ], $this->configuration->getGlobalVariables());
     }
 
     public function testLoadFromFiles()
     {
         $neonConfigFile = new SplFileInfo(__DIR__ . '/ConfigurationSource/config.neon');
         $yamlConfigFile = new SplFileInfo(__DIR__ . '/ConfigurationSource/config.yaml');
-        $this->configuration->loadOptionsFromFiles([$neonConfigFile, $yamlConfigFile]);
+        $this->configuration->loadFromFiles([$neonConfigFile, $yamlConfigFile]);
 
         $this->assertSame([
             'key' => 'value',
             'another_key' => 'another_value',
-        ], $this->configuration->getOptions());
+        ], $this->configuration->getGlobalVariables());
     }
 }

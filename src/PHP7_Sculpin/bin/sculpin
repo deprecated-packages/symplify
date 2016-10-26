@@ -10,11 +10,11 @@ set_time_limit(0);
 ini_set('display_errors', '1');
 ini_set('memory_limit', '512M');
 
-use Symplify\PHP7_Sculpin\Console\Application;
+use Symplify\PHP7_Sculpin\Console\ConsoleApplication;
 use Symplify\PHP7_Sculpin\DI\Container\ContainerFactory;
 
 $container = (new ContainerFactory())->create();
 
-/** @var Application $application */
-$application = $container->getByType(Application::class);
+/** @var ConsoleApplication $application */
+$application = $container->getByType(ConsoleApplication::class);
 $application->run();
