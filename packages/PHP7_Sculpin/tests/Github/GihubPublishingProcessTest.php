@@ -26,11 +26,6 @@ final class GihubPublishingProcessTest extends TestCase
         $this->githubPublishingProcess = new GihubPublishingProcess();
     }
 
-    public function testSetupTravisIdentityToGit()
-    {
-        $this->githubPublishingProcess->setupTravisIdentityToGit();
-    }
-
     /**
      * @expectedException Exception
      */
@@ -39,11 +34,19 @@ final class GihubPublishingProcessTest extends TestCase
         $this->githubPublishingProcess->pushDirectoryContentToRepository('missing directory', '');
     }
 
+    /**
+     * @slow
+     */
     public function testPushDirectoryContentToRepository()
     {
+        $this->markTestSkipped('Prepare demo repository with token first.');
+
         $this->assertFileNotExists($this->outputDirectory . DIRECTORY_SEPARATOR . '.git');
 
-        $this->githubPublishingProcess->pushDirectoryContentToRepository($this->outputDirectory, '');
+        $this->githubPublishingProcess->pushDirectoryContentToRepository(
+            $this->outputDirectory,
+            'https://github.com/TomasVotruba/tomasvotruba.cz'
+        );
 
         $this->assertFileExists($this->outputDirectory . DIRECTORY_SEPARATOR . '.git');
     }
