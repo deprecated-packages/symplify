@@ -12,7 +12,7 @@ install:
 
 before_script:
   # check coding standard
-  - if [[ $CHECK_CS != "" ]]; then composer check-cs; fi
+  - if [[ $CHECK_CS != "" ]]; then composer fix-cs; fi
 
 script:
   # run tests

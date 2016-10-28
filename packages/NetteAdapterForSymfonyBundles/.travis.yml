@@ -13,7 +13,7 @@ install:
 
 script:
   - vendor/bin/phpunit $PHPUNIT_FLAGS
-  - if [[ "$CHECK_CS" != "" ]]; then composer check-cs; fi
+  - if [[ "$CHECK_CS" != "" ]]; then composer fix-cs; fi
 
 after_script:
   - if [[ "$PHPUNIT_FLAGS" != "" ]]; then wget https://scrutinizer-ci.com/ocular.phar && php ocular.phar code-coverage:upload --format=php-clover coverage.xml; fi
