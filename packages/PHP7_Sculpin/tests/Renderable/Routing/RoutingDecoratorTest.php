@@ -7,7 +7,7 @@ namespace Symplify\PHP7_Sculpin\Tests\Renderable\Routing;
 use PHPUnit\Framework\TestCase;
 use SplFileInfo;
 use Symplify\PHP7_Sculpin\Configuration\Configuration;
-use Symplify\PHP7_Sculpin\Configuration\Parser\YamlAndNeonParser;
+use Symplify\PHP7_Sculpin\Configuration\Parser\NeonParser;
 use Symplify\PHP7_Sculpin\Renderable\File\FileFactory;
 use Symplify\PHP7_Sculpin\Renderable\Routing\Route\IndexRoute;
 use Symplify\PHP7_Sculpin\Renderable\Routing\Route\NotHtmlRoute;
@@ -23,7 +23,7 @@ final class RoutingDecoratorTest extends TestCase
 
     protected function setUp()
     {
-        $configuration = new Configuration(new YamlAndNeonParser());
+        $configuration = new Configuration(new NeonParser());
         $configuration->setPostRoute('blog/:title');
 
         $this->routeDecorator = new RouteDecorator();
@@ -80,7 +80,7 @@ final class RoutingDecoratorTest extends TestCase
 
     private function getFileFactory() : FileFactory
     {
-        $configuration = new Configuration(new YamlAndNeonParser());
+        $configuration = new Configuration(new NeonParser());
         $configuration->setSourceDirectory('sourceDirectory');
 
         return new FileFactory($configuration);

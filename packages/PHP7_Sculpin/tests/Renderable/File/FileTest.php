@@ -7,7 +7,7 @@ namespace Symplify\PHP7_Sculpin\Tests\Renderable\File;
 use PHPUnit\Framework\TestCase;
 use SplFileInfo;
 use Symplify\PHP7_Sculpin\Configuration\Configuration;
-use Symplify\PHP7_Sculpin\Configuration\Parser\YamlAndNeonParser;
+use Symplify\PHP7_Sculpin\Configuration\Parser\NeonParser;
 use Symplify\PHP7_Sculpin\Renderable\File\FileFactory;
 
 final class FileTest extends TestCase
@@ -19,7 +19,7 @@ final class FileTest extends TestCase
 
     protected function setUp()
     {
-        $configuration = new Configuration(new YamlAndNeonParser());
+        $configuration = new Configuration(new NeonParser());
         $configuration->setSourceDirectory('sourceDirectory');
 
         $this->fileFactory = new FileFactory($configuration);

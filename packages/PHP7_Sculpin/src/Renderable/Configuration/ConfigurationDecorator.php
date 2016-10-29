@@ -9,17 +9,17 @@ declare(strict_types=1);
 
 namespace Symplify\PHP7_Sculpin\Renderable\Configuration;
 
-use Symplify\PHP7_Sculpin\Configuration\Parser\YamlAndNeonParser;
+use Symplify\PHP7_Sculpin\Configuration\Parser\NeonParser;
 use Symplify\PHP7_Sculpin\Renderable\File\AbstractFile;
 
 final class ConfigurationDecorator
 {
     /**
-     * @var YamlAndNeonParser
+     * @var NeonParser
      */
     private $yamlAndNeonParser;
 
-    public function __construct(YamlAndNeonParser $yamlAndNeonParser)
+    public function __construct(NeonParser $yamlAndNeonParser)
     {
         $this->yamlAndNeonParser = $yamlAndNeonParser;
     }

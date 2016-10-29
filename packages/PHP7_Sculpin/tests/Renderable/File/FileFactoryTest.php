@@ -9,7 +9,7 @@ use Exception;
 use PHPUnit\Framework\TestCase;
 use SplFileInfo;
 use Symplify\PHP7_Sculpin\Configuration\Configuration;
-use Symplify\PHP7_Sculpin\Configuration\Parser\YamlAndNeonParser;
+use Symplify\PHP7_Sculpin\Configuration\Parser\NeonParser;
 use Symplify\PHP7_Sculpin\Renderable\File\AbstractFile;
 use Symplify\PHP7_Sculpin\Renderable\File\File;
 use Symplify\PHP7_Sculpin\Renderable\File\FileFactory;
@@ -24,7 +24,7 @@ final class FileFactoryTest extends TestCase
 
     protected function setUp()
     {
-        $configuration = new Configuration(new YamlAndNeonParser());
+        $configuration = new Configuration(new NeonParser());
         $configuration->setSourceDirectory('sourceDirectory');
         $this->fileFactory = new FileFactory($configuration);
     }

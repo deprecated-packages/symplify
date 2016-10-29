@@ -74,19 +74,19 @@ final class PostFile extends AbstractFile implements ArrayAccess
         return $this->configuration[$offset];
     }
 
-    public function offsetExists($offset)
+    public function offsetExists($offset) : bool
     {
-        throw new Exception('not supported');
+        return isset($this->configuration[$offset]);
     }
 
     public function offsetSet($offset, $value)
     {
-        throw new Exception('not supported');
+        throw new Exception(__METHOD__ . ' is not supported');
     }
 
     public function offsetUnset($offset)
     {
-        throw new Exception('not supported');
+        throw new Exception(__METHOD__ . ' is not supported');
     }
 
     private function ensurePathStartsWithDate(SplFileInfo $fileInfo)

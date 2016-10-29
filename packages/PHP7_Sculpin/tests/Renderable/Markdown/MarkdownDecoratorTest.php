@@ -8,7 +8,7 @@ use Michelf\MarkdownExtra;
 use PHPUnit\Framework\TestCase;
 use SplFileInfo;
 use Symplify\PHP7_Sculpin\Configuration\Configuration;
-use Symplify\PHP7_Sculpin\Configuration\Parser\YamlAndNeonParser;
+use Symplify\PHP7_Sculpin\Configuration\Parser\NeonParser;
 use Symplify\PHP7_Sculpin\Renderable\File\File;
 use Symplify\PHP7_Sculpin\Renderable\File\FileFactory;
 use Symplify\PHP7_Sculpin\Renderable\Markdown\MarkdownDecorator;
@@ -45,7 +45,7 @@ final class MarkdownDecoratorTest extends TestCase
     {
         $fileInfo = new SplFileInfo($filePath);
 
-        $configuration = new Configuration(new YamlAndNeonParser());
+        $configuration = new Configuration(new NeonParser());
         $configuration->setSourceDirectory('sourceDirectory');
 
         return (new FileFactory($configuration))->create($fileInfo);

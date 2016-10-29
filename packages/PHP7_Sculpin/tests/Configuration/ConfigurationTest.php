@@ -7,7 +7,7 @@ namespace Symplify\PHP7_Sculpin\Tests\Configuration;
 use PHPUnit\Framework\TestCase;
 use SplFileInfo;
 use Symplify\PHP7_Sculpin\Configuration\Configuration;
-use Symplify\PHP7_Sculpin\Configuration\Parser\YamlAndNeonParser;
+use Symplify\PHP7_Sculpin\Configuration\Parser\NeonParser;
 
 final class ConfigurationTest extends TestCase
 {
@@ -18,7 +18,7 @@ final class ConfigurationTest extends TestCase
 
     protected function setUp()
     {
-        $this->configuration = new Configuration(new YamlAndNeonParser());
+        $this->configuration = new Configuration(new NeonParser());
     }
 
     public function testAddGlobalVariable()

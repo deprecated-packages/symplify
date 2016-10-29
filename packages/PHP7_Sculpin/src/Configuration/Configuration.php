@@ -10,7 +10,7 @@ declare(strict_types=1);
 namespace Symplify\PHP7_Sculpin\Configuration;
 
 use SplFileInfo;
-use Symplify\PHP7_Sculpin\Configuration\Parser\YamlAndNeonParser;
+use Symplify\PHP7_Sculpin\Configuration\Parser\NeonParser;
 
 final class Configuration
 {
@@ -25,9 +25,9 @@ final class Configuration
     private $globalVariables = [];
 
     /**
-     * @var YamlAndNeonParser
+     * @var NeonParser
      */
-    private $yamlAndNeonParser;
+    private $neonParser;
 
     /**
      * @var string
@@ -44,9 +44,9 @@ final class Configuration
      */
     private $postRoute = self::DEFAULT_POST_ROUTE;
 
-    public function __construct(YamlAndNeonParser $yamlAndNeonParser)
+    public function __construct(NeonParser $neonParser)
     {
-        $this->yamlAndNeonParser = $yamlAndNeonParser;
+        $this->neonParser = $neonParser;
     }
 
     /**
@@ -55,7 +55,7 @@ final class Configuration
     public function loadFromFiles(array $files)
     {
         foreach ($files as $file) {
-            $decodedOptions = $this->yamlAndNeonParser->decodeFromFile($file->getRealPath());
+            $decodedOptions = $this->neonParser->decodeFromFile($file->getRealPath());
             $this->globalVariables += $this->extractPostRoute($decodedOptions);
         }
     }

@@ -10,10 +10,8 @@ declare(strict_types=1);
 namespace Symplify\PHP7_Sculpin\Configuration\Parser;
 
 use Nette\Neon\Neon;
-use Symfony\Component\Yaml\Yaml;
-use Throwable;
 
-final class YamlAndNeonParser
+final class NeonParser
 {
     public function decodeFromFile(string $filePath) : array
     {
@@ -24,10 +22,6 @@ final class YamlAndNeonParser
 
     public function decode(string $content) : array
     {
-        try {
-            return Neon::decode($content);
-        } catch (Throwable $throwable) {
-            return Yaml::parse($content);
-        }
+        return Neon::decode($content);
     }
 }

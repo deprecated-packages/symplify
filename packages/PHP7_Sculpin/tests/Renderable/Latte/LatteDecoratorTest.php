@@ -9,7 +9,7 @@ use Latte\ILoader;
 use PHPUnit\Framework\TestCase;
 use SplFileInfo;
 use Symplify\PHP7_Sculpin\Configuration\Configuration;
-use Symplify\PHP7_Sculpin\Configuration\Parser\YamlAndNeonParser;
+use Symplify\PHP7_Sculpin\Configuration\Parser\NeonParser;
 use Symplify\PHP7_Sculpin\Renderable\File\File;
 use Symplify\PHP7_Sculpin\Renderable\Latte\DynamicStringLoader;
 use Symplify\PHP7_Sculpin\Renderable\Latte\LatteDecorator;
@@ -26,7 +26,7 @@ final class LatteDecoratorTest extends TestCase
         $stringLoader = $this->createStringLoader();
 
         $this->latteDecorator = new LatteDecorator(
-            new Configuration(new YamlAndNeonParser()),
+            new Configuration(new NeonParser()),
             $this->createLatteEngine($stringLoader),
             $stringLoader
         );

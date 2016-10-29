@@ -7,7 +7,7 @@ namespace Symplify\PHP7_Sculpin\Tests\Renderable\Configuration;
 use PHPUnit\Framework\TestCase;
 use SplFileInfo;
 use Symplify\PHP7_Sculpin\Configuration\Configuration;
-use Symplify\PHP7_Sculpin\Configuration\Parser\YamlAndNeonParser;
+use Symplify\PHP7_Sculpin\Configuration\Parser\NeonParser;
 use Symplify\PHP7_Sculpin\Renderable\Configuration\ConfigurationDecorator;
 use Symplify\PHP7_Sculpin\Renderable\File\FileFactory;
 
@@ -21,7 +21,7 @@ final class ConfigurationDecoratorTest extends TestCase
     protected function setUp()
     {
         $this->configurationDecorator = new ConfigurationDecorator(
-            new YamlAndNeonParser()
+            new NeonParser()
         );
     }
 
@@ -31,7 +31,7 @@ final class ConfigurationDecoratorTest extends TestCase
     public function testDecorateFile(string $filePath, string $fileContent, array $expectedConfiguration)
     {
         $fileInfo = new SplFileInfo($filePath);
-        $configuration = new Configuration(new YamlAndNeonParser());
+        $configuration = new Configuration(new NeonParser());
         $configuration->setSourceDirectory('sourceDirectory');
         $filePath = (new FileFactory($configuration))->create($fileInfo);
 
