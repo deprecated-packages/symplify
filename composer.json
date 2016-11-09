@@ -67,7 +67,6 @@
             "Symplify\\ModularDoctrineFilters\\": "packages/ModularDoctrineFilters/src",
             "Symplify\\ModularRouting\\": "packages/ModularRouting/src",
             "Symplify\\NetteAdapterForSymfonyBundles\\": "packages/NetteAdapterForSymfonyBundles/src",
-            "Symplify\\TwitterBrandBuilder\\": "packages/TwitterBrandBuilder/src",
             "Symplify\\Statie\\": "packages/Statie/src"
         }
     },
@@ -81,7 +80,6 @@
             "Symplify\\ModularDoctrineFilters\\Tests\\": "packages/ModularDoctrineFilters/tests",
             "Symplify\\ModularRouting\\Tests\\": "packages/ModularRouting/tests",
             "Symplify\\NetteAdapterForSymfonyBundles\\Tests\\": "packages/NetteAdapterForSymfonyBundles/tests",
-            "Symplify\\TwitterBrandBuilder\\Tests\\": "packages/TwitterBrandBuilder/tests",
             "Symplify\\Statie\\Tests\\": "packages/Statie/tests",
             "Symplify\\Tests\\": "tests",
             "React\\Tests\\Http\\": "vendor/react/http/tests"

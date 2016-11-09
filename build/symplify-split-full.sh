@@ -9,7 +9,6 @@ git subsplit publish --heads="master" packages/DefaultAutowire:git@github.com:Sy
 git subsplit publish --heads="master" packages/ModularDoctrineFilters:git@github.com:Symplify/ModularDoctrineFilters.git
 git subsplit publish --heads="master" packages/ModularRouting:git@github.com:Symplify/ModularRouting.git
 git subsplit publish --heads="master" packages/NetteAdapterForSymfonyBundles:git@github.com:Symplify/NetteAdapterForSymfonyBundles.git
-git subsplit publish --heads="master" packages/TwitterBrandBuilder:git@github.com:Symplify/TwitterBrandBuilder.git
 git subsplit publish --heads="master" packages/Statie:git@github.com:Symplify/Statie.git
 
 rm -rf .subsplit/
