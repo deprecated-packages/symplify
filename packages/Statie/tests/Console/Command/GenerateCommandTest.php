@@ -36,7 +36,7 @@ final class GenerateCommandTest extends TestCase
         );
 
         $input = new StringInput($stringInput);
-        $result = $this->application->run($input, new NullOutput());
+        $result = $this->application->run($input); //, new NullOutput());
         $this->assertSame(0, $result);
 
         $this->assertFileExists(__DIR__ . '/GenerateCommandSource/output/index.html');
