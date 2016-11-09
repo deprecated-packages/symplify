@@ -38,7 +38,8 @@ final class PhpCsFixerProcessBuilderTest extends TestCase
         $builder->enableDryRun();
         $this->assertSame(
             WindowsCompatibilityHelper::makeWindowsOsCompatible(
-                "'./vendor/bin/php-cs-fixer' 'fix' 'directory' '--verbose' '--fixers=fixers' '--level=level5' '--dry-run' '--diff'"
+                "'./vendor/bin/php-cs-fixer' 'fix' 'directory' '--verbose' '--fixers=fixers' '--level=level5' "
+                . "'--dry-run' '--diff'"
             ),
             $builder->getProcess()->getCommandLine()
         );
