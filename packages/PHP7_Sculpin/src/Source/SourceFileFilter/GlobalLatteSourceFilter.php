@@ -15,24 +15,23 @@ use Symplify\PHP7_Sculpin\Contract\Source\SourceFileFilter\SourceFileFilterInter
 use Symplify\PHP7_Sculpin\Source\SourceFileTypes;
 
 
-/**
- * @todo rename to latte global files
- */
-final class LayoutSourceFilter implements SourceFileFilterInterface
+final class GlobalLatteSourceFilter implements SourceFileFilterInterface
 {
     public function getName() : string
     {
-        return SourceFileTypes::LAYOUTS;
+        return SourceFileTypes::GLOBAL_LATTE;
     }
 
-    if (Strings::contains($fileInfo, '_layouts')) {
-        return TRUE;
-    }
+	public function matchesFileSource(SplFileInfo $fileInfo): bool
+	{
+		if (Strings::contains($fileInfo, '_layouts')) {
+			return TRUE;
+		}
 
-    if (Strings::contains($fileInfo, '_snippets')) {
-        return TRUE;
-    }
+		if (Strings::contains($fileInfo, '_snippets')) {
+			return TRUE;
+		}
 
-    return FALSE;
-
+	    return FALSE;
+	}
 }

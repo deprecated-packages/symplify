@@ -7,7 +7,7 @@ namespace Symplify\PHP7_Sculpin\Tests\Source;
 use Nette\Utils\Finder;
 use PHPUnit\Framework\TestCase;
 use Symplify\PHP7_Sculpin\Source\SourceFileFilter\ConfigurationSourceFilter;
-use Symplify\PHP7_Sculpin\Source\SourceFileFilter\LayoutSourceFilter;
+use Symplify\PHP7_Sculpin\Source\SourceFileFilter\GlobalLatteSourceFilter;
 use Symplify\PHP7_Sculpin\Source\SourceFileFilter\PostSourceFilter;
 use Symplify\PHP7_Sculpin\Source\SourceFileFilter\RenderableSourceFilter;
 use Symplify\PHP7_Sculpin\Source\SourceFileFilter\StaticSourceFilter;
@@ -30,7 +30,7 @@ final class SourceFileStorageTest extends TestCase
     {
         $sourceFileStorage = new SourceFileStorage();
 
-        $sourceFileStorage->addSourceFileFilter(new LayoutSourceFilter());
+        $sourceFileStorage->addSourceFileFilter(new GlobalLatteSourceFilter());
         $sourceFileStorage->addSourceFileFilter(new PostSourceFilter());
         $sourceFileStorage->addSourceFileFilter(new ConfigurationSourceFilter());
         $sourceFileStorage->addSourceFileFilter(new StaticSourceFilter());

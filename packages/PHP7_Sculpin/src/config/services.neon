@@ -15,7 +15,7 @@ services:
     # source
     - Symplify\PHP7_Sculpin\Source\SourceFileStorage
     - Symplify\PHP7_Sculpin\Source\SourceFileFilter\ConfigurationSourceFilter
-    - Symplify\PHP7_Sculpin\Source\SourceFileFilter\LayoutSourceFilter
+    - Symplify\PHP7_Sculpin\Source\SourceFileFilter\GlobalLatteSourceFilter
     - Symplify\PHP7_Sculpin\Source\SourceFileFilter\PostSourceFilter
     - Symplify\PHP7_Sculpin\Source\SourceFileFilter\RenderableSourceFilter
     - Symplify\PHP7_Sculpin\Source\SourceFileFilter\StaticSourceFilter

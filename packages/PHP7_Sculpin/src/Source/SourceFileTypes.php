@@ -19,7 +19,7 @@ final class SourceFileTypes
     /**
      * @var string
      */
-    const LAYOUTS = 'layouts';
+    const GLOBAL_LATTE = 'global_latte';
 
     /**
      * @var string

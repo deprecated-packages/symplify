@@ -86,6 +86,6 @@ final class SourceFileStorage
      */
     public function getLayoutFiles() : array
     {
-        return $this->sourceFilesByType[SourceFileTypes::LAYOUTS];
+        return $this->sourceFilesByType[SourceFileTypes::GLOBAL_LATTE];
     }
 }

@@ -12,7 +12,7 @@ final class SourceFileTypesTest extends TestCase
     public function test()
     {
         $this->assertSame('configuration', SourceFileTypes::CONFIGURATION);
-        $this->assertSame('layouts', SourceFileTypes::LAYOUTS);
+        $this->assertSame('layouts', SourceFileTypes::GLOBAL_LATTE);
         $this->assertSame('posts', SourceFileTypes::POSTS);
         $this->assertSame('renderable', SourceFileTypes::RENDERABLE);
     }
