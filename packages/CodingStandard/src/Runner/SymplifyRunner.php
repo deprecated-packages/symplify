@@ -12,6 +12,7 @@ namespace Symplify\CodingStandard\Runner;
 use Symplify\CodingStandard\Contract\Runner\RunnerInterface;
 use Symplify\CodingStandard\Process\PhpCbfProcessBuilder;
 use Symplify\CodingStandard\Process\PhpCsProcessBuilder;
+use Symplify\CodingStandard\Tests\Exception\StandardRulesetNotFoundException;
 
 final class SymplifyRunner implements RunnerInterface
 {
@@ -70,10 +71,21 @@ final class SymplifyRunner implements RunnerInterface
 
     private function getRuleset() : string
     {
-        if (file_exists($path = 'src/SymplifyCodingStandard/ruleset.xml')) {
-            return $path;
+        $possiblePaths = [
+            'src/SymplifyCodingStandard/ruleset.xml',
+            'vendor/symplify/coding-standard/src/SymplifyCodingStandard/ruleset.xml',
+            'packages/CodingStandard/src/SymplifyCodingStandard/ruleset.xml',
+        ];
+
+        foreach ($possiblePaths as $possiblePath) {
+            if (file_exists($possiblePath)) {
+                return $possiblePath;
+            }
         }
 
-        return 'vendor/symplify/coding-standard/src/SymplifyCodingStandard/ruleset.xml';
+        throw new StandardRulesetNotFoundException(
+            '"Symplify" standard was not found in paths "%s".',
+            implode(',', $possiblePaths)
+        );
     }
 }

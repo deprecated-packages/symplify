@@ -43,7 +43,6 @@
         "hautelook/alice-bundle": "~1.3",
         "league/tactician-bundle": "~0.4",
 
-        "symplify/coding-standard": "~1.2",
         "phpunit/phpunit": "^5.5",
 
         "doctrine/doctrine-bundle": "^1.6",
@@ -90,12 +89,12 @@
     },
     "scripts": {
         "check-cs": [
-            "vendor/bin/symplify-cs check packages/*/src",
-            "vendor/bin/symplify-cs check packages/*/tests"
+            "packages/CodingStandard/bin/symplify-cs check packages/*/src",
+            "packages/CodingStandard/bin/symplify-cs check packages/*/tests"
         ],
         "fix-cs": [
-            "vendor/bin/symplify-cs fix packages/*/src",
-            "vendor/bin/symplify-cs fix packages/*/tests"
+            "packages/CodingStandard/bin/symplify-cs fix packages/*/src",
+            "packages/CodingStandard/bin/symplify-cs fix packages/*/tests"
         ]
     }
 }

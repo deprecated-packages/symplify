@@ -26,6 +26,7 @@ final class PhpCsFixerProcessBuilder implements ProcessBuilderInterface
         $this->builder->setPrefix('./vendor/bin/php-cs-fixer');
         $this->builder->add('fix');
         $this->builder->add($directory);
+        $this->builder->add('--verbose');
     }
 
     /**

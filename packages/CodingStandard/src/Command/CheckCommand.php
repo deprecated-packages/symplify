@@ -41,6 +41,9 @@ final class CheckCommand extends AbstractCommand
     private function executeRunnersForDirectory(string $directory)
     {
         foreach ($this->runnerCollection->getRunners() as $runner) {
+            $headline = 'Running ' . $this->getRunnerName($runner);
+            $this->io->section($headline);
+
             $processOutput = $runner->runForDirectory($directory);
             $this->io->text($processOutput);
 
@@ -50,7 +53,7 @@ final class CheckCommand extends AbstractCommand
         }
     }
 
-    private function outputCheckResult() : int
+    private function outputCheckResult(): int
     {
         if ($this->exitCode === self::EXIT_CODE_ERROR) {
             $this->io->error('Some errors were found');

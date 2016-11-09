@@ -21,9 +21,7 @@ final class SymfonyRunner implements RunnerInterface
 
     public function runForDirectory(string $directory) : string
     {
-        $builder = new PhpCsFixerProcessBuilder($directory);
-        $builder->setLevel('symfony');
-        $builder->setFixers('-phpdoc_params');
+        $builder = $this->createBuilderWithDirectory($directory);
         $builder->enableDryRun();
 
         $process = $builder->getProcess();
@@ -41,9 +39,7 @@ final class SymfonyRunner implements RunnerInterface
 
     public function fixDirectory(string $directory) : string
     {
-        $builder = new PhpCsFixerProcessBuilder($directory);
-        $builder->setLevel('symfony');
-        $builder->setFixers('-phpdoc_params');
+        $builder = $this->createBuilderWithDirectory($directory);
 
         $process = $builder->getProcess();
         $process->run();
@@ -56,5 +52,29 @@ final class SymfonyRunner implements RunnerInterface
         if (strpos($output, 'end diff') !== false) {
             $this->hasErrors = true;
         }
+    }
+
+    private function createBuilderWithDirectory(string $directory): PhpCsFixerProcessBuilder
+    {
+        $builder = new PhpCsFixerProcessBuilder($directory);
+        $builder->setLevel('symfony');
+        $builder->setFixers($this->getExcludedFixers());
+
+        return $builder;
+    }
+
+    /**
+     * See here a bit bellow for all custom fixers:
+     * https://github.com/FriendsOfPHP/PHP-CS-Fixer#usage.
+     */
+    private function getExcludedFixers() : string
+    {
+        $fixers = [
+            '-phpdoc_params',
+            '-concat_without_spaces',
+            '-unary_operators_spaces',
+        ];
+
+        return implode(',', $fixers);
     }
 }

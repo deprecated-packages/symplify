@@ -52,6 +52,11 @@ final class PostFile extends AbstractFile implements ArrayAccess
         return $this->filenameWithoutDate;
     }
 
+    /**
+     * @param mixed $offset
+     *
+     * @return DateTimeInterface|string
+     */
     public function offsetGet($offset)
     {
         if ($offset === 'content') {
@@ -74,16 +79,26 @@ final class PostFile extends AbstractFile implements ArrayAccess
         return $this->configuration[$offset];
     }
 
+    /**
+     * @param mixed $offset
+     */
     public function offsetExists($offset) : bool
     {
         return isset($this->configuration[$offset]);
     }
 
+    /**
+     * @param mixed $offset
+     * @param mixed $value
+     */
     public function offsetSet($offset, $value)
     {
         throw new Exception(__METHOD__ . ' is not supported');
     }
 
+    /**
+     * @param mixed $offset
+     */
     public function offsetUnset($offset)
     {
         throw new Exception(__METHOD__ . ' is not supported');
