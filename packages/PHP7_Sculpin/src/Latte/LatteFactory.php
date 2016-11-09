@@ -29,6 +29,7 @@ final class LatteFactory
         $engine = new Engine();
         $engine->setLoader($this->loader);
         $engine->setTempDirectory(sys_get_temp_dir() . '/php7_sculpin');
+
         return $engine;
     }
 }
