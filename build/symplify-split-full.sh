@@ -10,7 +10,7 @@ git subsplit publish --heads="master" packages/ModularDoctrineFilters:git@github
 git subsplit publish --heads="master" packages/ModularRouting:git@github.com:Symplify/ModularRouting.git
 git subsplit publish --heads="master" packages/NetteAdapterForSymfonyBundles:git@github.com:Symplify/NetteAdapterForSymfonyBundles.git
 git subsplit publish --heads="master" packages/TwitterBrandBuilder:git@github.com:Symplify/TwitterBrandBuilder.git
-git subsplit publish --heads="master" packages/PHP7_Sculpin:git@github.com:Symplify/PHP7_Sculpin.git
+git subsplit publish --heads="master" packages/Statie:git@github.com:Symplify/Statie.git
 
 rm -rf .subsplit/
 

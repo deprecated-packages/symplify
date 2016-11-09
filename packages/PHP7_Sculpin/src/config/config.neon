@@ -1,5 +1,0 @@
-extensions:
-    sculpin: Symplify\PHP7_Sculpin\DI\SculpinCompilerExtension
-
-sculpin:
-    postRoute: blog/:year/:month/:day/:filename

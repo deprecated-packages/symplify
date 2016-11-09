@@ -1,0 +1,5 @@
+extensions:
+    sculpin: Symplify\Statie\DI\SculpinCompilerExtension
+
+sculpin:
+    postRoute: blog/:year/:month/:day/:filename

@@ -69,7 +69,7 @@
             "Symplify\\ModularRouting\\": "packages/ModularRouting/src",
             "Symplify\\NetteAdapterForSymfonyBundles\\": "packages/NetteAdapterForSymfonyBundles/src",
             "Symplify\\TwitterBrandBuilder\\": "packages/TwitterBrandBuilder/src",
-            "Symplify\\PHP7_Sculpin\\": "packages/PHP7_Sculpin/src"
+            "Symplify\\Statie\\": "packages/Statie/src"
         }
     },
     "autoload-dev": {
@@ -83,7 +83,7 @@
             "Symplify\\ModularRouting\\Tests\\": "packages/ModularRouting/tests",
             "Symplify\\NetteAdapterForSymfonyBundles\\Tests\\": "packages/NetteAdapterForSymfonyBundles/tests",
             "Symplify\\TwitterBrandBuilder\\Tests\\": "packages/TwitterBrandBuilder/tests",
-            "Symplify\\PHP7_Sculpin\\Tests\\": "packages/PHP7_Sculpin/tests",
+            "Symplify\\Statie\\Tests\\": "packages/Statie/tests",
             "Symplify\\Tests\\": "tests",
             "React\\Tests\\Http\\": "vendor/react/http/tests"
         }
