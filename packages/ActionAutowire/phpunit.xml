@@ -18,5 +18,4 @@
     <listeners>
         <listener class="Symplify\ActionAutowire\Tests\PHPUnit\ClearLogAndCacheTestListener" />
     </listeners>
-
 </phpunit>

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\ActionAutowire\Tests\PHPUnit;
+namespace Symplify\ModularDoctrineFilters\Tests\PHPUnit;
 
 use Nette\Utils\FileSystem;
 use Nette\Utils\Finder;
