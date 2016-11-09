@@ -1,0 +1,67 @@
+services:
+    # configuration
+    - Symplify\Statie\Configuration\Configuration
+    - Symplify\Statie\Configuration\Parser\NeonParser
+
+    # console
+    - Symplify\Statie\Console\ConsoleApplication
+    - Symplify\Statie\Console\Command\GenerateCommand
+    - Symplify\Statie\Console\Command\PushToGithubCommand
+    - Symfony\Component\Console\Output\ConsoleOutput
+
+    # core
+    - Symplify\Statie\Application\SculpinApplication
+
+    # source
+    - Symplify\Statie\Source\SourceFileStorage
+    - Symplify\Statie\Source\SourceFileFilter\ConfigurationSourceFilter
+    - Symplify\Statie\Source\SourceFileFilter\GlobalLatteSourceFilter
+    - Symplify\Statie\Source\SourceFileFilter\PostSourceFilter
+    - Symplify\Statie\Source\SourceFileFilter\RenderableSourceFilter
+    - Symplify\Statie\Source\SourceFileFilter\StaticSourceFilter
+
+    # renderable
+    - Symplify\Statie\Renderable\File\FileFactory
+    - Symplify\Statie\Renderable\RenderableFilesProcessor
+    - Michelf\MarkdownExtra
+
+    # renderable - latte
+    - Symplify\Statie\Renderable\Latte\DynamicStringLoader
+    - Symplify\Statie\Latte\LatteFactory
+    -
+         factory: [@Symplify\Statie\Latte\LatteFactory, "create"]
+
+    # renderable - decorators
+    - Symplify\Statie\Renderable\Configuration\ConfigurationDecorator
+    - Symplify\Statie\Renderable\Latte\LatteDecorator
+    - Symplify\Statie\Renderable\Markdown\MarkdownDecorator
+    - Symplify\Statie\Renderable\Routing\RouteDecorator
+
+    # routing
+    - Symplify\Statie\Renderable\Routing\Route\IndexRoute
+    - Symplify\Statie\Renderable\Routing\Route\PostRoute
+    - Symplify\Statie\Renderable\Routing\Route\NotHtmlRoute
+
+    # output
+    - Symplify\Statie\Output\FileSystemWriter
+
+    # github
+    - Symplify\Statie\Github\GihubPublishingProcess
+
+    # http
+    - Symplify\Statie\HttpServer\HttpServer
+    - Symplify\Statie\HttpServer\ResponseWriter
+    - Mimey\MimeTypes
+    - Symplify\Statie\HttpServer\MimeType\MimeTypeDetector
+
+    # translation
+    - Symplify\Statie\Translation\Latte\TranslationFilterProvider
+    - Symplify\Statie\Translation\TranslatorFactory
+    -
+         factory: [@Symplify\Statie\Translation\TranslatorFactory, "create"]
+    - Symplify\Statie\Translation\MessageAnalyzer
+    - Symplify\Statie\Translation\Filesystem\ResourceFinder
+
+    # latte filters
+    - Symplify\Statie\Latte\Filter\ReadingTimeFilterProvider
+    - Symplify\Statie\Latte\Filter\GithubPrLinkFilterProvider
