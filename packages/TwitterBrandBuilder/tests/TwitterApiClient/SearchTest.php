@@ -22,6 +22,8 @@ final class SearchTest extends TestCase
 
     public function testSearchHashtag()
     {
+        $this->markTestSkipped('slow');
+
         $tweets = $this->twitterApiClient->searchHashtag('twitter');
         $this->assertGreaterThan(7, $tweets);
     }
