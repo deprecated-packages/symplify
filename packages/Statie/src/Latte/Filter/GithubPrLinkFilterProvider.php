@@ -36,7 +36,7 @@ final class GithubPrLinkFilterProvider implements LatteFiltersProviderInterface
                     . $this->configuration->getGithubRepositorySlug()
                     . '/edit/master/source/'
                     . $file->getRelativeSource();
-            }
+            },
         ];
     }
 }

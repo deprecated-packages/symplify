@@ -12,7 +12,6 @@ namespace Symplify\Statie\Configuration;
 use SplFileInfo;
 use Symplify\Statie\Configuration\Parser\NeonParser;
 
-
 final class Configuration
 {
     /**
@@ -137,7 +136,6 @@ final class Configuration
 
         return $options;
     }
-
 
     private function extractGithubRepositorySlug(array $options) : array
     {

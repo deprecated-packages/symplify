@@ -103,7 +103,7 @@ final class SculpinApplication
 
         $this->loadSourcesFromSourceDirectory($runCommand->getSourceDirectory());
 
-        if (!$this->shouldRegenerate) {
+        if (! $this->shouldRegenerate) {
             return;
         }
 
@@ -160,7 +160,7 @@ final class SculpinApplication
             if ($file->getMTime() > $sinceTimeLast) {
                 // this file has changed, we need to regenerate it
                 $this->shouldRegenerate = true;
-            } elseif (!$this->isGlobalFile($file)) {
+            } elseif (! $this->isGlobalFile($file)) {
                 // this file has not changed, nor is global, drop it
                 unset($files[$key]);
             }

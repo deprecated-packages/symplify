@@ -23,8 +23,8 @@ final class StaticSourceFilter implements SourceFileFilterInterface
     public function matchesFileSource(SplFileInfo $fileInfo) : bool
     {
         return in_array($fileInfo->getExtension(), [
-        	'png', 'jpg', 'svg', 'css', 'ico', 'js', '', 'jpeg', 'gif', 'zip', 'tgz', 'gz', 'rar', 'bz2', 'pdf', 'txt',
-			'tar', 'mp3', 'doc', 'xls', 'pdf', 'ppt', 'txt', 'tar', 'bmp', 'rtf'
-		]);
+            'png', 'jpg', 'svg', 'css', 'ico', 'js', '', 'jpeg', 'gif', 'zip', 'tgz', 'gz', 'rar', 'bz2', 'pdf', 'txt',
+            'tar', 'mp3', 'doc', 'xls', 'pdf', 'ppt', 'txt', 'tar', 'bmp', 'rtf',
+        ]);
     }
 }

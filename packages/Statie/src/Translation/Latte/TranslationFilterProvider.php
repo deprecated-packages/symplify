@@ -39,7 +39,7 @@ final class TranslationFilterProvider implements LatteFiltersProviderInterface
         return [
             'translate' => function (string $message, string $locale) {
                 return $this->translate($message, $locale);
-            }
+            },
         ];
     }
 

@@ -21,9 +21,10 @@ final class ResourceFinder
 
         foreach ($finder as $file) {
             /** @var \SplFileInfo $file */
-            if (!$m = Strings::match(
+            if (! $m = Strings::match(
                 $file->getFilename(),
-                '~^(?P<domain>.*?)\.(?P<locale>[^\.]+)\.(?P<format>[^\.]+)$~')
+                '~^(?P<domain>.*?)\.(?P<locale>[^\.]+)\.(?P<format>[^\.]+)$~'
+            )
             ) {
                 continue;
             }

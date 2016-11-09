@@ -14,7 +14,6 @@ use SplFileInfo;
 use Symplify\Statie\Contract\Source\SourceFileFilter\SourceFileFilterInterface;
 use Symplify\Statie\Source\SourceFileTypes;
 
-
 final class GlobalLatteSourceFilter implements SourceFileFilterInterface
 {
     public function getName() : string
@@ -22,16 +21,16 @@ final class GlobalLatteSourceFilter implements SourceFileFilterInterface
         return SourceFileTypes::GLOBAL_LATTE;
     }
 
-	public function matchesFileSource(SplFileInfo $fileInfo): bool
-	{
-		if (Strings::contains($fileInfo, '_layouts')) {
-			return TRUE;
-		}
+    public function matchesFileSource(SplFileInfo $fileInfo): bool
+    {
+        if (Strings::contains($fileInfo, '_layouts')) {
+            return true;
+        }
 
-		if (Strings::contains($fileInfo, '_snippets')) {
-			return TRUE;
-		}
+        if (Strings::contains($fileInfo, '_snippets')) {
+            return true;
+        }
 
-	    return FALSE;
-	}
+        return false;
+    }
 }
