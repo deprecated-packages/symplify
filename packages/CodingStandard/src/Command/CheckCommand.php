@@ -41,7 +41,7 @@ final class CheckCommand extends AbstractCommand
     private function executeRunnersForDirectory(string $directory)
     {
         foreach ($this->runnerCollection->getRunners() as $runner) {
-            $headline = 'Running ' . $this->getRunnerName($runner);
+            $headline = 'Running ' . $this->getRunnerName($runner) . ' in ' . $directory;
             $this->io->section($headline);
 
             $processOutput = $runner->runForDirectory($directory);

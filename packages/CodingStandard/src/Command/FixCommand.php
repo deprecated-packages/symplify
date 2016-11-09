@@ -42,7 +42,7 @@ final class FixCommand extends AbstractCommand
     private function executeFixersForDirectory(string $directory)
     {
         foreach ($this->runnerCollection->getRunners() as $runner) {
-            $headline = 'Running ' . $this->getRunnerName($runner);
+            $headline = 'Running ' . $this->getRunnerName($runner) . ' in ' . $directory;
             $this->io->section($headline);
 
             $this->io->text($runner->fixDirectory($directory));
