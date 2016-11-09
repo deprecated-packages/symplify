@@ -15,14 +15,14 @@ final class PhpCsFixerProcessBuilderTest extends TestCase
 
         $this->assertSame(
             WindowsCompatibilityHelper::makeWindowsOsCompatible(
-                "'./vendor/bin/php-cs-fixer' 'fix' 'directory' '--fixers=fixers'"
+                "'./vendor/bin/php-cs-fixer' 'fix' 'directory' '--verbose' '--fixers=fixers'"
             ),
             $builder->getProcess()->getCommandLine()
         );
 
         $this->assertSame(
             WindowsCompatibilityHelper::makeWindowsOsCompatible(
-                "'./vendor/bin/php-cs-fixer' 'fix' 'directory' '--fixers=fixers'"
+                "'./vendor/bin/php-cs-fixer' 'fix' 'directory' '--verbose' '--fixers=fixers'"pa
             ),
             $builder->getProcess()->getCommandLine()
         );
@@ -30,7 +30,7 @@ final class PhpCsFixerProcessBuilderTest extends TestCase
         $builder->setLevel('level5');
         $this->assertSame(
             WindowsCompatibilityHelper::makeWindowsOsCompatible(
-                "'./vendor/bin/php-cs-fixer' 'fix' 'directory' '--fixers=fixers' '--level=level5'"
+                "'./vendor/bin/php-cs-fixer' 'fix' 'directory' '--verbose' '--fixers=fixers' '--level=level5'"
             ),
             $builder->getProcess()->getCommandLine()
         );
@@ -38,7 +38,7 @@ final class PhpCsFixerProcessBuilderTest extends TestCase
         $builder->enableDryRun();
         $this->assertSame(
             WindowsCompatibilityHelper::makeWindowsOsCompatible(
-                "'./vendor/bin/php-cs-fixer' 'fix' 'directory' '--fixers=fixers' '--level=level5' '--dry-run' '--diff'"
+                "'./vendor/bin/php-cs-fixer' 'fix' 'directory' '--verbose' '--fixers=fixers' '--level=level5' '--dry-run' '--diff'"
             ),
             $builder->getProcess()->getCommandLine()
         );
