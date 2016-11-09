@@ -36,7 +36,8 @@
         "symfony-cmf/routing-bundle": "dev-master as 1.4",
 
         "friendsofphp/php-cs-fixer": "^1.12",
-        "squizlabs/php_codesniffer": "^2.7"
+        "squizlabs/php_codesniffer": "^2.7",
+        "zenify/modular-latte-filters": "^0.2.1"
     },
     "require-dev": {
         "hautelook/alice-bundle": "~1.3",
