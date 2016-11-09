@@ -31,12 +31,12 @@ final class GenerateCommandTest extends TestCase
     {
         $stringInput = sprintf(
             'generate --source %s --output %s',
-            'packages/Statie/tests/Console/Command/GenerateCommandSource/source',
-            'packages/Statie/tests/Console/Command/GenerateCommandSource/output'
+            __DIR__ . '/GenerateCommandSource/source',
+            __DIR__ . '/GenerateCommandSource/output'
         );
 
         $input = new StringInput($stringInput);
-        $result = $this->application->run($input);
+        $result = $this->application->run($input, new NullOutput());
         $this->assertSame(0, $result);
 
         $this->assertFileExists(__DIR__ . '/GenerateCommandSource/output/index.html');
