@@ -26,7 +26,7 @@ final class ContainerFactory
 
     public static function createAndReturnTempDir() : string
     {
-        $tempDir = sys_get_temp_dir() . '/php7_sculpin';
+        $tempDir = sys_get_temp_dir() . '/nette-adapter-for-symfony-bundles';
         FileSystem::delete($tempDir);
         FileSystem::createDir($tempDir);
 
