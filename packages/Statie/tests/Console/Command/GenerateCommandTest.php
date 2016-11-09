@@ -36,8 +36,7 @@ final class GenerateCommandTest extends TestCase
         );
 
         $input = new StringInput($stringInput);
-        $result = $this->application->run($input); //, new NullOutput());
-        $this->assertSame(0, $result);
+        $this->application->run($input, new NullOutput());
 
         $this->assertFileExists(__DIR__ . '/GenerateCommandSource/output/index.html');
     }
@@ -45,12 +44,14 @@ final class GenerateCommandTest extends TestCase
     public function testException()
     {
         $stringInput = sprintf(
-            'generate --source %s',
-            __DIR__ . DIRECTORY_SEPARATOR . 'GenerateCommandSource' . 'missing'
+            'generate --source %s --output',
+            __DIR__ . DIRECTORY_SEPARATOR . 'GenerateCommandSource' . 'missing',
+            'packages/Statie/tests/Console/Command/GenerateCommandSource/another_output'
         );
         $input = new StringInput($stringInput);
+        $this->application->run($input, new NullOutput());
 
-        $this->assertSame(1, $this->application->run($input, new NullOutput()));
+        $this->assertFileNotExists(__DIR__ . '/GenerateCommandSource/another_output/index.html');
     }
 
     protected function tearDown()
