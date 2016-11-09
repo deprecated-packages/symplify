@@ -9,11 +9,19 @@ matrix:
       env: PHPUNIT_FLAGS="--coverage-clover coverage.xml" CHECK_CS=true
 
 install:
-  - composer update --prefer-source
+  # install composer dependencies
+  - composer install --prefer-source
 
 script:
+  # run tests
   - vendor/bin/phpunit $PHPUNIT_FLAGS
-  - if [[ "$CHECK_CS" != "" ]]; then composer fix-cs; fi
+  # check coding standard (defined in composer.json "scripts" section)
+  - if [[ "$CHECK_CS" != "" ]]; then composer check-cs; fi
 
 after_script:
-  - if [[ "$PHPUNIT_FLAGS" != "" ]]; then wget https://scrutinizer-ci.com/ocular.phar && php ocular.phar code-coverage:upload --format=php-clover coverage.xml; fi
+  # upload coverage.xml file to Scrutinizer to analyze it
+  - |
+    if [[ "$PHPUNIT_FLAGS" != "" ]]; then
+      wget https://scrutinizer-ci.com/ocular.phar
+      php ocular.phar code-coverage:upload --format=php-clover coverage.xml
+    fi

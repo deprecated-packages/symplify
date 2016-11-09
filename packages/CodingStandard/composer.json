@@ -26,6 +26,10 @@
             "Symplify\\CodingStandard\\Tests\\": "tests"
         }
     },
+    "scripts": {
+        "check-cs": "bin/symplify-cs check src tests",
+        "fix-cs": "bin/symplify-cs fix src tests"
+    },
     "bin": [
         "bin/symplify-cs"
     ]

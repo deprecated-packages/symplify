@@ -1,18 +1,19 @@
 language: php
 
+php:
+  - 7.1
+
 matrix:
   include:
     - php: 7.0
-      env: PHPUNIT_FLAGS="--coverage-clover coverage.clover"
-    - php: 7.1
-      env: CHECK_CS=true
+      env: PHPUNIT_FLAGS="--coverage-clover coverage.clover" CHECK_CS=true
 
 install:
   - composer install --prefer-source
 
 before_script:
   # check coding standard
-  - if [[ $CHECK_CS != "" ]]; then composer fix-cs; fi
+  - if [[ $CHECK_CS != "" ]]; then composer check-cs; fi
 
 script:
   # run tests

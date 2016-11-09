@@ -6,14 +6,22 @@ php:
 matrix:
   include:
     - php: 7.0
-      env: PHPUNIT_FLAGS="--coverage-clover coverage.clover" CHECK_CS=true
+      env: PHPUNIT_FLAGS="--coverage-clover coverage.xml" CHECK_CS=true
 
 install:
+  # install composer dependencies
   - composer install --prefer-source
 
 script:
+  # run tests
   - vendor/bin/phpunit $PHPUNIT_FLAGS
-  - if [[ "$CHECK_CS" != "" ]]; then vendor/bin/symplify-cs check src tests; fi
+  # check coding standard (defined in composer.json "scripts" section)
+  - if [[ "$CHECK_CS" != "" ]]; then composer check-cs; fi
 
 after_script:
-  - if [[ "$PHPUNIT_FLAGS" != "" ]]; then wget https://scrutinizer-ci.com/ocular.phar && php ocular.phar code-coverage:upload --format=php-clover coverage.clover; fi
+  # upload coverage.xml file to Scrutinizer to analyze it
+  - |
+    if [[ "$PHPUNIT_FLAGS" != "" ]]; then
+      wget https://scrutinizer-ci.com/ocular.phar
+      php ocular.phar code-coverage:upload --format=php-clover coverage.xml
+    fi

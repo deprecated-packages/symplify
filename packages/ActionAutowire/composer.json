@@ -11,9 +11,9 @@
     },
     "require-dev": {
         "nette/utils": "^2.4",
-        "phpunit/phpunit": "^5.5",
+        "phpunit/phpunit": "^5.6",
         "symfony/framework-bundle": "^3.0",
-        "symplify/coding-standard": "^1.0"
+        "symplify/coding-standard": "^1.2"
     },
     "autoload": {
         "psr-4": {
@@ -24,5 +24,9 @@
         "psr-4": {
             "Symplify\\ActionAutowire\\Tests\\": "tests"
         }
+    },
+    "scripts": {
+        "check-cs": "vendor/bin/symplify-cs check src tests",
+        "fix-cs": "vendor/bin/symplify-cs fix src tests"
     }
 }
