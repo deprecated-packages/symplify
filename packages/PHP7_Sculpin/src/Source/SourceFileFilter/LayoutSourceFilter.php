@@ -14,6 +14,10 @@ use SplFileInfo;
 use Symplify\PHP7_Sculpin\Contract\Source\SourceFileFilter\SourceFileFilterInterface;
 use Symplify\PHP7_Sculpin\Source\SourceFileTypes;
 
+
+/**
+ * @todo rename to latte global files
+ */
 final class LayoutSourceFilter implements SourceFileFilterInterface
 {
     public function getName() : string
@@ -21,8 +25,14 @@ final class LayoutSourceFilter implements SourceFileFilterInterface
         return SourceFileTypes::LAYOUTS;
     }
 
-    public function matchesFileSource(SplFileInfo $fileInfo) : bool
-    {
-        return Strings::contains($fileInfo, '_layouts');
+    if (Strings::contains($fileInfo, '_layouts')) {
+        return TRUE;
     }
+
+    if (Strings::contains($fileInfo, '_snippets')) {
+        return TRUE;
+    }
+
+    return FALSE;
+
 }

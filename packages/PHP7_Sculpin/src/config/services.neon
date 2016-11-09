@@ -53,3 +53,15 @@ services:
     - Symplify\PHP7_Sculpin\HttpServer\ResponseWriter
     - Mimey\MimeTypes
     - Symplify\PHP7_Sculpin\HttpServer\MimeType\MimeTypeDetector
+
+    # translation
+    - Symplify\PHP7_Sculpin\Translation\Latte\TranslationFilterProvider
+    - Symplify\PHP7_Sculpin\Translation\TranslatorFactory
+    -
+         factory: [@Symplify\PHP7_Sculpin\Translation\TranslatorFactory, "create"]
+    - Symplify\PHP7_Sculpin\Translation\MessageAnalyzer
+    - Symplify\PHP7_Sculpin\Translation\Filesystem\ResourceFinder
+
+    # latte filters
+    - Symplify\PHP7_Sculpin\Latte\Filter\ReadingTimeFilterProvider
+    - Symplify\PHP7_Sculpin\Latte\Filter\GithubPrLinkFilterProvider

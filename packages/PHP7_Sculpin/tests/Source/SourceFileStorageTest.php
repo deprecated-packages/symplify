@@ -37,7 +37,7 @@ final class SourceFileStorageTest extends TestCase
         $sourceFileStorage->addSourceFileFilter(new RenderableSourceFilter());
 
         $finder = Finder::findFiles('*')->from(__DIR__ . '/SculpinFileStorageSource');
-        $sourceFileStorage->loadSourcesFromFinder($finder);
+        $sourceFileStorage->loadSourcesFromFiles(iterator_to_array($finder));
 
         return $sourceFileStorage;
     }

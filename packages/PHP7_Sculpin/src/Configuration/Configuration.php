@@ -12,6 +12,7 @@ namespace Symplify\PHP7_Sculpin\Configuration;
 use SplFileInfo;
 use Symplify\PHP7_Sculpin\Configuration\Parser\NeonParser;
 
+
 final class Configuration
 {
     /**
@@ -44,6 +45,11 @@ final class Configuration
      */
     private $postRoute = self::DEFAULT_POST_ROUTE;
 
+    /**
+     * @var string
+     */
+    private $githubRepositorySlug;
+
     public function __construct(NeonParser $neonParser)
     {
         $this->neonParser = $neonParser;
@@ -56,7 +62,9 @@ final class Configuration
     {
         foreach ($files as $file) {
             $decodedOptions = $this->neonParser->decodeFromFile($file->getRealPath());
-            $this->globalVariables += $this->extractPostRoute($decodedOptions);
+            $decodedOptions = $this->extractPostRoute($decodedOptions);
+            $decodedOptions = $this->extractGithubRepositorySlug($decodedOptions);
+            $this->globalVariables = array_merge($this->globalVariables, $decodedOptions);
         }
     }
 
@@ -81,7 +89,11 @@ final class Configuration
 
     public function getSourceDirectory() : string
     {
-        return $this->sourceDirectory;
+        if ($this->sourceDirectory) {
+            return $this->sourceDirectory;
+        }
+
+        return getcwd() . DIRECTORY_SEPARATOR . 'source';
     }
 
     public function setOutputDirectory(string $outputDirectory)
@@ -104,6 +116,16 @@ final class Configuration
         return $this->postRoute;
     }
 
+    public function setGithubRepositorySlug(string $githubRepositorySlug)
+    {
+        $this->githubRepositorySlug = $githubRepositorySlug;
+    }
+
+    public function getGithubRepositorySlug() : string
+    {
+        return $this->githubRepositorySlug;
+    }
+
     private function extractPostRoute(array $options) : array
     {
         if (! isset($options['configuration']['postRoute'])) {
@@ -112,6 +134,19 @@ final class Configuration
 
         $this->setPostRoute($options['configuration']['postRoute']);
         unset($options['configuration']['postRoute']);
+
+        return $options;
+    }
+
+
+    private function extractGithubRepositorySlug(array $options) : array
+    {
+        if (! isset($options['configuration']['githubRepositorySlug'])) {
+            return $options;
+        }
+
+        $this->setGithubRepositorySlug($options['configuration']['githubRepositorySlug']);
+        unset($options['configuration']['githubRepositorySlug']);
 
         return $options;
     }

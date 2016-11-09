@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace Symplify\PHP7_Sculpin\Application;
 
 use Nette\Utils\Finder;
+use Nette\Utils\Strings;
 use SplFileInfo;
 use Symplify\PHP7_Sculpin\Application\Command\RunCommand;
 use Symplify\PHP7_Sculpin\Configuration\Configuration;
@@ -57,6 +58,11 @@ final class SculpinApplication
      */
     private $sinceTime;
 
+    /**
+     * @var bool
+     */
+    private $shouldRegenerate = true;
+
     public function __construct(
         SourceFileStorage $sourceFileStorage,
         Configuration $configuration,
@@ -71,7 +77,6 @@ final class SculpinApplication
         $this->renderableFilesProcessor = $renderableFilesProcessor;
         $this->dynamicStringLoader = $dynamicStringLoader;
         $this->httpServer = $httpServer;
-        $this->sinceTime = '1970-01-01T00:00:00Z';
     }
 
     public function runCommand(RunCommand $runCommand)
@@ -98,6 +103,10 @@ final class SculpinApplication
 
         $this->loadSourcesFromSourceDirectory($runCommand->getSourceDirectory());
 
+        if (!$this->shouldRegenerate) {
+            return;
+        }
+
         // 1. copy static files
         $this->fileSystemWriter->copyStaticFiles($this->sourceFileStorage->getStaticFiles());
 
@@ -112,6 +121,8 @@ final class SculpinApplication
 
         // 5. render files
         $this->renderableFilesProcessor->processFiles($this->sourceFileStorage->getRenderableFiles());
+
+        $this->shouldRegenerate = false;
     }
 
     private function loadConfigurationWithDirectories(RunCommand $runCommand)
@@ -122,19 +133,40 @@ final class SculpinApplication
 
     private function loadSourcesFromSourceDirectory(string $sourceDirectory)
     {
-        $finder = $this->findFilesInSourceDirectory($sourceDirectory);
-        $this->sourceFileStorage->loadSourcesFromFinder($finder);
+        $files = $this->findFilesInSourceDirectory($sourceDirectory);
+        $this->sourceFileStorage->loadSourcesFromFiles($files);
     }
 
-    private function findFilesInSourceDirectory(string $sourceDirectory) : Finder
+    private function findFilesInSourceDirectory(string $sourceDirectory) : array
     {
         $sinceTimeLast = $this->sinceTime;
+        $this->sinceTime = date('U');
 
-        $this->sinceTime = date('c');
+        $finder = Finder::findFiles('*')->from($sourceDirectory);
 
-        return Finder::findFiles('*')
-            ->from($sourceDirectory)
-            ->date('>=', $sinceTimeLast);
+        $files = [];
+        foreach ($finder as $key => $file) {
+            $files[$key] = $file;
+        }
+
+        foreach ($files as $key => $file) {
+            if ($file->getMTime() >= $sinceTimeLast && $this->isGlobalFile($file)) {
+                // global file has changed, regenerate all found files
+                $this->shouldRegenerate = true;
+                break;
+            }
+
+            /** @var SplFileInfo $file */
+            if ($file->getMTime() > $sinceTimeLast) {
+                // this file has changed, we need to regenerate it
+                $this->shouldRegenerate = true;
+            } elseif (!$this->isGlobalFile($file)) {
+                // this file has not changed, nor is global, drop it
+                unset($files[$key]);
+            }
+        }
+
+        return $files;
     }
 
     /**
@@ -147,5 +179,18 @@ final class SculpinApplication
             $content = file_get_contents($layoutFile->getRealPath());
             $this->dynamicStringLoader->addTemplate($name, $content);
         }
+    }
+
+    private function isGlobalFile(SplFileInfo $file) : bool
+    {
+        if (Strings::endsWith($file->getPath(), '_layouts')) {
+            return true;
+        }
+
+        if ($file->getExtension() === 'neon') {
+            return true;
+        }
+
+        return false;
     }
 }

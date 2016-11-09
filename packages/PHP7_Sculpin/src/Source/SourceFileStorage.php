@@ -9,7 +9,6 @@ declare(strict_types=1);
 
 namespace Symplify\PHP7_Sculpin\Source;
 
-use Nette\Utils\Finder;
 use SplFileInfo;
 use Symplify\PHP7_Sculpin\Contract\Source\SourceFileFilter\SourceFileFilterInterface;
 
@@ -31,9 +30,12 @@ final class SourceFileStorage
         $this->sourceFilesByType[$sourceFileFilter->getName()] = [];
     }
 
-    public function loadSourcesFromFinder(Finder $finder)
+    /**
+     * @param SplFileInfo[] $files
+     */
+    public function loadSourcesFromFiles(array $files)
     {
-        foreach ($finder as $fileInfo) {
+        foreach ($files as $fileInfo) {
             $this->addSource($fileInfo);
         }
     }
@@ -42,7 +44,7 @@ final class SourceFileStorage
     {
         foreach ($this->sourceFileFilters as $sourceFileFilter) {
             if ($sourceFileFilter->matchesFileSource($fileInfo)) {
-                $this->sourceFilesByType[$sourceFileFilter->getName()][] = $fileInfo;
+                $this->sourceFilesByType[$sourceFileFilter->getName()][$fileInfo->getRealPath()] = $fileInfo;
             }
         }
     }
