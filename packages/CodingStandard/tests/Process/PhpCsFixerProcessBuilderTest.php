@@ -22,7 +22,7 @@ final class PhpCsFixerProcessBuilderTest extends TestCase
 
         $this->assertSame(
             WindowsCompatibilityHelper::makeWindowsOsCompatible(
-                "'./vendor/bin/php-cs-fixer' 'fix' 'directory' '--verbose' '--fixers=fixers'"pa
+                "'./vendor/bin/php-cs-fixer' 'fix' 'directory' '--verbose' '--fixers=fixers'"
             ),
             $builder->getProcess()->getCommandLine()
         );
