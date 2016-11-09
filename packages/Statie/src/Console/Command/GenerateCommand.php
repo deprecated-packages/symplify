@@ -14,19 +14,19 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symplify\Statie\Application\Command\RunCommand;
-use Symplify\Statie\Application\SculpinApplication;
+use Symplify\Statie\Application\StatieApplication;
 use Throwable;
 
 final class GenerateCommand extends Command
 {
     /**
-     * @var SculpinApplication
+     * @var StatieApplication
      */
-    private $sculpinApplication;
+    private $statieApplication;
 
-    public function __construct(SculpinApplication $sculpinApplication)
+    public function __construct(StatieApplication $statieApplication)
     {
-        $this->sculpinApplication = $sculpinApplication;
+        $this->statieApplication = $statieApplication;
 
         parent::__construct();
     }
@@ -62,7 +62,7 @@ final class GenerateCommand extends Command
                 $input->getOption('output')
             );
 
-            $this->sculpinApplication->runCommand($runCommand);
+            $this->statieApplication->runCommand($runCommand);
 
             $output->writeln('<info>Website was successfully generated.</info>');
 

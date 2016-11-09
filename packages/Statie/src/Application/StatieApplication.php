@@ -21,7 +21,7 @@ use Symplify\Statie\Renderable\RenderableFilesProcessor;
 use Symplify\Statie\Source\SourceFileStorage;
 use Symplify\Statie\Utils\FilesystemChecker;
 
-final class SculpinApplication
+final class StatieApplication
 {
     /**
      * @var SourceFileStorage

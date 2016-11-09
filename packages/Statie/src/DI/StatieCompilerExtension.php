@@ -19,7 +19,7 @@ use Symplify\Statie\DI\Helper\TypeAndCollectorTrait;
 use Symplify\Statie\Renderable\Routing\RouteDecorator;
 use Symplify\Statie\Source\SourceFileStorage;
 
-final class SculpinCompilerExtension extends CompilerExtension
+final class StatieCompilerExtension extends CompilerExtension
 {
     use TypeAndCollectorTrait;
 

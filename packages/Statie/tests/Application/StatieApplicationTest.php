@@ -7,16 +7,16 @@ namespace Symplify\Statie\Tests\Application;
 use Nette\Utils\FileSystem;
 use PHPUnit\Framework\TestCase;
 use Symplify\Statie\Application\Command\RunCommand;
-use Symplify\Statie\Application\SculpinApplication;
+use Symplify\Statie\Application\StatieApplication;
 use Symplify\Statie\DI\Container\ContainerFactory;
 use Symplify\Statie\Renderable\Latte\DynamicStringLoader;
 
-final class SculpinApplicationTest extends TestCase
+final class StatieApplicationTest extends TestCase
 {
     /**
-     * @var SculpinApplication
+     * @var StatieApplication
      */
-    private $sculpinApplication;
+    private $statieApplication;
 
     /**
      * @var DynamicStringLoader
@@ -26,7 +26,7 @@ final class SculpinApplicationTest extends TestCase
     protected function setUp()
     {
         $container = (new ContainerFactory())->create();
-        $this->sculpinApplication = $container->getByType(SculpinApplication::class);
+        $this->statieApplication = $container->getByType(StatieApplication::class);
         $this->dynamicStringLoader = $container->getByType(DynamicStringLoader::class);
     }
 
@@ -34,19 +34,19 @@ final class SculpinApplicationTest extends TestCase
     {
         $runCommand = new RunCommand(
             false,
-            __DIR__ . '/SculpinApplicationSource/source',
-            __DIR__ . '/SculpinApplicationSource/output'
+            __DIR__ . '/StatieApplicationSource/source',
+            __DIR__ . '/StatieApplicationSource/output'
         );
-        $this->sculpinApplication->runCommand($runCommand);
+        $this->statieApplication->runCommand($runCommand);
 
-        $this->assertFileExists(__DIR__ . '/SculpinApplicationSource/output/index.html');
+        $this->assertFileExists(__DIR__ . '/StatieApplicationSource/output/index.html');
         $this->assertFileEquals(
-            __DIR__ . '/SculpinApplicationSource/expected-index.html',
-            __DIR__ . '/SculpinApplicationSource/output/index.html'
+            __DIR__ . '/StatieApplicationSource/expected-index.html',
+            __DIR__ . '/StatieApplicationSource/output/index.html'
         );
 
-        $this->assertFileExists(__DIR__ . '/SculpinApplicationSource/output/feed.xml');
-        $this->assertFileExists(__DIR__ . '/SculpinApplicationSource/output/atom.rss');
+        $this->assertFileExists(__DIR__ . '/StatieApplicationSource/output/feed.xml');
+        $this->assertFileExists(__DIR__ . '/StatieApplicationSource/output/atom.rss');
 
         $this->assertNotEmpty($this->dynamicStringLoader->getContent('default'));
     }
@@ -57,11 +57,11 @@ final class SculpinApplicationTest extends TestCase
     public function testRunForMissingSource()
     {
         $runCommand = new RunCommand(false, 'missing', 'random');
-        $this->sculpinApplication->runCommand($runCommand);
+        $this->statieApplication->runCommand($runCommand);
     }
 
     protected function tearDown()
     {
-        FileSystem::delete(__DIR__ . '/SculpinApplicationSource/output');
+        FileSystem::delete(__DIR__ . '/StatieApplicationSource/output');
     }
 }

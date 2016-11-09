@@ -91,7 +91,7 @@ final class HttpServer
     public function run()
     {
         $this->output->writeln(sprintf(
-            'Starting Sculpin at <info>http://localhost:%s</info>',
+            'Starting Statie at <info>http://localhost:%s</info>',
             $this->port
         ));
         $this->output->writeln('Quit the server with <info>CONTROL-C</info>.');

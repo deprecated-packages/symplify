@@ -18,7 +18,7 @@ final class ConsoleApplication extends BaseApplication
 {
     public function __construct()
     {
-        parent::__construct('Sculpin - Static Site Generator');
+        parent::__construct('Statie - Static Site Generator');
     }
 
     protected function getDefaultInputDefinition() : InputDefinition

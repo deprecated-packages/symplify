@@ -41,7 +41,7 @@ final class ResponseWriter
 
         $response->end(
             '<h1>404 - Not Found</h1>' .
-            '<p>Sculpin web server could not find the requested resource.</p>'
+            '<p>Statie web server could not find the requested resource.</p>'
         );
     }
 

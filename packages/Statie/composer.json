@@ -6,7 +6,7 @@
         { "name": "Tomas Votruba", "email": "tomas.vot@gmail.com", "homepage": "http://tomasvotruba.cz" }
     ],
     "bin": [
-        "bin/sculpin"
+        "bin/statie"
     ],
     "require": {
         "php": "~7.0",

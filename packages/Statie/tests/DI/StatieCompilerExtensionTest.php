@@ -7,11 +7,11 @@ namespace Symplify\Statie\Tests\DI;
 use Nette\DI\Compiler;
 use Nette\DI\ContainerBuilder;
 use PHPUnit\Framework\TestCase;
-use Symplify\Statie\Application\SculpinApplication;
-use Symplify\Statie\DI\SculpinCompilerExtension;
+use Symplify\Statie\Application\StatieApplication;
+use Symplify\Statie\DI\StatieCompilerExtension;
 use Symplify\Statie\Source\SourceFileStorage;
 
-final class SculpinCompilerExtensionTest extends TestCase
+final class StatieCompilerExtensionTest extends TestCase
 {
     public function testLoadConfiguration()
     {
@@ -20,9 +20,9 @@ final class SculpinCompilerExtensionTest extends TestCase
 
         $containerBuilder = $extension->getContainerBuilder();
 
-        $this->assertNotEmpty($definitionName = $containerBuilder->getByType(SculpinApplication::class));
+        $this->assertNotEmpty($definitionName = $containerBuilder->getByType(StatieApplication::class));
         $applicationDefinition = $containerBuilder->getDefinition($definitionName);
-        $this->assertSame(SculpinApplication::class, $applicationDefinition->getClass());
+        $this->assertSame(StatieApplication::class, $applicationDefinition->getClass());
     }
 
     public function testBeforeCompile()
@@ -35,11 +35,11 @@ final class SculpinCompilerExtensionTest extends TestCase
         $this->assertCount(5, $definition->getSetup());
     }
 
-    private function prepareAndReturnExtension() : SculpinCompilerExtension
+    private function prepareAndReturnExtension() : StatieCompilerExtension
     {
-        $extension = new SculpinCompilerExtension();
+        $extension = new StatieCompilerExtension();
         $extension->setConfig([
-            'sourceDir' => __DIR__ . '/SculpinCompilerExtensionSource',
+            'sourceDir' => __DIR__ . '/StatieCompilerExtensionSource',
         ]);
 
         $extension->setCompiler(new Compiler(new ContainerBuilder()), null);

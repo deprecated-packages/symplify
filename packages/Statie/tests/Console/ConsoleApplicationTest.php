@@ -22,7 +22,7 @@ final class ConsoleApplicationTest extends TestCase
     public function testGetLongVersion()
     {
         $this->assertSame(
-            '<info>Sculpin - Static Site Generator</info>',
+            '<info>Statie - Static Site Generator</info>',
             $this->consoleApplication->getLongVersion()
         );
     }

@@ -1,2 +1,2 @@
 extensions:
-    sculpin: Symplify\Statie\DI\SculpinCompilerExtension
+    statie: Symplify\Statie\DI\StatieCompilerExtension

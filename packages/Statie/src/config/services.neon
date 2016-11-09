@@ -10,7 +10,7 @@ services:
     - Symfony\Component\Console\Output\ConsoleOutput
 
     # core
-    - Symplify\Statie\Application\SculpinApplication
+    - Symplify\Statie\Application\StatieApplication
 
     # source
     - Symplify\Statie\Source\SourceFileStorage

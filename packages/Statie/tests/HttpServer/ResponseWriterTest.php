@@ -65,7 +65,7 @@ final class ResponseWriterTest extends TestCase
         $this->assertContains('HTTP/1.1 404 Not Found', $connectionStub->getData());
         $this->assertContains('Content-Type: text/html', $connectionStub->getData());
         $this->assertContains(
-            '<h1>404 - Not Found</h1><p>Sculpin web server could not find the requested resource.</p>',
+            '<h1>404 - Not Found</h1><p>Statie web server could not find the requested resource.</p>',
             $connectionStub->getData()
         );
 

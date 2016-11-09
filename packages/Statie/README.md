@@ -7,7 +7,7 @@
 [![Latest Version on Packagist][ico-version]][link-packagist]
 
 
-Sculpin takes **Markdown files** and combines them with **Twig templates** to produce a set of static HTML files.
+Statie takes **Markdown files** and combines them with **Twig templates** to produce a set of static HTML files.
 
 ## Install via Composer
 
@@ -22,14 +22,14 @@ composer require symplify/statie
 #### Generate content from `/source` to `/output` in HTML
 
 ```
-vendor/bin/sculpin generate
-vendor/bin/sculpin generate --server
+vendor/bin/statie generate
+vendor/bin/statie generate --server
 ```
 
 #### Push content of `/output` to Github pages
 
 ```
-vendor/bin/sculpin push-to-github-pages
+vendor/bin/statie push-to-github-pages
 ```
 
 ### Configuration
