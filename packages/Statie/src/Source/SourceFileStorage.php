@@ -78,6 +78,8 @@ final class SourceFileStorage
      */
     public function getPostFiles() : array
     {
+        krsort($this->sourceFilesByType[SourceFileTypes::POSTS]);
+
         return $this->sourceFilesByType[SourceFileTypes::POSTS];
     }
 
