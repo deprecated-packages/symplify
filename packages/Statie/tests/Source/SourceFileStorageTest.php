@@ -22,7 +22,7 @@ final class SourceFileStorageTest extends TestCase
 
         $this->assertCount(1, $sourceFileStorage->getLayoutFiles());
         $this->assertCount(1, $sourceFileStorage->getConfigurationFiles());
-        $this->assertCount(1, $sourceFileStorage->getStaticFiles());
+        $this->assertCount(2, $sourceFileStorage->getStaticFiles());
         $this->assertCount(1, $sourceFileStorage->getRenderableFiles());
     }
 
@@ -40,6 +40,17 @@ final class SourceFileStorageTest extends TestCase
 
         $this->assertSame('2016-05-10-post.latte', $firstPost->getFilename());
         $this->assertSame('2016-01-02-post.latte', $secondPost->getFilename());
+    }
+
+    public function testCNAME()
+    {
+        $sourceFileStorage = $this->prepareSourceFileStorage();
+
+        $staticFiles = $sourceFileStorage->getStaticFiles();
+
+        /** @var SplFileInfo $cnameStdFile */
+        $cnameStdFile = array_pop($staticFiles);
+        $this->assertStringEndsWith('CNAME', $cnameStdFile->getFilename());
     }
 
     private function prepareSourceFileStorage() : SourceFileStorage
