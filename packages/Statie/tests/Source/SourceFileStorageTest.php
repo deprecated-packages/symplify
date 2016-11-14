@@ -42,14 +42,14 @@ final class SourceFileStorageTest extends TestCase
         $this->assertSame('2016-01-02-post.latte', $secondPost->getFilename());
     }
 
-    public function testCNAME()
+    public function testCnameIsFound()
     {
         $sourceFileStorage = $this->prepareSourceFileStorage();
 
         $staticFiles = $sourceFileStorage->getStaticFiles();
 
         /** @var SplFileInfo $cnameStdFile */
-        $cnameStdFile = array_pop($staticFiles);
+        $cnameStdFile = array_shift($staticFiles);
         $this->assertStringEndsWith('CNAME', $cnameStdFile->getFilename());
     }
 

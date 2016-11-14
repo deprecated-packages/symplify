@@ -54,6 +54,8 @@ final class SourceFileStorage
      */
     public function getStaticFiles() : array
     {
+        ksort($this->sourceFilesByType[SourceFileTypes::STATIC]);
+
         return $this->sourceFilesByType[SourceFileTypes::STATIC];
     }
 
