@@ -75,6 +75,12 @@ abstract class AbstractFile
         return $this->fileInfo->getBasename('.' . $this->fileInfo->getExtension());
     }
 
+    public function getRelativeDirectory() : string
+    {
+        return $this->fileInfo->getPathInfo()
+            ->getPathname();
+    }
+
     public function getPrimaryExtension() : string
     {
         $fileParts = explode('.', $this->fileInfo->getBasename());

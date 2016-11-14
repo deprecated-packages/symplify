@@ -25,8 +25,9 @@ final class RoutingDecoratorTest extends TestCase
     {
         $configuration = new Configuration(new NeonParser());
         $configuration->setPostRoute('blog/:title');
+        $configuration->setSourceDirectory(__DIR__ . '/DecoratorSource');
 
-        $this->routeDecorator = new RouteDecorator();
+        $this->routeDecorator = new RouteDecorator($configuration);
         $this->routeDecorator->addRoute(new IndexRoute());
         $this->routeDecorator->addRoute(new PostRoute($configuration));
         $this->routeDecorator->addRoute(new NotHtmlRoute());
@@ -38,8 +39,8 @@ final class RoutingDecoratorTest extends TestCase
         $file = $this->getFileFactory()->create($fileInfo);
 
         $this->routeDecorator->decorateFile($file);
-        $this->assertSame('someFile', $file->getRelativeUrl());
-        $this->assertSame('someFile' . DIRECTORY_SEPARATOR . 'index.html', $file->getOutputPath());
+        $this->assertSame('/someFile', $file->getRelativeUrl());
+        $this->assertSame('/someFile' . DIRECTORY_SEPARATOR . 'index.html', $file->getOutputPath());
     }
 
     public function testStaticFile()

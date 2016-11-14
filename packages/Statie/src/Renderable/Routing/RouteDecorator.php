@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace Symplify\Statie\Renderable\Routing;
 
+use Symplify\Statie\Configuration\Configuration;
 use Symplify\Statie\Contract\Renderable\DecoratorInterface;
 use Symplify\Statie\Contract\Renderable\Routing\Route\RouteInterface;
 use Symplify\Statie\Renderable\File\AbstractFile;
@@ -16,9 +17,19 @@ use Symplify\Statie\Renderable\File\AbstractFile;
 final class RouteDecorator implements DecoratorInterface
 {
     /**
+     * @var Configuration
+     */
+    private $configuration;
+
+    /**
      * @var RouteInterface[]
      */
     private $routes = [];
+
+    public function __construct(Configuration $configuration)
+    {
+        $this->configuration = $configuration;
+    }
 
     public function addRoute(RouteInterface $route)
     {
@@ -36,7 +47,18 @@ final class RouteDecorator implements DecoratorInterface
             }
         }
 
-        $file->setOutputPath($file->getBaseName() . DIRECTORY_SEPARATOR . 'index.html');
-        $file->setRelativeUrl($file->getBaseName());
+        $relativeDirectory = $this->getRelativeDirectory($file);
+        $file->setOutputPath($relativeDirectory . DIRECTORY_SEPARATOR . $file->getBaseName() . DIRECTORY_SEPARATOR . 'index.html');
+        $file->setRelativeUrl($relativeDirectory . DIRECTORY_SEPARATOR . $file->getBaseName());
+    }
+
+    private function getRelativeDirectory(AbstractFile $file)
+    {
+        $sourceParts = explode(DIRECTORY_SEPARATOR, $this->configuration->getSourceDirectory());
+        $sourceDirectory = array_pop($sourceParts);
+
+        $relativeParts = explode($sourceDirectory, $file->getRelativeDirectory());
+        $relativeDirectory = array_pop($relativeParts);
+        return $relativeDirectory;
     }
 }
