@@ -48,17 +48,20 @@ final class RouteDecorator implements DecoratorInterface
         }
 
         $relativeDirectory = $this->getRelativeDirectory($file);
-        $file->setOutputPath($relativeDirectory . DIRECTORY_SEPARATOR . $file->getBaseName() . DIRECTORY_SEPARATOR . 'index.html');
+        $file->setOutputPath(
+            $relativeDirectory . DIRECTORY_SEPARATOR . $file->getBaseName() . DIRECTORY_SEPARATOR . 'index.html'
+        );
         $file->setRelativeUrl($relativeDirectory . DIRECTORY_SEPARATOR . $file->getBaseName());
     }
 
-    private function getRelativeDirectory(AbstractFile $file)
+    private function getRelativeDirectory(AbstractFile $file) : string
     {
         $sourceParts = explode(DIRECTORY_SEPARATOR, $this->configuration->getSourceDirectory());
         $sourceDirectory = array_pop($sourceParts);
 
         $relativeParts = explode($sourceDirectory, $file->getRelativeDirectory());
         $relativeDirectory = array_pop($relativeParts);
+
         return $relativeDirectory;
     }
 }
