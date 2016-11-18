@@ -1,4 +1,5 @@
 extensions:
+    - Zenify\ModularLatteFilters\DI\ModularLatteFiltersExtension
     statie: Symplify\Statie\DI\StatieCompilerExtension
 
 statie:

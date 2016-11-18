@@ -19,39 +19,18 @@ final class ReadingTimeFilterProvider implements LatteFiltersProviderInterface
     public function getFilters() : array
     {
         return [
-            'readTimeInMinutes' => function (string $text, string $lang) {
-                return $this->readTimeInMinutes($text, $lang);
+            'readTimeInMinutes' => function (string $text) {
+                return $this->readTimeInMinutes($text);
             },
         ];
     }
 
-    /**
-     * @return string|void
-     */
-    private function readTimeInMinutes(string $text = null, string $lang = null)
+    private function readTimeInMinutes(string $text) : int
     {
-        if ($text === null) {
-            return;
-        }
-
         $wordCount = $this->wordCount($text);
         $minutesCount = ceil($wordCount / 260);
 
-        switch ($minutesCount) {
-            case 1:
-                $minutesLocalized = $lang === 'en' ? 'minute' : 'minuta';
-                break;
-            case 2:
-            case 3:
-            case 4:
-                $minutesLocalized = $lang === 'en' ? 'minutes' : 'minuty';
-                break;
-            default:
-                $minutesLocalized = $lang === 'en' ? 'minutes' : 'minut';
-                break;
-        }
-
-        return $minutesCount . ' ' . $minutesLocalized . ' ' . ($lang === 'en' ? 'of reading' : 'čtení');
+        return $minutesCount;
     }
 
     private function wordCount(string $text = null) : int
