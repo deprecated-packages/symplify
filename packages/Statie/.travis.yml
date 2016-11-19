@@ -22,3 +22,8 @@ script:
 after_script:
   # get scrutinizer and upload coverage
   - if [[ $PHPUNIT_FLAGS != "" ]]; then wget https://scrutinizer-ci.com/ocular.phar && php ocular.phar code-coverage:upload --format=php-clover coverage.clover; fi
+
+# do not send success notifications, they have no value
+notifications:
+  email:
+    on_success: never
