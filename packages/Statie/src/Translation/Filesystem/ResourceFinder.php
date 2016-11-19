@@ -16,6 +16,10 @@ final class ResourceFinder
 {
     public function findInDirectory(string $directory) : array
     {
+        if (! is_dir($directory)) {
+            return [];
+        }
+
         $finder = Finder::findFiles('*.yml', '*.neon')->in($directory);
         $resources = [];
 

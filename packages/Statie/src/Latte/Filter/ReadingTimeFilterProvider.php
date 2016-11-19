@@ -28,6 +28,7 @@ final class ReadingTimeFilterProvider implements LatteFiltersProviderInterface
     private function readTimeInMinutes(string $text) : int
     {
         $wordCount = $this->wordCount($text);
+
         return (int) ceil($wordCount / 260);
     }
 

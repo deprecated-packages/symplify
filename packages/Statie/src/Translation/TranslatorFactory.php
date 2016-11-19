@@ -47,9 +47,7 @@ final class TranslatorFactory
 
     private function addResourcesToTranslator(Translator $translator)
     {
-        $translationDirectory = $this->configuration->getSourceDirectory() . DIRECTORY_SEPARATOR . '_translations';
-
-        foreach ($this->resourceFinder->findInDirectory($translationDirectory) as $resource) {
+        foreach ($this->resourceFinder->findInDirectory($this->getTranslationDirecrory()) as $resource) {
             $translator->addResource(
                 $resource['format'],
                 $resource['pathname'],
@@ -57,5 +55,10 @@ final class TranslatorFactory
                 $resource['domain']
             );
         }
+    }
+
+    private function getTranslationDirecrory() : string
+    {
+        return $this->configuration->getSourceDirectory() . DIRECTORY_SEPARATOR . '_translations';
     }
 }
