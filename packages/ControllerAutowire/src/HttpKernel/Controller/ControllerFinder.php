@@ -39,9 +39,22 @@ final class ControllerFinder implements ControllerFinderInterface
         $robot->acceptFiles = '*' . $this->namePart . '.php';
         $robot->rebuild();
 
-        $indexedClasses = array_keys($robot->getIndexedClasses());
-        sort($indexedClasses);
+        $controllerClasses = array_keys($robot->getIndexedClasses());
+        sort($controllerClasses);
 
-        return $indexedClasses;
+        $controllerClasses = $this->prepareServiceKeys($controllerClasses);
+
+        return $controllerClasses;
+    }
+
+    private function prepareServiceKeys(array $controllerClasses) : array
+    {
+        $controllerClassesWithKeys = [];
+        foreach ($controllerClasses as $key => $controllerClass) {
+            $key = strtr(strtolower($controllerClass), ['\\' => '.']);
+            $controllerClassesWithKeys[$key] = $controllerClass;
+        }
+
+        return $controllerClassesWithKeys;
     }
 }

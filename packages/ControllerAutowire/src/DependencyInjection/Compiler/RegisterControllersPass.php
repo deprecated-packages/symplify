@@ -55,9 +55,7 @@ final class RegisterControllersPass implements CompilerPassInterface
 
     private function registerControllersToContainerBuilder(array $controllers, ContainerBuilder $containerBuilder)
     {
-        foreach ($controllers as $controller) {
-            $id = $this->buildControllerIdFromClass($controller);
-
+        foreach ($controllers as $id => $controller) {
             if (! $containerBuilder->hasDefinition($id)) {
                 $definition = $this->buildControllerDefinitionFromClass($controller);
             } else {
@@ -68,11 +66,6 @@ final class RegisterControllersPass implements CompilerPassInterface
             $containerBuilder->setDefinition($id, $definition);
             $this->controllerClassMap->addController($id, $controller);
         }
-    }
-
-    private function buildControllerIdFromClass(string $class) : string
-    {
-        return strtr(strtolower($class), ['\\' => '.']);
     }
 
     private function buildControllerDefinitionFromClass(string $class) : Definition
