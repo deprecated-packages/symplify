@@ -24,7 +24,7 @@ final class StaticSourceFilter implements SourceFileFilterInterface
     {
         return in_array($fileInfo->getExtension(), [
             'png', 'jpg', 'svg', 'css', 'ico', 'js', '', 'jpeg', 'gif', 'zip', 'tgz', 'gz', 'rar', 'bz2', 'pdf', 'txt',
-            'tar', 'mp3', 'doc', 'xls', 'pdf', 'ppt', 'txt', 'tar', 'bmp', 'rtf',
+            'tar', 'mp3', 'doc', 'xls', 'pdf', 'ppt', 'txt', 'tar', 'bmp', 'rtf', 'woff2', 'woff', 'otf', 'ttf', 'eot',
         ]);
     }
 }
