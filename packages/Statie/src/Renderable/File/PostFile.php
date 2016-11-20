@@ -17,6 +17,7 @@ use Symplify\Statie\Utils\PathAnalyzer;
 
 final class PostFile extends AbstractFile implements ArrayAccess
 {
+    const READ_WORDS_PER_MINUTE = 260;
     /**
      * @var DateTimeInterface
      */
@@ -27,6 +28,11 @@ final class PostFile extends AbstractFile implements ArrayAccess
      */
     private $filenameWithoutDate;
 
+    /**
+     * @var int
+     */
+    private $wordCount;
+
     public function __construct(SplFileInfo $fileInfo, string $relativeSource)
     {
         parent::__construct($fileInfo, $relativeSource);
@@ -35,6 +41,9 @@ final class PostFile extends AbstractFile implements ArrayAccess
 
         $this->date = PathAnalyzer::detectDate($fileInfo);
         $this->filenameWithoutDate = PathAnalyzer::detectFilenameWithoutDate($fileInfo);
+
+        $rawContent = strip_tags(file_get_contents($fileInfo->getRealPath()));
+        $this->wordCount = count(explode(' ', $rawContent));
     }
 
     public function getDate() : DateTimeInterface
@@ -50,6 +59,16 @@ final class PostFile extends AbstractFile implements ArrayAccess
     public function getFilenameWithoutDate() : string
     {
         return $this->filenameWithoutDate;
+    }
+
+    public function getWordCount() : int
+    {
+        return $this->wordCount;
+    }
+
+    public function getReadingTimeInMinutes() : int
+    {
+        return (int) ceil($this->wordCount / self::READ_WORDS_PER_MINUTE);
     }
 
     /**

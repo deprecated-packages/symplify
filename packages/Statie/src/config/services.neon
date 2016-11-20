@@ -63,5 +63,4 @@ services:
     - Symplify\Statie\Translation\Filesystem\ResourceFinder
 
     # latte filters
-    - Symplify\Statie\Latte\Filter\ReadingTimeFilterProvider
     - Symplify\Statie\Latte\Filter\GithubPrLinkFilterProvider
