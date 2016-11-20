@@ -35,14 +35,7 @@ trait ControllerHttpKernelTrait
         $this->httpKernel = $httpKernel;
     }
 
-    /**
-     * Forwards the request to another controller.
-     *
-     * @param string $controller The controller name (a string like BlogBundle:Post:index)
-     * @param array  $path       An array of path parameters
-     * @param array  $query      An array of query parameters
-     */
-    protected function forward($controller, array $path = array(), array $query = array()) : Response
+    protected function forward(string $controller, array $path = [], array $query = []) : Response
     {
         $path['_controller'] = $controller;
         $subRequest = $this->requestStack->getCurrentRequest()->duplicate($query, null, $path);

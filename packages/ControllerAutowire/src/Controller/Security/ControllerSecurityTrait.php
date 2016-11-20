@@ -49,8 +49,8 @@ trait ControllerSecurityTrait
     }
 
     /**
-     * @param mixed $attributes The attributes
-     * @param mixed $object     The object
+     * @param mixed $attributes
+     * @param mixed $object
      */
     protected function isGranted($attributes, $object = null) : bool
     {
@@ -58,42 +58,35 @@ trait ControllerSecurityTrait
     }
 
     /**
-     * Throws an exception unless the attributes are granted against the current authentication token and optionally
-     * supplied object.
-     *
-     * @param mixed  $attributes The attributes
-     * @param mixed  $object     The object
-     * @param string $message    The message passed to the exception
-     *
-     * @throws AccessDeniedException
+     * @param mixed  $attributes
+     * @param mixed  $object
+     * @param string $message
      */
     protected function denyAccessUnlessGranted($attributes, $object = null, string $message = 'Access Denied.')
     {
-        if (!$this->isGranted($attributes, $object)) {
+        if (! $this->isGranted($attributes, $object)) {
             throw new AccessDeniedException($message);
         }
     }
 
     /**
-     * @return object|null|UserInterface
+     * @return object|void|UserInterface
      */
     protected function getUser()
     {
         if ($this->tokenStorage->getToken() === null) {
-            return null;
+            return;
         }
 
         $token = $this->tokenStorage->getToken();
         if ($token === null) {
-            return null;
+            return;
         }
 
         $user = $token->getUser();
         if (is_object($user)) {
             return $user;
         }
-
-        return null;
     }
 
     protected function isCsrfTokenValid(string $id, string $token) : bool

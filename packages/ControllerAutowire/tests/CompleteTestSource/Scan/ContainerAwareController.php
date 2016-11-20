@@ -14,18 +14,12 @@ final class ContainerAwareController implements ContainerAwareInterface
      */
     private $container;
 
-    /**
-     * {@inheritdoc}
-     */
     public function setContainer(ContainerInterface $container = null)
     {
         $this->container = $container;
     }
 
-    /**
-     * @return ContainerInterface
-     */
-    public function getContainer()
+    public function getContainer() : ContainerInterface
     {
         return $this->container;
     }

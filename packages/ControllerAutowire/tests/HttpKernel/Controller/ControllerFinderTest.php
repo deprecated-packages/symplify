@@ -25,17 +25,14 @@ final class ControllerFinderTest extends TestCase
     public function testFindControllersInDirs()
     {
         $controllers = $this->controllerFinder->findControllersInDirs([__DIR__ . '/ControllerFinderSource']);
+        $this->assertCount(2, $controllers);
+
+        $this->assertContains(SomeOtherController::class, $controllers);
+        $this->assertContains(SomeController::class, $controllers);
 
         $this->assertArrayHasKey(
             'symplify.controllerautowire.tests.httpkernel.controller.controllerfindersource.somecontroller',
             $controllers
         );
-        $this->assertContains(SomeController::class, $controllers);
-
-        $this->assertArrayHasKey(
-            'symplify.controllerautowire.tests.httpkernel.controller.controllerfindersource.someothercontroller',
-            $controllers
-        );
-        $this->assertContains(SomeOtherController::class, $controllers);
     }
 }
