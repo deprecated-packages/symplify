@@ -9,6 +9,11 @@ declare(strict_types=1);
 
 namespace Symplify\ControllerAutowire\DependencyInjection\Compiler;
 
+use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Definition;
+use Symfony\Component\DependencyInjection\Reference;
+use Symplify\ControllerAutowire\Contract\DependencyInjection\ControllerClassMapInterface;
 use Symplify\ControllerAutowire\Controller\Doctrine\ControllerDoctrineTrait;
 use Symplify\ControllerAutowire\Controller\Form\ControllerFormTrait;
 use Symplify\ControllerAutowire\Controller\HttpKernel\ControllerHttpKernelTrait;
@@ -17,11 +22,6 @@ use Symplify\ControllerAutowire\Controller\Security\ControllerSecurityTrait;
 use Symplify\ControllerAutowire\Controller\Serializer\ControllerSerializerTrait;
 use Symplify\ControllerAutowire\Controller\Session\ControllerFlashTrait;
 use Symplify\ControllerAutowire\Controller\Templating\ControllerRenderTrait;
-use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Definition;
-use Symfony\Component\DependencyInjection\Reference;
-use Symplify\ControllerAutowire\Contract\DependencyInjection\ControllerClassMapInterface;
 
 final class AutowireControllerDependencies implements CompilerPassInterface
 {
@@ -66,7 +66,7 @@ final class AutowireControllerDependencies implements CompilerPassInterface
         ],
         ControllerFormTrait::class => [
             'setFormFactory' => 'form.factory',
-        ]
+        ],
     ];
 
     public function __construct(ControllerClassMapInterface $controllerClassMap)
@@ -89,12 +89,12 @@ final class AutowireControllerDependencies implements CompilerPassInterface
         $usedTraits = class_uses($controllerDefinition->getClass());
 
         foreach ($this->traitsToSettersToServiceNameList as $traitClass => $setterToServiceNames) {
-            if (!array_key_exists($traitClass, $usedTraits)) {
+            if (! array_key_exists($traitClass, $usedTraits)) {
                 continue;
             }
 
             foreach ($setterToServiceNames as $setter => $serviceName) {
-                if (!$this->containerBuilder->has($serviceName)) {
+                if (! $this->containerBuilder->has($serviceName)) {
                     continue;
                 }
 
