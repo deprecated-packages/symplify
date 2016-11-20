@@ -9,9 +9,9 @@ declare(strict_types=1);
 
 namespace Symplify\ControllerAutowire\Controller\Templating;
 
+use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\StreamedResponse;
-use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Twig_Environment;
 
 trait ControllerRenderTrait
@@ -45,7 +45,7 @@ trait ControllerRenderTrait
         return $this->twig->render($view, $parameters);
     }
 
-    protected function render(string $view, array $parameters = array(), Response $response = null) : Response
+    protected function render(string $view, array $parameters = [], Response $response = null) : Response
     {
         if ($this->templating) {
             return $this->templating->renderResponse($view, $parameters, $response);
@@ -58,8 +58,11 @@ trait ControllerRenderTrait
         return $response->setContent($this->twig->render($view, $parameters));
     }
 
-    protected function stream(string $view, array $parameters = array(), StreamedResponse $response = null) : StreamedResponse
-    {
+    protected function stream(
+        string $view,
+        array $parameters = [],
+        StreamedResponse $response = null
+    ) : StreamedResponse {
         if ($this->templating) {
             $callback = function () use ($view, $parameters) {
                 $this->templating->stream($view, $parameters);

@@ -25,14 +25,12 @@ trait ControllerSerializerTrait
     }
 
     /**
-     * Returns a JsonResponse that uses the serializer component if enabled, or json_encode.
-     *
-     * @param mixed $data    The response data
-     * @param int   $status  The status code to use for the Response
-     * @param array $headers Array of extra headers to add
-     * @param array $context Context to pass to serializer when using serializer component
+     * @param mixed $data
+     * @param int   $status
+     * @param array $headers
+     * @param array $context
      */
-    protected function json($data, $status = 200, $headers = [], $context = array()) : JsonResponse
+    protected function json($data, int $status = 200, array $headers = [], array $context = []) : JsonResponse
     {
         if ($this->serializer) {
             $data = $this->serializer->serialize($data, 'json', array_merge([

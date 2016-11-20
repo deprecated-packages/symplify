@@ -20,12 +20,12 @@ use Symplify\ControllerAutowire\Controller\Templating\ControllerRenderTrait;
 
 trait ControllerTrait
 {
-    use ControllerFormTrait;
-    use ControllerRoutingTrait;
-    use ControllerHttpKernelTrait;
-    use ControllerSecurityTrait;
-    use ControllerSerializerTrait;
-    use ControllerRenderTrait;
     use ControllerDoctrineTrait;
     use ControllerFlashTrait;
+    use ControllerFormTrait;
+    use ControllerHttpKernelTrait;
+    use ControllerRoutingTrait;
+    use ControllerRenderTrait;
+    use ControllerSecurityTrait;
+    use ControllerSerializerTrait;
 }
