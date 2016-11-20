@@ -14,6 +14,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 use Symplify\ControllerAutowire\Contract\DependencyInjection\ControllerClassMapInterface;
+use Symplify\ControllerAutowire\Controller\ControllerTrait;
 use Symplify\ControllerAutowire\Controller\Doctrine\ControllerDoctrineTrait;
 use Symplify\ControllerAutowire\Controller\Form\ControllerFormTrait;
 use Symplify\ControllerAutowire\Controller\HttpKernel\ControllerHttpKernelTrait;
@@ -23,7 +24,7 @@ use Symplify\ControllerAutowire\Controller\Serializer\ControllerSerializerTrait;
 use Symplify\ControllerAutowire\Controller\Session\ControllerFlashTrait;
 use Symplify\ControllerAutowire\Controller\Templating\ControllerRenderTrait;
 
-final class AutowireControllerDependencies implements CompilerPassInterface
+final class AutowireControllerDependenciesPass implements CompilerPassInterface
 {
     /**
      * @var ControllerClassMapInterface
@@ -89,7 +90,7 @@ final class AutowireControllerDependencies implements CompilerPassInterface
         $usedTraits = class_uses($controllerDefinition->getClass());
 
         foreach ($this->traitsToSettersToServiceNameList as $traitClass => $setterToServiceNames) {
-            if (! array_key_exists($traitClass, $usedTraits)) {
+            if (! $this->isTraitIncluded($traitClass, $usedTraits)) {
                 continue;
             }
 
@@ -101,5 +102,18 @@ final class AutowireControllerDependencies implements CompilerPassInterface
                 $controllerDefinition->addMethodCall($setter, [new Reference($serviceName)]);
             }
         }
+    }
+
+    private function isTraitIncluded(string $traitClass, array $usedTraits) : bool
+    {
+        if (array_key_exists($traitClass, $usedTraits)) {
+            return true;
+        }
+
+        if (isset($usedTraits[ControllerTrait::class])) {
+            return true;
+        }
+
+        return false;
     }
 }

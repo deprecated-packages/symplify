@@ -16,14 +16,14 @@ trait ControllerDoctrineTrait
     /**
      * @var ManagerRegistry
      */
-    protected $doctrine;
+    private $doctrine;
 
     public function setDoctrine(ManagerRegistry $doctrine)
     {
         $this->doctrine = $doctrine;
     }
 
-    public function getDoctrine() : ManagerRegistry
+    protected function getDoctrine() : ManagerRegistry
     {
         return $this->doctrine;
     }
