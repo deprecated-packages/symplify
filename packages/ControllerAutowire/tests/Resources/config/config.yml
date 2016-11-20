@@ -8,7 +8,7 @@ services:
     some.controller.service:
         class: Symplify\ControllerAutowire\Tests\CompleteTestSource\DoNotScan\SomeRegisteredController
     some.controller.with_parameter:
-        class: Symplify\ControllerAutowire\Tests\AliasingBundle\Controller\ControllerWithParameter
+        class: Symplify\ControllerAutowire\Tests\CompleteTestSource\Controller\ControllerWithParameter
         arguments:
             - "%kernel.root_dir%"
 
@@ -16,4 +16,3 @@ symplify_controller_autowire:
     controller_dirs:
         - %kernel.root_dir%/HttpKernel/Controller/ControllerFinderSource
         - %kernel.root_dir%/CompleteTestSource/Scan
-        - %kernel.root_dir%/AliasingBundle

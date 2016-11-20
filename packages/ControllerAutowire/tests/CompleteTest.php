@@ -8,7 +8,7 @@ use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symplify\ControllerAutowire\HttpKernel\Controller\ControllerResolver;
-use Symplify\ControllerAutowire\Tests\AliasingBundle\Controller\ControllerWithParameter;
+use Symplify\ControllerAutowire\Tests\CompleteTestSource\Controller\ControllerWithParameter;
 use Symplify\ControllerAutowire\Tests\CompleteTestSource\DoNotScan\SomeRegisteredController;
 use Symplify\ControllerAutowire\Tests\CompleteTestSource\Scan\ContainerAwareController;
 use Symplify\ControllerAutowire\Tests\HttpKernel\Controller\ControllerFinderSource\SomeController;
@@ -27,7 +27,7 @@ final class CompleteTest extends TestCase
         $kernel->boot();
 
         $this->controllerResolver = $kernel->getContainer()
-            ->get('default.controller_resolver');
+            ->get('symplify.controller_resolver');
     }
 
     public function testMissingControllerParameter()

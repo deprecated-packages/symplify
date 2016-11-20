@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\ControllerAutowire\Tests\AliasingBundle\Controller;
+namespace Symplify\ControllerAutowire\Tests\CompleteTestSource\Controller;
 
 final class ControllerWithParameter
 {
