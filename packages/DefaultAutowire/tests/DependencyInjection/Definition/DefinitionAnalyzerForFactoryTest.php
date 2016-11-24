@@ -5,6 +5,7 @@ namespace Symplify\DefaultAutowire\Tests\DependencyInjection\Definition;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
+use Symfony\Component\DependencyInjection\DefinitionDecorator;
 use Symfony\Component\DependencyInjection\Reference;
 use Symplify\DefaultAutowire\DependencyInjection\Definition\DefinitionAnalyzer;
 use Symplify\DefaultAutowire\DependencyInjection\Definition\DefinitionValidator;
@@ -132,6 +133,24 @@ final class DefinitionAnalyzerForFactoryTest extends TestCase
         $definition = new Definition(EmptyConstructor::class);
         $definition->setFactory([
             new Reference('factory_alias'),
+            'create',
+        ]);
+
+        $this->assertFalse($this->definitionAnalyzer->shouldDefinitionBeAutowired($containerBuilder, $definition));
+    }
+
+    public function testFactoryServiceCanBeDecorated()
+    {
+        $containerBuilder = new ContainerBuilder();
+        $containerBuilder->addDefinitions([
+            'factory' => new Definition(EmptyConstructorFactory::class),
+            'decorated_factory' => new DefinitionDecorator('factory'),
+        ]);
+
+
+        $definition = new Definition(EmptyConstructor::class);
+        $definition->setFactory([
+            new Reference('decorated_factory'),
             'create',
         ]);
 
