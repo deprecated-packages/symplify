@@ -117,4 +117,24 @@ final class DefinitionAnalyzerForFactoryTest extends TestCase
 
         $this->assertTrue($this->definitionAnalyzer->shouldDefinitionBeAutowired(new ContainerBuilder(), $definition));
     }
+
+    public function testFactoryServiceIsUsedByAlias()
+    {
+        $containerBuilder = new ContainerBuilder();
+        $containerBuilder->addDefinitions([
+            'factory' => new Definition(EmptyConstructorFactory::class),
+        ]);
+        $containerBuilder->addAliases([
+            'factory_alias' => 'factory'
+        ]);
+
+
+        $definition = new Definition(EmptyConstructor::class);
+        $definition->setFactory([
+            new Reference('factory_alias'),
+            'create',
+        ]);
+
+        $this->assertFalse($this->definitionAnalyzer->shouldDefinitionBeAutowired($containerBuilder, $definition));
+    }
 }

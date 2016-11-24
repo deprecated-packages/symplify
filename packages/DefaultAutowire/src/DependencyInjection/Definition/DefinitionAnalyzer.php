@@ -59,7 +59,7 @@ final class DefinitionAnalyzer
 
         list($class, $method) = $factory;
         if ($class instanceof Reference) {
-            $factoryClassDefinition = $containerBuilder->getDefinition($class);
+            $factoryClassDefinition = $containerBuilder->findDefinition($class);
             $class = $factoryClassDefinition->getClass();
         }
 
