@@ -65,6 +65,9 @@ final class DefinitionAnalyzer
                 $factoryClassDefinition = $containerBuilder->findDefinition($factoryClassDefinition->getParent());
             }
             $class = $factoryClassDefinition->getClass();
+            if (strpos($class, '%') !== false) {
+                $class = $containerBuilder->getParameter(str_replace('%', '', $class));
+            }
         }
 
         $factoryMethodReflection = new ReflectionMethod($class, $method);

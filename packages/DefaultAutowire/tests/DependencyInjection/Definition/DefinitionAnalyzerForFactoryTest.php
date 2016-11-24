@@ -126,9 +126,8 @@ final class DefinitionAnalyzerForFactoryTest extends TestCase
             'factory' => new Definition(EmptyConstructorFactory::class),
         ]);
         $containerBuilder->addAliases([
-            'factory_alias' => 'factory'
+            'factory_alias' => 'factory',
         ]);
-
 
         $definition = new Definition(EmptyConstructor::class);
         $definition->setFactory([
@@ -147,10 +146,26 @@ final class DefinitionAnalyzerForFactoryTest extends TestCase
             'decorated_factory' => new DefinitionDecorator('factory'),
         ]);
 
-
         $definition = new Definition(EmptyConstructor::class);
         $definition->setFactory([
             new Reference('decorated_factory'),
+            'create',
+        ]);
+
+        $this->assertFalse($this->definitionAnalyzer->shouldDefinitionBeAutowired($containerBuilder, $definition));
+    }
+
+    public function testFactoryClassNameIsDefinedByParameter()
+    {
+        $containerBuilder = new ContainerBuilder();
+        $containerBuilder->addDefinitions([
+            'factory' => new Definition('%factory_class_param%'),
+        ]);
+        $containerBuilder->setParameter('factory_class_param', EmptyConstructorFactory::class);
+
+        $definition = new Definition(EmptyConstructor::class);
+        $definition->setFactory([
+            new Reference('factory'),
             'create',
         ]);
 
