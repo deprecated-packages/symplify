@@ -2,7 +2,9 @@
 
 namespace Symplify\DefaultAutowire\Tests\DependencyInjection\Definition;
 
+use Doctrine\ORM\EntityManager;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\DependencyInjection\Alias;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\DefinitionDecorator;
@@ -17,6 +19,8 @@ use Symplify\DefaultAutowire\Tests\DependencyInjection\Definition\DefinitionAnal
 use Symplify\DefaultAutowire\Tests\DependencyInjection\Definition\DefinitionAnalyzerSource\EmptyConstructorFactory;
 use Symplify\DefaultAutowire\Tests\DependencyInjection\Definition\DefinitionAnalyzerSource\MissingArgumentsTypehints;
 use Symplify\DefaultAutowire\Tests\DependencyInjection\Definition\DefinitionAnalyzerSource\NotMissingArgumentsTypehints;
+use Symplify\DefaultAutowire\tests\DependencyInjection\Definition\DefinitionAnalyzerSource\TestEntity;
+use Symplify\DefaultAutowire\Tests\DependencyInjection\Definition\DefinitionAnalyzerSource\TestEntityRepository;
 
 final class DefinitionAnalyzerForFactoryTest extends TestCase
 {
@@ -170,5 +174,25 @@ final class DefinitionAnalyzerForFactoryTest extends TestCase
         ]);
 
         $this->assertFalse($this->definitionAnalyzer->shouldDefinitionBeAutowired($containerBuilder, $definition));
+    }
+
+    public function testDoctrineRepositoryAsService()
+    {
+        $containerBuilder = new ContainerBuilder();
+        $containerBuilder->addDefinitions([
+            'doctrine.orm.default_entity_manager' => new DefinitionDecorator('doctrine.orm.entity_manager.abstract'),
+            'doctrine.orm.entity_manager.abstract' => new Definition('%doctrine.orm.entity_manager.class%'),
+        ]);
+        $containerBuilder->setAlias('doctrine.orm.entity_manager', new Alias('doctrine.orm.default_entity_manager'));
+        $containerBuilder->setParameter('doctrine.orm.entity_manager.class', EntityManager::class);
+
+        $testRepository = new Definition(TestEntityRepository::class);
+        $testRepository->setFactory([
+            new Reference('doctrine.orm.entity_manager'),
+            'getRepository',
+        ]);
+        $testRepository->addArgument(TestEntity::class);
+
+        $this->assertFalse($this->definitionAnalyzer->shouldDefinitionBeAutowired($containerBuilder, $testRepository));
     }
 }
