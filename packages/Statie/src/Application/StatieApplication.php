@@ -87,7 +87,6 @@ final class StatieApplication
             $this->httpServer->init();
 
             $this->httpServer->addPeriodicTimer(1, function () use ($runCommand) {
-                clearstatcache();
                 $this->processCommand($runCommand);
             });
 
