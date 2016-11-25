@@ -11,6 +11,7 @@ use ReflectionClass;
 use ReflectionMethod;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
+use Symfony\Component\DependencyInjection\DefinitionDecorator;
 use Symfony\Component\DependencyInjection\Reference;
 
 final class DefinitionAnalyzer
@@ -59,8 +60,14 @@ final class DefinitionAnalyzer
 
         list($class, $method) = $factory;
         if ($class instanceof Reference) {
-            $factoryClassDefinition = $containerBuilder->getDefinition($class);
+            $factoryClassDefinition = $containerBuilder->findDefinition($class);
+            if ($factoryClassDefinition instanceof DefinitionDecorator) {
+                $factoryClassDefinition = $containerBuilder->findDefinition($factoryClassDefinition->getParent());
+            }
             $class = $factoryClassDefinition->getClass();
+            if (strpos($class, '%') !== false) {
+                $class = $containerBuilder->getParameter(str_replace('%', '', $class));
+            }
         }
 
         $factoryMethodReflection = new ReflectionMethod($class, $method);
