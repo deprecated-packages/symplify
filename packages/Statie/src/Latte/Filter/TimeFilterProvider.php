@@ -29,6 +29,7 @@ final class TimeFilterProvider implements LatteFiltersProviderInterface
     {
         sscanf($time, '%d:%d:%d', $hours, $minutes, $seconds);
         $seconds = isset($seconds) ? $hours * 3600 + $minutes * 60 + $seconds : $hours * 60 + $minutes;
+
         return (int) $seconds;
     }
 }
