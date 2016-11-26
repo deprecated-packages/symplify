@@ -64,3 +64,4 @@ services:
 
     # latte filters
     - Symplify\Statie\Latte\Filter\GithubPrLinkFilterProvider
+    - Symplify\Statie\Latte\Filter\TimeFilterProvider
