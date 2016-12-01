@@ -22,11 +22,12 @@ final class DecorateControllerResolverPass implements CompilerPassInterface
     /**
      * @var string
      */
-    const CONTROLLER_RESOLVER_SERVICE_NAME = 'controller_resolver';
+    const DEFAULT_CONTROLLER_RESOLVER_SERVICE_NAME = 'controller_resolver';
+
     /**
      * @var string
      */
-    const SERVICE_NAME = 'symplify.controller_resolver';
+    const SYMPLIFY_CONTROLLER_RESOLVER_SERVICE_NAME = 'symplify.controller_resolver';
 
     /**
      * @var ControllerClassMapInterface
@@ -43,7 +44,7 @@ final class DecorateControllerResolverPass implements CompilerPassInterface
         $decoratedControllerResolverServiceName = $this->getCurrentControllerResolverServiceName($containerBuilder);
 
         $definition = new Definition(ControllerResolver::class, [
-            new Reference(self::SERVICE_NAME . '.inner'),
+            new Reference(self::SYMPLIFY_CONTROLLER_RESOLVER_SERVICE_NAME . '.inner'),
             new Reference('service_container'),
             new Reference('controller_name_converter'),
         ]);
@@ -52,15 +53,15 @@ final class DecorateControllerResolverPass implements CompilerPassInterface
         $definition->addMethodCall('setControllerClassMap', [$this->controllerClassMap->getControllers()]);
         $definition->setAutowiringTypes([ControllerResolverInterface::class]);
 
-        $containerBuilder->setDefinition(self::SERVICE_NAME, $definition);
+        $containerBuilder->setDefinition(self::SYMPLIFY_CONTROLLER_RESOLVER_SERVICE_NAME, $definition);
     }
 
     private function getCurrentControllerResolverServiceName(ContainerBuilder $containerBuilder) : string
     {
-        if ($containerBuilder->has('debug.' . self::CONTROLLER_RESOLVER_SERVICE_NAME)) {
-            return 'debug.' . self::CONTROLLER_RESOLVER_SERVICE_NAME;
+        if ($containerBuilder->has('debug.' . self::DEFAULT_CONTROLLER_RESOLVER_SERVICE_NAME)) {
+            return 'debug.' . self::DEFAULT_CONTROLLER_RESOLVER_SERVICE_NAME;
         }
 
-        return self::CONTROLLER_RESOLVER_SERVICE_NAME;
+        return self::DEFAULT_CONTROLLER_RESOLVER_SERVICE_NAME;
     }
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Symplify\ControllerAutowire\tests\DependencyInjection\Compiler;
 
 use PHPUnit\Framework\TestCase;
@@ -7,7 +9,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symplify\ControllerAutowire\DependencyInjection\Compiler\DecorateControllerResolverPass;
 use Symplify\ControllerAutowire\DependencyInjection\ControllerClassMap;
 
-class DecorateControllerResolverPassTest extends TestCase
+final class DecorateControllerResolverPassTest extends TestCase
 {
     /**
      * @var ControllerClassMap
