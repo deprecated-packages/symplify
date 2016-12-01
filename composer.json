@@ -35,6 +35,7 @@
         "symfony/templating": "^3.1",
         "symfony/twig-bundle": "^3.1",
         "symfony/yaml": "^3.1",
+        "symfony/validator": "^3.1",
         "symfony-cmf/routing-bundle": "dev-master as 1.4",
 
         "friendsofphp/php-cs-fixer": "^1.12",
