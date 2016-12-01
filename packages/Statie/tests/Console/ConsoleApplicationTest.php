@@ -21,8 +21,8 @@ final class ConsoleApplicationTest extends TestCase
 
     public function testGetLongVersion()
     {
-        $this->assertSame(
-            '<info>Statie - Static Site Generator</info>',
+        $this->assertContains(
+            'Statie - Static Site Generator',
             $this->consoleApplication->getLongVersion()
         );
     }

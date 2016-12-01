@@ -8,7 +8,9 @@
         "symfony/dependency-injection": "^3.0",
         "symfony/framework-bundle": "^3.0",
         "symfony/http-kernel": "^3.0",
+        "symfony/asset": "^3.0",
         "symfony/routing": "^3.0",
+        "symfony/templating": "^3.0",
         "symfony/twig-bundle": "^3.0",
         "symfony-cmf/routing-bundle": "^1.4"
     },
