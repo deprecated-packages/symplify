@@ -7,12 +7,12 @@
         "symfony/config": "^3.1",
         "symfony/dependency-injection": "^3.1",
         "symfony/framework-bundle": "^3.1",
-        "symfony/http-kernel": "^3.0",
+        "symfony/http-kernel": "^3.1",
         "symfony/asset": "^3.1",
         "symfony/routing": "^3.1",
         "symfony/templating": "^3.1",
         "symfony/twig-bundle": "^3.1",
-        "symfony-cmf/routing-bundle": "^1.4"
+        "symfony-cmf/routing-bundle": "dev-master as 1.4"
     },
     "require-dev": {
         "nette/utils": "^2.4",
