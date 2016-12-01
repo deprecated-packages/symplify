@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Symplify\Statie\Tests\Renderable\File;
 
 use DateTimeInterface;
-use Exception;
 use PHPUnit\Framework\TestCase;
 use SplFileInfo;
 use Symplify\Statie\Configuration\Configuration;
@@ -60,7 +59,7 @@ final class FileFactoryTest extends TestCase
     }
 
     /**
-     * @expectedException Exception
+     * @expectedException \Exception
      */
     public function testInvalidPostName()
     {

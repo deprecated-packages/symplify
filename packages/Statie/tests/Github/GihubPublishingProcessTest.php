@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Symplify\Statie\Tests\Github;
 
-use Exception;
 use Nette\Utils\FileSystem;
 use PHPUnit\Framework\TestCase;
 use Symplify\Statie\Github\GihubPublishingProcess;
@@ -27,7 +26,7 @@ final class GihubPublishingProcessTest extends TestCase
     }
 
     /**
-     * @expectedException Exception
+     * @expectedException \Exception
      */
     public function testPushDirectoryContentToRepositoryForNonExistingRepository()
     {
