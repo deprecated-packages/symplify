@@ -15,7 +15,7 @@
         "symplify/coding-standard": "^1.0",
         "doctrine/doctrine-bundle": "^1.6",
         "doctrine/orm": "^2.5",
-        "symfony/form": "^3.0"
+        "symfony/form": "^3.1"
     },
     "autoload": {
         "psr-4": {

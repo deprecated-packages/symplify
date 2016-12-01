@@ -4,22 +4,22 @@
     "license": "MIT",
     "require": {
         "php": "^7.0",
-        "symfony/config": "^3.0",
-        "symfony/dependency-injection": "^3.0",
-        "symfony/framework-bundle": "^3.0",
+        "symfony/config": "^3.1",
+        "symfony/dependency-injection": "^3.1",
+        "symfony/framework-bundle": "^3.1",
         "symfony/http-kernel": "^3.0",
-        "symfony/asset": "^3.0",
-        "symfony/routing": "^3.0",
-        "symfony/templating": "^3.0",
-        "symfony/twig-bundle": "^3.0",
+        "symfony/asset": "^3.1",
+        "symfony/routing": "^3.1",
+        "symfony/templating": "^3.1",
+        "symfony/twig-bundle": "^3.1",
         "symfony-cmf/routing-bundle": "^1.4"
     },
     "require-dev": {
         "nette/utils": "^2.4",
         "phpunit/phpunit": "^5.5",
-        "symfony/form": "^3.0",
+        "symfony/form": "^3.1",
         "symplify/coding-standard": "^1.0",
-        "twig/twig": "^1.24"
+        "twig/twig": "^1.28"
     },
     "autoload": {
         "psr-4": {

@@ -5,14 +5,14 @@
     "require": {
         "php": "~7.0",
         "nette/robot-loader": "^2.4",
-        "symfony/config": "^3.0",
-        "symfony/dependency-injection": "^3.0",
+        "symfony/config": "^3.1",
+        "symfony/dependency-injection": "^3.1",
         "symfony/http-kernel": "^3.0",
-        "symfony/yaml": "^3.0"
+        "symfony/yaml": "^3.1"
     },
     "require-dev": {
         "nette/utils": "^2.4",
-        "symfony/framework-bundle": "^3.0",
+        "symfony/framework-bundle": "^3.1",
         "symplify/coding-standard": "^1.0",
         "phpunit/phpunit": "^5.5"
     },
