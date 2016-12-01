@@ -95,12 +95,7 @@ final class RenderableFilesProcessor
         $this->fileSystemWriter->copyRenderableFiles($files);
     }
 
-    /**
-     * @param array $fileInfos
-     *
-     * @return array
-     */
-    private function createFileObjectsFromFileInfos(array $fileInfos):array
+    private function createFileObjectsFromFileInfos(array $fileInfos) : array
     {
         $files = [];
         foreach ($fileInfos as $id => $fileInfo) {

@@ -52,7 +52,12 @@ final class RenderableFilesProcessorTest extends TestCase
         $finder = Finder::findFiles('*')->from(__DIR__ . '/RenderFilesProcessorSource/source/_posts')->getIterator();
         $fileInfos = iterator_to_array($finder);
 
+        $this->assertCount(2, $fileInfos);
+
         $this->renderableFilesProcessor->processFiles($fileInfos);
+
+        $this->assertFileExists(__DIR__ . '/RenderFilesProcessorSource/output/blog/2016/10/10/title/index.html');
+        $this->assertFileExists(__DIR__ . '/RenderFilesProcessorSource/output/blog/2016/01/02/second-title/index.html');
 
         $this->assertTrue(
             isset($this->configuration->getGlobalVariables()['posts'])
@@ -61,10 +66,6 @@ final class RenderableFilesProcessorTest extends TestCase
 
     protected function tearDown()
     {
-        if (getenv('APPVEYOR')) { // AppVeyor doesn't have rights to delete
-            return;
-        }
-
         FileSystem::delete(__DIR__ . '/RenderFilesProcessorSource/output');
     }
 }

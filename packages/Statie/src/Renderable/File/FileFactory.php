@@ -33,7 +33,7 @@ final class FileFactory
         $relativeSource = substr($file->getPathname(), strlen($this->configuration->getSourceDirectory()));
         $relativeSource = ltrim($relativeSource, DIRECTORY_SEPARATOR);
 
-        if (Strings::endsWith($file->getPath(), '_posts')) {
+        if (Strings::contains($file->getPath(), DIRECTORY_SEPARATOR . '_posts')) {
             return new PostFile($file, $relativeSource);
         }
 

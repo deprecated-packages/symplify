@@ -36,10 +36,10 @@ final class SourceFileStorageTest extends TestCase
         /** @var SplFileInfo $secondPost */
         $secondPost = array_shift($postFiles);
 
-        $this->assertCount(2, $sourceFileStorage->getPostFiles());
+        $this->assertCount(3, $sourceFileStorage->getPostFiles());
 
-        $this->assertSame('2016-05-10-post.latte', $firstPost->getFilename());
-        $this->assertSame('2016-01-02-post.latte', $secondPost->getFilename());
+        $this->assertSame('2016-01-30-post.latte', $firstPost->getFilename());
+        $this->assertSame('2016-05-10-post.latte', $secondPost->getFilename());
     }
 
     public function testCnameIsFound()
