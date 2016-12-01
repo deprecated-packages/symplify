@@ -23,6 +23,10 @@ final class DecorateControllerResolverPass implements CompilerPassInterface
      * @var string
      */
     const CONTROLLER_RESOLVER_SERVICE_NAME = 'controller_resolver';
+    /**
+     * @var string
+     */
+    const SERVICE_NAME = 'symplify.controller_resolver';
 
     /**
      * @var ControllerClassMapInterface
@@ -36,19 +40,19 @@ final class DecorateControllerResolverPass implements CompilerPassInterface
 
     public function process(ContainerBuilder $containerBuilder)
     {
-        $controllerResolverServiceName = $this->getCurrentControllerResolverServiceName($containerBuilder);
+        $decoratedControllerResolverServiceName = $this->getCurrentControllerResolverServiceName($containerBuilder);
 
         $definition = new Definition(ControllerResolver::class, [
-            new Reference($controllerResolverServiceName . '.inner'),
+            new Reference(self::SERVICE_NAME . '.inner'),
             new Reference('service_container'),
             new Reference('controller_name_converter'),
         ]);
 
-        $definition->setDecoratedService($controllerResolverServiceName, null, 1);
+        $definition->setDecoratedService($decoratedControllerResolverServiceName, null, 1);
         $definition->addMethodCall('setControllerClassMap', [$this->controllerClassMap->getControllers()]);
         $definition->setAutowiringTypes([ControllerResolverInterface::class]);
 
-        $containerBuilder->setDefinition('symplify.controller_resolver', $definition);
+        $containerBuilder->setDefinition(self::SERVICE_NAME, $definition);
     }
 
     private function getCurrentControllerResolverServiceName(ContainerBuilder $containerBuilder) : string
