@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\ControllerAutowire\tests\DependencyInjection\Compiler;
+namespace Symplify\ControllerAutowire\Tests\DependencyInjection\Compiler;
 
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;

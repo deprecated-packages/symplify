@@ -1,6 +1,6 @@
 <?php
 
-namespace Symplify\CodingStandard\Tests\Sniffs\Classes\ClassDeclaration;
+namespace Symplify\CodingStandard\Tests\Sniffs\Classes\FinalInterface;
 
 use PHPUnit\Framework\TestCase;
 use Symplify\CodingStandard\Tests\CodeSnifferRunner;

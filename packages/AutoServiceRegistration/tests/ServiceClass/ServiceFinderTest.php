@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Symplify\AutoServiceRegistration\Tests\Service;
+namespace Symplify\AutoServiceRegistration\Tests\ServiceClass;
 
 use PHPUnit\Framework\TestCase;
 use Symplify\AutoServiceRegistration\ServiceClass\ServiceClassFinder;
-use Symplify\AutoServiceRegistration\Tests\HttpKernel\Controller\ControllerFinderSource\SomeController;
-use Symplify\AutoServiceRegistration\Tests\HttpKernel\Controller\ControllerFinderSource\SomeRepository;
+use Symplify\AutoServiceRegistration\Tests\ServiceClass\ServiceFinderSource\SomeController;
+use Symplify\AutoServiceRegistration\Tests\ServiceClass\ServiceFinderSource\SomeRepository;
 
 final class ServiceFinderTest extends TestCase
 {

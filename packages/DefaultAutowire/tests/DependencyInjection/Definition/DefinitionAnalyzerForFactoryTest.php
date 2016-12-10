@@ -19,7 +19,7 @@ use Symplify\DefaultAutowire\Tests\DependencyInjection\Definition\DefinitionAnal
 use Symplify\DefaultAutowire\Tests\DependencyInjection\Definition\DefinitionAnalyzerSource\EmptyConstructorFactory;
 use Symplify\DefaultAutowire\Tests\DependencyInjection\Definition\DefinitionAnalyzerSource\MissingArgumentsTypehints;
 use Symplify\DefaultAutowire\Tests\DependencyInjection\Definition\DefinitionAnalyzerSource\NotMissingArgumentsTypehints;
-use Symplify\DefaultAutowire\tests\DependencyInjection\Definition\DefinitionAnalyzerSource\TestEntity;
+use Symplify\DefaultAutowire\Tests\DependencyInjection\Definition\DefinitionAnalyzerSource\TestEntity;
 use Symplify\DefaultAutowire\Tests\DependencyInjection\Definition\DefinitionAnalyzerSource\TestEntityRepository;
 
 final class DefinitionAnalyzerForFactoryTest extends TestCase

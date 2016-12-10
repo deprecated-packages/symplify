@@ -24,7 +24,7 @@ final class CompleteTest extends TestCase
 
     protected function setUp()
     {
-        $this->kernel = new AppKernel('test_env', true);
+        $this->kernel = new AppKernel();
         $this->kernel->boot();
 
         $this->entityManager = $this->kernel->getContainer()

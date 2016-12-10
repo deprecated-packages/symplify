@@ -23,6 +23,7 @@ trait TypeAndCollectorTrait
 
         $collectedDefinitions = $this->getContainerBuilder()
             ->findByType($collectedType);
+
         foreach ($collectedDefinitions as $name => $definition) {
             $collectorDefinition->addSetup($setterMethod, ['@' . $name]);
         }

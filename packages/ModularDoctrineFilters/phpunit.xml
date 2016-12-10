@@ -12,8 +12,4 @@
             <directory>src</directory>
         </whitelist>
     </filter>
-    <!-- listener to run after every single test -->
-    <listeners>
-        <listener class="Symplify\ModularDoctrineFilters\Tests\PHPUnit\ClearLogAndCacheTestListener" />
-    </listeners>
 </phpunit>

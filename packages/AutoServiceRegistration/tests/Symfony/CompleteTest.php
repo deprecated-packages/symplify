@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Symplify\AutoServiceRegistration\Tests\Symfony;
 
 use PHPUnit\Framework\TestCase;
@@ -16,7 +18,7 @@ final class CompleteTest extends TestCase
 
     protected function setUp()
     {
-        $kernel = new AppKernel('test_env', true);
+        $kernel = new AppKernel();
         $kernel->boot();
 
         $this->container = $kernel->getContainer();

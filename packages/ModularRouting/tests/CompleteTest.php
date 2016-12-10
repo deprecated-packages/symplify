@@ -14,7 +14,7 @@ final class CompleteTest extends TestCase
 
     protected function setUp()
     {
-        $kernel = new AppKernel('test_env', true);
+        $kernel = new AppKernel();
         $kernel->boot();
 
         $this->router = $kernel->getContainer()

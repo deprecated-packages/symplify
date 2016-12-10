@@ -16,6 +16,6 @@
     </filter>
     <!-- listener to run after every single test -->
     <listeners>
-        <listener class="Symplify\Tests\ClearLogAndCacheTestListener" />
+        <listener class="Symplify\Tests\PHPUnit\Listener\ClearLogAndCacheTestListener" />
     </listeners>
 </phpunit>

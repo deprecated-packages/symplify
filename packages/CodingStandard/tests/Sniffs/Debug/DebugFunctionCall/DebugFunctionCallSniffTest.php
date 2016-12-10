@@ -1,6 +1,6 @@
 <?php
 
-namespace SymplifyTests\MikulasCodeSniffs\Sniffs\Debug\DebugFunctionCall;
+namespace Symplify\CodingStandard\Tests\Sniffs\Debug\DebugFunctionCall;
 
 use PHPUnit\Framework\TestCase;
 use Symplify\CodingStandard\Tests\CodeSnifferRunner;
