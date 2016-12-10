@@ -9,6 +9,7 @@
         "symfony/dependency-injection": "^3.1",
         "symfony/http-kernel": "^3.1",
         "symfony/yaml": "^3.1",
+        "symfony/serializer": "^3.1",
         "symfony/security": "^3.1"
     },
     "require-dev": {

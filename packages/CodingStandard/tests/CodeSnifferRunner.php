@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\tests;
+namespace Symplify\CodingStandard\Tests;
 
 use PHP_CodeSniffer;
 use Symplify\CodingStandard\Tests\Exception\FileNotFoundException;

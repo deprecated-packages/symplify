@@ -2,9 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Symplify\AutoServiceRegistration\Naming;
+namespace Symplify\AutoServiceRegistration\Tests\Naming;
 
 use PHPUnit\Framework\TestCase;
+use Symplify\AutoServiceRegistration\Naming\ServiceNaming;
 
 final class ServiceNamingTest extends TestCase
 {

@@ -37,12 +37,12 @@
         "symfony/twig-bundle": "^3.1",
         "symfony/yaml": "^3.1",
         "symfony/validator": "^3.1",
+        "symfony/serializer": "^3.1",
         "symfony-cmf/routing-bundle": "dev-master as 1.4",
 
         "friendsofphp/php-cs-fixer": "^1.12",
         "squizlabs/php_codesniffer": "^2.7",
-        "zenify/modular-latte-filters": "^0.2.1",
-        "phpstan/phpstan": "^0.4.0"
+        "zenify/modular-latte-filters": "^0.2.1"
     },
     "require-dev": {
         "hautelook/alice-bundle": "~1.3",
@@ -68,6 +68,7 @@
             "Symplify\\ActionAutowire\\": "packages/ActionAutowire/src",
             "Symplify\\AutoServiceRegistration\\": "packages/AutoServiceRegistration/src",
             "Symplify\\CodingStandard\\": "packages/CodingStandard/src",
+            "SymplifyCodingStandard\\": "packages/CodingStandard/src/SymplifyCodingStandard",
             "Symplify\\ControllerAutowire\\": "packages/ControllerAutowire/src",
             "Symplify\\DefaultAutowire\\": "packages/DefaultAutowire/src",
             "Symplify\\ModularDoctrineFilters\\": "packages/ModularDoctrineFilters/src",

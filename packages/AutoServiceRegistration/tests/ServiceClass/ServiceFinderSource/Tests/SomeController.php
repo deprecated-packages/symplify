@@ -1,6 +1,6 @@
 <?php
 
-namespace Symplify\AutoServiceRegistration\Tests\HttpKernel\Controller\ControllerFinderSource\Tests;
+namespace Symplify\AutoServiceRegistration\Tests\ServiceClass\ServiceFinderSource\Tests;
 
 class SomeController
 {

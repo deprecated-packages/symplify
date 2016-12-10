@@ -2,13 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Symplify\NetteAdapterForSymfonyBundles\Tests;
+namespace Symplify\NetteAdapterForSymfonyBundles\Tests\DI;
 
 use Nette\DI\Compiler;
 use Nette\DI\Config\Loader;
 use Nette\DI\ContainerBuilder;
 use PHPUnit\Framework\TestCase;
 use Symplify\NetteAdapterForSymfonyBundles\DI\NetteAdapterForSymfonyBundlesExtension;
+use Symplify\NetteAdapterForSymfonyBundles\Tests\ContainerFactory;
 
 final class NetteAdapterForSymfonyBundlesTest extends TestCase
 {

@@ -1,24 +1,21 @@
 <?php
 
-namespace Symplify\AutoServiceRegistration\Tests\HttpKernel\Controller\ControllerFinderSource;
+namespace Symplify\AutoServiceRegistration\Tests\ServiceClass\ServiceFinderSource;
 
 class SomeController
 {
     /**
-     * @var SomeService
+     * @var SomeRepository
      */
-    private $someService;
+    private $someRepository;
 
-    public function __construct(SomeService $someService)
+    public function __construct(SomeRepository $someRepository)
     {
-        $this->someService = $someService;
+        $this->someRepository = $someRepository;
     }
 
-    /**
-     * @return SomeService
-     */
-    public function getSomeService()
+    public function getSomeRepository() : SomeRepository
     {
-        return $this->someService;
+        return $this->someRepository;
     }
 }
