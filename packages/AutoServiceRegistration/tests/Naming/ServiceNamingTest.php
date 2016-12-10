@@ -12,7 +12,7 @@ final class ServiceNamingTest extends TestCase
     public function test()
     {
         $this->assertSame(
-            'symplify.autoserviceregistration.naming.servicenamingtest',
+            'symplify.autoserviceregistration.tests.naming.servicenamingtest',
             ServiceNaming::createServiceIdFromClass(get_class())
         );
     }
