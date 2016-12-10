@@ -32,6 +32,7 @@
         "symfony/process": "^3.1",
         "symfony/property-access": "^3.1",
         "symfony/routing": "^3.1",
+        "symfony/security": "^3.1",
         "symfony/templating": "^3.1",
         "symfony/twig-bundle": "^3.1",
         "symfony/yaml": "^3.1",
@@ -40,7 +41,8 @@
 
         "friendsofphp/php-cs-fixer": "^1.12",
         "squizlabs/php_codesniffer": "^2.7",
-        "zenify/modular-latte-filters": "^0.2.1"
+        "zenify/modular-latte-filters": "^0.2.1",
+        "phpstan/phpstan": "^0.4.0"
     },
     "require-dev": {
         "hautelook/alice-bundle": "~1.3",
