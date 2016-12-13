@@ -15,7 +15,6 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symplify\Statie\Application\Command\RunCommand;
 use Symplify\Statie\Application\StatieApplication;
-use Throwable;
 
 final class GenerateCommand extends Command
 {
@@ -55,24 +54,16 @@ final class GenerateCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        try {
-            $runCommand = new RunCommand(
-                (bool) $input->getOption('server'),
-                $input->getOption('source'),
-                $input->getOption('output')
-            );
+        $runCommand = new RunCommand(
+            (bool) $input->getOption('server'),
+            $input->getOption('source'),
+            $input->getOption('output')
+        );
 
-            $this->statieApplication->runCommand($runCommand);
+        $this->statieApplication->runCommand($runCommand);
 
-            $output->writeln('<info>Website was successfully generated.</info>');
+        $output->writeln('<info>Website was successfully generated.</info>');
 
-            return 0;
-        } catch (Throwable $throwable) {
-            $output->writeln(
-                sprintf('<error>%s</error>', $throwable->getMessage())
-            );
-
-            return 1;
-        }
+        return 0;
     }
 }

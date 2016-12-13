@@ -53,29 +53,21 @@ final class PushToGithubCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        try {
-            $this->ensureInputIsValid($input);
+        $this->ensureInputIsValid($input);
 
-            $githubRepository = $this->createGithubRepositoryUrlWithToken(
-                $input->getOption('token'),
-                $input->getArgument('repository-slug')
-            );
+        $githubRepository = $this->createGithubRepositoryUrlWithToken(
+            $input->getOption('token'),
+            $input->getArgument('repository-slug')
+        );
 
-            $this->gihubPublishingProcess->pushDirectoryContentToRepository(
-                $input->getOption('output'),
-                $githubRepository
-            );
+        $this->gihubPublishingProcess->pushDirectoryContentToRepository(
+            $input->getOption('output'),
+            $githubRepository
+        );
 
-            $output->writeln('<info>Website was successfully pushed to Github pages.</info>');
+        $output->writeln('<info>Website was successfully pushed to Github pages.</info>');
 
-            return 0;
-        } catch (Throwable $throwable) {
-            $output->writeln(
-                sprintf('<error>%s</error>', $throwable->getMessage())
-            );
-
-            return 1;
-        }
+        return 0;
     }
 
     private function ensureInputIsValid(InputInterface $input)
