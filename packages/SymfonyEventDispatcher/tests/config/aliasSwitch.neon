@@ -1,0 +1,9 @@
+application:
+	scanDirs: FALSE
+	scanComposer: FALSE
+
+
+extensions:
+	- Kdyby\Events\DI\EventsExtension
+	- Kdyby\Console\DI\ConsoleExtension
+	- Symplify\SymfonyEventDispatcher\DI\EventDispatcherExtension

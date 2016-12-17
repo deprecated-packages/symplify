@@ -1,0 +1,32 @@
+{
+    "name": "symplify/symfony-event-dispatcher",
+    "description": "Symfony\\EventDispatcher integration to Nette.",
+    "license": "MIT",
+    "authors": [
+        { "name": "Tomáš Votruba", "homepage": "http://tomasvotruba.cz", "email": "tomas.vot@gmail.com" }
+    ],
+    "require": {
+        "php": "^7.0",
+        "nette/di": "~2.4",
+        "nette/http": "~2.4",
+        "symfony/event-dispatcher": "~3.1"
+    },
+    "require-dev": {
+        "kdyby/console": "~2.4",
+        "kdyby/events": "~3.0",
+        "nette/bootstrap": "~2.4",
+        "nette/application": "~2.4",
+        "tracy/tracy": "~2.4",
+        "phpunit/phpunit": "^5.6"
+    },
+    "autoload": {
+        "psr-4": {
+            "Symplify\\SymfonyEventDispatcher\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Symplify\\SymfonyEventDispatcher\\Tests\\": "tests"
+        }
+    }
+}

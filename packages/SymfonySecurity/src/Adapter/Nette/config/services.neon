@@ -1,0 +1,27 @@
+services:
+	- Symplify\SymfonySecurity\Core\Authentication\AuthenticationManager
+	- Symplify\SymfonySecurity\EventSubscriber\CheckRequirementsSubscriber
+	- Symfony\Component\Security\Core\Authorization\AuthorizationChecker
+
+	# access decision manager
+	- Symplify\SymfonySecurity\Core\Authorization\Voter\DummyVoter
+	- Symplify\SymfonySecurity\Core\Authorization\AccessDecisionManagerFactory
+	-
+		class: Symfony\Component\Security\Core\Authorization\AccessDecisionManager
+		factory: [@Symplify\SymfonySecurity\Core\Authorization\AccessDecisionManagerFactory, create]
+	-
+		class: Symplify\SymfonySecurity\Core\Authentication\Token\NetteTokenAdapter
+		setup:
+			- setUser(@Nette\Security\User)
+	-
+		class: Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage
+		setup:
+			- setToken(@Symplify\SymfonySecurity\Core\Authentication\Token\NetteTokenAdapter)
+
+	# firewall
+	- Symplify\SymfonySecurity\Http\FirewallMapFactory
+	-
+		class: Symplify\SymfonySecurity\Http\FirewallMap
+		factory: [@Symplify\SymfonySecurity\Http\FirewallMapFactory, create]
+
+	- Symplify\SymfonySecurity\EventSubscriber\FirewallSubscriber

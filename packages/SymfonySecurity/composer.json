@@ -1,0 +1,40 @@
+{
+    "name": "symplify/symfony-security",
+    "description": "Voters and Firewall features from Symfony\\Security for standalone use.",
+    "license": "MIT",
+    "authors": [
+        { "name": "Tomáš Votruba", "homepage": "http://tomasvotruba.cz", "email": "tomas.vot@gmail.com" }
+    ],
+    "require": {
+        "php": "^7.0",
+        "nette/di": "~2.4",
+        "nette/http": "~2.4",
+        "nette/security": "~2.4",
+        "symfony/security-core": "~3.1",
+        "symfony/security-http": "~3.1",
+        "symplify/symfony-event-dispatcher": "~2.0"
+    },
+    "require-dev": {
+        "nette/application": "~2.4",
+        "nette/bootstrap": "~2.4",
+        "nette/robot-loader": "~2.4",
+        "nette/utils": "~2.4",
+        "phpunit/phpunit": "~5.5",
+        "tracy/tracy": "~2.4",
+        "symplify/coding-standard": "^2.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Symnedi\\Security\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Symnedi\\Security\\Tests\\": "tests"
+        }
+    },
+    "scripts": {
+        "check-cs": "vendor/bin/symplify-cs check src tests",
+        "fix-cs": "vendor/bin/symplify-cs fix src tests"
+    }
+}

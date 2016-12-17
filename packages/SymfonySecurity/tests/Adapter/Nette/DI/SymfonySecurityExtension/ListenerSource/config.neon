@@ -1,0 +1,15 @@
+application:
+	scanDirs: FALSE
+	scanComposer: FALSE
+	mapping:
+		*: Symplify\SymfonySecurity\Tests\Adapter\Nette\DI\SymfonySecurityExtension\ListenerSource\*Presenter
+
+services:
+	- Symplify\SymfonySecurity\Tests\Adapter\Nette\DI\SymfonySecurityExtension\FirewallSource\RequestMatcher
+	- Symplify\SymfonySecurity\Tests\Adapter\Nette\DI\SymfonySecurityExtension\FirewallSource\FirewallHandler
+	- Symplify\SymfonySecurity\Tests\Adapter\Nette\DI\SymfonySecurityExtension\ListenerSource\RouterFactory
+	router: [@Symplify\SymfonySecurity\Tests\Adapter\Nette\DI\SymfonySecurityExtension\ListenerSource\RouterFactory, create]
+
+extensions:
+	- Symplify\SymfonyEventDispatcher\DI\EventDispatcherExtension
+	- Symplify\SymfonySecurity\Adapter\Nette\DI\SymfonySecurityExtension

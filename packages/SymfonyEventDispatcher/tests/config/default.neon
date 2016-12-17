@@ -1,0 +1,25 @@
+application:
+	scanDirs: FALSE
+	scanComposer: FALSE
+	mapping:
+		*: Symplify\SymfonyEventDispatcher\Tests\NetteEvent\DispatchSource\*Presenter
+
+
+services:
+	- Symplify\SymfonyEventDispatcher\Tests\NetteEvent\EventStateStorage
+
+	# event subscribers
+	- Symplify\SymfonyEventDispatcher\Tests\DI\EventDispatcherExtensionSource\SomeEventSubscriber
+	- Symplify\SymfonyEventDispatcher\Tests\NetteEvent\EventSubscriber\ApplicationSubscriber
+	- Symplify\SymfonyEventDispatcher\Tests\NetteEvent\EventSubscriber\PresenterSubscriber
+
+	# routing logic
+	- Symplify\SymfonyEventDispatcher\Tests\NetteEvent\DispatchSource\RouterFactory
+	router: [@Symplify\SymfonyEventDispatcher\Tests\NetteEvent\DispatchSource\RouterFactory, create]
+
+	- Symplify\SymfonyEventDispatcher\Tests\NetteEvent\DispatchSource\HomepagePresenter
+	- Symplify\SymfonyEventDispatcher\Tests\NetteEvent\DispatchSource\ResponsePresenter
+
+
+extensions:
+	- Symplify\SymfonyEventDispatcher\DI\EventDispatcherExtension
