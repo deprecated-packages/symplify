@@ -10,6 +10,8 @@ git subsplit publish --heads="master" --no-tags packages/ModularDoctrineFilters:
 git subsplit publish --heads="master" --no-tags packages/ModularRouting:git@github.com:Symplify/ModularRouting.git
 git subsplit publish --heads="master" --no-tags packages/NetteAdapterForSymfonyBundles:git@github.com:Symplify/NetteAdapterForSymfonyBundles.git
 git subsplit publish --heads="master" --no-tags packages/Statie:git@github.com:Symplify/Statie.git
+git subsplit publish --heads="master" --no-tags packages/SymfonyEventDispatcher:git@github.com:Symplify/SymfonyEventDispatcher.git
+git subsplit publish --heads="master" --no-tags packages/SymfonySecurity:git@github.com:Symplify/SymfonySecurity.git
 
 rm -rf .subsplit/
 

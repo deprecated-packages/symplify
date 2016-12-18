@@ -10,6 +10,8 @@ git subsplit publish --heads="master" packages/ModularDoctrineFilters:git@github
 git subsplit publish --heads="master" packages/ModularRouting:git@github.com:Symplify/ModularRouting.git
 git subsplit publish --heads="master" packages/NetteAdapterForSymfonyBundles:git@github.com:Symplify/NetteAdapterForSymfonyBundles.git
 git subsplit publish --heads="master" packages/Statie:git@github.com:Symplify/Statie.git
+git subsplit publish --heads="master" packages/SymfonyEventDispatcher:git@github.com:Symplify/SymfonyEventDispatcher.git
+git subsplit publish --heads="master" packages/SymfonySecurity:git@github.com:Symplify/SymfonySecurity.git
 
 rm -rf .subsplit/
 
