@@ -11,7 +11,6 @@ use Symplify\SymfonyEventDispatcher\Adapter\Nette\Event\ApplicationExceptionEven
 use Symplify\SymfonyEventDispatcher\Adapter\Nette\Event\ApplicationPresenterEvent;
 use Symplify\SymfonyEventDispatcher\Adapter\Nette\Event\ApplicationRequestEvent;
 use Symplify\SymfonyEventDispatcher\Tests\Adapter\Nette\ContainerFactory;
-use Symplify\SymfonyEventDispatcher\Tests\Adapter\Nette\NetteEvent\EventStateStorage;
 
 final class DispatchApplicationTest extends PHPUnit_Framework_TestCase
 {

@@ -18,7 +18,7 @@ final class ApplicationResponseEvent extends Event
     /**
      * The ON_RESPONSE event occurs when a new response is ready for dispatch,.
      *
-     * @see \Nette\Application\Application::$onResponse.
+     * @see \Nette\Application\Application::$onResponse
      *
      * @var string
      */

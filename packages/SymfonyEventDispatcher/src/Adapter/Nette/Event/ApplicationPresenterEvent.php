@@ -18,7 +18,7 @@ final class ApplicationPresenterEvent extends Event
     /**
      * The ON_PRESENTER event when a presenter is created.
      *
-     * @see \Nette\Application\Application::$onPresenter.
+     * @see \Nette\Application\Application::$onPresenter
      *
      * @var string
      */

@@ -17,7 +17,7 @@ final class ApplicationEvent extends Event
     /**
      * The ON_STARTUP event occurs before the application loads presenter.
      *
-     * @see \Nette\Application\Application::$onStartup.
+     * @see \Nette\Application\Application::$onStartup
      *
      * @var string
      */

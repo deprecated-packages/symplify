@@ -18,7 +18,7 @@ final class ApplicationExceptionEvent extends Event
     /**
      * The ON_SHUTDOWN event occurs before the application shuts down,.
      *
-     * @see \Nette\Application\Application::$onShutdown.
+     * @see \Nette\Application\Application::$onShutdown
      *
      * @var string
      */
@@ -27,7 +27,7 @@ final class ApplicationExceptionEvent extends Event
     /**
      * The ON_ERROR event when an unhandled exception occurs in the application,.
      *
-     * @see \Nette\Application\Application::$onError.
+     * @see \Nette\Application\Application::$onError
      *
      * @var string
      */

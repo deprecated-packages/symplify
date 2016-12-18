@@ -12,7 +12,6 @@ namespace Symplify\SymfonySecurity\EventSubscriber;
 use Nette\Application\UI\ComponentReflection;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
-use Symplify\SymfonyEventDispatcher\Adapter\Nette\Event\ApplicationEvent;
 use Symplify\SymfonyEventDispatcher\Adapter\Nette\Event\ApplicationPresenterEvent;
 
 final class CheckRequirementsSubscriber implements EventSubscriberInterface

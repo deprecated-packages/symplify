@@ -18,7 +18,7 @@ final class ApplicationRequestEvent extends Event
     /**
      * The ON_REQUEST event occurs when a new request is received,.
      *
-     * @see \Nette\Application\Application::$onRequest.
+     * @see \Nette\Application\Application::$onRequest
      *
      * @var string
      */

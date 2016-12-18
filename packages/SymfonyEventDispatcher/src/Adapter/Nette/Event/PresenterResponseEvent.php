@@ -19,7 +19,7 @@ final class PresenterResponseEvent extends Event
     /**
      * The ON_SHUTDOWN event occurs when the presenter is shutting down.
      *
-     * @see \Nette\Application\UI\Presenter::$onShutdown.
+     * @see \Nette\Application\UI\Presenter::$onShutdown
      *
      * @var string
      */
