@@ -58,7 +58,7 @@ final class SymfonyRunner implements RunnerInterface
     {
         $builder = new PhpCsFixerProcessBuilder($directory);
         $builder->setLevel('symfony');
-        $builder->setFixers($this->getExcludedFixers());
+        $builder->setRules($this->getExcludedFixers());
 
         return $builder;
     }

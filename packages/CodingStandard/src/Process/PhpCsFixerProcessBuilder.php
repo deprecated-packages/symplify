@@ -27,11 +27,9 @@ final class PhpCsFixerProcessBuilder implements ProcessBuilderInterface
         $this->builder->add('fix');
         $this->builder->add($directory);
         $this->builder->add('--verbose');
+        $this->builder->add('--allow-risky=yes');
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getProcess() : Process
     {
         return $this->builder->getProcess();
@@ -39,12 +37,12 @@ final class PhpCsFixerProcessBuilder implements ProcessBuilderInterface
 
     public function setLevel(string $level)
     {
-        $this->builder->add('--level=' . $level);
+        $this->builder->add('--rules=@' . $level);
     }
 
-    public function setFixers(string $fixers)
+    public function setRules(string $rules)
     {
-        $this->builder->add('--fixers=' . $fixers);
+        $this->builder->add('--rules=' . $rules);
     }
 
     public function enableDryRun()

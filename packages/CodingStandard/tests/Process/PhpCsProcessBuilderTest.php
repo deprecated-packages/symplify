@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Symplify\CodingStandard\Tests\Process;
 
 use PHPUnit\Framework\TestCase;

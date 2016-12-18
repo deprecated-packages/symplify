@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Symplify\CodingStandard\Tests\Runner;
 
 use PHPUnit\Framework\TestCase;
@@ -20,8 +22,7 @@ final class ContribRunnerTest extends TestCase
     public function testRunForDirectory()
     {
         $output = $this->runner->runForDirectory(__DIR__ . '/ContribRunnerSource');
-
-        $this->assertContains('Checked all files', $output);
+        $this->assertEmpty($output);
     }
 
     public function testHasErrors()

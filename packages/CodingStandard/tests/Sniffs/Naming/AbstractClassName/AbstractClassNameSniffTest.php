@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Symplify\CodingStandard\Tests\Sniffs\Naming\AbstractClassName;
 
 use PHPUnit\Framework\TestCase;

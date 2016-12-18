@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Symplify\CodingStandard\Tests\Sniffs\Naming\InterfaceName;
 
 use PHPUnit\Framework\TestCase;

@@ -9,7 +9,6 @@ declare(strict_types=1);
 
 namespace Symplify\CodingStandard\Runner;
 
-use Symfony\CS\Fixer\Contrib\HeaderCommentFixer;
 use Symplify\CodingStandard\Contract\Runner\RunnerInterface;
 use Symplify\CodingStandard\Process\PhpCsFixerProcessBuilder;
 
@@ -23,7 +22,7 @@ final class ContribRunner implements RunnerInterface
     public function runForDirectory(string $directory) : string
     {
         $builder = new PhpCsFixerProcessBuilder($directory);
-        $builder->setFixers($this->getCustomFixers());
+        $builder->setRules($this->getCustomFixers());
         $builder->enableDryRun();
 
         $process = $builder->getProcess();
@@ -42,7 +41,7 @@ final class ContribRunner implements RunnerInterface
     public function fixDirectory(string $directory) : string
     {
         $builder = new PhpCsFixerProcessBuilder($directory);
-        $builder->setFixers($this->getCustomFixers());
+        $builder->setRules($this->getCustomFixers());
 
         $process = $builder->getProcess();
         $process->run();
@@ -64,35 +63,35 @@ final class ContribRunner implements RunnerInterface
     private function getCustomFixers() : string
     {
         $fixers = [
+            // since 2.0
+            'psr4',
+            'phpdoc_no_alias_tag',
+            // 'ordered_class_elements', requires PHP configuration
+            'no_spaces_around_offset',
+            'dir_constant',
+            'modernize_types_casting',
+            'random_api_migration',
+            'single_class_element_per_statement',
+            'declare_strict_types',
+            'normalize_index_brace',
+            'semicolon_after_instruction',
+            // since 1.x
             'combine_consecutive_unsets',
-            'concat_with_spaces',
-            'empty_return',
-            'short_array_syntax',
-            // 'header_comment', : @see setupFixers() method bellow
-            'logical_not_operators_with_successor_space',
-            'newline_after_open_tag',
+            // 'concat_space', requires PHP configuration
+            'simplified_null_return',
+            // 'array_syntax', requires PHP configuration
+            'not_operator_with_successor_space',
+            'linebreak_after_opening_tag',
             'no_useless_else',
             'no_useless_return',
-            'ordered_use',
+            'ordered_imports',
             'php_unit_construct',
             'php_unit_dedicate_assert',
             'php_unit_strict',
-            'phpdoc_order',
-            'short_echo_tag',
-            'strict',
+            'no_short_echo_tag',
+            'strict_comparison',
         ];
 
         return implode(',', $fixers);
-    }
-
-    /**
-     * Todo: add later when refactoring to PHP use and own process.
-     * http://stackoverflow.com/questions/35121798/how-to-configure-headercommentfixer-in-php-cs-fixer.
-     */
-    private function setupFixers()
-    {
-        HeaderCommentFixer::setHeader(
-            file_get_contents(__DIR__ . '/PhpCsFixer/desired-header.txt')
-        );
     }
 }

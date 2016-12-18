@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Symplify\CodingStandard\Tests\Process;
 
 use PHPUnit\Framework\TestCase;
@@ -11,18 +13,18 @@ final class PhpCsFixerProcessBuilderTest extends TestCase
     {
         $builder = new PhpCsFixerProcessBuilder('directory');
 
-        $builder->setFixers('fixers');
+        $builder->setRules('fixers');
 
         $this->assertSame(
             WindowsCompatibilityHelper::makeWindowsOsCompatible(
-                "'./vendor/bin/php-cs-fixer' 'fix' 'directory' '--verbose' '--fixers=fixers'"
+                "'./vendor/bin/php-cs-fixer' 'fix' 'directory' '--verbose' '--allow-risky=yes' '--rules=fixers'"
             ),
             $builder->getProcess()->getCommandLine()
         );
 
         $this->assertSame(
             WindowsCompatibilityHelper::makeWindowsOsCompatible(
-                "'./vendor/bin/php-cs-fixer' 'fix' 'directory' '--verbose' '--fixers=fixers'"
+                "'./vendor/bin/php-cs-fixer' 'fix' 'directory' '--verbose' '--allow-risky=yes' '--rules=fixers'"
             ),
             $builder->getProcess()->getCommandLine()
         );
@@ -30,7 +32,7 @@ final class PhpCsFixerProcessBuilderTest extends TestCase
         $builder->setLevel('level5');
         $this->assertSame(
             WindowsCompatibilityHelper::makeWindowsOsCompatible(
-                "'./vendor/bin/php-cs-fixer' 'fix' 'directory' '--verbose' '--fixers=fixers' '--level=level5'"
+                "'./vendor/bin/php-cs-fixer' 'fix' 'directory' '--verbose' '--allow-risky=yes' '--rules=fixers' '--rules=@level5'"
             ),
             $builder->getProcess()->getCommandLine()
         );
@@ -38,7 +40,7 @@ final class PhpCsFixerProcessBuilderTest extends TestCase
         $builder->enableDryRun();
         $this->assertSame(
             WindowsCompatibilityHelper::makeWindowsOsCompatible(
-                "'./vendor/bin/php-cs-fixer' 'fix' 'directory' '--verbose' '--fixers=fixers' '--level=level5' "
+                "'./vendor/bin/php-cs-fixer' 'fix' 'directory' '--verbose' '--allow-risky=yes' '--rules=fixers' '--rules=@level5' "
                 . "'--dry-run' '--diff'"
             ),
             $builder->getProcess()->getCommandLine()

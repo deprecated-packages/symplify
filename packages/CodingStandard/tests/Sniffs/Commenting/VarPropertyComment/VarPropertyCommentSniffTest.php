@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Symplify\CodingStandard\Tests\Sniffs\Commenting\VarPropertyComment;
 
 use PHPUnit\Framework\TestCase;
