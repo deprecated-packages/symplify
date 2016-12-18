@@ -2,9 +2,6 @@
 	"name": "symplify/nette-adapter-for-symfony-bundles",
 	"description": "Register Symfony Bundles as Nette Extensions with ease.",
 	"license": "MIT",
-	"authors": [
-		{ "name": "Tomáš Votruba", "email": "tomas.vot@gmail.com", "homepage": "http://tomasvotruba.cz" }
-	],
 	"require": {
 		"php": "^7.0",
 		"symfony/dependency-injection": "~3.0",

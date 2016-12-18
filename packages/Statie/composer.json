@@ -2,9 +2,6 @@
     "name": "symplify/statie",
     "description": "Static Site Generator",
     "license": "MIT",
-    "authors": [
-        { "name": "Tomas Votruba", "email": "tomas.vot@gmail.com", "homepage": "http://tomasvotruba.cz" }
-    ],
     "bin": [
         "bin/statie"
     ],

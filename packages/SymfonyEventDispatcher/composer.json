@@ -2,9 +2,6 @@
     "name": "symplify/symfony-event-dispatcher",
     "description": "Symfony\\EventDispatcher integration to Nette.",
     "license": "MIT",
-    "authors": [
-        { "name": "Tomáš Votruba", "homepage": "http://tomasvotruba.cz", "email": "tomas.vot@gmail.com" }
-    ],
     "require": {
         "php": "^7.0",
         "nette/di": "~2.4",
