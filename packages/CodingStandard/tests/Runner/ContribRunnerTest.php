@@ -22,7 +22,7 @@ final class ContribRunnerTest extends TestCase
     public function testRunForDirectory()
     {
         $output = $this->runner->runForDirectory(__DIR__ . '/ContribRunnerSource');
-        $this->assertEmpty($output);
+        $this->assertContains('Checked all files', $output);
     }
 
     public function testHasErrors()
