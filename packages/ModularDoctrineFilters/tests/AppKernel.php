@@ -14,7 +14,7 @@ final class AppKernel extends Kernel
 {
     public function __construct()
     {
-        parent::__construct(rand(1, 100), true);
+        parent::__construct(mt_rand(1, 100), true);
     }
 
     public function registerBundles() : array

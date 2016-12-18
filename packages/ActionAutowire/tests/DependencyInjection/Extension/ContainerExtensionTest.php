@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Symplify\ActionAutowire\Tests\DependencyInjection\Extension;
 
 use PHPUnit\Framework\TestCase;

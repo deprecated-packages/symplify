@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Symplify\SymfonyEventDispatcher\Tests\Adapter\Nette\NetteEvent;
 
 use Nette\Application\Application;

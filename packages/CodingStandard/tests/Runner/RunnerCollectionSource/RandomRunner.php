@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Symplify\CodingStandard\Tests\Runner\RunnerCollectionSource;
 
 use Symplify\CodingStandard\Contract\Runner\RunnerInterface;

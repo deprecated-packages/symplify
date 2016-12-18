@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Symplify\SymfonySecurity\Tests\Adapter\Nette\DI\SymfonySecurityExtensionSource;
 
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;

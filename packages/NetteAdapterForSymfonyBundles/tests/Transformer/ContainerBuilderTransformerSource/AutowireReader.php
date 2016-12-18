@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Symplify\NetteAdapterForSymfonyBundles\Tests\Transformer\ContainerBuilderTransformerSource;
 
 use Doctrine\Common\Annotations\Reader;

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Symplify\ModularRouting\Tests;
 
 use PHPUnit\Framework\TestCase;

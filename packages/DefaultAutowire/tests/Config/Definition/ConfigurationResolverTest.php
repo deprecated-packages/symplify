@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Symplify\DefaultAutowire\Tests\Config\Definition;
 
 use PHPUnit\Framework\TestCase;
