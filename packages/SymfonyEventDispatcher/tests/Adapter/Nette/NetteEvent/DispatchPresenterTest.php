@@ -7,7 +7,7 @@ namespace Symplify\SymfonyEventDispatcher\Tests\Adapter\Nette\NetteEvent;
 use Nette\Application\Application;
 use Nette\Application\UI\Presenter;
 use PHPUnit\Framework\TestCase;
-use Symplify\SymfonyEventDispatcher\Adapter\Nette\Event\PresenterResponseEvent;
+use Symplify\SymfonyEventDispatcher\Adapter\Nette\Event\PresenterShutdownEvent;
 use Symplify\SymfonyEventDispatcher\Tests\Adapter\Nette\ContainerFactory;
 
 final class DispatchPresenterTest extends TestCase
@@ -33,8 +33,8 @@ final class DispatchPresenterTest extends TestCase
     {
         $this->application->run();
 
-        /** @var PresenterResponseEvent $presenterResponseEvent */
-        $presenterResponseEvent = $this->eventStateStorage->getEventState(PresenterResponseEvent::ON_SHUTDOWN);
+        /** @var PresenterShutdownEvent $presenterResponseEvent */
+        $presenterResponseEvent = $this->eventStateStorage->getEventState(PresenterShutdownEvent::NAME);
         $this->assertInstanceOf(Presenter::class, $presenterResponseEvent->getPresenter());
         $this->assertNull($presenterResponseEvent->getResponse());
     }

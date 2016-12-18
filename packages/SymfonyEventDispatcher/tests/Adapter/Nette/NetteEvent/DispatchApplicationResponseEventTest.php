@@ -33,7 +33,7 @@ final class DispatchApplicationResponseEventTest extends PHPUnit_Framework_TestC
 
     public function testDispatch()
     {
-        $this->assertFalse($this->eventStateStorage->getEventState(ApplicationResponseEvent::ON_RESPONSE));
+        $this->assertFalse($this->eventStateStorage->getEventState(ApplicationResponseEvent::NAME));
 
         $requestMock = $this->prophesize(Request::class);
         $requestMock->getPresenterName()->willReturn('Response');
@@ -44,7 +44,7 @@ final class DispatchApplicationResponseEventTest extends PHPUnit_Framework_TestC
         $this->application->processRequest($requestMock->reveal());
 
         /** @var ApplicationResponseEvent $applicationResponseEvent */
-        $applicationResponseEvent = $this->eventStateStorage->getEventState(ApplicationResponseEvent::ON_RESPONSE);
+        $applicationResponseEvent = $this->eventStateStorage->getEventState(ApplicationResponseEvent::NAME);
         $this->assertInstanceOf(Application::class, $applicationResponseEvent->getApplication());
         $this->assertInstanceOf(IResponse::class, $applicationResponseEvent->getResponse());
     }

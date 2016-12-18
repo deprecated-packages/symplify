@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- * This file is part of Symnedi.
+ * This file is part of Symplify.
  * Copyright (c) 2014 Tomas Votruba (http://tomasvotruba.cz).
  */
 
@@ -13,16 +13,17 @@ use Nette\Application\Application;
 use Nette\Application\Request;
 use Symfony\Component\EventDispatcher\Event;
 
-final class ApplicationRequestEvent extends Event
+/**
+ * This event occurs when a new request is received.
+ *
+ * @see \Nette\Application\Application::$onRequest
+ */
+final class RequestRecievedEvent extends Event
 {
     /**
-     * The ON_REQUEST event occurs when a new request is received,.
-     *
-     * @see \Nette\Application\Application::$onRequest
-     *
      * @var string
      */
-    const ON_REQUEST = Application::class . '::onRequest';
+    const NAME = Application::class . '::$onRequest';
 
     /**
      * @var Application

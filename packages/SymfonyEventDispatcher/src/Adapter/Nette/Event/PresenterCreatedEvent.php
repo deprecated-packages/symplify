@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- * This file is part of Symnedi.
+ * This file is part of Symplify.
  * Copyright (c) 2014 Tomas Votruba (http://tomasvotruba.cz).
  */
 
@@ -13,16 +13,17 @@ use Nette\Application\Application;
 use Nette\Application\IPresenter;
 use Symfony\Component\EventDispatcher\Event;
 
-final class ApplicationPresenterEvent extends Event
+/**
+ * This event occurs when a presenter is created.
+ *
+ * @see \Nette\Application\Application::$onPresenter
+ */
+final class PresenterCreatedEvent extends Event
 {
     /**
-     * The ON_PRESENTER event when a presenter is created.
-     *
-     * @see \Nette\Application\Application::$onPresenter
-     *
      * @var string
      */
-    const ON_PRESENTER = Application::class . '::onPresenter';
+    const NAME = Application::class . '::$onPresenter';
 
     /**
      * @var Application

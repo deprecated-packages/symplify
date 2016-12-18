@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- * This file is part of Symnedi.
+ * This file is part of Symplify.
  * Copyright (c) 2014 Tomas Votruba (http://tomasvotruba.cz).
  */
 
@@ -11,12 +11,12 @@ namespace Symplify\SymfonyEventDispatcher\Adapter\Nette\DI;
 
 use Nette\Application\Application;
 use Nette\Application\UI\Presenter;
-use Symplify\SymfonyEventDispatcher\Adapter\Nette\Event\ApplicationEvent;
-use Symplify\SymfonyEventDispatcher\Adapter\Nette\Event\ApplicationExceptionEvent;
-use Symplify\SymfonyEventDispatcher\Adapter\Nette\Event\ApplicationPresenterEvent;
-use Symplify\SymfonyEventDispatcher\Adapter\Nette\Event\ApplicationRequestEvent;
+use Symplify\SymfonyEventDispatcher\Adapter\Nette\Event\ApplicationStartupEvent;
+use Symplify\SymfonyEventDispatcher\Adapter\Nette\Event\ApplicationErrorEvent;
+use Symplify\SymfonyEventDispatcher\Adapter\Nette\Event\PresenterCreatedEvent;
+use Symplify\SymfonyEventDispatcher\Adapter\Nette\Event\RequestRecievedEvent;
 use Symplify\SymfonyEventDispatcher\Adapter\Nette\Event\ApplicationResponseEvent;
-use Symplify\SymfonyEventDispatcher\Adapter\Nette\Event\PresenterResponseEvent;
+use Symplify\SymfonyEventDispatcher\Adapter\Nette\Event\PresenterShutdownEvent;
 
 final class NetteEventListFactory
 {
@@ -25,74 +25,68 @@ final class NetteEventListFactory
      */
     public function create() : array
     {
-        $list = [];
-        $list = $this->addApplicationEventItems($list);
-        $list = $this->addPresenterEventItems($list);
-
-        return $list;
+        return array_merge(
+            $this->createApplicationEventItems(),
+            $this->createPresenterEventItems()
+        );
     }
 
     /**
-     * @param NetteEventItem[] $list
-     *
      * @return NetteEventItem[]
      */
-    private function addApplicationEventItems(array $list) : array
+    private function createApplicationEventItems() : array
     {
-        $list[] = new NetteEventItem(
+        $eventItems = [];
+        $eventItems[] = new NetteEventItem(
             Application::class,
             'onRequest',
-            ApplicationRequestEvent::class,
-            ApplicationRequestEvent::ON_REQUEST
+            RequestRecievedEvent::class,
+            RequestRecievedEvent::NAME
         );
-        $list[] = new NetteEventItem(
+        $eventItems[] = new NetteEventItem(
             Application::class,
             'onStartup',
-            ApplicationEvent::class,
-            ApplicationEvent::ON_STARTUP
+            ApplicationStartupEvent::class,
+            ApplicationStartupEvent::NAME
         );
-        $list[] = new NetteEventItem(
+        $eventItems[] = new NetteEventItem(
             Application::class,
             'onPresenter',
-            ApplicationPresenterEvent::class,
-            ApplicationPresenterEvent::ON_PRESENTER
+            PresenterCreatedEvent::class,
+            PresenterCreatedEvent::NAME
         );
-        $list[] = new NetteEventItem(
+        $eventItems[] = new NetteEventItem(
             Application::class,
             'onResponse',
             ApplicationResponseEvent::class,
-            ApplicationResponseEvent::ON_RESPONSE
+            ApplicationResponseEvent::NAME
         );
-        $list[] = new NetteEventItem(
+        $eventItems[] = new NetteEventItem(
             Application::class,
             'onError',
-            ApplicationExceptionEvent::class,
-            ApplicationExceptionEvent::ON_ERROR
+            ApplicationErrorEvent::class,
+            ApplicationErrorEvent::NAME
         );
-        $list[] = new NetteEventItem(
+        $eventItems[] = new NetteEventItem(
             Application::class,
             'onShutdown',
-            ApplicationExceptionEvent::class,
-            ApplicationExceptionEvent::ON_SHUTDOWN
+            ApplicationErrorEvent::class,
+            ApplicationErrorEvent::NAME
         );
 
-        return $list;
+        return $eventItems;
     }
 
     /**
-     * @param NetteEventItem[] $list
-     *
      * @return NetteEventItem[]
      */
-    private function addPresenterEventItems(array $list) : array
+    private function createPresenterEventItems() : array
     {
-        $list[] = new NetteEventItem(
+        return [new NetteEventItem(
             Presenter::class,
             'onShutdown',
-            PresenterResponseEvent::class,
-            PresenterResponseEvent::ON_SHUTDOWN
-        );
-
-        return $list;
+            PresenterShutdownEvent::class,
+            PresenterShutdownEvent::NAME
+        )];
     }
 }

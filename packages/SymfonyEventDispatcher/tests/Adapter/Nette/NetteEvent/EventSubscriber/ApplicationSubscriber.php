@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Symplify\SymfonyEventDispatcher\Tests\Adapter\Nette\NetteEvent\EventSubscriber;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symplify\SymfonyEventDispatcher\Adapter\Nette\Event\ApplicationEvent;
-use Symplify\SymfonyEventDispatcher\Adapter\Nette\Event\ApplicationExceptionEvent;
-use Symplify\SymfonyEventDispatcher\Adapter\Nette\Event\ApplicationPresenterEvent;
-use Symplify\SymfonyEventDispatcher\Adapter\Nette\Event\ApplicationRequestEvent;
+use Symplify\SymfonyEventDispatcher\Adapter\Nette\Event\ApplicationStartupEvent;
+use Symplify\SymfonyEventDispatcher\Adapter\Nette\Event\ApplicationErrorEvent;
+use Symplify\SymfonyEventDispatcher\Adapter\Nette\Event\PresenterCreatedEvent;
+use Symplify\SymfonyEventDispatcher\Adapter\Nette\Event\RequestRecievedEvent;
 use Symplify\SymfonyEventDispatcher\Adapter\Nette\Event\ApplicationResponseEvent;
 use Symplify\SymfonyEventDispatcher\Tests\Adapter\Nette\NetteEvent\EventStateStorage;
 
@@ -27,42 +27,42 @@ final class ApplicationSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents() : array
     {
         return [
-            ApplicationRequestEvent::ON_REQUEST => 'onRequest',
-            ApplicationEvent::ON_STARTUP => 'onStartup',
-            ApplicationPresenterEvent::ON_PRESENTER => 'onPresenter',
-            ApplicationExceptionEvent::ON_SHUTDOWN => 'onShutdown',
-            ApplicationResponseEvent::ON_RESPONSE => 'onResponse',
-            ApplicationExceptionEvent::ON_ERROR => 'onError',
+            RequestRecievedEvent::NAME => 'onRequest',
+            ApplicationStartupEvent::NAME => 'onStartup',
+            PresenterCreatedEvent::NAME => 'onPresenter',
+            ApplicationErrorEvent::NAME => 'onShutdown',
+            ApplicationResponseEvent::NAME => 'onResponse',
+            ApplicationErrorEvent::NAME => 'onError',
         ];
     }
 
-    public function onRequest(ApplicationRequestEvent $applicationRequestEvent)
+    public function onRequest(RequestRecievedEvent $applicationRequestEvent)
     {
-        $this->eventStateStorage->addEventState(ApplicationRequestEvent::ON_REQUEST, $applicationRequestEvent);
+        $this->eventStateStorage->addEventState(RequestRecievedEvent::NAME, $applicationRequestEvent);
     }
 
-    public function onStartup(ApplicationEvent $applicationEvent)
+    public function onStartup(ApplicationStartupEvent $applicationEvent)
     {
-        $this->eventStateStorage->addEventState(ApplicationEvent::ON_STARTUP, $applicationEvent);
+        $this->eventStateStorage->addEventState(ApplicationStartupEvent::NAME, $applicationEvent);
     }
 
-    public function onPresenter(ApplicationPresenterEvent $applicationPresenterEvent)
+    public function onPresenter(PresenterCreatedEvent $applicationPresenterEvent)
     {
-        $this->eventStateStorage->addEventState(ApplicationPresenterEvent::ON_PRESENTER, $applicationPresenterEvent);
+        $this->eventStateStorage->addEventState(PresenterCreatedEvent::NAME, $applicationPresenterEvent);
     }
 
-    public function onShutdown(ApplicationExceptionEvent $applicationExceptionEvent)
+    public function onShutdown(ApplicationErrorEvent $applicationExceptionEvent)
     {
-        $this->eventStateStorage->addEventState(ApplicationExceptionEvent::ON_SHUTDOWN, $applicationExceptionEvent);
+        $this->eventStateStorage->addEventState(ApplicationErrorEvent::NAME, $applicationExceptionEvent);
     }
 
-    public function onError(ApplicationExceptionEvent $applicationExceptionEvent)
+    public function onError(ApplicationErrorEvent $applicationExceptionEvent)
     {
-        $this->eventStateStorage->addEventState(ApplicationExceptionEvent::ON_ERROR, $applicationExceptionEvent);
+        $this->eventStateStorage->addEventState(ApplicationErrorEvent::NAME, $applicationExceptionEvent);
     }
 
     public function onResponse(ApplicationResponseEvent $applicationResponseEvent)
     {
-        $this->eventStateStorage->addEventState(ApplicationResponseEvent::ON_RESPONSE, $applicationResponseEvent);
+        $this->eventStateStorage->addEventState(ApplicationResponseEvent::NAME, $applicationResponseEvent);
     }
 }

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Symplify\SymfonyEventDispatcher\Tests\Adapter\Nette\NetteEvent\EventSubscriber;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symplify\SymfonyEventDispatcher\Adapter\Nette\Event\PresenterResponseEvent;
+use Symplify\SymfonyEventDispatcher\Adapter\Nette\Event\PresenterShutdownEvent;
 use Symplify\SymfonyEventDispatcher\Tests\Adapter\Nette\NetteEvent\EventStateStorage;
 
 final class PresenterSubscriber implements EventSubscriberInterface
@@ -22,11 +22,11 @@ final class PresenterSubscriber implements EventSubscriberInterface
 
     public static function getSubscribedEvents() : array
     {
-        return [PresenterResponseEvent::ON_SHUTDOWN => 'onShutdown'];
+        return [PresenterShutdownEvent::NAME => 'onShutdown'];
     }
 
-    public function onShutdown(PresenterResponseEvent $presenterResponseEvent)
+    public function onShutdown(PresenterShutdownEvent $presenterResponseEvent)
     {
-        $this->eventStateStorage->addEventState(PresenterResponseEvent::ON_SHUTDOWN, $presenterResponseEvent);
+        $this->eventStateStorage->addEventState(PresenterShutdownEvent::NAME, $presenterResponseEvent);
     }
 }

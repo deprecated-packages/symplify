@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- * This file is part of Symnedi.
+ * This file is part of Symplify.
  * Copyright (c) 2014 Tomas Votruba (http://tomasvotruba.cz).
  */
 
@@ -13,25 +13,17 @@ use Nette\Application\Application;
 use Symfony\Component\EventDispatcher\Event;
 use Throwable;
 
-final class ApplicationExceptionEvent extends Event
+/**
+ * This event occurs before the application shuts down.
+
+ * @see \Nette\Application\Application::$onShutdown
+ */
+final class ApplicationShutdownEvent extends Event
 {
     /**
-     * The ON_SHUTDOWN event occurs before the application shuts down,.
-     *
-     * @see \Nette\Application\Application::$onShutdown
-     *
      * @var string
      */
-    const ON_SHUTDOWN = Application::class . '::onShutdown';
-
-    /**
-     * The ON_ERROR event when an unhandled exception occurs in the application,.
-     *
-     * @see \Nette\Application\Application::$onError
-     *
-     * @var string
-     */
-    const ON_ERROR = Application::class . '::onError';
+    const NAME = Application::class . '::$onShutdown';
 
     /**
      * @var Application
