@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace Symplify\SymfonyEventDispatcher\Tests\Adapter\Nette\NetteEvent\EventSubscriber;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symplify\SymfonyEventDispatcher\Adapter\Nette\Event\ApplicationStartupEvent;
 use Symplify\SymfonyEventDispatcher\Adapter\Nette\Event\ApplicationErrorEvent;
+use Symplify\SymfonyEventDispatcher\Adapter\Nette\Event\ApplicationResponseEvent;
+use Symplify\SymfonyEventDispatcher\Adapter\Nette\Event\ApplicationStartupEvent;
 use Symplify\SymfonyEventDispatcher\Adapter\Nette\Event\PresenterCreatedEvent;
 use Symplify\SymfonyEventDispatcher\Adapter\Nette\Event\RequestRecievedEvent;
-use Symplify\SymfonyEventDispatcher\Adapter\Nette\Event\ApplicationResponseEvent;
 use Symplify\SymfonyEventDispatcher\Tests\Adapter\Nette\NetteEvent\EventStateStorage;
 
 final class ApplicationSubscriber implements EventSubscriberInterface

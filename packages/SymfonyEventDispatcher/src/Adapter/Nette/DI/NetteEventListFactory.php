@@ -11,12 +11,12 @@ namespace Symplify\SymfonyEventDispatcher\Adapter\Nette\DI;
 
 use Nette\Application\Application;
 use Nette\Application\UI\Presenter;
-use Symplify\SymfonyEventDispatcher\Adapter\Nette\Event\ApplicationStartupEvent;
 use Symplify\SymfonyEventDispatcher\Adapter\Nette\Event\ApplicationErrorEvent;
-use Symplify\SymfonyEventDispatcher\Adapter\Nette\Event\PresenterCreatedEvent;
-use Symplify\SymfonyEventDispatcher\Adapter\Nette\Event\RequestRecievedEvent;
 use Symplify\SymfonyEventDispatcher\Adapter\Nette\Event\ApplicationResponseEvent;
+use Symplify\SymfonyEventDispatcher\Adapter\Nette\Event\ApplicationStartupEvent;
+use Symplify\SymfonyEventDispatcher\Adapter\Nette\Event\PresenterCreatedEvent;
 use Symplify\SymfonyEventDispatcher\Adapter\Nette\Event\PresenterShutdownEvent;
+use Symplify\SymfonyEventDispatcher\Adapter\Nette\Event\RequestRecievedEvent;
 
 final class NetteEventListFactory
 {
