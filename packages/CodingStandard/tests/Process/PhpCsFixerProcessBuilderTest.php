@@ -16,33 +16,26 @@ final class PhpCsFixerProcessBuilderTest extends TestCase
         $builder->setRules('fixers');
 
         $this->assertSame(
-            WindowsCompatibilityHelper::makeWindowsOsCompatible(
-                "'./vendor/bin/php-cs-fixer' 'fix' 'directory' '--verbose' '--allow-risky=yes' '--rules=fixers'"
-            ),
+            "'./vendor/bin/php-cs-fixer' 'fix' 'directory' '--verbose' '--allow-risky=yes' '--rules=fixers'",
             $builder->getProcess()->getCommandLine()
         );
 
         $this->assertSame(
-            WindowsCompatibilityHelper::makeWindowsOsCompatible(
-                "'./vendor/bin/php-cs-fixer' 'fix' 'directory' '--verbose' '--allow-risky=yes' '--rules=fixers'"
-            ),
+            "'./vendor/bin/php-cs-fixer' 'fix' 'directory' '--verbose' '--allow-risky=yes' '--rules=fixers'",
             $builder->getProcess()->getCommandLine()
         );
 
         $builder->setLevel('level5');
         $this->assertSame(
-            WindowsCompatibilityHelper::makeWindowsOsCompatible(
-                "'./vendor/bin/php-cs-fixer' 'fix' 'directory' '--verbose' '--allow-risky=yes' '--rules=fixers' '--rules=@level5'"
-            ),
+            "'./vendor/bin/php-cs-fixer' 'fix' 'directory' '--verbose' '--allow-risky=yes' '--rules=fixers' " .
+            "'--rules=@level5'",
             $builder->getProcess()->getCommandLine()
         );
 
         $builder->enableDryRun();
         $this->assertSame(
-            WindowsCompatibilityHelper::makeWindowsOsCompatible(
-                "'./vendor/bin/php-cs-fixer' 'fix' 'directory' '--verbose' '--allow-risky=yes' '--rules=fixers' '--rules=@level5' "
-                . "'--dry-run' '--diff'"
-            ),
+            "'./vendor/bin/php-cs-fixer' 'fix' 'directory' '--verbose' '--allow-risky=yes' '--rules=fixers' " .
+            "'--rules=@level5' '--dry-run' '--diff'",
             $builder->getProcess()->getCommandLine()
         );
     }

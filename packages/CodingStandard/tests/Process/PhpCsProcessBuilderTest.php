@@ -13,25 +13,19 @@ final class PhpCsProcessBuilderTest extends TestCase
     {
         $builder = new PhpCsProcessBuilder('directory');
         $this->assertSame(
-            WindowsCompatibilityHelper::makeWindowsOsCompatible(
-                "'./vendor/bin/phpcs' 'directory' '--colors' '-p' '-s'"
-            ),
+            "'./vendor/bin/phpcs' 'directory' '--colors' '-p' '-s'",
             $builder->getProcess()->getCommandLine()
         );
 
         $builder->setExtensions('php5');
         $this->assertSame(
-            WindowsCompatibilityHelper::makeWindowsOsCompatible(
-                "'./vendor/bin/phpcs' 'directory' '--colors' '-p' '-s' '--extensions=php5'"
-            ),
+            "'./vendor/bin/phpcs' 'directory' '--colors' '-p' '-s' '--extensions=php5'",
             $builder->getProcess()->getCommandLine()
         );
 
         $builder->setStandard('standard');
         $this->assertSame(
-            WindowsCompatibilityHelper::makeWindowsOsCompatible(
-                "'./vendor/bin/phpcs' 'directory' '--colors' '-p' '-s' '--extensions=php5' '--standard=standard'"
-            ),
+            "'./vendor/bin/phpcs' 'directory' '--colors' '-p' '-s' '--extensions=php5' '--standard=standard'",
             $builder->getProcess()->getCommandLine()
         );
     }

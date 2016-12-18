@@ -11,6 +11,11 @@ use Symplify\DefaultAutowire\SymplifyDefaultAutowireBundle;
 
 final class AppKernel extends Kernel
 {
+    public function __construct()
+    {
+        parent::__construct('DefaultAutowire' . mt_rand(1, 100), true);
+    }
+
     public function registerBundles()
     {
         return [
