@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /*
- * This file is part of Symnedi.
+ * This file is part of Symplify.
  * Copyright (c) 2014 Tomas Votruba (http://tomasvotruba.cz)
  */
 
@@ -11,7 +11,7 @@ namespace Symplify\SymfonySecurity\EventSubscriber;
 
 use Nette\Http\IRequest;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symplify\SymfonyEventDispatcher\Adapter\Nette\Event\ApplicationPresenterEvent;
+use Symplify\SymfonyEventDispatcher\Adapter\Nette\Event\PresenterCreatedEvent;
 use Symplify\SymfonySecurity\Contract\Http\FirewallHandlerInterface;
 use Symplify\SymfonySecurity\Contract\Http\FirewallMapInterface;
 
@@ -39,11 +39,11 @@ final class FirewallSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents() : array
     {
         return [
-            ApplicationPresenterEvent::ON_PRESENTER => 'onPresenter',
+            PresenterCreatedEvent::NAME => 'onPresenter',
         ];
     }
 
-    public function onPresenter(ApplicationPresenterEvent $applicationPresenterEvent)
+    public function onPresenter(PresenterCreatedEvent $applicationPresenterEvent)
     {
         /** @var FirewallHandlerInterface[] $listeners */
         list($listeners) = $this->firewallMap->getListeners($this->request);

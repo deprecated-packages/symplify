@@ -22,12 +22,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Symnedi\\Security\\": "src"
+            "Symplify\\Security\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Symnedi\\Security\\Tests\\": "tests"
+            "Symplify\\Security\\Tests\\": "tests"
         }
     },
     "scripts": {

@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /*
- * This file is part of Symnedi.
+ * This file is part of Symplify.
  * Copyright (c) 2014 Tomas Votruba (http://tomasvotruba.cz)
  */
 

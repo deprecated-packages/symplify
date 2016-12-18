@@ -12,7 +12,7 @@ use Nette\Http\Request;
 use Nette\Http\UrlScript;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
-use Symplify\SymfonyEventDispatcher\Adapter\Nette\Event\ApplicationPresenterEvent;
+use Symplify\SymfonyEventDispatcher\Adapter\Nette\Event\PresenterCreatedEvent;
 use Symplify\SymfonySecurity\Contract\Http\FirewallHandlerInterface;
 use Symplify\SymfonySecurity\Contract\Http\FirewallMapInterface;
 use Symplify\SymfonySecurity\EventSubscriber\FirewallSubscriber;
@@ -43,7 +43,7 @@ final class FirewallSubscriberTest extends TestCase
     public function testGetSubscribedEvents()
     {
         $this->assertSame(
-            [ApplicationPresenterEvent::ON_PRESENTER => 'onPresenter'],
+            [PresenterCreatedEvent::NAME => 'onPresenter'],
             $this->firewall->getSubscribedEvents()
         );
     }
@@ -53,7 +53,7 @@ final class FirewallSubscriberTest extends TestCase
         $requestMock = $this->prophesize(ApplicationRequest::class);
         $requestMock->getParameters()->willReturn(['parameter' => 'value']);
 
-        $applicationPresenterEventMock = new ApplicationPresenterEvent(
+        $applicationPresenterEventMock = new PresenterCreatedEvent(
             $this->prophesize(Application::class)->reveal(),
             $this->prophesize(IPresenter::class)->reveal()
         );
