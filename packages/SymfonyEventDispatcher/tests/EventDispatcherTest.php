@@ -6,6 +6,7 @@ namespace Symplify\SymfonyEventDispatcher\Tests;
 
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symplify\SymfonyEventDispatcher\Tests\Adapter\Nette\ContainerFactory;
 
 final class EventDispatcherTest extends TestCase
 {

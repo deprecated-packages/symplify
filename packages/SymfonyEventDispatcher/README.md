@@ -21,7 +21,7 @@ Register the extension in `config.neon`:
 
 ```yaml
 extensions:
-	- Symplify\SymfonyEventDispatcher\DI\EventDispatcherExtension
+	- Symplify\SymfonyEventDispatcher\DI\SymfonyEventDispatcherExtension
 ```
 
 

@@ -11,8 +11,7 @@ namespace Symplify\SymfonySecurity\EventSubscriber;
 
 use Nette\Http\IRequest;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symplify\SymfonyEventDispatcher\Event\ApplicationPresenterEvent;
-use Symplify\SymfonyEventDispatcher\NetteApplicationEvents;
+use Symplify\SymfonyEventDispatcher\Adapter\Nette\Event\ApplicationPresenterEvent;
 use Symplify\SymfonySecurity\Contract\Http\FirewallHandlerInterface;
 use Symplify\SymfonySecurity\Contract\Http\FirewallMapInterface;
 
@@ -40,7 +39,7 @@ final class FirewallSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents() : array
     {
         return [
-            NetteApplicationEvents::ON_PRESENTER => 'onPresenter',
+            ApplicationPresenterEvent::ON_PRESENTER => 'onPresenter',
         ];
     }
 

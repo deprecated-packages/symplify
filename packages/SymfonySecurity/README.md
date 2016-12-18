@@ -19,7 +19,7 @@ Register the extension:
 # app/config/config.neon
 extensions:
     - Symplify\SymfonySecurity\Adapter\Nette\DI\SymfonySecurityExtension
-	- Symplify\SymfonyEventDispatcher\DI\EventDispatcherExtension
+	- Symplify\SymfonyEventDispatcher\DI\SymfonyEventDispatcherExtension
 ```
 
 

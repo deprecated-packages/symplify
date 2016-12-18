@@ -11,5 +11,5 @@ services:
 	router: [@Symplify\SymfonySecurity\Tests\Adapter\Nette\DI\SymfonySecurityExtension\ListenerSource\RouterFactory, create]
 
 extensions:
-	- Symplify\SymfonyEventDispatcher\DI\EventDispatcherExtension
+	- Symplify\SymfonyEventDispatcher\Adapter\Nette\DI\SymfonyEventDispatcherExtension
 	- Symplify\SymfonySecurity\Adapter\Nette\DI\SymfonySecurityExtension

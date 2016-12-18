@@ -1,0 +1,8 @@
+application:
+	scanDirs: FALSE
+	scanComposer: FALSE
+
+
+extensions:
+	- Kdyby\Events\DI\EventsExtension
+	- Symplify\SymfonyEventDispatcher\Adapter\Nette\DI\SymfonyEventDispatcherExtension
