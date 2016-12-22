@@ -33,16 +33,14 @@ final class MethodReturnTypeSniff implements PHP_CodeSniffer_Sniff
      */
     private $position;
 
-    /**
-     * {@inheritdoc}
-     */
-    public function register()
+    public function register() : array
     {
         return [T_FUNCTION];
     }
 
     /**
-     * {@inheritdoc}
+     * @param PHP_CodeSniffer_File $file
+     * @param int $position
      */
     public function process(PHP_CodeSniffer_File $file, $position)
     {

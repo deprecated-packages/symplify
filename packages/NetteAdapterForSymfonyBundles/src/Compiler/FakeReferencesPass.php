@@ -30,9 +30,6 @@ final class FakeReferencesPass implements CompilerPassInterface
      */
     private $container;
 
-    /**
-     * {@inheritdoc}
-     */
     public function process(ContainerBuilder $container)
     {
         $this->container = $container;

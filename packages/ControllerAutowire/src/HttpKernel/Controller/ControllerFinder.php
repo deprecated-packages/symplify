@@ -25,9 +25,6 @@ final class ControllerFinder implements ControllerFinderInterface
         $this->namePart = $namePart;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function findControllersInDirs(array $dirs) : array
     {
         $robot = new RobotLoader();

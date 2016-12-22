@@ -27,9 +27,6 @@ final class PhpCbfProcessBuilder implements ProcessBuilderInterface
         $this->builder->add($directory);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getProcess() : Process
     {
         return $this->builder->getProcess();

@@ -17,7 +17,11 @@ use Symplify\Statie\Utils\PathAnalyzer;
 
 final class PostFile extends AbstractFile implements ArrayAccess
 {
-    const READ_WORDS_PER_MINUTE = 260;
+    /**
+     * @var int
+     */
+    const READ_WORDS_PER_MINUTE = 220;
+
     /**
      * @var DateTimeInterface
      */

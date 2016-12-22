@@ -30,9 +30,6 @@ final class PhpCsProcessBuilder implements ProcessBuilderInterface
         $this->builder->add('-s');
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getProcess() : Process
     {
         return $this->builder->getProcess();

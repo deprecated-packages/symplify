@@ -24,9 +24,6 @@ final class SymplifyDefaultAutowireBundle extends Bundle
      */
     const ALIAS = 'symplify_default_autowire';
 
-    /**
-     * {@inheritdoc}
-     */
     public function build(ContainerBuilder $containerBuilder)
     {
         $containerBuilder->addCompilerPass(new DefaultAutowireTypesCompilerPass());

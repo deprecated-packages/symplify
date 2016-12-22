@@ -28,10 +28,7 @@ final class AbstractClassNameSniff implements PHP_CodeSniffer_Sniff
      */
     private $position;
 
-    /**
-     * {@inheritdoc}
-     */
-    public function register()
+    public function register() : array
     {
         return [T_CLASS];
     }

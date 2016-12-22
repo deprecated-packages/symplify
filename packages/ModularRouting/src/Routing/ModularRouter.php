@@ -45,9 +45,6 @@ final class ModularRouter implements ModularRouterInterface
         $this->routeCollection = new RouteCollection();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function addRouteCollectionProvider(RouteCollectionProviderInterface $routeCollectionProvider)
     {
         $this->routeCollection->addCollection($routeCollectionProvider->getRouteCollection());
@@ -61,9 +58,6 @@ final class ModularRouter implements ModularRouterInterface
         return $this->routeCollection;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function setContext(RequestContext $requestContext)
     {
         $this->requestContext = $requestContext;
@@ -78,9 +72,6 @@ final class ModularRouter implements ModularRouterInterface
             ->generate($name, $parameters, $referenceType);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function match($pathinfo) : array
     {
         return $this->getUrlMatcher()
