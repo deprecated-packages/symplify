@@ -9,7 +9,7 @@ use League\Tactician\Middleware;
 final class CustomMiddleware implements Middleware
 {
     /**
-     * {@inheritdoc}
+     * @return mixed
      */
     public function execute($command, callable $next)
     {

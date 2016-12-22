@@ -37,9 +37,6 @@ final class FilterManager implements FilterManagerInterface
         $this->entityManager = $entityManager;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function addFilter(string $name, FilterInterface $filter)
     {
         $this->filters[$name] = $filter;

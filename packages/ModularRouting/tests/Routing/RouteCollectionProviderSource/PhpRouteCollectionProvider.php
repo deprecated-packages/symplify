@@ -10,9 +10,6 @@ use Symplify\ModularRouting\Contract\Routing\RouteCollectionProviderInterface;
 
 final class PhpRouteCollectionProvider implements RouteCollectionProviderInterface
 {
-    /**
-     * {@inheritdoc}
-     */
     public function getRouteCollection() : RouteCollection
     {
         $routeCollection = new RouteCollection();

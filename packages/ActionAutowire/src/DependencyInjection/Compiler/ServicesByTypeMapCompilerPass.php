@@ -26,9 +26,6 @@ final class ServicesByTypeMapCompilerPass implements CompilerPassInterface
         $this->serviceMap = $servicesByTypeMap;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function process(ContainerBuilder $containerBuilder)
     {
         $parameterBag = $containerBuilder->getParameterBag();

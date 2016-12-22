@@ -38,7 +38,8 @@ final class SymfonyContainerAdapter implements ContainerInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @param string $id
+     * @param string $service
      */
     public function set($id, $service)
     {
@@ -64,7 +65,8 @@ final class SymfonyContainerAdapter implements ContainerInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @param string $id
+     * @return mixed
      */
     public function has($id)
     {
@@ -86,9 +88,9 @@ final class SymfonyContainerAdapter implements ContainerInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @param string $name
      */
-    public function hasParameter($name)
+    public function hasParameter($name) : bool
     {
         return isset($this->container->getParameters()[$name]);
     }
@@ -102,7 +104,7 @@ final class SymfonyContainerAdapter implements ContainerInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @param string $id
      */
     public function initialized($id)
     {

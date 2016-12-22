@@ -15,9 +15,6 @@ use Symplify\DefaultAutowire\SymplifyDefaultAutowireBundle;
 
 final class SymplifyDefaultAutowireContainerExtension extends Extension
 {
-    /**
-     * {@inheritdoc}
-     */
     public function getAlias() : string
     {
         return SymplifyDefaultAutowireBundle::ALIAS;
