@@ -18,10 +18,7 @@ use PHP_CodeSniffer_Sniff;
  */
 final class MethodCommentSniff implements PHP_CodeSniffer_Sniff
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function register()
+    public function register() : array
     {
         return [T_FUNCTION];
     }
