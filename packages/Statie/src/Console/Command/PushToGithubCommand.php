@@ -16,7 +16,6 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symplify\Statie\Github\GihubPublishingProcess;
-use Throwable;
 
 final class PushToGithubCommand extends Command
 {
