@@ -38,13 +38,19 @@ Or more dirs...
 vendor/bin/symplify-cs check src tests
 ```
 
+Or even mutiple subdirs:
+
+```sh
+vendor/bin/symplify-cs check packages/*/tests
+```
+
 ### Fixing with ease
 
 ```sh
 vendor/bin/symplify-cs fix src
 ```
 
-Not all violations can be fixed though, so I recommend running the check again and fix the rest manually.
+**Not all violations can be fixed though**, so I recommend running the check again and fix the rest manually.
 
 
 ## How to be both Lazy and Safe
