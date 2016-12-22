@@ -13,7 +13,7 @@ final class AppKernel extends Kernel
 {
     public function __construct()
     {
-        parent::__construct(mt_rand(1, 100), true);
+        parent::__construct(getmypid(), true);
     }
 
     public function registerBundles()

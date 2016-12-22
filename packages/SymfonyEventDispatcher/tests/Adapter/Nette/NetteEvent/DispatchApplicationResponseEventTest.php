@@ -8,11 +8,11 @@ use Nette\Application\Application;
 use Nette\Application\IResponse;
 use Nette\Application\Request;
 use Nette\Application\UI\Component;
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 use Symplify\SymfonyEventDispatcher\Adapter\Nette\Event\ApplicationResponseEvent;
 use Symplify\SymfonyEventDispatcher\Tests\Adapter\Nette\ContainerFactory;
 
-final class DispatchApplicationResponseEventTest extends PHPUnit_Framework_TestCase
+final class DispatchApplicationResponseEventTest extends TestCase
 {
     /**
      * @var Application
@@ -40,7 +40,7 @@ final class DispatchApplicationResponseEventTest extends PHPUnit_Framework_TestC
         $requestMock->getParameters()->willReturn([]);
         $prefix = class_exists(Component::class) ? '_' : '';
         $requestMock->getPost($prefix . 'do')->willReturn(null);
-        $requestMock->isMethod()->willReturn(true);
+        $requestMock->isMethod('FORWARD')->willReturn(true);
         $this->application->processRequest($requestMock->reveal());
 
         /** @var ApplicationResponseEvent $applicationResponseEvent */

@@ -7,14 +7,14 @@ namespace Symplify\SymfonyEventDispatcher\Tests\Adapter\Nette\NetteEvent;
 use Nette\Application\Application;
 use Nette\Application\Request;
 use Nette\Application\UI\Presenter;
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 use Symplify\SymfonyEventDispatcher\Adapter\Nette\Event\ApplicationErrorEvent;
 use Symplify\SymfonyEventDispatcher\Adapter\Nette\Event\ApplicationStartupEvent;
 use Symplify\SymfonyEventDispatcher\Adapter\Nette\Event\PresenterCreatedEvent;
 use Symplify\SymfonyEventDispatcher\Adapter\Nette\Event\RequestRecievedEvent;
 use Symplify\SymfonyEventDispatcher\Tests\Adapter\Nette\ContainerFactory;
 
-final class DispatchApplicationTest extends PHPUnit_Framework_TestCase
+final class DispatchApplicationTest extends TestCase
 {
     /**
      * @var Application

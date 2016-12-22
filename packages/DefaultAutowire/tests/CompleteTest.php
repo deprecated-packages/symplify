@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Symplify\DefaultAutowire\Tests;
 
 use Doctrine\ORM\EntityManagerInterface;
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\EventDispatcher\Debug\TraceableEventDispatcher;
 use Symfony\Component\EventDispatcher\EventDispatcher;
@@ -14,7 +14,7 @@ use Symplify\DefaultAutowire\Tests\Resources\Repository\SomeRepository;
 use Symplify\DefaultAutowire\Tests\Source\SomeAutowiredService;
 use Symplify\DefaultAutowire\Tests\Source\SomeService;
 
-final class CompleteTest extends PHPUnit_Framework_TestCase
+final class CompleteTest extends TestCase
 {
     /**
      * @var Container
