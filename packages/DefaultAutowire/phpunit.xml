@@ -2,14 +2,20 @@
     bootstrap="vendor/autoload.php"
     colors="true"
 >
+    <!-- tests directories to run -->
     <testsuites>
         <testsuite>
             <directory>tests</directory>
         </testsuite>
     </testsuites>
+    <!-- source to check coverage for -->
     <filter>
         <whitelist>
             <directory suffix=".php">src</directory>
         </whitelist>
     </filter>
+    <!-- listener to run after every single test -->
+    <listeners>
+        <listener class="Symplify\DefaultAutowire\Tests\PHPUnit\Listener\ClearLogAndCacheTestListener" />
+    </listeners>
 </phpunit>

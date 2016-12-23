@@ -13,8 +13,9 @@
     },
     "require-dev": {
         "doctrine/doctrine-bundle": "^1.6",
-        "nette/utils": "^2.3",
-        "phpunit/phpunit": "^5.4",
+        "nette/utils": "^2.4",
+        "nette/finder": "^2.4",
+        "phpunit/phpunit": "^5.7",
         "symfony/form": "^3.1",
         "symfony/framework-bundle": "^3.1",
         "symfony/validator": "^3.1",
