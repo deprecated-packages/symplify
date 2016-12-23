@@ -13,7 +13,7 @@ final class AppKernel extends Kernel
 {
     public function __construct()
     {
-        parent::__construct(getmypid(), true);
+        parent::__construct('symplify_controller_autowire', true);
     }
 
     public function registerBundles() : array

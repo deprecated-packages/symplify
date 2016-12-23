@@ -14,7 +14,7 @@ final class AppKernel extends Kernel
 {
     public function __construct()
     {
-        parent::__construct(getmypid(), true);
+        parent::__construct('symplify_modular_doctrine_filters' . rand(1, 100), true);
     }
 
     public function registerBundles() : array
