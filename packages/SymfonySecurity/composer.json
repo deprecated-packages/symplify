@@ -9,7 +9,7 @@
         "nette/security": "~2.4",
         "symfony/security-core": "~3.1",
         "symfony/security-http": "~3.1",
-        "symplify/symfony-event-dispatcher": "~2.0"
+        "symplify/symfony-event-dispatcher": "~1.2"
     },
     "require-dev": {
         "nette/application": "~2.4",
@@ -18,7 +18,7 @@
         "nette/utils": "~2.4",
         "phpunit/phpunit": "~5.7",
         "tracy/tracy": "~2.4",
-        "symplify/coding-standard": "^2.0"
+        "symplify/coding-standard": "~1.2"
     },
     "autoload": {
         "psr-4": {

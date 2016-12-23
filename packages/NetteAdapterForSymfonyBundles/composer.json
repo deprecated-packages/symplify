@@ -19,7 +19,7 @@
 		"nette/bootstrap": "~2.4",
 		"tracy/tracy": "~2.4",
 		"doctrine/doctrine-fixtures-bundle": "^2.3",
-		"symplify/coding-standard": "^2.0",
+		"symplify/coding-standard": "~1.2",
 		"phpunit/phpunit": "^5.7"
 	},
 	"autoload": {

@@ -13,7 +13,7 @@
         "nette/utils": "^2.4",
         "phpunit/phpunit": "^5.7",
         "symfony/framework-bundle": "^3.1",
-        "symplify/coding-standard": "^2.0"
+        "symplify/coding-standard": "~1.2"
     },
     "autoload": {
         "psr-4": {

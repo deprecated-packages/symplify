@@ -11,7 +11,7 @@
     },
     "require-dev": {
         "nette/utils": "^2.4",
-        "symplify/coding-standard": "^2.0",
+        "symplify/coding-standard": "~1.2",
         "phpunit/phpunit": "^5.7"
     },
     "autoload": {

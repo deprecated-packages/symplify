@@ -20,7 +20,7 @@
         "nette/finder": "^2.4",
         "phpunit/phpunit": "^5.7",
         "symfony/form": "^3.1",
-        "symplify/coding-standard": "^2.0",
+        "symplify/coding-standard": "~1.2",
         "twig/twig": "^1.28",
         "doctrine/annotations": "^1.3"
     },
