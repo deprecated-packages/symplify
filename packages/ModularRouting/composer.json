@@ -17,9 +17,9 @@
     },
     "require-dev": {
         "nette/utils": "^2.4",
-        "phpunit/phpunit": "^5.6",
+        "phpunit/phpunit": "^5.7",
         "symfony/form": "^3.1",
-        "symplify/coding-standard": "^1.0",
+        "symplify/coding-standard": "^2.0",
         "twig/twig": "^1.28",
         "doctrine/annotations": "^1.3"
     },

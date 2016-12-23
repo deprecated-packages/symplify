@@ -28,7 +28,7 @@
     "require-dev": {
         "nette/application": "~2.4",
         "phpunit/phpunit": "~5.5",
-        "symplify/coding-standard": "~1.2"
+        "symplify/coding-standard": "~2.0"
     },
     "autoload": {
         "psr-4": {
