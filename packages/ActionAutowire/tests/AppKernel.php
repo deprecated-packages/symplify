@@ -13,7 +13,7 @@ final class AppKernel extends Kernel
 {
     public function __construct()
     {
-        parent::__construct('symplify_action_autowire' . rand(1, 100), true);
+        parent::__construct('symplify_action_autowire' . mt_rand(1, 100), true);
     }
 
     public function registerBundles()
