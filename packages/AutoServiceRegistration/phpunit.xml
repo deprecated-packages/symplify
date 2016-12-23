@@ -12,4 +12,8 @@
             <directory suffix=".php">src</directory>
         </whitelist>
     </filter>
+    <!-- listener to run after every single test -->
+    <listeners>
+        <listener class="Symplify\AutoServiceRegistration\Tests\PHPUnit\Listener\ClearLogAndCacheTestListener" />
+    </listeners>
 </phpunit>

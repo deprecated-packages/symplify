@@ -22,12 +22,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Symplify\\Security\\": "src"
+            "Symplify\\SymfonySecurity\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Symplify\\Security\\Tests\\": "tests"
+            "Symplify\\SymfonySecurity\\Tests\\": "tests"
         }
     },
     "scripts": {
