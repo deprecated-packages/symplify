@@ -1,6 +1,6 @@
 # Symplify/SymfonySecurity
 
-[![Build Status](https://img.shields.io/travis/Symplify/SymfonySecurity.svg?style=flat-square)](https://travis-ci.org/Symplify/SymfonySecurity)1
+[![Build Status](https://img.shields.io/travis/Symplify/SymfonySecurity.svg?style=flat-square)](https://travis-ci.org/Symplify/SymfonySecurity)
 [![Quality Score](https://img.shields.io/scrutinizer/g/Symplify/SymfonySecurity.svg?style=flat-square)](https://scrutinizer-ci.com/g/Symplify/SymfonySecurity)
 [![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/Symplify/SymfonySecurity.svg?style=flat-square)](https://scrutinizer-ci.com/g/Symplify/SymfonySecurity)
 [![Downloads](https://img.shields.io/packagist/dt/symplify/symfony-security.svg?style=flat-square)](htptps://packagist.org/packages/symplify/symfony-security)
