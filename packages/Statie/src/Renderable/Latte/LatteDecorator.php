@@ -68,7 +68,7 @@ final class LatteDecorator implements DecoratorInterface
 
         // 3. trim left-over {layout tag}, probably bug-fix
         if ($file instanceof PostFile) {
-            $htmlContent = preg_replace('/{layout [^)]+}/', '', $htmlContent);
+            $htmlContent = preg_replace('/{layout "[a-z]+"}/', '', $htmlContent);
         }
 
         $file->changeContent($htmlContent);
