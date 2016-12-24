@@ -15,6 +15,7 @@
         "latte/latte": "~2.4",
         "zenify/modular-latte-filters": "^0.2",
 
+        "nette/application": "~2.4",
         "nette/bootstrap": "~2.4",
         "nette/di": "~2.4",
         "nette/utils": "~2.4",
