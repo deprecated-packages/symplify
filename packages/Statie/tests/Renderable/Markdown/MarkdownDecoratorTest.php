@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\Statie\Tests\Renderable\Markdown;
 
-use Michelf\MarkdownExtra;
+use ParsedownExtra;
 use PHPUnit\Framework\TestCase;
 use SplFileInfo;
 use Symplify\Statie\Configuration\Configuration;
@@ -22,7 +22,7 @@ final class MarkdownDecoratorTest extends TestCase
 
     protected function setUp()
     {
-        $this->markdownDecorator = new MarkdownDecorator(new MarkdownExtra());
+        $this->markdownDecorator = new MarkdownDecorator(new ParsedownExtra());
     }
 
     public function testNotMarkdown()
@@ -38,7 +38,7 @@ final class MarkdownDecoratorTest extends TestCase
         $file = $this->createFileFromFilePath(__DIR__ . '/MarkdownDecoratorSource/someFile.md');
         $this->markdownDecorator->decorateFile($file);
 
-        $this->assertContains('<h1>Content...</h1>', $file->getContent());
+        $this->assertContains('<h1 id="content">Content...</h1>', $file->getContent());
     }
 
     private function createFileFromFilePath(string $filePath) : File
