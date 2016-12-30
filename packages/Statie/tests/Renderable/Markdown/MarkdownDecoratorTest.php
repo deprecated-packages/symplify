@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\Statie\Tests\Renderable\Markdown;
 
-use Michelf\MarkdownExtra;
+use ParsedownExtra;
 use PHPUnit\Framework\TestCase;
 use SplFileInfo;
 use Symplify\Statie\Configuration\Configuration;
@@ -22,7 +22,7 @@ final class MarkdownDecoratorTest extends TestCase
 
     protected function setUp()
     {
-        $this->markdownDecorator = new MarkdownDecorator(new MarkdownExtra());
+        $this->markdownDecorator = new MarkdownDecorator(new ParsedownExtra());
     }
 
     public function testNotMarkdown()

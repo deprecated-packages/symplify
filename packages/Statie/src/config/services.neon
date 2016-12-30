@@ -23,7 +23,7 @@ services:
     # renderable
     - Symplify\Statie\Renderable\File\FileFactory
     - Symplify\Statie\Renderable\RenderableFilesProcessor
-    - Michelf\MarkdownExtra
+    - ParsedownExtra
 
     # renderable - latte
     - Symplify\Statie\Renderable\Latte\DynamicStringLoader

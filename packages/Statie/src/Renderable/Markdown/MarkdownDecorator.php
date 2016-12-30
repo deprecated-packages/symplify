@@ -9,20 +9,20 @@ declare(strict_types=1);
 
 namespace Symplify\Statie\Renderable\Markdown;
 
-use Michelf\MarkdownExtra;
+use ParsedownExtra;
 use Symplify\Statie\Contract\Renderable\DecoratorInterface;
 use Symplify\Statie\Renderable\File\AbstractFile;
 
 final class MarkdownDecorator implements DecoratorInterface
 {
     /**
-     * @var MarkdownExtra
+     * @var ParsedownExtra
      */
-    private $markdownExtra;
+    private $parsedownExtra;
 
-    public function __construct(MarkdownExtra $markdown)
+    public function __construct(ParsedownExtra $parsedownExtra)
     {
-        $this->markdownExtra = $markdown;
+        $this->parsedownExtra = $parsedownExtra;
     }
 
     public function decorateFile(AbstractFile $file)
@@ -32,7 +32,7 @@ final class MarkdownDecorator implements DecoratorInterface
             return;
         }
 
-        $htmlContent = $this->markdownExtra->transform($file->getContent());
+        $htmlContent = $this->parsedownExtra->parse($file->getContent());
         $file->changeContent($htmlContent);
     }
 }

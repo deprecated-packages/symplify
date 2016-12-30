@@ -7,7 +7,7 @@
     ],
     "require": {
         "php": "~7.0",
-        "michelf/php-markdown": "~1.6",
+        "erusev/parsedown-extra": "^0.7",
         "react/http": "~0.4",
         "ralouphie/mimey": "^1.0",
         "cpliakas/git-wrapper": "^1.7",
