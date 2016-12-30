@@ -11,6 +11,7 @@
         "react/http": "~0.4",
         "ralouphie/mimey": "^1.0",
         "cpliakas/git-wrapper": "^1.7",
+        "spatie/regex": "^1.1",
 
         "latte/latte": "~2.4",
         "zenify/modular-latte-filters": "^0.2",

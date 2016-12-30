@@ -38,7 +38,7 @@ final class MarkdownDecoratorTest extends TestCase
         $file = $this->createFileFromFilePath(__DIR__ . '/MarkdownDecoratorSource/someFile.md');
         $this->markdownDecorator->decorateFile($file);
 
-        $this->assertContains('<h1>Content...</h1>', $file->getContent());
+        $this->assertContains('<h1 id="content">Content...</h1>', $file->getContent());
     }
 
     private function createFileFromFilePath(string $filePath) : File

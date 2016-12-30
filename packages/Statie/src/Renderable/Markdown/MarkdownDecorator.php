@@ -9,7 +9,10 @@ declare(strict_types=1);
 
 namespace Symplify\Statie\Renderable\Markdown;
 
+use Nette\Utils\Strings;
 use ParsedownExtra;
+use Spatie\Regex\MatchResult;
+use Spatie\Regex\Regex;
 use Symplify\Statie\Contract\Renderable\DecoratorInterface;
 use Symplify\Statie\Renderable\File\AbstractFile;
 
@@ -33,6 +36,20 @@ final class MarkdownDecorator implements DecoratorInterface
         }
 
         $htmlContent = $this->parsedownExtra->parse($file->getContent());
+        $htmlContent = $this->decorateHeadlinesWithTocAnchors($htmlContent);
         $file->changeContent($htmlContent);
+    }
+
+    private function decorateHeadlinesWithTocAnchors(string $htmlContent) : string
+    {
+        return Regex::replace('/<h([1-6])>(.*?)<\/h([1-6])>/', function (MatchResult $result) {
+            return sprintf(
+                '<h%s id="%s">%s</h%s>',
+                $result->group(1),
+                Strings::webalize($result->group(2)),
+                $result->group(2),
+                $result->group(1)
+            );
+        }, $htmlContent)->result();
     }
 }
