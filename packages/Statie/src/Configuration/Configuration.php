@@ -49,6 +49,11 @@ final class Configuration
      */
     private $githubRepositorySlug;
 
+    /**
+     * @var bool
+     */
+    private $markdownHeadlineAnchors = false;
+
     public function __construct(NeonParser $neonParser)
     {
         $this->neonParser = $neonParser;
@@ -63,6 +68,7 @@ final class Configuration
             $decodedOptions = $this->neonParser->decodeFromFile($file->getRealPath());
             $decodedOptions = $this->extractPostRoute($decodedOptions);
             $decodedOptions = $this->extractGithubRepositorySlug($decodedOptions);
+            $decodedOptions = $this->extractMarkdownHeadlineAnchors($decodedOptions);
             $this->globalVariables = array_merge($this->globalVariables, $decodedOptions);
         }
     }
@@ -125,6 +131,16 @@ final class Configuration
         return $this->githubRepositorySlug;
     }
 
+    public function setMarkdownHeadlineAnchors(bool $markdownHeadlineAnchors)
+    {
+        $this->markdownHeadlineAnchors = $markdownHeadlineAnchors;
+    }
+
+    public function isMarkdownHeadlineAnchors(): bool
+    {
+        return $this->markdownHeadlineAnchors;
+    }
+
     private function extractPostRoute(array $options) : array
     {
         if (! isset($options['configuration']['postRoute'])) {
@@ -145,6 +161,18 @@ final class Configuration
 
         $this->setGithubRepositorySlug($options['configuration']['githubRepositorySlug']);
         unset($options['configuration']['githubRepositorySlug']);
+
+        return $options;
+    }
+
+    private function extractMarkdownHeadlineAnchors(array $options) : array
+    {
+        if (! isset($options['configuration']['githubRepositorySlug'])) {
+            return $options;
+        }
+
+        $this->setMarkdownHeadlineAnchors($options['configuration']['markdownHeadlineAnchors']);
+        unset($options['configuration']['markdownHeadlineAnchors']);
 
         return $options;
     }

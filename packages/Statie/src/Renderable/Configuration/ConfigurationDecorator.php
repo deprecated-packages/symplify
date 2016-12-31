@@ -17,11 +17,11 @@ final class ConfigurationDecorator
     /**
      * @var NeonParser
      */
-    private $yamlAndNeonParser;
+    private $neonParser;
 
-    public function __construct(NeonParser $yamlAndNeonParser)
+    public function __construct(NeonParser $neonParser)
     {
-        $this->yamlAndNeonParser = $yamlAndNeonParser;
+        $this->neonParser = $neonParser;
     }
 
     public function decorateFile(AbstractFile $file)
@@ -36,7 +36,7 @@ final class ConfigurationDecorator
     private function setConfigurationToFileIfFoundAny(string $content, AbstractFile $file)
     {
         if (! preg_match('/^(\s*[-]+\s*|\s*)$/', $content)) {
-            $configuration = $this->yamlAndNeonParser->decode($content);
+            $configuration = $this->neonParser->decode($content);
             $file->setConfiguration($configuration);
         }
     }

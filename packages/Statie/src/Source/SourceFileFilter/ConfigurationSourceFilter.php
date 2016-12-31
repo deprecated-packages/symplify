@@ -22,6 +22,6 @@ final class ConfigurationSourceFilter implements SourceFileFilterInterface
 
     public function matchesFileSource(SplFileInfo $splFileInfo) : bool
     {
-        return in_array($splFileInfo->getExtension(), ['neon', 'yaml']);
+        return $splFileInfo->getExtension() === 'neon';
     }
 }

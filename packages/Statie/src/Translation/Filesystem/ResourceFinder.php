@@ -20,7 +20,7 @@ final class ResourceFinder
             return [];
         }
 
-        $finder = Finder::findFiles('*.yml', '*.neon')->in($directory);
+        $finder = Finder::findFiles('*.neon')->in($directory);
         $resources = [];
 
         foreach ($finder as $file) {

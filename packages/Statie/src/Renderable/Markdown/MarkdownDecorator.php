@@ -13,6 +13,7 @@ use Nette\Utils\Strings;
 use ParsedownExtra;
 use Spatie\Regex\MatchResult;
 use Spatie\Regex\Regex;
+use Symplify\Statie\Configuration\Configuration;
 use Symplify\Statie\Contract\Renderable\DecoratorInterface;
 use Symplify\Statie\Renderable\File\AbstractFile;
 
@@ -23,9 +24,15 @@ final class MarkdownDecorator implements DecoratorInterface
      */
     private $parsedownExtra;
 
-    public function __construct(ParsedownExtra $parsedownExtra)
+    /**
+     * @var Configuration
+     */
+    private $configuration;
+
+    public function __construct(ParsedownExtra $parsedownExtra, Configuration $configuration)
     {
         $this->parsedownExtra = $parsedownExtra;
+        $this->configuration = $configuration;
     }
 
     public function decorateFile(AbstractFile $file)
@@ -36,18 +43,27 @@ final class MarkdownDecorator implements DecoratorInterface
         }
 
         $htmlContent = $this->parsedownExtra->parse($file->getContent());
-        $htmlContent = $this->decorateHeadlinesWithTocAnchors($htmlContent);
+
+        if ($this->configuration->isMarkdownHeadlineAnchors()) {
+            $htmlContent = $this->decorateHeadlinesWithTocAnchors($htmlContent);
+        }
+
         $file->changeContent($htmlContent);
     }
 
     private function decorateHeadlinesWithTocAnchors(string $htmlContent) : string
     {
         return Regex::replace('/<h([1-6])>(.*?)<\/h([1-6])>/', function (MatchResult $result) {
+            $headline = $result->group(2);
+            $headlineId = Strings::webalize($result->group(2));
+            $iconLink = '<a class="anchor" href="#' . $headlineId . '" aria-hidden="true"><span class="anchor-icon">#</span></a>';
+
             return sprintf(
-                '<h%s id="%s">%s</h%s>',
+                '<h%s id="%s">' .
+                $iconLink . '%s</h%s>',
                 $result->group(1),
-                Strings::webalize($result->group(2)),
-                $result->group(2),
+                $headlineId,
+                $headline,
                 $result->group(1)
             );
         }, $htmlContent)->result();
