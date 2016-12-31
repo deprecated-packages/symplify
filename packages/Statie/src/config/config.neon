@@ -8,4 +8,3 @@ extensions:
 
 statie:
     postRoute: blog/:year/:month/:day/:filename
-    markdownHeadlineAnchors: TRUE
