@@ -48,7 +48,7 @@ You can store variables, lists of data etc.
 So this...
 
 ```yaml
-# source/config/config.neon
+# source/_config/config.neon
 siteUrl: http://github.com
 socials:
     facebook: http://facebook.com/github
@@ -68,7 +68,7 @@ socials:
 To configure post url address just modify:
 
 ```yaml
-# source/config/config.neon
+# source/_config/config.neon
 configuration:
     postRoute: blog/:year/:month/:day/:title # default one
     # will produce post detail link: blog/2016/12/01/how-to-host-open-source-blog-for-free
@@ -87,8 +87,8 @@ When a headline is hovered, an anchor link to it will appear on the left.
 ![Headline Anchors](docs/github-like-headline-anchors.png)
  
 ```yaml
-# source/config/config.neon
-configuration    
+# source/_config/config.neon
+configuration:   
     markdownHeadlineAnchors: FALSE # default one
     # TRUE will enable Github-like anchored headlines for *.md files     
 ```
