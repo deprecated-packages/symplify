@@ -28,21 +28,27 @@ vendor/bin/statie generate --server
 
 #### Push content of `/output` to Github pages
 
+To push to e.g. [tomasvotruba/tomasvotruba.cz](https://github.com/TomasVotruba/tomasvotruba.cz) repository, call this:
+
 ```
-vendor/bin/statie push-to-github-pages
+vendor/bin/statie push-to-github-pages tomasvotruba/tomasvotruba.cz --token=${GH_TOKEN}
 ```
 
-### Configuration
+How to setup `${GH_TOKEN}`? Just check [this examplary .travis.yml](https://github.com/TomasVotruba/tomasvotruba.cz/blob/fddcbe9298ae376145622d735e1408ece447ea09/.travis.yml#L9-L26).
 
-#### Global variables
+ 
 
-EVERY `.neon` or `.yaml` found in `/source` directory is loaded to global variables.
+## Configuration
+
+### Global variables
+
+All `.neon` files found in `/source` directory are loaded to global variables.
 You can store variables, lists of data etc.
 
 So this...
 
 ```yaml
-# config/config.neon
+# source/config/config.neon
 siteUrl: http://github.com
 socials:
     facebook: http://facebook.com/github
@@ -51,18 +57,18 @@ socials:
 ...can be displayed in any template as:
 
 ```twig
-# _layouts/default.latte
+# source/_layouts/default.latte
 <p>Welcome to: {$siteUrl}</p>
 
 <p>Checkout my FB page: {$socials['facebook']}</p>
 ```
 
-#### Special configuration
+### Modify Post Route format
 
 To configure post url address just modify:
 
 ```yaml
-# config/config.neon
+# source/config/config.neon
 configuration:
     postRoute: blog/:year/:month/:day/:title # default one
     # will produce post detail link: blog/2016/12/01/how-to-host-open-source-blog-for-free
@@ -71,6 +77,47 @@ configuration:
     # :year/:month/:title => 2016/12/how-to-host-open-source-blog-for-free
     # :year/:title => 2016/how-to-host-open-source-blog-for-free
     # blog/:title => blog/how-to-host-open-source-blog-for-free
+```
+
+
+### Enable Github-like Headline Anchors
+
+When a headline is hovered, an anchor link to it will appear on the left.
+
+![Headline Anchors](docs/github-like-headline-anchors.png)
+ 
+```yaml
+# source/config/config.neon
+configuration    
+    markdownHeadlineAnchors: FALSE # default one
+    # TRUE will enable Github-like anchored headlines for *.md files     
+```
+
+You can use this sample css and modify it to your needs:
+
+```css
+/* anchors for post headlines */
+.anchor {
+    padding-right: .3em;
+    float: left;
+    margin-left: -.9em;
+}
+
+.anchor, .anchor:hover {
+    text-decoration: none;
+}
+
+h1 .anchor .anchor-icon, h2 .anchor .anchor-icon, h3 .anchor .anchor-icon {
+    visibility: hidden;
+}
+
+h1:hover .anchor-icon, h2:hover .anchor-icon, h3:hover .anchor-icon {
+    visibility: inherit;
+}
+
+.anchor-icon {
+    display: inline-block;
+}
 ```
 
 

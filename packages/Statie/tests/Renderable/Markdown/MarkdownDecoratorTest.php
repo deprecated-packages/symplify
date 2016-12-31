@@ -22,7 +22,10 @@ final class MarkdownDecoratorTest extends TestCase
 
     protected function setUp()
     {
-        $this->markdownDecorator = new MarkdownDecorator(new ParsedownExtra());
+        $configuration = new Configuration(new NeonParser());
+        $configuration->setMarkdownHeadlineAnchors(false);
+
+        $this->markdownDecorator = new MarkdownDecorator(new ParsedownExtra(), $configuration);
     }
 
     public function testNotMarkdown()
@@ -38,7 +41,24 @@ final class MarkdownDecoratorTest extends TestCase
         $file = $this->createFileFromFilePath(__DIR__ . '/MarkdownDecoratorSource/someFile.md');
         $this->markdownDecorator->decorateFile($file);
 
-        $this->assertContains('<h1 id="content">Content...</h1>', $file->getContent());
+        $this->assertContains('<h1>Content...</h1>', $file->getContent());
+    }
+
+    public function testMarkdownWithAnchors()
+    {
+        $configuration = new Configuration(new NeonParser());
+        $configuration->setMarkdownHeadlineAnchors(true);
+
+        $this->markdownDecorator = new MarkdownDecorator(new ParsedownExtra(), $configuration);
+
+        $file = $this->createFileFromFilePath(__DIR__ . '/MarkdownDecoratorSource/someFile.md');
+        $this->markdownDecorator->decorateFile($file);
+
+        $this->assertSame(
+            '<h1 id="content"><a class="anchor" href="#content" aria-hidden="true">' .
+            '<span class="anchor-icon">#</span></a>Content...</h1>',
+            $file->getContent()
+        );
     }
 
     private function createFileFromFilePath(string $filePath) : File

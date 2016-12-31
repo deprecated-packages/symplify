@@ -36,7 +36,6 @@ final class TranslatorFactory
     public function create() : TranslatorInterface
     {
         $translator = new Translator(null);
-        $translator->addLoader('yml', new YamlFileLoader());
         $translator->addLoader('neon', new YamlFileLoader());
         $translator->setFallbackLocales(['cs']);
 
