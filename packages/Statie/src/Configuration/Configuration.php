@@ -17,6 +17,21 @@ final class Configuration
     /**
      * @var string
      */
+    const OPTION_POST_ROUTE = 'postRoute';
+
+    /**
+     * @var string
+     */
+    const OPTION_GITHUB_REPOSITORY_SLUG = 'githubRepositorySlug';
+
+    /**
+     * @var string
+     */
+    const OPTION_MARKDOWN_HEADLINE_ANCHORS = 'markdownHeadlineAnchors';
+
+    /**
+     * @var string
+     */
     const DEFAULT_POST_ROUTE = 'blog/:year/:month/:day/:title';
 
     /**
@@ -143,36 +158,36 @@ final class Configuration
 
     private function extractPostRoute(array $options) : array
     {
-        if (! isset($options['configuration']['postRoute'])) {
+        if (! isset($options['configuration'][self::OPTION_POST_ROUTE])) {
             return $options;
         }
 
-        $this->setPostRoute($options['configuration']['postRoute']);
-        unset($options['configuration']['postRoute']);
+        $this->setPostRoute($options['configuration'][self::OPTION_POST_ROUTE]);
+        unset($options['configuration'][self::OPTION_POST_ROUTE]);
 
         return $options;
     }
 
     private function extractGithubRepositorySlug(array $options) : array
     {
-        if (! isset($options['configuration']['githubRepositorySlug'])) {
+        if (! isset($options['configuration'][self::OPTION_GITHUB_REPOSITORY_SLUG])) {
             return $options;
         }
 
-        $this->setGithubRepositorySlug($options['configuration']['githubRepositorySlug']);
-        unset($options['configuration']['githubRepositorySlug']);
+        $this->setGithubRepositorySlug($options['configuration'][self::OPTION_GITHUB_REPOSITORY_SLUG]);
+        unset($options['configuration'][self::OPTION_GITHUB_REPOSITORY_SLUG]);
 
         return $options;
     }
 
     private function extractMarkdownHeadlineAnchors(array $options) : array
     {
-        if (! isset($options['configuration']['githubRepositorySlug'])) {
+        if (! isset($options['configuration'][self::OPTION_MARKDOWN_HEADLINE_ANCHORS])) {
             return $options;
         }
 
-        $this->setMarkdownHeadlineAnchors($options['configuration']['markdownHeadlineAnchors']);
-        unset($options['configuration']['markdownHeadlineAnchors']);
+        $this->setMarkdownHeadlineAnchors($options['configuration'][self::OPTION_MARKDOWN_HEADLINE_ANCHORS]);
+        unset($options['configuration'][self::OPTION_MARKDOWN_HEADLINE_ANCHORS]);
 
         return $options;
     }
