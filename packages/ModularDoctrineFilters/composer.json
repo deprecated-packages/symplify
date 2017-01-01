@@ -20,7 +20,7 @@
         "symfony/framework-bundle": "^3.2",
         "symfony/validator": "^3.2",
         "symplify/coding-standard": "^1.2",
-        "twig/twig": "^1.28"
+        "twig/twig": "^1.30"
     },
     "autoload": {
         "psr-4": {

@@ -7,10 +7,10 @@ namespace Symplify\AutoServiceRegistration\Tests\Adapter\Symfony\DependencyInjec
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
-use Symplify\AutoServiceRegistration\ServiceClass\ServiceClassFinder;
 use Symplify\AutoServiceRegistration\Adapter\Symfony\Config\Definition\Configuration;
 use Symplify\AutoServiceRegistration\Adapter\Symfony\DependencyInjection\Compiler\AutoRegisterServicesCompilerPass;
 use Symplify\AutoServiceRegistration\Adapter\Symfony\SymplifyAutoServiceRegistrationBundle;
+use Symplify\AutoServiceRegistration\ServiceClass\ServiceClassFinder;
 use Symplify\AutoServiceRegistration\Tests\Adapter\Symfony\Source\SomeController;
 use Symplify\AutoServiceRegistration\Tests\Adapter\Symfony\Source\SomeRepository;
 

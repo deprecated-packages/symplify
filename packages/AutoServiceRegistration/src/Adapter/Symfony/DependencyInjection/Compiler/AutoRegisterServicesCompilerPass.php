@@ -12,9 +12,9 @@ namespace Symplify\AutoServiceRegistration\Adapter\Symfony\DependencyInjection\C
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
+use Symplify\AutoServiceRegistration\Adapter\Symfony\Config\Definition\ConfigurationResolver;
 use Symplify\AutoServiceRegistration\Naming\ServiceNaming;
 use Symplify\AutoServiceRegistration\ServiceClass\ServiceClassFinder;
-use Symplify\AutoServiceRegistration\Adapter\Symfony\Config\Definition\ConfigurationResolver;
 
 final class AutoRegisterServicesCompilerPass implements CompilerPassInterface
 {

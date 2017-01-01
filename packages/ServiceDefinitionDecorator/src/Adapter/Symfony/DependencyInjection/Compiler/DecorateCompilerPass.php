@@ -23,7 +23,7 @@ final class DecorateCompilerPass implements CompilerPassInterface
     public function process(ContainerBuilder $containerBuilder)
     {
         $config = $containerBuilder->getExtensionConfig(SymplifyServiceDefinitionDecoratorBundle::ALIAS);
-        if (!isset($config[0])) { // no configuration is set
+        if (! isset($config[0])) { // no configuration is set
             return;
         }
 
@@ -31,7 +31,7 @@ final class DecorateCompilerPass implements CompilerPassInterface
 
         foreach ($config as $type => $configuration) {
             foreach ($containerBuilder->getDefinitions() as $definition) {
-                if (!is_a($definition->getClass(), $type, true)) {
+                if (! is_a($definition->getClass(), $type, true)) {
                     continue;
                 }
 
@@ -42,7 +42,6 @@ final class DecorateCompilerPass implements CompilerPassInterface
                 if (isset($configuration['tags'])) {
                     $this->addTags($definition, $configuration['tags']);
                 }
-
 
                 if (isset($configuration['autowire'])) {
                     $this->addAutowired($definition, (bool) $configuration['autowire']);
