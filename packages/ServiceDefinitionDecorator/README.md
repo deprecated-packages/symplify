@@ -14,6 +14,9 @@
 - turn autowire on for all controllers that extends `Symfony\Bundle\FrameworkBundle\Controller\Controller`  
 
 
+*Inspired by [Nette Decorator](http://www.tomasvotruba.cz/blog/2016/12/24/how-to-avoid-inject-thanks-to-decorator-feature-in-nette/) feature.*
+
+
 ## Install
 
 ```bash
