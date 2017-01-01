@@ -3,20 +3,20 @@
     "description": "Adds support to autowire controller constructor without pain.",
     "license": "MIT",
     "require": {
-        "php": "~7.0",
+        "php": "^7.0",
         "nette/robot-loader": "^2.4",
-        "symfony/config": "^3.1",
-        "symfony/dependency-injection": "^3.1",
-        "symfony/http-kernel": "^3.1",
-        "symfony/yaml": "^3.1",
-        "symfony/serializer": "^3.1",
-        "symfony/security": "^3.1"
+        "symfony/config": "^3.2",
+        "symfony/dependency-injection": "^3.2",
+        "symfony/http-kernel": "^3.2",
+        "symfony/yaml": "^3.2",
+        "symfony/serializer": "^3.2",
+        "symfony/security": "^3.2"
     },
     "require-dev": {
         "nette/utils": "^2.4",
         "nette/finder": "^2.4",
-        "symfony/framework-bundle": "^3.1",
-        "symplify/coding-standard": "~1.2",
+        "symfony/framework-bundle": "^3.2",
+        "symplify/coding-standard": "^1.2",
         "phpunit/phpunit": "^5.7",
         "doctrine/annotations": "^1.3"
     },

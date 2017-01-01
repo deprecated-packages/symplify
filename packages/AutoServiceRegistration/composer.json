@@ -3,16 +3,16 @@
     "description": "Register your service by suffix scan instead of manual writing.",
     "license": "MIT",
     "require": {
-        "php": "~7.0",
+        "php": "^7.0",
         "nette/robot-loader": "^2.4",
-        "symfony/config": "^3.1",
-        "symfony/dependency-injection": "^3.1",
-        "symfony/http-kernel": "^3.1"
+        "symfony/config": "^3.2",
+        "symfony/dependency-injection": "^3.2",
+        "symfony/http-kernel": "^3.2"
     },
     "require-dev": {
         "nette/utils": "^2.4",
         "nette/finder": "^2.4",
-        "symplify/coding-standard": "~1.2",
+        "symplify/coding-standard": "^1.2",
         "phpunit/phpunit": "^5.7"
     },
     "autoload": {

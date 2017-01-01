@@ -4,19 +4,19 @@
     "license": "MIT",
     "require": {
         "php": "^7.0",
-        "symfony/config": "~3.0",
-        "symfony/dependency-injection": "~3.0",
-        "symfony/http-kernel": "~3.0"
+        "symfony/config": "^3.2",
+        "symfony/dependency-injection": "^3.2",
+        "symfony/http-kernel": "^3.2"
     },
     "require-dev": {
         "nette/utils": "^2.4",
         "nette/finder": "^2.4",
         "tracy/tracy": "^2.4",
         "phpunit/phpunit": "^5.7",
-        "symplify/coding-standard": "~1.2",
+        "symplify/coding-standard": "^1.2",
         "doctrine/doctrine-bundle": "^1.6",
         "doctrine/orm": "^2.5",
-        "symfony/form": "^3.1"
+        "symfony/form": "^3.2"
     },
     "autoload": {
         "psr-4": {
