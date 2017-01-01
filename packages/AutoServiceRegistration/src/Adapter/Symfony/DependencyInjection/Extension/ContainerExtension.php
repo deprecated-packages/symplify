@@ -7,11 +7,11 @@ declare(strict_types=1);
  * Copyright (c) 2016 Tomas Votruba (http://tomasvotruba.cz).
  */
 
-namespace Symplify\AutoServiceRegistration\Symfony\DependencyInjection\Extension;
+namespace Symplify\AutoServiceRegistration\Adapter\Symfony\DependencyInjection\Extension;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\Extension;
-use Symplify\AutoServiceRegistration\Symfony\SymplifyAutoServiceRegistrationBundle;
+use Symplify\AutoServiceRegistration\Adapter\Symfony\SymplifyAutoServiceRegistrationBundle;
 
 final class ContainerExtension extends Extension
 {

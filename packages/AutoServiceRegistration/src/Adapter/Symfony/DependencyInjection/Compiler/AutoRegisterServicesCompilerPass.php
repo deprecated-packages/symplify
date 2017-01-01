@@ -7,14 +7,14 @@ declare(strict_types=1);
  * Copyright (c) 2016 Tomas Votruba (http://tomasvotruba.cz).
  */
 
-namespace Symplify\AutoServiceRegistration\Symfony\DependencyInjection\Compiler;
+namespace Symplify\AutoServiceRegistration\Adapter\Symfony\DependencyInjection\Compiler;
 
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symplify\AutoServiceRegistration\Naming\ServiceNaming;
 use Symplify\AutoServiceRegistration\ServiceClass\ServiceClassFinder;
-use Symplify\AutoServiceRegistration\Symfony\Config\Definition\ConfigurationResolver;
+use Symplify\AutoServiceRegistration\Adapter\Symfony\Config\Definition\ConfigurationResolver;
 
 final class AutoRegisterServicesCompilerPass implements CompilerPassInterface
 {

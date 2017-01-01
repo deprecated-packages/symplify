@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Symplify\AutoServiceRegistration\Tests\Symfony;
+namespace Symplify\AutoServiceRegistration\Tests\Adapter\Symfony;
 
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\HttpKernel\Kernel;
-use Symplify\AutoServiceRegistration\Symfony\SymplifyAutoServiceRegistrationBundle;
+use Symplify\AutoServiceRegistration\Adapter\Symfony\SymplifyAutoServiceRegistrationBundle;
 
 final class AppKernel extends Kernel
 {

@@ -7,11 +7,11 @@ declare(strict_types=1);
  * Copyright (c) 2016 Tomas Votruba (http://tomasvotruba.cz).
  */
 
-namespace Symplify\AutoServiceRegistration\Symfony\Config\Definition;
+namespace Symplify\AutoServiceRegistration\Adapter\Symfony\Config\Definition;
 
 use Symfony\Component\Config\Definition\Processor;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symplify\AutoServiceRegistration\Symfony\SymplifyAutoServiceRegistrationBundle;
+use Symplify\AutoServiceRegistration\Adapter\Symfony\SymplifyAutoServiceRegistrationBundle;
 
 final class ConfigurationResolver
 {

@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Symplify\AutoServiceRegistration\Tests\Symfony\DependencyInjection\Extension;
+namespace Symplify\AutoServiceRegistration\Tests\Adapter\Symfony\DependencyInjection\Extension;
 
 use PHPUnit\Framework\TestCase;
-use Symplify\AutoServiceRegistration\Symfony\DependencyInjection\Extension\ContainerExtension;
-use Symplify\AutoServiceRegistration\Symfony\SymplifyAutoServiceRegistrationBundle;
+use Symplify\AutoServiceRegistration\Adapter\Symfony\DependencyInjection\Extension\ContainerExtension;
+use Symplify\AutoServiceRegistration\Adapter\Symfony\SymplifyAutoServiceRegistrationBundle;
 
 final class ContainerExtensionTest extends TestCase
 {

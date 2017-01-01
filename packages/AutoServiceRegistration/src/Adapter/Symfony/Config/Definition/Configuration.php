@@ -7,11 +7,11 @@ declare(strict_types=1);
  * Copyright (c) 2016 Tomas Votruba (http://tomasvotruba.cz).
  */
 
-namespace Symplify\AutoServiceRegistration\Symfony\Config\Definition;
+namespace Symplify\AutoServiceRegistration\Adapter\Symfony\Config\Definition;
 
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
-use Symplify\AutoServiceRegistration\Symfony\SymplifyAutoServiceRegistrationBundle;
+use Symplify\AutoServiceRegistration\Adapter\Symfony\SymplifyAutoServiceRegistrationBundle;
 
 final class Configuration implements ConfigurationInterface
 {

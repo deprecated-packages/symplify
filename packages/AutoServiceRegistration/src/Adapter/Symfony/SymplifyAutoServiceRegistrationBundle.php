@@ -7,13 +7,13 @@ declare(strict_types=1);
  * Copyright (c) 2016 Tomas Votruba (http://tomasvotruba.cz).
  */
 
-namespace Symplify\AutoServiceRegistration\Symfony;
+namespace Symplify\AutoServiceRegistration\Adapter\Symfony;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 use Symplify\AutoServiceRegistration\ServiceClass\ServiceClassFinder;
-use Symplify\AutoServiceRegistration\Symfony\DependencyInjection\Compiler\AutoRegisterServicesCompilerPass;
-use Symplify\AutoServiceRegistration\Symfony\DependencyInjection\Extension\ContainerExtension;
+use Symplify\AutoServiceRegistration\Adapter\Symfony\DependencyInjection\Compiler\AutoRegisterServicesCompilerPass;
+use Symplify\AutoServiceRegistration\Adapter\Symfony\DependencyInjection\Extension\ContainerExtension;
 
 final class SymplifyAutoServiceRegistrationBundle extends Bundle
 {
