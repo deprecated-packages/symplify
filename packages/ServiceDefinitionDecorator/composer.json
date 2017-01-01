@@ -1,0 +1,31 @@
+{
+    "name": "symplify/service-definition-decorator",
+    "description": "Decorate service definition by type, with autowire, tags and method class.",
+    "license": "MIT",
+    "require": {
+        "php": "~7.0",
+        "symfony/dependency-injection": "^3.2",
+        "symfony/http-kernel": "^3.2"
+    },
+    "require-dev": {
+        "symfony/framework-bundle": "^3.1",
+        "nette/utils": "^2.4",
+        "nette/finder": "^2.4",
+        "symplify/coding-standard": "~1.2",
+        "phpunit/phpunit": "^5.7"
+    },
+    "autoload": {
+        "psr-4": {
+            "Symplify\\ServiceDefinitionDecorator\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Symplify\\ServiceDefinitionDecorator\\Tests\\": "tests"
+        }
+    },
+    "scripts": {
+        "check-cs": "vendor/bin/symplify-cs check src tests",
+        "fix-cs": "vendor/bin/symplify-cs fix src tests"
+    }
+}
