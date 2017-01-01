@@ -1,0 +1,38 @@
+# framework bundle required parameters
+parameters:
+    kernel.secret: 123
+
+
+services:
+    some_dependency:
+        class: Nette\Utils\Finder
+    dummy_service:
+        class: Symplify\ServiceDefinitionDecorator\Tests\Adapter\Symfony\Source\DummyService
+
+    # console
+    some_command:
+        class: Symplify\ServiceDefinitionDecorator\Tests\Adapter\Symfony\Source\SomeCommand
+
+    # event subscriber
+    event_dispatcher:
+        class: Symfony\Component\EventDispatcher\ContainerAwareEventDispatcher
+        autowire: true
+    event_subscriber:
+        class: Symplify\ServiceDefinitionDecorator\Tests\Adapter\Symfony\Source\SomeEventSubscriber
+
+
+decorator:
+    Symplify\ServiceDefinitionDecorator\Tests\Adapter\Symfony\Source\DummyServiceAwareInterface:
+        calls:
+            - [setDummyService, ['@dummy_service']]
+
+    # console
+    Symfony\Component\Console\Command\Command:
+        autowire: true
+        tags:
+            - { name: "console.command" }
+
+    # event subscriber
+    Symfony\Component\EventDispatcher\EventSubscriberInterface:
+        tags:
+            - { name: "kernel.event_subscriber" }

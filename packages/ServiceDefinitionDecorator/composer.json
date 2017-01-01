@@ -1,31 +1,29 @@
 {
-    "name": "symplify/default-autowire",
-    "description": "Adds autowire to services when needed.",
+    "name": "symplify/service-definition-decorator",
+    "description": "Decorate service definitions by type, with autowire, tags and method class.",
     "license": "MIT",
     "require": {
         "php": "^7.0",
-        "symfony/config": "^3.2",
         "symfony/dependency-injection": "^3.2",
         "symfony/http-kernel": "^3.2"
     },
     "require-dev": {
+        "symfony/console": "^3.2",
+        "symfony/event-dispatcher": "^3.2",
+        "symfony/framework-bundle": "^3.2",
         "nette/utils": "^2.4",
         "nette/finder": "^2.4",
-        "tracy/tracy": "^2.4",
-        "phpunit/phpunit": "^5.7",
         "symplify/coding-standard": "^1.2",
-        "doctrine/doctrine-bundle": "^1.6",
-        "doctrine/orm": "^2.5",
-        "symfony/form": "^3.2"
+        "phpunit/phpunit": "^5.7"
     },
     "autoload": {
         "psr-4": {
-            "Symplify\\DefaultAutowire\\": "src"
+            "Symplify\\ServiceDefinitionDecorator\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Symplify\\DefaultAutowire\\Tests\\": "tests"
+            "Symplify\\ServiceDefinitionDecorator\\Tests\\": "tests"
         }
     },
     "scripts": {

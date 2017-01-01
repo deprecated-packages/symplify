@@ -6,21 +6,21 @@
         "php": "^7.0",
         "doctrine/dbal": "^2.4",
         "doctrine/orm": "^2.4",
-        "symfony/config": "^3.1",
-        "symfony/dependency-injection": "^3.1",
-        "symfony/event-dispatcher": "^3.1",
-        "symfony/http-kernel": "^3.1"
+        "symfony/config": "^3.2",
+        "symfony/dependency-injection": "^3.2",
+        "symfony/event-dispatcher": "^3.2",
+        "symfony/http-kernel": "^3.2"
     },
     "require-dev": {
         "doctrine/doctrine-bundle": "^1.6",
         "nette/utils": "^2.4",
         "nette/finder": "^2.4",
         "phpunit/phpunit": "^5.7",
-        "symfony/form": "^3.1",
-        "symfony/framework-bundle": "^3.1",
-        "symfony/validator": "^3.1",
-        "symplify/coding-standard": "~1.2",
-        "twig/twig": "^1.28"
+        "symfony/form": "^3.2",
+        "symfony/framework-bundle": "^3.2",
+        "symfony/validator": "^3.2",
+        "symplify/coding-standard": "^1.2",
+        "twig/twig": "^1.30"
     },
     "autoload": {
         "psr-4": {
