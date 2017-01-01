@@ -29,7 +29,7 @@
     },
     "require-dev": {
         "nette/application": "^2.4",
-        "phpunit/phpunit": "^5.5",
+        "phpunit/phpunit": "^5.7",
         "symplify/coding-standard": "^1.2"
     },
     "autoload": {
