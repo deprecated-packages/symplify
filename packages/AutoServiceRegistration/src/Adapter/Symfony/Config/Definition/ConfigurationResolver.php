@@ -46,7 +46,7 @@ final class ConfigurationResolver
     }
 
     /**
-     * @return string[]
+     * @return mixed[]
      */
     private function getResolvedConfiguration() : array
     {

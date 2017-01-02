@@ -69,7 +69,7 @@ final class FileFactoryTest extends TestCase
     /**
      * @return File|PostFile
      */
-    private function createFileFromPath(string $filePath) : AbstractFile
+    private function createFileFromPath(string $filePath)
     {
         $fileInfo = new SplFileInfo($filePath);
 

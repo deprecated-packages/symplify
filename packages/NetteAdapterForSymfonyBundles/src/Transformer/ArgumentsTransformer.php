@@ -44,7 +44,7 @@ final class ArgumentsTransformer
     /**
      * @param Reference|Definition|array $argument
      *
-     * @return null|string
+     * @return mixed
      */
     private function transformArgument($argument)
     {

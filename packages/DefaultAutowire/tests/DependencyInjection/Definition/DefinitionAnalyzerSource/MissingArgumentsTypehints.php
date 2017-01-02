@@ -9,11 +9,29 @@ use Symplify\DefaultAutowire\Tests\Source\SomeService;
 final class MissingArgumentsTypehints
 {
     /**
+     * @var string
+     */
+    private $valueWithoutType;
+
+    /**
+     * @var null|SomeService
+     */
+    private $someService;
+
+    /**
+     * @var int
+     */
+    private $value;
+
+    /**
      * @param string $valueWithoutType
      * @param SomeService|null $someService
      * @param int $value
      */
     public function __construct($valueWithoutType, SomeService $someService = null, $value = 1)
     {
+        $this->valueWithoutType = $valueWithoutType;
+        $this->someService = $someService;
+        $this->value = $value;
     }
 }

@@ -13,7 +13,7 @@ final class AccessDecisionManagerFactoryTest extends TestCase
 {
     public function testCreateWithOneVoter()
     {
-        $accessDecisionManagerFactory = new AccessDecisionManagerFactory([]);
+        $accessDecisionManagerFactory = new AccessDecisionManagerFactory();
         $voterMock = $this->prophesize(VoterInterface::class);
         $accessDecisionManagerFactory->addVoter($voterMock->reveal());
 

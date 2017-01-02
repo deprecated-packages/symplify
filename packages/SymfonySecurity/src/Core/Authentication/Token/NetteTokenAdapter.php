@@ -97,7 +97,11 @@ final class NetteTokenAdapter implements TokenInterface
         /** @var Identity $identity */
         $identity = $this->user->getIdentity();
 
-        return (array) $identity->getData();
+        if (! is_array($identity->getData())) {
+            return [$identity->getData()];
+        }
+
+        return $identity->getData();
     }
 
     public function setAttributes(array $attributes)

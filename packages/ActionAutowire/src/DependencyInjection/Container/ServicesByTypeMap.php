@@ -18,7 +18,7 @@ use ReflectionClass;
 final class ServicesByTypeMap
 {
     /**
-     * @var string[]
+     * @var string[][]
      */
     private $classes = [];
 
