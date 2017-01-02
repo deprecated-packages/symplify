@@ -2,17 +2,41 @@
 
 declare (strict_types = 1);
 
-function includeIfExists(string $file)
+
+final class AutoloadIncluder
 {
-    if (file_exists($file)) {
-        return include $file;
+    /**
+     * @var string[]
+     */
+    private $possibleAutoloadFileLocations = [
+        __DIR__ . '/../vendor/autoload.php',
+        __DIR__ . '/../../../autoload.php',
+        __DIR__ . '/../../../vendor/autoload.php'
+    ];
+
+    public function include()
+    {
+        foreach ($this->possibleAutoloadFileLocations as $autoloadFileLocation) {
+            if ($this->includeFileIfExists($autoloadFileLocation)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private function includeFileIfExists(string $file)
+    {
+        if (file_exists($file)) {
+            return (bool) include $file;
+        }
+
+        return false;
     }
 }
 
-if (
-    (!$classLoader = includeIfExists(__DIR__.'/../vendor/autoload.php')) &&
-    (!$classLoader = includeIfExists(__DIR__.'/../../../autoload.php'))
-) {
+
+if (!(new AutoloadIncluder())->include()) {
     echo 'You must set up the project dependencies, run the following commands:'.PHP_EOL.
         'curl -sS https://getcomposer.org/installer | php'.PHP_EOL.
         'php composer.phar install'.PHP_EOL;

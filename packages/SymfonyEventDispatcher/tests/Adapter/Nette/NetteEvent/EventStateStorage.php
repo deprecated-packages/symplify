@@ -6,10 +6,10 @@ namespace Symplify\SymfonyEventDispatcher\Tests\Adapter\Nette\NetteEvent;
 
 use Symfony\Component\EventDispatcher\Event;
 
-class EventStateStorage
+final class EventStateStorage
 {
     /**
-     * @var string[]
+     * @var Event[]
      */
     private $storage;
 

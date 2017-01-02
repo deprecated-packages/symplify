@@ -19,7 +19,7 @@ final class NetteServiceAliasTest extends TestCase
      */
     private $container;
 
-    public function __construct()
+    protected function setUp()
     {
         $this->container = (new ContainerFactory())->createWithConfig(__DIR__ . '/config/netteServiceAlias.neon');
     }
