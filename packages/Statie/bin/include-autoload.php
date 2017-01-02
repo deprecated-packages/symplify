@@ -14,7 +14,7 @@ final class AutoloadIncluder
         __DIR__ . '/../../../vendor/autoload.php'
     ];
 
-    public function include()
+    public function includeAutoload() : bool
     {
         foreach ($this->possibleAutoloadFileLocations as $autoloadFileLocation) {
             if ($this->includeFileIfExists($autoloadFileLocation)) {
@@ -25,7 +25,7 @@ final class AutoloadIncluder
         return false;
     }
 
-    private function includeFileIfExists(string $file)
+    private function includeFileIfExists(string $file) : bool
     {
         if (file_exists($file)) {
             return (bool) include $file;
@@ -36,7 +36,7 @@ final class AutoloadIncluder
 }
 
 
-if (!(new AutoloadIncluder())->include()) {
+if (!(new AutoloadIncluder())->includeAutoload()) {
     echo 'You must set up the project dependencies, run the following commands:'.PHP_EOL.
         'curl -sS https://getcomposer.org/installer | php'.PHP_EOL.
         'php composer.phar install'.PHP_EOL;
