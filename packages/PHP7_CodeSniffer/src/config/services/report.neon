@@ -1,0 +1,4 @@
+services:
+    - Symplify\PHP7_CodeSniffer\Report\ErrorDataCollector
+    - Symplify\PHP7_CodeSniffer\Report\ErrorMessageSorter
+

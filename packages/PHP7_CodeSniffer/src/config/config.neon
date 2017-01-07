@@ -1,0 +1,2 @@
+extensions:
+    - Symplify\PHP7_CodeSniffer\DI\Php7CodeSnifferExtension
