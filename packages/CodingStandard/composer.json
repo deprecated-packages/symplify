@@ -3,7 +3,7 @@
     "description": "Set of rules for PHP_CodeSniffer and PHP-CS-Fixer. Based on PSR2 and Symfony standards.",
     "license": "MIT",
     "require": {
-        "php": "^7.0",
+        "php": "^7.1",
         "friendsofphp/php-cs-fixer": "^2.0",
         "squizlabs/php_codesniffer": "^2.7",
         "symfony/console": "^3.2",

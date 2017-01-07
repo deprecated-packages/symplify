@@ -3,7 +3,7 @@
     "description": "Adds simple service support for Doctrine filters, allowing modularity.",
     "license": "MIT",
     "require": {
-        "php": "^7.0",
+        "php": "^7.1",
         "doctrine/dbal": "^2.5",
         "doctrine/orm": "^2.5",
         "symfony/config": "^3.2",

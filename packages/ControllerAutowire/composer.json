@@ -3,7 +3,7 @@
     "description": "Adds support to autowire controller constructor without pain.",
     "license": "MIT",
     "require": {
-        "php": "^7.0",
+        "php": "^7.1",
         "nette/robot-loader": "^2.4",
         "symfony/config": "^3.2",
         "symfony/dependency-injection": "^3.2",

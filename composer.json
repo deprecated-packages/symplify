@@ -3,7 +3,7 @@
     "description": "Main repository for Symplify packages development.",
     "license": "MIT",
     "require": {
-        "php": "^7.0",
+        "php": "^7.1",
 
         "abraham/twitteroauth": "^0.7",
         "react/http": "^0.4",
