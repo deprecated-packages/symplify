@@ -47,9 +47,6 @@ class AppKernel extends Kernel
     
     final class SomeRouteCollectionProvider implements RouteCollectionProviderInterface
     {
-        /**
-         * {@inheritdoc}
-         */
         public function getRouteCollection() : RouteCollection
         {
             $routeCollection = new RouteCollection();
@@ -82,9 +79,6 @@ use Symplify\ModularRouting\Routing\AbstractRouteCollectionProvider;
 
 final class FilesRouteCollectionProvider extends AbstractRouteCollectionProvider
 {
-    /**
-     * {@inheritdoc}
-     */
     public function getRouteCollection() : RouteCollection
     {
         return $this->loadRouteCollectionFromFiles([

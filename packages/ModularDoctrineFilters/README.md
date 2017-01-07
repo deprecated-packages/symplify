@@ -64,9 +64,6 @@ use Symplify\ModularDoctrineFilters\Contract\Filter\FilterInterface;
 
 final class SoftdeletableFilter implements FilterInterface
 {
-    /**
-     * {@inheritdoc}
-     */
     public function addFilterConstraint(ClassMetadata $entity, string $alias) : string
     {
         if ($entity->getReflectionClass()->hasProperty('isDeleted')) {

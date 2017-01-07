@@ -8,9 +8,6 @@
 ```php
 final class SomeClass implements SomeInterface
 {
-	/**
-	 * {@inheritdoc}
-	 */
 	public function run()
 	{
 

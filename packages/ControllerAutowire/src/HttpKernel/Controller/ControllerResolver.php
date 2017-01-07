@@ -67,9 +67,13 @@ final class ControllerResolver implements ControllerResolverInterface
     }
 
     /**
+<<<<<<< 5cd59f9784c144a7a320f3072d016ce771655456
      * @param Request $request
      * @param callable $controller
      * @return array|mixed
+=======
+     * @return array|null
+>>>>>>> drop inheritdoc, no info value
      */
     public function getArguments(Request $request, $controller)
     {
