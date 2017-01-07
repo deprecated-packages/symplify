@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Symplify\CodingStandard\Command;
 
-use Exception;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -20,17 +19,11 @@ final class CheckCommand extends AbstractCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        try {
-            foreach ($input->getArgument('path') as $path) {
-                $this->executeRunnersForDirectory($path);
-            }
-
-            return $this->outputCheckResult();
-        } catch (Exception $exception) {
-            $this->io->error($exception->getMessage());
-
-            return self::EXIT_CODE_ERROR;
+        foreach ($input->getArgument('path') as $path) {
+            $this->executeRunnersForDirectory($path);
         }
+
+        return $this->outputCheckResult();
     }
 
     private function executeRunnersForDirectory(string $directory)

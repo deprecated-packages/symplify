@@ -20,18 +20,12 @@ final class FixCommand extends AbstractCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        try {
-            foreach ($input->getArgument('path') as $path) {
-                $this->executeFixersForDirectory($path);
-            }
-            $this->io->success('Your code was successfully fixed!');
-
-            return self::EXIT_CODE_SUCCESS;
-        } catch (Exception $exception) {
-            $this->io->error($exception->getMessage());
-
-            return self::EXIT_CODE_SUCCESS;
+        foreach ($input->getArgument('path') as $path) {
+            $this->executeFixersForDirectory($path);
         }
+        $this->io->success('Your code was successfully fixed!');
+
+        return self::EXIT_CODE_SUCCESS;
     }
 
     private function executeFixersForDirectory(string $directory)
