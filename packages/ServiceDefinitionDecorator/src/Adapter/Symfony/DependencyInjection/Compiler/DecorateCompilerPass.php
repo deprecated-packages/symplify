@@ -48,7 +48,7 @@ final class DecorateCompilerPass implements CompilerPassInterface
     private function addCalls(Definition $definition, array $setups)
     {
         foreach ($setups as $setterConfiguration) {
-            list($methodName, $methodArguments) = $setterConfiguration;
+            [$methodName, $methodArguments] = $setterConfiguration;
             foreach ($methodArguments as $position => $methodArgument) {
                 if (strpos($methodArgument, '@') === 0) {
                     $methodArguments[$position] = new Reference(substr($methodArgument, 1));

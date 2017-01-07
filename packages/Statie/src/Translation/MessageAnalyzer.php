@@ -8,10 +8,9 @@ final class MessageAnalyzer
 {
     public function extractDomainFromMessage(string $message) : array
     {
+        $domain = 'messages';
         if (strpos($message, '.') !== false && strpos($message, ' ') === false) {
-            list($domain, $message) = explode('.', $message, 2);
-        } else {
-            $domain = 'messages';
+            [$domain, $message] = explode('.', $message, 2);
         }
 
         return [$domain, $message];
