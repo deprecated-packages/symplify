@@ -62,7 +62,7 @@ final class ContribRunner implements RunnerInterface
             'psr4',
             'phpdoc_no_alias_tag',
             // 'ordered_class_elements', requires PHP configuration
-            'no_spaces_around_offset',
+            // 'no_spaces_around_offset', buggy in PHP 7.1 - https://github.com/FriendsOfPHP/PHP-CS-Fixer/issues/2454
             'dir_constant',
             'modernize_types_casting',
             'random_api_migration',
