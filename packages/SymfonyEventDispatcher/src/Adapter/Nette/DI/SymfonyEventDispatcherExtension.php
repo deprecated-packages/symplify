@@ -2,6 +2,7 @@
 
 namespace Symplify\SymfonyEventDispatcher\Adapter\Nette\DI;
 
+use Nette\DI\Compiler;
 use Nette\DI\CompilerExtension;
 use Nette\DI\ServiceDefinition;
 use Nette\DI\Statement;
@@ -17,9 +18,10 @@ final class SymfonyEventDispatcherExtension extends CompilerExtension
             return;
         }
 
-        $containerBuilder = $this->getContainerBuilder();
-        $containerBuilder->addDefinition($this->prefix('symfony.eventDispatcher'))
-            ->setClass(EventDispatcher::class);
+        Compiler::loadDefinitions(
+            $this->getContainerBuilder(),
+            $this->loadFromFile(__DIR__ . '/../config/services.neon')['services']
+        );
     }
 
     public function beforeCompile() : void
