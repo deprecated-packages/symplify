@@ -1,0 +1,23 @@
+language: php
+
+sudo: false
+
+php:
+  - 7.1
+
+matrix:
+  include:
+    - php: 7.0
+      env: PHPUNIT_FLAGS="--coverage-clover coverage.clover"
+  allow_failures:
+    - php: 7.1
+
+before_script:
+  - composer install
+
+script:
+  - vendor/bin/phpunit $PHPUNIT_FLAGS
+  - bin/php7cs src tests --standards=PSR2
+
+after_script:
+  - if [[ "$PHPUNIT_FLAGS" != "" ]]; then wget https://scrutinizer-ci.com/ocular.phar && php ocular.phar code-coverage:upload --format=php-clover coverage.clover; fi

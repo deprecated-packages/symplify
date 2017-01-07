@@ -1,0 +1,3 @@
+services:
+    - Symplify\PHP7_CodeSniffer\Parser\FileToTokensParser
+    - Symplify\PHP7_CodeSniffer\Parser\EolCharDetector
