@@ -42,10 +42,7 @@ final class PresenterShutdownEvent extends Event
         return $this->presenter;
     }
 
-    /**
-     * @return IResponse|null
-     */
-    public function getResponse()
+    public function getResponse() : ?IResponse
     {
         return $this->response;
     }

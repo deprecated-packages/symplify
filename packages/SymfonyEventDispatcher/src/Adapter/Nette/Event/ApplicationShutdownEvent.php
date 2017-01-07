@@ -41,10 +41,7 @@ final class ApplicationShutdownEvent extends Event
         return $this->application;
     }
 
-    /**
-     * @return Throwable|null
-     */
-    public function getException()
+    public function getException() : ?Throwable
     {
         return $this->exception;
     }

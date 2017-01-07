@@ -40,16 +40,13 @@ final class NetteTokenAdapter implements TokenInterface
         return $this->user->getRoles();
     }
 
-    /**
-     * @return IIdentity|null
-     */
-    public function getCredentials()
+    public function getCredentials() : ?IIdentity
     {
         return $this->user->getIdentity();
     }
 
     /**
-     * @return User
+     * @return User|string
      */
     public function getUser()
     {
