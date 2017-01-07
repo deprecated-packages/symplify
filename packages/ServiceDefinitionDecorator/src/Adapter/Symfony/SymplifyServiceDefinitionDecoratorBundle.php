@@ -15,7 +15,7 @@ final class SymplifyServiceDefinitionDecoratorBundle extends Bundle
     /**
      * @var string
      */
-    const ALIAS = 'decorator';
+    public const ALIAS = 'decorator';
 
     public function build(ContainerBuilder $containerBuilder)
     {

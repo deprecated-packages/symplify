@@ -18,7 +18,7 @@ final class RequestRecievedEvent extends Event
     /**
      * @var string
      */
-    const NAME = Application::class . '::$onRequest';
+    public const NAME = Application::class . '::$onRequest';
 
     /**
      * @var Application

@@ -12,22 +12,22 @@ final class Configuration
     /**
      * @var string
      */
-    const OPTION_POST_ROUTE = 'postRoute';
+    private const OPTION_POST_ROUTE = 'postRoute';
 
     /**
      * @var string
      */
-    const OPTION_GITHUB_REPOSITORY_SLUG = 'githubRepositorySlug';
+    private const OPTION_GITHUB_REPOSITORY_SLUG = 'githubRepositorySlug';
 
     /**
      * @var string
      */
-    const OPTION_MARKDOWN_HEADLINE_ANCHORS = 'markdownHeadlineAnchors';
+    private const OPTION_MARKDOWN_HEADLINE_ANCHORS = 'markdownHeadlineAnchors';
 
     /**
      * @var string
      */
-    const DEFAULT_POST_ROUTE = 'blog/:year/:month/:day/:title';
+    private const DEFAULT_POST_ROUTE = 'blog/:year/:month/:day/:title';
 
     /**
      * @var array

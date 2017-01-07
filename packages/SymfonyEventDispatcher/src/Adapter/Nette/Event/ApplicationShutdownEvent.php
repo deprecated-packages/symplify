@@ -18,7 +18,7 @@ final class ApplicationShutdownEvent extends Event
     /**
      * @var string
      */
-    const NAME = Application::class . '::$onShutdown';
+    public const NAME = Application::class . '::$onShutdown';
 
     /**
      * @var Application

@@ -17,7 +17,7 @@ final class SymplifyDefaultAutowireBundle extends Bundle
     /**
      * @var string
      */
-    const ALIAS = 'symplify_default_autowire';
+    public const ALIAS = 'symplify_default_autowire';
 
     /**
      * {@inheritdoc}

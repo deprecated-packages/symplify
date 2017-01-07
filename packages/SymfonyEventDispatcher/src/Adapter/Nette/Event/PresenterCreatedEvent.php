@@ -18,7 +18,7 @@ final class PresenterCreatedEvent extends Event
     /**
      * @var string
      */
-    const NAME = Application::class . '::$onPresenter';
+    public const NAME = Application::class . '::$onPresenter';
 
     /**
      * @var Application

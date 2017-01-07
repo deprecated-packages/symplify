@@ -15,7 +15,7 @@ final class SymplifyAutoServiceRegistrationBundle extends Bundle
     /**
      * @var string
      */
-    const ALIAS = 'symplify_auto_service_registration';
+    public const ALIAS = 'symplify_auto_service_registration';
 
     public function build(ContainerBuilder $containerBuilder)
     {

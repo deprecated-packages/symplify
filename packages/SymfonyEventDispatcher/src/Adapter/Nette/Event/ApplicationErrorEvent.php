@@ -18,7 +18,7 @@ final class ApplicationErrorEvent extends Event
     /**
      * @var string
      */
-    const NAME = Application::class . '::$onError';
+    public const NAME = Application::class . '::$onError';
 
     /**
      * @var Application

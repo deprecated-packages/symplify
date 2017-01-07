@@ -18,7 +18,7 @@ final class ApplicationResponseEvent extends Event
     /**
      * @var string
      */
-    const NAME = Application::class . '::$onResponse';
+    public const NAME = Application::class . '::$onResponse';
 
     /**
      * @var Application

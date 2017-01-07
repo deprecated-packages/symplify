@@ -12,12 +12,12 @@ final class GihubPublishingProcess
     /**
      * @var string
      */
-    const CONFIG_EMAIL = 'travis@travis-ci.org';
+    private const CONFIG_EMAIL = 'travis@travis-ci.org';
 
     /**
      * @var string
      */
-    const CONFIG_NAME = 'Travis';
+    private const CONFIG_NAME = 'Travis';
 
     public function pushDirectoryContentToRepository(string $outputDirectory, string $githubRepository)
     {

@@ -17,7 +17,7 @@ final class ApplicationStartupEvent extends Event
     /**
      * @var string
      */
-    const NAME = Application::class . '::$onStartup';
+    public const NAME = Application::class . '::$onStartup';
 
     /**
      * @var Application

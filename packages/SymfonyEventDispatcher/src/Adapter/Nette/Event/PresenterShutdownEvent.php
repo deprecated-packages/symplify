@@ -19,7 +19,7 @@ final class PresenterShutdownEvent extends Event
     /**
      * @var string
      */
-    const NAME = Presenter::class . '::$onShutdown';
+    public const NAME = Presenter::class . '::$onShutdown';
 
     /**
      * @var IPresenter|Presenter

@@ -17,12 +17,12 @@ final class DecorateControllerResolverPass implements CompilerPassInterface
     /**
      * @var string
      */
-    const DEFAULT_CONTROLLER_RESOLVER_SERVICE_NAME = 'controller_resolver';
+    private const DEFAULT_CONTROLLER_RESOLVER_SERVICE_NAME = 'controller_resolver';
 
     /**
      * @var string
      */
-    const SYMPLIFY_CONTROLLER_RESOLVER_SERVICE_NAME = 'symplify.controller_resolver';
+    private const SYMPLIFY_CONTROLLER_RESOLVER_SERVICE_NAME = 'symplify.controller_resolver';
 
     /**
      * @var ControllerClassMapInterface

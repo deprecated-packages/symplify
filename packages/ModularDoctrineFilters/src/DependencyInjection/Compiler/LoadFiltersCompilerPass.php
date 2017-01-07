@@ -15,12 +15,12 @@ final class LoadFiltersCompilerPass implements CompilerPassInterface
     /**
      * @var string
      */
-    const NAME_CONFIGURATION = 'doctrine.orm.default_configuration';
+    private const NAME_CONFIGURATION = 'doctrine.orm.default_configuration';
 
     /**
      * @var string
      */
-    const NAME_CONFIGURATOR = 'doctrine.orm.default_manager_configurator';
+    private const NAME_CONFIGURATOR = 'doctrine.orm.default_manager_configurator';
 
     /**
      * @var string[]

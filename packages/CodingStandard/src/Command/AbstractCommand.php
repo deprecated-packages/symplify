@@ -19,12 +19,12 @@ abstract class AbstractCommand extends Command
     /**
      * @var int
      */
-    const EXIT_CODE_SUCCESS = 0;
+    protected const EXIT_CODE_SUCCESS = 0;
 
     /**
      * @var int
      */
-    const EXIT_CODE_ERROR = 1;
+    protected const EXIT_CODE_ERROR = 1;
 
     /**
      * @var int

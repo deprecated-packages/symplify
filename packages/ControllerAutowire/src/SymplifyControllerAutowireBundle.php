@@ -18,7 +18,7 @@ final class SymplifyControllerAutowireBundle extends Bundle
     /**
      * @var string
      */
-    const ALIAS = 'symplify_controller_autowire';
+    public const ALIAS = 'symplify_controller_autowire';
 
     public function build(ContainerBuilder $container)
     {
