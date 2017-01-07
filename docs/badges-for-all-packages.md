@@ -65,15 +65,6 @@ To quick check test build status, coverage or score.
 [![Latest stable](https://img.shields.io/packagist/v/symplify/modular-routing.svg?style=flat-square)](https://packagist.org/packages/symplify/modular-routing)
 
 
-## Nette Adapter for Symfony Bundles
-
-[![Build Status](https://img.shields.io/travis/Symplify/NetteAdapterForSymfonyBundles.svg?style=flat-square)](https://travis-ci.org/Symplify/NetteAdapterForSymfonyBundles)
-[![Quality Score](https://img.shields.io/scrutinizer/g/Symplify/NetteAdapterForSymfonyBundles.svg?style=flat-square)](https://scrutinizer-ci.com/g/Symplify/NetteAdapterForSymfonyBundles)
-[![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/Symplify/NetteAdapterForSymfonyBundles.svg?style=flat-square)](https://scrutinizer-ci.com/g/Symplify/NetteAdapterForSymfonyBundles)
-[![Downloads](https://img.shields.io/packagist/dt/Symplify/nette-adapter-for-symfony-bundles.svg?style=flat-square)](https://packagist.org/packages/Symplify/nette-adapter-for-symfony-bundles)
-[![Latest stable](https://img.shields.io/packagist/v/Symplify/nette-adapter-for-symfony-bundles.svg?style=flat-square)](https://packagist.org/packages/Symplify/nette-adapter-for-symfony-bundles)
-
-
 ## Service Definition Decorator
 
 [![Build Status](https://img.shields.io/travis/Symplify/ServiceDefinitionDecorator.svg?style=flat-square)](https://travis-ci.org/Symplify/ServiceDefinitionDecorator)

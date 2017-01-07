@@ -1,7 +1,0 @@
-application:
-	scanDirs: false
-	scanComposer: false
-
-bundles:
-	- Hautelook\AliceBundle\HautelookAliceBundle
-	- League\Tactician\Bundle\TacticianBundle
