@@ -1,0 +1,4 @@
+services:
+    - Symplify\PHP7_CodeSniffer\Application\Application
+    - Symplify\PHP7_CodeSniffer\Application\FileProcessor
+    - Symplify\PHP7_CodeSniffer\Application\Fixer

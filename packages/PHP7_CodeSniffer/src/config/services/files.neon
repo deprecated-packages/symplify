@@ -1,0 +1,4 @@
+services:
+    - Symplify\PHP7_CodeSniffer\File\FileFactory
+    - Symplify\PHP7_CodeSniffer\File\Provider\FilesProvider
+    - Symplify\PHP7_CodeSniffer\File\Finder\SourceFinder

@@ -1,0 +1,8 @@
+services:
+    - Symplify\PHP7_CodeSniffer\Console\ConsoleApplication
+    - Symplify\PHP7_CodeSniffer\Console\Command\RunCommand
+
+    - Symfony\Component\Console\Input\ArgvInput
+    - Symfony\Component\Console\Output\ConsoleOutput
+    - Symplify\PHP7_CodeSniffer\Console\Style\CodeSnifferStyle
+    - Symplify\PHP7_CodeSniffer\Console\Output\InfoMessagePrinter

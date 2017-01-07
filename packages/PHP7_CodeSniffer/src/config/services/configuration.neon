@@ -1,0 +1,7 @@
+services:
+    - Symplify\PHP7_CodeSniffer\Configuration\ConfigurationResolver
+
+    # option resolvers
+    - Symplify\PHP7_CodeSniffer\Configuration\OptionResolver\SniffsOptionResolver
+    - Symplify\PHP7_CodeSniffer\Configuration\OptionResolver\SourceOptionResolver
+    - Symplify\PHP7_CodeSniffer\Configuration\OptionResolver\StandardsOptionResolver

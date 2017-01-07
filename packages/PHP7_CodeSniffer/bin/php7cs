@@ -1,0 +1,28 @@
+#!/usr/bin/env php
+<?php
+
+/*
+ * This file is part of Symplify
+ * Copyright (c) 2016 Tomas Votruba (http://tomasvotruba.cz).
+ */
+
+$classLoader = require_once __DIR__.'/bootstrap.php';
+
+Symplify\PHP7_CodeSniffer\Legacy\LegacyCompatibilityLayer::add();
+
+// 1. build DI container
+$containerFactory = new Symplify\PHP7_CodeSniffer\DI\ContainerFactory();
+$container = $containerFactory->create();
+
+// 2. autoload sniffs, if not yet
+/** @var Symplify\PHP7_CodeSniffer\Composer\ClassLoaderDecorator $classLoaderDecorator */
+$classLoaderDecorator = $container->getByType(Symplify\PHP7_CodeSniffer\Composer\ClassLoaderDecorator::class);
+$classLoaderDecorator->decorate($classLoader);
+
+// 3. get Console Application
+/** @var Symplify\PHP7_CodeSniffer\Console\ConsoleApplication $codeSnifferApplication */
+$codeSnifferApplication = $container->getByType(Symplify\PHP7_CodeSniffer\Console\ConsoleApplication::class);
+
+// 4. run it!
+$codeSnifferApplication->setDefaultCommand('run', true);
+$codeSnifferApplication->run();

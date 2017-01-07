@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<rule ref="Generic.Files.LineLength">
+    <properties>
+        <property name="integer" value="5"/>
+        <property name="string" value="hello"/>
+        <property name="bool" value="false"/>
+        <property name="another_bool" value="true"/>
+        <property name="caps_bool" value="FALSE"/>
+        <property name="caps_another_bool" value="TRUE"/>
+        <property name="array_with_keys" type="array" value="key=>value,anotherKey=>anotherValue"/>
+        <property name="simple_array" type="array" value="value,anotherValue"/>
+    </properties>
+</rule>
