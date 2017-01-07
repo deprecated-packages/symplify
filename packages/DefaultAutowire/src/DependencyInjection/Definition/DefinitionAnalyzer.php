@@ -141,7 +141,12 @@ final class DefinitionAnalyzer
                     continue;
                 }
 
-                if (null !== $parameterReflection->getType()) {
+                if (! $parameterReflection->getType()) {
+                    ++$i;
+                    continue;
+                }
+
+                if (! $parameterReflection->getType()->allowsNull()) {
                     return true;
                 }
             }

@@ -16,7 +16,7 @@ final class SomeServiceWithOptionalConstructorArguments
      */
     private $arg = [];
 
-    public function __construct(SomeService $someService = null, array $arg = [])
+    public function __construct(?SomeService $someService, array $arg = [])
     {
         $this->someService = $someService;
         $this->arg = $arg;

@@ -14,7 +14,7 @@ use Symplify\SymfonySecurity\Contract\HttpFoundation\RequestMatcherInterface;
 interface FirewallMapInterface
 {
     public function add(
-        RequestMatcherInterface $requestMatcher = null,
+        ?RequestMatcherInterface $requestMatcher,
         array $listeners = [],
         ExceptionListener $exceptionListener = null
     );

@@ -20,7 +20,7 @@ final class FirewallMap implements FirewallMapInterface
     private $map = [];
 
     public function add(
-        RequestMatcherInterface $requestMatcher = null,
+        ?RequestMatcherInterface $requestMatcher,
         array $listeners = [],
         ExceptionListener $exceptionListener = null
     ) {

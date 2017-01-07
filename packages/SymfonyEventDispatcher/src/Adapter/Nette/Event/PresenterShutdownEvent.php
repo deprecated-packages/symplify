@@ -31,7 +31,7 @@ final class PresenterShutdownEvent extends Event
      */
     private $response;
 
-    public function __construct(IPresenter $presenter, IResponse $response = null)
+    public function __construct(IPresenter $presenter, ?IResponse $response)
     {
         $this->presenter = $presenter;
         $this->response = $response;
