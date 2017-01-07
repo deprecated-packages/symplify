@@ -7,6 +7,7 @@
         "nette/di": "^2.4",
         "nette/http": "^2.4",
         "symfony/event-dispatcher": "^3.2"
+        "symfony/depe": "^3.2"
     },
     "require-dev": {
         "kdyby/console": "^2.4",
