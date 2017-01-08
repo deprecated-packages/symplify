@@ -1,9 +1,6 @@
 <?php
 
-/*
- * This file is part of Symplify
- * Copyright (c) 2016 Tomas Votruba (http://tomasvotruba.cz).
- */
+declare(strict_types = 1);
 
 namespace Symplify\PHP7_CodeSniffer\Report;
 
