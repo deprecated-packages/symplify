@@ -74,7 +74,6 @@ final class ContribRunner implements RunnerInterface
             'simplified_null_return',
             // 'array_syntax', requires PHP configuration
             'not_operator_with_successor_space',
-            'linebreak_after_opening_tag',
             'no_useless_else',
             'no_useless_return',
             'ordered_imports',
