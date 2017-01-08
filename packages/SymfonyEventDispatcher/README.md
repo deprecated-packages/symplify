@@ -18,7 +18,8 @@ $ composer require symplify/symfony-event-dispatcher
 Register the extension in `config.neon`:
 
 ```yaml
-// app/config/config.neon
+# app/config/config.neon
+
 extensions:
 	- Symplify\SymfonyEventDispatcher\Adapter\Nette\DI\SymfonyEventDispatcherExtension
 ```
@@ -29,6 +30,8 @@ extensions:
 Register the Bundle to `AppKernel`:
 
 ```php
+// app/AppKernel.php
+
 class AppKernel extends Kernel
 {
     public function registerBundles() : array
@@ -48,7 +51,7 @@ See [short article about EventDispatcher](http://pehapkari.cz/blog/2016/12/05/sy
 **This article is tested** &ndash; it will be still up-to-date with Symfony 4+. 
 
 
-### 1. Basically create class that implements `Symfony\Component\EventDispatcher\SubscriberInterface`:
+### 1. Create class that implements `Symfony\Component\EventDispatcher\SubscriberInterface`:
 
 ```php
 // app/EventSubscriber/CheckRequestEventSubscriber.php
@@ -84,7 +87,8 @@ final class CheckRequestEventSubscriber implements EventSubscriberInterface
 **In Nette**
 
 ```yaml
-// app/config/config.neon
+# app/config/config.neon
+
 services:
     - App\EventSubscriber\CheckRequestEventSubscriber
 ```
@@ -92,7 +96,8 @@ services:
 **In Symfony**
 
 ```yaml
-// app/config/service.yaml
+# app/config/services.yml
+
 services:
     event_subscriber.check_request:
         class: App\EventSubscriber\CheckRequestEventSubscriber
