@@ -26,5 +26,7 @@ final class MethodReturnTypeSniffTest extends TestCase
         $this->assertSame(0, $codeSnifferRunner->getErrorCountInFile(__DIR__ . '/correct7.php.inc'));
         $this->assertSame(0, $codeSnifferRunner->getErrorCountInFile(__DIR__ . '/correct8.php.inc'));
         $this->assertSame(0, $codeSnifferRunner->getErrorCountInFile(__DIR__ . '/correct9.php.inc'));
+        $this->assertSame(0, $codeSnifferRunner->getErrorCountInFile(__DIR__ . '/correct10.php.inc'));
+        $this->assertSame(0, $codeSnifferRunner->getErrorCountInFile(__DIR__ . '/correct11.php.inc'));
     }
 }
