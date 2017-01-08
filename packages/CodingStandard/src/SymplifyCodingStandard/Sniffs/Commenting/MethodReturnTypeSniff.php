@@ -72,10 +72,6 @@ final class MethodReturnTypeSniff implements PHP_CodeSniffer_Sniff
             return true;
         }
 
-//        if ($this->hasPhp7ReturnType()) {
-//            return true;
-//        }
-
         return false;
     }
 
