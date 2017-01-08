@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Symplify\Statie\Utils;
 
@@ -18,7 +16,7 @@ final class PathAnalyzer
     public static function detectDate(SplFileInfo $file) : DateTimeInterface
     {
         preg_match('/(\d{4})[\/\-]*(\d{2})[\/\-]*(\d{2})[\/\-]*(\d+|)/', $file->getFilename(), $matches);
-        list($dummy, $year, $month, $day) = $matches;
+        [$dummy, $year, $month, $day] = $matches;
 
         return new DateTime(implode('-', [$year, $month, $day]));
     }

@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Symplify\CodingStandard\Runner;
 
@@ -44,7 +42,7 @@ final class ContribRunner implements RunnerInterface
         return $process->getOutput();
     }
 
-    private function detectErrorsInOutput(string $output)
+    private function detectErrorsInOutput(string $output) : void
     {
         if (strpos($output, 'end diff') !== false) {
             $this->hasErrors = true;
@@ -62,7 +60,7 @@ final class ContribRunner implements RunnerInterface
             'psr4',
             'phpdoc_no_alias_tag',
             // 'ordered_class_elements', requires PHP configuration
-            'no_spaces_around_offset',
+            // 'no_spaces_around_offset', buggy in PHP 7.1 - https://github.com/FriendsOfPHP/PHP-CS-Fixer/issues/2454
             'dir_constant',
             'modernize_types_casting',
             'random_api_migration',
@@ -76,7 +74,6 @@ final class ContribRunner implements RunnerInterface
             'simplified_null_return',
             // 'array_syntax', requires PHP configuration
             'not_operator_with_successor_space',
-            'linebreak_after_opening_tag',
             'no_useless_else',
             'no_useless_return',
             'ordered_imports',

@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Symplify\Statie\DI;
 
@@ -18,23 +16,18 @@ final class StatieCompilerExtension extends CompilerExtension
 {
     use TypeAndCollectorTrait;
 
-    public function loadConfiguration()
-    {
-        $this->loadServicesFromConfig();
-    }
-
-    public function beforeCompile()
-    {
-        $this->collectByType(ConsoleApplication::class, Command::class, 'add');
-        $this->collectByType(SourceFileStorage::class, SourceFileFilterInterface::class, 'addSourceFileFilter');
-        $this->collectByType(RouteDecorator::class, RouteInterface::class, 'addRoute');
-    }
-
-    private function loadServicesFromConfig()
+    public function loadConfiguration() : void
     {
         Compiler::loadDefinitions(
             $this->getContainerBuilder(),
             $this->loadFromFile(__DIR__ . '/../config/services.neon')['services']
         );
+    }
+
+    public function beforeCompile() : void
+    {
+        $this->collectByType(ConsoleApplication::class, Command::class, 'add');
+        $this->collectByType(SourceFileStorage::class, SourceFileFilterInterface::class, 'addSourceFileFilter');
+        $this->collectByType(RouteDecorator::class, RouteInterface::class, 'addRoute');
     }
 }

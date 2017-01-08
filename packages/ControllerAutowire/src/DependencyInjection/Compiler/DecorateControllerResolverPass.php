@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Symplify\ControllerAutowire\DependencyInjection\Compiler;
 
@@ -17,12 +15,12 @@ final class DecorateControllerResolverPass implements CompilerPassInterface
     /**
      * @var string
      */
-    const DEFAULT_CONTROLLER_RESOLVER_SERVICE_NAME = 'controller_resolver';
+    private const DEFAULT_CONTROLLER_RESOLVER_SERVICE_NAME = 'controller_resolver';
 
     /**
      * @var string
      */
-    const SYMPLIFY_CONTROLLER_RESOLVER_SERVICE_NAME = 'symplify.controller_resolver';
+    private const SYMPLIFY_CONTROLLER_RESOLVER_SERVICE_NAME = 'symplify.controller_resolver';
 
     /**
      * @var ControllerClassMapInterface
@@ -34,7 +32,7 @@ final class DecorateControllerResolverPass implements CompilerPassInterface
         $this->controllerClassMap = $controllerClassMap;
     }
 
-    public function process(ContainerBuilder $containerBuilder)
+    public function process(ContainerBuilder $containerBuilder) : void
     {
         $decoratedControllerResolverServiceName = $this->getCurrentControllerResolverServiceName($containerBuilder);
 

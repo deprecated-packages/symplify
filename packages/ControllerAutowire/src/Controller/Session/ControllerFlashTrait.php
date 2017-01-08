@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Symplify\ControllerAutowire\Controller\Session;
 
@@ -13,12 +11,12 @@ trait ControllerFlashTrait
      */
     private $session;
 
-    public function setSession(Session $session)
+    public function setSession(Session $session) : void
     {
         $this->session = $session;
     }
 
-    protected function addFlash(string $type, string $message)
+    protected function addFlash(string $type, string $message) : void
     {
         $this->session->getFlashBag()
             ->add($type, $message);

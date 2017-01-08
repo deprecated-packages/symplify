@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Symplify\DefaultAutowire\Tests\DependencyInjection\Definition\DefinitionAnalyzerSource;
 
@@ -28,7 +26,7 @@ final class MissingArgumentsTypehints
      * @param SomeService|null $someService
      * @param int $value
      */
-    public function __construct($valueWithoutType, SomeService $someService = null, $value = 1)
+    public function __construct($valueWithoutType, ?SomeService $someService, $value = 1)
     {
         $this->valueWithoutType = $valueWithoutType;
         $this->someService = $someService;

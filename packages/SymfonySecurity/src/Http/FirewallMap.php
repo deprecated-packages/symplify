@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Symplify\SymfonySecurity\Http;
 
@@ -20,7 +18,7 @@ final class FirewallMap implements FirewallMapInterface
     private $map = [];
 
     public function add(
-        RequestMatcherInterface $requestMatcher = null,
+        ?RequestMatcherInterface $requestMatcher,
         array $listeners = [],
         ExceptionListener $exceptionListener = null
     ) {

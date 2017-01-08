@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Symplify\DefaultAutowire;
 
@@ -17,20 +15,14 @@ final class SymplifyDefaultAutowireBundle extends Bundle
     /**
      * @var string
      */
-    const ALIAS = 'symplify_default_autowire';
+    public const ALIAS = 'symplify_default_autowire';
 
-    /**
-     * {@inheritdoc}
-     */
-    public function build(ContainerBuilder $containerBuilder)
+    public function build(ContainerBuilder $containerBuilder) : void
     {
         $containerBuilder->addCompilerPass(new DefaultAutowireTypesCompilerPass());
         $containerBuilder->addCompilerPass(new TurnOnAutowireCompilerPass($this->createDefinitionAnalyzer()));
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getContainerExtension() : SymplifyDefaultAutowireContainerExtension
     {
         return new SymplifyDefaultAutowireContainerExtension();

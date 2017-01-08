@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace Symplify\ServiceDefinitionDecorator\Adapter\Symfony;
 
@@ -15,9 +13,9 @@ final class SymplifyServiceDefinitionDecoratorBundle extends Bundle
     /**
      * @var string
      */
-    const ALIAS = 'decorator';
+    public const ALIAS = 'decorator';
 
-    public function build(ContainerBuilder $containerBuilder)
+    public function build(ContainerBuilder $containerBuilder) : void
     {
         $containerBuilder->addCompilerPass(new DecorateCompilerPass(), PassConfig::TYPE_BEFORE_OPTIMIZATION, 20);
     }

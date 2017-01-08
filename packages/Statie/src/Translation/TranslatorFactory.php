@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Symplify\Statie\Translation;
 
@@ -39,7 +37,7 @@ final class TranslatorFactory
         return $translator;
     }
 
-    private function addResourcesToTranslator(Translator $translator)
+    private function addResourcesToTranslator(Translator $translator) : void
     {
         foreach ($this->resourceFinder->findInDirectory($this->getTranslationDirecrory()) as $resource) {
             $translator->addResource(

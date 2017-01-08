@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace SymplifyCodingStandard\Sniffs\Commenting;
 
@@ -25,17 +23,18 @@ final class BlockPropertyCommentSniff implements PHP_CodeSniffer_Sniff
     private $tokens;
 
     /**
-     * {@inheritdoc}
+     * @return int[]
      */
-    public function register()
+    public function register() : array
     {
         return [T_DOC_COMMENT_OPEN_TAG];
     }
 
     /**
-     * {@inheritdoc}
+     * @param PHP_CodeSniffer_File $file
+     * @param int $position
      */
-    public function process(PHP_CodeSniffer_File $file, $position)
+    public function process(PHP_CodeSniffer_File $file, $position) : void
     {
         $this->file = $file;
         $this->tokens = $file->getTokens();

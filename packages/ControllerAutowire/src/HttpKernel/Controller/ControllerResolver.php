@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Symplify\ControllerAutowire\HttpKernel\Controller;
 
@@ -42,7 +40,7 @@ final class ControllerResolver implements ControllerResolverInterface
         $this->controllerNameParser = $controllerNameParser;
     }
 
-    public function setControllerClassMap(array $controllerClassMap)
+    public function setControllerClassMap(array $controllerClassMap) : void
     {
         $this->controllerClassMap = array_flip($controllerClassMap);
     }
@@ -56,7 +54,7 @@ final class ControllerResolver implements ControllerResolverInterface
             return false;
         }
 
-        list($class, $method) = $this->splitControllerClassAndMethod($controllerName);
+        [$class, $method] = $this->splitControllerClassAndMethod($controllerName);
 
         if (! isset($this->controllerClassMap[$class])) {
             return $this->controllerResolver->getController($request);
@@ -69,7 +67,9 @@ final class ControllerResolver implements ControllerResolverInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @param Request $request
+     * @param callable $controller
+     * @return array|mixed
      */
     public function getArguments(Request $request, $controller)
     {

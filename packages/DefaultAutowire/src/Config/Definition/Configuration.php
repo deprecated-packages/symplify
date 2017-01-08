@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Symplify\DefaultAutowire\Config\Definition;
 
@@ -22,10 +20,7 @@ final class Configuration implements ConfigurationInterface
         'Symfony\Component\Translation\TranslatorInterface' => 'translator',
     ];
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getConfigTreeBuilder()
+    public function getConfigTreeBuilder() : TreeBuilder
     {
         $treeBuilder = new TreeBuilder();
 

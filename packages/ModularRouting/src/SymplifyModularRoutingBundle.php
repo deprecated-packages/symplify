@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Symplify\ModularRouting;
 
@@ -12,18 +10,12 @@ use Symplify\ModularRouting\DependencyInjection\Extension\SymplifyModularRouting
 
 final class SymplifyModularRoutingBundle extends Bundle
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function getContainerExtension()
+    public function getContainerExtension() : SymplifyModularRoutingExtension
     {
         return new SymplifyModularRoutingExtension();
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function build(ContainerBuilder $containerBuilder)
+    public function build(ContainerBuilder $containerBuilder) : void
     {
         $containerBuilder->addCompilerPass(new AddRouteCollectionProvidersCompilerPass());
         $containerBuilder->addCompilerPass(new SetLoaderCompilerPass());

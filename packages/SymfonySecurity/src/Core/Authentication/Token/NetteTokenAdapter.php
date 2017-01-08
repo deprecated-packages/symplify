@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Symplify\SymfonySecurity\Core\Authentication\Token;
 
@@ -17,7 +15,7 @@ final class NetteTokenAdapter implements TokenInterface
      */
     private $user;
 
-    public function serialize()
+    public function serialize() : void
     {
         throw new NotImplementedException();
     }
@@ -25,7 +23,7 @@ final class NetteTokenAdapter implements TokenInterface
     /**
      * @param string $serialized
      */
-    public function unserialize($serialized)
+    public function unserialize($serialized) : void
     {
         throw new NotImplementedException();
     }
@@ -40,16 +38,13 @@ final class NetteTokenAdapter implements TokenInterface
         return $this->user->getRoles();
     }
 
-    /**
-     * @return IIdentity|null
-     */
-    public function getCredentials()
+    public function getCredentials() : ?IIdentity
     {
         return $this->user->getIdentity();
     }
 
     /**
-     * @return User
+     * @return User|string
      */
     public function getUser()
     {
@@ -59,7 +54,7 @@ final class NetteTokenAdapter implements TokenInterface
     /**
      * @param User $user
      */
-    public function setUser($user)
+    public function setUser($user) : void
     {
         $this->user = $user;
     }
@@ -77,7 +72,7 @@ final class NetteTokenAdapter implements TokenInterface
     /**
      * @param bool $isAuthenticated
      */
-    public function setAuthenticated($isAuthenticated)
+    public function setAuthenticated($isAuthenticated) : void
     {
         $this->user->getStorage()->setAuthenticated($isAuthenticated);
     }
@@ -99,7 +94,7 @@ final class NetteTokenAdapter implements TokenInterface
         return $identity->getData();
     }
 
-    public function setAttributes(array $attributes)
+    public function setAttributes(array $attributes) : void
     {
         throw new NotImplementedException();
     }
@@ -124,7 +119,7 @@ final class NetteTokenAdapter implements TokenInterface
      * @param string $name
      * @param mixed $value
      */
-    public function setAttribute($name, $value)
+    public function setAttribute($name, $value) : void
     {
         throw new NotImplementedException();
     }

@@ -6,7 +6,7 @@
         "bin/statie"
     ],
     "require": {
-        "php": "^7.0",
+        "php": "^7.1",
         "erusev/parsedown-extra": "^0.7",
         "react/http": "^0.4",
         "ralouphie/mimey": "^1.0",

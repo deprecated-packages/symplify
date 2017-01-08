@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Symplify\SymfonySecurity\Contract\Http;
 
@@ -14,7 +12,7 @@ use Symplify\SymfonySecurity\Contract\HttpFoundation\RequestMatcherInterface;
 interface FirewallMapInterface
 {
     public function add(
-        RequestMatcherInterface $requestMatcher = null,
+        ?RequestMatcherInterface $requestMatcher,
         array $listeners = [],
         ExceptionListener $exceptionListener = null
     );

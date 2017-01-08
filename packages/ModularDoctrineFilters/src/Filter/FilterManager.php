@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Symplify\ModularDoctrineFilters\Filter;
 
@@ -32,18 +30,12 @@ final class FilterManager implements FilterManagerInterface
         $this->entityManager = $entityManager;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function addFilter(string $name, FilterInterface $filter)
+    public function addFilter(string $name, FilterInterface $filter) : void
     {
         $this->filters[$name] = $filter;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function enableFilters()
+    public function enableFilters() : void
     {
         foreach ($this->filters as $name => $filter) {
             $this->addFilterToEnabledInFilterCollection($name, $filter);

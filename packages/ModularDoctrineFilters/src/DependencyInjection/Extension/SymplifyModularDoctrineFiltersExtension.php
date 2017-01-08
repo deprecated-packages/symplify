@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Symplify\ModularDoctrineFilters\DependencyInjection\Extension;
 
@@ -11,10 +9,7 @@ use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 
 final class SymplifyModularDoctrineFiltersExtension extends Extension
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function load(array $configs, ContainerBuilder $containerBuilder)
+    public function load(array $configs, ContainerBuilder $containerBuilder) : void
     {
         $loader = new YamlFileLoader($containerBuilder, new FileLocator(__DIR__ . '/../../Resources/config'));
         $loader->load('services.yml');

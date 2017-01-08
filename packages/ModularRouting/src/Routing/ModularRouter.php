@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Symplify\ModularRouting\Routing;
 
@@ -40,41 +38,34 @@ final class ModularRouter implements ModularRouterInterface
         $this->routeCollection = new RouteCollection();
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function addRouteCollectionProvider(RouteCollectionProviderInterface $routeCollectionProvider)
+    public function addRouteCollectionProvider(RouteCollectionProviderInterface $routeCollectionProvider) : void
     {
         $this->routeCollection->addCollection($routeCollectionProvider->getRouteCollection());
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getRouteCollection() : RouteCollection
     {
         return $this->routeCollection;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function setContext(RequestContext $requestContext)
+    public function setContext(RequestContext $requestContext) : void
     {
         $this->requestContext = $requestContext;
     }
 
     /**
-     * {@inheritdoc}
+     * @param string $name
+     * @param array $parameters
+     * @param int $referenceType
      */
-    public function generate($name, $parameters = [], $referenceType = self::ABSOLUTE_PATH)
+    public function generate($name, $parameters = [], $referenceType = self::ABSOLUTE_PATH) : string
     {
         return $this->getUrlGenerator()
             ->generate($name, $parameters, $referenceType);
     }
 
     /**
-     * {@inheritdoc}
+     * @param string $pathinfo
      */
     public function match($pathinfo) : array
     {
@@ -82,12 +73,10 @@ final class ModularRouter implements ModularRouterInterface
             ->match($pathinfo);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getContext()
+    public function getContext() : string
     {
         // this method is never used
+        return '...';
     }
 
     private function getUrlGenerator() : UrlGeneratorInterface

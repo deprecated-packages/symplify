@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Symplify\ActionAutowire;
 
@@ -13,18 +11,12 @@ use Symplify\ActionAutowire\DependencyInjection\Extension\ContainerExtension;
 
 final class SymplifyActionAutowireBundle extends Bundle
 {
-    /**
-     * {@inheritdoc}
-     */
     public function getContainerExtension() : ContainerExtension
     {
         return new ContainerExtension();
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function build(ContainerBuilder $containerBuilder)
+    public function build(ContainerBuilder $containerBuilder) : void
     {
         $serviceByTypeMap = new ServicesByTypeMap();
         $containerBuilder->addCompilerPass(new ServicesByTypeMapCompilerPass($serviceByTypeMap));

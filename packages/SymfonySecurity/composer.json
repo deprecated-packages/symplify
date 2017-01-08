@@ -3,7 +3,7 @@
     "description": "Voters and Firewall features from Symfony\\Security for standalone use.",
     "license": "MIT",
     "require": {
-        "php": "^7.0",
+        "php": "^7.1",
         "nette/di": "^2.4",
         "nette/http": "^2.4",
         "nette/security": "^2.4",

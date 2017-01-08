@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace SymplifyCodingStandard\Sniffs\Naming;
 
@@ -24,17 +22,18 @@ final class InterfaceNameSniff implements PHP_CodeSniffer_Sniff
     private $position;
 
     /**
-     * {@inheritdoc}
+     * @return int[]
      */
-    public function register()
+    public function register() : array
     {
         return [T_INTERFACE];
     }
 
     /**
-     * {@inheritdoc}
+     * @param PHP_CodeSniffer_File $file
+     * @param int $position
      */
-    public function process(PHP_CodeSniffer_File $file, $position)
+    public function process(PHP_CodeSniffer_File $file, $position) : void
     {
         $this->file = $file;
         $this->position = $position;
@@ -72,7 +71,7 @@ final class InterfaceNameSniff implements PHP_CodeSniffer_Sniff
         return $this->file->findNext(T_STRING, $this->position);
     }
 
-    private function fix()
+    private function fix() : void
     {
         $interfaceNamePosition = $this->getInterfaceNamePosition();
 

@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Symplify\ModularRouting\Tests\Routing\RouteCollectionProviderSource;
 
@@ -10,9 +8,6 @@ use Symplify\ModularRouting\Contract\Routing\RouteCollectionProviderInterface;
 
 final class PhpRouteCollectionProvider implements RouteCollectionProviderInterface
 {
-    /**
-     * {@inheritdoc}
-     */
     public function getRouteCollection() : RouteCollection
     {
         $routeCollection = new RouteCollection();

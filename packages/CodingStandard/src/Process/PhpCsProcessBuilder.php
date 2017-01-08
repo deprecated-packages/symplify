@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Symplify\CodingStandard\Process;
 
@@ -25,20 +23,17 @@ final class PhpCsProcessBuilder implements ProcessBuilderInterface
         $this->builder->add('-s');
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getProcess() : Process
     {
         return $this->builder->getProcess();
     }
 
-    public function setStandard(string $standard)
+    public function setStandard(string $standard) : void
     {
         $this->builder->add('--standard=' . $standard);
     }
 
-    public function setExtensions(string $extensions)
+    public function setExtensions(string $extensions) : void
     {
         $this->builder->add('--extensions=' . $extensions);
     }

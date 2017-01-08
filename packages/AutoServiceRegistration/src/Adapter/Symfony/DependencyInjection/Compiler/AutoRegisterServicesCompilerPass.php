@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Symplify\AutoServiceRegistration\Adapter\Symfony\DependencyInjection\Compiler;
 
@@ -28,7 +26,7 @@ final class AutoRegisterServicesCompilerPass implements CompilerPassInterface
         $this->serviceFinder = $serviceFinder;
     }
 
-    public function process(ContainerBuilder $containerBuilder)
+    public function process(ContainerBuilder $containerBuilder) : void
     {
         $this->containerBuilder = $containerBuilder;
 
@@ -45,7 +43,7 @@ final class AutoRegisterServicesCompilerPass implements CompilerPassInterface
     /**
      * @param string[] $serviceClasses
      */
-    private function registerServicesToContainerBuilder(array $serviceClasses)
+    private function registerServicesToContainerBuilder(array $serviceClasses) : void
     {
         foreach ($serviceClasses as $serviceClass) {
             $id = ServiceNaming::createServiceIdFromClass($serviceClass);

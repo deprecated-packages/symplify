@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Symplify\CodingStandard\Console;
 
@@ -28,6 +26,7 @@ final class Application extends BaseApplication
 
     private function createAndFillRunnerCollection() : RunnerCollectionInterface
     {
+        /** @todo: use Nette DI an service here */
         $runnerCollection = new RunnerCollection();
         $runnerCollection->addRunner(new SymplifyRunner());
         $runnerCollection->addRunner(new Psr2Runner());

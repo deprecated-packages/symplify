@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Symplify\SymfonyEventDispatcher\Adapter\Nette\Event;
 
@@ -18,7 +16,7 @@ final class PresenterCreatedEvent extends Event
     /**
      * @var string
      */
-    const NAME = Application::class . '::$onPresenter';
+    public const NAME = Application::class . '::$onPresenter';
 
     /**
      * @var Application

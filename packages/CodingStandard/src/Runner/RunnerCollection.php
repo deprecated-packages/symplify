@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Symplify\CodingStandard\Runner;
 
@@ -14,7 +12,7 @@ final class RunnerCollection implements RunnerCollectionInterface
      */
     private $runners = [];
 
-    public function addRunner(RunnerInterface $runner)
+    public function addRunner(RunnerInterface $runner) : void
     {
         $this->runners[] = $runner;
     }

@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Symplify\ControllerAutowire\HttpKernel\Controller;
 
@@ -21,7 +19,7 @@ final class ControllerFinder implements ControllerFinderInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @return string[]
      */
     public function findControllersInDirs(array $dirs) : array
     {

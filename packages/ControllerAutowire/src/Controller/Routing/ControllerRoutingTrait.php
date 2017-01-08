@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Symplify\ControllerAutowire\Controller\Routing;
 
@@ -15,7 +13,7 @@ trait ControllerRoutingTrait
      */
     private $router;
 
-    public function setRouter(RouterInterface $router)
+    public function setRouter(RouterInterface $router) : void
     {
         $this->router = $router;
     }

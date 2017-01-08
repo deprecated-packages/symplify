@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Symplify\Statie\Utils;
 
@@ -8,7 +6,7 @@ use Symplify\Statie\Exception\Utils\MissingDirectoryException;
 
 final class FilesystemChecker
 {
-    public static function ensureDirectoryExists(string $directory)
+    public static function ensureDirectoryExists(string $directory) : void
     {
         if (! is_dir($directory)) {
             throw new MissingDirectoryException(

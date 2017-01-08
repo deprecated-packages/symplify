@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Symplify\Statie\DI\Helper;
 
@@ -12,7 +10,7 @@ use Nette\DI\ServiceDefinition;
  */
 trait TypeAndCollectorTrait
 {
-    public function collectByType(string $collectorType, string $collectedType, string $setterMethod)
+    public function collectByType(string $collectorType, string $collectedType, string $setterMethod) : void
     {
         $collectorDefinition = $this->getDefinitionByType($collectorType);
 

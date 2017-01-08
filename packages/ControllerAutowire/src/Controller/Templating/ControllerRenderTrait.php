@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Symplify\ControllerAutowire\Controller\Templating;
 
@@ -21,12 +19,12 @@ trait ControllerRenderTrait
      */
     private $twig;
 
-    public function setTemplating(EngineInterface $templating)
+    public function setTemplating(EngineInterface $templating) : void
     {
         $this->templating = $templating;
     }
 
-    public function setTwig(Twig_Environment $twig)
+    public function setTwig(Twig_Environment $twig) : void
     {
         $this->twig = $twig;
     }

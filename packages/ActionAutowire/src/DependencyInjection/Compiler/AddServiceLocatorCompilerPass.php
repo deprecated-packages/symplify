@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Symplify\ActionAutowire\DependencyInjection\Compiler;
 
@@ -20,10 +18,7 @@ final class AddServiceLocatorCompilerPass implements CompilerPassInterface
         $this->servicesByTypeMap = $servicesByTypeMap;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function process(ContainerBuilder $containerBuilder)
+    public function process(ContainerBuilder $containerBuilder) : void
     {
         $containerBuilder->getDefinition('symplify.action_autowire.service_locator')
             ->addMethodCall('setServiceByTypeMap', [$this->servicesByTypeMap->getMap()]);

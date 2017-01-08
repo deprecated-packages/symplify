@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Symplify\Statie\HttpServer;
 
@@ -56,7 +54,7 @@ final class HttpServer
         $this->responseWriter = $responseWriter;
     }
 
-    public function init(int $port = 8000)
+    public function init(int $port = 8000) : void
     {
         $this->setupDependencies();
 
@@ -78,12 +76,12 @@ final class HttpServer
         $this->reactSocketServer->listen($this->port, '0.0.0.0');
     }
 
-    public function addPeriodicTimer(int $interval, callable $callback)
+    public function addPeriodicTimer(int $interval, callable $callback) : void
     {
         $this->streamSelectLoop->addPeriodicTimer($interval, $callback);
     }
 
-    public function run()
+    public function run() : void
     {
         $this->output->writeln(sprintf(
             'Starting Statie at <info>http://localhost:%s</info>',
@@ -94,7 +92,7 @@ final class HttpServer
         $this->streamSelectLoop->run();
     }
 
-    private function setupDependencies()
+    private function setupDependencies() : void
     {
         $this->streamSelectLoop = new StreamSelectLoop();
         $this->reactSocketServer = new ReactSocketServer($this->streamSelectLoop);

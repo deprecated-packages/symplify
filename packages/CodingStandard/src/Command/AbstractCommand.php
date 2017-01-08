@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Symplify\CodingStandard\Command;
 
@@ -19,12 +17,12 @@ abstract class AbstractCommand extends Command
     /**
      * @var int
      */
-    const EXIT_CODE_SUCCESS = 0;
+    protected const EXIT_CODE_SUCCESS = 0;
 
     /**
      * @var int
      */
-    const EXIT_CODE_ERROR = 1;
+    protected const EXIT_CODE_ERROR = 1;
 
     /**
      * @var int
@@ -48,12 +46,12 @@ abstract class AbstractCommand extends Command
         parent::__construct();
     }
 
-    protected function configure()
+    protected function configure() : void
     {
         $this->addArgument('path', InputArgument::REQUIRED | InputArgument::IS_ARRAY, 'The path(s)', null);
     }
 
-    protected function initialize(InputInterface $input, OutputInterface $output)
+    protected function initialize(InputInterface $input, OutputInterface $output) : void
     {
         $this->io = new SymfonyStyle($input, $output);
     }

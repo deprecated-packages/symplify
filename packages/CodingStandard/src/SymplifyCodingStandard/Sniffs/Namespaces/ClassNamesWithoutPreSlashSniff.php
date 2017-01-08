@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace SymplifyCodingStandard\Sniffs\Namespaces;
 
@@ -21,17 +19,18 @@ final class ClassNamesWithoutPreSlashSniff implements PHP_CodeSniffer_Sniff
     ];
 
     /**
-     * {@inheritdoc}
+     * @return int[]
      */
-    public function register()
+    public function register() : array
     {
         return [T_NEW, T_INSTANCEOF];
     }
 
     /**
-     * {@inheritdoc}
+     * @param PHP_CodeSniffer_File $file
+     * @param int $position
      */
-    public function process(PHP_CodeSniffer_File $file, $position)
+    public function process(PHP_CodeSniffer_File $file, $position) : void
     {
         $tokens = $file->getTokens();
         $classNameStart = $tokens[$position + 2]['content'];

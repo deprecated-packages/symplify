@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Symplify\ActionAutowire\DependencyInjection\Extension;
 
@@ -11,18 +9,12 @@ use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 
 final class ContainerExtension extends Extension
 {
-    /**
-     * {@inheritdoc}
-     */
     public function getAlias() : string
     {
         return 'symplify_action_autowire';
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function load(array $config, ContainerBuilder $containerBuilder)
+    public function load(array $config, ContainerBuilder $containerBuilder) : void
     {
         $loader = new YamlFileLoader($containerBuilder, new FileLocator(__DIR__ . '/../../Resources/config'));
         $loader->load('services.yml');

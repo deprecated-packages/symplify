@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Symplify\DefaultAutowire\DependencyInjection\Compiler;
 
@@ -10,10 +8,7 @@ use Symplify\DefaultAutowire\Config\Definition\ConfigurationResolver;
 
 final class DefaultAutowireTypesCompilerPass implements CompilerPassInterface
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function process(ContainerBuilder $containerBuilder)
+    public function process(ContainerBuilder $containerBuilder) : void
     {
         $autowireTypes = $this->getAutowireTypes($containerBuilder);
         foreach ($autowireTypes as $type => $serviceName) {

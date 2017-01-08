@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Symplify\ControllerAutowire\Controller\Doctrine;
 
@@ -13,7 +11,7 @@ trait ControllerDoctrineTrait
      */
     private $doctrine;
 
-    public function setDoctrine(ManagerRegistry $doctrine)
+    public function setDoctrine(ManagerRegistry $doctrine) : void
     {
         $this->doctrine = $doctrine;
     }

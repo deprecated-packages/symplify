@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Symplify\AutoServiceRegistration\Adapter\Symfony\Config\Definition;
 
@@ -13,12 +11,12 @@ final class Configuration implements ConfigurationInterface
     /**
      * @var string
      */
-    const DIRECTORIES_TO_SCAN = 'directories_to_scan';
+    public const DIRECTORIES_TO_SCAN = 'directories_to_scan';
 
     /**
      * @var string
      */
-    const CLASS_SUFFIXES_TO_SEEK = 'class_suffixes_to_seek';
+    public const CLASS_SUFFIXES_TO_SEEK = 'class_suffixes_to_seek';
 
     /**
      * @var string[]

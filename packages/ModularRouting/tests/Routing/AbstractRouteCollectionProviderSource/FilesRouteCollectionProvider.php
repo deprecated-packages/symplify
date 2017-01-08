@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Symplify\ModularRouting\Tests\Routing\AbstractRouteCollectionProviderSource;
 
@@ -9,9 +7,6 @@ use Symplify\ModularRouting\Routing\AbstractRouteCollectionProvider;
 
 final class FilesRouteCollectionProvider extends AbstractRouteCollectionProvider
 {
-    /**
-     * {@inheritdoc}
-     */
     public function getRouteCollection() : RouteCollection
     {
         return $this->loadRouteCollectionFromFiles([

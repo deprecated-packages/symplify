@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Symplify\SymfonySecurity\EventSubscriber;
 
@@ -38,10 +36,10 @@ final class FirewallSubscriber implements EventSubscriberInterface
         ];
     }
 
-    public function onPresenter(PresenterCreatedEvent $applicationPresenterEvent)
+    public function onPresenter(PresenterCreatedEvent $applicationPresenterEvent) : void
     {
         /** @var FirewallHandlerInterface[] $listeners */
-        list($listeners) = $this->firewallMap->getListeners($this->request);
+        [$listeners] = $this->firewallMap->getListeners($this->request);
         foreach ($listeners as $listener) {
             $listener->handle($applicationPresenterEvent->getApplication(), $this->request);
         }

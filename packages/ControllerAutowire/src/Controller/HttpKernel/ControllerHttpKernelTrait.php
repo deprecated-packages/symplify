@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Symplify\ControllerAutowire\Controller\HttpKernel;
 
@@ -20,12 +18,12 @@ trait ControllerHttpKernelTrait
      */
     private $httpKernel;
 
-    public function setRequestStack(RequestStack $requestStack)
+    public function setRequestStack(RequestStack $requestStack) : void
     {
         $this->requestStack = $requestStack;
     }
 
-    public function setHttpKernel(HttpKernelInterface $httpKernel)
+    public function setHttpKernel(HttpKernelInterface $httpKernel) : void
     {
         $this->httpKernel = $httpKernel;
     }

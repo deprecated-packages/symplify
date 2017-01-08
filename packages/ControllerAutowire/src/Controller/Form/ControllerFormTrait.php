@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Symplify\ControllerAutowire\Controller\Form;
 
@@ -16,7 +14,7 @@ trait ControllerFormTrait
      */
     private $formFactory;
 
-    public function setFormFactory(FormFactoryInterface $formFactory)
+    public function setFormFactory(FormFactoryInterface $formFactory) : void
     {
         $this->formFactory = $formFactory;
     }

@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Symplify\CodingStandard\Runner;
 
@@ -57,7 +55,7 @@ final class SymplifyRunner implements RunnerInterface
         return $process->getOutput();
     }
 
-    private function detectErrorsInOutput(string $output)
+    private function detectErrorsInOutput(string $output) : void
     {
         if (strpos($output, 'ERROR') !== false) {
             $this->hasErrors = true;

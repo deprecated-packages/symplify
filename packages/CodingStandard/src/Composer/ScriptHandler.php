@@ -1,12 +1,10 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Symplify\CodingStandard\Composer;
 
 final class ScriptHandler
 {
-    public static function addPhpCsToPreCommitHook()
+    public static function addPhpCsToPreCommitHook() : void
     {
         $originFile = getcwd() . '/.git/hooks/pre-commit';
         $templateContent = file_get_contents(__DIR__ . '/templates/git/hooks/pre-commit-phpcs');

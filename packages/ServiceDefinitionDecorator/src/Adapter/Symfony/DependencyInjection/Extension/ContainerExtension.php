@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace Symplify\ServiceDefinitionDecorator\Adapter\Symfony\DependencyInjection\Extension;
 
@@ -15,7 +13,7 @@ final class ContainerExtension extends Extension
         return SymplifyServiceDefinitionDecoratorBundle::ALIAS;
     }
 
-    public function load(array $configs, ContainerBuilder $containerBuilder)
+    public function load(array $configs, ContainerBuilder $containerBuilder) : void
     {
     }
 }

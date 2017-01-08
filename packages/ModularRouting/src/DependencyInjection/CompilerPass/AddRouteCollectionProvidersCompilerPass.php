@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Symplify\ModularRouting\DependencyInjection\CompilerPass;
 
@@ -16,10 +14,7 @@ final class AddRouteCollectionProvidersCompilerPass implements CompilerPassInter
      */
     private $containerBuilder;
 
-    /**
-     * {@inheritdoc}
-     */
-    public function process(ContainerBuilder $containerBuilder)
+    public function process(ContainerBuilder $containerBuilder) : void
     {
         $this->containerBuilder = $containerBuilder;
 

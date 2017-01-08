@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Symplify\ActionAutowire\DependencyInjection;
 
@@ -23,7 +21,7 @@ final class ServiceLocator
         $this->container = $container;
     }
 
-    public function setServiceByTypeMap(array $serviceByTypeMap)
+    public function setServiceByTypeMap(array $serviceByTypeMap) : void
     {
         $this->serviceByTypeMap = $serviceByTypeMap;
     }

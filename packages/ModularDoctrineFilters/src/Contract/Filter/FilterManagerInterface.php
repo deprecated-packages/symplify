@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Symplify\ModularDoctrineFilters\Contract\Filter;
 
@@ -11,5 +9,5 @@ interface FilterManagerInterface
     /**
      * Enables filters for EntityManager.
      */
-    public function enableFilters();
+    public function enableFilters() : void;
 }

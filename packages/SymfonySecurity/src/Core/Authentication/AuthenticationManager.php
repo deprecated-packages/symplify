@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Symplify\SymfonySecurity\Core\Authentication;
 
@@ -13,7 +11,7 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
  */
 final class AuthenticationManager implements AuthenticationManagerInterface
 {
-    public function authenticate(TokenInterface $token)
+    public function authenticate(TokenInterface $token) : TokenInterface
     {
         return $token;
     }

@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Symplify\DefaultAutowire\DependencyInjection\Extension;
 
@@ -10,18 +8,12 @@ use Symplify\DefaultAutowire\SymplifyDefaultAutowireBundle;
 
 final class SymplifyDefaultAutowireContainerExtension extends Extension
 {
-    /**
-     * {@inheritdoc}
-     */
     public function getAlias() : string
     {
         return SymplifyDefaultAutowireBundle::ALIAS;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function load(array $configs, ContainerBuilder $containerBuilder)
+    public function load(array $configs, ContainerBuilder $containerBuilder) : void
     {
     }
 }

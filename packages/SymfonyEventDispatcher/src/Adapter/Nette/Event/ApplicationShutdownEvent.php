@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Symplify\SymfonyEventDispatcher\Adapter\Nette\Event;
 
@@ -18,7 +16,7 @@ final class ApplicationShutdownEvent extends Event
     /**
      * @var string
      */
-    const NAME = Application::class . '::$onShutdown';
+    public const NAME = Application::class . '::$onShutdown';
 
     /**
      * @var Application
@@ -41,10 +39,7 @@ final class ApplicationShutdownEvent extends Event
         return $this->application;
     }
 
-    /**
-     * @return Throwable|null
-     */
-    public function getException()
+    public function getException() : ?Throwable
     {
         return $this->exception;
     }

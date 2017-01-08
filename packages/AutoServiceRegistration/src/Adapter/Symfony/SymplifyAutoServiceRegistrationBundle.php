@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Symplify\AutoServiceRegistration\Adapter\Symfony;
 
@@ -15,14 +13,14 @@ final class SymplifyAutoServiceRegistrationBundle extends Bundle
     /**
      * @var string
      */
-    const ALIAS = 'symplify_auto_service_registration';
+    public const ALIAS = 'symplify_auto_service_registration';
 
-    public function build(ContainerBuilder $containerBuilder)
+    public function build(ContainerBuilder $containerBuilder) : void
     {
         $containerBuilder->addCompilerPass(new AutoRegisterServicesCompilerPass(new ServiceClassFinder()));
     }
 
-    public function createContainerExtension()
+    public function createContainerExtension() : ContainerExtension
     {
         return new ContainerExtension();
     }

@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Symplify\CodingStandard\Command;
 
@@ -10,7 +8,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 final class FixCommand extends AbstractCommand
 {
-    protected function configure()
+    protected function configure() : void
     {
         parent::configure();
 
@@ -18,23 +16,17 @@ final class FixCommand extends AbstractCommand
         $this->setDescription('Fix coding standard in particular directory');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output) : int
     {
-        try {
-            foreach ($input->getArgument('path') as $path) {
-                $this->executeFixersForDirectory($path);
-            }
-            $this->io->success('Your code was successfully fixed!');
-
-            return self::EXIT_CODE_SUCCESS;
-        } catch (Exception $exception) {
-            $this->io->error($exception->getMessage());
-
-            return self::EXIT_CODE_SUCCESS;
+        foreach ($input->getArgument('path') as $path) {
+            $this->executeFixersForDirectory($path);
         }
+        $this->io->success('Your code was successfully fixed!');
+
+        return self::EXIT_CODE_SUCCESS;
     }
 
-    private function executeFixersForDirectory(string $directory)
+    private function executeFixersForDirectory(string $directory) : void
     {
         foreach ($this->runnerCollection->getRunners() as $runner) {
             $headline = 'Running ' . $this->getRunnerName($runner) . ' in ' . $directory;

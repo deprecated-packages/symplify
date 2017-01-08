@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Symplify\ControllerAutowire\Controller\Serializer;
 
@@ -14,7 +12,7 @@ trait ControllerSerializerTrait
      */
     private $serializer;
 
-    public function setSerializer(SerializerInterface $serializer)
+    public function setSerializer(SerializerInterface $serializer) : void
     {
         $this->serializer = $serializer;
     }

@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Symplify\Statie\Renderable;
 
@@ -72,7 +70,7 @@ final class RenderableFilesProcessor
     /**
      * @param SplFileInfo[] $fileInfos
      */
-    public function processFiles(array $fileInfos)
+    public function processFiles(array $fileInfos) : void
     {
         if (! count($fileInfos)) {
             return;
@@ -103,7 +101,7 @@ final class RenderableFilesProcessor
     /**
      * @param File[] $files
      */
-    private function setPostsToConfiguration(array $files)
+    private function setPostsToConfiguration(array $files) : void
     {
         if (reset($files) instanceof PostFile) {
             $this->configuration->addGlobalVarialbe('posts', $files);
@@ -113,7 +111,7 @@ final class RenderableFilesProcessor
     /**
      * @param File[] $files
      */
-    private function setRoutesToFiles(array $files)
+    private function setRoutesToFiles(array $files) : void
     {
         foreach ($files as $file) {
             $this->routeDecorator->decorateFile($file);
@@ -123,7 +121,7 @@ final class RenderableFilesProcessor
     /**
      * @param File[] $files
      */
-    private function setFileConfigurationToFile(array $files)
+    private function setFileConfigurationToFile(array $files) : void
     {
         foreach ($files as $file) {
             $this->configurationDecorator->decorateFile($file);
@@ -133,7 +131,7 @@ final class RenderableFilesProcessor
     /**
      * @param File[] $files
      */
-    private function formatFileContentFromMarkdownToHtml(array $files)
+    private function formatFileContentFromMarkdownToHtml(array $files) : void
     {
         foreach ($files as $file) {
             $this->markdownDecorator->decorateFile($file);
@@ -143,7 +141,7 @@ final class RenderableFilesProcessor
     /**
      * @param File[] $files
      */
-    private function formatFileContentFromLatteToHtml(array $files)
+    private function formatFileContentFromLatteToHtml(array $files) : void
     {
         foreach ($files as $file) {
             $this->latteDecorator->decorateFile($file);

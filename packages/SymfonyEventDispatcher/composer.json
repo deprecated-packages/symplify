@@ -3,7 +3,7 @@
     "description": "Symfony\\EventDispatcher integration to Nette.",
     "license": "MIT",
     "require": {
-        "php": "^7.0",
+        "php": "^7.1",
         "nette/di": "^2.4",
         "nette/http": "^2.4",
         "symfony/event-dispatcher": "^3.2"

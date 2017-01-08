@@ -1,21 +1,11 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Symplify\DefaultAutowire\Tests\Source;
 
-class SomeServiceWithOptionalConstructorArgumentsFactory
+final class SomeServiceWithOptionalConstructorArgumentsFactory
 {
-    /**
-     * @param SomeService|null $someService
-     * @param array $arg
-     *
-     * @return SomeServiceWithOptionalConstructorArguments
-     */
-    public function create(
-        SomeService $someService = null,
-        array $arg = []
-    ) : SomeServiceWithOptionalConstructorArguments {
+    public function create(?SomeService $someService, array $arg = []) : SomeServiceWithOptionalConstructorArguments
+    {
         return new SomeServiceWithOptionalConstructorArguments($someService, $arg);
     }
 }

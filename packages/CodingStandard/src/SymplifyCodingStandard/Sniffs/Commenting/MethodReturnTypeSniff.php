@@ -1,11 +1,10 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace SymplifyCodingStandard\Sniffs\Commenting;
 
 use PHP_CodeSniffer_File;
 use PHP_CodeSniffer_Sniff;
+use Symplify\CodingStandard\Helper\FunctionHelper;
 
 /**
  * Rules:
@@ -29,20 +28,27 @@ final class MethodReturnTypeSniff implements PHP_CodeSniffer_Sniff
     private $position;
 
     /**
-     * {@inheritdoc}
+     * @var array
      */
-    public function register()
+    private $tokens;
+
+    /**
+     * @return int[]
+     */
+    public function register() : array
     {
         return [T_FUNCTION];
     }
 
     /**
-     * {@inheritdoc}
+     * @param PHP_CodeSniffer_File $file
+     * @param int $position
      */
-    public function process(PHP_CodeSniffer_File $file, $position)
+    public function process(PHP_CodeSniffer_File $file, $position) : void
     {
         $this->file = $file;
         $this->position = $position;
+        $this->tokens = $file->getTokens();
 
         if ($this->shouldBeSkipped()) {
             return;
@@ -57,11 +63,12 @@ final class MethodReturnTypeSniff implements PHP_CodeSniffer_Sniff
             return true;
         }
 
-        if ($this->hasPhp7ReturnType()) {
+        if ($this->hasMethodCommentReturnOrInheritDoc()) {
             return true;
         }
 
-        if ($this->hasMethodCommentReturnOrInheritDoc()) {
+        $returnTypeHint = FunctionHelper::findReturnTypeHint($this->file, $this->position);
+        if ($returnTypeHint) {
             return true;
         }
 
@@ -112,36 +119,15 @@ final class MethodReturnTypeSniff implements PHP_CodeSniffer_Sniff
 
     private function hasMethodComment() : bool
     {
-        $tokens = $this->file->getTokens();
-        $currentToken = $tokens[$this->position];
+        $currentToken = $this->tokens[$this->position];
         $docBlockClosePosition = $this->file->findPrevious(T_DOC_COMMENT_CLOSE_TAG, $this->position);
 
         if ($docBlockClosePosition === false) {
             return false;
         }
 
-        $docBlockCloseToken = $tokens[$docBlockClosePosition];
-        if ($docBlockCloseToken['line'] === ($currentToken['line'] - 1)) {
-            return true;
-        }
-
-        return false;
-    }
-
-    private function hasPhp7ReturnType() : bool
-    {
-        $tokens = $this->file->getTokens();
-        $colonPosition = $this->file->findNext(T_COLON, $this->position, null, false);
-
-        if ($tokens[$colonPosition]['code'] !== T_COLON) {
-            return false;
-        }
-
-        if ($tokens[$this->position]['line'] === $tokens[$colonPosition]['line']) {
-            return true;
-        }
-
-        return false;
+        $docBlockCloseToken = $this->tokens[$docBlockClosePosition];
+        return $docBlockCloseToken['line'] === ($currentToken['line'] - 1);
     }
 
     private function isRawGetterName(string $methodName) : bool

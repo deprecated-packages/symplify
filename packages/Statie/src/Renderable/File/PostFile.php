@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Symplify\Statie\Renderable\File;
 
@@ -12,7 +10,11 @@ use Symplify\Statie\Utils\PathAnalyzer;
 
 final class PostFile extends AbstractFile implements ArrayAccess
 {
-    const READ_WORDS_PER_MINUTE = 260;
+    /**
+     * @var int
+     */
+    private const READ_WORDS_PER_MINUTE = 260;
+
     /**
      * @var DateTimeInterface
      */
@@ -105,7 +107,7 @@ final class PostFile extends AbstractFile implements ArrayAccess
      * @param mixed $offset
      * @param mixed $value
      */
-    public function offsetSet($offset, $value)
+    public function offsetSet($offset, $value) : void
     {
         throw new Exception(__METHOD__ . ' is not supported');
     }
@@ -113,12 +115,12 @@ final class PostFile extends AbstractFile implements ArrayAccess
     /**
      * @param mixed $offset
      */
-    public function offsetUnset($offset)
+    public function offsetUnset($offset) : void
     {
         throw new Exception(__METHOD__ . ' is not supported');
     }
 
-    private function ensurePathStartsWithDate(SplFileInfo $fileInfo)
+    private function ensurePathStartsWithDate(SplFileInfo $fileInfo) : void
     {
         if (! PathAnalyzer::startsWithDate($fileInfo)) {
             throw new Exception(

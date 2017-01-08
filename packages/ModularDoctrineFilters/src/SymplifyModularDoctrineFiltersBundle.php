@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Symplify\ModularDoctrineFilters;
 
@@ -11,18 +9,12 @@ use Symplify\ModularDoctrineFilters\DependencyInjection\Extension\SymplifyModula
 
 final class SymplifyModularDoctrineFiltersBundle extends Bundle
 {
-    /**
-     * {@inheritdoc}
-     */
     public function getContainerExtension() : SymplifyModularDoctrineFiltersExtension
     {
         return new SymplifyModularDoctrineFiltersExtension();
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function build(ContainerBuilder $containerBuilder)
+    public function build(ContainerBuilder $containerBuilder) : void
     {
         $containerBuilder->addCompilerPass(new LoadFiltersCompilerPass());
     }

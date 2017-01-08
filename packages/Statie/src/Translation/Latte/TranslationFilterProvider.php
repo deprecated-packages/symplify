@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Symplify\Statie\Translation\Latte;
 
@@ -40,7 +38,7 @@ final class TranslationFilterProvider implements LatteFiltersProviderInterface
 
     private function translate(string $message, string $locale) : string
     {
-        list($domain, $id) = $this->messageAnalyzer->extractDomainFromMessage($message);
+        [$domain, $id] = $this->messageAnalyzer->extractDomainFromMessage($message);
 
         return $this->translator->trans($id, [], $domain, $locale ?: $this->translator->getLocale());
     }

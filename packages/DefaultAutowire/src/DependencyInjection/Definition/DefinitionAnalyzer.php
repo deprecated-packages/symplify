@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Symplify\DefaultAutowire\DependencyInjection\Definition;
 
@@ -53,9 +51,7 @@ final class DefinitionAnalyzer
         // functions specified as string are not supported
         if (is_string($factory)) {
             return false;
-        }
-
-        list($class, $method) = $factory;
+        }[$class, $method] = $factory;
         if ($class instanceof Reference) {
             $factoryClassDefinition = $containerBuilder->findDefinition($class);
             if ($factoryClassDefinition instanceof DefinitionDecorator) {
@@ -141,7 +137,12 @@ final class DefinitionAnalyzer
                     continue;
                 }
 
-                if (null !== $parameterReflection->getType()) {
+                if (! $parameterReflection->getType()) {
+                    ++$i;
+                    continue;
+                }
+
+                if (! $parameterReflection->getType()->allowsNull()) {
                     return true;
                 }
             }

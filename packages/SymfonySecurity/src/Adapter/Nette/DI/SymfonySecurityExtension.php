@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Symplify\SymfonySecurity\Adapter\Nette\DI;
 
@@ -14,7 +12,7 @@ use Symplify\SymfonySecurity\Core\Authorization\AccessDecisionManagerFactory;
 
 final class SymfonySecurityExtension extends CompilerExtension
 {
-    public function loadConfiguration()
+    public function loadConfiguration() : void
     {
         Compiler::loadDefinitions(
             $this->getContainerBuilder(),
@@ -22,7 +20,7 @@ final class SymfonySecurityExtension extends CompilerExtension
         );
     }
 
-    public function beforeCompile()
+    public function beforeCompile() : void
     {
         $containerBuilder = $this->getContainerBuilder();
 
@@ -33,18 +31,18 @@ final class SymfonySecurityExtension extends CompilerExtension
         }
     }
 
-    private function loadAccessDecisionManagerFactoryWithVoters()
+    private function loadAccessDecisionManagerFactoryWithVoters() : void
     {
         $this->loadMediator(AccessDecisionManagerFactory::class, VoterInterface::class, 'addVoter');
     }
 
-    private function loadFirewallMap()
+    private function loadFirewallMap() : void
     {
         $this->loadMediator(FirewallMapFactoryInterface::class, FirewallHandlerInterface::class, 'addFirewallHandler');
         $this->loadMediator(FirewallMapFactoryInterface::class, RequestMatcherInterface::class, 'addRequestMatcher');
     }
 
-    private function loadMediator(string $mediatorClass, string $colleagueClass, string $adderMethod)
+    private function loadMediator(string $mediatorClass, string $colleagueClass, string $adderMethod) : void
     {
         $containerBuilder = $this->getContainerBuilder();
 

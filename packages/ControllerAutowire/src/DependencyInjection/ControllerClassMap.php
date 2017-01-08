@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Symplify\ControllerAutowire\DependencyInjection;
 
@@ -13,7 +11,7 @@ final class ControllerClassMap implements ControllerClassMapInterface
      */
     private $controllers = [];
 
-    public function addController(string $id, string $class)
+    public function addController(string $id, string $class) : void
     {
         $this->controllers[$id] = $class;
     }

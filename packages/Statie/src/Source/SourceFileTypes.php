@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Symplify\Statie\Source;
 
@@ -9,25 +7,25 @@ final class SourceFileTypes
     /**
      * @var string
      */
-    const CONFIGURATION = 'configuration';
+    public const CONFIGURATION = 'configuration';
 
     /**
      * @var string
      */
-    const GLOBAL_LATTE = 'global_latte';
+    public const GLOBAL_LATTE = 'global_latte';
 
     /**
      * @var string
      */
-    const POSTS = 'posts';
+    public const POSTS = 'posts';
 
     /**
      * @var string
      */
-    const STATIC = 'static';
+    public const STATIC = 'static';
 
     /**
      * @var string
      */
-    const RENDERABLE = 'renderable';
+    public const RENDERABLE = 'renderable';
 }

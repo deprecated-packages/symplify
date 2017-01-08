@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Symplify\ActionAutowire\DependencyInjection\Compiler;
 
@@ -21,10 +19,7 @@ final class ServicesByTypeMapCompilerPass implements CompilerPassInterface
         $this->serviceMap = $servicesByTypeMap;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function process(ContainerBuilder $containerBuilder)
+    public function process(ContainerBuilder $containerBuilder) : void
     {
         $parameterBag = $containerBuilder->getParameterBag();
         foreach ($containerBuilder->getDefinitions() as $serviceId => $definition) {
