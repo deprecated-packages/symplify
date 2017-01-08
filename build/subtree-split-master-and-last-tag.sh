@@ -12,6 +12,9 @@ git subsplit publish --heads="master" --tags=$LAST_TAG packages/DefaultAutowire:
 git subsplit publish --heads="master" --tags=$LAST_TAG packages/ModularDoctrineFilters:git@github.com:Symplify/ModularDoctrineFilters.git
 git subsplit publish --heads="master" --tags=$LAST_TAG packages/ModularRouting:git@github.com:Symplify/ModularRouting.git
 git subsplit publish --heads="master" --tags=$LAST_TAG packages/ServiceDefinitionDecorator:git@github.com:Symplify/ServiceDefinitionDecorator.git
+git subsplit publish --heads="master" --tags=$LAST_TAG packages/Statie:git@github.com:Symplify/Statie.git
+git subsplit publish --heads="master" --tags=$LAST_TAG packages/SymfonyEventDispatcher:git@github.com:Symplify/SymfonyEventDispatcher.git
+git subsplit publish --heads="master" --tags=$LAST_TAG packages/SymfonySecurity:git@github.com:Symplify/SymfonySecurity.git
 
 # Zenify
 git subsplit publish --heads="master" --tags=$LAST_TAG packages/DoctrineBehaviors:git@github.com:Zenify/DoctrineBehaviors.git

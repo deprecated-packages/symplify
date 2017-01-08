@@ -19,12 +19,7 @@ final class ControllerFinder implements ControllerFinderInterface
     }
 
     /**
-<<<<<<< 5cd59f9784c144a7a320f3072d016ce771655456
      * @return string[]
-=======
-     * @param array $dirs
-     * @return array
->>>>>>> drop inheritdoc, no info value
      */
     public function findControllersInDirs(array $dirs) : array
     {

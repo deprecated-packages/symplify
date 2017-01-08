@@ -39,8 +39,6 @@ final class MethodCommentReturnTypeSniff implements PHP_CodeSniffer_Sniff
     private $tokens;
 
     /**
-=======
->>>>>>> drop inheritdoc, no info value
      * @return int[]
      */
     public function register() : array
