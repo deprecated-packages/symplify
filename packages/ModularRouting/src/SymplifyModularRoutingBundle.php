@@ -10,7 +10,7 @@ use Symplify\ModularRouting\DependencyInjection\Extension\SymplifyModularRouting
 
 final class SymplifyModularRoutingBundle extends Bundle
 {
-    public function getContainerExtension()
+    public function getContainerExtension() : SymplifyModularRoutingExtension
     {
         return new SymplifyModularRoutingExtension();
     }
