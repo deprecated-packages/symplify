@@ -1,16 +1,5 @@
-before_commands:
-    - "composer install"
-
 tools:
-    external_code_coverage:
-        timeout: 900
-    sensiolabs_security_checker: true
-    php_code_coverage:
-        enabled: true
-    php_analyzer:
-        config:
-            verify_php_doc_comments:
-                suggest_more_specific_types: false
+    external_code_coverage: true
 
 checks:
     php:

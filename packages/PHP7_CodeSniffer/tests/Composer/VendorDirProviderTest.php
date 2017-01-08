@@ -1,5 +1,6 @@
 <?php
 
+packages/CodingStandard/tests/Sniffs/Commenting/MethodComment/correct2.php.inc
 namespace Symplify\PHP7_CodeSniffer\Tests\Composer;
 
 use PHPUnit\Framework\TestCase;
