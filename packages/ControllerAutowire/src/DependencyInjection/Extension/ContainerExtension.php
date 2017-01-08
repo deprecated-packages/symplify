@@ -10,17 +10,11 @@ use Symplify\ControllerAutowire\SymplifyControllerAutowireBundle;
 
 final class ContainerExtension extends Extension
 {
-    /**
-     * {@inheritdoc}
-     */
     public function getAlias() : string
     {
         return SymplifyControllerAutowireBundle::ALIAS;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function load(array $config, ContainerBuilder $containerBuilder)
     {
     }

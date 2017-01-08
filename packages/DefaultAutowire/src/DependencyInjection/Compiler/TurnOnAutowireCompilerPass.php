@@ -20,9 +20,6 @@ final class TurnOnAutowireCompilerPass implements CompilerPassInterface
         $this->definitionAnalyzer = $definitionAnalyzer;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function process(ContainerBuilder $containerBuilder)
     {
         foreach ($containerBuilder->getDefinitions() as $definition) {

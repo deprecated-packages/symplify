@@ -11,9 +11,6 @@ use Symplify\ModularRouting\Routing\AbstractRouteCollectionProvider;
 
 final class SetLoaderCompilerPass implements CompilerPassInterface
 {
-    /**
-     * {@inheritdoc}
-     */
     public function process(ContainerBuilder $containerBuilder)
     {
         foreach ($containerBuilder->getDefinitions() as $definition) {

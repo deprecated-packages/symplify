@@ -23,7 +23,7 @@ final class DynamicStringLoader implements ILoader
     }
 
     /**
-     * {@inheritdoc}
+     * @param string $name
      */
     public function getContent($name) : string
     {
@@ -37,7 +37,8 @@ final class DynamicStringLoader implements ILoader
     }
 
     /**
-     * {@inheritdoc}
+     * @param string $name
+     * @param int $time
      */
     public function isExpired($name, $time) : bool
     {
@@ -46,7 +47,8 @@ final class DynamicStringLoader implements ILoader
     }
 
     /**
-     * {@inheritdoc}
+     * @param string $name
+     * @param string $referringName
      */
     public function getReferredName($name, $referringName) : string
     {
@@ -55,9 +57,9 @@ final class DynamicStringLoader implements ILoader
     }
 
     /**
-     * {@inheritdoc}
+     * @param string $name
      */
-    public function getUniqueId($name)
+    public function getUniqueId($name) : string
     {
         // needed?
         return $this->getContent($name);

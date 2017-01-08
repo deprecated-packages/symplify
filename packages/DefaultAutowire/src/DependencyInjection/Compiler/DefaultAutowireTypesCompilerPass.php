@@ -10,9 +10,6 @@ use Symplify\DefaultAutowire\Config\Definition\ConfigurationResolver;
 
 final class DefaultAutowireTypesCompilerPass implements CompilerPassInterface
 {
-    /**
-     * {@inheritdoc}
-     */
     public function process(ContainerBuilder $containerBuilder)
     {
         $autowireTypes = $this->getAutowireTypes($containerBuilder);

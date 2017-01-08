@@ -136,26 +136,6 @@ final class MethodReturnTypeSniff implements PHP_CodeSniffer_Sniff
         return $docBlockCloseToken['line'] === ($currentToken['line'] - 1);
     }
 
-    private function hasPhp7ReturnType() : bool
-    {
-        $functionToken = $this->tokens[$this->position];
-        $colonPosition = $this->file->findNext([T_COLON, T_INLINE_ELSE], $this->position, $functionToken['scope_opener'], true);
-
-        if (! $colonPosition) {
-            return false;
-        }
-
-        if ($this->tokens[$colonPosition]['code'] !== T_COLON) {
-            return false;
-        }
-
-        if ($this->tokens[$this->position]['line'] === $this->tokens[$colonPosition]['line']) {
-            return true;
-        }
-
-        return false;
-    }
-
     private function isRawGetterName(string $methodName) : bool
     {
         return in_array($methodName, $this->getterMethodPrefixes);

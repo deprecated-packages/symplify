@@ -11,17 +11,11 @@ use Symplify\ModularDoctrineFilters\DependencyInjection\Extension\SymplifyModula
 
 final class SymplifyModularDoctrineFiltersBundle extends Bundle
 {
-    /**
-     * {@inheritdoc}
-     */
     public function getContainerExtension() : SymplifyModularDoctrineFiltersExtension
     {
         return new SymplifyModularDoctrineFiltersExtension();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function build(ContainerBuilder $containerBuilder)
     {
         $containerBuilder->addCompilerPass(new LoadFiltersCompilerPass());

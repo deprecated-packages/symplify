@@ -43,7 +43,14 @@ final class FunctionHelper
         $nextToken = $colonToken;
         do {
             $nextToken = $isAbstract
-                ? $codeSnifferFile->findNext([T_WHITESPACE, T_COMMENT, T_SEMICOLON], $nextToken + 1, null, true, null, true)
+                ? $codeSnifferFile->findNext(
+                    [T_WHITESPACE, T_COMMENT, T_SEMICOLON],
+                    $nextToken + 1,
+                    null,
+                    true,
+                    null,
+                    true
+                )
                 : $codeSnifferFile->findNext(
                     [T_WHITESPACE, T_COMMENT],
                     $nextToken + 1,

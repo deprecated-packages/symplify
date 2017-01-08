@@ -22,10 +22,7 @@ final class Configuration implements ConfigurationInterface
         'Symfony\Component\Translation\TranslatorInterface' => 'translator',
     ];
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getConfigTreeBuilder()
+    public function getConfigTreeBuilder() : TreeBuilder
     {
         $treeBuilder = new TreeBuilder();
 

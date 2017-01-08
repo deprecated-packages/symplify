@@ -13,17 +13,11 @@ use Symplify\ActionAutowire\DependencyInjection\Extension\ContainerExtension;
 
 final class SymplifyActionAutowireBundle extends Bundle
 {
-    /**
-     * {@inheritdoc}
-     */
     public function getContainerExtension() : ContainerExtension
     {
         return new ContainerExtension();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function build(ContainerBuilder $containerBuilder)
     {
         $serviceByTypeMap = new ServicesByTypeMap();

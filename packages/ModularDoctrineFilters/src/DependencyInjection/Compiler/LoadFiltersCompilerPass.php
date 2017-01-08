@@ -32,9 +32,6 @@ final class LoadFiltersCompilerPass implements CompilerPassInterface
      */
     private $containerBuilder;
 
-    /**
-     * {@inheritdoc}
-     */
     public function process(ContainerBuilder $containerBuilder)
     {
         if (! $containerBuilder->hasDefinition(self::NAME_CONFIGURATION)) {

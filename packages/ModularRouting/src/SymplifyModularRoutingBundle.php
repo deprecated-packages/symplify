@@ -12,17 +12,11 @@ use Symplify\ModularRouting\DependencyInjection\Extension\SymplifyModularRouting
 
 final class SymplifyModularRoutingBundle extends Bundle
 {
-    /**
-     * {@inheritdoc}
-     */
     public function getContainerExtension()
     {
         return new SymplifyModularRoutingExtension();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function build(ContainerBuilder $containerBuilder)
     {
         $containerBuilder->addCompilerPass(new AddRouteCollectionProvidersCompilerPass());
