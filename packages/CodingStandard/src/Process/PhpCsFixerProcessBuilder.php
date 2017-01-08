@@ -28,12 +28,12 @@ final class PhpCsFixerProcessBuilder implements ProcessBuilderInterface
         return $this->builder->getProcess();
     }
 
-    public function setLevel(string $level)
+    public function setLevel(string $level) : void
     {
         $this->builder->add('--rules=@' . $level);
     }
 
-    public function setRules(string $rules)
+    public function setRules(string $rules) : void
     {
         $this->builder->add('--rules=' . $rules);
     }

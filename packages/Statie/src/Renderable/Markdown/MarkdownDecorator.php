@@ -28,7 +28,7 @@ final class MarkdownDecorator implements DecoratorInterface
         $this->configuration = $configuration;
     }
 
-    public function decorateFile(AbstractFile $file)
+    public function decorateFile(AbstractFile $file) : void
     {
         // skip due to HTML content incompatibility
         if ($file->getExtension() !== 'md') {

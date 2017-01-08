@@ -13,7 +13,7 @@ trait ControllerRoutingTrait
      */
     private $router;
 
-    public function setRouter(RouterInterface $router)
+    public function setRouter(RouterInterface $router) : void
     {
         $this->router = $router;
     }

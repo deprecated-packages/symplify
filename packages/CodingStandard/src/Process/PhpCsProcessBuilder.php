@@ -28,12 +28,12 @@ final class PhpCsProcessBuilder implements ProcessBuilderInterface
         return $this->builder->getProcess();
     }
 
-    public function setStandard(string $standard)
+    public function setStandard(string $standard) : void
     {
         $this->builder->add('--standard=' . $standard);
     }
 
-    public function setExtensions(string $extensions)
+    public function setExtensions(string $extensions) : void
     {
         $this->builder->add('--extensions=' . $extensions);
     }

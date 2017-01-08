@@ -12,7 +12,7 @@ final class RunnerCollection implements RunnerCollectionInterface
      */
     private $runners = [];
 
-    public function addRunner(RunnerInterface $runner)
+    public function addRunner(RunnerInterface $runner) : void
     {
         $this->runners[] = $runner;
     }

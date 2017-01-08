@@ -70,7 +70,7 @@ final class Configuration
     /**
      * @param SplFileInfo[] $files
      */
-    public function loadFromFiles(array $files)
+    public function loadFromFiles(array $files) : void
     {
         foreach ($files as $file) {
             $decodedOptions = $this->neonParser->decodeFromFile($file->getRealPath());
@@ -95,7 +95,7 @@ final class Configuration
         return $this->globalVariables;
     }
 
-    public function setSourceDirectory(string $sourceDirectory)
+    public function setSourceDirectory(string $sourceDirectory) : void
     {
         $this->sourceDirectory = $sourceDirectory;
     }
@@ -109,7 +109,7 @@ final class Configuration
         return getcwd() . DIRECTORY_SEPARATOR . 'source';
     }
 
-    public function setOutputDirectory(string $outputDirectory)
+    public function setOutputDirectory(string $outputDirectory) : void
     {
         $this->outputDirectory = $outputDirectory;
     }
@@ -119,7 +119,7 @@ final class Configuration
         return $this->outputDirectory;
     }
 
-    public function setPostRoute(string $postRoute)
+    public function setPostRoute(string $postRoute) : void
     {
         $this->postRoute = $postRoute;
     }
@@ -129,7 +129,7 @@ final class Configuration
         return $this->postRoute;
     }
 
-    public function setGithubRepositorySlug(string $githubRepositorySlug)
+    public function setGithubRepositorySlug(string $githubRepositorySlug) : void
     {
         $this->githubRepositorySlug = $githubRepositorySlug;
     }
@@ -139,7 +139,7 @@ final class Configuration
         return $this->githubRepositorySlug;
     }
 
-    public function setMarkdownHeadlineAnchors(bool $markdownHeadlineAnchors)
+    public function setMarkdownHeadlineAnchors(bool $markdownHeadlineAnchors) : void
     {
         $this->markdownHeadlineAnchors = $markdownHeadlineAnchors;
     }

@@ -14,7 +14,7 @@ final class SymplifyModularDoctrineFiltersBundle extends Bundle
         return new SymplifyModularDoctrineFiltersExtension();
     }
 
-    public function build(ContainerBuilder $containerBuilder)
+    public function build(ContainerBuilder $containerBuilder) : void
     {
         $containerBuilder->addCompilerPass(new LoadFiltersCompilerPass());
     }

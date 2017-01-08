@@ -9,7 +9,7 @@ use Symplify\ModularRouting\Routing\AbstractRouteCollectionProvider;
 
 final class SetLoaderCompilerPass implements CompilerPassInterface
 {
-    public function process(ContainerBuilder $containerBuilder)
+    public function process(ContainerBuilder $containerBuilder) : void
     {
         foreach ($containerBuilder->getDefinitions() as $definition) {
             if (is_subclass_of($definition->getClass(), AbstractRouteCollectionProvider::class)) {

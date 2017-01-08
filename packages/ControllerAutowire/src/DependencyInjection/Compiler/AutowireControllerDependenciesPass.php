@@ -68,7 +68,7 @@ final class AutowireControllerDependenciesPass implements CompilerPassInterface
         $this->controllerClassMap = $controllerClassMap;
     }
 
-    public function process(ContainerBuilder $containerBuilder)
+    public function process(ContainerBuilder $containerBuilder) : void
     {
         $this->containerBuilder = $containerBuilder;
 
@@ -78,7 +78,7 @@ final class AutowireControllerDependenciesPass implements CompilerPassInterface
         }
     }
 
-    private function autowireControllerTraits(Definition $controllerDefinition)
+    private function autowireControllerTraits(Definition $controllerDefinition) : void
     {
         $usedTraits = class_uses($controllerDefinition->getClass());
 

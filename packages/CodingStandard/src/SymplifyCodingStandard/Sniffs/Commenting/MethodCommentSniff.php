@@ -23,7 +23,7 @@ final class MethodCommentSniff implements PHP_CodeSniffer_Sniff
      * @param PHP_CodeSniffer_File $file
      * @param int $position
      */
-    public function process(PHP_CodeSniffer_File $file, $position)
+    public function process(PHP_CodeSniffer_File $file, $position) : void
     {
         if ($this->hasMethodDocblock($file, $position)) {
             return;

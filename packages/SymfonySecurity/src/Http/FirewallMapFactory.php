@@ -19,12 +19,12 @@ final class FirewallMapFactory implements FirewallMapFactoryInterface
      */
     private $firewallHandlers = [];
 
-    public function addRequestMatcher(RequestMatcherInterface $requestMatcher)
+    public function addRequestMatcher(RequestMatcherInterface $requestMatcher) : void
     {
         $this->requestMatchers[$requestMatcher->getFirewallName()] = $requestMatcher;
     }
 
-    public function addFirewallHandler(FirewallHandlerInterface $firewallHandler)
+    public function addFirewallHandler(FirewallHandlerInterface $firewallHandler) : void
     {
         $this->firewallHandlers[$firewallHandler->getFirewallName()][] = $firewallHandler;
     }

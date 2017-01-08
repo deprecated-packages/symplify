@@ -35,7 +35,7 @@ final class LatteDecorator implements DecoratorInterface
         $this->dynamicStringLoader = $dynamicStringLoader;
     }
 
-    public function decorateFile(AbstractFile $file)
+    public function decorateFile(AbstractFile $file) : void
     {
         $options = $this->configuration->getGlobalVariables();
 
@@ -67,7 +67,7 @@ final class LatteDecorator implements DecoratorInterface
         $file->changeContent($htmlContent);
     }
 
-    private function addTemplateToDynamicLatteStringLoader(AbstractFile $file)
+    private function addTemplateToDynamicLatteStringLoader(AbstractFile $file) : void
     {
         $this->dynamicStringLoader->addTemplate(
             $file->getBaseName(),
@@ -75,7 +75,7 @@ final class LatteDecorator implements DecoratorInterface
         );
     }
 
-    private function prependLayoutToFileContent(AbstractFile $file)
+    private function prependLayoutToFileContent(AbstractFile $file) : void
     {
         if (! $file->getLayout()) {
             return;

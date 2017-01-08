@@ -18,13 +18,13 @@ final class SymplifyControllerAutowireBundle extends Bundle
      */
     public const ALIAS = 'symplify_controller_autowire';
 
-    public function build(ContainerBuilder $container)
+    public function build(ContainerBuilder $containerBuilder) : void
     {
         $controllerClassMap = new ControllerClassMap();
 
-        $container->addCompilerPass(new RegisterControllersPass($controllerClassMap, new ControllerFinder()));
-        $container->addCompilerPass(new AutowireControllerDependenciesPass($controllerClassMap));
-        $container->addCompilerPass(new DecorateControllerResolverPass($controllerClassMap));
+        $containerBuilder->addCompilerPass(new RegisterControllersPass($controllerClassMap, new ControllerFinder()));
+        $containerBuilder->addCompilerPass(new AutowireControllerDependenciesPass($controllerClassMap));
+        $containerBuilder->addCompilerPass(new DecorateControllerResolverPass($controllerClassMap));
     }
 
     public function createContainerExtension() : ContainerExtension

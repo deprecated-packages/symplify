@@ -13,7 +13,7 @@ final class ContainerExtension extends Extension
         return SymplifyServiceDefinitionDecoratorBundle::ALIAS;
     }
 
-    public function load(array $configs, ContainerBuilder $containerBuilder)
+    public function load(array $configs, ContainerBuilder $containerBuilder) : void
     {
     }
 }

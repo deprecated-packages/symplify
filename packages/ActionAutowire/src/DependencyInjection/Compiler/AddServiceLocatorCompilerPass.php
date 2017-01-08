@@ -18,7 +18,7 @@ final class AddServiceLocatorCompilerPass implements CompilerPassInterface
         $this->servicesByTypeMap = $servicesByTypeMap;
     }
 
-    public function process(ContainerBuilder $containerBuilder)
+    public function process(ContainerBuilder $containerBuilder) : void
     {
         $containerBuilder->getDefinition('symplify.action_autowire.service_locator')
             ->addMethodCall('setServiceByTypeMap', [$this->servicesByTypeMap->getMap()]);

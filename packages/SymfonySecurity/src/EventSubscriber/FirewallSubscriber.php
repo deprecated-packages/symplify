@@ -36,7 +36,7 @@ final class FirewallSubscriber implements EventSubscriberInterface
         ];
     }
 
-    public function onPresenter(PresenterCreatedEvent $applicationPresenterEvent)
+    public function onPresenter(PresenterCreatedEvent $applicationPresenterEvent) : void
     {
         /** @var FirewallHandlerInterface[] $listeners */
         [$listeners] = $this->firewallMap->getListeners($this->request);

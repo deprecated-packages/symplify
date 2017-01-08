@@ -38,7 +38,7 @@ abstract class AbstractFile
         $this->content = file_get_contents($fileInfo->getRealPath());
     }
 
-    public function setOutputPath(string $outputPath)
+    public function setOutputPath(string $outputPath) : void
     {
         $this->outputPath = $outputPath;
     }
@@ -48,7 +48,7 @@ abstract class AbstractFile
         return $this->outputPath;
     }
 
-    public function setRelativeUrl(string $relativeUrl)
+    public function setRelativeUrl(string $relativeUrl) : void
     {
         $this->configuration['relativeUrl'] = $relativeUrl;
     }

@@ -15,7 +15,7 @@ final class SymplifyModularRoutingBundle extends Bundle
         return new SymplifyModularRoutingExtension();
     }
 
-    public function build(ContainerBuilder $containerBuilder)
+    public function build(ContainerBuilder $containerBuilder) : void
     {
         $containerBuilder->addCompilerPass(new AddRouteCollectionProvidersCompilerPass());
         $containerBuilder->addCompilerPass(new SetLoaderCompilerPass());

@@ -11,7 +11,7 @@ final class ControllerClassMap implements ControllerClassMapInterface
      */
     private $controllers = [];
 
-    public function addController(string $id, string $class)
+    public function addController(string $id, string $class) : void
     {
         $this->controllers[$id] = $class;
     }

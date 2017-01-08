@@ -46,12 +46,12 @@ abstract class AbstractCommand extends Command
         parent::__construct();
     }
 
-    protected function configure()
+    protected function configure() : void
     {
         $this->addArgument('path', InputArgument::REQUIRED | InputArgument::IS_ARRAY, 'The path(s)', null);
     }
 
-    protected function initialize(InputInterface $input, OutputInterface $output)
+    protected function initialize(InputInterface $input, OutputInterface $output) : void
     {
         $this->io = new SymfonyStyle($input, $output);
     }

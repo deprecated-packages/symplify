@@ -4,7 +4,7 @@ namespace Symplify\CodingStandard\Contract\Runner;
 
 interface RunnerCollectionInterface
 {
-    public function addRunner(RunnerInterface $runner);
+    public function addRunner(RunnerInterface $runner) : void;
 
     /**
      * @return RunnerInterface[]

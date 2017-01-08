@@ -11,7 +11,7 @@ trait ControllerDoctrineTrait
      */
     private $doctrine;
 
-    public function setDoctrine(ManagerRegistry $doctrine)
+    public function setDoctrine(ManagerRegistry $doctrine) : void
     {
         $this->doctrine = $doctrine;
     }

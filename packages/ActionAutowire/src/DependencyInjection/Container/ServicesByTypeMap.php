@@ -15,7 +15,7 @@ final class ServicesByTypeMap
      */
     private $classes = [];
 
-    public function addService(string $serviceClass, string $serviceId)
+    public function addService(string $serviceClass, string $serviceId) : void
     {
         $reflectionClass = new ReflectionClass($serviceClass);
         foreach ($reflectionClass->getInterfaceNames() as $interfaceName) {

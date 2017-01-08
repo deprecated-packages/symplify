@@ -30,12 +30,12 @@ final class FilterManager implements FilterManagerInterface
         $this->entityManager = $entityManager;
     }
 
-    public function addFilter(string $name, FilterInterface $filter)
+    public function addFilter(string $name, FilterInterface $filter) : void
     {
         $this->filters[$name] = $filter;
     }
 
-    public function enableFilters()
+    public function enableFilters() : void
     {
         foreach ($this->filters as $name => $filter) {
             $this->addFilterToEnabledInFilterCollection($name, $filter);

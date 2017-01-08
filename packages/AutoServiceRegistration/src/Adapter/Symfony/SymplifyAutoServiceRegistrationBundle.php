@@ -15,12 +15,12 @@ final class SymplifyAutoServiceRegistrationBundle extends Bundle
      */
     public const ALIAS = 'symplify_auto_service_registration';
 
-    public function build(ContainerBuilder $containerBuilder)
+    public function build(ContainerBuilder $containerBuilder) : void
     {
         $containerBuilder->addCompilerPass(new AutoRegisterServicesCompilerPass(new ServiceClassFinder()));
     }
 
-    public function createContainerExtension()
+    public function createContainerExtension() : ContainerExtension
     {
         return new ContainerExtension();
     }

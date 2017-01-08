@@ -15,7 +15,7 @@ final class SymplifyServiceDefinitionDecoratorBundle extends Bundle
      */
     public const ALIAS = 'decorator';
 
-    public function build(ContainerBuilder $containerBuilder)
+    public function build(ContainerBuilder $containerBuilder) : void
     {
         $containerBuilder->addCompilerPass(new DecorateCompilerPass(), PassConfig::TYPE_BEFORE_OPTIMIZATION, 20);
     }

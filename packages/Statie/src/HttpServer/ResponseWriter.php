@@ -25,7 +25,7 @@ final class ResponseWriter
         $this->mimeTypeDetector = $mimeTypeDetector;
     }
 
-    public function send404Response(Request $request, Response $response)
+    public function send404Response(Request $request, Response $response) : void
     {
         $this->writeResponse(404, $request->getPath());
         $response->writeHead(404, [
@@ -38,7 +38,7 @@ final class ResponseWriter
         );
     }
 
-    public function send200Response(Request $request, Response $response, string $path)
+    public function send200Response(Request $request, Response $response, string $path) : void
     {
         $response->writeHead(200, [
             'Content-Type' => $this->mimeTypeDetector->detectForFilename($path),
@@ -48,7 +48,7 @@ final class ResponseWriter
         $response->end(file_get_contents($path));
     }
 
-    private function writeResponse(int $responseCode, string $path)
+    private function writeResponse(int $responseCode, string $path) : void
     {
         $message = sprintf(
             'Response code "%s" for path: "%s"',

@@ -4,7 +4,7 @@ namespace Symplify\ControllerAutowire\Contract\DependencyInjection;
 
 interface ControllerClassMapInterface
 {
-    public function addController(string $id, string $class);
+    public function addController(string $id, string $class) : void;
 
     /**
      * @return string[]

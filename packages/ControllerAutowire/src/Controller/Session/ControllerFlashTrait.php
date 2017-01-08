@@ -11,12 +11,12 @@ trait ControllerFlashTrait
      */
     private $session;
 
-    public function setSession(Session $session)
+    public function setSession(Session $session) : void
     {
         $this->session = $session;
     }
 
-    protected function addFlash(string $type, string $message)
+    protected function addFlash(string $type, string $message) : void
     {
         $this->session->getFlashBag()
             ->add($type, $message);

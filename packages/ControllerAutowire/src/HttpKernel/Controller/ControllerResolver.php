@@ -40,7 +40,7 @@ final class ControllerResolver implements ControllerResolverInterface
         $this->controllerNameParser = $controllerNameParser;
     }
 
-    public function setControllerClassMap(array $controllerClassMap)
+    public function setControllerClassMap(array $controllerClassMap) : void
     {
         $this->controllerClassMap = array_flip($controllerClassMap);
     }

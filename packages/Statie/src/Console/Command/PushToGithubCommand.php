@@ -24,7 +24,7 @@ final class PushToGithubCommand extends Command
         parent::__construct();
     }
 
-    protected function configure()
+    protected function configure() : void
     {
         $this->setName('push-to-github');
         $this->setDescription('Push generated site to Github pages.');
@@ -43,7 +43,7 @@ final class PushToGithubCommand extends Command
         );
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output) : int
     {
         $this->ensureInputIsValid($input);
 
@@ -62,20 +62,20 @@ final class PushToGithubCommand extends Command
         return 0;
     }
 
-    private function ensureInputIsValid(InputInterface $input)
+    private function ensureInputIsValid(InputInterface $input) : void
     {
         $this->ensureTokenOptionIsSet((string) $input->getOption('token'));
         $this->ensureGithubRepositorySlugIsValid($input->getArgument('repository-slug'));
     }
 
-    private function ensureTokenOptionIsSet(string $token)
+    private function ensureTokenOptionIsSet(string $token) : void
     {
         if ($token === '') {
             throw new Exception('Set token value via "--token=<GITHUB_TOKEN>" option.');
         }
     }
 
-    private function ensureGithubRepositorySlugIsValid(string $repositorySlug)
+    private function ensureGithubRepositorySlugIsValid(string $repositorySlug) : void
     {
         $repositoryUrl = 'https://github.com/' . $repositorySlug;
         if (! $this->doesUrlExist($repositoryUrl)) {

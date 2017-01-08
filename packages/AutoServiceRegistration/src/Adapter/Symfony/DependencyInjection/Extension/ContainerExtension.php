@@ -13,7 +13,7 @@ final class ContainerExtension extends Extension
         return SymplifyAutoServiceRegistrationBundle::ALIAS;
     }
 
-    public function load(array $configs, ContainerBuilder $containerBuilder)
+    public function load(array $configs, ContainerBuilder $containerBuilder) : void
     {
     }
 }

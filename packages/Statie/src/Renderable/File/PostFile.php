@@ -107,7 +107,7 @@ final class PostFile extends AbstractFile implements ArrayAccess
      * @param mixed $offset
      * @param mixed $value
      */
-    public function offsetSet($offset, $value)
+    public function offsetSet($offset, $value) : void
     {
         throw new Exception(__METHOD__ . ' is not supported');
     }
@@ -115,12 +115,12 @@ final class PostFile extends AbstractFile implements ArrayAccess
     /**
      * @param mixed $offset
      */
-    public function offsetUnset($offset)
+    public function offsetUnset($offset) : void
     {
         throw new Exception(__METHOD__ . ' is not supported');
     }
 
-    private function ensurePathStartsWithDate(SplFileInfo $fileInfo)
+    private function ensurePathStartsWithDate(SplFileInfo $fileInfo) : void
     {
         if (! PathAnalyzer::startsWithDate($fileInfo)) {
             throw new Exception(

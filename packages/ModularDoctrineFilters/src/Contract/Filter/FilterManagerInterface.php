@@ -9,5 +9,5 @@ interface FilterManagerInterface
     /**
      * Enables filters for EntityManager.
      */
-    public function enableFilters();
+    public function enableFilters() : void;
 }

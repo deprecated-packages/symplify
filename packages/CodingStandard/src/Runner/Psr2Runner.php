@@ -54,7 +54,7 @@ final class Psr2Runner implements RunnerInterface
         return $process->getOutput();
     }
 
-    private function detectErrorsInOutput(string $output)
+    private function detectErrorsInOutput(string $output) : void
     {
         if (strpos($output, 'ERROR') !== false) {
             $this->hasErrors = true;

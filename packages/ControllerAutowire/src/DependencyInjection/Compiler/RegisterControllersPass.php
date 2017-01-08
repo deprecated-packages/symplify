@@ -21,6 +21,11 @@ final class RegisterControllersPass implements CompilerPassInterface
      */
     private $controllerFinder;
 
+    /**
+     * @var ContainerBuilder
+     */
+    private $containerBuilder;
+
     public function __construct(
         ControllerClassMapInterface $controllerClassMap,
         ControllerFinderInterface $controllerFinder
@@ -29,34 +34,36 @@ final class RegisterControllersPass implements CompilerPassInterface
         $this->controllerFinder = $controllerFinder;
     }
 
-    public function process(ContainerBuilder $containerBuilder)
+    public function process(ContainerBuilder $containerBuilder) : void
     {
-        $controllerDirs = $this->getControllerDirs($containerBuilder);
+        $this->containerBuilder = $containerBuilder;
+
+        $controllerDirs = $this->getControllerDirs();
         $controllers = $this->controllerFinder->findControllersInDirs($controllerDirs);
-        $this->registerControllersToContainerBuilder($controllers, $containerBuilder);
+        $this->registerControllersToContainerBuilder($controllers);
     }
 
     /**
      * @return string[]
      */
-    private function getControllerDirs(ContainerBuilder $containerBuilder) : array
+    private function getControllerDirs() : array
     {
-        $config = (new ConfigurationResolver())->resolveFromContainerBuilder($containerBuilder);
+        $config = (new ConfigurationResolver())->resolveFromContainerBuilder($this->containerBuilder);
 
         return $config['controller_dirs'];
     }
 
-    private function registerControllersToContainerBuilder(array $controllers, ContainerBuilder $containerBuilder)
+    private function registerControllersToContainerBuilder(array $controllers) : void
     {
         foreach ($controllers as $id => $controller) {
-            if (! $containerBuilder->hasDefinition($id)) {
+            if (! $this->containerBuilder->hasDefinition($id)) {
                 $definition = $this->buildControllerDefinitionFromClass($controller);
             } else {
-                $definition = $containerBuilder->getDefinition($id);
+                $definition = $this->containerBuilder->getDefinition($id);
                 $definition->setAutowired(true);
             }
 
-            $containerBuilder->setDefinition($id, $definition);
+            $this->containerBuilder->setDefinition($id, $definition);
             $this->controllerClassMap->addController($id, $controller);
         }
     }

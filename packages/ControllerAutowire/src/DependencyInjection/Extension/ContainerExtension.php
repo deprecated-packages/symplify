@@ -13,7 +13,7 @@ final class ContainerExtension extends Extension
         return SymplifyControllerAutowireBundle::ALIAS;
     }
 
-    public function load(array $config, ContainerBuilder $containerBuilder)
+    public function load(array $config, ContainerBuilder $containerBuilder) : void
     {
     }
 }

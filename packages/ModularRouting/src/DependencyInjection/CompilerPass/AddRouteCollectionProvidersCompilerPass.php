@@ -14,7 +14,7 @@ final class AddRouteCollectionProvidersCompilerPass implements CompilerPassInter
      */
     private $containerBuilder;
 
-    public function process(ContainerBuilder $containerBuilder)
+    public function process(ContainerBuilder $containerBuilder) : void
     {
         $this->containerBuilder = $containerBuilder;
 

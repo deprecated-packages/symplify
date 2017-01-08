@@ -19,7 +19,7 @@ final class ServicesByTypeMapCompilerPass implements CompilerPassInterface
         $this->serviceMap = $servicesByTypeMap;
     }
 
-    public function process(ContainerBuilder $containerBuilder)
+    public function process(ContainerBuilder $containerBuilder) : void
     {
         $parameterBag = $containerBuilder->getParameterBag();
         foreach ($containerBuilder->getDefinitions() as $serviceId => $definition) {

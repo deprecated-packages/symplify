@@ -18,7 +18,7 @@ final class VarPropertyCommentSniff extends PHP_CodeSniffer_Standards_AbstractVa
      * @param PHP_CodeSniffer_File $file
      * @param int $position
      */
-    protected function processMemberVar(PHP_CodeSniffer_File $file, $position)
+    protected function processMemberVar(PHP_CodeSniffer_File $file, $position) : void
     {
         $commentString = $this->getPropertyComment($file, $position);
 
@@ -33,7 +33,7 @@ final class VarPropertyCommentSniff extends PHP_CodeSniffer_Standards_AbstractVa
      * @param PHP_CodeSniffer_File $file
      * @param int $position
      */
-    protected function processVariable(PHP_CodeSniffer_File $file, $position)
+    protected function processVariable(PHP_CodeSniffer_File $file, $position) : void
     {
     }
 
@@ -41,7 +41,7 @@ final class VarPropertyCommentSniff extends PHP_CodeSniffer_Standards_AbstractVa
      * @param PHP_CodeSniffer_File $file
      * @param int $position
      */
-    protected function processVariableInString(PHP_CodeSniffer_File $file, $position)
+    protected function processVariableInString(PHP_CodeSniffer_File $file, $position) : void
     {
     }
 

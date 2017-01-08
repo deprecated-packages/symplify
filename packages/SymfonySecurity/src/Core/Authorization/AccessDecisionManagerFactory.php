@@ -16,7 +16,7 @@ final class AccessDecisionManagerFactory
      */
     private $voters = [];
 
-    public function addVoter(VoterInterface $voter)
+    public function addVoter(VoterInterface $voter) : void
     {
         $this->voters[] = $voter;
     }

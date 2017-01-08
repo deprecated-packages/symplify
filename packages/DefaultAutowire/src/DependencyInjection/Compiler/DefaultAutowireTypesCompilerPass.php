@@ -8,7 +8,7 @@ use Symplify\DefaultAutowire\Config\Definition\ConfigurationResolver;
 
 final class DefaultAutowireTypesCompilerPass implements CompilerPassInterface
 {
-    public function process(ContainerBuilder $containerBuilder)
+    public function process(ContainerBuilder $containerBuilder) : void
     {
         $autowireTypes = $this->getAutowireTypes($containerBuilder);
         foreach ($autowireTypes as $type => $serviceName) {

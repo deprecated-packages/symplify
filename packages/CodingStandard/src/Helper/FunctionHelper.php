@@ -14,6 +14,9 @@ final class FunctionHelper
         return ! isset($codeSnifferFile->getTokens()[$functionPointer]['scope_opener']);
     }
 
+    /**
+     * @return null|string|void
+     */
     public static function findReturnTypeHint(PHP_CodeSniffer_File $codeSnifferFile, int $functionPointer)
     {
         $tokens = $codeSnifferFile->getTokens();

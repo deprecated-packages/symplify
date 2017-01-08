@@ -26,17 +26,17 @@ trait ControllerSecurityTrait
      */
     private $csrfTokenManager;
 
-    public function setAuthorizationChecker(AuthorizationCheckerInterface $authorizationChecker)
+    public function setAuthorizationChecker(AuthorizationCheckerInterface $authorizationChecker) : void
     {
         $this->authorizationChecker = $authorizationChecker;
     }
 
-    public function setTokenStorage(TokenStorageInterface $tokenStorage)
+    public function setTokenStorage(TokenStorageInterface $tokenStorage) : void
     {
         $this->tokenStorage = $tokenStorage;
     }
 
-    public function setCsrfTokenManager(CsrfTokenManagerInterface $csrfTokenManager)
+    public function setCsrfTokenManager(CsrfTokenManagerInterface $csrfTokenManager) : void
     {
         $this->csrfTokenManager = $csrfTokenManager;
     }
@@ -55,7 +55,7 @@ trait ControllerSecurityTrait
      * @param mixed  $object
      * @param string $message
      */
-    protected function denyAccessUnlessGranted($attributes, $object = null, string $message = 'Access Denied.')
+    protected function denyAccessUnlessGranted($attributes, $object = null, string $message = 'Access Denied.') : void
     {
         if (! $this->isGranted($attributes, $object)) {
             throw new AccessDeniedException($message);

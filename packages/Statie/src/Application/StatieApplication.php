@@ -72,7 +72,7 @@ final class StatieApplication
         $this->httpServer = $httpServer;
     }
 
-    public function runCommand(RunCommand $runCommand)
+    public function runCommand(RunCommand $runCommand) : void
     {
         $this->processCommand($runCommand);
 
@@ -87,7 +87,7 @@ final class StatieApplication
         }
     }
 
-    private function processCommand(RunCommand $runCommand)
+    private function processCommand(RunCommand $runCommand) : void
     {
         $this->loadConfigurationWithDirectories($runCommand);
 
@@ -117,13 +117,13 @@ final class StatieApplication
         $this->shouldRegenerate = false;
     }
 
-    private function loadConfigurationWithDirectories(RunCommand $runCommand)
+    private function loadConfigurationWithDirectories(RunCommand $runCommand) : void
     {
         $this->configuration->setSourceDirectory($runCommand->getSourceDirectory());
         $this->configuration->setOutputDirectory($runCommand->getOutputDirectory());
     }
 
-    private function loadSourcesFromSourceDirectory(string $sourceDirectory)
+    private function loadSourcesFromSourceDirectory(string $sourceDirectory) : void
     {
         $files = $this->findFilesInSourceDirectory($sourceDirectory);
         $this->sourceFileStorage->loadSourcesFromFiles($files);
@@ -164,7 +164,7 @@ final class StatieApplication
     /**
      * @param SplFileInfo[] $layoutFiles
      */
-    private function loadLayoutsToLatteLoader(array $layoutFiles)
+    private function loadLayoutsToLatteLoader(array $layoutFiles) : void
     {
         foreach ($layoutFiles as $layoutFile) {
             $name = $layoutFile->getBasename('.' . $layoutFile->getExtension());

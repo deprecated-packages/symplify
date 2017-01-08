@@ -16,7 +16,7 @@ final class SymplifyActionAutowireBundle extends Bundle
         return new ContainerExtension();
     }
 
-    public function build(ContainerBuilder $containerBuilder)
+    public function build(ContainerBuilder $containerBuilder) : void
     {
         $serviceByTypeMap = new ServicesByTypeMap();
         $containerBuilder->addCompilerPass(new ServicesByTypeMapCompilerPass($serviceByTypeMap));

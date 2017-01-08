@@ -17,7 +17,7 @@ final class SourceFileStorage
      */
     private $sourceFileFilters = [];
 
-    public function addSourceFileFilter(SourceFileFilterInterface $sourceFileFilter)
+    public function addSourceFileFilter(SourceFileFilterInterface $sourceFileFilter) : void
     {
         $this->sourceFileFilters[$sourceFileFilter->getName()] = $sourceFileFilter;
         $this->sourceFilesByType[$sourceFileFilter->getName()] = [];
@@ -26,14 +26,14 @@ final class SourceFileStorage
     /**
      * @param SplFileInfo[] $files
      */
-    public function loadSourcesFromFiles(array $files)
+    public function loadSourcesFromFiles(array $files) : void
     {
         foreach ($files as $fileInfo) {
             $this->addSource($fileInfo);
         }
     }
 
-    private function addSource(SplFileInfo $fileInfo)
+    private function addSource(SplFileInfo $fileInfo) : void
     {
         foreach ($this->sourceFileFilters as $sourceFileFilter) {
             if ($sourceFileFilter->matchesFileSource($fileInfo)) {

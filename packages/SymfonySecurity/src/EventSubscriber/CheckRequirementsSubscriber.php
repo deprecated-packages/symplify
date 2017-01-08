@@ -26,7 +26,7 @@ final class CheckRequirementsSubscriber implements EventSubscriberInterface
         ];
     }
 
-    public function onPresenter(PresenterCreatedEvent $applicationPresenterEvent)
+    public function onPresenter(PresenterCreatedEvent $applicationPresenterEvent) : void
     {
         $this->authorizationChecker->isGranted(
             'access',

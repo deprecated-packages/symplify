@@ -32,7 +32,7 @@ final class DecorateControllerResolverPass implements CompilerPassInterface
         $this->controllerClassMap = $controllerClassMap;
     }
 
-    public function process(ContainerBuilder $containerBuilder)
+    public function process(ContainerBuilder $containerBuilder) : void
     {
         $decoratedControllerResolverServiceName = $this->getCurrentControllerResolverServiceName($containerBuilder);
 

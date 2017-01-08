@@ -11,7 +11,7 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
  */
 final class AuthenticationManager implements AuthenticationManagerInterface
 {
-    public function authenticate(TokenInterface $token)
+    public function authenticate(TokenInterface $token) : TokenInterface
     {
         return $token;
     }

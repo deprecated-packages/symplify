@@ -8,7 +8,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 final class FixCommand extends AbstractCommand
 {
-    protected function configure()
+    protected function configure() : void
     {
         parent::configure();
 
@@ -16,7 +16,7 @@ final class FixCommand extends AbstractCommand
         $this->setDescription('Fix coding standard in particular directory');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output) : int
     {
         foreach ($input->getArgument('path') as $path) {
             $this->executeFixersForDirectory($path);
@@ -26,7 +26,7 @@ final class FixCommand extends AbstractCommand
         return self::EXIT_CODE_SUCCESS;
     }
 
-    private function executeFixersForDirectory(string $directory)
+    private function executeFixersForDirectory(string $directory) : void
     {
         foreach ($this->runnerCollection->getRunners() as $runner) {
             $headline = 'Running ' . $this->getRunnerName($runner) . ' in ' . $directory;

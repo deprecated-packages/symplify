@@ -40,7 +40,7 @@ final class SymfonyRunner implements RunnerInterface
         return $process->getOutput();
     }
 
-    private function detectErrorsInOutput(string $output)
+    private function detectErrorsInOutput(string $output) : void
     {
         if (strpos($output, 'end diff') !== false) {
             $this->hasErrors = true;

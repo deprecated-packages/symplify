@@ -14,7 +14,7 @@ trait ControllerFormTrait
      */
     private $formFactory;
 
-    public function setFormFactory(FormFactoryInterface $formFactory)
+    public function setFormFactory(FormFactoryInterface $formFactory) : void
     {
         $this->formFactory = $formFactory;
     }

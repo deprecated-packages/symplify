@@ -33,7 +33,7 @@ final class AbstractClassNameSniff implements PHP_CodeSniffer_Sniff
      * @param PHP_CodeSniffer_File $file
      * @param int $position
      */
-    public function process(PHP_CodeSniffer_File $file, $position)
+    public function process(PHP_CodeSniffer_File $file, $position) : void
     {
         $this->file = $file;
         $this->position = $position;
@@ -73,7 +73,7 @@ final class AbstractClassNameSniff implements PHP_CodeSniffer_Sniff
         return $this->file->getTokens()[$namePosition]['content'];
     }
 
-    private function fix()
+    private function fix() : void
     {
         $this->file->fixer->beginChangeset();
         $this->file->fixer->addContent($this->position + 1, 'Abstract');

@@ -17,7 +17,7 @@ final class GihubPublishingProcess
      */
     private const CONFIG_NAME = 'Travis';
 
-    public function pushDirectoryContentToRepository(string $outputDirectory, string $githubRepository)
+    public function pushDirectoryContentToRepository(string $outputDirectory, string $githubRepository) : void
     {
         FilesystemChecker::ensureDirectoryExists($outputDirectory);
 
