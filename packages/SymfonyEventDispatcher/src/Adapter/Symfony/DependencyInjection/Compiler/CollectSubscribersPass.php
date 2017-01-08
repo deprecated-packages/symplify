@@ -1,42 +1,24 @@
-<?php
-
-declare(strict_types = 1);
-
-/*
- * This file is part of Symplify
- * Copyright (c) 2016 Tomas Votruba (http://tomasvotruba.cz).
- */
+<?php declare(strict_types = 1);
 
 namespace Symplify\SymfonyEventDispatcher\Adapter\Symfony\DependencyInjection\Compiler;
 
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Reference;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symplify\DependencyInjectionUtils\Adapter\Symfony\DependencyInjection\CollectorTrait;
 
 final class CollectSubscribersPass implements CompilerPassInterface
 {
-    /**
-     * @var ContainerBuilder
-     */
-    private $containerBuilder;
+    use CollectorTrait;
 
     public function process(ContainerBuilder $containerBuilder)
     {
-        $this->containerBuilder = $containerBuilder;
-
-        $this->loadSubscribersToEventDispatcher();
-    }
-
-    private function loadSubscribersToEventDispatcher()
-    {
-        $eventDispatcherDefinition = $this->containerBuilder->findDefinition('symplify.event_dispatcher');
-        foreach ($this->containerBuilder->getDefinitions() as $name => $definition) {
-            if (! is_subclass_of($definition->getClass(), EventSubscriberInterface::class)) {
-                return;
-            }
-
-            $eventDispatcherDefinition->addMethodCall('addSubscriber', [new Reference($name)]);
-        }
+        $this->loadCollectorWithType(
+            $containerBuilder,
+            EventDispatcherInterface::class,
+            EventSubscriberInterface::class,
+            'addSubscriber'
+        );
     }
 }

@@ -9,9 +9,12 @@ use Nette\DI\Statement;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symplify\DependencyInjectionUtils\Adapter\Nette\DI\CollectorTrait;
 
 final class SymfonyEventDispatcherExtension extends CompilerExtension
 {
+    use CollectorTrait;
+
     public function loadConfiguration() : void
     {
         if ($this->isKdybyEventsRegistered()) {
@@ -20,7 +23,7 @@ final class SymfonyEventDispatcherExtension extends CompilerExtension
 
         Compiler::loadDefinitions(
             $this->getContainerBuilder(),
-            $this->loadFromFile(__DIR__ . '/../config/services.neon')['services']
+            $this->loadFromFile(__DIR__ . '/../../../config/services.neon')['services']
         );
     }
 
@@ -34,8 +37,8 @@ final class SymfonyEventDispatcherExtension extends CompilerExtension
         }
 
         $this->addSubscribersToEventDispatcher();
-        $this->bindNetteEvents();
         $this->bindEventDispatcherToSymfonyConsole();
+        $this->bindNetteEvents();
     }
 
     private function isKdybyEventsRegistered() : bool
@@ -45,20 +48,7 @@ final class SymfonyEventDispatcherExtension extends CompilerExtension
 
     private function addSubscribersToEventDispatcher() : void
     {
-        $containerBuilder = $this->getContainerBuilder();
-        $eventDispatcher = $this->getDefinitionByType(EventDispatcherInterface::class);
-
-        foreach ($containerBuilder->findByType(EventSubscriberInterface::class) as $eventSubscriberDefinition) {
-            $eventDispatcher->addSetup('addSubscriber', ['@' . $eventSubscriberDefinition->getClass()]);
-        }
-    }
-
-    private function getDefinitionByType(string $type) : ServiceDefinition
-    {
-        $containerBuilder = $this->getContainerBuilder();
-        $definitionName = $containerBuilder->getByType($type);
-
-        return $containerBuilder->getDefinition($definitionName);
+        $this->loadCollectorWithType(EventDispatcherInterface::class, EventSubscriberInterface::class, 'addSubscriber');
     }
 
     private function bindNetteEvents() : void

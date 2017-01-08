@@ -1,11 +1,4 @@
-<?php
-
-declare(strict_types = 1);
-
-/*
- * This file is part of Symplify.
- * Copyright (c) 2017 Tomas Votruba (http://tomasvotruba.cz).
- */
+<?php declare(strict_types = 1);
 
 namespace Symplify\SymfonyEventDispatcher\Adapter\Symfony\DependencyInjection\Extension;
 
@@ -18,7 +11,7 @@ final class ContainerExtension extends Extension
 {
     public function load(array $configs, ContainerBuilder $containerBuilder)
     {
-        $loader = new YamlFileLoader($containerBuilder, new FileLocator(__DIR__ . '/../../Resources/config'));
-        $loader->load('services.yml');
+        $loader = new YamlFileLoader($containerBuilder, new FileLocator(__DIR__ . '/../../../../config'));
+        $loader->load('services.neon');
     }
 }
