@@ -1,11 +1,6 @@
 #!/usr/bin/env php
 <?php
 
-/*
- * This file is part of Symplify
- * Copyright (c) 2016 Tomas Votruba (http://tomasvotruba.cz).
- */
-
 $classLoader = require_once __DIR__.'/bootstrap.php';
 
 Symplify\PHP7_CodeSniffer\Legacy\LegacyCompatibilityLayer::add();
