@@ -1,0 +1,33 @@
+{
+	"name": "zenify/modular-latte-filters",
+	"description": "Nette extension for modular latte filters loading.",
+	"license": "MIT",
+	"authors": [
+		{ "name": "Tomas Votruba", "homepage": "http://tomasvotruba.cz", "email": "tomas.vot@gmail.com" }
+	],
+	"require": {
+		"php": "^7.0",
+		"nette/di": "^2.4",
+		"latte/latte": "^2.4"
+	},
+	"require-dev": {
+		"nette/application": "^2.4",
+		"nette/bootstrap": "^2.4",
+		"tracy/tracy": "^2.4",
+		"phpunit/phpunit": "^5.7",
+		"zenify/coding-standard": "^4.2"
+	},
+	"autoload": {
+		"psr-4": {
+			"Zenify\\ModularLatteFilters\\": "src"
+		}
+	},
+	"autoload-dev": {
+		"psr-4": {
+			"Zenify\\ModularLatteFilters\\Tests\\": "tests"
+		}
+	},
+	"scripts": {
+		"check-cs": "vendor/bin/phpcs src tests -ps --standard=vendor/zenify/coding-standard/src/ZenifyCodingStandard/ruleset.xml"
+	}
+}

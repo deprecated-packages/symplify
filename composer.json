@@ -77,7 +77,9 @@
             "Symplify\\ServiceDefinitionDecorator\\": "packages/ServiceDefinitionDecorator/src",
             "Symplify\\Statie\\": "packages/Statie/src",
             "Symplify\\SymfonySecurity\\": "packages/SymfonySecurity/src",
-            "Symplify\\SymfonyEventDispatcher\\": "packages/SymfonyEventDispatcher/src"
+            "Symplify\\SymfonyEventDispatcher\\": "packages/SymfonyEventDispatcher/src",
+
+            "Zenify\\ModularLatteFilters\\": "packages/ModularLatteFilters/src"
         }
     },
     "autoload-dev": {
@@ -94,7 +96,9 @@
             "Symplify\\Tests\\": "tests",
             "React\\Tests\\Http\\": "vendor/react/http/tests",
             "Symplify\\SymfonySecurity\\Tests\\": "packages/SymfonySecurity/tests",
-            "Symplify\\SymfonyEventDispatcher\\Tests\\": "packages/SymfonyEventDispatcher/tests"
+            "Symplify\\SymfonyEventDispatcher\\Tests\\": "packages/SymfonyEventDispatcher/tests",
+
+            "Zenify\\ModularLatteFilters\\Tests\\": "packages/ModularLatteFilters/tests"
         },
         "classmap": [
             "packages/Statie/bin/include-autoload.php"
