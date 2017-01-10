@@ -6,20 +6,18 @@ namespace Zenify\ModularLatteFilters\Tests\Filter;
 
 use Zenify\ModularLatteFilters\Contract\DI\LatteFiltersProviderInterface;
 
-
 final class MathFilters implements LatteFiltersProviderInterface
 {
 
-	/**
-	 * @return callable[]
-	 */
-	public function getFilters() : array
-	{
-		return [
-			'double' => function (int $value) {
-				return $value * 2;
-			}
-		];
-	}
-
+    /**
+     * @return callable[]
+     */
+    public function getFilters() : array
+    {
+        return [
+            'double' => function (int $value) {
+                return $value * 2;
+            }
+        ];
+    }
 }

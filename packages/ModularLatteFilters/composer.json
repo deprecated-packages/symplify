@@ -1,6 +1,6 @@
 {
 	"name": "zenify/modular-latte-filters",
-	"description": "Nette extension for modular latte filters loading.",
+	"description": "Nette extension for modular Latte filters loading.",
 	"license": "MIT",
 	"authors": [
 		{ "name": "Tomas Votruba", "homepage": "http://tomasvotruba.cz", "email": "tomas.vot@gmail.com" }

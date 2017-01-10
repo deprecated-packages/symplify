@@ -3,6 +3,7 @@ git subsplit init git@github.com:symplify/symplify.git
 
 LAST_TAG=$(git tag -l | tail -n1);
 
+# Symplify
 git subsplit publish --heads="master" --tags=$LAST_TAG packages/ActionAutowire:git@github.com:Symplify/ActionAutowire.git
 git subsplit publish --heads="master" --tags=$LAST_TAG packages/AutoServiceRegistration:git@github.com:Symplify/AutoServiceRegistration.git
 git subsplit publish --heads="master" --tags=$LAST_TAG packages/CodingStandard:git@github.com:Symplify/CodingStandard.git
@@ -14,6 +15,9 @@ git subsplit publish --heads="master" --tags=$LAST_TAG packages/ServiceDefinitio
 git subsplit publish --heads="master" --tags=$LAST_TAG packages/Statie:git@github.com:Symplify/Statie.git
 git subsplit publish --heads="master" --tags=$LAST_TAG packages/SymfonyEventDispatcher:git@github.com:Symplify/SymfonyEventDispatcher.git
 git subsplit publish --heads="master" --tags=$LAST_TAG packages/SymfonySecurity:git@github.com:Symplify/SymfonySecurity.git
+
+# Zenify
+git subsplit publish --heads="master" --tags=$LAST_TAG packages/ModularLatteFilters:git@github.com:Zenify/ModularLatteFilters.git
 
 rm -rf .subsplit/
 
