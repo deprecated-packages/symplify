@@ -1,19 +1,15 @@
-<?php
-
+<?php declare(strict_types=1);
 if ($i === 1) {
-	return $i;
+    return $i;
+}  
+    return $i * 2;
 
-} else {
-	return $i * 2;
-}
 
 
 try {
-	return 1;
-
+    return 1;
 } catch (Exception $e) {
-	return 2;
-
+    return 2;
 } finally {
-	$this->someFunction();
+    $this->someFunction();
 }

@@ -1,14 +1,10 @@
-<?php
-
+<?php declare(strict_types=1);
 namespace SomeNamespace;
 
-
-class SomeClass
+class correct
 {
 
-	public function run()
-	{
-
-	}
-
+    public function run()
+    {
+    }
 }

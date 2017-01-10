@@ -1,17 +1,14 @@
-<?php
-
+<?php declare(strict_types=1);
 namespace SomeNamespace;
 
-
-class SomeClass
+class correct2
 {
 
-	protected $defaults = [
-		'up' => TRUE  # or "FALSE"
-	];
+    protected $defaults = [
+        'up' => true  # or "FALSE"
+    ];
 
-	public function run()
-	{
-	}
-
+    public function run()
+    {
+    }
 }

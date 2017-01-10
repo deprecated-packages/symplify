@@ -1,22 +1,19 @@
-<?php
-
+<?php declare(strict_types=1);
 namespace SomeNamespace;
 
-
-class SomeClass
+class correct3
 {
 
-	protected $defaults = [
-		'up' => [
-			'sup'
-		],
-	];
+    protected $defaults = [
+        'up' => [
+            'sup'
+        ],
+    ];
 
-	/**
-	 * Some comment
-	 */
-	public function run()
-	{
-	}
-
+    /**
+     * Some comment
+     */
+    public function run()
+    {
+    }
 }

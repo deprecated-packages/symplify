@@ -1,12 +1,9 @@
-<?php
-
+<?php declare(strict_types=1);
 namespace SomeNamespace;
 
-
-class SomeClass
+class wrong
 {
 
-	/** @var int */
-	public $count;
-
+    /** @var int */
+    public $count;
 }

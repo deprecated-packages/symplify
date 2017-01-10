@@ -1,12 +1,11 @@
-<?php
-
-if ($rumor === TRUE) {
-	echo 'ok';
+<?php declare(strict_types=1);
+if ($rumor === true) {
+    echo 'ok';
 }
 
 $value = $var === 3 ? 1 : 2;
 
-$value = ($object === NULL) ? 1 : 2;
+$value = ($object === null) ? 1 : 2;
 
 $value = ($object === '-') ? 1 : 2;
 

@@ -1,15 +1,12 @@
-<?php
-
+<?php declare(strict_types=1);
 namespace SomeNamespace;
 
 use SplFileInfo;
 
-
-class SomeClass
+class correct2
 {
 
-	protected function createComponentStuffs() : SplFileInfo
-	{
-	}
-
+    protected function createComponentStuffs() : SplFileInfo
+    {
+    }
 }

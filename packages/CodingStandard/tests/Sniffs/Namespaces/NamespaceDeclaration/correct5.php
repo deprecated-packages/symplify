@@ -1,13 +1,11 @@
-<?php
-
+<?php declare(strict_types=1);
 namespace Symplify\FlashMessageComponent;
 
-interface ControlFactory
+interface correct5
 {
 
-	/**
-	 * @return Control
-	 */
-	function create();
-
+    /**
+     * @return Control
+     */
+    function create();
 }

@@ -1,16 +1,13 @@
-<?php
-
+<?php declare(strict_types=1);
 namespace SomeNamespace;
 
-
-class SomeClass
+class correct
 {
 
-	/**
-	 * @param int $values
-	 */
-	public function count($values)
-	{
-	}
-
+    /**
+     * @param int $values
+     */
+    public function count($values)
+    {
+    }
 }

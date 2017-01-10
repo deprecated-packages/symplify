@@ -1,13 +1,10 @@
-<?php
-
+<?php declare(strict_types=1);
 namespace SomeNamespace;
 
-
-class SomeClass
+class wrong
 {
 
-	protected function createComponentStuffs()
-	{
-	}
-
+    protected function createComponentStuffs()
+    {
+    }
 }

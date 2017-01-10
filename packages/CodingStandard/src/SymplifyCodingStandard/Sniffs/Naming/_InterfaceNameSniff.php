@@ -5,68 +5,66 @@ namespace SymplifyCodingStandard\Sniffs\Naming;
 use PHP_CodeSniffer_File;
 use PHP_CodeSniffer_Sniff;
 
-
 /**
  * Rules:
  * - Interface should have suffix "Interface"
  */
-final class InterfaceNameSniff implements PHP_CodeSniffer_Sniff
+final class _InterfaceNameSniff implements PHP_CodeSniffer_Sniff
 {
 
-	/**
-	 * @var string
-	 */
-	const NAME = 'SymplifyCodingStandard.Naming.InterfaceName';
+    /**
+     * @var string
+     */
+    const NAME = 'SymplifyCodingStandard.Naming.InterfaceName';
 
-	/**
-	 * @var PHP_CodeSniffer_File
-	 */
-	private $file;
+    /**
+     * @var PHP_CodeSniffer_File
+     */
+    private $file;
 
-	/**
-	 * @var int
-	 */
-	private $position;
-
-
-	/**
-	 * @return int[]
-	 */
-	public function register() : array
-	{
-		return [T_INTERFACE];
-	}
+    /**
+     * @var int
+     */
+    private $position;
 
 
-	/**
-	 * @param PHP_CodeSniffer_File $file
-	 * @param int $position
-	 */
-	public function process(PHP_CodeSniffer_File $file, $position)
-	{
-		$this->file = $file;
-		$this->position = $position;
-
-		$interfaceName = $this->getInterfaceName();
-		if ((strlen($interfaceName) - strlen('Interface')) === strrpos($interfaceName, 'Interface')) {
-			return;
-		}
-
-		$file->addError('Interface should have suffix "Interface".', $position);
-	}
+    /**
+     * @return int[]
+     */
+    public function register() : array
+    {
+        return [T_INTERFACE];
+    }
 
 
-	/**
-	 * @return string|FALSE
-	 */
-	private function getInterfaceName()
-	{
-		$namePosition = $this->file->findNext(T_STRING, $this->position);
-		if ( ! $namePosition) {
-			return FALSE;
-		}
+    /**
+     * @param PHP_CodeSniffer_File $file
+     * @param int $position
+     */
+    public function process(PHP_CodeSniffer_File $file, $position)
+    {
+        $this->file = $file;
+        $this->position = $position;
 
-		return $this->file->getTokens()[$namePosition]['content'];
-	}
+        $interfaceName = $this->getInterfaceName();
+        if ((strlen($interfaceName) - strlen('Interface')) === strrpos($interfaceName, 'Interface')) {
+            return;
+        }
 
+        $file->addError('Interface should have suffix "Interface".', $position);
+    }
+
+
+    /**
+     * @return string|FALSE
+     */
+    private function getInterfaceName()
+    {
+        $namePosition = $this->file->findNext(T_STRING, $this->position);
+        if (! $namePosition) {
+            return false;
+        }
+
+        return $this->file->getTokens()[$namePosition]['content'];
+    }
 }

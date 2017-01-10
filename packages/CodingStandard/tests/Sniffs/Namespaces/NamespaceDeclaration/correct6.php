@@ -1,10 +1,8 @@
-<?php
-
+<?php declare(strict_types=1);
 namespace Project;
 
-class AccessLevels
+class correct6
 {
 
-	use SomeTrait;
-
+    use SomeTrait;
 }

@@ -6,7 +6,6 @@ use PHP_CodeSniffer_File;
 use PHP_CodeSniffer_Sniff;
 use Symplify\CodingStandard\Helper\Commenting\FunctionHelper;
 
-
 /**
  * Rules:
  * - Getters should have @return tag or return type (except {@inheritdoc}).
@@ -14,15 +13,15 @@ use Symplify\CodingStandard\Helper\Commenting\FunctionHelper;
 final class MethodCommentReturnTypeSniff implements PHP_CodeSniffer_Sniff
 {
 
-	/**
-	 * @var string
-	 */
-	const NAME = 'SymplifyCodingStandard.Commenting.MethodCommentReturnType';
+    /**
+     * @var string
+     */
+    const NAME = 'SymplifyCodingStandard.Commenting.MethodCommentReturnType';
 
-	/**
-	 * @var string[]
-	 */
-	private $getterMethodPrefixes = ['get', 'is', 'has', 'will', 'should'];
+    /**
+     * @var string[]
+     */
+    private $getterMethodPrefixes = ['get', 'is', 'has', 'will', 'should'];
 
     /**
      * @var PHP_CodeSniffer_File
@@ -43,26 +42,26 @@ final class MethodCommentReturnTypeSniff implements PHP_CodeSniffer_Sniff
      * @return int[]
      */
     public function register() : array
-	{
-		return [T_FUNCTION];
-	}
+    {
+        return [T_FUNCTION];
+    }
 
     /**
-	 * @param PHP_CodeSniffer_File $file
-	 * @param int $position
-	 */
-	public function process(PHP_CodeSniffer_File $file, $position)
-	{
-	    $this->file = $file;
-	    $this->position = $position;
-	    $this->tokens = $file->getTokens();
+     * @param PHP_CodeSniffer_File $file
+     * @param int $position
+     */
+    public function process(PHP_CodeSniffer_File $file, $position)
+    {
+        $this->file = $file;
+        $this->position = $position;
+        $this->tokens = $file->getTokens();
 
         if ($this->shouldBeSkipped()) {
             return;
         }
 
-		$file->addError('Getters should have @return tag or return type (except {@inheritdoc}).', $position);
-	}
+        $file->addError('Getters should have @return tag or return type (except {@inheritdoc}).', $position);
+    }
 
     private function shouldBeSkipped() : bool
     {

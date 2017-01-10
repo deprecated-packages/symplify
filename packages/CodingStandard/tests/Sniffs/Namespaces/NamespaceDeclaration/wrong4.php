@@ -1,22 +1,9 @@
-<?php
-
+<?php declare(strict_types=1);
 namespace SomeNamespace;
-
-
-
-
-
 
 use SomeNamespace;
 
-
-
-
-
-
-
-
-class SomeClass
+class wrong4
 {
 
 }

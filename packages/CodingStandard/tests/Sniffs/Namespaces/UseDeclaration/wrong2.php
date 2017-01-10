@@ -1,12 +1,10 @@
-<?php
-
+<?php declare(strict_types=1);
 namespace SomeNamespace;
 
-use Sth,
-	SthElse;
+use Sth;
+use SthElse;
 
-
-class SomeClass
+class wrong2
 {
 
 }

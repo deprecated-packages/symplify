@@ -1,15 +1,12 @@
-<?php
-
+<?php declare(strict_types=1);
 namespace SomeNamespace;
 
-
-class SomeClass
+class correct2
 {
 
-	public function run()
-	{
-		/** @var Presenter $presenter */
-		$presenter = $di->getService('IPresenter');
-	}
-
+    public function run()
+    {
+        /** @var Presenter $presenter */
+        $presenter = $di->getService('IPresenter');
+    }
 }

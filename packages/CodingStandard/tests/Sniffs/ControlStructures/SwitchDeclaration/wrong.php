@@ -1,12 +1,11 @@
-<?php
-
+<?php declare(strict_types=1);
 $suit = 'case';
 
 switch ($suit) {
-case 1:
-	echo 'ok';
-	break;
-default:
-	echo 'not ok';
-	break;
+    case 1:
+        echo 'ok';
+        break;
+    default:
+        echo 'not ok';
+        break;
 }

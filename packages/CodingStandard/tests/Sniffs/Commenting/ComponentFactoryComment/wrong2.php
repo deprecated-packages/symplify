@@ -1,16 +1,13 @@
-<?php
-
+<?php declare(strict_types=1);
 namespace SomeNamespace;
 
-
-class SomeClass
+class wrong2
 {
 
-	/**
-	 * @return
-	 */
-	protected function createComponentStuffs()
-	{
-	}
-
+    /**
+     * @return
+     */
+    protected function createComponentStuffs()
+    {
+    }
 }
