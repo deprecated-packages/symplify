@@ -29,6 +29,5 @@ final class UserCallable
         if ($this->user->isLoggedIn()) {
             return $this->user->getId();
         }
-        
     }
 }

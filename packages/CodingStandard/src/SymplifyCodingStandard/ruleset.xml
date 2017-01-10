@@ -4,6 +4,7 @@
 
 	<!-- Classes -->
 	<rule ref="Generic.Classes.DuplicateClassName"/>
+	<!-- new --> <rule ref="PSR2.Classes.PropertyDeclaration"/>
 	<rule ref="Squiz.Classes.ValidClassName"/>
 	<rule ref="Squiz.Classes.LowercaseClassKeywords"/>
 
@@ -22,6 +23,7 @@
 	<rule ref="PEAR.ControlStructures.MultiLineCondition.Alignment">
 		<severity>0</severity>
 	</rule>
+	
 	<rule ref="Squiz.ControlStructures.ControlSignature"/>
 	<rule ref="Squiz.ControlStructures.ForEachLoopDeclaration"/>
 	<rule ref="Squiz.ControlStructures.ForLoopDeclaration"/>

@@ -27,7 +27,7 @@ abstract class AbstractBehaviorExtension extends CompilerExtension
 
 
     /**
-     * @return ServiceDefinition|NULL
+     * @return ServiceDefinition|void
      */
     protected function buildDefinitionFromCallable(string $callable = null)
     {

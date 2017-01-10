@@ -1,3 +1,5 @@
 parameters:
     ignoreErrors:
         - "#Call to an undefined method Prophecy#"
+        - "#TranslatableTest#"
+        - "#Version456#"
