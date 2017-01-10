@@ -8,7 +8,6 @@ use SymplifyCodingStandard\Sniffs\ControlStructures\SwitchDeclarationSniff;
 
 final class SwitchDeclarationSniffTest extends TestCase
 {
-
     public function testDetection()
     {
         $codeSnifferRunner = new CodeSnifferRunner(SwitchDeclarationSniff::NAME);

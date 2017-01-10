@@ -14,7 +14,7 @@ final class SymfonyRunnerTest extends TestCase
 
     protected function setUp()
     {
-        $this->runner = new SymfonyRunner();
+        $this->runner = new SymfonyRunner;
     }
 
     public function testRunForDirectory()

@@ -13,7 +13,6 @@ use Symplify\CodingStandard\Helper\Whitespace\WhitespaceFinder;
  */
 final class NamespaceDeclarationSniff implements PHP_CodeSniffer_Sniff
 {
-
     /**
      * @var string
      */
@@ -49,7 +48,6 @@ final class NamespaceDeclarationSniff implements PHP_CodeSniffer_Sniff
      */
     private $classMetrics;
 
-
     /**
      * @return int[]
      */
@@ -57,7 +55,6 @@ final class NamespaceDeclarationSniff implements PHP_CodeSniffer_Sniff
     {
         return [T_NAMESPACE];
     }
-
 
     /**
      * @param PHP_CodeSniffer_File $file
@@ -77,7 +74,6 @@ final class NamespaceDeclarationSniff implements PHP_CodeSniffer_Sniff
 
         $this->fixParameterTypes();
 
-
         // prepare class metrics class
         $this->classMetrics = new ClassMetrics($file, $classPosition);
 
@@ -92,7 +88,6 @@ final class NamespaceDeclarationSniff implements PHP_CodeSniffer_Sniff
             $this->processWithoutUseStatement($lineDistanceBetweenClassAndNamespace);
         }
     }
-
 
     private function processWithoutUseStatement(int $linesToNextClass)
     {
@@ -109,7 +104,6 @@ final class NamespaceDeclarationSniff implements PHP_CodeSniffer_Sniff
             }
         }
     }
-
 
     private function processWithUseStatement(int $linesToNextUse)
     {
@@ -143,7 +137,6 @@ final class NamespaceDeclarationSniff implements PHP_CodeSniffer_Sniff
             }
         }
     }
-
 
     private function fixSpacesFromNamespaceToUseStatements(int $position, int $linesToNextUse)
     {
@@ -180,7 +173,6 @@ final class NamespaceDeclarationSniff implements PHP_CodeSniffer_Sniff
             }
         }
     }
-
 
     private function fixSpacesFromUseStatementToClass(int $position, int $linesToClass) : void
     {

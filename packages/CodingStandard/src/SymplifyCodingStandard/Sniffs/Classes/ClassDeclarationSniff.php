@@ -12,7 +12,6 @@ use PHP_CodeSniffer_File;
  */
 final class ClassDeclarationSniff extends PEAR_Sniffs_Classes_ClassDeclarationSniff
 {
-
     /**
      * @var string
      */
@@ -21,18 +20,17 @@ final class ClassDeclarationSniff extends PEAR_Sniffs_Classes_ClassDeclarationSn
     /**
      * @var int|string
      */
-    public $emptyLinesAfterOpeningBrace = 1;
+    public $emptyLinesAfterOpeningBrace = 0;
 
     /**
      * @var int|string
      */
-    public $emptyLinesBeforeClosingBrace = 1;
+    public $emptyLinesBeforeClosingBrace = 0;
 
     /**
      * @var PHP_CodeSniffer_File
      */
     private $file;
-
 
     /**
      * @param PHP_CodeSniffer_File $file
@@ -51,7 +49,6 @@ final class ClassDeclarationSniff extends PEAR_Sniffs_Classes_ClassDeclarationSn
         $this->processClose($file, $position);
     }
 
-
     private function processOpen(PHP_CodeSniffer_File $file, int $position)
     {
         $tokens = $file->getTokens();
@@ -59,19 +56,19 @@ final class ClassDeclarationSniff extends PEAR_Sniffs_Classes_ClassDeclarationSn
         $emptyLinesCount = $this->getEmptyLinesAfterOpeningBrace($file, $openingBracePosition);
 
         if ($emptyLinesCount !== $this->emptyLinesAfterOpeningBrace) {
-            $error = 'Opening brace for the %s should be followed by %s empty line(s); %s found.';
-            $data = [
+            $errorMessage = sprintf(
+                'Opening brace for the %s should be followed by %s empty line(s); %s found.',
                 $tokens[$position]['content'],
                 $this->emptyLinesAfterOpeningBrace,
-                $emptyLinesCount,
-            ];
-            $fix = $file->addFixableError($error, $openingBracePosition, 'OpenBraceFollowedByEmptyLines', $data);
+                $emptyLinesCount
+            );
+
+            $fix = $file->addFixableError($errorMessage, $openingBracePosition);
             if ($fix) {
                 $this->fixOpeningBraceSpaces($openingBracePosition, $emptyLinesCount);
             }
         }
     }
-
 
     private function processClose(PHP_CodeSniffer_File $file, int $position)
     {
@@ -80,19 +77,19 @@ final class ClassDeclarationSniff extends PEAR_Sniffs_Classes_ClassDeclarationSn
         $emptyLinesCount = $this->getEmptyLinesBeforeClosingBrace($file, $closeBracePosition);
 
         if ($emptyLinesCount !== $this->emptyLinesBeforeClosingBrace) {
-            $error = 'Closing brace for the %s should be preceded by %s empty line(s); %s found.';
-            $data = [
+            $errorMessage = sprintf(
+                'Closing brace for the %s should be preceded by %s empty line(s); %s found.',
                 $tokens[$position]['content'],
                 $this->emptyLinesBeforeClosingBrace,
                 $emptyLinesCount
-            ];
-            $fix = $file->addFixableError($error, $closeBracePosition, 'CloseBracePrecededByEmptyLines', $data);
+            );
+
+            $fix = $file->addFixableError($errorMessage, $closeBracePosition);
             if ($fix) {
                 $this->fixClosingBraceSpaces($closeBracePosition, $emptyLinesCount);
             }
         }
     }
-
 
     private function getEmptyLinesBeforeClosingBrace(PHP_CodeSniffer_File $file, int $position) : int
     {
@@ -101,7 +98,6 @@ final class ClassDeclarationSniff extends PEAR_Sniffs_Classes_ClassDeclarationSn
         return $tokens[$position]['line'] - $tokens[$prevContent]['line'] - 1;
     }
 
-
     private function getEmptyLinesAfterOpeningBrace(PHP_CodeSniffer_File $file, int $position) : int
     {
         $tokens = $file->getTokens();
@@ -109,20 +105,18 @@ final class ClassDeclarationSniff extends PEAR_Sniffs_Classes_ClassDeclarationSn
         return $tokens[$nextContent]['line'] - $tokens[$position]['line'] - 1;
     }
 
-
     private function fixOpeningBraceSpaces(int $position, int $numberOfSpaces)
     {
         if ($numberOfSpaces < $this->emptyLinesAfterOpeningBrace) {
             for ($i = $numberOfSpaces; $i < $this->emptyLinesAfterOpeningBrace; $i++) {
                 $this->file->fixer->addContent($position, PHP_EOL);
             }
-        } else {
+        } elseif ($numberOfSpaces > $this->emptyLinesAfterOpeningBrace) {
             for ($i = $numberOfSpaces; $i > $this->emptyLinesAfterOpeningBrace; $i--) {
                 $this->file->fixer->replaceToken($position + $i, '');
             }
         }
     }
-
 
     private function fixClosingBraceSpaces(int $position, int $numberOfSpaces)
     {
@@ -130,7 +124,7 @@ final class ClassDeclarationSniff extends PEAR_Sniffs_Classes_ClassDeclarationSn
             for ($i = $numberOfSpaces; $i < $this->emptyLinesBeforeClosingBrace; $i++) {
                 $this->file->fixer->addContentBefore($position, PHP_EOL);
             }
-        } else {
+        } elseif ($numberOfSpaces > $this->emptyLinesBeforeClosingBrace) {
             for ($i = $numberOfSpaces; $i > $this->emptyLinesBeforeClosingBrace; $i--) {
                 $this->file->fixer->replaceToken($position - $i, '');
             }

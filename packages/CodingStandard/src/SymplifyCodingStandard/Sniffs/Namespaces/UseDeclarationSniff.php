@@ -13,7 +13,6 @@ use PSR2_Sniffs_Namespaces_UseDeclarationSniff;
  */
 final class UseDeclarationSniff extends PSR2_Sniffs_Namespaces_UseDeclarationSniff
 {
-
     /**
      * @var string
      */
@@ -22,8 +21,7 @@ final class UseDeclarationSniff extends PSR2_Sniffs_Namespaces_UseDeclarationSni
     /**
      * @var int|string
      */
-    public $blankLinesAfterUseStatement = 2;
-
+    public $blankLinesAfterUseStatement = 1;
 
     /**
      * @return int[]
@@ -32,7 +30,6 @@ final class UseDeclarationSniff extends PSR2_Sniffs_Namespaces_UseDeclarationSni
     {
         return [T_USE];
     }
-
 
     /**
      * @param PHP_CodeSniffer_File $file
@@ -67,7 +64,6 @@ final class UseDeclarationSniff extends PSR2_Sniffs_Namespaces_UseDeclarationSni
         $this->checkBlankLineAfterLastUseStatement($file, $position);
     }
 
-
     /**
      * Check if this use statement is part of the namespace block.
      * @param PHP_CodeSniffer_File $file
@@ -91,7 +87,6 @@ final class UseDeclarationSniff extends PSR2_Sniffs_Namespaces_UseDeclarationSni
         return false;
     }
 
-
     private function checkIfSingleSpaceAfterUseKeyword(PHP_CodeSniffer_File $file, int $position)
     {
         $tokens = $file->getTokens();
@@ -100,7 +95,6 @@ final class UseDeclarationSniff extends PSR2_Sniffs_Namespaces_UseDeclarationSni
             $file->addError($error, $position, 'SpaceAfterUse');
         }
     }
-
 
     private function checkIfOneUseDeclarationPerStatement(PHP_CodeSniffer_File $file, int $position)
     {
@@ -111,7 +105,6 @@ final class UseDeclarationSniff extends PSR2_Sniffs_Namespaces_UseDeclarationSni
             $file->addError($error, $position, 'MultipleDeclarations');
         }
     }
-
 
     private function checkIfUseComesAfterNamespaceDeclaration(PHP_CodeSniffer_File $file, int $position)
     {
@@ -124,7 +117,6 @@ final class UseDeclarationSniff extends PSR2_Sniffs_Namespaces_UseDeclarationSni
             }
         }
     }
-
 
     private function checkBlankLineAfterLastUseStatement(PHP_CodeSniffer_File $file, int $position)
     {

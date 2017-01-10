@@ -9,7 +9,6 @@ use PHP_CodeSniffer_File;
  */
 final class FunctionHelper
 {
-
     public static function isAbstract(PHP_CodeSniffer_File $codeSnifferFile, int $functionPointer): bool
     {
         return ! isset($codeSnifferFile->getTokens()[$functionPointer]['scope_opener']);

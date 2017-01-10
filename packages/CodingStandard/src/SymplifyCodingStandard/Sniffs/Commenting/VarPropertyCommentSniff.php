@@ -14,7 +14,6 @@ use PHP_CodeSniffer_Standards_AbstractVariableSniff;
  */
 final class VarPropertyCommentSniff extends PHP_CodeSniffer_Standards_AbstractVariableSniff
 {
-
     /**
      * @var string
      */
@@ -35,7 +34,6 @@ final class VarPropertyCommentSniff extends PHP_CodeSniffer_Standards_AbstractVa
         $file->addError('Property should have docblock comment.', $position);
     }
 
-
     /**
      * @param PHP_CodeSniffer_File $file
      * @param int $position
@@ -44,7 +42,6 @@ final class VarPropertyCommentSniff extends PHP_CodeSniffer_Standards_AbstractVa
     {
     }
 
-
     /**
      * @param PHP_CodeSniffer_File $file
      * @param int $position
@@ -52,7 +49,6 @@ final class VarPropertyCommentSniff extends PHP_CodeSniffer_Standards_AbstractVa
     protected function processVariableInString(PHP_CodeSniffer_File $file, $position)
     {
     }
-
 
     private function getPropertyComment(PHP_CodeSniffer_File $file, int $position) : string
     {
@@ -64,13 +60,13 @@ final class VarPropertyCommentSniff extends PHP_CodeSniffer_Standards_AbstractVa
         $tokens = $file->getTokens();
         if ($tokens[$commentEnd]['code'] !== T_DOC_COMMENT_CLOSE_TAG) {
             return '';
-        }  
-            // Make sure the comment we have found belongs to us.
-            $commentFor = $file->findNext(T_VARIABLE, $commentEnd + 1);
-            if ($commentFor !== $position) {
-                return '';
-            }
-        
+        }
+
+        // Make sure the comment we have found belongs to us.
+        $commentFor = $file->findNext(T_VARIABLE, $commentEnd + 1);
+        if ($commentFor !== $position) {
+            return '';
+        }
 
         $commentStart = $file->findPrevious(T_DOC_COMMENT_OPEN_TAG, $position);
         return $file->getTokensAsString($commentStart, $commentEnd - $commentStart + 1);

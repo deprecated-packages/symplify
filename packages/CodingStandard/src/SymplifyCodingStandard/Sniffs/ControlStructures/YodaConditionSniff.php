@@ -11,7 +11,6 @@ use PHP_CodeSniffer_Sniff;
  */
 final class YodaConditionSniff implements PHP_CodeSniffer_Sniff
 {
-
     /**
      * @var string
      */
@@ -26,7 +25,6 @@ final class YodaConditionSniff implements PHP_CodeSniffer_Sniff
      * @var PHP_CodeSniffer_File
      */
     private $file;
-
 
     /**
      * @return int[]
@@ -44,7 +42,6 @@ final class YodaConditionSniff implements PHP_CodeSniffer_Sniff
             T_IS_SMALLER_OR_EQUAL
         ];
     }
-
 
     /**
      * @param PHP_CodeSniffer_File $file
@@ -68,7 +65,6 @@ final class YodaConditionSniff implements PHP_CodeSniffer_Sniff
         $file->addError('Yoda condition should not be used; switch expression order', $position);
     }
 
-
     /**
      * @return array|bool
      */
@@ -82,7 +78,6 @@ final class YodaConditionSniff implements PHP_CodeSniffer_Sniff
 
         return false;
     }
-
 
     private function isExpressionToken(array $token) : bool
     {

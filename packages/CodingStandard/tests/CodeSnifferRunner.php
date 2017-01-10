@@ -14,7 +14,7 @@ final class CodeSnifferRunner
 
     public function __construct(string $sniff)
     {
-        $this->codeSniffer = new PHP_CodeSniffer();
+        $this->codeSniffer = new PHP_CodeSniffer;
         $this->codeSniffer->initStandard(__DIR__ . '/../src/SymplifyCodingStandard/ruleset.xml', [$sniff]);
     }
 

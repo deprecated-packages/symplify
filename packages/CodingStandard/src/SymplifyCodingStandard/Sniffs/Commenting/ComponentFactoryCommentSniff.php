@@ -14,7 +14,6 @@ use Symplify\CodingStandard\Helper\Commenting\FunctionHelper;
  */
 final class ComponentFactoryCommentSniff implements PHP_CodeSniffer_Sniff
 {
-
     /**
      * @var string
      */
@@ -35,12 +34,10 @@ final class ComponentFactoryCommentSniff implements PHP_CodeSniffer_Sniff
      */
     private $tokens;
 
-
     public function register() : array
     {
         return [T_FUNCTION];
     }
-
 
     /**
      * @param PHP_CodeSniffer_File $file
@@ -71,13 +68,11 @@ final class ComponentFactoryCommentSniff implements PHP_CodeSniffer_Sniff
         $this->processReturnTag($commentStart);
     }
 
-
     private function isComponentFactoryMethod() : bool
     {
         $functionName = $this->file->getDeclarationName($this->position);
         return (strpos($functionName, 'createComponent') === 0);
     }
-
 
     /**
      * @return bool|int
@@ -87,7 +82,6 @@ final class ComponentFactoryCommentSniff implements PHP_CodeSniffer_Sniff
         return $this->file->findPrevious(T_WHITESPACE, ($this->position - 3), null, true);
     }
 
-
     private function hasMethodComment(int $position) : bool
     {
         if ($this->tokens[$position]['code'] === T_DOC_COMMENT_CLOSE_TAG) {
@@ -95,7 +89,6 @@ final class ComponentFactoryCommentSniff implements PHP_CodeSniffer_Sniff
         }
         return false;
     }
-
 
     private function processReturnTag(int $commentStartPosition)
     {

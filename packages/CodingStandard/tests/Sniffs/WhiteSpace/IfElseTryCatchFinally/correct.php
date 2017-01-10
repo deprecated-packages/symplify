@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 if ($i === 1) {
     return $i;
-}  
-    return $i * 2;
+}
+return $i * 2;
 
 
 

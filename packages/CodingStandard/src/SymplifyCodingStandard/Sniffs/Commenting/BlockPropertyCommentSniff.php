@@ -11,11 +11,10 @@ use PHP_CodeSniffer_Sniff;
  */
 final class BlockPropertyCommentSniff implements PHP_CodeSniffer_Sniff
 {
-
     /**
      * @var string
      */
-    const NAME = 'SymplifyCodingStandard.Commenting.BlockPropertyComment';
+    public const NAME = 'SymplifyCodingStandard.Commenting.BlockPropertyComment';
 
     /**
      * @var PHP_CodeSniffer_File
@@ -27,7 +26,6 @@ final class BlockPropertyCommentSniff implements PHP_CodeSniffer_Sniff
      */
     private $tokens;
 
-
     /**
      * @return int[]
      */
@@ -35,7 +33,6 @@ final class BlockPropertyCommentSniff implements PHP_CodeSniffer_Sniff
     {
         return [T_DOC_COMMENT_OPEN_TAG];
     }
-
 
     /**
      * @param PHP_CodeSniffer_File $file
@@ -60,7 +57,6 @@ final class BlockPropertyCommentSniff implements PHP_CodeSniffer_Sniff
         }
     }
 
-
     private function isPropertyOrMethodComment(int $position) : bool
     {
         $nextPropertyOrMethodPosition = $this->file->findNext([T_VARIABLE, T_FUNCTION], $position + 1);
@@ -78,7 +74,6 @@ final class BlockPropertyCommentSniff implements PHP_CodeSniffer_Sniff
         return false;
     }
 
-
     private function isSingleLineDoc(int $openTagPosition, int $closeTagPosition) : bool
     {
         $lines = $this->tokens[$closeTagPosition]['line'] - $this->tokens[$openTagPosition]['line'];
@@ -87,7 +82,6 @@ final class BlockPropertyCommentSniff implements PHP_CodeSniffer_Sniff
         }
         return false;
     }
-
 
     private function isVariableOrPropertyUse(int $position) : bool
     {
@@ -100,7 +94,6 @@ final class BlockPropertyCommentSniff implements PHP_CodeSniffer_Sniff
         }
         return false;
     }
-
 
     private function changeSingleLineDocToDocBlock(int $position)
     {

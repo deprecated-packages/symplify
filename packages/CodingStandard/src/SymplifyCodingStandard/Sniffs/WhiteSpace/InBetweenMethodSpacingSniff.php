@@ -42,7 +42,6 @@ final class InBetweenMethodSpacingSniff extends Squiz_Sniffs_WhiteSpace_Function
      */
     private $file;
 
-
     /**
      * @return int[]
      */
@@ -50,7 +49,6 @@ final class InBetweenMethodSpacingSniff extends Squiz_Sniffs_WhiteSpace_Function
     {
         return [T_FUNCTION];
     }
-
 
     /**
      * @param PHP_CodeSniffer_File $file
@@ -69,20 +67,19 @@ final class InBetweenMethodSpacingSniff extends Squiz_Sniffs_WhiteSpace_Function
         if ($blankLinesCountAfterFunction !== $this->blankLinesBetweenMethods) {
             if ($this->isLastMethod()) {
                 return;
-            }  
-                $error = sprintf(
-                    'Method should have %s empty line(s) after itself, %s found.',
-                    $this->blankLinesBetweenMethods,
-                    $blankLinesCountAfterFunction
-                );
-                $fix = $file->addFixableError($error, $position);
-                if ($fix) {
-                    $this->fixSpacingAfterMethod($blankLinesCountAfterFunction);
-                }
-            
+            }
+
+            $error = sprintf(
+                'Method should have %s empty line(s) after itself, %s found.',
+                $this->blankLinesBetweenMethods,
+                $blankLinesCountAfterFunction
+            );
+            $fix = $file->addFixableError($error, $position);
+            if ($fix) {
+                $this->fixSpacingAfterMethod($blankLinesCountAfterFunction);
+            }
         }
     }
-
 
     private function getBlankLineCountAfterFunction() : int
     {
@@ -100,7 +97,6 @@ final class InBetweenMethodSpacingSniff extends Squiz_Sniffs_WhiteSpace_Function
         return $foundLines;
     }
 
-
     private function isLastMethod() : bool
     {
         $closer = $this->getScopeCloser();
@@ -110,7 +106,6 @@ final class InBetweenMethodSpacingSniff extends Squiz_Sniffs_WhiteSpace_Function
         }
         return false;
     }
-
 
     /**
      * @return bool|int
@@ -125,7 +120,6 @@ final class InBetweenMethodSpacingSniff extends Squiz_Sniffs_WhiteSpace_Function
         return $this->tokens[$this->position]['scope_closer'];
     }
 
-
     /**
      * @return int|NULL
      */
@@ -135,18 +129,17 @@ final class InBetweenMethodSpacingSniff extends Squiz_Sniffs_WhiteSpace_Function
         for ($i = $closer; $i < $this->file->numTokens; $i++) {
             if (strpos($this->tokens[$i]['content'], $this->file->eolChar) === false) {
                 continue;
-            }  
-                $nextLineToken = ($i + 1);
-                if (! isset($this->tokens[$nextLineToken])) {
-                    $nextLineToken = null;
-                }
+            }
 
-                break;
-            
+            $nextLineToken = ($i + 1);
+            if (! isset($this->tokens[$nextLineToken])) {
+                $nextLineToken = null;
+            }
+
+            break;
         }
         return $nextLineToken;
     }
-
 
     /**
      * @return FALSE|int
@@ -158,7 +151,6 @@ final class InBetweenMethodSpacingSniff extends Squiz_Sniffs_WhiteSpace_Function
         }
         return false;
     }
-
 
     private function fixSpacingAfterMethod(int $blankLinesCountAfterFunction)
     {

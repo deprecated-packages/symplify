@@ -6,7 +6,6 @@ use PHP_CodeSniffer_File;
 
 final class MethodDocBlock
 {
-
     public static function hasMethodDocBlock(PHP_CodeSniffer_File $file, int $position) : bool
     {
         $tokens = $file->getTokens();
@@ -24,7 +23,6 @@ final class MethodDocBlock
 
         return false;
     }
-
 
     public static function getMethodDocBlock(PHP_CodeSniffer_File $file, int $position) : string
     {

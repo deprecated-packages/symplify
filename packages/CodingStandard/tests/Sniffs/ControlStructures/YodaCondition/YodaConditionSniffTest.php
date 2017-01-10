@@ -8,7 +8,6 @@ use SymplifyCodingStandard\Sniffs\ControlStructures\YodaConditionSniff;
 
 final class YodaConditionSniffTest extends TestCase
 {
-
     public function testDetection()
     {
         $codeSnifferRunner = new CodeSnifferRunner(YodaConditionSniff::NAME);

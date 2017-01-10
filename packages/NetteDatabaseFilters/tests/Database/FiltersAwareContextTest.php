@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Zenify\NetteDatabaseFilters\Tests\Database;
 
@@ -43,7 +41,7 @@ final class FiltersAwareContextTest extends TestCase
     public function testGet()
     {
         $this->assertInstanceOf(ActiveRow::class, $this->selection->get(2));
-        $this->assertFalse($this->selection->get(1));
+        $this->assertFalse((bool) $this->selection->get(1));
     }
 
 

@@ -8,7 +8,6 @@ use SymplifyCodingStandard\Sniffs\WhiteSpace\IfElseTryCatchFinallySniff;
 
 final class IfElseTryCatchFinallySniffTest extends TestCase
 {
-
     public function testDetection()
     {
         $codeSnifferRunner = new CodeSnifferRunner(IfElseTryCatchFinallySniff::NAME);
@@ -16,7 +15,6 @@ final class IfElseTryCatchFinallySniffTest extends TestCase
         $this->assertSame(3, $codeSnifferRunner->getErrorCountInFile(__DIR__ . '/wrong.php'));
         $this->assertSame(0, $codeSnifferRunner->getErrorCountInFile(__DIR__ . '/correct.php'));
     }
-
 
     public function testFixing()
     {

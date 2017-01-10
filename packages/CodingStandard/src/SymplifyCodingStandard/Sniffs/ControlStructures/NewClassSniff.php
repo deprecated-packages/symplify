@@ -11,7 +11,6 @@ use PHP_CodeSniffer_Sniff;
  */
 final class NewClassSniff implements PHP_CodeSniffer_Sniff
 {
-
     /**
      * @var string
      */
@@ -32,7 +31,6 @@ final class NewClassSniff implements PHP_CodeSniffer_Sniff
      */
     private $openParenthesisPosition;
 
-
     /**
      * @return int[]
      */
@@ -40,7 +38,6 @@ final class NewClassSniff implements PHP_CodeSniffer_Sniff
     {
         return [T_NEW];
     }
-
 
     /**
      * @param PHP_CodeSniffer_File $file
@@ -61,7 +58,6 @@ final class NewClassSniff implements PHP_CodeSniffer_Sniff
         }
     }
 
-
     private function hasEmptyParentheses() : bool
     {
         $tokens = $this->file->getTokens();
@@ -81,7 +77,6 @@ final class NewClassSniff implements PHP_CodeSniffer_Sniff
         return false;
     }
 
-
     private function doesContentContains(string $content, array $chars) : bool
     {
         foreach ($chars as $char) {
@@ -91,7 +86,6 @@ final class NewClassSniff implements PHP_CodeSniffer_Sniff
         }
         return false;
     }
-
 
     private function removeParenthesesFromClassStatement(int $position)
     {

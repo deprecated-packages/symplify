@@ -11,7 +11,6 @@ use PHP_CodeSniffer_Sniff;
  */
 final class ExclamationMarkSniff implements PHP_CodeSniffer_Sniff
 {
-
     /**
      * @var string
      */
@@ -22,7 +21,6 @@ final class ExclamationMarkSniff implements PHP_CodeSniffer_Sniff
      */
     private $file;
 
-
     /**
      * @return int[]
      */
@@ -30,7 +28,6 @@ final class ExclamationMarkSniff implements PHP_CodeSniffer_Sniff
     {
         return [T_BOOLEAN_NOT];
     }
-
 
     /**
      * @param PHP_CodeSniffer_File $file
@@ -52,7 +49,6 @@ final class ExclamationMarkSniff implements PHP_CodeSniffer_Sniff
             }
         }
     }
-
 
     private function fixSpacesAroundExclamationMark(int $position, bool $isSpaceBefore, bool $isSpaceAfter)
     {

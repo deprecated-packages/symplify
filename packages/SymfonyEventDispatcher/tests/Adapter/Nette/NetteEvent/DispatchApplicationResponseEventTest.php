@@ -31,7 +31,7 @@ final class DispatchApplicationResponseEventTest extends TestCase
 
     public function testDispatch()
     {
-        $this->assertFalse($this->eventStateStorage->getEventState(ApplicationResponseEvent::NAME));
+        $this->assertFalse((bool) $this->eventStateStorage->getEventState(ApplicationResponseEvent::NAME));
 
         $requestMock = $this->prophesize(Request::class);
         $requestMock->getPresenterName()->willReturn('Response');

@@ -15,7 +15,7 @@ final class PhpCsFixerProcessBuilder implements ProcessBuilderInterface
 
     public function __construct(string $directory)
     {
-        $this->builder = new ProcessBuilder();
+        $this->builder = new ProcessBuilder;
         $this->builder->setPrefix('./vendor/bin/php-cs-fixer');
         $this->builder->add('fix');
         $this->builder->add($directory);

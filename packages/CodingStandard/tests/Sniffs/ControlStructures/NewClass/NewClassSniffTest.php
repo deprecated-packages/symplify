@@ -8,7 +8,6 @@ use SymplifyCodingStandard\Sniffs\ControlStructures\NewClassSniff;
 
 final class NewClassSniffTest extends TestCase
 {
-
     public function testDetection()
     {
         $codeSnifferRunner = new CodeSnifferRunner(NewClassSniff::NAME);
@@ -16,7 +15,6 @@ final class NewClassSniffTest extends TestCase
         $this->assertSame(1, $codeSnifferRunner->getErrorCountInFile(__DIR__ . '/wrong.php'));
         $this->assertSame(0, $codeSnifferRunner->getErrorCountInFile(__DIR__ . '/correct.php'));
     }
-
 
     public function testFixing()
     {

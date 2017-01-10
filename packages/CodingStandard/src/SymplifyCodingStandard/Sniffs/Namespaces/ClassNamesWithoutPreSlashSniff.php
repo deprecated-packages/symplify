@@ -12,6 +12,12 @@ use PHP_CodeSniffer_Sniff;
 final class ClassNamesWithoutPreSlashSniff implements PHP_CodeSniffer_Sniff
 {
     /**
+     * @var string
+     */
+    const NAME = 'SymplifyCodingStandard.Namespaces.ClassNamesWithoutPreSlash';
+
+
+    /**
      * @var string[]
      */
     private $excludedClassNames = [

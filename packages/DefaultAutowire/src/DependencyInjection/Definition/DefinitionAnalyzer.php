@@ -36,12 +36,6 @@ final class DefinitionAnalyzer
         return $this->shouldClassDefinitionBeAutowired($definition);
     }
 
-    /**
-     * @param ContainerBuilder $containerBuilder
-     * @param Definition $definition
-     *
-     * @return bool
-     */
     private function shouldFactoryBuiltDefinitionBeAutowired(
         ContainerBuilder $containerBuilder,
         Definition $definition

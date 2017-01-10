@@ -8,7 +8,6 @@ use Squiz_Sniffs_ControlStructures_SwitchDeclarationSniff;
 
 final class SwitchDeclarationSniff extends Squiz_Sniffs_ControlStructures_SwitchDeclarationSniff
 {
-
     /**
      * @var string
      */
@@ -40,7 +39,6 @@ final class SwitchDeclarationSniff extends Squiz_Sniffs_ControlStructures_Switch
      * @var PHP_CodeSniffer_File
      */
     private $file;
-
 
     /**
      * @param PHP_CodeSniffer_File $file
@@ -101,7 +99,6 @@ final class SwitchDeclarationSniff extends Squiz_Sniffs_ControlStructures_Switch
         $this->ensureClosingBraceAlignment($switch);
     }
 
-
     private function checkIfKeywordIsIndented(
         PHP_CodeSniffer_File $file,
         int $position,
@@ -114,7 +111,6 @@ final class SwitchDeclarationSniff extends Squiz_Sniffs_ControlStructures_Switch
             $file->addError($error, $position, $type . 'Indent');
         }
     }
-
 
     private function checkBreak(int $nextCase, int $nextBreak, string $type)
     {
@@ -159,7 +155,6 @@ final class SwitchDeclarationSniff extends Squiz_Sniffs_ControlStructures_Switch
         }
     }
 
-
     private function areSwitchStartAndEndKnown() : bool
     {
         if (! isset($this->tokens[$this->position]['scope_opener'])) {
@@ -172,7 +167,6 @@ final class SwitchDeclarationSniff extends Squiz_Sniffs_ControlStructures_Switch
 
         return true;
     }
-
 
     private function processSwitchStructureToken(
         int $nextBreak,
@@ -200,7 +194,6 @@ final class SwitchDeclarationSniff extends Squiz_Sniffs_ControlStructures_Switch
         }
     }
 
-
     private function ensureBreakIsNotFollowedByBlankLine(int $nextLine, int $breakLine, int $nextBreak)
     {
         if ($nextLine !== ($breakLine + 1)) {
@@ -208,7 +201,6 @@ final class SwitchDeclarationSniff extends Squiz_Sniffs_ControlStructures_Switch
             $this->file->addError($error, $nextBreak, 'SpacingAfterDefaultBreak');
         }
     }
-
 
     private function ensureNoBlankLinesBeforeBreak(int $nextBreak)
     {
@@ -218,7 +210,6 @@ final class SwitchDeclarationSniff extends Squiz_Sniffs_ControlStructures_Switch
             $this->file->addError($error, $nextBreak, 'SpacingBeforeBreak');
         }
     }
-
 
     private function ensureNoBlankLinesAfterStatement(int $nextCase, int $nextBreak, string $type, int $opener)
     {
@@ -236,7 +227,6 @@ final class SwitchDeclarationSniff extends Squiz_Sniffs_ControlStructures_Switch
         }
     }
 
-
     private function getNextLineFromNextBreak(int $nextBreak) : int
     {
         $semicolon = $this->file->findNext(T_SEMICOLON, $nextBreak);
@@ -249,7 +239,6 @@ final class SwitchDeclarationSniff extends Squiz_Sniffs_ControlStructures_Switch
         return $this->tokens[$this->tokens[$this->position]['scope_closer']]['line'];
     }
 
-
     private function ensureCaseIndention(int $nextBreak, int $caseAlignment)
     {
         // Only need to check a couple of things once, even if the
@@ -261,7 +250,6 @@ final class SwitchDeclarationSniff extends Squiz_Sniffs_ControlStructures_Switch
         }
     }
 
-
     private function ensureDefaultIsPresent(bool $foundDefault)
     {
         if ($foundDefault === false) {
@@ -269,7 +257,6 @@ final class SwitchDeclarationSniff extends Squiz_Sniffs_ControlStructures_Switch
             $this->file->addError($error, $this->position, 'MissingDefault');
         }
     }
-
 
     private function ensureClosingBraceAlignment(array $switch)
     {
@@ -279,7 +266,6 @@ final class SwitchDeclarationSniff extends Squiz_Sniffs_ControlStructures_Switch
         }
     }
 
-
     private function ensureNoSpaceBeforeColon(int $opener, int $nextCase, string $type)
     {
         if ($this->tokens[($opener - 1)]['type'] === 'T_WHITESPACE') {
@@ -287,7 +273,6 @@ final class SwitchDeclarationSniff extends Squiz_Sniffs_ControlStructures_Switch
             $this->file->addError($error, $nextCase, 'SpaceBeforeColon' . $type);
         }
     }
-
 
     private function checkSpaceAfterKeyword(int $nextCase, string $type)
     {

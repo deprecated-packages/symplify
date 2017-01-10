@@ -15,7 +15,6 @@ use PHP_CodeSniffer_Sniff;
  */
 final class FinalInterfaceSniff implements PHP_CodeSniffer_Sniff
 {
-
     /**
      * @var string
      */
@@ -31,7 +30,6 @@ final class FinalInterfaceSniff implements PHP_CodeSniffer_Sniff
      */
     private $position;
 
-
     /**
      * @return int[]
      */
@@ -39,7 +37,6 @@ final class FinalInterfaceSniff implements PHP_CodeSniffer_Sniff
     {
         return [T_CLASS];
     }
-
 
     /**
      * @param PHP_CodeSniffer_File $file
@@ -69,19 +66,16 @@ final class FinalInterfaceSniff implements PHP_CodeSniffer_Sniff
         }
     }
 
-
     private function implementsInterface() : bool
     {
         return (bool) $this->file->findNext(T_IMPLEMENTS, $this->position);
     }
-
 
     private function isFinalOrAbstractClass() : bool
     {
         $classProperties = $this->file->getClassProperties($this->position);
         return ($classProperties['is_abstract'] || $classProperties['is_final']);
     }
-
 
     private function isDoctrineEntity() : bool
     {
@@ -102,7 +96,6 @@ final class FinalInterfaceSniff implements PHP_CodeSniffer_Sniff
 
         return false;
     }
-
 
     public function addFinalToClass(int $position)
     {

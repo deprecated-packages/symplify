@@ -13,7 +13,6 @@ use Symplify\CodingStandard\Helper\Whitespace\EmptyLinesResizer;
  */
 final class IfElseTryCatchFinallySniff implements PHP_CodeSniffer_Sniff
 {
-
     /**
      * @var string
      */
@@ -39,7 +38,6 @@ final class IfElseTryCatchFinallySniff implements PHP_CodeSniffer_Sniff
      */
     private $tokens;
 
-
     /**
      * @return int[]
      */
@@ -47,7 +45,6 @@ final class IfElseTryCatchFinallySniff implements PHP_CodeSniffer_Sniff
     {
         return [T_ELSE, T_ELSEIF, T_CATCH, T_FINALLY];
     }
-
 
     /**
      * @param PHP_CodeSniffer_File $file
@@ -83,7 +80,6 @@ final class IfElseTryCatchFinallySniff implements PHP_CodeSniffer_Sniff
             );
         }
     }
-
 
     private function getEmptyLinesCountBefore() : int
     {

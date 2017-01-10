@@ -77,8 +77,6 @@ final class InterfaceNameSniff implements PHP_CodeSniffer_Sniff
     {
         $interfaceNamePosition = $this->getInterfaceNamePosition();
 
-        $this->file->fixer->beginChangeset();
         $this->file->fixer->addContent($interfaceNamePosition, 'Interface');
-        $this->file->fixer->endChangeset();
     }
 }

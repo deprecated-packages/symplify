@@ -13,7 +13,6 @@ use Symplify\CodingStandard\Helper\Whitespace\EmptyLinesResizer;
  */
 final class PropertiesMethodsMutualSpacingSniff implements PHP_CodeSniffer_Sniff
 {
-
     /**
      * @var string
      */
@@ -39,7 +38,6 @@ final class PropertiesMethodsMutualSpacingSniff implements PHP_CodeSniffer_Sniff
      */
     private $tokens;
 
-
     /**
      * @return int[]
      */
@@ -47,7 +45,6 @@ final class PropertiesMethodsMutualSpacingSniff implements PHP_CodeSniffer_Sniff
     {
         return [T_VARIABLE];
     }
-
 
     /**
      * @param PHP_CodeSniffer_File $file
@@ -87,7 +84,6 @@ final class PropertiesMethodsMutualSpacingSniff implements PHP_CodeSniffer_Sniff
         }
     }
 
-
     private function isLastProperty() : bool
     {
         if ($this->isInsideMethod()) {
@@ -98,20 +94,17 @@ final class PropertiesMethodsMutualSpacingSniff implements PHP_CodeSniffer_Sniff
         return $this->tokens[$next]['code'] !== T_VARIABLE;
     }
 
-
     private function isInsideMethod() : bool
     {
         $previousMethod = $this->file->findPrevious(T_FUNCTION, $this->position);
         return $this->tokens[$previousMethod]['code'] === T_FUNCTION;
     }
 
-
     private function areMethodsPresent() : bool
     {
         $next = $this->file->findNext(T_FUNCTION, $this->position + 1);
         return $this->tokens[$next]['code'] === T_FUNCTION;
     }
-
 
     private function getPositionOfLastProperty() : int
     {
@@ -129,7 +122,6 @@ final class PropertiesMethodsMutualSpacingSniff implements PHP_CodeSniffer_Sniff
 
         return $this->position;
     }
-
 
     private function fixSpacingInBetween(int $blankLinesInBetween)
     {

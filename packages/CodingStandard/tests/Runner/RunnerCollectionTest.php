@@ -11,10 +11,10 @@ final class RunnerCollectionTest extends TestCase
 {
     public function testRunForDirectory()
     {
-        $runnerCollection = new RunnerCollection();
+        $runnerCollection = new RunnerCollection;
         $this->assertSame([], $runnerCollection->getRunners());
 
-        $runnerCollection->addRunner(new RandomRunner());
+        $runnerCollection->addRunner(new RandomRunner);
 
         $runners = $runnerCollection->getRunners();
         $this->assertInstanceOf(RunnerInterface::class, $runners[0]);

@@ -11,7 +11,6 @@ use PHP_CodeSniffer_Sniff;
  */
 final class MethodCommentSniff implements PHP_CodeSniffer_Sniff
 {
-
     /**
      * @var string
      */
@@ -24,7 +23,6 @@ final class MethodCommentSniff implements PHP_CodeSniffer_Sniff
     {
         return [T_FUNCTION];
     }
-
 
     /**
      * @param PHP_CodeSniffer_File $file
@@ -52,7 +50,6 @@ final class MethodCommentSniff implements PHP_CodeSniffer_Sniff
         $file->addError('Method docblock is missing, due to some parameters without typehints.', $position);
     }
 
-
     private function hasMethodDocblock(PHP_CodeSniffer_File $file, int $position) : bool
     {
         $tokens = $file->getTokens();
@@ -70,7 +67,6 @@ final class MethodCommentSniff implements PHP_CodeSniffer_Sniff
 
         return false;
     }
-
 
     private function countParametersWithTypehint(array $parameters) : int
     {

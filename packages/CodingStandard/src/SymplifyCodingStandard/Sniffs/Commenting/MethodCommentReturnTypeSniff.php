@@ -12,7 +12,6 @@ use Symplify\CodingStandard\Helper\Commenting\FunctionHelper;
  */
 final class MethodCommentReturnTypeSniff implements PHP_CodeSniffer_Sniff
 {
-
     /**
      * @var string
      */

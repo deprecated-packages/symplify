@@ -6,7 +6,6 @@ use PHP_CodeSniffer_File;
 
 final class EmptyLinesResizer
 {
-
     public static function resizeLines(
         PHP_CodeSniffer_File $file,
         int $position,
@@ -20,7 +19,6 @@ final class EmptyLinesResizer
         }
     }
 
-
     private static function reduceBlankLines(PHP_CodeSniffer_File $file, int $position, int $from, int $to)
     {
         for ($i = $from; $i > $to; $i--) {
@@ -28,7 +26,6 @@ final class EmptyLinesResizer
             $position++;
         }
     }
-
 
     private static function increaseBlankLines(PHP_CodeSniffer_File $file, int $position, int $from, int $to)
     {

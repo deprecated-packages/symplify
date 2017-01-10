@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Zenify\DoctrineBehaviors\DI;
 
@@ -15,19 +13,19 @@ abstract class AbstractBehaviorExtension extends CompilerExtension
 
     protected function getClassAnalyzer() : ServiceDefinition
     {
-        $builder = $this->getContainerBuilder();
+        $containerBuilder = $this->getContainerBuilder();
 
-        if ($builder->hasDefinition('knp.classAnalyzer')) {
-            return $builder->getDefinition('knp.classAnalyzer');
+        if ($containerBuilder->hasDefinition('knp.classAnalyzer')) {
+            return $containerBuilder->getDefinition('knp.classAnalyzer');
         }
 
-        return $builder->addDefinition('knp.classAnalyzer')
+        return $containerBuilder->addDefinition('knp.classAnalyzer')
             ->setClass(ClassAnalyzer::class);
     }
 
 
     /**
-     * @return ServiceDefinition|void
+     * @return ServiceDefinition|null
      */
     protected function buildDefinitionFromCallable(string $callable = null)
     {
@@ -35,14 +33,14 @@ abstract class AbstractBehaviorExtension extends CompilerExtension
             return;
         }
 
-        $builder = $this->getContainerBuilder();
-        $definition = $builder->addDefinition($this->prefix(md5($callable)));
+        $containerBuilder = $this->getContainerBuilder();
+        $definition = $containerBuilder->addDefinition($this->prefix(md5($callable)));
 
-        list($definition->factory) = Compiler::filterArguments([
+        [$definition->factory] = Compiler::filterArguments([
             is_string($callable) ? new Statement($callable) : $callable
         ]);
 
-        list($resolverClass) = (array) $builder->normalizeEntity($definition->getFactory()->getEntity());
+        [$resolverClass] = (array) $containerBuilder->normalizeEntity($definition->getFactory()->getEntity());
         if (class_exists($resolverClass)) {
             $definition->setClass($resolverClass);
         }

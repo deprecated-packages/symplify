@@ -6,7 +6,6 @@ use PHP_CodeSniffer_File;
 
 final class ClassMetrics
 {
-
     /**
      * @var PHP_CodeSniffer_File
      */
@@ -22,14 +21,12 @@ final class ClassMetrics
      */
     private $tokens;
 
-
     public function __construct(PHP_CodeSniffer_File $file, int $classPosition)
     {
         $this->file = $file;
         $this->classPosition = $classPosition;
         $this->tokens = $file->getTokens();
     }
-
 
     /**
      * @return FALSE|int
@@ -46,7 +43,6 @@ final class ClassMetrics
             - 1;
     }
 
-
     /**
      * @return FALSE|int
      */
@@ -54,7 +50,6 @@ final class ClassMetrics
     {
         return $this->file->findPrevious(T_USE, $this->classPosition);
     }
-
 
     /**
      * @return FALSE|int
@@ -75,7 +70,6 @@ final class ClassMetrics
         return $this->tokens[$nextUseStatementPosition]['line'] - $this->tokens[$namespacePosition]['line'] - 1;
     }
 
-
     /**
      * @return FALSE|int
      */
@@ -92,7 +86,6 @@ final class ClassMetrics
         return $this->tokens[$classStartPosition]['line'] - $this->tokens[$namespacePosition]['line'] - 1;
     }
 
-
     /**
      * @return FALSE|int
      */
@@ -105,7 +98,6 @@ final class ClassMetrics
 
         return $this->classPosition;
     }
-
 
     private function isInsideClass(int $position) : bool
     {

@@ -8,7 +8,6 @@ use SymplifyCodingStandard\Sniffs\WhiteSpace\ExclamationMarkSniff;
 
 final class ExclamationMarkSniffTest extends TestCase
 {
-
     public function testDetection()
     {
         $codeSnifferRunner = new CodeSnifferRunner(ExclamationMarkSniff::NAME);
@@ -19,7 +18,6 @@ final class ExclamationMarkSniffTest extends TestCase
         $this->assertSame(0, $codeSnifferRunner->getErrorCountInFile(__DIR__ . '/correct.php'));
         $this->assertSame(0, $codeSnifferRunner->getErrorCountInFile(__DIR__ . '/correct2.php'));
     }
-
 
     public function testFixing()
     {
