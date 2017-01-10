@@ -3,3 +3,6 @@ parameters:
         - "#Call to an undefined method Prophecy#"
         - "#TranslatableTest#"
         - "#Version456#"
+    excludes_analyse:
+        - *packages/CodingStandard/tests/**/correct*
+        - *packages/CodingStandard/tests/**/wrong*
