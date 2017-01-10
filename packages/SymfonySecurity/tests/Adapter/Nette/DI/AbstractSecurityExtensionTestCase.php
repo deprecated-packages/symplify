@@ -11,8 +11,8 @@ abstract class AbstractSecurityExtensionTestCase extends TestCase
 {
     protected function getExtension() : SymfonySecurityExtension
     {
-        $extension = new SymfonySecurityExtension();
-        $extension->setCompiler(new Compiler(new ContainerBuilder()), 'compiler');
+        $extension = new SymfonySecurityExtension;
+        $extension->setCompiler(new Compiler(new ContainerBuilder), 'compiler');
 
         return $extension;
     }

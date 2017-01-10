@@ -17,8 +17,8 @@ final class AppKernel extends Kernel
     public function registerBundles()
     {
         return [
-            new FrameworkBundle(),
-            new SymplifyActionAutowireBundle(),
+            new FrameworkBundle,
+            new SymplifyActionAutowireBundle,
         ];
     }
 

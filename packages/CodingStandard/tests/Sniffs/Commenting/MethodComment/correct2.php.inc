@@ -1,13 +1,10 @@
-<?php
-
+<?php declare(strict_types=1);
 namespace SomeNamespace;
 
-
-class SomeClass
+class correct2
 {
 
-	public function count(array $values)
-	{
-	}
-
+    public function count(array $values)
+    {
+    }
 }

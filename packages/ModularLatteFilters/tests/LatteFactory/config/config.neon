@@ -1,0 +1,9 @@
+application:
+	scanDirs: FALSE
+	scanComposer: FALSE
+
+services:
+	- Zenify\ModularLatteFilters\Tests\Filter\MathFilters
+
+extensions:
+	- Zenify\ModularLatteFilters\DI\ModularLatteFiltersExtension

@@ -7,13 +7,18 @@ use PHP_CodeSniffer_Standards_AbstractVariableSniff;
 
 /**
  * Rules:
- * - Property should have docblock comment.
+ * - Property should have docblock comment (except for {@inheritdoc}).
  *
  * @see PHP_CodeSniffer_Standards_AbstractVariableSniff is used, because it's very difficult to
- * separate properties from variables (in args, method etc.). This class does is for us
+ * separate properties from variables (in args, method etc.). This class does is for us.
  */
 final class VarPropertyCommentSniff extends PHP_CodeSniffer_Standards_AbstractVariableSniff
 {
+    /**
+     * @var string
+     */
+    public const NAME = 'SymplifyCodingStandard.Commenting.VarPropertyComment';
+
     /**
      * @param PHP_CodeSniffer_File $file
      * @param int $position
@@ -26,14 +31,14 @@ final class VarPropertyCommentSniff extends PHP_CodeSniffer_Standards_AbstractVa
             return;
         }
 
-        $file->addError('Property should have docblock comment and @var type.', $position);
+        $file->addError('Property should have docblock comment.', $position);
     }
 
     /**
      * @param PHP_CodeSniffer_File $file
      * @param int $position
      */
-    protected function processVariable(PHP_CodeSniffer_File $file, $position) : void
+    protected function processVariable(PHP_CodeSniffer_File $file, $position)
     {
     }
 
@@ -64,7 +69,6 @@ final class VarPropertyCommentSniff extends PHP_CodeSniffer_Standards_AbstractVa
         }
 
         $commentStart = $file->findPrevious(T_DOC_COMMENT_OPEN_TAG, $position);
-
         return $file->getTokensAsString($commentStart, $commentEnd - $commentStart + 1);
     }
 }

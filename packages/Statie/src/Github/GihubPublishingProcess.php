@@ -21,7 +21,7 @@ final class GihubPublishingProcess
     {
         FilesystemChecker::ensureDirectoryExists($outputDirectory);
 
-        $git = (new GitWrapper())->init($outputDirectory);
+        $git = (new GitWrapper)->init($outputDirectory);
 
         if (getenv('TRAVIS')) {
             $git->config('user.email', self::CONFIG_EMAIL);

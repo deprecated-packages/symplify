@@ -26,7 +26,7 @@ final class FirewallSubscriberTest extends TestCase
     {
         $listenerMock = $this->prophesize(FirewallHandlerInterface::class);
         $listenerMock->handle(Argument::cetera())->willReturn(function () {
-            throw new ForbiddenRequestException();
+            throw new ForbiddenRequestException;
         });
 
         $firewallMapMock = $this->prophesize(FirewallMapInterface::class);
@@ -34,7 +34,7 @@ final class FirewallSubscriberTest extends TestCase
             [[$listenerMock->reveal()], '']
         );
 
-        $request = new Request((new UrlScript())->setScriptPath('admin/script.php'));
+        $request = new Request((new UrlScript)->setScriptPath('admin/script.php'));
         $this->firewall = new FirewallSubscriber($firewallMapMock->reveal(), $request);
     }
 

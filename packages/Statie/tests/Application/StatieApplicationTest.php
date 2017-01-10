@@ -23,7 +23,7 @@ final class StatieApplicationTest extends TestCase
 
     protected function setUp()
     {
-        $container = (new ContainerFactory())->create();
+        $container = (new ContainerFactory)->create();
         $this->statieApplication = $container->getByType(StatieApplication::class);
         $this->dynamicStringLoader = $container->getByType(DynamicStringLoader::class);
     }

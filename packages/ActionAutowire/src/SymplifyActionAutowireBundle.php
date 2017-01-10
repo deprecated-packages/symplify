@@ -13,12 +13,12 @@ final class SymplifyActionAutowireBundle extends Bundle
 {
     public function getContainerExtension() : ContainerExtension
     {
-        return new ContainerExtension();
+        return new ContainerExtension;
     }
 
     public function build(ContainerBuilder $containerBuilder) : void
     {
-        $serviceByTypeMap = new ServicesByTypeMap();
+        $serviceByTypeMap = new ServicesByTypeMap;
         $containerBuilder->addCompilerPass(new ServicesByTypeMapCompilerPass($serviceByTypeMap));
         $containerBuilder->addCompilerPass(new AddServiceLocatorCompilerPass($serviceByTypeMap));
     }

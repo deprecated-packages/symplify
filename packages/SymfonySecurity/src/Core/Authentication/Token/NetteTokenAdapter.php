@@ -17,7 +17,7 @@ final class NetteTokenAdapter implements TokenInterface
 
     public function serialize() : void
     {
-        throw new NotImplementedException();
+        throw new NotImplementedException;
     }
 
     /**
@@ -25,12 +25,12 @@ final class NetteTokenAdapter implements TokenInterface
      */
     public function unserialize($serialized) : void
     {
-        throw new NotImplementedException();
+        throw new NotImplementedException;
     }
 
     public function __toString()
     {
-        throw new NotImplementedException();
+        throw new NotImplementedException;
     }
 
     public function getRoles() : array
@@ -79,7 +79,7 @@ final class NetteTokenAdapter implements TokenInterface
 
     public function eraseCredentials()
     {
-        throw new NotImplementedException();
+        throw new NotImplementedException;
     }
 
     public function getAttributes() : array
@@ -96,7 +96,7 @@ final class NetteTokenAdapter implements TokenInterface
 
     public function setAttributes(array $attributes) : void
     {
-        throw new NotImplementedException();
+        throw new NotImplementedException;
     }
 
     /**
@@ -121,6 +121,6 @@ final class NetteTokenAdapter implements TokenInterface
      */
     public function setAttribute($name, $value) : void
     {
-        throw new NotImplementedException();
+        throw new NotImplementedException;
     }
 }

@@ -23,7 +23,7 @@ final class RenderableFilesProcessorTest extends TestCase
 
     protected function setUp()
     {
-        $container = (new ContainerFactory())->create();
+        $container = (new ContainerFactory)->create();
         $this->renderableFilesProcessor = $container->getByType(RenderableFilesProcessor::class);
         $this->configuration = $container->getByType(Configuration::class);
 

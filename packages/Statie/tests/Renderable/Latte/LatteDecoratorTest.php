@@ -24,7 +24,7 @@ final class LatteDecoratorTest extends TestCase
         $stringLoader = $this->createStringLoader();
 
         $this->latteDecorator = new LatteDecorator(
-            new Configuration(new NeonParser()),
+            new Configuration(new NeonParser),
             $this->createLatteEngine($stringLoader),
             $stringLoader
         );
@@ -55,7 +55,7 @@ final class LatteDecoratorTest extends TestCase
 
     private function createLatteEngine(ILoader $loader) : Engine
     {
-        $latte = new Engine();
+        $latte = new Engine;
         $latte->setLoader($loader);
 
         return $latte;
@@ -63,7 +63,7 @@ final class LatteDecoratorTest extends TestCase
 
     private function createStringLoader() : DynamicStringLoader
     {
-        $loader = new DynamicStringLoader();
+        $loader = new DynamicStringLoader;
         $loader->addTemplate(
             'default',
             file_get_contents(__DIR__ . '/LatteDecoratorSource/default.latte')

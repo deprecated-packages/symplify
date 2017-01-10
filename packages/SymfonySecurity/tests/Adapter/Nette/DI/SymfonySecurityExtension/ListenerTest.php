@@ -13,7 +13,7 @@ final class ListenerTest extends AbstractSecurityExtensionTestCase
      */
     public function testDispatch()
     {
-        $container = (new ContainerFactory())->createWithConfig(__DIR__ . '/ListenerSource/config.neon');
+        $container = (new ContainerFactory)->createWithConfig(__DIR__ . '/ListenerSource/config.neon');
 
         /** @var Application $application */
         $application = $container->getByType(Application::class);

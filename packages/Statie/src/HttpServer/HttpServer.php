@@ -94,7 +94,7 @@ final class HttpServer
 
     private function setupDependencies() : void
     {
-        $this->streamSelectLoop = new StreamSelectLoop();
+        $this->streamSelectLoop = new StreamSelectLoop;
         $this->reactSocketServer = new ReactSocketServer($this->streamSelectLoop);
         $this->reactHttpServer = new ReactHttpServer($this->reactSocketServer);
     }

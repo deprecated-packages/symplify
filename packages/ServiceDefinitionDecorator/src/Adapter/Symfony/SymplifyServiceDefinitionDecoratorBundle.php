@@ -17,11 +17,11 @@ final class SymplifyServiceDefinitionDecoratorBundle extends Bundle
 
     public function build(ContainerBuilder $containerBuilder) : void
     {
-        $containerBuilder->addCompilerPass(new DecorateCompilerPass(), PassConfig::TYPE_BEFORE_OPTIMIZATION, 20);
+        $containerBuilder->addCompilerPass(new DecorateCompilerPass, PassConfig::TYPE_BEFORE_OPTIMIZATION, 20);
     }
 
     public function getContainerExtension() : ContainerExtension
     {
-        return new ContainerExtension();
+        return new ContainerExtension;
     }
 }

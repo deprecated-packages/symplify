@@ -21,7 +21,7 @@ final class AutoRegisterServicesCompilerPassTest extends TestCase
 
     protected function setUp()
     {
-        $this->autoRegisterServicesCompilerPass = new AutoRegisterServicesCompilerPass(new ServiceClassFinder());
+        $this->autoRegisterServicesCompilerPass = new AutoRegisterServicesCompilerPass(new ServiceClassFinder);
     }
 
     /**
@@ -29,7 +29,7 @@ final class AutoRegisterServicesCompilerPassTest extends TestCase
      */
     public function testProcess(array $directories, array $classSuffixes, int $expectedCount, string $expectedClassType)
     {
-        $containerBuilder = new ContainerBuilder();
+        $containerBuilder = new ContainerBuilder;
 
         $containerBuilder->prependExtensionConfig(SymplifyAutoServiceRegistrationBundle::ALIAS, [
             Configuration::DIRECTORIES_TO_SCAN => $directories,

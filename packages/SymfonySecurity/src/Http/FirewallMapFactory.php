@@ -31,7 +31,7 @@ final class FirewallMapFactory implements FirewallMapFactoryInterface
 
     public function create() : FirewallMapInterface
     {
-        $firewallMap = new FirewallMap();
+        $firewallMap = new FirewallMap;
         foreach ($this->requestMatchers as $firewallName => $requestMatcher) {
             if (isset($this->firewallHandlers[$firewallName])) {
                 $firewallMap->add($requestMatcher, $this->firewallHandlers[$firewallName]);

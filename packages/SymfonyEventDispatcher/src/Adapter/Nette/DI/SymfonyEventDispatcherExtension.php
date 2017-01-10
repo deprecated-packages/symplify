@@ -63,7 +63,7 @@ final class SymfonyEventDispatcherExtension extends CompilerExtension
     {
         $containerBuilder = $this->getContainerBuilder();
 
-        $netteEventList = (new NetteEventListFactory())->create();
+        $netteEventList = (new NetteEventListFactory)->create();
         foreach ($netteEventList as $netteEvent) {
             if (! $serviceDefinitions = $containerBuilder->findByType($netteEvent->getClass())) {
                 return;

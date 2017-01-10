@@ -12,6 +12,11 @@ use PHP_CodeSniffer_Sniff;
 final class AbstractClassNameSniff implements PHP_CodeSniffer_Sniff
 {
     /**
+     * @var string
+     */
+    public const NAME = 'SymplifyCodingStandard.Naming.AbstractClassName';
+
+    /**
      * @var PHP_CodeSniffer_File
      */
     private $file;
@@ -75,8 +80,6 @@ final class AbstractClassNameSniff implements PHP_CodeSniffer_Sniff
 
     private function fix() : void
     {
-        $this->file->fixer->beginChangeset();
         $this->file->fixer->addContent($this->position + 1, 'Abstract');
-        $this->file->fixer->endChangeset();
     }
 }

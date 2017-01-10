@@ -18,7 +18,7 @@ final class CompleteTest extends TestCase
 
     protected function setUp()
     {
-        $this->consoleApplication = new Application(new AppKernel());
+        $this->consoleApplication = new Application(new AppKernel);
     }
 
     public function testTags()
@@ -44,7 +44,7 @@ final class CompleteTest extends TestCase
 
     public function testTagsForEventDispatcher()
     {
-        $kernel = new AppKernel();
+        $kernel = new AppKernel;
         $kernel->boot();
         $container = $kernel->getContainer();
 

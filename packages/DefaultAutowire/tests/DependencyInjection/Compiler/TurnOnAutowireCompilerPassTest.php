@@ -14,7 +14,7 @@ final class TurnOnAutowireCompilerPassTest extends TestCase
 {
     public function testProcess()
     {
-        $containerBuilder = new ContainerBuilder();
+        $containerBuilder = new ContainerBuilder;
         $autowiredDefinition = new Definition(SomeAutowiredService::class);
 
         $containerBuilder->setDefinition('some_autowired_service', $autowiredDefinition);
@@ -27,6 +27,6 @@ final class TurnOnAutowireCompilerPassTest extends TestCase
 
     private function createDefinitionAnalyzer() : DefinitionAnalyzer
     {
-        return new DefinitionAnalyzer(new DefinitionValidator());
+        return new DefinitionAnalyzer(new DefinitionValidator);
     }
 }

@@ -12,6 +12,11 @@ use PHP_CodeSniffer_Sniff;
 final class InterfaceNameSniff implements PHP_CodeSniffer_Sniff
 {
     /**
+     * @var string
+     */
+    public const NAME = 'SymplifyCodingStandard.Naming.InterfaceName';
+
+    /**
      * @var PHP_CodeSniffer_File
      */
     private $file;
@@ -75,8 +80,6 @@ final class InterfaceNameSniff implements PHP_CodeSniffer_Sniff
     {
         $interfaceNamePosition = $this->getInterfaceNamePosition();
 
-        $this->file->fixer->beginChangeset();
         $this->file->fixer->addContent($interfaceNamePosition, 'Interface');
-        $this->file->fixer->endChangeset();
     }
 }

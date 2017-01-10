@@ -15,7 +15,7 @@ final class ContainerFactory
 
     public function createWithConfig(string $config) : Container
     {
-        $configurator = new Configurator();
+        $configurator = new Configurator;
         $configurator->setTempDirectory($this->createAndReturnTempDirectory());
         $configurator->addConfig($config);
 

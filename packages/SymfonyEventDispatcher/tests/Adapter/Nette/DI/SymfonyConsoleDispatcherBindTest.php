@@ -12,7 +12,7 @@ final class SymfonyConsoleDispatcherBindTest extends TestCase
 {
     public function test()
     {
-        $container = (new ContainerFactory())->createWithConfig(__DIR__ . '/../config/aliasSwitch.neon');
+        $container = (new ContainerFactory)->createWithConfig(__DIR__ . '/../config/aliasSwitch.neon');
 
         /** @var Application $application */
         $application = $container->getByType(Application::class);

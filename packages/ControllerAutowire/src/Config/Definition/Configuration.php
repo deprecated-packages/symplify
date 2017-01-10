@@ -15,7 +15,7 @@ final class Configuration implements ConfigurationInterface
 
     public function getConfigTreeBuilder() : TreeBuilder
     {
-        $treeBuilder = new TreeBuilder();
+        $treeBuilder = new TreeBuilder;
 
         $rootNode = $treeBuilder->root(SymplifyControllerAutowireBundle::ALIAS);
 

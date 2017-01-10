@@ -15,7 +15,7 @@ final class PhpCsProcessBuilder implements ProcessBuilderInterface
 
     public function __construct(string $directory)
     {
-        $this->builder = new ProcessBuilder();
+        $this->builder = new ProcessBuilder;
         $this->builder->setPrefix('./vendor/bin/phpcs');
         $this->builder->add($directory);
         $this->builder->add('--colors');

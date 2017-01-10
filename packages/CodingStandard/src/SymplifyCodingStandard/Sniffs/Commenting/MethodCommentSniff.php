@@ -12,6 +12,11 @@ use PHP_CodeSniffer_Sniff;
 final class MethodCommentSniff implements PHP_CodeSniffer_Sniff
 {
     /**
+     * @var string
+     */
+    public const NAME = 'SymplifyCodingStandard.Commenting.MethodComment';
+
+    /**
      * @return int[]
      */
     public function register() : array
@@ -68,10 +73,9 @@ final class MethodCommentSniff implements PHP_CodeSniffer_Sniff
         $parameterWithTypehintCount = 0;
         foreach ($parameters as $parameter) {
             if ($parameter['type_hint']) {
-                ++$parameterWithTypehintCount;
+                $parameterWithTypehintCount++;
             }
         }
-
         return $parameterWithTypehintCount;
     }
 }

@@ -1,0 +1,16 @@
+services:
+	- Zenify\DoctrineExtensionsTree\Tests\DatabaseLoader
+
+extensions:
+	- Zenify\DoctrineExtensionsTree\DI\TreeExtension
+	- Kdyby\Console\DI\ConsoleExtension
+	- Kdyby\Events\DI\EventsExtension
+	- Kdyby\Annotations\DI\AnnotationsExtension
+	doctrine: Kdyby\Doctrine\DI\OrmExtension
+
+
+doctrine:
+	driver: pdo_sqlite
+	memory: true
+	metadata:
+		Zenify\DoctrineExtensionsTree\Tests: %appDir%/Project/Entities

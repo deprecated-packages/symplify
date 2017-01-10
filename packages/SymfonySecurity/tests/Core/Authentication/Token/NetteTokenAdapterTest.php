@@ -29,7 +29,7 @@ final class NetteTokenAdapterTest extends TestCase
         $userMock->isLoggedIn()->willReturn(true);
         $userMock->getStorage()->willReturn($userStorageMock->reveal());
 
-        $this->netteTokenAdapter = (new NetteTokenAdapter());
+        $this->netteTokenAdapter = (new NetteTokenAdapter);
         $this->netteTokenAdapter->setUser($userMock->reveal());
     }
 

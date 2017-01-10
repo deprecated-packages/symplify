@@ -21,14 +21,14 @@ final class RoutingDecoratorTest extends TestCase
 
     protected function setUp()
     {
-        $configuration = new Configuration(new NeonParser());
+        $configuration = new Configuration(new NeonParser);
         $configuration->setPostRoute('blog/:title');
         $configuration->setSourceDirectory(__DIR__ . '/DecoratorSource');
 
         $this->routeDecorator = new RouteDecorator($configuration);
-        $this->routeDecorator->addRoute(new IndexRoute());
+        $this->routeDecorator->addRoute(new IndexRoute);
         $this->routeDecorator->addRoute(new PostRoute($configuration));
-        $this->routeDecorator->addRoute(new NotHtmlRoute());
+        $this->routeDecorator->addRoute(new NotHtmlRoute);
     }
 
     public function test()
@@ -79,7 +79,7 @@ final class RoutingDecoratorTest extends TestCase
 
     private function getFileFactory() : FileFactory
     {
-        $configuration = new Configuration(new NeonParser());
+        $configuration = new Configuration(new NeonParser);
         $configuration->setSourceDirectory('sourceDirectory');
 
         return new FileFactory($configuration);

@@ -4,6 +4,7 @@
 
 	<!-- Classes -->
 	<rule ref="Generic.Classes.DuplicateClassName"/>
+	<!-- new --> <rule ref="PSR2.Classes.PropertyDeclaration"/>
 	<rule ref="Squiz.Classes.ValidClassName"/>
 	<rule ref="Squiz.Classes.LowercaseClassKeywords"/>
 
@@ -16,13 +17,11 @@
 	<!-- ControlStructures -->
 	<rule ref="Generic.ControlStructures.InlineControlStructure"/>
 	<rule ref="PEAR.ControlStructures.MultiLineCondition"/>
-	<rule ref="PEAR.ControlStructures.MultiLineCondition.SpacingAfterOpenBrace">
-		<severity>0</severity>
-	</rule>
-	<rule ref="PEAR.ControlStructures.MultiLineCondition.Alignment">
-		<severity>0</severity>
-	</rule>
+	<rule ref="PEAR.ControlStructures.MultiLineCondition.SpacingAfterOpenBrace" />
+	<rule ref="PEAR.ControlStructures.MultiLineCondition.Alignment" />
+	
 	<rule ref="Squiz.ControlStructures.ControlSignature"/>
+	<rule ref="PSR2.ControlStructures.ElseIfDeclaration"/>
 	<rule ref="Squiz.ControlStructures.ForEachLoopDeclaration"/>
 	<rule ref="Squiz.ControlStructures.ForLoopDeclaration"/>
 	<rule ref="Squiz.ControlStructures.LowercaseDeclaration"/>
@@ -38,6 +37,7 @@
 	</rule>
 	<rule ref="Generic.Files.OneClassPerFile"/>
 	<rule ref="Generic.Files.OneInterfacePerFile"/>
+	<rule ref="PSR2.Files.EndFileNewline"/>
 	<rule ref="Zend.Files.ClosingTag"/>
 
 	<!-- Formatting -->
@@ -68,11 +68,15 @@
 		</properties>
 	</rule>
 
+	<!-- Methods -->
+	<rule ref="PSR2.Methods.MethodDeclaration"/>
+
 	<!-- NamingConventions -->
 	<rule ref="Generic.NamingConventions.UpperCaseConstantName"/>
 	<rule ref="Generic.NamingConventions.CamelCapsFunctionName"/>
 
 	<!-- PHP -->
+	<rule ref="Generic.PHP.DisallowShortOpenTag"/>
 	<rule ref="MySource.PHP.EvalObjectFactory"/>
 	<rule ref="MySource.PHP.GetRequestData"/>
 	<rule ref="Squiz.PHP.NonExecutableCode"/>

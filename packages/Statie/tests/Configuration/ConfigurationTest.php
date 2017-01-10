@@ -16,7 +16,7 @@ final class ConfigurationTest extends TestCase
 
     protected function setUp()
     {
-        $this->configuration = new Configuration(new NeonParser());
+        $this->configuration = new Configuration(new NeonParser);
     }
 
     public function testAddGlobalVariable()

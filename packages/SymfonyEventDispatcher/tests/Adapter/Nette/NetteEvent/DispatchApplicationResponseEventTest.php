@@ -24,14 +24,14 @@ final class DispatchApplicationResponseEventTest extends TestCase
 
     protected function setUp()
     {
-        $containerFactory = (new ContainerFactory())->create();
+        $containerFactory = (new ContainerFactory)->create();
         $this->application = $containerFactory->getByType(Application::class);
         $this->eventStateStorage = $containerFactory->getByType(EventStateStorage::class);
     }
 
     public function testDispatch()
     {
-        $this->assertFalse($this->eventStateStorage->getEventState(ApplicationResponseEvent::NAME));
+        $this->assertFalse((bool) $this->eventStateStorage->getEventState(ApplicationResponseEvent::NAME));
 
         $requestMock = $this->prophesize(Request::class);
         $requestMock->getPresenterName()->willReturn('Response');

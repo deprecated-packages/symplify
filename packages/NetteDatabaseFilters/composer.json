@@ -1,0 +1,32 @@
+{
+    "name": "zenify/nette-database-filters",
+    "description": "Integration of Filters concept to Nette\\Database.",
+    "license": "MIT",
+    "require": {
+        "php": "^7.1",
+        "nette/database": "^2.4",
+        "nette/di": "^2.4",
+        "greenlion/php-sql-parser": "^4.1"
+    },
+    "require-dev": {
+        "nette/application": "^2.4",
+        "zenify/coding-standard": "^4.2",
+        "phpunit/phpunit": "^5.7",
+        "nette/utils": "^2.4",
+        "nette/bootstrap": "^2.4",
+        "tracy/tracy": "^2.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "Zenify\\NetteDatabaseFilters\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Zenify\\NetteDatabaseFilters\\Tests\\": "tests"
+        }
+    },
+    "scripts": {
+        "check-cs": "vendor/bin/phpcs src tests -ps --standard=vendor/zenify/coding-standard/src/ZenifyCodingStandard/ruleset.xml"
+    }
+}

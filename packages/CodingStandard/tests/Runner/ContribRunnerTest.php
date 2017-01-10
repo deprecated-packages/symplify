@@ -14,7 +14,7 @@ final class ContribRunnerTest extends TestCase
 
     protected function setUp()
     {
-        $this->runner = new ContribRunner();
+        $this->runner = new ContribRunner;
     }
 
     public function testRunForDirectory()

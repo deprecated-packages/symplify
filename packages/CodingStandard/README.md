@@ -10,7 +10,7 @@ Set of coding standard rules for Symplify packages made of:
 
 - [PSR-2](http://www.php-fig.org/psr/psr-2/) 
 - [Symfony coding standard](http://symfony.com/doc/current/contributing/code/standards.html)
-- and [few custom ones](docs/en/rules-overview.md)
+- and [few custom ones](docs/rules-overview.md)
 
 Using:
 

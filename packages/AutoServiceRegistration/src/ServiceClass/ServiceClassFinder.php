@@ -12,8 +12,8 @@ final class ServiceClassFinder
      */
     public function findServicesInDirsByClassSuffix(array $dirs, array $classSuffixesToSeek) : array
     {
-        $robot = new RobotLoader();
-        $robot->setCacheStorage(new DevNullStorage());
+        $robot = new RobotLoader;
+        $robot->setCacheStorage(new DevNullStorage);
         foreach ($dirs as $dir) {
             $robot->addDirectory($dir);
         }

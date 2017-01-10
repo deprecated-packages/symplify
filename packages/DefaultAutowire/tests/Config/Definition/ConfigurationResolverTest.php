@@ -16,12 +16,12 @@ final class ConfigurationResolverTest extends TestCase
 
     protected function setUp()
     {
-        $this->configurationResolver = new ConfigurationResolver();
+        $this->configurationResolver = new ConfigurationResolver;
     }
 
     public function testResolveDefaults()
     {
-        $resolvedConfiguration = $this->configurationResolver->resolveFromContainerBuilder(new ContainerBuilder());
+        $resolvedConfiguration = $this->configurationResolver->resolveFromContainerBuilder(new ContainerBuilder);
 
         $this->assertCount(6, $resolvedConfiguration['autowire_types']);
         $this->assertSame([
@@ -38,7 +38,7 @@ final class ConfigurationResolverTest extends TestCase
 
     public function testOverrideDefaults()
     {
-        $containerBuilder = new ContainerBuilder();
+        $containerBuilder = new ContainerBuilder;
 
         $containerBuilder->prependExtensionConfig(SymplifyDefaultAutowireBundle::ALIAS, [
             'autowire_types' => [
@@ -57,7 +57,7 @@ final class ConfigurationResolverTest extends TestCase
 
     public function testAddNewValues()
     {
-        $containerBuilder = new ContainerBuilder();
+        $containerBuilder = new ContainerBuilder;
 
         $containerBuilder->prependExtensionConfig(SymplifyDefaultAutowireBundle::ALIAS, [
             'autowire_types' => [
@@ -76,8 +76,8 @@ final class ConfigurationResolverTest extends TestCase
 
     public function testCache()
     {
-        $resolvedConfiguration = $this->configurationResolver->resolveFromContainerBuilder(new ContainerBuilder());
-        $resolvedConfiguration2 = $this->configurationResolver->resolveFromContainerBuilder(new ContainerBuilder());
+        $resolvedConfiguration = $this->configurationResolver->resolveFromContainerBuilder(new ContainerBuilder);
+        $resolvedConfiguration2 = $this->configurationResolver->resolveFromContainerBuilder(new ContainerBuilder);
         $this->assertSame($resolvedConfiguration, $resolvedConfiguration2);
     }
 }

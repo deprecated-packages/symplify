@@ -33,12 +33,12 @@ final class TypeAndCollectorTraitTest extends TestCase
 
     private function prepareAndReturnExtension() : SmartExtension
     {
-        $smartExtension = new SmartExtension();
-        $smartExtension->setCompiler(new Compiler(), null);
+        $smartExtension = new SmartExtension;
+        $smartExtension->setCompiler(new Compiler, null);
 
         $containerBuilder = $smartExtension->getContainerBuilder();
-        $containerBuilder->addDefinition('collector', (new ServiceDefinition())->setClass(CollectorClass::class));
-        $containerBuilder->addDefinition('collected', (new ServiceDefinition())->setClass(CollectedClass::class));
+        $containerBuilder->addDefinition('collector', (new ServiceDefinition)->setClass(CollectorClass::class));
+        $containerBuilder->addDefinition('collected', (new ServiceDefinition)->setClass(CollectedClass::class));
 
         return $smartExtension;
     }

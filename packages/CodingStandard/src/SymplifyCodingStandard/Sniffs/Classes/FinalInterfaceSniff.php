@@ -16,6 +16,11 @@ use PHP_CodeSniffer_Sniff;
 final class FinalInterfaceSniff implements PHP_CodeSniffer_Sniff
 {
     /**
+     * @var string
+     */
+    public const NAME = 'SymplifyCodingStandard.Classes.FinalInterface';
+
+    /**
      * @var PHP_CodeSniffer_File
      */
     private $file;
@@ -42,35 +47,23 @@ final class FinalInterfaceSniff implements PHP_CodeSniffer_Sniff
         $this->file = $file;
         $this->position = $position;
 
-        if ($this->shouldBeSkipped()) {
+        if ($this->implementsInterface() === false) {
             return;
         }
 
-        $fix = $file->addFixableError(
-            'Non-abstract class that implements interface should be final.',
-            $position
-        );
-
-        if ($fix === true) {
-            $this->fix();
-        }
-    }
-
-    private function shouldBeSkipped() : bool
-    {
-        if ($this->implementsInterface() === false) {
-            return true;
-        }
-
         if ($this->isFinalOrAbstractClass()) {
-            return true;
+            return;
         }
 
         if ($this->isDoctrineEntity()) {
-            return true;
+            return;
         }
 
-        return false;
+        $fix = $file->addFixableError('Non-abstract class that implements interface should be final.', $position);
+
+        if ($fix) {
+            $this->addFinalToClass($position);
+        }
     }
 
     private function implementsInterface() : bool
@@ -81,8 +74,7 @@ final class FinalInterfaceSniff implements PHP_CodeSniffer_Sniff
     private function isFinalOrAbstractClass() : bool
     {
         $classProperties = $this->file->getClassProperties($this->position);
-
-        return $classProperties['is_abstract'] || $classProperties['is_final'];
+        return ($classProperties['is_abstract'] || $classProperties['is_final']);
     }
 
     private function isDoctrineEntity() : bool
@@ -92,21 +84,21 @@ final class FinalInterfaceSniff implements PHP_CodeSniffer_Sniff
             return false;
         }
 
-        $tokens = $this->file->getTokens();
-        foreach ($tokens[$docCommentPosition]['comment_tags'] as $tagPosition) {
-            $tag = $tokens[$tagPosition]['content'];
-            if (strpos($tag, 'Entity') !== false) {
+        $seekPosition = $docCommentPosition;
+
+        do {
+            $docCommentTokenContent = $this->file->getTokens()[$docCommentPosition]['content'];
+            if (strpos($docCommentTokenContent, 'Entity') !== false) {
                 return true;
             }
-        }
+            $seekPosition++;
+        } while ($docCommentPosition = $this->file->findNext(T_DOC_COMMENT_TAG, $seekPosition, $this->position));
 
         return false;
     }
 
-    private function fix() : void
+    public function addFinalToClass(int $position) : void
     {
-        $this->file->fixer->beginChangeset();
-        $this->file->fixer->addContentBefore($this->position, 'final ');
-        $this->file->fixer->endChangeset();
+        $this->file->fixer->addContentBefore($position, 'final ');
     }
 }

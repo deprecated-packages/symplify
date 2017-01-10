@@ -17,7 +17,7 @@ final class ControllerFinderTest extends TestCase
 
     protected function setUp()
     {
-        $this->controllerFinder = new ControllerFinder();
+        $this->controllerFinder = new ControllerFinder;
     }
 
     public function testFindControllersInDirs()

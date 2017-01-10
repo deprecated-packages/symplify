@@ -6,7 +6,7 @@ namespace SomeNamespace;
 class SomeClass
 {
 
-	public function getSome() : string
+	public function getSome() : ?SomeClass
 	{
 	}
 

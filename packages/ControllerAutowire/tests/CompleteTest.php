@@ -25,7 +25,7 @@ final class CompleteTest extends TestCase
 
     protected function setUp()
     {
-        $kernel = new AppKernel();
+        $kernel = new AppKernel;
         $kernel->boot();
 
         $this->controllerResolver = $kernel->getContainer()
@@ -34,13 +34,13 @@ final class CompleteTest extends TestCase
 
     public function testMissingControllerParameter()
     {
-        $request = new Request();
+        $request = new Request;
         $this->assertFalse($this->controllerResolver->getController($request));
     }
 
     public function testGetAutowiredController()
     {
-        $request = new Request();
+        $request = new Request;
         $request->attributes->set('_controller', SomeController::class . '::someAction');
 
         /** @var SomeController $controller */
@@ -52,7 +52,7 @@ final class CompleteTest extends TestCase
 
     public function testGetContainerAwareController()
     {
-        $request = new Request();
+        $request = new Request;
         $request->attributes->set('_controller', ContainerAwareController::class . '::someAction');
 
         /** @var ContainerAwareController $controller */
@@ -64,7 +64,7 @@ final class CompleteTest extends TestCase
 
     public function testGetAutowiredControllerWithParameter()
     {
-        $request = new Request();
+        $request = new Request;
         $request->attributes->set('_controller', 'some.controller.with_parameter:someAction');
 
         /** @var ControllerWithParameter $controller */
@@ -76,7 +76,7 @@ final class CompleteTest extends TestCase
 
     public function testGetControllerWithTrait()
     {
-        $request = new Request();
+        $request = new Request;
         $request->attributes->set(
             '_controller',
             'symplify.controllerautowire.tests.completetestsource.scan.traitawarecontroller:someAction'
@@ -96,7 +96,7 @@ final class CompleteTest extends TestCase
      */
     public function testGetControllerServiceMissing()
     {
-        $request = new Request();
+        $request = new Request;
         $request->attributes->set('_controller', 'some.missing.controller.service:someAction');
 
         $this->controllerResolver->getController($request);
@@ -104,7 +104,7 @@ final class CompleteTest extends TestCase
 
     public function testGetControllerServiceRegisteredInConfig()
     {
-        $request = new Request();
+        $request = new Request;
         $request->attributes->set('_controller', 'some.controller.service:someAction');
 
         $controller = $this->controllerResolver->getController($request)[0];

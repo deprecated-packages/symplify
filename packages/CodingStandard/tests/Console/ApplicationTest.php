@@ -18,7 +18,7 @@ final class ApplicationTest extends TestCase
 
     protected function setUp()
     {
-        $this->application = new Application();
+        $this->application = new Application;
     }
 
     public function testDefaultCommands()

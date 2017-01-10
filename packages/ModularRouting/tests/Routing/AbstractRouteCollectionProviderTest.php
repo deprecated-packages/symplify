@@ -12,6 +12,6 @@ final class AbstractRouteCollectionProviderTest extends TestCase
      */
     public function testMissingFiles()
     {
-        (new MissingFileRouteCollectionProvider())->getRouteCollection();
+        (new MissingFileRouteCollectionProvider)->getRouteCollection();
     }
 }

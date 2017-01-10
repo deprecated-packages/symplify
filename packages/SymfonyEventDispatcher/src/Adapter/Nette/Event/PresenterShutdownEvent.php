@@ -2,7 +2,6 @@
 
 namespace Symplify\SymfonyEventDispatcher\Adapter\Nette\Event;
 
-use Nette\Application\IPresenter;
 use Nette\Application\IResponse;
 use Nette\Application\UI\Presenter;
 use Symfony\Component\EventDispatcher\Event;
@@ -20,7 +19,7 @@ final class PresenterShutdownEvent extends Event
     public const NAME = Presenter::class . '::$onShutdown';
 
     /**
-     * @var IPresenter|Presenter
+     * @var Presenter
      */
     private $presenter;
 
@@ -29,7 +28,7 @@ final class PresenterShutdownEvent extends Event
      */
     private $response;
 
-    public function __construct(IPresenter $presenter, ?IResponse $response)
+    public function __construct(Presenter $presenter, ?IResponse $response)
     {
         $this->presenter = $presenter;
         $this->response = $response;

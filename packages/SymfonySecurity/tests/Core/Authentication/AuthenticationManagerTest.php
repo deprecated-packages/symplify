@@ -11,7 +11,7 @@ final class AuthenticationManagerTest extends TestCase
     public function testCase()
     {
         $tokenMock = $this->prophesize(TokenInterface::class);
-        $authenticationManager = new AuthenticationManager();
+        $authenticationManager = new AuthenticationManager;
 
         $resolvedToken = $authenticationManager->authenticate($tokenMock->reveal());
         $this->assertSame($resolvedToken, $tokenMock->reveal());

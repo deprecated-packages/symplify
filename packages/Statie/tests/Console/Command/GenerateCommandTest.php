@@ -18,7 +18,7 @@ final class GenerateCommandTest extends TestCase
 
     protected function setUp()
     {
-        $container = (new ContainerFactory())->create();
+        $container = (new ContainerFactory)->create();
 
         /* @var ConsoleApplication $application */
         $this->application = $container->getByType(ConsoleApplication::class);
@@ -34,7 +34,7 @@ final class GenerateCommandTest extends TestCase
         );
 
         $input = new StringInput($stringInput);
-        $result = $this->application->run($input, new NullOutput());
+        $result = $this->application->run($input, new NullOutput);
         $this->assertSame(0, $result);
 
         $this->assertFileExists(__DIR__ . '/GenerateCommandSource/output/index.html');
@@ -48,7 +48,7 @@ final class GenerateCommandTest extends TestCase
         );
         $input = new StringInput($stringInput);
 
-        $this->assertSame(1, $this->application->run($input, new NullOutput()));
+        $this->assertSame(1, $this->application->run($input, new NullOutput));
     }
 
     protected function tearDown()

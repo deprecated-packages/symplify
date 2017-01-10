@@ -1,0 +1,3 @@
+Zenify\DoctrineFixtures\Tests\Entity\Product:
+    product{1..20}:
+        __construct: [<shortName()>]

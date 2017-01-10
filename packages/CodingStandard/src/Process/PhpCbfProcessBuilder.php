@@ -15,7 +15,7 @@ final class PhpCbfProcessBuilder implements ProcessBuilderInterface
 
     public function __construct(string $directory)
     {
-        $this->builder = new ProcessBuilder();
+        $this->builder = new ProcessBuilder;
         $this->builder->setPrefix('./vendor/bin/phpcbf');
         $this->builder->add($directory);
     }

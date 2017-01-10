@@ -6,12 +6,15 @@ use Generic_Sniffs_PHP_ForbiddenFunctionsSniff;
 
 /**
  * Rules:
- * - Debug functions should not be left in the code.
- *
- * @author Mikulas Dite <mikulas@dite.pro>
+ * - Debug functions should not be left in the code
  */
-class DebugFunctionCallSniff extends Generic_Sniffs_PHP_ForbiddenFunctionsSniff
+final class DebugFunctionCallSniff extends Generic_Sniffs_PHP_ForbiddenFunctionsSniff
 {
+    /**
+     * @var string
+     */
+    public const NAME = 'SymplifyCodingStandard.Debug.DebugFunctionCall';
+
     /**
      * A list of forbidden functions with their alternatives.
      *
@@ -24,6 +27,6 @@ class DebugFunctionCallSniff extends Generic_Sniffs_PHP_ForbiddenFunctionsSniff
         'd' => null,
         'dd' => null,
         'dump' => null,
-        'var_dump' => null,
+        'var_dump' => null
     ];
 }

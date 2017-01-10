@@ -20,7 +20,7 @@ final class FirewallMapFactoryTest extends TestCase
 
     private function createLoadedFirewallMapFactory() : FirewallMapFactoryInterface
     {
-        $firewallMapFactory = new FirewallMapFactory();
+        $firewallMapFactory = new FirewallMapFactory;
 
         $requestMatcherMock = $this->prophesize(RequestMatcherInterface::class);
         $requestMatcherMock->getFirewallName()->willReturn('someFirewall');

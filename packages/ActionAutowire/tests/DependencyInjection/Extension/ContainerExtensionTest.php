@@ -12,10 +12,10 @@ final class ContainerExtensionTest extends TestCase
 {
     public function testLoad()
     {
-        $containerExtension = new ContainerExtension();
+        $containerExtension = new ContainerExtension;
 
-        $containerBuilder = new ContainerBuilder();
-        $containerBuilder->set('container', new Container());
+        $containerBuilder = new ContainerBuilder;
+        $containerBuilder->set('container', new Container);
 
         $containerExtension->load([], $containerBuilder);
         $this->assertCount(2, $containerBuilder->getDefinitions());
