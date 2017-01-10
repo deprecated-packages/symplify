@@ -1,0 +1,14 @@
+application:
+	scanDirs: FALSE
+	scanComposer: FALSE
+
+database:
+    # copied from https://github.com/nette/examples/blob/master/Micro-blog/www/data/blog.db3
+    dsn: "sqlite:%appDir%/data/blog.db3"
+
+services:
+    - Zenify\NetteDatabaseFilters\Tests\Filter\IgnoreCommentsByJakubFilter
+    - Zenify\NetteDatabaseFilters\Tests\Filter\IgnoreArticleWithId9Filter
+
+extensions:
+    - Zenify\NetteDatabaseFilters\DI\NetteDatabaseFiltersExtension

@@ -26,7 +26,8 @@ final class ModularLatteFiltersExtension extends CompilerExtension
         $containerBuilder->prepareClassList();
 
         $latteDefinition = $this->getLatteDefinition();
-        foreach ($containerBuilder->findByType(LatteFiltersProviderInterface::class) as $latteFilterProviderDefinition) {
+        $latteFiltersDefinitions = $containerBuilder->findByType(LatteFiltersProviderInterface::class);
+        foreach ($latteFiltersDefinitions as $latteFilterProviderDefinition) {
             $latteDefinition->addSetup(
                 'foreach (?->getFilters() as $name => $callback) {
 					?->addFilter($name, $callback);

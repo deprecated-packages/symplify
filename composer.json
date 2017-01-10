@@ -11,6 +11,7 @@
         "cpliakas/git-wrapper": "^1.7",
         "erusev/parsedown-extra": "^0.7",
         "spatie/regex": "^1.1",
+        "greenlion/php-sql-parser": "^4.1",
 
         "doctrine/dbal": "^2.5",
         "doctrine/orm": "^2.5",
@@ -18,6 +19,7 @@
         "nette/bootstrap": "^2.4",
         "nette/di": "^2.4",
         "nette/finder": "^2.4",
+        "nette/database": "^2.4",
         "nette/http": "^2.4",
         "nette/security": "^2.4",
         "latte/latte": "^2.4",
@@ -79,7 +81,8 @@
             "Symplify\\SymfonySecurity\\": "packages/SymfonySecurity/src",
             "Symplify\\SymfonyEventDispatcher\\": "packages/SymfonyEventDispatcher/src",
 
-            "Zenify\\ModularLatteFilters\\": "packages/ModularLatteFilters/src"
+            "Zenify\\ModularLatteFilters\\": "packages/ModularLatteFilters/src",
+            "Zenify\\NetteDatabaseFilters\\": "packages/NetteDatabaseFilters/src"
         }
     },
     "autoload-dev": {
@@ -98,7 +101,8 @@
             "Symplify\\SymfonySecurity\\Tests\\": "packages/SymfonySecurity/tests",
             "Symplify\\SymfonyEventDispatcher\\Tests\\": "packages/SymfonyEventDispatcher/tests",
 
-            "Zenify\\ModularLatteFilters\\Tests\\": "packages/ModularLatteFilters/tests"
+            "Zenify\\ModularLatteFilters\\Tests\\": "packages/ModularLatteFilters/tests",
+            "Zenify\\NetteDatabaseFilters\\Tests\\": "packages/NetteDatabaseFilters/tests"
         },
         "classmap": [
             "packages/Statie/bin/include-autoload.php"
