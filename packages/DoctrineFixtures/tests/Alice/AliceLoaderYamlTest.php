@@ -9,19 +9,16 @@ use Zenify\DoctrineFixtures\Tests\Faker\Provider\ProductName;
 
 final class AliceLoaderYamlTest extends AbstractDatabaseTestCase
 {
-
     /**
      * @var AliceLoaderInterface
      */
     private $fixturesLoader;
-
 
     protected function setUp()
     {
         parent::setUp();
         $this->fixturesLoader = $this->container->getByType(AliceLoaderInterface::class);
     }
-
 
     public function testLoadFixture()
     {

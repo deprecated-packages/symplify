@@ -6,7 +6,6 @@ use Knp\DoctrineBehaviors\Model\Translatable\Translation;
 
 final class TranslatableEntityWithNetteObjectTranslation
 {
-
     use Translation;
 
     /**
@@ -19,7 +18,6 @@ final class TranslatableEntityWithNetteObjectTranslation
      */
     private $position = 5;
 
-
     /**
      * @return string
      */
@@ -27,7 +25,6 @@ final class TranslatableEntityWithNetteObjectTranslation
     {
         return $this->name;
     }
-
 
     /**
      * @return int

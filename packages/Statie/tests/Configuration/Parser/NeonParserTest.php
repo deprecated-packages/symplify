@@ -9,7 +9,7 @@ final class NeonParserTest extends TestCase
 {
     public function test()
     {
-        $yamlAndNeonParser = new NeonParser();
+        $yamlAndNeonParser = new NeonParser;
 
         $neonConfig = $yamlAndNeonParser->decode(file_get_contents(__DIR__ . '/NeonParserSource/config.neon'));
         if ($this->isWindows()) {
@@ -22,6 +22,6 @@ final class NeonParserTest extends TestCase
 
     private function isWindows() : bool
     {
-        return '\\' === DIRECTORY_SEPARATOR;
+        return DIRECTORY_SEPARATOR === '\\';
     }
 }

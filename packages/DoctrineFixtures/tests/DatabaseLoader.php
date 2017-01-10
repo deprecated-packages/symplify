@@ -6,7 +6,6 @@ use Doctrine\DBAL\Connection;
 
 final class DatabaseLoader
 {
-
     /**
      * @var Connection
      */
@@ -17,12 +16,10 @@ final class DatabaseLoader
      */
     private $isDbSchemaPrepared;
 
-
     public function __construct(Connection $connection)
     {
         $this->connection = $connection;
     }
-
 
     public function prepareProductAndUserTable()
     {

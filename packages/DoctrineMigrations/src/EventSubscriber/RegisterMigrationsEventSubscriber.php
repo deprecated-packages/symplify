@@ -11,24 +11,20 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 final class RegisterMigrationsEventSubscriber implements EventSubscriberInterface
 {
-
     /**
      * @var Configuration
      */
     private $configuration;
-
 
     public function __construct(Configuration $configuration)
     {
         $this->configuration = $configuration;
     }
 
-
     public static function getSubscribedEvents() : array
     {
         return [ConsoleEvents::COMMAND => 'registerMigrations'];
     }
-
 
     public function registerMigrations(ConsoleCommandEvent $event)
     {
@@ -41,7 +37,6 @@ final class RegisterMigrationsEventSubscriber implements EventSubscriberInterfac
             $this->configuration->getMigrationsDirectory()
         );
     }
-
 
     private function isMigrationCommand(Command $command) : bool
     {

@@ -12,15 +12,15 @@ final class NewClassSniffTest extends TestCase
     {
         $codeSnifferRunner = new CodeSnifferRunner(NewClassSniff::NAME);
 
-        $this->assertSame(1, $codeSnifferRunner->getErrorCountInFile(__DIR__ . '/wrong.php'));
-        $this->assertSame(0, $codeSnifferRunner->getErrorCountInFile(__DIR__ . '/correct.php'));
+        $this->assertSame(1, $codeSnifferRunner->getErrorCountInFile(__DIR__ . '/wrong.php.inc'));
+        $this->assertSame(0, $codeSnifferRunner->getErrorCountInFile(__DIR__ . '/correct.php.inc'));
     }
 
     public function testFixing()
     {
         $codeSnifferRunner = new CodeSnifferRunner(NewClassSniff::NAME);
 
-        $fixedContent = $codeSnifferRunner->getFixedContent(__DIR__ . '/wrong.php');
-        $this->assertSame(file_get_contents(__DIR__ . '/wrong-fixed.php'), $fixedContent);
+        $fixedContent = $codeSnifferRunner->getFixedContent(__DIR__ . '/wrong.php.inc');
+        $this->assertSame(file_get_contents(__DIR__ . '/wrong-fixed.php.inc'), $fixedContent);
     }
 }

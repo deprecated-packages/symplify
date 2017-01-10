@@ -7,7 +7,6 @@ use Zenify\DoctrineMigrations\Tests\ContainerFactory;
 
 final class EnsureRequiredExtensionsTest extends TestCase
 {
-
     /**
      * @expectedException \Zenify\DoctrineMigrations\Exception\DI\MissingExtensionException
      */

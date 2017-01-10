@@ -16,7 +16,6 @@ use Symplify\CodingStandard\Helper\Whitespace\EmptyLinesResizer;
  */
 final class InBetweenMethodSpacingSniff extends Squiz_Sniffs_WhiteSpace_FunctionSpacingSniff
 {
-
     /**
      * @var string
      */

@@ -23,8 +23,8 @@ final class ControllerFinder implements ControllerFinderInterface
      */
     public function findControllersInDirs(array $dirs) : array
     {
-        $robot = new RobotLoader();
-        $robot->setCacheStorage(new DevNullStorage());
+        $robot = new RobotLoader;
+        $robot->setCacheStorage(new DevNullStorage);
         foreach ($dirs as $dir) {
             $robot->addDirectory($dir);
         }

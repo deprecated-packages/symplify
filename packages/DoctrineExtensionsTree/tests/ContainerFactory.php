@@ -8,7 +8,6 @@ use Nette\Utils\FileSystem;
 
 final class ContainerFactory
 {
-
     public function create() : Container
     {
         $configurator = new Configurator;
@@ -16,7 +15,6 @@ final class ContainerFactory
         $configurator->addConfig(__DIR__ . '/config/default.neon');
         return $configurator->createContainer();
     }
-
 
     private function createAndReturnTempDir() : string
     {

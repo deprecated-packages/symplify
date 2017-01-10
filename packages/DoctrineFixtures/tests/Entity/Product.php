@@ -9,7 +9,6 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Product
 {
-
     /**
      * @ORM\Column(type="integer")
      * @ORM\Id
@@ -24,7 +23,6 @@ class Product
      */
     private $name;
 
-
     /**
      * @param string $name
      */
@@ -33,7 +31,6 @@ class Product
         $this->name = $name;
     }
 
-
     /**
      * @return int
      */
@@ -41,7 +38,6 @@ class Product
     {
         return $this->id;
     }
-
 
     /**
      * @return string

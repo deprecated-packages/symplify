@@ -6,7 +6,6 @@ use Zenify\DoctrineMigrations\Contract\CodeStyle\CodeStyleInterface;
 
 final class CodeStyle implements CodeStyleInterface
 {
-
     /**
      * @var string
      */
@@ -22,12 +21,10 @@ final class CodeStyle implements CodeStyleInterface
      */
     private $indentationStandard;
 
-
     public function __construct(string $indentationStandard)
     {
         $this->indentationStandard = $indentationStandard;
     }
-
 
     public function applyForFile(string $file)
     {
@@ -35,7 +32,6 @@ final class CodeStyle implements CodeStyleInterface
             $this->convertSpacesToTabsForFile($file);
         }
     }
-
 
     private function convertSpacesToTabsForFile(string $file)
     {

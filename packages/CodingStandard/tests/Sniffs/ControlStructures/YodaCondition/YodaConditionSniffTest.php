@@ -12,7 +12,7 @@ final class YodaConditionSniffTest extends TestCase
     {
         $codeSnifferRunner = new CodeSnifferRunner(YodaConditionSniff::NAME);
 
-        $this->assertSame(5, $codeSnifferRunner->getErrorCountInFile(__DIR__ . '/wrong.php'));
-        $this->assertSame(0, $codeSnifferRunner->getErrorCountInFile(__DIR__ . '/correct.php'));
+        $this->assertSame(5, $codeSnifferRunner->getErrorCountInFile(__DIR__ . '/wrong.php.inc'));
+        $this->assertSame(0, $codeSnifferRunner->getErrorCountInFile(__DIR__ . '/correct.php.inc'));
     }
 }

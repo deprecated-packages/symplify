@@ -10,7 +10,7 @@ final class ContainerFactory
 {
     public function create() : Container
     {
-        $configurator = new Configurator();
+        $configurator = new Configurator;
         $configurator->setDebugMode(true);
         $configurator->setTempDirectory($this->createAndReturnTempDir());
         $configurator->addConfig(__DIR__ . '/../../config/config.neon');

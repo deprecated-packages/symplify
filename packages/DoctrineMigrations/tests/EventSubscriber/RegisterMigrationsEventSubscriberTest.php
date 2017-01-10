@@ -8,12 +8,10 @@ use Symfony\Component\Console\Output\BufferedOutput;
 
 final class RegisterMigrationsEventSubscriberTest extends AbstractEventSubscriberTest
 {
-
     /**
      * @var Configuration
      */
     private $configuration;
-
 
     protected function setUp()
     {
@@ -22,7 +20,6 @@ final class RegisterMigrationsEventSubscriberTest extends AbstractEventSubscribe
         $this->configuration = $this->container->getByType(Configuration::class);
         $this->configuration->setMigrationsDirectory($this->getMigrationsDirectory());
     }
-
 
     public function testStatusCommand()
     {
@@ -33,12 +30,10 @@ final class RegisterMigrationsEventSubscriberTest extends AbstractEventSubscribe
         $this->assertSame(0, $result);
     }
 
-
     public function testAvailableMigrations()
     {
         $this->assertSame(2, $this->configuration->getNumberOfAvailableMigrations());
     }
-
 
     /**
      * @return string

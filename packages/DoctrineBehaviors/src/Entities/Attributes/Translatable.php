@@ -7,7 +7,6 @@ namespace Zenify\DoctrineBehaviors\Entities\Attributes;
  */
 trait Translatable
 {
-
     /**
      * @param string
      * @return mixed
@@ -34,7 +33,6 @@ trait Translatable
 
         return $this->$name;
     }
-
 
     /**
      * @param string

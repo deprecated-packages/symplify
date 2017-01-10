@@ -11,24 +11,20 @@ use Zenify\DoctrineMigrations\OutputWriter;
 
 final class SetConsoleOutputEventSubscriber implements EventSubscriberInterface
 {
-
     /**
      * @var OutputWriter
      */
     private $outputWriter;
-
 
     public function __construct(OutputWriter $outputWriter)
     {
         $this->outputWriter = $outputWriter;
     }
 
-
     public static function getSubscribedEvents() : array
     {
         return [ConsoleEvents::COMMAND => 'setOutputWriter'];
     }
-
 
     public function setOutputWriter(ConsoleCommandEvent $event)
     {
@@ -39,7 +35,6 @@ final class SetConsoleOutputEventSubscriber implements EventSubscriberInterface
 
         $this->outputWriter->setConsoleOutput($event->getOutput());
     }
-
 
     private function isMigrationCommand(Command $command) : bool
     {

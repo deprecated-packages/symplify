@@ -10,7 +10,7 @@ final class PhpRouteCollectionProvider implements RouteCollectionProviderInterfa
 {
     public function getRouteCollection() : RouteCollection
     {
-        $routeCollection = new RouteCollection();
+        $routeCollection = new RouteCollection;
         $routeCollection->add('my_route', new Route('/hello'));
 
         return $routeCollection;

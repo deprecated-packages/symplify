@@ -19,7 +19,7 @@ final class LatteFactory
 
     public function create() : Engine
     {
-        $engine = new Engine();
+        $engine = new Engine;
         $engine->setLoader($this->loader);
         $engine->setTempDirectory(sys_get_temp_dir() . '/Statie');
 

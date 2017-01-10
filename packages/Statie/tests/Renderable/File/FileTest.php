@@ -17,7 +17,7 @@ final class FileTest extends TestCase
 
     protected function setUp()
     {
-        $configuration = new Configuration(new NeonParser());
+        $configuration = new Configuration(new NeonParser);
         $configuration->setSourceDirectory('sourceDirectory');
 
         $this->fileFactory = new FileFactory($configuration);

@@ -19,7 +19,7 @@ final class DynamicStringLoaderTest extends TestCase
 
     private function createStringLoader() : DynamicStringLoader
     {
-        $loader = new DynamicStringLoader();
+        $loader = new DynamicStringLoader;
         $loader->addTemplate(
             'default',
             file_get_contents(__DIR__ . '/LatteDecoratorSource/default.latte')

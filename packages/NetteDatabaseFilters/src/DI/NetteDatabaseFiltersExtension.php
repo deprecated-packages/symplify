@@ -12,7 +12,6 @@ use Zenify\NetteDatabaseFilters\Sql\SqlParser;
 
 final class NetteDatabaseFiltersExtension extends CompilerExtension
 {
-
     public function loadConfiguration()
     {
         $this->compiler->parseServices(
@@ -21,7 +20,6 @@ final class NetteDatabaseFiltersExtension extends CompilerExtension
         );
     }
 
-
     public function beforeCompile()
     {
         $this->replaceContextWithOwnClass();
@@ -29,14 +27,12 @@ final class NetteDatabaseFiltersExtension extends CompilerExtension
         $this->collectFiltersToFilterManager();
     }
 
-
     public function replaceContextWithOwnClass()
     {
         foreach ($this->getContainerBuilder()->findByType(Context::class) as $contextDefinition) {
             $contextDefinition->setFactory(FiltersAwareContext::class);
         }
     }
-
 
     private function setFilterManagerToContexts()
     {
@@ -49,7 +45,6 @@ final class NetteDatabaseFiltersExtension extends CompilerExtension
         }
     }
 
-
     private function collectFiltersToFilterManager()
     {
         $filterManagerDefinition = $this->getDefinitionByType(FilterManagerInterface::class);
@@ -58,7 +53,6 @@ final class NetteDatabaseFiltersExtension extends CompilerExtension
             $filterManagerDefinition->addSetup('addFilter', ['@' . $name]);
         }
     }
-
 
     private function getDefinitionByType(string $type) : ServiceDefinition
     {

@@ -28,8 +28,8 @@ abstract class AbstractRouteCollectionProvider implements RouteCollectionProvide
         }
 
         $loader = $this->loaderResolver->resolve($path);
-        if (null === $loader) {
-            return new RouteCollection();
+        if ($loader === null) {
+            return new RouteCollection;
         }
 
         return $loader->load($path);
@@ -40,7 +40,7 @@ abstract class AbstractRouteCollectionProvider implements RouteCollectionProvide
      */
     protected function loadRouteCollectionFromFiles(array $paths) : RouteCollection
     {
-        $routeCollection = new RouteCollection();
+        $routeCollection = new RouteCollection;
 
         foreach ($paths as $path) {
             $routeCollection->addCollection($this->loadRouteCollectionFromFile($path));

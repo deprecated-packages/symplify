@@ -12,7 +12,7 @@ final class DefinitionValidator
             return false;
         }
 
-        if (null === $definition->getClass() || ! class_exists($definition->getClass())) {
+        if ($definition->getClass() === null || ! class_exists($definition->getClass())) {
             return false;
         }
 

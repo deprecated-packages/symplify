@@ -141,7 +141,6 @@ final class NamespaceDeclarationSniff implements PHP_CodeSniffer_Sniff
     private function fixSpacesFromNamespaceToUseStatements(int $position, int $linesToNextUse)
     {
         $nextLinePosition = WhitespaceFinder::findNextEmptyLinePosition($this->file, $position);
-
         if ($linesToNextUse < $this->emptyLinesBeforeUseStatement) {
             for ($i = $linesToNextUse; $i < $this->emptyLinesBeforeUseStatement; $i++) {
                 $this->file->fixer->addContent($nextLinePosition, PHP_EOL);
@@ -157,11 +156,9 @@ final class NamespaceDeclarationSniff implements PHP_CodeSniffer_Sniff
     private function fixSpacesFromNamespaceToClass(int $position, int $linesToClass) : void
     {
         $nextLinePosition = WhitespaceFinder::findNextEmptyLinePosition($this->file, $position);
-
         if ($linesToClass === 0) {
             $nextLinePosition = $nextLinePosition-2;
         }
-
         if ($linesToClass < $this->emptyLinesAfterNamespace) {
             for ($i = $linesToClass; $i < $this->emptyLinesAfterNamespace; $i++) {
                 $this->file->fixer->addContent($nextLinePosition, PHP_EOL);
@@ -177,8 +174,9 @@ final class NamespaceDeclarationSniff implements PHP_CodeSniffer_Sniff
     private function fixSpacesFromUseStatementToClass(int $position, int $linesToClass) : void
     {
         if ($linesToClass < $this->emptyLinesAfterNamespace) {
+            $nextLinePosition = WhitespaceFinder::findNextEmptyLinePosition($this->file, $position);
             for ($i = $linesToClass; $i < $this->emptyLinesAfterNamespace; $i++) {
-                $this->file->fixer->addContent($position, PHP_EOL);
+                $this->file->fixer->addContentBefore($nextLinePosition, PHP_EOL);
             }
         } elseif ($linesToClass > $this->emptyLinesAfterNamespace) {
             $nextLinePosition = WhitespaceFinder::findNextEmptyLinePosition($this->file, $position);

@@ -6,18 +6,15 @@ use Nette\Security\User;
 
 final class UserCallable
 {
-
     /**
      * @var User
      */
     private $user;
 
-
     public function __construct(User $user)
     {
         $this->user = $user;
     }
-
 
     /**
      * @return mixed

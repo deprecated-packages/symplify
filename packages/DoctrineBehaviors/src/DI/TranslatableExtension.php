@@ -12,7 +12,6 @@ use Zenify\DoctrineBehaviors\Entities\Attributes\Translatable;
 
 final class TranslatableExtension extends AbstractBehaviorExtension
 {
-
     /**
      * @var array
      */
@@ -24,7 +23,6 @@ final class TranslatableExtension extends AbstractBehaviorExtension
         'translatableFetchMode' => 'LAZY',
         'translationFetchMode' => 'LAZY',
     ];
-
 
     public function loadConfiguration()
     {
@@ -45,7 +43,6 @@ final class TranslatableExtension extends AbstractBehaviorExtension
             ->setAutowired(false)
             ->addTag(EventsExtension::TAG_SUBSCRIBER);
     }
-
 
     /**
      * @throws AssertionException

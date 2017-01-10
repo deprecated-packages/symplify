@@ -7,7 +7,6 @@ use Zenify\ModularLatteFilters\Tests\PHPUnit\AbstractContainerAwareTestCase;
 
 final class LatteEngineTest extends AbstractContainerAwareTestCase
 {
-
     public function test()
     {
         /** @var Engine $latte */

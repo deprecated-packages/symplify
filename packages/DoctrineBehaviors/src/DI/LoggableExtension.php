@@ -10,7 +10,6 @@ use Zenify\DoctrineBehaviors\Loggable\LoggerCallable;
 
 final class LoggableExtension extends AbstractBehaviorExtension
 {
-
     /**
      * @var array
      */
@@ -18,7 +17,6 @@ final class LoggableExtension extends AbstractBehaviorExtension
         'isRecursive' => true,
         'loggerCallable' => LoggerCallable::class
     ];
-
 
     public function loadConfiguration()
     {
@@ -37,7 +35,6 @@ final class LoggableExtension extends AbstractBehaviorExtension
             ->setAutowired(false)
             ->addTag(EventsExtension::TAG_SUBSCRIBER);
     }
-
 
     /**
      * @throws AssertionException

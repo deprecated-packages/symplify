@@ -10,7 +10,6 @@ use Zenify\DoctrineBehaviors\Entities\Attributes\Translatable as ZenifyTranslata
  */
 final class TranslatableEntity
 {
-
     use KnpTranslatable;
     use ZenifyTranslatable;
 }

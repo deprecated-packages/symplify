@@ -9,18 +9,15 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 final class OutputWriter extends DoctrineOutputWriter
 {
-
     /**
      * @var OutputInterface
      */
     private $consoleOutput;
 
-
     public function setConsoleOutput(OutputInterface $consoleOutput)
     {
         $this->consoleOutput = $consoleOutput;
     }
-
 
     /**
      * @param string $message
@@ -29,7 +26,6 @@ final class OutputWriter extends DoctrineOutputWriter
     {
         $this->getConsoleOutput()->writeln($message);
     }
-
 
     private function getConsoleOutput() : OutputInterface
     {

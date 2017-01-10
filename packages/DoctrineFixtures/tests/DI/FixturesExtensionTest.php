@@ -15,18 +15,15 @@ use Zenify\DoctrineFixtures\Tests\ContainerFactory;
 
 final class FixturesExtensionTest extends TestCase
 {
-
     /**
      * @var Container
      */
     private $container;
 
-
     protected function setUp()
     {
         $this->container = (new ContainerFactory)->create();
     }
-
 
     public function testLoadConfiguration()
     {
@@ -42,7 +39,6 @@ final class FixturesExtensionTest extends TestCase
 
         $this->assertSame(AliceLoader::class, $aliceLoaderDefinition->getClass());
     }
-
 
     public function testLoadFakerProvidersToAliceLoader()
     {
@@ -65,7 +61,6 @@ final class FixturesExtensionTest extends TestCase
         $this->assertArrayHasKey('company', $arguments[1]);
     }
 
-
     public function testLoadParsersToAliceLoader()
     {
         $extension = $this->getExtension();
@@ -77,7 +72,6 @@ final class FixturesExtensionTest extends TestCase
 
         $this->assertSame('addParser', $aliceLoaderDefinition->getSetup()[0]->getEntity());
     }
-
 
     private function getExtension() : FixturesExtension
     {

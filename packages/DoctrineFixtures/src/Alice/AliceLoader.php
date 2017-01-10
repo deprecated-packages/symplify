@@ -11,7 +11,6 @@ use Zenify\DoctrineFixtures\Exception\MissingSourceException;
 
 final class AliceLoader implements AliceLoaderInterface
 {
-
     /**
      * @var Loader
      */
@@ -22,13 +21,11 @@ final class AliceLoader implements AliceLoaderInterface
      */
     private $entityManager;
 
-
     public function __construct(Loader $aliceLoader, EntityManagerInterface $entityManager)
     {
         $this->aliceLoader = $aliceLoader;
         $this->entityManager = $entityManager;
     }
-
 
     /**
      * @param string|array $sources
@@ -51,7 +48,6 @@ final class AliceLoader implements AliceLoaderInterface
         return $entities;
     }
 
-
     /**
      * @param mixed $source
      * @return object[]
@@ -69,7 +65,6 @@ final class AliceLoader implements AliceLoaderInterface
         );
     }
 
-
     /**
      * @return object[]
      */
@@ -81,7 +76,6 @@ final class AliceLoader implements AliceLoaderInterface
         }
         return $entities;
     }
-
 
     private function loadFromDirectory(string $path) : array
     {

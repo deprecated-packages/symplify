@@ -9,7 +9,6 @@ use Zenify\DoctrineMigrations\Tests\ContainerFactory;
 
 abstract class AbstractEventSubscriberTest extends TestCase
 {
-
     /**
      * @var Container
      */
@@ -19,7 +18,6 @@ abstract class AbstractEventSubscriberTest extends TestCase
      * @var Application
      */
     protected $application;
-
 
     protected function setUp()
     {

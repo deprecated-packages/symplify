@@ -4,7 +4,6 @@ namespace Zenify\ModularLatteFilters\Contract\DI;
 
 interface LatteFiltersProviderInterface
 {
-
     /**
      * @return callable[]
      */

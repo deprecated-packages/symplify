@@ -14,7 +14,6 @@ use Zenify\DoctrineExtensionsTree\Tests\Project\Entities\Category;
 
 final class TreeTest extends TestCase
 {
-
     /**
      * @var Container
      */
@@ -24,7 +23,6 @@ final class TreeTest extends TestCase
      * @var ObjectRepository|MaterializedPathRepository
      */
     private $categoryRepository;
-
 
     protected function setUp()
     {
@@ -39,7 +37,6 @@ final class TreeTest extends TestCase
         $databaseLoader->prepareCategoryTableWithTwoItems();
     }
 
-
     public function testInstance()
     {
         $this->assertInstanceOf(
@@ -47,7 +44,6 @@ final class TreeTest extends TestCase
             $this->container->getByType(TreeListener::class)
         );
     }
-
 
     public function testParent()
     {
@@ -60,7 +56,6 @@ final class TreeTest extends TestCase
         $this->assertSame('Fruit', $category->getParent()->getName());
     }
 
-
     public function testPath()
     {
         /** @var Category $category */
@@ -71,7 +66,6 @@ final class TreeTest extends TestCase
         $category = $this->categoryRepository->find(2);
         $this->assertSame('Fruit-1|Apple-2|', $category->getPath());
     }
-
 
     public function testTreeRepository()
     {

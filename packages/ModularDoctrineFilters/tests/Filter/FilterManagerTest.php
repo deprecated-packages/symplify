@@ -32,7 +32,7 @@ final class FilterManagerTest extends TestCase
 
     public function testAddFilter()
     {
-        $this->filterManager->addFilter('some', new SomeFilter());
+        $this->filterManager->addFilter('some', new SomeFilter);
 
         $this->assertCount(
             1,
@@ -42,8 +42,8 @@ final class FilterManagerTest extends TestCase
 
     public function testEnableFilters()
     {
-        $this->filterManager->addFilter('some', new SomeFilter());
-        $this->filterManager->addFilter('some_other', new SomeFilter());
+        $this->filterManager->addFilter('some', new SomeFilter);
+        $this->filterManager->addFilter('some_other', new SomeFilter);
 
         $this->assertCount(0, $this->filterCollection->getEnabledFilters());
 

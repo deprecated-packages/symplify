@@ -11,7 +11,6 @@ use Zenify\DoctrineBehaviors\Entities\Attributes\Translatable as ZenifyTranslata
  */
 final class TranslatableEntityWithNetteObject extends Object
 {
-
     use KnpTranslatable;
     use ZenifyTranslatable;
 }

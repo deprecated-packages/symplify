@@ -8,6 +8,6 @@ final class SomeController
 {
     public function someAction()
     {
-        return new Response();
+        return new Response;
     }
 }

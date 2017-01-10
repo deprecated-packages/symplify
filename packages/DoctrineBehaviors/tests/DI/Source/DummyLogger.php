@@ -5,7 +5,6 @@ use Zenify\DoctrineBehaviors\Contract\Loggable\LoggerInterface;
 
 final class DummyLogger implements LoggerInterface
 {
-
     public function process(string $message)
     {
     }

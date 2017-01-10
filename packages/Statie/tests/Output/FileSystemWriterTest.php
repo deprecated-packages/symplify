@@ -29,7 +29,7 @@ final class FileSystemWriterTest extends TestCase
 
     protected function setUp()
     {
-        $configuration = new Configuration(new NeonParser());
+        $configuration = new Configuration(new NeonParser);
         $configuration->setSourceDirectory($this->sourceDirectory);
         $configuration->setOutputDirectory($this->outputDirectory);
 

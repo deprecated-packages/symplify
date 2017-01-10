@@ -9,18 +9,15 @@ use Zenify\DoctrineFixtures\Tests\Entity\User;
 
 final class NeonParserTest extends TestCase
 {
-
     /**
      * @var NeonParser
      */
     private $neonParser;
 
-
     protected function setUp()
     {
         $this->neonParser = new NeonParser;
     }
-
 
     public function testCanParse()
     {
@@ -28,14 +25,12 @@ final class NeonParserTest extends TestCase
         $this->assertFalse($this->neonParser->canParse('file.yaml'));
     }
 
-
     public function testParse()
     {
         $entities = $this->neonParser->parse(__DIR__ . '/NeonParserSource/products.neon');
         $this->assertArrayHasKey(Product::class, $entities);
         $this->assertArrayHasKey('product{1..5}', $entities[Product::class]);
     }
-
 
     public function testInclude()
     {

@@ -11,7 +11,6 @@ use Zenify\DoctrineBehaviors\Entities\Attributes\Translatable as ZenifyTranslata
  */
 class Category
 {
-
     use Translatable;
     use ZenifyTranslatable;
 
@@ -23,7 +22,6 @@ class Category
      */
     private $id;
 
-
     /**
      * @param string $name
      * @param bool $isActive
@@ -33,7 +31,6 @@ class Category
         $this->proxyCurrentLocaleTranslation('setName', [$name]);
         $this->proxyCurrentLocaleTranslation('setIsActive', [$isActive]);
     }
-
 
     /**
      * @return int

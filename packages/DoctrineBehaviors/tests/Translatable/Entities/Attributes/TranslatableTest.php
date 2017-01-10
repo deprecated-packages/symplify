@@ -8,13 +8,11 @@ use Zenify\DoctrineBehaviors\Tests\Translatable\Entities\Attributes\Source\Trans
 
 final class TranslatableTest extends TestCase
 {
-
     public function testGetterMethod()
     {
         $translatableEntity = new TranslatableEntity;
         $this->assertSame('someName', $translatableEntity->getName());
     }
-
 
     public function testProperty()
     {
@@ -22,13 +20,11 @@ final class TranslatableTest extends TestCase
         $this->assertSame(5, $translatableEntity->position);
     }
 
-
     public function testGetterMethodWithNetteObject()
     {
         $translatableEntity = new TranslatableEntityWithNetteObject;
         $this->assertSame('someName', $translatableEntity->getName());
     }
-
 
     public function testPropertyWithNetteObject()
     {

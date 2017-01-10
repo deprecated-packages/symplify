@@ -8,7 +8,6 @@ use Zenify\ModularLatteFilters\DI\ModularLatteFiltersExtension;
 
 final class MissingLatteDefinitionInExtensionTest extends TestCase
 {
-
     /**
      * @expectedException \Zenify\ModularLatteFilters\Exception\DI\MissingLatteDefinitionException
      */
@@ -19,7 +18,6 @@ final class MissingLatteDefinitionInExtensionTest extends TestCase
 
         $extension->beforeCompile();
     }
-
 
     private function getExtension() : ModularLatteFiltersExtension
     {

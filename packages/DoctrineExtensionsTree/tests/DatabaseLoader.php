@@ -8,7 +8,6 @@ use Zenify\DoctrineExtensionsTree\Tests\Project\Entities\Category;
 
 final class DatabaseLoader
 {
-
     /**
      * @var bool
      */
@@ -24,13 +23,11 @@ final class DatabaseLoader
      */
     private $entityManager;
 
-
     public function __construct(Connection $connection, EntityManager $entityManager)
     {
         $this->connection = $connection;
         $this->entityManager = $entityManager;
     }
-
 
     public function prepareCategoryTableWithTwoItems()
     {

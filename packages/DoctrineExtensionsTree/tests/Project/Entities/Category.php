@@ -10,7 +10,6 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Category
 {
-
     /**
      * @ORM\Column(type="integer")
      * @ORM\Id
@@ -41,7 +40,6 @@ class Category
      */
     private $path;
 
-
     /**
      * @param string $name
      * @param Category $parent
@@ -52,7 +50,6 @@ class Category
         $this->parent = $parent;
     }
 
-
     /**
      * @return string
      */
@@ -61,7 +58,6 @@ class Category
         return $this->name;
     }
 
-
     /**
      * @return Category
      */
@@ -69,7 +65,6 @@ class Category
     {
         return $this->parent;
     }
-
 
     /**
      * @return string

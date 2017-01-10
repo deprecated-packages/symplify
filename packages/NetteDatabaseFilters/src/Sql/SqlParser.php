@@ -6,18 +6,15 @@ use PHPSQLParser\PHPSQLParser;
 
 final class SqlParser
 {
-
     /**
      * @var PHPSQLParser
      */
     private $phpSqlParser;
 
-
     public function __construct(PHPSQLParser $phpSqlParser)
     {
         $this->phpSqlParser = $phpSqlParser;
     }
-
 
     public function parseTablesFromSql(string $sql) : array
     {

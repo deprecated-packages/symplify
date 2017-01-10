@@ -20,7 +20,7 @@ final class GihubPublishingProcessTest extends TestCase
 
     protected function setUp()
     {
-        $this->githubPublishingProcess = new GihubPublishingProcess();
+        $this->githubPublishingProcess = new GihubPublishingProcess;
     }
 
     /**

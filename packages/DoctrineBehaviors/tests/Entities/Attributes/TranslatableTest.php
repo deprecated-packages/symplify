@@ -7,20 +7,17 @@ use PHPUnit\Framework\TestCase;
 
 final class TranslatableTest extends TestCase
 {
-
     public function testGetMethod()
     {
         $category = new Category('Some name', true);
         $this->assertSame('Some name', $category->getName());
     }
 
-
     public function testIsMethod()
     {
         $category = new Category('Some name', true);
         $this->assertTrue($category->isActive());
     }
-
 
     public function testHasMethod()
     {
@@ -35,7 +32,6 @@ final class TranslatableTest extends TestCase
         $this->assertSame(2, $category->getTags()->count());
         $this->assertTrue($category->hasTag($tagNette));
     }
-
 
     public function testShouldMethod()
     {

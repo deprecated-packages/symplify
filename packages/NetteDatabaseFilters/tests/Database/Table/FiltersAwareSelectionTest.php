@@ -8,12 +8,10 @@ use Zenify\NetteDatabaseFilters\Tests\ContainerFactory;
 
 final class FiltersAwareSelectionTest extends TestCase
 {
-
     /**
      * @var Context
      */
     private $database;
-
 
     protected function setUp()
     {
@@ -21,7 +19,6 @@ final class FiltersAwareSelectionTest extends TestCase
 
         $this->database = $container->getByType(Context::class);
     }
-
 
     public function testRelated()
     {
@@ -31,7 +28,6 @@ final class FiltersAwareSelectionTest extends TestCase
         $this->assertCount(4, $article->related('comment'));
     }
 
-
     public function testReferenced()
     {
         $comment = $this->database->table('comment')
@@ -40,7 +36,6 @@ final class FiltersAwareSelectionTest extends TestCase
         $article = $comment->ref('article');
         $this->assertNull($article);
     }
-
 
     public function testSelect()
     {

@@ -12,7 +12,6 @@ use Zenify\NetteDatabaseFilters\Sql\SqlParser;
 
 final class FiltersAwareSelection extends Selection
 {
-
     /**
      * @var FilterManagerInterface
      */
@@ -22,7 +21,6 @@ final class FiltersAwareSelection extends Selection
      * @var SqlParser
      */
     private $sqlParser;
-
 
     public function __construct(
         FilterManagerInterface $filterManager,
@@ -36,7 +34,6 @@ final class FiltersAwareSelection extends Selection
         $this->sqlParser = $sqlParser;
         parent::__construct($context, $conventions, $tableName, $cacheStorage);
     }
-
 
     /**
      * @param string $table
@@ -52,7 +49,6 @@ final class FiltersAwareSelection extends Selection
         return $referencingTable;
     }
 
-
     /**
      * @param string $table
      */
@@ -64,7 +60,6 @@ final class FiltersAwareSelection extends Selection
 
         return $selection;
     }
-
 
     /**
      * @param string $columns
@@ -78,7 +73,6 @@ final class FiltersAwareSelection extends Selection
 
         return $selection;
     }
-
 
     private function applyFilters(Selection $selection)
     {

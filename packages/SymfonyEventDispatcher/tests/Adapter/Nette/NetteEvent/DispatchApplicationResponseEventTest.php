@@ -24,7 +24,7 @@ final class DispatchApplicationResponseEventTest extends TestCase
 
     protected function setUp()
     {
-        $containerFactory = (new ContainerFactory())->create();
+        $containerFactory = (new ContainerFactory)->create();
         $this->application = $containerFactory->getByType(Application::class);
         $this->eventStateStorage = $containerFactory->getByType(EventStateStorage::class);
     }

@@ -22,7 +22,7 @@ final class CompleteTest extends TestCase
 
     protected function setUp()
     {
-        $this->kernel = new AppKernel();
+        $this->kernel = new AppKernel;
         $this->kernel->boot();
 
         $this->entityManager = $this->kernel->getContainer()
@@ -31,7 +31,7 @@ final class CompleteTest extends TestCase
 
     public function testEnableFiltersViaSubscriber()
     {
-        $request = new Request();
+        $request = new Request;
         $request->attributes->set('_controller', SomeController::class . '::someAction');
 
         $filters = $this->entityManager->getFilters();

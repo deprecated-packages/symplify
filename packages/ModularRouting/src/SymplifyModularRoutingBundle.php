@@ -12,12 +12,12 @@ final class SymplifyModularRoutingBundle extends Bundle
 {
     public function getContainerExtension() : SymplifyModularRoutingExtension
     {
-        return new SymplifyModularRoutingExtension();
+        return new SymplifyModularRoutingExtension;
     }
 
     public function build(ContainerBuilder $containerBuilder) : void
     {
-        $containerBuilder->addCompilerPass(new AddRouteCollectionProvidersCompilerPass());
-        $containerBuilder->addCompilerPass(new SetLoaderCompilerPass());
+        $containerBuilder->addCompilerPass(new AddRouteCollectionProvidersCompilerPass);
+        $containerBuilder->addCompilerPass(new SetLoaderCompilerPass);
     }
 }

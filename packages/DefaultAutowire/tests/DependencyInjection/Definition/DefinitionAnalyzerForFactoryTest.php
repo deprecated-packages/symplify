@@ -31,12 +31,12 @@ final class DefinitionAnalyzerForFactoryTest extends TestCase
 
     protected function setUp()
     {
-        $this->definitionAnalyzer = new DefinitionAnalyzer(new DefinitionValidator());
+        $this->definitionAnalyzer = new DefinitionAnalyzer(new DefinitionValidator);
     }
 
     public function testServiceFactoryMethodDoesNotHaveArguments()
     {
-        $containerBuilder = new ContainerBuilder();
+        $containerBuilder = new ContainerBuilder;
         $containerBuilder->addDefinitions([
             'factory' => new Definition(EmptyConstructorFactory::class),
         ]);
@@ -58,12 +58,12 @@ final class DefinitionAnalyzerForFactoryTest extends TestCase
             'create',
         ]);
 
-        $this->assertFalse($this->definitionAnalyzer->shouldDefinitionBeAutowired(new ContainerBuilder(), $definition));
+        $this->assertFalse($this->definitionAnalyzer->shouldDefinitionBeAutowired(new ContainerBuilder, $definition));
     }
 
     public function testServiceFactoryBuiltClassHaveMissingArgumentsTypehints()
     {
-        $containerBuilder = new ContainerBuilder();
+        $containerBuilder = new ContainerBuilder;
         $containerBuilder->addDefinitions([
             'factory' => new Definition(MissingArgumentsTypehintsFactory::class),
         ]);
@@ -89,12 +89,12 @@ final class DefinitionAnalyzerForFactoryTest extends TestCase
 
         $definition->setArguments(['@someService']);
 
-        $this->assertFalse($this->definitionAnalyzer->shouldDefinitionBeAutowired(new ContainerBuilder(), $definition));
+        $this->assertFalse($this->definitionAnalyzer->shouldDefinitionBeAutowired(new ContainerBuilder, $definition));
     }
 
     public function testServiceFactoryBuiltClassHaveNotMissingArgumentsTypehints()
     {
-        $containerBuilder = new ContainerBuilder();
+        $containerBuilder = new ContainerBuilder;
         $containerBuilder->addDefinitions([
             'factory' => new Definition(NotMissingArgumentsTypehintsFactory::class),
         ]);
@@ -120,12 +120,12 @@ final class DefinitionAnalyzerForFactoryTest extends TestCase
 
         $definition->setArguments(['@someService']);
 
-        $this->assertTrue($this->definitionAnalyzer->shouldDefinitionBeAutowired(new ContainerBuilder(), $definition));
+        $this->assertTrue($this->definitionAnalyzer->shouldDefinitionBeAutowired(new ContainerBuilder, $definition));
     }
 
     public function testFactoryServiceIsUsedByAlias()
     {
-        $containerBuilder = new ContainerBuilder();
+        $containerBuilder = new ContainerBuilder;
         $containerBuilder->addDefinitions([
             'factory' => new Definition(EmptyConstructorFactory::class),
         ]);
@@ -144,7 +144,7 @@ final class DefinitionAnalyzerForFactoryTest extends TestCase
 
     public function testFactoryServiceCanBeDecorated()
     {
-        $containerBuilder = new ContainerBuilder();
+        $containerBuilder = new ContainerBuilder;
         $containerBuilder->addDefinitions([
             'factory' => new Definition(EmptyConstructorFactory::class),
             'decorated_factory' => new DefinitionDecorator('factory'),
@@ -161,7 +161,7 @@ final class DefinitionAnalyzerForFactoryTest extends TestCase
 
     public function testFactoryClassNameIsDefinedByParameter()
     {
-        $containerBuilder = new ContainerBuilder();
+        $containerBuilder = new ContainerBuilder;
         $containerBuilder->addDefinitions([
             'factory' => new Definition('%factory_class_param%'),
         ]);
@@ -178,7 +178,7 @@ final class DefinitionAnalyzerForFactoryTest extends TestCase
 
     public function testDoctrineRepositoryAsService()
     {
-        $containerBuilder = new ContainerBuilder();
+        $containerBuilder = new ContainerBuilder;
         $containerBuilder->addDefinitions([
             'doctrine.orm.default_entity_manager' => new DefinitionDecorator('doctrine.orm.entity_manager.abstract'),
             'doctrine.orm.entity_manager.abstract' => new Definition('%doctrine.orm.entity_manager.class%'),

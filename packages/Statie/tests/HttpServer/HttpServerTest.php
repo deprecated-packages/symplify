@@ -20,10 +20,10 @@ final class HttpServerTest extends TestCase
 
     protected function setUp()
     {
-        $output = new NullOutput();
-        $configuration = new Configuration(new NeonParser());
+        $output = new NullOutput;
+        $configuration = new Configuration(new NeonParser);
         $configuration->setOutputDirectory('outputDirectory');
-        $mimeTypeDetector = new MimeTypeDetector(new MimeTypes());
+        $mimeTypeDetector = new MimeTypeDetector(new MimeTypes);
         $this->httpServer = new HttpServer($configuration, $output, new ResponseWriter($output, $mimeTypeDetector));
     }
 

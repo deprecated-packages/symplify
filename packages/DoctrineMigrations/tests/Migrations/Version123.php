@@ -8,19 +8,16 @@ use Zenify\DoctrineMigrations\Tests\Configuration\ConfigurationSource\SomeServic
 
 final class Version123 extends AbstractMigration
 {
-
     /**
      * @inject
      * @var SomeService
      */
     public $someService;
 
-
     public function up(Schema $schema)
     {
         $this->addSql('CREATE TABLE "category" ( "id" integer NOT NULL );');
     }
-
 
     public function down(Schema $schema)
     {

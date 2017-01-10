@@ -13,7 +13,6 @@ use Zenify\NetteDatabaseFilters\Sql\SqlParser;
 
 final class FiltersAwareContext extends Context
 {
-
     /**
      * @var FilterManagerInterface
      */
@@ -29,7 +28,6 @@ final class FiltersAwareContext extends Context
      */
     private $sqlParser;
 
-
     public function __construct(
         Connection $connection,
         IStructure $structure,
@@ -40,18 +38,15 @@ final class FiltersAwareContext extends Context
         $this->cacheStorage = $cacheStorage;
     }
 
-
     public function setFilterManager(FilterManagerInterface $filterManager)
     {
         $this->filterManager = $filterManager;
     }
 
-
     public function setSqlParser(SqlParser $sqlParser)
     {
         $this->sqlParser = $sqlParser;
     }
-
 
     /**
      * @param string $table

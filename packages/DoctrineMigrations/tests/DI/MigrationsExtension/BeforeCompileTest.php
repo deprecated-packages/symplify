@@ -15,7 +15,6 @@ use Zenify\DoctrineMigrations\DI\MigrationsExtension;
 
 final class BeforeCompileTest extends TestCase
 {
-
     /**
      * @var MigrationsExtension
      */
@@ -25,7 +24,6 @@ final class BeforeCompileTest extends TestCase
      * @var ContainerBuilder
      */
     private $containerBuilder;
-
 
     protected function setUp()
     {
@@ -45,7 +43,6 @@ final class BeforeCompileTest extends TestCase
         $this->containerBuilder->prepareClassList();
     }
 
-
     public function testSetConfigurationToCommands()
     {
         $executeCommandDefinition = $this->getDefinitionByType(ExecuteCommand::class);
@@ -56,7 +53,6 @@ final class BeforeCompileTest extends TestCase
             ['@' . Configuration::class]
         );
     }
-
 
     public function testLoadCommandsToApplication()
     {
@@ -70,7 +66,6 @@ final class BeforeCompileTest extends TestCase
         );
     }
 
-
     /**
      * @param Statement $statement
      * @param string $entity
@@ -81,7 +76,6 @@ final class BeforeCompileTest extends TestCase
         $this->assertSame($entity, $statement->getEntity());
         $this->assertSame($arguments, $statement->arguments);
     }
-
 
     /**
      * @param string $type

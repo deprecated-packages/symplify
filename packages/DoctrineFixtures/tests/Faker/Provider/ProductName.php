@@ -6,7 +6,6 @@ use Faker\Provider\Base;
 
 final class ProductName extends Base
 {
-
     /**
      * @var array
      */
@@ -15,7 +14,6 @@ final class ProductName extends Base
         'Eye of xray',
         'Flying shoe'
     ];
-
 
     public function shortName() : string
     {

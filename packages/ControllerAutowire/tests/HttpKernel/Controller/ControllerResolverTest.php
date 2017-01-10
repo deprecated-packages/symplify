@@ -23,7 +23,7 @@ final class ControllerResolverTest extends TestCase
 
     public function testGetController()
     {
-        $request = new Request();
+        $request = new Request;
         $request->attributes->set('_controller', 'SomeController::someAction');
 
         $controller = $this->controllerResolver->getController($request);
@@ -33,7 +33,7 @@ final class ControllerResolverTest extends TestCase
     public function testGetArguments()
     {
         $this->assertNull(
-            $this->controllerResolver->getArguments(new Request(), 'missing')
+            $this->controllerResolver->getArguments(new Request, 'missing')
         );
     }
 

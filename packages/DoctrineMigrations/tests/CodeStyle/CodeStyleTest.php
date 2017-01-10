@@ -7,7 +7,6 @@ use Zenify\DoctrineMigrations\CodeStyle\CodeStyle;
 
 final class CodeStyleTest extends TestCase
 {
-
     public function testConvertToTabs()
     {
         $file = sys_get_temp_dir() . '/doctrine-migrations/some-spaced-text-file.txt';
@@ -18,7 +17,6 @@ final class CodeStyleTest extends TestCase
         $this->assertStringNotEqualsFile($file, '    hi');
         $this->assertStringEqualsFile($file, "\thi");
     }
-
 
     public function testKeepSpaces()
     {

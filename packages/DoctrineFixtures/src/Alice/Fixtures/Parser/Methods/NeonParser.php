@@ -8,12 +8,10 @@ use Nette\Neon\Neon;
 
 final class NeonParser extends Base
 {
-
     /**
      * @var string
      */
     protected $extension = 'neon';
-
 
     /**
      * @param string $file
@@ -42,7 +40,6 @@ final class NeonParser extends Base
         return $this->processIncludes($data, $file);
     }
 
-
     /**
      * @param array $data
      * @param string $filename
@@ -60,7 +57,6 @@ final class NeonParser extends Base
 
         return $data;
     }
-
 
     private function mergeIncludedFiles(array $data, string $filename, string $includeKeyword) : array
     {

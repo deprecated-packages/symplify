@@ -10,7 +10,6 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Tag
 {
-
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -31,7 +30,6 @@ class Tag
      */
     private $categories;
 
-
     /**
      * @param string $name
      */
@@ -40,7 +38,6 @@ class Tag
         $this->name = $name;
         $this->categories = new ArrayCollection;
     }
-
 
     /**
      * @return string

@@ -10,7 +10,6 @@ use Nette\Utils\Validators;
 
 final class TimestampableExtension extends AbstractBehaviorExtension
 {
-
     /**
      * @var array
      */
@@ -19,7 +18,6 @@ final class TimestampableExtension extends AbstractBehaviorExtension
         'trait' => Timestampable::class,
         'dbFieldType' => 'datetime',
     ];
-
 
     public function loadConfiguration()
     {
@@ -37,7 +35,6 @@ final class TimestampableExtension extends AbstractBehaviorExtension
             ->setAutowired(false)
             ->addTag(EventsExtension::TAG_SUBSCRIBER);
     }
-
 
     /**
      * @throws AssertionException

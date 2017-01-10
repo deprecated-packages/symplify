@@ -12,18 +12,15 @@ use Zenify\NetteDatabaseFilters\Tests\ContainerFactory;
 
 final class NetteDatabaseFiltersExtensionMultipleContextTest extends TestCase
 {
-
     /**
      * @var Container
      */
     private $container;
 
-
     protected function setUp()
     {
         $this->container = (new ContainerFactory)->createWithConfig(__DIR__ . '/../config/multiple-context.neon');
     }
-
 
     public function testContextWasReplaced()
     {
@@ -34,7 +31,6 @@ final class NetteDatabaseFiltersExtensionMultipleContextTest extends TestCase
 
         $this->assertCount(2, $this->container->findByType(Context::class));
     }
-
 
     public function testFilterManagerWasSet()
     {

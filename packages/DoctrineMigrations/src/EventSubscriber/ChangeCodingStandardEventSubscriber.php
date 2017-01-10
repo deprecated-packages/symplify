@@ -11,7 +11,6 @@ use Zenify\DoctrineMigrations\Contract\CodeStyle\CodeStyleInterface;
 
 final class ChangeCodingStandardEventSubscriber implements EventSubscriberInterface
 {
-
     /**
      * @var Configuration
      */
@@ -22,19 +21,16 @@ final class ChangeCodingStandardEventSubscriber implements EventSubscriberInterf
      */
     private $codeStyle;
 
-
     public function __construct(Configuration $configuration, CodeStyleInterface $codeStyle)
     {
         $this->codeStyle = $codeStyle;
         $this->configuration = $configuration;
     }
 
-
     public static function getSubscribedEvents() : array
     {
         return [ConsoleEvents::TERMINATE => 'applyCodingStyle'];
     }
-
 
     public function applyCodingStyle(ConsoleTerminateEvent $event)
     {
@@ -49,12 +45,10 @@ final class ChangeCodingStandardEventSubscriber implements EventSubscriberInterf
         }
     }
 
-
     private function isAllowedCommand(string $name) : bool
     {
         return in_array($name, ['migrations:generate', 'migrations:diff']);
     }
-
 
     private function getCurrentMigrationFileName() : string
     {
@@ -70,12 +64,10 @@ final class ChangeCodingStandardEventSubscriber implements EventSubscriberInterf
         return $path;
     }
 
-
     private function getCurrentVersionName() : string
     {
         return date('YmdHis');
     }
-
 
     private function getMigrationFileByVersion(string $version) : string
     {

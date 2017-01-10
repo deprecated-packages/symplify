@@ -9,18 +9,15 @@ use Zenify\DoctrineMigrations\OutputWriter;
 
 final class OutputWriterTest extends TestCase
 {
-
     /**
      * @var OutputWriter
      */
     private $outputWriter;
 
-
     protected function setUp()
     {
         $this->outputWriter = new OutputWriter;
     }
-
 
     public function testGetOutputWriterWhenNeeded()
     {

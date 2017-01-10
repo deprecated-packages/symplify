@@ -14,7 +14,7 @@ final class EmptyLinesResizer
     ) {
         if ($currentLineCount > $desiredLineCount) {
             self::reduceBlankLines($file, $position, $currentLineCount, $desiredLineCount);
-        } else {
+        } elseif ($currentLineCount < $desiredLineCount) {
             self::increaseBlankLines($file, $position, $currentLineCount, $desiredLineCount);
         }
     }

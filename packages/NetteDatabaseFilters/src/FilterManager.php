@@ -8,18 +8,15 @@ use Zenify\NetteDatabaseFilters\Contract\FilterManagerInterface;
 
 final class FilterManager implements FilterManagerInterface
 {
-
     /**
      * @var FilterInterface[]
      */
     private $filters = [];
 
-
     public function addFilter(FilterInterface $filter)
     {
         $this->filters[] = $filter;
     }
-
 
     public function applyFilters(Selection $selection, string $targetTable) : Selection
     {

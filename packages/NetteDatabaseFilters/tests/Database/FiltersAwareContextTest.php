@@ -11,12 +11,10 @@ use Zenify\NetteDatabaseFilters\Tests\ContainerFactory;
 
 final class FiltersAwareContextTest extends TestCase
 {
-
     /**
      * @var Selection
      */
     private $selection;
-
 
     protected function setUp()
     {
@@ -27,7 +25,6 @@ final class FiltersAwareContextTest extends TestCase
         $this->selection = $database->table('comment');
     }
 
-
     public function testFetchAll()
     {
         $this->assertInstanceOf(FiltersAwareSelection::class, $this->selection);
@@ -37,13 +34,11 @@ final class FiltersAwareContextTest extends TestCase
         $this->assertCount(50, $result);
     }
 
-
     public function testGet()
     {
         $this->assertInstanceOf(ActiveRow::class, $this->selection->get(2));
         $this->assertFalse((bool) $this->selection->get(1));
     }
-
 
     public function testFetchPairs()
     {
@@ -51,7 +46,6 @@ final class FiltersAwareContextTest extends TestCase
 
         $this->assertCount(50, $pairs);
     }
-
 
     public function testFetchIteration()
     {
@@ -61,7 +55,6 @@ final class FiltersAwareContextTest extends TestCase
         }
         $this->assertSame(50, $userCount);
     }
-
 
     public function testFetch()
     {
@@ -74,12 +67,10 @@ final class FiltersAwareContextTest extends TestCase
         $this->assertFalse($commentOver);
     }
 
-
     public function testCount()
     {
         $this->assertSame(50, $this->selection->count());
     }
-
 
     public function testWhere()
     {

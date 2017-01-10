@@ -14,7 +14,7 @@ final class ServiceFinderTest extends TestCase
      */
     public function test(array $dirs, array $classSuffixes, array $foundClasses)
     {
-        $serviceFinder = new ServiceClassFinder();
+        $serviceFinder = new ServiceClassFinder;
         $classes = $serviceFinder->findServicesInDirsByClassSuffix($dirs, $classSuffixes);
         $this->assertSame($foundClasses, $classes);
     }

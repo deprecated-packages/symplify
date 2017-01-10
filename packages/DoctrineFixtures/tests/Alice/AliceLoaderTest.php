@@ -11,7 +11,6 @@ use Zenify\DoctrineFixtures\Tests\Faker\Provider\ProductName;
 
 final class AliceLoaderTest extends AbstractDatabaseTestCase
 {
-
     /**
      * @var AliceLoaderInterface
      */
@@ -27,7 +26,6 @@ final class AliceLoaderTest extends AbstractDatabaseTestCase
      */
     private $userRepository;
 
-
     protected function setUp()
     {
         parent::setUp();
@@ -35,7 +33,6 @@ final class AliceLoaderTest extends AbstractDatabaseTestCase
         $this->productRepository = $this->entityManager->getRepository(Product::class);
         $this->userRepository = $this->entityManager->getRepository(User::class);
     }
-
 
     public function testLoadFixture()
     {
@@ -52,7 +49,6 @@ final class AliceLoaderTest extends AbstractDatabaseTestCase
             $this->assertContains($product->getName(), ProductName::$randomNames);
         }
     }
-
 
     public function testLoadFolder()
     {
@@ -71,7 +67,6 @@ final class AliceLoaderTest extends AbstractDatabaseTestCase
         }
     }
 
-
     public function testLoadFixtureWithIncludesFixturesAreLoadedInTopDownOrder()
     {
         $file = __DIR__ . '/AliceLoaderSource/includes.neon';
@@ -87,7 +82,6 @@ final class AliceLoaderTest extends AbstractDatabaseTestCase
         $this->assertInstanceOf(User::class, $users[1]);
         $this->assertSame('user2@email.com', $users[1]->getEmail());
     }
-
 
     /**
      * @expectedException \Zenify\DoctrineFixtures\Exception\MissingSourceException

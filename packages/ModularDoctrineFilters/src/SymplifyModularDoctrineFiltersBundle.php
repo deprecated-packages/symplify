@@ -11,11 +11,11 @@ final class SymplifyModularDoctrineFiltersBundle extends Bundle
 {
     public function getContainerExtension() : SymplifyModularDoctrineFiltersExtension
     {
-        return new SymplifyModularDoctrineFiltersExtension();
+        return new SymplifyModularDoctrineFiltersExtension;
     }
 
     public function build(ContainerBuilder $containerBuilder) : void
     {
-        $containerBuilder->addCompilerPass(new LoadFiltersCompilerPass());
+        $containerBuilder->addCompilerPass(new LoadFiltersCompilerPass);
     }
 }

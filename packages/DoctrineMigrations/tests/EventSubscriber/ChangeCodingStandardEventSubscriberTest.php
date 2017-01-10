@@ -9,7 +9,6 @@ use Symfony\Component\Console\Output\BufferedOutput;
 
 class ChangeCodingStandardEventSubscriberTest extends AbstractEventSubscriberTest
 {
-
     protected function setUp()
     {
         parent::setUp();
@@ -18,7 +17,6 @@ class ChangeCodingStandardEventSubscriberTest extends AbstractEventSubscriberTes
         $configuration = $this->container->getByType(Configuration::class);
         $configuration->setMigrationsDirectory($this->getMigrationsDirectory());
     }
-
 
     public function testDispatchingGenerateCommand()
     {
@@ -30,7 +28,6 @@ class ChangeCodingStandardEventSubscriberTest extends AbstractEventSubscriberTes
         $this->assertCommandOutputAndMigrationCodeStyle($output->fetch());
     }
 
-
     public function testDispatchingDiffCommand()
     {
         $input = new ArrayInput(['command' => 'migrations:diff']);
@@ -40,7 +37,6 @@ class ChangeCodingStandardEventSubscriberTest extends AbstractEventSubscriberTes
         $this->assertSame(0, $result);
         $this->assertCommandOutputAndMigrationCodeStyle($output->fetch());
     }
-
 
     /**
      * @param string $outputContent
@@ -55,7 +51,6 @@ class ChangeCodingStandardEventSubscriberTest extends AbstractEventSubscriberTes
         $this->assertContains("\t", $fileContents);
     }
 
-
     /**
      * @return string
      */
@@ -65,7 +60,6 @@ class ChangeCodingStandardEventSubscriberTest extends AbstractEventSubscriberTes
         FileSystem::createDir($migrationsDirectory);
         return $migrationsDirectory;
     }
-
 
     /**
      * @param string $outputContent

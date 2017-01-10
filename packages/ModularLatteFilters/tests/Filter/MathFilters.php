@@ -6,7 +6,6 @@ use Zenify\ModularLatteFilters\Contract\DI\LatteFiltersProviderInterface;
 
 final class MathFilters implements LatteFiltersProviderInterface
 {
-
     /**
      * @return callable[]
      */

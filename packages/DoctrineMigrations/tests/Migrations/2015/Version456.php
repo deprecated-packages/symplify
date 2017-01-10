@@ -6,12 +6,10 @@ use Doctrine\DBAL\Schema\Schema;
 
 final class Version456 extends AbstractMigration
 {
-
     public function up(Schema $schema)
     {
         $this->addSql('CREATE TABLE "product" ( "id" integer NOT NULL );');
     }
-
 
     public function down(Schema $schema)
     {

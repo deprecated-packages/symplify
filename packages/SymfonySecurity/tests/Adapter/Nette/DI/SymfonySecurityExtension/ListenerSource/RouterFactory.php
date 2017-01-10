@@ -9,7 +9,7 @@ final class RouterFactory
 {
     public function create() : RouteList
     {
-        $routes = new RouteList();
+        $routes = new RouteList;
         $routes[] = new Route('<presenter>/<action>', 'Homepage:default');
 
         return $routes;

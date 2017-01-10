@@ -35,7 +35,7 @@ final class ModularRouter implements ModularRouterInterface
 
     public function __construct()
     {
-        $this->routeCollection = new RouteCollection();
+        $this->routeCollection = new RouteCollection;
     }
 
     public function addRouteCollectionProvider(RouteCollectionProviderInterface $routeCollectionProvider) : void

@@ -8,7 +8,6 @@ use Zenify\DoctrineBehaviors\Loggable\LoggerCallable;
 
 class LoggerCallableTest extends TestCase
 {
-
     /**
      * @var string
      */
@@ -19,7 +18,6 @@ class LoggerCallableTest extends TestCase
      */
     private $loggerCallable;
 
-
     protected function setUp()
     {
         $loggerMock = $this->prophesize(LoggerInterface::class);
@@ -29,7 +27,6 @@ class LoggerCallableTest extends TestCase
         });
         $this->loggerCallable = new LoggerCallable($loggerMock->reveal());
     }
-
 
     public function testInvoke()
     {

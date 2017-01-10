@@ -9,7 +9,6 @@ use Zenify\DoctrineBehaviors\Blameable\UserCallable;
 
 final class UserCallableTest extends TestCase
 {
-
     /**
      * @var ObjectProphecy|User
      */
@@ -20,7 +19,6 @@ final class UserCallableTest extends TestCase
      */
     private $userCallable;
 
-
     protected function setUp()
     {
         $this->userMock = $this->prophesize(User::class);
@@ -28,7 +26,6 @@ final class UserCallableTest extends TestCase
         $this->userMock->isLoggedIn()->willReturn(true);
         $this->userCallable = new UserCallable($this->userMock->reveal());
     }
-
 
     public function testInvoke()
     {

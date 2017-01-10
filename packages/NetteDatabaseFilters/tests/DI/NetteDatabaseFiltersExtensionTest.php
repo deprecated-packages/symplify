@@ -12,25 +12,21 @@ use Zenify\NetteDatabaseFilters\Tests\ContainerFactory;
 
 final class NetteDatabaseFiltersExtensionTest extends TestCase
 {
-
     /**
      * @var Container
      */
     private $container;
-
 
     protected function setUp()
     {
         $this->container = (new ContainerFactory)->create();
     }
 
-
     public function testContextWasReplaced()
     {
         $databaseContext = $this->container->getByType(Context::class);
         $this->assertInstanceOf(FiltersAwareContext::class, $databaseContext);
     }
-
 
     public function testFiltersAreCollected()
     {

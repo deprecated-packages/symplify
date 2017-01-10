@@ -9,7 +9,6 @@ extensions:
 	doctrine: Kdyby\Doctrine\DI\OrmExtension
 
 	- Zenify\DoctrineBehaviors\DI\BlameableExtension
-	- Zenify\DoctrineBehaviors\DI\GeocodableExtension
 	- Zenify\DoctrineBehaviors\DI\LoggableExtension
 	- Zenify\DoctrineBehaviors\DI\SluggableExtension
 	- Zenify\DoctrineBehaviors\DI\SoftDeletableExtension

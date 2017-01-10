@@ -11,7 +11,6 @@ use Nette\DI\ServiceDefinition;
 
 final class FixturesExtension extends CompilerExtension
 {
-
     /**
      * @var array[]
      */
@@ -19,7 +18,6 @@ final class FixturesExtension extends CompilerExtension
         'locale' => 'cs_CZ',
         'seed' => 1
     ];
-
 
     public function loadConfiguration()
     {
@@ -29,7 +27,6 @@ final class FixturesExtension extends CompilerExtension
         );
     }
 
-
     public function beforeCompile()
     {
         $containerBuilder = $this->getContainerBuilder();
@@ -38,7 +35,6 @@ final class FixturesExtension extends CompilerExtension
         $this->loadFakerProvidersToAliceLoader();
         $this->loadParsersToAliceLoader();
     }
-
 
     private function loadFakerProvidersToAliceLoader()
     {
@@ -52,7 +48,6 @@ final class FixturesExtension extends CompilerExtension
         ]);
     }
 
-
     private function loadParsersToAliceLoader()
     {
         $containerBuilder = $this->getContainerBuilder();
@@ -62,7 +57,6 @@ final class FixturesExtension extends CompilerExtension
             $aliceLoaderDefinition->addSetup('addParser', ['@' . $parserDefinition->getClass()]);
         }
     }
-
 
     private function getDefinitionByType(string $type) : ServiceDefinition
     {

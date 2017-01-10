@@ -10,19 +10,16 @@ use Nette\DI\Container;
 
 final class Configuration extends BaseConfiguration
 {
-
     /**
      * @var Container
      */
     private $container;
-
 
     public function __construct(Container $container, Connection $connection, OutputWriter $outputWriter = null)
     {
         $this->container = $container;
         parent::__construct($connection, $outputWriter);
     }
-
 
     /**
      * @param string $direction
@@ -36,7 +33,6 @@ final class Configuration extends BaseConfiguration
         }
         return $versions;
     }
-
 
     /**
      * @param string $version

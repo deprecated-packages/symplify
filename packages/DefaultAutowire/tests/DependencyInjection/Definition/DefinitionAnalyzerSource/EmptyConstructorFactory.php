@@ -6,6 +6,6 @@ final class EmptyConstructorFactory
 {
     public function create() : EmptyConstructor
     {
-        return new EmptyConstructor();
+        return new EmptyConstructor;
     }
 }

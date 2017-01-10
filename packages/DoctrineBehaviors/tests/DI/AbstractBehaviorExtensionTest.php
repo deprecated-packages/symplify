@@ -11,19 +11,16 @@ use Zenify\DoctrineBehaviors\Tests\DI\AbstractBehaviorExtensionSource\SomeBehavi
 
 final class AbstractBehaviorExtensionTest extends TestCase
 {
-
     /**
      * @var AbstractBehaviorExtension|SomeBehaviorExtension
      */
     private $abstractBehaviorsExtension;
-
 
     protected function setUp()
     {
         $this->abstractBehaviorsExtension = new SomeBehaviorExtension;
         $this->abstractBehaviorsExtension->setCompiler(new Compiler, 'someBehavior');
     }
-
 
     public function testGetClassAnalyzer()
     {
@@ -33,13 +30,6 @@ final class AbstractBehaviorExtensionTest extends TestCase
         $sameClassAnalyzer = $this->abstractBehaviorsExtension->getClassAnalyzerPublic();
         $this->assertSame($classAnalyzer, $sameClassAnalyzer);
     }
-
-
-    public function testBuildDefinitionWithNullValue()
-    {
-        $this->assertNull($this->abstractBehaviorsExtension->buildDefinitionFromCallablePublic(null));
-    }
-
 
     public function testBuildDefinition()
     {

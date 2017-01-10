@@ -9,19 +9,16 @@ use Symfony\Component\Console\Output\BufferedOutput;
 
 final class ManualUsageTest extends TestCase
 {
-
     /**
      * @var Application
      */
     private $consoleApplication;
-
 
     protected function setUp()
     {
         $container = (new ContainerFactory)->createWithConfig(__DIR__ . '/config/manualUsage.neon');
         $this->consoleApplication = $container->getByType(Application::class);
     }
-
 
     public function testStatus()
     {
@@ -33,7 +30,6 @@ final class ManualUsageTest extends TestCase
         $this->assertSame(0, $status);
         $this->assertContains('Configuration', $output->fetch());
     }
-
 
     public function testMigrate()
     {

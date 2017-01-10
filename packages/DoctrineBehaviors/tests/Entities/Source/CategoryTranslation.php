@@ -11,7 +11,6 @@ use Knp\DoctrineBehaviors\Model\Translatable\Translation;
  */
 class CategoryTranslation
 {
-
     use Translation;
 
     /**
@@ -38,12 +37,10 @@ class CategoryTranslation
      */
     private $shouldRenderSubcategories;
 
-
     public function __construct()
     {
         $this->tags = new ArrayCollection;
     }
-
 
     /**
      * @return string
@@ -53,7 +50,6 @@ class CategoryTranslation
         return $this->name;
     }
 
-
     /**
      * @param string $name
      */
@@ -61,7 +57,6 @@ class CategoryTranslation
     {
         $this->name = $name;
     }
-
 
     /**
      * @return bool
@@ -71,7 +66,6 @@ class CategoryTranslation
         return $this->isActive;
     }
 
-
     /**
      * @param bool $isActive
      */
@@ -80,7 +74,6 @@ class CategoryTranslation
         $this->isActive = $isActive;
     }
 
-
     /**
      * @return Tag[]|ArrayCollection
      */
@@ -88,7 +81,6 @@ class CategoryTranslation
     {
         return $this->tags;
     }
-
 
     /**
      * @param Tag $tag
@@ -99,12 +91,10 @@ class CategoryTranslation
         return $this->tags->contains($tag);
     }
 
-
     public function addTag(Tag $tag)
     {
         $this->tags->add($tag);
     }
-
 
     /**
      * @return bool
@@ -113,7 +103,6 @@ class CategoryTranslation
     {
         return $this->shouldRenderSubcategories;
     }
-
 
     /**
      * @param bool $shouldRenderSubcategories

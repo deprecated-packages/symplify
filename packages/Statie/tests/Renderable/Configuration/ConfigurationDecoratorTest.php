@@ -19,7 +19,7 @@ final class ConfigurationDecoratorTest extends TestCase
     protected function setUp()
     {
         $this->configurationDecorator = new ConfigurationDecorator(
-            new NeonParser()
+            new NeonParser
         );
     }
 
@@ -29,7 +29,7 @@ final class ConfigurationDecoratorTest extends TestCase
     public function testDecorateFile(string $filePath, string $fileContent, array $expectedConfiguration)
     {
         $fileInfo = new SplFileInfo($filePath);
-        $configuration = new Configuration(new NeonParser());
+        $configuration = new Configuration(new NeonParser);
         $configuration->setSourceDirectory('sourceDirectory');
         $filePath = (new FileFactory($configuration))->create($fileInfo);
 

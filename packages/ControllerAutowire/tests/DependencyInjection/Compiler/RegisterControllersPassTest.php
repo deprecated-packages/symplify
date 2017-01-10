@@ -20,16 +20,16 @@ final class RegisterControllersPassTest extends TestCase
 
     protected function setUp()
     {
-        $controllerClassMap = new ControllerClassMap();
+        $controllerClassMap = new ControllerClassMap;
         $controllerClassMap->addController('somecontroller', 'SomeController');
 
-        $controllerFinder = new ControllerFinder();
+        $controllerFinder = new ControllerFinder;
         $this->registerControllersPass = new RegisterControllersPass($controllerClassMap, $controllerFinder);
     }
 
     public function testProcess()
     {
-        $containerBuilder = new ContainerBuilder();
+        $containerBuilder = new ContainerBuilder;
         $this->assertCount(0, $containerBuilder->getDefinitions());
 
         $containerBuilder->prependExtensionConfig(SymplifyControllerAutowireBundle::ALIAS, [
@@ -52,7 +52,7 @@ final class RegisterControllersPassTest extends TestCase
 
     public function testServiceDefinitionExists()
     {
-        $containerBuilder = new ContainerBuilder();
+        $containerBuilder = new ContainerBuilder;
         $containerBuilder->prependExtensionConfig(SymplifyControllerAutowireBundle::ALIAS, [
             'controller_dirs' => [
                 __DIR__ . '/RegisterControllersPassSource',

@@ -11,7 +11,6 @@ use Nette\Utils\Validators;
 
 final class SoftDeletableExtension extends AbstractBehaviorExtension
 {
-
     /**
      * @var array
      */
@@ -19,7 +18,6 @@ final class SoftDeletableExtension extends AbstractBehaviorExtension
         'isRecursive' => true,
         'trait' => SoftDeletable::class
     ];
-
 
     public function loadConfiguration()
     {
@@ -36,7 +34,6 @@ final class SoftDeletableExtension extends AbstractBehaviorExtension
             ->setAutowired(false)
             ->addTag(EventsExtension::TAG_SUBSCRIBER);
     }
-
 
     /**
      * @throws AssertionException

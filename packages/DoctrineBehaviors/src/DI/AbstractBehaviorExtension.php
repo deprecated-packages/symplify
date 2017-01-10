@@ -3,14 +3,13 @@
 namespace Zenify\DoctrineBehaviors\DI;
 
 use Knp\DoctrineBehaviors\Reflection\ClassAnalyzer;
-use Nette\DI\Compiler;
 use Nette\DI\CompilerExtension;
+use Nette\DI\Helpers;
 use Nette\DI\ServiceDefinition;
 use Nette\DI\Statement;
 
 abstract class AbstractBehaviorExtension extends CompilerExtension
 {
-
     protected function getClassAnalyzer() : ServiceDefinition
     {
         $containerBuilder = $this->getContainerBuilder();
@@ -23,20 +22,12 @@ abstract class AbstractBehaviorExtension extends CompilerExtension
             ->setClass(ClassAnalyzer::class);
     }
 
-
-    /**
-     * @return ServiceDefinition|null
-     */
-    protected function buildDefinitionFromCallable(string $callable = null)
+    protected function buildDefinitionFromCallable(string $callable): ServiceDefinition
     {
-        if ($callable === null) {
-            return null;
-        }
-
         $containerBuilder = $this->getContainerBuilder();
         $definition = $containerBuilder->addDefinition($this->prefix(md5($callable)));
 
-        [$definition->factory] = Compiler::filterArguments([
+        [$definition->factory] = Helpers::filterArguments([
             is_string($callable) ? new Statement($callable) : $callable
         ]);
 

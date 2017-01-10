@@ -4,6 +4,5 @@ namespace Zenify\DoctrineMigrations\Contract\CodeStyle;
 
 interface CodeStyleInterface
 {
-
     public function applyForFile(string $file);
 }

@@ -6,5 +6,4 @@ use Nette;
 
 class CategoryTree extends Gedmo\Tree\Entity\Repository\MaterializedPathRepository
 {
-
 }

@@ -35,12 +35,12 @@ final class StatieCompilerExtensionTest extends TestCase
 
     private function prepareAndReturnExtension() : StatieCompilerExtension
     {
-        $extension = new StatieCompilerExtension();
+        $extension = new StatieCompilerExtension;
         $extension->setConfig([
             'sourceDir' => __DIR__ . '/StatieCompilerExtensionSource',
         ]);
 
-        $extension->setCompiler(new Compiler(new ContainerBuilder()), null);
+        $extension->setCompiler(new Compiler(new ContainerBuilder), null);
 
         return $extension;
     }

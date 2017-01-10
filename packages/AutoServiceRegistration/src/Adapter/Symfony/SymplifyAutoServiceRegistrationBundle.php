@@ -17,11 +17,11 @@ final class SymplifyAutoServiceRegistrationBundle extends Bundle
 
     public function build(ContainerBuilder $containerBuilder) : void
     {
-        $containerBuilder->addCompilerPass(new AutoRegisterServicesCompilerPass(new ServiceClassFinder()));
+        $containerBuilder->addCompilerPass(new AutoRegisterServicesCompilerPass(new ServiceClassFinder));
     }
 
     public function createContainerExtension() : ContainerExtension
     {
-        return new ContainerExtension();
+        return new ContainerExtension;
     }
 }

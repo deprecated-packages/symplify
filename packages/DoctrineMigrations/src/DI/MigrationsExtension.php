@@ -16,7 +16,6 @@ use Zenify\DoctrineMigrations\Exception\DI\MissingExtensionException;
 
 final class MigrationsExtension extends CompilerExtension
 {
-
     /**
      * @var string[]
      */
@@ -37,7 +36,6 @@ final class MigrationsExtension extends CompilerExtension
         RegisterMigrationsEventSubscriber::class,
         SetConsoleOutputEventSubscriber::class,
     ];
-
 
     public function loadConfiguration()
     {
@@ -65,7 +63,6 @@ final class MigrationsExtension extends CompilerExtension
         $this->addConfigurationDefinition($config);
     }
 
-
     public function beforeCompile()
     {
         $containerBuilder = $this->getContainerBuilder();
@@ -74,7 +71,6 @@ final class MigrationsExtension extends CompilerExtension
         $this->setConfigurationToCommands();
         $this->loadCommandsToApplication();
     }
-
 
     private function addConfigurationDefinition(array $config)
     {
@@ -94,7 +90,6 @@ final class MigrationsExtension extends CompilerExtension
         }
     }
 
-
     private function setConfigurationToCommands()
     {
         $containerBuilder = $this->getContainerBuilder();
@@ -105,7 +100,6 @@ final class MigrationsExtension extends CompilerExtension
         }
     }
 
-
     private function loadCommandsToApplication()
     {
         $containerBuilder = $this->getContainerBuilder();
@@ -115,7 +109,6 @@ final class MigrationsExtension extends CompilerExtension
         }
     }
 
-
     private function getValidatedConfig() : array
     {
         $configuration = $this->validateConfig($this->defaults);
@@ -124,7 +117,6 @@ final class MigrationsExtension extends CompilerExtension
 
         return $configuration;
     }
-
 
     private function ensureEventDispatcherExtensionIsRegistered()
     {

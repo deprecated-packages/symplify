@@ -10,7 +10,6 @@ use Nette\Utils\Validators;
 
 final class SluggableExtension extends AbstractBehaviorExtension
 {
-
     /**
      * @var array
      */
@@ -18,7 +17,6 @@ final class SluggableExtension extends AbstractBehaviorExtension
         'isRecursive' => true,
         'trait' => Sluggable::class
     ];
-
 
     public function loadConfiguration()
     {
@@ -35,7 +33,6 @@ final class SluggableExtension extends AbstractBehaviorExtension
             ->setAutowired(false)
             ->addTag(EventsExtension::TAG_SUBSCRIBER);
     }
-
 
     /**
      * @throws AssertionException

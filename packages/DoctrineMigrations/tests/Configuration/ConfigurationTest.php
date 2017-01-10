@@ -12,12 +12,10 @@ use Zenify\DoctrineMigrations\Tests\Migrations\Version123;
 
 final class ConfigurationTest extends TestCase
 {
-
     /**
      * @var Configuration
      */
     private $configuration;
-
 
     protected function setUp()
     {
@@ -28,7 +26,6 @@ final class ConfigurationTest extends TestCase
             $this->configuration->getMigrationsDirectory()
         );
     }
-
 
     public function testInject()
     {
@@ -45,7 +42,6 @@ final class ConfigurationTest extends TestCase
 
         $this->assertInstanceOf(SomeService::class, $migration->someService);
     }
-
 
     public function testLoadMigrationsFromSubdirs()
     {

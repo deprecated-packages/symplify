@@ -8,18 +8,15 @@ use Zenify\NetteDatabaseFilters\Sql\SqlParser;
 
 final class SqlParserTest extends TestCase
 {
-
     /**
      * @var SqlParser
      */
     private $sqlParser;
 
-
     protected function setUp()
     {
         $this->sqlParser = new SqlParser(new PHPSQLParser);
     }
-
 
     public function testParseTables()
     {

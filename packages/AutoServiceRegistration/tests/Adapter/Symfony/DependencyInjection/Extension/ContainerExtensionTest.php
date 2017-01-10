@@ -10,7 +10,7 @@ final class ContainerExtensionTest extends TestCase
 {
     public function test()
     {
-        $containerExtension = new ContainerExtension();
+        $containerExtension = new ContainerExtension;
         $this->assertSame(SymplifyAutoServiceRegistrationBundle::ALIAS, $containerExtension->getAlias());
     }
 }

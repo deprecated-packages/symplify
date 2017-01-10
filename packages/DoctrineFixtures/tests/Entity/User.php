@@ -9,7 +9,6 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class User
 {
-
     /**
      * @ORM\Column(type="integer")
      * @ORM\Id
@@ -24,7 +23,6 @@ class User
      */
     private $email;
 
-
     /**
      * @param $email
      */
@@ -33,7 +31,6 @@ class User
         $this->email = $email;
     }
 
-
     /**
      * @return int
      */
@@ -41,7 +38,6 @@ class User
     {
         return $this->id;
     }
-
 
     /**
      * @return string

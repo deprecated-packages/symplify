@@ -10,12 +10,10 @@ use Zenify\ModularLatteFilters\Tests\ContainerFactory;
 
 abstract class AbstractContainerAwareTestCase extends TestCase
 {
-
     /**
      * @var Container[]
      */
     private static $containers = [];
-
 
     /**
      * @return object
@@ -25,7 +23,6 @@ abstract class AbstractContainerAwareTestCase extends TestCase
         return $this->getContainer()
             ->getByType($class);
     }
-
 
     private function getContainer(): Container
     {
@@ -39,7 +36,6 @@ abstract class AbstractContainerAwareTestCase extends TestCase
 
         return $container;
     }
-
 
     private function getTestDirectory(): string
     {

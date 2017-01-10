@@ -7,7 +7,6 @@ use Zenify\NetteDatabaseFilters\Contract\FilterInterface;
 
 final class IgnoreCommentsByJakubFilter implements FilterInterface
 {
-
     public function applyFilter(Selection $selection, string $targetTable)
     {
         if ($targetTable !== 'comment') {

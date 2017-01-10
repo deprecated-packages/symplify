@@ -8,7 +8,6 @@ use PHPUnit\Framework\TestCase;
 
 abstract class AbstractDatabaseTestCase extends TestCase
 {
-
     /**
      * @var Container
      */
@@ -18,7 +17,6 @@ abstract class AbstractDatabaseTestCase extends TestCase
      * @var EntityManagerInterface
      */
     protected $entityManager;
-
 
     protected function setUp()
     {

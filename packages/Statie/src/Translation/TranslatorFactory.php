@@ -29,7 +29,7 @@ final class TranslatorFactory
     public function create() : TranslatorInterface
     {
         $translator = new Translator('');
-        $translator->addLoader('neon', new YamlFileLoader());
+        $translator->addLoader('neon', new YamlFileLoader);
         $translator->setFallbackLocales(['cs']);
 
         $this->addResourcesToTranslator($translator);

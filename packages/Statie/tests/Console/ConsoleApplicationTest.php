@@ -14,7 +14,7 @@ final class ConsoleApplicationTest extends TestCase
 
     protected function setUp()
     {
-        $this->consoleApplication = new ConsoleApplication();
+        $this->consoleApplication = new ConsoleApplication;
     }
 
     public function testGetLongVersion()

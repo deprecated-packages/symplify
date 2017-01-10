@@ -13,8 +13,8 @@ final class DefaultAutowireTypesCompilerPassTest extends TestCase
 {
     public function testProcess()
     {
-        $defaultAutowireTypesPass = new DefaultAutowireTypesCompilerPass();
-        $containerBuilder = new ContainerBuilder();
+        $defaultAutowireTypesPass = new DefaultAutowireTypesCompilerPass;
+        $containerBuilder = new ContainerBuilder;
         $containerBuilder->setParameter('kernel.root_dir', __DIR__);
 
         $definition = new Definition(EntityManager::class);

@@ -10,7 +10,6 @@ use Nette\Utils\Validators;
 
 final class GeocodableExtension extends AbstractBehaviorExtension
 {
-
     /**
      * @var array
      */
@@ -20,7 +19,6 @@ final class GeocodableExtension extends AbstractBehaviorExtension
         'geolocationCallable' => null
     ];
 
-
     public function loadConfiguration()
     {
         $config = $this->validateConfig($this->defaults);
@@ -28,7 +26,6 @@ final class GeocodableExtension extends AbstractBehaviorExtension
         $builder = $this->getContainerBuilder();
 
         $geolocationCallable = $this->buildDefinitionFromCallable($config['geolocationCallable']);
-
         $builder->addDefinition($this->prefix('listener'))
             ->setClass(GeocodableSubscriber::class, [
                 '@' . $this->getClassAnalyzer()->getClass(),
@@ -40,7 +37,6 @@ final class GeocodableExtension extends AbstractBehaviorExtension
             ->addTag(EventsExtension::TAG_SUBSCRIBER);
     }
 
-
     /**
      * @throws AssertionException
      */
@@ -48,6 +44,6 @@ final class GeocodableExtension extends AbstractBehaviorExtension
     {
         Validators::assertField($config, 'isRecursive', 'bool');
         Validators::assertField($config, 'trait', 'type');
-        Validators::assertField($config, 'geolocationCallable', 'null|type');
+        Validators::assertField($config, 'geolocationCallable', 'callable');
     }
 }

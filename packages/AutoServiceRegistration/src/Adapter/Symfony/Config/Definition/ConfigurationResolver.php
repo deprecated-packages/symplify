@@ -48,7 +48,7 @@ final class ConfigurationResolver
         }
 
         $configs = $this->containerBuilder->getExtensionConfig(SymplifyAutoServiceRegistrationBundle::ALIAS);
-        $configs = (new Processor())->processConfiguration(new Configuration(), $configs);
+        $configs = (new Processor)->processConfiguration(new Configuration, $configs);
 
         return $this->resolvedConfiguration = $this->containerBuilder->getParameterBag()
             ->resolveValue($configs);

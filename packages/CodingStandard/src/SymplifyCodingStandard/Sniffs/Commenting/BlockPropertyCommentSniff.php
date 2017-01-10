@@ -109,7 +109,8 @@ final class BlockPropertyCommentSniff implements PHP_CodeSniffer_Sniff
 
         // indent content after /** to indented new line
         $this->file->fixer->addContentBefore(
-            $shortPosition, PHP_EOL . $this->getIndentationSign() . ' * '
+            $shortPosition,
+            PHP_EOL . $this->getIndentationSign() . ' * '
         );
 
         // remove spaces
@@ -119,7 +120,8 @@ final class BlockPropertyCommentSniff implements PHP_CodeSniffer_Sniff
 
         // indent end to indented newline
         $this->file->fixer->replaceToken(
-            $commentEndPosition, PHP_EOL . $this->getIndentationSign() . ' */'
+            $commentEndPosition,
+            PHP_EOL . $this->getIndentationSign() . ' */'
         );
     }
 

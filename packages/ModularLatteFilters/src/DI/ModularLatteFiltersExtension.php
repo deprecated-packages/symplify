@@ -11,7 +11,6 @@ use Zenify\ModularLatteFilters\Exception\DI\MissingLatteDefinitionException;
 
 final class ModularLatteFiltersExtension extends CompilerExtension
 {
-
     /**
      * @var string
      */
@@ -34,7 +33,6 @@ final class ModularLatteFiltersExtension extends CompilerExtension
             );
         }
     }
-
 
     private function getLatteDefinition() : ServiceDefinition
     {

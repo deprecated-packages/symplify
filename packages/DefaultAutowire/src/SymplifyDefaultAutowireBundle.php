@@ -19,17 +19,17 @@ final class SymplifyDefaultAutowireBundle extends Bundle
 
     public function build(ContainerBuilder $containerBuilder) : void
     {
-        $containerBuilder->addCompilerPass(new DefaultAutowireTypesCompilerPass());
+        $containerBuilder->addCompilerPass(new DefaultAutowireTypesCompilerPass);
         $containerBuilder->addCompilerPass(new TurnOnAutowireCompilerPass($this->createDefinitionAnalyzer()));
     }
 
     public function getContainerExtension() : SymplifyDefaultAutowireContainerExtension
     {
-        return new SymplifyDefaultAutowireContainerExtension();
+        return new SymplifyDefaultAutowireContainerExtension;
     }
 
     private function createDefinitionAnalyzer() : DefinitionAnalyzer
     {
-        return new DefinitionAnalyzer(new DefinitionValidator());
+        return new DefinitionAnalyzer(new DefinitionValidator);
     }
 }

@@ -10,7 +10,6 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class SomeEntity
 {
-
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")

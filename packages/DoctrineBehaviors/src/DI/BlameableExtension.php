@@ -11,7 +11,6 @@ use Zenify\DoctrineBehaviors\Blameable\UserCallable;
 
 final class BlameableExtension extends AbstractBehaviorExtension
 {
-
     /**
      * @var array
      */
@@ -21,7 +20,6 @@ final class BlameableExtension extends AbstractBehaviorExtension
         'userCallable' => UserCallable::class,
         'userEntity' => null
     ];
-
 
     public function loadConfiguration()
     {
@@ -42,7 +40,6 @@ final class BlameableExtension extends AbstractBehaviorExtension
             ->setAutowired(false)
             ->addTag(EventsExtension::TAG_SUBSCRIBER);
     }
-
 
     /**
      * @throws AssertionException

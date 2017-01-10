@@ -105,13 +105,13 @@ final class ControllerResolver implements ControllerResolverInterface
      */
     private function splitControllerClassAndMethod(string $controllerName) : array
     {
-        if (false !== strpos($controllerName, '::')) {
+        if (strpos($controllerName, '::') !== false) {
             return explode('::', $controllerName, 2);
         } elseif (substr_count($controllerName, ':') === 2) {
             $controllerName = $this->controllerNameParser->parse($controllerName);
 
             return explode('::', $controllerName, 2);
-        } elseif (false !== strpos($controllerName, ':')) {
+        } elseif (strpos($controllerName, ':') !== false) {
             return explode(':', $controllerName, 2);
         }
     }

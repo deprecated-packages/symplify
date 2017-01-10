@@ -30,8 +30,8 @@ final class ResponseWriterTest extends TestCase
 
     protected function setUp()
     {
-        $this->bufferedOutput = new BufferedOutput();
-        $mimeTypeDetector = new MimeTypeDetector(new MimeTypes());
+        $this->bufferedOutput = new BufferedOutput;
+        $mimeTypeDetector = new MimeTypeDetector(new MimeTypes);
         $this->responseWriter = new ResponseWriter($this->bufferedOutput, $mimeTypeDetector);
     }
 
@@ -39,7 +39,7 @@ final class ResponseWriterTest extends TestCase
     {
         $request = new Request('GET', '/');
 
-        $connectionStub = new ConnectionStub();
+        $connectionStub = new ConnectionStub;
         $response = new Response($connectionStub);
 
         $this->responseWriter->send200Response($request, $response, $this->someFilePath);
@@ -55,7 +55,7 @@ final class ResponseWriterTest extends TestCase
     {
         $request = new Request('GET', '/missing');
 
-        $connectionStub = new ConnectionStub();
+        $connectionStub = new ConnectionStub;
         $response = new Response($connectionStub);
 
         $this->responseWriter->send404Response($request, $response);

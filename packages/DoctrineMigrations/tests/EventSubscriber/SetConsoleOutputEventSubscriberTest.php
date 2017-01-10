@@ -10,12 +10,10 @@ use Zenify\DoctrineMigrations\OutputWriter;
 
 final class SetConsoleOutputEventSubscriberTest extends AbstractEventSubscriberTest
 {
-
     /**
      * @var OutputWriter
      */
     private $outputWriter;
-
 
     protected function setUp()
     {
@@ -23,7 +21,6 @@ final class SetConsoleOutputEventSubscriberTest extends AbstractEventSubscriberT
 
         $this->outputWriter = $this->container->getByType(OutputWriter::class);
     }
-
 
     public function testDispatching()
     {

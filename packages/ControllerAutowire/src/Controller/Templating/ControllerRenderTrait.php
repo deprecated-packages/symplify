@@ -44,8 +44,8 @@ trait ControllerRenderTrait
             return $this->templating->renderResponse($view, $parameters, $response);
         }
 
-        if (null === $response) {
-            $response = new Response();
+        if ($response === null) {
+            $response = new Response;
         }
 
         return $response->setContent($this->twig->render($view, $parameters));

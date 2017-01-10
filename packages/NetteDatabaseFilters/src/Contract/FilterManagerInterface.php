@@ -6,9 +6,7 @@ use Nette\Database\Table\Selection;
 
 interface FilterManagerInterface
 {
-
     public function addFilter(FilterInterface $filter);
-
 
     public function applyFilters(Selection $selection, string $targetTable) : Selection;
 }

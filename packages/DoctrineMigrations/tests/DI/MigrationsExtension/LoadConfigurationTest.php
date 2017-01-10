@@ -11,12 +11,10 @@ use Zenify\DoctrineMigrations\DI\MigrationsExtension;
 
 class LoadConfigurationTest extends TestCase
 {
-
     /**
      * @var MigrationsExtension
      */
     private $extension;
-
 
     protected function setUp()
     {
@@ -29,7 +27,6 @@ class LoadConfigurationTest extends TestCase
         $this->extension = new MigrationsExtension;
         $this->extension->setCompiler($compiler, 'migrations');
     }
-
 
     public function testLoadConfiguration()
     {
