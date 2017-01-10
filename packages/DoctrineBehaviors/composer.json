@@ -2,9 +2,6 @@
 	"name": "zenify/doctrine-behaviors",
 	"description": "Integration of KnpLabs/DoctrineBehaviors to Nette\\DI",
 	"license": "MIT",
-	"authors": [
-		{ "name": "Tomáš Votruba", "homepage": "http://tomasvotruba.cz" }
-	],
 	"require": {
 		"php": "^7.0",
 		"kdyby/events": "^3.0",

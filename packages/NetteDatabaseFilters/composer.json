@@ -2,9 +2,6 @@
     "name": "zenify/nette-database-filters",
     "description": "Integration of Filters concept to Nette\\Database.",
     "license": "MIT",
-    "authors": [
-        { "name": "Tomáš Votruba", "homepage": "http://tomasvotruba.cz" }
-    ],
     "require": {
         "php": "^7.0",
         "nette/database": "^2.4",

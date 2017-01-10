@@ -2,9 +2,6 @@
 	"name": "zenify/doctrine-fixtures",
 	"description": "Doctrine Fixtures, Faker and Alice integration into Nette",
 	"license": "MIT",
-	"authors": [
-		{ "name": "Tomáš Votruba", "homepage": "http://tomasvotruba.cz" }
-	],
 	"require": {
 		"php": "^7.0",
 		"fzaninotto/faker": "^1.6",

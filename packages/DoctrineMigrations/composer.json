@@ -2,9 +2,6 @@
 	"name": "zenify/doctrine-migrations",
 	"description": "Implementation of Doctrine Migrations to Nette",
 	"license": "MIT",
-	"authors": [
-		{ "name": "Tomáš Votruba", "homepage": "http://tomasvotruba.cz" }
-	],
 	"require": {
 		"php": "^7.0",
 		"arachne/event-dispatcher": "^0.1",
