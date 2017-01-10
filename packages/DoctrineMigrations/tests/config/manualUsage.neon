@@ -1,0 +1,22 @@
+services:
+	- Zenify\DoctrineMigrations\Tests\Configuration\ConfigurationSource\SomeService
+
+
+extensions:
+	- Arachne\ContainerAdapter\DI\ContainerAdapterExtension
+	- Arachne\EventDispatcher\DI\EventDispatcherExtension
+	- Kdyby\Events\DI\EventsExtension
+	- Kdyby\Console\DI\ConsoleExtension
+	- Kdyby\Annotations\DI\AnnotationsExtension
+	doctrine: Kdyby\Doctrine\DI\OrmExtension
+	migrations: Zenify\DoctrineMigrations\DI\MigrationsExtension
+
+
+doctrine:
+	driver: pdo_sqlite
+	memory: TRUE
+
+
+migrations:
+	directory: %appDir%/Migrations
+	namespace: Zenify\DoctrineMigrations\Tests\Migrations

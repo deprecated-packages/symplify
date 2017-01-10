@@ -1,0 +1,39 @@
+{
+	"name": "zenify/doctrine-migrations",
+	"description": "Implementation of Doctrine Migrations to Nette",
+	"license": "MIT",
+	"authors": [
+		{ "name": "Tomáš Votruba", "homepage": "http://tomasvotruba.cz" }
+	],
+	"require": {
+		"php": "^7.0",
+		"arachne/event-dispatcher": "^0.1",
+		"doctrine/migrations": "^1.4",
+		"nette/di": "^2.4",
+		"symfony/console": "^3.2",
+		"symfony/event-dispatcher": "^3.2"
+	},
+	"require-dev": {
+		"kdyby/console": "^2.6",
+		"kdyby/events": "^3.0",
+		"kdyby/doctrine": "^3.1",
+		"nette/bootstrap": "^2.4",
+		"nette/reflection": "^2.4",
+		"tracy/tracy": "^2.4",
+		"phpunit/phpunit": "^5.7",
+		"zenify/coding-standard": "^4.2"
+	},
+	"autoload": {
+		"psr-4": {
+			"Zenify\\DoctrineMigrations\\": "src"
+		}
+	},
+	"autoload-dev": {
+		"psr-4": {
+			"Zenify\\DoctrineMigrations\\Tests\\": "tests"
+		}
+	},
+	"scripts": {
+		"check-cs": "vendor/bin/phpcs src tests -ps --standard=vendor/zenify/coding-standard/src/ZenifyCodingStandard/ruleset.xml"
+	}
+}
