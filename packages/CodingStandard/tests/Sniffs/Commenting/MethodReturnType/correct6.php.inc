@@ -6,10 +6,7 @@ namespace SomeNamespace;
 class SomeClass
 {
 
-	/**
-	 * {@inheritdoc}
-	 */
-	public function isOk()
+	public function getSome() : string
 	{
 	}
 

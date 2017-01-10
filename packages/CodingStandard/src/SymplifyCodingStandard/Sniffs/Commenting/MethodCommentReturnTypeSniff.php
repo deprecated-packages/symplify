@@ -4,18 +4,25 @@ namespace SymplifyCodingStandard\Sniffs\Commenting;
 
 use PHP_CodeSniffer_File;
 use PHP_CodeSniffer_Sniff;
-use Symplify\CodingStandard\Helper\FunctionHelper;
+use Symplify\CodingStandard\Helper\Commenting\FunctionHelper;
+
 
 /**
  * Rules:
- * - Getters should have return type (except for {@inheritdoc}).
+ * - Getters should have @return tag or return type (except {@inheritdoc}).
  */
-final class MethodReturnTypeSniff implements PHP_CodeSniffer_Sniff
+final class MethodCommentReturnTypeSniff implements PHP_CodeSniffer_Sniff
 {
-    /**
-     * @var string[]
-     */
-    private $getterMethodPrefixes = ['get', 'is', 'has', 'will', 'should'];
+
+	/**
+	 * @var string
+	 */
+	const NAME = 'SymplifyCodingStandard.Commenting.MethodCommentReturnType';
+
+	/**
+	 * @var string[]
+	 */
+	private $getterMethodPrefixes = ['get', 'is', 'has', 'will', 'should'];
 
     /**
      * @var PHP_CodeSniffer_File
@@ -36,26 +43,26 @@ final class MethodReturnTypeSniff implements PHP_CodeSniffer_Sniff
      * @return int[]
      */
     public function register() : array
-    {
-        return [T_FUNCTION];
-    }
+	{
+		return [T_FUNCTION];
+	}
 
     /**
-     * @param PHP_CodeSniffer_File $file
-     * @param int $position
-     */
-    public function process(PHP_CodeSniffer_File $file, $position) : void
-    {
-        $this->file = $file;
-        $this->position = $position;
-        $this->tokens = $file->getTokens();
+	 * @param PHP_CodeSniffer_File $file
+	 * @param int $position
+	 */
+	public function process(PHP_CodeSniffer_File $file, $position)
+	{
+	    $this->file = $file;
+	    $this->position = $position;
+	    $this->tokens = $file->getTokens();
 
         if ($this->shouldBeSkipped()) {
             return;
         }
 
-        $file->addError('Getters should have @return tag (except {@inheritdoc}).', $position);
-    }
+		$file->addError('Getters should have @return tag or return type (except {@inheritdoc}).', $position);
+	}
 
     private function shouldBeSkipped() : bool
     {
@@ -78,11 +85,9 @@ final class MethodReturnTypeSniff implements PHP_CodeSniffer_Sniff
     private function guessIsGetterMethod() : bool
     {
         $methodName = $this->file->getDeclarationName($this->position);
-
         if ($this->isRawGetterName($methodName)) {
             return true;
         }
-
         if ($this->hasGetterNamePrefix($methodName)) {
             return true;
         }
@@ -95,25 +100,20 @@ final class MethodReturnTypeSniff implements PHP_CodeSniffer_Sniff
         if (! $this->hasMethodComment()) {
             return '';
         }
-
         $commentStart = $this->file->findPrevious(T_DOC_COMMENT_OPEN_TAG, $this->position - 1);
         $commentEnd = $this->file->findPrevious(T_DOC_COMMENT_CLOSE_TAG, $this->position - 1);
-
         return $this->file->getTokensAsString($commentStart, $commentEnd - $commentStart + 1);
     }
 
     private function hasMethodCommentReturnOrInheritDoc() : bool
     {
         $comment = $this->getMethodComment();
-
         if (strpos($comment, '{@inheritdoc}') !== false) {
             return true;
         }
-
         if (strpos($comment, '@return') !== false) {
             return true;
         }
-
         return false;
     }
 
@@ -121,11 +121,9 @@ final class MethodReturnTypeSniff implements PHP_CodeSniffer_Sniff
     {
         $currentToken = $this->tokens[$this->position];
         $docBlockClosePosition = $this->file->findPrevious(T_DOC_COMMENT_CLOSE_TAG, $this->position);
-
         if ($docBlockClosePosition === false) {
             return false;
         }
-
         $docBlockCloseToken = $this->tokens[$docBlockClosePosition];
         return $docBlockCloseToken['line'] === ($currentToken['line'] - 1);
     }
@@ -141,13 +139,11 @@ final class MethodReturnTypeSniff implements PHP_CodeSniffer_Sniff
             if (strpos($methodName, $getterMethodPrefix) === 0) {
                 $endPosition = strlen($getterMethodPrefix);
                 $firstLetterAfterGetterPrefix = $methodName[$endPosition];
-
                 if (ctype_upper($firstLetterAfterGetterPrefix)) {
                     return true;
                 }
             }
         }
-
         return false;
     }
 }

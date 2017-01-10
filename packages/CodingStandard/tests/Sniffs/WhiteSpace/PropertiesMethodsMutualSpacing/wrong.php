@@ -6,7 +6,7 @@ namespace SomeNamespace;
 class SomeClass
 {
 
-	/** SomeMethod */
+	private $jet;
 	public function run()
 	{
 	}

@@ -10,16 +10,22 @@ use PHP_CodeSniffer_File;
 final class FunctionHelper
 {
 
+    public static function isAbstract(PHP_CodeSniffer_File $codeSnifferFile, int $functionPointer): bool
+    {
+        return ! isset($codeSnifferFile->getTokens()[$functionPointer]['scope_opener']);
+    }
+
     /**
      * @return string|void
      */
     public static function findReturnTypeHint(PHP_CodeSniffer_File $codeSnifferFile, int $functionPointer)
     {
+
         $tokens = $codeSnifferFile->getTokens();
         $isAbstract = self::isAbstract($codeSnifferFile, $functionPointer);
         $colonToken = $isAbstract
             ? $codeSnifferFile->findNext(
-                T_COLON,
+                [T_COLON, T_INLINE_ELSE],
                 $tokens[$functionPointer]['parenthesis_closer'] + 1,
                 null,
                 false,
@@ -27,17 +33,15 @@ final class FunctionHelper
                 true
             )
             : $codeSnifferFile->findNext(
-                T_COLON,
+                [T_COLON, T_INLINE_ELSE],
                 $tokens[$functionPointer]['parenthesis_closer'] + 1,
                 $tokens[$functionPointer]['scope_opener'] - 1
             );
-
         if ($colonToken === false) {
             return;
         }
         $returnTypeHint = null;
         $nextToken = $colonToken;
-
         do {
             $nextToken = $isAbstract
                 ? $codeSnifferFile->findNext(
@@ -54,7 +58,6 @@ final class FunctionHelper
                     $tokens[$functionPointer]['scope_opener'] - 1,
                     true
                 );
-
             $isTypeHint = $nextToken !== false;
             if ($isTypeHint) {
                 $returnTypeHint .= $tokens[$nextToken]['content'];
@@ -62,19 +65,5 @@ final class FunctionHelper
         } while ($isTypeHint);
 
         return $returnTypeHint;
-    }
-
-
-    public static function isAbstract(PHP_CodeSniffer_File $codeSnifferFile, int $functionPointer): bool
-    {
-        if (! isset($codeSnifferFile->getTokens()[$functionPointer]['scope_opener'])) {
-            return true;
-        }
-
-        if ($codeSnifferFile->getTokens()[$functionPointer]['scope_opener'] >= 39) {
-            return true;
-        }
-
-        return false;
     }
 }

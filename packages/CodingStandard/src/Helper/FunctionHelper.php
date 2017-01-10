@@ -4,12 +4,9 @@ namespace Symplify\CodingStandard\Helper;
 
 use PHP_CodeSniffer_File;
 
-/**
- * Inspired by https://github.com/Zenify/CodingStandard/blob/071a296bca199c8b7341e7c9e2f20f33d81b230e/src/ZenifyCodingStandard/Helper/Commenting/FunctionHelper.php
- */
 final class FunctionHelper
 {
-    public static function isAbstract(PHP_CodeSniffer_File $codeSnifferFile, int $functionPointer): bool
+    public static function isAbstract(PHP_CodeSniffer_File $codeSnifferFile, int $functionPointer) : bool
     {
         return ! isset($codeSnifferFile->getTokens()[$functionPointer]['scope_opener']);
     }
@@ -58,6 +55,7 @@ final class FunctionHelper
                     $tokens[$functionPointer]['scope_opener'] - 1,
                     true
                 );
+
             $isTypeHint = $nextToken !== false;
             if ($isTypeHint) {
                 $returnTypeHint .= $tokens[$nextToken]['content'];

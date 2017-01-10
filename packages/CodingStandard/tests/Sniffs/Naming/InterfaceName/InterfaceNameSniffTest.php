@@ -4,6 +4,7 @@ namespace Symplify\CodingStandard\Tests\Sniffs\Naming\InterfaceName;
 
 use PHPUnit\Framework\TestCase;
 use Symplify\CodingStandard\Tests\CodeSnifferRunner;
+use SymplifyCodingStandard\Sniffs\Naming\InterfaceNameSniff;
 
 final class InterfaceNameSniffTest extends TestCase
 {
@@ -14,7 +15,7 @@ final class InterfaceNameSniffTest extends TestCase
 
     protected function setUp()
     {
-        $this->codeSnifferRunner = new CodeSnifferRunner('SymplifyCodingStandard.Naming.InterfaceName');
+        $this->codeSnifferRunner = new CodeSnifferRunner(InterfaceNameSniff::NAME);
     }
 
     public function testDetection()
