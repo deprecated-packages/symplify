@@ -3,7 +3,7 @@
     "description": "Integration of Filters concept to Nette\\Database.",
     "license": "MIT",
     "require": {
-        "php": "^7.0",
+        "php": "^7.1",
         "nette/database": "^2.4",
         "nette/di": "^2.4",
         "greenlion/php-sql-parser": "^4.1"

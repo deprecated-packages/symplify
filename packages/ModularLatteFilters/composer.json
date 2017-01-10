@@ -3,7 +3,7 @@
 	"description": "Nette extension for modular Latte filters loading.",
 	"license": "MIT",
 	"require": {
-		"php": "^7.0",
+		"php": "^7.1",
 		"nette/di": "^2.4",
 		"latte/latte": "^2.4"
 	},

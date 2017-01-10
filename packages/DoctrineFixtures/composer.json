@@ -3,7 +3,7 @@
 	"description": "Doctrine Fixtures, Faker and Alice integration into Nette",
 	"license": "MIT",
 	"require": {
-		"php": "^7.0",
+		"php": "^7.1",
 		"fzaninotto/faker": "^1.6",
 		"nelmio/alice": "^2.2",
 		"kdyby/doctrine": "^3.1",

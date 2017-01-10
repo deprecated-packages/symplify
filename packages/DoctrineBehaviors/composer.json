@@ -3,7 +3,7 @@
 	"description": "Integration of KnpLabs/DoctrineBehaviors to Nette\\DI",
 	"license": "MIT",
 	"require": {
-		"php": "^7.0",
+		"php": "^7.1",
 		"kdyby/events": "^3.0",
 		"knplabs/doctrine-behaviors": "^1.4",
 		"tracy/tracy": "^2.4"

@@ -3,7 +3,7 @@
 	"description": "Implementation of Doctrine Migrations to Nette",
 	"license": "MIT",
 	"require": {
-		"php": "^7.0",
+		"php": "^7.1",
 		"arachne/event-dispatcher": "^0.1",
 		"doctrine/migrations": "^1.4",
 		"nette/di": "^2.4",
