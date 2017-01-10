@@ -16,12 +16,27 @@ final class UseDeclarationSniff extends PSR2_Sniffs_Namespaces_UseDeclarationSni
     /**
      * @var string
      */
-    const NAME = 'SymplifyCodingStandard.Namespaces.UseDeclaration';
+    public const NAME = 'SymplifyCodingStandard.Namespaces.UseDeclaration';
 
     /**
      * @var int|string
      */
     public $blankLinesAfterUseStatement = 1;
+
+    /**
+     * @var PHP_CodeSniffer_File
+     */
+    private $file;
+
+    /**
+     * @var int
+     */
+    private $position;
+
+    /**
+     * @var array[]
+     */
+    private $tokens;
 
     /**
      * @return int[]
@@ -35,25 +50,32 @@ final class UseDeclarationSniff extends PSR2_Sniffs_Namespaces_UseDeclarationSni
      * @param PHP_CodeSniffer_File $file
      * @param int $position
      */
-    public function process(PHP_CodeSniffer_File $file, $position)
+    public function process(PHP_CodeSniffer_File $file, $position) : void
     {
+        $this->file = $file;
+        $this->position = $position;
+        $this->tokens = $file->getTokens();
+
         // Fix types
         $this->blankLinesAfterUseStatement = (int) $this->blankLinesAfterUseStatement;
 
-        if ($this->shouldIgnoreUse($file, $position) === true) {
+        if ($this->shouldIgnoreUse($position) === true) {
             return;
         }
 
-        $this->checkIfSingleSpaceAfterUseKeyword($file, $position);
-        $this->checkIfOneUseDeclarationPerStatement($file, $position);
-        $this->checkIfUseComesAfterNamespaceDeclaration($file, $position);
+        $this->checkIfSingleSpaceAfterUseKeyword();
+        $this->checkIfOneUseDeclarationPerStatement();
+        $this->checkIfUseComesAfterNamespaceDeclaration();
 
         // Only interested in the last USE statement from here onwards.
         $nextUse = $file->findNext(T_USE, ($position + 1));
-        while ($this->shouldIgnoreUse($file, $nextUse) === true) {
-            $nextUse = $file->findNext(T_USE, ($nextUse + 1));
-            if ($nextUse === false) {
-                break;
+
+        if ($nextUse) {
+            while ($this->shouldIgnoreUse($nextUse) === true) {
+                $nextUse = $file->findNext(T_USE, ($nextUse + 1));
+                if ($nextUse === false) {
+                    break;
+                }
             }
         }
 
@@ -61,77 +83,73 @@ final class UseDeclarationSniff extends PSR2_Sniffs_Namespaces_UseDeclarationSni
             return;
         }
 
-        $this->checkBlankLineAfterLastUseStatement($file, $position);
+        $this->checkBlankLineAfterLastUseStatement();
     }
 
     /**
      * Check if this use statement is part of the namespace block.
-     * @param PHP_CodeSniffer_File $file
-     * @param int|bool $position
      */
-    private function shouldIgnoreUse(PHP_CodeSniffer_File $file, $position) : bool
+    private function shouldIgnoreUse(int $position) : bool
     {
-        $tokens = $file->getTokens();
-
         // Ignore USE keywords inside closures.
-        $next = $file->findNext(T_WHITESPACE, ($position + 1), null, true);
-        if ($tokens[$next]['code'] === T_OPEN_PARENTHESIS) {
+        $next = $this->file->findNext(T_WHITESPACE, ($position + 1), null, true);
+        if ($this->tokens[$next]['code'] === T_OPEN_PARENTHESIS) {
             return true;
         }
 
         // Ignore USE keywords for traits.
-        if ($file->hasCondition($position, [T_CLASS, T_TRAIT]) === true) {
+        if ($this->file->hasCondition($position, [T_CLASS, T_TRAIT]) === true) {
             return true;
         }
 
         return false;
     }
 
-    private function checkIfSingleSpaceAfterUseKeyword(PHP_CodeSniffer_File $file, int $position)
+    private function checkIfSingleSpaceAfterUseKeyword() : void
     {
-        $tokens = $file->getTokens();
-        if ($tokens[($position + 1)]['content'] !== ' ') {
-            $error = 'There must be a single space after the USE keyword';
-            $file->addError($error, $position, 'SpaceAfterUse');
+        if ($this->tokens[($this->position + 1)]['content'] !== ' ') {
+            $this->file->addError('There must be a single space after the USE keyword', $this->position);
         }
     }
 
-    private function checkIfOneUseDeclarationPerStatement(PHP_CodeSniffer_File $file, int $position)
+    private function checkIfOneUseDeclarationPerStatement() : void
     {
-        $tokens = $file->getTokens();
-        $next = $file->findNext([T_COMMA, T_SEMICOLON], ($position + 1));
-        if ($tokens[$next]['code'] === T_COMMA) {
-            $error = 'There must be one USE keyword per declaration';
-            $file->addError($error, $position, 'MultipleDeclarations');
+        $next = $this->file->findNext([T_COMMA, T_SEMICOLON], ($this->position + 1));
+        if ($this->tokens[$next]['code'] === T_COMMA) {
+            $this->file->addError('There must be one USE keyword per declaration', $this->position);
         }
     }
 
-    private function checkIfUseComesAfterNamespaceDeclaration(PHP_CodeSniffer_File $file, int $position)
+    private function checkIfUseComesAfterNamespaceDeclaration() : void
     {
-        $prev = $file->findPrevious(T_NAMESPACE, ($position - 1));
+        $prev = $this->file->findPrevious(T_NAMESPACE, ($this->position - 1));
         if ($prev !== false) {
-            $first = $file->findNext(T_NAMESPACE, 1);
+            $first = $this->file->findNext(T_NAMESPACE, 1);
             if ($prev !== $first) {
-                $error = 'USE declarations must go after the first namespace declaration';
-                $file->addError($error, $position, 'UseAfterNamespace');
+                $this->file->addError(
+                    'USE declarations must go after the first namespace declaration',
+                    $this->position
+                );
             }
         }
     }
 
-    private function checkBlankLineAfterLastUseStatement(PHP_CodeSniffer_File $file, int $position)
+    private function checkBlankLineAfterLastUseStatement() : void
     {
-        $tokens = $file->getTokens();
-        $end = $file->findNext(T_SEMICOLON, ($position + 1));
-        $next = $file->findNext(T_WHITESPACE, ($end + 1), null, true);
-        $diff = ($tokens[$next]['line'] - $tokens[$end]['line'] - 1);
+        $end = $this->file->findNext(T_SEMICOLON, ($this->position + 1));
+        $next = $this->file->findNext(T_WHITESPACE, ($end + 1), null, true);
+        $diff = ($this->tokens[$next]['line'] - $this->tokens[$end]['line'] - 1);
         if ($diff !== (int) $this->blankLinesAfterUseStatement) {
             if ($diff < 0) {
                 $diff = 0;
             }
 
-            $error = 'There must be %s blank line(s) after the last USE statement; %s found.';
-            $data = [$this->blankLinesAfterUseStatement, $diff];
-            $file->addError($error, $position, 'SpaceAfterLastUse', $data);
+            $errorMessage = sprintf(
+                'There must be %s blank line(s) after the last USE statement; %s found.',
+                $this->blankLinesAfterUseStatement,
+                $diff
+            );
+            $this->file->addError($errorMessage, $this->position);
         }
     }
 }

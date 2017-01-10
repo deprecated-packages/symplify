@@ -19,7 +19,7 @@ final class SoftDeletableExtension extends AbstractBehaviorExtension
         'trait' => SoftDeletable::class
     ];
 
-    public function loadConfiguration()
+    public function loadConfiguration() : void
     {
         $config = $this->validateConfig($this->defaults);
         $this->validateConfigTypes($config);
@@ -38,7 +38,7 @@ final class SoftDeletableExtension extends AbstractBehaviorExtension
     /**
      * @throws AssertionException
      */
-    private function validateConfigTypes(array $config)
+    private function validateConfigTypes(array $config) : void
     {
         Validators::assertField($config, 'isRecursive', 'bool');
         Validators::assertField($config, 'trait', 'type');

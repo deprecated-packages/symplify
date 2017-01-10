@@ -14,10 +14,10 @@ final class ModularLatteFiltersExtension extends CompilerExtension
     /**
      * @var string
      */
-    const APPLICATION_LATTE_FACTORY_INTERFACE = ILatteFactory::class;
+    private const APPLICATION_LATTE_FACTORY_INTERFACE = ILatteFactory::class;
 
 
-    public function beforeCompile()
+    public function beforeCompile() : void
     {
         $containerBuilder = $this->getContainerBuilder();
         $containerBuilder->prepareClassList();

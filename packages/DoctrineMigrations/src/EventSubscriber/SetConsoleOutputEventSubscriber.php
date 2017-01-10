@@ -26,7 +26,7 @@ final class SetConsoleOutputEventSubscriber implements EventSubscriberInterface
         return [ConsoleEvents::COMMAND => 'setOutputWriter'];
     }
 
-    public function setOutputWriter(ConsoleCommandEvent $event)
+    public function setOutputWriter(ConsoleCommandEvent $event) : void
     {
         $command = $event->getCommand();
         if (! $this->isMigrationCommand($command)) {

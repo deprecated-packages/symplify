@@ -2,17 +2,18 @@
 
 namespace Zenify\DoctrineExtensionsTree\DI;
 
+use Gedmo\Tree\TreeListener;
 use Kdyby\Events\DI\EventsExtension;
 use Nette\DI\CompilerExtension;
 
 final class TreeExtension extends CompilerExtension
 {
-    public function loadConfiguration()
+    public function loadConfiguration() : void
     {
         $builder = $this->getContainerBuilder();
 
         $builder->addDefinition($this->prefix('listener'))
-            ->setClass('Gedmo\Tree\TreeListener')
+            ->setClass(TreeListener::class)
             ->addSetup('setAnnotationReader', ['@Doctrine\Common\Annotations\Reader'])
             ->addTag(EventsExtension::TAG_SUBSCRIBER);
     }

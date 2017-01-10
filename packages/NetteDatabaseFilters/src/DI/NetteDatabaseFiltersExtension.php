@@ -3,6 +3,7 @@
 namespace Zenify\NetteDatabaseFilters\DI;
 
 use Nette\Database\Context;
+use Nette\DI\Compiler;
 use Nette\DI\CompilerExtension;
 use Nette\DI\ServiceDefinition;
 use Zenify\NetteDatabaseFilters\Contract\FilterInterface;
@@ -12,29 +13,29 @@ use Zenify\NetteDatabaseFilters\Sql\SqlParser;
 
 final class NetteDatabaseFiltersExtension extends CompilerExtension
 {
-    public function loadConfiguration()
+    public function loadConfiguration() : void
     {
-        $this->compiler->parseServices(
+        Compiler::loadDefinitions(
             $this->getContainerBuilder(),
-            $this->loadFromFile(__DIR__ . '/../config/services.neon')
+            $this->loadFromFile(__DIR__ . '/../config/services.neon')['services']
         );
     }
 
-    public function beforeCompile()
+    public function beforeCompile() : void
     {
         $this->replaceContextWithOwnClass();
         $this->setFilterManagerToContexts();
         $this->collectFiltersToFilterManager();
     }
 
-    public function replaceContextWithOwnClass()
+    public function replaceContextWithOwnClass() : void
     {
         foreach ($this->getContainerBuilder()->findByType(Context::class) as $contextDefinition) {
             $contextDefinition->setFactory(FiltersAwareContext::class);
         }
     }
 
-    private function setFilterManagerToContexts()
+    private function setFilterManagerToContexts() : void
     {
         $filterManagerDefinition = $this->getDefinitionByType(FilterManagerInterface::class);
 
@@ -45,7 +46,7 @@ final class NetteDatabaseFiltersExtension extends CompilerExtension
         }
     }
 
-    private function collectFiltersToFilterManager()
+    private function collectFiltersToFilterManager() : void
     {
         $filterManagerDefinition = $this->getDefinitionByType(FilterManagerInterface::class);
 

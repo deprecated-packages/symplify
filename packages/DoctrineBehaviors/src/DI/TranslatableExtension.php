@@ -24,7 +24,7 @@ final class TranslatableExtension extends AbstractBehaviorExtension
         'translationFetchMode' => 'LAZY',
     ];
 
-    public function loadConfiguration()
+    public function loadConfiguration() : void
     {
         $config = $this->validateConfig($this->defaults);
         $this->validateConfigTypes($config);
@@ -47,7 +47,7 @@ final class TranslatableExtension extends AbstractBehaviorExtension
     /**
      * @throws AssertionException
      */
-    private function validateConfigTypes(array $config)
+    private function validateConfigTypes(array $config) : void
     {
         Validators::assertField($config, 'currentLocaleCallable', 'null|array');
         Validators::assertField($config, 'translatableTrait', 'type');

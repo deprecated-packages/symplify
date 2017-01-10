@@ -17,7 +17,7 @@ final class ComponentFactoryCommentSniff implements PHP_CodeSniffer_Sniff
     /**
      * @var string
      */
-    const NAME = 'SymplifyCodingStandard.Commenting.ComponentFactoryComment';
+    public const NAME = 'SymplifyCodingStandard.Commenting.ComponentFactoryComment';
 
     /**
      * @var int
@@ -90,7 +90,7 @@ final class ComponentFactoryCommentSniff implements PHP_CodeSniffer_Sniff
         return false;
     }
 
-    private function processReturnTag(int $commentStartPosition)
+    private function processReturnTag(int $commentStartPosition) : void
     {
         $return = null;
         foreach ($this->tokens[$commentStartPosition]['comment_tags'] as $tag) {

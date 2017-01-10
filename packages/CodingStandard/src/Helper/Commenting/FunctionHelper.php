@@ -19,7 +19,6 @@ final class FunctionHelper
      */
     public static function findReturnTypeHint(PHP_CodeSniffer_File $codeSnifferFile, int $functionPointer)
     {
-
         $tokens = $codeSnifferFile->getTokens();
         $isAbstract = self::isAbstract($codeSnifferFile, $functionPointer);
         $colonToken = $isAbstract

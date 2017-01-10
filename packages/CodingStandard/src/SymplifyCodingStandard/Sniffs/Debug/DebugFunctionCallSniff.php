@@ -13,7 +13,7 @@ final class DebugFunctionCallSniff extends Generic_Sniffs_PHP_ForbiddenFunctions
     /**
      * @var string
      */
-    const NAME = 'SymplifyCodingStandard.Debug.DebugFunctionCall';
+    public const NAME = 'SymplifyCodingStandard.Debug.DebugFunctionCall';
 
     /**
      * A list of forbidden functions with their alternatives.

@@ -74,7 +74,7 @@ final class FiltersAwareSelection extends Selection
         return $selection;
     }
 
-    private function applyFilters(Selection $selection)
+    private function applyFilters(Selection $selection) : void
     {
         $tables = $this->sqlParser->parseTablesFromSql($selection->getSql());
         foreach ($tables as $table) {

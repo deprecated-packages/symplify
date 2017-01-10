@@ -38,12 +38,12 @@ final class FiltersAwareContext extends Context
         $this->cacheStorage = $cacheStorage;
     }
 
-    public function setFilterManager(FilterManagerInterface $filterManager)
+    public function setFilterManager(FilterManagerInterface $filterManager) : void
     {
         $this->filterManager = $filterManager;
     }
 
-    public function setSqlParser(SqlParser $sqlParser)
+    public function setSqlParser(SqlParser $sqlParser) : void
     {
         $this->sqlParser = $sqlParser;
     }

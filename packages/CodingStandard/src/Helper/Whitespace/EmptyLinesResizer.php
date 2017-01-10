@@ -11,7 +11,7 @@ final class EmptyLinesResizer
         int $position,
         int $currentLineCount,
         int $desiredLineCount
-    ) {
+    ) : void {
         if ($currentLineCount > $desiredLineCount) {
             self::reduceBlankLines($file, $position, $currentLineCount, $desiredLineCount);
         } elseif ($currentLineCount < $desiredLineCount) {
@@ -19,7 +19,7 @@ final class EmptyLinesResizer
         }
     }
 
-    private static function reduceBlankLines(PHP_CodeSniffer_File $file, int $position, int $from, int $to)
+    private static function reduceBlankLines(PHP_CodeSniffer_File $file, int $position, int $from, int $to) : void
     {
         for ($i = $from; $i > $to; $i--) {
             $file->fixer->replaceToken($position, '');
@@ -27,7 +27,7 @@ final class EmptyLinesResizer
         }
     }
 
-    private static function increaseBlankLines(PHP_CodeSniffer_File $file, int $position, int $from, int $to)
+    private static function increaseBlankLines(PHP_CodeSniffer_File $file, int $position, int $from, int $to) : void
     {
         for ($i = $from; $i < $to; $i++) {
             $file->fixer->addContentBefore($position, PHP_EOL);

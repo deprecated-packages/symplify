@@ -14,7 +14,7 @@ final class NewClassSniff implements PHP_CodeSniffer_Sniff
     /**
      * @var string
      */
-    const NAME = 'SymplifyCodingStandard.ControlStructures.NewClass';
+    public const NAME = 'SymplifyCodingStandard.ControlStructures.NewClass';
 
     /**
      * @var PHP_CodeSniffer_File
@@ -43,7 +43,7 @@ final class NewClassSniff implements PHP_CodeSniffer_Sniff
      * @param PHP_CodeSniffer_File $file
      * @param int $position
      */
-    public function process(PHP_CodeSniffer_File $file, $position)
+    public function process(PHP_CodeSniffer_File $file, $position) : void
     {
         $this->file = $file;
         $this->position = $position;
@@ -54,7 +54,7 @@ final class NewClassSniff implements PHP_CodeSniffer_Sniff
 
         $fix = $file->addFixableError('New class statement should not have empty parentheses', $position);
         if ($fix) {
-            $this->removeParenthesesFromClassStatement($position);
+            $this->removeParenthesesFromClassStatement();
         }
     }
 
@@ -87,7 +87,7 @@ final class NewClassSniff implements PHP_CodeSniffer_Sniff
         return false;
     }
 
-    private function removeParenthesesFromClassStatement(int $position)
+    private function removeParenthesesFromClassStatement() : void
     {
         $this->file->fixer->replaceToken($this->openParenthesisPosition, '');
         $this->file->fixer->replaceToken($this->openParenthesisPosition + 1, '');

@@ -19,7 +19,7 @@ final class InBetweenMethodSpacingSniff extends Squiz_Sniffs_WhiteSpace_Function
     /**
      * @var string
      */
-    const NAME = 'SymplifyCodingStandard.WhiteSpace.InBetweenMethodSpacing';
+    public const NAME = 'SymplifyCodingStandard.WhiteSpace.InBetweenMethodSpacing';
 
     /**
      * @var int|string
@@ -53,14 +53,14 @@ final class InBetweenMethodSpacingSniff extends Squiz_Sniffs_WhiteSpace_Function
      * @param PHP_CodeSniffer_File $file
      * @param int $position
      */
-    public function process(PHP_CodeSniffer_File $file, $position)
+    public function process(PHP_CodeSniffer_File $file, $position) : void
     {
-        // Fix type
-        $this->blankLinesBetweenMethods = (int) $this->blankLinesBetweenMethods;
-
         $this->file = $file;
         $this->position = $position;
         $this->tokens = $file->getTokens();
+
+        // Fix type
+        $this->blankLinesBetweenMethods = (int) $this->blankLinesBetweenMethods;
 
         $blankLinesCountAfterFunction = $this->getBlankLineCountAfterFunction();
         if ($blankLinesCountAfterFunction !== $this->blankLinesBetweenMethods) {
@@ -141,7 +141,7 @@ final class InBetweenMethodSpacingSniff extends Squiz_Sniffs_WhiteSpace_Function
     }
 
     /**
-     * @return FALSE|int
+     * @return false|int
      */
     private function getNextLineContent(int $nextLineToken)
     {

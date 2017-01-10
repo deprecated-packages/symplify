@@ -37,7 +37,7 @@ final class MigrationsExtension extends CompilerExtension
         SetConsoleOutputEventSubscriber::class,
     ];
 
-    public function loadConfiguration()
+    public function loadConfiguration() : void
     {
         $this->ensureEventDispatcherExtensionIsRegistered();
 
@@ -63,7 +63,7 @@ final class MigrationsExtension extends CompilerExtension
         $this->addConfigurationDefinition($config);
     }
 
-    public function beforeCompile()
+    public function beforeCompile() : void
     {
         $containerBuilder = $this->getContainerBuilder();
         $containerBuilder->prepareClassList();
@@ -72,7 +72,7 @@ final class MigrationsExtension extends CompilerExtension
         $this->loadCommandsToApplication();
     }
 
-    private function addConfigurationDefinition(array $config)
+    private function addConfigurationDefinition(array $config) : void
     {
         $containerBuilder = $this->getContainerBuilder();
         $configurationDefinition = $containerBuilder->addDefinition($this->prefix('configuration'));
@@ -90,7 +90,7 @@ final class MigrationsExtension extends CompilerExtension
         }
     }
 
-    private function setConfigurationToCommands()
+    private function setConfigurationToCommands() : void
     {
         $containerBuilder = $this->getContainerBuilder();
         $configurationDefinition = $containerBuilder->getDefinition($containerBuilder->getByType(Configuration::class));
@@ -100,7 +100,7 @@ final class MigrationsExtension extends CompilerExtension
         }
     }
 
-    private function loadCommandsToApplication()
+    private function loadCommandsToApplication() : void
     {
         $containerBuilder = $this->getContainerBuilder();
         $applicationDefinition = $containerBuilder->getDefinition($containerBuilder->getByType(Application::class));
@@ -118,7 +118,7 @@ final class MigrationsExtension extends CompilerExtension
         return $configuration;
     }
 
-    private function ensureEventDispatcherExtensionIsRegistered()
+    private function ensureEventDispatcherExtensionIsRegistered() : void
     {
         if (! $this->compiler->getExtensions(EventDispatcherExtension::class)) {
             throw new MissingExtensionException(

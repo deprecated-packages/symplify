@@ -38,7 +38,7 @@ final class PhpCsFixerProcessBuilder implements ProcessBuilderInterface
         $this->builder->add('--rules=' . $rules);
     }
 
-    public function enableDryRun()
+    public function enableDryRun() : void
     {
         $this->builder->add('--dry-run');
         $this->builder->add('--diff');

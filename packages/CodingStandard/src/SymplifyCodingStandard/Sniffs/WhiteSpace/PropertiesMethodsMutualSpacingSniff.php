@@ -16,7 +16,7 @@ final class PropertiesMethodsMutualSpacingSniff implements PHP_CodeSniffer_Sniff
     /**
      * @var string
      */
-    const NAME = 'SymplifyCodingStandard.WhiteSpace.PropertiesMethodsMutualSpacing';
+    public const NAME = 'SymplifyCodingStandard.WhiteSpace.PropertiesMethodsMutualSpacing';
 
     /**
      * @var int|string
@@ -123,7 +123,7 @@ final class PropertiesMethodsMutualSpacingSniff implements PHP_CodeSniffer_Sniff
         return $this->position;
     }
 
-    private function fixSpacingInBetween(int $blankLinesInBetween)
+    private function fixSpacingInBetween(int $blankLinesInBetween) : void
     {
         $position = PositionFinder::findLastPositionInCurrentLine($this->file, $this->getPositionOfLastProperty());
 

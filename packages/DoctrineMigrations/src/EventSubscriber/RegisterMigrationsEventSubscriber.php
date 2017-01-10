@@ -26,7 +26,7 @@ final class RegisterMigrationsEventSubscriber implements EventSubscriberInterfac
         return [ConsoleEvents::COMMAND => 'registerMigrations'];
     }
 
-    public function registerMigrations(ConsoleCommandEvent $event)
+    public function registerMigrations(ConsoleCommandEvent $event) : void
     {
         $command = $event->getCommand();
         if (! $this->isMigrationCommand($command)) {

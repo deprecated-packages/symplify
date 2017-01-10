@@ -11,6 +11,9 @@ use PHP_CodeSniffer_Sniff;
  */
 final class InterfaceNameSniff implements PHP_CodeSniffer_Sniff
 {
+    /**
+     * @var string
+     */
     public const NAME = 'SymplifyCodingStandard.Naming.InterfaceName';
 
     /**

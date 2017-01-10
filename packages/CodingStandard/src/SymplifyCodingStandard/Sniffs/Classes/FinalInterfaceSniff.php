@@ -18,7 +18,7 @@ final class FinalInterfaceSniff implements PHP_CodeSniffer_Sniff
     /**
      * @var string
      */
-    const NAME = 'SymplifyCodingStandard.Classes.FinalInterface';
+    public const NAME = 'SymplifyCodingStandard.Classes.FinalInterface';
 
     /**
      * @var PHP_CodeSniffer_File
@@ -42,7 +42,7 @@ final class FinalInterfaceSniff implements PHP_CodeSniffer_Sniff
      * @param PHP_CodeSniffer_File $file
      * @param int $position
      */
-    public function process(PHP_CodeSniffer_File $file, $position)
+    public function process(PHP_CodeSniffer_File $file, $position) : void
     {
         $this->file = $file;
         $this->position = $position;
@@ -97,7 +97,7 @@ final class FinalInterfaceSniff implements PHP_CodeSniffer_Sniff
         return false;
     }
 
-    public function addFinalToClass(int $position)
+    public function addFinalToClass(int $position) : void
     {
         $this->file->fixer->addContentBefore($position, 'final ');
     }

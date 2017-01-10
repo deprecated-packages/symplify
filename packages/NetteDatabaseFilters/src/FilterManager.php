@@ -13,7 +13,7 @@ final class FilterManager implements FilterManagerInterface
      */
     private $filters = [];
 
-    public function addFilter(FilterInterface $filter)
+    public function addFilter(FilterInterface $filter) : void
     {
         $this->filters[] = $filter;
     }

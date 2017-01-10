@@ -16,7 +16,7 @@ final class NamespaceDeclarationSniff implements PHP_CodeSniffer_Sniff
     /**
      * @var string
      */
-    const NAME = 'SymplifyCodingStandard.Namespaces.NamespaceDeclaration';
+    public const NAME = 'SymplifyCodingStandard.Namespaces.NamespaceDeclaration';
 
     /**
      * @var int|string
@@ -60,7 +60,7 @@ final class NamespaceDeclarationSniff implements PHP_CodeSniffer_Sniff
      * @param PHP_CodeSniffer_File $file
      * @param int $position
      */
-    public function process(PHP_CodeSniffer_File $file, $position)
+    public function process(PHP_CodeSniffer_File $file, $position) : void
     {
         $classPosition = $file->findNext([T_CLASS, T_TRAIT, T_INTERFACE], $position);
         if (! $classPosition) {
@@ -89,7 +89,7 @@ final class NamespaceDeclarationSniff implements PHP_CodeSniffer_Sniff
         }
     }
 
-    private function processWithoutUseStatement(int $linesToNextClass)
+    private function processWithoutUseStatement(int $linesToNextClass) : void
     {
         if ($linesToNextClass !== $this->emptyLinesAfterNamespace) {
             $errorMessage = sprintf(
@@ -105,7 +105,7 @@ final class NamespaceDeclarationSniff implements PHP_CodeSniffer_Sniff
         }
     }
 
-    private function processWithUseStatement(int $linesToNextUse)
+    private function processWithUseStatement(int $linesToNextUse) : void
     {
         if ($linesToNextUse !== $this->emptyLinesBeforeUseStatement) {
             $errorMessage = sprintf(
@@ -138,7 +138,7 @@ final class NamespaceDeclarationSniff implements PHP_CodeSniffer_Sniff
         }
     }
 
-    private function fixSpacesFromNamespaceToUseStatements(int $position, int $linesToNextUse)
+    private function fixSpacesFromNamespaceToUseStatements(int $position, int $linesToNextUse) : void
     {
         $nextLinePosition = WhitespaceFinder::findNextEmptyLinePosition($this->file, $position);
         if ($linesToNextUse < $this->emptyLinesBeforeUseStatement) {

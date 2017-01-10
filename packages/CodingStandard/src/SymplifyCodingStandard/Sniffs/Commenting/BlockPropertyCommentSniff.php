@@ -43,7 +43,7 @@ final class BlockPropertyCommentSniff implements PHP_CodeSniffer_Sniff
      * @param PHP_CodeSniffer_File $file
      * @param int $position
      */
-    public function process(PHP_CodeSniffer_File $file, $position)
+    public function process(PHP_CodeSniffer_File $file, $position) : void
     {
         $this->file = $file;
         $this->tokens = $file->getTokens();
@@ -100,7 +100,7 @@ final class BlockPropertyCommentSniff implements PHP_CodeSniffer_Sniff
         return false;
     }
 
-    private function changeSingleLineDocToDocBlock(int $position)
+    private function changeSingleLineDocToDocBlock(int $position) : void
     {
         $commentEndPosition = $this->tokens[$position]['comment_closer'];
 
