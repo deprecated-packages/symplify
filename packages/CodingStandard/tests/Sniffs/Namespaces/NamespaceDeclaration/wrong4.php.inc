@@ -3,7 +3,7 @@ namespace SomeNamespace;
 
 use SomeNamespace;
 
-class wrong4
+class SomeClass
 {
 
 }

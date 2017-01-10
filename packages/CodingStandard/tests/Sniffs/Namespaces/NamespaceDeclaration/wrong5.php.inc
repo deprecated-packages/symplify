@@ -3,7 +3,7 @@ namespace SomeNamespace;
 
 use SomeNamespace;
 
-interface wrong5
+interface SomeInterface
 {
 
 }

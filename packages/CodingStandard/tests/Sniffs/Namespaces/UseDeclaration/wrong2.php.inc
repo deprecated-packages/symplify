@@ -2,9 +2,9 @@
 namespace SomeNamespace;
 
 use Sth;
-use SthElse;
 
-class wrong2
+
+class SomeClass
 {
 
 }

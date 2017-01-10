@@ -2,8 +2,7 @@
 namespace SomeNamespace;
 
 use SomeNamespace;
-
-class wrong3
+class SomeClass
 {
 
 }

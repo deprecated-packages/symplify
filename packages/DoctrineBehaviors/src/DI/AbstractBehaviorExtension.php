@@ -30,7 +30,7 @@ abstract class AbstractBehaviorExtension extends CompilerExtension
     protected function buildDefinitionFromCallable(string $callable = null)
     {
         if ($callable === null) {
-            return;
+            return null;
         }
 
         $containerBuilder = $this->getContainerBuilder();

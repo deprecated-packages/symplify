@@ -1,9 +1,8 @@
 <?php declare(strict_types=1);
 namespace SomeNamespace;
 
-class correct
+class SomeClass
 {
-
     public function run()
     {
     }

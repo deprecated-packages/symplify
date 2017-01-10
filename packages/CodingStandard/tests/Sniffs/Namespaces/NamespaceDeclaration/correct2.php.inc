@@ -3,7 +3,7 @@ namespace SomeNamespace;
 
 use PHP_CodeSniffer;
 
-class correct2
+class SomeClass
 {
 
 }

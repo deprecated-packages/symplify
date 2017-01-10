@@ -4,7 +4,7 @@ namespace SomeNamespace;
 /**
  * Super interface
  */
-interface correct4
+interface SomeClass
 {
 
 }

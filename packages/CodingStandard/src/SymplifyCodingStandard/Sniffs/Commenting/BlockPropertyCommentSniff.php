@@ -27,6 +27,11 @@ final class BlockPropertyCommentSniff implements PHP_CodeSniffer_Sniff
     private $tokens;
 
     /**
+     * @var string
+     */
+    private $indentationType = 'spaces';
+
+    /**
      * @return int[]
      */
     public function register() : array
@@ -103,7 +108,9 @@ final class BlockPropertyCommentSniff implements PHP_CodeSniffer_Sniff
         $shortPosition = $this->file->findNext($empty, $position + 1, $commentEndPosition, true);
 
         // indent content after /** to indented new line
-        $this->file->fixer->addContentBefore($shortPosition, PHP_EOL . "\t" . ' * ');
+        $this->file->fixer->addContentBefore(
+            $shortPosition, PHP_EOL . $this->getIndentationSign() . ' * '
+        );
 
         // remove spaces
         $this->file->fixer->replaceToken($position + 1, '');
@@ -111,6 +118,17 @@ final class BlockPropertyCommentSniff implements PHP_CodeSniffer_Sniff
         $this->file->fixer->replaceToken($commentEndPosition - 1, $spacelessContent);
 
         // indent end to indented newline
-        $this->file->fixer->replaceToken($commentEndPosition, PHP_EOL . "\t" . ' */');
+        $this->file->fixer->replaceToken(
+            $commentEndPosition, PHP_EOL . $this->getIndentationSign() . ' */'
+        );
+    }
+
+    private function getIndentationSign() : string
+    {
+        if ($this->indentationType === 'tabs') {
+            return "\t";
+        }
+
+        return '    ';
     }
 }

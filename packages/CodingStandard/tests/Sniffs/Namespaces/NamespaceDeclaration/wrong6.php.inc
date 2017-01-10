@@ -3,7 +3,7 @@ namespace SomeNamespace;
 
 use SomeNamespace;
 
-trait wrong6
+trait SomeTrait
 {
 
 }

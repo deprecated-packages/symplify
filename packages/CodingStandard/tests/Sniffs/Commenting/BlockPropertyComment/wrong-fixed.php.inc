@@ -3,7 +3,6 @@ namespace SomeNamespace;
 
 class SomeClass
 {
-
     /**
      * @var int
      */

@@ -4,7 +4,7 @@ namespace SomeNamespace;
 /**
  * Super class
  */
-class correct3
+class SomeClass
 {
 
 }
