@@ -1,0 +1,8 @@
+services:
+	# Alice
+	- Nelmio\Alice\Fixtures\Loader
+	- Zenify\DoctrineFixtures\Alice\AliceLoader
+	- Zenify\DoctrineFixtures\Alice\Fixtures\Parser\Methods\NeonParser
+
+	# Faker
+	- Faker\Generator

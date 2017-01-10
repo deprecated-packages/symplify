@@ -1,0 +1,3 @@
+Zenify\DoctrineFixtures\Tests\Entity\User:
+	"user{1..10}":
+		__construct: ["<email()>"]
