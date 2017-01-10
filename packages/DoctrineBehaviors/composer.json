@@ -1,0 +1,37 @@
+{
+	"name": "zenify/doctrine-behaviors",
+	"description": "Integration of KnpLabs/DoctrineBehaviors to Nette\\DI",
+	"license": "MIT",
+	"authors": [
+		{ "name": "Tomáš Votruba", "homepage": "http://tomasvotruba.cz" }
+	],
+	"require": {
+		"php": "^7.0",
+		"kdyby/events": "^3.0",
+		"knplabs/doctrine-behaviors": "^1.4",
+		"tracy/tracy": "^2.4"
+	},
+	"require-dev": {
+		"kdyby/doctrine": "^3.1",
+		"nette/bootstrap": "^2.4",
+		"nette/di": "^2.4",
+		"nette/http": "^2.4",
+		"nette/reflection": "^2.4",
+		"nette/security": "^2.4",
+		"zenify/coding-standard": "^4.2",
+		"phpunit/phpunit": "^5.7"
+	},
+	"autoload": {
+		"psr-4": {
+			"Zenify\\DoctrineBehaviors\\": "src"
+		}
+	},
+	"autoload-dev": {
+		"psr-4": {
+			"Zenify\\DoctrineBehaviors\\Tests\\": "tests"
+		}
+	},
+	"scripts": {
+		"check-cs": "vendor/bin/phpcs src tests -ps --standard=vendor/zenify/coding-standard/src/ZenifyCodingStandard/ruleset.xml"
+	}
+}

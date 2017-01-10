@@ -14,8 +14,10 @@
         "greenlion/php-sql-parser": "^4.1",
         "fzaninotto/faker": "^1.6",
         "nelmio/alice": "^2.2",
-        "gedmo/doctrine-extensions": "^2.4",
         "arachne/event-dispatcher": "^0.1",
+
+        "gedmo/doctrine-extensions": "^2.4",
+        "knplabs/doctrine-behaviors": "^1.4",
 
         "doctrine/migrations": "^1.4",
         "doctrine/dbal": "^2.5",
@@ -91,7 +93,8 @@
             "Zenify\\NetteDatabaseFilters\\": "packages/NetteDatabaseFilters/src",
             "Zenify\\DoctrineFixtures\\": "packages/DoctrineFixtures/src",
             "Zenify\\DoctrineExtensionsTree\\": "packages/DoctrineExtensionsTree/src",
-            "Zenify\\DoctrineMigrations\\": "packages/DoctrineMigrations/src"
+            "Zenify\\DoctrineMigrations\\": "packages/DoctrineMigrations/src",
+            "Zenify\\DoctrineBehaviors\\": "packages/DoctrineBehaviors/src"
         }
     },
     "autoload-dev": {
@@ -114,7 +117,8 @@
             "Zenify\\NetteDatabaseFilters\\Tests\\": "packages/NetteDatabaseFilters/tests",
             "Zenify\\DoctrineFixtures\\Tests\\": "packages/DoctrineFixtures/tests",
             "Zenify\\DoctrineExtensionsTree\\Tests\\": "packages/DoctrineExtensionsTree/tests",
-            "Zenify\\DoctrineMigrations\\Tests\\": "packages/DoctrineMigrations/tests"
+            "Zenify\\DoctrineMigrations\\Tests\\": "packages/DoctrineMigrations/tests",
+            "Zenify\\DoctrineBehaviors\\Tests\\": "packages/DoctrineBehaviors/tests"
         },
         "classmap": [
             "packages/Statie/bin/include-autoload.php"
