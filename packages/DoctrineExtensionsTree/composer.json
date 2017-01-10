@@ -1,0 +1,34 @@
+{
+    "name": "zenify/doctrine-extensions-tree",
+    "description": "Implementation of Tree from DoctrineExtensions to Nette.",
+    "license": "MIT",
+    "authors": [
+        { "name": "Tomáš Votruba", "homepage": "http://tomasvotruba.cz" }
+    ],
+    "require": {
+        "php": "^7.0",
+        "gedmo/doctrine-extensions": "^2.4",
+        "nette/di": "^2.4",
+        "nette/reflection": "^2.4"
+    },
+    "require-dev": {
+        "kdyby/doctrine": "^3.1",
+        "nette/bootstrap": "^2.4",
+        "tracy/tracy": "^2.4",
+        "phpunit/phpunit": "^5.7",
+        "zenify/coding-standard": "^4.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "Zenify\\DoctrineExtensionsTree\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Zenify\\DoctrineExtensionsTree\\Tests\\": "tests"
+        }
+    },
+    "scripts": {
+        "check-cs": "vendor/bin/phpcs src tests -ps --standard=vendor/zenify/coding-standard/src/ZenifyCodingStandard/ruleset.xml"
+    }
+}

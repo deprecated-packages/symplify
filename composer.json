@@ -14,6 +14,7 @@
         "greenlion/php-sql-parser": "^4.1",
         "fzaninotto/faker": "^1.6",
         "nelmio/alice": "^2.2",
+        "gedmo/doctrine-extensions": "^2.4",
 
         "doctrine/dbal": "^2.5",
         "doctrine/orm": "^2.5",
@@ -86,7 +87,8 @@
 
             "Zenify\\ModularLatteFilters\\": "packages/ModularLatteFilters/src",
             "Zenify\\NetteDatabaseFilters\\": "packages/NetteDatabaseFilters/src",
-            "Zenify\\DoctrineFixtures\\": "packages/DoctrineFixtures/src"
+            "Zenify\\DoctrineFixtures\\": "packages/DoctrineFixtures/src",
+            "Zenify\\DoctrineExtensionsTree\\": "packages/DoctrineExtensionsTree/src"
         }
     },
     "autoload-dev": {
@@ -107,7 +109,8 @@
 
             "Zenify\\ModularLatteFilters\\Tests\\": "packages/ModularLatteFilters/tests",
             "Zenify\\NetteDatabaseFilters\\Tests\\": "packages/NetteDatabaseFilters/tests",
-            "Zenify\\DoctrineFixtures\\Tests\\": "packages/DoctrineFixtures/tests"
+            "Zenify\\DoctrineFixtures\\Tests\\": "packages/DoctrineFixtures/tests",
+            "Zenify\\DoctrineExtensionsTree\\Tests\\": "packages/DoctrineExtensionsTree/tests"
         },
         "classmap": [
             "packages/Statie/bin/include-autoload.php"

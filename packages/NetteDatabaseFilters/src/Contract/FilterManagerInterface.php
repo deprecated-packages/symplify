@@ -9,8 +9,8 @@ use Nette\Database\Table\Selection;
 interface FilterManagerInterface
 {
 
-    function addFilter(FilterInterface $filter);
+    public function addFilter(FilterInterface $filter);
 
 
-    function applyFilters(Selection $selection, string $targetTable) : Selection;
+    public function applyFilters(Selection $selection, string $targetTable) : Selection;
 }
