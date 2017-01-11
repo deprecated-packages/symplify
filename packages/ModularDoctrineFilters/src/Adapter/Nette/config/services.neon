@@ -1,0 +1,3 @@
+services:
+	- Zenify\DoctrineFilters\FilterManager
+	- Zenify\DoctrineFilters\EventSubscriber\EnableFiltersSubscriber
