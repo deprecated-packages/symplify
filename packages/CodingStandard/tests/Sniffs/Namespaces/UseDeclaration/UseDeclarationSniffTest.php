@@ -2,19 +2,13 @@
 
 namespace Symplify\CodingStandard\Tests\Sniffs\Namespaces\UseDeclaration;
 
-use PHPUnit\Framework\TestCase;
-use Symplify\CodingStandard\Tests\CodeSnifferRunner;
+use Symplify\CodingStandard\Tests\Sniffs\AbstractSniffTestCase;
 use SymplifyCodingStandard\Sniffs\Namespaces\UseDeclarationSniff;
 
-final class UseDeclarationSniffTest extends TestCase
+final class UseDeclarationSniffTest extends AbstractSniffTestCase
 {
-    public function testDetection()
+    public function test()
     {
-        $codeSnifferRunner = new CodeSnifferRunner(UseDeclarationSniff::NAME);
-
-        $this->assertSame(1, $codeSnifferRunner->getErrorCountInFile(__DIR__ . '/wrong.php.inc'));
-        $this->assertSame(1, $codeSnifferRunner->getErrorCountInFile(__DIR__ . '/wrong2.php.inc'));
-        $this->assertSame(0, $codeSnifferRunner->getErrorCountInFile(__DIR__ . '/correct.php.inc'));
-        $this->assertSame(0, $codeSnifferRunner->getErrorCountInFile(__DIR__ . '/correct2.php.inc'));
+        $this->runSniffTestForDirectory(UseDeclarationSniff::NAME, __DIR__);
     }
 }

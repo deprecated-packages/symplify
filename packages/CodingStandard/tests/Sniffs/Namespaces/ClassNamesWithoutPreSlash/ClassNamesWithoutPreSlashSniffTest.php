@@ -2,16 +2,13 @@
 
 namespace Symplify\CodingStandard\Tests\Sniffs\Namespaces\ClassNamesWithoutPreSlash;
 
-use PHPUnit\Framework\TestCase;
-use Symplify\CodingStandard\Tests\CodeSnifferRunner;
+use Symplify\CodingStandard\Tests\Sniffs\AbstractSniffTestCase;
+use SymplifyCodingStandard\Sniffs\Namespaces\ClassNamesWithoutPreSlashSniff;
 
-final class ClassNamesWithoutPreSlashSniffTest extends TestCase
+final class ClassNamesWithoutPreSlashSniffTest extends AbstractSniffTestCase
 {
-    public function testDetection()
+    public function test()
     {
-        $codeSnifferRunner = new CodeSnifferRunner('SymplifyCodingStandard.Namespaces.ClassNamesWithoutPreSlash');
-
-        $this->assertSame(1, $codeSnifferRunner->getErrorCountInFile(__DIR__ . '/wrong.php.inc'));
-        $this->assertSame(0, $codeSnifferRunner->getErrorCountInFile(__DIR__ . '/correct.php.inc'));
+        $this->runSniffTestForDirectory(ClassNamesWithoutPreSlashSniff::NAME, __DIR__);
     }
 }

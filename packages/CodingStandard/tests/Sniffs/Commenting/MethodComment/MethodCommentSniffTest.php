@@ -2,19 +2,13 @@
 
 namespace Symplify\CodingStandard\Tests\Sniffs\Commenting\MethodComment;
 
-use PHPUnit\Framework\TestCase;
-use Symplify\CodingStandard\Tests\CodeSnifferRunner;
+use Symplify\CodingStandard\Tests\Sniffs\AbstractSniffTestCase;
 use SymplifyCodingStandard\Sniffs\Commenting\MethodCommentSniff;
 
-final class MethodCommentSniffTest extends TestCase
+final class MethodCommentSniffTest extends AbstractSniffTestCase
 {
-    public function testDetection()
+    public function test()
     {
-        $codeSnifferRunner = new CodeSnifferRunner(MethodCommentSniff::NAME);
-
-        $this->assertSame(1, $codeSnifferRunner->getErrorCountInFile(__DIR__ . '/wrong.php.inc'));
-        $this->assertSame(0, $codeSnifferRunner->getErrorCountInFile(__DIR__ . '/correct.php.inc'));
-        $this->assertSame(0, $codeSnifferRunner->getErrorCountInFile(__DIR__ . '/correct2.php.inc'));
-        $this->assertSame(0, $codeSnifferRunner->getErrorCountInFile(__DIR__ . '/correct3.php.inc'));
+        $this->runSniffTestForDirectory(MethodCommentSniff::NAME, __DIR__);
     }
 }

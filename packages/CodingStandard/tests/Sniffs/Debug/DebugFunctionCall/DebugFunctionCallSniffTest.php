@@ -2,16 +2,13 @@
 
 namespace Symplify\CodingStandard\Tests\Sniffs\Debug\DebugFunctionCall;
 
-use PHPUnit\Framework\TestCase;
-use Symplify\CodingStandard\Tests\CodeSnifferRunner;
+use Symplify\CodingStandard\Tests\Sniffs\AbstractSniffTestCase;
+use SymplifyCodingStandard\Sniffs\Debug\DebugFunctionCallSniff;
 
-final class DebugFunctionCallSniffTest extends TestCase
+final class DebugFunctionCallSniffTest extends AbstractSniffTestCase
 {
-    public function testDetection()
+    public function test()
     {
-        $codeSnifferRunner = new CodeSnifferRunner('SymplifyCodingStandard.Debug.DebugFunctionCall');
-
-        $this->assertSame(1, $codeSnifferRunner->getErrorCountInFile(__DIR__ . '/wrong.php.inc'));
-        $this->assertSame(0, $codeSnifferRunner->getErrorCountInFile(__DIR__ . '/correct.php.inc'));
+        $this->runSniffTestForDirectory(DebugFunctionCallSniff::NAME, __DIR__);
     }
 }

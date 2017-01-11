@@ -2,20 +2,13 @@
 
 namespace Symplify\CodingStandard\Tests\Sniffs\Commenting\ComponentFactoryComment;
 
-use PHPUnit\Framework\TestCase;
-use Symplify\CodingStandard\Tests\CodeSnifferRunner;
+use Symplify\CodingStandard\Tests\Sniffs\AbstractSniffTestCase;
 use SymplifyCodingStandard\Sniffs\Commenting\ComponentFactoryCommentSniff;
 
-final class ComponentFactoryCommentSniffTest extends TestCase
+final class ComponentFactoryCommentSniffTest extends AbstractSniffTestCase
 {
-    public function testDetection()
+    public function test()
     {
-        $codeSnifferRunner = new CodeSnifferRunner(ComponentFactoryCommentSniff::NAME);
-
-        $this->assertSame(1, $codeSnifferRunner->getErrorCountInFile(__DIR__ . '/wrong.php.inc'));
-        $this->assertSame(1, $codeSnifferRunner->getErrorCountInFile(__DIR__ . '/wrong2.php.inc'));
-        $this->assertSame(1, $codeSnifferRunner->getErrorCountInFile(__DIR__ . '/wrong3.php.inc'));
-        $this->assertSame(0, $codeSnifferRunner->getErrorCountInFile(__DIR__ . '/correct.php.inc'));
-        $this->assertSame(0, $codeSnifferRunner->getErrorCountInFile(__DIR__ . '/correct2.php.inc'));
+        $this->runSniffTestForDirectory(ComponentFactoryCommentSniff::NAME, __DIR__);
     }
 }
