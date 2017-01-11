@@ -11,60 +11,54 @@ use Zenify\DoctrineFilters\Contract\FilterInterface;
 use Zenify\DoctrineFilters\Contract\FilterManagerInterface;
 use Zenify\DoctrineFilters\EventSubscriber\EnableFiltersSubscriber;
 
-
 final class FiltersExtension extends CompilerExtension
 {
+    /**
+     * @var DefinitionFinder
+     */
+    private $definitionFinder;
 
-	/**
-	 * @var DefinitionFinder
-	 */
-	private $definitionFinder;
+    public function loadConfiguration()
+    {
+        Compiler::loadDefinitions(
+            $this->getContainerBuilder(),
+            $this->loadFromFile(__DIR__ . '/../config/services.neon')['services']
+        );
 
+        $this->definitionFinder = new DefinitionFinder($this->getContainerBuilder());
+    }
 
-	public function loadConfiguration()
-	{
-		Compiler::loadDefinitions(
-			$this->getContainerBuilder(),
-			$this->loadFromFile(__DIR__ . '/../config/services.neon')['services']
-		);
+    public function beforeCompile()
+    {
+        $containerBuilder = $this->getContainerBuilder();
 
-		$this->definitionFinder = new DefinitionFinder($this->getContainerBuilder());
-	}
+        $definitionFinder = new DefinitionFinder($containerBuilder);
+        $filterManagerDefinition = $definitionFinder->getDefinitionByType(FilterManagerInterface::class);
+        $ormConfigurationDefinition = $definitionFinder->getDefinitionByType(Configuration::class);
 
+        foreach ($containerBuilder->findByType(FilterInterface::class) as $name => $filterDefinition) {
+            // 1) to filter manager to run conditions and enable allowed only
+            $filterManagerDefinition->addSetup('addFilter', [$name, '@' . $name]);
+            // 2) to Doctrine itself
+            $ormConfigurationDefinition->addSetup('addFilter', [$name, $filterDefinition->getClass()]);
+        }
 
-	public function beforeCompile()
-	{
-		$containerBuilder = $this->getContainerBuilder();
+        $this->passFilterManagerToListener();
+    }
 
-		$definitionFinder = new DefinitionFinder($containerBuilder);
-		$filterManagerDefinition = $definitionFinder->getDefinitionByType(FilterManagerInterface::class);
-		$ormConfigurationDefinition = $definitionFinder->getDefinitionByType(Configuration::class);
+    /**
+     * Prevents circular reference.
+     */
+    private function passFilterManagerToListener()
+    {
+        $enableFiltersSubscriberDefinition = $this->definitionFinder->getDefinitionByType(
+            EnableFiltersSubscriber::class
+        );
 
-		foreach ($containerBuilder->findByType(FilterInterface::class) as $name => $filterDefinition) {
-			// 1) to filter manager to run conditions and enable allowed only
-			$filterManagerDefinition->addSetup('addFilter', [$name, '@' . $name]);
-			// 2) to Doctrine itself
-			$ormConfigurationDefinition->addSetup('addFilter', [$name, $filterDefinition->getClass()]);
-		}
-
-		$this->passFilterManagerToListener();
-	}
-
-
-	/**
-	 * Prevents circular reference.
-	 */
-	private function passFilterManagerToListener()
-	{
-		$enableFiltersSubscriberDefinition = $this->definitionFinder->getDefinitionByType(
-			EnableFiltersSubscriber::class
-		);
-
-		$filterManagerServiceName = $this->definitionFinder->getServiceNameByType(FilterManagerInterface::class);
-		$enableFiltersSubscriberDefinition->addSetup(
-			'setFilterManager',
-			['@' . $filterManagerServiceName]
-		);
-	}
-
+        $filterManagerServiceName = $this->definitionFinder->getServiceNameByType(FilterManagerInterface::class);
+        $enableFiltersSubscriberDefinition->addSetup(
+            'setFilterManager',
+            ['@' . $filterManagerServiceName]
+        );
+    }
 }

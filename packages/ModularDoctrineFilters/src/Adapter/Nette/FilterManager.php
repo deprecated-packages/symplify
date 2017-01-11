@@ -10,67 +10,60 @@ use Zenify\DoctrineFilters\Contract\ConditionalFilterInterface;
 use Zenify\DoctrineFilters\Contract\FilterInterface;
 use Zenify\DoctrineFilters\Contract\FilterManagerInterface;
 
-
 final class FilterManager implements FilterManagerInterface
 {
+    /**
+     * @var FilterInterface[]
+     */
+    private $filters = [];
 
-	/**
-	 * @var FilterInterface[]
-	 */
-	private $filters = [];
+    /**
+     * @var EntityManagerInterface
+     */
+    private $entityManager;
 
-	/**
-	 * @var EntityManagerInterface
-	 */
-	private $entityManager;
+    /**
+     * @var bool
+     */
+    private $areFiltersEnabled = false;
 
-	/**
-	 * @var bool
-	 */
-	private $areFiltersEnabled = FALSE;
+    public function __construct(EntityManagerInterface $entityManager)
+    {
+        $this->entityManager = $entityManager;
+    }
 
+    public function addFilter(string $name, FilterInterface $filter)
+    {
+        $this->filters[$name] = $filter;
+    }
 
-	public function __construct(EntityManagerInterface $entityManager)
-	{
-		$this->entityManager = $entityManager;
-	}
+    public function enableFilters()
+    {
+        if ($this->areFiltersEnabled) {
+            return;
+        }
 
+        foreach ($this->filters as $name => $filter) {
+            if ($filter instanceof ConditionalFilterInterface && ! $filter->isEnabled()) {
+                continue;
+            }
 
-	public function addFilter(string $name, FilterInterface $filter)
-	{
-		$this->filters[$name] = $filter;
-	}
+            $this->addFilterToEnabledInFilterCollection($name, $filter);
+        }
 
+        $this->areFiltersEnabled = true;
+    }
 
-	public function enableFilters()
-	{
-		if ($this->areFiltersEnabled) {
-			return;
-		}
+    private function addFilterToEnabledInFilterCollection(string $name, FilterInterface $filter)
+    {
+        $filterCollection = $this->entityManager->getFilters();
 
-		foreach ($this->filters as $name => $filter) {
-			if ($filter instanceof ConditionalFilterInterface && ! $filter->isEnabled()) {
-				continue;
-			}
+        $filterCollectionReflection = new ReflectionClass($filterCollection);
+        $enabledFiltersReflection = $filterCollectionReflection->getProperty('enabledFilters');
+        $enabledFiltersReflection->setAccessible(true);
 
-			$this->addFilterToEnabledInFilterCollection($name, $filter);
-		}
-
-		$this->areFiltersEnabled = TRUE;
-	}
-
-
-	private function addFilterToEnabledInFilterCollection(string $name, FilterInterface $filter)
-	{
-		$filterCollection = $this->entityManager->getFilters();
-
-		$filterCollectionReflection = new ReflectionClass($filterCollection);
-		$enabledFiltersReflection = $filterCollectionReflection->getProperty('enabledFilters');
-		$enabledFiltersReflection->setAccessible(TRUE);
-
-		$enabledFilters = $enabledFiltersReflection->getValue($filterCollection);
-		$enabledFilters[$name] = $filter;
-		$enabledFiltersReflection->setValue($filterCollection, $enabledFilters);
-	}
-
+        $enabledFilters = $enabledFiltersReflection->getValue($filterCollection);
+        $enabledFilters[$name] = $filter;
+        $enabledFiltersReflection->setValue($filterCollection, $enabledFilters);
+    }
 }

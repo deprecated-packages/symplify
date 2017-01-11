@@ -12,54 +12,48 @@ use Symfony\Component\Console\Input\StringInput;
 use Symfony\Component\Console\Output\NullOutput;
 use Zenify\DoctrineFilters\Tests\ContainerFactory;
 
-
 final class ConsoleTest extends TestCase
 {
+    /**
+     * @var Application
+     */
+    private $consoleApplication;
 
-	/**
-	 * @var Application
-	 */
-	private $consoleApplication;
+    /**
+     * @var EntityManagerInterface
+     */
+    private $entityManager;
 
-	/**
-	 * @var EntityManagerInterface
-	 */
-	private $entityManager;
+    protected function setUp()
+    {
+        $container = (new ContainerFactory)->create();
+        $this->consoleApplication = $container->getByType(Application::class);
+        $this->consoleApplication->setAutoExit(false);
+        $this->entityManager = $container->getByType(EntityManagerInterface::class);
+    }
 
+    public function test()
+    {
+        $this->assertCount(0, $this->entityManager->getFilters()->getEnabledFilters());
 
-	protected function setUp()
-	{
-		$container = (new ContainerFactory)->create();
-		$this->consoleApplication = $container->getByType(Application::class);
-		$this->consoleApplication->setAutoExit(FALSE);
-		$this->entityManager = $container->getByType(EntityManagerInterface::class);
-	}
+        $stringInput = new StringInput('help');
+        $this->consoleApplication->run($stringInput, new NullOutput);
 
+        $this->assertCount(2, $this->entityManager->getFilters()->getEnabledFilters());
+    }
 
-	public function test()
-	{
-		$this->assertCount(0, $this->entityManager->getFilters()->getEnabledFilters());
+    public function testEnablingOnlyOnce()
+    {
+        $stringInput = new StringInput('help');
 
-		$stringInput = new StringInput('help');
-		$this->consoleApplication->run($stringInput, new NullOutput);
+        $this->assertCount(0, $this->entityManager->getFilters()->getEnabledFilters());
 
-		$this->assertCount(2, $this->entityManager->getFilters()->getEnabledFilters());
-	}
+        $this->consoleApplication->run($stringInput, new NullOutput);
 
+        $this->assertCount(2, $this->entityManager->getFilters()->getEnabledFilters());
 
-	public function testEnablingOnlyOnce()
-	{
-		$stringInput = new StringInput('help');
+        $this->consoleApplication->run($stringInput, new NullOutput);
 
-		$this->assertCount(0, $this->entityManager->getFilters()->getEnabledFilters());
-
-		$this->consoleApplication->run($stringInput, new NullOutput);
-
-		$this->assertCount(2, $this->entityManager->getFilters()->getEnabledFilters());
-
-		$this->consoleApplication->run($stringInput, new NullOutput);
-
-		$this->assertCount(2, $this->entityManager->getFilters()->getEnabledFilters());
-	}
-
+        $this->assertCount(2, $this->entityManager->getFilters()->getEnabledFilters());
+    }
 }

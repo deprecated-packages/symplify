@@ -8,55 +8,49 @@ use Nette\DI\ContainerBuilder;
 use Nette\DI\ServiceDefinition;
 use Zenify\DoctrineFilters\Exception\DefinitionForTypeNotFoundException;
 
-
 final class DefinitionFinder
 {
+    /**
+     * @var ContainerBuilder
+     */
+    private $containerBuilder;
 
-	/**
-	 * @var ContainerBuilder
-	 */
-	private $containerBuilder;
+    public function __construct(ContainerBuilder $containerBuilder)
+    {
+        $this->containerBuilder = $containerBuilder;
+    }
 
+    public function getDefinitionByType(string $type) : ServiceDefinition
+    {
+        $this->containerBuilder->prepareClassList();
 
-	public function __construct(ContainerBuilder $containerBuilder)
-	{
-		$this->containerBuilder = $containerBuilder;
-	}
+        if ($name = $this->containerBuilder->getByType($type)) {
+            return $this->containerBuilder->getDefinition($name);
+        }
 
+        foreach ($this->containerBuilder->findByType($type) as $definition) {
+            return $definition;
+        }
 
-	public function getDefinitionByType(string $type) : ServiceDefinition
-	{
-		$this->containerBuilder->prepareClassList();
+        throw new DefinitionForTypeNotFoundException(
+            sprintf('Definition for type "%s" was not found.', $type)
+        );
+    }
 
-		if ($name = $this->containerBuilder->getByType($type)) {
-			return $this->containerBuilder->getDefinition($name);
-		}
+    public function getServiceNameByType(string $type) : string
+    {
+        $this->containerBuilder->prepareClassList();
 
-		foreach ($this->containerBuilder->findByType($type) as $definition) {
-			return $definition;
-		}
+        if ($name = $this->containerBuilder->getByType($type)) {
+            return $name;
+        }
 
-		throw new DefinitionForTypeNotFoundException(
-			sprintf('Definition for type "%s" was not found.', $type)
-		);
-	}
+        foreach ($this->containerBuilder->findByType($type) as $name => $definition) {
+            return $name;
+        }
 
-
-	public function getServiceNameByType(string $type) : string
-	{
-		$this->containerBuilder->prepareClassList();
-
-		if ($name = $this->containerBuilder->getByType($type)) {
-			return $name;
-		}
-
-		foreach ($this->containerBuilder->findByType($type) as $name => $definition) {
-			return $name;
-		}
-
-		throw new DefinitionForTypeNotFoundException(
-			sprintf('Definition for type "%s" was not found.', $type)
-		);
-	}
-
+        throw new DefinitionForTypeNotFoundException(
+            sprintf('Definition for type "%s" was not found.', $type)
+        );
+    }
 }

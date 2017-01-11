@@ -47,7 +47,9 @@ abstract class AbstractSniffTestCase extends TestCase
         $errorCount = $this->codeSniffer->processFile($file->getPath())
             ->getErrorCount();
 
-        $this->assertSame(0, $errorCount,
+        $this->assertSame(
+            0,
+            $errorCount,
             sprintf(
                 'File "%s" should have at 0 errors. %s found.',
                 $file->getPathname(),
@@ -87,7 +89,7 @@ abstract class AbstractSniffTestCase extends TestCase
     {
         $fixedFileName = $this->getFixedFileName($file);
 
-        if ( ! file_exists($fixedFileName)) {
+        if (! file_exists($fixedFileName)) {
             return;
         }
 
@@ -108,7 +110,7 @@ abstract class AbstractSniffTestCase extends TestCase
 
     private function createCodeSnifferWithSniff(string $sniffName) : PHP_CodeSniffer
     {
-        $codeSniffer = new PHP_CodeSniffer();
+        $codeSniffer = new PHP_CodeSniffer;
         $codeSniffer->initStandard(__DIR__ . '/../../src/SymplifyCodingStandard/ruleset.xml', [$sniffName]);
 
         return $codeSniffer;
