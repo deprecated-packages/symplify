@@ -11,11 +11,6 @@ use Symplify\ModularDoctrineFilters\EventSubscriber\EnableFiltersSubscriber;
 
 final class ModularDoctrineFiltersExtension extends CompilerExtension
 {
-    /**
-     * @var DefinitionFinder
-     */
-    private $definitionFinder;
-
     public function loadConfiguration()
     {
         Compiler::loadDefinitions(
@@ -26,8 +21,6 @@ final class ModularDoctrineFiltersExtension extends CompilerExtension
 
     public function beforeCompile() : void
     {
-        $this->definitionFinder = new DefinitionFinder($this->getContainerBuilder());
-
         $this->loadFiltersToFilterManager();
         $this->passFilterManagerToSubscriber();
     }
