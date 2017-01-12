@@ -3,9 +3,9 @@ application:
 
 
 services:
-	- Zenify\DoctrineFilters\Tests\FilterManager\Source\ActiveFilter
-	- Zenify\DoctrineFilters\Tests\FilterManager\Source\EnabledFilter
-	- Zenify\DoctrineFilters\Tests\FilterManager\Source\DisabledFilter
+	- Symplify\DoctrineFilters\Tests\FilterManager\Source\ActiveFilter
+	- Symplify\DoctrineFilters\Tests\FilterManager\Source\EnabledFilter
+	- Symplify\DoctrineFilters\Tests\FilterManager\Source\DisabledFilter
 	-
 		class: Symfony\Component\Console\Application
 		setup:
@@ -16,7 +16,7 @@ extensions:
 	doctrine: Kdyby\Doctrine\DI\OrmExtension
 	- Kdyby\Events\DI\EventsExtension
 	- Kdyby\Annotations\DI\AnnotationsExtension
-	- Zenify\DoctrineFilters\DI\FiltersExtension
+	- Symplify\DoctrineFilters\DI\ModularDoctrineFiltersExtension
 	- Symplify\SymfonyEventDispatcher\Adapter\Nette\DI\SymfonyEventDispatcherExtension
 
 

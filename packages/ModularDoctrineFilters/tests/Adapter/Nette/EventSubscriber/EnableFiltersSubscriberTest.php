@@ -1,8 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 
-declare(strict_types=1);
-
-namespace Zenify\DoctrineFilters\Tests\EventSubscriber;
+namespace Symplify\DoctrineFilters\Tests\EventSubscriber;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Nette\Application\Application;
@@ -10,7 +8,7 @@ use Nette\Application\IPresenter;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symplify\SymfonyEventDispatcher\Adapter\Nette\Event\PresenterCreatedEvent;
-use Zenify\DoctrineFilters\Tests\ContainerFactory;
+use Symplify\DoctrineFilters\Tests\ContainerFactory;
 
 final class EnableFiltersSubscriberTest extends TestCase
 {

@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\ModularDoctrineFilters\DependencyInjection\Compiler;
+namespace Symplify\ModularDoctrineFilters\Adapter\Symfony\DependencyInjection\Compiler;
 
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -15,10 +15,10 @@ final class LoadFiltersCompilerPass implements CompilerPassInterface
      */
     private const NAME_CONFIGURATION = 'doctrine.orm.default_configuration';
 
-    /**
-     * @var string
-     */
-    private const NAME_CONFIGURATOR = 'doctrine.orm.default_manager_configurator';
+//    /**
+//     * @var string
+//     */
+//    private const NAME_CONFIGURATOR = 'doctrine.orm.default_manager_configurator';
 
     /**
      * @var string[]
@@ -47,6 +47,8 @@ final class LoadFiltersCompilerPass implements CompilerPassInterface
         $filterManager = $this->containerBuilder->getDefinition('symplify.filter_manager');
 
         foreach ($this->getAllFilters() as $name => $definition) {
+            $definition->setAutowired(true);
+
             // 1) load to Doctrine
             $defaultOrmConfiguration->addMethodCall('addFilter', [$name, $definition->getClass()]);
             $this->newFilters[] = $name;
@@ -63,7 +65,7 @@ final class LoadFiltersCompilerPass implements CompilerPassInterface
      */
     private function passFilterManagerToListener() : void
     {
-        $enableFiltersSubscriber = $this->containerBuilder->getDefinition('symplify.enable_filters_listener');
+        $enableFiltersSubscriber = $this->containerBuilder->getDefinition('symplify.enable_filters_subscriber');
         $enableFiltersSubscriber->addMethodCall('setFilterManager', [new Reference('symplify.filter_manager')]);
     }
 

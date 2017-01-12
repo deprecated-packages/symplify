@@ -1,12 +1,10 @@
-<?php
+<?php declare(strict_types=1);
 
-declare(strict_types=1);
-
-namespace Zenify\DoctrineFilters\DI;
+namespace Symplify\DoctrineFilters\Adapter\Nette\DI;
 
 use Nette\DI\ContainerBuilder;
 use Nette\DI\ServiceDefinition;
-use Zenify\DoctrineFilters\Exception\DefinitionForTypeNotFoundException;
+use Symplify\DoctrineFilters\Exception\DefinitionForTypeNotFoundException;
 
 final class DefinitionFinder
 {
@@ -45,9 +43,9 @@ final class DefinitionFinder
             return $name;
         }
 
-        foreach ($this->containerBuilder->findByType($type) as $name => $definition) {
-            return $name;
-        }
+//        foreach ($this->containerBuilder->findByType($type) as $name => $definition) {
+//            return $name;
+//        }
 
         throw new DefinitionForTypeNotFoundException(
             sprintf('Definition for type "%s" was not found.', $type)

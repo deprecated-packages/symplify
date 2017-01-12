@@ -1,14 +1,12 @@
-<?php
+<?php declare(strict_types=1);
 
-declare(strict_types=1);
-
-namespace Zenify\DoctrineFilters\Tests\DI;
+namespace Symplify\DoctrineFilters\Tests\DI;
 
 use Nette\DI\ContainerBuilder;
 use PHPUnit\Framework\TestCase;
 use stdClass;
-use Zenify\DoctrineFilters\DI\DefinitionFinder;
-use Zenify\DoctrineFilters\Exception\DefinitionForTypeNotFoundException;
+use Symplify\DoctrineFilters\DI\DefinitionFinder;
+use Symplify\DoctrineFilters\Exception\DefinitionForTypeNotFoundException;
 
 final class DefinitionFinderTest extends TestCase
 {
@@ -46,7 +44,7 @@ final class DefinitionFinderTest extends TestCase
     }
 
     /**
-     * @expectedException \Zenify\DoctrineFilters\Exception\DefinitionForTypeNotFoundException
+     * @expectedException \Symplify\DoctrineFilters\Exception\DefinitionForTypeNotFoundException
      */
     public function testMissing()
     {

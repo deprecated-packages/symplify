@@ -1,8 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 
-declare(strict_types=1);
-
-namespace Zenify\DoctrineFilters\Tests\Console;
+namespace Symplify\DoctrineFilters\Tests\Console;
 
 use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\TestCase;
@@ -10,7 +8,7 @@ use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Input\StringInput;
 use Symfony\Component\Console\Output\NullOutput;
-use Zenify\DoctrineFilters\Tests\ContainerFactory;
+use Symplify\DoctrineFilters\Tests\ContainerFactory;
 
 final class ConsoleTest extends TestCase
 {

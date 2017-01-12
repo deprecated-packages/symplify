@@ -1,8 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 
-declare(strict_types=1);
-
-namespace Zenify\DoctrineFilters\Exception;
+namespace Symplify\ModularDoctrineFilters\Exception;
 
 use Exception;
 

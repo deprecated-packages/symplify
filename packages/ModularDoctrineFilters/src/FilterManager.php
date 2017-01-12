@@ -1,12 +1,12 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\ModularDoctrineFilters\Filter;
+namespace Symplify\ModularDoctrineFilters;
 
 use Doctrine\ORM\EntityManagerInterface;
 use ReflectionClass;
 use ReflectionProperty;
 use Symplify\ModularDoctrineFilters\Contract\Filter\FilterInterface;
-use Symplify\ModularDoctrineFilters\Contract\Filter\FilterManagerInterface;
+use Symplify\ModularDoctrineFilters\Contract\FilterManagerInterface;
 
 final class FilterManager implements FilterManagerInterface
 {
@@ -19,6 +19,11 @@ final class FilterManager implements FilterManagerInterface
      * @var EntityManagerInterface
      */
     private $entityManager;
+
+    /**
+     * @var bool
+     */
+    private $areFiltersEnabled = false;
 
     /**
      * @var ReflectionProperty
@@ -37,12 +42,18 @@ final class FilterManager implements FilterManagerInterface
 
     public function enableFilters() : void
     {
+        if ($this->areFiltersEnabled) {
+            return;
+        }
+
         foreach ($this->filters as $name => $filter) {
             $this->addFilterToEnabledInFilterCollection($name, $filter);
         }
+
+        $this->areFiltersEnabled = true;
     }
 
-    private function addFilterToEnabledInFilterCollection(string $name, FilterInterface $filter)
+    private function addFilterToEnabledInFilterCollection(string $name, FilterInterface $filter) : void
     {
         $enabledFiltersReflection = $this->getEnabledFiltersPropertyReflectionWithAccess();
         $filterCollection = $this->entityManager->getFilters();

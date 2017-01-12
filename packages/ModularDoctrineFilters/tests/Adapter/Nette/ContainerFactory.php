@@ -1,8 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 
-declare(strict_types=1);
-
-namespace Zenify\DoctrineFilters\Tests;
+namespace Symplify\DoctrineFilters\Tests;
 
 use Nette\Configurator;
 use Nette\DI\Container;

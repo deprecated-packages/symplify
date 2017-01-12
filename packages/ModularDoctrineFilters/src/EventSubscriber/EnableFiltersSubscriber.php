@@ -1,13 +1,12 @@
-<?php
+<?php declare(strict_types=1);
 
-declare(strict_types=1);
-
-namespace Zenify\DoctrineFilters\EventSubscriber;
+namespace Symplify\ModularDoctrineFilters\EventSubscriber;
 
 use Symfony\Component\Console\ConsoleEvents;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\HttpKernel\KernelEvents;
+use Symplify\ModularDoctrineFilters\Contract\Filter\FilterManagerInterface;
 use Symplify\SymfonyEventDispatcher\Adapter\Nette\Event\PresenterCreatedEvent;
-use Zenify\DoctrineFilters\Contract\FilterManagerInterface;
 
 final class EnableFiltersSubscriber implements EventSubscriberInterface
 {
@@ -21,11 +20,15 @@ final class EnableFiltersSubscriber implements EventSubscriberInterface
         $this->filterManager = $filterManager;
     }
 
+    /**
+     * @return string[]
+     */
     public static function getSubscribedEvents() : array
     {
         return [
             ConsoleEvents::COMMAND => 'enableFilters',
-            PresenterCreatedEvent::NAME => 'enableFilters'
+            PresenterCreatedEvent::NAME => 'enableFilters',
+            KernelEvents::REQUEST => 'enableFilters'
         ];
     }
 
