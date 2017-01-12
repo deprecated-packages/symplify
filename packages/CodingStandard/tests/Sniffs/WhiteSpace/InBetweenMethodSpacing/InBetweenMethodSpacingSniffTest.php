@@ -2,29 +2,13 @@
 
 namespace Symplify\CodingStandard\Tests\Sniffs\WhiteSpace\InBetweenMethodSpacing;
 
-use PHPUnit\Framework\TestCase;
-use Symplify\CodingStandard\Tests\CodeSnifferRunner;
+use Symplify\CodingStandard\Tests\Sniffs\AbstractSniffTestCase;
 use SymplifyCodingStandard\Sniffs\WhiteSpace\InBetweenMethodSpacingSniff;
 
-final class InBetweenMethodSpacingSniffTest extends TestCase
+final class InBetweenMethodSpacingSniffTest extends AbstractSniffTestCase
 {
-    public function testDetection()
+    public function test()
     {
-        $codeSnifferRunner = new CodeSnifferRunner(InBetweenMethodSpacingSniff::NAME);
-
-        $this->assertSame(1, $codeSnifferRunner->getErrorCountInFile(__DIR__ . '/wrong.php.inc'));
-        $this->assertSame(1, $codeSnifferRunner->getErrorCountInFile(__DIR__ . '/wrong2.php.inc'));
-        $this->assertSame(0, $codeSnifferRunner->getErrorCountInFile(__DIR__ . '/correct.php.inc'));
-    }
-
-    public function testFixing()
-    {
-        $codeSnifferRunner = new CodeSnifferRunner(InBetweenMethodSpacingSniff::NAME);
-
-        $fixedContent = $codeSnifferRunner->getFixedContent(__DIR__ . '/wrong.php.inc');
-        $this->assertSame(file_get_contents(__DIR__ . '/wrong-fixed.php.inc'), $fixedContent);
-
-        $fixedContent = $codeSnifferRunner->getFixedContent(__DIR__ . '/wrong2.php.inc');
-        $this->assertSame(file_get_contents(__DIR__ . '/wrong-fixed.php.inc'), $fixedContent);
+        $this->runSniffTestForDirectory(InBetweenMethodSpacingSniff::NAME, __DIR__);
     }
 }

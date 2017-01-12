@@ -6,11 +6,14 @@
 [![Downloads](https://img.shields.io/packagist/dt/symplify/modular-doctrine-filters.svg?style=flat-square)](https://packagist.org/packages/symplify/modular-doctrine-filters)
 [![Latest stable](https://img.shields.io/packagist/v/symplify/modular-doctrine-filters.svg?style=flat-square)](https://packagist.org/packages/symplify/modular-doctrine-filters)
 
+
 What are Doctrine Filters? Check [these few slides](https://speakerdeck.com/rosstuck/extending-doctrine-2-for-your-domain-model?slide=15) or see [Usage](#usage) to get the knowledge.
+
 
 They are present in Doctrine by default. **This package only simplifies their use in modular application and allows passing dependencies to them.**
 
 Why and how? Find your answers in [this short article](http://www.tomasvotruba.cz/blog/2016/04/30/decouple-your-doctrine-filters).
+
 
 
 ## Install
@@ -19,15 +22,31 @@ Why and how? Find your answers in [this short article](http://www.tomasvotruba.c
 composer require symplify/modular-doctrine-filters
 ```
 
+### Nette
+
+Register extension in `config.neon`:
+
+```yaml
+# app/config/config.neon
+
+extensions:
+    - Symplify\ModularDoctrineFilters\Adapter\Nette\ModularDoctrineFiltersExtension
+```
+
+
+### Symfony
+
 Add bundle to `AppKernel.php`:
 
 ```php
+// app/AppKernel.php
+
 class AppKernel extends Kernel
 {
     public function registerBundles()
     {
         $bundles = [
-            new Symplify\ModularDoctrineFilters\SymplifyModularDoctrineFiltersBundle(),
+            new Symplify\ModularDoctrineFilters\Adapter\Symfony\ModularDoctrineFiltersBundle,
             // ...
         ];
     }
@@ -37,11 +56,11 @@ class AppKernel extends Kernel
 
 ## Usage
 
-Create class that implements `Symplify\DoctrineFilters\Contract\Filter\FilterInterface`:
+Create class that implements `Symplify\ModularDoctrineFilters\Contract\Filter\FilterInterface`:
 
 ```php
 use Doctrine\ORM\Mapping\ClassMetadata;
-use Symplify\DoctrineFilters\Contract\Filter\FilterInterface;
+use Symplify\ModularDoctrineFilters\Contract\Filter\FilterInterface;
 
 final class SoftdeletableFilter implements FilterInterface
 {
@@ -62,12 +81,27 @@ final class SoftdeletableFilter implements FilterInterface
 
 And register as service:
 
+
+### Nette
+
 ```yaml
-# Resoureces/config.yml
+# app/config/config.neon
+services:
+    - SoftdeletableFilter
+```
+
+
+### Symfony
+
+```yaml
+# Resoureces/config/config.yml
 services:
     module.softdeletable_filter:
         class: SoftdeletableFilter
 ```
+
+*Note: Filters are autowired by default. No need to add dependencies manually.
+
 
 That's all :)
 

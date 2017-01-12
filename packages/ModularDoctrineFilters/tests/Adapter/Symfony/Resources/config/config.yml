@@ -1,0 +1,11 @@
+parameters:
+    kernel.secret: 123
+
+services:
+    some.filter:
+        class: Symplify\ModularDoctrineFilters\Tests\Source\Filter\SomeFilter
+
+doctrine:
+    orm:
+    dbal:
+        memory: true

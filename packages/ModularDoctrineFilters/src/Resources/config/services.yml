@@ -1,9 +1,0 @@
-services:
-    symplify.filter_manager:
-        class: Symplify\ModularDoctrineFilters\Filter\FilterManager
-        autowire: true
-
-    symplify.enable_filters_listener:
-        class: Symplify\ModularDoctrineFilters\EventListener\EnableFiltersListener
-        tags:
-            - { name: kernel.event_listener, event: kernel.request }

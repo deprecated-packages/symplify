@@ -2,17 +2,13 @@
 
 namespace Symplify\CodingStandard\Tests\Sniffs\ControlStructures\YodaCondition;
 
-use PHPUnit\Framework\TestCase;
-use Symplify\CodingStandard\Tests\CodeSnifferRunner;
+use Symplify\CodingStandard\Tests\Sniffs\AbstractSniffTestCase;
 use SymplifyCodingStandard\Sniffs\ControlStructures\YodaConditionSniff;
 
-final class YodaConditionSniffTest extends TestCase
+final class YodaConditionSniffTest extends AbstractSniffTestCase
 {
-    public function testDetection()
+    public function test()
     {
-        $codeSnifferRunner = new CodeSnifferRunner(YodaConditionSniff::NAME);
-
-        $this->assertSame(5, $codeSnifferRunner->getErrorCountInFile(__DIR__ . '/wrong.php.inc'));
-        $this->assertSame(0, $codeSnifferRunner->getErrorCountInFile(__DIR__ . '/correct.php.inc'));
+        $this->runSniffTestForDirectory(YodaConditionSniff::NAME, __DIR__);
     }
 }
