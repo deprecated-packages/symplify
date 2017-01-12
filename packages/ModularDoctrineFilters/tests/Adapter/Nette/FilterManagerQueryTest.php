@@ -58,7 +58,9 @@ final class FilterManagerQueryTest extends TestCase
 
     private function prepareDbData(Connection $connection)
     {
-        $connection->query('CREATE TABLE product (id INTEGER NOT NULL, name string, is_active int NULL, PRIMARY KEY(id))');
+        $connection->query(
+            'CREATE TABLE product (id INTEGER NOT NULL, name string, is_active int NULL, PRIMARY KEY(id))'
+        );
 
         $this->entityManager->persist(new Product(true));
         $this->entityManager->persist(new Product(false));

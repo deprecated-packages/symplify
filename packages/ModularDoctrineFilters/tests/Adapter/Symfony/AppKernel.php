@@ -10,11 +10,6 @@ use Symplify\ModularDoctrineFilters\Adapter\Symfony\ModularDoctrineFiltersBundle
 
 final class AppKernel extends Kernel
 {
-    public function __construct()
-    {
-        parent::__construct('symplify_modular_doctrine_filters' . mt_rand(1, 100), true);
-    }
-
     public function registerBundles() : array
     {
         return [
@@ -27,5 +22,15 @@ final class AppKernel extends Kernel
     public function registerContainerConfiguration(LoaderInterface $loader)
     {
         $loader->load(__DIR__ . '/Resources/config/config.yml');
+    }
+
+    public function getCacheDir() : string
+    {
+        return sys_get_temp_dir() . '/modular-doctrine-filters';
+    }
+
+    public function getLogDir() : string
+    {
+        return sys_get_temp_dir() . '/modular-doctrine-filters';
     }
 }

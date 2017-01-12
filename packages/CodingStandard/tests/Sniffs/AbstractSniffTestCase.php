@@ -29,19 +29,6 @@ abstract class AbstractSniffTestCase extends TestCase
         }
     }
 
-    protected function runSniffTestForFile(string $sniffName, string $filePath) : void
-    {
-        $this->codeSniffer = $this->createCodeSnifferWithSniff($sniffName);
-
-        $file = new SplFileInfo($filePath);
-
-        if (Strings::startsWith($file->getFilename(), 'correct')) {
-            $this->runSniffTestForCorrectFile($file);
-        } elseif (Strings::startsWith($file->getFilename(), 'wrong')) {
-            $this->runSniffTestForWrongFile($file);
-        }
-    }
-
     private function runSniffTestForCorrectFile(SplFileInfo $file) : void
     {
         $errorCount = $this->codeSniffer->processFile($file->getPath())
