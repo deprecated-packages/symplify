@@ -1,11 +1,10 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\DoctrineFilters\Adapter\Nette\DI;
+namespace Symplify\ModularDoctrineFilters\Adapter\Nette\DI;
 
 use Doctrine\ORM\Configuration;
 use Nette\DI\Compiler;
 use Nette\DI\CompilerExtension;
-use Symplify\ModularDoctrineFilters\Adapter\Nette\DI\DefinitionFinder;
 use Symplify\ModularDoctrineFilters\Contract\Filter\FilterInterface;
 use Symplify\ModularDoctrineFilters\Contract\FilterManagerInterface;
 use Symplify\ModularDoctrineFilters\EventSubscriber\EnableFiltersSubscriber;
@@ -25,7 +24,7 @@ final class ModularDoctrineFiltersExtension extends CompilerExtension
         );
     }
 
-    public function beforeCompile()
+    public function beforeCompile() : void
     {
         $this->definitionFinder = new DefinitionFinder($this->getContainerBuilder());
 
@@ -37,8 +36,8 @@ final class ModularDoctrineFiltersExtension extends CompilerExtension
     {
         $containerBuilder = $this->getContainerBuilder();
 
-        $filterManagerDefinition = $this->definitionFinder->getDefinitionByType(FilterManagerInterface::class);
-        $ormConfigurationDefinition = $this->definitionFinder->getDefinitionByType(Configuration::class);
+        $filterManagerDefinition = DefinitionFinder::getByType($containerBuilder, FilterManagerInterface::class);
+        $ormConfigurationDefinition = DefinitionFinder::getByType($containerBuilder, Configuration::class);
 
         $filterDefinitions = $containerBuilder->findByType(FilterInterface::class);
         foreach ($filterDefinitions as $name => $filterDefinition) {
@@ -60,7 +59,8 @@ final class ModularDoctrineFiltersExtension extends CompilerExtension
      */
     private function passFilterManagerToSubscriber() : void
     {
-        $enableFiltersSubscriberDefinition = $this->definitionFinder->getDefinitionByType(
+        $enableFiltersSubscriberDefinition = DefinitionFinder::getByType(
+            $this->getContainerBuilder(),
             EnableFiltersSubscriber::class
         );
 

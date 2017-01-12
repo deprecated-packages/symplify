@@ -2,7 +2,6 @@
 
 namespace Symplify\ModularDoctrineFilters\EventSubscriber;
 
-use Symfony\Component\Console\ConsoleEvents;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symplify\ModularDoctrineFilters\Contract\FilterManagerInterface;
@@ -26,13 +25,13 @@ final class EnableFiltersSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents() : array
     {
         return [
-            ConsoleEvents::COMMAND => 'enableFilters',
+            'console.command' => 'enableFilters',
             PresenterCreatedEvent::NAME => 'enableFilters',
             KernelEvents::REQUEST => 'enableFilters'
         ];
     }
 
-    public function enableFilters()
+    public function enableFilters() : void
     {
         $this->filterManager->enableFilters();
     }

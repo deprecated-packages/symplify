@@ -60,7 +60,7 @@ Create class that implements `Symplify\ModularDoctrineFilters\Contract\Filter\Fi
 
 ```php
 use Doctrine\ORM\Mapping\ClassMetadata;
-use Symplify\DoctrineFilters\Contract\Filter\FilterInterface;
+use Symplify\ModularDoctrineFilters\Contract\Filter\FilterInterface;
 
 final class SoftdeletableFilter implements FilterInterface
 {

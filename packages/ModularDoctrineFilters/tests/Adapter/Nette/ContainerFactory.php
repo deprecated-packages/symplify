@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\DoctrineFilters\Tests;
+namespace Symplify\ModularDoctrineFilters\Tests\Adapter\Nette;
 
 use Nette\Configurator;
 use Nette\DI\Container;

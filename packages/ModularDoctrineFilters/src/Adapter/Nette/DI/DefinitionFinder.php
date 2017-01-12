@@ -4,29 +4,19 @@ namespace Symplify\ModularDoctrineFilters\Adapter\Nette\DI;
 
 use Nette\DI\ContainerBuilder;
 use Nette\DI\ServiceDefinition;
-use Symplify\ModularDoctrineFilters\Adapter\Nette\Exception\DefinitionForTypeNotFoundException;
+use Symplify\ModularDoctrineFilters\Exception\DefinitionForTypeNotFoundException;
 
 final class DefinitionFinder
 {
-    /**
-     * @var ContainerBuilder
-     */
-    private $containerBuilder;
-
-    public function __construct(ContainerBuilder $containerBuilder)
+    public static function getByType(ContainerBuilder $containerBuilder, string $type) : ServiceDefinition
     {
-        $this->containerBuilder = $containerBuilder;
-    }
+        $containerBuilder->prepareClassList();
 
-    public function getDefinitionByType(string $type) : ServiceDefinition
-    {
-        $this->containerBuilder->prepareClassList();
-
-        if ($name = $this->containerBuilder->getByType($type)) {
-            return $this->containerBuilder->getDefinition($name);
+        if ($name = $containerBuilder->getByType($type)) {
+            return $containerBuilder->getDefinition($name);
         }
 
-        foreach ($this->containerBuilder->findByType($type) as $definition) {
+        foreach ($containerBuilder->findByType($type) as $definition) {
             return $definition;
         }
 
@@ -35,11 +25,11 @@ final class DefinitionFinder
         );
     }
 
-    public function getServiceNameByType(string $type) : string
+    public static function getNameByType(ContainerBuilder $containerBuilder, string $type) : string
     {
-        $this->containerBuilder->prepareClassList();
+        $containerBuilder->prepareClassList();
 
-        if ($name = $this->containerBuilder->getByType($type)) {
+        if ($name = $containerBuilder->getByType($type)) {
             return $name;
         }
 

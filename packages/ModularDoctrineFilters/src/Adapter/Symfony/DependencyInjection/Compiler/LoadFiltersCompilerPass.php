@@ -27,12 +27,7 @@ final class LoadFiltersCompilerPass implements CompilerPassInterface
 
     public function process(ContainerBuilder $containerBuilder) : void
     {
-        if (! $containerBuilder->hasDefinition(self::NAME_CONFIGURATION)) {
-            return;
-        }
-
         $this->containerBuilder = $containerBuilder;
-
         $this->addFiltersToOrmConfiguration();
     }
 

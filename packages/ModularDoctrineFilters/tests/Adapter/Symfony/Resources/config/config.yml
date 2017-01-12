@@ -3,7 +3,7 @@ parameters:
 
 services:
     some.filter:
-        class: Symplify\ModularDoctrineFilters\Tests\Filter\SomeFilter
+        class: Symplify\ModularDoctrineFilters\Tests\Source\Filter\SomeFilter
 
 doctrine:
     orm:

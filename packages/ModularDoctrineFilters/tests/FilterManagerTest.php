@@ -5,10 +5,9 @@ namespace Symplify\ModularDoctrineFilters\Tests;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Query\FilterCollection;
 use PHPUnit\Framework\TestCase;
-use PHPUnit_Framework_Assert;
 use Symplify\ModularDoctrineFilters\Contract\FilterManagerInterface;
 use Symplify\ModularDoctrineFilters\FilterManager;
-use Symplify\ModularDoctrineFilters\Tests\Filter\SomeFilter;
+use Symplify\ModularDoctrineFilters\Tests\Source\Filter\SomeFilter;
 
 final class FilterManagerTest extends TestCase
 {
@@ -25,16 +24,6 @@ final class FilterManagerTest extends TestCase
     protected function setUp()
     {
         $this->filterManager = $this->createFilterManager();
-    }
-
-    public function testAddFilter()
-    {
-        $this->filterManager->addFilter('some', new SomeFilter);
-
-        $this->assertCount(
-            1,
-            PHPUnit_Framework_Assert::getObjectAttribute($this->filterManager, 'filters')
-        );
     }
 
     public function testEnableFilters()

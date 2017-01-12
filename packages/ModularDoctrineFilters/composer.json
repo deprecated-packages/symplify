@@ -9,7 +9,6 @@
         "nette/di": "^2.4",
         "symfony/config": "^3.2",
         "symfony/dependency-injection": "^3.2",
-        "symfony/console": "^3.2",
         "symfony/event-dispatcher": "^3.2",
         "symfony/http-kernel": "^3.2"
     },
@@ -19,6 +18,7 @@
         "nette/finder": "^2.4",
         "phpunit/phpunit": "^5.7",
         "symfony/form": "^3.2",
+        "symfony/console": "^3.2",
         "symfony/framework-bundle": "^3.2",
         "symfony/validator": "^3.2",
         "symplify/coding-standard": "^1.3",

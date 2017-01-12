@@ -9,7 +9,7 @@ use PHPUnit_Framework_TestSuite;
 
 final class ClearLogAndCacheTestListener extends PHPUnit_Framework_BaseTestListener
 {
-    public function endTestSuite(PHPUnit_Framework_TestSuite $testSuite)
+    public function endTestSuite(PHPUnit_Framework_TestSuite $testSuite) : void
     {
         if ($testSuite->getName()) { // skip for tests, run only for whole Test Suite
             return;

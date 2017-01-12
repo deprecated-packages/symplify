@@ -1,9 +1,9 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\DoctrineFilters\Tests\FilterManager\Source;
+namespace Symplify\ModularDoctrineFilters\Tests\Source\Filter;
 
 use Doctrine\ORM\Mapping\ClassMetadata;
-use Symplify\DoctrineFilters\Contract\FilterInterface;
+use Symplify\ModularDoctrineFilters\Contract\Filter\FilterInterface;
 
 final class ActiveFilter implements FilterInterface
 {

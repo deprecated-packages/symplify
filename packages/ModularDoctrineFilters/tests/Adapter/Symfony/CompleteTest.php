@@ -6,8 +6,8 @@ use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Kernel;
-use Symplify\ModularDoctrineFilters\Tests\Adapter\Symfony\Controller\SomeController;
 use Symplify\ModularDoctrineFilters\Tests\Adapter\Symfony\AppKernel;
+use Symplify\ModularDoctrineFilters\Tests\Adapter\Symfony\Controller\SomeController;
 
 final class CompleteTest extends TestCase
 {
@@ -23,7 +23,7 @@ final class CompleteTest extends TestCase
 
     protected function setUp()
     {
-        $this->kernel = new AppKernel();
+        $this->kernel = new AppKernel;
         $this->kernel->boot();
 
         $this->entityManager = $this->kernel->getContainer()

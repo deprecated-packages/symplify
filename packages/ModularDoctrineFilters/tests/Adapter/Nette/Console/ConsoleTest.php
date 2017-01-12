@@ -1,14 +1,13 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\DoctrineFilters\Tests\Console;
+namespace Symplify\ModularDoctrineFilters\Tests\Adapter\Nette\Console;
 
 use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Application;
-use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Input\StringInput;
 use Symfony\Component\Console\Output\NullOutput;
-use Symplify\DoctrineFilters\Tests\ContainerFactory;
+use Symplify\ModularDoctrineFilters\Tests\Adapter\Nette\ContainerFactory;
 
 final class ConsoleTest extends TestCase
 {
@@ -28,16 +27,6 @@ final class ConsoleTest extends TestCase
         $this->consoleApplication = $container->getByType(Application::class);
         $this->consoleApplication->setAutoExit(false);
         $this->entityManager = $container->getByType(EntityManagerInterface::class);
-    }
-
-    public function test()
-    {
-        $this->assertCount(0, $this->entityManager->getFilters()->getEnabledFilters());
-
-        $stringInput = new StringInput('help');
-        $this->consoleApplication->run($stringInput, new NullOutput);
-
-        $this->assertCount(2, $this->entityManager->getFilters()->getEnabledFilters());
     }
 
     public function testEnablingOnlyOnce()

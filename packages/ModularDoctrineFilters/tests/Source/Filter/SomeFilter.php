@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\ModularDoctrineFilters\Tests\Filter;
+namespace Symplify\ModularDoctrineFilters\Tests\Source\Filter;
 
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Symplify\ModularDoctrineFilters\Contract\Filter\FilterInterface;

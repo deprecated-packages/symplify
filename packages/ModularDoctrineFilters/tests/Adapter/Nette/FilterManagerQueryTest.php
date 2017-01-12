@@ -1,15 +1,14 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\DoctrineFilters\Tests\FilterManager;
+namespace Symplify\ModularDoctrineFilters\Tests\Adapter\Nette;
 
 use Doctrine\Common\Persistence\ObjectRepository;
 use Doctrine\DBAL\Connection;
 use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\TestCase;
-use Symplify\DoctrineFilters\Contract\FilterManagerInterface;
-use Symplify\DoctrineFilters\FilterManager;
-use Symplify\DoctrineFilters\Tests\ContainerFactory;
-use Symplify\DoctrineFilters\Tests\Entity\Product;
+use Symplify\ModularDoctrineFilters\Contract\FilterManagerInterface;
+use Symplify\ModularDoctrineFilters\FilterManager;
+use Symplify\ModularDoctrineFilters\Tests\Source\Entity\Product;
 
 final class FilterManagerQueryTest extends TestCase
 {
@@ -35,7 +34,9 @@ final class FilterManagerQueryTest extends TestCase
         $this->filterManager = $container->getByType(FilterManager::class);
         $this->productRepository = $this->entityManager->getRepository(Product::class);
 
-        $this->prepareDbData($container->getByType(Connection::class));
+        /** @var Connection $connection */
+        $connection = $container->getByType(Connection::class);
+        $this->prepareDbData($connection);
     }
 
     public function testFindOneBy()

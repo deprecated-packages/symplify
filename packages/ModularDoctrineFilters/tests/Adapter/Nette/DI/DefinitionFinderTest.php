@@ -1,12 +1,11 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\DoctrineFilters\Tests\DI;
+namespace Symplify\ModularDoctrineFilters\Tests\Adapter\Nette\DI;
 
 use Nette\DI\ContainerBuilder;
 use PHPUnit\Framework\TestCase;
 use stdClass;
-use Symplify\DoctrineFilters\DI\DefinitionFinder;
-use Symplify\DoctrineFilters\Exception\DefinitionForTypeNotFoundException;
+use Symplify\ModularDoctrineFilters\Adapter\Nette\DI\DefinitionFinder;
 
 final class DefinitionFinderTest extends TestCase
 {
@@ -15,15 +14,9 @@ final class DefinitionFinderTest extends TestCase
      */
     private $containerBuilder;
 
-    /**
-     * @var DefinitionFinder
-     */
-    private $definitionFinder;
-
     protected function setUp()
     {
         $this->containerBuilder = new ContainerBuilder;
-        $this->definitionFinder = new DefinitionFinder($this->containerBuilder);
     }
 
     public function testAutowired()
@@ -31,7 +24,7 @@ final class DefinitionFinderTest extends TestCase
         $definition = $this->containerBuilder->addDefinition('some')
             ->setClass(stdClass::class);
 
-        $this->assertSame($definition, $this->definitionFinder->getDefinitionByType(stdClass::class));
+        $this->assertSame($definition, DefinitionFinder::getByType($this->containerBuilder, stdClass::class));
     }
 
     public function testNonAutowired()
@@ -40,14 +33,14 @@ final class DefinitionFinderTest extends TestCase
             ->setClass(stdClass::class)
             ->setAutowired(false);
 
-        $this->assertSame($definition, $this->definitionFinder->getDefinitionByType(stdClass::class));
+        $this->assertSame($definition, DefinitionFinder::getByType($this->containerBuilder, stdClass::class));
     }
 
     /**
-     * @expectedException \Symplify\DoctrineFilters\Exception\DefinitionForTypeNotFoundException
+     * @expectedException \Symplify\ModularDoctrineFilters\Exception\DefinitionForTypeNotFoundException
      */
     public function testMissing()
     {
-        $this->definitionFinder->getDefinitionByType(stdClass::class);
+        DefinitionFinder::getByType($this->containerBuilder, stdClass::class);
     }
 }
