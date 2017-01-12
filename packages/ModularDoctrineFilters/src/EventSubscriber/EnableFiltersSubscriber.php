@@ -5,7 +5,7 @@ namespace Symplify\ModularDoctrineFilters\EventSubscriber;
 use Symfony\Component\Console\ConsoleEvents;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\KernelEvents;
-use Symplify\ModularDoctrineFilters\Contract\Filter\FilterManagerInterface;
+use Symplify\ModularDoctrineFilters\Contract\FilterManagerInterface;
 use Symplify\SymfonyEventDispatcher\Adapter\Nette\Event\PresenterCreatedEvent;
 
 final class EnableFiltersSubscriber implements EventSubscriberInterface

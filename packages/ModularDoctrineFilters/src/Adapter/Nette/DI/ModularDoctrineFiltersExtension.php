@@ -5,8 +5,9 @@ namespace Symplify\DoctrineFilters\Adapter\Nette\DI;
 use Doctrine\ORM\Configuration;
 use Nette\DI\Compiler;
 use Nette\DI\CompilerExtension;
+use Symplify\ModularDoctrineFilters\Adapter\Nette\DI\DefinitionFinder;
 use Symplify\ModularDoctrineFilters\Contract\Filter\FilterInterface;
-use Symplify\ModularDoctrineFilters\Contract\Filter\FilterManagerInterface;
+use Symplify\ModularDoctrineFilters\Contract\FilterManagerInterface;
 use Symplify\ModularDoctrineFilters\EventSubscriber\EnableFiltersSubscriber;
 
 final class ModularDoctrineFiltersExtension extends CompilerExtension
@@ -26,9 +27,15 @@ final class ModularDoctrineFiltersExtension extends CompilerExtension
 
     public function beforeCompile()
     {
-        $containerBuilder = $this->getContainerBuilder();
+        $this->definitionFinder = new DefinitionFinder($this->getContainerBuilder());
 
-        $this->definitionFinder = new DefinitionFinder($containerBuilder);
+        $this->loadFiltersToFilterManager();
+        $this->passFilterManagerToSubscriber();
+    }
+
+    private function loadFiltersToFilterManager() : void
+    {
+        $containerBuilder = $this->getContainerBuilder();
 
         $filterManagerDefinition = $this->definitionFinder->getDefinitionByType(FilterManagerInterface::class);
         $ormConfigurationDefinition = $this->definitionFinder->getDefinitionByType(Configuration::class);
@@ -46,8 +53,6 @@ final class ModularDoctrineFiltersExtension extends CompilerExtension
                 [$name, $filterDefinition->getClass()]
             );
         }
-
-        $this->passFilterManagerToSubscriber();
     }
 
     /**
@@ -59,9 +64,9 @@ final class ModularDoctrineFiltersExtension extends CompilerExtension
             EnableFiltersSubscriber::class
         );
 
-        $this->containerBuilder->getByType(FilterManagerInterface::class);
+        $filterManagerServiceName = $this->getContainerBuilder()
+            ->getByType(FilterManagerInterface::class);
 
-        $filterManagerServiceName = $this->definitionFinder->getServiceNameByType(FilterManagerInterface::class);
         $enableFiltersSubscriberDefinition->addSetup(
             'setFilterManager',
             ['@' . $filterManagerServiceName]

@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\ModularDoctrineFilters\Tests\PHPUnit\Listener;
+namespace Symplify\ModularDoctrineFilters\Tests\Adapter\Symfony\PHPUnit\Listener;
 
 use Nette\Utils\FileSystem;
 use Nette\Utils\Finder;
@@ -25,7 +25,7 @@ final class ClearLogAndCacheTestListener extends PHPUnit_Framework_BaseTestListe
      */
     private function getTempAndLogDirectories() : array
     {
-        $finder = Finder::findDirectories('cache', 'logs')->from(__DIR__ . '/../..');
+        $finder = Finder::findDirectories('cache', 'logs')->from(__DIR__ . '/../Symfony');
         return iterator_to_array($finder->getIterator());
     }
 }

@@ -12,8 +12,7 @@ What are Doctrine Filters? Check [these few slides](https://speakerdeck.com/ross
 
 They are present in Doctrine by default. **This package only simplifies their use in modular application and allows passing dependencies to them.**
 
-W
-hy and how? Find your answers in [this short article](http://www.tomasvotruba.cz/blog/2016/04/30/decouple-your-doctrine-filters).
+Why and how? Find your answers in [this short article](http://www.tomasvotruba.cz/blog/2016/04/30/decouple-your-doctrine-filters).
 
 
 

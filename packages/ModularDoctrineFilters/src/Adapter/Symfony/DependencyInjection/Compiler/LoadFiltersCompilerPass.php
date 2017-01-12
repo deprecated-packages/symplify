@@ -15,11 +15,6 @@ final class LoadFiltersCompilerPass implements CompilerPassInterface
      */
     private const NAME_CONFIGURATION = 'doctrine.orm.default_configuration';
 
-//    /**
-//     * @var string
-//     */
-//    private const NAME_CONFIGURATOR = 'doctrine.orm.default_manager_configurator';
-
     /**
      * @var string[]
      */
@@ -45,8 +40,9 @@ final class LoadFiltersCompilerPass implements CompilerPassInterface
     {
         $defaultOrmConfiguration = $this->containerBuilder->getDefinition(self::NAME_CONFIGURATION);
         $filterManager = $this->containerBuilder->getDefinition('symplify.filter_manager');
+        $filterManager->setAutowired(true);
 
-        foreach ($this->getAllFilters() as $name => $definition) {
+        foreach ($this->getFiltersDefinitions() as $name => $definition) {
             $definition->setAutowired(true);
 
             // 1) load to Doctrine
@@ -65,14 +61,14 @@ final class LoadFiltersCompilerPass implements CompilerPassInterface
      */
     private function passFilterManagerToListener() : void
     {
-        $enableFiltersSubscriber = $this->containerBuilder->getDefinition('symplify.enable_filters_subscriber');
-        $enableFiltersSubscriber->addMethodCall('setFilterManager', [new Reference('symplify.filter_manager')]);
+        $this->containerBuilder->getDefinition('symplify.enable_filters_subscriber')
+            ->addMethodCall('setFilterManager', [new Reference('symplify.filter_manager')]);
     }
 
     /**
      * @return Definition[]
      */
-    private function getAllFilters() : array
+    private function getFiltersDefinitions() : array
     {
         $filters = [];
         foreach ($this->containerBuilder->getDefinitions() as $name => $definition) {

@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\ModularDoctrineFilters\Exception;
+namespace Symplify\ModularDoctrineFilters\Adapter\Nette\Exception;
 
 use Exception;
 

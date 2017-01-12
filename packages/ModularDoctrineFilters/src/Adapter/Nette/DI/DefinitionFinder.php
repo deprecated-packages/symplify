@@ -1,10 +1,10 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\DoctrineFilters\Adapter\Nette\DI;
+namespace Symplify\ModularDoctrineFilters\Adapter\Nette\DI;
 
 use Nette\DI\ContainerBuilder;
 use Nette\DI\ServiceDefinition;
-use Symplify\DoctrineFilters\Exception\DefinitionForTypeNotFoundException;
+use Symplify\ModularDoctrineFilters\Adapter\Nette\Exception\DefinitionForTypeNotFoundException;
 
 final class DefinitionFinder
 {
@@ -42,10 +42,6 @@ final class DefinitionFinder
         if ($name = $this->containerBuilder->getByType($type)) {
             return $name;
         }
-
-//        foreach ($this->containerBuilder->findByType($type) as $name => $definition) {
-//            return $name;
-//        }
 
         throw new DefinitionForTypeNotFoundException(
             sprintf('Definition for type "%s" was not found.', $type)

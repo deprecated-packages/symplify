@@ -1,12 +1,12 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\ModularDoctrineFilters\Tests;
+namespace Symplify\ModularDoctrineFilters\Tests\Adapter\Symfony;
 
 use Doctrine\Bundle\DoctrineBundle\DoctrineBundle;
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\HttpKernel\Kernel;
-use Symplify\ModularDoctrineFilters\SymplifyModularDoctrineFiltersBundle;
+use Symplify\ModularDoctrineFilters\Adapter\Symfony\ModularDoctrineFiltersBundle;
 
 final class AppKernel extends Kernel
 {
@@ -20,7 +20,7 @@ final class AppKernel extends Kernel
         return [
             new FrameworkBundle,
             new DoctrineBundle,
-            new SymplifyModularDoctrineFiltersBundle,
+            new ModularDoctrineFiltersBundle,
         ];
     }
 

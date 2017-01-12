@@ -1,13 +1,14 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\ModularDoctrineFilters\Tests\Filter;
+namespace Symplify\ModularDoctrineFilters\Tests;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Query\FilterCollection;
 use PHPUnit\Framework\TestCase;
 use PHPUnit_Framework_Assert;
-use Symplify\ModularDoctrineFilters\Contract\Filter\FilterManagerInterface;
-use Symplify\ModularDoctrineFilters\Filter\FilterManager;
+use Symplify\ModularDoctrineFilters\Contract\FilterManagerInterface;
+use Symplify\ModularDoctrineFilters\FilterManager;
+use Symplify\ModularDoctrineFilters\Tests\Filter\SomeFilter;
 
 final class FilterManagerTest extends TestCase
 {
@@ -23,11 +24,7 @@ final class FilterManagerTest extends TestCase
 
     protected function setUp()
     {
-        $entityManagerMock = $this->prophesize(EntityManagerInterface::class);
-        $this->filterCollection = new FilterCollection($entityManagerMock->reveal());
-        $entityManagerMock->getFilters()->willReturn($this->filterCollection);
-
-        $this->filterManager = new FilterManager($entityManagerMock->reveal());
+        $this->filterManager = $this->createFilterManager();
     }
 
     public function testAddFilter()
@@ -50,5 +47,15 @@ final class FilterManagerTest extends TestCase
         $this->filterManager->enableFilters();
 
         $this->assertCount(2, $this->filterCollection->getEnabledFilters());
+    }
+
+    private function createFilterManager() : FilterManagerInterface
+    {
+        $entityManagerMock = $this->prophesize(EntityManagerInterface::class);
+        $this->filterCollection = new FilterCollection($entityManagerMock->reveal());
+        $entityManagerMock->getFilters()
+            ->willReturn($this->filterCollection);
+
+        return new FilterManager($entityManagerMock->reveal());
     }
 }

@@ -3,10 +3,10 @@
 namespace Symplify\ModularDoctrineFilters;
 
 use Doctrine\ORM\EntityManagerInterface;
-use ReflectionClass;
 use ReflectionProperty;
 use Symplify\ModularDoctrineFilters\Contract\Filter\FilterInterface;
 use Symplify\ModularDoctrineFilters\Contract\FilterManagerInterface;
+use Symplify\ModularDoctrineFilters\Reflection\PrivatesAccessor;
 
 final class FilterManager implements FilterManagerInterface
 {
@@ -70,14 +70,11 @@ final class FilterManager implements FilterManagerInterface
             return $this->enabledFiltersPropertyReflection;
         }
 
-        $filterCollection = $this->entityManager->getFilters();
+        $enabledFiltersReflection = PrivatesAccessor::accessClassProperty(
+            $this->entityManager->getFilters(),
+            'enabledFilters'
+        );
 
-        $filterCollectionReflection = new ReflectionClass($filterCollection);
-        $enabledFiltersReflection = $filterCollectionReflection->getProperty('enabledFilters');
-        $enabledFiltersReflection->setAccessible(true);
-
-        $this->enabledFiltersPropertyReflection = $enabledFiltersReflection;
-
-        return $this->enabledFiltersPropertyReflection;
+        return $this->enabledFiltersPropertyReflection = $enabledFiltersReflection;
     }
 }
