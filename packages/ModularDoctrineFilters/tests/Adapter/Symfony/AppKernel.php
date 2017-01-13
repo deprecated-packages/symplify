@@ -3,10 +3,13 @@
 namespace Symplify\ModularDoctrineFilters\Tests\Adapter\Symfony;
 
 use Doctrine\Bundle\DoctrineBundle\DoctrineBundle;
+use Nette\Utils\FileSystem;
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\HttpKernel\Kernel;
 use Symplify\ModularDoctrineFilters\Adapter\Symfony\ModularDoctrineFiltersBundle;
+use Symplify\Statie\Renderable\File\File;
+use Symplify\SymfonyEventDispatcher\Adapter\Symfony\SymfonyEventDispatcherBundle;
 
 final class AppKernel extends Kernel
 {
@@ -15,6 +18,7 @@ final class AppKernel extends Kernel
         return [
             new FrameworkBundle,
             new DoctrineBundle,
+            new SymfonyEventDispatcherBundle,
             new ModularDoctrineFiltersBundle,
         ];
     }
@@ -26,11 +30,14 @@ final class AppKernel extends Kernel
 
     public function getCacheDir() : string
     {
-        return sys_get_temp_dir() . '/modular-doctrine-filters';
+        $cacheDir = sys_get_temp_dir() . '/modular-doctrine-filters';
+        FileSystem::delete($cacheDir);
+        FileSystem::createDir($cacheDir);
+        return $cacheDir;
     }
 
     public function getLogDir() : string
     {
-        return sys_get_temp_dir() . '/modular-doctrine-filters';
+        return $this->getCacheDir();
     }
 }

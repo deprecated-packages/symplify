@@ -12,14 +12,14 @@ namespace Symplify\SymfonyEventDispatcher\Adapter\Symfony;
 use Symfony\Component\DependencyInjection\Compiler\PassConfig;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
-use Symplify\SymfonyEventDispatcher\Adapter\Symfony\DependencyInjection\Compiler\CollectSubscribersPass;
+use Symplify\SymfonyEventDispatcher\Adapter\Symfony\DependencyInjection\Compiler\CollectEventSubscribersPass;
 use Symplify\SymfonyEventDispatcher\Adapter\Symfony\DependencyInjection\Extension\ContainerExtension;
 
 final class SymfonyEventDispatcherBundle extends Bundle
 {
     public function build(ContainerBuilder $containerBuilder)
     {
-        $containerBuilder->addCompilerPass(new CollectSubscribersPass, PassConfig::TYPE_BEFORE_REMOVING);
+        $containerBuilder->addCompilerPass(new CollectEventSubscribersPass, PassConfig::TYPE_BEFORE_REMOVING);
     }
 
     public function getContainerExtension() : ContainerExtension

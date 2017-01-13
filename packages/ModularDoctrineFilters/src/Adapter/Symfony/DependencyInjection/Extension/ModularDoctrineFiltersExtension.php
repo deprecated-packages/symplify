@@ -16,7 +16,7 @@ final class ModularDoctrineFiltersExtension extends Extension
         (new YamlFileLoader($containerBuilder, new FileLocator(__DIR__ . '/../../../../config')))
             ->load('services.neon');
 
-        DefinitionFinder::getByType($containerBuilder, EnableFiltersSubscriber::class)
-            ->addTag('kernel.event_subscriber');
+//        DefinitionFinder::getByType($containerBuilder, EnableFiltersSubscriber::class)
+//            ->addTag('kernel.event_subscriber');
     }
 }

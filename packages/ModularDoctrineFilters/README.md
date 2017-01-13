@@ -46,6 +46,7 @@ class AppKernel extends Kernel
     public function registerBundles()
     {
         $bundles = [
+            new Symplify\SymfonyEventDispatcher\Adapter\Symfony\SymfonyEventDispatcherBundle,
             new Symplify\ModularDoctrineFilters\Adapter\Symfony\ModularDoctrineFiltersBundle,
             // ...
         ];

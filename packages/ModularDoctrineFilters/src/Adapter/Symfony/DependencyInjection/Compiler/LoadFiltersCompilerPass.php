@@ -7,6 +7,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 use Symplify\ModularDoctrineFilters\Contract\Filter\FilterInterface;
+use Symplify\PackageBuilder\Adapter\Symfony\DependencyInjection\DefinitionFinder;
 
 final class LoadFiltersCompilerPass implements CompilerPassInterface
 {
@@ -65,13 +66,17 @@ final class LoadFiltersCompilerPass implements CompilerPassInterface
      */
     private function getFiltersDefinitions() : array
     {
-        $filters = [];
-        foreach ($this->containerBuilder->getDefinitions() as $name => $definition) {
-            if (is_subclass_of($definition->getClass(), FilterInterface::class)) {
-                $filters[$name] = $definition;
-            }
-        }
-
-        return $filters;
+        return DefinitionFinder::findAllByType($this->containerBuilder, FilterInterface::class);
+//        dump('EE_' . __METHOD__);
+//        die;
+//
+//        $filters = [];
+//        foreach ($this->containerBuilder->getDefinitions() as $name => $definition) {
+//            if (is_subclass_of($definition->getClass(), FilterInterface::class)) {
+//                $filters[$name] = $definition;
+//            }
+//        }
+//
+//        return $filters;
     }
 }
