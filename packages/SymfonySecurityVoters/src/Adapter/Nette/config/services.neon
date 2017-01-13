@@ -1,0 +1,10 @@
+services:
+	- Symplify\SymfonySecurityVoters\EventSubscriber\CheckRequirementsSubscriber
+#	- Symfony\Component\Security\Core\Authorization\AuthorizationChecker
+
+	# access decision manager
+	- Symplify\SymfonySecurityVoters\Voter\DummyVoter
+	- Symplify\SymfonySecurityVoters\Authorization\AccessDecisionManagerFactory
+	-
+		class: Symfony\Component\Security\Core\Authorization\AccessDecisionManager
+		factory: [@Symplify\SymfonySecurityVoters\Authorization\AccessDecisionManagerFactory, create]
