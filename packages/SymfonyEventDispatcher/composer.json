@@ -6,9 +6,9 @@
         "php": "^7.1",
         "nette/di": "^2.4",
         "nette/http": "^2.4",
-        "symfony/event-dispatcher": "^3.2"
-        "symfony/depe": "^3.2",
-        "symplify/dependency-injection-utils": "@dev"
+        "symfony/event-dispatcher": "^3.2",
+        "symfony/dependency-injection": "^3.2",
+        "symplify/package-builder": "@dev"
     },
     "require-dev": {
         "kdyby/console": "^2.4",
@@ -29,9 +29,6 @@
             "Symplify\\SymfonyEventDispatcher\\Tests\\": "tests"
         }
     },
-    "repositories": [
-        { "type": "path", "url": "packages/dependency-injection-utils" }
-    ],
     "scripts": {
         "check-cs": "vendor/bin/symplify-cs check src tests",
         "fix-cs": "vendor/bin/symplify-cs fix src tests"

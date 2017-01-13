@@ -1,5 +1,5 @@
 {
-    "name": "symplify/dependency-injection-utils",
+    "name": "symplify/package-builder",
     "require": {
         "php": "^7.1",
         "nette/di": "^2.4",
@@ -8,7 +8,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Symplify\\DependencyInjectionUtils\\": "src"
+            "Symplify\\PackageBuilder\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Symplify\\PackageBuilder\\Tests": "tests"
         }
     }
 }

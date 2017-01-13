@@ -19,11 +19,11 @@ final class SymfonyEventDispatcherBundle extends Bundle
 {
     public function build(ContainerBuilder $containerBuilder)
     {
-        $containerBuilder->addCompilerPass(new CollectSubscribersPass(), PassConfig::TYPE_BEFORE_REMOVING);
+        $containerBuilder->addCompilerPass(new CollectSubscribersPass, PassConfig::TYPE_BEFORE_REMOVING);
     }
 
     public function getContainerExtension() : ContainerExtension
     {
-        return new ContainerExtension();
+        return new ContainerExtension;
     }
 }

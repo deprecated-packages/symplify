@@ -11,7 +11,7 @@ final class ContainerExtension extends Extension
 {
     public function load(array $configs, ContainerBuilder $containerBuilder)
     {
-        $loader = new YamlFileLoader($containerBuilder, new FileLocator(__DIR__ . '/../../../../config'));
-        $loader->load('services.neon');
+        (new YamlFileLoader($containerBuilder, new FileLocator(__DIR__ . '/../../../../config')))
+            ->load('services.neon');
     }
 }
