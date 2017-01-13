@@ -6,8 +6,6 @@ use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\Extension;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
-use Symplify\ModularDoctrineFilters\EventSubscriber\EnableFiltersSubscriber;
-use Symplify\PackageBuilder\Adapter\Symfony\DependencyInjection\DefinitionFinder;
 
 final class ModularDoctrineFiltersExtension extends Extension
 {
@@ -15,8 +13,5 @@ final class ModularDoctrineFiltersExtension extends Extension
     {
         (new YamlFileLoader($containerBuilder, new FileLocator(__DIR__ . '/../../../../config')))
             ->load('services.neon');
-
-//        DefinitionFinder::getByType($containerBuilder, EnableFiltersSubscriber::class)
-//            ->addTag('kernel.event_subscriber');
     }
 }
