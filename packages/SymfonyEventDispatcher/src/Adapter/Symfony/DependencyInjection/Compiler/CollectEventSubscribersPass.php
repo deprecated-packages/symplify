@@ -8,8 +8,8 @@ use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\EventDispatcher\ContainerAwareEventDispatcher;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symplify\PackageBuilder\Adapter\Symfony\DependencyInjection\DefinitionFinder;
 use Symplify\PackageBuilder\Adapter\Symfony\DependencyInjection\DefinitionCollector;
+use Symplify\PackageBuilder\Adapter\Symfony\DependencyInjection\DefinitionFinder;
 
 final class CollectEventSubscribersPass implements CompilerPassInterface
 {
