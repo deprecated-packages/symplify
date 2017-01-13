@@ -1,0 +1,3 @@
+services:
+    symplify.event_dispatcher:
+        class: Symfony\Component\EventDispatcher\EventDispatcher

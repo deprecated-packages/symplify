@@ -16,7 +16,7 @@ final class EventDispatcherTest extends TestCase
     {
         $container = (new ContainerFactory)->create();
 
-        $eventDispatcher = $container->getByType(EventDispatcherInterface::class);
-        $eventDispatcher->dispatch('subscriber.event');
+        $container->getByType(EventDispatcherInterface::class)
+            ->dispatch('subscriber.event');
     }
 }

@@ -91,19 +91,13 @@ use Symplify\SymfonySecurity\Contract\HttpFoundation\RequestMatcherInterface;
 class AdminRequestMatcher implements RequestMatcherInterface
 {
 
-	/**
-	 * {@inheritdoc}
-	 */
-	public function getFirewallName()
+	public function getFirewallName() : string
 	{
 		return 'adminSecurity';
 	}
 	
 	
-	/**
-	 * {@inheritdoc}
-	 */
-	public function matches(Request $request)
+	public function matches(Request $request) : bool
 	{
 		$url = $request->getPathInfo();
 		return strpos($url, '/admin') === 0;
@@ -140,18 +134,12 @@ class LoggedAdminFirewallListener implements FirewallListenerInterface
 	}
 	
 	
-	/**
-	 * {@inheritdoc}
-	 */
-	public function getFirewallName()
+	public function getFirewallName() : string
 	{
 		return 'adminSecurity';
 	}
 
 	
-	/**
-	 * {@inheritdoc}
-	 */
 	public function handle(Application $application, Request $applicationRequest)
 	{
 		if ( ! $this->user->isLoggedIn()) {

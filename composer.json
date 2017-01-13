@@ -56,7 +56,9 @@
 
         "friendsofphp/php-cs-fixer": "^2.0",
         "squizlabs/php_codesniffer": "^2.7",
-        "zenify/modular-latte-filters": "^4.2"
+        "zenify/modular-latte-filters": "^4.2",
+
+        "symplify/package-builder": "@dev"
     },
     "require-dev": {
         "phpunit/phpunit": "^5.7",
@@ -88,6 +90,7 @@
             "Symplify\\Statie\\": "packages/Statie/src",
             "Symplify\\SymfonySecurity\\": "packages/SymfonySecurity/src",
             "Symplify\\SymfonyEventDispatcher\\": "packages/SymfonyEventDispatcher/src",
+            "Symplify\\PackageBuilder\\": "packages/PackageBuilder/src",
 
             "Zenify\\ModularLatteFilters\\": "packages/ModularLatteFilters/src",
             "Zenify\\NetteDatabaseFilters\\": "packages/NetteDatabaseFilters/src",
@@ -112,6 +115,7 @@
             "React\\Tests\\Http\\": "vendor/react/http/tests",
             "Symplify\\SymfonySecurity\\Tests\\": "packages/SymfonySecurity/tests",
             "Symplify\\SymfonyEventDispatcher\\Tests\\": "packages/SymfonyEventDispatcher/tests",
+            "Symplify\\PackageBuilder\\Tests\\": "packages/PackageBuilder/tests",
 
             "Zenify\\ModularLatteFilters\\Tests\\": "packages/ModularLatteFilters/tests",
             "Zenify\\NetteDatabaseFilters\\Tests\\": "packages/NetteDatabaseFilters/tests",
@@ -124,6 +128,9 @@
             "packages/Statie/bin/include-autoload.php"
         ]
     },
+    "repositories": [
+        { "type": "path", "url": "packages/PackageBuilder" }
+    ],
     "scripts": {
         "complete-check": ["vendor/bin/phpunit", "@fix-cs", "@phpstan"],
         "check-cs": "packages/CodingStandard/bin/symplify-cs check packages/*/src packages/*/tests",

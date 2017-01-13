@@ -8,6 +8,7 @@ use Nette\DI\CompilerExtension;
 use Symplify\ModularDoctrineFilters\Contract\Filter\FilterInterface;
 use Symplify\ModularDoctrineFilters\Contract\FilterManagerInterface;
 use Symplify\ModularDoctrineFilters\EventSubscriber\EnableFiltersSubscriber;
+use Symplify\PackageBuilder\Adapter\Nette\DI\DefinitionFinder;
 
 final class ModularDoctrineFiltersExtension extends CompilerExtension
 {

@@ -2,12 +2,15 @@
 
 namespace Symplify\SymfonyEventDispatcher\Adapter\Nette\DI;
 
+use Nette\DI\Compiler;
 use Nette\DI\CompilerExtension;
 use Nette\DI\ServiceDefinition;
 use Nette\DI\Statement;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symplify\PackageBuilder\Adapter\Nette\DI\DefinitionCollector;
+use Symplify\PackageBuilder\Adapter\Nette\DI\DefinitionFinder;
 
 final class SymfonyEventDispatcherExtension extends CompilerExtension
 {
@@ -17,14 +20,15 @@ final class SymfonyEventDispatcherExtension extends CompilerExtension
             return;
         }
 
-        $containerBuilder = $this->getContainerBuilder();
-        $containerBuilder->addDefinition($this->prefix('symfony.eventDispatcher'))
-            ->setClass(EventDispatcher::class);
+        Compiler::loadDefinitions(
+            $this->getContainerBuilder(),
+            $this->loadFromFile(__DIR__ . '/../../../config/services.neon')['services']
+        );
     }
 
     public function beforeCompile() : void
     {
-        $eventDispatcher = $this->getDefinitionByType(EventDispatcherInterface::class);
+        $eventDispatcher = DefinitionFinder::getByType($this->getContainerBuilder(), EventDispatcherInterface::class);
 
         if ($this->isKdybyEventsRegistered()) {
             $eventDispatcher->setClass(EventDispatcher::class)
@@ -32,8 +36,8 @@ final class SymfonyEventDispatcherExtension extends CompilerExtension
         }
 
         $this->addSubscribersToEventDispatcher();
-        $this->bindNetteEvents();
         $this->bindEventDispatcherToSymfonyConsole();
+        $this->bindNetteEvents();
     }
 
     private function isKdybyEventsRegistered() : bool
@@ -43,20 +47,12 @@ final class SymfonyEventDispatcherExtension extends CompilerExtension
 
     private function addSubscribersToEventDispatcher() : void
     {
-        $containerBuilder = $this->getContainerBuilder();
-        $eventDispatcher = $this->getDefinitionByType(EventDispatcherInterface::class);
-
-        foreach ($containerBuilder->findByType(EventSubscriberInterface::class) as $eventSubscriberDefinition) {
-            $eventDispatcher->addSetup('addSubscriber', ['@' . $eventSubscriberDefinition->getClass()]);
-        }
-    }
-
-    private function getDefinitionByType(string $type) : ServiceDefinition
-    {
-        $containerBuilder = $this->getContainerBuilder();
-        $definitionName = $containerBuilder->getByType($type);
-
-        return $containerBuilder->getDefinition($definitionName);
+        DefinitionCollector::loadCollectorWithType(
+            $this->getContainerBuilder(),
+            EventDispatcherInterface::class,
+            EventSubscriberInterface::class,
+            'addSubscriber'
+        );
     }
 
     private function bindNetteEvents() : void
@@ -83,7 +79,11 @@ final class SymfonyEventDispatcherExtension extends CompilerExtension
 			$class = ?;
 			$event = new $class(...func_get_args());
 			?->dispatch(?, $event);
-		}', [$netteEvent->getEventClass(), '@' . EventDispatcherInterface::class, $netteEvent->getEventName()]);
+		}', [
+            $netteEvent->getEventClass(),
+            '@' . EventDispatcherInterface::class,
+            $netteEvent->getEventName()
+        ]);
 
         $serviceDefinition->addSetup('$service->?[] = ?;', [$netteEvent->getProperty(), $propertyStatement]);
     }
@@ -92,8 +92,8 @@ final class SymfonyEventDispatcherExtension extends CompilerExtension
     {
         $containerBuilder = $this->getContainerBuilder();
         if ($consoleApplicationName = $containerBuilder->getByType('Symfony\Component\Console\Application')) {
-            $consoleApplicationDefinition = $containerBuilder->getDefinition($consoleApplicationName);
-            $consoleApplicationDefinition->addSetup('setDispatcher');
+            $containerBuilder->getDefinition($consoleApplicationName)
+                ->addSetup('setDispatcher');
         }
     }
 }

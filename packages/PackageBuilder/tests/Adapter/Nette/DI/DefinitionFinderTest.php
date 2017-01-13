@@ -1,11 +1,11 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\ModularDoctrineFilters\Tests\Adapter\Nette\DI;
+namespace Symplify\PackageBuilder\Tests\Adapter\Nette\DI;
 
 use Nette\DI\ContainerBuilder;
 use PHPUnit\Framework\TestCase;
 use stdClass;
-use Symplify\ModularDoctrineFilters\Adapter\Nette\DI\DefinitionFinder;
+use Symplify\PackageBuilder\Adapter\Nette\DI\DefinitionFinder;
 
 final class DefinitionFinderTest extends TestCase
 {

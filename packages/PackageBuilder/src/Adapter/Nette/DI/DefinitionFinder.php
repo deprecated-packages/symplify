@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\ModularDoctrineFilters\Adapter\Nette\DI;
+namespace Symplify\PackageBuilder\Adapter\Nette\DI;
 
 use Nette\DI\ContainerBuilder;
 use Nette\DI\ServiceDefinition;

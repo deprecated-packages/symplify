@@ -35,9 +35,7 @@ final class ControllerFinder implements ControllerFinderInterface
         $controllerClasses = array_keys($robot->getIndexedClasses());
         sort($controllerClasses);
 
-        $controllerClasses = $this->prepareServiceKeys($controllerClasses);
-
-        return $controllerClasses;
+        return $this->prepareServiceKeys($controllerClasses);
     }
 
     private function prepareServiceKeys(array $controllerClasses) : array

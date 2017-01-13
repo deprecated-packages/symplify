@@ -1,0 +1,19 @@
+{
+    "name": "symplify/package-builder",
+    "require": {
+        "php": "^7.1",
+        "nette/di": "^2.4",
+        "nette/neon": "^2.4",
+        "symfony/dependency-injection": "^3.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "Symplify\\PackageBuilder\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Symplify\\PackageBuilder\\Tests": "tests"
+        }
+    }
+}

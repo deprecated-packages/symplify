@@ -33,6 +33,7 @@ final class MethodCommentReturnTypeSniff implements PHP_CodeSniffer_Sniff
     private $position;
 
     /**
+<<<<<<< 5cd59f9784c144a7a320f3072d016ce771655456
      * @var array
      */
     private $tokens;
