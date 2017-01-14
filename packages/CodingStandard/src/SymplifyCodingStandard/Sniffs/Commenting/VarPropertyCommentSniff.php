@@ -2,8 +2,8 @@
 
 namespace SymplifyCodingStandard\Sniffs\Commenting;
 
-use PHP_CodeSniffer_File;
-use PHP_CodeSniffer_Standards_AbstractVariableSniff;
+use PHP_CodeSniffer\Files\File;
+use PHP_CodeSniffer\Sniffs\AbstractVariableSniff;
 
 /**
  * Rules:
@@ -12,7 +12,7 @@ use PHP_CodeSniffer_Standards_AbstractVariableSniff;
  * @see PHP_CodeSniffer_Standards_AbstractVariableSniff is used, because it's very difficult to
  * separate properties from variables (in args, method etc.). This class does is for us.
  */
-final class VarPropertyCommentSniff extends PHP_CodeSniffer_Standards_AbstractVariableSniff
+final class VarPropertyCommentSniff extends AbstractVariableSniff
 {
     /**
      * @var string
@@ -20,10 +20,10 @@ final class VarPropertyCommentSniff extends PHP_CodeSniffer_Standards_AbstractVa
     public const NAME = 'SymplifyCodingStandard.Commenting.VarPropertyComment';
 
     /**
-     * @param PHP_CodeSniffer_File $file
+     * @param File $file
      * @param int $position
      */
-    protected function processMemberVar(PHP_CodeSniffer_File $file, $position) : void
+    protected function processMemberVar(File $file, $position) : void
     {
         $commentString = $this->getPropertyComment($file, $position);
 
@@ -35,22 +35,22 @@ final class VarPropertyCommentSniff extends PHP_CodeSniffer_Standards_AbstractVa
     }
 
     /**
-     * @param PHP_CodeSniffer_File $file
+     * @param File $file
      * @param int $position
      */
-    protected function processVariable(PHP_CodeSniffer_File $file, $position)
+    protected function processVariable(File $file, $position)
     {
     }
 
     /**
-     * @param PHP_CodeSniffer_File $file
+     * @param File $file
      * @param int $position
      */
-    protected function processVariableInString(PHP_CodeSniffer_File $file, $position) : void
+    protected function processVariableInString(File $file, $position) : void
     {
     }
 
-    private function getPropertyComment(PHP_CodeSniffer_File $file, int $position) : string
+    private function getPropertyComment(File $file, int $position) : string
     {
         $commentEnd = $file->findPrevious([T_DOC_COMMENT_CLOSE_TAG], $position);
         if ($commentEnd === false) {

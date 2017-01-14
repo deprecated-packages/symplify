@@ -2,14 +2,14 @@
 
 namespace SymplifyCodingStandard\Sniffs\Commenting;
 
-use PHP_CodeSniffer_File;
-use PHP_CodeSniffer_Sniff;
+use PHP_CodeSniffer\Files\File;
+use PHP_CodeSniffer\Sniffs\Sniff;
 
 /**
  * Rules:
  * - Block comment should be used instead of one liner.
  */
-final class BlockPropertyCommentSniff implements PHP_CodeSniffer_Sniff
+final class BlockPropertyCommentSniff implements Sniff
 {
     /**
      * @var string
@@ -17,7 +17,7 @@ final class BlockPropertyCommentSniff implements PHP_CodeSniffer_Sniff
     public const NAME = 'SymplifyCodingStandard.Commenting.BlockPropertyComment';
 
     /**
-     * @var PHP_CodeSniffer_File
+     * @var File
      */
     private $file;
 
@@ -40,10 +40,10 @@ final class BlockPropertyCommentSniff implements PHP_CodeSniffer_Sniff
     }
 
     /**
-     * @param PHP_CodeSniffer_File $file
+     * @param File $file
      * @param int $position
      */
-    public function process(PHP_CodeSniffer_File $file, $position) : void
+    public function process(File $file, $position) : void
     {
         $this->file = $file;
         $this->tokens = $file->getTokens();

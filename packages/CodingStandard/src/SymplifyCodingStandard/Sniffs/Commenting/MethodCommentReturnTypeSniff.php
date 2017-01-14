@@ -2,15 +2,15 @@
 
 namespace SymplifyCodingStandard\Sniffs\Commenting;
 
-use PHP_CodeSniffer_File;
-use PHP_CodeSniffer_Sniff;
+use PHP_CodeSniffer\Files\File;
+use PHP_CodeSniffer\Sniffs\Sniff;
 use Symplify\CodingStandard\Helper\Commenting\FunctionHelper;
 
 /**
  * Rules:
  * - Getters should have @return tag or return type (except {@inheritdoc}).
  */
-final class MethodCommentReturnTypeSniff implements PHP_CodeSniffer_Sniff
+final class MethodCommentReturnTypeSniff implements Sniff
 {
     /**
      * @var string
@@ -23,7 +23,7 @@ final class MethodCommentReturnTypeSniff implements PHP_CodeSniffer_Sniff
     private $getterMethodPrefixes = ['get', 'is', 'has', 'will', 'should'];
 
     /**
-     * @var PHP_CodeSniffer_File
+     * @var File
      */
     private $file;
 
@@ -46,10 +46,10 @@ final class MethodCommentReturnTypeSniff implements PHP_CodeSniffer_Sniff
     }
 
     /**
-     * @param PHP_CodeSniffer_File $file
+     * @param File $file
      * @param int $position
      */
-    public function process(PHP_CodeSniffer_File $file, $position) : void
+    public function process(File $file, $position) : void
     {
         $this->file = $file;
         $this->position = $position;

@@ -2,8 +2,8 @@
 
 namespace SymplifyCodingStandard\Sniffs\Commenting;
 
-use PHP_CodeSniffer_File;
-use PHP_CodeSniffer_Sniff;
+use PHP_CodeSniffer\Files\File;
+use PHP_CodeSniffer\Sniffs\Sniff;
 use Symplify\CodingStandard\Helper\Commenting\FunctionHelper;
 
 /**
@@ -12,7 +12,7 @@ use Symplify\CodingStandard\Helper\Commenting\FunctionHelper;
  * - CreateComponent* method should have a return tag.
  * - Return tag should contain type.
  */
-final class ComponentFactoryCommentSniff implements PHP_CodeSniffer_Sniff
+final class ComponentFactoryCommentSniff implements Sniff
 {
     /**
      * @var string
@@ -25,7 +25,7 @@ final class ComponentFactoryCommentSniff implements PHP_CodeSniffer_Sniff
     private $position;
 
     /**
-     * @var PHP_CodeSniffer_File
+     * @var File
      */
     private $file;
 
@@ -40,10 +40,10 @@ final class ComponentFactoryCommentSniff implements PHP_CodeSniffer_Sniff
     }
 
     /**
-     * @param PHP_CodeSniffer_File $file
+     * @param File $file
      * @param int $position
      */
-    public function process(PHP_CodeSniffer_File $file, $position)
+    public function process(File $file, $position)
     {
         $this->file = $file;
         $this->position = $position;

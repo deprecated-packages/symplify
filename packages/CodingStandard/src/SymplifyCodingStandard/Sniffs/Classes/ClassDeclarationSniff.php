@@ -2,15 +2,15 @@
 
 namespace SymplifyCodingStandard\Sniffs\Classes;
 
-use PEAR_Sniffs_Classes_ClassDeclarationSniff;
-use PHP_CodeSniffer_File;
+use PHP_CodeSniffer\Standards\PEAR\Sniffs\Classes\ClassDeclarationSniff as PearClassDeclarationSniff;
+use PHP_CodeSniffer\Files\File;
 
 /**
  * Rules (new to parent class):
  * - Opening brace for the %s should be followed by %s empty line(s).
  * - Closing brace for the %s should be preceded by %s empty line(s).
  */
-final class ClassDeclarationSniff extends PEAR_Sniffs_Classes_ClassDeclarationSniff
+final class ClassDeclarationSniff extends PearClassDeclarationSniff
 {
     /**
      * @var string
@@ -28,7 +28,7 @@ final class ClassDeclarationSniff extends PEAR_Sniffs_Classes_ClassDeclarationSn
     public $emptyLinesBeforeClosingBrace = 0;
 
     /**
-     * @var PHP_CodeSniffer_File
+     * @var File
      */
     private $file;
 
@@ -43,10 +43,10 @@ final class ClassDeclarationSniff extends PEAR_Sniffs_Classes_ClassDeclarationSn
     private $tokens;
 
     /**
-     * @param PHP_CodeSniffer_File $file
+     * @param File $file
      * @param int $position
      */
-    public function process(PHP_CodeSniffer_File $file, $position) : void
+    public function process(File $file, $position) : void
     {
         parent::process($file, $position);
         $this->file = $file;

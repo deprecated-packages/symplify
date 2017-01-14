@@ -2,8 +2,8 @@
 
 namespace SymplifyCodingStandard\Sniffs\Namespaces;
 
-use PHP_CodeSniffer_File;
-use PHP_CodeSniffer_Sniff;
+use PHP_CodeSniffer\Files\File;
+use PHP_CodeSniffer\Sniffs\Sniff;
 use Symplify\CodingStandard\Helper\Whitespace\ClassMetrics;
 use Symplify\CodingStandard\Helper\Whitespace\WhitespaceFinder;
 
@@ -11,7 +11,7 @@ use Symplify\CodingStandard\Helper\Whitespace\WhitespaceFinder;
  * Rules:
  * - There must be x empty line(s) after the namespace declaration or y empty line(s) followed by use statement.
  */
-final class NamespaceDeclarationSniff implements PHP_CodeSniffer_Sniff
+final class NamespaceDeclarationSniff implements Sniff
 {
     /**
      * @var string
@@ -29,7 +29,7 @@ final class NamespaceDeclarationSniff implements PHP_CodeSniffer_Sniff
     private $emptyLinesBeforeUseStatement = 1;
 
     /**
-     * @var PHP_CodeSniffer_File
+     * @var File
      */
     private $file;
 
@@ -57,10 +57,10 @@ final class NamespaceDeclarationSniff implements PHP_CodeSniffer_Sniff
     }
 
     /**
-     * @param PHP_CodeSniffer_File $file
+     * @param File $file
      * @param int $position
      */
-    public function process(PHP_CodeSniffer_File $file, $position) : void
+    public function process(File $file, $position) : void
     {
         $classPosition = $file->findNext([T_CLASS, T_TRAIT, T_INTERFACE], $position);
 

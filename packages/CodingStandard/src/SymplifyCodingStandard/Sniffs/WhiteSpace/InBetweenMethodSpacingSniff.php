@@ -2,8 +2,8 @@
 
 namespace SymplifyCodingStandard\Sniffs\WhiteSpace;
 
-use PHP_CodeSniffer_File;
-use Squiz_Sniffs_WhiteSpace_FunctionSpacingSniff;
+use PHP_CodeSniffer\Files\File;
+use PHP_CodeSniffer\Standards\Squiz\Sniffs\WhiteSpace\FunctionSpacingSniff;
 use Symplify\CodingStandard\Helper\Whitespace\EmptyLinesResizer;
 
 /**
@@ -14,7 +14,7 @@ use Symplify\CodingStandard\Helper\Whitespace\EmptyLinesResizer;
  * - Method is the first in the class, preceded by open bracket.
  * - Method is the last in the class, followed by close bracket.
  */
-final class InBetweenMethodSpacingSniff extends Squiz_Sniffs_WhiteSpace_FunctionSpacingSniff
+final class InBetweenMethodSpacingSniff extends FunctionSpacingSniff
 {
     /**
      * @var string
@@ -37,7 +37,7 @@ final class InBetweenMethodSpacingSniff extends Squiz_Sniffs_WhiteSpace_Function
     private $tokens;
 
     /**
-     * @var PHP_CodeSniffer_File
+     * @var File
      */
     private $file;
 
@@ -50,10 +50,10 @@ final class InBetweenMethodSpacingSniff extends Squiz_Sniffs_WhiteSpace_Function
     }
 
     /**
-     * @param PHP_CodeSniffer_File $file
+     * @param File $file
      * @param int $position
      */
-    public function process(PHP_CodeSniffer_File $file, $position) : void
+    public function process(File $file, $position) : void
     {
         $this->file = $file;
         $this->position = $position;

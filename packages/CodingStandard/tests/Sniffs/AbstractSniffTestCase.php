@@ -4,15 +4,15 @@ namespace Symplify\CodingStandard\Tests\Sniffs;
 
 use Nette\Utils\Finder;
 use Nette\Utils\Strings;
-use PHP_CodeSniffer;
-use PHP_CodeSniffer_File;
+use File;
+use PHP_CodeSniffer\Runner;
 use PHPUnit\Framework\TestCase;
 use SplFileInfo;
 
 abstract class AbstractSniffTestCase extends TestCase
 {
     /**
-     * @var PHP_CodeSniffer
+     * @var Runner
      */
     private $codeSniffer;
 
@@ -31,7 +31,9 @@ abstract class AbstractSniffTestCase extends TestCase
 
     private function runSniffTestForCorrectFile(SplFileInfo $file) : void
     {
-        $errorCount = $this->codeSniffer->processFile($file->getPath())
+        $this->codeSniffer->processFile($file->getPath());
+
+        $errorCount = $this->codeSniffer->processFile($file->getPath();
             ->getErrorCount();
 
         $this->assertSame(
@@ -72,7 +74,7 @@ abstract class AbstractSniffTestCase extends TestCase
         return iterator_to_array($iterator);
     }
 
-    private function runSniffFixerTestIfPresent(SplFileInfo $file, PHP_CodeSniffer_File $processedFile) : void
+    private function runSniffFixerTestIfPresent(SplFileInfo $file, File $processedFile) : void
     {
         $fixedFileName = $this->getFixedFileName($file);
 

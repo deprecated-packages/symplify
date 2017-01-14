@@ -2,11 +2,11 @@
 
 namespace Symplify\CodingStandard\Helper\Commenting;
 
-use PHP_CodeSniffer_File;
+use File;
 
 final class MethodDocBlock
 {
-    public static function hasMethodDocBlock(PHP_CodeSniffer_File $file, int $position) : bool
+    public static function hasMethodDocBlock(File $file, int $position) : bool
     {
         $tokens = $file->getTokens();
         $currentToken = $tokens[$position];
@@ -24,7 +24,7 @@ final class MethodDocBlock
         return false;
     }
 
-    public static function getMethodDocBlock(PHP_CodeSniffer_File $file, int $position) : string
+    public static function getMethodDocBlock(File $file, int $position) : string
     {
         if (! self::hasMethodDocBlock($file, $position)) {
             return '';

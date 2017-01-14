@@ -7,14 +7,14 @@ use PHP_CodeSniffer\Sniffs\Sniff;
 
 /**
  * Rules:
- * - Interface should have suffix "Interface".
+ * - Trait should have suffix "Trait".
  */
-final class InterfaceNameSniff implements Sniff
+final class TraitNameSniff implements Sniff
 {
     /**
      * @var string
      */
-    public const NAME = 'SymplifyCodingStandard.Naming.InterfaceName';
+    public const NAME = 'SymplifyCodingStandard.Naming.TraitName';
 
     /**
      * @var File
@@ -31,7 +31,7 @@ final class InterfaceNameSniff implements Sniff
      */
     public function register() : array
     {
-        return [T_INTERFACE];
+        return [T_TRAIT];
     }
 
     /**
@@ -43,12 +43,12 @@ final class InterfaceNameSniff implements Sniff
         $this->file = $file;
         $this->position = $position;
 
-        $interfaceName = $this->getInterfaceName();
-        if ((strlen($interfaceName) - strlen('Interface')) === strrpos($interfaceName, 'Interface')) {
+        $interfaceName = $this->getTraitName();
+        if ((strlen($interfaceName) - strlen('Trait')) === strrpos($interfaceName, 'Trait')) {
             return;
         }
 
-        $fix = $file->addFixableError('Interface should have suffix "Interface".', $position);
+        $fix = $file->addFixableError('Trait should have suffix "Trait".', $position);
 
         if ($fix === true) {
             $this->fix();
@@ -58,9 +58,9 @@ final class InterfaceNameSniff implements Sniff
     /**
      * @return string|false
      */
-    private function getInterfaceName()
+    private function getTraitName()
     {
-        $namePosition = $this->getInterfaceNamePosition();
+        $namePosition = $this->getTraitNamePosition();
         if (! $namePosition) {
             return false;
         }
@@ -71,15 +71,13 @@ final class InterfaceNameSniff implements Sniff
     /**
      * @return bool|int
      */
-    private function getInterfaceNamePosition()
+    private function getTraitNamePosition()
     {
         return $this->file->findNext(T_STRING, $this->position);
     }
 
     private function fix() : void
     {
-        $interfaceNamePosition = $this->getInterfaceNamePosition();
-
-        $this->file->fixer->addContent($interfaceNamePosition, 'Interface');
+        $this->file->fixer->addContent($this->getTraitNamePosition(), 'Trait');
     }
 }
