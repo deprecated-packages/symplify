@@ -94,6 +94,7 @@
             "Symplify\\SymfonyEventDispatcher\\": "packages/SymfonyEventDispatcher/src",
             "Symplify\\SymfonySecurityVoters\\": "packages/SymfonySecurityVoters/src",
             "Symplify\\PackageBuilder\\": "packages/PackageBuilder/src",
+            "Symplify\\MultiCodingStandard\\": "packages/MultiCodingStandard/src",
 
             "Zenify\\ModularLatteFilters\\": "packages/ModularLatteFilters/src",
             "Zenify\\DoctrineFixtures\\": "packages/DoctrineFixtures/src",
@@ -117,6 +118,7 @@
             "Symplify\\SymfonyEventDispatcher\\Tests\\": "packages/SymfonyEventDispatcher/tests",
             "Symplify\\SymfonySecurityVoters\\Tests\\": "packages/SymfonySecurityVoters/tests",
             "Symplify\\PackageBuilder\\Tests\\": "packages/PackageBuilder/tests",
+            "Symplify\\MultiCodingStandard\\Tests\\": "packages/MultiCodingStandard/tests",
 
             "Zenify\\ModularLatteFilters\\Tests\\": "packages/ModularLatteFilters/tests",
             "Zenify\\DoctrineFixtures\\Tests\\": "packages/DoctrineFixtures/tests",
@@ -129,7 +131,7 @@
         ]
     },
     "repositories": [
-        { "type": "path", "url": "packages/PackageBuilder", }
+        { "type": "path", "url": "packages/PackageBuilder" },
         { "type": "path", "url": "packages/PHP7_CodeSniffer" }
     ],
     "scripts": {
