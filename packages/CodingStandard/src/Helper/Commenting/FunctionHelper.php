@@ -2,14 +2,14 @@
 
 namespace Symplify\CodingStandard\Helper\Commenting;
 
-use PHP_CodeSniffer_File;
+use File;
 
 /**
  * Inspired by https://github.com/slevomat/coding-standard/blob/4f81f58625bf86bd91f7fc6f8e4d12160bf03c7c/SlevomatCodingStandard/Helpers/FunctionHelper.php
  */
 final class FunctionHelper
 {
-    public static function isAbstract(PHP_CodeSniffer_File $codeSnifferFile, int $functionPointer): bool
+    public static function isAbstract(File $codeSnifferFile, int $functionPointer): bool
     {
         return ! isset($codeSnifferFile->getTokens()[$functionPointer]['scope_opener']);
     }
@@ -17,7 +17,7 @@ final class FunctionHelper
     /**
      * @return string|void
      */
-    public static function findReturnTypeHint(PHP_CodeSniffer_File $codeSnifferFile, int $functionPointer)
+    public static function findReturnTypeHint(File $codeSnifferFile, int $functionPointer)
     {
         $tokens = $codeSnifferFile->getTokens();
         $isAbstract = self::isAbstract($codeSnifferFile, $functionPointer);

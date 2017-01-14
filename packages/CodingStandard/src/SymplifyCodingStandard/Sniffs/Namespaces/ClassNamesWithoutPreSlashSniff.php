@@ -2,14 +2,14 @@
 
 namespace SymplifyCodingStandard\Sniffs\Namespaces;
 
-use PHP_CodeSniffer_File;
-use PHP_CodeSniffer_Sniff;
+use PHP_CodeSniffer\Files\File;
+use PHP_CodeSniffer\Sniffs\Sniff;
 
 /**
  * Rules:
  * - Class name after new/instanceof should not start with slash.
  */
-final class ClassNamesWithoutPreSlashSniff implements PHP_CodeSniffer_Sniff
+final class ClassNamesWithoutPreSlashSniff implements Sniff
 {
     /**
      * @var string
@@ -32,10 +32,10 @@ final class ClassNamesWithoutPreSlashSniff implements PHP_CodeSniffer_Sniff
     }
 
     /**
-     * @param PHP_CodeSniffer_File $file
+     * @param File $file
      * @param int $position
      */
-    public function process(PHP_CodeSniffer_File $file, $position) : void
+    public function process(File $file, $position) : void
     {
         $tokens = $file->getTokens();
         $classNameStart = $tokens[$position + 2]['content'];

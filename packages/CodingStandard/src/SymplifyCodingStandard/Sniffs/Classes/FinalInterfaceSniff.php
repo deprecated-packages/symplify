@@ -2,8 +2,8 @@
 
 namespace SymplifyCodingStandard\Sniffs\Classes;
 
-use PHP_CodeSniffer_File;
-use PHP_CodeSniffer_Sniff;
+use PHP_CodeSniffer\Files\File;
+use PHP_CodeSniffer\Sniffs\Sniff;
 
 /**
  * Rules:
@@ -13,7 +13,7 @@ use PHP_CodeSniffer_Sniff;
  * Inspiration:
  * - http://ocramius.github.io/blog/when-to-declare-classes-final/
  */
-final class FinalInterfaceSniff implements PHP_CodeSniffer_Sniff
+final class FinalInterfaceSniff implements Sniff
 {
     /**
      * @var string
@@ -21,7 +21,7 @@ final class FinalInterfaceSniff implements PHP_CodeSniffer_Sniff
     public const NAME = 'SymplifyCodingStandard.Classes.FinalInterface';
 
     /**
-     * @var PHP_CodeSniffer_File
+     * @var File
      */
     private $file;
 
@@ -39,10 +39,10 @@ final class FinalInterfaceSniff implements PHP_CodeSniffer_Sniff
     }
 
     /**
-     * @param PHP_CodeSniffer_File $file
+     * @param File $file
      * @param int $position
      */
-    public function process(PHP_CodeSniffer_File $file, $position) : void
+    public function process(File $file, $position) : void
     {
         $this->file = $file;
         $this->position = $position;

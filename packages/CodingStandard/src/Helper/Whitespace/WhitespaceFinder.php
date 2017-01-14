@@ -2,11 +2,11 @@
 
 namespace Symplify\CodingStandard\Helper\Whitespace;
 
-use PHP_CodeSniffer_File;
+use File;
 
 final class WhitespaceFinder
 {
-    public static function findNextEmptyLinePosition(PHP_CodeSniffer_File $file, int $position) : int
+    public static function findNextEmptyLinePosition(File $file, int $position) : int
     {
         $tokens = $file->getTokens();
 

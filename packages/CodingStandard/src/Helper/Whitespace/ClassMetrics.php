@@ -2,12 +2,12 @@
 
 namespace Symplify\CodingStandard\Helper\Whitespace;
 
-use PHP_CodeSniffer_File;
+use File;
 
 final class ClassMetrics
 {
     /**
-     * @var PHP_CodeSniffer_File
+     * @var File
      */
     private $file;
 
@@ -21,7 +21,7 @@ final class ClassMetrics
      */
     private $tokens;
 
-    public function __construct(PHP_CodeSniffer_File $file, int $classPosition)
+    public function __construct(File $file, int $classPosition)
     {
         $this->file = $file;
         $this->classPosition = $classPosition;

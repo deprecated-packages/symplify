@@ -2,8 +2,8 @@
 
 namespace SymplifyCodingStandard\Sniffs\Namespaces;
 
-use PHP_CodeSniffer_File;
-use PSR2_Sniffs_Namespaces_UseDeclarationSniff;
+use PHP_CodeSniffer\Files\File;
+use PHP_CodeSniffer\Standards\PSR2\Sniffs\Namespaces\UseDeclarationSniff as Psr2UseDeclarationSniff;
 
 /**
  * Rules:
@@ -11,7 +11,7 @@ use PSR2_Sniffs_Namespaces_UseDeclarationSniff;
  * - USE declarations must go after the first namespace declaration
  * - There must be 2 blank line(s) after the last USE statement
  */
-final class UseDeclarationSniff extends PSR2_Sniffs_Namespaces_UseDeclarationSniff
+final class UseDeclarationSniff extends Psr2UseDeclarationSniff
 {
     /**
      * @var string
@@ -24,7 +24,7 @@ final class UseDeclarationSniff extends PSR2_Sniffs_Namespaces_UseDeclarationSni
     public $blankLinesAfterUseStatement = 1;
 
     /**
-     * @var PHP_CodeSniffer_File
+     * @var File
      */
     private $file;
 
@@ -47,10 +47,10 @@ final class UseDeclarationSniff extends PSR2_Sniffs_Namespaces_UseDeclarationSni
     }
 
     /**
-     * @param PHP_CodeSniffer_File $file
+     * @param File $file
      * @param int $position
      */
-    public function process(PHP_CodeSniffer_File $file, $position) : void
+    public function process(File $file, $position) : void
     {
         $this->file = $file;
         $this->position = $position;

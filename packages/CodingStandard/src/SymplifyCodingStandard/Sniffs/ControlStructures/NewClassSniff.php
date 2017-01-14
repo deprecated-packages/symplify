@@ -2,14 +2,14 @@
 
 namespace SymplifyCodingStandard\Sniffs\ControlStructures;
 
-use PHP_CodeSniffer_File;
-use PHP_CodeSniffer_Sniff;
+use PHP_CodeSniffer\Files\File;
+use PHP_CodeSniffer\Sniffs\Sniff;
 
 /**
  * Rules:
  * - New class statement should not have empty parentheses.
  */
-final class NewClassSniff implements PHP_CodeSniffer_Sniff
+final class NewClassSniff implements Sniff
 {
     /**
      * @var string
@@ -17,7 +17,7 @@ final class NewClassSniff implements PHP_CodeSniffer_Sniff
     public const NAME = 'SymplifyCodingStandard.ControlStructures.NewClass';
 
     /**
-     * @var PHP_CodeSniffer_File
+     * @var File
      */
     private $file;
 
@@ -40,10 +40,10 @@ final class NewClassSniff implements PHP_CodeSniffer_Sniff
     }
 
     /**
-     * @param PHP_CodeSniffer_File $file
+     * @param File $file
      * @param int $position
      */
-    public function process(PHP_CodeSniffer_File $file, $position) : void
+    public function process(File $file, $position) : void
     {
         $this->file = $file;
         $this->position = $position;
