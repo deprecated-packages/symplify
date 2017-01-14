@@ -3,7 +3,7 @@
     "description": "PHP7_CodeSniffer detects and fixes violations against your coding standard.",
     "license": "MIT",
     "require": {
-        "php": "^7.0",
+        "php": "^7.1",
         "ext-tokenizer": "*",
         "ext-simplexml": "*",
         "tomas-votruba/php_codesniffer-3-pretagged": "^3.0",

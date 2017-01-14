@@ -2,14 +2,14 @@
 
 namespace SymplifyCodingStandard\Sniffs\Commenting;
 
-use PHP_CodeSniffer_File;
-use PHP_CodeSniffer_Sniff;
+use PHP_CodeSniffer\Files\File;
+use PHP_CodeSniffer\Sniffs\Sniff;
 
 /**
  * Rules:
  * - Method without parameter typehints should have docblock comment.
  */
-final class MethodCommentSniff implements PHP_CodeSniffer_Sniff
+final class MethodCommentSniff implements Sniff
 {
     /**
      * @var string
@@ -25,10 +25,10 @@ final class MethodCommentSniff implements PHP_CodeSniffer_Sniff
     }
 
     /**
-     * @param PHP_CodeSniffer_File $file
+     * @param File $file
      * @param int $position
      */
-    public function process(PHP_CodeSniffer_File $file, $position) : void
+    public function process(File $file, $position) : void
     {
         if ($this->hasMethodDocblock($file, $position)) {
             return;
@@ -50,7 +50,7 @@ final class MethodCommentSniff implements PHP_CodeSniffer_Sniff
         $file->addError('Method docblock is missing, due to some parameters without typehints.', $position);
     }
 
-    private function hasMethodDocblock(PHP_CodeSniffer_File $file, int $position) : bool
+    private function hasMethodDocblock(File $file, int $position) : bool
     {
         $tokens = $file->getTokens();
         $currentToken = $tokens[$position];

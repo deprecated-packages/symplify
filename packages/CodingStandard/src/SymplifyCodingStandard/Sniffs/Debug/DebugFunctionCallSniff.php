@@ -2,13 +2,13 @@
 
 namespace SymplifyCodingStandard\Sniffs\Debug;
 
-use Generic_Sniffs_PHP_ForbiddenFunctionsSniff;
+use PHP_CodeSniffer\Standards\Generic\Sniffs\PHP\ForbiddenFunctionsSniff;
 
 /**
  * Rules:
  * - Debug functions should not be left in the code
  */
-final class DebugFunctionCallSniff extends Generic_Sniffs_PHP_ForbiddenFunctionsSniff
+final class DebugFunctionCallSniff extends ForbiddenFunctionsSniff
 {
     /**
      * @var string

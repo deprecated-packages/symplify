@@ -14,8 +14,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Symplify\\CodingStandard\\": "src",
-            "SymplifyCodingStandard\\": "src/SymplifyCodingStandard"
+            "Symplify\\CodingStandard\\": "src"
         }
     },
     "autoload-dev": {
