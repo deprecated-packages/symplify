@@ -46,7 +46,7 @@ final class SymfonySecurityExtension extends CompilerExtension
     {
         $containerBuilder = $this->getContainerBuilder();
 
-        $mediatorDefinition = $containerBuilder->getDefinition($containerBuilder->getByType($mediatorClass));
+        $mediatorDefinition = $containerBuilder->getDefinitionByType($mediatorClass);
         foreach ($containerBuilder->findByType($colleagueClass) as $colleagueDefinition) {
             $mediatorDefinition->addSetup($adderMethod, ['@' . $colleagueDefinition->getClass()]);
         }

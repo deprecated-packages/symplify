@@ -25,7 +25,9 @@
 
         "symfony/console": "^3.2",
         "symfony/translation": "^3.2",
-        "symfony/yaml": "^3.2"
+        "symfony/yaml": "^3.2",
+
+        "symplify/package-builder": "@dev"
     },
     "require-dev": {
         "nette/application": "^2.4",

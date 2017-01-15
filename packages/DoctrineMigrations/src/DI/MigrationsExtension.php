@@ -7,6 +7,7 @@ use Doctrine\DBAL\Migrations\Tools\Console\Command\AbstractCommand;
 use Nette\DI\Compiler;
 use Nette\DI\CompilerExtension;
 use Symfony\Component\Console\Application;
+use Symplify\PackageBuilder\Adapter\Nette\DI\DefinitionCollector;
 use Zenify\DoctrineMigrations\CodeStyle\CodeStyle;
 use Zenify\DoctrineMigrations\Configuration\Configuration;
 use Zenify\DoctrineMigrations\EventSubscriber\ChangeCodingStandardEventSubscriber;
@@ -93,7 +94,7 @@ final class MigrationsExtension extends CompilerExtension
     private function setConfigurationToCommands() : void
     {
         $containerBuilder = $this->getContainerBuilder();
-        $configurationDefinition = $containerBuilder->getDefinition($containerBuilder->getByType(Configuration::class));
+        $configurationDefinition = $containerBuilder->getDefinitionByType(Configuration::class);
 
         foreach ($containerBuilder->findByType(AbstractCommand::class) as $commandDefinition) {
             $commandDefinition->addSetup('setMigrationConfiguration', ['@' . $configurationDefinition->getClass()]);
@@ -102,11 +103,12 @@ final class MigrationsExtension extends CompilerExtension
 
     private function loadCommandsToApplication() : void
     {
-        $containerBuilder = $this->getContainerBuilder();
-        $applicationDefinition = $containerBuilder->getDefinition($containerBuilder->getByType(Application::class));
-        foreach ($containerBuilder->findByType(AbstractCommand::class) as $name => $commandDefinition) {
-            $applicationDefinition->addSetup('add', ['@' . $name]);
-        }
+        DefinitionCollector::loadCollectorWithType(
+            $this->getContainerBuilder(),
+            Application::class,
+            AbstractCommand::class,
+            'add'
+        );
     }
 
     private function getValidatedConfig() : array

@@ -29,7 +29,9 @@ final class StatieCompilerExtensionTest extends TestCase
         $extension->loadConfiguration();
         $extension->beforeCompile();
 
-        $definition = $extension->getDefinitionByType(SourceFileStorage::class);
+        $containerBuilder = $extension->getContainerBuilder();
+
+        $definition = $containerBuilder->getDefinitionByType(SourceFileStorage::class);
         $this->assertCount(5, $definition->getSetup());
     }
 

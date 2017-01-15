@@ -30,7 +30,7 @@ final class ModularDoctrineFiltersExtension extends CompilerExtension
     {
         $containerBuilder = $this->getContainerBuilder();
 
-        $filterManagerDefinition = DefinitionFinder::getByType($containerBuilder, FilterManagerInterface::class);
+        $filterManagerDefinition = $containerBuilder->getDefinitionByType(FilterManagerInterface::class);
         $ormConfigurationDefinition = DefinitionFinder::getByType($containerBuilder, Configuration::class);
 
         $filterDefinitions = $containerBuilder->findByType(FilterInterface::class);
@@ -53,10 +53,8 @@ final class ModularDoctrineFiltersExtension extends CompilerExtension
      */
     private function passFilterManagerToSubscriber() : void
     {
-        $enableFiltersSubscriberDefinition = DefinitionFinder::getByType(
-            $this->getContainerBuilder(),
-            EnableFiltersSubscriber::class
-        );
+        $enableFiltersSubscriberDefinition = $this->getContainerBuilder()
+            ->getDefinitionByType(EnableFiltersSubscriber::class);
 
         $filterManagerServiceName = $this->getContainerBuilder()
             ->getByType(FilterManagerInterface::class);

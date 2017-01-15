@@ -12,7 +12,7 @@ final class DefinitionCollector
         string $collectedType,
         string $setterMethod
     ) : void {
-        $collectorDefinition = DefinitionFinder::getByType($containerBuilder, $collectorType);
+        $collectorDefinition = $containerBuilder->getDefinitionByType($collectorType);
         $collectedDefinitions = $containerBuilder->findByType($collectedType);
         foreach ($collectedDefinitions as $name => $definition) {
             $collectorDefinition->addSetup($setterMethod, ['@' . $name]);

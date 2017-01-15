@@ -16,6 +16,7 @@ final class DefinitionFinder
             return $containerBuilder->getDefinition($name);
         }
 
+        // for non autowired
         foreach ($containerBuilder->findByType($type) as $definition) {
             return $definition;
         }
