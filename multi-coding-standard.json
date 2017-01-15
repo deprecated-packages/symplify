@@ -1,0 +1,43 @@
+{
+    "php-code-sniffer": {
+        "standards": [
+            "PSR2",
+            "Symplify"
+        ]
+    },
+    "php-cs-fixer": {
+        "rule-groups": ["symfony"],
+        "rules": [
+            "psr4",
+            "phpdoc_no_alias_tag",
+            // "ordered_class_elements", requires PHP configuration
+            // "no_spaces_around_offset", buggy in PHP 7.1 - https://github.com/FriendsOfPHP/PHP-CS-Fixer/issues/2454
+            "dir_constant",
+            "modernize_types_casting",
+            "random_api_migration",
+            "single_class_element_per_statement",
+            "declare_strict_types",
+            "normalize_index_brace",
+            "semicolon_after_instruction",
+            // since 1.x
+            "combine_consecutive_unsets",
+            // "concat_space", requires PHP configuration
+            "simplified_null_return",
+            // "array_syntax", requires PHP configuration
+            "not_operator_with_successor_space",
+            "no_useless_else",
+            "no_useless_return",
+            "ordered_imports",
+            "php_unit_construct",
+            "php_unit_dedicate_assert",
+            "php_unit_strict",
+            "no_short_echo_tag",
+            "strict_comparison"
+        ],
+        "exclude-rules": [
+            "phpdoc_params",
+            "concat_without_spaces",
+            "unary_operators_spaces"
+        ]
+    }
+}

@@ -3,7 +3,7 @@
 namespace Symplify\CodingStandard\Tests\Sniffs\Classes\ClassDeclaration;
 
 use Symplify\CodingStandard\Tests\Sniffs\AbstractSniffTestCase;
-use SymplifyCodingStandard\Sniffs\Classes\ClassDeclarationSniff;
+use Symplify\CodingStandard\Sniffs\Classes\ClassDeclarationSniff;
 
 final class ClassDeclarationSniffTest extends AbstractSniffTestCase
 {

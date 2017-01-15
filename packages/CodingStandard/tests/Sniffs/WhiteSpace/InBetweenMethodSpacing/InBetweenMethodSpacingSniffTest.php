@@ -3,7 +3,7 @@
 namespace Symplify\CodingStandard\Tests\Sniffs\WhiteSpace\InBetweenMethodSpacing;
 
 use Symplify\CodingStandard\Tests\Sniffs\AbstractSniffTestCase;
-use SymplifyCodingStandard\Sniffs\WhiteSpace\InBetweenMethodSpacingSniff;
+use Symplify\CodingStandard\Sniffs\WhiteSpace\InBetweenMethodSpacingSniff;
 
 final class InBetweenMethodSpacingSniffTest extends AbstractSniffTestCase
 {

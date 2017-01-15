@@ -2,7 +2,7 @@
 
 namespace Symplify\CodingStandard\Helper;
 
-use File;
+use PHP_CodeSniffer\Files\File;
 
 final class PositionFinder
 {

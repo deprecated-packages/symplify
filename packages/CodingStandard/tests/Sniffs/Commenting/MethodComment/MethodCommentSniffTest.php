@@ -3,7 +3,7 @@
 namespace Symplify\CodingStandard\Tests\Sniffs\Commenting\MethodComment;
 
 use Symplify\CodingStandard\Tests\Sniffs\AbstractSniffTestCase;
-use SymplifyCodingStandard\Sniffs\Commenting\MethodCommentSniff;
+use Symplify\CodingStandard\Sniffs\Commenting\MethodCommentSniff;
 
 final class MethodCommentSniffTest extends AbstractSniffTestCase
 {
