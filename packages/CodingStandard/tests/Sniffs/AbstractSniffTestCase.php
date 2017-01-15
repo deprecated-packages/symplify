@@ -100,7 +100,7 @@ abstract class AbstractSniffTestCase extends TestCase
     private function createCodeSnifferWithSniff(string $sniffName) : PHP_CodeSniffer
     {
         $codeSniffer = new PHP_CodeSniffer;
-        $codeSniffer->initStandard(__DIR__ . '/../../src/SymplifyCodingStandard/ruleset.xml', [$sniffName]);
+        $codeSniffer->initStandard(__DIR__ . '/../../src/Sniffs/ruleset.xml', [$sniffName]);
 
         return $codeSniffer;
     }

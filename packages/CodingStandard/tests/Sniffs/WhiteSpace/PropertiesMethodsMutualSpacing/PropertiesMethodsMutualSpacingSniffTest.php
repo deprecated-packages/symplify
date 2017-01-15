@@ -3,7 +3,7 @@
 namespace Symplify\CodingStandard\Tests\Sniffs\WhiteSpace\PropertiesMethodsMutualSpacing;
 
 use Symplify\CodingStandard\Tests\Sniffs\AbstractSniffTestCase;
-use SymplifyCodingStandard\Sniffs\WhiteSpace\PropertiesMethodsMutualSpacingSniff;
+use Symplify\CodingStandard\Sniffs\WhiteSpace\PropertiesMethodsMutualSpacingSniff;
 
 final class PropertiesMethodsMutualSpacingSniffTest extends AbstractSniffTestCase
 {

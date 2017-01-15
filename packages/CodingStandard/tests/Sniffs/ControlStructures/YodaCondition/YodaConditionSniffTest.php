@@ -3,7 +3,7 @@
 namespace Symplify\CodingStandard\Tests\Sniffs\ControlStructures\YodaCondition;
 
 use Symplify\CodingStandard\Tests\Sniffs\AbstractSniffTestCase;
-use SymplifyCodingStandard\Sniffs\ControlStructures\YodaConditionSniff;
+use Symplify\CodingStandard\Sniffs\ControlStructures\YodaConditionSniff;
 
 final class YodaConditionSniffTest extends AbstractSniffTestCase
 {

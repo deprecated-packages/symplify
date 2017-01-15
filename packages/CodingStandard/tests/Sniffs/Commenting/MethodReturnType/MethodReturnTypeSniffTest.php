@@ -3,7 +3,7 @@
 namespace Symplify\CodingStandard\Tests\Sniffs\Commenting\MethodReturnType;
 
 use Symplify\CodingStandard\Tests\Sniffs\AbstractSniffTestCase;
-use SymplifyCodingStandard\Sniffs\Commenting\MethodCommentReturnTypeSniff;
+use Symplify\CodingStandard\Sniffs\Commenting\MethodCommentReturnTypeSniff;
 
 final class MethodReturnTypeSniffTest extends AbstractSniffTestCase
 {

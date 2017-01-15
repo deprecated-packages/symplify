@@ -2,7 +2,7 @@
 
 namespace Symplify\CodingStandard\Helper\Commenting;
 
-use File;
+use PHP_CodeSniffer\Files\File;
 
 /**
  * Inspired by https://github.com/slevomat/coding-standard/blob/4f81f58625bf86bd91f7fc6f8e4d12160bf03c7c/SlevomatCodingStandard/Helpers/FunctionHelper.php
