@@ -3,7 +3,7 @@
 namespace Symplify\CodingStandard\Tests\Sniffs\Commenting\VarPropertyComment;
 
 use Symplify\CodingStandard\Tests\Sniffs\AbstractSniffTestCase;
-use SymplifyCodingStandard\Sniffs\Commenting\VarPropertyCommentSniff;
+use Symplify\CodingStandard\Sniffs\Commenting\VarPropertyCommentSniff;
 
 final class VarPropertyCommentSniffTest extends AbstractSniffTestCase
 {

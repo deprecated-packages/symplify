@@ -2,7 +2,7 @@
 
 namespace Symplify\CodingStandard\Helper\Whitespace;
 
-use File;
+use PHP_CodeSniffer\Files\File;
 
 final class EmptyLinesResizer
 {

@@ -3,7 +3,7 @@
 namespace Symplify\CodingStandard\Tests\Sniffs\Classes\FinalInterface;
 
 use Symplify\CodingStandard\Tests\Sniffs\AbstractSniffTestCase;
-use SymplifyCodingStandard\Sniffs\Classes\FinalInterfaceSniff;
+use Symplify\CodingStandard\Sniffs\Classes\FinalInterfaceSniff;
 
 final class FinalInterfaceSniffTest extends AbstractSniffTestCase
 {
