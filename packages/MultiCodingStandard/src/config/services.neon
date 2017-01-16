@@ -1,0 +1,5 @@
+includes:
+    - services/application.neon
+    - services/configuration.neon
+    - services/console.neon
+    - services/php-cs-fixer.neon

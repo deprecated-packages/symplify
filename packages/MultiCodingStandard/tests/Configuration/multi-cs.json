@@ -1,0 +1,11 @@
+{
+    "standards": [
+        "SomeStandard"
+    ],
+    "sniffs": [
+        "SomeCodingStandard.Group.Specific"
+    ],
+    "exclude-sniffs": [
+        "SomeCodingStandard.Group.Specific"
+    ]
+}
