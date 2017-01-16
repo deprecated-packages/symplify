@@ -1,0 +1,16 @@
+#!/usr/bin/env php
+<?php
+
+require_once __DIR__.'/bootstrap.php';
+
+// 1. build DI container
+$containerFactory = new Symplify\MultiCodingStandard\DI\ContainerFactory();
+$container = $containerFactory->create();
+
+// 2. get Console Application
+/** @var Symplify\MultiCodingStandard\Console\ConsoleApplication $application */
+$application = $container->getByType(Symplify\MultiCodingStandard\Console\ConsoleApplication::class);
+
+// 3. run it!
+$application->setDefaultCommand('run', true);
+$application->run();

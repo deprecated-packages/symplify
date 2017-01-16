@@ -1,0 +1,8 @@
+services:
+    - Symplify\MultiCodingStandard\Console\ConsoleApplication
+    - Symplify\MultiCodingStandard\Console\Command\RunCommand
+    - Symplify\MultiCodingStandard\Console\Output\InfoMessagePrinter
+
+    - Symplify\MultiCodingStandard\Console\Style\StyleFactory
+    -
+        factory: [@Symplify\MultiCodingStandard\Console\Style\StyleFactory, "create"]
