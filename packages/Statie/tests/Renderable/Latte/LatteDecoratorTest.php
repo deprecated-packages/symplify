@@ -53,6 +53,15 @@ final class LatteDecoratorTest extends TestCase
         $this->assertContains('Contact us!', $file->getContent());
     }
 
+    public function testDecorateFileWithFileVariable()
+    {
+        $fileInfo = new SplFileInfo(__DIR__ . '/LatteDecoratorSource/fileWithFileVariable.latte');
+        $file = new File($fileInfo, 'fileWithFileVariable');
+        $this->latteDecorator->decorateFile($file);
+
+        $this->assertContains('fileWithFileVariable.latte', $file->getContent());
+    }
+
     private function createLatteEngine(ILoader $loader) : Engine
     {
         $latte = new Engine;
