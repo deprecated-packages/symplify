@@ -11,11 +11,6 @@ use PHP_CodeSniffer\Standards\Generic\Sniffs\PHP\ForbiddenFunctionsSniff;
 final class DebugFunctionCallSniff extends ForbiddenFunctionsSniff
 {
     /**
-     * @var string
-     */
-    public const NAME = 'Symplify\CodingStandard.Debug.DebugFunctionCall';
-
-    /**
      * A list of forbidden functions with their alternatives.
      *
      * The value is NULL if no alternative exists. IE, the

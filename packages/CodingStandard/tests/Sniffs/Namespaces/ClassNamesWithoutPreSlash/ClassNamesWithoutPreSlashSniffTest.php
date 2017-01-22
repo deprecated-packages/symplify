@@ -9,6 +9,6 @@ final class ClassNamesWithoutPreSlashSniffTest extends AbstractSniffTestCase
 {
     public function test()
     {
-        $this->runSniffTestForDirectory(ClassNamesWithoutPreSlashSniff::NAME, __DIR__);
+        $this->runSniffTestForDirectory(ClassNamesWithoutPreSlashSniff::class, __DIR__);
     }
 }

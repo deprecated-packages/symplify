@@ -13,11 +13,6 @@ use Symplify\CodingStandard\Helper\Commenting\FunctionHelper;
 final class MethodCommentReturnTypeSniff implements Sniff
 {
     /**
-     * @var string
-     */
-    public const NAME = 'Symplify\CodingStandard.Commenting.MethodCommentReturnType';
-
-    /**
      * @var string[]
      */
     private $getterMethodPrefixes = ['get', 'is', 'has', 'will', 'should'];

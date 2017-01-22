@@ -9,6 +9,6 @@ final class NamespaceDeclarationSniffTest extends AbstractSniffTestCase
 {
     public function test()
     {
-        $this->runSniffTestForDirectory(NamespaceDeclarationSniff::NAME, __DIR__);
+        $this->runSniffTestForDirectory(NamespaceDeclarationSniff::class, __DIR__);
     }
 }

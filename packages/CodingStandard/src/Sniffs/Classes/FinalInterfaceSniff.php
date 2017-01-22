@@ -16,11 +16,6 @@ use PHP_CodeSniffer\Sniffs\Sniff;
 final class FinalInterfaceSniff implements Sniff
 {
     /**
-     * @var string
-     */
-    public const NAME = 'Symplify\CodingStandard.Classes.FinalInterface';
-
-    /**
      * @var File
      */
     private $file;

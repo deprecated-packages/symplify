@@ -12,11 +12,6 @@ use PHP_CodeSniffer\Sniffs\Sniff;
 final class TraitNameSniff implements Sniff
 {
     /**
-     * @var string
-     */
-    public const NAME = 'Symplify\CodingStandard.Naming.TraitName';
-
-    /**
      * @var File
      */
     private $file;

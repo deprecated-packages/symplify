@@ -12,11 +12,6 @@ use PHP_CodeSniffer\Sniffs\Sniff;
 final class InterfaceNameSniff implements Sniff
 {
     /**
-     * @var string
-     */
-    public const NAME = 'Symplify\CodingStandard.Naming.InterfaceName';
-
-    /**
      * @var File
      */
     private $file;
