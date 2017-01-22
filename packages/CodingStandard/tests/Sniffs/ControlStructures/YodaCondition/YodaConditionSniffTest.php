@@ -9,6 +9,6 @@ final class YodaConditionSniffTest extends AbstractSniffTestCase
 {
     public function test()
     {
-        $this->runSniffTestForDirectory(YodaConditionSniff::NAME, __DIR__);
+        $this->runSniffTestForDirectory(YodaConditionSniff::class, __DIR__);
     }
 }

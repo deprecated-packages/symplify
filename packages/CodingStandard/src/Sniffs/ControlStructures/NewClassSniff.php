@@ -12,11 +12,6 @@ use PHP_CodeSniffer\Sniffs\Sniff;
 final class NewClassSniff implements Sniff
 {
     /**
-     * @var string
-     */
-    public const NAME = 'Symplify\CodingStandard.ControlStructures.NewClass';
-
-    /**
      * @var File
      */
     private $file;

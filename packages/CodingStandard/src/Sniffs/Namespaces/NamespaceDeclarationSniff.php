@@ -14,11 +14,6 @@ use Symplify\CodingStandard\Helper\Whitespace\WhitespaceFinder;
 final class NamespaceDeclarationSniff implements Sniff
 {
     /**
-     * @var string
-     */
-    public const NAME = 'Symplify\CodingStandard.Namespaces.NamespaceDeclaration';
-
-    /**
      * @var int|string
      */
     public $emptyLinesAfterNamespace = 1;
@@ -117,7 +112,7 @@ final class NamespaceDeclarationSniff implements Sniff
                 $linesToNextUse
             );
 
-            $fix = $this->file->addFixableError($errorMessage, $this->position);
+            $fix = $this->file->addFixableError($errorMessage, $this->position, '');
             if ($fix) {
                 $this->fixSpacesFromNamespaceToUseStatements($this->position, $linesToNextUse);
             }

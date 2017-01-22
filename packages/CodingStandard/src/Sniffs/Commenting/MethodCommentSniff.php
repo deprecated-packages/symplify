@@ -12,11 +12,6 @@ use PHP_CodeSniffer\Sniffs\Sniff;
 final class MethodCommentSniff implements Sniff
 {
     /**
-     * @var string
-     */
-    public const NAME = 'Symplify\CodingStandard.Commenting.MethodComment';
-
-    /**
      * @return int[]
      */
     public function register() : array

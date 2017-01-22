@@ -15,11 +15,6 @@ use PHP_CodeSniffer\Sniffs\AbstractVariableSniff;
 final class VarPropertyCommentSniff extends AbstractVariableSniff
 {
     /**
-     * @var string
-     */
-    public const NAME = 'Symplify\CodingStandard.Commenting.VarPropertyComment';
-
-    /**
      * @param File $file
      * @param int $position
      */

@@ -9,6 +9,6 @@ final class ComponentFactoryCommentSniffTest extends AbstractSniffTestCase
 {
     public function test()
     {
-        $this->runSniffTestForDirectory(ComponentFactoryCommentSniff::NAME, __DIR__);
+        $this->runSniffTestForDirectory(ComponentFactoryCommentSniff::class, __DIR__);
     }
 }

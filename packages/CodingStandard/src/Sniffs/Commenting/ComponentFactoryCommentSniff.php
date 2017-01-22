@@ -15,11 +15,6 @@ use Symplify\CodingStandard\Helper\Commenting\FunctionHelper;
 final class ComponentFactoryCommentSniff implements Sniff
 {
     /**
-     * @var string
-     */
-    public const NAME = 'Symplify\CodingStandard.Commenting.ComponentFactoryComment';
-
-    /**
      * @var int
      */
     private $position;

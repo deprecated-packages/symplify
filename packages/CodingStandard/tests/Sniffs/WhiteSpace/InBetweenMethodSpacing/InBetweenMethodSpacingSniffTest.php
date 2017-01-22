@@ -9,6 +9,6 @@ final class InBetweenMethodSpacingSniffTest extends AbstractSniffTestCase
 {
     public function test()
     {
-        $this->runSniffTestForDirectory(InBetweenMethodSpacingSniff::NAME, __DIR__);
+        $this->runSniffTestForDirectory(InBetweenMethodSpacingSniff::class, __DIR__);
     }
 }

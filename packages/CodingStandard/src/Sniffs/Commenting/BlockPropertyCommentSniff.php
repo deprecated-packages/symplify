@@ -12,11 +12,6 @@ use PHP_CodeSniffer\Sniffs\Sniff;
 final class BlockPropertyCommentSniff implements Sniff
 {
     /**
-     * @var string
-     */
-    public const NAME = 'Symplify\CodingStandard.Commenting.BlockPropertyComment';
-
-    /**
      * @var File
      */
     private $file;

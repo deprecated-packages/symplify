@@ -12,11 +12,6 @@ use PHP_CodeSniffer\Sniffs\Sniff;
 final class YodaConditionSniff implements Sniff
 {
     /**
-     * @var string
-     */
-    public const NAME = 'Symplify\CodingStandard.ControlStructures.YodaCondition';
-
-    /**
      * @var int
      */
     private $position;
