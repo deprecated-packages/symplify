@@ -9,6 +9,6 @@ final class PropertiesMethodsMutualSpacingSniffTest extends AbstractSniffTestCas
 {
     public function test()
     {
-        $this->runSniffTestForDirectory(PropertiesMethodsMutualSpacingSniff::NAME, __DIR__);
+        $this->runSniffTestForDirectory(PropertiesMethodsMutualSpacingSniff::class, __DIR__);
     }
 }

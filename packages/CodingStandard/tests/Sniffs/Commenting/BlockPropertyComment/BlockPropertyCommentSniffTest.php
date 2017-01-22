@@ -9,6 +9,6 @@ final class BlockPropertyCommentSniffTest extends AbstractSniffTestCase
 {
     public function testDetection()
     {
-        $this->runSniffTestForDirectory(BlockPropertyCommentSniff::NAME, __DIR__);
+        $this->runSniffTestForDirectory(BlockPropertyCommentSniff::class, __DIR__);
     }
 }

@@ -17,11 +17,6 @@ use Symplify\CodingStandard\Helper\Whitespace\EmptyLinesResizer;
 final class InBetweenMethodSpacingSniff extends FunctionSpacingSniff
 {
     /**
-     * @var string
-     */
-    public const NAME = 'Symplify\CodingStandard.WhiteSpace.InBetweenMethodSpacing';
-
-    /**
      * @var int|string
      */
     public $blankLinesBetweenMethods = 1;

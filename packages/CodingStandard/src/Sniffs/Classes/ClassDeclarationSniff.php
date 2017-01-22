@@ -13,11 +13,6 @@ use PHP_CodeSniffer\Files\File;
 final class ClassDeclarationSniff extends PearClassDeclarationSniff
 {
     /**
-     * @var string
-     */
-    public const NAME = 'Symplify\CodingStandard.Classes.ClassDeclaration';
-
-    /**
      * @var int|string
      */
     public $emptyLinesAfterOpeningBrace = 0;

@@ -12,11 +12,6 @@ use PHP_CodeSniffer\Sniffs\Sniff;
 final class AbstractClassNameSniff implements Sniff
 {
     /**
-     * @var string
-     */
-    public const NAME = 'Symplify\CodingStandard.Naming.AbstractClassName';
-
-    /**
      * @var File
      */
     private $file;

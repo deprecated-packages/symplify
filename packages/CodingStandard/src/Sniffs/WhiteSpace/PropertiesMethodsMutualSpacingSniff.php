@@ -14,11 +14,6 @@ use Symplify\CodingStandard\Helper\Whitespace\EmptyLinesResizer;
 final class PropertiesMethodsMutualSpacingSniff implements Sniff
 {
     /**
-     * @var string
-     */
-    public const NAME = 'Symplify\CodingStandard.WhiteSpace.PropertiesMethodsMutualSpacing';
-
-    /**
      * @var int|string
      */
     public $desiredBlankLinesInBetween = 1;

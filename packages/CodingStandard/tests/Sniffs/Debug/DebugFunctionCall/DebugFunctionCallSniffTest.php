@@ -9,6 +9,6 @@ final class DebugFunctionCallSniffTest extends AbstractSniffTestCase
 {
     public function test()
     {
-        $this->runSniffTestForDirectory(DebugFunctionCallSniff::NAME, __DIR__);
+        $this->runSniffTestForDirectory(DebugFunctionCallSniff::class, __DIR__);
     }
 }

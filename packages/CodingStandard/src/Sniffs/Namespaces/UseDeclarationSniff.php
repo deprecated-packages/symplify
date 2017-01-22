@@ -14,11 +14,6 @@ use PHP_CodeSniffer\Standards\PSR2\Sniffs\Namespaces\UseDeclarationSniff as Psr2
 final class UseDeclarationSniff extends Psr2UseDeclarationSniff
 {
     /**
-     * @var string
-     */
-    public const NAME = 'Symplify\CodingStandard.Namespaces.UseDeclaration';
-
-    /**
      * @var int|string
      */
     public $blankLinesAfterUseStatement = 1;
@@ -111,7 +106,7 @@ final class UseDeclarationSniff extends Psr2UseDeclarationSniff
             $this->file->addError(
                 'There must be a single space after the USE keyword',
                 $this->position,
-                null
+                ''
             );
         }
     }
@@ -123,7 +118,7 @@ final class UseDeclarationSniff extends Psr2UseDeclarationSniff
             $this->file->addError(
                 'There must be one USE keyword per declaration',
                 $this->position,
-                null
+                ''
             );
         }
     }
@@ -157,7 +152,7 @@ final class UseDeclarationSniff extends Psr2UseDeclarationSniff
                 $this->blankLinesAfterUseStatement,
                 $diff
             );
-            $this->file->addError($errorMessage, $this->position);
+            $this->file->addError($errorMessage, $this->position, '');
         }
     }
 }

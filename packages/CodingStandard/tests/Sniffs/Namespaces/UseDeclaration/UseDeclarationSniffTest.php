@@ -9,6 +9,6 @@ final class UseDeclarationSniffTest extends AbstractSniffTestCase
 {
     public function test()
     {
-        $this->runSniffTestForDirectory(UseDeclarationSniff::NAME, __DIR__);
+        $this->runSniffTestForDirectory(UseDeclarationSniff::class, __DIR__);
     }
 }

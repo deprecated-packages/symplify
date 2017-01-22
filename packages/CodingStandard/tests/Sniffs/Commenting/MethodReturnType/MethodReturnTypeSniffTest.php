@@ -9,6 +9,6 @@ final class MethodReturnTypeSniffTest extends AbstractSniffTestCase
 {
     public function testDetection()
     {
-        $this->runSniffTestForDirectory(MethodCommentReturnTypeSniff::NAME, __DIR__);
+        $this->runSniffTestForDirectory(MethodCommentReturnTypeSniff::class, __DIR__);
     }
 }
