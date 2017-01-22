@@ -34,8 +34,8 @@ final class CollectEventSubscribersPass implements CompilerPassInterface
         ContainerBuilder $containerBuilder,
         Definition $eventDispatcherDefinition
     ) : void {
-        $eventSubscriberDefinitions = DefinitionFinder::findAllByType($containerBuilder, EventSubscriberInterface::class);
-        foreach ($eventSubscriberDefinitions as $name => $definition) {
+        $subscriberDefinitions = DefinitionFinder::findAllByType($containerBuilder, EventSubscriberInterface::class);
+        foreach ($subscriberDefinitions as $name => $definition) {
             $eventDispatcherDefinition->addMethodCall(
                 'addSubscriberService',
                 [$name, $definition->getClass()]
