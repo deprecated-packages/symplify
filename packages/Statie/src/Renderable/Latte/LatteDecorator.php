@@ -41,6 +41,7 @@ final class LatteDecorator implements DecoratorInterface
 
         $parameters = $file->getConfiguration() + $options + [
             'posts' => $options['posts'] ?? [],
+            'file' => $file,
         ];
 
         if ($file instanceof PostFile) {
