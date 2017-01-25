@@ -10,8 +10,7 @@
         "rules": [
             "psr4",
             "phpdoc_no_alias_tag",
-            // "ordered_class_elements", requires PHP configuration
-            // "no_spaces_around_offset", buggy in PHP 7.1 - https://github.com/FriendsOfPHP/PHP-CS-Fixer/issues/2454
+            "ordered_class_elements",
             "dir_constant",
             "modernize_types_casting",
             "random_api_migration",
@@ -19,11 +18,10 @@
             "declare_strict_types",
             "normalize_index_brace",
             "semicolon_after_instruction",
-            // since 1.x
             "combine_consecutive_unsets",
-            // "concat_space", requires PHP configuration
+            "concat_space",
             "simplified_null_return",
-            // "array_syntax", requires PHP configuration
+            "array_syntax",
             "not_operator_with_successor_space",
             "no_useless_else",
             "no_useless_return",
@@ -34,6 +32,11 @@
             "no_short_echo_tag",
             "strict_comparison"
         ],
+        "rules-setup": {
+            "ordered_class_elements": "...",
+            "concat_space": "...",
+            "array_syntax": "..."
+        },
         "exclude-rules": [
             "phpdoc_params",
             "concat_without_spaces",

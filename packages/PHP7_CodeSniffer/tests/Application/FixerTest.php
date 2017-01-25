@@ -21,6 +21,10 @@ final class FixerTest extends TestCase
 
     protected function setUp()
     {
+        if (!defined(PHP_CODESNIFFER_VERBOSITY)) {
+            define(PHP_CODESNIFFER_VERBOSITY, 0);
+        }
+
         $fileFactory = Instantiator::createFileFactory();
         $this->file = $fileFactory->create(__DIR__ . '/FixerSource/SomeFile.php', true);
         $this->fixer = new Fixer();
