@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Symplify\PHP7_CodeSniffer\Tests\Standard\Finder;
 
@@ -19,15 +19,14 @@ final class StandardFinderTest extends TestCase
 
     public function testGetStandards()
     {
-        $standards = $this->standardFinder->getStandards();
-        $this->assertCount(8, $standards);
+        $this->assertCount(10, $this->standardFinder->getStandards());
     }
 
     public function testGetRulesetPathForStandardName()
     {
         $rulesetPath = $this->standardFinder->getRulesetPathForStandardName('PSR2');
         $this->assertStringMatchesFormat(
-            '%ssquizlabs/php_codesniffer/src/Standards/PSR2/ruleset.xml',
+            '%ssrc/Standards/PSR2/ruleset.xml',
             $rulesetPath
         );
     }
@@ -36,7 +35,7 @@ final class StandardFinderTest extends TestCase
     {
         $rulesetPaths = $this->standardFinder->getRulesetPathsForStandardNames(['PSR2']);
         $this->assertStringMatchesFormat(
-            '%ssquizlabs/php_codesniffer/src/Standards/PSR2/ruleset.xml',
+            '%ssrc/Standards/PSR2/ruleset.xml',
             $rulesetPaths['PSR2']
         );
     }

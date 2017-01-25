@@ -4,7 +4,7 @@
     "license": "MIT",
     "require": {
         "php": "^7.1",
-        "sympify/php7_codesniffer": "@dev",
+        "symplify/php7_codesniffer": "@dev",
         "tomas-votruba/php_codesniffer-3-pretagged": "^3.0"
     },
     "require-dev": {
