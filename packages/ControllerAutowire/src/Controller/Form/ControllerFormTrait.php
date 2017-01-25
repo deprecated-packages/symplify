@@ -6,6 +6,7 @@ use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\FormBuilder;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Form\FormBuilderInterface;
 
 trait ControllerFormTrait
 {
@@ -36,5 +37,20 @@ trait ControllerFormTrait
     protected function createFormBuilder($data = null, array $options = []) : FormBuilder
     {
         return $this->formFactory->createBuilder(FormType::class, $data, $options);
+    }
+
+    /*
+     * @param string $name
+     * @param string $type
+     * @param mixed $data
+     * @param array $options
+     */
+    protected function createNamedBuilder(
+        string $name,
+        string $type = 'Symfony\Component\Form\Extension\Core\Type\FormType',
+        array $data = null,
+        array $options = []
+    ) : FormBuilderInterface {
+        return $this->formFactory->createNamedBuilder($name, $type, $data, $options);
     }
 }
