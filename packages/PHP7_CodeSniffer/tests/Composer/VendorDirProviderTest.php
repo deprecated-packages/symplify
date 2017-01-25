@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Symplify\PHP7_CodeSniffer\Tests\Composer;
 
@@ -9,19 +9,9 @@ final class VendorDirProviderTest extends TestCase
 {
     public function testProvide()
     {
-        $vendorDirProvider = new VendorDirProvider;
+        $this->assertStringEndsWith('vendor', VendorDirProvider::provide());
+        $this->assertStringEndsWith('vendor', VendorDirProvider::provide());
 
-        $this->assertSame(
-            realpath(__DIR__.'/../../vendor'),
-            $vendorDirProvider::provide()
-        );
-    }
-
-    public function testCachedProvide()
-    {
-        $this->assertSame(
-            realpath(__DIR__.'/../../vendor'),
-            VendorDirProvider::provide()
-        );
+        $this->assertFileExists(VendorDirProvider::provide() . '/autoload.php');
     }
 }

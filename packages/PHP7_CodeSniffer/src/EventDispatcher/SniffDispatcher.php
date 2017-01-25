@@ -25,7 +25,7 @@ final class SniffDispatcher extends EventDispatcher
     public function addSniffListeners(array $sniffs)
     {
         foreach ($sniffs as $sniffCode => $sniffObject) {
-            $tokens = $sniffs[$sniffCode]->register();
+            $tokens = $sniffObject->register();
             foreach ($tokens as $token) {
                 $this->addTokenSniffListener($token, $sniffObject);
             }
@@ -47,7 +47,11 @@ final class SniffDispatcher extends EventDispatcher
         }
     }
 
-    private function addTokenSniffListener(string $token, Sniff $sniffObject)
+    /**
+     * @param string|int $token
+     * @param Sniff $sniffObject
+     */
+    private function addTokenSniffListener($token, Sniff $sniffObject)
     {
         $this->addListener(
             $token,

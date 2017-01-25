@@ -77,7 +77,7 @@ final class ErrorDataCollector
         string $filePath,
         string $message,
         int $line,
-        string $sniffCode,
+        string $sniffCode = null,
         array $data = [],
         bool $isFixable = false
     ) {
@@ -87,10 +87,13 @@ final class ErrorDataCollector
             $this->fixableErrorCount++;
         }
 
+        $sniffCode = (string) $sniffCode;
+
         $this->errorMessages[$filePath][] = [
             'line' => $line,
             'message' => $this->applyDataToMessage($message, $data),
             'sniffCode' => $this->getSniffFullCode($sniffCode),
+            // todo: use sniff class instead
             'isFixable'  => $isFixable
         ];
     }
