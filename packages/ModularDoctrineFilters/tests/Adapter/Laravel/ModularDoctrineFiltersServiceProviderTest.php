@@ -46,6 +46,7 @@ final class ModularDoctrineFiltersServiceProviderTest extends TestCase
 
         /** @var FilterManagerInterface $filterManager */
         $filterManager = $this->application->make(FilterManagerInterface::class);
+
         $this->assertCount(
             2,
             PHPUnit_Framework_Assert::getObjectAttribute($filterManager, 'filters')
@@ -58,12 +59,14 @@ final class ModularDoctrineFiltersServiceProviderTest extends TestCase
             return $this->prophesize(EntityManagerInterface::class)
                 ->reveal();
         });
+
         $application->alias(EntityManager::class, EntityManagerInterface::class);
     }
 
     private function registerFilterServices(Application $application) : void
     {
         $application->bind(SomeFilter::class);
+
         $application->bind('filter_2', function () : FilterInterface {
             return $this->prophesize(FilterInterface::class)
                 ->reveal();

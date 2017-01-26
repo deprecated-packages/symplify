@@ -6,7 +6,6 @@ use Doctrine\ORM\EntityManagerInterface;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
-use Nette\Utils\Strings;
 use ReflectionFunction;
 use Symplify\ModularDoctrineFilters\Contract\Filter\FilterInterface;
 use Symplify\ModularDoctrineFilters\Contract\FilterManagerInterface;
@@ -22,6 +21,7 @@ final class ModularDoctrineFiltersServiceProvider extends ServiceProvider
         $this->app->singleton(FilterManagerInterface::class, function (Application $application) {
             return new FilterManager($application->make(EntityManagerInterface::class));
         });
+
         $this->app->alias(FilterManagerInterface::class, FilterManager::class);
     }
 
@@ -34,9 +34,7 @@ final class ModularDoctrineFiltersServiceProvider extends ServiceProvider
             // https://laravel.com/docs/5.4/container#container-events
 
             if ($this->isDefinitionOfType($definition, FilterInterface::class)) {
-                /** @var FilterInterface $filterService */
-                $filterService = $this->app->make($name);
-                $filterManager->addFilter($name, $filterService);
+                $filterManager->addFilter($name, $this->app->make($name));
             }
         }
     }
@@ -51,16 +49,12 @@ final class ModularDoctrineFiltersServiceProvider extends ServiceProvider
 
         $staticVariables = $closureReflection->getStaticVariables();
 
-        if (isset($staticVariables['abstract'])) {
-            if (is_a($staticVariables['abstract'], $classOrInterfaceType, true)) {
-                return true;
-            }
+        if ($this->hasVariableOfNameAndType($staticVariables, 'abstract', $classOrInterfaceType)) {
+            return true;
         }
 
-        if (isset($staticVariables['concrete'])) {
-            if (is_a($staticVariables['concrete'], $classOrInterfaceType, true)) {
-                return true;
-            }
+        if ($this->hasVariableOfNameAndType($staticVariables, 'variable', $classOrInterfaceType)) {
+            return true;
         }
 
         // closure explicit return type
@@ -74,6 +68,15 @@ final class ModularDoctrineFiltersServiceProvider extends ServiceProvider
     private function isLaravelSystem(ReflectionFunction $closureReflection) : bool
     {
         return Str::startsWith($closureReflection->name, 'Illuminate') &&
-            ! Str::startsWith($closureReflection->name, 'Illuminate\\Container');
+            Str::startsWith($closureReflection->name, 'Illuminate\\Container') === false;
+    }
+
+    private function hasVariableOfNameAndType(array $staticVariables, string $name, string $classOrInterfaceType) : bool
+    {
+        if (! isset($staticVariables[$name])) {
+            return false;
+        }
+
+        return is_a($staticVariables[$name], $classOrInterfaceType, true);
     }
 }
