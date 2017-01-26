@@ -16,7 +16,7 @@ final class CollectEventSubscribersPass implements CompilerPassInterface
     public function process(ContainerBuilder $containerBuilder) : void
     {
         $eventDispatcherDefinition = DefinitionFinder::getByType($containerBuilder, EventDispatcherInterface::class);
-        if (is_a($eventDispatcherDefinition->getClass(), ContainerAwareEventDispatcher::class, true)) {
+        if ($this->isContainerAwareEventDispatcherDefinition($eventDispatcherDefinition)) {
             $this->registerToContainerAwareEventDispatcher($containerBuilder, $eventDispatcherDefinition);
 
             return;
@@ -34,12 +34,17 @@ final class CollectEventSubscribersPass implements CompilerPassInterface
         ContainerBuilder $containerBuilder,
         Definition $eventDispatcherDefinition
     ) : void {
-        $eventSubscriberDefinitions = DefinitionFinder::findAllByType($containerBuilder, EventSubscriberInterface::class);
-        foreach ($eventSubscriberDefinitions as $name => $definition) {
+        $subscriberDefinitions = DefinitionFinder::findAllByType($containerBuilder, EventSubscriberInterface::class);
+        foreach ($subscriberDefinitions as $name => $definition) {
             $eventDispatcherDefinition->addMethodCall(
                 'addSubscriberService',
                 [$name, $definition->getClass()]
             );
         }
+    }
+
+    private function isContainerAwareEventDispatcherDefinition(Definition $definition) : bool
+    {
+        return is_a($definition->getClass(), ContainerAwareEventDispatcher::class, true);
     }
 }
