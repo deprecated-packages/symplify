@@ -58,6 +58,10 @@
         "squizlabs/php_codesniffer": "^2.7",
         "zenify/modular-latte-filters": "^4.2",
 
+        "laravel/framework": "^5.3",
+        "illuminate/container": "^5.3",
+        "illuminate/support": "^5.3",
+
         "symplify/package-builder": "@dev"
     },
     "require-dev": {
