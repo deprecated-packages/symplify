@@ -3,7 +3,7 @@
 namespace Symplify\ModularDoctrineFilters\Adapter\Laravel;
 
 use Doctrine\ORM\EntityManagerInterface;
-use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Foundation\Application;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
 use ReflectionFunction;
@@ -12,7 +12,7 @@ use Symplify\ModularDoctrineFilters\Contract\FilterManagerInterface;
 use Symplify\ModularDoctrineFilters\FilterManager;
 
 /**
- * @property \Illuminate\Foundation\Application $app
+ * @property Application $app
  */
 final class ModularDoctrineFiltersServiceProvider extends ServiceProvider
 {
