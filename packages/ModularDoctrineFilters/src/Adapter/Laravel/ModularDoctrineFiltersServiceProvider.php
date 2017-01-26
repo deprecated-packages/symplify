@@ -46,29 +46,29 @@ final class ModularDoctrineFiltersServiceProvider extends ServiceProvider
         $closureReflection = new ReflectionFunction($definition['concrete']);
 
         if ($this->isLaravelSystem($closureReflection)) {
-            return FALSE;
+            return false;
         }
 
         $staticVariables = $closureReflection->getStaticVariables();
 
         if (isset($staticVariables['abstract'])) {
-            if (is_a($staticVariables['abstract'], $classOrInterfaceType, TRUE)) {
-                return TRUE;
+            if (is_a($staticVariables['abstract'], $classOrInterfaceType, true)) {
+                return true;
             }
         }
 
         if (isset($staticVariables['concrete'])) {
-            if (is_a($staticVariables['concrete'], $classOrInterfaceType, TRUE)) {
-                return TRUE;
+            if (is_a($staticVariables['concrete'], $classOrInterfaceType, true)) {
+                return true;
             }
         }
 
         // closure explicit return type
         if ((string) $closureReflection->getReturnType() === $classOrInterfaceType) {
-            return TRUE;
+            return true;
         }
 
-        return FALSE;
+        return false;
     }
 
     private function isLaravelSystem(ReflectionFunction $closureReflection) : bool

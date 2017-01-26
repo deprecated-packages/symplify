@@ -22,7 +22,7 @@ final class ModularDoctrineFiltersServiceProviderTest extends TestCase
 
     protected function setUp() : void
     {
-        $this->application = new Application();
+        $this->application = new Application;
         $this->setupDoctrineDependency($this->application);
         $this->application->register(new ModularDoctrineFiltersServiceProvider($this->application));
     }
