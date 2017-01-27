@@ -3,6 +3,7 @@ parameters:
         - "#Call to an undefined method Prophecy#"
         - "#TranslatableTest#"
         - "#Version456#"
+        - "#Call to an undefined method Illuminate#" # false interface Laravel error
     excludes_analyse:
         - *packages/CodingStandard/tests/**/correct*
         - *packages/CodingStandard/tests/**/wrong*
