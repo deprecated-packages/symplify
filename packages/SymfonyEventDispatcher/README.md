@@ -1,7 +1,6 @@
 # The Simplest Symfony Event Dispatcher integration to frameworks
 
 [![Build Status](https://img.shields.io/travis/Symplify/SymfonyEventDispatcher.svg?style=flat-square)](https://travis-ci.org/Symplify/SymfonyEventDispatcher)
-[![Quality Score](https://img.shields.io/scrutinizer/g/Symplify/SymfonyEventDispatcher.svg?style=flat-square)](https://scrutinizer-ci.com/g/Symplify/SymfonyEventDispatcher)
 [![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/Symplify/SymfonyEventDispatcher.svg?style=flat-square)](https://scrutinizer-ci.com/g/Symplify/SymfonyEventDispatcher)
 [![Downloads](https://img.shields.io/packagist/dt/symplify/symfony-event-dispatcher.svg?style=flat-square)](https://packagist.org/packages/symplify/symfony-event-dispatcher)
 [![Latest stable](https://img.shields.io/packagist/v/symplify/symfony-event-dispatcher.svg?style=flat-square)](https://packagist.org/packages/symplify/symfony-event-dispatcher)

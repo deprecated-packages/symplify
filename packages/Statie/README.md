@@ -1,7 +1,6 @@
 # Statie - PHP Static Site Generator
 
 [![Build Status][ico-travis]][link-travis]
-[![Quality Score][ico-code-quality]][link-code-quality]
 [![Coverage Status][ico-scrutinizer]][link-scrutinizer]
 [![Total Downloads][ico-downloads]][link-downloads]
 [![Latest Version on Packagist][ico-version]][link-packagist]
@@ -124,11 +123,9 @@ h1:hover .anchor-icon, h2:hover .anchor-icon, h3:hover .anchor-icon {
 [ico-version]: https://img.shields.io/packagist/v/Symplify/Statie.svg?style=flat-square
 [ico-travis]: https://img.shields.io/travis/Symplify/Statie/master.svg?style=flat-square
 [ico-scrutinizer]: https://img.shields.io/scrutinizer/coverage/g/Symplify/Statie.svg?style=flat-square
-[ico-code-quality]: https://img.shields.io/scrutinizer/g/Symplify/Statie.svg?style=flat-square
 [ico-downloads]: https://img.shields.io/packagist/dt/Symplify/Statie.svg?style=flat-square
 
 [link-packagist]: https://packagist.org/packages/Symplify/Statie
 [link-travis]: https://travis-ci.org/Symplify/Statie
 [link-scrutinizer]: https://scrutinizer-ci.com/g/Symplify/Statie/code-structure/master?elementType=class&orderField=test_coverage&order=asc&changesExpanded=0
-[link-code-quality]: https://scrutinizer-ci.com/g/Symplify/Statie/code-structure/master/hot-spots
 [link-downloads]: https://packagist.org/packages/symplify/statie/stats

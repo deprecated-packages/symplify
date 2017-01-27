@@ -1,7 +1,6 @@
 # Service Definition Decorator
 
 [![Build Status](https://img.shields.io/travis/Symplify/ServiceDefinitionDecorator.svg?style=flat-square)](https://travis-ci.org/Symplify/ServiceDefinitionDecorator)
-[![Quality Score](https://img.shields.io/scrutinizer/g/Symplify/ServiceDefinitionDecorator.svg?style=flat-square)](https://scrutinizer-ci.com/g/Symplify/ServiceDefinitionDecorator)
 [![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/Symplify/ServiceDefinitionDecorator.svg?style=flat-square)](https://scrutinizer-ci.com/g/Symplify/ServiceDefinitionDecorator)
 [![Downloads](https://img.shields.io/packagist/dt/symplify/service-definition-decorator.svg?style=flat-square)](https://packagist.org/packages/symplify/service-definition-decorator)
 [![Latest stable](https://img.shields.io/packagist/v/symplify/service-definition-decorator.svg?style=flat-square)](https://packagist.org/packages/symplify/service-definition-decorator)
