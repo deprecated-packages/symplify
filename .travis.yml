@@ -7,7 +7,7 @@ matrix:
 
 install:
   # install composer dependencies
-  - composer install --prefer-source
+  - composer install
 
 script:
   # run tests
