@@ -14,9 +14,11 @@ install:
 script:
   # run tests
   - vendor/bin/phpunit $PHPUNIT_FLAGS
+  # remove slow xdebug, that is required only for coverage
+  - phpenv config-rm xdebug.ini; fi
   # check coding standard (defined in composer.json "scripts" section)
   - if [[ $CHECK_CS = 1 ]]; then composer check-cs; fi
-  # check with phpstan
+  # check with phpstan (defined in composer.json "scripts" section)
   - if [[ $RUN_PHPSTAN = 1 ]]; then composer phpstan; fi
 
 after_script:
