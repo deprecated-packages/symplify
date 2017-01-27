@@ -52,7 +52,7 @@
         "symfony/validator": "^3.2",
         "symfony/serializer": "^3.2",
 
-        "symfony-cmf/routing-bundle": "dev-master as 1.4",
+        "symfony-cmf/routing-bundle": "2.0.0-RC1 as 1.4",
 
         "friendsofphp/php-cs-fixer": "^2.0",
         "squizlabs/php_codesniffer": "^2.7",

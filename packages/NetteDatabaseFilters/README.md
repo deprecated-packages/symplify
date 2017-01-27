@@ -1,7 +1,6 @@
 # Nette Database Filters
 
 [![Build Status](https://img.shields.io/travis/Zenify/NetteDatabaseFilters.svg?style=flat-square)](https://travis-ci.org/Zenify/NetteDatabaseFilters)
-[![Quality Score](https://img.shields.io/scrutinizer/g/Zenify/NetteDatabaseFilters.svg?style=flat-square)](https://scrutinizer-ci.com/g/Zenify/NetteDatabaseFilters)
 [![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/Zenify/NetteDatabaseFilters.svg?style=flat-square)](https://scrutinizer-ci.com/g/Zenify/NetteDatabaseFilters)
 [![Latest stable](https://img.shields.io/packagist/v/zenify/nette-database-filters.svg?style=flat-square)](https://packagist.org/packages/zenify/nette-database-filters)
 

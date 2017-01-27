@@ -13,7 +13,7 @@
         "symfony/templating": "^3.2",
         "symfony/validator": "^3.2",
         "symfony/twig-bundle": "^3.2",
-        "symfony-cmf/routing-bundle": "dev-master as 1.4"
+        "symfony-cmf/routing-bundle": "2.0.0-RC1 as 1.4"
     },
     "require-dev": {
         "nette/utils": "^2.4",

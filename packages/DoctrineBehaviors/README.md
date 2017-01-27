@@ -1,7 +1,6 @@
 # Doctrine Behaviors
 
 [![Build Status](https://img.shields.io/travis/Zenify/DoctrineBehaviors.svg?style=flat-square)](https://travis-ci.org/Zenify/DoctrineBehaviors)
-[![Quality Score](https://img.shields.io/scrutinizer/g/Zenify/DoctrineBehaviors.svg?style=flat-square)](https://scrutinizer-ci.com/g/Zenify/DoctrineBehaviors)
 [![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/Zenify/DoctrineBehaviors.svg?style=flat-square)](https://scrutinizer-ci.com/g/Zenify/DoctrineBehaviors)
 [![Downloads total](https://img.shields.io/packagist/dt/zenify/doctrine-behaviors.svg?style=flat-square)](https://packagist.org/packages/zenify/doctrine-behaviors)
 [![Latest stable](https://img.shields.io/packagist/v/zenify/doctrine-behaviors.svg?style=flat-square)](https://packagist.org/packages/zenify/doctrine-behaviors)
