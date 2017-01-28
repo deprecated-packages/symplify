@@ -17,8 +17,12 @@ final class GihubPublishingProcess
      */
     private const CONFIG_NAME = 'Travis';
 
-    public function pushDirectoryContentToRepository(string $outputDirectory, string $githubRepository) : void
-    {
+    public function pushDirectoryContentToRepository(
+        string $outputDirectory,
+        string $githubRepository,
+        string $branch
+    ) : void {
+
         FilesystemChecker::ensureDirectoryExists($outputDirectory);
 
         $git = (new GitWrapper)->init($outputDirectory);
@@ -28,13 +32,13 @@ final class GihubPublishingProcess
             $git->config('user.name', self::CONFIG_NAME);
         }
 
-        $git->checkout('gh-pages', [
+        $git->checkout($branch, [
             'orphan' => true,
         ]);
         $git->add('.');
         $git->commit('Regenerate output');
         $git->addRemote('origin', $githubRepository);
-        $git->push('origin', 'gh-pages', [
+        $git->push('origin', $branch, [
             'force' => true,
             'quiet' => true,
         ]);

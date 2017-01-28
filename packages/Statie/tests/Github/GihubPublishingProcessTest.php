@@ -28,7 +28,7 @@ final class GihubPublishingProcessTest extends TestCase
      */
     public function testPushDirectoryContentToRepositoryForNonExistingRepository()
     {
-        $this->githubPublishingProcess->pushDirectoryContentToRepository('missing directory', '');
+        $this->githubPublishingProcess->pushDirectoryContentToRepository('missing directory', '', '');
     }
 
     /**
@@ -42,7 +42,8 @@ final class GihubPublishingProcessTest extends TestCase
 
         $this->githubPublishingProcess->pushDirectoryContentToRepository(
             $this->outputDirectory,
-            'https://github.com/TomasVotruba/tomasvotruba.cz'
+            'https://github.com/TomasVotruba/tomasvotruba.cz',
+            'gh-pages'
         );
 
         $this->assertFileExists($this->outputDirectory . DIRECTORY_SEPARATOR . '.git');

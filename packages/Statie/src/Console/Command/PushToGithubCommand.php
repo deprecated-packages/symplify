@@ -41,6 +41,7 @@ final class PushToGithubCommand extends Command
             'Directory where was output saved TO.',
             getcwd() . DIRECTORY_SEPARATOR . 'output'
         );
+        $this->addOption('branch', null, InputOption::VALUE_REQUIRED, 'Branch to upload to.', 'gh-pages');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output) : int
@@ -54,7 +55,8 @@ final class PushToGithubCommand extends Command
 
         $this->gihubPublishingProcess->pushDirectoryContentToRepository(
             $input->getOption('output'),
-            $githubRepository
+            $githubRepository,
+            $input->getOption('branch')
         );
 
         $output->writeln('<info>Website was successfully pushed to Github pages.</info>');
