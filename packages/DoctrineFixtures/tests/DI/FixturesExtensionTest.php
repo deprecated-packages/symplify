@@ -33,9 +33,7 @@ final class FixturesExtensionTest extends TestCase
         $containerBuilder = $extension->getContainerBuilder();
         $containerBuilder->prepareClassList();
 
-        $aliceLoaderDefinition = $containerBuilder->getDefinition(
-            $containerBuilder->getByType(AliceLoaderInterface::class)
-        );
+        $aliceLoaderDefinition = $containerBuilder->getDefinitionByType(AliceLoaderInterface::class);
 
         $this->assertSame(AliceLoader::class, $aliceLoaderDefinition->getClass());
     }
@@ -53,7 +51,7 @@ final class FixturesExtensionTest extends TestCase
 
         $extension->beforeCompile();
 
-        $loaderDefinition = $containerBuilder->getDefinition($containerBuilder->getByType(Loader::class));
+        $loaderDefinition = $containerBuilder->getDefinitionByType(Loader::class);
 
         $this->assertSame(Loader::class, $loaderDefinition->getClass());
         $arguments = $loaderDefinition->getFactory()->arguments;
@@ -68,7 +66,7 @@ final class FixturesExtensionTest extends TestCase
         $extension->beforeCompile();
 
         $containerBuilder = $extension->getContainerBuilder();
-        $aliceLoaderDefinition = $containerBuilder->getDefinition($containerBuilder->getByType(Loader::class));
+        $aliceLoaderDefinition = $containerBuilder->getDefinitionByType(Loader::class);
 
         $this->assertSame('addParser', $aliceLoaderDefinition->getSetup()[0]->getEntity());
     }

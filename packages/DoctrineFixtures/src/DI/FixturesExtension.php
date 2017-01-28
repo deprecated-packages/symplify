@@ -40,27 +40,23 @@ final class FixturesExtension extends CompilerExtension
     {
         $config = $this->validateConfig($this->defaults);
 
-        $this->getDefinitionByType(Loader::class)->setArguments([
-            $config['locale'],
-            $this->getContainerBuilder()
-                ->findByType(Base::class),
-            $config['seed']
-        ]);
+        $this->getContainerBuilder()
+            ->getDefinitionByType(Loader::class)
+            ->setArguments([
+                $config['locale'],
+                $this->getContainerBuilder()
+                    ->findByType(Base::class),
+                $config['seed']
+            ]);
     }
 
     private function loadParsersToAliceLoader()
     {
         $containerBuilder = $this->getContainerBuilder();
 
-        $aliceLoaderDefinition = $this->getDefinitionByType(Loader::class);
+        $aliceLoaderDefinition = $containerBuilder->getDefinitionByType(Loader::class);
         foreach ($containerBuilder->findByType(MethodInterface::class) as $parserDefinition) {
             $aliceLoaderDefinition->addSetup('addParser', ['@' . $parserDefinition->getClass()]);
         }
-    }
-
-    private function getDefinitionByType(string $type) : ServiceDefinition
-    {
-        $containerBuilder = $this->getContainerBuilder();
-        return $containerBuilder->getDefinition($containerBuilder->getByType($type));
     }
 }
