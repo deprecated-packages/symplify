@@ -1,7 +1,2 @@
 tools:
     external_code_coverage: true
-    php_analyzer: true
-
-checks:
-    php:
-        code_rating: true

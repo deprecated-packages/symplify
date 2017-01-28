@@ -14,7 +14,9 @@
         "nette/bootstrap": "^2.4",
         "nette/di": "^2.4",
         "nette/robot-loader": "^2.4",
-        "nette/utils": "^2.4"
+        "nette/utils": "^2.4",
+
+        "symplify/package-builder": "@dev"
     },
     "require-dev": {
         "phpunit/phpunit": "^5.7",
