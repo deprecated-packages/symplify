@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Symplify\PHP7_CodeSniffer\Configuration\OptionResolver;
 
@@ -44,7 +44,7 @@ final class StandardsOptionResolver implements OptionResolverInterface
         return $values[self::NAME];
     }
 
-    private function setNormalizer(OptionsResolver $optionsResolver)
+    private function setNormalizer(OptionsResolver $optionsResolver) : void
     {
         $optionsResolver->setNormalizer(
             self::NAME,
@@ -54,7 +54,7 @@ final class StandardsOptionResolver implements OptionResolverInterface
         );
     }
 
-    private function setAllowedValues(OptionsResolver $optionsResolver)
+    private function setAllowedValues(OptionsResolver $optionsResolver) : void
     {
         $optionsResolver->setAllowedValues(self::NAME, function (array $standards) {
             $standards = ValueNormalizer::normalizeCommaSeparatedValues($standards);
