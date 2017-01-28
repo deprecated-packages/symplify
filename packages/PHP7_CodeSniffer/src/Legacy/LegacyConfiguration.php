@@ -16,7 +16,7 @@ final class LegacyConfiguration
      */
     private static function ensureLineEndingsAreDetected()
     {
-        ini_set('auto_detect_line_endings', true);
+        ini_set('auto_detect_line_endings', 'true');
     }
 
     private static function setupVerbosityToMakeLegacyCodeRun()

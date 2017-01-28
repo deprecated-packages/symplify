@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Symplify\PHP7_CodeSniffer\Tests\DI;
 
@@ -8,7 +8,7 @@ use Symplify\PHP7_CodeSniffer\DI\ContainerFactory;
 
 final class ContainerFactoryTest extends TestCase
 {
-    public function testCreate()
+    public function test()
     {
         $containerFactory = new ContainerFactory();
         $this->assertInstanceOf(Container::class, $containerFactory->create());

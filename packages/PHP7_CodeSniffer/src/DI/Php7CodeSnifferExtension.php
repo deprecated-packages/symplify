@@ -2,50 +2,34 @@
 
 namespace Symplify\PHP7_CodeSniffer\DI;
 
+use Nette\DI\Compiler;
 use Nette\DI\CompilerExtension;
-use Symfony\Component\Console\Command\Command;
+use Symplify\PackageBuilder\Adapter\Nette\DI\DefinitionCollector;
 use Symplify\PHP7_CodeSniffer\Configuration\ConfigurationResolver;
-use Symplify\PHP7_CodeSniffer\Console\ConsoleApplication;
 use Symplify\PHP7_CodeSniffer\Contract\Configuration\OptionResolver\OptionResolverInterface;
 use Symplify\PHP7_CodeSniffer\Contract\Sniff\Factory\SniffFactoryInterface;
 use Symplify\PHP7_CodeSniffer\Sniff\SniffSetFactory;
 
 final class Php7CodeSnifferExtension extends CompilerExtension
 {
-    use ExtensionHelperTrait;
-
-    /**
-     * {@inheritdoc}
-     */
-    public function loadConfiguration()
+    public function loadConfiguration() : void
     {
-        $this->loadServicesFromConfig();
+        Compiler::loadDefinitions(
+            $this->getContainerBuilder(),
+            $this->loadFromFile(__DIR__ . '/../config/services.neon')['services']
+        );
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function beforeCompile()
+    public function beforeCompile() : void
     {
         $this->loadSniffFactoriesToSniffSetFactory();
-        $this->loadConsoleCommandsToConsoleApplication();
         $this->loadOptionResolversToConfigurationResolver();
-    }
-
-    private function loadServicesFromConfig()
-    {
-        $config = $this->loadFromFile(__DIR__ . '/../config/services.neon');
-        $this->compiler->parseServices($this->getContainerBuilder(), $config);
-    }
-
-    private function loadConsoleCommandsToConsoleApplication()
-    {
-        $this->addServicesToCollector(ConsoleApplication::class, Command::class, 'add');
     }
 
     private function loadSniffFactoriesToSniffSetFactory()
     {
-        $this->addServicesToCollector(
+        DefinitionCollector::loadCollectorWithType(
+            $this->getContainerBuilder(),
             SniffSetFactory::class,
             SniffFactoryInterface::class,
             'addSniffFactory'
@@ -54,7 +38,8 @@ final class Php7CodeSnifferExtension extends CompilerExtension
 
     private function loadOptionResolversToConfigurationResolver()
     {
-        $this->addServicesToCollector(
+        DefinitionCollector::loadCollectorWithType(
+            $this->getContainerBuilder(),
             ConfigurationResolver::class,
             OptionResolverInterface::class,
             'addOptionResolver'

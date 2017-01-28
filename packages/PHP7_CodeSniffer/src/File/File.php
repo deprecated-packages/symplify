@@ -30,17 +30,18 @@ final class File extends BaseFile implements FileInterface
      */
     private $isFixer;
 
-    public function __construct(string $path, array $tokens, Fixer $fixer, ErrorDataCollector $errorDataCollector, bool $isFixer, string $eolChar)
+    public function __construct(string $path, array $tokens, Fixer $fixer, ErrorDataCollector $errorDataCollector, bool $isFixer)
     {
         $this->path = $path;
         $this->tokens = $tokens;
         $this->fixer = $fixer;
         $this->errorDataCollector = $errorDataCollector;
-        $this->eolChar = $eolChar;
 
         $this->numTokens = count($this->tokens);
         $this->content = file_get_contents($path);
         $this->isFixer = $isFixer;
+
+        $this->eolChar = "\n";
     }
 
     /**

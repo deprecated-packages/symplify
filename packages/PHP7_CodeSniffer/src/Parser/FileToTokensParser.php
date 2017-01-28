@@ -3,21 +3,12 @@
 namespace Symplify\PHP7_CodeSniffer\Parser;
 
 use Nette\Utils\FileSystem;
+use PHP_CodeSniffer\Config;
 use PHP_CodeSniffer\Tokenizers\PHP;
 use stdClass;
 
 final class FileToTokensParser
 {
-    /**
-     * @var EolCharDetector
-     */
-    private $eolCharDetector;
-
-    public function __construct(EolCharDetector $eolCharDetector)
-    {
-        $this->eolCharDetector = $eolCharDetector;
-    }
-
     /**
      * @var stdClass
      */
@@ -26,19 +17,14 @@ final class FileToTokensParser
     public function parseFromFilePath(string $filePath) : array
     {
         $fileContent = FileSystem::read($filePath);
-        $eolChar = $this->eolCharDetector->detectForContent($fileContent);
+        return (new PHP($fileContent, $this->getLegacyConfig()))->getTokens();
 
-        return $this->parseLegacyWithFileContentAndEolChar($fileContent, $eolChar);
     }
 
-    private function parseLegacyWithFileContentAndEolChar(
-        string $fileContent,
-        string $eolChar
-    ) : array {
-        return (new PHP($fileContent, $this->getLegacyConfig(), $eolChar))->getTokens();
-    }
-
-    private function getLegacyConfig() : stdClass
+    /**
+     * @return Config|stdClass
+     */
+    private function getLegacyConfig()
     {
         if ($this->legacyConfig) {
             return $this->legacyConfig;
