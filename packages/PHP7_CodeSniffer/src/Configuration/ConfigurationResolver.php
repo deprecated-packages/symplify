@@ -12,7 +12,7 @@ final class ConfigurationResolver
      */
     private $optionResolvers = [];
 
-    public function addOptionResolver(OptionResolverInterface $optionResolver)
+    public function addOptionResolver(OptionResolverInterface $optionResolver) : void
     {
         $this->optionResolvers[$optionResolver->getName()] = $optionResolver;
     }
@@ -23,7 +23,7 @@ final class ConfigurationResolver
         return $this->optionResolvers[$name]->resolve($source);
     }
 
-    private function ensureResolverExists(string $name)
+    private function ensureResolverExists(string $name) : void
     {
         if (!isset($this->optionResolvers[$name])) {
             throw new MissingOptionResolverException(sprintf(

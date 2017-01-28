@@ -21,12 +21,12 @@ final class ClassLoaderDecorator
     {
         $standards = $this->standardFinder->getStandards();
 
-        foreach ($standards as $stadardName => $standardRuleset) {
-            if ($this->isDefaultStandard($stadardName)) {
+        foreach ($standards as $standardName => $standardRuleset) {
+            if ($this->isDefaultStandard($standardName)) {
                 continue;
             }
 
-            $standardNamespace = $this->detectStandardNamespaceFromStandardName($stadardName);
+            $standardNamespace = $this->detectStandardNamespaceFromStandardName($standardName);
             $standardDir = dirname($standardRuleset);
 
             $classLoader->addPsr4(
@@ -36,10 +36,10 @@ final class ClassLoaderDecorator
         }
     }
 
-    private function isDefaultStandard(string $stadardName) : bool
+    private function isDefaultStandard(string $standardName) : bool
     {
         return in_array(
-            $stadardName,
+            $standardName,
             ['PSR1', 'MySource', 'PSR2', 'Zend', 'PEAR', 'Squiz', 'Generic']
         );
     }

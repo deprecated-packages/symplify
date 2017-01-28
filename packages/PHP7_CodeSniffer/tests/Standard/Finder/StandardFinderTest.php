@@ -19,14 +19,14 @@ final class StandardFinderTest extends TestCase
 
     public function testGetStandards()
     {
-        $this->assertCount(10, $this->standardFinder->getStandards());
+        $this->assertCount(11, $this->standardFinder->getStandards());
     }
 
     public function testGetRulesetPathForStandardName()
     {
         $rulesetPath = $this->standardFinder->getRulesetPathForStandardName('PSR2');
         $this->assertStringMatchesFormat(
-            '%ssrc/Standards/PSR2/ruleset.xml',
+            '%s/Standards/PSR2/ruleset.xml',
             $rulesetPath
         );
     }
@@ -35,7 +35,7 @@ final class StandardFinderTest extends TestCase
     {
         $rulesetPaths = $this->standardFinder->getRulesetPathsForStandardNames(['PSR2']);
         $this->assertStringMatchesFormat(
-            '%ssrc/Standards/PSR2/ruleset.xml',
+            '%s/Standards/PSR2/ruleset.xml',
             $rulesetPaths['PSR2']
         );
     }
