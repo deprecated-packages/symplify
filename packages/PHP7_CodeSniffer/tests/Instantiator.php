@@ -14,7 +14,6 @@ use Symplify\PHP7_CodeSniffer\EventDispatcher\SniffDispatcher;
 use Symplify\PHP7_CodeSniffer\File\FileFactory;
 use Symplify\PHP7_CodeSniffer\File\Finder\SourceFinder;
 use Symplify\PHP7_CodeSniffer\File\Provider\FilesProvider;
-use Symplify\PHP7_CodeSniffer\Parser\EolCharDetector;
 use Symplify\PHP7_CodeSniffer\Parser\FileToTokensParser;
 use Symplify\PHP7_CodeSniffer\Report\ErrorDataCollector;
 use Symplify\PHP7_CodeSniffer\Report\ErrorMessageSorter;

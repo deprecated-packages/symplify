@@ -41,7 +41,7 @@ final class File extends BaseFile implements FileInterface
         $this->content = file_get_contents($path);
         $this->isFixer = $isFixer;
 
-        $this->eolChar = "\n";
+        $this->eolChar = PHP_EOL;
     }
 
     /**
