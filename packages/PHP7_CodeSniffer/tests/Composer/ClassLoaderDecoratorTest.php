@@ -9,26 +9,18 @@ use Symplify\PHP7_CodeSniffer\Standard\Finder\StandardFinder;
 
 final class ClassLoaderDecoratorTest extends TestCase
 {
-    /**
-     * @var ClassLoaderDecorator
-     */
-    private $classLoaderDecorator;
-
-    protected function setUp()
+    public function test()
     {
-        $this->classLoaderDecorator = new ClassLoaderDecorator(new StandardFinder());
-    }
+        $classLoaderDecorator = new ClassLoaderDecorator(new StandardFinder());
 
-    public function testDecorate()
-    {
         $classLoader = new ClassLoader();
 
         $this->assertCount(0, $classLoader->getPrefixesPsr4());
 
-        $this->classLoaderDecorator->decorate($classLoader);
+        $classLoaderDecorator->decorate($classLoader);
 
         $psr4Prefixes = $classLoader->getPrefixesPsr4();
-        $this->assertCount(3, $psr4Prefixes);
+        $this->assertCount(4, $psr4Prefixes);
 
         $this->assertArrayHasKey('PHPStan\\', $psr4Prefixes);
         $this->assertStringEndsWith(
