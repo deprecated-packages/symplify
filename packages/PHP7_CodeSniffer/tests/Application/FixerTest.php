@@ -2,6 +2,7 @@
 
 namespace Symplify\PHP7_CdeSniffer\Tests\Application;
 
+use PHP_CodeSniffer\Util\Tokens;
 use PHPUnit\Framework\TestCase;
 use Symplify\PHP7_CodeSniffer\Application\Fixer;
 use Symplify\PHP7_CodeSniffer\File\File;
@@ -21,9 +22,10 @@ final class FixerTest extends TestCase
 
     protected function setUp()
     {
-        if (!defined(PHP_CODESNIFFER_VERBOSITY)) {
+        if (!defined('PHP_CODESNIFFER_VERBOSITY')) {
             define(PHP_CODESNIFFER_VERBOSITY, 0);
         }
+        new Tokens();
 
         $fileFactory = Instantiator::createFileFactory();
         $this->file = $fileFactory->create(__DIR__ . '/FixerSource/SomeFile.php', true);

@@ -1,9 +1,7 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Symplify\PHP7_CodeSniffer\Tests;
 
-use Symfony\Component\Console\Input\ArgvInput;
-use Symfony\Component\Console\Tests\Output\TestOutput;
 use Symplify\PHP7_CodeSniffer\Application\Application;
 use Symplify\PHP7_CodeSniffer\Application\FileProcessor;
 use Symplify\PHP7_CodeSniffer\Application\Fixer;
@@ -11,7 +9,6 @@ use Symplify\PHP7_CodeSniffer\Configuration\ConfigurationResolver;
 use Symplify\PHP7_CodeSniffer\Configuration\OptionResolver\SniffsOptionResolver;
 use Symplify\PHP7_CodeSniffer\Configuration\OptionResolver\SourceOptionResolver;
 use Symplify\PHP7_CodeSniffer\Configuration\OptionResolver\StandardsOptionResolver;
-use Symplify\PHP7_CodeSniffer\Console\Style\CodeSnifferStyle;
 use Symplify\PHP7_CodeSniffer\EventDispatcher\CurrentListenerSniffCodeProvider;
 use Symplify\PHP7_CodeSniffer\EventDispatcher\SniffDispatcher;
 use Symplify\PHP7_CodeSniffer\File\FileFactory;
@@ -35,6 +32,9 @@ use Symplify\PHP7_CodeSniffer\Sniff\Xml\DataCollector\ExcludedSniffDataCollector
 use Symplify\PHP7_CodeSniffer\Sniff\Xml\Extractor\SniffPropertyValuesExtractor;
 use Symplify\PHP7_CodeSniffer\Standard\Finder\StandardFinder;
 
+/**
+ * @todo use container, this is insane
+ */
 final class Instantiator
 {
     /**
@@ -90,8 +90,7 @@ final class Instantiator
         return new FileFactory(
             new Fixer(),
             self::createErrorDataCollector(),
-            new FileToTokensParser(new EolCharDetector()),
-            new EolCharDetector()
+            new FileToTokensParser()
         );
     }
 
@@ -112,14 +111,6 @@ final class Instantiator
             new ExcludedSniffDataCollector(),
             self::createConfigurationResolver(),
             new FileProcessor(self::createSniffDispatcher(), new Fixer())
-        );
-    }
-
-    public static function createCodeSnifferStyle() : CodeSnifferStyle
-    {
-        return new CodeSnifferStyle(
-            new ArgvInput(),
-            new TestOutput()
         );
     }
 
@@ -173,9 +164,7 @@ final class Instantiator
             self::createSniffPropertyValueDataCollector()
         );
 
-        $sniffSetFactory = self::createSniffSetFactory($singleSniffFactory);
-
-        return $sniffSetFactory;
+        return self::createSniffSetFactory($singleSniffFactory);
     }
 
     public static function createSniffPropertyValueDataCollector() : SniffPropertyValueDataCollector
