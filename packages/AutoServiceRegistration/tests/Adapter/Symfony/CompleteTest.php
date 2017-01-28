@@ -3,14 +3,14 @@
 namespace Symplify\AutoServiceRegistration\Tests\Adapter\Symfony;
 
 use PHPUnit\Framework\TestCase;
-use Symfony\Component\DependencyInjection\Container;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symplify\AutoServiceRegistration\Naming\ServiceNaming;
 use Symplify\AutoServiceRegistration\Tests\Adapter\Symfony\CompleteTestSource\AnotherController;
 
 final class CompleteTest extends TestCase
 {
     /**
-     * @var Container
+     * @var ContainerInterface
      */
     private $container;
 

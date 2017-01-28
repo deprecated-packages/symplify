@@ -78,7 +78,7 @@
         "kdyby/events": "^3.0",
         "kdyby/doctrine": "^3.1",
         "kdyby/console": "^2.6",
-        "phpstan/phpstan": "^0.5"
+        "phpstan/phpstan": "^0.6"
     },
     "autoload": {
         "psr-4": {
