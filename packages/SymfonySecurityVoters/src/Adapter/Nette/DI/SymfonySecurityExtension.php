@@ -22,7 +22,12 @@ final class SymfonySecurityExtension extends CompilerExtension
         $containerBuilder = $this->getContainerBuilder();
         $voterDefinitions = $containerBuilder->findByType(VoterInterface::class);
 
+        $definitionReferences = [];
+        foreach ($voterDefinitions as $name => $voterDefinition) {
+            $definitionReferences[] = '@' . $name;
+        }
+
         $containerBuilder->getDefinitionByType(AccessDecisionManager::class)
-            ->addSetup('setVoters', array_keys($voterDefinitions));
+            ->addSetup('setVoters', [$definitionReferences]);
     }
 }

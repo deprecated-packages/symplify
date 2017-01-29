@@ -24,15 +24,12 @@ final class ComleteTest extends TestCase
         $this->application = $this->container->getByType(Application::class);
     }
 
+    /**
+     * @expectedException \Nette\Application\AbortException
+     */
     public function testShouldFail()
     {
-        // this should fail on voters
+        // this should fail on SomeVoter voter
         $this->application->run();
-    }
-
-    public function testShouldPass()
-    {
-        // this should fail on voters
-//        $this->application->run();
     }
 }

@@ -1,6 +1,0 @@
-extensions:
-	- Symplify\SymfonyEventDispatcher\Adapter\Nette\DI\SymfonyEventDispatcherExtension
-	- Symplify\SymfonySecurityVoters\Adapter\Nette\DI\SymfonySecurityExtension
-
-services:
-    - Symplify\SymfonySecurityVoters\Tests\Source\Voter\SomeVoter

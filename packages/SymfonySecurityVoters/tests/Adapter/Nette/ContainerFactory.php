@@ -12,7 +12,8 @@ final class ContainerFactory
     {
         $configurator = new Configurator;
         $configurator->setTempDirectory($this->createAndReturnTempDirectory());
-        $configurator->addConfig(__DIR__ . '/../../config/default.neon');
+        $configurator->addConfig(__DIR__ . '/config/default.neon');
+        $configurator->setDebugMode(true);
 
         return $configurator->createContainer();
     }

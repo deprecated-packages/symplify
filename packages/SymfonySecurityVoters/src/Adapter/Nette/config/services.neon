@@ -7,3 +7,8 @@ services:
              - Symfony\Component\Security\Core\Authorization\AccessDecisionManager::STRATEGY_UNANIMOUS
              - TRUE
     - Symplify\SymfonySecurityVoters\Voter\DummyVoter
+
+    -
+        class: Symplify\SymfonySecurityVoters\Adapter\Nette\Token\NetteTokenAdapter
+        setup:
+            - setUser(@Nette\Security\User)
