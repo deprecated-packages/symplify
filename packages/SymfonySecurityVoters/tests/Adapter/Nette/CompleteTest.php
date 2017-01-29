@@ -29,7 +29,6 @@ final class ComleteTest extends TestCase
      */
     public function testShouldFail()
     {
-        // this should fail on SomeVoter voter
         $this->application->run();
     }
 }

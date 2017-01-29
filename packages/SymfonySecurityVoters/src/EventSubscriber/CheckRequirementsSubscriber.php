@@ -5,26 +5,19 @@ namespace Symplify\SymfonySecurityVoters\EventSubscriber;
 use Nette\Application\AbortException;
 use Nette\Application\UI\ComponentReflection;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
-use Symfony\Component\Security\Core\Authorization\AccessDecisionManager;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symplify\SymfonyEventDispatcher\Adapter\Nette\Event\PresenterCreatedEvent;
 
 final class CheckRequirementsSubscriber implements EventSubscriberInterface
 {
     /**
-     * @var AccessDecisionManager
+     * @var AuthorizationCheckerInterface
      */
-    private $accessDecisionManager;
+    private $authorizationChecker;
 
-    /**
-     * @var TokenInterface
-     */
-    private $token;
-
-    public function __construct(AccessDecisionManager $accessDecisionManager, TokenInterface $token)
+    public function __construct(AuthorizationCheckerInterface $authorizationChecker)
     {
-        $this->accessDecisionManager = $accessDecisionManager;
-        $this->token = $token;
+        $this->authorizationChecker = $authorizationChecker;
     }
 
     public static function getSubscribedEvents() : array
@@ -36,10 +29,13 @@ final class CheckRequirementsSubscriber implements EventSubscriberInterface
 
     public function onPresenter(PresenterCreatedEvent $applicationPresenterEvent) : void
     {
-        $presenterReflection = new ComponentReflection($applicationPresenterEvent->getPresenter());
-        $hasAccess = $this->accessDecisionManager->decide($this->token, ['access'], $presenterReflection);
-        if ($hasAccess === FALSE) {
-            throw new AbortException;
+        $isGranted = $this->authorizationChecker->isGranted(
+            'access',
+            new ComponentReflection($applicationPresenterEvent->getPresenter())
+        );
+
+        if ($isGranted === false) {
+            throw new AbortException();
         }
     }
 }

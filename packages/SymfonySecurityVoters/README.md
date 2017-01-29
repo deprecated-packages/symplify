@@ -24,26 +24,23 @@ extensions:
 ```
 
 
-### Symfony
-
-@todo
-
-
 ## Usage
 
-### Voters
+### Your First Voter
 
 First, [read Symfony cookbook](http://symfony.com/doc/current/cookbook/security/voters_data_permission.html)
 
-Then create new voter implementing `Symfony\Component\Security\Core\Authorization\Voter\VoterInterface`
-and register it as service in `config.neon`:
+Then **create new voter** that implements `Symfony\Component\Security\Core\Authorization\Voter\VoterInterface`
+and register it as service:
 
 ```yaml
+# app/config/config.neon
+
 services:
 	- App\SomeModule\Security\Voter\MyVoter
 ```
 
-Then in place, where we need to validate access, we'll just use `AuthorizationChecker`:
+Then in place, where we need to validate access, we'll just use `NetteAuthorizationChecker`:
 
 
 ```php

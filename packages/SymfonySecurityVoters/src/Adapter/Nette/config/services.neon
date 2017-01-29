@@ -1,5 +1,8 @@
 services:
     - Symplify\SymfonySecurityVoters\EventSubscriber\CheckRequirementsSubscriber
+
+    # authorization checker
+    - Symplify\SymfonySecurityVoters\Adapter\Nette\Authorization\NetteAuthorizationChecker
     -
         class: Symfony\Component\Security\Core\Authorization\AccessDecisionManager
         arguments:
@@ -8,6 +11,8 @@ services:
              - TRUE
     - Symplify\SymfonySecurityVoters\Voter\DummyVoter
 
+    # user token
+    - Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage
     -
         class: Symplify\SymfonySecurityVoters\Adapter\Nette\Token\NetteTokenAdapter
         setup:
