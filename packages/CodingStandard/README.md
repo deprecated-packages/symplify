@@ -19,7 +19,7 @@ Using:
 
 ## Install
 
-```sh
+```bash
 composer require symplify/coding-standard --dev
 ```
 
@@ -33,17 +33,23 @@ vendor/bin/symplify-cs check src
 
 Or more dirs...
 
-```sh
+```bash
 vendor/bin/symplify-cs check src tests
+```
+
+Or even multiple subdirectories:
+
+```bash
+vendor/bin/symplify-cs check packages/*/tests
 ```
 
 ### Fixing with ease
 
-```sh
+```bash
 vendor/bin/symplify-cs fix src
 ```
 
-Not all violations can be fixed though, so I recommend running the check again and fix the rest manually.
+**Not all violations can be fixed though**, so I recommend running the check again and fix the rest manually.
 
 
 ## How to be both Lazy and Safe
