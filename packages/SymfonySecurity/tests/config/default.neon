@@ -1,3 +1,0 @@
-extensions:
-	- Symplify\SymfonyEventDispatcher\DI\SymfonyEventDispatcherExtension
-	- Symplify\SymfonySecurity\Adapter\Nette\DI\SymfonySecurityExtension

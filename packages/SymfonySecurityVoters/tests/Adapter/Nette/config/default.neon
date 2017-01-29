@@ -1,0 +1,13 @@
+application:
+    scanComposer: false
+    mapping:
+        *: Symplify\SymfonySecurityVoters\Tests\Adapter\Nette\Source\Presenter\*Presenter
+
+extensions:
+	- Symplify\SymfonyEventDispatcher\Adapter\Nette\DI\SymfonyEventDispatcherExtension
+	- Symplify\SymfonySecurityVoters\Adapter\Nette\DI\SymfonySecurityExtension
+
+services:
+    - Symplify\SymfonySecurityVoters\Tests\Source\Voter\SomeVoter
+    - Symplify\SymfonySecurityVoters\Tests\Adapter\Nette\Source\RouterFactory
+    router: [@Symplify\SymfonySecurityVoters\Tests\Adapter\Nette\Source\RouterFactory, create]
