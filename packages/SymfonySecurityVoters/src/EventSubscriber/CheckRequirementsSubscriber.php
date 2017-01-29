@@ -5,19 +5,19 @@ namespace Symplify\SymfonySecurityVoters\EventSubscriber;
 use Nette\Application\UI\ComponentReflection;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Security\Core\Authorization\AccessDecisionManager;
-use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+use Symfony\Component\Security\Core\Authorization\AccessDecisionManagerInterface;
 use Symplify\SymfonyEventDispatcher\Adapter\Nette\Event\PresenterCreatedEvent;
 
 final class CheckRequirementsSubscriber implements EventSubscriberInterface
 {
     /**
-     * @var AuthorizationCheckerInterface
+     * @var AccessDecisionManagerInterface
      */
-    private $authorizationChecker;
+    private $accessDecisionManager;
 
-    public function __construct(AuthorizationCheckerInterface $authorizationChecker)
+    public function __construct(AccessDecisionManagerInterface $accessDecisionManager)
     {
-        $this->authorizationChecker = $authorizationChecker;
+        $this->accessDecisionManager = $accessDecisionManager;
     }
 
     public static function getSubscribedEvents() : array
@@ -29,9 +29,7 @@ final class CheckRequirementsSubscriber implements EventSubscriberInterface
 
     public function onPresenter(PresenterCreatedEvent $applicationPresenterEvent) : void
     {
-        $accessDecisionManager = new AccessDecisionManager();
-        $accessDecisionManager->decide()
-
+//        $this->accessDecisionManager->decide()
         $this->authorizationChecker->isGranted(
             'access',
             new ComponentReflection($applicationPresenterEvent->getPresenter())

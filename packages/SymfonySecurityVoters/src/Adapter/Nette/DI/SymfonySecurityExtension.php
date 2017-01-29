@@ -4,9 +4,8 @@ namespace Symplify\SymfonySecurityVoters\Adapter\Nette\DI;
 
 use Nette\DI\Compiler;
 use Nette\DI\CompilerExtension;
+use Symfony\Component\Security\Core\Authorization\AccessDecisionManager;
 use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
-use Symplify\PackageBuilder\Adapter\Nette\DI\DefinitionCollector;
-use Symplify\SymfonySecurityVoters\Authorization\AccessDecisionManagerFactory;
 
 final class SymfonySecurityExtension extends CompilerExtension
 {
@@ -20,11 +19,10 @@ final class SymfonySecurityExtension extends CompilerExtension
 
     public function beforeCompile() : void
     {
-        DefinitionCollector::loadCollectorWithType(
-            $this->getContainerBuilder(),
-            AccessDecisionManagerFactory::class,
-            VoterInterface::class,
-            'addVoter'
-        );
+        $containerBuilder = $this->getContainerBuilder();
+        $voterDefinitions = $containerBuilder->findByType(VoterInterface::class);
+
+        $containerBuilder->getDefinitionByType(AccessDecisionManager::class)
+            ->addSetup('setVoters', array_keys($voterDefinitions));
     }
 }

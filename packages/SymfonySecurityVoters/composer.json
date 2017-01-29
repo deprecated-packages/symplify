@@ -1,14 +1,13 @@
 {
-    "name": "symplify/symfony-security",
-    "description": "Voters and Firewall features from Symfony\\Security for standalone use.",
+    "name": "symplify/symfony-security-voters",
+    "description": "Voters features from Symfony\\Security for standalone use.",
     "license": "MIT",
     "require": {
         "php": "^7.1",
         "nette/di": "^2.4",
         "nette/http": "^2.4",
         "symfony/security-core": "^3.2",
-        "symplify/symfony-event-dispatcher": "^1.2",
-        "symplify/package-builder": "@dev"
+        "symplify/symfony-event-dispatcher": "^1.2"
     },
     "require-dev": {
         "nette/application": "^2.4",
@@ -20,12 +19,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Symplify\\SymfonySecurity\\": "src"
+            "Symplify\\SymfonySecurityVoters\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Symplify\\SymfonySecurity\\Tests\\": "tests"
+            "Symplify\\SymfonySecurityVoters\\Tests\\": "tests"
         }
     },
     "scripts": {

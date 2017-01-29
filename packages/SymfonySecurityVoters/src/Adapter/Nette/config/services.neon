@@ -1,10 +1,9 @@
 services:
-	- Symplify\SymfonySecurityVoters\EventSubscriber\CheckRequirementsSubscriber
-#	- Symfony\Component\Security\Core\Authorization\AuthorizationChecker
-
-	# access decision manager
-	- Symplify\SymfonySecurityVoters\Voter\DummyVoter
-	- Symplify\SymfonySecurityVoters\Authorization\AccessDecisionManagerFactory
-	-
-		class: Symfony\Component\Security\Core\Authorization\AccessDecisionManager
-		factory: [@Symplify\SymfonySecurityVoters\Authorization\AccessDecisionManagerFactory, create]
+    - Symplify\SymfonySecurityVoters\EventSubscriber\CheckRequirementsSubscriber
+    -
+        class: Symfony\Component\Security\Core\Authorization\AccessDecisionManager
+        arguments:
+             - []
+             - Symfony\Component\Security\Core\Authorization\AccessDecisionManager::STRATEGY_UNANIMOUS
+             - TRUE
+    - Symplify\SymfonySecurityVoters\Voter\DummyVoter
