@@ -92,6 +92,9 @@ final class NetteTokenAdapter implements TokenInterface
         throw new NotImplementedException;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getUsername()
     {
         throw new NotImplementedException;
@@ -101,6 +104,7 @@ final class NetteTokenAdapter implements TokenInterface
     {
         throw new NotImplementedException;
     }
+
     public function setAttributes(array $attributes) : void
     {
         throw new NotImplementedException;
@@ -117,7 +121,7 @@ final class NetteTokenAdapter implements TokenInterface
 
     public function serialize() : void
     {
-        throw new NotImplementedException();
+        throw new NotImplementedException;
     }
 
     /**

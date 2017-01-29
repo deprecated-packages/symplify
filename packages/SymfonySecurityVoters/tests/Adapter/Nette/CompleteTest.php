@@ -6,7 +6,7 @@ use Nette\Application\Application;
 use Nette\DI\Container;
 use PHPUnit\Framework\TestCase;
 
-final class ComleteTest extends TestCase
+final class CompleteTest extends TestCase
 {
     /**
      * @var Container
@@ -20,7 +20,7 @@ final class ComleteTest extends TestCase
 
     protected function setUp()
     {
-        $this->container = (new ContainerFactory())->create();
+        $this->container = (new ContainerFactory)->create();
         $this->application = $this->container->getByType(Application::class);
     }
 

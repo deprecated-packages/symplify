@@ -35,7 +35,7 @@ final class CheckRequirementsSubscriber implements EventSubscriberInterface
         );
 
         if ($isGranted === false) {
-            throw new AbortException();
+            throw new AbortException;
         }
     }
 }

@@ -15,4 +15,3 @@ final class RouterFactory
         return $routes;
     }
 }
-
