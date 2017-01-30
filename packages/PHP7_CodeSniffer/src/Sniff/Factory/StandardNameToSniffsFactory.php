@@ -17,10 +17,8 @@ final class StandardNameToSniffsFactory implements SniffFactoryInterface
      */
     private $rulesetXmlToSniffsFactory;
 
-    public function __construct(
-        StandardFinder $standardFinder,
-        RulesetXmlToSniffsFactory $rulesetXmlToSniffsFactory
-    ) {
+    public function __construct(StandardFinder $standardFinder, RulesetXmlToSniffsFactory $rulesetXmlToSniffsFactory)
+    {
         $this->standardFinder = $standardFinder;
         $this->rulesetXmlToSniffsFactory = $rulesetXmlToSniffsFactory;
     }
@@ -28,7 +26,7 @@ final class StandardNameToSniffsFactory implements SniffFactoryInterface
     public function isMatch(string $reference) : bool
     {
         $standards = $this->standardFinder->getStandards();
-        return (isset($standards[$reference]));
+        return isset($standards[$reference]);
     }
 
     public function create(string $standardName) : array
