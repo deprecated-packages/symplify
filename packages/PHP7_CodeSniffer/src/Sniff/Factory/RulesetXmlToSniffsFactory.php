@@ -14,9 +14,7 @@ use Symplify\PHP7_CodeSniffer\Sniff\Sorter\SniffSorter;
 use Symplify\PHP7_CodeSniffer\Sniff\Xml\DataCollector\SniffPropertyValueDataCollector;
 use Symplify\PHP7_CodeSniffer\Sniff\Xml\DataCollector\ExcludedSniffDataCollector;
 
-final class RulesetXmlToSniffsFactory implements
-    SniffFactoryInterface,
-    SniffSetFactoryAwareInterface
+final class RulesetXmlToSniffsFactory implements SniffFactoryInterface, SniffSetFactoryAwareInterface
 {
     /**
      * @var ExcludedSniffDataCollector

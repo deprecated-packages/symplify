@@ -2,7 +2,7 @@
 
 namespace Symplify\CodingStandard\Helper;
 
-use File;
+use PHP_CodeSniffer\Files\File;
 
 final class FunctionHelper
 {
@@ -12,7 +12,7 @@ final class FunctionHelper
     }
 
     /**
-     * @return null|string|void
+     * @return null|string
      */
     public static function findReturnTypeHint(File $codeSnifferFile, int $functionPointer)
     {
