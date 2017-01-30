@@ -41,6 +41,9 @@ final class LegacyClassAliases
     {
         $sniffFinder = new SniffFinder(new SniffClassRobotLoaderFactory(), new SniffClassFilter());
 
+        dump($sniffFinder);
+        die;
+
         $sniffClasses = $sniffFinder->findAllSniffClassesInDirectory(VendorDirProvider::provide() . '/squizlabs/php_codesniffer/src/Standards');
         foreach ($sniffClasses as $sniffCode => $sniffClass) {
             $legacySniffClass = self::convertSniffCodeToLegacyClassName($sniffCode);

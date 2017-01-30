@@ -20,12 +20,12 @@ final class ClassLoaderDecoratorTest extends TestCase
         $classLoaderDecorator->decorate($classLoader);
 
         $psr4Prefixes = $classLoader->getPrefixesPsr4();
-        $this->assertCount(4, $psr4Prefixes);
+        $this->assertCount(3, $psr4Prefixes);
 
-        $this->assertArrayHasKey('PHPStan\\', $psr4Prefixes);
+        $this->assertArrayHasKey('PHP_CodeSniffer\\', $psr4Prefixes);
         $this->assertStringEndsWith(
-            'vendor/phpstan/phpstan/build/PHPStan',
-            $psr4Prefixes['PHPStan\\'][0]
+            'vendor/squizlabs/php_codesniffer/CodeSniffer/Standards/PHPCS/PHP_CodeSniffer',
+            $psr4Prefixes['PHP_CodeSniffer\\'][0]
         );
     }
 }

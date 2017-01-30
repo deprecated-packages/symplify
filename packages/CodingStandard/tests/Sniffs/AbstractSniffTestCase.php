@@ -4,17 +4,11 @@ namespace Symplify\CodingStandard\Tests\Sniffs;
 
 use Nette\Utils\Finder;
 use Nette\Utils\Strings;
-use PHP_CodeSniffer\Sniffs\Sniff;
 use PHP_CodeSniffer\Util\Tokens;
 use PHPUnit\Framework\TestCase;
 use SplFileInfo;
-use Symplify\PHP7_CodeSniffer\Application\Fixer;
 use Symplify\PHP7_CodeSniffer\EventDispatcher\CurrentListenerSniffCodeProvider;
-use Symplify\PHP7_CodeSniffer\EventDispatcher\Event\CheckFileTokenEvent;
 use Symplify\PHP7_CodeSniffer\EventDispatcher\SniffDispatcher;
-use Symplify\PHP7_CodeSniffer\File\File;
-use Symplify\PHP7_CodeSniffer\Parser\EolCharDetector;
-use Symplify\PHP7_CodeSniffer\Parser\FileToTokensParser;
 use Symplify\PHP7_CodeSniffer\Report\ErrorDataCollector;
 use Symplify\PHP7_CodeSniffer\Report\ErrorMessageSorter;
 
@@ -111,34 +105,9 @@ abstract class AbstractSniffTestCase extends TestCase
         return new ErrorDataCollector(new CurrentListenerSniffCodeProvider(), new ErrorMessageSorter());
     }
 
-    private function createFileFromFilePath(string $filePath) : File
-    {
-        $eolCharDetector = new EolCharDetector();
-        $fileToTokenParser = new FileToTokensParser($eolCharDetector);
-
-        $tokens = $fileToTokenParser->parseFromFilePath($filePath);
-        $eolChar = $eolCharDetector->detectForFilePath($filePath);
-
-        $fixer = new Fixer();
-        $file = new File($filePath, $tokens, $fixer, $this->errorDataCollector, true, $eolChar);
-        $file->fixer->startFile($file);
-
-        return $file;
-    }
-
-//    private function processFile(File $file) : void
-//    {
-//        foreach ($file->getTokens() as $stackPointer => $token) {
-//            $this->sniffDispatcher->dispatch(
-//                $token['code'],
-//                new CheckFileTokenEvent($file, $stackPointer)
-//            );
-//        }
-//    }
-
     private function setupLegacy(): void
     {
-// legacy required
+        // legacy required
         if (!defined('PHP_CODESNIFFER_VERBOSITY')) {
             define('PHP_CODESNIFFER_VERBOSITY', 0);
         }

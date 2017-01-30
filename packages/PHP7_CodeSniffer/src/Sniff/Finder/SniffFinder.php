@@ -37,7 +37,7 @@ final class SniffFinder
     public function findAllSniffClassesInDirectory(string $directory) : array
     {
         if (isset($this->sniffClassesPerDirectory[$directory])) {
-            return $this->sniffClassesPerDirectory[$directory];
+            return [$this->sniffClassesPerDirectory[$directory]];
         }
 
         $robotLoader = $this->sniffClassRobotLoaderFactory->createForDirectory($directory);

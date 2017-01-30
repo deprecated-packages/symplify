@@ -68,11 +68,15 @@ final class StandardFinder
     {
         $installedStandards = (new Finder())->files()
             ->in(VendorDirProvider::provide())
-            ->name('ruleset.xml');
+            ->name('ruleset.xml')
+            ->getIterator();
 
         return array_keys(iterator_to_array($installedStandards));
     }
 
+    /**
+     * @return string[]
+     */
     private function getRulesetNames() : array
     {
         return array_keys($this->getStandards());
