@@ -9,7 +9,6 @@ use Symplify\PHP7_CodeSniffer\EventDispatcher\CurrentListenerSniffCodeProvider;
 use Symplify\PHP7_CodeSniffer\EventDispatcher\Event\CheckFileTokenEvent;
 use Symplify\PHP7_CodeSniffer\EventDispatcher\SniffDispatcher;
 use Symplify\PHP7_CodeSniffer\File\File;
-use Symplify\PHP7_CodeSniffer\Parser\EolCharDetector;
 use Symplify\PHP7_CodeSniffer\Parser\FileToTokensParser;
 use Symplify\PHP7_CodeSniffer\Report\ErrorDataCollector;
 use Symplify\PHP7_CodeSniffer\Report\ErrorMessageSorter;
@@ -66,16 +65,14 @@ final class SniffRunner
         string $filePath,
         ErrorDataCollector $errorDataCollector = null
     ) : File {
-        $eolCharDetector = new EolCharDetector();
-        $fileToTokenParser = new FileToTokensParser($eolCharDetector);
+        $fileToTokenParser = new FileToTokensParser();
 
         $errorDataCollector = $errorDataCollector ?: self::createErrorDataCollector();
 
         $tokens = $fileToTokenParser->parseFromFilePath($filePath);
-        $eolChar = $eolCharDetector->detectForFilePath($filePath);
 
         $fixer = new Fixer();
-        $file = new File($filePath, $tokens, $fixer, $errorDataCollector, true, $eolChar);
+        $file = new File($filePath, $tokens, $fixer, $errorDataCollector, true);
         $file->fixer->startFile($file);
 
         return $file;

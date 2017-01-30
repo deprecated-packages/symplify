@@ -1,9 +1,4 @@
-<?php
-
-/*
- * This file is part of Symplify
- * Copyright (c) 2016 Tomas Votruba (http://tomasvotruba.cz).
- */
+<?php declare(strict_types=1);
 
 if (file_exists($autoload = __DIR__.'/../../../autoload.php')) {
 	require_once $autoload;
