@@ -24,6 +24,12 @@ final class SniffFactoryTest extends TestCase
         );
 
         $sniffs = $sniffSetFactory->createFromStandardsAndSniffs($standards, $extraSniffs);
+
+        if ($standards === ['PSR2']) {
+            dump($sniffs);
+            die;
+        }
+
         $this->assertCount($sniffCount, $sniffs);
         foreach ($sniffs as $sniff) {
             $this->assertNotNull($sniff, 'Null present in sniffs array');

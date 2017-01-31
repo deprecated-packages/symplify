@@ -11,6 +11,10 @@ final class SniffClassFilter
     {
         $finalSniffClasses = [];
         foreach ($originSniffClasses as $sniffClass) {
+            if (!class_exists($sniffClass)) {
+                continue;
+            }
+
             if ($this->isAbstractClass($sniffClass)) {
                 continue;
             }

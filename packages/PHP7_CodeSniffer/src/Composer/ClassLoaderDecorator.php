@@ -20,7 +20,6 @@ final class ClassLoaderDecorator
     public function decorate(ClassLoader $classLoader)
     {
         $standards = $this->standardFinder->getStandards();
-
         foreach ($standards as $standardName => $standardRuleset) {
             if ($this->isDefaultStandard($standardName)) {
                 continue;
@@ -40,7 +39,8 @@ final class ClassLoaderDecorator
     {
         return in_array(
             $standardName,
-            ['PSR1', 'MySource', 'PSR2', 'Zend', 'PEAR', 'Squiz', 'Generic']
+            ['PSR1', 'MySource', 'PSR2', 'Zend', 'PEAR', 'Squiz', 'Generic'],
+            true
         );
     }
 

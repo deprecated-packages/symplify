@@ -50,6 +50,7 @@ final class SniffSetFactory
         $sniffs = [];
         foreach ($this->sniffFactories as $sniffFactory) {
             foreach ($sources as $source) {
+                $source = (string) $source;
                 if ($sniffFactory->isMatch($source)) {
                     $sniffs = array_merge($sniffs, $sniffFactory->create($source));
                 }

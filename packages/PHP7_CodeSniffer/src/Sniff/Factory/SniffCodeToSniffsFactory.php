@@ -27,11 +27,7 @@ final class SniffCodeToSniffsFactory implements SniffFactoryInterface
     public function isMatch(string $reference) : bool
     {
         $partsCount = count(explode('.', $reference));
-        if ($partsCount >= 3 && $partsCount <=4) {
-            return true;
-        }
-
-        return false;
+        return $partsCount === 3;
     }
 
     /**
@@ -44,7 +40,6 @@ final class SniffCodeToSniffsFactory implements SniffFactoryInterface
         if ($sniff !== null) {
             return [$sniff];
         }
-
 
         return [];
     }
