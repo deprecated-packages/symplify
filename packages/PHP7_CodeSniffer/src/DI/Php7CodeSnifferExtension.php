@@ -26,7 +26,7 @@ final class Php7CodeSnifferExtension extends CompilerExtension
         $this->loadOptionResolversToConfigurationResolver();
     }
 
-    private function loadSniffFactoriesToSniffSetFactory()
+    private function loadSniffFactoriesToSniffSetFactory() : void
     {
         DefinitionCollector::loadCollectorWithType(
             $this->getContainerBuilder(),
@@ -36,7 +36,7 @@ final class Php7CodeSnifferExtension extends CompilerExtension
         );
     }
 
-    private function loadOptionResolversToConfigurationResolver()
+    private function loadOptionResolversToConfigurationResolver() : void
     {
         DefinitionCollector::loadCollectorWithType(
             $this->getContainerBuilder(),

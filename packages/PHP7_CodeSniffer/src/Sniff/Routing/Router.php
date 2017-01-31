@@ -24,7 +24,6 @@ final class Router
     public function getClassFromSniffCode(string $sniffCode) : string
     {
         $sniffCode = $this->normalizeToSniffClassCode($sniffCode);
-
         if (isset($this->foundClasses[$sniffCode])) {
             return $this->foundClasses[$sniffCode];
         }

@@ -43,14 +43,13 @@ final class StandardNameToSniffsFactoryTest extends TestCase
     public function testCreate()
     {
         $sniffs = $this->standardNameToSniffsFactory->create('PSR1');
-        $this->assertCount(7, $sniffs);
+        $this->assertCount(6, $sniffs);
 
         $this->assertInstanceOf(ByteOrderMarkSniff::class, $sniffs[0]);
         $this->assertInstanceOf(UpperCaseConstantNameSniff::class, $sniffs[1]);
-        $this->assertInstanceOf(DisallowShortOpenTagSniff::class, $sniffs[2]);
-        $this->assertInstanceOf(ClassDeclarationSniff::class, $sniffs[3]);
-        $this->assertInstanceOf(SideEffectsSniff::class, $sniffs[4]);
-        $this->assertInstanceOf(CamelCapsMethodNameSniff::class, $sniffs[5]);
-        $this->assertInstanceOf(ValidClassNameSniff::class, $sniffs[6]);
+        $this->assertInstanceOf(ClassDeclarationSniff::class, $sniffs[2]);
+        $this->assertInstanceOf(SideEffectsSniff::class, $sniffs[3]);
+        $this->assertInstanceOf(CamelCapsMethodNameSniff::class, $sniffs[4]);
+        $this->assertInstanceOf(ValidClassNameSniff::class, $sniffs[5]);
     }
 }

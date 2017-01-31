@@ -31,7 +31,10 @@ final class SniffCodeToSniffsFactoryTest extends TestCase
     public function testCreate()
     {
         $sniffs = $this->sniffCodeToSniffsFactory->create('PSR2.Classes.ClassDeclaration');
+        $this->assertCount(1, $sniffs);
+        $this->assertInstanceOf(Sniff::class, array_pop($sniffs));
 
+        $sniffs = $this->sniffCodeToSniffsFactory->create('Squiz.Classes.ValidClassName');
         $this->assertCount(1, $sniffs);
         $this->assertInstanceOf(Sniff::class, array_pop($sniffs));
     }

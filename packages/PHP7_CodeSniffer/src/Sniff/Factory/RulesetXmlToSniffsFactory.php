@@ -64,7 +64,6 @@ final class RulesetXmlToSniffsFactory implements SniffFactoryInterface, SniffSet
     public function create(string $rulesetXmlFile) : array
     {
         $sniffs = $this->createSniffsFromOwnRuleset($rulesetXmlFile);
-
         $rulesetXml = simplexml_load_file($rulesetXmlFile);
         foreach ($rulesetXml->rule as $ruleXmlElement) {
             if ($this->isRuleXmlElementSkipped($ruleXmlElement)) {
@@ -92,11 +91,14 @@ final class RulesetXmlToSniffsFactory implements SniffFactoryInterface, SniffSet
         }
 
         if (isset($ruleXmlElement->severity)) {
-            if (SniffNaming::isSniffCode($ruleXmlElement['ref'])) {
+            $severity = (string) $ruleXmlElement->severity;
+            if ($severity === 0) {
                 return true;
             }
 
-            return false;
+//            if (SniffNaming::isSniffCode((string) $ruleXmlElement['ref'])) {
+//                return true;
+//            }
         }
 
         return false;

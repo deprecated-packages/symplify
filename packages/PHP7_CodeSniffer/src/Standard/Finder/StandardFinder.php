@@ -66,9 +66,10 @@ final class StandardFinder
      */
     private function findRulesetFiles() : array
     {
-        $installedStandards = (new Finder())->files()
-            ->in(VendorDirProvider::provide())
-            ->name('ruleset.xml')
+        $installedStandards = \Nette\Utils\Finder::findFiles('*ruleset.xml')
+            ->from(VendorDirProvider::provide())
+            // exclude indirect or invalid coding standards
+            ->exclude('greenlion', 'doctrine-cache-bundle')
             ->getIterator();
 
         return array_keys(iterator_to_array($installedStandards));
