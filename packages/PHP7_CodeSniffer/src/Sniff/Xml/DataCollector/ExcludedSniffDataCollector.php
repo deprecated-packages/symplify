@@ -3,6 +3,7 @@
 namespace Symplify\PHP7_CodeSniffer\Sniff\Xml\DataCollector;
 
 use SimpleXMLElement;
+use Symplify\PHP7_CodeSniffer\Exception\Sniff\Naming\InvalidSniffClassException;
 use Symplify\PHP7_CodeSniffer\Sniff\Naming\SniffNaming;
 
 final class ExcludedSniffDataCollector
@@ -31,6 +32,10 @@ final class ExcludedSniffDataCollector
 
     public function isSniffClassExcluded(string $sniffClassName) : bool
     {
+        if (empty($sniffClassName)) {
+            return true;
+        }
+
         $sniffCode = SniffNaming::guessCodeByClass($sniffClassName);
         return $this->isSniffCodeExcluded($sniffCode);
     }

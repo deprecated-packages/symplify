@@ -40,31 +40,28 @@ final class RulesetXmlToSniffsFactoryTest extends TestCase
         $rulesetXmlPath = $standardFinder->getRulesetPathForStandardName('PSR1');
         $sniffs = $this->rulesetXmlToSniffsFactory->create($rulesetXmlPath);
 
-        $this->assertCount(7, $sniffs);
+        $this->assertCount(6, $sniffs);
 
         $this->assertInstanceOf(ByteOrderMarkSniff::class, $sniffs[0]);
         $this->assertInstanceOf(UpperCaseConstantNameSniff::class, $sniffs[1]);
-        $this->assertInstanceOf(DisallowShortOpenTagSniff::class, $sniffs[2]);
-        $this->assertInstanceOf(ClassDeclarationSniff::class, $sniffs[3]);
-        $this->assertInstanceOf(SideEffectsSniff::class, $sniffs[4]);
-        $this->assertInstanceOf(CamelCapsMethodNameSniff::class, $sniffs[5]);
-        $this->assertInstanceOf(ValidClassNameSniff::class, $sniffs[6]);
+        $this->assertInstanceOf(ClassDeclarationSniff::class, $sniffs[2]);
+        $this->assertInstanceOf(SideEffectsSniff::class, $sniffs[3]);
+        $this->assertInstanceOf(CamelCapsMethodNameSniff::class, $sniffs[4]);
+        $this->assertInstanceOf(ValidClassNameSniff::class, $sniffs[5]);
     }
 
     public function testCustomRulesetXml()
     {
-        $sniffs = $this->rulesetXmlToSniffsFactory->create(
-            __DIR__ . '/RulesetXmlSource/ruleset.xml'
-        );
+        $sniffs = $this->rulesetXmlToSniffsFactory->create(__DIR__ . '/RulesetXmlSource/ruleset.xml');
 
-        $this->assertCount(8, $sniffs);
+        $this->assertCount(7, $sniffs);
+
         $this->assertInstanceOf(ByteOrderMarkSniff::class, $sniffs[0]);
         $this->assertInstanceOf(LineEndingsSniff::class, $sniffs[1]);
         $this->assertInstanceOf(UpperCaseConstantNameSniff::class, $sniffs[2]);
-        $this->assertInstanceOf(DisallowShortOpenTagSniff::class, $sniffs[3]);
-        $this->assertInstanceOf(ClassDeclarationSniff::class, $sniffs[4]);
-        $this->assertInstanceOf(SideEffectsSniff::class, $sniffs[5]);
-        $this->assertInstanceOf(CamelCapsMethodNameSniff::class, $sniffs[6]);
-        $this->assertInstanceOf(ValidClassNameSniff::class, $sniffs[7]);
+        $this->assertInstanceOf(ClassDeclarationSniff::class, $sniffs[3]);
+        $this->assertInstanceOf(SideEffectsSniff::class, $sniffs[4]);
+        $this->assertInstanceOf(CamelCapsMethodNameSniff::class, $sniffs[5]);
+        $this->assertInstanceOf(ValidClassNameSniff::class, $sniffs[6]);
     }
 }

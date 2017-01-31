@@ -7,7 +7,7 @@ use Symplify\PHP7_CodeSniffer\Composer\VendorDirProvider;
 final class SniffFinder
 {
     /**
-     * @var string[]
+     * @var string[]|array
      */
     private $sniffClassesPerDirectory = [];
 
@@ -37,13 +37,12 @@ final class SniffFinder
     public function findAllSniffClassesInDirectory(string $directory) : array
     {
         if (isset($this->sniffClassesPerDirectory[$directory])) {
-            return [$this->sniffClassesPerDirectory[$directory]];
+            return $this->sniffClassesPerDirectory[$directory];
         }
 
         $robotLoader = $this->sniffClassRobotLoaderFactory->createForDirectory($directory);
-        $sniffClasses = $this->sniffClassFilter->filterOutAbstractAndNonPhpSniffClasses(
-            array_keys($robotLoader->getIndexedClasses())
-        );
+        $foundSniffClasses = array_keys($robotLoader->getIndexedClasses());
+        $sniffClasses = $this->sniffClassFilter->filterOutAbstractAndNonPhpSniffClasses($foundSniffClasses);
 
         return $this->sniffClassesPerDirectory[$directory] = $sniffClasses;
     }
