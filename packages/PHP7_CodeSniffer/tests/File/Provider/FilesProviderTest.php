@@ -3,10 +3,9 @@
 namespace Symplify\PHP7_CodeSniffer\Tests\File\Provider;
 
 use PHPUnit\Framework\TestCase;
+use Symplify\PHP7_CodeSniffer\DI\ContainerFactory;
 use Symplify\PHP7_CodeSniffer\File\File;
-use Symplify\PHP7_CodeSniffer\File\Finder\SourceFinder;
 use Symplify\PHP7_CodeSniffer\File\Provider\FilesProvider;
-use Symplify\PHP7_CodeSniffer\Tests\Instantiator;
 
 final class FilesProviderTest extends TestCase
 {
@@ -17,10 +16,8 @@ final class FilesProviderTest extends TestCase
 
     protected function setUp()
     {
-        $this->filesProvider = new FilesProvider(
-            new SourceFinder(),
-            Instantiator::createFileFactory()
-        );
+        $container = (new ContainerFactory())->create();
+        $this->filesProvider = $container->getByType(FilesProvider::class);
     }
 
     public function test()

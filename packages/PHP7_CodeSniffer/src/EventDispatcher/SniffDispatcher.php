@@ -13,10 +13,9 @@ final class SniffDispatcher extends EventDispatcher
      */
     public function addSniffListeners(array $sniffs)
     {
-        foreach ($sniffs as $sniffCode => $sniffObject) {
-            $tokens = $sniffObject->register();
-            foreach ($tokens as $token) {
-                $this->addTokenSniffListener($token, $sniffObject);
+        foreach ($sniffs as $sniff) {
+            foreach ($sniff->register() as $token) {
+                $this->addTokenSniffListener($token, $sniff);
             }
         }
     }
@@ -27,6 +26,7 @@ final class SniffDispatcher extends EventDispatcher
      */
     private function addTokenSniffListener($token, Sniff $sniffObject)
     {
+        // @todo, string or int? Make it strict!
         $this->addListener(
             $token,
             function (CheckFileTokenEvent $checkFileToken) use ($sniffObject) {

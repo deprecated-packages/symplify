@@ -3,13 +3,15 @@
 namespace Symplify\PHP7_CodeSniffer\Tests\Report;
 
 use PHPUnit\Framework\TestCase;
+use Symplify\PHP7_CodeSniffer\DI\ContainerFactory;
 use Symplify\PHP7_CodeSniffer\Report\ErrorMessageSorter;
 
 final class ErrorMessageSorterTest extends TestCase
 {
-    public function testSortByFileAndLine()
+    public function test()
     {
-        $errorMessageSorter = new ErrorMessageSorter();
+        $container = (new ContainerFactory())->create();
+        $errorMessageSorter = $container->getByType(ErrorMessageSorter::class);
 
         $this->assertSame(
             $this->getExpectedSortedMessages(),

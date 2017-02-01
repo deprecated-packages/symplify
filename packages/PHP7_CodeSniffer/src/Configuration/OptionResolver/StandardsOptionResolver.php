@@ -3,10 +3,8 @@
 namespace Symplify\PHP7_CodeSniffer\Configuration\OptionResolver;
 
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symplify\PHP7_CodeSniffer\Configuration\ValueNormalizer;
 use Symplify\PHP7_CodeSniffer\Contract\Configuration\OptionResolver\OptionResolverInterface;
 use Symplify\PHP7_CodeSniffer\Exception\Configuration\OptionResolver\StandardNotFoundException;
-use Symplify\PHP7_CodeSniffer\Standard\Finder\StandardFinder;
 
 final class StandardsOptionResolver implements OptionResolverInterface
 {
@@ -25,7 +23,6 @@ final class StandardsOptionResolver implements OptionResolverInterface
         $optionsResolver = new OptionsResolver();
         $optionsResolver->setDefined(self::NAME);
         $this->setAllowedValues($optionsResolver);
-        $this->setNormalizer($optionsResolver);
 
         $values = $optionsResolver->resolve([
             self::NAME => $value
@@ -34,20 +31,11 @@ final class StandardsOptionResolver implements OptionResolverInterface
         return $values[self::NAME];
     }
 
-    private function setNormalizer(OptionsResolver $optionsResolver) : void
-    {
-        $optionsResolver->setNormalizer(
-            self::NAME,
-            function (OptionsResolver $optionsResolver, array $standardNames) {
-                return ValueNormalizer::normalizeCommaSeparatedValues($standardNames);
-            }
-        );
-    }
-
     private function setAllowedValues(OptionsResolver $optionsResolver) : void
     {
         $optionsResolver->setAllowedValues(self::NAME, function (array $standards) {
-            $standards = ValueNormalizer::normalizeCommaSeparatedValues($standards);
+            dump($standards);
+            die;
 
             // todo: use sniff group provider
             $availableStandards = $this->standardFinder->getStandards();

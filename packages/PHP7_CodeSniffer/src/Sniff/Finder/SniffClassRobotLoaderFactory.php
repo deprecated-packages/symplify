@@ -10,6 +10,7 @@ final class SniffClassRobotLoaderFactory
     public function createForDirectory(string $directory) : RobotLoader
     {
         $robot = new RobotLoader();
+        // @todo: maybe file cache?
         $robot->setCacheStorage(new DevNullStorage());
         $robot->addDirectory($directory);
         $robot->ignoreDirs .= ', tests, Tests';

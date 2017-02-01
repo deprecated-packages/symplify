@@ -1,10 +1,10 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Symplify\PHP7_CodeSniffer\Tests\Sniff\Finder;
 
 use PHPUnit\Framework\TestCase;
+use Symplify\PHP7_CodeSniffer\DI\ContainerFactory;
 use Symplify\PHP7_CodeSniffer\Sniff\Finder\SniffFinder;
-use Symplify\PHP7_CodeSniffer\Tests\Instantiator;
 
 final class SniffFinderTest extends TestCase
 {
@@ -15,7 +15,8 @@ final class SniffFinderTest extends TestCase
 
     protected function setUp()
     {
-        $this->sniffFinder = Instantiator::createSniffFinder();
+        $container = (new ContainerFactory())->create();
+        $this->sniffFinder = $container->getByType(SniffFinder::class);
     }
 
     public function testFindAllSniffs()
@@ -26,7 +27,7 @@ final class SniffFinderTest extends TestCase
 
     public function testFindSniffsInDirectory()
     {
-        $sniffs = $this->sniffFinder->findAllSniffClassesInDirectory();
+        $sniffs = $this->sniffFinder->findAllSniffClassesInDirectory(__DIR__ );
         $this->assertCount(12, $sniffs);
     }
 }

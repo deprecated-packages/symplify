@@ -7,7 +7,7 @@ use Symplify\PHP7_CodeSniffer\Application\Command\RunApplicationCommand;
 
 final class RunApplicationCommandTest extends TestCase
 {
-    public function testConstructor()
+    public function test()
     {
         $command = new RunApplicationCommand(
             $source = ['source'],

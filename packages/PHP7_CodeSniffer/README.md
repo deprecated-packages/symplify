@@ -4,53 +4,23 @@ This is essential development tool that ensures your code **remains clean and co
 
 [![Build Status](https://img.shields.io/travis/Symplify/PHP7_CodeSniffer.svg?style=flat-square)](https://travis-ci.org/Symplify/PHP7_CodeSniffer)
 [![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/Symplify/PHP7_CodeSniffer.svg?style=flat-square)](https://scrutinizer-ci.com/g/Symplify/PHP7_CodeSniffer)
-[![Downloads total](https://img.shields.io/packagist/dt/symplify/php7_codesniffer.svg?style=flat-square)](https://packagist.org/packages/symplify/php7_codesniffer)
-[![Latest stable](https://img.shields.io/packagist/v/symplify/php7_codesniffer.svg?style=flat-square)](https://packagist.org/packages/symplify/php7_codesniffer)
+[![Downloads total](https://img.shields.io/packagist/dt/symplify/sniff-runner.svg?style=flat-square)](https://packagist.org/packages/symplify/sniff-runner)
+[![Latest stable](https://img.shields.io/packagist/v/symplify/sniff-runner.svg?style=flat-square)](https://packagist.org/packages/symplify/sniff-runner)
 
 
 ## Install
 
 ```bash
-composer require symplify/php7_codesniffer --dev
+composer require symplify/sniff-runner --dev
 ```
 
 ## Use
 
-Run it from cli:
-
-```bash
-vendor/bin/php7cs src --standards=PSR2
-```
-
-To fix the issues just add `--fix`:
-
-```bash
-vendor/bin/php7cs src --standards=PSR2 --fix
-```
-
-### How to Use Specific Sniff Only?
-
-```bash
-vendor/bin/php7cs src --sniffs=PSR2.Classes.ClassDeclaration
-vendor/bin/php7cs src --sniffs=PSR2.Classes.ClassDeclaration,Zend.Files.ClosingTag
-```
-
-You can combine them as well:
-
-```bash
-vendor/bin/php7cs src --standards=PSR2 --sniffs=Zend.Files.ClosingTag
-```
-
-### Or Use Standard WITHOUT One Sniff?
-
-```bash
-vendor/bin/php7cs src --standards=PSR2 --exclude-sniffs=PSR2.Namespaces.UseDeclaration
-```
+@todo
 
 ## Testing
 
 ```bash
-bin/php7cs src tests --standards=PSR2
 vendor/bin/phpunit
 ```
 
