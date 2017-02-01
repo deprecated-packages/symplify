@@ -1,8 +1,6 @@
 services:
     # factory
-    - Symplify\PHP7_CodeSniffer\Sniff\SniffSetFactory
     - Symplify\PHP7_CodeSniffer\Sniff\Factory\SniffFactory
-    - Symplify\PHP7_CodeSniffer\Sniff\Factory\StandardNameToSniffsFactory
 
     # finder
     - Symplify\PHP7_CodeSniffer\Sniff\Finder\SniffFinder

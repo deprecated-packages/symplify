@@ -3,38 +3,34 @@
 namespace Symplify\PHP7_CodeSniffer\Sniff\Factory;
 
 use PHP_CodeSniffer\Sniffs\Sniff;
-use Symplify\PHP7_CodeSniffer\Sniff\Xml\DataCollector\SniffPropertyValueDataCollector;
-use Symplify\PHP7_CodeSniffer\Sniff\Xml\DataCollector\ExcludedSniffDataCollector;
 
 final class SniffFactory
 {
     /**
-     * @var SniffPropertyValueDataCollector
+     * @var array[][] { sniffClass => { property => value }}
      */
-    private $sniffPropertyValueDataCollector;
+    private $sniffPropertyValues;
 
-    public function __construct(
-        SniffPropertyValueDataCollector $customSniffPropertyDataCollector
-    ) {
-        $this->sniffPropertyValueDataCollector = $customSniffPropertyDataCollector;
+    public function setSniffPropertyValues(array $sniffPropertyValues)
+    {
+        $this->sniffPropertyValues = $sniffPropertyValues;
     }
 
-    /**
-     * @return Sniff|null
-     */
-    public function create(string $sniffClassName)
+    public function create(string $sniffClass) : Sniff
     {
-        $sniff = new $sniffClassName;
-        return $this->setCustomSniffPropertyValues($sniff);
+        $sniff = new $sniffClass;
+        $this->decorateSniffWithValues($sniff, $sniffClass);
+        return $sniff;
     }
 
-    private function setCustomSniffPropertyValues(Sniff $sniff) : Sniff
+    private function decorateSniffWithValues(Sniff $sniff, string $sniffClass) : void
     {
-        $sniffPropertyValues = $this->sniffPropertyValueDataCollector->getForSniff($sniff);
-        foreach ($sniffPropertyValues as $property => $value) {
-            $sniff->$property = $value;
+        if (!isset($sniffPropertyValues[$sniffClass])) {
+            return;
         }
 
-        return $sniff;
+        foreach ($sniffPropertyValues[$sniffClass] as $property => $value) {
+            $sniff->$property = $value;
+        }
     }
 }

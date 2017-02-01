@@ -4,10 +4,8 @@ namespace Symplify\CodingStandard\Tests\Sniffs;
 
 use Nette\Utils\Finder;
 use Nette\Utils\Strings;
-use PHP_CodeSniffer\Util\Tokens;
 use PHPUnit\Framework\TestCase;
 use SplFileInfo;
-use Symplify\PHP7_CodeSniffer\EventDispatcher\CurrentListenerSniffCodeProvider;
 use Symplify\PHP7_CodeSniffer\EventDispatcher\SniffDispatcher;
 use Symplify\PHP7_CodeSniffer\Report\ErrorDataCollector;
 use Symplify\PHP7_CodeSniffer\Report\ErrorMessageSorter;
@@ -92,9 +90,7 @@ abstract class AbstractSniffTestCase extends TestCase
 
     private function createSniffDispatcherWithSniff(string $sniffClass) : SniffDispatcher
     {
-        $this->setupLegacy();
-
-        $sniffDispatcher = new SniffDispatcher(new CurrentListenerSniffCodeProvider());
+        $sniffDispatcher = new SniffDispatcher();
         $sniffDispatcher->addSniffListeners([new $sniffClass]);
 
         return $sniffDispatcher;
@@ -102,16 +98,6 @@ abstract class AbstractSniffTestCase extends TestCase
 
     private function createErrorDataCollector() : ErrorDataCollector
     {
-        return new ErrorDataCollector(new CurrentListenerSniffCodeProvider(), new ErrorMessageSorter());
-    }
-
-    private function setupLegacy(): void
-    {
-        // legacy required
-        if (!defined('PHP_CODESNIFFER_VERBOSITY')) {
-            define('PHP_CODESNIFFER_VERBOSITY', 0);
-        }
-        // legacy required
-        (new Tokens);
+        return new ErrorDataCollector(new ErrorMessageSorter());
     }
 }

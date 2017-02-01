@@ -3,6 +3,7 @@
 namespace Symplify\PHP7_CodeSniffer\Tests\File\Finder;
 
 use PHPUnit\Framework\TestCase;
+use Symplify\PHP7_CodeSniffer\DI\ContainerFactory;
 use Symplify\PHP7_CodeSniffer\File\Finder\SourceFinder;
 
 final class SourceFinderTest extends TestCase
@@ -14,7 +15,8 @@ final class SourceFinderTest extends TestCase
 
     protected function setUp()
     {
-        $this->sourceFinder = new SourceFinder();
+        $container = (new ContainerFactory())->create();
+        $this->sourceFinder = $container->getByType(SourceFinder::class);
     }
 
     /**

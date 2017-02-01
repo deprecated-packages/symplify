@@ -32,8 +32,5 @@
         "psr-4": {
             "Symplify\\PHP7_CodeSniffer\\Tests\\": "tests"
         }
-    },
-    "bin": [
-        "bin/php7cs"
-    ]
+    }
 }

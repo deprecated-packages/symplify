@@ -5,6 +5,7 @@ namespace Symplify\PHP7_CodeSniffer\Tests\Application;
 use PHPUnit\Framework\TestCase;
 use Symplify\PHP7_CodeSniffer\Application\Application;
 use Symplify\PHP7_CodeSniffer\Application\Command\RunApplicationCommand;
+use Symplify\PHP7_CodeSniffer\DI\ContainerFactory;
 use Symplify\PHP7_CodeSniffer\Tests\Instantiator;
 
 final class ApplicationTest extends TestCase
@@ -16,7 +17,8 @@ final class ApplicationTest extends TestCase
 
     protected function setUp()
     {
-        $this->application = Instantiator::createApplication();
+        $container = (new ContainerFactory())->create();
+        $this->application = $container->getByType(Application::class);
     }
 
     public function testRunCommand()

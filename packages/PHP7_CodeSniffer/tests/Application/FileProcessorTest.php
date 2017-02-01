@@ -4,11 +4,8 @@ namespace Symplify\PHP7_CdeSniffer\Tests\Application;
 
 use PHPUnit\Framework\TestCase;
 use Symplify\PHP7_CodeSniffer\Application\FileProcessor;
-use Symplify\PHP7_CodeSniffer\Application\Fixer;
-use Symplify\PHP7_CodeSniffer\EventDispatcher\CurrentListenerSniffCodeProvider;
-use Symplify\PHP7_CodeSniffer\EventDispatcher\SniffDispatcher;
+use Symplify\PHP7_CodeSniffer\DI\ContainerFactory;
 use Symplify\PHP7_CodeSniffer\File\FileFactory;
-use Symplify\PHP7_CodeSniffer\Tests\Instantiator;
 
 final class FileProcessorTest extends TestCase
 {
@@ -24,8 +21,9 @@ final class FileProcessorTest extends TestCase
 
     protected function setUp()
     {
-        $this->fileProcessor = new FileProcessor(new SniffDispatcher(new CurrentListenerSniffCodeProvider()), new Fixer());
-        $this->fileFactory = Instantiator::createFileFactory();
+        $container = (new ContainerFactory())->create();
+        $this->fileProcessor = $container->getByType(FileProcessor::class);
+        $this->fileFactory = $container->getByType(FileFactory::class);
     }
 
     public function testProcessFiles()
