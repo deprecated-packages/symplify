@@ -6,7 +6,7 @@ use PHP_CodeSniffer\Standards\Generic\Sniffs\Files\LineLengthSniff;
 use PHP_CodeSniffer\Standards\PSR2\Sniffs\Classes\ClassDeclarationSniff;
 use PHPUnit\Framework\TestCase;
 use SimpleXMLElement;
-use Symplify\PHP7_CodeSniffer\Sniff\Factory\SingleSniffFactory;
+use Symplify\PHP7_CodeSniffer\Sniff\Factory\SniffFactory;
 use Symplify\PHP7_CodeSniffer\Sniff\Xml\DataCollector\ExcludedSniffDataCollector;
 use Symplify\PHP7_CodeSniffer\Sniff\Xml\DataCollector\SniffPropertyValueDataCollector;
 use Symplify\PHP7_CodeSniffer\Tests\Instantiator;
@@ -14,7 +14,7 @@ use Symplify\PHP7_CodeSniffer\Tests\Instantiator;
 final class SingleSniffFactoryTest extends TestCase
 {
     /**
-     * @var SingleSniffFactory
+     * @var SniffFactory
      */
     private $singleSniffFactory;
 
@@ -53,7 +53,7 @@ final class SingleSniffFactoryTest extends TestCase
         </rule>');
         $sniffPropertyValueDataCollector->collectFromRuleXmlElement($ruleXmlElement);
 
-        $singleSniffFactoryWithValues = new SingleSniffFactory(
+        $singleSniffFactoryWithValues = new SniffFactory(
             new ExcludedSniffDataCollector(),
             $sniffPropertyValueDataCollector
         );

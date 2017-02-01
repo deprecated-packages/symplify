@@ -12,7 +12,6 @@ use PHP_CodeSniffer\Standards\PSR1\Sniffs\Methods\CamelCapsMethodNameSniff;
 use PHP_CodeSniffer\Standards\Squiz\Sniffs\Classes\ValidClassNameSniff;
 use PHPUnit\Framework\TestCase;
 use Symplify\PHP7_CodeSniffer\Sniff\Factory\RulesetXmlToSniffsFactory;
-use Symplify\PHP7_CodeSniffer\Standard\Finder\StandardFinder;
 use Symplify\PHP7_CodeSniffer\Tests\Instantiator;
 
 final class RulesetXmlToSniffsFactoryTest extends TestCase
