@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Symplify\PHP7_CodeSniffer\Tests\Sniff;
 
@@ -25,11 +25,6 @@ final class SniffFactoryTest extends TestCase
 
         $sniffs = $sniffSetFactory->createFromStandardsAndSniffs($standards, $extraSniffs);
 
-        if ($standards === ['PSR2']) {
-            dump($sniffs);
-            die;
-        }
-
         $this->assertCount($sniffCount, $sniffs);
         foreach ($sniffs as $sniff) {
             $this->assertNotNull($sniff, 'Null present in sniffs array');
@@ -42,16 +37,16 @@ final class SniffFactoryTest extends TestCase
             [
                 [], [], [], 0
             ], [
-                ['PSR2'], [], [], 48
+                ['PSR2'], [], [], 40
             ], [
-                ['PSR2'], ['PEAR.Commenting.ClassComment'], [], 49
+                ['PSR2'], ['PEAR.Commenting.ClassComment'], [], 40
             ], [
-                ['PSR2'], [], ['PSR2.Namespaces.UseDeclaration'], 48
+                ['PSR2'], [], ['PSR2.Namespaces.UseDeclaration'], 39
             ], [
                 ['PSR2'],
                 ['PEAR.Commenting.ClassComment'],
                 ['PEAR.Commenting.ClassComment', 'PSR2.Namespaces.UseDeclaration'],
-                48
+                40
             ],
         ];
     }

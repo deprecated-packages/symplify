@@ -15,16 +15,6 @@ final class StandardsOptionResolver implements OptionResolverInterface
      */
     const NAME = 'standards';
 
-    /**
-     * @var StandardFinder
-     */
-    private $standardFinder;
-
-    public function __construct(StandardFinder $standardFinder)
-    {
-        $this->standardFinder = $standardFinder;
-    }
-
     public function getName() : string
     {
         return self::NAME;
@@ -59,6 +49,7 @@ final class StandardsOptionResolver implements OptionResolverInterface
         $optionsResolver->setAllowedValues(self::NAME, function (array $standards) {
             $standards = ValueNormalizer::normalizeCommaSeparatedValues($standards);
 
+            // todo: use sniff group provider
             $availableStandards = $this->standardFinder->getStandards();
             foreach ($standards as $standardName) {
                 if (!array_key_exists($standardName, $availableStandards)) {

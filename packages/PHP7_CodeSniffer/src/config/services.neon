@@ -5,9 +5,4 @@ includes:
     - services/files.neon
     - services/parser.neon
     - services/sniffs.neon
-    - services/standard.neon
     - services/report.neon
-
-services:
-    # composer
-    - Symplify\PHP7_CodeSniffer\Composer\ClassLoaderDecorator

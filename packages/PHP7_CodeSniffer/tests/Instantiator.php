@@ -18,7 +18,7 @@ use Symplify\PHP7_CodeSniffer\Parser\FileToTokensParser;
 use Symplify\PHP7_CodeSniffer\Report\ErrorDataCollector;
 use Symplify\PHP7_CodeSniffer\Report\ErrorMessageSorter;
 use Symplify\PHP7_CodeSniffer\Sniff\Factory\RulesetXmlToSniffsFactory;
-use Symplify\PHP7_CodeSniffer\Sniff\Factory\SingleSniffFactory;
+use Symplify\PHP7_CodeSniffer\Sniff\Factory\SniffFactory;
 use Symplify\PHP7_CodeSniffer\Sniff\Factory\SniffCodeToSniffsFactory;
 use Symplify\PHP7_CodeSniffer\Sniff\Factory\StandardNameToSniffsFactory;
 use Symplify\PHP7_CodeSniffer\Sniff\Routing\Router;
@@ -29,7 +29,6 @@ use Symplify\PHP7_CodeSniffer\Sniff\SniffSetFactory;
 use Symplify\PHP7_CodeSniffer\Sniff\Xml\DataCollector\SniffPropertyValueDataCollector;
 use Symplify\PHP7_CodeSniffer\Sniff\Xml\DataCollector\ExcludedSniffDataCollector;
 use Symplify\PHP7_CodeSniffer\Sniff\Xml\Extractor\SniffPropertyValuesExtractor;
-use Symplify\PHP7_CodeSniffer\Standard\Finder\StandardFinder;
 
 /**
  * @todo use container, this is insane
@@ -67,9 +66,7 @@ final class Instantiator
     public static function createConfigurationResolver() : ConfigurationResolver
     {
         $configurationResolver = new ConfigurationResolver();
-        $configurationResolver->addOptionResolver(new StandardsOptionResolver(
-            new StandardFinder()
-        ));
+        $configurationResolver->addOptionResolver(new StandardsOptionResolver());
         $configurationResolver->addOptionResolver(new SniffsOptionResolver());
         $configurationResolver->addOptionResolver(new SourceOptionResolver());
 
@@ -119,7 +116,7 @@ final class Instantiator
     }
 
     public static function createSniffSetFactory(
-        SingleSniffFactory $singleSniffFactory = null
+        SniffFactory $singleSniffFactory = null
     ) : SniffSetFactory {
         $sniffSetFactory = new SniffSetFactory(
             self::createConfigurationResolver()
@@ -131,7 +128,6 @@ final class Instantiator
         ));
 
         $sniffSetFactory->addSniffFactory(new StandardNameToSniffsFactory(
-            new StandardFinder(),
             self::createBareRulesetXmlToSniffsFactory()
         ));
 
@@ -142,9 +138,9 @@ final class Instantiator
         return $sniffSetFactory;
     }
 
-    public static function createSingleSniffFactory() : SingleSniffFactory
+    public static function createSingleSniffFactory() : SniffFactory
     {
-        return new SingleSniffFactory(
+        return new SniffFactory(
             new ExcludedSniffDataCollector(),
             self::createSniffPropertyValueDataCollector()
         );
@@ -158,7 +154,7 @@ final class Instantiator
     public static function createSniffSetFactoryWithExcludedDataCollector(
         ExcludedSniffDataCollector $excludedSniffDataCollector
     ) : SniffSetFactory {
-        $singleSniffFactory = new SingleSniffFactory(
+        $singleSniffFactory = new SniffFactory(
             $excludedSniffDataCollector,
             self::createSniffPropertyValueDataCollector()
         );
