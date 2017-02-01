@@ -8,9 +8,4 @@ Symplify\PHP7_CodeSniffer\Legacy\LegacyCompatibilityLayer::add();
 // 1. build DI container
 $container = (new Symplify\PHP7_CodeSniffer\DI\ContainerFactory())->create();
 
-// 2. autoload sniffs, if not yet
-/** @var Symplify\PHP7_CodeSniffer\Composer\ClassLoaderDecorator $classLoaderDecorator */
-$classLoaderDecorator = $container->getByType(Symplify\PHP7_CodeSniffer\Composer\ClassLoaderDecorator::class);
-$classLoaderDecorator->decorate($classLoader);
-
-// 3. run...
+// 2. run...

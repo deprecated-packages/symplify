@@ -4,7 +4,6 @@ namespace Symplify\PHP7_CodeSniffer\Tests\Sniff\Finder;
 
 use PHPUnit\Framework\TestCase;
 use Symplify\PHP7_CodeSniffer\Sniff\Finder\SniffFinder;
-use Symplify\PHP7_CodeSniffer\Standard\Finder\StandardFinder;
 use Symplify\PHP7_CodeSniffer\Tests\Instantiator;
 
 final class SniffFinderTest extends TestCase
@@ -14,15 +13,9 @@ final class SniffFinderTest extends TestCase
      */
     private $sniffFinder;
 
-    /**
-     * @var StandardFinder
-     */
-    private $standardFinder;
-
     protected function setUp()
     {
         $this->sniffFinder = Instantiator::createSniffFinder();
-        $this->standardFinder = new StandardFinder();
     }
 
     public function testFindAllSniffs()
@@ -33,11 +26,7 @@ final class SniffFinderTest extends TestCase
 
     public function testFindSniffsInDirectory()
     {
-        $psr2RulesetPath = $this->standardFinder->getRulesetPathForStandardName('PSR2');
-
-        $sniffs = $this->sniffFinder->findAllSniffClassesInDirectory(
-            dirname($psr2RulesetPath)
-        );
+        $sniffs = $this->sniffFinder->findAllSniffClassesInDirectory();
         $this->assertCount(12, $sniffs);
     }
 }

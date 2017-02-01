@@ -1,3 +1,2 @@
 services:
     - Symplify\PHP7_CodeSniffer\EventDispatcher\SniffDispatcher
-    - Symplify\PHP7_CodeSniffer\EventDispatcher\CurrentListenerSniffCodeProvider

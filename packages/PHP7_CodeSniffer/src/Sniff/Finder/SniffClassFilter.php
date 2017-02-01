@@ -3,7 +3,6 @@
 namespace Symplify\PHP7_CodeSniffer\Sniff\Finder;
 
 use ReflectionClass;
-use Symplify\PHP7_CodeSniffer\Sniff\Naming\SniffNaming;
 
 final class SniffClassFilter
 {
@@ -23,8 +22,7 @@ final class SniffClassFilter
                 continue;
             }
 
-            $sniffCode = SniffNaming::guessCodeByClass($sniffClass);
-            $finalSniffClasses[$sniffCode] = $sniffClass;
+            $finalSniffClasses[] = $sniffClass;
         }
 
         return $finalSniffClasses;

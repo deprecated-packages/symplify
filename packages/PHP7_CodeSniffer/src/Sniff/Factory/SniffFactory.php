@@ -6,23 +6,16 @@ use PHP_CodeSniffer\Sniffs\Sniff;
 use Symplify\PHP7_CodeSniffer\Sniff\Xml\DataCollector\SniffPropertyValueDataCollector;
 use Symplify\PHP7_CodeSniffer\Sniff\Xml\DataCollector\ExcludedSniffDataCollector;
 
-final class SingleSniffFactory
+final class SniffFactory
 {
-    /**
-     * @var ExcludedSniffDataCollector
-     */
-    private $excludedSniffDataCollector;
-
     /**
      * @var SniffPropertyValueDataCollector
      */
     private $sniffPropertyValueDataCollector;
 
     public function __construct(
-        ExcludedSniffDataCollector $excludedSniffDataCollector,
         SniffPropertyValueDataCollector $customSniffPropertyDataCollector
     ) {
-        $this->excludedSniffDataCollector = $excludedSniffDataCollector;
         $this->sniffPropertyValueDataCollector = $customSniffPropertyDataCollector;
     }
 
@@ -31,10 +24,6 @@ final class SingleSniffFactory
      */
     public function create(string $sniffClassName)
     {
-        if ($this->excludedSniffDataCollector->isSniffClassExcluded($sniffClassName)) {
-            return null;
-        }
-
         $sniff = new $sniffClassName;
         return $this->setCustomSniffPropertyValues($sniff);
     }

@@ -3,15 +3,9 @@
 namespace Symplify\PHP7_CodeSniffer\Sniff\Factory;
 
 use Symplify\PHP7_CodeSniffer\Contract\Sniff\Factory\SniffFactoryInterface;
-use Symplify\PHP7_CodeSniffer\Standard\Finder\StandardFinder;
 
 final class StandardNameToSniffsFactory implements SniffFactoryInterface
 {
-    /**
-     * @var StandardFinder
-     */
-    private $standardFinder;
-
     /**
      * @var RulesetXmlToSniffsFactory
      */
