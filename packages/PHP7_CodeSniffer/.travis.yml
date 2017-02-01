@@ -14,7 +14,7 @@ script:
   - vendor/bin/phpunit $PHPUNIT_FLAGS
   # check coding standard (defined in composer.json "scripts" section)
   - if [[ $CHECK_CS = 1 ]]; then composer check-cs; fi
-  # check with phpstan
+  # check with phpstan (defined in composer.json "scripts" section)
   - if [[ $RUN_PHPSTAN = 1 ]]; then composer phpstan; fi
 
 after_script:

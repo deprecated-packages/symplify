@@ -2,9 +2,6 @@
 
 namespace Symplify\PHP7_CodeSniffer\Report;
 
-use Symplify\PHP7_CodeSniffer\EventDispatcher\CurrentListenerSniffCodeProvider;
-use Symplify\PHP7_CodeSniffer\File\File;
-
 final class ErrorDataCollector
 {
     /**
@@ -23,20 +20,12 @@ final class ErrorDataCollector
     private $errorMessages = [];
 
     /**
-     * @var CurrentListenerSniffCodeProvider
-     */
-    private $currentListenerSniffCodeProvider;
-
-    /**
      * @var ErrorMessageSorter
      */
     private $errorMessageSorter;
 
-    public function __construct(
-        CurrentListenerSniffCodeProvider $currentListenerSniffCodeProvider,
-        ErrorMessageSorter $errorMessageSorter
-    ) {
-        $this->currentListenerSniffCodeProvider = $currentListenerSniffCodeProvider;
+    public function __construct(ErrorMessageSorter $errorMessageSorter)
+    {
         $this->errorMessageSorter = $errorMessageSorter;
     }
 
@@ -77,7 +66,7 @@ final class ErrorDataCollector
         string $filePath,
         string $message,
         int $line,
-        string $sniffCode = null,
+        string $sniffClass,
         array $data = [],
         bool $isFixable = false
     ) {
@@ -87,26 +76,12 @@ final class ErrorDataCollector
             $this->fixableErrorCount++;
         }
 
-        $sniffCode = (string) $sniffCode;
-
         $this->errorMessages[$filePath][] = [
             'line' => $line,
             'message' => $this->applyDataToMessage($message, $data),
-            'sniffCode' => $this->getSniffFullCode($sniffCode),
-            // todo: use sniff class instead
+            'sniffClass' => $sniffClass,
             'isFixable'  => $isFixable
         ];
-    }
-
-    private function getSniffFullCode(string $sniffCode) : string
-    {
-        $parts = explode('.', $sniffCode);
-        if ($parts[0] !== $sniffCode) {
-            return $sniffCode;
-        }
-
-        $listenerSniffCode = $this->currentListenerSniffCodeProvider->getCurrentListenerSniffCode();
-        return $listenerSniffCode.'.'.$sniffCode;
     }
 
     private function applyDataToMessage(string $message, array $data) : string

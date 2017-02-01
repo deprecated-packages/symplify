@@ -1,12 +1,13 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Symplify\PHP7_CodeSniffer\Tests\File;
 
 use PHPUnit\Framework\TestCase;
 use PHPUnit_Framework_Assert;
+use Symplify\PHP7_CodeSniffer\DI\ContainerFactory;
 use Symplify\PHP7_CodeSniffer\File\File;
+use Symplify\PHP7_CodeSniffer\File\FileFactory;
 use Symplify\PHP7_CodeSniffer\Report\ErrorDataCollector;
-use Symplify\PHP7_CodeSniffer\Tests\Instantiator;
 
 final class FileTest extends TestCase
 {
@@ -17,7 +18,8 @@ final class FileTest extends TestCase
 
     protected function setUp()
     {
-        $fileFactory = Instantiator::createFileFactory();
+        $container = (new ContainerFactory())->create();
+        $fileFactory = $container->getByType(FileFactory::class);
         $this->file = $fileFactory->create(__DIR__ . '/FileFactorySource/SomeFile.php', false);
     }
 

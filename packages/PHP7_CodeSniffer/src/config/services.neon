@@ -1,8 +1,12 @@
 includes:
     - services/application.neon
     - services/configuration.neon
-    - services/event-dispatcher.neon
     - services/files.neon
-    - services/parser.neon
     - services/sniffs.neon
     - services/report.neon
+
+services:
+    # event dispatcher
+    - Symplify\PHP7_CodeSniffer\EventDispatcher\SniffDispatcher
+    # parser
+    - Symplify\PHP7_CodeSniffer\Parser\FileToTokensParser

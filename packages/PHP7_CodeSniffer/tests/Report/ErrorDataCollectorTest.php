@@ -3,9 +3,8 @@
 namespace Symplify\PHP7_CodeSniffer\Tests\Report;
 
 use PHPUnit\Framework\TestCase;
-use Symplify\PHP7_CodeSniffer\EventDispatcher\CurrentListenerSniffCodeProvider;
+use Symplify\PHP7_CodeSniffer\DI\ContainerFactory;
 use Symplify\PHP7_CodeSniffer\Report\ErrorDataCollector;
-use Symplify\PHP7_CodeSniffer\Report\ErrorMessageSorter;
 
 final class ErrorDataCollectorTest extends TestCase
 {
@@ -16,10 +15,8 @@ final class ErrorDataCollectorTest extends TestCase
 
     protected function setUp()
     {
-        $this->errorDataCollector = new ErrorDataCollector(
-            new CurrentListenerSniffCodeProvider(),
-            new ErrorMessageSorter()
-        );
+        $container = (new ContainerFactory())->create();
+        $this->errorDataCollector = $container->getByType(ErrorDataCollector::class);
 
         $this->errorDataCollector->addErrorMessage('filePath', 'Message', 5, 'Code', [], false);
     }
