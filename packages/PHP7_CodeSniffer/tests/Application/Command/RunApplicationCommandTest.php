@@ -10,7 +10,7 @@ final class RunApplicationCommandTest extends TestCase
     public function test()
     {
         $command = new RunApplicationCommand(
-            $source = ['source'],
+            $source = [__DIR__],
             $standards = ['standards'],
             $sniffs = ['sniffs'],
             $excludedSniffs = ['excluded-sniffs'],

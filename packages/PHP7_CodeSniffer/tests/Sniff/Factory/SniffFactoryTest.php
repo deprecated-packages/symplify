@@ -8,7 +8,7 @@ use PHPUnit\Framework\TestCase;
 use Symplify\PHP7_CodeSniffer\DI\ContainerFactory;
 use Symplify\PHP7_CodeSniffer\Sniff\Factory\SniffFactory;
 
-final class SingleSniffFactoryTest extends TestCase
+final class SniffFactoryTest extends TestCase
 {
     /**
      * @var SniffFactory

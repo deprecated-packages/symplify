@@ -3,7 +3,7 @@
 namespace Symplify\PHP7_CodeSniffer\Tests\Configuration;
 
 use PHPUnit\Framework\TestCase;
-use Symplify\PHP7_CodeSniffer\Configuration\ValueNormalizer;
+use Symplify\PHP7_CodeSniffer\Validator\ValueNormalizer;
 
 final class ValueNormalizerTest extends TestCase
 {

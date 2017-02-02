@@ -1,6 +1,5 @@
 includes:
     - services/application.neon
-    - services/configuration.neon
     - services/files.neon
     - services/sniffs.neon
     - services/report.neon
@@ -10,3 +9,6 @@ services:
     - Symplify\PHP7_CodeSniffer\EventDispatcher\SniffDispatcher
     # parser
     - Symplify\PHP7_CodeSniffer\Parser\FileToTokensParser
+
+    - Symplify\PHP7_CodeSniffer\Repository\SniffRepository
+    - Symplify\PHP7_CodeSniffer\Validator\GroupValidator
