@@ -94,7 +94,7 @@
             "Symplify\\SymfonySecurityVoters\\": "packages/SymfonySecurityVoters/src",
             "Symplify\\PackageBuilder\\": "packages/PackageBuilder/src",
             "Symplify\\MultiCodingStandard\\": "packages/MultiCodingStandard/src",
-            "Symplify\\PHP7_CodeSniffer\\": "packages/PHP7_CodeSniffer/src",
+            "Symplify\\PHP7_CodeSniffer\\": "packages/SniffRunner/src",
 
             "Zenify\\ModularLatteFilters\\": "packages/ModularLatteFilters/src",
             "Zenify\\DoctrineFixtures\\": "packages/DoctrineFixtures/src",
@@ -119,7 +119,7 @@
             "Symplify\\SymfonySecurityVoters\\Tests\\": "packages/SymfonySecurityVoters/tests",
             "Symplify\\PackageBuilder\\Tests\\": "packages/PackageBuilder/tests",
             "Symplify\\MultiCodingStandard\\Tests\\": "packages/MultiCodingStandard/tests",
-            "Symplify\\PHP7_CodeSniffer\\Tests\\": "packages/PHP7_CodeSniffer/tests",
+            "Symplify\\PHP7_CodeSniffer\\Tests\\": "packages/SniffRunner/tests",
 
             "Zenify\\ModularLatteFilters\\Tests\\": "packages/ModularLatteFilters/tests",
             "Zenify\\DoctrineFixtures\\Tests\\": "packages/DoctrineFixtures/tests",
@@ -133,7 +133,7 @@
     },
     "repositories": [
         { "type": "path", "url": "packages/PackageBuilder" },
-        { "type": "path", "url": "packages/PHP7_CodeSniffer" }
+        { "type": "path", "url": "packages/SniffRunner"}
     ],
     "scripts": {
         "complete-check": ["vendor/bin/phpunit", "@fix-cs", "@phpstan"],
