@@ -5,8 +5,7 @@ namespace Symplify\MultiCodingStandard\Console\Output;
 use Symfony\Component\Console\Formatter\OutputFormatter;
 use Symfony\Component\Console\Output\Output;
 use Symplify\MultiCodingStandard\PhpCsFixer\Report\DiffDataCollector;
-use Symplify\PHP7_CodeSniffer\Console\Output\InfoMessagePrinter as PhpCodeSnifferInfoMessagePrinter;
-use Symplify\PHP7_CodeSniffer\Report\ErrorDataCollector;
+use Symplify\SniffRunner\Report\ErrorDataCollector;
 
 final class InfoMessagePrinter
 {
@@ -21,11 +20,6 @@ final class InfoMessagePrinter
     private $diffDataCollector;
 
     /**
-     * @var PhpCodeSnifferInfoMessagePrinter
-     */
-    private $phpCodeSnifferInfoMessagePrinter;
-
-    /**
      * @var Output
      */
     private $output;
@@ -33,12 +27,10 @@ final class InfoMessagePrinter
     public function __construct(
         ErrorDataCollector $errorDataCollector,
         DiffDataCollector $diffDataCollector,
-        PhpCodeSnifferInfoMessagePrinter $phpCodeSnifferInfoMessagePrinter,
         Output $output
     ) {
         $this->errorDataCollector = $errorDataCollector;
         $this->diffDataCollector = $diffDataCollector;
-        $this->phpCodeSnifferInfoMessagePrinter = $phpCodeSnifferInfoMessagePrinter;
         $this->output = $output;
     }
 
@@ -57,12 +49,14 @@ final class InfoMessagePrinter
 
     public function printFoundErrorsStatus(bool $isFixer)
     {
+        // @todo: combine to onw printer!!!!
+
         // code sniffer
-        $this->phpCodeSnifferInfoMessagePrinter->printFoundErrorsStatus($isFixer);
+//        $this->phpCodeSnifferInfoMessagePrinter->printFoundErrorsStatus($isFixer);
 
         // php-cs-fixer
-        $diffs = $this->diffDataCollector->getDiffs();
-        $this->printDiffs($diffs);
+//        $diffs = $this->diffDataCollector->getDiffs();
+//        $this->printDiffs($diffs);
     }
 
     /**

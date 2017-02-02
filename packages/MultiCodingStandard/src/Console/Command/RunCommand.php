@@ -11,8 +11,6 @@ use Symplify\MultiCodingStandard\Application\Application;
 use Symplify\MultiCodingStandard\Application\Command\RunApplicationCommand;
 use Symplify\MultiCodingStandard\Configuration\MultiCsFileLoader;
 use Symplify\MultiCodingStandard\Console\Output\InfoMessagePrinter;
-use Symplify\PHP7_CodeSniffer\Console\ExitCode;
-use Throwable;
 
 final class RunCommand extends Command
 {
@@ -60,32 +58,24 @@ final class RunCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        try {
-            $this->application->runCommand(
-                $this->createRunApplicationCommandFromInput($input)
-            );
+        $this->application->runCommand(
+            $this->createRunApplicationCommandFromInput($input)
+        );
 
-            if ($this->infoMessagePrinter->hasSomeErrorMessages()) {
-                $this->infoMessagePrinter->printFoundErrorsStatus($input->getOption('fix'));
+        if ($this->infoMessagePrinter->hasSomeErrorMessages()) {
+            $this->infoMessagePrinter->printFoundErrorsStatus($input->getOption('fix'));
 
-                return ExitCode::ERROR;
-            }
-
-            $this->style->success(
-                sprintf(
-                    'Sources "%s" were checked!',
-                    implode(',', $input->getArgument('source'))
-                )
-            );
-
-            return ExitCode::SUCCESS;
-        } catch (Throwable $throwable) {
-            if ($throwable->getMessage()) {
-                $this->style->error($throwable->getMessage());
-            }
-
-            return ExitCode::ERROR;
+            return 1;
         }
+
+        $this->style->success(
+            sprintf(
+                'Sources "%s" were checked!',
+                implode(',', $input->getArgument('source'))
+            )
+        );
+
+        return 0;
     }
 
     private function createRunApplicationCommandFromInput(InputInterface $input) : RunApplicationCommand
