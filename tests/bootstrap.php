@@ -2,6 +2,5 @@
 
 require __DIR__ . '/../vendor/autoload.php';
 
-// packages/php7_codesniffer
-Symplify\PHP7_CodeSniffer\Legacy\LegacyCompatibilityLayer::add();
-
+// packages/sniff-runner
+Symplify\SniffRunner\Legacy\LegacyCompatibilityLayer::add();

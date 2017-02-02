@@ -94,11 +94,11 @@ final class FixerTest extends TestCase
 
         $this->fixer->substrToken(6, 0, 4);
         $token = $this->fixer->getTokenContent(6);
-        $this->assertSame('PHP7', $token);
+        $this->assertSame('Snif', $token);
 
         $this->fixer->substrToken(6, 3);
         $token = $this->fixer->getTokenContent(6);
-        $this->assertSame('7', $token);
+        $this->assertSame('f', $token);
 
         $this->fixer->substrToken(8, 3, 0);
         $token = $this->fixer->getTokenContent(8);
