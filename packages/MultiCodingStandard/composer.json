@@ -4,12 +4,12 @@
     "license": "MIT",
     "require": {
         "php": "^7.0",
-        "symplify/php7_codesniffer": "^0.6",
-        "friendsofphp/php-cs-fixer": "2.0 as 1.12",
-        "squizlabs/php_codesniffer": "3.0.x-dev as 2.7",
-        "symfony/console": "3.2.x-dev as 3.1",
-        "symfony/dependency-injection": "^3.1",
-        "symfony/process": "^3.1",
+        "symplify/sniff-runner": "@dev",
+        "friendsofphp/php-cs-fixer": "^2.0",
+        "tomas-votruba/php_codesniffer-3-pretagged": "^3.0",
+        "symfony/console": "^3.2",
+        "symfony/dependency-injection": "^3.2",
+        "symfony/process": "^3.2",
         "nette/di": "^2.4",
         "nette/bootstrap": "^2.4",
         "nette/utils": "^2.4",
@@ -33,5 +33,5 @@
         "check-cs": "vendor/bin/symplify-cs check src tests",
         "fix-cs": "vendor/bin/symplify-cs fix src tests"
     },
-    "bin": ["bin/multi-cs"]
+    "bin": ["bin/multi-coding-standard"]
 }
