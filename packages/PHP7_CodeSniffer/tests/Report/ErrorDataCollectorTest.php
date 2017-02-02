@@ -37,7 +37,7 @@ final class ErrorDataCollectorTest extends TestCase
                 [
                     'line' => 5,
                     'message' => 'Message',
-                    'sniffCode' => '.Code',
+                    'sniffClass' => 'Code',
                     'isFixable' => false
                 ]
             ]

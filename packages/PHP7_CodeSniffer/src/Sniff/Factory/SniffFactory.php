@@ -3,6 +3,7 @@
 namespace Symplify\PHP7_CodeSniffer\Sniff\Factory;
 
 use PHP_CodeSniffer\Sniffs\Sniff;
+use Symplify\PHP7_CodeSniffer\Exception\ClassNotFoundException;
 
 final class SniffFactory
 {
@@ -18,6 +19,8 @@ final class SniffFactory
 
     public function create(string $sniffClass) : Sniff
     {
+        $this->ensureSniffClassExists($sniffClass);
+
         $sniff = new $sniffClass;
         $this->decorateSniffWithValues($sniff, $sniffClass);
         return $sniff;
@@ -31,6 +34,15 @@ final class SniffFactory
 
         foreach ($sniffPropertyValues[$sniffClass] as $property => $value) {
             $sniff->$property = $value;
+        }
+    }
+
+    private function ensureSniffClassExists(string $sniffClass) : void
+    {
+        if (!class_exists($sniffClass)) {
+            throw new ClassNotFoundException(sprintf(
+                "Sniff class '%s' was not found.", $sniffClass
+            ));
         }
     }
 }
