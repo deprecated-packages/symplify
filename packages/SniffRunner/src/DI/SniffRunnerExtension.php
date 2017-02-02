@@ -5,7 +5,7 @@ namespace Symplify\SniffRunner\DI;
 use Nette\DI\Compiler;
 use Nette\DI\CompilerExtension;
 
-final class Php7CodeSnifferExtension extends CompilerExtension
+final class SniffRunnerExtension extends CompilerExtension
 {
     public function loadConfiguration() : void
     {

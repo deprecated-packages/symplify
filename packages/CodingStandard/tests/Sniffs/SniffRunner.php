@@ -2,16 +2,15 @@
 
 namespace Symplify\CodingStandard\Tests\Sniffs;
 
-use PHP_CodeSniffer\Util\Tokens;
 use SplFileInfo;
-use Symplify\PHP7_CodeSniffer\Application\Fixer;
-use Symplify\PHP7_CodeSniffer\EventDispatcher\CurrentListenerSniffCodeProvider;
-use Symplify\PHP7_CodeSniffer\EventDispatcher\Event\CheckFileTokenEvent;
-use Symplify\PHP7_CodeSniffer\EventDispatcher\SniffDispatcher;
-use Symplify\PHP7_CodeSniffer\File\File;
-use Symplify\PHP7_CodeSniffer\Parser\FileToTokensParser;
-use Symplify\PHP7_CodeSniffer\Report\ErrorDataCollector;
-use Symplify\PHP7_CodeSniffer\Report\ErrorMessageSorter;
+use Symplify\SniffRunner\Application\Fixer;
+use Symplify\SniffRunner\EventDispatcher\Event\CheckFileTokenEvent;
+use Symplify\SniffRunner\EventDispatcher\SniffDispatcher;
+use Symplify\SniffRunner\File\File;
+use Symplify\SniffRunner\Legacy\LegacyCompatibilityLayer;
+use Symplify\SniffRunner\Parser\FileToTokensParser;
+use Symplify\SniffRunner\Report\ErrorDataCollector;
+use Symplify\SniffRunner\Report\ErrorMessageSorter;
 
 final class SniffRunner
 {
@@ -48,9 +47,9 @@ final class SniffRunner
 
     private static function createSniffDispatcherWithSniff(string $sniffClass) : SniffDispatcher
     {
-        self::setupLegacy();
+        LegacyCompatibilityLayer::add();
 
-        $sniffDispatcher = new SniffDispatcher(new CurrentListenerSniffCodeProvider());
+        $sniffDispatcher = new SniffDispatcher();
         $sniffDispatcher->addSniffListeners([new $sniffClass]);
 
         return $sniffDispatcher;
@@ -58,7 +57,7 @@ final class SniffRunner
 
     private static function createErrorDataCollector() : ErrorDataCollector
     {
-        return new ErrorDataCollector(new CurrentListenerSniffCodeProvider(), new ErrorMessageSorter());
+        return new ErrorDataCollector(new ErrorMessageSorter());
     }
 
     private static function createFileFromFilePath(
@@ -76,13 +75,5 @@ final class SniffRunner
         $file->fixer->startFile($file);
 
         return $file;
-    }
-
-    private static function setupLegacy() : void
-    {
-        if (!defined('PHP_CODESNIFFER_VERBOSITY')) {
-            define('PHP_CODESNIFFER_VERBOSITY', 0);
-        }
-        (new Tokens);
     }
 }

@@ -8,7 +8,7 @@ use Symfony\CS\Fixer;
 use Symplify\MultiCodingStandard\PhpCsFixer\Application\Command\RunApplicationCommand;
 use Symplify\MultiCodingStandard\PhpCsFixer\Factory\FixerFactory;
 use Symplify\MultiCodingStandard\PhpCsFixer\Report\DiffDataCollector;
-use Symplify\PHP7_CodeSniffer\File\Finder\SourceFinder;
+use Symplify\SniffRunner\File\Finder\SourceFinder;
 
 final class Application
 {

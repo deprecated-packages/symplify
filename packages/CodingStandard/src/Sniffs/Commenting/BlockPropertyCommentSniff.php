@@ -53,7 +53,7 @@ final class BlockPropertyCommentSniff implements Sniff
         $fix = $file->addFixableError(
             'Block comment should be used instead of one liner',
             $position,
-            null
+            self::class
         );
 
         if ($fix) {

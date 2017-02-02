@@ -6,9 +6,9 @@ use Nette\Utils\Finder;
 use Nette\Utils\Strings;
 use PHPUnit\Framework\TestCase;
 use SplFileInfo;
-use Symplify\PHP7_CodeSniffer\EventDispatcher\SniffDispatcher;
-use Symplify\PHP7_CodeSniffer\Report\ErrorDataCollector;
-use Symplify\PHP7_CodeSniffer\Report\ErrorMessageSorter;
+use Symplify\SniffRunner\EventDispatcher\SniffDispatcher;
+use Symplify\SniffRunner\Report\ErrorDataCollector;
+use Symplify\SniffRunner\Report\ErrorMessageSorter;
 
 abstract class AbstractSniffTestCase extends TestCase
 {
