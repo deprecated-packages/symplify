@@ -22,7 +22,7 @@ final class SniffFactoryTest extends TestCase
     }
 
     /**
-     * @expectedException \Symplify\PHP7_CodeSniffer\Exception\Sniff\Naming\InvalidSniffClassException
+     * @expectedException \Symplify\PHP7_CodeSniffer\Exception\ClassNotFoundException
      */
     public function testCreateInvalidClassName()
     {

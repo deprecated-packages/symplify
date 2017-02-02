@@ -34,7 +34,7 @@ final class SniffFinder
         return $this->findAllSniffClassesInDirectory(VendorDirProvider::provide());
     }
 
-    public function findAllSniffClassesInDirectory(string $directory) : array
+    private function findAllSniffClassesInDirectory(string $directory) : array
     {
         if (isset($this->sniffClassesPerDirectory[$directory])) {
             return $this->sniffClassesPerDirectory[$directory];
