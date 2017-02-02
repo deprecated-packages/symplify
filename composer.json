@@ -58,8 +58,9 @@
         "illuminate/container": "^5.3",
         "illuminate/support": "^5.3",
 
+        "symplify/sniff-runner": "@dev",
         "symplify/package-builder": "@dev",
-        "gherkins/regexpbuilderphp": "^0.7.5"
+        "gherkins/regexpbuilderphp": "^0.7"
     },
     "require-dev": {
         "phpunit/phpunit": "^6.0",
@@ -89,12 +90,12 @@
             "Symplify\\ModularDoctrineFilters\\": "packages/ModularDoctrineFilters/src",
             "Symplify\\ModularRouting\\": "packages/ModularRouting/src",
             "Symplify\\ServiceDefinitionDecorator\\": "packages/ServiceDefinitionDecorator/src",
+            "Symplify\\SniffRunner\\": "packages/SniffRunner/src",
             "Symplify\\Statie\\": "packages/Statie/src",
             "Symplify\\SymfonyEventDispatcher\\": "packages/SymfonyEventDispatcher/src",
             "Symplify\\SymfonySecurityVoters\\": "packages/SymfonySecurityVoters/src",
             "Symplify\\PackageBuilder\\": "packages/PackageBuilder/src",
             "Symplify\\MultiCodingStandard\\": "packages/MultiCodingStandard/src",
-            "Symplify\\PHP7_CodeSniffer\\": "packages/SniffRunner/src",
 
             "Zenify\\ModularLatteFilters\\": "packages/ModularLatteFilters/src",
             "Zenify\\DoctrineFixtures\\": "packages/DoctrineFixtures/src",
@@ -113,13 +114,13 @@
             "Symplify\\ModularDoctrineFilters\\Tests\\": "packages/ModularDoctrineFilters/tests",
             "Symplify\\ModularRouting\\Tests\\": "packages/ModularRouting/tests",
             "Symplify\\ServiceDefinitionDecorator\\Tests\\": "packages/ServiceDefinitionDecorator/tests",
+            "Symplify\\SniffRunner\\Tests\\": "packages/SniffRunner/tests",
             "Symplify\\Statie\\Tests\\": "packages/Statie/tests",
             "Symplify\\Tests\\": "tests",
             "Symplify\\SymfonyEventDispatcher\\Tests\\": "packages/SymfonyEventDispatcher/tests",
             "Symplify\\SymfonySecurityVoters\\Tests\\": "packages/SymfonySecurityVoters/tests",
             "Symplify\\PackageBuilder\\Tests\\": "packages/PackageBuilder/tests",
             "Symplify\\MultiCodingStandard\\Tests\\": "packages/MultiCodingStandard/tests",
-            "Symplify\\PHP7_CodeSniffer\\Tests\\": "packages/SniffRunner/tests",
 
             "Zenify\\ModularLatteFilters\\Tests\\": "packages/ModularLatteFilters/tests",
             "Zenify\\DoctrineFixtures\\Tests\\": "packages/DoctrineFixtures/tests",
@@ -133,7 +134,7 @@
     },
     "repositories": [
         { "type": "path", "url": "packages/PackageBuilder" },
-        { "type": "path", "url": "packages/SniffRunner"}
+        { "type": "path", "url": "packages/SniffRunner" }
     ],
     "scripts": {
         "complete-check": ["vendor/bin/phpunit", "@fix-cs", "@phpstan"],
