@@ -2,12 +2,13 @@
 
 namespace Symplify\PHP7_CodeSniffer\Application;
 
+use PHP_CodeSniffer\Sniffs\Sniff;
 use Symplify\PHP7_CodeSniffer\Application\Command\RunApplicationCommand;
-use Symplify\PHP7_CodeSniffer\Configuration\ConfigurationResolver;
 use Symplify\PHP7_CodeSniffer\EventDispatcher\SniffDispatcher;
 use Symplify\PHP7_CodeSniffer\File\Provider\FilesProvider;
 use Symplify\PHP7_CodeSniffer\Legacy\LegacyCompatibilityLayer;
 use Symplify\PHP7_CodeSniffer\Sniff\Factory\SniffFactory;
+use Symplify\PHP7_CodeSniffer\Sniff\SniffCollectionResolver;
 
 final class Application
 {
@@ -22,71 +23,71 @@ final class Application
     private $filesProvider;
 
     /**
-     * @var ConfigurationResolver
-     */
-    private $configurationResolver;
-
-    /**
      * @var FileProcessor
      */
     private $fileProcessor;
+
     /**
-     *
+     * @var SniffFactory
      */
     private $sniffFactory;
+
+    /**
+     * @var SniffCollectionResolver
+     */
+    private $sniffCollectionResolver;
 
     public function __construct(
         SniffDispatcher $sniffDispatcher,
         FilesProvider $sourceFilesProvider,
-        ConfigurationResolver $configurationResolver,
         FileProcessor $fileProcessor,
-        SniffFactory $sniffFactory
+        SniffFactory $sniffFactory,
+        SniffCollectionResolver $sniffCollectionResolver
     ) {
         $this->sniffDispatcher = $sniffDispatcher;
         $this->filesProvider = $sourceFilesProvider;
-        $this->configurationResolver = $configurationResolver;
         $this->fileProcessor = $fileProcessor;
         $this->sniffFactory = $sniffFactory;
+        $this->sniffCollectionResolver = $sniffCollectionResolver;
 
         LegacyCompatibilityLayer::add();
     }
 
-    public function runCommand(RunApplicationCommand $command)
+    public function runCommand(RunApplicationCommand $command) : void
     {
-        $command = $this->resolveCommandConfiguration($command);
-
-        // resolve sniffs: $command->getExcludedSniffs()
-        // @todo: calculate sniffs to find
-
-        $this->createAndRegisterSniffsToSniffDispatcher($command->getStandards(), $command->getSniffs());
+        $sniffClasses = $this->sniffCollectionResolver->resolve(
+            $command->getStandards(), $command->getSniffs(), $command->getExcludedSniffs()
+        );
+        $sniffs = $this->createSniffsFromSniffClasses($sniffClasses);
+        $this->registerSniffsToSniffDispatcher($sniffs);
 
         $this->runForSource($command->getSource(), $command->isFixer());
     }
 
-    private function createAndRegisterSniffsToSniffDispatcher(array $sniffClasses)
+    /**
+     * @param string[] $sniffClasses
+     * @return Sniff[]
+     */
+    private function createSniffsFromSniffClasses(array $sniffClasses) : array
     {
-        // @todo: have resolved sniffs here
         $sniffs = [];
         foreach ($sniffClasses as $sniffClass) {
             $sniffs[] = $this->sniffFactory->create($sniffClass);
         }
+        return $sniffs;
+    }
+
+    /**
+     * @param Sniff[] $sniffs
+     */
+    private function registerSniffsToSniffDispatcher(array $sniffs) : void
+    {
         $this->sniffDispatcher->addSniffListeners($sniffs);
     }
 
-    private function runForSource(array $source, bool $isFixer)
+    private function runForSource(array $source, bool $isFixer) : void
     {
         $files = $this->filesProvider->getFilesForSource($source, $isFixer);
         $this->fileProcessor->processFiles($files, $isFixer);
-    }
-
-    private function resolveCommandConfiguration(RunApplicationCommand $command) : RunApplicationCommand
-    {
-        return new RunApplicationCommand(
-            $command->getSource(),
-            $this->configurationResolver->resolve('standards', $command->getStandards()),
-            $this->configurationResolver->resolve('sniffs', $command->getSniffs()),
-            $this->configurationResolver->resolve('sniffs', $command->getExcludedSniffs()),
-            $command->isFixer()
-        );
     }
 }

@@ -1,5 +1,5 @@
 services:
-    # factory
+    - Symplify\PHP7_CodeSniffer\Sniff\SniffCollectionResolver
     - Symplify\PHP7_CodeSniffer\Sniff\Factory\SniffFactory
 
     # finder
