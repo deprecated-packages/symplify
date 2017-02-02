@@ -2,6 +2,8 @@
 
 namespace Symplify\PHP7_CodeSniffer\Application\Command;
 
+use Symplify\PHP7_CodeSniffer\Exception\Configuration\OptionResolver\SourceNotFoundException;
+
 final class RunApplicationCommand
 {
     /**
@@ -36,7 +38,7 @@ final class RunApplicationCommand
         array $excludedSniffs,
         bool $isFixer
     ) {
-        $this->source = $source;
+        $this->setSource($source);
         $this->standards = $standards;
         $this->sniffs = $sniffs;
         $this->excludedSniffs = $excludedSniffs;
@@ -66,5 +68,23 @@ final class RunApplicationCommand
     public function isFixer() : bool
     {
         return $this->isFixer;
+    }
+
+    private function setSource(array $source) : void
+    {
+        $this->ensureSourceExists($source);
+        $this->source = $source;
+    }
+
+    private function ensureSourceExists(array $source) : void
+    {
+        foreach ($source as $singleSource) {
+            if ( ! file_exists($singleSource)) {
+                throw new SourceNotFoundException(sprintf(
+                    'Source "%s" does not exist.',
+                    $singleSource
+                ));
+            }
+        }
     }
 }

@@ -4,6 +4,6 @@ namespace Symplify\PHP7_CodeSniffer\Exception\Configuration\OptionResolver;
 
 use Exception;
 
-final class StandardNotFoundException extends Exception
+final class GroupNotFoundException extends Exception
 {
 }

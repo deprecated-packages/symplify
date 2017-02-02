@@ -12,16 +12,15 @@ final class ContainerFactory
     {
         $configurator = new Configurator();
         $configurator->setDebugMode(true);
-        $configurator->setTempDirectory($this->createAndReturnTempDir());
+        $configurator->setTempDirectory(self::createAndReturnTempDir());
         $configurator->addConfig(__DIR__ . '/../config/config.neon');
 
         return $configurator->createContainer();
     }
 
-    private function createAndReturnTempDir() : string
+    public static function createAndReturnTempDir() : string
     {
         $tempDir = sys_get_temp_dir() . '/php7_codesniffer';
-        FileSystem::delete($tempDir);
         FileSystem::createDir($tempDir);
 
         return $tempDir;
