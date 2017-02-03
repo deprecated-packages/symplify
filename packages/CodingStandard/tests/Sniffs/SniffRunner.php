@@ -2,6 +2,7 @@
 
 namespace Symplify\CodingStandard\Tests\Sniffs;
 
+use PHP_CodeSniffer\Sniffs\Sniff;
 use SplFileInfo;
 use Symplify\SniffRunner\Application\Fixer;
 use Symplify\SniffRunner\EventDispatcher\Event\CheckFileTokenEvent;
@@ -21,10 +22,7 @@ final class SniffRunner
         $file = self::createFileFromFilePath($fileInfo->getPathname(), $errorDataCollector);
 
         foreach ($file->getTokens() as $stackPointer => $token) {
-            $sniffDispatcher->dispatch(
-                $token['code'],
-                new CheckFileTokenEvent($file, $stackPointer)
-            );
+            $sniffDispatcher->dispatch($token['code'], new CheckFileTokenEvent($file, $stackPointer));
         }
 
         return $errorDataCollector->getErrorCount();

@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace SymplifyCodingStandard\Sniffs\NetteRefactoring;
+namespace Symplify\CodingStandard\Sniffs\NetteRefactoring;
 
 use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Sniffs\Sniff;
@@ -48,12 +48,8 @@ final class InjectToConstructorInjectionSniff implements Sniff
             return;
         }
 
-//        $this->file->fixer->beginChangeset();
-
         $this->processClassProperties();
         $this->processClassMethods();
-
-//        $this->file->fixer->endChangeset();
     }
 
     private function isClassBasePresenter() : bool
@@ -96,7 +92,8 @@ final class InjectToConstructorInjectionSniff implements Sniff
     {
         return $this->file->addFixableError(
             'Constructor injection should be used over @inject annotation (except abstract BasePresenter).',
-            $position
+            $position,
+            self::class
         );
     }
 
@@ -104,7 +101,8 @@ final class InjectToConstructorInjectionSniff implements Sniff
     {
         return $this->file->addFixableError(
             'Constructor injection should be used over inject* method (except abstract BasePresenter).',
-            $position
+            $position,
+            self::class
         );
     }
 
@@ -143,7 +141,10 @@ final class InjectToConstructorInjectionSniff implements Sniff
             ];
         }
 
-        // 2. add parameters to constructor
+        // 2. remove inject method
+        $method->remove();
+
+        // 3. add parameters to constructor
         $constructMethod = $this->classWrapper->getMethod('__construct');
         if ($constructMethod) {
             // @todo!
@@ -157,8 +158,6 @@ final class InjectToConstructorInjectionSniff implements Sniff
             }
         }
 
-        // 3. remove
-        $method->remove();
 //        $this->classWrapper->addConstructorMethodWithProperty($type, $name);
     }
 }

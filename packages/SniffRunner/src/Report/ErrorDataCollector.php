@@ -66,7 +66,7 @@ final class ErrorDataCollector
         string $filePath,
         string $message,
         int $line,
-        string $sniffClass,
+        string $sniffClass = null,
         array $data = [],
         bool $isFixable = false
     ) {

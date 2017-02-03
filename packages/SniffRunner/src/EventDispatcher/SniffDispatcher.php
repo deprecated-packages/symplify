@@ -21,12 +21,11 @@ final class SniffDispatcher extends EventDispatcher
     }
 
     /**
-     * @param string|int $token
+     * @param int|string $token
      * @param Sniff $sniffObject
      */
     private function addTokenSniffListener($token, Sniff $sniffObject)
     {
-        // @todo, string or int? Make it strict!
         $this->addListener(
             $token,
             function (CheckFileTokenEvent $checkFileToken) use ($sniffObject) {

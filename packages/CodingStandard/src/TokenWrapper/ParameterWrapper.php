@@ -2,15 +2,12 @@
 
 namespace Symplify\CodingStandard\TokenWrapper;
 
-use Nette\PhpGenerator\Method;
-use Nette\Utils\Strings;
-use PHP_CodeSniffer_File;
-use Symplify\CodingStandard\Helper\TokenFinder;
+use PHP_CodeSniffer\Files\File;
 
 final class ParameterWrapper
 {
     /**
-     * @var PHP_CodeSniffer_File
+     * @var File
      */
     private $file;
 
@@ -24,12 +21,12 @@ final class ParameterWrapper
      */
     private $tokens;
 
-    public static function createFromFileAndPosition(PHP_CodeSniffer_File $file, int $position)
+    public static function createFromFileAndPosition(File $file, int $position)
     {
         return new self($file, $position);
     }
 
-    private function __construct(PHP_CodeSniffer_File $file, int $position)
+    private function __construct(File $file, int $position)
     {
         $this->file = $file;
         $this->position = $position;

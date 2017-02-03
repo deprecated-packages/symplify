@@ -38,6 +38,16 @@ final class MethodWrapper
      */
     private $methodToken;
 
+    /**
+     * @var int
+     */
+    private $startPosition;
+
+    /**
+     * @var int
+     */
+    private $endPosition;
+
     public static function createFromFileAndPosition(File $file, int $position)
     {
         return new self($file, $position);
@@ -54,6 +64,9 @@ final class MethodWrapper
         $this->methodName = $this->tokens[$namePointer]['content'];
 
         $this->methodToken = $this->tokens[$position];
+
+        $this->startPosition = $this->position - 2; // todo: start position
+        $this->endPosition = $this->methodToken['scope_closer'];
     }
 
     public function getPosition() : int
@@ -75,12 +88,12 @@ final class MethodWrapper
             return $this->parameters;
         }
 
-        $paramterPositions = TokenFinder::findAllOfType(
+        $parameterPositions = TokenFinder::findAllOfType(
             $this->file, T_VARIABLE, $this->methodToken['parenthesis_opener'], $this->methodToken['parenthesis_closer']
         );
 
         $parameters = [];
-        foreach ($paramterPositions as $paramterPosition) {
+        foreach ($parameterPositions as $paramterPosition) {
             $parameters[] = ParameterWrapper::createFromFileAndPosition($this->file, $paramterPosition);
         }
 
@@ -89,6 +102,8 @@ final class MethodWrapper
 
     public function remove()
     {
-
+        for ($i = $this->startPosition - 2; $i <= $this->endPosition + 1; $i++) {
+            $this->file->fixer->replaceToken($i, '');
+        }
     }
 }
