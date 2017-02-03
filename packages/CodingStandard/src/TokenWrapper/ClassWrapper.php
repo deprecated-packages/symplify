@@ -139,8 +139,7 @@ final class ClassWrapper
         $methodCode = Strings::indent((string) $method, 1, '    ');
 
         $constructorPosition = $this->getConstructorPosition();
-        dump($constructorPosition);
-        $this->file->fixer->addContentBefore($constructorPosition, PHP_EOL . PHP_EOL . $methodCode . PHP_EOL);
+        $this->file->fixer->addContentBefore($constructorPosition, PHP_EOL . $methodCode . PHP_EOL);
     }
 
     private function getConstructorPosition() : int

@@ -2,15 +2,13 @@
 
 namespace Symplify\CodingStandard\TokenWrapper;
 
-use PHP_CodeSniffer_File;
-use PhpCsFixer\DocBlock\DocBlock;
-use Symplify\CodingStandard\Helper\ContentFinder;
+use PHP_CodeSniffer\Files\File;
 use Symplify\CodingStandard\Helper\TokenFinder;
 
 final class PropertyWrapper
 {
     /**
-     * @var PHP_CodeSniffer_File
+     * @var File
      */
     private $file;
 
@@ -44,12 +42,12 @@ final class PropertyWrapper
      */
     private $docBlock;
 
-    public static function createFromFileAndPosition(PHP_CodeSniffer_File $file, int $position)
+    public static function createFromFileAndPosition(File $file, int $position)
     {
         return new self($file, $position);
     }
 
-    private function __construct(PHP_CodeSniffer_File $file, int $position)
+    private function __construct(File $file, int $position)
     {
         // todo: move these 4 to abstract + program against interface!
         $this->file = $file;
@@ -72,9 +70,9 @@ final class PropertyWrapper
     }
 
     /**
-     * @return false|DocBlockWrapper
+     * @return DocBlockWrapper|false
      */
-    private function getDocBlock()
+    public function getDocBlock()
     {
         if ($this->docBlock) {
             return $this->docBlock;
@@ -95,7 +93,8 @@ final class PropertyWrapper
         $this->docBlock = DocBlockWrapper::createFromFileAndPosition(
             $this->file,
             $findPhpDocTagPointer - 1,
-            $phpDocTokenCloseTagPointer + 1
+//            $phpDocTokenCloseTagPointer + 1
+            $phpDocTokenCloseTagPointer
         );
 
         return $this->docBlock;
@@ -123,7 +122,10 @@ final class PropertyWrapper
             return $this->accessibility;
         }
 
-        $visibilityModifiedTokenPointer = TokenFinder::findPreviousEffective($this->file, $this->position - 1);
+        $visibilityModifiedTokenPointer = TokenFinder::findPreviousEffective(
+            $this->file,
+            $this->position - 1
+        );
         $visibilityModifiedToken = $this->tokens[$visibilityModifiedTokenPointer];
 
         $accesibility = [];

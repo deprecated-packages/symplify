@@ -17,7 +17,7 @@ final class FileToTokensParser
     public function parseFromFilePath(string $filePath) : array
     {
         $fileContent = FileSystem::read($filePath);
-        return (new PHP($fileContent, $this->getLegacyConfig()))->getTokens();
+        return (new PHP($fileContent, $this->getLegacyConfig(), PHP_EOL))->getTokens();
 
     }
 
@@ -32,8 +32,6 @@ final class FileToTokensParser
 
         $config = new stdClass();
         $config->tabWidth = 4;
-        $this->legacyConfig = $config;
-
-        return $this->legacyConfig;
+        return $this->legacyConfig = $config;
     }
 }
