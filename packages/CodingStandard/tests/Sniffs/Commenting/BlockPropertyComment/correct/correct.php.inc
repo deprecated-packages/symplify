@@ -8,4 +8,5 @@ class correct
      * @var int
      */
     public $count;
+
 }

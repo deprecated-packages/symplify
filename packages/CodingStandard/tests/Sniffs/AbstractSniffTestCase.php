@@ -65,8 +65,8 @@ abstract class AbstractSniffTestCase extends TestCase
         $this->assertSame(file_get_contents($fixedFileName), $fixedContent, sprintf(
             'File "%s" was not fixed properly. "%s" expected, "%s" given.',
             $fileInfo->getPathname(),
-            $fixedContent,
-            file_get_contents($fixedFileName)
+            file_get_contents($fixedFileName),
+            $fixedContent
         ));
     }
 

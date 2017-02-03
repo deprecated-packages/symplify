@@ -3,14 +3,13 @@
 namespace Symplify\CodingStandard\TokenWrapper;
 
 use Nette\Utils\Strings;
-use PHP_CodeSniffer_File;
+use PHP_CodeSniffer\Files\File;
 use Symplify\CodingStandard\Helper\ContentFinder;
-use Symplify\CodingStandard\Helper\TokenFinder;
 
 final class DocBlockWrapper
 {
     /**
-     * @var PHP_CodeSniffer_File
+     * @var File
      */
     private $file;
 
@@ -24,14 +23,25 @@ final class DocBlockWrapper
      */
     private $endPosition;
 
-    public static function createFromFileAndPosition(PHP_CodeSniffer_File $file, int $startPosition, int $endPosition)
+    /**
+     * @var string
+     */
+    private $indentationType = 'spaces';
+
+    /**
+     * @var string[]
+     */
+    private $tokens;
+
+    public static function createFromFileAndPosition(File $file, int $startPosition, int $endPosition)
     {
         return new self($file, $startPosition, $endPosition);
     }
 
-    private function __construct(PHP_CodeSniffer_File $file, int $startPosition, int $endPosition)
+    private function __construct(File $file, int $startPosition, int $endPosition)
     {
         $this->file = $file;
+        $this->tokens = $file->getTokens();
         $this->startPosition = $startPosition;
         $this->endPosition = $endPosition;
     }
@@ -59,6 +69,48 @@ final class DocBlockWrapper
                 }
             }
         }
+    }
+
+    public function isSingleLine() : bool
+    {
+        $tokens = $this->file->getTokens();
+        return $tokens[$this->startPosition]['line'] === $tokens[$this->endPosition]['line'];
+    }
+
+    public function changeToMultiLine() : void
+    {
+        if (!$this->isSingleLine()) {
+            return;
+        }
+
+        $empty = [T_DOC_COMMENT_WHITESPACE, T_DOC_COMMENT_STAR];
+        $shortPosition = $this->file->findNext($empty, $this->startPosition + 1, $this->endPosition, true);
+
+        // indent content after /** to indented new line
+        $this->file->fixer->addContentBefore(
+            $shortPosition,
+            PHP_EOL . $this->getIndentationSign() . ' * '
+        );
+
+        // remove spaces
+        $this->file->fixer->replaceToken($this->startPosition + 1, '');
+        $spacelessContent = trim($this->tokens[$this->endPosition - 1]['content']);
+        $this->file->fixer->replaceToken($this->endPosition - 1, $spacelessContent);
+
+        // indent end to indented newline
+        $this->file->fixer->replaceToken(
+            $this->endPosition,
+            PHP_EOL . $this->getIndentationSign() . ' */'
+        );
+    }
+
+    private function getIndentationSign() : string
+    {
+        if ($this->indentationType === 'tabs') {
+            return "\t";
+        }
+
+        return '    ';
     }
 
     /**
