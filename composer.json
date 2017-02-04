@@ -97,7 +97,6 @@
             "Symplify\\PackageBuilder\\": "packages/PackageBuilder/src",
 
             "Zenify\\ModularLatteFilters\\": "packages/ModularLatteFilters/src",
-            "Zenify\\NetteDatabaseFilters\\": "packages/NetteDatabaseFilters/src",
             "Zenify\\DoctrineFixtures\\": "packages/DoctrineFixtures/src",
             "Zenify\\DoctrineExtensionsTree\\": "packages/DoctrineExtensionsTree/src",
             "Zenify\\DoctrineMigrations\\": "packages/DoctrineMigrations/src",
@@ -122,7 +121,6 @@
             "Symplify\\PackageBuilder\\Tests\\": "packages/PackageBuilder/tests",
 
             "Zenify\\ModularLatteFilters\\Tests\\": "packages/ModularLatteFilters/tests",
-            "Zenify\\NetteDatabaseFilters\\Tests\\": "packages/NetteDatabaseFilters/tests",
             "Zenify\\DoctrineFixtures\\Tests\\": "packages/DoctrineFixtures/tests",
             "Zenify\\DoctrineExtensionsTree\\Tests\\": "packages/DoctrineExtensionsTree/tests",
             "Zenify\\DoctrineMigrations\\Tests\\": "packages/DoctrineMigrations/tests",
