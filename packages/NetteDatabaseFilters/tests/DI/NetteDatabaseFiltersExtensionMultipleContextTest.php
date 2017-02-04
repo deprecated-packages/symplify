@@ -5,7 +5,7 @@ namespace Zenify\NetteDatabaseFilters\Tests\DI;
 use Nette\Database\Context;
 use Nette\DI\Container;
 use PHPUnit\Framework\TestCase;
-use PHPUnit_Framework_Assert;
+use PHPUnit\Framework\Assert;
 use Zenify\NetteDatabaseFilters\Contract\FilterManagerInterface;
 use Zenify\NetteDatabaseFilters\Database\FiltersAwareContext;
 use Zenify\NetteDatabaseFilters\Tests\ContainerFactory;
@@ -39,7 +39,7 @@ final class NetteDatabaseFiltersExtensionMultipleContextTest extends TestCase
 
             $this->assertInstanceOf(
                 FilterManagerInterface::class,
-                PHPUnit_Framework_Assert::getObjectAttribute($databaseContextService, 'filterManager')
+                Assert::getObjectAttribute($databaseContextService, 'filterManager')
             );
         }
     }

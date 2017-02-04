@@ -2,7 +2,7 @@
 
 namespace Zenify\DoctrineMigrations\Tests\EventSubscriber;
 
-use PHPUnit_Framework_Assert;
+use PHPUnit\Framework\Assert;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -25,7 +25,7 @@ final class SetConsoleOutputEventSubscriberTest extends AbstractEventSubscriberT
     public function testDispatching()
     {
         $this->assertNull(
-            PHPUnit_Framework_Assert::getObjectAttribute($this->outputWriter, 'consoleOutput')
+            Assert::getObjectAttribute($this->outputWriter, 'consoleOutput')
         );
 
         $input = new ArrayInput(['command' => 'migrations:status']);
@@ -34,7 +34,7 @@ final class SetConsoleOutputEventSubscriberTest extends AbstractEventSubscriberT
 
         $this->assertInstanceOf(
             OutputInterface::class,
-            PHPUnit_Framework_Assert::getObjectAttribute($this->outputWriter, 'consoleOutput')
+            Assert::getObjectAttribute($this->outputWriter, 'consoleOutput')
         );
     }
 }

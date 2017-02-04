@@ -3,7 +3,7 @@
 namespace Zenify\DoctrineMigrations\Tests;
 
 use PHPUnit\Framework\TestCase;
-use PHPUnit_Framework_Assert;
+use PHPUnit\Framework\Assert;
 use Symfony\Component\Console\Output\ConsoleOutput;
 use Zenify\DoctrineMigrations\OutputWriter;
 
@@ -21,12 +21,12 @@ final class OutputWriterTest extends TestCase
 
     public function testGetOutputWriterWhenNeeded()
     {
-        $consoleOutput = PHPUnit_Framework_Assert::getObjectAttribute($this->outputWriter, 'consoleOutput');
+        $consoleOutput = Assert::getObjectAttribute($this->outputWriter, 'consoleOutput');
         $this->assertNull($consoleOutput);
 
         $this->outputWriter->write('');
 
-        $consoleOutput = PHPUnit_Framework_Assert::getObjectAttribute($this->outputWriter, 'consoleOutput');
+        $consoleOutput = Assert::getObjectAttribute($this->outputWriter, 'consoleOutput');
         $this->assertInstanceOf(ConsoleOutput::class, $consoleOutput);
     }
 }

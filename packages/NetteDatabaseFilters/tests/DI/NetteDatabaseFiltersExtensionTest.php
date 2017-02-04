@@ -5,7 +5,7 @@ namespace Zenify\NetteDatabaseFilters\Tests\DI;
 use Nette\Database\Context;
 use Nette\DI\Container;
 use PHPUnit\Framework\TestCase;
-use PHPUnit_Framework_Assert;
+use PHPUnit\Framework\Assert;
 use Zenify\NetteDatabaseFilters\Contract\FilterManagerInterface;
 use Zenify\NetteDatabaseFilters\Database\FiltersAwareContext;
 use Zenify\NetteDatabaseFilters\Tests\ContainerFactory;
@@ -31,6 +31,6 @@ final class NetteDatabaseFiltersExtensionTest extends TestCase
     public function testFiltersAreCollected()
     {
         $filterManager = $this->container->getByType(FilterManagerInterface::class);
-        $this->assertCount(2, PHPUnit_Framework_Assert::getObjectAttribute($filterManager, 'filters'));
+        $this->assertCount(2, Assert::getObjectAttribute($filterManager, 'filters'));
     }
 }
