@@ -2,8 +2,8 @@
 
 namespace Symplify\ControllerAutowire\Tests;
 
+use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
-use PHPUnit_Framework_Assert;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
@@ -87,7 +87,7 @@ final class CompleteTest extends TestCase
 
         $this->assertInstanceOf(TraitAwareController::class, $controller);
 
-        $httpKernel = PHPUnit_Framework_Assert::getObjectAttribute($controller, 'httpKernel');
+        $httpKernel = Assert::getObjectAttribute($controller, 'httpKernel');
         $this->assertInstanceOf(HttpKernelInterface::class, $httpKernel);
     }
 

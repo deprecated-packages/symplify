@@ -5,8 +5,8 @@ namespace Symplify\ModularDoctrineFilters\Tests\Adapter\Laravel;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Illuminate\Foundation\Application;
+use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
-use PHPUnit_Framework_Assert;
 use Symplify\ModularDoctrineFilters\Adapter\Laravel\ModularDoctrineFiltersServiceProvider;
 use Symplify\ModularDoctrineFilters\Contract\Filter\FilterInterface;
 use Symplify\ModularDoctrineFilters\Contract\FilterManagerInterface;
@@ -49,7 +49,7 @@ final class ModularDoctrineFiltersServiceProviderTest extends TestCase
 
         $this->assertCount(
             2,
-            PHPUnit_Framework_Assert::getObjectAttribute($filterManager, 'filters')
+            Assert::getObjectAttribute($filterManager, 'filters')
         );
     }
 

@@ -4,12 +4,12 @@ namespace Symplify\ModularRouting\Tests\PHPUnit\Listener;
 
 use Nette\Utils\FileSystem;
 use Nette\Utils\Finder;
-use PHPUnit_Framework_BaseTestListener;
-use PHPUnit_Framework_TestSuite;
+use PHPUnit\Framework\BaseTestListener;
+use PHPUnit\Framework\TestSuite;
 
-final class ClearLogAndCacheTestListener extends PHPUnit_Framework_BaseTestListener
+final class ClearLogAndCacheTestListener extends BaseTestListener
 {
-    public function endTestSuite(PHPUnit_Framework_TestSuite $testSuite)
+    public function endTestSuite(TestSuite $testSuite)
     {
         if ($testSuite->getName()) { // skip for tests, run only for whole Test Suite
             return;

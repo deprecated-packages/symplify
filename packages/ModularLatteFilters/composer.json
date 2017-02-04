@@ -11,7 +11,7 @@
 		"nette/application": "^2.4",
 		"nette/bootstrap": "^2.4",
 		"tracy/tracy": "^2.4",
-		"phpunit/phpunit": "^5.7",
+		"phpunit/phpunit": "^6.0",
 		"zenify/coding-standard": "^4.2"
 	},
 	"autoload": {

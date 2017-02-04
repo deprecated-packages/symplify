@@ -2,8 +2,8 @@
 
 namespace Symplify\CodingStandard\Tests\Console;
 
+use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
-use PHPUnit_Framework_Assert;
 use Symplify\CodingStandard\Command\CheckCommand;
 use Symplify\CodingStandard\Command\FixCommand;
 use Symplify\CodingStandard\Console\Application;
@@ -32,7 +32,7 @@ final class ApplicationTest extends TestCase
         $checkCommand = $this->application->find('check');
 
         /** @var RunnerCollectionInterface $runnerCollection */
-        $runnerCollection = PHPUnit_Framework_Assert::getObjectAttribute($checkCommand, 'runnerCollection');
+        $runnerCollection = Assert::getObjectAttribute($checkCommand, 'runnerCollection');
 
         $this->assertInstanceOf(RunnerCollectionInterface::class, $runnerCollection);
         $this->assertCount(4, $runnerCollection->getRunners());

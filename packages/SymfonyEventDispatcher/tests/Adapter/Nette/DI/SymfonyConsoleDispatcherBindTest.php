@@ -2,8 +2,8 @@
 
 namespace Symplify\SymfonyEventDispatcher\Tests\Adapter\Nette\DI;
 
+use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
-use PHPUnit_Framework_Assert;
 use Symfony\Component\Console\Application;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symplify\SymfonyEventDispatcher\Tests\Adapter\Nette\ContainerFactory;
@@ -18,7 +18,7 @@ final class SymfonyConsoleDispatcherBindTest extends TestCase
         $application = $container->getByType(Application::class);
         $this->assertInstanceOf(Application::class, $application);
 
-        $eventDispatcher = PHPUnit_Framework_Assert::getObjectAttribute($application, 'dispatcher');
+        $eventDispatcher = Assert::getObjectAttribute($application, 'dispatcher');
         $this->assertInstanceOf(EventDispatcherInterface::class, $eventDispatcher);
     }
 }
