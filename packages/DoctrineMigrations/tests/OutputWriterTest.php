@@ -2,8 +2,8 @@
 
 namespace Zenify\DoctrineMigrations\Tests;
 
-use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\Assert;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Output\ConsoleOutput;
 use Zenify\DoctrineMigrations\OutputWriter;
 

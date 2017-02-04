@@ -4,8 +4,8 @@ namespace Zenify\NetteDatabaseFilters\Tests\DI;
 
 use Nette\Database\Context;
 use Nette\DI\Container;
-use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\Assert;
+use PHPUnit\Framework\TestCase;
 use Zenify\NetteDatabaseFilters\Contract\FilterManagerInterface;
 use Zenify\NetteDatabaseFilters\Database\FiltersAwareContext;
 use Zenify\NetteDatabaseFilters\Tests\ContainerFactory;

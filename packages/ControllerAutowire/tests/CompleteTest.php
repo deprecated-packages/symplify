@@ -2,8 +2,8 @@
 
 namespace Symplify\ControllerAutowire\Tests;
 
-use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\Assert;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\HttpKernelInterface;

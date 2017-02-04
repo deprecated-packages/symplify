@@ -2,8 +2,8 @@
 
 namespace Symplify\SymfonyEventDispatcher\Tests\Adapter\Nette\DI;
 
-use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\Assert;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Application;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symplify\SymfonyEventDispatcher\Tests\Adapter\Nette\ContainerFactory;
