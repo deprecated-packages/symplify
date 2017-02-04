@@ -22,7 +22,6 @@ git subsplit publish --heads="master" --tags=$LAST_TAG packages/DoctrineExtensio
 git subsplit publish --heads="master" --tags=$LAST_TAG packages/DoctrineFixtures:git@github.com:Zenify/DoctrineFixtures.git
 git subsplit publish --heads="master" --tags=$LAST_TAG packages/DoctrineMigrations:git@github.com:Zenify/DoctrineMigrations.git
 git subsplit publish --heads="master" --tags=$LAST_TAG packages/ModularLatteFilters:git@github.com:Zenify/ModularLatteFilters.git
-git subsplit publish --heads="master" --tags=$LAST_TAG packages/NetteDatabaseFilters:git@github.com:Zenify/NetteDatabaseFilters.git
 
 rm -rf .subsplit/
 

@@ -1,4 +1,0 @@
-services:
-    - Zenify\NetteDatabaseFilters\FilterManager
-    - Zenify\NetteDatabaseFilters\Sql\SqlParser
-    - PHPSQLParser\PHPSQLParser
