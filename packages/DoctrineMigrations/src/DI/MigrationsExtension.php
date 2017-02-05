@@ -9,7 +9,6 @@ use Nette\DI\CompilerExtension;
 use Symfony\Component\Console\Application;
 use Symplify\PackageBuilder\Adapter\Nette\DI\DefinitionCollector;
 use Zenify\DoctrineMigrations\Configuration\Configuration;
-use Zenify\DoctrineMigrations\EventSubscriber\ChangeCodingStandardEventSubscriber;
 use Zenify\DoctrineMigrations\EventSubscriber\RegisterMigrationsEventSubscriber;
 use Zenify\DoctrineMigrations\EventSubscriber\SetConsoleOutputEventSubscriber;
 use Zenify\DoctrineMigrations\Exception\DI\MissingExtensionException;
@@ -31,7 +30,6 @@ final class MigrationsExtension extends CompilerExtension
      * @var string[]
      */
     private $subscribers = [
-        ChangeCodingStandardEventSubscriber::class,
         RegisterMigrationsEventSubscriber::class,
         SetConsoleOutputEventSubscriber::class,
     ];
