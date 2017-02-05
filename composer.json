@@ -80,7 +80,8 @@
         "kdyby/console": "^2.6",
         "phpstan/phpstan": "^0.6",
         "phpstan/phpstan-nette": "^0.6.2",
-        "phpstan/phpstan-doctrine": "^0.6.1"
+        "phpstan/phpstan-doctrine": "^0.6.1",
+        "cweagans/composer-patches": "^1.6"
     },
     "autoload": {
         "psr-4": {
