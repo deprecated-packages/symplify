@@ -3,6 +3,7 @@
 namespace Symplify\SymfonyEventDispatcher\Tests\Adapter\Nette\NetteEvent;
 
 use Nette\Application\Application;
+use Nette\Application\Responses\VoidResponse;
 use Nette\Application\UI\Presenter;
 use PHPUnit\Framework\TestCase;
 use Symplify\SymfonyEventDispatcher\Adapter\Nette\Event\PresenterShutdownEvent;
@@ -34,6 +35,6 @@ final class DispatchPresenterTest extends TestCase
         /** @var PresenterShutdownEvent $presenterResponseEvent */
         $presenterResponseEvent = $this->eventStateStorage->getEventState(PresenterShutdownEvent::NAME);
         $this->assertInstanceOf(Presenter::class, $presenterResponseEvent->getPresenter());
-        $this->assertNull($presenterResponseEvent->getResponse());
+        $this->assertInstanceOf(VoidResponse::class, $presenterResponseEvent->getResponse());
     }
 }
