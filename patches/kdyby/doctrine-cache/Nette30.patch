@@ -1,0 +1,49 @@
+diff --git a/src/Kdyby/DoctrineCache/ReversedStorageDecorator.php b/src/Kdyby/DoctrineCache/ReversedStorageDecorator.php
+index 3875cb8..02ffe2a 100644
+--- a/src/Kdyby/DoctrineCache/ReversedStorageDecorator.php
++++ b/src/Kdyby/DoctrineCache/ReversedStorageDecorator.php
+@@ -42,7 +42,7 @@ public function __construct(CacheProvider $provider)
+ 	 * @param string $key
+ 	 * @return mixed|NULL
+ 	 */
+-	public function read($key)
++	public function read(string $key)
+ 	{
+ 		$data = $this->provider->fetch($key);
+ 		return $data === FALSE ? NULL : $data;
+@@ -56,7 +56,7 @@ public function read($key)
+ 	 * @param string $key
+ 	 * @return void
+ 	 */
+-	public function lock($key)
++	public function lock(string $key) : void
+ 	{
+ 		// sorry!
+ 	}
+@@ -71,7 +71,7 @@ public function lock($key)
+ 	 * @param array $dependencies
+ 	 * @return void
+ 	 */
+-	public function write($key, $data, array $dependencies)
++	public function write(string $key, $data, array $dependencies) : void
+ 	{
+ 		$this->provider->save($key, $data);
+ 	}
+@@ -84,7 +84,7 @@ public function write($key, $data, array $dependencies)
+ 	 * @param string $key
+ 	 * @return void
+ 	 */
+-	public function remove($key)
++	public function remove(string $key) : void
+ 	{
+ 		$this->provider->delete($key);
+ 	}
+@@ -97,7 +97,7 @@ public function remove($key)
+ 	 * @param array $conditions
+ 	 * @return void
+ 	 */
+-	public function clean(array $conditions)
++	public function clean(array $conditions) : void
+ 	{
+ 		if (!isset($conditions[Nette\Caching\Cache::ALL])) {
+ 			throw new NotImplementedException;

@@ -153,6 +153,9 @@
             "kdyby/doctrine": {
                 "nette-30": "patches/kdyby/doctrine/ExtensionNette30.patch"
             },
+            "kdyby/doctrine-cache": {
+                "nette-30": "patches/kdyby/doctrine-cache/Nette30.patch"
+            },
             "kdyby/events": {
                 "nette-30": "patches/kdyby/events/ExtensionNette30.patch"
             }
