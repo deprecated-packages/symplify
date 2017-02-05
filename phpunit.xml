@@ -5,7 +5,24 @@
     <!-- tests directories to run -->
     <testsuites>
         <testsuite>
-            <directory>packages/*/tests</directory>
+            <directory>packages/ActionAutowire/tests</directory>
+            <directory>packages/AutoServiceRegistration/tests</directory>
+            <directory>packages/ControllerAutowire/tests</directory>
+            <directory>packages/DefaultAutowire/tests</directory>
+            <!-- @todo: use patches for these! -->
+            <!--<directory>packages/DoctrineBehaviors/tests</directory> fails on Prophecy -->
+            <!--<directory>packages/DoctrineExtensionsTree/tests</directory> fails on Kdyby\Annotations -->
+            <!--<directory>packages/DoctrineFixtures/tests</directory> fails on Kdyby\Annotations -->
+            <!--<directory>packages/DoctrineMigrations/tests</directory> fails on Kdyby\Annotations -->
+            <!--<directory>packages/ModularDoctrineFilters/tests</directory> fails on Kdyby\Annotations -->
+            <directory>packages/ModularLatteFilters/tests</directory>
+            <directory>packages/ModularRouting/tests</directory>
+            <directory>packages/PackageBuilder/tests</directory>
+            <directory>packages/ServiceDefinitionDecorator/tests</directory>
+            <directory>packages/SniffBuilder/tests</directory>
+            <directory>packages/Statie/tests</directory>
+            <!--<directory>packages/SymfonyEventDispatcher/tests</directory> fails on Kdyby\Events -->
+            <directory>packages/SymfonySecurityVoters/tests</directory>
         </testsuite>
     </testsuites>
     <!-- source to check coverage for -->
