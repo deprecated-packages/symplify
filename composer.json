@@ -62,7 +62,8 @@
         "illuminate/container": "^5.3",
         "illuminate/support": "^5.3",
 
-        "symplify/package-builder": "@dev"
+        "symplify/package-builder": "@dev",
+        "nette/reflection": "^2.4"
     },
     "require-dev": {
         "phpunit/phpunit": "^6.0",
@@ -140,5 +141,21 @@
         "check-cs": "packages/CodingStandard/bin/symplify-cs check packages/*/src packages/*/tests",
         "fix-cs": "packages/CodingStandard/bin/symplify-cs fix packages/*/src packages/*/tests",
         "phpstan": "vendor/bin/phpstan analyse packages --level=4 -c phpstan.neon"
+    },
+    "extra": {
+        "patches": {
+            "kdyby/annotations": {
+                "nette-30": "patches/kdyby/annotations/ExtensionNette30.patch"
+            },
+            "kdyby/console": {
+                "nette-30": "patches/kdyby/console/ExtensionNette30.patch"
+            },
+            "kdyby/doctrine": {
+                "nette-30": "patches/kdyby/doctrine/ExtensionNette30.patch"
+            },
+            "kdyby/events": {
+                "nette-30": "patches/kdyby/events/ExtensionNette30.patch"
+            }
+        }
     }
 }
