@@ -19,15 +19,19 @@
         "doctrine/dbal": "^2.5",
         "doctrine/orm": "^2.5",
 
-        "nette/bootstrap": "^2.4",
-        "nette/di": "^2.4.6",
-        "nette/finder": "^2.4",
-        "nette/database": "^2.4",
-        "nette/http": "^2.4",
-        "nette/security": "^2.4",
-        "latte/latte": "^2.4",
-        "nette/utils": "^2.4",
-        "nette/robot-loader": "^2.4",
+        "nette/bootstrap": "v3.0.0-beta as 2.4",
+        "nette/di": "v3.0.0-alpha1 as 2.4",
+        "nette/finder": "v3.0.0-RC as 2.4",
+        "nette/caching": "v3.0.0-beta as 2.4",
+        "nette/component-model": "v3.0.0-beta as 2.4",
+        "nette/database": "v3.0.0-alpha as 2.4",
+        "nette/http": "v3.0.0-alpha1 as 2.4",
+        "nette/security": "3.0.0-beta1 as 2.4",
+        "latte/latte": "v3.0.0-alpha1 as 2.4",
+        "nette/utils": "v3.0.0-beta1 as 2.4",
+        "nette/php-generator": "v3.0.0-beta1 as 2.4",
+        "nette/robot-loader": "v3.0.0-RC as 2.4",
+        "nette/neon": "v3.0.0-beta1 as 2.4",
         "tracy/tracy": "^2.4",
 
         "symfony/asset": "^3.2",
@@ -65,7 +69,7 @@
 
         "doctrine/doctrine-bundle": "^1.6",
 
-        "nette/application": "^2.4",
+        "nette/application": "v3.0.0-alpha1 as 2.4",
 
         "symfony/form": "^3.2",
         "symfony/framework-bundle": "^3.2",
