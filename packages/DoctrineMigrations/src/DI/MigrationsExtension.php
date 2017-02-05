@@ -8,7 +8,6 @@ use Nette\DI\Compiler;
 use Nette\DI\CompilerExtension;
 use Symfony\Component\Console\Application;
 use Symplify\PackageBuilder\Adapter\Nette\DI\DefinitionCollector;
-use Zenify\DoctrineMigrations\CodeStyle\CodeStyle;
 use Zenify\DoctrineMigrations\Configuration\Configuration;
 use Zenify\DoctrineMigrations\EventSubscriber\ChangeCodingStandardEventSubscriber;
 use Zenify\DoctrineMigrations\EventSubscriber\RegisterMigrationsEventSubscriber;
@@ -25,7 +24,6 @@ final class MigrationsExtension extends CompilerExtension
         'column' => 'version',
         'directory' => '%appDir%/../migrations',
         'namespace' => 'Migrations',
-        'codingStandard' => CodeStyle::INDENTATION_TABS,
         'versionsOrganization' => null,
     ];
 
@@ -56,10 +54,6 @@ final class MigrationsExtension extends CompilerExtension
         }
 
         $config = $this->getValidatedConfig();
-
-        $containerBuilder->addDefinition($this->prefix('codeStyle'))
-            ->setClass(CodeStyle::class)
-            ->setArguments([$config['codingStandard']]);
 
         $this->addConfigurationDefinition($config);
     }
