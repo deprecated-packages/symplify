@@ -8,9 +8,7 @@ use Nette\DI\Compiler;
 use Nette\DI\CompilerExtension;
 use Symfony\Component\Console\Application;
 use Symplify\PackageBuilder\Adapter\Nette\DI\DefinitionCollector;
-use Zenify\DoctrineMigrations\CodeStyle\CodeStyle;
 use Zenify\DoctrineMigrations\Configuration\Configuration;
-use Zenify\DoctrineMigrations\EventSubscriber\ChangeCodingStandardEventSubscriber;
 use Zenify\DoctrineMigrations\EventSubscriber\RegisterMigrationsEventSubscriber;
 use Zenify\DoctrineMigrations\EventSubscriber\SetConsoleOutputEventSubscriber;
 use Zenify\DoctrineMigrations\Exception\DI\MissingExtensionException;
@@ -25,7 +23,6 @@ final class MigrationsExtension extends CompilerExtension
         'column' => 'version',
         'directory' => '%appDir%/../migrations',
         'namespace' => 'Migrations',
-        'codingStandard' => CodeStyle::INDENTATION_TABS,
         'versionsOrganization' => null,
     ];
 
@@ -33,7 +30,6 @@ final class MigrationsExtension extends CompilerExtension
      * @var string[]
      */
     private $subscribers = [
-        ChangeCodingStandardEventSubscriber::class,
         RegisterMigrationsEventSubscriber::class,
         SetConsoleOutputEventSubscriber::class,
     ];
@@ -56,10 +52,6 @@ final class MigrationsExtension extends CompilerExtension
         }
 
         $config = $this->getValidatedConfig();
-
-        $containerBuilder->addDefinition($this->prefix('codeStyle'))
-            ->setClass(CodeStyle::class)
-            ->setArguments([$config['codingStandard']]);
 
         $this->addConfigurationDefinition($config);
     }
