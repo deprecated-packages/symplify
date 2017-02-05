@@ -27,9 +27,9 @@ final class ModularLatteFiltersExtension extends CompilerExtension
         foreach ($latteFiltersDefinitions as $latteFilterProviderDefinition) {
             $latteDefinition->addSetup(
                 'foreach (?->getFilters() as $name => $callback) {
-					?->addFilter($name, $callback);
+					$service->addFilter($name, $callback);
 				}',
-                ['@' . $latteFilterProviderDefinition->getClass(), '@self']
+                ['@' . $latteFilterProviderDefinition->getClass()]
             );
         }
     }
