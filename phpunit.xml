@@ -11,7 +11,7 @@
             <directory>packages/DefaultAutowire/tests</directory>
             <!-- @todo: use patches for these! -->
             <!--<directory>packages/DoctrineBehaviors/tests</directory> fails on Prophecy -->
-            <!--<directory>packages/DoctrineExtensionsTree/tests</directory> fails on Kdyby\Annotations -->
+            <directory>packages/DoctrineExtensionsTree/tests</directory> fails on Kdyby\Annotations
             <!--<directory>packages/DoctrineFixtures/tests</directory> fails on Kdyby\Annotations -->
             <!--<directory>packages/DoctrineMigrations/tests</directory> fails on Kdyby\Annotations -->
             <!--<directory>packages/ModularDoctrineFilters/tests</directory> fails on Kdyby\Annotations -->
@@ -21,7 +21,7 @@
             <directory>packages/ServiceDefinitionDecorator/tests</directory>
             <directory>packages/SniffBuilder/tests</directory>
             <directory>packages/Statie/tests</directory>
-            <directory>packages/SymfonyEventDispatcher/tests</directory> <!-- fails on Kdyby\Events -->
+            <!-- <directory>packages/SymfonyEventDispatcher/tests</directory> fails on Kdyby\Events -->
             <directory>packages/SymfonySecurityVoters/tests</directory>
         </testsuite>
     </testsuites>
