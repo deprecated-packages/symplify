@@ -110,7 +110,8 @@ final class MigrationsExtension extends CompilerExtension
         $this->validateConfig($configuration);
 
         $configuration['directory'] = Helpers::expand(
-            $configuration['directory'], $this->getContainerBuilder()->parameters
+            $configuration['directory'],
+            $this->getContainerBuilder()->parameters
         );
 
         return $configuration;
