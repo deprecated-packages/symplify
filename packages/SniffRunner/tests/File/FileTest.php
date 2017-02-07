@@ -2,8 +2,8 @@
 
 namespace Symplify\SniffRunner\Tests\File;
 
+use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
-use PHPUnit_Framework_Assert;
 use Symplify\SniffRunner\DI\ContainerFactory;
 use Symplify\SniffRunner\File\File;
 use Symplify\SniffRunner\File\FileFactory;
@@ -26,7 +26,7 @@ final class FileTest extends TestCase
     public function testErrorDataCollector()
     {
         /** @var ErrorDataCollector $errorDataCollector */
-        $errorDataCollector = PHPUnit_Framework_Assert::getObjectAttribute(
+        $errorDataCollector = Assert::getObjectAttribute(
             $this->file,
             'errorDataCollector'
         );
