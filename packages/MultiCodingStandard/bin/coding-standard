@@ -1,7 +1,7 @@
 #!/usr/bin/env php
 <?php
 
-require_once __DIR__.'/bootstrap.php';
+require_once __DIR__ . '/include-autoload.php';
 
 // 1. build DI container
 $containerFactory = new Symplify\MultiCodingStandard\DI\ContainerFactory();
