@@ -9,7 +9,7 @@ use PhpCsFixer\Finder;
 use PhpCsFixer\Linter\LinterInterface;
 use PhpCsFixer\Runner\Runner;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symplify\MultiCodingStandard\PhpCsFixer\Factory\FixerFactory;
+use Symplify\MultiCodingStandard\PhpCsFixer\Fixer\FixerFactory;
 
 final class RunnerFactory
 {
@@ -59,7 +59,7 @@ final class RunnerFactory
         $this->fixerFactory = $fixerFactory;
     }
 
-    public function create(array $rules, array $excludedRules, string $source) : Runner
+    public function create(array $rules, array $excludedRules, string $source, bool $isFixer) : Runner
     {
         $fixers = $this->fixerFactory->createFromRulesAndExcludedRules($rules, $excludedRules);
 
@@ -70,7 +70,7 @@ final class RunnerFactory
             $this->eventDispatcher,
             $this->errorsManager,
             $this->linter,
-            false,
+            ! $isFixer,
             $this->cacheManager
         );
     }
