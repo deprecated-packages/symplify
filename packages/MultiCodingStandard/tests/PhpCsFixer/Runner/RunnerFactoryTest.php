@@ -5,7 +5,7 @@ namespace Symplify\MultiCodingStandard\PhpCsFixer\Runner;
 use PhpCsFixer\Runner\Runner;
 use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
-use Symplify\MultiCodingStandard\Tests\ContainerFactory;
+use Symplify\MultiCodingStandard\DI\ContainerFactory;
 
 final class RunnerFactoryTest extends TestCase
 {
