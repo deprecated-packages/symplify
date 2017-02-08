@@ -22,7 +22,7 @@ final class RunnerFactoryTest extends TestCase
 
     public function test()
     {
-        $runner = $this->runnerFactory->create(['@Symfony'], [], __DIR__);
+        $runner = $this->runnerFactory->create(['@Symfony'], [], __DIR__, false);
         $this->assertInstanceOf(Runner::class, $runner);
         $this->assertCount(91, Assert::getObjectAttribute($runner, 'fixers'));
     }
