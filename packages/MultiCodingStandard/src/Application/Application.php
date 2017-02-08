@@ -57,9 +57,8 @@ final class Application
     ): PhpCsFixerRunApplicationCommand {
         return new PhpCsFixerRunApplicationCommand(
             $command->getSource(),
-            $command->getJsonConfiguration()['fixer-levels'] ?? [],
-            $command->getJsonConfiguration()['fixers'] ?? [],
-            $command->getJsonConfiguration()['exclude-fixers'] ?? [],
+            $command->getJsonConfiguration()['rules'] ?? [],
+            $command->getJsonConfiguration()['exclude-rules'] ?? [],
             $command->isFixer()
         );
     }

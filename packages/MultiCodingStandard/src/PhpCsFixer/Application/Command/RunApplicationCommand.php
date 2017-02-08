@@ -12,29 +12,23 @@ final class RunApplicationCommand
     /**
      * @var array
      */
-    private $fixerLevels;
+    private $rules;
 
     /**
      * @var array
      */
-    private $fixers;
-
-    /**
-     * @var array
-     */
-    private $excludeFixers;
+    private $excludedRules;
 
     /**
      * @var bool
      */
     private $isFixer;
 
-    public function __construct(array $source, array $fixerLevels, array $fixers, array $excludeFixers, bool $isFixer)
+    public function __construct(array $source, array $rules, array $excludeRules, bool $isFixer)
     {
         $this->source = $source;
-        $this->fixerLevels = $fixerLevels;
-        $this->fixers = $fixers;
-        $this->excludeFixers = $excludeFixers;
+        $this->rules = $rules;
+        $this->excludedRules = $excludeRules;
         $this->isFixer = $isFixer;
     }
 
@@ -43,19 +37,14 @@ final class RunApplicationCommand
         return $this->source;
     }
 
-    public function getFixerLevels(): array
+    public function getRules(): array
     {
-        return $this->fixerLevels;
+        return $this->rules;
     }
 
-    public function getFixers(): array
+    public function getExcludedRules(): array
     {
-        return $this->fixers;
-    }
-
-    public function getExcludeFixers(): array
-    {
-        return $this->excludeFixers;
+        return $this->excludedRules;
     }
 
     public function isFixer(): bool
