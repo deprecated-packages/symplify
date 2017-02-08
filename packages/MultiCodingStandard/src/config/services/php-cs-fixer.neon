@@ -1,7 +1,6 @@
 services:
     # application
     - Symplify\MultiCodingStandard\PhpCsFixer\Application\Application
-    - Symplify\MultiCodingStandard\PhpCsFixer\Report\DiffDataCollector
 
     # fixer factory
     - Symplify\MultiCodingStandard\PhpCsFixer\Fixer\FixerFactory
