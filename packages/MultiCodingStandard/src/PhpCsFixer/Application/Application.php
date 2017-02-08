@@ -3,20 +3,14 @@
 namespace Symplify\MultiCodingStandard\PhpCsFixer\Application;
 
 use ArrayIterator;
-use Symfony\CS\Config;
-use Symfony\CS\Fixer;
 use Symplify\MultiCodingStandard\PhpCsFixer\Application\Command\RunApplicationCommand;
 use Symplify\MultiCodingStandard\PhpCsFixer\Factory\FixerFactory;
 use Symplify\MultiCodingStandard\PhpCsFixer\Report\DiffDataCollector;
+use Symplify\MultiCodingStandard\PhpCsFixer\Runner\RunnerFactory;
 use Symplify\SniffRunner\File\Finder\SourceFinder;
 
 final class Application
 {
-    /**
-     * @var Fixer
-     */
-    private $fixer;
-
     /**
      * @var FixerFactory
      */
@@ -32,12 +26,11 @@ final class Application
     private $diffDataCollector;
 
     public function __construct(
-        Fixer $fixer,
         FixerFactory $fixerSetFactory,
         SourceFinder $sourceFinder,
-        DiffDataCollector $diffDataCollector
+        DiffDataCollector $diffDataCollector,
+        RunnerFactory $runnerFactory
     ) {
-        $this->fixer = $fixer;
         $this->fixerSetFactory = $fixerSetFactory;
         $this->sourceFinder = $sourceFinder;
         $this->diffDataCollector = $diffDataCollector;
@@ -52,7 +45,7 @@ final class Application
 
     private function registerFixersToFixer(array $fixerLevels, array $fixers, array $excludedFixers)
     {
-        $fixers = $this->fixerSetFactory->createFromLevelsFixersAndExcludedFixers(
+        $fixers = $this->fixerSetFactory->createRulesAndExcludedRules(
             $fixerLevels, $fixers, $excludedFixers
         );
 

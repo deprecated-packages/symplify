@@ -13,6 +13,7 @@ final class ConsoleApplication extends Application
     public function __construct(RunCommand $runCommand)
     {
         parent::__construct('Symplify Coding Standard', null);
+        // @todo: this breaks SOLID, not cool Tom!
         $this->add($runCommand);
     }
 
