@@ -11,6 +11,7 @@ final class ConfigurationResolverFactory
     {
         $rulesAsString = $this->combineListOfRulesToString($rules, $excludedRules);
         $options = $this->createOptionsWithRules($rulesAsString);
+
         return new ConfigurationResolver(new Config(), $options, getcwd());
     }
 
@@ -23,7 +24,7 @@ final class ConfigurationResolverFactory
         return trim($rulesAsString, ',');
     }
 
-    private function implodeWithPresign(array $items, string $presign = '')
+    private function implodeWithPresign(array $items, string $presign = '') : string
     {
         if (count($items)) {
             return $presign . implode(',' . $presign, $items);
@@ -32,7 +33,7 @@ final class ConfigurationResolverFactory
         return '';
     }
 
-    private function createOptionsWithRules(string $rulesAsString): array
+    private function createOptionsWithRules(string $rulesAsString) : array
     {
         return [
             'rules' => $rulesAsString

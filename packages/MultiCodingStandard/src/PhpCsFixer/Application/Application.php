@@ -2,74 +2,37 @@
 
 namespace Symplify\MultiCodingStandard\PhpCsFixer\Application;
 
-use ArrayIterator;
 use Symplify\MultiCodingStandard\PhpCsFixer\Application\Command\RunApplicationCommand;
-use Symplify\MultiCodingStandard\PhpCsFixer\Factory\FixerFactory;
-use Symplify\MultiCodingStandard\PhpCsFixer\Report\DiffDataCollector;
 use Symplify\MultiCodingStandard\PhpCsFixer\Runner\RunnerFactory;
-use Symplify\SniffRunner\File\Finder\SourceFinder;
 
 final class Application
 {
     /**
-     * @var FixerFactory
+     * @var RunnerFactory
      */
-    private $fixerSetFactory;
-    /**
-     * @var SourceFinder
-     */
-    private $sourceFinder;
+    private $runnerFactory;
 
-    /**
-     * @var DiffDataCollector
-     */
-    private $diffDataCollector;
-
-    public function __construct(
-        FixerFactory $fixerSetFactory,
-        SourceFinder $sourceFinder,
-        DiffDataCollector $diffDataCollector,
-        RunnerFactory $runnerFactory
-    ) {
-        $this->fixerSetFactory = $fixerSetFactory;
-        $this->sourceFinder = $sourceFinder;
-        $this->diffDataCollector = $diffDataCollector;
+    public function __construct(RunnerFactory $runnerFactory)
+    {
+        $this->runnerFactory = $runnerFactory;
     }
 
     public function runCommand(RunApplicationCommand $command)
     {
-        $this->registerFixersToFixer($command->getRules(), $command->getFixers(), $command->getExcludedRules());
-
-        $this->runForSource($command->getSource(), $command->isFixer());
+        foreach ($command->getSources() as $source) {
+            $this->runForSource($source, $command);
+        }
     }
 
-    private function registerFixersToFixer(array $fixerLevels, array $fixers, array $excludedFixers)
+    private function runForSource(string $source, RunApplicationCommand $command)
     {
-        $fixers = $this->fixerSetFactory->createRulesAndExcludedRules(
-            $fixerLevels, $fixers, $excludedFixers
+        $runner = $this->runnerFactory->create(
+            $command->getRules(),
+            $command->getExcludedRules(),
+            $source,
+            $command->isFixer()
         );
 
-        $this->fixer->registerCustomFixers($fixers);
-    }
-
-    private function runForSource(array $source, bool $isFixer)
-    {
-        $this->registerSourceToFixer($source);
-
-        /** @var Config $config */
-        $config = $this->fixer->getConfigs()[0];
-        $config->fixers($this->fixer->getFixers());
-
-        $changedDiffs = $this->fixer->fix($config, !$isFixer, !$isFixer);
-        $this->diffDataCollector->setDiffs($changedDiffs);
-    }
-
-    private function registerSourceToFixer(array $source)
-    {
-        $files = $this->sourceFinder->find($source);
-
-        $config = new Config();
-        $config->finder(new ArrayIterator($files));
-        $this->fixer->addConfig($config);
+        $runner->fix();
     }
 }

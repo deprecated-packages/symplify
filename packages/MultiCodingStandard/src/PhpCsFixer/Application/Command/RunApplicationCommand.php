@@ -7,7 +7,7 @@ final class RunApplicationCommand
     /**
      * @var array
      */
-    private $source;
+    private $sources;
 
     /**
      * @var array
@@ -24,30 +24,30 @@ final class RunApplicationCommand
      */
     private $isFixer;
 
-    public function __construct(array $source, array $rules, array $excludeRules, bool $isFixer)
+    public function __construct(array $sources, array $rules, array $excludeRules, bool $isFixer)
     {
-        $this->source = $source;
+        $this->sources = $sources;
         $this->rules = $rules;
         $this->excludedRules = $excludeRules;
         $this->isFixer = $isFixer;
     }
 
-    public function getSource(): array
+    public function getSources() : array
     {
-        return $this->source;
+        return $this->sources;
     }
 
-    public function getRules(): array
+    public function getRules() : array
     {
         return $this->rules;
     }
 
-    public function getExcludedRules(): array
+    public function getExcludedRules() : array
     {
         return $this->excludedRules;
     }
 
-    public function isFixer(): bool
+    public function isFixer() : bool
     {
         return $this->isFixer;
     }

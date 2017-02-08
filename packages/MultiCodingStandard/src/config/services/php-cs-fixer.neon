@@ -4,7 +4,7 @@ services:
     - Symplify\MultiCodingStandard\PhpCsFixer\Report\DiffDataCollector
 
     # fixer factory
-    - Symplify\MultiCodingStandard\PhpCsFixer\Factory\FixerFactory
+    - Symplify\MultiCodingStandard\PhpCsFixer\Fixer\FixerFactory
     - Symplify\MultiCodingStandard\Configuration\ConfigurationResolverFactory
 
     # runner and his dependencies

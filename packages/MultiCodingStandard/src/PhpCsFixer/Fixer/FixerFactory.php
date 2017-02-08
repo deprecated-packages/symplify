@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\MultiCodingStandard\PhpCsFixer\Factory;
+namespace Symplify\MultiCodingStandard\PhpCsFixer\Fixer;
 
 use PhpCsFixer\Fixer\FixerInterface;
 use Symplify\MultiCodingStandard\Configuration\ConfigurationResolverFactory;

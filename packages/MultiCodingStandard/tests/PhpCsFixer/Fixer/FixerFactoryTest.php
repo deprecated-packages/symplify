@@ -4,7 +4,7 @@ namespace Symplify\MultiCodingStandard\Tests\PhpCsFixer\Fixer;
 
 use PhpCsFixer\Fixer\FixerInterface;
 use PHPUnit\Framework\TestCase;
-use Symplify\MultiCodingStandard\PhpCsFixer\Factory\FixerFactory;
+use Symplify\MultiCodingStandard\PhpCsFixer\Fixer\FixerFactory;
 use Symplify\MultiCodingStandard\Tests\ContainerFactory;
 
 final class FixerFactoryTest extends TestCase
