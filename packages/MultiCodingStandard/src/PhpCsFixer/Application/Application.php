@@ -38,7 +38,7 @@ final class Application
 
     public function runCommand(RunApplicationCommand $command)
     {
-        $this->registerFixersToFixer($command->getFixerLevels(), $command->getFixers(), $command->getExcludeFixers());
+        $this->registerFixersToFixer($command->getRules(), $command->getFixers(), $command->getExcludedRules());
 
         $this->runForSource($command->getSource(), $command->isFixer());
     }

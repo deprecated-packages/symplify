@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\MultiCodingStandard\Tests\PhpCsFixer\Factory;
+namespace Symplify\MultiCodingStandard\Tests\PhpCsFixer\Fixer;
 
 use PhpCsFixer\Fixer\FixerInterface;
 use PHPUnit\Framework\TestCase;
@@ -41,7 +41,7 @@ final class FixerFactoryTest extends TestCase
             [['no_whitespace_before_comma_in_array'], [], 1],
             [['@PSR1'], [], 2],
             [['@PSR2'], [], 24],
-            [['@PSR2'], ['visibility'], 24],
+            [['@PSR2', 'whitespace_after_comma_in_array'], [], 25],
             [['@PSR1', '@PSR2'], [], 24],
             [['@PSR1', '@PSR2'], ['visibility'], 24],
         ];
