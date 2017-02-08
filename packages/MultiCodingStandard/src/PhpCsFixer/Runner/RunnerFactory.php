@@ -63,8 +63,8 @@ final class RunnerFactory
     {
         $fixers = $this->fixerFactory->createFromRulesAndExcludedRules($rules, $excludedRules);
 
-        $runner = new Runner(
-            $this->createFinder($source),
+        return new Runner(
+            $this->createFinderForSource($source),
             $fixers,
             $this->differ,
             $this->eventDispatcher,
@@ -73,17 +73,12 @@ final class RunnerFactory
             false,
             $this->cacheManager
         );
-
-        return $runner;
     }
 
-    private function createFinder(string $source): Finder
+    private function createFinderForSource(string $source): Finder
     {
-        $finder = new Finder();
-        $finder->files()
+        return (new Finder)->files()
             ->in($source)
             ->name('*.php');
-
-        return $finder;
     }
 }
