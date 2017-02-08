@@ -5,6 +5,7 @@ namespace Symplify\MultiCodingStandard\Tests\PhpCsFixer\Factory;
 use PhpCsFixer\Fixer\FixerInterface;
 use PHPUnit\Framework\TestCase;
 use Symplify\MultiCodingStandard\PhpCsFixer\Factory\FixerFactory;
+use Symplify\MultiCodingStandard\Tests\ContainerFactory;
 
 final class FixerFactoryTest extends TestCase
 {
@@ -15,23 +16,20 @@ final class FixerFactoryTest extends TestCase
 
     protected function setUp()
     {
-        $this->fixerFactory = new FixerFactory();
+        $container = (new ContainerFactory())->create();
+        $this->fixerFactory = $container->getByType(FixerFactory::class);
     }
 
     /**
      * @dataProvider provideCreateData
      */
-    public function testResolveFixerLevels(
-        array $fixerLevels,
-        array $fixers,
-        array $excludedFixers,
-        int $expectedFixerCount
-    ) {
-        $fixers = $this->fixerFactory->createFromLevelsFixersAndExcludedFixers($fixerLevels, $fixers, $excludedFixers);
-        $this->assertCount($expectedFixerCount, $fixers);
+    public function testResolveFixerLevels(array $rules, array $excludedRules, int $expectedFixerCount)
+    {
+        $rules = $this->fixerFactory->createFromRulesAndExcludedRules($rules, $excludedRules);
+        $this->assertCount($expectedFixerCount, $rules);
 
-        if (count($fixers)) {
-            $fixer = $fixers[0];
+        if (count($rules)) {
+            $fixer = $rules[0];
             $this->assertInstanceOf(FixerInterface::class, $fixer);
         }
     }
@@ -39,13 +37,13 @@ final class FixerFactoryTest extends TestCase
     public function provideCreateData() : array
     {
         return [
-            [[], [], [], 0],
-            [[], ['no_whitespace_before_comma_in_array'], [], 1],
-            [['psr1'], [], [], 2],
-            [['psr2'], [], [], 24],
-            [['psr2'], [], ['visibility'],  24],
-            [['psr1', 'psr2'], [], [], 26],
-            [['psr1', 'psr2'], [], ['visibility'], 26],
+            [[], [], 0],
+            [['no_whitespace_before_comma_in_array'], [], 1],
+            [['@PSR1'], [], 2],
+            [['@PSR2'], [], 24],
+            [['@PSR2'], ['visibility'], 24],
+            [['@PSR1', '@PSR2'], [], 24],
+            [['@PSR1', '@PSR2'], ['visibility'], 24],
         ];
     }
 }

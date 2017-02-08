@@ -138,8 +138,8 @@
     ],
     "scripts": {
         "complete-check": ["vendor/bin/phpunit", "@fix-cs", "@phpstan"],
-        "check-cs": "packages/CodingStandard/bin/symplify-cs check packages/*/src packages/*/tests",
-        "fix-cs": "packages/CodingStandard/bin/symplify-cs fix packages/*/src packages/*/tests",
+        "check-cs": "packages/MultiCodingStandard/bin/coding-standard check packages/*/src packages/*/tests",
+        "fix-cs": "packages/MultiCodingStandard/bin/coding-standard fix packages/*/src packages/*/tests",
         "phpstan": "vendor/bin/phpstan analyse packages --level=4 -c phpstan.neon"
     }
 }
