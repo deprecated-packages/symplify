@@ -38,18 +38,6 @@ final class SniffCollectionResolver
             }
         }
 
-        if (count($sniffs)) {
-            dump('EEE');
-            dump($sniffs);
-            die;
-        }
-
-        if (count($excludedSniffs)) {
-            dump('EEE');
-            dump($excludedSniffs);
-            die;
-        }
-
         return $sniffClasses;
     }
 }

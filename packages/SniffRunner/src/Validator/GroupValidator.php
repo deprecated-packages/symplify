@@ -2,7 +2,7 @@
 
 namespace Symplify\SniffRunner\Validator;
 
-use Symplify\SniffRunner\Exception\Configuration\OptionResolver\GroupNotFoundException;
+use Symplify\SniffRunner\Exception\Validator\GroupNotFoundException;
 use Symplify\SniffRunner\Repository\SniffRepository;
 
 final class GroupValidator

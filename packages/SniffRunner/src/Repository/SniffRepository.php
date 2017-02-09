@@ -2,8 +2,7 @@
 
 namespace Symplify\SniffRunner\Repository;
 
-use Gherkins\RegExpBuilderPHP\RegExp;
-use Gherkins\RegExpBuilderPHP\RegExpBuilder;
+use Symplify\SniffRunner\Naming\SniffGroupNameResolver;
 use Symplify\SniffRunner\Sniff\Finder\SniffFinder;
 
 final class SniffRepository
@@ -18,9 +17,15 @@ final class SniffRepository
      */
     private $sniffClasses;
 
-    public function __construct(SniffFinder $sniffFinder)
+    /**
+     * @var SniffGroupNameResolver
+     */
+    private $sniffGroupNameResolver;
+
+    public function __construct(SniffFinder $sniffFinder, SniffGroupNameResolver $sniffGroupNameResolver)
     {
         $this->sniffFinder = $sniffFinder;
+        $this->sniffGroupNameResolver = $sniffGroupNameResolver;
     }
 
     /**
@@ -32,29 +37,6 @@ final class SniffRepository
 
         $groups = array_keys($this->sniffClasses);
         return array_combine($groups, $groups);
-    }
-
-    private function init(): void
-    {
-        if (count($this->sniffClasses)) {
-            return;
-        }
-
-        $sniffClasses = $this->sniffFinder->findAllSniffClasses();
-        $regExp = $this->createGroupRegularExpression();
-
-        foreach ($sniffClasses as $sniffClass) {
-            $group = $regExp->exec($sniffClass)[0];
-            $this->sniffClasses[$group][] = $sniffClass;
-        }
-    }
-
-    private function createGroupRegularExpression(): RegExp
-    {
-        $builder = new RegExpBuilder();
-        return $builder->anythingBut('\\') // after \\
-            ->ahead($builder->getNew()->exactly(1)->of('\\Sniffs')) // before \\Sniffs
-            ->getRegExp();
     }
 
     /**
@@ -69,5 +51,19 @@ final class SniffRepository
         }
 
         return $this->sniffClasses[$group];
+    }
+
+    private function init(): void
+    {
+        if (count($this->sniffClasses)) {
+            return;
+        }
+
+        $sniffClasses = $this->sniffFinder->findAllSniffClasses();
+
+        foreach ($sniffClasses as $sniffClass) {
+            $group = $this->sniffGroupNameResolver->resolveFromSniffClass($sniffClass);
+            $this->sniffClasses[$group][] = $sniffClass;
+        }
     }
 }
