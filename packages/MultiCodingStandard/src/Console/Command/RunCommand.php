@@ -7,9 +7,9 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\StyleInterface;
-use Symplify\MultiCodingStandard\Application\Application;
+use Symplify\MultiCodingStandard\Application\ApplicationRunner;
 use Symplify\MultiCodingStandard\Application\Command\RunApplicationCommand;
-use Symplify\MultiCodingStandard\Configuration\MultiCsFileLoader;
+use Symplify\MultiCodingStandard\Configuration\ConfigurationFileLoader;
 use Symplify\MultiCodingStandard\Console\Output\InfoMessagePrinter;
 
 final class RunCommand extends Command
@@ -20,12 +20,12 @@ final class RunCommand extends Command
     private $style;
 
     /**
-     * @var Application
+     * @var ApplicationRunner
      */
-    private $application;
+    private $applicationRunner;
 
     /**
-     * @var MultiCsFileLoader
+     * @var ConfigurationFileLoader
      */
     private $multiCsFileLoader;
 
@@ -35,14 +35,14 @@ final class RunCommand extends Command
     private $infoMessagePrinter;
 
     public function __construct(
-        Application $application,
+        ApplicationRunner $applicationRunner,
         StyleInterface $style,
-        MultiCsFileLoader $multiCsFileLoader,
+        ConfigurationFileLoader $multiCsFileLoader,
         InfoMessagePrinter $infoMessagePrinter
     ) {
         parent::__construct();
 
-        $this->application = $application;
+        $this->applicationRunner = $applicationRunner;
         $this->style = $style;
         $this->multiCsFileLoader = $multiCsFileLoader;
         $this->infoMessagePrinter = $infoMessagePrinter;
@@ -58,8 +58,8 @@ final class RunCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->application->runCommand(
-            $this->createRunApplicationCommandFromInput($input)
+        $this->applicationRunner->runCommand(
+            RunApplicationCommand::createFromInputAndData($input, $this->multiCsFileLoader->load())
         );
 
         if ($this->infoMessagePrinter->hasSomeErrorMessages()) {
@@ -76,14 +76,5 @@ final class RunCommand extends Command
         );
 
         return 0;
-    }
-
-    private function createRunApplicationCommandFromInput(InputInterface $input) : RunApplicationCommand
-    {
-        return new RunApplicationCommand(
-            $input->getArgument('source'),
-            $input->getOption('fix'),
-            $this->multiCsFileLoader->load()
-        );
     }
 }

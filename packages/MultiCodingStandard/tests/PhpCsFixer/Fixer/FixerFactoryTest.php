@@ -39,6 +39,7 @@ final class FixerFactoryTest extends TestCase
         return [
             [[], [], 0],
             [['no_whitespace_before_comma_in_array'], [], 1],
+            [['declare_strict_types,'], [], 1],
             [['@PSR1'], [], 2],
             [['@PSR2'], [], 24],
             [['@PSR2', 'whitespace_after_comma_in_array'], [], 25],

@@ -3,14 +3,15 @@
 namespace Symplify\SniffRunner\Application;
 
 use PHP_CodeSniffer\Sniffs\Sniff;
-use Symplify\SniffRunner\Application\Command\RunApplicationCommand;
+use Symplify\MultiCodingStandard\Application\Command\RunApplicationCommand;
+use Symplify\MultiCodingStandard\Contract\Application\ApplicationInterface;
 use Symplify\SniffRunner\EventDispatcher\SniffDispatcher;
 use Symplify\SniffRunner\File\Provider\FilesProvider;
 use Symplify\SniffRunner\Legacy\LegacyCompatibilityLayer;
 use Symplify\SniffRunner\Sniff\Factory\SniffFactory;
 use Symplify\SniffRunner\Sniff\SniffCollectionResolver;
 
-final class Application
+final class Application implements ApplicationInterface
 {
     /**
      * @var SniffDispatcher
@@ -61,7 +62,7 @@ final class Application
         $sniffs = $this->createSniffsFromSniffClasses($sniffClasses);
         $this->registerSniffsToSniffDispatcher($sniffs);
 
-        $this->runForSource($command->getSource(), $command->isFixer());
+        $this->runForSource($command->getSources(), $command->isFixer());
     }
 
     /**
