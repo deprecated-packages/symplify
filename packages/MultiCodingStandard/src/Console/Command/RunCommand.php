@@ -68,12 +68,10 @@ final class RunCommand extends Command
             return 1;
         }
 
-        $this->style->success(
-            sprintf(
-                'Sources "%s" were checked!',
-                implode(',', $input->getArgument('source'))
-            )
-        );
+        $this->style->success(sprintf(
+            'Sources "%s" were checked!',
+            implode(',', $input->getArgument('source'))
+        ));
 
         return 0;
     }

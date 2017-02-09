@@ -23,7 +23,7 @@ final class FixerFactoryTest extends TestCase
     /**
      * @dataProvider provideCreateData
      */
-    public function testResolveFixerLevels(array $rules, array $excludedRules, int $expectedFixerCount)
+    public function testCreateFromRulesAndExcludedRules(array $rules, array $excludedRules, int $expectedFixerCount)
     {
         $rules = $this->fixerFactory->createFromRulesAndExcludedRules($rules, $excludedRules);
         $this->assertCount($expectedFixerCount, $rules);
@@ -32,6 +32,11 @@ final class FixerFactoryTest extends TestCase
             $fixer = $rules[0];
             $this->assertInstanceOf(FixerInterface::class, $fixer);
         }
+    }
+
+    public function testRuleConfiguration()
+    {
+        // @todo: e.g. array => short
     }
 
     public function provideCreateData() : array

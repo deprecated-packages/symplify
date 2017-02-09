@@ -22,13 +22,22 @@ final class MultiCodingStandardExtension extends CompilerExtension
 
     public function beforeCompile() : void
     {
+        $this->loadCommandsToConsoleApplication();
+        $this->loadApplicationsToApplicationRunner();
+    }
+
+    private function loadCommandsToConsoleApplication() : void
+    {
         DefinitionCollector::loadCollectorWithType(
             $this->getContainerBuilder(),
             Application::class,
             Command::class,
             'add'
         );
+    }
 
+    private function loadApplicationsToApplicationRunner() : void
+    {
         DefinitionCollector::loadCollectorWithType(
             $this->getContainerBuilder(),
             ApplicationRunner::class,
