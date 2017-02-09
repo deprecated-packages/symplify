@@ -2,7 +2,6 @@
 
 namespace Symplify\MultiCodingStandard\Console\Output;
 
-use Symfony\Component\Console\Formatter\OutputFormatter;
 use Symfony\Component\Console\Output\Output;
 use Symplify\SniffRunner\Report\ErrorDataCollector;
 

@@ -20,13 +20,14 @@ final class FixerFactory
     /**
      * @return FixerInterface[]
      */
-    public function createFromRulesAndExcludedRules(array $rules, array $excludedRules)
+    public function createFromRulesAndExcludedRules(array $rules, array $excludedRules) : array
     {
         if (!count($rules)) {
             return [];
         }
 
         $configuration = $this->configurationResolverFactory->createFromRulesAndExcludedRules($rules, $excludedRules);
+
         return $configuration->getFixers();
     }
 }

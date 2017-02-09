@@ -4,3 +4,4 @@ composer.lock
 # Statie
 /source
 /output
+src/Provider/

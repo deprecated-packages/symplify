@@ -36,7 +36,8 @@ final class ConfigurationResolverFactory
     private function createOptionsWithRules(string $rulesAsString) : array
     {
         return [
-            'rules' => $rulesAsString
+            'rules' => $rulesAsString,
+            'allow-risky' => 'yes'
         ];
     }
 }

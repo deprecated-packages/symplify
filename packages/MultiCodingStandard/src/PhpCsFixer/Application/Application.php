@@ -2,10 +2,11 @@
 
 namespace Symplify\MultiCodingStandard\PhpCsFixer\Application;
 
-use Symplify\MultiCodingStandard\PhpCsFixer\Application\Command\RunApplicationCommand;
+use Symplify\MultiCodingStandard\Application\Command\RunApplicationCommand;
+use Symplify\MultiCodingStandard\Contract\Application\ApplicationInterface;
 use Symplify\MultiCodingStandard\PhpCsFixer\Runner\RunnerFactory;
 
-final class Application
+final class Application implements ApplicationInterface
 {
     /**
      * @var RunnerFactory
@@ -17,7 +18,7 @@ final class Application
         $this->runnerFactory = $runnerFactory;
     }
 
-    public function runCommand(RunApplicationCommand $command)
+    public function runCommand(RunApplicationCommand $command) : void
     {
         foreach ($command->getSources() as $source) {
             $this->runForSource($source, $command);

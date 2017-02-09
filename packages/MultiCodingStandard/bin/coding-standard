@@ -1,15 +1,17 @@
 #!/usr/bin/env php
-<?php
+<?php declare(strict_types=1);
+
+use Symfony\Component\Console\Application;
+use Symplify\MultiCodingStandard\DI\ContainerFactory;
 
 require_once __DIR__ . '/include-autoload.php';
 
 // 1. build DI container
-$containerFactory = new Symplify\MultiCodingStandard\DI\ContainerFactory();
-$container = $containerFactory->create();
+$container = (new ContainerFactory())->create();
 
 // 2. get Console Application
-/** @var Symplify\MultiCodingStandard\Console\ConsoleApplication $application */
-$application = $container->getByType(Symplify\MultiCodingStandard\Console\ConsoleApplication::class);
+/** @var Application $application */
+$application = $container->getByType(Application::class);
 
 // 3. run it!
 $application->setDefaultCommand('run', true);

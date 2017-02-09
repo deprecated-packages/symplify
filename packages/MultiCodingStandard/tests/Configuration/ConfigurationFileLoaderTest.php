@@ -3,13 +3,13 @@
 namespace Symplify\MultiCodingStandard\Tests\Configuration;
 
 use PHPUnit\Framework\TestCase;
-use Symplify\MultiCodingStandard\Configuration\MultiCsFileLoader;
+use Symplify\MultiCodingStandard\Configuration\ConfigurationFileLoader;
 
-final class MultiCsFileLoaderTest extends TestCase
+final class ConfigurationFileLoaderTest extends TestCase
 {
-    public function testLoad()
+    public function test()
     {
-        $multiCsFileLoader = new MultiCsFileLoader(__DIR__.'/multi-cs-key-value.json');
+        $multiCsFileLoader = new ConfigurationFileLoader(__DIR__.'/coding-standard-key-value.json');
 
         $loadedFile = $multiCsFileLoader->load();
         $this->assertSame([
