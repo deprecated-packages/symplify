@@ -1,7 +1,6 @@
 {
     "name": "symplify/auto-service-registration",
     "description": "Register your service by suffix scan instead of manual writing.",
-    "license": "MIT",
     "require": {
         "php": "^7.1",
         "nette/robot-loader": "^2.4",

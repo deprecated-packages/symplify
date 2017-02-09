@@ -1,7 +1,6 @@
 {
     "name": "zenify/doctrine-extensions-tree",
     "description": "Implementation of Tree from DoctrineExtensions to Nette.",
-    "license": "MIT",
     "require": {
         "php": "^7.1",
         "gedmo/doctrine-extensions": "^2.4",

@@ -1,7 +1,6 @@
 {
     "name": "symplify/sniff-runner",
     "description": "SniffRunner finds all sniffs and runes them on your code.",
-    "license": "MIT",
     "require": {
         "php": "^7.1",
         "ext-tokenizer": "*",
