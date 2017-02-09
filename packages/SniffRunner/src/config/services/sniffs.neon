@@ -6,3 +6,6 @@ services:
     - Symplify\SniffRunner\Sniff\Finder\SniffFinder
     - Symplify\SniffRunner\Sniff\Finder\SniffClassFilter
     - Symplify\SniffRunner\Sniff\Finder\SniffClassRobotLoaderFactory
+
+    # naming
+    - Symplify\SniffRunner\Naming\SniffGroupNameResolver
