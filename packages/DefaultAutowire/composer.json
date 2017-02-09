@@ -1,7 +1,6 @@
 {
     "name": "symplify/default-autowire",
     "description": "Adds autowire to services when needed.",
-    "license": "MIT",
     "require": {
         "php": "^7.1",
         "symfony/config": "^3.2",

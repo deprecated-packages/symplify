@@ -1,7 +1,6 @@
 {
     "name": "symplify/symplify",
     "description": "Main repository for Symplify packages development.",
-    "license": "MIT",
     "require": {
         "php": "^7.1",
 
