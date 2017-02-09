@@ -3,8 +3,8 @@
 namespace Symplify\SniffRunner\Application;
 
 use PHP_CodeSniffer\Sniffs\Sniff;
-use Symplify\MultiCodingStandard\Application\Command\RunApplicationCommand;
-use Symplify\MultiCodingStandard\Contract\Application\ApplicationInterface;
+use Symplify\EasyCodingStandard\Application\Command\RunApplicationCommand;
+use Symplify\EasyCodingStandard\Contract\Application\ApplicationInterface;
 use Symplify\SniffRunner\EventDispatcher\SniffDispatcher;
 use Symplify\SniffRunner\File\Provider\FilesProvider;
 use Symplify\SniffRunner\Legacy\LegacyCompatibilityLayer;
