@@ -95,7 +95,7 @@
             "Symplify\\SymfonyEventDispatcher\\": "packages/SymfonyEventDispatcher/src",
             "Symplify\\SymfonySecurityVoters\\": "packages/SymfonySecurityVoters/src",
             "Symplify\\PackageBuilder\\": "packages/PackageBuilder/src",
-            "Symplify\\MultiCodingStandard\\": "packages/MultiCodingStandard/src",
+            "Symplify\\EasyCodingStandard\\": "packages/EasyCodingStandard/src",
 
             "Zenify\\ModularLatteFilters\\": "packages/ModularLatteFilters/src",
             "Zenify\\DoctrineFixtures\\": "packages/DoctrineFixtures/src",
@@ -120,7 +120,7 @@
             "Symplify\\SymfonyEventDispatcher\\Tests\\": "packages/SymfonyEventDispatcher/tests",
             "Symplify\\SymfonySecurityVoters\\Tests\\": "packages/SymfonySecurityVoters/tests",
             "Symplify\\PackageBuilder\\Tests\\": "packages/PackageBuilder/tests",
-            "Symplify\\MultiCodingStandard\\Tests\\": "packages/MultiCodingStandard/tests",
+            "Symplify\\EasyCodingStandard\\Tests\\": "packages/EasyCodingStandard/tests",
 
             "Zenify\\ModularLatteFilters\\Tests\\": "packages/ModularLatteFilters/tests",
             "Zenify\\DoctrineFixtures\\Tests\\": "packages/DoctrineFixtures/tests",
@@ -138,8 +138,8 @@
     ],
     "scripts": {
         "complete-check": ["vendor/bin/phpunit", "@fix-cs", "@phpstan"],
-        "check-cs": "packages/MultiCodingStandard/bin/coding-standard check packages/*/src packages/*/tests",
-        "fix-cs": "packages/MultiCodingStandard/bin/coding-standard fix packages/*/src packages/*/tests",
+        "check-cs": "packages/EasyCodingStandard/bin/coding-standard check packages/*/src packages/*/tests",
+        "fix-cs": "packages/EasyCodingStandard/bin/coding-standard fix packages/*/src packages/*/tests",
         "phpstan": "vendor/bin/phpstan analyse packages --level=4 -c phpstan.neon"
     }
 }
