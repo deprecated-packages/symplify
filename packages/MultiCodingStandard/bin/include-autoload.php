@@ -32,7 +32,6 @@ final class AutoloadIncluder
     }
 }
 
-
 if (!(new AutoloadIncluder())->includeAutoload()) {
     echo 'You must set up the project dependencies, run the following commands:'.PHP_EOL.
         'curl -sS https://getcomposer.org/installer | php'.PHP_EOL.

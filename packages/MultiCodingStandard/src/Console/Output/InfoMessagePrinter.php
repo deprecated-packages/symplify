@@ -2,7 +2,7 @@
 
 namespace Symplify\MultiCodingStandard\Console\Output;
 
-use Symfony\Component\Console\Output\Output;
+use Symfony\Component\Console\Style\StyleInterface;
 use Symplify\SniffRunner\Report\ErrorDataCollector;
 
 final class InfoMessagePrinter
@@ -13,13 +13,13 @@ final class InfoMessagePrinter
     private $errorDataCollector;
 
     /**
-     * @var Output
+     * @var StyleInterface
      */
     private $output;
 
     public function __construct(
         ErrorDataCollector $errorDataCollector,
-        Output $output
+        StyleInterface $output
     ) {
         $this->errorDataCollector = $errorDataCollector;
         $this->output = $output;
@@ -36,12 +36,32 @@ final class InfoMessagePrinter
 
     public function printFoundErrorsStatus(bool $isFixer)
     {
+        $this->output->title(sprintf(
+            'Found %d errors',
+            $this->errorDataCollector->getErrorCount()
+        ));
+        foreach ($this->errorDataCollector->getErrorMessages() as $file => $errors) {
+
+            $this->output->newLine();
+
+            $this->output->section($file);
+
+            foreach ($errors as $error) {
+                $message = 'Line ' . $error['line'] . ' - ' . $error['message'];
+                if ($error['isFixable']) {
+                    $this->output->caution($message);
+                } else {
+                    $this->output->warning($message);
+                }
+            }
+        }
+        die;
+
         // @todo: combine to onw printer!!!!
 
         // code sniffer
-//        $this->phpCodeSnifferInfoMessagePrinter->printFoundErrorsStatus($isFixer);
+        $this->phpCodeSnifferInfoMessagePrinter->printFoundErrorsStatus($isFixer);
 
-        // php-cs-fixer
 //        $diffs = $this->diffDataCollector->getDiffs();
 //        $this->printDiffs($diffs);
     }
