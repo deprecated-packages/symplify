@@ -1,10 +1,10 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\EasyCodingStandard\PhpCsFixer\Application;
+namespace Symplify\EasyCodingStandard\RuleRunner\Application;
 
 use Symplify\EasyCodingStandard\Application\Command\RunApplicationCommand;
 use Symplify\EasyCodingStandard\Contract\Application\ApplicationInterface;
-use Symplify\EasyCodingStandard\PhpCsFixer\Runner\RunnerFactory;
+use Symplify\EasyCodingStandard\RuleRunner\Runner\RunnerFactory;
 
 final class Application implements ApplicationInterface
 {

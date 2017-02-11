@@ -3,6 +3,8 @@
         "standards": [
             "PSR2",
             "Symplify"
+        ],
+        "sniffs": [
         ]
     },
     "php-cs-fixer": {

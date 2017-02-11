@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\EasyCodingStandard\PhpCsFixer\Fixer;
+namespace Symplify\EasyCodingStandard\RuleRunner\Fixer;
 
 use PhpCsFixer\Fixer\FixerInterface;
 use Symplify\EasyCodingStandard\Configuration\ConfigurationResolverFactory;

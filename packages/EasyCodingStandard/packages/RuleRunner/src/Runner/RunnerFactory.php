@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\EasyCodingStandard\PhpCsFixer\Runner;
+namespace Symplify\EasyCodingStandard\RuleRunner\Runner;
 
 use PhpCsFixer\Cache\CacheManagerInterface;
 use PhpCsFixer\Differ\DifferInterface;
@@ -9,7 +9,7 @@ use PhpCsFixer\Finder;
 use PhpCsFixer\Linter\LinterInterface;
 use PhpCsFixer\Runner\Runner;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symplify\EasyCodingStandard\PhpCsFixer\Fixer\FixerFactory;
+use Symplify\EasyCodingStandard\RuleRunner\Fixer\FixerFactory;
 
 final class RunnerFactory
 {
