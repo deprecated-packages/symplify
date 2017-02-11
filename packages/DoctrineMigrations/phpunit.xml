@@ -9,7 +9,7 @@
     </testsuites>
     <filter>
         <whitelist>
-            <directory suffix=".php">src</directory>
+            <directory>src</directory>
         </whitelist>
     </filter>
 </phpunit>
