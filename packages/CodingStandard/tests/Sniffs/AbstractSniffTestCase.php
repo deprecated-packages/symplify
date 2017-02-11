@@ -7,8 +7,8 @@ use Nette\Utils\Strings;
 use PHPUnit\Framework\TestCase;
 use SplFileInfo;
 use Symplify\EasyCodingStandard\SniffRunner\EventDispatcher\SniffDispatcher;
-use Symplify\EasyCodingStandard\SniffRunner\Report\ErrorDataCollector;
-use Symplify\EasyCodingStandard\SniffRunner\Report\ErrorMessageSorter;
+use Symplify\EasyCodingStandard\Report\ErrorDataCollector;
+use Symplify\EasyCodingStandard\Report\ErrorMessageSorter;
 
 abstract class AbstractSniffTestCase extends TestCase
 {

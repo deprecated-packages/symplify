@@ -9,8 +9,8 @@ use Symplify\EasyCodingStandard\SniffRunner\EventDispatcher\SniffDispatcher;
 use Symplify\EasyCodingStandard\SniffRunner\File\File;
 use Symplify\EasyCodingStandard\SniffRunner\Legacy\LegacyCompatibilityLayer;
 use Symplify\EasyCodingStandard\SniffRunner\Parser\FileToTokensParser;
-use Symplify\EasyCodingStandard\SniffRunner\Report\ErrorDataCollector;
-use Symplify\EasyCodingStandard\SniffRunner\Report\ErrorMessageSorter;
+use Symplify\EasyCodingStandard\Report\ErrorDataCollector;
+use Symplify\EasyCodingStandard\Report\ErrorMessageSorter;
 
 final class SniffRunner
 {
