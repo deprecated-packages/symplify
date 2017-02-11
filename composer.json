@@ -58,7 +58,9 @@
         "illuminate/support": "^5.3",
 
         "symplify/sniff-runner": "@dev",
+        "symplify/rule-runner": "@dev",
         "symplify/package-builder": "@dev",
+
         "gherkins/regexpbuilderphp": "^0.7"
     },
     "require-dev": {
@@ -89,7 +91,6 @@
             "Symplify\\ModularDoctrineFilters\\": "packages/ModularDoctrineFilters/src",
             "Symplify\\ModularRouting\\": "packages/ModularRouting/src",
             "Symplify\\ServiceDefinitionDecorator\\": "packages/ServiceDefinitionDecorator/src",
-            "Symplify\\SniffRunner\\": "packages/SniffRunner/src",
             "Symplify\\Statie\\": "packages/Statie/src",
             "Symplify\\SymfonyEventDispatcher\\": "packages/SymfonyEventDispatcher/src",
             "Symplify\\SymfonySecurityVoters\\": "packages/SymfonySecurityVoters/src",
@@ -113,7 +114,6 @@
             "Symplify\\ModularDoctrineFilters\\Tests\\": "packages/ModularDoctrineFilters/tests",
             "Symplify\\ModularRouting\\Tests\\": "packages/ModularRouting/tests",
             "Symplify\\ServiceDefinitionDecorator\\Tests\\": "packages/ServiceDefinitionDecorator/tests",
-            "Symplify\\SniffRunner\\Tests\\": "packages/SniffRunner/tests",
             "Symplify\\Statie\\Tests\\": "packages/Statie/tests",
             "Symplify\\Tests\\": "tests",
             "Symplify\\SymfonyEventDispatcher\\Tests\\": "packages/SymfonyEventDispatcher/tests",
@@ -133,7 +133,8 @@
     },
     "repositories": [
         { "type": "path", "url": "packages/PackageBuilder" },
-        { "type": "path", "url": "packages/SniffRunner" }
+        { "type": "path", "url": "packages/EasyCodingStandard/packages/SniffRunner" },
+        { "type": "path", "url": "packages/EasyCodingStandard/packages/RuleRunner" }
     ],
     "scripts": {
         "complete-check": ["vendor/bin/phpunit", "@fix-cs", "@phpstan"],

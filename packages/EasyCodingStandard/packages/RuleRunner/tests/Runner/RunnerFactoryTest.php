@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\EasyCodingStandard\PhpCsFixer\Runner;
+namespace Symplify\EasyCodingStandard\RuleRunner\Runner;
 
 use PhpCsFixer\Runner\Runner;
 use PHPUnit\Framework\Assert;

@@ -5,7 +5,7 @@ namespace Symplify\EasyCodingStandard\Tests\PhpCsFixer\Fixer;
 use PhpCsFixer\Fixer\FixerInterface;
 use PHPUnit\Framework\TestCase;
 use Symplify\EasyCodingStandard\DI\ContainerFactory;
-use Symplify\EasyCodingStandard\PhpCsFixer\Fixer\FixerFactory;
+use Symplify\EasyCodingStandard\RuleRunner\Fixer\FixerFactory;
 
 final class FixerFactoryTest extends TestCase
 {
