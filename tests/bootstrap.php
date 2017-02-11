@@ -3,4 +3,4 @@
 require __DIR__ . '/../vendor/autoload.php';
 
 // packages/sniff-runner
-Symplify\SniffRunner\Legacy\LegacyCompatibilityLayer::add();
+Symplify\EasyCodingStandard\SniffRunner\Legacy\LegacyCompatibilityLayer::add();
