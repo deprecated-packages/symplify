@@ -37,7 +37,7 @@ final class CompleteTest extends TestCase
     {
         $this->assertInstanceOf(SomeService::class, $this->serviceLocator->getByType(SomeService::class));
 
-        $this->assertFalse($this->serviceLocator->getByType('missing'));
+        $this->assertFalse((bool) $this->serviceLocator->getByType('missing'));
     }
 
     public function testGetAutowiredControllerAction()
@@ -45,6 +45,7 @@ final class CompleteTest extends TestCase
         $request = new Request;
         $request->attributes->set('_controller', SomeController::class . '::someServiceAwareAction');
 
+        /** @var callable $controller */
         $controller = $this->controllerResolver->getController($request);
         $arguments = $this->controllerResolver->getArguments($request, $controller);
 

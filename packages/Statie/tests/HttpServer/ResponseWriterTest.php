@@ -6,7 +6,7 @@ use Mimey\MimeTypes;
 use PHPUnit\Framework\TestCase;
 use React\Http\Request;
 use React\Http\Response;
-use React\Tests\Http\ConnectionStub;
+use React\Tests\Socket\Stub\ConnectionStub;
 use Symfony\Component\Console\Output\BufferedOutput;
 use Symplify\Statie\HttpServer\MimeType\MimeTypeDetector;
 use Symplify\Statie\HttpServer\ResponseWriter;

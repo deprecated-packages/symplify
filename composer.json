@@ -77,7 +77,9 @@
         "kdyby/events": "^3.0",
         "kdyby/doctrine": "^3.1",
         "kdyby/console": "^2.6",
-        "phpstan/phpstan": "^0.6"
+        "phpstan/phpstan": "^0.6",
+        "phpstan/phpstan-nette": "^0.6.2",
+        "phpstan/phpstan-doctrine": "^0.6.1"
     },
     "autoload": {
         "psr-4": {
@@ -114,7 +116,7 @@
             "Symplify\\ServiceDefinitionDecorator\\Tests\\": "packages/ServiceDefinitionDecorator/tests",
             "Symplify\\Statie\\Tests\\": "packages/Statie/tests",
             "Symplify\\Tests\\": "tests",
-            "React\\Tests\\Http\\": "vendor/react/http/tests",
+            "React\\Tests\\Socket\\": "vendor/react/socket/tests",
             "Symplify\\SymfonyEventDispatcher\\Tests\\": "packages/SymfonyEventDispatcher/tests",
             "Symplify\\SymfonySecurityVoters\\Tests\\": "packages/SymfonySecurityVoters/tests",
             "Symplify\\PackageBuilder\\Tests\\": "packages/PackageBuilder/tests",

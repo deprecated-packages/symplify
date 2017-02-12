@@ -29,7 +29,7 @@ final class ConfigurationTest extends TestCase
 
     public function testInject()
     {
-        $migrations = $this->configuration->getMigrationsToExecute('up', 123);
+        $migrations = $this->configuration->getMigrationsToExecute('up', (string) 123);
         $this->assertCount(1, $migrations);
 
         /** @var Version $version */
