@@ -1,6 +1,7 @@
 <phpunit
     bootstrap="tests/bootstrap.php"
     colors="true"
+    verbose="true"
 >
     <!-- tests directories to run -->
     <testsuites>
