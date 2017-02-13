@@ -51,7 +51,7 @@
         "symfony-cmf/routing-bundle": "2.0.0-RC2 as 1.4",
 
         "tomas-votruba/php_codesniffer-3-pretagged": "^3.0",
-        "friendsofphp/php-cs-fixer": "^2.0",
+        "friendsofphp/php-cs-fixer": "^2.1",
         "zenify/modular-latte-filters": "^4.2",
 
         "laravel/framework": "^5.4",
@@ -141,8 +141,8 @@
     },
     "scripts": {
         "complete-check": ["vendor/bin/phpunit", "@fix-cs", "@phpstan"],
-        "check-cs": "packages/EasyCodingStandard/bin/coding-standard check packages/*/src packages/*/tests",
-        "fix-cs": "packages/EasyCodingStandard/bin/coding-standard fix packages/*/src packages/*/tests",
+        "check-cs": "packages/EasyCodingStandard/bin/easy-coding-standard packages/*/src packages/*/tests",
+        "fix-cs": "packages/EasyCodingStandard/bin/easy-coding-standard packages/*/src packages/*/tests --fix",
         "phpstan": "vendor/bin/phpstan analyse packages --level=4 -c phpstan.neon"
     }
 }

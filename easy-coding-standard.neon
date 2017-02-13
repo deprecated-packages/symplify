@@ -10,9 +10,8 @@ php-cs-fixer:
         # rules that needs setup
         ordered_class_elements": []
         concat_space": []
-        "array_syntax": [
-
-        ]
+        array_syntax:
+            syntax: short
         # bare rules
         - @Symfony
         - psr4
