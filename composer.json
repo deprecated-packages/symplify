@@ -54,9 +54,9 @@
         "friendsofphp/php-cs-fixer": "^2.0",
         "zenify/modular-latte-filters": "^4.2",
 
-        "laravel/framework": "^5.3",
-        "illuminate/container": "^5.3",
-        "illuminate/support": "^5.3",
+        "laravel/framework": "^5.4",
+        "illuminate/container": "^5.4",
+        "illuminate/support": "^5.4",
 
         "symplify/sniff-runner": "@dev",
         "symplify/rule-runner": "@dev",
@@ -97,6 +97,8 @@
             "Symplify\\SymfonySecurityVoters\\": "packages/SymfonySecurityVoters/src",
             "Symplify\\PackageBuilder\\": "packages/PackageBuilder/src",
             "Symplify\\EasyCodingStandard\\": "packages/EasyCodingStandard/src",
+            "Symplify\\EasyCodingStandard\\SniffRunner\\": "packages/EasyCodingStandard/packages/SniffRunner/src",
+            "Symplify\\EasyCodingStandard\\RuleRunner\\": "packages/EasyCodingStandard/packages/RuleRunner/src",
 
             "Zenify\\ModularLatteFilters\\": "packages/ModularLatteFilters/src",
             "Zenify\\DoctrineFixtures\\": "packages/DoctrineFixtures/src",
@@ -132,11 +134,11 @@
             "packages/Statie/bin/include-autoload.php"
         ]
     },
-    "repositories": [
-        { "type": "path", "url": "packages/PackageBuilder" },
-        { "type": "path", "url": "packages/EasyCodingStandard/packages/SniffRunner" },
-        { "type": "path", "url": "packages/EasyCodingStandard/packages/RuleRunner" }
-    ],
+    "replace": {
+        "symplify/package-builder": "self.version",
+        "symplify/sniff-runner": "self.version",
+        "symplify/rule-runner": "self.version"
+    },
     "scripts": {
         "complete-check": ["vendor/bin/phpunit", "@fix-cs", "@phpstan"],
         "check-cs": "packages/EasyCodingStandard/bin/coding-standard check packages/*/src packages/*/tests",
