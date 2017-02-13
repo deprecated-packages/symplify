@@ -8,8 +8,9 @@ php-code-sniffer:
 php-cs-fixer:
     rules:
         # rules that needs setup
-        ordered_class_elements": []
-        concat_space": []
+        ordered_class_elements: []
+        concat_space:
+            spacing: one
         array_syntax:
             syntax: short
         # bare rules
@@ -42,3 +43,4 @@ php-cs-fixer:
         - phpdoc_params
         - concat_without_spaces
         - unary_operators_spaces
+        - blank_line_after_opening_tag
