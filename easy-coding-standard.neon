@@ -8,12 +8,16 @@ php-code-sniffer:
 php-cs-fixer:
     rules:
         # rules that needs setup
-        ordered_class_elements: []
         concat_space:
             spacing: one
         array_syntax:
             syntax: short
         # bare rules
+
+        # consider class style, as for code sniffer, easier to get to configuration via CTRL + click
+        # - PhpCsFixer\Fixer\ClassNotation\OrderedClassElementsFixer
+        - ordered_class_elements
+
         - @Symfony
         - psr4
         - phpdoc_no_alias_tag
