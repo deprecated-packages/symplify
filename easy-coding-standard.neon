@@ -12,7 +12,7 @@ php-code-sniffer:
         # same configuration as bellow, - class OR class => configuration
 
 php-cs-fixer:
-    fixer:
+    fixers:
         PhpCsFixer\Fixer\ArrayNotation\ArraySyntaxFixer:
             syntax: short
         - PhpCsFixer\Fixer\Basic\Psr4Fixer

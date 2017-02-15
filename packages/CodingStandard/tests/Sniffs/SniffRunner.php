@@ -3,10 +3,10 @@
 namespace Symplify\CodingStandard\Tests\Sniffs;
 
 use SplFileInfo;
-use Symplify\EasyCodingStandard\SniffRunner\Application\Fixer;
 use Symplify\EasyCodingStandard\SniffRunner\EventDispatcher\Event\CheckFileTokenEvent;
 use Symplify\EasyCodingStandard\SniffRunner\EventDispatcher\SniffDispatcher;
 use Symplify\EasyCodingStandard\SniffRunner\File\File;
+use Symplify\EasyCodingStandard\SniffRunner\Fixer\Fixer;
 use Symplify\EasyCodingStandard\SniffRunner\Legacy\LegacyCompatibilityLayer;
 use Symplify\EasyCodingStandard\SniffRunner\Parser\FileToTokensParser;
 use Symplify\EasyCodingStandard\Report\ErrorDataCollector;
