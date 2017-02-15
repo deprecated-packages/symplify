@@ -60,9 +60,7 @@
 
         "symplify/sniff-runner": "@dev",
         "symplify/rule-runner": "@dev",
-        "symplify/package-builder": "@dev",
-
-        "gherkins/regexpbuilderphp": "^0.7"
+        "symplify/package-builder": "@dev"
     },
     "require-dev": {
         "phpunit/phpunit": "^6.0",
