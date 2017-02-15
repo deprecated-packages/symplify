@@ -11,16 +11,15 @@ final class ContainerFactory
     public function createFromConfig(string $config) : Container
     {
         $configurator = new Configurator();
-        $configurator->setDebugMode(true);
-        $configurator->setTempDirectory($this->createAndReturnTempDir());
+        $configurator->setTempDirectory($this->createAndReturnTempDir($config));
         $configurator->addConfig($config);
 
         return $configurator->createContainer();
     }
 
-    private function createAndReturnTempDir() : string
+    private function createAndReturnTempDir(string $config) : string
     {
-        $tempDir = sys_get_temp_dir() . '/sniff-runner';
+        $tempDir = sys_get_temp_dir() . '/' . sha1($config);
         FileSystem::createDir($tempDir);
 
         return $tempDir;
