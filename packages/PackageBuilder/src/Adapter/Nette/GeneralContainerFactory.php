@@ -6,7 +6,7 @@ use Nette\Configurator;
 use Nette\DI\Container;
 use Nette\Utils\FileSystem;
 
-final class ContainerFactory
+final class GeneralContainerFactory
 {
     public function createFromConfig(string $config) : Container
     {
