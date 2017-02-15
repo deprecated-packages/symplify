@@ -1,50 +1,37 @@
+includes:
+    - packages/EasyCodingStandard/config/php-cs-fixer/psr1-fixers.neon
+    - packages/EasyCodingStandard/config/php-cs-fixer/psr2-fixers.neon
+    - packages/EasyCodingStandard/config/php-cs-fixer/symfony-fixers.neon
+    - packages/EasyCodingStandard/config/php-cs-fixer/php56-migration-fixers.neon
+    - packages/EasyCodingStandard/config/php-cs-fixer/php70-migration-fixers.neon
+    - packages/EasyCodingStandard/config/php-cs-fixer/php71-migration-fixers.neon
+
 php-code-sniffer:
-    standards:
-        - PSR2
-        - Symplify
     sniffs:
         - Symplify\CodingStandard\Sniffs\Classes\FinalInterfaceSniff
+        # same configuration as bellow, - class OR class => configuration
 
 php-cs-fixer:
-    rules:
-        # rules that needs setup
-        concat_space:
-            spacing: one
-        array_syntax:
+    fixer:
+        PhpCsFixer\Fixer\ArrayNotation\ArraySyntaxFixer:
             syntax: short
-        # bare rules
+        - PhpCsFixer\Fixer\Basic\Psr4Fixer
+        - PhpCsFixer\Fixer\ClassNotation\OrderedClassElementsFixer
+        - PhpCsFixer\Fixer\LanguageConstruct\DirConstantFixer
+        - PhpCsFixer\Fixer\CastNotation\ModernizeTypesCastingFixer
+        - PhpCsFixer\Fixer\Strict\DeclareStrictTypesFixer
+        - PhpCsFixer\Fixer\Semicolon\SemicolonAfterInstructionFixer
+        - PhpCsFixer\Fixer\ReturnNotation\SimplifiedNullReturnFixer
+        - PhpCsFixer\Fixer\Operator\NotOperatorWithSuccessorSpaceFixer
+        - PhpCsFixer\Fixer\ControlStructure\NoUselessElseFixer
+        - PhpCsFixer\Fixer\ReturnNotation\NoUselessReturnFixer
+        - PhpCsFixer\Fixer\Import\OrderedImportsFixer
+        - PhpCsFixer\Fixer\LanguageConstruct\ClassKeywordRemoveFixer
+        - PhpCsFixer\Fixer\LanguageConstruct\CombineConsecutiveUnsetsFixer
+        - PhpCsFixer\Fixer\Strict\StrictComparisonFixer
+        - PhpCsFixer\Fixer\PhpTag\NoShortEchoTagFixer
+        - PhpCsFixer\Fixer\Alias\EregToPregFixer
+        - PhpCsFixer\Fixer\Phpdoc\GeneralPhpdocAnnotationRemoveFixer
 
-        # consider class style, as for code sniffer, easier to get to configuration via CTRL + click
-        # - PhpCsFixer\Fixer\ClassNotation\OrderedClassElementsFixer
-        - ordered_class_elements
-
-        - @Symfony
-        - psr4
-        - phpdoc_no_alias_tag
-        - ordered_class_elements
-        - dir_constant
-        - modernize_types_casting
-        - random_api_migration
-        - single_class_element_per_statement
-        - declare_strict_types
-        - normalize_index_brace
-        - semicolon_after_instruction
-        - combine_consecutive_unsets
-        - concat_space
-        - simplified_null_return
-        - array_syntax
-        - not_operator_with_successor_space
-        - no_useless_else
-        - no_useless_return
-        - ordered_imports
-        - php_unit_construct
-        - php_unit_dedicate_assert
-        - php_unit_strict
-        - no_short_echo_tag
-        - strict_comparison
-
-    excluded-rules:
-        - phpdoc_params
-        - concat_without_spaces
-        - unary_operators_spaces
-        - blank_line_after_opening_tag
+        # PHPUnit
+        - PhpCsFixer\Fixer\PhpUnit\PhpUnitStrictFixer
