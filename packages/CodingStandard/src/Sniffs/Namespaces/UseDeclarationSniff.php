@@ -106,7 +106,7 @@ final class UseDeclarationSniff extends Psr2UseDeclarationSniff
             $this->file->addError(
                 'There must be a single space after the USE keyword',
                 $this->position,
-                ''
+                self::class
             );
         }
     }
