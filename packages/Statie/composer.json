@@ -8,15 +8,12 @@
     "require": {
         "php": "^7.1",
         "erusev/parsedown-extra": "^0.7",
-        "react/http": "^0.4",
-        "ralouphie/mimey": "^1.0",
         "cpliakas/git-wrapper": "^1.7",
         "spatie/regex": "^1.1",
 
         "latte/latte": "^2.4",
-        "zenify/modular-latte-filters": "^0.2",
+        "zenify/modular-latte-filters": "^4.2",
 
-        "nette/application": "^2.4",
         "nette/bootstrap": "^2.4",
         "nette/di": "^2.4",
         "nette/utils": "^2.4",
@@ -41,8 +38,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Symplify\\Statie\\Tests\\": "tests",
-            "React\\Tests\\Http\\": "vendor/react/http/tests"
+            "Symplify\\Statie\\Tests\\": "tests"
         }
     },
     "scripts": {

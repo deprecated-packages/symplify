@@ -5,11 +5,6 @@ namespace Symplify\Statie\Application\Command;
 final class RunCommand
 {
     /**
-     * @var bool
-     */
-    private $runServer;
-
-    /**
      * @var string
      */
     private $sourceDirectory;
@@ -19,16 +14,10 @@ final class RunCommand
      */
     private $outputDirectory;
 
-    public function __construct(bool $runServer, string $sourceDirectory, string $outputDirectory)
+    public function __construct(string $sourceDirectory, string $outputDirectory)
     {
-        $this->runServer = $runServer;
         $this->sourceDirectory = $sourceDirectory;
         $this->outputDirectory = $outputDirectory;
-    }
-
-    public function isRunServer() : bool
-    {
-        return $this->runServer;
     }
 
     public function getOutputDirectory() : string

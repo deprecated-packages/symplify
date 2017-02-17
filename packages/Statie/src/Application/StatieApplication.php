@@ -42,11 +42,6 @@ final class StatieApplication
     private $dynamicStringLoader;
 
     /**
-     * @var HttpServer
-     */
-    private $httpServer;
-
-    /**
      * @var string
      */
     private $sinceTime;
@@ -61,30 +56,27 @@ final class StatieApplication
         Configuration $configuration,
         FileSystemWriter $fileSystemWriter,
         RenderableFilesProcessor $renderableFilesProcessor,
-        DynamicStringLoader $dynamicStringLoader,
-        HttpServer $httpServer
+        DynamicStringLoader $dynamicStringLoader
     ) {
         $this->sourceFileStorage = $sourceFileStorage;
         $this->configuration = $configuration;
         $this->fileSystemWriter = $fileSystemWriter;
         $this->renderableFilesProcessor = $renderableFilesProcessor;
         $this->dynamicStringLoader = $dynamicStringLoader;
-        $this->httpServer = $httpServer;
     }
 
     public function runCommand(RunCommand $runCommand) : void
     {
         $this->processCommand($runCommand);
-
-        if ($runCommand->isRunServer()) {
-            $this->httpServer->init();
-
-            $this->httpServer->addPeriodicTimer(1, function () use ($runCommand) {
-                $this->processCommand($runCommand);
-            });
-
-            $this->httpServer->run();
-        }
+//        if ($runCommand->isRunServer()) {
+//            $this->httpServer->init();
+//
+//            $this->httpServer->addPeriodicTimer(1, function () use ($runCommand) {
+//                $this->processCommand($runCommand);
+//            });
+//
+//            $this->httpServer->run();
+//        }
     }
 
     private function processCommand(RunCommand $runCommand) : void

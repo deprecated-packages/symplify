@@ -9,8 +9,7 @@ final class RunCommandTest extends TestCase
 {
     public function test()
     {
-        $command = new RunCommand(true, 'source', 'output');
-        $this->assertTrue($command->isRunServer());
+        $command = new RunCommand('source', 'output');
         $this->assertSame('source', $command->getSourceDirectory());
         $this->assertSame('output', $command->getOutputDirectory());
     }

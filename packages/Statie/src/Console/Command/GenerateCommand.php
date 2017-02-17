@@ -27,7 +27,6 @@ final class GenerateCommand extends Command
     {
         $this->setName('generate');
         $this->setDescription('Generate a site from source.');
-        $this->addOption('server', null, InputOption::VALUE_NONE, 'Start local server to host your generated site.');
 
         $this->addOption(
             'source',
@@ -48,7 +47,6 @@ final class GenerateCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output) : int
     {
         $runCommand = new RunCommand(
-            (bool) $input->getOption('server'),
             $input->getOption('source'),
             $input->getOption('output')
         );
