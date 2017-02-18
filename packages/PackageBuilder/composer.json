@@ -2,8 +2,10 @@
     "name": "symplify/package-builder",
     "require": {
         "php": "^7.1",
+        "nette/bootstrap": "^2.4",
         "nette/di": "^2.4",
         "nette/neon": "^2.4",
+        "nette/utils": "^2.4",
         "symfony/dependency-injection": "^3.2"
     },
     "autoload": {

@@ -1,7 +1,6 @@
 {
     "name": "symplify/controller-autowire",
     "description": "Adds support to autowire controller constructor without pain.",
-    "license": "MIT",
     "require": {
         "php": "^7.1",
         "nette/robot-loader": "^2.4",

@@ -106,7 +106,7 @@ final class UseDeclarationSniff extends Psr2UseDeclarationSniff
             $this->file->addError(
                 'There must be a single space after the USE keyword',
                 $this->position,
-                ''
+                self::class
             );
         }
     }
@@ -118,7 +118,7 @@ final class UseDeclarationSniff extends Psr2UseDeclarationSniff
             $this->file->addError(
                 'There must be one USE keyword per declaration',
                 $this->position,
-                ''
+                self::class
             );
         }
     }
@@ -131,7 +131,8 @@ final class UseDeclarationSniff extends Psr2UseDeclarationSniff
             if ($prev !== $first) {
                 $this->file->addError(
                     'USE declarations must go after the first namespace declaration',
-                    $this->position
+                    $this->position,
+                    self::class
                 );
             }
         }
@@ -152,7 +153,11 @@ final class UseDeclarationSniff extends Psr2UseDeclarationSniff
                 $this->blankLinesAfterUseStatement,
                 $diff
             );
-            $this->file->addError($errorMessage, $this->position, '');
+            $this->file->addError(
+                $errorMessage,
+                $this->position,
+                self::class
+            );
         }
     }
 }

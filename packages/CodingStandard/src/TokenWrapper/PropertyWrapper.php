@@ -38,7 +38,7 @@ final class PropertyWrapper
     private $accessibility;
 
     /**
-     * @var DocBlockWrapper
+     * @var DocBlockWrapper|false
      */
     private $docBlock;
 

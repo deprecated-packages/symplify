@@ -16,9 +16,9 @@ final class GenerateCommand extends Command
      */
     private $statieApplication;
 
-    public function __construct(StatieApplication $statieApplication)
+    public function __construct(StatieApplication $statieApplicationRunner)
     {
-        $this->statieApplication = $statieApplication;
+        $this->statieApplication = $statieApplicationRunner;
 
         parent::__construct();
     }

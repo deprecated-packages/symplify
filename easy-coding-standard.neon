@@ -1,0 +1,37 @@
+includes:
+    - packages/EasyCodingStandard/config/php-cs-fixer/psr1-fixers.neon
+    - packages/EasyCodingStandard/config/php-cs-fixer/psr2-fixers.neon
+    - packages/EasyCodingStandard/config/php-cs-fixer/symfony-fixers.neon
+    - packages/EasyCodingStandard/config/php-cs-fixer/php56-migration-fixers.neon
+    - packages/EasyCodingStandard/config/php-cs-fixer/php70-migration-fixers.neon
+    - packages/EasyCodingStandard/config/php-cs-fixer/php71-migration-fixers.neon
+
+php-code-sniffer:
+    sniffs:
+        - Symplify\CodingStandard\Sniffs\Classes\FinalInterfaceSniff
+        # same configuration as bellow, - class OR class => configuration
+
+php-cs-fixer:
+    fixers:
+        PhpCsFixer\Fixer\ArrayNotation\ArraySyntaxFixer:
+            syntax: short
+        - PhpCsFixer\Fixer\Basic\Psr4Fixer
+        - PhpCsFixer\Fixer\ClassNotation\OrderedClassElementsFixer
+        - PhpCsFixer\Fixer\LanguageConstruct\DirConstantFixer
+        - PhpCsFixer\Fixer\CastNotation\ModernizeTypesCastingFixer
+        - PhpCsFixer\Fixer\Strict\DeclareStrictTypesFixer
+        - PhpCsFixer\Fixer\Semicolon\SemicolonAfterInstructionFixer
+        - PhpCsFixer\Fixer\ReturnNotation\SimplifiedNullReturnFixer
+        - PhpCsFixer\Fixer\Operator\NotOperatorWithSuccessorSpaceFixer
+        - PhpCsFixer\Fixer\ControlStructure\NoUselessElseFixer
+        - PhpCsFixer\Fixer\ReturnNotation\NoUselessReturnFixer
+        - PhpCsFixer\Fixer\Import\OrderedImportsFixer
+        - PhpCsFixer\Fixer\LanguageConstruct\ClassKeywordRemoveFixer
+        - PhpCsFixer\Fixer\LanguageConstruct\CombineConsecutiveUnsetsFixer
+        - PhpCsFixer\Fixer\Strict\StrictComparisonFixer
+        - PhpCsFixer\Fixer\PhpTag\NoShortEchoTagFixer
+        - PhpCsFixer\Fixer\Alias\EregToPregFixer
+        - PhpCsFixer\Fixer\Phpdoc\GeneralPhpdocAnnotationRemoveFixer
+
+        # PHPUnit
+        - PhpCsFixer\Fixer\PhpUnit\PhpUnitStrictFixer

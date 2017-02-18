@@ -1,7 +1,6 @@
 {
     "name": "symplify/symfony-security-voters",
     "description": "Voters features from Symfony\\Security for standalone use.",
-    "license": "MIT",
     "require": {
         "php": "^7.1",
         "nette/di": "^2.4",

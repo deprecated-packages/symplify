@@ -1,0 +1,21 @@
+services:
+    # Application
+    - Symplify\EasyCodingStandard\Application\ApplicationRunner
+
+    # Configuration
+    - Symplify\EasyCodingStandard\Configuration\ConfigurationFileLoader
+
+    # Console & Commands
+    - Symfony\Component\Console\Application
+    - Symplify\EasyCodingStandard\Console\Command\RunCommand
+
+    # Symfony Output style
+    - Symplify\EasyCodingStandard\Console\Style\EasyCodingStandardStyle
+    - Symplify\EasyCodingStandard\Console\Style\SymfonyStyleFactory
+    - Symfony\Component\Console\Input\ArgvInput
+    - Symfony\Component\Console\Output\ConsoleOutput
+
+    # Reporting
+    - Symplify\EasyCodingStandard\Console\Output\InfoMessagePrinter
+    - Symplify\EasyCodingStandard\Report\ErrorMessageSorter
+    - Symplify\EasyCodingStandard\Report\ErrorDataCollector

@@ -1,7 +1,6 @@
 {
     "name": "symplify/action-autowire",
     "description": "Adds support to autowire controller action.",
-    "license": "MIT",
     "require": {
         "php": "^7.1",
         "symfony/dependency-injection": "^3.2",

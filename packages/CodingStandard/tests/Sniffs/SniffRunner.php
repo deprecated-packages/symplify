@@ -2,16 +2,15 @@
 
 namespace Symplify\CodingStandard\Tests\Sniffs;
 
-use PHP_CodeSniffer\Sniffs\Sniff;
 use SplFileInfo;
-use Symplify\SniffRunner\Application\Fixer;
-use Symplify\SniffRunner\EventDispatcher\Event\CheckFileTokenEvent;
-use Symplify\SniffRunner\EventDispatcher\SniffDispatcher;
-use Symplify\SniffRunner\File\File;
-use Symplify\SniffRunner\Legacy\LegacyCompatibilityLayer;
-use Symplify\SniffRunner\Parser\FileToTokensParser;
-use Symplify\SniffRunner\Report\ErrorDataCollector;
-use Symplify\SniffRunner\Report\ErrorMessageSorter;
+use Symplify\EasyCodingStandard\SniffRunner\EventDispatcher\Event\CheckFileTokenEvent;
+use Symplify\EasyCodingStandard\SniffRunner\EventDispatcher\SniffDispatcher;
+use Symplify\EasyCodingStandard\SniffRunner\File\File;
+use Symplify\EasyCodingStandard\SniffRunner\Fixer\Fixer;
+use Symplify\EasyCodingStandard\SniffRunner\Legacy\LegacyCompatibilityLayer;
+use Symplify\EasyCodingStandard\SniffRunner\Parser\FileToTokensParser;
+use Symplify\EasyCodingStandard\Report\ErrorDataCollector;
+use Symplify\EasyCodingStandard\Report\ErrorMessageSorter;
 
 final class SniffRunner
 {
