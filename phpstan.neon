@@ -4,6 +4,7 @@ parameters:
         - "#TranslatableTest#"
         - "#Version456#"
         - "#Call to an undefined method Illuminate#" # false interface Laravel error
+        - "#does not call parent constructor from PHP_CodeSniffer#"
     excludes_analyse:
         - *packages/CodingStandard/tests/**/correct*
         - *packages/CodingStandard/tests/**/wrong*
