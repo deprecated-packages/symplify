@@ -72,7 +72,7 @@ final class PropertiesMethodsMutualSpacingSniff implements Sniff
                 $this->desiredBlankLinesInBetween,
                 $blankLines
             );
-            $fix = $file->addFixableError($error, $position, null);
+            $fix = $file->addFixableError($error, $position, self::class);
             if ($fix) {
                 $this->fixSpacingInBetween($blankLines);
             }

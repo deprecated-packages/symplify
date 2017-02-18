@@ -46,7 +46,7 @@ final class InterfaceNameSniff implements Sniff
         $fix = $file->addFixableError(
             'Interface should have suffix "Interface".',
             $position,
-            null
+            self::class
         );
 
         if ($fix === true) {

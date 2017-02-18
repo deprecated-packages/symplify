@@ -60,7 +60,7 @@ final class YodaConditionSniff implements Sniff
         $file->addError(
             'Yoda condition should not be used; switch expression order',
             $position,
-            null
+            self::class
         );
     }
 

@@ -8,8 +8,32 @@ includes:
 
 php-code-sniffer:
     sniffs:
+        # Classes
+        - Symplify\CodingStandard\Sniffs\Classes\ClassDeclarationSniff
         - Symplify\CodingStandard\Sniffs\Classes\FinalInterfaceSniff
-        # same configuration as bellow, - class OR class => configuration
+        # Commenting
+        - Symplify\CodingStandard\Sniffs\Commenting\BlockPropertyCommentSniff
+        - Symplify\CodingStandard\Sniffs\Commenting\MethodCommentReturnTypeSniff
+        - Symplify\CodingStandard\Sniffs\Commenting\MethodCommentSniff
+        - Symplify\CodingStandard\Sniffs\Commenting\VarPropertyCommentSniff
+        # Control Structures
+        - Symplify\CodingStandard\Sniffs\ControlStructures\NewClassSniff
+        - Symplify\CodingStandard\Sniffs\ControlStructures\YodaConditionSniff
+        # Debug
+        - Symplify\CodingStandard\Sniffs\Debug\DebugFunctionCallSniff
+        # Namespaces
+        - Symplify\CodingStandard\Sniffs\Namespaces\ClassNamesWithoutPreSlashSniff
+        - Symplify\CodingStandard\Sniffs\Namespaces\NamespaceDeclarationSniff
+        - Symplify\CodingStandard\Sniffs\Namespaces\UseDeclarationSniff
+        # Naming
+        - Symplify\CodingStandard\Sniffs\Naming\AbstractClassNameSniff
+        - Symplify\CodingStandard\Sniffs\Naming\InterfaceNameSniff
+        - Symplify\CodingStandard\Sniffs\Naming\TraitNameSniff
+        # Nette Refactoring
+        - Symplify\CodingStandard\Sniffs\NetteRefactoring\InjectToConstructorInjectionSniff
+        # WhiteSpace
+        - Symplify\CodingStandard\Sniffs\WhiteSpace\InBetweenMethodSpacingSniff
+        - Symplify\CodingStandard\Sniffs\WhiteSpace\PropertiesMethodsMutualSpacingSniff
 
 php-cs-fixer:
     fixers:
@@ -26,7 +50,6 @@ php-cs-fixer:
         - PhpCsFixer\Fixer\ControlStructure\NoUselessElseFixer
         - PhpCsFixer\Fixer\ReturnNotation\NoUselessReturnFixer
         - PhpCsFixer\Fixer\Import\OrderedImportsFixer
-        - PhpCsFixer\Fixer\LanguageConstruct\ClassKeywordRemoveFixer
         - PhpCsFixer\Fixer\LanguageConstruct\CombineConsecutiveUnsetsFixer
         - PhpCsFixer\Fixer\Strict\StrictComparisonFixer
         - PhpCsFixer\Fixer\PhpTag\NoShortEchoTagFixer

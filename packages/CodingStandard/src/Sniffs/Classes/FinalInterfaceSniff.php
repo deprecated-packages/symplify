@@ -57,7 +57,7 @@ final class FinalInterfaceSniff implements Sniff
         $fix = $file->addFixableError(
             'Non-abstract class that implements interface should be final.',
             $position,
-            null
+            self::class
         );
 
         if ($fix) {

@@ -58,7 +58,7 @@ final class ComponentFactoryCommentSniff implements Sniff
             $file->addError(
                 'createComponent<name> method should have a doc comment or return type.',
                 $position,
-                null
+                self::class
             );
             return;
         }
@@ -101,13 +101,13 @@ final class ComponentFactoryCommentSniff implements Sniff
             $content = $this->tokens[($return + 2)]['content'];
             if (empty($content) === true || $this->tokens[($return + 2)]['code'] !== T_DOC_COMMENT_STRING) {
                 $error = 'Return tag should contain type';
-                $this->file->addError($error, $return, null);
+                $this->file->addError($error, $return, self::class);
             }
         } else {
             $this->file->addError(
                 'CreateComponent* method should have a @return tag',
                 $this->tokens[$commentStartPosition]['comment_closer'],
-                null
+                self::class
             );
         }
     }

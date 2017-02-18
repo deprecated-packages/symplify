@@ -46,7 +46,7 @@ final class TraitNameSniff implements Sniff
         $fix = $file->addFixableError(
             'Trait should have suffix "Trait".',
             $position,
-            null
+            self::class
         );
 
         if ($fix === true) {

@@ -42,7 +42,7 @@ final class ClassNamesWithoutPreSlashSniff implements Sniff
             $file->addError(
                 'Class name after new/instanceof should not start with slash.',
                 $position,
-                null
+                self::class
             );
         }
     }

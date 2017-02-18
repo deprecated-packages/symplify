@@ -45,7 +45,7 @@ final class MethodCommentSniff implements Sniff
         $file->addError(
             'Method docblock is missing, due to some parameters without typehints.',
             $position,
-            null
+            self::class
         );
     }
 

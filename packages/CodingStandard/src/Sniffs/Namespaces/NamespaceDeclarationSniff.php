@@ -96,7 +96,7 @@ final class NamespaceDeclarationSniff implements Sniff
                 $linesToNextClass
             );
 
-            $fix = $this->file->addFixableError($errorMessage, $this->position, null);
+            $fix = $this->file->addFixableError($errorMessage, $this->position, self::class);
             if ($fix) {
                 $this->fixSpacesFromNamespaceToClass($this->position, $linesToNextClass);
             }
@@ -112,7 +112,7 @@ final class NamespaceDeclarationSniff implements Sniff
                 $linesToNextUse
             );
 
-            $fix = $this->file->addFixableError($errorMessage, $this->position, '');
+            $fix = $this->file->addFixableError($errorMessage, $this->position, self::class);
             if ($fix) {
                 $this->fixSpacesFromNamespaceToUseStatements($this->position, $linesToNextUse);
             }
@@ -126,7 +126,7 @@ final class NamespaceDeclarationSniff implements Sniff
                 $linesToNextClass
             );
 
-            $fix = $this->file->addFixableError($errorMessage, $this->position, null);
+            $fix = $this->file->addFixableError($errorMessage, $this->position, self::class);
             if ($fix) {
                 $this->fixSpacesFromUseStatementToClass(
                     $this->classMetrics->getLastUseStatementPosition(),

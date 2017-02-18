@@ -57,7 +57,7 @@ final class MethodCommentReturnTypeSniff implements Sniff
         $file->addError(
             'Getters should have @return tag or return type (except {@inheritdoc}).',
             $position,
-            null
+            self::class
         );
     }
 

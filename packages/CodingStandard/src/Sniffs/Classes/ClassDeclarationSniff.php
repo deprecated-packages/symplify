@@ -69,7 +69,7 @@ final class ClassDeclarationSniff extends PearClassDeclarationSniff
                 $emptyLinesCount
             );
 
-            $fix = $this->file->addFixableError($errorMessage, $openingBracePosition, null);
+            $fix = $this->file->addFixableError($errorMessage, $openingBracePosition, self::class);
             if ($fix) {
                 $this->fixOpeningBraceSpaces($openingBracePosition, $emptyLinesCount);
             }
@@ -89,7 +89,7 @@ final class ClassDeclarationSniff extends PearClassDeclarationSniff
                 $emptyLinesCount
             );
 
-            $fix = $this->file->addFixableError($errorMessage, $closeBracePosition, null);
+            $fix = $this->file->addFixableError($errorMessage, $closeBracePosition, self::class);
             if ($fix) {
                 $this->fixClosingBraceSpaces($closeBracePosition, $emptyLinesCount);
             }

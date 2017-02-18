@@ -49,7 +49,7 @@ final class AbstractClassNameSniff implements Sniff
         $fix = $file->addFixableError(
             'Abstract class should have prefix "Abstract".',
             $position,
-            null
+            self::class
         );
 
         if ($fix === true) {

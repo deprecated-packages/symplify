@@ -29,7 +29,7 @@ final class VarPropertyCommentSniff extends AbstractVariableSniff
         $file->addError(
             'Property should have docblock comment.',
             $position,
-            null
+            self::class
         );
     }
 

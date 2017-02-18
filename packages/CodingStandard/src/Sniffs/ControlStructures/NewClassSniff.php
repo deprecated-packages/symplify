@@ -50,7 +50,7 @@ final class NewClassSniff implements Sniff
         $fix = $file->addFixableError(
             'New class statement should not have empty parentheses',
             $position,
-            null
+            self::class
         );
         if ($fix) {
             $this->removeParenthesesFromClassStatement();
