@@ -1,0 +1,130 @@
+---
++++ /src/Kdyby/Doctrine/DI/OrmExtension.php
+@@ -197,8 +197,7 @@
+ 		if ($this->targetEntityMappings) {
+ 			$listener = $builder->addDefinition($this->prefix('resolveTargetEntityListener'))
+ 				->setClass('Kdyby\Doctrine\Tools\ResolveTargetEntityListener')
+-				->addTag(Kdyby\Events\DI\EventsExtension::SUBSCRIBER_TAG)
+-				->setInject(FALSE);
++				->addTag(Kdyby\Events\DI\EventsExtension::SUBSCRIBER_TAG);
+
+ 			foreach ($this->targetEntityMappings as $originalEntity => $mapping) {
+ 				$listener->addSetup('addResolveTargetEntity', [$originalEntity, $mapping['targetEntity'], $mapping]);
+@@ -224,8 +223,7 @@
+
+ 		foreach ($this->loadFromFile(__DIR__ . '/console.neon') as $i => $command) {
+ 			$cli = $builder->addDefinition($this->prefix('cli.' . $i))
+-				->addTag(Kdyby\Console\DI\ConsoleExtension::COMMAND_TAG)
+-				->setInject(FALSE); // lazy injects
++				->addTag(Kdyby\Console\DI\ConsoleExtension::COMMAND_TAG);
+
+ 			if (is_string($command)) {
+ 				$cli->setClass($command);
+@@ -249,8 +247,7 @@
+
+ 		$metadataDriver = $builder->addDefinition($this->prefix($name . '.metadataDriver'))
+ 			->setClass('Doctrine\Common\Persistence\Mapping\Driver\MappingDriverChain')
+-			->setAutowired(FALSE)
+-			->setInject(FALSE);
++			->setAutowired(FALSE);
+ 		/** @var Nette\DI\ServiceDefinition $metadataDriver */
+
+ 		Validators::assertField($config, 'metadata', 'array');
+@@ -290,7 +287,7 @@
+ 		if (empty($config['metadata'])) {
+ 			$metadataDriver->addSetup('setDefaultDriver', [
+ 				new Statement($this->metadataDriverClasses[self::ANNOTATION_DRIVER], [
+-					[$builder->expand('%appDir%')],
++					[Nette\DI\Helpers::expand('%appDir%', $this->getContainerBuilder()->parameters)],
+ 					2 => $this->prefix('@cache.' . $name . '.metadata')
+ 				])
+ 			]);
+@@ -338,8 +335,7 @@
+ 			->addSetup('setNamingStrategy', CacheHelpers::filterArgs($config['namingStrategy']))
+ 			->addSetup('setQuoteStrategy', CacheHelpers::filterArgs($config['quoteStrategy']))
+ 			->addSetup('setEntityListenerResolver', CacheHelpers::filterArgs($config['entityListenerResolver']))
+-			->setAutowired(FALSE)
+-			->setInject(FALSE);
++			->setAutowired(FALSE);
+ 		/** @var Nette\DI\ServiceDefinition $configuration */
+
+ 		$this->proxyAutoloaders[$config['proxyNamespace']] = $config['proxyDir'];
+@@ -373,8 +369,7 @@
+ 			])
+ 			->addTag(self::TAG_ENTITY_MANAGER)
+ 			->addTag('kdyby.doctrine.entityManager')
+-			->setAutowired($isDefault)
+-			->setInject(FALSE);
++			->setAutowired($isDefault);
+
+ 		if ($this->isTracyPresent()) {
+ 			$entityManager->addSetup('?->bindEntityManager(?)', [$this->prefix('@' . $name . '.diagnosticsPanel'), '@self']);
+@@ -385,8 +380,7 @@
+ 			$builder->addDefinition($this->prefix('dao'))
+ 				->setClass('Kdyby\Doctrine\EntityDao')
+ 				->setFactory('@Kdyby\Doctrine\EntityManager::getDao', [new Code\PhpLiteral('$entityName')])
+-				->setParameters(['entityName'])
+-				->setInject(FALSE);
++				->setParameters(['entityName']);
+
+ 			// interface for models & presenters
+ 			$builder->addDefinition($this->prefix('daoFactory'))
+@@ -394,7 +388,7 @@
+ 				->setFactory('@Kdyby\Doctrine\EntityManager::getDao', [new Code\PhpLiteral('$entityName')])
+ 				->setParameters(['entityName'])
+ 				->setImplement('Kdyby\Doctrine\EntityDaoFactory')
+-				->setInject(FALSE)->setAutowired(TRUE);
++				->setAutowired(TRUE);
+ 		}
+
+ 		$builder->addDefinition($this->prefix('repositoryFactory.' . $name . '.defaultRepositoryFactory'))
+@@ -520,8 +514,7 @@
+ 			->addSetup('setResultCacheImpl', [$this->processCache($config['resultCache'], $name . '.dbalResult')])
+ 			->addSetup('setSQLLogger', [new Statement('Doctrine\DBAL\Logging\LoggerChain')])
+ 			->addSetup('setFilterSchemaAssetsExpression', [$config['schemaFilter']])
+-			->setAutowired(FALSE)
+-			->setInject(FALSE);
++			->setAutowired(FALSE);
+
+ 		// types
+ 		Validators::assertField($config, 'types', 'array');
+@@ -553,8 +546,7 @@
+ 			->addSetup('setDbalTypes', [$dbalTypes])
+ 			->addTag(self::TAG_CONNECTION)
+ 			->addTag('kdyby.doctrine.connection')
+-			->setAutowired($isDefault)
+-			->setInject(FALSE);
++			->setAutowired($isDefault);
+
+ 		if ($this->isTracyPresent()) {
+ 			$connection->addSetup('$panel = ?->bindConnection(?)', [$this->prefix('@' . $name . '.diagnosticsPanel'), '@self']);
+@@ -565,7 +557,7 @@
+ 		$this->configuredConnections[$name] = $connectionServiceId;
+
+ 		if (!is_bool($config['logging'])) {
+-			$fileLogger = new Statement('Kdyby\Doctrine\Diagnostics\FileLogger', [$builder->expand($config['logging'])]);
++			$fileLogger = new Statement('Kdyby\Doctrine\Diagnostics\FileLogger', [Nette\DI\Helpers::expand($config['logging'], $this->getContainerBuilder()->parameters)]);
+ 			$configuration->addSetup('$service->getSQLLogger()->addLogger(?)', [$fileLogger]);
+
+ 		} elseif ($config['logging']) {
+@@ -633,8 +625,7 @@
+ 		$this->getContainerBuilder()->addDefinition($serviceName)
+ 			->setClass('Doctrine\Common\Persistence\Mapping\Driver\MappingDriver')
+ 			->setFactory($driver->getEntity(), $driver->arguments)
+-			->setAutowired(FALSE)
+-			->setInject(FALSE);
++			->setAutowired(FALSE);
+
+ 		$metadataDriver->addSetup('addDriver', ['@' . $serviceName, $namespace]);
+ 		return '@' . $serviceName;
+@@ -859,10 +850,10 @@
+ 	 */
+ 	private function resolveConfig(array $provided, array $defaults, array $diff = [])
+ 	{
+-		return $this->getContainerBuilder()->expand(Nette\DI\Config\Helpers::merge(
++		return Nette\DI\Helpers::expand(Nette\DI\Config\Helpers::merge(
+ 			array_diff_key($provided, array_diff_key($diff, $defaults)),
+ 			$defaults
+-		));
++		), $this->getContainerBuilder()->parameters);
+ 	}

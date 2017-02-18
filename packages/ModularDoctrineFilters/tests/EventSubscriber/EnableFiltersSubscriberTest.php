@@ -31,12 +31,9 @@ final class EnableFiltersSubscriberTest extends TestCase
 
     private function createApplicationPresenterEvent() : PresenterCreatedEvent
     {
-        $applicationMock = $this->prophesize(Application::class);
-        $presenterMock = $this->prophesize(IPresenter::class);
-        $applicationPresenterEvent = new PresenterCreatedEvent(
-            $applicationMock->reveal(),
-            $presenterMock->reveal()
-        );
-        return $applicationPresenterEvent;
+        $applicationMock = $this->createMock(Application::class);
+        $presenterMock = $this->createMock(IPresenter::class);
+
+        return new PresenterCreatedEvent($applicationMock, $presenterMock);
     }
 }

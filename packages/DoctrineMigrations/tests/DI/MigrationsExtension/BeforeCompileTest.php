@@ -62,7 +62,7 @@ final class BeforeCompileTest extends TestCase
         $this->matchDefinitionSetupStatement(
             $applicationDefinition->getSetup()[0],
             'add',
-            ['@2_Doctrine_DBAL_Migrations_Tools_Console_Command_DiffCommand']
+            ['@3_Doctrine_DBAL_Migrations_Tools_Console_Command_ExecuteCommand']
         );
     }
 

@@ -1,0 +1,81 @@
+diff --git a/src/Kdyby/Console/CliRouter.php b/src/Kdyby/Console/CliRouter.php
+index 0945640..5280c93 100644
+--- a/src/Kdyby/Console/CliRouter.php
++++ b/src/Kdyby/Console/CliRouter.php
+@@ -82,7 +82,7 @@ public function setInput(InputInterface $input)
+ 	/**
+ 	 * Maps HTTP request to a Request object.
+ 	 */
+-	public function match(Nette\Http\IRequest $httpRequest)
++	public function match(Nette\Http\IRequest $httpRequest) : ?Request
+ 	{
+ 		if (!in_array(PHP_SAPI, $this->allowedMethods, TRUE)) {
+ 			return NULL;
+@@ -108,7 +108,7 @@ public function match(Nette\Http\IRequest $httpRequest)
+ 	/**
+ 	 * Constructs absolute URL from Request object.
+ 	 */
+-	public function constructUrl(Request $appRequest, Nette\Http\Url $refUrl)
++	public function constructUrl(Request $appRequest, Nette\Http\Url $refUrl) : ?string
+ 	{
+ 		return NULL;
+ 	}
+diff --git a/src/Kdyby/Console/DI/ConsoleExtension.php b/src/Kdyby/Console/DI/ConsoleExtension.php
+index c5dbb25..c78fdf3 100644
+--- a/src/Kdyby/Console/DI/ConsoleExtension.php
++++ b/src/Kdyby/Console/DI/ConsoleExtension.php
+@@ -58,15 +58,14 @@ public function __construct()
+ 	public function loadConfiguration()
+ 	{
+ 		$builder = $this->getContainerBuilder();
+-		$config = $this->getConfig($this->defaults);
++		$config = $this->validateConfig($this->defaults);
+
+ 		$this->loadHelperSet($config);
+
+ 		$builder->addDefinition($this->prefix('application'))
+ 			->setClass('Kdyby\Console\Application', [$config['name'], $config['version']])
+ 			->addSetup('setHelperSet', [$this->prefix('@helperSet')])
+-			->addSetup('injectServiceLocator')
+-			->setInject(FALSE);
++			->addSetup('injectServiceLocator');
+
+ 		if ($config['disabled']) {
+ 			return;
+@@ -75,8 +74,7 @@ public function loadConfiguration()
+ 		if ($config['application'] && $this->isNetteApplicationPresent()) {
+ 			$builder->addDefinition($this->prefix('router'))
+ 				->setClass('Kdyby\Console\CliRouter')
+-				->setAutowired(FALSE)
+-				->setInject(FALSE);
++				->setAutowired(FALSE);
+ 		}
+
+ 		Nette\Utils\Validators::assert($config, 'array');
+@@ -91,7 +89,6 @@ public function loadConfiguration()
+ 			}
+
+ 			$def->setAutowired(FALSE);
+-			$def->setInject(FALSE);
+ 			$def->addTag(self::TAG_COMMAND);
+ 		}
+ 	}
+@@ -103,8 +100,7 @@ protected function loadHelperSet(array $config)
+ 		$builder = $this->getContainerBuilder();
+
+ 		$helperSet = $builder->addDefinition($this->prefix('helperSet'))
+-			->setClass('Symfony\Component\Console\Helper\HelperSet')
+-			->setInject(FALSE);
++			->setClass('Symfony\Component\Console\Helper\HelperSet');
+
+ 		$helperClasses = [
+ 			'Symfony\Component\Console\Helper\ProcessHelper',
+@@ -146,7 +142,7 @@ protected function loadHelperSet(array $config)
+ 	public function beforeCompile()
+ 	{
+ 		$builder = $this->getContainerBuilder();
+-		$config = $this->getConfig($this->defaults);
++		$config = $this->validateConfig($this->defaults);
+
+ 		if ($config['disabled']) {
+ 			return;

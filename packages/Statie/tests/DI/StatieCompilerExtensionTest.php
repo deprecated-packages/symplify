@@ -42,7 +42,7 @@ final class StatieCompilerExtensionTest extends TestCase
             'sourceDir' => __DIR__ . '/StatieCompilerExtensionSource',
         ]);
 
-        $extension->setCompiler(new Compiler(new ContainerBuilder), null);
+        $extension->setCompiler(new Compiler(new ContainerBuilder), 'statie');
 
         return $extension;
     }

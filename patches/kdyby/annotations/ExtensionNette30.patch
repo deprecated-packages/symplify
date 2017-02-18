@@ -1,0 +1,34 @@
+From 3e4da22bdd2612b5dcd0b975562be86cb57a66f1 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Tom=C3=A1=C5=A1=20Votruba?= <info@tomasvotruba.cz>
+Date: Sun, 5 Feb 2017 19:13:23 +0100
+Subject: [PATCH] AnnotationExtension: fix getConfig, getValidatedConfig and
+ expand for Nette 3.0
+
+---
+ src/Kdyby/Annotations/DI/AnnotationsExtension.php | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/src/Kdyby/Annotations/DI/AnnotationsExtension.php b/src/Kdyby/Annotations/DI/AnnotationsExtension.php
+index 1fa6a89..2661ff0 100644
+--- a/src/Kdyby/Annotations/DI/AnnotationsExtension.php
++++ b/src/Kdyby/Annotations/DI/AnnotationsExtension.php
+@@ -70,9 +70,10 @@ public function loadConfiguration()
+ 	/**
+ 	 * @return array
+ 	 */
+-	public function getConfig(array $defaults = NULL, $expand = TRUE)
++	public function getConfig(array $defaults = NULL, $expand = TRUE) : array
+ 	{
+ 		$config = parent::getConfig($defaults, $expand);
++		$config = $this->validateConfig($defaults, $config);
+
+ 		// ignoredAnnotations
+ 		$globalConfig = $this->compiler->getConfig();
+@@ -81,7 +82,7 @@ public function getConfig(array $defaults = NULL, $expand = TRUE)
+ 			$config = Nette\DI\Config\Helpers::merge($config, ['ignore' => $globalConfig['doctrine']['ignoredAnnotations']]);
+ 		}
+
+-		return $this->compiler->getContainerBuilder()->expand($config);
++		return Nette\DI\Helpers::expand($config, $this->getContainerBuilder()->parameters);
+ 	}
+

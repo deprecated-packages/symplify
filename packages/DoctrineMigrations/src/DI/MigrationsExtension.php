@@ -6,6 +6,7 @@ use Arachne\EventDispatcher\DI\EventDispatcherExtension;
 use Doctrine\DBAL\Migrations\Tools\Console\Command\AbstractCommand;
 use Nette\DI\Compiler;
 use Nette\DI\CompilerExtension;
+use Nette\DI\Helpers;
 use Symfony\Component\Console\Application;
 use Symplify\PackageBuilder\Adapter\Nette\DI\DefinitionCollector;
 use Zenify\DoctrineMigrations\Configuration\Configuration;
@@ -107,7 +108,11 @@ final class MigrationsExtension extends CompilerExtension
     {
         $configuration = $this->validateConfig($this->defaults);
         $this->validateConfig($configuration);
-        $configuration['directory'] = $this->getContainerBuilder()->expand($configuration['directory']);
+
+        $configuration['directory'] = Helpers::expand(
+            $configuration['directory'],
+            $this->getContainerBuilder()->parameters
+        );
 
         return $configuration;
     }
