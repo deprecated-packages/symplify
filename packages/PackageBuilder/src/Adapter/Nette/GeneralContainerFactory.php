@@ -20,6 +20,7 @@ final class GeneralContainerFactory
     private function createAndReturnTempDir(string $config) : string
     {
         $tempDir = sys_get_temp_dir() . '/' . sha1($config);
+        FileSystem::delete($tempDir);
         FileSystem::createDir($tempDir);
 
         return $tempDir;
