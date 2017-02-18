@@ -20,7 +20,6 @@ final class GenerateCommandTest extends TestCase
     {
         $container = (new ContainerFactory)->create();
 
-        /* @var ConsoleApplication $application */
         $this->application = $container->getByType(ConsoleApplication::class);
         $this->application->setAutoExit(false);
     }

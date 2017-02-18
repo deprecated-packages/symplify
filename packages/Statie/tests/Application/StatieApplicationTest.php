@@ -31,7 +31,6 @@ final class StatieApplicationTest extends TestCase
     public function test()
     {
         $runCommand = new RunCommand(
-            false,
             __DIR__ . '/StatieApplicationSource/source',
             __DIR__ . '/StatieApplicationSource/output'
         );
@@ -54,7 +53,7 @@ final class StatieApplicationTest extends TestCase
      */
     public function testRunForMissingSource()
     {
-        $runCommand = new RunCommand(false, 'missing', 'random');
+        $runCommand = new RunCommand('missing', 'random');
         $this->statieApplication->runCommand($runCommand);
     }
 

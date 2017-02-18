@@ -6,26 +6,69 @@
 [![Latest Version on Packagist][ico-version]][link-packagist]
 
 
-Statie takes **Markdown files** and combines them with **Twig templates** to produce a set of static HTML files.
+Statie takes HTML, Markdown and Latte files and generates static HTML page.
 
 ## Install via Composer
 
-```
+```bash
 composer require symplify/statie
+```
+
+## And via Node
+
+```bash
+npm install -g gulp gulp-watch
 ```
 
 ## Usage
 
-### Base commands
+### Generate content from `/source` to `/output` in HTML
 
-#### Generate content from `/source` to `/output` in HTML
-
-```
+```bash
 vendor/bin/statie generate
-vendor/bin/statie generate --server
 ```
 
-#### Push content of `/output` to Github pages
+### See Generated web
+
+```bash
+php -S localhost:8000 -t output
+```
+
+And open [localhost:8000](http://localhost:8000) in browser.
+
+### Live Rebuild
+
+For live rebuild, just add `gulpfile.js`:
+
+```javascript
+var gulp = require('gulp');
+var watch = require('gulp-watch');
+var exec = require('child_process').exec;
+
+gulp.task('default', function () {
+    // Run local server, open localhost:8000 in your browser
+    exec('php -S localhost:8000 -t output');
+
+    return watch(['source/*', '!**/*___jb_tmp___'], { ignoreInitial: false })
+        // For the second arg see: https://github.com/floatdrop/gulp-watch/issues/242#issuecomment-230209702
+        .on('change', function() {
+            exec('vendor/bin/statie generate', function (err, stdout, stderr) {
+                console.log(stdout);
+                console.log(stderr);
+            });
+        });
+});
+```
+
+And run:
+
+```bash
+gulp
+```
+
+
+
+### Push content of `/output` to Github pages
 
 To push to e.g. [tomasvotruba/tomasvotruba.cz](https://github.com/TomasVotruba/tomasvotruba.cz) repository, call this:
 
@@ -33,10 +76,9 @@ To push to e.g. [tomasvotruba/tomasvotruba.cz](https://github.com/TomasVotruba/t
 vendor/bin/statie push-to-github-pages tomasvotruba/tomasvotruba.cz --token=${GH_TOKEN}
 ```
 
-How to setup `${GH_TOKEN}`? Just check [this examplary .travis.yml](https://github.com/TomasVotruba/tomasvotruba.cz/blob/fddcbe9298ae376145622d735e1408ece447ea09/.travis.yml#L9-L26).
+How to setup `${GH_TOKEN}`? Just check [this exemplary .travis.yml](https://github.com/TomasVotruba/tomasvotruba.cz/blob/fddcbe9298ae376145622d735e1408ece447ea09/.travis.yml#L9-L26).
 
  
-
 ## Configuration
 
 ### Global variables
@@ -57,17 +99,19 @@ socials:
 
 ```twig
 # source/_layouts/default.latte
+
 <p>Welcome to: {$siteUrl}</p>
 
 <p>Checkout my FB page: {$socials['facebook']}</p>
 ```
 
-### Modify Post Route format
+### Modify Post Url Format
 
 To configure post url address just modify:
 
 ```yaml
 # source/_config/config.neon
+
 configuration:
     postRoute: blog/:year/:month/:day/:title # default one
     # will produce post detail link: blog/2016/12/01/how-to-host-open-source-blog-for-free

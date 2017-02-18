@@ -48,12 +48,6 @@ services:
     # github
     - Symplify\Statie\Github\GihubPublishingProcess
 
-    # http
-    - Symplify\Statie\HttpServer\HttpServer
-    - Symplify\Statie\HttpServer\ResponseWriter
-    - Mimey\MimeTypes
-    - Symplify\Statie\HttpServer\MimeType\MimeTypeDetector
-
     # translation
     - Symplify\Statie\Translation\Latte\TranslationFilterProvider
     - Symplify\Statie\Translation\TranslatorFactory
