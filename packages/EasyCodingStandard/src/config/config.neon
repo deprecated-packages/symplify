@@ -1,0 +1,8 @@
+application:
+    scanComposer: false
+
+
+extensions:
+    - Symplify\EasyCodingStandard\DI\MultiCodingStandardExtension
+    - Symplify\EasyCodingStandard\RuleRunner\DI\RuleRunnerExtension
+    - Symplify\EasyCodingStandard\SniffRunner\DI\SniffRunnerExtension

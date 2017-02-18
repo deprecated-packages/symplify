@@ -1,7 +1,6 @@
 {
     "name": "symplify/modular-doctrine-filters",
     "description": "Adds simple service support for Doctrine filters, allowing modularity.",
-    "license": "MIT",
     "require": {
         "php": "^7.1",
         "doctrine/dbal": "^2.5",

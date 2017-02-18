@@ -3,12 +3,12 @@
 namespace Symplify\CodingStandard\Tests\Sniffs\ControlStructures\YodaCondition;
 
 use Symplify\CodingStandard\Tests\Sniffs\AbstractSniffTestCase;
-use SymplifyCodingStandard\Sniffs\ControlStructures\YodaConditionSniff;
+use Symplify\CodingStandard\Sniffs\ControlStructures\YodaConditionSniff;
 
 final class YodaConditionSniffTest extends AbstractSniffTestCase
 {
     public function test()
     {
-        $this->runSniffTestForDirectory(YodaConditionSniff::NAME, __DIR__);
+        $this->runSniffTestForDirectory(YodaConditionSniff::class, __DIR__);
     }
 }

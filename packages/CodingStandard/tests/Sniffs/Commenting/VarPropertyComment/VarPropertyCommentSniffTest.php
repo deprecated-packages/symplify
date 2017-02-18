@@ -3,12 +3,12 @@
 namespace Symplify\CodingStandard\Tests\Sniffs\Commenting\VarPropertyComment;
 
 use Symplify\CodingStandard\Tests\Sniffs\AbstractSniffTestCase;
-use SymplifyCodingStandard\Sniffs\Commenting\VarPropertyCommentSniff;
+use Symplify\CodingStandard\Sniffs\Commenting\VarPropertyCommentSniff;
 
 final class VarPropertyCommentSniffTest extends AbstractSniffTestCase
 {
     public function test()
     {
-        $this->runSniffTestForDirectory(VarPropertyCommentSniff::NAME, __DIR__);
+        $this->runSniffTestForDirectory(VarPropertyCommentSniff::class, __DIR__);
     }
 }

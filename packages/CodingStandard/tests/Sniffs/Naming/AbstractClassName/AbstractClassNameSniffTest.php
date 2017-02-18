@@ -3,12 +3,12 @@
 namespace Symplify\CodingStandard\Tests\Sniffs\Naming\AbstractClassName;
 
 use Symplify\CodingStandard\Tests\Sniffs\AbstractSniffTestCase;
-use SymplifyCodingStandard\Sniffs\Naming\AbstractClassNameSniff;
+use Symplify\CodingStandard\Sniffs\Naming\AbstractClassNameSniff;
 
 final class AbstractClassNameSniffTest extends AbstractSniffTestCase
 {
     public function test()
     {
-        $this->runSniffTestForDirectory(AbstractClassNameSniff::NAME, __DIR__);
+        $this->runSniffTestForDirectory(AbstractClassNameSniff::class, __DIR__);
     }
 }

@@ -3,12 +3,12 @@
 namespace Symplify\CodingStandard\Tests\Sniffs\Debug\DebugFunctionCall;
 
 use Symplify\CodingStandard\Tests\Sniffs\AbstractSniffTestCase;
-use SymplifyCodingStandard\Sniffs\Debug\DebugFunctionCallSniff;
+use Symplify\CodingStandard\Sniffs\Debug\DebugFunctionCallSniff;
 
 final class DebugFunctionCallSniffTest extends AbstractSniffTestCase
 {
     public function test()
     {
-        $this->runSniffTestForDirectory(DebugFunctionCallSniff::NAME, __DIR__);
+        $this->runSniffTestForDirectory(DebugFunctionCallSniff::class, __DIR__);
     }
 }

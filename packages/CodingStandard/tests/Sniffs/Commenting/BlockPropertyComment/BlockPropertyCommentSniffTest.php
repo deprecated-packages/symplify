@@ -3,12 +3,12 @@
 namespace Symplify\CodingStandard\Tests\Sniffs\Commenting\BlockPropertyComment;
 
 use Symplify\CodingStandard\Tests\Sniffs\AbstractSniffTestCase;
-use SymplifyCodingStandard\Sniffs\Commenting\BlockPropertyCommentSniff;
+use Symplify\CodingStandard\Sniffs\Commenting\BlockPropertyCommentSniff;
 
 final class BlockPropertyCommentSniffTest extends AbstractSniffTestCase
 {
     public function testDetection()
     {
-        $this->runSniffTestForDirectory(BlockPropertyCommentSniff::NAME, __DIR__);
+        $this->runSniffTestForDirectory(BlockPropertyCommentSniff::class, __DIR__);
     }
 }

@@ -1,7 +1,6 @@
 {
     "name": "symplify/symplify",
     "description": "Main repository for Symplify packages development.",
-    "license": "MIT",
     "require": {
         "php": "^7.1",
 
@@ -28,6 +27,7 @@
         "latte/latte": "^2.4",
         "nette/utils": "^2.4",
         "nette/robot-loader": "^2.4",
+        "nette/neon": "^2.4",
         "tracy/tracy": "^2.4",
 
         "symfony/asset": "^3.2",
@@ -50,14 +50,16 @@
 
         "symfony-cmf/routing-bundle": "2.0.0-RC2 as 1.4",
 
-        "friendsofphp/php-cs-fixer": "^2.0",
-        "squizlabs/php_codesniffer": "^2.7",
+        "tomas-votruba/php_codesniffer-3-pretagged": "^3.0",
+        "friendsofphp/php-cs-fixer": "^2.1",
         "zenify/modular-latte-filters": "^4.2",
 
-        "laravel/framework": "^5.3",
-        "illuminate/container": "^5.3",
-        "illuminate/support": "^5.3",
+        "laravel/framework": "^5.4",
+        "illuminate/container": "^5.4",
+        "illuminate/support": "^5.4",
 
+        "symplify/sniff-runner": "@dev",
+        "symplify/rule-runner": "@dev",
         "symplify/package-builder": "@dev"
     },
     "require-dev": {
@@ -83,17 +85,19 @@
             "Symplify\\ActionAutowire\\": "packages/ActionAutowire/src",
             "Symplify\\AutoServiceRegistration\\": "packages/AutoServiceRegistration/src",
             "Symplify\\CodingStandard\\": "packages/CodingStandard/src",
-            "SymplifyCodingStandard\\": "packages/CodingStandard/src/SymplifyCodingStandard",
             "Symplify\\ControllerAutowire\\": "packages/ControllerAutowire/src",
             "Symplify\\DefaultAutowire\\": "packages/DefaultAutowire/src",
             "Symplify\\ModularDoctrineFilters\\": "packages/ModularDoctrineFilters/src",
             "Symplify\\ModularRouting\\": "packages/ModularRouting/src",
             "Symplify\\ServiceDefinitionDecorator\\": "packages/ServiceDefinitionDecorator/src",
+            "Symplify\\SniffRunner\\": "packages/SniffRunner/src",
             "Symplify\\Statie\\": "packages/Statie/src",
             "Symplify\\SymfonyEventDispatcher\\": "packages/SymfonyEventDispatcher/src",
             "Symplify\\SymfonySecurityVoters\\": "packages/SymfonySecurityVoters/src",
             "Symplify\\PackageBuilder\\": "packages/PackageBuilder/src",
-
+            "Symplify\\EasyCodingStandard\\": "packages/EasyCodingStandard/src",
+            "Symplify\\EasyCodingStandard\\SniffRunner\\": "packages/EasyCodingStandard/packages/SniffRunner/src",
+            "Symplify\\EasyCodingStandard\\RuleRunner\\": "packages/EasyCodingStandard/packages/RuleRunner/src",
             "Zenify\\ModularLatteFilters\\": "packages/ModularLatteFilters/src",
             "Zenify\\DoctrineFixtures\\": "packages/DoctrineFixtures/src",
             "Zenify\\DoctrineExtensionsTree\\": "packages/DoctrineExtensionsTree/src",
@@ -111,12 +115,15 @@
             "Symplify\\ModularDoctrineFilters\\Tests\\": "packages/ModularDoctrineFilters/tests",
             "Symplify\\ModularRouting\\Tests\\": "packages/ModularRouting/tests",
             "Symplify\\ServiceDefinitionDecorator\\Tests\\": "packages/ServiceDefinitionDecorator/tests",
+            "Symplify\\SniffRunner\\Tests\\": "packages/SniffRunner/tests",
             "Symplify\\Statie\\Tests\\": "packages/Statie/tests",
             "Symplify\\Tests\\": "tests",
             "Symplify\\SymfonyEventDispatcher\\Tests\\": "packages/SymfonyEventDispatcher/tests",
             "Symplify\\SymfonySecurityVoters\\Tests\\": "packages/SymfonySecurityVoters/tests",
             "Symplify\\PackageBuilder\\Tests\\": "packages/PackageBuilder/tests",
-
+            "Symplify\\EasyCodingStandard\\Tests\\": "packages/EasyCodingStandard/tests",
+            "Symplify\\EasyCodingStandard\\SniffRunner\\Tests\\": "packages/EasyCodingStandard/packages/SniffRunner/tests",
+            "Symplify\\EasyCodingStandard\\RuleRunner\\Tests\\": "packages/EasyCodingStandard/packages/RuleRunner/tests",
             "Zenify\\ModularLatteFilters\\Tests\\": "packages/ModularLatteFilters/tests",
             "Zenify\\DoctrineFixtures\\Tests\\": "packages/DoctrineFixtures/tests",
             "Zenify\\DoctrineExtensionsTree\\Tests\\": "packages/DoctrineExtensionsTree/tests",
@@ -127,13 +134,19 @@
             "packages/Statie/bin/include-autoload.php"
         ]
     },
+    "replace": {
+        "symplify/package-builder": "self.version",
+        "symplify/sniff-runner": "self.version",
+        "symplify/rule-runner": "self.version"
+    },
     "repositories": [
-        { "type": "path", "url": "packages/PackageBuilder" }
+        { "type": "path", "url": "packages/PackageBuilder" },
+        { "type": "path", "url": "packages/SniffRunner" }
     ],
     "scripts": {
         "complete-check": ["vendor/bin/phpunit", "@fix-cs", "@phpstan"],
-        "check-cs": "packages/CodingStandard/bin/symplify-cs check packages/*/src packages/*/tests",
-        "fix-cs": "packages/CodingStandard/bin/symplify-cs fix packages/*/src packages/*/tests",
+        "check-cs": "packages/EasyCodingStandard/bin/easy-coding-standard packages/*/src packages/*/tests",
+        "fix-cs": "packages/EasyCodingStandard/bin/easy-coding-standard packages/*/src packages/*/tests --fix",
         "phpstan": "vendor/bin/phpstan analyse packages --level=4 -c phpstan.neon"
     }
 }

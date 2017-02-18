@@ -1,0 +1,13 @@
+includes:
+    - services/application.neon
+    - services/files.neon
+    - services/sniffs.neon
+
+services:
+    # Event Dispatcher
+    - Symplify\EasyCodingStandard\SniffRunner\EventDispatcher\SniffDispatcher
+
+    # Parser
+    - Symplify\EasyCodingStandard\SniffRunner\Parser\FileToTokensParser
+
+    - Symplify\EasyCodingStandard\SniffRunner\Repository\SniffRepository

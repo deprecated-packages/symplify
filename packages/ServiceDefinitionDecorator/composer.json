@@ -1,7 +1,6 @@
 {
     "name": "symplify/service-definition-decorator",
     "description": "Decorate service definitions by type, with autowire, tags and method class.",
-    "license": "MIT",
     "require": {
         "php": "^7.1",
         "symfony/dependency-injection": "^3.2",

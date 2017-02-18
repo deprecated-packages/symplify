@@ -3,12 +3,12 @@
 namespace Symplify\CodingStandard\Tests\Sniffs\Commenting\MethodComment;
 
 use Symplify\CodingStandard\Tests\Sniffs\AbstractSniffTestCase;
-use SymplifyCodingStandard\Sniffs\Commenting\MethodCommentSniff;
+use Symplify\CodingStandard\Sniffs\Commenting\MethodCommentSniff;
 
 final class MethodCommentSniffTest extends AbstractSniffTestCase
 {
     public function test()
     {
-        $this->runSniffTestForDirectory(MethodCommentSniff::NAME, __DIR__);
+        $this->runSniffTestForDirectory(MethodCommentSniff::class, __DIR__);
     }
 }
