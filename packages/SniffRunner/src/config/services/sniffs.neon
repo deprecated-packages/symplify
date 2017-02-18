@@ -1,8 +1,0 @@
-services:
-    - Symplify\SniffRunner\Sniff\SniffCollectionResolver
-    - Symplify\SniffRunner\Sniff\Factory\SniffFactory
-
-    # finder
-    - Symplify\SniffRunner\Sniff\Finder\SniffFinder
-    - Symplify\SniffRunner\Sniff\Finder\SniffClassFilter
-    - Symplify\SniffRunner\Sniff\Finder\SniffClassRobotLoaderFactory

@@ -1,6 +1,0 @@
-application:
-    scanComposer: false
-
-extensions:
-    - Symplify\MultiCodingStandard\DI\MultiCodingStandardExtension
-    - Symplify\SniffRunner\DI\SniffRunnerExtension

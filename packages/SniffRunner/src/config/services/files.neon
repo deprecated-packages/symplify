@@ -1,4 +1,0 @@
-services:
-    - Symplify\SniffRunner\File\FileFactory
-    - Symplify\SniffRunner\File\Provider\FilesProvider
-    - Symplify\SniffRunner\File\Finder\SourceFinder

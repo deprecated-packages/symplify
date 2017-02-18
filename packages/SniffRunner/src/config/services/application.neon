@@ -1,4 +1,0 @@
-services:
-    - Symplify\SniffRunner\Application\Application
-    - Symplify\SniffRunner\Application\FileProcessor
-    - Symplify\SniffRunner\Application\Fixer
