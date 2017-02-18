@@ -90,6 +90,7 @@
             "Symplify\\ModularDoctrineFilters\\": "packages/ModularDoctrineFilters/src",
             "Symplify\\ModularRouting\\": "packages/ModularRouting/src",
             "Symplify\\ServiceDefinitionDecorator\\": "packages/ServiceDefinitionDecorator/src",
+            "Symplify\\SniffRunner\\": "packages/SniffRunner/src",
             "Symplify\\Statie\\": "packages/Statie/src",
             "Symplify\\SymfonyEventDispatcher\\": "packages/SymfonyEventDispatcher/src",
             "Symplify\\SymfonySecurityVoters\\": "packages/SymfonySecurityVoters/src",
@@ -97,7 +98,6 @@
             "Symplify\\EasyCodingStandard\\": "packages/EasyCodingStandard/src",
             "Symplify\\EasyCodingStandard\\SniffRunner\\": "packages/EasyCodingStandard/packages/SniffRunner/src",
             "Symplify\\EasyCodingStandard\\RuleRunner\\": "packages/EasyCodingStandard/packages/RuleRunner/src",
-
             "Zenify\\ModularLatteFilters\\": "packages/ModularLatteFilters/src",
             "Zenify\\DoctrineFixtures\\": "packages/DoctrineFixtures/src",
             "Zenify\\DoctrineExtensionsTree\\": "packages/DoctrineExtensionsTree/src",
@@ -115,6 +115,7 @@
             "Symplify\\ModularDoctrineFilters\\Tests\\": "packages/ModularDoctrineFilters/tests",
             "Symplify\\ModularRouting\\Tests\\": "packages/ModularRouting/tests",
             "Symplify\\ServiceDefinitionDecorator\\Tests\\": "packages/ServiceDefinitionDecorator/tests",
+            "Symplify\\SniffRunner\\Tests\\": "packages/SniffRunner/tests",
             "Symplify\\Statie\\Tests\\": "packages/Statie/tests",
             "Symplify\\Tests\\": "tests",
             "Symplify\\SymfonyEventDispatcher\\Tests\\": "packages/SymfonyEventDispatcher/tests",
@@ -123,7 +124,6 @@
             "Symplify\\EasyCodingStandard\\Tests\\": "packages/EasyCodingStandard/tests",
             "Symplify\\EasyCodingStandard\\SniffRunner\\Tests\\": "packages/EasyCodingStandard/packages/SniffRunner/tests",
             "Symplify\\EasyCodingStandard\\RuleRunner\\Tests\\": "packages/EasyCodingStandard/packages/RuleRunner/tests",
-
             "Zenify\\ModularLatteFilters\\Tests\\": "packages/ModularLatteFilters/tests",
             "Zenify\\DoctrineFixtures\\Tests\\": "packages/DoctrineFixtures/tests",
             "Zenify\\DoctrineExtensionsTree\\Tests\\": "packages/DoctrineExtensionsTree/tests",
@@ -139,6 +139,10 @@
         "symplify/sniff-runner": "self.version",
         "symplify/rule-runner": "self.version"
     },
+    "repositories": [
+        { "type": "path", "url": "packages/PackageBuilder" },
+        { "type": "path", "url": "packages/SniffRunner" }
+    ],
     "scripts": {
         "complete-check": ["vendor/bin/phpunit", "@fix-cs", "@phpstan"],
         "check-cs": "packages/EasyCodingStandard/bin/easy-coding-standard packages/*/src packages/*/tests",

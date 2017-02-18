@@ -1,0 +1,15 @@
+services:
+    # application
+    - Symplify\MultiCodingStandard\PhpCsFixer\Application\Application
+    - Symplify\MultiCodingStandard\PhpCsFixer\Report\DiffDataCollector
+
+    # fixer factory
+    - Symplify\MultiCodingStandard\PhpCsFixer\Fixer\FixerFactory
+    - Symplify\MultiCodingStandard\Configuration\ConfigurationResolverFactory
+
+    # runner and his dependencies
+    - Symplify\MultiCodingStandard\PhpCsFixer\Runner\RunnerFactory
+    - PhpCsFixer\Error\ErrorsManager
+    - PhpCsFixer\Linter\Linter
+    - PhpCsFixer\Cache\NullCacheManager
+    - PhpCsFixer\Differ\SebastianBergmannDiffer
