@@ -19,10 +19,12 @@
         "doctrine/dbal": "^2.5",
         "doctrine/orm": "^2.5",
 
+        "nette/application": "v3.0.0-alpha1 as 2.4",
         "nette/bootstrap": "v3.0.0-beta as 2.4",
         "nette/di": "v3.0.0-alpha1 as 2.4",
         "nette/finder": "v3.0.0-RC as 2.4",
         "nette/caching": "v3.0.0-beta as 2.4",
+        "nette/forms": "v3.0.0-alpha1 as 2.4",
         "nette/component-model": "v3.0.0-beta as 2.4",
         "nette/database": "v3.0.0-alpha as 2.4",
         "nette/http": "v3.0.0-alpha1 as 2.4",
