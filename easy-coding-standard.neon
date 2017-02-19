@@ -39,7 +39,6 @@ php-code-sniffer:
     - PHP_CodeSniffer\Standards\Zend\Sniffs\Files\ClosingTagSniff
 
     # Formatting
-    - PHP_CodeSniffer\Standards\Squiz\Sniffs\PHP\DisallowMultipleAssignmentsSniff
     - PHP_CodeSniffer\Standards\Generic\Sniffs\Formatting\SpaceAfterCastSniff
 
     - PHP_CodeSniffer\Standards\Generic\Sniffs\Functions\FunctionCallArgumentSpacingSniff
