@@ -5,7 +5,7 @@
 [![Downloads](https://img.shields.io/packagist/dt/symplify/coding-standard.svg?style=flat-square)](https://packagist.org/packages/symplify/coding-standard)
 [![Latest stable](https://img.shields.io/packagist/v/symplify/coding-standard.svg?style=flat-square)](https://packagist.org/packages/symplify/coding-standard)
 
-Set of PHP_CodeSniffer rules for Symplify packages made of [few custom ones].
+Set of PHP_CodeSniffer rules for Symplify packages.
 
 ## Install
 
