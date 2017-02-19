@@ -2,8 +2,8 @@
 
 namespace Symplify\CodingStandard\Tests\Sniffs\Commenting\ComponentFactoryComment;
 
-use Symplify\CodingStandard\Tests\Sniffs\AbstractSniffTestCase;
 use Symplify\CodingStandard\Sniffs\Commenting\ComponentFactoryCommentSniff;
+use Symplify\CodingStandard\Tests\Sniffs\AbstractSniffTestCase;
 
 final class ComponentFactoryCommentSniffTest extends AbstractSniffTestCase
 {

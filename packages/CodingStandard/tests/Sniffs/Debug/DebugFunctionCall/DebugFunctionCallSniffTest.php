@@ -2,8 +2,8 @@
 
 namespace Symplify\CodingStandard\Tests\Sniffs\Debug\DebugFunctionCall;
 
-use Symplify\CodingStandard\Tests\Sniffs\AbstractSniffTestCase;
 use Symplify\CodingStandard\Sniffs\Debug\DebugFunctionCallSniff;
+use Symplify\CodingStandard\Tests\Sniffs\AbstractSniffTestCase;
 
 final class DebugFunctionCallSniffTest extends AbstractSniffTestCase
 {

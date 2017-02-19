@@ -21,17 +21,17 @@ final class ParameterWrapper
      */
     private $tokens;
 
-    public static function createFromFileAndPosition(File $file, int $position)
-    {
-        return new self($file, $position);
-    }
-
     private function __construct(File $file, int $position)
     {
         $this->file = $file;
         $this->position = $position;
 
         $this->tokens = $this->file->getTokens();
+    }
+
+    public static function createFromFileAndPosition(File $file, int $position)
+    {
+        return new self($file, $position);
     }
 
     public function getParamterName() : string

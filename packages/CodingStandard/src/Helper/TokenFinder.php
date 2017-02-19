@@ -41,7 +41,7 @@ final class TokenFinder
     ) {
         $token = $phpcsFile->findPrevious($types, $startPointer, $endPointer, true);
         if ($token === false) {
-            return null;
+            return;
         }
         return $token;
     }
@@ -53,7 +53,7 @@ final class TokenFinder
     {
         $token = $phpcsFile->findNext(self::$ineffectiveTokenCodes, $startPointer, $endPointer, true);
         if ($token === false) {
-            return null;
+            return;
         }
 
         return $token;

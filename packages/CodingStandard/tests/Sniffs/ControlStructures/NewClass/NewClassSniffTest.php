@@ -2,8 +2,8 @@
 
 namespace Symplify\CodingStandard\Tests\Sniffs\ControlStructures\NewClass;
 
-use Symplify\CodingStandard\Tests\Sniffs\AbstractSniffTestCase;
 use Symplify\CodingStandard\Sniffs\ControlStructures\NewClassSniff;
+use Symplify\CodingStandard\Tests\Sniffs\AbstractSniffTestCase;
 
 final class NewClassSniffTest extends AbstractSniffTestCase
 {

@@ -31,6 +31,11 @@ final class RenderableFilesProcessorTest extends TestCase
         $this->configuration->setOutputDirectory(__DIR__ . '/RenderFilesProcessorSource/output');
     }
 
+    protected function tearDown()
+    {
+        FileSystem::delete(__DIR__ . '/RenderFilesProcessorSource/output');
+    }
+
     public function test()
     {
         $finder = Finder::findFiles('*')->from(__DIR__ . '/RenderFilesProcessorSource/source')->getIterator();
@@ -60,10 +65,5 @@ final class RenderableFilesProcessorTest extends TestCase
         $this->assertTrue(
             isset($this->configuration->getGlobalVariables()['posts'])
         );
-    }
-
-    protected function tearDown()
-    {
-        FileSystem::delete(__DIR__ . '/RenderFilesProcessorSource/output');
     }
 }

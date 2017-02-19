@@ -33,17 +33,17 @@ final class DocBlockWrapper
      */
     private $tokens;
 
-    public static function createFromFileAndPosition(File $file, int $startPosition, int $endPosition)
-    {
-        return new self($file, $startPosition, $endPosition);
-    }
-
     private function __construct(File $file, int $startPosition, int $endPosition)
     {
         $this->file = $file;
         $this->tokens = $file->getTokens();
         $this->startPosition = $startPosition;
         $this->endPosition = $endPosition;
+    }
+
+    public static function createFromFileAndPosition(File $file, int $startPosition, int $endPosition)
+    {
+        return new self($file, $startPosition, $endPosition);
     }
 
     public function hasAnnotation(string $annotation) : bool
@@ -79,7 +79,7 @@ final class DocBlockWrapper
 
     public function changeToMultiLine() : void
     {
-        if (!$this->isSingleLine()) {
+        if (! $this->isSingleLine()) {
             return;
         }
 
@@ -104,15 +104,6 @@ final class DocBlockWrapper
         );
     }
 
-    private function getIndentationSign() : string
-    {
-        if ($this->indentationType === 'tabs') {
-            return "\t";
-        }
-
-        return '    ';
-    }
-
     /**
      * @return string|false
      */
@@ -126,5 +117,14 @@ final class DocBlockWrapper
         }
 
         return false;
+    }
+
+    private function getIndentationSign() : string
+    {
+        if ($this->indentationType === 'tabs') {
+            return "\t";
+        }
+
+        return '    ';
     }
 }

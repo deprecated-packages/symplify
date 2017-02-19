@@ -42,11 +42,6 @@ final class PropertyWrapper
      */
     private $docBlock;
 
-    public static function createFromFileAndPosition(File $file, int $position)
-    {
-        return new self($file, $position);
-    }
-
     private function __construct(File $file, int $position)
     {
         // todo: move these 4 to abstract + program against interface!
@@ -56,6 +51,11 @@ final class PropertyWrapper
         $this->propertyToken = $this->tokens[$position];
 
         $this->name = substr($this->propertyToken['content'], 1);
+    }
+
+    public static function createFromFileAndPosition(File $file, int $position)
+    {
+        return new self($file, $position);
     }
 
     public function hasAnnotation(string $annotation) : bool
@@ -116,6 +116,16 @@ final class PropertyWrapper
         $this->file->fixer->replaceToken(key($accesiblity), 'private');
     }
 
+    public function getType() : string
+    {
+        return $this->docBlock->getAnnotationValue('@var');
+    }
+
+    public function getName() : string
+    {
+        return ltrim($this->propertyToken['content'], '$');
+    }
+
     private function getPropertyAccessibility() : array
     {
         if ($this->accessibility) {
@@ -137,15 +147,5 @@ final class PropertyWrapper
         }
 
         return $this->accessibility = $accesibility;
-    }
-
-    public function getType() : string
-    {
-        return $this->docBlock->getAnnotationValue('@var');
-    }
-
-    public function getName() : string
-    {
-        return ltrim($this->propertyToken['content'], '$');
     }
 }

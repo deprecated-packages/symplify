@@ -2,8 +2,8 @@
 
 namespace Symplify\CodingStandard\Tests\Sniffs\NetteRefactoring\InjectToConstructorInjection;
 
-use Symplify\CodingStandard\Tests\Sniffs\AbstractSniffTestCase;
 use Symplify\CodingStandard\Sniffs\NetteRefactoring\InjectToConstructorInjectionSniff;
+use Symplify\CodingStandard\Tests\Sniffs\AbstractSniffTestCase;
 
 /**
  * Constructor injection should be used over @inject annotation and inject* methods.

@@ -24,6 +24,11 @@ final class GenerateCommandTest extends TestCase
         $this->application->setAutoExit(false);
     }
 
+    protected function tearDown()
+    {
+        FileSystem::delete(__DIR__ . DIRECTORY_SEPARATOR . 'GenerateCommandSource' . DIRECTORY_SEPARATOR . 'output');
+    }
+
     public function test()
     {
         $stringInput = sprintf(
@@ -48,10 +53,5 @@ final class GenerateCommandTest extends TestCase
         $input = new StringInput($stringInput);
 
         $this->assertSame(1, $this->application->run($input, new NullOutput));
-    }
-
-    protected function tearDown()
-    {
-        FileSystem::delete(__DIR__ . DIRECTORY_SEPARATOR . 'GenerateCommandSource' . DIRECTORY_SEPARATOR . 'output');
     }
 }

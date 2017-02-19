@@ -9,6 +9,16 @@ trait Translatable
 {
     /**
      * @param string
+     * @param array
+     * @return mixed
+     */
+    public function __call($method, $arguments)
+    {
+        return $this->proxyCurrentLocaleTranslation($method, $arguments);
+    }
+
+    /**
+     * @param string
      * @return mixed
      */
     public function &__get($name) // "&" intentionally due to compatibility with Nette\Object
@@ -32,15 +42,5 @@ trait Translatable
         }
 
         return $this->$name;
-    }
-
-    /**
-     * @param string
-     * @param array
-     * @return mixed
-     */
-    public function __call($method, $arguments)
-    {
-        return $this->proxyCurrentLocaleTranslation($method, $arguments);
     }
 }

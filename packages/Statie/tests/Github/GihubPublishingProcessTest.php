@@ -23,6 +23,11 @@ final class GihubPublishingProcessTest extends TestCase
         $this->githubPublishingProcess = new GihubPublishingProcess;
     }
 
+    protected function tearDown()
+    {
+        FileSystem::delete($this->outputDirectory . DIRECTORY_SEPARATOR . '.git');
+    }
+
     /**
      * @expectedException \Exception
      */
@@ -47,10 +52,5 @@ final class GihubPublishingProcessTest extends TestCase
         );
 
         $this->assertFileExists($this->outputDirectory . DIRECTORY_SEPARATOR . '.git');
-    }
-
-    protected function tearDown()
-    {
-        FileSystem::delete($this->outputDirectory . DIRECTORY_SEPARATOR . '.git');
     }
 }

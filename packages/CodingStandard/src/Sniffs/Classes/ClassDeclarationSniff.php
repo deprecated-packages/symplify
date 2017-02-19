@@ -2,8 +2,8 @@
 
 namespace Symplify\CodingStandard\Sniffs\Classes;
 
-use PHP_CodeSniffer\Standards\PEAR\Sniffs\Classes\ClassDeclarationSniff as PearClassDeclarationSniff;
 use PHP_CodeSniffer\Files\File;
+use PHP_CodeSniffer\Standards\PEAR\Sniffs\Classes\ClassDeclarationSniff as PearClassDeclarationSniff;
 
 /**
  * Rules (new to parent class):

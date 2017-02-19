@@ -34,11 +34,6 @@ final class ClassWrapper
      */
     private $methods;
 
-    public static function createFromFileAndPosition(File $file, int $position)
-    {
-        return new self($file, $position);
-    }
-
     private function __construct(File $file, int $position)
     {
         $this->file = $file;
@@ -46,6 +41,11 @@ final class ClassWrapper
 
         $this->tokens = $this->file->getTokens();
         $this->classToken = $this->tokens[$position];
+    }
+
+    public static function createFromFileAndPosition(File $file, int $position)
+    {
+        return new self($file, $position);
     }
 
     public function getClassName() : string

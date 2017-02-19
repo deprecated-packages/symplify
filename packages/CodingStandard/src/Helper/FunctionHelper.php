@@ -34,7 +34,7 @@ final class FunctionHelper
             );
 
         if ($colonToken === false) {
-            return null;
+            return;
         }
 
         $returnTypeHint = null;

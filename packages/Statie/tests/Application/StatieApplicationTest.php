@@ -28,6 +28,11 @@ final class StatieApplicationTest extends TestCase
         $this->dynamicStringLoader = $container->getByType(DynamicStringLoader::class);
     }
 
+    protected function tearDown()
+    {
+        FileSystem::delete(__DIR__ . '/StatieApplicationSource/output');
+    }
+
     public function test()
     {
         $runCommand = new RunCommand(
@@ -55,10 +60,5 @@ final class StatieApplicationTest extends TestCase
     {
         $runCommand = new RunCommand('missing', 'random');
         $this->statieApplication->runCommand($runCommand);
-    }
-
-    protected function tearDown()
-    {
-        FileSystem::delete(__DIR__ . '/StatieApplicationSource/output');
     }
 }

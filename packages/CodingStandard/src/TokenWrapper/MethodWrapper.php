@@ -48,11 +48,6 @@ final class MethodWrapper
      */
     private $endPosition;
 
-    public static function createFromFileAndPosition(File $file, int $position)
-    {
-        return new self($file, $position);
-    }
-
     private function __construct(File $file, int $position)
     {
         $this->file = $file;
@@ -67,6 +62,11 @@ final class MethodWrapper
 
         $this->startPosition = $this->position - 2; // todo: start position
         $this->endPosition = $this->methodToken['scope_closer'];
+    }
+
+    public static function createFromFileAndPosition(File $file, int $position)
+    {
+        return new self($file, $position);
     }
 
     public function getPosition() : int

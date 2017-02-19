@@ -16,6 +16,11 @@ final class NetteTokenAdapter implements TokenInterface
      */
     private $user;
 
+    public function __toString()
+    {
+        throw new NotImplementedException;
+    }
+
     public function getRoles() : array
     {
         return $this->user->getRoles();
@@ -128,11 +133,6 @@ final class NetteTokenAdapter implements TokenInterface
      * @param string $serialized
      */
     public function unserialize($serialized) : void
-    {
-        throw new NotImplementedException;
-    }
-
-    public function __toString()
     {
         throw new NotImplementedException;
     }

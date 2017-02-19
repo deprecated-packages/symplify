@@ -17,17 +17,6 @@ final class DynamicStringLoaderTest extends TestCase
         $this->stringLoader = $this->createStringLoader();
     }
 
-    private function createStringLoader() : DynamicStringLoader
-    {
-        $loader = new DynamicStringLoader;
-        $loader->addTemplate(
-            'default',
-            file_get_contents(__DIR__ . '/LatteDecoratorSource/default.latte')
-        );
-
-        return $loader;
-    }
-
     /**
      * @expectedException \Exception
      */
@@ -39,5 +28,16 @@ final class DynamicStringLoaderTest extends TestCase
     public function testIsExpired()
     {
         $this->assertFalse($this->stringLoader->isExpired('missing', 123));
+    }
+
+    private function createStringLoader() : DynamicStringLoader
+    {
+        $loader = new DynamicStringLoader;
+        $loader->addTemplate(
+            'default',
+            file_get_contents(__DIR__ . '/LatteDecoratorSource/default.latte')
+        );
+
+        return $loader;
     }
 }

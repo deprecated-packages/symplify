@@ -65,6 +65,11 @@ final class FinalInterfaceSniff implements Sniff
         }
     }
 
+    public function addFinalToClass(int $position) : void
+    {
+        $this->file->fixer->addContentBefore($position, 'final ');
+    }
+
     private function implementsInterface() : bool
     {
         return (bool) $this->file->findNext(T_IMPLEMENTS, $this->position);
@@ -94,10 +99,5 @@ final class FinalInterfaceSniff implements Sniff
         } while ($docCommentPosition = $this->file->findNext(T_DOC_COMMENT_TAG, $seekPosition, $this->position));
 
         return false;
-    }
-
-    public function addFinalToClass(int $position) : void
-    {
-        $this->file->fixer->addContentBefore($position, 'final ');
     }
 }

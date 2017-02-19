@@ -2,8 +2,8 @@
 
 namespace Symplify\CodingStandard\Tests\Sniffs\WhiteSpace\InBetweenMethodSpacing;
 
-use Symplify\CodingStandard\Tests\Sniffs\AbstractSniffTestCase;
 use Symplify\CodingStandard\Sniffs\WhiteSpace\InBetweenMethodSpacingSniff;
+use Symplify\CodingStandard\Tests\Sniffs\AbstractSniffTestCase;
 
 final class InBetweenMethodSpacingSniffTest extends AbstractSniffTestCase
 {

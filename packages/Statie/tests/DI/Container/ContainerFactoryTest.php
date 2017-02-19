@@ -19,14 +19,14 @@ final class ContainerFactoryTest extends TestCase
         FileSystem::createDir($this->sourceDirectory);
     }
 
+    protected function tearDown()
+    {
+        FileSystem::delete($this->sourceDirectory);
+    }
+
     public function testCreate()
     {
         $container = (new ContainerFactory)->create();
         $this->assertInstanceOf(Container::class, $container);
-    }
-
-    protected function tearDown()
-    {
-        FileSystem::delete($this->sourceDirectory);
     }
 }

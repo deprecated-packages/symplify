@@ -33,15 +33,6 @@ final class SourceFileStorage
         }
     }
 
-    private function addSource(SplFileInfo $fileInfo) : void
-    {
-        foreach ($this->sourceFileFilters as $sourceFileFilter) {
-            if ($sourceFileFilter->matchesFileSource($fileInfo)) {
-                $this->sourceFilesByType[$sourceFileFilter->getName()][$fileInfo->getRealPath()] = $fileInfo;
-            }
-        }
-    }
-
     /**
      * @return SplFileInfo[]
      */
@@ -84,5 +75,14 @@ final class SourceFileStorage
     public function getLayoutFiles() : array
     {
         return $this->sourceFilesByType[SourceFileTypes::GLOBAL_LATTE];
+    }
+
+    private function addSource(SplFileInfo $fileInfo) : void
+    {
+        foreach ($this->sourceFileFilters as $sourceFileFilter) {
+            if ($sourceFileFilter->matchesFileSource($fileInfo)) {
+                $this->sourceFilesByType[$sourceFileFilter->getName()][$fileInfo->getRealPath()] = $fileInfo;
+            }
+        }
     }
 }

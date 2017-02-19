@@ -36,6 +36,11 @@ final class FileSystemWriterTest extends TestCase
         $this->fileSystemWriter = new FileSystemWriter($configuration);
     }
 
+    protected function tearDown()
+    {
+        FileSystem::delete($this->outputDirectory);
+    }
+
     public function testCopyStaticFiles()
     {
         $files = [new SplFileInfo($this->sourceDirectory . '/index.html')];
@@ -61,10 +66,5 @@ final class FileSystemWriterTest extends TestCase
             $this->sourceDirectory . '/contact.latte',
             $this->outputDirectory . '/contact.html'
         );
-    }
-
-    protected function tearDown()
-    {
-        FileSystem::delete($this->outputDirectory);
     }
 }
