@@ -93,7 +93,6 @@ final class PropertyWrapper
         $this->docBlock = DocBlockWrapper::createFromFileAndPosition(
             $this->file,
             $findPhpDocTagPointer - 1,
-//            $phpDocTokenCloseTagPointer + 1
             $phpDocTokenCloseTagPointer
         );
 
@@ -113,7 +112,10 @@ final class PropertyWrapper
     public function changeAccesibilityToPrivate()
     {
         $accesiblity = $this->getPropertyAccessibility();
-        $this->file->fixer->replaceToken(key($accesiblity), 'private');
+        $accesiblityPosition = key($accesiblity);
+        if ($accesiblityPosition) {
+            $this->file->fixer->replaceToken($accesiblityPosition, 'private');
+        }
     }
 
     public function getType() : string
