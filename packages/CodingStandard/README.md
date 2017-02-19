@@ -5,17 +5,7 @@
 [![Downloads](https://img.shields.io/packagist/dt/symplify/coding-standard.svg?style=flat-square)](https://packagist.org/packages/symplify/coding-standard)
 [![Latest stable](https://img.shields.io/packagist/v/symplify/coding-standard.svg?style=flat-square)](https://packagist.org/packages/symplify/coding-standard)
 
-Set of coding standard rules for Symplify packages made of:
-
-- [PSR-2](http://www.php-fig.org/psr/psr-2/) 
-- [Symfony coding standard](http://symfony.com/doc/current/contributing/code/standards.html)
-- and [few custom ones](docs/rules-overview.md)
-
-Using:
-
-- [PHP_CodeSniffer](https://github.com/squizlabs/PHP_CodeSniffer) 
-- [PHP-CS-Fixer](https://github.com/FriendsOfPHP/PHP-CS-Fixer)
-
+Set of PHP_CodeSniffer rules for Symplify packages made of [few custom ones].
 
 ## Install
 
@@ -25,50 +15,115 @@ composer require symplify/coding-standard --dev
 
 ## Usage
 
-To check your `src` directory, just run:
-
-```
-vendor/bin/symplify-cs check src
-```
-
-Or more dirs...
-
-```bash
-vendor/bin/symplify-cs check src tests
-```
-
-Or even multiple subdirectories:
-
-```bash
-vendor/bin/symplify-cs check packages/*/tests
-```
-
-### Fixing with ease
-
-```bash
-vendor/bin/symplify-cs fix src
-```
-
-**Not all violations can be fixed though**, so I recommend running the check again and fix the rest manually.
+To use, check [EasyCodingStandard](/packages/EasyCodingStandard/README.md).
 
 
-## How to be both Lazy and Safe
+## Rules Overview
 
-### Composer hook
+### FinalInterfaceSniff (Class)
 
-In case you don't want to use Php_CodeSniffer manually for every change in the code you make, you can add pre-commit hook via `composer.json`:
+- Non-abstract class that implements interface should be final.
+- Except for Doctrine entities, they cannot be final.
 
-```json
-"scripts": {
-	"post-install-cmd": [
-		"Symplify\\CodingStandard\\Composer\\ScriptHandler::addPhpCsToPreCommitHook"
-	],
-	"post-update-cmd": [
-		"Symplify\\CodingStandard\\Composer\\ScriptHandler::addPhpCsToPreCommitHook"
-	]
+```php
+final class SomeClass implements SomeInterface
+{
+    public function run()
+    {
+
+    }
 }
 ```
 
-**Every time you try to commit, it will check changed `.php` files only.**
 
-It's much faster than checking whole project, running manually and/or wait for CI.
+### BlockPropertyCommentSniff (Commenting)
+
+- Block comment should be used instead of one liner
+
+```php
+class SomeClass
+{
+    /**
+     * @var int
+     */
+    public $count;
+}
+```
+
+
+### VarPropertyCommentSniff (Commenting)
+
+- Property should have docblock comment.
+
+```php
+class SomeClass
+{
+    /**
+     * @var int
+     */
+    private $someProperty;
+}
+```
+
+### MethodCommentSniff (Commenting)
+
+- Method without parameter typehints should have docblock comment.
+
+```php
+class SomeClass
+{
+    /**
+     * @param int $values
+     */
+    public function count($values)
+    {
+    }
+
+    public function count(array $values)
+    {
+    }
+}
+```
+
+### MethodReturnTypeSniff (Commenting)
+
+- Getters should have return type (except for {@inheritdoc}).
+
+```php
+class SomeClass
+{
+    /**
+     * @return int
+     */
+    public function getResult()
+    {
+        // ...
+    }
+}
+```
+
+
+### DebugFunctionCallSniff (Debug)
+
+- Debug functions should not be left in the code
+
+
+### ClassNamesWithoutPreSlashSniff (Namespaces)
+
+- Class name after new/instanceof should not start with slash
+
+```php
+use Some\File;
+
+$file = new File;
+```
+
+
+### AbstractClassNameSniff (Naming)
+
+- Abstract class should have prefix "Abstract"
+
+
+### InterfaceNameSniff (Naming)
+
+- Interface should have suffix "Interface"
