@@ -25,7 +25,7 @@ final class TokenFinder
     ];
 
     /**
-     * @return int|null
+     * @return int|false
      */
     public static function findPreviousEffective(
         File $phpcsFile, int $startPointer, int $endPointer = null
@@ -34,29 +34,20 @@ final class TokenFinder
     }
 
     /**
-     * @return int|null
+     * @return int|false
      */
     public static function findPreviousExcluding(
         File $phpcsFile, array $types, int $startPointer, int $endPointer = null
     ) {
-        $token = $phpcsFile->findPrevious($types, $startPointer, $endPointer, true);
-        if ($token === false) {
-            return;
-        }
-        return $token;
+        return $phpcsFile->findPrevious($types, $startPointer, $endPointer, true);
     }
 
     /**
-     * @return int|null
+     * @return int|false
      */
     public static function findNextEffective(File $phpcsFile, int $startPointer, int $endPointer = null)
     {
-        $token = $phpcsFile->findNext(self::$ineffectiveTokenCodes, $startPointer, $endPointer, true);
-        if ($token === false) {
-            return;
-        }
-
-        return $token;
+        return $phpcsFile->findNext(self::$ineffectiveTokenCodes, $startPointer, $endPointer, true);
     }
 
     public static function findNextLinePosition(File $file, int $position) : int

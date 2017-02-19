@@ -40,11 +40,11 @@ final class BlockPropertyCommentSniff implements Sniff
         $this->tokens = $file->getTokens();
 
         $propertyWrapper = PropertyWrapper::createFromFileAndPosition($this->file, $position);
-        if ( ! $docBlock = $propertyWrapper->getDocBlock()) {
+        if (! $docBlock = $propertyWrapper->getDocBlock()) {
             return;
         }
 
-        if ( ! $docBlock->isSingleLine()) {
+        if (! $docBlock->isSingleLine()) {
             return;
         }
 
