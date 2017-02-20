@@ -1,5 +1,4 @@
-services:
-    symplify.filter_manager:
-        class: Symplify\ModularDoctrineFilters\FilterManager
-    symplify.enable_filters_subscriber:
-        class: Symplify\ModularDoctrineFilters\EventSubscriber\EnableFiltersSubscriber
+symplify.filter_manager:
+    class: Symplify\ModularDoctrineFilters\FilterManager
+symplify.enable_filters_subscriber:
+    class: Symplify\ModularDoctrineFilters\EventSubscriber\EnableFiltersSubscriber
