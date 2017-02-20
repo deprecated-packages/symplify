@@ -69,7 +69,6 @@ php-code-sniffer:
     - PHP_CodeSniffer\Standards\Generic\Sniffs\WhiteSpace\DisallowTabIndentSniff
     - PHP_CodeSniffer\Standards\Squiz\Sniffs\WhiteSpace\LanguageConstructSpacingSniff
     - PHP_CodeSniffer\Standards\Squiz\Sniffs\WhiteSpace\ScopeKeywordSpacingSniff
-    - PHP_CodeSniffer\Standards\Squiz\Sniffs\WhiteSpace\ScopeClosingBraceSniff
     PHP_CodeSniffer\Standards\Squiz\Sniffs\WhiteSpace\SuperfluousWhitespaceSniff:
         ignoreBlankLines: false
 
@@ -103,6 +102,39 @@ php-code-sniffer:
     # Symplify: WhiteSpace
     - Symplify\CodingStandard\Sniffs\WhiteSpace\InBetweenMethodSpacingSniff
     - Symplify\CodingStandard\Sniffs\WhiteSpace\PropertiesMethodsMutualSpacingSniff
+
+    # Slevomat
+    # todo: use dev-2.0-dev
+#    - SlevomatCodingStandard\Sniffs\Arrays\TrailingArrayCommaSniff
+#    - SlevomatCodingStandard\Sniffs\Classes\ClassConstantVisibilitySniff
+#    - SlevomatCodingStandard\Sniffs\Classes\UnusedPrivateElementsSniff
+#    - SlevomatCodingStandard\Sniffs\Commenting\ForbiddenAnnotationsSniff
+#    - SlevomatCodingStandard\Sniffs\ControlStructures\DisallowEqualOperatorsSniff
+#    - SlevomatCodingStandard\Sniffs\ControlStructures\YodaComparisonSniff
+#    - SlevomatCodingStandard\Sniffs\Exceptions\DeadCatchSniff
+#    - SlevomatCodingStandard\Sniffs\Exceptions\ReferenceThrowableOnlySniff
+#    - SlevomatCodingStandard\Sniffs\Files\TypeNameMatchesFileNameSniff
+#    - SlevomatCodingStandard\Sniffs\Files\FilepathNamespaceExtractor
+#    - SlevomatCodingStandard\Sniffs\TypeHints\LongTypeHintsSniff
+#    - SlevomatCodingStandard\Sniffs\TypeHints\NullabilitySymbolSpacingSniff
+#    - SlevomatCodingStandard\Sniffs\TypeHints\NullableTypeForNullDefaultValueSniff
+#    - SlevomatCodingStandard\Sniffs\TypeHints\ReturnTypeHintSpacingSniff
+#    - SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff
+#    - SlevomatCodingStandard\Sniffs\Types\EmptyLinesAroundTypeBracesSniff
+#    - SlevomatCodingStandard\Sniffs\TypeHints\DeclareStrictTypesSniff
+#    - SlevomatCodingStandard\Sniffs\Namespaces\AlphabeticallySortedUsesSniff
+#    - SlevomatCodingStandard\Sniffs\Namespaces\DisallowGroupUseSniff
+#    - SlevomatCodingStandard\Sniffs\Namespaces\FullyQualifiedClassNameAfterKeywordSniff
+#    - SlevomatCodingStandard\Sniffs\Namespaces\FullyQualifiedClassNameInAnnotationSniff
+#    - SlevomatCodingStandard\Sniffs\Namespaces\FullyQualifiedExceptionsSniff
+#    - SlevomatCodingStandard\Sniffs\Namespaces\MultipleUsesPerLineSniff
+#    - SlevomatCodingStandard\Sniffs\Namespaces\NoKeywordsException
+#    - SlevomatCodingStandard\Sniffs\Namespaces\ReferenceUsedNamesOnlySniff
+#    - SlevomatCodingStandard\Sniffs\Namespaces\UndefinedKeywordTokenException
+#    - SlevomatCodingStandard\Sniffs\Namespaces\UnusedUsesSniff
+#    - SlevomatCodingStandard\Sniffs\Namespaces\UseDoesNotStartWithBackslashSniff
+#    - SlevomatCodingStandard\Sniffs\Namespaces\UseFromSameNamespaceSniff
+#    - SlevomatCodingStandard\Sniffs\Namespaces\UseOnlyWhitelistedNamespacesSniff
 
 php-cs-fixer:
     PhpCsFixer\Fixer\ArrayNotation\ArraySyntaxFixer:
