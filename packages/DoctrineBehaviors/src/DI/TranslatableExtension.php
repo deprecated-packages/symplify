@@ -8,7 +8,7 @@ use Knp\DoctrineBehaviors\Model\Translatable\Translation;
 use Knp\DoctrineBehaviors\ORM\Translatable\TranslatableSubscriber;
 use Nette\Utils\AssertionException;
 use Nette\Utils\Validators;
-use Zenify\DoctrineBehaviors\Entities\Attributes\Translatable;
+use Zenify\DoctrineBehaviors\Entities\Attributes\TranslatableTrait;
 
 final class TranslatableExtension extends AbstractBehaviorExtension
 {
@@ -18,7 +18,7 @@ final class TranslatableExtension extends AbstractBehaviorExtension
     private $defaults = [
         'currentLocaleCallable' => null,
         'defaultLocaleCallable' => null,
-        'translatableTrait' => Translatable::class,
+        'translatableTrait' => TranslatableTrait::class,
         'translationTrait' => Translation::class,
         'translatableFetchMode' => 'LAZY',
         'translationFetchMode' => 'LAZY',

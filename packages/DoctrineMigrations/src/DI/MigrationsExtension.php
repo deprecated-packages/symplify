@@ -42,7 +42,7 @@ final class MigrationsExtension extends CompilerExtension
 
         Compiler::loadDefinitions(
             $containerBuilder,
-            $this->loadFromFile(__DIR__ . '/../config/services.neon')['services']
+            $this->loadFromFile(__DIR__ . '/../config/services.neon')
         );
 
         foreach ($this->subscribers as $key => $subscriber) {

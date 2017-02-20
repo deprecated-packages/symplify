@@ -4,7 +4,7 @@ namespace Zenify\DoctrineBehaviors\Tests\Entities\Source;
 
 use Doctrine\ORM\Mapping as ORM;
 use Knp\DoctrineBehaviors\Model\Translatable\Translatable;
-use Zenify\DoctrineBehaviors\Entities\Attributes\Translatable as ZenifyTranslatable;
+use Zenify\DoctrineBehaviors\Entities\Attributes\TranslatableTrait as ZenifyTranslatableTrait;
 
 /**
  * @ORM\Entity
@@ -12,7 +12,7 @@ use Zenify\DoctrineBehaviors\Entities\Attributes\Translatable as ZenifyTranslata
 class Category
 {
     use Translatable;
-    use ZenifyTranslatable;
+    use ZenifyTranslatableTrait;
 
     /**
      * @ORM\Id

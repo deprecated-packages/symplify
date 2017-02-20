@@ -7,7 +7,6 @@ use Nelmio\Alice\Fixtures\Loader;
 use Nelmio\Alice\Fixtures\Parser\Methods\MethodInterface;
 use Nette\DI\Compiler;
 use Nette\DI\CompilerExtension;
-use Nette\DI\ServiceDefinition;
 
 final class FixturesExtension extends CompilerExtension
 {
@@ -23,7 +22,7 @@ final class FixturesExtension extends CompilerExtension
     {
         Compiler::loadDefinitions(
             $this->getContainerBuilder(),
-            $this->loadFromFile(__DIR__ . '/services.neon')['services']
+            $this->loadFromFile(__DIR__ . '/services.neon')
         );
     }
 
