@@ -58,7 +58,7 @@ class Article
 	
 	use Knp\DoctrineBehaviors\Model\Translatable\Translatable;
 	// returns translated property for $article->getTitle() or $article->title
-	use Zenify\DoctrineBehaviors\Entities\Attributes\Translatable;
+	use Zenify\DoctrineBehaviors\Entities\Attributes\TranslatableTrait;
 
 }
 ```
