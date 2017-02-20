@@ -14,7 +14,7 @@ use Symplify\CodingStandard\Helper\Whitespace\EmptyLinesResizer;
 final class PropertiesMethodsMutualSpacingSniff implements Sniff
 {
     /**
-     * @var int|string
+     * @var int
      */
     public $desiredBlankLinesInBetween = 1;
 
@@ -50,9 +50,6 @@ final class PropertiesMethodsMutualSpacingSniff implements Sniff
         $this->file = $file;
         $this->position = $position;
         $this->tokens = $file->getTokens();
-
-        // Fix type
-        $this->desiredBlankLinesInBetween = (int) $this->desiredBlankLinesInBetween;
 
         if ($this->isLastProperty() === false) {
             return;

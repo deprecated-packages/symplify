@@ -14,12 +14,12 @@ use Symplify\CodingStandard\Helper\Whitespace\WhitespaceFinder;
 final class NamespaceDeclarationSniff implements Sniff
 {
     /**
-     * @var int|string
+     * @var int
      */
     public $emptyLinesAfterNamespace = 1;
 
     /**
-     * @var int|string
+     * @var int
      */
     private $emptyLinesBeforeUseStatement = 1;
 
@@ -67,8 +67,6 @@ final class NamespaceDeclarationSniff implements Sniff
         $this->file = $file;
         $this->position = $position;
         $this->tokens = $file->getTokens();
-
-        $this->fixParameterTypes();
 
         // prepare class metrics class
         $this->classMetrics = new ClassMetrics($file, $classPosition);
@@ -187,12 +185,5 @@ final class NamespaceDeclarationSniff implements Sniff
                 $nextLinePosition = WhitespaceFinder::findNextEmptyLinePosition($this->file, $nextLinePosition);
             }
         }
-    }
-
-    private function fixParameterTypes() : void
-    {
-        // Fix type in case of rewrite in custom ruleset
-        $this->emptyLinesAfterNamespace = (int) $this->emptyLinesAfterNamespace;
-        $this->emptyLinesBeforeUseStatement = (int) $this->emptyLinesBeforeUseStatement;
     }
 }

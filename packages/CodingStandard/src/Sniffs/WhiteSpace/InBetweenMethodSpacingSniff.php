@@ -17,7 +17,7 @@ use Symplify\CodingStandard\Helper\Whitespace\EmptyLinesResizer;
 final class InBetweenMethodSpacingSniff extends FunctionSpacingSniff
 {
     /**
-     * @var int|string
+     * @var int
      */
     public $blankLinesBetweenMethods = 1;
 
@@ -53,9 +53,6 @@ final class InBetweenMethodSpacingSniff extends FunctionSpacingSniff
         $this->file = $file;
         $this->position = $position;
         $this->tokens = $file->getTokens();
-
-        // Fix type
-        $this->blankLinesBetweenMethods = (int) $this->blankLinesBetweenMethods;
 
         $blankLinesCountAfterFunction = $this->getBlankLineCountAfterFunction();
         if ($blankLinesCountAfterFunction !== $this->blankLinesBetweenMethods) {

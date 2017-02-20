@@ -3,24 +3,30 @@
 namespace Symplify\CodingStandard\Sniffs\Classes;
 
 use PHP_CodeSniffer\Files\File;
-use PHP_CodeSniffer\Standards\PEAR\Sniffs\Classes\ClassDeclarationSniff as PearClassDeclarationSniff;
+use PHP_CodeSniffer\Sniffs\Sniff;
 
 /**
  * Rules (new to parent class):
  * - Opening brace for the %s should be followed by %s empty line(s).
  * - Closing brace for the %s should be preceded by %s empty line(s).
+ * - Empty class should have %s empty lines between braces.
  */
-final class ClassDeclarationSniff extends PearClassDeclarationSniff
+final class ClassDeclarationSniff implements Sniff
 {
     /**
-     * @var int|string
+     * @var int
      */
     public $emptyLinesAfterOpeningBrace = 0;
 
     /**
-     * @var int|string
+     * @var int
      */
     public $emptyLinesBeforeClosingBrace = 0;
+
+    /**
+     * @var int
+     */
+    public $emptyLinesInEmptyClass = 1;
 
     /**
      * @var File
@@ -38,19 +44,27 @@ final class ClassDeclarationSniff extends PearClassDeclarationSniff
     private $tokens;
 
     /**
+     * @return int[]
+     */
+    public function register(): array
+    {
+        return [T_CLASS, T_INTERFACE, T_TRAIT];
+    }
+
+    /**
      * @param File $file
      * @param int $position
      */
     public function process(File $file, $position) : void
     {
-        parent::process($file, $position);
         $this->file = $file;
         $this->position = $position;
         $this->tokens = $file->getTokens();
 
-        // Fix type
-        $this->emptyLinesAfterOpeningBrace = (int) $this->emptyLinesAfterOpeningBrace;
-        $this->emptyLinesBeforeClosingBrace = (int) $this->emptyLinesBeforeClosingBrace;
+        if ($this->isEmptyClass()) {
+            $this->processEmptyClassSpaces();
+            return;
+        }
 
         $this->processOpen();
         $this->processClose();
@@ -78,8 +92,8 @@ final class ClassDeclarationSniff extends PearClassDeclarationSniff
 
     private function processClose() : void
     {
-        $closeBracePosition = $this->tokens[$this->position]['scope_closer'];
-        $emptyLinesCount = $this->getEmptyLinesBeforeClosingBrace($closeBracePosition);
+        $closingBracePosition = $this->tokens[$this->position]['scope_closer'];
+        $emptyLinesCount = $this->getEmptyLinesBeforeClosingBrace($closingBracePosition);
 
         if ($emptyLinesCount !== $this->emptyLinesBeforeClosingBrace) {
             $errorMessage = sprintf(
@@ -89,9 +103,9 @@ final class ClassDeclarationSniff extends PearClassDeclarationSniff
                 $emptyLinesCount
             );
 
-            $fix = $this->file->addFixableError($errorMessage, $closeBracePosition, self::class);
+            $fix = $this->file->addFixableError($errorMessage, $closingBracePosition, self::class);
             if ($fix) {
-                $this->fixClosingBraceSpaces($closeBracePosition, $emptyLinesCount);
+                $this->fixClosingBraceSpaces($closingBracePosition, $emptyLinesCount);
             }
         }
     }
@@ -129,6 +143,54 @@ final class ClassDeclarationSniff extends PearClassDeclarationSniff
             }
         } elseif ($numberOfSpaces > $this->emptyLinesBeforeClosingBrace) {
             for ($i = $numberOfSpaces; $i > $this->emptyLinesBeforeClosingBrace; $i--) {
+                $this->file->fixer->replaceToken($position - $i, '');
+            }
+        }
+    }
+
+    private function isEmptyClass(): bool
+    {
+        return $this->getEmptyLinesBetweenOpenerAndCloser() < 2;
+    }
+
+    private function getEmptyLinesBetweenOpenerAndCloser(): int
+    {
+        $openingBracePosition = $this->tokens[$this->position]['scope_opener'];
+        $closingBracePosition = $this->tokens[$this->position]['scope_closer'];
+
+        $openingBraceToken = $this->tokens[$openingBracePosition];
+        $closingBraceToken = $this->tokens[$closingBracePosition];
+
+        return $closingBraceToken['line'] - $openingBraceToken['line'] - 1;
+    }
+
+    private function processEmptyClassSpaces(): void
+    {
+        $emptyLinesCount = $this->getEmptyLinesBetweenOpenerAndCloser();
+
+        if ($emptyLinesCount !== $this->emptyLinesInEmptyClass) {
+            $errorMessage = sprintf(
+                'Empty class should have %s empty lines between braces; %s found.',
+                $this->emptyLinesInEmptyClass,
+                $emptyLinesCount
+            );
+
+            $openingBracePosition = $this->tokens[$this->position]['scope_opener'];
+            $fix = $this->file->addFixableError($errorMessage, $openingBracePosition, self::class);
+            if ($fix) {
+                $this->fixEmptyLinesBetweenOpenerAndCloser($openingBracePosition, $emptyLinesCount);
+            }
+        }
+    }
+
+    private function fixEmptyLinesBetweenOpenerAndCloser(int $position, int $emptyLinesCount): void
+    {
+        if ($emptyLinesCount < $this->emptyLinesInEmptyClass) {
+            for ($i = $emptyLinesCount; $i < $this->emptyLinesInEmptyClass; $i++) {
+                $this->file->fixer->addContent($position, PHP_EOL);
+            }
+        } elseif ($emptyLinesCount > $this->emptyLinesInEmptyClass) {
+            for ($i = $emptyLinesCount; $i > $this->emptyLinesInEmptyClass; $i--) {
                 $this->file->fixer->replaceToken($position - $i, '');
             }
         }
