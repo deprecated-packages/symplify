@@ -90,7 +90,7 @@ abstract class AbstractSniffTestCase extends TestCase
 
     private function createSniffDispatcherWithSniff(string $sniffClass) : SniffDispatcher
     {
-        $sniffDispatcher = new SniffDispatcher();
+        $sniffDispatcher = new SniffDispatcher;
         $sniffDispatcher->addSniffListeners([new $sniffClass]);
 
         return $sniffDispatcher;
@@ -98,6 +98,6 @@ abstract class AbstractSniffTestCase extends TestCase
 
     private function createErrorDataCollector() : ErrorDataCollector
     {
-        return new ErrorDataCollector(new ErrorMessageSorter());
+        return new ErrorDataCollector(new ErrorMessageSorter);
     }
 }

@@ -81,7 +81,9 @@ final class PropertyWrapper
         $visibilityModifiedTokenPointer = TokenFinder::findPreviousEffective($this->file, $this->position - 1);
         $tokens = $this->file->getTokens();
 
-        $phpDocTokenCloseTagPointer = TokenFinder::findPreviousExcluding($this->file, [T_WHITESPACE], $visibilityModifiedTokenPointer - 1);
+        $phpDocTokenCloseTagPointer = TokenFinder::findPreviousExcluding(
+            $this->file, [T_WHITESPACE], $visibilityModifiedTokenPointer - 1
+        );
         $phpDocTokenCloseTag = $tokens[$phpDocTokenCloseTagPointer];
 
         // has no doc comment

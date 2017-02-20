@@ -152,10 +152,6 @@ final class ClassWrapper
         if ($lastPropertyPosition) {
             return TokenFinder::findNextLinePosition($this->file, $lastPropertyPosition);
         }
-
-        // T_VARIABLE
-
-        dump('not implemetned yet', self::class, __METHOD__);
     }
 
     private function createConstructMethod() : Method

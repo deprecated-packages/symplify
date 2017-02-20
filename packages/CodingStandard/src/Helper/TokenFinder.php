@@ -28,7 +28,9 @@ final class TokenFinder
      * @return int|false
      */
     public static function findPreviousEffective(
-        File $phpcsFile, int $startPointer, int $endPointer = null
+        File $phpcsFile,
+        int $startPointer,
+        int $endPointer = null
     ) {
         return self::findPreviousExcluding($phpcsFile, self::$ineffectiveTokenCodes, $startPointer, $endPointer);
     }
@@ -37,7 +39,10 @@ final class TokenFinder
      * @return int|false
      */
     public static function findPreviousExcluding(
-        File $phpcsFile, array $types, int $startPointer, int $endPointer = null
+        File $phpcsFile,
+        array $types,
+        int $startPointer,
+        int $endPointer = null
     ) {
         return $phpcsFile->findPrevious($types, $startPointer, $endPointer, true);
     }

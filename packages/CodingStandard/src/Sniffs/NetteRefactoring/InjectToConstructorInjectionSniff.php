@@ -119,11 +119,7 @@ final class InjectToConstructorInjectionSniff implements Sniff
 
         // 3. add dependency to constructor
         $constructMethod = $this->classWrapper->getMethod('__construct');
-        if ($constructMethod) {
-            // @todo!
-            // $constructMethod->addParameterWithSetter($type, $name);
-
-        } else {
+        if (! $constructMethod) {
             $type = $propertyWrapper->getType();
             $name = $propertyWrapper->getName();
             $this->classWrapper->addConstructorMethodWithProperty($type, $name);
@@ -146,18 +142,12 @@ final class InjectToConstructorInjectionSniff implements Sniff
 
         // 3. add parameters to constructor
         $constructMethod = $this->classWrapper->getMethod('__construct');
-        if ($constructMethod) {
-            // @todo!
-            // $constructMethod->addParameterWithSetter($type, $name);
-
-        } else {
+        if (! $constructMethod) {
             foreach ($injectedParameters as $injectedParameter) {
                 $type = $injectedParameter['type'];
                 $name = $injectedParameter['name'];
                 $this->classWrapper->addConstructorMethodWithProperty($type, $name);
             }
         }
-
-//        $this->classWrapper->addConstructorMethodWithProperty($type, $name);
     }
 }

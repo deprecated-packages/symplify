@@ -68,7 +68,7 @@ final class InBetweenMethodSpacingSniff extends FunctionSpacingSniff
                 $this->blankLinesBetweenMethods,
                 $blankLinesCountAfterFunction
             );
-            $fix = $file->addFixableError($error, $position,self::class);
+            $fix = $file->addFixableError($error, $position, self::class);
             if ($fix) {
                 $this->fixSpacingAfterMethod($blankLinesCountAfterFunction);
             }

@@ -100,9 +100,6 @@ php-code-sniffer:
     - Symplify\CodingStandard\Sniffs\Naming\InterfaceNameSniff
     - Symplify\CodingStandard\Sniffs\Naming\TraitNameSniff
 
-    # Symplify: Nette Refactoring
-    - Symplify\CodingStandard\Sniffs\NetteRefactoring\InjectToConstructorInjectionSniff
-
     # Symplify: WhiteSpace
     - Symplify\CodingStandard\Sniffs\WhiteSpace\InBetweenMethodSpacingSniff
     - Symplify\CodingStandard\Sniffs\WhiteSpace\PropertiesMethodsMutualSpacingSniff

@@ -46,7 +46,7 @@ final class SniffRunner
     {
         LegacyCompatibilityLayer::add();
 
-        $sniffDispatcher = new SniffDispatcher();
+        $sniffDispatcher = new SniffDispatcher;
         $sniffDispatcher->addSniffListeners([new $sniffClass]);
 
         return $sniffDispatcher;
@@ -54,20 +54,20 @@ final class SniffRunner
 
     private static function createErrorDataCollector() : ErrorDataCollector
     {
-        return new ErrorDataCollector(new ErrorMessageSorter());
+        return new ErrorDataCollector(new ErrorMessageSorter);
     }
 
     private static function createFileFromFilePath(
         string $filePath,
         ErrorDataCollector $errorDataCollector = null
     ) : File {
-        $fileToTokenParser = new FileToTokensParser();
+        $fileToTokenParser = new FileToTokensParser;
 
         $errorDataCollector = $errorDataCollector ?: self::createErrorDataCollector();
 
         $tokens = $fileToTokenParser->parseFromFilePath($filePath);
 
-        $fixer = new Fixer();
+        $fixer = new Fixer;
         $file = new File($filePath, $tokens, $fixer, $errorDataCollector, true);
         $file->fixer->startFile($file);
 

@@ -2,10 +2,12 @@
 
 namespace Zenify\DoctrineBehaviors\Entities\Attributes;
 
+use Knp\DoctrineBehaviors\Model\Translatable\Translatable;
+
 /**
  * @method Translatable proxyCurrentLocaleTranslation($method, $args = [])
  */
-trait Translatable
+trait TranslatableTrait
 {
     /**
      * @param string
