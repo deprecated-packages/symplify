@@ -6,8 +6,8 @@ use Nette\Utils\Finder;
 use Nette\Utils\Strings;
 use PHPUnit\Framework\TestCase;
 use SplFileInfo;
-use Symplify\EasyCodingStandard\Report\ErrorDataCollector;
-use Symplify\EasyCodingStandard\Report\ErrorMessageSorter;
+use Symplify\EasyCodingStandard\Report\ErrorCollector;
+use Symplify\EasyCodingStandard\Report\ErrorSorter;
 use Symplify\EasyCodingStandard\SniffRunner\EventDispatcher\SniffDispatcher;
 
 abstract class AbstractSniffTestCase extends TestCase
@@ -18,7 +18,7 @@ abstract class AbstractSniffTestCase extends TestCase
     private $sniffDispatcher;
 
     /**
-     * @var ErrorDataCollector
+     * @var ErrorCollector
      */
     private $errorDataCollector;
 
@@ -96,8 +96,8 @@ abstract class AbstractSniffTestCase extends TestCase
         return $sniffDispatcher;
     }
 
-    private function createErrorDataCollector() : ErrorDataCollector
+    private function createErrorDataCollector() : ErrorCollector
     {
-        return new ErrorDataCollector(new ErrorMessageSorter);
+        return new ErrorCollector(new ErrorSorter);
     }
 }

@@ -3,8 +3,8 @@
 namespace Symplify\CodingStandard\Tests\Sniffs;
 
 use SplFileInfo;
-use Symplify\EasyCodingStandard\Report\ErrorDataCollector;
-use Symplify\EasyCodingStandard\Report\ErrorMessageSorter;
+use Symplify\EasyCodingStandard\Report\ErrorCollector;
+use Symplify\EasyCodingStandard\Report\ErrorSorter;
 use Symplify\EasyCodingStandard\SniffRunner\EventDispatcher\Event\CheckFileTokenEvent;
 use Symplify\EasyCodingStandard\SniffRunner\EventDispatcher\SniffDispatcher;
 use Symplify\EasyCodingStandard\SniffRunner\File\File;
@@ -52,14 +52,14 @@ final class SniffRunner
         return $sniffDispatcher;
     }
 
-    private static function createErrorDataCollector() : ErrorDataCollector
+    private static function createErrorDataCollector() : ErrorCollector
     {
-        return new ErrorDataCollector(new ErrorMessageSorter);
+        return new ErrorCollector(new ErrorSorter);
     }
 
     private static function createFileFromFilePath(
         string $filePath,
-        ErrorDataCollector $errorDataCollector = null
+        ErrorCollector $errorDataCollector = null
     ) : File {
         $fileToTokenParser = new FileToTokensParser;
 

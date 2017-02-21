@@ -119,7 +119,8 @@ php-code-sniffer:
     - SlevomatCodingStandard\Sniffs\Namespaces\DisallowGroupUseSniff
     - SlevomatCodingStandard\Sniffs\Namespaces\MultipleUsesPerLineSniff
     - SlevomatCodingStandard\Sniffs\Namespaces\ReferenceUsedNamesOnlySniff
-    - SlevomatCodingStandard\Sniffs\Namespaces\UnusedUsesSniff
+    SlevomatCodingStandard\Sniffs\Namespaces\UnusedUsesSniff:
+        searchAnnotations: true
     - SlevomatCodingStandard\Sniffs\Namespaces\UseDoesNotStartWithBackslashSniff
     - SlevomatCodingStandard\Sniffs\Namespaces\UseFromSameNamespaceSniff
 
