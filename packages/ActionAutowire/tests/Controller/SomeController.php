@@ -6,7 +6,7 @@ use Symplify\ActionAutowire\Tests\CompleteSource\SomeService;
 
 final class SomeController
 {
-    public function someServiceAwareAction(SomeService $someService)
+    public function someServiceAwareAction(SomeService $someService): void
     {
     }
 }

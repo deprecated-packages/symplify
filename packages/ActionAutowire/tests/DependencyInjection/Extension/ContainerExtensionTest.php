@@ -10,7 +10,7 @@ use Symplify\ActionAutowire\DependencyInjection\ServiceLocator;
 
 final class ContainerExtensionTest extends TestCase
 {
-    public function testLoad()
+    public function testLoad(): void
     {
         $containerExtension = new ContainerExtension;
 

@@ -9,12 +9,12 @@ use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 
 final class ContainerExtension extends Extension
 {
-    public function getAlias() : string
+    public function getAlias(): string
     {
         return 'symplify_action_autowire';
     }
 
-    public function load(array $config, ContainerBuilder $containerBuilder) : void
+    public function load(array $config, ContainerBuilder $containerBuilder): void
     {
         $loader = new YamlFileLoader($containerBuilder, new FileLocator(__DIR__ . '/../../Resources/config'));
         $loader->load('services.yml');

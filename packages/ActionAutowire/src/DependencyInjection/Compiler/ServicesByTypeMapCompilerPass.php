@@ -19,7 +19,7 @@ final class ServicesByTypeMapCompilerPass implements CompilerPassInterface
         $this->serviceMap = $servicesByTypeMap;
     }
 
-    public function process(ContainerBuilder $containerBuilder) : void
+    public function process(ContainerBuilder $containerBuilder): void
     {
         $parameterBag = $containerBuilder->getParameterBag();
         foreach ($containerBuilder->getDefinitions() as $serviceId => $definition) {
@@ -34,7 +34,7 @@ final class ServicesByTypeMapCompilerPass implements CompilerPassInterface
         }
     }
 
-    private function isValidServiceDefinition(Definition $definition) : bool
+    private function isValidServiceDefinition(Definition $definition): bool
     {
         if ($definition->isAbstract()) {
             return false;

@@ -20,12 +20,12 @@ final class ServiceActionValueResolver implements ArgumentValueResolverInterface
         $this->serviceLocator = $serviceLocator;
     }
 
-    public function supports(Request $request, ArgumentMetadata $argument) : bool
+    public function supports(Request $request, ArgumentMetadata $argument): bool
     {
         return $this->serviceLocator->hasByType($argument->getType());
     }
 
-    public function resolve(Request $request, ArgumentMetadata $argument) : Generator
+    public function resolve(Request $request, ArgumentMetadata $argument): Generator
     {
         yield $this->serviceLocator->getByType($argument->getType());
     }

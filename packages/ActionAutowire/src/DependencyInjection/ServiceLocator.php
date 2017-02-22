@@ -21,7 +21,7 @@ final class ServiceLocator
         $this->container = $container;
     }
 
-    public function setServiceByTypeMap(array $serviceByTypeMap) : void
+    public function setServiceByTypeMap(array $serviceByTypeMap): void
     {
         $this->serviceByTypeMap = $serviceByTypeMap;
     }
@@ -41,7 +41,7 @@ final class ServiceLocator
         return $this->container->get($serviceId);
     }
 
-    public function hasByType(string $type) : bool
+    public function hasByType(string $type): bool
     {
         return isset($this->serviceByTypeMap[$type]);
     }

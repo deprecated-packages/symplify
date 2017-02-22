@@ -21,7 +21,7 @@ final class CompleteTest extends TestCase
      */
     private $controllerResolver;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $kernel = new AppKernel;
         $kernel->boot();
@@ -33,14 +33,14 @@ final class CompleteTest extends TestCase
             ->get('debug.controller_resolver');
     }
 
-    public function testServiceLocator()
+    public function testServiceLocator(): void
     {
         $this->assertInstanceOf(SomeService::class, $this->serviceLocator->getByType(SomeService::class));
 
         $this->assertFalse((bool) $this->serviceLocator->getByType('missing'));
     }
 
-    public function testGetAutowiredControllerAction()
+    public function testGetAutowiredControllerAction(): void
     {
         $request = new Request;
         $request->attributes->set('_controller', SomeController::class . '::someServiceAwareAction');

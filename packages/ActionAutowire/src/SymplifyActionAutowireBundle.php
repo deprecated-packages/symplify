@@ -11,12 +11,12 @@ use Symplify\ActionAutowire\DependencyInjection\Extension\ContainerExtension;
 
 final class SymplifyActionAutowireBundle extends Bundle
 {
-    public function getContainerExtension() : ContainerExtension
+    public function getContainerExtension(): ContainerExtension
     {
         return new ContainerExtension;
     }
 
-    public function build(ContainerBuilder $containerBuilder) : void
+    public function build(ContainerBuilder $containerBuilder): void
     {
         $serviceByTypeMap = new ServicesByTypeMap;
         $containerBuilder->addCompilerPass(new ServicesByTypeMapCompilerPass($serviceByTypeMap));
