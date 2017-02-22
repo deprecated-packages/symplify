@@ -29,7 +29,7 @@ final class EnableFiltersSubscriberTest extends TestCase
         $this->assertCount(2, $filters->getEnabledFilters());
     }
 
-    private function createApplicationPresenterEvent() : PresenterCreatedEvent
+    private function createApplicationPresenterEvent(): PresenterCreatedEvent
     {
         $applicationMock = $this->prophesize(Application::class);
         $presenterMock = $this->prophesize(IPresenter::class);

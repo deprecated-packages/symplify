@@ -38,7 +38,7 @@ final class FilterManagerTest extends TestCase
         $this->assertCount(2, $this->filterCollection->getEnabledFilters());
     }
 
-    private function createFilterManager() : FilterManagerInterface
+    private function createFilterManager(): FilterManagerInterface
     {
         $entityManagerMock = $this->prophesize(EntityManagerInterface::class);
         $this->filterCollection = new FilterCollection($entityManagerMock->reveal());

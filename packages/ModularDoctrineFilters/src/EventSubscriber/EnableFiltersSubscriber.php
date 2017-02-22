@@ -22,7 +22,7 @@ final class EnableFiltersSubscriber implements EventSubscriberInterface
     /**
      * @return string[]
      */
-    public static function getSubscribedEvents() : array
+    public static function getSubscribedEvents(): array
     {
         return [
             'console.command' => 'enableFilters',
@@ -31,7 +31,7 @@ final class EnableFiltersSubscriber implements EventSubscriberInterface
         ];
     }
 
-    public function enableFilters() : void
+    public function enableFilters(): void
     {
         $this->filterManager->enableFilters();
     }

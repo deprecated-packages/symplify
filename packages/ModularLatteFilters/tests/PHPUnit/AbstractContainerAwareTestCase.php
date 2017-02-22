@@ -2,7 +2,6 @@
 
 namespace Zenify\ModularLatteFilters\Tests\PHPUnit;
 
-use Nette\Database\Context;
 use Nette\DI\Container;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;

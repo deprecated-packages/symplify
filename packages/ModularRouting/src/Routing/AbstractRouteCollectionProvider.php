@@ -19,7 +19,7 @@ abstract class AbstractRouteCollectionProvider implements RouteCollectionProvide
         $this->loaderResolver = $loaderResolver;
     }
 
-    protected function loadRouteCollectionFromFile(string $path) : RouteCollection
+    protected function loadRouteCollectionFromFile(string $path): RouteCollection
     {
         if (! file_exists($path)) {
             throw new FileNotFoundException(
@@ -38,7 +38,7 @@ abstract class AbstractRouteCollectionProvider implements RouteCollectionProvide
     /**
      * @param string[] $paths
      */
-    protected function loadRouteCollectionFromFiles(array $paths) : RouteCollection
+    protected function loadRouteCollectionFromFiles(array $paths): RouteCollection
     {
         $routeCollection = new RouteCollection;
 

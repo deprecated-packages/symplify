@@ -23,7 +23,7 @@ final class MethodCommentSniff implements Sniff
      * @param File $file
      * @param int $position
      */
-    public function process(File $file, int $position): void
+    public function process(File $file, $position): void
     {
         if ($this->hasMethodDocblock($file, $position)) {
             return;

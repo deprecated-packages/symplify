@@ -6,5 +6,5 @@ use Doctrine\ORM\Mapping\ClassMetadata;
 
 interface FilterInterface
 {
-    public function addFilterConstraint(ClassMetadata $targetEntity, string $targetTableAlias) : string;
+    public function addFilterConstraint(ClassMetadata $targetEntity, string $targetTableAlias): string;
 }

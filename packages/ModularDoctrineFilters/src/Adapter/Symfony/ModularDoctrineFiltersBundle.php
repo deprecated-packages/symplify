@@ -9,12 +9,12 @@ use Symplify\ModularDoctrineFilters\Adapter\Symfony\DependencyInjection\Extensio
 
 final class ModularDoctrineFiltersBundle extends Bundle
 {
-    public function getContainerExtension() : ModularDoctrineFiltersExtension
+    public function getContainerExtension(): ModularDoctrineFiltersExtension
     {
         return new ModularDoctrineFiltersExtension;
     }
 
-    public function build(ContainerBuilder $containerBuilder) : void
+    public function build(ContainerBuilder $containerBuilder): void
     {
         $containerBuilder->addCompilerPass(new LoadFiltersCompilerPass);
     }

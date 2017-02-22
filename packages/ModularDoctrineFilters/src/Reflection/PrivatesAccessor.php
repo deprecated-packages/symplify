@@ -11,7 +11,7 @@ final class PrivatesAccessor
      * @param $object
      * @param string $propertyName
      */
-    public static function accessClassProperty($object, string $propertyName) : ReflectionProperty
+    public static function accessClassProperty($object, string $propertyName): ReflectionProperty
     {
         $reflectionProperty = (new ReflectionClass($object))->getProperty($propertyName);
         $reflectionProperty->setAccessible(true);

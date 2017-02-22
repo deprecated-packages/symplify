@@ -30,7 +30,7 @@ final class ClassNamesWithoutPreSlashSniff implements Sniff
      * @param File $file
      * @param int $position
      */
-    public function process(File $file, int $position): void
+    public function process(File $file, $position): void
     {
         $tokens = $file->getTokens();
         $classNameStart = $tokens[$position + 2]['content'];

@@ -9,7 +9,7 @@ use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 
 final class ModularDoctrineFiltersExtension extends Extension
 {
-    public function load(array $configs, ContainerBuilder $containerBuilder) : void
+    public function load(array $configs, ContainerBuilder $containerBuilder): void
     {
         (new YamlFileLoader($containerBuilder, new FileLocator(__DIR__ . '/../../../../config')))
             ->load('services.neon');

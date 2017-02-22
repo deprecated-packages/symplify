@@ -39,7 +39,7 @@ final class ModularDoctrineFiltersServiceProvider extends ServiceProvider
         }
     }
 
-    private function isDefinitionOfType(array $definition, string $classOrInterfaceType) : bool
+    private function isDefinitionOfType(array $definition, string $classOrInterfaceType): bool
     {
         $closureReflection = new ReflectionFunction($definition['concrete']);
 
@@ -65,13 +65,13 @@ final class ModularDoctrineFiltersServiceProvider extends ServiceProvider
         return false;
     }
 
-    private function isLaravelSystem(ReflectionFunction $closureReflection) : bool
+    private function isLaravelSystem(ReflectionFunction $closureReflection): bool
     {
         return Str::startsWith($closureReflection->name, 'Illuminate') &&
             Str::startsWith($closureReflection->name, 'Illuminate\\Container') === false;
     }
 
-    private function hasVariableOfNameAndType(array $staticVariables, string $name, string $classOrInterfaceType) : bool
+    private function hasVariableOfNameAndType(array $staticVariables, string $name, string $classOrInterfaceType): bool
     {
         if (! isset($staticVariables[$name])) {
             return false;

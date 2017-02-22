@@ -16,7 +16,7 @@ final class AppKernel extends Kernel
         parent::__construct('symplify_modular_routing' . mt_rand(1, 100), true);
     }
 
-    public function registerBundles() : array
+    public function registerBundles(): array
     {
         return [
             new FrameworkBundle,

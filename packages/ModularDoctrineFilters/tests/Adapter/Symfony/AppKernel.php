@@ -8,12 +8,11 @@ use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\HttpKernel\Kernel;
 use Symplify\ModularDoctrineFilters\Adapter\Symfony\ModularDoctrineFiltersBundle;
-use Symplify\Statie\Renderable\File\File;
 use Symplify\SymfonyEventDispatcher\Adapter\Symfony\SymfonyEventDispatcherBundle;
 
 final class AppKernel extends Kernel
 {
-    public function registerBundles() : array
+    public function registerBundles(): array
     {
         return [
             new FrameworkBundle,
@@ -28,7 +27,7 @@ final class AppKernel extends Kernel
         $loader->load(__DIR__ . '/Resources/config/config.yml');
     }
 
-    public function getCacheDir() : string
+    public function getCacheDir(): string
     {
         $cacheDir = sys_get_temp_dir() . '/modular-doctrine-filters';
         FileSystem::delete($cacheDir);
@@ -36,7 +35,7 @@ final class AppKernel extends Kernel
         return $cacheDir;
     }
 
-    public function getLogDir() : string
+    public function getLogDir(): string
     {
         return $this->getCacheDir();
     }

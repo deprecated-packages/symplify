@@ -6,7 +6,6 @@ use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Kernel;
-use Symplify\ModularDoctrineFilters\Tests\Adapter\Symfony\AppKernel;
 use Symplify\ModularDoctrineFilters\Tests\Adapter\Symfony\Controller\SomeController;
 
 final class CompleteTest extends TestCase

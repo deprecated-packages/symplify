@@ -26,13 +26,13 @@ final class LoadFiltersCompilerPass implements CompilerPassInterface
      */
     private $containerBuilder;
 
-    public function process(ContainerBuilder $containerBuilder) : void
+    public function process(ContainerBuilder $containerBuilder): void
     {
         $this->containerBuilder = $containerBuilder;
         $this->addFiltersToOrmConfiguration();
     }
 
-    private function addFiltersToOrmConfiguration() : void
+    private function addFiltersToOrmConfiguration(): void
     {
         $defaultOrmConfiguration = $this->containerBuilder->getDefinition(self::NAME_CONFIGURATION);
         $filterManager = $this->containerBuilder->getDefinition('symplify.filter_manager');
@@ -55,7 +55,7 @@ final class LoadFiltersCompilerPass implements CompilerPassInterface
     /**
      * Prevents circular reference.
      */
-    private function passFilterManagerToListener() : void
+    private function passFilterManagerToListener(): void
     {
         $this->containerBuilder->getDefinition('symplify.enable_filters_subscriber')
             ->addMethodCall('setFilterManager', [new Reference('symplify.filter_manager')]);
@@ -64,7 +64,7 @@ final class LoadFiltersCompilerPass implements CompilerPassInterface
     /**
      * @return Definition[]
      */
-    private function getFiltersDefinitions() : array
+    private function getFiltersDefinitions(): array
     {
         return DefinitionFinder::findAllByType($this->containerBuilder, FilterInterface::class);
     }

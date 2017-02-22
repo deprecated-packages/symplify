@@ -7,7 +7,7 @@ use Symplify\ModularRouting\Routing\AbstractRouteCollectionProvider;
 
 final class FilesRouteCollectionProvider extends AbstractRouteCollectionProvider
 {
-    public function getRouteCollection() : RouteCollection
+    public function getRouteCollection(): RouteCollection
     {
         return $this->loadRouteCollectionFromFiles([
             __DIR__ . '/routes.xml',

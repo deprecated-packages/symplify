@@ -35,12 +35,12 @@ final class FilterManager implements FilterManagerInterface
         $this->entityManager = $entityManager;
     }
 
-    public function addFilter(string $name, FilterInterface $filter) : void
+    public function addFilter(string $name, FilterInterface $filter): void
     {
         $this->filters[$name] = $filter;
     }
 
-    public function enableFilters() : void
+    public function enableFilters(): void
     {
         if ($this->areFiltersEnabled) {
             return;
@@ -53,7 +53,7 @@ final class FilterManager implements FilterManagerInterface
         $this->areFiltersEnabled = true;
     }
 
-    private function addFilterToEnabledInFilterCollection(string $name, FilterInterface $filter) : void
+    private function addFilterToEnabledInFilterCollection(string $name, FilterInterface $filter): void
     {
         $enabledFiltersReflection = $this->getEnabledFiltersPropertyReflectionWithAccess();
         $filterCollection = $this->entityManager->getFilters();
@@ -64,7 +64,7 @@ final class FilterManager implements FilterManagerInterface
         $enabledFiltersReflection->setValue($filterCollection, $enabledFilters);
     }
 
-    private function getEnabledFiltersPropertyReflectionWithAccess() : ReflectionProperty
+    private function getEnabledFiltersPropertyReflectionWithAccess(): ReflectionProperty
     {
         if ($this->enabledFiltersPropertyReflection) {
             return $this->enabledFiltersPropertyReflection;
