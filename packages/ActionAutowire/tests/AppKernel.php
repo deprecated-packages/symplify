@@ -4,6 +4,7 @@ namespace Symplify\ActionAutowire\Tests;
 
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
 use Symfony\Component\Config\Loader\LoaderInterface;
+use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 use Symfony\Component\HttpKernel\Kernel;
 use Symplify\ActionAutowire\SymplifyActionAutowireBundle;
 
@@ -14,7 +15,10 @@ final class AppKernel extends Kernel
         parent::__construct('symplify_action_autowire' . mt_rand(1, 100), true);
     }
 
-    public function registerBundles()
+    /**
+     * @return BundleInterface[]
+     */
+    public function registerBundles(): array
     {
         return [
             new FrameworkBundle,

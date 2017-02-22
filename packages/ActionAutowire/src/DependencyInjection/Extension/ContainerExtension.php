@@ -14,6 +14,10 @@ final class ContainerExtension extends Extension
         return 'symplify_action_autowire';
     }
 
+    /**
+     * @param array[] $config
+     * @param ContainerBuilder $containerBuilder
+     */
     public function load(array $config, ContainerBuilder $containerBuilder): void
     {
         $loader = new YamlFileLoader($containerBuilder, new FileLocator(__DIR__ . '/../../Resources/config'));

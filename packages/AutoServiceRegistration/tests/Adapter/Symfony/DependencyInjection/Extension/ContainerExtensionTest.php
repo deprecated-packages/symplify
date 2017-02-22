@@ -8,7 +8,7 @@ use Symplify\AutoServiceRegistration\Adapter\Symfony\SymplifyAutoServiceRegistra
 
 final class ContainerExtensionTest extends TestCase
 {
-    public function test()
+    public function test(): void
     {
         $containerExtension = new ContainerExtension;
         $this->assertSame(SymplifyAutoServiceRegistrationBundle::ALIAS, $containerExtension->getAlias());

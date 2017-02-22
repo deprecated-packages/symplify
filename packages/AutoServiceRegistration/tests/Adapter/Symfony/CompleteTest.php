@@ -14,7 +14,7 @@ final class CompleteTest extends TestCase
      */
     private $container;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $kernel = new AppKernel;
         $kernel->boot();
@@ -22,7 +22,7 @@ final class CompleteTest extends TestCase
         $this->container = $kernel->getContainer();
     }
 
-    public function testGetController()
+    public function testGetController(): void
     {
         $serviceId = ServiceNaming::createServiceIdFromClass(AnotherController::class);
         // dump($serviceId);

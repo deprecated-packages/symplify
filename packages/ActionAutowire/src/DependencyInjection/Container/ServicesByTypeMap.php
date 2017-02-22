@@ -32,6 +32,9 @@ final class ServicesByTypeMap
         } while ($reflectionClass = $reflectionClass->getParentClass());
     }
 
+    /**
+     * @return string[][]
+     */
     public function getMap(): array
     {
         return $this->classes;

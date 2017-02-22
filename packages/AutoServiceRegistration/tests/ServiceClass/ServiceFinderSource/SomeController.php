@@ -14,7 +14,7 @@ class SomeController
         $this->someRepository = $someRepository;
     }
 
-    public function getSomeRepository() : SomeRepository
+    public function getSomeRepository(): SomeRepository
     {
         return $this->someRepository;
     }

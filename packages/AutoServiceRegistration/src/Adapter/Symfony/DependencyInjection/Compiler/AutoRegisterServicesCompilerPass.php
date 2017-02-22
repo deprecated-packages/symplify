@@ -26,7 +26,7 @@ final class AutoRegisterServicesCompilerPass implements CompilerPassInterface
         $this->serviceFinder = $serviceFinder;
     }
 
-    public function process(ContainerBuilder $containerBuilder) : void
+    public function process(ContainerBuilder $containerBuilder): void
     {
         $this->containerBuilder = $containerBuilder;
 
@@ -43,7 +43,7 @@ final class AutoRegisterServicesCompilerPass implements CompilerPassInterface
     /**
      * @param string[] $serviceClasses
      */
-    private function registerServicesToContainerBuilder(array $serviceClasses) : void
+    private function registerServicesToContainerBuilder(array $serviceClasses): void
     {
         foreach ($serviceClasses as $serviceClass) {
             $id = ServiceNaming::createServiceIdFromClass($serviceClass);
@@ -56,7 +56,7 @@ final class AutoRegisterServicesCompilerPass implements CompilerPassInterface
         }
     }
 
-    private function buildControllerDefinitionFromClass(string $class) : Definition
+    private function buildControllerDefinitionFromClass(string $class): Definition
     {
         $definition = new Definition($class);
         $definition->setAutowired(true);
