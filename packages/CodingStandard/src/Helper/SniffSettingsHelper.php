@@ -7,7 +7,7 @@ namespace Symplify\CodingStandard\Helper;
  */
 final class SniffSettingsHelper
 {
-    public static function normalizeArray(array $settings) : array
+    public static function normalizeArray(array $settings): array
     {
         $settings = array_map(function ($value) {
             return trim($value);
@@ -18,7 +18,7 @@ final class SniffSettingsHelper
         return array_values($settings);
     }
 
-    public static function normalizeAssociativeArray(array $settings) : array
+    public static function normalizeAssociativeArray(array $settings): array
     {
         $normalizedSettings = [];
         foreach ($settings as $key => $value) {

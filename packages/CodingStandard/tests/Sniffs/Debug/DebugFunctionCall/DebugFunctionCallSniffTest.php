@@ -7,7 +7,7 @@ use Symplify\CodingStandard\Tests\Sniffs\AbstractSniffTestCase;
 
 final class DebugFunctionCallSniffTest extends AbstractSniffTestCase
 {
-    public function test()
+    public function test(): void
     {
         $this->runSniffTestForDirectory(DebugFunctionCallSniff::class, __DIR__);
     }

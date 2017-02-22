@@ -69,12 +69,12 @@ final class MethodWrapper
         return new self($file, $position);
     }
 
-    public function getPosition() : int
+    public function getPosition(): int
     {
         return $this->position;
     }
 
-    public function hasNamePrefix(string $prefix) : bool
+    public function hasNamePrefix(string $prefix): bool
     {
         return Strings::startsWith($prefix, $this->methodName);
     }
@@ -82,7 +82,7 @@ final class MethodWrapper
     /**
      * @return ParameterWrapper[]
      */
-    public function getParameters() : array
+    public function getParameters(): array
     {
         if ($this->parameters) {
             return $this->parameters;
@@ -100,7 +100,7 @@ final class MethodWrapper
         return $this->parameters = $parameters;
     }
 
-    public function remove()
+    public function remove(): void
     {
         for ($i = $this->startPosition - 2; $i <= $this->endPosition + 1; $i++) {
             $this->file->fixer->replaceToken($i, '');

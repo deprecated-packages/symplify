@@ -46,14 +46,14 @@ final class DocBlockWrapper
         return new self($file, $startPosition, $endPosition);
     }
 
-    public function hasAnnotation(string $annotation) : bool
+    public function hasAnnotation(string $annotation): bool
     {
         $docBlockContent = ContentFinder::getContentBetween($this->file, $this->startPosition, $this->endPosition);
 
         return Strings::contains($docBlockContent, $annotation);
     }
 
-    public function removeAnnotation(string $annotation)
+    public function removeAnnotation(string $annotation): void
     {
         $docBlockTokens = ContentFinder::getTokensBetween($this->file, $this->startPosition, $this->endPosition);
 
@@ -71,13 +71,13 @@ final class DocBlockWrapper
         }
     }
 
-    public function isSingleLine() : bool
+    public function isSingleLine(): bool
     {
         $tokens = $this->file->getTokens();
         return $tokens[$this->startPosition]['line'] === $tokens[$this->endPosition]['line'];
     }
 
-    public function changeToMultiLine() : void
+    public function changeToMultiLine(): void
     {
         if (! $this->isSingleLine()) {
             return;
@@ -119,7 +119,7 @@ final class DocBlockWrapper
         return false;
     }
 
-    private function getIndentationSign() : string
+    private function getIndentationSign(): string
     {
         if ($this->indentationType === 'tabs') {
             return "\t";

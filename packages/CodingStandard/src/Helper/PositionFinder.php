@@ -6,7 +6,7 @@ use PHP_CodeSniffer\Files\File;
 
 final class PositionFinder
 {
-    public static function findFirstPositionInCurrentLine(File $file, int $position) : int
+    public static function findFirstPositionInCurrentLine(File $file, int $position): int
     {
         $currentPosition = $position;
 
@@ -18,7 +18,7 @@ final class PositionFinder
         return $currentPosition;
     }
 
-    public static function findLastPositionInCurrentLine(File $file, int $position) : int
+    public static function findLastPositionInCurrentLine(File $file, int $position): int
     {
         $currentPosition = $position;
 

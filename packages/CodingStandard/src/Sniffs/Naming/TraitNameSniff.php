@@ -24,7 +24,7 @@ final class TraitNameSniff implements Sniff
     /**
      * @return int[]
      */
-    public function register() : array
+    public function register(): array
     {
         return [T_TRAIT];
     }
@@ -33,7 +33,7 @@ final class TraitNameSniff implements Sniff
      * @param File $file
      * @param int $position
      */
-    public function process(File $file, $position) : void
+    public function process(File $file, int $position): void
     {
         $this->file = $file;
         $this->position = $position;
@@ -75,7 +75,7 @@ final class TraitNameSniff implements Sniff
         return $this->file->findNext(T_STRING, $this->position);
     }
 
-    private function fix() : void
+    private function fix(): void
     {
         $this->file->fixer->addContent($this->getTraitNamePosition(), 'Trait');
     }

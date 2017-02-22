@@ -46,7 +46,7 @@ final class NamespaceDeclarationSniff implements Sniff
     /**
      * @return int[]
      */
-    public function register() : array
+    public function register(): array
     {
         return [T_NAMESPACE];
     }
@@ -55,7 +55,7 @@ final class NamespaceDeclarationSniff implements Sniff
      * @param File $file
      * @param int $position
      */
-    public function process(File $file, $position) : void
+    public function process(File $file, int $position): void
     {
         $classPosition = $file->findNext([T_CLASS, T_TRAIT, T_INTERFACE], $position);
 
@@ -85,7 +85,7 @@ final class NamespaceDeclarationSniff implements Sniff
         }
     }
 
-    private function processWithoutUseStatement(int $linesToNextClass) : void
+    private function processWithoutUseStatement(int $linesToNextClass): void
     {
         if ($linesToNextClass !== $this->emptyLinesAfterNamespace) {
             $errorMessage = sprintf(
@@ -101,7 +101,7 @@ final class NamespaceDeclarationSniff implements Sniff
         }
     }
 
-    private function processWithUseStatement(int $linesToNextUse) : void
+    private function processWithUseStatement(int $linesToNextUse): void
     {
         if ($linesToNextUse !== $this->emptyLinesBeforeUseStatement) {
             $errorMessage = sprintf(
@@ -134,7 +134,7 @@ final class NamespaceDeclarationSniff implements Sniff
         }
     }
 
-    private function fixSpacesFromNamespaceToUseStatements(int $position, int $linesToNextUse) : void
+    private function fixSpacesFromNamespaceToUseStatements(int $position, int $linesToNextUse): void
     {
         $nextLinePosition = WhitespaceFinder::findNextEmptyLinePosition($this->file, $position);
         if ($linesToNextUse === 0) {
@@ -153,7 +153,7 @@ final class NamespaceDeclarationSniff implements Sniff
         }
     }
 
-    private function fixSpacesFromNamespaceToClass(int $position, int $linesToClass) : void
+    private function fixSpacesFromNamespaceToClass(int $position, int $linesToClass): void
     {
         $nextLinePosition = WhitespaceFinder::findNextEmptyLinePosition($this->file, $position);
         if ($linesToClass === 0) {
@@ -171,7 +171,7 @@ final class NamespaceDeclarationSniff implements Sniff
         }
     }
 
-    private function fixSpacesFromUseStatementToClass(int $position, int $linesToClass) : void
+    private function fixSpacesFromUseStatementToClass(int $position, int $linesToClass): void
     {
         if ($linesToClass < $this->emptyLinesAfterNamespace) {
             $nextLinePosition = WhitespaceFinder::findNextEmptyLinePosition($this->file, $position);

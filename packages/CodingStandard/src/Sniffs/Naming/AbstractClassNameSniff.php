@@ -24,7 +24,7 @@ final class AbstractClassNameSniff implements Sniff
     /**
      * @return int[]
      */
-    public function register() : array
+    public function register(): array
     {
         return [T_CLASS];
     }
@@ -33,7 +33,7 @@ final class AbstractClassNameSniff implements Sniff
      * @param File $file
      * @param int $position
      */
-    public function process(File $file, $position) : void
+    public function process(File $file, int $position): void
     {
         $this->file = $file;
         $this->position = $position;
@@ -57,7 +57,7 @@ final class AbstractClassNameSniff implements Sniff
         }
     }
 
-    private function isClassAbstract() : bool
+    private function isClassAbstract(): bool
     {
         $classProperties = $this->file->getClassProperties($this->position);
 
@@ -77,7 +77,7 @@ final class AbstractClassNameSniff implements Sniff
         return $this->file->getTokens()[$namePosition]['content'];
     }
 
-    private function fix() : void
+    private function fix(): void
     {
         $this->file->fixer->addContent($this->position + 1, 'Abstract');
     }

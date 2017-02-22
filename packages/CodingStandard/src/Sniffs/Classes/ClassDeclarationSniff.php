@@ -55,7 +55,7 @@ final class ClassDeclarationSniff implements Sniff
      * @param File $file
      * @param int $position
      */
-    public function process(File $file, $position) : void
+    public function process(File $file, int $position): void
     {
         $this->file = $file;
         $this->position = $position;
@@ -70,7 +70,7 @@ final class ClassDeclarationSniff implements Sniff
         $this->processClose();
     }
 
-    private function processOpen() : void
+    private function processOpen(): void
     {
         $openingBracePosition = $this->tokens[$this->position]['scope_opener'];
         $emptyLinesCount = $this->getEmptyLinesAfterOpeningBrace($openingBracePosition);
@@ -90,7 +90,7 @@ final class ClassDeclarationSniff implements Sniff
         }
     }
 
-    private function processClose() : void
+    private function processClose(): void
     {
         $closingBracePosition = $this->tokens[$this->position]['scope_closer'];
         $emptyLinesCount = $this->getEmptyLinesBeforeClosingBrace($closingBracePosition);
@@ -110,19 +110,19 @@ final class ClassDeclarationSniff implements Sniff
         }
     }
 
-    private function getEmptyLinesBeforeClosingBrace(int $position) : int
+    private function getEmptyLinesBeforeClosingBrace(int $position): int
     {
         $prevContent = $this->file->findPrevious(T_WHITESPACE, ($position - 1), null, true);
         return $this->tokens[$position]['line'] - $this->tokens[$prevContent]['line'] - 1;
     }
 
-    private function getEmptyLinesAfterOpeningBrace(int $position) : int
+    private function getEmptyLinesAfterOpeningBrace(int $position): int
     {
         $nextContent = $this->file->findNext(T_WHITESPACE, ($position + 1), null, true);
         return $this->tokens[$nextContent]['line'] - $this->tokens[$position]['line'] - 1;
     }
 
-    private function fixOpeningBraceSpaces(int $position, int $numberOfSpaces) : void
+    private function fixOpeningBraceSpaces(int $position, int $numberOfSpaces): void
     {
         if ($numberOfSpaces < $this->emptyLinesAfterOpeningBrace) {
             for ($i = $numberOfSpaces; $i < $this->emptyLinesAfterOpeningBrace; $i++) {
@@ -135,7 +135,7 @@ final class ClassDeclarationSniff implements Sniff
         }
     }
 
-    private function fixClosingBraceSpaces(int $position, int $numberOfSpaces) : void
+    private function fixClosingBraceSpaces(int $position, int $numberOfSpaces): void
     {
         if ($numberOfSpaces < $this->emptyLinesBeforeClosingBrace) {
             for ($i = $numberOfSpaces; $i < $this->emptyLinesBeforeClosingBrace; $i++) {

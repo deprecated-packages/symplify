@@ -21,7 +21,7 @@ final class ClassNamesWithoutPreSlashSniff implements Sniff
     /**
      * @return int[]
      */
-    public function register() : array
+    public function register(): array
     {
         return [T_NEW, T_INSTANCEOF];
     }
@@ -30,7 +30,7 @@ final class ClassNamesWithoutPreSlashSniff implements Sniff
      * @param File $file
      * @param int $position
      */
-    public function process(File $file, $position) : void
+    public function process(File $file, int $position): void
     {
         $tokens = $file->getTokens();
         $classNameStart = $tokens[$position + 2]['content'];
@@ -47,7 +47,7 @@ final class ClassNamesWithoutPreSlashSniff implements Sniff
         }
     }
 
-    private function isExcludedClassName(string $className) : bool
+    private function isExcludedClassName(string $className): bool
     {
         if (in_array($className, $this->excludedClassNames)) {
             return true;

@@ -22,7 +22,7 @@ abstract class AbstractSniffTestCase extends TestCase
      */
     private $errorCollector;
 
-    protected function runSniffTestForDirectory(string $sniffClass, string $directory) : void
+    protected function runSniffTestForDirectory(string $sniffClass, string $directory): void
     {
         $this->sniffDispatcher = $this->createSniffDispatcherWithSniff($sniffClass);
 
@@ -38,7 +38,7 @@ abstract class AbstractSniffTestCase extends TestCase
         }
     }
 
-    private function runSniffTestForCorrectFile(string $sniffClass, SplFileInfo $fileInfo) : void
+    private function runSniffTestForCorrectFile(string $sniffClass, SplFileInfo $fileInfo): void
     {
         $errorCount = SniffRunner::getErrorCountForSniffInFile($sniffClass, $fileInfo);
         $this->assertSame(0, $errorCount, sprintf(
@@ -48,7 +48,7 @@ abstract class AbstractSniffTestCase extends TestCase
         ));
     }
 
-    private function runSniffTestForWrongFile(string $sniffClass, SplFileInfo $fileInfo) : void
+    private function runSniffTestForWrongFile(string $sniffClass, SplFileInfo $fileInfo): void
     {
         $errorCount = SniffRunner::getErrorCountForSniffInFile($sniffClass, $fileInfo);
         $this->assertSame(1, $errorCount, sprintf(
@@ -73,7 +73,7 @@ abstract class AbstractSniffTestCase extends TestCase
     /**
      * @return SplFileInfo[]
      */
-    private function findFilesInDirectory(string $directory) : array
+    private function findFilesInDirectory(string $directory): array
     {
         $iterator = Finder::findFiles('*.php.inc')
             ->exclude('*-fixed*')
@@ -83,12 +83,12 @@ abstract class AbstractSniffTestCase extends TestCase
         return iterator_to_array($iterator);
     }
 
-    private function getFixedFileName(SplFileInfo $fileInfo) : string
+    private function getFixedFileName(SplFileInfo $fileInfo): string
     {
         return dirname($fileInfo->getPathname()) . '/' . $fileInfo->getBasename('.php.inc') . '-fixed.php.inc';
     }
 
-    private function createSniffDispatcherWithSniff(string $sniffClass) : SniffDispatcher
+    private function createSniffDispatcherWithSniff(string $sniffClass): SniffDispatcher
     {
         $sniffDispatcher = new SniffDispatcher;
         $sniffDispatcher->addSniffListeners([new $sniffClass]);
@@ -96,7 +96,7 @@ abstract class AbstractSniffTestCase extends TestCase
         return $sniffDispatcher;
     }
 
-    private function createErrorCollector() : ErrorCollector
+    private function createErrorCollector(): ErrorCollector
     {
         return new ErrorCollector(new ErrorSorter);
     }

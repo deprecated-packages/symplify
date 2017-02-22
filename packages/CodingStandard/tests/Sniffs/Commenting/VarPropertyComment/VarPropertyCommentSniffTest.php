@@ -7,7 +7,7 @@ use Symplify\CodingStandard\Tests\Sniffs\AbstractSniffTestCase;
 
 final class VarPropertyCommentSniffTest extends AbstractSniffTestCase
 {
-    public function test()
+    public function test(): void
     {
         $this->runSniffTestForDirectory(VarPropertyCommentSniff::class, __DIR__);
     }

@@ -7,7 +7,7 @@ use Symplify\CodingStandard\Tests\Sniffs\AbstractSniffTestCase;
 
 final class NamespaceDeclarationSniffTest extends AbstractSniffTestCase
 {
-    public function test()
+    public function test(): void
     {
         $this->runSniffTestForDirectory(NamespaceDeclarationSniff::class, __DIR__);
     }

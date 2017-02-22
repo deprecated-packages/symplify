@@ -7,7 +7,7 @@ use Symplify\CodingStandard\Tests\Sniffs\AbstractSniffTestCase;
 
 final class BlockPropertyCommentSniffTest extends AbstractSniffTestCase
 {
-    public function testDetection()
+    public function testDetection(): void
     {
         $this->runSniffTestForDirectory(BlockPropertyCommentSniff::class, __DIR__);
     }

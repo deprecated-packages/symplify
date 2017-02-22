@@ -34,14 +34,14 @@ final class ParameterWrapper
         return new self($file, $position);
     }
 
-    public function getParamterName() : string
+    public function getParamterName(): string
     {
         $namePosition = $this->file->findNext(T_STRING, $this->position);
 
         return $this->tokens[$namePosition]['content'];
     }
 
-    public function getParamterType() : string
+    public function getParamterType(): string
     {
         $typePosition = $this->file->findPrevious(T_STRING, $this->position);
 

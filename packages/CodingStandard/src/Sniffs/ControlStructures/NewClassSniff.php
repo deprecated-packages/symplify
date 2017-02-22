@@ -29,7 +29,7 @@ final class NewClassSniff implements Sniff
     /**
      * @return int[]
      */
-    public function register() : array
+    public function register(): array
     {
         return [T_NEW];
     }
@@ -38,7 +38,7 @@ final class NewClassSniff implements Sniff
      * @param File $file
      * @param int $position
      */
-    public function process(File $file, $position) : void
+    public function process(File $file, int $position): void
     {
         $this->file = $file;
         $this->position = $position;
@@ -57,7 +57,7 @@ final class NewClassSniff implements Sniff
         }
     }
 
-    private function hasEmptyParentheses() : bool
+    private function hasEmptyParentheses(): bool
     {
         $tokens = $this->file->getTokens();
         $nextPosition = $this->position;
@@ -76,7 +76,7 @@ final class NewClassSniff implements Sniff
         return false;
     }
 
-    private function doesContentContains(string $content, array $chars) : bool
+    private function doesContentContains(string $content, array $chars): bool
     {
         foreach ($chars as $char) {
             if ($content === $char) {
@@ -86,7 +86,7 @@ final class NewClassSniff implements Sniff
         return false;
     }
 
-    private function removeParenthesesFromClassStatement() : void
+    private function removeParenthesesFromClassStatement(): void
     {
         $this->file->fixer->replaceToken($this->openParenthesisPosition, '');
         $this->file->fixer->replaceToken($this->openParenthesisPosition + 1, '');

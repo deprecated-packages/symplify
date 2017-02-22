@@ -7,7 +7,7 @@ use Symplify\CodingStandard\Tests\Sniffs\AbstractSniffTestCase;
 
 final class MethodReturnTypeSniffTest extends AbstractSniffTestCase
 {
-    public function testDetection()
+    public function testDetection(): void
     {
         $this->runSniffTestForDirectory(MethodCommentReturnTypeSniff::class, __DIR__);
     }

@@ -14,7 +14,7 @@ final class MethodCommentSniff implements Sniff
     /**
      * @return int[]
      */
-    public function register() : array
+    public function register(): array
     {
         return [T_FUNCTION];
     }
@@ -23,7 +23,7 @@ final class MethodCommentSniff implements Sniff
      * @param File $file
      * @param int $position
      */
-    public function process(File $file, $position) : void
+    public function process(File $file, int $position): void
     {
         if ($this->hasMethodDocblock($file, $position)) {
             return;
@@ -49,7 +49,7 @@ final class MethodCommentSniff implements Sniff
         );
     }
 
-    private function hasMethodDocblock(File $file, int $position) : bool
+    private function hasMethodDocblock(File $file, int $position): bool
     {
         $tokens = $file->getTokens();
         $currentToken = $tokens[$position];
@@ -67,7 +67,7 @@ final class MethodCommentSniff implements Sniff
         return false;
     }
 
-    private function countParametersWithTypehint(array $parameters) : int
+    private function countParametersWithTypehint(array $parameters): int
     {
         $parameterWithTypehintCount = 0;
         foreach ($parameters as $parameter) {

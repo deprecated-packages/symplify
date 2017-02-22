@@ -14,7 +14,7 @@ use Symplify\EasyCodingStandard\SniffRunner\Parser\FileToTokensParser;
 
 final class SniffRunner
 {
-    public static function getErrorCountForSniffInFile(string $sniffClass, SplFileInfo $fileInfo) : int
+    public static function getErrorCountForSniffInFile(string $sniffClass, SplFileInfo $fileInfo): int
     {
         $errorDataCollector = self::createErrorDataCollector();
         $sniffDispatcher = self::createSniffDispatcherWithSniff($sniffClass);
@@ -27,7 +27,7 @@ final class SniffRunner
         return $errorDataCollector->getErrorCount();
     }
 
-    public static function getFixedContentForSniffInFile(string $sniffClass, SplFileInfo $fileInfo) : string
+    public static function getFixedContentForSniffInFile(string $sniffClass, SplFileInfo $fileInfo): string
     {
         $sniffDispatcher = self::createSniffDispatcherWithSniff($sniffClass);
         $file = self::createFileFromFilePath($fileInfo->getPathname());
@@ -42,7 +42,7 @@ final class SniffRunner
         return $file->fixer->getContents();
     }
 
-    private static function createSniffDispatcherWithSniff(string $sniffClass) : SniffDispatcher
+    private static function createSniffDispatcherWithSniff(string $sniffClass): SniffDispatcher
     {
         LegacyCompatibilityLayer::add();
 
@@ -52,15 +52,15 @@ final class SniffRunner
         return $sniffDispatcher;
     }
 
-    private static function createErrorDataCollector() : ErrorCollector
+    private static function createErrorDataCollector(): ErrorCollector
     {
         return new ErrorCollector(new ErrorSorter);
     }
 
     private static function createFileFromFilePath(
         string $filePath,
-        ErrorCollector $errorDataCollector = null
-    ) : File {
+        ?ErrorCollector $errorDataCollector = null
+    ): File {
         $fileToTokenParser = new FileToTokensParser;
 
         $errorDataCollector = $errorDataCollector ?: self::createErrorDataCollector();

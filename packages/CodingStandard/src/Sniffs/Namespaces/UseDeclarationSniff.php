@@ -36,7 +36,7 @@ final class UseDeclarationSniff extends Psr2UseDeclarationSniff
     /**
      * @return int[]
      */
-    public function register() : array
+    public function register(): array
     {
         return [T_USE];
     }
@@ -45,7 +45,7 @@ final class UseDeclarationSniff extends Psr2UseDeclarationSniff
      * @param File $file
      * @param int $position
      */
-    public function process(File $file, $position) : void
+    public function process(File $file, int $position): void
     {
         $this->file = $file;
         $this->position = $position;
@@ -84,7 +84,7 @@ final class UseDeclarationSniff extends Psr2UseDeclarationSniff
     /**
      * Check if this use statement is part of the namespace block.
      */
-    private function shouldIgnoreUse(int $position) : bool
+    private function shouldIgnoreUse(int $position): bool
     {
         // Ignore USE keywords inside closures.
         $next = $this->file->findNext(T_WHITESPACE, ($position + 1), null, true);
@@ -100,7 +100,7 @@ final class UseDeclarationSniff extends Psr2UseDeclarationSniff
         return false;
     }
 
-    private function checkIfSingleSpaceAfterUseKeyword() : void
+    private function checkIfSingleSpaceAfterUseKeyword(): void
     {
         if ($this->tokens[($this->position + 1)]['content'] !== ' ') {
             $this->file->addError(
@@ -111,7 +111,7 @@ final class UseDeclarationSniff extends Psr2UseDeclarationSniff
         }
     }
 
-    private function checkIfOneUseDeclarationPerStatement() : void
+    private function checkIfOneUseDeclarationPerStatement(): void
     {
         $next = $this->file->findNext([T_COMMA, T_SEMICOLON], ($this->position + 1));
         if ($this->tokens[$next]['code'] === T_COMMA) {
@@ -123,7 +123,7 @@ final class UseDeclarationSniff extends Psr2UseDeclarationSniff
         }
     }
 
-    private function checkIfUseComesAfterNamespaceDeclaration() : void
+    private function checkIfUseComesAfterNamespaceDeclaration(): void
     {
         $prev = $this->file->findPrevious(T_NAMESPACE, ($this->position - 1));
         if ($prev !== false) {
@@ -138,7 +138,7 @@ final class UseDeclarationSniff extends Psr2UseDeclarationSniff
         }
     }
 
-    private function checkBlankLineAfterLastUseStatement() : void
+    private function checkBlankLineAfterLastUseStatement(): void
     {
         $end = $this->file->findNext(T_SEMICOLON, ($this->position + 1));
         $next = $this->file->findNext(T_WHITESPACE, ($end + 1), null, true);

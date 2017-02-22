@@ -30,7 +30,7 @@ final class TokenFinder
     public static function findPreviousEffective(
         File $phpcsFile,
         int $startPointer,
-        int $endPointer = null
+        ?int $endPointer = null
     ) {
         return self::findPreviousExcluding($phpcsFile, self::$ineffectiveTokenCodes, $startPointer, $endPointer);
     }
@@ -42,7 +42,7 @@ final class TokenFinder
         File $phpcsFile,
         array $types,
         int $startPointer,
-        int $endPointer = null
+        ?int $endPointer = null
     ) {
         return $phpcsFile->findPrevious($types, $startPointer, $endPointer, true);
     }
@@ -50,12 +50,12 @@ final class TokenFinder
     /**
      * @return int|false
      */
-    public static function findNextEffective(File $phpcsFile, int $startPointer, int $endPointer = null)
+    public static function findNextEffective(File $phpcsFile, int $startPointer, ?int $endPointer = null)
     {
         return $phpcsFile->findNext(self::$ineffectiveTokenCodes, $startPointer, $endPointer, true);
     }
 
-    public static function findNextLinePosition(File $file, int $position) : int
+    public static function findNextLinePosition(File $file, int $position): int
     {
         $tokens = $file->getTokens();
         $currentLine = $tokens[$position]['line'];
@@ -68,7 +68,7 @@ final class TokenFinder
         return $nextLinePosition;
     }
 
-    public static function findAllOfType(File $file, int $type, int $start, int $end) : array
+    public static function findAllOfType(File $file, int $type, int $start, int $end): array
     {
         $result = [];
 

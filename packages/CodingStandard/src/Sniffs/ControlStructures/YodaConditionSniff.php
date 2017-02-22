@@ -24,7 +24,7 @@ final class YodaConditionSniff implements Sniff
     /**
      * @return int[]
      */
-    public function register() : array
+    public function register(): array
     {
         return [
             T_IS_IDENTICAL,
@@ -42,7 +42,7 @@ final class YodaConditionSniff implements Sniff
      * @param File $file
      * @param int $position
      */
-    public function process(File $file, $position) : void
+    public function process(File $file, int $position): void
     {
         $this->file = $file;
         $this->position = $position;
@@ -67,7 +67,7 @@ final class YodaConditionSniff implements Sniff
     /**
      * @return array|bool
      */
-    private function getPreviousNonEmptyToken()
+    private function getPreviousNonEmptyToken(): array
     {
         $leftTokenPosition = $this->file->findPrevious(T_WHITESPACE, ($this->position - 1), null, true);
         $tokens = $this->file->getTokens();
@@ -78,7 +78,7 @@ final class YodaConditionSniff implements Sniff
         return false;
     }
 
-    private function isExpressionToken(array $token) : bool
+    private function isExpressionToken(array $token): bool
     {
         return in_array($token['code'], [T_MINUS, T_NULL, T_FALSE, T_TRUE, T_LNUMBER, T_CONSTANT_ENCAPSED_STRING]);
     }

@@ -25,7 +25,7 @@ final class BlockPropertyCommentSniff implements Sniff
     /**
      * @return int[]
      */
-    public function register() : array
+    public function register(): array
     {
         return [T_VARIABLE];
     }
@@ -34,7 +34,7 @@ final class BlockPropertyCommentSniff implements Sniff
      * @param File $file
      * @param int $position
      */
-    public function process(File $file, $position) : void
+    public function process(File $file, int $position): void
     {
         $this->file = $file;
         $this->tokens = $file->getTokens();

@@ -11,7 +11,7 @@ use Symplify\CodingStandard\Tests\Sniffs\AbstractSniffTestCase;
  */
 final class InjectToConstructorInjectionSniffTest extends AbstractSniffTestCase
 {
-    public function test()
+    public function test(): void
     {
         $this->runSniffTestForDirectory(InjectToConstructorInjectionSniff::class, __DIR__);
     }

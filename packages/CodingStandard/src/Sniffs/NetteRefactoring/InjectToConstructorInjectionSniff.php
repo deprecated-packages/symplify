@@ -28,7 +28,7 @@ final class InjectToConstructorInjectionSniff implements Sniff
      */
     private $classWrapper;
 
-    public function register() : array
+    public function register(): array
     {
         return [T_CLASS];
     }
@@ -37,7 +37,7 @@ final class InjectToConstructorInjectionSniff implements Sniff
      * @param File $file
      * @param int $position
      */
-    public function process(File $file, $position)
+    public function process(File $file, int $position): void
     {
         $this->file = $file;
         $this->position = $position;
@@ -52,17 +52,17 @@ final class InjectToConstructorInjectionSniff implements Sniff
         $this->processClassMethods();
     }
 
-    private function isClassBasePresenter() : bool
+    private function isClassBasePresenter(): bool
     {
         return $this->isClassPresenter() && $this->classWrapper->isAbstract();
     }
 
-    private function isClassPresenter() : bool
+    private function isClassPresenter(): bool
     {
         return $this->classWrapper->hasNameSuffix('Presenter');
     }
 
-    private function processClassProperties()
+    private function processClassProperties(): void
     {
         $properties = $this->classWrapper->getProperties();
         foreach ($properties as $property) {
@@ -75,7 +75,7 @@ final class InjectToConstructorInjectionSniff implements Sniff
         }
     }
 
-    private function processClassMethods()
+    private function processClassMethods(): void
     {
         $methods = $this->classWrapper->getMethods();
         foreach ($methods as $method) {
@@ -88,7 +88,7 @@ final class InjectToConstructorInjectionSniff implements Sniff
         }
     }
 
-    private function addInjectAnnotationError(int $position) : bool
+    private function addInjectAnnotationError(int $position): bool
     {
         return $this->file->addFixableError(
             'Constructor injection should be used over @inject annotation (except abstract BasePresenter).',
@@ -97,7 +97,7 @@ final class InjectToConstructorInjectionSniff implements Sniff
         );
     }
 
-    private function addInjectMethodError(int $position) : bool
+    private function addInjectMethodError(int $position): bool
     {
         return $this->file->addFixableError(
             'Constructor injection should be used over inject* method (except abstract BasePresenter).',
@@ -106,7 +106,7 @@ final class InjectToConstructorInjectionSniff implements Sniff
         );
     }
 
-    private function fixInjectAnnotation(PropertyWrapper $propertyWrapper)
+    private function fixInjectAnnotation(PropertyWrapper $propertyWrapper): void
     {
         // 1. remove @inject
         $propertyWrapper->removeAnnotation('@inject');
@@ -126,7 +126,7 @@ final class InjectToConstructorInjectionSniff implements Sniff
         }
     }
 
-    private function fixInjectMethod(MethodWrapper $method)
+    private function fixInjectMethod(MethodWrapper $method): void
     {
         // 1. detect parameters
         $injectedParameters = [];

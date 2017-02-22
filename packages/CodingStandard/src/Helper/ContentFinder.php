@@ -9,14 +9,14 @@ use PHP_CodeSniffer\Files\File;
  */
 final class ContentFinder
 {
-    public static function getContentBetween(File $file, int $startPosition, int $endPosition) : string
+    public static function getContentBetween(File $file, int $startPosition, int $endPosition): string
     {
         $tokens = self::getTokensBetween($file, $startPosition, $endPosition);
 
         return implode('', $tokens);
     }
 
-    public static function getTokensBetween(File $file, int $startPosition, int $endPosition) : array
+    public static function getTokensBetween(File $file, int $startPosition, int $endPosition): array
     {
         $tokens = $file->getTokens();
 

@@ -39,7 +39,7 @@ final class InBetweenMethodSpacingSniff extends FunctionSpacingSniff
     /**
      * @return int[]
      */
-    public function register() : array
+    public function register(): array
     {
         return [T_FUNCTION];
     }
@@ -48,7 +48,7 @@ final class InBetweenMethodSpacingSniff extends FunctionSpacingSniff
      * @param File $file
      * @param int $position
      */
-    public function process(File $file, $position) : void
+    public function process(File $file, int $position): void
     {
         $this->file = $file;
         $this->position = $position;
@@ -72,7 +72,7 @@ final class InBetweenMethodSpacingSniff extends FunctionSpacingSniff
         }
     }
 
-    private function getBlankLineCountAfterFunction() : int
+    private function getBlankLineCountAfterFunction(): int
     {
         $closer = $this->getScopeCloser();
         $nextLineToken = $this->getNextLineTokenByScopeCloser($closer);
@@ -88,7 +88,7 @@ final class InBetweenMethodSpacingSniff extends FunctionSpacingSniff
         return $foundLines;
     }
 
-    private function isLastMethod() : bool
+    private function isLastMethod(): bool
     {
         $closer = $this->getScopeCloser();
         $nextLineToken = $this->getNextLineTokenByScopeCloser($closer);
@@ -114,7 +114,7 @@ final class InBetweenMethodSpacingSniff extends FunctionSpacingSniff
     /**
      * @return int|NULL
      */
-    private function getNextLineTokenByScopeCloser(int $closer)
+    private function getNextLineTokenByScopeCloser(int $closer): ?int
     {
         $nextLineToken = null;
         for ($i = $closer; $i < $this->file->numTokens; $i++) {
@@ -143,7 +143,7 @@ final class InBetweenMethodSpacingSniff extends FunctionSpacingSniff
         return false;
     }
 
-    private function fixSpacingAfterMethod(int $blankLinesCountAfterFunction)
+    private function fixSpacingAfterMethod(int $blankLinesCountAfterFunction): void
     {
         EmptyLinesResizer::resizeLines(
             $this->file,

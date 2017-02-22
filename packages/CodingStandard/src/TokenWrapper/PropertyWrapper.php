@@ -58,13 +58,13 @@ final class PropertyWrapper
         return new self($file, $position);
     }
 
-    public function hasAnnotation(string $annotation) : bool
+    public function hasAnnotation(string $annotation): bool
     {
         return $this->getDocBlock()
             ->hasAnnotation($annotation);
     }
 
-    public function getPosition() : int
+    public function getPosition(): int
     {
         return $this->position;
     }
@@ -101,7 +101,7 @@ final class PropertyWrapper
         return $this->docBlock;
     }
 
-    public function removeAnnotation(string $annotation)
+    public function removeAnnotation(string $annotation): void
     {
         $this->getDocBlock()
             ->removeAnnotation($annotation);
@@ -111,7 +111,7 @@ final class PropertyWrapper
         /** @var Type @inject */
     }
 
-    public function changeAccesibilityToPrivate()
+    public function changeAccesibilityToPrivate(): void
     {
         $accesiblity = $this->getPropertyAccessibility();
         $accesiblityPosition = key($accesiblity);
@@ -120,17 +120,17 @@ final class PropertyWrapper
         }
     }
 
-    public function getType() : string
+    public function getType(): string
     {
         return $this->docBlock->getAnnotationValue('@var');
     }
 
-    public function getName() : string
+    public function getName(): string
     {
         return ltrim($this->propertyToken['content'], '$');
     }
 
-    private function getPropertyAccessibility() : array
+    private function getPropertyAccessibility(): array
     {
         if ($this->accessibility) {
             return $this->accessibility;
