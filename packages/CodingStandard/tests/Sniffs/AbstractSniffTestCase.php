@@ -20,14 +20,14 @@ abstract class AbstractSniffTestCase extends TestCase
     /**
      * @var ErrorCollector
      */
-    private $errorDataCollector;
+    private $errorCollector;
 
     protected function runSniffTestForDirectory(string $sniffClass, string $directory) : void
     {
         $this->sniffDispatcher = $this->createSniffDispatcherWithSniff($sniffClass);
 
         foreach ($this->findFilesInDirectory($directory) as $file) {
-            $this->errorDataCollector = $this->createErrorDataCollector();
+            $this->errorCollector = $this->createErrorCollector();
             if (Strings::startsWith($file->getFilename(), 'correct')) {
                 $this->runSniffTestForCorrectFile($sniffClass, $file);
             }
@@ -96,7 +96,7 @@ abstract class AbstractSniffTestCase extends TestCase
         return $sniffDispatcher;
     }
 
-    private function createErrorDataCollector() : ErrorCollector
+    private function createErrorCollector() : ErrorCollector
     {
         return new ErrorCollector(new ErrorSorter);
     }
