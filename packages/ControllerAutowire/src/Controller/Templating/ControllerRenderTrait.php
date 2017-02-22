@@ -19,17 +19,17 @@ trait ControllerRenderTrait
      */
     private $twig;
 
-    public function setTemplating(EngineInterface $templating) : void
+    public function setTemplating(EngineInterface $templating): void
     {
         $this->templating = $templating;
     }
 
-    public function setTwig(Twig_Environment $twig) : void
+    public function setTwig(Twig_Environment $twig): void
     {
         $this->twig = $twig;
     }
 
-    protected function renderView(string $view, array $parameters = []) : string
+    protected function renderView(string $view, array $parameters = []): string
     {
         if ($this->templating) {
             return $this->templating->render($view, $parameters);
@@ -38,7 +38,7 @@ trait ControllerRenderTrait
         return $this->twig->render($view, $parameters);
     }
 
-    protected function render(string $view, array $parameters = [], Response $response = null) : Response
+    protected function render(string $view, array $parameters = [], ?Response $response = null): Response
     {
         if ($this->templating) {
             return $this->templating->renderResponse($view, $parameters, $response);
@@ -54,8 +54,8 @@ trait ControllerRenderTrait
     protected function stream(
         string $view,
         array $parameters = [],
-        StreamedResponse $response = null
-    ) : StreamedResponse {
+        ?StreamedResponse $response = null
+    ): StreamedResponse {
         if ($this->templating) {
             $callback = function () use ($view, $parameters) {
                 $this->templating->stream($view, $parameters);

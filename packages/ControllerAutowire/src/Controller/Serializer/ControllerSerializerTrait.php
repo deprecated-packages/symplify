@@ -12,7 +12,7 @@ trait ControllerSerializerTrait
      */
     private $serializer;
 
-    public function setSerializer(SerializerInterface $serializer) : void
+    public function setSerializer(SerializerInterface $serializer): void
     {
         $this->serializer = $serializer;
     }
@@ -23,7 +23,7 @@ trait ControllerSerializerTrait
      * @param array $headers
      * @param array $context
      */
-    protected function json($data, int $status = 200, array $headers = [], array $context = []) : JsonResponse
+    protected function json($data, int $status = 200, array $headers = [], array $context = []): JsonResponse
     {
         if ($this->serializer) {
             $data = $this->serializer->serialize($data, 'json', array_merge([

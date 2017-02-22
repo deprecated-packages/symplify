@@ -9,19 +9,16 @@ final class ControllerWithParameter
      */
     private $kernelRootDir;
 
-    /**
-     * @param string $kernelRootDir
-     */
     public function __construct(string $kernelRootDir)
     {
         $this->kernelRootDir = $kernelRootDir;
     }
 
-    public function someAction()
+    public function someAction(): void
     {
     }
 
-    public function getKernelRootDir() : string
+    public function getKernelRootDir(): string
     {
         return $this->kernelRootDir;
     }

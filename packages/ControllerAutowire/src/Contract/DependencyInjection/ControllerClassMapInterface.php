@@ -4,10 +4,10 @@ namespace Symplify\ControllerAutowire\Contract\DependencyInjection;
 
 interface ControllerClassMapInterface
 {
-    public function addController(string $id, string $class) : void;
+    public function addController(string $id, string $class): void;
 
     /**
      * @return string[]
      */
-    public function getControllers() : array;
+    public function getControllers(): array;
 }

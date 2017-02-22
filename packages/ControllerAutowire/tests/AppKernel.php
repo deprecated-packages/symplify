@@ -14,7 +14,7 @@ final class AppKernel extends Kernel
         parent::__construct('symplify_controller_autowire', true);
     }
 
-    public function registerBundles() : array
+    public function registerBundles(): array
     {
         return [
             new FrameworkBundle,
@@ -22,7 +22,7 @@ final class AppKernel extends Kernel
         ];
     }
 
-    public function registerContainerConfiguration(LoaderInterface $loader)
+    public function registerContainerConfiguration(LoaderInterface $loader): void
     {
         $loader->load(__DIR__ . '/Resources/config/config.yml');
     }

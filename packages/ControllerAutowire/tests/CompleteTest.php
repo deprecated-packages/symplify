@@ -23,7 +23,7 @@ final class CompleteTest extends TestCase
      */
     private $controllerResolver;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $kernel = new AppKernel;
         $kernel->boot();
@@ -32,13 +32,13 @@ final class CompleteTest extends TestCase
             ->get('symplify.controller_resolver');
     }
 
-    public function testMissingControllerParameter()
+    public function testMissingControllerParameter(): void
     {
         $request = new Request;
         $this->assertFalse($this->controllerResolver->getController($request));
     }
 
-    public function testGetAutowiredController()
+    public function testGetAutowiredController(): void
     {
         $request = new Request;
         $request->attributes->set('_controller', SomeController::class . '::someAction');
@@ -50,7 +50,7 @@ final class CompleteTest extends TestCase
         $this->assertInstanceOf(SomeService::class, $controller->getSomeService());
     }
 
-    public function testGetContainerAwareController()
+    public function testGetContainerAwareController(): void
     {
         $request = new Request;
         $request->attributes->set('_controller', ContainerAwareController::class . '::someAction');
@@ -62,7 +62,7 @@ final class CompleteTest extends TestCase
         $this->assertInstanceOf(ContainerInterface::class, $controller->getContainer());
     }
 
-    public function testGetAutowiredControllerWithParameter()
+    public function testGetAutowiredControllerWithParameter(): void
     {
         $request = new Request;
         $request->attributes->set('_controller', 'some.controller.with_parameter:someAction');
@@ -74,7 +74,7 @@ final class CompleteTest extends TestCase
         $this->assertSame(__DIR__, $controller->getKernelRootDir());
     }
 
-    public function testGetControllerWithTrait()
+    public function testGetControllerWithTrait(): void
     {
         $request = new Request;
         $request->attributes->set(
@@ -91,10 +91,7 @@ final class CompleteTest extends TestCase
         $this->assertInstanceOf(HttpKernelInterface::class, $httpKernel);
     }
 
-    /**
-     * @expectedException \Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException
-     */
-    public function testGetControllerServiceMissing()
+    public function testGetControllerServiceMissing(): void
     {
         $request = new Request;
         $request->attributes->set('_controller', 'some.missing.controller.service:someAction');
@@ -102,7 +99,7 @@ final class CompleteTest extends TestCase
         $this->controllerResolver->getController($request);
     }
 
-    public function testGetControllerServiceRegisteredInConfig()
+    public function testGetControllerServiceRegisteredInConfig(): void
     {
         $request = new Request;
         $request->attributes->set('_controller', 'some.controller.service:someAction');

@@ -14,12 +14,12 @@ final class DecorateControllerResolverPassTest extends TestCase
      */
     private $controllerClassMap;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->controllerClassMap = new ControllerClassMap;
     }
 
-    public function testInjectionOfOldDecoratedService()
+    public function testInjectionOfOldDecoratedService(): void
     {
         $containerBuilder = new ContainerBuilder;
 

@@ -18,7 +18,7 @@ final class SymplifyControllerAutowireBundle extends Bundle
      */
     public const ALIAS = 'symplify_controller_autowire';
 
-    public function build(ContainerBuilder $containerBuilder) : void
+    public function build(ContainerBuilder $containerBuilder): void
     {
         $controllerClassMap = new ControllerClassMap;
 
@@ -27,7 +27,7 @@ final class SymplifyControllerAutowireBundle extends Bundle
         $containerBuilder->addCompilerPass(new DecorateControllerResolverPass($controllerClassMap));
     }
 
-    public function createContainerExtension() : ContainerExtension
+    public function createContainerExtension(): ContainerExtension
     {
         return new ContainerExtension;
     }

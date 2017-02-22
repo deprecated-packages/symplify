@@ -9,5 +9,5 @@ interface ControllerFinderInterface
      *
      * @return string[]
      */
-    public function findControllersInDirs(array $dirs) : array;
+    public function findControllersInDirs(array $dirs): array;
 }

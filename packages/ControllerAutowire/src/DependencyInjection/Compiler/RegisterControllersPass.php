@@ -34,7 +34,7 @@ final class RegisterControllersPass implements CompilerPassInterface
         $this->controllerFinder = $controllerFinder;
     }
 
-    public function process(ContainerBuilder $containerBuilder) : void
+    public function process(ContainerBuilder $containerBuilder): void
     {
         $this->containerBuilder = $containerBuilder;
 
@@ -46,14 +46,14 @@ final class RegisterControllersPass implements CompilerPassInterface
     /**
      * @return string[]
      */
-    private function getControllerDirs() : array
+    private function getControllerDirs(): array
     {
         $config = (new ConfigurationResolver)->resolveFromContainerBuilder($this->containerBuilder);
 
         return $config['controller_dirs'];
     }
 
-    private function registerControllersToContainerBuilder(array $controllers) : void
+    private function registerControllersToContainerBuilder(array $controllers): void
     {
         foreach ($controllers as $id => $controller) {
             if (! $this->containerBuilder->hasDefinition($id)) {
@@ -68,7 +68,7 @@ final class RegisterControllersPass implements CompilerPassInterface
         }
     }
 
-    private function buildControllerDefinitionFromClass(string $class) : Definition
+    private function buildControllerDefinitionFromClass(string $class): Definition
     {
         $definition = new Definition($class);
         $definition->setAutowired(true);

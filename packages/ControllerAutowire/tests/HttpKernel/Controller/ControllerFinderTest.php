@@ -15,12 +15,12 @@ final class ControllerFinderTest extends TestCase
      */
     private $controllerFinder;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->controllerFinder = new ControllerFinder;
     }
 
-    public function testFindControllersInDirs()
+    public function testFindControllersInDirs(): void
     {
         $controllers = $this->controllerFinder->findControllersInDirs([__DIR__ . '/ControllerFinderSource']);
         $this->assertCount(2, $controllers);

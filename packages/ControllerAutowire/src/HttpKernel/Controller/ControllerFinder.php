@@ -21,7 +21,7 @@ final class ControllerFinder implements ControllerFinderInterface
     /**
      * @return string[]
      */
-    public function findControllersInDirs(array $dirs) : array
+    public function findControllersInDirs(array $dirs): array
     {
         $robot = new RobotLoader;
         $robot->setCacheStorage(new DevNullStorage);
@@ -38,7 +38,7 @@ final class ControllerFinder implements ControllerFinderInterface
         return $this->prepareServiceKeys($controllerClasses);
     }
 
-    private function prepareServiceKeys(array $controllerClasses) : array
+    private function prepareServiceKeys(array $controllerClasses): array
     {
         $controllerClassesWithKeys = [];
         foreach ($controllerClasses as $key => $controllerClass) {
