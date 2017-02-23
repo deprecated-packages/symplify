@@ -15,8 +15,6 @@ This bundle does only 2 things. But does them well:
 Still wondering **why use controller as services**? Check [this](http://richardmiller.co.uk/2011/04/15/symfony2-controller-as-service) and
 [this](http://php-and-symfony.matthiasnoback.nl/2014/06/how-to-create-framework-independent-controllers/) article.
 
-Note: If you look for *controller method autowiring*, [see ActionAutowire bundle](https://github.com/Symplify/ActionAutowire).
-
 ## Install
 
 ```bash
