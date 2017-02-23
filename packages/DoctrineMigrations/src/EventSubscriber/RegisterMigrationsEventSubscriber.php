@@ -21,6 +21,9 @@ final class RegisterMigrationsEventSubscriber implements EventSubscriberInterfac
         $this->configuration = $configuration;
     }
 
+    /**
+     * @return string[]
+     */
     public static function getSubscribedEvents(): array
     {
         return [ConsoleEvents::COMMAND => 'registerMigrations'];

@@ -18,10 +18,7 @@ final class OutputWriter extends DoctrineOutputWriter
         $this->consoleOutput = $consoleOutput;
     }
 
-    /**
-     * @param string $message
-     */
-    public function write($message): void
+    public function write(string $message): void
     {
         $this->getConsoleOutput()->writeln($message);
     }

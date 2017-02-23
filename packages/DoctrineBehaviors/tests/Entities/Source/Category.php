@@ -22,20 +22,13 @@ class Category
      */
     private $id;
 
-    /**
-     * @param string $name
-     * @param bool $isActive
-     */
-    public function __construct($name, $isActive)
+    public function __construct(string $name, bool $isActive)
     {
         $this->proxyCurrentLocaleTranslation('setName', [$name]);
         $this->proxyCurrentLocaleTranslation('setIsActive', [$isActive]);
     }
 
-    /**
-     * @return int
-     */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }

@@ -27,7 +27,7 @@ final class InBetweenMethodSpacingSniff extends FunctionSpacingSniff
     private $position;
 
     /**
-     * @var array
+     * @var array[]
      */
     private $tokens;
 
@@ -111,9 +111,6 @@ final class InBetweenMethodSpacingSniff extends FunctionSpacingSniff
         return $this->tokens[$this->position]['scope_closer'];
     }
 
-    /**
-     * @return int|NULL
-     */
     private function getNextLineTokenByScopeCloser(int $closer): ?int
     {
         $nextLineToken = null;

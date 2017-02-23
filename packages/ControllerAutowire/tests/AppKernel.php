@@ -4,6 +4,7 @@ namespace Symplify\ControllerAutowire\Tests;
 
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
 use Symfony\Component\Config\Loader\LoaderInterface;
+use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 use Symfony\Component\HttpKernel\Kernel;
 use Symplify\ControllerAutowire\SymplifyControllerAutowireBundle;
 
@@ -14,6 +15,9 @@ final class AppKernel extends Kernel
         parent::__construct('symplify_controller_autowire', true);
     }
 
+    /**
+     * @return BundleInterface[]
+     */
     public function registerBundles(): array
     {
         return [

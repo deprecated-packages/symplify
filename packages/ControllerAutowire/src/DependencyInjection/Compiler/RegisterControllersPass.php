@@ -53,6 +53,9 @@ final class RegisterControllersPass implements CompilerPassInterface
         return $config['controller_dirs'];
     }
 
+    /**
+     * @param string[] $controllers
+     */
     private function registerControllersToContainerBuilder(array $controllers): void
     {
         foreach ($controllers as $id => $controller) {

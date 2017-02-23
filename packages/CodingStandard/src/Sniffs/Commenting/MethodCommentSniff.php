@@ -67,6 +67,9 @@ final class MethodCommentSniff implements Sniff
         return false;
     }
 
+    /**
+     * @param array[] $parameters
+     */
     private function countParametersWithTypehint(array $parameters): int
     {
         $parameterWithTypehintCount = 0;

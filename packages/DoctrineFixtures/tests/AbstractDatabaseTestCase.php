@@ -18,7 +18,7 @@ abstract class AbstractDatabaseTestCase extends TestCase
      */
     protected $entityManager;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->container = $container = (new ContainerFactory)->create();
 

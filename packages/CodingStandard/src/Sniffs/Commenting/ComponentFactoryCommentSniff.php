@@ -25,10 +25,13 @@ final class ComponentFactoryCommentSniff implements Sniff
     private $file;
 
     /**
-     * @var array
+     * @var array[]
      */
     private $tokens;
 
+    /**
+     * @return int[]
+     */
     public function register(): array
     {
         return [T_FUNCTION];

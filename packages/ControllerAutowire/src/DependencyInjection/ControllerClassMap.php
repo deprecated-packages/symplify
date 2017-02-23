@@ -16,6 +16,9 @@ final class ControllerClassMap implements ControllerClassMapInterface
         $this->controllers[$id] = $class;
     }
 
+    /**
+     * @return string[]
+     */
     public function getControllers(): array
     {
         return $this->controllers;

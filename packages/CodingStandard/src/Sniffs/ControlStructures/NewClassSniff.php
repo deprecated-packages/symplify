@@ -76,6 +76,10 @@ final class NewClassSniff implements Sniff
         return false;
     }
 
+    /**
+     * @param string $content
+     * @param string[] $chars
+     */
     private function doesContentContains(string $content, array $chars): bool
     {
         foreach ($chars as $char) {

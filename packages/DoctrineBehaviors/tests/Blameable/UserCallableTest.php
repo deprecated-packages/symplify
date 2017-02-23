@@ -19,7 +19,7 @@ final class UserCallableTest extends TestCase
      */
     private $userCallable;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->userMock = $this->prophesize(User::class);
         $this->userMock->getId()->willReturn(1);
@@ -27,7 +27,7 @@ final class UserCallableTest extends TestCase
         $this->userCallable = new UserCallable($this->userMock->reveal());
     }
 
-    public function testInvoke()
+    public function testInvoke(): void
     {
         $this->assertSame(1, call_user_func($this->userCallable));
 

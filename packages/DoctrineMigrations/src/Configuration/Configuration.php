@@ -3,6 +3,7 @@
 namespace Zenify\DoctrineMigrations\Configuration;
 
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Migrations\AbstractMigration;
 use Doctrine\DBAL\Migrations\Configuration\Configuration as BaseConfiguration;
 use Doctrine\DBAL\Migrations\OutputWriter;
 use Doctrine\DBAL\Migrations\Version;
@@ -24,6 +25,7 @@ final class Configuration extends BaseConfiguration
     /**
      * @param string $direction
      * @param string $to
+     * @return AbstractMigration[]
      */
     public function getMigrationsToExecute($direction, $to): array
     {
@@ -38,7 +40,7 @@ final class Configuration extends BaseConfiguration
      * @param string $version
      * @return Version|string
      */
-    public function getVersion($version)
+    public function getVersion(string $version)
     {
         $version = parent::getVersion($version);
         $this->container->callInjects($version->getMigration());

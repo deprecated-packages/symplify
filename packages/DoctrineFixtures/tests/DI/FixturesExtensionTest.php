@@ -13,7 +13,7 @@ use Zenify\DoctrineFixtures\DI\FixturesExtension;
 
 final class FixturesExtensionTest extends TestCase
 {
-    public function testLoadConfiguration()
+    public function testLoadConfiguration(): void
     {
         $extension = $this->getExtension();
         $extension->loadConfiguration();
@@ -26,7 +26,7 @@ final class FixturesExtensionTest extends TestCase
         $this->assertSame(AliceLoader::class, $aliceLoaderDefinition->getClass());
     }
 
-    public function testLoadFakerProvidersToAliceLoader()
+    public function testLoadFakerProvidersToAliceLoader(): void
     {
         $extension = $this->getExtension();
         $extension->loadConfiguration();
@@ -47,7 +47,7 @@ final class FixturesExtensionTest extends TestCase
         $this->assertArrayHasKey('company', $arguments[1]);
     }
 
-    public function testLoadParsersToAliceLoader()
+    public function testLoadParsersToAliceLoader(): void
     {
         $extension = $this->getExtension();
         $extension->loadConfiguration();

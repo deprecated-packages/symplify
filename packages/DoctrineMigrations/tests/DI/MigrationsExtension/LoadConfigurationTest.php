@@ -16,7 +16,7 @@ class LoadConfigurationTest extends TestCase
      */
     private $extension;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $containerBuilder = new ContainerBuilder;
         $containerBuilder->parameters = ['appDir' => __DIR__];
@@ -28,7 +28,7 @@ class LoadConfigurationTest extends TestCase
         $this->extension->setCompiler($compiler, 'migrations');
     }
 
-    public function testLoadConfiguration()
+    public function testLoadConfiguration(): void
     {
         $this->extension->loadConfiguration();
         $containerBuilder = $this->extension->getContainerBuilder();

@@ -7,7 +7,7 @@ use Zenify\ModularLatteFilters\Tests\PHPUnit\AbstractContainerAwareTestCase;
 
 final class LatteEngineTest extends AbstractContainerAwareTestCase
 {
-    public function test()
+    public function test(): void
     {
         /** @var Engine $latte */
         $latte = $this->getServiceByType(Engine::class);

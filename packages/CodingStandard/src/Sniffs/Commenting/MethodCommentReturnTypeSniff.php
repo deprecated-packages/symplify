@@ -28,7 +28,7 @@ final class MethodCommentReturnTypeSniff implements Sniff
     private $position;
 
     /**
-     * @var array
+     * @var array[]
      */
     private $tokens;
 

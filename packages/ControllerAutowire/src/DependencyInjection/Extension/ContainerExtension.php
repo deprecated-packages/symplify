@@ -13,6 +13,10 @@ final class ContainerExtension extends Extension
         return SymplifyControllerAutowireBundle::ALIAS;
     }
 
+    /**
+     * @param mixed[] $config
+     * @param ContainerBuilder $containerBuilder
+     */
     public function load(array $config, ContainerBuilder $containerBuilder): void
     {
     }

@@ -12,7 +12,7 @@ use Zenify\DoctrineBehaviors\Entities\Attributes\TranslatableTrait;
 final class TranslatableExtension extends AbstractBehaviorExtension
 {
     /**
-     * @var array
+     * @var mixed[]
      */
     private $defaults = [
         'currentLocaleCallable' => null,
@@ -44,6 +44,7 @@ final class TranslatableExtension extends AbstractBehaviorExtension
     }
 
     /**
+     * @param mixed[] $config
      * @throws AssertionException
      */
     private function validateConfigTypes(array $config): void

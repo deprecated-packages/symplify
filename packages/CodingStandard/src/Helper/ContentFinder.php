@@ -16,6 +16,9 @@ final class ContentFinder
         return implode('', $tokens);
     }
 
+    /**
+     * @return array[]
+     */
     public static function getTokensBetween(File $file, int $startPosition, int $endPosition): array
     {
         $tokens = $file->getTokens();

@@ -97,6 +97,10 @@ final class AutowireControllerDependenciesPass implements CompilerPassInterface
         }
     }
 
+    /**
+     * @param string $traitClass
+     * @param string[] $usedTraits
+     */
     private function isTraitIncluded(string $traitClass, array $usedTraits): bool
     {
         if (array_key_exists($traitClass, $usedTraits)) {

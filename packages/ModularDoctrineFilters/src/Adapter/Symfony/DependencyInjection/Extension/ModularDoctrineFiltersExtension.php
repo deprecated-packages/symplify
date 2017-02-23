@@ -9,6 +9,10 @@ use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 
 final class ModularDoctrineFiltersExtension extends Extension
 {
+    /**
+     * @param array[] $configs
+     * @param ContainerBuilder $containerBuilder
+     */
     public function load(array $configs, ContainerBuilder $containerBuilder): void
     {
         (new YamlFileLoader($containerBuilder, new FileLocator(__DIR__ . '/../../../../config')))

@@ -13,7 +13,7 @@ use Symplify\SymfonyEventDispatcher\Adapter\Nette\Event\PresenterCreatedEvent;
 
 final class EnableFiltersSubscriberTest extends TestCase
 {
-    public function test()
+    public function test(): void
     {
         $container = (new ContainerFactory)->create();
         $eventDispatcher = $container->getByType(EventDispatcherInterface::class);

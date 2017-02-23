@@ -65,9 +65,9 @@ final class YodaConditionSniff implements Sniff
     }
 
     /**
-     * @return array|bool
+     * @return array[]|false
      */
-    private function getPreviousNonEmptyToken(): array
+    private function getPreviousNonEmptyToken()
     {
         $leftTokenPosition = $this->file->findPrevious(T_WHITESPACE, ($this->position - 1), null, true);
         $tokens = $this->file->getTokens();
@@ -78,6 +78,9 @@ final class YodaConditionSniff implements Sniff
         return false;
     }
 
+    /**
+     * @param array[] $token
+     */
     private function isExpressionToken(array $token): bool
     {
         return in_array($token['code'], [T_MINUS, T_NULL, T_FALSE, T_TRUE, T_LNUMBER, T_CONSTANT_ENCAPSED_STRING]);

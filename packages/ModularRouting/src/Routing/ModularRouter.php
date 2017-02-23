@@ -55,7 +55,7 @@ final class ModularRouter implements ModularRouterInterface
 
     /**
      * @param string $name
-     * @param array $parameters
+     * @param mixed[] $parameters
      * @param int $referenceType
      */
     public function generate($name, $parameters = [], $referenceType = self::ABSOLUTE_PATH): string
@@ -66,6 +66,7 @@ final class ModularRouter implements ModularRouterInterface
 
     /**
      * @param string $pathinfo
+     * @return array[]
      */
     public function match($pathinfo): array
     {

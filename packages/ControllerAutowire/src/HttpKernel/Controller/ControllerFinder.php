@@ -19,6 +19,7 @@ final class ControllerFinder implements ControllerFinderInterface
     }
 
     /**
+     * @param string[] $dirs
      * @return string[]
      */
     public function findControllersInDirs(array $dirs): array
@@ -38,6 +39,10 @@ final class ControllerFinder implements ControllerFinderInterface
         return $this->prepareServiceKeys($controllerClasses);
     }
 
+    /**
+     * @param string[] $controllerClasses
+     * @return string[]
+     */
     private function prepareServiceKeys(array $controllerClasses): array
     {
         $controllerClassesWithKeys = [];

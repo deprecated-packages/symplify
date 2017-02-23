@@ -18,6 +18,11 @@ trait ControllerRoutingTrait
         $this->router = $router;
     }
 
+    /**
+     * @param string $route
+     * @param mixed[] $parameters
+     * @param int $referenceType
+     */
     protected function generateUrl(
         string $route,
         array $parameters = [],
@@ -31,6 +36,11 @@ trait ControllerRoutingTrait
         return new RedirectResponse($url, $status);
     }
 
+    /**
+     * @param string $route
+     * @param mixed[] $parameters
+     * @param int $status
+     */
     protected function redirectToRoute(string $route, array $parameters = [], int $status = 302): RedirectResponse
     {
         return $this->redirect($this->generateUrl($route, $parameters), $status);

@@ -17,7 +17,7 @@ final class ParameterWrapper
     private $position;
 
     /**
-     * @var array
+     * @var array[]
      */
     private $tokens;
 
@@ -29,7 +29,7 @@ final class ParameterWrapper
         $this->tokens = $this->file->getTokens();
     }
 
-    public static function createFromFileAndPosition(File $file, int $position)
+    public static function createFromFileAndPosition(File $file, int $position): self
     {
         return new self($file, $position);
     }

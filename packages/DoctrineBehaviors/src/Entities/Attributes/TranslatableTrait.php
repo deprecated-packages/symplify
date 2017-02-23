@@ -14,7 +14,7 @@ trait TranslatableTrait
      * @param array
      * @return mixed
      */
-    public function __call($method, $arguments)
+    public function __call(string $method, array $arguments)
     {
         return $this->proxyCurrentLocaleTranslation($method, $arguments);
     }
@@ -23,7 +23,7 @@ trait TranslatableTrait
      * @param string
      * @return mixed
      */
-    public function &__get($name) // "&" intentionally due to compatibility with Nette\Object
+    public function &__get(string $name) // "&" intentionally due to compatibility with Nette\Object
     {
         $prefix = 'get';
         if (preg_match('/^(is|has|should)/i', $name)) {

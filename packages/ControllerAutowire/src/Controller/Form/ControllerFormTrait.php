@@ -21,8 +21,8 @@ trait ControllerFormTrait
 
     /**
      * @param string $type
-     * @param mixed  $data
-     * @param array  $options
+     * @param mixed $data
+     * @param mixed[] $options
      */
     protected function createForm(string $type, $data = null, array $options = []): FormInterface
     {
@@ -31,13 +31,20 @@ trait ControllerFormTrait
 
     /**
      * @param mixed $data
-     * @param array $options
+     * @param mixed[] $options
      */
     protected function createFormBuilder($data = null, array $options = []): FormBuilderInterface
     {
         return $this->formFactory->createBuilder(FormType::class, $data, $options);
     }
 
+    /**
+     * @param string $name
+     * @param string $type
+     * @param mixed[]|null $data
+     * @param mixed[] $options
+     * @return FormBuilderInterface
+     */
     protected function createNamedBuilder(
         string $name,
         string $type = 'Symfony\Component\Form\Extension\Core\Type\FormType',

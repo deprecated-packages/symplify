@@ -27,7 +27,7 @@ final class FilterManagerQueryTest extends TestCase
      */
     private $filterManager;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $container = (new ContainerFactory)->create();
         $this->entityManager = $container->getByType(EntityManagerInterface::class);
@@ -39,7 +39,7 @@ final class FilterManagerQueryTest extends TestCase
         $this->prepareDbData($connection);
     }
 
-    public function testFindOneBy()
+    public function testFindOneBy(): void
     {
         $this->filterManager->enableFilters();
 
@@ -56,7 +56,7 @@ final class FilterManagerQueryTest extends TestCase
         $this->assertFalse($product2->isActive());
     }
 
-    private function prepareDbData(Connection $connection)
+    private function prepareDbData(Connection $connection): void
     {
         $connection->query(
             'CREATE TABLE product (id INTEGER NOT NULL, name string, is_active int NULL, PRIMARY KEY(id))'

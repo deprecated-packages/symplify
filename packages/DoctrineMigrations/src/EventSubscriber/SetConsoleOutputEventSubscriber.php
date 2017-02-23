@@ -21,6 +21,9 @@ final class SetConsoleOutputEventSubscriber implements EventSubscriberInterface
         $this->outputWriter = $outputWriter;
     }
 
+    /**
+     * @return string[]
+     */
     public static function getSubscribedEvents(): array
     {
         return [ConsoleEvents::COMMAND => 'setOutputWriter'];

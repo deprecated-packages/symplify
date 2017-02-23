@@ -14,13 +14,13 @@ final class ManualUsageTest extends TestCase
      */
     private $consoleApplication;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $container = (new ContainerFactory)->createWithConfig(__DIR__ . '/config/manualUsage.neon');
         $this->consoleApplication = $container->getByType(Application::class);
     }
 
-    public function testStatus()
+    public function testStatus(): void
     {
         $input = new ArrayInput(['command' => 'migrations:status']);
         $output = new BufferedOutput;
@@ -31,7 +31,7 @@ final class ManualUsageTest extends TestCase
         $this->assertContains('Configuration', $output->fetch());
     }
 
-    public function testMigrate()
+    public function testMigrate(): void
     {
         $input = new ArrayInput(['command' => 'migrations:migrate']);
         $input->setInteractive(false);

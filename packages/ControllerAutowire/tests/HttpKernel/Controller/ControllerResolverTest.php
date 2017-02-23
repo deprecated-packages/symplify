@@ -37,9 +37,6 @@ final class ControllerResolverTest extends TestCase
         );
     }
 
-    /**
-     * @return ControllerResolver
-     */
     private function createControllerResolverWithMocks(): ControllerResolver
     {
         $parentControllerResolverMock = $this->prophesize(ControllerResolverInterface::class);

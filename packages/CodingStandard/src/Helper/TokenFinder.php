@@ -36,15 +36,19 @@ final class TokenFinder
     }
 
     /**
+     * @param File $file
+     * @param string[] $types
+     * @param int $startPointer
+     * @param int|null $endPointer
      * @return int|false
      */
     public static function findPreviousExcluding(
-        File $phpcsFile,
+        File $file,
         array $types,
         int $startPointer,
         ?int $endPointer = null
     ) {
-        return $phpcsFile->findPrevious($types, $startPointer, $endPointer, true);
+        return $file->findPrevious($types, $startPointer, $endPointer, true);
     }
 
     /**
@@ -68,6 +72,9 @@ final class TokenFinder
         return $nextLinePosition;
     }
 
+    /**
+     * @return array[]
+     */
     public static function findAllOfType(File $file, int $type, int $start, int $end): array
     {
         $result = [];

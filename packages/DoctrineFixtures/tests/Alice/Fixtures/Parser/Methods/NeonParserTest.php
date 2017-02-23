@@ -14,25 +14,25 @@ final class NeonParserTest extends TestCase
      */
     private $neonParser;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->neonParser = new NeonParser;
     }
 
-    public function testCanParse()
+    public function testCanParse(): void
     {
         $this->assertTrue($this->neonParser->canParse('file.neon'));
         $this->assertFalse($this->neonParser->canParse('file.yaml'));
     }
 
-    public function testParse()
+    public function testParse(): void
     {
         $entities = $this->neonParser->parse(__DIR__ . '/NeonParserSource/products.neon');
         $this->assertArrayHasKey(Product::class, $entities);
         $this->assertArrayHasKey('product{1..5}', $entities[Product::class]);
     }
 
-    public function testInclude()
+    public function testInclude(): void
     {
         $entities = $this->neonParser->parse(__DIR__ . '/NeonParserSource/include.neon');
         $this->assertArrayHasKey(User::class, $entities);

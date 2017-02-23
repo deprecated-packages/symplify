@@ -29,7 +29,7 @@ final class PropertiesMethodsMutualSpacingSniff implements Sniff
     private $position;
 
     /**
-     * @var array
+     * @var array[]
      */
     private $tokens;
 

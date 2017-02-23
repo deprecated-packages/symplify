@@ -12,7 +12,7 @@ use Zenify\DoctrineBehaviors\Blameable\UserCallable;
 final class BlameableExtension extends AbstractBehaviorExtension
 {
     /**
-     * @var array
+     * @var mixed[]
      */
     private $defaults = [
         'isRecursive' => true,
@@ -42,6 +42,7 @@ final class BlameableExtension extends AbstractBehaviorExtension
     }
 
     /**
+     * @param mixed[] $array
      * @throws AssertionException
      */
     private function validateConfigTypes(array $config): void

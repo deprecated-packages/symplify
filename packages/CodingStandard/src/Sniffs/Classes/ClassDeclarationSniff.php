@@ -39,7 +39,7 @@ final class ClassDeclarationSniff implements Sniff
     private $position;
 
     /**
-     * @var array
+     * @var array[]
      */
     private $tokens;
 

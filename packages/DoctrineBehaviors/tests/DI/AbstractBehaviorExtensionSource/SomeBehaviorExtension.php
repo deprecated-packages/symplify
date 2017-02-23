@@ -12,11 +12,7 @@ final class SomeBehaviorExtension extends AbstractBehaviorExtension
         return parent::getClassAnalyzer();
     }
 
-    /**
-     * @param string|NULL
-     * @return ServiceDefinition|NULL
-     */
-    public function buildDefinitionFromCallablePublic($value)
+    public function buildDefinitionFromCallablePublic(?string $value): ?ServiceDefinition
     {
         return parent::buildDefinitionFromCallable($value);
     }

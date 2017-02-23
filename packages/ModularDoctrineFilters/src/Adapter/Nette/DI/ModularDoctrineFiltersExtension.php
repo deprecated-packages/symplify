@@ -12,7 +12,7 @@ use Symplify\PackageBuilder\Adapter\Nette\DI\DefinitionFinder;
 
 final class ModularDoctrineFiltersExtension extends CompilerExtension
 {
-    public function loadConfiguration()
+    public function loadConfiguration(): void
     {
         Compiler::loadDefinitions(
             $this->getContainerBuilder(),

@@ -14,12 +14,12 @@ final class Version123 extends AbstractMigration
      */
     public $someService;
 
-    public function up(Schema $schema)
+    public function up(Schema $schema): void
     {
         $this->addSql('CREATE TABLE "category" ( "id" integer NOT NULL );');
     }
 
-    public function down(Schema $schema)
+    public function down(Schema $schema): void
     {
     }
 }

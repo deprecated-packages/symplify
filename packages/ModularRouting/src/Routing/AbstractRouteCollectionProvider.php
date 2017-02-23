@@ -14,7 +14,7 @@ abstract class AbstractRouteCollectionProvider implements RouteCollectionProvide
      */
     private $loaderResolver;
 
-    public function setLoaderResolver(LoaderResolverInterface $loaderResolver)
+    public function setLoaderResolver(LoaderResolverInterface $loaderResolver): void
     {
         $this->loaderResolver = $loaderResolver;
     }

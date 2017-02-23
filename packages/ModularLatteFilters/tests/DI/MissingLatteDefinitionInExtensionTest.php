@@ -11,7 +11,7 @@ final class MissingLatteDefinitionInExtensionTest extends TestCase
     /**
      * @expectedException \Zenify\ModularLatteFilters\Exception\DI\MissingLatteDefinitionException
      */
-    public function testNoLatteDefinition()
+    public function testNoLatteDefinition(): void
     {
         $extension = $this->getExtension();
         $extension->loadConfiguration();

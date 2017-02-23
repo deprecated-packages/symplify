@@ -18,17 +18,17 @@ final class PropertyWrapper
     private $position;
 
     /**
-     * @var array
+     * @var mixed[]
      */
     private $propertyToken;
 
     /**
-     * @var array
+     * @var array[]
      */
     private $tokens;
 
     /**
-     * @var array
+     * @var int[]
      */
     private $accessibility;
 
@@ -46,7 +46,7 @@ final class PropertyWrapper
         $this->propertyToken = $this->tokens[$position];
     }
 
-    public static function createFromFileAndPosition(File $file, int $position)
+    public static function createFromFileAndPosition(File $file, int $position): self
     {
         return new self($file, $position);
     }
@@ -123,6 +123,9 @@ final class PropertyWrapper
         return ltrim($this->propertyToken['content'], '$');
     }
 
+    /**
+     * @return int[]
+     */
     private function getPropertyAccessibility(): array
     {
         if ($this->accessibility) {

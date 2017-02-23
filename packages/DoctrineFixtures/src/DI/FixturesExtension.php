@@ -18,7 +18,7 @@ final class FixturesExtension extends CompilerExtension
         'seed' => 1
     ];
 
-    public function loadConfiguration()
+    public function loadConfiguration(): void
     {
         Compiler::loadDefinitions(
             $this->getContainerBuilder(),
@@ -26,7 +26,7 @@ final class FixturesExtension extends CompilerExtension
         );
     }
 
-    public function beforeCompile()
+    public function beforeCompile(): void
     {
         $containerBuilder = $this->getContainerBuilder();
         $containerBuilder->prepareClassList();
@@ -35,7 +35,7 @@ final class FixturesExtension extends CompilerExtension
         $this->loadParsersToAliceLoader();
     }
 
-    private function loadFakerProvidersToAliceLoader()
+    private function loadFakerProvidersToAliceLoader(): void
     {
         $config = $this->validateConfig($this->defaults);
 
@@ -49,7 +49,7 @@ final class FixturesExtension extends CompilerExtension
             ]);
     }
 
-    private function loadParsersToAliceLoader()
+    private function loadParsersToAliceLoader(): void
     {
         $containerBuilder = $this->getContainerBuilder();
 

@@ -11,7 +11,7 @@ use Nette\Utils\Validators;
 final class TimestampableExtension extends AbstractBehaviorExtension
 {
     /**
-     * @var array
+     * @var mixed[]
      */
     private $defaults = [
         'isRecursive' => true,
@@ -37,6 +37,7 @@ final class TimestampableExtension extends AbstractBehaviorExtension
     }
 
     /**
+     * @param mixed[] $config
      * @throws AssertionException
      */
     private function validateConfigTypes(array $config): void

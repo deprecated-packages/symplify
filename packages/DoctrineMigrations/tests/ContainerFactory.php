@@ -21,7 +21,7 @@ final class ContainerFactory
         return $configurator->createContainer();
     }
 
-    private function createAndReturnTempDir()
+    private function createAndReturnTempDir(): string
     {
         $tempDir = sys_get_temp_dir() . '/doctrine-migrations';
         FileSystem::delete($tempDir);

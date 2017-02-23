@@ -41,7 +41,7 @@ final class DocBlockWrapper
         $this->endPosition = $endPosition;
     }
 
-    public static function createFromFileAndPosition(File $file, int $startPosition, int $endPosition)
+    public static function createFromFileAndPosition(File $file, int $startPosition, int $endPosition): self
     {
         return new self($file, $startPosition, $endPosition);
     }

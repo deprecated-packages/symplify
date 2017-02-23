@@ -13,7 +13,7 @@ final class RegisterMigrationsEventSubscriberTest extends AbstractEventSubscribe
      */
     private $configuration;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -21,7 +21,7 @@ final class RegisterMigrationsEventSubscriberTest extends AbstractEventSubscribe
         $this->configuration->setMigrationsDirectory($this->getMigrationsDirectory());
     }
 
-    public function testStatusCommand()
+    public function testStatusCommand(): void
     {
         $input = new ArrayInput(['command' => 'migrations:status']);
         $output = new BufferedOutput;
@@ -30,15 +30,12 @@ final class RegisterMigrationsEventSubscriberTest extends AbstractEventSubscribe
         $this->assertSame(0, $result);
     }
 
-    public function testAvailableMigrations()
+    public function testAvailableMigrations(): void
     {
         $this->assertSame(2, $this->configuration->getNumberOfAvailableMigrations());
     }
 
-    /**
-     * @return string
-     */
-    private function getMigrationsDirectory()
+    private function getMigrationsDirectory(): string
     {
         return __DIR__ . '/../Migrations';
     }

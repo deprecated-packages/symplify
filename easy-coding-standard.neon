@@ -1,3 +1,8 @@
+skip-for-rules-files:
+#   Rules:
+#        - files
+#   or rather Errors: like phpstan?
+
 includes:
     - packages/EasyCodingStandard/config/php-cs-fixer/psr1-fixers.neon
     - packages/EasyCodingStandard/config/php-cs-fixer/psr2-fixers.neon
@@ -115,6 +120,11 @@ php-code-sniffer:
     - SlevomatCodingStandard\Sniffs\TypeHints\NullabilitySymbolSpacingSniff
     - SlevomatCodingStandard\Sniffs\TypeHints\NullableTypeForNullDefaultValueSniff
     - SlevomatCodingStandard\Sniffs\TypeHints\ReturnTypeHintSpacingSniff
+#   blocked by parent classes with PHP 5.6 API
+#    SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff:
+#        usefulAnnotations:
+#            - @dataProvider
+#            - @expectedException
     - SlevomatCodingStandard\Sniffs\Namespaces\AlphabeticallySortedUsesSniff
     - SlevomatCodingStandard\Sniffs\Namespaces\DisallowGroupUseSniff
     - SlevomatCodingStandard\Sniffs\Namespaces\MultipleUsesPerLineSniff

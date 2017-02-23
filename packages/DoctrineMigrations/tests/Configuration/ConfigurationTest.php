@@ -17,7 +17,7 @@ final class ConfigurationTest extends TestCase
      */
     private $configuration;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $container = (new ContainerFactory)->create();
         $this->configuration = $container->getByType(Configuration::class);
@@ -27,7 +27,7 @@ final class ConfigurationTest extends TestCase
         );
     }
 
-    public function testInject()
+    public function testInject(): void
     {
         $migrations = $this->configuration->getMigrationsToExecute('up', (string) 123);
         $this->assertCount(1, $migrations);
@@ -43,7 +43,7 @@ final class ConfigurationTest extends TestCase
         $this->assertInstanceOf(SomeService::class, $migration->someService);
     }
 
-    public function testLoadMigrationsFromSubdirs()
+    public function testLoadMigrationsFromSubdirs(): void
     {
         $migrations = $this->configuration->getMigrations();
         $this->assertCount(2, $migrations);

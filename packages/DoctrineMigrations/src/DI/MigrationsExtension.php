@@ -65,6 +65,9 @@ final class MigrationsExtension extends CompilerExtension
         $this->loadCommandsToApplication();
     }
 
+    /**
+     * @param mixed[] $config
+     */
     private function addConfigurationDefinition(array $config): void
     {
         $containerBuilder = $this->getContainerBuilder();
@@ -103,6 +106,9 @@ final class MigrationsExtension extends CompilerExtension
         );
     }
 
+    /**
+     * @return mixed[]
+     */
     private function getValidatedConfig(): array
     {
         $configuration = $this->validateConfig($this->defaults);

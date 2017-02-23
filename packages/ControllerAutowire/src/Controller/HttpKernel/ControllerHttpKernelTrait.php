@@ -28,6 +28,11 @@ trait ControllerHttpKernelTrait
         $this->httpKernel = $httpKernel;
     }
 
+    /**
+     * @param string $controller
+     * @param string[] $path
+     * @param string[] $query
+     */
     protected function forward(string $controller, array $path = [], array $query = []): Response
     {
         $path['_controller'] = $controller;

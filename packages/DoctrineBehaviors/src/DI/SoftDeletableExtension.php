@@ -11,7 +11,7 @@ use Nette\Utils\Validators;
 final class SoftDeletableExtension extends AbstractBehaviorExtension
 {
     /**
-     * @var array
+     * @var mixed[]
      */
     private $defaults = [
         'isRecursive' => true,
@@ -35,6 +35,7 @@ final class SoftDeletableExtension extends AbstractBehaviorExtension
     }
 
     /**
+     * @param mixed[] $config
      * @throws AssertionException
      */
     private function validateConfigTypes(array $config): void

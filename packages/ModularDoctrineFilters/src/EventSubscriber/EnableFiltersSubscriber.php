@@ -14,7 +14,7 @@ final class EnableFiltersSubscriber implements EventSubscriberInterface
      */
     private $filterManager;
 
-    public function setFilterManager(FilterManagerInterface $filterManager)
+    public function setFilterManager(FilterManagerInterface $filterManager): void
     {
         $this->filterManager = $filterManager;
     }

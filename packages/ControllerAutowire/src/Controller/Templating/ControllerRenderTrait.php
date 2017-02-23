@@ -29,6 +29,10 @@ trait ControllerRenderTrait
         $this->twig = $twig;
     }
 
+    /**
+     * @param string $view
+     * @param mixed[] $parameters
+     */
     protected function renderView(string $view, array $parameters = []): string
     {
         if ($this->templating) {
@@ -38,6 +42,11 @@ trait ControllerRenderTrait
         return $this->twig->render($view, $parameters);
     }
 
+    /**
+     * @param string $view
+     * @param mixed[] $parameters
+     * @param Response|null $response
+     */
     protected function render(string $view, array $parameters = [], ?Response $response = null): Response
     {
         if ($this->templating) {
@@ -51,6 +60,11 @@ trait ControllerRenderTrait
         return $response->setContent($this->twig->render($view, $parameters));
     }
 
+    /**
+     * @param string $view
+     * @param mixed[] $parameters
+     * @param null|StreamedResponse|null $response
+     */
     protected function stream(
         string $view,
         array $parameters = [],

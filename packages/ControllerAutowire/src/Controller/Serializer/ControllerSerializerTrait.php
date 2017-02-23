@@ -19,9 +19,9 @@ trait ControllerSerializerTrait
 
     /**
      * @param mixed $data
-     * @param int   $status
-     * @param array $headers
-     * @param array $context
+     * @param int $status
+     * @param string[] $headers
+     * @param string[] $context
      */
     protected function json($data, int $status = 200, array $headers = [], array $context = []): JsonResponse
     {

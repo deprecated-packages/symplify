@@ -17,7 +17,7 @@ final class ClassMetrics
     private $classPosition;
 
     /**
-     * @var array
+     * @var array[]
      */
     private $tokens;
 

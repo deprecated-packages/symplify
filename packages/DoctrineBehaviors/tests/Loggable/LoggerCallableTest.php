@@ -18,7 +18,7 @@ class LoggerCallableTest extends TestCase
      */
     private $loggerCallable;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $loggerMock = $this->prophesize(LoggerInterface::class);
         $that = $this;
@@ -28,7 +28,7 @@ class LoggerCallableTest extends TestCase
         $this->loggerCallable = new LoggerCallable($loggerMock->reveal());
     }
 
-    public function testInvoke()
+    public function testInvoke(): void
     {
         $loggerCallable = $this->loggerCallable;
         $loggerCallable('message');

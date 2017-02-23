@@ -10,7 +10,7 @@ final class EnsureRequiredExtensionsTest extends TestCase
     /**
      * @expectedException \Zenify\DoctrineMigrations\Exception\DI\MissingExtensionException
      */
-    public function testEnsureEventDispatcher()
+    public function testEnsureEventDispatcher(): void
     {
         (new ContainerFactory)->createWithConfig(__DIR__ . '/../../config/extensionOnly.neon');
     }

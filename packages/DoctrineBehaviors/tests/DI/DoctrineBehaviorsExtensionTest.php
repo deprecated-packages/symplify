@@ -33,7 +33,7 @@ final class DoctrineBehaviorsExtensionTest extends TestCase
         TreeSubscriber::class,
     ];
 
-    public function testExtensions()
+    public function testExtensions(): void
     {
         $container = (new ContainerFactory)->create();
 

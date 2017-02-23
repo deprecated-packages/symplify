@@ -40,36 +40,23 @@ class Category
      */
     private $path;
 
-    /**
-     * @param string $name
-     * @param Category $parent
-     */
-    public function __construct($name, ?Category $parent = null)
+    public function __construct(string $name, ?Category $parent = null)
     {
         $this->name = $name;
         $this->parent = $parent;
     }
 
-    /**
-     * @return string
-     */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * @return Category
-     */
-    public function getParent()
+    public function getParent(): Category
     {
         return $this->parent;
     }
 
-    /**
-     * @return string
-     */
-    public function getPath()
+    public function getPath(): string
     {
         return $this->path;
     }

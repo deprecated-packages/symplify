@@ -1,4 +1,5 @@
 <?php declare(strict_types=1);
+
 namespace Zenify\DoctrineFixtures\Tests\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -23,26 +24,17 @@ class User
      */
     private $email;
 
-    /**
-     * @param $email
-     */
-    public function __construct($email)
+    public function __construct(string $email)
     {
         $this->email = $email;
     }
 
-    /**
-     * @return int
-     */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
 
-    /**
-     * @return string
-     */
-    public function getEmail()
+    public function getEmail(): string
     {
         return $this->email;
     }

@@ -20,12 +20,12 @@ final class ClassWrapper
     private $position;
 
     /**
-     * @var array
+     * @var array[]
      */
     private $classToken;
 
     /**
-     * @var array
+     * @var array[]
      */
     private $tokens;
 
@@ -43,7 +43,7 @@ final class ClassWrapper
         $this->classToken = $this->tokens[$position];
     }
 
-    public static function createFromFileAndPosition(File $file, int $position)
+    public static function createFromFileAndPosition(File $file, int $position): self
     {
         return new self($file, $position);
     }

@@ -21,7 +21,7 @@ final class ConsoleTest extends TestCase
      */
     private $entityManager;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $container = (new ContainerFactory)->create();
         $this->consoleApplication = $container->getByType(Application::class);
@@ -29,7 +29,7 @@ final class ConsoleTest extends TestCase
         $this->entityManager = $container->getByType(EntityManagerInterface::class);
     }
 
-    public function testEnablingOnlyOnce()
+    public function testEnablingOnlyOnce(): void
     {
         $stringInput = new StringInput('help');
 

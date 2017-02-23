@@ -25,7 +25,7 @@ final class BeforeCompileTest extends TestCase
      */
     private $containerBuilder;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->extension = new MigrationsExtension;
 
@@ -43,7 +43,7 @@ final class BeforeCompileTest extends TestCase
         $this->containerBuilder->prepareClassList();
     }
 
-    public function testSetConfigurationToCommands()
+    public function testSetConfigurationToCommands(): void
     {
         $executeCommandDefinition = $this->getDefinitionByType(ExecuteCommand::class);
 
@@ -54,7 +54,7 @@ final class BeforeCompileTest extends TestCase
         );
     }
 
-    public function testLoadCommandsToApplication()
+    public function testLoadCommandsToApplication(): void
     {
         $applicationDefinition = $this->getDefinitionByType(Application::class);
 
@@ -69,19 +69,15 @@ final class BeforeCompileTest extends TestCase
     /**
      * @param Statement $statement
      * @param string $entity
-     * @param array $arguments
+     * @param array[] $arguments
      */
-    private function matchDefinitionSetupStatement(Statement $statement, $entity, array $arguments)
+    private function matchDefinitionSetupStatement(Statement $statement, string $entity, array $arguments): void
     {
         $this->assertSame($entity, $statement->getEntity());
         $this->assertSame($arguments, $statement->arguments);
     }
 
-    /**
-     * @param string $type
-     * @return ServiceDefinition
-     */
-    private function getDefinitionByType($type)
+    private function getDefinitionByType(string $type): ServiceDefinition
     {
         return $this->containerBuilder->getDefinition($this->containerBuilder->getByType($type));
     }

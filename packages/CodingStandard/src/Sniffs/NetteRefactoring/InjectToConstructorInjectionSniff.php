@@ -23,6 +23,9 @@ final class InjectToConstructorInjectionSniff implements Sniff
      */
     private $classWrapper;
 
+    /**
+     * @return int[]
+     */
     public function register(): array
     {
         return [T_CLASS];

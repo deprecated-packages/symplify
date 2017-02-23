@@ -16,7 +16,7 @@ final class LoggerCallable
         $this->logger = $logger;
     }
 
-    public function __invoke(string $message)
+    public function __invoke(string $message): void
     {
         $this->logger->process($message);
     }

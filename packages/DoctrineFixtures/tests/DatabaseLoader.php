@@ -21,7 +21,7 @@ final class DatabaseLoader
         $this->connection = $connection;
     }
 
-    public function prepareProductAndUserTable()
+    public function prepareProductAndUserTable(): void
     {
         if (! $this->isDbSchemaPrepared) {
             $this->connection->query('CREATE TABLE product (id INTEGER NOT NULL, name string, PRIMARY KEY(id))');

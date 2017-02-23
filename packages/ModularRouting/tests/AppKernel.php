@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
 use Symfony\Bundle\TwigBundle\TwigBundle;
 use Symfony\Cmf\Bundle\RoutingBundle\CmfRoutingBundle;
 use Symfony\Component\Config\Loader\LoaderInterface;
+use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 use Symfony\Component\HttpKernel\Kernel;
 use Symplify\ModularRouting\SymplifyModularRoutingBundle;
 
@@ -16,6 +17,9 @@ final class AppKernel extends Kernel
         parent::__construct('symplify_modular_routing' . mt_rand(1, 100), true);
     }
 
+    /**
+     * @return BundleInterface[]
+     */
     public function registerBundles(): array
     {
         return [
@@ -26,7 +30,7 @@ final class AppKernel extends Kernel
         ];
     }
 
-    public function registerContainerConfiguration(LoaderInterface $loader)
+    public function registerContainerConfiguration(LoaderInterface $loader): void
     {
         $loader->load(__DIR__ . '/Resources/config/config.yml');
     }
