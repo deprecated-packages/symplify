@@ -9,12 +9,12 @@ use Symplify\Statie\Source\SourceFileTypes;
 
 final class PostSourceFilter implements SourceFileFilterInterface
 {
-    public function getName() : string
+    public function getName(): string
     {
         return SourceFileTypes::POSTS;
     }
 
-    public function matchesFileSource(SplFileInfo $fileInfo) : bool
+    public function matchesFileSource(SplFileInfo $fileInfo): bool
     {
         return Strings::contains($fileInfo, '_posts');
     }

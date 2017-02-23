@@ -22,7 +22,7 @@ final class ApplicationSubscriber implements EventSubscriberInterface
         $this->eventStateStorage = $eventStateStorage;
     }
 
-    public static function getSubscribedEvents() : array
+    public static function getSubscribedEvents(): array
     {
         return [
             RequestRecievedEvent::NAME => 'onRequest',

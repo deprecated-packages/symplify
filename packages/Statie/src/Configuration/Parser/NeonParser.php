@@ -6,14 +6,14 @@ use Nette\Neon\Neon;
 
 final class NeonParser
 {
-    public function decodeFromFile(string $filePath) : array
+    public function decodeFromFile(string $filePath): array
     {
         $fileContent = file_get_contents($filePath);
 
         return $this->decode($fileContent);
     }
 
-    public function decode(string $content) : array
+    public function decode(string $content): array
     {
         return Neon::decode($content);
     }

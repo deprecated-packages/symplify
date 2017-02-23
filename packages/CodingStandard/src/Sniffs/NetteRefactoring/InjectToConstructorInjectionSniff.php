@@ -19,11 +19,6 @@ final class InjectToConstructorInjectionSniff implements Sniff
     private $file;
 
     /**
-     * @var int
-     */
-    private $position;
-
-    /**
      * @var ClassWrapper
      */
     private $classWrapper;
@@ -40,7 +35,6 @@ final class InjectToConstructorInjectionSniff implements Sniff
     public function process(File $file, $position): void
     {
         $this->file = $file;
-        $this->position = $position;
 
         $this->classWrapper = ClassWrapper::createFromFileAndPosition($file, $position);
 

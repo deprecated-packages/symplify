@@ -12,7 +12,7 @@ final class SomeVoter implements VoterInterface
      * @param mixed $object
      * @param array $attributes
      */
-    public function vote(TokenInterface $token, $object, array $attributes) : int
+    public function vote(TokenInterface $token, $object, array $attributes): int
     {
         return -1;
     }

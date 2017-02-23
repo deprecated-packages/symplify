@@ -18,7 +18,7 @@ final class SluggableExtension extends AbstractBehaviorExtension
         'trait' => Sluggable::class
     ];
 
-    public function loadConfiguration() : void
+    public function loadConfiguration(): void
     {
         $config = $this->validateConfig($this->defaults);
         $this->validateConfigTypes($config);
@@ -37,7 +37,7 @@ final class SluggableExtension extends AbstractBehaviorExtension
     /**
      * @throws AssertionException
      */
-    private function validateConfigTypes(array $config) : void
+    private function validateConfigTypes(array $config): void
     {
         Validators::assertField($config, 'isRecursive', 'bool');
         Validators::assertField($config, 'trait', 'type');

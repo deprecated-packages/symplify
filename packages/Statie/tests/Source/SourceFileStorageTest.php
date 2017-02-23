@@ -51,7 +51,7 @@ final class SourceFileStorageTest extends TestCase
         $this->assertStringEndsWith('CNAME', $cnameStdFile->getFilename());
     }
 
-    private function prepareSourceFileStorage() : SourceFileStorage
+    private function prepareSourceFileStorage(): SourceFileStorage
     {
         $sourceFileStorage = new SourceFileStorage;
 

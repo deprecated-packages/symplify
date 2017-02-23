@@ -4,7 +4,6 @@ namespace Symplify\PackageBuilder\Adapter\Symfony\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
-use Symplify\ModularDoctrineFilters\Contract\Filter\FilterInterface;
 use Symplify\ModularDoctrineFilters\Exception\DefinitionForTypeNotFoundException;
 
 final class DefinitionFinder
@@ -12,7 +11,7 @@ final class DefinitionFinder
     /**
      * @return Definition[]
      */
-    public static function findAllByType(ContainerBuilder $containerBuilder, string $type) : array
+    public static function findAllByType(ContainerBuilder $containerBuilder, string $type): array
     {
         $definitions = [];
         foreach ($containerBuilder->getDefinitions() as $name => $definition) {
@@ -24,7 +23,7 @@ final class DefinitionFinder
         return $definitions;
     }
 
-    public static function getByType(ContainerBuilder $containerBuilder, string $type) : Definition
+    public static function getByType(ContainerBuilder $containerBuilder, string $type): Definition
     {
         foreach ($containerBuilder->getDefinitions() as $definition) {
             if (is_a($definition->getClass(), $type, true)) {

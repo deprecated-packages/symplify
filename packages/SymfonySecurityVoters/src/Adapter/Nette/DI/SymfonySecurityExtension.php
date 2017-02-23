@@ -9,7 +9,7 @@ use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 
 final class SymfonySecurityExtension extends CompilerExtension
 {
-    public function loadConfiguration() : void
+    public function loadConfiguration(): void
     {
         Compiler::loadDefinitions(
             $this->getContainerBuilder(),
@@ -17,7 +17,7 @@ final class SymfonySecurityExtension extends CompilerExtension
         );
     }
 
-    public function beforeCompile() : void
+    public function beforeCompile(): void
     {
         $containerBuilder = $this->getContainerBuilder();
         $voterDefinitions = $containerBuilder->findByType(VoterInterface::class);

@@ -33,4 +33,9 @@ class Product
     {
         return $this->isActive;
     }
+
+    public function getId(): int
+    {
+        return $this->id;
+    }
 }

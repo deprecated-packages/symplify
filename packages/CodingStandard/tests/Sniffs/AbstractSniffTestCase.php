@@ -6,28 +6,25 @@ use Nette\Utils\Finder;
 use Nette\Utils\Strings;
 use PHPUnit\Framework\TestCase;
 use SplFileInfo;
-use Symplify\EasyCodingStandard\Report\ErrorCollector;
-use Symplify\EasyCodingStandard\Report\ErrorSorter;
-use Symplify\EasyCodingStandard\SniffRunner\EventDispatcher\SniffDispatcher;
 
 abstract class AbstractSniffTestCase extends TestCase
 {
-    /**
-     * @var SniffDispatcher
-     */
-    private $sniffDispatcher;
+//    /**
+//     * @var SniffDispatcher
+//     */
+//    private $sniffDispatcher;
 
-    /**
-     * @var ErrorCollector
-     */
-    private $errorCollector;
+//    /**
+//     * @var ErrorCollector
+//     */
+//    private $errorCollector;
 
     protected function runSniffTestForDirectory(string $sniffClass, string $directory): void
     {
-        $this->sniffDispatcher = $this->createSniffDispatcherWithSniff($sniffClass);
+//        $this->sniffDispatcher = $this->createSniffDispatcherWithSniff($sniffClass);
 
         foreach ($this->findFilesInDirectory($directory) as $file) {
-            $this->errorCollector = $this->createErrorCollector();
+//            $this->errorCollector = $this->createErrorCollector();
             if (Strings::startsWith($file->getFilename(), 'correct')) {
                 $this->runSniffTestForCorrectFile($sniffClass, $file);
             }
@@ -88,16 +85,16 @@ abstract class AbstractSniffTestCase extends TestCase
         return dirname($fileInfo->getPathname()) . '/' . $fileInfo->getBasename('.php.inc') . '-fixed.php.inc';
     }
 
-    private function createSniffDispatcherWithSniff(string $sniffClass): SniffDispatcher
-    {
-        $sniffDispatcher = new SniffDispatcher;
-        $sniffDispatcher->addSniffListeners([new $sniffClass]);
+//    private function createSniffDispatcherWithSniff(string $sniffClass): SniffDispatcher
+//    {
+//        $sniffDispatcher = new SniffDispatcher;
+//        $sniffDispatcher->addSniffListeners([new $sniffClass]);
+//
+//        return $sniffDispatcher;
+//    }
 
-        return $sniffDispatcher;
-    }
-
-    private function createErrorCollector(): ErrorCollector
-    {
-        return new ErrorCollector(new ErrorSorter);
-    }
+//    private function createErrorCollector(): ErrorCollector
+//    {
+//        return new ErrorCollector(new ErrorSorter);
+//    }
 }

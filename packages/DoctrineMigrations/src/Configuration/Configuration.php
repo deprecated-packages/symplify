@@ -15,7 +15,7 @@ final class Configuration extends BaseConfiguration
      */
     private $container;
 
-    public function __construct(Container $container, Connection $connection, OutputWriter $outputWriter = null)
+    public function __construct(Container $container, Connection $connection, ?OutputWriter $outputWriter = null)
     {
         $this->container = $container;
         parent::__construct($connection, $outputWriter);
@@ -25,7 +25,7 @@ final class Configuration extends BaseConfiguration
      * @param string $direction
      * @param string $to
      */
-    public function getMigrationsToExecute($direction, $to) : array
+    public function getMigrationsToExecute($direction, $to): array
     {
         $versions = parent::getMigrationsToExecute($direction, $to);
         foreach ($versions as $version) {

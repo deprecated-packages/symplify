@@ -15,7 +15,7 @@ final class ProductName extends Base
         'Flying shoe'
     ];
 
-    public function shortName() : string
+    public function shortName(): string
     {
         return $this->randomElement(self::$randomNames);
     }

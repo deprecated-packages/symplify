@@ -8,7 +8,7 @@ use Nette\DI\CompilerExtension;
 
 final class TreeExtension extends CompilerExtension
 {
-    public function loadConfiguration() : void
+    public function loadConfiguration(): void
     {
         $builder = $this->getContainerBuilder();
 

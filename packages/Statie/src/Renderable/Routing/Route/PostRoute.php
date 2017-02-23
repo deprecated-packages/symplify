@@ -20,7 +20,7 @@ final class PostRoute implements RouteInterface
         $this->configuration = $configuration;
     }
 
-    public function matches(AbstractFile $file) : bool
+    public function matches(AbstractFile $file): bool
     {
         return $file instanceof PostFile;
     }
@@ -28,7 +28,7 @@ final class PostRoute implements RouteInterface
     /**
      * @param PostFile $file
      */
-    public function buildOutputPath(AbstractFile $file) : string
+    public function buildOutputPath(AbstractFile $file): string
     {
         return PathNormalizer::normalize($this->buildRelativeUrl($file) . '/index.html');
     }
@@ -36,7 +36,7 @@ final class PostRoute implements RouteInterface
     /**
      * @param PostFile $file
      */
-    public function buildRelativeUrl(AbstractFile $file) : string
+    public function buildRelativeUrl(AbstractFile $file): string
     {
         $permalink = $this->configuration->getPostRoute();
         $permalink = preg_replace('/:year/', $file->getDateInFormat('Y'), $permalink);

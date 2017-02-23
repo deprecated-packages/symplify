@@ -28,7 +28,7 @@ final class MarkdownDecorator implements DecoratorInterface
         $this->configuration = $configuration;
     }
 
-    public function decorateFile(AbstractFile $file) : void
+    public function decorateFile(AbstractFile $file): void
     {
         // skip due to HTML content incompatibility
         if ($file->getExtension() !== 'md') {
@@ -44,7 +44,7 @@ final class MarkdownDecorator implements DecoratorInterface
         $file->changeContent($htmlContent);
     }
 
-    private function decorateHeadlinesWithTocAnchors(string $htmlContent) : string
+    private function decorateHeadlinesWithTocAnchors(string $htmlContent): string
     {
         return Regex::replace('/<h([1-6])>(.*?)<\/h([1-6])>/', function (MatchResult $result) {
             $headline = $result->group(2);

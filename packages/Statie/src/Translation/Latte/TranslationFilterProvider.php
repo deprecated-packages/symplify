@@ -27,7 +27,7 @@ final class TranslationFilterProvider implements LatteFiltersProviderInterface
     /**
      * @return array <string=>callback>
      */
-    public function getFilters() : array
+    public function getFilters(): array
     {
         return [
             'translate' => function (string $message, string $locale) {
@@ -36,7 +36,7 @@ final class TranslationFilterProvider implements LatteFiltersProviderInterface
         ];
     }
 
-    private function translate(string $message, string $locale) : string
+    private function translate(string $message, string $locale): string
     {
         [$domain, $id] = $this->messageAnalyzer->extractDomainFromMessage($message);
 

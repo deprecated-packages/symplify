@@ -11,7 +11,7 @@ final class DefinitionCollector
         string $collectorType,
         string $collectedType,
         string $setterMethod
-    ) : void {
+    ): void {
         $collectorDefinition = $containerBuilder->getDefinitionByType($collectorType);
         $collectedDefinitions = $containerBuilder->findByType($collectedType);
         foreach ($collectedDefinitions as $name => $definition) {

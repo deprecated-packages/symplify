@@ -9,7 +9,7 @@ final class TimeFilterProvider implements LatteFiltersProviderInterface
     /**
      * @return callable[]
      */
-    public function getFilters() : array
+    public function getFilters(): array
     {
         return [
             'timeToSeconds' => function (string $time) {
@@ -18,7 +18,7 @@ final class TimeFilterProvider implements LatteFiltersProviderInterface
         ];
     }
 
-    private function convertTimeToSeconds(string $time) : int
+    private function convertTimeToSeconds(string $time): int
     {
         sscanf($time, '%d:%d:%d', $hours, $minutes, $seconds);
         $seconds = isset($seconds) ? $hours * 3600 + $minutes * 60 + $seconds : $hours * 60 + $minutes;

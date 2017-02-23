@@ -52,7 +52,7 @@ final class EventDispatcherExtensionTest extends TestCase
         $this->assertCount(1, $eventDispatcherDefinition->getSetup());
     }
 
-    private function getExtension() : SymfonyEventDispatcherExtension
+    private function getExtension(): SymfonyEventDispatcherExtension
     {
         $extension = new SymfonyEventDispatcherExtension;
         $extension->setCompiler(new Compiler(new ContainerBuilder), 'events');

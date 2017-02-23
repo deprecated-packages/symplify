@@ -62,7 +62,7 @@ final class LatteDecoratorTest extends TestCase
         $this->assertContains('fileWithFileVariable.latte', $file->getContent());
     }
 
-    private function createLatteEngine(ILoader $loader) : Engine
+    private function createLatteEngine(ILoader $loader): Engine
     {
         $latte = new Engine;
         $latte->setLoader($loader);
@@ -70,7 +70,7 @@ final class LatteDecoratorTest extends TestCase
         return $latte;
     }
 
-    private function createStringLoader() : DynamicStringLoader
+    private function createStringLoader(): DynamicStringLoader
     {
         $loader = new DynamicStringLoader;
         $loader->addTemplate(

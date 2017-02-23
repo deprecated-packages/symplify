@@ -20,7 +20,7 @@ final class NeonParserTest extends TestCase
         }
     }
 
-    private function isWindows() : bool
+    private function isWindows(): bool
     {
         return DIRECTORY_SEPARATOR === '\\';
     }

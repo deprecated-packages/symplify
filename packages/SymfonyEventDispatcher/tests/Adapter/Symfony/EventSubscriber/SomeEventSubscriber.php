@@ -2,14 +2,12 @@
 
 namespace Symplify\SymfonyEventDispatcher\Tests\Adapter\Symfony\EventSubscriber;
 
-use Symfony\Component\EventDispatcher\Event;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\HttpKernel\KernelEvents;
 use Symplify\SymfonyEventDispatcher\Tests\Adapter\Symfony\Event\SomeEvent;
 
 final class SomeEventSubscriber implements EventSubscriberInterface
 {
-    public static function getSubscribedEvents() : array
+    public static function getSubscribedEvents(): array
     {
         return [
             SomeEvent::NAME => 'changeState'

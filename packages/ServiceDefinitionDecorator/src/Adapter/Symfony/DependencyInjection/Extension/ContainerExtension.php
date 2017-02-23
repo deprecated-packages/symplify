@@ -8,12 +8,12 @@ use Symplify\ServiceDefinitionDecorator\Adapter\Symfony\SymplifyServiceDefinitio
 
 final class ContainerExtension extends Extension
 {
-    public function getAlias() : string
+    public function getAlias(): string
     {
         return SymplifyServiceDefinitionDecoratorBundle::ALIAS;
     }
 
-    public function load(array $configs, ContainerBuilder $containerBuilder) : void
+    public function load(array $configs, ContainerBuilder $containerBuilder): void
     {
     }
 }

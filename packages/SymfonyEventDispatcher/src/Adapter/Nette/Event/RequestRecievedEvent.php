@@ -34,12 +34,12 @@ final class RequestRecievedEvent extends Event
         $this->request = $request;
     }
 
-    public function getApplication() : Application
+    public function getApplication(): Application
     {
         return $this->application;
     }
 
-    public function getRequest() : Request
+    public function getRequest(): Request
     {
         return $this->request;
     }

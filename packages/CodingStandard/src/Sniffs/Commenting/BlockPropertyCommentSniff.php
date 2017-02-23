@@ -18,11 +18,6 @@ final class BlockPropertyCommentSniff implements Sniff
     private $file;
 
     /**
-     * @var array
-     */
-    private $tokens;
-
-    /**
      * @return int[]
      */
     public function register(): array
@@ -37,7 +32,6 @@ final class BlockPropertyCommentSniff implements Sniff
     public function process(File $file, $position): void
     {
         $this->file = $file;
-        $this->tokens = $file->getTokens();
 
         $propertyWrapper = PropertyWrapper::createFromFileAndPosition($this->file, $position);
         if (! $docBlock = $propertyWrapper->getDocBlock()) {

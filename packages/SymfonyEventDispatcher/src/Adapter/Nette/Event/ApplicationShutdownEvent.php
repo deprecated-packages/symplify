@@ -28,18 +28,18 @@ final class ApplicationShutdownEvent extends Event
      */
     private $exception;
 
-    public function __construct(Application $application, Throwable $exception = null)
+    public function __construct(Application $application, ?Throwable $exception = null)
     {
         $this->application = $application;
         $this->exception = $exception;
     }
 
-    public function getApplication() : Application
+    public function getApplication(): Application
     {
         return $this->application;
     }
 
-    public function getException() : ?Throwable
+    public function getException(): ?Throwable
     {
         return $this->exception;
     }

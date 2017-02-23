@@ -34,7 +34,7 @@ final class MigrationsExtension extends CompilerExtension
         SetConsoleOutputEventSubscriber::class,
     ];
 
-    public function loadConfiguration() : void
+    public function loadConfiguration(): void
     {
         $this->ensureEventDispatcherExtensionIsRegistered();
 
@@ -56,7 +56,7 @@ final class MigrationsExtension extends CompilerExtension
         $this->addConfigurationDefinition($config);
     }
 
-    public function beforeCompile() : void
+    public function beforeCompile(): void
     {
         $containerBuilder = $this->getContainerBuilder();
         $containerBuilder->prepareClassList();
@@ -65,7 +65,7 @@ final class MigrationsExtension extends CompilerExtension
         $this->loadCommandsToApplication();
     }
 
-    private function addConfigurationDefinition(array $config) : void
+    private function addConfigurationDefinition(array $config): void
     {
         $containerBuilder = $this->getContainerBuilder();
         $configurationDefinition = $containerBuilder->addDefinition($this->prefix('configuration'));
@@ -83,7 +83,7 @@ final class MigrationsExtension extends CompilerExtension
         }
     }
 
-    private function setConfigurationToCommands() : void
+    private function setConfigurationToCommands(): void
     {
         $containerBuilder = $this->getContainerBuilder();
         $configurationDefinition = $containerBuilder->getDefinitionByType(Configuration::class);
@@ -93,7 +93,7 @@ final class MigrationsExtension extends CompilerExtension
         }
     }
 
-    private function loadCommandsToApplication() : void
+    private function loadCommandsToApplication(): void
     {
         DefinitionCollector::loadCollectorWithType(
             $this->getContainerBuilder(),
@@ -103,7 +103,7 @@ final class MigrationsExtension extends CompilerExtension
         );
     }
 
-    private function getValidatedConfig() : array
+    private function getValidatedConfig(): array
     {
         $configuration = $this->validateConfig($this->defaults);
         $this->validateConfig($configuration);
@@ -112,7 +112,7 @@ final class MigrationsExtension extends CompilerExtension
         return $configuration;
     }
 
-    private function ensureEventDispatcherExtensionIsRegistered() : void
+    private function ensureEventDispatcherExtensionIsRegistered(): void
     {
         if (! $this->compiler->getExtensions(EventDispatcherExtension::class)) {
             throw new MissingExtensionException(

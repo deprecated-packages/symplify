@@ -70,7 +70,7 @@ final class RenderableFilesProcessor
     /**
      * @param SplFileInfo[] $fileInfos
      */
-    public function processFiles(array $fileInfos) : void
+    public function processFiles(array $fileInfos): void
     {
         if (! count($fileInfos)) {
             return;
@@ -88,7 +88,7 @@ final class RenderableFilesProcessor
         $this->fileSystemWriter->copyRenderableFiles($files);
     }
 
-    private function createFileObjectsFromFileInfos(array $fileInfos) : array
+    private function createFileObjectsFromFileInfos(array $fileInfos): array
     {
         $files = [];
         foreach ($fileInfos as $id => $fileInfo) {
@@ -101,7 +101,7 @@ final class RenderableFilesProcessor
     /**
      * @param File[] $files
      */
-    private function setPostsToConfiguration(array $files) : void
+    private function setPostsToConfiguration(array $files): void
     {
         if (reset($files) instanceof PostFile) {
             $this->configuration->addGlobalVarialbe('posts', $files);
@@ -111,7 +111,7 @@ final class RenderableFilesProcessor
     /**
      * @param File[] $files
      */
-    private function setRoutesToFiles(array $files) : void
+    private function setRoutesToFiles(array $files): void
     {
         foreach ($files as $file) {
             $this->routeDecorator->decorateFile($file);
@@ -121,7 +121,7 @@ final class RenderableFilesProcessor
     /**
      * @param File[] $files
      */
-    private function setFileConfigurationToFile(array $files) : void
+    private function setFileConfigurationToFile(array $files): void
     {
         foreach ($files as $file) {
             $this->configurationDecorator->decorateFile($file);
@@ -131,7 +131,7 @@ final class RenderableFilesProcessor
     /**
      * @param File[] $files
      */
-    private function formatFileContentFromMarkdownToHtml(array $files) : void
+    private function formatFileContentFromMarkdownToHtml(array $files): void
     {
         foreach ($files as $file) {
             $this->markdownDecorator->decorateFile($file);
@@ -141,7 +141,7 @@ final class RenderableFilesProcessor
     /**
      * @param File[] $files
      */
-    private function formatFileContentFromLatteToHtml(array $files) : void
+    private function formatFileContentFromLatteToHtml(array $files): void
     {
         foreach ($files as $file) {
             $this->latteDecorator->decorateFile($file);

@@ -6,7 +6,7 @@ use SplFileInfo;
 
 interface SourceFileFilterInterface
 {
-    public function getName() : string;
+    public function getName(): string;
 
-    public function matchesFileSource(SplFileInfo $fileInfo) : bool;
+    public function matchesFileSource(SplFileInfo $fileInfo): bool;
 }

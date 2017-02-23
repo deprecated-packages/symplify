@@ -23,7 +23,7 @@ final class DynamicStringLoader implements ILoader
     /**
      * @param string $name
      */
-    public function getContent($name) : string
+    public function getContent($name): string
     {
         if (isset($this->templates[$name])) {
             return $this->templates[$name];
@@ -38,7 +38,7 @@ final class DynamicStringLoader implements ILoader
      * @param string $name
      * @param int $time
      */
-    public function isExpired($name, $time) : bool
+    public function isExpired($name, $time): bool
     {
         // needed?
         return false;
@@ -48,7 +48,7 @@ final class DynamicStringLoader implements ILoader
      * @param string $name
      * @param string $referringName
      */
-    public function getReferredName($name, $referringName) : string
+    public function getReferredName($name, $referringName): string
     {
         // needed?
         return $name;
@@ -57,7 +57,7 @@ final class DynamicStringLoader implements ILoader
     /**
      * @param string $name
      */
-    public function getUniqueId($name) : string
+    public function getUniqueId($name): string
     {
         // needed?
         return $this->getContent($name);

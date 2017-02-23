@@ -29,7 +29,7 @@ final class SomeCommand extends Command implements DummyServiceAwareInterface
         $this->dummyService = $dummyService;
     }
 
-    public function getFinder() : Finder
+    public function getFinder(): Finder
     {
         return $this->finder;
     }

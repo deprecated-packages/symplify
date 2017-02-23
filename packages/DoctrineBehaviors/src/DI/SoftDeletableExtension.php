@@ -2,7 +2,6 @@
 
 namespace Zenify\DoctrineBehaviors\DI;
 
-use Kdyby;
 use Kdyby\Events\DI\EventsExtension;
 use Knp\DoctrineBehaviors\Model\SoftDeletable\SoftDeletable;
 use Knp\DoctrineBehaviors\ORM\SoftDeletable\SoftDeletableSubscriber;
@@ -19,7 +18,7 @@ final class SoftDeletableExtension extends AbstractBehaviorExtension
         'trait' => SoftDeletable::class
     ];
 
-    public function loadConfiguration() : void
+    public function loadConfiguration(): void
     {
         $config = $this->validateConfig($this->defaults);
         $this->validateConfigTypes($config);
@@ -38,7 +37,7 @@ final class SoftDeletableExtension extends AbstractBehaviorExtension
     /**
      * @throws AssertionException
      */
-    private function validateConfigTypes(array $config) : void
+    private function validateConfigTypes(array $config): void
     {
         Validators::assertField($config, 'isRecursive', 'bool');
         Validators::assertField($config, 'trait', 'type');

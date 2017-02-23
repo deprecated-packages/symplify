@@ -46,4 +46,14 @@ class Tag
     {
         return $this->name;
     }
+
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
+    public function getCategories(): array
+    {
+        return $this->categories;
+    }
 }

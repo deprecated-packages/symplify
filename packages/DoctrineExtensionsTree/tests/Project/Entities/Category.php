@@ -44,7 +44,7 @@ class Category
      * @param string $name
      * @param Category $parent
      */
-    public function __construct($name, Category $parent = null)
+    public function __construct($name, ?Category $parent = null)
     {
         $this->name = $name;
         $this->parent = $parent;

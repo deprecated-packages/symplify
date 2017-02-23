@@ -6,7 +6,7 @@ use Symplify\Statie\Exception\Utils\MissingDirectoryException;
 
 final class FilesystemChecker
 {
-    public static function ensureDirectoryExists(string $directory) : void
+    public static function ensureDirectoryExists(string $directory): void
     {
         if (! is_dir($directory)) {
             throw new MissingDirectoryException(

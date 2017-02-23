@@ -42,7 +42,7 @@ final class ConfigurationDecoratorTest extends TestCase
         $this->assertSame($expectedConfiguration, $filePath->getConfiguration());
     }
 
-    public function provideDataForDecorateFile() : array
+    public function provideDataForDecorateFile(): array
     {
         return [
             [__DIR__ . '/ConfigurationDecoratorSource/someFile.latte', 'Content...', [

@@ -6,9 +6,9 @@ use Symplify\Statie\Renderable\File\AbstractFile;
 
 interface RouteInterface
 {
-    public function matches(AbstractFile $file) : bool;
+    public function matches(AbstractFile $file): bool;
 
-    public function buildOutputPath(AbstractFile $file) : string;
+    public function buildOutputPath(AbstractFile $file): string;
 
-    public function buildRelativeUrl(AbstractFile $file) : string;
+    public function buildRelativeUrl(AbstractFile $file): string;
 }

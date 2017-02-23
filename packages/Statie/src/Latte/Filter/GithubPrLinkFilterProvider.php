@@ -21,7 +21,7 @@ final class GithubPrLinkFilterProvider implements LatteFiltersProviderInterface
     /**
      * @return callable[]
      */
-    public function getFilters() : array
+    public function getFilters(): array
     {
         return [
             'githubEditPostUrl' => function (AbstractFile $file) {

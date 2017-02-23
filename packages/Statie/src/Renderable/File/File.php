@@ -4,4 +4,5 @@ namespace Symplify\Statie\Renderable\File;
 
 final class File extends AbstractFile
 {
+
 }

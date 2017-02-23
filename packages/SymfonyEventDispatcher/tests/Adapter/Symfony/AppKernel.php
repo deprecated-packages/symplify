@@ -8,7 +8,7 @@ use Symplify\SymfonyEventDispatcher\Adapter\Symfony\SymfonyEventDispatcherBundle
 
 final class AppKernel extends Kernel
 {
-    public function registerBundles() : array
+    public function registerBundles(): array
     {
         return [
             new SymfonyEventDispatcherBundle,
@@ -20,12 +20,12 @@ final class AppKernel extends Kernel
         $loader->load(__DIR__ . '/Resources/config/config.yml');
     }
 
-    public function getCacheDir() : string
+    public function getCacheDir(): string
     {
         return sys_get_temp_dir() . '/symplify_symfony_event_dispatcher';
     }
 
-    public function getLogDir() : string
+    public function getLogDir(): string
     {
            return sys_get_temp_dir() . '/symplify_symfony_event_dispatcher';
     }

@@ -58,7 +58,7 @@ final class NeonParser extends Base
         return $data;
     }
 
-    private function mergeIncludedFiles(array $data, string $filename, string $includeKeyword) : array
+    private function mergeIncludedFiles(array $data, string $filename, string $includeKeyword): array
     {
         if (isset($data[$includeKeyword])) {
             foreach ($data[$includeKeyword] as $include) {

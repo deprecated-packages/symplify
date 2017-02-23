@@ -30,7 +30,7 @@ final class DynamicStringLoaderTest extends TestCase
         $this->assertFalse($this->stringLoader->isExpired('missing', 123));
     }
 
-    private function createStringLoader() : DynamicStringLoader
+    private function createStringLoader(): DynamicStringLoader
     {
         $loader = new DynamicStringLoader;
         $loader->addTemplate(

@@ -21,7 +21,7 @@ final class FileFactory
     /**
      * @return File|PostFile
      */
-    public function create(SplFileInfo $file) : AbstractFile
+    public function create(SplFileInfo $file): AbstractFile
     {
         $relativeSource = substr($file->getPathname(), strlen($this->configuration->getSourceDirectory()));
         $relativeSource = ltrim($relativeSource, DIRECTORY_SEPARATOR);

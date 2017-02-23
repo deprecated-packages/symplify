@@ -20,14 +20,14 @@ final class CheckRequirementsSubscriber implements EventSubscriberInterface
         $this->authorizationChecker = $authorizationChecker;
     }
 
-    public static function getSubscribedEvents() : array
+    public static function getSubscribedEvents(): array
     {
         return [
             PresenterCreatedEvent::NAME => 'onPresenter',
         ];
     }
 
-    public function onPresenter(PresenterCreatedEvent $applicationPresenterEvent) : void
+    public function onPresenter(PresenterCreatedEvent $applicationPresenterEvent): void
     {
         $isGranted = $this->authorizationChecker->isGranted(
             'access',

@@ -7,7 +7,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 final class SomeEventSubscriber implements EventSubscriberInterface
 {
-    public static function getSubscribedEvents() : array
+    public static function getSubscribedEvents(): array
     {
         return ['subscriber.event' => 'methodName'];
     }

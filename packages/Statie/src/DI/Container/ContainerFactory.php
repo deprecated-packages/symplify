@@ -8,7 +8,7 @@ use Nette\Utils\FileSystem;
 
 final class ContainerFactory
 {
-    public function create() : Container
+    public function create(): Container
     {
         $configurator = new Configurator;
         $configurator->setDebugMode(true);
@@ -18,7 +18,7 @@ final class ContainerFactory
         return $configurator->createContainer();
     }
 
-    private function createAndReturnTempDir() : string
+    private function createAndReturnTempDir(): string
     {
         $tempDir = sys_get_temp_dir() . '/Statie';
         FileSystem::delete($tempDir);

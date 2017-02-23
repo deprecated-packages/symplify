@@ -14,7 +14,7 @@ final class AppKernel extends Kernel
         parent::__construct('symplify_service_definition_decorator' . random_int(1, 100), true);
     }
 
-    public function registerBundles() : array
+    public function registerBundles(): array
     {
         return [
             new FrameworkBundle,

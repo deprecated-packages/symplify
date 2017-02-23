@@ -21,7 +21,7 @@ final class GihubPublishingProcess
         string $outputDirectory,
         string $githubRepository,
         string $branch
-    ) : void {
+    ): void {
 
         FilesystemChecker::ensureDirectoryExists($outputDirectory);
 

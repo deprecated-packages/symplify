@@ -77,7 +77,7 @@ final class RoutingDecoratorTest extends TestCase
         $this->assertSame('blog/somePost', $file->getRelativeUrl());
     }
 
-    private function getFileFactory() : FileFactory
+    private function getFileFactory(): FileFactory
     {
         $configuration = new Configuration(new NeonParser);
         $configuration->setSourceDirectory('sourceDirectory');

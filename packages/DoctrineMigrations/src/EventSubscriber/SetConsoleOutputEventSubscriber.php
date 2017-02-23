@@ -21,12 +21,12 @@ final class SetConsoleOutputEventSubscriber implements EventSubscriberInterface
         $this->outputWriter = $outputWriter;
     }
 
-    public static function getSubscribedEvents() : array
+    public static function getSubscribedEvents(): array
     {
         return [ConsoleEvents::COMMAND => 'setOutputWriter'];
     }
 
-    public function setOutputWriter(ConsoleCommandEvent $event) : void
+    public function setOutputWriter(ConsoleCommandEvent $event): void
     {
         $command = $event->getCommand();
         if (! $this->isMigrationCommand($command)) {
@@ -36,7 +36,7 @@ final class SetConsoleOutputEventSubscriber implements EventSubscriberInterface
         $this->outputWriter->setConsoleOutput($event->getOutput());
     }
 
-    private function isMigrationCommand(Command $command) : bool
+    private function isMigrationCommand(Command $command): bool
     {
         return $command instanceof AbstractCommand;
     }

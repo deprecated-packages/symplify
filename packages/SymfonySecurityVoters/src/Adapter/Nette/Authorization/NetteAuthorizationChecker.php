@@ -28,7 +28,7 @@ final class NetteAuthorizationChecker implements AuthorizationCheckerInterface
      * @param mixed $attributes
      * @param mixed $object
      */
-    public function isGranted($attributes, $object = null) : bool
+    public function isGranted($attributes, $object = null): bool
     {
         $attributes = (array) $attributes;
 

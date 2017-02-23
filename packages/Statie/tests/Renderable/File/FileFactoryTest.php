@@ -7,7 +7,6 @@ use PHPUnit\Framework\TestCase;
 use SplFileInfo;
 use Symplify\Statie\Configuration\Configuration;
 use Symplify\Statie\Configuration\Parser\NeonParser;
-use Symplify\Statie\Renderable\File\AbstractFile;
 use Symplify\Statie\Renderable\File\File;
 use Symplify\Statie\Renderable\File\FileFactory;
 use Symplify\Statie\Renderable\File\PostFile;

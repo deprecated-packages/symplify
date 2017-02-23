@@ -14,7 +14,7 @@ use Symplify\Statie\Source\SourceFileStorage;
 
 final class StatieCompilerExtension extends CompilerExtension
 {
-    public function loadConfiguration() : void
+    public function loadConfiguration(): void
     {
         Compiler::loadDefinitions(
             $this->getContainerBuilder(),
@@ -22,7 +22,7 @@ final class StatieCompilerExtension extends CompilerExtension
         );
     }
 
-    public function beforeCompile() : void
+    public function beforeCompile(): void
     {
         DefinitionCollector::loadCollectorWithType(
             $this->getContainerBuilder(),

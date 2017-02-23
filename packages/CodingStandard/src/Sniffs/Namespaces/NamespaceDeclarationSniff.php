@@ -34,11 +34,6 @@ final class NamespaceDeclarationSniff implements Sniff
     private $position;
 
     /**
-     * @var array[]
-     */
-    private $tokens;
-
-    /**
      * @var ClassMetrics
      */
     private $classMetrics;
@@ -66,7 +61,6 @@ final class NamespaceDeclarationSniff implements Sniff
 
         $this->file = $file;
         $this->position = $position;
-        $this->tokens = $file->getTokens();
 
         // prepare class metrics class
         $this->classMetrics = new ClassMetrics($file, $classPosition);

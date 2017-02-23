@@ -9,7 +9,7 @@ final class SomeEvent extends Event
     /**
      * @var string
      */
-    const NAME = 'some_event';
+    public const NAME = 'some_event';
 
     /**
      * @var string
@@ -21,7 +21,7 @@ final class SomeEvent extends Event
         $this->state = $state;
     }
 
-    public function getState() : string
+    public function getState(): string
     {
         return $this->state;
     }

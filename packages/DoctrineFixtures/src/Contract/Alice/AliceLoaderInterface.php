@@ -10,5 +10,5 @@ interface AliceLoaderInterface
      * @param string|array $sources
      * @return object[]
      */
-    public function load($sources) : array;
+    public function load($sources): array;
 }

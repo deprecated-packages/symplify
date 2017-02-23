@@ -8,7 +8,6 @@ use SplFileInfo;
 use Symplify\Statie\Configuration\Configuration;
 use Symplify\Statie\Configuration\Parser\NeonParser;
 use Symplify\Statie\Renderable\File\AbstractFile;
-use Symplify\Statie\Renderable\File\File;
 use Symplify\Statie\Renderable\File\FileFactory;
 use Symplify\Statie\Renderable\Markdown\MarkdownDecorator;
 
@@ -60,7 +59,7 @@ final class MarkdownDecoratorTest extends TestCase
         );
     }
 
-    private function createFileFromFilePath(string $filePath) : AbstractFile
+    private function createFileFromFilePath(string $filePath): AbstractFile
     {
         $fileInfo = new SplFileInfo($filePath);
 

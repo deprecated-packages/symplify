@@ -2,7 +2,6 @@
 
 namespace Zenify\DoctrineBehaviors\DI;
 
-use Kdyby;
 use Kdyby\Events\DI\EventsExtension;
 use Knp\DoctrineBehaviors\Model\Translatable\Translation;
 use Knp\DoctrineBehaviors\ORM\Translatable\TranslatableSubscriber;
@@ -24,7 +23,7 @@ final class TranslatableExtension extends AbstractBehaviorExtension
         'translationFetchMode' => 'LAZY',
     ];
 
-    public function loadConfiguration() : void
+    public function loadConfiguration(): void
     {
         $config = $this->validateConfig($this->defaults);
         $this->validateConfigTypes($config);
@@ -47,7 +46,7 @@ final class TranslatableExtension extends AbstractBehaviorExtension
     /**
      * @throws AssertionException
      */
-    private function validateConfigTypes(array $config) : void
+    private function validateConfigTypes(array $config): void
     {
         Validators::assertField($config, 'currentLocaleCallable', 'null|array');
         Validators::assertField($config, 'translatableTrait', 'type');

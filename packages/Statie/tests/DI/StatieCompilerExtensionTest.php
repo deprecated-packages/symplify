@@ -35,7 +35,7 @@ final class StatieCompilerExtensionTest extends TestCase
         $this->assertCount(5, $definition->getSetup());
     }
 
-    private function prepareAndReturnExtension() : StatieCompilerExtension
+    private function prepareAndReturnExtension(): StatieCompilerExtension
     {
         $extension = new StatieCompilerExtension;
         $extension->setConfig([

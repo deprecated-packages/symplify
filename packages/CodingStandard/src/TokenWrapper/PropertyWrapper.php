@@ -23,11 +23,6 @@ final class PropertyWrapper
     private $propertyToken;
 
     /**
-     * @var string
-     */
-    private $name;
-
-    /**
      * @var array
      */
     private $tokens;
@@ -49,8 +44,6 @@ final class PropertyWrapper
         $this->position = $position;
         $this->tokens = $this->file->getTokens();
         $this->propertyToken = $this->tokens[$position];
-
-        $this->name = substr($this->propertyToken['content'], 1);
     }
 
     public static function createFromFileAndPosition(File $file, int $position)

@@ -49,7 +49,7 @@ final class VarPropertyCommentSniff extends AbstractVariableSniff
     {
     }
 
-    private function getPropertyComment(File $file, $position): string
+    private function getPropertyComment(File $file, int $position): string
     {
         $commentEnd = $file->findPrevious([T_DOC_COMMENT_CLOSE_TAG], $position);
         if ($commentEnd === false) {

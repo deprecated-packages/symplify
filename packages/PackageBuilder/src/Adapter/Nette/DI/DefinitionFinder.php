@@ -8,7 +8,7 @@ use Symplify\ModularDoctrineFilters\Exception\DefinitionForTypeNotFoundException
 
 final class DefinitionFinder
 {
-    public static function getByType(ContainerBuilder $containerBuilder, string $type) : ServiceDefinition
+    public static function getByType(ContainerBuilder $containerBuilder, string $type): ServiceDefinition
     {
         $containerBuilder->prepareClassList();
 
@@ -26,7 +26,7 @@ final class DefinitionFinder
         );
     }
 
-    public static function getNameByType(ContainerBuilder $containerBuilder, string $type) : string
+    public static function getNameByType(ContainerBuilder $containerBuilder, string $type): string
     {
         $containerBuilder->prepareClassList();
 

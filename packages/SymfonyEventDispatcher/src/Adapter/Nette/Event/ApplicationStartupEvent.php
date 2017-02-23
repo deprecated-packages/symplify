@@ -27,7 +27,7 @@ final class ApplicationStartupEvent extends Event
         $this->application = $application;
     }
 
-    public function getApplication() : Application
+    public function getApplication(): Application
     {
         return $this->application;
     }

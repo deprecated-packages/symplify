@@ -23,7 +23,7 @@ final class GenerateCommand extends Command
         parent::__construct();
     }
 
-    protected function configure() : void
+    protected function configure(): void
     {
         $this->setName('generate');
         $this->setDescription('Generate a site from source.');
@@ -44,7 +44,7 @@ final class GenerateCommand extends Command
         );
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output) : int
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $runCommand = new RunCommand(
             $input->getOption('source'),

@@ -21,12 +21,12 @@ final class RegisterMigrationsEventSubscriber implements EventSubscriberInterfac
         $this->configuration = $configuration;
     }
 
-    public static function getSubscribedEvents() : array
+    public static function getSubscribedEvents(): array
     {
         return [ConsoleEvents::COMMAND => 'registerMigrations'];
     }
 
-    public function registerMigrations(ConsoleCommandEvent $event) : void
+    public function registerMigrations(ConsoleCommandEvent $event): void
     {
         $command = $event->getCommand();
         if (! $this->isMigrationCommand($command)) {
@@ -38,7 +38,7 @@ final class RegisterMigrationsEventSubscriber implements EventSubscriberInterfac
         );
     }
 
-    private function isMigrationCommand(Command $command) : bool
+    private function isMigrationCommand(Command $command): bool
     {
         return $command instanceof AbstractCommand;
     }

@@ -7,7 +7,7 @@ use Zenify\DoctrineBehaviors\DI\AbstractBehaviorExtension;
 
 final class SomeBehaviorExtension extends AbstractBehaviorExtension
 {
-    public function getClassAnalyzerPublic() : ServiceDefinition
+    public function getClassAnalyzerPublic(): ServiceDefinition
     {
         return parent::getClassAnalyzer();
     }

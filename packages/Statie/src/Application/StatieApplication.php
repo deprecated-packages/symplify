@@ -7,7 +7,6 @@ use Nette\Utils\Strings;
 use SplFileInfo;
 use Symplify\Statie\Application\Command\RunCommand;
 use Symplify\Statie\Configuration\Configuration;
-use Symplify\Statie\HttpServer\HttpServer;
 use Symplify\Statie\Output\FileSystemWriter;
 use Symplify\Statie\Renderable\Latte\DynamicStringLoader;
 use Symplify\Statie\Renderable\RenderableFilesProcessor;
@@ -55,7 +54,7 @@ final class StatieApplication
         $this->dynamicStringLoader = $dynamicStringLoader;
     }
 
-    public function runCommand(RunCommand $runCommand) : void
+    public function runCommand(RunCommand $runCommand): void
     {
         $this->loadConfigurationWithDirectories($runCommand);
 
@@ -79,19 +78,19 @@ final class StatieApplication
         $this->renderableFilesProcessor->processFiles($this->sourceFileStorage->getRenderableFiles());
     }
 
-    private function loadConfigurationWithDirectories(RunCommand $runCommand) : void
+    private function loadConfigurationWithDirectories(RunCommand $runCommand): void
     {
         $this->configuration->setSourceDirectory($runCommand->getSourceDirectory());
         $this->configuration->setOutputDirectory($runCommand->getOutputDirectory());
     }
 
-    private function loadSourcesFromSourceDirectory(string $sourceDirectory) : void
+    private function loadSourcesFromSourceDirectory(string $sourceDirectory): void
     {
         $files = $this->findFilesInSourceDirectory($sourceDirectory);
         $this->sourceFileStorage->loadSourcesFromFiles($files);
     }
 
-    private function findFilesInSourceDirectory(string $sourceDirectory) : array
+    private function findFilesInSourceDirectory(string $sourceDirectory): array
     {
         $finder = Finder::findFiles('*')->from($sourceDirectory);
 
@@ -106,7 +105,7 @@ final class StatieApplication
     /**
      * @param SplFileInfo[] $layoutFiles
      */
-    private function loadLayoutsToLatteLoader(array $layoutFiles) : void
+    private function loadLayoutsToLatteLoader(array $layoutFiles): void
     {
         foreach ($layoutFiles as $layoutFile) {
             $name = $layoutFile->getBasename('.' . $layoutFile->getExtension());
@@ -115,7 +114,7 @@ final class StatieApplication
         }
     }
 
-    private function isGlobalFile(SplFileInfo $file) : bool
+    private function isGlobalFile(SplFileInfo $file): bool
     {
         if (Strings::endsWith($file->getPath(), '_layouts')) {
             return true;

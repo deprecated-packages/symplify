@@ -21,7 +21,7 @@ final class BlameableExtension extends AbstractBehaviorExtension
         'userEntity' => null
     ];
 
-    public function loadConfiguration() : void
+    public function loadConfiguration(): void
     {
         $config = $this->validateConfig($this->defaults);
         $this->validateConfigTypes($config);
@@ -44,7 +44,7 @@ final class BlameableExtension extends AbstractBehaviorExtension
     /**
      * @throws AssertionException
      */
-    private function validateConfigTypes(array $config) : void
+    private function validateConfigTypes(array $config): void
     {
         Validators::assertField($config, 'isRecursive', 'bool');
         Validators::assertField($config, 'trait', 'type');

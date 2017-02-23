@@ -24,12 +24,12 @@ final class RouteDecorator implements DecoratorInterface
         $this->configuration = $configuration;
     }
 
-    public function addRoute(RouteInterface $route) : void
+    public function addRoute(RouteInterface $route): void
     {
         $this->routes[] = $route;
     }
 
-    public function decorateFile(AbstractFile $file) : void
+    public function decorateFile(AbstractFile $file): void
     {
         foreach ($this->routes as $route) {
             if ($route->matches($file)) {
@@ -47,7 +47,7 @@ final class RouteDecorator implements DecoratorInterface
         $file->setRelativeUrl($relativeDirectory . DIRECTORY_SEPARATOR . $file->getBaseName());
     }
 
-    private function getRelativeDirectory(AbstractFile $file) : string
+    private function getRelativeDirectory(AbstractFile $file): string
     {
         $sourceParts = explode(DIRECTORY_SEPARATOR, $this->configuration->getSourceDirectory());
         $sourceDirectory = array_pop($sourceParts);

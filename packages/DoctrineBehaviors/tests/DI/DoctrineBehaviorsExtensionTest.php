@@ -11,7 +11,6 @@ use Knp\DoctrineBehaviors\ORM\Timestampable\TimestampableSubscriber;
 use Knp\DoctrineBehaviors\ORM\Translatable\TranslatableSubscriber;
 use Knp\DoctrineBehaviors\ORM\Tree\TreeSubscriber;
 use PHPUnit\Framework\TestCase;
-use Zenify;
 use Zenify\DoctrineBehaviors\Tests\ContainerFactory;
 
 final class DoctrineBehaviorsExtensionTest extends TestCase
@@ -19,7 +18,7 @@ final class DoctrineBehaviorsExtensionTest extends TestCase
     /**
      * @var int
      */
-    const LISTENER_COUNT = 17;
+    private const LISTENER_COUNT = 17;
 
     /**
      * @var string[]

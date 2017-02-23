@@ -32,22 +32,22 @@ final class NetteEventItem
         $this->eventName = $eventName;
     }
 
-    public function getClass() : string
+    public function getClass(): string
     {
         return $this->class;
     }
 
-    public function getEventClass() : string
+    public function getEventClass(): string
     {
         return $this->eventClass;
     }
 
-    public function getEventName() : string
+    public function getEventName(): string
     {
         return $this->eventName;
     }
 
-    public function getProperty() : string
+    public function getProperty(): string
     {
         return $this->property;
     }
