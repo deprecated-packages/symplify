@@ -91,6 +91,9 @@ final class CompleteTest extends TestCase
         $this->assertInstanceOf(HttpKernelInterface::class, $httpKernel);
     }
 
+    /**
+     * @expectedException \Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException
+     */
     public function testGetControllerServiceMissing(): void
     {
         $request = new Request;

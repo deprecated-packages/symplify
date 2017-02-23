@@ -69,9 +69,9 @@ final class ControllerResolver implements ControllerResolverInterface
     /**
      * @param Request $request
      * @param callable $controller
-     * @return array|mixed
+     * @return array|null
      */
-    public function getArguments(Request $request, callable $controller): array
+    public function getArguments(Request $request, $controller): ?array
     {
         return $this->controllerResolver->getArguments($request, $controller);
     }
