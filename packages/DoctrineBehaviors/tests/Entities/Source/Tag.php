@@ -46,6 +46,9 @@ class Tag
         return $this->id;
     }
 
+    /**
+     * @return CategoryTranslation[]|ArrayCollection
+     */
     public function getCategories(): array
     {
         return $this->categories;

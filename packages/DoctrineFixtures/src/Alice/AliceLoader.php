@@ -31,7 +31,7 @@ final class AliceLoader implements AliceLoaderInterface
      * @param string|array $sources
      * @return object[]
      */
-    public function load(array $sources): array
+    public function load($sources): array
     {
         if (! is_array($sources)) {
             $sources = [$sources];

@@ -9,22 +9,9 @@ use SplFileInfo;
 
 abstract class AbstractSniffTestCase extends TestCase
 {
-//    /**
-//     * @var SniffDispatcher
-//     */
-//    private $sniffDispatcher;
-
-//    /**
-//     * @var ErrorCollector
-//     */
-//    private $errorCollector;
-
     protected function runSniffTestForDirectory(string $sniffClass, string $directory): void
     {
-//        $this->sniffDispatcher = $this->createSniffDispatcherWithSniff($sniffClass);
-
         foreach ($this->findFilesInDirectory($directory) as $file) {
-//            $this->errorCollector = $this->createErrorCollector();
             if (Strings::startsWith($file->getFilename(), 'correct')) {
                 $this->runSniffTestForCorrectFile($sniffClass, $file);
             }
@@ -84,17 +71,4 @@ abstract class AbstractSniffTestCase extends TestCase
     {
         return dirname($fileInfo->getPathname()) . '/' . $fileInfo->getBasename('.php.inc') . '-fixed.php.inc';
     }
-
-//    private function createSniffDispatcherWithSniff(string $sniffClass): SniffDispatcher
-//    {
-//        $sniffDispatcher = new SniffDispatcher;
-//        $sniffDispatcher->addSniffListeners([new $sniffClass]);
-//
-//        return $sniffDispatcher;
-//    }
-
-//    private function createErrorCollector(): ErrorCollector
-//    {
-//        return new ErrorCollector(new ErrorSorter);
-//    }
 }

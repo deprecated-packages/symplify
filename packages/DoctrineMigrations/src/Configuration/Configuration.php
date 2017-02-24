@@ -40,7 +40,7 @@ final class Configuration extends BaseConfiguration
      * @param string $version
      * @return Version|string
      */
-    public function getVersion(string $version)
+    public function getVersion($version)
     {
         $version = parent::getVersion($version);
         $this->container->callInjects($version->getMigration());

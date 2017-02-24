@@ -7,7 +7,11 @@ use ReflectionProperty;
 
 final class PrivatesAccessor
 {
-    public static function accessClassProperty(object $object, string $propertyName): ReflectionProperty
+    /**
+     * @param object $object
+     * @param string $propertyName
+     */
+    public static function accessClassProperty($object, string $propertyName): ReflectionProperty
     {
         $reflectionProperty = (new ReflectionClass($object))->getProperty($propertyName);
         $reflectionProperty->setAccessible(true);

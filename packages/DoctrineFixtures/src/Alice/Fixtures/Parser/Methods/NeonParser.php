@@ -17,7 +17,7 @@ final class NeonParser extends Base
      * @param string $file
      * @return mixed[]
      */
-    public function parse(string $file)
+    public function parse($file): array
     {
         ob_start();
 
@@ -41,11 +41,11 @@ final class NeonParser extends Base
     }
 
     /**
-     * @param array $data
+     * @param mixed[] $data
      * @param string $filename
-     * @return array
+     * @return mixed[]
      */
-    protected function processIncludes(array $data, string $filename): array
+    protected function processIncludes($data, $filename): array
     {
         $includeKeywords = [
             'include',

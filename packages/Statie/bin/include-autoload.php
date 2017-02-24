@@ -30,7 +30,7 @@ final class AutoloadIncluder
 
         return false;
     }
-
+}
 
 if (! (new AutoloadIncluder)->includeAutoload()) {
     echo 'You must set up the project dependencies, run the following commands:'.PHP_EOL.

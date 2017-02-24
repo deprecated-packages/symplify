@@ -47,7 +47,7 @@
         "symfony/validator": "^3.2",
         "symfony/serializer": "^3.2",
 
-        "symfony-cmf/routing-bundle": "2.0.0-RC2 as 1.4",
+        "symfony-cmf/routing-bundle": "^2.0",
 
         "squizlabs/php_codesniffer": "3.0.x-dev as 2.8",
         "friendsofphp/php-cs-fixer": "^2.1",
@@ -83,6 +83,7 @@
     "autoload": {
         "psr-4": {
             "PHP_CodeSniffer\\": "vendor/squizlabs/php_codesniffer/src",
+            "Symplify\\AutoServiceRegistration\\": "packages/AutoServiceRegistration/src",
             "Symplify\\CodingStandard\\": "packages/CodingStandard/src",
             "Symplify\\ControllerAutowire\\": "packages/ControllerAutowire/src",
             "Symplify\\DefaultAutowire\\": "packages/DefaultAutowire/src",
@@ -143,6 +144,6 @@
         "complete-check": ["vendor/bin/phpunit", "@fix-cs", "@phpstan"],
         "check-cs": "packages/EasyCodingStandard/bin/easy-coding-standard packages/*/src packages/*/tests",
         "fix-cs": "packages/EasyCodingStandard/bin/easy-coding-standard packages/*/src packages/*/tests --fix",
-        "phpstan": "vendor/bin/phpstan analyse packages --level=4 -c phpstan.neon"
+        "phpstan": "vendor\\bin\\phpstan analyse packages --level=4 -c phpstan.neon"
     }
 }

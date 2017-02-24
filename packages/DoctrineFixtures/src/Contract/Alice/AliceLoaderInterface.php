@@ -7,8 +7,8 @@ interface AliceLoaderInterface
     /**
      * Loads fixtures from one or more files/folders.
      *
-     * @param string[]|array[] $sources
+     * @param string|string[] $sources
      * @return object[]
      */
-    public function load(array $sources): array;
+    public function load($sources): array;
 }
