@@ -61,7 +61,7 @@ final class MethodWrapper
         $this->methodToken = $this->tokens[$position];
 
         $this->startPosition = $this->position - 2; // todo: start position
-        $this->endPosition = $this->methodToken['scope_closer'];
+        $this->endPosition = (int) $this->methodToken['scope_closer'];
     }
 
     public static function createFromFileAndPosition(File $file, int $position): self
