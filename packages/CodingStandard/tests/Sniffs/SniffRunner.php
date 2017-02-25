@@ -3,6 +3,7 @@
 namespace Symplify\CodingStandard\Tests\Sniffs;
 
 use SplFileInfo;
+use Symplify\EasyCodingStandard\Configuration\ConfigurationNormalizer;
 use Symplify\EasyCodingStandard\Error\ErrorCollector;
 use Symplify\EasyCodingStandard\Error\ErrorFilter;
 use Symplify\EasyCodingStandard\Error\ErrorSorter;
@@ -55,7 +56,9 @@ final class SniffRunner
 
     private static function createErrorDataCollector(): ErrorCollector
     {
-        return new ErrorCollector(new ErrorSorter, new ErrorFilter);
+        return new ErrorCollector(new ErrorSorter, new ErrorFilter(
+            new ConfigurationNormalizer()
+        ));
     }
 
     private static function createFileFromFilePath(
