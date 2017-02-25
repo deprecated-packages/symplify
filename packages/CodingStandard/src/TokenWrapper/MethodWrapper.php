@@ -19,7 +19,7 @@ final class MethodWrapper
     private $position;
 
     /**
-     * @var array[]
+     * @var mixed[]
      */
     private $tokens;
 
@@ -34,7 +34,7 @@ final class MethodWrapper
     private $parameters;
 
     /**
-     * @var array[]
+     * @var mixed[]
      */
     private $methodToken;
 

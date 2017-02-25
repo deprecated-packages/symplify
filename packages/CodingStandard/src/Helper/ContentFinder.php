@@ -17,7 +17,7 @@ final class ContentFinder
     }
 
     /**
-     * @return array[]
+     * @return mixed[]
      */
     public static function getTokensBetween(File $file, int $startPosition, int $endPosition): array
     {

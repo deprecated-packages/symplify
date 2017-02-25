@@ -17,7 +17,7 @@ final class ParameterWrapper
     private $position;
 
     /**
-     * @var array[]
+     * @var mixed[]
      */
     private $tokens;
 

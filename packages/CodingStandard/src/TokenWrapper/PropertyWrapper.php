@@ -23,7 +23,7 @@ final class PropertyWrapper
     private $propertyToken;
 
     /**
-     * @var array[]
+     * @var mixed[]
      */
     private $tokens;
 

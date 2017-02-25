@@ -20,12 +20,12 @@ final class ClassWrapper
     private $position;
 
     /**
-     * @var array[]
+     * @var mixed[]
      */
     private $classToken;
 
     /**
-     * @var array[]
+     * @var mixed[]
      */
     private $tokens;
 

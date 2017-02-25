@@ -1,8 +1,10 @@
 ignore-errors:
-    - "Class StatieApplication contains unused private method isGlobalFile()."
-    # @todo: has to be also perfile, to common otherwise
-    # someFile:
-    #    -
+    packages/EasyCodingStandard/packages/SniffRunner/src/File/File.php:
+        - SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff
+    packages/CodingStandard/src/Sniffs/*/*Sniff.php:
+        - SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff
+#     or for all checks simply
+#     - packages/CodingStandard/src/Sniffs/*/*Sniff.php
 
 includes:
     - packages/EasyCodingStandard/config/php-cs-fixer/psr1-fixers.neon
@@ -123,10 +125,10 @@ php-code-sniffer:
     - SlevomatCodingStandard\Sniffs\TypeHints\ReturnTypeHintSpacingSniff
 #   @todo: enabled and use for ignore-errors section!!!
 #   blocked by parent classes with PHP 5.6 API
-#    SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff:
-#        usefulAnnotations:
-#            - @dataProvider
-#            - @expectedException
+    SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff:
+        usefulAnnotations:
+            - @dataProvider
+            - @expectedException
     - SlevomatCodingStandard\Sniffs\Namespaces\AlphabeticallySortedUsesSniff
     - SlevomatCodingStandard\Sniffs\Namespaces\DisallowGroupUseSniff
     - SlevomatCodingStandard\Sniffs\Namespaces\MultipleUsesPerLineSniff

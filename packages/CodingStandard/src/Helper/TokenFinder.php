@@ -73,7 +73,7 @@ final class TokenFinder
     }
 
     /**
-     * @return array[]
+     * @return mixed[]
      */
     public static function findAllOfType(File $file, int $type, int $start, int $end): array
     {

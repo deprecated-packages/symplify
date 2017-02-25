@@ -25,6 +25,9 @@ final class ConfigurationDecoratorTest extends TestCase
 
     /**
      * @dataProvider provideDataForDecorateFile()
+     * @param string $filePath
+     * @param string $fileContent
+     * @param mixed[] $expectedConfiguration
      */
     public function testDecorateFile(string $filePath, string $fileContent, array $expectedConfiguration)
     {
