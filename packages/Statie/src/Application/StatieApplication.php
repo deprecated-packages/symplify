@@ -3,7 +3,6 @@
 namespace Symplify\Statie\Application;
 
 use Nette\Utils\Finder;
-use Nette\Utils\Strings;
 use SplFileInfo;
 use Symplify\Statie\Application\Command\RunCommand;
 use Symplify\Statie\Configuration\Configuration;
@@ -112,18 +111,5 @@ final class StatieApplication
             $content = file_get_contents($layoutFile->getRealPath());
             $this->dynamicStringLoader->addTemplate($name, $content);
         }
-    }
-
-    private function isGlobalFile(SplFileInfo $file): bool
-    {
-        if (Strings::endsWith($file->getPath(), '_layouts')) {
-            return true;
-        }
-
-        if ($file->getExtension() === 'neon') {
-            return true;
-        }
-
-        return false;
     }
 }
