@@ -19,4 +19,14 @@ final class SomeServiceWithOptionalConstructorArguments
         $this->someService = $someService;
         $this->arg = $arg;
     }
+
+    public function getSomeService(): SomeService
+    {
+        return $this->someService;
+    }
+
+    public function getArg(): array
+    {
+        return $this->arg;
+    }
 }

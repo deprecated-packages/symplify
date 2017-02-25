@@ -1,38 +1,23 @@
 <?php declare(strict_types=1);
 
-final class AutoloadIncluder
-{
-    /**
-     * @var string[]
-     */
-    private $possibleAutoloadFileLocations = [
-        __DIR__ . '/../vendor/autoload.php',
-        __DIR__ . '/../../../autoload.php',
-        __DIR__ . '/../../../vendor/autoload.php'
-    ];
+gc_disable(); // performance boost
 
-    public function includeAutoload(): bool
-    {
-        foreach ($this->possibleAutoloadFileLocations as $autoloadFileLocation) {
-            if ($this->includeFileIfExists($autoloadFileLocation)) {
-                return true;
-            }
-        }
+$possibleAutoloadFileLocations = [
+    getcwd() . '/vendor/autoload.php',
+    __DIR__ . '/../vendor/autoload.php',
+    __DIR__ . '/../../../autoload.php',
+    __DIR__ . '/../../../vendor/autoload.php'
+];
 
-        return false;
-    }
-
-    private function includeFileIfExists(string $file): bool
-    {
-        if (file_exists($file)) {
-            return (bool) include $file;
-        }
-
-        return false;
+$isAutoloadLoaded = false;
+foreach ($this->possibleAutoloadFileLocations as $autoloadFileLocation) {
+    if (file_exists($autoloadFileLocation)) {
+        require_once $file;
+        $isAutoloadLoaded = true;
     }
 }
 
-if (! (new AutoloadIncluder)->includeAutoload()) {
+if ($isAutoloadLoaded === false) {
     echo 'You must set up the project dependencies, run the following commands:'.PHP_EOL.
         'curl -sS https://getcomposer.org/installer | php'.PHP_EOL.
         'php composer.phar install'.PHP_EOL;

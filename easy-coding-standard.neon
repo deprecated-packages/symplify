@@ -1,5 +1,8 @@
 ignore-errors:
     - "Class StatieApplication contains unused private method isGlobalFile()."
+    # @todo: has to be also perfile, to common otherwise
+    # someFile:
+    #    -
 
 includes:
     - packages/EasyCodingStandard/config/php-cs-fixer/psr1-fixers.neon
@@ -118,6 +121,7 @@ php-code-sniffer:
     - SlevomatCodingStandard\Sniffs\TypeHints\NullabilitySymbolSpacingSniff
     - SlevomatCodingStandard\Sniffs\TypeHints\NullableTypeForNullDefaultValueSniff
     - SlevomatCodingStandard\Sniffs\TypeHints\ReturnTypeHintSpacingSniff
+#   @todo: enabled and use for ignore-errors section!!!
 #   blocked by parent classes with PHP 5.6 API
 #    SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff:
 #        usefulAnnotations:

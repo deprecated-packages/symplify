@@ -13,7 +13,7 @@ final class MissingArgumentsTypehintsFactory
      *
      * @return MissingArgumentsTypehints
      */
-    public function create($valueWithoutType, SomeService $someService = null, $value = 1) : MissingArgumentsTypehints
+    public function create($valueWithoutType, ?SomeService $someService = null, $value = 1): MissingArgumentsTypehints
     {
         return new MissingArgumentsTypehints($valueWithoutType, $someService, $value);
     }

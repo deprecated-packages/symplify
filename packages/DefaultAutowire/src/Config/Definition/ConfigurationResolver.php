@@ -13,7 +13,7 @@ final class ConfigurationResolver
      */
     private $resolvedConfiguration;
 
-    public function resolveFromContainerBuilder(ContainerBuilder $containerBuilder) : array
+    public function resolveFromContainerBuilder(ContainerBuilder $containerBuilder): array
     {
         if ($this->resolvedConfiguration) {
             return $this->resolvedConfiguration;

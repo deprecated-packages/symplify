@@ -20,7 +20,7 @@ final class Configuration implements ConfigurationInterface
         'Symfony\Component\Translation\TranslatorInterface' => 'translator',
     ];
 
-    public function getConfigTreeBuilder() : TreeBuilder
+    public function getConfigTreeBuilder(): TreeBuilder
     {
         $treeBuilder = new TreeBuilder;
 

@@ -15,7 +15,7 @@ class SomeBuiltAutowiredServiceFactory
     public function create(
         SomeService $someService,
         EventDispatcherInterface $eventDispatcher
-    ) : SomeBuiltAutowiredService {
+    ): SomeBuiltAutowiredService {
         return new SomeBuiltAutowiredService($someService, $eventDispatcher);
     }
 }

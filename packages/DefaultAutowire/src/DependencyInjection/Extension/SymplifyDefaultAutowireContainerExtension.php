@@ -8,12 +8,12 @@ use Symplify\DefaultAutowire\SymplifyDefaultAutowireBundle;
 
 final class SymplifyDefaultAutowireContainerExtension extends Extension
 {
-    public function getAlias() : string
+    public function getAlias(): string
     {
         return SymplifyDefaultAutowireBundle::ALIAS;
     }
 
-    public function load(array $configs, ContainerBuilder $containerBuilder) : void
+    public function load(array $configs, ContainerBuilder $containerBuilder): void
     {
     }
 }

@@ -32,4 +32,19 @@ final class MissingArgumentsTypehints
         $this->someService = $someService;
         $this->value = $value;
     }
+
+    public function getValueWithoutType(): string
+    {
+        return $this->valueWithoutType;
+    }
+
+    public function getSomeService(): SomeService
+    {
+        return $this->someService;
+    }
+
+    public function getValue(): int
+    {
+        return $this->value;
+    }
 }

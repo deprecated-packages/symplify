@@ -25,7 +25,7 @@ final class TurnOnAutowireCompilerPassTest extends TestCase
         $this->assertTrue($autowiredDefinition->isAutowired());
     }
 
-    private function createDefinitionAnalyzer() : DefinitionAnalyzer
+    private function createDefinitionAnalyzer(): DefinitionAnalyzer
     {
         return new DefinitionAnalyzer(new DefinitionValidator);
     }

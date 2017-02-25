@@ -4,7 +4,7 @@ namespace Symplify\DefaultAutowire\Tests\DependencyInjection\Definition\Definiti
 
 final class EmptyConstructorFactory
 {
-    public function create() : EmptyConstructor
+    public function create(): EmptyConstructor
     {
         return new EmptyConstructor;
     }

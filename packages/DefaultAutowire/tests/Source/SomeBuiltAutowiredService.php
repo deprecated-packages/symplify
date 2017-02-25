@@ -25,7 +25,7 @@ class SomeBuiltAutowiredService
     /**
      * @return SomeService
      */
-    public function getSomeService() : SomeService
+    public function getSomeService(): SomeService
     {
         return $this->someService;
     }
@@ -33,7 +33,7 @@ class SomeBuiltAutowiredService
     /**
      * @return EventDispatcherInterface
      */
-    public function getEventDispatcher() : EventDispatcherInterface
+    public function getEventDispatcher(): EventDispatcherInterface
     {
         return $this->eventDispatcher;
     }
