@@ -141,7 +141,7 @@
         { "type": "path", "url": "packages/SniffRunner" }
     ],
     "scripts": {
-        "complete-check": ["vendor/bin/phpunit", "@fix-cs", "@phpstan"],
+        "complete-check": ["phpunit", "@fix-cs", "@phpstan"],
         "check-cs": "packages/EasyCodingStandard/bin/easy-coding-standard packages/*/src packages/*/tests",
         "fix-cs": "packages/EasyCodingStandard/bin/easy-coding-standard packages/*/src packages/*/tests --fix",
         "phpstan": "phpstan analyse packages --level=4 -c phpstan.neon"
