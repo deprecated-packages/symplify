@@ -4,6 +4,7 @@ namespace Symplify\CodingStandard\Tests\Sniffs;
 
 use SplFileInfo;
 use Symplify\EasyCodingStandard\Error\ErrorCollector;
+use Symplify\EasyCodingStandard\Error\ErrorFilter;
 use Symplify\EasyCodingStandard\Error\ErrorSorter;
 use Symplify\EasyCodingStandard\SniffRunner\EventDispatcher\Event\CheckFileTokenEvent;
 use Symplify\EasyCodingStandard\SniffRunner\EventDispatcher\SniffDispatcher;
@@ -54,7 +55,7 @@ final class SniffRunner
 
     private static function createErrorDataCollector(): ErrorCollector
     {
-        return new ErrorCollector(new ErrorSorter);
+        return new ErrorCollector(new ErrorSorter, new ErrorFilter);
     }
 
     private static function createFileFromFilePath(
