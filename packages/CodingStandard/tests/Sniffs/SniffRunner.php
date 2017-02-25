@@ -3,8 +3,8 @@
 namespace Symplify\CodingStandard\Tests\Sniffs;
 
 use SplFileInfo;
-use Symplify\EasyCodingStandard\Report\ErrorCollector;
-use Symplify\EasyCodingStandard\Report\ErrorSorter;
+use Symplify\EasyCodingStandard\Error\ErrorCollector;
+use Symplify\EasyCodingStandard\Error\ErrorSorter;
 use Symplify\EasyCodingStandard\SniffRunner\EventDispatcher\Event\CheckFileTokenEvent;
 use Symplify\EasyCodingStandard\SniffRunner\EventDispatcher\SniffDispatcher;
 use Symplify\EasyCodingStandard\SniffRunner\File\File;

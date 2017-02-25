@@ -1,7 +1,5 @@
-skip-for-rules-files:
-#   Rules:
-#        - files
-#   or rather Errors: like phpstan?
+ignore-errors:
+    - "Class StatieApplication contains unused private method isGlobalFile()."
 
 includes:
     - packages/EasyCodingStandard/config/php-cs-fixer/psr1-fixers.neon
