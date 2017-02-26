@@ -53,7 +53,7 @@ final class SniffRunner
         LegacyCompatibilityLayer::add();
 
         $sniffDispatcher = new TokenDispatcher(
-            new Skipper(new ErrorFilter(new ConfigurationNormalizer()))
+            new Skipper(new ConfigurationNormalizer())
         );
         $sniffDispatcher->addSniffListeners([new $sniffClass]);
 

@@ -3,8 +3,10 @@ ignore-errors:
         - SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff
     packages/CodingStandard/src/Sniffs/*/*Sniff.php:
         - SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff
-#     or for all checks simply
-#     - packages/CodingStandard/src/Sniffs/*/*Sniff.php
+    # test
+    - packages/EasyCodingStandard/packages/SniffRunner/src/Application/FileProcessor.php
+    packages/CodingStandard/tests/Sniffs/SniffRunner.php:
+        - PhpCsFixer\Fixer\Import\OrderedImportsFixer
 
 includes:
     - packages/EasyCodingStandard/config/php-cs-fixer/psr1-fixers.neon
