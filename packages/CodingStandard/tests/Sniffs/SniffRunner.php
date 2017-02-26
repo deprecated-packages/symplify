@@ -7,8 +7,9 @@ use Symplify\EasyCodingStandard\Configuration\ConfigurationNormalizer;
 use Symplify\EasyCodingStandard\Error\ErrorCollector;
 use Symplify\EasyCodingStandard\Error\ErrorFilter;
 use Symplify\EasyCodingStandard\Error\ErrorSorter;
-use Symplify\EasyCodingStandard\SniffRunner\EventDispatcher\Event\CheckFileTokenEvent;
-use Symplify\EasyCodingStandard\SniffRunner\EventDispatcher\SniffDispatcher;
+use Symplify\EasyCodingStandard\Skipper;
+use Symplify\EasyCodingStandard\SniffRunner\TokenDispatcher\Event\CheckFileTokenEvent;
+use Symplify\EasyCodingStandard\SniffRunner\TokenDispatcher\TokenDispatcher;
 use Symplify\EasyCodingStandard\SniffRunner\File\File;
 use Symplify\EasyCodingStandard\SniffRunner\Fixer\Fixer;
 use Symplify\EasyCodingStandard\SniffRunner\Legacy\LegacyCompatibilityLayer;
@@ -23,7 +24,10 @@ final class SniffRunner
         $file = self::createFileFromFilePath($fileInfo->getPathname(), $errorDataCollector);
 
         foreach ($file->getTokens() as $stackPointer => $token) {
-            $sniffDispatcher->dispatch($token['code'], new CheckFileTokenEvent($file, $stackPointer));
+            $sniffDispatcher->dispatchToken(
+                $token['code'],
+                new CheckFileTokenEvent($file, $stackPointer)
+            );
         }
 
         return $errorDataCollector->getErrorCount();
@@ -35,7 +39,7 @@ final class SniffRunner
         $file = self::createFileFromFilePath($fileInfo->getPathname());
 
         foreach ($file->getTokens() as $stackPointer => $token) {
-            $sniffDispatcher->dispatch(
+            $sniffDispatcher->dispatchToken(
                 $token['code'],
                 new CheckFileTokenEvent($file, $stackPointer)
             );
@@ -44,11 +48,13 @@ final class SniffRunner
         return $file->fixer->getContents();
     }
 
-    private static function createSniffDispatcherWithSniff(string $sniffClass): SniffDispatcher
+    private static function createSniffDispatcherWithSniff(string $sniffClass): TokenDispatcher
     {
         LegacyCompatibilityLayer::add();
 
-        $sniffDispatcher = new SniffDispatcher;
+        $sniffDispatcher = new TokenDispatcher(
+            new Skipper(new ErrorFilter(new ConfigurationNormalizer()))
+        );
         $sniffDispatcher->addSniffListeners([new $sniffClass]);
 
         return $sniffDispatcher;
