@@ -8,7 +8,7 @@ use Symplify\EasyCodingStandard\Error\ErrorCollector;
 use Symplify\EasyCodingStandard\Error\ErrorFilter;
 use Symplify\EasyCodingStandard\Error\ErrorSorter;
 use Symplify\EasyCodingStandard\Skipper;
-use Symplify\EasyCodingStandard\SniffRunner\TokenDispatcher\Event\CheckFileTokenEvent;
+use Symplify\EasyCodingStandard\SniffRunner\TokenDispatcher\Event\FileTokenEvent;
 use Symplify\EasyCodingStandard\SniffRunner\TokenDispatcher\TokenDispatcher;
 use Symplify\EasyCodingStandard\SniffRunner\File\File;
 use Symplify\EasyCodingStandard\SniffRunner\Fixer\Fixer;
@@ -26,7 +26,7 @@ final class SniffRunner
         foreach ($file->getTokens() as $stackPointer => $token) {
             $sniffDispatcher->dispatchToken(
                 $token['code'],
-                new CheckFileTokenEvent($file, $stackPointer)
+                new FileTokenEvent($file, $stackPointer)
             );
         }
 
@@ -41,7 +41,7 @@ final class SniffRunner
         foreach ($file->getTokens() as $stackPointer => $token) {
             $sniffDispatcher->dispatchToken(
                 $token['code'],
-                new CheckFileTokenEvent($file, $stackPointer)
+                new FileTokenEvent($file, $stackPointer)
             );
         }
 
