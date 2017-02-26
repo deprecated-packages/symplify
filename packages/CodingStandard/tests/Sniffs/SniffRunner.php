@@ -8,12 +8,12 @@ use Symplify\EasyCodingStandard\Error\ErrorCollector;
 use Symplify\EasyCodingStandard\Error\ErrorFilter;
 use Symplify\EasyCodingStandard\Error\ErrorSorter;
 use Symplify\EasyCodingStandard\Skipper;
-use Symplify\EasyCodingStandard\SniffRunner\TokenDispatcher\Event\FileTokenEvent;
-use Symplify\EasyCodingStandard\SniffRunner\TokenDispatcher\TokenDispatcher;
 use Symplify\EasyCodingStandard\SniffRunner\File\File;
 use Symplify\EasyCodingStandard\SniffRunner\Fixer\Fixer;
 use Symplify\EasyCodingStandard\SniffRunner\Legacy\LegacyCompatibilityLayer;
 use Symplify\EasyCodingStandard\SniffRunner\Parser\FileToTokensParser;
+use Symplify\EasyCodingStandard\SniffRunner\TokenDispatcher\Event\FileTokenEvent;
+use Symplify\EasyCodingStandard\SniffRunner\TokenDispatcher\TokenDispatcher;
 
 final class SniffRunner
 {
@@ -53,7 +53,7 @@ final class SniffRunner
         LegacyCompatibilityLayer::add();
 
         $sniffDispatcher = new TokenDispatcher(
-            new Skipper(new ConfigurationNormalizer())
+            new Skipper(new ConfigurationNormalizer)
         );
         $sniffDispatcher->addSniffListeners([new $sniffClass]);
 
@@ -63,7 +63,7 @@ final class SniffRunner
     private static function createErrorDataCollector(): ErrorCollector
     {
         return new ErrorCollector(new ErrorSorter, new ErrorFilter(
-            new ConfigurationNormalizer()
+            new ConfigurationNormalizer
         ));
     }
 
