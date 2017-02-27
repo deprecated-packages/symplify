@@ -22,17 +22,11 @@ class SomeBuiltAutowiredService
         $this->eventDispatcher = $eventDispatcher;
     }
 
-    /**
-     * @return SomeService
-     */
     public function getSomeService(): SomeService
     {
         return $this->someService;
     }
 
-    /**
-     * @return EventDispatcherInterface
-     */
     public function getEventDispatcher(): EventDispatcherInterface
     {
         return $this->eventDispatcher;

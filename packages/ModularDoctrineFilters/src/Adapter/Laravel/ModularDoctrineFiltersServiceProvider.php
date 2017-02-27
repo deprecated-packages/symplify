@@ -77,7 +77,7 @@ final class ModularDoctrineFiltersServiceProvider extends ServiceProvider
     }
 
     /**
-     * @param array[] $staticVariables
+     * @param string[] $staticVariables
      * @param string $name
      * @param string $classOrInterfaceType
      */

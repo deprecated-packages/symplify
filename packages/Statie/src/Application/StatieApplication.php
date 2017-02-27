@@ -89,6 +89,9 @@ final class StatieApplication
         $this->sourceFileStorage->loadSourcesFromFiles($files);
     }
 
+    /**
+     * @return SplFileInfo[]
+     */
     private function findFilesInSourceDirectory(string $sourceDirectory): array
     {
         $finder = Finder::findFiles('*')->from($sourceDirectory);

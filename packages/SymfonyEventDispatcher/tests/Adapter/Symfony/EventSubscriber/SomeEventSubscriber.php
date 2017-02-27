@@ -7,6 +7,9 @@ use Symplify\SymfonyEventDispatcher\Tests\Adapter\Symfony\Event\SomeEvent;
 
 final class SomeEventSubscriber implements EventSubscriberInterface
 {
+    /**
+     * @return string[]
+     */
     public static function getSubscribedEvents(): array
     {
         return [
@@ -14,7 +17,7 @@ final class SomeEventSubscriber implements EventSubscriberInterface
         ];
     }
 
-    public function changeState(SomeEvent $someEvent)
+    public function changeState(SomeEvent $someEvent): void
     {
         $someEvent->changeState('on');
     }

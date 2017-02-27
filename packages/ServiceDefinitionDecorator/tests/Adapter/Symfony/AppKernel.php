@@ -4,6 +4,7 @@ namespace Symplify\ServiceDefinitionDecorator\Tests\Adapter\Symfony;
 
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
 use Symfony\Component\Config\Loader\LoaderInterface;
+use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 use Symfony\Component\HttpKernel\Kernel;
 use Symplify\ServiceDefinitionDecorator\Adapter\Symfony\SymplifyServiceDefinitionDecoratorBundle;
 
@@ -14,6 +15,9 @@ final class AppKernel extends Kernel
         parent::__construct('symplify_service_definition_decorator' . random_int(1, 100), true);
     }
 
+    /**
+     * @return BundleInterface[]
+     */
     public function registerBundles(): array
     {
         return [
@@ -22,7 +26,7 @@ final class AppKernel extends Kernel
         ];
     }
 
-    public function registerContainerConfiguration(LoaderInterface $loader)
+    public function registerContainerConfiguration(LoaderInterface $loader): void
     {
         $loader->load(__DIR__ . '/Resources/config/config.yml');
     }

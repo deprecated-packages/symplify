@@ -3,11 +3,15 @@
 namespace Symplify\SymfonyEventDispatcher\Tests\Adapter\Symfony;
 
 use Symfony\Component\Config\Loader\LoaderInterface;
+use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 use Symfony\Component\HttpKernel\Kernel;
 use Symplify\SymfonyEventDispatcher\Adapter\Symfony\SymfonyEventDispatcherBundle;
 
 final class AppKernel extends Kernel
 {
+    /**
+     * @return BundleInterface[]
+     */
     public function registerBundles(): array
     {
         return [
@@ -15,7 +19,7 @@ final class AppKernel extends Kernel
         ];
     }
 
-    public function registerContainerConfiguration(LoaderInterface $loader)
+    public function registerContainerConfiguration(LoaderInterface $loader): void
     {
         $loader->load(__DIR__ . '/Resources/config/config.yml');
     }

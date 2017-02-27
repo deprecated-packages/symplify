@@ -5,7 +5,6 @@ namespace Zenify\DoctrineBehaviors\DI;
 use Kdyby\Events\DI\EventsExtension;
 use Knp\DoctrineBehaviors\Model\Blameable\Blameable;
 use Knp\DoctrineBehaviors\ORM\Blameable\BlameableSubscriber;
-use Nette\Utils\AssertionException;
 use Nette\Utils\Validators;
 use Zenify\DoctrineBehaviors\Blameable\UserCallable;
 
@@ -42,8 +41,7 @@ final class BlameableExtension extends AbstractBehaviorExtension
     }
 
     /**
-     * @param mixed[] $array
-     * @throws AssertionException
+     * @param mixed[] $config
      */
     private function validateConfigTypes(array $config): void
     {

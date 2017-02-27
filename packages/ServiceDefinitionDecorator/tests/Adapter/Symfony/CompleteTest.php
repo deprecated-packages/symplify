@@ -16,33 +16,33 @@ final class CompleteTest extends TestCase
      */
     private $consoleApplication;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->consoleApplication = new Application(new AppKernel);
     }
 
-    public function testTags()
+    public function testTags(): void
     {
         /** @var SomeCommand $someCommand */
         $someCommand = $this->consoleApplication->get('some_command');
         $this->assertInstanceOf(SomeCommand::class, $someCommand);
     }
 
-    public function testAutowire()
+    public function testAutowire(): void
     {
         /** @var SomeCommand $someCommand */
         $someCommand = $this->consoleApplication->get('some_command');
         $this->assertInstanceOf(Finder::class, $someCommand->getFinder());
     }
 
-    public function testMethodCalls()
+    public function testMethodCalls(): void
     {
         /** @var SomeCommand $someCommand */
         $someCommand = $this->consoleApplication->get('some_command');
         $this->assertInstanceOf(DummyService::class, $someCommand->getDummyService());
     }
 
-    public function testTagsForEventDispatcher()
+    public function testTagsForEventDispatcher(): void
     {
         $kernel = new AppKernel;
         $kernel->boot();

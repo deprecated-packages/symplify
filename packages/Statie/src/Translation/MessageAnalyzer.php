@@ -4,6 +4,9 @@ namespace Symplify\Statie\Translation;
 
 final class MessageAnalyzer
 {
+    /**
+     * @return string[]
+     */
     public function extractDomainFromMessage(string $message): array
     {
         $domain = 'messages';

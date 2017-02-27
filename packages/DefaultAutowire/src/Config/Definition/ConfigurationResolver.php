@@ -13,6 +13,9 @@ final class ConfigurationResolver
      */
     private $resolvedConfiguration;
 
+    /**
+     * @return mixed[]
+     */
     public function resolveFromContainerBuilder(ContainerBuilder $containerBuilder): array
     {
         if ($this->resolvedConfiguration) {

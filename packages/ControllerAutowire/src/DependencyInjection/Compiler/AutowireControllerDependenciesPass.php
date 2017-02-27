@@ -30,7 +30,7 @@ final class AutowireControllerDependenciesPass implements CompilerPassInterface
     private $containerBuilder;
 
     /**
-     * @var array[]
+     * @var string[][]
      */
     private $traitsToSettersToServiceNameList = [
         ControllerFlashTrait::class => [

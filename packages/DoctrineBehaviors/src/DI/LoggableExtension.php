@@ -11,7 +11,7 @@ use Zenify\DoctrineBehaviors\Loggable\LoggerCallable;
 final class LoggableExtension extends AbstractBehaviorExtension
 {
     /**
-     * @var array[]
+     * @var mixed[]
      */
     private $defaults = [
         'isRecursive' => true,

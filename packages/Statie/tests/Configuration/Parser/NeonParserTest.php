@@ -7,7 +7,7 @@ use Symplify\Statie\Configuration\Parser\NeonParser;
 
 final class NeonParserTest extends TestCase
 {
-    public function test()
+    public function test(): void
     {
         $yamlAndNeonParser = new NeonParser;
 

@@ -4,6 +4,7 @@ namespace Symplify\DefaultAutowire\Tests;
 
 use Doctrine\Bundle\DoctrineBundle\DoctrineBundle;
 use Symfony\Component\Config\Loader\LoaderInterface;
+use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 use Symfony\Component\HttpKernel\Kernel;
 use Symplify\DefaultAutowire\SymplifyDefaultAutowireBundle;
 
@@ -14,7 +15,10 @@ final class AppKernel extends Kernel
         parent::__construct('symplify_default_autowire' . mt_rand(1, 100), true);
     }
 
-    public function registerBundles()
+    /**
+     * @return BundleInterface[]
+     */
+    public function registerBundles(): array
     {
         return [
             new SymplifyDefaultAutowireBundle,
@@ -22,7 +26,7 @@ final class AppKernel extends Kernel
         ];
     }
 
-    public function registerContainerConfiguration(LoaderInterface $loader)
+    public function registerContainerConfiguration(LoaderInterface $loader): void
     {
         $loader->load(__DIR__ . '/Resources/config/config.yml');
     }

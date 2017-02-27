@@ -15,7 +15,7 @@ final class FileTest extends TestCase
      */
     private $fileFactory;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $configuration = new Configuration(new NeonParser);
         $configuration->setSourceDirectory('sourceDirectory');
@@ -23,7 +23,7 @@ final class FileTest extends TestCase
         $this->fileFactory = new FileFactory($configuration);
     }
 
-    public function testGetRelativeSource()
+    public function testGetRelativeSource(): void
     {
         $fileInfo = new SplFileInfo(__DIR__ . '/FileFactorySource/someFile.latte');
         $file = $this->fileFactory->create($fileInfo);
@@ -31,7 +31,7 @@ final class FileTest extends TestCase
         $this->assertStringEndsWith('/FileFactorySource/someFile.latte', $file->getRelativeSource());
     }
 
-    public function testGetPrimaryExtension()
+    public function testGetPrimaryExtension(): void
     {
         $fileInfo = new SplFileInfo(__DIR__ . '/FileSource/some.html.latte');
         $file = $this->fileFactory->create($fileInfo);

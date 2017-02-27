@@ -16,7 +16,7 @@ final class NetteTokenAdapter implements TokenInterface
      */
     private $user;
 
-    public function __toString()
+    public function __toString(): void
     {
         throw new NotImplementedException;
     }
@@ -92,7 +92,7 @@ final class NetteTokenAdapter implements TokenInterface
     /**
      * @param bool $isAuthenticated
      */
-    public function setAuthenticated($isAuthenticated)
+    public function setAuthenticated($isAuthenticated): void
     {
         throw new NotImplementedException;
     }
@@ -100,12 +100,12 @@ final class NetteTokenAdapter implements TokenInterface
     /**
      * {@inheritdoc}
      */
-    public function getUsername()
+    public function getUsername(): void
     {
         throw new NotImplementedException;
     }
 
-    public function eraseCredentials()
+    public function eraseCredentials(): void
     {
         throw new NotImplementedException;
     }

@@ -5,13 +5,12 @@ namespace Zenify\DoctrineBehaviors\DI;
 use Kdyby\Events\DI\EventsExtension;
 use Knp\DoctrineBehaviors\Model\Tree\Node;
 use Knp\DoctrineBehaviors\ORM\Tree\TreeSubscriber;
-use Nette\Utils\AssertionException;
 use Nette\Utils\Validators;
 
 final class TreeExtension extends AbstractBehaviorExtension
 {
     /**
-     * @var array
+     * @var mixed[]
      */
     private $defaults = [
         'isRecursive' => true,
@@ -35,7 +34,7 @@ final class TreeExtension extends AbstractBehaviorExtension
     }
 
     /**
-     * @throws AssertionException
+     * @param mixed[] $config
      */
     private function validateConfigTypes(array $config): void
     {

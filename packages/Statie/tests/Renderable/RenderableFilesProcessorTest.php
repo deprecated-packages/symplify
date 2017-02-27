@@ -21,7 +21,7 @@ final class RenderableFilesProcessorTest extends TestCase
      */
     private $configuration;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $container = (new ContainerFactory)->create();
         $this->renderableFilesProcessor = $container->getByType(RenderableFilesProcessor::class);
@@ -31,12 +31,12 @@ final class RenderableFilesProcessorTest extends TestCase
         $this->configuration->setOutputDirectory(__DIR__ . '/RenderFilesProcessorSource/output');
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         FileSystem::delete(__DIR__ . '/RenderFilesProcessorSource/output');
     }
 
-    public function test()
+    public function test(): void
     {
         $finder = Finder::findFiles('*')->from(__DIR__ . '/RenderFilesProcessorSource/source')->getIterator();
         $fileInfos = iterator_to_array($finder);
@@ -50,7 +50,7 @@ final class RenderableFilesProcessorTest extends TestCase
         );
     }
 
-    public function testPosts()
+    public function testPosts(): void
     {
         $finder = Finder::findFiles('*')->from(__DIR__ . '/RenderFilesProcessorSource/source/_posts')->getIterator();
         $fileInfos = iterator_to_array($finder);

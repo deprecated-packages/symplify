@@ -22,11 +22,11 @@ final class MissingArgumentsTypehints
     private $value;
 
     /**
-     * @param string $valueWithoutType
+     * @param mixed $valueWithoutType
      * @param SomeService|null $someService
      * @param int $value
      */
-    public function __construct($valueWithoutType, ?SomeService $someService, $value = 1)
+    public function __construct($valueWithoutType, ?SomeService $someService, int $value = 1)
     {
         $this->valueWithoutType = $valueWithoutType;
         $this->someService = $someService;

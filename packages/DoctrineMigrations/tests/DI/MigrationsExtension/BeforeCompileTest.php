@@ -69,7 +69,7 @@ final class BeforeCompileTest extends TestCase
     /**
      * @param Statement $statement
      * @param string $entity
-     * @param array[] $arguments
+     * @param mixed[] $arguments
      */
     private function matchDefinitionSetupStatement(Statement $statement, string $entity, array $arguments): void
     {

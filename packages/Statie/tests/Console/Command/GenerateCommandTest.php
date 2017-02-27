@@ -16,7 +16,7 @@ final class GenerateCommandTest extends TestCase
      */
     private $application;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $container = (new ContainerFactory)->create();
 
@@ -24,12 +24,12 @@ final class GenerateCommandTest extends TestCase
         $this->application->setAutoExit(false);
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         FileSystem::delete(__DIR__ . DIRECTORY_SEPARATOR . 'GenerateCommandSource' . DIRECTORY_SEPARATOR . 'output');
     }
 
-    public function test()
+    public function test(): void
     {
         $stringInput = sprintf(
             'generate --source %s --output %s',
@@ -44,7 +44,7 @@ final class GenerateCommandTest extends TestCase
         $this->assertFileExists(__DIR__ . '/GenerateCommandSource/output/index.html');
     }
 
-    public function testException()
+    public function testException(): void
     {
         $stringInput = sprintf(
             'generate --source %s',

@@ -13,6 +13,10 @@ final class SymplifyDefaultAutowireContainerExtension extends Extension
         return SymplifyDefaultAutowireBundle::ALIAS;
     }
 
+    /**
+     * @param mixed[] $configs
+     * @param ContainerBuilder $containerBuilder
+     */
     public function load(array $configs, ContainerBuilder $containerBuilder): void
     {
     }

@@ -10,11 +10,14 @@ final class PathNormalizerTest extends TestCase
     /**
      * @dataProvider provideDataForNormalize()
      */
-    public function test(string $normalizedPath, string $path)
+    public function test(string $normalizedPath, string $path): void
     {
         $this->assertSame($normalizedPath, PathNormalizer::normalize($path));
     }
 
+    /**
+     * @return string[][]
+     */
     public function provideDataForNormalize(): array
     {
         return [

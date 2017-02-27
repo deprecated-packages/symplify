@@ -13,6 +13,10 @@ final class ContainerExtension extends Extension
         return SymplifyServiceDefinitionDecoratorBundle::ALIAS;
     }
 
+    /**
+     * @param mixed[] $configs
+     * @param ContainerBuilder $containerBuilder
+     */
     public function load(array $configs, ContainerBuilder $containerBuilder): void
     {
     }

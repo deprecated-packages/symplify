@@ -43,6 +43,10 @@ final class DecorateCompilerPass implements CompilerPassInterface
         }
     }
 
+    /**
+     * @param Definition $definition
+     * @param string[][] $setups
+     */
     private function addCalls(Definition $definition, array $setups): void
     {
         foreach ($setups as $setterConfiguration) {
@@ -57,6 +61,10 @@ final class DecorateCompilerPass implements CompilerPassInterface
         }
     }
 
+    /**
+     * @param Definition $definition
+     * @param string[][] $tags
+     */
     private function addTags(Definition $definition, array $tags): void
     {
         foreach ($tags as $tag) {

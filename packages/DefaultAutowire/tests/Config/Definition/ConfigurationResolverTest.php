@@ -14,12 +14,12 @@ final class ConfigurationResolverTest extends TestCase
      */
     private $configurationResolver;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->configurationResolver = new ConfigurationResolver;
     }
 
-    public function testResolveDefaults()
+    public function testResolveDefaults(): void
     {
         $resolvedConfiguration = $this->configurationResolver->resolveFromContainerBuilder(new ContainerBuilder);
 
@@ -36,7 +36,7 @@ final class ConfigurationResolverTest extends TestCase
         ], $resolvedConfiguration);
     }
 
-    public function testOverrideDefaults()
+    public function testOverrideDefaults(): void
     {
         $containerBuilder = new ContainerBuilder;
 
@@ -55,7 +55,7 @@ final class ConfigurationResolverTest extends TestCase
         $this->assertSame('other_entity_manager', $autowireTypes['Doctrine\ORM\EntityManager']);
     }
 
-    public function testAddNewValues()
+    public function testAddNewValues(): void
     {
         $containerBuilder = new ContainerBuilder;
 
@@ -74,7 +74,7 @@ final class ConfigurationResolverTest extends TestCase
         $this->assertSame('some_service', $autowireTypes['SomeInterface']);
     }
 
-    public function testCache()
+    public function testCache(): void
     {
         $resolvedConfiguration = $this->configurationResolver->resolveFromContainerBuilder(new ContainerBuilder);
         $resolvedConfiguration2 = $this->configurationResolver->resolveFromContainerBuilder(new ContainerBuilder);

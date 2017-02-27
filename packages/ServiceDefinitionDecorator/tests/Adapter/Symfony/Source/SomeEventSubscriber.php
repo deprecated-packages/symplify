@@ -6,12 +6,17 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 final class SomeEventSubscriber implements EventSubscriberInterface
 {
+    /**
+     * @return string[]
+     */
     public static function getSubscribedEvents(): array
     {
-        return ['some_event' => 'doThis'];
+        return [
+            'some_event' => 'doThis'
+        ];
     }
 
-    public function doThis()
+    public function doThis(): void
     {
     }
 }

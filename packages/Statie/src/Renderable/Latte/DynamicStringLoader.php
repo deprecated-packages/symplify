@@ -15,7 +15,7 @@ final class DynamicStringLoader implements ILoader
      */
     private $templates = [];
 
-    public function addTemplate(string $name, string $content)
+    public function addTemplate(string $name, string $content): void
     {
         $this->templates[$name] = $content;
     }

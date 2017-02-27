@@ -18,12 +18,12 @@ final class GihubPublishingProcessTest extends TestCase
      */
     private $githubPublishingProcess;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->githubPublishingProcess = new GihubPublishingProcess;
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         FileSystem::delete($this->outputDirectory . DIRECTORY_SEPARATOR . '.git');
     }
@@ -31,15 +31,12 @@ final class GihubPublishingProcessTest extends TestCase
     /**
      * @expectedException \Exception
      */
-    public function testPushDirectoryContentToRepositoryForNonExistingRepository()
+    public function testPushDirectoryContentToRepositoryForNonExistingRepository(): void
     {
         $this->githubPublishingProcess->pushDirectoryContentToRepository('missing directory', '', '');
     }
 
-    /**
-     * @slow
-     */
-    public function testPushDirectoryContentToRepository()
+    public function testPushDirectoryContentToRepository(): void
     {
         $this->markTestSkipped('Prepare demo repository with token first.');
 

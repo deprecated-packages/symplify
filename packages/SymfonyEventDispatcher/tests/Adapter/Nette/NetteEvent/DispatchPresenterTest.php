@@ -20,14 +20,14 @@ final class DispatchPresenterTest extends TestCase
      */
     private $eventStateStorage;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $containerFactory = (new ContainerFactory)->create();
         $this->application = $containerFactory->getByType(Application::class);
         $this->eventStateStorage = $containerFactory->getByType(EventStateStorage::class);
     }
 
-    public function testDispatch()
+    public function testDispatch(): void
     {
         $this->application->run();
 

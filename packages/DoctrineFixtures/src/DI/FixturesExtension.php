@@ -11,7 +11,7 @@ use Nette\DI\CompilerExtension;
 final class FixturesExtension extends CompilerExtension
 {
     /**
-     * @var array[]
+     * @var mixed[]
      */
     private $defaults = [
         'locale' => 'cs_CZ',

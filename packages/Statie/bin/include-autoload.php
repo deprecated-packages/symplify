@@ -10,9 +10,9 @@ $possibleAutoloadFileLocations = [
 ];
 
 $isAutoloadLoaded = false;
-foreach ($this->possibleAutoloadFileLocations as $autoloadFileLocation) {
+foreach ($possibleAutoloadFileLocations as $autoloadFileLocation) {
     if (file_exists($autoloadFileLocation)) {
-        require_once $file;
+        require_once $autoloadFileLocation;
         $isAutoloadLoaded = true;
     }
 }

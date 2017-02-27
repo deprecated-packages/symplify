@@ -18,12 +18,17 @@ final class PresenterSubscriber implements EventSubscriberInterface
         $this->eventStateStorage = $eventStateStorage;
     }
 
+    /**
+     * @return string[]
+     */
     public static function getSubscribedEvents(): array
     {
-        return [PresenterShutdownEvent::NAME => 'onShutdown'];
+        return [
+            PresenterShutdownEvent::NAME => 'onShutdown'
+        ];
     }
 
-    public function onShutdown(PresenterShutdownEvent $presenterResponseEvent)
+    public function onShutdown(PresenterShutdownEvent $presenterResponseEvent): void
     {
         $this->eventStateStorage->addEventState(PresenterShutdownEvent::NAME, $presenterResponseEvent);
     }

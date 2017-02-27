@@ -11,7 +11,7 @@ use Symplify\DefaultAutowire\DependencyInjection\Compiler\DefaultAutowireTypesCo
 
 final class DefaultAutowireTypesCompilerPassTest extends TestCase
 {
-    public function testProcess()
+    public function testProcess(): void
     {
         $defaultAutowireTypesPass = new DefaultAutowireTypesCompilerPass;
         $containerBuilder = new ContainerBuilder;

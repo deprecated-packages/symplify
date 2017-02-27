@@ -14,12 +14,12 @@ final class DefinitionFinderTest extends TestCase
      */
     private $containerBuilder;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->containerBuilder = new ContainerBuilder;
     }
 
-    public function testAutowired()
+    public function testAutowired(): void
     {
         $definition = $this->containerBuilder->addDefinition('some')
             ->setClass(stdClass::class);
@@ -27,7 +27,7 @@ final class DefinitionFinderTest extends TestCase
         $this->assertSame($definition, DefinitionFinder::getByType($this->containerBuilder, stdClass::class));
     }
 
-    public function testNonAutowired()
+    public function testNonAutowired(): void
     {
         $definition = $this->containerBuilder->addDefinition('some')
             ->setClass(stdClass::class)
@@ -39,7 +39,7 @@ final class DefinitionFinderTest extends TestCase
     /**
      * @expectedException \Symplify\ModularDoctrineFilters\Exception\DefinitionForTypeNotFoundException
      */
-    public function testMissing()
+    public function testMissing(): void
     {
         DefinitionFinder::getByType($this->containerBuilder, stdClass::class);
     }

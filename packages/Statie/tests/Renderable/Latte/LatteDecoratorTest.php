@@ -19,7 +19,7 @@ final class LatteDecoratorTest extends TestCase
      */
     private $latteDecorator;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $stringLoader = $this->createStringLoader();
 
@@ -30,7 +30,7 @@ final class LatteDecoratorTest extends TestCase
         );
     }
 
-    public function testDecorateFile()
+    public function testDecorateFile(): void
     {
         $fileInfo = new SplFileInfo(__DIR__ . '/LatteDecoratorSource/fileWithoutLayout.latte');
         $file = new File($fileInfo, 'fileWithoutLayout');
@@ -39,7 +39,7 @@ final class LatteDecoratorTest extends TestCase
         $this->assertContains('Contact me!', $file->getContent());
     }
 
-    public function testDecorateFileWithLayout()
+    public function testDecorateFileWithLayout(): void
     {
         $fileInfo = new SplFileInfo(__DIR__ . '/LatteDecoratorSource/contact.latte');
         $file = new File($fileInfo, 'contact.latte');
@@ -53,7 +53,7 @@ final class LatteDecoratorTest extends TestCase
         $this->assertContains('Contact us!', $file->getContent());
     }
 
-    public function testDecorateFileWithFileVariable()
+    public function testDecorateFileWithFileVariable(): void
     {
         $fileInfo = new SplFileInfo(__DIR__ . '/LatteDecoratorSource/fileWithFileVariable.latte');
         $file = new File($fileInfo, 'fileWithFileVariable');

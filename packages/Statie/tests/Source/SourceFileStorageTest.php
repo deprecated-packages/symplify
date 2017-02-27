@@ -14,7 +14,7 @@ use Symplify\Statie\Source\SourceFileStorage;
 
 final class SourceFileStorageTest extends TestCase
 {
-    public function test()
+    public function test(): void
     {
         $sourceFileStorage = $this->prepareSourceFileStorage();
 
@@ -24,7 +24,7 @@ final class SourceFileStorageTest extends TestCase
         $this->assertCount(1, $sourceFileStorage->getRenderableFiles());
     }
 
-    public function testPostDescendentSorting()
+    public function testPostDescendentSorting(): void
     {
         $sourceFileStorage = $this->prepareSourceFileStorage();
 
@@ -40,7 +40,7 @@ final class SourceFileStorageTest extends TestCase
         $this->assertSame('2016-05-10-post.latte', $secondPost->getFilename());
     }
 
-    public function testCnameIsFound()
+    public function testCnameIsFound(): void
     {
         $sourceFileStorage = $this->prepareSourceFileStorage();
 

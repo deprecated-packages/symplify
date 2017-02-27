@@ -27,7 +27,7 @@ final class FileSystemWriterTest extends TestCase
      */
     private $fileSystemWriter;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $configuration = new Configuration(new NeonParser);
         $configuration->setSourceDirectory($this->sourceDirectory);
@@ -36,12 +36,12 @@ final class FileSystemWriterTest extends TestCase
         $this->fileSystemWriter = new FileSystemWriter($configuration);
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         FileSystem::delete($this->outputDirectory);
     }
 
-    public function testCopyStaticFiles()
+    public function testCopyStaticFiles(): void
     {
         $files = [new SplFileInfo($this->sourceDirectory . '/index.html')];
         $this->fileSystemWriter->copyStaticFiles($files);
@@ -52,7 +52,7 @@ final class FileSystemWriterTest extends TestCase
         );
     }
 
-    public function testCopyRenderableFiles()
+    public function testCopyRenderableFiles(): void
     {
         $file = new File(
             new SplFileInfo($this->sourceDirectory . '/contact.latte'),

@@ -10,10 +10,14 @@ final class SomeServiceWithOptionalConstructorArguments
     private $someService;
 
     /**
-     * @var array
+     * @var mixed[]
      */
     private $arg = [];
 
+    /**
+     * @param SomeService $someService
+     * @param mixed[] $arg
+     */
     public function __construct(?SomeService $someService, array $arg = [])
     {
         $this->someService = $someService;
@@ -25,6 +29,9 @@ final class SomeServiceWithOptionalConstructorArguments
         return $this->someService;
     }
 
+    /**
+     * @return mixed[]
+     */
     public function getArg(): array
     {
         return $this->arg;

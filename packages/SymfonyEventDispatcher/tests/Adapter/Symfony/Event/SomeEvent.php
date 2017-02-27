@@ -16,7 +16,7 @@ final class SomeEvent extends Event
      */
     private $state = 'off';
 
-    public function changeState(string $state)
+    public function changeState(string $state): void
     {
         $this->state = $state;
     }

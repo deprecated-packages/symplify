@@ -7,14 +7,15 @@ use Symplify\DefaultAutowire\Tests\Source\SomeService;
 final class MissingArgumentsTypehintsFactory
 {
     /**
-     * @param string $valueWithoutType
+     * @param mixed $valueWithoutType
      * @param SomeService|null $someService
      * @param int $value
-     *
-     * @return MissingArgumentsTypehints
      */
-    public function create($valueWithoutType, ?SomeService $someService = null, $value = 1): MissingArgumentsTypehints
-    {
+    public function create(
+        $valueWithoutType,
+        ?SomeService $someService = null,
+        int $value = 1
+    ): MissingArgumentsTypehints {
         return new MissingArgumentsTypehints($valueWithoutType, $someService, $value);
     }
 }

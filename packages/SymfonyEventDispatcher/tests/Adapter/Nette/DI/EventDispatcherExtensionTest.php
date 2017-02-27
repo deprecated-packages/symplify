@@ -12,7 +12,7 @@ use Symplify\SymfonyEventDispatcher\Tests\Adapter\Nette\DI\EventDispatcherExtens
 
 final class EventDispatcherExtensionTest extends TestCase
 {
-    public function testGetEventDispatcher()
+    public function testGetEventDispatcher(): void
     {
         $extension = $this->getExtension();
         $extension->loadConfiguration();
@@ -29,7 +29,7 @@ final class EventDispatcherExtensionTest extends TestCase
         $this->assertSame(EventDispatcher::class, $eventDispatcherDefinition->getClass());
     }
 
-    public function testLoadSubscribers()
+    public function testLoadSubscribers(): void
     {
         $extension = $this->getExtension();
         $containerBuilder = $extension->getContainerBuilder();

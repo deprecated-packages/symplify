@@ -12,7 +12,7 @@ final class EventDispatcherTest extends TestCase
      * @expectedException \Exception
      * @expectedExceptionMessage Event was dispatched in subscriber.
      */
-    public function test()
+    public function test(): void
     {
         $container = (new ContainerFactory)->create();
 

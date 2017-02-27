@@ -10,8 +10,8 @@ use Knp\DoctrineBehaviors\Model\Translatable\Translatable;
 trait TranslatableTrait
 {
     /**
-     * @param string
-     * @param array
+     * @param string $method
+     * @param mixed[] $arguments
      * @return mixed
      */
     public function __call(string $method, array $arguments)

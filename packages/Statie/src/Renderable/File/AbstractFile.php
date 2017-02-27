@@ -12,7 +12,7 @@ abstract class AbstractFile
     protected $fileInfo;
 
     /**
-     * @var array
+     * @var mixed[]
      */
     protected $configuration = [];
 
@@ -94,16 +94,22 @@ abstract class AbstractFile
         return $this->content;
     }
 
-    public function changeContent(string $newContent)
+    public function changeContent(string $newContent): void
     {
         $this->content = $newContent;
     }
 
-    public function setConfiguration(array $configuration)
+    /**
+     * @param mixed[] $configuration
+     */
+    public function setConfiguration(array $configuration): void
     {
         $this->configuration += $configuration;
     }
 
+    /**
+     * @return mixed[]
+     */
     public function getConfiguration(): array
     {
         return $this->configuration;

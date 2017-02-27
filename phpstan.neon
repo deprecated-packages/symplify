@@ -5,8 +5,6 @@ parameters:
         - "#Version456#"
         - "#Call to an undefined method Illuminate#" # false interface Laravel error
         - "#does not call parent constructor from PHP_CodeSniffer#"
-        - "#Strict comparison using === between mixed[[]] and string will always evaluate to false.#"
-        - "#Strict comparison using !== between mixed[[]] and string will always evaluate to false.#"
     excludes_analyse:
         - *packages/CodingStandard/tests/**/correct*
         - *packages/CodingStandard/tests/**/wrong*

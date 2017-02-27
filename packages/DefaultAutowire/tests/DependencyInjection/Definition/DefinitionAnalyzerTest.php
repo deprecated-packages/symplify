@@ -18,18 +18,18 @@ final class DefinitionAnalyzerTest extends TestCase
      */
     private $definitionAnalyzer;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->definitionAnalyzer = new DefinitionAnalyzer(new DefinitionValidator);
     }
 
-    public function testClassHasConstructorArguments()
+    public function testClassHasConstructorArguments(): void
     {
         $definition = new Definition(EmptyConstructor::class);
         $this->assertFalse($this->definitionAnalyzer->shouldDefinitionBeAutowired(new ContainerBuilder, $definition));
     }
 
-    public function testClassHaveMissingArgumentsTypehints()
+    public function testClassHaveMissingArgumentsTypehints(): void
     {
         $definition = new Definition(MissingArgumentsTypehints::class);
         $definition->setArguments(['@someService']);
@@ -37,7 +37,7 @@ final class DefinitionAnalyzerTest extends TestCase
         $this->assertFalse($this->definitionAnalyzer->shouldDefinitionBeAutowired(new ContainerBuilder, $definition));
     }
 
-    public function testClassHaveNotMissingArgumentsTypehints()
+    public function testClassHaveNotMissingArgumentsTypehints(): void
     {
         $definition = new Definition(NotMissingArgumentsTypehints::class);
         $definition->setArguments(['@someService']);

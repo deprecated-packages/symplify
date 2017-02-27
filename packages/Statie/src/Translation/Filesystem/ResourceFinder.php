@@ -7,6 +7,9 @@ use Nette\Utils\Strings;
 
 final class ResourceFinder
 {
+    /**
+     * @return string[][]
+     */
     public function findInDirectory(string $directory): array
     {
         if (! is_dir($directory)) {

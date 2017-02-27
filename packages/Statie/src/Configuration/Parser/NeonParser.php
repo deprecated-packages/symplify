@@ -6,6 +6,9 @@ use Nette\Neon\Neon;
 
 final class NeonParser
 {
+    /**
+     * @return mixed[]
+     */
     public function decodeFromFile(string $filePath): array
     {
         $fileContent = file_get_contents($filePath);
@@ -13,6 +16,9 @@ final class NeonParser
         return $this->decode($fileContent);
     }
 
+    /**
+     * @return mixed[]
+     */
     public function decode(string $content): array
     {
         return Neon::decode($content);

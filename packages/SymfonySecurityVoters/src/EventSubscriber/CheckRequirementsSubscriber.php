@@ -20,6 +20,9 @@ final class CheckRequirementsSubscriber implements EventSubscriberInterface
         $this->authorizationChecker = $authorizationChecker;
     }
 
+    /**
+     * @return string[]
+     */
     public static function getSubscribedEvents(): array
     {
         return [

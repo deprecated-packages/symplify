@@ -82,10 +82,10 @@ final class Configuration
     }
 
     /**
-     * @param string       $name
-     * @param string|array $value
+     * @param string $name
+     * @param string|string[] $value
      */
-    public function addGlobalVarialbe(string $name, $value)
+    public function addGlobalVarialbe(string $name, $value): void
     {
         $this->globalVariables[$name] = $value;
     }

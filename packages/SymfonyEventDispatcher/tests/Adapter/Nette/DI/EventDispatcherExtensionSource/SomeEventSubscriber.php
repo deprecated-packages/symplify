@@ -7,12 +7,15 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 final class SomeEventSubscriber implements EventSubscriberInterface
 {
+    /**
+     * @return string[]
+     */
     public static function getSubscribedEvents(): array
     {
         return ['subscriber.event' => 'methodName'];
     }
 
-    public function methodName()
+    public function methodName(): void
     {
         throw new Exception('Event was dispatched in subscriber.');
     }

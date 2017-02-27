@@ -24,7 +24,7 @@ final class SomeCommand extends Command implements DummyServiceAwareInterface
         parent::__construct();
     }
 
-    public function setDummyService(DummyService $dummyService)
+    public function setDummyService(DummyService $dummyService): void
     {
         $this->dummyService = $dummyService;
     }
@@ -39,7 +39,7 @@ final class SomeCommand extends Command implements DummyServiceAwareInterface
         return $this->dummyService;
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('some_command');
     }

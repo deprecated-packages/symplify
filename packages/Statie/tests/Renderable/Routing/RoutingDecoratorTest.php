@@ -19,7 +19,7 @@ final class RoutingDecoratorTest extends TestCase
      */
     private $routeDecorator;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $configuration = new Configuration(new NeonParser);
         $configuration->setPostRoute('blog/:title');
@@ -31,7 +31,7 @@ final class RoutingDecoratorTest extends TestCase
         $this->routeDecorator->addRoute(new NotHtmlRoute);
     }
 
-    public function test()
+    public function test(): void
     {
         $fileInfo = new SplFileInfo(__DIR__ . '/RoutingDecoratorSource/someFile.latte');
         $file = $this->getFileFactory()->create($fileInfo);
@@ -41,7 +41,7 @@ final class RoutingDecoratorTest extends TestCase
         $this->assertSame('/someFile' . DIRECTORY_SEPARATOR . 'index.html', $file->getOutputPath());
     }
 
-    public function testStaticFile()
+    public function testStaticFile(): void
     {
         $fileInfo = new SplFileInfo(__DIR__ . '/RoutingDecoratorSource/static.css');
         $file = $this->getFileFactory()->create($fileInfo);
@@ -51,7 +51,7 @@ final class RoutingDecoratorTest extends TestCase
         $this->assertSame('static.css', $file->getOutputPath());
     }
 
-    public function testIndexFile()
+    public function testIndexFile(): void
     {
         $fileInfo = new SplFileInfo(__DIR__ . '/RoutingDecoratorSource/index.html');
         $file = $this->getFileFactory()->create($fileInfo);
@@ -68,7 +68,7 @@ final class RoutingDecoratorTest extends TestCase
         $this->assertSame('/', $file->getRelativeUrl());
     }
 
-    public function testPostFile()
+    public function testPostFile(): void
     {
         $fileInfo = new SplFileInfo(__DIR__ . '/RoutingDecoratorSource/_posts/2016-10-10-somePost.html');
         $file = $this->getFileFactory()->create($fileInfo);

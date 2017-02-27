@@ -25,7 +25,7 @@ final class TranslationFilterProvider implements LatteFiltersProviderInterface
     }
 
     /**
-     * @return array <string=>callback>
+     * @return callable[]
      */
     public function getFilters(): array
     {

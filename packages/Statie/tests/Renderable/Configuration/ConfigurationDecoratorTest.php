@@ -16,7 +16,7 @@ final class ConfigurationDecoratorTest extends TestCase
      */
     private $configurationDecorator;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->configurationDecorator = new ConfigurationDecorator(
             new NeonParser
@@ -29,7 +29,7 @@ final class ConfigurationDecoratorTest extends TestCase
      * @param string $fileContent
      * @param mixed[] $expectedConfiguration
      */
-    public function testDecorateFile(string $filePath, string $fileContent, array $expectedConfiguration)
+    public function testDecorateFile(string $filePath, string $fileContent, array $expectedConfiguration): void
     {
         $fileInfo = new SplFileInfo($filePath);
         $configuration = new Configuration(new NeonParser);
@@ -45,6 +45,9 @@ final class ConfigurationDecoratorTest extends TestCase
         $this->assertSame($expectedConfiguration, $filePath->getConfiguration());
     }
 
+    /**
+     * @return mixed[][]
+     */
     public function provideDataForDecorateFile(): array
     {
         return [

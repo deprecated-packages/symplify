@@ -21,19 +21,19 @@ final class StatieApplicationTest extends TestCase
      */
     private $dynamicStringLoader;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $container = (new ContainerFactory)->create();
         $this->statieApplication = $container->getByType(StatieApplication::class);
         $this->dynamicStringLoader = $container->getByType(DynamicStringLoader::class);
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         FileSystem::delete(__DIR__ . '/StatieApplicationSource/output');
     }
 
-    public function test()
+    public function test(): void
     {
         $runCommand = new RunCommand(
             __DIR__ . '/StatieApplicationSource/source',
@@ -56,7 +56,7 @@ final class StatieApplicationTest extends TestCase
     /**
      * @expectedException \Symplify\Statie\Exception\Utils\MissingDirectoryException
      */
-    public function testRunForMissingSource()
+    public function testRunForMissingSource(): void
     {
         $runCommand = new RunCommand('missing', 'random');
         $this->statieApplication->runCommand($runCommand);

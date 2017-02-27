@@ -10,7 +10,7 @@ use Symplify\SymfonyEventDispatcher\Tests\Adapter\Nette\ContainerFactory;
 
 final class SymfonyConsoleDispatcherBindTest extends TestCase
 {
-    public function test()
+    public function test(): void
     {
         $container = (new ContainerFactory)->createWithConfig(__DIR__ . '/../config/aliasSwitch.neon');
 

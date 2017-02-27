@@ -14,7 +14,6 @@ use Symplify\DefaultAutowire\DependencyInjection\Definition\DefinitionValidator;
 use Symplify\DefaultAutowire\Tests\DependencyInjection\Definition\DefinitionAnalyzerSource\EmptyConstructor;
 use Symplify\DefaultAutowire\Tests\DependencyInjection\Definition\DefinitionAnalyzerSource\EmptyConstructorFactory;
 use Symplify\DefaultAutowire\Tests\DependencyInjection\Definition\DefinitionAnalyzerSource\MissingArgumentsTypehints;
-use Symplify\DefaultAutowire\Tests\DependencyInjection\Definition\DefinitionAnalyzerSource\MissingArgumentsTypehintsFactory;
 use Symplify\DefaultAutowire\Tests\DependencyInjection\Definition\DefinitionAnalyzerSource\NotMissingArgumentsTypehints;
 use Symplify\DefaultAutowire\Tests\DependencyInjection\Definition\DefinitionAnalyzerSource\NotMissingArgumentsTypehintsFactory;
 use Symplify\DefaultAutowire\Tests\DependencyInjection\Definition\DefinitionAnalyzerSource\TestEntity;
@@ -27,12 +26,12 @@ final class DefinitionAnalyzerForFactoryTest extends TestCase
      */
     private $definitionAnalyzer;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->definitionAnalyzer = new DefinitionAnalyzer(new DefinitionValidator);
     }
 
-    public function testServiceFactoryMethodDoesNotHaveArguments()
+    public function testServiceFactoryMethodDoesNotHaveArguments(): void
     {
         $containerBuilder = new ContainerBuilder;
         $containerBuilder->addDefinitions([
@@ -48,7 +47,7 @@ final class DefinitionAnalyzerForFactoryTest extends TestCase
         $this->assertFalse($this->definitionAnalyzer->shouldDefinitionBeAutowired($containerBuilder, $definition));
     }
 
-    public function testFactoryMethodDoesNotHaveArguments()
+    public function testFactoryMethodDoesNotHaveArguments(): void
     {
         $definition = new Definition(EmptyConstructor::class);
         $definition->setFactory([
@@ -59,11 +58,11 @@ final class DefinitionAnalyzerForFactoryTest extends TestCase
         $this->assertFalse($this->definitionAnalyzer->shouldDefinitionBeAutowired(new ContainerBuilder, $definition));
     }
 
-    public function testServiceFactoryBuiltClassHaveMissingArgumentsTypehints()
+    public function testServiceFactoryBuiltClassHaveMissingArgumentsTypehints(): void
     {
         $containerBuilder = new ContainerBuilder;
         $containerBuilder->addDefinitions([
-            'factory' => new Definition(MissingArgumentsTypehintsFactory::class),
+            'factory' => new Definition(DefinitionAnalyzerSource\MissingArgumentsTypehintsFactory::class),
         ]);
 
         $definition = new Definition(MissingArgumentsTypehints::class);
@@ -77,11 +76,11 @@ final class DefinitionAnalyzerForFactoryTest extends TestCase
         $this->assertFalse($this->definitionAnalyzer->shouldDefinitionBeAutowired($containerBuilder, $definition));
     }
 
-    public function testFactoryBuiltClassHaveMissingArgumentsTypehints()
+    public function testFactoryBuiltClassHaveMissingArgumentsTypehints(): void
     {
         $definition = new Definition(MissingArgumentsTypehints::class);
         $definition->setFactory([
-            MissingArgumentsTypehintsFactory::class,
+            DefinitionAnalyzerSource\MissingArgumentsTypehintsFactory::class,
             'create',
         ]);
 
@@ -90,7 +89,7 @@ final class DefinitionAnalyzerForFactoryTest extends TestCase
         $this->assertFalse($this->definitionAnalyzer->shouldDefinitionBeAutowired(new ContainerBuilder, $definition));
     }
 
-    public function testServiceFactoryBuiltClassHaveNotMissingArgumentsTypehints()
+    public function testServiceFactoryBuiltClassHaveNotMissingArgumentsTypehints(): void
     {
         $containerBuilder = new ContainerBuilder;
         $containerBuilder->addDefinitions([
@@ -108,7 +107,7 @@ final class DefinitionAnalyzerForFactoryTest extends TestCase
         $this->assertTrue($this->definitionAnalyzer->shouldDefinitionBeAutowired($containerBuilder, $definition));
     }
 
-    public function testFactoryBuiltClassHaveNotMissingArgumentsTypehints()
+    public function testFactoryBuiltClassHaveNotMissingArgumentsTypehints(): void
     {
         $definition = new Definition(NotMissingArgumentsTypehints::class);
         $definition->setFactory([
@@ -121,7 +120,7 @@ final class DefinitionAnalyzerForFactoryTest extends TestCase
         $this->assertTrue($this->definitionAnalyzer->shouldDefinitionBeAutowired(new ContainerBuilder, $definition));
     }
 
-    public function testFactoryServiceIsUsedByAlias()
+    public function testFactoryServiceIsUsedByAlias(): void
     {
         $containerBuilder = new ContainerBuilder;
         $containerBuilder->addDefinitions([
@@ -140,7 +139,7 @@ final class DefinitionAnalyzerForFactoryTest extends TestCase
         $this->assertFalse($this->definitionAnalyzer->shouldDefinitionBeAutowired($containerBuilder, $definition));
     }
 
-    public function testFactoryServiceCanBeDecorated()
+    public function testFactoryServiceCanBeDecorated(): void
     {
         $containerBuilder = new ContainerBuilder;
         $containerBuilder->addDefinitions([
@@ -157,7 +156,7 @@ final class DefinitionAnalyzerForFactoryTest extends TestCase
         $this->assertFalse($this->definitionAnalyzer->shouldDefinitionBeAutowired($containerBuilder, $definition));
     }
 
-    public function testFactoryClassNameIsDefinedByParameter()
+    public function testFactoryClassNameIsDefinedByParameter(): void
     {
         $containerBuilder = new ContainerBuilder;
         $containerBuilder->addDefinitions([
@@ -174,7 +173,7 @@ final class DefinitionAnalyzerForFactoryTest extends TestCase
         $this->assertFalse($this->definitionAnalyzer->shouldDefinitionBeAutowired($containerBuilder, $definition));
     }
 
-    public function testDoctrineRepositoryAsService()
+    public function testDoctrineRepositoryAsService(): void
     {
         $containerBuilder = new ContainerBuilder;
         $containerBuilder->addDefinitions([

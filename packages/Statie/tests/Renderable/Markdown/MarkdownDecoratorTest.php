@@ -18,7 +18,7 @@ final class MarkdownDecoratorTest extends TestCase
      */
     private $markdownDecorator;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $configuration = new Configuration(new NeonParser);
         $configuration->setMarkdownHeadlineAnchors(false);
@@ -26,7 +26,7 @@ final class MarkdownDecoratorTest extends TestCase
         $this->markdownDecorator = new MarkdownDecorator(new ParsedownExtra, $configuration);
     }
 
-    public function testNotMarkdown()
+    public function testNotMarkdown(): void
     {
         $file = $this->createFileFromFilePath(__DIR__ . '/MarkdownDecoratorSource/someFile.latte');
         $this->markdownDecorator->decorateFile($file);
@@ -34,7 +34,7 @@ final class MarkdownDecoratorTest extends TestCase
         $this->assertContains('# Content...', $file->getContent());
     }
 
-    public function testMarkdown()
+    public function testMarkdown(): void
     {
         $file = $this->createFileFromFilePath(__DIR__ . '/MarkdownDecoratorSource/someFile.md');
         $this->markdownDecorator->decorateFile($file);
@@ -42,7 +42,7 @@ final class MarkdownDecoratorTest extends TestCase
         $this->assertContains('<h1>Content...</h1>', $file->getContent());
     }
 
-    public function testMarkdownWithAnchors()
+    public function testMarkdownWithAnchors(): void
     {
         $configuration = new Configuration(new NeonParser);
         $configuration->setMarkdownHeadlineAnchors(true);

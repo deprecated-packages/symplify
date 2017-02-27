@@ -62,9 +62,7 @@ final class SniffRunner
 
     private static function createErrorDataCollector(): ErrorCollector
     {
-        return new ErrorCollector(new ErrorSorter, new ErrorFilter(
-            new ConfigurationNormalizer
-        ));
+        return new ErrorCollector(new ErrorSorter, new ErrorFilter);
     }
 
     private static function createFileFromFilePath(

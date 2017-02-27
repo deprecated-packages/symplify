@@ -12,12 +12,12 @@ final class ConsoleApplicationTest extends TestCase
      */
     private $consoleApplication;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->consoleApplication = new ConsoleApplication;
     }
 
-    public function testGetLongVersion()
+    public function testGetLongVersion(): void
     {
         $this->assertContains(
             'Statie - Static Site Generator',
@@ -25,7 +25,7 @@ final class ConsoleApplicationTest extends TestCase
         );
     }
 
-    public function testGetDefaultOptions()
+    public function testGetDefaultOptions(): void
     {
         $definition = $this->consoleApplication->getDefinition();
         $this->assertSame(1, $definition->getArgumentCount());

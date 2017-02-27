@@ -6,7 +6,7 @@ use Nette\Application\UI\Presenter;
 
 final class HomepagePresenter extends Presenter
 {
-    public function actionDefault()
+    public function actionDefault(): void
     {
         $this->terminate();
     }
