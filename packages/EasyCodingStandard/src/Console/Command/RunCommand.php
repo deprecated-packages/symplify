@@ -48,7 +48,7 @@ final class RunCommand extends Command
         $this->infoMessagePrinter = $infoMessagePrinter;
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('run');
         $this->addArgument('source', InputArgument::REQUIRED | InputArgument::IS_ARRAY, 'The path(s) to be checked.');
@@ -56,9 +56,11 @@ final class RunCommand extends Command
         $this->setDescription('Check coding standard in one or more directories.');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output) : int
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $runCommand = RunApplicationCommand::createFromInputAndData($input, $this->multiCsFileLoader->load());
+        $runCommand = RunApplicationCommand::createFromSourceFixerAndData(
+            $input->getArgument('source'), $input->getOption('fix'), $this->multiCsFileLoader->load()
+        );
 
         $this->applicationRunner->runCommand($runCommand);
 
@@ -68,6 +70,7 @@ final class RunCommand extends Command
             return 1;
         }
 
+        $this->style->newLine();
         $this->style->success('No errors found!');
 
         return 0;

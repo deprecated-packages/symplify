@@ -6,15 +6,12 @@ use PHP_CodeSniffer\Files\File;
 
 final class FunctionHelper
 {
-    public static function isAbstract(File $codeSnifferFile, int $functionPointer) : bool
+    public static function isAbstract(File $codeSnifferFile, int $functionPointer): bool
     {
         return ! isset($codeSnifferFile->getTokens()[$functionPointer]['scope_opener']);
     }
 
-    /**
-     * @return null|string
-     */
-    public static function findReturnTypeHint(File $codeSnifferFile, int $functionPointer)
+    public static function findReturnTypeHint(File $codeSnifferFile, int $functionPointer): ?string
     {
         $tokens = $codeSnifferFile->getTokens();
         $isAbstract = self::isAbstract($codeSnifferFile, $functionPointer);
@@ -34,7 +31,7 @@ final class FunctionHelper
             );
 
         if ($colonToken === false) {
-            return null;
+            return 'void';
         }
 
         $returnTypeHint = null;

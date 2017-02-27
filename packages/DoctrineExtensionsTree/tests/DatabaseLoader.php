@@ -29,7 +29,7 @@ final class DatabaseLoader
         $this->entityManager = $entityManager;
     }
 
-    public function prepareCategoryTableWithTwoItems()
+    public function prepareCategoryTableWithTwoItems(): void
     {
         if (! $this->isDbSchemaPrepared) {
             /** @var Connection $connection */

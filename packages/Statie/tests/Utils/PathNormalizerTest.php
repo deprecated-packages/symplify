@@ -10,12 +10,15 @@ final class PathNormalizerTest extends TestCase
     /**
      * @dataProvider provideDataForNormalize()
      */
-    public function test(string $normalizedPath, string $path)
+    public function test(string $normalizedPath, string $path): void
     {
         $this->assertSame($normalizedPath, PathNormalizer::normalize($path));
     }
 
-    public function provideDataForNormalize() : array
+    /**
+     * @return string[][]
+     */
+    public function provideDataForNormalize(): array
     {
         return [
             ['dir-one' . DIRECTORY_SEPARATOR . 'dir-two', 'dir-one\dir-two'],

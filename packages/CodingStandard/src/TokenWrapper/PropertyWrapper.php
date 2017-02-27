@@ -18,22 +18,17 @@ final class PropertyWrapper
     private $position;
 
     /**
-     * @var array
+     * @var mixed[]
      */
     private $propertyToken;
 
     /**
-     * @var string
-     */
-    private $name;
-
-    /**
-     * @var array
+     * @var mixed[]
      */
     private $tokens;
 
     /**
-     * @var array
+     * @var int[]
      */
     private $accessibility;
 
@@ -42,11 +37,6 @@ final class PropertyWrapper
      */
     private $docBlock;
 
-    public static function createFromFileAndPosition(File $file, int $position)
-    {
-        return new self($file, $position);
-    }
-
     private function __construct(File $file, int $position)
     {
         // todo: move these 4 to abstract + program against interface!
@@ -54,17 +44,20 @@ final class PropertyWrapper
         $this->position = $position;
         $this->tokens = $this->file->getTokens();
         $this->propertyToken = $this->tokens[$position];
-
-        $this->name = substr($this->propertyToken['content'], 1);
     }
 
-    public function hasAnnotation(string $annotation) : bool
+    public static function createFromFileAndPosition(File $file, int $position): self
+    {
+        return new self($file, $position);
+    }
+
+    public function hasAnnotation(string $annotation): bool
     {
         return $this->getDocBlock()
             ->hasAnnotation($annotation);
     }
 
-    public function getPosition() : int
+    public function getPosition(): int
     {
         return $this->position;
     }
@@ -81,7 +74,9 @@ final class PropertyWrapper
         $visibilityModifiedTokenPointer = TokenFinder::findPreviousEffective($this->file, $this->position - 1);
         $tokens = $this->file->getTokens();
 
-        $phpDocTokenCloseTagPointer = TokenFinder::findPreviousExcluding($this->file, [T_WHITESPACE], $visibilityModifiedTokenPointer - 1);
+        $phpDocTokenCloseTagPointer = TokenFinder::findPreviousExcluding(
+            $this->file, [T_WHITESPACE], $visibilityModifiedTokenPointer - 1
+        );
         $phpDocTokenCloseTag = $tokens[$phpDocTokenCloseTagPointer];
 
         // has no doc comment
@@ -93,14 +88,13 @@ final class PropertyWrapper
         $this->docBlock = DocBlockWrapper::createFromFileAndPosition(
             $this->file,
             $findPhpDocTagPointer - 1,
-//            $phpDocTokenCloseTagPointer + 1
             $phpDocTokenCloseTagPointer
         );
 
         return $this->docBlock;
     }
 
-    public function removeAnnotation(string $annotation)
+    public function removeAnnotation(string $annotation): void
     {
         $this->getDocBlock()
             ->removeAnnotation($annotation);
@@ -110,13 +104,29 @@ final class PropertyWrapper
         /** @var Type @inject */
     }
 
-    public function changeAccesibilityToPrivate()
+    public function changeAccesibilityToPrivate(): void
     {
         $accesiblity = $this->getPropertyAccessibility();
-        $this->file->fixer->replaceToken(key($accesiblity), 'private');
+        $accesiblityPosition = key($accesiblity);
+        if ($accesiblityPosition) {
+            $this->file->fixer->replaceToken($accesiblityPosition, 'private');
+        }
     }
 
-    private function getPropertyAccessibility() : array
+    public function getType(): string
+    {
+        return $this->docBlock->getAnnotationValue('@var');
+    }
+
+    public function getName(): string
+    {
+        return ltrim($this->propertyToken['content'], '$');
+    }
+
+    /**
+     * @return int[]
+     */
+    private function getPropertyAccessibility(): array
     {
         if ($this->accessibility) {
             return $this->accessibility;
@@ -137,15 +147,5 @@ final class PropertyWrapper
         }
 
         return $this->accessibility = $accesibility;
-    }
-
-    public function getType() : string
-    {
-        return $this->docBlock->getAnnotationValue('@var');
-    }
-
-    public function getName() : string
-    {
-        return ltrim($this->propertyToken['content'], '$');
     }
 }

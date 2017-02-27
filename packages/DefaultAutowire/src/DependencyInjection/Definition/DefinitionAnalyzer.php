@@ -21,7 +21,7 @@ final class DefinitionAnalyzer
         $this->definitionValidator = $definitionValidator;
     }
 
-    public function shouldDefinitionBeAutowired(ContainerBuilder $containerBuilder, Definition $definition) : bool
+    public function shouldDefinitionBeAutowired(ContainerBuilder $containerBuilder, Definition $definition): bool
     {
         if (! $this->definitionValidator->validate($definition)) {
             return false;
@@ -39,7 +39,7 @@ final class DefinitionAnalyzer
     private function shouldFactoryBuiltDefinitionBeAutowired(
         ContainerBuilder $containerBuilder,
         Definition $definition
-    ) : bool {
+    ): bool {
         $factory = $definition->getFactory();
 
         // functions specified as string are not supported
@@ -74,7 +74,7 @@ final class DefinitionAnalyzer
         return true;
     }
 
-    private function shouldClassDefinitionBeAutowired(Definition $definition) : bool
+    private function shouldClassDefinitionBeAutowired(Definition $definition): bool
     {
         $classReflection = new ReflectionClass($definition->getClass());
         if (! $classReflection->hasMethod('__construct')
@@ -95,7 +95,7 @@ final class DefinitionAnalyzer
         return true;
     }
 
-    private function hasMethodArguments(ReflectionMethod $methodReflection) : bool
+    private function hasMethodArguments(ReflectionMethod $methodReflection): bool
     {
         return $methodReflection->getNumberOfParameters() !== 0;
     }
@@ -103,7 +103,7 @@ final class DefinitionAnalyzer
     private function areAllMethodArgumentsRequired(
         Definition $definition,
         ReflectionMethod $constructorReflection
-    ) : bool {
+    ): bool {
         $constructorArgumentsCount = count($definition->getArguments());
         $constructorRequiredArgumentsCount = $constructorReflection->getNumberOfRequiredParameters();
 
@@ -117,7 +117,7 @@ final class DefinitionAnalyzer
     private function haveMissingArgumentsTypehints(
         Definition $definition,
         ReflectionMethod $constructorReflection
-    ) : bool {
+    ): bool {
         $arguments = $definition->getArguments();
         if (! count($arguments)) {
             return true;

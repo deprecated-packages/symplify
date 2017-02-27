@@ -12,12 +12,25 @@ final class DynamicStringLoaderTest extends TestCase
      */
     private $stringLoader;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->stringLoader = $this->createStringLoader();
     }
 
-    private function createStringLoader() : DynamicStringLoader
+    /**
+     * @expectedException \Exception
+     */
+    public function testGetContentOnMissing(): void
+    {
+        $this->stringLoader->getContent('missing');
+    }
+
+    public function testIsExpired(): void
+    {
+        $this->assertFalse($this->stringLoader->isExpired('missing', 123));
+    }
+
+    private function createStringLoader(): DynamicStringLoader
     {
         $loader = new DynamicStringLoader;
         $loader->addTemplate(
@@ -26,18 +39,5 @@ final class DynamicStringLoaderTest extends TestCase
         );
 
         return $loader;
-    }
-
-    /**
-     * @expectedException \Exception
-     */
-    public function testGetContentOnMissing()
-    {
-        $this->stringLoader->getContent('missing');
-    }
-
-    public function testIsExpired()
-    {
-        $this->assertFalse($this->stringLoader->isExpired('missing', 123));
     }
 }

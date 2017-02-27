@@ -19,7 +19,7 @@ abstract class AbstractEventSubscriberTest extends TestCase
      */
     protected $application;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $container = (new ContainerFactory)->create();
         $this->container = $container;

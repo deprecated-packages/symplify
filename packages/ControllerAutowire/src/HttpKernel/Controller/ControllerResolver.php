@@ -40,7 +40,10 @@ final class ControllerResolver implements ControllerResolverInterface
         $this->controllerNameParser = $controllerNameParser;
     }
 
-    public function setControllerClassMap(array $controllerClassMap) : void
+    /**
+     * @param string[] $controllerClassMap
+     */
+    public function setControllerClassMap(array $controllerClassMap): void
     {
         $this->controllerClassMap = array_flip($controllerClassMap);
     }
@@ -69,9 +72,9 @@ final class ControllerResolver implements ControllerResolverInterface
     /**
      * @param Request $request
      * @param callable $controller
-     * @return array|mixed
+     * @return string[]|null
      */
-    public function getArguments(Request $request, $controller)
+    public function getArguments(Request $request, $controller): ?array
     {
         return $this->controllerResolver->getArguments($request, $controller);
     }
@@ -103,7 +106,7 @@ final class ControllerResolver implements ControllerResolverInterface
     /**
      * @return string[]
      */
-    private function splitControllerClassAndMethod(string $controllerName) : array
+    private function splitControllerClassAndMethod(string $controllerName): array
     {
         if (strpos($controllerName, '::') !== false) {
             return explode('::', $controllerName, 2);

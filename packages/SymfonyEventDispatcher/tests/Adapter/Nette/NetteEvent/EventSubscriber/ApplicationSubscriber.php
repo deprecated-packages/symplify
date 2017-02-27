@@ -22,7 +22,10 @@ final class ApplicationSubscriber implements EventSubscriberInterface
         $this->eventStateStorage = $eventStateStorage;
     }
 
-    public static function getSubscribedEvents() : array
+    /**
+     * @return string[]
+     */
+    public static function getSubscribedEvents(): array
     {
         return [
             RequestRecievedEvent::NAME => 'onRequest',
@@ -34,32 +37,32 @@ final class ApplicationSubscriber implements EventSubscriberInterface
         ];
     }
 
-    public function onRequest(RequestRecievedEvent $applicationRequestEvent)
+    public function onRequest(RequestRecievedEvent $applicationRequestEvent): void
     {
         $this->eventStateStorage->addEventState(RequestRecievedEvent::NAME, $applicationRequestEvent);
     }
 
-    public function onStartup(ApplicationStartupEvent $applicationEvent)
+    public function onStartup(ApplicationStartupEvent $applicationEvent): void
     {
         $this->eventStateStorage->addEventState(ApplicationStartupEvent::NAME, $applicationEvent);
     }
 
-    public function onPresenter(PresenterCreatedEvent $applicationPresenterEvent)
+    public function onPresenter(PresenterCreatedEvent $applicationPresenterEvent): void
     {
         $this->eventStateStorage->addEventState(PresenterCreatedEvent::NAME, $applicationPresenterEvent);
     }
 
-    public function onShutdown(ApplicationErrorEvent $applicationExceptionEvent)
+    public function onShutdown(ApplicationErrorEvent $applicationExceptionEvent): void
     {
         $this->eventStateStorage->addEventState(ApplicationErrorEvent::NAME, $applicationExceptionEvent);
     }
 
-    public function onError(ApplicationErrorEvent $applicationExceptionEvent)
+    public function onError(ApplicationErrorEvent $applicationExceptionEvent): void
     {
         $this->eventStateStorage->addEventState(ApplicationErrorEvent::NAME, $applicationExceptionEvent);
     }
 
-    public function onResponse(ApplicationResponseEvent $applicationResponseEvent)
+    public function onResponse(ApplicationResponseEvent $applicationResponseEvent): void
     {
         $this->eventStateStorage->addEventState(ApplicationResponseEvent::NAME, $applicationResponseEvent);
     }

@@ -1,3 +1,35 @@
+ignore-errors:
+    packages/EasyCodingStandard/packages/SniffRunner/src/File/File.php:
+        - SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff
+    packages/CodingStandard/src/Sniffs/*/*Sniff.php:
+        - SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff
+    packages/ControllerAutowire/src/HttpKernel/Controller/ControllerResolver.php:
+        - SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff
+    packages/DoctrineFixtures/src/Alice/AliceLoader.php:
+        - SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff
+    packages/DoctrineFixtures/src/Alice/Fixtures/Parser/Methods/NeonParser.php:
+        - SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff
+    packages/ModularRouting/src/Routing/ModularRouter.php:
+        - SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff
+    packages/Statie/src/Renderable/Latte/DynamicStringLoader.php:
+        - SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff
+    packages/SymfonySecurityVoters/src/Adapter/Nette/Token/NetteTokenAdapter.php:
+        - SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff
+    packages/Statie/src/Configuration/Configuration.php:
+        - SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff
+    packages/DoctrineMigrations/src/Configuration/Configuration.php:
+        - SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff
+    packages/DoctrineMigrations/src/OutputWriter.php:
+        - SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff
+    packages/DefaultAutowire/tests/DependencyInjection/Definition/DefinitionAnalyzerSource/MissingArgumentsTypehints.php:
+        - SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff
+    packages/DefaultAutowire/tests/DependencyInjection/Definition/DefinitionAnalyzerForFactoryTest.php:
+        - PHP_CodeSniffer\Standards\Generic\Sniffs\Files\LineLengthSniff
+
+#   or the other way?
+#    SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff:
+#        packages/EasyCodingStandard/packages/SniffRunner/src/File/File.php
+
 includes:
     - packages/EasyCodingStandard/config/php-cs-fixer/psr1-fixers.neon
     - packages/EasyCodingStandard/config/php-cs-fixer/psr2-fixers.neon
@@ -7,31 +39,146 @@ includes:
     - packages/EasyCodingStandard/config/php-cs-fixer/php71-migration-fixers.neon
 
 php-code-sniffer:
-    sniffs:
-        - Symplify\CodingStandard\Sniffs\Classes\FinalInterfaceSniff
-        # same configuration as bellow, - class OR class => configuration
+    # Classes
+    - PHP_CodeSniffer\Standards\Generic\Sniffs\Classes\DuplicateClassNameSniff
+    - PHP_CodeSniffer\Standards\PSR2\Sniffs\Classes\PropertyDeclarationSniff
+    - PHP_CodeSniffer\Standards\Squiz\Sniffs\Classes\ValidClassNameSniff
+    - PHP_CodeSniffer\Standards\Squiz\Sniffs\Classes\LowercaseClassKeywordsSniff
+
+    # Code Analysis
+    - PHP_CodeSniffer\Standards\Generic\Sniffs\CodeAnalysis\EmptyStatementSniff
+    - PHP_CodeSniffer\Standards\Generic\Sniffs\CodeAnalysis\JumbledIncrementerSniff
+    - PHP_CodeSniffer\Standards\Generic\Sniffs\CodeAnalysis\UnconditionalIfStatementSniff
+    - PHP_CodeSniffer\Standards\Generic\Sniffs\CodeAnalysis\UselessOverridingMethodSniff
+
+    # Control Structures
+    - PHP_CodeSniffer\Standards\Generic\Sniffs\ControlStructures\InlineControlStructureSniff
+    - PHP_CodeSniffer\Standards\PEAR\Sniffs\ControlStructures\MultiLineConditionSniff
+    - PHP_CodeSniffer\Standards\Squiz\Sniffs\ControlStructures\ControlSignatureSniff
+    - PHP_CodeSniffer\Standards\PSR2\Sniffs\ControlStructures\ElseIfDeclarationSniff
+    - PHP_CodeSniffer\Standards\Squiz\Sniffs\ControlStructures\ForEachLoopDeclarationSniff
+    - PHP_CodeSniffer\Standards\Squiz\Sniffs\ControlStructures\ForLoopDeclarationSniff
+    - PHP_CodeSniffer\Standards\Squiz\Sniffs\ControlStructures\LowercaseDeclarationSniff
+
+    # Files
+    - PHP_CodeSniffer\Standards\Generic\Sniffs\Files\ByteOrderMarkSniff
+    PHP_CodeSniffer\Standards\Generic\Sniffs\Files\LineLengthSniff:
+        lineLimit: 120
+        absoluteLineLimit: 120
+    - PHP_CodeSniffer\Standards\Generic\Sniffs\Files\OneClassPerFileSniff # already PSR4 fixer?
+    - PHP_CodeSniffer\Standards\Generic\Sniffs\Files\OneInterfacePerFileSniff
+    - PHP_CodeSniffer\Standards\PSR2\Sniffs\Files\EndFileNewlineSniff
+    - PHP_CodeSniffer\Standards\Zend\Sniffs\Files\ClosingTagSniff
+
+    # Formatting
+    - PHP_CodeSniffer\Standards\Generic\Sniffs\Formatting\SpaceAfterCastSniff
+
+    - PHP_CodeSniffer\Standards\Generic\Sniffs\Functions\FunctionCallArgumentSpacingSniff
+    - PHP_CodeSniffer\Standards\PEAR\Sniffs\Functions\ValidDefaultValueSniff
+    PHP_CodeSniffer\Standards\Squiz\Sniffs\Functions\FunctionDeclarationSniff:
+        equalsSpacing: 1
+    - PHP_CodeSniffer\Standards\Squiz\Sniffs\Functions\MultiLineFunctionDeclarationSniff
+    - PHP_CodeSniffer\Standards\Squiz\Sniffs\Functions\LowercaseFunctionKeywordsSniff
+
+    # Metrics
+    - PHP_CodeSniffer\Standards\Generic\Sniffs\Metrics\CyclomaticComplexitySniff
+    PHP_CodeSniffer\Standards\Generic\Sniffs\Metrics\NestingLevelSniff:
+        nestingLevel: 3
+        absoluteNestingLevel: 6
+    - PHP_CodeSniffer\Standards\PSR2\Sniffs\Methods\MethodDeclarationSniff
+
+    # Naming Conventions
+    - PHP_CodeSniffer\Standards\Generic\Sniffs\NamingConventions\UpperCaseConstantNameSniff
+    - PHP_CodeSniffer\Standards\Generic\Sniffs\NamingConventions\CamelCapsFunctionNameSniff
+
+    # PHP
+    - PHP_CodeSniffer\Standards\Generic\Sniffs\PHP\DisallowShortOpenTagSniff
+    - PHP_CodeSniffer\Standards\MySource\Sniffs\PHP\EvalObjectFactorySniff
+    - PHP_CodeSniffer\Standards\MySource\Sniffs\PHP\GetRequestDataSniff
+    - PHP_CodeSniffer\Standards\Squiz\Sniffs\PHP\NonExecutableCodeSniff
+
+    # WhiteSpace
+    - PHP_CodeSniffer\Standards\Generic\Sniffs\WhiteSpace\DisallowTabIndentSniff
+    - PHP_CodeSniffer\Standards\Squiz\Sniffs\WhiteSpace\LanguageConstructSpacingSniff
+    - PHP_CodeSniffer\Standards\Squiz\Sniffs\WhiteSpace\ScopeKeywordSpacingSniff
+    PHP_CodeSniffer\Standards\Squiz\Sniffs\WhiteSpace\SuperfluousWhitespaceSniff:
+        ignoreBlankLines: false
+
+    # Symplify: Classes
+    - Symplify\CodingStandard\Sniffs\Classes\ClassDeclarationSniff
+    - Symplify\CodingStandard\Sniffs\Classes\FinalInterfaceSniff
+
+    # Symplify: Commenting
+    - Symplify\CodingStandard\Sniffs\Commenting\BlockPropertyCommentSniff
+    - Symplify\CodingStandard\Sniffs\Commenting\MethodCommentReturnTypeSniff
+    - Symplify\CodingStandard\Sniffs\Commenting\MethodCommentSniff
+    - Symplify\CodingStandard\Sniffs\Commenting\VarPropertyCommentSniff
+
+    # Symplify: Control Structures
+    - Symplify\CodingStandard\Sniffs\ControlStructures\NewClassSniff
+    - Symplify\CodingStandard\Sniffs\ControlStructures\YodaConditionSniff
+
+    # Symplify: Debug
+    - Symplify\CodingStandard\Sniffs\Debug\DebugFunctionCallSniff
+
+    # Symplify: Namespaces
+    - Symplify\CodingStandard\Sniffs\Namespaces\ClassNamesWithoutPreSlashSniff
+    - Symplify\CodingStandard\Sniffs\Namespaces\NamespaceDeclarationSniff
+    - Symplify\CodingStandard\Sniffs\Namespaces\UseDeclarationSniff
+
+    # Symplify: Naming
+    - Symplify\CodingStandard\Sniffs\Naming\AbstractClassNameSniff
+    - Symplify\CodingStandard\Sniffs\Naming\InterfaceNameSniff
+    - Symplify\CodingStandard\Sniffs\Naming\TraitNameSniff
+
+    # Symplify: WhiteSpace
+    - Symplify\CodingStandard\Sniffs\WhiteSpace\InBetweenMethodSpacingSniff
+    - Symplify\CodingStandard\Sniffs\WhiteSpace\PropertiesMethodsMutualSpacingSniff
+
+    # Slevomat
+    - SlevomatCodingStandard\Sniffs\Classes\ClassConstantVisibilitySniff
+    - SlevomatCodingStandard\Sniffs\Classes\UnusedPrivateElementsSniff
+    - SlevomatCodingStandard\Sniffs\Commenting\ForbiddenAnnotationsSniff
+    - SlevomatCodingStandard\Sniffs\ControlStructures\DisallowEqualOperatorsSniff
+    - SlevomatCodingStandard\Sniffs\ControlStructures\YodaComparisonSniff
+    - SlevomatCodingStandard\Sniffs\Exceptions\DeadCatchSniff
+    - SlevomatCodingStandard\Sniffs\Exceptions\ReferenceThrowableOnlySniff
+    - SlevomatCodingStandard\Sniffs\TypeHints\LongTypeHintsSniff
+    - SlevomatCodingStandard\Sniffs\TypeHints\ParameterTypeHintSpacingSniff
+    - SlevomatCodingStandard\Sniffs\TypeHints\NullableTypeForNullDefaultValueSniff
+    - SlevomatCodingStandard\Sniffs\TypeHints\ReturnTypeHintSpacingSniff
+    SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff:
+        usefulAnnotations:
+            - @dataProvider
+            - @expectedException
+    - SlevomatCodingStandard\Sniffs\Namespaces\AlphabeticallySortedUsesSniff
+    - SlevomatCodingStandard\Sniffs\Namespaces\DisallowGroupUseSniff
+    - SlevomatCodingStandard\Sniffs\Namespaces\MultipleUsesPerLineSniff
+    - SlevomatCodingStandard\Sniffs\Namespaces\ReferenceUsedNamesOnlySniff
+    SlevomatCodingStandard\Sniffs\Namespaces\UnusedUsesSniff:
+        searchAnnotations: true
+    - SlevomatCodingStandard\Sniffs\Namespaces\UseDoesNotStartWithBackslashSniff
+    - SlevomatCodingStandard\Sniffs\Namespaces\UseFromSameNamespaceSniff
 
 php-cs-fixer:
-    fixers:
-        PhpCsFixer\Fixer\ArrayNotation\ArraySyntaxFixer:
-            syntax: short
-        - PhpCsFixer\Fixer\Basic\Psr4Fixer
-        - PhpCsFixer\Fixer\ClassNotation\OrderedClassElementsFixer
-        - PhpCsFixer\Fixer\LanguageConstruct\DirConstantFixer
-        - PhpCsFixer\Fixer\CastNotation\ModernizeTypesCastingFixer
-        - PhpCsFixer\Fixer\Strict\DeclareStrictTypesFixer
-        - PhpCsFixer\Fixer\Semicolon\SemicolonAfterInstructionFixer
-        - PhpCsFixer\Fixer\ReturnNotation\SimplifiedNullReturnFixer
-        - PhpCsFixer\Fixer\Operator\NotOperatorWithSuccessorSpaceFixer
-        - PhpCsFixer\Fixer\ControlStructure\NoUselessElseFixer
-        - PhpCsFixer\Fixer\ReturnNotation\NoUselessReturnFixer
-        - PhpCsFixer\Fixer\Import\OrderedImportsFixer
-        - PhpCsFixer\Fixer\LanguageConstruct\ClassKeywordRemoveFixer
-        - PhpCsFixer\Fixer\LanguageConstruct\CombineConsecutiveUnsetsFixer
-        - PhpCsFixer\Fixer\Strict\StrictComparisonFixer
-        - PhpCsFixer\Fixer\PhpTag\NoShortEchoTagFixer
-        - PhpCsFixer\Fixer\Alias\EregToPregFixer
-        - PhpCsFixer\Fixer\Phpdoc\GeneralPhpdocAnnotationRemoveFixer
+    PhpCsFixer\Fixer\ArrayNotation\ArraySyntaxFixer:
+        syntax: short
+    - PhpCsFixer\Fixer\Basic\Psr4Fixer
+    - PhpCsFixer\Fixer\ClassNotation\OrderedClassElementsFixer
+    - PhpCsFixer\Fixer\LanguageConstruct\DirConstantFixer
+    - PhpCsFixer\Fixer\CastNotation\ModernizeTypesCastingFixer
+    - PhpCsFixer\Fixer\Strict\DeclareStrictTypesFixer
+    - PhpCsFixer\Fixer\Semicolon\SemicolonAfterInstructionFixer
+    - PhpCsFixer\Fixer\ReturnNotation\SimplifiedNullReturnFixer
+    - PhpCsFixer\Fixer\Operator\NotOperatorWithSuccessorSpaceFixer
+    - PhpCsFixer\Fixer\ControlStructure\NoUselessElseFixer
+    - PhpCsFixer\Fixer\ReturnNotation\NoUselessReturnFixer
+    - PhpCsFixer\Fixer\Import\OrderedImportsFixer
+    - PhpCsFixer\Fixer\LanguageConstruct\CombineConsecutiveUnsetsFixer
+    - PhpCsFixer\Fixer\Strict\StrictComparisonFixer
+    - PhpCsFixer\Fixer\PhpTag\NoShortEchoTagFixer
+    - PhpCsFixer\Fixer\Alias\EregToPregFixer
+    - PhpCsFixer\Fixer\Phpdoc\GeneralPhpdocAnnotationRemoveFixer
 
-        # PHPUnit
-        - PhpCsFixer\Fixer\PhpUnit\PhpUnitStrictFixer
+    # PHPUnit
+    - PhpCsFixer\Fixer\PhpUnit\PhpUnitStrictFixer

@@ -14,12 +14,12 @@ final class ConfigurationTest extends TestCase
      */
     private $configuration;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->configuration = new Configuration(new NeonParser);
     }
 
-    public function testAddGlobalVariable()
+    public function testAddGlobalVariable(): void
     {
         $this->configuration->addGlobalVarialbe('key', 'value');
 
@@ -28,7 +28,7 @@ final class ConfigurationTest extends TestCase
         ], $this->configuration->getGlobalVariables());
     }
 
-    public function testLoadFromFiles()
+    public function testLoadFromFiles(): void
     {
         $neonConfigFile = new SplFileInfo(__DIR__ . '/ConfigurationSource/config.neon');
         $yamlConfigFile = new SplFileInfo(__DIR__ . '/ConfigurationSource/config.yaml');

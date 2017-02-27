@@ -22,7 +22,7 @@ final class FileSystemWriter
     /**
      * @param SplFileInfo[] $files
      */
-    public function copyStaticFiles(array $files) : void
+    public function copyStaticFiles(array $files): void
     {
         foreach ($files as $file) {
             $relativeDestination = substr($file->getPathname(), strlen($this->configuration->getSourceDirectory()));
@@ -35,7 +35,7 @@ final class FileSystemWriter
     /**
      * @param File[] $files
      */
-    public function copyRenderableFiles(array $files) : void
+    public function copyRenderableFiles(array $files): void
     {
         foreach ($files as $file) {
             $absoluteDestination = $this->configuration->getOutputDirectory()

@@ -6,5 +6,5 @@ use Symfony\Component\Routing\RouteCollection;
 
 interface RouteCollectionProviderInterface
 {
-    public function getRouteCollection() : RouteCollection;
+    public function getRouteCollection(): RouteCollection;
 }

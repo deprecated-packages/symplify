@@ -6,7 +6,7 @@ use PHP_CodeSniffer\Files\File;
 
 final class WhitespaceFinder
 {
-    public static function findNextEmptyLinePosition(File $file, int $position) : int
+    public static function findNextEmptyLinePosition(File $file, int $position): int
     {
         $tokens = $file->getTokens();
 

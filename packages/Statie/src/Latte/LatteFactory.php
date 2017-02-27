@@ -17,7 +17,7 @@ final class LatteFactory
         $this->loader = $loader;
     }
 
-    public function create() : Engine
+    public function create(): Engine
     {
         $engine = new Engine;
         $engine->setLoader($this->loader);

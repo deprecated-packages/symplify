@@ -7,19 +7,19 @@ use PHPUnit\Framework\TestCase;
 
 final class TranslatableTest extends TestCase
 {
-    public function testGetMethod()
+    public function testGetMethod(): void
     {
         $category = new Category('Some name', true);
         $this->assertSame('Some name', $category->getName());
     }
 
-    public function testIsMethod()
+    public function testIsMethod(): void
     {
         $category = new Category('Some name', true);
         $this->assertTrue($category->isActive());
     }
 
-    public function testHasMethod()
+    public function testHasMethod(): void
     {
         $tagDoctrine = new Tag('Doctrine');
         $tagNette = new Tag('Nette');
@@ -33,7 +33,7 @@ final class TranslatableTest extends TestCase
         $this->assertTrue($category->hasTag($tagNette));
     }
 
-    public function testShouldMethod()
+    public function testShouldMethod(): void
     {
         $category = new Category('Some name', true);
         $category->setShouldRenderSubcategories(true);

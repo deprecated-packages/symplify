@@ -7,7 +7,7 @@ use Symplify\Statie\Application\Command\RunCommand;
 
 final class RunCommandTest extends TestCase
 {
-    public function test()
+    public function test(): void
     {
         $command = new RunCommand('source', 'output');
         $this->assertSame('source', $command->getSourceDirectory());

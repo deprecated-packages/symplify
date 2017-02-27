@@ -12,7 +12,7 @@ use Symplify\DefaultAutowire\Tests\Source\SomeAutowiredService;
 
 final class TurnOnAutowireCompilerPassTest extends TestCase
 {
-    public function testProcess()
+    public function testProcess(): void
     {
         $containerBuilder = new ContainerBuilder;
         $autowiredDefinition = new Definition(SomeAutowiredService::class);
@@ -25,7 +25,7 @@ final class TurnOnAutowireCompilerPassTest extends TestCase
         $this->assertTrue($autowiredDefinition->isAutowired());
     }
 
-    private function createDefinitionAnalyzer() : DefinitionAnalyzer
+    private function createDefinitionAnalyzer(): DefinitionAnalyzer
     {
         return new DefinitionAnalyzer(new DefinitionValidator);
     }

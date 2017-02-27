@@ -11,7 +11,7 @@ use Symplify\Statie\Source\SourceFileStorage;
 
 final class StatieCompilerExtensionTest extends TestCase
 {
-    public function testLoadConfiguration()
+    public function testLoadConfiguration(): void
     {
         $extension = $this->prepareAndReturnExtension();
         $extension->loadConfiguration();
@@ -23,7 +23,7 @@ final class StatieCompilerExtensionTest extends TestCase
         $this->assertSame(StatieApplication::class, $applicationDefinition->getClass());
     }
 
-    public function testBeforeCompile()
+    public function testBeforeCompile(): void
     {
         $extension = $this->prepareAndReturnExtension();
         $extension->loadConfiguration();
@@ -35,7 +35,7 @@ final class StatieCompilerExtensionTest extends TestCase
         $this->assertCount(5, $definition->getSetup());
     }
 
-    private function prepareAndReturnExtension() : StatieCompilerExtension
+    private function prepareAndReturnExtension(): StatieCompilerExtension
     {
         $extension = new StatieCompilerExtension;
         $extension->setConfig([

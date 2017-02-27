@@ -8,12 +8,16 @@ use Symplify\ControllerAutowire\SymplifyControllerAutowireBundle;
 
 final class ContainerExtension extends Extension
 {
-    public function getAlias() : string
+    public function getAlias(): string
     {
         return SymplifyControllerAutowireBundle::ALIAS;
     }
 
-    public function load(array $config, ContainerBuilder $containerBuilder) : void
+    /**
+     * @param mixed[] $config
+     * @param ContainerBuilder $containerBuilder
+     */
+    public function load(array $config, ContainerBuilder $containerBuilder): void
     {
     }
 }

@@ -13,7 +13,10 @@ final class ConfigurationResolver
      */
     private $resolvedConfiguration;
 
-    public function resolveFromContainerBuilder(ContainerBuilder $containerBuilder) : array
+    /**
+     * @return mixed[]
+     */
+    public function resolveFromContainerBuilder(ContainerBuilder $containerBuilder): array
     {
         if ($this->resolvedConfiguration) {
             return $this->resolvedConfiguration;

@@ -13,7 +13,7 @@ use Symplify\ServiceDefinitionDecorator\Adapter\Symfony\SymplifyServiceDefinitio
  */
 final class DecorateCompilerPass implements CompilerPassInterface
 {
-    public function process(ContainerBuilder $containerBuilder) : void
+    public function process(ContainerBuilder $containerBuilder): void
     {
         $config = $containerBuilder->getExtensionConfig(SymplifyServiceDefinitionDecoratorBundle::ALIAS);
         if (! isset($config[0])) { // no configuration is set
@@ -43,7 +43,11 @@ final class DecorateCompilerPass implements CompilerPassInterface
         }
     }
 
-    private function addCalls(Definition $definition, array $setups) : void
+    /**
+     * @param Definition $definition
+     * @param string[][] $setups
+     */
+    private function addCalls(Definition $definition, array $setups): void
     {
         foreach ($setups as $setterConfiguration) {
             [$methodName, $methodArguments] = $setterConfiguration;
@@ -57,7 +61,11 @@ final class DecorateCompilerPass implements CompilerPassInterface
         }
     }
 
-    private function addTags(Definition $definition, array $tags) : void
+    /**
+     * @param Definition $definition
+     * @param string[][] $tags
+     */
+    private function addTags(Definition $definition, array $tags): void
     {
         foreach ($tags as $tag) {
             $name = key($tag);
@@ -68,7 +76,7 @@ final class DecorateCompilerPass implements CompilerPassInterface
         }
     }
 
-    private function addAutowired(Definition $definition, bool $isAutowired) : void
+    private function addAutowired(Definition $definition, bool $isAutowired): void
     {
         $definition->setAutowired($isAutowired);
     }

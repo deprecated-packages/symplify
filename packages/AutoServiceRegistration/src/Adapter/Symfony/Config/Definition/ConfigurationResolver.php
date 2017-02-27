@@ -25,7 +25,7 @@ final class ConfigurationResolver
     /**
      * @return string[]
      */
-    public function getDirectoriesToScan() : array
+    public function getDirectoriesToScan(): array
     {
         return $this->getResolvedConfiguration()[Configuration::DIRECTORIES_TO_SCAN];
     }
@@ -33,7 +33,7 @@ final class ConfigurationResolver
     /**
      * @return string[]
      */
-    public function getClassSuffixesToSeek() : array
+    public function getClassSuffixesToSeek(): array
     {
         return $this->getResolvedConfiguration()[Configuration::CLASS_SUFFIXES_TO_SEEK];
     }
@@ -41,7 +41,7 @@ final class ConfigurationResolver
     /**
      * @return mixed[]
      */
-    private function getResolvedConfiguration() : array
+    private function getResolvedConfiguration(): array
     {
         if ($this->resolvedConfiguration) {
             return $this->resolvedConfiguration;

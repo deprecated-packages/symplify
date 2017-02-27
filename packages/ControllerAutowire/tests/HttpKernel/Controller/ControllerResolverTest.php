@@ -16,12 +16,12 @@ final class ControllerResolverTest extends TestCase
      */
     private $controllerResolver;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->controllerResolver = $this->createControllerResolverWithMocks();
     }
 
-    public function testGetController()
+    public function testGetController(): void
     {
         $request = new Request;
         $request->attributes->set('_controller', 'SomeController::someAction');
@@ -30,17 +30,14 @@ final class ControllerResolverTest extends TestCase
         $this->assertNull($controller);
     }
 
-    public function testGetArguments()
+    public function testGetArguments(): void
     {
         $this->assertNull(
             $this->controllerResolver->getArguments(new Request, 'missing')
         );
     }
 
-    /**
-     * @return ControllerResolver
-     */
-    private function createControllerResolverWithMocks()
+    private function createControllerResolverWithMocks(): ControllerResolver
     {
         $parentControllerResolverMock = $this->prophesize(ControllerResolverInterface::class);
         $containerMock = $this->prophesize(ContainerInterface::class);

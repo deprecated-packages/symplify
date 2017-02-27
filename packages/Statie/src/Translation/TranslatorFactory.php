@@ -26,7 +26,7 @@ final class TranslatorFactory
         $this->resourceFinder = $resourceFinder;
     }
 
-    public function create() : TranslatorInterface
+    public function create(): TranslatorInterface
     {
         $translator = new Translator('');
         $translator->addLoader('neon', new YamlFileLoader);
@@ -37,7 +37,7 @@ final class TranslatorFactory
         return $translator;
     }
 
-    private function addResourcesToTranslator(Translator $translator) : void
+    private function addResourcesToTranslator(Translator $translator): void
     {
         foreach ($this->resourceFinder->findInDirectory($this->getTranslationDirecrory()) as $resource) {
             $translator->addResource(
@@ -49,7 +49,7 @@ final class TranslatorFactory
         }
     }
 
-    private function getTranslationDirecrory() : string
+    private function getTranslationDirecrory(): string
     {
         return $this->configuration->getSourceDirectory() . DIRECTORY_SEPARATOR . '_translations';
     }

@@ -3,71 +3,79 @@
 namespace Symplify\CodingStandard\Tests\Sniffs;
 
 use SplFileInfo;
-use Symplify\EasyCodingStandard\SniffRunner\EventDispatcher\Event\CheckFileTokenEvent;
-use Symplify\EasyCodingStandard\SniffRunner\EventDispatcher\SniffDispatcher;
+use Symplify\EasyCodingStandard\Configuration\ConfigurationNormalizer;
+use Symplify\EasyCodingStandard\Error\ErrorCollector;
+use Symplify\EasyCodingStandard\Error\ErrorFilter;
+use Symplify\EasyCodingStandard\Error\ErrorSorter;
+use Symplify\EasyCodingStandard\Skipper;
 use Symplify\EasyCodingStandard\SniffRunner\File\File;
 use Symplify\EasyCodingStandard\SniffRunner\Fixer\Fixer;
 use Symplify\EasyCodingStandard\SniffRunner\Legacy\LegacyCompatibilityLayer;
 use Symplify\EasyCodingStandard\SniffRunner\Parser\FileToTokensParser;
-use Symplify\EasyCodingStandard\Report\ErrorDataCollector;
-use Symplify\EasyCodingStandard\Report\ErrorMessageSorter;
+use Symplify\EasyCodingStandard\SniffRunner\TokenDispatcher\Event\FileTokenEvent;
+use Symplify\EasyCodingStandard\SniffRunner\TokenDispatcher\TokenDispatcher;
 
 final class SniffRunner
 {
-    public static function getErrorCountForSniffInFile(string $sniffClass, SplFileInfo $fileInfo) : int
+    public static function getErrorCountForSniffInFile(string $sniffClass, SplFileInfo $fileInfo): int
     {
         $errorDataCollector = self::createErrorDataCollector();
         $sniffDispatcher = self::createSniffDispatcherWithSniff($sniffClass);
         $file = self::createFileFromFilePath($fileInfo->getPathname(), $errorDataCollector);
 
         foreach ($file->getTokens() as $stackPointer => $token) {
-            $sniffDispatcher->dispatch($token['code'], new CheckFileTokenEvent($file, $stackPointer));
+            $sniffDispatcher->dispatchToken(
+                $token['code'],
+                new FileTokenEvent($file, $stackPointer)
+            );
         }
 
         return $errorDataCollector->getErrorCount();
     }
 
-    public static function getFixedContentForSniffInFile(string $sniffClass, SplFileInfo $fileInfo) : string
+    public static function getFixedContentForSniffInFile(string $sniffClass, SplFileInfo $fileInfo): string
     {
         $sniffDispatcher = self::createSniffDispatcherWithSniff($sniffClass);
         $file = self::createFileFromFilePath($fileInfo->getPathname());
 
         foreach ($file->getTokens() as $stackPointer => $token) {
-            $sniffDispatcher->dispatch(
+            $sniffDispatcher->dispatchToken(
                 $token['code'],
-                new CheckFileTokenEvent($file, $stackPointer)
+                new FileTokenEvent($file, $stackPointer)
             );
         }
 
         return $file->fixer->getContents();
     }
 
-    private static function createSniffDispatcherWithSniff(string $sniffClass) : SniffDispatcher
+    private static function createSniffDispatcherWithSniff(string $sniffClass): TokenDispatcher
     {
         LegacyCompatibilityLayer::add();
 
-        $sniffDispatcher = new SniffDispatcher();
+        $sniffDispatcher = new TokenDispatcher(
+            new Skipper(new ConfigurationNormalizer)
+        );
         $sniffDispatcher->addSniffListeners([new $sniffClass]);
 
         return $sniffDispatcher;
     }
 
-    private static function createErrorDataCollector() : ErrorDataCollector
+    private static function createErrorDataCollector(): ErrorCollector
     {
-        return new ErrorDataCollector(new ErrorMessageSorter());
+        return new ErrorCollector(new ErrorSorter, new ErrorFilter);
     }
 
     private static function createFileFromFilePath(
         string $filePath,
-        ErrorDataCollector $errorDataCollector = null
-    ) : File {
-        $fileToTokenParser = new FileToTokensParser();
+        ?ErrorCollector $errorDataCollector = null
+    ): File {
+        $fileToTokenParser = new FileToTokensParser;
 
         $errorDataCollector = $errorDataCollector ?: self::createErrorDataCollector();
 
         $tokens = $fileToTokenParser->parseFromFilePath($filePath);
 
-        $fixer = new Fixer();
+        $fixer = new Fixer;
         $file = new File($filePath, $tokens, $fixer, $errorDataCollector, true);
         $file->fixer->startFile($file);
 

@@ -6,11 +6,15 @@ use ReflectionClass;
 
 final class SniffClassFilter
 {
-    public function filterOutAbstractAndNonPhpSniffClasses(array $originSniffClasses) : array
+    /**
+     * @param string[] $originSniffClasses
+     * @return string[]
+     */
+    public function filterOutAbstractAndNonPhpSniffClasses(array $originSniffClasses): array
     {
         $finalSniffClasses = [];
         foreach ($originSniffClasses as $sniffClass) {
-            if (!class_exists($sniffClass)) {
+            if (! class_exists($sniffClass)) {
                 continue;
             }
 
@@ -18,7 +22,7 @@ final class SniffClassFilter
                 continue;
             }
 
-            if (!$this->doesSniffSupportsPhp($sniffClass)) {
+            if (! $this->doesSniffSupportsPhp($sniffClass)) {
                 continue;
             }
 
@@ -28,15 +32,15 @@ final class SniffClassFilter
         return $finalSniffClasses;
     }
 
-    private function isAbstractClass(string $className) : bool
+    private function isAbstractClass(string $className): bool
     {
         return (new ReflectionClass($className))->isAbstract();
     }
 
-    private function doesSniffSupportsPhp(string $className) : bool
+    private function doesSniffSupportsPhp(string $className): bool
     {
         $vars = get_class_vars($className);
-        if (!isset($vars['supportedTokenizers'])) {
+        if (! isset($vars['supportedTokenizers'])) {
             return true;
         }
 

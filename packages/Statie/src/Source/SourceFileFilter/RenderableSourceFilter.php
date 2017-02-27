@@ -9,12 +9,12 @@ use Symplify\Statie\Source\SourceFileTypes;
 
 final class RenderableSourceFilter implements SourceFileFilterInterface
 {
-    public function getName() : string
+    public function getName(): string
     {
         return SourceFileTypes::RENDERABLE;
     }
 
-    public function matchesFileSource(SplFileInfo $fileInfo) : bool
+    public function matchesFileSource(SplFileInfo $fileInfo): bool
     {
         if (Strings::contains($fileInfo->getPath(), DIRECTORY_SEPARATOR . '_')) {
             return false;

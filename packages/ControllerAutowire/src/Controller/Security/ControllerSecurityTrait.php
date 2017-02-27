@@ -26,17 +26,17 @@ trait ControllerSecurityTrait
      */
     private $csrfTokenManager;
 
-    public function setAuthorizationChecker(AuthorizationCheckerInterface $authorizationChecker) : void
+    public function setAuthorizationChecker(AuthorizationCheckerInterface $authorizationChecker): void
     {
         $this->authorizationChecker = $authorizationChecker;
     }
 
-    public function setTokenStorage(TokenStorageInterface $tokenStorage) : void
+    public function setTokenStorage(TokenStorageInterface $tokenStorage): void
     {
         $this->tokenStorage = $tokenStorage;
     }
 
-    public function setCsrfTokenManager(CsrfTokenManagerInterface $csrfTokenManager) : void
+    public function setCsrfTokenManager(CsrfTokenManagerInterface $csrfTokenManager): void
     {
         $this->csrfTokenManager = $csrfTokenManager;
     }
@@ -45,7 +45,7 @@ trait ControllerSecurityTrait
      * @param mixed $attributes
      * @param mixed $object
      */
-    protected function isGranted($attributes, $object = null) : bool
+    protected function isGranted($attributes, $object = null): bool
     {
         return $this->authorizationChecker->isGranted($attributes, $object);
     }
@@ -55,7 +55,7 @@ trait ControllerSecurityTrait
      * @param mixed  $object
      * @param string $message
      */
-    protected function denyAccessUnlessGranted($attributes, $object = null, string $message = 'Access Denied.') : void
+    protected function denyAccessUnlessGranted($attributes, $object = null, string $message = 'Access Denied.'): void
     {
         if (! $this->isGranted($attributes, $object)) {
             throw new AccessDeniedException($message);
@@ -82,7 +82,7 @@ trait ControllerSecurityTrait
         }
     }
 
-    protected function isCsrfTokenValid(string $id, string $token) : bool
+    protected function isCsrfTokenValid(string $id, string $token): bool
     {
         return $this->csrfTokenManager->isTokenValid(new CsrfToken($id, $token));
     }

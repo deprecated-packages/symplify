@@ -24,7 +24,7 @@ final class TreeTest extends TestCase
      */
     private $categoryRepository;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->container = (new ContainerFactory)->create();
 
@@ -37,7 +37,7 @@ final class TreeTest extends TestCase
         $databaseLoader->prepareCategoryTableWithTwoItems();
     }
 
-    public function testInstance()
+    public function testInstance(): void
     {
         $this->assertInstanceOf(
             TreeListener::class,
@@ -45,7 +45,7 @@ final class TreeTest extends TestCase
         );
     }
 
-    public function testParent()
+    public function testParent(): void
     {
         /** @var Category $category */
         $category = $this->categoryRepository->find(2);
@@ -56,7 +56,7 @@ final class TreeTest extends TestCase
         $this->assertSame('Fruit', $category->getParent()->getName());
     }
 
-    public function testPath()
+    public function testPath(): void
     {
         /** @var Category $category */
         $category = $this->categoryRepository->find(1);
@@ -67,7 +67,7 @@ final class TreeTest extends TestCase
         $this->assertSame('Fruit-1|Apple-2|', $category->getPath());
     }
 
-    public function testTreeRepository()
+    public function testTreeRepository(): void
     {
         $category = $this->categoryRepository->find(1);
         /** @var Category[] $children */

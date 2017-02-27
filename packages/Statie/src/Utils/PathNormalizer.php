@@ -4,7 +4,7 @@ namespace Symplify\Statie\Utils;
 
 final class PathNormalizer
 {
-    public static function normalize(string $path) : string
+    public static function normalize(string $path): string
     {
         return str_replace(['\\', '/'], [DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR], $path);
     }

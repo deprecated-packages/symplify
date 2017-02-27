@@ -8,9 +8,11 @@ use Symplify\PackageBuilder\Adapter\Nette\GeneralContainerFactory;
 
 final class SniffFinderTest extends TestCase
 {
-    public function test()
+    public function test(): void
     {
-        $container = (new GeneralContainerFactory())->createFromConfig(__DIR__ . '/../../../../../src/config/config.neon');
+        $container = (new GeneralContainerFactory)->createFromConfig(
+            __DIR__ . '/../../../../../src/config/config.neon'
+        );
         $sniffFinder = $container->getByType(SniffFinder::class);
         $this->assertGreaterThan(250, $sniffFinder->findAllSniffClasses());
     }

@@ -17,18 +17,18 @@ final class SymplifyDefaultAutowireBundle extends Bundle
      */
     public const ALIAS = 'symplify_default_autowire';
 
-    public function build(ContainerBuilder $containerBuilder) : void
+    public function build(ContainerBuilder $containerBuilder): void
     {
         $containerBuilder->addCompilerPass(new DefaultAutowireTypesCompilerPass);
         $containerBuilder->addCompilerPass(new TurnOnAutowireCompilerPass($this->createDefinitionAnalyzer()));
     }
 
-    public function getContainerExtension() : SymplifyDefaultAutowireContainerExtension
+    public function getContainerExtension(): SymplifyDefaultAutowireContainerExtension
     {
         return new SymplifyDefaultAutowireContainerExtension;
     }
 
-    private function createDefinitionAnalyzer() : DefinitionAnalyzer
+    private function createDefinitionAnalyzer(): DefinitionAnalyzer
     {
         return new DefinitionAnalyzer(new DefinitionValidator);
     }

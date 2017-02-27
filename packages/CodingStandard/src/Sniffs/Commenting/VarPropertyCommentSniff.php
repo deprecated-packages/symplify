@@ -18,7 +18,7 @@ final class VarPropertyCommentSniff extends AbstractVariableSniff
      * @param File $file
      * @param int $position
      */
-    protected function processMemberVar(File $file, $position) : void
+    protected function processMemberVar(File $file, $position): void
     {
         $commentString = $this->getPropertyComment($file, $position);
 
@@ -29,7 +29,7 @@ final class VarPropertyCommentSniff extends AbstractVariableSniff
         $file->addError(
             'Property should have docblock comment.',
             $position,
-            null
+            self::class
         );
     }
 
@@ -37,7 +37,7 @@ final class VarPropertyCommentSniff extends AbstractVariableSniff
      * @param File $file
      * @param int $position
      */
-    protected function processVariable(File $file, $position)
+    protected function processVariable(File $file, $position): void
     {
     }
 
@@ -45,11 +45,11 @@ final class VarPropertyCommentSniff extends AbstractVariableSniff
      * @param File $file
      * @param int $position
      */
-    protected function processVariableInString(File $file, $position) : void
+    protected function processVariableInString(File $file, $position): void
     {
     }
 
-    private function getPropertyComment(File $file, int $position) : string
+    private function getPropertyComment(File $file, int $position): string
     {
         $commentEnd = $file->findPrevious([T_DOC_COMMENT_CLOSE_TAG], $position);
         if ($commentEnd === false) {

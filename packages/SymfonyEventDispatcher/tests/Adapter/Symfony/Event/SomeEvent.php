@@ -9,19 +9,19 @@ final class SomeEvent extends Event
     /**
      * @var string
      */
-    const NAME = 'some_event';
+    public const NAME = 'some_event';
 
     /**
      * @var string
      */
     private $state = 'off';
 
-    public function changeState(string $state)
+    public function changeState(string $state): void
     {
         $this->state = $state;
     }
 
-    public function getState() : string
+    public function getState(): string
     {
         return $this->state;
     }

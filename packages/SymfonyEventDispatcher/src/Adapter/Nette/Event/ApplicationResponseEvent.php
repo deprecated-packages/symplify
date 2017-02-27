@@ -34,12 +34,12 @@ final class ApplicationResponseEvent extends Event
         $this->response = $response;
     }
 
-    public function getApplication() : Application
+    public function getApplication(): Application
     {
         return $this->application;
     }
 
-    public function getResponse() : IResponse
+    public function getResponse(): IResponse
     {
         return $this->response;
     }

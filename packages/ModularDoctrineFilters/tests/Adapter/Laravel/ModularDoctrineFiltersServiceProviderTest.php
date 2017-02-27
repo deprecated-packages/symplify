@@ -20,14 +20,14 @@ final class ModularDoctrineFiltersServiceProviderTest extends TestCase
      */
     private $application;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->application = new Application;
         $this->setupDoctrineDependency($this->application);
         $this->application->register(new ModularDoctrineFiltersServiceProvider($this->application));
     }
 
-    public function testRegister() : void
+    public function testRegister(): void
     {
         $filterManagerByInterface = $this->application->make(FilterManagerInterface::class);
         $filterManagerByClass = $this->application->make(FilterManager::class);
@@ -38,7 +38,7 @@ final class ModularDoctrineFiltersServiceProviderTest extends TestCase
         $this->assertInstanceOf(FilterManagerInterface::class, $filterManagerByInterface);
     }
 
-    public function testBoot() : void
+    public function testBoot(): void
     {
         $this->registerFilterServices($this->application);
 
@@ -53,7 +53,7 @@ final class ModularDoctrineFiltersServiceProviderTest extends TestCase
         );
     }
 
-    private function setupDoctrineDependency(Application $application) : void
+    private function setupDoctrineDependency(Application $application): void
     {
         $application->singleton(EntityManager::class, function () {
             return $this->prophesize(EntityManagerInterface::class)
@@ -63,11 +63,11 @@ final class ModularDoctrineFiltersServiceProviderTest extends TestCase
         $application->alias(EntityManager::class, EntityManagerInterface::class);
     }
 
-    private function registerFilterServices(Application $application) : void
+    private function registerFilterServices(Application $application): void
     {
         $application->bind(SomeFilter::class);
 
-        $application->bind('filter_2', function () : FilterInterface {
+        $application->bind('filter_2', function (): FilterInterface {
             return $this->prophesize(FilterInterface::class)
                 ->reveal();
         });

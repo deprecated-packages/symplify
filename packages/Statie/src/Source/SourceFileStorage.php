@@ -17,7 +17,7 @@ final class SourceFileStorage
      */
     private $sourceFileFilters = [];
 
-    public function addSourceFileFilter(SourceFileFilterInterface $sourceFileFilter) : void
+    public function addSourceFileFilter(SourceFileFilterInterface $sourceFileFilter): void
     {
         $this->sourceFileFilters[$sourceFileFilter->getName()] = $sourceFileFilter;
         $this->sourceFilesByType[$sourceFileFilter->getName()] = [];
@@ -26,26 +26,17 @@ final class SourceFileStorage
     /**
      * @param SplFileInfo[] $files
      */
-    public function loadSourcesFromFiles(array $files) : void
+    public function loadSourcesFromFiles(array $files): void
     {
         foreach ($files as $fileInfo) {
             $this->addSource($fileInfo);
         }
     }
 
-    private function addSource(SplFileInfo $fileInfo) : void
-    {
-        foreach ($this->sourceFileFilters as $sourceFileFilter) {
-            if ($sourceFileFilter->matchesFileSource($fileInfo)) {
-                $this->sourceFilesByType[$sourceFileFilter->getName()][$fileInfo->getRealPath()] = $fileInfo;
-            }
-        }
-    }
-
     /**
      * @return SplFileInfo[]
      */
-    public function getStaticFiles() : array
+    public function getStaticFiles(): array
     {
         ksort($this->sourceFilesByType[SourceFileTypes::STATIC]);
 
@@ -55,7 +46,7 @@ final class SourceFileStorage
     /**
      * @return SplFileInfo[]
      */
-    public function getRenderableFiles() : array
+    public function getRenderableFiles(): array
     {
         return $this->sourceFilesByType[SourceFileTypes::RENDERABLE];
     }
@@ -63,7 +54,7 @@ final class SourceFileStorage
     /**
      * @return SplFileInfo[]
      */
-    public function getConfigurationFiles() : array
+    public function getConfigurationFiles(): array
     {
         return $this->sourceFilesByType[SourceFileTypes::CONFIGURATION];
     }
@@ -71,7 +62,7 @@ final class SourceFileStorage
     /**
      * @return SplFileInfo[]
      */
-    public function getPostFiles() : array
+    public function getPostFiles(): array
     {
         krsort($this->sourceFilesByType[SourceFileTypes::POSTS]);
 
@@ -81,8 +72,17 @@ final class SourceFileStorage
     /**
      * @return SplFileInfo[]
      */
-    public function getLayoutFiles() : array
+    public function getLayoutFiles(): array
     {
         return $this->sourceFilesByType[SourceFileTypes::GLOBAL_LATTE];
+    }
+
+    private function addSource(SplFileInfo $fileInfo): void
+    {
+        foreach ($this->sourceFileFilters as $sourceFileFilter) {
+            if ($sourceFileFilter->matchesFileSource($fileInfo)) {
+                $this->sourceFilesByType[$sourceFileFilter->getName()][$fileInfo->getRealPath()] = $fileInfo;
+            }
+        }
     }
 }

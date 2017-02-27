@@ -18,17 +18,22 @@ trait ControllerHttpKernelTrait
      */
     private $httpKernel;
 
-    public function setRequestStack(RequestStack $requestStack) : void
+    public function setRequestStack(RequestStack $requestStack): void
     {
         $this->requestStack = $requestStack;
     }
 
-    public function setHttpKernel(HttpKernelInterface $httpKernel) : void
+    public function setHttpKernel(HttpKernelInterface $httpKernel): void
     {
         $this->httpKernel = $httpKernel;
     }
 
-    protected function forward(string $controller, array $path = [], array $query = []) : Response
+    /**
+     * @param string $controller
+     * @param string[] $path
+     * @param string[] $query
+     */
+    protected function forward(string $controller, array $path = [], array $query = []): Response
     {
         $path['_controller'] = $controller;
         $subRequest = $this->requestStack->getCurrentRequest()->duplicate($query, null, $path);

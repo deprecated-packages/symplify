@@ -7,5 +7,5 @@ interface LatteFiltersProviderInterface
     /**
      * @return callable[]
      */
-    public function getFilters() : array;
+    public function getFilters(): array;
 }

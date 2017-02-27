@@ -7,7 +7,7 @@ use Symplify\ModularDoctrineFilters\Contract\Filter\FilterInterface;
 
 final class ActiveFilter implements FilterInterface
 {
-    public function addFilterConstraint(ClassMetadata $targetEntity, string $targetTableAlias) : string
+    public function addFilterConstraint(ClassMetadata $targetEntity, string $targetTableAlias): string
     {
         return sprintf('%s.is_active = 1', $targetTableAlias);
     }

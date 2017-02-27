@@ -3,10 +3,11 @@
 namespace Symplify\EasyCodingStandard\SniffRunner\File;
 
 use PHP_CodeSniffer\Files\File as BaseFile;
-use Symplify\EasyCodingStandard\SniffRunner\Fixer\Fixer;
+use PHP_CodeSniffer\Sniffs\Sniff;
+use Symplify\EasyCodingStandard\Error\ErrorCollector;
 use Symplify\EasyCodingStandard\SniffRunner\Contract\File\FileInterface;
 use Symplify\EasyCodingStandard\SniffRunner\Exception\File\NotImplementedException;
-use Symplify\EasyCodingStandard\Report\ErrorDataCollector;
+use Symplify\EasyCodingStandard\SniffRunner\Fixer\Fixer;
 
 final class File extends BaseFile implements FileInterface
 {
@@ -21,26 +22,33 @@ final class File extends BaseFile implements FileInterface
     public $fixer;
 
     /**
-     * @var ErrorDataCollector
+     * @var ErrorCollector
      */
-    private $errorDataCollector;
+    private $errorCollector;
 
     /**
      * @var bool
      */
     private $isFixer;
 
+    /**
+     * @param string $path
+     * @param array[] $tokens
+     * @param Fixer $fixer
+     * @param ErrorCollector $errorCollector
+     * @param bool $isFixer
+     */
     public function __construct(
         string $path,
         array $tokens,
         Fixer $fixer,
-        ErrorDataCollector $errorDataCollector,
+        ErrorCollector $errorCollector,
         bool $isFixer
     ) {
         $this->path = $path;
         $this->tokens = $tokens;
         $this->fixer = $fixer;
-        $this->errorDataCollector = $errorDataCollector;
+        $this->errorCollector = $errorCollector;
 
         $this->numTokens = count($this->tokens);
         $this->content = file_get_contents($path);
@@ -52,7 +60,7 @@ final class File extends BaseFile implements FileInterface
     /**
      * {@inheritdoc}
      */
-    public function parse()
+    public function parse(): void
     {
         throw new NotImplementedException(sprintf(
             'Method %s not needed to be public. File is already parsed on __construct.',
@@ -63,7 +71,7 @@ final class File extends BaseFile implements FileInterface
     /**
      * {@inheritdoc}
      */
-    public function process()
+    public function process(): void
     {
         throw new NotImplementedException(sprintf(
             'Method "%s" is not needed to be public. Use external processing.',
@@ -74,47 +82,91 @@ final class File extends BaseFile implements FileInterface
     /**
      * {@inheritdoc}
      */
-    public function getErrorCount()
+    public function getErrorCount(): void
     {
         throw new NotImplementedException(sprintf(
             'Method "%s" is not needed to be public. Use "%s" service.',
             __METHOD__,
-            ErrorDataCollector::class
+            ErrorCollector::class
         ));
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getErrors()
+    public function getErrors(): void
     {
         throw new NotImplementedException(sprintf(
             'Method "%s" is not needed to be public. Use "%s" service.',
             __METHOD__,
-            ErrorDataCollector::class
+            ErrorCollector::class
         ));
     }
 
     /**
+     * Delegate to addError()
+     *
      * {@inheritdoc}
      */
-    public function addFixableError($error, $stackPtr, $code, $data = [], $severity = 0)
+    public function addFixableError($error, $stackPtr, $code, $data = [], $severity = 0): bool
     {
         $this->addError($error, $stackPtr, $code, $data, $severity, true);
         return $this->isFixer;
     }
 
     /**
+     * Delegated from addError()
+     *
      * {@inheritdoc}
      */
-    protected function addMessage($error, $message, $line, $column, $code, $data, $severity, $isFixable = false) : bool
-    {
-        if (!$error) { // skip warnings
+    protected function addMessage(
+        $isError,
+        $message,
+        $line,
+        $column,
+        $sniffClass,
+        $data,
+        $severity,
+        $isFixable = false
+    ): bool {
+        if (! $isError) { // skip warnings
             return false;
         }
 
-        $this->errorDataCollector->addErrorMessage($this->path, $message, $line, $code, $data, $isFixable);
+        if (count($data)) {
+            $message = vsprintf($message, $data);
+        }
+
+        $sniffClass = $this->normalizeSniffClass($sniffClass);
+
+        $this->errorCollector->addErrorMessage(
+            $this->path, $line, $message, $sniffClass, $isFixable
+        );
 
         return true;
+    }
+
+    private function normalizeSniffClass(string $sourceClass): string
+    {
+        if (class_exists($sourceClass, false)) {
+            return $sourceClass;
+        }
+
+        $trace = debug_backtrace(0, 6);
+
+        if ($this->isSniffClass($trace[3]['class'])) {
+            return $trace[3]['class'];
+        }
+
+        if ($this->isSniffClass($trace[5]['class'])) {
+            return $trace[5]['class'];
+        }
+
+        return $trace[4]['class'];
+    }
+
+    private function isSniffClass(string $class): bool
+    {
+        return is_a($class, Sniff::class, true);
     }
 }

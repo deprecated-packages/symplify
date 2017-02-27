@@ -8,7 +8,7 @@ use Nette\Utils\FileSystem;
 
 final class ContainerFactory
 {
-    public function createWithConfig(string $config) : Container
+    public function createWithConfig(string $config): Container
     {
         $configurator = new Configurator;
         $configurator->setTempDirectory($this->createAndReturnTempDir());
@@ -16,7 +16,7 @@ final class ContainerFactory
         return $configurator->createContainer();
     }
 
-    private function createAndReturnTempDir() : string
+    private function createAndReturnTempDir(): string
     {
         $tempDir = sys_get_temp_dir() . '/modular-latte-filters';
         FileSystem::delete($tempDir);

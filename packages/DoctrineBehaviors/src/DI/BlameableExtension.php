@@ -5,14 +5,13 @@ namespace Zenify\DoctrineBehaviors\DI;
 use Kdyby\Events\DI\EventsExtension;
 use Knp\DoctrineBehaviors\Model\Blameable\Blameable;
 use Knp\DoctrineBehaviors\ORM\Blameable\BlameableSubscriber;
-use Nette\Utils\AssertionException;
 use Nette\Utils\Validators;
 use Zenify\DoctrineBehaviors\Blameable\UserCallable;
 
 final class BlameableExtension extends AbstractBehaviorExtension
 {
     /**
-     * @var array
+     * @var mixed[]
      */
     private $defaults = [
         'isRecursive' => true,
@@ -21,7 +20,7 @@ final class BlameableExtension extends AbstractBehaviorExtension
         'userEntity' => null
     ];
 
-    public function loadConfiguration() : void
+    public function loadConfiguration(): void
     {
         $config = $this->validateConfig($this->defaults);
         $this->validateConfigTypes($config);
@@ -42,9 +41,9 @@ final class BlameableExtension extends AbstractBehaviorExtension
     }
 
     /**
-     * @throws AssertionException
+     * @param mixed[] $config
      */
-    private function validateConfigTypes(array $config) : void
+    private function validateConfigTypes(array $config): void
     {
         Validators::assertField($config, 'isRecursive', 'bool');
         Validators::assertField($config, 'trait', 'type');

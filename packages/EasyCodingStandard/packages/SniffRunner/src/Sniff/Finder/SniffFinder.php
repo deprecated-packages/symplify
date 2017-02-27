@@ -29,7 +29,10 @@ final class SniffFinder
         $this->sniffClassFilter = $sniffClassFilter;
     }
 
-    public function findAllSniffClasses() : array
+    /**
+     * @return string[]
+     */
+    public function findAllSniffClasses(): array
     {
         $vendorSniffs = $this->findAllSniffClassesInDirectory(VendorDirProvider::provide());
         $packagesSniffs = $this->findAllSniffClassesInDirectory(getcwd() . '/packages');
@@ -37,7 +40,10 @@ final class SniffFinder
         return array_merge($vendorSniffs, $packagesSniffs);
     }
 
-    private function findAllSniffClassesInDirectory(string $directory) : array
+    /**
+     * @return string[]
+     */
+    private function findAllSniffClassesInDirectory(string $directory): array
     {
         if (isset($this->sniffClassesPerDirectory[$directory])) {
             return $this->sniffClassesPerDirectory[$directory];

@@ -7,7 +7,7 @@ use Faker\Provider\Base;
 final class ProductName extends Base
 {
     /**
-     * @var array
+     * @var string[]
      */
     public static $randomNames = [
         'Hair of love',
@@ -15,7 +15,7 @@ final class ProductName extends Base
         'Flying shoe'
     ];
 
-    public function shortName() : string
+    public function shortName(): string
     {
         return $this->randomElement(self::$randomNames);
     }

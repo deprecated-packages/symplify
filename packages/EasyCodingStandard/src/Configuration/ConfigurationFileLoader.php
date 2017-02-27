@@ -17,12 +17,15 @@ final class ConfigurationFileLoader
      */
     private $configurationFile;
 
-    public function __construct(string $configurationFile = null)
+    public function __construct(?string $configurationFile = null)
     {
         $this->configurationFile = $configurationFile ?: getcwd().DIRECTORY_SEPARATOR. self::CONFIGURATION_FILE;
     }
 
-    public function load() : array
+    /**
+     * @return mixed[]
+     */
+    public function load(): array
     {
         $this->ensureFileExists($this->configurationFile);
 
@@ -31,9 +34,9 @@ final class ConfigurationFileLoader
         return Neon::decode($fileContent);
     }
 
-    private function ensureFileExists(string $multiCsJsonFile) : void
+    private function ensureFileExists(string $multiCsJsonFile): void
     {
-        if (!file_exists($multiCsJsonFile)) {
+        if (! file_exists($multiCsJsonFile)) {
             throw new ConfigurationFileNotFoundException(
                 sprintf(
                     'File "%s" was not found in "%s". Did you forget to create it?',

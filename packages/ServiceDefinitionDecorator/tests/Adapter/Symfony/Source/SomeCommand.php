@@ -24,17 +24,12 @@ final class SomeCommand extends Command implements DummyServiceAwareInterface
         parent::__construct();
     }
 
-    public function setDummyService(DummyService $dummyService)
+    public function setDummyService(DummyService $dummyService): void
     {
         $this->dummyService = $dummyService;
     }
 
-    protected function configure()
-    {
-        $this->setName('some_command');
-    }
-
-    public function getFinder() : Finder
+    public function getFinder(): Finder
     {
         return $this->finder;
     }
@@ -42,5 +37,10 @@ final class SomeCommand extends Command implements DummyServiceAwareInterface
     public function getDummyService(): DummyService
     {
         return $this->dummyService;
+    }
+
+    protected function configure(): void
+    {
+        $this->setName('some_command');
     }
 }

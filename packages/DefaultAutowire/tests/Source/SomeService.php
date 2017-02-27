@@ -15,4 +15,9 @@ final class SomeService
     {
         $this->someRepository = $someRepository;
     }
+
+    public function getSomeRepository(): SomeRepository
+    {
+        return $this->someRepository;
+    }
 }

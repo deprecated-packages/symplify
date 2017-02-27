@@ -14,7 +14,7 @@ final class AddRouteCollectionProvidersCompilerPass implements CompilerPassInter
      */
     private $containerBuilder;
 
-    public function process(ContainerBuilder $containerBuilder) : void
+    public function process(ContainerBuilder $containerBuilder): void
     {
         $this->containerBuilder = $containerBuilder;
 
@@ -27,7 +27,7 @@ final class AddRouteCollectionProvidersCompilerPass implements CompilerPassInter
     /**
      * @return RouteCollectionProviderInterface[]
      */
-    private function getAllRouteCollectionProviders() : array
+    private function getAllRouteCollectionProviders(): array
     {
         $filters = [];
         foreach ($this->containerBuilder->getDefinitions() as $name => $definition) {

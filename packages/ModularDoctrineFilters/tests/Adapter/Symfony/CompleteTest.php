@@ -6,7 +6,6 @@ use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Kernel;
-use Symplify\ModularDoctrineFilters\Tests\Adapter\Symfony\AppKernel;
 use Symplify\ModularDoctrineFilters\Tests\Adapter\Symfony\Controller\SomeController;
 
 final class CompleteTest extends TestCase
@@ -21,7 +20,7 @@ final class CompleteTest extends TestCase
      */
     private $kernel;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->kernel = new AppKernel('test', false);
         $this->kernel->boot();
@@ -30,7 +29,7 @@ final class CompleteTest extends TestCase
             ->get('doctrine.orm.default_entity_manager');
     }
 
-    public function testEnableFiltersViaSubscriber()
+    public function testEnableFiltersViaSubscriber(): void
     {
         $request = new Request;
         $request->attributes->set('_controller', SomeController::class . '::someAction');

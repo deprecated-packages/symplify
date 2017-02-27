@@ -13,7 +13,7 @@ use Symplify\PackageBuilder\Adapter\Symfony\DependencyInjection\DefinitionFinder
 
 final class CollectEventSubscribersPass implements CompilerPassInterface
 {
-    public function process(ContainerBuilder $containerBuilder) : void
+    public function process(ContainerBuilder $containerBuilder): void
     {
         $eventDispatcherDefinition = DefinitionFinder::getByType($containerBuilder, EventDispatcherInterface::class);
         if ($this->isContainerAwareEventDispatcherDefinition($eventDispatcherDefinition)) {
@@ -33,7 +33,7 @@ final class CollectEventSubscribersPass implements CompilerPassInterface
     private function registerToContainerAwareEventDispatcher(
         ContainerBuilder $containerBuilder,
         Definition $eventDispatcherDefinition
-    ) : void {
+    ): void {
         $subscriberDefinitions = DefinitionFinder::findAllByType($containerBuilder, EventSubscriberInterface::class);
         foreach ($subscriberDefinitions as $name => $definition) {
             $eventDispatcherDefinition->addMethodCall(
@@ -43,7 +43,7 @@ final class CollectEventSubscribersPass implements CompilerPassInterface
         }
     }
 
-    private function isContainerAwareEventDispatcherDefinition(Definition $definition) : bool
+    private function isContainerAwareEventDispatcherDefinition(Definition $definition): bool
     {
         return is_a($definition->getClass(), ContainerAwareEventDispatcher::class, true);
     }

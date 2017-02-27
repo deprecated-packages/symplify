@@ -11,7 +11,7 @@ use Nette\Utils\Validators;
 final class GeocodableExtension extends AbstractBehaviorExtension
 {
     /**
-     * @var array
+     * @var mixed[]
      */
     private $defaults = [
         'isRecursive' => true,
@@ -19,7 +19,7 @@ final class GeocodableExtension extends AbstractBehaviorExtension
         'geolocationCallable' => null
     ];
 
-    public function loadConfiguration() : void
+    public function loadConfiguration(): void
     {
         $config = $this->validateConfig($this->defaults);
         $this->validateConfigTypes($config);
@@ -38,9 +38,10 @@ final class GeocodableExtension extends AbstractBehaviorExtension
     }
 
     /**
+     * @param mixed[] $config
      * @throws AssertionException
      */
-    private function validateConfigTypes(array $config) : void
+    private function validateConfigTypes(array $config): void
     {
         Validators::assertField($config, 'isRecursive', 'bool');
         Validators::assertField($config, 'trait', 'type');

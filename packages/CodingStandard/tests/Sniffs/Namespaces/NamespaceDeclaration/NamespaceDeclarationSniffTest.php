@@ -2,12 +2,12 @@
 
 namespace Symplify\CodingStandard\Tests\Sniffs\Namespaces\NamespaceDeclaration;
 
-use Symplify\CodingStandard\Tests\Sniffs\AbstractSniffTestCase;
 use Symplify\CodingStandard\Sniffs\Namespaces\NamespaceDeclarationSniff;
+use Symplify\CodingStandard\Tests\Sniffs\AbstractSniffTestCase;
 
 final class NamespaceDeclarationSniffTest extends AbstractSniffTestCase
 {
-    public function test()
+    public function test(): void
     {
         $this->runSniffTestForDirectory(NamespaceDeclarationSniff::class, __DIR__);
     }

@@ -17,7 +17,7 @@ final class ConfigurationDecorator
         $this->neonParser = $neonParser;
     }
 
-    public function decorateFile(AbstractFile $file) : void
+    public function decorateFile(AbstractFile $file): void
     {
         if (preg_match('/^\s*(?:---[\s]*[\r\n]+)(.*?)(?:---[\s]*[\r\n]+)(.*?)$/s', $file->getContent(), $matches)) {
             $file->changeContent($matches[2]);
@@ -26,7 +26,7 @@ final class ConfigurationDecorator
         }
     }
 
-    private function setConfigurationToFileIfFoundAny(string $content, AbstractFile $file) : void
+    private function setConfigurationToFileIfFoundAny(string $content, AbstractFile $file): void
     {
         if (! preg_match('/^(\s*[-]+\s*|\s*)$/', $content)) {
             $configuration = $this->neonParser->decode($content);

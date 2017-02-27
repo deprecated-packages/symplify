@@ -14,15 +14,15 @@ use Symplify\Statie\Source\SourceFileStorage;
 
 final class StatieCompilerExtension extends CompilerExtension
 {
-    public function loadConfiguration() : void
+    public function loadConfiguration(): void
     {
         Compiler::loadDefinitions(
             $this->getContainerBuilder(),
-            $this->loadFromFile(__DIR__ . '/../config/services.neon')['services']
+            $this->loadFromFile(__DIR__ . '/../config/services.neon')
         );
     }
 
-    public function beforeCompile() : void
+    public function beforeCompile(): void
     {
         DefinitionCollector::loadCollectorWithType(
             $this->getContainerBuilder(),

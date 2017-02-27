@@ -12,18 +12,18 @@ trait ControllerSerializerTrait
      */
     private $serializer;
 
-    public function setSerializer(SerializerInterface $serializer) : void
+    public function setSerializer(SerializerInterface $serializer): void
     {
         $this->serializer = $serializer;
     }
 
     /**
      * @param mixed $data
-     * @param int   $status
-     * @param array $headers
-     * @param array $context
+     * @param int $status
+     * @param string[] $headers
+     * @param string[] $context
      */
-    protected function json($data, int $status = 200, array $headers = [], array $context = []) : JsonResponse
+    protected function json($data, int $status = 200, array $headers = [], array $context = []): JsonResponse
     {
         if ($this->serializer) {
             $data = $this->serializer->serialize($data, 'json', array_merge([

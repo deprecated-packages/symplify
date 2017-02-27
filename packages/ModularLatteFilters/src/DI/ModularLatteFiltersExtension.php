@@ -17,7 +17,7 @@ final class ModularLatteFiltersExtension extends CompilerExtension
     private const APPLICATION_LATTE_FACTORY_INTERFACE = ILatteFactory::class;
 
 
-    public function beforeCompile() : void
+    public function beforeCompile(): void
     {
         $containerBuilder = $this->getContainerBuilder();
         $containerBuilder->prepareClassList();
@@ -34,7 +34,7 @@ final class ModularLatteFiltersExtension extends CompilerExtension
         }
     }
 
-    private function getLatteDefinition() : ServiceDefinition
+    private function getLatteDefinition(): ServiceDefinition
     {
         $containerBuilder = $this->getContainerBuilder();
 

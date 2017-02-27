@@ -18,7 +18,7 @@ final class RegisterControllersPassTest extends TestCase
      */
     private $registerControllersPass;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $controllerClassMap = new ControllerClassMap;
         $controllerClassMap->addController('somecontroller', 'SomeController');
@@ -27,7 +27,7 @@ final class RegisterControllersPassTest extends TestCase
         $this->registerControllersPass = new RegisterControllersPass($controllerClassMap, $controllerFinder);
     }
 
-    public function testProcess()
+    public function testProcess(): void
     {
         $containerBuilder = new ContainerBuilder;
         $this->assertCount(0, $containerBuilder->getDefinitions());
@@ -50,7 +50,7 @@ final class RegisterControllersPassTest extends TestCase
         $this->assertTrue($controllerDefinition->isAutowired());
     }
 
-    public function testServiceDefinitionExists()
+    public function testServiceDefinitionExists(): void
     {
         $containerBuilder = new ContainerBuilder;
         $containerBuilder->prependExtensionConfig(SymplifyControllerAutowireBundle::ALIAS, [

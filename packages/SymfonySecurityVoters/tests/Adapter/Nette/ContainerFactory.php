@@ -8,7 +8,7 @@ use Nette\Utils\FileSystem;
 
 final class ContainerFactory
 {
-    public function create() : Container
+    public function create(): Container
     {
         $configurator = new Configurator;
         $configurator->setTempDirectory($this->createAndReturnTempDirectory());
@@ -18,7 +18,7 @@ final class ContainerFactory
         return $configurator->createContainer();
     }
 
-    private function createAndReturnTempDirectory() : string
+    private function createAndReturnTempDirectory(): string
     {
         $tempDir = sys_get_temp_dir() . '/symplify_symfony_security';
         FileSystem::delete($tempDir);

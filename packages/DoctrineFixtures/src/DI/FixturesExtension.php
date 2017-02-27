@@ -7,27 +7,26 @@ use Nelmio\Alice\Fixtures\Loader;
 use Nelmio\Alice\Fixtures\Parser\Methods\MethodInterface;
 use Nette\DI\Compiler;
 use Nette\DI\CompilerExtension;
-use Nette\DI\ServiceDefinition;
 
 final class FixturesExtension extends CompilerExtension
 {
     /**
-     * @var array[]
+     * @var mixed[]
      */
     private $defaults = [
         'locale' => 'cs_CZ',
         'seed' => 1
     ];
 
-    public function loadConfiguration()
+    public function loadConfiguration(): void
     {
         Compiler::loadDefinitions(
             $this->getContainerBuilder(),
-            $this->loadFromFile(__DIR__ . '/services.neon')['services']
+            $this->loadFromFile(__DIR__ . '/services.neon')
         );
     }
 
-    public function beforeCompile()
+    public function beforeCompile(): void
     {
         $containerBuilder = $this->getContainerBuilder();
         $containerBuilder->prepareClassList();
@@ -36,7 +35,7 @@ final class FixturesExtension extends CompilerExtension
         $this->loadParsersToAliceLoader();
     }
 
-    private function loadFakerProvidersToAliceLoader()
+    private function loadFakerProvidersToAliceLoader(): void
     {
         $config = $this->validateConfig($this->defaults);
 
@@ -50,7 +49,7 @@ final class FixturesExtension extends CompilerExtension
             ]);
     }
 
-    private function loadParsersToAliceLoader()
+    private function loadParsersToAliceLoader(): void
     {
         $containerBuilder = $this->getContainerBuilder();
 

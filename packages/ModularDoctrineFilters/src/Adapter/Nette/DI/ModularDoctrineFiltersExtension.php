@@ -12,7 +12,7 @@ use Symplify\PackageBuilder\Adapter\Nette\DI\DefinitionFinder;
 
 final class ModularDoctrineFiltersExtension extends CompilerExtension
 {
-    public function loadConfiguration()
+    public function loadConfiguration(): void
     {
         Compiler::loadDefinitions(
             $this->getContainerBuilder(),
@@ -20,13 +20,13 @@ final class ModularDoctrineFiltersExtension extends CompilerExtension
         );
     }
 
-    public function beforeCompile() : void
+    public function beforeCompile(): void
     {
         $this->loadFiltersToFilterManager();
         $this->passFilterManagerToSubscriber();
     }
 
-    private function loadFiltersToFilterManager() : void
+    private function loadFiltersToFilterManager(): void
     {
         $containerBuilder = $this->getContainerBuilder();
 
@@ -51,7 +51,7 @@ final class ModularDoctrineFiltersExtension extends CompilerExtension
     /**
      * Prevents circular reference.
      */
-    private function passFilterManagerToSubscriber() : void
+    private function passFilterManagerToSubscriber(): void
     {
         $enableFiltersSubscriberDefinition = $this->getContainerBuilder()
             ->getDefinitionByType(EnableFiltersSubscriber::class);

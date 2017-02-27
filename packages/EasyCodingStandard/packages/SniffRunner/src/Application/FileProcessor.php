@@ -1,40 +1,50 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Symplify\EasyCodingStandard\SniffRunner\Application;
 
-use PHP_CodeSniffer\Files\File;
-use Symplify\EasyCodingStandard\SniffRunner\EventDispatcher\Event\CheckFileTokenEvent;
-use Symplify\EasyCodingStandard\SniffRunner\EventDispatcher\SniffDispatcher;
+use Symplify\EasyCodingStandard\Console\Style\EasyCodingStandardStyle;
+use Symplify\EasyCodingStandard\SniffRunner\File\File;
 use Symplify\EasyCodingStandard\SniffRunner\Fixer\Fixer;
+use Symplify\EasyCodingStandard\SniffRunner\TokenDispatcher\Event\FileTokenEvent;
+use Symplify\EasyCodingStandard\SniffRunner\TokenDispatcher\TokenDispatcher;
 
 final class FileProcessor
 {
     /**
-     * @var SniffDispatcher
+     * @var TokenDispatcher
      */
-    private $sniffDispatcher;
+    private $tokenDispatcher;
 
     /**
      * @var Fixer
      */
     private $fixer;
 
-    public function __construct(SniffDispatcher $sniffDispatcher, Fixer $fixer)
+    /**
+     * @var EasyCodingStandardStyle
+     */
+    private $style;
+
+    public function __construct(TokenDispatcher $tokenDispatcher, Fixer $fixer, EasyCodingStandardStyle $style)
     {
-        $this->sniffDispatcher = $sniffDispatcher;
+        $this->tokenDispatcher = $tokenDispatcher;
         $this->fixer = $fixer;
+        $this->style = $style;
     }
 
-    public function processFiles(array $files, bool $isFixer)
+    /**
+     * @param string[] $files
+     * @param bool $isFixer
+     */
+    public function processFiles(array $files, bool $isFixer): void
     {
         foreach ($files as $file) {
             $this->processFile($file, $isFixer);
+            $this->style->progressBarAdvance();
         }
     }
 
-    private function processFile(File $file, bool $isFixer)
+    private function processFile(File $file, bool $isFixer): void
     {
         if ($isFixer === false) {
             $this->processFileWithoutFixer($file);
@@ -43,26 +53,26 @@ final class FileProcessor
         }
     }
 
-    private function processFileWithoutFixer(File $file)
+    private function processFileWithoutFixer(File $file): void
     {
         foreach ($file->getTokens() as $stackPointer => $token) {
-            $this->sniffDispatcher->dispatch(
+            $this->tokenDispatcher->dispatchToken(
                 $token['code'],
-                new CheckFileTokenEvent($file, $stackPointer)
+                new FileTokenEvent($file, $stackPointer)
             );
         }
     }
 
-    private function processFileWithFixer(File $file)
+    private function processFileWithFixer(File $file): void
     {
         // 1. puts tokens into fixer
-        $file->fixer->startFile($file);
+        $this->fixer->startFile($file);
 
         // 2. run all Sniff fixers
         $this->processFileWithoutFixer($file);
 
         // 3. content has changed, save it!
-        $newContent = $file->fixer->getContents();
+        $newContent = $this->fixer->getContents();
 
         file_put_contents($file->getFilename(), $newContent);
     }

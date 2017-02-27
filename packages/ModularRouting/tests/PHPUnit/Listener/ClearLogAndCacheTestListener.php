@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestSuite;
 
 final class ClearLogAndCacheTestListener extends BaseTestListener
 {
-    public function endTestSuite(TestSuite $testSuite)
+    public function endTestSuite(TestSuite $testSuite): void
     {
         if ($testSuite->getName()) { // skip for tests, run only for whole Test Suite
             return;
@@ -23,7 +23,7 @@ final class ClearLogAndCacheTestListener extends BaseTestListener
     /**
      * @return string[]
      */
-    private function getTempAndLogDirectories() : array
+    private function getTempAndLogDirectories(): array
     {
         $finder = Finder::findDirectories('cache', 'logs')->from(__DIR__ . '/../..');
         return iterator_to_array($finder->getIterator());

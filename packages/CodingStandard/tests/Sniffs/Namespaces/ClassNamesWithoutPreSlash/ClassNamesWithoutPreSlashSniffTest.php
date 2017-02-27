@@ -2,12 +2,12 @@
 
 namespace Symplify\CodingStandard\Tests\Sniffs\Namespaces\ClassNamesWithoutPreSlash;
 
-use Symplify\CodingStandard\Tests\Sniffs\AbstractSniffTestCase;
 use Symplify\CodingStandard\Sniffs\Namespaces\ClassNamesWithoutPreSlashSniff;
+use Symplify\CodingStandard\Tests\Sniffs\AbstractSniffTestCase;
 
 final class ClassNamesWithoutPreSlashSniffTest extends AbstractSniffTestCase
 {
-    public function test()
+    public function test(): void
     {
         $this->runSniffTestForDirectory(ClassNamesWithoutPreSlashSniff::class, __DIR__);
     }

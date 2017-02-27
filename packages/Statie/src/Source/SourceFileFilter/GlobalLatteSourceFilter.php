@@ -9,7 +9,7 @@ use Symplify\Statie\Source\SourceFileTypes;
 
 final class GlobalLatteSourceFilter implements SourceFileFilterInterface
 {
-    public function getName() : string
+    public function getName(): string
     {
         return SourceFileTypes::GLOBAL_LATTE;
     }

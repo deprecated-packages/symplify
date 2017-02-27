@@ -28,14 +28,14 @@ final class MethodCommentReturnTypeSniff implements Sniff
     private $position;
 
     /**
-     * @var array
+     * @var array[]
      */
     private $tokens;
 
     /**
      * @return int[]
      */
-    public function register() : array
+    public function register(): array
     {
         return [T_FUNCTION];
     }
@@ -44,7 +44,7 @@ final class MethodCommentReturnTypeSniff implements Sniff
      * @param File $file
      * @param int $position
      */
-    public function process(File $file, $position) : void
+    public function process(File $file, $position): void
     {
         $this->file = $file;
         $this->position = $position;
@@ -57,11 +57,11 @@ final class MethodCommentReturnTypeSniff implements Sniff
         $file->addError(
             'Getters should have @return tag or return type (except {@inheritdoc}).',
             $position,
-            null
+            self::class
         );
     }
 
-    private function shouldBeSkipped() : bool
+    private function shouldBeSkipped(): bool
     {
         if ($this->guessIsGetterMethod() === false) {
             return true;
@@ -79,7 +79,7 @@ final class MethodCommentReturnTypeSniff implements Sniff
         return false;
     }
 
-    private function guessIsGetterMethod() : bool
+    private function guessIsGetterMethod(): bool
     {
         $methodName = $this->file->getDeclarationName($this->position);
         if ($this->isRawGetterName($methodName)) {
@@ -92,7 +92,7 @@ final class MethodCommentReturnTypeSniff implements Sniff
         return false;
     }
 
-    private function getMethodComment() : string
+    private function getMethodComment(): string
     {
         if (! $this->hasMethodComment()) {
             return '';
@@ -102,7 +102,7 @@ final class MethodCommentReturnTypeSniff implements Sniff
         return $this->file->getTokensAsString($commentStart, $commentEnd - $commentStart + 1);
     }
 
-    private function hasMethodCommentReturnOrInheritDoc() : bool
+    private function hasMethodCommentReturnOrInheritDoc(): bool
     {
         $comment = $this->getMethodComment();
         if (strpos($comment, '{@inheritdoc}') !== false) {
@@ -114,7 +114,7 @@ final class MethodCommentReturnTypeSniff implements Sniff
         return false;
     }
 
-    private function hasMethodComment() : bool
+    private function hasMethodComment(): bool
     {
         $currentToken = $this->tokens[$this->position];
         $docBlockClosePosition = $this->file->findPrevious(T_DOC_COMMENT_CLOSE_TAG, $this->position);
@@ -125,12 +125,12 @@ final class MethodCommentReturnTypeSniff implements Sniff
         return $docBlockCloseToken['line'] === ($currentToken['line'] - 1);
     }
 
-    private function isRawGetterName(string $methodName) : bool
+    private function isRawGetterName(string $methodName): bool
     {
         return in_array($methodName, $this->getterMethodPrefixes);
     }
 
-    private function hasGetterNamePrefix(string $methodName) : bool
+    private function hasGetterNamePrefix(string $methodName): bool
     {
         foreach ($this->getterMethodPrefixes as $getterMethodPrefix) {
             if (strpos($methodName, $getterMethodPrefix) === 0) {

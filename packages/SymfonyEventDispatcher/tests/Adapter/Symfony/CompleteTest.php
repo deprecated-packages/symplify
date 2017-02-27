@@ -13,7 +13,7 @@ final class CompleteTest extends TestCase
      */
     private $eventDispatcher;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $kernel = new AppKernel('dev', false);
         $kernel->boot();
@@ -22,7 +22,7 @@ final class CompleteTest extends TestCase
             ->get('symplify.event_dispatcher');
     }
 
-    public function test()
+    public function test(): void
     {
         $event = new SomeEvent;
         $this->assertSame('off', $event->getState());

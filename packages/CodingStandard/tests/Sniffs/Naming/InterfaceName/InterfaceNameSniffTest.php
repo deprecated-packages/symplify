@@ -2,12 +2,12 @@
 
 namespace Symplify\CodingStandard\Tests\Sniffs\Naming\InterfaceName;
 
-use Symplify\CodingStandard\Tests\Sniffs\AbstractSniffTestCase;
 use Symplify\CodingStandard\Sniffs\Naming\InterfaceNameSniff;
+use Symplify\CodingStandard\Tests\Sniffs\AbstractSniffTestCase;
 
 final class InterfaceNameSniffTest extends AbstractSniffTestCase
 {
-    public function test()
+    public function test(): void
     {
         $this->runSniffTestForDirectory(InterfaceNameSniff::class, __DIR__);
     }

@@ -7,7 +7,7 @@ use Symplify\AutoServiceRegistration\Naming\ServiceNaming;
 
 final class ServiceNamingTest extends TestCase
 {
-    public function test()
+    public function test(): void
     {
         $this->assertSame(
             'symplify.autoserviceregistration.tests.naming.servicenamingtest',

@@ -17,7 +17,7 @@ final class ClassMetrics
     private $classPosition;
 
     /**
-     * @var array
+     * @var mixed[]
      */
     private $tokens;
 
@@ -99,7 +99,7 @@ final class ClassMetrics
         return $this->classPosition;
     }
 
-    private function isInsideClass(int $position) : bool
+    private function isInsideClass(int $position): bool
     {
         $prevClassPosition = $this->file->findPrevious(T_CLASS, $position, null, false);
         if ($prevClassPosition) {

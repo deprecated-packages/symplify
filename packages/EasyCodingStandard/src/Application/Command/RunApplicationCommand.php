@@ -2,13 +2,12 @@
 
 namespace Symplify\EasyCodingStandard\Application\Command;
 
-use Symfony\Component\Console\Input\InputInterface;
 use Symplify\EasyCodingStandard\Exception\Configuration\SourceNotFoundException;
 
 final class RunApplicationCommand
 {
     /**
-     * @var array
+     * @var string[]
      */
     private $sources = [];
 
@@ -18,67 +17,100 @@ final class RunApplicationCommand
     private $isFixer = false;
 
     /**
-     * @var array
+     * @var string[]|array[]
      */
-    private $jsonConfiguration = [];
+    private $configuration = [];
 
-    public static function createFromInputAndData(InputInterface $input, array $data) : self
+    /**
+     * @param string[] $source
+     * @param bool $isFixer
+     * @param mixed[] $configuration
+     */
+    private function __construct(array $source, bool $isFixer, array $configuration)
     {
-        return new self($input->getArgument('source'), $input->getOption('fix'), $data);
+        $this->setSources($source);
+        $this->isFixer = $isFixer;
+        $this->configuration = $configuration;
     }
 
-    public static function createFromSourceFixerAndData(array $source, bool $isFixer, array $data) : self
+    /**
+     * @param string[] $source
+     * @param bool $isFixer
+     * @param mixed[] $data
+     */
+    public static function createFromSourceFixerAndData(array $source, bool $isFixer, array $data): self
     {
         return new self($source, $isFixer, $data);
     }
 
-    private function __construct(array $source, bool $isFixer, array $jsonConfiguration)
-    {
-        $this->setSources($source);
-        $this->isFixer = $isFixer;
-        $this->jsonConfiguration = $jsonConfiguration;
-    }
-
-    public function getSources() : array
+    /**
+     * @return string[]
+     */
+    public function getSources(): array
     {
         return $this->sources;
     }
 
-    public function getJsonConfiguration() : array
+    /**
+     * @return mixed[]
+     */
+    public function getConfiguration(): array
     {
-        return $this->jsonConfiguration;
+        return $this->configuration;
     }
 
-    public function isFixer() : bool
+    public function isFixer(): bool
     {
         return $this->isFixer;
     }
 
-    public function getSniffs() : array
+    /**
+     * @return string[]|array[]
+     */
+    public function getSniffs(): array
     {
-        return $this->jsonConfiguration['php-code-sniffer']['sniffs'] ?? [];
+        return $this->configuration['php-code-sniffer'] ?? [];
     }
 
-    public function getFixers() : array
+    /**
+     * @return string[]|array[]
+     */
+    public function getFixers(): array
     {
-        return $this->jsonConfiguration['php-cs-fixer']['fixers'] ?? [];
+        return $this->configuration['php-cs-fixer'] ?? [];
     }
 
-    private function setSources(array $sources) : void
+    /**
+     * @return string[]
+     */
+    public function getIgnoredErrors(): array
+    {
+        return $this->configuration['ignore-errors'] ?? [];
+    }
+
+    /**
+     * @param string[] $sources
+     */
+    private function setSources(array $sources): void
     {
         $this->ensureSourceExists($sources);
         $this->sources = $sources;
     }
 
-    private function ensureSourceExists(array $sources) : void
+    /**
+     * @param string[] $sources
+     */
+    private function ensureSourceExists(array $sources): void
     {
         foreach ($sources as $source) {
-            if ( ! file_exists($source)) {
-                throw new SourceNotFoundException(sprintf(
-                    'Source "%s" does not exist.',
-                    $source
-                ));
+            if (file_exists($source)) {
+                continue;
             }
+
+            throw new SourceNotFoundException(sprintf(
+                'Source "%s" does not exist.',
+                $source
+            ));
         }
     }
 }

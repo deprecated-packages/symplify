@@ -16,7 +16,7 @@ final class NetteEventListFactory
     /**
      * @return NetteEventItem[]
      */
-    public function create() : array
+    public function create(): array
     {
         return array_merge(
             $this->createApplicationEventItems(),
@@ -27,7 +27,7 @@ final class NetteEventListFactory
     /**
      * @return NetteEventItem[]
      */
-    private function createApplicationEventItems() : array
+    private function createApplicationEventItems(): array
     {
         $eventItems = [];
         $eventItems[] = new NetteEventItem(
@@ -73,7 +73,7 @@ final class NetteEventListFactory
     /**
      * @return NetteEventItem[]
      */
-    private function createPresenterEventItems() : array
+    private function createPresenterEventItems(): array
     {
         return [new NetteEventItem(
             Presenter::class,

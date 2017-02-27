@@ -7,19 +7,19 @@ use Symplify\EasyCodingStandard\SniffRunner\File\File;
 final class Fixer
 {
     /**
-     * @var File
+     * For back compatibility with PHP_CodeSniffer.
+     *
+     * @var int
      */
-    private $currentFile;
+    public $loops;
 
     /**
      * @var string[]|array<int, string>
      */
     private $tokens = [];
 
-    public function startFile(File $file)
+    public function startFile(File $file): void
     {
-        $this->currentFile = $file;
-
         $tokens = $file->getTokens();
 
         $this->tokens = [];
@@ -32,17 +32,17 @@ final class Fixer
         }
     }
 
-    public function getContents() : string
+    public function getContents(): string
     {
         return implode($this->tokens);
     }
 
-    public function getTokenContent(int $stackPtr) : string
+    public function getTokenContent(int $stackPtr): string
     {
         return $this->tokens[$stackPtr];
     }
 
-    public function replaceToken(int $stackPtr, string $content) : bool
+    public function replaceToken(int $stackPtr, string $content): bool
     {
         $this->tokens[$stackPtr] = $content;
         return true;
@@ -51,29 +51,29 @@ final class Fixer
     /**
      * Name is for back compatibility. Better would be "addContentAfter".
      */
-    public function addContent(int $stackPtr, string $content) : bool
+    public function addContent(int $stackPtr, string $content): bool
     {
         $current = $this->getTokenContent($stackPtr);
         return $this->replaceToken($stackPtr, $current . $content);
     }
 
-    public function addContentBefore(int $stackPtr, string $content) : bool
+    public function addContentBefore(int $stackPtr, string $content): bool
     {
         $current = $this->getTokenContent($stackPtr);
         return $this->replaceToken($stackPtr, $content . $current);
     }
 
-    public function addNewline(int $stackPtr) : bool
+    public function addNewline(int $stackPtr): bool
     {
         return $this->addContent($stackPtr, PHP_EOL);
     }
 
-    public function addNewlineBefore(int $stackPtr) : bool
+    public function addNewlineBefore(int $stackPtr): bool
     {
         return $this->addContentBefore($stackPtr, PHP_EOL);
     }
 
-    public function substrToken(int $stackPtr, int $start, int $length = null) : bool
+    public function substrToken(int $stackPtr, int $start, ?int $length = null): bool
     {
         $current = $this->getTokenContent($stackPtr);
 
@@ -89,14 +89,14 @@ final class Fixer
     /**
      * For BC
      */
-    public function beginChangeSet()
+    public function beginChangeSet(): void
     {
     }
 
     /**
      * For BC
      */
-    public function endChangeSet()
+    public function endChangeSet(): void
     {
     }
 }

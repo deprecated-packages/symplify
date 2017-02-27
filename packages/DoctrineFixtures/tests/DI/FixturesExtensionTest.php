@@ -5,27 +5,15 @@ namespace Zenify\DoctrineFixtures\Tests\DI;
 use Faker\Provider\cs_CZ\Company;
 use Nelmio\Alice\Fixtures\Loader;
 use Nette\DI\Compiler;
-use Nette\DI\Container;
 use Nette\DI\ContainerBuilder;
 use PHPUnit\Framework\TestCase;
 use Zenify\DoctrineFixtures\Alice\AliceLoader;
 use Zenify\DoctrineFixtures\Contract\Alice\AliceLoaderInterface;
 use Zenify\DoctrineFixtures\DI\FixturesExtension;
-use Zenify\DoctrineFixtures\Tests\ContainerFactory;
 
 final class FixturesExtensionTest extends TestCase
 {
-    /**
-     * @var Container
-     */
-    private $container;
-
-    protected function setUp()
-    {
-        $this->container = (new ContainerFactory)->create();
-    }
-
-    public function testLoadConfiguration()
+    public function testLoadConfiguration(): void
     {
         $extension = $this->getExtension();
         $extension->loadConfiguration();
@@ -38,7 +26,7 @@ final class FixturesExtensionTest extends TestCase
         $this->assertSame(AliceLoader::class, $aliceLoaderDefinition->getClass());
     }
 
-    public function testLoadFakerProvidersToAliceLoader()
+    public function testLoadFakerProvidersToAliceLoader(): void
     {
         $extension = $this->getExtension();
         $extension->loadConfiguration();
@@ -59,7 +47,7 @@ final class FixturesExtensionTest extends TestCase
         $this->assertArrayHasKey('company', $arguments[1]);
     }
 
-    public function testLoadParsersToAliceLoader()
+    public function testLoadParsersToAliceLoader(): void
     {
         $extension = $this->getExtension();
         $extension->loadConfiguration();
@@ -71,7 +59,7 @@ final class FixturesExtensionTest extends TestCase
         $this->assertSame('addParser', $aliceLoaderDefinition->getSetup()[0]->getEntity());
     }
 
-    private function getExtension() : FixturesExtension
+    private function getExtension(): FixturesExtension
     {
         $extension = new FixturesExtension;
         $extension->setCompiler(new Compiler(new ContainerBuilder), 'fixtures');

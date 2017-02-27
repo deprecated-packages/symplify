@@ -16,13 +16,13 @@ final class AbstractBehaviorExtensionTest extends TestCase
      */
     private $abstractBehaviorsExtension;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->abstractBehaviorsExtension = new SomeBehaviorExtension;
         $this->abstractBehaviorsExtension->setCompiler(new Compiler, 'someBehavior');
     }
 
-    public function testGetClassAnalyzer()
+    public function testGetClassAnalyzer(): void
     {
         $classAnalyzer = $this->abstractBehaviorsExtension->getClassAnalyzerPublic();
         $this->assertSame(ClassAnalyzer::class, $classAnalyzer->getClass());
@@ -31,7 +31,7 @@ final class AbstractBehaviorExtensionTest extends TestCase
         $this->assertSame($classAnalyzer, $sameClassAnalyzer);
     }
 
-    public function testBuildDefinition()
+    public function testBuildDefinition(): void
     {
         $definition = $this->abstractBehaviorsExtension->buildDefinitionFromCallablePublic(LoggerCallable::class);
 

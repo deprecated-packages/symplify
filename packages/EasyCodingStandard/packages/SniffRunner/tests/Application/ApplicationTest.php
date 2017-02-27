@@ -14,25 +14,25 @@ final class ApplicationTest extends TestCase
      */
     private $application;
 
-    protected function setUp()
+    protected function setUp(): void
     {
-        $container = (new GeneralContainerFactory())->createFromConfig(__DIR__ . '/../../../../src/config/config.neon');
+        $container = (new GeneralContainerFactory)->createFromConfig(__DIR__ . '/../../../../src/config/config.neon');
         $this->application = $container->getByType(Application::class);
     }
 
-    public function testRunCommand()
+    public function testRunCommand(): void
     {
         $this->application->runCommand($this->createCommand());
         $this->assertTrue(true);
     }
 
-    private function createCommand() : RunApplicationCommand
+    private function createCommand(): RunApplicationCommand
     {
         return RunApplicationCommand::createFromSourceFixerAndData(
             $source = [__DIR__ . '/ApplicationSource'],
             $isFixer = true,
             [
-                'sniffs' => '',
+                'php-code-sniffer' => [],
             ]
         );
     }

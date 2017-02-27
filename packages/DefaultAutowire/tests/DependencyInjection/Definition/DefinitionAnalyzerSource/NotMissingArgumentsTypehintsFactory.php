@@ -6,7 +6,7 @@ use Symplify\DefaultAutowire\Tests\Source\SomeService;
 
 final class NotMissingArgumentsTypehintsFactory
 {
-    public function create(SomeService $someService, SomeService $anotherService) : NotMissingArgumentsTypehints
+    public function create(SomeService $someService, SomeService $anotherService): NotMissingArgumentsTypehints
     {
         return new NotMissingArgumentsTypehints($someService, $anotherService);
     }

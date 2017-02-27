@@ -6,7 +6,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 final class SomeController
 {
-    public function someAction()
+    public function someAction(): Response
     {
         return new Response;
     }

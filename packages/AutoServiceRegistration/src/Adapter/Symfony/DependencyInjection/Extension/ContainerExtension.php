@@ -8,12 +8,16 @@ use Symplify\AutoServiceRegistration\Adapter\Symfony\SymplifyAutoServiceRegistra
 
 final class ContainerExtension extends Extension
 {
-    public function getAlias() : string
+    public function getAlias(): string
     {
         return SymplifyAutoServiceRegistrationBundle::ALIAS;
     }
 
-    public function load(array $configs, ContainerBuilder $containerBuilder) : void
+    /**
+     * @param mixed[] $configs
+     * @param ContainerBuilder $containerBuilder
+     */
+    public function load(array $configs, ContainerBuilder $containerBuilder): void
     {
     }
 }

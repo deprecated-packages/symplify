@@ -26,7 +26,7 @@ final class AliceLoaderTest extends AbstractDatabaseTestCase
      */
     private $userRepository;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->fixturesLoader = $this->container->getByType(AliceLoaderInterface::class);
@@ -34,7 +34,7 @@ final class AliceLoaderTest extends AbstractDatabaseTestCase
         $this->userRepository = $this->entityManager->getRepository(User::class);
     }
 
-    public function testLoadFixture()
+    public function testLoadFixture(): void
     {
         $file = __DIR__ . '/AliceLoaderSource/products.neon';
         $this->fixturesLoader->load($file);
@@ -50,7 +50,7 @@ final class AliceLoaderTest extends AbstractDatabaseTestCase
         }
     }
 
-    public function testLoadFolder()
+    public function testLoadFolder(): void
     {
         $this->fixturesLoader->load(__DIR__ . '/AliceLoaderSource');
 
@@ -67,7 +67,7 @@ final class AliceLoaderTest extends AbstractDatabaseTestCase
         }
     }
 
-    public function testLoadFixtureWithIncludesFixturesAreLoadedInTopDownOrder()
+    public function testLoadFixtureWithIncludesFixturesAreLoadedInTopDownOrder(): void
     {
         $file = __DIR__ . '/AliceLoaderSource/includes.neon';
         $this->fixturesLoader->load($file);
@@ -86,7 +86,7 @@ final class AliceLoaderTest extends AbstractDatabaseTestCase
     /**
      * @expectedException \Zenify\DoctrineFixtures\Exception\MissingSourceException
      */
-    public function testLoadFromNonExistingSource()
+    public function testLoadFromNonExistingSource(): void
     {
         $this->fixturesLoader->load(__DIR__ . '/not-in-here');
     }

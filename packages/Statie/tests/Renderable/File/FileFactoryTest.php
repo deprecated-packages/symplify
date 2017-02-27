@@ -7,7 +7,6 @@ use PHPUnit\Framework\TestCase;
 use SplFileInfo;
 use Symplify\Statie\Configuration\Configuration;
 use Symplify\Statie\Configuration\Parser\NeonParser;
-use Symplify\Statie\Renderable\File\AbstractFile;
 use Symplify\Statie\Renderable\File\File;
 use Symplify\Statie\Renderable\File\FileFactory;
 use Symplify\Statie\Renderable\File\PostFile;
@@ -19,14 +18,14 @@ final class FileFactoryTest extends TestCase
      */
     private $fileFactory;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $configuration = new Configuration(new NeonParser);
         $configuration->setSourceDirectory('sourceDirectory');
         $this->fileFactory = new FileFactory($configuration);
     }
 
-    public function test()
+    public function test(): void
     {
         $file = $this->createFileFromPath(__DIR__ . '/FileFactorySource/someFile.latte');
 
@@ -45,7 +44,7 @@ final class FileFactoryTest extends TestCase
         $this->assertSame('', $file->getLayout());
     }
 
-    public function testPost()
+    public function testPost(): void
     {
         $postFile = $this->createFileFromPath(__DIR__ . '/FileFactorySource/_posts/2016-01-01-somePost.latte');
 
@@ -59,7 +58,7 @@ final class FileFactoryTest extends TestCase
     /**
      * @expectedException \Exception
      */
-    public function testInvalidPostName()
+    public function testInvalidPostName(): void
     {
         $this->createFileFromPath(__DIR__ . '/FileFactorySource/_posts/somePost.latte');
     }

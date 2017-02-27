@@ -19,16 +19,25 @@ final class AutoRegisterServicesCompilerPassTest extends TestCase
      */
     private $autoRegisterServicesCompilerPass;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->autoRegisterServicesCompilerPass = new AutoRegisterServicesCompilerPass(new ServiceClassFinder);
     }
 
     /**
      * @dataProvider provideData()
+     *
+     * @param string[] $directories
+     * @param string[] $classSuffixes
+     * @param int $expectedClassType
+     * @param string $expectedClassType
      */
-    public function testProcess(array $directories, array $classSuffixes, int $expectedCount, string $expectedClassType)
-    {
+    public function testProcess(
+        array $directories,
+        array $classSuffixes,
+        int $expectedCount,
+        string $expectedClassType
+    ): void {
         $containerBuilder = new ContainerBuilder;
 
         $containerBuilder->prependExtensionConfig(SymplifyAutoServiceRegistrationBundle::ALIAS, [
@@ -47,7 +56,10 @@ final class AutoRegisterServicesCompilerPassTest extends TestCase
         $this->assertTrue($controllerDefinition->isAutowired());
     }
 
-    public function provideData() : array
+    /**
+     * @return array[][]
+     */
+    public function provideData(): array
     {
         return [
             [

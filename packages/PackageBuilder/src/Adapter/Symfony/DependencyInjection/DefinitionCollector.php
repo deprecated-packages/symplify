@@ -12,7 +12,7 @@ final class DefinitionCollector
         string $collectorType,
         string $collectedType,
         string $setterMethod
-    ) : void {
+    ): void {
         $collectorDefinition = DefinitionFinder::getByType($containerBuilder, $collectorType);
         foreach ($containerBuilder->getDefinitions() as $name => $definition) {
             if (! is_subclass_of($definition->getClass(), $collectedType)) {

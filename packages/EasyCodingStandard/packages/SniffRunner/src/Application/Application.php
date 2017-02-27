@@ -2,20 +2,19 @@
 
 namespace Symplify\EasyCodingStandard\SniffRunner\Application;
 
-use PHP_CodeSniffer\Sniffs\Sniff;
 use Symplify\EasyCodingStandard\Application\Command\RunApplicationCommand;
 use Symplify\EasyCodingStandard\Contract\Application\ApplicationInterface;
-use Symplify\EasyCodingStandard\SniffRunner\EventDispatcher\SniffDispatcher;
 use Symplify\EasyCodingStandard\SniffRunner\File\Provider\FilesProvider;
 use Symplify\EasyCodingStandard\SniffRunner\Legacy\LegacyCompatibilityLayer;
 use Symplify\EasyCodingStandard\SniffRunner\Sniff\Factory\SniffFactory;
+use Symplify\EasyCodingStandard\SniffRunner\TokenDispatcher\TokenDispatcher;
 
 final class Application implements ApplicationInterface
 {
     /**
-     * @var SniffDispatcher
+     * @var TokenDispatcher
      */
-    private $sniffDispatcher;
+    private $tokenDispatcher;
 
     /**
      * @var FilesProvider
@@ -33,12 +32,12 @@ final class Application implements ApplicationInterface
     private $sniffFactory;
 
     public function __construct(
-        SniffDispatcher $sniffDispatcher,
+        TokenDispatcher $tokenDispatcher,
         FilesProvider $sourceFilesProvider,
         FileProcessor $fileProcessor,
         SniffFactory $sniffFactory
     ) {
-        $this->sniffDispatcher = $sniffDispatcher;
+        $this->tokenDispatcher = $tokenDispatcher;
         $this->filesProvider = $sourceFilesProvider;
         $this->fileProcessor = $fileProcessor;
         $this->sniffFactory = $sniffFactory;
@@ -48,20 +47,16 @@ final class Application implements ApplicationInterface
 
     public function runCommand(RunApplicationCommand $command): void
     {
-        $sniffs = $this->sniffFactory->createFromSniffClasses($command->getSniffs());
-        $this->registerSniffsToSniffDispatcher($sniffs);
+        $sniffs = $this->sniffFactory->createFromClasses($command->getSniffs());
+        $this->tokenDispatcher->addSniffListeners($sniffs);
 
         $this->runForSource($command->getSources(), $command->isFixer());
     }
 
     /**
-     * @param Sniff[] $sniffs
+     * @param string[] $source
+     * @param bool $isFixer
      */
-    private function registerSniffsToSniffDispatcher(array $sniffs): void
-    {
-        $this->sniffDispatcher->addSniffListeners($sniffs);
-    }
-
     private function runForSource(array $source, bool $isFixer): void
     {
         $files = $this->filesProvider->getFilesForSource($source, $isFixer);

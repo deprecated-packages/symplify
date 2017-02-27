@@ -13,7 +13,7 @@ final class OutputWriter extends DoctrineOutputWriter
      */
     private $consoleOutput;
 
-    public function setConsoleOutput(OutputInterface $consoleOutput) : void
+    public function setConsoleOutput(OutputInterface $consoleOutput): void
     {
         $this->consoleOutput = $consoleOutput;
     }
@@ -21,12 +21,13 @@ final class OutputWriter extends DoctrineOutputWriter
     /**
      * @param string $message
      */
-    public function write($message) : void
+    public function write($message): void
     {
-        $this->getConsoleOutput()->writeln($message);
+        $this->getConsoleOutput()
+            ->writeln($message);
     }
 
-    private function getConsoleOutput() : OutputInterface
+    private function getConsoleOutput(): OutputInterface
     {
         if ($this->consoleOutput === null) {
             $this->consoleOutput = new ConsoleOutput;

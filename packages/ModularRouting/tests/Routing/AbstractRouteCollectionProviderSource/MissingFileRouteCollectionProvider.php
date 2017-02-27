@@ -7,7 +7,7 @@ use Symplify\ModularRouting\Routing\AbstractRouteCollectionProvider;
 
 final class MissingFileRouteCollectionProvider extends AbstractRouteCollectionProvider
 {
-    public function getRouteCollection() : RouteCollection
+    public function getRouteCollection(): RouteCollection
     {
         return $this->loadRouteCollectionFromFile('incorrect-path.yml');
     }

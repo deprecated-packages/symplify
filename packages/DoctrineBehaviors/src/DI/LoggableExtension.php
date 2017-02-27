@@ -11,14 +11,14 @@ use Zenify\DoctrineBehaviors\Loggable\LoggerCallable;
 final class LoggableExtension extends AbstractBehaviorExtension
 {
     /**
-     * @var array
+     * @var mixed[]
      */
     private $defaults = [
         'isRecursive' => true,
         'loggerCallable' => LoggerCallable::class
     ];
 
-    public function loadConfiguration() : void
+    public function loadConfiguration(): void
     {
         $config = $this->validateConfig($this->defaults);
         $this->validateConfigTypes($config);
@@ -37,9 +37,10 @@ final class LoggableExtension extends AbstractBehaviorExtension
     }
 
     /**
+     * @param mixed[] $config
      * @throws AssertionException
      */
-    private function validateConfigTypes(array $config) : void
+    private function validateConfigTypes(array $config): void
     {
         Validators::assertField($config, 'isRecursive', 'bool');
         Validators::assertField($config, 'loggerCallable', 'type');

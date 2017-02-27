@@ -24,14 +24,14 @@ final class DispatchApplicationTest extends TestCase
      */
     private $eventStateStorage;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $containerFactory = (new ContainerFactory)->create();
         $this->application = $containerFactory->getByType(Application::class);
         $this->eventStateStorage = $containerFactory->getByType(EventStateStorage::class);
     }
 
-    public function testOnRequest()
+    public function testOnRequest(): void
     {
         $this->application->run();
 
@@ -42,7 +42,7 @@ final class DispatchApplicationTest extends TestCase
         $this->assertInstanceOf(Request::class, $applicationRequestEvent->getRequest());
     }
 
-    public function testOnStartup()
+    public function testOnStartup(): void
     {
         $this->application->run();
 
@@ -51,7 +51,7 @@ final class DispatchApplicationTest extends TestCase
         $this->assertInstanceOf(Application::class, $applicationEvent->getApplication());
     }
 
-    public function testOnPresenter()
+    public function testOnPresenter(): void
     {
         $this->application->run();
 
@@ -61,7 +61,7 @@ final class DispatchApplicationTest extends TestCase
         $this->assertInstanceOf(Presenter::class, $applicationPresenterEvent->getPresenter());
     }
 
-    public function testOnShutdown()
+    public function testOnShutdown(): void
     {
         $this->application->run();
 

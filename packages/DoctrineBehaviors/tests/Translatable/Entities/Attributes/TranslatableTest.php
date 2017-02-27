@@ -7,13 +7,13 @@ use Zenify\DoctrineBehaviors\Tests\Translatable\Entities\Attributes\Source\Trans
 
 final class TranslatableTest extends TestCase
 {
-    public function testGetterMethod()
+    public function testGetterMethod(): void
     {
         $translatableEntity = new TranslatableEntity;
         $this->assertSame('someName', $translatableEntity->getName());
     }
 
-    public function testProperty()
+    public function testProperty(): void
     {
         $translatableEntity = new TranslatableEntity;
         $this->assertSame(5, $translatableEntity->position);

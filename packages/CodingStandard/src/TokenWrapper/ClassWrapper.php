@@ -20,12 +20,12 @@ final class ClassWrapper
     private $position;
 
     /**
-     * @var array
+     * @var mixed[]
      */
     private $classToken;
 
     /**
-     * @var array
+     * @var mixed[]
      */
     private $tokens;
 
@@ -33,11 +33,6 @@ final class ClassWrapper
      * @var array|MethodWrapper[]
      */
     private $methods;
-
-    public static function createFromFileAndPosition(File $file, int $position)
-    {
-        return new self($file, $position);
-    }
 
     private function __construct(File $file, int $position)
     {
@@ -48,21 +43,26 @@ final class ClassWrapper
         $this->classToken = $this->tokens[$position];
     }
 
-    public function getClassName() : string
+    public static function createFromFileAndPosition(File $file, int $position): self
+    {
+        return new self($file, $position);
+    }
+
+    public function getClassName(): string
     {
         $namePosition = $this->file->findNext(T_STRING, $this->position);
 
         return $this->tokens[$namePosition]['content'];
     }
 
-    public function isAbstract() : bool
+    public function isAbstract(): bool
     {
         $classProperties = $this->file->getClassProperties($this->position);
 
         return $classProperties['is_abstract'];
     }
 
-    public function hasNameSuffix(string $suffix) : bool
+    public function hasNameSuffix(string $suffix): bool
     {
         return Strings::contains($this->getClassName(), $suffix);
     }
@@ -70,7 +70,7 @@ final class ClassWrapper
     /**
      * @return PropertyWrapper[]
      */
-    public function getProperties() : array
+    public function getProperties(): array
     {
         $properties = [];
 
@@ -92,7 +92,7 @@ final class ClassWrapper
     /**
      * @return MethodWrapper[]
      */
-    public function getMethods() : array
+    public function getMethods(): array
     {
         if ($this->methods) {
             return $this->methods;
@@ -129,7 +129,7 @@ final class ClassWrapper
         return false;
     }
 
-    public function addConstructorMethodWithProperty(string $propertyType, string $propertyName)
+    public function addConstructorMethodWithProperty(string $propertyType, string $propertyName): void
     {
         $method = $this->createConstructMethod();
         $method->addParameter($propertyName)
@@ -142,7 +142,7 @@ final class ClassWrapper
         $this->file->fixer->addContentBefore($constructorPosition, PHP_EOL . $methodCode . PHP_EOL);
     }
 
-    private function getConstructorPosition() : int
+    private function getConstructorPosition(): int
     {
         $lastPropertyPosition = null;
         foreach ($this->getProperties() as $property) {
@@ -152,13 +152,9 @@ final class ClassWrapper
         if ($lastPropertyPosition) {
             return TokenFinder::findNextLinePosition($this->file, $lastPropertyPosition);
         }
-
-        // T_VARIABLE
-
-        dump('not implemetned yet', self::class, __METHOD__);
     }
 
-    private function createConstructMethod() : Method
+    private function createConstructMethod(): Method
     {
         $method = new Method('__construct');
         $method->setVisibility('public');

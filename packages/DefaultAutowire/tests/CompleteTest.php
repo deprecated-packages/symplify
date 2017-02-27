@@ -19,7 +19,7 @@ final class CompleteTest extends TestCase
      */
     private $container;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $kernel = new AppKernel;
         $kernel->boot();
@@ -27,7 +27,7 @@ final class CompleteTest extends TestCase
         $this->container = $kernel->getContainer();
     }
 
-    public function testSomeServiceAutowire()
+    public function testSomeServiceAutowire(): void
     {
         /** @var SomeAutowiredService $someAutowiredService */
         $someAutowiredService = $this->container->get('some_autowired_service');
@@ -40,7 +40,7 @@ final class CompleteTest extends TestCase
         $this->assertNotInstanceOf(TraceableEventDispatcher::class, $someAutowiredService->getEventDispatcher());
     }
 
-    public function testRepositoryAutowire()
+    public function testRepositoryAutowire(): void
     {
         /** @var SomeRepository $someRepository */
         $someRepository = $this->container->get('some_repository');

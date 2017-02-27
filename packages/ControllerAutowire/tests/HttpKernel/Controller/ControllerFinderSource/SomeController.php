@@ -14,10 +14,7 @@ class SomeController
         $this->someService = $someService;
     }
 
-    /**
-     * @return SomeService
-     */
-    public function getSomeService()
+    public function getSomeService(): SomeService
     {
         return $this->someService;
     }

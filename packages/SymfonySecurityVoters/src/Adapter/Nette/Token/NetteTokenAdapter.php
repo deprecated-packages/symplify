@@ -16,12 +16,17 @@ final class NetteTokenAdapter implements TokenInterface
      */
     private $user;
 
-    public function getRoles() : array
+    public function __toString(): void
+    {
+        throw new NotImplementedException;
+    }
+
+    public function getRoles(): array
     {
         return $this->user->getRoles();
     }
 
-    public function getCredentials() : ?IIdentity
+    public function getCredentials(): ?IIdentity
     {
         return $this->user->getIdentity();
     }
@@ -37,12 +42,12 @@ final class NetteTokenAdapter implements TokenInterface
     /**
      * @param User $user
      */
-    public function setUser($user) : void
+    public function setUser($user): void
     {
         $this->user = $user;
     }
 
-    public function isAuthenticated() : bool
+    public function isAuthenticated(): bool
     {
         return $this->user->isLoggedIn();
     }
@@ -50,7 +55,7 @@ final class NetteTokenAdapter implements TokenInterface
     /**
      * @param string $name
      */
-    public function hasAttribute($name) : bool
+    public function hasAttribute($name): bool
     {
         return isset($this->getAttributes()[$name]);
     }
@@ -72,7 +77,7 @@ final class NetteTokenAdapter implements TokenInterface
         ));
     }
 
-    public function getAttributes() : array
+    public function getAttributes(): array
     {
         /** @var Identity $identity */
         $identity = $this->user->getIdentity();
@@ -87,7 +92,7 @@ final class NetteTokenAdapter implements TokenInterface
     /**
      * @param bool $isAuthenticated
      */
-    public function setAuthenticated($isAuthenticated)
+    public function setAuthenticated($isAuthenticated): void
     {
         throw new NotImplementedException;
     }
@@ -95,17 +100,17 @@ final class NetteTokenAdapter implements TokenInterface
     /**
      * {@inheritdoc}
      */
-    public function getUsername()
+    public function getUsername(): void
     {
         throw new NotImplementedException;
     }
 
-    public function eraseCredentials()
+    public function eraseCredentials(): void
     {
         throw new NotImplementedException;
     }
 
-    public function setAttributes(array $attributes) : void
+    public function setAttributes(array $attributes): void
     {
         throw new NotImplementedException;
     }
@@ -114,12 +119,12 @@ final class NetteTokenAdapter implements TokenInterface
      * @param string $name
      * @param mixed $value
      */
-    public function setAttribute($name, $value) : void
+    public function setAttribute($name, $value): void
     {
         throw new NotImplementedException;
     }
 
-    public function serialize() : void
+    public function serialize(): void
     {
         throw new NotImplementedException;
     }
@@ -127,12 +132,7 @@ final class NetteTokenAdapter implements TokenInterface
     /**
      * @param string $serialized
      */
-    public function unserialize($serialized) : void
-    {
-        throw new NotImplementedException;
-    }
-
-    public function __toString()
+    public function unserialize($serialized): void
     {
         throw new NotImplementedException;
     }

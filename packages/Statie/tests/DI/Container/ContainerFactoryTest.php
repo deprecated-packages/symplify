@@ -14,19 +14,19 @@ final class ContainerFactoryTest extends TestCase
      */
     private $sourceDirectory = __DIR__ . '/../../../source';
 
-    protected function setUp()
+    protected function setUp(): void
     {
         FileSystem::createDir($this->sourceDirectory);
     }
 
-    public function testCreate()
+    protected function tearDown(): void
+    {
+        FileSystem::delete($this->sourceDirectory);
+    }
+
+    public function testCreate(): void
     {
         $container = (new ContainerFactory)->create();
         $this->assertInstanceOf(Container::class, $container);
-    }
-
-    protected function tearDown()
-    {
-        FileSystem::delete($this->sourceDirectory);
     }
 }

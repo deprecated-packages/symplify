@@ -17,14 +17,9 @@ final class ParameterWrapper
     private $position;
 
     /**
-     * @var array
+     * @var mixed[]
      */
     private $tokens;
-
-    public static function createFromFileAndPosition(File $file, int $position)
-    {
-        return new self($file, $position);
-    }
 
     private function __construct(File $file, int $position)
     {
@@ -34,14 +29,19 @@ final class ParameterWrapper
         $this->tokens = $this->file->getTokens();
     }
 
-    public function getParamterName() : string
+    public static function createFromFileAndPosition(File $file, int $position): self
+    {
+        return new self($file, $position);
+    }
+
+    public function getParamterName(): string
     {
         $namePosition = $this->file->findNext(T_STRING, $this->position);
 
         return $this->tokens[$namePosition]['content'];
     }
 
-    public function getParamterType() : string
+    public function getParamterType(): string
     {
         $typePosition = $this->file->findPrevious(T_STRING, $this->position);
 

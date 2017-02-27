@@ -43,27 +43,27 @@ final class PostFile extends AbstractFile implements ArrayAccess
         $this->wordCount = count(explode(' ', $rawContent));
     }
 
-    public function getDate() : DateTimeInterface
+    public function getDate(): DateTimeInterface
     {
         return $this->date;
     }
 
-    public function getDateInFormat(string $format) : string
+    public function getDateInFormat(string $format): string
     {
         return $this->date->format($format);
     }
 
-    public function getFilenameWithoutDate() : string
+    public function getFilenameWithoutDate(): string
     {
         return $this->filenameWithoutDate;
     }
 
-    public function getWordCount() : int
+    public function getWordCount(): int
     {
         return $this->wordCount;
     }
 
-    public function getReadingTimeInMinutes() : int
+    public function getReadingTimeInMinutes(): int
     {
         return (int) ceil($this->wordCount / self::READ_WORDS_PER_MINUTE);
     }
@@ -84,7 +84,7 @@ final class PostFile extends AbstractFile implements ArrayAccess
         }
 
         if (! isset($this->configuration[$offset])) {
-            throw new \Exception(sprintf(
+            throw new Exception(sprintf(
                 'Value "%s" was not found for "%s" object. Available values are "%s"',
                 $offset,
                 get_class(),
@@ -98,7 +98,7 @@ final class PostFile extends AbstractFile implements ArrayAccess
     /**
      * @param mixed $offset
      */
-    public function offsetExists($offset) : bool
+    public function offsetExists($offset): bool
     {
         return isset($this->configuration[$offset]);
     }
@@ -107,7 +107,7 @@ final class PostFile extends AbstractFile implements ArrayAccess
      * @param mixed $offset
      * @param mixed $value
      */
-    public function offsetSet($offset, $value) : void
+    public function offsetSet($offset, $value): void
     {
         throw new Exception(__METHOD__ . ' is not supported');
     }
@@ -115,12 +115,12 @@ final class PostFile extends AbstractFile implements ArrayAccess
     /**
      * @param mixed $offset
      */
-    public function offsetUnset($offset) : void
+    public function offsetUnset($offset): void
     {
         throw new Exception(__METHOD__ . ' is not supported');
     }
 
-    private function ensurePathStartsWithDate(SplFileInfo $fileInfo) : void
+    private function ensurePathStartsWithDate(SplFileInfo $fileInfo): void
     {
         if (! PathAnalyzer::startsWithDate($fileInfo)) {
             throw new Exception(

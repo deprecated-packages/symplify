@@ -1,23 +1,20 @@
 {
-    "name": "symplify/multi-coding-standard",
-    "description": "Allows to use multiple coding standards with ease.",
+    "name": "symplify/easy-coding-standard",
+    "description": "Use coding standard Fixers and Sniffers with 0-knowledge.",
     "require": {
         "php": "^7.1",
-        "friendsofphp/php-cs-fixer": "^2.0",
-        "tomas-votruba/php_codesniffer-3-pretagged": "^3.0",
         "symfony/console": "^3.2",
-        "symfony/dependency-injection": "^3.2",
-        "symfony/process": "^3.2",
         "nette/di": "^2.4",
         "nette/bootstrap": "^2.4",
         "nette/utils": "^2.4",
         "nette/neon": "^2.4",
         "tracy/tracy": "^2.4",
+        "symplify/fixer-runner": "@dev",
         "symplify/sniff-runner": "@dev",
         "symplify/package-builder": "@dev"
     },
     "require-dev": {
-        "phpunit/phpunit": "^5.7",
+        "phpunit/phpunit": "^6.0",
         "symplify/coding-standard": "@dev"
     },
     "autoload": {
@@ -32,7 +29,7 @@
     },
     "repositories": [
         { "type": "path", "url": "packages/SniffRunner" },
-        { "type": "path", "url": "packages/RuleRunner" }
+        { "type": "path", "url": "packages/FixerRunner"}
     ],
     "scripts": {
         "check-cs": "vendor/bin/symplify-cs check src tests",

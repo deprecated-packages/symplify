@@ -25,41 +25,41 @@ final class TokenFinder
     ];
 
     /**
-     * @return int|null
+     * @return int|false
      */
     public static function findPreviousEffective(
-        File $phpcsFile, int $startPointer, int $endPointer = null
+        File $phpcsFile,
+        int $startPointer,
+        ?int $endPointer = null
     ) {
         return self::findPreviousExcluding($phpcsFile, self::$ineffectiveTokenCodes, $startPointer, $endPointer);
     }
 
     /**
-     * @return int|null
+     * @param File $file
+     * @param string[] $types
+     * @param int $startPointer
+     * @param int|null $endPointer
+     * @return int|false
      */
     public static function findPreviousExcluding(
-        File $phpcsFile, array $types, int $startPointer, int $endPointer = null
+        File $file,
+        array $types,
+        int $startPointer,
+        ?int $endPointer = null
     ) {
-        $token = $phpcsFile->findPrevious($types, $startPointer, $endPointer, true);
-        if ($token === false) {
-            return null;
-        }
-        return $token;
+        return $file->findPrevious($types, $startPointer, $endPointer, true);
     }
 
     /**
-     * @return int|null
+     * @return int|false
      */
-    public static function findNextEffective(File $phpcsFile, int $startPointer, int $endPointer = null)
+    public static function findNextEffective(File $phpcsFile, int $startPointer, ?int $endPointer = null)
     {
-        $token = $phpcsFile->findNext(self::$ineffectiveTokenCodes, $startPointer, $endPointer, true);
-        if ($token === false) {
-            return null;
-        }
-
-        return $token;
+        return $phpcsFile->findNext(self::$ineffectiveTokenCodes, $startPointer, $endPointer, true);
     }
 
-    public static function findNextLinePosition(File $file, int $position) : int
+    public static function findNextLinePosition(File $file, int $position): int
     {
         $tokens = $file->getTokens();
         $currentLine = $tokens[$position]['line'];
@@ -72,7 +72,10 @@ final class TokenFinder
         return $nextLinePosition;
     }
 
-    public static function findAllOfType(File $file, int $type, int $start, int $end) : array
+    /**
+     * @return mixed[]
+     */
+    public static function findAllOfType(File $file, int $type, int $start, int $end): array
     {
         $result = [];
 

@@ -21,4 +21,14 @@ final class NotMissingArgumentsTypehints
         $this->someService = $someService;
         $this->anotherService = $anotherService;
     }
+
+    public function getSomeService(): SomeService
+    {
+        return $this->someService;
+    }
+
+    public function getAnotherService(): SomeService
+    {
+        return $this->anotherService;
+    }
 }

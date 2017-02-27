@@ -12,7 +12,7 @@ abstract class AbstractFile
     protected $fileInfo;
 
     /**
-     * @var array
+     * @var mixed[]
      */
     protected $configuration = [];
 
@@ -38,43 +38,43 @@ abstract class AbstractFile
         $this->content = file_get_contents($fileInfo->getRealPath());
     }
 
-    public function setOutputPath(string $outputPath) : void
+    public function setOutputPath(string $outputPath): void
     {
         $this->outputPath = $outputPath;
     }
 
-    public function getOutputPath() : string
+    public function getOutputPath(): string
     {
         return $this->outputPath;
     }
 
-    public function setRelativeUrl(string $relativeUrl) : void
+    public function setRelativeUrl(string $relativeUrl): void
     {
         $this->configuration['relativeUrl'] = $relativeUrl;
     }
 
-    public function getRelativeUrl() : string
+    public function getRelativeUrl(): string
     {
         return $this->configuration['relativeUrl'];
     }
 
-    public function getRelativeSource() : string
+    public function getRelativeSource(): string
     {
         return $this->relativeSource;
     }
 
-    public function getBaseName() : string
+    public function getBaseName(): string
     {
         return $this->fileInfo->getBasename('.' . $this->fileInfo->getExtension());
     }
 
-    public function getRelativeDirectory() : string
+    public function getRelativeDirectory(): string
     {
         return $this->fileInfo->getPathInfo()
             ->getPathname();
     }
 
-    public function getPrimaryExtension() : string
+    public function getPrimaryExtension(): string
     {
         $fileParts = explode('.', $this->fileInfo->getBasename());
         if (count($fileParts) > 2) {
@@ -84,32 +84,38 @@ abstract class AbstractFile
         return $fileParts[count($fileParts) - 1];
     }
 
-    public function getExtension() : string
+    public function getExtension(): string
     {
         return $this->fileInfo->getExtension();
     }
 
-    public function getContent() : string
+    public function getContent(): string
     {
         return $this->content;
     }
 
-    public function changeContent(string $newContent)
+    public function changeContent(string $newContent): void
     {
         $this->content = $newContent;
     }
 
-    public function setConfiguration(array $configuration)
+    /**
+     * @param mixed[] $configuration
+     */
+    public function setConfiguration(array $configuration): void
     {
         $this->configuration += $configuration;
     }
 
-    public function getConfiguration() : array
+    /**
+     * @return mixed[]
+     */
+    public function getConfiguration(): array
     {
         return $this->configuration;
     }
 
-    public function getLayout() : string
+    public function getLayout(): string
     {
         return $this->configuration['layout'] ?? '';
     }

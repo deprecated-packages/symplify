@@ -15,14 +15,14 @@ final class SetConsoleOutputEventSubscriberTest extends AbstractEventSubscriberT
      */
     private $outputWriter;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
         $this->outputWriter = $this->container->getByType(OutputWriter::class);
     }
 
-    public function testDispatching()
+    public function testDispatching(): void
     {
         $this->assertNull(
             Assert::getObjectAttribute($this->outputWriter, 'consoleOutput')

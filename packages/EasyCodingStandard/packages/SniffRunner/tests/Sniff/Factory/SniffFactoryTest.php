@@ -15,33 +15,29 @@ final class SniffFactoryTest extends TestCase
      */
     private $sniffFactory;
 
-    protected function setUp()
+    protected function setUp(): void
     {
-        $container = (new GeneralContainerFactory())->createFromConfig(__DIR__ . '/../../../../../src/config/config.neon');
+        $container = (new GeneralContainerFactory)->createFromConfig(
+            __DIR__ . '/../../../../../src/config/config.neon'
+        );
         $this->sniffFactory = $container->getByType(SniffFactory::class);
     }
 
-    /**
-     * @expectedException \Symplify\EasyCodingStandard\SniffRunner\Exception\ClassNotFoundException
-     */
-    public function testCreateInvalidClassName()
+    public function testCreateFromClasses(): void
     {
-        $this->sniffFactory->create('mmissing');
+        $sniffs = $this->sniffFactory->createFromClasses([ClassDeclarationSniff::class]);
+        $this->assertInstanceOf(ClassDeclarationSniff::class, $sniffs[0]);
     }
 
-    public function testCreate()
+    public function testPropertiesAreChanged(): void
     {
-        $sniff = $this->sniffFactory->create(ClassDeclarationSniff::class);
-        $this->assertInstanceOf(ClassDeclarationSniff::class, $sniff);
-    }
+        $sniffs = $this->sniffFactory->createFromClasses([LineLengthSniff::class => [
+            'lineLimit' => 15
+        ]]);
 
-    public function testPropertiesAreChanged()
-    {
-        /** @var LineLengthSniff $lineLenghtSniff */
-        $lineLenghtSniff = $this->sniffFactory->create(LineLengthSniff::class);
-        $this->assertSame(80, $lineLenghtSniff->lineLimit);
-        $this->assertSame(100, $lineLenghtSniff->absoluteLineLimit);
+        /** @var LineLengthSniff $lineLengthSniff */
+        $lineLengthSniff = $sniffs[0];
 
-        // @todo
+        $this->assertSame(15, $lineLengthSniff->lineLimit);
     }
 }

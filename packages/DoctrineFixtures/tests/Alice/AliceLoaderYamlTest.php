@@ -14,13 +14,13 @@ final class AliceLoaderYamlTest extends AbstractDatabaseTestCase
      */
     private $fixturesLoader;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->fixturesLoader = $this->container->getByType(AliceLoaderInterface::class);
     }
 
-    public function testLoadFixture()
+    public function testLoadFixture(): void
     {
         $file = __DIR__ . '/AliceLoaderSource/products.yaml';
 

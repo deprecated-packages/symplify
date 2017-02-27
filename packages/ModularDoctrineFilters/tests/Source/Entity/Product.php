@@ -29,8 +29,13 @@ class Product
         $this->isActive = $isActive;
     }
 
-    public function isActive() : bool
+    public function isActive(): bool
     {
         return $this->isActive;
+    }
+
+    public function getId(): int
+    {
+        return $this->id;
     }
 }

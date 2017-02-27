@@ -13,25 +13,35 @@ trait ControllerRoutingTrait
      */
     private $router;
 
-    public function setRouter(RouterInterface $router) : void
+    public function setRouter(RouterInterface $router): void
     {
         $this->router = $router;
     }
 
+    /**
+     * @param string $route
+     * @param mixed[] $parameters
+     * @param int $referenceType
+     */
     protected function generateUrl(
         string $route,
         array $parameters = [],
         int $referenceType = UrlGeneratorInterface::ABSOLUTE_PATH
-    ) : string {
+    ): string {
         return $this->router->generate($route, $parameters, $referenceType);
     }
 
-    protected function redirect(string $url, int $status = 302) : RedirectResponse
+    protected function redirect(string $url, int $status = 302): RedirectResponse
     {
         return new RedirectResponse($url, $status);
     }
 
-    protected function redirectToRoute(string $route, array $parameters = [], int $status = 302) : RedirectResponse
+    /**
+     * @param string $route
+     * @param mixed[] $parameters
+     * @param int $status
+     */
+    protected function redirectToRoute(string $route, array $parameters = [], int $status = 302): RedirectResponse
     {
         return $this->redirect($this->generateUrl($route, $parameters), $status);
     }

@@ -13,7 +13,7 @@ use Symplify\SymfonyEventDispatcher\Adapter\Nette\Event\PresenterCreatedEvent;
 
 final class EnableFiltersSubscriberTest extends TestCase
 {
-    public function test()
+    public function test(): void
     {
         $container = (new ContainerFactory)->create();
         $eventDispatcher = $container->getByType(EventDispatcherInterface::class);
@@ -29,7 +29,7 @@ final class EnableFiltersSubscriberTest extends TestCase
         $this->assertCount(2, $filters->getEnabledFilters());
     }
 
-    private function createApplicationPresenterEvent() : PresenterCreatedEvent
+    private function createApplicationPresenterEvent(): PresenterCreatedEvent
     {
         $applicationMock = $this->prophesize(Application::class);
         $presenterMock = $this->prophesize(IPresenter::class);

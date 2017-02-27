@@ -11,15 +11,22 @@ final class ServiceFinderTest extends TestCase
 {
     /**
      * @dataProvider provideData()
+     *
+     * @param string[] $dirs
+     * @param string[] $classSuffixes
+     * @param object[] $foundClasses
      */
-    public function test(array $dirs, array $classSuffixes, array $foundClasses)
+    public function test(array $dirs, array $classSuffixes, array $foundClasses): void
     {
         $serviceFinder = new ServiceClassFinder;
         $classes = $serviceFinder->findServicesInDirsByClassSuffix($dirs, $classSuffixes);
         $this->assertSame($foundClasses, $classes);
     }
 
-    public function provideData() : array
+    /**
+     * @return array[][]
+     */
+    public function provideData(): array
     {
         return [
             [[__DIR__ . '/ServiceFinderSource'], ['Controller'], [SomeController::class]],

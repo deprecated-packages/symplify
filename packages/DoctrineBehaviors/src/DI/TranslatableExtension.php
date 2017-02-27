@@ -2,29 +2,28 @@
 
 namespace Zenify\DoctrineBehaviors\DI;
 
-use Kdyby;
 use Kdyby\Events\DI\EventsExtension;
 use Knp\DoctrineBehaviors\Model\Translatable\Translation;
 use Knp\DoctrineBehaviors\ORM\Translatable\TranslatableSubscriber;
 use Nette\Utils\AssertionException;
 use Nette\Utils\Validators;
-use Zenify\DoctrineBehaviors\Entities\Attributes\Translatable;
+use Zenify\DoctrineBehaviors\Entities\Attributes\TranslatableTrait;
 
 final class TranslatableExtension extends AbstractBehaviorExtension
 {
     /**
-     * @var array
+     * @var mixed[]
      */
     private $defaults = [
         'currentLocaleCallable' => null,
         'defaultLocaleCallable' => null,
-        'translatableTrait' => Translatable::class,
+        'translatableTrait' => TranslatableTrait::class,
         'translationTrait' => Translation::class,
         'translatableFetchMode' => 'LAZY',
         'translationFetchMode' => 'LAZY',
     ];
 
-    public function loadConfiguration() : void
+    public function loadConfiguration(): void
     {
         $config = $this->validateConfig($this->defaults);
         $this->validateConfigTypes($config);
@@ -45,9 +44,10 @@ final class TranslatableExtension extends AbstractBehaviorExtension
     }
 
     /**
+     * @param mixed[] $config
      * @throws AssertionException
      */
-    private function validateConfigTypes(array $config) : void
+    private function validateConfigTypes(array $config): void
     {
         Validators::assertField($config, 'currentLocaleCallable', 'null|array');
         Validators::assertField($config, 'translatableTrait', 'type');

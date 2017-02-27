@@ -28,7 +28,7 @@ final class FinalInterfaceSniff implements Sniff
     /**
      * @return int[]
      */
-    public function register() : array
+    public function register(): array
     {
         return [T_CLASS];
     }
@@ -37,7 +37,7 @@ final class FinalInterfaceSniff implements Sniff
      * @param File $file
      * @param int $position
      */
-    public function process(File $file, $position) : void
+    public function process(File $file, $position): void
     {
         $this->file = $file;
         $this->position = $position;
@@ -57,7 +57,7 @@ final class FinalInterfaceSniff implements Sniff
         $fix = $file->addFixableError(
             'Non-abstract class that implements interface should be final.',
             $position,
-            null
+            self::class
         );
 
         if ($fix) {
@@ -65,18 +65,23 @@ final class FinalInterfaceSniff implements Sniff
         }
     }
 
-    private function implementsInterface() : bool
+    public function addFinalToClass(int $position): void
+    {
+        $this->file->fixer->addContentBefore($position, 'final ');
+    }
+
+    private function implementsInterface(): bool
     {
         return (bool) $this->file->findNext(T_IMPLEMENTS, $this->position);
     }
 
-    private function isFinalOrAbstractClass() : bool
+    private function isFinalOrAbstractClass(): bool
     {
         $classProperties = $this->file->getClassProperties($this->position);
         return ($classProperties['is_abstract'] || $classProperties['is_final']);
     }
 
-    private function isDoctrineEntity() : bool
+    private function isDoctrineEntity(): bool
     {
         $docCommentPosition = $this->file->findPrevious(T_DOC_COMMENT_OPEN_TAG, $this->position);
         if ($docCommentPosition === false) {
@@ -94,10 +99,5 @@ final class FinalInterfaceSniff implements Sniff
         } while ($docCommentPosition = $this->file->findNext(T_DOC_COMMENT_TAG, $seekPosition, $this->position));
 
         return false;
-    }
-
-    public function addFinalToClass(int $position) : void
-    {
-        $this->file->fixer->addContentBefore($position, 'final ');
     }
 }

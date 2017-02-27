@@ -14,12 +14,12 @@ final class OutputWriterTest extends TestCase
      */
     private $outputWriter;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->outputWriter = new OutputWriter;
     }
 
-    public function testGetOutputWriterWhenNeeded()
+    public function testGetOutputWriterWhenNeeded(): void
     {
         $consoleOutput = Assert::getObjectAttribute($this->outputWriter, 'consoleOutput');
         $this->assertNull($consoleOutput);

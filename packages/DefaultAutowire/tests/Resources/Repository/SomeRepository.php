@@ -16,10 +16,7 @@ final class SomeRepository
         $this->entityManager = $entityManager;
     }
 
-    /**
-     * @return EntityManagerInterface
-     */
-    public function getEntityManager()
+    public function getEntityManager(): EntityManagerInterface
     {
         return $this->entityManager;
     }

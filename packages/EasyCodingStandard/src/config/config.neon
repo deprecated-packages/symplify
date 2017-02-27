@@ -3,6 +3,6 @@ application:
 
 
 extensions:
-    - Symplify\EasyCodingStandard\DI\MultiCodingStandardExtension
-    - Symplify\EasyCodingStandard\RuleRunner\DI\RuleRunnerExtension
+    - Symplify\EasyCodingStandard\DI\EasyCodingStandardExtension
+    - Symplify\EasyCodingStandard\FixerRunner\DI\FixerRunnerExtension
     - Symplify\EasyCodingStandard\SniffRunner\DI\SniffRunnerExtension

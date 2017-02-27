@@ -8,9 +8,11 @@ use Nette\Loaders\RobotLoader;
 final class ServiceClassFinder
 {
     /**
+     * @param string[] $dirs
+     * @param string[] $classSuffixesToSeek
      * @return string[]
      */
-    public function findServicesInDirsByClassSuffix(array $dirs, array $classSuffixesToSeek) : array
+    public function findServicesInDirsByClassSuffix(array $dirs, array $classSuffixesToSeek): array
     {
         $robot = new RobotLoader;
         $robot->setCacheStorage(new DevNullStorage);

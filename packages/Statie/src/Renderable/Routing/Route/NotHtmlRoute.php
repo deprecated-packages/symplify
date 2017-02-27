@@ -7,7 +7,7 @@ use Symplify\Statie\Renderable\File\AbstractFile;
 
 final class NotHtmlRoute implements RouteInterface
 {
-    public function matches(AbstractFile $file) : bool
+    public function matches(AbstractFile $file): bool
     {
         return in_array(
             $file->getPrimaryExtension(),
@@ -15,7 +15,7 @@ final class NotHtmlRoute implements RouteInterface
         );
     }
 
-    public function buildOutputPath(AbstractFile $file) : string
+    public function buildOutputPath(AbstractFile $file): string
     {
         if (in_array($file->getExtension(), ['latte', 'md'])) {
             return $file->getBaseName();
@@ -24,7 +24,7 @@ final class NotHtmlRoute implements RouteInterface
         return $file->getBaseName() . '.' . $file->getPrimaryExtension();
     }
 
-    public function buildRelativeUrl(AbstractFile $file) : string
+    public function buildRelativeUrl(AbstractFile $file): string
     {
         return $this->buildOutputPath($file);
     }

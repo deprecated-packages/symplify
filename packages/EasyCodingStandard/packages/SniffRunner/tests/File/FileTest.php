@@ -2,11 +2,10 @@
 
 namespace Symplify\EasyCodingStandard\SniffRunner\Tests\File;
 
-use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
+use Symplify\EasyCodingStandard\Error\ErrorCollector;
 use Symplify\EasyCodingStandard\SniffRunner\File\File;
 use Symplify\EasyCodingStandard\SniffRunner\File\FileFactory;
-use Symplify\EasyCodingStandard\Report\ErrorDataCollector;
 use Symplify\PackageBuilder\Adapter\Nette\GeneralContainerFactory;
 
 final class FileTest extends TestCase
@@ -16,35 +15,36 @@ final class FileTest extends TestCase
      */
     private $file;
 
-    protected function setUp()
+    /**
+     * @var ErrorCollector
+     */
+    private $errorCollector;
+
+    protected function setUp(): void
     {
-        $container = (new GeneralContainerFactory())->createFromConfig(__DIR__ . '/../../../../src/config/config.neon');
+        $container = (new GeneralContainerFactory)->createFromConfig(__DIR__ . '/../../../../src/config/config.neon');
         $fileFactory = $container->getByType(FileFactory::class);
         $this->file = $fileFactory->create(__DIR__ . '/FileFactorySource/SomeFile.php', false);
+        $this->errorCollector = $container->getByType(ErrorCollector::class);
     }
 
-    public function testErrorDataCollector()
+    public function testErrorDataCollector(): void
     {
-        /** @var ErrorDataCollector $errorDataCollector */
-        $errorDataCollector = Assert::getObjectAttribute(
-            $this->file,
-            'errorDataCollector'
-        );
-        $this->assertSame(0, $errorDataCollector->getErrorCount());
+        $this->assertSame(0, $this->errorCollector->getErrorCount());
 
         $this->file->addError('Some Error', 0, 'code');
-        $this->assertSame(1, $errorDataCollector->getErrorCount());
-        $this->assertSame(0, $errorDataCollector->getFixableErrorCount());
+        $this->assertSame(1, $this->errorCollector->getErrorCount());
+        $this->assertSame(0, $this->errorCollector->getFixableErrorCount());
 
         $this->file->addFixableError('Some Other Error', 0, 'code');
-        $this->assertSame(2, $errorDataCollector->getErrorCount());
-        $this->assertSame(1, $errorDataCollector->getFixableErrorCount());
+        $this->assertSame(2, $this->errorCollector->getErrorCount());
+        $this->assertSame(1, $this->errorCollector->getFixableErrorCount());
     }
 
     /**
      * @expectedException \Symplify\EasyCodingStandard\SniffRunner\Exception\File\NotImplementedException
      */
-    public function testNotImplementedGetErrorCount()
+    public function testNotImplementedGetErrorCount(): void
     {
         $this->file->getErrorCount();
     }
@@ -52,7 +52,7 @@ final class FileTest extends TestCase
     /**
      * @expectedException \Symplify\EasyCodingStandard\SniffRunner\Exception\File\NotImplementedException
      */
-    public function testNotImplementedGetErrors()
+    public function testNotImplementedGetErrors(): void
     {
         $this->file->getErrors();
     }
@@ -60,7 +60,7 @@ final class FileTest extends TestCase
     /**
      * @expectedException \Symplify\EasyCodingStandard\SniffRunner\Exception\File\NotImplementedException
      */
-    public function testNotImplementedProcess()
+    public function testNotImplementedProcess(): void
     {
         $this->file->process();
     }
@@ -68,7 +68,7 @@ final class FileTest extends TestCase
     /**
      * @expectedException \Symplify\EasyCodingStandard\SniffRunner\Exception\File\NotImplementedException
      */
-    public function testNotImplementedParse()
+    public function testNotImplementedParse(): void
     {
         $this->file->parse();
     }

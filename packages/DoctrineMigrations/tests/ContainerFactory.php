@@ -8,12 +8,12 @@ use Nette\Utils\FileSystem;
 
 final class ContainerFactory
 {
-    public function create() : Container
+    public function create(): Container
     {
         return $this->createWithConfig(__DIR__ . '/config/default.neon');
     }
 
-    public function createWithConfig(string $config) : Container
+    public function createWithConfig(string $config): Container
     {
         $configurator = new Configurator;
         $configurator->setTempDirectory($this->createAndReturnTempDir());
@@ -21,7 +21,7 @@ final class ContainerFactory
         return $configurator->createContainer();
     }
 
-    private function createAndReturnTempDir()
+    private function createAndReturnTempDir(): string
     {
         $tempDir = sys_get_temp_dir() . '/doctrine-migrations';
         FileSystem::delete($tempDir);

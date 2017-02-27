@@ -8,7 +8,7 @@ final class TraitAwareController
 {
     use ControllerTrait;
 
-    public function someAction()
+    public function someAction(): void
     {
     }
 }

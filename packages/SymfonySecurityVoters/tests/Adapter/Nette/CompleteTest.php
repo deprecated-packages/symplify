@@ -18,7 +18,7 @@ final class CompleteTest extends TestCase
      */
     private $application;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->container = (new ContainerFactory)->create();
         $this->application = $this->container->getByType(Application::class);
@@ -27,7 +27,7 @@ final class CompleteTest extends TestCase
     /**
      * @expectedException \Nette\Application\AbortException
      */
-    public function testShouldFail()
+    public function testShouldFail(): void
     {
         $this->application->run();
     }

@@ -11,12 +11,12 @@ trait ControllerDoctrineTrait
      */
     private $doctrine;
 
-    public function setDoctrine(ManagerRegistry $doctrine) : void
+    public function setDoctrine(ManagerRegistry $doctrine): void
     {
         $this->doctrine = $doctrine;
     }
 
-    protected function getDoctrine() : ManagerRegistry
+    protected function getDoctrine(): ManagerRegistry
     {
         return $this->doctrine;
     }

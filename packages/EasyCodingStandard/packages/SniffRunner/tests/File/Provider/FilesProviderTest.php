@@ -14,13 +14,15 @@ final class FilesProviderTest extends TestCase
      */
     private $filesProvider;
 
-    protected function setUp()
+    protected function setUp(): void
     {
-        $container = (new GeneralContainerFactory())->createFromConfig(__DIR__ . '/../../../../../src/config/config.neon');
+        $container = (new GeneralContainerFactory)->createFromConfig(
+            __DIR__ . '/../../../../../src/config/config.neon'
+        );
         $this->filesProvider = $container->getByType(FilesProvider::class);
     }
 
-    public function test()
+    public function test(): void
     {
         $source = [__DIR__.'/FilesProviderSource'];
         $files = $this->filesProvider->getFilesForSource($source, false);

@@ -33,11 +33,6 @@ final class DocBlockWrapper
      */
     private $tokens;
 
-    public static function createFromFileAndPosition(File $file, int $startPosition, int $endPosition)
-    {
-        return new self($file, $startPosition, $endPosition);
-    }
-
     private function __construct(File $file, int $startPosition, int $endPosition)
     {
         $this->file = $file;
@@ -46,14 +41,19 @@ final class DocBlockWrapper
         $this->endPosition = $endPosition;
     }
 
-    public function hasAnnotation(string $annotation) : bool
+    public static function createFromFileAndPosition(File $file, int $startPosition, int $endPosition): self
+    {
+        return new self($file, $startPosition, $endPosition);
+    }
+
+    public function hasAnnotation(string $annotation): bool
     {
         $docBlockContent = ContentFinder::getContentBetween($this->file, $this->startPosition, $this->endPosition);
 
         return Strings::contains($docBlockContent, $annotation);
     }
 
-    public function removeAnnotation(string $annotation)
+    public function removeAnnotation(string $annotation): void
     {
         $docBlockTokens = ContentFinder::getTokensBetween($this->file, $this->startPosition, $this->endPosition);
 
@@ -71,15 +71,15 @@ final class DocBlockWrapper
         }
     }
 
-    public function isSingleLine() : bool
+    public function isSingleLine(): bool
     {
         $tokens = $this->file->getTokens();
         return $tokens[$this->startPosition]['line'] === $tokens[$this->endPosition]['line'];
     }
 
-    public function changeToMultiLine() : void
+    public function changeToMultiLine(): void
     {
-        if (!$this->isSingleLine()) {
+        if (! $this->isSingleLine()) {
             return;
         }
 
@@ -104,15 +104,6 @@ final class DocBlockWrapper
         );
     }
 
-    private function getIndentationSign() : string
-    {
-        if ($this->indentationType === 'tabs') {
-            return "\t";
-        }
-
-        return '    ';
-    }
-
     /**
      * @return string|false
      */
@@ -126,5 +117,14 @@ final class DocBlockWrapper
         }
 
         return false;
+    }
+
+    private function getIndentationSign(): string
+    {
+        if ($this->indentationType === 'tabs') {
+            return "\t";
+        }
+
+        return '    ';
     }
 }

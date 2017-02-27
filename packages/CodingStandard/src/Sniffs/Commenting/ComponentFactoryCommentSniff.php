@@ -25,11 +25,14 @@ final class ComponentFactoryCommentSniff implements Sniff
     private $file;
 
     /**
-     * @var array
+     * @var array[]
      */
     private $tokens;
 
-    public function register() : array
+    /**
+     * @return int[]
+     */
+    public function register(): array
     {
         return [T_FUNCTION];
     }
@@ -38,7 +41,7 @@ final class ComponentFactoryCommentSniff implements Sniff
      * @param File $file
      * @param int $position
      */
-    public function process(File $file, $position)
+    public function process(File $file, $position): void
     {
         $this->file = $file;
         $this->position = $position;
@@ -58,7 +61,7 @@ final class ComponentFactoryCommentSniff implements Sniff
             $file->addError(
                 'createComponent<name> method should have a doc comment or return type.',
                 $position,
-                null
+                self::class
             );
             return;
         }
@@ -67,7 +70,7 @@ final class ComponentFactoryCommentSniff implements Sniff
         $this->processReturnTag($commentStart);
     }
 
-    private function isComponentFactoryMethod() : bool
+    private function isComponentFactoryMethod(): bool
     {
         $functionName = $this->file->getDeclarationName($this->position);
         return (strpos($functionName, 'createComponent') === 0);
@@ -81,7 +84,7 @@ final class ComponentFactoryCommentSniff implements Sniff
         return $this->file->findPrevious(T_WHITESPACE, ($this->position - 3), null, true);
     }
 
-    private function hasMethodComment(int $position) : bool
+    private function hasMethodComment(int $position): bool
     {
         if ($this->tokens[$position]['code'] === T_DOC_COMMENT_CLOSE_TAG) {
             return true;
@@ -89,7 +92,7 @@ final class ComponentFactoryCommentSniff implements Sniff
         return false;
     }
 
-    private function processReturnTag(int $commentStartPosition) : void
+    private function processReturnTag(int $commentStartPosition): void
     {
         $return = null;
         foreach ($this->tokens[$commentStartPosition]['comment_tags'] as $tag) {
@@ -101,13 +104,13 @@ final class ComponentFactoryCommentSniff implements Sniff
             $content = $this->tokens[($return + 2)]['content'];
             if (empty($content) === true || $this->tokens[($return + 2)]['code'] !== T_DOC_COMMENT_STRING) {
                 $error = 'Return tag should contain type';
-                $this->file->addError($error, $return, null);
+                $this->file->addError($error, $return, self::class);
             }
         } else {
             $this->file->addError(
                 'CreateComponent* method should have a @return tag',
                 $this->tokens[$commentStartPosition]['comment_closer'],
-                null
+                self::class
             );
         }
     }

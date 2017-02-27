@@ -10,14 +10,14 @@ use Nette\Application\UI\Presenter;
 
 final class ResponsePresenter extends Presenter
 {
-    protected function startup()
+    public function actionDefault(): void
+    {
+        $this->sendResponse(new TextResponse(null));
+    }
+
+    protected function startup(): void
     {
         parent::startup();
         $this->autoCanonicalize = false;
-    }
-
-    public function actionDefault()
-    {
-        $this->sendResponse(new TextResponse(null));
     }
 }

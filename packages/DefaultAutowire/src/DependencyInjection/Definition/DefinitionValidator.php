@@ -6,7 +6,7 @@ use Symfony\Component\DependencyInjection\Definition;
 
 final class DefinitionValidator
 {
-    public function validate(Definition $definition) : bool
+    public function validate(Definition $definition): bool
     {
         if (! $definition->isPublic() || $definition->isAbstract()) {
             return false;

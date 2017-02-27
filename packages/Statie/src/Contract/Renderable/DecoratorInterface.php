@@ -6,5 +6,5 @@ use Symplify\Statie\Renderable\File\AbstractFile;
 
 interface DecoratorInterface
 {
-    public function decorateFile(AbstractFile $file) : void;
+    public function decorateFile(AbstractFile $file): void;
 }

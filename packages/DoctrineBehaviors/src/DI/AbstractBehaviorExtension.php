@@ -10,7 +10,7 @@ use Nette\DI\Statement;
 
 abstract class AbstractBehaviorExtension extends CompilerExtension
 {
-    protected function getClassAnalyzer() : ServiceDefinition
+    protected function getClassAnalyzer(): ServiceDefinition
     {
         $containerBuilder = $this->getContainerBuilder();
 

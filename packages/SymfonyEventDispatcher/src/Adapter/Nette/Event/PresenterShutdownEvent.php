@@ -34,12 +34,12 @@ final class PresenterShutdownEvent extends Event
         $this->response = $response;
     }
 
-    public function getPresenter() : Presenter
+    public function getPresenter(): Presenter
     {
         return $this->presenter;
     }
 
-    public function getResponse() : ?IResponse
+    public function getResponse(): ?IResponse
     {
         return $this->response;
     }

@@ -42,34 +42,22 @@ class CategoryTranslation
         $this->tags = new ArrayCollection;
     }
 
-    /**
-     * @return string
-     */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * @param string $name
-     */
-    public function setName($name)
+    public function setName(string $name): void
     {
         $this->name = $name;
     }
 
-    /**
-     * @return bool
-     */
-    public function isActive()
+    public function isActive(): bool
     {
         return $this->isActive;
     }
 
-    /**
-     * @param bool $isActive
-     */
-    public function setIsActive($isActive)
+    public function setIsActive(bool $isActive): void
     {
         $this->isActive = $isActive;
     }
@@ -82,32 +70,22 @@ class CategoryTranslation
         return $this->tags;
     }
 
-    /**
-     * @param Tag $tag
-     * @return bool
-     */
-    public function hasTag(Tag $tag)
+    public function hasTag(Tag $tag): bool
     {
         return $this->tags->contains($tag);
     }
 
-    public function addTag(Tag $tag)
+    public function addTag(Tag $tag): void
     {
         $this->tags->add($tag);
     }
 
-    /**
-     * @return bool
-     */
-    public function shouldRenderSubcategories()
+    public function shouldRenderSubcategories(): bool
     {
         return $this->shouldRenderSubcategories;
     }
 
-    /**
-     * @param bool $shouldRenderSubcategories
-     */
-    public function setShouldRenderSubcategories($shouldRenderSubcategories)
+    public function setShouldRenderSubcategories(bool $shouldRenderSubcategories): void
     {
         $this->shouldRenderSubcategories = $shouldRenderSubcategories;
     }

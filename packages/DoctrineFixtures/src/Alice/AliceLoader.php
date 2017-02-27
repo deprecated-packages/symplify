@@ -31,7 +31,7 @@ final class AliceLoader implements AliceLoaderInterface
      * @param string|array $sources
      * @return object[]
      */
-    public function load($sources) : array
+    public function load($sources): array
     {
         if (! is_array($sources)) {
             $sources = [$sources];
@@ -52,7 +52,7 @@ final class AliceLoader implements AliceLoaderInterface
      * @param mixed $source
      * @return object[]
      */
-    private function loadEntitiesFromSource($source) : array
+    private function loadEntitiesFromSource($source): array
     {
         if (is_dir($source)) {
             return $this->loadFromDirectory($source);
@@ -68,7 +68,7 @@ final class AliceLoader implements AliceLoaderInterface
     /**
      * @return object[]
      */
-    private function loadFromFile(string $path) : array
+    private function loadFromFile(string $path): array
     {
         $entities = $this->aliceLoader->load($path);
         foreach ($entities as $entity) {
@@ -77,7 +77,7 @@ final class AliceLoader implements AliceLoaderInterface
         return $entities;
     }
 
-    private function loadFromDirectory(string $path) : array
+    private function loadFromDirectory(string $path): array
     {
         $files = [];
         foreach (Finder::find('*.neon', '*.yaml', '*.yml')->from($path) as $file) {

@@ -9,15 +9,15 @@ use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 
 final class SymfonySecurityExtension extends CompilerExtension
 {
-    public function loadConfiguration() : void
+    public function loadConfiguration(): void
     {
         Compiler::loadDefinitions(
             $this->getContainerBuilder(),
-            $this->loadFromFile(__DIR__ . '/../config/services.neon')['services']
+            $this->loadFromFile(__DIR__ . '/../config/services.neon')
         );
     }
 
-    public function beforeCompile() : void
+    public function beforeCompile(): void
     {
         $containerBuilder = $this->getContainerBuilder();
         $voterDefinitions = $containerBuilder->findByType(VoterInterface::class);

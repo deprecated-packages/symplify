@@ -13,7 +13,7 @@ final class Configuration implements ConfigurationInterface
      */
     private $defaultControllerDirs = ['%kernel.root_dir%', '%kernel.root_dir%/../src'];
 
-    public function getConfigTreeBuilder() : TreeBuilder
+    public function getConfigTreeBuilder(): TreeBuilder
     {
         $treeBuilder = new TreeBuilder;
 

@@ -20,12 +20,12 @@ final class RunCommand
         $this->outputDirectory = $outputDirectory;
     }
 
-    public function getOutputDirectory() : string
+    public function getOutputDirectory(): string
     {
         return $this->outputDirectory;
     }
 
-    public function getSourceDirectory() : string
+    public function getSourceDirectory(): string
     {
         return $this->sourceDirectory;
     }

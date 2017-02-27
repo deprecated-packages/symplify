@@ -8,7 +8,7 @@ use Symplify\ControllerAutowire\SymplifyControllerAutowireBundle;
 
 final class ContainerExtensionTest extends TestCase
 {
-    public function testGetAlias()
+    public function testGetAlias(): void
     {
         $containerExtension = new ContainerExtension;
         $this->assertSame(SymplifyControllerAutowireBundle::ALIAS, $containerExtension->getAlias());

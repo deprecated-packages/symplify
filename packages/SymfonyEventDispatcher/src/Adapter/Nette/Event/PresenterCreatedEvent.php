@@ -34,12 +34,12 @@ final class PresenterCreatedEvent extends Event
         $this->presenter = $presenter;
     }
 
-    public function getApplication() : Application
+    public function getApplication(): Application
     {
         return $this->application;
     }
 
-    public function getPresenter() : IPresenter
+    public function getPresenter(): IPresenter
     {
         return $this->presenter;
     }

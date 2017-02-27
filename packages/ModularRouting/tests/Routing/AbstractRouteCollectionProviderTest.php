@@ -10,7 +10,7 @@ final class AbstractRouteCollectionProviderTest extends TestCase
     /**
      * @expectedException \Symplify\ModularRouting\Exception\FileNotFoundException
      */
-    public function testMissingFiles()
+    public function testMissingFiles(): void
     {
         (new MissingFileRouteCollectionProvider)->getRouteCollection();
     }

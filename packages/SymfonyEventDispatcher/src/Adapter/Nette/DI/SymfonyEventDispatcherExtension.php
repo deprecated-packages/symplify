@@ -14,7 +14,7 @@ use Symplify\PackageBuilder\Adapter\Nette\DI\DefinitionFinder;
 
 final class SymfonyEventDispatcherExtension extends CompilerExtension
 {
-    public function loadConfiguration() : void
+    public function loadConfiguration(): void
     {
         if ($this->isKdybyEventsRegistered()) {
             return;
@@ -26,7 +26,7 @@ final class SymfonyEventDispatcherExtension extends CompilerExtension
         );
     }
 
-    public function beforeCompile() : void
+    public function beforeCompile(): void
     {
         $eventDispatcher = DefinitionFinder::getByType($this->getContainerBuilder(), EventDispatcherInterface::class);
 
@@ -40,12 +40,12 @@ final class SymfonyEventDispatcherExtension extends CompilerExtension
         $this->bindNetteEvents();
     }
 
-    private function isKdybyEventsRegistered() : bool
+    private function isKdybyEventsRegistered(): bool
     {
         return (bool) $this->compiler->getExtensions('Kdyby\Events\DI\EventsExtension');
     }
 
-    private function addSubscribersToEventDispatcher() : void
+    private function addSubscribersToEventDispatcher(): void
     {
         DefinitionCollector::loadCollectorWithType(
             $this->getContainerBuilder(),
@@ -55,7 +55,7 @@ final class SymfonyEventDispatcherExtension extends CompilerExtension
         );
     }
 
-    private function bindNetteEvents() : void
+    private function bindNetteEvents(): void
     {
         $containerBuilder = $this->getContainerBuilder();
 
@@ -74,7 +74,7 @@ final class SymfonyEventDispatcherExtension extends CompilerExtension
     private function decorateServiceDefinitionWithNetteEvent(
         ServiceDefinition $serviceDefinition,
         NetteEventItem $netteEvent
-    ) : void {
+    ): void {
         $propertyStatement = new Statement('function () {
 			$class = ?;
 			$event = new $class(...func_get_args());
@@ -88,7 +88,7 @@ final class SymfonyEventDispatcherExtension extends CompilerExtension
         $serviceDefinition->addSetup('$service->?[] = ?;', [$netteEvent->getProperty(), $propertyStatement]);
     }
 
-    private function bindEventDispatcherToSymfonyConsole() : void
+    private function bindEventDispatcherToSymfonyConsole(): void
     {
         $containerBuilder = $this->getContainerBuilder();
         if ($consoleApplicationName = $containerBuilder->getByType('Symfony\Component\Console\Application')) {

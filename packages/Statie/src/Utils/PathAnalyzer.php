@@ -8,12 +8,12 @@ use SplFileInfo;
 
 final class PathAnalyzer
 {
-    public static function startsWithDate(SplFileInfo $file) : bool
+    public static function startsWithDate(SplFileInfo $file): bool
     {
         return (bool) preg_match('/(\d{4})[\/\-]*(\d{2})[\/\-]*(\d{2})[\/\-]*(\d+|)/', $file->getFilename(), $matches);
     }
 
-    public static function detectDate(SplFileInfo $file) : DateTimeInterface
+    public static function detectDate(SplFileInfo $file): DateTimeInterface
     {
         preg_match('/(\d{4})[\/\-]*(\d{2})[\/\-]*(\d{2})[\/\-]*(\d+|)/', $file->getFilename(), $matches);
         [$dummy, $year, $month, $day] = $matches;
@@ -21,7 +21,7 @@ final class PathAnalyzer
         return new DateTime(implode('-', [$year, $month, $day]));
     }
 
-    public static function detectFilenameWithoutDate(SplFileInfo $file) : string
+    public static function detectFilenameWithoutDate(SplFileInfo $file): string
     {
         preg_match(
             '/(\d{4})[\/\-]*(\d{2})[\/\-]*(\d{2})[\/\-]*(.+?)(\.[^\.]+|\.[^\.]+\.[^\.]+)$/',

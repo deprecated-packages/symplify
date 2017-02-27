@@ -5,20 +5,19 @@ namespace Zenify\DoctrineBehaviors\DI;
 use Kdyby\Events\DI\EventsExtension;
 use Knp\DoctrineBehaviors\Model\Sluggable\Sluggable;
 use Knp\DoctrineBehaviors\ORM\Sluggable\SluggableSubscriber;
-use Nette\Utils\AssertionException;
 use Nette\Utils\Validators;
 
 final class SluggableExtension extends AbstractBehaviorExtension
 {
     /**
-     * @var array
+     * @var mixed[]
      */
     private $defaults = [
         'isRecursive' => true,
         'trait' => Sluggable::class
     ];
 
-    public function loadConfiguration() : void
+    public function loadConfiguration(): void
     {
         $config = $this->validateConfig($this->defaults);
         $this->validateConfigTypes($config);
@@ -35,9 +34,9 @@ final class SluggableExtension extends AbstractBehaviorExtension
     }
 
     /**
-     * @throws AssertionException
+     * @param mixed[] $config
      */
-    private function validateConfigTypes(array $config) : void
+    private function validateConfigTypes(array $config): void
     {
         Validators::assertField($config, 'isRecursive', 'bool');
         Validators::assertField($config, 'trait', 'type');

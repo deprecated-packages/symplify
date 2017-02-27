@@ -11,7 +11,7 @@ final class MissingLatteDefinitionInExtensionTest extends TestCase
     /**
      * @expectedException \Zenify\ModularLatteFilters\Exception\DI\MissingLatteDefinitionException
      */
-    public function testNoLatteDefinition()
+    public function testNoLatteDefinition(): void
     {
         $extension = $this->getExtension();
         $extension->loadConfiguration();
@@ -19,7 +19,7 @@ final class MissingLatteDefinitionInExtensionTest extends TestCase
         $extension->beforeCompile();
     }
 
-    private function getExtension() : ModularLatteFiltersExtension
+    private function getExtension(): ModularLatteFiltersExtension
     {
         $extension = new ModularLatteFiltersExtension;
         $extension->setCompiler(new Compiler, 'compiler');

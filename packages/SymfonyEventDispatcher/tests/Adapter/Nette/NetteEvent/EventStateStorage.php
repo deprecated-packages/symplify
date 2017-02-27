@@ -11,7 +11,7 @@ final class EventStateStorage
      */
     private $storage;
 
-    public function addEventState(string $event, Event $state)
+    public function addEventState(string $event, Event $state): void
     {
         $this->storage[$event] = $state;
     }

@@ -19,7 +19,7 @@ final class MethodWrapper
     private $position;
 
     /**
-     * @var array
+     * @var mixed[]
      */
     private $tokens;
 
@@ -34,7 +34,7 @@ final class MethodWrapper
     private $parameters;
 
     /**
-     * @var array
+     * @var mixed[]
      */
     private $methodToken;
 
@@ -47,11 +47,6 @@ final class MethodWrapper
      * @var int
      */
     private $endPosition;
-
-    public static function createFromFileAndPosition(File $file, int $position)
-    {
-        return new self($file, $position);
-    }
 
     private function __construct(File $file, int $position)
     {
@@ -66,15 +61,20 @@ final class MethodWrapper
         $this->methodToken = $this->tokens[$position];
 
         $this->startPosition = $this->position - 2; // todo: start position
-        $this->endPosition = $this->methodToken['scope_closer'];
+        $this->endPosition = (int) $this->methodToken['scope_closer'];
     }
 
-    public function getPosition() : int
+    public static function createFromFileAndPosition(File $file, int $position): self
+    {
+        return new self($file, $position);
+    }
+
+    public function getPosition(): int
     {
         return $this->position;
     }
 
-    public function hasNamePrefix(string $prefix) : bool
+    public function hasNamePrefix(string $prefix): bool
     {
         return Strings::startsWith($prefix, $this->methodName);
     }
@@ -82,7 +82,7 @@ final class MethodWrapper
     /**
      * @return ParameterWrapper[]
      */
-    public function getParameters() : array
+    public function getParameters(): array
     {
         if ($this->parameters) {
             return $this->parameters;
@@ -100,7 +100,7 @@ final class MethodWrapper
         return $this->parameters = $parameters;
     }
 
-    public function remove()
+    public function remove(): void
     {
         for ($i = $this->startPosition - 2; $i <= $this->endPosition + 1; $i++) {
             $this->file->fixer->replaceToken($i, '');

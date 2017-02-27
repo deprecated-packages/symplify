@@ -7,6 +7,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
 use ReflectionFunction;
+use Symfony\Component\DependencyInjection\Definition;
 use Symplify\ModularDoctrineFilters\Contract\Filter\FilterInterface;
 use Symplify\ModularDoctrineFilters\Contract\FilterManagerInterface;
 use Symplify\ModularDoctrineFilters\FilterManager;
@@ -16,7 +17,7 @@ use Symplify\ModularDoctrineFilters\FilterManager;
  */
 final class ModularDoctrineFiltersServiceProvider extends ServiceProvider
 {
-    public function register()
+    public function register(): void
     {
         $this->app->singleton(FilterManagerInterface::class, function (Application $application) {
             return new FilterManager($application->make(EntityManagerInterface::class));
@@ -25,7 +26,7 @@ final class ModularDoctrineFiltersServiceProvider extends ServiceProvider
         $this->app->alias(FilterManagerInterface::class, FilterManager::class);
     }
 
-    public function boot(FilterManagerInterface $filterManager)
+    public function boot(FilterManagerInterface $filterManager): void
     {
         foreach ($this->app->getBindings() as $name => $definition) {
             // todo: skip later...
@@ -39,7 +40,11 @@ final class ModularDoctrineFiltersServiceProvider extends ServiceProvider
         }
     }
 
-    private function isDefinitionOfType(array $definition, string $classOrInterfaceType) : bool
+    /**
+     * @param Definition[] $definition
+     * @param string $classOrInterfaceType
+     */
+    private function isDefinitionOfType(array $definition, string $classOrInterfaceType): bool
     {
         $closureReflection = new ReflectionFunction($definition['concrete']);
 
@@ -65,13 +70,18 @@ final class ModularDoctrineFiltersServiceProvider extends ServiceProvider
         return false;
     }
 
-    private function isLaravelSystem(ReflectionFunction $closureReflection) : bool
+    private function isLaravelSystem(ReflectionFunction $closureReflection): bool
     {
         return Str::startsWith($closureReflection->name, 'Illuminate') &&
             Str::startsWith($closureReflection->name, 'Illuminate\\Container') === false;
     }
 
-    private function hasVariableOfNameAndType(array $staticVariables, string $name, string $classOrInterfaceType) : bool
+    /**
+     * @param string[] $staticVariables
+     * @param string $name
+     * @param string $classOrInterfaceType
+     */
+    private function hasVariableOfNameAndType(array $staticVariables, string $name, string $classOrInterfaceType): bool
     {
         if (! isset($staticVariables[$name])) {
             return false;

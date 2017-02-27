@@ -14,7 +14,7 @@ use Symplify\CodingStandard\Helper\Whitespace\EmptyLinesResizer;
 final class PropertiesMethodsMutualSpacingSniff implements Sniff
 {
     /**
-     * @var int|string
+     * @var int
      */
     public $desiredBlankLinesInBetween = 1;
 
@@ -29,14 +29,14 @@ final class PropertiesMethodsMutualSpacingSniff implements Sniff
     private $position;
 
     /**
-     * @var array
+     * @var array[]
      */
     private $tokens;
 
     /**
      * @return int[]
      */
-    public function register() : array
+    public function register(): array
     {
         return [T_VARIABLE];
     }
@@ -45,14 +45,11 @@ final class PropertiesMethodsMutualSpacingSniff implements Sniff
      * @param File $file
      * @param int $position
      */
-    public function process(File $file, $position)
+    public function process(File $file, $position): void
     {
         $this->file = $file;
         $this->position = $position;
         $this->tokens = $file->getTokens();
-
-        // Fix type
-        $this->desiredBlankLinesInBetween = (int) $this->desiredBlankLinesInBetween;
 
         if ($this->isLastProperty() === false) {
             return;
@@ -72,14 +69,14 @@ final class PropertiesMethodsMutualSpacingSniff implements Sniff
                 $this->desiredBlankLinesInBetween,
                 $blankLines
             );
-            $fix = $file->addFixableError($error, $position, null);
+            $fix = $file->addFixableError($error, $position, self::class);
             if ($fix) {
                 $this->fixSpacingInBetween($blankLines);
             }
         }
     }
 
-    private function isLastProperty() : bool
+    private function isLastProperty(): bool
     {
         if ($this->isInsideMethod()) {
             return false;
@@ -89,19 +86,19 @@ final class PropertiesMethodsMutualSpacingSniff implements Sniff
         return $this->tokens[$next]['code'] !== T_VARIABLE;
     }
 
-    private function isInsideMethod() : bool
+    private function isInsideMethod(): bool
     {
         $previousMethod = $this->file->findPrevious(T_FUNCTION, $this->position);
         return $this->tokens[$previousMethod]['code'] === T_FUNCTION;
     }
 
-    private function areMethodsPresent() : bool
+    private function areMethodsPresent(): bool
     {
         $next = $this->file->findNext(T_FUNCTION, $this->position + 1);
         return $this->tokens[$next]['code'] === T_FUNCTION;
     }
 
-    private function getPositionOfLastProperty() : int
+    private function getPositionOfLastProperty(): int
     {
         $arrayPosition = $this->file->findNext(T_ARRAY, $this->position);
         if ($this->tokens[$arrayPosition]['line'] === $this->tokens[$this->position]['line']) {
@@ -118,7 +115,7 @@ final class PropertiesMethodsMutualSpacingSniff implements Sniff
         return $this->position;
     }
 
-    private function fixSpacingInBetween(int $blankLinesInBetween) : void
+    private function fixSpacingInBetween(int $blankLinesInBetween): void
     {
         $position = PositionFinder::findLastPositionInCurrentLine($this->file, $this->getPositionOfLastProperty());
 

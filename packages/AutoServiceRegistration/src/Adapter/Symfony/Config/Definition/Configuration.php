@@ -31,7 +31,7 @@ final class Configuration implements ConfigurationInterface
      */
     private $defaultClassSuffixesToSeek = ['Controller'];
 
-    public function getConfigTreeBuilder() : TreeBuilder
+    public function getConfigTreeBuilder(): TreeBuilder
     {
         $treeBuilder = new TreeBuilder;
         $rootNode = $treeBuilder->root(SymplifyAutoServiceRegistrationBundle::ALIAS);

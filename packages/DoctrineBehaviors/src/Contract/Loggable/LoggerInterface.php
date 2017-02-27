@@ -4,5 +4,5 @@ namespace Zenify\DoctrineBehaviors\Contract\Loggable;
 
 interface LoggerInterface
 {
-    public function process(string $message);
+    public function process(string $message): void;
 }

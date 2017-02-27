@@ -1,10 +1,9 @@
-services:
-	- Zenify\DoctrineMigrations\OutputWriter
+- Zenify\DoctrineMigrations\OutputWriter
 
-	# commands
-	- Doctrine\DBAL\Migrations\Tools\Console\Command\ExecuteCommand
-	- Doctrine\DBAL\Migrations\Tools\Console\Command\DiffCommand
-	- Doctrine\DBAL\Migrations\Tools\Console\Command\GenerateCommand
-	- Doctrine\DBAL\Migrations\Tools\Console\Command\MigrateCommand
-	- Doctrine\DBAL\Migrations\Tools\Console\Command\StatusCommand
-	- Doctrine\DBAL\Migrations\Tools\Console\Command\VersionCommand
+# commands
+- Doctrine\DBAL\Migrations\Tools\Console\Command\ExecuteCommand
+- Doctrine\DBAL\Migrations\Tools\Console\Command\DiffCommand
+- Doctrine\DBAL\Migrations\Tools\Console\Command\GenerateCommand
+- Doctrine\DBAL\Migrations\Tools\Console\Command\MigrateCommand
+- Doctrine\DBAL\Migrations\Tools\Console\Command\StatusCommand
+- Doctrine\DBAL\Migrations\Tools\Console\Command\VersionCommand

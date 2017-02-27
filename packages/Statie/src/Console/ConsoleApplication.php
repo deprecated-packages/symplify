@@ -14,7 +14,7 @@ final class ConsoleApplication extends BaseApplication
         parent::__construct('Statie - Static Site Generator');
     }
 
-    protected function getDefaultInputDefinition() : InputDefinition
+    protected function getDefaultInputDefinition(): InputDefinition
     {
         return new InputDefinition([
             new InputArgument('command', InputArgument::REQUIRED, 'The command to execute'),

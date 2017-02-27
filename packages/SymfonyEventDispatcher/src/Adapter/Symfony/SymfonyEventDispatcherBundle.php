@@ -15,12 +15,12 @@ use Symplify\SymfonyEventDispatcher\Adapter\Symfony\DependencyInjection\Extensio
 
 final class SymfonyEventDispatcherBundle extends Bundle
 {
-    public function build(ContainerBuilder $containerBuilder)
+    public function build(ContainerBuilder $containerBuilder): void
     {
         $containerBuilder->addCompilerPass(new CollectEventSubscribersPass, PassConfig::TYPE_BEFORE_REMOVING);
     }
 
-    public function getContainerExtension() : ContainerExtension
+    public function getContainerExtension(): ContainerExtension
     {
         return new ContainerExtension;
     }

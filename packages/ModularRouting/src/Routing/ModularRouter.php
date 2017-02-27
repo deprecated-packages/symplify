@@ -38,27 +38,27 @@ final class ModularRouter implements ModularRouterInterface
         $this->routeCollection = new RouteCollection;
     }
 
-    public function addRouteCollectionProvider(RouteCollectionProviderInterface $routeCollectionProvider) : void
+    public function addRouteCollectionProvider(RouteCollectionProviderInterface $routeCollectionProvider): void
     {
         $this->routeCollection->addCollection($routeCollectionProvider->getRouteCollection());
     }
 
-    public function getRouteCollection() : RouteCollection
+    public function getRouteCollection(): RouteCollection
     {
         return $this->routeCollection;
     }
 
-    public function setContext(RequestContext $requestContext) : void
+    public function setContext(RequestContext $requestContext): void
     {
         $this->requestContext = $requestContext;
     }
 
     /**
      * @param string $name
-     * @param array $parameters
+     * @param mixed[] $parameters
      * @param int $referenceType
      */
-    public function generate($name, $parameters = [], $referenceType = self::ABSOLUTE_PATH) : string
+    public function generate($name, $parameters = [], $referenceType = self::ABSOLUTE_PATH): string
     {
         return $this->getUrlGenerator()
             ->generate($name, $parameters, $referenceType);
@@ -66,38 +66,35 @@ final class ModularRouter implements ModularRouterInterface
 
     /**
      * @param string $pathinfo
+     * @return array[]
      */
-    public function match($pathinfo) : array
+    public function match($pathinfo): array
     {
         return $this->getUrlMatcher()
             ->match($pathinfo);
     }
 
-    public function getContext() : string
+    public function getContext(): string
     {
         // this method is never used
         return '...';
     }
 
-    private function getUrlGenerator() : UrlGeneratorInterface
+    private function getUrlGenerator(): UrlGeneratorInterface
     {
         if ($this->urlGenerator) {
             return $this->urlGenerator;
         }
 
-        $this->urlGenerator = new UrlGenerator($this->getRouteCollection(), $this->requestContext);
-
-        return $this->urlGenerator;
+        return $this->urlGenerator = new UrlGenerator($this->getRouteCollection(), $this->requestContext);
     }
 
-    private function getUrlMatcher() : UrlMatcherInterface
+    private function getUrlMatcher(): UrlMatcherInterface
     {
         if ($this->urlMatcher) {
             return $this->urlMatcher;
         }
 
-        $this->urlMatcher = new UrlMatcher($this->getRouteCollection(), $this->requestContext);
-
-        return $this->urlMatcher;
+        return $this->urlMatcher = new UrlMatcher($this->getRouteCollection(), $this->requestContext);
     }
 }

@@ -32,7 +32,7 @@ final class DecorateControllerResolverPass implements CompilerPassInterface
         $this->controllerClassMap = $controllerClassMap;
     }
 
-    public function process(ContainerBuilder $containerBuilder) : void
+    public function process(ContainerBuilder $containerBuilder): void
     {
         $decoratedControllerResolverServiceName = $this->getCurrentControllerResolverServiceName($containerBuilder);
 
@@ -49,7 +49,7 @@ final class DecorateControllerResolverPass implements CompilerPassInterface
         $containerBuilder->setDefinition(self::SYMPLIFY_CONTROLLER_RESOLVER_SERVICE_NAME, $definition);
     }
 
-    private function getCurrentControllerResolverServiceName(ContainerBuilder $containerBuilder) : string
+    private function getCurrentControllerResolverServiceName(ContainerBuilder $containerBuilder): string
     {
         if ($containerBuilder->has('debug.' . self::DEFAULT_CONTROLLER_RESOLVER_SERVICE_NAME)) {
             return 'debug.' . self::DEFAULT_CONTROLLER_RESOLVER_SERVICE_NAME;

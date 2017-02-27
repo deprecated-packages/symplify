@@ -3,7 +3,7 @@
 namespace Zenify\DoctrineBehaviors\Tests\Translatable\Entities\Attributes\Source;
 
 use Knp\DoctrineBehaviors\Model\Translatable\Translatable as KnpTranslatable;
-use Zenify\DoctrineBehaviors\Entities\Attributes\Translatable as ZenifyTranslatable;
+use Zenify\DoctrineBehaviors\Entities\Attributes\TranslatableTrait as ZenifyTranslatableTrait;
 
 /**
  * @method string getName()
@@ -11,5 +11,5 @@ use Zenify\DoctrineBehaviors\Entities\Attributes\Translatable as ZenifyTranslata
 final class TranslatableEntity
 {
     use KnpTranslatable;
-    use ZenifyTranslatable;
+    use ZenifyTranslatableTrait;
 }

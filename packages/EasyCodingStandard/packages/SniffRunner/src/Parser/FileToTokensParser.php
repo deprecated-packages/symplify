@@ -14,11 +14,13 @@ final class FileToTokensParser
      */
     private $legacyConfig;
 
-    public function parseFromFilePath(string $filePath) : array
+    /**
+     * @return mixed[]
+     */
+    public function parseFromFilePath(string $filePath): array
     {
         $fileContent = FileSystem::read($filePath);
         return (new PHP($fileContent, $this->getLegacyConfig(), PHP_EOL))->getTokens();
-
     }
 
     /**
@@ -30,7 +32,7 @@ final class FileToTokensParser
             return $this->legacyConfig;
         }
 
-        $config = new stdClass();
+        $config = new stdClass;
         $config->tabWidth = 4;
         return $this->legacyConfig = $config;
     }
