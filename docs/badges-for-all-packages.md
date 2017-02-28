@@ -1,6 +1,6 @@
 # Badges for All Symplify Packages
 
-To quick check test build status, coverage or score. 
+To quick check test build status, coverage or downloads.
 
 ## Auto Service Registration
 
