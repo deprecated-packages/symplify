@@ -1,34 +1,19 @@
-ignore-errors:
-    packages/EasyCodingStandard/packages/SniffRunner/src/File/File.php:
-        - SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff
-    packages/CodingStandard/src/Sniffs/*/*Sniff.php:
-        - SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff
-    packages/ControllerAutowire/src/HttpKernel/Controller/ControllerResolver.php:
-        - SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff
-    packages/DoctrineFixtures/src/Alice/AliceLoader.php:
-        - SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff
-    packages/DoctrineFixtures/src/Alice/Fixtures/Parser/Methods/NeonParser.php:
-        - SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff
-    packages/ModularRouting/src/Routing/ModularRouter.php:
-        - SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff
-    packages/Statie/src/Renderable/Latte/DynamicStringLoader.php:
-        - SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff
-    packages/SymfonySecurityVoters/src/Adapter/Nette/Token/NetteTokenAdapter.php:
-        - SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff
-    packages/Statie/src/Configuration/Configuration.php:
-        - SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff
-    packages/DoctrineMigrations/src/Configuration/Configuration.php:
-        - SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff
-    packages/DoctrineMigrations/src/OutputWriter.php:
-        - SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff
-    packages/DefaultAutowire/tests/DependencyInjection/Definition/DefinitionAnalyzerSource/MissingArgumentsTypehints.php:
-        - SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff
+skip:
+    SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff:
+        - packages/EasyCodingStandard/packages/SniffRunner/src/File/File.php
+        - packages/CodingStandard/src/Sniffs/*/*Sniff.php
+        - packages/ControllerAutowire/src/HttpKernel/Controller/ControllerResolver.php
+        - packages/DoctrineFixtures/src/Alice/AliceLoader.php
+        - packages/DoctrineFixtures/src/Alice/Fixtures/Parser/Methods/NeonParser.php
+        - packages/ModularRouting/src/Routing/ModularRouter.php
+        - packages/Statie/src/Renderable/Latte/DynamicStringLoader.php
+        - packages/SymfonySecurityVoters/src/Adapter/Nette/Token/NetteTokenAdapter.php
+        - packages/Statie/src/Configuration/Configuration.php
+        - packages/DoctrineMigrations/src/Configuration/Configuration.php
+        - packages/DoctrineMigrations/src/OutputWriter.php
+        - packages/DefaultAutowire/tests/DependencyInjection/Definition/DefinitionAnalyzerSource/MissingArgumentsTypehints.php
     packages/DefaultAutowire/tests/DependencyInjection/Definition/DefinitionAnalyzerForFactoryTest.php:
         - PHP_CodeSniffer\Standards\Generic\Sniffs\Files\LineLengthSniff
-
-#   or the other way?
-#    SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff:
-#        packages/EasyCodingStandard/packages/SniffRunner/src/File/File.php
 
 includes:
     - packages/EasyCodingStandard/config/php-cs-fixer/psr1-fixers.neon
