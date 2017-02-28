@@ -3,7 +3,6 @@
 [![Build Status](https://img.shields.io/travis/Symplify/ModularDoctrineFilters.svg?style=flat-square)](https://travis-ci.org/Symplify/ModularDoctrineFilters)
 [![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/Symplify/ModularDoctrineFilters.svg?style=flat-square)](https://scrutinizer-ci.com/g/Symplify/ModularDoctrineFilters)
 [![Downloads](https://img.shields.io/packagist/dt/symplify/modular-doctrine-filters.svg?style=flat-square)](https://packagist.org/packages/symplify/modular-doctrine-filters)
-[![Latest stable](https://img.shields.io/packagist/v/symplify/modular-doctrine-filters.svg?style=flat-square)](https://packagist.org/packages/symplify/modular-doctrine-filters)
 
 
 What are Doctrine Filters? Check [these few slides](https://speakerdeck.com/rosstuck/extending-doctrine-2-for-your-domain-model?slide=15) or see [Usage](#usage) to get the knowledge.
