@@ -3,7 +3,6 @@
 [![Build Status](https://img.shields.io/travis/Zenify/ModularLatteFilters.svg?style=flat-square)](https://travis-ci.org/Zenify/ModularLatteFilters)
 [![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/Zenify/ModularLatteFilters.svg?style=flat-square)](https://scrutinizer-ci.com/g/Zenify/ModularLatteFilters)
 [![Downloads](https://img.shields.io/packagist/dt/zenify/modular-latte-filters.svg?style=flat-square)](https://packagist.org/packages/zenify/modular-latte-filters)
-[![Latest stable](https://img.shields.io/packagist/v/zenify/modular-latte-filters.svg?style=flat-square)](https://packagist.org/packages/zenify/modular-latte-filters)
 
 
 ## Install
