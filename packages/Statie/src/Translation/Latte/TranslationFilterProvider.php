@@ -3,8 +3,8 @@
 namespace Symplify\Statie\Translation\Latte;
 
 use Symfony\Component\Translation\TranslatorInterface;
-use Symplify\Statie\Translation\MessageAnalyzer;
 use Symplify\ModularLatteFilters\Contract\DI\LatteFiltersProviderInterface;
+use Symplify\Statie\Translation\MessageAnalyzer;
 
 final class TranslationFilterProvider implements LatteFiltersProviderInterface
 {

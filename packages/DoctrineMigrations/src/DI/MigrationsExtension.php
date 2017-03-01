@@ -7,11 +7,11 @@ use Doctrine\DBAL\Migrations\Tools\Console\Command\AbstractCommand;
 use Nette\DI\Compiler;
 use Nette\DI\CompilerExtension;
 use Symfony\Component\Console\Application;
-use Symplify\PackageBuilder\Adapter\Nette\DI\DefinitionCollector;
 use Symplify\DoctrineMigrations\Configuration\Configuration;
 use Symplify\DoctrineMigrations\EventSubscriber\RegisterMigrationsEventSubscriber;
 use Symplify\DoctrineMigrations\EventSubscriber\SetConsoleOutputEventSubscriber;
 use Symplify\DoctrineMigrations\Exception\DI\MissingExtensionException;
+use Symplify\PackageBuilder\Adapter\Nette\DI\DefinitionCollector;
 
 final class MigrationsExtension extends CompilerExtension
 {
