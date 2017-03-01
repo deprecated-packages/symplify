@@ -27,8 +27,7 @@
     },
     "require-dev": {
         "nette/application": "^2.4",
-        "phpunit/phpunit": "^6.0",
-        "symplify/coding-standard": "^1.3"
+        "phpunit/phpunit": "^6.0"
     },
     "autoload": {
         "psr-4": {
@@ -39,9 +38,5 @@
         "psr-4": {
             "Symplify\\Statie\\Tests\\": "tests"
         }
-    },
-    "scripts": {
-        "check-cs": "vendor/bin/symplify-cs check src tests",
-        "fix-cs": "vendor/bin/symplify-cs fix src tests"
     }
 }

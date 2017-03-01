@@ -105,9 +105,7 @@ And it works :)
 
 That's all!
 
-## Testing
 
-```sh
-vendor/bin/phpunit
-composer check-cs
-```
+## Contributing
+
+Send [issue](https://github.com/Symplify/Symplify/issues) or [pull-request](https://github.com/Symplify/Symplify/pulls) to main repository.

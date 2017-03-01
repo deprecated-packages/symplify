@@ -95,20 +95,6 @@ Just type `Controller*Trait` in your IDE to autocomplete any of these traits.
 That's all :)
 
 
-# Testing
+## Contributing
 
-```bash
-vendor/bin/symplify-cs check src tests
-vendor/bin/phpunit
-```
-
-
-# Contributing
-
-Rules are simple:
-
-- new feature needs tests
-- all tests must pass
-- 1 feature per PR
-
-I'd be happy to merge your feature then.
+Send [issue](https://github.com/Symplify/Symplify/issues) or [pull-request](https://github.com/Symplify/Symplify/pulls) to main repository.

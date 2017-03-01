@@ -1,9 +1,8 @@
 # Statie - PHP Static Site Generator
 
-[![Build Status][ico-travis]][link-travis]
-[![Coverage Status][ico-scrutinizer]][link-scrutinizer]
-[![Total Downloads][ico-downloads]][link-downloads]
-[![Latest Version on Packagist][ico-version]][link-packagist]
+[![Build Status](https://img.shields.io/travis/Symplify/Statie.svg?style=flat-square)](https://travis-ci.org/Symplify/Statie)
+[![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/Symplify/Statie.svg?style=flat-square)](https://scrutinizer-ci.com/g/Symplify/Statie)
+[![Downloads](https://img.shields.io/packagist/dt/symplify/statie.svg?style=flat-square)](htptps://packagist.org/packages/symplify/statie)
 
 
 Statie takes HTML, Markdown and Latte files and generates static HTML page.
@@ -164,12 +163,6 @@ h1:hover .anchor-icon, h2:hover .anchor-icon, h3:hover .anchor-icon {
 ```
 
 
-[ico-version]: https://img.shields.io/packagist/v/Symplify/Statie.svg?style=flat-square
-[ico-travis]: https://img.shields.io/travis/Symplify/Statie/master.svg?style=flat-square
-[ico-scrutinizer]: https://img.shields.io/scrutinizer/coverage/g/Symplify/Statie.svg?style=flat-square
-[ico-downloads]: https://img.shields.io/packagist/dt/Symplify/Statie.svg?style=flat-square
+## Contributing
 
-[link-packagist]: https://packagist.org/packages/Symplify/Statie
-[link-travis]: https://travis-ci.org/Symplify/Statie
-[link-scrutinizer]: https://scrutinizer-ci.com/g/Symplify/Statie/code-structure/master?elementType=class&orderField=test_coverage&order=asc&changesExpanded=0
-[link-downloads]: https://packagist.org/packages/symplify/statie/stats
+Send [issue](https://github.com/Symplify/Symplify/issues) or [pull-request](https://github.com/Symplify/Symplify/pulls) to main repository.

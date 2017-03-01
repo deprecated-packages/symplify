@@ -126,3 +126,9 @@ $file = new File;
 ### InterfaceNameSniff (Naming)
 
 - Interface should have suffix "Interface"
+
+
+
+## Contributing
+
+Send [issue](https://github.com/Symplify/Symplify/issues) or [pull-request](https://github.com/Symplify/Symplify/pulls) to main repository.

@@ -15,7 +15,6 @@
 		"tracy/tracy": "^2.4"
 	},
 	"require-dev": {
-		"symplify/coding-standard": "^4.2",
 		"nette/bootstrap": "^2.4",
 		"phpunit/phpunit": "^6.0"
 	},
@@ -28,8 +27,5 @@
 		"psr-4": {
 			"Symplify\\DoctrineFixtures\\Tests\\": "tests"
 		}
-	},
-	"scripts": {
-		"check-cs": "vendor/bin/phpcs src tests -ps --standard=vendor/symplify/coding-standard/src/SymplifyCodingStandard/ruleset.xml"
 	}
 }
