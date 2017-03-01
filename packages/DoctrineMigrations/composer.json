@@ -1,5 +1,5 @@
 {
-	"name": "zenify/doctrine-migrations",
+	"name": "symplify/doctrine-migrations",
 	"description": "Implementation of Doctrine Migrations to Nette",
 	"license": "MIT",
 	"require": {
@@ -18,19 +18,19 @@
 		"nette/reflection": "^2.4",
 		"tracy/tracy": "^2.4",
 		"phpunit/phpunit": "^6.0",
-		"zenify/coding-standard": "^4.2"
+		"symplify/coding-standard": "^4.2"
 	},
 	"autoload": {
 		"psr-4": {
-			"Zenify\\DoctrineMigrations\\": "src"
+			"Symplify\\DoctrineMigrations\\": "src"
 		}
 	},
 	"autoload-dev": {
 		"psr-4": {
-			"Zenify\\DoctrineMigrations\\Tests\\": "tests"
+			"Symplify\\DoctrineMigrations\\Tests\\": "tests"
 		}
 	},
 	"scripts": {
-		"check-cs": "vendor/bin/phpcs src tests -ps --standard=vendor/zenify/coding-standard/src/ZenifyCodingStandard/ruleset.xml"
+		"check-cs": "vendor/bin/phpcs src tests -ps --standard=vendor/symplify/coding-standard/src/SymplifyCodingStandard/ruleset.xml"
 	}
 }

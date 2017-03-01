@@ -1,10 +1,10 @@
 <?php declare(strict_types=1);
 
-namespace Zenify\DoctrineBehaviors\Tests\Entities\Source;
+namespace Symplify\DoctrineBehaviors\Tests\Entities\Source;
 
 use Doctrine\ORM\Mapping as ORM;
 use Knp\DoctrineBehaviors\Model\Translatable\Translatable;
-use Zenify\DoctrineBehaviors\Entities\Attributes\TranslatableTrait as ZenifyTranslatableTrait;
+use Symplify\DoctrineBehaviors\Entities\Attributes\TranslatableTrait as SymplifyTranslatableTrait;
 
 /**
  * @ORM\Entity
@@ -12,7 +12,7 @@ use Zenify\DoctrineBehaviors\Entities\Attributes\TranslatableTrait as ZenifyTran
 class Category
 {
     use Translatable;
-    use ZenifyTranslatableTrait;
+    use SymplifyTranslatableTrait;
 
     /**
      * @ORM\Id

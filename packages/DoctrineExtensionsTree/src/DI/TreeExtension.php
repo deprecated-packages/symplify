@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Zenify\DoctrineExtensionsTree\DI;
+namespace Symplify\DoctrineExtensionsTree\DI;
 
 use Gedmo\Tree\TreeListener;
 use Kdyby\Events\DI\EventsExtension;

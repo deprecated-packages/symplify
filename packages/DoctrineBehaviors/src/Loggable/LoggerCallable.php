@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace Zenify\DoctrineBehaviors\Loggable;
+namespace Symplify\DoctrineBehaviors\Loggable;
 
-use Zenify\DoctrineBehaviors\Contract\Loggable\LoggerInterface;
+use Symplify\DoctrineBehaviors\Contract\Loggable\LoggerInterface;
 
 final class LoggerCallable
 {

@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Zenify\ModularLatteFilters\Tests;
+namespace Symplify\ModularLatteFilters\Tests;
 
 use Nette\Configurator;
 use Nette\DI\Container;

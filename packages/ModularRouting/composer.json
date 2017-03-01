@@ -12,6 +12,7 @@
         "symfony/templating": "^3.2",
         "symfony/validator": "^3.2",
         "symfony/twig-bundle": "^3.2",
+        "symfony/yaml": "^3.2",
         "symfony-cmf/routing-bundle": "^2.0"
     },
     "require-dev": {

@@ -1,5 +1,5 @@
 {
-	"name": "zenify/doctrine-fixtures",
+	"name": "symplify/doctrine-fixtures",
 	"description": "Doctrine Fixtures, Faker and Alice integration into Nette",
 	"license": "MIT",
 	"require": {
@@ -15,21 +15,21 @@
 		"tracy/tracy": "^2.4"
 	},
 	"require-dev": {
-		"zenify/coding-standard": "^4.2",
+		"symplify/coding-standard": "^4.2",
 		"nette/bootstrap": "^2.4",
 		"phpunit/phpunit": "^6.0"
 	},
 	"autoload": {
 		"psr-4": {
-			"Zenify\\DoctrineFixtures\\": "src"
+			"Symplify\\DoctrineFixtures\\": "src"
 		}
 	},
 	"autoload-dev": {
 		"psr-4": {
-			"Zenify\\DoctrineFixtures\\Tests\\": "tests"
+			"Symplify\\DoctrineFixtures\\Tests\\": "tests"
 		}
 	},
 	"scripts": {
-		"check-cs": "vendor/bin/phpcs src tests -ps --standard=vendor/zenify/coding-standard/src/ZenifyCodingStandard/ruleset.xml"
+		"check-cs": "vendor/bin/phpcs src tests -ps --standard=vendor/symplify/coding-standard/src/SymplifyCodingStandard/ruleset.xml"
 	}
 }

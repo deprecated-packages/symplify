@@ -1,5 +1,5 @@
 {
-	"name": "zenify/doctrine-behaviors",
+	"name": "symplify/doctrine-behaviors",
 	"description": "Integration of KnpLabs/DoctrineBehaviors to Nette\\DI",
 	"license": "MIT",
 	"require": {
@@ -15,20 +15,20 @@
 		"nette/http": "^2.4",
 		"nette/reflection": "^2.4",
 		"nette/security": "^2.4",
-		"zenify/coding-standard": "^4.2",
+		"symplify/coding-standard": "^4.2",
 		"phpunit/phpunit": "^6.0"
 	},
 	"autoload": {
 		"psr-4": {
-			"Zenify\\DoctrineBehaviors\\": "src"
+			"Symplify\\DoctrineBehaviors\\": "src"
 		}
 	},
 	"autoload-dev": {
 		"psr-4": {
-			"Zenify\\DoctrineBehaviors\\Tests\\": "tests"
+			"Symplify\\DoctrineBehaviors\\Tests\\": "tests"
 		}
 	},
 	"scripts": {
-		"check-cs": "vendor/bin/phpcs src tests -ps --standard=vendor/zenify/coding-standard/src/ZenifyCodingStandard/ruleset.xml"
+		"check-cs": "vendor/bin/phpcs src tests -ps --standard=vendor/symplify/coding-standard/src/SymplifyCodingStandard/ruleset.xml"
 	}
 }

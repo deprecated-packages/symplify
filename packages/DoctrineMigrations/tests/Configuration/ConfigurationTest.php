@@ -1,14 +1,14 @@
 <?php declare(strict_types=1);
 
-namespace Zenify\DoctrineMigrations\Tests\Configuration;
+namespace Symplify\DoctrineMigrations\Tests\Configuration;
 
 use Doctrine\DBAL\Migrations\AbstractMigration;
 use Doctrine\DBAL\Migrations\Configuration\Configuration;
 use Doctrine\DBAL\Migrations\Version;
 use PHPUnit\Framework\TestCase;
-use Zenify\DoctrineMigrations\Tests\Configuration\ConfigurationSource\SomeService;
-use Zenify\DoctrineMigrations\Tests\ContainerFactory;
-use Zenify\DoctrineMigrations\Tests\Migrations\Version123;
+use Symplify\DoctrineMigrations\Tests\Configuration\ConfigurationSource\SomeService;
+use Symplify\DoctrineMigrations\Tests\ContainerFactory;
+use Symplify\DoctrineMigrations\Tests\Migrations\Version123;
 
 final class ConfigurationTest extends TestCase
 {

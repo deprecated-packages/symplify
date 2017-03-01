@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Zenify\DoctrineFixtures\Tests;
+namespace Symplify\DoctrineFixtures\Tests;
 
 use Nette\Configurator;
 use Nette\DI\Container;

@@ -1,12 +1,12 @@
 <?php declare(strict_types=1);
 
-namespace Zenify\DoctrineBehaviors\DI;
+namespace Symplify\DoctrineBehaviors\DI;
 
 use Kdyby\Events\DI\EventsExtension;
 use Knp\DoctrineBehaviors\Model\Blameable\Blameable;
 use Knp\DoctrineBehaviors\ORM\Blameable\BlameableSubscriber;
 use Nette\Utils\Validators;
-use Zenify\DoctrineBehaviors\Blameable\UserCallable;
+use Symplify\DoctrineBehaviors\Blameable\UserCallable;
 
 final class BlameableExtension extends AbstractBehaviorExtension
 {

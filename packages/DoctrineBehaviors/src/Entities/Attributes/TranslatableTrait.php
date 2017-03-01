@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Zenify\DoctrineBehaviors\Entities\Attributes;
+namespace Symplify\DoctrineBehaviors\Entities\Attributes;
 
 use Knp\DoctrineBehaviors\Model\Translatable\Translatable;
 

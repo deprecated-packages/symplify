@@ -1,5 +1,5 @@
 {
-	"name": "zenify/modular-latte-filters",
+	"name": "symplify/modular-latte-filters",
 	"description": "Nette extension for modular Latte filters loading.",
 	"license": "MIT",
 	"require": {
@@ -12,19 +12,19 @@
 		"nette/bootstrap": "^2.4",
 		"tracy/tracy": "^2.4",
 		"phpunit/phpunit": "^6.0",
-		"zenify/coding-standard": "^4.2"
+		"symplify/coding-standard": "^4.2"
 	},
 	"autoload": {
 		"psr-4": {
-			"Zenify\\ModularLatteFilters\\": "src"
+			"Symplify\\ModularLatteFilters\\": "src"
 		}
 	},
 	"autoload-dev": {
 		"psr-4": {
-			"Zenify\\ModularLatteFilters\\Tests\\": "tests"
+			"Symplify\\ModularLatteFilters\\Tests\\": "tests"
 		}
 	},
 	"scripts": {
-		"check-cs": "vendor/bin/phpcs src tests -ps --standard=vendor/zenify/coding-standard/src/ZenifyCodingStandard/ruleset.xml"
+		"check-cs": "vendor/bin/phpcs src tests -ps --standard=vendor/symplify/coding-standard/src/SymplifyCodingStandard/ruleset.xml"
 	}
 }

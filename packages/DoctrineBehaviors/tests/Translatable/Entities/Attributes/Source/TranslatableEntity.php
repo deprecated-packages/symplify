@@ -1,9 +1,9 @@
 <?php declare(strict_types=1);
 
-namespace Zenify\DoctrineBehaviors\Tests\Translatable\Entities\Attributes\Source;
+namespace Symplify\DoctrineBehaviors\Tests\Translatable\Entities\Attributes\Source;
 
 use Knp\DoctrineBehaviors\Model\Translatable\Translatable as KnpTranslatable;
-use Zenify\DoctrineBehaviors\Entities\Attributes\TranslatableTrait as ZenifyTranslatableTrait;
+use Symplify\DoctrineBehaviors\Entities\Attributes\TranslatableTrait as SymplifyTranslatableTrait;
 
 /**
  * @method string getName()
@@ -11,5 +11,5 @@ use Zenify\DoctrineBehaviors\Entities\Attributes\TranslatableTrait as ZenifyTran
 final class TranslatableEntity
 {
     use KnpTranslatable;
-    use ZenifyTranslatableTrait;
+    use SymplifyTranslatableTrait;
 }

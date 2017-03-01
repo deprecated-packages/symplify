@@ -1,9 +1,9 @@
 <?php declare(strict_types=1);
 
-namespace Zenify\DoctrineBehaviors\Tests\Translatable\Entities\Attributes;
+namespace Symplify\DoctrineBehaviors\Tests\Translatable\Entities\Attributes;
 
 use PHPUnit\Framework\TestCase;
-use Zenify\DoctrineBehaviors\Tests\Translatable\Entities\Attributes\Source\TranslatableEntity;
+use Symplify\DoctrineBehaviors\Tests\Translatable\Entities\Attributes\Source\TranslatableEntity;
 
 final class TranslatableTest extends TestCase
 {

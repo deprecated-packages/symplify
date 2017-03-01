@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Zenify\DoctrineMigrations\Tests\EventSubscriber;
+namespace Symplify\DoctrineMigrations\Tests\EventSubscriber;
 
 use Doctrine\DBAL\Migrations\Configuration\Configuration;
 use Symfony\Component\Console\Input\ArrayInput;

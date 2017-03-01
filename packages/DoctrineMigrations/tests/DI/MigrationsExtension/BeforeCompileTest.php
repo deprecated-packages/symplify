@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Zenify\DoctrineMigrations\Tests\DI\MigrationsExtension;
+namespace Symplify\DoctrineMigrations\Tests\DI\MigrationsExtension;
 
 use Arachne\EventDispatcher\DI\EventDispatcherExtension;
 use Doctrine\DBAL\Migrations\Tools\Console\Command\ExecuteCommand;
@@ -10,8 +10,8 @@ use Nette\DI\ServiceDefinition;
 use Nette\DI\Statement;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Application;
-use Zenify\DoctrineMigrations\Configuration\Configuration;
-use Zenify\DoctrineMigrations\DI\MigrationsExtension;
+use Symplify\DoctrineMigrations\Configuration\Configuration;
+use Symplify\DoctrineMigrations\DI\MigrationsExtension;
 
 final class BeforeCompileTest extends TestCase
 {

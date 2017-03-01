@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Zenify\DoctrineMigrations;
+namespace Symplify\DoctrineMigrations;
 
 use Doctrine\DBAL\Migrations\OutputWriter as DoctrineOutputWriter;
 use Symfony\Component\Console\Output\ConsoleOutput;

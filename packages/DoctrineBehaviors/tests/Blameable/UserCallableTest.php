@@ -1,11 +1,11 @@
 <?php declare(strict_types=1);
 
-namespace Zenify\DoctrineBehaviors\Tests\Blameable;
+namespace Symplify\DoctrineBehaviors\Tests\Blameable;
 
 use Nette\Security\User;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Prophecy\ObjectProphecy;
-use Zenify\DoctrineBehaviors\Blameable\UserCallable;
+use Symplify\DoctrineBehaviors\Blameable\UserCallable;
 
 final class UserCallableTest extends TestCase
 {

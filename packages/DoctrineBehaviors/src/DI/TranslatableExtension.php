@@ -1,13 +1,13 @@
 <?php declare(strict_types=1);
 
-namespace Zenify\DoctrineBehaviors\DI;
+namespace Symplify\DoctrineBehaviors\DI;
 
 use Kdyby\Events\DI\EventsExtension;
 use Knp\DoctrineBehaviors\Model\Translatable\Translation;
 use Knp\DoctrineBehaviors\ORM\Translatable\TranslatableSubscriber;
 use Nette\Utils\AssertionException;
 use Nette\Utils\Validators;
-use Zenify\DoctrineBehaviors\Entities\Attributes\TranslatableTrait;
+use Symplify\DoctrineBehaviors\Entities\Attributes\TranslatableTrait;
 
 final class TranslatableExtension extends AbstractBehaviorExtension
 {

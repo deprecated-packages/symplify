@@ -1,10 +1,10 @@
 <?php declare(strict_types=1);
 
-namespace Zenify\DoctrineMigrations\Tests\Migrations;
+namespace Symplify\DoctrineMigrations\Tests\Migrations;
 
 use Doctrine\DBAL\Migrations\AbstractMigration;
 use Doctrine\DBAL\Schema\Schema;
-use Zenify\DoctrineMigrations\Tests\Configuration\ConfigurationSource\SomeService;
+use Symplify\DoctrineMigrations\Tests\Configuration\ConfigurationSource\SomeService;
 
 final class Version123 extends AbstractMigration
 {

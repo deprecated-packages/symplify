@@ -1,11 +1,11 @@
 <?php declare(strict_types=1);
-namespace Zenify\DoctrineExtensionsTree\Tests\Project\Entities;
+namespace Symplify\DoctrineExtensionsTree\Tests\Project\Entities;
 
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
- * @ORM\Entity(repositoryClass="Zenify\DoctrineExtensionsTree\Tests\Project\Model\CategoryTree")
+ * @ORM\Entity(repositoryClass="Symplify\DoctrineExtensionsTree\Tests\Project\Model\CategoryTree")
  * @Gedmo\Tree(type="materializedPath")
  */
 class Category

@@ -1,12 +1,12 @@
 <?php declare(strict_types=1);
 
-namespace Zenify\DoctrineMigrations\Tests\EventSubscriber;
+namespace Symplify\DoctrineMigrations\Tests\EventSubscriber;
 
 use PHPUnit\Framework\Assert;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;
 use Symfony\Component\Console\Output\OutputInterface;
-use Zenify\DoctrineMigrations\OutputWriter;
+use Symplify\DoctrineMigrations\OutputWriter;
 
 final class SetConsoleOutputEventSubscriberTest extends AbstractEventSubscriberTest
 {

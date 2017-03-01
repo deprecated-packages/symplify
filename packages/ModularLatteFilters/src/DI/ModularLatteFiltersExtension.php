@@ -1,13 +1,13 @@
 <?php declare(strict_types=1);
 
-namespace Zenify\ModularLatteFilters\DI;
+namespace Symplify\ModularLatteFilters\DI;
 
 use Latte\Engine;
 use Nette\Bridges\ApplicationLatte\ILatteFactory;
 use Nette\DI\CompilerExtension;
 use Nette\DI\ServiceDefinition;
-use Zenify\ModularLatteFilters\Contract\DI\LatteFiltersProviderInterface;
-use Zenify\ModularLatteFilters\Exception\DI\MissingLatteDefinitionException;
+use Symplify\ModularLatteFilters\Contract\DI\LatteFiltersProviderInterface;
+use Symplify\ModularLatteFilters\Exception\DI\MissingLatteDefinitionException;
 
 final class ModularLatteFiltersExtension extends CompilerExtension
 {

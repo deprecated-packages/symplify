@@ -1,15 +1,15 @@
 <?php declare(strict_types=1);
 
-namespace Zenify\ModularLatteFilters\Tests\DI;
+namespace Symplify\ModularLatteFilters\Tests\DI;
 
 use Nette\DI\Compiler;
 use PHPUnit\Framework\TestCase;
-use Zenify\ModularLatteFilters\DI\ModularLatteFiltersExtension;
+use Symplify\ModularLatteFilters\DI\ModularLatteFiltersExtension;
 
 final class MissingLatteDefinitionInExtensionTest extends TestCase
 {
     /**
-     * @expectedException \Zenify\ModularLatteFilters\Exception\DI\MissingLatteDefinitionException
+     * @expectedException \Symplify\ModularLatteFilters\Exception\DI\MissingLatteDefinitionException
      */
     public function testNoLatteDefinition(): void
     {

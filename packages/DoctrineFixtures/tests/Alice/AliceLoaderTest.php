@@ -1,13 +1,13 @@
 <?php declare(strict_types=1);
 
-namespace Zenify\DoctrineFixtures\Tests\Alice;
+namespace Symplify\DoctrineFixtures\Tests\Alice;
 
 use Doctrine\Common\Persistence\ObjectRepository;
-use Zenify\DoctrineFixtures\Contract\Alice\AliceLoaderInterface;
-use Zenify\DoctrineFixtures\Tests\AbstractDatabaseTestCase;
-use Zenify\DoctrineFixtures\Tests\Entity\Product;
-use Zenify\DoctrineFixtures\Tests\Entity\User;
-use Zenify\DoctrineFixtures\Tests\Faker\Provider\ProductName;
+use Symplify\DoctrineFixtures\Contract\Alice\AliceLoaderInterface;
+use Symplify\DoctrineFixtures\Tests\AbstractDatabaseTestCase;
+use Symplify\DoctrineFixtures\Tests\Entity\Product;
+use Symplify\DoctrineFixtures\Tests\Entity\User;
+use Symplify\DoctrineFixtures\Tests\Faker\Provider\ProductName;
 
 final class AliceLoaderTest extends AbstractDatabaseTestCase
 {
@@ -84,7 +84,7 @@ final class AliceLoaderTest extends AbstractDatabaseTestCase
     }
 
     /**
-     * @expectedException \Zenify\DoctrineFixtures\Exception\MissingSourceException
+     * @expectedException \Symplify\DoctrineFixtures\Exception\MissingSourceException
      */
     public function testLoadFromNonExistingSource(): void
     {

@@ -1,9 +1,9 @@
 <?php declare(strict_types=1);
 
-namespace Zenify\DoctrineBehaviors\Tests\DI\AbstractBehaviorExtensionSource;
+namespace Symplify\DoctrineBehaviors\Tests\DI\AbstractBehaviorExtensionSource;
 
 use Nette\DI\ServiceDefinition;
-use Zenify\DoctrineBehaviors\DI\AbstractBehaviorExtension;
+use Symplify\DoctrineBehaviors\DI\AbstractBehaviorExtension;
 
 final class SomeBehaviorExtension extends AbstractBehaviorExtension
 {

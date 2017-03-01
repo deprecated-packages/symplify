@@ -1,11 +1,11 @@
 <?php declare(strict_types=1);
 
-namespace Zenify\ModularLatteFilters\Tests\PHPUnit;
+namespace Symplify\ModularLatteFilters\Tests\PHPUnit;
 
 use Nette\DI\Container;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
-use Zenify\ModularLatteFilters\Tests\ContainerFactory;
+use Symplify\ModularLatteFilters\Tests\ContainerFactory;
 
 abstract class AbstractContainerAwareTestCase extends TestCase
 {

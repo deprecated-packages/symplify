@@ -1,13 +1,13 @@
 <?php declare(strict_types=1);
 
-namespace Zenify\DoctrineFixtures\Alice;
+namespace Symplify\DoctrineFixtures\Alice;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Nelmio\Alice\Fixtures\Loader;
 use Nette\Utils\Finder;
 use SplFileInfo;
-use Zenify\DoctrineFixtures\Contract\Alice\AliceLoaderInterface;
-use Zenify\DoctrineFixtures\Exception\MissingSourceException;
+use Symplify\DoctrineFixtures\Contract\Alice\AliceLoaderInterface;
+use Symplify\DoctrineFixtures\Exception\MissingSourceException;
 
 final class AliceLoader implements AliceLoaderInterface
 {

@@ -1,5 +1,6 @@
 application:
     scanComposer: false
+    scanDirs: false
     mapping:
         *: Symplify\SymfonySecurityVoters\Tests\Adapter\Nette\Source\Presenter\*Presenter
 

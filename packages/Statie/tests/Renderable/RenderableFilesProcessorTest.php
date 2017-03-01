@@ -5,8 +5,8 @@ namespace Symplify\Statie\Tests\Renderable;
 use Nette\Utils\FileSystem;
 use Nette\Utils\Finder;
 use PHPUnit\Framework\TestCase;
+use Symplify\PackageBuilder\Adapter\Nette\GeneralContainerFactory;
 use Symplify\Statie\Configuration\Configuration;
-use Symplify\Statie\DI\Container\ContainerFactory;
 use Symplify\Statie\Renderable\RenderableFilesProcessor;
 
 final class RenderableFilesProcessorTest extends TestCase
@@ -23,7 +23,9 @@ final class RenderableFilesProcessorTest extends TestCase
 
     protected function setUp(): void
     {
-        $container = (new ContainerFactory)->create();
+        $container = (new GeneralContainerFactory)->createFromConfig(
+            __DIR__ . '/../../src/config/config.neon'
+        );
         $this->renderableFilesProcessor = $container->getByType(RenderableFilesProcessor::class);
         $this->configuration = $container->getByType(Configuration::class);
 

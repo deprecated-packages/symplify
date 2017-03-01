@@ -1,9 +1,9 @@
 <?php declare(strict_types=1);
 
-namespace Zenify\ModularLatteFilters\Tests\LatteFactory;
+namespace Symplify\ModularLatteFilters\Tests\LatteFactory;
 
 use Nette\Bridges\ApplicationLatte\ILatteFactory;
-use Zenify\ModularLatteFilters\Tests\PHPUnit\AbstractContainerAwareTestCase;
+use Symplify\ModularLatteFilters\Tests\PHPUnit\AbstractContainerAwareTestCase;
 
 final class LatteFactoryTest extends AbstractContainerAwareTestCase
 {

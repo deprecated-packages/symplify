@@ -1,5 +1,5 @@
 {
-    "name": "zenify/doctrine-extensions-tree",
+    "name": "symplify/doctrine-extensions-tree",
     "description": "Implementation of Tree from DoctrineExtensions to Nette.",
     "require": {
         "php": "^7.1",
@@ -12,19 +12,19 @@
         "nette/bootstrap": "^2.4",
         "tracy/tracy": "^2.4",
         "phpunit/phpunit": "^6.0",
-        "zenify/coding-standard": "^4.2"
+        "symplify/coding-standard": "^4.2"
     },
     "autoload": {
         "psr-4": {
-            "Zenify\\DoctrineExtensionsTree\\": "src"
+            "Symplify\\DoctrineExtensionsTree\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Zenify\\DoctrineExtensionsTree\\Tests\\": "tests"
+            "Symplify\\DoctrineExtensionsTree\\Tests\\": "tests"
         }
     },
     "scripts": {
-        "check-cs": "vendor/bin/phpcs src tests -ps --standard=vendor/zenify/coding-standard/src/ZenifyCodingStandard/ruleset.xml"
+        "check-cs": "vendor/bin/phpcs src tests -ps --standard=vendor/symplify/coding-standard/src/SymplifyCodingStandard/ruleset.xml"
     }
 }

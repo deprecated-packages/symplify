@@ -11,7 +11,7 @@
         "spatie/regex": "^1.1",
 
         "latte/latte": "^2.4",
-        "zenify/modular-latte-filters": "^4.2",
+        "symplify/modular-latte-filters": "^1.3",
 
         "nette/bootstrap": "^2.4",
         "nette/di": "^2.4",
@@ -23,7 +23,7 @@
         "symfony/translation": "^3.2",
         "symfony/yaml": "^3.2",
 
-        "symplify/package-builder": "@dev"
+        "symplify/package-builder": "^1.3"
     },
     "require-dev": {
         "nette/application": "^2.4",

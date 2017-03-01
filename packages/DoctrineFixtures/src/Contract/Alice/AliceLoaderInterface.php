@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Zenify\DoctrineFixtures\Contract\Alice;
+namespace Symplify\DoctrineFixtures\Contract\Alice;
 
 interface AliceLoaderInterface
 {

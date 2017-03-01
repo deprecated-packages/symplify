@@ -1,2 +1,2 @@
 extensions:
-	- Zenify\DoctrineMigrations\DI\MigrationsExtension
+	- Symplify\DoctrineMigrations\DI\MigrationsExtension

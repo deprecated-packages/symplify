@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Zenify\DoctrineBehaviors\Tests\DI;
+namespace Symplify\DoctrineBehaviors\Tests\DI;
 
 use Doctrine\ORM\EntityManager;
 use Knp\DoctrineBehaviors\ORM\Blameable\BlameableSubscriber;
@@ -11,7 +11,7 @@ use Knp\DoctrineBehaviors\ORM\Timestampable\TimestampableSubscriber;
 use Knp\DoctrineBehaviors\ORM\Translatable\TranslatableSubscriber;
 use Knp\DoctrineBehaviors\ORM\Tree\TreeSubscriber;
 use PHPUnit\Framework\TestCase;
-use Zenify\DoctrineBehaviors\Tests\ContainerFactory;
+use Symplify\DoctrineBehaviors\Tests\ContainerFactory;
 
 final class DoctrineBehaviorsExtensionTest extends TestCase
 {

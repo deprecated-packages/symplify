@@ -1,5 +1,5 @@
 services:
-	- Zenify\DoctrineMigrations\Tests\Configuration\ConfigurationSource\SomeService
+	- Symplify\DoctrineMigrations\Tests\Configuration\ConfigurationSource\SomeService
 
 
 extensions:
@@ -8,7 +8,7 @@ extensions:
 	- Kdyby\Annotations\DI\AnnotationsExtension
 	- Kdyby\Console\DI\ConsoleExtension
 	doctrine: Kdyby\Doctrine\DI\OrmExtension
-	migrations: Zenify\DoctrineMigrations\DI\MigrationsExtension
+	migrations: Symplify\DoctrineMigrations\DI\MigrationsExtension
 	events: Kdyby\Events\DI\EventsExtension
 
 
@@ -16,9 +16,9 @@ doctrine:
 	driver: pdo_sqlite
 	memory: TRUE
 	metadata:
-		Zenify\DoctrineMigrations\Tests\Entity: %appDir%/Entity
+		Symplify\DoctrineMigrations\Tests\Entity: %appDir%/Entity
 
 
 migrations:
-	namespace: Zenify\DoctrineMigrations\Tests\Migrations
+	namespace: Symplify\DoctrineMigrations\Tests\Migrations
 	directory: %appDir%/Migrations

@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
-namespace Zenify\DoctrineBehaviors\Tests\DI\Source;
+namespace Symplify\DoctrineBehaviors\Tests\DI\Source;
 
-use Zenify\DoctrineBehaviors\Contract\Loggable\LoggerInterface;
+use Symplify\DoctrineBehaviors\Contract\Loggable\LoggerInterface;
 
 final class DummyLogger implements LoggerInterface
 {
