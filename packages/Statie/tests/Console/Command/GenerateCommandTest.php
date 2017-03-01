@@ -6,8 +6,8 @@ use Nette\Utils\FileSystem;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Input\StringInput;
 use Symfony\Component\Console\Output\NullOutput;
+use Symplify\PackageBuilder\Adapter\Nette\GeneralContainerFactory;
 use Symplify\Statie\Console\ConsoleApplication;
-use Symplify\Statie\DI\Container\ContainerFactory;
 
 final class GenerateCommandTest extends TestCase
 {
@@ -18,7 +18,9 @@ final class GenerateCommandTest extends TestCase
 
     protected function setUp(): void
     {
-        $container = (new ContainerFactory)->create();
+        $container = (new GeneralContainerFactory)->createFromConfig(
+            __DIR__ . '/../../../src/config/config.neon'
+        );
 
         $this->application = $container->getByType(ConsoleApplication::class);
         $this->application->setAutoExit(false);

@@ -4,6 +4,7 @@ namespace Symplify\Statie\Tests\Application;
 
 use Nette\Utils\FileSystem;
 use PHPUnit\Framework\TestCase;
+use Symplify\PackageBuilder\Adapter\Nette\GeneralContainerFactory;
 use Symplify\Statie\Application\Command\RunCommand;
 use Symplify\Statie\Application\StatieApplication;
 use Symplify\Statie\DI\Container\ContainerFactory;
@@ -23,7 +24,9 @@ final class StatieApplicationTest extends TestCase
 
     protected function setUp(): void
     {
-        $container = (new ContainerFactory)->create();
+        $container = (new GeneralContainerFactory)->createFromConfig(
+            __DIR__ . '/../../src/config/config.neon'
+        );
         $this->statieApplication = $container->getByType(StatieApplication::class);
         $this->dynamicStringLoader = $container->getByType(DynamicStringLoader::class);
     }

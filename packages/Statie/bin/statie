@@ -5,10 +5,12 @@ require_once __DIR__ . '/include-autoload.php';
 
 set_time_limit(0);
 
+use Symplify\PackageBuilder\Adapter\Nette\GeneralContainerFactory;
 use Symplify\Statie\Console\ConsoleApplication;
-use Symplify\Statie\DI\Container\ContainerFactory;
 
-$container = (new ContainerFactory())->create();
+$container = (new GeneralContainerFactory)->createFromConfig(
+        __DIR__ . '/../src/config/config.neon'
+);
 
 /** @var ConsoleApplication $application */
 $application = $container->getByType(ConsoleApplication::class);
