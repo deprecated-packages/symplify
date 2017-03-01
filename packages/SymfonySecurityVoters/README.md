@@ -2,7 +2,7 @@
 
 [![Build Status](https://img.shields.io/travis/Symplify/SymfonySecurityVoters.svg?style=flat-square)](https://travis-ci.org/Symplify/SymfonySecurityVoters)
 [![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/Symplify/SymfonySecurityVoters.svg?style=flat-square)](https://scrutinizer-ci.com/g/Symplify/SymfonySecurityVoters)
-[![Downloads](https://img.shields.io/packagist/dt/symplify/symfony-security-voters.svg?style=flat-square)](htptps://packagist.org/packages/symplify/symfony-security-voters)
+[![Downloads](https://img.shields.io/packagist/dt/symplify/symfony-security-voters.svg?style=flat-square)](https://packagist.org/packages/symplify/symfony-security-voters)
 
 
 ## Install
