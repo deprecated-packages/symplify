@@ -7,7 +7,6 @@ use PHPUnit\Framework\TestCase;
 use Symplify\PackageBuilder\Adapter\Nette\GeneralContainerFactory;
 use Symplify\Statie\Application\Command\RunCommand;
 use Symplify\Statie\Application\StatieApplication;
-use Symplify\Statie\DI\Container\ContainerFactory;
 use Symplify\Statie\Renderable\Latte\DynamicStringLoader;
 
 final class StatieApplicationTest extends TestCase
