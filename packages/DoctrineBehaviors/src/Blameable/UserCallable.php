@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Zenify\DoctrineBehaviors\Blameable;
+namespace Symplify\DoctrineBehaviors\Blameable;
 
 use Nette\Security\User;
 

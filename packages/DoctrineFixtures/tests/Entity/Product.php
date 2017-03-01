@@ -1,5 +1,5 @@
 <?php declare(strict_types=1);
-namespace Zenify\DoctrineFixtures\Tests\Entity;
+namespace Symplify\DoctrineFixtures\Tests\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 

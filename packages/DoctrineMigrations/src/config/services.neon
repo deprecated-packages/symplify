@@ -1,4 +1,4 @@
-- Zenify\DoctrineMigrations\OutputWriter
+- Symplify\DoctrineMigrations\OutputWriter
 
 # commands
 - Doctrine\DBAL\Migrations\Tools\Console\Command\ExecuteCommand

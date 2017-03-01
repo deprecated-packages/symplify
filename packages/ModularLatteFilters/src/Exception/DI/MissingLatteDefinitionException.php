@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Zenify\ModularLatteFilters\Exception\DI;
+namespace Symplify\ModularLatteFilters\Exception\DI;
 
 use Exception;
 

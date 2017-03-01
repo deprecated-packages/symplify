@@ -1,8 +1,8 @@
 # DoctrineExtensions - Tree
 
-[![Build Status](https://img.shields.io/travis/Zenify/DoctrineExtensionsTree.svg?style=flat-square)](https://travis-ci.org/Zenify/DoctrineExtensionsTree)
-[![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/Zenify/DoctrineExtensionsTree.svg?style=flat-square)](https://scrutinizer-ci.com/g/Zenify/DoctrineExtensionsTree)
-[![Downloads](https://img.shields.io/packagist/dt/zenify/doctrine-extensions-tree.svg?style=flat-square)](https://packagist.org/packages/zenify/doctrine-extensions-tree)
+[![Build Status](https://img.shields.io/travis/Symplify/DoctrineExtensionsTree.svg?style=flat-square)](https://travis-ci.org/Symplify/DoctrineExtensionsTree)
+[![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/Symplify/DoctrineExtensionsTree.svg?style=flat-square)](https://scrutinizer-ci.com/g/Symplify/DoctrineExtensionsTree)
+[![Downloads](https://img.shields.io/packagist/dt/symplify/doctrine-extensions-tree.svg?style=flat-square)](https://packagist.org/packages/symplify/doctrine-extensions-tree)
 
 Implementation of [Tree from DoctrineExtensions](https://github.com/Atlantic18/DoctrineExtensions/blob/master/doc/tree.md) to Nette.
 
@@ -10,7 +10,7 @@ Implementation of [Tree from DoctrineExtensions](https://github.com/Atlantic18/D
 ## Install
 
 ```sh
-composer require zenify/doctrine-extensions-tree
+composer require symplify/doctrine-extensions-tree
 ```
 
 Register extension:
@@ -18,7 +18,7 @@ Register extension:
 ```yaml
 # app/config/config.neon
 extensions:
-	- Zenify\DoctrineExtensionsTree\DI\TreeExtension
+	- Symplify\DoctrineExtensionsTree\DI\TreeExtension
 ```
 
 

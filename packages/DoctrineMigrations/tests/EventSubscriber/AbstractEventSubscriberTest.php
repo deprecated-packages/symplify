@@ -1,11 +1,11 @@
 <?php declare(strict_types=1);
 
-namespace Zenify\DoctrineMigrations\Tests\EventSubscriber;
+namespace Symplify\DoctrineMigrations\Tests\EventSubscriber;
 
 use Nette\DI\Container;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Application;
-use Zenify\DoctrineMigrations\Tests\ContainerFactory;
+use Symplify\DoctrineMigrations\Tests\ContainerFactory;
 
 abstract class AbstractEventSubscriberTest extends TestCase
 {

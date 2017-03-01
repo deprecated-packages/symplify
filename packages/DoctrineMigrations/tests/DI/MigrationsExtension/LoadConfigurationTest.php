@@ -1,13 +1,13 @@
 <?php declare(strict_types=1);
 
-namespace Zenify\DoctrineMigrations\Tests\DI\MigrationsExtension;
+namespace Symplify\DoctrineMigrations\Tests\DI\MigrationsExtension;
 
 use Arachne\EventDispatcher\DI\EventDispatcherExtension;
 use Nette\DI\Compiler;
 use Nette\DI\ContainerBuilder;
 use PHPUnit\Framework\TestCase;
-use Zenify\DoctrineMigrations\Configuration\Configuration;
-use Zenify\DoctrineMigrations\DI\MigrationsExtension;
+use Symplify\DoctrineMigrations\Configuration\Configuration;
+use Symplify\DoctrineMigrations\DI\MigrationsExtension;
 
 class LoadConfigurationTest extends TestCase
 {

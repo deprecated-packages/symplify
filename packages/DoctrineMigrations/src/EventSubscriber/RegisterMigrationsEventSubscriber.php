@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Zenify\DoctrineMigrations\EventSubscriber;
+namespace Symplify\DoctrineMigrations\EventSubscriber;
 
 use Doctrine\DBAL\Migrations\Configuration\Configuration;
 use Doctrine\DBAL\Migrations\Tools\Console\Command\AbstractCommand;

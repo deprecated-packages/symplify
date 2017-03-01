@@ -1,15 +1,15 @@
 <?php declare(strict_types=1);
 
-namespace Zenify\DoctrineFixtures\Tests\DI;
+namespace Symplify\DoctrineFixtures\Tests\DI;
 
 use Faker\Provider\cs_CZ\Company;
 use Nelmio\Alice\Fixtures\Loader;
 use Nette\DI\Compiler;
 use Nette\DI\ContainerBuilder;
 use PHPUnit\Framework\TestCase;
-use Zenify\DoctrineFixtures\Alice\AliceLoader;
-use Zenify\DoctrineFixtures\Contract\Alice\AliceLoaderInterface;
-use Zenify\DoctrineFixtures\DI\FixturesExtension;
+use Symplify\DoctrineFixtures\Alice\AliceLoader;
+use Symplify\DoctrineFixtures\Contract\Alice\AliceLoaderInterface;
+use Symplify\DoctrineFixtures\DI\FixturesExtension;
 
 final class FixturesExtensionTest extends TestCase
 {

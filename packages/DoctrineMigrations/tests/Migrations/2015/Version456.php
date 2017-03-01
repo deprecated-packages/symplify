@@ -1,5 +1,5 @@
 <?php declare(strict_types=1);
-namespace Zenify\DoctrineMigrations\Tests\Migrations;
+namespace Symplify\DoctrineMigrations\Tests\Migrations;
 
 use Doctrine\DBAL\Migrations\AbstractMigration;
 use Doctrine\DBAL\Schema\Schema;

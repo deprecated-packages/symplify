@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Zenify\DoctrineMigrations\DI;
+namespace Symplify\DoctrineMigrations\DI;
 
 use Arachne\EventDispatcher\DI\EventDispatcherExtension;
 use Doctrine\DBAL\Migrations\Tools\Console\Command\AbstractCommand;
@@ -8,10 +8,10 @@ use Nette\DI\Compiler;
 use Nette\DI\CompilerExtension;
 use Symfony\Component\Console\Application;
 use Symplify\PackageBuilder\Adapter\Nette\DI\DefinitionCollector;
-use Zenify\DoctrineMigrations\Configuration\Configuration;
-use Zenify\DoctrineMigrations\EventSubscriber\RegisterMigrationsEventSubscriber;
-use Zenify\DoctrineMigrations\EventSubscriber\SetConsoleOutputEventSubscriber;
-use Zenify\DoctrineMigrations\Exception\DI\MissingExtensionException;
+use Symplify\DoctrineMigrations\Configuration\Configuration;
+use Symplify\DoctrineMigrations\EventSubscriber\RegisterMigrationsEventSubscriber;
+use Symplify\DoctrineMigrations\EventSubscriber\SetConsoleOutputEventSubscriber;
+use Symplify\DoctrineMigrations\Exception\DI\MissingExtensionException;
 
 final class MigrationsExtension extends CompilerExtension
 {

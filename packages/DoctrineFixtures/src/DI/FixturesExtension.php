@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Zenify\DoctrineFixtures\DI;
+namespace Symplify\DoctrineFixtures\DI;
 
 use Faker\Provider\Base;
 use Nelmio\Alice\Fixtures\Loader;

@@ -1,8 +1,8 @@
 # Doctrine Migrations
 
-[![Build Status](https://img.shields.io/travis/Zenify/DoctrineMigrations.svg?style=flat-square)](https://travis-ci.org/Zenify/DoctrineMigrations)
-[![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/Zenify/DoctrineMigrations.svg?style=flat-square)](https://scrutinizer-ci.com/g/Zenify/DoctrineMigrations)
-[![Downloads this Month](https://img.shields.io/packagist/dt/zenify/doctrine-migrations.svg?style=flat-square)](https://packagist.org/packages/zenify/doctrine-migrations)
+[![Build Status](https://img.shields.io/travis/Symplify/DoctrineMigrations.svg?style=flat-square)](https://travis-ci.org/Symplify/DoctrineMigrations)
+[![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/Symplify/DoctrineMigrations.svg?style=flat-square)](https://scrutinizer-ci.com/g/Symplify/DoctrineMigrations)
+[![Downloads this Month](https://img.shields.io/packagist/dt/symplify/doctrine-migrations.svg?style=flat-square)](https://packagist.org/packages/symplify/doctrine-migrations)
 
 Implementation of [Doctrine\Migrations](http://docs.doctrine-project.org/projects/doctrine-migrations/en/latest/) to Nette.
 
@@ -10,7 +10,7 @@ Implementation of [Doctrine\Migrations](http://docs.doctrine-project.org/project
 ## Install
 
 ```sh
-composer require zenify/doctrine-migrations
+composer require symplify/doctrine-migrations
 ```
 
 Register extensions in `config.neon`:
@@ -19,7 +19,7 @@ Register extensions in `config.neon`:
 extensions:
 	- Arachne\ContainerAdapter\DI\ContainerAdapterExtension
 	- Arachne\EventDispatcher\DI\EventDispatcherExtension
-	migrations: Zenify\DoctrineMigrations\DI\MigrationsExtension
+	migrations: Symplify\DoctrineMigrations\DI\MigrationsExtension
 
 	# Kdyby\Doctrine or another Doctrine integration
 	doctrine: Kdyby\Doctrine\DI\OrmExtension

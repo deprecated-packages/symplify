@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Zenify\DoctrineMigrations\Tests;
+namespace Symplify\DoctrineMigrations\Tests;
 
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Application;

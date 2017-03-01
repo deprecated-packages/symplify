@@ -3,7 +3,7 @@ application:
 	scanComposer: FALSE
 
 extensions:
-    - Zenify\ModularLatteFilters\DI\ModularLatteFiltersExtension
+    - Symplify\ModularLatteFilters\DI\ModularLatteFiltersExtension
     statie: Symplify\Statie\DI\StatieCompilerExtension
 
 statie:

@@ -2,7 +2,7 @@
 
 namespace Symplify\Statie\Latte\Filter;
 
-use Zenify\ModularLatteFilters\Contract\DI\LatteFiltersProviderInterface;
+use Symplify\ModularLatteFilters\Contract\DI\LatteFiltersProviderInterface;
 
 final class TimeFilterProvider implements LatteFiltersProviderInterface
 {

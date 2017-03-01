@@ -1,12 +1,12 @@
 <?php declare(strict_types=1);
 
-namespace Zenify\DoctrineBehaviors\DI;
+namespace Symplify\DoctrineBehaviors\DI;
 
 use Kdyby\Events\DI\EventsExtension;
 use Knp\DoctrineBehaviors\ORM\Loggable\LoggableSubscriber;
 use Nette\Utils\AssertionException;
 use Nette\Utils\Validators;
-use Zenify\DoctrineBehaviors\Loggable\LoggerCallable;
+use Symplify\DoctrineBehaviors\Loggable\LoggerCallable;
 
 final class LoggableExtension extends AbstractBehaviorExtension
 {

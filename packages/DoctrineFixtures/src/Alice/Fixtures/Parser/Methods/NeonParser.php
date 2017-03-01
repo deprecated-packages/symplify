@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Zenify\DoctrineFixtures\Alice\Fixtures\Parser\Methods;
+namespace Symplify\DoctrineFixtures\Alice\Fixtures\Parser\Methods;
 
 use Nelmio\Alice\Fixtures\Parser\Methods\Base;
 use Nette\DI\Config\Helpers;

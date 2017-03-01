@@ -3,7 +3,7 @@ application:
 	scanComposer: FALSE
 
 services:
-	- Zenify\ModularLatteFilters\Tests\Filter\MathFilters
+	- Symplify\ModularLatteFilters\Tests\Filter\MathFilters
 
 extensions:
-	- Zenify\ModularLatteFilters\DI\ModularLatteFiltersExtension
+	- Symplify\ModularLatteFilters\DI\ModularLatteFiltersExtension

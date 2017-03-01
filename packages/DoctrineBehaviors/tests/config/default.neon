@@ -1,5 +1,5 @@
 services:
-	- Zenify\DoctrineBehaviors\Tests\DI\Source\DummyLogger
+	- Symplify\DoctrineBehaviors\Tests\DI\Source\DummyLogger
 
 
 extensions:
@@ -8,13 +8,13 @@ extensions:
 	- Kdyby\Annotations\DI\AnnotationsExtension
 	doctrine: Kdyby\Doctrine\DI\OrmExtension
 
-	- Zenify\DoctrineBehaviors\DI\BlameableExtension
-	- Zenify\DoctrineBehaviors\DI\LoggableExtension
-	- Zenify\DoctrineBehaviors\DI\SluggableExtension
-	- Zenify\DoctrineBehaviors\DI\SoftDeletableExtension
-	- Zenify\DoctrineBehaviors\DI\TimestampableExtension
-	- Zenify\DoctrineBehaviors\DI\TranslatableExtension
-	- Zenify\DoctrineBehaviors\DI\TreeExtension
+	- Symplify\DoctrineBehaviors\DI\BlameableExtension
+	- Symplify\DoctrineBehaviors\DI\LoggableExtension
+	- Symplify\DoctrineBehaviors\DI\SluggableExtension
+	- Symplify\DoctrineBehaviors\DI\SoftDeletableExtension
+	- Symplify\DoctrineBehaviors\DI\TimestampableExtension
+	- Symplify\DoctrineBehaviors\DI\TranslatableExtension
+	- Symplify\DoctrineBehaviors\DI\TreeExtension
 
 
 doctrine:

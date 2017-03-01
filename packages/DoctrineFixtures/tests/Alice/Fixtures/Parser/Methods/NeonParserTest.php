@@ -1,11 +1,11 @@
 <?php declare(strict_types=1);
 
-namespace Zenify\DoctrineFixtures\Tests\Alice\Fixtures\Parser\Methods;
+namespace Symplify\DoctrineFixtures\Tests\Alice\Fixtures\Parser\Methods;
 
 use PHPUnit\Framework\TestCase;
-use Zenify\DoctrineFixtures\Alice\Fixtures\Parser\Methods\NeonParser;
-use Zenify\DoctrineFixtures\Tests\Entity\Product;
-use Zenify\DoctrineFixtures\Tests\Entity\User;
+use Symplify\DoctrineFixtures\Alice\Fixtures\Parser\Methods\NeonParser;
+use Symplify\DoctrineFixtures\Tests\Entity\Product;
+use Symplify\DoctrineFixtures\Tests\Entity\User;
 
 final class NeonParserTest extends TestCase
 {

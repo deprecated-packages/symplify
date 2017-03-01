@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Zenify\ModularLatteFilters\Contract\DI;
+namespace Symplify\ModularLatteFilters\Contract\DI;
 
 interface LatteFiltersProviderInterface
 {

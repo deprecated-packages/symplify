@@ -1,13 +1,13 @@
 <?php declare(strict_types=1);
 
-namespace Zenify\DoctrineBehaviors\Tests\DI;
+namespace Symplify\DoctrineBehaviors\Tests\DI;
 
 use Knp\DoctrineBehaviors\ORM\Loggable\LoggerCallable;
 use Knp\DoctrineBehaviors\Reflection\ClassAnalyzer;
 use Nette\DI\Compiler;
 use PHPUnit\Framework\TestCase;
-use Zenify\DoctrineBehaviors\DI\AbstractBehaviorExtension;
-use Zenify\DoctrineBehaviors\Tests\DI\AbstractBehaviorExtensionSource\SomeBehaviorExtension;
+use Symplify\DoctrineBehaviors\DI\AbstractBehaviorExtension;
+use Symplify\DoctrineBehaviors\Tests\DI\AbstractBehaviorExtensionSource\SomeBehaviorExtension;
 
 final class AbstractBehaviorExtensionTest extends TestCase
 {

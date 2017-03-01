@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Zenify\DoctrineFixtures\Exception;
+namespace Symplify\DoctrineFixtures\Exception;
 
 use Exception;
 

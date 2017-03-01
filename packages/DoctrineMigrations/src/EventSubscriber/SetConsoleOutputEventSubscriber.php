@@ -1,13 +1,13 @@
 <?php declare(strict_types=1);
 
-namespace Zenify\DoctrineMigrations\EventSubscriber;
+namespace Symplify\DoctrineMigrations\EventSubscriber;
 
 use Doctrine\DBAL\Migrations\Tools\Console\Command\AbstractCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\ConsoleEvents;
 use Symfony\Component\Console\Event\ConsoleCommandEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Zenify\DoctrineMigrations\OutputWriter;
+use Symplify\DoctrineMigrations\OutputWriter;
 
 final class SetConsoleOutputEventSubscriber implements EventSubscriberInterface
 {

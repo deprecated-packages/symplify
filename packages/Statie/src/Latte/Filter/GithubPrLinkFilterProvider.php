@@ -4,7 +4,7 @@ namespace Symplify\Statie\Latte\Filter;
 
 use Symplify\Statie\Configuration\Configuration;
 use Symplify\Statie\Renderable\File\AbstractFile;
-use Zenify\ModularLatteFilters\Contract\DI\LatteFiltersProviderInterface;
+use Symplify\ModularLatteFilters\Contract\DI\LatteFiltersProviderInterface;
 
 final class GithubPrLinkFilterProvider implements LatteFiltersProviderInterface
 {

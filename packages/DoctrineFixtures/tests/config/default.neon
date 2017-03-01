@@ -1,6 +1,6 @@
 services:
-	- Zenify\DoctrineFixtures\Tests\DatabaseLoader
-	- Zenify\DoctrineFixtures\Tests\Faker\Provider\ProductName
+	- Symplify\DoctrineFixtures\Tests\DatabaseLoader
+	- Symplify\DoctrineFixtures\Tests\Faker\Provider\ProductName
 
 
 extensions:
@@ -8,7 +8,7 @@ extensions:
 	- Kdyby\Events\DI\EventsExtension
 	- Kdyby\Annotations\DI\AnnotationsExtension
 	doctrine: Kdyby\Doctrine\DI\OrmExtension
-	fixtures: Zenify\DoctrineFixtures\DI\FixturesExtension
+	fixtures: Symplify\DoctrineFixtures\DI\FixturesExtension
 
 
 doctrine:

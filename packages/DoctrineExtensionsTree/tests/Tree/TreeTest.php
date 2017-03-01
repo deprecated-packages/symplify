@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Zenify\DoctrineExtensionsTree\Tests\Tree;
+namespace Symplify\DoctrineExtensionsTree\Tests\Tree;
 
 use Doctrine\Common\Persistence\ObjectRepository;
 use Doctrine\ORM\EntityManager;
@@ -8,9 +8,9 @@ use Gedmo\Tree\Entity\Repository\MaterializedPathRepository;
 use Gedmo\Tree\TreeListener;
 use Nette\DI\Container;
 use PHPUnit\Framework\TestCase;
-use Zenify\DoctrineExtensionsTree\Tests\ContainerFactory;
-use Zenify\DoctrineExtensionsTree\Tests\DatabaseLoader;
-use Zenify\DoctrineExtensionsTree\Tests\Project\Entities\Category;
+use Symplify\DoctrineExtensionsTree\Tests\ContainerFactory;
+use Symplify\DoctrineExtensionsTree\Tests\DatabaseLoader;
+use Symplify\DoctrineExtensionsTree\Tests\Project\Entities\Category;
 
 final class TreeTest extends TestCase
 {

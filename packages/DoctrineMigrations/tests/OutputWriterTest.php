@@ -1,11 +1,11 @@
 <?php declare(strict_types=1);
 
-namespace Zenify\DoctrineMigrations\Tests;
+namespace Symplify\DoctrineMigrations\Tests;
 
 use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Output\ConsoleOutput;
-use Zenify\DoctrineMigrations\OutputWriter;
+use Symplify\DoctrineMigrations\OutputWriter;
 
 final class OutputWriterTest extends TestCase
 {

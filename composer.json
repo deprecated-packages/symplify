@@ -51,12 +51,12 @@
 
         "squizlabs/php_codesniffer": "3.0.x-dev as 2.8",
         "friendsofphp/php-cs-fixer": "^2.1",
-        "zenify/modular-latte-filters": "^4.2",
 
         "laravel/framework": "^5.4",
         "illuminate/container": "^5.4",
         "illuminate/support": "^5.4",
 
+        "symplify/modular-latte-filters": "@dev",
         "symplify/sniff-runner": "@dev",
         "symplify/rule-runner": "@dev",
         "symplify/package-builder": "@dev"
@@ -97,11 +97,11 @@
             "Symplify\\EasyCodingStandard\\": "packages/EasyCodingStandard/src",
             "Symplify\\EasyCodingStandard\\SniffRunner\\": "packages/EasyCodingStandard/packages/SniffRunner/src",
             "Symplify\\EasyCodingStandard\\FixerRunner\\": "packages/EasyCodingStandard/packages/FixerRunner/src",
-            "Zenify\\ModularLatteFilters\\": "packages/ModularLatteFilters/src",
-            "Zenify\\DoctrineFixtures\\": "packages/DoctrineFixtures/src",
-            "Zenify\\DoctrineExtensionsTree\\": "packages/DoctrineExtensionsTree/src",
-            "Zenify\\DoctrineMigrations\\": "packages/DoctrineMigrations/src",
-            "Zenify\\DoctrineBehaviors\\": "packages/DoctrineBehaviors/src"
+            "Symplify\\ModularLatteFilters\\": "packages/ModularLatteFilters/src",
+            "Symplify\\DoctrineFixtures\\": "packages/DoctrineFixtures/src",
+            "Symplify\\DoctrineExtensionsTree\\": "packages/DoctrineExtensionsTree/src",
+            "Symplify\\DoctrineMigrations\\": "packages/DoctrineMigrations/src",
+            "Symplify\\DoctrineBehaviors\\": "packages/DoctrineBehaviors/src"
         }
     },
     "autoload-dev": {
@@ -121,20 +121,21 @@
             "Symplify\\EasyCodingStandard\\Tests\\": "packages/EasyCodingStandard/tests",
             "Symplify\\EasyCodingStandard\\SniffRunner\\Tests\\": "packages/EasyCodingStandard/packages/SniffRunner/tests",
             "Symplify\\EasyCodingStandard\\FixerRunner\\Tests\\": "packages/EasyCodingStandard/packages/FixerRunner/tests",
-            "Zenify\\ModularLatteFilters\\Tests\\": "packages/ModularLatteFilters/tests",
-            "Zenify\\DoctrineFixtures\\Tests\\": "packages/DoctrineFixtures/tests",
-            "Zenify\\DoctrineExtensionsTree\\Tests\\": "packages/DoctrineExtensionsTree/tests",
-            "Zenify\\DoctrineMigrations\\Tests\\": "packages/DoctrineMigrations/tests",
-            "Zenify\\DoctrineBehaviors\\Tests\\": "packages/DoctrineBehaviors/tests"
+            "Symplify\\ModularLatteFilters\\Tests\\": "packages/ModularLatteFilters/tests",
+            "Symplify\\DoctrineFixtures\\Tests\\": "packages/DoctrineFixtures/tests",
+            "Symplify\\DoctrineExtensionsTree\\Tests\\": "packages/DoctrineExtensionsTree/tests",
+            "Symplify\\DoctrineMigrations\\Tests\\": "packages/DoctrineMigrations/tests",
+            "Symplify\\DoctrineBehaviors\\Tests\\": "packages/DoctrineBehaviors/tests"
         },
         "classmap": [
             "packages/Statie/bin/include-autoload.php"
         ]
     },
     "replace": {
+        "symplify/modular-latte-filters": "self.version",
         "symplify/package-builder": "self.version",
-        "symplify/sniff-runner": "self.version",
-        "symplify/rule-runner": "self.version"
+        "symplify/rule-runner": "self.version",
+        "symplify/sniff-runner": "self.version"
     },
     "repositories": [
         { "type": "path", "url": "packages/PackageBuilder" },

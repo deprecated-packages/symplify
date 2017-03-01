@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Zenify\DoctrineFixtures\Tests\Faker\Provider;
+namespace Symplify\DoctrineFixtures\Tests\Faker\Provider;
 
 use Faker\Provider\Base;
 

@@ -1,10 +1,10 @@
 <?php declare(strict_types=1);
 
-namespace Zenify\DoctrineExtensionsTree\Tests;
+namespace Symplify\DoctrineExtensionsTree\Tests;
 
 use Doctrine\DBAL\Connection;
 use Doctrine\ORM\EntityManager;
-use Zenify\DoctrineExtensionsTree\Tests\Project\Entities\Category;
+use Symplify\DoctrineExtensionsTree\Tests\Project\Entities\Category;
 
 final class DatabaseLoader
 {

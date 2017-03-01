@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Zenify\DoctrineFixtures\Tests;
+namespace Symplify\DoctrineFixtures\Tests;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Nette\DI\Container;

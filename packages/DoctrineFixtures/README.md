@@ -1,8 +1,8 @@
 # Doctrine Fixtures
 
-[![Build Status](https://img.shields.io/travis/Zenify/DoctrineFixtures.svg?style=flat-square)](https://travis-ci.org/Zenify/DoctrineFixtures)
-[![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/Zenify/DoctrineFixtures.svg?style=flat-square)](https://scrutinizer-ci.com/g/Zenify/DoctrineFixtures)
-[![Downloads](https://img.shields.io/packagist/dt/zenify/doctrine-fixtures.svg?style=flat-square)](https://packagist.org/packages/zenify/doctrine-fixtures)
+[![Build Status](https://img.shields.io/travis/Symplify/DoctrineFixtures.svg?style=flat-square)](https://travis-ci.org/Symplify/DoctrineFixtures)
+[![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/Symplify/DoctrineFixtures.svg?style=flat-square)](https://scrutinizer-ci.com/g/Symplify/DoctrineFixtures)
+[![Downloads](https://img.shields.io/packagist/dt/symplify/doctrine-fixtures.svg?style=flat-square)](https://packagist.org/packages/symplify/doctrine-fixtures)
 
 
 Integration of [nelmio/alice](https://github.com/nelmio/alice) to Nette DI.
@@ -14,7 +14,7 @@ Alice uses [fzaninotto/Faker](https://github.com/fzaninotto/Faker) to generate f
 ## Install
 
 ```sh
-composer require zenify/doctrine-fixtures
+composer require symplify/doctrine-fixtures
 ```
 
 Register extensions:
@@ -25,7 +25,7 @@ extensions:
 	- Kdyby\Annotations\DI\AnnotationsExtension
 	- Kdyby\Events\DI\EventsExtension
 	doctrine: Kdyby\Doctrine\DI\OrmExtension
-	fixtures: Zenify\DoctrineFixtures\DI\FixturesExtension
+	fixtures: Symplify\DoctrineFixtures\DI\FixturesExtension
 ```
 
 
@@ -50,7 +50,7 @@ For example, this fixture will create 100 products with generated name:
 `fixtures/products.neon`
 
 ```yaml
-Zenify\DoctrineFixtures\Tests\Entity\Product:
+Symplify\DoctrineFixtures\Tests\Entity\Product:
 	"product{1..100}":
 		__construct: ["<shortName()>"]
 ```
@@ -63,7 +63,7 @@ Zenify\DoctrineFixtures\Tests\Entity\Product:
 include:
 	- categories.neon
 
-Zenify\DoctrineFixtures\Tests\Entity\Product:
+Symplify\DoctrineFixtures\Tests\Entity\Product:
 	"product{1..100}":
 		__construct: ["<shortName()>"]
 		category: "@category@brand<numberBetween(1, 10)>"
@@ -72,7 +72,7 @@ Zenify\DoctrineFixtures\Tests\Entity\Product:
 `fixtures/categories.neon`
 
 ```yaml
-Zenify\DoctrineFixtures\Tests\Entity\Category:
+Symplify\DoctrineFixtures\Tests\Entity\Category:
 	"category{1..10}":
 		__construct: ["<shortName()>"]
 ```
@@ -81,7 +81,7 @@ Zenify\DoctrineFixtures\Tests\Entity\Category:
 And then we can load them:
 
 ```php
-use Zenify\DoctrineFixtures\Contract\Alice\AliceLoaderInterface;
+use Symplify\DoctrineFixtures\Contract\Alice\AliceLoaderInterface;
 
 
 class SomeClass

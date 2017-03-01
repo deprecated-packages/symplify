@@ -1,7 +1,7 @@
 # Alice
 - Nelmio\Alice\Fixtures\Loader
-- Zenify\DoctrineFixtures\Alice\AliceLoader
-- Zenify\DoctrineFixtures\Alice\Fixtures\Parser\Methods\NeonParser
+- Symplify\DoctrineFixtures\Alice\AliceLoader
+- Symplify\DoctrineFixtures\Alice\Fixtures\Parser\Methods\NeonParser
 
 # Faker
 - Faker\Generator

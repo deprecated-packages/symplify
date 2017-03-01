@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Zenify\DoctrineMigrations\Configuration;
+namespace Symplify\DoctrineMigrations\Configuration;
 
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Migrations\Configuration\Configuration as BaseConfiguration;

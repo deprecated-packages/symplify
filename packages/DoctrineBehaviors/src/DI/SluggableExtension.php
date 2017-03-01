@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Zenify\DoctrineBehaviors\DI;
+namespace Symplify\DoctrineBehaviors\DI;
 
 use Kdyby\Events\DI\EventsExtension;
 use Knp\DoctrineBehaviors\Model\Sluggable\Sluggable;

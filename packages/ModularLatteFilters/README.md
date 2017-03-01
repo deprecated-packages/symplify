@@ -1,14 +1,14 @@
 # Modular Latte Filters
 
-[![Build Status](https://img.shields.io/travis/Zenify/ModularLatteFilters.svg?style=flat-square)](https://travis-ci.org/Zenify/ModularLatteFilters)
-[![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/Zenify/ModularLatteFilters.svg?style=flat-square)](https://scrutinizer-ci.com/g/Zenify/ModularLatteFilters)
-[![Downloads](https://img.shields.io/packagist/dt/zenify/modular-latte-filters.svg?style=flat-square)](https://packagist.org/packages/zenify/modular-latte-filters)
+[![Build Status](https://img.shields.io/travis/Symplify/ModularLatteFilters.svg?style=flat-square)](https://travis-ci.org/Symplify/ModularLatteFilters)
+[![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/Symplify/ModularLatteFilters.svg?style=flat-square)](https://scrutinizer-ci.com/g/Symplify/ModularLatteFilters)
+[![Downloads](https://img.shields.io/packagist/dt/symplify/modular-latte-filters.svg?style=flat-square)](https://packagist.org/packages/symplify/modular-latte-filters)
 
 
 ## Install
 
 ```sh
-composer require zenify/modular-latte-filters
+composer require symplify/modular-latte-filters
 ```
 
 Register the extension:
@@ -16,18 +16,18 @@ Register the extension:
 ```yaml
 # app/config/config.neon
 extensions:
-	- Zenify\ModularLatteFilters\DI\ModularLatteFiltersExtension
+	- Symplify\ModularLatteFilters\DI\ModularLatteFiltersExtension
 ```
 
 
 ## Usage
 
-Create class implementing `Zenify\ModularLatteFilters\DI\FiltersProviderInterface`:
+Create class implementing `Symplify\ModularLatteFilters\DI\FiltersProviderInterface`:
 
 ```php
 namespace App\Modules\SomeModule\Latte;
 
-use Zenify\ModularLatteFilters\DI\FiltersProviderInterface;
+use Symplify\ModularLatteFilters\DI\FiltersProviderInterface;
 
 
 final class SomeFilters implements FiltersProviderInterface
