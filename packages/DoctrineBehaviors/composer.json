@@ -15,7 +15,6 @@
 		"nette/http": "^2.4",
 		"nette/reflection": "^2.4",
 		"nette/security": "^2.4",
-		"symplify/coding-standard": "^4.2",
 		"phpunit/phpunit": "^6.0"
 	},
 	"autoload": {
@@ -27,8 +26,5 @@
 		"psr-4": {
 			"Symplify\\DoctrineBehaviors\\Tests\\": "tests"
 		}
-	},
-	"scripts": {
-		"check-cs": "vendor/bin/phpcs src tests -ps --standard=vendor/symplify/coding-standard/src/SymplifyCodingStandard/ruleset.xml"
 	}
 }
