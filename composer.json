@@ -130,7 +130,7 @@
     "replace": {
         "symplify/modular-latte-filters": "self.version",
         "symplify/package-builder": "self.version",
-        "symplify/changed": "self.version",
+        "symplify/changed-files-detector": "self.version",
         "symplify/rule-runner": "self.version",
         "symplify/sniff-runner": "self.version"
     },
