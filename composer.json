@@ -54,12 +54,7 @@
 
         "laravel/framework": "^5.4",
         "illuminate/container": "^5.4",
-        "illuminate/support": "^5.4",
-
-        "symplify/modular-latte-filters": "@dev",
-        "symplify/sniff-runner": "@dev",
-        "symplify/rule-runner": "@dev",
-        "symplify/package-builder": "@dev"
+        "illuminate/support": "^5.4"
     },
     "require-dev": {
         "phpunit/phpunit": "^6.0",
@@ -96,6 +91,7 @@
             "Symplify\\PackageBuilder\\": "packages/PackageBuilder/src",
             "Symplify\\EasyCodingStandard\\": "packages/EasyCodingStandard/src",
             "Symplify\\EasyCodingStandard\\SniffRunner\\": "packages/EasyCodingStandard/packages/SniffRunner/src",
+            "Symplify\\EasyCodingStandard\\ChangedFilesDetector\\": "packages/EasyCodingStandard/packages/ChangedFilesDetector/src",
             "Symplify\\EasyCodingStandard\\FixerRunner\\": "packages/EasyCodingStandard/packages/FixerRunner/src",
             "Symplify\\ModularLatteFilters\\": "packages/ModularLatteFilters/src",
             "Symplify\\DoctrineFixtures\\": "packages/DoctrineFixtures/src",
@@ -134,13 +130,10 @@
     "replace": {
         "symplify/modular-latte-filters": "self.version",
         "symplify/package-builder": "self.version",
+        "symplify/changed": "self.version",
         "symplify/rule-runner": "self.version",
         "symplify/sniff-runner": "self.version"
     },
-    "repositories": [
-        { "type": "path", "url": "packages/PackageBuilder" },
-        { "type": "path", "url": "packages/SniffRunner" }
-    ],
     "scripts": {
         "complete-check": ["phpunit", "@fix-cs", "@phpstan"],
         "check-cs": "packages/EasyCodingStandard/bin/easy-coding-standard packages",
