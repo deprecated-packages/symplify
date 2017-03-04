@@ -24,11 +24,15 @@ final class PresenterCreatedEvent extends Event
     private $application;
 
     /**
-     * @var IPresenter
+     * @var IPresenter|callable $presenter
      */
     private $presenter;
 
-    public function __construct(Application $application, IPresenter $presenter)
+    /**
+     * @param Application $application
+     * @param IPresenter|callable $presenter
+     */
+    public function __construct(Application $application, $presenter)
     {
         $this->application = $application;
         $this->presenter = $presenter;
@@ -39,7 +43,10 @@ final class PresenterCreatedEvent extends Event
         return $this->application;
     }
 
-    public function getPresenter(): IPresenter
+    /**
+     * @return callable|$presenter
+     */
+    public function getPresenter()
     {
         return $this->presenter;
     }
