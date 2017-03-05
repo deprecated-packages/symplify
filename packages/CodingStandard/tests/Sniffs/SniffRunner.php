@@ -3,7 +3,6 @@
 namespace Symplify\CodingStandard\Tests\Sniffs;
 
 use SplFileInfo;
-use Symplify\EasyCodingStandard\ChangedFilesDetector\ChangedFilesDetector;
 use Symplify\EasyCodingStandard\ChangedFilesDetector\Contract\ChangedFilesDetectorInterface;
 use Symplify\EasyCodingStandard\Configuration\ConfigurationNormalizer;
 use Symplify\EasyCodingStandard\Error\ErrorCollector;
