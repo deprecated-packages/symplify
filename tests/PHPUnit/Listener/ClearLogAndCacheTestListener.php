@@ -4,8 +4,10 @@ namespace Symplify\Tests\PHPUnit\Listener;
 
 use Nette\Utils\FileSystem;
 use Nette\Utils\Finder;
+use Nette\Utils\Strings;
 use PHPUnit\Framework\BaseTestListener;
 use PHPUnit\Framework\TestSuite;
+use SplFileInfo;
 
 final class ClearLogAndCacheTestListener extends BaseTestListener
 {
@@ -15,7 +17,7 @@ final class ClearLogAndCacheTestListener extends BaseTestListener
             return;
         }
 
-        foreach ($this->getTempAndLogDirectories() as $path => $info) {
+        foreach ($this->getTempDirectories() as $path => $info) {
             FileSystem::delete($path);
         }
     }
@@ -23,9 +25,17 @@ final class ClearLogAndCacheTestListener extends BaseTestListener
     /**
      * @return string[]
      */
-    private function getTempAndLogDirectories(): array
+    private function getTempDirectories(): array
     {
-        $finder = Finder::findDirectories('cache', 'logs')->from(__DIR__ . '/../../../packages');
-        return iterator_to_array($finder->getIterator());
+        $finder = Finder::findDirectories('cache', 'logs')
+            ->from(__DIR__ . '/../../../packages');
+
+        $directories = iterator_to_array($finder->getIterator());
+
+        $tempDirectories = array_filter($directories, function (SplFileInfo $file) {
+            return ! Strings::contains($file->getPathname(), 'Cache');
+        });
+
+        return $tempDirectories;
     }
 }
