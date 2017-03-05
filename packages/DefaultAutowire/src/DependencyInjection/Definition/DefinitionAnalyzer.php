@@ -46,6 +46,7 @@ final class DefinitionAnalyzer
         if (is_string($factory)) {
             return false;
         }
+
         [$class, $method] = $factory;
         if ($class instanceof Reference) {
             $factoryClassDefinition = $containerBuilder->findDefinition($class);

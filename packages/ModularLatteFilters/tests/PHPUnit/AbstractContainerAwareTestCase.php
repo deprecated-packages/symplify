@@ -39,6 +39,7 @@ abstract class AbstractContainerAwareTestCase extends TestCase
     private function getTestDirectory(): string
     {
         $testFilename = (new ReflectionClass($this))->getFileName();
+
         return dirname($testFilename);
     }
 }

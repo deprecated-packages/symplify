@@ -63,12 +63,13 @@ final class NewClassSniff implements Sniff
         $nextPosition = $this->position;
 
         do {
-            $nextPosition++;
+            ++$nextPosition;
         } while (! $this->doesContentContains($tokens[$nextPosition]['content'], [';', '(', ',', ')']));
 
         if ($tokens[$nextPosition]['content'] === '(') {
             if ($tokens[$nextPosition + 1]['content'] === ')') {
                 $this->openParenthesisPosition = $nextPosition;
+
                 return true;
             }
         }
@@ -87,6 +88,7 @@ final class NewClassSniff implements Sniff
                 return true;
             }
         }
+
         return false;
     }
 

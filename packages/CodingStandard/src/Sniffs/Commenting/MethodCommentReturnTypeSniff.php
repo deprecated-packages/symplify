@@ -99,6 +99,7 @@ final class MethodCommentReturnTypeSniff implements Sniff
         }
         $commentStart = $this->file->findPrevious(T_DOC_COMMENT_OPEN_TAG, $this->position - 1);
         $commentEnd = $this->file->findPrevious(T_DOC_COMMENT_CLOSE_TAG, $this->position - 1);
+
         return $this->file->getTokensAsString($commentStart, $commentEnd - $commentStart + 1);
     }
 
@@ -111,6 +112,7 @@ final class MethodCommentReturnTypeSniff implements Sniff
         if (strpos($comment, '@return') !== false) {
             return true;
         }
+
         return false;
     }
 
@@ -122,6 +124,7 @@ final class MethodCommentReturnTypeSniff implements Sniff
             return false;
         }
         $docBlockCloseToken = $this->tokens[$docBlockClosePosition];
+
         return $docBlockCloseToken['line'] === ($currentToken['line'] - 1);
     }
 
@@ -141,6 +144,7 @@ final class MethodCommentReturnTypeSniff implements Sniff
                 }
             }
         }
+
         return false;
     }
 }

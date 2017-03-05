@@ -78,7 +78,8 @@ final class FinalInterfaceSniff implements Sniff
     private function isFinalOrAbstractClass(): bool
     {
         $classProperties = $this->file->getClassProperties($this->position);
-        return ($classProperties['is_abstract'] || $classProperties['is_final']);
+
+        return $classProperties['is_abstract'] || $classProperties['is_final'];
     }
 
     private function isDoctrineEntity(): bool
@@ -95,7 +96,7 @@ final class FinalInterfaceSniff implements Sniff
             if (strpos($docCommentTokenContent, 'Entity') !== false) {
                 return true;
             }
-            $seekPosition++;
+            ++$seekPosition;
         } while ($docCommentPosition = $this->file->findNext(T_DOC_COMMENT_TAG, $seekPosition, $this->position));
 
         return false;

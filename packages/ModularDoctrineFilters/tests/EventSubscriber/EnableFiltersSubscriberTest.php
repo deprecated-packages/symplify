@@ -37,6 +37,7 @@ final class EnableFiltersSubscriberTest extends TestCase
             $applicationMock->reveal(),
             $presenterMock->reveal()
         );
+
         return $applicationPresenterEvent;
     }
 }

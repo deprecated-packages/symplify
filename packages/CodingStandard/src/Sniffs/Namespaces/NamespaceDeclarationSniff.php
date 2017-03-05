@@ -136,11 +136,11 @@ final class NamespaceDeclarationSniff implements Sniff
         }
 
         if ($linesToNextUse < $this->emptyLinesBeforeUseStatement) {
-            for ($i = $linesToNextUse; $i < $this->emptyLinesBeforeUseStatement; $i++) {
+            for ($i = $linesToNextUse; $i < $this->emptyLinesBeforeUseStatement; ++$i) {
                 $this->file->fixer->addContent($nextLinePosition, PHP_EOL);
             }
         } elseif ($linesToNextUse > $this->emptyLinesBeforeUseStatement) {
-            for ($i = $linesToNextUse; $i > $this->emptyLinesBeforeUseStatement; $i--) {
+            for ($i = $linesToNextUse; $i > $this->emptyLinesBeforeUseStatement; --$i) {
                 $this->file->fixer->replaceToken($nextLinePosition, '');
                 $nextLinePosition = WhitespaceFinder::findNextEmptyLinePosition($this->file, $nextLinePosition);
             }
@@ -151,14 +151,14 @@ final class NamespaceDeclarationSniff implements Sniff
     {
         $nextLinePosition = WhitespaceFinder::findNextEmptyLinePosition($this->file, $position);
         if ($linesToClass === 0) {
-            $nextLinePosition = $nextLinePosition-2;
+            $nextLinePosition = $nextLinePosition - 2;
         }
         if ($linesToClass < $this->emptyLinesAfterNamespace) {
-            for ($i = $linesToClass; $i < $this->emptyLinesAfterNamespace; $i++) {
+            for ($i = $linesToClass; $i < $this->emptyLinesAfterNamespace; ++$i) {
                 $this->file->fixer->addContent($nextLinePosition, PHP_EOL);
             }
         } elseif ($linesToClass > $this->emptyLinesAfterNamespace) {
-            for ($i = $linesToClass; $i > $this->emptyLinesAfterNamespace; $i--) {
+            for ($i = $linesToClass; $i > $this->emptyLinesAfterNamespace; --$i) {
                 $this->file->fixer->replaceToken($nextLinePosition, '');
                 $nextLinePosition = WhitespaceFinder::findNextEmptyLinePosition($this->file, $nextLinePosition);
             }
@@ -169,12 +169,12 @@ final class NamespaceDeclarationSniff implements Sniff
     {
         if ($linesToClass < $this->emptyLinesAfterNamespace) {
             $nextLinePosition = WhitespaceFinder::findNextEmptyLinePosition($this->file, $position);
-            for ($i = $linesToClass; $i < $this->emptyLinesAfterNamespace; $i++) {
+            for ($i = $linesToClass; $i < $this->emptyLinesAfterNamespace; ++$i) {
                 $this->file->fixer->addContentBefore($nextLinePosition, PHP_EOL);
             }
         } elseif ($linesToClass > $this->emptyLinesAfterNamespace) {
             $nextLinePosition = WhitespaceFinder::findNextEmptyLinePosition($this->file, $position);
-            for ($i = $linesToClass; $i > $this->emptyLinesAfterNamespace; $i--) {
+            for ($i = $linesToClass; $i > $this->emptyLinesAfterNamespace; --$i) {
                 $this->file->fixer->replaceToken($nextLinePosition, '');
                 $nextLinePosition = WhitespaceFinder::findNextEmptyLinePosition($this->file, $nextLinePosition);
             }

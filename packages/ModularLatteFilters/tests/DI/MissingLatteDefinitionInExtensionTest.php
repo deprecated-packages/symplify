@@ -23,6 +23,7 @@ final class MissingLatteDefinitionInExtensionTest extends TestCase
     {
         $extension = new ModularLatteFiltersExtension;
         $extension->setCompiler(new Compiler, 'compiler');
+
         return $extension;
     }
 }

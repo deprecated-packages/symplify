@@ -23,6 +23,7 @@ final class ContainerFactory
         $tempDir = sys_get_temp_dir() . '/symplify_symfony_security';
         FileSystem::delete($tempDir);
         FileSystem::createDir($tempDir);
+
         return $tempDir;
     }
 }

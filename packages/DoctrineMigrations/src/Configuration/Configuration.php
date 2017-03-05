@@ -32,6 +32,7 @@ final class Configuration extends BaseConfiguration
         foreach ($versions as $version) {
             $this->container->callInjects($version->getMigration());
         }
+
         return $versions;
     }
 
@@ -43,6 +44,7 @@ final class Configuration extends BaseConfiguration
     {
         $version = parent::getVersion($version);
         $this->container->callInjects($version->getMigration());
+
         return $version;
     }
 }

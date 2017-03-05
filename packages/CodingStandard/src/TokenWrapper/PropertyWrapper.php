@@ -101,7 +101,7 @@ final class PropertyWrapper
 
         // here use fixer
         // todo1: remove before/after spaces
-        /** @var Type @inject */
+        /* @var Type @inject */
     }
 
     public function changeAccesibilityToPrivate(): void

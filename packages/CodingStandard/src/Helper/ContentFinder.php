@@ -5,7 +5,7 @@ namespace Symplify\CodingStandard\Helper;
 use PHP_CodeSniffer\Files\File;
 
 /**
- * Inspired by https://github.com/slevomat/coding-standard/blob/master/SlevomatCodingStandard/Helpers/TokenHelper.php
+ * Inspired by https://github.com/slevomat/coding-standard/blob/master/SlevomatCodingStandard/Helpers/TokenHelper.php.
  */
 final class ContentFinder
 {
@@ -24,7 +24,7 @@ final class ContentFinder
         $tokens = $file->getTokens();
 
         $content = [];
-        for ($i = $startPosition; $i < $endPosition; $i++) {
+        for ($i = $startPosition; $i < $endPosition; ++$i) {
             $content[$i] = $tokens[$i]['content'];
         }
 

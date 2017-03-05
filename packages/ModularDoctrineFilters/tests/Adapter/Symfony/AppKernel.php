@@ -36,6 +36,7 @@ final class AppKernel extends Kernel
         $cacheDir = sys_get_temp_dir() . '/modular-doctrine-filters';
         FileSystem::delete($cacheDir);
         FileSystem::createDir($cacheDir);
+
         return $cacheDir;
     }
 

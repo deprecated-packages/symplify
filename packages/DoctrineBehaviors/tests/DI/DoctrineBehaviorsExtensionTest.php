@@ -45,7 +45,7 @@ final class DoctrineBehaviorsExtensionTest extends TestCase
         foreach ($entityManager->getEventManager()->getListeners() as $listenerSet) {
             foreach ($listenerSet as $listener) {
                 $this->assertContains(get_class($listener), $this->listeners);
-                $count++;
+                ++$count;
             }
         }
 

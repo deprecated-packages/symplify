@@ -63,6 +63,7 @@ final class SniffRunner
     private static function createErrorDataCollector(): ErrorCollector
     {
         $dummyChangedFilesDetector = self::createDummyChangedFilesDetector();
+
         return new ErrorCollector(new ErrorSorter, $dummyChangedFilesDetector);
     }
 
@@ -85,8 +86,7 @@ final class SniffRunner
 
     private static function createDummyChangedFilesDetector(): ChangedFilesDetectorInterface
     {
-        return new class implements ChangedFilesDetectorInterface
-        {
+        return new class implements ChangedFilesDetectorInterface {
             public function addFile(string $filePath): void
             {
             }

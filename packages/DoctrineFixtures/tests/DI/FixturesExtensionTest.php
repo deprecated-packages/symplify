@@ -63,6 +63,7 @@ final class FixturesExtensionTest extends TestCase
     {
         $extension = new FixturesExtension;
         $extension->setCompiler(new Compiler(new ContainerBuilder), 'fixtures');
+
         return $extension;
     }
 }

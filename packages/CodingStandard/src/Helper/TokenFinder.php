@@ -5,7 +5,7 @@ namespace Symplify\CodingStandard\Helper;
 use PHP_CodeSniffer\Files\File;
 
 /**
- * Inspired by https://github.com/slevomat/coding-standard/blob/master/SlevomatCodingStandard/Helpers/TokenHelper.php
+ * Inspired by https://github.com/slevomat/coding-standard/blob/master/SlevomatCodingStandard/Helpers/TokenHelper.php.
  */
 final class TokenFinder
 {

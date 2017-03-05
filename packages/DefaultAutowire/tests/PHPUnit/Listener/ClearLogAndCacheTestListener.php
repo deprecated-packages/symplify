@@ -26,6 +26,7 @@ final class ClearLogAndCacheTestListener extends BaseTestListener
     private function getTempAndLogDirectories(): array
     {
         $finder = Finder::findDirectories('cache', 'logs')->from(__DIR__ . '/../..');
+
         return iterator_to_array($finder->getIterator());
     }
 }

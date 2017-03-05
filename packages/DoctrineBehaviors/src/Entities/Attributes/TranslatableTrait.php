@@ -40,6 +40,7 @@ trait TranslatableTrait
 
         if (method_exists($this, $methodName)) {
             $value = $this->$methodName();
+
             return $value;
         }
 
