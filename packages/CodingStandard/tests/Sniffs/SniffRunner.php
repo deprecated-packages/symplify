@@ -3,6 +3,8 @@
 namespace Symplify\CodingStandard\Tests\Sniffs;
 
 use SplFileInfo;
+use Symplify\EasyCodingStandard\ChangedFilesDetector\ChangedFilesDetector;
+use Symplify\EasyCodingStandard\ChangedFilesDetector\Contract\ChangedFilesDetectorInterface;
 use Symplify\EasyCodingStandard\Configuration\ConfigurationNormalizer;
 use Symplify\EasyCodingStandard\Error\ErrorCollector;
 use Symplify\EasyCodingStandard\Error\ErrorSorter;
@@ -61,7 +63,8 @@ final class SniffRunner
 
     private static function createErrorDataCollector(): ErrorCollector
     {
-        return new ErrorCollector(new ErrorSorter);
+        $dummyChangedFilesDetector = self::createDummyChangedFilesDetector();
+        return new ErrorCollector(new ErrorSorter, $dummyChangedFilesDetector);
     }
 
     private static function createFileFromFilePath(
@@ -79,5 +82,28 @@ final class SniffRunner
         $file->fixer->startFile($file);
 
         return $file;
+    }
+
+    private static function createDummyChangedFilesDetector(): ChangedFilesDetectorInterface
+    {
+        return new class implements ChangedFilesDetectorInterface
+        {
+            public function addFile(string $filePath): void
+            {
+            }
+
+            public function invalidateFile(string $filePath): void
+            {
+            }
+
+            public function hasFileChanged(string $filePath): bool
+            {
+                return true;
+            }
+
+            public function clearCache(): void
+            {
+            }
+        };
     }
 }
