@@ -136,8 +136,8 @@
     },
     "scripts": {
         "complete-check": ["phpunit", "@fix-cs", "@phpstan"],
-        "check-cs": "packages/EasyCodingStandard/bin/easy-coding-standard packages",
-        "fix-cs": "packages/EasyCodingStandard/bin/easy-coding-standard packages --fix",
+        "check-cs": "packages/EasyCodingStandard/bin/easy-coding-standard check packages",
+        "fix-cs": "packages/EasyCodingStandard/bin/easy-coding-standard check packages --fix",
         "phpstan": "phpstan analyse packages --level=4 -c phpstan.neon"
     }
 }
