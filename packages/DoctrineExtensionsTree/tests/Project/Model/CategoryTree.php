@@ -5,5 +5,4 @@ use Gedmo;
 
 class CategoryTree extends Gedmo\Tree\Entity\Repository\MaterializedPathRepository
 {
-
 }

@@ -4,5 +4,4 @@ namespace Symplify\AutoServiceRegistration\Tests\ServiceClass\ServiceFinderSourc
 
 class SomeController
 {
-
 }

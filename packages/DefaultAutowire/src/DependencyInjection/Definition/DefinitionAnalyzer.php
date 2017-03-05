@@ -45,7 +45,8 @@ final class DefinitionAnalyzer
         // functions specified as string are not supported
         if (is_string($factory)) {
             return false;
-        }[$class, $method] = $factory;
+        }
+        [$class, $method] = $factory;
         if ($class instanceof Reference) {
             $factoryClassDefinition = $containerBuilder->findDefinition($class);
             if ($factoryClassDefinition instanceof DefinitionDecorator) {

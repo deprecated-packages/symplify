@@ -4,5 +4,4 @@ namespace Symplify\ControllerAutowire\Tests\HttpKernel\Controller\ControllerFind
 
 class SomeControllerTest
 {
-
 }

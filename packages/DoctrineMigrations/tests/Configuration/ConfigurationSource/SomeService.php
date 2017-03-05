@@ -4,5 +4,4 @@ namespace Symplify\DoctrineMigrations\Tests\Configuration\ConfigurationSource;
 
 final class SomeService
 {
-
 }
