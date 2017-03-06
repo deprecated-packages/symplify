@@ -7,12 +7,13 @@ use PhpCsFixer\Fixer\FixerInterface;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
 use Symfony\Component\Filesystem\Exception\IOException;
-use Symplify\EasyCodingStandard\ChangedFilesDetector\Contract\ChangedFilesDetectorInterface;
-use Symplify\EasyCodingStandard\Console\Style\EasyCodingStandardStyle;
+use Symplify\EasyCodingStandard\Application\Command\RunCommand;
+use Symplify\EasyCodingStandard\Contract\Application\FileProcessorInterface;
 use Symplify\EasyCodingStandard\Error\ErrorCollector;
+use Symplify\EasyCodingStandard\FixerRunner\Fixer\FixerFactory;
 use Symplify\EasyCodingStandard\Skipper;
 
-final class FileProcessor
+final class FileProcessor implements FileProcessorInterface
 {
     /**
      * @var FixerInterface[]
@@ -25,61 +26,34 @@ final class FileProcessor
     private $errorCollector;
 
     /**
-     * @var EasyCodingStandardStyle
-     */
-    private $style;
-
-    /**
      * @var Skipper
      */
     private $skipper;
 
     /**
-     * @var ChangedFilesDetectorInterface
+     * @var FixerFactory
      */
-    private $changedFilesDetector;
+    private $fixerFactory;
 
-    public function __construct(
-        ErrorCollector $errorCollector,
-        EasyCodingStandardStyle $style,
-        Skipper $skipper,
-        ChangedFilesDetectorInterface $changedFilesDetector
-    ) {
+    /**
+     * @var bool
+     */
+    private $isFixer = false;
+
+    public function __construct(ErrorCollector $errorCollector, Skipper $skipper, FixerFactory $fixerFactory)
+    {
         $this->errorCollector = $errorCollector;
-        $this->style = $style;
         $this->skipper = $skipper;
-        $this->changedFilesDetector = $changedFilesDetector;
+        $this->fixerFactory = $fixerFactory;
     }
 
-    /**
-     * @param FixerInterface[] $fixers
-     */
-    public function registerFixers(array $fixers): void
+    public function setupWithCommand(RunCommand $runCommand): void
     {
-        $this->fixers = $fixers;
+        $this->fixers = $this->fixerFactory->createFromClasses($runCommand->getFixers());
+        $this->isFixer = $runCommand->isFixer();
     }
 
-    /**
-     * @param SplFileInfo[] $files
-     * @param bool $isFixer
-     */
-    public function processFiles(array $files, bool $isFixer): void
-    {
-        foreach ($files as $file) {
-            if ($this->changedFilesDetector->hasFileChanged($file->getRealPath()) === false) {
-                $this->style->advanceProgressBar();
-                continue;
-            }
-
-            $this->fixFile($file, $isFixer);
-            $this->style->advanceProgressBar();
-
-            // we do not need Tokens to still caching just fixed file - so clear the cache
-            Tokens::clearCache();
-        }
-    }
-
-    private function fixFile(SplFileInfo $file, bool $isFixer): void
+    public function processFile(SplFileInfo $file): void
     {
         $old = file_get_contents($file->getRealPath());
         $tokens = Tokens::fromCode($old);
@@ -120,8 +94,9 @@ final class FileProcessor
         // But we can't simple check $appliedFixers, because one fixer may revert
         // work of other and both of them will mark collection as changed.
         // Therefore we need to check if code hashes changed.
-        if ($isFixer && ($oldHash !== $newHash)) {
+        if ($this->isFixer && ($oldHash !== $newHash)) {
             if (@file_put_contents($file->getRealPath(), $new) === false) {
+                // @todo: move to sniffer FileProcessor as well, decouple FileSystem service?
                 $error = error_get_last();
 
                 throw new IOException(
@@ -136,6 +111,8 @@ final class FileProcessor
                 );
             }
         }
+
+        Tokens::clearCache();
     }
 
     private function detectChangedLineFromTokens(Tokens $tokens): int

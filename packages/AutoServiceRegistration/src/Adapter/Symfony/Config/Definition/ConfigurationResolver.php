@@ -12,6 +12,7 @@ final class ConfigurationResolver
      * @var string[]
      */
     private $resolvedConfiguration;
+
     /**
      * @var ContainerBuilder
      */
