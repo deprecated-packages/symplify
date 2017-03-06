@@ -12,8 +12,23 @@ skip:
         - packages/DoctrineMigrations/src/Configuration/Configuration.php
         - packages/DoctrineMigrations/src/OutputWriter.php
         - packages/DefaultAutowire/tests/DependencyInjection/Definition/DefinitionAnalyzerSource/MissingArgumentsTypehints.php
+
     packages/DefaultAutowire/tests/DependencyInjection/Definition/DefinitionAnalyzerForFactoryTest.php:
         - PHP_CodeSniffer\Standards\Generic\Sniffs\Files\LineLengthSniff
+
+    packages/DoctrineFixtures/src/Alice/AliceLoader.php:
+        - SlevomatCodingStandard\Sniffs\Namespaces\UnusedUsesSniff
+
+    packages/CodingStandard/tests/Sniffs/SniffRunner.php:
+        # anonymous class
+        - PhpCsFixer\Fixer\ClassNotation\NoBlankLinesAfterClassOpeningFixer
+        - PhpCsFixer\Fixer\ClassNotation\MethodSeparationFixer
+        - PhpCsFixer\Fixer\Whitespace\NoExtraConsecutiveBlankLinesFixer
+        - PhpCsFixer\Fixer\Basic\BracesFixer
+        - PhpCsFixer\Fixer\ClassNotation\ClassDefinitionFixer
+
+    packages/EasyCodingStandard/tests/Configuration/ConfigurationNormalizerTest.php:
+        - PhpCsFixer\Fixer\ArrayNotation\NoMultilineWhitespaceAroundDoubleArrowFixer
 
 includes:
     - packages/EasyCodingStandard/config/php-cs-fixer/psr1-fixers.neon

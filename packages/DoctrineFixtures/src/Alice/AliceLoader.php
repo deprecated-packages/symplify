@@ -28,7 +28,7 @@ final class AliceLoader implements AliceLoaderInterface
     }
 
     /**
-     * @param string|array $sources
+     * @param array $sources
      * @return object[]
      */
     public function load($sources): array
