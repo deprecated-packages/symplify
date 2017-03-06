@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace Symplify\CodingStandard\Helper\Whitespace;
 
@@ -21,15 +21,15 @@ final class EmptyLinesResizer
 
     private static function reduceBlankLines(File $file, int $position, int $from, int $to): void
     {
-        for ($i = $from; $i > $to; $i--) {
+        for ($i = $from; $i > $to; --$i) {
             $file->fixer->replaceToken($position, '');
-            $position++;
+            ++$position;
         }
     }
 
     private static function increaseBlankLines(File $file, int $position, int $from, int $to): void
     {
-        for ($i = $from; $i < $to; $i++) {
+        for ($i = $from; $i < $to; ++$i) {
             $file->fixer->addContentBefore($position, PHP_EOL);
         }
     }

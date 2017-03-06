@@ -32,7 +32,7 @@ final class DatabaseLoader
     public function prepareCategoryTableWithTwoItems(): void
     {
         if (! $this->isDbSchemaPrepared) {
-            /** @var Connection $connection */
+            /* @var Connection $connection */
             $this->connection->query('CREATE TABLE category (id INTEGER NOT NULL, parent_id int NULL,'
                 . 'path string, name string, PRIMARY KEY(id))');
 

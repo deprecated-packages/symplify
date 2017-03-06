@@ -95,6 +95,7 @@ final class InBetweenMethodSpacingSniff extends FunctionSpacingSniff
         if ($this->tokens[$nextLineToken + 1]['code'] === T_CLOSE_CURLY_BRACKET) {
             return true;
         }
+
         return false;
     }
 
@@ -114,7 +115,7 @@ final class InBetweenMethodSpacingSniff extends FunctionSpacingSniff
     private function getNextLineTokenByScopeCloser(int $closer): ?int
     {
         $nextLineToken = null;
-        for ($i = $closer; $i < $this->file->numTokens; $i++) {
+        for ($i = $closer; $i < $this->file->numTokens; ++$i) {
             if (strpos($this->tokens[$i]['content'], $this->file->eolChar) === false) {
                 continue;
             }
@@ -126,6 +127,7 @@ final class InBetweenMethodSpacingSniff extends FunctionSpacingSniff
 
             break;
         }
+
         return $nextLineToken;
     }
 
@@ -137,6 +139,7 @@ final class InBetweenMethodSpacingSniff extends FunctionSpacingSniff
         if ($nextLineToken !== null) {
             return $this->file->findNext(T_WHITESPACE, ($nextLineToken + 1), null, true);
         }
+
         return false;
     }
 

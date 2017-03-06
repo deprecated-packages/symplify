@@ -6,7 +6,7 @@ use PHP_CodeSniffer\Standards\Generic\Sniffs\PHP\ForbiddenFunctionsSniff;
 
 /**
  * Rules:
- * - Debug functions should not be left in the code
+ * - Debug functions should not be left in the code.
  */
 final class DebugFunctionCallSniff extends ForbiddenFunctionsSniff
 {

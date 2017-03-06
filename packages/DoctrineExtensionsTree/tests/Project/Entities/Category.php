@@ -1,4 +1,5 @@
 <?php declare(strict_types=1);
+
 namespace Symplify\DoctrineExtensionsTree\Tests\Project\Entities;
 
 use Doctrine\ORM\Mapping as ORM;

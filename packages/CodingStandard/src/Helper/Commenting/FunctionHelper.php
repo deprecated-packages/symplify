@@ -1,11 +1,11 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace Symplify\CodingStandard\Helper\Commenting;
 
 use PHP_CodeSniffer\Files\File;
 
 /**
- * Inspired by https://github.com/slevomat/coding-standard/blob/4f81f58625bf86bd91f7fc6f8e4d12160bf03c7c/SlevomatCodingStandard/Helpers/FunctionHelper.php
+ * Inspired by https://github.com/slevomat/coding-standard/blob/4f81f58625bf86bd91f7fc6f8e4d12160bf03c7c/SlevomatCodingStandard/Helpers/FunctionHelper.php.
  */
 final class FunctionHelper
 {

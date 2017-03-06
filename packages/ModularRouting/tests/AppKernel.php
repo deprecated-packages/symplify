@@ -14,7 +14,7 @@ final class AppKernel extends Kernel
 {
     public function __construct()
     {
-        parent::__construct('symplify_modular_routing' . mt_rand(1, 100), true);
+        parent::__construct('symplify_modular_routing' . random_int(1, 100), true);
     }
 
     /**

@@ -7,6 +7,7 @@ use PhpCsFixer\Fixer\FixerInterface;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
 use Symfony\Component\Filesystem\Exception\IOException;
+use Symplify\EasyCodingStandard\ChangedFilesDetector\Contract\ChangedFilesDetectorInterface;
 use Symplify\EasyCodingStandard\Console\Style\EasyCodingStandardStyle;
 use Symplify\EasyCodingStandard\Error\ErrorCollector;
 use Symplify\EasyCodingStandard\Skipper;
@@ -33,14 +34,21 @@ final class FileProcessor
      */
     private $skipper;
 
+    /**
+     * @var ChangedFilesDetectorInterface
+     */
+    private $changedFilesDetector;
+
     public function __construct(
         ErrorCollector $errorCollector,
         EasyCodingStandardStyle $style,
-        Skipper $skipper
+        Skipper $skipper,
+        ChangedFilesDetectorInterface $changedFilesDetector
     ) {
         $this->errorCollector = $errorCollector;
         $this->style = $style;
         $this->skipper = $skipper;
+        $this->changedFilesDetector = $changedFilesDetector;
     }
 
     /**
@@ -58,6 +66,11 @@ final class FileProcessor
     public function processFiles(array $files, bool $isFixer): void
     {
         foreach ($files as $file) {
+            if ($this->changedFilesDetector->hasFileChanged($file->getRealPath()) === false) {
+                $this->style->progressBarAdvance();
+                continue;
+            }
+
             $this->fixFile($file, $isFixer);
             $this->style->progressBarAdvance();
 
@@ -86,7 +99,7 @@ final class FileProcessor
                 continue;
             }
 
-            /** @var FixerInterface $fixer */
+            /* @var FixerInterface $fixer */
             $fixer->fix($file, $tokens);
 
             if ($tokens->isChanged()) {
@@ -95,7 +108,6 @@ final class FileProcessor
                 $tokens->clearEmptyTokens();
                 $tokens->clearChanged();
                 $appliedFixers[] = $fixer->getName();
-
             }
         }
 
@@ -156,6 +168,7 @@ final class FileProcessor
     {
         if ($fixer instanceof DefinedFixerInterface) {
             $definition = $fixer->getDefinition();
+
             return $definition->getSummary();
         }
 

@@ -31,6 +31,6 @@ final class AppKernel extends Kernel
 
     public function getLogDir(): string
     {
-           return sys_get_temp_dir() . '/symplify_symfony_event_dispatcher';
+        return sys_get_temp_dir() . '/symplify_symfony_event_dispatcher';
     }
 }

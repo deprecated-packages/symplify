@@ -75,9 +75,10 @@ final class MethodCommentSniff implements Sniff
         $parameterWithTypehintCount = 0;
         foreach ($parameters as $parameter) {
             if ($parameter['type_hint']) {
-                $parameterWithTypehintCount++;
+                ++$parameterWithTypehintCount;
             }
         }
+
         return $parameterWithTypehintCount;
     }
 }

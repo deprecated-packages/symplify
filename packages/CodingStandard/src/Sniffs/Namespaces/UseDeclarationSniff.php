@@ -9,7 +9,7 @@ use PHP_CodeSniffer\Standards\PSR2\Sniffs\Namespaces\UseDeclarationSniff as Psr2
  * Rules:
  * - There must be one USE keyword per declaration
  * - USE declarations must go after the first namespace declaration
- * - There must be 2 blank line(s) after the last USE statement
+ * - There must be 2 blank line(s) after the last USE statement.
  */
 final class UseDeclarationSniff extends Psr2UseDeclarationSniff
 {

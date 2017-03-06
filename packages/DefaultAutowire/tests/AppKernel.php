@@ -12,7 +12,7 @@ final class AppKernel extends Kernel
 {
     public function __construct()
     {
-        parent::__construct('symplify_default_autowire' . mt_rand(1, 100), true);
+        parent::__construct('symplify_default_autowire' . random_int(1, 100), true);
     }
 
     /**

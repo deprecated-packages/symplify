@@ -12,7 +12,7 @@ use Symplify\EasyCodingStandard\Configuration\ConfigurationFileLoader;
 use Symplify\EasyCodingStandard\Console\Output\InfoMessagePrinter;
 use Symplify\EasyCodingStandard\Console\Style\EasyCodingStandardStyle;
 
-final class RunCommand extends Command
+final class CheckCommand extends Command
 {
     /**
      * @var EasyCodingStandardStyle
@@ -27,7 +27,7 @@ final class RunCommand extends Command
     /**
      * @var ConfigurationFileLoader
      */
-    private $multiCsFileLoader;
+    private $configurationFileLoader;
 
     /**
      * @var InfoMessagePrinter
@@ -37,29 +37,33 @@ final class RunCommand extends Command
     public function __construct(
         ApplicationRunner $applicationRunner,
         EasyCodingStandardStyle $style,
-        ConfigurationFileLoader $multiCsFileLoader,
+        ConfigurationFileLoader $configurationFileLoader,
         InfoMessagePrinter $infoMessagePrinter
     ) {
         parent::__construct();
 
         $this->applicationRunner = $applicationRunner;
         $this->style = $style;
-        $this->multiCsFileLoader = $multiCsFileLoader;
+        $this->configurationFileLoader = $configurationFileLoader;
         $this->infoMessagePrinter = $infoMessagePrinter;
     }
 
     protected function configure(): void
     {
-        $this->setName('run');
+        $this->setName('check');
         $this->addArgument('source', InputArgument::REQUIRED | InputArgument::IS_ARRAY, 'The path(s) to be checked.');
         $this->addOption('fix', null, null, 'Fix found violations.');
+        $this->addOption('clear-cache', null, null, 'Clear cache for already checked files.');
         $this->setDescription('Check coding standard in one or more directories.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $runCommand = RunApplicationCommand::createFromSourceFixerAndData(
-            $input->getArgument('source'), $input->getOption('fix'), $this->multiCsFileLoader->load()
+            $input->getArgument('source'),
+            $input->getOption('fix'),
+            $input->getOption('clear-cache'),
+            $this->configurationFileLoader->load()
         );
 
         $this->applicationRunner->runCommand($runCommand);

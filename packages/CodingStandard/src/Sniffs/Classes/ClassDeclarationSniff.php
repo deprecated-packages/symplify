@@ -9,7 +9,6 @@ use PHP_CodeSniffer\Sniffs\Sniff;
  * Rules (new to parent class):
  * - Opening brace for the %s should be followed by %s empty line(s).
  * - Closing brace for the %s should be preceded by %s empty line(s).
- * - Empty class should have %s empty lines between braces.
  */
 final class ClassDeclarationSniff implements Sniff
 {
@@ -22,11 +21,6 @@ final class ClassDeclarationSniff implements Sniff
      * @var int
      */
     public $emptyLinesBeforeClosingBrace = 0;
-
-    /**
-     * @var int
-     */
-    public $emptyLinesInEmptyClass = 1;
 
     /**
      * @var File
@@ -62,7 +56,6 @@ final class ClassDeclarationSniff implements Sniff
         $this->tokens = $file->getTokens();
 
         if ($this->isEmptyClass()) {
-            $this->processEmptyClassSpaces();
             return;
         }
 
@@ -113,23 +106,25 @@ final class ClassDeclarationSniff implements Sniff
     private function getEmptyLinesBeforeClosingBrace(int $position): int
     {
         $prevContent = $this->file->findPrevious(T_WHITESPACE, ($position - 1), null, true);
+
         return $this->tokens[$position]['line'] - $this->tokens[$prevContent]['line'] - 1;
     }
 
     private function getEmptyLinesAfterOpeningBrace(int $position): int
     {
         $nextContent = $this->file->findNext(T_WHITESPACE, ($position + 1), null, true);
+
         return $this->tokens[$nextContent]['line'] - $this->tokens[$position]['line'] - 1;
     }
 
     private function fixOpeningBraceSpaces(int $position, int $numberOfSpaces): void
     {
         if ($numberOfSpaces < $this->emptyLinesAfterOpeningBrace) {
-            for ($i = $numberOfSpaces; $i < $this->emptyLinesAfterOpeningBrace; $i++) {
+            for ($i = $numberOfSpaces; $i < $this->emptyLinesAfterOpeningBrace; ++$i) {
                 $this->file->fixer->addContent($position, PHP_EOL);
             }
         } elseif ($numberOfSpaces > $this->emptyLinesAfterOpeningBrace) {
-            for ($i = $numberOfSpaces; $i > $this->emptyLinesAfterOpeningBrace; $i--) {
+            for ($i = $numberOfSpaces; $i > $this->emptyLinesAfterOpeningBrace; --$i) {
                 $this->file->fixer->replaceToken($position + $i, '');
             }
         }
@@ -138,11 +133,11 @@ final class ClassDeclarationSniff implements Sniff
     private function fixClosingBraceSpaces(int $position, int $numberOfSpaces): void
     {
         if ($numberOfSpaces < $this->emptyLinesBeforeClosingBrace) {
-            for ($i = $numberOfSpaces; $i < $this->emptyLinesBeforeClosingBrace; $i++) {
+            for ($i = $numberOfSpaces; $i < $this->emptyLinesBeforeClosingBrace; ++$i) {
                 $this->file->fixer->addContentBefore($position, PHP_EOL);
             }
         } elseif ($numberOfSpaces > $this->emptyLinesBeforeClosingBrace) {
-            for ($i = $numberOfSpaces; $i > $this->emptyLinesBeforeClosingBrace; $i--) {
+            for ($i = $numberOfSpaces; $i > $this->emptyLinesBeforeClosingBrace; --$i) {
                 $this->file->fixer->replaceToken($position - $i, '');
             }
         }
@@ -162,37 +157,5 @@ final class ClassDeclarationSniff implements Sniff
         $closingBraceToken = $this->tokens[$closingBracePosition];
 
         return $closingBraceToken['line'] - $openingBraceToken['line'] - 1;
-    }
-
-    private function processEmptyClassSpaces(): void
-    {
-        $emptyLinesCount = $this->getEmptyLinesBetweenOpenerAndCloser();
-
-        if ($emptyLinesCount !== $this->emptyLinesInEmptyClass) {
-            $errorMessage = sprintf(
-                'Empty class should have %s empty lines between braces; %s found.',
-                $this->emptyLinesInEmptyClass,
-                $emptyLinesCount
-            );
-
-            $openingBracePosition = $this->tokens[$this->position]['scope_opener'];
-            $fix = $this->file->addFixableError($errorMessage, $openingBracePosition, self::class);
-            if ($fix) {
-                $this->fixEmptyLinesBetweenOpenerAndCloser($openingBracePosition, $emptyLinesCount);
-            }
-        }
-    }
-
-    private function fixEmptyLinesBetweenOpenerAndCloser(int $position, int $emptyLinesCount): void
-    {
-        if ($emptyLinesCount < $this->emptyLinesInEmptyClass) {
-            for ($i = $emptyLinesCount; $i < $this->emptyLinesInEmptyClass; $i++) {
-                $this->file->fixer->addContent($position, PHP_EOL);
-            }
-        } elseif ($emptyLinesCount > $this->emptyLinesInEmptyClass) {
-            for ($i = $emptyLinesCount; $i > $this->emptyLinesInEmptyClass; $i--) {
-                $this->file->fixer->replaceToken($position - $i, '');
-            }
-        }
     }
 }

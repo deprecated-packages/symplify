@@ -4,5 +4,4 @@ namespace Symplify\ControllerAutowire\Tests\DependencyInjection\Compiler\Registe
 
 class SomeController
 {
-
 }

@@ -7,7 +7,7 @@ use PHP_CodeSniffer\Sniffs\Sniff;
 
 /**
  * Rules:
- * - Yoda condition should not be used; switch expression order
+ * - Yoda condition should not be used; switch expression order.
  */
 final class YodaConditionSniff implements Sniff
 {

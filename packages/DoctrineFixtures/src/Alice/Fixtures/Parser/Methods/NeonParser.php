@@ -68,6 +68,7 @@ final class NeonParser extends Base
             }
             unset($data[$includeKeyword]);
         }
+
         return $data;
     }
 }

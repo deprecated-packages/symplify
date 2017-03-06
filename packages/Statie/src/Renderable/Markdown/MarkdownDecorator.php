@@ -49,7 +49,7 @@ final class MarkdownDecorator implements DecoratorInterface
         return Regex::replace('/<h([1-6])>(.*?)<\/h([1-6])>/', function (MatchResult $result) {
             $headline = $result->group(2);
             $headlineId = Strings::webalize($result->group(2));
-            $iconLink = '<a class="anchor" href="#' . $headlineId . '" '.
+            $iconLink = '<a class="anchor" href="#' . $headlineId . '" ' .
                 'aria-hidden="true"><span class="anchor-icon">#</span></a>';
 
             return sprintf(

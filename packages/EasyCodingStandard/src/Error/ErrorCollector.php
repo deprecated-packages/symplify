@@ -3,6 +3,7 @@
 namespace Symplify\EasyCodingStandard\Error;
 
 use Nette\Utils\Arrays;
+use Symplify\EasyCodingStandard\ChangedFilesDetector\Contract\ChangedFilesDetectorInterface;
 
 final class ErrorCollector
 {
@@ -21,9 +22,15 @@ final class ErrorCollector
      */
     private $errorMessageSorter;
 
-    public function __construct(ErrorSorter $errorMessageSorter)
+    /**
+     * @var ChangedFilesDetectorInterface
+     */
+    private $changedFilesDetector;
+
+    public function __construct(ErrorSorter $errorMessageSorter, ChangedFilesDetectorInterface $changedFilesDetector)
     {
         $this->errorMessageSorter = $errorMessageSorter;
+        $this->changedFilesDetector = $changedFilesDetector;
     }
 
     public function addErrorMessage(
@@ -33,7 +40,6 @@ final class ErrorCollector
         string $sourceClass,
         bool $isFixable
     ): void {
-
         $error = new Error($line, $message, $sourceClass, $isFixable);
 
         if ($isFixable) {
@@ -41,6 +47,8 @@ final class ErrorCollector
         } else {
             $this->unfixableErrors[$filePath][] = $error;
         }
+
+        $this->changedFilesDetector->invalidateFile($filePath);
     }
 
     public function getErrorCount(): int
@@ -63,7 +71,7 @@ final class ErrorCollector
      */
     public function getErrors(): array
     {
-        return $this->errorMessageSorter->sortByFileAndLine($this->fixableErrors) + $this->getUnfixableErrors();
+        return $this->getFixableErrors() + $this->getUnfixableErrors();
     }
 
     /**
@@ -72,5 +80,13 @@ final class ErrorCollector
     public function getUnfixableErrors(): array
     {
         return $this->errorMessageSorter->sortByFileAndLine($this->unfixableErrors);
+    }
+
+    /**
+     * @return Error[][]
+     */
+    private function getFixableErrors(): array
+    {
+        return $this->errorMessageSorter->sortByFileAndLine($this->fixableErrors);
     }
 }

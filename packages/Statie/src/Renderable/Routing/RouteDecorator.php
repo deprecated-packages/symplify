@@ -53,6 +53,7 @@ final class RouteDecorator implements DecoratorInterface
         $sourceDirectory = array_pop($sourceParts);
 
         $relativeParts = explode($sourceDirectory, $file->getRelativeDirectory());
+
         return array_pop($relativeParts);
     }
 }

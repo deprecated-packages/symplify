@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace Symplify\CodingStandard\Helper\Commenting;
 
@@ -32,6 +32,7 @@ final class MethodDocBlock
 
         $commentStart = $file->findPrevious(T_DOC_COMMENT_OPEN_TAG, $position - 1);
         $commentEnd = $file->findPrevious(T_DOC_COMMENT_CLOSE_TAG, $position - 1);
+
         return $file->getTokensAsString($commentStart, $commentEnd - $commentStart + 1);
     }
 }

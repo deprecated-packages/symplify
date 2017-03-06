@@ -83,18 +83,21 @@ final class PropertiesMethodsMutualSpacingSniff implements Sniff
         }
 
         $next = $this->file->findNext([T_VARIABLE, T_FUNCTION], $this->position + 1);
+
         return $this->tokens[$next]['code'] !== T_VARIABLE;
     }
 
     private function isInsideMethod(): bool
     {
         $previousMethod = $this->file->findPrevious(T_FUNCTION, $this->position);
+
         return $this->tokens[$previousMethod]['code'] === T_FUNCTION;
     }
 
     private function areMethodsPresent(): bool
     {
         $next = $this->file->findNext(T_FUNCTION, $this->position + 1);
+
         return $this->tokens[$next]['code'] === T_FUNCTION;
     }
 

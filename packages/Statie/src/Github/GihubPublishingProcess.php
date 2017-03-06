@@ -22,7 +22,6 @@ final class GihubPublishingProcess
         string $githubRepository,
         string $branch
     ): void {
-
         FilesystemChecker::ensureDirectoryExists($outputDirectory);
 
         $git = (new GitWrapper)->init($outputDirectory);

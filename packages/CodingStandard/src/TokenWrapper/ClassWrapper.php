@@ -158,6 +158,7 @@ final class ClassWrapper
     {
         $method = new Method('__construct');
         $method->setVisibility('public');
+
         return $method;
     }
 }

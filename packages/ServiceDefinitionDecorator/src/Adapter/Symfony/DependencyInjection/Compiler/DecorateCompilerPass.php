@@ -9,7 +9,7 @@ use Symfony\Component\DependencyInjection\Reference;
 use Symplify\ServiceDefinitionDecorator\Adapter\Symfony\SymplifyServiceDefinitionDecoratorBundle;
 
 /**
- * Inspired by https://github.com/nette/di/blob/master/src/DI/Extensions/DecoratorExtension.php
+ * Inspired by https://github.com/nette/di/blob/master/src/DI/Extensions/DecoratorExtension.php.
  */
 final class DecorateCompilerPass implements CompilerPassInterface
 {

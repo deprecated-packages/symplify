@@ -64,7 +64,7 @@ final class DocBlockWrapper
                 // cleanup spaces
                 $cleanupPosition = $position;
                 while ($docBlockTokens[$cleanupPosition] !== "\n") {
-                    $cleanupPosition--;
+                    --$cleanupPosition;
                     $this->file->fixer->replaceToken($cleanupPosition, '');
                 }
             }
@@ -74,6 +74,7 @@ final class DocBlockWrapper
     public function isSingleLine(): bool
     {
         $tokens = $this->file->getTokens();
+
         return $tokens[$this->startPosition]['line'] === $tokens[$this->endPosition]['line'];
     }
 

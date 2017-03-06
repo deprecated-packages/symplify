@@ -32,6 +32,7 @@ final class OutputWriter extends DoctrineOutputWriter
         if ($this->consoleOutput === null) {
             $this->consoleOutput = new ConsoleOutput;
         }
+
         return $this->consoleOutput;
     }
 }

@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace Symplify\CodingStandard\Helper\Whitespace;
 
@@ -29,7 +29,7 @@ final class ClassMetrics
     }
 
     /**
-     * @return FALSE|int
+     * @return false|int
      */
     public function getLineDistanceBetweenClassAndLastUseStatement()
     {
@@ -44,7 +44,7 @@ final class ClassMetrics
     }
 
     /**
-     * @return FALSE|int
+     * @return false|int
      */
     public function getLastUseStatementPosition()
     {
@@ -52,7 +52,7 @@ final class ClassMetrics
     }
 
     /**
-     * @return FALSE|int
+     * @return false|int
      */
     public function getLineDistanceBetweenNamespaceAndFirstUseStatement()
     {
@@ -71,7 +71,7 @@ final class ClassMetrics
     }
 
     /**
-     * @return FALSE|int
+     * @return false|int
      */
     public function getLineDistanceBetweenClassAndNamespace()
     {
@@ -87,7 +87,7 @@ final class ClassMetrics
     }
 
     /**
-     * @return FALSE|int
+     * @return false|int
      */
     private function getClassPositionIncludingComment()
     {

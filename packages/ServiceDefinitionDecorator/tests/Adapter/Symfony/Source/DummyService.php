@@ -4,5 +4,4 @@ namespace Symplify\ServiceDefinitionDecorator\Tests\Adapter\Symfony\Source;
 
 final class DummyService
 {
-
 }

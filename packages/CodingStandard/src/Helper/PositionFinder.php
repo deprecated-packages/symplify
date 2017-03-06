@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace Symplify\CodingStandard\Helper;
 
@@ -12,7 +12,7 @@ final class PositionFinder
 
         $line = $file->getTokens()[$position]['line'];
         while ($file->getTokens()[$currentPosition]['line'] === $line) {
-            $currentPosition--;
+            --$currentPosition;
         }
 
         return $currentPosition;
@@ -24,7 +24,7 @@ final class PositionFinder
 
         $line = $file->getTokens()[$position]['line'];
         while ($file->getTokens()[$currentPosition]['line'] === $line) {
-            $currentPosition++;
+            ++$currentPosition;
         }
 
         return $currentPosition;

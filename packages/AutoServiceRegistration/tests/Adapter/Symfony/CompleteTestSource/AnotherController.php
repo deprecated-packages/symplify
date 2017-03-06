@@ -4,5 +4,4 @@ namespace Symplify\AutoServiceRegistration\Tests\Adapter\Symfony\CompleteTestSou
 
 final class AnotherController
 {
-
 }

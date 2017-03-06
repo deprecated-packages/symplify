@@ -74,6 +74,7 @@ final class AliceLoader implements AliceLoaderInterface
         foreach ($entities as $entity) {
             $this->entityManager->persist($entity);
         }
+
         return $entities;
     }
 
@@ -81,9 +82,10 @@ final class AliceLoader implements AliceLoaderInterface
     {
         $files = [];
         foreach (Finder::find('*.neon', '*.yaml', '*.yml')->from($path) as $file) {
-            /** @var SplFileInfo $file */
+            /* @var SplFileInfo $file */
             $files[] = $file->getPathname();
         }
+
         return $this->load($files);
     }
 }

@@ -63,6 +63,7 @@ final class ComponentFactoryCommentSniff implements Sniff
                 $position,
                 self::class
             );
+
             return;
         }
 
@@ -73,7 +74,8 @@ final class ComponentFactoryCommentSniff implements Sniff
     private function isComponentFactoryMethod(): bool
     {
         $functionName = $this->file->getDeclarationName($this->position);
-        return (strpos($functionName, 'createComponent') === 0);
+
+        return strpos($functionName, 'createComponent') === 0;
     }
 
     /**
@@ -89,6 +91,7 @@ final class ComponentFactoryCommentSniff implements Sniff
         if ($this->tokens[$position]['code'] === T_DOC_COMMENT_CLOSE_TAG) {
             return true;
         }
+
         return false;
     }
 
