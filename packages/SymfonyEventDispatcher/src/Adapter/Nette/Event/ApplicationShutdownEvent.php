@@ -8,7 +8,7 @@ use Throwable;
 
 /**
  * This event occurs before the application shuts down.
- 
+ *
  * @see \Nette\Application\Application::$onShutdown
  */
 final class ApplicationShutdownEvent extends Event
