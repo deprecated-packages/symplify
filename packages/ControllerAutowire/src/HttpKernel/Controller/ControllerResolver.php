@@ -49,7 +49,7 @@ final class ControllerResolver implements ControllerResolverInterface
     }
 
     /**
-     * @return callable|false|mixed[]
+     * @return callable|false
      */
     public function getController(Request $request)
     {

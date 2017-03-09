@@ -132,7 +132,7 @@ final class InBetweenMethodSpacingSniff extends FunctionSpacingSniff
     }
 
     /**
-     * @return false|int
+     * @return bool|int
      */
     private function getNextLineContent(int $nextLineToken)
     {

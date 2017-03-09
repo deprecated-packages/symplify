@@ -15,7 +15,7 @@ final class FunctionHelper
     }
 
     /**
-     * @return string|void
+     * @return string
      */
     public static function findReturnTypeHint(File $codeSnifferFile, int $functionPointer)
     {
@@ -36,9 +36,10 @@ final class FunctionHelper
                 $tokens[$functionPointer]['scope_opener'] - 1
             );
         if ($colonToken === false) {
-            return;
+            return '';
         }
-        $returnTypeHint = null;
+
+        $returnTypeHint = '';
         $nextToken = $colonToken;
         do {
             $nextToken = $isAbstract

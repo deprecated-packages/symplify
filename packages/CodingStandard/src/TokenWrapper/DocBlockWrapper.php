@@ -105,10 +105,7 @@ final class DocBlockWrapper
         );
     }
 
-    /**
-     * @return string|false
-     */
-    public function getAnnotationValue(string $annotation)
+    public function getAnnotationValue(string $annotation): string
     {
         $docBlockTokens = ContentFinder::getTokensBetween($this->file, $this->startPosition, $this->endPosition);
         foreach ($docBlockTokens as $position => $content) {
@@ -117,7 +114,7 @@ final class DocBlockWrapper
             }
         }
 
-        return false;
+        return '';
     }
 
     private function getIndentationSign(): string

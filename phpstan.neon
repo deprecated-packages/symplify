@@ -4,6 +4,8 @@ parameters:
         - "#Version456#"
         - "#does not call parent constructor from PHP_CodeSniffer#"
         - "#does not call parent constructor from Nette#"
+        - "#has invalid type Symplify#"
+        - "#should return callable#"
     excludes_analyse:
         - *packages/CodingStandard/tests/**/correct*
         - *packages/CodingStandard/tests/**/wrong*
@@ -15,4 +17,3 @@ includes:
     - vendor/phpstan/phpstan-nette/extension.neon
     - vendor/phpstan/phpstan-nette/rules.neon
     - vendor/phpstan/phpstan-doctrine/extension.neon
-

@@ -25,7 +25,7 @@ final class TokenFinder
     ];
 
     /**
-     * @return int|false
+     * @return int|bool
      */
     public static function findPreviousEffective(
         File $phpcsFile,
@@ -40,7 +40,7 @@ final class TokenFinder
      * @param string[] $types
      * @param int $startPointer
      * @param int|null $endPointer
-     * @return int|false
+     * @return int|bool
      */
     public static function findPreviousExcluding(
         File $file,
@@ -52,7 +52,7 @@ final class TokenFinder
     }
 
     /**
-     * @return int|false
+     * @return int|bool
      */
     public static function findNextEffective(File $phpcsFile, int $startPointer, ?int $endPointer = null)
     {

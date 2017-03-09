@@ -44,7 +44,7 @@ final class ClassMetrics
     }
 
     /**
-     * @return false|int
+     * @return bool|int
      */
     public function getLastUseStatementPosition()
     {
@@ -52,7 +52,7 @@ final class ClassMetrics
     }
 
     /**
-     * @return false|int
+     * @return bool|int
      */
     public function getLineDistanceBetweenNamespaceAndFirstUseStatement()
     {
@@ -87,7 +87,7 @@ final class ClassMetrics
     }
 
     /**
-     * @return false|int
+     * @return bool|int
      */
     private function getClassPositionIncludingComment()
     {
