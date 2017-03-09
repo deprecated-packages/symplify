@@ -76,7 +76,6 @@ checkers:
 
     # Symplify: Control Structures
     - Symplify\CodingStandard\Sniffs\ControlStructures\NewClassSniff
-    - Symplify\CodingStandard\Sniffs\ControlStructures\YodaConditionSniff
 
     # Symplify: Debug
     - Symplify\CodingStandard\Sniffs\Debug\DebugFunctionCallSniff
