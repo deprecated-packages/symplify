@@ -5,12 +5,13 @@ namespace Symplify\CodingStandard\Sniffs\Naming;
 use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Sniffs\Sniff;
 
-/**
- * Rules:
- * - Trait should have suffix "Trait".
- */
 final class TraitNameSniff implements Sniff
 {
+    /**
+     * @var string
+     */
+    private const ERROR_MESSAGE = 'Trait should have suffix "Trait".';
+
     /**
      * @var File
      */
@@ -43,36 +44,21 @@ final class TraitNameSniff implements Sniff
             return;
         }
 
-        $fix = $file->addFixableError(
-            'Trait should have suffix "Trait".',
-            $position,
-            self::class
-        );
-
-        if ($fix === true) {
+        if ($file->addFixableError(self::ERROR_MESSAGE, $position, self::class)) {
             $this->fix();
         }
     }
 
-    /**
-     * @return string|false
-     */
-    private function getTraitName()
+    private function getTraitName(): string
     {
         $namePosition = $this->getTraitNamePosition();
-        if (! $namePosition) {
-            return false;
-        }
 
         return $this->file->getTokens()[$namePosition]['content'];
     }
 
-    /**
-     * @return bool|int
-     */
-    private function getTraitNamePosition()
+    private function getTraitNamePosition(): int
     {
-        return $this->file->findNext(T_STRING, $this->position);
+        return (int) $this->file->findNext(T_STRING, $this->position);
     }
 
     private function fix(): void

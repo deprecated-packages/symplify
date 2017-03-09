@@ -6,10 +6,8 @@ use SplFileInfo;
 class correct
 {
 
-    /**
-     * @return SplFileInfo
-     */
-    protected function createComponentStuffs()
+    protected function createComponentStuffs(): SplFileInfo
     {
     }
+
 }

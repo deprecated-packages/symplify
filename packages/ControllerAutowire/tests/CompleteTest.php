@@ -35,7 +35,9 @@ final class CompleteTest extends TestCase
     public function testMissingControllerParameter(): void
     {
         $request = new Request;
-        $this->assertFalse($this->controllerResolver->getController($request));
+        /** @var bool $controller */
+        $controller = $this->controllerResolver->getController($request);
+        $this->assertFalse($controller);
     }
 
     public function testGetAutowiredController(): void

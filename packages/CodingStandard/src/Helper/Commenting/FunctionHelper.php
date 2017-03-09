@@ -14,10 +14,7 @@ final class FunctionHelper
         return ! isset($codeSnifferFile->getTokens()[$functionPointer]['scope_opener']);
     }
 
-    /**
-     * @return string
-     */
-    public static function findReturnTypeHint(File $codeSnifferFile, int $functionPointer)
+    public static function findReturnTypeHint(File $codeSnifferFile, int $functionPointer): string
     {
         $tokens = $codeSnifferFile->getTokens();
         $isAbstract = self::isAbstract($codeSnifferFile, $functionPointer);
@@ -35,6 +32,7 @@ final class FunctionHelper
                 $tokens[$functionPointer]['parenthesis_closer'] + 1,
                 $tokens[$functionPointer]['scope_opener'] - 1
             );
+
         if ($colonToken === false) {
             return '';
         }

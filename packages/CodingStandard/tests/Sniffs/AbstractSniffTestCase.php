@@ -26,7 +26,7 @@ abstract class AbstractSniffTestCase extends TestCase
     {
         $errorCount = SniffRunner::getErrorCountForSniffInFile($sniffClass, $fileInfo);
         $this->assertSame(0, $errorCount, sprintf(
-            'File "%s" should have at 0 errors. %s found.',
+            'File "%s" should have no errors. %s found.',
             $fileInfo->getPathname(),
             $errorCount
         ));

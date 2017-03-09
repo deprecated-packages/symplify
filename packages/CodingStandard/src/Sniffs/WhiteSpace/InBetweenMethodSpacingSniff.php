@@ -77,6 +77,10 @@ final class InBetweenMethodSpacingSniff extends FunctionSpacingSniff
         $closer = $this->getScopeCloser();
         $nextLineToken = $this->getNextLineTokenByScopeCloser($closer);
 
+        if ($nextLineToken === null) {
+            return 0;
+        }
+
         $nextContent = $this->getNextLineContent($nextLineToken);
         if ($nextContent !== false) {
             $foundLines = ($this->tokens[$nextContent]['line'] - $this->tokens[$nextLineToken]['line']);
