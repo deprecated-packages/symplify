@@ -70,7 +70,7 @@ checkers:
 
     # Symplify: Commenting
     - Symplify\CodingStandard\Sniffs\Commenting\BlockPropertyCommentSniff
-    - Symplify\CodingStandard\Sniffs\Commenting\MethodCommentReturnTypeSniff
+    - Symplify\CodingStandard\Sniffs\Commenting\MethodReturnTypeSniff
     - Symplify\CodingStandard\Sniffs\Commenting\MethodCommentSniff
     - Symplify\CodingStandard\Sniffs\Commenting\VarPropertyCommentSniff
 
