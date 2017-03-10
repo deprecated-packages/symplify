@@ -75,6 +75,10 @@ final class InBetweenMethodSpacingSniff extends FunctionSpacingSniff
     private function getBlankLineCountAfterFunction(): int
     {
         $closer = $this->getScopeCloser();
+        if ($closer === false) {
+            return 0;
+        }
+
         $nextLineToken = $this->getNextLineTokenByScopeCloser($closer);
 
         if ($nextLineToken === null) {

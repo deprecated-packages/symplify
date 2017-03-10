@@ -68,6 +68,9 @@ final class VarPropertyCommentSniff extends AbstractVariableSniff
         }
 
         $commentStart = $file->findPrevious(T_DOC_COMMENT_OPEN_TAG, $position);
+        if ( ! is_int($commentStart)) {
+            return '';
+        }
 
         return $file->getTokensAsString($commentStart, $commentEnd - $commentStart + 1);
     }

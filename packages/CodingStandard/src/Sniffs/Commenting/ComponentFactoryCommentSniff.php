@@ -52,7 +52,7 @@ final class ComponentFactoryCommentSniff implements Sniff
 
         $returnTypeHint = FunctionHelper::findReturnTypeHint($file, $position);
 
-        if ($returnTypeHint === 'void' || $returnTypeHint === null) {
+        if ($returnTypeHint === null || $returnTypeHint->getTypeHint() === 'void') {
             $file->addError(self::ERROR_MESSAGE, $position, self::class);
         }
     }

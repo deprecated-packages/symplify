@@ -10,8 +10,13 @@ use Symplify\CodingStandard\Helper\Commenting\FunctionHelper;
  * Rules:
  * - Getters should have @return tag or return type (except {@inheritdoc}).
  */
-final class MethodCommentReturnTypeSniff implements Sniff
+final class MethodReturnTypeSniff implements Sniff
 {
+    /**
+     * @var string
+     */
+    private const ERROR_MESSAGE = 'Getters should have @return tag or return type (except {@inheritdoc}).';
+
     /**
      * @var string[]
      */
@@ -54,16 +59,12 @@ final class MethodCommentReturnTypeSniff implements Sniff
             return;
         }
 
-        $file->addError(
-            'Getters should have @return tag or return type (except {@inheritdoc}).',
-            $position,
-            self::class
-        );
+        $file->addError(self::ERROR_MESSAGE, $position, self::class);
     }
 
     private function shouldBeSkipped(): bool
     {
-        if ($this->guessIsGetterMethod() === false) {
+        if ($this->isGetterMethod() === false) {
             return true;
         }
 
@@ -79,7 +80,7 @@ final class MethodCommentReturnTypeSniff implements Sniff
         return false;
     }
 
-    private function guessIsGetterMethod(): bool
+    private function isGetterMethod(): bool
     {
         $methodName = $this->file->getDeclarationName($this->position);
         if ($this->isRawGetterName($methodName)) {
@@ -106,6 +107,10 @@ final class MethodCommentReturnTypeSniff implements Sniff
     private function hasMethodCommentReturnOrInheritDoc(): bool
     {
         $comment = $this->getMethodComment();
+
+        dump($comment);
+        die;
+
         if (strpos($comment, '{@inheritdoc}') !== false) {
             return true;
         }
