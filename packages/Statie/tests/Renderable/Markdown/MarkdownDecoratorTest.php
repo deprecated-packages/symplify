@@ -18,12 +18,21 @@ final class MarkdownDecoratorTest extends TestCase
      */
     private $markdownDecorator;
 
+    /**
+     * @var Configuration
+     */
+    private $configuration;
+
     protected function setUp(): void
     {
-        $configuration = new Configuration(new NeonParser);
-        $configuration->setMarkdownHeadlineAnchors(false);
+        $this->configuration = new Configuration(new NeonParser());
+        $this->configuration->loadFromArray([
+            'configuration' => [
+                Configuration::OPTION_MARKDOWN_HEADLINE_ANCHORS => false
+            ]
+        ]);
 
-        $this->markdownDecorator = new MarkdownDecorator(new ParsedownExtra, $configuration);
+        $this->markdownDecorator = new MarkdownDecorator(new ParsedownExtra, $this->configuration);
     }
 
     public function testNotMarkdown(): void
@@ -44,10 +53,11 @@ final class MarkdownDecoratorTest extends TestCase
 
     public function testMarkdownWithAnchors(): void
     {
-        $configuration = new Configuration(new NeonParser);
-        $configuration->setMarkdownHeadlineAnchors(true);
-
-        $this->markdownDecorator = new MarkdownDecorator(new ParsedownExtra, $configuration);
+        $this->configuration->loadFromArray([
+            'configuration' => [
+                Configuration::OPTION_MARKDOWN_HEADLINE_ANCHORS => true
+            ]
+        ]);
 
         $file = $this->createFileFromFilePath(__DIR__ . '/MarkdownDecoratorSource/someFile.md');
         $this->markdownDecorator->decorateFile($file);

@@ -37,7 +37,7 @@ final class LatteDecorator implements DecoratorInterface
 
     public function decorateFile(AbstractFile $file): void
     {
-        $options = $this->configuration->getGlobalVariables();
+        $options = $this->configuration->getOptions();
 
         $parameters = $file->getConfiguration() + $options + [
             'posts' => $options['posts'] ?? [],

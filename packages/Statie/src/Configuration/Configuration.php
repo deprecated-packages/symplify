@@ -10,17 +10,22 @@ final class Configuration
     /**
      * @var string
      */
-    private const OPTION_POST_ROUTE = 'postRoute';
+    public const OPTION_POST_ROUTE = 'postRoute';
 
     /**
      * @var string
      */
-    private const OPTION_GITHUB_REPOSITORY_SLUG = 'githubRepositorySlug';
+    public const OPTION_GITHUB_REPOSITORY_SLUG = 'githubRepositorySlug';
 
     /**
      * @var string
      */
-    private const OPTION_MARKDOWN_HEADLINE_ANCHORS = 'markdownHeadlineAnchors';
+    public const OPTION_MARKDOWN_HEADLINE_ANCHORS = 'markdownHeadlineAnchors';
+
+    /**
+     * @var bool
+     */
+    private const DEFAULT_MARKDOWN_HEADLINE_ANCHORS = false;
 
     /**
      * @var string
@@ -30,7 +35,7 @@ final class Configuration
     /**
      * @var array
      */
-    private $globalVariables = [];
+    private $options = [];
 
     /**
      * @var NeonParser
@@ -47,25 +52,11 @@ final class Configuration
      */
     private $outputDirectory;
 
-    /**
-     * @var string
-     */
-    private $postRoute = self::DEFAULT_POST_ROUTE;
-
-    /**
-     * @var string
-     */
-    private $githubRepositorySlug;
-
-    /**
-     * @var bool
-     */
-    private $markdownHeadlineAnchors = false;
-
     public function __construct(NeonParser $neonParser)
     {
         $this->neonParser = $neonParser;
     }
+
 
     /**
      * @param SplFileInfo[] $files
@@ -73,12 +64,18 @@ final class Configuration
     public function loadFromFiles(array $files): void
     {
         foreach ($files as $file) {
-            $decodedOptions = $this->neonParser->decodeFromFile($file->getRealPath());
-            $decodedOptions = $this->extractPostRoute($decodedOptions);
-            $decodedOptions = $this->extractGithubRepositorySlug($decodedOptions);
-            $decodedOptions = $this->extractMarkdownHeadlineAnchors($decodedOptions);
-            $this->globalVariables = array_merge($this->globalVariables, $decodedOptions);
+            $options = $this->neonParser->decodeFromFile($file->getRealPath());
+            $this->loadFromArray($options);
+
         }
+    }
+
+    /**
+     * @param mixed[] $options
+     */
+    public function loadFromArray(array $options): void
+    {
+        $this->options = array_merge($this->options, $options);
     }
 
     /**
@@ -87,26 +84,12 @@ final class Configuration
      */
     public function addGlobalVarialbe(string $name, $value): void
     {
-        $this->globalVariables[$name] = $value;
-    }
-
-    public function getGlobalVariables(): array
-    {
-        return $this->globalVariables;
+        $this->options[$name] = $value;
     }
 
     public function setSourceDirectory(string $sourceDirectory): void
     {
         $this->sourceDirectory = $sourceDirectory;
-    }
-
-    public function getSourceDirectory(): string
-    {
-        if ($this->sourceDirectory) {
-            return $this->sourceDirectory;
-        }
-
-        return getcwd() . DIRECTORY_SEPARATOR . 'source';
     }
 
     public function setOutputDirectory(string $outputDirectory): void
@@ -119,69 +102,35 @@ final class Configuration
         return $this->outputDirectory;
     }
 
-    public function setPostRoute(string $postRoute): void
+    public function getSourceDirectory(): string
     {
-        $this->postRoute = $postRoute;
+        if ($this->sourceDirectory) {
+            return $this->sourceDirectory;
+        }
+
+        return getcwd() . DIRECTORY_SEPARATOR . 'source';
     }
 
     public function getPostRoute(): string
     {
-        return $this->postRoute;
-    }
-
-    public function setGithubRepositorySlug(string $githubRepositorySlug): void
-    {
-        $this->githubRepositorySlug = $githubRepositorySlug;
+        return $this->options['configuration'][self::OPTION_POST_ROUTE]
+            ?? self::DEFAULT_POST_ROUTE;
     }
 
     public function getGithubRepositorySlug(): string
     {
-        return $this->githubRepositorySlug;
-    }
-
-    public function setMarkdownHeadlineAnchors(bool $markdownHeadlineAnchors): void
-    {
-        $this->markdownHeadlineAnchors = $markdownHeadlineAnchors;
+        return $this->options['configuration'][self::OPTION_GITHUB_REPOSITORY_SLUG]
+            ?? self::DEFAULT_POST_ROUTE;
     }
 
     public function isMarkdownHeadlineAnchors(): bool
     {
-        return $this->markdownHeadlineAnchors;
+        return $this->options['configuration'][self::OPTION_MARKDOWN_HEADLINE_ANCHORS]
+            ?? self::DEFAULT_MARKDOWN_HEADLINE_ANCHORS;
     }
 
-    private function extractPostRoute(array $options): array
+    public function getOptions(): array
     {
-        if (! isset($options['configuration'][self::OPTION_POST_ROUTE])) {
-            return $options;
-        }
-
-        $this->setPostRoute($options['configuration'][self::OPTION_POST_ROUTE]);
-        unset($options['configuration'][self::OPTION_POST_ROUTE]);
-
-        return $options;
-    }
-
-    private function extractGithubRepositorySlug(array $options): array
-    {
-        if (! isset($options['configuration'][self::OPTION_GITHUB_REPOSITORY_SLUG])) {
-            return $options;
-        }
-
-        $this->setGithubRepositorySlug($options['configuration'][self::OPTION_GITHUB_REPOSITORY_SLUG]);
-        unset($options['configuration'][self::OPTION_GITHUB_REPOSITORY_SLUG]);
-
-        return $options;
-    }
-
-    private function extractMarkdownHeadlineAnchors(array $options): array
-    {
-        if (! isset($options['configuration'][self::OPTION_MARKDOWN_HEADLINE_ANCHORS])) {
-            return $options;
-        }
-
-        $this->setMarkdownHeadlineAnchors($options['configuration'][self::OPTION_MARKDOWN_HEADLINE_ANCHORS]);
-        unset($options['configuration'][self::OPTION_MARKDOWN_HEADLINE_ANCHORS]);
-
-        return $options;
+        return $this->options;
     }
 }

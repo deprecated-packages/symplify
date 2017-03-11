@@ -6,7 +6,7 @@ use Nette\Utils\FileSystem;
 use PHPUnit\Framework\TestCase;
 use Symplify\Statie\Github\GihubPublishingProcess;
 
-final class GihubPublishingProcessTest extends TestCase
+final class GithubPublishingProcessTest extends TestCase
 {
     /**
      * @var string
@@ -34,20 +34,5 @@ final class GihubPublishingProcessTest extends TestCase
     public function testPushDirectoryContentToRepositoryForNonExistingRepository(): void
     {
         $this->githubPublishingProcess->pushDirectoryContentToRepository('missing directory', '', '');
-    }
-
-    public function testPushDirectoryContentToRepository(): void
-    {
-        $this->markTestSkipped('Prepare demo repository with token first.');
-
-        $this->assertFileNotExists($this->outputDirectory . DIRECTORY_SEPARATOR . '.git');
-
-        $this->githubPublishingProcess->pushDirectoryContentToRepository(
-            $this->outputDirectory,
-            'https://github.com/TomasVotruba/tomasvotruba.cz',
-            'gh-pages'
-        );
-
-        $this->assertFileExists($this->outputDirectory . DIRECTORY_SEPARATOR . '.git');
     }
 }

@@ -65,7 +65,7 @@ final class RenderableFilesProcessorTest extends TestCase
         $this->assertFileExists(__DIR__ . '/RenderFilesProcessorSource/output/blog/2016/01/02/second-title/index.html');
 
         $this->assertTrue(
-            isset($this->configuration->getGlobalVariables()['posts'])
+            isset($this->configuration->getOptions()['posts'])
         );
     }
 }

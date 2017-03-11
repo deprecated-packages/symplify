@@ -6,13 +6,14 @@ use PHPUnit\Framework\TestCase;
 use SplFileInfo;
 use Symplify\Statie\Configuration\Configuration;
 use Symplify\Statie\Configuration\Parser\NeonParser;
+use Symplify\Statie\Renderable\File\AbstractFile;
 use Symplify\Statie\Renderable\File\FileFactory;
 use Symplify\Statie\Renderable\Routing\Route\IndexRoute;
 use Symplify\Statie\Renderable\Routing\Route\NotHtmlRoute;
 use Symplify\Statie\Renderable\Routing\Route\PostRoute;
 use Symplify\Statie\Renderable\Routing\RouteDecorator;
 
-final class RoutingDecoratorTest extends TestCase
+final class RouteDecoratorTest extends TestCase
 {
     /**
      * @var RouteDecorator
@@ -22,19 +23,20 @@ final class RoutingDecoratorTest extends TestCase
     protected function setUp(): void
     {
         $configuration = new Configuration(new NeonParser);
-        $configuration->setPostRoute('blog/:title');
+        $configuration->loadFromArray([
+            'configuration' => [
+                Configuration::OPTION_POST_ROUTE => 'blog/:title'
+            ]
+        ]);
+
         $configuration->setSourceDirectory(__DIR__ . '/DecoratorSource');
 
-        $this->routeDecorator = new RouteDecorator($configuration);
-        $this->routeDecorator->addRoute(new IndexRoute);
-        $this->routeDecorator->addRoute(new PostRoute($configuration));
-        $this->routeDecorator->addRoute(new NotHtmlRoute);
+        $this->routeDecorator = $this->createRouterDecorator($configuration);
     }
 
     public function test(): void
     {
-        $fileInfo = new SplFileInfo(__DIR__ . '/RoutingDecoratorSource/someFile.latte');
-        $file = $this->getFileFactory()->create($fileInfo);
+        $file = $this->createFileFromFilePath(__DIR__ . '/RoutingDecoratorSource/someFile.latte');
 
         $this->routeDecorator->decorateFile($file);
         $this->assertSame('/someFile', $file->getRelativeUrl());
@@ -43,8 +45,7 @@ final class RoutingDecoratorTest extends TestCase
 
     public function testStaticFile(): void
     {
-        $fileInfo = new SplFileInfo(__DIR__ . '/RoutingDecoratorSource/static.css');
-        $file = $this->getFileFactory()->create($fileInfo);
+        $file = $this->createFileFromFilePath(__DIR__ . '/RoutingDecoratorSource/static.css');
 
         $this->routeDecorator->decorateFile($file);
         $this->assertSame('static.css', $file->getRelativeUrl());
@@ -53,8 +54,7 @@ final class RoutingDecoratorTest extends TestCase
 
     public function testIndexFile(): void
     {
-        $fileInfo = new SplFileInfo(__DIR__ . '/RoutingDecoratorSource/index.html');
-        $file = $this->getFileFactory()->create($fileInfo);
+        $file = $this->createFileFromFilePath(__DIR__ . '/RoutingDecoratorSource/index.html');
 
         $this->routeDecorator->decorateFile($file);
         $this->assertSame('index.html', $file->getOutputPath());
@@ -70,8 +70,7 @@ final class RoutingDecoratorTest extends TestCase
 
     public function testPostFile(): void
     {
-        $fileInfo = new SplFileInfo(__DIR__ . '/RoutingDecoratorSource/_posts/2016-10-10-somePost.html');
-        $file = $this->getFileFactory()->create($fileInfo);
+        $file = $this->createFileFromFilePath(__DIR__ . '/RoutingDecoratorSource/_posts/2016-10-10-somePost.html');
 
         $this->routeDecorator->decorateFile($file);
         $this->assertSame('blog/somePost', $file->getRelativeUrl());
@@ -83,5 +82,23 @@ final class RoutingDecoratorTest extends TestCase
         $configuration->setSourceDirectory('sourceDirectory');
 
         return new FileFactory($configuration);
+    }
+
+    private function createFileFromFilePath(string $filePath): AbstractFile
+    {
+        $fileInfo = new SplFileInfo($filePath);
+
+        return $this->getFileFactory()
+            ->create($fileInfo);
+    }
+
+    private function createRouterDecorator($configuration): RouteDecorator
+    {
+        $routeDecorator = new RouteDecorator($configuration);
+        $routeDecorator->addRoute(new IndexRoute);
+        $routeDecorator->addRoute(new PostRoute($configuration));
+        $routeDecorator->addRoute(new NotHtmlRoute);
+
+        return $routeDecorator;
     }
 }
