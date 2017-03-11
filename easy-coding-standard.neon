@@ -41,7 +41,7 @@ includes:
     - packages/EasyCodingStandard/config/php-cs-fixer/php70-migration-fixers.neon
     - packages/EasyCodingStandard/config/php-cs-fixer/php71-migration-fixers.neon
 
-php-code-sniffer:
+checkers:
     # Classes
     - PHP_CodeSniffer\Standards\Generic\Sniffs\Classes\DuplicateClassNameSniff
     - PHP_CodeSniffer\Standards\PSR2\Sniffs\Classes\PropertyDeclarationSniff
@@ -163,7 +163,6 @@ php-code-sniffer:
     - SlevomatCodingStandard\Sniffs\Namespaces\UseDoesNotStartWithBackslashSniff
     - SlevomatCodingStandard\Sniffs\Namespaces\UseFromSameNamespaceSniff
 
-php-cs-fixer:
     PhpCsFixer\Fixer\Operator\ConcatSpaceFixer:
         spacing: one
     PhpCsFixer\Fixer\ArrayNotation\ArraySyntaxFixer:
