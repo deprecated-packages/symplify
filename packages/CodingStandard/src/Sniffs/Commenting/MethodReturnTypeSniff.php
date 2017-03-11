@@ -72,7 +72,7 @@ final class MethodReturnTypeSniff implements Sniff
             return true;
         }
 
-        $returnTypeHint = FunctionHelper::findReturnTypeHint($this->file, $this->position);
+        $returnTypeHint = \SlevomatCodingStandard\Helpers\FunctionHelper::findReturnTypeHint($this->file, $this->position);
         if ($returnTypeHint) {
             return true;
         }
@@ -107,9 +107,6 @@ final class MethodReturnTypeSniff implements Sniff
     private function hasMethodCommentReturnOrInheritDoc(): bool
     {
         $comment = $this->getMethodComment();
-
-        dump($comment);
-        die;
 
         if (strpos($comment, '{@inheritdoc}') !== false) {
             return true;

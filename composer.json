@@ -44,12 +44,8 @@
         "symfony/serializer": "^3.2",
 
         "symfony-cmf/routing-bundle": "^2.0",
-
-<<<<<<< fbbb9372fee5b9896844ade81f0cf7776b77d94d
-        "squizlabs/php_codesniffer": "3.0.x-dev as 2.8.1",
-=======
+        "slevomat/coding-standard": "^2.0",
         "squizlabs/php_codesniffer": "3.0.0RC4 as 2.8.1",
->>>>>>> composer: add object calistenics
         "friendsofphp/php-cs-fixer": "^2.1",
 
         "laravel/framework": "^5.4",
@@ -76,7 +72,6 @@
         "phpstan/phpstan": "^0.6",
         "phpstan/phpstan-nette": "^0.6",
         "phpstan/phpstan-doctrine": "^0.6",
-        "slevomat/coding-standard": "^2.0",
         "object-calisthenics/phpcs-calisthenics-rules": "v3.0.0-RC1"
     },
     "autoload": {
