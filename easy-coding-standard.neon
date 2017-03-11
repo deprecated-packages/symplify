@@ -1,3 +1,45 @@
+skip:
+    SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff:
+        - packages/EasyCodingStandard/packages/SniffRunner/src/File/File.php
+        - packages/CodingStandard/src/Sniffs/*/*Sniff.php
+        - packages/ControllerAutowire/src/HttpKernel/Controller/ControllerResolver.php
+        - packages/DoctrineFixtures/src/Alice/Fixtures/Parser/Methods/NeonParser.php
+        - packages/ModularRouting/src/Routing/ModularRouter.php
+        - packages/Statie/src/Renderable/Latte/DynamicStringLoader.php
+        - packages/SymfonySecurityVoters/src/Adapter/Nette/Token/NetteTokenAdapter.php
+        - packages/Statie/src/Configuration/Configuration.php
+        - packages/DoctrineMigrations/src/Configuration/Configuration.php
+        - packages/DoctrineMigrations/src/OutputWriter.php
+        - packages/DefaultAutowire/tests/DependencyInjection/Definition/DefinitionAnalyzerSource/MissingArgumentsTypehints.php
+
+    packages/DefaultAutowire/tests/DependencyInjection/Definition/DefinitionAnalyzerForFactoryTest.php:
+        - PHP_CodeSniffer\Standards\Generic\Sniffs\Files\LineLengthSniff
+
+    packages/DoctrineFixtures/src/Alice/AliceLoader.php:
+        - SlevomatCodingStandard\Sniffs\Namespaces\UnusedUsesSniff
+        - SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff
+
+    packages/CodingStandard/tests/Sniffs/SniffRunner.php:
+        # anonymous class
+        - PhpCsFixer\Fixer\ClassNotation\NoBlankLinesAfterClassOpeningFixer
+        - PhpCsFixer\Fixer\ClassNotation\MethodSeparationFixer
+        - PhpCsFixer\Fixer\Whitespace\NoExtraConsecutiveBlankLinesFixer
+        - PhpCsFixer\Fixer\Basic\BracesFixer
+        - PhpCsFixer\Fixer\ClassNotation\ClassDefinitionFixer
+
+    packages/EasyCodingStandard/tests/Configuration/ConfigurationNormalizerTest.php:
+        - PhpCsFixer\Fixer\ArrayNotation\NoMultilineWhitespaceAroundDoubleArrowFixer
+
+    packages/SymfonyEventDispatcher/src/Adapter/Nette/Event/PresenterCreatedEvent.php:
+        - PhpCsFixer\Fixer\Phpdoc\PhpdocVarWithoutNameFixer
+
+    packages/SymfonySecurityVoters/src/Adapter/Nette/Token/NetteTokenAdapter.php:
+        - ObjectCalisthenics\Sniffs\Metrics\MethodPerClassLimitSniff
+
+    packages/DoctrineMigrations/tests/DI/MigrationsExtension/BeforeCompileTest.php:
+        - ObjectCalisthenics\Sniffs\CodeAnalysis\OneObjectOperatorPerLineSniff
+
+>>>>>>> temp config setup
 checkers:
     # Classes
     - PHP_CodeSniffer\Standards\Generic\Sniffs\Classes\DuplicateClassNameSniff
@@ -64,9 +106,13 @@ checkers:
     PHP_CodeSniffer\Standards\Squiz\Sniffs\WhiteSpace\SuperfluousWhitespaceSniff:
         ignoreBlankLines: false
 
-    # Symplify: Classes
-    - Symplify\CodingStandard\Sniffs\Classes\ClassDeclarationSniff
-    - Symplify\CodingStandard\Sniffs\Classes\FinalInterfaceSniff
+#includes:
+#    - packages/EasyCodingStandard/config/php-cs-fixer/psr1-fixers.neon
+#    - packages/EasyCodingStandard/config/php-cs-fixer/psr2-fixers.neon
+#    - packages/EasyCodingStandard/config/php-cs-fixer/symfony-fixers.neon
+#    - packages/EasyCodingStandard/config/php-cs-fixer/php56-migration-fixers.neon
+#    - packages/EasyCodingStandard/config/php-cs-fixer/php70-migration-fixers.neon
+#    - packages/EasyCodingStandard/config/php-cs-fixer/php71-migration-fixers.neon
 
     # Symplify: Commenting
     - Symplify\CodingStandard\Sniffs\Commenting\BlockPropertyCommentSniff
@@ -143,6 +189,7 @@ checkers:
     # PHPUnit
     - PhpCsFixer\Fixer\PhpUnit\PhpUnitStrictFixer
 
+<<<<<<< 0513f85b51f3bc6a4d9f63f168036abd12725451
 skip:
     SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff:
         - packages/SymbioticController/src/Application/PresenterFactory.php
@@ -176,3 +223,38 @@ skip:
         - packages/EasyCodingStandard/tests/Configuration/ConfigurationNormalizerTest.php
     PhpCsFixer\Fixer\Phpdoc\PhpdocVarWithoutNameFixer:
         - packages/SymfonyEventDispatcher/src/Adapter/Nette/Event/PresenterCreatedEvent.php
+=======
+    # Object Calisthenics
+    - ObjectCalisthenics\Sniffs\CodeAnalysis\InstancePropertyPerClassLimitSniff
+    ObjectCalisthenics\Sniffs\Metrics\MethodPerClassLimitSniff:
+        maxCount: 15 # 10 by default
+    ObjectCalisthenics\Sniffs\CodeAnalysis\OneObjectOperatorPerLineSniff:
+        variablesHoldingAFluentInterface:
+            - $containerBuilder
+            - $container
+            - $kernel
+            - $rootNode
+            # todo: make work with paptters: *Mock
+            - $requestMock
+            - $entityManagerMock
+#            skip:
+#                packages/DoctrineMigrations/tests/DI/MigrationsExtension/BeforeCompileTest.php
+#    ObjectCalisthenics\Sniffs\Classes\ForbiddenPublicPropertySniff:
+ # ObjectCalisthenics\Sniffs\ControlStructures\NoElseSniff
+ # ObjectCalisthenics\Sniffs\Files\ClassElementLengthSniff
+ # ObjectCalisthenics\Sniffs\Files\FunctionLengthSniff
+
+ # too long stuff
+ # ObjectCalisthenics\Sniffs\Metrics\MaxNestingLevelSniff
+ # ObjectCalisthenics\Sniffs\Metrics\MethodPerClassLimitSniff
+ # ObjectCalisthenics\Sniffs\Metrics\PropertyPerClassLimitSniff
+
+ # too long naming
+        - ObjectCalisthenics\Sniffs\NamingConventions\ClassNameLengthSniff
+        - ObjectCalisthenics\Sniffs\NamingConventions\ConstantNameLengthSniff
+        - ObjectCalisthenics\Sniffs\NamingConventions\FunctionNameLengthSniff
+        - ObjectCalisthenics\Sniffs\NamingConventions\VariableNameLengthSniff
+
+ # lvl: -1
+ # ObjectCalisthenics\Sniffs\NamingConventions\NoSetterSniff
+ #
