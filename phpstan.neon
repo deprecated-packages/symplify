@@ -10,7 +10,6 @@ parameters:
         - *packages/CodingStandard/tests/**/correct*
         - *packages/CodingStandard/tests/**/wrong*
 
-#    checkFunctionArgumentTypes: true
     enableUnionTypes: true
 
 includes:

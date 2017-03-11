@@ -5,13 +5,18 @@ namespace Symplify\CodingStandard\Sniffs\Classes;
 use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Sniffs\Sniff;
 
-/**
- * Rules (new to parent class):
- * - Opening brace for the %s should be followed by %s empty line(s).
- * - Closing brace for the %s should be preceded by %s empty line(s).
- */
 final class ClassDeclarationSniff implements Sniff
 {
+    /**
+     * @var string
+     */
+    private const OPENING_ERROR_MESSAGE = 'Opening brace for the %s should be followed by %s empty line(s); %s found.';
+
+    /**
+     * @var string
+     */
+    private const CLOSING_ERROR_MESSAGE = 'Closing brace for the %s should be preceded by %s empty line(s); %s found.';
+
     /**
      * @var int
      */
@@ -70,7 +75,7 @@ final class ClassDeclarationSniff implements Sniff
 
         if ($emptyLinesCount !== $this->emptyLinesAfterOpeningBrace) {
             $errorMessage = sprintf(
-                'Opening brace for the %s should be followed by %s empty line(s); %s found.',
+                self::OPENING_ERROR_MESSAGE,
                 $this->tokens[$this->position]['content'],
                 $this->emptyLinesAfterOpeningBrace,
                 $emptyLinesCount
@@ -90,7 +95,7 @@ final class ClassDeclarationSniff implements Sniff
 
         if ($emptyLinesCount !== $this->emptyLinesBeforeClosingBrace) {
             $errorMessage = sprintf(
-                'Closing brace for the %s should be preceded by %s empty line(s); %s found.',
+                self::CLOSING_ERROR_MESSAGE,
                 $this->tokens[$this->position]['content'],
                 $this->emptyLinesBeforeClosingBrace,
                 $emptyLinesCount
