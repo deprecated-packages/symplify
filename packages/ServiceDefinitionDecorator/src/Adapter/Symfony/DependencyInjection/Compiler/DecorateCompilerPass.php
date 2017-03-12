@@ -28,18 +28,43 @@ final class DecorateCompilerPass implements CompilerPassInterface
                     continue;
                 }
 
-                if (isset($configuration['calls'])) {
-                    $this->addCalls($definition, $configuration['calls']);
-                }
-
-                if (isset($configuration['tags'])) {
-                    $this->addTags($definition, $configuration['tags']);
-                }
-
-                if (isset($configuration['autowire'])) {
-                    $this->addAutowired($definition, (bool) $configuration['autowire']);
-                }
+                $this->processCalls($configuration, $definition);
+                $this->processTags($configuration, $definition);
+                $this->processAutowire($configuration, $definition);
             }
+        }
+    }
+
+    /**
+     * @param mixed[] $configuration
+     * @param Definition $definition
+     */
+    private function processCalls(array $configuration, Definition $definition): void
+    {
+        if (isset($configuration['calls'])) {
+            $this->addCalls($definition, $configuration['calls']);
+        }
+    }
+
+    /**
+     * @param mixed[] $configuration
+     * @param Definition $definition
+     */
+    private function processTags(array $configuration, Definition $definition): void
+    {
+        if (isset($configuration['tags'])) {
+            $this->addTags($definition, $configuration['tags']);
+        }
+    }
+
+    /**
+     * @param mixed[] $configuration
+     * @param Definition $definition
+     */
+    private function processAutowire($configuration, $definition): void
+    {
+        if (isset($configuration['autowire'])) {
+            $this->addAutowired($definition, (bool)$configuration['autowire']);
         }
     }
 

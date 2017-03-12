@@ -74,6 +74,10 @@ final class LatteDecorator implements DecoratorInterface
         $file->changeContent($layoutLine . PHP_EOL . PHP_EOL . $file->getContent());
     }
 
+    /**
+     * @param AbstractFile $file
+     * @param mixed[] $parameters
+     */
     private function renderInnerPostContent(AbstractFile $file, array $parameters): void
     {
         if ($file instanceof PostFile) {
@@ -83,6 +87,10 @@ final class LatteDecorator implements DecoratorInterface
         }
     }
 
+    /**
+     * @param AbstractFile $file
+     * @param mixed[] $parameters
+     */
     private function renderOuterWithLayout(AbstractFile $file, array $parameters): string
     {
         $this->prependLayoutToFileContent($file);

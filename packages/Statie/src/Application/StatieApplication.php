@@ -53,6 +53,9 @@ final class StatieApplication
         $this->dynamicStringLoader = $dynamicStringLoader;
     }
 
+    /**
+     * @todo refactor to outer extendable steps
+     */
     public function runCommand(RunCommand $runCommand): void
     {
         $this->loadConfigurationWithDirectories($runCommand);
