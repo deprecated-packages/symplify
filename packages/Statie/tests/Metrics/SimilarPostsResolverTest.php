@@ -35,7 +35,11 @@ final class SimilarPostsResolverTest extends TestCase
         $this->similarPostsResolver = $this->createSimilarPostsResolver();
 
         $this->mainPost = $this->postFactory->createPostFromFilePath(
+<<<<<<< f3c277da3188a28d9e939b2b6dee9d677bc7fd8e
             __DIR__ . '/../PostsSource/2017-01-05-another-related-post.md'
+=======
+            __DIR__ . '/../PostsSource/2017-01-01-some-post.md'
+>>>>>>> cs fixes
         );
     }
 

@@ -30,10 +30,6 @@ final class DefinitionFinder
      */
     private static function isDefinitionOfType(array $definition, string $type): bool
     {
-        // todo: skip later...
-        // todo: detect if implements Interface before creating?
-        // use some class map like in Symfony?
-        // https://laravel.com/docs/5.4/container#container-events
         $closureReflection = new ReflectionFunction($definition['concrete']);
 
         if (self::isLaravelSystem($closureReflection)) {
@@ -69,8 +65,11 @@ final class DefinitionFinder
      * @param string $name
      * @param string $classOrInterfaceType
      */
-    private static function hasVariableOfNameAndType(array $staticVariables, string $name, string $classOrInterfaceType): bool
-    {
+    private static function hasVariableOfNameAndType(
+        array $staticVariables,
+ string $name,
+ string $classOrInterfaceType
+    ): bool {
         if (! isset($staticVariables[$name])) {
             return false;
         }
@@ -78,4 +77,3 @@ final class DefinitionFinder
         return is_a($staticVariables[$name], $classOrInterfaceType, true);
     }
 }
-

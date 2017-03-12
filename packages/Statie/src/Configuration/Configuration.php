@@ -57,7 +57,6 @@ final class Configuration
         $this->neonParser = $neonParser;
     }
 
-
     /**
      * @param SplFileInfo[] $files
      */
@@ -66,7 +65,6 @@ final class Configuration
         foreach ($files as $file) {
             $options = $this->neonParser->decodeFromFile($file->getRealPath());
             $this->loadFromArray($options);
-
         }
     }
 

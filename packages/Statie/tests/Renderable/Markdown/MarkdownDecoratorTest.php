@@ -25,7 +25,7 @@ final class MarkdownDecoratorTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->configuration = new Configuration(new NeonParser());
+        $this->configuration = new Configuration(new NeonParser);
         $this->configuration->loadFromArray([
             'configuration' => [
                 Configuration::OPTION_MARKDOWN_HEADLINE_ANCHORS => false

@@ -24,15 +24,21 @@ final class DecorateCompilerPass implements CompilerPassInterface
 
         foreach ($config as $type => $configuration) {
             foreach ($containerBuilder->getDefinitions() as $definition) {
-                if (! is_a($definition->getClass(), $type, true)) {
-                    continue;
-                }
-
-                $this->processCalls($configuration, $definition);
-                $this->processTags($configuration, $definition);
-                $this->processAutowire($configuration, $definition);
+                $this->processDefinition($definition, $configuration, $type);
             }
         }
+    }
+
+    private function processDefinition(Definition $definition, array $configuration, string $type): void
+    {
+        if (! is_a($definition->getClass(), $type, true)) {
+            return;
+        }
+
+        $this->processCalls($configuration, $definition);
+        $this->processTags($configuration, $definition);
+        $this->processAutowire($configuration, $definition);
+
     }
 
     /**
@@ -61,10 +67,10 @@ final class DecorateCompilerPass implements CompilerPassInterface
      * @param mixed[] $configuration
      * @param Definition $definition
      */
-    private function processAutowire($configuration, $definition): void
+    private function processAutowire(array $configuration, Definition $definition): void
     {
         if (isset($configuration['autowire'])) {
-            $this->addAutowired($definition, (bool)$configuration['autowire']);
+            $this->addAutowired($definition, (bool) $configuration['autowire']);
         }
     }
 
@@ -76,12 +82,7 @@ final class DecorateCompilerPass implements CompilerPassInterface
     {
         foreach ($setups as $setterConfiguration) {
             [$methodName, $methodArguments] = $setterConfiguration;
-            foreach ($methodArguments as $position => $methodArgument) {
-                if (strpos($methodArgument, '@') === 0) {
-                    $methodArguments[$position] = new Reference(substr($methodArgument, 1));
-                }
-            }
-
+            $methodArguments = $this->prepareMethodArguments($methodArguments);
             $definition->addMethodCall($methodName, $methodArguments);
         }
     }
@@ -104,5 +105,20 @@ final class DecorateCompilerPass implements CompilerPassInterface
     private function addAutowired(Definition $definition, bool $isAutowired): void
     {
         $definition->setAutowired($isAutowired);
+    }
+
+    /**
+     * @param mixed[] $methodArguments
+     * @return mixed[]
+     */
+    private function prepareMethodArguments(array $methodArguments): array
+    {
+        foreach ($methodArguments as $position => $methodArgument) {
+            if (strpos($methodArgument, '@') === 0) {
+                $methodArguments[$position] = new Reference(substr($methodArgument, 1));
+            }
+        }
+
+        return $methodArguments;
     }
 }

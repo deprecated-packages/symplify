@@ -31,7 +31,11 @@ final class BeforeCompileTest extends TestCase
 
         $this->containerBuilder = new ContainerBuilder;
         $this->containerBuilder->parameters = ['appDir' => __DIR__];
-        $this->containerBuilder->addDefinition('console', (new ServiceDefinition)->setClass(Application::class));
+
+        $consoleApplicationDefinition = new ServiceDefinition;
+        $consoleApplicationDefinition->setClass(Application::class);
+
+        $this->containerBuilder->addDefinition('console', $consoleApplicationDefinition);
 
         $compiler = new Compiler($this->containerBuilder);
         $compiler->addExtension('eventDispatcher', new SymfonyEventDispatcherExtension);

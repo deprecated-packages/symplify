@@ -64,20 +64,11 @@ final class StatieApplication
 
         $this->loadSourcesFromSourceDirectory($runCommand->getSourceDirectory());
 
-        // 1. copy static files
         $this->fileSystemWriter->copyStaticFiles($this->sourceFileStorage->getStaticFiles());
 
-        // 2. collect configuration
         $this->configuration->loadFromFiles($this->sourceFileStorage->getConfigurationFiles());
 
-        // 3. collect layouts
-        $this->loadLayoutsToLatteLoader($this->sourceFileStorage->getLayoutFiles());
-
-        // 4. completely process post
-        $this->renderableFilesProcessor->processFiles($this->sourceFileStorage->getPostFiles());
-
-        // 5. render files
-        $this->renderableFilesProcessor->processFiles($this->sourceFileStorage->getRenderableFiles());
+        $this->processTemplates();
     }
 
     private function loadConfigurationWithDirectories(RunCommand $runCommand): void
@@ -117,5 +108,17 @@ final class StatieApplication
             $content = file_get_contents($layoutFile->getRealPath());
             $this->dynamicStringLoader->addTemplate($name, $content);
         }
+    }
+
+    private function processTemplates(): void
+    {
+        // 1. collect layouts
+        $this->loadLayoutsToLatteLoader($this->sourceFileStorage->getLayoutFiles());
+
+        // 2. process posts
+        $this->renderableFilesProcessor->processFiles($this->sourceFileStorage->getPostFiles());
+
+        // 3. render files
+        $this->renderableFilesProcessor->processFiles($this->sourceFileStorage->getRenderableFiles());
     }
 }
