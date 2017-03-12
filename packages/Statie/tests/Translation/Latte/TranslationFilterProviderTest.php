@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace Symplify\Statie\Tests\Translation\Latte;
 
@@ -22,10 +22,9 @@ final class TranslationFilterProviderTest extends TestCase
     {
         $this->translationFilterProvider = new TranslationFilterProvider(
             $this->createTranslator(),
-            new MessageAnalyzer()
+            new MessageAnalyzer
         );
     }
-
 
     public function test()
     {
@@ -45,8 +44,8 @@ final class TranslationFilterProviderTest extends TestCase
     private function createTranslator(): TranslatorInterface
     {
         $translatorFactory = new TranslatorFactory(
-            new Configuration(new NeonParser()),
-            new ResourceFinder()
+            new Configuration(new NeonParser),
+            new ResourceFinder
         );
 
         return $translatorFactory->create();
