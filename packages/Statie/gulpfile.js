@@ -9,8 +9,14 @@ gulp.task('default', function () {
     // Run local server, open localhost:8000 in your browser
     exec('php -S localhost:8000 -t output');
 
-    return watch(['source/**/*', '!**/*___jb_tmp___'], { ignoreInitial: false })
+    // Generate current version
+    exec('vendor/bin/statie generate', function (err, stdout, stderr) {
+        console.log(stdout);
+        console.log(stderr);
+    });
+
     // For the second arg see: https://github.com/floatdrop/gulp-watch/issues/242#issuecomment-230209702
+    return watch(['source/**/*', '!**/*___jb_tmp___'], { ignoreInitial: false })
         .on('change', function() {
             exec('vendor/bin/statie generate', function (err, stdout, stderr) {
                 console.log(stdout);
