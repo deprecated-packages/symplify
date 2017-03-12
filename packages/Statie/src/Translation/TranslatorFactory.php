@@ -30,7 +30,6 @@ final class TranslatorFactory
     {
         $translator = new Translator('');
         $translator->addLoader('neon', new YamlFileLoader);
-        $translator->setFallbackLocales(['cs']);
 
         $this->addResourcesToTranslator($translator);
 
@@ -39,7 +38,9 @@ final class TranslatorFactory
 
     private function addResourcesToTranslator(Translator $translator): void
     {
-        foreach ($this->resourceFinder->findInDirectory($this->getTranslationDirecrory()) as $resource) {
+        $resources = $this->resourceFinder->findInDirectory($this->getTranslationDirecrory());
+
+        foreach ($resources as $resource) {
             $translator->addResource(
                 $resource['format'],
                 $resource['pathname'],

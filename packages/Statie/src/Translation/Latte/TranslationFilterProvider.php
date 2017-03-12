@@ -9,6 +9,11 @@ use Symplify\Statie\Translation\MessageAnalyzer;
 final class TranslationFilterProvider implements LatteFiltersProviderInterface
 {
     /**
+     * @var string
+     */
+    public const FILTER_NAME = 'translate';
+
+    /**
      * @var TranslatorInterface
      */
     private $translator;
@@ -30,7 +35,7 @@ final class TranslationFilterProvider implements LatteFiltersProviderInterface
     public function getFilters(): array
     {
         return [
-            'translate' => function (string $message, string $locale) {
+            self::FILTER_NAME => function (string $message, string $locale) {
                 return $this->translate($message, $locale);
             },
         ];
