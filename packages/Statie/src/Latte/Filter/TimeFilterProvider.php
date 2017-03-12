@@ -7,12 +7,17 @@ use Symplify\ModularLatteFilters\Contract\DI\LatteFiltersProviderInterface;
 final class TimeFilterProvider implements LatteFiltersProviderInterface
 {
     /**
+     * @var string
+     */
+    private const FILTER_NAME = 'timeToSeconds';
+
+    /**
      * @return callable[]
      */
     public function getFilters(): array
     {
         return [
-            'timeToSeconds' => function (string $time) {
+            self::FILTER_NAME => function (string $time) {
                 return $this->convertTimeToSeconds($time);
             },
         ];

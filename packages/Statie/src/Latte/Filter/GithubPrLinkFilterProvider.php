@@ -9,6 +9,11 @@ use Symplify\Statie\Renderable\File\AbstractFile;
 final class GithubPrLinkFilterProvider implements LatteFiltersProviderInterface
 {
     /**
+     * @var string
+     */
+    private const FILTER_NAME = 'githubEditPostUrl';
+
+    /**
      * @var Configuration
      */
     private $configuration;
@@ -24,7 +29,7 @@ final class GithubPrLinkFilterProvider implements LatteFiltersProviderInterface
     public function getFilters(): array
     {
         return [
-            'githubEditPostUrl' => function (AbstractFile $file) {
+            self::FILTER_NAME => function (AbstractFile $file) {
                 return 'https://github.com/'
                     . $this->configuration->getGithubRepositorySlug()
                     . '/edit/master/source/'
