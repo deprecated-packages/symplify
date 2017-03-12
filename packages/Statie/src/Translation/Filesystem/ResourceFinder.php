@@ -4,6 +4,7 @@ namespace Symplify\Statie\Translation\Filesystem;
 
 use Nette\Utils\Finder;
 use Nette\Utils\Strings;
+use SplFileInfo;
 
 final class ResourceFinder
 {
@@ -20,23 +21,40 @@ final class ResourceFinder
         $resources = [];
 
         foreach ($finder as $file) {
-            /** @var \SplFileInfo $file */
-            if (! $m = Strings::match(
-                $file->getFilename(),
-                '~^(?P<domain>.*?)\.(?P<locale>[^\.]+)\.(?P<format>[^\.]+)$~'
-            )
-            ) {
+            /** @var SplFileInfo $file */
+            if (! $resource = $this->matchResource($file)) {
                 continue;
             }
 
-            $resources[] = [
-                'format' => $m['format'],
-                'pathname' => $file->getPathname(),
-                'locale' => $m['locale'],
-                'domain' => $m['domain'],
-            ];
+            $resources[] = $this->createResource($resource, $file);
         }
 
         return $resources;
+    }
+
+    /**
+     * @return mixed
+     */
+    private function matchResource(SplFileInfo $fileInfo)
+    {
+        return Strings::match(
+            $fileInfo->getFilename(),
+            '~^(?P<domain>.*?)\.(?P<locale>[^\.]+)\.(?P<format>[^\.]+)$~'
+        );
+    }
+
+    /**
+     * @param mixed[] $resource
+     * @param SplFileInfo $filefileInfo
+     * @return string[]
+     */
+    private function createResource(array $resource, SplFileInfo $filefileInfo): array
+    {
+        return [
+            'format' => $resource['format'],
+            'pathname' => $filefileInfo->getPathname(),
+            'locale' => $resource['locale'],
+            'domain' => $resource['domain'],
+        ];
     }
 }

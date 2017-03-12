@@ -92,7 +92,7 @@ final class RouteDecoratorTest extends TestCase
             ->create($fileInfo);
     }
 
-    private function createRouterDecorator($configuration): RouteDecorator
+    private function createRouterDecorator(Configuration $configuration): RouteDecorator
     {
         $routeDecorator = new RouteDecorator($configuration);
         $routeDecorator->addRoute(new IndexRoute);

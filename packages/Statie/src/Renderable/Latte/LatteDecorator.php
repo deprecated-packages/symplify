@@ -48,22 +48,10 @@ final class LatteDecorator implements DecoratorInterface
             $parameters['post'] = $file;
         }
 
-        // 1. render inner post content; might be generic to any sub-layouts
-        if ($file instanceof PostFile) {
-            $this->addTemplateToDynamicLatteStringLoader($file);
-            $htmlContent = $this->latteEngine->renderToString($file->getBaseName(), $parameters);
-            $file->changeContent($htmlContent);
-        }
+        $this->renderInnerPostContent($file, $parameters);
 
-        // 2. render outer with layout
-        $this->prependLayoutToFileContent($file);
-        $this->addTemplateToDynamicLatteStringLoader($file);
-        $htmlContent = $this->latteEngine->renderToString($file->getBaseName(), $parameters);
-
-        // 3. trim left-over {layout tag}, probably bug-fix
-        if ($file instanceof PostFile) {
-            $htmlContent = preg_replace('/{layout "[a-z]+"}/', '', $htmlContent);
-        }
+        $htmlContent = $this->renderOuterWithLayout($file, $parameters);
+        $htmlContent = $this->trimLeftOverLayoutTag($file, $htmlContent);
 
         $file->changeContent($htmlContent);
     }
@@ -84,5 +72,31 @@ final class LatteDecorator implements DecoratorInterface
 
         $layoutLine = sprintf('{layout "%s"}', $file->getLayout());
         $file->changeContent($layoutLine . PHP_EOL . PHP_EOL . $file->getContent());
+    }
+
+    private function renderInnerPostContent(AbstractFile $file, array $parameters): void
+    {
+        if ($file instanceof PostFile) {
+            $this->addTemplateToDynamicLatteStringLoader($file);
+            $htmlContent = $this->latteEngine->renderToString($file->getBaseName(), $parameters);
+            $file->changeContent($htmlContent);
+        }
+    }
+
+    private function renderOuterWithLayout(AbstractFile $file, array $parameters): string
+    {
+        $this->prependLayoutToFileContent($file);
+        $this->addTemplateToDynamicLatteStringLoader($file);
+
+        return $this->latteEngine->renderToString($file->getBaseName(), $parameters);
+    }
+
+    private function trimLeftOverLayoutTag(AbstractFile $file, string $htmlContent): string
+    {
+        if ($file instanceof PostFile) {
+            return preg_replace('/{layout "[a-z]+"}/', '', $htmlContent);
+        }
+
+        return $htmlContent;
     }
 }

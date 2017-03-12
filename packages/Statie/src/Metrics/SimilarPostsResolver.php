@@ -58,7 +58,7 @@ final class SimilarPostsResolver
      */
     private function getPosts(): array
     {
-        return $this->configuration->getGlobalVariables()['posts'];
+        return $this->configuration->getOptions()['posts'];
     }
 
     private function arePostsIdentical(PostFile $firstPost, PostFile $secondPost): bool
