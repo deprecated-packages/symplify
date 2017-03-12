@@ -4,7 +4,7 @@ namespace Symplify\CodingStandard\Sniffs\Commenting;
 
 use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Sniffs\Sniff;
-use Symplify\CodingStandard\Helper\Commenting\FunctionHelper;
+use SlevomatCodingStandard\Helpers\FunctionHelper;
 
 /**
  * Rules:
@@ -72,7 +72,7 @@ final class MethodReturnTypeSniff implements Sniff
             return true;
         }
 
-        $returnTypeHint = \SlevomatCodingStandard\Helpers\FunctionHelper::findReturnTypeHint($this->file, $this->position);
+        $returnTypeHint = FunctionHelper::findReturnTypeHint($this->file, $this->position);
         if ($returnTypeHint) {
             return true;
         }
