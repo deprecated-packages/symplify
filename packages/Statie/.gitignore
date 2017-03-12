@@ -2,6 +2,5 @@ composer.lock
 /vendor
 
 # Statie directories
-/app
 /source
 /output
