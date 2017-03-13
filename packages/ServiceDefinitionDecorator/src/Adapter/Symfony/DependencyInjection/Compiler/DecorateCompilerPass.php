@@ -38,7 +38,6 @@ final class DecorateCompilerPass implements CompilerPassInterface
         $this->processCalls($configuration, $definition);
         $this->processTags($configuration, $definition);
         $this->processAutowire($configuration, $definition);
-
     }
 
     /**

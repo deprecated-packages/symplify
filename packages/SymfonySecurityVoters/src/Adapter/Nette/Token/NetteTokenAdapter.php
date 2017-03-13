@@ -126,7 +126,7 @@ final class NetteTokenAdapter implements TokenInterface
 
     /**
      * @param string $name
-     * @param mixed $valueerviceDefinitionDecorator\Tests\Adapter\Symfony\CompleteTest
+     * @param mixed $value
      */
     public function setAttribute($name, $value): void
     {

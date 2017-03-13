@@ -67,8 +67,8 @@ final class DefinitionFinder
      */
     private static function hasVariableOfNameAndType(
         array $staticVariables,
- string $name,
- string $classOrInterfaceType
+        string $name,
+        string $classOrInterfaceType
     ): bool {
         if (! isset($staticVariables[$name])) {
             return false;
