@@ -29,6 +29,11 @@ final class DecorateCompilerPass implements CompilerPassInterface
         }
     }
 
+    /**
+     * @param Definition $definition
+     * @param mixed[] $configuration
+     * @param string $type
+     */
     private function processDefinition(Definition $definition, array $configuration, string $type): void
     {
         if (! is_a($definition->getClass(), $type, true)) {

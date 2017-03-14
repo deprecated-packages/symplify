@@ -36,13 +36,7 @@ final class DefinitionFinder
             return false;
         }
 
-        $staticVariables = $closureReflection->getStaticVariables();
-
-        if (self::hasVariableOfNameAndType($staticVariables, 'abstract', $type)) {
-            return true;
-        }
-
-        if (self::hasVariableOfNameAndType($staticVariables, 'variable', $type)) {
+        if (self::hasClosureStaticVariableOfType($closureReflection, $type)) {
             return true;
         }
 
@@ -75,5 +69,19 @@ final class DefinitionFinder
         }
 
         return is_a($staticVariables[$name], $classOrInterfaceType, true);
+    }
+
+    private static function hasClosureStaticVariableOfType(ReflectionFunction $closureReflection, string $type): bool
+    {
+        $staticVariables = $closureReflection->getStaticVariables();
+        if (self::hasVariableOfNameAndType($staticVariables, 'abstract', $type)) {
+            return true;
+        }
+
+        if (self::hasVariableOfNameAndType($staticVariables, 'variable', $type)) {
+            return true;
+        }
+
+        return false;
     }
 }
