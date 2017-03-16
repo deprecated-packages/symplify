@@ -33,14 +33,6 @@ skip:
     packages/SymfonyEventDispatcher/src/Adapter/Nette/Event/PresenterCreatedEvent.php:
         - PhpCsFixer\Fixer\Phpdoc\PhpdocVarWithoutNameFixer
 
-includes:
-    - packages/EasyCodingStandard/config/php-cs-fixer/psr1-fixers.neon
-    - packages/EasyCodingStandard/config/php-cs-fixer/psr2-fixers.neon
-    - packages/EasyCodingStandard/config/php-cs-fixer/symfony-fixers.neon
-    - packages/EasyCodingStandard/config/php-cs-fixer/php56-migration-fixers.neon
-    - packages/EasyCodingStandard/config/php-cs-fixer/php70-migration-fixers.neon
-    - packages/EasyCodingStandard/config/php-cs-fixer/php71-migration-fixers.neon
-
 checkers:
     # Classes
     - PHP_CodeSniffer\Standards\Generic\Sniffs\Classes\DuplicateClassNameSniff
