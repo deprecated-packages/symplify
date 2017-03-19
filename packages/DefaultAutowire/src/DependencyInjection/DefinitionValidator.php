@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\DefaultAutowire\DependencyInjection\Definition;
+namespace Symplify\DefaultAutowire\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\Definition;
 

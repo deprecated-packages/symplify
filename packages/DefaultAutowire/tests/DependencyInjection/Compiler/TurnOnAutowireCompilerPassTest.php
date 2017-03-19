@@ -6,8 +6,8 @@ use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symplify\DefaultAutowire\DependencyInjection\Compiler\TurnOnAutowireCompilerPass;
-use Symplify\DefaultAutowire\DependencyInjection\Definition\DefinitionAnalyzer;
-use Symplify\DefaultAutowire\DependencyInjection\Definition\DefinitionValidator;
+use Symplify\DefaultAutowire\DependencyInjection\DefinitionAnalyzer;
+use Symplify\DefaultAutowire\DependencyInjection\DefinitionValidator;
 use Symplify\DefaultAutowire\Tests\Source\SomeAutowiredService;
 
 final class TurnOnAutowireCompilerPassTest extends TestCase

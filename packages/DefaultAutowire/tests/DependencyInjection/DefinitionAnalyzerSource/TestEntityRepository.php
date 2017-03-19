@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\DefaultAutowire\Tests\DependencyInjection\Definition\DefinitionAnalyzerSource;
+namespace Symplify\DefaultAutowire\Tests\DependencyInjection\DefinitionAnalyzerSource;
 
 use Doctrine\ORM\EntityRepository;
 

@@ -1,15 +1,15 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\DefaultAutowire\Tests\DependencyInjection\Definition;
+namespace Symplify\DefaultAutowire\Tests\DependencyInjection;
 
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
-use Symplify\DefaultAutowire\DependencyInjection\Definition\DefinitionAnalyzer;
-use Symplify\DefaultAutowire\DependencyInjection\Definition\DefinitionValidator;
-use Symplify\DefaultAutowire\Tests\DependencyInjection\Definition\DefinitionAnalyzerSource\EmptyConstructor;
-use Symplify\DefaultAutowire\Tests\DependencyInjection\Definition\DefinitionAnalyzerSource\MissingArgumentsTypehints;
-use Symplify\DefaultAutowire\Tests\DependencyInjection\Definition\DefinitionAnalyzerSource\NotMissingArgumentsTypehints;
+use Symplify\DefaultAutowire\DependencyInjection\DefinitionAnalyzer;
+use Symplify\DefaultAutowire\DependencyInjection\DefinitionValidator;
+use Symplify\DefaultAutowire\Tests\DependencyInjection\DefinitionAnalyzerSource\EmptyConstructor;
+use Symplify\DefaultAutowire\Tests\DependencyInjection\DefinitionAnalyzerSource\MissingArgumentsTypehints;
+use Symplify\DefaultAutowire\Tests\DependencyInjection\DefinitionAnalyzerSource\NotMissingArgumentsTypehints;
 
 final class DefinitionAnalyzerTest extends TestCase
 {
