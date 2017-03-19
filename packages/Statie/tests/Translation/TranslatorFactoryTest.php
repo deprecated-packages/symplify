@@ -15,7 +15,7 @@ final class TranslatorFactoryTest extends TestCase
      */
     private $translatorFactory;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $configuration = new Configuration(new NeonParser);
         $configuration->setSourceDirectory(__DIR__ . '/TranslatorFactorySource');
@@ -23,7 +23,7 @@ final class TranslatorFactoryTest extends TestCase
         $this->translatorFactory = new TranslatorFactory($configuration, new ResourceFinder);
     }
 
-    public function test()
+    public function test(): void
     {
         $translator = $this->translatorFactory->create();
 

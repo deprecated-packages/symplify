@@ -4,7 +4,7 @@ namespace Symplify\DefaultAutowire\DependencyInjection\Compiler;
 
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symplify\DefaultAutowire\DependencyInjection\Definition\DefinitionAnalyzer;
+use Symplify\DefaultAutowire\DependencyInjection\DefinitionAnalyzer;
 
 final class TurnOnAutowireCompilerPass implements CompilerPassInterface
 {

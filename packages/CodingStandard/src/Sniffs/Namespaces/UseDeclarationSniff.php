@@ -7,7 +7,6 @@ use PHP_CodeSniffer\Standards\PSR2\Sniffs\Namespaces\UseDeclarationSniff as Psr2
 
 /**
  * Rules:
- * - There must be one USE keyword per declaration
  * - USE declarations must go after the first namespace declaration
  * - There must be 2 blank line(s) after the last USE statement.
  */
@@ -59,7 +58,6 @@ final class UseDeclarationSniff extends Psr2UseDeclarationSniff
         }
 
         $this->checkIfSingleSpaceAfterUseKeyword();
-        $this->checkIfOneUseDeclarationPerStatement();
         $this->checkIfUseComesAfterNamespaceDeclaration();
 
         // Only interested in the last USE statement from here onwards.
@@ -105,18 +103,6 @@ final class UseDeclarationSniff extends Psr2UseDeclarationSniff
         if ($this->tokens[($this->position + 1)]['content'] !== ' ') {
             $this->file->addError(
                 'There must be a single space after the USE keyword',
-                $this->position,
-                self::class
-            );
-        }
-    }
-
-    private function checkIfOneUseDeclarationPerStatement(): void
-    {
-        $next = $this->file->findNext([T_COMMA, T_SEMICOLON], ($this->position + 1));
-        if ($this->tokens[$next]['code'] === T_COMMA) {
-            $this->file->addError(
-                'There must be one USE keyword per declaration',
                 $this->position,
                 self::class
             );

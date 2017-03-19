@@ -1,38 +1,3 @@
-skip:
-    SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff:
-        - packages/EasyCodingStandard/packages/SniffRunner/src/File/File.php
-        - packages/CodingStandard/src/Sniffs/*/*Sniff.php
-        - packages/ControllerAutowire/src/HttpKernel/Controller/ControllerResolver.php
-        - packages/DoctrineFixtures/src/Alice/Fixtures/Parser/Methods/NeonParser.php
-        - packages/ModularRouting/src/Routing/ModularRouter.php
-        - packages/Statie/src/Renderable/Latte/DynamicStringLoader.php
-        - packages/SymfonySecurityVoters/src/Adapter/Nette/Token/NetteTokenAdapter.php
-        - packages/Statie/src/Configuration/Configuration.php
-        - packages/DoctrineMigrations/src/Configuration/Configuration.php
-        - packages/DoctrineMigrations/src/OutputWriter.php
-        - packages/DefaultAutowire/tests/DependencyInjection/Definition/DefinitionAnalyzerSource/MissingArgumentsTypehints.php
-
-    packages/DefaultAutowire/tests/DependencyInjection/Definition/DefinitionAnalyzerForFactoryTest.php:
-        - PHP_CodeSniffer\Standards\Generic\Sniffs\Files\LineLengthSniff
-
-    packages/DoctrineFixtures/src/Alice/AliceLoader.php:
-        - SlevomatCodingStandard\Sniffs\Namespaces\UnusedUsesSniff
-        - SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff
-
-    packages/CodingStandard/tests/Sniffs/SniffRunner.php:
-        # anonymous class
-        - PhpCsFixer\Fixer\ClassNotation\NoBlankLinesAfterClassOpeningFixer
-        - PhpCsFixer\Fixer\ClassNotation\MethodSeparationFixer
-        - PhpCsFixer\Fixer\Whitespace\NoExtraConsecutiveBlankLinesFixer
-        - PhpCsFixer\Fixer\Basic\BracesFixer
-        - PhpCsFixer\Fixer\ClassNotation\ClassDefinitionFixer
-
-    packages/EasyCodingStandard/tests/Configuration/ConfigurationNormalizerTest.php:
-        - PhpCsFixer\Fixer\ArrayNotation\NoMultilineWhitespaceAroundDoubleArrowFixer
-
-    packages/SymfonyEventDispatcher/src/Adapter/Nette/Event/PresenterCreatedEvent.php:
-        - PhpCsFixer\Fixer\Phpdoc\PhpdocVarWithoutNameFixer
-
 checkers:
     # Classes
     - PHP_CodeSniffer\Standards\Generic\Sniffs\Classes\DuplicateClassNameSniff
@@ -178,3 +143,34 @@ checkers:
 
     # PHPUnit
     - PhpCsFixer\Fixer\PhpUnit\PhpUnitStrictFixer
+
+skip:
+    SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff:
+        - packages/EasyCodingStandard/packages/SniffRunner/src/File/File.php
+        - packages/CodingStandard/src/Sniffs/*/*Sniff.php
+        - packages/ControllerAutowire/src/HttpKernel/Controller/ControllerResolver.php
+        - packages/DoctrineFixtures/src/Alice/Fixtures/Parser/Methods/NeonParser.php
+        - packages/ModularRouting/src/Routing/ModularRouter.php
+        - packages/Statie/src/Renderable/Latte/DynamicStringLoader.php
+        - packages/SymfonySecurityVoters/src/Adapter/Nette/Token/NetteTokenAdapter.php
+        - packages/Statie/src/Configuration/Configuration.php
+        - packages/DoctrineMigrations/src/Configuration/Configuration.php
+        - packages/DoctrineMigrations/src/OutputWriter.php
+        - packages/DefaultAutowire/tests/DependencyInjection/Definition/DefinitionAnalyzerSource/MissingArgumentsTypehints.php
+        - packages/DoctrineFixtures/src/Alice/AliceLoader.php
+    SlevomatCodingStandard\Sniffs\Namespaces\UnusedUsesSniff:
+        - packages/DoctrineFixtures/src/Alice/AliceLoader.php
+    PhpCsFixer\Fixer\ClassNotation\NoBlankLinesAfterClassOpeningFixer:
+        - packages/CodingStandard/tests/Sniffs/SniffRunner.php # anonymous class
+    PhpCsFixer\Fixer\ClassNotation\MethodSeparationFixer:
+        - packages/CodingStandard/tests/Sniffs/SniffRunner.php # anonymous class
+    PhpCsFixer\Fixer\Whitespace\NoExtraConsecutiveBlankLinesFixer:
+        - packages/CodingStandard/tests/Sniffs/SniffRunner.php # anonymous class
+    PhpCsFixer\Fixer\Basic\BracesFixer:
+        - packages/CodingStandard/tests/Sniffs/SniffRunner.php # anonymous class
+    PhpCsFixer\Fixer\ClassNotation\ClassDefinitionFixer:
+        - packages/CodingStandard/tests/Sniffs/SniffRunner.php # anonymous class
+    PhpCsFixer\Fixer\ArrayNotation\NoMultilineWhitespaceAroundDoubleArrowFixer:
+        - packages/EasyCodingStandard/tests/Configuration/ConfigurationNormalizerTest.php
+    PhpCsFixer\Fixer\Phpdoc\PhpdocVarWithoutNameFixer:
+        - packages/SymfonyEventDispatcher/src/Adapter/Nette/Event/PresenterCreatedEvent.php

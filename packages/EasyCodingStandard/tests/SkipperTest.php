@@ -5,7 +5,6 @@ namespace Symplify\EasyCodingStandard\Tests;
 use PhpCsFixer\Fixer\Strict\DeclareStrictTypesFixer;
 use PHPUnit\Framework\TestCase;
 use Symplify\CodingStandard\Sniffs\Classes\ClassDeclarationSniff;
-use Symplify\EasyCodingStandard\Configuration\ConfigurationNormalizer;
 use Symplify\EasyCodingStandard\Skipper;
 
 final class SkipperTest extends TestCase
@@ -15,17 +14,15 @@ final class SkipperTest extends TestCase
      */
     private $skipper;
 
-    protected function setUp()
+    protected function setUp(): void
     {
-        $this->skipper = new Skipper(new ConfigurationNormalizer);
+        $this->skipper = new Skipper;
     }
 
-    public function test()
+    public function test(): void
     {
         $this->skipper->setSkipped([
-            'someFile' => [
-                DeclareStrictTypesFixer::class
-            ]
+            DeclareStrictTypesFixer::class => ['someFile']
         ]);
 
         $this->assertFalse($this->skipper->shouldSkipCheckerAndFile(

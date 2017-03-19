@@ -4,7 +4,6 @@ namespace Symplify\CodingStandard\Tests\Sniffs;
 
 use SplFileInfo;
 use Symplify\EasyCodingStandard\ChangedFilesDetector\Contract\ChangedFilesDetectorInterface;
-use Symplify\EasyCodingStandard\Configuration\ConfigurationNormalizer;
 use Symplify\EasyCodingStandard\Error\ErrorCollector;
 use Symplify\EasyCodingStandard\Error\ErrorSorter;
 use Symplify\EasyCodingStandard\Skipper;
@@ -52,9 +51,7 @@ final class SniffRunner
     {
         LegacyCompatibilityLayer::add();
 
-        $sniffDispatcher = new TokenDispatcher(
-            new Skipper(new ConfigurationNormalizer)
-        );
+        $sniffDispatcher = new TokenDispatcher(new Skipper);
         $sniffDispatcher->addSniffListeners([new $sniffClass]);
 
         return $sniffDispatcher;

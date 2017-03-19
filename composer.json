@@ -54,7 +54,8 @@
 
         "laravel/framework": "^5.4",
         "illuminate/container": "^5.4",
-        "illuminate/support": "^5.4"
+        "illuminate/support": "^5.4",
+        "contributte/console": "^0.1"
     },
     "require-dev": {
         "phpunit/phpunit": "^6.0",

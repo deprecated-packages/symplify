@@ -23,7 +23,7 @@ final class SimilarPostsFilterTest extends TestCase
      */
     private $postFactory;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->postFactory = new PostFactory;
 
@@ -31,7 +31,7 @@ final class SimilarPostsFilterTest extends TestCase
         $this->similarPostFilter = new SimilarPostsFilter($similarPostResolver);
     }
 
-    public function test()
+    public function test(): void
     {
         $filters = $this->similarPostFilter->getFilters();
 

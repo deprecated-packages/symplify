@@ -18,7 +18,7 @@ final class TranslationFilterProviderTest extends TestCase
      */
     private $translationFilterProvider;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->translationFilterProvider = new TranslationFilterProvider(
             $this->createTranslator(),
@@ -26,7 +26,7 @@ final class TranslationFilterProviderTest extends TestCase
         );
     }
 
-    public function test()
+    public function test(): void
     {
         $filters = $this->translationFilterProvider->getFilters();
 

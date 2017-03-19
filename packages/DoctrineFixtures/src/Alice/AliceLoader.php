@@ -5,7 +5,6 @@ namespace Symplify\DoctrineFixtures\Alice;
 use Doctrine\ORM\EntityManagerInterface;
 use Nelmio\Alice\Fixtures\Loader;
 use Nette\Utils\Finder;
-use SplFileInfo;
 use Symplify\DoctrineFixtures\Contract\Alice\AliceLoaderInterface;
 use Symplify\DoctrineFixtures\Exception\MissingSourceException;
 

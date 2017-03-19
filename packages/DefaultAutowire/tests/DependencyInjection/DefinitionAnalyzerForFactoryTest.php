@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\DefaultAutowire\Tests\DependencyInjection\Definition;
+namespace Symplify\DefaultAutowire\Tests\DependencyInjection;
 
 use Doctrine\ORM\EntityManager;
 use PHPUnit\Framework\TestCase;
@@ -9,15 +9,15 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\DefinitionDecorator;
 use Symfony\Component\DependencyInjection\Reference;
-use Symplify\DefaultAutowire\DependencyInjection\Definition\DefinitionAnalyzer;
-use Symplify\DefaultAutowire\DependencyInjection\Definition\DefinitionValidator;
-use Symplify\DefaultAutowire\Tests\DependencyInjection\Definition\DefinitionAnalyzerSource\EmptyConstructor;
-use Symplify\DefaultAutowire\Tests\DependencyInjection\Definition\DefinitionAnalyzerSource\EmptyConstructorFactory;
-use Symplify\DefaultAutowire\Tests\DependencyInjection\Definition\DefinitionAnalyzerSource\MissingArgumentsTypehints;
-use Symplify\DefaultAutowire\Tests\DependencyInjection\Definition\DefinitionAnalyzerSource\NotMissingArgumentsTypehints;
-use Symplify\DefaultAutowire\Tests\DependencyInjection\Definition\DefinitionAnalyzerSource\NotMissingArgumentsTypehintsFactory;
-use Symplify\DefaultAutowire\Tests\DependencyInjection\Definition\DefinitionAnalyzerSource\TestEntity;
-use Symplify\DefaultAutowire\Tests\DependencyInjection\Definition\DefinitionAnalyzerSource\TestEntityRepository;
+use Symplify\DefaultAutowire\DependencyInjection\DefinitionAnalyzer;
+use Symplify\DefaultAutowire\DependencyInjection\DefinitionValidator;
+use Symplify\DefaultAutowire\Tests\DependencyInjection\DefinitionAnalyzerSource\EmptyConstructor;
+use Symplify\DefaultAutowire\Tests\DependencyInjection\DefinitionAnalyzerSource\EmptyConstructorFactory;
+use Symplify\DefaultAutowire\Tests\DependencyInjection\DefinitionAnalyzerSource\MissingArgumentsTypehints;
+use Symplify\DefaultAutowire\Tests\DependencyInjection\DefinitionAnalyzerSource\NotMissingArgumentsTypehints;
+use Symplify\DefaultAutowire\Tests\DependencyInjection\DefinitionAnalyzerSource\NotMissingArgumentsTypehintsFactory;
+use Symplify\DefaultAutowire\Tests\DependencyInjection\DefinitionAnalyzerSource\TestEntity;
+use Symplify\DefaultAutowire\Tests\DependencyInjection\DefinitionAnalyzerSource\TestEntityRepository;
 
 final class DefinitionAnalyzerForFactoryTest extends TestCase
 {
