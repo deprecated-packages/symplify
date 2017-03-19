@@ -158,8 +158,6 @@ skip:
         - packages/DoctrineMigrations/src/OutputWriter.php
         - packages/DefaultAutowire/tests/DependencyInjection/Definition/DefinitionAnalyzerSource/MissingArgumentsTypehints.php
         - packages/DoctrineFixtures/src/Alice/AliceLoader.php
-    PHP_CodeSniffer\Standards\Generic\Sniffs\Files\LineLengthSniff:
-        - packages/DefaultAutowire/tests/DependencyInjection/Definition/DefinitionAnalyzerForFactoryTest.php
     SlevomatCodingStandard\Sniffs\Namespaces\UnusedUsesSniff:
         - packages/DoctrineFixtures/src/Alice/AliceLoader.php
     PhpCsFixer\Fixer\ClassNotation\NoBlankLinesAfterClassOpeningFixer:

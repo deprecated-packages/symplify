@@ -12,12 +12,12 @@ final class MessageAnalyzerTest extends TestCase
      */
     private $messageAnalyzer;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->messageAnalyzer = new MessageAnalyzer;
     }
 
-    public function test()
+    public function test(): void
     {
         $originalMessage = 'layout.footer';
         [$domain, $message] = $this->messageAnalyzer->extractDomainFromMessage($originalMessage);
@@ -29,7 +29,7 @@ final class MessageAnalyzerTest extends TestCase
     /**
      * @expectedException \Symplify\Statie\Translation\Exception\IncorrectTranslationFormatException
      */
-    public function testIncorrectFormat()
+    public function testIncorrectFormat(): void
     {
         $this->messageAnalyzer->extractDomainFromMessage('Some message');
     }

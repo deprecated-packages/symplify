@@ -27,16 +27,18 @@ final class SimilarPostsResolverTest extends TestCase
      */
     private $similarPostsResolver;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->postFactory = new PostFactory;
 
         $this->similarPostsResolver = $this->createSimilarPostsResolver();
 
-        $this->mainPost = $this->postFactory->createPostFromFilePath(__DIR__ . '/../PostsSource/2017-01-01-some-post.md');
+        $this->mainPost = $this->postFactory->createPostFromFilePath(
+            __DIR__ . '/../PostsSource/2017-01-01-some-post.md'
+        );
     }
 
-    public function testOrder()
+    public function testOrder(): void
     {
         $similarPosts = $this->similarPostsResolver->resolveForPostWithLimit($this->mainPost, 3);
 
@@ -46,7 +48,7 @@ final class SimilarPostsResolverTest extends TestCase
         $this->assertNotSame($this->mainPost->getBaseName(), $mostSimilarPost->getBaseName());
     }
 
-    public function testLimit()
+    public function testLimit(): void
     {
         $this->assertCount(2, $this->similarPostsResolver->resolveForPostWithLimit($this->mainPost, 2));
         $this->assertCount(1, $this->similarPostsResolver->resolveForPostWithLimit($this->mainPost, 1));

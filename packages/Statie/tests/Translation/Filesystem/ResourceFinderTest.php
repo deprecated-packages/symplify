@@ -12,12 +12,12 @@ final class ResourceFinderTest extends TestCase
      */
     private $resourceFinder;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->resourceFinder = new ResourceFinder;
     }
 
-    public function test()
+    public function test(): void
     {
         $resources = $this->resourceFinder->findInDirectory(__DIR__ . '/ResourceFinderSource');
         $this->assertCount(1, $resources);
@@ -27,6 +27,6 @@ final class ResourceFinderTest extends TestCase
         $this->assertSame('neon', $resource['format']);
         $this->assertSame('en', $resource['locale']);
         $this->assertSame('layout', $resource['domain']);
-        $this->assertSame(__DIR__ .'/ResourceFinderSource/layout.en.neon', $resource['pathname']);
+        $this->assertSame(__DIR__ . '/ResourceFinderSource/layout.en.neon', $resource['pathname']);
     }
 }
