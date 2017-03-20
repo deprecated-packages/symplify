@@ -2,12 +2,12 @@
 
 namespace Symplify\DoctrineMigrations\Tests\DI\MigrationsExtension;
 
-use Arachne\EventDispatcher\DI\EventDispatcherExtension;
 use Nette\DI\Compiler;
 use Nette\DI\ContainerBuilder;
 use PHPUnit\Framework\TestCase;
 use Symplify\DoctrineMigrations\Configuration\Configuration;
 use Symplify\DoctrineMigrations\DI\MigrationsExtension;
+use Symplify\SymfonyEventDispatcher\Adapter\Nette\DI\SymfonyEventDispatcherExtension;
 
 class LoadConfigurationTest extends TestCase
 {
@@ -22,7 +22,7 @@ class LoadConfigurationTest extends TestCase
         $containerBuilder->parameters = ['appDir' => __DIR__];
 
         $compiler = new Compiler($containerBuilder);
-        $compiler->addExtension('events', new EventDispatcherExtension);
+        $compiler->addExtension('events', new SymfonyEventDispatcherExtension);
 
         $this->extension = new MigrationsExtension;
         $this->extension->setCompiler($compiler, 'migrations');

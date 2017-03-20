@@ -2,7 +2,6 @@
 
 namespace Symplify\DoctrineMigrations\Tests\DI\MigrationsExtension;
 
-use Arachne\EventDispatcher\DI\EventDispatcherExtension;
 use Doctrine\DBAL\Migrations\Tools\Console\Command\ExecuteCommand;
 use Nette\DI\Compiler;
 use Nette\DI\ContainerBuilder;
@@ -12,6 +11,7 @@ use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Application;
 use Symplify\DoctrineMigrations\Configuration\Configuration;
 use Symplify\DoctrineMigrations\DI\MigrationsExtension;
+use Symplify\SymfonyEventDispatcher\Adapter\Nette\DI\SymfonyEventDispatcherExtension;
 
 final class BeforeCompileTest extends TestCase
 {
@@ -34,7 +34,7 @@ final class BeforeCompileTest extends TestCase
         $this->containerBuilder->addDefinition('console', (new ServiceDefinition)->setClass(Application::class));
 
         $compiler = new Compiler($this->containerBuilder);
-        $compiler->addExtension('eventDispatcher', new EventDispatcherExtension);
+        $compiler->addExtension('eventDispatcher', new SymfonyEventDispatcherExtension);
 
         $this->extension->setCompiler($compiler, 'migrations');
         $this->extension->loadConfiguration();
