@@ -2,7 +2,6 @@
 
 namespace Symplify\DoctrineMigrations\DI;
 
-use Arachne\EventDispatcher\DI\EventDispatcherExtension;
 use Doctrine\DBAL\Migrations\Tools\Console\Command\AbstractCommand;
 use Nette\DI\Compiler;
 use Nette\DI\CompilerExtension;
@@ -12,6 +11,7 @@ use Symplify\DoctrineMigrations\EventSubscriber\RegisterMigrationsEventSubscribe
 use Symplify\DoctrineMigrations\EventSubscriber\SetConsoleOutputEventSubscriber;
 use Symplify\DoctrineMigrations\Exception\DI\MissingExtensionException;
 use Symplify\PackageBuilder\Adapter\Nette\DI\DefinitionCollector;
+use Symplify\SymfonyEventDispatcher\Adapter\Nette\DI\SymfonyEventDispatcherExtension;
 
 final class MigrationsExtension extends CompilerExtension
 {
@@ -47,8 +47,7 @@ final class MigrationsExtension extends CompilerExtension
 
         foreach ($this->subscribers as $key => $subscriber) {
             $containerBuilder->addDefinition($this->prefix('listener' . $key))
-                ->setClass($subscriber)
-                ->addTag(EventDispatcherExtension::TAG_SUBSCRIBER);
+                ->setClass($subscriber);
         }
 
         $config = $this->getValidatedConfig();
@@ -120,9 +119,9 @@ final class MigrationsExtension extends CompilerExtension
 
     private function ensureEventDispatcherExtensionIsRegistered(): void
     {
-        if (! $this->compiler->getExtensions(EventDispatcherExtension::class)) {
+        if (! $this->compiler->getExtensions(SymfonyEventDispatcherExtension::class)) {
             throw new MissingExtensionException(
-                sprintf('Please register required extension "%s" to your config.', EventDispatcherExtension::class)
+                sprintf('Please register required extension "%s" to your config.', SymfonyEventDispatcherExtension::class)
             );
         }
     }
