@@ -17,8 +17,7 @@ Register extensions in `config.neon`:
 
 ```yaml
 extensions:
-	- Arachne\ContainerAdapter\DI\ContainerAdapterExtension
-	- Arachne\EventDispatcher\DI\EventDispatcherExtension
+	- Symplify\SymfonyEventDispatcher\Adapter\Nette\DI\SymfonyEventDispatcherExtension
 	migrations: Symplify\DoctrineMigrations\DI\MigrationsExtension
 
 	# Kdyby\Doctrine or another Doctrine integration
