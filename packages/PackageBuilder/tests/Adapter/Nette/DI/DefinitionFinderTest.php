@@ -37,7 +37,7 @@ final class DefinitionFinderTest extends TestCase
     }
 
     /**
-     * @expectedException \Symplify\ModularDoctrineFilters\Exception\DefinitionForTypeNotFoundException
+     * @expectedException \Symplify\PackageBuilder\Exception\DependencyInjection\DefinitionForTypeNotFoundException
      */
     public function testMissing(): void
     {
