@@ -4,7 +4,7 @@ namespace Symplify\PackageBuilder\Adapter\Nette\DI;
 
 use Nette\DI\ContainerBuilder;
 use Nette\DI\ServiceDefinition;
-use Symplify\ModularDoctrineFilters\Exception\DefinitionForTypeNotFoundException;
+use Symplify\PackageBuilder\Exception\DependencyInjection\DefinitionForTypeNotFoundException;
 
 final class DefinitionFinder
 {

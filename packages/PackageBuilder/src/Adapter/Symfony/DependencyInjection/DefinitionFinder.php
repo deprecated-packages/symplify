@@ -4,7 +4,7 @@ namespace Symplify\PackageBuilder\Adapter\Symfony\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
-use Symplify\ModularDoctrineFilters\Exception\DefinitionForTypeNotFoundException;
+use Symplify\PackageBuilder\Exception\DependencyInjection\DefinitionForTypeNotFoundException;
 
 final class DefinitionFinder
 {
