@@ -119,9 +119,11 @@ final class MigrationsExtension extends CompilerExtension
 
     private function ensureEventDispatcherExtensionIsRegistered(): void
     {
-        if (! $this->compiler->getExtensions(SymfonyEventDispatcherExtension::class)) {
+    	$extensionClassName = SymfonyEventDispatcherExtension::class;
+
+        if (! $this->compiler->getExtensions($extensionClassName)) {
             throw new MissingExtensionException(
-                sprintf('Please register required extension "%s" to your config.', SymfonyEventDispatcherExtension::class)
+                sprintf('Please register required extension "%s" to your config.', $extensionClassName)
             );
         }
     }
