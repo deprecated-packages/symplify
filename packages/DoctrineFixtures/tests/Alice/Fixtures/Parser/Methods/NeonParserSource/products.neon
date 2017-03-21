@@ -1,3 +1,0 @@
-Symplify\DoctrineFixtures\Tests\Entity\Product:
-	"product{1..5}":
-		__construct: ["<shortName()>"]

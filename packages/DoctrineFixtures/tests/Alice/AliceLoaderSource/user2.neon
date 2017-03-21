@@ -1,3 +1,0 @@
-Symplify\DoctrineFixtures\Tests\Entity\User:
-	"user2":
-		__construct: ["user2@email.com"]
