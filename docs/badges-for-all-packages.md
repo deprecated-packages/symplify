@@ -30,13 +30,6 @@ To quick check test build status, coverage or downloads.
 [![Downloads](https://img.shields.io/packagist/dt/symplify/default-autowire.svg?style=flat-square)](https://packagist.org/packages/symplify/default-autowire)
 
 
-## Modular Doctrine Filters
-
-[![Build Status](https://img.shields.io/travis/Symplify/ModularDoctrineFilters.svg?style=flat-square)](https://travis-ci.org/Symplify/ModularDoctrineFilters)
-[![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/Symplify/ModularDoctrineFilters.svg?style=flat-square)](https://scrutinizer-ci.com/g/Symplify/ModularDoctrineFilters)
-[![Downloads](https://img.shields.io/packagist/dt/symplify/modular-doctrine-filters.svg?style=flat-square)](https://packagist.org/packages/symplify/modular-doctrine-filters)
-
-
 ## Modular Routing
 
 [![Build Status](https://img.shields.io/travis/Symplify/ModularRouting.svg?style=flat-square)](https://travis-ci.org/Symplify/ModularRouting)
@@ -72,27 +65,6 @@ To quick check test build status, coverage or downloads.
 [![Downloads](https://img.shields.io/packagist/dt/symplify/symfony-security-voters.svg?style=flat-square)](htptps://packagist.org/packages/symplify/symfony-security-voters)
 
 
-## Doctrine Behaviors
-
-[![Build Status](https://img.shields.io/travis/Symplify/DoctrineBehaviors.svg?style=flat-square)](https://travis-ci.org/Symplify/DoctrineBehaviors)
-[![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/Symplify/DoctrineBehaviors.svg?style=flat-square)](https://scrutinizer-ci.com/g/Symplify/DoctrineBehaviors)
-[![Downloads total](https://img.shields.io/packagist/dt/symplify/doctrine-behaviors.svg?style=flat-square)](https://packagist.org/packages/symplify/doctrine-behaviors)
-
-
-## Doctrine Extensions - Tree
- 
- [![Build Status](https://img.shields.io/travis/Symplify/DoctrineExtensionsTree.svg?style=flat-square)](https://travis-ci.org/Symplify/DoctrineExtensionsTree)
- [![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/Symplify/DoctrineExtensionsTree.svg?style=flat-square)](https://scrutinizer-ci.com/g/Symplify/DoctrineExtensionsTree)
- [![Downloads](https://img.shields.io/packagist/dt/symplify/doctrine-extensions-tree.svg?style=flat-square)](https://packagist.org/packages/symplify/doctrine-extensions-tree)
-
- 
-## Doctrine Fixtures
- 
- [![Build Status](https://img.shields.io/travis/Symplify/DoctrineFixtures.svg?style=flat-square)](https://travis-ci.org/Symplify/DoctrineFixtures)
- [![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/Symplify/DoctrineFixtures.svg?style=flat-square)](https://scrutinizer-ci.com/g/Symplify/DoctrineFixtures)
- [![Downloads](https://img.shields.io/packagist/dt/symplify/doctrine-fixtures.svg?style=flat-square)](https://packagist.org/packages/symplify/doctrine-fixtures)
-
- 
 ## Doctrine Migrations
 
 [![Build Status](https://img.shields.io/travis/Symplify/DoctrineMigrations.svg?style=flat-square)](https://travis-ci.org/Symplify/DoctrineMigrations)
