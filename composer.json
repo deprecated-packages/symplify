@@ -12,7 +12,6 @@
         "arachne/event-dispatcher": "^0.1",
 
         "gedmo/doctrine-extensions": "^2.4",
-        "knplabs/doctrine-behaviors": "^1.4",
 
         "doctrine/migrations": "^1.5",
         "doctrine/dbal": "^2.5",
@@ -97,8 +96,7 @@
             "Symplify\\ModularLatteFilters\\": "packages/ModularLatteFilters/src",
             "Symplify\\DoctrineFixtures\\": "packages/DoctrineFixtures/src",
             "Symplify\\DoctrineExtensionsTree\\": "packages/DoctrineExtensionsTree/src",
-            "Symplify\\DoctrineMigrations\\": "packages/DoctrineMigrations/src",
-            "Symplify\\DoctrineBehaviors\\": "packages/DoctrineBehaviors/src"
+            "Symplify\\DoctrineMigrations\\": "packages/DoctrineMigrations/src"
         }
     },
     "autoload-dev": {
@@ -122,8 +120,7 @@
             "Symplify\\ModularLatteFilters\\Tests\\": "packages/ModularLatteFilters/tests",
             "Symplify\\DoctrineFixtures\\Tests\\": "packages/DoctrineFixtures/tests",
             "Symplify\\DoctrineExtensionsTree\\Tests\\": "packages/DoctrineExtensionsTree/tests",
-            "Symplify\\DoctrineMigrations\\Tests\\": "packages/DoctrineMigrations/tests",
-            "Symplify\\DoctrineBehaviors\\Tests\\": "packages/DoctrineBehaviors/tests"
+            "Symplify\\DoctrineMigrations\\Tests\\": "packages/DoctrineMigrations/tests"
         },
         "classmap": [
             "packages/Statie/bin/include-autoload.php"
