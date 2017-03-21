@@ -3,8 +3,7 @@ services:
 
 
 extensions:
-	- Arachne\ContainerAdapter\DI\ContainerAdapterExtension
-	- Arachne\EventDispatcher\DI\EventDispatcherExtension
+	- Symplify\SymfonyEventDispatcher\Adapter\Nette\DI\SymfonyEventDispatcherExtension
 	- Kdyby\Annotations\DI\AnnotationsExtension
 	- Kdyby\Console\DI\ConsoleExtension
 	doctrine: Kdyby\Doctrine\DI\OrmExtension

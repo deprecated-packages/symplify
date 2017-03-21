@@ -4,7 +4,7 @@
 	"license": "MIT",
 	"require": {
 		"php": "^7.1",
-		"arachne/event-dispatcher": "^0.1",
+		"symplify/symfony-event-dispatcher": "^1.4.0",
 		"doctrine/migrations": "^1.4",
 		"nette/di": "^2.4",
 		"symfony/console": "^3.2",
