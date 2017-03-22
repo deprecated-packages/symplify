@@ -24,7 +24,7 @@ class AppKernel extends Kernel
     public function registerBundles()
     {
         $bundles = [
-            new Symplify\AutoServiceRegistration\Symfony\SymplifyAutoServiceRegistrationBundle(),
+            new Symplify\AutoServiceRegistration\Adapter\Symfony\SymplifyAutoServiceRegistrationBundle(),
             // ...
         ];
     }
@@ -39,7 +39,7 @@ class AppKernel extends Kernel
 symplify_auto_service_registration:
     directories_to_scan: # where to scan classes
         - %kernel.root_dir%
-        - %kernel.root_dir%/src
+        - %kernel.root_dir%/../src
     class_suffixes_to_seek: # what class name suffixes to look for
         - Controller
 ```
