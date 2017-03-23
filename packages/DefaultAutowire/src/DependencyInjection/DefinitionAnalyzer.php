@@ -121,9 +121,8 @@ final class DefinitionAnalyzer
         ReflectionMethod $constructorReflection
     ): bool {
         $arguments = $definition->getArguments();
-        if (! count($arguments)) {
-            return true;
-        }
+
+        $needsAutowiring = false;
 
         $i = 0;
         foreach ($constructorReflection->getParameters() as $parameterReflection) {
@@ -134,18 +133,21 @@ final class DefinitionAnalyzer
                 }
 
                 if (! $parameterReflection->getType()) {
-                    ++$i;
-                    continue;
+                    return false;
+                }
+
+                if ($parameterReflection->getType()->isBuiltin()) {
+                    return false;
                 }
 
                 if (! $parameterReflection->getType()->allowsNull()) {
-                    return true;
+                    $needsAutowiring = true;
                 }
             }
 
             ++$i;
         }
 
-        return false;
+        return $needsAutowiring;
     }
 }
