@@ -50,7 +50,7 @@ final class SimilarPostsResolverTest extends TestCase
 
     public function testLimit(): void
     {
-        $this->assertCount(2, $this->similarPostsResolver->resolveForPostWithLimit($this->mainPost, 2));
+        $this->assertCount(3, $this->similarPostsResolver->resolveForPostWithLimit($this->mainPost, 3));
         $this->assertCount(1, $this->similarPostsResolver->resolveForPostWithLimit($this->mainPost, 1));
     }
 

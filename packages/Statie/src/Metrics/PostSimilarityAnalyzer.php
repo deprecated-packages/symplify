@@ -21,15 +21,17 @@ final class PostSimilarityAnalyzer
     {
         $score = 0;
         if (isset($firstPost['title'], $secondPost['title'])) {
-            $titleScore = similar_text($firstPost['title'], $secondPost['title']);
-            $score += $titleScore * self::TITLE_WEIGHT;
+            similar_text($firstPost['title'], $secondPost['title'], $similarityScore);
+            $score += $similarityScore * self::TITLE_WEIGHT;
         }
 
         return $score;
     }
 
-    private function analyzeContents(PostFile $firstPost, PostFile $secondPost): int
+    private function analyzeContents(PostFile $firstPost, PostFile $secondPost)
     {
-        return similar_text($firstPost->getContent(), $secondPost->getContent());
+        similar_text($firstPost->getContent(), $secondPost->getContent(), $similarityScore);
+
+        return (int) $similarityScore;
     }
 }
