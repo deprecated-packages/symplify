@@ -3,6 +3,7 @@ parameters:
         - "#Call to an undefined method Prophecy#"
         - "#Version456#"
         - "#does not call parent constructor from PHP_CodeSniffer#"
+        - "#does not call parent constructor from Nette#"
     excludes_analyse:
         - *packages/CodingStandard/tests/**/correct*
         - *packages/CodingStandard/tests/**/wrong*

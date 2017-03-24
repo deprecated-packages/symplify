@@ -52,7 +52,8 @@
         "laravel/framework": "^5.4",
         "illuminate/container": "^5.4",
         "illuminate/support": "^5.4",
-        "contributte/console": "^0.1"
+        "contributte/console": "^0.1",
+        "odbav-to/presenter-route": "@dev"
     },
     "require-dev": {
         "phpunit/phpunit": "^6.0",
@@ -83,6 +84,7 @@
             "Symplify\\ModularRouting\\": "packages/ModularRouting/src",
             "Symplify\\ServiceDefinitionDecorator\\": "packages/ServiceDefinitionDecorator/src",
             "Symplify\\Statie\\": "packages/Statie/src",
+            "Symplify\\SymbioticController\\": "packages/SymbioticController/src",
             "Symplify\\SymfonyEventDispatcher\\": "packages/SymfonyEventDispatcher/src",
             "Symplify\\SymfonySecurityVoters\\": "packages/SymfonySecurityVoters/src",
             "Symplify\\PackageBuilder\\": "packages/PackageBuilder/src",
@@ -103,10 +105,11 @@
             "Symplify\\ModularRouting\\Tests\\": "packages/ModularRouting/tests",
             "Symplify\\ServiceDefinitionDecorator\\Tests\\": "packages/ServiceDefinitionDecorator/tests",
             "Symplify\\Statie\\Tests\\": "packages/Statie/tests",
-            "Symplify\\Tests\\": "tests",
+            "Symplify\\SymbioticController\\Tests\\": "packages/SymbioticController/tests",
             "Symplify\\SymfonyEventDispatcher\\Tests\\": "packages/SymfonyEventDispatcher/tests",
             "Symplify\\SymfonySecurityVoters\\Tests\\": "packages/SymfonySecurityVoters/tests",
             "Symplify\\PackageBuilder\\Tests\\": "packages/PackageBuilder/tests",
+            "Symplify\\Tests\\": "tests",
             "Symplify\\EasyCodingStandard\\Tests\\": "packages/EasyCodingStandard/tests",
             "Symplify\\EasyCodingStandard\\SniffRunner\\Tests\\": "packages/EasyCodingStandard/packages/SniffRunner/tests",
             "Symplify\\EasyCodingStandard\\ChangedFilesDetector\\Tests\\": "packages/EasyCodingStandard/packages/ChangedFilesDetector/tests",
