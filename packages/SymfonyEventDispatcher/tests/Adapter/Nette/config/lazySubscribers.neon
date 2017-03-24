@@ -1,0 +1,11 @@
+application:
+	scanDirs: FALSE
+	scanComposer: FALSE
+
+
+extensions:
+	- Symplify\SymfonyEventDispatcher\Adapter\Nette\DI\SymfonyEventDispatcherExtension
+
+
+services:
+	subscriber: Symplify\SymfonyEventDispatcher\Tests\Adapter\Nette\DI\EventDispatcherExtensionSource\SomeEventSubscriber
