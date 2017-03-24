@@ -1,0 +1,19 @@
+{
+    "name": "symplify/symbiotic-controller",
+    "require": {
+        "php": "^7.1",
+        "nette/di": "^2.4",
+        "nette/application": "^2.4",
+        "odbav-to/presenter-route": "@dev"
+    },
+    "autoload": {
+        "psr-4": {
+            "Symplify\\SymbioticController\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Symplify\\SymbioticController\\Tests\\": "tests"
+        }
+    }
+}

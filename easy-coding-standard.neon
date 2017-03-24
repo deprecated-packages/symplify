@@ -146,6 +146,7 @@ checkers:
 
 skip:
     SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff:
+        - packages/SymbioticController/src/Application/PresenterFactory.php
         - packages/EasyCodingStandard/packages/SniffRunner/src/File/File.php
         - packages/CodingStandard/src/Sniffs/*/*Sniff.php
         - packages/ControllerAutowire/src/HttpKernel/Controller/ControllerResolver.php
