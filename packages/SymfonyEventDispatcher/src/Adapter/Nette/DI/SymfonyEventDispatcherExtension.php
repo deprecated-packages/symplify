@@ -9,7 +9,6 @@ use Nette\DI\Statement;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symplify\PackageBuilder\Adapter\Nette\DI\DefinitionCollector;
 use Symplify\PackageBuilder\Adapter\Nette\DI\DefinitionFinder;
 
 final class SymfonyEventDispatcherExtension extends CompilerExtension
@@ -47,11 +46,45 @@ final class SymfonyEventDispatcherExtension extends CompilerExtension
 
     private function addSubscribersToEventDispatcher(): void
     {
-        DefinitionCollector::loadCollectorWithType(
-            $this->getContainerBuilder(),
-            EventDispatcherInterface::class,
-            EventSubscriberInterface::class,
-            'addSubscriber'
+        $containerBuilder = $this->getContainerBuilder();
+        $dispatcherDefinition = $containerBuilder->getDefinitionByType(EventDispatcherInterface::class);
+        $subscriberDefinitions = $containerBuilder->findByType(EventSubscriberInterface::class);
+
+        foreach ($subscriberDefinitions as $name => $definition) {
+            $this->registerSubscriber($dispatcherDefinition, $name, $definition->getClass());
+        }
+    }
+
+    private function registerSubscriber(ServiceDefinition $dispatcher, string $service, string $class): void
+    {
+        foreach ($class::getSubscribedEvents() as $event => $listeners) {
+            if (is_string($listeners)) {
+                $listeners = [[$listeners]];
+            } elseif (is_string($listeners[0])) {
+                $listeners = [$listeners];
+            }
+            foreach ($listeners as $listener) {
+                $this->registerLazyListener($dispatcher, $event, $service, $listener[0], $listener[1] ?? 0);
+            }
+        }
+    }
+
+    private function registerLazyListener(
+        ServiceDefinition $dispatcher,
+        string $event,
+        string $service,
+        string $method,
+        int $priority
+    ): void {
+        $dispatcher->addSetup(
+            '?->addListener(?, function (...$arguments) { $this->getService(?)->?(...$arguments); }, ?)',
+            [
+                '@self',
+                $event,
+                $service,
+                $method,
+                $priority,
+            ]
         );
     }
 
