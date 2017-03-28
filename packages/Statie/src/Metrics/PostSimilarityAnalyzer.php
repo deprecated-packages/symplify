@@ -25,7 +25,7 @@ final class PostSimilarityAnalyzer
             $score += $similarityScore * self::TITLE_WEIGHT;
         }
 
-        return $score;
+        return (int) $score;
     }
 
     private function analyzeContents(PostFile $firstPost, PostFile $secondPost)
