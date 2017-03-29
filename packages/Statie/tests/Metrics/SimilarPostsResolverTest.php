@@ -49,15 +49,6 @@ final class SimilarPostsResolverTest extends TestCase
         $this->assertNotSame($this->mainPost['title'], $mostSimilarPost['title']);
     }
 
-    public function testPerformance(): void
-    {
-        Debugger::timer();
-        $this->similarPostsResolver->resolveForPostWithLimit($this->mainPost, 3);
-        $durationInMs = 1000 * Debugger::timer();
-
-        $this->assertLessThan(2, $durationInMs);
-    }
-
     public function testLimit(): void
     {
         $this->assertCount(3, $this->similarPostsResolver->resolveForPostWithLimit($this->mainPost, 3));
