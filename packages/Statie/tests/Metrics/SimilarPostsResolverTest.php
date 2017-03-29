@@ -10,7 +10,6 @@ use Symplify\Statie\Metrics\SimilarPostsResolver;
 use Symplify\Statie\Renderable\File\PostFile;
 use Symplify\Statie\Tests\Helper\PostFactory;
 use TextAnalysis\Comparisons\CosineSimilarityComparison;
-use Tracy\Debugger;
 
 final class SimilarPostsResolverTest extends TestCase
 {
