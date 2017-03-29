@@ -3,35 +3,27 @@
 namespace Symplify\Statie\Metrics;
 
 use Symplify\Statie\Renderable\File\PostFile;
+use TextAnalysis\Comparisons\CosineSimilarityComparison;
 
 final class PostSimilarityAnalyzer
 {
     /**
-     * @var int
+     * @var CosineSimilarityComparison
      */
-    private const TITLE_WEIGHT = 5;
+    private $cosineSimilarityComparison;
+
+    public function __construct(CosineSimilarityComparison $cosineSimilarityComparison)
+    {
+        $this->cosineSimilarityComparison = $cosineSimilarityComparison;
+    }
 
     public function analyzeTwoPosts(PostFile $firstPost, PostFile $secondPost): int
     {
-        return $this->analyzeTitles($firstPost, $secondPost)
-            + $this->analyzeContents($firstPost, $secondPost);
-    }
+        $relativeScore = $this->cosineSimilarityComparison->similarity(
+            explode(' ', $firstPost->getContent()),
+            explode(' ', $secondPost->getContent())
+        );
 
-    private function analyzeTitles(PostFile $firstPost, PostFile $secondPost): int
-    {
-        $score = 0;
-        if (isset($firstPost['title'], $secondPost['title'])) {
-            similar_text($firstPost['title'], $secondPost['title'], $similarityScore);
-            $score += $similarityScore * self::TITLE_WEIGHT;
-        }
-
-        return (int) $score;
-    }
-
-    private function analyzeContents(PostFile $firstPost, PostFile $secondPost)
-    {
-        similar_text($firstPost->getContent(), $secondPost->getContent(), $similarityScore);
-
-        return (int) $similarityScore;
+        return (int) ($relativeScore * 100);
     }
 }

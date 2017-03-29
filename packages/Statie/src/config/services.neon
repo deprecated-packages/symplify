@@ -63,3 +63,4 @@
 - Symplify\Statie\Metrics\PostSimilarityAnalyzer
 - Symplify\Statie\Metrics\SimilarPostsResolver
 - Symplify\Statie\Latte\Filter\SimilarPostsFilter
+- TextAnalysis\Comparisons\CosineSimilarityComparison
