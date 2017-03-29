@@ -3,33 +3,27 @@
 namespace Symplify\Statie\Metrics;
 
 use Symplify\Statie\Renderable\File\PostFile;
+use TextAnalysis\Comparisons\CosineSimilarityComparison;
 
 final class PostSimilarityAnalyzer
 {
     /**
-     * @var int
+     * @var CosineSimilarityComparison
      */
-    private const TITLE_WEIGHT = 5;
+    private $cosineSimilarityComparison;
+
+    public function __construct(CosineSimilarityComparison $cosineSimilarityComparison)
+    {
+        $this->cosineSimilarityComparison = $cosineSimilarityComparison;
+    }
 
     public function analyzeTwoPosts(PostFile $firstPost, PostFile $secondPost): int
     {
-        return $this->analyzeTitles($firstPost, $secondPost)
-            + $this->analyzeContents($firstPost, $secondPost);
-    }
+        $floatScore = $this->cosineSimilarityComparison->similarity(
+            explode(' ', $firstPost->getContent()),
+            explode(' ', $secondPost->getContent())
+        );
 
-    private function analyzeTitles(PostFile $firstPost, PostFile $secondPost): int
-    {
-        $score = 0;
-        if (isset($firstPost['title'], $secondPost['title'])) {
-            $titleScore = similar_text($firstPost['title'], $secondPost['title']);
-            $score += $titleScore * self::TITLE_WEIGHT;
-        }
-
-        return $score;
-    }
-
-    private function analyzeContents(PostFile $firstPost, PostFile $secondPost): int
-    {
-        return similar_text($firstPost->getContent(), $secondPost->getContent());
+        return (int) (10000 * $floatScore);
     }
 }

@@ -58,3 +58,9 @@
 # latte filters
 - Symplify\Statie\Latte\Filter\GithubPrLinkFilterProvider
 - Symplify\Statie\Latte\Filter\TimeFilterProvider
+
+# similar posts
+- Symplify\Statie\Metrics\PostSimilarityAnalyzer
+- Symplify\Statie\Metrics\SimilarPostsResolver
+- Symplify\Statie\Latte\Filter\SimilarPostsFilter
+- TextAnalysis\Comparisons\CosineSimilarityComparison

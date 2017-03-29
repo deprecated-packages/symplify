@@ -10,6 +10,7 @@ use Symplify\Statie\Metrics\PostSimilarityAnalyzer;
 use Symplify\Statie\Metrics\SimilarPostsResolver;
 use Symplify\Statie\Renderable\File\PostFile;
 use Symplify\Statie\Tests\Helper\PostFactory;
+use TextAnalysis\Comparisons\CosineSimilarityComparison;
 
 final class SimilarPostsFilterTest extends TestCase
 {
@@ -70,6 +71,6 @@ final class SimilarPostsFilterTest extends TestCase
         $configuration = new Configuration(new NeonParser);
         $configuration->addGlobalVarialbe('posts', $this->getAllPosts());
 
-        return new SimilarPostsResolver($configuration, new PostSimilarityAnalyzer);
+        return new SimilarPostsResolver($configuration, new PostSimilarityAnalyzer(new CosineSimilarityComparison));
     }
 }

@@ -9,6 +9,7 @@ use Symplify\Statie\Metrics\PostSimilarityAnalyzer;
 use Symplify\Statie\Metrics\SimilarPostsResolver;
 use Symplify\Statie\Renderable\File\PostFile;
 use Symplify\Statie\Tests\Helper\PostFactory;
+use TextAnalysis\Comparisons\CosineSimilarityComparison;
 
 final class SimilarPostsResolverTest extends TestCase
 {
@@ -34,7 +35,7 @@ final class SimilarPostsResolverTest extends TestCase
         $this->similarPostsResolver = $this->createSimilarPostsResolver();
 
         $this->mainPost = $this->postFactory->createPostFromFilePath(
-            __DIR__ . '/../PostsSource/2017-01-01-some-post.md'
+            __DIR__ . '/../PostsSource/2017-01-05-another-related-post.md'
         );
     }
 
@@ -43,14 +44,13 @@ final class SimilarPostsResolverTest extends TestCase
         $similarPosts = $this->similarPostsResolver->resolveForPostWithLimit($this->mainPost, 3);
 
         $mostSimilarPost = $similarPosts[0];
-        $this->assertSame($this->mainPost['title'], $mostSimilarPost['title']);
-
-        $this->assertNotSame($this->mainPost->getBaseName(), $mostSimilarPost->getBaseName());
+        $this->assertSame('Statie 4: How to Create The Simplest Blog', $mostSimilarPost['title']);
+        $this->assertNotSame($this->mainPost['title'], $mostSimilarPost['title']);
     }
 
     public function testLimit(): void
     {
-        $this->assertCount(2, $this->similarPostsResolver->resolveForPostWithLimit($this->mainPost, 2));
+        $this->assertCount(3, $this->similarPostsResolver->resolveForPostWithLimit($this->mainPost, 3));
         $this->assertCount(1, $this->similarPostsResolver->resolveForPostWithLimit($this->mainPost, 1));
     }
 
@@ -59,7 +59,7 @@ final class SimilarPostsResolverTest extends TestCase
         $configuration = new Configuration(new NeonParser);
         $configuration->addGlobalVarialbe('posts', $this->getAllPosts());
 
-        return new SimilarPostsResolver($configuration, new PostSimilarityAnalyzer);
+        return new SimilarPostsResolver($configuration, new PostSimilarityAnalyzer(new CosineSimilarityComparison));
     }
 
     /**
