@@ -19,11 +19,11 @@ final class PostSimilarityAnalyzer
 
     public function analyzeTwoPosts(PostFile $firstPost, PostFile $secondPost): int
     {
-        $relativeScore = $this->cosineSimilarityComparison->similarity(
+        $floatScore = $this->cosineSimilarityComparison->similarity(
             explode(' ', $firstPost->getContent()),
             explode(' ', $secondPost->getContent())
         );
 
-        return (int) ($relativeScore * 100);
+        return (int) (10000 * $floatScore);
     }
 }
