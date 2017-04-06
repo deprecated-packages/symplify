@@ -24,11 +24,6 @@ final class ComponentFactoryCommentSniff implements Sniff
     private $file;
 
     /**
-     * @var array[]
-     */
-    private $tokens;
-
-    /**
      * @return int[]
      */
     public function register(): array
@@ -44,7 +39,6 @@ final class ComponentFactoryCommentSniff implements Sniff
     {
         $this->file = $file;
         $this->position = $position;
-        $this->tokens = $file->getTokens();
 
         if (! $this->isComponentFactoryMethod()) {
             return;

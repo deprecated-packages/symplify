@@ -83,8 +83,7 @@ final class SniffRunner
 
     private static function createDummyChangedFilesDetector(): ChangedFilesDetectorInterface
     {
-        return new class implements ChangedFilesDetectorInterface
-        {
+        return new class implements ChangedFilesDetectorInterface {
             public function addFile(string $filePath): void
             {
             }

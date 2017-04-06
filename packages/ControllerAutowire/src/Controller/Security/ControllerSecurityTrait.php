@@ -62,9 +62,6 @@ trait ControllerSecurityTrait
         }
     }
 
-    /**
-     * @return object|void|UserInterface
-     */
     protected function getUser()
     {
         if ($this->tokenStorage->getToken() === null) {

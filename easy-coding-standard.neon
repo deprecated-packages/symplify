@@ -260,7 +260,7 @@ checkers:
     - PhpCsFixer\Fixer\ArrayNotation\NoMultilineWhitespaceAroundDoubleArrowFixer
     - PhpCsFixer\Fixer\CastNotation\NoShortBoolCastFixer
     - PhpCsFixer\Fixer\Semicolon\NoSinglelineWhitespaceBeforeSemicolonsFixer
-    # buggy, temp down: https://github.com/FriendsOfPHP/checkers/issues/2454
+    # buggy, temp down: https://github.com/FriendsOfPHP/php-cs-fixer/issues/2454
     # - PhpCsFixer\Fixer\Whitespace\NoSpacesAroundOffsetFixer
     - PhpCsFixer\Fixer\ControlStructure\NoTrailingCommaInListCallFixer
     - PhpCsFixer\Fixer\ArrayNotation\NoTrailingCommaInSinglelineArrayFixer
@@ -299,12 +299,10 @@ checkers:
     - PhpCsFixer\Fixer\ArrayNotation\TrimArraySpacesFixer
     - PhpCsFixer\Fixer\ArrayNotation\WhitespaceAfterCommaInArrayFixer
 
-    # PHP 7.0 migration (official)
+    # PHP 7.1
     PhpCsFixer\Fixer\Alias\RandomApiMigrationFixer:
         mt_rand: random_int
         rand: random_int
-
-    # PHP 7.1 migration (official)
     PhpCsFixer\Fixer\ClassNotation\VisibilityRequiredFixer:
         - const
         - property

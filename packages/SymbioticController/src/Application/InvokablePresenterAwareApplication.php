@@ -49,7 +49,7 @@ final class InvokablePresenterAwareApplication extends Application
     private $requests = [];
 
     /**
-     * @var IPresenter|callable|NULL
+     * @var IPresenter|callable|null
      */
     private $presenter;
 
@@ -102,7 +102,6 @@ final class InvokablePresenterAwareApplication extends Application
             $this->eventDispatcher->dispatch(
                 ApplicationShutdownEvent::class, new ApplicationShutdownEvent($this)
             );
-
         } catch (Throwable $exception) {
             $this->dispatchException($exception);
         }
@@ -114,6 +113,7 @@ final class InvokablePresenterAwareApplication extends Application
         if (! $request instanceof Request) {
             throw new BadRequestException('No route for HTTP request.');
         }
+
         return $request;
     }
 
@@ -153,7 +153,6 @@ final class InvokablePresenterAwareApplication extends Application
         if ($response instanceof Responses\ForwardResponse) {
             $request = $response->getRequest();
             goto process;
-
         } elseif ($response) {
             $this->eventDispatcher->dispatch(
                 ApplicationResponseEvent::class, new ApplicationResponseEvent($this, $response)
@@ -210,8 +209,8 @@ final class InvokablePresenterAwareApplication extends Application
                 $this->eventDispatcher->dispatch(
                     ApplicationShutdownEvent::class, new ApplicationShutdownEvent($this)
                 );
-                return;
 
+                return;
             } catch (Throwable $exception) {
                 $this->dispatchApplicationException($exception);
             }

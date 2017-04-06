@@ -6,5 +6,4 @@ use Nette\Application\UI\Presenter;
 
 final class PresenterHelper extends Presenter
 {
-
 }

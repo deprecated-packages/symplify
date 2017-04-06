@@ -38,7 +38,7 @@ final class PresenterFactory implements IPresenterFactory
      * @param string $name
      * @return IPresenter|callable|object
      */
-    public function createPresenter($name)
+    public function createPresenter(string $name)
     {
         $presenterClass = $this->getPresenterClass($name);
         $presenter = $this->container->createInstance($presenterClass);
@@ -54,7 +54,7 @@ final class PresenterFactory implements IPresenterFactory
      * Generates and checks presenter class name.
      * @param string $name presenter name
      */
-    public function getPresenterClass(&$name): string
+    public function getPresenterClass(string &$name): string
     {
         if (isset($this->cache[$name])) {
             return $this->cache[$name];
@@ -113,6 +113,7 @@ final class PresenterFactory implements IPresenterFactory
         while ($part = array_shift($parts)) {
             $mapping[0] .= str_replace('*', $part, $mapping[$parts ? 1 : 2]);
         }
+
         return $mapping[0];
     }
 }
