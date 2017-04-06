@@ -26,10 +26,6 @@ services:
     some_built_autowired_service_factory:
         class: Symplify\DefaultAutowire\Tests\Source\SomeBuiltAutowiredServiceFactory
 
-    some_built_autowired_service:
-        class: Symplify\DefaultAutowire\Tests\Source\SomeBuiltAutowiredService
-        factory: ['@some_built_autowired_service_factory', 'create']
-
     some_built_service_with_optional_dependencies:
         class: Symplify\DefaultAutowire\Tests\Source\SomeServiceWithOptionalConstructorArguments
         factory:
