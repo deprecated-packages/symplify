@@ -2,7 +2,6 @@
 
 namespace Symplify\AutoServiceRegistration\ServiceClass;
 
-use Nette\Caching\Storages\DevNullStorage;
 use Nette\Loaders\RobotLoader;
 
 final class ServiceClassFinder
