@@ -3,16 +3,11 @@
 namespace Symplify\CodingStandard\Sniffs\Commenting;
 
 use PHP_CodeSniffer\Files\File;
-use PHP_CodeSniffer\Sniffs\AbstractVariableSniff;
+use PHP_CodeSniffer\Sniffs\Sniff;
+use SlevomatCodingStandard\Helpers\AnnotationHelper;
+use SlevomatCodingStandard\Helpers\PropertyHelper;
 
-/**
- * Rules:
- * - Property should have docblock comment (except for {@inheritdoc}).
- *
- * @see PHP_CodeSniffer_Standards_AbstractVariableSniff is used, because it's very difficult to
- * separate properties from variables (in args, method etc.). This class does is for us.
- */
-final class VarPropertyCommentSniff extends AbstractVariableSniff
+final class VarPropertyCommentSniff /*extends AbstractVariableSniff */ implements Sniff
 {
     /**
      * @var string
@@ -20,81 +15,26 @@ final class VarPropertyCommentSniff extends AbstractVariableSniff
     private const ERROR_MESSAGE = 'Property should have docblock comment.';
 
     /**
-     * @var File
+     * @return int[]
      */
-    private $file;
-
-    /**
-     * @var mixed[]
-     */
-    private $tokens;
-
-    /**
-     * @var int
-     */
-    private $position;
+    public function register(): array
+    {
+        return [T_VARIABLE];
+    }
 
     /**
      * @param File $file
      * @param int $position
      */
-    protected function processMemberVar(File $file, $position): void
+    public function process(File $file, $position): void
     {
-        $this->file = $file;
-        $this->tokens = $file->getTokens();
-        $this->position = $position;
-
-        $commentString = $this->getPropertyComment();
-        if (strpos($commentString, '@var') !== false) {
+        if ( ! PropertyHelper::isProperty($file, $position)) {
             return;
         }
 
-        $file->addError(self::ERROR_MESSAGE, $this->position, self::class);
-    }
-
-    /**
-     * @param File $file
-     * @param int $position
-     */
-    protected function processVariable(File $file, $position): void
-    {
-    }
-
-    /**
-     * @param File $file
-     * @param int $position
-     */
-    protected function processVariableInString(File $file, $position): void
-    {
-    }
-
-    private function getPropertyComment(): string
-    {
-        $commentEnd = $this->file->findPrevious([T_DOC_COMMENT_CLOSE_TAG], $this->position);
-        if ($commentEnd === false) {
-            return '';
+        $propertyVarAnnotations = AnnotationHelper::getAnnotations($file, $position);
+        if (! isset($propertyVarAnnotations['@var'])) {
+            $file->addError(self::ERROR_MESSAGE, $position, self::class);
         }
-
-        if ($this->tokens[$commentEnd]['code'] !== T_DOC_COMMENT_CLOSE_TAG) {
-            return '';
-        }
-
-        if (! $this->doesCommentBelongToProperty($commentEnd)) {
-            return '';
-        }
-
-        $commentStart = $this->file->findPrevious(T_DOC_COMMENT_OPEN_TAG, $this->position);
-        if (! is_int($commentStart)) {
-            return '';
-        }
-
-        return $this->file->getTokensAsString($commentStart, $commentEnd - $commentStart + 1);
-    }
-
-    private function doesCommentBelongToProperty(int $commentEnd): bool
-    {
-        $commentFor = $this->file->findNext(T_VARIABLE, $commentEnd + 1);
-
-        return $commentFor === $this->position;
     }
 }
