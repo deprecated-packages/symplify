@@ -48,7 +48,7 @@ checkers:
     - PHP_CodeSniffer\Standards\PSR2\Sniffs\Methods\MethodDeclarationSniff
     - ObjectCalisthenics\Sniffs\Metrics\MaxNestingLevelSniff
     ObjectCalisthenics\Sniffs\Metrics\MethodPerClassLimitSniff:
-        maxCount: 15 # 10 by default
+        maxCount: 16 # 10 by default
     - ObjectCalisthenics\Sniffs\Metrics\PropertyPerClassLimitSniff
     - ObjectCalisthenics\Sniffs\Files\ClassElementLengthSniff
     - ObjectCalisthenics\Sniffs\Files\FunctionLengthSniff
@@ -68,7 +68,11 @@ checkers:
     - ObjectCalisthenics\Sniffs\NamingConventions\ClassNameLengthSniff
     - ObjectCalisthenics\Sniffs\NamingConventions\ConstantNameLengthSniff
     - ObjectCalisthenics\Sniffs\NamingConventions\FunctionNameLengthSniff
-    - ObjectCalisthenics\Sniffs\NamingConventions\VariableNameLengthSniff
+    ObjectCalisthenics\Sniffs\NamingConventions\VariableNameLengthSniff:
+        allowedShortVariableNames:
+            - to
+            - id
+            - i
 
     # PHP
     - PHP_CodeSniffer\Standards\Generic\Sniffs\PHP\DisallowShortOpenTagSniff
@@ -95,19 +99,19 @@ checkers:
     # Symplify: Debug
     - Symplify\CodingStandard\Sniffs\Debug\DebugFunctionCallSniff
 
-    # Symplify: Namespaces
+    # Namespaces
     - Symplify\CodingStandard\Sniffs\Namespaces\ClassNamesWithoutPreSlashSniff
-    - Symplify\CodingStandard\Sniffs\Namespaces\NamespaceDeclarationSniff
-    - Symplify\CodingStandard\Sniffs\Namespaces\UseDeclarationSniff
+
+    - PhpCsFixer\Fixer\NamespaceNotation\SingleBlankLineBeforeNamespaceFixer
+    - PhpCsFixer\Fixer\NamespaceNotation\BlankLineAfterNamespaceFixer
+    # replaces:
+    #   - Symplify\CodingStandard\Sniffs\Namespaces\NamespaceDeclarationSniff
+    #   - Symplify\CodingStandard\Sniffs\Namespaces\UseDeclarationSniff
 
     # Symplify: Naming
     - Symplify\CodingStandard\Sniffs\Naming\AbstractClassNameSniff
     - Symplify\CodingStandard\Sniffs\Naming\InterfaceNameSniff
     - Symplify\CodingStandard\Sniffs\Naming\TraitNameSniff
-
-    # Symplify: WhiteSpace
-    - Symplify\CodingStandard\Sniffs\WhiteSpace\InBetweenMethodSpacingSniff
-    - Symplify\CodingStandard\Sniffs\WhiteSpace\PropertiesMethodsMutualSpacingSniff
 
     # Slevomat
     - SlevomatCodingStandard\Sniffs\Classes\ClassConstantVisibilitySniff
@@ -201,6 +205,10 @@ checkers:
     - PhpCsFixer\Fixer\CastNotation\LowercaseCastFixer
 
     - PhpCsFixer\Fixer\ClassNotation\MethodSeparationFixer
+    # replaces:
+    #   - Symplify\CodingStandard\Sniffs\WhiteSpace\InBetweenMethodSpacingSniff
+    #   - Symplify\CodingStandard\Sniffs\WhiteSpace\PropertiesMethodsMutualSpacingSniff
+
     - PhpCsFixer\Fixer\Casing\NativeFunctionCasingFixer
     - PhpCsFixer\Fixer\ClassNotation\NoBlankLinesAfterClassOpeningFixer
     - PhpCsFixer\Fixer\Phpdoc\NoBlankLinesAfterPhpdocFixer
@@ -221,7 +229,7 @@ checkers:
     - PhpCsFixer\Fixer\CastNotation\NoShortBoolCastFixer
     - PhpCsFixer\Fixer\Semicolon\NoSinglelineWhitespaceBeforeSemicolonsFixer
     # buggy, temp down: https://github.com/FriendsOfPHP/php-cs-fixer/issues/2454
-    # - PhpCsFixer\Fixer\Whitespace\NoSpacesAroundOffsetFixer
+    - PhpCsFixer\Fixer\Whitespace\NoSpacesAroundOffsetFixer
     - PhpCsFixer\Fixer\ControlStructure\NoTrailingCommaInListCallFixer
     - PhpCsFixer\Fixer\ArrayNotation\NoTrailingCommaInSinglelineArrayFixer
     - PhpCsFixer\Fixer\ControlStructure\NoUnneededControlParenthesesFixer
@@ -256,6 +264,7 @@ checkers:
     - PhpCsFixer\Fixer\Semicolon\SpaceAfterSemicolonFixer
     - PhpCsFixer\Fixer\Operator\StandardizeNotEqualsFixer
     - PhpCsFixer\Fixer\Operator\TernaryOperatorSpacesFixer
+    - PhpCsFixer\Fixer\Operator\TernaryToNullCoalescingFixer
     - PhpCsFixer\Fixer\ArrayNotation\TrimArraySpacesFixer
     - PhpCsFixer\Fixer\ArrayNotation\WhitespaceAfterCommaInArrayFixer
 
@@ -268,10 +277,19 @@ checkers:
         - property
         - method
 
+    # new since PhpCsFixer 2.1/2.2
+    - PhpCsFixer\Fixer\Phpdoc\PhpdocNoUselessInheritdocFixer
+    - PhpCsFixer\Fixer\Phpdoc\PhpdocReturnSelfReferenceFixer
+    - PhpCsFixer\Fixer\LanguageConstruct\IsNullFixer
+    - PhpCsFixer\Fixer\LanguageConstruct\FunctionToConstantFixer
+    - PhpCsFixer\Fixer\Basic\NonPrintableCharacterFixer
+    - PhpCsFixer\Fixer\Casing\MagicConstantCasingFixer
+
 skip:
     SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff:
         - packages/EasyCodingStandard/packages/SniffRunner/src/File/File.php
         - packages/CodingStandard/src/Sniffs/*/*Sniff.php
+        - packages/CodingStandard/src/Refactorer/NetteDI/InjectToConstructorInjectionSniff.php
         - packages/ControllerAutowire/src/HttpKernel/Controller/ControllerResolver.php
         - packages/DoctrineFixtures/src/Alice/Fixtures/Parser/Methods/NeonParser.php
         - packages/ModularRouting/src/Routing/ModularRouter.php
@@ -288,13 +306,17 @@ skip:
     packages/DoctrineFixtures/src/Alice/AliceLoader.php:
         - SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff
 
-    packages/CodingStandard/tests/Sniffs/SniffRunner.php:
-        # anonymous class
-        - PhpCsFixer\Fixer\ClassNotation\NoBlankLinesAfterClassOpeningFixer
-        - PhpCsFixer\Fixer\ClassNotation\MethodSeparationFixer
-        - PhpCsFixer\Fixer\Whitespace\NoExtraConsecutiveBlankLinesFixer
-        - PhpCsFixer\Fixer\Basic\BracesFixer
-        - PhpCsFixer\Fixer\ClassNotation\ClassDefinitionFixer
+    # anonymous class
+    PhpCsFixer\Fixer\Whitespace\NoExtraConsecutiveBlankLinesFixer:
+        - packages/CodingStandard/tests/Sniffs/SniffRunner.php
+    PhpCsFixer\Fixer\ClassNotation\NoBlankLinesAfterClassOpeningFixer:
+        - packages/CodingStandard/tests/Sniffs/SniffRunner.php
+    PhpCsFixer\Fixer\ClassNotation\MethodSeparationFixer:
+        - packages/CodingStandard/tests/Sniffs/SniffRunner.php
+    PhpCsFixer\Fixer\ClassNotation\ClassDefinitionFixer:
+        - packages/CodingStandard/tests/Sniffs/SniffRunner.php
+#    PhpCsFixer\Fixer\Basic\BracesFixer:
+#        - packages/CodingStandard/tests/Sniffs/SniffRunner.php
 
     packages/EasyCodingStandard/tests/Configuration/ConfigurationNormalizerTest.php:
         - PhpCsFixer\Fixer\ArrayNotation\NoMultilineWhitespaceAroundDoubleArrowFixer
@@ -307,3 +329,6 @@ skip:
 
     packages/DoctrineMigrations/tests/DI/MigrationsExtension/BeforeCompileTest.php:
         - ObjectCalisthenics\Sniffs\CodeAnalysis\OneObjectOperatorPerLineSniff
+
+    packages/SymfonyEventDispatcher/src/Adapter/Nette/DI/NetteEventListFactory.php:
+        - ObjectCalisthenics\Sniffs\Files\FunctionLengthSniff
