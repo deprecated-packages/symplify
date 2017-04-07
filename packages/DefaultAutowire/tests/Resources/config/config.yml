@@ -31,8 +31,3 @@ services:
         factory:
             - Symplify\DefaultAutowire\Tests\Source\SomeServiceWithOptionalConstructorArgumentsFactory
             - 'create'
-#
-#doctrine:
-#    orm:
-#    dbal:
-#        memory: true

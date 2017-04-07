@@ -104,9 +104,6 @@ checkers:
 
     - PhpCsFixer\Fixer\NamespaceNotation\SingleBlankLineBeforeNamespaceFixer
     - PhpCsFixer\Fixer\NamespaceNotation\BlankLineAfterNamespaceFixer
-    # replaces:
-    #   - Symplify\CodingStandard\Sniffs\Namespaces\NamespaceDeclarationSniff
-    #   - Symplify\CodingStandard\Sniffs\Namespaces\UseDeclarationSniff
 
     # Symplify: Naming
     - Symplify\CodingStandard\Sniffs\Naming\AbstractClassNameSniff
@@ -203,12 +200,7 @@ checkers:
     - PhpCsFixer\Fixer\Comment\HashToSlashCommentFixer
     - PhpCsFixer\Fixer\ControlStructure\IncludeFixer
     - PhpCsFixer\Fixer\CastNotation\LowercaseCastFixer
-
     - PhpCsFixer\Fixer\ClassNotation\MethodSeparationFixer
-    # replaces:
-    #   - Symplify\CodingStandard\Sniffs\WhiteSpace\InBetweenMethodSpacingSniff
-    #   - Symplify\CodingStandard\Sniffs\WhiteSpace\PropertiesMethodsMutualSpacingSniff
-
     - PhpCsFixer\Fixer\Casing\NativeFunctionCasingFixer
     - PhpCsFixer\Fixer\ClassNotation\NoBlankLinesAfterClassOpeningFixer
     - PhpCsFixer\Fixer\Phpdoc\NoBlankLinesAfterPhpdocFixer
@@ -291,21 +283,11 @@ skip:
         - packages/CodingStandard/src/Sniffs/*/*Sniff.php
         - packages/CodingStandard/src/Refactorer/NetteDI/InjectToConstructorInjectionSniff.php
         - packages/ControllerAutowire/src/HttpKernel/Controller/ControllerResolver.php
-        - packages/DoctrineFixtures/src/Alice/Fixtures/Parser/Methods/NeonParser.php
         - packages/ModularRouting/src/Routing/ModularRouter.php
         - packages/Statie/src/Renderable/Latte/DynamicStringLoader.php
         - packages/SymfonySecurityVoters/src/Adapter/Nette/Token/NetteTokenAdapter.php
         - packages/Statie/src/Configuration/Configuration.php
-        - packages/DoctrineMigrations/src/Configuration/Configuration.php
-        - packages/DoctrineMigrations/src/OutputWriter.php
-        - packages/DefaultAutowire/tests/DependencyInjection/Definition/DefinitionAnalyzerSource/MissingArgumentsTypehints.php
         - packages/ControllerAutowire/src/Controller/Security/ControllerSecurityTrait.php
-
-#    packages/DefaultAutowire/tests/DependencyInjection/Definition/DefinitionAnalyzerForFactoryTest.php:
-#        - PHP_CodeSniffer\Standards\Generic\Sniffs\Files\LineLengthSniff
-
-#    packages/DoctrineFixtures/src/Alice/AliceLoader.php:
-#        - SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff
 
     # anonymous class
     PhpCsFixer\Fixer\Whitespace\NoExtraConsecutiveBlankLinesFixer:
@@ -325,9 +307,6 @@ skip:
 
 #    packages/SymfonySecurityVoters/src/Adapter/Nette/Token/NetteTokenAdapter.php:
 #        - ObjectCalisthenics\Sniffs\Metrics\MethodPerClassLimitSniff
-
-#    packages/DoctrineMigrations/tests/DI/MigrationsExtension/BeforeCompileTest.php:
-#        - ObjectCalisthenics\Sniffs\CodeAnalysis\OneObjectOperatorPerLineSniff
 
 #    packages/SymfonyEventDispatcher/src/Adapter/Nette/DI/NetteEventListFactory.php:
 #        - ObjectCalisthenics\Sniffs\Files\FunctionLengthSniff

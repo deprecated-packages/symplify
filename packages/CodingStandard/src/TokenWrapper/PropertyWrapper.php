@@ -3,7 +3,6 @@
 namespace Symplify\CodingStandard\TokenWrapper;
 
 use PHP_CodeSniffer\Files\File;
-use PhpCsFixer\DocBlock\DocBlock;
 use Symplify\CodingStandard\Helper\TokenFinder;
 
 final class PropertyWrapper
@@ -51,7 +50,7 @@ final class PropertyWrapper
     {
         $docBlock = $this->getDocBlock();
 
-        if ( ! $docBlock instanceof DocBlockWrapper) {
+        if (! $docBlock instanceof DocBlockWrapper) {
             return false;
         }
 
@@ -116,7 +115,10 @@ final class PropertyWrapper
         return ltrim($this->propertyToken['content'], '$');
     }
 
-    private function getPropertyAccessibilityPosition(): ?int
+    /**
+     * @return int|bool
+     */
+    private function getPropertyAccessibilityPosition()
     {
         if ($this->accessibilityPosition) {
             return $this->accessibilityPosition;
@@ -133,7 +135,7 @@ final class PropertyWrapper
             return $visibilityModifiedTokenPointer;
         }
 
-        return null;
+        return false;
     }
 
     /**
