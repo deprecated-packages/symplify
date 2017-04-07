@@ -5,6 +5,7 @@ namespace Symplify\CodingStandard\TokenWrapper;
 use Nette\PhpGenerator\Method;
 use Nette\Utils\Strings;
 use PHP_CodeSniffer\Files\File;
+use PHP_CodeSniffer\Fixer;
 use Symplify\CodingStandard\Helper\TokenFinder;
 
 final class ClassWrapper
@@ -34,10 +35,16 @@ final class ClassWrapper
      */
     private $methods;
 
+    /**
+     * @var Fixer
+     */
+    private $fixer;
+
     private function __construct(File $file, int $position)
     {
         $this->file = $file;
         $this->position = $position;
+        $this->fixer = $file->fixer;
 
         $this->tokens = $this->file->getTokens();
         $this->classToken = $this->tokens[$position];
@@ -132,14 +139,14 @@ final class ClassWrapper
     public function addConstructorMethodWithProperty(string $propertyType, string $propertyName): void
     {
         $method = $this->createConstructMethod();
-        $method->addParameter($propertyName)
-            ->setTypeHint($propertyType);
+        $parameter = $method->addParameter($propertyName);
+        $parameter->setTypeHint($propertyType);
         $method->setBody('$this->? = $?;', [$propertyName, $propertyName]);
 
         $methodCode = Strings::indent((string) $method, 1, '    ');
 
         $constructorPosition = $this->getConstructorPosition();
-        $this->file->fixer->addContentBefore($constructorPosition, PHP_EOL . $methodCode . PHP_EOL);
+        $this->fixer->addContentBefore($constructorPosition, PHP_EOL . $methodCode . PHP_EOL);
     }
 
     private function getConstructorPosition(): int

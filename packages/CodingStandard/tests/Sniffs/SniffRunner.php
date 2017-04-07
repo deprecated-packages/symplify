@@ -44,7 +44,9 @@ final class SniffRunner
             );
         }
 
-        return $file->fixer->getContents();
+        $fixer = $file->fixer;
+
+        return $fixer->getContents();
     }
 
     private static function createSniffDispatcherWithSniff(string $sniffClass): TokenDispatcher
@@ -76,7 +78,9 @@ final class SniffRunner
 
         $fixer = new Fixer;
         $file = new File($filePath, $tokens, $fixer, $errorDataCollector, true);
-        $file->fixer->startFile($file);
+
+        $fixer = $file->fixer;
+        $fixer->startFile($file);
 
         return $file;
     }

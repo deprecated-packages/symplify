@@ -4,6 +4,7 @@ namespace Symplify\CodingStandard\TokenWrapper;
 
 use Nette\Utils\Strings;
 use PHP_CodeSniffer\Files\File;
+use PHP_CodeSniffer\Fixer;
 use Symplify\CodingStandard\Helper\ContentFinder;
 
 final class DocBlockWrapper
@@ -33,9 +34,15 @@ final class DocBlockWrapper
      */
     private $tokens;
 
+    /**
+     * @var Fixer
+     */
+    private $fixer;
+
     private function __construct(File $file, int $startPosition, int $endPosition)
     {
         $this->file = $file;
+        $this->fixer = $file->fixer;
         $this->tokens = $file->getTokens();
         $this->startPosition = $startPosition;
         $this->endPosition = $endPosition;
@@ -59,14 +66,10 @@ final class DocBlockWrapper
 
         foreach ($docBlockTokens as $position => $content) {
             if ($content === $annotation) {
-                $this->file->fixer->replaceToken($position, '');
-
-                // cleanup spaces
-                $cleanupPosition = $position;
-                while ($docBlockTokens[$cleanupPosition] !== "\n") {
-                    --$cleanupPosition;
-                    $this->file->fixer->replaceToken($cleanupPosition, '');
-                }
+                $file = $this->file;
+                $fixer = $file->fixer;
+                $fixer->replaceToken($position, '');
+                $this->cleanupSpaces($position, $docBlockTokens);
             }
         }
     }
@@ -88,21 +91,15 @@ final class DocBlockWrapper
         $shortPosition = $this->file->findNext($empty, $this->startPosition + 1, $this->endPosition, true);
 
         // indent content after /** to indented new line
-        $this->file->fixer->addContentBefore(
-            $shortPosition,
-            PHP_EOL . $this->getIndentationSign() . ' * '
-        );
+        $this->fixer->addContentBefore($shortPosition, PHP_EOL . $this->getIndentationSign() . ' * ');
 
         // remove spaces
-        $this->file->fixer->replaceToken($this->startPosition + 1, '');
+        $this->fixer->replaceToken($this->startPosition + 1, '');
         $spacelessContent = trim($this->tokens[$this->endPosition - 1]['content']);
-        $this->file->fixer->replaceToken($this->endPosition - 1, $spacelessContent);
+        $this->fixer->replaceToken($this->endPosition - 1, $spacelessContent);
 
         // indent end to indented newline
-        $this->file->fixer->replaceToken(
-            $this->endPosition,
-            PHP_EOL . $this->getIndentationSign() . ' */'
-        );
+        $this->fixer->replaceToken($this->endPosition, PHP_EOL . $this->getIndentationSign() . ' */');
     }
 
     public function getAnnotationValue(string $annotation): string
@@ -124,5 +121,20 @@ final class DocBlockWrapper
         }
 
         return '    ';
+    }
+
+    /**
+     * @param int $position
+     * @param mixed[] $docBlockTokens
+     */
+    private function cleanupSpaces(int $position, array $docBlockTokens): void
+    {
+        $cleanupPosition = $position;
+        while ($docBlockTokens[$cleanupPosition] !== PHP_EOL) {
+            --$cleanupPosition;
+            $file = $this->file;
+            $fixer = $file->fixer;
+            $fixer->replaceToken($cleanupPosition, '');
+        }
     }
 }

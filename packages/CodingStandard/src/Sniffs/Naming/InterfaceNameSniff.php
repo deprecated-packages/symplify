@@ -3,6 +3,7 @@
 namespace Symplify\CodingStandard\Sniffs\Naming;
 
 use PHP_CodeSniffer\Files\File;
+use PHP_CodeSniffer\Fixer;
 use PHP_CodeSniffer\Sniffs\Sniff;
 
 final class InterfaceNameSniff implements Sniff
@@ -23,6 +24,11 @@ final class InterfaceNameSniff implements Sniff
     private $position;
 
     /**
+     * @var Fixer
+     */
+    private $fixer;
+
+    /**
      * @return int[]
      */
     public function register(): array
@@ -37,6 +43,7 @@ final class InterfaceNameSniff implements Sniff
     public function process(File $file, $position): void
     {
         $this->file = $file;
+        $this->fixer = $file->fixer;
         $this->position = $position;
 
         $interfaceName = $this->getInterfaceName();
@@ -65,6 +72,6 @@ final class InterfaceNameSniff implements Sniff
     {
         $interfaceNamePosition = $this->getInterfaceNamePosition();
 
-        $this->file->fixer->addContent($interfaceNamePosition, 'Interface');
+        $this->fixer->addContent($interfaceNamePosition, 'Interface');
     }
 }

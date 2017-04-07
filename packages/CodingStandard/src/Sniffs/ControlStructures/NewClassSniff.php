@@ -3,18 +3,20 @@
 namespace Symplify\CodingStandard\Sniffs\ControlStructures;
 
 use PHP_CodeSniffer\Files\File;
+use PHP_CodeSniffer\Fixer;
 use PHP_CodeSniffer\Sniffs\Sniff;
 
-/**
- * Rules:
- * - New class statement should not have empty parentheses.
- */
 final class NewClassSniff implements Sniff
 {
     /**
-     * @var File
+     * @var string
      */
-    private $file;
+    private const ERROR_MESSAGE = 'New class statement should not have empty parentheses';
+
+    /**
+     * @var Fixer
+     */
+    private $fixer;
 
     /**
      * @var int
@@ -25,6 +27,11 @@ final class NewClassSniff implements Sniff
      * @var int
      */
     private $openParenthesisPosition;
+
+    /**
+     * @var mixed[]
+     */
+    private $tokens;
 
     /**
      * @return int[]
@@ -40,18 +47,15 @@ final class NewClassSniff implements Sniff
      */
     public function process(File $file, $position): void
     {
-        $this->file = $file;
+        $this->fixer = $file->fixer;
         $this->position = $position;
+        $this->tokens = $file->getTokens();
 
         if (! $this->hasEmptyParentheses()) {
             return;
         }
 
-        $fix = $file->addFixableError(
-            'New class statement should not have empty parentheses',
-            $position,
-            self::class
-        );
+        $fix = $file->addFixableError(self::ERROR_MESSAGE, $position, self::class);
         if ($fix) {
             $this->removeParenthesesFromClassStatement();
         }
@@ -59,15 +63,15 @@ final class NewClassSniff implements Sniff
 
     private function hasEmptyParentheses(): bool
     {
-        $tokens = $this->file->getTokens();
+        //        $tokens = $this->file->getTokens();
         $nextPosition = $this->position;
 
         do {
             ++$nextPosition;
-        } while (! $this->doesContentContains($tokens[$nextPosition]['content'], [';', '(', ',', ')']));
+        } while (! $this->doesContentContains($this->tokens[$nextPosition]['content'], [';', '(', ',', ')']));
 
-        if ($tokens[$nextPosition]['content'] === '(') {
-            if ($tokens[$nextPosition + 1]['content'] === ')') {
+        if ($this->tokens[$nextPosition]['content'] === '(') {
+            if ($this->tokens[$nextPosition + 1]['content'] === ')') {
                 $this->openParenthesisPosition = $nextPosition;
 
                 return true;
@@ -94,7 +98,7 @@ final class NewClassSniff implements Sniff
 
     private function removeParenthesesFromClassStatement(): void
     {
-        $this->file->fixer->replaceToken($this->openParenthesisPosition, '');
-        $this->file->fixer->replaceToken($this->openParenthesisPosition + 1, '');
+        $this->fixer->replaceToken($this->openParenthesisPosition, '');
+        $this->fixer->replaceToken($this->openParenthesisPosition + 1, '');
     }
 }

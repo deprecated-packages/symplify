@@ -15,22 +15,41 @@ use PHP_CodeSniffer\Sniffs\AbstractVariableSniff;
 final class VarPropertyCommentSniff extends AbstractVariableSniff
 {
     /**
+     * @var string
+     */
+    private const ERROR_MESSAGE = 'Property should have docblock comment.';
+
+    /**
+     * @var File
+     */
+    private $file;
+
+    /**
+     * @var mixed[]
+     */
+    private $tokens;
+
+    /**
+     * @var int
+     */
+    private $position;
+
+    /**
      * @param File $file
      * @param int $position
      */
     protected function processMemberVar(File $file, $position): void
     {
-        $commentString = $this->getPropertyComment($file, $position);
+        $this->file = $file;
+        $this->tokens = $file->getTokens();
+        $this->position = $position;
+        $commentString = $this->getPropertyComment();
 
         if (strpos($commentString, '@var') !== false) {
             return;
         }
 
-        $file->addError(
-            'Property should have docblock comment.',
-            $position,
-            self::class
-        );
+        $file->addError(self::ERROR_MESSAGE, self::class);
     }
 
     /**
@@ -49,29 +68,33 @@ final class VarPropertyCommentSniff extends AbstractVariableSniff
     {
     }
 
-    private function getPropertyComment(File $file, int $position): string
+    private function getPropertyComment(): string
     {
-        $commentEnd = $file->findPrevious([T_DOC_COMMENT_CLOSE_TAG], $position);
+        $commentEnd = $this->file->findPrevious([T_DOC_COMMENT_CLOSE_TAG], $this->position);
         if ($commentEnd === false) {
             return '';
         }
 
-        $tokens = $file->getTokens();
-        if ($tokens[$commentEnd]['code'] !== T_DOC_COMMENT_CLOSE_TAG) {
+        if ($this->tokens[$commentEnd]['code'] !== T_DOC_COMMENT_CLOSE_TAG) {
             return '';
         }
 
-        // Make sure the comment we have found belongs to us.
-        $commentFor = $file->findNext(T_VARIABLE, $commentEnd + 1);
-        if ($commentFor !== $position) {
+        if (! $this->doesCommentBelongToProperty($commentEnd)) {
             return '';
         }
 
-        $commentStart = $file->findPrevious(T_DOC_COMMENT_OPEN_TAG, $position);
+        $commentStart = $this->file->findPrevious(T_DOC_COMMENT_OPEN_TAG, $this->position);
         if (! is_int($commentStart)) {
             return '';
         }
 
-        return $file->getTokensAsString($commentStart, $commentEnd - $commentStart + 1);
+        return $this->file->getTokensAsString($commentStart, $commentEnd - $commentStart + 1);
+    }
+
+    private function doesCommentBelongToProperty(int $commentEnd): bool
+    {
+        $commentFor = $this->file->findNext(T_VARIABLE, $commentEnd + 1);
+
+        return $commentFor === $this->position;
     }
 }

@@ -6,16 +6,12 @@ use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Sniffs\Sniff;
 use SlevomatCodingStandard\Helpers\FunctionHelper;
 
-/**
- * Rules:
- * - Getters should have @return tag or return type (except {@inheritdoc}).
- */
 final class MethodReturnTypeSniff implements Sniff
 {
     /**
      * @var string
      */
-    private const ERROR_MESSAGE = 'Getters should have @return tag or return type (except {@inheritdoc}).';
+    private const ERROR_MESSAGE = 'Getters should have @return tag or return type.';
 
     /**
      * @var string[]
@@ -68,7 +64,7 @@ final class MethodReturnTypeSniff implements Sniff
             return true;
         }
 
-        if ($this->hasMethodCommentReturnOrInheritDoc()) {
+        if ($this->hasMethodCommentReturn()) {
             return true;
         }
 
@@ -104,18 +100,11 @@ final class MethodReturnTypeSniff implements Sniff
         return $this->file->getTokensAsString($commentStart, $commentEnd - $commentStart + 1);
     }
 
-    private function hasMethodCommentReturnOrInheritDoc(): bool
+    private function hasMethodCommentReturn(): bool
     {
         $comment = $this->getMethodComment();
 
-        if (strpos($comment, '{@inheritdoc}') !== false) {
-            return true;
-        }
-        if (strpos($comment, '@return') !== false) {
-            return true;
-        }
-
-        return false;
+        return strpos($comment, '@return') !== false;
     }
 
     private function hasMethodComment(): bool
@@ -138,12 +127,15 @@ final class MethodReturnTypeSniff implements Sniff
     private function hasGetterNamePrefix(string $methodName): bool
     {
         foreach ($this->getterMethodPrefixes as $getterMethodPrefix) {
-            if (strpos($methodName, $getterMethodPrefix) === 0) {
-                $endPosition = strlen($getterMethodPrefix);
-                $firstLetterAfterGetterPrefix = $methodName[$endPosition];
-                if (ctype_upper($firstLetterAfterGetterPrefix)) {
-                    return true;
-                }
+            $position = strpos($methodName, $getterMethodPrefix);
+            if ($position !== 0 || $position === false) {
+                continue;
+            }
+
+            $endPosition = strlen($getterMethodPrefix);
+            $firstLetterAfterGetterPrefix = $methodName[$endPosition];
+            if (ctype_upper($firstLetterAfterGetterPrefix)) {
+                return true;
             }
         }
 

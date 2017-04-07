@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Sniffs\NetteRefactoring\InjectToConstructorInjection;
+namespace Symplify\CodingStandard\Tests\Refactorer\NetteDI\InjectToConstructorInjection;
 
-use Symplify\CodingStandard\Sniffs\NetteRefactoring\InjectToConstructorInjectionSniff;
+use Symplify\CodingStandard\Refactorer\NetteDI\InjectToConstructorInjectionSniff;
 use Symplify\CodingStandard\Tests\Sniffs\AbstractSniffTestCase;
 
 /**

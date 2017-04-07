@@ -4,17 +4,15 @@ namespace Symplify\CodingStandard\Sniffs\Classes;
 
 use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Sniffs\Sniff;
+use Symplify\EasyCodingStandard\SniffRunner\Fixer\Fixer;
 
-/**
- * Rules:
- * - Non-abstract class that implements interface should be final.
- * - Except for Doctrine entities, they cannot be final.
- *
- * Inspiration:
- * - http://ocramius.github.io/blog/when-to-declare-classes-final/
- */
 final class FinalInterfaceSniff implements Sniff
 {
+    /**
+     * @var string
+     */
+    private const ERROR_MESSAGE = 'Non-abstract class that implements interface should be final.';
+
     /**
      * @var File
      */
@@ -24,6 +22,11 @@ final class FinalInterfaceSniff implements Sniff
      * @var int
      */
     private $position;
+
+    /**
+     * @var Fixer
+     */
+    private $fixer;
 
     /**
      * @return int[]
@@ -40,26 +43,14 @@ final class FinalInterfaceSniff implements Sniff
     public function process(File $file, $position): void
     {
         $this->file = $file;
+        $this->fixer = $file->fixer;
         $this->position = $position;
 
-        if ($this->implementsInterface() === false) {
+        if ($this->shouldBeSkipped()) {
             return;
         }
 
-        if ($this->isFinalOrAbstractClass()) {
-            return;
-        }
-
-        if ($this->isDoctrineEntity()) {
-            return;
-        }
-
-        $fix = $file->addFixableError(
-            'Non-abstract class that implements interface should be final.',
-            $position,
-            self::class
-        );
-
+        $fix = $file->addFixableError(self::ERROR_MESSAGE, $position, self::class);
         if ($fix) {
             $this->addFinalToClass($position);
         }
@@ -67,7 +58,24 @@ final class FinalInterfaceSniff implements Sniff
 
     public function addFinalToClass(int $position): void
     {
-        $this->file->fixer->addContentBefore($position, 'final ');
+        $this->fixer->addContentBefore($position, 'final ');
+    }
+
+    private function shouldBeSkipped(): bool
+    {
+        if ($this->implementsInterface() === false) {
+            return true;
+        }
+
+        if ($this->isFinalOrAbstractClass()) {
+            return true;
+        }
+
+        if ($this->isDoctrineEntity()) {
+            return true;
+        }
+
+        return false;
     }
 
     private function implementsInterface(): bool

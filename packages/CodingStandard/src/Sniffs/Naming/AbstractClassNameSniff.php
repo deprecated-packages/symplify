@@ -3,14 +3,16 @@
 namespace Symplify\CodingStandard\Sniffs\Naming;
 
 use PHP_CodeSniffer\Files\File;
+use PHP_CodeSniffer\Fixer;
 use PHP_CodeSniffer\Sniffs\Sniff;
 
-/**
- * Rules:
- * - Abstract class should have prefix "Abstract".
- */
 final class AbstractClassNameSniff implements Sniff
 {
+    /**
+     * @var string
+     */
+    private const ERROR_MESSAGE = 'Abstract class should have prefix "Abstract".';
+
     /**
      * @var File
      */
@@ -20,6 +22,11 @@ final class AbstractClassNameSniff implements Sniff
      * @var int
      */
     private $position;
+
+    /**
+     * @var Fixer
+     */
+    private $fixer;
 
     /**
      * @return int[]
@@ -36,25 +43,30 @@ final class AbstractClassNameSniff implements Sniff
     public function process(File $file, $position): void
     {
         $this->file = $file;
+        $this->fixer = $file->fixer;
         $this->position = $position;
 
-        if (! $this->isClassAbstract()) {
+        if ($this->shouldBeSkipped()) {
             return;
         }
 
-        if (strpos($this->getClassName(), 'Abstract') === 0) {
-            return;
-        }
-
-        $fix = $file->addFixableError(
-            'Abstract class should have prefix "Abstract".',
-            $position,
-            self::class
-        );
-
+        $fix = $file->addFixableError(self::ERROR_MESSAGE, $position, self::class);
         if ($fix === true) {
             $this->fix();
         }
+    }
+
+    private function shouldBeSkipped(): bool
+    {
+        if (! $this->isClassAbstract()) {
+            return true;
+        }
+
+        if (strpos($this->getClassName(), 'Abstract') === 0) {
+            return true;
+        }
+
+        return false;
     }
 
     private function isClassAbstract(): bool
@@ -79,6 +91,6 @@ final class AbstractClassNameSniff implements Sniff
 
     private function fix(): void
     {
-        $this->file->fixer->addContent($this->position + 1, 'Abstract');
+        $this->fixer->addContent($this->position + 1, 'Abstract');
     }
 }

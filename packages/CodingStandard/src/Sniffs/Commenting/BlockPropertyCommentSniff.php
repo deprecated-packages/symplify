@@ -6,16 +6,12 @@ use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Sniffs\Sniff;
 use Symplify\CodingStandard\TokenWrapper\PropertyWrapper;
 
-/**
- * Rules:
- * - Block comment should be used instead of one liner for properties.
- */
 final class BlockPropertyCommentSniff implements Sniff
 {
     /**
-     * @var File
+     * @var string
      */
-    private $file;
+    private const ERROR_MESSAGE = 'Block comment should be used instead of one liner.';
 
     /**
      * @return int[]
@@ -31,9 +27,7 @@ final class BlockPropertyCommentSniff implements Sniff
      */
     public function process(File $file, $position): void
     {
-        $this->file = $file;
-
-        $propertyWrapper = PropertyWrapper::createFromFileAndPosition($this->file, $position);
+        $propertyWrapper = PropertyWrapper::createFromFileAndPosition($file, $position);
         if (! $docBlock = $propertyWrapper->getDocBlock()) {
             return;
         }
@@ -42,12 +36,7 @@ final class BlockPropertyCommentSniff implements Sniff
             return;
         }
 
-        $fix = $file->addFixableError(
-            'Block comment should be used instead of one liner',
-            $position,
-            self::class
-        );
-
+        $fix = $file->addFixableError(self::ERROR_MESSAGE, $position, self::class);
         if ($fix) {
             $docBlock->changeToMultiLine();
         }
