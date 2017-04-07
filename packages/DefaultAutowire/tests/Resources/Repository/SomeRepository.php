@@ -2,21 +2,21 @@
 
 namespace Symplify\DefaultAutowire\Tests\Resources\Repository;
 
-use Doctrine\ORM\EntityManagerInterface;
+use Symplify\DefaultAutowire\Tests\Source\FakeEntityManager;
 
 final class SomeRepository
 {
     /**
-     * @var EntityManagerInterface
+     * @var FakeEntityManager
      */
     private $entityManager;
 
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(FakeEntityManager $entityManager)
     {
         $this->entityManager = $entityManager;
     }
 
-    public function getEntityManager(): EntityManagerInterface
+    public function getEntityManager(): FakeEntityManager
     {
         return $this->entityManager;
     }

@@ -16,9 +16,10 @@ final class DefinitionAnalyzer
      */
     private $definitionValidator;
 
-    public function __construct(DefinitionValidator $definitionValidator)
+    public function __construct(DefinitionValidator $definitionValidator, MethodAnalyzer $methodAnalyzer)
     {
         $this->definitionValidator = $definitionValidator;
+        $this->methodAnalyzer = $methodAnalyzer;
     }
 
     public function shouldDefinitionBeAutowired(ContainerBuilder $containerBuilder, Definition $definition): bool
@@ -28,7 +29,6 @@ final class DefinitionAnalyzer
         }
 
         $isFactory = $definition->getFactory() !== null;
-
         if ($isFactory) {
             return $this->shouldFactoryBuiltDefinitionBeAutowired($containerBuilder, $definition);
         }
@@ -47,29 +47,9 @@ final class DefinitionAnalyzer
             return false;
         }
 
-        [$class, $method] = $factory;
-        if ($class instanceof Reference) {
-            $factoryClassDefinition = $containerBuilder->findDefinition($class);
-            if ($factoryClassDefinition instanceof DefinitionDecorator) {
-                $factoryClassDefinition = $containerBuilder->findDefinition($factoryClassDefinition->getParent());
-            }
-            $class = $factoryClassDefinition->getClass();
-            if (strpos($class, '%') !== false) {
-                $class = $containerBuilder->getParameter(str_replace('%', '', $class));
-            }
-        }
+        $factoryMethodReflection = $this->createFactoryMethodReflection($containerBuilder, $factory);
 
-        $factoryMethodReflection = new ReflectionMethod($class, $method);
-
-        if (! $this->hasMethodArguments($factoryMethodReflection)) {
-            return false;
-        }
-
-        if ($this->areAllMethodArgumentsRequired($definition, $factoryMethodReflection)) {
-            return false;
-        }
-
-        if (! $this->haveMissingArgumentsTypehints($definition, $factoryMethodReflection)) {
+        if (! $this->methodAnalyzer->hasMethodWithMissingArgumentTypehints($factoryMethodReflection, $definition)) {
             return false;
         }
 
@@ -79,75 +59,38 @@ final class DefinitionAnalyzer
     private function shouldClassDefinitionBeAutowired(Definition $definition): bool
     {
         $classReflection = new ReflectionClass($definition->getClass());
-        if (! $classReflection->hasMethod('__construct')
-            || ! $this->hasMethodArguments($classReflection->getConstructor())
-        ) {
+
+        if (! $classReflection->hasMethod('__construct')) {
             return false;
         }
 
         $constructorReflection = $classReflection->getConstructor();
-        if ($this->areAllMethodArgumentsRequired($definition, $constructorReflection)) {
-            return false;
-        }
-
-        if (! $this->haveMissingArgumentsTypehints($definition, $constructorReflection)) {
+        if (! $this->methodAnalyzer->hasMethodWithMissingArgumentTypehints($constructorReflection, $definition)) {
             return false;
         }
 
         return true;
     }
 
-    private function hasMethodArguments(ReflectionMethod $methodReflection): bool
+    /**
+     * @param ContainerBuilder $containerBuilder
+     * @param string[]|Reference[] $factory
+     */
+    private function createFactoryMethodReflection(ContainerBuilder $containerBuilder, array $factory): ReflectionMethod
     {
-        return $methodReflection->getNumberOfParameters() !== 0;
-    }
-
-    private function areAllMethodArgumentsRequired(
-        Definition $definition,
-        ReflectionMethod $constructorReflection
-    ): bool {
-        $constructorArgumentsCount = count($definition->getArguments());
-        $constructorRequiredArgumentsCount = $constructorReflection->getNumberOfRequiredParameters();
-
-        if ($constructorArgumentsCount === $constructorRequiredArgumentsCount) {
-            return true;
-        }
-
-        return false;
-    }
-
-    private function haveMissingArgumentsTypehints(
-        Definition $definition,
-        ReflectionMethod $constructorReflection
-    ): bool {
-        $arguments = $definition->getArguments();
-
-        $needsAutowiring = false;
-
-        $i = 0;
-        foreach ($constructorReflection->getParameters() as $parameterReflection) {
-            if (! isset($arguments[$i])) {
-                if ($parameterReflection->isDefaultValueAvailable()) {
-                    ++$i;
-                    continue;
-                }
-
-                if (! $parameterReflection->getType()) {
-                    return false;
-                }
-
-                if ($parameterReflection->getType()->isBuiltin()) {
-                    return false;
-                }
-
-                if (! $parameterReflection->getType()->allowsNull()) {
-                    $needsAutowiring = true;
-                }
+        [$class, $method] = $factory;
+        if ($class instanceof Reference) {
+            $factoryClassDefinition = $containerBuilder->findDefinition($class);
+            if ($factoryClassDefinition instanceof DefinitionDecorator) {
+                $factoryClassDefinition = $containerBuilder->findDefinition($factoryClassDefinition->getParent());
             }
 
-            ++$i;
+            $class = $factoryClassDefinition->getClass();
+            if (strpos($class, '%') !== false) {
+                $class = $containerBuilder->getParameter(str_replace('%', '', $class));
+            }
         }
 
-        return $needsAutowiring;
+        return new ReflectionMethod($class, $method);
     }
 }

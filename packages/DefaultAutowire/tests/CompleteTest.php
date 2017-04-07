@@ -2,13 +2,13 @@
 
 namespace Symplify\DefaultAutowire\Tests;
 
-use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\EventDispatcher\Debug\TraceableEventDispatcher;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symplify\DefaultAutowire\Tests\Resources\Repository\SomeRepository;
+use Symplify\DefaultAutowire\Tests\Source\FakeEntityManager;
 use Symplify\DefaultAutowire\Tests\Source\SomeAutowiredService;
 use Symplify\DefaultAutowire\Tests\Source\SomeService;
 
@@ -45,6 +45,6 @@ final class CompleteTest extends TestCase
         /** @var SomeRepository $someRepository */
         $someRepository = $this->container->get('some_repository');
         $this->assertInstanceOf(SomeRepository::class, $someRepository);
-        $this->assertInstanceOf(EntityManagerInterface::class, $someRepository->getEntityManager());
+        $this->assertInstanceOf(FakeEntityManager::class, $someRepository->getEntityManager());
     }
 }

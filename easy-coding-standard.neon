@@ -299,6 +299,7 @@ skip:
         - packages/DoctrineMigrations/src/Configuration/Configuration.php
         - packages/DoctrineMigrations/src/OutputWriter.php
         - packages/DefaultAutowire/tests/DependencyInjection/Definition/DefinitionAnalyzerSource/MissingArgumentsTypehints.php
+        - packages/ControllerAutowire/src/Controller/Security/ControllerSecurityTrait.php
 
 #    packages/DefaultAutowire/tests/DependencyInjection/Definition/DefinitionAnalyzerForFactoryTest.php:
 #        - PHP_CodeSniffer\Standards\Generic\Sniffs\Files\LineLengthSniff

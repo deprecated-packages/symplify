@@ -9,6 +9,7 @@ use Symplify\DefaultAutowire\DependencyInjection\Compiler\TurnOnAutowireCompiler
 use Symplify\DefaultAutowire\DependencyInjection\DefinitionAnalyzer;
 use Symplify\DefaultAutowire\DependencyInjection\DefinitionValidator;
 use Symplify\DefaultAutowire\DependencyInjection\Extension\SymplifyDefaultAutowireContainerExtension;
+use Symplify\DefaultAutowire\DependencyInjection\MethodAnalyzer;
 
 final class SymplifyDefaultAutowireBundle extends Bundle
 {
@@ -30,6 +31,6 @@ final class SymplifyDefaultAutowireBundle extends Bundle
 
     private function createDefinitionAnalyzer(): DefinitionAnalyzer
     {
-        return new DefinitionAnalyzer(new DefinitionValidator);
+        return new DefinitionAnalyzer(new DefinitionValidator, new MethodAnalyzer);
     }
 }
