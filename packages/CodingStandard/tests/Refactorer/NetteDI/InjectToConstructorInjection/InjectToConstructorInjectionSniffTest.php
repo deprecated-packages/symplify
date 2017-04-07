@@ -5,10 +5,6 @@ namespace Symplify\CodingStandard\Tests\Refactorer\NetteDI\InjectToConstructorIn
 use Symplify\CodingStandard\Refactorer\NetteDI\InjectToConstructorInjectionSniff;
 use Symplify\CodingStandard\Tests\Sniffs\AbstractSniffTestCase;
 
-/**
- * Constructor injection should be used over @inject annotation and inject* methods.
- * Except abstract BasePresenter.
- */
 final class InjectToConstructorInjectionSniffTest extends AbstractSniffTestCase
 {
     public function test(): void

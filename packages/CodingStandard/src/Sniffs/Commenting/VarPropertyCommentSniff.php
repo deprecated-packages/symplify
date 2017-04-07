@@ -43,13 +43,13 @@ final class VarPropertyCommentSniff extends AbstractVariableSniff
         $this->file = $file;
         $this->tokens = $file->getTokens();
         $this->position = $position;
-        $commentString = $this->getPropertyComment();
 
+        $commentString = $this->getPropertyComment();
         if (strpos($commentString, '@var') !== false) {
             return;
         }
 
-        $file->addError(self::ERROR_MESSAGE, self::class);
+        $file->addError(self::ERROR_MESSAGE, $this->position, self::class);
     }
 
     /**

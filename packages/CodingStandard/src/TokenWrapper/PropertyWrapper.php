@@ -3,6 +3,7 @@
 namespace Symplify\CodingStandard\TokenWrapper;
 
 use PHP_CodeSniffer\Files\File;
+use PhpCsFixer\DocBlock\DocBlock;
 use Symplify\CodingStandard\Helper\TokenFinder;
 
 final class PropertyWrapper
@@ -48,8 +49,13 @@ final class PropertyWrapper
 
     public function hasAnnotation(string $annotation): bool
     {
-        return $this->getDocBlock()
-            ->hasAnnotation($annotation);
+        $docBlock = $this->getDocBlock();
+
+        if ( ! $docBlock instanceof DocBlockWrapper) {
+            return false;
+        }
+
+        return $docBlock->hasAnnotation($annotation);
     }
 
     public function getPosition(): int
@@ -120,17 +126,14 @@ final class PropertyWrapper
             $this->file,
             $this->position - 1
         );
+
         $visibilityModifiedToken = $this->tokens[$visibilityModifiedTokenPointer];
 
-        $accesibility = [];
-
         if (in_array($visibilityModifiedToken['code'], [T_PUBLIC, T_PROTECTED, T_PRIVATE], true)) {
-            $accesibility = [
-                $visibilityModifiedTokenPointer => $visibilityModifiedToken['code']
-            ];
+            return $visibilityModifiedTokenPointer;
         }
 
-        return $this->accessibilityPosition = key($accesiblity);
+        return null;
     }
 
     /**

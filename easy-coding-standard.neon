@@ -300,11 +300,11 @@ skip:
         - packages/DoctrineMigrations/src/OutputWriter.php
         - packages/DefaultAutowire/tests/DependencyInjection/Definition/DefinitionAnalyzerSource/MissingArgumentsTypehints.php
 
-    packages/DefaultAutowire/tests/DependencyInjection/Definition/DefinitionAnalyzerForFactoryTest.php:
-        - PHP_CodeSniffer\Standards\Generic\Sniffs\Files\LineLengthSniff
+#    packages/DefaultAutowire/tests/DependencyInjection/Definition/DefinitionAnalyzerForFactoryTest.php:
+#        - PHP_CodeSniffer\Standards\Generic\Sniffs\Files\LineLengthSniff
 
-    packages/DoctrineFixtures/src/Alice/AliceLoader.php:
-        - SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff
+#    packages/DoctrineFixtures/src/Alice/AliceLoader.php:
+#        - SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff
 
     # anonymous class
     PhpCsFixer\Fixer\Whitespace\NoExtraConsecutiveBlankLinesFixer:
@@ -315,20 +315,18 @@ skip:
         - packages/CodingStandard/tests/Sniffs/SniffRunner.php
     PhpCsFixer\Fixer\ClassNotation\ClassDefinitionFixer:
         - packages/CodingStandard/tests/Sniffs/SniffRunner.php
-#    PhpCsFixer\Fixer\Basic\BracesFixer:
-#        - packages/CodingStandard/tests/Sniffs/SniffRunner.php
 
-    packages/EasyCodingStandard/tests/Configuration/ConfigurationNormalizerTest.php:
-        - PhpCsFixer\Fixer\ArrayNotation\NoMultilineWhitespaceAroundDoubleArrowFixer
+#    packages/EasyCodingStandard/tests/Configuration/ConfigurationNormalizerTest.php:
+#        - PhpCsFixer\Fixer\ArrayNotation\NoMultilineWhitespaceAroundDoubleArrowFixer
 
-    packages/SymfonyEventDispatcher/src/Adapter/Nette/Event/PresenterCreatedEvent.php:
-        - PhpCsFixer\Fixer\Phpdoc\PhpdocVarWithoutNameFixer
+#    packages/SymfonyEventDispatcher/src/Adapter/Nette/Event/PresenterCreatedEvent.php:
+#        - PhpCsFixer\Fixer\Phpdoc\PhpdocVarWithoutNameFixer
 
-    packages/SymfonySecurityVoters/src/Adapter/Nette/Token/NetteTokenAdapter.php:
-        - ObjectCalisthenics\Sniffs\Metrics\MethodPerClassLimitSniff
+#    packages/SymfonySecurityVoters/src/Adapter/Nette/Token/NetteTokenAdapter.php:
+#        - ObjectCalisthenics\Sniffs\Metrics\MethodPerClassLimitSniff
 
-    packages/DoctrineMigrations/tests/DI/MigrationsExtension/BeforeCompileTest.php:
-        - ObjectCalisthenics\Sniffs\CodeAnalysis\OneObjectOperatorPerLineSniff
+#    packages/DoctrineMigrations/tests/DI/MigrationsExtension/BeforeCompileTest.php:
+#        - ObjectCalisthenics\Sniffs\CodeAnalysis\OneObjectOperatorPerLineSniff
 
-    packages/SymfonyEventDispatcher/src/Adapter/Nette/DI/NetteEventListFactory.php:
-        - ObjectCalisthenics\Sniffs\Files\FunctionLengthSniff
+#    packages/SymfonyEventDispatcher/src/Adapter/Nette/DI/NetteEventListFactory.php:
+#        - ObjectCalisthenics\Sniffs\Files\FunctionLengthSniff

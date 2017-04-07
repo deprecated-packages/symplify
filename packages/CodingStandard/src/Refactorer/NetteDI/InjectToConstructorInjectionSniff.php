@@ -133,6 +133,7 @@ final class InjectToConstructorInjectionSniff implements Sniff
 
         // 2. remove inject method
         $method->remove();
+
         $this->addParametersToConstructor($injectedParameters);
     }
 

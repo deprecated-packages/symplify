@@ -63,7 +63,6 @@ final class NewClassSniff implements Sniff
 
     private function hasEmptyParentheses(): bool
     {
-        //        $tokens = $this->file->getTokens();
         $nextPosition = $this->position;
 
         do {
