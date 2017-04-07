@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Sniffs\NetteRefactoring;
+namespace Symplify\CodingStandard\Refactor\NetteDI;
 
 use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Sniffs\Sniff;
