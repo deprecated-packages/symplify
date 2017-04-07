@@ -36,7 +36,8 @@ trait ControllerHttpKernelTrait
     protected function forward(string $controller, array $path = [], array $query = []): Response
     {
         $path['_controller'] = $controller;
-        $subRequest = $this->requestStack->getCurrentRequest()->duplicate($query, null, $path);
+        $currentRequest = $this->requestStack->getCurrentRequest();
+        $subRequest = $currentRequest->duplicate($query, null, $path);
 
         return $this->httpKernel->handle($subRequest, HttpKernelInterface::SUB_REQUEST);
     }

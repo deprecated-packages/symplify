@@ -2,7 +2,6 @@
 
 namespace Symplify\ControllerAutowire\HttpKernel\Controller;
 
-use Nette\Caching\Storages\DevNullStorage;
 use Nette\Loaders\RobotLoader;
 use Symplify\ControllerAutowire\Contract\HttpKernel\ControllerFinderInterface;
 

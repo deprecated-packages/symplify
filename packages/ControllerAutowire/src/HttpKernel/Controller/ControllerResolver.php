@@ -53,7 +53,7 @@ final class ControllerResolver implements ControllerResolverInterface
      */
     public function getController(Request $request)
     {
-        if (! $controllerName = $request->attributes->get('_controller')) {
+        if (! $controllerName = $request->get('_controller')) {
             return false;
         }
         [$class, $method] = $this->splitControllerClassAndMethod($controllerName);
