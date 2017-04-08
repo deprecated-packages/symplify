@@ -7,7 +7,6 @@ parameters:
     excludes_analyse:
         - *packages/CodingStandard/tests/**/correct*
         - *packages/CodingStandard/tests/**/wrong*
-
     enableUnionTypes: true
 
 includes:
