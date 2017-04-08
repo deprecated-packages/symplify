@@ -5,3 +5,4 @@ application: Symplify\SymbioticController\Application\InvokablePresenterAwareApp
 application.presenterFactory: Symplify\SymbioticController\Application\PresenterFactory
 
 - Symplify\SymbioticController\Application\Validator\PresenterGuardian
+- Symplify\SymbioticController\Application\Routing\PresenterMapper
