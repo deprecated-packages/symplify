@@ -302,18 +302,6 @@ skip:
     ObjectCalisthenics\Sniffs\Files\FunctionLengthSniff:
         - packages/EasyCodingStandard/packages/FixerRunner/src/Application/FileProcessor.php
         - packages/SymbioticController/src/Application/InvokablePresenterAwareApplication.php
-
+        - packages/SymfonyEventDispatcher/src/Adapter/Nette/DI/NetteEventListFactory.php
     ObjectCalisthenics\Sniffs\CodeAnalysis\OneObjectOperatorPerLineSniff:
         - packages/SymbioticController/src/Application/InvokablePresenterAwareApplication.php
-
-#    packages/EasyCodingStandard/tests/Configuration/ConfigurationNormalizerTest.php:
-#        - PhpCsFixer\Fixer\ArrayNotation\NoMultilineWhitespaceAroundDoubleArrowFixer
-
-#    packages/SymfonyEventDispatcher/src/Adapter/Nette/Event/PresenterCreatedEvent.php:
-#        - PhpCsFixer\Fixer\Phpdoc\PhpdocVarWithoutNameFixer
-
-#    packages/SymfonySecurityVoters/src/Adapter/Nette/Token/NetteTokenAdapter.php:
-#        - ObjectCalisthenics\Sniffs\Metrics\MethodPerClassLimitSniff
-
-#    packages/SymfonyEventDispatcher/src/Adapter/Nette/DI/NetteEventListFactory.php:
-#        - ObjectCalisthenics\Sniffs\Files\FunctionLengthSniff

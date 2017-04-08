@@ -33,7 +33,7 @@ final class VarPropertyCommentSniff implements Sniff
      */
     public function process(File $file, $position): void
     {
-        if ( ! PropertyHelper::isProperty($file, $position)) {
+        if (! PropertyHelper::isProperty($file, $position)) {
             return;
         }
 
