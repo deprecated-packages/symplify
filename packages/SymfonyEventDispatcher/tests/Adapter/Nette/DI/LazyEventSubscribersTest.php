@@ -27,8 +27,8 @@ final class LazyEventSubscribersTest extends TestCase
         $this->assertFalse($container->isCreated('subscriber'));
         try {
             $eventDispatcher->dispatch('subscriber.event');
-        } catch (Throwable $e) {
-            $this->assertSame('Event was dispatched in subscriber.', $e->getMessage());
+        } catch (Throwable $exception) {
+            $this->assertSame('Event was dispatched in subscriber.', $exception->getMessage());
         }
         $this->assertTrue($container->isCreated('subscriber'));
     }

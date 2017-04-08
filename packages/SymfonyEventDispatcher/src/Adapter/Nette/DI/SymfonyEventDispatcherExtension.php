@@ -30,8 +30,8 @@ final class SymfonyEventDispatcherExtension extends CompilerExtension
         $eventDispatcher = DefinitionFinder::getByType($this->getContainerBuilder(), EventDispatcherInterface::class);
 
         if ($this->isKdybyEventsRegistered()) {
-            $eventDispatcher->setClass(EventDispatcher::class)
-                ->setFactory(null);
+            $eventDispatcher->setClass(EventDispatcher::class);
+            $eventDispatcher->setFactory(null);
         }
 
         $this->addSubscribersToEventDispatcher();

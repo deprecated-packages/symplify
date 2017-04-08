@@ -6,11 +6,17 @@ use Nette;
 use Nette\Application\InvalidPresenterException;
 use Nette\Application\IPresenter;
 use Nette\Application\IPresenterFactory;
+use Nette\Application\UI\Presenter;
 use Nette\DI\Container;
 use ReflectionClass;
 
 final class PresenterFactory implements IPresenterFactory
 {
+    /**
+     * @var string
+     */
+    private const PRESENTER_NAME_PATTERN = '#^[a-zA-Z\x7f-\xff][a-zA-Z0-9\x7f-\xff:]*\z#';
+
     /**
      * @var string[][] of module => splited mask
      */
@@ -38,12 +44,12 @@ final class PresenterFactory implements IPresenterFactory
      * @param string $name
      * @return IPresenter|callable|object
      */
-    public function createPresenter(string $name)
+    public function createPresenter($name)
     {
         $presenterClass = $this->getPresenterClass($name);
         $presenter = $this->container->createInstance($presenterClass);
 
-        if ($presenter instanceof Nette\Application\UI\Presenter) {
+        if ($presenter instanceof Presenter) {
             $this->container->callInjects($presenter);
         }
 
@@ -54,27 +60,20 @@ final class PresenterFactory implements IPresenterFactory
      * Generates and checks presenter class name.
      * @param string $name presenter name
      */
-    public function getPresenterClass(string &$name): string
+    public function getPresenterClass(&$name): string
     {
         if (isset($this->cache[$name])) {
             return $this->cache[$name];
         }
 
-        if (! is_string($name) || ! Nette\Utils\Strings::match($name, '#^[a-zA-Z\x7f-\xff][a-zA-Z0-9\x7f-\xff:]*\z#')) {
-            throw new InvalidPresenterException("Presenter name must be alphanumeric string, '$name' is invalid.");
-        }
+        $this->ensurePresenterNameIsValid($name);
 
         $class = $this->formatPresenterClass($name);
         if (! class_exists($class)) {
             throw new InvalidPresenterException("Cannot load presenter '$name', class '$class' was not found.");
         }
 
-        $reflection = new ReflectionClass($class);
-        $class = $reflection->getName();
-
-        if ($reflection->isAbstract()) {
-            throw new InvalidPresenterException("Cannot load presenter '$name', class '$class' is abstract.");
-        }
+        $this->ensurePresenterClassIsNotAbstract($name, $class);
 
         $this->cache[$name] = $class;
 
@@ -89,13 +88,19 @@ final class PresenterFactory implements IPresenterFactory
         foreach ($mapping as $module => $mask) {
             if (is_string($mask)) {
                 if (! preg_match('#^\\\\?([\w\\\\]*\\\\)?(\w*\*\w*?\\\\)?([\w\\\\]*\*\w*)\z#', $mask, $m)) {
-                    throw new Nette\InvalidStateException("Invalid mapping mask '$mask'.");
+                    throw new Nette\InvalidStateException(sprintf(
+                        'Invalid mapping mask "%s".',
+                        $mask
+                    ));
                 }
                 $this->mapping[$module] = [$m[1], $m[2] ?: '*Module\\', $m[3]];
             } elseif (is_array($mask) && count($mask) === 3) {
                 $this->mapping[$module] = [$mask[0] ? $mask[0] . '\\' : '', $mask[1] . '\\', $mask[2]];
             } else {
-                throw new Nette\InvalidStateException("Invalid mapping mask for module $module.");
+                throw new Nette\InvalidStateException(sprintf(
+                    'Invalid mapping mask "%s".',
+                    $mask
+                ));
             }
         }
     }
@@ -115,5 +120,28 @@ final class PresenterFactory implements IPresenterFactory
         }
 
         return $mapping[0];
+    }
+
+    private function ensurePresenterNameIsValid(string $name): void
+    {
+        if (!is_string($name) || !Nette\Utils\Strings::match($name, self::PRESENTER_NAME_PATTERN)) {
+            throw new InvalidPresenterException(sprintf(
+                'Presenter name must be alphanumeric string, "%s" is invalid.',
+                $name
+            ));
+        }
+    }
+
+    private function ensurePresenterClassIsNotAbstract(string $name, string $class): void
+    {
+        $reflection = new ReflectionClass($class);
+
+        if ($reflection->isAbstract()) {
+            throw new InvalidPresenterException(sprintf(
+                'Cannot load presenter "%s", class "%s" is abstract.',
+                $name,
+                $class
+            );
+        }
     }
 }

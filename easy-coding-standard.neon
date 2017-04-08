@@ -299,6 +299,13 @@ skip:
     PhpCsFixer\Fixer\ClassNotation\ClassDefinitionFixer:
         - packages/CodingStandard/tests/Sniffs/SniffRunner.php
 
+    ObjectCalisthenics\Sniffs\Files\FunctionLengthSniff:
+        - packages/EasyCodingStandard/packages/FixerRunner/src/Application/FileProcessor.php
+        - packages/SymbioticController/src/Application/InvokablePresenterAwareApplication.php
+
+    ObjectCalisthenics\Sniffs\CodeAnalysis\OneObjectOperatorPerLineSniff:
+        - packages/SymbioticController/src/Application/InvokablePresenterAwareApplication.php
+
 #    packages/EasyCodingStandard/tests/Configuration/ConfigurationNormalizerTest.php:
 #        - PhpCsFixer\Fixer\ArrayNotation\NoMultilineWhitespaceAroundDoubleArrowFixer
 

@@ -1,16 +1,16 @@
 #!/usr/bin/env php
 <?php declare(strict_types=1);
 
-require_once __DIR__ . '/include-autoload.php';
-
-set_time_limit(0);
-
 use Symplify\PackageBuilder\Adapter\Nette\GeneralContainerFactory;
 use Symplify\Statie\Console\ConsoleApplication;
 
-$container = (new GeneralContainerFactory)->createFromConfig(
-        __DIR__ . '/../src/config/config.neon'
-);
+// performance boost
+gc_disable();
+
+require_once getcwd() . '/vendor/autoload.php';
+
+$containerFactory = new GeneralContainerFactory;
+$container = $containerFactory->createFromConfig(__DIR__ . '/../src/config/config.neon');
 
 /** @var ConsoleApplication $application */
 $application = $container->getByType(ConsoleApplication::class);

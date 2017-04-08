@@ -7,8 +7,13 @@ use PHP_CodeSniffer\Sniffs\Sniff;
 use SlevomatCodingStandard\Helpers\AnnotationHelper;
 use SlevomatCodingStandard\Helpers\PropertyHelper;
 
-final class VarPropertyCommentSniff /*extends AbstractVariableSniff */ implements Sniff
+final class VarPropertyCommentSniff implements Sniff
 {
+    /**
+     * @var string
+     */
+    private const VAR_ANNOTATION = '@var';
+
     /**
      * @var string
      */
@@ -33,7 +38,7 @@ final class VarPropertyCommentSniff /*extends AbstractVariableSniff */ implement
         }
 
         $propertyVarAnnotations = AnnotationHelper::getAnnotations($file, $position);
-        if (! isset($propertyVarAnnotations['@var'])) {
+        if (! isset($propertyVarAnnotations[self::VAR_ANNOTATION])) {
             $file->addError(self::ERROR_MESSAGE, $position, self::class);
         }
     }
