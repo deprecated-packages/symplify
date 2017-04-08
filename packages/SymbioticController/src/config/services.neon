@@ -3,3 +3,5 @@
 # name required to override origin services
 application: Symplify\SymbioticController\Application\InvokablePresenterAwareApplication
 application.presenterFactory: Symplify\SymbioticController\Application\PresenterFactory
+
+- Symplify\SymbioticController\Application\Validator\PresenterGuardian

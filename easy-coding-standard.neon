@@ -288,6 +288,7 @@ skip:
         - packages/SymfonySecurityVoters/src/Adapter/Nette/Token/NetteTokenAdapter.php
         - packages/Statie/src/Configuration/Configuration.php
         - packages/ControllerAutowire/src/Controller/Security/ControllerSecurityTrait.php
+        - packages/SymbioticController/src/Application/PresenterFactory.php
 
     # anonymous class
     PhpCsFixer\Fixer\Whitespace\NoExtraConsecutiveBlankLinesFixer:
