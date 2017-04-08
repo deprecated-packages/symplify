@@ -3,14 +3,16 @@
 namespace Symplify\CodingStandard\Sniffs\Naming;
 
 use PHP_CodeSniffer\Files\File;
+use PHP_CodeSniffer\Fixer;
 use PHP_CodeSniffer\Sniffs\Sniff;
 
-/**
- * Rules:
- * - Interface should have suffix "Interface".
- */
 final class InterfaceNameSniff implements Sniff
 {
+    /**
+     * @var string
+     */
+    private const ERROR_MESSAGE = 'Interface should have suffix "Interface".';
+
     /**
      * @var File
      */
@@ -20,6 +22,11 @@ final class InterfaceNameSniff implements Sniff
      * @var int
      */
     private $position;
+
+    /**
+     * @var Fixer
+     */
+    private $fixer;
 
     /**
      * @return int[]
@@ -36,6 +43,7 @@ final class InterfaceNameSniff implements Sniff
     public function process(File $file, $position): void
     {
         $this->file = $file;
+        $this->fixer = $file->fixer;
         $this->position = $position;
 
         $interfaceName = $this->getInterfaceName();
@@ -43,42 +51,27 @@ final class InterfaceNameSniff implements Sniff
             return;
         }
 
-        $fix = $file->addFixableError(
-            'Interface should have suffix "Interface".',
-            $position,
-            self::class
-        );
-
-        if ($fix === true) {
+        if ($file->addFixableError(self::ERROR_MESSAGE, $position, self::class)) {
             $this->fix();
         }
     }
 
-    /**
-     * @return string|false
-     */
-    private function getInterfaceName()
+    private function getInterfaceName(): string
     {
         $namePosition = $this->getInterfaceNamePosition();
-        if (! $namePosition) {
-            return false;
-        }
 
         return $this->file->getTokens()[$namePosition]['content'];
     }
 
-    /**
-     * @return bool|int
-     */
-    private function getInterfaceNamePosition()
+    private function getInterfaceNamePosition(): int
     {
-        return $this->file->findNext(T_STRING, $this->position);
+        return (int) $this->file->findNext(T_STRING, $this->position);
     }
 
     private function fix(): void
     {
         $interfaceNamePosition = $this->getInterfaceNamePosition();
 
-        $this->file->fixer->addContent($interfaceNamePosition, 'Interface');
+        $this->fixer->addContent($interfaceNamePosition, 'Interface');
     }
 }

@@ -4,6 +4,7 @@ namespace Symplify\EasyCodingStandard\Application\Command;
 
 use PHP_CodeSniffer\Sniffs\Sniff;
 use PhpCsFixer\Fixer\FixerInterface;
+use Symplify\EasyCodingStandard\Configuration\ConfigurationNormalizer;
 use Symplify\EasyCodingStandard\Configuration\ConfigurationOptions;
 use Symplify\EasyCodingStandard\Exception\Configuration\SourceNotFoundException;
 
@@ -74,7 +75,7 @@ final class RunCommand
      */
     public function getSniffs(): array
     {
-        return $this->filterClassesByType($this->configuration[ConfigurationOptions::CHECKERS], Sniff::class);
+        return $this->filterClassesByType($this->getCheckers(), Sniff::class);
     }
 
     /**
@@ -82,11 +83,11 @@ final class RunCommand
      */
     public function getFixers(): array
     {
-        return $this->filterClassesByType($this->configuration[ConfigurationOptions::CHECKERS], FixerInterface::class);
+        return $this->filterClassesByType($this->getCheckers(), FixerInterface::class);
     }
 
     /**
-     * @return string[]
+     * @return string[][]
      */
     public function getSkipped(): array
     {
@@ -129,5 +130,15 @@ final class RunCommand
         return array_filter($classes, function ($class) use ($type) {
             return is_a($class, $type, true);
         }, ARRAY_FILTER_USE_KEY);
+    }
+
+    /**
+     * @return string[][]
+     */
+    private function getCheckers(): array
+    {
+        $checkers = $this->configuration[ConfigurationOptions::CHECKERS] ?? [];
+
+        return ConfigurationNormalizer::normalizeClassesConfiguration($checkers);
     }
 }

@@ -4,16 +4,15 @@ namespace Symplify\CodingStandard\Sniffs\Commenting;
 
 use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Sniffs\Sniff;
-use Symplify\CodingStandard\Helper\Commenting\FunctionHelper;
+use SlevomatCodingStandard\Helpers\FunctionHelper;
 
-/**
- * Rules:
- * - CreateComponent* method should have a doc comment.
- * - CreateComponent* method should have a return tag.
- * - Return tag should contain type.
- */
 final class ComponentFactoryCommentSniff implements Sniff
 {
+    /**
+     * @var string
+     */
+    private const ERROR_MESSAGE = 'createComponent<name> method should have return type.';
+
     /**
      * @var int
      */
@@ -23,11 +22,6 @@ final class ComponentFactoryCommentSniff implements Sniff
      * @var File
      */
     private $file;
-
-    /**
-     * @var array[]
-     */
-    private $tokens;
 
     /**
      * @return int[]
@@ -45,30 +39,16 @@ final class ComponentFactoryCommentSniff implements Sniff
     {
         $this->file = $file;
         $this->position = $position;
-        $this->tokens = $file->getTokens();
 
         if (! $this->isComponentFactoryMethod()) {
             return;
         }
 
         $returnTypeHint = FunctionHelper::findReturnTypeHint($file, $position);
-        if ($returnTypeHint) {
-            return;
+
+        if ($returnTypeHint === null || $returnTypeHint->getTypeHint() === 'void') {
+            $file->addError(self::ERROR_MESSAGE, $position, self::class);
         }
-
-        $commentEnd = $this->getCommentEnd();
-        if (! $this->hasMethodComment($commentEnd)) {
-            $file->addError(
-                'createComponent<name> method should have a doc comment or return type.',
-                $position,
-                self::class
-            );
-
-            return;
-        }
-
-        $commentStart = $this->tokens[$commentEnd]['comment_opener'];
-        $this->processReturnTag($commentStart);
     }
 
     private function isComponentFactoryMethod(): bool
@@ -76,45 +56,5 @@ final class ComponentFactoryCommentSniff implements Sniff
         $functionName = $this->file->getDeclarationName($this->position);
 
         return strpos($functionName, 'createComponent') === 0;
-    }
-
-    /**
-     * @return bool|int
-     */
-    private function getCommentEnd()
-    {
-        return $this->file->findPrevious(T_WHITESPACE, ($this->position - 3), null, true);
-    }
-
-    private function hasMethodComment(int $position): bool
-    {
-        if ($this->tokens[$position]['code'] === T_DOC_COMMENT_CLOSE_TAG) {
-            return true;
-        }
-
-        return false;
-    }
-
-    private function processReturnTag(int $commentStartPosition): void
-    {
-        $return = null;
-        foreach ($this->tokens[$commentStartPosition]['comment_tags'] as $tag) {
-            if ($this->tokens[$tag]['content'] === '@return') {
-                $return = $tag;
-            }
-        }
-        if ($return !== null) {
-            $content = $this->tokens[($return + 2)]['content'];
-            if (empty($content) === true || $this->tokens[($return + 2)]['code'] !== T_DOC_COMMENT_STRING) {
-                $error = 'Return tag should contain type';
-                $this->file->addError($error, $return, self::class);
-            }
-        } else {
-            $this->file->addError(
-                'CreateComponent* method should have a @return tag',
-                $this->tokens[$commentStartPosition]['comment_closer'],
-                self::class
-            );
-        }
     }
 }

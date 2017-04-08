@@ -70,8 +70,9 @@ abstract class AbstractFile
 
     public function getRelativeDirectory(): string
     {
-        return $this->fileInfo->getPathInfo()
-            ->getPathname();
+        $directoryPathInfo = $this->fileInfo->getPathInfo();
+
+        return $directoryPathInfo->getPathname();
     }
 
     public function getPrimaryExtension(): string

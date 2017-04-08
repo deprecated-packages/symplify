@@ -65,13 +65,6 @@ To quick check test build status, coverage or downloads.
 [![Downloads](https://img.shields.io/packagist/dt/symplify/symfony-security-voters.svg?style=flat-square)](htptps://packagist.org/packages/symplify/symfony-security-voters)
 
 
-## Doctrine Migrations
-
-[![Build Status](https://img.shields.io/travis/Symplify/DoctrineMigrations.svg?style=flat-square)](https://travis-ci.org/Symplify/DoctrineMigrations)
-[![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/Symplify/DoctrineMigrations.svg?style=flat-square)](https://scrutinizer-ci.com/g/Symplify/DoctrineMigrations)
-[![Downloads this Month](https://img.shields.io/packagist/dt/symplify/doctrine-migrations.svg?style=flat-square)](https://packagist.org/packages/symplify/doctrine-migrations)
-
-
 ## Modular Latte Filters
 
 [![Build Status](https://img.shields.io/travis/Symplify/ModularLatteFilters.svg?style=flat-square)](https://travis-ci.org/Symplify/ModularLatteFilters)

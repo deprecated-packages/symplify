@@ -23,7 +23,7 @@ final class Skipper
     }
 
     /**
-     * @param Sniff|FixerInterface $checker
+     * @param Sniff|FixerInterface|string $checker
      * @param string $relativeFilePath
      */
     public function shouldSkipCheckerAndFile($checker, string $relativeFilePath): bool
@@ -33,10 +33,23 @@ final class Skipper
                 continue;
             }
 
-            foreach ($skippedFiles as $skippedFile) {
-                if ($this->fileMatchesPattern($relativeFilePath, $skippedFile)) {
-                    return true;
-                }
+            if ($this->doesFileMatchSkippedFiles($relativeFilePath, $skippedFiles)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * @param string $relativeFilePath
+     * @param string[] $skippedFiles
+     */
+    private function doesFileMatchSkippedFiles(string $relativeFilePath, array $skippedFiles): bool
+    {
+        foreach ($skippedFiles as $skippedFile) {
+            if ($this->fileMatchesPattern($relativeFilePath, $skippedFile)) {
+                return true;
             }
         }
 

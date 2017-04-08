@@ -28,14 +28,9 @@ final class PropertyWrapper
     private $tokens;
 
     /**
-     * @var int[]
+     * @var ?int
      */
-    private $accessibility;
-
-    /**
-     * @var DocBlockWrapper|false
-     */
-    private $docBlock;
+    private $accessibilityPosition;
 
     private function __construct(File $file, int $position)
     {
@@ -53,8 +48,13 @@ final class PropertyWrapper
 
     public function hasAnnotation(string $annotation): bool
     {
-        return $this->getDocBlock()
-            ->hasAnnotation($annotation);
+        $docBlock = $this->getDocBlock();
+
+        if (! $docBlock instanceof DocBlockWrapper) {
+            return false;
+        }
+
+        return $docBlock->hasAnnotation($annotation);
     }
 
     public function getPosition(): int
@@ -67,31 +67,21 @@ final class PropertyWrapper
      */
     public function getDocBlock()
     {
-        if ($this->docBlock) {
-            return $this->docBlock;
+        $phpDocCommentCloseTokenPosition = $this->getDocCommentCloseTokenPosition();
+
+        if (! $this->hasDocComment($phpDocCommentCloseTokenPosition)) {
+            return false;
         }
 
-        $visibilityModifiedTokenPointer = TokenFinder::findPreviousEffective($this->file, $this->position - 1);
-        $tokens = $this->file->getTokens();
+        $findPhpDocTagPointer = $this->file->findPrevious(
+            T_DOC_COMMENT_OPEN_TAG, $phpDocCommentCloseTokenPosition - 1
+        ) + 1;
 
-        $phpDocTokenCloseTagPointer = TokenFinder::findPreviousExcluding(
-            $this->file, [T_WHITESPACE], $visibilityModifiedTokenPointer - 1
-        );
-        $phpDocTokenCloseTag = $tokens[$phpDocTokenCloseTagPointer];
-
-        // has no doc comment
-        if ($phpDocTokenCloseTag['code'] !== T_DOC_COMMENT_CLOSE_TAG) {
-            $this->docBlock = false;
-        }
-
-        $findPhpDocTagPointer = $this->file->findPrevious(T_DOC_COMMENT_OPEN_TAG, $phpDocTokenCloseTagPointer - 1) + 1;
-        $this->docBlock = DocBlockWrapper::createFromFileAndPosition(
+        return DocBlockWrapper::createFromFileAndPosition(
             $this->file,
             $findPhpDocTagPointer - 1,
-            $phpDocTokenCloseTagPointer
+            $phpDocCommentCloseTokenPosition
         );
-
-        return $this->docBlock;
     }
 
     public function removeAnnotation(string $annotation): void
@@ -106,16 +96,18 @@ final class PropertyWrapper
 
     public function changeAccesibilityToPrivate(): void
     {
-        $accesiblity = $this->getPropertyAccessibility();
-        $accesiblityPosition = key($accesiblity);
+        $accesiblityPosition = $this->getPropertyAccessibilityPosition();
         if ($accesiblityPosition) {
-            $this->file->fixer->replaceToken($accesiblityPosition, 'private');
+            $file = $this->file;
+            $fixer = $file->fixer;
+            $fixer->replaceToken($accesiblityPosition, 'private');
         }
     }
 
     public function getType(): string
     {
-        return $this->docBlock->getAnnotationValue('@var');
+        return $this->getDocBlock()
+            ->getAnnotationValue('@var');
     }
 
     public function getName(): string
@@ -124,28 +116,47 @@ final class PropertyWrapper
     }
 
     /**
-     * @return int[]
+     * @return int|bool
      */
-    private function getPropertyAccessibility(): array
+    private function getPropertyAccessibilityPosition()
     {
-        if ($this->accessibility) {
-            return $this->accessibility;
+        if ($this->accessibilityPosition) {
+            return $this->accessibilityPosition;
         }
 
         $visibilityModifiedTokenPointer = TokenFinder::findPreviousEffective(
             $this->file,
             $this->position - 1
         );
+
         $visibilityModifiedToken = $this->tokens[$visibilityModifiedTokenPointer];
 
-        $accesibility = [];
-
         if (in_array($visibilityModifiedToken['code'], [T_PUBLIC, T_PROTECTED, T_PRIVATE], true)) {
-            $accesibility = [
-                $visibilityModifiedTokenPointer => $visibilityModifiedToken['code']
-            ];
+            return $visibilityModifiedTokenPointer;
         }
 
-        return $this->accessibility = $accesibility;
+        return false;
+    }
+
+    /**
+     * @return bool|int
+     */
+    private function getDocCommentCloseTokenPosition()
+    {
+        $visibilityModifiedTokenPointer = TokenFinder::findPreviousEffective(
+            $this->file,
+            $this->position - 1
+        );
+
+        return TokenFinder::findPreviousExcluding(
+            $this->file, [T_WHITESPACE], $visibilityModifiedTokenPointer - 1
+        );
+    }
+
+    private function hasDocComment(int $phpDocCommentCloseTokenPosition): bool
+    {
+        $phpDocCommentCloseToken = $this->tokens[$phpDocCommentCloseTokenPosition];
+
+        return $phpDocCommentCloseToken['code'] === T_DOC_COMMENT_CLOSE_TAG;
     }
 }

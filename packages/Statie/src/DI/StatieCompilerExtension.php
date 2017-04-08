@@ -24,20 +24,33 @@ final class StatieCompilerExtension extends CompilerExtension
 
     public function beforeCompile(): void
     {
+        $this->loadConsoleApplicationWithCommands();
+        $this->loadSourceFileStorageWithSourceFileFilters();
+        $this->loadRouterDecoratorWithRoutes();
+    }
+
+    private function loadConsoleApplicationWithCommands(): void
+    {
         DefinitionCollector::loadCollectorWithType(
             $this->getContainerBuilder(),
             ConsoleApplication::class,
             Command::class,
             'add'
         );
+    }
 
+    private function loadSourceFileStorageWithSourceFileFilters(): void
+    {
         DefinitionCollector::loadCollectorWithType(
             $this->getContainerBuilder(),
             SourceFileStorage::class,
             SourceFileFilterInterface::class,
             'addSourceFileFilter'
         );
+    }
 
+    private function loadRouterDecoratorWithRoutes(): void
+    {
         DefinitionCollector::loadCollectorWithType(
             $this->getContainerBuilder(),
             RouteDecorator::class,

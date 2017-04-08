@@ -25,7 +25,7 @@ final class ConfigurationTest extends TestCase
 
         $this->assertSame([
             'key' => 'value',
-        ], $this->configuration->getGlobalVariables());
+        ], $this->configuration->getOptions());
     }
 
     public function testLoadFromFiles(): void
@@ -37,6 +37,6 @@ final class ConfigurationTest extends TestCase
         $this->assertSame([
             'key' => 'value',
             'another_key' => 'another_value',
-        ], $this->configuration->getGlobalVariables());
+        ], $this->configuration->getOptions());
     }
 }

@@ -11,6 +11,7 @@ use Symfony\Component\DependencyInjection\DefinitionDecorator;
 use Symfony\Component\DependencyInjection\Reference;
 use Symplify\DefaultAutowire\DependencyInjection\DefinitionAnalyzer;
 use Symplify\DefaultAutowire\DependencyInjection\DefinitionValidator;
+use Symplify\DefaultAutowire\DependencyInjection\MethodAnalyzer;
 use Symplify\DefaultAutowire\Tests\DependencyInjection\DefinitionAnalyzerSource\EmptyConstructor;
 use Symplify\DefaultAutowire\Tests\DependencyInjection\DefinitionAnalyzerSource\EmptyConstructorFactory;
 use Symplify\DefaultAutowire\Tests\DependencyInjection\DefinitionAnalyzerSource\MissingArgumentsTypehints;
@@ -28,7 +29,7 @@ final class DefinitionAnalyzerForFactoryTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->definitionAnalyzer = new DefinitionAnalyzer(new DefinitionValidator);
+        $this->definitionAnalyzer = new DefinitionAnalyzer(new DefinitionValidator, new MethodAnalyzer);
     }
 
     public function testServiceFactoryMethodDoesNotHaveArguments(): void

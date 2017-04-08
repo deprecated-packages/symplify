@@ -63,19 +63,13 @@ final class SniffRunnerTest extends TestCase
         $this->assertSame(1, $this->errorDataCollector->getFixableErrorCount());
         $this->assertSame(0, $this->errorDataCollector->getUnfixableErrorCount());
 
-        $errorMessages = $this->errorDataCollector->getErrors();
-        $this->assertCount(1, $errorMessages);
+        $errorMessages = $this->errorDataCollector->getAllErrors();
 
         $this->assertStringEndsWith('NotPsr2Class.php.inc', key($errorMessages));
 
         /** @var Error $error */
         $error = array_pop($errorMessages)[0];
-        $this->assertInstanceOf(Error::class, $error);
-
-        $this->assertSame(5, $error->getLine());
-        $this->assertSame('Abstract class should have prefix "Abstract".', $error->getMessage());
-        $this->assertSame(AbstractClassNameSniff::class, $error->getSourceClass());
-        $this->assertTrue($error->isFixable());
+        $this->validateError($error);
     }
 
     public function testSkipper(): void
@@ -87,7 +81,7 @@ final class SniffRunnerTest extends TestCase
         ]);
         $this->fileProcessor->setupWithCommand($runCommand);
 
-        $errorMessages = $this->errorDataCollector->getErrors();
+        $errorMessages = $this->errorDataCollector->getAllErrors();
         $this->assertCount(0, $errorMessages);
     }
 
@@ -103,5 +97,15 @@ final class SniffRunnerTest extends TestCase
                 ]
             ]
         );
+    }
+
+    private function validateError(Error $error): void
+    {
+        $this->assertInstanceOf(Error::class, $error);
+
+        $this->assertSame(5, $error->getLine());
+        $this->assertSame('Abstract class should have prefix "Abstract".', $error->getMessage());
+        $this->assertSame(AbstractClassNameSniff::class, $error->getSourceClass());
+        $this->assertTrue($error->isFixable());
     }
 }

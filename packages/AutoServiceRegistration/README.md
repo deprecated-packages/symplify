@@ -16,12 +16,14 @@ No need to do that manually in `config.yml` files. Very useful in large projects
 composer require symplify/auto-service-registration
 ```
 
+### Registration in Symfony
+
 Add bundle to `AppKernel.php`:
 
 ```php
 class AppKernel extends Kernel
 {
-    public function registerBundles()
+    public function registerBundles(): array
     {
         $bundles = [
             new Symplify\AutoServiceRegistration\Adapter\Symfony\SymplifyAutoServiceRegistrationBundle(),
@@ -32,7 +34,7 @@ class AppKernel extends Kernel
 ```
 
 
-## Usage
+## Usage in Symfony
 
 ```yml
 # app/config/config.yml with default value

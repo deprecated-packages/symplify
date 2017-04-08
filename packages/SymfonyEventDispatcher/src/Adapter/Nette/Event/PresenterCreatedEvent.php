@@ -24,7 +24,7 @@ final class PresenterCreatedEvent extends Event
     private $application;
 
     /**
-     * @var IPresenter|callable $presenter
+     * @var IPresenter|callable
      */
     private $presenter;
 

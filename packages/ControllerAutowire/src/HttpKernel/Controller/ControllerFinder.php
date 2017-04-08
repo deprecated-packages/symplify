@@ -2,7 +2,6 @@
 
 namespace Symplify\ControllerAutowire\HttpKernel\Controller;
 
-use Nette\Caching\Storages\DevNullStorage;
 use Nette\Loaders\RobotLoader;
 use Symplify\ControllerAutowire\Contract\HttpKernel\ControllerFinderInterface;
 
@@ -25,7 +24,6 @@ final class ControllerFinder implements ControllerFinderInterface
     public function findControllersInDirs(array $dirs): array
     {
         $robot = new RobotLoader;
-        $robot->setCacheStorage(new DevNullStorage);
         foreach ($dirs as $dir) {
             $robot->addDirectory($dir);
         }

@@ -103,7 +103,9 @@ final class MethodWrapper
     public function remove(): void
     {
         for ($i = $this->startPosition - 2; $i <= $this->endPosition + 1; ++$i) {
-            $this->file->fixer->replaceToken($i, '');
+            $file = $this->file;
+            $fixer = $file->fixer;
+            $fixer->replaceToken($i, '');
         }
     }
 }

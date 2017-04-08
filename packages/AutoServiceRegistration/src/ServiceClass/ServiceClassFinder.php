@@ -2,7 +2,6 @@
 
 namespace Symplify\AutoServiceRegistration\ServiceClass;
 
-use Nette\Caching\Storages\DevNullStorage;
 use Nette\Loaders\RobotLoader;
 
 final class ServiceClassFinder
@@ -15,7 +14,6 @@ final class ServiceClassFinder
     public function findServicesInDirsByClassSuffix(array $dirs, array $classSuffixesToSeek): array
     {
         $robot = new RobotLoader;
-        $robot->setCacheStorage(new DevNullStorage);
         foreach ($dirs as $dir) {
             $robot->addDirectory($dir);
         }

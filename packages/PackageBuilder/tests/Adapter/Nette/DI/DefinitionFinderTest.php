@@ -3,6 +3,7 @@
 namespace Symplify\PackageBuilder\Tests\Adapter\Nette\DI;
 
 use Nette\DI\ContainerBuilder;
+use Nette\DI\ServiceDefinition;
 use PHPUnit\Framework\TestCase;
 use stdClass;
 use Symplify\PackageBuilder\Adapter\Nette\DI\DefinitionFinder;
@@ -21,17 +22,21 @@ final class DefinitionFinderTest extends TestCase
 
     public function testAutowired(): void
     {
-        $definition = $this->containerBuilder->addDefinition('some')
-            ->setClass(stdClass::class);
+        $definition = new ServiceDefinition;
+        $definition->setClass(stdClass::class);
+
+        $this->containerBuilder->addDefinition('some', $definition);
 
         $this->assertSame($definition, DefinitionFinder::getByType($this->containerBuilder, stdClass::class));
     }
 
     public function testNonAutowired(): void
     {
-        $definition = $this->containerBuilder->addDefinition('some')
-            ->setClass(stdClass::class)
-            ->setAutowired(false);
+        $definition = new ServiceDefinition;
+        $definition->setClass(stdClass::class);
+        $definition->setAutowired(false);
+
+        $this->containerBuilder->addDefinition('some', $definition);
 
         $this->assertSame($definition, DefinitionFinder::getByType($this->containerBuilder, stdClass::class));
     }

@@ -5,12 +5,13 @@ namespace Symplify\CodingStandard\Sniffs\Commenting;
 use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Sniffs\Sniff;
 
-/**
- * Rules:
- * - Method without parameter typehints should have docblock comment.
- */
 final class MethodCommentSniff implements Sniff
 {
+    /**
+     * @var string
+     */
+    private const ERROR_MESSAGE = 'Method docblock is required, because some parameters are without typehints.';
+
     /**
      * @return int[]
      */
@@ -42,11 +43,7 @@ final class MethodCommentSniff implements Sniff
             return;
         }
 
-        $file->addError(
-            'Method docblock is missing, due to some parameters without typehints.',
-            $position,
-            self::class
-        );
+        $file->addError(self::ERROR_MESSAGE, $position, self::class);
     }
 
     private function hasMethodDocblock(File $file, int $position): bool

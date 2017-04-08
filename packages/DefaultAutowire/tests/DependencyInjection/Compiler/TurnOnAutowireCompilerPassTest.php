@@ -8,6 +8,7 @@ use Symfony\Component\DependencyInjection\Definition;
 use Symplify\DefaultAutowire\DependencyInjection\Compiler\TurnOnAutowireCompilerPass;
 use Symplify\DefaultAutowire\DependencyInjection\DefinitionAnalyzer;
 use Symplify\DefaultAutowire\DependencyInjection\DefinitionValidator;
+use Symplify\DefaultAutowire\DependencyInjection\MethodAnalyzer;
 use Symplify\DefaultAutowire\Tests\Source\SomeAutowiredService;
 
 final class TurnOnAutowireCompilerPassTest extends TestCase
@@ -27,6 +28,6 @@ final class TurnOnAutowireCompilerPassTest extends TestCase
 
     private function createDefinitionAnalyzer(): DefinitionAnalyzer
     {
-        return new DefinitionAnalyzer(new DefinitionValidator);
+        return new DefinitionAnalyzer(new DefinitionValidator, new MethodAnalyzer);
     }
 }

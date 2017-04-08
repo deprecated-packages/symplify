@@ -87,13 +87,7 @@ final class AutowireControllerDependenciesPass implements CompilerPassInterface
                 continue;
             }
 
-            foreach ($setterToServiceNames as $setter => $serviceName) {
-                if (! $this->containerBuilder->has($serviceName)) {
-                    continue;
-                }
-
-                $controllerDefinition->addMethodCall($setter, [new Reference($serviceName)]);
-            }
+            $this->setTraitDependencies($controllerDefinition, $setterToServiceNames);
         }
     }
 
@@ -112,5 +106,20 @@ final class AutowireControllerDependenciesPass implements CompilerPassInterface
         }
 
         return false;
+    }
+
+    /**
+     * @param Definition $controllerDefinition
+     * @param string[] $setterToServiceNames
+     */
+    private function setTraitDependencies(Definition $controllerDefinition, array $setterToServiceNames): void
+    {
+        foreach ($setterToServiceNames as $setter => $serviceName) {
+            if (! $this->containerBuilder->has($serviceName)) {
+                continue;
+            }
+
+            $controllerDefinition->addMethodCall($setter, [new Reference($serviceName)]);
+        }
     }
 }

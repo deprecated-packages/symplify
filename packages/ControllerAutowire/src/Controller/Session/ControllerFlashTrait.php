@@ -18,7 +18,7 @@ trait ControllerFlashTrait
 
     protected function addFlash(string $type, string $message): void
     {
-        $this->session->getFlashBag()
-            ->add($type, $message);
+        $flashBag = $this->session->getFlashBag();
+        $flashBag->add($type, $message);
     }
 }

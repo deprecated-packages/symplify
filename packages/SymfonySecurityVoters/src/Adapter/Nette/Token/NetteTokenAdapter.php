@@ -21,6 +21,9 @@ final class NetteTokenAdapter implements TokenInterface
         throw new NotImplementedException;
     }
 
+    /**
+     * @return string[]
+     */
     public function getRoles(): array
     {
         return $this->user->getRoles();
@@ -40,7 +43,7 @@ final class NetteTokenAdapter implements TokenInterface
     }
 
     /**
-     * @param User $user
+     * @param User|string $user
      */
     public function setUser($user): void
     {
@@ -77,6 +80,9 @@ final class NetteTokenAdapter implements TokenInterface
         ));
     }
 
+    /**
+     * @return mixed[]
+     */
     public function getAttributes(): array
     {
         /** @var Identity $identity */
@@ -110,6 +116,9 @@ final class NetteTokenAdapter implements TokenInterface
         throw new NotImplementedException;
     }
 
+    /**
+     * @param mixed[] $attributes
+     */
     public function setAttributes(array $attributes): void
     {
         throw new NotImplementedException;

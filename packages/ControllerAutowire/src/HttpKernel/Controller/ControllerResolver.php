@@ -49,11 +49,11 @@ final class ControllerResolver implements ControllerResolverInterface
     }
 
     /**
-     * @return callable|false|mixed[]
+     * @return callable|bool
      */
     public function getController(Request $request)
     {
-        if (! $controllerName = $request->attributes->get('_controller')) {
+        if (! $controllerName = $request->get('_controller')) {
             return false;
         }
         [$class, $method] = $this->splitControllerClassAndMethod($controllerName);

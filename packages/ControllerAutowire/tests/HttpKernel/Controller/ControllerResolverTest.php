@@ -23,8 +23,10 @@ final class ControllerResolverTest extends TestCase
 
     public function testGetController(): void
     {
-        $request = new Request;
-        $request->attributes->set('_controller', 'SomeController::someAction');
+        $attributes = [
+            '_controller' => 'SomeController::someAction'
+        ];
+        $request = new Request([], [], $attributes);
 
         $controller = $this->controllerResolver->getController($request);
         $this->assertNull($controller);

@@ -24,7 +24,7 @@ final class NetteEventItem
      */
     private $eventName;
 
-    public function __construct(string $class, string $property, string $eventClass, string $eventName)
+    public function __construct(string $class, string $property, string $eventClass, ?string $eventName = null)
     {
         $this->class = $class;
         $this->property = $property;
@@ -44,7 +44,11 @@ final class NetteEventItem
 
     public function getEventName(): string
     {
-        return $this->eventName;
+        if ($this->eventName) {
+            return $this->eventName;
+        }
+
+        return $this->class . '::$' . $this->property;
     }
 
     public function getProperty(): string

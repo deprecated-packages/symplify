@@ -33,32 +33,27 @@ final class NetteEventListFactory
         $eventItems[] = new NetteEventItem(
             Application::class,
             'onRequest',
-            RequestRecievedEvent::class,
-            RequestRecievedEvent::NAME
+            RequestRecievedEvent::class
         );
         $eventItems[] = new NetteEventItem(
             Application::class,
             'onStartup',
-            ApplicationStartupEvent::class,
-            ApplicationStartupEvent::NAME
+            ApplicationStartupEvent::class
         );
         $eventItems[] = new NetteEventItem(
             Application::class,
             'onPresenter',
-            PresenterCreatedEvent::class,
-            PresenterCreatedEvent::NAME
+            PresenterCreatedEvent::class
         );
         $eventItems[] = new NetteEventItem(
             Application::class,
             'onResponse',
-            ApplicationResponseEvent::class,
-            ApplicationResponseEvent::NAME
+            ApplicationResponseEvent::class
         );
         $eventItems[] = new NetteEventItem(
             Application::class,
             'onError',
-            ApplicationErrorEvent::class,
-            ApplicationErrorEvent::NAME
+            ApplicationErrorEvent::class
         );
         $eventItems[] = new NetteEventItem(
             Application::class,
@@ -75,11 +70,8 @@ final class NetteEventListFactory
      */
     private function createPresenterEventItems(): array
     {
-        return [new NetteEventItem(
-            Presenter::class,
-            'onShutdown',
-            PresenterShutdownEvent::class,
-            PresenterShutdownEvent::NAME
-        )];
+        return [
+            new NetteEventItem(Presenter::class, 'onShutdown', PresenterShutdownEvent::class)
+        ];
     }
 }
