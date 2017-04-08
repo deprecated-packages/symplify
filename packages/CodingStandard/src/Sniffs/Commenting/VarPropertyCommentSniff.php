@@ -37,8 +37,8 @@ final class VarPropertyCommentSniff implements Sniff
             return;
         }
 
-        $propertyVarAnnotations = AnnotationHelper::getAnnotations($file, $position);
-        if (! isset($propertyVarAnnotations[self::VAR_ANNOTATION])) {
+        $propertyAnnotations = AnnotationHelper::getAnnotations($file, $position);
+        if (! isset($propertyAnnotations[self::VAR_ANNOTATION])) {
             $file->addError(self::ERROR_MESSAGE, $position, self::class);
         }
     }
