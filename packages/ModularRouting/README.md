@@ -19,9 +19,9 @@ composer require symplify/modular-routing
 Add bundle to `AppKernel.php`:
 
 ```php
-class AppKernel extends Kernel
+final class AppKernel extends Kernel
 {
-    public function registerBundles()
+    public function registerBundles(): array
     {
         $bundles = [
             new Symfony\Bundle\FrameworkBundle\FrameworkBundle(),

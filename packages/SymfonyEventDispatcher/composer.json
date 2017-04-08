@@ -10,7 +10,6 @@
         "symplify/package-builder": "^1.3"
     },
     "require-dev": {
-        "kdyby/console": "^2.4",
         "kdyby/events": "^3.2",
         "nette/bootstrap": "^2.4",
         "nette/application": "^2.4",

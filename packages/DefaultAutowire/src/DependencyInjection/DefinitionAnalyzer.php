@@ -16,6 +16,11 @@ final class DefinitionAnalyzer
      */
     private $definitionValidator;
 
+    /**
+     * @var MethodAnalyzer
+     */
+    private $methodAnalyzer;
+
     public function __construct(DefinitionValidator $definitionValidator, MethodAnalyzer $methodAnalyzer)
     {
         $this->definitionValidator = $definitionValidator;

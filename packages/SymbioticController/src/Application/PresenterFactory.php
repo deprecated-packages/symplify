@@ -141,7 +141,7 @@ final class PresenterFactory implements IPresenterFactory
                 'Cannot load presenter "%s", class "%s" is abstract.',
                 $name,
                 $class
-            );
+            ));
         }
     }
 }

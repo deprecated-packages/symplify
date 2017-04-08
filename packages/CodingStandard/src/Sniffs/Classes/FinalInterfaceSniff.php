@@ -3,8 +3,8 @@
 namespace Symplify\CodingStandard\Sniffs\Classes;
 
 use PHP_CodeSniffer\Files\File;
+use PHP_CodeSniffer\Fixer;
 use PHP_CodeSniffer\Sniffs\Sniff;
-use Symplify\EasyCodingStandard\SniffRunner\Fixer\Fixer;
 
 final class FinalInterfaceSniff implements Sniff
 {
