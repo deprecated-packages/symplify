@@ -13,20 +13,17 @@ composer require symplify/symplify
 ```
 
 
-## Testing
-
-```bash
-composer check-cs
-vendor/bin/phpunit
-```
-
-
 ## Contributing
 
 Rules are simple:
 
 - new feature needs tests
-- all tests must pass
+- all tests and checks must pass
+
+    ```bash
+    composer complete-check
+    ```
+
 - 1 feature per PR
 
 We would be happy to merge your feature then.
