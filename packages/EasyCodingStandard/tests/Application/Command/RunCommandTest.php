@@ -7,16 +7,33 @@ use PHPUnit\Framework\TestCase;
 use Symplify\CodingStandard\Sniffs\Classes\FinalInterfaceSniff;
 use Symplify\EasyCodingStandard\Application\Command\RunCommand;
 use Symplify\EasyCodingStandard\Application\Command\RunCommandFactory;
-use Symplify\EasyCodingStandard\Configuration\ConfigurationNormalizer;
 use Symplify\EasyCodingStandard\Configuration\ConfigurationOptions;
+use Symplify\PackageBuilder\Adapter\Nette\GeneralContainerFactory;
 
 final class RunCommandTest extends TestCase
 {
+    /**
+     * @var RunCommandFactory
+     */
+    private $runCommandFactory;
+
+    protected function setUp(): void
+    {
+        $container = (new GeneralContainerFactory)->createFromConfig(
+            __DIR__ . '/../../../src/config/config.neon'
+        );
+
+        $this->runCommandFactory = $container->getByType(RunCommandFactory::class);
+    }
+
     public function testConfiguration(): void
     {
         $runCommand = $this->createRunCommandWithConfiguration([]);
         $this->assertEmpty($runCommand->getSkipped());
-        $this->assertSame([ConfigurationOptions::CHECKERS => []], $runCommand->getConfiguration());
+        $this->assertSame([
+            ConfigurationOptions::CHECKERS => [],
+            ConfigurationOptions::SKIP => []
+        ], $runCommand->getConfiguration());
         $this->assertEmpty($runCommand->getSniffs());
         $this->assertSame([__DIR__], $runCommand->getSources());
         $this->assertFalse($runCommand->isFixer());
@@ -54,9 +71,7 @@ final class RunCommandTest extends TestCase
      */
     private function createRunCommandWithConfiguration(array $configuration = []): RunCommand
     {
-        $runCommandFactory = new RunCommandFactory(new ConfigurationNormalizer);
-
-        return $runCommandFactory->create(
+        return $this->runCommandFactory->create(
             [__DIR__],
             false,
             false,

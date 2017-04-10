@@ -9,6 +9,7 @@ use Symplify\EasyCodingStandard\Application\Command\RunCommand;
 use Symplify\EasyCodingStandard\Application\Command\RunCommandFactory;
 use Symplify\EasyCodingStandard\Configuration\ConfigurationNormalizer;
 use Symplify\EasyCodingStandard\Configuration\ConfigurationOptions;
+use Symplify\EasyCodingStandard\Validator\CheckerTypeValidator;
 
 final class RunCommandFactoryTest extends TestCase
 {
@@ -19,7 +20,9 @@ final class RunCommandFactoryTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->runCommandFactory = new RunCommandFactory(new ConfigurationNormalizer);
+        $this->runCommandFactory = new RunCommandFactory(
+            new ConfigurationNormalizer, new CheckerTypeValidator
+        );
     }
 
     public function testEmpty(): void
@@ -65,6 +68,30 @@ final class RunCommandFactoryTest extends TestCase
         $this->assertSame([DeclareStrictTypesFixer::class => [
             'someFile.php'
         ]], $runCommand->getSkipped());
+    }
+
+    /**
+     * @expectedException \Symplify\EasyCodingStandard\Exception\Validator\CheckerIsNotSupportedException
+     */
+    public function testCheckerTypeValidator(): void
+    {
+        $this->createWithConfiguration([
+            ConfigurationOptions::CHECKERS => [
+                'NotAChecker' => []
+            ]
+        ]);
+    }
+
+    /**
+     * @expectedException \Symplify\EasyCodingStandard\Exception\Validator\CheckerIsNotSupportedException
+     */
+    public function testCheckerTypeValidatorForSkipper(): void
+    {
+        $this->createWithConfiguration([
+            ConfigurationOptions::SKIP => [
+                'NotAChecker' => []
+            ]
+        ]);
     }
 
     /**
