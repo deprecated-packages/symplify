@@ -50,9 +50,8 @@ checkers:
     ObjectCalisthenics\Sniffs\Metrics\MethodPerClassLimitSniff:
         maxCount: 16 # 10 by default
     - ObjectCalisthenics\Sniffs\Metrics\PropertyPerClassLimitSniff
-    - ObjectCalisthenics\Sniffs\Files\ClassElementLengthSniff
+    - ObjectCalisthenics\Sniffs\Files\ClassTraitAndInterfaceLengthSniff
     - ObjectCalisthenics\Sniffs\Files\FunctionLengthSniff
-    - ObjectCalisthenics\Sniffs\CodeAnalysis\InstancePropertyPerClassLimitSniff
     ObjectCalisthenics\Sniffs\CodeAnalysis\OneObjectOperatorPerLineSniff:
         variablesHoldingAFluentInterface:
             - $containerBuilder
@@ -65,14 +64,7 @@ checkers:
     # Naming Conventions
     - PHP_CodeSniffer\Standards\Generic\Sniffs\NamingConventions\UpperCaseConstantNameSniff
     - PHP_CodeSniffer\Standards\Generic\Sniffs\NamingConventions\CamelCapsFunctionNameSniff
-    - ObjectCalisthenics\Sniffs\NamingConventions\ClassNameLengthSniff
-    - ObjectCalisthenics\Sniffs\NamingConventions\ConstantNameLengthSniff
-    - ObjectCalisthenics\Sniffs\NamingConventions\FunctionNameLengthSniff
-    ObjectCalisthenics\Sniffs\NamingConventions\VariableNameLengthSniff:
-        allowedShortVariableNames:
-            - to
-            - id
-            - i
+    - ObjectCalisthenics\Sniffs\NamingConventions\ElementNameMinimalLengthSniff
 
     # PHP
     - PHP_CodeSniffer\Standards\Generic\Sniffs\PHP\DisallowShortOpenTagSniff
