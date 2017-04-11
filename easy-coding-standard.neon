@@ -280,6 +280,7 @@ skip:
         - packages/Statie/src/Configuration/Configuration.php
         - packages/ControllerAutowire/src/Controller/Security/ControllerSecurityTrait.php
         - packages/SymbioticController/src/Adapter/Nette/Application/PresenterFactory.php
+        - packages/SymbioticController/src/Adapter/Nette/Application/PresenterHelper.php
 
     # anonymous class
     PhpCsFixer\Fixer\Whitespace\NoExtraConsecutiveBlankLinesFixer:

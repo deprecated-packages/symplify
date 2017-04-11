@@ -19,6 +19,7 @@ final class PresenterHelper extends Presenter
     public function link($destination, $args = []): string
     {
         $this->invalidLinkMode = self::INVALID_LINK_EXCEPTION;
+
         return parent::link($destination, $args);
     }
 }
