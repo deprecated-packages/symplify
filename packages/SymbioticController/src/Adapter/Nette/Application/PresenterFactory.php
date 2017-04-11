@@ -60,7 +60,7 @@ final class PresenterFactory implements IPresenterFactory
     /**
      * @param string $presenterName
      */
-    public function getPresenterClass(string &$presenterName): string
+    public function getPresenterClass(&$presenterName): string
     {
         if (class_exists($presenterName)) {
             return $presenterName;
