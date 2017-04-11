@@ -2,7 +2,10 @@
 
 namespace Symplify\SymbioticController\Tests\Adapter\Nette\Application;
 
+use Nette\Application\IPresenter;
 use Nette\Application\IPresenterFactory;
+use Nette\Application\UI\Presenter;
+use Nette\Security\User;
 use NetteModule\MicroPresenter;
 use PHPUnit\Framework\TestCase;
 use Symplify\PackageBuilder\Adapter\Nette\GeneralContainerFactory;
@@ -62,5 +65,22 @@ final class PresenterFactoryTest extends TestCase
             SomePresenter::class,
             $this->presenterFactory->getPresenterClass($presenterName)
         );
+    }
+
+    public function testCreateNormalPresenter()
+    {
+        $somePresenter = $this->presenterFactory->createPresenter(SomePresenter::class);
+        $this->assertInstanceOf(SomePresenter::class, $somePresenter);
+        $this->assertInstanceOf(IPresenter::class, $somePresenter);
+
+        /** @var Presenter $somePresenter */
+        $this->assertInstanceOf(User::class, $somePresenter->getUser());
+    }
+
+    public function testCreateInvocablePresenter()
+    {
+        $standalonePresenter = $this->presenterFactory->createPresenter(StandalonePresenter::class);
+        $this->assertInstanceOf(StandalonePresenter::class, $standalonePresenter);
+        $this->assertNotInstanceOf(IPresenter::class, $standalonePresenter);
     }
 }

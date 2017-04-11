@@ -35,7 +35,9 @@ final class TemplateRenderer implements TemplateRendererInterface
         $latte = $template->getLatte();
 
         $layout = $this->guessLayoutFromFile($file);
-        $this->presenterHelper->setLayout($layout);
+        if ($layout) {
+            $this->presenterHelper->setLayout($layout);
+        }
         $latte->addProvider('uiControl', $this->presenterHelper);
 
         return $latte->renderToString($file, $parameters + $template->getParameters());
