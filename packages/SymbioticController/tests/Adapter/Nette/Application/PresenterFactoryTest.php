@@ -67,17 +67,17 @@ final class PresenterFactoryTest extends TestCase
         );
     }
 
-    public function testCreateNormalPresenter()
+    public function testCreateNormalPresenter(): void
     {
         $somePresenter = $this->presenterFactory->createPresenter(SomePresenter::class);
         $this->assertInstanceOf(SomePresenter::class, $somePresenter);
         $this->assertInstanceOf(IPresenter::class, $somePresenter);
 
-        /** @var Presenter $somePresenter */
+        /* @var Presenter $somePresenter */
         $this->assertInstanceOf(User::class, $somePresenter->getUser());
     }
 
-    public function testCreateInvocablePresenter()
+    public function testCreateInvocablePresenter(): void
     {
         $standalonePresenter = $this->presenterFactory->createPresenter(StandalonePresenter::class);
         $this->assertInstanceOf(StandalonePresenter::class, $standalonePresenter);

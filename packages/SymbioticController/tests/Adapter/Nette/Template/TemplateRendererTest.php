@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\SymbioticController\Tests\Adapter\Nette\Application\Template;
+namespace Symplify\SymbioticController\Tests\Adapter\Nette\Template;
 
 use PHPUnit\Framework\TestCase;
 use Symplify\PackageBuilder\Adapter\Nette\GeneralContainerFactory;
@@ -14,13 +14,13 @@ final class TemplateRendererTest extends TestCase
      */
     private $templateRender;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $container = (new GeneralContainerFactory)->createFromConfig(__DIR__ . '/../config.neon');
         $this->templateRender = $container->getByType(TemplateRendererInterface::class);
     }
 
-    public function testRenderFile()
+    public function testRenderFile(): void
     {
         $template = $this->templateRender->renderFileWithParameters(
             __DIR__ . '/TemplateRendererSource/someTemplate.latte'
@@ -29,7 +29,7 @@ final class TemplateRendererTest extends TestCase
         $this->assertSame('Hi', trim($template));
     }
 
-    public function testRenderFileWithParameters()
+    public function testRenderFileWithParameters(): void
     {
         $template = $this->templateRender->renderFileWithParameters(
             __DIR__ . '/TemplateRendererSource/someTemplateWithVariable.latte', [
@@ -43,7 +43,7 @@ final class TemplateRendererTest extends TestCase
      * @expectedException \Nette\InvalidArgumentException
      * @expectedExceptionMessage Component with name 'someComponent' does not exist
      */
-    public function testRenderFileWithPresenterHelper()
+    public function testRenderFileWithPresenterHelper(): void
     {
         $this->templateRender->renderFileWithParameters(
             __DIR__ . '/TemplateRendererSource/someTemplateWithPresenterHelper.latte'

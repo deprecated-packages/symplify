@@ -6,7 +6,7 @@ use Nette\Application\Responses\TextResponse;
 
 final class StandalonePresenter
 {
-    public function __invoke()
+    public function __invoke(): TextResponse
     {
         return new TextResponse('Hey');
     }

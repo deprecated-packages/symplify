@@ -17,12 +17,12 @@ use Symplify\SymbioticController\Tests\Adapter\Nette\Application\PresenterFactor
 final class StringPointedPresenterTest extends TestCase
 {
     /**
-     * @var RouteList
+     * @var IRouter|RouteList
      */
     private $router;
 
     /**
-     * @var InvokablePresenterAwareApplication
+     * @var InvokablePresenterAwareApplication|Application
      */
     private $application;
 
@@ -31,7 +31,7 @@ final class StringPointedPresenterTest extends TestCase
      */
     private $presenterFactory;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $container = (new GeneralContainerFactory)->createFromConfig(__DIR__ . '/../../config.neon');
         $this->router = $container->getByType(IRouter::class);
@@ -42,7 +42,7 @@ final class StringPointedPresenterTest extends TestCase
         $this->preparePresenterFactory();
     }
 
-    public function test()
+    public function test(): void
     {
         $httpRequest = $this->createHttpRequestWithUrl('https://domain.com/hi');
         $applicationRequest = $this->router->match($httpRequest);

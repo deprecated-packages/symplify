@@ -16,16 +16,16 @@ use Symplify\SymbioticController\Tests\Adapter\Nette\Application\PresenterFactor
 final class ClassPointedPresenterTest extends TestCase
 {
     /**
-     * @var RouteList
+     * @var IRouter|RouteList
      */
     private $router;
 
     /**
-     * @var InvokablePresenterAwareApplication
+     * @var InvokablePresenterAwareApplication|Application
      */
     private $application;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $container = (new GeneralContainerFactory)->createFromConfig(__DIR__ . '/../../config.neon');
         $this->router = $container->getByType(IRouter::class);
@@ -34,7 +34,7 @@ final class ClassPointedPresenterTest extends TestCase
         $this->prepareRouter();
     }
 
-    public function test()
+    public function test(): void
     {
         $httpRequest = $this->createHttpRequestWithUrl('https://domain.com/hi');
         $applicationRequest = $this->router->match($httpRequest);
