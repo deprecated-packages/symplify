@@ -279,7 +279,7 @@ skip:
         - packages/SymfonySecurityVoters/src/Adapter/Nette/Token/NetteTokenAdapter.php
         - packages/Statie/src/Configuration/Configuration.php
         - packages/ControllerAutowire/src/Controller/Security/ControllerSecurityTrait.php
-        - packages/SymbioticController/src/Application/PresenterFactory.php
+        - packages/SymbioticController/src/Adapter/Nette/Application/PresenterFactory.php
 
     # anonymous class
     PhpCsFixer\Fixer\Whitespace\NoExtraConsecutiveBlankLinesFixer:
@@ -293,7 +293,8 @@ skip:
 
     ObjectCalisthenics\Sniffs\Files\FunctionLengthSniff:
         - packages/EasyCodingStandard/packages/FixerRunner/src/Application/FileProcessor.php
-        - packages/SymbioticController/src/Application/InvokablePresenterAwareApplication.php
+        - packages/SymbioticController/src/Adapter/Nette/Application/InvokablePresenterAwareApplication.php
         - packages/SymfonyEventDispatcher/src/Adapter/Nette/DI/NetteEventListFactory.php
+
     ObjectCalisthenics\Sniffs\CodeAnalysis\OneObjectOperatorPerLineSniff:
         - packages/SymbioticController/src/Application/InvokablePresenterAwareApplication.php

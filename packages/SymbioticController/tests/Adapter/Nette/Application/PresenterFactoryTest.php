@@ -44,14 +44,17 @@ final class PresenterFactoryTest extends TestCase
     public function testGetPresenterClassForString(): void
     {
         $presenterName = 'Nette:Micro';
-
         $this->assertSame(
             MicroPresenter::class,
             $this->presenterFactory->getPresenterClass($presenterName)
         );
 
         $this->presenterFactory->setMapping([
-            '*' => ['', '*', 'Symplify\SymbioticController\Tests\Adapter\Nette\Application\PresenterFactorySource\*Presenter'],
+            '*' => [
+                '',
+                '*',
+                'Symplify\SymbioticController\Tests\Adapter\Nette\Application\PresenterFactorySource\*Presenter'
+            ],
         ]);
 
         $presenterName = 'Some';
