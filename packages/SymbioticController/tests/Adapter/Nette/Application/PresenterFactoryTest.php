@@ -13,7 +13,7 @@ use Symplify\SymbioticController\Tests\Adapter\Nette\Application\PresenterFactor
 final class PresenterFactoryTest extends TestCase
 {
     /**
-     * @var PresenterFactory
+     * @var IPresenterFactory|PresenterFactory
      */
     private $presenterFactory;
 

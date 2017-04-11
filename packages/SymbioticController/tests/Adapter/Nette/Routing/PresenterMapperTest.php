@@ -1,8 +1,9 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\SymbioticController\Adapter\Nette\Routing;
+namespace Symplify\SymbioticController\Tests\Adapter\Nette\Routing;
 
 use PHPUnit\Framework\TestCase;
+use Symplify\SymbioticController\Adapter\Nette\Routing\PresenterMapper;
 
 final class PresenterMapperTest extends TestCase
 {

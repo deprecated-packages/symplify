@@ -45,7 +45,7 @@ final class PresenterFactory implements IPresenterFactory
      * @param string $name
      * @return IPresenter|callable|object
      */
-    public function createPresenter(string $name)
+    public function createPresenter($name)
     {
         $presenterClass = $this->getPresenterClass($name);
         $presenter = $this->container->createInstance($presenterClass);
