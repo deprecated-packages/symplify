@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\SymbioticController\Adapter\Nette\Application\Routing;
+namespace Symplify\SymbioticController\Adapter\Nette\Routing;
 
 use Nette\InvalidStateException;
 

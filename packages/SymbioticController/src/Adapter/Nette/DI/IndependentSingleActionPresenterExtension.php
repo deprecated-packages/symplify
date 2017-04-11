@@ -5,7 +5,6 @@ namespace Symplify\SymbioticController\Adapter\Nette\DI;
 use Nette\Application\UI\ITemplateFactory;
 use Nette\DI\Compiler;
 use Nette\DI\CompilerExtension;
-use Symplify\SymbioticController\Adapter\Nette\Template\TemplateRenderer;
 
 final class IndependentSingleActionPresenterExtension extends CompilerExtension
 {
@@ -15,12 +14,14 @@ final class IndependentSingleActionPresenterExtension extends CompilerExtension
 
         Compiler::loadDefinitions(
             $containerBuilder,
-            $this->loadFromFile(__DIR__ . '/../config/services.neon')
+            $this->loadFromFile(__DIR__ . '/../config/services/common.neon')
         );
 
         if ($containerBuilder->findByType(ITemplateFactory::class)) {
-            $containerBuilder->addDefinition($this->prefix('templateRenderer'))
-                ->setClass(TemplateRenderer::class);
+            Compiler::loadDefinitions(
+                $containerBuilder,
+                $this->loadFromFile(__DIR__ . '/../config/services/template-renderer.neon')
+            );
         }
     }
 }

@@ -6,8 +6,8 @@ use Nette\Application\IPresenter;
 use Nette\Application\IPresenterFactory;
 use Nette\Application\UI\Presenter;
 use Nette\DI\Container;
-use Symplify\SymbioticController\Adapter\Nette\Application\Routing\PresenterMapper;
-use Symplify\SymbioticController\Adapter\Nette\Application\Validator\PresenterGuardian;
+use Symplify\SymbioticController\Adapter\Nette\Routing\PresenterMapper;
+use Symplify\SymbioticController\Adapter\Nette\Validator\PresenterGuardian;
 
 final class PresenterFactory implements IPresenterFactory
 {

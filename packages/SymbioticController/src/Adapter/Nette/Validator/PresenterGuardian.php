@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\SymbioticController\Adapter\Nette\Application\Validator;
+namespace Symplify\SymbioticController\Adapter\Nette\Validator;
 
 use Nette\Application\InvalidPresenterException;
 use Nette\Utils\Strings;
