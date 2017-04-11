@@ -1,13 +1,13 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\SymbioticController\Application;
+namespace Symplify\SymbioticController\Adapter\Nette\Application;
 
 use Nette\Application\IPresenter;
 use Nette\Application\IPresenterFactory;
 use Nette\Application\UI\Presenter;
 use Nette\DI\Container;
-use Symplify\SymbioticController\Application\Routing\PresenterMapper;
-use Symplify\SymbioticController\Application\Validator\PresenterGuardian;
+use Symplify\SymbioticController\Adapter\Nette\Application\Routing\PresenterMapper;
+use Symplify\SymbioticController\Adapter\Nette\Application\Validator\PresenterGuardian;
 
 final class PresenterFactory implements IPresenterFactory
 {

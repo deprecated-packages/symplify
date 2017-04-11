@@ -1,11 +1,11 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\SymbioticController\DI;
+namespace Symplify\SymbioticController\Adapter\Nette\DI;
 
 use Nette\Application\UI\ITemplateFactory;
 use Nette\DI\Compiler;
 use Nette\DI\CompilerExtension;
-use Symplify\SymbioticController\Template\TemplateRenderer;
+use Symplify\SymbioticController\Adapter\Nette\Template\TemplateRenderer;
 
 final class IndependentSingleActionPresenterExtension extends CompilerExtension
 {

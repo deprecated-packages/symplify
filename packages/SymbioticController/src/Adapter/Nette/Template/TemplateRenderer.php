@@ -1,10 +1,10 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\SymbioticController\Template;
+namespace Symplify\SymbioticController\Adapter\Nette\Template;
 
 use Nette\Application\UI\ITemplateFactory;
 use Nette\Bridges\ApplicationLatte\TemplateFactory;
-use Symplify\SymbioticController\Application\PresenterHelper;
+use Symplify\SymbioticController\Adapter\Nette\Application\PresenterHelper;
 use Symplify\SymbioticController\Contract\Template\TemplateRendererInterface;
 
 final class TemplateRenderer implements TemplateRendererInterface

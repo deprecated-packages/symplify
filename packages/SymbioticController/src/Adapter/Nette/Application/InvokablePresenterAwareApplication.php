@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\SymbioticController\Application;
+namespace Symplify\SymbioticController\Adapter\Nette\Application;
 
 use Nette\Application\Application;
 use Nette\Application\ApplicationException;
