@@ -14,7 +14,7 @@ final class PresenterFactory implements IPresenterFactory
     /**
      * @var string[]
      */
-    private $cache = [];
+    private $presenterNameToPresenterClassMap = [];
 
     /**
      * @var Container
@@ -66,8 +66,8 @@ final class PresenterFactory implements IPresenterFactory
             return $presenterName;
         }
 
-        if (isset($this->cache[$presenterName])) {
-            return $this->cache[$presenterName];
+        if (isset($this->presenterNameToPresenterClassMap[$presenterName])) {
+            return $this->presenterNameToPresenterClassMap[$presenterName];
         }
 
         $this->presenterGuardian->ensurePresenterNameIsValid($presenterName);
@@ -76,7 +76,7 @@ final class PresenterFactory implements IPresenterFactory
 
         $this->ensurePresenterClassIsValid($presenterName, $presenterClass);
 
-        return $this->cache[$presenterName] = $presenterClass;
+        return $this->presenterNameToPresenterClassMap[$presenterName] = $presenterClass;
     }
 
     /**
