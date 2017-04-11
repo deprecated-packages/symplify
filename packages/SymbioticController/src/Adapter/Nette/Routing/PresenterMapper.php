@@ -31,8 +31,8 @@ final class PresenterMapper
                 $this->setArrayMask($module, $mask);
             } else {
                 throw new InvalidStateException(sprintf(
-                    'Invalid mapping mask "%s".',
-                    $mask
+                    'Invalid mapping for module "%s".',
+                    $module
                 ));
             }
         }

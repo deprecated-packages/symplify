@@ -6,7 +6,7 @@ use Nette\Application\UI\ITemplateFactory;
 use Nette\DI\Compiler;
 use Nette\DI\CompilerExtension;
 
-final class IndependentSingleActionPresenterExtension extends CompilerExtension
+final class SymbioticControllerExtension extends CompilerExtension
 {
     public function loadConfiguration(): void
     {

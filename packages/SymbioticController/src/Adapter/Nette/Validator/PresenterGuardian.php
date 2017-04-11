@@ -15,6 +15,10 @@ final class PresenterGuardian
 
     public function ensurePresenterNameIsValid(string $name): void
     {
+        if (class_exists($name, false)) {
+            return;
+        }
+
         if (is_string($name)) {
             return;
         }
