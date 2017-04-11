@@ -2,6 +2,9 @@
 
 namespace Symplify\SymbioticController\Tests\Adapter\Nette\Template;
 
+use Nette\Application\IRouter;
+use Nette\Application\Routers\Route;
+use Nette\Application\Routers\RouteList;
 use PHPUnit\Framework\TestCase;
 use Symplify\PackageBuilder\Adapter\Nette\GeneralContainerFactory;
 use Symplify\SymbioticController\Adapter\Nette\Template\TemplateRenderer;
@@ -18,6 +21,10 @@ final class TemplateRendererTest extends TestCase
     {
         $container = (new GeneralContainerFactory)->createFromConfig(__DIR__ . '/../config.neon');
         $this->templateRender = $container->getByType(TemplateRendererInterface::class);
+
+        /** @var IRouter|RouteList $router */
+        $router = $container->getByType(IRouter::class);
+        $router[] = new Route('/you-are-welcome', 'Homepage:default');
     }
 
     public function testRenderFile(): void
@@ -47,6 +54,17 @@ final class TemplateRendererTest extends TestCase
     {
         $this->templateRender->renderFileWithParameters(
             __DIR__ . '/TemplateRendererSource/someTemplateWithPresenterHelper.latte'
+        );
+    }
+
+    /**
+     * @expectedException \Nette\Application\UI\InvalidLinkException
+     * @expectedExceptionMessage Cannot load presenter "Homepage", class "HomepagePresenter" was not found.
+     */
+    public function testRenderFileWithPresenterWithMacro(): void
+    {
+        $this->templateRender->renderFileWithParameters(
+            __DIR__ . '/TemplateRendererSource/someTemplateWithMacro.latte'
         );
     }
 }
