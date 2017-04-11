@@ -117,6 +117,7 @@ final class InvokablePresenterAwareApplication extends Application
         $this->eventDispatcher->dispatch(
             ApplicationResponseEvent::class, new ApplicationResponseEvent($this, $response)
         );
+
         $response->send($this->httpRequest, $this->httpResponse);
     }
 

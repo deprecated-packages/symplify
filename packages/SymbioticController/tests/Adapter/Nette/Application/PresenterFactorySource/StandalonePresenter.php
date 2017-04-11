@@ -2,6 +2,12 @@
 
 namespace Symplify\SymbioticController\Tests\Adapter\Nette\Application\PresenterFactorySource;
 
-class StandalonePresenter
+use Nette\Application\Responses\TextResponse;
+
+final class StandalonePresenter
 {
+    public function __invoke()
+    {
+        return new TextResponse('Hey');
+    }
 }
