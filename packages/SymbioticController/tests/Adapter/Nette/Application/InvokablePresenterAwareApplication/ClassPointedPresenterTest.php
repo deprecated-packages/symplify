@@ -7,10 +7,10 @@ use Nette\Application\IRouter;
 use Nette\Application\Routers\RouteList;
 use Nette\Http\Request;
 use Nette\Http\UrlScript;
-use OdbavTo\PresenterRoute\Route as PresenterRoute;
 use PHPUnit\Framework\TestCase;
 use Symplify\PackageBuilder\Adapter\Nette\GeneralContainerFactory;
 use Symplify\SymbioticController\Adapter\Nette\Application\InvokablePresenterAwareApplication;
+use Symplify\SymbioticController\Adapter\Nette\Routing\PresenterRoute;
 use Symplify\SymbioticController\Tests\Adapter\Nette\Application\PresenterFactorySource\StandalonePresenter;
 
 final class ClassPointedPresenterTest extends TestCase
