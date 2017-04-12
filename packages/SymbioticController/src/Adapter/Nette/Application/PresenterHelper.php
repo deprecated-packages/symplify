@@ -9,7 +9,7 @@ final class PresenterHelper extends Presenter
     public function __construct()
     {
         parent::__construct();
-        $this->saveGlobalState();
+        $this->fixGlobalParamsEmptyArray();
     }
 
     /**
@@ -21,5 +21,13 @@ final class PresenterHelper extends Presenter
         $this->invalidLinkMode = self::INVALID_LINK_EXCEPTION;
 
         return parent::link($destination, $args);
+    }
+
+    /**
+     * Bug description with use case @see https://github.com/nette/application/pull/179.
+     */
+    private function fixGlobalParamsEmptyArray(): void
+    {
+        $this->saveGlobalState();
     }
 }

@@ -33,14 +33,27 @@ final class PresenterGuardianTest extends TestCase
         $this->assertTrue(true);
     }
 
-    public function testEnsurePresenterNameIsValid(): void
+    /**
+     * @dataProvider providePresenterNames()
+     */
+    public function testEnsurePresenterNameIsValid(string $presenterName): void
     {
-        $this->presenterGuardian->ensurePresenterNameIsValid(stdClass::class);
-        $this->presenterGuardian->ensurePresenterNameIsValid('validName');
-        $this->presenterGuardian->ensurePresenterNameIsValid('validModule:validName');
-        $this->presenterGuardian->ensurePresenterNameIsValid(':validModule:validName');
+        $this->presenterGuardian->ensurePresenterNameIsValid($presenterName);
 
         $this->assertTrue(true);
+    }
+
+    /**
+     * @return string[]
+     */
+    public function providePresenterNames(): array
+    {
+        return [
+            [stdClass::class],
+            ['validName'],
+            ['validModule:validName'],
+            [':validModule:validName'],
+        ];
     }
 
     /**
