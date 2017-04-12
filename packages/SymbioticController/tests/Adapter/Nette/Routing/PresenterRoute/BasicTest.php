@@ -11,7 +11,7 @@ final class BasicTest extends TestCase
     /**
      * @expectedException \Symplify\SymbioticController\Exception\MissingClassException
      */
-    public function testMissingClass()
+    public function testMissingClass(): void
     {
         new PresenterRoute('/some-path-mask', 'not-invokable-presenter');
     }
@@ -19,7 +19,7 @@ final class BasicTest extends TestCase
     /**
      * @expectedException \Symplify\SymbioticController\Exception\MissingInvokeMethodException
      */
-    public function testMissingInvokeMethod()
+    public function testMissingInvokeMethod(): void
     {
         new PresenterRoute('/some-path-mask', SomePresenter::class);
     }
