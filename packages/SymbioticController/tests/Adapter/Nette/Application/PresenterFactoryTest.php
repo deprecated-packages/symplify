@@ -63,16 +63,6 @@ final class PresenterFactoryTest extends TestCase
         );
     }
 
-    public function testCreateNormalPresenter(): void
-    {
-        $somePresenter = $this->presenterFactory->createPresenter(SomePresenter::class);
-        $this->assertInstanceOf(SomePresenter::class, $somePresenter);
-        $this->assertInstanceOf(IPresenter::class, $somePresenter);
-
-        /* @var Presenter $somePresenter */
-        $this->assertInstanceOf(User::class, $somePresenter->getUser());
-    }
-
     public function testCreateErrorPresenter(): void
     {
         $this->assertTrue(class_exists('Error'));
