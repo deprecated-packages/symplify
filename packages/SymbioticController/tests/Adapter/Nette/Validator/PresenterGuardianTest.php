@@ -46,7 +46,7 @@ final class PresenterGuardianTest extends TestCase
     /**
      * @expectedException \Nette\Application\InvalidPresenterException
      */
-    public function testEnsurePresenterNameIsValidFails()
+    public function testEnsurePresenterNameIsValidFails(): void
     {
         $this->presenterGuardian->ensurePresenterNameIsValid(':validModule:validName');
     }
