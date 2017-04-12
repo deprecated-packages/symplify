@@ -44,7 +44,7 @@ final class PresenterGuardianTest extends TestCase
     }
 
     /**
-     * @return string[]
+     * @return string[][]
      */
     public function providePresenterNames(): array
     {
