@@ -62,7 +62,7 @@ final class PresenterFactory implements IPresenterFactory
      */
     public function getPresenterClass(&$presenterName): string
     {
-        if (class_exists($presenterName) && method_exists($presenterName, '__invoke')) {
+        if ($this->isInvokableClass($presenterName)) {
             return $presenterName;
         }
 
@@ -91,5 +91,10 @@ final class PresenterFactory implements IPresenterFactory
     {
         $this->presenterGuardian->ensurePresenterClassExists($presenterName, $presenterClass);
         $this->presenterGuardian->ensurePresenterClassIsNotAbstract($presenterName, $presenterClass);
+    }
+
+    private function isInvokableClass(string $className): bool
+    {
+        return class_exists($className) && method_exists($className, '__invoke');
     }
 }
