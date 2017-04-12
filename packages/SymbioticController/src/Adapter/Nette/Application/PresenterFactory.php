@@ -62,7 +62,10 @@ final class PresenterFactory implements IPresenterFactory
      */
     public function getPresenterClass(&$presenterName): string
     {
-        if (class_exists($presenterName)) {
+        if (class_exists($presenterName) && (
+            method_exists($presenterName, '__invoke')
+            || is_a($presenterName, IPresenter::class, true))
+        ) {
             return $presenterName;
         }
 

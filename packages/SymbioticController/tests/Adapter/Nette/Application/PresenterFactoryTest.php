@@ -2,6 +2,7 @@
 
 namespace Symplify\SymbioticController\Tests\Adapter\Nette\Application;
 
+use Error;
 use Nette\Application\IPresenter;
 use Nette\Application\IPresenterFactory;
 use Nette\Application\UI\Presenter;
@@ -10,6 +11,7 @@ use NetteModule\MicroPresenter;
 use PHPUnit\Framework\TestCase;
 use Symplify\PackageBuilder\Adapter\Nette\GeneralContainerFactory;
 use Symplify\SymbioticController\Adapter\Nette\Application\PresenterFactory;
+use Symplify\SymbioticController\Tests\Adapter\Nette\Application\PresenterFactorySource\ErrorPresenter;
 use Symplify\SymbioticController\Tests\Adapter\Nette\Application\PresenterFactorySource\SomePresenter;
 use Symplify\SymbioticController\Tests\Adapter\Nette\Application\PresenterFactorySource\StandalonePresenter;
 
@@ -52,13 +54,7 @@ final class PresenterFactoryTest extends TestCase
             $this->presenterFactory->getPresenterClass($presenterName)
         );
 
-        $this->presenterFactory->setMapping([
-            '*' => [
-                '',
-                '*',
-                'Symplify\SymbioticController\Tests\Adapter\Nette\Application\PresenterFactorySource\*Presenter'
-            ],
-        ]);
+        $this->setupPresenterFactoryMapping();
 
         $presenterName = 'Some';
         $this->assertSame(
@@ -77,10 +73,35 @@ final class PresenterFactoryTest extends TestCase
         $this->assertInstanceOf(User::class, $somePresenter->getUser());
     }
 
+    public function testCreateErrorPresenter(): void
+    {
+        $this->assertTrue(class_exists('Error'));
+
+        $this->setupPresenterFactoryMapping();
+
+        $errorPresenter = $this->presenterFactory->createPresenter('Error');
+        $this->assertNotInstanceOf(Error::class, $errorPresenter);
+        $this->assertInstanceOf(ErrorPresenter::class, $errorPresenter);
+
+        /* @var Presenter $somePresenter */
+        $this->assertInstanceOf(User::class, $errorPresenter->getUser());
+    }
+
     public function testCreateInvocablePresenter(): void
     {
         $standalonePresenter = $this->presenterFactory->createPresenter(StandalonePresenter::class);
         $this->assertInstanceOf(StandalonePresenter::class, $standalonePresenter);
         $this->assertNotInstanceOf(IPresenter::class, $standalonePresenter);
+    }
+
+    private function setupPresenterFactoryMapping(): void
+    {
+        $this->presenterFactory->setMapping([
+            '*' => [
+                '',
+                '*',
+                'Symplify\SymbioticController\Tests\Adapter\Nette\Application\PresenterFactorySource\*Presenter'
+            ],
+        ]);
     }
 }
