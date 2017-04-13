@@ -1,0 +1,6 @@
+# name required to override origin services
+application: Symplify\SymbioticController\Adapter\Nette\Application\InvokablePresenterAwareApplication
+application.presenterFactory: Symplify\SymbioticController\Adapter\Nette\Application\PresenterFactory
+
+- Symplify\SymbioticController\Adapter\Nette\Routing\PresenterMapper
+- Symplify\SymbioticController\Adapter\Nette\Validator\PresenterGuardian

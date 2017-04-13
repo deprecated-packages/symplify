@@ -1,20 +1,20 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\SymbioticController\Application;
+namespace Symplify\SymbioticController\Adapter\Nette\Application;
 
 use Nette\Application\IPresenter;
 use Nette\Application\IPresenterFactory;
 use Nette\Application\UI\Presenter;
 use Nette\DI\Container;
-use Symplify\SymbioticController\Application\Routing\PresenterMapper;
-use Symplify\SymbioticController\Application\Validator\PresenterGuardian;
+use Symplify\SymbioticController\Adapter\Nette\Routing\PresenterMapper;
+use Symplify\SymbioticController\Adapter\Nette\Validator\PresenterGuardian;
 
 final class PresenterFactory implements IPresenterFactory
 {
     /**
      * @var string[]
      */
-    private $cache = [];
+    private $presenterNameToPresenterClassMap = [];
 
     /**
      * @var Container
@@ -62,8 +62,12 @@ final class PresenterFactory implements IPresenterFactory
      */
     public function getPresenterClass(&$presenterName): string
     {
-        if (isset($this->cache[$presenterName])) {
-            return $this->cache[$presenterName];
+        if ($this->isInvokableClass($presenterName)) {
+            return $presenterName;
+        }
+
+        if (isset($this->presenterNameToPresenterClassMap[$presenterName])) {
+            return $this->presenterNameToPresenterClassMap[$presenterName];
         }
 
         $this->presenterGuardian->ensurePresenterNameIsValid($presenterName);
@@ -72,7 +76,7 @@ final class PresenterFactory implements IPresenterFactory
 
         $this->ensurePresenterClassIsValid($presenterName, $presenterClass);
 
-        return $this->cache[$presenterName] = $presenterClass;
+        return $this->presenterNameToPresenterClassMap[$presenterName] = $presenterClass;
     }
 
     /**
@@ -87,5 +91,10 @@ final class PresenterFactory implements IPresenterFactory
     {
         $this->presenterGuardian->ensurePresenterClassExists($presenterName, $presenterClass);
         $this->presenterGuardian->ensurePresenterClassIsNotAbstract($presenterName, $presenterClass);
+    }
+
+    private function isInvokableClass(string $className): bool
+    {
+        return class_exists($className) && method_exists($className, '__invoke');
     }
 }

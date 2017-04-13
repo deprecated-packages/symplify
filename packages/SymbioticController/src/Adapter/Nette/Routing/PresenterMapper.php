@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\SymbioticController\Application\Routing;
+namespace Symplify\SymbioticController\Adapter\Nette\Routing;
 
 use Nette\InvalidStateException;
 
@@ -31,8 +31,8 @@ final class PresenterMapper
                 $this->setArrayMask($module, $mask);
             } else {
                 throw new InvalidStateException(sprintf(
-                    'Invalid mapping mask "%s".',
-                    $mask
+                    'Invalid mapping for module "%s".',
+                    $module
                 ));
             }
         }

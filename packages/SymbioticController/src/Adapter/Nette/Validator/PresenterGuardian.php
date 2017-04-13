@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\SymbioticController\Application\Validator;
+namespace Symplify\SymbioticController\Adapter\Nette\Validator;
 
 use Nette\Application\InvalidPresenterException;
 use Nette\Utils\Strings;
@@ -15,6 +15,10 @@ final class PresenterGuardian
 
     public function ensurePresenterNameIsValid(string $name): void
     {
+        if (class_exists($name, false)) {
+            return;
+        }
+
         if (is_string($name)) {
             return;
         }
