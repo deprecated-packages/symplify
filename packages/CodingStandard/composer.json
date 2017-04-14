@@ -8,6 +8,7 @@
         "slevomat/coding-standard": "^2.0"
     },
     "require-dev": {
+        "symplify/easy-coding-standard": "^1.4",
         "phpunit/phpunit": "^6.0"
     },
     "autoload": {

@@ -13,6 +13,7 @@
         "kdyby/events": "^3.0",
         "nette/bootstrap": "^2.4",
         "nette/application": "^2.4",
+        "symfony/http-kernel": "^3.2",
         "tracy/tracy": "^2.4",
         "phpunit/phpunit": "^6.0"
     },
