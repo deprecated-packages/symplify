@@ -24,7 +24,7 @@ final class ConstructUrlTest extends TestCase
         $appRequest = $this->createApplicationRequestWithParameters($parameters);
 
         $presenterRoute = new PresenterRoute($route, StandalonePresenter::class);
-        $return = $presenterRoute->constructUrl($appRequest, new Url(''));
+        $return = $presenterRoute->constructUrl($appRequest, new Url('http://localhost'));
 
         $this->assertSame($expected, $return);
     }
@@ -35,20 +35,17 @@ final class ConstructUrlTest extends TestCase
     public function constructUrlProvider(): array
     {
         return [
-            ['mese', [], '/mese'],
-            ['me-se', [], '/me-se'],
-            ['mese/', [], '/mese/'],
-            ['<id>', ['id' => 123], '/123'],
-            ['<i-d>', ['i-d' => 123], '/123'],
-            ['<id>', ['id' => 'mese'], '/mese'],
-            ['<id>/ok', ['id' => 123], '/123/ok'],
-            ['<id>/<pid>', ['id' => 123, 'pid' => 456], '/123/456']
+            ['/me-se', [], 'http://localhost/me-se'],
+            ['/mese/', [], 'http://localhost/mese/'],
+            ['/<id>', ['id' => 123], 'http://localhost/123'],
+            ['/<i-d>', ['i-d' => 123], 'http://localhost/123'],
+            ['/<id>', ['id' => 'mese'], 'http://localhost/mese'],
+            ['/<id>/ok', ['id' => 123], 'http://localhost/123/ok'],
+            ['/<id>/<pid>', ['id' => 123, 'pid' => 456], 'http://localhost/123/456']
         ];
     }
 
     /**
-     * @expectedException \OdbavTo\PresenterRoute\RouteException
-     *
      * @dataProvider failingConstructUrlProvider()
      *
      * @param string $route
@@ -59,7 +56,8 @@ final class ConstructUrlTest extends TestCase
         $appRequest = $this->createApplicationRequestWithParameters($parameters);
 
         $presenterRoute = new PresenterRoute($route, StandalonePresenter::class);
-        $presenterRoute->constructUrl($appRequest, new Url(''));
+        $url = $presenterRoute->constructUrl($appRequest, new Url('http://localhost/'));
+        $this->assertNull($url);
     }
 
     /**

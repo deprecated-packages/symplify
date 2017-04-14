@@ -46,22 +46,11 @@ final class MatchTest extends TestCase
     public function matchProvider(): array
     {
         return [
-            ['hele/mese', 'http://www.hele.cz/hele/mese'],
-            ['hele/mese/', 'http://www.hele.cz/hele/mese'],
-            ['hele/mese', 'http://www.hele.cz/hele/mese/'],
-            ['hele/mese', 'http://www.hele.cz/hele/mese/?haha=1', ['haha' => 1]],
-            ['hele/mese/', 'http://www.hele.cz/hele/mese/'],
-            ['hele/Mese/', 'http://www.hele.cz/hele/Mese/'],
-            ['he-le/mese/', 'http://www.hele.cz/he-le/mese/'],
-            ['hele/<id>', 'http://www.hele.cz/hele/21', ['id' => 21]],
-            ['hele/<id>/', 'http://www.hele.cz/hele/21', ['id' => 21]],
-            ['he-le/<id>', 'http://www.hele.cz/he-le/21', ['id' => 21]],
-            ['hele/<id>', 'http://www.hele.cz/hele/mese', ['id' => 'mese']],
-            ['hele/<id>', 'http://www.hele.cz/hele/me3se', ['id' => 'me3se']],
-            ['hele/<id>', 'http://www.hele.cz/hele/me-se', ['id' => 'me-se']],
-            ['hele/<i_d>', 'http://www.hele.cz/hele/me-se', ['i_d' => 'me-se']],
-            ['hele/<id>/mese', 'http://www.hele.cz/hele/21/mese', ['id' => 21]],
-            ['hele/<id>/<pid>', 'http://www.hele.cz/hele/123/456', ['id' => 123, 'pid' => 456]],
+            ['/hele/mese', 'http://www.hele.cz/hele/mese'],
+            ['/hele/mese', 'http://www.hele.cz/hele/mese/?haha=1', ['haha' => '1']],
+            ['/hele/<id>', 'http://www.hele.cz/hele/21', ['id' => '21']],
+            ['/hele/<id>/mese', 'http://www.hele.cz/hele/21/mese', ['id' => '21']],
+            ['/hele/<id>/<pid>', 'http://www.hele.cz/hele/123/456', ['id' => '123', 'pid' => '456']],
         ];
     }
 
@@ -82,13 +71,9 @@ final class MatchTest extends TestCase
     public function provideDataForMissedMatches(): array
     {
         return [
-            ['hele/Mese/', 'http://www.hele.cz/hele/mese/'],
-            ['hele/mese/', 'http://www.hele.cz/hele/Mese/'],
-            ['hele/mese', 'http://www.hele.cz/hele/'],
-            ['hele/', 'http://www.hele.cz/hele/mese'],
-            ['he-le/mese/', 'http://www.hele.cz/hele/mese/'],
-            ['hele/mese/', 'http://www.hele.cz/he-le/mese/'],
-            ['hele/<id>/mese', 'http://www.hele.cz/hele/21'],
+            ['/hele/', 'http://www.hele.cz/hele/mese'],
+            ['/hele/Mese/', 'http://www.hele.cz/hele/mese/'],
+            ['/hele/<id>/mese', 'http://www.hele.cz/hele/21'],
         ];
     }
 }
