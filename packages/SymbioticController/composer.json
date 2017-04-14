@@ -6,6 +6,9 @@
         "nette/application": "^2.4",
         "symplify/symfony-event-dispatcher": "^1.4"
     },
+    "require-dev": {
+        "phpunit/phpunit": "^6.0"
+    },
     "autoload": {
         "psr-4": {
             "Symplify\\SymbioticController\\": "src"

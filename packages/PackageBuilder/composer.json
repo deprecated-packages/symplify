@@ -15,7 +15,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Symplify\\PackageBuilder\\Tests": "tests"
+            "Symplify\\PackageBuilder\\Tests\\": "tests"
         }
     }
 }
