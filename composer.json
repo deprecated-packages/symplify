@@ -49,7 +49,6 @@
         "illuminate/container": "^5.4",
         "illuminate/support": "^5.4",
         "contributte/console": "^0.1",
-        "odbav-to/presenter-route": "^0.1",
         "yooper/php-text-analysis": "^1.1",
         "doctrine/doctrine-bundle": "^1.6"
     },

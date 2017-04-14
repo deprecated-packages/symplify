@@ -296,6 +296,11 @@ skip:
         - packages/EasyCodingStandard/packages/FixerRunner/src/Application/FileProcessor.php
         - packages/SymbioticController/src/Adapter/Nette/Application/InvokablePresenterAwareApplication.php
         - packages/SymfonyEventDispatcher/src/Adapter/Nette/DI/NetteEventListFactory.php
+        - packages/SymbioticController/src/Adapter/Nette/Routing/PresenterRoute.php
 
     ObjectCalisthenics\Sniffs\CodeAnalysis\OneObjectOperatorPerLineSniff:
         - packages/SymbioticController/src/Application/InvokablePresenterAwareApplication.php
+
+    PhpCsFixer\Fixer\ReturnNotation\SimplifiedNullReturnFixer:
+        - packages/SymbioticController/src/Adapter/Nette/Routing/PresenterRoute.php
+

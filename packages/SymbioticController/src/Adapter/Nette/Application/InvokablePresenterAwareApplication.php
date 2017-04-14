@@ -12,6 +12,7 @@ use Nette\Application\IResponse as ApplicationResponse;
 use Nette\Application\IRouter;
 use Nette\Application\Request;
 use Nette\Application\Responses\ForwardResponse;
+use Nette\Application\Responses\TextResponse;
 use Nette\Http\IRequest;
 use Nette\Http\IResponse;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -176,6 +177,9 @@ final class InvokablePresenterAwareApplication extends Application
         if (is_callable($this->presenter)) {
             $presenter = $this->presenter;
             $response = $presenter(clone $request);
+            if (is_string($response)) {
+                $response = new TextResponse($response);
+            }
         } else {
             $response = $this->presenter->run(clone $request);
         }

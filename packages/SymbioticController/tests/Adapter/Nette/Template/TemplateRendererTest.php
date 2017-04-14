@@ -2,9 +2,6 @@
 
 namespace Symplify\SymbioticController\Tests\Adapter\Nette\Template;
 
-use Nette\Application\IRouter;
-use Nette\Application\Routers\Route;
-use Nette\Application\Routers\RouteList;
 use PHPUnit\Framework\TestCase;
 use Symplify\PackageBuilder\Adapter\Nette\GeneralContainerFactory;
 use Symplify\SymbioticController\Adapter\Nette\Template\TemplateRenderer;
@@ -15,21 +12,17 @@ final class TemplateRendererTest extends TestCase
     /**
      * @var TemplateRenderer|TemplateRendererInterface
      */
-    private $templateRender;
+    private $templateRenderer;
 
     protected function setUp(): void
     {
         $container = (new GeneralContainerFactory)->createFromConfig(__DIR__ . '/../config.neon');
-        $this->templateRender = $container->getByType(TemplateRendererInterface::class);
-
-        /** @var IRouter|RouteList $router */
-        $router = $container->getByType(IRouter::class);
-        $router[] = new Route('/you-are-welcome', 'Homepage:default');
+        $this->templateRenderer = $container->getByType(TemplateRendererInterface::class);
     }
 
     public function testRenderFile(): void
     {
-        $template = $this->templateRender->renderFileWithParameters(
+        $template = $this->templateRenderer->renderFileWithParameters(
             __DIR__ . '/TemplateRendererSource/someTemplate.latte'
         );
 
@@ -38,7 +31,7 @@ final class TemplateRendererTest extends TestCase
 
     public function testRenderFileWithParameters(): void
     {
-        $template = $this->templateRender->renderFileWithParameters(
+        $template = $this->templateRenderer->renderFileWithParameters(
             __DIR__ . '/TemplateRendererSource/someTemplateWithVariable.latte', [
                 'name' => 'Tom'
             ]);
@@ -52,7 +45,7 @@ final class TemplateRendererTest extends TestCase
      */
     public function testRenderFileWithPresenterHelper(): void
     {
-        $this->templateRender->renderFileWithParameters(
+        $this->templateRenderer->renderFileWithParameters(
             __DIR__ . '/TemplateRendererSource/someTemplateWithPresenterHelper.latte'
         );
     }
@@ -63,7 +56,7 @@ final class TemplateRendererTest extends TestCase
      */
     public function testRenderFileWithPresenterWithMacro(): void
     {
-        $this->templateRender->renderFileWithParameters(
+        $this->templateRenderer->renderFileWithParameters(
             __DIR__ . '/TemplateRendererSource/someTemplateWithMacro.latte'
         );
     }
