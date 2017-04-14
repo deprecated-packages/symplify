@@ -8,7 +8,6 @@ git subsplit publish --heads="master" --tags=$LAST_TAG packages/AutoServiceRegis
 git subsplit publish --heads="master" --tags=$LAST_TAG packages/CodingStandard:git@github.com:Symplify/CodingStandard.git
 git subsplit publish --heads="master" --tags=$LAST_TAG packages/ControllerAutowire:git@github.com:Symplify/ControllerAutowire.git
 git subsplit publish --heads="master" --tags=$LAST_TAG packages/DefaultAutowire:git@github.com:Symplify/DefaultAutowire.git
-git subsplit publish --heads="master" --tags=$LAST_TAG packages/DoctrineMigrations:git@github.com:Symplify/DoctrineMigrations.git
 git subsplit publish --heads="master" --tags=$LAST_TAG packages/EasyCodingStandard:git@github.com:Symplify/EasyCodingStandard.git
 git subsplit publish --heads="master" --tags=$LAST_TAG packages/ModularLatteFilters:git@github.com:Symplify/ModularLatteFilters.git
 git subsplit publish --heads="master" --tags=$LAST_TAG packages/ModularRouting:git@github.com:Symplify/ModularRouting.git
