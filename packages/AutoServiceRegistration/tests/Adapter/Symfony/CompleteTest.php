@@ -25,7 +25,6 @@ final class CompleteTest extends TestCase
     public function testGetController(): void
     {
         $serviceId = ServiceNaming::createServiceIdFromClass(AnotherController::class);
-        // dump($serviceId);
 
         $this->assertInstanceOf(AnotherController::class, $this->container->get($serviceId));
     }
