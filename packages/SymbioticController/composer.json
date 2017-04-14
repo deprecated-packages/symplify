@@ -4,9 +4,11 @@
         "php": "^7.1",
         "nette/di": "^2.4",
         "nette/application": "^2.4",
+        "latte/latte": "^2.4",
         "symplify/symfony-event-dispatcher": "^1.4"
     },
     "require-dev": {
+        "nette/security": "^1.4",
         "phpunit/phpunit": "^6.0"
     },
     "autoload": {
