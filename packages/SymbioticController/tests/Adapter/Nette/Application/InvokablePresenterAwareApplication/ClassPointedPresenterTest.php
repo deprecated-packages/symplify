@@ -12,6 +12,7 @@ use Symplify\PackageBuilder\Adapter\Nette\GeneralContainerFactory;
 use Symplify\SymbioticController\Adapter\Nette\Application\InvokablePresenterAwareApplication;
 use Symplify\SymbioticController\Adapter\Nette\Routing\PresenterRoute;
 use Symplify\SymbioticController\Tests\Adapter\Nette\Application\PresenterFactorySource\StandalonePresenter;
+use Symplify\SymbioticController\Tests\Adapter\Nette\Application\PresenterFactorySource\TemplateRendererPresenter;
 
 final class ClassPointedPresenterTest extends TestCase
 {
@@ -47,6 +48,22 @@ final class ClassPointedPresenterTest extends TestCase
         $this->assertInstanceOf(StandalonePresenter::class, $this->application->getPresenter());
     }
 
+    public function testRendering(): void
+    {
+        $httpRequest = $this->createHttpRequestWithUrl('https://domain.com/render-me');
+        $applicationRequest = $this->router->match($httpRequest);
+
+        ob_start();
+        $this->application->processRequest($applicationRequest);
+        $responseOutput = ob_get_clean();
+        $this->assertSame('I was rendered!', trim($responseOutput));
+
+        $this->assertInstanceOf(
+            TemplateRendererPresenter::class,
+            $this->application->getPresenter()
+        );
+    }
+
     private function createHttpRequestWithUrl(string $url): Request
     {
         return new Request(new UrlScript($url));
@@ -55,5 +72,6 @@ final class ClassPointedPresenterTest extends TestCase
     private function prepareRouter(): void
     {
         $this->router[] = new PresenterRoute('/hi', StandalonePresenter::class);
+        $this->router[] = new PresenterRoute('/render-me', TemplateRendererPresenter::class);
     }
 }

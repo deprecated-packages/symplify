@@ -13,7 +13,7 @@ use Symplify\SymbioticController\Exception\MissingInvokeMethodException;
 final class PresenterRoute implements IRouter
 {
     /**
-     * @var string
+     * @var Route
      */
     private $netteRoute;
 
