@@ -23,7 +23,7 @@ final class PresenterRoute implements IRouter
 
         $this->netteRoute = new Route($mask, [
             'presenter' => $presenterClass,
-            'action' =>'__invoke'
+            'action' => '__invoke'
         ]);
     }
 
@@ -32,6 +32,7 @@ final class PresenterRoute implements IRouter
         $appRequest = $this->netteRoute->match($httpRequest);
         if ($appRequest) {
             $this->removeActionParameter($appRequest);
+
             return $appRequest;
         }
 
@@ -41,32 +42,6 @@ final class PresenterRoute implements IRouter
     public function constructUrl(Request $appRequest, Url $refUrl): ?string
     {
         return $this->netteRoute->constructUrl($appRequest, $refUrl);
-
-//        $baseUrl = $refUrl->getHostUrl();
-//
-//        $path = preg_replace_callback('/<([\w_-]+)>/', function ($matches) use ($appRequest) {
-//            if (! isset($matches[1])) {
-//                throw new RouteException(
-//                    'There is something very wrong with matches: ' . var_export($matches, false)
-//                );
-//            }
-//
-//            $match = $matches[1];
-//            $value = $appRequest->getParameter($match);
-//            if ($value) {
-//                return $value;
-//            }
-//
-//            throw new RouteException('Parameter ' . $match . ' is not defined in Request.');
-//        }, $this->mask);
-//
-//        if ($path === null) {
-//            throw new RouteException(
-//                'There was an error on constructing url with: ' . $this->mask
-//            );
-//        }
-//
-//        return $baseUrl . '/' . $path;
     }
 
     private function ensureClassExistsAndIsInvokable(string $class): void
