@@ -8,7 +8,7 @@
         "symplify/symfony-event-dispatcher": "^1.4"
     },
     "require-dev": {
-        "nette/security": "^1.4",
+        "nette/security": "^2.4",
         "phpunit/phpunit": "^6.0"
     },
     "autoload": {
