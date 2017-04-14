@@ -5,7 +5,7 @@ Register every Controller, Repository or Command in your app.
 No need to do that manually in `config.yml` files. Very useful in large projects to keep configs clean.
  
 
-[![Build Status](https://img.shields.io/travis/Symplify/AutoServiceRegistration.svg?style=flat-square)](https://travis-ci.org/Symplify/AutoServiceRegistration)
+[![Build Status](https://img.shields.io/travis/Symplify/AutoServiceRegistration/master.svg?style=flat-square)](https://travis-ci.org/Symplify/AutoServiceRegistration)
 [![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/Symplify/AutoServiceRegistration.svg?style=flat-square)](https://scrutinizer-ci.com/g/Symplify/AutoServiceRegistration)
 [![Downloads](https://img.shields.io/packagist/dt/symplify/auto-service-registration.svg?style=flat-square)](https://packagist.org/packages/symplify/auto-service-registration)
 

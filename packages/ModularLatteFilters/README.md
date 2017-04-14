@@ -1,6 +1,6 @@
 # Modular Latte Filters
 
-[![Build Status](https://img.shields.io/travis/Symplify/ModularLatteFilters.svg?style=flat-square)](https://travis-ci.org/Symplify/ModularLatteFilters)
+[![Build Status](https://img.shields.io/travis/Symplify/ModularLatteFilters/master.svg?style=flat-square)](https://travis-ci.org/Symplify/ModularLatteFilters)
 [![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/Symplify/ModularLatteFilters.svg?style=flat-square)](https://scrutinizer-ci.com/g/Symplify/ModularLatteFilters)
 [![Downloads](https://img.shields.io/packagist/dt/symplify/modular-latte-filters.svg?style=flat-square)](https://packagist.org/packages/symplify/modular-latte-filters)
 

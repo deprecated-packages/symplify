@@ -1,6 +1,6 @@
 # Default Autowire
 
-[![Build Status](https://img.shields.io/travis/Symplify/DefaultAutowire.svg?style=flat-square)](https://travis-ci.org/Symplify/DefaultAutowire)
+[![Build Status](https://img.shields.io/travis/Symplify/DefaultAutowire/master.svg?style=flat-square)](https://travis-ci.org/Symplify/DefaultAutowire)
 [![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/Symplify/DefaultAutowire.svg?style=flat-square)](https://scrutinizer-ci.com/g/Symplify/DefaultAutowire)
 [![Downloads](https://img.shields.io/packagist/dt/symplify/default-autowire.svg?style=flat-square)](https://packagist.org/packages/symplify/default-autowire)
 

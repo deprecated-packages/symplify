@@ -1,6 +1,6 @@
 # Modular Routing
 
-[![Build Status](https://img.shields.io/travis/Symplify/ModularRouting.svg?style=flat-square)](https://travis-ci.org/Symplify/ModularRouting)
+[![Build Status](https://img.shields.io/travis/Symplify/ModularRouting/master.svg?style=flat-square)](https://travis-ci.org/Symplify/ModularRouting)
 [![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/Symplify/ModularRouting.svg?style=flat-square)](https://scrutinizer-ci.com/g/Symplify/ModularRouting)
 [![Downloads](https://img.shields.io/packagist/dt/symplify/modular-routing.svg?style=flat-square)](https://packagist.org/packages/symplify/modular-routing)
 
