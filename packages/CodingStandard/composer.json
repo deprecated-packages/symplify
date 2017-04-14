@@ -13,7 +13,8 @@
     },
     "autoload": {
         "psr-4": {
-            "Symplify\\CodingStandard\\": "src"
+            "Symplify\\CodingStandard\\": "src",
+            "PHP_CodeSniffer\\": "vendor/squizlabs/php_codesniffer/src"
         }
     },
     "autoload-dev": {
