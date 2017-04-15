@@ -82,6 +82,7 @@ checkers:
     # Symplify: Commenting
     - Symplify\CodingStandard\Sniffs\Commenting\BlockPropertyCommentSniff
     - Symplify\CodingStandard\Sniffs\Commenting\VarPropertyCommentSniff
+    - Symplify\CodingStandard\Sniffs\Commenting\VarConstantCommentSniff
 
     # Symplify: Control Structures
     - Symplify\CodingStandard\Sniffs\ControlStructures\NewClassSniff
