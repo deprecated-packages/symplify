@@ -7,13 +7,14 @@ use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Sniffs\Sniff;
 use Symplify\CodingStandard\Helper\Naming;
 use Symplify\CodingStandard\TokenWrapper\ClassWrapper;
+use Symplify\CodingStandard\TokenWrapper\MethodWrapper;
 
 final class ControllerRenderMethodLimitSniff implements Sniff
 {
     /**
      * @var string
      */
-    private const ERROR_MESSAGE = 'Controller can have up to %d render methods. %d found.';
+    private const ERROR_MESSAGE = 'Controller has %d render methods. Max limit is %d.';
 
     /**
      * @var int
@@ -42,7 +43,7 @@ final class ControllerRenderMethodLimitSniff implements Sniff
      * @param File $file
      * @param int $position
      */
-    public function process(File $file, $position)
+    public function process(File $file, $position): void
     {
         $this->file = $file;
         $this->position = $position;
@@ -51,35 +52,12 @@ final class ControllerRenderMethodLimitSniff implements Sniff
             return;
         }
 
-        $classWrapper = ClassWrapper::createFromFileAndPosition($file, $position);
-        $renderMethodCount = 0;
-        foreach ($classWrapper->getMethods() as $method) {
-            if (! $method->isPublic()) {
-                continue;
-            }
-
-            if (Strings::contains($method->getName(), 'render')) {
-                ++$renderMethodCount;
-            }
-
-            if (Strings::contains($method->getName(), 'Render')) {
-                ++$renderMethodCount;
-            }
-
-            if (Strings::contains($method->getName(), 'action')) {
-                ++$renderMethodCount;
-            }
-        }
-
+        $renderMethodCount = $this->getRenderMethodCount($file, $position);
         if ($renderMethodCount <= $this->maxCount) {
             return;
         }
 
-        $errorMessage = sprintf(
-            self::ERROR_MESSAGE,
-            $renderMethodCount,
-            $this->maxCount
-        );
+        $errorMessage = sprintf(self::ERROR_MESSAGE, $renderMethodCount, $this->maxCount);
 
         $file->addError($errorMessage, $position, self::class);
     }
@@ -91,5 +69,36 @@ final class ControllerRenderMethodLimitSniff implements Sniff
         }
 
         return true;
+    }
+
+    private function getRenderMethodCount(File $file, $position): int
+    {
+        $classWrapper = ClassWrapper::createFromFileAndPosition($file, $position);
+
+        $renderMethodCount = 0;
+        foreach ($classWrapper->getMethods() as $method) {
+            if ($this->isControllerRenderMethod($method)) {
+                ++$renderMethodCount;
+            }
+        }
+
+        return $renderMethodCount;
+    }
+
+    private function isControllerRenderMethod(MethodWrapper $method): bool
+    {
+        if (! $method->isPublic()) {
+            return false;
+        }
+
+        if (Strings::contains($method->getName(), 'render')) {
+            return true;
+        }
+
+        if (Strings::contains($method->getName(), 'Render')) {
+            return true;
+        }
+
+        return false;
     }
 }
