@@ -81,9 +81,8 @@ checkers:
 
     # Symplify: Commenting
     - Symplify\CodingStandard\Sniffs\Commenting\BlockPropertyCommentSniff
-    - Symplify\CodingStandard\Sniffs\Commenting\MethodReturnTypeSniff
-    - Symplify\CodingStandard\Sniffs\Commenting\MethodCommentSniff
     - Symplify\CodingStandard\Sniffs\Commenting\VarPropertyCommentSniff
+    - Symplify\CodingStandard\Sniffs\Commenting\VarConstantCommentSniff
 
     # Symplify: Control Structures
     - Symplify\CodingStandard\Sniffs\ControlStructures\NewClassSniff
@@ -105,7 +104,16 @@ checkers:
     # Slevomat
     - SlevomatCodingStandard\Sniffs\Classes\ClassConstantVisibilitySniff
     - SlevomatCodingStandard\Sniffs\Classes\UnusedPrivateElementsSniff
-    - SlevomatCodingStandard\Sniffs\Commenting\ForbiddenAnnotationsSniff
+    SlevomatCodingStandard\Sniffs\Commenting\ForbiddenAnnotationsSniff:
+        forbiddenAnnotations:
+            - @author
+            - @created
+            - @copyright
+            - @license
+            - @package
+            - @throws
+            - @version
+
     - SlevomatCodingStandard\Sniffs\ControlStructures\DisallowEqualOperatorsSniff
     - SlevomatCodingStandard\Sniffs\ControlStructures\YodaComparisonSniff
     - SlevomatCodingStandard\Sniffs\Exceptions\DeadCatchSniff
@@ -149,6 +157,8 @@ checkers:
 
     # PHPUnit
     - PhpCsFixer\Fixer\PhpUnit\PhpUnitStrictFixer
+    - PhpCsFixer\Fixer\PhpUnit\PhpUnitFqcnAnnotationFixer
+    - Symplify\CodingStandard\Sniffs\PHPUnit\FinalTestCaseSniff
 
     # PSR1 (official)
     - PhpCsFixer\Fixer\Basic\EncodingFixer
@@ -221,7 +231,6 @@ checkers:
     - PhpCsFixer\Fixer\Whitespace\NoWhitespaceInBlankLineFixer
     - PhpCsFixer\Fixer\ArrayNotation\NormalizeIndexBraceFixer
     - PhpCsFixer\Fixer\Operator\ObjectOperatorWithoutWhitespaceFixer
-    - PhpCsFixer\Fixer\PhpUnit\PhpUnitFqcnAnnotationFixer
     - PhpCsFixer\Fixer\Phpdoc\PhpdocAnnotationWithoutDotFixer
     - PhpCsFixer\Fixer\Phpdoc\PhpdocIndentFixer
     - PhpCsFixer\Fixer\Phpdoc\PhpdocInlineTagFixer
@@ -268,6 +277,9 @@ checkers:
     - PhpCsFixer\Fixer\Basic\NonPrintableCharacterFixer
     - PhpCsFixer\Fixer\Casing\MagicConstantCasingFixer
 
+    # Architecture
+    - Symplify\CodingStandard\Sniffs\Architecture\ForbiddenTraitSniff
+
 skip:
     SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff:
         - packages/EasyCodingStandard/packages/SniffRunner/src/File/File.php
@@ -304,3 +316,6 @@ skip:
     PhpCsFixer\Fixer\ReturnNotation\SimplifiedNullReturnFixer:
         - packages/SymbioticController/src/Adapter/Nette/Routing/PresenterRoute.php
 
+    Symplify\CodingStandard\Sniffs\Architecture\ForbiddenTraitSniff:
+        - packages/ControllerAutowire/src/Controller/**
+        - packages/ControllerAutowire/src/Controller/**/**

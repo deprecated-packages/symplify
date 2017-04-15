@@ -126,8 +126,8 @@ final class InjectToConstructorInjectionSniff implements Sniff
         $injectedParameters = [];
         foreach ($method->getParameters() as $parameter) {
             $injectedParameters[] = [
-                'name' => $parameter->getParamterName(),
-                'type' => $parameter->getParamterType()
+                'name' => $parameter->getParameterName(),
+                'type' => $parameter->getParameterType()
             ];
         }
 

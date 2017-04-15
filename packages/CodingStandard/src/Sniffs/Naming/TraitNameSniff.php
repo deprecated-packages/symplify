@@ -58,9 +58,7 @@ final class TraitNameSniff implements Sniff
 
     private function getTraitName(): string
     {
-        $namePosition = $this->getTraitNamePosition();
-
-        return $this->file->getTokens()[$namePosition]['content'];
+        return $this->file->getDeclarationName($this->position);
     }
 
     private function getTraitNamePosition(): int
