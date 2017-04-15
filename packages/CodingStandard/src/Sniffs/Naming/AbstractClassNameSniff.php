@@ -76,17 +76,9 @@ final class AbstractClassNameSniff implements Sniff
         return $classProperties['is_abstract'];
     }
 
-    /**
-     * @return string|false
-     */
-    private function getClassName()
+    private function getClassName(): ?string
     {
-        $namePosition = $this->file->findNext(T_STRING, $this->position);
-        if (! $namePosition) {
-            return false;
-        }
-
-        return $this->file->getTokens()[$namePosition]['content'];
+        return $this->file->getDeclarationName($this->position);
     }
 
     private function fix(): void

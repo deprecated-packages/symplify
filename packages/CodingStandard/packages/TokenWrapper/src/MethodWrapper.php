@@ -19,11 +19,6 @@ final class MethodWrapper
     private $position;
 
     /**
-     * @var mixed[]
-     */
-    private $tokens;
-
-    /**
      * @var string
      */
     private $methodName;
@@ -53,12 +48,12 @@ final class MethodWrapper
         $this->file = $file;
         $this->position = $position;
 
-        $this->tokens = $this->file->getTokens();
+        $tokens = $file->getTokens();
 
         $namePointer = TokenFinder::findNextEffective($file, $this->position + 1);
-        $this->methodName = $this->tokens[$namePointer]['content'];
+        $this->methodName = $tokens[$namePointer]['content'];
 
-        $this->methodToken = $this->tokens[$position];
+        $this->methodToken = $tokens[$position];
 
         $this->startPosition = $this->position - 2; // todo: start position
         $this->endPosition = (int) $this->methodToken['scope_closer'];
@@ -72,6 +67,11 @@ final class MethodWrapper
     public function getPosition(): int
     {
         return $this->position;
+    }
+
+    public function getName(): string
+    {
+        return $this->methodName;
     }
 
     public function hasNamePrefix(string $prefix): bool
