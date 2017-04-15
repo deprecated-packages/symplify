@@ -64,24 +64,6 @@ class SomeClass
 }
 ```
 
-### MethodReturnTypeSniff (Commenting)
-
-- Getters should have return type (except for {@inheritdoc}).
-
-```php
-class SomeClass
-{
-    /**
-     * @return int
-     */
-    public function getResult()
-    {
-        // ...
-    }
-}
-```
-
-
 ### DebugFunctionCallSniff (Debug)
 
 - Debug functions should not be left in the code
