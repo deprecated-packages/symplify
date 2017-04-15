@@ -9,6 +9,7 @@ use Symplify\ControllerAutowire\DependencyInjection\Compiler\RegisterControllers
 use Symplify\ControllerAutowire\DependencyInjection\ControllerClassMap;
 use Symplify\ControllerAutowire\HttpKernel\Controller\ControllerFinder;
 use Symplify\ControllerAutowire\SymplifyControllerAutowireBundle;
+use Symplify\ControllerAutowire\Tests\CompleteTestSource\Scan\AlreadyRegisteredController;
 use Symplify\ControllerAutowire\Tests\DependencyInjection\Compiler\RegisterControllersPassSource\SomeController;
 
 final class RegisterControllersPassTest extends TestCase
@@ -59,17 +60,41 @@ final class RegisterControllersPassTest extends TestCase
             ],
         ]);
 
-        $controllerDefition = new Definition(SomeController::class);
+        $controllerDefinition = new Definition(SomeController::class);
         $containerBuilder->setDefinition(
             'symplify.controllerautowire.tests.dependencyinjection.'
                 . 'compiler.registercontrollerspasssource.somecontroller',
-            $controllerDefition
+            $controllerDefinition
         );
         $this->assertCount(1, $containerBuilder->getDefinitions());
 
         $this->registerControllersPass->process($containerBuilder);
         $this->assertCount(1, $containerBuilder->getDefinitions());
 
-        $this->assertTrue($controllerDefition->isAutowired());
+        $this->assertTrue($controllerDefinition->isAutowired());
+    }
+
+    /**
+     * Issue https://github.com/Symplify/Symplify/issues/103
+     */
+    public function testPreventDuplicatedControllerRegistration()
+    {
+        $containerBuilder = new ContainerBuilder();
+        $containerBuilder->prependExtensionConfig(SymplifyControllerAutowireBundle::ALIAS, [
+            'controller_dirs' => [
+                __DIR__ . '/../../CompleteTestSource/Scan',
+            ],
+        ]);
+
+        $controllerDefinition = new Definition(AlreadyRegisteredController::class);
+
+        $containerBuilder->setDefinition('already_registered_controller', $controllerDefinition);
+        $this->assertCount(1, $containerBuilder->getDefinitions());
+        $this->assertFalse($controllerDefinition->isAutowired());
+
+        $this->registerControllersPass->process($containerBuilder);
+
+        $this->assertCount(3, $containerBuilder->getDefinitions());
+        $this->assertTrue($controllerDefinition->isAutowired());
     }
 }
