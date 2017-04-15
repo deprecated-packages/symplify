@@ -75,11 +75,11 @@ final class RegisterControllersPassTest extends TestCase
     }
 
     /**
-     * Issue https://github.com/Symplify/Symplify/issues/103
+     * Issue https://github.com/Symplify/Symplify/issues/103.
      */
-    public function testPreventDuplicatedControllerRegistration()
+    public function testPreventDuplicatedControllerRegistration(): void
     {
-        $containerBuilder = new ContainerBuilder();
+        $containerBuilder = new ContainerBuilder;
         $containerBuilder->prependExtensionConfig(SymplifyControllerAutowireBundle::ALIAS, [
             'controller_dirs' => [
                 __DIR__ . '/../../CompleteTestSource/Scan',

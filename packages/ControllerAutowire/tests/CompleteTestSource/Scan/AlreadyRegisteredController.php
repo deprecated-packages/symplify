@@ -4,5 +4,4 @@ namespace Symplify\ControllerAutowire\Tests\CompleteTestSource\Scan;
 
 final class AlreadyRegisteredController
 {
-
 }

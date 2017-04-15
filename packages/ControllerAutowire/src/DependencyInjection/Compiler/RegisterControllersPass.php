@@ -2,6 +2,7 @@
 
 namespace Symplify\ControllerAutowire\DependencyInjection\Compiler;
 
+use Nette\Utils\Strings;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
@@ -26,6 +27,11 @@ final class RegisterControllersPass implements CompilerPassInterface
      */
     private $containerBuilder;
 
+    /**
+     * @var string[]
+     */
+    private $alreadyRegisteredControllers = [];
+
     public function __construct(
         ControllerClassMapInterface $controllerClassMap,
         ControllerFinderInterface $controllerFinder
@@ -39,6 +45,7 @@ final class RegisterControllersPass implements CompilerPassInterface
         $this->containerBuilder = $containerBuilder;
 
         $controllerDirs = $this->getControllerDirs();
+        $this->alreadyRegisteredControllers = $this->getAlreadyRegisteredControllers();
         $controllers = $this->controllerFinder->findControllersInDirs($controllerDirs);
         $this->registerControllersToContainerBuilder($controllers);
     }
@@ -59,11 +66,12 @@ final class RegisterControllersPass implements CompilerPassInterface
     private function registerControllersToContainerBuilder(array $controllers): void
     {
         foreach ($controllers as $id => $controller) {
-            if (! $this->containerBuilder->hasDefinition($id)) {
-                $definition = $this->buildControllerDefinitionFromClass($controller);
-            } else {
+            if (array_key_exists($controller, $this->getAlreadyRegisteredControllers())) {
+                $id = $this->alreadyRegisteredControllers[$controller];
                 $definition = $this->containerBuilder->getDefinition($id);
                 $definition->setAutowired(true);
+            } else {
+                $definition = $this->buildControllerDefinitionFromClass($controller);
             }
 
             $this->containerBuilder->setDefinition($id, $definition);
@@ -77,5 +85,24 @@ final class RegisterControllersPass implements CompilerPassInterface
         $definition->setAutowired(true);
 
         return $definition;
+    }
+
+    /**
+     * @return string[]
+     */
+    private function getAlreadyRegisteredControllers(): array
+    {
+        $controllers = [];
+        $definitions = $this->containerBuilder->getDefinitions();
+
+        foreach ($definitions as $serviceName => $definition) {
+            if (! Strings::endsWith($definition->getClass(), 'Controller')) {
+                continue;
+            }
+
+            $controllers[$definition->getClass()] = $serviceName;
+        }
+
+        return $controllers;
     }
 }
