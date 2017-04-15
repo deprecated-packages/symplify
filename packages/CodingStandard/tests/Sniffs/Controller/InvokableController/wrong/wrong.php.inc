@@ -9,6 +9,6 @@ class SomeController
     public function renderDefault()
     {
 
-	}
+    }
 
 }
