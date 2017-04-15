@@ -11,6 +11,8 @@ services:
         class: Symplify\ControllerAutowire\Tests\CompleteTestSource\Controller\ControllerWithParameter
         arguments:
             - "%kernel.root_dir%"
+    already_registered_controller:
+        class: Symplify\ControllerAutowire\Tests\CompleteTestSource\Scan\AlreadyRegisteredController
 
 symplify_controller_autowire:
     controller_dirs:

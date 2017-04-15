@@ -28,8 +28,8 @@ final class CompleteTest extends TestCase
         $kernel = new AppKernel;
         $kernel->boot();
 
-        $this->controllerResolver = $kernel->getContainer()
-            ->get('symplify.controller_resolver');
+        $container = $kernel->getContainer();
+        $this->controllerResolver = $container->get('symplify.controller_resolver');
     }
 
     public function testMissingControllerParameter(): void
