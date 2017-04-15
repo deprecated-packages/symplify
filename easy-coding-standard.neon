@@ -157,6 +157,8 @@ checkers:
 
     # PHPUnit
     - PhpCsFixer\Fixer\PhpUnit\PhpUnitStrictFixer
+    - PhpCsFixer\Fixer\PhpUnit\PhpUnitFqcnAnnotationFixer
+    - Symplify\CodingStandard\Sniffs\PHPUnit\FinalTestCaseSniff
 
     # PSR1 (official)
     - PhpCsFixer\Fixer\Basic\EncodingFixer
@@ -229,7 +231,6 @@ checkers:
     - PhpCsFixer\Fixer\Whitespace\NoWhitespaceInBlankLineFixer
     - PhpCsFixer\Fixer\ArrayNotation\NormalizeIndexBraceFixer
     - PhpCsFixer\Fixer\Operator\ObjectOperatorWithoutWhitespaceFixer
-    - PhpCsFixer\Fixer\PhpUnit\PhpUnitFqcnAnnotationFixer
     - PhpCsFixer\Fixer\Phpdoc\PhpdocAnnotationWithoutDotFixer
     - PhpCsFixer\Fixer\Phpdoc\PhpdocIndentFixer
     - PhpCsFixer\Fixer\Phpdoc\PhpdocInlineTagFixer

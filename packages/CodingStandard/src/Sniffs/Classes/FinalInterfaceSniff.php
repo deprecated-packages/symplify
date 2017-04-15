@@ -56,7 +56,7 @@ final class FinalInterfaceSniff implements Sniff
         }
     }
 
-    public function addFinalToClass(int $position): void
+    private function addFinalToClass(int $position): void
     {
         $this->fixer->addContentBefore($position, 'final ');
     }
