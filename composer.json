@@ -72,6 +72,7 @@
             "PHP_CodeSniffer\\": "vendor/squizlabs/php_codesniffer/src",
             "Symplify\\AutoServiceRegistration\\": "packages/AutoServiceRegistration/src",
             "Symplify\\CodingStandard\\": "packages/CodingStandard/src",
+            "Symplify\\CodingStandard\\TokenWrapper\\": "packages/CodingStandard/packages/TokenWrapper/src",
             "Symplify\\ControllerAutowire\\": "packages/ControllerAutowire/src",
             "Symplify\\DefaultAutowire\\": "packages/DefaultAutowire/src",
             "Symplify\\ModularRouting\\": "packages/ModularRouting/src",

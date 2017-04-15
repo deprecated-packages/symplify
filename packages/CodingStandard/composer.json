@@ -14,6 +14,7 @@
     "autoload": {
         "psr-4": {
             "Symplify\\CodingStandard\\": "src",
+            "Symplify\\CodingStandard\\TokenWrapper\\": "packages/TokenWrapper/src",
             "PHP_CodeSniffer\\": "vendor/squizlabs/php_codesniffer/src"
         }
     },
