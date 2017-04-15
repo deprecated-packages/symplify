@@ -17,7 +17,7 @@ final class InvokableControllerSniff implements Sniff
     /**
      * @var string[]
      */
-    public $controllerSuffixes = ['Controller', 'Presenter'];
+    public $controllerNameSuffixes = ['Controller', 'Presenter'];
 
     /**
      * @var File
@@ -76,8 +76,8 @@ final class InvokableControllerSniff implements Sniff
             return false;
         }
 
-        foreach ($this->controllerSuffixes as $controllerSuffix) {
-            if (Strings::endsWith($className, $controllerSuffix)) {
+        foreach ($this->controllerNameSuffixes as $controllerNameSuffix) {
+            if (Strings::endsWith($className, $controllerNameSuffix)) {
                 return true;
             }
         }
