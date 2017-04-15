@@ -34,7 +34,7 @@ final class ParameterWrapper
         return new self($file, $position);
     }
 
-    public function getParamterName(): string
+    public function getParameterName(): string
     {
         $namePosition = $this->file->findNext(T_STRING, $this->position);
 

@@ -57,9 +57,7 @@ final class ClassWrapper
 
     public function getClassName(): string
     {
-        $namePosition = $this->file->findNext(T_STRING, $this->position);
-
-        return $this->tokens[$namePosition]['content'];
+        return $this->file->getDeclarationName($this->position);
     }
 
     public function isAbstract(): bool
