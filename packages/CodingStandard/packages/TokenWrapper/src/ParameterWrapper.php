@@ -41,7 +41,7 @@ final class ParameterWrapper
         return $this->tokens[$namePosition]['content'];
     }
 
-    public function getParamterType(): string
+    public function getParameterType(): string
     {
         $typePosition = $this->file->findPrevious(T_STRING, $this->position);
 

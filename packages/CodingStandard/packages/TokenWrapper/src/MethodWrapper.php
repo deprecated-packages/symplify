@@ -43,17 +43,21 @@ final class MethodWrapper
      */
     private $endPosition;
 
+    /**
+     * @var mixed[]
+     */
+    private $tokens;
+
     private function __construct(File $file, int $position)
     {
         $this->file = $file;
         $this->position = $position;
-
-        $tokens = $file->getTokens();
+        $this->tokens = $file->getTokens();
 
         $namePointer = TokenFinder::findNextEffective($file, $this->position + 1);
-        $this->methodName = $tokens[$namePointer]['content'];
+        $this->methodName = $this->tokens[$namePointer]['content'];
 
-        $this->methodToken = $tokens[$position];
+        $this->methodToken = $this->tokens[$position];
 
         $this->startPosition = $this->position - 2; // todo: start position
         $this->endPosition = (int) $this->methodToken['scope_closer'];
@@ -107,5 +111,17 @@ final class MethodWrapper
             $fixer = $file->fixer;
             $fixer->replaceToken($i, '');
         }
+    }
+
+    public function isPublic(): bool
+    {
+        $visibilityModifiedTokenPointer = TokenFinder::findPreviousEffective(
+            $this->file,
+            $this->position - 1
+        );
+
+        $visibilityModifiedToken = $this->tokens[$visibilityModifiedTokenPointer];
+
+        return $visibilityModifiedToken['code'] === T_PUBLIC;
     }
 }
