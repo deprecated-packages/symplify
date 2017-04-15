@@ -64,26 +64,6 @@ class SomeClass
 }
 ```
 
-### MethodCommentSniff (Commenting)
-
-- Method without parameter typehints should have docblock comment.
-
-```php
-class SomeClass
-{
-    /**
-     * @param int $values
-     */
-    public function count($values)
-    {
-    }
-
-    public function count(array $values)
-    {
-    }
-}
-```
-
 ### MethodReturnTypeSniff (Commenting)
 
 - Getters should have return type (except for {@inheritdoc}).
