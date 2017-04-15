@@ -103,7 +103,16 @@ checkers:
     # Slevomat
     - SlevomatCodingStandard\Sniffs\Classes\ClassConstantVisibilitySniff
     - SlevomatCodingStandard\Sniffs\Classes\UnusedPrivateElementsSniff
-    - SlevomatCodingStandard\Sniffs\Commenting\ForbiddenAnnotationsSniff
+    SlevomatCodingStandard\Sniffs\Commenting\ForbiddenAnnotationsSniff:
+        forbiddenAnnotations:
+            - @author
+            - @created
+            - @copyright
+            - @license
+            - @package
+            - @throws
+            - @version
+
     - SlevomatCodingStandard\Sniffs\ControlStructures\DisallowEqualOperatorsSniff
     - SlevomatCodingStandard\Sniffs\ControlStructures\YodaComparisonSniff
     - SlevomatCodingStandard\Sniffs\Exceptions\DeadCatchSniff

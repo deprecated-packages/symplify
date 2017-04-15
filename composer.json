@@ -64,7 +64,7 @@
         "phpstan/phpstan": "^0.6",
         "phpstan/phpstan-nette": "^0.6",
         "phpstan/phpstan-doctrine": "^0.6",
-        "object-calisthenics/phpcs-calisthenics-rules": "v3.0.0-RC2",
+        "object-calisthenics/phpcs-calisthenics-rules": "v3.0.0-RC3",
         "roave/security-advisories": "dev-master"
     },
     "autoload": {
