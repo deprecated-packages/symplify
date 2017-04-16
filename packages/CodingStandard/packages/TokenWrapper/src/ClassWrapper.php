@@ -2,11 +2,9 @@
 
 namespace Symplify\CodingStandard\TokenWrapper;
 
-use Nette\PhpGenerator\Method;
 use Nette\Utils\Strings;
 use PHP_CodeSniffer\Files\File;
-use PHP_CodeSniffer\Fixer;
-use Symplify\CodingStandard\Helper\TokenFinder;
+use Symplify\CodingStandard\TokenWrapper\Refactor\ClassRefactor;
 
 final class ClassWrapper
 {
@@ -31,33 +29,28 @@ final class ClassWrapper
     private $tokens;
 
     /**
-     * @var array|MethodWrapper[]
+     * @var MethodWrapper[]
      */
-    private $methods;
-
-    /**
-     * @var Fixer
-     */
-    private $fixer;
-
-    /**
-     * @var mixed[]
-     */
-    private $parentsAndInterfaces = [];
+    private $methods = [];
 
     /**
      * @var string[]
      */
     private $interfaces = [];
 
+    /**
+     * @var ClassRefactor
+     */
+    private $classRefactor;
+
     private function __construct(File $file, int $position)
     {
         $this->file = $file;
         $this->position = $position;
-        $this->fixer = $file->fixer;
 
         $this->tokens = $this->file->getTokens();
         $this->classToken = $this->tokens[$position];
+        $this->classRefactor = new ClassRefactor($file, $this);
     }
 
     public static function createFromFileAndPosition(File $file, int $position): self
@@ -109,12 +102,11 @@ final class ClassWrapper
      */
     public function getMethods(): array
     {
-        if ($this->methods) {
+        if (count($this->methods)) {
             return $this->methods;
         }
 
         $methods = [];
-
         $classOpenerPosition = $this->classToken['scope_opener'] + 1;
 
         while (($methodTokenPointer = $this->file->findNext(
@@ -162,37 +154,8 @@ final class ClassWrapper
 
     public function addConstructorMethodWithProperty(string $propertyType, string $propertyName): void
     {
-        $method = $this->createConstructMethod();
-        $parameter = $method->addParameter($propertyName);
-        $parameter->setTypeHint($propertyType);
-        $method->setBody('$this->? = $?;', [$propertyName, $propertyName]);
-
-        $methodCode = Strings::indent((string) $method, 1, '    ');
-
-        $constructorPosition = $this->getConstructorPosition();
-        $this->fixer->addContentBefore($constructorPosition, PHP_EOL . $methodCode . PHP_EOL);
+        $this->classRefactor->addConstructorMethodWithProperty($propertyType, $propertyName);
     }
-
-    private function getConstructorPosition(): int
-    {
-        $lastPropertyPosition = null;
-        foreach ($this->getProperties() as $property) {
-            $lastPropertyPosition = $property->getPosition();
-        }
-
-        if ($lastPropertyPosition) {
-            return TokenFinder::findNextLinePosition($this->file, $lastPropertyPosition);
-        }
-    }
-
-    private function createConstructMethod(): Method
-    {
-        $method = new Method('__construct');
-        $method->setVisibility('public');
-
-        return $method;
-    }
-
 
     /**
      * @return string[]
@@ -228,7 +191,7 @@ final class ClassWrapper
         $class = '';
         if ($namespaceStart !== false) {
             $namespaceEnd = $this->file->findNext([T_SEMICOLON], $namespaceStart + 2);
-            for ($i = $namespaceStart + 2; $i < $namespaceEnd; $i++) {
+            for ($i = $namespaceStart + 2; $i < $namespaceEnd; ++$i) {
                 $class .= $this->tokens[$i]['content'];
             }
             $class .= '\\';

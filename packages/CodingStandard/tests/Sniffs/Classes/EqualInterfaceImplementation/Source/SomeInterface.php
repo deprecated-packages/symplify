@@ -4,5 +4,5 @@ namespace Symplify\CodingStandard\Tests\Sniffs\Classes\EqualInterfaceImplementat
 
 interface SomeInterface
 {
-    public function resolve();
+    public function resolve(): void;
 }

@@ -8,8 +8,7 @@ namespace Symplify\CodingStandard\Tests\Sniffs\Classes\EqualInterfaceImplementat
  */
 class SomeClass implements SomeInterface
 {
-    public function resolve()
+    public function resolve(): void
     {
-
     }
 }
