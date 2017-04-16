@@ -46,7 +46,7 @@ abstract class AbstractSniffTestCase extends TestCase
         }
 
         $fixedContent = SniffRunner::getFixedContentForSniffInFile($sniffClass, $fileInfo);
-        $this->assertSame(file_get_contents($fixedFileName), $fixedContent, sprintf(
+        $this->assertStringEqualsFile($fixedFileName, $fixedContent, sprintf(
             'File "%s" was not fixed properly. "%s" expected, "%s" given.',
             $fileInfo->getPathname(),
             file_get_contents($fixedFileName),

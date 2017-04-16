@@ -40,6 +40,16 @@ final class ClassWrapper
      */
     private $fixer;
 
+    /**
+     * @var mixed[]
+     */
+    private $parentsAndInterfaces = [];
+
+    /**
+     * @var string[]
+     */
+    private $interfaces = [];
+
     private function __construct(File $file, int $position)
     {
         $this->file = $file;
@@ -114,10 +124,26 @@ final class ClassWrapper
         ) {
             $classOpenerPosition = $methodTokenPointer + 1;
 
-            $methods[] = MethodWrapper::createFromFileAndPosition($this->file, $methodTokenPointer);
+            $method = MethodWrapper::createFromFileAndPosition($this->file, $methodTokenPointer);
+            $methods[$method->getName()] = $method;
         }
 
         return $this->methods = $methods;
+    }
+
+    /**
+     * @return MethodWrapper[]
+     */
+    public function getPublicMethods(): array
+    {
+        $publicMethods = [];
+        foreach ($this->getMethods() as $methodName => $method) {
+            if ($method->isPublic()) {
+                $publicMethods[$methodName] = $method;
+            }
+        }
+
+        return $publicMethods;
     }
 
     /**
@@ -165,5 +191,53 @@ final class ClassWrapper
         $method->setVisibility('public');
 
         return $method;
+    }
+
+
+    /**
+     * @return string[]
+     */
+    public function getInterfacesRequiredMethods(): array
+    {
+        $interfaceMethods = [];
+        foreach ($this->getInterfaces() as $interface) {
+            $interfaceMethods += get_class_methods($interface);
+        }
+
+        return $interfaceMethods;
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getInterfaces(): array
+    {
+        if (empty($this->interfaces)) {
+            $class = $this->getClassFullyQualifiedName();
+            if (class_exists($class)) {
+                $this->interfaces = class_implements($class);
+            }
+        }
+
+        return $this->interfaces;
+    }
+
+    private function getClassFullyQualifiedName(): string
+    {
+        $namespaceStart = $this->file->findNext([T_NAMESPACE], 0);
+        $class = '';
+        if ($namespaceStart !== false) {
+            $namespaceEnd = $this->file->findNext([T_SEMICOLON], $namespaceStart + 2);
+            for ($i = $namespaceStart + 2; $i < $namespaceEnd; $i++) {
+                $class .= $this->tokens[$i]['content'];
+            }
+            $class .= '\\';
+        } else {
+            $namespaceEnd = 0;
+        }
+
+        $class .= $this->file->getDeclarationName($this->file->findNext([T_CLASS, T_INTERFACE], $namespaceEnd));
+
+        return $class;
     }
 }
