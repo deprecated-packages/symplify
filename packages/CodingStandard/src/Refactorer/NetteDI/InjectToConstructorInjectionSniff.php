@@ -108,9 +108,6 @@ final class InjectToConstructorInjectionSniff implements Sniff
         // 2. set visibility to private
         $propertyWrapper->changeAccesibilityToPrivate();
 
-        // $propertyWrapper->getAnnotation('var');
-        // $propertyWrapper->geType();
-
         // 3. add dependency to constructor
         $constructMethod = $this->classWrapper->getMethod('__construct');
         if (! $constructMethod) {

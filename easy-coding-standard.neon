@@ -87,8 +87,9 @@ checkers:
     # Symplify: Control Structures
     - Symplify\CodingStandard\Sniffs\ControlStructures\NewClassSniff
 
-    # Symplify: Debug
+    # Symplify: Debug and dev
     - Symplify\CodingStandard\Sniffs\Debug\DebugFunctionCallSniff
+    - Symplify\CodingStandard\Sniffs\Debug\CommentedOutCodeSniff
 
     # Namespaces
     - Symplify\CodingStandard\Sniffs\Namespaces\ClassNamesWithoutPreSlashSniff
