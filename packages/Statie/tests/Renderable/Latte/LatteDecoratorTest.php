@@ -9,7 +9,7 @@ use SplFileInfo;
 use Symplify\Statie\Configuration\Configuration;
 use Symplify\Statie\Configuration\Parser\NeonParser;
 use Symplify\Statie\Renderable\File\File;
-use Symplify\Statie\Renderable\Latte\DynamicStringLoader;
+use Symplify\Statie\Latte\DynamicStringLoader;
 use Symplify\Statie\Renderable\Latte\LatteDecorator;
 
 final class LatteDecoratorTest extends TestCase
@@ -73,7 +73,7 @@ final class LatteDecoratorTest extends TestCase
     private function createStringLoader(): DynamicStringLoader
     {
         $loader = new DynamicStringLoader;
-        $loader->addTemplate(
+        $loader->changeContent(
             'default',
             file_get_contents(__DIR__ . '/LatteDecoratorSource/default.latte')
         );

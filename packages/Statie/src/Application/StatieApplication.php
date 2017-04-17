@@ -7,7 +7,7 @@ use SplFileInfo;
 use Symplify\Statie\Application\Command\RunCommand;
 use Symplify\Statie\Configuration\Configuration;
 use Symplify\Statie\Output\FileSystemWriter;
-use Symplify\Statie\Renderable\Latte\DynamicStringLoader;
+use Symplify\Statie\Latte\DynamicStringLoader;
 use Symplify\Statie\Renderable\RenderableFilesProcessor;
 use Symplify\Statie\Source\SourceFileStorage;
 use Symplify\Statie\Utils\FilesystemChecker;
@@ -106,7 +106,7 @@ final class StatieApplication
         foreach ($layoutFiles as $layoutFile) {
             $name = $layoutFile->getBasename('.' . $layoutFile->getExtension());
             $content = file_get_contents($layoutFile->getRealPath());
-            $this->dynamicStringLoader->addTemplate($name, $content);
+            $this->dynamicStringLoader->changeContent($name, $content);
         }
     }
 

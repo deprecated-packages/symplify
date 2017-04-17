@@ -5,9 +5,10 @@ namespace Symplify\Statie\Renderable\Routing;
 use Symplify\Statie\Configuration\Configuration;
 use Symplify\Statie\Contract\Renderable\DecoratorInterface;
 use Symplify\Statie\Contract\Renderable\Routing\Route\RouteInterface;
+use Symplify\Statie\Contract\Renderable\Routing\RouteCollectorInterface;
 use Symplify\Statie\Renderable\File\AbstractFile;
 
-final class RouteDecorator implements DecoratorInterface
+final class RouteDecorator implements DecoratorInterface, RouteCollectorInterface
 {
     /**
      * @var Configuration

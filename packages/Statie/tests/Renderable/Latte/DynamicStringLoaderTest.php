@@ -3,7 +3,7 @@
 namespace Symplify\Statie\Tests\Renderable\Latte;
 
 use PHPUnit\Framework\TestCase;
-use Symplify\Statie\Renderable\Latte\DynamicStringLoader;
+use Symplify\Statie\Latte\DynamicStringLoader;
 
 final class DynamicStringLoaderTest extends TestCase
 {
@@ -33,7 +33,7 @@ final class DynamicStringLoaderTest extends TestCase
     private function createStringLoader(): DynamicStringLoader
     {
         $loader = new DynamicStringLoader;
-        $loader->addTemplate(
+        $loader->changeContent(
             'default',
             file_get_contents(__DIR__ . '/LatteDecoratorSource/default.latte')
         );
