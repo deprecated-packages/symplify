@@ -5,6 +5,7 @@ namespace Symplify\Statie\Renderable\Latte;
 use Latte\Engine;
 use Symplify\Statie\Configuration\Configuration;
 use Symplify\Statie\Contract\Renderable\DecoratorInterface;
+use Symplify\Statie\Latte\DynamicStringLoader;
 use Symplify\Statie\Renderable\File\AbstractFile;
 use Symplify\Statie\Renderable\File\PostFile;
 
@@ -58,7 +59,7 @@ final class LatteDecorator implements DecoratorInterface
 
     private function addTemplateToDynamicLatteStringLoader(AbstractFile $file): void
     {
-        $this->dynamicStringLoader->addTemplate(
+        $this->dynamicStringLoader->changeContent(
             $file->getBaseName(),
             $file->getContent()
         );

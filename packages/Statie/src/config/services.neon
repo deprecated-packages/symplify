@@ -25,7 +25,7 @@
 - ParsedownExtra
 
 # renderable - latte
-- Symplify\Statie\Renderable\Latte\DynamicStringLoader
+- Symplify\Statie\Latte\DynamicStringLoader
 - Symplify\Statie\Latte\LatteFactory
 -
      factory: [@Symplify\Statie\Latte\LatteFactory, "create"]

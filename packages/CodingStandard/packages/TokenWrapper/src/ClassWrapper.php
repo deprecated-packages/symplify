@@ -2,11 +2,9 @@
 
 namespace Symplify\CodingStandard\TokenWrapper;
 
-use Nette\PhpGenerator\Method;
 use Nette\Utils\Strings;
 use PHP_CodeSniffer\Files\File;
-use PHP_CodeSniffer\Fixer;
-use Symplify\CodingStandard\Helper\TokenFinder;
+use Symplify\CodingStandard\TokenWrapper\Refactor\ClassRefactor;
 
 final class ClassWrapper
 {
@@ -31,23 +29,28 @@ final class ClassWrapper
     private $tokens;
 
     /**
-     * @var array|MethodWrapper[]
+     * @var MethodWrapper[]
      */
-    private $methods;
+    private $methods = [];
 
     /**
-     * @var Fixer
+     * @var string[]
      */
-    private $fixer;
+    private $interfaces = [];
+
+    /**
+     * @var ClassRefactor
+     */
+    private $classRefactor;
 
     private function __construct(File $file, int $position)
     {
         $this->file = $file;
         $this->position = $position;
-        $this->fixer = $file->fixer;
 
         $this->tokens = $this->file->getTokens();
         $this->classToken = $this->tokens[$position];
+        $this->classRefactor = new ClassRefactor($file, $this);
     }
 
     public static function createFromFileAndPosition(File $file, int $position): self
@@ -99,12 +102,11 @@ final class ClassWrapper
      */
     public function getMethods(): array
     {
-        if ($this->methods) {
+        if (count($this->methods)) {
             return $this->methods;
         }
 
         $methods = [];
-
         $classOpenerPosition = $this->classToken['scope_opener'] + 1;
 
         while (($methodTokenPointer = $this->file->findNext(
@@ -114,10 +116,27 @@ final class ClassWrapper
         ) {
             $classOpenerPosition = $methodTokenPointer + 1;
 
-            $methods[] = MethodWrapper::createFromFileAndPosition($this->file, $methodTokenPointer);
+            $method = MethodWrapper::createFromFileAndPosition($this->file, $methodTokenPointer);
+            $methods[$method->getName()] = $method;
         }
 
         return $this->methods = $methods;
+    }
+
+    /**
+     * @return MethodWrapper[]
+     */
+    public function getPublicMethods(): array
+    {
+        $publicMethods = [];
+        foreach ($this->getMethods() as $methodName => $method) {
+            if ($method->isPublic()) {
+                $publicMethods[$methodName] = $method;
+            }
+        }
+        unset($publicMethods['__construct']);
+
+        return $publicMethods;
     }
 
     /**
@@ -136,34 +155,53 @@ final class ClassWrapper
 
     public function addConstructorMethodWithProperty(string $propertyType, string $propertyName): void
     {
-        $method = $this->createConstructMethod();
-        $parameter = $method->addParameter($propertyName);
-        $parameter->setTypeHint($propertyType);
-        $method->setBody('$this->? = $?;', [$propertyName, $propertyName]);
-
-        $methodCode = Strings::indent((string) $method, 1, '    ');
-
-        $constructorPosition = $this->getConstructorPosition();
-        $this->fixer->addContentBefore($constructorPosition, PHP_EOL . $methodCode . PHP_EOL);
+        $this->classRefactor->addConstructorMethodWithProperty($propertyType, $propertyName);
     }
 
-    private function getConstructorPosition(): int
+    /**
+     * @return string[]
+     */
+    public function getInterfacesRequiredMethods(): array
     {
-        $lastPropertyPosition = null;
-        foreach ($this->getProperties() as $property) {
-            $lastPropertyPosition = $property->getPosition();
+        $interfaceMethods = [];
+        foreach ($this->getInterfaces() as $interface) {
+            $interfaceMethods = array_merge($interfaceMethods, get_class_methods($interface));
         }
 
-        if ($lastPropertyPosition) {
-            return TokenFinder::findNextLinePosition($this->file, $lastPropertyPosition);
-        }
+        return $interfaceMethods;
     }
 
-    private function createConstructMethod(): Method
+    /**
+     * @return string[]
+     */
+    public function getInterfaces(): array
     {
-        $method = new Method('__construct');
-        $method->setVisibility('public');
+        if (empty($this->interfaces)) {
+            $class = $this->getClassFullyQualifiedName();
+            if (class_exists($class)) {
+                $this->interfaces = class_implements($class);
+            }
+        }
 
-        return $method;
+        return $this->interfaces;
+    }
+
+    private function getClassFullyQualifiedName(): string
+    {
+        $namespaceStart = $this->file->findNext([T_NAMESPACE], 0);
+        $class = '';
+        if ($namespaceStart !== false) {
+            $namespaceEnd = $this->file->findNext([T_SEMICOLON], $namespaceStart + 2);
+            for ($i = $namespaceStart + 2; $i < $namespaceEnd; ++$i) {
+                $class .= $this->tokens[$i]['content'];
+            }
+            $class .= '\\';
+        } else {
+            $namespaceEnd = 0;
+        }
+
+        $class .= $this->file->getDeclarationName($this->file->findNext([T_CLASS, T_INTERFACE], $namespaceEnd));
+
+        return $class;
     }
 }

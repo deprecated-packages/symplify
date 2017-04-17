@@ -14,18 +14,14 @@ abstract class AbstractRouteCollectionProvider implements RouteCollectionProvide
      */
     private $loaderResolver;
 
-    public function setLoaderResolver(LoaderResolverInterface $loaderResolver): void
+    public function __construct(LoaderResolverInterface $loaderResolver)
     {
         $this->loaderResolver = $loaderResolver;
     }
 
     protected function loadRouteCollectionFromFile(string $path): RouteCollection
     {
-        if (! file_exists($path)) {
-            throw new FileNotFoundException(
-                sprintf('File "%s" was not found.', $path)
-            );
-        }
+        $this->ensureFileExists($path);
 
         $loader = $this->loaderResolver->resolve($path);
         if ($loader === null) {
@@ -47,5 +43,14 @@ abstract class AbstractRouteCollectionProvider implements RouteCollectionProvide
         }
 
         return $routeCollection;
+    }
+
+    private function ensureFileExists(string $path): void
+    {
+        if (! file_exists($path)) {
+            throw new FileNotFoundException(
+                sprintf('File "%s" was not found.', $path)
+            );
+        }
     }
 }

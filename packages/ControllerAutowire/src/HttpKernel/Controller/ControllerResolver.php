@@ -7,8 +7,9 @@ use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Controller\ControllerResolverInterface;
+use Symplify\ControllerAutowire\Contract\HttpKernel\ControllerClassMapAwareInterface;
 
-final class ControllerResolver implements ControllerResolverInterface
+final class ControllerResolver implements ControllerResolverInterface, ControllerClassMapAwareInterface
 {
     /**
      * @var ControllerResolverInterface

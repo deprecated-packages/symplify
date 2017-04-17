@@ -260,7 +260,7 @@ checkers:
     - PhpCsFixer\Fixer\ArrayNotation\TrimArraySpacesFixer
     - PhpCsFixer\Fixer\ArrayNotation\WhitespaceAfterCommaInArrayFixer
 
-    # PHP 7.1
+    # PHP 7.1 and modern PHP
     PhpCsFixer\Fixer\Alias\RandomApiMigrationFixer:
         mt_rand: random_int
         rand: random_int
@@ -279,6 +279,7 @@ checkers:
 
     # Architecture
     - Symplify\CodingStandard\Sniffs\Architecture\ForbiddenTraitSniff
+    - Symplify\CodingStandard\Sniffs\Classes\EqualInterfaceImplementationSniff
 
 skip:
     SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff:
@@ -287,7 +288,7 @@ skip:
         - packages/CodingStandard/src/Refactorer/NetteDI/InjectToConstructorInjectionSniff.php
         - packages/ControllerAutowire/src/HttpKernel/Controller/ControllerResolver.php
         - packages/ModularRouting/src/Routing/ModularRouter.php
-        - packages/Statie/src/Renderable/Latte/DynamicStringLoader.php
+        - packages/Statie/src/Latte/DynamicStringLoader.php
         - packages/SymfonySecurityVoters/src/Adapter/Nette/Token/NetteTokenAdapter.php
         - packages/Statie/src/Configuration/Configuration.php
         - packages/ControllerAutowire/src/Controller/Security/ControllerSecurityTrait.php

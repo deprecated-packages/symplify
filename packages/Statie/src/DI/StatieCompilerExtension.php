@@ -8,8 +8,8 @@ use Symfony\Component\Console\Command\Command;
 use Symplify\PackageBuilder\Adapter\Nette\DI\DefinitionCollector;
 use Symplify\Statie\Console\ConsoleApplication;
 use Symplify\Statie\Contract\Renderable\Routing\Route\RouteInterface;
+use Symplify\Statie\Contract\Renderable\Routing\RouteCollectorInterface;
 use Symplify\Statie\Contract\Source\SourceFileFilter\SourceFileFilterInterface;
-use Symplify\Statie\Renderable\Routing\RouteDecorator;
 use Symplify\Statie\Source\SourceFileStorage;
 
 final class StatieCompilerExtension extends CompilerExtension
@@ -53,7 +53,7 @@ final class StatieCompilerExtension extends CompilerExtension
     {
         DefinitionCollector::loadCollectorWithType(
             $this->getContainerBuilder(),
-            RouteDecorator::class,
+            RouteCollectorInterface::class,
             RouteInterface::class,
             'addRoute'
         );

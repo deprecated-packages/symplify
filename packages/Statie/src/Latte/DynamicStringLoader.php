@@ -1,21 +1,22 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\Statie\Renderable\Latte;
+namespace Symplify\Statie\Latte;
 
 use Latte\ILoader;
 use RuntimeException;
+use Symplify\Statie\Contract\Latte\MutableContentLoaderInterface;
 
 /**
  * Inspired by @see \Latte\Loaders\StringLoader.
  */
-final class DynamicStringLoader implements ILoader
+final class DynamicStringLoader implements ILoader, MutableContentLoaderInterface
 {
     /**
      * @var array [name => content]
      */
     private $templates = [];
 
-    public function addTemplate(string $name, string $content): void
+    public function changeContent(string $name, string $content): void
     {
         $this->templates[$name] = $content;
     }
@@ -40,7 +41,7 @@ final class DynamicStringLoader implements ILoader
      */
     public function isExpired($name, $time): bool
     {
-        // needed?
+        // not needed
         return false;
     }
 
@@ -50,7 +51,7 @@ final class DynamicStringLoader implements ILoader
      */
     public function getReferredName($name, $referringName): string
     {
-        // needed?
+        // not needed
         return $name;
     }
 
@@ -59,7 +60,7 @@ final class DynamicStringLoader implements ILoader
      */
     public function getUniqueId($name): string
     {
-        // needed?
+        // not needed
         return $this->getContent($name);
     }
 }
