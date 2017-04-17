@@ -260,7 +260,7 @@ checkers:
     - PhpCsFixer\Fixer\ArrayNotation\TrimArraySpacesFixer
     - PhpCsFixer\Fixer\ArrayNotation\WhitespaceAfterCommaInArrayFixer
 
-    # PHP 7.1
+    # PHP 7.1 and modern PHP
     PhpCsFixer\Fixer\Alias\RandomApiMigrationFixer:
         mt_rand: random_int
         rand: random_int
@@ -279,6 +279,7 @@ checkers:
 
     # Architecture
     - Symplify\CodingStandard\Sniffs\Architecture\ForbiddenTraitSniff
+    - Symplify\CodingStandard\Sniffs\Classes\EqualInterfaceImplementationSniff
 
 skip:
     SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff:

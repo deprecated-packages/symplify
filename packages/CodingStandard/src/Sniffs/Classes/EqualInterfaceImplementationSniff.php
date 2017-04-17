@@ -15,6 +15,18 @@ final class EqualInterfaceImplementationSniff implements Sniff
         . ' Extra public methods found: %s.';
 
     /**
+     * @var string[]
+     */
+    public $interfacesToSkip = [
+        'Symfony\Component\EventDispatcher\EventSubscriberInterface',
+    ];
+
+    /**
+     * @var ClassWrapper
+     */
+    private $classWrapper;
+
+    /**
      * @var File
      */
     private $file;
@@ -40,6 +52,7 @@ final class EqualInterfaceImplementationSniff implements Sniff
     {
         $this->file = $file;
         $this->position = $position;
+        $this->classWrapper = ClassWrapper::createFromFileAndPosition($file, $position);
 
         if ($this->shouldBeSkipped()) {
             return;
@@ -60,12 +73,24 @@ final class EqualInterfaceImplementationSniff implements Sniff
 
     private function shouldBeSkipped(): bool
     {
-        return ! $this->implementsInterface();
+        if (! $this->implementsInterface()) {
+            return true;
+        }
+
+        $inheritsSkippedInterface = (bool) array_intersect(
+            $this->classWrapper->getInterfaces(), $this->interfacesToSkip
+        );
+
+        if ($inheritsSkippedInterface) {
+            return true;
+        }
+
+        return false;
     }
 
     private function implementsInterface(): bool
     {
-        return (bool) $this->file->findNext(T_IMPLEMENTS, $this->position);
+        return (bool) $this->file->findNext(T_IMPLEMENTS, $this->position, $this->position + 5);
     }
 
     /**
@@ -73,9 +98,8 @@ final class EqualInterfaceImplementationSniff implements Sniff
      */
     private function getExtraPublicMethodNames(): array
     {
-        $classWrapper = ClassWrapper::createFromFileAndPosition($this->file, $this->position);
-        $publicMethodNames = array_keys($classWrapper->getPublicMethods());
-        $extraPublicMethodNames = array_diff($publicMethodNames, $classWrapper->getInterfacesRequiredMethods());
+        $publicMethodNames = array_keys($this->classWrapper->getPublicMethods());
+        $extraPublicMethodNames = array_diff($publicMethodNames, $this->classWrapper->getInterfacesRequiredMethods());
 
         return $extraPublicMethodNames;
     }

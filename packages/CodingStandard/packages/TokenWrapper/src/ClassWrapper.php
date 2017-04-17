@@ -134,6 +134,7 @@ final class ClassWrapper
                 $publicMethods[$methodName] = $method;
             }
         }
+        unset($publicMethods['__construct']);
 
         return $publicMethods;
     }

@@ -2,12 +2,10 @@
 
 namespace Symplify\ControllerAutowire\Contract\HttpKernel;
 
-interface ControllerFinderInterface
+interface ControllerClassMapAwareInterface
 {
     /**
-     * @param string[] $dirs
-     *
-     * @return string[]
+     * @param string[] $controllerClassMap
      */
-    public function findControllersInDirs(array $dirs): array;
+    public function setControllerClassMap(array $controllerClassMap): void;
 }
