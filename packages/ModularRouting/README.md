@@ -61,7 +61,7 @@ final class AppKernel extends Kernel
     services:
         some_module.route_provider:
             class: SomeModule\Routing\SomeRouteCollectionProvider
-            autowire: true # or better use Symplify\DefaultAutowiring package
+            autowire: true # or better use Symplify\DefaultAutowire package
     ```
 
 That's all!

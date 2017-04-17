@@ -14,7 +14,7 @@ final class AbstractRouteCollectionProviderTest extends TestCase
     public function testMissingFiles(): void
     {
         $missingFileRouteCollectionProvider = new MissingFileRouteCollectionProvider(
-            new LoaderResolver()
+            new LoaderResolver
         );
         $missingFileRouteCollectionProvider->getRouteCollection();
     }

@@ -6,10 +6,11 @@ use Nette\Application\IPresenter;
 use Nette\Application\IPresenterFactory;
 use Nette\Application\UI\Presenter;
 use Nette\DI\Container;
+use Symplify\SymbioticController\Adapter\Nette\Contract\Routing\PresenterMappingAwareInterface;
 use Symplify\SymbioticController\Adapter\Nette\Routing\PresenterMapper;
 use Symplify\SymbioticController\Adapter\Nette\Validator\PresenterGuardian;
 
-final class PresenterFactory implements IPresenterFactory
+final class PresenterFactory implements IPresenterFactory, PresenterMappingAwareInterface
 {
     /**
      * @var string[]

@@ -165,7 +165,7 @@ final class ClassWrapper
     {
         $interfaceMethods = [];
         foreach ($this->getInterfaces() as $interface) {
-            $interfaceMethods += get_class_methods($interface);
+            $interfaceMethods = array_merge($interfaceMethods, get_class_methods($interface));
         }
 
         return $interfaceMethods;
