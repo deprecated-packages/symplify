@@ -5,7 +5,6 @@ namespace Symplify\ModularRouting;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 use Symplify\ModularRouting\DependencyInjection\CompilerPass\AddRouteCollectionProvidersCompilerPass;
-use Symplify\ModularRouting\DependencyInjection\CompilerPass\SetLoaderCompilerPass;
 use Symplify\ModularRouting\DependencyInjection\Extension\SymplifyModularRoutingExtension;
 
 final class SymplifyModularRoutingBundle extends Bundle
@@ -18,6 +17,5 @@ final class SymplifyModularRoutingBundle extends Bundle
     public function build(ContainerBuilder $containerBuilder): void
     {
         $containerBuilder->addCompilerPass(new AddRouteCollectionProvidersCompilerPass);
-        $containerBuilder->addCompilerPass(new SetLoaderCompilerPass);
     }
 }

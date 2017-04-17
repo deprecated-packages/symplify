@@ -61,6 +61,7 @@ final class AppKernel extends Kernel
     services:
         some_module.route_provider:
             class: SomeModule\Routing\SomeRouteCollectionProvider
+            autowire: true # or better use Symplify\DefaultAutowiring package
     ```
 
 That's all!
@@ -77,15 +78,15 @@ use Symplify\ModularRouting\Routing\AbstractRouteCollectionProvider;
 
 final class FilesRouteCollectionProvider extends AbstractRouteCollectionProvider
 {
-    public function getRouteCollection() : RouteCollection
+    public function getRouteCollection(): RouteCollection
     {
         return $this->loadRouteCollectionFromFiles([
-            __DIR__.'/routes.xml',
-            __DIR__.'/routes.yml',
+            __DIR__ . '/routes.xml',
+            __DIR__ . '/routes.yml',
         ]);
         
         // on in case you have only 1 file
-        // return $this->loadRouteCollectionFromFile(__DIR__.'/routes.yml');
+        // return $this->loadRouteCollectionFromFile(__DIR__ . '/routes.yml');
     }
 }
 
