@@ -5,9 +5,9 @@ namespace Symplify\CodingStandard\TokenWrapper\Refactor;
 use Nette\PhpGenerator\Method;
 use Nette\Utils\Strings;
 use PHP_CodeSniffer\Files\File;
+use PHP_CodeSniffer\Fixer;
 use Symplify\CodingStandard\Helper\TokenFinder;
 use Symplify\CodingStandard\TokenWrapper\ClassWrapper;
-use Symplify\EasyCodingStandard\SniffRunner\Fixer\Fixer;
 
 final class ClassRefactor
 {

@@ -4,6 +4,7 @@ namespace Symplify\CodingStandard\Sniffs\Classes;
 
 use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Sniffs\Sniff;
+use Symplify\CodingStandard\Helper\Naming;
 use Symplify\CodingStandard\TokenWrapper\ClassWrapper;
 
 final class EqualInterfaceImplementationSniff implements Sniff
@@ -74,6 +75,10 @@ final class EqualInterfaceImplementationSniff implements Sniff
     private function shouldBeSkipped(): bool
     {
         if (! $this->implementsInterface()) {
+            return true;
+        }
+
+        if (Naming::isControllerClass($this->file, $this->position)) {
             return true;
         }
 

@@ -288,7 +288,7 @@ skip:
         - packages/CodingStandard/src/Refactorer/NetteDI/InjectToConstructorInjectionSniff.php
         - packages/ControllerAutowire/src/HttpKernel/Controller/ControllerResolver.php
         - packages/ModularRouting/src/Routing/ModularRouter.php
-        - packages/Statie/src/Renderable/Latte/DynamicStringLoader.php
+        - packages/Statie/src/Latte/DynamicStringLoader.php
         - packages/SymfonySecurityVoters/src/Adapter/Nette/Token/NetteTokenAdapter.php
         - packages/Statie/src/Configuration/Configuration.php
         - packages/ControllerAutowire/src/Controller/Security/ControllerSecurityTrait.php

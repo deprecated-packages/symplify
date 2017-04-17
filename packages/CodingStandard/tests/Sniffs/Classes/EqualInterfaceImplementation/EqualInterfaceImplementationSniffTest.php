@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Sniffs\Classes;
+namespace Symplify\CodingStandard\Tests\Sniffs\Classes\EqualInterfaceImplementation;
 
 use Symplify\CodingStandard\Sniffs\Classes\EqualInterfaceImplementationSniff;
 use Symplify\CodingStandard\Tests\Sniffs\AbstractSniffTestCase;
