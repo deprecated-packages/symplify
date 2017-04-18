@@ -39,7 +39,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Symplify\\Statie\\Tests\\": "tests",o
+            "Symplify\\Statie\\Tests\\": "tests",
             "Symplify\\Statie\\FlatWhite\\Tests\\": "packages/FlatWhite/tests"
         }
     }
