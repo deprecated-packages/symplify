@@ -4,9 +4,7 @@ namespace Symplify\Statie\DI;
 
 use Nette\DI\Compiler;
 use Nette\DI\CompilerExtension;
-use Symfony\Component\Console\Command\Command;
 use Symplify\PackageBuilder\Adapter\Nette\DI\DefinitionCollector;
-use Symplify\Statie\Console\ConsoleApplication;
 use Symplify\Statie\Contract\Renderable\Routing\Route\RouteInterface;
 use Symplify\Statie\Contract\Renderable\Routing\RouteCollectorInterface;
 use Symplify\Statie\Contract\Source\SourceFileFilter\SourceFileFilterInterface;
@@ -24,19 +22,8 @@ final class StatieCompilerExtension extends CompilerExtension
 
     public function beforeCompile(): void
     {
-        $this->loadConsoleApplicationWithCommands();
         $this->loadSourceFileStorageWithSourceFileFilters();
         $this->loadRouterDecoratorWithRoutes();
-    }
-
-    private function loadConsoleApplicationWithCommands(): void
-    {
-        DefinitionCollector::loadCollectorWithType(
-            $this->getContainerBuilder(),
-            ConsoleApplication::class,
-            Command::class,
-            'add'
-        );
     }
 
     private function loadSourceFileStorageWithSourceFileFilters(): void

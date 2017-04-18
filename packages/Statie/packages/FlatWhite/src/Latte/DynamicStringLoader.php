@@ -1,10 +1,10 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\Statie\Latte;
+namespace Symplify\Statie\FlatWhite\Latte;
 
 use Latte\ILoader;
 use RuntimeException;
-use Symplify\Statie\Contract\Latte\MutableContentLoaderInterface;
+use Symplify\Statie\FlatWhite\Contract\Latte\MutableContentLoaderInterface;
 
 /**
  * Inspired by @see \Latte\Loaders\StringLoader.

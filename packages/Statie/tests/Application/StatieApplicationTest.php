@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
 use Symplify\PackageBuilder\Adapter\Nette\GeneralContainerFactory;
 use Symplify\Statie\Application\Command\RunCommand;
 use Symplify\Statie\Application\StatieApplication;
-use Symplify\Statie\Latte\DynamicStringLoader;
+use Symplify\Statie\FlatWhite\Latte\DynamicStringLoader;
 
 final class StatieApplicationTest extends TestCase
 {
@@ -41,6 +41,7 @@ final class StatieApplicationTest extends TestCase
             __DIR__ . '/StatieApplicationSource/source',
             __DIR__ . '/StatieApplicationSource/output'
         );
+
         $this->statieApplication->runCommand($runCommand);
 
         $this->assertFileExists(__DIR__ . '/StatieApplicationSource/output/index.html');

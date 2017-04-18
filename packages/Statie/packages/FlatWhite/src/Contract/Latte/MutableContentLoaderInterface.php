@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\Statie\Contract\Latte;
+namespace Symplify\Statie\FlatWhite\Contract\Latte;
 
 interface MutableContentLoaderInterface
 {

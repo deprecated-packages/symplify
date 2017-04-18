@@ -1,8 +1,8 @@
 #!/usr/bin/env php
 <?php declare(strict_types=1);
 
+use Symfony\Component\Console\Application;
 use Symplify\PackageBuilder\Adapter\Nette\GeneralContainerFactory;
-use Symplify\Statie\Console\ConsoleApplication;
 
 // performance boost
 gc_disable();
@@ -12,6 +12,6 @@ require_once getcwd() . '/vendor/autoload.php';
 $containerFactory = new GeneralContainerFactory;
 $container = $containerFactory->createFromConfig(__DIR__ . '/../src/config/config.neon');
 
-/** @var ConsoleApplication $application */
-$application = $container->getByType(ConsoleApplication::class);
+/** @var Application $application */
+$application = $container->getByType(Application::class);
 $application->run();

@@ -1,0 +1,5 @@
+services:
+    - Symplify\Statie\FlatWhite\Latte\DynamicStringLoader
+    - Symplify\Statie\FlatWhite\Latte\LatteFactory
+    -
+         factory: [@Symplify\Statie\FlatWhite\Latte\LatteFactory, "create"]

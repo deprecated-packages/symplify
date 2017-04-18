@@ -3,7 +3,6 @@
 - Symplify\Statie\Configuration\Parser\NeonParser
 
 # console
-- Symplify\Statie\Console\ConsoleApplication
 - Symplify\Statie\Console\Command\GenerateCommand
 - Symplify\Statie\Console\Command\PushToGithubCommand
 - Symfony\Component\Console\Output\ConsoleOutput
@@ -23,12 +22,6 @@
 - Symplify\Statie\Renderable\File\FileFactory
 - Symplify\Statie\Renderable\RenderableFilesProcessor
 - ParsedownExtra
-
-# renderable - latte
-- Symplify\Statie\Latte\DynamicStringLoader
-- Symplify\Statie\Latte\LatteFactory
--
-     factory: [@Symplify\Statie\Latte\LatteFactory, "create"]
 
 # renderable - decorators
 - Symplify\Statie\Renderable\Configuration\ConfigurationDecorator
