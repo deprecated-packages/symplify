@@ -12,7 +12,7 @@ use Symplify\Statie\FlatWhite\Contract\Latte\MutableContentLoaderInterface;
 final class DynamicStringLoader implements ILoader, MutableContentLoaderInterface
 {
     /**
-     * @var array [name => content]
+     * @var string[]
      */
     private $templates = [];
 
