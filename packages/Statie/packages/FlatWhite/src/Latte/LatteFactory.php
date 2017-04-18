@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\Statie\Latte;
+namespace Symplify\Statie\FlatWhite\Latte;
 
 use Latte\Engine;
 use Latte\ILoader;
@@ -21,7 +21,7 @@ final class LatteFactory
     {
         $engine = new Engine;
         $engine->setLoader($this->loader);
-        $engine->setTempDirectory(sys_get_temp_dir() . '/Statie');
+        $engine->setTempDirectory(sys_get_temp_dir() . '/_flat_white_latte_factory_cache');
 
         return $engine;
     }

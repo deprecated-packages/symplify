@@ -1,9 +1,9 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\Statie\Tests\Renderable\Latte;
+namespace Symplify\Statie\FlatWhite\Tests\Latte;
 
 use PHPUnit\Framework\TestCase;
-use Symplify\Statie\Latte\DynamicStringLoader;
+use Symplify\Statie\FlatWhite\Latte\DynamicStringLoader;
 
 final class DynamicStringLoaderTest extends TestCase
 {
@@ -35,7 +35,7 @@ final class DynamicStringLoaderTest extends TestCase
         $loader = new DynamicStringLoader;
         $loader->changeContent(
             'default',
-            file_get_contents(__DIR__ . '/LatteDecoratorSource/default.latte')
+            file_get_contents(__DIR__ . '/DynamicStringLoaderSource/default.latte')
         );
 
         return $loader;

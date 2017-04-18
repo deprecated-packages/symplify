@@ -4,15 +4,15 @@ namespace Symplify\Statie\Tests\Console\Command;
 
 use Nette\Utils\FileSystem;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Input\StringInput;
 use Symfony\Component\Console\Output\NullOutput;
 use Symplify\PackageBuilder\Adapter\Nette\GeneralContainerFactory;
-use Symplify\Statie\Console\ConsoleApplication;
 
 final class GenerateCommandTest extends TestCase
 {
     /**
-     * @var ConsoleApplication
+     * @var Application
      */
     private $application;
 
@@ -22,7 +22,7 @@ final class GenerateCommandTest extends TestCase
             __DIR__ . '/../../../src/config/config.neon'
         );
 
-        $this->application = $container->getByType(ConsoleApplication::class);
+        $this->application = $container->getByType(Application::class);
         $this->application->setAutoExit(false);
     }
 

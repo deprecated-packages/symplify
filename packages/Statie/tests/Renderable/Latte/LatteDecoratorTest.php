@@ -8,7 +8,7 @@ use PHPUnit\Framework\TestCase;
 use SplFileInfo;
 use Symplify\Statie\Configuration\Configuration;
 use Symplify\Statie\Configuration\Parser\NeonParser;
-use Symplify\Statie\Latte\DynamicStringLoader;
+use Symplify\Statie\FlatWhite\Latte\DynamicStringLoader;
 use Symplify\Statie\Renderable\File\File;
 use Symplify\Statie\Renderable\Latte\LatteDecorator;
 

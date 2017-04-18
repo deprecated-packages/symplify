@@ -5,7 +5,7 @@ namespace Symplify\Statie\Renderable\Latte;
 use Latte\Engine;
 use Symplify\Statie\Configuration\Configuration;
 use Symplify\Statie\Contract\Renderable\DecoratorInterface;
-use Symplify\Statie\Latte\DynamicStringLoader;
+use Symplify\Statie\FlatWhite\Latte\DynamicStringLoader;
 use Symplify\Statie\Renderable\File\AbstractFile;
 use Symplify\Statie\Renderable\File\PostFile;
 
