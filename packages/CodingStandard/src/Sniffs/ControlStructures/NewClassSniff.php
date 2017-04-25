@@ -11,7 +11,7 @@ final class NewClassSniff implements Sniff
     /**
      * @var string
      */
-    private const ERROR_MESSAGE = 'New class statement should not have empty parentheses';
+    private const ERROR_MESSAGE = 'New class statement should not have empty parentheses.';
 
     /**
      * @var Fixer
