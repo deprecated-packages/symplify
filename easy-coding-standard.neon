@@ -27,8 +27,6 @@ checkers:
         absoluteLineLimit: 120
     - PHP_CodeSniffer\Standards\Generic\Sniffs\Files\OneClassPerFileSniff # already PSR4 fixer?
     - PHP_CodeSniffer\Standards\Generic\Sniffs\Files\OneInterfacePerFileSniff
-    - PHP_CodeSniffer\Standards\PSR2\Sniffs\Files\EndFileNewlineSniff
-    - PHP_CodeSniffer\Standards\Zend\Sniffs\Files\ClosingTagSniff
 
     # Formatting
     - PHP_CodeSniffer\Standards\Generic\Sniffs\Formatting\SpaceAfterCastSniff
@@ -290,7 +288,7 @@ parameters:
             - packages/CodingStandard/src/Refactorer/NetteDI/InjectToConstructorInjectionSniff.php
             - packages/ControllerAutowire/src/HttpKernel/Controller/ControllerResolver.php
             - packages/ModularRouting/src/Routing/ModularRouter.php
-            - packages/Statie/src/Latte/DynamicStringLoader.php
+            - packages/Statie/packages/FlatWhite/src/Latte/DynamicStringLoader.php
             - packages/SymfonySecurityVoters/src/Adapter/Nette/Token/NetteTokenAdapter.php
             - packages/Statie/src/Configuration/Configuration.php
             - packages/ControllerAutowire/src/Controller/Security/ControllerSecurityTrait.php
