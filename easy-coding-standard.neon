@@ -260,7 +260,7 @@ checkers:
 
     # new since PhpCsFixer 2.1/2.2
     - PhpCsFixer\Fixer\Phpdoc\PhpdocReturnSelfReferenceFixer
-    - PhpCsFixer\Fixer\LanguageConstruct\IsNullFixyer
+    - PhpCsFixer\Fixer\LanguageConstruct\IsNullFixer
     - PhpCsFixer\Fixer\LanguageConstruct\FunctionToConstantFixer
     - PhpCsFixer\Fixer\Basic\NonPrintableCharacterFixer
     - PhpCsFixer\Fixer\Casing\MagicConstantCasingFixer
