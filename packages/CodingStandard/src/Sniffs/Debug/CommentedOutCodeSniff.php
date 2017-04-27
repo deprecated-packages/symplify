@@ -135,6 +135,10 @@ final class CommentedOutCodeSniff implements Sniff
             $tokenContent = substr($tokenContent, 2);
         }
 
+        if (substr($tokenContent, 0, 1) === '#') {
+            $tokenContent = substr($tokenContent, 1);
+        }
+
         if (substr($tokenContent, 0, 3) === '/**') {
             $tokenContent = substr($tokenContent, 3);
         }

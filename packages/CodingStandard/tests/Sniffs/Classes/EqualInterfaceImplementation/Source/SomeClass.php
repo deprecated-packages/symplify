@@ -6,7 +6,7 @@ namespace Symplify\CodingStandard\Tests\Sniffs\Classes\EqualInterfaceImplementat
  * This class is duplicated due to autoloading.
  * Only that way we can get reflection from SomeInterface and its methods.
  */
-class SomeClass implements SomeInterface
+final class SomeClass implements SomeInterface
 {
     public function resolve(): void
     {
