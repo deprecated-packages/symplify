@@ -2,16 +2,14 @@
 
 namespace Symplify\EasyCodingStandard\Tests\Error\ErrorCollector;
 
-use PhpCsFixer\Fixer\PhpUnit\PhpUnitStrictFixer;
 use PHPUnit\Framework\TestCase;
 use SplFileInfo;
-use Symplify\EasyCodingStandard\Application\Command\RunCommandFactory;
+use Symplify\EasyCodingStandard\Application\Command\RunCommand;
 use Symplify\EasyCodingStandard\ChangedFilesDetector\Contract\ChangedFilesDetectorInterface;
-use Symplify\EasyCodingStandard\Configuration\ConfigurationOptions;
 use Symplify\EasyCodingStandard\Error\Error;
 use Symplify\EasyCodingStandard\Error\ErrorCollector;
 use Symplify\EasyCodingStandard\FixerRunner\Application\FileProcessor;
-use Symplify\PackageBuilder\Adapter\Nette\GeneralContainerFactory;
+use Symplify\EasyCodingStandard\Tests\ContainerFactoryWithCustomConfig;
 
 final class FixerRunnerTest extends TestCase
 {
@@ -25,19 +23,14 @@ final class FixerRunnerTest extends TestCase
      */
     private $fileProcessor;
 
-    /**
-     * @var RunCommandFactory
-     */
-    private $runCommandFactory;
-
     protected function setUp(): void
     {
-        $container = (new GeneralContainerFactory)->createFromConfig(
-            __DIR__ . '/../../../src/config/config.neon'
+        $container = (new ContainerFactoryWithCustomConfig)->createWithConfig(
+            __DIR__ . '/FixerRunnerSource/easy-coding-standard.neon'
         );
+
         $this->errorDataCollector = $container->getByType(ErrorCollector::class);
         $this->fileProcessor = $container->getByType(FileProcessor::class);
-        $this->runCommandFactory = $container->getByType(RunCommandFactory::class);
 
         /** @var ChangedFilesDetectorInterface $changedFilesDetector */
         $changedFilesDetector = $container->getByType(ChangedFilesDetectorInterface::class);
@@ -46,7 +39,7 @@ final class FixerRunnerTest extends TestCase
 
     public function test(): void
     {
-        $this->runApplicationWithFixer(PhpUnitStrictFixer::class);
+        $this->runFileProcessor();
 
         $this->assertSame(1, $this->errorDataCollector->getErrorCount());
         $this->assertSame(1, $this->errorDataCollector->getFixableErrorCount());
@@ -63,18 +56,15 @@ final class FixerRunnerTest extends TestCase
             'PHPUnit methods like `assertSame` should be used instead of `assertEquals`.',
             $error->getMessage()
         );
-        $this->assertSame(9, $error->getLine());
+        $this->assertSame(11, $error->getLine());
     }
 
-    private function runApplicationWithFixer(string $fixerClass): void
+    private function runFileProcessor(): void
     {
-        $runCommand = $this->runCommandFactory->create(
+        $runCommand = RunCommand::createForSourceFixerAndClearCache(
             [__DIR__ . '/ErrorCollectorSource/NotPsr2Class.php.inc'],
             false,
-            true,
-            [
-                ConfigurationOptions::CHECKERS => [$fixerClass]
-            ]
+            true
         );
 
         $fileInfo = new SplFileInfo(__DIR__ . '/ErrorCollectorSource/NotPsr2Class.php.inc');

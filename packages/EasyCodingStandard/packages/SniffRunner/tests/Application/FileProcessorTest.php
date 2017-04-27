@@ -2,15 +2,12 @@
 
 namespace Symplify\EasyCodingStandard\SniffRunner\Tests\Application;
 
-use PHPUnit\Framework\TestCase;
 use SplFileInfo;
-use Symplify\CodingStandard\Sniffs\Classes\FinalInterfaceSniff;
-use Symplify\EasyCodingStandard\Application\Command\RunCommandFactory;
-use Symplify\EasyCodingStandard\Configuration\ConfigurationOptions;
+use Symplify\EasyCodingStandard\Application\Command\RunCommand;
 use Symplify\EasyCodingStandard\SniffRunner\Application\FileProcessor;
-use Symplify\PackageBuilder\Adapter\Nette\GeneralContainerFactory;
+use Symplify\EasyCodingStandard\Tests\AbstractContainerAwareTestCase;
 
-final class FileProcessorTest extends TestCase
+final class FileProcessorTest extends AbstractContainerAwareTestCase
 {
     /**
      * @var FileProcessor
@@ -22,18 +19,9 @@ final class FileProcessorTest extends TestCase
      */
     private $initialFileContent;
 
-    /**
-     * @var RunCommandFactory
-     */
-    private $runCommandFactory;
-
     protected function setUp(): void
     {
-        $containerFactory = new GeneralContainerFactory;
-        $container = $containerFactory->createFromConfig(__DIR__ . '/../../../../src/config/config.neon');
-
-        $this->fileProcessor = $container->getByType(FileProcessor::class);
-        $this->runCommandFactory = $container->getByType(RunCommandFactory::class);
+        $this->fileProcessor = $this->container->getByType(FileProcessor::class);
         $this->initialFileContent = file_get_contents($this->getFileLocation());
     }
 
@@ -47,11 +35,7 @@ final class FileProcessorTest extends TestCase
         $fileInfo = new SplFileInfo($this->getFileLocation());
         $initialFileHash = md5_file($this->getFileLocation());
 
-        $runCommand = $this->runCommandFactory->create([__DIR__], true, true, [
-            ConfigurationOptions::CHECKERS => [
-                FinalInterfaceSniff::class
-            ]
-        ]);
+        $runCommand = RunCommand::createForSourceFixerAndClearCache([__DIR__], true, true);
 
         $this->fileProcessor->setupWithCommand($runCommand);
         $this->fileProcessor->processFile($fileInfo); // @todo: do not allow run without configuration exception?

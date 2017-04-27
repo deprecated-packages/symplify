@@ -6,19 +6,23 @@ use Nette\Utils\Strings;
 use PHP_CodeSniffer\Sniffs\Sniff;
 use PhpCsFixer\Fixer\FixerInterface;
 use Symfony\Component\Finder\Glob;
+use Symplify\EasyCodingStandard\Configuration\Contract\Parameter\ParameterProviderInterface;
+use Symplify\EasyCodingStandard\Contract\SkipperInterface;
+use Symplify\EasyCodingStandard\Validator\CheckerTypeValidator;
 
-final class Skipper
+final class Skipper implements SkipperInterface
 {
     /**
      * @var string[][]
      */
     private $skipped = [];
 
-    /**
-     * @param string[][] $skipped
-     */
-    public function setSkipped(array $skipped): void
-    {
+    public function __construct(
+        ParameterProviderInterface $parameterProvider,
+        CheckerTypeValidator $checkerTypeValidator
+    ) {
+        $skipped = $parameterProvider->provide()['skip'] ?? [];
+        $checkerTypeValidator->validate(array_keys($skipped));
         $this->skipped = $skipped;
     }
 

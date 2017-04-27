@@ -2,16 +2,17 @@
 <?php declare(strict_types=1);
 
 use Symfony\Component\Console\Application;
-use Symplify\PackageBuilder\Adapter\Nette\GeneralContainerFactory;
+use Symplify\EasyCodingStandard\DI\ContainerFactory;
 
 // performance boost
 gc_disable();
 
 require_once getcwd() . '/vendor/autoload.php';
 
+Symplify\EasyCodingStandard\SniffRunner\Legacy\LegacyCompatibilityLayer::add();
+
 // 1. build DI container
-$containerFactory = new GeneralContainerFactory;
-$container = $containerFactory->createFromConfig(__DIR__ . '/../src/config/config.neon');
+$container = (new ContainerFactory)->create();
 
 // 2. get Console Application
 /** @var Application $application */

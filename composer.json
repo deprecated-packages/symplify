@@ -41,7 +41,7 @@
         "symfony-cmf/routing-bundle": "^2.0",
         "slevomat/coding-standard": "^2.0",
         "squizlabs/php_codesniffer": "3.0.0RC4 as 2.8.1",
-        "friendsofphp/php-cs-fixer": "^2.2",
+        "friendsofphp/php-cs-fixer": "^2.3",
 
         "laravel/framework": "^5.4",
         "illuminate/container": "^5.4",
@@ -84,6 +84,7 @@
             "Symplify\\EasyCodingStandard\\": "packages/EasyCodingStandard/src",
             "Symplify\\EasyCodingStandard\\SniffRunner\\": "packages/EasyCodingStandard/packages/SniffRunner/src",
             "Symplify\\EasyCodingStandard\\ChangedFilesDetector\\": "packages/EasyCodingStandard/packages/ChangedFilesDetector/src",
+            "Symplify\\EasyCodingStandard\\Configuration\\": "packages/EasyCodingStandard/packages/Configuration/src",
             "Symplify\\EasyCodingStandard\\FixerRunner\\": "packages/EasyCodingStandard/packages/FixerRunner/src",
             "Symplify\\ModularLatteFilters\\": "packages/ModularLatteFilters/src"
         }
@@ -105,6 +106,7 @@
             "Symplify\\Tests\\": "tests",
             "Symplify\\EasyCodingStandard\\Tests\\": "packages/EasyCodingStandard/tests",
             "Symplify\\EasyCodingStandard\\SniffRunner\\Tests\\": "packages/EasyCodingStandard/packages/SniffRunner/tests",
+            "Symplify\\EasyCodingStandard\\Configuration\\Tests\\": "packages/EasyCodingStandard/packages/Configuration/tests",
             "Symplify\\EasyCodingStandard\\ChangedFilesDetector\\Tests\\": "packages/EasyCodingStandard/packages/ChangedFilesDetector/tests",
             "Symplify\\EasyCodingStandard\\FixerRunner\\Tests\\": "packages/EasyCodingStandard/packages/FixerRunner/tests",
             "Symplify\\ModularLatteFilters\\Tests\\": "packages/ModularLatteFilters/tests"

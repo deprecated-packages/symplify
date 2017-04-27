@@ -27,8 +27,6 @@ checkers:
         absoluteLineLimit: 120
     - PHP_CodeSniffer\Standards\Generic\Sniffs\Files\OneClassPerFileSniff # already PSR4 fixer?
     - PHP_CodeSniffer\Standards\Generic\Sniffs\Files\OneInterfacePerFileSniff
-    - PHP_CodeSniffer\Standards\PSR2\Sniffs\Files\EndFileNewlineSniff
-    - PHP_CodeSniffer\Standards\Zend\Sniffs\Files\ClosingTagSniff
 
     # Formatting
     - PHP_CodeSniffer\Standards\Generic\Sniffs\Formatting\SpaceAfterCastSniff
@@ -282,42 +280,52 @@ checkers:
     - Symplify\CodingStandard\Sniffs\Architecture\ForbiddenTraitSniff
     - Symplify\CodingStandard\Sniffs\Classes\EqualInterfaceImplementationSniff
 
-skip:
-    SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff:
-        - packages/EasyCodingStandard/packages/SniffRunner/src/File/File.php
-        - packages/CodingStandard/src/Sniffs/*/*Sniff.php
-        - packages/CodingStandard/src/Refactorer/NetteDI/InjectToConstructorInjectionSniff.php
-        - packages/ControllerAutowire/src/HttpKernel/Controller/ControllerResolver.php
-        - packages/ModularRouting/src/Routing/ModularRouter.php
-        - packages/Statie/packages/FlatWhite/src/Latte/DynamicStringLoader.php
-        - packages/SymfonySecurityVoters/src/Adapter/Nette/Token/NetteTokenAdapter.php
-        - packages/Statie/src/Configuration/Configuration.php
-        - packages/ControllerAutowire/src/Controller/Security/ControllerSecurityTrait.php
-        - packages/SymbioticController/src/Adapter/Nette/Application/PresenterFactory.php
-        - packages/SymbioticController/src/Adapter/Nette/Application/PresenterHelper.php
+parameters:
+    skip:
+        SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff:
+            - packages/EasyCodingStandard/packages/SniffRunner/src/File/File.php
+            - packages/CodingStandard/src/Sniffs/*/*Sniff.php
+            - packages/CodingStandard/src/Refactorer/NetteDI/InjectToConstructorInjectionSniff.php
+            - packages/ControllerAutowire/src/HttpKernel/Controller/ControllerResolver.php
+            - packages/ModularRouting/src/Routing/ModularRouter.php
+            - packages/Statie/packages/FlatWhite/src/Latte/DynamicStringLoader.php
+            - packages/SymfonySecurityVoters/src/Adapter/Nette/Token/NetteTokenAdapter.php
+            - packages/Statie/src/Configuration/Configuration.php
+            - packages/ControllerAutowire/src/Controller/Security/ControllerSecurityTrait.php
+            - packages/SymbioticController/src/Adapter/Nette/Application/PresenterFactory.php
+            - packages/SymbioticController/src/Adapter/Nette/Application/PresenterHelper.php
 
-    # anonymous class
-    PhpCsFixer\Fixer\Whitespace\NoExtraConsecutiveBlankLinesFixer:
-        - packages/CodingStandard/tests/Sniffs/SniffRunner.php
-    PhpCsFixer\Fixer\ClassNotation\NoBlankLinesAfterClassOpeningFixer:
-        - packages/CodingStandard/tests/Sniffs/SniffRunner.php
-    PhpCsFixer\Fixer\ClassNotation\MethodSeparationFixer:
-        - packages/CodingStandard/tests/Sniffs/SniffRunner.php
-    PhpCsFixer\Fixer\ClassNotation\ClassDefinitionFixer:
-        - packages/CodingStandard/tests/Sniffs/SniffRunner.php
+        # anonymous class
+        PhpCsFixer\Fixer\Whitespace\NoExtraConsecutiveBlankLinesFixer:
+            - packages/CodingStandard/tests/Sniffs/SniffRunner.php
+            - packages/EasyCodingStandard/tests/SkipperTest.php
+        PhpCsFixer\Fixer\ClassNotation\NoBlankLinesAfterClassOpeningFixer:
+            - packages/CodingStandard/tests/Sniffs/SniffRunner.php
+            - packages/EasyCodingStandard/tests/SkipperTest.php
+        PhpCsFixer\Fixer\ClassNotation\MethodSeparationFixer:
+            - packages/CodingStandard/tests/Sniffs/SniffRunner.php
+            - packages/EasyCodingStandard/tests/SkipperTest.php
+        PhpCsFixer\Fixer\ClassNotation\ClassDefinitionFixer:
+            - packages/CodingStandard/tests/Sniffs/SniffRunner.php
+            - packages/EasyCodingStandard/tests/SkipperTest.php
+        PhpCsFixer\Fixer\Basic\BracesFixer:
+            - packages/CodingStandard/tests/Sniffs/SniffRunner.php
+            - packages/EasyCodingStandard/tests/SkipperTest.php
+        Symplify\CodingStandard\Sniffs\ControlStructures\NewClassSniff:
+            - packages/EasyCodingStandard/tests/SkipperTest.php
 
-    ObjectCalisthenics\Sniffs\Files\FunctionLengthSniff:
-        - packages/EasyCodingStandard/packages/FixerRunner/src/Application/FileProcessor.php
-        - packages/SymbioticController/src/Adapter/Nette/Application/InvokablePresenterAwareApplication.php
-        - packages/SymfonyEventDispatcher/src/Adapter/Nette/DI/NetteEventListFactory.php
-        - packages/SymbioticController/src/Adapter/Nette/Routing/PresenterRoute.php
+        ObjectCalisthenics\Sniffs\Files\FunctionLengthSniff:
+            - packages/EasyCodingStandard/packages/FixerRunner/src/Application/FileProcessor.php
+            - packages/SymbioticController/src/Adapter/Nette/Application/InvokablePresenterAwareApplication.php
+            - packages/SymfonyEventDispatcher/src/Adapter/Nette/DI/NetteEventListFactory.php
+            - packages/SymbioticController/src/Adapter/Nette/Routing/PresenterRoute.php
 
-    ObjectCalisthenics\Sniffs\CodeAnalysis\OneObjectOperatorPerLineSniff:
-        - packages/SymbioticController/src/Application/InvokablePresenterAwareApplication.php
+        ObjectCalisthenics\Sniffs\CodeAnalysis\OneObjectOperatorPerLineSniff:
+            - packages/SymbioticController/src/Application/InvokablePresenterAwareApplication.php
 
-    PhpCsFixer\Fixer\ReturnNotation\SimplifiedNullReturnFixer:
-        - packages/SymbioticController/src/Adapter/Nette/Routing/PresenterRoute.php
+        PhpCsFixer\Fixer\ReturnNotation\SimplifiedNullReturnFixer:
+            - packages/SymbioticController/src/Adapter/Nette/Routing/PresenterRoute.php
 
-    Symplify\CodingStandard\Sniffs\Architecture\ForbiddenTraitSniff:
-        - packages/ControllerAutowire/src/Controller/**
-        - packages/ControllerAutowire/src/Controller/**/**
+        Symplify\CodingStandard\Sniffs\Architecture\ForbiddenTraitSniff:
+            - packages/ControllerAutowire/src/Controller/**
+            - packages/ControllerAutowire/src/Controller/**/**

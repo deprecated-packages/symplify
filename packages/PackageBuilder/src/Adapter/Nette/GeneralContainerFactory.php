@@ -13,6 +13,7 @@ final class GeneralContainerFactory
         $configurator = new Configurator;
         $configurator->setTempDirectory($this->createAndReturnTempDir($config));
         $configurator->addConfig($config);
+        $configurator->setDebugMode(true);
 
         return $configurator->createContainer();
     }

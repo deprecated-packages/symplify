@@ -6,14 +6,11 @@ use PHPUnit\Framework\TestCase;
 use SplFileInfo;
 use Symplify\CodingStandard\Sniffs\Naming\AbstractClassNameSniff;
 use Symplify\EasyCodingStandard\Application\Command\RunCommand;
-use Symplify\EasyCodingStandard\Application\Command\RunCommandFactory;
 use Symplify\EasyCodingStandard\ChangedFilesDetector\Contract\ChangedFilesDetectorInterface;
-use Symplify\EasyCodingStandard\Configuration\ConfigurationOptions;
 use Symplify\EasyCodingStandard\Error\Error;
 use Symplify\EasyCodingStandard\Error\ErrorCollector;
-use Symplify\EasyCodingStandard\Skipper;
 use Symplify\EasyCodingStandard\SniffRunner\Application\FileProcessor;
-use Symplify\PackageBuilder\Adapter\Nette\GeneralContainerFactory;
+use Symplify\EasyCodingStandard\Tests\ContainerFactoryWithCustomConfig;
 
 final class SniffRunnerTest extends TestCase
 {
@@ -23,29 +20,17 @@ final class SniffRunnerTest extends TestCase
     private $errorDataCollector;
 
     /**
-     * @var Skipper
-     */
-    private $skipper;
-
-    /**
      * @var FileProcessor
      */
     private $fileProcessor;
 
-    /**
-     * @var RunCommandFactory
-     */
-    private $runCommandFactory;
-
     protected function setUp(): void
     {
-        $container = (new GeneralContainerFactory)->createFromConfig(
-            __DIR__ . '/../../../src/config/config.neon'
+        $container = (new ContainerFactoryWithCustomConfig)->createWithConfig(
+            __DIR__ . '/SniffRunnerSource/easy-coding-standard.neon'
         );
         $this->errorDataCollector = $container->getByType(ErrorCollector::class);
         $this->fileProcessor = $container->getByType(FileProcessor::class);
-        $this->skipper = $container->getByType(Skipper::class);
-        $this->runCommandFactory = $container->getByType(RunCommandFactory::class);
 
         /** @var ChangedFilesDetectorInterface $changedFilesDetector */
         $changedFilesDetector = $container->getByType(ChangedFilesDetectorInterface::class);
@@ -54,17 +39,13 @@ final class SniffRunnerTest extends TestCase
 
     public function test(): void
     {
-        $runCommand = $this->createRunCommand();
-        $this->fileProcessor->setupWithCommand($runCommand);
-        $fileInfo = new SplFileInfo(__DIR__ . '/ErrorCollectorSource/NotPsr2Class.php.inc');
-        $this->fileProcessor->processFile($fileInfo);
+        $this->runFileProcessor();
 
         $this->assertSame(1, $this->errorDataCollector->getErrorCount());
         $this->assertSame(1, $this->errorDataCollector->getFixableErrorCount());
         $this->assertSame(0, $this->errorDataCollector->getUnfixableErrorCount());
 
         $errorMessages = $this->errorDataCollector->getAllErrors();
-
         $this->assertStringEndsWith('NotPsr2Class.php.inc', key($errorMessages));
 
         /** @var Error $error */
@@ -72,30 +53,21 @@ final class SniffRunnerTest extends TestCase
         $this->validateError($error);
     }
 
-    public function testSkipper(): void
+    private function runFileProcessor(): void
     {
         $runCommand = $this->createRunCommand();
 
-        $this->skipper->setSkipped([
-            __DIR__ . '/ErrorCollectorSource/NotPsr2Class.php.inc' => [AbstractClassNameSniff::class]
-        ]);
         $this->fileProcessor->setupWithCommand($runCommand);
-
-        $errorMessages = $this->errorDataCollector->getAllErrors();
-        $this->assertCount(0, $errorMessages);
+        $fileInfo = new SplFileInfo(__DIR__ . '/ErrorCollectorSource/NotPsr2Class.php.inc');
+        $this->fileProcessor->processFile($fileInfo);
     }
 
     private function createRunCommand(): RunCommand
     {
-        return $this->runCommandFactory->create(
+        return RunCommand::createForSourceFixerAndClearCache(
             [__DIR__ . '/ErrorCollectorSource/NotPsr2Class.php.inc'],
             false,
-            true,
-            [
-                ConfigurationOptions::CHECKERS => [
-                    AbstractClassNameSniff::class
-                ]
-            ]
+            true
         );
     }
 

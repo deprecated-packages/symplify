@@ -2,14 +2,11 @@
 
 namespace Symplify\EasyCodingStandard\FixerRunner\Tests\Application;
 
-use PhpCsFixer\Fixer\Strict\DeclareStrictTypesFixer;
 use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
 use Symplify\EasyCodingStandard\Application\Command\RunCommand;
-use Symplify\EasyCodingStandard\Application\Command\RunCommandFactory;
-use Symplify\EasyCodingStandard\Configuration\ConfigurationOptions;
 use Symplify\EasyCodingStandard\FixerRunner\Application\FileProcessor;
-use Symplify\PackageBuilder\Adapter\Nette\GeneralContainerFactory;
+use Symplify\EasyCodingStandard\Tests\ContainerFactoryWithCustomConfig;
 
 final class FileProcessorTest extends TestCase
 {
@@ -18,17 +15,12 @@ final class FileProcessorTest extends TestCase
      */
     private $fileProcessor;
 
-    /**
-     * @var RunCommandFactory
-     */
-    private $runCommandFactory;
-
     protected function setUp(): void
     {
-        $container = (new GeneralContainerFactory)->createFromConfig(
-            __DIR__ . '/../../../../src/config/config.neon'
+        $container = (new ContainerFactoryWithCustomConfig)->createWithConfig(
+            __DIR__ . '/FileProcessorSource/easy-coding-standard.neon'
         );
-        $this->runCommandFactory = $container->getByType(RunCommandFactory::class);
+
         $this->fileProcessor = $container->getByType(FileProcessor::class);
     }
 
@@ -42,10 +34,6 @@ final class FileProcessorTest extends TestCase
 
     private function createRunCommand(): RunCommand
     {
-        return $this->runCommandFactory->create([__DIR__], false, true, [
-            ConfigurationOptions::CHECKERS => [
-                DeclareStrictTypesFixer::class
-            ]
-        ]);
+        return RunCommand::createForSourceFixerAndClearCache([__DIR__], false, true);
     }
 }

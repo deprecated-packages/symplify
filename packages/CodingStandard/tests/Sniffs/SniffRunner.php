@@ -2,11 +2,13 @@
 
 namespace Symplify\CodingStandard\Tests\Sniffs;
 
+use PHP_CodeSniffer\Sniffs\Sniff;
+use PhpCsFixer\Fixer\FixerInterface;
 use SplFileInfo;
 use Symplify\EasyCodingStandard\ChangedFilesDetector\Contract\ChangedFilesDetectorInterface;
+use Symplify\EasyCodingStandard\Contract\SkipperInterface;
 use Symplify\EasyCodingStandard\Error\ErrorCollector;
 use Symplify\EasyCodingStandard\Error\ErrorSorter;
-use Symplify\EasyCodingStandard\Skipper;
 use Symplify\EasyCodingStandard\SniffRunner\File\File;
 use Symplify\EasyCodingStandard\SniffRunner\Fixer\Fixer;
 use Symplify\EasyCodingStandard\SniffRunner\Legacy\LegacyCompatibilityLayer;
@@ -53,7 +55,7 @@ final class SniffRunner
     {
         LegacyCompatibilityLayer::add();
 
-        $sniffDispatcher = new TokenDispatcher(new Skipper);
+        $sniffDispatcher = new TokenDispatcher(self::createSkipper());
         $sniffDispatcher->addSniffListeners([new $sniffClass]);
 
         return $sniffDispatcher;
@@ -103,6 +105,21 @@ final class SniffRunner
 
             public function clearCache(): void
             {
+            }
+        };
+    }
+
+    private static function createSkipper(): SkipperInterface
+    {
+        return new class implements SkipperInterface
+        {
+            /**
+             * @param Sniff|FixerInterface|string $checker
+             * @param string $relativeFilePath
+             */
+            public function shouldSkipCheckerAndFile($checker, string $relativeFilePath): bool
+            {
+                return false;
             }
         };
     }
