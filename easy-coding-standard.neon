@@ -19,18 +19,25 @@ checkers:
     - PHP_CodeSniffer\Standards\Squiz\Sniffs\ControlStructures\ForEachLoopDeclarationSniff
     - PHP_CodeSniffer\Standards\Squiz\Sniffs\ControlStructures\ForLoopDeclarationSniff
     - PHP_CodeSniffer\Standards\Squiz\Sniffs\ControlStructures\LowercaseDeclarationSniff
+    - Symplify\CodingStandard\Sniffs\ControlStructures\NewClassSniff
+    - SlevomatCodingStandard\Sniffs\ControlStructures\DisallowEqualOperatorsSniff
+    - SlevomatCodingStandard\Sniffs\ControlStructures\YodaComparisonSniff
+    - SlevomatCodingStandard\Sniffs\Exceptions\DeadCatchSniff
+    - SlevomatCodingStandard\Sniffs\Exceptions\ReferenceThrowableOnlySniff
 
     # Files
     - PHP_CodeSniffer\Standards\Generic\Sniffs\Files\ByteOrderMarkSniff
     PHP_CodeSniffer\Standards\Generic\Sniffs\Files\LineLengthSniff:
         lineLimit: 120
         absoluteLineLimit: 120
-    - PHP_CodeSniffer\Standards\Generic\Sniffs\Files\OneClassPerFileSniff # already PSR4 fixer?
+
+    # PSR-4
+    - PhpCsFixer\Fixer\Basic\Psr4Fixer
+    - PHP_CodeSniffer\Standards\Generic\Sniffs\Files\OneClassPerFileSniff
     - PHP_CodeSniffer\Standards\Generic\Sniffs\Files\OneInterfacePerFileSniff
 
     # Formatting
     - PHP_CodeSniffer\Standards\Generic\Sniffs\Formatting\SpaceAfterCastSniff
-
     - PHP_CodeSniffer\Standards\Generic\Sniffs\Functions\FunctionCallArgumentSpacingSniff
     - PHP_CodeSniffer\Standards\PEAR\Sniffs\Functions\ValidDefaultValueSniff
     PHP_CodeSniffer\Standards\Squiz\Sniffs\Functions\FunctionDeclarationSniff:
@@ -65,7 +72,7 @@ checkers:
     - ObjectCalisthenics\Sniffs\NamingConventions\ElementNameMinimalLengthSniff
 
     # PHP
-    - PHP_CodeSniffer\Standards\Generic\Sniffs\PHP\DisallowShortOpenTagSniff
+    - PhpCsFixer\Fixer\PhpTag\FullOpeningTagFixer
     - PHP_CodeSniffer\Standards\MySource\Sniffs\PHP\EvalObjectFactorySniff
     - PHP_CodeSniffer\Standards\MySource\Sniffs\PHP\GetRequestDataSniff
     - PHP_CodeSniffer\Standards\Squiz\Sniffs\PHP\NonExecutableCodeSniff
@@ -77,31 +84,26 @@ checkers:
     PHP_CodeSniffer\Standards\Squiz\Sniffs\WhiteSpace\SuperfluousWhitespaceSniff:
         ignoreBlankLines: false
 
-    # Symplify: Commenting
+    # Commenting
     - Symplify\CodingStandard\Sniffs\Commenting\BlockPropertyCommentSniff
     - Symplify\CodingStandard\Sniffs\Commenting\VarPropertyCommentSniff
     - Symplify\CodingStandard\Sniffs\Commenting\VarConstantCommentSniff
 
-    # Symplify: Control Structures
-    - Symplify\CodingStandard\Sniffs\ControlStructures\NewClassSniff
-
-    # Symplify: Debug and dev
+    # Debug and dev
     - Symplify\CodingStandard\Sniffs\Debug\DebugFunctionCallSniff
     - Symplify\CodingStandard\Sniffs\Debug\CommentedOutCodeSniff
 
     # Namespaces
     - Symplify\CodingStandard\Sniffs\Namespaces\ClassNamesWithoutPreSlashSniff
-
     - PhpCsFixer\Fixer\NamespaceNotation\SingleBlankLineBeforeNamespaceFixer
     - PhpCsFixer\Fixer\NamespaceNotation\BlankLineAfterNamespaceFixer
 
-    # Symplify: Naming
+    # Naming
     - Symplify\CodingStandard\Sniffs\Naming\AbstractClassNameSniff
     - Symplify\CodingStandard\Sniffs\Naming\InterfaceNameSniff
     - Symplify\CodingStandard\Sniffs\Naming\TraitNameSniff
 
     # Slevomat
-    - SlevomatCodingStandard\Sniffs\Classes\ClassConstantVisibilitySniff
     - SlevomatCodingStandard\Sniffs\Classes\UnusedPrivateElementsSniff
     SlevomatCodingStandard\Sniffs\Commenting\ForbiddenAnnotationsSniff:
         forbiddenAnnotations:
@@ -113,10 +115,7 @@ checkers:
             - @throws
             - @version
 
-    - SlevomatCodingStandard\Sniffs\ControlStructures\DisallowEqualOperatorsSniff
-    - SlevomatCodingStandard\Sniffs\ControlStructures\YodaComparisonSniff
-    - SlevomatCodingStandard\Sniffs\Exceptions\DeadCatchSniff
-    - SlevomatCodingStandard\Sniffs\Exceptions\ReferenceThrowableOnlySniff
+    # Type Hints
     - SlevomatCodingStandard\Sniffs\TypeHints\LongTypeHintsSniff
     - SlevomatCodingStandard\Sniffs\TypeHints\ParameterTypeHintSpacingSniff
     - SlevomatCodingStandard\Sniffs\TypeHints\NullableTypeForNullDefaultValueSniff
@@ -137,7 +136,6 @@ checkers:
         spacing: one
     PhpCsFixer\Fixer\ArrayNotation\ArraySyntaxFixer:
         syntax: short
-    - PhpCsFixer\Fixer\Basic\Psr4Fixer
     - PhpCsFixer\Fixer\ClassNotation\OrderedClassElementsFixer
     - PhpCsFixer\Fixer\LanguageConstruct\DirConstantFixer
     - PhpCsFixer\Fixer\CastNotation\ModernizeTypesCastingFixer
@@ -150,7 +148,6 @@ checkers:
     - PhpCsFixer\Fixer\Import\OrderedImportsFixer
     - PhpCsFixer\Fixer\LanguageConstruct\CombineConsecutiveUnsetsFixer
     - PhpCsFixer\Fixer\Strict\StrictComparisonFixer
-    - PhpCsFixer\Fixer\PhpTag\NoShortEchoTagFixer
     - PhpCsFixer\Fixer\Alias\EregToPregFixer
     - PhpCsFixer\Fixer\Phpdoc\GeneralPhpdocAnnotationRemoveFixer
 
@@ -161,13 +158,9 @@ checkers:
 
     # PSR1 (official)
     - PhpCsFixer\Fixer\Basic\EncodingFixer
-    - PhpCsFixer\Fixer\PhpTag\FullOpeningTagFixer
 
     # PSR2 (official)
-    - PhpCsFixer\Fixer\NamespaceNotation\BlankLineAfterNamespaceFixer
-    - PhpCsFixer\Fixer\ClassNotation\ClassDefinitionFixer
     - PhpCsFixer\Fixer\ControlStructure\ElseifFixer
-    - PhpCsFixer\Fixer\FunctionNotation\FunctionDeclarationFixer
     - PhpCsFixer\Fixer\FunctionNotation\FunctionDeclarationFixer
     - PhpCsFixer\Fixer\Whitespace\IndentationTypeFixer
     - PhpCsFixer\Fixer\Whitespace\LineEndingFixer
@@ -237,7 +230,6 @@ checkers:
     - PhpCsFixer\Fixer\Phpdoc\PhpdocNoEmptyReturnFixer
     - PhpCsFixer\Fixer\Phpdoc\PhpdocNoPackageFixer
     - PhpCsFixer\Fixer\Phpdoc\PhpdocNoUselessInheritdocFixer
-    - PhpCsFixer\Fixer\Phpdoc\PhpdocReturnSelfReferenceFixer
     - PhpCsFixer\Fixer\Phpdoc\PhpdocScalarFixer
     - PhpCsFixer\Fixer\Phpdoc\PhpdocSingleLineVarSpacingFixer
     - PhpCsFixer\Fixer\Phpdoc\PhpdocSummaryFixer
@@ -249,8 +241,6 @@ checkers:
     - PhpCsFixer\Fixer\FunctionNotation\ReturnTypeDeclarationFixer
     - PhpCsFixer\Fixer\ClassNotation\SelfAccessorFixer
     - PhpCsFixer\Fixer\CastNotation\ShortScalarCastFixer
-    - PhpCsFixer\Fixer\NamespaceNotation\SingleBlankLineBeforeNamespaceFixer
-    - PhpCsFixer\Fixer\ClassNotation\SingleClassElementPerStatementFixer
     - PhpCsFixer\Fixer\StringNotation\SingleQuoteFixer
     - PhpCsFixer\Fixer\Semicolon\SpaceAfterSemicolonFixer
     - PhpCsFixer\Fixer\Operator\StandardizeNotEqualsFixer
@@ -269,9 +259,8 @@ checkers:
         - method
 
     # new since PhpCsFixer 2.1/2.2
-    - PhpCsFixer\Fixer\Phpdoc\PhpdocNoUselessInheritdocFixer
     - PhpCsFixer\Fixer\Phpdoc\PhpdocReturnSelfReferenceFixer
-    - PhpCsFixer\Fixer\LanguageConstruct\IsNullFixer
+    - PhpCsFixer\Fixer\LanguageConstruct\IsNullFixyer
     - PhpCsFixer\Fixer\LanguageConstruct\FunctionToConstantFixer
     - PhpCsFixer\Fixer\Basic\NonPrintableCharacterFixer
     - PhpCsFixer\Fixer\Casing\MagicConstantCasingFixer
@@ -279,6 +268,7 @@ checkers:
     # Architecture
     - Symplify\CodingStandard\Sniffs\Architecture\ForbiddenTraitSniff
     - Symplify\CodingStandard\Sniffs\Classes\EqualInterfaceImplementationSniff
+    - Symplify\CodingStandard\Sniffs\Classes\FinalInterfaceSniff
 
 parameters:
     skip:
