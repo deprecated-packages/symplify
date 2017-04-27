@@ -16,7 +16,6 @@ git subsplit publish --heads="master" --tags=$LAST_TAG packages/ServiceDefinitio
 git subsplit publish --heads="master" --tags=$LAST_TAG packages/Statie:git@github.com:Symplify/Statie.git
 git subsplit publish --heads="master" --tags=$LAST_TAG packages/SymbioticController:git@github.com:Symplify/SymbioticController.git
 git subsplit publish --heads="master" --tags=$LAST_TAG packages/SymfonyEventDispatcher:git@github.com:Symplify/SymfonyEventDispatcher.git
-git subsplit publish --heads="master" --tags=$LAST_TAG packages/SymfonySecurityVoters:git@github.com:Symplify/SymfonySecurityVoters.git
 
 rm -rf .subsplit/
 

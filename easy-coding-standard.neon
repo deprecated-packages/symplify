@@ -279,7 +279,6 @@ parameters:
             - packages/ControllerAutowire/src/HttpKernel/Controller/ControllerResolver.php
             - packages/ModularRouting/src/Routing/ModularRouter.php
             - packages/Statie/packages/FlatWhite/src/Latte/DynamicStringLoader.php
-            - packages/SymfonySecurityVoters/src/Adapter/Nette/Token/NetteTokenAdapter.php
             - packages/Statie/src/Configuration/Configuration.php
             - packages/ControllerAutowire/src/Controller/Security/ControllerSecurityTrait.php
             - packages/SymbioticController/src/Adapter/Nette/Application/PresenterFactory.php
