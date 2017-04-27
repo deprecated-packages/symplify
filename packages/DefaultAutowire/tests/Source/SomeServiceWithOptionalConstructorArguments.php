@@ -15,7 +15,6 @@ final class SomeServiceWithOptionalConstructorArguments
     private $arg = [];
 
     /**
-     * @param SomeService $someService
      * @param mixed[] $arg
      */
     public function __construct(?SomeService $someService, array $arg = [])

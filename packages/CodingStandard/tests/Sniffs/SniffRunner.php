@@ -115,7 +115,6 @@ final class SniffRunner
         {
             /**
              * @param Sniff|FixerInterface|string $checker
-             * @param string $relativeFilePath
              */
             public function shouldSkipCheckerAndFile($checker, string $relativeFilePath): bool
             {

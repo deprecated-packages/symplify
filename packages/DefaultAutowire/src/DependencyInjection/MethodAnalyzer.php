@@ -50,9 +50,7 @@ final class MethodAnalyzer
     }
 
     /**
-     * @param ReflectionParameter $parameterReflection
      * @param mixed[] $arguments
-     * @param int $position
      */
     private function shouldSkipParameter(
         ReflectionParameter $parameterReflection,

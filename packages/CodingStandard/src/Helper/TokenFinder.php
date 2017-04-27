@@ -36,10 +36,7 @@ final class TokenFinder
     }
 
     /**
-     * @param File $file
      * @param string[] $types
-     * @param int $startPointer
-     * @param int|null $endPointer
      * @return int|bool
      */
     public static function findPreviousExcluding(

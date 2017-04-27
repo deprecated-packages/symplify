@@ -23,8 +23,6 @@ final class MissingArgumentsTypehints
 
     /**
      * @param mixed $valueWithoutType
-     * @param SomeService|null $someService
-     * @param int $value
      */
     public function __construct($valueWithoutType, ?SomeService $someService, int $value = 1)
     {

@@ -19,7 +19,6 @@ trait ControllerSerializerTrait
 
     /**
      * @param mixed $data
-     * @param int $status
      * @param string[] $headers
      * @param string[] $context
      */

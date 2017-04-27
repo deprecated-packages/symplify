@@ -29,7 +29,6 @@ final class PresenterCreatedEvent extends Event
     private $presenter;
 
     /**
-     * @param Application $application
      * @param IPresenter|callable $presenter
      */
     public function __construct(Application $application, $presenter)

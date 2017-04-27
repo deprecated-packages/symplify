@@ -45,7 +45,6 @@ final class ResourceFinder
 
     /**
      * @param mixed[] $resource
-     * @param SplFileInfo $filefileInfo
      * @return string[]
      */
     private function createResource(array $resource, SplFileInfo $filefileInfo): array

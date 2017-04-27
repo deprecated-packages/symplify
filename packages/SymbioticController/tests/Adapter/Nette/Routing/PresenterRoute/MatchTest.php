@@ -15,7 +15,6 @@ final class MatchTest extends TestCase
      * @dataProvider matchProvider()
      *
      * @param string $route
-     * @param string $url
      * @param bool $result
      * @param mixed[] $parameters
      */

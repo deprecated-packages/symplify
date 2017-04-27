@@ -65,7 +65,6 @@ final class PresenterMapper
     }
 
     /**
-     * @param string $module
      * @param string[] $mask
      */
     private function setArrayMask(string $module, array $mask): void

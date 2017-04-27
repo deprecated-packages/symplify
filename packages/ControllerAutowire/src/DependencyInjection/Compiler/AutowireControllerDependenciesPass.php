@@ -92,7 +92,6 @@ final class AutowireControllerDependenciesPass implements CompilerPassInterface
     }
 
     /**
-     * @param string $traitClass
      * @param string[] $usedTraits
      */
     private function isTraitIncluded(string $traitClass, array $usedTraits): bool
@@ -109,7 +108,6 @@ final class AutowireControllerDependenciesPass implements CompilerPassInterface
     }
 
     /**
-     * @param Definition $controllerDefinition
      * @param string[] $setterToServiceNames
      */
     private function setTraitDependencies(Definition $controllerDefinition, array $setterToServiceNames): void

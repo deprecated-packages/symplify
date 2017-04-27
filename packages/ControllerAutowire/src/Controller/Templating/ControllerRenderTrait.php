@@ -30,7 +30,6 @@ trait ControllerRenderTrait
     }
 
     /**
-     * @param string $view
      * @param mixed[] $parameters
      */
     protected function renderView(string $view, array $parameters = []): string
@@ -43,9 +42,7 @@ trait ControllerRenderTrait
     }
 
     /**
-     * @param string $view
      * @param mixed[] $parameters
-     * @param Response|null $response
      */
     protected function render(string $view, array $parameters = [], ?Response $response = null): Response
     {
@@ -61,7 +58,6 @@ trait ControllerRenderTrait
     }
 
     /**
-     * @param string $view
      * @param mixed[] $parameters
      * @param null|StreamedResponse|null $response
      */

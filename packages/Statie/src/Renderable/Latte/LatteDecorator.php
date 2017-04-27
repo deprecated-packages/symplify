@@ -76,7 +76,6 @@ final class LatteDecorator implements DecoratorInterface
     }
 
     /**
-     * @param AbstractFile $file
      * @param mixed[] $parameters
      */
     private function renderInnerPostContent(AbstractFile $file, array $parameters): void
@@ -89,7 +88,6 @@ final class LatteDecorator implements DecoratorInterface
     }
 
     /**
-     * @param AbstractFile $file
      * @param mixed[] $parameters
      */
     private function renderOuterWithLayout(AbstractFile $file, array $parameters): string
