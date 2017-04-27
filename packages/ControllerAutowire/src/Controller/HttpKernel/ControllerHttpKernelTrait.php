@@ -29,7 +29,6 @@ trait ControllerHttpKernelTrait
     }
 
     /**
-     * @param string $controller
      * @param string[] $path
      * @param string[] $query
      */

@@ -78,7 +78,6 @@ final class DefinitionAnalyzer
     }
 
     /**
-     * @param ContainerBuilder $containerBuilder
      * @param string[]|Reference[] $factory
      */
     private function createFactoryMethodReflection(ContainerBuilder $containerBuilder, array $factory): ReflectionMethod

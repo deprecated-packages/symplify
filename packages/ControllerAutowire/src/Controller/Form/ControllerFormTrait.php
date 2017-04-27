@@ -20,7 +20,6 @@ trait ControllerFormTrait
     }
 
     /**
-     * @param string $type
      * @param mixed $data
      * @param mixed[] $options
      */
@@ -39,11 +38,8 @@ trait ControllerFormTrait
     }
 
     /**
-     * @param string $name
-     * @param string $type
      * @param mixed[]|null $data
      * @param mixed[] $options
-     * @return FormBuilderInterface
      */
     protected function createNamedBuilder(
         string $name,

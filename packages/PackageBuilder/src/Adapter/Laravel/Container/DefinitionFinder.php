@@ -9,7 +9,6 @@ final class DefinitionFinder
 {
     /**
      * @param mixed[] $definitions
-     * @param string $type
      * @return mixed[]
      */
     public static function findAllByType(array $definitions, string $type): array
@@ -26,7 +25,6 @@ final class DefinitionFinder
 
     /**
      * @param mixed[] $definition
-     * @param string $type
      */
     private static function isDefinitionOfType(array $definition, string $type): bool
     {
@@ -56,8 +54,6 @@ final class DefinitionFinder
 
     /**
      * @param string[] $staticVariables
-     * @param string $name
-     * @param string $classOrInterfaceType
      */
     private static function hasVariableOfNameAndType(
         array $staticVariables,

@@ -19,9 +19,7 @@ trait ControllerRoutingTrait
     }
 
     /**
-     * @param string $route
      * @param mixed[] $parameters
-     * @param int $referenceType
      */
     protected function generateUrl(
         string $route,
@@ -37,9 +35,7 @@ trait ControllerRoutingTrait
     }
 
     /**
-     * @param string $route
      * @param mixed[] $parameters
-     * @param int $status
      */
     protected function redirectToRoute(string $route, array $parameters = [], int $status = 302): RedirectResponse
     {

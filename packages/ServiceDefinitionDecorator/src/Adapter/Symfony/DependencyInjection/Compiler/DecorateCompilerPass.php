@@ -30,9 +30,7 @@ final class DecorateCompilerPass implements CompilerPassInterface
     }
 
     /**
-     * @param Definition $definition
      * @param mixed[] $configuration
-     * @param string $type
      */
     private function processDefinition(Definition $definition, array $configuration, string $type): void
     {
@@ -47,7 +45,6 @@ final class DecorateCompilerPass implements CompilerPassInterface
 
     /**
      * @param mixed[] $configuration
-     * @param Definition $definition
      */
     private function processCalls(array $configuration, Definition $definition): void
     {
@@ -58,7 +55,6 @@ final class DecorateCompilerPass implements CompilerPassInterface
 
     /**
      * @param mixed[] $configuration
-     * @param Definition $definition
      */
     private function processTags(array $configuration, Definition $definition): void
     {
@@ -69,7 +65,6 @@ final class DecorateCompilerPass implements CompilerPassInterface
 
     /**
      * @param mixed[] $configuration
-     * @param Definition $definition
      */
     private function processAutowire(array $configuration, Definition $definition): void
     {
@@ -79,7 +74,6 @@ final class DecorateCompilerPass implements CompilerPassInterface
     }
 
     /**
-     * @param Definition $definition
      * @param string[][] $setups
      */
     private function addCalls(Definition $definition, array $setups): void
@@ -92,7 +86,6 @@ final class DecorateCompilerPass implements CompilerPassInterface
     }
 
     /**
-     * @param Definition $definition
      * @param string[][] $tags
      */
     private function addTags(Definition $definition, array $tags): void

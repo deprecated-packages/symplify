@@ -125,6 +125,7 @@ checkers:
             - @todo
             - @dataProvider
             - @expectedException
+        enableEachParameterAndReturnInspection: true
     - SlevomatCodingStandard\Sniffs\Namespaces\AlphabeticallySortedUsesSniff
     - SlevomatCodingStandard\Sniffs\Namespaces\DisallowGroupUseSniff
     - SlevomatCodingStandard\Sniffs\Namespaces\MultipleUsesPerLineSniff

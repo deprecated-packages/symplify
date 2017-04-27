@@ -29,8 +29,6 @@ final class AutoRegisterServicesCompilerPassTest extends TestCase
      *
      * @param string[] $directories
      * @param string[] $classSuffixes
-     * @param int $expectedClassType
-     * @param string $expectedClassType
      */
     public function testProcess(
         array $directories,

@@ -8,8 +8,6 @@ final class MissingArgumentsTypehintsFactory
 {
     /**
      * @param mixed $valueWithoutType
-     * @param SomeService|null $someService
-     * @param int $value
      */
     public function create(
         $valueWithoutType,

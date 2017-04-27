@@ -15,7 +15,6 @@ final class ContainerExtension extends Extension
 
     /**
      * @param mixed[] $config
-     * @param ContainerBuilder $containerBuilder
      */
     public function load(array $config, ContainerBuilder $containerBuilder): void
     {

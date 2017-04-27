@@ -14,10 +14,8 @@ final class ConstructUrlTest extends TestCase
     /**
      * @dataProvider constructUrlProvider()
      *
-     * @param string $route
      * @param mixed[] $parameters
      * @param string $baseUrl
-     * @param string $expected
      */
     public function testConstructUrl(string $route, array $parameters, string $expected): void
     {
@@ -48,7 +46,6 @@ final class ConstructUrlTest extends TestCase
     /**
      * @dataProvider failingConstructUrlProvider()
      *
-     * @param string $route
      * @param mixed[] $parameters
      */
     public function testConstructUrlFails(string $route, array $parameters): void

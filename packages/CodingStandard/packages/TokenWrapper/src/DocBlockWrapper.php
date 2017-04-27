@@ -124,7 +124,6 @@ final class DocBlockWrapper
     }
 
     /**
-     * @param int $position
      * @param mixed[] $docBlockTokens
      */
     private function cleanupSpaces(int $position, array $docBlockTokens): void
