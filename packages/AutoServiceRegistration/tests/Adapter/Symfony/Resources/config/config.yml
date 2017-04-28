@@ -1,6 +1,0 @@
-symplify_auto_service_registration:
-    directories_to_scan:
-        - %kernel.root_dir%/CompleteTestSource
-    class_suffixes_to_seek:
-        - Repository
-        - Controller
