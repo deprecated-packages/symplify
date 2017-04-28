@@ -4,7 +4,6 @@ git subsplit init git@github.com:symplify/symplify.git
 LAST_TAG=$(git tag -l  --sort=committerdate | tail -n1);
 
 # Symplify
-git subsplit publish --heads="master" --tags=$LAST_TAG packages/AutoServiceRegistration:git@github.com:Symplify/AutoServiceRegistration.git
 git subsplit publish --heads="master" --tags=$LAST_TAG packages/CodingStandard:git@github.com:Symplify/CodingStandard.git
 git subsplit publish --heads="master" --tags=$LAST_TAG packages/ControllerAutowire:git@github.com:Symplify/ControllerAutowire.git
 git subsplit publish --heads="master" --tags=$LAST_TAG packages/DefaultAutowire:git@github.com:Symplify/DefaultAutowire.git

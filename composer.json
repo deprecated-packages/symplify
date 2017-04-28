@@ -72,7 +72,6 @@
     "autoload": {
         "psr-4": {
             "PHP_CodeSniffer\\": "vendor/squizlabs/php_codesniffer/src",
-            "Symplify\\AutoServiceRegistration\\": "packages/AutoServiceRegistration/src",
             "Symplify\\CodingStandard\\": "packages/CodingStandard/src",
             "Symplify\\CodingStandard\\TokenWrapper\\": "packages/CodingStandard/packages/TokenWrapper/src",
             "Symplify\\ControllerAutowire\\": "packages/ControllerAutowire/src",
@@ -95,7 +94,6 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Symplify\\AutoServiceRegistration\\Tests\\": "packages/AutoServiceRegistration/tests",
             "Symplify\\CodingStandard\\Tests\\": "packages/CodingStandard/tests",
             "Symplify\\ControllerAutowire\\Tests\\": "packages/ControllerAutowire/tests",
             "Symplify\\DefaultAutowire\\Tests\\": "packages/DefaultAutowire/tests",
