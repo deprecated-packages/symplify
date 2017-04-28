@@ -1,3 +1,4 @@
+# Framework Bundle required parameters
 parameters:
     kernel.secret: 123
 

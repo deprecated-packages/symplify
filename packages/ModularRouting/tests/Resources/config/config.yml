@@ -3,6 +3,7 @@ framework:
     templating:
         engines: ["twig", "php"]
 
+# Framework Bundle required parameters
 parameters:
     kernel.secret: 123
 

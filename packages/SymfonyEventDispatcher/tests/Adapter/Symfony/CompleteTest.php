@@ -3,11 +3,8 @@
 namespace Symplify\SymfonyEventDispatcher\Tests\Adapter\Symfony;
 
 use PHPUnit\Framework\TestCase;
-use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\HttpKernel\Debug\TraceableEventDispatcher;
 use Symplify\SymfonyEventDispatcher\Tests\Adapter\Symfony\Event\SomeEvent;
-use Symplify\SymfonyEventDispatcher\Tests\Adapter\Symfony\EventSubscriber\SomeEventSubscriber;
 
 final class CompleteTest extends TestCase
 {
@@ -18,7 +15,7 @@ final class CompleteTest extends TestCase
 
     protected function setUp(): void
     {
-        $kernel = new AppKernel('dev', false);
+        $kernel = new AppKernel;
         $kernel->boot();
 
         $container = $kernel->getContainer();
