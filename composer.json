@@ -74,7 +74,6 @@
             "PHP_CodeSniffer\\": "vendor/squizlabs/php_codesniffer/src",
             "Symplify\\CodingStandard\\": "packages/CodingStandard/src",
             "Symplify\\CodingStandard\\TokenWrapper\\": "packages/CodingStandard/packages/TokenWrapper/src",
-            "Symplify\\ControllerAutowire\\": "packages/ControllerAutowire/src",
             "Symplify\\DefaultAutowire\\": "packages/DefaultAutowire/src",
             "Symplify\\DefaultAutoconfigure\\": "packages/DefaultAutoconfigure/src",
             "Symplify\\ModularRouting\\": "packages/ModularRouting/src",
@@ -95,7 +94,6 @@
     "autoload-dev": {
         "psr-4": {
             "Symplify\\CodingStandard\\Tests\\": "packages/CodingStandard/tests",
-            "Symplify\\ControllerAutowire\\Tests\\": "packages/ControllerAutowire/tests",
             "Symplify\\DefaultAutowire\\Tests\\": "packages/DefaultAutowire/tests",
             "Symplify\\DefaultAutoconfigure\\Tests\\": "packages/DefaultAutoconfigure/tests",
             "Symplify\\ModularRouting\\Tests\\": "packages/ModularRouting/tests",

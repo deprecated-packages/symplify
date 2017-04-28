@@ -9,13 +9,6 @@ To quick check test build status, coverage or downloads.
 [![Downloads](https://img.shields.io/packagist/dt/symplify/coding-standard.svg?style=flat-square)](https://packagist.org/packages/symplify/coding-standard)
 
 
-## Controller Autowire
-
-[![Build Status](https://img.shields.io/travis/Symplify/ControllerAutowire/master.svg?style=flat-square)](https://travis-ci.org/Symplify/ControllerAutowire)
-[![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/Symplify/ControllerAutowire.svg?style=flat-square)](https://scrutinizer-ci.com/g/Symplify/ControllerAutowire)
-[![Downloads](https://img.shields.io/packagist/dt/symplify/controller-autowire.svg?style=flat-square)](https://packagist.org/packages/symplify/controller-autowire)
-
-
 ## Default Autowire
 
 [![Build Status](https://img.shields.io/travis/Symplify/DefaultAutowire/master.svg?style=flat-square)](https://travis-ci.org/Symplify/DefaultAutowire)
