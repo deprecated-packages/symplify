@@ -29,8 +29,7 @@ decorator:
     # console
     Symfony\Component\Console\Command\Command:
         autowire: true
-        tags:
-            - { name: "console.command" }
+        tags: ["console.command"]
 
     # event subscriber
     Symfony\Component\EventDispatcher\EventSubscriberInterface:

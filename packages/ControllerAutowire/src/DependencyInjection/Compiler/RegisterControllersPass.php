@@ -52,7 +52,6 @@ final class RegisterControllersPass implements CompilerPassInterface
             if ($this->containerBuilder->has($controller)) {
                 $definition = $this->containerBuilder->getDefinition($controller);
                 $definition->setAutowired(true);
-
             } else {
                 $this->containerBuilder->autowire($controller, $controller);
             }

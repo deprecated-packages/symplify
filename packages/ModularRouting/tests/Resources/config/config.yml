@@ -1,17 +1,15 @@
 framework:
     router: { resource: "routing.yml" }
     templating:
-        engines: ['twig', 'php']
+        engines: ["twig", "php"]
 
 parameters:
     kernel.secret: 123
 
 
 services:
-    php_routes:
-        class: Symplify\ModularRouting\Tests\Routing\RouteCollectionProviderSource\PhpRouteCollectionProvider
+    Symplify\ModularRouting\Tests\Routing\RouteCollectionProviderSource\PhpRouteCollectionProvider:
         autowire: true
 
-    file_loading_routes:
-        class: Symplify\ModularRouting\Tests\Routing\AbstractRouteCollectionProviderSource\FilesRouteCollectionProvider
+    Symplify\ModularRouting\Tests\Routing\AbstractRouteCollectionProviderSource\FilesRouteCollectionProvider:
         autowire: true

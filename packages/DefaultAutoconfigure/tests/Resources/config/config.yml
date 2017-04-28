@@ -3,8 +3,5 @@ parameters:
 
 
 services:
-#    _defaults:
-#        autoconfigure: true
-
     some_command:
         class: Symplify\DefaultAutoconfigure\Tests\Source\SomeCommand

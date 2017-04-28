@@ -86,15 +86,22 @@ final class DecorateCompilerPass implements CompilerPassInterface
     }
 
     /**
-     * @param string[][] $tags
+     * @param mixed[][] $tags
      */
     private function addTags(Definition $definition, array $tags): void
     {
         foreach ($tags as $tag) {
+            if (is_string($tag)) {
+                $definition->addTag($tag);
+                break;
+            }
+
             $name = key($tag);
             if ($name === 'name') {
                 $value = reset($tag);
                 $definition->addTag($value);
+            } else {
+                $definition->addTag($name, $tag);
             }
         }
     }

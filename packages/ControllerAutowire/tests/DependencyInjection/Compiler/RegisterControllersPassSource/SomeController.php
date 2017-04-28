@@ -4,7 +4,7 @@ namespace Symplify\ControllerAutowire\Tests\DependencyInjection\Compiler\Registe
 
 class SomeController
 {
-    public function someAction()
+    public function someAction(): void
     {
     }
 }

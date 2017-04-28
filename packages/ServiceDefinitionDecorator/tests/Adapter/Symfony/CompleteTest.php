@@ -5,7 +5,7 @@ namespace Symplify\ServiceDefinitionDecorator\Tests\Adapter\Symfony;
 use Nette\Utils\Finder;
 use PHPUnit\Framework\TestCase;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
-use Symfony\Component\EventDispatcher\EventDispatcher;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symplify\ServiceDefinitionDecorator\Tests\Adapter\Symfony\Source\DummyService;
 use Symplify\ServiceDefinitionDecorator\Tests\Adapter\Symfony\Source\SomeCommand;
 
@@ -48,9 +48,9 @@ final class CompleteTest extends TestCase
         $kernel->boot();
         $container = $kernel->getContainer();
 
-        /** @var EventDispatcher $eventDispatcher */
+        /** @var EventDispatcherInterface $eventDispatcher */
         $eventDispatcher = $container->get('event_dispatcher');
-        $this->assertInstanceOf(EventDispatcher::class, $eventDispatcher);
+        $this->assertInstanceOf(EventDispatcherInterface::class, $eventDispatcher);
 
         $subscribers = $eventDispatcher->getListeners('some_event');
         $this->assertCount(1, $subscribers);
