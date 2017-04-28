@@ -1,10 +1,5 @@
 <?php declare(strict_types=1);
 
-/*
- * This file is part of Symplify
- * Copyright (c) 2017 Tomas Votruba (http://tomasvotruba.cz).
- */
-
 namespace Symplify\SymfonyEventDispatcher\Adapter\Symfony;
 
 use Symfony\Component\DependencyInjection\Compiler\PassConfig;
@@ -17,7 +12,7 @@ final class SymfonyEventDispatcherBundle extends Bundle
 {
     public function build(ContainerBuilder $containerBuilder): void
     {
-        $containerBuilder->addCompilerPass(new CollectEventSubscribersPass, PassConfig::TYPE_BEFORE_REMOVING);
+        $containerBuilder->addCompilerPass(new CollectEventSubscribersPass, PassConfig::TYPE_BEFORE_OPTIMIZATION);
     }
 
     public function getContainerExtension(): ContainerExtension

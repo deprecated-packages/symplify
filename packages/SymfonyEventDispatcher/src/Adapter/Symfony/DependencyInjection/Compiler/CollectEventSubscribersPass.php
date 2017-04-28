@@ -4,47 +4,23 @@ namespace Symplify\SymfonyEventDispatcher\Adapter\Symfony\DependencyInjection\Co
 
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Definition;
-use Symfony\Component\EventDispatcher\ContainerAwareEventDispatcher;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symplify\PackageBuilder\Adapter\Symfony\DependencyInjection\DefinitionCollector;
 use Symplify\PackageBuilder\Adapter\Symfony\DependencyInjection\DefinitionFinder;
 
 final class CollectEventSubscribersPass implements CompilerPassInterface
 {
+    /**
+     * @var string
+     */
+    private const EVENT_SUBSCRIBER_TAG = 'kernel.event_subscriber';
+
     public function process(ContainerBuilder $containerBuilder): void
     {
-        $eventDispatcherDefinition = DefinitionFinder::getByType($containerBuilder, EventDispatcherInterface::class);
-        if ($this->isContainerAwareEventDispatcherDefinition($eventDispatcherDefinition)) {
-            $this->registerToContainerAwareEventDispatcher($containerBuilder, $eventDispatcherDefinition);
-
-            return;
+        $eventSubscribers = DefinitionFinder::findAllByType($containerBuilder, EventSubscriberInterface::class);
+        foreach ($eventSubscribers as $eventSubscriber) {
+            if (! $eventSubscriber->hasTag(self::EVENT_SUBSCRIBER_TAG)) {
+                $eventSubscriber->addTag(self::EVENT_SUBSCRIBER_TAG);
+            }
         }
-
-        DefinitionCollector::loadCollectorWithType(
-            $containerBuilder,
-            EventDispatcherInterface::class,
-            EventSubscriberInterface::class,
-            'addSubscriber'
-        );
-    }
-
-    private function registerToContainerAwareEventDispatcher(
-        ContainerBuilder $containerBuilder,
-        Definition $eventDispatcherDefinition
-    ): void {
-        $subscriberDefinitions = DefinitionFinder::findAllByType($containerBuilder, EventSubscriberInterface::class);
-        foreach ($subscriberDefinitions as $name => $definition) {
-            $eventDispatcherDefinition->addMethodCall(
-                'addSubscriberService',
-                [$name, $definition->getClass()]
-            );
-        }
-    }
-
-    private function isContainerAwareEventDispatcherDefinition(Definition $definition): bool
-    {
-        return is_a($definition->getClass(), ContainerAwareEventDispatcher::class, true);
     }
 }

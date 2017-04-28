@@ -15,6 +15,7 @@
         "nette/application": "^2.4",
         "symfony/config": "^3.2",
         "symfony/console": "^3.2",
+        "symfony/framework-bundle": "^3.2",
         "symfony/http-kernel": "^3.2",
         "symfony/yaml": "^3.2",
         "tracy/tracy": "^2.4",

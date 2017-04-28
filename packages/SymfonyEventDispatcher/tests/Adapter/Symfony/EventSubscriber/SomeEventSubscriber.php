@@ -13,7 +13,7 @@ final class SomeEventSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            SomeEvent::NAME => 'changeState'
+            SomeEvent::class => 'changeState'
         ];
     }
 

@@ -1,3 +1,7 @@
+# Required to FrameworkBundle to work in tests
+parameters:
+    kernel.secret: 123
+
+
 services:
-    some.event_subscriber:
-        class: Symplify\SymfonyEventDispatcher\Tests\Adapter\Symfony\EventSubscriber\SomeEventSubscriber
+    Symplify\SymfonyEventDispatcher\Tests\Adapter\Symfony\EventSubscriber\SomeEventSubscriber: ~

@@ -3,8 +3,11 @@
 namespace Symplify\SymfonyEventDispatcher\Tests\Adapter\Symfony;
 
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\HttpKernel\Debug\TraceableEventDispatcher;
 use Symplify\SymfonyEventDispatcher\Tests\Adapter\Symfony\Event\SomeEvent;
+use Symplify\SymfonyEventDispatcher\Tests\Adapter\Symfony\EventSubscriber\SomeEventSubscriber;
 
 final class CompleteTest extends TestCase
 {
@@ -18,8 +21,9 @@ final class CompleteTest extends TestCase
         $kernel = new AppKernel('dev', false);
         $kernel->boot();
 
-        $this->eventDispatcher = $kernel->getContainer()
-            ->get('symplify.event_dispatcher');
+        $container = $kernel->getContainer();
+
+        $this->eventDispatcher = $container->get('event_dispatcher');
     }
 
     public function test(): void
@@ -27,7 +31,7 @@ final class CompleteTest extends TestCase
         $event = new SomeEvent;
         $this->assertSame('off', $event->getState());
 
-        $this->eventDispatcher->dispatch(SomeEvent::NAME, $event);
+        $this->eventDispatcher->dispatch(SomeEvent::class, $event);
         $this->assertSame('on', $event->getState());
     }
 }
