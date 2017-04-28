@@ -45,6 +45,8 @@ final class AutoRegisterServicesCompilerPassTest extends TestCase
         $this->autoRegisterServicesCompilerPass->process($containerBuilder);
 
         $definitions = $containerBuilder->getDefinitions();
+        unset($definitions['service_container']);
+
         $this->assertCount($expectedCount, $definitions);
 
         /** @var Definition $controllerDefinition */

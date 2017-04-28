@@ -4,9 +4,7 @@ namespace Symplify\AutoServiceRegistration\Adapter\Symfony\DependencyInjection\C
 
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Definition;
 use Symplify\AutoServiceRegistration\Adapter\Symfony\Config\Definition\ConfigurationResolver;
-use Symplify\AutoServiceRegistration\Naming\ServiceNaming;
 use Symplify\AutoServiceRegistration\ServiceClass\ServiceClassFinder;
 
 final class AutoRegisterServicesCompilerPass implements CompilerPassInterface
@@ -46,21 +44,7 @@ final class AutoRegisterServicesCompilerPass implements CompilerPassInterface
     private function registerServicesToContainerBuilder(array $serviceClasses): void
     {
         foreach ($serviceClasses as $serviceClass) {
-            $id = ServiceNaming::createServiceIdFromClass($serviceClass);
-            if ($this->containerBuilder->hasDefinition($id)) {
-                continue;
-            }
-
-            $definition = $this->buildControllerDefinitionFromClass($serviceClass);
-            $this->containerBuilder->setDefinition($id, $definition);
+            $this->containerBuilder->autowire($serviceClass, $serviceClass);
         }
-    }
-
-    private function buildControllerDefinitionFromClass(string $class): Definition
-    {
-        $definition = new Definition($class);
-        $definition->setAutowired(true);
-
-        return $definition;
     }
 }
