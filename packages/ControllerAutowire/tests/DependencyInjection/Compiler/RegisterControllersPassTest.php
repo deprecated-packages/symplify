@@ -6,7 +6,6 @@ use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symplify\ControllerAutowire\DependencyInjection\Compiler\RegisterControllersPass;
-use Symplify\ControllerAutowire\DependencyInjection\ControllerClassMap;
 use Symplify\ControllerAutowire\HttpKernel\Controller\ControllerFinder;
 use Symplify\ControllerAutowire\SymplifyControllerAutowireBundle;
 use Symplify\ControllerAutowire\Tests\CompleteTestSource\Scan\AlreadyRegisteredController;
@@ -21,17 +20,14 @@ final class RegisterControllersPassTest extends TestCase
 
     protected function setUp(): void
     {
-        $controllerClassMap = new ControllerClassMap;
-        $controllerClassMap->addController('somecontroller', 'SomeController');
-
         $controllerFinder = new ControllerFinder;
-        $this->registerControllersPass = new RegisterControllersPass($controllerClassMap, $controllerFinder);
+        $this->registerControllersPass = new RegisterControllersPass($controllerFinder);
     }
 
     public function testProcess(): void
     {
         $containerBuilder = new ContainerBuilder;
-        $this->assertCount(0, $containerBuilder->getDefinitions());
+        $this->assertCount(1, $containerBuilder->getDefinitions());
 
         $containerBuilder->prependExtensionConfig(SymplifyControllerAutowireBundle::ALIAS, [
             'controller_dirs' => [
@@ -41,7 +37,7 @@ final class RegisterControllersPassTest extends TestCase
         $this->registerControllersPass->process($containerBuilder);
 
         $definitions = $containerBuilder->getDefinitions();
-        $this->assertCount(1, $definitions);
+        $this->assertCount(2, $definitions);
 
         /** @var Definition $controllerDefinition */
         $controllerDefinition = array_pop($definitions);
@@ -60,17 +56,12 @@ final class RegisterControllersPassTest extends TestCase
             ],
         ]);
 
-        $controllerDefinition = new Definition(SomeController::class);
-        $containerBuilder->setDefinition(
-            'symplify.controllerautowire.tests.dependencyinjection.'
-                . 'compiler.registercontrollerspasssource.somecontroller',
-            $controllerDefinition
-        );
-        $this->assertCount(1, $containerBuilder->getDefinitions());
+        $controllerDefinition = $containerBuilder->register(SomeController::class, SomeController::class);
+        $this->assertCount(2, $containerBuilder->getDefinitions());
 
         $this->registerControllersPass->process($containerBuilder);
-        $this->assertCount(1, $containerBuilder->getDefinitions());
 
+        $this->assertCount(2, $containerBuilder->getDefinitions());
         $this->assertTrue($controllerDefinition->isAutowired());
     }
 
@@ -86,15 +77,16 @@ final class RegisterControllersPassTest extends TestCase
             ],
         ]);
 
-        $controllerDefinition = new Definition(AlreadyRegisteredController::class);
-
-        $containerBuilder->setDefinition('already_registered_controller', $controllerDefinition);
-        $this->assertCount(1, $containerBuilder->getDefinitions());
+        $controllerDefinition = $containerBuilder->register(
+            AlreadyRegisteredController::class,
+            AlreadyRegisteredController::class
+        );
+        $this->assertCount(2, $containerBuilder->getDefinitions());
         $this->assertFalse($controllerDefinition->isAutowired());
 
         $this->registerControllersPass->process($containerBuilder);
 
-        $this->assertCount(3, $containerBuilder->getDefinitions());
+        $this->assertCount(4, $containerBuilder->getDefinitions());
         $this->assertTrue($controllerDefinition->isAutowired());
     }
 }

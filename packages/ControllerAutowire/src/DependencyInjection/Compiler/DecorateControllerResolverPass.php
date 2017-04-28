@@ -7,7 +7,6 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpKernel\Controller\ControllerResolverInterface;
-use Symplify\ControllerAutowire\Contract\DependencyInjection\ControllerClassMapInterface;
 use Symplify\ControllerAutowire\HttpKernel\Controller\ControllerResolver;
 
 final class DecorateControllerResolverPass implements CompilerPassInterface
@@ -17,36 +16,20 @@ final class DecorateControllerResolverPass implements CompilerPassInterface
      */
     private const DEFAULT_CONTROLLER_RESOLVER_SERVICE_NAME = 'controller_resolver';
 
-    /**
-     * @var string
-     */
-    private const SYMPLIFY_CONTROLLER_RESOLVER_SERVICE_NAME = 'symplify.controller_resolver';
-
-    /**
-     * @var ControllerClassMapInterface
-     */
-    private $controllerClassMap;
-
-    public function __construct(ControllerClassMapInterface $controllerClassMap)
-    {
-        $this->controllerClassMap = $controllerClassMap;
-    }
-
     public function process(ContainerBuilder $containerBuilder): void
     {
         $decoratedControllerResolverServiceName = $this->getCurrentControllerResolverServiceName($containerBuilder);
 
         $definition = new Definition(ControllerResolver::class, [
-            new Reference(self::SYMPLIFY_CONTROLLER_RESOLVER_SERVICE_NAME . '.inner'),
+            new Reference(ControllerResolver::class . '.inner'),
             new Reference('service_container'),
             new Reference('controller_name_converter'),
         ]);
 
         $definition->setDecoratedService($decoratedControllerResolverServiceName, null, 1);
-        $definition->addMethodCall('setControllerClassMap', [$this->controllerClassMap->getControllers()]);
         $definition->setAutowiringTypes([ControllerResolverInterface::class]);
 
-        $containerBuilder->setDefinition(self::SYMPLIFY_CONTROLLER_RESOLVER_SERVICE_NAME, $definition);
+        $containerBuilder->setDefinition(ControllerResolver::class, $definition);
     }
 
     private function getCurrentControllerResolverServiceName(ContainerBuilder $containerBuilder): string

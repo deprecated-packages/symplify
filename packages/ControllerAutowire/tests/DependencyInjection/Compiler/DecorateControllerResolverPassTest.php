@@ -5,28 +5,18 @@ namespace Symplify\ControllerAutowire\Tests\DependencyInjection\Compiler;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symplify\ControllerAutowire\DependencyInjection\Compiler\DecorateControllerResolverPass;
-use Symplify\ControllerAutowire\DependencyInjection\ControllerClassMap;
+use Symplify\ControllerAutowire\HttpKernel\Controller\ControllerResolver;
 
 final class DecorateControllerResolverPassTest extends TestCase
 {
-    /**
-     * @var ControllerClassMap
-     */
-    private $controllerClassMap;
-
-    protected function setUp(): void
-    {
-        $this->controllerClassMap = new ControllerClassMap;
-    }
-
     public function testInjectionOfOldDecoratedService(): void
     {
         $containerBuilder = new ContainerBuilder;
 
-        $resolver = new DecorateControllerResolverPass($this->controllerClassMap);
+        $resolver = new DecorateControllerResolverPass;
         $resolver->process($containerBuilder);
 
-        $definition = $containerBuilder->getDefinition('symplify.controller_resolver');
-        $this->assertSame('symplify.controller_resolver.inner', (string) $definition->getArgument(0));
+        $definition = $containerBuilder->getDefinition(ControllerResolver::class);
+        $this->assertSame(ControllerResolver::class . '.inner', (string) $definition->getArgument(0));
     }
 }

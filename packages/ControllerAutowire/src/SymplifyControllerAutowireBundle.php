@@ -7,7 +7,6 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
 use Symplify\ControllerAutowire\DependencyInjection\Compiler\AutowireControllerDependenciesPass;
 use Symplify\ControllerAutowire\DependencyInjection\Compiler\DecorateControllerResolverPass;
 use Symplify\ControllerAutowire\DependencyInjection\Compiler\RegisterControllersPass;
-use Symplify\ControllerAutowire\DependencyInjection\ControllerClassMap;
 use Symplify\ControllerAutowire\DependencyInjection\Extension\ContainerExtension;
 use Symplify\ControllerAutowire\HttpKernel\Controller\ControllerFinder;
 
@@ -20,11 +19,9 @@ final class SymplifyControllerAutowireBundle extends Bundle
 
     public function build(ContainerBuilder $containerBuilder): void
     {
-        $controllerClassMap = new ControllerClassMap;
-
-        $containerBuilder->addCompilerPass(new RegisterControllersPass($controllerClassMap, new ControllerFinder));
-        $containerBuilder->addCompilerPass(new AutowireControllerDependenciesPass($controllerClassMap));
-        $containerBuilder->addCompilerPass(new DecorateControllerResolverPass($controllerClassMap));
+        $containerBuilder->addCompilerPass(new RegisterControllersPass(new ControllerFinder));
+        $containerBuilder->addCompilerPass(new AutowireControllerDependenciesPass);
+        $containerBuilder->addCompilerPass(new DecorateControllerResolverPass);
     }
 
     public function createContainerExtension(): ContainerExtension

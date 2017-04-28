@@ -21,4 +21,8 @@ final class ContainerAwareController implements ContainerAwareInterface
     {
         return $this->container;
     }
+
+    public function someAction()
+    {
+    }
 }

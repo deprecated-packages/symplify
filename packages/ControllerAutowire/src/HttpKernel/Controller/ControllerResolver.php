@@ -7,9 +7,8 @@ use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Controller\ControllerResolverInterface;
-use Symplify\ControllerAutowire\Contract\HttpKernel\ControllerClassMapAwareInterface;
 
-final class ControllerResolver implements ControllerResolverInterface, ControllerClassMapAwareInterface
+final class ControllerResolver implements ControllerResolverInterface
 {
     /**
      * @var ControllerResolverInterface
@@ -26,11 +25,6 @@ final class ControllerResolver implements ControllerResolverInterface, Controlle
      */
     private $controllerNameParser;
 
-    /**
-     * @var string[]
-     */
-    private $controllerClassMap;
-
     public function __construct(
         ControllerResolverInterface $controllerResolver,
         ContainerInterface $container,
@@ -39,14 +33,6 @@ final class ControllerResolver implements ControllerResolverInterface, Controlle
         $this->controllerResolver = $controllerResolver;
         $this->container = $container;
         $this->controllerNameParser = $controllerNameParser;
-    }
-
-    /**
-     * @param string[] $controllerClassMap
-     */
-    public function setControllerClassMap(array $controllerClassMap): void
-    {
-        $this->controllerClassMap = array_flip($controllerClassMap);
     }
 
     /**
@@ -59,11 +45,11 @@ final class ControllerResolver implements ControllerResolverInterface, Controlle
         }
         [$class, $method] = $this->splitControllerClassAndMethod($controllerName);
 
-        if (! isset($this->controllerClassMap[$class])) {
+        if (! $this->container->has($controllerName)) {
             return $this->controllerResolver->getController($request);
         }
 
-        $controller = $this->getControllerService($class);
+        $controller = $this->container->get($class);
         $controller = $this->decorateControllerWithContainer($controller);
 
         return [$controller, $method];
@@ -80,18 +66,7 @@ final class ControllerResolver implements ControllerResolverInterface, Controlle
     }
 
     /**
-     * @return object
-     */
-    private function getControllerService(string $class)
-    {
-        $serviceName = $this->controllerClassMap[$class];
-
-        return $this->container->get($serviceName);
-    }
-
-    /**
      * @param object $controller
-     *
      * @return object
      */
     private function decorateControllerWithContainer($controller)

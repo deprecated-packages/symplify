@@ -29,7 +29,8 @@ final class CompleteTest extends TestCase
         $kernel->boot();
 
         $container = $kernel->getContainer();
-        $this->controllerResolver = $container->get('symplify.controller_resolver');
+
+        $this->controllerResolver = $container->get(ControllerResolver::class);
     }
 
     public function testMissingControllerParameter(): void
@@ -66,7 +67,9 @@ final class CompleteTest extends TestCase
 
     public function testGetAutowiredControllerWithParameter(): void
     {
-        $request = $this->createRequestWithControllerAttribute('some.controller.with_parameter:someAction');
+        $request = $this->createRequestWithControllerAttribute(
+            ControllerWithParameter::class . ':someAction'
+        );
 
         /** @var ControllerWithParameter $controller */
         $controller = $this->controllerResolver->getController($request)[0];
@@ -78,12 +81,11 @@ final class CompleteTest extends TestCase
     public function testGetControllerWithTrait(): void
     {
         $request = $this->createRequestWithControllerAttribute(
-            'symplify.controllerautowire.tests.completetestsource.scan.traitawarecontroller:someAction'
+            TraitAwareController::class . ':someAction'
         );
 
         /** @var TraitAwareController|ControllerTrait $controller */
         $controller = $this->controllerResolver->getController($request)[0];
-
         $this->assertInstanceOf(TraitAwareController::class, $controller);
 
         $httpKernel = Assert::getObjectAttribute($controller, 'httpKernel');
@@ -104,7 +106,9 @@ final class CompleteTest extends TestCase
 
     public function testGetControllerServiceRegisteredInConfig(): void
     {
-        $request = $this->createRequestWithControllerAttribute('some.controller.service:someAction');
+        $request = $this->createRequestWithControllerAttribute(
+            SomeRegisteredController::class . ':someAction'
+        );
 
         $controller = $this->controllerResolver->getController($request)[0];
         $this->assertInstanceOf(SomeRegisteredController::class, $controller);

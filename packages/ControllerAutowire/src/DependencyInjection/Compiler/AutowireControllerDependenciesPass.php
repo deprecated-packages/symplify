@@ -2,11 +2,11 @@
 
 namespace Symplify\ControllerAutowire\DependencyInjection\Compiler;
 
+use Nette\Utils\Strings;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
-use Symplify\ControllerAutowire\Contract\DependencyInjection\ControllerClassMapInterface;
 use Symplify\ControllerAutowire\Controller\ControllerTrait;
 use Symplify\ControllerAutowire\Controller\Doctrine\ControllerDoctrineTrait;
 use Symplify\ControllerAutowire\Controller\Form\ControllerFormTrait;
@@ -19,11 +19,6 @@ use Symplify\ControllerAutowire\Controller\Templating\ControllerRenderTrait;
 
 final class AutowireControllerDependenciesPass implements CompilerPassInterface
 {
-    /**
-     * @var ControllerClassMapInterface
-     */
-    private $controllerClassMap;
-
     /**
      * @var ContainerBuilder
      */
@@ -63,18 +58,16 @@ final class AutowireControllerDependenciesPass implements CompilerPassInterface
         ],
     ];
 
-    public function __construct(ControllerClassMapInterface $controllerClassMap)
-    {
-        $this->controllerClassMap = $controllerClassMap;
-    }
-
     public function process(ContainerBuilder $containerBuilder): void
     {
         $this->containerBuilder = $containerBuilder;
 
-        foreach ($this->controllerClassMap->getControllers() as $serviceId => $className) {
-            $controllerDefinition = $containerBuilder->getDefinition($serviceId);
-            $this->autowireControllerTraits($controllerDefinition);
+        foreach ($this->containerBuilder->getDefinitions() as $definition) {
+            if (! $this->isController($definition)) {
+                continue;
+            }
+
+            $this->autowireControllerTraits($definition);
         }
     }
 
@@ -119,5 +112,10 @@ final class AutowireControllerDependenciesPass implements CompilerPassInterface
 
             $controllerDefinition->addMethodCall($setter, [new Reference($serviceName)]);
         }
+    }
+
+    private function isController(Definition $definition): bool
+    {
+        return Strings::endsWith($definition->getClass(), 'Controller');
     }
 }

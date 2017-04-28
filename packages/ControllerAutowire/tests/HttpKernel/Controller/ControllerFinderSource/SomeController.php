@@ -18,4 +18,8 @@ class SomeController
     {
         return $this->someService;
     }
+
+    public function someAction()
+    {
+    }
 }
