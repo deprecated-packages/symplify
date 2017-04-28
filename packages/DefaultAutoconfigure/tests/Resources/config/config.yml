@@ -1,0 +1,10 @@
+parameters:
+    kernel.secret: 123
+
+
+services:
+#    _defaults:
+#        autoconfigure: true
+
+    some_command:
+        class: Symplify\DefaultAutoconfigure\Tests\Source\SomeCommand
