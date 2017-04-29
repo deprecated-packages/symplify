@@ -11,7 +11,6 @@ git subsplit publish --heads="master" --tags=$LAST_TAG packages/EasyCodingStanda
 git subsplit publish --heads="master" --tags=$LAST_TAG packages/ModularLatteFilters:git@github.com:Symplify/ModularLatteFilters.git
 git subsplit publish --heads="master" --tags=$LAST_TAG packages/ModularRouting:git@github.com:Symplify/ModularRouting.git
 git subsplit publish --heads="master" --tags=$LAST_TAG packages/PackageBuilder:git@github.com:Symplify/PackageBuilder.git
-git subsplit publish --heads="master" --tags=$LAST_TAG packages/ServiceDefinitionDecorator:git@github.com:Symplify/ServiceDefinitionDecorator.git
 git subsplit publish --heads="master" --tags=$LAST_TAG packages/Statie:git@github.com:Symplify/Statie.git
 git subsplit publish --heads="master" --tags=$LAST_TAG packages/SymbioticController:git@github.com:Symplify/SymbioticController.git
 git subsplit publish --heads="master" --tags=$LAST_TAG packages/SymfonyEventDispatcher:git@github.com:Symplify/SymfonyEventDispatcher.git
