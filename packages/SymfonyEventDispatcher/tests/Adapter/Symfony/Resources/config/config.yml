@@ -1,7 +1,0 @@
-# Required to FrameworkBundle to work in tests
-parameters:
-    kernel.secret: 123
-
-
-services:
-    Symplify\SymfonyEventDispatcher\Tests\Adapter\Symfony\EventSubscriber\SomeEventSubscriber: ~
