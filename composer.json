@@ -71,7 +71,6 @@
     },
     "autoload": {
         "psr-4": {
-            "PHP_CodeSniffer\\": "vendor/squizlabs/php_codesniffer/src",
             "Symplify\\CodingStandard\\": "packages/CodingStandard/src",
             "Symplify\\CodingStandard\\TokenWrapper\\": "packages/CodingStandard/packages/TokenWrapper/src",
             "Symplify\\DefaultAutowire\\": "packages/DefaultAutowire/src",
