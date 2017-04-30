@@ -77,8 +77,7 @@ final class Configuration
     }
 
     /**
-     * @param string $name
-     * @param string|string[] $value
+     * @param mixed|mixed[] $value
      */
     public function addGlobalVarialbe(string $name, $value): void
     {

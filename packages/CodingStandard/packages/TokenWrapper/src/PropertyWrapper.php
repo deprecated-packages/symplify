@@ -160,7 +160,7 @@ final class PropertyWrapper
             return false;
         }
 
-        $phpDocCommentCloseTokenPosition = (int)$phpDocCommentCloseTokenPosition;
+        $phpDocCommentCloseTokenPosition = (int) $phpDocCommentCloseTokenPosition;
         if (! $this->hasDocComment($phpDocCommentCloseTokenPosition)) {
             return false;
         }

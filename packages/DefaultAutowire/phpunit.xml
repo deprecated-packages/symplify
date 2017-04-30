@@ -11,7 +11,7 @@
     <!-- source to check coverage for -->
     <filter>
         <whitelist>
-            <directory suffix=".php">src</directory>
+            <directory>src</directory>
         </whitelist>
     </filter>
     <!-- listener to run after every single test -->

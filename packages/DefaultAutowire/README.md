@@ -11,16 +11,13 @@ It turns this:
 ```yaml
 # app/config/config.yml
 services:
-    price_calculator:
-        class: PriceCalculator
+    PriceCalculator:
         autowire: true
 
-    product_repository:
-        class: ProductRepository
+    ProductRepository:
         autowire: true
 
-    user_factory:
-        class: UserFactory
+    UserFactory:
         autowire: true
 ```
 
@@ -29,14 +26,9 @@ Into this:
 ```yaml
 # app/config/config.yml
 services:
-    price_calculator:
-        class: PriceCalculator
-
-    product_repository:
-        class: ProductRepository
-
-    user_factory:
-        class: UserFactory
+    PriceCalculator: ~
+    ProductRepository: ~
+    UserFactory: ~
 ```
 
 # Install
@@ -48,9 +40,9 @@ composer require symplify/default-autowire
 Add bundle to `AppKernel.php`:
 
 ```php
-class AppKernel extends Kernel
+final class AppKernel extends Kernel
 {
-    public function registerBundles()
+    public function registerBundles(): array
     {
         $bundles = [
             new Symplify\DefaultAutowire\SymplifyDefaultAutowireBundle(),
