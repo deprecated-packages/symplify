@@ -7,6 +7,10 @@ use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Fixer;
 use Symplify\CodingStandard\Helper\ContentFinder;
 
+/**
+ * Note: consider refactoring to PHP-CS-Fixer:
+ * https://github.com/FriendsOfPHP/PHP-CS-Fixer/blob/master/src/DocBlock/DocBlock.php.
+ */
 final class DocBlockWrapper
 {
     /**
@@ -96,6 +100,7 @@ final class DocBlockWrapper
         // remove spaces
         $this->fixer->replaceToken($this->startPosition + 1, '');
         $spacelessContent = trim($this->tokens[$this->endPosition - 1]['content']);
+        $spacelessContent = $this->processMultipleAnnotations($spacelessContent);
         $this->fixer->replaceToken($this->endPosition - 1, $spacelessContent);
 
         // indent end to indented newline
@@ -134,6 +139,25 @@ final class DocBlockWrapper
             $file = $this->file;
             $fixer = $file->fixer;
             $fixer->replaceToken($cleanupPosition, '');
+
+            if (! isset($docBlockTokens[$cleanupPosition])) {
+                break;
+            }
         }
+    }
+
+    private function processMultipleAnnotations(string $content): string
+    {
+        if (! Strings::contains($content, '@')) {
+            return $content;
+        }
+
+        $contentLines = explode('@', $content);
+        $multilineContent = trim(array_shift($contentLines));
+        foreach ($contentLines as $contentLine) {
+            $multilineContent .= PHP_EOL . '     * @' . $contentLine;
+        }
+
+        return $multilineContent;
     }
 }
