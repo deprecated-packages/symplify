@@ -277,11 +277,9 @@ parameters:
             - packages/EasyCodingStandard/packages/SniffRunner/src/File/File.php
             - packages/CodingStandard/src/Sniffs/*/*Sniff.php
             - packages/CodingStandard/src/Refactorer/NetteDI/InjectToConstructorInjectionSniff.php
-            - packages/ControllerAutowire/src/HttpKernel/Controller/ControllerResolver.php
             - packages/ModularRouting/src/Routing/ModularRouter.php
             - packages/Statie/packages/FlatWhite/src/Latte/DynamicStringLoader.php
             - packages/Statie/src/Configuration/Configuration.php
-            - packages/ControllerAutowire/src/Controller/Security/ControllerSecurityTrait.php
             - packages/SymbioticController/src/Adapter/Nette/Application/PresenterFactory.php
             - packages/SymbioticController/src/Adapter/Nette/Application/PresenterHelper.php
 
@@ -315,7 +313,3 @@ parameters:
 
         PhpCsFixer\Fixer\ReturnNotation\SimplifiedNullReturnFixer:
             - packages/SymbioticController/src/Adapter/Nette/Routing/PresenterRoute.php
-
-        Symplify\CodingStandard\Sniffs\Architecture\ForbiddenTraitSniff:
-            - packages/ControllerAutowire/src/Controller/**
-            - packages/ControllerAutowire/src/Controller/**/**

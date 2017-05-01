@@ -8,6 +8,8 @@ parameters:
         - *packages/CodingStandard/tests/**/correct*
         - *packages/CodingStandard/tests/**/wrong*
     enableUnionTypes: true
+    autoload_directories:
+        - vendor/squizlabs/php_codesniffer/src
 
 includes:
     - vendor/phpstan/phpstan-nette/extension.neon

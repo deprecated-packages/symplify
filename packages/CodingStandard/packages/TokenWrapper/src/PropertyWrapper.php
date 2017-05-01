@@ -3,7 +3,7 @@
 namespace Symplify\CodingStandard\TokenWrapper;
 
 use PHP_CodeSniffer\Files\File;
-use Symplify\CodingStandard\Helper\TokenFinder;
+use SlevomatCodingStandard\Helpers\TokenHelper;
 
 final class PropertyWrapper
 {
@@ -34,7 +34,6 @@ final class PropertyWrapper
 
     private function __construct(File $file, int $position)
     {
-        // todo: move these 4 to abstract + program against interface!
         $this->file = $file;
         $this->position = $position;
         $this->tokens = $this->file->getTokens();
@@ -67,20 +66,19 @@ final class PropertyWrapper
      */
     public function getDocBlock()
     {
-        $phpDocCommentCloseTokenPosition = $this->getDocCommentCloseTokenPosition();
-
-        if (! $this->hasDocComment($phpDocCommentCloseTokenPosition)) {
+        if (! $this->hasDocBlock()) {
             return false;
         }
 
-        $findPhpDocTagPointer = $this->file->findPrevious(
-            T_DOC_COMMENT_OPEN_TAG, $phpDocCommentCloseTokenPosition - 1
+        $docBlockClosePosition = $this->getDocCommentCloseTokenPosition();
+        $docBlockOpenPosition = $this->file->findPrevious(
+            T_DOC_COMMENT_OPEN_TAG, $docBlockClosePosition - 1
         ) + 1;
 
         return DocBlockWrapper::createFromFileAndPosition(
             $this->file,
-            $findPhpDocTagPointer - 1,
-            $phpDocCommentCloseTokenPosition
+            $docBlockOpenPosition - 1,
+            $docBlockClosePosition
         );
     }
 
@@ -97,11 +95,13 @@ final class PropertyWrapper
     public function changeAccesibilityToPrivate(): void
     {
         $accesiblityPosition = $this->getPropertyAccessibilityPosition();
-        if ($accesiblityPosition) {
-            $file = $this->file;
-            $fixer = $file->fixer;
-            $fixer->replaceToken($accesiblityPosition, 'private');
+        if ($accesiblityPosition === false) {
+            return;
         }
+
+        $file = $this->file;
+        $fixer = $file->fixer;
+        $fixer->replaceToken((int) $accesiblityPosition, 'private');
     }
 
     public function getType(): string
@@ -116,7 +116,7 @@ final class PropertyWrapper
     }
 
     /**
-     * @return int|bool
+     * @return int|false
      */
     private function getPropertyAccessibilityPosition()
     {
@@ -124,7 +124,7 @@ final class PropertyWrapper
             return $this->accessibilityPosition;
         }
 
-        $visibilityModifiedTokenPointer = TokenFinder::findPreviousEffective(
+        $visibilityModifiedTokenPointer = TokenHelper::findPreviousEffective(
             $this->file,
             $this->position - 1
         );
@@ -132,25 +132,40 @@ final class PropertyWrapper
         $visibilityModifiedToken = $this->tokens[$visibilityModifiedTokenPointer];
 
         if (in_array($visibilityModifiedToken['code'], [T_PUBLIC, T_PROTECTED, T_PRIVATE], true)) {
-            return $visibilityModifiedTokenPointer;
+            return (int) $visibilityModifiedTokenPointer;
         }
 
         return false;
     }
 
     /**
-     * @return bool|int
+     * @return false|int
      */
     private function getDocCommentCloseTokenPosition()
     {
-        $visibilityModifiedTokenPointer = TokenFinder::findPreviousEffective(
+        $visibilityModifiedTokenPointer = TokenHelper::findPreviousEffective(
             $this->file,
             $this->position - 1
         );
 
-        return TokenFinder::findPreviousExcluding(
+        return TokenHelper::findPreviousExcluding(
             $this->file, [T_WHITESPACE], $visibilityModifiedTokenPointer - 1
         );
+    }
+
+    private function hasDocBlock(): bool
+    {
+        $phpDocCommentCloseTokenPosition = $this->getDocCommentCloseTokenPosition();
+        if ($phpDocCommentCloseTokenPosition === false) {
+            return false;
+        }
+
+        $phpDocCommentCloseTokenPosition = (int) $phpDocCommentCloseTokenPosition;
+        if (! $this->hasDocComment($phpDocCommentCloseTokenPosition)) {
+            return false;
+        }
+
+        return true;
     }
 
     private function hasDocComment(int $phpDocCommentCloseTokenPosition): bool

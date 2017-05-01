@@ -4,6 +4,7 @@ namespace Symplify\CodingStandard\TokenWrapper;
 
 use Nette\Utils\Strings;
 use PHP_CodeSniffer\Files\File;
+use SlevomatCodingStandard\Helpers\TokenHelper;
 use Symplify\CodingStandard\Helper\TokenFinder;
 
 final class MethodWrapper
@@ -54,7 +55,7 @@ final class MethodWrapper
         $this->position = $position;
         $this->tokens = $file->getTokens();
 
-        $namePointer = TokenFinder::findNextEffective($file, $this->position + 1);
+        $namePointer = TokenHelper::findNextEffective($file, $this->position + 1);
         $this->methodName = $this->tokens[$namePointer]['content'];
 
         $this->methodToken = $this->tokens[$position];
@@ -97,8 +98,8 @@ final class MethodWrapper
         );
 
         $parameters = [];
-        foreach ($parameterPositions as $paramterPosition) {
-            $parameters[] = ParameterWrapper::createFromFileAndPosition($this->file, $paramterPosition);
+        foreach ($parameterPositions as $parameterPosition) {
+            $parameters[] = ParameterWrapper::createFromFileAndPosition($this->file, $parameterPosition);
         }
 
         return $this->parameters = $parameters;
@@ -115,7 +116,7 @@ final class MethodWrapper
 
     public function isPublic(): bool
     {
-        $visibilityModifiedTokenPointer = TokenFinder::findPreviousEffective(
+        $visibilityModifiedTokenPointer = TokenHelper::findPreviousEffective(
             $this->file,
             $this->position - 1
         );

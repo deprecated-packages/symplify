@@ -97,7 +97,7 @@ final class FinalInterfaceSniff implements Sniff
             return false;
         }
 
-        $seekPosition = $docCommentPosition;
+        $seekPosition = (int) $docCommentPosition;
 
         do {
             $docCommentTokenContent = $this->file->getTokens()[$docCommentPosition]['content'];

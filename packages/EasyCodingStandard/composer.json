@@ -6,8 +6,8 @@
     ],
     "require": {
         "php": "^7.1",
-        "symfony/console": "^3.2",
-        "symfony/finder": "^3.2",
+        "symfony/console": "^3.3",
+        "symfony/finder": "^3.3",
         "nette/application": "^2.4",
         "nette/bootstrap": "^2.4",
         "nette/caching": "^2.4",
@@ -33,8 +33,7 @@
             "Symplify\\EasyCodingStandard\\ChangedFilesDetector\\": "packages/ChangedFilesDetector/src",
             "Symplify\\EasyCodingStandard\\Configuration\\": "packages/Configuration/src",
             "Symplify\\EasyCodingStandard\\FixerRunner\\": "packages/FixerRunner/src",
-            "Symplify\\EasyCodingStandard\\SniffRunner\\": "packages/SniffRunner/src",
-            "PHP_CodeSniffer\\": "vendor/squizlabs/php_codesniffer/src"
+            "Symplify\\EasyCodingStandard\\SniffRunner\\": "packages/SniffRunner/src"
         }
     },
     "autoload-dev": {

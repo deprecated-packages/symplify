@@ -1,3 +1,0 @@
-services:
-    some.event_subscriber:
-        class: Symplify\SymfonyEventDispatcher\Tests\Adapter\Symfony\EventSubscriber\SomeEventSubscriber

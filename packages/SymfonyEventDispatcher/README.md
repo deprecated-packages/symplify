@@ -1,4 +1,4 @@
-# The Simplest Symfony Event Dispatcher integration to frameworks
+# The Simplest [Symfony Event Dispatcher](http://symfony.com/doc/current/components/event_dispatcher.html) integration to Nette
 
 [![Build Status](https://img.shields.io/travis/Symplify/SymfonyEventDispatcher/master.svg?style=flat-square)](https://travis-ci.org/Symplify/SymfonyEventDispatcher)
 [![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/Symplify/SymfonyEventDispatcher.svg?style=flat-square)](https://scrutinizer-ci.com/g/Symplify/SymfonyEventDispatcher)
@@ -8,10 +8,8 @@
 ## Install
 
 ```sh
-$ composer require symplify/symfony-event-dispatcher
+composer require symplify/symfony-event-dispatcher
 ```
-
-### Nette
 
 Register the extension in `config.neon`:
 
@@ -20,26 +18,6 @@ Register the extension in `config.neon`:
 
 extensions:
 	- Symplify\SymfonyEventDispatcher\Adapter\Nette\DI\SymfonyEventDispatcherExtension
-```
-
-
-### Symfony
-
-Register the Bundle to `AppKernel`:
-
-```php
-// app/AppKernel.php
-
-class AppKernel extends Kernel
-{
-    public function registerBundles() : array
-    {
-        $bundles = [
-            new Symplify\SymfonyEventDispatcher\Adapter\Symfony\SymfonyEventDispatcherBundle(), 
-            // ...
-        ];
-    }
-}
 ```
 
 
@@ -66,13 +44,13 @@ final class CheckRequestEventSubscriber implements EventSubscriberInterface
      */
     public $isUserNotified = false;
 
-    public static function getSubscribedEvents() : array
+    public static function getSubscribedEvents(): array
     {
         // in format ['event name' => 'public function name that will be called']
         return [KernelEvents::REQUEST => 'validateRequest'];
     }
 
-    public function validateRequest()
+    public function validateRequest(): void
     {
         // some logic to send notification
         $this->isUserNotified = true;
@@ -82,23 +60,11 @@ final class CheckRequestEventSubscriber implements EventSubscriberInterface
 
 ### 2. Register it to services
 
-**In Nette**
-
 ```yaml
 # app/config/config.neon
 
 services:
     - App\EventSubscriber\CheckRequestEventSubscriber
-```
-
-**In Symfony**
-
-```yaml
-# app/config/services.yml
-
-services:
-    event_subscriber.check_request:
-        class: App\EventSubscriber\CheckRequestEventSubscriber
 ```
 
 And it works :)
