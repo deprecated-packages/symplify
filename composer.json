@@ -73,8 +73,6 @@
         "psr-4": {
             "Symplify\\CodingStandard\\": "packages/CodingStandard/src",
             "Symplify\\CodingStandard\\TokenWrapper\\": "packages/CodingStandard/packages/TokenWrapper/src",
-            "Symplify\\DefaultAutowire\\": "packages/DefaultAutowire/src",
-            "Symplify\\DefaultAutoconfigure\\": "packages/DefaultAutoconfigure/src",
             "Symplify\\ModularRouting\\": "packages/ModularRouting/src",
             "Symplify\\Statie\\": "packages/Statie/src",
             "Symplify\\Statie\\FlatWhite\\": "packages/Statie/packages/FlatWhite/src",
@@ -92,8 +90,6 @@
     "autoload-dev": {
         "psr-4": {
             "Symplify\\CodingStandard\\Tests\\": "packages/CodingStandard/tests",
-            "Symplify\\DefaultAutowire\\Tests\\": "packages/DefaultAutowire/tests",
-            "Symplify\\DefaultAutoconfigure\\Tests\\": "packages/DefaultAutoconfigure/tests",
             "Symplify\\ModularRouting\\Tests\\": "packages/ModularRouting/tests",
             "Symplify\\Statie\\Tests\\": "packages/Statie/tests",
             "Symplify\\Statie\\FlatWhite\\Tests\\": "packages/Statie/packages/FlatWhite/tests",
