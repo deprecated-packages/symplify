@@ -36,6 +36,7 @@ namespace App\EventSubscriber;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\KernelEvents;
+use Symfony\Component\HttpKernel\Event\GetResponseEvent
 
 final class CheckRequestEventSubscriber implements EventSubscriberInterface
 {
@@ -50,7 +51,9 @@ final class CheckRequestEventSubscriber implements EventSubscriberInterface
         return [KernelEvents::REQUEST => 'validateRequest'];
     }
 
-    public function validateRequest(): void
+
+    // Appropriate event object is passed in arguments
+    public function validateRequest(GetResponseEvent $event): void
     {
         // some logic to send notification
         $this->isUserNotified = true;
