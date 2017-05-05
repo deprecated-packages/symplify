@@ -21,7 +21,7 @@ use Symplify\SymfonyEventDispatcher\Adapter\Nette\Event\ApplicationResponseEvent
 use Symplify\SymfonyEventDispatcher\Adapter\Nette\Event\ApplicationShutdownEvent;
 use Symplify\SymfonyEventDispatcher\Adapter\Nette\Event\ApplicationStartupEvent;
 use Symplify\SymfonyEventDispatcher\Adapter\Nette\Event\PresenterCreatedEvent;
-use Symplify\SymfonyEventDispatcher\Adapter\Nette\Event\RequestRecievedEvent;
+use Symplify\SymfonyEventDispatcher\Adapter\Nette\Event\RequestReceivedEvent;
 use Throwable;
 
 final class InvokablePresenterAwareApplication extends Application
@@ -93,7 +93,7 @@ final class InvokablePresenterAwareApplication extends Application
 
         $this->requests[] = $request;
         $this->eventDispatcher->dispatch(
-            RequestRecievedEvent::class, new RequestRecievedEvent($this, $request)
+            RequestReceivedEvent::class, new RequestReceivedEvent($this, $request)
         );
 
         $this->ensureRequestIsValid($request);
