@@ -1,8 +1,0 @@
-# Framework Bundle required parameters
-parameters:
-    kernel.secret: 123
-
-
-services:
-    some_command:
-        class: Symplify\DefaultAutoconfigure\Tests\Source\SomeCommand
