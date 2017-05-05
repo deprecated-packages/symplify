@@ -91,7 +91,6 @@ final class SomeClass implements SomeInterface
 
 - Except for Doctrine entities, they cannot be final.
 
-
 ### Block comment should be used instead of one liner
 
 - [Commenting/BlockPropertyCommentSniff](/src/Sniffs/Commenting/BlockPropertyCommentSniff.php)
@@ -172,7 +171,6 @@ class SomeClass
     private $someProperty;
 }
 ```
-
 
 ### Controller should have max. 1 render method
 
