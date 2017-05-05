@@ -19,8 +19,6 @@ To use, check [EasyCodingStandard](/packages/EasyCodingStandard/README.md).
 
 Rules Overview...
 
-## Architecture
-
 ### [Traits are forbidden. Prefer service and constructor injection](/src/Sniffs/Architecture/ForbiddenTraitSniff.php)
 
 :x:
@@ -30,23 +28,6 @@ trait SomeTrait
 {
 }
 ```
-
-:+1:
-
-```php
-class SomeClass
-{   
-    public function __construct(SomeService $someService)
-    {
-        // ...
-    }
-}
-```
-
-### [Implementation of interface should only contain its methods](/src/Sniffs/Classes/EqualInterfaceImplementationSniff.php)
-
-
-## Class
 
 ### [Implementation of interface should only contain its methods](/src/Sniffs/Classes/EqualInterfaceImplementationSniff.php)
 
@@ -86,12 +67,57 @@ final class SomeClass implements SomeInterface
 }
 ```
 
+### [Controller should have max.1 render method.](/src/Sniffs/Classes/ControllerRenderMethodLimitSniff.php)
 
-## Controller
+:x:
 
+```php
+final class Controller
+{
+    public function defaultAction()
+    {
+    }
+    
+    public function listAction()
+    {
+    }
+}
+```
 
-@todo
+:+1:
 
+```php
+final class Controller
+{
+    public function defaultAction()
+    {
+    }
+}
+```
+
+### [Controller has to contain __invoke() method](/src/Sniffs/Classes/InvokableControllerSniff.php)
+
+:x:
+
+```php
+final class Controller
+{
+    public function defaultAction()
+    {
+    }
+}
+```
+
+:+1:
+
+```php
+final class Controller
+{
+    public function __invoke()
+    {
+    }
+}
+```
 
 ### [Non-abstract class that implements interface should be final](/src/Sniffs/Classes/FinalInterfaceSniff.php)
 
@@ -112,8 +138,6 @@ final class SomeClass implements SomeInterface
 ```
 
 - Except for Doctrine entities, they cannot be final.
-
-## Commenting
 
 ### [Block comment should be used instead of one liner](/src/Sniffs/Commenting/BlockPropertyCommentSniff.php) 
 
@@ -186,19 +210,8 @@ class SomeClass
 }
 ```
 
-## Debug
 
-### [This comment is valid code. Uncomment it or remove it.](/src/Sniffs/Debug/CommentedOutCodeSniff.php)
-
-@todo
-
-### [Debug functions should not be left in the code](/src/Sniffs/Debug/DebugFunctionCallSniff.php)
-
-@todo
-
-## Namespaces
-
-### [Class name after new/instanceof should not start with slash.](/src/Sniffs/Namespaces/ClassNamesWithoutPreSlashSniff.php)
+### [New class statement should not have empty parentheses.](/src/Sniffs/ControlStructures/NewClassSniff.php)
 
 :x:
 
@@ -213,7 +226,36 @@ $file = new File;
 $directory = new Directory([$file]);
 ```
 
-## Naming
+### [This comment is valid code. Uncomment it or remove it.](/src/Sniffs/Debug/CommentedOutCodeSniff.php)
+
+:x:
+
+```php
+// $file = new File;
+// $directory = new Diretory([$file]);
+```
+
+### [Debug functions should not be left in the code](/src/Sniffs/Debug/DebugFunctionCallSniff.php)
+
+:x:
+
+```php
+dump($value);
+```
+
+### [Class name after new/instanceof should not start with slash.](/src/Sniffs/Namespaces/ClassNamesWithoutPreSlashSniff.php)
+
+:x:
+
+```php
+$file = new \File;
+```
+ 
+:+1:
+
+```php
+$file = new File;
+```
 
 ### [Abstract class should have prefix "Abstract"](/src/Sniffs/Naming/AbstractClassNameSniff.php)
 
