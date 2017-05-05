@@ -11,7 +11,7 @@ use Symfony\Component\EventDispatcher\Event;
  *
  * @see \Nette\Application\Application::$onRequest
  */
-final class RequestRecievedEvent extends Event
+final class RequestReceivedEvent extends Event
 {
     /**
      * @var string

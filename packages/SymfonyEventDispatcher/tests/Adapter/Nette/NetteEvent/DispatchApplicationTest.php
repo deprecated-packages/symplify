@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 use Symplify\SymfonyEventDispatcher\Adapter\Nette\Event\ApplicationErrorEvent;
 use Symplify\SymfonyEventDispatcher\Adapter\Nette\Event\ApplicationStartupEvent;
 use Symplify\SymfonyEventDispatcher\Adapter\Nette\Event\PresenterCreatedEvent;
-use Symplify\SymfonyEventDispatcher\Adapter\Nette\Event\RequestRecievedEvent;
+use Symplify\SymfonyEventDispatcher\Adapter\Nette\Event\RequestReceivedEvent;
 use Symplify\SymfonyEventDispatcher\Tests\Adapter\Nette\ContainerFactory;
 
 final class DispatchApplicationTest extends TestCase
@@ -35,9 +35,9 @@ final class DispatchApplicationTest extends TestCase
     {
         $this->application->run();
 
-        /** @var RequestRecievedEvent $applicationRequestEvent */
-        $applicationRequestEvent = $this->eventStateStorage->getEventState(RequestRecievedEvent::NAME);
-        $this->assertInstanceOf(RequestRecievedEvent::class, $applicationRequestEvent);
+        /** @var RequestReceivedEvent $applicationRequestEvent */
+        $applicationRequestEvent = $this->eventStateStorage->getEventState(RequestReceivedEvent::NAME);
+        $this->assertInstanceOf(RequestReceivedEvent::class, $applicationRequestEvent);
         $this->assertInstanceOf(Application::class, $applicationRequestEvent->getApplication());
         $this->assertInstanceOf(Request::class, $applicationRequestEvent->getRequest());
     }

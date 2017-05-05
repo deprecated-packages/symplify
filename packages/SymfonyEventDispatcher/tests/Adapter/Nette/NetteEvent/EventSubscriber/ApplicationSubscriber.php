@@ -7,7 +7,7 @@ use Symplify\SymfonyEventDispatcher\Adapter\Nette\Event\ApplicationErrorEvent;
 use Symplify\SymfonyEventDispatcher\Adapter\Nette\Event\ApplicationResponseEvent;
 use Symplify\SymfonyEventDispatcher\Adapter\Nette\Event\ApplicationStartupEvent;
 use Symplify\SymfonyEventDispatcher\Adapter\Nette\Event\PresenterCreatedEvent;
-use Symplify\SymfonyEventDispatcher\Adapter\Nette\Event\RequestRecievedEvent;
+use Symplify\SymfonyEventDispatcher\Adapter\Nette\Event\RequestReceivedEvent;
 use Symplify\SymfonyEventDispatcher\Tests\Adapter\Nette\NetteEvent\EventStateStorage;
 
 final class ApplicationSubscriber implements EventSubscriberInterface
@@ -28,7 +28,7 @@ final class ApplicationSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            RequestRecievedEvent::NAME => 'onRequest',
+            RequestReceivedEvent::NAME => 'onRequest',
             ApplicationStartupEvent::NAME => 'onStartup',
             PresenterCreatedEvent::NAME => 'onPresenter',
             ApplicationErrorEvent::NAME => 'onShutdown',
@@ -37,9 +37,9 @@ final class ApplicationSubscriber implements EventSubscriberInterface
         ];
     }
 
-    public function onRequest(RequestRecievedEvent $applicationRequestEvent): void
+    public function onRequest(RequestReceivedEvent $applicationRequestEvent): void
     {
-        $this->eventStateStorage->addEventState(RequestRecievedEvent::NAME, $applicationRequestEvent);
+        $this->eventStateStorage->addEventState(RequestReceivedEvent::NAME, $applicationRequestEvent);
     }
 
     public function onStartup(ApplicationStartupEvent $applicationEvent): void

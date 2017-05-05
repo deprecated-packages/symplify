@@ -9,7 +9,7 @@ use Symplify\SymfonyEventDispatcher\Adapter\Nette\Event\ApplicationResponseEvent
 use Symplify\SymfonyEventDispatcher\Adapter\Nette\Event\ApplicationStartupEvent;
 use Symplify\SymfonyEventDispatcher\Adapter\Nette\Event\PresenterCreatedEvent;
 use Symplify\SymfonyEventDispatcher\Adapter\Nette\Event\PresenterShutdownEvent;
-use Symplify\SymfonyEventDispatcher\Adapter\Nette\Event\RequestRecievedEvent;
+use Symplify\SymfonyEventDispatcher\Adapter\Nette\Event\RequestReceivedEvent;
 
 final class NetteEventListFactory
 {
@@ -33,7 +33,7 @@ final class NetteEventListFactory
         $eventItems[] = new NetteEventItem(
             Application::class,
             'onRequest',
-            RequestRecievedEvent::class
+            RequestReceivedEvent::class
         );
         $eventItems[] = new NetteEventItem(
             Application::class,
