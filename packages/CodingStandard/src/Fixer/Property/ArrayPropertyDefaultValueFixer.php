@@ -4,7 +4,7 @@ namespace Symplify\CodingStandard\Fixer\Property;
 
 use Nette\Utils\Strings;
 use PhpCsFixer\DocBlock\DocBlock;
-use PhpCsFixer\Fixer\FixerInterface;
+use PhpCsFixer\Fixer\DefinedFixerInterface;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Tokenizer\CT;
@@ -12,20 +12,20 @@ use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
 
-final class ArrayPropertyDefaultValueFixer implements FixerInterface
+final class ArrayPropertyDefaultValueFixer implements DefinedFixerInterface
 {
-    public function isCandidate(Tokens $tokens): bool
-    {
-        // analyze only properties with comments
-        return $tokens->isAllTokenKindsFound([T_DOC_COMMENT, T_VARIABLE]);
-    }
-
     public function getDefinition(): FixerDefinitionInterface
     {
         return new FixerDefinition(
             'Array property should have default value, to prevent undefined array issues.',
             []
         );
+    }
+
+    public function isCandidate(Tokens $tokens): bool
+    {
+        // analyze only properties with comments
+        return $tokens->isAllTokenKindsFound([T_DOC_COMMENT, T_VARIABLE]);
     }
 
     public function isRisky(): bool
