@@ -38,7 +38,7 @@ final class ArrayPropertyDefaultValueFixer extends AbstractFixer
             }
 
             // token after property is ; - its end => so no definition
-            $this->addDefaultValueForArrayProperty($semicolonSignOrArrayOpenerToken);
+            $this->addDefaultValueForArrayProperty($tokens, $semicolonSignOrArrayOpenerPosition);
         }
     }
 
@@ -70,8 +70,13 @@ final class ArrayPropertyDefaultValueFixer extends AbstractFixer
         return true;
     }
 
-    private function addDefaultValueForArrayProperty(Token $semicolonToken): void
+    private function addDefaultValueForArrayProperty(Tokens $tokens,int $semicolonPosition): void
     {
-        $semicolonToken->setContent(' = [];');
+        $tokens->insertAt($semicolonPosition, new Token(']'));
+        $tokens->insertAt($semicolonPosition, new Token('['));
+        $tokens->insertAt($semicolonPosition, new Token(' '));
+        $tokens->insertAt($semicolonPosition, new Token('='));
+        $tokens->insertAt($semicolonPosition, new Token(' '));
     }
 }
+
