@@ -44,15 +44,11 @@ final class ArrayPropertyDefaultValueFixer implements DefinedFixerInterface
                 continue;
             }
 
-            $semicolonSignOrArrayOpenerPosition = $tokens->getNextMeaningfulToken($index + 4);
-            $semicolonSignOrArrayOpenerToken = $tokens[$semicolonSignOrArrayOpenerPosition];
-            if ($semicolonSignOrArrayOpenerToken->equals('[')) {
-                // token after property equal is start of an array
-                continue;
+            $semicolonOrDefaultValuePosition = $tokens->getNextMeaningfulToken($index + 4);
+            $semicolonOrDefaultValueToken = $tokens[$semicolonOrDefaultValuePosition];
+            if ($semicolonOrDefaultValueToken->equals(';')) {
+                $this->addDefaultValueForArrayProperty($tokens, $semicolonOrDefaultValuePosition);
             }
-
-            // token after property is ; - its end => so no definition
-            $this->addDefaultValueForArrayProperty($tokens, $semicolonSignOrArrayOpenerPosition);
         }
     }
 
