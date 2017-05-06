@@ -97,7 +97,7 @@ final class ArrayPropertyDefaultValueFixer implements FixerInterface
         $tokens->insertAt($semicolonPosition, new Token([CT::T_ARRAY_SQUARE_BRACE_CLOSE, ']']));
         $tokens->insertAt($semicolonPosition, new Token([CT::T_ARRAY_SQUARE_BRACE_OPEN, '[']));
         $tokens->insertAt($semicolonPosition, new Token([T_WHITESPACE, ' ']));
-        $tokens->insertAt($semicolonPosition, new Token([T_EQUAL, '=']));
+        $tokens->insertAt($semicolonPosition, new Token('='));
         $tokens->insertAt($semicolonPosition, new Token([T_WHITESPACE, ' ']));
     }
 }
