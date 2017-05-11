@@ -19,7 +19,7 @@ final class ClassMetrics
     /**
      * @var mixed[]
      */
-    private $tokens;
+    private $tokens = [];
 
     public function __construct(File $file, int $classPosition)
     {

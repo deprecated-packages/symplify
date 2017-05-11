@@ -27,12 +27,12 @@ final class MethodWrapper
     /**
      * @var ParameterWrapper[]
      */
-    private $parameters;
+    private $parameters = [];
 
     /**
      * @var mixed[]
      */
-    private $methodToken;
+    private $methodToken = [];
 
     /**
      * @var int
@@ -47,7 +47,7 @@ final class MethodWrapper
     /**
      * @var mixed[]
      */
-    private $tokens;
+    private $tokens = [];
 
     private function __construct(File $file, int $position)
     {

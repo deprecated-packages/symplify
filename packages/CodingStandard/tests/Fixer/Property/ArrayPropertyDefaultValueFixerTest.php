@@ -16,7 +16,7 @@ final class ArrayPropertyDefaultValueFixerTest extends AbstractFixerTestCase
     /**
      * @dataProvider provideFixCases()
      */
-    public function testFix(string $expected, string $input)
+    public function testFix(string $expected, string $input): void
     {
         $this->doTest($expected, $input);
     }
@@ -28,24 +28,12 @@ final class ArrayPropertyDefaultValueFixerTest extends AbstractFixerTestCase
     {
         return [
             [
-                '<?php
-
-                class SomeClass
-                {
-                    /**
-                     * @var int[]
-                     */
-                    public $property = [];
-                }',
-                '<?php
-
-                class SomeClass
-                {
-                    /**
-                     * @var int[]
-                     */
-                    public $property;
-                }',
+                file_get_contents(__DIR__ . '/fixed/fixed.php.inc'),
+                file_get_contents(__DIR__ . '/wrong/wrong.php.inc')
+            ],
+            [
+                file_get_contents(__DIR__ . '/fixed/fixed2.php.inc'),
+                file_get_contents(__DIR__ . '/wrong/wrong2.php.inc')
             ]
         ];
     }

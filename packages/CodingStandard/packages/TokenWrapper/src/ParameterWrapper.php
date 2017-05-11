@@ -19,7 +19,7 @@ final class ParameterWrapper
     /**
      * @var mixed[]
      */
-    private $tokens;
+    private $tokens = [];
 
     private function __construct(File $file, int $position)
     {

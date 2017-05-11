@@ -90,6 +90,7 @@ final class ArrayPropertyDefaultValueFixer implements DefinedFixerInterface
 
     private function addDefaultValueForArrayProperty(Tokens $tokens, int $semicolonPosition): void
     {
+        // todo: prepare nicer api
         $tokens->insertAt($semicolonPosition, new Token([CT::T_ARRAY_SQUARE_BRACE_CLOSE, ']']));
         $tokens->insertAt($semicolonPosition, new Token([CT::T_ARRAY_SQUARE_BRACE_OPEN, '[']));
         $tokens->insertAt($semicolonPosition, new Token([T_WHITESPACE, ' ']));

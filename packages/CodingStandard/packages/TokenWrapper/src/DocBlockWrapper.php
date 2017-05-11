@@ -34,9 +34,9 @@ final class DocBlockWrapper
     private $indentationType = 'spaces';
 
     /**
-     * @var string[]
+     * @var mixed[]
      */
-    private $tokens;
+    private $tokens = [];
 
     /**
      * @var Fixer
