@@ -49,10 +49,3 @@ To quick check test build status, coverage or downloads.
 [![Build Status](https://img.shields.io/travis/Symplify/SymbioticController/master.svg?style=flat-square)](https://travis-ci.org/Symplify/SymbioticController)
 [![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/Symplify/SymbioticController.svg?style=flat-square)](https://scrutinizer-ci.com/g/Symplify/SymbioticController)
 [![Downloads](https://img.shields.io/packagist/dt/Symplify/symbiotic-controller.svg?style=flat-square)](https://packagist.org/packages/Symplify/symbiotic-controller)
-
-
-## Symfony Event Dispatcher
-
-[![Build Status](https://img.shields.io/travis/Symplify/SymfonyEventDispatcher/master.svg?style=flat-square)](https://travis-ci.org/Symplify/SymfonyEventDispatcher)
-[![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/Symplify/SymfonyEventDispatcher.svg?style=flat-square)](https://scrutinizer-ci.com/g/Symplify/SymfonyEventDispatcher)
-[![Downloads](https://img.shields.io/packagist/dt/symplify/symfony-event-dispatcher.svg?style=flat-square)](https://packagist.org/packages/symplify/symfony-event-dispatcher)
