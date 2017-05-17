@@ -7,6 +7,8 @@ use Contributte\EventDispatcher\Events\Application\ErrorEvent;
 use Contributte\EventDispatcher\Events\Application\PresenterEvent;
 use Contributte\EventDispatcher\Events\Application\RequestEvent;
 use Contributte\EventDispatcher\Events\Application\ResponseEvent;
+use Contributte\EventDispatcher\Events\Application\ShutdownEvent;
+use Contributte\EventDispatcher\Events\Application\StartupEvent;
 use Nette\Application\Application;
 use Nette\Application\ApplicationException;
 use Nette\Application\BadRequestException;
@@ -21,6 +23,7 @@ use Nette\Application\Responses\TextResponse;
 use Nette\Http\IRequest;
 use Nette\Http\IResponse;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symplify\SymbioticController\Adapter\Nette\Event\CallablePresenterEvent;
 use Throwable;
 
 final class InvokablePresenterAwareApplication extends Application
@@ -74,11 +77,11 @@ final class InvokablePresenterAwareApplication extends Application
     {
         try {
             $this->eventDispatcher->dispatch(
-                ApplicationEvents::ON_STARTUP, new ApplicationStartupEvent($this)
+                ApplicationEvents::ON_STARTUP, new StartupEvent($this)
             );
             $this->processRequest($this->createInitialRequest());
             $this->eventDispatcher->dispatch(
-                ApplicationEvents::ON_SHUTDOWN, new ApplicationShutdownEvent($this)
+                ApplicationEvents::ON_SHUTDOWN, new ShutdownEvent($this)
             );
         } catch (Throwable $exception) {
             $this->dispatchException($exception);
@@ -153,7 +156,7 @@ final class InvokablePresenterAwareApplication extends Application
     private function dispatchApplicationResponseEvent(): void
     {
         $this->eventDispatcher->dispatch(
-            ApplicationEvents::ON_PRESENTER, new PresenterEvent($this, $this->presenter)
+            ApplicationEvents::ON_PRESENTER, new CallablePresenterEvent($this, $this->presenter)
         );
     }
 
