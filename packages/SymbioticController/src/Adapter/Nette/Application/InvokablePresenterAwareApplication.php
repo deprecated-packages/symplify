@@ -4,7 +4,6 @@ namespace Symplify\SymbioticController\Adapter\Nette\Application;
 
 use Contributte\EventDispatcher\Events\Application\ApplicationEvents;
 use Contributte\EventDispatcher\Events\Application\ErrorEvent;
-use Contributte\EventDispatcher\Events\Application\PresenterEvent;
 use Contributte\EventDispatcher\Events\Application\RequestEvent;
 use Contributte\EventDispatcher\Events\Application\ResponseEvent;
 use Contributte\EventDispatcher\Events\Application\ShutdownEvent;
