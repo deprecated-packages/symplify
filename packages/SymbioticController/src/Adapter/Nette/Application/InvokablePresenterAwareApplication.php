@@ -107,7 +107,9 @@ final class InvokablePresenterAwareApplication extends Application
                 : new BadRequestException($exception->getMessage(), 0, $exception);
         }
 
-        $this->dispatchApplicationResponseEvent();
+        $this->eventDispatcher->dispatch(
+            ApplicationEvents::ON_PRESENTER, new CallablePresenterEvent($this, $this->presenter)
+        );
 
         $response = $this->processPresenterWithRequestAndReturnResponse($request);
 
@@ -147,30 +149,14 @@ final class InvokablePresenterAwareApplication extends Application
                 $this->dispatchApplicationException($exception);
             }
         }
-        $this->dispatchApplicationShutdownException($exception);
+        $this->eventDispatcher->dispatch(ApplicationEvents::ON_SHUTDOWN, new ShutdownEvent($this, $exception));
 
         throw $exception;
     }
 
-    private function dispatchApplicationResponseEvent(): void
-    {
-        $this->eventDispatcher->dispatch(
-            ApplicationEvents::ON_PRESENTER, new CallablePresenterEvent($this, $this->presenter)
-        );
-    }
-
     private function dispatchApplicationException(Throwable $exception): void
     {
-        $this->eventDispatcher->dispatch(
-            ApplicationEvents::ON_ERROR, new ErrorEvent($this, $exception)
-        );
-    }
-
-    private function dispatchApplicationShutdownException(Throwable $exception): void
-    {
-        $this->eventDispatcher->dispatch(
-            ApplicationEvents::ON_SHUTDOWN, new ShutdownEvent($this, $exception)
-        );
+        $this->eventDispatcher->dispatch(ApplicationEvents::ON_ERROR, new ErrorEvent($this, $exception));
     }
 
     private function processPresenterWithRequestAndReturnResponse(Request $request): ApplicationResponse
