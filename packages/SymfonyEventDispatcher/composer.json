@@ -1,6 +1,7 @@
 {
     "name": "symplify/symfony-event-dispatcher",
     "description": "Symfony\\EventDispatcher integration to Nette.",
+    "license": "MIT",
     "require": {
         "php": "^7.1",
         "nette/di": "^2.4",

@@ -1,5 +1,6 @@
 {
     "name": "symplify/symbiotic-controller",
+    "license": "MIT",
     "require": {
         "php": "^7.1",
         "nette/di": "^2.4",

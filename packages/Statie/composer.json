@@ -1,6 +1,7 @@
 {
     "name": "symplify/statie",
     "description": "Static Site Generator",
+    "license": "MIT",
     "bin": [
         "bin/statie"
     ],

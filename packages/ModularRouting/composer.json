@@ -1,6 +1,7 @@
 {
     "name": "symplify/modular-routing",
     "description": "Load your Symfony routes with a simple service.",
+    "license": "MIT",
     "require": {
         "php": "^7.1",
         "symfony/config": "^3.3",

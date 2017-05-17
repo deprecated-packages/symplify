@@ -4,6 +4,7 @@ namespace Symplify\SymfonyEventDispatcher\Tests;
 
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symplify\SymfonyEventDispatcher\Adapter\Nette\Event\ApplicationResponseEvent;
 use Symplify\SymfonyEventDispatcher\Tests\Adapter\Nette\ContainerFactory;
 
 final class EventDispatcherTest extends TestCase
@@ -18,6 +19,6 @@ final class EventDispatcherTest extends TestCase
 
         /** @var EventDispatcherInterface $eventDispatcher */
         $eventDispatcher = $container->getByType(EventDispatcherInterface::class);
-        $eventDispatcher->dispatch('subscriber.event');
+        $eventDispatcher->dispatch(ApplicationResponseEvent::NAME);
     }
 }
