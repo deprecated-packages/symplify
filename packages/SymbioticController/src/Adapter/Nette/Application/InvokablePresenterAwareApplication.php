@@ -2,6 +2,11 @@
 
 namespace Symplify\SymbioticController\Adapter\Nette\Application;
 
+use Contributte\EventDispatcher\Events\Application\ApplicationEvents;
+use Contributte\EventDispatcher\Events\Application\ErrorEvent;
+use Contributte\EventDispatcher\Events\Application\PresenterEvent;
+use Contributte\EventDispatcher\Events\Application\RequestEvent;
+use Contributte\EventDispatcher\Events\Application\ResponseEvent;
 use Nette\Application\Application;
 use Nette\Application\ApplicationException;
 use Nette\Application\BadRequestException;
@@ -16,12 +21,6 @@ use Nette\Application\Responses\TextResponse;
 use Nette\Http\IRequest;
 use Nette\Http\IResponse;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symplify\SymfonyEventDispatcher\Adapter\Nette\Event\ApplicationErrorEvent;
-use Symplify\SymfonyEventDispatcher\Adapter\Nette\Event\ApplicationResponseEvent;
-use Symplify\SymfonyEventDispatcher\Adapter\Nette\Event\ApplicationShutdownEvent;
-use Symplify\SymfonyEventDispatcher\Adapter\Nette\Event\ApplicationStartupEvent;
-use Symplify\SymfonyEventDispatcher\Adapter\Nette\Event\PresenterCreatedEvent;
-use Symplify\SymfonyEventDispatcher\Adapter\Nette\Event\RequestReceivedEvent;
 use Throwable;
 
 final class InvokablePresenterAwareApplication extends Application
@@ -75,11 +74,11 @@ final class InvokablePresenterAwareApplication extends Application
     {
         try {
             $this->eventDispatcher->dispatch(
-                ApplicationStartupEvent::class, new ApplicationStartupEvent($this)
+                ApplicationEvents::ON_STARTUP, new ApplicationStartupEvent($this)
             );
             $this->processRequest($this->createInitialRequest());
             $this->eventDispatcher->dispatch(
-                ApplicationShutdownEvent::class, new ApplicationShutdownEvent($this)
+                ApplicationEvents::ON_SHUTDOWN, new ApplicationShutdownEvent($this)
             );
         } catch (Throwable $exception) {
             $this->dispatchException($exception);
@@ -93,7 +92,7 @@ final class InvokablePresenterAwareApplication extends Application
 
         $this->requests[] = $request;
         $this->eventDispatcher->dispatch(
-            RequestReceivedEvent::class, new RequestReceivedEvent($this, $request)
+            ApplicationEvents::ON_REQUEST, new RequestEvent($this, $request)
         );
 
         $this->ensureRequestIsValid($request);
@@ -116,7 +115,7 @@ final class InvokablePresenterAwareApplication extends Application
         }
 
         $this->eventDispatcher->dispatch(
-            ApplicationResponseEvent::class, new ApplicationResponseEvent($this, $response)
+            ApplicationEvents::ON_RESPONSE, new ResponseEvent($this, $response)
         );
 
         $response->send($this->httpRequest, $this->httpResponse);
@@ -138,7 +137,7 @@ final class InvokablePresenterAwareApplication extends Application
             try {
                 $this->processException($exception);
                 $this->eventDispatcher->dispatch(
-                    ApplicationShutdownEvent::class, new ApplicationShutdownEvent($this)
+                    ApplicationEvents::ON_SHUTDOWN, new ShutdownEvent($this)
                 );
 
                 return;
@@ -154,21 +153,21 @@ final class InvokablePresenterAwareApplication extends Application
     private function dispatchApplicationResponseEvent(): void
     {
         $this->eventDispatcher->dispatch(
-            PresenterCreatedEvent::class, new PresenterCreatedEvent($this, $this->presenter)
+            ApplicationEvents::ON_PRESENTER, new PresenterEvent($this, $this->presenter)
         );
     }
 
     private function dispatchApplicationException(Throwable $exception): void
     {
         $this->eventDispatcher->dispatch(
-            ApplicationErrorEvent::class, new ApplicationErrorEvent($this, $exception)
+            ApplicationEvents::ON_ERROR, new ErrorEvent($this, $exception)
         );
     }
 
     private function dispatchApplicationShutdownException(Throwable $exception): void
     {
         $this->eventDispatcher->dispatch(
-            ApplicationShutdownEvent::class, new ApplicationShutdownEvent($this, $exception)
+            ApplicationEvents::ON_ERROR, new ErrorEvent($this, $exception)
         );
     }
 

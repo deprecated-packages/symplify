@@ -22,7 +22,7 @@ composer require symplify/symbiotic-controller
 
 extensions:
     - Symplify\SymbioticController\Adapter\Nette\DI\SymbioticControllerExtension
-    - Symplify\SymfonyEventDispatcher\Adapter\Nette\DI\SymfonyEventDispatcherExtension
+    - Contributte\EventDispatcher\DI\EventDispatcherExtension
 ```
 
 

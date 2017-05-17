@@ -6,7 +6,7 @@
         "nette/di": "^2.4",
         "nette/application": "^2.4",
         "latte/latte": "^2.4",
-        "symplify/symfony-event-dispatcher": "^1.4"
+        "contributte/event-dispatcher": "^0.2"
     },
     "require-dev": {
         "nette/security": "^2.4",
