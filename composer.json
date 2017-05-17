@@ -65,9 +65,7 @@
         "symfony/framework-bundle": "3.3.0-BETA1",
         "twig/twig": "^2.2",
         "kdyby/events": "^3.0",
-        "phpstan/phpstan": "^0.6",
-        "phpstan/phpstan-nette": "^0.6",
-        "phpstan/phpstan-doctrine": "^0.6",
+        "phpstan/phpstan": "^0.7",
         "object-calisthenics/phpcs-calisthenics-rules": "v3.0.0-RC3",
         "roave/security-advisories": "dev-master"
     },
