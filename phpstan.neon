@@ -1,9 +1,13 @@
 parameters:
     ignoreErrors:
         - "#does not call parent constructor from PHP_CodeSniffer#"
+        - "#Constant #"
     excludes_analyse:
         - *packages/CodingStandard/tests/**/correct*
         - *packages/CodingStandard/tests/**/wrong*
     enableUnionTypes: true
     autoload_directories:
         - vendor/squizlabs/php_codesniffer/src
+    autoload_files:
+        - packages/EasyCodingStandard/tests/Finder/SourceFinderSource/SomeClass.php
+        - packages/EasyCodingStandard/packages/ChangedFilesDetector/tests/ChangedFilesDetectorSource/OneClass.php

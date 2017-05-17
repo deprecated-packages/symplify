@@ -101,7 +101,7 @@ final class PropertyWrapper
 
         $file = $this->file;
         $fixer = $file->fixer;
-        $fixer->replaceToken((int) $accesiblityPosition, 'private');
+        $fixer->replaceToken($accesiblityPosition, 'private');
     }
 
     public function getType(): string
@@ -160,7 +160,6 @@ final class PropertyWrapper
             return false;
         }
 
-        $phpDocCommentCloseTokenPosition = (int) $phpDocCommentCloseTokenPosition;
         if (! $this->hasDocComment($phpDocCommentCloseTokenPosition)) {
             return false;
         }
