@@ -1,5 +1,6 @@
 {
     "name": "symplify/package-builder",
+    "license": "MIT",
     "require": {
         "php": "^7.1",
         "nette/bootstrap": "^2.4",

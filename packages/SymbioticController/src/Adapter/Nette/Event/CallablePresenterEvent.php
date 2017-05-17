@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\SymfonyEventDispatcher\Adapter\Nette\Event;
+namespace Symplify\SymbioticController\Adapter\Nette\Event;
 
 use Nette\Application\Application;
 use Nette\Application\IPresenter;
@@ -11,7 +11,7 @@ use Symfony\Component\EventDispatcher\Event;
  *
  * @see \Nette\Application\Application::$onPresenter
  */
-final class PresenterCreatedEvent extends Event
+final class CallablePresenterEvent extends Event
 {
     /**
      * @var string
@@ -43,7 +43,7 @@ final class PresenterCreatedEvent extends Event
     }
 
     /**
-     * @return callable|$presenter
+     * @return IPresenter|callable
      */
     public function getPresenter()
     {

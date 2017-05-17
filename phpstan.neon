@@ -1,17 +1,13 @@
 parameters:
     ignoreErrors:
-        - "#Call to an undefined method Prophecy#"
         - "#does not call parent constructor from PHP_CodeSniffer#"
-        - "#has invalid type Symplify#"
-        - "#should return callable#"
+        - "#Constant #"
     excludes_analyse:
         - *packages/CodingStandard/tests/**/correct*
         - *packages/CodingStandard/tests/**/wrong*
     enableUnionTypes: true
     autoload_directories:
         - vendor/squizlabs/php_codesniffer/src
-
-includes:
-    - vendor/phpstan/phpstan-nette/extension.neon
-    - vendor/phpstan/phpstan-nette/rules.neon
-    - vendor/phpstan/phpstan-doctrine/extension.neon
+    autoload_files:
+        - packages/EasyCodingStandard/tests/Finder/SourceFinderSource/SomeClass.php
+        - packages/EasyCodingStandard/packages/ChangedFilesDetector/tests/ChangedFilesDetectorSource/OneClass.php
