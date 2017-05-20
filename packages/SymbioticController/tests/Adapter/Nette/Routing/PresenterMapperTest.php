@@ -2,6 +2,7 @@
 
 namespace Symplify\SymbioticController\Tests\Adapter\Nette\Routing;
 
+use Nette\InvalidStateException;
 use PHPUnit\Framework\TestCase;
 use Symplify\SymbioticController\Adapter\Nette\Routing\PresenterMapper;
 
@@ -17,11 +18,9 @@ final class PresenterMapperTest extends TestCase
         $this->presenterMapper = new PresenterMapper;
     }
 
-    /**
-     * @expectedException \Nette\InvalidStateException
-     */
     public function testSetMappingError(): void
     {
+        $this->expectException(InvalidStateException::class);
         $this->presenterMapper->setMapping([
             '*' => ['*', '*'],
         ]);

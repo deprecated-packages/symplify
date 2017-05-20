@@ -7,6 +7,7 @@ use PHPUnit\Framework\TestCase;
 use Symplify\PackageBuilder\Adapter\Nette\GeneralContainerFactory;
 use Symplify\Statie\Application\Command\RunCommand;
 use Symplify\Statie\Application\StatieApplication;
+use Symplify\Statie\Exception\Utils\MissingDirectoryException;
 use Symplify\Statie\FlatWhite\Latte\DynamicStringLoader;
 
 final class StatieApplicationTest extends TestCase
@@ -56,12 +57,11 @@ final class StatieApplicationTest extends TestCase
         $this->assertNotEmpty($this->dynamicStringLoader->getContent('default'));
     }
 
-    /**
-     * @expectedException \Symplify\Statie\Exception\Utils\MissingDirectoryException
-     */
     public function testRunForMissingSource(): void
     {
         $runCommand = new RunCommand('missing', 'random');
+
+        $this->expectException(MissingDirectoryException::class);
         $this->statieApplication->runCommand($runCommand);
     }
 }

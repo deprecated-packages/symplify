@@ -2,6 +2,7 @@
 
 namespace Symplify\SymbioticController\Tests\Adapter\Nette\Validator;
 
+use Nette\Application\InvalidPresenterException;
 use PHPUnit\Framework\TestCase;
 use stdClass;
 use Symplify\SymbioticController\Adapter\Nette\Validator\PresenterGuardian;
@@ -19,11 +20,9 @@ final class PresenterGuardianTest extends TestCase
         $this->presenterGuardian = new PresenterGuardian;
     }
 
-    /**
-     * @expectedException \Nette\Application\InvalidPresenterException
-     */
     public function testEnsurePresenterClassExistsFails(): void
     {
+        $this->expectException(InvalidPresenterException::class);
         $this->presenterGuardian->ensurePresenterClassExists('missingName', 'missingClass');
     }
 
@@ -43,11 +42,9 @@ final class PresenterGuardianTest extends TestCase
         $this->assertTrue(true);
     }
 
-    /**
-     * @expectedException \Nette\Application\InvalidPresenterException
-     */
     public function testEnsurePresenterNameIsValidFails(): void
     {
+        $this->expectException(InvalidPresenterException::class);
         $this->presenterGuardian->ensurePresenterNameIsValid(':validModule:validName');
     }
 
@@ -63,11 +60,9 @@ final class PresenterGuardianTest extends TestCase
         ];
     }
 
-    /**
-     * @expectedException \Nette\Application\InvalidPresenterException
-     */
     public function testEnsurePresenterClassIsNotAbstract(): void
     {
+        $this->expectException(InvalidPresenterException::class);
         $this->presenterGuardian->ensurePresenterClassIsNotAbstract('someName', AbstractClass::class);
     }
 }

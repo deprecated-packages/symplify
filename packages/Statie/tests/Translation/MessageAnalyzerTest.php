@@ -3,6 +3,7 @@
 namespace Symplify\Statie\Tests\Translation;
 
 use PHPUnit\Framework\TestCase;
+use Symplify\Statie\Translation\Exception\IncorrectTranslationFormatException;
 use Symplify\Statie\Translation\MessageAnalyzer;
 
 final class MessageAnalyzerTest extends TestCase
@@ -26,11 +27,9 @@ final class MessageAnalyzerTest extends TestCase
         $this->assertSame('footer', $message);
     }
 
-    /**
-     * @expectedException \Symplify\Statie\Translation\Exception\IncorrectTranslationFormatException
-     */
     public function testIncorrectFormat(): void
     {
+        $this->expectException(IncorrectTranslationFormatException::class);
         $this->messageAnalyzer->extractDomainFromMessage('Some message');
     }
 }

@@ -7,6 +7,7 @@ use Nette\DI\ServiceDefinition;
 use PHPUnit\Framework\TestCase;
 use stdClass;
 use Symplify\PackageBuilder\Adapter\Nette\DI\DefinitionFinder;
+use Symplify\PackageBuilder\Exception\DependencyInjection\DefinitionForTypeNotFoundException;
 
 final class DefinitionFinderTest extends TestCase
 {
@@ -41,11 +42,9 @@ final class DefinitionFinderTest extends TestCase
         $this->assertSame($definition, DefinitionFinder::getByType($this->containerBuilder, stdClass::class));
     }
 
-    /**
-     * @expectedException \Symplify\PackageBuilder\Exception\DependencyInjection\DefinitionForTypeNotFoundException
-     */
     public function testMissing(): void
     {
+        $this->expectException(DefinitionForTypeNotFoundException::class);
         DefinitionFinder::getByType($this->containerBuilder, stdClass::class);
     }
 }

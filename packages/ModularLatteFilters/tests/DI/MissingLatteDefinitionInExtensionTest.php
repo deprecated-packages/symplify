@@ -5,17 +5,16 @@ namespace Symplify\ModularLatteFilters\Tests\DI;
 use Nette\DI\Compiler;
 use PHPUnit\Framework\TestCase;
 use Symplify\ModularLatteFilters\DI\ModularLatteFiltersExtension;
+use Symplify\ModularLatteFilters\Exception\DI\MissingLatteDefinitionException;
 
 final class MissingLatteDefinitionInExtensionTest extends TestCase
 {
-    /**
-     * @expectedException \Symplify\ModularLatteFilters\Exception\DI\MissingLatteDefinitionException
-     */
     public function testNoLatteDefinition(): void
     {
         $extension = $this->getExtension();
         $extension->loadConfiguration();
 
+        $this->expectException(MissingLatteDefinitionException::class);
         $extension->beforeCompile();
     }
 
