@@ -10,6 +10,7 @@ use Symplify\Statie\Configuration\Parser\NeonParser;
 use Symplify\Statie\Renderable\File\File;
 use Symplify\Statie\Renderable\File\FileFactory;
 use Symplify\Statie\Renderable\File\PostFile;
+use Throwable;
 
 final class FileFactoryTest extends TestCase
 {
@@ -55,11 +56,9 @@ final class FileFactoryTest extends TestCase
         $this->assertSame('somePost', $postFile->getFilenameWithoutDate());
     }
 
-    /**
-     * @expectedException \Exception
-     */
     public function testInvalidPostName(): void
     {
+        $this->expectException(Throwable::class);
         $this->createFileFromPath(__DIR__ . '/FileFactorySource/_posts/somePost.latte');
     }
 

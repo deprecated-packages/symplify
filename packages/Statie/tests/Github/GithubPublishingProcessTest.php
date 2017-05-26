@@ -5,6 +5,7 @@ namespace Symplify\Statie\Tests\Github;
 use Nette\Utils\FileSystem;
 use PHPUnit\Framework\TestCase;
 use Symplify\Statie\Github\GihubPublishingProcess;
+use Throwable;
 
 final class GithubPublishingProcessTest extends TestCase
 {
@@ -28,11 +29,9 @@ final class GithubPublishingProcessTest extends TestCase
         FileSystem::delete($this->outputDirectory . DIRECTORY_SEPARATOR . '.git');
     }
 
-    /**
-     * @expectedException \Exception
-     */
     public function testPushDirectoryContentToRepositoryForNonExistingRepository(): void
     {
+        $this->expectException(Throwable::class);
         $this->githubPublishingProcess->pushDirectoryContentToRepository('missing directory', '', '');
     }
 }

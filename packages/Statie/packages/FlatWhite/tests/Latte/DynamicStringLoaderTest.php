@@ -4,6 +4,7 @@ namespace Symplify\Statie\FlatWhite\Tests\Latte;
 
 use PHPUnit\Framework\TestCase;
 use Symplify\Statie\FlatWhite\Latte\DynamicStringLoader;
+use Throwable;
 
 final class DynamicStringLoaderTest extends TestCase
 {
@@ -17,11 +18,9 @@ final class DynamicStringLoaderTest extends TestCase
         $this->stringLoader = $this->createStringLoader();
     }
 
-    /**
-     * @expectedException \Exception
-     */
     public function testGetContentOnMissing(): void
     {
+        $this->expectException(Throwable::class);
         $this->stringLoader->getContent('missing');
     }
 

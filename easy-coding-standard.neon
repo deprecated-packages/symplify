@@ -114,6 +114,7 @@ checkers:
             - @package
             - @throws
             - @version
+            - @expectedException
 
     # Type Hints
     - SlevomatCodingStandard\Sniffs\TypeHints\LongTypeHintsSniff
@@ -124,7 +125,6 @@ checkers:
         usefulAnnotations:
             - @todo
             - @dataProvider
-            - @expectedException
         enableEachParameterAndReturnInspection: true
     - SlevomatCodingStandard\Sniffs\Namespaces\AlphabeticallySortedUsesSniff
     - SlevomatCodingStandard\Sniffs\Namespaces\DisallowGroupUseSniff

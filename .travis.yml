@@ -5,30 +5,26 @@ matrix:
     # run extra build with PHP 7.1
     - php: 7.1
       # add variables to enable coverage, coding standard check and static analysis
-      env: PHPUNIT_FLAGS="--coverage-clover coverage.xml" CHECK_CS=1 RUN_PHPSTAN=1
+      env: PHPUNIT_FLAGS="--coverage-clover coverage.xml"
 
 install:
-  # to fasten up installation with parallel downloading
-  - composer global require "hirak/prestissimo:^0.3"
   # install composer dependencies
   - composer install
 
 script:
   # run tests
   - vendor/bin/phpunit $PHPUNIT_FLAGS
-  # remove slow xdebug, that is required only for coverage
-  - phpenv config-rm xdebug.ini
   # check coding standard (defined in composer.json "scripts" section)
-  - if [[ $CHECK_CS = 1 ]]; then composer check-cs; fi
+  - composer check-cs
   # check with phpstan (defined in composer.json "scripts" section)
-  - if [[ $RUN_PHPSTAN = 1 ]]; then composer phpstan; fi
+  - composer phpstan
 
 after_script:
-  # upload coverage.xml file to Scrutinizer to analyze it
+  # upload coverage.xml file to Coveralls to analyze it
   - |
     if [[ $PHPUNIT_FLAGS != "" ]]; then
-      wget https://scrutinizer-ci.com/ocular.phar
-      php ocular.phar code-coverage:upload --format=php-clover coverage.xml
+      wget https://github.com/satooshi/php-coveralls/releases/download/v1.0.1/coveralls.phar
+      php coveralls.phar --verbose
     fi
 
 # do not send success notifications, they have no value

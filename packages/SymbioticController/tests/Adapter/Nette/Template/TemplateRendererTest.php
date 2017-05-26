@@ -2,6 +2,8 @@
 
 namespace Symplify\SymbioticController\Tests\Adapter\Nette\Template;
 
+use Nette\Application\UI\InvalidLinkException;
+use Nette\InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use Symplify\PackageBuilder\Adapter\Nette\GeneralContainerFactory;
 use Symplify\SymbioticController\Adapter\Nette\Template\TemplateRenderer;
@@ -39,23 +41,20 @@ final class TemplateRendererTest extends TestCase
         $this->assertSame('Hi Tom', trim($template));
     }
 
-    /**
-     * @expectedException \Nette\InvalidArgumentException
-     * @expectedExceptionMessage Component with name 'someComponent' does not exist
-     */
     public function testRenderFileWithPresenterHelper(): void
     {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Component with name \'someComponent\' does not exist');
         $this->templateRenderer->renderFileWithParameters(
             __DIR__ . '/TemplateRendererSource/someTemplateWithPresenterHelper.latte'
         );
     }
 
-    /**
-     * @expectedException \Nette\Application\UI\InvalidLinkException
-     * @expectedExceptionMessage Cannot load presenter "Homepage", class "HomepagePresenter" was not found.
-     */
     public function testRenderFileWithPresenterWithMacro(): void
     {
+        $this->expectException(InvalidLinkException::class);
+
+        $this->expectExceptionMessage('Cannot load presenter "Homepage", class "HomepagePresenter" was not found.');
         $this->templateRenderer->renderFileWithParameters(
             __DIR__ . '/TemplateRendererSource/someTemplateWithMacro.latte'
         );

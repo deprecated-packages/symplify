@@ -4,6 +4,7 @@ This is developement repository = ALL PRs and ISSUEs HERE!
 
 [![Build Status](https://img.shields.io/travis/Symplify/Symplify/master.svg?style=flat-square)](https://travis-ci.org/Symplify/Symplify)
 [![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/Symplify/Symplify.svg?style=flat-square)](https://scrutinizer-ci.com/g/Symplify/Symplify)
+[![Coverage Status](https://img.shields.io/coveralls/Symplify/Symplify/master.svg?style=flat-square)](https://coveralls.io/github/Symplify/Symplify?branch=master)
 
 
 ## Install
