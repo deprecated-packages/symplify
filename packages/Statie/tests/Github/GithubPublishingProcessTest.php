@@ -5,7 +5,7 @@ namespace Symplify\Statie\Tests\Github;
 use Nette\Utils\FileSystem;
 use PHPUnit\Framework\TestCase;
 use Symplify\Statie\Github\GihubPublishingProcess;
-use Exception;
+use Throwable;
 
 final class GithubPublishingProcessTest extends TestCase
 {
@@ -31,7 +31,7 @@ final class GithubPublishingProcessTest extends TestCase
 
     public function testPushDirectoryContentToRepositoryForNonExistingRepository(): void
     {
-        $this->expectException(Exception::class);
+        $this->expectException(Throwable::class);
         $this->githubPublishingProcess->pushDirectoryContentToRepository('missing directory', '', '');
     }
 }

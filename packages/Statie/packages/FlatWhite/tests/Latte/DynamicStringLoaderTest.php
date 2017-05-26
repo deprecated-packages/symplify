@@ -2,7 +2,6 @@
 
 namespace Symplify\Statie\FlatWhite\Tests\Latte;
 
-use Exception;
 use PHPUnit\Framework\TestCase;
 use Symplify\Statie\FlatWhite\Latte\DynamicStringLoader;
 
