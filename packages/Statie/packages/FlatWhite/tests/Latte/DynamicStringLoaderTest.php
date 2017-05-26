@@ -4,6 +4,7 @@ namespace Symplify\Statie\FlatWhite\Tests\Latte;
 
 use PHPUnit\Framework\TestCase;
 use Symplify\Statie\FlatWhite\Latte\DynamicStringLoader;
+use Throwable;
 
 final class DynamicStringLoaderTest extends TestCase
 {
