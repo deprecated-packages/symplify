@@ -105,11 +105,13 @@
         }
     },
     "replace": {
+        "symplify/coding-standard": "self.version",
+        "symplify/easy-coding-standard": "self.version",
         "symplify/modular-latte-filters": "self.version",
+        "symplify/modular-routing": "self.version",
         "symplify/package-builder": "self.version",
-        "symplify/changed-files-detector": "self.version",
-        "symplify/rule-runner": "self.version",
-        "symplify/sniff-runner": "self.version"
+        "symplify/statie": "self.version",
+        "symplify/symbiotic-controller": "self.version"
     },
     "scripts": {
         "complete-check": ["phpunit", "@fix-cs", "@phpstan"],
