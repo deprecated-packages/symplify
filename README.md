@@ -1,18 +1,18 @@
 # Symplify main repository
 
-This is developement repository = ALL PRs and ISSUEs HERE!
+This is Symplify [monorepo](https://www.tomasvotruba.cz/blog/2017/01/31/how-monolithic-repository-in-open-source-saved-my-laziness/). Please put all your PRs and ISSUEs HERE.
 
 [![Build Status](https://img.shields.io/travis/Symplify/Symplify/master.svg?style=flat-square)](https://travis-ci.org/Symplify/Symplify)
-[![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/Symplify/Symplify.svg?style=flat-square)](https://scrutinizer-ci.com/g/Symplify/Symplify)
 [![Coverage Status](https://img.shields.io/coveralls/Symplify/Symplify/master.svg?style=flat-square)](https://coveralls.io/github/Symplify/Symplify?branch=master)
 
 
 ## Install
 
-```bash
-composer require symplify/symplify
-```
+Fork it and clone your repository:
 
+```bash
+git clone git@github.com:<your-name>/Symplify.git
+```
 
 ## Contributing
 
@@ -24,7 +24,13 @@ Rules are simple:
     ```bash
     composer complete-check
     ```
-
+    
+- fix coding standard    
+    
+    ```bash
+    composer fix-cs
+    ```
+    
 - 1 feature per PR
 
 We would be happy to merge your feature then.
