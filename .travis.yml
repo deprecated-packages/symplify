@@ -22,7 +22,7 @@ script:
 
 after_script:
   # upload coverage.xml file to Coveralls to analyze it
-  # minimal required coverage is set to 80 %+
+  # minimal required coverage is set to 80+ %
   - |
     if [[ $PHPUNIT_FLAGS != "" ]]; then
       wget https://github.com/satooshi/php-coveralls/releases/download/v1.0.1/coveralls.phar
