@@ -1,11 +1,11 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\PackageBuilder\Tests\Adapter\Nette\DI;
+namespace Symplify\PackageBuilder\Tests\Adapter\Symfony\DependencyInjection;
 
-use Nette\DI\ContainerBuilder;
-use Nette\DI\Statement;
 use PHPUnit\Framework\TestCase;
-use Symplify\PackageBuilder\Adapter\Nette\DI\DefinitionCollector;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Reference;
+use Symplify\PackageBuilder\Adapter\Symfony\DependencyInjection\DefinitionCollector;
 use Symplify\PackageBuilder\Tests\Adapter\Source\Collected;
 use Symplify\PackageBuilder\Tests\Adapter\Source\CollectedInterface;
 use Symplify\PackageBuilder\Tests\Adapter\Source\Collector;
@@ -25,11 +25,8 @@ final class DefinitionCollectorTest extends TestCase
 
     public function testLoadCollectorWithType(): void
     {
-        $collectorDefinition = $this->containerBuilder->addDefinition('collector_name');
-        $collectorDefinition->setClass(Collector::class);
-
-        $collectedDefinition = $this->containerBuilder->addDefinition('collected_name');
-        $collectedDefinition->setClass(Collected::class);
+        $collector = $this->containerBuilder->autowire(Collector::class);
+        $this->containerBuilder->autowire(Collected::class);
 
         DefinitionCollector::loadCollectorWithType(
             $this->containerBuilder,
@@ -38,10 +35,13 @@ final class DefinitionCollectorTest extends TestCase
             'addCollected'
         );
 
-        $this->assertCount(1, $collectorDefinition->getSetup());
-        $adderStatement = $collectorDefinition->getSetup()[0];
-        $this->assertInstanceOf(Statement::class, $adderStatement);
-        $this->assertSame('addCollected', $adderStatement->getEntity());
-        $this->assertSame(['@collected_name'], $adderStatement->arguments);
+        $methodCalls = $collector->getMethodCalls();
+        $this->assertCount(1, $methodCalls);
+
+        $adderStatement = $methodCalls[0];
+        $this->assertSame('addCollected', $adderStatement[0]);
+        $arguments = $adderStatement[1];
+        $this->assertInstanceOf(Reference::class, $arguments[0]);
+        $this->assertSame(Collected::class, (string) $arguments[0]);
     }
 }

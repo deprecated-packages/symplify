@@ -15,8 +15,9 @@ final class DefinitionCollector
     ): void {
         $collectorDefinition = DefinitionFinder::getByType($containerBuilder, $collectorType);
         foreach ($containerBuilder->getDefinitions() as $name => $definition) {
-            if (! is_subclass_of($definition->getClass(), $collectedType)) {
-                return;
+            $class = $definition->getClass() ?: $name;
+            if (! is_subclass_of($class, $collectedType)) {
+                continue;
             }
 
             $collectorDefinition->addMethodCall($setterMethod, [new Reference($name)]);
