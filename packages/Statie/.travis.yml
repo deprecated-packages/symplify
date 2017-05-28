@@ -11,15 +11,7 @@ install:
 
 script:
   # run tests
-  - vendor/bin/phpunit $PHPUNIT_FLAGS
-
-after_script:
-  # upload coverage.xml file to Coveralls to analyze it
-  - |
-    if [[ $PHPUNIT_FLAGS != "" ]]; then
-      wget https://github.com/satooshi/php-coveralls/releases/download/v1.0.1/coveralls.phar
-      php coveralls.phar --verbose
-    fi
+  - vendor/bin/phpunit
 
 # do not send success notifications, they have no value
 notifications:
