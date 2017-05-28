@@ -25,11 +25,11 @@ final class DefinitionCollectorTest extends TestCase
 
     public function testAutowired(): void
     {
-        $collectorDefinition = $this->containerBuilder->addDefinition('collector_name')
-            ->setClass(Collector::class);
+        $collectorDefinition = $this->containerBuilder->addDefinition('collector_name');
+        $collectorDefinition->setClass(Collector::class);
 
-        $this->containerBuilder->addDefinition('collected_name')
-            ->setClass(Collected::class);
+        $collectedDefinition = $this->containerBuilder->addDefinition('collected_name');
+        $collectedDefinition->setClass(Collected::class);
 
         DefinitionCollector::loadCollectorWithType(
             $this->containerBuilder,
