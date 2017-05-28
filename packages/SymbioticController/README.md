@@ -1,7 +1,6 @@
 # Symbiotic Controller
 
 [![Build Status](https://img.shields.io/travis/Symplify/SymbioticController/master.svg?style=flat-square)](https://travis-ci.org/Symplify/SymbioticController)
-[![Code Coverage](https://img.shields.io/coveralls/Symplify/SymbioticController.svg?style=flat-square)](https://coveralls.io/github/Symplify/SymbioticController)
 [![Downloads](https://img.shields.io/packagist/dt/symplify/symbiotic-controller.svg?style=flat-square)](https://packagist.org/packages/symplify/symbiotic-controller)
 
 *Write controller once and let many other frameworks use it.*

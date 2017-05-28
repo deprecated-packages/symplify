@@ -1,7 +1,6 @@
 # Modular Routing
 
 [![Build Status](https://img.shields.io/travis/Symplify/ModularRouting/master.svg?style=flat-square)](https://travis-ci.org/Symplify/ModularRouting)
-[![Code Coverage](https://img.shields.io/coveralls/Symplify/ModularRouting.svg?style=flat-square)](https://coveralls.io/github/Symplify/ModularRouting)
 [![Downloads](https://img.shields.io/packagist/dt/symplify/modular-routing.svg?style=flat-square)](https://packagist.org/packages/symplify/modular-routing)
 
 To add routes you usually need to add few lines to `app/config/routing.yml`. If you have over dozens of modules, it would be easy to get lost in it. To see all options on how to do that including this package, read [this short article](http://www.tomasvotruba.cz/blog/2016/02/25/modular-routing-in-symfony).
