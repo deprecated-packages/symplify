@@ -2,12 +2,12 @@
 
 namespace Symplify\SymbioticController\Adapter\Nette\Application;
 
-use Contributte\EventDispatcher\Events\Application\ApplicationEvents;
-use Contributte\EventDispatcher\Events\Application\ErrorEvent;
-use Contributte\EventDispatcher\Events\Application\RequestEvent;
-use Contributte\EventDispatcher\Events\Application\ResponseEvent;
-use Contributte\EventDispatcher\Events\Application\ShutdownEvent;
-use Contributte\EventDispatcher\Events\Application\StartupEvent;
+use Contributte\Events\Bridges\Application\Event\ApplicationEvents;
+use Contributte\Events\Bridges\Application\Event\ErrorEvent;
+use Contributte\Events\Bridges\Application\Event\RequestEvent;
+use Contributte\Events\Bridges\Application\Event\ResponseEvent;
+use Contributte\Events\Bridges\Application\Event\ShutdownEvent;
+use Contributte\Events\Bridges\Application\Event\StartupEvent;
 use Nette\Application\Application;
 use Nette\Application\ApplicationException;
 use Nette\Application\BadRequestException;
