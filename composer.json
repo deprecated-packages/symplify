@@ -35,8 +35,8 @@
         "symfony/finder": "^3.3",
 
         "symfony-cmf/routing-bundle": "^2.0",
-        "slevomat/coding-standard": "^2.1",
-        "squizlabs/php_codesniffer": "3.0.0RC4 as 2.8.1",
+        "slevomat/coding-standard": "dev-phpcs3",
+        "squizlabs/php_codesniffer": "dev-master",
         "friendsofphp/php-cs-fixer": "^2.3",
 
         "laravel/framework": "^5.4",
@@ -61,7 +61,7 @@
         "twig/twig": "^2.2",
         "kdyby/events": "^3.0",
         "phpstan/phpstan": "^0.7",
-        "object-calisthenics/phpcs-calisthenics-rules": "v3.0.0-RC3",
+        "object-calisthenics/phpcs-calisthenics-rules": "dev-master",
         "roave/security-advisories": "dev-master"
     },
     "autoload": {

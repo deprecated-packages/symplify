@@ -6,12 +6,6 @@
     <testsuite>
         <directory>tests</directory>
     </testsuite>
-    <!-- source to check coverage for -->
-    <filter>
-        <whitelist>
-            <directory suffix=".php">src</directory>
-        </whitelist>
-    </filter>
     <!-- listener to run after every single test -->
     <listeners>
         <listener class="Symplify\ModularRouting\Tests\PHPUnit\Listener\ClearLogAndCacheTestListener" />

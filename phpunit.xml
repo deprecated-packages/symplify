@@ -4,11 +4,9 @@
     verbose="true"
 >
     <!-- tests directories to run -->
-    <testsuites>
-        <testsuite>
-            <directory>packages/*/tests</directory>
-        </testsuite>
-    </testsuites>
+    <testsuite>
+        <directory>packages/*/tests</directory>
+    </testsuite>
     <!-- source to check coverage for -->
     <filter>
         <whitelist>
