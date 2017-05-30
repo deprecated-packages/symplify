@@ -25,8 +25,9 @@ final class DefinitionFinder
 
     public static function getByType(ContainerBuilder $containerBuilder, string $type): Definition
     {
-        foreach ($containerBuilder->getDefinitions() as $definition) {
-            if (is_a($definition->getClass(), $type, true)) {
+        foreach ($containerBuilder->getDefinitions() as $name => $definition) {
+            $class = $definition->getClass() ?: $name;
+            if (is_a($class, $type, true)) {
                 return $definition;
             }
         }

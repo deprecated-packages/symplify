@@ -1,7 +1,6 @@
 # Statie - PHP Static Site Generator
 
 [![Build Status](https://img.shields.io/travis/Symplify/Statie/master.svg?style=flat-square)](https://travis-ci.org/Symplify/Statie)
-[![Code Coverage](https://img.shields.io/coveralls/Symplify/Statie.svg?style=flat-square)](https://coveralls.io/github/Symplify/Statie)
 [![Downloads](https://img.shields.io/packagist/dt/symplify/statie.svg?style=flat-square)](htptps://packagist.org/packages/symplify/statie)
 
 
