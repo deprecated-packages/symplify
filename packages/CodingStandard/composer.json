@@ -10,7 +10,7 @@
         "nikic/php-parser": "^3.0"
     },
     "require-dev": {
-        "symplify/easy-coding-standard": "v2.0.0-RC2",
+        "symplify/easy-coding-standard": "dev-master",
         "phpunit/phpunit": "^6.0"
     },
     "autoload": {
