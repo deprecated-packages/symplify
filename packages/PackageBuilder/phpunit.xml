@@ -1,15 +1,9 @@
 <phpunit
     bootstrap="vendor/autoload.php"
-    colors="true"
+    verbose="true"
 >
-    <testsuites>
-        <testsuite>
-            <directory>tests</directory>
-        </testsuite>
-    </testsuites>
-    <filter>
-        <whitelist>
-            <directory>src</directory>
-        </whitelist>
-    </filter>
+    <!-- where tests are located -->
+    <testsuite>
+        <directory>tests</directory>
+    </testsuite>
 </phpunit>

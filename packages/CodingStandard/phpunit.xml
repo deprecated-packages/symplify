@@ -4,9 +4,7 @@
     verbose="true"
 >
     <!-- tests directories to run -->
-    <testsuites>
-        <testsuite>
-            <directory>tests</directory>
-        </testsuite>
-    </testsuites>
+    <testsuite>
+        <directory>tests</directory>
+    </testsuite>
 </phpunit>

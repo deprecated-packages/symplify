@@ -1,18 +1,10 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <phpunit
-    colors="true"
     bootstrap="vendor/autoload.php"
+    colors="true"
+    verbose="true"
 >
     <!-- tests directories to run -->
-    <testsuites>
-        <testsuite>
-            <directory>tests</directory>
-        </testsuite>
-    </testsuites>
-    <!-- source to check coverage for -->
-    <filter>
-        <whitelist>
-            <directory>src</directory>
-        </whitelist>
-    </filter>
+    <testsuite>
+        <directory>tests</directory>
+    </testsuite>
 </phpunit>
