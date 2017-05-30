@@ -17,7 +17,11 @@
         "nette/utils": "^2.4",
         "nette/finder": "^2.4",
         "phpunit/phpunit": "^6.0",
+        "symfony/asset": "^3.3",
         "symfony/form": "^3.3",
+        "symfony/translation": "^3.3",
+        "symfony/templating": "^3.3",
+        "symfony/validator": "^3.3",
         "twig/twig": "^2.2",
         "doctrine/annotations": "^1.4"
     },
