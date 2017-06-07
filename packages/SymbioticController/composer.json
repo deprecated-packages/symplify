@@ -3,15 +3,15 @@
     "license": "MIT",
     "require": {
         "php": "^7.1",
-        "nette/di": "^2.4",
-        "nette/application": "^2.4",
-        "latte/latte": "^2.4",
+        "nette/di": "^2.4|^3.0",
+        "nette/application": "^2.4|^3.0",
+        "latte/latte": "^2.4|^3.0",
         "contributte/event-dispatcher": "^0.3",
         "contributte/event-application-bridge": "^0.1",
         "symplify/package-builder": "^1.4"
     },
     "require-dev": {
-        "nette/security": "^2.4",
+        "nette/security": "^2.4|^3.0",
         "phpunit/phpunit": "^6.0"
     },
     "autoload": {

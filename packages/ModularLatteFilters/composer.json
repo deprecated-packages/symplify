@@ -4,13 +4,13 @@
 	"license": "MIT",
 	"require": {
 		"php": "^7.1",
-		"nette/di": "^2.4",
-		"latte/latte": "^2.4"
+		"nette/di": "^2.4|^3.0",
+		"latte/latte": "^2.4|^3.0"
 	},
 	"require-dev": {
-		"nette/application": "^2.4",
-		"nette/bootstrap": "^2.4",
-		"tracy/tracy": "^2.4",
+		"nette/application": "^2.4|^3.0",
+		"nette/bootstrap": "^2.4|^3.0",
+		"tracy/tracy": "^2.4|^3.0",
 		"phpunit/phpunit": "^6.0"
 	},
 	"autoload": {

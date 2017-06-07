@@ -4,7 +4,7 @@
     "license": "MIT",
     "require": {
         "php": "^7.1",
-        "nette/finder": "^2.4",
+        "nette/finder": "^2.4|^3.0",
         "squizlabs/php_codesniffer": "dev-master",
         "slevomat/coding-standard": "dev-phpcs3",
         "nikic/php-parser": "^3.0"
