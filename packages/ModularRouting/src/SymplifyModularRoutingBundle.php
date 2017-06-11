@@ -18,6 +18,4 @@ final class SymplifyModularRoutingBundle extends Bundle
     {
         $containerBuilder->addCompilerPass(new AddRouteCollectionProvidersCompilerPass);
     }
-
-
 }
