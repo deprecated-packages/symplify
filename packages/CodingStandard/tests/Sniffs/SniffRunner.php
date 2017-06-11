@@ -5,7 +5,8 @@ namespace Symplify\CodingStandard\Tests\Sniffs;
 use PHP_CodeSniffer\Sniffs\Sniff;
 use PhpCsFixer\Fixer\FixerInterface;
 use SplFileInfo;
-use Symplify\EasyCodingStandard\ChangedFilesDetector\Contract\ChangedFilesDetectorInterface;
+use Symplify\EasyCodingStandard\ChangedFilesDetector\Cache\CacheFactory;
+use Symplify\EasyCodingStandard\ChangedFilesDetector\ChangedFilesDetector;
 use Symplify\EasyCodingStandard\Contract\SkipperInterface;
 use Symplify\EasyCodingStandard\Error\ErrorCollector;
 use Symplify\EasyCodingStandard\Error\ErrorSorter;
@@ -87,26 +88,9 @@ final class SniffRunner
         return $file;
     }
 
-    private static function createDummyChangedFilesDetector(): ChangedFilesDetectorInterface
+    private static function createDummyChangedFilesDetector(): ChangedFilesDetector
     {
-        return new class implements ChangedFilesDetectorInterface {
-            public function addFile(string $filePath): void
-            {
-            }
-
-            public function invalidateFile(string $filePath): void
-            {
-            }
-
-            public function hasFileChanged(string $filePath): bool
-            {
-                return true;
-            }
-
-            public function clearCache(): void
-            {
-            }
-        };
+        return new ChangedFilesDetector(new CacheFactory);
     }
 
     private static function createSkipper(): SkipperInterface

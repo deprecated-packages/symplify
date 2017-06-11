@@ -303,7 +303,7 @@ parameters:
             - packages/EasyCodingStandard/tests/SkipperTest.php
 
         ObjectCalisthenics\Sniffs\Files\FunctionLengthSniff:
-            - packages/EasyCodingStandard/packages/FixerRunner/src/Application/FileProcessor.php
+            - packages/EasyCodingStandard/packages/FixerRunner/src/Application/FixerFileProcessor.php
             - packages/SymbioticController/src/Adapter/Nette/Application/InvokablePresenterAwareApplication.php
             - packages/SymfonyEventDispatcher/src/Adapter/Nette/DI/NetteEventListFactory.php
             - packages/SymbioticController/src/Adapter/Nette/Routing/PresenterRoute.php
