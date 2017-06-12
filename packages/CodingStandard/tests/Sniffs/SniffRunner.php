@@ -2,12 +2,9 @@
 
 namespace Symplify\CodingStandard\Tests\Sniffs;
 
-use PHP_CodeSniffer\Sniffs\Sniff;
-use PhpCsFixer\Fixer\FixerInterface;
 use SplFileInfo;
 use Symplify\EasyCodingStandard\ChangedFilesDetector\Cache\CacheFactory;
 use Symplify\EasyCodingStandard\ChangedFilesDetector\ChangedFilesDetector;
-use Symplify\EasyCodingStandard\Contract\SkipperInterface;
 use Symplify\EasyCodingStandard\Error\ErrorCollector;
 use Symplify\EasyCodingStandard\Error\ErrorSorter;
 use Symplify\EasyCodingStandard\SniffRunner\File\File;
@@ -21,6 +18,10 @@ final class SniffRunner
 {
     public static function getErrorCountForSniffInFile(string $sniffClass, SplFileInfo $fileInfo): int
     {
+        dump($sniffClass);
+        dump($fileInfo);
+        die;
+
         $errorDataCollector = self::createErrorDataCollector();
         $sniffDispatcher = self::createSniffDispatcherWithSniff($sniffClass);
         $file = self::createFileFromFilePath($fileInfo->getPathname(), $errorDataCollector);
@@ -91,19 +92,5 @@ final class SniffRunner
     private static function createDummyChangedFilesDetector(): ChangedFilesDetector
     {
         return new ChangedFilesDetector(new CacheFactory);
-    }
-
-    private static function createSkipper(): SkipperInterface
-    {
-        return new class implements SkipperInterface
-        {
-            /**
-             * @param Sniff|FixerInterface|string $checker
-             */
-            public function shouldSkipCheckerAndFile($checker, string $relativeFilePath): bool
-            {
-                return false;
-            }
-        };
     }
 }
