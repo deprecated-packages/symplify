@@ -9,6 +9,7 @@ use SplFileInfo;
 use Symplify\EasyCodingStandard\DependencyInjection\ContainerFactory;
 use Symplify\EasyCodingStandard\Error\ErrorCollector;
 use Symplify\EasyCodingStandard\SniffRunner\Application\SniffFileProcessor;
+use Symplify\EasyCodingStandard\SniffRunner\Fixer\Fixer;
 
 abstract class AbstractSniffTestCase extends TestCase
 {
@@ -22,11 +23,17 @@ abstract class AbstractSniffTestCase extends TestCase
      */
     private $errorCollector;
 
+    /**
+     * @var Fixer
+     */
+    private $fixer;
+
     protected function runSniffTestForDirectory(string $sniffClass, string $directory): void
     {
         $container = (new ContainerFactory)->createWithoutConfig();
         $this->sniffFileProcessor = $container->get(SniffFileProcessor::class);
         $this->errorCollector = $container->get(ErrorCollector::class);
+        $this->fixer = $container->get(Fixer::class);
 
         foreach ($this->findFilesInDirectory($directory) as $file) {
             if (Strings::startsWith($file->getFilename(), 'correct')) {
@@ -41,20 +48,20 @@ abstract class AbstractSniffTestCase extends TestCase
 
     private function runSniffTestForCorrectFile(string $sniffClass, SplFileInfo $fileInfo): void
     {
-        $errorCount = $this->getErrorCountForSniffInFile($sniffClass, $fileInfo);
+        $this->processFileWithSniff($sniffClass, $fileInfo);
 
-        $this->assertSame(0, $errorCount, sprintf(
+        $this->assertSame(0, $this->errorCollector->getErrorCount(), sprintf(
             'File "%s" should have no errors. %s found.',
             $fileInfo->getPathname(),
-            $errorCount
+            $this->errorCollector->getErrorCount()
         ));
     }
 
     private function runSniffTestForWrongFile(string $sniffClass, SplFileInfo $fileInfo): void
     {
-        $errorCount = $this->getErrorCountForSniffInFile($sniffClass, $fileInfo);
+        $this->processFileWithSniff($sniffClass, $fileInfo);
 
-        $this->assertSame(1, $errorCount, sprintf(
+        $this->assertSame(1, $this->errorCollector->getErrorCount(), sprintf(
             'File "%s" should have at least 1 error.',
             $fileInfo->getPathname()
         ));
@@ -64,13 +71,12 @@ abstract class AbstractSniffTestCase extends TestCase
             return;
         }
 
-//        $fixedContent = SniffRunner::getFixedContentForSniffInFile($sniffClass, $fileInfo);
-//        $this->assertStringEqualsFile($fixedFileName, $fixedContent, sprintf(
-//            'File "%s" was not fixed properly. "%s" expected, "%s" given.',
-//            $fileInfo->getPathname(),
-//            file_get_contents($fixedFileName),
-//            $fixedContent
-//        ));
+        $this->assertStringEqualsFile($fixedFileName, $this->fixer->getContents(), sprintf(
+            'File "%s" was not fixed properly. "%s" expected, "%s" given.',
+            $fileInfo->getPathname(),
+            file_get_contents($fixedFileName),
+            $this->fixer->getContents()
+        ));
     }
 
     /**
@@ -91,13 +97,11 @@ abstract class AbstractSniffTestCase extends TestCase
         return dirname($fileInfo->getPathname()) . '/' . $fileInfo->getBasename('.php.inc') . '-fixed.php.inc';
     }
 
-    private function getErrorCountForSniffInFile(string $sniffClass, SplFileInfo $fileInfo): int
+    private function processFileWithSniff(string $sniffClass, SplFileInfo $fileInfo): void
     {
         $this->errorCollector->resetCounters();
-
+        $this->sniffFileProcessor->setIsFixer(true); // to test changed content of file
         $this->sniffFileProcessor->setSingleSniff(new $sniffClass);
-        $this->sniffFileProcessor->processFile($fileInfo);
-
-        return $this->errorCollector->getErrorCount();
+        $this->sniffFileProcessor->processFile($fileInfo, true);
     }
 }
