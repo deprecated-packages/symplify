@@ -4,7 +4,7 @@ namespace Symplify\EasyCodingStandard\SniffRunner\Tests\DI;
 
 use PHP_CodeSniffer\Standards\Generic\Sniffs\Files\LineLengthSniff;
 use PHPUnit\Framework\TestCase;
-use Symplify\EasyCodingStandard\Tests\ContainerFactoryWithCustomConfig;
+use Symplify\EasyCodingStandard\DependencyInjection\ContainerFactory;
 
 final class SniffServiceRegistrationTest extends TestCase
 {
@@ -15,11 +15,11 @@ final class SniffServiceRegistrationTest extends TestCase
 
     protected function setUp(): void
     {
-        $container = (new ContainerFactoryWithCustomConfig)->createWithConfig(
+        $container = (new ContainerFactory)->createWithCustomConfig(
             __DIR__ . '/SniffServiceRegistrationSource/easy-coding-standard.neon'
         );
 
-        $this->lineLengthSniff = $container->getByType(LineLengthSniff::class);
+        $this->lineLengthSniff = $container->get(LineLengthSniff::class);
     }
 
     public function test(): void

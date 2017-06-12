@@ -8,20 +8,17 @@
     "require": {
         "php": "^7.1",
         "symfony/console": "^3.3",
+        "symfony/dependency-injection": "^3.3",
         "symfony/finder": "^3.3",
-        "nette/application": "^2.4|^3.0",
-        "nette/bootstrap": "^2.4|^3.0",
         "nette/caching": "^2.4|^3.0",
-        "nette/di": "^2.4|^3.0",
-        "nette/robot-loader": "^3.0|^3.0",
+        "nette/robot-loader": "^3.0",
         "nette/utils": "^2.4|^3.0",
         "nette/neon": "^2.4|^3.0",
         "tracy/tracy": "^2.4|^3.0",
 
-        "symplify/package-builder": "^1.4",
+        "symplify/package-builder": "2.0-RC2 as 1.4",
         "friendsofphp/php-cs-fixer": "^2.3",
-        "squizlabs/php_codesniffer": "dev-master",
-        "contributte/console": "^0.1"
+        "squizlabs/php_codesniffer": "dev-master"
     },
     "require-dev": {
         "phpunit/phpunit": "^6.0",
@@ -39,11 +36,11 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Symplify\\EasyCodingStandard\\Tests\\": "tests",
             "Symplify\\EasyCodingStandard\\ChangedFilesDetector\\Tests\\": "packages/ChangedFilesDetector/tests",
             "Symplify\\EasyCodingStandard\\Configuration\\Tests\\": "packages/Configuration/tests",
             "Symplify\\EasyCodingStandard\\FixerRunner\\Tests\\": "packages/FixerRunner/tests",
-            "Symplify\\EasyCodingStandard\\SniffRunner\\Tests\\": "packages/SniffRunner/tests"
+            "Symplify\\EasyCodingStandard\\SniffRunner\\Tests\\": "packages/SniffRunner/tests",
+            "Symplify\\EasyCodingStandard\\Tests\\": "tests"
         }
     }
 }

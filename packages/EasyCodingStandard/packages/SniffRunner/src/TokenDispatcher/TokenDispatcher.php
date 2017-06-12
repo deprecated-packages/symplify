@@ -3,13 +3,13 @@
 namespace Symplify\EasyCodingStandard\SniffRunner\TokenDispatcher;
 
 use PHP_CodeSniffer\Sniffs\Sniff;
-use Symplify\EasyCodingStandard\Contract\SkipperInterface;
+use Symplify\EasyCodingStandard\Skipper;
 use Symplify\EasyCodingStandard\SniffRunner\TokenDispatcher\Event\FileTokenEvent;
 
 final class TokenDispatcher
 {
     /**
-     * @var SkipperInterface
+     * @var Skipper
      */
     private $skipper;
 
@@ -18,9 +18,17 @@ final class TokenDispatcher
      */
     private $tokenListeners;
 
-    public function __construct(SkipperInterface $skipper)
+    public function __construct(Skipper $skipper)
     {
         $this->skipper = $skipper;
+    }
+
+    public function addSingleSniffListener(Sniff $sniff): void
+    {
+        $this->tokenListeners = [];
+        foreach ($sniff->register() as $token) {
+            $this->tokenListeners[$token][] = $sniff;
+        }
     }
 
     /**
@@ -41,15 +49,18 @@ final class TokenDispatcher
     public function dispatchToken($token, FileTokenEvent $fileTokenEvent): void
     {
         $tokenListeners = $this->tokenListeners[$token] ?? [];
+        if (! count($tokenListeners)) {
+            return;
+        }
+
         $file = $fileTokenEvent->getFile();
-        $filename = $file->getFilename();
 
         foreach ($tokenListeners as $sniff) {
-            if ($this->skipper->shouldSkipCheckerAndFile($sniff, $filename)) {
+            if ($this->skipper->shouldSkipCheckerAndFile($sniff, $file->getFilename())) {
                 return;
             }
 
-            $sniff->process($fileTokenEvent->getFile(), $fileTokenEvent->getPosition());
+            $sniff->process($file, $fileTokenEvent->getPosition());
         }
     }
 }

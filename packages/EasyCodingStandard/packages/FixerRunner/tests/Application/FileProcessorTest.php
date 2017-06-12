@@ -5,23 +5,23 @@ namespace Symplify\EasyCodingStandard\FixerRunner\Tests\Application;
 use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
 use Symplify\EasyCodingStandard\Application\Command\RunCommand;
-use Symplify\EasyCodingStandard\FixerRunner\Application\FileProcessor;
-use Symplify\EasyCodingStandard\Tests\ContainerFactoryWithCustomConfig;
+use Symplify\EasyCodingStandard\DependencyInjection\ContainerFactory;
+use Symplify\EasyCodingStandard\FixerRunner\Application\FixerFileProcessor;
 
 final class FileProcessorTest extends TestCase
 {
     /**
-     * @var FileProcessor
+     * @var FixerFileProcessor
      */
     private $fileProcessor;
 
     protected function setUp(): void
     {
-        $container = (new ContainerFactoryWithCustomConfig)->createWithConfig(
+        $container = (new ContainerFactory)->createWithCustomConfig(
             __DIR__ . '/FileProcessorSource/easy-coding-standard.neon'
         );
 
-        $this->fileProcessor = $container->getByType(FileProcessor::class);
+        $this->fileProcessor = $container->get(FixerFileProcessor::class);
     }
 
     public function test(): void

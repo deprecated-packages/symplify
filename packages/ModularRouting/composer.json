@@ -11,7 +11,8 @@
         "symfony/twig-bundle": "^3.3",
         "symfony/yaml": "^3.3",
         "symfony-cmf/routing-bundle": "^2.0",
-        "doctrine/doctrine-bundle": "^1.6"
+        "doctrine/doctrine-bundle": "^1.6",
+        "symplify/package-builder": "v2.0.0-RC3 as 1.4"
     },
     "require-dev": {
         "nette/utils": "^2.4|^3.0",

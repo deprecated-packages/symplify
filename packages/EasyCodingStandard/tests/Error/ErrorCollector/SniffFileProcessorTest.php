@@ -6,13 +6,13 @@ use PHPUnit\Framework\TestCase;
 use SplFileInfo;
 use Symplify\CodingStandard\Sniffs\Naming\AbstractClassNameSniff;
 use Symplify\EasyCodingStandard\Application\Command\RunCommand;
-use Symplify\EasyCodingStandard\ChangedFilesDetector\Contract\ChangedFilesDetectorInterface;
+use Symplify\EasyCodingStandard\ChangedFilesDetector\ChangedFilesDetector;
+use Symplify\EasyCodingStandard\DependencyInjection\ContainerFactory;
 use Symplify\EasyCodingStandard\Error\Error;
 use Symplify\EasyCodingStandard\Error\ErrorCollector;
-use Symplify\EasyCodingStandard\SniffRunner\Application\FileProcessor;
-use Symplify\EasyCodingStandard\Tests\ContainerFactoryWithCustomConfig;
+use Symplify\EasyCodingStandard\SniffRunner\Application\SniffFileProcessor;
 
-final class SniffRunnerTest extends TestCase
+final class SniffFileProcessorTest extends TestCase
 {
     /**
      * @var ErrorCollector
@@ -20,20 +20,20 @@ final class SniffRunnerTest extends TestCase
     private $errorDataCollector;
 
     /**
-     * @var FileProcessor
+     * @var SniffFileProcessor
      */
     private $fileProcessor;
 
     protected function setUp(): void
     {
-        $container = (new ContainerFactoryWithCustomConfig)->createWithConfig(
+        $container = (new ContainerFactory)->createWithCustomConfig(
             __DIR__ . '/SniffRunnerSource/easy-coding-standard.neon'
         );
-        $this->errorDataCollector = $container->getByType(ErrorCollector::class);
-        $this->fileProcessor = $container->getByType(FileProcessor::class);
+        $this->errorDataCollector = $container->get(ErrorCollector::class);
+        $this->fileProcessor = $container->get(SniffFileProcessor::class);
 
-        /** @var ChangedFilesDetectorInterface $changedFilesDetector */
-        $changedFilesDetector = $container->getByType(ChangedFilesDetectorInterface::class);
+        /** @var ChangedFilesDetector $changedFilesDetector */
+        $changedFilesDetector = $container->get(ChangedFilesDetector::class);
         $changedFilesDetector->clearCache();
     }
 
