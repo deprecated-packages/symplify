@@ -40,8 +40,7 @@ checkers:
     - PHP_CodeSniffer\Standards\Generic\Sniffs\Formatting\SpaceAfterCastSniff
     - PHP_CodeSniffer\Standards\Generic\Sniffs\Functions\FunctionCallArgumentSpacingSniff
     - PHP_CodeSniffer\Standards\PEAR\Sniffs\Functions\ValidDefaultValueSniff
-    PHP_CodeSniffer\Standards\Squiz\Sniffs\Functions\FunctionDeclarationSniff:
-        equalsSpacing: 1
+    - PHP_CodeSniffer\Standards\Squiz\Sniffs\Functions\FunctionDeclarationSniff
     - PHP_CodeSniffer\Standards\Squiz\Sniffs\Functions\MultiLineFunctionDeclarationSniff
     - PHP_CodeSniffer\Standards\Squiz\Sniffs\Functions\LowercaseFunctionKeywordsSniff
 

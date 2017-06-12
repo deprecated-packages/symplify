@@ -4,14 +4,11 @@
     "license": "MIT",
     "require": {
         "php": "^7.1",
-
         "cpliakas/git-wrapper": "^1.7",
         "erusev/parsedown-extra": "^0.7",
         "spatie/regex": "^1.1",
         "nikic/php-parser": "^3.0",
-
         "doctrine/annotations": "^1.4",
-
         "nette/application": "^2.4|^3.0",
         "nette/bootstrap": "^2.4|^3.0",
         "nette/di": "^2.4.6|^3.0",
@@ -24,7 +21,6 @@
         "nette/robot-loader": "^3.0|^3.0",
         "nette/neon": "^2.4|^3.0",
         "tracy/tracy": "^2.4",
-
         "symfony/config": "^3.3",
         "symfony/console": "^3.3",
         "symfony/dependency-injection": "^3.3",
@@ -34,12 +30,10 @@
         "symfony/twig-bundle": "^3.3",
         "symfony/yaml": "^3.3",
         "symfony/finder": "^3.3",
-
         "symfony-cmf/routing-bundle": "^2.0",
         "slevomat/coding-standard": "dev-phpcs3",
         "squizlabs/php_codesniffer": "dev-master",
         "friendsofphp/php-cs-fixer": "^2.3",
-
         "laravel/framework": "^5.4",
         "illuminate/container": "^5.4",
         "illuminate/support": "^5.4",
@@ -51,7 +45,6 @@
     },
     "require-dev": {
         "phpunit/phpunit": "^6.0",
-
         "symfony/asset": "^3.3",
         "symfony/form": "^3.3",
         "symfony/validator": "^3.3",
@@ -106,9 +99,16 @@
         "symplify/symbiotic-controller": "self.version"
     },
     "scripts": {
-        "complete-check": ["phpunit", "@fix-cs", "@phpstan"],
+        "complete-check": [
+            "phpunit",
+            "@fix-cs",
+            "@phpstan"
+        ],
         "check-cs": "packages/EasyCodingStandard/bin/easy-coding-standard check packages",
         "fix-cs": "packages/EasyCodingStandard/bin/easy-coding-standard check packages --fix",
         "phpstan": "phpstan analyse packages --level=4 -c phpstan.neon"
+    },
+    "config": {
+        "sort-packages": true
     }
 }
