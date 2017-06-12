@@ -50,25 +50,10 @@ checkers:
         nestingLevel: 3
         absoluteNestingLevel: 6
     - PHP_CodeSniffer\Standards\PSR2\Sniffs\Methods\MethodDeclarationSniff
-    - ObjectCalisthenics\Sniffs\Metrics\MaxNestingLevelSniff
-    ObjectCalisthenics\Sniffs\Metrics\MethodPerClassLimitSniff:
-        maxCount: 16 # 10 by default
-    - ObjectCalisthenics\Sniffs\Metrics\PropertyPerClassLimitSniff
-    - ObjectCalisthenics\Sniffs\Files\ClassTraitAndInterfaceLengthSniff
-    - ObjectCalisthenics\Sniffs\Files\FunctionLengthSniff
-    ObjectCalisthenics\Sniffs\CodeAnalysis\OneObjectOperatorPerLineSniff:
-        variablesHoldingAFluentInterface:
-            - $containerBuilder
-            - $container
-            - $kernel
-            - $rootNode
-            - $requestMock
-            - $entityManagerMock
 
     # Naming Conventions
     - PHP_CodeSniffer\Standards\Generic\Sniffs\NamingConventions\UpperCaseConstantNameSniff
     - PHP_CodeSniffer\Standards\Generic\Sniffs\NamingConventions\CamelCapsFunctionNameSniff
-    - ObjectCalisthenics\Sniffs\NamingConventions\ElementNameMinimalLengthSniff
 
     # PHP
     - PhpCsFixer\Fixer\PhpTag\FullOpeningTagFixer
@@ -284,31 +269,21 @@ parameters:
 
         # anonymous class
         PhpCsFixer\Fixer\Whitespace\NoExtraConsecutiveBlankLinesFixer:
-            - packages/CodingStandard/tests/Sniffs/SniffRunner.php
             - packages/EasyCodingStandard/tests/SkipperTest.php
         PhpCsFixer\Fixer\ClassNotation\NoBlankLinesAfterClassOpeningFixer:
-            - packages/CodingStandard/tests/Sniffs/SniffRunner.php
             - packages/EasyCodingStandard/tests/SkipperTest.php
         PhpCsFixer\Fixer\ClassNotation\MethodSeparationFixer:
-            - packages/CodingStandard/tests/Sniffs/SniffRunner.php
             - packages/EasyCodingStandard/tests/SkipperTest.php
         PhpCsFixer\Fixer\ClassNotation\ClassDefinitionFixer:
-            - packages/CodingStandard/tests/Sniffs/SniffRunner.php
             - packages/EasyCodingStandard/tests/SkipperTest.php
         PhpCsFixer\Fixer\Basic\BracesFixer:
-            - packages/CodingStandard/tests/Sniffs/SniffRunner.php
             - packages/EasyCodingStandard/tests/SkipperTest.php
         Symplify\CodingStandard\Sniffs\ControlStructures\NewClassSniff:
             - packages/EasyCodingStandard/tests/SkipperTest.php
 
-        ObjectCalisthenics\Sniffs\Files\FunctionLengthSniff:
-            - packages/EasyCodingStandard/packages/FixerRunner/src/Application/FixerFileProcessor.php
-            - packages/SymbioticController/src/Adapter/Nette/Application/InvokablePresenterAwareApplication.php
-            - packages/SymfonyEventDispatcher/src/Adapter/Nette/DI/NetteEventListFactory.php
-            - packages/SymbioticController/src/Adapter/Nette/Routing/PresenterRoute.php
-
-        ObjectCalisthenics\Sniffs\CodeAnalysis\OneObjectOperatorPerLineSniff:
-            - packages/SymbioticController/src/Application/InvokablePresenterAwareApplication.php
-
         PhpCsFixer\Fixer\ReturnNotation\SimplifiedNullReturnFixer:
             - packages/SymbioticController/src/Adapter/Nette/Routing/PresenterRoute.php
+
+        Symplify\CodingStandard\Sniffs\Classes\EqualInterfaceImplementationSniff:
+            - packages/EasyCodingStandard/packages/SniffRunner/src/Application/SniffFileProcessor.php
+            - packages/EasyCodingStandard/packages/FixerRunner/src/Application/FixerFileProcessor.php

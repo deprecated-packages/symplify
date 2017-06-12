@@ -18,7 +18,7 @@
         "nette/security": "^2.4|^3.0",
         "latte/latte": "^2.4",
         "nette/utils": "^2.4|^3.0",
-        "nette/robot-loader": "^3.0|^3.0",
+        "nette/robot-loader": "^3.0",
         "nette/neon": "^2.4|^3.0",
         "tracy/tracy": "^2.4",
         "symfony/config": "^3.3",
@@ -51,9 +51,7 @@
         "symfony/framework-bundle": "^3.3",
         "symfony/templating": "^3.3",
         "twig/twig": "^2.2",
-        "kdyby/events": "^3.0",
-        "phpstan/phpstan": "^0.7",
-        "object-calisthenics/phpcs-calisthenics-rules": "dev-master"
+        "phpstan/phpstan": "^0.7"
     },
     "autoload": {
         "psr-4": {
