@@ -258,28 +258,14 @@ checkers:
 parameters:
     skip:
         SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff:
-            - packages/EasyCodingStandard/packages/SniffRunner/src/File/File.php
             - packages/CodingStandard/src/Sniffs/*/*Sniff.php
             - packages/CodingStandard/src/Refactorer/NetteDI/InjectToConstructorInjectionSniff.php
+            - packages/EasyCodingStandard/packages/SniffRunner/src/File/File.php
             - packages/ModularRouting/src/Routing/ModularRouter.php
             - packages/Statie/packages/FlatWhite/src/Latte/DynamicStringLoader.php
             - packages/Statie/src/Configuration/Configuration.php
             - packages/SymbioticController/src/Adapter/Nette/Application/PresenterFactory.php
             - packages/SymbioticController/src/Adapter/Nette/Application/PresenterHelper.php
-
-        # anonymous class
-        PhpCsFixer\Fixer\Whitespace\NoExtraConsecutiveBlankLinesFixer:
-            - packages/EasyCodingStandard/tests/SkipperTest.php
-        PhpCsFixer\Fixer\ClassNotation\NoBlankLinesAfterClassOpeningFixer:
-            - packages/EasyCodingStandard/tests/SkipperTest.php
-        PhpCsFixer\Fixer\ClassNotation\MethodSeparationFixer:
-            - packages/EasyCodingStandard/tests/SkipperTest.php
-        PhpCsFixer\Fixer\ClassNotation\ClassDefinitionFixer:
-            - packages/EasyCodingStandard/tests/SkipperTest.php
-        PhpCsFixer\Fixer\Basic\BracesFixer:
-            - packages/EasyCodingStandard/tests/SkipperTest.php
-        Symplify\CodingStandard\Sniffs\ControlStructures\NewClassSniff:
-            - packages/EasyCodingStandard/tests/SkipperTest.php
 
         PhpCsFixer\Fixer\ReturnNotation\SimplifiedNullReturnFixer:
             - packages/SymbioticController/src/Adapter/Nette/Routing/PresenterRoute.php
