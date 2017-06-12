@@ -11,6 +11,7 @@
     },
     "require-dev": {
         "symplify/easy-coding-standard": "dev-master",
+        "symplify/package-builder": "2.0-RC2 as 1.4",
         "phpunit/phpunit": "^6.0"
     },
     "autoload": {
