@@ -3,7 +3,6 @@
 namespace Symplify\Statie\Tests\Application;
 
 use Nette\Utils\FileSystem;
-use Symplify\Statie\Application\Command\RunCommand;
 use Symplify\Statie\Application\StatieApplication;
 use Symplify\Statie\Exception\Utils\MissingDirectoryException;
 use Symplify\Statie\FlatWhite\Latte\DynamicStringLoader;
@@ -29,12 +28,10 @@ final class StatieApplicationTest extends AbstractContainerAwareTestCase
 
     public function test(): void
     {
-        $runCommand = new RunCommand(
+        $this->statieApplication->run(
             __DIR__ . '/StatieApplicationSource/source',
             __DIR__ . '/StatieApplicationSource/output'
         );
-
-        $this->statieApplication->runCommand($runCommand);
 
         $this->assertFileExists(__DIR__ . '/StatieApplicationSource/output/index.html');
         $this->assertFileEquals(
@@ -50,10 +47,8 @@ final class StatieApplicationTest extends AbstractContainerAwareTestCase
 
     public function testRunForMissingSource(): void
     {
-        $runCommand = new RunCommand('missing', 'random');
-
         $this->expectException(MissingDirectoryException::class);
-        $this->statieApplication->runCommand($runCommand);
+        $this->statieApplication->run('missing', 'random');
     }
 
     protected function tearDown(): void

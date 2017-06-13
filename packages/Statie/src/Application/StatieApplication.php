@@ -4,7 +4,6 @@ namespace Symplify\Statie\Application;
 
 use Nette\Utils\Finder;
 use SplFileInfo;
-use Symplify\Statie\Application\Command\RunCommand;
 use Symplify\Statie\Configuration\Configuration;
 use Symplify\Statie\FlatWhite\Latte\DynamicStringLoader;
 use Symplify\Statie\Output\FileSystemWriter;
@@ -53,13 +52,13 @@ final class StatieApplication
         $this->dynamicStringLoader = $dynamicStringLoader;
     }
 
-    public function runCommand(RunCommand $runCommand): void
+    public function run(string $source, string $destination): void
     {
-        $this->loadConfigurationWithDirectories($runCommand);
+        $this->loadConfigurationWithDirectories($source, $destination);
 
-        FilesystemChecker::ensureDirectoryExists($runCommand->getSourceDirectory());
+        FilesystemChecker::ensureDirectoryExists($source);
 
-        $this->loadSourcesFromSourceDirectory($runCommand->getSourceDirectory());
+        $this->loadSourcesFromSourceDirectory($source);
 
         $this->fileSystemWriter->copyStaticFiles($this->sourceFileStorage->getStaticFiles());
 
@@ -68,10 +67,10 @@ final class StatieApplication
         $this->processTemplates();
     }
 
-    private function loadConfigurationWithDirectories(RunCommand $runCommand): void
+    private function loadConfigurationWithDirectories(string $source, string $destination): void
     {
-        $this->configuration->setSourceDirectory($runCommand->getSourceDirectory());
-        $this->configuration->setOutputDirectory($runCommand->getOutputDirectory());
+        $this->configuration->setSourceDirectory($source);
+        $this->configuration->setOutputDirectory($destination);
     }
 
     private function loadSourcesFromSourceDirectory(string $sourceDirectory): void
