@@ -3,6 +3,7 @@
 namespace Symplify\Statie\Console\Command;
 
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -27,12 +28,7 @@ final class GenerateCommand extends Command
         $this->setName('generate');
         $this->setDescription('Generate a site from source.');
 
-        $this->addArgument(
-            'source',
-            null,
-            'Directory to load page FROM.',
-            getcwd() . DIRECTORY_SEPARATOR . 'source'
-        );
+        $this->addArgument('source', InputArgument::REQUIRED, 'Directory to load page FROM.');
         $this->addOption(
             'output',
             null,
