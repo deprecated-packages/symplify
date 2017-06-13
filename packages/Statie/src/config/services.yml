@@ -2,6 +2,7 @@ services:
     _defaults:
         autowire: true
 
+    # PSR-4 autodiscovery
     Symplify\Statie\:
         resource: ../../src
         exclude: ../../src/{Exception,Renderable/File}
@@ -13,7 +14,7 @@ services:
     Symfony\Component\Console\Application: ~
     TextAnalysis\Comparisons\CosineSimilarityComparison: ~
     parsedown_extra:
-      class: ParsedownExtra
+        class: ParsedownExtra
 
-    # @todo use factory...
-    Latte\Engine: ~
+    Latte\Engine:
+        factory: Symplify\Statie\FlatWhite\Latte\LatteFactory:create
