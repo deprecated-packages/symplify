@@ -261,7 +261,6 @@ parameters:
             - packages/CodingStandard/src/Sniffs/*/*Sniff.php
             - packages/CodingStandard/src/Refactorer/NetteDI/InjectToConstructorInjectionSniff.php
             - packages/EasyCodingStandard/packages/SniffRunner/src/File/File.php
-            - packages/ModularRouting/src/Routing/ModularRouter.php
             - packages/Statie/packages/FlatWhite/src/Latte/DynamicStringLoader.php
             - packages/Statie/src/Configuration/Configuration.php
             - packages/SymbioticController/src/Adapter/Nette/Application/PresenterFactory.php

@@ -1,4 +1,0 @@
-services:
-    Symplify\ModularRouting\Routing\ModularRouter:
-        tags:
-            - { name: router, priority: 50 }
