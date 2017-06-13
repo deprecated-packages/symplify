@@ -26,8 +26,8 @@ final class RenderableFilesProcessorTest extends TestCase
         $container = (new GeneralContainerFactory)->createFromConfig(
             __DIR__ . '/../../src/config/config.neon'
         );
-        $this->renderableFilesProcessor = $container->getByType(RenderableFilesProcessor::class);
-        $this->configuration = $container->getByType(Configuration::class);
+        $this->renderableFilesProcessor = $container->get(RenderableFilesProcessor::class);
+        $this->configuration = $container->get(Configuration::class);
 
         $this->configuration->setSourceDirectory(__DIR__ . '/RenderFilesProcessorSource/source');
         $this->configuration->setOutputDirectory(__DIR__ . '/RenderFilesProcessorSource/output');

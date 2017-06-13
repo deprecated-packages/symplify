@@ -3,15 +3,16 @@
 namespace Symplify\Statie\Latte\Filter;
 
 use Symplify\ModularLatteFilters\Contract\DI\LatteFiltersProviderInterface;
+use Symplify\Statie\Contract\Templating\FilterProviderInterface;
 use Symplify\Statie\Metrics\SimilarPostsResolver;
 use Symplify\Statie\Renderable\File\PostFile;
 
-final class SimilarPostsFilter implements LatteFiltersProviderInterface
+final class SimilarPostsFilter implements FilterProviderInterface
 {
     /**
      * @var string
      */
-    private const FILTER_NAME = 'similarPosts';
+    private const FILTER_NAME = '';
 
     /**
      * @var SimilarPostsResolver
@@ -26,10 +27,11 @@ final class SimilarPostsFilter implements LatteFiltersProviderInterface
     /**
      * @return callable[]
      */
-    public function getFilters(): array
+    public function provide(): array
     {
         return [
-            self::FILTER_NAME => function (PostFile $post, int $postCount) {
+            // @todo usage
+            'similarPosts' => function (PostFile $post, int $postCount) {
                 return $this->similarPostsResolver->resolveForPostWithLimit($post, $postCount);
             }
         ];

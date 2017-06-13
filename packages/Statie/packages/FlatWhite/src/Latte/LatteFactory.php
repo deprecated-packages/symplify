@@ -4,6 +4,7 @@ namespace Symplify\Statie\FlatWhite\Latte;
 
 use Latte\Engine;
 use Latte\ILoader;
+use Symplify\Statie\Contract\Templating\FilterProviderInterface;
 
 final class LatteFactory
 {
@@ -12,17 +13,33 @@ final class LatteFactory
      */
     private $loader;
 
+    /**
+     * @var FilterProviderInterface[]
+     */
+    private $filterProviders;
+
     public function __construct(ILoader $loader)
     {
         $this->loader = $loader;
     }
 
+    public function addFilterProvider(FilterProviderInterface $filterProvider): void
+    {
+        $this->filterProviders[] = $filterProvider;
+    }
+
     public function create(): Engine
     {
-        $engine = new Engine;
-        $engine->setLoader($this->loader);
-        $engine->setTempDirectory(sys_get_temp_dir() . '/_flat_white_latte_factory_cache');
+        $latteEngine = new Engine;
+        $latteEngine->setLoader($this->loader);
+        $latteEngine->setTempDirectory(sys_get_temp_dir() . '/_flat_white_latte_factory_cache');
 
-        return $engine;
+        foreach ($this->filterProviders as $filterProvider) {
+            foreach ($filterProvider->provide() as $name => $filter) {
+                $latteEngine->addFilter($name, $filter);
+            }
+        }
+
+        return $latteEngine;
     }
 }

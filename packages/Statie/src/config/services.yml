@@ -1,0 +1,19 @@
+services:
+    _defaults:
+        autowire: true
+
+    Symplify\Statie\:
+        resource: ../../src
+        exclude: ../../src/{Exception,Application/Command,Renderable/File}
+    Symplify\Statie\FlatWhite\:
+        resource: ../../packages/FlatWhite/src
+        exclude: ../../packages/FlatWhite/src/{Exception}
+
+    # 3rd party services
+    Symfony\Component\Console\Application: ~
+    TextAnalysis\Comparisons\CosineSimilarityComparison: ~
+    parsedown_extra:
+      class: ParsedownExtra
+
+    # @todo use factory...
+    Latte\Engine: ~

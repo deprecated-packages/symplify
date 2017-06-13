@@ -3,14 +3,13 @@
 namespace Symplify\Statie\Tests\Application;
 
 use Nette\Utils\FileSystem;
-use PHPUnit\Framework\TestCase;
-use Symplify\PackageBuilder\Adapter\Nette\GeneralContainerFactory;
 use Symplify\Statie\Application\Command\RunCommand;
 use Symplify\Statie\Application\StatieApplication;
 use Symplify\Statie\Exception\Utils\MissingDirectoryException;
 use Symplify\Statie\FlatWhite\Latte\DynamicStringLoader;
+use Symplify\Statie\Tests\AbstractContainerAwareTestCase;
 
-final class StatieApplicationTest extends TestCase
+final class StatieApplicationTest extends AbstractContainerAwareTestCase
 {
     /**
      * @var StatieApplication
@@ -24,11 +23,8 @@ final class StatieApplicationTest extends TestCase
 
     protected function setUp(): void
     {
-        $container = (new GeneralContainerFactory)->createFromConfig(
-            __DIR__ . '/../../src/config/config.neon'
-        );
-        $this->statieApplication = $container->getByType(StatieApplication::class);
-        $this->dynamicStringLoader = $container->getByType(DynamicStringLoader::class);
+        $this->statieApplication = $this->container->get(StatieApplication::class);
+        $this->dynamicStringLoader = $this->container->get(DynamicStringLoader::class);
     }
 
     protected function tearDown(): void

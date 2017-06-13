@@ -1,13 +1,2 @@
-application:
-	scanDirs: FALSE
-	scanComposer: FALSE
-
-extensions:
-    statie: Symplify\Statie\DI\StatieCompilerExtension
-    - Symplify\Statie\FlatWhite\Adapter\Nette\DI\FlatWhiteExtension
-    - Symplify\ModularLatteFilters\DI\ModularLatteFiltersExtension
-    # Symfony\Console to Nette integration
-    - Contributte\Console\DI\ConsoleExtension
-
-statie:
+parameters:
     postRoute: blog/:year/:month/:day/:filename

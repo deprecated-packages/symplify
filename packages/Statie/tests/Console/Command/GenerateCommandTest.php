@@ -22,7 +22,7 @@ final class GenerateCommandTest extends TestCase
             __DIR__ . '/../../../src/config/config.neon'
         );
 
-        $this->application = $container->getByType(Application::class);
+        $this->application = $container->get(Application::class);
         $this->application->setAutoExit(false);
     }
 
