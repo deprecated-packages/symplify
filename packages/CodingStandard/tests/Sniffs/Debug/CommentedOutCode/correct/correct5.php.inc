@@ -6,4 +6,4 @@ require __DIR__ . '/../vendor/autoload.php';
  * This is simple php code comment
  * And second line.
  */
-Symplify\EasyCodingStandard\SniffRunner\Legacy\LegacyCompatibilityLayer::add();
+new stdClass;

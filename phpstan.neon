@@ -6,8 +6,7 @@ parameters:
         - *packages/CodingStandard/tests/**/correct*
         - *packages/CodingStandard/tests/**/wrong*
     enableUnionTypes: true
-    autoload_directories:
-        - vendor/squizlabs/php_codesniffer/src
     autoload_files:
+        - %currentWorkingDirectory%/vendor/squizlabs/php_codesniffer/autoload.php
         - packages/EasyCodingStandard/tests/Finder/SourceFinderSource/SomeClass.php
         - packages/EasyCodingStandard/packages/ChangedFilesDetector/tests/ChangedFilesDetectorSource/OneClass.php
