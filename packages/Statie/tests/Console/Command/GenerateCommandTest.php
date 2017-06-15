@@ -5,6 +5,7 @@ namespace Symplify\Statie\Tests\Console\Command;
 use Nette\Utils\FileSystem;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Input\StringInput;
+use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\Console\Output\NullOutput;
 use Symplify\Statie\Tests\AbstractContainerAwareTestCase;
 
@@ -29,7 +30,7 @@ final class GenerateCommandTest extends AbstractContainerAwareTestCase
     public function test(): void
     {
         $stringInput = sprintf(
-            'generate --source %s --output %s',
+            'generate %s --output %s',
             __DIR__ . '/GenerateCommandSource/source',
             __DIR__ . '/GenerateCommandSource/output'
         );
