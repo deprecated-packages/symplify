@@ -3,13 +3,12 @@
 namespace Symplify\Statie\Tests\Console\Command;
 
 use Nette\Utils\FileSystem;
-use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Input\StringInput;
 use Symfony\Component\Console\Output\NullOutput;
-use Symplify\PackageBuilder\Adapter\Nette\GeneralContainerFactory;
+use Symplify\Statie\Tests\AbstractContainerAwareTestCase;
 
-final class GenerateCommandTest extends TestCase
+final class GenerateCommandTest extends AbstractContainerAwareTestCase
 {
     /**
      * @var Application
@@ -18,11 +17,7 @@ final class GenerateCommandTest extends TestCase
 
     protected function setUp(): void
     {
-        $container = (new GeneralContainerFactory)->createFromConfig(
-            __DIR__ . '/../../../src/config/config.neon'
-        );
-
-        $this->application = $container->getByType(Application::class);
+        $this->application = $this->container->get(Application::class);
         $this->application->setAutoExit(false);
     }
 
@@ -34,7 +29,7 @@ final class GenerateCommandTest extends TestCase
     public function test(): void
     {
         $stringInput = sprintf(
-            'generate --source %s --output %s',
+            'generate %s --output %s',
             __DIR__ . '/GenerateCommandSource/source',
             __DIR__ . '/GenerateCommandSource/output'
         );

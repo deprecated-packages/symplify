@@ -116,8 +116,7 @@ final class Configuration
 
     public function getGithubRepositorySlug(): string
     {
-        return $this->options['configuration'][self::OPTION_GITHUB_REPOSITORY_SLUG]
-            ?? self::DEFAULT_POST_ROUTE;
+        return $this->options['configuration'][self::OPTION_GITHUB_REPOSITORY_SLUG] ?? '';
     }
 
     public function isMarkdownHeadlineAnchors(): bool

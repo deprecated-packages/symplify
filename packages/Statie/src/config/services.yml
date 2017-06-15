@@ -1,0 +1,20 @@
+services:
+    _defaults:
+        autowire: true
+
+    # PSR-4 autodiscovery
+    Symplify\Statie\:
+        resource: ../../src
+        exclude: ../../src/{Exception,Renderable/File}
+    Symplify\Statie\FlatWhite\:
+        resource: ../../packages/FlatWhite/src
+        exclude: ../../packages/FlatWhite/src/{Exception}
+
+    # 3rd party services
+    Symfony\Component\Console\Application: ~
+    TextAnalysis\Comparisons\CosineSimilarityComparison: ~
+    parsedown_extra:
+        class: ParsedownExtra
+
+    Latte\Engine:
+        factory: Symplify\Statie\FlatWhite\Latte\LatteFactory:create

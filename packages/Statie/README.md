@@ -23,7 +23,7 @@ npm install -g gulp gulp-watch
 ### Generate content from `/source` to `/output` in HTML
 
 ```bash
-vendor/bin/statie generate
+vendor/bin/statie generate source
 ```
 
 ### See Generated web
@@ -50,7 +50,7 @@ gulp.task('default', function () {
     return watch(['source/*', '!**/*___jb_tmp___'], { ignoreInitial: false })
         // For the second arg see: https://github.com/floatdrop/gulp-watch/issues/242#issuecomment-230209702
         .on('change', function() {
-            exec('vendor/bin/statie generate', function (err, stdout, stderr) {
+            exec('vendor/bin/statie generate source', function (err, stdout, stderr) {
                 console.log(stdout);
                 console.log(stderr);
             });
@@ -110,7 +110,7 @@ To configure post url address just modify:
 ```yaml
 # source/_config/config.neon
 
-configuration:
+parameters:
     postRoute: blog/:year/:month/:day/:title # default one
     # will produce post detail link: blog/2016/12/01/how-to-host-open-source-blog-for-free
     
@@ -129,7 +129,7 @@ When a headline is hovered, an anchor link to it will appear on the left.
  
 ```yaml
 # source/_config/config.neon
-configuration:   
+parameters:   
     markdownHeadlineAnchors: FALSE # default one
     # TRUE will enable Github-like anchored headlines for *.md files     
 ```

@@ -2,22 +2,18 @@
 
 namespace Symplify\Statie\Latte\Filter;
 
-use Symplify\ModularLatteFilters\Contract\DI\LatteFiltersProviderInterface;
+use Symplify\Statie\Contract\Templating\FilterProviderInterface;
 
-final class TimeFilterProvider implements LatteFiltersProviderInterface
+final class TimeFilterProvider implements FilterProviderInterface
 {
-    /**
-     * @var string
-     */
-    private const FILTER_NAME = 'timeToSeconds';
-
     /**
      * @return callable[]
      */
-    public function getFilters(): array
+    public function provide(): array
     {
         return [
-            self::FILTER_NAME => function (string $time) {
+            // @todo: usage
+            'timeToSeconds' => function (string $time) {
                 return $this->convertTimeToSeconds($time);
             },
         ];

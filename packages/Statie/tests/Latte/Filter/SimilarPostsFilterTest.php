@@ -2,17 +2,13 @@
 
 namespace Symplify\Statie\Tests\Latte\Filter;
 
-use PHPUnit\Framework\TestCase;
 use Symplify\Statie\Configuration\Configuration;
-use Symplify\Statie\Configuration\Parser\NeonParser;
 use Symplify\Statie\Latte\Filter\SimilarPostsFilter;
-use Symplify\Statie\Metrics\PostSimilarityAnalyzer;
-use Symplify\Statie\Metrics\SimilarPostsResolver;
 use Symplify\Statie\Renderable\File\PostFile;
+use Symplify\Statie\Tests\AbstractContainerAwareTestCase;
 use Symplify\Statie\Tests\Helper\PostFactory;
-use TextAnalysis\Comparisons\CosineSimilarityComparison;
 
-final class SimilarPostsFilterTest extends TestCase
+final class SimilarPostsFilterTest extends AbstractContainerAwareTestCase
 {
     /**
      * @var SimilarPostsFilter
@@ -27,14 +23,15 @@ final class SimilarPostsFilterTest extends TestCase
     protected function setUp(): void
     {
         $this->postFactory = new PostFactory;
+        $this->similarPostFilter = $this->container->get(SimilarPostsFilter::class);
 
-        $similarPostResolver = $this->createSimilarPostResolver();
-        $this->similarPostFilter = new SimilarPostsFilter($similarPostResolver);
+        $configuration = $this->container->get(Configuration::class);
+        $configuration->addGlobalVarialbe('posts', $this->getAllPosts());
     }
 
     public function test(): void
     {
-        $filters = $this->similarPostFilter->getFilters();
+        $filters = $this->similarPostFilter->provide();
 
         $mainPost = $this->postFactory->createPostFromFilePath(
             __DIR__ . '/../../PostsSource/2017-01-01-some-post.md'
@@ -64,13 +61,5 @@ final class SimilarPostsFilterTest extends TestCase
                 __DIR__ . '/../../PostsSource/2017-02-05-offtopic-post.md'
             )
         ];
-    }
-
-    private function createSimilarPostResolver(): SimilarPostsResolver
-    {
-        $configuration = new Configuration(new NeonParser);
-        $configuration->addGlobalVarialbe('posts', $this->getAllPosts());
-
-        return new SimilarPostsResolver($configuration, new PostSimilarityAnalyzer(new CosineSimilarityComparison));
     }
 }

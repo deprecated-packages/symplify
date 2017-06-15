@@ -2,17 +2,12 @@
 
 namespace Symplify\Statie\Latte\Filter;
 
-use Symplify\ModularLatteFilters\Contract\DI\LatteFiltersProviderInterface;
 use Symplify\Statie\Configuration\Configuration;
+use Symplify\Statie\Contract\Templating\FilterProviderInterface;
 use Symplify\Statie\Renderable\File\AbstractFile;
 
-final class GithubPrLinkFilterProvider implements LatteFiltersProviderInterface
+final class GithubPrLinkFilterProvider implements FilterProviderInterface
 {
-    /**
-     * @var string
-     */
-    private const FILTER_NAME = 'githubEditPostUrl';
-
     /**
      * @var Configuration
      */
@@ -26,10 +21,11 @@ final class GithubPrLinkFilterProvider implements LatteFiltersProviderInterface
     /**
      * @return callable[]
      */
-    public function getFilters(): array
+    public function provide(): array
     {
         return [
-            self::FILTER_NAME => function (AbstractFile $file) {
+            // @todo usage
+            'githubEditPostUrl' => function (AbstractFile $file) {
                 return 'https://github.com/'
                     . $this->configuration->getGithubRepositorySlug()
                     . '/edit/master/source/'

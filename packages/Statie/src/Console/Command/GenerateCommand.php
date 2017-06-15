@@ -3,10 +3,10 @@
 namespace Symplify\Statie\Console\Command;
 
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symplify\Statie\Application\Command\RunCommand;
 use Symplify\Statie\Application\StatieApplication;
 
 final class GenerateCommand extends Command
@@ -28,13 +28,7 @@ final class GenerateCommand extends Command
         $this->setName('generate');
         $this->setDescription('Generate a site from source.');
 
-        $this->addOption(
-            'source',
-            null,
-            InputOption::VALUE_REQUIRED,
-            'Directory to load page FROM.',
-            getcwd() . DIRECTORY_SEPARATOR . 'source'
-        );
+        $this->addArgument('source', InputArgument::REQUIRED, 'Directory to load page FROM.');
         $this->addOption(
             'output',
             null,
@@ -46,12 +40,7 @@ final class GenerateCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $runCommand = new RunCommand(
-            $input->getOption('source'),
-            $input->getOption('output')
-        );
-
-        $this->statieApplication->runCommand($runCommand);
+        $this->statieApplication->run($input->getArgument('source'), $input->getOption('output'));
 
         $output->writeln('<info>Website was successfully generated.</info>');
 
