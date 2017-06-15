@@ -5,7 +5,6 @@ namespace Symplify\Statie\Tests\Console\Command;
 use Nette\Utils\FileSystem;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Input\StringInput;
-use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\Console\Output\NullOutput;
 use Symplify\Statie\Tests\AbstractContainerAwareTestCase;
 

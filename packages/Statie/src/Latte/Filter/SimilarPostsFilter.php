@@ -2,18 +2,12 @@
 
 namespace Symplify\Statie\Latte\Filter;
 
-use Symplify\ModularLatteFilters\Contract\DI\LatteFiltersProviderInterface;
 use Symplify\Statie\Contract\Templating\FilterProviderInterface;
 use Symplify\Statie\Metrics\SimilarPostsResolver;
 use Symplify\Statie\Renderable\File\PostFile;
 
 final class SimilarPostsFilter implements FilterProviderInterface
 {
-    /**
-     * @var string
-     */
-    private const FILTER_NAME = '';
-
     /**
      * @var SimilarPostsResolver
      */

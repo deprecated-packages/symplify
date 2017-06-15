@@ -26,6 +26,11 @@ final class StatieApplicationTest extends AbstractContainerAwareTestCase
         $this->dynamicStringLoader = $this->container->get(DynamicStringLoader::class);
     }
 
+    protected function tearDown(): void
+    {
+        FileSystem::delete(__DIR__ . '/StatieApplicationSource/output');
+    }
+
     public function test(): void
     {
         $this->statieApplication->run(
@@ -49,10 +54,5 @@ final class StatieApplicationTest extends AbstractContainerAwareTestCase
     {
         $this->expectException(MissingDirectoryException::class);
         $this->statieApplication->run('missing', 'random');
-    }
-
-    protected function tearDown(): void
-    {
-        FileSystem::delete(__DIR__ . '/StatieApplicationSource/output');
     }
 }
