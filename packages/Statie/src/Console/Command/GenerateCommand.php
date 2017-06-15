@@ -40,10 +40,7 @@ final class GenerateCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $this->statieApplication->run(
-            $input->getArgument('source'),
-            $input->getOption('output')
-        );
+        $this->statieApplication->run($input->getArgument('source'), $input->getOption('output'));
 
         $output->writeln('<info>Website was successfully generated.</info>');
 
