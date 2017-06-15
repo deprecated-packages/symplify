@@ -15,5 +15,7 @@ final class ContainerFactoryTest extends TestCase
         $container = $containerFactory->create();
         $this->assertInstanceOf(ContainerInterface::class, $container);
         $this->assertInstanceOf(Container::class, $container);
+
+        $this->assertTrue($container->isCompiled());
     }
 }
