@@ -16,7 +16,7 @@ final class LatteFactory
     /**
      * @var FilterProviderInterface[]
      */
-    private $filterProviders;
+    private $filterProviders = [];
 
     public function __construct(ILoader $loader)
     {
