@@ -1,9 +1,0 @@
-application:
-	scanDirs: FALSE
-	scanComposer: FALSE
-
-services:
-	- Symplify\ModularLatteFilters\Tests\Filter\MathFilters
-
-extensions:
-	- Symplify\ModularLatteFilters\DI\ModularLatteFiltersExtension
