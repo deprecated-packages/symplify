@@ -35,7 +35,9 @@ final class ArrayPropertyDefaultValueFixer implements DefinedFixerInterface
 
     public function fix(SplFileInfo $file, Tokens $tokens): void
     {
-        foreach ($tokens as $index => $token) {
+        for ($index = count($tokens) - 1; $index > 1; --$index) {
+            $token = $tokens[$index];
+
             if (! $token->isGivenKind(T_DOC_COMMENT)) {
                 continue;
             }
@@ -45,8 +47,15 @@ final class ArrayPropertyDefaultValueFixer implements DefinedFixerInterface
             }
 
             $semicolonOrDefaultValuePosition = $tokens->getNextMeaningfulToken($index + 4);
+            $variableToken = $tokens->getNextTokenOfKind($index, [T_VARIABLE]);
+            // use getNextTokenOfKind to search for T_VARIABLE
+            dump($semicolonOrDefaultValuePosition);
+            if ($variableToken === null) {
+                break;
+            }
+
             $semicolonOrDefaultValueToken = $tokens[$semicolonOrDefaultValuePosition];
-            if ($semicolonOrDefaultValueToken->equals(';')) {
+            if (! $semicolonOrDefaultValueToken->equals(';')) {
                 $this->addDefaultValueForArrayProperty($tokens, $semicolonOrDefaultValuePosition);
             }
         }
@@ -90,11 +99,14 @@ final class ArrayPropertyDefaultValueFixer implements DefinedFixerInterface
 
     private function addDefaultValueForArrayProperty(Tokens $tokens, int $semicolonPosition): void
     {
-        // todo: prepare nicer api
-        $tokens->insertAt($semicolonPosition, new Token([CT::T_ARRAY_SQUARE_BRACE_CLOSE, ']']));
-        $tokens->insertAt($semicolonPosition, new Token([CT::T_ARRAY_SQUARE_BRACE_OPEN, '[']));
-        $tokens->insertAt($semicolonPosition, new Token([T_WHITESPACE, ' ']));
-        $tokens->insertAt($semicolonPosition, new Token('='));
-        $tokens->insertAt($semicolonPosition, new Token([T_WHITESPACE, ' ']));
+        $tokens[$semicolonPosition]->clear();
+
+        $tokens->insertAt($semicolonPosition, [
+            new Token([T_WHITESPACE, ' ']),
+            new Token('='),
+            new Token([T_WHITESPACE, ' ']),
+            new Token([CT::T_ARRAY_SQUARE_BRACE_OPEN, '[']),
+            new Token([CT::T_ARRAY_SQUARE_BRACE_CLOSE, ']'])
+        ]);
     }
 }
