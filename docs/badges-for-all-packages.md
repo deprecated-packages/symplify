@@ -1,6 +1,6 @@
 # Badges for All Symplify Packages
 
-To quick check test build status, coverage or downloads.
+To quick check test build status or downloads.
 
 ## Coding Standard
 
