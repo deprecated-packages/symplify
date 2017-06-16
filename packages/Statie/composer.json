@@ -41,6 +41,5 @@
             "Symplify\\Statie\\Tests\\": "tests",
             "Symplify\\Statie\\FlatWhite\\Tests\\": "packages/FlatWhite/tests"
         }
-    },
-    "minimum-stability": "dev"
+    }
 }
