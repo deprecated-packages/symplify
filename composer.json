@@ -34,7 +34,6 @@
         "laravel/framework": "^5.4",
         "illuminate/container": "^5.4",
         "illuminate/support": "^5.4",
-        "contributte/console": "^0.1",
         "yooper/php-text-analysis": "^1.1",
         "contributte/event-dispatcher": "^0.3",
         "contributte/event-application-bridge": "^0.1"

@@ -10,8 +10,8 @@
         "nikic/php-parser": "^3.0"
     },
     "require-dev": {
-        "symplify/easy-coding-standard": "dev-master",
-        "symplify/package-builder": "2.0-RC2 as 1.4",
+        "symplify/easy-coding-standard": "^2.0",
+        "symplify/package-builder": "^2.0",
         "phpunit/phpunit": "^6.0"
     },
     "autoload": {
@@ -24,5 +24,6 @@
         "psr-4": {
             "Symplify\\CodingStandard\\Tests\\": "tests"
         }
-    }
+    },
+    "minimum-stability": "dev"
 }

@@ -23,5 +23,6 @@
         "psr-4": {
             "Symplify\\SymbioticController\\Tests\\": "tests"
         }
-    }
+    },
+    "minimum-stability": "dev"
 }
