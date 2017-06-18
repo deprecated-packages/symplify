@@ -65,62 +65,6 @@ final class SomeClass implements SomeInterface
 }
 ```
 
-### Controller should have max. 1 render method
-
-- [Classes/ControllerRenderMethodLimitSniff](/src/Sniffs/Classes/ControllerRenderMethodLimitSniff.php)
-
-:x:
-
-```php
-final class Controller
-{
-    public function defaultAction()
-    {
-    }
-    
-    public function listAction()
-    {
-    }
-}
-```
-
-:+1:
-
-```php
-final class Controller
-{
-    public function defaultAction()
-    {
-    }
-}
-```
-
-### Controller has to contain __invoke() method
- 
-- [Classes/InvokableControllerSniff](/src/Sniffs/Classes/InvokableControllerSniff.php)
-
-:x:
-
-```php
-final class Controller
-{
-    public function defaultAction()
-    {
-    }
-}
-```
-
-:+1:
-
-```php
-final class Controller
-{
-    public function __invoke()
-    {
-    }
-}
-```
-
 
 ### Non-abstract class that implements interface should be final
 
@@ -197,6 +141,7 @@ class SomeClass
 }
 ```
 
+
 ### Property should have docblock comment
 
 - [Commenting/VarPropertyCommentSniff](/src/Sniffs/Commenting/VarPropertyCommentSniff.php)
@@ -223,7 +168,64 @@ class SomeClass
 ```
 
 
-### New class statement should not have empty parentheses.
+### Controller should have max. 1 render method
+
+- [Classes/ControllerRenderMethodLimitSniff](/src/Sniffs/Classes/ControllerRenderMethodLimitSniff.php)
+
+:x:
+
+```php
+final class Controller
+{
+    public function defaultAction()
+    {
+    }
+    
+    public function listAction()
+    {
+    }
+}
+```
+
+:+1:
+
+```php
+final class Controller
+{
+    public function defaultAction()
+    {
+    }
+}
+```
+
+### Controller has to contain `__invoke()` method
+ 
+- [Classes/InvokableControllerSniff](/src/Sniffs/Classes/InvokableControllerSniff.php)
+
+:x:
+
+```php
+final class Controller
+{
+    public function defaultAction()
+    {
+    }
+}
+```
+
+:+1:
+
+```php
+final class Controller
+{
+    public function __invoke()
+    {
+    }
+}
+```
+
+
+### New class statement should not have empty parentheses
 
 - [ControlStructures/NewClassSniff](/src/Sniffs/ControlStructures/NewClassSniff.php)
 
@@ -240,7 +242,7 @@ $file = new File;
 $directory = new Directory([$file]);
 ```
 
-### This comment is valid code. Uncomment it or remove it.
+### There should comments with valid code
 
 - [Debug/CommentedOutCodeSniff](/src/Sniffs/Debug/CommentedOutCodeSniff.php)
 
@@ -338,6 +340,30 @@ trait SomeTrait
 }
 ```
 
+
+### Non-abstract class that extends TestCase should be final
+
+- [PHPUnit\FinalTestCaseSniff]((/src/Sniffs/PHPUnit/FinalTestCaseSniff.php)
+
+:x:
+
+```php
+use PHPUnit\Framework\TestCase;
+
+class SomeTest extends TestCase
+{
+}
+```
+
+:+1:
+
+```php
+use PHPUnit\Framework\TestCase;
+
+final class SomeTest extends TestCase
+{
+}
+```
 
 
 ## Contributing
