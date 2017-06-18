@@ -2,6 +2,7 @@
 
 namespace Symplify\CodingStandard\Sniffs\Naming;
 
+use Nette\Utils\Strings;
 use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Fixer;
 use PHP_CodeSniffer\Sniffs\Sniff;
@@ -62,7 +63,7 @@ final class AbstractClassNameSniff implements Sniff
             return true;
         }
 
-        if (strpos($this->getClassName(), 'Abstract') === 0) {
+        if (Strings::startsWith($this->getClassName(), 'Abstract')) {
             return true;
         }
 

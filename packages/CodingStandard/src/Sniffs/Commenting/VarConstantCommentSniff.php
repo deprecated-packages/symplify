@@ -16,7 +16,7 @@ final class VarConstantCommentSniff implements Sniff
     /**
      * @var string
      */
-    private const ERROR_MESSAGE = 'Constant is missing @var comment.';
+    private const ERROR_MESSAGE = 'Constant should have docblock comment.';
 
     /**
      * @return int[]

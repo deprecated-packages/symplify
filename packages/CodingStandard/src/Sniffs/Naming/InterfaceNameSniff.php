@@ -2,6 +2,7 @@
 
 namespace Symplify\CodingStandard\Sniffs\Naming;
 
+use Nette\Utils\Strings;
 use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Fixer;
 use PHP_CodeSniffer\Sniffs\Sniff;
@@ -47,7 +48,7 @@ final class InterfaceNameSniff implements Sniff
         $this->position = $position;
 
         $interfaceName = $this->getInterfaceName();
-        if ((strlen($interfaceName) - strlen('Interface')) === strrpos($interfaceName, 'Interface')) {
+        if (Strings::endsWith($interfaceName, 'Interface')) {
             return;
         }
 

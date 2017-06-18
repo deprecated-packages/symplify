@@ -5,8 +5,7 @@ namespace Symplify\CodingStandard\Sniffs\Debug;
 use PHP_CodeSniffer\Standards\Generic\Sniffs\PHP\ForbiddenFunctionsSniff;
 
 /**
- * Rules:
- * - Debug functions should not be left in the code.
+ * Debug functions should not be left in the code.
  */
 final class DebugFunctionCallSniff extends ForbiddenFunctionsSniff
 {
@@ -16,7 +15,7 @@ final class DebugFunctionCallSniff extends ForbiddenFunctionsSniff
      * The value is NULL if no alternative exists. IE, the
      * function should just not be used.
      *
-     * @var array(string => string|NULL)
+     * @var mixed[]
      */
     public $forbiddenFunctions = [
         'd' => null,
