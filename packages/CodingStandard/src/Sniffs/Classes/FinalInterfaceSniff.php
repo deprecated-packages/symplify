@@ -2,6 +2,7 @@
 
 namespace Symplify\CodingStandard\Sniffs\Classes;
 
+use Nette\Utils\Strings;
 use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Fixer;
 use PHP_CodeSniffer\Sniffs\Sniff;
@@ -101,7 +102,7 @@ final class FinalInterfaceSniff implements Sniff
 
         do {
             $docCommentTokenContent = $this->file->getTokens()[$docCommentPosition]['content'];
-            if (strpos($docCommentTokenContent, 'Entity') !== false) {
+            if (Strings::contains($docCommentTokenContent, 'Entity')) {
                 return true;
             }
             ++$seekPosition;
