@@ -3,7 +3,7 @@
 [![Build Status](https://img.shields.io/travis/Symplify/CodingStandard/master.svg?style=flat-square)](https://travis-ci.org/Symplify/CodingStandard)
 [![Downloads](https://img.shields.io/packagist/dt/symplify/coding-standard.svg?style=flat-square)](https://packagist.org/packages/symplify/coding-standard)
 
-Set of PHP_CodeSniffer rules for Symplify packages.
+Set of smart and advanced sniffs PHP_CodeSniffer.
 
 ## Install
 
@@ -11,15 +11,11 @@ Set of PHP_CodeSniffer rules for Symplify packages.
 composer require symplify/coding-standard --dev
 ```
 
-## Usage
+## Rules Overview
 
-To use, check [EasyCodingStandard](/packages/EasyCodingStandard/README.md).
+### Traits are forbidden. Prefer services and constructor injection
 
----
-
-Rules Overview...
-
-### [Traits are forbidden. Prefer service and constructor injection](/src/Sniffs/Architecture/ForbiddenTraitSniff.php)
+- [Architecture/ForbiddenTraitSniff](/src/Sniffs/Architecture/ForbiddenTraitSniff.php)
 
 :x:
 
@@ -29,7 +25,9 @@ trait SomeTrait
 }
 ```
 
-### [Implementation of interface should only contain its methods](/src/Sniffs/Classes/EqualInterfaceImplementationSniff.php)
+### Implementation of interface should only contain its methods
+
+- [Classes/EqualInterfaceImplementationSniff](/src/Sniffs/Classes/EqualInterfaceImplementationSniff.php)
 
 :x:
 
@@ -67,7 +65,9 @@ final class SomeClass implements SomeInterface
 }
 ```
 
-### [Controller should have max.1 render method.](/src/Sniffs/Classes/ControllerRenderMethodLimitSniff.php)
+### Controller should have max. 1 render method
+
+- [Classes/ControllerRenderMethodLimitSniff](/src/Sniffs/Classes/ControllerRenderMethodLimitSniff.php)
 
 :x:
 
@@ -95,7 +95,9 @@ final class Controller
 }
 ```
 
-### [Controller has to contain __invoke() method](/src/Sniffs/Classes/InvokableControllerSniff.php)
+### Controller has to contain __invoke() method
+ 
+- [Classes/InvokableControllerSniff](/src/Sniffs/Classes/InvokableControllerSniff.php)
 
 :x:
 
@@ -119,7 +121,10 @@ final class Controller
 }
 ```
 
-### [Non-abstract class that implements interface should be final](/src/Sniffs/Classes/FinalInterfaceSniff.php)
+
+### Non-abstract class that implements interface should be final
+
+- [Classes/FinalInterfaceSniff](/src/Sniffs/Classes/FinalInterfaceSniff.php)
 
 :x:
 
@@ -139,7 +144,10 @@ final class SomeClass implements SomeInterface
 
 - Except for Doctrine entities, they cannot be final.
 
-### [Block comment should be used instead of one liner](/src/Sniffs/Commenting/BlockPropertyCommentSniff.php) 
+
+### Block comment should be used instead of one liner
+
+- [Commenting/BlockPropertyCommentSniff](/src/Sniffs/Commenting/BlockPropertyCommentSniff.php) 
 
 :x:
 
@@ -164,7 +172,9 @@ class SomeClass
 ```
 
 
-### [Constant should have docblock comment](/src/Sniffs/Commenting/VarConstantCommentSniff.php)
+### Constant should have docblock comment
+
+- [Commenting/VarConstantCommentSniff](/src/Sniffs/Commenting/VarConstantCommentSniff.php)
 
 :x:
 
@@ -187,7 +197,9 @@ class SomeClass
 }
 ```
 
-### [Property should have docblock comment](/src/Sniffs/Commenting/VarPropertyCommentSniff.php)
+### Property should have docblock comment
+
+- [Commenting/VarPropertyCommentSniff](/src/Sniffs/Commenting/VarPropertyCommentSniff.php)
 
 :x:
 
@@ -211,7 +223,9 @@ class SomeClass
 ```
 
 
-### [New class statement should not have empty parentheses.](/src/Sniffs/ControlStructures/NewClassSniff.php)
+### New class statement should not have empty parentheses.
+
+- [ControlStructures/NewClassSniff](/src/Sniffs/ControlStructures/NewClassSniff.php)
 
 :x:
 
@@ -226,7 +240,9 @@ $file = new File;
 $directory = new Directory([$file]);
 ```
 
-### [This comment is valid code. Uncomment it or remove it.](/src/Sniffs/Debug/CommentedOutCodeSniff.php)
+### This comment is valid code. Uncomment it or remove it.
+
+- [Debug/CommentedOutCodeSniff](/src/Sniffs/Debug/CommentedOutCodeSniff.php)
 
 :x:
 
@@ -235,7 +251,9 @@ $directory = new Directory([$file]);
 // $directory = new Diretory([$file]);
 ```
 
-### [Debug functions should not be left in the code](/src/Sniffs/Debug/DebugFunctionCallSniff.php)
+### Debug functions should not be left in the code
+
+- [Debug/DebugFunctionCallSniff](/src/Sniffs/Debug/DebugFunctionCallSniff.php)
 
 :x:
 
@@ -243,7 +261,9 @@ $directory = new Directory([$file]);
 dump($value);
 ```
 
-### [Class name after new/instanceof should not start with slash.](/src/Sniffs/Namespaces/ClassNamesWithoutPreSlashSniff.php)
+### Class name after new/instanceof should not start with slash.
+
+- [Namespaces/ClassNamesWithoutPreSlashSniff](/src/Sniffs/Namespaces/ClassNamesWithoutPreSlashSniff.php)
 
 :x:
 
@@ -257,7 +277,9 @@ $file = new \File;
 $file = new File;
 ```
 
-### [Abstract class should have prefix "Abstract"](/src/Sniffs/Naming/AbstractClassNameSniff.php)
+### Abstract class should have prefix "Abstract"
+
+- [Naming/AbstractClassNameSniff](/src/Sniffs/Naming/AbstractClassNameSniff.php)
 
 :x:
 
@@ -275,7 +297,9 @@ abstract class AbstractSomeClass
 }
 ```
 
-### [Interface should have suffix "Interface"](/src/Sniffs/Naming/InterfaceNameSniff.php)
+### Interface should have suffix "Interface"
+
+- [Naming/InterfaceNameSniff](/src/Sniffs/Naming/InterfaceNameSniff.php)
 
 :x:
 
@@ -294,7 +318,9 @@ interface SomeInterface
 ```
 
 
-### [Trait should have suffix "Trait"](/src/Sniffs/Naming/TraitNameSniff.php)
+### Trait should have suffix "Trait"
+
+- [Naming/TraitNameSniff](/src/Sniffs/Naming/TraitNameSniff.php)
 
 :x:
 
