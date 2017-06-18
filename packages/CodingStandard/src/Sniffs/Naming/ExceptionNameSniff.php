@@ -78,6 +78,7 @@ final class ExceptionNameSniff implements Sniff
     private function getExceptionName(): string
     {
         $classNameToken = $this->tokens[$this->getExceptionNamePosition()];
+
         return $classNameToken['content'];
     }
 
