@@ -49,9 +49,6 @@ DefinitionCollector::loadCollectorWithType(
 Statie helps you to host and develop your blog on Github.
 A static site generator with aim on community websites.
 
-[Pehapkari.cz]() ([Github repo]()) and TomasVotruba.cz]()
-
-
 ## [Symbiotic Controller](https://github.com/Symplify/SymbioticController)
 
 [![Build Status](https://img.shields.io/travis/Symplify/SymbioticController/master.svg?style=flat-square)](https://travis-ci.org/Symplify/SymbioticController)
@@ -79,9 +76,8 @@ This is [monolithic repository](https://www.tomasvotruba.cz/blog/2017/01/31/how-
 
 Just follow 3 rules:
 
-- **1 feature per pull-request**
-- **New feature needs tests**. Bottom limit for coverage is 70 % and it is checked by [coveralls.io](https://coveralls.io/) automatically under every PR.
-- Tests, coding standard and PHPStan **checks must pass**
+- 1. **new feature needs tests**, bottom limit for coverage 70 % is checked by [coveralls.io](https://coveralls.io/) automatically under every PR
+- 2. tests, coding standard and PHPStan **checks must pass**
 
     ```bash
     composer complete-check
@@ -92,6 +88,5 @@ Just follow 3 rules:
     ```bash
     composer fix-cs
     ```
-
 
 We would be happy to merge your feature then.
