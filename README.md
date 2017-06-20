@@ -25,13 +25,19 @@ The best and easiest way to start coding standard with. Combined both CodeSniffe
 [![Build Status](https://img.shields.io/travis/Symplify/PackageBuilder/master.svg?style=flat-square)](https://travis-ci.org/Symplify/PackageBuilder)
 [![Downloads](https://img.shields.io/packagist/dt/symplify/package-builder.svg?style=flat-square)](https://packagist.org/packages/symplify/package-builder)
 
-Dependency Injection universal methods for Symfony, Laravel and Nette.
+Handy Dependency Injection universal methods for Symfony, Laravel and Nette.
 
-@todo: relevant for end users?
- 
 ```php
-::getDefinitionByType($containerBuilder, ...);
-::collectDefinitions($containerBuilder, ...);
+$eventDisptacherDefinition = DefinitionFinder::getByType($containerBuilder, EventDisptacher::class);
+
+$eventSubscribersDefinitions = DefinitionFinder::findAllByType($containerBuilder, EventSubscriberInterface::class);
+
+DefinitionCollector::loadCollectorWithType(
+    $containerBuilder,
+    EventDisptacher::class,
+    EventSubscriberInterface::class,
+    'addSubscriber'
+);
 ```
 
 
