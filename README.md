@@ -71,19 +71,19 @@ This is [monolithic repository](https://www.tomasvotruba.cz/blog/2017/01/31/how-
 
 Just follow 3 rules:
 
-- 1. **new feature needs tests**, bottom limit for coverage 70 % is checked by [coveralls.io](https://coveralls.io/) automatically under every PR
-- 2. tests, coding standard and PHPStan **checks must pass**
+- **1 feature per pull-request**
+- **New feature needs tests**. Bottom limit for coverage is 70 % and it is checked by [coveralls.io](https://coveralls.io/) automatically under every PR.
+- Tests, coding standard and PHPStan **checks must pass**
 
     ```bash
     composer complete-check
     ```
-    
-    - fix coding standard command might come handy     
-        
-        ```bash
-        composer fix-cs
-        ```
-    
-- 3. **1 feature per PR**
+
+    Often you don't need to fix coding standard manually, just run:
+
+    ```bash
+    composer fix-cs
+    ```
+
 
 We would be happy to merge your feature then.
