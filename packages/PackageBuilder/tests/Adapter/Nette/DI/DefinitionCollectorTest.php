@@ -28,6 +28,9 @@ final class DefinitionCollectorTest extends TestCase
         $collectorDefinition = $this->containerBuilder->addDefinition('collector_name');
         $collectorDefinition->setClass(Collector::class);
 
+        $secondCollectorDefinition = $this->containerBuilder->addDefinition('second_collector_name');
+        $secondCollectorDefinition->setClass(Collector::class);
+
         $collectedDefinition = $this->containerBuilder->addDefinition('collected_name');
         $collectedDefinition->setClass(Collected::class);
 
@@ -43,5 +46,7 @@ final class DefinitionCollectorTest extends TestCase
         $this->assertInstanceOf(Statement::class, $adderStatement);
         $this->assertSame('addCollected', $adderStatement->getEntity());
         $this->assertSame(['@collected_name'], $adderStatement->arguments);
+
+        $this->assertCount(1, $secondCollectorDefinition->getSetup());
     }
 }

@@ -13,14 +13,13 @@ final class DefinitionCollector
         string $collectedType,
         string $setterMethod
     ): void {
-        $collectorDefinition = DefinitionFinder::getByType($containerBuilder, $collectorType);
-        foreach ($containerBuilder->getDefinitions() as $name => $definition) {
-            $class = $definition->getClass() ?: $name;
-            if (! is_subclass_of($class, $collectedType)) {
-                continue;
-            }
+        $collectorDefinitions = DefinitionFinder::findAllByType($containerBuilder, $collectorType);
+        $collectedDefinitions = DefinitionFinder::findAllByType($containerBuilder, $collectedType);
 
-            $collectorDefinition->addMethodCall($setterMethod, [new Reference($name)]);
+        foreach ($collectorDefinitions as $collectorDefinition) {
+            foreach ($collectedDefinitions as $name => $collectedDefinition) {
+                $collectorDefinition->addMethodCall($setterMethod, [new Reference($name)]);
+            }
         }
     }
 }
