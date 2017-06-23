@@ -49,6 +49,7 @@ DefinitionCollector::loadCollectorWithType(
 Statie helps you to host and develop your blog on Github.
 A static site generator with aim on community websites.
 
+
 ## [Symbiotic Controller](https://github.com/Symplify/SymbioticController)
 
 [![Build Status](https://img.shields.io/travis/Symplify/SymbioticController/master.svg?style=flat-square)](https://travis-ci.org/Symplify/SymbioticController)
