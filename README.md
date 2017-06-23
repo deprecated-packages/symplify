@@ -25,7 +25,7 @@ The best and easiest way to start coding standard with. Combined both CodeSniffe
 [![Build Status](https://img.shields.io/travis/Symplify/PackageBuilder/master.svg?style=flat-square)](https://travis-ci.org/Symplify/PackageBuilder)
 [![Downloads](https://img.shields.io/packagist/dt/symplify/package-builder.svg?style=flat-square)](https://packagist.org/packages/symplify/package-builder)
 
-Handy Dependency Injection universal methods for Symfony, Laravel and Nette.
+Handy Dependency Injection methods for Symfony and Nette.
 
 ```php
 $eventDispatcherDefinition = DefinitionFinder::getByType($containerBuilder, EventDispatcher::class);
@@ -49,6 +49,7 @@ DefinitionCollector::loadCollectorWithType(
 Statie helps you to host and develop your blog on Github.
 A static site generator with aim on community websites.
 
+[Pehapkari.cz](https://pehapkari.cz/) ([Github repo](https://github.com/pehapkari/pehapkari.cz)) and [TomasVotruba.cz](https://www.tomasvotruba.cz/) ([Github repo](https://github.com/tomasvotruba/tomasvotruba.cz)).
 
 ## [Symbiotic Controller](https://github.com/Symplify/SymbioticController)
 
