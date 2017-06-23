@@ -28,13 +28,13 @@ The best and easiest way to start coding standard with. Combined both CodeSniffe
 Handy Dependency Injection universal methods for Symfony, Laravel and Nette.
 
 ```php
-$eventDisptacherDefinition = DefinitionFinder::getByType($containerBuilder, EventDisptacher::class);
+$eventDispatcherDefinition = DefinitionFinder::getByType($containerBuilder, EventDispatcher::class);
 
 $eventSubscribersDefinitions = DefinitionFinder::findAllByType($containerBuilder, EventSubscriberInterface::class);
 
 DefinitionCollector::loadCollectorWithType(
     $containerBuilder,
-    EventDisptacher::class,
+    EventDispatcher::class,
     EventSubscriberInterface::class,
     'addSubscriber'
 );
@@ -48,6 +48,8 @@ DefinitionCollector::loadCollectorWithType(
 
 Statie helps you to host and develop your blog on Github.
 A static site generator with aim on community websites.
+
+[Pehapkari.cz]() ([Github repo]()) and TomasVotruba.cz]()
 
 
 ## [Symbiotic Controller](https://github.com/Symplify/SymbioticController)
