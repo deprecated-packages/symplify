@@ -4,11 +4,11 @@ namespace Symplify\EasyCodingStandard\DependencyInjection\CompilerPass;
 
 use PHP_CodeSniffer\Sniffs\Sniff;
 use PhpCsFixer\Fixer\FixerInterface;
-use Symfony\Component\Console\Application as ConsoleApplication;
+use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symplify\EasyCodingStandard\Application\Application;
+use Symplify\EasyCodingStandard\Contract\Application\FileProcessorCollectorInterface;
 use Symplify\EasyCodingStandard\Contract\Application\FileProcessorInterface;
 use Symplify\EasyCodingStandard\FixerRunner\Application\FixerFileProcessor;
 use Symplify\EasyCodingStandard\SniffRunner\Application\SniffFileProcessor;
@@ -28,7 +28,7 @@ final class CollectorCompilerPass implements CompilerPassInterface
     {
         DefinitionCollector::loadCollectorWithType(
             $containerBuilder,
-            ConsoleApplication::class,
+            Application::class,
             Command::class,
             'add'
         );
@@ -38,7 +38,7 @@ final class CollectorCompilerPass implements CompilerPassInterface
     {
         DefinitionCollector::loadCollectorWithType(
             $containerBuilder,
-            Application::class,
+            FileProcessorCollectorInterface::class,
             FileProcessorInterface::class,
             'addFileProcessor'
         );

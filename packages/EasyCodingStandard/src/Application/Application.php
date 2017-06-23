@@ -6,11 +6,12 @@ use SplFileInfo;
 use Symplify\EasyCodingStandard\Application\Command\RunCommand;
 use Symplify\EasyCodingStandard\ChangedFilesDetector\ChangedFilesDetector;
 use Symplify\EasyCodingStandard\Console\Style\EasyCodingStandardStyle;
+use Symplify\EasyCodingStandard\Contract\Application\FileProcessorCollectorInterface;
 use Symplify\EasyCodingStandard\Contract\Application\FileProcessorInterface;
 use Symplify\EasyCodingStandard\Finder\SourceFinder;
 use Symplify\EasyCodingStandard\Skipper;
 
-final class Application
+final class Application implements FileProcessorCollectorInterface
 {
     /**
      * @var FileProcessorInterface[]
