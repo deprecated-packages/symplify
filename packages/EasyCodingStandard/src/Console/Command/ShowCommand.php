@@ -2,8 +2,6 @@
 
 namespace Symplify\EasyCodingStandard\Console\Command;
 
-use PHP_CodeSniffer\Sniffs\Sniff;
-use PhpCsFixer\Fixer\FixerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -61,6 +59,9 @@ final class ShowCommand extends Command
         return 0;
     }
 
+    /**
+     * @param object[] $fixers
+     */
     private function displayCheckerList(array $fixers, string $type): void
     {
         $checkerNames = array_map(function ($fixer) {

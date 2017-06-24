@@ -78,8 +78,6 @@ final class SniffFileProcessor implements FileProcessorInterface
         $this->setIsFixer($runCommand->isFixer());
     }
 
-
-
     public function processFile(SplFileInfo $fileInfo, bool $dryRun = false): void
     {
         $file = $this->fileFactory->createFromFileInfo($fileInfo, $this->isFixer);
