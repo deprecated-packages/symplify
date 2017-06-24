@@ -25,8 +25,10 @@ final class DefinitionCollectorTest extends TestCase
 
     public function testLoadCollectorWithType(): void
     {
-        $collector = $this->containerBuilder->autowire(Collector::class);
+        $collector = $this->containerBuilder->autowire('first_collector', Collector::class);
         $this->containerBuilder->autowire(Collected::class);
+
+        $secondCollector = $this->containerBuilder->autowire('second_collector', Collector::class);
 
         DefinitionCollector::loadCollectorWithType(
             $this->containerBuilder,
@@ -43,5 +45,8 @@ final class DefinitionCollectorTest extends TestCase
         $arguments = $adderStatement[1];
         $this->assertInstanceOf(Reference::class, $arguments[0]);
         $this->assertSame(Collected::class, (string) $arguments[0]);
+
+        $methodCalls = $secondCollector->getMethodCalls();
+        $this->assertCount(1, $methodCalls);
     }
 }

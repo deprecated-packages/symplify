@@ -15,7 +15,8 @@ final class DefinitionFinder
     {
         $definitions = [];
         foreach ($containerBuilder->getDefinitions() as $name => $definition) {
-            if (is_subclass_of($definition->getClass(), $type)) {
+            $class = $definition->getClass() ?: $name;
+            if (is_a($class, $type, true)) {
                 $definitions[$name] = $definition;
             }
         }
