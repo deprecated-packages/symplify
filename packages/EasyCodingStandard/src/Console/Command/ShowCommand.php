@@ -2,14 +2,16 @@
 
 namespace Symplify\EasyCodingStandard\Console\Command;
 
+use PHP_CodeSniffer\Sniffs\Sniff;
+use PhpCsFixer\Fixer\FixerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symplify\EasyCodingStandard\Console\Style\EasyCodingStandardStyle;
-use Symplify\EasyCodingStandard\Contract\Application\FileProcessorCollectorInterface;
-use Symplify\EasyCodingStandard\Contract\Application\FileProcessorInterface;
+use Symplify\EasyCodingStandard\FixerRunner\Application\FixerFileProcessor;
+use Symplify\EasyCodingStandard\SniffRunner\Application\SniffFileProcessor;
 
-final class ShowCommand extends Command implements FileProcessorCollectorInterface
+final class ShowCommand extends Command
 {
     /**
      * @var string
@@ -22,20 +24,25 @@ final class ShowCommand extends Command implements FileProcessorCollectorInterfa
     private $style;
 
     /**
-     * @var FileProcessorInterface[]
+     * @var SniffFileProcessor
      */
-    private $fileProcessor = [];
+    private $sniffFileProcessor;
 
-    public function __construct(EasyCodingStandardStyle $style)
-    {
+    /**
+     * @var FixerFileProcessor
+     */
+    private $fixerFileProcessor;
+
+    public function __construct(
+        EasyCodingStandardStyle $style,
+        SniffFileProcessor $sniffFileProcessor,
+        FixerFileProcessor $fixerFileProcessor
+    ) {
         parent::__construct();
 
+        $this->sniffFileProcessor = $sniffFileProcessor;
+        $this->fixerFileProcessor = $fixerFileProcessor;
         $this->style = $style;
-    }
-
-    public function addFileProcessor(FileProcessorInterface $fileProcessor): void
-    {
-        $this->fileProcessor[] = $fileProcessor;
     }
 
     protected function configure(): void
@@ -46,11 +53,35 @@ final class ShowCommand extends Command implements FileProcessorCollectorInterfa
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $this->style->success('ASDF');
+        $this->displayCheckerList($this->sniffFileProcessor->getSniffs(), 'PHP_CodeSniffer');
+        $this->displayCheckerList($this->fixerFileProcessor->getFixers(), 'PHP-CS-Fixer');
 
-        dump($this->fileProcessor);
-        die;
+        $this->style->newLine();
 
         return 0;
+    }
+
+    private function displayCheckerList(array $fixers, string $type): void
+    {
+        $checkerNames = array_map(function ($fixer) {
+            return get_class($fixer);
+        }, $fixers);
+
+        $checkerCount = count($checkerNames);
+        if (! $checkerCount) {
+            return;
+        }
+
+        $this->style->section(sprintf(
+            '%d checkers from %s:',
+            count($checkerNames),
+            $type
+        ));
+
+        sort($checkerNames);
+
+        foreach ($checkerNames as $checkerName) {
+            $this->style->text(' - ' . $checkerName);
+        }
     }
 }
