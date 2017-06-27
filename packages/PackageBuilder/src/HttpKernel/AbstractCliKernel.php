@@ -1,14 +1,14 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\PackageBuilder\Exception\DependencyInjection;
+namespace Symplify\PackageBuilder\HttpKernel;
 
-use Exception;
 use Symfony\Component\Config\Loader\DelegatingLoader;
 use Symfony\Component\Config\Loader\LoaderResolver;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symplify\EasyCodingStandard\Configuration\Loader\NeonLoader;
+use Symfony\Component\HttpKernel\Kernel;
+use Symplify\PackageBuilder\Configuration\Loader\NeonLoader;
 
-final class DefinitionForTypeNotFoundException extends Exception
+abstract class AbstractCliKernel extends Kernel
 {
     protected function getContainerLoader(ContainerInterface $container): DelegatingLoader
     {

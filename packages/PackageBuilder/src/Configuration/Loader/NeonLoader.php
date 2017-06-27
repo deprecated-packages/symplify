@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\EasyCodingStandard\Configuration\Loader;
+namespace Symplify\PackageBuilder\Configuration\Loader;
 
 use Nette\Neon\Decoder;
 use Nette\Utils\Strings;
@@ -40,7 +40,12 @@ final class NeonLoader implements LoaderInterface
     public function load($resource, $type = null): void
     {
         $neonFileContent = file_get_contents($resource);
+
         $content = (new Decoder)->decode($neonFileContent);
+        if ($content === null) {
+            return;
+        }
+
         foreach ($content as $key => $value) {
             $this->containerBuilder->setParameter($key, $value);
         }

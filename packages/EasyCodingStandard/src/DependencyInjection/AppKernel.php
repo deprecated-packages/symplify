@@ -2,17 +2,13 @@
 
 namespace Symplify\EasyCodingStandard\DependencyInjection;
 
-use Symfony\Component\Config\Loader\DelegatingLoader;
 use Symfony\Component\Config\Loader\LoaderInterface;
-use Symfony\Component\Config\Loader\LoaderResolver;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpKernel\Bundle\BundleInterface;
-use Symfony\Component\HttpKernel\Kernel;
-use Symplify\EasyCodingStandard\Configuration\Loader\NeonLoader;
 use Symplify\EasyCodingStandard\DependencyInjection\CompilerPass\CollectorCompilerPass;
+use Symplify\PackageBuilder\HttpKernel\AbstractCliKernel;
 
-final class AppKernel extends Kernel
+final class AppKernel extends AbstractCliKernel
 {
     /**
      * @var string
@@ -68,18 +64,6 @@ final class AppKernel extends Kernel
     protected function build(ContainerBuilder $containerBuilder): void
     {
         $containerBuilder->addCompilerPass(new CollectorCompilerPass);
-    }
-
-    protected function getContainerLoader(ContainerInterface $container): DelegatingLoader
-    {
-        /** @var DelegatingLoader $delegationLoader */
-        $delegationLoader = parent::getContainerLoader($container);
-
-        /** @var LoaderResolver $resolver */
-        $resolver = $delegationLoader->getResolver();
-        $resolver->addLoader(new NeonLoader($container));
-
-        return $delegationLoader;
     }
 
     /**
