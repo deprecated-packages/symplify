@@ -5,7 +5,6 @@ namespace Symplify\Statie\Configuration\Parser;
 use Nette\Neon\Exception;
 use Nette\Neon\Neon;
 use Symplify\Statie\Exception\Neon\InvalidNeonSyntaxException;
-use Throwable;
 
 final class NeonParser
 {
