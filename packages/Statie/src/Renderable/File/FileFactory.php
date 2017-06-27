@@ -27,9 +27,9 @@ final class FileFactory
         $relativeSource = ltrim($relativeSource, DIRECTORY_SEPARATOR);
 
         if (Strings::contains($file->getPath(), DIRECTORY_SEPARATOR . '_posts')) {
-            return new PostFile($file, $relativeSource);
+            return new PostFile($file, $relativeSource, $file->getPathname());
         }
 
-        return new File($file, $relativeSource);
+        return new File($file, $relativeSource, $file->getPathname());
     }
 }

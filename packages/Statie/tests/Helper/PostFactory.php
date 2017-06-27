@@ -22,7 +22,7 @@ final class PostFactory
     public function createPostFromFilePath(string $filePath): PostFile
     {
         $fileInfo = new SplFileInfo($filePath);
-        $post = new PostFile($fileInfo, $filePath);
+        $post = new PostFile($fileInfo, $filePath, $filePath);
 
         $this->configurationDecorator->decorateFile($post);
 

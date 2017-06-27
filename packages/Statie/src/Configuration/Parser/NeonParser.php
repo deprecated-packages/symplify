@@ -2,7 +2,9 @@
 
 namespace Symplify\Statie\Configuration\Parser;
 
+use Nette\Neon\Exception;
 use Nette\Neon\Neon;
+use Symplify\Statie\Exception\Neon\InvalidNeonSyntaxException;
 
 final class NeonParser
 {
@@ -13,7 +15,15 @@ final class NeonParser
     {
         $fileContent = file_get_contents($filePath);
 
-        return $this->decode($fileContent);
+        try {
+            return $this->decode($fileContent);
+        } catch (Exception $neonException) {
+            throw new InvalidNeonSyntaxException(sprintf(
+                'Invalid NEON syntax found in "%s" file: %s',
+                $filePath,
+                $neonException->getMessage()
+            ));
+        }
     }
 
     /**

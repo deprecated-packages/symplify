@@ -30,9 +30,9 @@ final class PostFile extends AbstractFile implements ArrayAccess
      */
     private $wordCount;
 
-    public function __construct(SplFileInfo $fileInfo, string $relativeSource)
+    public function __construct(SplFileInfo $fileInfo, string $relativeSource, string $filePath)
     {
-        parent::__construct($fileInfo, $relativeSource);
+        parent::__construct($fileInfo, $relativeSource, $filePath);
 
         $this->ensurePathStartsWithDate($fileInfo);
 

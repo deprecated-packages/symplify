@@ -4,24 +4,39 @@ namespace Symplify\Statie\Tests\Configuration\Parser;
 
 use PHPUnit\Framework\TestCase;
 use Symplify\Statie\Configuration\Parser\NeonParser;
+use Symplify\Statie\Exception\Neon\InvalidNeonSyntaxException;
 
 final class NeonParserTest extends TestCase
 {
-    public function test(): void
-    {
-        $yamlAndNeonParser = new NeonParser;
+    /**
+     * @var NeonParser
+     */
+    private $neonParser;
 
-        $neonConfig = $yamlAndNeonParser->decode(file_get_contents(__DIR__ . '/NeonParserSource/config.neon'));
-        if ($this->isWindows()) {
-            $this->assertContains('one', $neonConfig['multiline']);
-            $this->assertContains('two', $neonConfig['multiline']);
-        } else {
-            $this->assertContains('one' . PHP_EOL . 'two', $neonConfig['multiline']);
-        }
+    protected function setUp(): void
+    {
+        $this->neonParser = new NeonParser;
     }
 
-    private function isWindows(): bool
+    public function testDecode(): void
     {
-        return DIRECTORY_SEPARATOR === '\\';
+        $decodedNeon = $this->neonParser->decode(file_get_contents(__DIR__ . '/NeonParserSource/config.neon'));
+        $this->assertContains('one', $decodedNeon['multiline']);
+        $this->assertContains('two', $decodedNeon['multiline']);
+
+        $decodedNeonFromFile = $this->neonParser->decodeFromFile(__DIR__ . '/NeonParserSource/config.neon');
+        $this->assertSame($decodedNeonFromFile, $decodedNeon);
+    }
+
+    public function testErrorInDecodeFromFile(): void
+    {
+        $brokenNeonFilePath = __DIR__ . '/NeonParserSource/broken-config.neon';
+
+        $this->expectException(InvalidNeonSyntaxException::class);
+        $this->expectExceptionMessage(sprintf(
+            'Invalid NEON syntax found in "%s" file: Bad indentation on line 2, column 2.', $brokenNeonFilePath
+        ));
+
+        $this->neonParser->decodeFromFile(__DIR__ . '/NeonParserSource/broken-config.neon');
     }
 }
