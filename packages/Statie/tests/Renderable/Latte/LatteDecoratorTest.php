@@ -2,38 +2,41 @@
 
 namespace Symplify\Statie\Tests\Renderable\Latte;
 
-use Latte\Engine;
-use Latte\ILoader;
-use PHPUnit\Framework\TestCase;
 use SplFileInfo;
-use Symplify\Statie\Configuration\Configuration;
-use Symplify\Statie\Configuration\Parser\NeonParser;
 use Symplify\Statie\FlatWhite\Latte\DynamicStringLoader;
-use Symplify\Statie\Renderable\File\File;
+use Symplify\Statie\Renderable\File\FileFactory;
 use Symplify\Statie\Renderable\Latte\LatteDecorator;
+use Symplify\Statie\Tests\AbstractContainerAwareTestCase;
 
-final class LatteDecoratorTest extends TestCase
+final class LatteDecoratorTest extends AbstractContainerAwareTestCase
 {
     /**
      * @var LatteDecorator
      */
     private $latteDecorator;
 
+    /**
+     * @var FileFactory
+     */
+    private $fileFactory;
+
     protected function setUp(): void
     {
-        $stringLoader = $this->createStringLoader();
+        $this->latteDecorator = $this->container->get(LatteDecorator::class);
+        $this->fileFactory = $this->container->get(FileFactory::class);
 
-        $this->latteDecorator = new LatteDecorator(
-            new Configuration(new NeonParser),
-            $this->createLatteEngine($stringLoader),
-            $stringLoader
+        /** @var DynamicStringLoader $dynamicStringLoader */
+        $dynamicStringLoader = $this->container->get(DynamicStringLoader::class);
+        $dynamicStringLoader->changeContent(
+            'default',
+            file_get_contents(__DIR__ . '/LatteDecoratorSource/default.latte')
         );
     }
 
     public function testDecorateFile(): void
     {
         $fileInfo = new SplFileInfo(__DIR__ . '/LatteDecoratorSource/fileWithoutLayout.latte');
-        $file = new File($fileInfo, 'fileWithoutLayout');
+        $file = $this->fileFactory->create($fileInfo);
         $this->latteDecorator->decorateFile($file);
 
         $this->assertContains('Contact me!', $file->getContent());
@@ -42,7 +45,7 @@ final class LatteDecoratorTest extends TestCase
     public function testDecorateFileWithLayout(): void
     {
         $fileInfo = new SplFileInfo(__DIR__ . '/LatteDecoratorSource/contact.latte');
-        $file = new File($fileInfo, 'contact.latte');
+        $file = $this->fileFactory->create($fileInfo);
         $file->setConfiguration([
             'layout' => 'default',
         ]);
@@ -56,28 +59,9 @@ final class LatteDecoratorTest extends TestCase
     public function testDecorateFileWithFileVariable(): void
     {
         $fileInfo = new SplFileInfo(__DIR__ . '/LatteDecoratorSource/fileWithFileVariable.latte');
-        $file = new File($fileInfo, 'fileWithFileVariable');
+        $file = $this->fileFactory->create($fileInfo);
         $this->latteDecorator->decorateFile($file);
 
         $this->assertContains('fileWithFileVariable.latte', $file->getContent());
-    }
-
-    private function createLatteEngine(ILoader $loader): Engine
-    {
-        $latte = new Engine;
-        $latte->setLoader($loader);
-
-        return $latte;
-    }
-
-    private function createStringLoader(): DynamicStringLoader
-    {
-        $loader = new DynamicStringLoader;
-        $loader->changeContent(
-            'default',
-            file_get_contents(__DIR__ . '/LatteDecoratorSource/default.latte')
-        );
-
-        return $loader;
     }
 }

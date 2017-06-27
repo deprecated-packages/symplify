@@ -2,25 +2,28 @@
 
 namespace Symplify\Statie\Tests\Renderable\Configuration;
 
-use PHPUnit\Framework\TestCase;
 use SplFileInfo;
-use Symplify\Statie\Configuration\Configuration;
-use Symplify\Statie\Configuration\Parser\NeonParser;
+use Symplify\Statie\Exception\Neon\InvalidNeonSyntaxException;
 use Symplify\Statie\Renderable\Configuration\ConfigurationDecorator;
 use Symplify\Statie\Renderable\File\FileFactory;
+use Symplify\Statie\Tests\AbstractContainerAwareTestCase;
 
-final class ConfigurationDecoratorTest extends TestCase
+final class ConfigurationDecoratorTest extends AbstractContainerAwareTestCase
 {
     /**
      * @var ConfigurationDecorator
      */
     private $configurationDecorator;
 
+    /**
+     * @var FileFactory
+     */
+    private $fileFactory;
+
     protected function setUp(): void
     {
-        $this->configurationDecorator = new ConfigurationDecorator(
-            new NeonParser
-        );
+        $this->configurationDecorator = $this->container->get(ConfigurationDecorator::class);
+        $this->fileFactory = $this->container->get(FileFactory::class);
     }
 
     /**
@@ -30,17 +33,29 @@ final class ConfigurationDecoratorTest extends TestCase
     public function testDecorateFile(string $filePath, string $fileContent, array $expectedConfiguration): void
     {
         $fileInfo = new SplFileInfo($filePath);
-        $configuration = new Configuration(new NeonParser);
-        $configuration->setSourceDirectory('sourceDirectory');
-        $filePath = (new FileFactory($configuration))->create($fileInfo);
+        $file = $this->fileFactory->create($fileInfo);
 
-        $this->assertSame([], $filePath->getConfiguration());
-        $this->assertNotSame($fileContent, $filePath->getContent());
+        $this->assertSame([], $file->getConfiguration());
+        $this->assertNotSame($fileContent, $file->getContent());
 
-        $this->configurationDecorator->decorateFile($filePath);
+        $this->configurationDecorator->decorateFile($file);
 
-        $this->assertSame($fileContent, $filePath->getContent());
-        $this->assertSame($expectedConfiguration, $filePath->getConfiguration());
+        $this->assertSame($fileContent, $file->getContent());
+        $this->assertSame($expectedConfiguration, $file->getConfiguration());
+    }
+
+    public function testDecorateFileWithInvalidNeonSyntax(): void
+    {
+        $brokenNeonFilePath = __DIR__ . '/ConfigurationDecoratorSource/someFileWithBrokenConfigurationSyntax.latte';
+        $fileInfo = new SplFileInfo($brokenNeonFilePath);
+        $file = $this->fileFactory->create($fileInfo);
+
+        $this->expectException(InvalidNeonSyntaxException::class);
+        $this->expectExceptionMessage(sprintf(
+            'Invalid NEON syntax found in "%s" file: Bad indentation on line 2, column 3.', $brokenNeonFilePath
+        ));
+
+        $this->configurationDecorator->decorateFile($file);
     }
 
     /**

@@ -31,11 +31,22 @@ abstract class AbstractFile
      */
     private $content;
 
-    public function __construct(SplFileInfo $fileInfo, string $relativeSource)
+    /**
+     * @var string
+     */
+    private $filePath;
+
+    public function __construct(SplFileInfo $fileInfo, string $relativeSource, string $filePath)
     {
         $this->relativeSource = $relativeSource;
         $this->fileInfo = $fileInfo;
+        $this->filePath = $filePath;
         $this->content = file_get_contents($fileInfo->getRealPath());
+    }
+
+    public function getFilePath(): string
+    {
+        return $this->filePath;
     }
 
     public function setOutputPath(string $outputPath): void

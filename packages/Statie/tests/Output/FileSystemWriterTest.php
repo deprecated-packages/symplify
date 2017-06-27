@@ -3,14 +3,13 @@
 namespace Symplify\Statie\Tests\Output;
 
 use Nette\Utils\FileSystem;
-use PHPUnit\Framework\TestCase;
 use SplFileInfo;
 use Symplify\Statie\Configuration\Configuration;
-use Symplify\Statie\Configuration\Parser\NeonParser;
 use Symplify\Statie\Output\FileSystemWriter;
-use Symplify\Statie\Renderable\File\File;
+use Symplify\Statie\Renderable\File\FileFactory;
+use Symplify\Statie\Tests\AbstractContainerAwareTestCase;
 
-final class FileSystemWriterTest extends TestCase
+final class FileSystemWriterTest extends AbstractContainerAwareTestCase
 {
     /**
      * @var string
@@ -27,13 +26,20 @@ final class FileSystemWriterTest extends TestCase
      */
     private $fileSystemWriter;
 
+    /**
+     * @var FileFactory
+     */
+    private $fileFactory;
+
     protected function setUp(): void
     {
-        $configuration = new Configuration(new NeonParser);
+        $configuration = $this->container->get(Configuration::class);
         $configuration->setSourceDirectory($this->sourceDirectory);
         $configuration->setOutputDirectory($this->outputDirectory);
 
-        $this->fileSystemWriter = new FileSystemWriter($configuration);
+        $this->fileSystemWriter = $this->container->get(FileSystemWriter::class);
+
+        $this->fileFactory = $this->container->get(FileFactory::class);
     }
 
     protected function tearDown(): void
@@ -54,10 +60,7 @@ final class FileSystemWriterTest extends TestCase
 
     public function testCopyRenderableFiles(): void
     {
-        $file = new File(
-            new SplFileInfo($this->sourceDirectory . '/contact.latte'),
-            'contact.html'
-        );
+        $file = $this->fileFactory->create(new SplFileInfo($this->sourceDirectory . '/contact.latte'));
         $file->setOutputPath('contact.html');
 
         $this->fileSystemWriter->copyRenderableFiles([$file]);
