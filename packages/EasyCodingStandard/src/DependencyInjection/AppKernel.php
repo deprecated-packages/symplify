@@ -33,7 +33,7 @@ final class AppKernel extends AbstractCliKernel
         $loader->load(__DIR__ . '/../config/services.yml');
 
         if ($this->autoloadLocalConfig) {
-            $this->registerLocalConfig($loader,'easy-coding-standard.neon');
+            $this->registerLocalConfig($loader, 'easy-coding-standard.neon');
         }
 
         if ($this->customConfig && file_exists($this->customConfig)) {
