@@ -6,6 +6,7 @@ use Symfony\Component\Config\Loader\DelegatingLoader;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\Config\Loader\LoaderResolver;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 use Symfony\Component\HttpKernel\Kernel;
 use Symplify\PackageBuilder\Composer\VendorDirProvider;
 use Symplify\PackageBuilder\Configuration\Loader\NeonLoader;
@@ -15,6 +16,14 @@ abstract class AbstractCliKernel extends Kernel
     public function __construct()
     {
         parent::__construct(random_int(1, 10000), true);
+    }
+
+    /**
+     * @return BundleInterface[]
+     */
+    public function registerBundles(): array
+    {
+        return [];
     }
 
     protected function registerLocalConfig(LoaderInterface $loader, string $configName): void
