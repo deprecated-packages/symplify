@@ -13,11 +13,6 @@ final class AppKernel extends AbstractCliKernel
     /**
      * @var string
      */
-    private const CONFIG_NAME = 'easy-coding-standard.neon';
-
-    /**
-     * @var string
-     */
     private $customConfig;
 
     /**
@@ -29,16 +24,16 @@ final class AppKernel extends AbstractCliKernel
     {
         $this->customConfig = $customConfig;
         // randomize name to prevent using container same cache for custom configs (e.g. ErrorCollector test)
-        parent::__construct(random_int(1, 10000), true);
         $this->autoloadLocalConfig = $autoloadLocalConfig;
+        parent::__construct();
     }
 
     public function registerContainerConfiguration(LoaderInterface $loader): void
     {
         $loader->load(__DIR__ . '/../config/services.yml');
 
-        if ($this->autoloadLocalConfig && $localConfig = $this->getConfigPath()) {
-            $loader->load($localConfig);
+        if ($this->autoloadLocalConfig) {
+            $this->registerLocalConfig($loader,'easy-coding-standard.neon');
         }
 
         if ($this->customConfig && file_exists($this->customConfig)) {
@@ -64,25 +59,5 @@ final class AppKernel extends AbstractCliKernel
     protected function build(ContainerBuilder $containerBuilder): void
     {
         $containerBuilder->addCompilerPass(new CollectorCompilerPass);
-    }
-
-    /**
-     * @return string|false
-     */
-    private function getConfigPath()
-    {
-        $possibleConfigPaths = [
-            getcwd() . '/' . self::CONFIG_NAME,
-            __DIR__ . '/../../' . self::CONFIG_NAME,
-            __DIR__ . '/../../../../' . self::CONFIG_NAME,
-        ];
-
-        foreach ($possibleConfigPaths as $possibleConfigPath) {
-            if (file_exists($possibleConfigPath)) {
-                return $possibleConfigPath;
-            }
-        }
-
-        return false;
     }
 }
