@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\PackageBuilder\SniffRunner\Tests\Composer;
+namespace Symplify\PackageBuilder\Tests\Composer;
 
 use PHPUnit\Framework\TestCase;
 use Symplify\PackageBuilder\Composer\VendorDirProvider;
