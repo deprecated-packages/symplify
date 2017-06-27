@@ -39,7 +39,7 @@ final class ConstructUrlTest extends TestCase
             ['/<i-d>', ['i-d' => 123], 'http://localhost/123'],
             ['/<id>', ['id' => 'mese'], 'http://localhost/mese'],
             ['/<id>/ok', ['id' => 123], 'http://localhost/123/ok'],
-            ['/<id>/<pid>', ['id' => 123, 'pid' => 456], 'http://localhost/123/456']
+            ['/<id>/<pid>', ['id' => 123, 'pid' => 456], 'http://localhost/123/456'],
         ];
     }
 
@@ -64,7 +64,7 @@ final class ConstructUrlTest extends TestCase
     {
         return [
             ['/<id>', []],
-            ['/<id>/<pid>', ['id' => 123]]
+            ['/<id>/<pid>', ['id' => 123]],
         ];
     }
 

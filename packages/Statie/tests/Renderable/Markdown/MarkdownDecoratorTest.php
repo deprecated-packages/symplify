@@ -28,8 +28,8 @@ final class MarkdownDecoratorTest extends TestCase
         $this->configuration = new Configuration(new NeonParser);
         $this->configuration->loadFromArray([
             'configuration' => [
-                Configuration::OPTION_MARKDOWN_HEADLINE_ANCHORS => false
-            ]
+                Configuration::OPTION_MARKDOWN_HEADLINE_ANCHORS => false,
+            ],
         ]);
 
         $this->markdownDecorator = new MarkdownDecorator(new ParsedownExtra, $this->configuration);
@@ -55,8 +55,8 @@ final class MarkdownDecoratorTest extends TestCase
     {
         $this->configuration->loadFromArray([
             'configuration' => [
-                Configuration::OPTION_MARKDOWN_HEADLINE_ANCHORS => true
-            ]
+                Configuration::OPTION_MARKDOWN_HEADLINE_ANCHORS => true,
+            ],
         ]);
 
         $file = $this->createFileFromFilePath(__DIR__ . '/MarkdownDecoratorSource/someFile.md');

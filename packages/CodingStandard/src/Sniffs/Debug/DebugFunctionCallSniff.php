@@ -21,6 +21,6 @@ final class DebugFunctionCallSniff extends ForbiddenFunctionsSniff
         'd' => null,
         'dd' => null,
         'dump' => null,
-        'var_dump' => null
+        'var_dump' => null,
     ];
 }

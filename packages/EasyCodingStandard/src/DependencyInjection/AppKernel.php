@@ -57,7 +57,7 @@ final class AppKernel extends AbstractCliKernel
     public function registerBundles(): array
     {
         return [
-            new CheckersBundle
+            new CheckersBundle,
         ];
     }
 

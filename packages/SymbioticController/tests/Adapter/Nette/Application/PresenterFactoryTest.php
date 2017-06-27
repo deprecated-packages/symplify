@@ -90,7 +90,7 @@ final class PresenterFactoryTest extends TestCase
             '*' => [
                 '',
                 '*',
-                'Symplify\SymbioticController\Tests\Adapter\Nette\Application\PresenterFactorySource\*Presenter'
+                'Symplify\SymbioticController\Tests\Adapter\Nette\Application\PresenterFactorySource\*Presenter',
             ],
         ]);
     }

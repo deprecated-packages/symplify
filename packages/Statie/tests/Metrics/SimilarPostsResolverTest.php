@@ -79,7 +79,7 @@ final class SimilarPostsResolverTest extends TestCase
             ),
             $this->postFactory->createPostFromFilePath(
                 __DIR__ . '/../PostsSource/2017-02-05-offtopic-post.md'
-            )
+            ),
         ];
     }
 }
