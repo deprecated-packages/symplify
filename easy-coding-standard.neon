@@ -202,6 +202,7 @@ checkers:
     - PhpCsFixer\Fixer\Whitespace\NoSpacesAroundOffsetFixer
     - PhpCsFixer\Fixer\ControlStructure\NoTrailingCommaInListCallFixer
     - PhpCsFixer\Fixer\ArrayNotation\NoTrailingCommaInSinglelineArrayFixer
+    - PhpCsFixer\Fixer\ArrayNotation\TrailingCommaInMultilineArrayFixer
     - PhpCsFixer\Fixer\ControlStructure\NoUnneededControlParenthesesFixer
     - PhpCsFixer\Fixer\Import\NoUnusedImportsFixer
     - PhpCsFixer\Fixer\ArrayNotation\NoWhitespaceBeforeCommaInArrayFixer

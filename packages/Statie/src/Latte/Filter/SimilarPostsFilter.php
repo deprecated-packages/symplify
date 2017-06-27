@@ -27,7 +27,7 @@ final class SimilarPostsFilter implements FilterProviderInterface
             // @todo usage
             'similarPosts' => function (PostFile $post, int $postCount) {
                 return $this->similarPostsResolver->resolveForPostWithLimit($post, $postCount);
-            }
+            },
         ];
     }
 }

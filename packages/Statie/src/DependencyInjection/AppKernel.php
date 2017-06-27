@@ -4,33 +4,20 @@ namespace Symplify\Statie\DependencyInjection;
 
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\HttpKernel\Bundle\BundleInterface;
-use Symfony\Component\HttpKernel\Kernel;
+use Symplify\PackageBuilder\HttpKernel\AbstractCliKernel;
 use Symplify\Statie\DependencyInjection\CompilerPass\CollectorCompilerPass;
 
-final class AppKernel extends Kernel
+final class AppKernel extends AbstractCliKernel
 {
-    public function __construct()
-    {
-        parent::__construct(random_int(1, 10000), true);
-    }
-
     public function registerContainerConfiguration(LoaderInterface $loader): void
     {
         $loader->load(__DIR__ . '/../config/services.yml');
+        $this->registerLocalConfig($loader, 'statie.neon');
     }
 
     public function getCacheDir(): string
     {
         return sys_get_temp_dir() . '/_statie';
-    }
-
-    /**
-     * @return BundleInterface[]
-     */
-    public function registerBundles(): array
-    {
-        return [];
     }
 
     protected function build(ContainerBuilder $containerBuilder): void

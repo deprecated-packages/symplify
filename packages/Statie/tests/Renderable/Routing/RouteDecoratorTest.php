@@ -25,8 +25,8 @@ final class RouteDecoratorTest extends TestCase
         $configuration = new Configuration(new NeonParser);
         $configuration->loadFromArray([
             'configuration' => [
-                Configuration::OPTION_POST_ROUTE => 'blog/:title'
-            ]
+                Configuration::OPTION_POST_ROUTE => 'blog/:title',
+            ],
         ]);
 
         $configuration->setSourceDirectory(__DIR__ . '/DecoratorSource');

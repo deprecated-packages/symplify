@@ -23,7 +23,7 @@ final class PresenterRoute implements IRouter
 
         $this->netteRoute = new Route($mask, [
             'presenter' => $presenterClass,
-            'action' => '__invoke'
+            'action' => '__invoke',
         ]);
     }
 

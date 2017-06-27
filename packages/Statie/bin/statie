@@ -7,7 +7,19 @@ use Symplify\Statie\DependencyInjection\ContainerFactory;
 // performance boost
 gc_disable();
 
-require_once getcwd() . '/vendor/autoload.php';
+// prefer local vendor over analyzed project (e.g. for "composer create-project symplify/statie")
+$possibleAutoloadPaths = [
+    __DIR__ . '/../../..',
+    __DIR__ . '/../vendor',
+    getcwd() . '/vendor',
+];
+
+foreach ($possibleAutoloadPaths as $possibleAutoloadPath) {
+    if (file_exists($possibleAutoloadPath . '/autoload.php')) {
+        require_once $possibleAutoloadPath . '/autoload.php';
+        break;
+    }
+}
 
 $container = (new ContainerFactory)->create();
 

@@ -35,7 +35,7 @@ final class TemplateRendererTest extends TestCase
     {
         $template = $this->templateRenderer->renderFileWithParameters(
             __DIR__ . '/TemplateRendererSource/someTemplateWithVariable.latte', [
-                'name' => 'Tom'
+                'name' => 'Tom',
             ]);
 
         $this->assertSame('Hi Tom', trim($template));
