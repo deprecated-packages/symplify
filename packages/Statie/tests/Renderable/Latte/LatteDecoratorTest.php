@@ -3,6 +3,7 @@
 namespace Symplify\Statie\Tests\Renderable\Latte;
 
 use SplFileInfo;
+use Symplify\Statie\Exception\Latte\InvalidLatteSyntaxException;
 use Symplify\Statie\FlatWhite\Latte\DynamicStringLoader;
 use Symplify\Statie\Renderable\File\FileFactory;
 use Symplify\Statie\Renderable\Latte\LatteDecorator;
@@ -63,5 +64,20 @@ final class LatteDecoratorTest extends AbstractContainerAwareTestCase
         $this->latteDecorator->decorateFile($file);
 
         $this->assertContains('fileWithFileVariable.latte', $file->getContent());
+    }
+
+    public function testDecorateFileWithInvalidLatteSyntax(): void
+    {
+        $fileWithInvalidLatteSyntax = __DIR__ . '/LatteDecoratorSource/fileWithInvalidLatteSyntax.latte';
+        $fileInfo = new SplFileInfo($fileWithInvalidLatteSyntax);
+        $file = $this->fileFactory->create($fileInfo);
+
+        $this->expectException(InvalidLatteSyntaxException::class);
+        $this->expectExceptionMessage(sprintf(
+            'Invalid Latte syntax found in "%s" file: Unknown macro {iff}, did you mean {if}?',
+            $fileWithInvalidLatteSyntax
+        ));
+
+        $this->latteDecorator->decorateFile($file);
     }
 }
