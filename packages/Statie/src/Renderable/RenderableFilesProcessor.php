@@ -2,7 +2,9 @@
 
 namespace Symplify\Statie\Renderable;
 
+use Lullabot\AMP\AMP;
 use SplFileInfo;
+use Symplify\Statie\Amp\HtmlToAmpConvertor;
 use Symplify\Statie\Configuration\Configuration;
 use Symplify\Statie\Output\FileSystemWriter;
 use Symplify\Statie\Renderable\Configuration\ConfigurationDecorator;
@@ -49,6 +51,11 @@ final class RenderableFilesProcessor
      */
     private $configuration;
 
+    /**
+     * @var HtmlToAmpConvertor
+     */
+    private $htmlToAmpConvertor;
+
     public function __construct(
         FileFactory $fileFactory,
         RouteDecorator $routeDecorator,
@@ -56,7 +63,8 @@ final class RenderableFilesProcessor
         MarkdownDecorator $markdownDecorator,
         LatteDecorator $latteDecorator,
         FileSystemWriter $fileSystemWriter,
-        Configuration $configuration
+        Configuration $configuration,
+        HtmlToAmpConvertor $htmlAmpConvertor
     ) {
         $this->fileFactory = $fileFactory;
         $this->routeDecorator = $routeDecorator;
@@ -65,6 +73,7 @@ final class RenderableFilesProcessor
         $this->latteDecorator = $latteDecorator;
         $this->fileSystemWriter = $fileSystemWriter;
         $this->configuration = $configuration;
+        $this->htmlToAmpConvertor = $htmlAmpConvertor;
     }
 
     /**
@@ -85,6 +94,9 @@ final class RenderableFilesProcessor
         $this->formatFileContentFromMarkdownToHtml($files);
         $this->formatFileContentFromLatteToHtml($files);
 
+        $this->fileSystemWriter->copyRenderableFiles($files);
+
+        $files = $this->createAmpVersions($files);
         $this->fileSystemWriter->copyRenderableFiles($files);
     }
 
@@ -150,5 +162,21 @@ final class RenderableFilesProcessor
         foreach ($files as $file) {
             $this->latteDecorator->decorateFile($file);
         }
+    }
+
+    /**
+     * @param File[] $files
+     * @return File[] $files
+     */
+    private function createAmpVersions(array $files): array
+    {
+        foreach ($files as $file) {
+            $amp = $this->htmlToAmpConvertor->convert($file->getContent());
+            $file->changeContent($amp);
+
+            $file->setOutputPath('/amp/' . $file->getOutputPath());
+        }
+
+        return $files;
     }
 }

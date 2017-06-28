@@ -15,6 +15,6 @@ services:
     TextAnalysis\Comparisons\CosineSimilarityComparison: ~
     parsedown_extra:
         class: ParsedownExtra
-
     Latte\Engine:
         factory: Symplify\Statie\FlatWhite\Latte\LatteFactory:create
+    Lullabot\AMP\AMP: ~

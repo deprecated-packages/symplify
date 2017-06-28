@@ -36,7 +36,8 @@ final class RenderableFilesProcessorTest extends AbstractContainerAwareTestCase
 
     public function test(): void
     {
-        $finder = Finder::findFiles('*')->from(__DIR__ . '/RenderFilesProcessorSource/source')->getIterator();
+        $finder = Finder::findFiles('*')->from(__DIR__ . '/RenderFilesProcessorSource/source')
+            ->getIterator();
         $fileInfos = iterator_to_array($finder);
 
         $this->renderableFilesProcessor->processFiles($fileInfos);
@@ -48,20 +49,43 @@ final class RenderableFilesProcessorTest extends AbstractContainerAwareTestCase
         );
     }
 
+    public function testAmp(): void
+    {
+        $finder = Finder::findFiles('*')->from(__DIR__ . '/RenderFilesProcessorSource/source')
+            ->getIterator();
+        $fileInfos = iterator_to_array($finder);
+
+        $this->renderableFilesProcessor->processFiles($fileInfos);
+
+        $htmlContactFile = __DIR__ . '/RenderFilesProcessorSource/output/contact/index.html';
+        $ampContactFile = __DIR__ . '/RenderFilesProcessorSource/output/amp/contact/index.html';
+
+        $this->assertFileExists($htmlContactFile);
+        $this->assertFileExists($ampContactFile);
+
+        $this->assertFalse(file_get_contents($htmlContactFile) === file_get_contents($ampContactFile));
+
+        $this->assertFileEquals(__DIR__ . '/RenderFilesProcessorSource/amp-contact-expected.html', $ampContactFile);
+    }
+
     public function testPosts(): void
     {
-        $finder = Finder::findFiles('*')->from(__DIR__ . '/RenderFilesProcessorSource/source/_posts')->getIterator();
+        $finder = Finder::findFiles('*')->from(__DIR__ . '/RenderFilesProcessorSource/source/_posts')
+            ->getIterator();
         $fileInfos = iterator_to_array($finder);
 
         $this->assertCount(2, $fileInfos);
 
         $this->renderableFilesProcessor->processFiles($fileInfos);
 
+        $normalPostLocation = __DIR__ . '/RenderFilesProcessorSource/output/blog/2016/01/02/second-title/index.html';
+        $ampPostLocation = __DIR__ . '/RenderFilesProcessorSource/output/amp/blog/2016/01/02/second-title/index.html';
         $this->assertFileExists(__DIR__ . '/RenderFilesProcessorSource/output/blog/2016/10/10/title/index.html');
-        $this->assertFileExists(__DIR__ . '/RenderFilesProcessorSource/output/blog/2016/01/02/second-title/index.html');
+        $this->assertFileExists($normalPostLocation);
+        $this->assertFileExists($ampPostLocation);
 
-        $this->assertTrue(
-            isset($this->configuration->getOptions()['posts'])
-        );
+        $this->assertFalse(file_get_contents($normalPostLocation) === file_get_contents($ampPostLocation));
+
+        $this->assertArrayHasKey('posts', $this->configuration->getOptions());
     }
 }
