@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\EasyCodingStandard\Tests\Configuration\Parameter;
+namespace Symplify\EasyCodingStandard\Configuration\Tests\Parameter;
 
 use PHPUnit\Framework\TestCase;
 use Symplify\EasyCodingStandard\Configuration\Parameter\ParameterProvider;
