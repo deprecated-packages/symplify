@@ -12,7 +12,7 @@ gc_disable();
  * This allows to load "vendor/autoload.php" both from
  * "composer create-project ..." and "composer require" installation.
  */
-$possibleAutoloadPaths = [__DIR__ . '/../../..', __DIR__ . '/../vendor'];
+$possibleAutoloadPaths = [__DIR__ . '/../../..', __DIR__ . '/../vendor', getcwd() . '/vendor'];
 
 foreach ($possibleAutoloadPaths as $possibleAutoloadPath) {
     if (file_exists($possibleAutoloadPath . '/autoload.php')) {
@@ -23,7 +23,7 @@ foreach ($possibleAutoloadPaths as $possibleAutoloadPath) {
 }
 
 // 1. Detect configuration
-ConfigFilePathHelper::detectFromInput(__DIR__, new ArgvInput);
+ConfigFilePathHelper::detectFromInput(new ArgvInput);
 
 // 2. Build DI container
 $containerFactory = new ContainerFactory;
