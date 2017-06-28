@@ -7,6 +7,7 @@ use Nette\Utils\Strings;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\Config\Loader\LoaderResolverInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 final class NeonLoader implements LoaderInterface
 {
@@ -19,7 +20,10 @@ final class NeonLoader implements LoaderInterface
      */
     private $containerBuilder;
 
-    public function __construct(ContainerBuilder $containerBuilder)
+    /**
+     * @param ContainerBuilder|ContainerInterface $containerBuilder
+     */
+    public function __construct(ContainerInterface $containerBuilder)
     {
         $this->containerBuilder = $containerBuilder;
     }
