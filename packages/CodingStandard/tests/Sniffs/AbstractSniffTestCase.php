@@ -30,7 +30,7 @@ abstract class AbstractSniffTestCase extends TestCase
 
     protected function runSniffTestForDirectory(string $sniffClass, string $directory): void
     {
-        $container = (new ContainerFactory)->createWithoutConfig();
+        $container = (new ContainerFactory)->create();
         $this->sniffFileProcessor = $container->get(SniffFileProcessor::class);
         $this->errorCollector = $container->get(ErrorCollector::class);
         $this->fixer = $container->get(Fixer::class);
