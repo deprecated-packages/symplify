@@ -50,6 +50,10 @@ abstract class AbstractCliKernel extends Kernel
      */
     private function getLocalConfigPath(string $configName)
     {
+        if (file_exists($configName)) {
+            return $configName;
+        }
+
         $vendorDir = VendorDirProvider::provide();
 
         $possibleConfigPaths = [
