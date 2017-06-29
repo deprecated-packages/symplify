@@ -40,7 +40,8 @@
         "phpunit/phpunit": "^6.2",
         "symfony/form": "^3.3",
         "symfony/framework-bundle": "^3.3",
-        "tracy/tracy": "^2.4"
+        "tracy/tracy": "^2.4",
+        "gecko-packages/gecko-php-unit": "dev-master#b32f1d8 as 2.1"
     },
     "autoload": {
         "psr-4": {

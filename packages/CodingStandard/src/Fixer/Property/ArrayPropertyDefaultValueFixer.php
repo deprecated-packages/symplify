@@ -49,7 +49,6 @@ final class ArrayPropertyDefaultValueFixer implements DefinedFixerInterface
             $semicolonOrDefaultValuePosition = $tokens->getNextMeaningfulToken($index + 4);
             $variableToken = $tokens->getNextTokenOfKind($index, [T_VARIABLE]);
             // use getNextTokenOfKind to search for T_VARIABLE
-            dump($semicolonOrDefaultValuePosition);
             if ($variableToken === null) {
                 break;
             }
@@ -60,7 +59,6 @@ final class ArrayPropertyDefaultValueFixer implements DefinedFixerInterface
             }
         }
     }
-
 
     public function getName(): string
     {
@@ -106,7 +104,7 @@ final class ArrayPropertyDefaultValueFixer implements DefinedFixerInterface
             new Token('='),
             new Token([T_WHITESPACE, ' ']),
             new Token([CT::T_ARRAY_SQUARE_BRACE_OPEN, '[']),
-            new Token([CT::T_ARRAY_SQUARE_BRACE_CLOSE, ']'])
+            new Token([CT::T_ARRAY_SQUARE_BRACE_CLOSE, ']']),
         ]);
     }
 }
