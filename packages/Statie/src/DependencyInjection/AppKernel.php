@@ -9,10 +9,24 @@ use Symplify\Statie\DependencyInjection\CompilerPass\CollectorCompilerPass;
 
 final class AppKernel extends AbstractCliKernel
 {
+    /**
+     * @var string
+     */
+    private $configFile;
+
+    public function __construct(?string $configFile = '')
+    {
+        $this->configFile = $configFile;
+        parent::__construct();
+    }
+
     public function registerContainerConfiguration(LoaderInterface $loader): void
     {
         $loader->load(__DIR__ . '/../config/services.yml');
-        $this->registerLocalConfig($loader, 'statie.neon');
+        if ($this->configFile) {
+            $this->registerLocalConfig($loader, $this->configFile);
+        }
+//        $this->registerLocalConfig($loader, 'statie.neon');
     }
 
     public function getCacheDir(): string

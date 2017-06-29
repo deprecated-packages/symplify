@@ -4,6 +4,7 @@ namespace Symplify\Statie\Tests\Renderable\Routing;
 
 use PHPUnit\Framework\TestCase;
 use SplFileInfo;
+use Symplify\PackageBuilder\Adapter\Nette\Parameter\ParameterProvider;
 use Symplify\Statie\Configuration\Configuration;
 use Symplify\Statie\Configuration\Parser\NeonParser;
 use Symplify\Statie\Renderable\File\AbstractFile;
@@ -12,8 +13,9 @@ use Symplify\Statie\Renderable\Routing\Route\IndexRoute;
 use Symplify\Statie\Renderable\Routing\Route\NotHtmlRoute;
 use Symplify\Statie\Renderable\Routing\Route\PostRoute;
 use Symplify\Statie\Renderable\Routing\RouteDecorator;
+use Symplify\Statie\Tests\AbstractContainerAwareTestCase;
 
-final class RouteDecoratorTest extends TestCase
+final class RouteDecoratorTest extends AbstractContainerAwareTestCase
 {
     /**
      * @var RouteDecorator
@@ -22,7 +24,7 @@ final class RouteDecoratorTest extends TestCase
 
     protected function setUp(): void
     {
-        $configuration = new Configuration(new NeonParser);
+        $configuration = $this->container->get(Configuration::class);
         $configuration->loadFromArray([
             'configuration' => [
                 Configuration::OPTION_POST_ROUTE => 'blog/:title',
@@ -78,7 +80,7 @@ final class RouteDecoratorTest extends TestCase
 
     private function getFileFactory(): FileFactory
     {
-        $configuration = new Configuration(new NeonParser);
+        $configuration = $this->container->get(Configuration::class);
         $configuration->setSourceDirectory('sourceDirectory');
 
         return new FileFactory($configuration);

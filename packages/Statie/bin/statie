@@ -2,6 +2,8 @@
 <?php declare(strict_types=1);
 
 use Symfony\Component\Console\Application;
+use Symfony\Component\Console\Input\ArgvInput;
+use Symplify\Statie\Configuration\ConfigFilePathHelper;
 use Symplify\Statie\DependencyInjection\ContainerFactory;
 
 // performance boost
@@ -21,8 +23,15 @@ foreach ($possibleAutoloadPaths as $possibleAutoloadPath) {
     }
 }
 
-$container = (new ContainerFactory)->create();
 
+// 1. Detect configuration
+ConfigFilePathHelper::detectFromInput(new ArgvInput);
+
+// 2. Build DI container
+$containerFactory = new ContainerFactory;
+$container = $containerFactory->createWithConfig(ConfigFilePathHelper::provide());
+
+// 3. Run Console Application
 /** @var Application $application */
 $application = $container->get(Application::class);
 $application->run();

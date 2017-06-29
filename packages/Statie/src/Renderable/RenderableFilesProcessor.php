@@ -2,7 +2,6 @@
 
 namespace Symplify\Statie\Renderable;
 
-use Lullabot\AMP\AMP;
 use SplFileInfo;
 use Symplify\Statie\Amp\AmpLinkDecorator;
 use Symplify\Statie\Amp\HtmlToAmpConvertor;
@@ -103,12 +102,16 @@ final class RenderableFilesProcessor
         $this->formatFileContentFromMarkdownToHtml($files);
         $this->formatFileContentFromLatteToHtml($files);
 
-        $ampFiles = $this->cloneArray($files);
-        $this->formatFileContentWithAmpLink($files);
-        $this->fileSystemWriter->copyRenderableFiles($files);
+        if ($this->configuration->getOptions()['amp']) {
+            $ampFiles = $this->cloneArray($files);
+            $this->formatFileContentWithAmpLink($files);
+            $this->fileSystemWriter->copyRenderableFiles($files);
 
-        $ampFiles = $this->createAmpVersions($ampFiles);
-        $this->fileSystemWriter->copyRenderableFiles($ampFiles);
+            $ampFiles = $this->createAmpVersions($ampFiles);
+            $this->fileSystemWriter->copyRenderableFiles($ampFiles);
+        } else {
+            $this->fileSystemWriter->copyRenderableFiles($files);
+        }
     }
 
     /**

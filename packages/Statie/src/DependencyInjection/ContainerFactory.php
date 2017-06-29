@@ -17,4 +17,15 @@ final class ContainerFactory
 
         return $appKernel->getContainer();
     }
+
+    /**
+     * @return ContainerInterface|Container
+     */
+    public function createWithConfig(string $config): ContainerInterface
+    {
+        $appKernel = new AppKernel($config);
+        $appKernel->boot();
+
+        return $appKernel->getContainer();
+    }
 }
