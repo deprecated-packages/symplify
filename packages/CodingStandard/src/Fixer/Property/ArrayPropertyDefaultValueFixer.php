@@ -46,17 +46,16 @@ final class ArrayPropertyDefaultValueFixer implements DefinedFixerInterface
                 continue;
             }
 
-            $semicolonOrDefaultValuePosition = $tokens->getNextMeaningfulToken($index + 4);
-            $variableToken = $tokens->getNextTokenOfKind($index, [T_VARIABLE]);
-            // use getNextTokenOfKind to search for T_VARIABLE
-            if ($variableToken === null) {
-                break;
+            // @todo: how to get variable here?
+            $equalTokenPosition = $tokens->getNextTokenOfKind($index, ['=']);
+            $semicolonTokenPosition = $tokens->getNextTokenOfKind($index, [';']);
+
+            // default definition is set
+            if (is_numeric($equalTokenPosition) && $equalTokenPosition < $semicolonTokenPosition) {
+                continue;
             }
 
-            $semicolonOrDefaultValueToken = $tokens[$semicolonOrDefaultValuePosition];
-            if (! $semicolonOrDefaultValueToken->equals(';')) {
-                $this->addDefaultValueForArrayProperty($tokens, $semicolonOrDefaultValuePosition);
-            }
+            $this->addDefaultValueForArrayProperty($tokens, $semicolonTokenPosition);
         }
     }
 
@@ -77,6 +76,10 @@ final class ArrayPropertyDefaultValueFixer implements DefinedFixerInterface
 
     private function isArrayPropertyDocComment(Token $token): bool
     {
+        if (! $token->isComment()) {
+            return false;
+        }
+
         $docBlock = new DocBlock($token->getContent());
 
         if (count($docBlock->getLines()) === 1) {
@@ -105,6 +108,7 @@ final class ArrayPropertyDefaultValueFixer implements DefinedFixerInterface
             new Token([T_WHITESPACE, ' ']),
             new Token([CT::T_ARRAY_SQUARE_BRACE_OPEN, '[']),
             new Token([CT::T_ARRAY_SQUARE_BRACE_CLOSE, ']']),
+            new Token(';'),
         ]);
     }
 }
