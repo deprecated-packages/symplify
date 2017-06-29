@@ -1,9 +1,10 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Fixer\Property;
+namespace Symplify\CodingStandard\Tests\Fixer\Property;
 
 use PhpCsFixer\Fixer\FixerInterface;
 use PhpCsFixer\Test\AbstractFixerTestCase;
+use Symplify\CodingStandard\Fixer\Property\ArrayPropertyDefaultValueFixer;
 
 final class ArrayPropertyDefaultValueFixerTest extends AbstractFixerTestCase
 {

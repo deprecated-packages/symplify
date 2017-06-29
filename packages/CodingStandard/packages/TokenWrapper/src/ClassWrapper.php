@@ -21,7 +21,7 @@ final class ClassWrapper
     /**
      * @var mixed[]
      */
-    private $classToken;
+    private $classToken = [];
 
     /**
      * @var mixed[]
