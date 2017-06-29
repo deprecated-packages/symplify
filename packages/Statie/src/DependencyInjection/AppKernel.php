@@ -26,7 +26,6 @@ final class AppKernel extends AbstractCliKernel
         if ($this->configFile) {
             $this->registerLocalConfig($loader, $this->configFile);
         }
-//        $this->registerLocalConfig($loader, 'statie.neon');
     }
 
     public function getCacheDir(): string

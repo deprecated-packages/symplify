@@ -51,7 +51,11 @@ final class NeonLoader implements LoaderInterface
             return;
         }
 
-        $content = $content['parameters'] ?? $content;
+        if (isset($content['parameters'])) {
+            $content += $content['parameters'];
+            unset($content['parameters']);
+        }
+
         foreach ($content as $key => $value) {
             $this->containerBuilder->setParameter($key, $value);
         }

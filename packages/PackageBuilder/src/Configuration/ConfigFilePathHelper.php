@@ -48,12 +48,12 @@ final class ConfigFilePathHelper
 
         $rootConfigPath = getcwd() . '/' . $name . '.neon';
         if (file_exists($rootConfigPath)) {
-            return self::$configFilePaths = $rootConfigPath;
+            return self::$configFilePaths[$name] = $rootConfigPath;
         }
     }
 
-    public static function set(string $configFilePath): void
+    public static function set(string $name, string $configFilePath): void
     {
-        self::$configFilePaths = $configFilePath;
+        self::$configFilePaths[$name] = $configFilePath;
     }
 }

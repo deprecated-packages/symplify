@@ -2,11 +2,8 @@
 
 namespace Symplify\Statie\Tests\Renderable\Routing;
 
-use PHPUnit\Framework\TestCase;
 use SplFileInfo;
-use Symplify\PackageBuilder\Adapter\Nette\Parameter\ParameterProvider;
 use Symplify\Statie\Configuration\Configuration;
-use Symplify\Statie\Configuration\Parser\NeonParser;
 use Symplify\Statie\Renderable\File\AbstractFile;
 use Symplify\Statie\Renderable\File\FileFactory;
 use Symplify\Statie\Renderable\Routing\Route\IndexRoute;

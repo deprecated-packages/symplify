@@ -135,6 +135,7 @@ final class Configuration
     public function getOptions(): array
     {
         $this->options += $this->parameterProvider->provide();
+
         return $this->options;
     }
 }

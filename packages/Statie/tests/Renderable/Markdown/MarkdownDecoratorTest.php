@@ -4,7 +4,6 @@ namespace Symplify\Statie\Tests\Renderable\Markdown;
 
 use SplFileInfo;
 use Symplify\Statie\Configuration\Configuration;
-use Symplify\Statie\Configuration\Parser\NeonParser;
 use Symplify\Statie\Renderable\File\AbstractFile;
 use Symplify\Statie\Renderable\File\FileFactory;
 use Symplify\Statie\Renderable\Markdown\MarkdownDecorator;

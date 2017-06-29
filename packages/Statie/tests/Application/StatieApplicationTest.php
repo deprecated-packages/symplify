@@ -8,7 +8,6 @@ use Symplify\Statie\Application\StatieApplication;
 use Symplify\Statie\DependencyInjection\ContainerFactory;
 use Symplify\Statie\Exception\Utils\MissingDirectoryException;
 use Symplify\Statie\FlatWhite\Latte\DynamicStringLoader;
-use Symplify\Statie\Tests\AbstractContainerAwareTestCase;
 
 final class StatieApplicationTest extends TestCase
 {

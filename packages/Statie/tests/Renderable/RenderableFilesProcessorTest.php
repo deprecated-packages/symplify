@@ -5,7 +5,6 @@ namespace Symplify\Statie\Tests\Renderable;
 use Nette\Utils\FileSystem;
 use Nette\Utils\Finder;
 use PHPUnit\Framework\TestCase;
-use Symplify\PackageBuilder\Adapter\Symfony\Parameter\ParameterProvider;
 use Symplify\Statie\Configuration\Configuration;
 use Symplify\Statie\DependencyInjection\ContainerFactory;
 use Symplify\Statie\Renderable\RenderableFilesProcessor;

@@ -16,7 +16,7 @@ final class ParameterProviderTest extends TestCase
 
         $parameterProvider = $container->get(ParameterProvider::class);
         $this->assertSame([
-            'key' => 'value'
+            'key' => 'value',
         ], $parameterProvider->provide());
     }
 }
