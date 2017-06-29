@@ -3,6 +3,7 @@
 namespace Symplify\Statie\Configuration;
 
 use SplFileInfo;
+use Symplify\PackageBuilder\Adapter\Symfony\Parameter\ParameterProvider;
 use Symplify\Statie\Configuration\Parser\NeonParser;
 
 final class Configuration
@@ -52,9 +53,15 @@ final class Configuration
      */
     private $outputDirectory;
 
-    public function __construct(NeonParser $neonParser)
+    /**
+     * @var ParameterProvider
+     */
+    private $parameterProvider;
+
+    public function __construct(NeonParser $neonParser, ParameterProvider $parameterProvider)
     {
         $this->neonParser = $neonParser;
+        $this->parameterProvider = $parameterProvider;
     }
 
     /**
@@ -127,6 +134,8 @@ final class Configuration
 
     public function getOptions(): array
     {
+        $this->options += $this->parameterProvider->provide();
+
         return $this->options;
     }
 }

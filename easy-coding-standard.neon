@@ -28,7 +28,6 @@ checkers:
     # Files
     - PHP_CodeSniffer\Standards\Generic\Sniffs\Files\ByteOrderMarkSniff
     PHP_CodeSniffer\Standards\Generic\Sniffs\Files\LineLengthSniff:
-        lineLimit: 120
         absoluteLineLimit: 120
 
     # PSR-4

@@ -3,16 +3,15 @@
 namespace Symplify\Statie\Tests\Renderable\File;
 
 use DateTimeInterface;
-use PHPUnit\Framework\TestCase;
 use SplFileInfo;
 use Symplify\Statie\Configuration\Configuration;
-use Symplify\Statie\Configuration\Parser\NeonParser;
 use Symplify\Statie\Renderable\File\File;
 use Symplify\Statie\Renderable\File\FileFactory;
 use Symplify\Statie\Renderable\File\PostFile;
+use Symplify\Statie\Tests\AbstractContainerAwareTestCase;
 use Throwable;
 
-final class FileFactoryTest extends TestCase
+final class FileFactoryTest extends AbstractContainerAwareTestCase
 {
     /**
      * @var FileFactory
@@ -21,7 +20,7 @@ final class FileFactoryTest extends TestCase
 
     protected function setUp(): void
     {
-        $configuration = new Configuration(new NeonParser);
+        $configuration = $this->container->get(Configuration::class);
         $configuration->setSourceDirectory('sourceDirectory');
         $this->fileFactory = new FileFactory($configuration);
     }

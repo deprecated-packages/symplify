@@ -2,16 +2,14 @@
 
 namespace Symplify\Statie\Tests\Renderable\Markdown;
 
-use ParsedownExtra;
-use PHPUnit\Framework\TestCase;
 use SplFileInfo;
 use Symplify\Statie\Configuration\Configuration;
-use Symplify\Statie\Configuration\Parser\NeonParser;
 use Symplify\Statie\Renderable\File\AbstractFile;
 use Symplify\Statie\Renderable\File\FileFactory;
 use Symplify\Statie\Renderable\Markdown\MarkdownDecorator;
+use Symplify\Statie\Tests\AbstractContainerAwareTestCase;
 
-final class MarkdownDecoratorTest extends TestCase
+final class MarkdownDecoratorTest extends AbstractContainerAwareTestCase
 {
     /**
      * @var MarkdownDecorator
@@ -25,14 +23,14 @@ final class MarkdownDecoratorTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->configuration = new Configuration(new NeonParser);
+        $this->configuration = $this->container->get(Configuration::class);
         $this->configuration->loadFromArray([
             'configuration' => [
                 Configuration::OPTION_MARKDOWN_HEADLINE_ANCHORS => false,
             ],
         ]);
 
-        $this->markdownDecorator = new MarkdownDecorator(new ParsedownExtra, $this->configuration);
+        $this->markdownDecorator = $this->container->get(MarkdownDecorator::class);
     }
 
     public function testNotMarkdown(): void
@@ -73,7 +71,7 @@ final class MarkdownDecoratorTest extends TestCase
     {
         $fileInfo = new SplFileInfo($filePath);
 
-        $configuration = new Configuration(new NeonParser);
+        $configuration = $this->container->get(Configuration::class);
         $configuration->setSourceDirectory('sourceDirectory');
 
         return (new FileFactory($configuration))->create($fileInfo);

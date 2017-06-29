@@ -15,6 +15,7 @@ final class NeonLoader implements LoaderInterface
      * @var LoaderResolverInterface
      */
     private $resolver;
+
     /**
      * @var ContainerBuilder
      */
@@ -48,6 +49,11 @@ final class NeonLoader implements LoaderInterface
         $content = (new Decoder)->decode($neonFileContent);
         if ($content === null) {
             return;
+        }
+
+        if (isset($content['parameters'])) {
+            $content += $content['parameters'];
+            unset($content['parameters']);
         }
 
         foreach ($content as $key => $value) {

@@ -2,6 +2,7 @@
 <?php declare(strict_types=1);
 
 use Symfony\Component\Console\Application;
+use Symplify\PackageBuilder\Configuration\ConfigFilePathHelper;
 use Symplify\Statie\DependencyInjection\ContainerFactory;
 
 // performance boost
@@ -21,8 +22,16 @@ foreach ($possibleAutoloadPaths as $possibleAutoloadPath) {
     }
 }
 
-$container = (new ContainerFactory)->create();
 
+// 1. Detect configuration
+ConfigFilePathHelper::detectFromInput('statie');
+
+// 2. Build DI container
+$containerFactory = new ContainerFactory;
+$configFilePath = ConfigFilePathHelper::provide('statie') ?: getcwd() . '/statie.neon';
+$container = $containerFactory->createWithConfig($configFilePath);
+
+// 3. Run Console Application
 /** @var Application $application */
 $application = $container->get(Application::class);
 $application->run();
