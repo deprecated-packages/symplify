@@ -2,12 +2,11 @@
 
 namespace Symplify\Statie\Tests\Configuration;
 
-use PHPUnit\Framework\TestCase;
 use SplFileInfo;
 use Symplify\Statie\Configuration\Configuration;
-use Symplify\Statie\Configuration\Parser\NeonParser;
+use Symplify\Statie\Tests\AbstractContainerAwareTestCase;
 
-final class ConfigurationTest extends TestCase
+final class ConfigurationTest extends AbstractContainerAwareTestCase
 {
     /**
      * @var Configuration
@@ -16,7 +15,7 @@ final class ConfigurationTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->configuration = new Configuration(new NeonParser);
+        $this->configuration = $this->container->get(Configuration::class);
     }
 
     public function testAddGlobalVariable(): void

@@ -40,6 +40,9 @@ final class RouteDecoratorTest extends AbstractContainerAwareTestCase
     {
         $file = $this->createFileFromFilePath(__DIR__ . '/RoutingDecoratorSource/someFile.latte');
 
+        $configuration = $this->container->get(Configuration::class);
+        $configuration->setSourceDirectory(__DIR__ . '/RoutingDecoratorSource');
+
         $this->routeDecorator->decorateFile($file);
         $this->assertSame('/someFile', $file->getRelativeUrl());
         $this->assertSame('/someFile' . DIRECTORY_SEPARATOR . 'index.html', $file->getOutputPath());

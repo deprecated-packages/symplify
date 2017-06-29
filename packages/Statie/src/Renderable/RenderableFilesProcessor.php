@@ -102,7 +102,7 @@ final class RenderableFilesProcessor
         $this->formatFileContentFromMarkdownToHtml($files);
         $this->formatFileContentFromLatteToHtml($files);
 
-        if ($this->configuration->getOptions()['amp']) {
+        if (isset($this->configuration->getOptions()['amp']) && $this->configuration->getOptions()['amp']) {
             $ampFiles = $this->cloneArray($files);
             $this->formatFileContentWithAmpLink($files);
             $this->fileSystemWriter->copyRenderableFiles($files);

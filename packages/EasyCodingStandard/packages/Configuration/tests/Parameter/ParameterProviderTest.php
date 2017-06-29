@@ -3,7 +3,7 @@
 namespace Symplify\EasyCodingStandard\Configuration\Tests\Parameter;
 
 use PHPUnit\Framework\TestCase;
-use Symplify\EasyCodingStandard\Configuration\Parameter\ParameterProvider;
+use Symplify\PackageBuilder\Adapter\Symfony\Parameter\ParameterProvider;
 use Symplify\EasyCodingStandard\DependencyInjection\ContainerFactory;
 
 final class ParameterProviderTest extends TestCase

@@ -6,7 +6,7 @@ use Nette\Utils\Strings;
 use PHP_CodeSniffer\Sniffs\Sniff;
 use PhpCsFixer\Fixer\FixerInterface;
 use Symfony\Component\Finder\Glob;
-use Symplify\EasyCodingStandard\Configuration\Parameter\ParameterProvider;
+use Symplify\PackageBuilder\Adapter\Symfony\Parameter\ParameterProvider;
 use Symplify\EasyCodingStandard\Validator\CheckerTypeValidator;
 
 final class Skipper

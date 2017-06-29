@@ -2,16 +2,13 @@
 
 namespace Symplify\Statie\Tests\Metrics;
 
-use PHPUnit\Framework\TestCase;
 use Symplify\Statie\Configuration\Configuration;
-use Symplify\Statie\Configuration\Parser\NeonParser;
-use Symplify\Statie\Metrics\PostSimilarityAnalyzer;
 use Symplify\Statie\Metrics\SimilarPostsResolver;
 use Symplify\Statie\Renderable\File\PostFile;
+use Symplify\Statie\Tests\AbstractContainerAwareTestCase;
 use Symplify\Statie\Tests\Helper\PostFactory;
-use TextAnalysis\Comparisons\CosineSimilarityComparison;
 
-final class SimilarPostsResolverTest extends TestCase
+final class SimilarPostsResolverTest extends AbstractContainerAwareTestCase
 {
     /**
      * @var PostFile
@@ -32,7 +29,10 @@ final class SimilarPostsResolverTest extends TestCase
     {
         $this->postFactory = new PostFactory;
 
-        $this->similarPostsResolver = $this->createSimilarPostsResolver();
+        $this->similarPostsResolver = $this->container->get(SimilarPostsResolver::class);
+
+        $configuration = $this->container->get(Configuration::class);
+        $configuration->addGlobalVarialbe('posts', $this->getAllPosts());
 
         $this->mainPost = $this->postFactory->createPostFromFilePath(
             __DIR__ . '/../PostsSource/2017-01-05-another-related-post.md'
@@ -52,14 +52,6 @@ final class SimilarPostsResolverTest extends TestCase
     {
         $this->assertCount(3, $this->similarPostsResolver->resolveForPostWithLimit($this->mainPost, 3));
         $this->assertCount(1, $this->similarPostsResolver->resolveForPostWithLimit($this->mainPost, 1));
-    }
-
-    private function createSimilarPostsResolver(): SimilarPostsResolver
-    {
-        $configuration = new Configuration(new NeonParser);
-        $configuration->addGlobalVarialbe('posts', $this->getAllPosts());
-
-        return new SimilarPostsResolver($configuration, new PostSimilarityAnalyzer(new CosineSimilarityComparison));
     }
 
     /**
