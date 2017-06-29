@@ -10,7 +10,6 @@ final class VendorDirProviderTest extends TestCase
     public function testProvide(): void
     {
         $this->assertStringEndsWith('vendor', VendorDirProvider::provide());
-        $this->assertStringEndsWith('vendor', VendorDirProvider::provide());
 
         $this->assertFileExists(VendorDirProvider::provide() . '/autoload.php');
     }
