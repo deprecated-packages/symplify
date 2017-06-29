@@ -15,6 +15,7 @@ final class NeonLoader implements LoaderInterface
      * @var LoaderResolverInterface
      */
     private $resolver;
+
     /**
      * @var ContainerBuilder
      */
@@ -50,6 +51,7 @@ final class NeonLoader implements LoaderInterface
             return;
         }
 
+        $content = $content['parameters'] ?? $content;
         foreach ($content as $key => $value) {
             $this->containerBuilder->setParameter($key, $value);
         }
