@@ -17,13 +17,13 @@ final class HtmlToAmpConvertor
         $this->amp = $amp;
     }
 
-    public function convert(string $html): string
+    public function convert(string $html, string $originalUrl): string
     {
         $options = [
-            'scope' => Scope::HTML_SCOPE
+            'scope' => Scope::HTML_SCOPE,
+            'canonical_path' => $originalUrl,
         ];
         $this->amp->loadHtml($html, $options);
-
         $this->amp->convertToAmpHtml();
 
         return $this->amp->getAmpHtml();

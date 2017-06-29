@@ -63,8 +63,7 @@ final class RenderableFilesProcessorTest extends AbstractContainerAwareTestCase
         $this->assertFileExists($htmlContactFile);
         $this->assertFileExists($ampContactFile);
 
-        $this->assertFalse(file_get_contents($htmlContactFile) === file_get_contents($ampContactFile));
-
+        $this->assertFileEquals(__DIR__ . '/RenderFilesProcessorSource/contact-expected.html', $htmlContactFile);
         $this->assertFileEquals(__DIR__ . '/RenderFilesProcessorSource/amp-contact-expected.html', $ampContactFile);
     }
 
