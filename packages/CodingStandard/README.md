@@ -239,13 +239,14 @@ final class Controller
 :x:
 
 ```php
-$file = new \File;
+$file = new File();
 ```
  
 :+1:
 
 ```php
 $file = new File;
+$directory = new Directory([$file]);
 ```
 
 ### There should comments with valid code

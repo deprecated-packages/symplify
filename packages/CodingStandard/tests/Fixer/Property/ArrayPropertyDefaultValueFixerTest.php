@@ -4,12 +4,6 @@ namespace Symplify\CodingStandard\Fixer\Property;
 
 use PhpCsFixer\Fixer\FixerInterface;
 use PhpCsFixer\Test\AbstractFixerTestCase;
-use PHPUnit\Framework\Constraint\IsIdentical;
-use PHPUnit\Framework\TestCase;
-
-// support for PHPUnit 6 missing :(
-class_alias(TestCase::class, 'PHPUnit_Framework_TestCase');
-class_alias(IsIdentical::class, 'PHPUnit_Framework_Constraint_IsIdentical');
 
 final class ArrayPropertyDefaultValueFixerTest extends AbstractFixerTestCase
 {
