@@ -20,12 +20,12 @@ final class PropertyWrapper
     /**
      * @var mixed[]
      */
-    private $propertyToken;
+    private $propertyToken = [];
 
     /**
      * @var mixed[]
      */
-    private $tokens;
+    private $tokens = [];
 
     /**
      * @var ?int

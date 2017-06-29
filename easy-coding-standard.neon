@@ -1,4 +1,6 @@
 checkers:
+    - Symplify\CodingStandard\Fixer\Property\ArrayPropertyDefaultValueFixer
+
     # Classes
     - PHP_CodeSniffer\Standards\Generic\Sniffs\Classes\DuplicateClassNameSniff
     - PHP_CodeSniffer\Standards\PSR2\Sniffs\Classes\PropertyDeclarationSniff

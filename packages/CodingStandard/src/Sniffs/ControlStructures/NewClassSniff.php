@@ -31,7 +31,7 @@ final class NewClassSniff implements Sniff
     /**
      * @var mixed[]
      */
-    private $tokens;
+    private $tokens = [];
 
     /**
      * @return int[]
