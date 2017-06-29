@@ -15,9 +15,9 @@ final class AppKernel extends AbstractCliKernel
      */
     private $configFile;
 
-    public function __construct(?string $configConfig = '')
+    public function __construct(?string $configFile = '')
     {
-        $this->configFile = $configConfig;
+        $this->configFile = $configFile;
         parent::__construct();
     }
 
