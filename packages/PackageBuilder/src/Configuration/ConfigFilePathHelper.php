@@ -2,45 +2,40 @@
 
 namespace Symplify\PackageBuilder\Configuration;
 
-use Symfony\Component\Console\Input\ArgvInput;
+use Symfony\Component\Console\Input\InputInterface;
+use Symplify\PackageBuilder\Exception\Configuration\FileNotFoundException;
 
 final class ConfigFilePathHelper
 {
     /**
      * @var string
      */
-    private const SHORT_C = '-c';
-
-    /**
-     * @var string
-     */
-    private const LONG_CONFIGURATION = '--configuration';
+    private const LONG_CONFIGURATION = '--config';
 
     /**
      * @var string[]
      */
     private static $configFilePaths = [];
 
-    public static function detectFromInput(string $name): void
+    public static function detectFromInput(string $name, InputInterface $input): void
     {
-        $input = new ArgvInput;
-
         if ($input->hasParameterOption(self::LONG_CONFIGURATION)) {
-            $filePath = getcwd() . '/' . $input->getParameterOption(self::LONG_CONFIGURATION);
-            if (file_exists($filePath)) {
-                self::$configFilePaths[$name] = $filePath;
-            }
-        }
+            $relativeFilePath = $input->getParameterOption(self::LONG_CONFIGURATION);
+            $filePath = getcwd() . '/' . $relativeFilePath;
 
-        if ($input->hasParameterOption(self::SHORT_C)) {
-            $filePath = getcwd() . '/' . $input->getParameterOption(self::SHORT_C);
-            if (file_exists($filePath)) {
-                self::$configFilePaths[$name] = $filePath;
+            if (!file_exists($filePath)) {
+                throw new FileNotFoundException(sprintf(
+                    'File "%s" not found in "%s".',
+                    $filePath,
+                    $relativeFilePath
+                ));
             }
+
+            self::$configFilePaths[$name] = $filePath;
         }
     }
 
-    public static function provide(string $name): string
+    public static function provide(string $name): ?string
     {
         if (isset(self::$configFilePaths[$name])) {
             return self::$configFilePaths[$name];
@@ -50,6 +45,8 @@ final class ConfigFilePathHelper
         if (file_exists($rootConfigPath)) {
             return self::$configFilePaths[$name] = $rootConfigPath;
         }
+
+        return null;
     }
 
     public static function set(string $name, string $configFilePath): void
