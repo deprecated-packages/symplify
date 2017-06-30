@@ -2,6 +2,7 @@ parameters:
     ignoreErrors:
         - "#does not call parent constructor from PHP_CodeSniffer#"
         - "#Constant #"
+        - "#addLoader()#"
     excludes_analyse:
         - *packages/CodingStandard/tests/**/correct*
         - *packages/CodingStandard/tests/**/wrong*

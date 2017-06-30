@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\PackageBuilder\Tests\Adapter\Nette\DI;
+namespace Symplify\PackageBuilder\Tests\Adapter\Nette;
 
 use Nette\DI\Container;
 use PHPUnit\Framework\TestCase;
