@@ -9,7 +9,7 @@ use Symplify\PackageBuilder\Neon\Loader\NeonLoader;
 
 /**
  * This trait allows to load *.neon files in Kernel.
- * Use in descendants of @see \Symfony\Component\HttpKernel\Kernel
+ * Use in descendants of @see \Symfony\Component\HttpKernel\Kernel.
  */
 trait NeonLoaderAwareKernelTrait
 {

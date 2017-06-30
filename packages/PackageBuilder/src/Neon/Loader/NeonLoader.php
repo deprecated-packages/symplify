@@ -45,7 +45,7 @@ final class NeonLoader implements LoaderInterface
     public function load($resource, $type = null): void
     {
         $neonLoader = new Loader;
-        $content =  $neonLoader->load($resource);
+        $content = $neonLoader->load($resource);
 
         if (isset($content['parameters'])) {
             $content += $content['parameters'];

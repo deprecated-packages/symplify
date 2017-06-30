@@ -30,7 +30,7 @@ final class ParameterProviderTest extends TestCase
 
         $this->assertSame([
             'one' => 1,
-            'two' => 2
+            'two' => 2,
         ], $parameterProvider->provide());
     }
 
@@ -44,7 +44,7 @@ final class ParameterProviderTest extends TestCase
 
         $this->assertSame([
             'one' => 1,
-            'two' => 2
+            'two' => 2,
         ], $parameterProvider->provide());
     }
 }
