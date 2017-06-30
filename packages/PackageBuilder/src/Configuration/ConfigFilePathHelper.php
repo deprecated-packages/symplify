@@ -10,7 +10,7 @@ final class ConfigFilePathHelper
     /**
      * @var string
      */
-    private const LONG_CONFIGURATION = '--config';
+    private const CONFIG_OPTION_NAME = '--config';
 
     /**
      * @var string[]
@@ -19,8 +19,8 @@ final class ConfigFilePathHelper
 
     public static function detectFromInput(string $name, InputInterface $input): void
     {
-        if ($input->hasParameterOption(self::LONG_CONFIGURATION)) {
-            $relativeFilePath = $input->getParameterOption(self::LONG_CONFIGURATION);
+        if ($input->hasParameterOption(self::CONFIG_OPTION_NAME)) {
+            $relativeFilePath = $input->getParameterOption(self::CONFIG_OPTION_NAME);
             $filePath = getcwd() . '/' . $relativeFilePath;
 
             if (!file_exists($filePath)) {
