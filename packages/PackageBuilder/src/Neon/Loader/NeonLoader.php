@@ -3,7 +3,6 @@
 namespace Symplify\PackageBuilder\Neon\Loader;
 
 use Nette\DI\Config\Loader;
-//use Nette\Neon\Decoder;
 use Nette\Utils\Strings;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\Config\Loader\LoaderResolverInterface;
@@ -45,17 +44,8 @@ final class NeonLoader implements LoaderInterface
      */
     public function load($resource, $type = null): void
     {
-//        $neonFileContent = file_get_contents($resource);
-
         $neonLoader = new Loader;
-        // allow includes!
-
         $content =  $neonLoader->load($resource);
-
-//        $content = (new Decoder)->decode($neonFileContent);
-        if ($content === null) {
-            return;
-        }
 
         if (isset($content['parameters'])) {
             $content += $content['parameters'];
