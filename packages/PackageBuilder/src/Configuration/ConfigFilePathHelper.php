@@ -23,7 +23,7 @@ final class ConfigFilePathHelper
             $relativeFilePath = $input->getParameterOption(self::CONFIG_OPTION_NAME);
             $filePath = getcwd() . '/' . $relativeFilePath;
 
-            if (!file_exists($filePath)) {
+            if (! file_exists($filePath)) {
                 throw new FileNotFoundException(sprintf(
                     'File "%s" not found in "%s".',
                     $filePath,
@@ -45,8 +45,6 @@ final class ConfigFilePathHelper
         if (file_exists($rootConfigPath)) {
             return self::$configFilePaths[$name] = $rootConfigPath;
         }
-
-        return null;
     }
 
     public static function set(string $name, string $configFilePath): void
