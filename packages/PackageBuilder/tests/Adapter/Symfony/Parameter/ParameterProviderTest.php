@@ -40,11 +40,11 @@ final class ParameterProviderTest extends TestCase
             __DIR__ . '/ParameterProviderSource/Neon/including-config.neon'
         );
 
-//        $parameterProvider = $container->get(ParameterProvider::class);
-//
-//        $this->assertSame([
-//            'one' => 1,
-//            'two' => 2
-//        ], $parameterProvider->provide());
+        $parameterProvider = $container->get(ParameterProvider::class);
+
+        $this->assertSame([
+            'one' => 1,
+            'two' => 2
+        ], $parameterProvider->provide());
     }
 }

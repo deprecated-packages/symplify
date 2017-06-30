@@ -2,17 +2,16 @@
 
 namespace Symplify\PackageBuilder\HttpKernel;
 
-use Symfony\Component\Config\Loader\DelegatingLoader;
 use Symfony\Component\Config\Loader\LoaderInterface;
-use Symfony\Component\Config\Loader\LoaderResolver;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 use Symfony\Component\HttpKernel\Kernel;
 use Symplify\PackageBuilder\Composer\VendorDirProvider;
-use Symplify\PackageBuilder\Configuration\Loader\NeonLoader;
+use Symplify\PackageBuilder\Neon\NeonLoaderAwareKernelTrait;
 
 abstract class AbstractCliKernel extends Kernel
 {
+    use NeonLoaderAwareKernelTrait;
+
     public function __construct()
     {
         parent::__construct(random_int(1, 10000), true);
@@ -31,18 +30,6 @@ abstract class AbstractCliKernel extends Kernel
         if ($localConfig = $this->getLocalConfigPath($configName)) {
             $loader->load($localConfig);
         }
-    }
-
-    protected function getContainerLoader(ContainerInterface $container): DelegatingLoader
-    {
-        /** @var DelegatingLoader $delegationLoader */
-        $delegationLoader = parent::getContainerLoader($container);
-
-        /** @var LoaderResolver $resolver */
-        $resolver = $delegationLoader->getResolver();
-        $resolver->addLoader(new NeonLoader($container));
-
-        return $delegationLoader;
     }
 
     /**
