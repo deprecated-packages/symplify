@@ -274,3 +274,6 @@ parameters:
         Symplify\CodingStandard\Sniffs\Classes\EqualInterfaceImplementationSniff:
             - packages/EasyCodingStandard/packages/SniffRunner/src/Application/SniffFileProcessor.php
             - packages/EasyCodingStandard/packages/FixerRunner/src/Application/FixerFileProcessor.php
+
+        Symplify\CodingStandard\Sniffs\Architecture\ForbiddenTraitSniff:
+            - packages/PackageBuilder/src/Neon/NeonLoaderAwareKernelTrait.php
