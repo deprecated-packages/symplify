@@ -35,16 +35,18 @@ final class ConfigFilePathHelper
         }
     }
 
-    public static function provide(string $name): ?string
+    public static function provide(string $name, ?string $configName = null): ?string
     {
         if (isset(self::$configFilePaths[$name])) {
             return self::$configFilePaths[$name];
         }
 
-        $rootConfigPath = getcwd() . '/' . $name . '.neon';
+        $rootConfigPath = getcwd() . '/' . $configName;
         if (file_exists($rootConfigPath)) {
             return self::$configFilePaths[$name] = $rootConfigPath;
         }
+
+        return null;
     }
 
     public static function set(string $name, string $configFilePath): void
