@@ -28,7 +28,7 @@ ConfigFilePathHelper::detectFromInput('ecs', new ArgvInput);
 // 2. Build DI container
 $containerFactory = new ContainerFactory;
 $configFile = ConfigFilePathHelper::provide('ecs', 'easy-coding-standard.neon');
-if (file_exists($configFile)) {
+if ($configFile) {
     $container = $containerFactory->createWithConfig($configFile);
 } else {
     $container = $containerFactory->create();
