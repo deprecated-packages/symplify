@@ -270,6 +270,7 @@ parameters:
 
         PhpCsFixer\Fixer\ReturnNotation\SimplifiedNullReturnFixer:
             - packages/SymbioticController/src/Adapter/Nette/Routing/PresenterRoute.php
+            - packages/PackageBuilder/src/Configuration/ConfigFilePathHelper.php
 
         Symplify\CodingStandard\Sniffs\Classes\EqualInterfaceImplementationSniff:
             - packages/EasyCodingStandard/packages/SniffRunner/src/Application/SniffFileProcessor.php

@@ -2,18 +2,18 @@
 <?php declare(strict_types=1);
 
 use Symfony\Component\Console\Application;
+use Symfony\Component\Console\Input\ArgvInput;
 use Symplify\PackageBuilder\Configuration\ConfigFilePathHelper;
 use Symplify\Statie\DependencyInjection\ContainerFactory;
 
 // performance boost
 gc_disable();
 
-// prefer local vendor over analyzed project (e.g. for "composer create-project symplify/statie")
-$possibleAutoloadPaths = [
-    __DIR__ . '/../../..',
-    __DIR__ . '/../vendor',
-    getcwd() . '/vendor',
-];
+/**
+ * This allows to load "vendor/autoload.php" both from
+ * "composer create-project ..." and "composer require" installation.
+ */
+$possibleAutoloadPaths = [__DIR__ . '/../../..', __DIR__ . '/../vendor', __DIR__ . '/../../../vendor'];
 
 foreach ($possibleAutoloadPaths as $possibleAutoloadPath) {
     if (file_exists($possibleAutoloadPath . '/autoload.php')) {
@@ -24,12 +24,16 @@ foreach ($possibleAutoloadPaths as $possibleAutoloadPath) {
 
 
 // 1. Detect configuration
-ConfigFilePathHelper::detectFromInput('statie');
+ConfigFilePathHelper::detectFromInput('statie', new ArgvInput);
 
 // 2. Build DI container
 $containerFactory = new ContainerFactory;
-$configFilePath = ConfigFilePathHelper::provide('statie') ?: getcwd() . '/statie.neon';
-$container = $containerFactory->createWithConfig($configFilePath);
+$configFile = ConfigFilePathHelper::provide('statie', 'statie.neon');
+if ($configFile) {
+    $container = $containerFactory->createWithConfig($configFile);
+} else {
+    $container = $containerFactory->create();
+}
 
 // 3. Run Console Application
 /** @var Application $application */
