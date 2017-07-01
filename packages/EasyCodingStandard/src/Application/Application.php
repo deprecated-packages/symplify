@@ -70,11 +70,7 @@ final class Application
         $files = $this->sourceFinder->find($command->getSources());
         $this->startProgressBar($files);
 
-        // 3. configure file processors
-        $this->fixerFileProcessor->setupWithCommand($command);
-        $this->sniffFileProcessor->setupWithCommand($command);
-
-        // 4. process found files by each processors
+        // 3. process found files by each processors
         $this->processFoundFiles($files);
     }
 

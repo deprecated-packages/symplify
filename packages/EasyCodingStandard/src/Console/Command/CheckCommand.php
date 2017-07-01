@@ -9,6 +9,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symplify\EasyCodingStandard\Application\Application;
 use Symplify\EasyCodingStandard\Application\Command\RunCommand;
+use Symplify\EasyCodingStandard\Configuration\Configuration;
 use Symplify\EasyCodingStandard\Console\Output\InfoMessagePrinter;
 use Symplify\EasyCodingStandard\Console\Style\EasyCodingStandardStyle;
 use Symplify\EasyCodingStandard\Skipper;
@@ -40,11 +41,17 @@ final class CheckCommand extends Command
      */
     private $skipper;
 
+    /**
+     * @var Configuration
+     */
+    private $configuration;
+
     public function __construct(
         Application $applicationRunner,
         EasyCodingStandardStyle $style,
         InfoMessagePrinter $infoMessagePrinter,
-        Skipper $skipper
+        Skipper $skipper,
+        Configuration $configuration
     ) {
         parent::__construct();
 
@@ -52,6 +59,7 @@ final class CheckCommand extends Command
         $this->style = $style;
         $this->infoMessagePrinter = $infoMessagePrinter;
         $this->skipper = $skipper;
+        $this->configuration = $configuration;
     }
 
     protected function configure(): void
@@ -75,6 +83,8 @@ final class CheckCommand extends Command
             $input->getOption('fix'),
             (bool) $input->getOption('clear-cache')
         );
+
+        $this->configuration->resolveFromInput($input);
 
         $this->applicationRunner->runCommand($runCommand);
 
