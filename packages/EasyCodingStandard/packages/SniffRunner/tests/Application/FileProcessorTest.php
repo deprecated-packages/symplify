@@ -7,7 +7,6 @@ use SplFileInfo;
 use Symplify\EasyCodingStandard\Application\Command\RunCommand;
 use Symplify\EasyCodingStandard\DependencyInjection\ContainerFactory;
 use Symplify\EasyCodingStandard\SniffRunner\Application\SniffFileProcessor;
-use Symplify\PackageBuilder\Configuration\ConfigFilePathHelper;
 
 final class FileProcessorTest extends TestCase
 {
@@ -23,9 +22,9 @@ final class FileProcessorTest extends TestCase
 
     protected function setUp(): void
     {
-        ConfigFilePathHelper::set('ecs', __DIR__ . '/FileProcessorSource/easy-coding-standard.neon');
-
-        $container = (new ContainerFactory)->createWithConfig(ConfigFilePathHelper::provide('ecs'));
+        $container = (new ContainerFactory)->createWithConfig(
+            __DIR__ . '/FileProcessorSource/easy-coding-standard.neon'
+        );
 
         $this->fileProcessor = $container->get(SniffFileProcessor::class);
         $this->initialFileContent = file_get_contents($this->getFileLocation());
