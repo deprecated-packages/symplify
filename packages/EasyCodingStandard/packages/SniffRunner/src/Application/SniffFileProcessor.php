@@ -96,6 +96,11 @@ final class SniffFileProcessor implements FileProcessorInterface
         }
     }
 
+    public function setIsFixer(bool $isFixer): void
+    {
+        $this->isFixer = $isFixer;
+    }
+
     private function processFileWithoutFixer(File $file): void
     {
         foreach ($file->getTokens() as $stackPointer => $token) {
@@ -125,11 +130,6 @@ final class SniffFileProcessor implements FileProcessorInterface
             define('PHP_CODESNIFFER_VERBOSITY', 0);
         }
         new Tokens;
-    }
-
-    public function setIsFixer(bool $isFixer)
-    {
-        $this->isFixer = $isFixer;
     }
 
     private function isFixer(): bool
