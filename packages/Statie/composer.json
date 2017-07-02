@@ -13,6 +13,7 @@
         "yooper/php-text-analysis": "^1.1",
 
         "latte/latte": "^2.4|^3.0",
+        "lullabot/amp": "^1.1",
 
         "symfony/dependency-injection": "^3.3",
         "symfony/http-kernel": "^3.3",
