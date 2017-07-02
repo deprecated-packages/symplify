@@ -21,7 +21,6 @@ final class ContainerFactoryTest extends TestCase
         $this->containerFactory = new ContainerFactory;
     }
 
-
     public function testCreateFromConfig(): void
     {
         $container = $this->containerFactory->createWithConfig(__DIR__ . '/ContainerFactorySource/normal-config.neon');
