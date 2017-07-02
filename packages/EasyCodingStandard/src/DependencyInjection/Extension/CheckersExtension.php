@@ -45,7 +45,7 @@ final class CheckersExtension extends Extension
             return;
         }
 
-        $checkersConfiguration = $parameterBag->get(self::NAME);
+        $checkersConfiguration = $parameterBag->get(self::NAME) ?? [];
         $checkers = $this->configurationNormalizer->normalize($checkersConfiguration);
         $this->checkerTypeValidator->validate(array_keys($checkers));
 
