@@ -92,6 +92,7 @@ final class CheckersExtension extends Extension
         }
 
         throw new InvalidSniffPropertyException(sprintf(
+            // @todo: add "Did you mean?"
             'Property "%s" was not found on "%s" sniff class. Possible typo in its configuration?',
             $property,
             $sniffClass

@@ -3,6 +3,7 @@
 namespace Symplify\EasyCodingStandard\Configuration;
 
 use Symplify\EasyCodingStandard\Configuration\Exception\DuplicatedCheckerFoundException;
+use Symplify\EasyCodingStandard\Configuration\Exception\InvalidConfigurationTypeException;
 
 final class CheckerConfigurationNormalizer
 {
@@ -18,9 +19,17 @@ final class CheckerConfigurationNormalizer
                 $config = [];
             } elseif (is_array($class)) { // checker with configuration
                 $config = $class;
-            } else { // only checker item
+            } elseif (! is_string($name)) { // only checker item
                 $name = $class;
                 $config = [];
+            } else {
+                $config = $class;
+                throw new InvalidConfigurationTypeException(sprintf(
+                    'Configuration of "%s" checker has to be array; "%s" given with "%s".',
+                    $name,
+                    gettype($config),
+                    $config
+                ));
             }
 
             $this->ensureThereAreNoDuplications($configuredClasses, $name);
