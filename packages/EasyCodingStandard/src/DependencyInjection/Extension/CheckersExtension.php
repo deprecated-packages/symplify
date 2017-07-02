@@ -98,7 +98,7 @@ final class CheckersExtension extends Extension
             'Property "%s" was not found on "%s" sniff class in configuration. %s',
             $property,
             $sniffClass,
-            $suggested ? 'Did you mean "' . $suggested . '"?' : ''
+            $suggested ? sprintf('Did you mean "%s"?', $suggested) : ''
         ));
     }
 }
