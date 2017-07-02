@@ -10,7 +10,7 @@ final class CheckerConfigurationNormalizer
      * @param string[]|int[][]|string[][] $classes
      * @return string[][]
      */
-    public static function normalize(array $classes): array
+    public function normalize(array $classes): array
     {
         $configuredClasses = [];
         foreach ($classes as $name => $class) {
@@ -23,7 +23,7 @@ final class CheckerConfigurationNormalizer
                 $config = [];
             }
 
-            self::ensureThereAreNoDuplications($configuredClasses, $name);
+            $this->ensureThereAreNoDuplications($configuredClasses, $name);
             $configuredClasses[$name] = $config;
         }
 
@@ -33,7 +33,7 @@ final class CheckerConfigurationNormalizer
     /**
      * @param string[] $configuredClasses
      */
-    private static function ensureThereAreNoDuplications(array $configuredClasses, string $name): void
+    private function ensureThereAreNoDuplications(array $configuredClasses, string $name): void
     {
         if (! isset($configuredClasses[$name])) {
             return;
