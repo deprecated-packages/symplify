@@ -4,6 +4,7 @@ namespace Symplify\EasyCodingStandard\Configuration\Tests;
 
 use PHPUnit\Framework\TestCase;
 use Symplify\EasyCodingStandard\Configuration\CheckerConfigurationNormalizer;
+use Symplify\EasyCodingStandard\Configuration\Exception\DuplicatedCheckerFoundException;
 
 final class ConfigurationNormalizerTest extends TestCase
 {
@@ -32,5 +33,20 @@ final class ConfigurationNormalizerTest extends TestCase
                 'key' => 'value',
             ],
         ], $normalizedConfiguration);
+    }
+
+    public function testDuplicates(): void
+    {
+        $this->expectException(DuplicatedCheckerFoundException::class);
+        $this->expectExceptionMessage(sprintf(
+            'Checker "%s" is being registered twice. Keep it only once, '
+            . 'so configuration is clear and performance better.',
+            'sniff'
+        ));
+
+        $this->configurationNormalizer->normalize([
+            0 => 'sniff',
+            'sniff' => null,
+        ]);
     }
 }
