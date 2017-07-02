@@ -12,10 +12,10 @@ final class ConfigFilePathHelperTest extends TestCase
     public function testDetectFromInputAndProvide(): void
     {
         ConfigFilePathHelper::detectFromInput('another-name', new ArrayInput([
-            '--config' => 'phpstan.neon',
+            '--config' => '.travis.yml',
         ]));
 
-        $this->assertSame(getcwd() . '/phpstan.neon', ConfigFilePathHelper::provide('another-name'));
+        $this->assertSame(getcwd() . '/.travis.yml', ConfigFilePathHelper::provide('another-name'));
     }
 
     public function testMissingFileInInput(): void
