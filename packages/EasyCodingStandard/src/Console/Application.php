@@ -13,8 +13,10 @@ final class Application extends SymfonyApplication
     {
         return new InputDefinition([
             new InputArgument('command', InputArgument::REQUIRED, 'The command to execute'),
-
-            new InputOption('--config', null, InputOption::VALUE_REQUIRED, 'Path to config file.', getcwd() . '/easy-coding-standard.neon'),
+            new InputOption(
+                '--config', null, InputOption::VALUE_REQUIRED,
+                'Path to config file.', getcwd() . '/easy-coding-standard.neon'
+            ),
             new InputOption('--help', '-h', InputOption::VALUE_NONE, 'Display this help message'),
         ]);
     }
