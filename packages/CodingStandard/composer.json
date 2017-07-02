@@ -14,7 +14,8 @@
     "require-dev": {
         "symplify/easy-coding-standard": "^2.0",
         "symplify/package-builder": "^2.0",
-        "phpunit/phpunit": "^6.0"
+        "phpunit/phpunit": "^6.0",
+        "gecko-packages/gecko-php-unit": "dev-master#b32f1d8 as 2.1"
     },
     "autoload": {
         "psr-4": {
