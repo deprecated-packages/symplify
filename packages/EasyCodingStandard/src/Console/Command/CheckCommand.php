@@ -78,15 +78,9 @@ final class CheckCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $runCommand = RunCommand::createForSourceFixerAndClearCache(
-            $input->getArgument('source'),
-            $input->getOption('fix'),
-            (bool) $input->getOption('clear-cache')
-        );
-
         $this->configuration->resolveFromInput($input);
 
-        $this->applicationRunner->runCommand($runCommand);
+        $this->applicationRunner->run();
 
         if ($this->infoMessagePrinter->hasSomeErrorMessages()) {
             $this->infoMessagePrinter->printFoundErrorsStatus($input->getOption('fix'));
