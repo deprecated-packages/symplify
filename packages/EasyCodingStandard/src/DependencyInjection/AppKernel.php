@@ -7,9 +7,12 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 use Symplify\EasyCodingStandard\DependencyInjection\CompilerPass\CollectorCompilerPass;
 use Symplify\PackageBuilder\HttpKernel\AbstractCliKernel;
+use Symplify\PackageBuilder\Neon\NeonLoaderAwareKernelTrait;
 
 final class AppKernel extends AbstractCliKernel
 {
+    use NeonLoaderAwareKernelTrait;
+
     /**
      * @var string
      */
