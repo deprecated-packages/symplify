@@ -7,7 +7,9 @@
         "nette/di": "^2.4|^3.0",
         "nette/neon": "^2.4|^3.0",
         "nette/utils": "^2.4|^3.0",
-        "symfony/dependency-injection": "^3.3"
+        "symfony/config": "^3.3",
+        "symfony/dependency-injection": "^3.3",
+        "symfony/http-kernel": "^3.3"
     },
     "require-dev": {
         "phpunit/phpunit": "^6.0",
