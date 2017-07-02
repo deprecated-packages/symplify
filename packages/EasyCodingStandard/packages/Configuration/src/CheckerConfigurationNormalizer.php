@@ -14,9 +14,11 @@ final class CheckerConfigurationNormalizer
     {
         $configuredClasses = [];
         foreach ($classes as $name => $class) {
-            if (is_array($class)) {
+            if ($class === null) { // checker with commented configuration
+                $config = [];
+            } elseif (is_array($class)) { // checker with configuration
                 $config = $class;
-            } else {
+            } else { // only checker item
                 $name = $class;
                 $config = [];
             }

@@ -21,11 +21,13 @@ final class ConfigurationNormalizerTest extends TestCase
     {
         $normalizedConfiguration = $this->configurationNormalizer->normalize([
             0 => 'sniff',
+            'someSniffWithCommentedConfig' => null,
             'sniffAndItsConfig' => ['key' => 'value'],
         ]);
 
         $this->assertSame([
             'sniff' => [],
+            'someSniffWithCommentedConfig' => [],
             'sniffAndItsConfig' => [
                 'key' => 'value',
             ],
