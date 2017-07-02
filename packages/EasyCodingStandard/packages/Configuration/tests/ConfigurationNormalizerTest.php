@@ -54,7 +54,7 @@ final class ConfigurationNormalizerTest extends TestCase
     {
         $this->expectException(InvalidConfigurationTypeException::class);
         $this->expectExceptionMessage(
-            'Configuration of "sniff" checker has to be array; '.
+            'Configuration of "sniff" checker has to be array; ' .
             '"string" given with "configuration".'
         );
         $this->configurationNormalizer->normalize([
