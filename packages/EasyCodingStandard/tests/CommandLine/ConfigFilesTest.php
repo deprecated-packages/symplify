@@ -5,11 +5,11 @@ namespace Symplify\EasyCodingStandard\Tests\CommandLine;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Process\Process;
 
-final class MultipleConfigFilesTest extends TestCase
+final class ConfigFilesTest extends TestCase
 {
     public function test(): void
     {
-        $process = $this->createProcessWithConfigAndRunIt('MultipleConfigFilesSource/empty-config.neon');
+        $process = $this->createProcessWithConfigAndRunIt('ConfigFilesSource/empty-config.neon');
 
         $this->assertSame('', $process->getErrorOutput());
         $this->assertContains('[OK] Loaded 0 checkers in total', $process->getOutput());
@@ -17,10 +17,18 @@ final class MultipleConfigFilesTest extends TestCase
 
     public function testSimpleConfig(): void
     {
-        $process = $this->createProcessWithConfigAndRunIt('MultipleConfigFilesSource/simple-config.neon');
+        $process = $this->createProcessWithConfigAndRunIt('ConfigFilesSource/simple-config.neon');
 
         $this->assertSame('', $process->getErrorOutput());
         $this->assertContains('[OK] Loaded 1 checkers in total', $process->getOutput());
+    }
+
+    public function testIncludeConfig(): void
+    {
+        $process = $this->createProcessWithConfigAndRunIt('ConfigFilesSource/include-another-config.neon');
+
+        $this->assertSame('', $process->getErrorOutput());
+        $this->assertContains('[OK] Loaded 2 checkers in total', $process->getOutput());
     }
 
     private function createProcessWithConfigAndRunIt(string $config): Process
