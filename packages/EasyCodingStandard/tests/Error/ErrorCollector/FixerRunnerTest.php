@@ -29,9 +29,9 @@ final class FixerRunnerTest extends TestCase
 
     protected function setUp(): void
     {
-        $container = (new ContainerFactory)->createWithConfig(
+        $container = (new ContainerFactory)->createWithConfigs([
             __DIR__ . '/FixerRunnerSource/easy-coding-standard.neon'
-        );
+        ]);
 
         $this->errorDataCollector = $container->get(ErrorCollector::class);
         $this->fileProcessor = $container->get(FixerFileProcessor::class);

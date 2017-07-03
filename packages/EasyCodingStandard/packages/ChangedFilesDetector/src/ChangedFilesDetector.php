@@ -22,9 +22,19 @@ final class ChangedFilesDetector
     {
         $this->cache = $cacheFactory->create();
 
-        $configurationFile = $configurationFile ?: ConfigFilePathHelper::provide('ecs');
-        if (file_exists($configurationFile)) {
-            $this->storeConfigurationDataHash($this->hashFile($configurationFile));
+        if ($configurationFile) {
+            $configurationFiles = [$configurationFile];
+        } else {
+            $configurationFiles = ConfigFilePathHelper::provide('ecs');
+        }
+
+        $hash = '';
+        foreach ($configurationFiles as $currentConfigurationFile) {
+            $hash .= $this->hashFile($currentConfigurationFile);
+        }
+
+        if ($hash) {
+            $this->storeConfigurationDataHash($hash);
         }
     }
 

@@ -16,9 +16,9 @@ final class FileProcessorTest extends TestCase
 
     protected function setUp(): void
     {
-        $container = (new ContainerFactory)->createWithConfig(
+        $container = (new ContainerFactory)->createWithConfigs([
             __DIR__ . '/FileProcessorSource/easy-coding-standard.neon'
-        );
+        ]);
 
         $this->fileProcessor = $container->get(FixerFileProcessor::class);
     }

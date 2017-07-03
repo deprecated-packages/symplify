@@ -23,7 +23,9 @@ final class ContainerFactoryTest extends TestCase
 
     public function testCreateFromConfig(): void
     {
-        $container = $this->containerFactory->createWithConfig(__DIR__ . '/ContainerFactorySource/normal-config.neon');
+        $container = $this->containerFactory->createWithConfigs([
+            __DIR__ . '/ContainerFactorySource/normal-config.neon'
+        ]);
         $this->assertInstanceOf(ContainerInterface::class, $container);
 
         /** @var SniffFileProcessor $sniffFileProcessor */
@@ -39,8 +41,8 @@ final class ContainerFactoryTest extends TestCase
             LineLengthSniff::class
         ));
 
-        $this->containerFactory->createWithConfig(
+        $this->containerFactory->createWithConfigs([
             __DIR__ . '/ContainerFactorySource/config-with-typo-in-configuration.neon'
-        );
+        ]);
     }
 }

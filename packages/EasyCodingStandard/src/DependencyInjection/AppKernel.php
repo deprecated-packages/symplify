@@ -14,13 +14,16 @@ final class AppKernel extends AbstractCliKernel
     use NeonLoaderAwareKernelTrait;
 
     /**
-     * @var string
+     * @var string[]
      */
-    private $configFile;
+    private $configFiles = [];
 
-    public function __construct(?string $configFile = '')
+    /**
+     * @param string[]|null $configFiles
+     */
+    public function __construct(?array $configFiles = [])
     {
-        $this->configFile = $configFile;
+        $this->configFiles = $configFiles;
         parent::__construct();
     }
 
@@ -28,8 +31,8 @@ final class AppKernel extends AbstractCliKernel
     {
         $loader->load(__DIR__ . '/../config/services.yml');
 
-        if ($this->configFile) {
-            $this->registerLocalConfig($loader, $this->configFile);
+        foreach ($this->configFiles as $configFile) {
+            $this->registerLocalConfig($loader, $configFile);
         }
     }
 

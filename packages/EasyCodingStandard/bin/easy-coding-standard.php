@@ -1,9 +1,9 @@
 <?php declare(strict_types=1);
 
-use Symfony\Component\Console\Input\ArgvInput;
 use Symplify\EasyCodingStandard\Console\Application;
 use Symplify\EasyCodingStandard\DependencyInjection\ContainerFactory;
 use Symplify\PackageBuilder\Configuration\ConfigFilePathHelper;
+use Symplify\PackageBuilder\Console\Input\LiberalFormatArgvInput;
 
 // performance boost
 gc_disable();
@@ -23,13 +23,13 @@ foreach ($possibleAutoloadPaths as $possibleAutoloadPath) {
 }
 
 // 1. Detect configuration
-ConfigFilePathHelper::detectFromInput('ecs', new ArgvInput);
+ConfigFilePathHelper::detectFromInput('ecs', new LiberalFormatArgvInput);
 
 // 2. Build DI container
 $containerFactory = new ContainerFactory;
 $configFile = ConfigFilePathHelper::provide('ecs', 'easy-coding-standard.neon');
 if ($configFile) {
-    $container = $containerFactory->createWithConfig($configFile);
+    $container = $containerFactory->createWithConfigs($configFile);
 } else {
     $container = $containerFactory->create();
 }
