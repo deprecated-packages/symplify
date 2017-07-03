@@ -120,6 +120,21 @@ vendor/bin/easy-coding-standard show
 List of active checkers will be shown.
 
 
+### How to Combine More Configs
+
+Do you have one global configuration and still want something extra for this repository? Just include the global configuration via `includes` section and add extra checkers.
+
+```yaml
+# easy-coding-standard.neon
+
+includes:
+    - vendor/nette/coding-standard/general.neon
+
+checkers:
+    - PhpCsFixer\Fixer\ClassNotation\ClassDefinitionFixer
+```
+
+
 ## Contributing
 
 Send [issue](https://github.com/Symplify/Symplify/issues) or [pull-request](https://github.com/Symplify/Symplify/pulls) to main repository.
