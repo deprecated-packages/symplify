@@ -41,7 +41,6 @@ try {
     /** @var Application $application */
     $application = $container->get(Application::class);
     $application->run();
-
 } catch (Throwable $throwable) {
     $symfonyStyle = SymfonyStyleFactory::create();
     $symfonyStyle->error($throwable->getMessage());
