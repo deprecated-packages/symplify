@@ -77,8 +77,8 @@
             "@fix-cs",
             "@phpstan"
         ],
-        "check-cs": "packages/EasyCodingStandard/bin/easy-coding-standard check packages",
-        "fix-cs": "packages/EasyCodingStandard/bin/easy-coding-standard check packages --fix",
+        "check-cs": "packages/EasyCodingStandard/bin/ecs check packages",
+        "fix-cs": "packages/EasyCodingStandard/bin/ecs check packages --fix",
         "phpstan": "phpstan analyse packages --level=5 -c phpstan.neon"
     },
     "config": {
