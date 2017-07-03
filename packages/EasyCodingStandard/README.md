@@ -65,7 +65,7 @@ Or multiple sources:
 vendor/bin/easy-coding-standard check src tests
 ```
 
-You can also use typo-proof shortcut:
+You can also use **lazy-friendly typo-proof shortcut** `ecs`:
 
 ```bash
 vendor/bin/ecs check src tests
@@ -120,6 +120,17 @@ vendor/bin/easy-coding-standard show
 List of active checkers will be shown.
 
 
+### Pick Config in CLI
+
+Do you want to use another config than `easy-coding-standard.neon` in your root directory? 
+
+You can use `--config` option:
+
+```bash
+vendor/bin/easy-coding-standard show --config vendor/nette/coding-standard/general-coding-standard.neon
+```  
+
+
 ### How to Combine More Configs
 
 Do you have one global configuration and still want something extra for this repository? Just include the global configuration via `includes` section and add extra checkers.
@@ -128,7 +139,7 @@ Do you have one global configuration and still want something extra for this rep
 # easy-coding-standard.neon
 
 includes:
-    - vendor/nette/coding-standard/general.neon
+    - vendor/nette/coding-standard/general-coding-standard.neon
 
 checkers:
     - PhpCsFixer\Fixer\ClassNotation\ClassDefinitionFixer
