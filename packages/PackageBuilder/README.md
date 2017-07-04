@@ -13,8 +13,9 @@ This tools helps you to build package integrations to Symfony and Nette, without
 composer require symplify/package-builder
 ```
 
+## Collect Services Together in Extension/Bundle
 
-## Usage in Nette
+### In Nette
 
 ```php
 use Nette\DI\CompilerExtension;
@@ -39,8 +40,7 @@ final class SomeExtension extends CompilerExtension
 }
 ```
 
-
-## Usage in Symfony
+### In Symfony
 
 ```php
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
@@ -61,6 +61,89 @@ final class CollectorCompilerPass implements CompilerPassInterface
             EventSubscriberInterface::class,
             'addSubscriber'
         );
+    }
+}
+```
+
+## All Parameters Available in a Service
+
+Note: System parameters are excluded by default.
+
+### In Symfony
+
+Register: 
+
+```yml
+# app/config/services.yml
+
+parameters:
+    source: src 
+
+services:
+    _defaults:
+        autowire: true
+    
+    Symplify\PackageBuilder\Adapter\Symfony\Parameter\ParameterProvider: ~
+```
+
+Then require in `__construct()` where needed:
+
+```php
+use Symplify\PackageBuilder\Adapter\Symfony\Parameter\ParameterProvider;
+
+final class StatieConfiguration
+{
+    /**
+     * @var ParameterProvider
+     */
+    private $parameterProvider;
+    
+    public function __construct(ParameterProvider $parameterProvider)
+    {
+        $this->parameterProvider = $parameterProvider;
+    }
+    
+    public function getSource(): string
+    {
+        return $parameterProvider->provide()['source']; // returns "src"
+    }
+}
+```
+
+### In Nette
+
+Register: 
+
+```yml
+# app/config/config.neon
+
+parameters:
+    source: src 
+
+services:
+    - Symplify\PackageBuilder\Adapter\Nette\Parameter\ParameterProvider
+```
+
+Then require in `__construct()` where needed:
+
+```php
+use Symplify\PackageBuilder\Adapter\Nette\Parameter\ParameterProvider;
+
+final class StatieConfiguration
+{
+    /**
+     * @var ParameterProvider
+     */
+    private $parameterProvider;
+    
+    public function __construct(ParameterProvider $parameterProvider)
+    {
+        $this->parameterProvider = $parameterProvider;
+    }
+    
+    public function getSource(): string
+    {
+        return $parameterProvider->provide()['source']; // returns "src"
     }
 }
 ```
