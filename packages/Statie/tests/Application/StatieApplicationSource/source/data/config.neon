@@ -1,4 +1,5 @@
-title: Hi guys
-socials:
-    Twitter: url
-    Facebook: url
+parameters:
+    title: Hi guys
+    socials:
+        Twitter: url
+        Facebook: url
