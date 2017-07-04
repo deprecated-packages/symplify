@@ -20,7 +20,7 @@ final class Configuration
     /**
      * @var string
      */
-    public const OPTION_MARKDOWN_HEADLINE_ANCHORS = 'markdownHeadlineAnchors';
+    public const OPTION_MARKDOWN_HEADLINE_ANCHORS = 'markdown_headline_anchors';
 
     /**
      * @var bool

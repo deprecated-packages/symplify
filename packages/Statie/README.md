@@ -167,7 +167,7 @@ When your hover any headline, an anchor link to it will appear on the left. Clic
 ```yaml
 # statie.neon
 parameters:   
-    markdownHeadlineAnchors: true 
+    markdown_headline_anchors: true 
 ```
 
 You can use this sample css and modify it to your needs:
