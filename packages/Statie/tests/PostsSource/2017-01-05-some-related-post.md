@@ -129,7 +129,7 @@ This **can be changed by configuration**. Create `config.neon` and override defa
 <!-- source/_config/config.neon -->
 
 configuration:
-postRoute: blog/:year/:month/:day/:title
+post_route: blog/:year/:month/:day/:title
 ```
 
 Where `:year`, `:month`, `:day` and `:title` are all variables.
@@ -138,7 +138,7 @@ For example:
 
 ```yaml
 configuration:
-postRoute: my-blog/:year/:title
+post_route: my-blog/:year/:title
 ```
 
 Would produce url:
@@ -158,7 +158,7 @@ In one of the next posts, I will show you some cool `PostFile` object features.
 
 - **That all posts are placed in `/source/_posts` directory and in `$posts` variable**.
 - That post has to be in **named as `YYYY-MM-DD-title.md` format**
-- That you can change the post generated url in `source/config/_config.neon` in `postRoute`.
+- That you can change the post generated url in `source/config/_config.neon` in `post_route`.
 
 
 Happy coding!

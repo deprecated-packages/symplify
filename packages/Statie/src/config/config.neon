@@ -1,2 +1,2 @@
 parameters:
-    postRoute: blog/:year/:month/:day/:filename
+    post_route: blog/:year/:month/:day/:filename

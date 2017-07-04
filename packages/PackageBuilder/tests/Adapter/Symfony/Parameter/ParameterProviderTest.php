@@ -33,7 +33,6 @@ final class ParameterProviderTest extends TestCase
         ], $parameterProvider->provide());
     }
 
-
     public function testIncludingYaml(): void
     {
         $container = (new ContainerFactory)->createWithConfig(

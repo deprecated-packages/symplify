@@ -83,9 +83,6 @@ How to setup `${GH_TOKEN}`? Just check [this exemplary .travis.yml](https://gith
 
 They way you are used to use Symfony/Nette cofings: single file that allows you to add parameters, include other configs and register services.
 
-All `.neon` files found in `/source` directory are loaded to global variables.
-You can store variables, lists of data etc.
-
 So this...
 
 ```yaml
@@ -96,7 +93,7 @@ parameters:
         facebook: http://facebook.com/github
 ```
 
-...can be displayed in any template as:
+...can be used in any template as:
 
 ```twig
 # source/_layouts/default.latte
@@ -106,7 +103,7 @@ parameters:
 <p>Checkout my FB page: {$socials['facebook']}</p>
 ```
 
-Need more data? Use `includes` section:
+Need more data in standalone files? Use `includes` section:
 
 ```yaml
 # statie.neon
@@ -128,7 +125,7 @@ parameters:
             url: "http://ocramius.github.io/"
  ```
 
-Note: parameter [names have to be lowercase](https://github.com/symfony/symfony/issues/23381), due to Symfony\DependencyInjection component. `basePath` in config is converted to `{$basepath}` in template.
+Note: [parameter names have to be lowercased](https://github.com/symfony/symfony/issues/23381), due to Symfony\DependencyInjection component. So `basePath` in config is converted to `{$basepath}` in template. That's why I used `base_path` above.
 
 ### Modify Post Url Format
 
@@ -138,7 +135,7 @@ To configure post url address just modify:
 # statie.neon
 
 parameters:
-    postRoute: blog/:year/:month/:day/:title # default one
+    post_route: blog/:year/:month/:day/:title # default one
     # will produce post detail link: blog/2016/12/01/how-to-host-open-source-blog-for-free
     
     # other examples:

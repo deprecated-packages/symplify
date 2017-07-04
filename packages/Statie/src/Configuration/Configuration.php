@@ -10,7 +10,7 @@ final class Configuration
     /**
      * @var string
      */
-    public const OPTION_POST_ROUTE = 'postRoute';
+    public const OPTION_POST_ROUTE = 'post_route';
 
     /**
      * @var string
@@ -113,9 +113,9 @@ final class Configuration
         return $this->options;
     }
 
-    public function setPostRoute(string $postRoute): void
+    public function setPostRoute(string $post_route): void
     {
-        $this->options['configuration'][self::OPTION_POST_ROUTE] = $postRoute;
+        $this->options['configuration'][self::OPTION_POST_ROUTE] = $post_route;
     }
 
     public function enableMarkdownHeadlineAnchors(): void
