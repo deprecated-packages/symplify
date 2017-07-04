@@ -10,7 +10,7 @@ final class ConfigurationTest extends TestCase
 {
     public function test(): void
     {
-        $container = (new ContainerFactory())->createWithConfig(__DIR__ . '/ConfigurationSource/config.neon');
+        $container = (new ContainerFactory)->createWithConfig(__DIR__ . '/ConfigurationSource/config.neon');
 
         /** @var ParameterProvider $parameterProvider */
         $parameterProvider = $container->get(ParameterProvider::class);
