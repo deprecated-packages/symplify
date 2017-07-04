@@ -65,25 +65,6 @@ final class Configuration
     }
 
     /**
-     * @param SplFileInfo[] $files
-     */
-    public function loadFromFiles(array $files): void
-    {
-        foreach ($files as $file) {
-            $options = $this->neonParser->decodeFromFile($file->getRealPath());
-            $this->loadFromArray($options);
-        }
-    }
-
-    /**
-     * @param mixed[] $options
-     */
-    public function loadFromArray(array $options): void
-    {
-        $this->options = array_merge($this->options, $options);
-    }
-
-    /**
      * @param mixed|mixed[] $value
      */
     public function addGlobalVarialbe(string $name, $value): void
@@ -137,5 +118,20 @@ final class Configuration
         $this->options += $this->parameterProvider->provide();
 
         return $this->options;
+    }
+
+    public function setPostRoute(string $postRoute): void
+    {
+        $this->options['configuration'][self::OPTION_POST_ROUTE] = $postRoute;
+    }
+
+    public function enableMarkdownHeadlineAnchors(): void
+    {
+        $this->options['configuration'][self::OPTION_MARKDOWN_HEADLINE_ANCHORS] = true;
+    }
+
+    public function disableMarkdownHeadlineAnchors(): void
+    {
+        $this->options['configuration'][self::OPTION_MARKDOWN_HEADLINE_ANCHORS] = false;
     }
 }

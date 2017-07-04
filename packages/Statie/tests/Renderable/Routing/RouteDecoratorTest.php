@@ -21,13 +21,9 @@ final class RouteDecoratorTest extends AbstractContainerAwareTestCase
 
     protected function setUp(): void
     {
+        /** @var Configuration $configuration */
         $configuration = $this->container->get(Configuration::class);
-        $configuration->loadFromArray([
-            'configuration' => [
-                Configuration::OPTION_POST_ROUTE => 'blog/:title',
-            ],
-        ]);
-
+        $configuration->setPostRoute('blog/:title');
         $configuration->setSourceDirectory(__DIR__ . '/DecoratorSource');
 
         $this->routeDecorator = $this->createRouterDecorator($configuration);

@@ -26,16 +26,4 @@ final class ConfigurationTest extends AbstractContainerAwareTestCase
             'key' => 'value',
         ], $this->configuration->getOptions());
     }
-
-    public function testLoadFromFiles(): void
-    {
-        $neonConfigFile = new SplFileInfo(__DIR__ . '/ConfigurationSource/config.neon');
-        $yamlConfigFile = new SplFileInfo(__DIR__ . '/ConfigurationSource/config.yaml');
-        $this->configuration->loadFromFiles([$neonConfigFile, $yamlConfigFile]);
-
-        $this->assertSame([
-            'key' => 'value',
-            'another_key' => 'another_value',
-        ], $this->configuration->getOptions());
-    }
 }

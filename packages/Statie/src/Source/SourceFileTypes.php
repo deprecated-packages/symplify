@@ -7,11 +7,6 @@ final class SourceFileTypes
     /**
      * @var string
      */
-    public const CONFIGURATION = 'configuration';
-
-    /**
-     * @var string
-     */
     public const GLOBAL_LATTE = 'global_latte';
 
     /**

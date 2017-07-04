@@ -1,2 +1,6 @@
+includes:
+    - source/data/config.neon
+
 parameters:
     amp: true
+    title: "Hi, I'm Statie"

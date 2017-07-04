@@ -24,12 +24,7 @@ final class MarkdownDecoratorTest extends AbstractContainerAwareTestCase
     protected function setUp(): void
     {
         $this->configuration = $this->container->get(Configuration::class);
-        $this->configuration->loadFromArray([
-            'configuration' => [
-                Configuration::OPTION_MARKDOWN_HEADLINE_ANCHORS => false,
-            ],
-        ]);
-
+        $this->configuration->disableMarkdownHeadlineAnchors();
         $this->markdownDecorator = $this->container->get(MarkdownDecorator::class);
     }
 
@@ -51,11 +46,7 @@ final class MarkdownDecoratorTest extends AbstractContainerAwareTestCase
 
     public function testMarkdownWithAnchors(): void
     {
-        $this->configuration->loadFromArray([
-            'configuration' => [
-                Configuration::OPTION_MARKDOWN_HEADLINE_ANCHORS => true,
-            ],
-        ]);
+        $this->configuration->enableMarkdownHeadlineAnchors();
 
         $file = $this->createFileFromFilePath(__DIR__ . '/MarkdownDecoratorSource/someFile.md');
         $this->markdownDecorator->decorateFile($file);

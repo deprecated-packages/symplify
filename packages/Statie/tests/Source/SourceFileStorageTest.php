@@ -5,7 +5,6 @@ namespace Symplify\Statie\Tests\Source;
 use Nette\Utils\Finder;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Finder\SplFileInfo;
-use Symplify\Statie\Source\SourceFileFilter\ConfigurationSourceFilter;
 use Symplify\Statie\Source\SourceFileFilter\GlobalLatteSourceFilter;
 use Symplify\Statie\Source\SourceFileFilter\PostSourceFilter;
 use Symplify\Statie\Source\SourceFileFilter\RenderableSourceFilter;
@@ -19,7 +18,6 @@ final class SourceFileStorageTest extends TestCase
         $sourceFileStorage = $this->prepareSourceFileStorage();
 
         $this->assertCount(1, $sourceFileStorage->getLayoutFiles());
-        $this->assertCount(1, $sourceFileStorage->getConfigurationFiles());
         $this->assertCount(2, $sourceFileStorage->getStaticFiles());
         $this->assertCount(1, $sourceFileStorage->getRenderableFiles());
     }
@@ -57,7 +55,6 @@ final class SourceFileStorageTest extends TestCase
 
         $sourceFileStorage->addSourceFileFilter(new GlobalLatteSourceFilter);
         $sourceFileStorage->addSourceFileFilter(new PostSourceFilter);
-        $sourceFileStorage->addSourceFileFilter(new ConfigurationSourceFilter);
         $sourceFileStorage->addSourceFileFilter(new StaticSourceFilter);
         $sourceFileStorage->addSourceFileFilter(new RenderableSourceFilter);
 
