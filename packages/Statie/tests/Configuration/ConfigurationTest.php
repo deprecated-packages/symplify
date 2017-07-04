@@ -2,28 +2,21 @@
 
 namespace Symplify\Statie\Tests\Configuration;
 
-use SplFileInfo;
-use Symplify\Statie\Configuration\Configuration;
-use Symplify\Statie\Tests\AbstractContainerAwareTestCase;
+use PHPUnit\Framework\TestCase;
+use Symplify\PackageBuilder\Adapter\Symfony\Parameter\ParameterProvider;
+use Symplify\Statie\DependencyInjection\ContainerFactory;
 
-final class ConfigurationTest extends AbstractContainerAwareTestCase
+final class ConfigurationTest extends TestCase
 {
-    /**
-     * @var Configuration
-     */
-    private $configuration;
-
-    protected function setUp(): void
+    public function test(): void
     {
-        $this->configuration = $this->container->get(Configuration::class);
-    }
+        $container = (new ContainerFactory())->createWithConfig(__DIR__ . '/ConfigurationSource/config.neon');
 
-    public function testAddGlobalVariable(): void
-    {
-        $this->configuration->addGlobalVarialbe('key', 'value');
-
+        /** @var ParameterProvider $parameterProvider */
+        $parameterProvider = $container->get(ParameterProvider::class);
         $this->assertSame([
+            'another_key' => 'another_value',
             'key' => 'value',
-        ], $this->configuration->getOptions());
+        ], $parameterProvider->provide());
     }
 }

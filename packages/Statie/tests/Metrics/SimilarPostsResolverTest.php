@@ -32,7 +32,7 @@ final class SimilarPostsResolverTest extends AbstractContainerAwareTestCase
         $this->similarPostsResolver = $this->container->get(SimilarPostsResolver::class);
 
         $configuration = $this->container->get(Configuration::class);
-        $configuration->addGlobalVarialbe('posts', $this->getAllPosts());
+        $configuration->addPosts($this->getAllPosts());
 
         $this->mainPost = $this->postFactory->createPostFromFilePath(
             __DIR__ . '/../PostsSource/2017-01-05-another-related-post.md'

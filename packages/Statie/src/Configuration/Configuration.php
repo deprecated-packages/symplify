@@ -2,9 +2,8 @@
 
 namespace Symplify\Statie\Configuration;
 
-use SplFileInfo;
 use Symplify\PackageBuilder\Adapter\Symfony\Parameter\ParameterProvider;
-use Symplify\Statie\Configuration\Parser\NeonParser;
+use Symplify\Statie\Renderable\File\PostFile;
 
 final class Configuration
 {
@@ -39,11 +38,6 @@ final class Configuration
     private $options = [];
 
     /**
-     * @var NeonParser
-     */
-    private $neonParser;
-
-    /**
      * @var string
      */
     private $sourceDirectory;
@@ -58,18 +52,17 @@ final class Configuration
      */
     private $parameterProvider;
 
-    public function __construct(NeonParser $neonParser, ParameterProvider $parameterProvider)
+    public function __construct(ParameterProvider $parameterProvider)
     {
-        $this->neonParser = $neonParser;
         $this->parameterProvider = $parameterProvider;
     }
 
     /**
-     * @param mixed|mixed[] $value
+     * @param PostFile[] $posts
      */
-    public function addGlobalVarialbe(string $name, $value): void
+    public function addPosts(array $posts): void
     {
-        $this->options[$name] = $value;
+        $this->options['posts'] = $posts;
     }
 
     public function setSourceDirectory(string $sourceDirectory): void
