@@ -135,7 +135,7 @@ Note: parameter [names have to be lowercase](https://github.com/symfony/symfony/
 To configure post url address just modify:
 
 ```yaml
-# source/_config/config.neon
+# statie.neon
 
 parameters:
     postRoute: blog/:year/:month/:day/:title # default one
@@ -147,18 +147,30 @@ parameters:
     # blog/:title => blog/how-to-host-open-source-blog-for-free
 ```
 
+### AMPize whole Website
+
+Let people enjoy your webiste in subways, transatlantic ships and planes with poor wifi connections.
+Turn on [AMP](https://www.ampproject.org/):
+
+```yaml
+# statie.neon
+parameters:
+    amp: true
+```
+
 
 ### Enable Github-like Headline Anchors
 
-When a headline is hovered, an anchor link to it will appear on the left.
+Sharing long post to show specific paragraph is not a sci-fi anymore.
+
+When your hover any headline, an anchor link to it will appear on the left. Click it & share it!
 
 ![Headline Anchors](docs/github-like-headline-anchors.png)
  
 ```yaml
-# source/_config/config.neon
+# statie.neon
 parameters:   
-    markdownHeadlineAnchors: FALSE # default one
-    # TRUE will enable Github-like anchored headlines for *.md files     
+    markdownHeadlineAnchors: true 
 ```
 
 You can use this sample css and modify it to your needs:
