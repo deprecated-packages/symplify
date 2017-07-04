@@ -62,8 +62,6 @@ final class StatieApplication
 
         $this->fileSystemWriter->copyStaticFiles($this->sourceFileStorage->getStaticFiles());
 
-        $this->configuration->loadFromFiles($this->sourceFileStorage->getConfigurationFiles());
-
         $this->processTemplates();
     }
 

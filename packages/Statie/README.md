@@ -23,7 +23,7 @@ npm install -g gulp gulp-watch
 ### Generate content from `/source` to `/output` in HTML
 
 ```bash
-vendor/bin/statie generate
+vendor/bin/statie generate source
 ```
 
 ### See Generated web
@@ -50,7 +50,7 @@ gulp.task('default', function () {
     return watch(['source/**/*', '!**/*___jb_tmp___'], { ignoreInitial: false })
         // For the second arg see: https://github.com/floatdrop/gulp-watch/issues/242#issuecomment-230209702
         .on('change', function() {
-            exec('vendor/bin/statie generate', function (err, stdout, stderr) {
+            exec('vendor/bin/statie generate source', function (err, stdout, stderr) {
                 console.log(stdout);
                 console.log(stderr);
             });
@@ -79,39 +79,63 @@ How to setup `${GH_TOKEN}`? Just check [this exemplary .travis.yml](https://gith
  
 ## Configuration
 
-### Global variables
+### `statie.neon` Config
 
-All `.neon` files found in `/source` directory are loaded to global variables.
-You can store variables, lists of data etc.
+They way you are used to use Symfony/Nette cofings: single file that allows you to add parameters, include other configs and register services.
 
 So this...
 
 ```yaml
-# source/_config/config.neon
-siteUrl: http://github.com
-socials:
-    facebook: http://facebook.com/github
+# statie.neon
+parameters:
+    site_url: http://github.com
+    socials:
+        facebook: http://facebook.com/github
 ```
 
-...can be displayed in any template as:
+...can be used in any template as:
 
 ```twig
 # source/_layouts/default.latte
 
-<p>Welcome to: {$siteUrl}</p>
+<p>Welcome to: {$site_url}</p>
 
 <p>Checkout my FB page: {$socials['facebook']}</p>
 ```
+
+Need more data in standalone files? Use `includes` section:
+
+```yaml
+# statie.neon
+includes:
+    - data/favorite_links.neon
+
+parameters:
+    site_url: http://github.com
+    socials:
+        facebook: http://facebook.com/github
+```
+
+```yaml
+# data/favorite_links.neon
+parameters:
+    favorite_links:
+        blog:
+            name: "Suis Marco"
+            url: "http://ocramius.github.io/"
+ ```
+
+Note: [parameter names have to be lowercased](https://github.com/symfony/symfony/issues/23381), due to Symfony\DependencyInjection component. So `basePath` in config is converted to `{$basepath}` in template. That's why I used `base_path` above.
 
 ### Modify Post Url Format
 
 To configure post url address just modify:
 
 ```yaml
-# source/_config/config.neon
+# statie.neon
 
 parameters:
-    postRoute: blog/:year/:month/:day/:title # default one
+    post_route: blog/:year/:month/:day/:title # default one
     # will produce post detail link: blog/2016/12/01/how-to-host-open-source-blog-for-free
     
     # other examples:
@@ -120,18 +144,30 @@ parameters:
     # blog/:title => blog/how-to-host-open-source-blog-for-free
 ```
 
+### AMPize whole Website
+
+Let people enjoy your webiste in subways, transatlantic ships and planes with poor wifi connections.
+Turn on [AMP](https://www.ampproject.org/):
+
+```yaml
+# statie.neon
+parameters:
+    amp: true
+```
+
 
 ### Enable Github-like Headline Anchors
 
-When a headline is hovered, an anchor link to it will appear on the left.
+Sharing long post to show specific paragraph is not a sci-fi anymore.
+
+When your hover any headline, an anchor link to it will appear on the left. Click it & share it!
 
 ![Headline Anchors](docs/github-like-headline-anchors.png)
  
 ```yaml
-# source/_config/config.neon
+# statie.neon
 parameters:   
-    markdownHeadlineAnchors: FALSE # default one
-    # TRUE will enable Github-like anchored headlines for *.md files     
+    markdown_headline_anchors: true 
 ```
 
 You can use this sample css and modify it to your needs:

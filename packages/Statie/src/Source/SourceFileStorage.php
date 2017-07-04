@@ -54,14 +54,6 @@ final class SourceFileStorage
     /**
      * @return SplFileInfo[]
      */
-    public function getConfigurationFiles(): array
-    {
-        return $this->sourceFilesByType[SourceFileTypes::CONFIGURATION];
-    }
-
-    /**
-     * @return SplFileInfo[]
-     */
     public function getPostFiles(): array
     {
         krsort($this->sourceFilesByType[SourceFileTypes::POSTS]);

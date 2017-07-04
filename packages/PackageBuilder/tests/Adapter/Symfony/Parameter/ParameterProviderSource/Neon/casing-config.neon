@@ -1,0 +1,3 @@
+parameters:
+    camelCase: Lion
+    pascal_case: Celsius

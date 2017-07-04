@@ -20,6 +20,19 @@ final class ParameterProviderTest extends TestCase
         ], $parameterProvider->provide());
     }
 
+    public function testParameterLowerCasing(): void
+    {
+        $container = (new ContainerFactory)->createWithConfig(
+            __DIR__ . '/ParameterProviderSource/Neon/casing-config.neon'
+        );
+
+        $parameterProvider = $container->get(ParameterProvider::class);
+        $this->assertSame([
+            'camelcase' => 'Lion',
+            'pascal_case' => 'Celsius',
+        ], $parameterProvider->provide());
+    }
+
     public function testIncludingYaml(): void
     {
         $container = (new ContainerFactory)->createWithConfig(

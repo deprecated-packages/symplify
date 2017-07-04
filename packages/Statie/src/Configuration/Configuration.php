@@ -2,16 +2,15 @@
 
 namespace Symplify\Statie\Configuration;
 
-use SplFileInfo;
 use Symplify\PackageBuilder\Adapter\Symfony\Parameter\ParameterProvider;
-use Symplify\Statie\Configuration\Parser\NeonParser;
+use Symplify\Statie\Renderable\File\PostFile;
 
 final class Configuration
 {
     /**
      * @var string
      */
-    public const OPTION_POST_ROUTE = 'postRoute';
+    public const OPTION_POST_ROUTE = 'post_route';
 
     /**
      * @var string
@@ -21,7 +20,7 @@ final class Configuration
     /**
      * @var string
      */
-    public const OPTION_MARKDOWN_HEADLINE_ANCHORS = 'markdownHeadlineAnchors';
+    public const OPTION_MARKDOWN_HEADLINE_ANCHORS = 'markdown_headline_anchors';
 
     /**
      * @var bool
@@ -39,11 +38,6 @@ final class Configuration
     private $options = [];
 
     /**
-     * @var NeonParser
-     */
-    private $neonParser;
-
-    /**
      * @var string
      */
     private $sourceDirectory;
@@ -58,37 +52,17 @@ final class Configuration
      */
     private $parameterProvider;
 
-    public function __construct(NeonParser $neonParser, ParameterProvider $parameterProvider)
+    public function __construct(ParameterProvider $parameterProvider)
     {
-        $this->neonParser = $neonParser;
         $this->parameterProvider = $parameterProvider;
     }
 
     /**
-     * @param SplFileInfo[] $files
+     * @param PostFile[] $posts
      */
-    public function loadFromFiles(array $files): void
+    public function addPosts(array $posts): void
     {
-        foreach ($files as $file) {
-            $options = $this->neonParser->decodeFromFile($file->getRealPath());
-            $this->loadFromArray($options);
-        }
-    }
-
-    /**
-     * @param mixed[] $options
-     */
-    public function loadFromArray(array $options): void
-    {
-        $this->options = array_merge($this->options, $options);
-    }
-
-    /**
-     * @param mixed|mixed[] $value
-     */
-    public function addGlobalVarialbe(string $name, $value): void
-    {
-        $this->options[$name] = $value;
+        $this->options['posts'] = $posts;
     }
 
     public function setSourceDirectory(string $sourceDirectory): void
@@ -137,5 +111,20 @@ final class Configuration
         $this->options += $this->parameterProvider->provide();
 
         return $this->options;
+    }
+
+    public function setPostRoute(string $post_route): void
+    {
+        $this->options['configuration'][self::OPTION_POST_ROUTE] = $post_route;
+    }
+
+    public function enableMarkdownHeadlineAnchors(): void
+    {
+        $this->options['configuration'][self::OPTION_MARKDOWN_HEADLINE_ANCHORS] = true;
+    }
+
+    public function disableMarkdownHeadlineAnchors(): void
+    {
+        $this->options['configuration'][self::OPTION_MARKDOWN_HEADLINE_ANCHORS] = false;
     }
 }

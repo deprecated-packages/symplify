@@ -26,7 +26,7 @@ final class SimilarPostsFilterTest extends AbstractContainerAwareTestCase
         $this->similarPostFilter = $this->container->get(SimilarPostsFilter::class);
 
         $configuration = $this->container->get(Configuration::class);
-        $configuration->addGlobalVarialbe('posts', $this->getAllPosts());
+        $configuration->addPosts($this->getAllPosts());
     }
 
     public function test(): void
