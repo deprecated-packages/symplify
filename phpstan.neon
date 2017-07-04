@@ -3,6 +3,7 @@ parameters:
         - "#does not call parent constructor from PHP_CodeSniffer#"
         - "#Constant #"
         - "#addLoader()#"
+        - "#[$]type of method Symfony#"
     excludes_analyse:
         - *packages/CodingStandard/tests/**/correct*
         - *packages/CodingStandard/tests/**/wrong*
