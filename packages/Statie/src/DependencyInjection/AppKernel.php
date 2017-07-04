@@ -24,7 +24,7 @@ final class AppKernel extends AbstractCliKernel
     {
         $loader->load(__DIR__ . '/../config/services.yml');
         if ($this->configFile) {
-            $this->registerLocalConfig($loader, $this->configFile);
+            $loader->load($this->configFile);
         }
     }
 
