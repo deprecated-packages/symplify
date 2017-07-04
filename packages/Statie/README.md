@@ -23,7 +23,7 @@ npm install -g gulp gulp-watch
 ### Generate content from `/source` to `/output` in HTML
 
 ```bash
-vendor/bin/statie generate
+vendor/bin/statie generate source
 ```
 
 ### See Generated web
@@ -50,7 +50,7 @@ gulp.task('default', function () {
     return watch(['source/**/*', '!**/*___jb_tmp___'], { ignoreInitial: false })
         // For the second arg see: https://github.com/floatdrop/gulp-watch/issues/242#issuecomment-230209702
         .on('change', function() {
-            exec('vendor/bin/statie generate', function (err, stdout, stderr) {
+            exec('vendor/bin/statie generate source', function (err, stdout, stderr) {
                 console.log(stdout);
                 console.log(stderr);
             });
@@ -79,7 +79,9 @@ How to setup `${GH_TOKEN}`? Just check [this exemplary .travis.yml](https://gith
  
 ## Configuration
 
-### Global variables
+### `statie.neon` Config
+
+They way you are used to use Symfony/Nette cofings: single file that allows you to add parameters, include other configs and register services.
 
 All `.neon` files found in `/source` directory are loaded to global variables.
 You can store variables, lists of data etc.
@@ -87,10 +89,11 @@ You can store variables, lists of data etc.
 So this...
 
 ```yaml
-# source/_config/config.neon
-siteUrl: http://github.com
-socials:
-    facebook: http://facebook.com/github
+# statie.neon
+parameters:
+    site_url: http://github.com
+    socials:
+        facebook: http://facebook.com/github
 ```
 
 ...can be displayed in any template as:
@@ -98,10 +101,34 @@ socials:
 ```twig
 # source/_layouts/default.latte
 
-<p>Welcome to: {$siteUrl}</p>
+<p>Welcome to: {$site_url}</p>
 
 <p>Checkout my FB page: {$socials['facebook']}</p>
 ```
+
+Need more data? Use `includes` section:
+
+```yaml
+# statie.neon
+includes:
+    - data/favorite_links.neon
+
+parameters:
+    site_url: http://github.com
+    socials:
+        facebook: http://facebook.com/github
+```
+
+```yaml
+# data/favorite_links.neon
+parameters:
+    favorite_links:
+        blog:
+            name: "Suis Marco"
+            url: "http://ocramius.github.io/"
+ ```
+
+Note: parameter [names have to be lowercase](https://github.com/symfony/symfony/issues/23381), due to Symfony\DependencyInjection component. `basePath` in config is converted to `{$basepath}` in template.
 
 ### Modify Post Url Format
 
