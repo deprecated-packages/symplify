@@ -124,7 +124,7 @@ final class CheckCommand extends Command
             $errorCount
         ));
 
-        if (! count($fixableErrorCount) || $this->configuration->isFixer()) {
+        if (! $fixableErrorCount || $this->configuration->isFixer()) {
             return;
         }
 
