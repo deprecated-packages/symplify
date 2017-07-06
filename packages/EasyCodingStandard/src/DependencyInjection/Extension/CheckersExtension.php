@@ -74,7 +74,7 @@ final class CheckersExtension extends Extension
         if (! count($configuration)) {
             return $checkerDefinition;
         }
-        
+
         $checkerClass = $checkerDefinition->getClass();
 
         if (is_a($checkerClass, FixerInterface::class, true)) {
