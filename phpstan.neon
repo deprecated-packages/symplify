@@ -1,9 +1,9 @@
 parameters:
     ignoreErrors:
-        - '#Constant T_[A-Z_]+ not found.#'
-        - '#Symplify\\EasyCodingStandard\\SniffRunner\\File\\File::__construct\(\) does not call parent constructor from PHP_CodeSniffer\\Files\\File.#'
-        - '#Call to an undefined method Symfony\\Component\\Config\\Loader\\LoaderResolverInterface::addLoader\(\).#'
-        - '#Parameter \#2 \$type of method Symfony\\Component\\Config\\Loader\\LoaderInterface::load\(\) expects string\|null, string\[\] given.#'
+        - '#Constant T_[A-Z_]+ not found#'
+        - '#Symplify\\EasyCodingStandard\\SniffRunner\\File\\File::__construct\(\) does not call parent constructor from PHP_CodeSniffer\\Files\\File#'
+        - '#Call to an undefined method Symfony\\Component\\Config\\Loader\\LoaderResolverInterface::addLoader\(\)#'
+        - '#Parameter \#2 \$type of method Symfony\\Component\\Config\\Loader\\LoaderInterface::load\(\) expects string\|null, string\[\] given#'
     excludes_analyse:
         - *packages/CodingStandard/tests/**/correct*
         - *packages/CodingStandard/tests/**/wrong*
