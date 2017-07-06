@@ -4,7 +4,7 @@ namespace Symplify\EasyCodingStandard\DependencyInjection\Extension;
 
 use Nette\Utils\ObjectMixin;
 use PHP_CodeSniffer\Sniffs\Sniff;
-use PhpCsFixer\Fixer\ConfigurableFixerInterface;
+use PhpCsFixer\Fixer\ConfigurationDefinitionFixerInterface;
 use PhpCsFixer\Fixer\FixerInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
@@ -73,7 +73,7 @@ final class CheckersExtension extends Extension
         $checkerClass = $checkerDefinition->getClass();
 
         if (is_a($checkerClass, FixerInterface::class, true)) {
-            if (count($configuration) && is_a($checkerClass, ConfigurableFixerInterface::class, true)) {
+            if (count($configuration) && is_a($checkerClass, ConfigurationDefinitionFixerInterface::class, true)) {
                 $checkerDefinition->addMethodCall('configure', [$configuration]);
             }
         } elseif (is_a($checkerClass, Sniff::class, true)) {
