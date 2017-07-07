@@ -278,3 +278,6 @@ parameters:
 
         Symplify\CodingStandard\Sniffs\Architecture\ForbiddenTraitSniff:
             - packages/PackageBuilder/src/Neon/NeonLoaderAwareKernelTrait.php
+
+        PhpCsFixer\Fixer\PhpUnit\PhpUnitStrictFixer:
+            - packages/EasyCodingStandard/tests/Indentation/IndentationTest.php
