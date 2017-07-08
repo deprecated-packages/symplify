@@ -63,7 +63,6 @@ checkers:
     - PHP_CodeSniffer\Standards\Squiz\Sniffs\PHP\NonExecutableCodeSniff
 
     # WhiteSpace
-    - PHP_CodeSniffer\Standards\Generic\Sniffs\WhiteSpace\DisallowTabIndentSniff
     - PHP_CodeSniffer\Standards\Squiz\Sniffs\WhiteSpace\LanguageConstructSpacingSniff
     - PHP_CodeSniffer\Standards\Squiz\Sniffs\WhiteSpace\ScopeKeywordSpacingSniff
     PHP_CodeSniffer\Standards\Squiz\Sniffs\WhiteSpace\SuperfluousWhitespaceSniff:
@@ -148,7 +147,7 @@ checkers:
     # PSR2 (official)
     - PhpCsFixer\Fixer\ControlStructure\ElseifFixer
     - PhpCsFixer\Fixer\FunctionNotation\FunctionDeclarationFixer
-    - PhpCsFixer\Fixer\Whitespace\IndentationTypeFixer
+    - PhpCsFixer\Fixer\Whitespace\IndentationTypeFixer # use spaces to indent
     - PhpCsFixer\Fixer\Whitespace\LineEndingFixer
     - PhpCsFixer\Fixer\Casing\LowercaseKeywordsFixer
     - PhpCsFixer\Fixer\FunctionNotation\MethodArgumentSpaceFixer
