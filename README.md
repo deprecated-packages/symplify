@@ -79,7 +79,8 @@ This is [monolithic repository](https://www.tomasvotruba.cz/blog/2017/01/31/how-
 Just follow 3 rules:
 
 - **1 feature per pull-request**
-- **New feature needs tests**. Bottom limit for coverage is 70 % and it is checked by [coveralls.io](https://coveralls.io/) automatically under every PR.
+- **New feature needs tests**. [Coveralls.io](https://coveralls.io/) checks code coverage under every PR
+and it requires at least 75 %.
 - Tests, coding standard and PHPStan **checks must pass**
 
     ```bash
