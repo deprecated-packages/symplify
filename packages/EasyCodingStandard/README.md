@@ -146,6 +146,13 @@ checkers:
 ```
 
 
+### Tabs over Spaces? We got this!
+
+```yaml
+parameters:
+    indentation: tab # "spaces" by default
+```
+
 ## Contributing
 
 Send [issue](https://github.com/Symplify/Symplify/issues) or [pull-request](https://github.com/Symplify/Symplify/pulls) to main repository.
