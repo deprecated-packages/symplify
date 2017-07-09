@@ -5,10 +5,10 @@ class SomeClass
     /**
      * @var stdClass
      */
-    private $stdClass;
+    private $property;
 
-    public function __construct(stdClass $stdClass)
+    public function __construct(stdClass $property)
     {
-        $this->stdClass = $stdClass;
+        $this->property = $property;
     }
 }

@@ -10,9 +10,7 @@ use PhpCsFixer\FixerDefinition\CodeSample;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Tokenizer\Tokens;
-use PhpCsFixer\Tokenizer\TokensAnalyzer;
 use SplFileInfo;
-use Twig\Token;
 
 final class InjectToConstructorInjectionFixer implements DefinedFixerInterface
 {
@@ -75,6 +73,8 @@ public function injectValue(stdClass $stdClass)
                 $injectAnnotation->remove();
             }
 
+            $token->setContent($doc->getContent());
+
             // 2. make public property private
             for ($i = $index; ; ++$i) {
                 $token = $tokens[$i];
@@ -133,23 +133,8 @@ public function injectValue(stdClass $stdClass)
 
     private function addConstructorMethod(Tokens $tokens, string $propertyType, string $propertyName): void
     {
-        $method = new Method('__construct');
-        $method->setVisibility('public');
-
-        $parameter = $method->addParameter($propertyName);
-        $parameter->setTypeHint($propertyType);
-        $method->setBody('$this->? = $?;', [$propertyName, $propertyName]);
-
-        // indent method code with 4 spaces
-        $methodCode = Strings::indent((string) $method, 1, '    ');
-
         $constructorPosition = $this->getConstructorPosition($tokens);
-
-        $constructorTokens = Tokens::fromCode(sprintf('<?php class SomeClass { %s }', $methodCode));
-
-        $constructorTokens->clearRange(0, 5); // drop initial code, like php tag opening
-        $constructorTokens->clearRange(30, 31); // drop initial code, like php tag opening
-        $constructorTokens->clearEmptyTokens();
+        $constructorTokens = $this->createConstructorWithPropertyCodeInTokens($propertyType, $propertyName);
 
         $tokens->insertAt($constructorPosition, $constructorTokens);
     }
@@ -173,5 +158,38 @@ public function injectValue(stdClass $stdClass)
                 return $methodStartPosition - 1;
             }
         }
+    }
+
+    private function createConstructorWithPropertyCodeInTokens(string $propertyType, string $propertyName): Tokens
+    {
+        $indentedConstructorCode = $this->createConstructorWithPropertyCodeInString($propertyType, $propertyName);
+        $constructorTokens = Tokens::fromCode(sprintf('<?php class SomeClass {
+
+%s
+}', $indentedConstructorCode));
+
+        $constructorTokens->clearRange(0, 5); // drop initial code: "<?php class SomeClass {"
+        $constructorTokens->clearRange(30, 31); // drop closing code: "}"
+
+        $constructorTokens->clearEmptyTokens();
+
+        return $constructorTokens;
+    }
+
+    private function createConstructorWithPropertyCodeInString(string $propertyType, string $propertyName): string
+    {
+        $method = new Method('__construct');
+        $method->setVisibility('public');
+
+        $parameter = $method->addParameter($propertyName);
+        $parameter->setTypeHint($propertyType);
+        $method->setBody('$this->? = $?;', [$propertyName, $propertyName]);
+
+        $methodAsString = (string) $method;
+        // tabs are used by default as indent; use spaces instead
+        $methodAsString = str_replace("\t", '    ', $methodAsString);
+
+        // indent method code with 4 spaces
+        return Strings::indent($methodAsString, 1, '    ');
     }
 }
