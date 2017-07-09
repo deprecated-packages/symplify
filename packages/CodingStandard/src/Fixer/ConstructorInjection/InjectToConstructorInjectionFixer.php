@@ -9,6 +9,7 @@ use PhpCsFixer\Fixer\DefinedFixerInterface;
 use PhpCsFixer\FixerDefinition\CodeSample;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
+use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
 
@@ -96,7 +97,31 @@ public function injectValue(stdClass $stdClass)
             $varAnnotation = $doc->getAnnotationsOfType('var')[0];
             $propertyType = $varAnnotation->getTypes()[0];
 
-            $this->addConstructorMethod($tokens, $propertyType, $propertyName);
+            // detect constructor
+            $constructMethodPosition = null;
+            for ($i = $index; $i < count($tokens); ++$i) {
+                $token = $tokens[$i];
+                if ($token->isGivenKind(T_FUNCTION)) {
+                    $namePosition = $tokens->getNextNonWhitespace($i);
+                    $methodNameToken = $tokens[$namePosition];
+                    if ($methodNameToken->getContent() === '__construct') {
+                        $constructMethodPosition = $i;
+                        break;
+                    }
+                }
+            }
+
+            // A. has a constructor?
+            if ($constructMethodPosition) { // "function" token
+                $this->addPropertyToConstructor($tokens, $propertyType, $propertyName, $constructMethodPosition);
+            } else {
+                // B. doesn't have a constructor?
+                $this->addConstructorMethod($tokens, $propertyType, $propertyName);
+            }
+
+            // run again with new tokens
+            $this->fix($file, $tokens);
+            break;
         }
 
         // 2. find method starting with inject*()
@@ -191,5 +216,43 @@ public function injectValue(stdClass $stdClass)
 
         // indent method code with 4 spaces
         return Strings::indent($methodAsString, 1, '    ');
+    }
+
+    private function addPropertyToConstructor(Tokens $tokens, string $propertyType, string $propertyName, int $constructMethodPosition): void
+    {
+        $startParenthesisIndex = $tokens->getNextTokenOfKind($constructMethodPosition, ['(', ';', [T_CLOSE_TAG]]);
+        if (! $tokens[$startParenthesisIndex]->equals('(')) {
+            return;
+        }
+
+        $endParenthesisIndex = $tokens->findBlockEnd(Tokens::BLOCK_TYPE_PARENTHESIS_BRACE, $startParenthesisIndex);
+
+        // add property as last argument: ", Type $property)"
+        $tokens->insertAt($endParenthesisIndex, [
+            new Token(','),
+            new Token([T_WHITESPACE, ' ']),
+            new Token([T_STRING, $propertyType]),
+            new Token([T_WHITESPACE, ' ']),
+            new Token([T_VARIABLE, '$' . $propertyName]),
+//            new Token(')'),
+        ]);
+
+        // detect end brace
+        $endParenthesisIndex = $tokens->findBlockEnd(Tokens::BLOCK_TYPE_PARENTHESIS_BRACE, $startParenthesisIndex);
+        $startBraceIndex = $tokens->getNextTokenOfKind($endParenthesisIndex, [';', '{']);
+        $endBraceIndex = $tokens->findBlockEnd(Tokens::BLOCK_TYPE_CURLY_BRACE, $startBraceIndex);
+
+        // add property as last assignment: "$this->property = $property;"
+        $tokens->insertAt($endBraceIndex - 1, [
+            new Token([T_WHITESPACE, PHP_EOL . '        ']), // 2x indent with spaces
+            new Token([T_VARIABLE, '$this']),
+            new Token([T_OBJECT_OPERATOR, '->']),
+            new Token([T_STRING, $propertyName]),
+            new Token([T_WHITESPACE, ' ']),
+            new Token('='),
+            new Token([T_WHITESPACE, ' ']),
+            new Token([T_VARIABLE, '$' . $propertyName]),
+            new Token(';'),
+        ]);
     }
 }
