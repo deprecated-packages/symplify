@@ -7,6 +7,9 @@ parameters:
     excludes_analyse:
         - *packages/CodingStandard/tests/**/correct*
         - *packages/CodingStandard/tests/**/wrong*
+        - *packages/EasyCodingStandard/tests/Indentation/IndentationSource/ClassWithSpaces.php
+        - *packages/EasyCodingStandard/tests/Indentation/IndentationFixedSource/FixedClassWithTabs.php
+
     enableUnionTypes: true
     autoload_files:
         - %currentWorkingDirectory%/vendor/squizlabs/php_codesniffer/autoload.php

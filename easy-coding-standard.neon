@@ -266,6 +266,8 @@ parameters:
             - packages/Statie/src/Configuration/Configuration.php
             - packages/SymbioticController/src/Adapter/Nette/Application/PresenterFactory.php
             - packages/SymbioticController/src/Adapter/Nette/Application/PresenterHelper.php
+            - packages/EasyCodingStandard/tests/Indentation/IndentationSource/ClassWithSpaces.php
+            - packages/EasyCodingStandard/tests/Indentation/IndentationFixedSource/FixedClassWithTabs.php
 
         PhpCsFixer\Fixer\ReturnNotation\SimplifiedNullReturnFixer:
             - packages/SymbioticController/src/Adapter/Nette/Routing/PresenterRoute.php
@@ -274,9 +276,15 @@ parameters:
         Symplify\CodingStandard\Sniffs\Classes\EqualInterfaceImplementationSniff:
             - packages/EasyCodingStandard/packages/SniffRunner/src/Application/SniffFileProcessor.php
             - packages/EasyCodingStandard/packages/FixerRunner/src/Application/FixerFileProcessor.php
+            - packages/EasyCodingStandard/tests/Indentation/IndentationSource/ClassWithSpaces.php
+            - packages/EasyCodingStandard/tests/Indentation/IndentationFixedSource/FixedClassWithTabs.php
 
         Symplify\CodingStandard\Sniffs\Architecture\ForbiddenTraitSniff:
             - packages/PackageBuilder/src/Neon/NeonLoaderAwareKernelTrait.php
 
         PhpCsFixer\Fixer\PhpUnit\PhpUnitStrictFixer:
             - packages/EasyCodingStandard/tests/Indentation/IndentationTest.php
+
+        Symplify\CodingStandard\Sniffs\Commenting\VarPropertyCommentSniff:
+            - packages/EasyCodingStandard/tests/Indentation/IndentationSource/ClassWithSpaces.php
+            - packages/EasyCodingStandard/tests/Indentation/IndentationFixedSource/FixedClassWithTabs.php

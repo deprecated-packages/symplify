@@ -178,6 +178,6 @@ final class EasyCodingStandardStyle
      */
     private function fixCrLfSplit(array $rows): array
     {
-        return str_replace("\r",'', $rows);
+        return str_replace("\r", '', $rows);
     }
 }
