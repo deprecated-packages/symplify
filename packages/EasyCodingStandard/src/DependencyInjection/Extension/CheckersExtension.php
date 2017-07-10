@@ -154,7 +154,7 @@ final class CheckersExtension extends Extension
             $indentation = '	';
         }
 
-        $whitespacesFixerConfigDefinition = new Definition(WhitespacesFixerConfig::class, [$indentation]);
+        $whitespacesFixerConfigDefinition = new Definition(WhitespacesFixerConfig::class, [$indentation, PHP_EOL]);
         $containerBuilder->setDefinition('fixerWhitespaceConfig', $whitespacesFixerConfigDefinition);
 
         $this->isWhitespaceFixerConfigRegistered = true;
