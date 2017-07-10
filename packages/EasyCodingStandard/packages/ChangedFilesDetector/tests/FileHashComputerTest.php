@@ -10,6 +10,11 @@ use Symplify\EasyCodingStandard\Tests\AbstractContainerAwareTestCase;
 final class FileHashComputerTest extends AbstractContainerAwareTestCase
 {
     /**
+     * @var string
+     */
+    private $includedConfigFile = __DIR__ . '/FileHashComputerSource/another-one.neon';
+
+    /**
      * @var FileHashComputer
      */
     private $fileHashComputer;
@@ -22,7 +27,7 @@ final class FileHashComputerTest extends AbstractContainerAwareTestCase
     public function testInvalidateCacheOnConfigurationChange(): void
     {
         // A. create on another one with fixer
-        file_put_contents(__DIR__ . '/FileHashComputerSource/another-one.neon', Neon::encode([
+        file_put_contents($this->includedConfigFile, Neon::encode([
             'checkers' => [DeclareStrictTypesFixer::class],
         ]));
 
@@ -31,7 +36,7 @@ final class FileHashComputerTest extends AbstractContainerAwareTestCase
         );
 
         // B. create on another one with no fixer
-        file_put_contents(__DIR__ . '/FileHashComputerSource/another-one.neon', Neon::encode([
+        file_put_contents($this->includedConfigFile, Neon::encode([
             'checkers' => [],
         ]));
 
@@ -40,6 +45,8 @@ final class FileHashComputerTest extends AbstractContainerAwareTestCase
         );
 
         $this->assertNotSame($fileOneHash, $fileTwoHash);
+
+        unlink($this->includedConfigFile);
     }
 
     public function testPhpFileHash(): void
