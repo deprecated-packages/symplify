@@ -173,6 +173,7 @@ final class EasyCodingStandardStyle
     }
 
     /**
+     * This prevents message override in Windows system.
      * @param mixed[] $rows
      * @return mixed[]
      */
