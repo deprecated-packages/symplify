@@ -119,7 +119,8 @@ public function injectValue(stdClass $stdClass)
                 $this->addConstructorMethod($tokens, $propertyType, $propertyName);
             }
 
-            // run again with new tokens
+            // run again with new tokens; @todo: can this be done any better to notice new __construct method added
+            // by these tokens?
             $this->fix($file, $tokens);
             break;
         }
@@ -227,14 +228,13 @@ public function injectValue(stdClass $stdClass)
 
         $endParenthesisIndex = $tokens->findBlockEnd(Tokens::BLOCK_TYPE_PARENTHESIS_BRACE, $startParenthesisIndex);
 
-        // add property as last argument: ", Type $property)"
+        // add property as last argument: ", Type $property"
         $tokens->insertAt($endParenthesisIndex, [
             new Token(','),
             new Token([T_WHITESPACE, ' ']),
             new Token([T_STRING, $propertyType]),
             new Token([T_WHITESPACE, ' ']),
             new Token([T_VARIABLE, '$' . $propertyName]),
-//            new Token(')'),
         ]);
 
         // detect end brace
