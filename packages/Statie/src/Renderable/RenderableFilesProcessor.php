@@ -71,7 +71,7 @@ final class RenderableFilesProcessor
         LatteDecorator $latteDecorator,
         FileSystemWriter $fileSystemWriter,
         Configuration $configuration,
-        HtmlToAmpConvertor $htmlAmpConvertor,
+        HtmlToAmpConvertor $htmlToAmpConvertor,
         AmpLinkDecorator $ampLinkDecorator
     ) {
         $this->fileFactory = $fileFactory;
@@ -81,7 +81,7 @@ final class RenderableFilesProcessor
         $this->latteDecorator = $latteDecorator;
         $this->fileSystemWriter = $fileSystemWriter;
         $this->configuration = $configuration;
-        $this->htmlToAmpConvertor = $htmlAmpConvertor;
+        $this->htmlToAmpConvertor = $htmlToAmpConvertor;
         $this->ampLinkDecorator = $ampLinkDecorator;
     }
 
