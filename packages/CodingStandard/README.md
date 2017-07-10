@@ -146,32 +146,6 @@ class SomeClass
 ```
 
 
-### Property should have docblock comment
-
-- [Commenting/VarPropertyCommentSniff](/src/Sniffs/Commenting/VarPropertyCommentSniff.php)
-- `Symplify.Commenting.VarPropertyComment`
-
-:x:
-
-```php
-class SomeClass
-{
-    private $someProperty;
-}
-```
-
-:+1:
-
-```php
-class SomeClass
-{
-    /**
-     * @var int
-     */
-    private $someProperty;
-}
-```
-
 ### Controller should have max. 1 render method
 
 - [Classes/ControllerRenderMethodLimitSniff](/src/Sniffs/Classes/ControllerRenderMethodLimitSniff.php)
