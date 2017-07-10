@@ -32,6 +32,7 @@ final class HtmlToAmpConvertorTest extends AbstractContainerAwareTestCase
     public function testNonHtmlFile(): void
     {
         $this->expectException(NonHtmlFileException::class);
+        $this->expectExceptionMessage('File "originalUrl.rss" is not html. AMP convertor only accepts html files.');
         $this->htmlToAmpConvertor->convert('someHtml', 'originalUrl.rss');
     }
 }
