@@ -27,7 +27,7 @@ final class AmpLinkDecorator implements DecoratorInterface
 
         $content = $file->getContent();
         if (Strings::contains($content, '</head>')) {
-            Strings::replace('</head>', $ampLink . PHP_EOL . '</head>');
+            $content = str_replace('</head>', $ampLink . PHP_EOL . '</head>', $content);
         } else {
             $content = $ampLink . PHP_EOL . $content;
         }
