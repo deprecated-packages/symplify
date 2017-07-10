@@ -2,6 +2,7 @@
 
 namespace Symplify\Statie\Renderable;
 
+use Nette\Utils\Strings;
 use SplFileInfo;
 use Symplify\Statie\Amp\AmpLinkDecorator;
 use Symplify\Statie\Amp\HtmlToAmpConvertor;
@@ -197,7 +198,12 @@ final class RenderableFilesProcessor
      */
     private function createAmpVersions(array $files): array
     {
+        $ampFiles = [];
         foreach ($files as $file) {
+            if (! Strings::endsWith($file->getOutputPath(), '.html')) {
+                continue;
+            }
+
             $baseUrl = $this->configuration->getOptions()['baseUrl'] ?? '';
             $originalUrl = $baseUrl . $file->getOutputPath();
 
@@ -205,9 +211,10 @@ final class RenderableFilesProcessor
             $file->changeContent($amp);
 
             $file->setOutputPath('/amp/' . $file->getOutputPath());
+            $ampFiles[] = $file;
         }
 
-        return $files;
+        return $ampFiles;
     }
 
     /**

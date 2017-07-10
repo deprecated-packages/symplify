@@ -21,6 +21,10 @@ final class AmpLinkDecorator implements DecoratorInterface
 
     public function decorateFile(AbstractFile $file): void
     {
+        if (! Strings::endsWith($file->getOutputPath(), '.html')) {
+            return;
+        }
+
         $baseUrl = $this->configuration->getOptions()['baseUrl'] ?? '';
         $ampUrl = $baseUrl . '/amp/' . ltrim($file->getOutputPath(), '/');
         $ampLink = sprintf('<link rel="amphtml" href="%s">', $ampUrl);
