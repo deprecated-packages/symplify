@@ -42,7 +42,7 @@ final class ConfigFilePathHelper
         }
 
         $rootConfigPath = getcwd() . '/' . $configName;
-        if (file_exists($rootConfigPath)) {
+        if (is_file($rootConfigPath)) {
             return self::$configFilePaths[$name] = $rootConfigPath;
         }
 
