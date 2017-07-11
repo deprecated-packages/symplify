@@ -31,7 +31,7 @@ final class AppKernel extends AbstractCliKernel
 
     public function getCacheDir(): string
     {
-        return sys_get_temp_dir() . '/_statie';
+        return sys_get_temp_dir() . '/_statie_kernel';
     }
 
     protected function build(ContainerBuilder $containerBuilder): void

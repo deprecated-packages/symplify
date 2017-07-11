@@ -68,7 +68,15 @@ gulp
 
 ### Push content of `/output` to Github pages
 
-To push to e.g. [tomasvotruba/tomasvotruba.cz](https://github.com/TomasVotruba/tomasvotruba.cz) repository, call this:
+To push to e.g. [tomasvotruba/tomasvotruba.cz](https://github.com/TomasVotruba/tomasvotruba.cz) repository, setup repository slug:
+
+```yaml
+# statie.neon
+parameters:
+    github_repository_slug: "TomasVotruba/tomasvotruba.cz"
+```
+
+And push it with CLI command:
 
 ```
 vendor/bin/statie push-to-github-pages tomasvotruba/tomasvotruba.cz --token=${GH_TOKEN}
