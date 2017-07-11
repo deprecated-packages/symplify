@@ -15,7 +15,7 @@ final class Configuration
     /**
      * @var string
      */
-    public const OPTION_GITHUB_REPOSITORY_SLUG = 'githubRepositorySlug';
+    public const OPTION_GITHUB_REPOSITORY_SLUG = 'github_repository_slug';
 
     /**
      * @var string
@@ -47,14 +47,9 @@ final class Configuration
      */
     private $outputDirectory;
 
-    /**
-     * @var ParameterProvider
-     */
-    private $parameterProvider;
-
     public function __construct(ParameterProvider $parameterProvider)
     {
-        $this->parameterProvider = $parameterProvider;
+        $this->options += $parameterProvider->provide();
     }
 
     /**
@@ -91,40 +86,41 @@ final class Configuration
 
     public function getPostRoute(): string
     {
-        return $this->options['configuration'][self::OPTION_POST_ROUTE]
+        return $this->options[self::OPTION_POST_ROUTE]
             ?? self::DEFAULT_POST_ROUTE;
     }
 
     public function getGithubRepositorySlug(): string
     {
-        return $this->options['configuration'][self::OPTION_GITHUB_REPOSITORY_SLUG] ?? '';
+        return $this->options[self::OPTION_GITHUB_REPOSITORY_SLUG] ?? '';
     }
 
     public function isMarkdownHeadlineAnchors(): bool
     {
-        return $this->options['configuration'][self::OPTION_MARKDOWN_HEADLINE_ANCHORS]
+        return $this->options[self::OPTION_MARKDOWN_HEADLINE_ANCHORS]
             ?? self::DEFAULT_MARKDOWN_HEADLINE_ANCHORS;
     }
 
+    /**
+     * @return mixed[]
+     */
     public function getOptions(): array
     {
-        $this->options += $this->parameterProvider->provide();
-
         return $this->options;
     }
 
     public function setPostRoute(string $post_route): void
     {
-        $this->options['configuration'][self::OPTION_POST_ROUTE] = $post_route;
+        $this->options[self::OPTION_POST_ROUTE] = $post_route;
     }
 
     public function enableMarkdownHeadlineAnchors(): void
     {
-        $this->options['configuration'][self::OPTION_MARKDOWN_HEADLINE_ANCHORS] = true;
+        $this->options[self::OPTION_MARKDOWN_HEADLINE_ANCHORS] = true;
     }
 
     public function disableMarkdownHeadlineAnchors(): void
     {
-        $this->options['configuration'][self::OPTION_MARKDOWN_HEADLINE_ANCHORS] = false;
+        $this->options[self::OPTION_MARKDOWN_HEADLINE_ANCHORS] = false;
     }
 }
