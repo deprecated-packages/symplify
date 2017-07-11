@@ -35,9 +35,9 @@ final class EasyCodingStandardStyle
      */
     private $terminal;
 
-    public function __construct(SymfonyStyleFactory $symfonyStyleFactory, Terminal $terminal)
+    public function __construct(SymfonyStyle $symfonyStyle, Terminal $terminal)
     {
-        $this->symfonyStyle = $symfonyStyleFactory->create();
+        $this->symfonyStyle = $symfonyStyle;
         $this->terminal = $terminal;
     }
 
