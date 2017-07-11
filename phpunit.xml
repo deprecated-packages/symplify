@@ -9,7 +9,7 @@
     </testsuite>
     <!-- source to check coverage for -->
     <filter>
-        <whitelist>
+        <whitelist processUncoveredFilesFromWhitelist="true">
             <directory>packages/*/src</directory>
         </whitelist>
     </filter>
