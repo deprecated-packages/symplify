@@ -68,6 +68,24 @@ final class EasyCodingStandardStyle
     }
 
     /**
+     * @param Error[] $errors
+     * @return string[]
+     */
+    public function buildFileTableRowsFromErrors(array $errors): array
+    {
+        $rows = [];
+        foreach ($errors as $error) {
+            $message = $error->getMessage() . PHP_EOL . '(' . $error->getSourceClass() . ')';
+            $message = $this->clearCrLfFromMessage($message);
+            $message = $this->wrapMessageSoItFitsTheColumnWidth($message);
+
+            $rows[] = $this->buildRow($error, $message);
+        }
+
+        return $rows;
+    }
+
+    /**
      * @param string[] $headers
      * @param mixed[] $rows
      */
@@ -75,9 +93,6 @@ final class EasyCodingStandardStyle
     {
         $style = clone Table::getStyleDefinition('symfony-style-guide');
         $style->setCellHeaderFormat('%s');
-
-        $rows = $this->fixCrLfSplit($rows);
-        $rows = $this->wrapTextSoItFitsTheColumnWidth($rows);
 
         $table = new Table($this->symfonyStyle);
         $table->setColumnWidths([self::LINE_COLUMN_WIDTH, $this->countMessageColumnWidth()]);
@@ -87,21 +102,6 @@ final class EasyCodingStandardStyle
 
         $table->render();
         $this->symfonyStyle->newLine();
-    }
-
-    /**
-     * @param Error[] $errors
-     * @return mixed[]
-     */
-    private function buildFileTableRowsFromErrors(array $errors): array
-    {
-        $rows = [];
-        foreach ($errors as $error) {
-            $message = $error->getMessage() . PHP_EOL . '(' . $error->getSourceClass() . ')';
-            $rows[] = $this->buildRow($error, $message);
-        }
-
-        return $rows;
     }
 
     /**
@@ -124,17 +124,9 @@ final class EasyCodingStandardStyle
         return sprintf('<fg=black;bg=red>%s</>', $message);
     }
 
-    /**
-     * @param mixed[] $rows
-     * @return mixed[]
-     */
-    private function wrapTextSoItFitsTheColumnWidth(array $rows): array
+    private function wrapMessageSoItFitsTheColumnWidth(string $message): string
     {
-        foreach ($rows as $id => $row) {
-            $rows[$id]['message'] = wordwrap($row['message'], $this->countMessageColumnWidth(), PHP_EOL);
-        }
-
-        return $rows;
+        return wordwrap($message, $this->countMessageColumnWidth(), PHP_EOL);
     }
 
     private function countMessageColumnWidth(): int
@@ -144,11 +136,9 @@ final class EasyCodingStandardStyle
 
     /**
      * This prevents message override in Windows system.
-     * @param mixed[] $rows
-     * @return mixed[]
      */
-    private function fixCrLfSplit(array $rows): array
+    private function clearCrLfFromMessage(string $message): string
     {
-        return str_replace("\r", '', $rows);
+        return str_replace("\r", '', $message);
     }
 }
