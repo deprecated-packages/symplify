@@ -67,7 +67,7 @@ abstract class AbstractSniffTestCase extends TestCase
         ));
 
         $fixedFileName = $this->getFixedFileName($fileInfo);
-        if (! file_exists($fixedFileName)) {
+        if (! is_file($fixedFileName)) {
             return;
         }
 

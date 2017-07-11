@@ -47,7 +47,7 @@ final class TemplateRenderer implements TemplateRendererInterface
         $possibleLayoutLocations = [];
         $possibleLayoutLocations[] = dirname($file) . DIRECTORY_SEPARATOR . '@layout.latte';
         foreach ($possibleLayoutLocations as $possibleLayoutLocation) {
-            if (file_exists($possibleLayoutLocation)) {
+            if (is_file($possibleLayoutLocation)) {
                 return $possibleLayoutLocation;
             }
         }
