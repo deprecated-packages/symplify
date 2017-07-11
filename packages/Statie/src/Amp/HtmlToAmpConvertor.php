@@ -40,7 +40,7 @@ final class HtmlToAmpConvertor
 
         $options = [
             'scope' => Scope::HTML_SCOPE,
-            'canonical_path' => $originalUrl,
+            'canonical_path' => $this->makeSurePathStartsWithSlash($originalUrl),
         ];
 
         $this->amp->loadHtml($html, $options);
@@ -60,5 +60,10 @@ final class HtmlToAmpConvertor
                 $url
             ));
         }
+    }
+
+    private function makeSurePathStartsWithSlash(string $originalUrl): string
+    {
+        return Strings::startsWith($originalUrl, '/') ? $originalUrl : '/' . $originalUrl;
     }
 }
