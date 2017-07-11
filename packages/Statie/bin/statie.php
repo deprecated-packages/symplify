@@ -21,7 +21,6 @@ foreach ($possibleAutoloadPaths as $possibleAutoloadPath) {
     }
 }
 
-
 // 1. Detect configuration
 ConfigFilePathHelper::detectFromInput('statie', new ArgvInput);
 

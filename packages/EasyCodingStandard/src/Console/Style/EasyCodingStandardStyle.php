@@ -41,36 +41,6 @@ final class EasyCodingStandardStyle
         $this->terminal = $terminal;
     }
 
-    public function title(string $message): void
-    {
-        $this->symfonyStyle->title($message);
-    }
-
-    public function section(string $message): void
-    {
-        $this->symfonyStyle->section($message);
-    }
-
-    public function text(string $message): void
-    {
-        $this->symfonyStyle->text($message);
-    }
-
-    public function success(string $message): void
-    {
-        $this->symfonyStyle->success($message);
-    }
-
-    public function error(string $message): void
-    {
-        $this->symfonyStyle->error($message);
-    }
-
-    public function newLine(): void
-    {
-        $this->symfonyStyle->newLine();
-    }
-
     /**
      * @param Error[][] $errors
      */
