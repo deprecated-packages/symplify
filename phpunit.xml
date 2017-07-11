@@ -17,4 +17,7 @@
     <listeners>
         <listener class="Symplify\Tests\PHPUnit\Listener\ClearLogAndCacheTestListener" />
     </listeners>
+    <php>
+        <const name="PHPUNIT_RUN" value="true"/>
+    </php>
 </phpunit>
