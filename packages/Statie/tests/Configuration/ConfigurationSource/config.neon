@@ -1,6 +1,0 @@
-includes:
-    - another-config.neon
-
-parameters:
-    key: value
-

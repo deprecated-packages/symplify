@@ -30,7 +30,7 @@ final class ClearLogAndCacheTestListener extends BaseTestListener
         $finder = Finder::findDirectories('cache', 'logs')
             ->from([
                 __DIR__ . '/../../../packages',
-                sys_get_temp_dir() . '/_statie',
+                sys_get_temp_dir() . '/_statie_kernel',
                 sys_get_temp_dir() . '/_easy_coding_standard'
             ]);
 

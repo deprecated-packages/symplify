@@ -3,6 +3,7 @@
 namespace Symplify\Statie\Configuration;
 
 use Symplify\PackageBuilder\Adapter\Symfony\Parameter\ParameterProvider;
+use Symplify\Statie\Exception\Configuration\MissingGithubRepositorySlugException;
 use Symplify\Statie\Renderable\File\PostFile;
 
 final class Configuration
@@ -23,9 +24,14 @@ final class Configuration
     public const OPTION_MARKDOWN_HEADLINE_ANCHORS = 'markdown_headline_anchors';
 
     /**
-     * @var bool
+     * @var string
      */
-    private const DEFAULT_MARKDOWN_HEADLINE_ANCHORS = false;
+    private const OPTION_AMP = 'amp';
+
+    /**
+     * @var string
+     */
+    private const OPTION_POSTS = 'posts';
 
     /**
      * @var string
@@ -57,7 +63,7 @@ final class Configuration
      */
     public function addPosts(array $posts): void
     {
-        $this->options['posts'] = $posts;
+        $this->options[self::OPTION_POSTS] = $posts;
     }
 
     public function setSourceDirectory(string $sourceDirectory): void
@@ -86,19 +92,31 @@ final class Configuration
 
     public function getPostRoute(): string
     {
-        return $this->options[self::OPTION_POST_ROUTE]
-            ?? self::DEFAULT_POST_ROUTE;
+        return $this->options[self::OPTION_POST_ROUTE] ?? self::DEFAULT_POST_ROUTE;
     }
 
     public function getGithubRepositorySlug(): string
     {
-        return $this->options[self::OPTION_GITHUB_REPOSITORY_SLUG] ?? '';
+        if (isset($this->options[self::OPTION_GITHUB_REPOSITORY_SLUG])) {
+            return $this->options[self::OPTION_GITHUB_REPOSITORY_SLUG];
+        }
+
+        throw new MissingGithubRepositorySlugException(sprintf(
+            'Settings of "%s" is required for "{$post|githubEditPostUrl}" Latte filter. '
+            . 'Add it to "statie.neon" under "parameters" section, e.g.: "%s".',
+            self::OPTION_GITHUB_REPOSITORY_SLUG,
+            'TomasVotruba/tomasvotruba.cz'
+        ));
     }
 
     public function isMarkdownHeadlineAnchors(): bool
     {
-        return $this->options[self::OPTION_MARKDOWN_HEADLINE_ANCHORS]
-            ?? self::DEFAULT_MARKDOWN_HEADLINE_ANCHORS;
+        return $this->options[self::OPTION_MARKDOWN_HEADLINE_ANCHORS] ?? false;
+    }
+
+    public function isAmpEnabled(): bool
+    {
+        return $this->options[self::OPTION_AMP] ?? false;
     }
 
     /**
