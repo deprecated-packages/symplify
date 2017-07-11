@@ -70,7 +70,6 @@ checkers:
 
     # Commenting
     - Symplify\CodingStandard\Sniffs\Commenting\BlockPropertyCommentSniff
-    - Symplify\CodingStandard\Sniffs\Commenting\VarPropertyCommentSniff
     - Symplify\CodingStandard\Sniffs\Commenting\VarConstantCommentSniff
 
     # Debug and dev
