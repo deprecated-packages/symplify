@@ -2,12 +2,6 @@
     bootstrap="tests/bootstrap.php"
     colors="true"
     verbose="true"
-    backupGlobals="false"
-    backupStaticAttributes="false"
-    beStrictAboutChangesToGlobalState="true"
-    beStrictAboutOutputDuringTests="true"
-    beStrictAboutTestsThatDoNotTestAnything="true"
-    beStrictAboutTodoAnnotatedTests="true"
 >
     <!-- tests directories to run -->
     <testsuite>
