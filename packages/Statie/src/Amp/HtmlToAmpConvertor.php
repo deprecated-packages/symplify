@@ -64,6 +64,10 @@ final class HtmlToAmpConvertor
 
     private function makeSurePathStartsWithSlash(string $originalUrl): string
     {
+        if (Strings::startsWith($originalUrl, 'http')) {
+            return $originalUrl;
+        }
+
         return Strings::startsWith($originalUrl, '/') ? $originalUrl : '/' . $originalUrl;
     }
 }
