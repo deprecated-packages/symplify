@@ -109,9 +109,9 @@ final class Configuration
         return $this->options;
     }
 
-    public function setPostRoute(string $post_route): void
+    public function setPostRoute(string $postRoute): void
     {
-        $this->options[self::OPTION_POST_ROUTE] = $post_route;
+        $this->options[self::OPTION_POST_ROUTE] = $postRoute;
     }
 
     public function enableMarkdownHeadlineAnchors(): void
