@@ -3,11 +3,11 @@
 namespace Symplify\Statie\Renderable\Latte;
 
 use Latte\CompileException;
-use Latte\Engine;
 use Symplify\Statie\Configuration\Configuration;
 use Symplify\Statie\Contract\Renderable\DecoratorInterface;
 use Symplify\Statie\Exception\Latte\InvalidLatteSyntaxException;
 use Symplify\Statie\FlatWhite\Latte\DynamicStringLoader;
+use Symplify\Statie\FlatWhite\Latte\LatteRenderer;
 use Symplify\Statie\Renderable\File\AbstractFile;
 use Symplify\Statie\Renderable\File\PostFile;
 
@@ -19,23 +19,23 @@ final class LatteDecorator implements DecoratorInterface
     private $configuration;
 
     /**
-     * @var Engine
-     */
-    private $latteEngine;
-
-    /**
      * @var DynamicStringLoader
      */
     private $dynamicStringLoader;
 
+    /**
+     * @var LatteRenderer
+     */
+    private $latteRenderer;
+
     public function __construct(
         Configuration $configuration,
-        Engine $latteEngine,
-        DynamicStringLoader $dynamicStringLoader
+        DynamicStringLoader $dynamicStringLoader,
+        LatteRenderer $latteRenderer
     ) {
         $this->configuration = $configuration;
-        $this->latteEngine = $latteEngine;
         $this->dynamicStringLoader = $dynamicStringLoader;
+        $this->latteRenderer = $latteRenderer;
     }
 
     public function decorateFile(AbstractFile $file): void
@@ -115,7 +115,8 @@ final class LatteDecorator implements DecoratorInterface
     private function renderToString(AbstractFile $file, array $parameters): string
     {
         try {
-            return $this->latteEngine->renderToString($file->getBaseName(), $parameters);
+            return $this->latteRenderer->renderExcludingHighlightBlocks($file->getBaseName(), $parameters);
+
         } catch (CompileException $latteCompileException) {
             throw new InvalidLatteSyntaxException(sprintf(
                 'Invalid Latte syntax found in "%s" file: %s',
