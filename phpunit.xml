@@ -10,7 +10,7 @@
     <!-- source to check coverage for -->
     <filter>
         <whitelist processUncoveredFilesFromWhitelist="true">
-            <directory>packages/*/src</directory>
+            <directory suffix=".php">packages/*/src</directory>
         </whitelist>
     </filter>
     <!-- listener to run after every single test -->

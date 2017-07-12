@@ -116,7 +116,6 @@ final class LatteDecorator implements DecoratorInterface
     {
         try {
             return $this->latteRenderer->renderExcludingHighlightBlocks($file->getBaseName(), $parameters);
-
         } catch (CompileException $latteCompileException) {
             throw new InvalidLatteSyntaxException(sprintf(
                 'Invalid Latte syntax found in "%s" file: %s',
