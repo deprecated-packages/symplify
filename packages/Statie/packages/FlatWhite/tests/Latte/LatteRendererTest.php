@@ -21,7 +21,7 @@ final class LatteRendererTest extends AbstractContainerAwareTestCase
     {
         $templateFileContent = file_get_contents(__DIR__ . '/LatteRendererSource/latteWithCodeToHighlight.latte');
         $rendered = $this->latteRenderer->renderExcludingHighlightBlocks($templateFileContent, [
-            'hi' => 'Welcome'
+            'hi' => 'Welcome',
         ]);
 
         $expectedFileContent = file_get_contents(__DIR__ . '/LatteRendererSource/expectedCode.latte');

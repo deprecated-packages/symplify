@@ -3,7 +3,6 @@
 namespace Symplify\Statie\FlatWhite\Latte;
 
 use Latte\Engine;
-use Latte\Loaders\StringLoader;
 use Nette\Utils\Strings;
 
 final class LatteRenderer
@@ -34,16 +33,21 @@ final class LatteRenderer
         $this->latte = $latteFactory->create();
     }
 
+    /**
+     * @param mixed[] $parameters
+     */
     public function renderExcludingHighlightBlocks(string $templateFileContent, array $parameters): string
     {
         $i = 0;
+        $blocksWithHighlightedContents = [];
+
         $templateWithPlaceholders = Strings::replace(
             $templateFileContent,
             self::MATCH_CODE_BLOCKS,
-            function (array $match) use (&$replacedBlocks, &$i) {
+            function (array $match) use (&$i, &$blocksWithHighlightedContents) {
                 $highlightedContents = $match[0];
                 $placeholder = self::PLACEHOLDER_PREFIX . ++$i;
-                $replacedBlocks[$placeholder] = $highlightedContents;
+                $blocksWithHighlightedContents[$placeholder] = $highlightedContents;
 
                 return $placeholder;
             }
@@ -54,9 +58,10 @@ final class LatteRenderer
         return Strings::replace(
             $parseTemplateWithPlaceholders,
             self::MATCH_PLACEHOLDERS,
-            function (array $match) use ($replacedBlocks) {
+            function (array $match) use ($blocksWithHighlightedContents) {
                 $placeholder = $match[0];
-                return $replacedBlocks[$placeholder];
+
+                return $blocksWithHighlightedContents[$placeholder];
             }
         );
     }
