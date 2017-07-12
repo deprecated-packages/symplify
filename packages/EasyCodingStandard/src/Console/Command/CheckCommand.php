@@ -126,7 +126,7 @@ final class CheckCommand extends Command
             $this->errorDataCollector->getFixableErrorCount()
         );
 
-        return 0;
+        return 1;
     }
 
     private function printErrorMessageFromErrorCounts(int $errorCount, int $fixableErrorCount): void
