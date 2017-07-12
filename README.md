@@ -80,7 +80,7 @@ Just follow 3 rules:
 
 - **1 feature per pull-request**
 - **New feature needs tests**. [Coveralls.io](https://coveralls.io/) checks code coverage under every PR
-and it requires at least 75 %.
+and it requires at least 80 %.
 - Tests, coding standard and PHPStan **checks must pass**
 
     ```bash
