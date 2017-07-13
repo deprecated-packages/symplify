@@ -4,12 +4,18 @@
 class SomePresenter
 {
     /**
+     * @inject
      * @var stdClass
      */
-    private $stdClass;
+    public $stdClass;
 
-    public function inject(stdClass $stdClass)
+    /**
+     * @var DateTime
+     */
+    private $dateTime;
+
+    public function __construct(DateTime $dateTime)
     {
-        $this->stdClass = $stdClass;
+        $this->dateTime = $dateTime;
     }
 }

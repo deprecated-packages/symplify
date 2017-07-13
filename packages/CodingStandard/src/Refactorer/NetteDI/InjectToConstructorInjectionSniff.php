@@ -13,7 +13,7 @@ final class InjectToConstructorInjectionSniff implements Sniff
     /**
      * @var string
      */
-    private const ERROR_MESSAGE = 'Use constructor injection instead of @inject annotation or inject*() methods.';
+    private const ERROR_MESSAGE = 'Use constructor injection instead of @inject annotation methods.';
 
     /**
      * @var string
@@ -52,7 +52,6 @@ final class InjectToConstructorInjectionSniff implements Sniff
         }
 
         $this->processClassProperties();
-        $this->processClassMethods();
     }
 
     private function isClassBasePresenter(): bool
@@ -80,21 +79,6 @@ final class InjectToConstructorInjectionSniff implements Sniff
         }
     }
 
-    private function processClassMethods(): void
-    {
-        $methods = $this->classWrapper->getMethods();
-        foreach ($methods as $method) {
-            if (! $method->hasNamePrefix('inject')) {
-                continue;
-            }
-
-            $fix = $this->addInjectError($method->getPosition());
-            if ($fix) {
-                $this->fixInjectMethod($method);
-            }
-        }
-    }
-
     private function addInjectError(int $position): bool
     {
         return $this->file->addFixableError(self::ERROR_MESSAGE, $position, self::class);
@@ -115,39 +99,5 @@ final class InjectToConstructorInjectionSniff implements Sniff
             $name = $propertyWrapper->getName();
             $this->classWrapper->addConstructorMethodWithProperty($type, $name);
         }
-    }
-
-    private function fixInjectMethod(MethodWrapper $method): void
-    {
-        // 1. detect parameters
-        $injectedParameters = [];
-        foreach ($method->getParameters() as $parameter) {
-            $injectedParameters[] = [
-                'name' => $parameter->getParameterName(),
-                'type' => $parameter->getParameterType(),
-            ];
-        }
-
-        // 2. remove inject method
-        $method->remove();
-
-        $this->addParametersToConstructor($injectedParameters);
-    }
-
-    /**
-     * @param mixed[] $injectedParameters
-     */
-    private function addParametersToConstructor(array $injectedParameters): void
-    {
-        $constructMethod = $this->classWrapper->getMethod('__construct');
-        if (! $constructMethod) {
-            foreach ($injectedParameters as $injectedParameter) {
-                $type = $injectedParameter['type'];
-                $name = $injectedParameter['name'];
-                $this->classWrapper->addConstructorMethodWithProperty($type, $name);
-            }
-        }
-
-        // @todo for existing constructor
     }
 }
