@@ -49,14 +49,25 @@ final class LatteDecorator implements DecoratorInterface
 
         if ($file instanceof PostFile) {
             $parameters['post'] = $file;
+
+            // add "post" layout by default
+            $file->changeContent('{layout "post"}' . PHP_EOL . $file->getContent());
+            $this->addTemplateToDynamicLatteStringLoader($file);
+
+            $htmlContent = $this->renderToString($file, $parameters);
+
+            // trim {layout %s} left over
+            $htmlContent = preg_replace('/{layout "[a-z]+"}/', '', $htmlContent);
+
+            $file->changeContent($htmlContent);
+
+        } else {
+            // normal file
+            $htmlContent = $this->renderOuterWithLayout($file, $parameters);
+//            $htmlContent = $this->trimLeftOverLayoutTag($file, $htmlContent);
+            $file->changeContent($htmlContent);
+
         }
-
-        $this->renderInnerPostContent($file, $parameters);
-
-        $htmlContent = $this->renderOuterWithLayout($file, $parameters);
-        $htmlContent = $this->trimLeftOverLayoutTag($file, $htmlContent);
-
-        $file->changeContent($htmlContent);
     }
 
     private function addTemplateToDynamicLatteStringLoader(AbstractFile $file): void
@@ -80,18 +91,6 @@ final class LatteDecorator implements DecoratorInterface
     /**
      * @param mixed[] $parameters
      */
-    private function renderInnerPostContent(AbstractFile $file, array $parameters): void
-    {
-        if ($file instanceof PostFile) {
-            $this->addTemplateToDynamicLatteStringLoader($file);
-            $htmlContent = $this->renderToString($file, $parameters);
-            $file->changeContent($htmlContent);
-        }
-    }
-
-    /**
-     * @param mixed[] $parameters
-     */
     private function renderOuterWithLayout(AbstractFile $file, array $parameters): string
     {
         $this->prependLayoutToFileContent($file);
@@ -99,15 +98,15 @@ final class LatteDecorator implements DecoratorInterface
 
         return $this->renderToString($file, $parameters);
     }
-
-    private function trimLeftOverLayoutTag(AbstractFile $file, string $htmlContent): string
-    {
-        if ($file instanceof PostFile) {
-            return preg_replace('/{layout "[a-z]+"}/', '', $htmlContent);
-        }
-
-        return $htmlContent;
-    }
+//
+//    private function trimLeftOverLayoutTag(AbstractFile $file, string $htmlContent): string
+//    {
+//        if ($file instanceof PostFile) {
+//            return preg_replace('/{layout "[a-z]+"}/', '', $htmlContent);
+//        }
+//
+//        return $htmlContent;
+//    }
 
     /**
      * @param mixed[] $parameters
