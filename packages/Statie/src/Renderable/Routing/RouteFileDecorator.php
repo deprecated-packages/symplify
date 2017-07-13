@@ -3,12 +3,12 @@
 namespace Symplify\Statie\Renderable\Routing;
 
 use Symplify\Statie\Configuration\Configuration;
-use Symplify\Statie\Contract\Renderable\DecoratorInterface;
+use Symplify\Statie\Contract\Renderable\FileDecoratorInterface;
 use Symplify\Statie\Contract\Renderable\Routing\Route\RouteInterface;
 use Symplify\Statie\Contract\Renderable\Routing\RouteCollectorInterface;
 use Symplify\Statie\Renderable\File\AbstractFile;
 
-final class RouteDecorator implements DecoratorInterface, RouteCollectorInterface
+final class RouteFileDecorator implements FileDecoratorInterface, RouteCollectorInterface
 {
     /**
      * @var Configuration
@@ -30,7 +30,25 @@ final class RouteDecorator implements DecoratorInterface, RouteCollectorInterfac
         $this->routes[] = $route;
     }
 
-    public function decorateFile(AbstractFile $file): void
+    /**
+     * @param AbstractFile[] $files
+     * @return AbstractFile[]
+     */
+    public function decorateFiles(array $files): array
+    {
+        foreach ($files as $file) {
+            $this->decorateFile($file);
+        }
+
+        return $files;
+    }
+
+    public function getPriority(): int
+    {
+        return 1000;
+    }
+
+    private function decorateFile(AbstractFile $file): void
     {
         foreach ($this->routes as $route) {
             if ($route->matches($file)) {

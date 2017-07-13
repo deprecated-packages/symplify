@@ -7,10 +7,10 @@ use ParsedownExtra;
 use Spatie\Regex\MatchResult;
 use Spatie\Regex\Regex;
 use Symplify\Statie\Configuration\Configuration;
-use Symplify\Statie\Contract\Renderable\DecoratorInterface;
+use Symplify\Statie\Contract\Renderable\FileDecoratorInterface;
 use Symplify\Statie\Renderable\File\AbstractFile;
 
-final class MarkdownDecorator implements DecoratorInterface
+final class MarkdownFileDecorator implements FileDecoratorInterface
 {
     /**
      * @var ParsedownExtra
@@ -28,7 +28,25 @@ final class MarkdownDecorator implements DecoratorInterface
         $this->configuration = $configuration;
     }
 
-    public function decorateFile(AbstractFile $file): void
+    /**
+     * @param AbstractFile[] $files
+     * @return AbstractFile[]
+     */
+    public function decorateFiles(array $files): array
+    {
+        foreach ($files as $file) {
+            $this->decorateFile($file);
+        }
+
+        return $files;
+    }
+
+    public function getPriority(): int
+    {
+        return 800;
+    }
+
+    private function decorateFile(AbstractFile $file): void
     {
         // skip due to HTML content incompatibility
         if ($file->getExtension() !== 'md') {

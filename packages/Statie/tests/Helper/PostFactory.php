@@ -24,7 +24,7 @@ final class PostFactory
         $fileInfo = new SplFileInfo($filePath);
         $post = new PostFile($fileInfo, $filePath, $filePath);
 
-        $this->configurationDecorator->decorateFile($post);
+        $this->configurationDecorator->decorateFiles([$post]);
 
         return $post;
     }

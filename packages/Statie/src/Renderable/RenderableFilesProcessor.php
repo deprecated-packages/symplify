@@ -2,19 +2,13 @@
 
 namespace Symplify\Statie\Renderable;
 
-use Nette\Utils\Strings;
 use SplFileInfo;
-use Symplify\Statie\Amp\AmpLinkDecorator;
-use Symplify\Statie\Amp\HtmlToAmpConvertor;
 use Symplify\Statie\Configuration\Configuration;
+use Symplify\Statie\Contract\Renderable\FileDecoratorInterface;
 use Symplify\Statie\Output\FileSystemWriter;
-use Symplify\Statie\Renderable\Configuration\ConfigurationDecorator;
 use Symplify\Statie\Renderable\File\File;
 use Symplify\Statie\Renderable\File\FileFactory;
 use Symplify\Statie\Renderable\File\PostFile;
-use Symplify\Statie\Renderable\Latte\LatteDecorator;
-use Symplify\Statie\Renderable\Markdown\MarkdownDecorator;
-use Symplify\Statie\Renderable\Routing\RouteDecorator;
 
 final class RenderableFilesProcessor
 {
@@ -22,26 +16,6 @@ final class RenderableFilesProcessor
      * @var FileFactory
      */
     private $fileFactory;
-
-    /**
-     * @var RouteDecorator
-     */
-    private $routeDecorator;
-
-    /**
-     * @var ConfigurationDecorator
-     */
-    private $configurationDecorator;
-
-    /**
-     * @var MarkdownDecorator
-     */
-    private $markdownDecorator;
-
-    /**
-     * @var LatteDecorator
-     */
-    private $latteDecorator;
 
     /**
      * @var FileSystemWriter
@@ -54,35 +28,23 @@ final class RenderableFilesProcessor
     private $configuration;
 
     /**
-     * @var HtmlToAmpConvertor
+     * @var FileDecoratorInterface[]
      */
-    private $htmlToAmpConvertor;
-
-    /**
-     * @var AmpLinkDecorator
-     */
-    private $ampLinkDecorator;
+    private $fileDecorators = [];
 
     public function __construct(
         FileFactory $fileFactory,
-        RouteDecorator $routeDecorator,
-        ConfigurationDecorator $configurationDecorator,
-        MarkdownDecorator $markdownDecorator,
-        LatteDecorator $latteDecorator,
         FileSystemWriter $fileSystemWriter,
-        Configuration $configuration,
-        HtmlToAmpConvertor $htmlToAmpConvertor,
-        AmpLinkDecorator $ampLinkDecorator
+        Configuration $configuration
     ) {
         $this->fileFactory = $fileFactory;
-        $this->routeDecorator = $routeDecorator;
-        $this->configurationDecorator = $configurationDecorator;
-        $this->markdownDecorator = $markdownDecorator;
-        $this->latteDecorator = $latteDecorator;
         $this->fileSystemWriter = $fileSystemWriter;
         $this->configuration = $configuration;
-        $this->htmlToAmpConvertor = $htmlToAmpConvertor;
-        $this->ampLinkDecorator = $ampLinkDecorator;
+    }
+
+    public function addFileDecorator(FileDecoratorInterface $fileDecorator): void
+    {
+        $this->fileDecorators[] = $fileDecorator;
     }
 
     /**
@@ -93,26 +55,15 @@ final class RenderableFilesProcessor
         if (! count($fileInfos)) {
             return;
         }
-
         $files = $this->createFileObjectsFromFileInfos($fileInfos);
 
         $this->setPostsToConfiguration($files);
-        $this->setRoutesToFiles($files);
 
-        $this->setFileConfigurationToFile($files);
-        $this->formatFileContentFromMarkdownToHtml($files);
-        $this->formatFileContentFromLatteToHtml($files);
-
-        if ($this->configuration->isAmpEnabled()) {
-            $ampFiles = $this->cloneArray($files);
-            $this->formatFileContentWithAmpLink($files);
-            $this->fileSystemWriter->copyRenderableFiles($files);
-
-            $ampFiles = $this->createAmpVersions($ampFiles);
-            $this->fileSystemWriter->copyRenderableFiles($ampFiles);
-        } else {
-            $this->fileSystemWriter->copyRenderableFiles($files);
+        foreach ($this->getFileDecorators() as $fileDecorator) {
+            $files = $fileDecorator->decorateFiles($files);
         }
+
+        $this->fileSystemWriter->copyRenderableFiles($files);
     }
 
     /**
@@ -140,94 +91,19 @@ final class RenderableFilesProcessor
     }
 
     /**
-     * @param File[] $files
+     * @return FileDecoratorInterface[]
      */
-    private function setRoutesToFiles(array $files): void
+    private function getFileDecorators(): array
     {
-        foreach ($files as $file) {
-            $this->routeDecorator->decorateFile($file);
-        }
+        $this->sortFileDecorators();
+
+        return $this->fileDecorators;
     }
 
-    /**
-     * @param File[] $files
-     */
-    private function setFileConfigurationToFile(array $files): void
+    private function sortFileDecorators(): void
     {
-        foreach ($files as $file) {
-            $this->configurationDecorator->decorateFile($file);
-        }
-    }
-
-    /**
-     * @param File[] $files
-     */
-    private function formatFileContentFromMarkdownToHtml(array $files): void
-    {
-        foreach ($files as $file) {
-            $this->markdownDecorator->decorateFile($file);
-        }
-    }
-
-    /**
-     * @param File[] $files
-     */
-    private function formatFileContentFromLatteToHtml(array $files): void
-    {
-        foreach ($files as $file) {
-            $this->latteDecorator->decorateFile($file);
-        }
-    }
-
-    /**
-     * @param File[] $files
-     * @return File[] $files
-     */
-    private function formatFileContentWithAmpLink(array $files): array
-    {
-        foreach ($files as $file) {
-            $this->ampLinkDecorator->decorateFile($file);
-        }
-
-        return $files;
-    }
-
-    /**
-     * @param File[] $files
-     * @return File[] $files
-     */
-    private function createAmpVersions(array $files): array
-    {
-        $ampFiles = [];
-        foreach ($files as $file) {
-            if (! Strings::endsWith($file->getOutputPath(), '.html')) {
-                continue;
-            }
-
-            $baseUrl = $this->configuration->getOptions()['baseUrl'] ?? '';
-            $originalUrl = $baseUrl . $file->getOutputPath();
-
-            $amp = $this->htmlToAmpConvertor->convert($file->getContent(), $originalUrl);
-            $file->changeContent($amp);
-
-            $file->setOutputPath('/amp/' . $file->getOutputPath());
-            $ampFiles[] = $file;
-        }
-
-        return $ampFiles;
-    }
-
-    /**
-     * @param File[] $files
-     * @return File[]
-     */
-    private function cloneArray(array $files): array
-    {
-        $clonedFiles = [];
-        foreach ($files as $key => $file) {
-            $clonedFiles[$key] = clone $file;
-        }
-
-        return $clonedFiles;
+        usort($this->fileDecorators, function (FileDecoratorInterface $first, FileDecoratorInterface $second) {
+            return $first->getPriority() < $second->getPriority();
+        });
     }
 }

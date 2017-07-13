@@ -4,10 +4,11 @@ namespace Symplify\Statie\Renderable\Configuration;
 
 use Nette\Neon\Exception;
 use Symplify\Statie\Configuration\Parser\NeonParser;
+use Symplify\Statie\Contract\Renderable\FileDecoratorInterface;
 use Symplify\Statie\Exception\Neon\InvalidNeonSyntaxException;
 use Symplify\Statie\Renderable\File\AbstractFile;
 
-final class ConfigurationDecorator
+final class ConfigurationDecorator implements FileDecoratorInterface
 {
     /**
      * @var NeonParser
@@ -19,7 +20,25 @@ final class ConfigurationDecorator
         $this->neonParser = $neonParser;
     }
 
-    public function decorateFile(AbstractFile $file): void
+    /**
+     * @param AbstractFile[] $files
+     * @return AbstractFile[]
+     */
+    public function decorateFiles(array $files): array
+    {
+        foreach ($files as $file) {
+            $this->decorateFile($file);
+        }
+
+        return $files;
+    }
+
+    public function getPriority(): int
+    {
+        return 900;
+    }
+
+    private function decorateFile(AbstractFile $file): void
     {
         if (preg_match('/^\s*(?:---[\s]*[\r\n]+)(.*?)(?:---[\s]*[\r\n]+)(.*?)$/s', $file->getContent(), $matches)) {
             $file->changeContent($matches[2]);

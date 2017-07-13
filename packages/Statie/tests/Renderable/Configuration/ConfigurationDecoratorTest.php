@@ -38,7 +38,7 @@ final class ConfigurationDecoratorTest extends AbstractContainerAwareTestCase
         $this->assertSame([], $file->getConfiguration());
         $this->assertNotSame($fileContent, $file->getContent());
 
-        $this->configurationDecorator->decorateFile($file);
+        $this->configurationDecorator->decorateFiles([$file]);
 
         $this->assertSame($fileContent, $file->getContent());
         $this->assertSame($expectedConfiguration, $file->getConfiguration());
@@ -55,7 +55,7 @@ final class ConfigurationDecoratorTest extends AbstractContainerAwareTestCase
             'Invalid NEON syntax found in "%s" file: Bad indentation on line 2, column 3.', $brokenNeonFilePath
         ));
 
-        $this->configurationDecorator->decorateFile($file);
+        $this->configurationDecorator->decorateFiles([$file]);
     }
 
     /**

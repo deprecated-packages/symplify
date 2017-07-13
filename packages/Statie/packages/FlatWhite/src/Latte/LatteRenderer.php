@@ -15,8 +15,14 @@ final class LatteRenderer
 
     /**
      * @var string
+     * @see https://regex101.com/r/9jglKd/2/
      */
-    private const MATCH_PLACEHOLDERS = '#^' . self::PLACEHOLDER_PREFIX . '[0-9]+$#m';
+    private const MATCH_CODE_INLINE = '#`[^`]+`#';
+
+    /**
+     * @var string
+     */
+    private const MATCH_PLACEHOLDERS = '#' . self::PLACEHOLDER_PREFIX . '[0-9]+#m';
 
     /**
      * @var string
@@ -28,9 +34,15 @@ final class LatteRenderer
      */
     private $latte;
 
-    public function __construct(LatteFactory $latteFactory)
+    /**
+     * @var DynamicStringLoader
+     */
+    private $dynamicStringLoader;
+
+    public function __construct(LatteFactory $latteFactory, DynamicStringLoader $dynamicStringLoader)
     {
         $this->latte = $latteFactory->create();
+        $this->dynamicStringLoader = $dynamicStringLoader;
     }
 
     /**
@@ -40,6 +52,11 @@ final class LatteRenderer
     {
         $i = 0;
         $highlightedCodeBlocks = [];
+
+        // due to StringLoader
+        // make sure we have content and not file name
+        $originalReference = $content;
+        $content = $this->dynamicStringLoader->getContent($content);
 
         $contentWithPlaceholders = Strings::replace(
             $content,
@@ -53,7 +70,21 @@ final class LatteRenderer
             }
         );
 
-        $renderedContentWithPlaceholders = $this->latte->renderToString($contentWithPlaceholders, $parameters);
+        $contentWithPlaceholders = Strings::replace(
+            $contentWithPlaceholders,
+            self::MATCH_CODE_INLINE,
+            function (array $match) use (&$i, &$highlightedCodeBlocks) {
+                $highlightedCodeBlock = $match[0];
+                $placeholder = self::PLACEHOLDER_PREFIX . ++$i;
+                $highlightedCodeBlocks[$placeholder] = $highlightedCodeBlock;
+
+                return $placeholder;
+            }
+        );
+
+        // due to StringLoader
+        $this->dynamicStringLoader->changeContent($originalReference, $contentWithPlaceholders);
+        $renderedContentWithPlaceholders = $this->latte->renderToString($originalReference, $parameters);
 
         return Strings::replace(
             $renderedContentWithPlaceholders,

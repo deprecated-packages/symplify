@@ -4,14 +4,14 @@ namespace Symplify\Statie\Renderable\Latte;
 
 use Latte\CompileException;
 use Symplify\Statie\Configuration\Configuration;
-use Symplify\Statie\Contract\Renderable\DecoratorInterface;
+use Symplify\Statie\Contract\Renderable\FileDecoratorInterface;
 use Symplify\Statie\Exception\Latte\InvalidLatteSyntaxException;
 use Symplify\Statie\FlatWhite\Latte\DynamicStringLoader;
 use Symplify\Statie\FlatWhite\Latte\LatteRenderer;
 use Symplify\Statie\Renderable\File\AbstractFile;
 use Symplify\Statie\Renderable\File\PostFile;
 
-final class LatteDecorator implements DecoratorInterface
+final class LatteFileDecorator implements FileDecoratorInterface
 {
     /**
      * @var Configuration
@@ -38,7 +38,25 @@ final class LatteDecorator implements DecoratorInterface
         $this->latteRenderer = $latteRenderer;
     }
 
-    public function decorateFile(AbstractFile $file): void
+    /**
+     * @param AbstractFile[] $files
+     * @return AbstractFile[]
+     */
+    public function decorateFiles(array $files): array
+    {
+        foreach ($files as $file) {
+            $this->decorateFile($file);
+        }
+
+        return $files;
+    }
+
+    public function getPriority(): int
+    {
+        return 700;
+    }
+
+    private function decorateFile(AbstractFile $file): void
     {
         $options = $this->configuration->getOptions();
 
@@ -49,14 +67,22 @@ final class LatteDecorator implements DecoratorInterface
 
         if ($file instanceof PostFile) {
             $parameters['post'] = $file;
+
+            // add "post" layout by default
+            $file->changeContent('{layout "post"}' . PHP_EOL . $file->getContent());
+            $this->addTemplateToDynamicLatteStringLoader($file);
+
+            $htmlContent = $this->renderToString($file, $parameters);
+
+            // trim {layout %s} left over
+            $htmlContent = preg_replace('/{layout "[a-z]+"}/', '', $htmlContent);
+
+            $file->changeContent($htmlContent);
+        } else {
+            // normal file
+            $htmlContent = $this->renderOuterWithLayout($file, $parameters);
+            $file->changeContent($htmlContent);
         }
-
-        $this->renderInnerPostContent($file, $parameters);
-
-        $htmlContent = $this->renderOuterWithLayout($file, $parameters);
-        $htmlContent = $this->trimLeftOverLayoutTag($file, $htmlContent);
-
-        $file->changeContent($htmlContent);
     }
 
     private function addTemplateToDynamicLatteStringLoader(AbstractFile $file): void
@@ -80,33 +106,12 @@ final class LatteDecorator implements DecoratorInterface
     /**
      * @param mixed[] $parameters
      */
-    private function renderInnerPostContent(AbstractFile $file, array $parameters): void
-    {
-        if ($file instanceof PostFile) {
-            $this->addTemplateToDynamicLatteStringLoader($file);
-            $htmlContent = $this->renderToString($file, $parameters);
-            $file->changeContent($htmlContent);
-        }
-    }
-
-    /**
-     * @param mixed[] $parameters
-     */
     private function renderOuterWithLayout(AbstractFile $file, array $parameters): string
     {
         $this->prependLayoutToFileContent($file);
         $this->addTemplateToDynamicLatteStringLoader($file);
 
         return $this->renderToString($file, $parameters);
-    }
-
-    private function trimLeftOverLayoutTag(AbstractFile $file, string $htmlContent): string
-    {
-        if ($file instanceof PostFile) {
-            return preg_replace('/{layout "[a-z]+"}/', '', $htmlContent);
-        }
-
-        return $htmlContent;
     }
 
     /**
