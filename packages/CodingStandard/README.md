@@ -13,6 +13,11 @@ composer require symplify/coding-standard --dev
 
 ## Rules Overview
 
+### 
+
+@todo: add - InjectToConstructorInjectionFixer
+
+
 ### Traits are forbidden. Prefer services and constructor injection
 
 - [Architecture/ForbiddenTraitSniff](/src/Sniffs/Architecture/ForbiddenTraitSniff.php)
