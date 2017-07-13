@@ -60,9 +60,10 @@ final class RouteFileDecorator implements FileDecoratorInterface, RouteCollector
         }
 
         $relativeDirectory = $this->getRelativeDirectory($file);
-        $file->setOutputPath(
-            $relativeDirectory . DIRECTORY_SEPARATOR . $file->getBaseName() . DIRECTORY_SEPARATOR . 'index.html'
-        );
+        $relativeOutputDirectory = $relativeDirectory . DIRECTORY_SEPARATOR . $file->getBaseName();
+        $outputPath = $relativeOutputDirectory . DIRECTORY_SEPARATOR . 'index.html';
+
+        $file->setOutputPath($outputPath);
         $file->setRelativeUrl($relativeDirectory . DIRECTORY_SEPARATOR . $file->getBaseName());
     }
 
