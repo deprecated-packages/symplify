@@ -9,6 +9,8 @@ services:
     Symplify\Statie\FlatWhite\:
         resource: ../../packages/FlatWhite/src
         exclude: ../../packages/FlatWhite/src/{Exception}
+    Symplify\Statie\SimilarPosts\:
+        resource: ../../packages/SimilarPosts/src
 
     # 3rd party services
     Symfony\Component\Console\Application: ~
