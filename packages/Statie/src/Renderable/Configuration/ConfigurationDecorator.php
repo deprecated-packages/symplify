@@ -35,7 +35,7 @@ final class ConfigurationDecorator implements FileDecoratorInterface
 
     public function getPriority(): int
     {
-        return 900;
+        return 1000;
     }
 
     private function decorateFile(AbstractFile $file): void
