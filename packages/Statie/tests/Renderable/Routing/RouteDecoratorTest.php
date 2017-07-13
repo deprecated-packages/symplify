@@ -9,13 +9,13 @@ use Symplify\Statie\Renderable\File\FileFactory;
 use Symplify\Statie\Renderable\Routing\Route\IndexRoute;
 use Symplify\Statie\Renderable\Routing\Route\NotHtmlRoute;
 use Symplify\Statie\Renderable\Routing\Route\PostRoute;
-use Symplify\Statie\Renderable\Routing\RouteDecorator;
+use Symplify\Statie\Renderable\Routing\RouteFileDecorator;
 use Symplify\Statie\Tests\AbstractContainerAwareTestCase;
 
 final class RouteDecoratorTest extends AbstractContainerAwareTestCase
 {
     /**
-     * @var RouteDecorator
+     * @var RouteFileDecorator
      */
     private $routeDecorator;
 
@@ -36,7 +36,7 @@ final class RouteDecoratorTest extends AbstractContainerAwareTestCase
         $configuration = $this->container->get(Configuration::class);
         $configuration->setSourceDirectory(__DIR__ . '/RoutingDecoratorSource');
 
-        $this->routeDecorator->decorateFile($file);
+        $this->routeDecorator->decorateFiles([$file]);
         $this->assertSame('/someFile', $file->getRelativeUrl());
         $this->assertSame('/someFile' . DIRECTORY_SEPARATOR . 'index.html', $file->getOutputPath());
     }
@@ -45,7 +45,7 @@ final class RouteDecoratorTest extends AbstractContainerAwareTestCase
     {
         $file = $this->createFileFromFilePath(__DIR__ . '/RoutingDecoratorSource/static.css');
 
-        $this->routeDecorator->decorateFile($file);
+        $this->routeDecorator->decorateFiles([$file]);
         $this->assertSame('static.css', $file->getRelativeUrl());
         $this->assertSame('static.css', $file->getOutputPath());
     }
@@ -54,14 +54,14 @@ final class RouteDecoratorTest extends AbstractContainerAwareTestCase
     {
         $file = $this->createFileFromFilePath(__DIR__ . '/RoutingDecoratorSource/index.html');
 
-        $this->routeDecorator->decorateFile($file);
+        $this->routeDecorator->decorateFiles([$file]);
         $this->assertSame('index.html', $file->getOutputPath());
         $this->assertSame('/', $file->getRelativeUrl());
 
         $fileInfo = new SplFileInfo(__DIR__ . '/RoutingDecoratorSource/index.latte');
         $file = $this->getFileFactory()->create($fileInfo);
 
-        $this->routeDecorator->decorateFile($file);
+        $this->routeDecorator->decorateFiles([$file]);
         $this->assertSame('index.html', $file->getOutputPath());
         $this->assertSame('/', $file->getRelativeUrl());
     }
@@ -70,7 +70,7 @@ final class RouteDecoratorTest extends AbstractContainerAwareTestCase
     {
         $file = $this->createFileFromFilePath(__DIR__ . '/RoutingDecoratorSource/_posts/2016-10-10-somePost.html');
 
-        $this->routeDecorator->decorateFile($file);
+        $this->routeDecorator->decorateFiles([$file]);
         $this->assertSame('blog/somePost', $file->getRelativeUrl());
     }
 
@@ -90,9 +90,9 @@ final class RouteDecoratorTest extends AbstractContainerAwareTestCase
             ->create($fileInfo);
     }
 
-    private function createRouterDecorator(Configuration $configuration): RouteDecorator
+    private function createRouterDecorator(Configuration $configuration): RouteFileDecorator
     {
-        $routeDecorator = new RouteDecorator($configuration);
+        $routeDecorator = new RouteFileDecorator($configuration);
         $routeDecorator->addRoute(new IndexRoute);
         $routeDecorator->addRoute(new PostRoute($configuration));
         $routeDecorator->addRoute(new NotHtmlRoute);

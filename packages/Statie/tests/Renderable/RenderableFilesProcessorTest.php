@@ -2,7 +2,6 @@
 
 namespace Symplify\Statie\Tests\Renderable;
 
-
 use Nette\Utils\FileSystem;
 use Nette\Utils\Finder;
 use PHPUnit\Framework\TestCase;

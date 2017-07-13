@@ -4,14 +4,14 @@ namespace Symplify\Statie\Renderable\Latte;
 
 use Latte\CompileException;
 use Symplify\Statie\Configuration\Configuration;
-use Symplify\Statie\Contract\Renderable\DecoratorInterface;
+use Symplify\Statie\Contract\Renderable\FileDecoratorInterface;
 use Symplify\Statie\Exception\Latte\InvalidLatteSyntaxException;
 use Symplify\Statie\FlatWhite\Latte\DynamicStringLoader;
 use Symplify\Statie\FlatWhite\Latte\LatteRenderer;
 use Symplify\Statie\Renderable\File\AbstractFile;
 use Symplify\Statie\Renderable\File\PostFile;
 
-final class LatteDecorator implements DecoratorInterface
+final class LatteFileDecorator implements FileDecoratorInterface
 {
     /**
      * @var Configuration
@@ -36,6 +36,19 @@ final class LatteDecorator implements DecoratorInterface
         $this->configuration = $configuration;
         $this->dynamicStringLoader = $dynamicStringLoader;
         $this->latteRenderer = $latteRenderer;
+    }
+
+    /**
+     * @param AbstractFile[] $files
+     * @return AbstractFile[]
+     */
+    public function decorateFiles(array $files): array
+    {
+        foreach ($files as $file) {
+            $this->decorateFile($file);
+        }
+
+        return $files;
     }
 
     public function decorateFile(AbstractFile $file): void
@@ -87,7 +100,6 @@ final class LatteDecorator implements DecoratorInterface
         $layoutLine = sprintf('{layout "%s"}', $file->getLayout());
         $file->changeContent($layoutLine . PHP_EOL . PHP_EOL . $file->getContent());
     }
-
     /**
      * @param mixed[] $parameters
      */
@@ -106,6 +118,7 @@ final class LatteDecorator implements DecoratorInterface
 //        }
 //
 //        return $htmlContent;
+
 //    }
 
     /**
@@ -122,5 +135,10 @@ final class LatteDecorator implements DecoratorInterface
                 $latteCompileException->getMessage()
             ));
         }
+    }
+
+    public function getPriority(): int
+    {
+        return 700;
     }
 }

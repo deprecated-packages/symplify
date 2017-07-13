@@ -6,13 +6,13 @@ use SplFileInfo;
 use Symplify\Statie\Configuration\Configuration;
 use Symplify\Statie\Renderable\File\AbstractFile;
 use Symplify\Statie\Renderable\File\FileFactory;
-use Symplify\Statie\Renderable\Markdown\MarkdownDecorator;
+use Symplify\Statie\Renderable\Markdown\MarkdownFileDecorator;
 use Symplify\Statie\Tests\AbstractContainerAwareTestCase;
 
 final class MarkdownDecoratorTest extends AbstractContainerAwareTestCase
 {
     /**
-     * @var MarkdownDecorator
+     * @var MarkdownFileDecorator
      */
     private $markdownDecorator;
 
@@ -25,13 +25,13 @@ final class MarkdownDecoratorTest extends AbstractContainerAwareTestCase
     {
         $this->configuration = $this->container->get(Configuration::class);
         $this->configuration->disableMarkdownHeadlineAnchors();
-        $this->markdownDecorator = $this->container->get(MarkdownDecorator::class);
+        $this->markdownDecorator = $this->container->get(MarkdownFileDecorator::class);
     }
 
     public function testNotMarkdown(): void
     {
         $file = $this->createFileFromFilePath(__DIR__ . '/MarkdownDecoratorSource/someFile.latte');
-        $this->markdownDecorator->decorateFile($file);
+        $this->markdownDecorator->decorateFiles([$file]);
 
         $this->assertContains('# Content...', $file->getContent());
     }
@@ -39,7 +39,7 @@ final class MarkdownDecoratorTest extends AbstractContainerAwareTestCase
     public function testMarkdown(): void
     {
         $file = $this->createFileFromFilePath(__DIR__ . '/MarkdownDecoratorSource/someFile.md');
-        $this->markdownDecorator->decorateFile($file);
+        $this->markdownDecorator->decorateFiles([$file]);
 
         $this->assertContains('<h1>Content...</h1>', $file->getContent());
     }
@@ -49,7 +49,7 @@ final class MarkdownDecoratorTest extends AbstractContainerAwareTestCase
         $this->configuration->enableMarkdownHeadlineAnchors();
 
         $file = $this->createFileFromFilePath(__DIR__ . '/MarkdownDecoratorSource/someFile.md');
-        $this->markdownDecorator->decorateFile($file);
+        $this->markdownDecorator->decorateFiles([$file]);
 
         $this->assertSame(
             '<h1 id="content"><a class="anchor" href="#content" aria-hidden="true">' .
