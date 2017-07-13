@@ -19,6 +19,25 @@ final class FileFactory
     }
 
     /**
+     * @param SplFileInfo[] $fileInfos
+     * @return AbstractFile[]
+     */
+    public function createFromFileInfos(array $fileInfos): array
+    {
+        $files = [];
+        foreach ($fileInfos as $id => $fileInfo) {
+            $files[$id] = $this->create($fileInfo);
+        }
+
+        return $files;
+    }
+
+    public function createFromFilePath(string $filePath): AbstractFile
+    {
+        return $this->create(new SplFileInfo($filePath));
+    }
+
+    /**
      * @return File|PostFile
      */
     public function create(SplFileInfo $file): AbstractFile

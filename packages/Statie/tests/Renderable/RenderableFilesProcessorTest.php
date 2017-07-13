@@ -69,8 +69,8 @@ final class RenderableFilesProcessorTest extends TestCase
 
         $this->renderableFilesProcessor->processFiles($fileInfos);
 
-        $htmlContactFile = __DIR__ . '/RenderFilesProcessorSource/output/contact/index.html';
-        $ampContactFile = __DIR__ . '/RenderFilesProcessorSource/output/amp/contact/index.html';
+        $htmlContactFile = __DIR__ . '/RenderFilesProcessorSource/output/contact-me.html';
+        $ampContactFile = __DIR__ . '/RenderFilesProcessorSource/output/amp/contact-me.html';
 
         $this->assertFileExists($htmlContactFile);
         $this->assertFileExists($ampContactFile);

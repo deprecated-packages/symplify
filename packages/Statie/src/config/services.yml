@@ -6,9 +6,12 @@ services:
     Symplify\Statie\:
         resource: ../../src
         exclude: ../../src/{Exception,Renderable/File/File.php,Renderable/File/PostFile.php}
+    Symplify\Statie\Amp\:
+        resource: ../../packages/Amp/src
     Symplify\Statie\FlatWhite\:
         resource: ../../packages/FlatWhite/src
-        exclude: ../../packages/FlatWhite/src/{Exception}
+    Symplify\Statie\SimilarPosts\:
+        resource: ../../packages/SimilarPosts/src
 
     # 3rd party services
     Symfony\Component\Console\Application: ~

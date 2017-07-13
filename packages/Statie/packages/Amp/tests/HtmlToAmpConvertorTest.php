@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\Statie\Tests\Amp;
+namespace Symplify\Statie\Amp\Tests;
 
 use Symplify\Statie\Amp\HtmlToAmpConvertor;
 use Symplify\Statie\Exception\Amp\NonHtmlFileException;

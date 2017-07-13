@@ -35,13 +35,17 @@
     "autoload": {
         "psr-4": {
             "Symplify\\Statie\\": "src",
-            "Symplify\\Statie\\FlatWhite\\": "packages/FlatWhite/src"
+            "Symplify\\Statie\\Amp\\": "packages/Amp/src",
+            "Symplify\\Statie\\FlatWhite\\": "packages/FlatWhite/src",
+            "Symplify\\Statie\\SimilarPosts\\": "packages/SimilarPosts/src"
         }
     },
     "autoload-dev": {
         "psr-4": {
             "Symplify\\Statie\\Tests\\": "tests",
-            "Symplify\\Statie\\FlatWhite\\Tests\\": "packages/FlatWhite/tests"
+            "Symplify\\Statie\\Amp\\Tests\\": "packages/Amp/tests",
+            "Symplify\\Statie\\FlatWhite\\Tests\\": "packages/FlatWhite/tests",
+            "Symplify\\Statie\\SimilarPosts\\Tests\\": "packages/SimilarPosts/tests"
         }
     }
 }

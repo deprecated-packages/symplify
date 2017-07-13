@@ -6,7 +6,7 @@ use SplFileInfo;
 use Symplify\Statie\Configuration\Configuration;
 use Symplify\Statie\Contract\Renderable\FileDecoratorInterface;
 use Symplify\Statie\Output\FileSystemWriter;
-use Symplify\Statie\Renderable\File\File;
+use Symplify\Statie\Renderable\File\AbstractFile;
 use Symplify\Statie\Renderable\File\FileFactory;
 use Symplify\Statie\Renderable\File\PostFile;
 
@@ -55,7 +55,7 @@ final class RenderableFilesProcessor
         if (! count($fileInfos)) {
             return;
         }
-        $files = $this->createFileObjectsFromFileInfos($fileInfos);
+        $files = $this->fileFactory->createFromFileInfos($fileInfos);
 
         $this->setPostsToConfiguration($files);
 
@@ -67,21 +67,7 @@ final class RenderableFilesProcessor
     }
 
     /**
-     * @param SplFileInfo[] $fileInfos
-     * @return File[]
-     */
-    private function createFileObjectsFromFileInfos(array $fileInfos): array
-    {
-        $files = [];
-        foreach ($fileInfos as $id => $fileInfo) {
-            $files[$id] = $this->fileFactory->create($fileInfo);
-        }
-
-        return $files;
-    }
-
-    /**
-     * @param File[] $files
+     * @param AbstractFile[] $files
      */
     private function setPostsToConfiguration(array $files): void
     {

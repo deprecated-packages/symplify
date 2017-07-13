@@ -1,2 +1,0 @@
-parameters:
-    post_route: blog/:year/:month/:day/:filename

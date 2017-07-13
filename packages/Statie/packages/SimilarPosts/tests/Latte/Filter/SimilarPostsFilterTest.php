@@ -1,15 +1,20 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\Statie\Tests\Latte\Filter;
+namespace Symplify\Statie\SimilarPosts\Tests\Latte\Filter;
 
 use Symplify\Statie\Configuration\Configuration;
-use Symplify\Statie\Latte\Filter\SimilarPostsFilter;
 use Symplify\Statie\Renderable\File\PostFile;
+use Symplify\Statie\SimilarPosts\Latte\Filter\SimilarPostsFilter;
 use Symplify\Statie\Tests\AbstractContainerAwareTestCase;
 use Symplify\Statie\Tests\Helper\PostFactory;
 
 final class SimilarPostsFilterTest extends AbstractContainerAwareTestCase
 {
+    /**
+     * @var string
+     */
+    private const POST_SOURCE_DIRECTORY = __DIR__ . '/../../../../../tests/PostsSource';
+
     /**
      * @var SimilarPostsFilter
      */
@@ -34,7 +39,7 @@ final class SimilarPostsFilterTest extends AbstractContainerAwareTestCase
         $filters = $this->similarPostFilter->provide();
 
         $mainPost = $this->postFactory->createPostFromFilePath(
-            __DIR__ . '/../../PostsSource/2017-01-01-some-post.md'
+            self::POST_SOURCE_DIRECTORY . '/2017-01-01-some-post.md'
         );
 
         $similarPosts = $filters['similarPosts']($mainPost, 3);
@@ -49,16 +54,16 @@ final class SimilarPostsFilterTest extends AbstractContainerAwareTestCase
     {
         return [
             $this->postFactory->createPostFromFilePath(
-                __DIR__ . '/../../PostsSource/2017-01-01-some-post.md'
+                self::POST_SOURCE_DIRECTORY . '/2017-01-01-some-post.md'
             ),
             $this->postFactory->createPostFromFilePath(
-                __DIR__ . '/../../PostsSource/2017-01-05-some-related-post.md'
+                self::POST_SOURCE_DIRECTORY . '/2017-01-05-some-related-post.md'
             ),
             $this->postFactory->createPostFromFilePath(
-                __DIR__ . '/../../PostsSource/2017-01-05-another-related-post.md'
+                self::POST_SOURCE_DIRECTORY . '/2017-01-05-another-related-post.md'
             ),
             $this->postFactory->createPostFromFilePath(
-                __DIR__ . '/../../PostsSource/2017-02-05-offtopic-post.md'
+                self::POST_SOURCE_DIRECTORY . '/2017-02-05-offtopic-post.md'
             ),
         ];
     }

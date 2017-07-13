@@ -1,15 +1,20 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\Statie\Tests\Metrics;
+namespace Symplify\Statie\SimilarPosts\Tests;
 
 use Symplify\Statie\Configuration\Configuration;
-use Symplify\Statie\Metrics\SimilarPostsResolver;
 use Symplify\Statie\Renderable\File\PostFile;
+use Symplify\Statie\SimilarPosts\SimilarPostsResolver;
 use Symplify\Statie\Tests\AbstractContainerAwareTestCase;
 use Symplify\Statie\Tests\Helper\PostFactory;
 
 final class SimilarPostsResolverTest extends AbstractContainerAwareTestCase
 {
+    /**
+     * @var string
+     */
+    private const POST_SOURCE_DIRECTORY = __DIR__ . '/../../../tests/PostsSource';
+
     /**
      * @var PostFile
      */
@@ -35,7 +40,7 @@ final class SimilarPostsResolverTest extends AbstractContainerAwareTestCase
         $configuration->addPosts($this->getAllPosts());
 
         $this->mainPost = $this->postFactory->createPostFromFilePath(
-            __DIR__ . '/../PostsSource/2017-01-05-another-related-post.md'
+            self::POST_SOURCE_DIRECTORY . '/2017-01-05-another-related-post.md'
         );
     }
 
@@ -61,16 +66,16 @@ final class SimilarPostsResolverTest extends AbstractContainerAwareTestCase
     {
         return [
             $this->postFactory->createPostFromFilePath(
-                __DIR__ . '/../PostsSource/2017-01-01-some-post.md'
+                self::POST_SOURCE_DIRECTORY . '/2017-01-01-some-post.md'
             ),
             $this->postFactory->createPostFromFilePath(
-                __DIR__ . '/../PostsSource/2017-01-05-some-related-post.md'
+                self::POST_SOURCE_DIRECTORY . '/2017-01-05-some-related-post.md'
             ),
             $this->postFactory->createPostFromFilePath(
-                __DIR__ . '/../PostsSource/2017-01-05-another-related-post.md'
+                self::POST_SOURCE_DIRECTORY . '/2017-01-05-another-related-post.md'
             ),
             $this->postFactory->createPostFromFilePath(
-                __DIR__ . '/../PostsSource/2017-02-05-offtopic-post.md'
+                self::POST_SOURCE_DIRECTORY . '/2017-02-05-offtopic-post.md'
             ),
         ];
     }

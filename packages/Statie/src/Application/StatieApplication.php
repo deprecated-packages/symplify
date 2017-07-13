@@ -9,7 +9,6 @@ use Symplify\Statie\FlatWhite\Latte\DynamicStringLoader;
 use Symplify\Statie\Output\FileSystemWriter;
 use Symplify\Statie\Renderable\RenderableFilesProcessor;
 use Symplify\Statie\Source\SourceFileStorage;
-use Symplify\Statie\Utils\FilesystemChecker;
 
 final class StatieApplication
 {
@@ -54,21 +53,14 @@ final class StatieApplication
 
     public function run(string $source, string $destination): void
     {
-        $this->loadConfigurationWithDirectories($source, $destination);
-
-        FilesystemChecker::ensureDirectoryExists($source);
+        $this->configuration->setSourceDirectory($source);
+        $this->configuration->setOutputDirectory($destination);
 
         $this->loadSourcesFromSourceDirectory($source);
 
         $this->fileSystemWriter->copyStaticFiles($this->sourceFileStorage->getStaticFiles());
 
         $this->processTemplates();
-    }
-
-    private function loadConfigurationWithDirectories(string $source, string $destination): void
-    {
-        $this->configuration->setSourceDirectory($source);
-        $this->configuration->setOutputDirectory($destination);
     }
 
     private function loadSourcesFromSourceDirectory(string $sourceDirectory): void

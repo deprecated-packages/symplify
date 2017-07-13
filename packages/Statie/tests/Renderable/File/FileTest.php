@@ -17,7 +17,7 @@ final class FileTest extends AbstractContainerAwareTestCase
     protected function setUp(): void
     {
         $configuration = $this->container->get(Configuration::class);
-        $configuration->setSourceDirectory('sourceDirectory');
+        $configuration->setSourceDirectory(__DIR__ . '/FileFactorySource');
 
         $this->fileFactory = $this->container->get(FileFactory::class);
     }
@@ -27,13 +27,12 @@ final class FileTest extends AbstractContainerAwareTestCase
         $fileInfo = new SplFileInfo(__DIR__ . '/FileFactorySource/someFile.latte');
         $file = $this->fileFactory->create($fileInfo);
 
-        $this->assertStringEndsWith('/FileFactorySource/someFile.latte', $file->getRelativeSource());
+        $this->assertSame('someFile.latte', $file->getRelativeSource());
     }
 
     public function testGetPrimaryExtension(): void
     {
-        $fileInfo = new SplFileInfo(__DIR__ . '/FileSource/some.html.latte');
-        $file = $this->fileFactory->create($fileInfo);
+        $file = $this->fileFactory->createFromFilePath(__DIR__ . '/FileSource/some.html.latte');
 
         $this->assertSame('html', $file->getPrimaryExtension());
     }

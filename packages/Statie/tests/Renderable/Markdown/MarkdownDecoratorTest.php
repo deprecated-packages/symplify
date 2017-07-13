@@ -2,9 +2,7 @@
 
 namespace Symplify\Statie\Tests\Renderable\Markdown;
 
-use SplFileInfo;
 use Symplify\Statie\Configuration\Configuration;
-use Symplify\Statie\Renderable\File\AbstractFile;
 use Symplify\Statie\Renderable\File\FileFactory;
 use Symplify\Statie\Renderable\Markdown\MarkdownFileDecorator;
 use Symplify\Statie\Tests\AbstractContainerAwareTestCase;
@@ -21,16 +19,23 @@ final class MarkdownDecoratorTest extends AbstractContainerAwareTestCase
      */
     private $configuration;
 
+    /**
+     * @var FileFactory
+     */
+    private $fileFactory;
+
     protected function setUp(): void
     {
         $this->configuration = $this->container->get(Configuration::class);
         $this->configuration->disableMarkdownHeadlineAnchors();
         $this->markdownDecorator = $this->container->get(MarkdownFileDecorator::class);
+
+        $this->fileFactory = $this->container->get(FileFactory::class);
     }
 
     public function testNotMarkdown(): void
     {
-        $file = $this->createFileFromFilePath(__DIR__ . '/MarkdownDecoratorSource/someFile.latte');
+        $file = $this->fileFactory->createFromFilePath(__DIR__ . '/MarkdownDecoratorSource/someFile.latte');
         $this->markdownDecorator->decorateFiles([$file]);
 
         $this->assertContains('# Content...', $file->getContent());
@@ -38,7 +43,7 @@ final class MarkdownDecoratorTest extends AbstractContainerAwareTestCase
 
     public function testMarkdown(): void
     {
-        $file = $this->createFileFromFilePath(__DIR__ . '/MarkdownDecoratorSource/someFile.md');
+        $file = $this->fileFactory->createFromFilePath(__DIR__ . '/MarkdownDecoratorSource/someFile.md');
         $this->markdownDecorator->decorateFiles([$file]);
 
         $this->assertContains('<h1>Content...</h1>', $file->getContent());
@@ -48,7 +53,7 @@ final class MarkdownDecoratorTest extends AbstractContainerAwareTestCase
     {
         $this->configuration->enableMarkdownHeadlineAnchors();
 
-        $file = $this->createFileFromFilePath(__DIR__ . '/MarkdownDecoratorSource/someFile.md');
+        $file = $this->fileFactory->createFromFilePath(__DIR__ . '/MarkdownDecoratorSource/someFile.md');
         $this->markdownDecorator->decorateFiles([$file]);
 
         $this->assertSame(
@@ -56,15 +61,5 @@ final class MarkdownDecoratorTest extends AbstractContainerAwareTestCase
             '<span class="anchor-icon">#</span></a>Content...</h1>',
             $file->getContent()
         );
-    }
-
-    private function createFileFromFilePath(string $filePath): AbstractFile
-    {
-        $fileInfo = new SplFileInfo($filePath);
-
-        $configuration = $this->container->get(Configuration::class);
-        $configuration->setSourceDirectory('sourceDirectory');
-
-        return (new FileFactory($configuration))->create($fileInfo);
     }
 }

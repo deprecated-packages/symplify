@@ -53,7 +53,9 @@
             "Symplify\\EasyCodingStandard\\FixerRunner\\": "packages/EasyCodingStandard/packages/FixerRunner/src",
             "Symplify\\PackageBuilder\\": "packages/PackageBuilder/src",
             "Symplify\\Statie\\": "packages/Statie/src",
+            "Symplify\\Statie\\Amp\\": "packages/Statie/packages/Amp/src",
             "Symplify\\Statie\\FlatWhite\\": "packages/Statie/packages/FlatWhite/src",
+            "Symplify\\Statie\\SimilarPosts\\": "packages/Statie/packages/SimilarPosts/src",
             "Symplify\\SymbioticController\\": "packages/SymbioticController/src"
         }
     },
@@ -67,7 +69,9 @@
             "Symplify\\EasyCodingStandard\\FixerRunner\\Tests\\": "packages/EasyCodingStandard/packages/FixerRunner/tests",
             "Symplify\\PackageBuilder\\Tests\\": "packages/PackageBuilder/tests",
             "Symplify\\Statie\\Tests\\": "packages/Statie/tests",
+            "Symplify\\Statie\\Amp\\Tests\\": "packages/Statie/packages/Amp/tests",
             "Symplify\\Statie\\FlatWhite\\Tests\\": "packages/Statie/packages/FlatWhite/tests",
+            "Symplify\\Statie\\SimilarPosts\\Tests\\": "packages/Statie/packages/SimilarPosts/tests",
             "Symplify\\SymbioticController\\Tests\\": "packages/SymbioticController/tests",
             "Symplify\\Tests\\": "tests"
         }

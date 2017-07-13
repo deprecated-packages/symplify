@@ -60,7 +60,7 @@ final class FileSystemWriterTest extends AbstractContainerAwareTestCase
 
     public function testCopyRenderableFiles(): void
     {
-        $file = $this->fileFactory->create(new SplFileInfo($this->sourceDirectory . '/contact.latte'));
+        $file = $this->fileFactory->createFromFilePath($this->sourceDirectory . '/contact.latte');
         $file->setOutputPath('contact.html');
 
         $this->fileSystemWriter->copyRenderableFiles([$file]);

@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\Statie\Metrics;
+namespace Symplify\Statie\SimilarPosts;
 
 use Symplify\Statie\Configuration\Configuration;
 use Symplify\Statie\Renderable\File\PostFile;

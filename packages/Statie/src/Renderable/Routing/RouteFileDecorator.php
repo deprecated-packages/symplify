@@ -45,7 +45,7 @@ final class RouteFileDecorator implements FileDecoratorInterface, RouteCollector
 
     public function getPriority(): int
     {
-        return 1000;
+        return 900;
     }
 
     private function decorateFile(AbstractFile $file): void
@@ -59,11 +59,17 @@ final class RouteFileDecorator implements FileDecoratorInterface, RouteCollector
             }
         }
 
-        $relativeDirectory = $this->getRelativeDirectory($file);
-        $file->setOutputPath(
-            $relativeDirectory . DIRECTORY_SEPARATOR . $file->getBaseName() . DIRECTORY_SEPARATOR . 'index.html'
-        );
-        $file->setRelativeUrl($relativeDirectory . DIRECTORY_SEPARATOR . $file->getBaseName());
+        if (isset($file->getConfiguration()['outputPath'])) {
+            $file->setOutputPath($file->getConfiguration()['outputPath']);
+            $file->setRelativeUrl($file->getConfiguration()['outputPath']);
+        } else {
+            $relativeDirectory = $this->getRelativeDirectory($file);
+            $relativeOutputDirectory = $relativeDirectory . DIRECTORY_SEPARATOR . $file->getBaseName();
+            $outputPath = $relativeOutputDirectory . DIRECTORY_SEPARATOR . 'index.html';
+
+            $file->setOutputPath($outputPath);
+            $file->setRelativeUrl($relativeDirectory . DIRECTORY_SEPARATOR . $file->getBaseName());
+        }
     }
 
     private function getRelativeDirectory(AbstractFile $file): string
