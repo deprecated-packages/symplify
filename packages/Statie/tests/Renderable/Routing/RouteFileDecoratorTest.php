@@ -6,27 +6,30 @@ use SplFileInfo;
 use Symplify\Statie\Configuration\Configuration;
 use Symplify\Statie\Renderable\File\AbstractFile;
 use Symplify\Statie\Renderable\File\FileFactory;
-use Symplify\Statie\Renderable\Routing\Route\IndexRoute;
-use Symplify\Statie\Renderable\Routing\Route\NotHtmlRoute;
-use Symplify\Statie\Renderable\Routing\Route\PostRoute;
 use Symplify\Statie\Renderable\Routing\RouteFileDecorator;
 use Symplify\Statie\Tests\AbstractContainerAwareTestCase;
 
-final class RouteDecoratorTest extends AbstractContainerAwareTestCase
+final class RouteFileDecoratorTest extends AbstractContainerAwareTestCase
 {
     /**
      * @var RouteFileDecorator
      */
-    private $routeDecorator;
+    private $routeFileDecorator;
+
+    /**
+     * @var FileFactory
+     */
+    private $fileFactory;
 
     protected function setUp(): void
     {
         /** @var Configuration $configuration */
         $configuration = $this->container->get(Configuration::class);
         $configuration->setPostRoute('blog/:title');
-        $configuration->setSourceDirectory(__DIR__ . '/DecoratorSource');
+        $configuration->setSourceDirectory(__DIR__ . '/RoutingDecoratorSource');
 
-        $this->routeDecorator = $this->createRouterDecorator($configuration);
+        $this->fileFactory = $this->container->get(FileFactory::class);
+        $this->routeFileDecorator = $this->container->get(RouteFileDecorator::class);
     }
 
     public function test(): void
@@ -36,7 +39,7 @@ final class RouteDecoratorTest extends AbstractContainerAwareTestCase
         $configuration = $this->container->get(Configuration::class);
         $configuration->setSourceDirectory(__DIR__ . '/RoutingDecoratorSource');
 
-        $this->routeDecorator->decorateFiles([$file]);
+        $this->routeFileDecorator->decorateFiles([$file]);
         $this->assertSame('/someFile', $file->getRelativeUrl());
         $this->assertSame('/someFile' . DIRECTORY_SEPARATOR . 'index.html', $file->getOutputPath());
     }
@@ -45,7 +48,7 @@ final class RouteDecoratorTest extends AbstractContainerAwareTestCase
     {
         $file = $this->createFileFromFilePath(__DIR__ . '/RoutingDecoratorSource/static.css');
 
-        $this->routeDecorator->decorateFiles([$file]);
+        $this->routeFileDecorator->decorateFiles([$file]);
         $this->assertSame('static.css', $file->getRelativeUrl());
         $this->assertSame('static.css', $file->getOutputPath());
     }
@@ -54,14 +57,14 @@ final class RouteDecoratorTest extends AbstractContainerAwareTestCase
     {
         $file = $this->createFileFromFilePath(__DIR__ . '/RoutingDecoratorSource/index.html');
 
-        $this->routeDecorator->decorateFiles([$file]);
+        $this->routeFileDecorator->decorateFiles([$file]);
         $this->assertSame('index.html', $file->getOutputPath());
         $this->assertSame('/', $file->getRelativeUrl());
 
         $fileInfo = new SplFileInfo(__DIR__ . '/RoutingDecoratorSource/index.latte');
-        $file = $this->getFileFactory()->create($fileInfo);
+        $file = $this->fileFactory->create($fileInfo);
 
-        $this->routeDecorator->decorateFiles([$file]);
+        $this->routeFileDecorator->decorateFiles([$file]);
         $this->assertSame('index.html', $file->getOutputPath());
         $this->assertSame('/', $file->getRelativeUrl());
     }
@@ -70,33 +73,14 @@ final class RouteDecoratorTest extends AbstractContainerAwareTestCase
     {
         $file = $this->createFileFromFilePath(__DIR__ . '/RoutingDecoratorSource/_posts/2016-10-10-somePost.html');
 
-        $this->routeDecorator->decorateFiles([$file]);
+        $this->routeFileDecorator->decorateFiles([$file]);
         $this->assertSame('blog/somePost', $file->getRelativeUrl());
-    }
-
-    private function getFileFactory(): FileFactory
-    {
-        $configuration = $this->container->get(Configuration::class);
-        $configuration->setSourceDirectory('sourceDirectory');
-
-        return new FileFactory($configuration);
     }
 
     private function createFileFromFilePath(string $filePath): AbstractFile
     {
         $fileInfo = new SplFileInfo($filePath);
 
-        return $this->getFileFactory()
-            ->create($fileInfo);
-    }
-
-    private function createRouterDecorator(Configuration $configuration): RouteFileDecorator
-    {
-        $routeDecorator = new RouteFileDecorator($configuration);
-        $routeDecorator->addRoute(new IndexRoute);
-        $routeDecorator->addRoute(new PostRoute($configuration));
-        $routeDecorator->addRoute(new NotHtmlRoute);
-
-        return $routeDecorator;
+        return $this->fileFactory->create($fileInfo);
     }
 }

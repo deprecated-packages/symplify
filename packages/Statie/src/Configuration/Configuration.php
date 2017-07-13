@@ -5,6 +5,7 @@ namespace Symplify\Statie\Configuration;
 use Symplify\PackageBuilder\Adapter\Symfony\Parameter\ParameterProvider;
 use Symplify\Statie\Exception\Configuration\MissingGithubRepositorySlugException;
 use Symplify\Statie\Renderable\File\PostFile;
+use Symplify\Statie\Utils\FilesystemChecker;
 
 final class Configuration
 {
@@ -68,6 +69,7 @@ final class Configuration
 
     public function setSourceDirectory(string $sourceDirectory): void
     {
+        FilesystemChecker::ensureDirectoryExists($sourceDirectory);
         $this->sourceDirectory = $sourceDirectory;
     }
 

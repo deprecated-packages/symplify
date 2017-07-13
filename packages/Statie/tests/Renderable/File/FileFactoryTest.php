@@ -21,8 +21,9 @@ final class FileFactoryTest extends AbstractContainerAwareTestCase
     protected function setUp(): void
     {
         $configuration = $this->container->get(Configuration::class);
-        $configuration->setSourceDirectory('sourceDirectory');
-        $this->fileFactory = new FileFactory($configuration);
+        $configuration->setSourceDirectory(__DIR__ . '/FileFactorySource');
+
+        $this->fileFactory = $this->container->get(FileFactory::class);
     }
 
     public function test(): void
@@ -66,8 +67,6 @@ final class FileFactoryTest extends AbstractContainerAwareTestCase
      */
     private function createFileFromPath(string $filePath)
     {
-        $fileInfo = new SplFileInfo($filePath);
-
-        return $this->fileFactory->create($fileInfo);
+        return $this->fileFactory->create(new SplFileInfo($filePath));
     }
 }
