@@ -33,6 +33,11 @@ final class ConfigurationDecorator implements FileDecoratorInterface
         return $files;
     }
 
+    public function getPriority(): int
+    {
+        return 900;
+    }
+
     private function decorateFile(AbstractFile $file): void
     {
         if (preg_match('/^\s*(?:---[\s]*[\r\n]+)(.*?)(?:---[\s]*[\r\n]+)(.*?)$/s', $file->getContent(), $matches)) {
@@ -56,10 +61,5 @@ final class ConfigurationDecorator implements FileDecoratorInterface
 
             $file->setConfiguration($configuration);
         }
-    }
-
-    public function getPriority(): int
-    {
-        return 900;
     }
 }

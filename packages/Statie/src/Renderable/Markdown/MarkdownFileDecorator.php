@@ -41,6 +41,11 @@ final class MarkdownFileDecorator implements FileDecoratorInterface
         return $files;
     }
 
+    public function getPriority(): int
+    {
+        return 800;
+    }
+
     private function decorateFile(AbstractFile $file): void
     {
         // skip due to HTML content incompatibility
@@ -74,10 +79,5 @@ final class MarkdownFileDecorator implements FileDecoratorInterface
                 $result->group(1)
             );
         }, $htmlContent)->result();
-    }
-
-    public function getPriority(): int
-    {
-        return 800;
     }
 }

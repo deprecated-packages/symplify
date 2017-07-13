@@ -67,7 +67,6 @@ final class CollectorCompilerPass implements CompilerPassInterface
         );
     }
 
-
     private function loadFileDecoratorToRenderableFilesProcessor(ContainerBuilder $containerBuilder): void
     {
         DefinitionCollector::loadCollectorWithType(

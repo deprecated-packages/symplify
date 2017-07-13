@@ -43,6 +43,11 @@ final class RouteFileDecorator implements FileDecoratorInterface, RouteCollector
         return $files;
     }
 
+    public function getPriority(): int
+    {
+        return 1000;
+    }
+
     private function decorateFile(AbstractFile $file): void
     {
         foreach ($this->routes as $route) {
@@ -69,10 +74,5 @@ final class RouteFileDecorator implements FileDecoratorInterface, RouteCollector
         $relativeParts = explode($sourceDirectory, $file->getRelativeDirectory());
 
         return array_pop($relativeParts);
-    }
-
-    public function getPriority(): int
-    {
-        return 1000;
     }
 }

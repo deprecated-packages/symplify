@@ -51,7 +51,12 @@ final class LatteFileDecorator implements FileDecoratorInterface
         return $files;
     }
 
-    public function decorateFile(AbstractFile $file): void
+    public function getPriority(): int
+    {
+        return 700;
+    }
+
+    private function decorateFile(AbstractFile $file): void
     {
         $options = $this->configuration->getOptions();
 
@@ -73,13 +78,10 @@ final class LatteFileDecorator implements FileDecoratorInterface
             $htmlContent = preg_replace('/{layout "[a-z]+"}/', '', $htmlContent);
 
             $file->changeContent($htmlContent);
-
         } else {
             // normal file
             $htmlContent = $this->renderOuterWithLayout($file, $parameters);
-//            $htmlContent = $this->trimLeftOverLayoutTag($file, $htmlContent);
             $file->changeContent($htmlContent);
-
         }
     }
 
@@ -100,6 +102,7 @@ final class LatteFileDecorator implements FileDecoratorInterface
         $layoutLine = sprintf('{layout "%s"}', $file->getLayout());
         $file->changeContent($layoutLine . PHP_EOL . PHP_EOL . $file->getContent());
     }
+
     /**
      * @param mixed[] $parameters
      */
@@ -110,6 +113,7 @@ final class LatteFileDecorator implements FileDecoratorInterface
 
         return $this->renderToString($file, $parameters);
     }
+
 //
 //    private function trimLeftOverLayoutTag(AbstractFile $file, string $htmlContent): string
 //    {
@@ -135,10 +139,5 @@ final class LatteFileDecorator implements FileDecoratorInterface
                 $latteCompileException->getMessage()
             ));
         }
-    }
-
-    public function getPriority(): int
-    {
-        return 700;
     }
 }

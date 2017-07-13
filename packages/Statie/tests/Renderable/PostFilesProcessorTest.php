@@ -9,7 +9,6 @@ use SplFileInfo;
 use Symplify\Statie\Configuration\Configuration;
 use Symplify\Statie\DependencyInjection\ContainerFactory;
 use Symplify\Statie\FlatWhite\Latte\DynamicStringLoader;
-use Symplify\Statie\Renderable\File\FileFactory;
 use Symplify\Statie\Renderable\RenderableFilesProcessor;
 
 final class PostFilesProcessorTest extends TestCase
@@ -23,11 +22,6 @@ final class PostFilesProcessorTest extends TestCase
      * @var Configuration
      */
     private $configuration;
-
-    /**
-     * @var FileFactory
-     */
-    private $fileFactory;
 
     protected function setUp(): void
     {
@@ -44,32 +38,30 @@ final class PostFilesProcessorTest extends TestCase
             'post',
             file_get_contents(__DIR__ . '/RenderFilesProcessorSource/_layouts/post.latte')
         );
-
-        $this->fileFactory = $container->get(FileFactory::class);
-   }
+    }
 
     protected function tearDown(): void
     {
         FileSystem::delete(__DIR__ . '/RenderFilesProcessorSource/output');
     }
 
-//    public function testPosts(): void
-//    {
-//        $fileInfos = $this->findPostFiles();
-//        $this->assertCount(2, $fileInfos);
-//
-//        $this->renderableFilesProcessor->processFiles($fileInfos);
-//
-//        $normalPostLocation = __DIR__ . '/RenderFilesProcessorSource/output/blog/2016/01/02/second-title/index.html';
-//        $ampPostLocation = __DIR__ . '/RenderFilesProcessorSource/output/amp/blog/2016/01/02/second-title/index.html';
-//        $this->assertFileExists(__DIR__ . '/RenderFilesProcessorSource/output/blog/2016/10/10/title/index.html');
-//        $this->assertFileExists($normalPostLocation);
-//        $this->assertFileExists($ampPostLocation);
-//
-//        $this->assertFalse(file_get_contents($normalPostLocation) === file_get_contents($ampPostLocation));
-//
-//        $this->assertArrayHasKey('posts', $this->configuration->getOptions());
-//    }
+    public function testPosts(): void
+    {
+        $fileInfos = $this->findPostFiles();
+        $this->assertCount(2, $fileInfos);
+
+        $this->renderableFilesProcessor->processFiles($fileInfos);
+
+        $normalPostLocation = __DIR__ . '/RenderFilesProcessorSource/output/blog/2016/01/02/second-title/index.html';
+        $ampPostLocation = __DIR__ . '/RenderFilesProcessorSource/output/amp/blog/2016/01/02/second-title/index.html';
+        $this->assertFileExists(__DIR__ . '/RenderFilesProcessorSource/output/blog/2016/10/10/title/index.html');
+        $this->assertFileExists($normalPostLocation);
+        $this->assertFileExists($ampPostLocation);
+
+        $this->assertFalse(file_get_contents($normalPostLocation) === file_get_contents($ampPostLocation));
+
+        $this->assertArrayHasKey('posts', $this->configuration->getOptions());
+    }
 
     public function testPostWithLayoutContent(): void
     {
@@ -88,6 +80,7 @@ final class PostFilesProcessorTest extends TestCase
     {
         $finder = Finder::findFiles('*')->from(__DIR__ . '/RenderFilesProcessorSource/source/_posts')
             ->getIterator();
+
         return iterator_to_array($finder);
     }
 }
