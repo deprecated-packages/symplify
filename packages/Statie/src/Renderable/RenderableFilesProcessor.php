@@ -55,7 +55,7 @@ final class RenderableFilesProcessor
         if (! count($fileInfos)) {
             return;
         }
-        $files = $this->createFileObjectsFromFileInfos($fileInfos);
+        $files = $this->fileFactory->createFromFileInfos($fileInfos);
 
         $this->setPostsToConfiguration($files);
 
@@ -64,20 +64,6 @@ final class RenderableFilesProcessor
         }
 
         $this->fileSystemWriter->copyRenderableFiles($files);
-    }
-
-    /**
-     * @param SplFileInfo[] $fileInfos
-     * @return File[]
-     */
-    private function createFileObjectsFromFileInfos(array $fileInfos): array
-    {
-        $files = [];
-        foreach ($fileInfos as $id => $fileInfo) {
-            $files[$id] = $this->fileFactory->create($fileInfo);
-        }
-
-        return $files;
     }
 
     /**
