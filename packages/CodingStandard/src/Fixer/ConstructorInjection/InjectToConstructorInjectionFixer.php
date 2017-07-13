@@ -51,7 +51,7 @@ public function injectValue(stdClass $stdClass)
     public function isCandidate(Tokens $tokens): bool
     {
         return $tokens->isTokenKindFound(T_CLASS) &&
-            $tokens->isAnyTokenKindsFound([T_DOC_COMMENT, T_METHOD_C]);
+            $tokens->isAnyTokenKindsFound([T_DOC_COMMENT]);
     }
 
     public function fix(SplFileInfo $file, Tokens $tokens): void
@@ -124,17 +124,6 @@ public function injectValue(stdClass $stdClass)
             $this->fix($file, $tokens);
             break;
         }
-
-        // 2. find method starting with inject*()
-//        foreach ($tokens as $index => $token) {
-//            if (! $token->isGivenKind(T_FUNCTION)) {
-//                continue;
-//            }
-//
-//
-//            dump($token);
-//            die;
-//        }
     }
 
     public function isRisky(): bool
