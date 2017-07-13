@@ -32,6 +32,11 @@ final class FileFactory
         return $files;
     }
 
+    public function createFromFilePath(string $filePath): AbstractFile
+    {
+        return $this->create(new SplFileInfo($filePath));
+    }
+
     /**
      * @return File|PostFile
      */

@@ -32,7 +32,7 @@ final class FileTest extends AbstractContainerAwareTestCase
 
     public function testGetPrimaryExtension(): void
     {
-        $file = $this->fileFactory->create(new SplFileInfo(__DIR__ . '/FileSource/some.html.latte'));
+        $file = $this->fileFactory->createFromFilePath(__DIR__ . '/FileSource/some.html.latte');
 
         $this->assertSame('html', $file->getPrimaryExtension());
     }

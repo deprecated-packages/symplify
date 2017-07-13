@@ -6,7 +6,7 @@ use SplFileInfo;
 use Symplify\Statie\Configuration\Configuration;
 use Symplify\Statie\Contract\Renderable\FileDecoratorInterface;
 use Symplify\Statie\Output\FileSystemWriter;
-use Symplify\Statie\Renderable\File\File;
+use Symplify\Statie\Renderable\File\AbstractFile;
 use Symplify\Statie\Renderable\File\FileFactory;
 use Symplify\Statie\Renderable\File\PostFile;
 
@@ -67,7 +67,7 @@ final class RenderableFilesProcessor
     }
 
     /**
-     * @param File[] $files
+     * @param AbstractFile[] $files
      */
     private function setPostsToConfiguration(array $files): void
     {

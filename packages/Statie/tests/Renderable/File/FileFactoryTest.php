@@ -3,7 +3,6 @@
 namespace Symplify\Statie\Tests\Renderable\File;
 
 use DateTimeInterface;
-use SplFileInfo;
 use Symplify\Statie\Configuration\Configuration;
 use Symplify\Statie\Renderable\File\File;
 use Symplify\Statie\Renderable\File\FileFactory;
@@ -28,7 +27,7 @@ final class FileFactoryTest extends AbstractContainerAwareTestCase
 
     public function test(): void
     {
-        $file = $this->createFileFromPath(__DIR__ . '/FileFactorySource/someFile.latte');
+        $file = $this->fileFactory->createFromFilePath(__DIR__ . '/FileFactorySource/someFile.latte');
 
         $this->assertInstanceOf(File::class, $file);
         $this->assertNotInstanceOf(PostFile::class, $file);
@@ -47,7 +46,10 @@ final class FileFactoryTest extends AbstractContainerAwareTestCase
 
     public function testPost(): void
     {
-        $postFile = $this->createFileFromPath(__DIR__ . '/FileFactorySource/_posts/2016-01-01-somePost.latte');
+        /** @var PostFile $postFile */
+        $postFile = $this->fileFactory->createFromFilePath(
+            __DIR__ . '/FileFactorySource/_posts/2016-01-01-somePost.latte'
+        );
 
         $this->assertInstanceOf(PostFile::class, $postFile);
 
@@ -59,14 +61,6 @@ final class FileFactoryTest extends AbstractContainerAwareTestCase
     public function testInvalidPostName(): void
     {
         $this->expectException(Throwable::class);
-        $this->createFileFromPath(__DIR__ . '/FileFactorySource/_posts/somePost.latte');
-    }
-
-    /**
-     * @return File|PostFile
-     */
-    private function createFileFromPath(string $filePath)
-    {
-        return $this->fileFactory->create(new SplFileInfo($filePath));
+        $this->fileFactory->createFromFilePath(__DIR__ . '/FileFactorySource/_posts/somePost.latte');
     }
 }
