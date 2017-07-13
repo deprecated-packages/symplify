@@ -15,8 +15,14 @@ final class LatteRenderer
 
     /**
      * @var string
+     * @see https://regex101.com/r/9jglKd/2/
      */
-    private const MATCH_PLACEHOLDERS = '#^' . self::PLACEHOLDER_PREFIX . '[0-9]+$#m';
+    private const MATCH_CODE_INLINE = '#`[^`]+`#';
+
+    /**
+     * @var string
+     */
+    private const MATCH_PLACEHOLDERS = '#' . self::PLACEHOLDER_PREFIX . '[0-9]+#m';
 
     /**
      * @var string
@@ -44,6 +50,18 @@ final class LatteRenderer
         $contentWithPlaceholders = Strings::replace(
             $content,
             self::MATCH_CODE_BLOCKS,
+            function (array $match) use (&$i, &$highlightedCodeBlocks) {
+                $highlightedCodeBlock = $match[0];
+                $placeholder = self::PLACEHOLDER_PREFIX . ++$i;
+                $highlightedCodeBlocks[$placeholder] = $highlightedCodeBlock;
+
+                return $placeholder;
+            }
+        );
+
+        $contentWithPlaceholders = Strings::replace(
+            $contentWithPlaceholders,
+            self::MATCH_CODE_INLINE,
             function (array $match) use (&$i, &$highlightedCodeBlocks) {
                 $highlightedCodeBlock = $match[0];
                 $placeholder = self::PLACEHOLDER_PREFIX . ++$i;
