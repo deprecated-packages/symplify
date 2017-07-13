@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\Statie\Tests\Latte\Filter;
+namespace Symplify\Statie\SimilarPosts\Tests\Latte\Filter;
 
 use Symplify\Statie\Configuration\Configuration;
 use Symplify\Statie\Renderable\File\PostFile;

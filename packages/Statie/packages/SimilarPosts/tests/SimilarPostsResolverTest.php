@@ -3,8 +3,8 @@
 namespace Symplify\Statie\SimilarPosts\Tests;
 
 use Symplify\Statie\Configuration\Configuration;
-use Symplify\Statie\SimilarPosts\SimilarPostsResolver;
 use Symplify\Statie\Renderable\File\PostFile;
+use Symplify\Statie\SimilarPosts\SimilarPostsResolver;
 use Symplify\Statie\Tests\AbstractContainerAwareTestCase;
 use Symplify\Statie\Tests\Helper\PostFactory;
 
