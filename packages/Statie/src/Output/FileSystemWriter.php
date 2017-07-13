@@ -9,7 +9,7 @@ use Symplify\Statie\Renderable\File\AbstractFile;
 
 final class FileSystemWriter
 {
-    /**f
+    /**
      * @var Configuration
      */
     private $configuration;

@@ -17,12 +17,22 @@ final class GihubPublishingProcess
      */
     private const CONFIG_NAME = 'Travis';
 
+    /**
+     * @var FilesystemChecker
+     */
+    private $filesystemChecker;
+
+    public function __construct(FilesystemChecker $filesystemChecker)
+    {
+        $this->filesystemChecker = $filesystemChecker;
+    }
+
     public function pushDirectoryContentToRepository(
         string $outputDirectory,
         string $githubRepository,
         string $branch
     ): void {
-        FilesystemChecker::ensureDirectoryExists($outputDirectory);
+        $this->filesystemChecker->ensureDirectoryExists($outputDirectory);
 
         $git = (new GitWrapper)->init($outputDirectory);
 

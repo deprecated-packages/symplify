@@ -54,9 +54,15 @@ final class Configuration
      */
     private $outputDirectory;
 
-    public function __construct(ParameterProvider $parameterProvider)
+    /**
+     * @var FilesystemChecker
+     */
+    private $filesystemChecker;
+
+    public function __construct(ParameterProvider $parameterProvider, FilesystemChecker $filesystemChecker)
     {
         $this->options += $parameterProvider->provide();
+        $this->filesystemChecker = $filesystemChecker;
     }
 
     /**
@@ -69,7 +75,7 @@ final class Configuration
 
     public function setSourceDirectory(string $sourceDirectory): void
     {
-        FilesystemChecker::ensureDirectoryExists($sourceDirectory);
+        $this->filesystemChecker->ensureDirectoryExists($sourceDirectory);
         $this->sourceDirectory = $sourceDirectory;
     }
 

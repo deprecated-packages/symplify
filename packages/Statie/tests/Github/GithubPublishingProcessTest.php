@@ -5,6 +5,7 @@ namespace Symplify\Statie\Tests\Github;
 use Nette\Utils\FileSystem;
 use PHPUnit\Framework\TestCase;
 use Symplify\Statie\Github\GihubPublishingProcess;
+use Symplify\Statie\Utils\FilesystemChecker;
 use Throwable;
 
 final class GithubPublishingProcessTest extends TestCase
@@ -21,7 +22,7 @@ final class GithubPublishingProcessTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->githubPublishingProcess = new GihubPublishingProcess;
+        $this->githubPublishingProcess = new GihubPublishingProcess(new FilesystemChecker);
     }
 
     protected function tearDown(): void
