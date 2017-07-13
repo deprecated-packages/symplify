@@ -4,10 +4,15 @@ namespace Symplify\CodingStandard\Refactorer\NetteDI;
 
 use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Sniffs\Sniff;
+use Symplify\CodingStandard\Fixer\ConstructorInjection\InjectToConstructorInjectionFixer;
 use Symplify\CodingStandard\TokenWrapper\ClassWrapper;
 use Symplify\CodingStandard\TokenWrapper\MethodWrapper;
 use Symplify\CodingStandard\TokenWrapper\PropertyWrapper;
 
+/**
+ * @deprecated Will be removed in 3.0.
+ * Use @see \Symplify\CodingStandard\Fixer\ConstructorInjection\InjectToConstructorInjectionFixer instead.
+ */
 final class InjectToConstructorInjectionSniff implements Sniff
 {
     /**
@@ -29,6 +34,15 @@ final class InjectToConstructorInjectionSniff implements Sniff
      * @var ClassWrapper
      */
     private $classWrapper;
+
+    public function __construct()
+    {
+        trigger_error(sprintf(
+            'Class "%s" was deprecated in favor of "%s" that performs the same check better. Use it instead.',
+            self::class,
+            InjectToConstructorInjectionFixer::class
+        ), E_USER_DEPRECATED);
+    }
 
     /**
      * @return int[]
