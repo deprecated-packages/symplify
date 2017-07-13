@@ -59,27 +59,27 @@ final class LatteDecoratorTest extends AbstractContainerAwareTestCase
         );
     }
 
-//    public function testDecorateFileWithFileVariable(): void
-//    {
-//        $fileInfo = new SplFileInfo(__DIR__ . '/LatteDecoratorSource/fileWithFileVariable.latte');
-//        $file = $this->fileFactory->create($fileInfo);
-//        $this->latteDecorator->addAmphtmlLinkToFile($file);
-//
-//        $this->assertContains('fileWithFileVariable.latte', $file->getContent());
-//    }
-//
-//    public function testDecorateFileWithInvalidLatteSyntax(): void
-//    {
-//        $fileWithInvalidLatteSyntax = __DIR__ . '/LatteDecoratorSource/fileWithInvalidLatteSyntax.latte';
-//        $fileInfo = new SplFileInfo($fileWithInvalidLatteSyntax);
-//        $file = $this->fileFactory->create($fileInfo);
-//
-//        $this->expectException(InvalidLatteSyntaxException::class);
-//        $this->expectExceptionMessage(sprintf(
-//            'Invalid Latte syntax found in "%s" file: Unknown macro {iff}, did you mean {if}?',
-//            $fileWithInvalidLatteSyntax
-//        ));
-//
-//        $this->latteDecorator->addAmphtmlLinkToFile($file);
-//    }
+    public function testDecorateFileWithFileVariable(): void
+    {
+        $fileInfo = new SplFileInfo(__DIR__ . '/LatteDecoratorSource/fileWithFileVariable.latte');
+        $file = $this->fileFactory->create($fileInfo);
+        $this->latteDecorator->decorateFiles([$file]);
+
+        $this->assertContains('fileWithFileVariable.latte', $file->getContent());
+    }
+
+    public function testDecorateFileWithInvalidLatteSyntax(): void
+    {
+        $fileWithInvalidLatteSyntax = __DIR__ . '/LatteDecoratorSource/fileWithInvalidLatteSyntax.latte';
+        $fileInfo = new SplFileInfo($fileWithInvalidLatteSyntax);
+        $file = $this->fileFactory->create($fileInfo);
+
+        $this->expectException(InvalidLatteSyntaxException::class);
+        $this->expectExceptionMessage(sprintf(
+            'Invalid Latte syntax found in "%s" file: Unknown macro {iff}, did you mean {if}?',
+            $fileWithInvalidLatteSyntax
+        ));
+
+        $this->latteDecorator->decorateFiles([$file]);
+    }
 }

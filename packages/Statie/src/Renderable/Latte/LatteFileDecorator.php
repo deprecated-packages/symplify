@@ -114,17 +114,6 @@ final class LatteFileDecorator implements FileDecoratorInterface
         return $this->renderToString($file, $parameters);
     }
 
-//
-//    private function trimLeftOverLayoutTag(AbstractFile $file, string $htmlContent): string
-//    {
-//        if ($file instanceof PostFile) {
-//            return preg_replace('/{layout "[a-z]+"}/', '', $htmlContent);
-//        }
-//
-//        return $htmlContent;
-
-//    }
-
     /**
      * @param mixed[] $parameters
      */
