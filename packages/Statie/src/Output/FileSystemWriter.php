@@ -3,13 +3,12 @@
 namespace Symplify\Statie\Output;
 
 use Nette\Utils\FileSystem;
-use SplFileInfo;
 use Symplify\Statie\Configuration\Configuration;
-use Symplify\Statie\Renderable\File\File;
+use Symplify\Statie\Renderable\File\AbstractFile;
 
 final class FileSystemWriter
 {
-    /**
+    /**f
      * @var Configuration
      */
     private $configuration;
@@ -20,7 +19,7 @@ final class FileSystemWriter
     }
 
     /**
-     * @param SplFileInfo[] $files
+     * @param AbstractFile[] $files
      */
     public function copyStaticFiles(array $files): void
     {
@@ -33,7 +32,7 @@ final class FileSystemWriter
     }
 
     /**
-     * @param File[] $files
+     * @param AbstractFile[] $files
      */
     public function copyRenderableFiles(array $files): void
     {
