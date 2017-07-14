@@ -20,7 +20,6 @@ final class InjectToConstructorInjectionFixer implements DefinedFixerInterface
         return new FixerDefinition(
             'Constructor injection should be used instead of @inject annotations.',
             [
-                // @todo: what is this for?
                 new CodeSample(
 '<?php
 class SomeClass

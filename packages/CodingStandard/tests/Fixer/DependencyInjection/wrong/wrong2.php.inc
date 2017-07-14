@@ -3,12 +3,14 @@
 class SomeClass
 {
     /**
+     * @inject
      * @var stdClass
      */
-    private $stdClass;
+    public $property;
 
-    public function inject(stdClass $stdClass)
-    {
-        $this->stdClass = $stdClass;
-    }
+    /**
+     * @inject
+     * @var DateTimeInterface
+     */
+    public $otherProperty;
 }

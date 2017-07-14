@@ -5,10 +5,16 @@ class SomeClass
     /**
      * @var stdClass
      */
-    private $stdClass;
+    private $property;
 
-    public function __construct(stdClass $stdClass)
+    /**
+     * @var DateTimeInterface
+     */
+    private $otherProperty;
+
+    public function __construct(stdClass $property, DateTimeInterface $otherProperty)
     {
-        $this->stdClass = $stdClass;
+        $this->property = $property;
+        $this->otherProperty = $otherProperty;
     }
 }

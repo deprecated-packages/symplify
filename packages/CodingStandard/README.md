@@ -89,8 +89,6 @@ class SomeClass
 ```
 
 
-
-
 ### Traits are forbidden. Prefer services and constructor injection
 
 - [Architecture/ForbiddenTraitSniff](/src/Sniffs/Architecture/ForbiddenTraitSniff.php)
