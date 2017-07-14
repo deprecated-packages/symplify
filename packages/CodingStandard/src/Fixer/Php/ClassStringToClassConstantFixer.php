@@ -14,6 +14,12 @@ use SplFileInfo;
 
 final class ClassStringToClassConstantFixer implements DefinedFixerInterface
 {
+
+    /**
+     * @var string
+     */
+    private const CLASS_OR_INTERFACE_PATTERN = '#^[A-Z]\w*[a-z]\w*(\\\\[A-Z]\w*[a-z]\w*)*\z#';
+
     public function getDefinition(): FixerDefinitionInterface
     {
         return new FixerDefinition(
@@ -45,17 +51,19 @@ $interfaceName = "Nette\Utils\DateTime";
 
     public function fix(SplFileInfo $file, Tokens $tokens): void
     {
-        foreach (array_reverse($tokens->toArray(), true) as $index => $token) {
-            /** @var Token $token */
+        /** @var Token[] $revertedTokens */
+        $revertedTokens = array_reverse($tokens->toArray(), true);
+
+        foreach ($revertedTokens as $index => $token) {
             if (! $token->isGivenKind(T_CONSTANT_ENCAPSED_STRING)) {
                 continue;
             }
 
-            $potentialClassOrInterfaceName = trim($token->getContent(), "'");
-            if (class_exists($potentialClassOrInterfaceName) || interface_exists($potentialClassOrInterfaceName)) {
+            $potentialClassOrInterface = trim($token->getContent(), "'");
+            if ($this->isClassOrInterface($potentialClassOrInterface)) {
                 $token->clear(); // overrideAt() fails on "Illegal offset type"
 
-                $classOrInterfaceTokens = $this->convertClassOrInterfaceNameToTokens($potentialClassOrInterfaceName);
+                $classOrInterfaceTokens = $this->convertClassOrInterfaceNameToTokens($potentialClassOrInterface);
                 $tokens->insertAt($index, array_merge($classOrInterfaceTokens, [
                     new Token([T_DOUBLE_COLON, '::']),
                     new Token([CT::T_CLASS_CONSTANT, 'class']),
@@ -85,13 +93,18 @@ $interfaceName = "Nette\Utils\DateTime";
         return true;
     }
 
+    private function isClassOrInterface(string $potentialClassOrInterface): bool
+    {
+        return (bool) preg_match(self::CLASS_OR_INTERFACE_PATTERN, $potentialClassOrInterface);
+    }
+
     /**
      * @return Token[]
      */
-    private function convertClassOrInterfaceNameToTokens(string $potentialClassOrInterfaceName): array
+    private function convertClassOrInterfaceNameToTokens(string $potentialClassOrInterface): array
     {
         $tokens = [];
-        $nameParts = explode('\\', $potentialClassOrInterfaceName);
+        $nameParts = explode('\\', $potentialClassOrInterface);
 
         foreach ($nameParts as $namePart) {
             $tokens[] = new Token([T_NS_SEPARATOR, '\\']);
