@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Fixer\ConstructorInjection;
+namespace Symplify\CodingStandard\Fixer\DependencyInjection;
 
 use Nette\PhpGenerator\Method;
 use Nette\Utils\Strings;
@@ -18,46 +18,31 @@ final class InjectToConstructorInjectionFixer implements DefinedFixerInterface
     public function getDefinition(): FixerDefinitionInterface
     {
         return new FixerDefinition(
-            'Constructor injection should be used instead of @inject annotations and inject*() methods.',
+            'Constructor injection should be used instead of @inject annotations.',
             [
                 // @todo: what is this for?
                 new CodeSample(
-                    '<?php
-/**
- * @inject
- * @var stdClass
- */
-public $property;'
-
-                ),
-                new CodeSample(
-                    '<?php
-/**
- * @var stdClass
- */
-private $property;
-
-public function injectValue(stdClass $stdClass)
+'<?php
+class SomeClass
 {
-    $this->stdClass = $stdClass;
-}'
-
-                ),
-
+    /**
+     * @inject
+     * @var stdClass
+     */
+    public $property;
+}'),
             ]
         );
     }
 
     public function isCandidate(Tokens $tokens): bool
     {
-        return $tokens->isTokenKindFound(T_CLASS) &&
-            $tokens->isAnyTokenKindsFound([T_DOC_COMMENT]);
+        return $tokens->isAllTokenKindsFound([T_CLASS, T_DOC_COMMENT, T_PUBLIC, T_VARIABLE]);
     }
 
     public function fix(SplFileInfo $file, Tokens $tokens): void
     {
         // 1. find annotation @inject
-        // array_reverse($elements, true)
         foreach ($tokens as $index => $token) {
             if (! $token->isGivenKind(T_DOC_COMMENT)) {
                 continue;
@@ -77,7 +62,7 @@ public function injectValue(stdClass $stdClass)
             $token->setContent($doc->getContent());
 
             // 2. make public property private
-            for ($i = $index; ; ++$i) {
+            for ($i = $index;; ++$i) {
                 $token = $tokens[$i];
                 if ($token->isGivenKind(T_PUBLIC)) {
                     $token->override([T_PRIVATE, 'private']);
@@ -87,7 +72,7 @@ public function injectValue(stdClass $stdClass)
 
             // 3. add dependency to constructor
             $propertyName = '';
-            for ($i = $index; ; ++$i) {
+            for ($i = $index;; ++$i) {
                 $token = $tokens[$i];
                 if ($token->isGivenKind(T_VARIABLE)) {
                     $propertyName = ltrim($token->getContent(), '$');
@@ -161,6 +146,7 @@ public function injectValue(stdClass $stdClass)
             $token = $tokens[$index];
             if ($token->isGivenKind(T_VARIABLE)) {
                 $propertyEndSemicolonPosition = $tokens->getNextTokenOfKind($index, [';']);
+
                 return $propertyEndSemicolonPosition + 1;
             }
         }
@@ -168,8 +154,11 @@ public function injectValue(stdClass $stdClass)
         // 2. before first method
         foreach ($tokens as $index => $token) {
             if ($token->isGivenKind(T_FUNCTION)) {
-                $methodStartPosition = $tokens->getPrevTokenOfKind($index, [T_PUBLIC, T_PRIVATE, T_PROTECTED, T_DOC_COMMENT]);
-                // @todo test
+                $methodStartPosition = $tokens->getPrevTokenOfKind(
+                    $index,
+                    [T_PUBLIC, T_PRIVATE, T_PROTECTED, T_DOC_COMMENT]
+                );
+
                 return $methodStartPosition - 1;
             }
         }
@@ -208,8 +197,12 @@ public function injectValue(stdClass $stdClass)
         return Strings::indent($methodAsString, 1, '    ');
     }
 
-    private function addPropertyToConstructor(Tokens $tokens, string $propertyType, string $propertyName, int $constructMethodPosition): void
-    {
+    private function addPropertyToConstructor(
+        Tokens $tokens,
+        string $propertyType,
+        string $propertyName,
+        int $constructMethodPosition
+    ): void {
         $startParenthesisIndex = $tokens->getNextTokenOfKind($constructMethodPosition, ['(', ';', [T_CLOSE_TAG]]);
         if (! $tokens[$startParenthesisIndex]->equals('(')) {
             return;

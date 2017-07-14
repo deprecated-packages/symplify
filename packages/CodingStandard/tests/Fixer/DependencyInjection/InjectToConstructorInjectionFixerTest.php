@@ -4,7 +4,7 @@ namespace Symplify\CodingStandard\Tests\Fixer\DependencyInjection;
 
 use PhpCsFixer\Fixer\FixerInterface;
 use PhpCsFixer\Test\AbstractFixerTestCase;
-use Symplify\CodingStandard\Fixer\ConstructorInjection\InjectToConstructorInjectionFixer;
+use Symplify\CodingStandard\Fixer\DependencyInjection\InjectToConstructorInjectionFixer;
 
 final class InjectToConstructorInjectionFixerTest extends AbstractFixerTestCase
 {
