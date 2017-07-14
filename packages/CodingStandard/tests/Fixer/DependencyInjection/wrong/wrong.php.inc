@@ -1,11 +1,10 @@
 <?php
 
-
-class SomePresenter
+class SomeClass
 {
     /**
      * @inject
      * @var stdClass
      */
-    public $stdClass;
+    public $property;
 }

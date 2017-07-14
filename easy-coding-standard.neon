@@ -259,7 +259,6 @@ parameters:
     skip:
         SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff:
             - packages/CodingStandard/src/Sniffs/*/*Sniff.php
-            - packages/CodingStandard/src/Refactorer/NetteDI/InjectToConstructorInjectionSniff.php
             - packages/EasyCodingStandard/packages/SniffRunner/src/File/File.php
             - packages/Statie/packages/FlatWhite/src/Latte/DynamicStringLoader.php
             - packages/Statie/src/Configuration/Configuration.php
@@ -279,3 +278,7 @@ parameters:
 
         PhpCsFixer\Fixer\PhpUnit\PhpUnitStrictFixer:
             - packages/EasyCodingStandard/tests/Indentation/IndentationTest.php
+
+        PhpCsFixer\Fixer\Semicolon\SpaceAfterSemicolonFixer:
+            # bugged fixer
+            - packages/CodingStandard/src/Fixer/DependencyInjection/InjectToConstructorInjectionFixer.php

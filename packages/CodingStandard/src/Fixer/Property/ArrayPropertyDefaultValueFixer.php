@@ -5,6 +5,7 @@ namespace Symplify\CodingStandard\Fixer\Property;
 use Nette\Utils\Strings;
 use PhpCsFixer\DocBlock\DocBlock;
 use PhpCsFixer\Fixer\DefinedFixerInterface;
+use PhpCsFixer\FixerDefinition\CodeSample;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Tokenizer\CT;
@@ -18,7 +19,15 @@ final class ArrayPropertyDefaultValueFixer implements DefinedFixerInterface
     {
         return new FixerDefinition(
             'Array property should have default value, to prevent undefined array issues.',
-            []
+            [
+                new CodeSample(
+'<?php
+/**
+ * @var string[]
+ */
+public $property;'
+                ),
+            ]
         );
     }
 

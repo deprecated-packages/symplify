@@ -61,7 +61,7 @@ abstract class AbstractSniffTestCase extends TestCase
     {
         $this->processFileWithSniff($sniffClass, $fileInfo);
 
-        $this->assertSame(1, $this->errorCollector->getErrorCount(), sprintf(
+        $this->assertGreaterThanOrEqual(1, $this->errorCollector->getErrorCount(), sprintf(
             'File "%s" should have at least 1 error.',
             $fileInfo->getPathname()
         ));

@@ -13,6 +13,82 @@ composer require symplify/coding-standard --dev
 
 ## Rules Overview
 
+### Constructor injection should be used instead of @inject annotations 
+
+- [DependencyInjection/InjectToConstructorInjectionFixer](/src/Fixer/DependencyInjection/InjectToConstructorInjectionFixer.php)
+- This checker uses *[PHP-CS-Fixer](https://github.com/friendsofphp/php-cs-fixer)*
+
+:x:
+
+```php
+class SomeClass
+{
+    /**
+     * @inject
+     * @var RequiredDependencyClass
+     */
+    public $requiredDependencyClass;
+}
+```
+
+:+1:
+
+```php
+class SomeClass
+{
+    /**
+     * @var RequiredDependencyClass
+     */
+    private $requiredDependencyClass;
+    
+    public function __construct(RequiredDependencyClass $requiredDependencyClass)
+    {
+        $this->requiredDependencyClass = $requiredDependencyClass;
+    }
+}
+```
+
+
+
+### Array property should have default value, to prevent undefined array issues
+
+- [Property/ArrayPropertyDefaultValueFixer](/src/Fixer/Property/ArrayPropertyDefaultValueFixer.php)
+- This checker uses *[PHP-CS-Fixer](https://github.com/friendsofphp/php-cs-fixer)*
+
+
+:x:
+
+``` php
+class SomeClass
+{
+    /**
+     * @var string[]
+     */
+    public $apples;
+    
+    public function run()
+    {
+        foreach ($this->apples as $mac) {
+            // ...
+        }
+    }
+}
+```
+
+
+:+1:
+
+``` php
+class SomeClass
+{
+    /**
+     * @var string[]
+     */
+    public $apples = [];
+}
+```
+
+
 ### Traits are forbidden. Prefer services and constructor injection
 
 - [Architecture/ForbiddenTraitSniff](/src/Sniffs/Architecture/ForbiddenTraitSniff.php)

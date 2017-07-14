@@ -4,7 +4,6 @@ namespace Symplify\CodingStandard\TokenWrapper;
 
 use Nette\Utils\Strings;
 use PHP_CodeSniffer\Files\File;
-use Symplify\CodingStandard\TokenWrapper\Refactor\ClassRefactor;
 
 final class ClassWrapper
 {
@@ -38,11 +37,6 @@ final class ClassWrapper
      */
     private $interfaces = [];
 
-    /**
-     * @var ClassRefactor
-     */
-    private $classRefactor;
-
     private function __construct(File $file, int $position)
     {
         $this->file = $file;
@@ -50,7 +44,6 @@ final class ClassWrapper
 
         $this->tokens = $this->file->getTokens();
         $this->classToken = $this->tokens[$position];
-        $this->classRefactor = new ClassRefactor($file, $this);
     }
 
     public static function createFromFileAndPosition(File $file, int $position): self
@@ -151,11 +144,6 @@ final class ClassWrapper
         }
 
         return false;
-    }
-
-    public function addConstructorMethodWithProperty(string $propertyType, string $propertyName): void
-    {
-        $this->classRefactor->addConstructorMethodWithProperty($propertyType, $propertyName);
     }
 
     /**
