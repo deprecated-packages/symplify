@@ -2,8 +2,11 @@
 
 namespace Symplify\CodingStandard\Sniffs\Namespaces;
 
+use DateTime;
 use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Sniffs\Sniff;
+use splFileInfo;
+use stdClass;
 
 /**
  * Rules:
@@ -15,7 +18,7 @@ final class ClassNamesWithoutPreSlashSniff implements Sniff
      * @var string[]
      */
     private $excludedClassNames = [
-        'DateTime', 'stdClass', 'splFileInfo', 'Exception',
+        DateTime::class, stdClass::class, splFileInfo::class, Throwable::class,
     ];
 
     /**

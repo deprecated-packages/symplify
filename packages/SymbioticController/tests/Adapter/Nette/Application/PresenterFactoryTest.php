@@ -2,7 +2,6 @@
 
 namespace Symplify\SymbioticController\Tests\Adapter\Nette\Application;
 
-use Error;
 use Nette\Application\IPresenter;
 use Nette\Application\IPresenterFactory;
 use Nette\Application\UI\Presenter;
@@ -65,12 +64,9 @@ final class PresenterFactoryTest extends TestCase
 
     public function testCreateErrorPresenter(): void
     {
-        $this->assertTrue(class_exists('Error'));
-
         $this->setupPresenterFactoryMapping();
 
         $errorPresenter = $this->presenterFactory->createPresenter('Error');
-        $this->assertNotInstanceOf(Error::class, $errorPresenter);
         $this->assertInstanceOf(ErrorPresenter::class, $errorPresenter);
 
         /* @var Presenter $somePresenter */

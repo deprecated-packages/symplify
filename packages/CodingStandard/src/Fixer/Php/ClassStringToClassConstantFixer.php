@@ -93,6 +93,11 @@ $interfaceName = "Nette\Utils\DateTime";
 
     private function isClassOrInterface(string $potentialClassOrInterface): bool
     {
+        // exception for often used "error" string; because class_exists() is case-insensitive
+        if ($potentialClassOrInterface === 'error') {
+            return false;
+        }
+
         return class_exists($potentialClassOrInterface)
             || interface_exists($potentialClassOrInterface)
             || (bool) preg_match(self::CLASS_OR_INTERFACE_PATTERN, $potentialClassOrInterface);
