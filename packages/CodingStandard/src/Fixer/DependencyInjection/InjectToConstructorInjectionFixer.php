@@ -97,7 +97,7 @@ class SomeClass
             }
 
             // A. has a constructor?
-            if ($constructMethodPosition) { // "function" token
+            if (is_int($constructMethodPosition)) { // "function" token
                 $this->addPropertyToConstructor($tokens, $propertyType, $propertyName, $constructMethodPosition);
             } else {
                 // B. doesn't have a constructor?
