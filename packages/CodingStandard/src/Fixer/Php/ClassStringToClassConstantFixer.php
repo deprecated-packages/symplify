@@ -6,7 +6,6 @@ use PhpCsFixer\Fixer\DefinedFixerInterface;
 use PhpCsFixer\FixerDefinition\CodeSample;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
-use PhpCsFixer\Tokenizer\CT;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
@@ -57,16 +56,14 @@ $interfaceName = "Nette\Utils\DateTime";
                 continue;
             }
 
-            $potentialClassOrInterface = trim($token->getContent(), "'");
-            if ($this->isClassOrInterface($potentialClassOrInterface)) {
-                $token->clear(); // overrideAt() fails on "Illegal offset type"
-
-                $classOrInterfaceTokens = $this->convertClassOrInterfaceNameToTokens($potentialClassOrInterface);
-                $tokens->insertAt($index, array_merge($classOrInterfaceTokens, [
-                    new Token([T_DOUBLE_COLON, '::']),
-                    new Token([CT::T_CLASS_CONSTANT, 'class']),
-                ]));
+            // remove quotes "" around the string
+            $potentialClassOrInterface = substr($token->getContent(), 1, -1);
+            if (! $this->isClassOrInterface($potentialClassOrInterface)) {
+                continue;
             }
+
+            $token->clear();
+            $tokens->insertAt($index, $this->convertClassOrInterfaceNameToTokens($potentialClassOrInterface));
         }
     }
 
@@ -103,18 +100,16 @@ $interfaceName = "Nette\Utils\DateTime";
             || (bool) preg_match(self::CLASS_OR_INTERFACE_PATTERN, $potentialClassOrInterface);
     }
 
-    /**
-     * @return Token[]
-     */
-    private function convertClassOrInterfaceNameToTokens(string $potentialClassOrInterface): array
+    private function convertClassOrInterfaceNameToTokens(string $potentialClassOrInterface): Tokens
     {
-        $tokens = [];
-        $nameParts = explode('\\', $potentialClassOrInterface);
+        $tokens = Tokens::fromCode(sprintf(
+            '<?php echo \\%s::class;',
+            $potentialClassOrInterface
+        ));
 
-        foreach ($nameParts as $namePart) {
-            $tokens[] = new Token([T_NS_SEPARATOR, '\\']);
-            $tokens[] = new Token([T_STRING, $namePart]);
-        }
+        $tokens->clearRange(0, 2); // clear start "<?php"
+        $tokens[$tokens->getSize() - 1]->clear(); // clear end ";"
+        $tokens->clearEmptyTokens();
 
         return $tokens;
     }
