@@ -81,6 +81,9 @@ checkers:
     - Symplify\CodingStandard\Sniffs\Namespaces\ClassNamesWithoutPreSlashSniff
     - PhpCsFixer\Fixer\NamespaceNotation\SingleBlankLineBeforeNamespaceFixer
     - PhpCsFixer\Fixer\NamespaceNotation\BlankLineAfterNamespaceFixer
+    - PhpCsFixer\Fixer\Import\OrderedImportsFixer
+    - PhpCsFixer\Fixer\Import\SingleImportPerStatementFixer
+    - PhpCsFixer\Fixer\Import\SingleLineAfterImportsFixer
 
     # Naming
     - Symplify\CodingStandard\Sniffs\Naming\AbstractClassNameSniff
@@ -130,7 +133,6 @@ checkers:
     - PhpCsFixer\Fixer\Operator\NotOperatorWithSuccessorSpaceFixer
     - PhpCsFixer\Fixer\ControlStructure\NoUselessElseFixer
     - PhpCsFixer\Fixer\ReturnNotation\NoUselessReturnFixer
-    - PhpCsFixer\Fixer\Import\OrderedImportsFixer
     - PhpCsFixer\Fixer\LanguageConstruct\CombineConsecutiveUnsetsFixer
     - PhpCsFixer\Fixer\Strict\StrictComparisonFixer
     - PhpCsFixer\Fixer\Alias\EregToPregFixer
@@ -159,8 +161,6 @@ checkers:
     - PhpCsFixer\Fixer\Whitespace\SingleBlankLineAtEofFixer
     PhpCsFixer\Fixer\ClassNotation\SingleClassElementPerStatementFixer:
         - property
-    - PhpCsFixer\Fixer\Import\SingleImportPerStatementFixer
-    - PhpCsFixer\Fixer\Import\SingleLineAfterImportsFixer
     - PhpCsFixer\Fixer\ControlStructure\SwitchCaseSemicolonToColonFixer
     - PhpCsFixer\Fixer\ControlStructure\SwitchCaseSpaceFixer
 
