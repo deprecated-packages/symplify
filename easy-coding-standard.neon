@@ -1,4 +1,5 @@
 checkers:
+    - Symplify\CodingStandard\Fixer\Php\ClassStringToClassConstantFixer
     - Symplify\CodingStandard\Fixer\Property\ArrayPropertyDefaultValueFixer
 
     # Classes
