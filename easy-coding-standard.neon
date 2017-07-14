@@ -81,9 +81,14 @@ checkers:
     - Symplify\CodingStandard\Sniffs\Namespaces\ClassNamesWithoutPreSlashSniff
     - PhpCsFixer\Fixer\NamespaceNotation\SingleBlankLineBeforeNamespaceFixer
     - PhpCsFixer\Fixer\NamespaceNotation\BlankLineAfterNamespaceFixer
+    - SlevomatCodingStandard\Sniffs\Namespaces\DisallowGroupUseSniff
+    - SlevomatCodingStandard\Sniffs\Namespaces\ReferenceUsedNamesOnlySniff
+    - SlevomatCodingStandard\Sniffs\Namespaces\UseFromSameNamespaceSniff
     - PhpCsFixer\Fixer\Import\OrderedImportsFixer
     - PhpCsFixer\Fixer\Import\SingleImportPerStatementFixer
     - PhpCsFixer\Fixer\Import\SingleLineAfterImportsFixer
+    - PhpCsFixer\Fixer\Import\NoLeadingImportSlashFixer
+    - PhpCsFixer\Fixer\Import\NoUnusedImportsFixer
 
     # Naming
     - Symplify\CodingStandard\Sniffs\Naming\AbstractClassNameSniff
@@ -113,12 +118,6 @@ checkers:
             - @todo
             - @dataProvider
         enableEachParameterAndReturnInspection: true
-    - SlevomatCodingStandard\Sniffs\Namespaces\AlphabeticallySortedUsesSniff
-    - SlevomatCodingStandard\Sniffs\Namespaces\DisallowGroupUseSniff
-    - SlevomatCodingStandard\Sniffs\Namespaces\MultipleUsesPerLineSniff
-    - SlevomatCodingStandard\Sniffs\Namespaces\ReferenceUsedNamesOnlySniff
-    - SlevomatCodingStandard\Sniffs\Namespaces\UseDoesNotStartWithBackslashSniff
-    - SlevomatCodingStandard\Sniffs\Namespaces\UseFromSameNamespaceSniff
 
     PhpCsFixer\Fixer\Operator\ConcatSpaceFixer:
         spacing: one
@@ -193,7 +192,6 @@ checkers:
         - square_brace_block
         - throw
         - use
-    - PhpCsFixer\Fixer\Import\NoLeadingImportSlashFixer
     - PhpCsFixer\Fixer\NamespaceNotation\NoLeadingNamespaceWhitespaceFixer
     - PhpCsFixer\Fixer\Alias\NoMixedEchoPrintFixer
     - PhpCsFixer\Fixer\ArrayNotation\NoMultilineWhitespaceAroundDoubleArrowFixer
@@ -204,7 +202,6 @@ checkers:
     - PhpCsFixer\Fixer\ArrayNotation\NoTrailingCommaInSinglelineArrayFixer
     - PhpCsFixer\Fixer\ArrayNotation\TrailingCommaInMultilineArrayFixer
     - PhpCsFixer\Fixer\ControlStructure\NoUnneededControlParenthesesFixer
-    - PhpCsFixer\Fixer\Import\NoUnusedImportsFixer
     - PhpCsFixer\Fixer\ArrayNotation\NoWhitespaceBeforeCommaInArrayFixer
     - PhpCsFixer\Fixer\Whitespace\NoWhitespaceInBlankLineFixer
     - PhpCsFixer\Fixer\ArrayNotation\NormalizeIndexBraceFixer

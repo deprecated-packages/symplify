@@ -342,22 +342,6 @@ $directory = new Directory([$file]);
 dump($value);
 ```
 
-### Class name after new/instanceof should not start with slash.
-
-- [Namespaces/ClassNamesWithoutPreSlashSniff](/src/Sniffs/Namespaces/ClassNamesWithoutPreSlashSniff.php)
-- `Symplify.Namespaces.ClassNamesWithoutPreSlash`
-
-:x:
-
-```php
-$file = new \File;
-```
- 
-:+1:
-
-```php
-$file = new File;
-```
 
 ### Abstract class should have prefix "Abstract"
 

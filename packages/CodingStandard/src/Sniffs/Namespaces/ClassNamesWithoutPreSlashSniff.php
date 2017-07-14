@@ -4,10 +4,11 @@ namespace Symplify\CodingStandard\Sniffs\Namespaces;
 
 use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Sniffs\Sniff;
+use SlevomatCodingStandard\Sniffs\Namespaces\ReferenceUsedNamesOnlySniff;
 
 /**
- * Rules:
- * - Class name after new/instanceof should not start with slash.
+ * @deprecated Will be removed in 3.0.
+ * Use @see \SlevomatCodingStandard\Sniffs\Namespaces\ReferenceUsedNamesOnlySniff instead.
  */
 final class ClassNamesWithoutPreSlashSniff implements Sniff
 {
@@ -24,6 +25,15 @@ final class ClassNamesWithoutPreSlashSniff implements Sniff
     public function register(): array
     {
         return [T_NEW, T_INSTANCEOF];
+    }
+
+    public function __construct()
+    {
+        trigger_error(sprintf(
+            'Class "%s" was deprecated in favor of "%s" that performs the same check. Use it instead.',
+            self::class,
+            ReferenceUsedNamesOnlySniff::class
+        ), E_USER_DEPRECATED);
     }
 
     /**
