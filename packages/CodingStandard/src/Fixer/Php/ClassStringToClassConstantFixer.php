@@ -2,7 +2,6 @@
 
 namespace Symplify\CodingStandard\Fixer\Php;
 
-use Nette\Utils\Strings;
 use PhpCsFixer\Fixer\DefinedFixerInterface;
 use PhpCsFixer\FixerDefinition\CodeSample;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
@@ -14,7 +13,6 @@ use SplFileInfo;
 
 final class ClassStringToClassConstantFixer implements DefinedFixerInterface
 {
-
     /**
      * @var string
      */
@@ -23,7 +21,7 @@ final class ClassStringToClassConstantFixer implements DefinedFixerInterface
     public function getDefinition(): FixerDefinitionInterface
     {
         return new FixerDefinition(
-            '"SomeClass::class" references should be used over string.',
+            '`::class` references should be used over string for classes and interfaces.',
             [
                 new CodeSample(
 '<?php      

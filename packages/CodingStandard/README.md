@@ -49,7 +49,7 @@ class SomeClass
 ```
 
 
-### `SomeClass::class` references should be used over string
+### `::class` references should be used over string for classes and interfaces
  
  
 - [Php/ClassStringToClassConstantFixer](/src/Fixer/Php/ClassStringToClassConstantFixer.php)
