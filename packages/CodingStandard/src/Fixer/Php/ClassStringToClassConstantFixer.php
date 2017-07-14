@@ -54,12 +54,12 @@ $interfaceName = "Nette\Utils\DateTime";
             $potentialClassOrInterfaceName = trim($token->getContent(), "'");
             if (class_exists($potentialClassOrInterfaceName) || interface_exists($potentialClassOrInterfaceName)) {
                 $token->clear(); // overrideAt() fails on "Illegal offset type"
-                $tokens->insertAt($index, [
-                    new Token([T_NS_SEPARATOR, '\\']),
-                    new Token([T_STRING, $potentialClassOrInterfaceName]),
+
+                $classOrInterfaceTokens = $this->convertClassOrInterfaceNameToTokens($potentialClassOrInterfaceName);
+                $tokens->insertAt($index, array_merge($classOrInterfaceTokens, [
                     new Token([T_DOUBLE_COLON, '::']),
                     new Token([CT::T_CLASS_CONSTANT, 'class']),
-                ]);
+                ]));
             }
         }
     }
@@ -83,5 +83,21 @@ $interfaceName = "Nette\Utils\DateTime";
     public function supports(SplFileInfo $file): bool
     {
         return true;
+    }
+
+    /**
+     * @return Token[]
+     */
+    private function convertClassOrInterfaceNameToTokens(string $potentialClassOrInterfaceName): array
+    {
+        $tokens = [];
+        $nameParts = explode('\\', $potentialClassOrInterfaceName);
+
+        foreach ($nameParts as $namePart) {
+            $tokens[] = new Token([T_NS_SEPARATOR, '\\']);
+            $tokens[] = new Token([T_STRING, $namePart]);
+        }
+
+        return $tokens;
     }
 }
