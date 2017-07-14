@@ -17,7 +17,7 @@ final class ClassStringToClassConstantFixer implements DefinedFixerInterface
     public function getDefinition(): FixerDefinitionInterface
     {
         return new FixerDefinition(
-            '::class refences should be used over string.',
+            '"SomeClass::class" references should be used over string.',
             [
                 new CodeSample(
 '<?php      
