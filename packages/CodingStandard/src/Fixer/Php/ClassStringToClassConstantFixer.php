@@ -29,20 +29,25 @@ $className = "DateTime";
 
 $interfaceName = "DateTimeInterface";  
                 '),
+                new CodeSample(
+'<?php      
+
+$interfaceName = "Nette\Utils\DateTime";  
+                '),
             ]
         );
     }
 
     public function isCandidate(Tokens $tokens): bool
     {
-        return true;
+        return $tokens->isTokenKindFound(T_CONSTANT_ENCAPSED_STRING);
     }
 
     public function fix(SplFileInfo $file, Tokens $tokens): void
     {
         foreach (array_reverse($tokens->toArray(), true) as $index => $token) {
             /** @var Token $token */
-            if (! $this->isStringToken($token)) {
+            if (! $token->isGivenKind(T_CONSTANT_ENCAPSED_STRING)) {
                 continue;
             }
 
@@ -78,11 +83,5 @@ $interfaceName = "DateTimeInterface";
     public function supports(SplFileInfo $file): bool
     {
         return true;
-    }
-
-    private function isStringToken(Token $token): bool
-    {
-        return Strings::startsWith($token->getContent(), "'")
-            && Strings::endsWith($token->getContent(), "'");
     }
 }
