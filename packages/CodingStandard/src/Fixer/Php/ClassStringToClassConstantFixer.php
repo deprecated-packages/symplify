@@ -16,7 +16,7 @@ final class ClassStringToClassConstantFixer implements DefinedFixerInterface
     /**
      * @var string
      */
-    private const CLASS_OR_INTERFACE_PATTERN = '#^[A-Z]\w*[a-z]\w*(\\\\[A-Z]\w*[a-z]\w*)*\z#';
+    private const CLASS_OR_INTERFACE_PATTERN = '#^[A-Z]\w*[a-z]\w*(\\\\[A-Z]\w*[a-z]\w*)+\z#';
 
     public function getDefinition(): FixerDefinitionInterface
     {
@@ -82,8 +82,8 @@ $interfaceName = "Nette\Utils\DateTime";
 
     public function getPriority(): int
     {
-        // @todo combine with namespace import fixer/sniff
-        return 0;
+        // should be run before the OrderedImportsFixer, after the NoLeadingImportSlashFixer
+        return -25;
     }
 
     public function supports(SplFileInfo $file): bool
@@ -93,7 +93,9 @@ $interfaceName = "Nette\Utils\DateTime";
 
     private function isClassOrInterface(string $potentialClassOrInterface): bool
     {
-        return (bool) preg_match(self::CLASS_OR_INTERFACE_PATTERN, $potentialClassOrInterface);
+        return class_exists($potentialClassOrInterface)
+            || interface_exists($potentialClassOrInterface)
+            || (bool) preg_match(self::CLASS_OR_INTERFACE_PATTERN, $potentialClassOrInterface);
     }
 
     /**
