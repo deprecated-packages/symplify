@@ -4,10 +4,11 @@ namespace Symplify\EasyCodingStandard\Contract\Finder;
 
 use SplFileInfo;
 
-interface SourceProviderInterface
+interface ExtraFilesProviderInterface
 {
     /**
+     * @param string[] $source
      * @return SplFileInfo[]
      */
-    public function provide(): array;
+    public function provideForSource(array $source): array;
 }

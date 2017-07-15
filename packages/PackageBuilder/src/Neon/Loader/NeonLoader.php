@@ -8,6 +8,8 @@ use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\Config\Loader\LoaderResolverInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\DependencyInjection\Definition;
+use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symplify\PackageBuilder\Exception\Neon\InvalidSectionException;
 
 final class NeonLoader implements LoaderInterface
@@ -52,6 +54,7 @@ final class NeonLoader implements LoaderInterface
             $this->validateContentSections($content, $allowedSections);
         }
 
+        // add parameters
         if (isset($content['parameters'])) {
             $content += $content['parameters'];
             unset($content['parameters']);
@@ -59,6 +62,18 @@ final class NeonLoader implements LoaderInterface
 
         foreach ($content as $key => $value) {
             $this->containerBuilder->setParameter($key, $value);
+        }
+
+        // register services
+        if (isset($content['services'])) {
+            // @todo: make fail proof, possible use YamlLoader with reflection?
+            if (! is_array($content['services'])) {
+                return;
+            }
+
+            foreach ($content['services'] as $service) {
+                $this->containerBuilder->addDefinitions([new Definition($service)]);
+            }
         }
     }
 
