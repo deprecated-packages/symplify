@@ -113,12 +113,6 @@ checkers:
             - @todo
             - @dataProvider
         enableEachParameterAndReturnInspection: true
-    - SlevomatCodingStandard\Sniffs\Namespaces\AlphabeticallySortedUsesSniff
-    - SlevomatCodingStandard\Sniffs\Namespaces\DisallowGroupUseSniff
-    - SlevomatCodingStandard\Sniffs\Namespaces\MultipleUsesPerLineSniff
-    - SlevomatCodingStandard\Sniffs\Namespaces\ReferenceUsedNamesOnlySniff
-    - SlevomatCodingStandard\Sniffs\Namespaces\UseDoesNotStartWithBackslashSniff
-    - SlevomatCodingStandard\Sniffs\Namespaces\UseFromSameNamespaceSniff
 
     PhpCsFixer\Fixer\Operator\ConcatSpaceFixer:
         spacing: one
@@ -193,7 +187,6 @@ checkers:
         - square_brace_block
         - throw
         - use
-    - PhpCsFixer\Fixer\Import\NoLeadingImportSlashFixer
     - PhpCsFixer\Fixer\NamespaceNotation\NoLeadingNamespaceWhitespaceFixer
     - PhpCsFixer\Fixer\Alias\NoMixedEchoPrintFixer
     - PhpCsFixer\Fixer\ArrayNotation\NoMultilineWhitespaceAroundDoubleArrowFixer
@@ -204,7 +197,6 @@ checkers:
     - PhpCsFixer\Fixer\ArrayNotation\NoTrailingCommaInSinglelineArrayFixer
     - PhpCsFixer\Fixer\ArrayNotation\TrailingCommaInMultilineArrayFixer
     - PhpCsFixer\Fixer\ControlStructure\NoUnneededControlParenthesesFixer
-    - PhpCsFixer\Fixer\Import\NoUnusedImportsFixer
     - PhpCsFixer\Fixer\ArrayNotation\NoWhitespaceBeforeCommaInArrayFixer
     - PhpCsFixer\Fixer\Whitespace\NoWhitespaceInBlankLineFixer
     - PhpCsFixer\Fixer\ArrayNotation\NormalizeIndexBraceFixer
