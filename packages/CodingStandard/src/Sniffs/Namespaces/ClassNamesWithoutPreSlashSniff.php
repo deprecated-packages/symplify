@@ -2,9 +2,12 @@
 
 namespace Symplify\CodingStandard\Sniffs\Namespaces;
 
+use DateTime;
 use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Sniffs\Sniff;
-use SlevomatCodingStandard\Sniffs\Namespaces\ReferenceUsedNamesOnlySniff;
+use SplFileInfo;
+use stdClass;
+use Throwable;
 
 /**
  * @deprecated Will be removed in 3.0.
@@ -16,7 +19,7 @@ final class ClassNamesWithoutPreSlashSniff implements Sniff
      * @var string[]
      */
     private $excludedClassNames = [
-        'DateTime', 'stdClass', 'splFileInfo', 'Exception',
+        DateTime::class, stdClass::class, SplFileInfo::class, Throwable::class,
     ];
 
     /**

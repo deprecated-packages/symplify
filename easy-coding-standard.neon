@@ -81,14 +81,9 @@ checkers:
     - Symplify\CodingStandard\Sniffs\Namespaces\ClassNamesWithoutPreSlashSniff
     - PhpCsFixer\Fixer\NamespaceNotation\SingleBlankLineBeforeNamespaceFixer
     - PhpCsFixer\Fixer\NamespaceNotation\BlankLineAfterNamespaceFixer
-    - SlevomatCodingStandard\Sniffs\Namespaces\DisallowGroupUseSniff
-    - SlevomatCodingStandard\Sniffs\Namespaces\ReferenceUsedNamesOnlySniff
-    - SlevomatCodingStandard\Sniffs\Namespaces\UseFromSameNamespaceSniff
     - PhpCsFixer\Fixer\Import\OrderedImportsFixer
     - PhpCsFixer\Fixer\Import\SingleImportPerStatementFixer
     - PhpCsFixer\Fixer\Import\SingleLineAfterImportsFixer
-    - PhpCsFixer\Fixer\Import\NoLeadingImportSlashFixer
-    - PhpCsFixer\Fixer\Import\NoUnusedImportsFixer
 
     # Naming
     - Symplify\CodingStandard\Sniffs\Naming\AbstractClassNameSniff
@@ -280,3 +275,13 @@ parameters:
         PhpCsFixer\Fixer\Semicolon\SpaceAfterSemicolonFixer:
             # bugged fixer
             - packages/CodingStandard/src/Fixer/DependencyInjection/InjectToConstructorInjectionFixer.php
+
+        Symplify\CodingStandard\Fixer\Php\ClassStringToClassConstantFixer:
+            # optional package, interface might not exist
+            - packages/CodingStandard/src/Sniffs/Classes/EqualInterfaceImplementationSniff.php
+            # "Exception" is string part of the name
+            - packages/CodingStandard/src/Sniffs/Naming/ExceptionNameSniff.php
+            # "Error" is a name of Presenter
+            - packages/SymbioticController/tests/Adapter/Nette/Application/PresenterFactoryTest.php
+            # class is only for tested cases, it doesn't exist
+            - packages/SymbioticController/tests/Adapter/Nette/Routing/PresenterMapperTest.php
