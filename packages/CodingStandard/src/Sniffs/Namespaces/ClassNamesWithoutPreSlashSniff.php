@@ -5,6 +5,7 @@ namespace Symplify\CodingStandard\Sniffs\Namespaces;
 use DateTime;
 use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Sniffs\Sniff;
+use SlevomatCodingStandard\Sniffs\Namespaces\ReferenceUsedNamesOnlySniff;
 use SplFileInfo;
 use stdClass;
 use Throwable;
