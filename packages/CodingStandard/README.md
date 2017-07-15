@@ -49,6 +49,25 @@ class SomeClass
 ```
 
 
+### `::class` references should be used over string for classes and interfaces
+ 
+ 
+- [Php/ClassStringToClassConstantFixer](/src/Fixer/Php/ClassStringToClassConstantFixer.php)
+- This checker uses *[PHP-CS-Fixer](https://github.com/friendsofphp/php-cs-fixer)*
+
+:x:
+
+```php
+$className = 'DateTime';
+```
+
+:+1:
+
+```php
+$className = DateTime::class;
+```
+
+
 
 ### Array property should have default value, to prevent undefined array issues
 
@@ -77,6 +96,7 @@ class SomeClass
 
 
 :+1:
+
 
 ``` php
 class SomeClass

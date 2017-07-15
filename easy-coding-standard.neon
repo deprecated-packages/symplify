@@ -1,4 +1,5 @@
 checkers:
+    - Symplify\CodingStandard\Fixer\Php\ClassStringToClassConstantFixer
     - Symplify\CodingStandard\Fixer\Property\ArrayPropertyDefaultValueFixer
 
     # Classes
@@ -80,6 +81,9 @@ checkers:
     - Symplify\CodingStandard\Sniffs\Namespaces\ClassNamesWithoutPreSlashSniff
     - PhpCsFixer\Fixer\NamespaceNotation\SingleBlankLineBeforeNamespaceFixer
     - PhpCsFixer\Fixer\NamespaceNotation\BlankLineAfterNamespaceFixer
+    - PhpCsFixer\Fixer\Import\OrderedImportsFixer
+    - PhpCsFixer\Fixer\Import\SingleImportPerStatementFixer
+    - PhpCsFixer\Fixer\Import\SingleLineAfterImportsFixer
 
     # Naming
     - Symplify\CodingStandard\Sniffs\Naming\AbstractClassNameSniff
@@ -129,7 +133,6 @@ checkers:
     - PhpCsFixer\Fixer\Operator\NotOperatorWithSuccessorSpaceFixer
     - PhpCsFixer\Fixer\ControlStructure\NoUselessElseFixer
     - PhpCsFixer\Fixer\ReturnNotation\NoUselessReturnFixer
-    - PhpCsFixer\Fixer\Import\OrderedImportsFixer
     - PhpCsFixer\Fixer\LanguageConstruct\CombineConsecutiveUnsetsFixer
     - PhpCsFixer\Fixer\Strict\StrictComparisonFixer
     - PhpCsFixer\Fixer\Alias\EregToPregFixer
@@ -158,8 +161,6 @@ checkers:
     - PhpCsFixer\Fixer\Whitespace\SingleBlankLineAtEofFixer
     PhpCsFixer\Fixer\ClassNotation\SingleClassElementPerStatementFixer:
         - property
-    - PhpCsFixer\Fixer\Import\SingleImportPerStatementFixer
-    - PhpCsFixer\Fixer\Import\SingleLineAfterImportsFixer
     - PhpCsFixer\Fixer\ControlStructure\SwitchCaseSemicolonToColonFixer
     - PhpCsFixer\Fixer\ControlStructure\SwitchCaseSpaceFixer
 
@@ -282,3 +283,13 @@ parameters:
         PhpCsFixer\Fixer\Semicolon\SpaceAfterSemicolonFixer:
             # bugged fixer
             - packages/CodingStandard/src/Fixer/DependencyInjection/InjectToConstructorInjectionFixer.php
+
+        Symplify\CodingStandard\Fixer\Php\ClassStringToClassConstantFixer:
+            # optional package, interface might not exist
+            - packages/CodingStandard/src/Sniffs/Classes/EqualInterfaceImplementationSniff.php
+            # "Exception" is string part of the name
+            - packages/CodingStandard/src/Sniffs/Naming/ExceptionNameSniff.php
+            # "Error" is a name of Presenter
+            - packages/SymbioticController/tests/Adapter/Nette/Application/PresenterFactoryTest.php
+            # class is only for tested cases, it doesn't exist
+            - packages/SymbioticController/tests/Adapter/Nette/Routing/PresenterMapperTest.php
