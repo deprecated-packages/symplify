@@ -11,5 +11,5 @@ parameters:
     enableUnionTypes: true
     autoload_files:
         - %currentWorkingDirectory%/vendor/squizlabs/php_codesniffer/autoload.php
-        - packages/EasyCodingStandard/tests/Finder/SourceFinderSource/SomeClass.php
+        - packages/EasyCodingStandard/tests/Finder/SourceFinderSource/Source/SomeClass.php
         - packages/EasyCodingStandard/packages/ChangedFilesDetector/tests/ChangedFilesDetectorSource/OneClass.php

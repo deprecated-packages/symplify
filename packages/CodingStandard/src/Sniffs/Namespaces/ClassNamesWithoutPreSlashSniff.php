@@ -23,14 +23,6 @@ final class ClassNamesWithoutPreSlashSniff implements Sniff
         DateTime::class, stdClass::class, SplFileInfo::class, Throwable::class,
     ];
 
-    /**
-     * @return int[]
-     */
-    public function register(): array
-    {
-        return [T_NEW, T_INSTANCEOF];
-    }
-
     public function __construct()
     {
         trigger_error(sprintf(
@@ -38,6 +30,14 @@ final class ClassNamesWithoutPreSlashSniff implements Sniff
             self::class,
             ReferenceUsedNamesOnlySniff::class
         ), E_USER_DEPRECATED);
+    }
+
+    /**
+     * @return int[]
+     */
+    public function register(): array
+    {
+        return [T_NEW, T_INSTANCEOF];
     }
 
     /**
