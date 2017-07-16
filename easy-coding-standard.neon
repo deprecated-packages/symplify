@@ -83,6 +83,7 @@ checkers:
     - PhpCsFixer\Fixer\Import\OrderedImportsFixer
     - PhpCsFixer\Fixer\Import\SingleImportPerStatementFixer
     - PhpCsFixer\Fixer\Import\SingleLineAfterImportsFixer
+    - SlevomatCodingStandard\Sniffs\Namespaces\ReferenceUsedNamesOnlySniff
 
     # Naming
     - Symplify\CodingStandard\Sniffs\Naming\AbstractClassNameSniff
