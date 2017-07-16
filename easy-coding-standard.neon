@@ -78,7 +78,6 @@ checkers:
     - Symplify\CodingStandard\Sniffs\Debug\CommentedOutCodeSniff
 
     # Namespaces
-    - Symplify\CodingStandard\Sniffs\Namespaces\ClassNamesWithoutPreSlashSniff
     - PhpCsFixer\Fixer\NamespaceNotation\SingleBlankLineBeforeNamespaceFixer
     - PhpCsFixer\Fixer\NamespaceNotation\BlankLineAfterNamespaceFixer
     - PhpCsFixer\Fixer\Import\OrderedImportsFixer
