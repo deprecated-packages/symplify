@@ -56,6 +56,7 @@ final class CollectorCompilerPass implements CompilerPassInterface
 
     private function collectExtraFilesProvidersToSourceFinder(ContainerBuilder $containerBuilder): void
     {
+    	// TODO: add Symplify\EasyCodingStandard\Finder\DefaultFilesProvider if there are no ExtraFilesProviderInterface
         DefinitionCollector::loadCollectorWithType(
             $containerBuilder,
             SourceFinder::class,

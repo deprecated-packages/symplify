@@ -25,10 +25,6 @@ final class SourceFinder
     {
         $files = [];
 
-        if (! $this->extraFilesProvider) {
-            $this->extraFilesProvider[] = new DefaultFilesProvider;
-        }
-
         foreach ($this->extraFilesProvider as $extraFilesProvider) {
             $files = array_merge($files, $extraFilesProvider->provideForSource($source));
         }
