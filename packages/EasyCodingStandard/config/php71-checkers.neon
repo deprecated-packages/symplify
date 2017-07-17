@@ -4,8 +4,3 @@ checkers:
         - const
         - method
         - property
-    PhpCsFixer\Fixer\Alias\RandomApiMigrationFixer:
-        mt_rand: random_int
-        rand: random_int
-    - PhpCsFixer\Fixer\Operator\TernaryToNullCoalescingFixer
-    - PhpCsFixer\Fixer\Alias\PowToExponentiationFixer
