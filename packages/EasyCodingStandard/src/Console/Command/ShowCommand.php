@@ -26,6 +26,11 @@ final class ShowCommand extends Command
     private const OPTION_FIXER_SET_NAME = 'fixer-set';
 
     /**
+     * @var string
+     */
+    private const OPTION_WITH_CONFIG = 'with-config';
+
+    /**
      * @var SniffFileProcessor
      */
     private $sniffFileProcessor;
@@ -72,7 +77,13 @@ final class ShowCommand extends Command
             self::OPTION_FIXER_SET_NAME,
             null,
             InputOption::VALUE_REQUIRED,
-            'Fixer sets (@PSR1, @PSR2, @Symfony...)'
+            'Show fixers in PHP-CS-Fixer sets (@PSR1, @PSR2, @Symfony...)'
+        );
+        $this->addOption(
+            self::OPTION_WITH_CONFIG,
+            null,
+            InputOption::VALUE_NONE,
+            'Show also specific checker configuration'
         );
     }
 
@@ -80,8 +91,13 @@ final class ShowCommand extends Command
     {
         if ($fixerSetName = $input->getOption(self::OPTION_FIXER_SET_NAME)) {
             $fixerSet = $this->fixerSetExtractor->extract($fixerSetName);
-            $fixerNames = array_keys($fixerSet);
-            $this->displayCheckerList($fixerNames, 'PHP-CS-Fixer - fixer set ' . $fixerSetName);
+
+            if ($input->getOption(self::OPTION_WITH_CONFIG)) {
+                $this->displayCheckerListWithConfig($fixerSet, 'PHP-CS-Fixer - fixer set ' . $fixerSetName);
+            } else {
+                $fixerNames = array_keys($fixerSet);
+                $this->displayCheckerList($fixerNames, 'PHP-CS-Fixer - fixer set ' . $fixerSetName);
+            }
         } else {
             $this->displayCheckerList($this->sniffFileProcessor->getSniffs(), 'PHP_CodeSniffer');
             $this->displayCheckerList($this->fixerFileProcessor->getFixers(), 'PHP-CS-Fixer');
@@ -120,9 +136,37 @@ final class ShowCommand extends Command
         ));
 
         sort($checkerNames);
-
         foreach ($checkerNames as $checkerName) {
             $this->symfonyStyle->text(' - ' . $checkerName);
+        }
+    }
+
+    /**
+     * @param mixed[] $checkerSet
+     */
+    private function displayCheckerListWithConfig(array $checkerSet, string $type): void
+    {
+        $this->checkersTotal += count($checkerSet);
+
+        foreach ($checkerSet as $checkerName => $config) {
+            if (! is_array($config)) {
+                $this->symfonyStyle->text('- ' . $checkerName);
+                continue;
+            }
+
+            foreach ($config as $option => $value) {
+                $this->symfonyStyle->text($checkerName . ':');
+                if (! is_array($value)) {
+                    $value === true ? 'true' : $value;
+                    $value === false ? 'false' : $value;
+                    $this->symfonyStyle->text('    ' . $option . ': ' . $value);
+                } else {
+                    $this->symfonyStyle->text('    ' . $option . ':');
+                    foreach ($value as $subValue) {
+                        $this->symfonyStyle->text('        - ' . $subValue);
+                    }
+                }
+            }
         }
     }
 }
