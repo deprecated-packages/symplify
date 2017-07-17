@@ -10,6 +10,7 @@ use Sabberworm\CSS\Rule\Rule;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
 use Symplify\EasyCodingStandard\CheckerSetExtractor\Exception\MissingFixerSetException;
+use Throwable;
 
 final class FixerSetExtractor
 {
@@ -27,7 +28,7 @@ final class FixerSetExtractor
 
         try {
             $fixerSet = RuleSet::create([$name => true]);
-        } catch (\Throwable $throwable) {
+        } catch (Throwable $throwable) {
             $availableFixerSetNames = (new RuleSet)->getSetDefinitionNames();
             throw new MissingFixerSetException(sprintf(
             'Set "%s" was not found. Try one of: "%s.',
@@ -37,6 +38,7 @@ final class FixerSetExtractor
         }
 
         $fixerNames = $fixerSet->getRules();
+
         return $this->convertFixerNamesToFixerClasses($fixerNames);
     }
 
