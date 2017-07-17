@@ -26,16 +26,18 @@ final class SourceFinder
     {
         $files = [];
 
-        foreach ($source as $singleSource) {
-            if (is_file($singleSource)) {
-                $files = $this->processFile($files, $singleSource);
-            } else {
-                $files = $this->processDirectory($files, $singleSource);
-            }
-        }
-
-        foreach ($this->extraFilesProvider as $extraFilesProvider) {
-            $files[] = $extraFilesProvider->provideForSource($source);
+        if ($this->extraFilesProvider) {
+	        foreach ($this->extraFilesProvider as $extraFilesProvider) {
+	            $files = array_merge($files, $extraFilesProvider->provideForSource($source));
+	        }
+        } else {
+	        foreach ($source as $singleSource) {
+	            if (is_file($singleSource)) {
+	                $files = $this->processFile($files, $singleSource);
+	            } else {
+	                $files = $this->processDirectory($files, $singleSource);
+	            }
+	        }
         }
 
         return $files;
