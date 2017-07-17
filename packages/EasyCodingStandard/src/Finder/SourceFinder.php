@@ -3,7 +3,6 @@
 namespace Symplify\EasyCodingStandard\Finder;
 
 use SplFileInfo;
-use Symfony\Component\Finder\Finder;
 use Symplify\EasyCodingStandard\Contract\Finder\ExtraFilesProviderInterface;
 
 final class SourceFinder
@@ -26,45 +25,14 @@ final class SourceFinder
     {
         $files = [];
 
-        if ($this->extraFilesProvider) {
-	        foreach ($this->extraFilesProvider as $extraFilesProvider) {
-	            $files = array_merge($files, $extraFilesProvider->provideForSource($source));
-	        }
-        } else {
-	        foreach ($source as $singleSource) {
-	            if (is_file($singleSource)) {
-	                $files = $this->processFile($files, $singleSource);
-	            } else {
-	                $files = $this->processDirectory($files, $singleSource);
-	            }
-	        }
+        if (! $this->extraFilesProvider) {
+            $this->extraFilesProvider[] = new DefaultFilesProvider;
+        }
+
+        foreach ($this->extraFilesProvider as $extraFilesProvider) {
+            $files = array_merge($files, $extraFilesProvider->provideForSource($source));
         }
 
         return $files;
-    }
-
-    /**
-     * @param SplFileInfo[] $files
-     * @return SplFileInfo[]
-     */
-    private function processFile(array $files, string $file): array
-    {
-        return array_merge($files, [
-            $file => new SplFileInfo($file),
-        ]);
-    }
-
-    /**
-     * @param SplFileInfo[] $files
-     * @param string $file
-     * @return SplFileInfo[]
-     */
-    private function processDirectory(array $files, string $directory): array
-    {
-        $finder = (new Finder)->files()
-            ->name('*.php')
-            ->in($directory);
-
-        return array_merge($files, iterator_to_array($finder->getIterator()));
     }
 }
