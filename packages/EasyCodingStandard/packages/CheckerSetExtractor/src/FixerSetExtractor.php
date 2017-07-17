@@ -47,11 +47,11 @@ final class FixerSetExtractor
 
     private function normalizeName(string $name): string
     {
-        if (Strings::contains($name, 'psr')) {
+        if (stripos($name, 'psr') !== false) {
             $name = strtoupper($name);
         }
 
-        if (Strings::contains($name, 'symfony') || Strings::contains($name, 'SYMFONY')) {
+        if (stripos($name, 'symfony') !== false) {
             $name = ucfirst(ltrim(strtolower($name), '@'));
         }
 
