@@ -4,6 +4,7 @@ namespace Symplify\EasyCodingStandard\CheckerSetExtractor\Tests;
 
 use PhpCsFixer\Fixer\Operator\BinaryOperatorSpacesFixer;
 use PHPUnit\Framework\TestCase;
+use Symplify\EasyCodingStandard\CheckerSetExtractor\Exception\MissingFixerSetException;
 use Symplify\EasyCodingStandard\CheckerSetExtractor\FixerSetExtractor;
 
 final class FixerSetExtractorTest extends TestCase
@@ -32,6 +33,12 @@ final class FixerSetExtractorTest extends TestCase
         $symfonyFixerSet = $this->fixerSetExtractor->extract('symfony');
 
         $this->assertArrayHasKey(BinaryOperatorSpacesFixer::class, $symfonyFixerSet);
+    }
+
+    public function testMissingSetException(): void
+    {
+        $this->expectException(MissingFixerSetException::class);
+        $this->fixerSetExtractor->extract('Nette');
     }
 
     public function testNormalizeName(): void

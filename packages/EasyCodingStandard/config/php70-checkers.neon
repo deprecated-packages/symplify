@@ -1,0 +1,7 @@
+checkers:
+    # PHP-CS-Fixer only
+    - PhpCsFixer\Fixer\Alias\PowToExponentiationFixer
+    - PhpCsFixer\Fixer\Alias\RandomApiMigrationFixer
+    - PhpCsFixer\Fixer\Operator\TernaryToNullCoalescingFixer
+    # risky
+    - PhpCsFixer\Fixer\Strict\DeclareStrictTypesFixer

@@ -6,8 +6,10 @@ use Nette\Utils\Strings;
 use PhpCsFixer\Fixer\FixerInterface;
 use PhpCsFixer\RuleSet;
 use ReflectionClass;
+use Sabberworm\CSS\Rule\Rule;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
+use Symplify\EasyCodingStandard\CheckerSetExtractor\Exception\MissingFixerSetException;
 
 final class FixerSetExtractor
 {
@@ -23,9 +25,18 @@ final class FixerSetExtractor
     {
         $name = $this->normalizeName($name);
 
-        $fixerSet = RuleSet::create([$name => true]);
-        $fixerNames = $fixerSet->getRules();
+        try {
+            $fixerSet = RuleSet::create([$name => true]);
+        } catch (\Throwable $throwable) {
+            $availableFixerSetNames = (new RuleSet)->getSetDefinitionNames();
+            throw new MissingFixerSetException(sprintf(
+            'Set "%s" was not found. Try one of: "%s.',
+                $name,
+                implode(', ', $availableFixerSetNames)
+            ));
+        }
 
+        $fixerNames = $fixerSet->getRules();
         return $this->convertFixerNamesToFixerClasses($fixerNames);
     }
 

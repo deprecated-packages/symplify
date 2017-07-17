@@ -137,7 +137,7 @@ final class ShowCommand extends Command
 
         sort($checkerNames);
         foreach ($checkerNames as $checkerName) {
-            $this->symfonyStyle->text(' - ' . $checkerName);
+            $this->symfonyStyle->text('- ' . $checkerName);
         }
     }
 
@@ -150,20 +150,21 @@ final class ShowCommand extends Command
 
         foreach ($checkerSet as $checkerName => $config) {
             if (! is_array($config)) {
-                $this->symfonyStyle->text('- ' . $checkerName);
+                $this->symfonyStyle->text('   - ' . $checkerName);
                 continue;
             }
 
+            $this->symfonyStyle->text('   ' . $checkerName . ':');
             foreach ($config as $option => $value) {
-                $this->symfonyStyle->text($checkerName . ':');
                 if (! is_array($value)) {
+                    $optionWithSeparator = is_numeric($option) ? '-' : $option . ':';
                     $value = ($value === true ? 'true' : $value);
                     $value = ($value === false ? 'false' : $value);
-                    $this->symfonyStyle->text('    ' . $option . ': ' . $value);
+                    $this->symfonyStyle->text('       ' . $optionWithSeparator . ' ' . $value);
                 } else {
-                    $this->symfonyStyle->text('    ' . $option . ':');
+                    $this->symfonyStyle->text('       ' . $option . ':');
                     foreach ($value as $subValue) {
-                        $this->symfonyStyle->text('        - ' . $subValue);
+                        $this->symfonyStyle->text('           - ' . $subValue);
                     }
                 }
             }
