@@ -157,8 +157,8 @@ final class ShowCommand extends Command
             foreach ($config as $option => $value) {
                 $this->symfonyStyle->text($checkerName . ':');
                 if (! is_array($value)) {
-                    $value === true ? 'true' : $value;
-                    $value === false ? 'false' : $value;
+                    $value = ($value === true ? 'true' : $value);
+                    $value = ($value === false ? 'false' : $value);
                     $this->symfonyStyle->text('    ' . $option . ': ' . $value);
                 } else {
                     $this->symfonyStyle->text('    ' . $option . ':');
