@@ -63,7 +63,6 @@ checkers:
     - PHP_CodeSniffer\Standards\Generic\Sniffs\NamingConventions\CamelCapsFunctionNameSniff
 
     # PHP
-#    - PhpCsFixer\Fixer\PhpTag\FullOpeningTagFixer
     - PHP_CodeSniffer\Standards\MySource\Sniffs\PHP\EvalObjectFactorySniff
     - PHP_CodeSniffer\Standards\MySource\Sniffs\PHP\GetRequestDataSniff
     - PHP_CodeSniffer\Standards\Squiz\Sniffs\PHP\NonExecutableCodeSniff
@@ -137,9 +136,6 @@ checkers:
     - PhpCsFixer\Fixer\PhpUnit\PhpUnitStrictFixer
     - PhpCsFixer\Fixer\PhpUnit\PhpUnitFqcnAnnotationFixer
     - Symplify\CodingStandard\Sniffs\PHPUnit\FinalTestCaseSniff
-
-    # PSR1 (official)
-#    - PhpCsFixer\Fixer\Basic\EncodingFixer
 
     # Symfony (official)
     PhpCsFixer\Fixer\Operator\BinaryOperatorSpacesFixer:
