@@ -16,7 +16,9 @@ checkers:
     - PhpCsFixer\Fixer\Whitespace\NoTrailingWhitespaceFixer
     - PhpCsFixer\Fixer\Comment\NoTrailingWhitespaceInCommentFixer
     - PhpCsFixer\Fixer\Whitespace\SingleBlankLineAtEofFixer
-    - PhpCsFixer\Fixer\ClassNotation\SingleClassElementPerStatementFixer
+    PhpCsFixer\Fixer\ClassNotation\SingleClassElementPerStatementFixer:
+        elements:
+            - property
     - PhpCsFixer\Fixer\Import\SingleImportPerStatementFixer
     - PhpCsFixer\Fixer\Import\SingleLineAfterImportsFixer
     - PhpCsFixer\Fixer\ControlStructure\SwitchCaseSemicolonToColonFixer
