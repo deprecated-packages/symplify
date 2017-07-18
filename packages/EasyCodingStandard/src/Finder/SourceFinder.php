@@ -4,10 +4,19 @@ namespace Symplify\EasyCodingStandard\Finder;
 
 use SplFileInfo;
 use Symfony\Component\Finder\Finder;
-use Symplify\EasyCodingStandard\Contract\Finder\SourceFinderInterface;
 
-final class SourceFinder implements SourceFinderInterface
+final class SourceFinder
 {
+    /**
+     * @var CustomSourceProviderInterface
+     */
+    private $customSourceProvider;
+
+    public function __construct(CustomSourceProviderInterface $customSourceProvider = null)
+    {
+        $this->customSourceProvider = $customSourceProvider;
+    }
+
     /**
      * @param string[]
      * @return SplFileInfo[]
@@ -15,6 +24,8 @@ final class SourceFinder implements SourceFinderInterface
     public function find(array $source): array
     {
         $files = [];
+
+        dump($this->customSourceProvider);
 
         foreach ($source as $singleSource) {
             if (is_file($singleSource)) {

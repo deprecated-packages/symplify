@@ -28,6 +28,8 @@ final class DefinitionFinder
     {
         foreach ($containerBuilder->getDefinitions() as $name => $definition) {
             $class = $definition->getClass() ?: $name;
+            dump($class, $type);
+
             if (is_a($class, $type, true)) {
                 return $definition;
             }

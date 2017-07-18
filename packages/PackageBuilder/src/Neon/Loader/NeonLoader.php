@@ -4,6 +4,7 @@ namespace Symplify\PackageBuilder\Neon\Loader;
 
 use Nette\DI\Config\Loader;
 use Nette\Utils\Strings;
+use Symfony\Component\Config\FileLocator;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\Config\Loader\LoaderResolverInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -71,9 +72,14 @@ final class NeonLoader implements LoaderInterface
                 return;
             }
 
-            foreach ($content['services'] as $service) {
-                $this->containerBuilder->addDefinitions([new Definition($service)]);
-            }
+            $yamlFileLoader = new YamlFileLoader($this->containerBuilder, new FileLocator());
+            $classReflection = new \ReflectionClass(YamlFileLoader::class);
+            $parseDefinitionsMethod = $classReflection->getMethod('parseDefinitions');
+            $parseDefinitionsMethod->setAccessible(true);
+            $parseDefinitionsMethod->invoke($yamlFileLoader, $content, $resource);
+
+            dump($content['services']);
+            die;
         }
     }
 
