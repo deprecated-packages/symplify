@@ -1,3 +1,8 @@
+includes:
+    - packages/EasyCodingStandard/config/psr2-checkers.neon
+    - packages/EasyCodingStandard/config/php70-checkers.neon
+    - packages/EasyCodingStandard/config/php71-checkers.neon
+
 checkers:
     - Symplify\CodingStandard\Fixer\Php\ClassStringToClassConstantFixer
     - Symplify\CodingStandard\Fixer\Property\ArrayPropertyDefaultValueFixer
@@ -58,7 +63,6 @@ checkers:
     - PHP_CodeSniffer\Standards\Generic\Sniffs\NamingConventions\CamelCapsFunctionNameSniff
 
     # PHP
-    - PhpCsFixer\Fixer\PhpTag\FullOpeningTagFixer
     - PHP_CodeSniffer\Standards\MySource\Sniffs\PHP\EvalObjectFactorySniff
     - PHP_CodeSniffer\Standards\MySource\Sniffs\PHP\GetRequestDataSniff
     - PHP_CodeSniffer\Standards\Squiz\Sniffs\PHP\NonExecutableCodeSniff
@@ -79,10 +83,7 @@ checkers:
 
     # Namespaces
     - PhpCsFixer\Fixer\NamespaceNotation\SingleBlankLineBeforeNamespaceFixer
-    - PhpCsFixer\Fixer\NamespaceNotation\BlankLineAfterNamespaceFixer
     - PhpCsFixer\Fixer\Import\OrderedImportsFixer
-    - PhpCsFixer\Fixer\Import\SingleImportPerStatementFixer
-    - PhpCsFixer\Fixer\Import\SingleLineAfterImportsFixer
     - SlevomatCodingStandard\Sniffs\Namespaces\ReferenceUsedNamesOnlySniff
 
     # Naming
@@ -121,7 +122,6 @@ checkers:
     - PhpCsFixer\Fixer\ClassNotation\OrderedClassElementsFixer
     - PhpCsFixer\Fixer\LanguageConstruct\DirConstantFixer
     - PhpCsFixer\Fixer\CastNotation\ModernizeTypesCastingFixer
-    - PhpCsFixer\Fixer\Strict\DeclareStrictTypesFixer
     - PhpCsFixer\Fixer\Semicolon\SemicolonAfterInstructionFixer
     - PhpCsFixer\Fixer\ReturnNotation\SimplifiedNullReturnFixer
     - PhpCsFixer\Fixer\Operator\NotOperatorWithSuccessorSpaceFixer
@@ -137,37 +137,12 @@ checkers:
     - PhpCsFixer\Fixer\PhpUnit\PhpUnitFqcnAnnotationFixer
     - Symplify\CodingStandard\Sniffs\PHPUnit\FinalTestCaseSniff
 
-    # PSR1 (official)
-    - PhpCsFixer\Fixer\Basic\EncodingFixer
-
-    # PSR2 (official)
-    - PhpCsFixer\Fixer\ControlStructure\ElseifFixer
-    - PhpCsFixer\Fixer\FunctionNotation\FunctionDeclarationFixer
-    - PhpCsFixer\Fixer\Whitespace\IndentationTypeFixer # use spaces to indent
-    - PhpCsFixer\Fixer\Whitespace\LineEndingFixer
-    - PhpCsFixer\Fixer\Casing\LowercaseKeywordsFixer
-    - PhpCsFixer\Fixer\FunctionNotation\MethodArgumentSpaceFixer
-    - PhpCsFixer\Fixer\PhpTag\NoClosingTagFixer
-    - PhpCsFixer\Fixer\FunctionNotation\NoSpacesAfterFunctionNameFixer
-    - PhpCsFixer\Fixer\Whitespace\NoSpacesInsideParenthesisFixer
-    - PhpCsFixer\Fixer\Whitespace\NoTrailingWhitespaceFixer
-    - PhpCsFixer\Fixer\Comment\NoTrailingWhitespaceInCommentFixer
-    - PhpCsFixer\Fixer\Whitespace\SingleBlankLineAtEofFixer
-    PhpCsFixer\Fixer\ClassNotation\SingleClassElementPerStatementFixer:
-        - property
-    - PhpCsFixer\Fixer\ControlStructure\SwitchCaseSemicolonToColonFixer
-    - PhpCsFixer\Fixer\ControlStructure\SwitchCaseSpaceFixer
-
     # Symfony (official)
     PhpCsFixer\Fixer\Operator\BinaryOperatorSpacesFixer:
         align_double_arrow: false
         align_equals: false
     - PhpCsFixer\Fixer\ReturnNotation\BlankLineBeforeReturnFixer
-    PhpCsFixer\Fixer\Basic\BracesFixer:
-        allow_single_line_closure: true
     - PhpCsFixer\Fixer\CastNotation\CastSpacesFixer
-    PhpCsFixer\Fixer\ClassNotation\ClassDefinitionFixer:
-        singleLine: true
     - PhpCsFixer\Fixer\LanguageConstruct\DeclareEqualNormalizeFixer
     - PhpCsFixer\Fixer\FunctionNotation\FunctionTypehintSpaceFixer
     - PhpCsFixer\Fixer\Comment\HashToSlashCommentFixer
@@ -223,18 +198,8 @@ checkers:
     - PhpCsFixer\Fixer\Semicolon\SpaceAfterSemicolonFixer
     - PhpCsFixer\Fixer\Operator\StandardizeNotEqualsFixer
     - PhpCsFixer\Fixer\Operator\TernaryOperatorSpacesFixer
-    - PhpCsFixer\Fixer\Operator\TernaryToNullCoalescingFixer
     - PhpCsFixer\Fixer\ArrayNotation\TrimArraySpacesFixer
     - PhpCsFixer\Fixer\ArrayNotation\WhitespaceAfterCommaInArrayFixer
-
-    # PHP 7.1 and modern PHP
-    PhpCsFixer\Fixer\Alias\RandomApiMigrationFixer:
-        mt_rand: random_int
-        rand: random_int
-    PhpCsFixer\Fixer\ClassNotation\VisibilityRequiredFixer:
-        - const
-        - property
-        - method
 
     # new since PhpCsFixer 2.1/2.2
     - PhpCsFixer\Fixer\Phpdoc\PhpdocReturnSelfReferenceFixer

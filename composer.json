@@ -47,6 +47,7 @@
             "Symplify\\CodingStandard\\": "packages/CodingStandard/src",
             "Symplify\\CodingStandard\\TokenWrapper\\": "packages/CodingStandard/packages/TokenWrapper/src",
             "Symplify\\EasyCodingStandard\\": "packages/EasyCodingStandard/src",
+            "Symplify\\EasyCodingStandard\\CheckerSetExtractor\\": "packages/EasyCodingStandard/packages/CheckerSetExtractor/src",
             "Symplify\\EasyCodingStandard\\SniffRunner\\": "packages/EasyCodingStandard/packages/SniffRunner/src",
             "Symplify\\EasyCodingStandard\\ChangedFilesDetector\\": "packages/EasyCodingStandard/packages/ChangedFilesDetector/src",
             "Symplify\\EasyCodingStandard\\Configuration\\": "packages/EasyCodingStandard/packages/Configuration/src",
@@ -63,6 +64,7 @@
         "psr-4": {
             "Symplify\\CodingStandard\\Tests\\": "packages/CodingStandard/tests",
             "Symplify\\EasyCodingStandard\\Tests\\": "packages/EasyCodingStandard/tests",
+            "Symplify\\EasyCodingStandard\\CheckerSetExtractor\\Tests\\": "packages/EasyCodingStandard/packages/CheckerSetExtractor/tests",
             "Symplify\\EasyCodingStandard\\SniffRunner\\Tests\\": "packages/EasyCodingStandard/packages/SniffRunner/tests",
             "Symplify\\EasyCodingStandard\\Configuration\\Tests\\": "packages/EasyCodingStandard/packages/Configuration/tests",
             "Symplify\\EasyCodingStandard\\ChangedFilesDetector\\Tests\\": "packages/EasyCodingStandard/packages/ChangedFilesDetector/tests",
