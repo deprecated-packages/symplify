@@ -33,7 +33,7 @@ final class InvokablePresenterAwareApplication extends Application
     private $requests = [];
 
     /**
-     * @var IPresenter|callable|null
+     * @var null|callable|IPresenter
      */
     private $presenter;
 
@@ -126,7 +126,7 @@ final class InvokablePresenterAwareApplication extends Application
     }
 
     /**
-     * @return callable|IPresenter|null
+     * @return null|callable|IPresenter
      */
     public function getPresenter()
     {

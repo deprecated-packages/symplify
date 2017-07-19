@@ -116,7 +116,7 @@ final class PropertyWrapper
     }
 
     /**
-     * @return int|false
+     * @return false|int
      */
     private function getPropertyAccessibilityPosition()
     {

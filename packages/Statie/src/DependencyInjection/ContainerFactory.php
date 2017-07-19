@@ -8,7 +8,7 @@ use Symfony\Component\DependencyInjection\Container;
 final class ContainerFactory
 {
     /**
-     * @return ContainerInterface|Container
+     * @return Container|ContainerInterface
      */
     public function create(): ContainerInterface
     {
@@ -19,7 +19,7 @@ final class ContainerFactory
     }
 
     /**
-     * @return ContainerInterface|Container
+     * @return Container|ContainerInterface
      */
     public function createWithConfig(string $config): ContainerInterface
     {

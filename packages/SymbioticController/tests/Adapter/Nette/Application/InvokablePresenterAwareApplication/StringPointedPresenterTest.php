@@ -22,7 +22,7 @@ final class StringPointedPresenterTest extends TestCase
     private $router;
 
     /**
-     * @var InvokablePresenterAwareApplication|Application
+     * @var Application|InvokablePresenterAwareApplication
      */
     private $application;
 
