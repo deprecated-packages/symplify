@@ -8,15 +8,15 @@ use Symplify\EasyCodingStandard\Finder\SourceFinder;
 
 final class SourceFinderTest extends TestCase
 {
-//    public function test(): void
-//    {
-//        $sourceFinder = new SourceFinder;
-//        $foundFiles = $sourceFinder->find([__DIR__ . '/SourceFinderSource/Source']);
-//        $this->assertCount(1, $foundFiles);
-//
-//        $foundFiles = $sourceFinder->find([__DIR__ . '/SourceFinderSource/Source/SomeClass.php.inc']);
-//        $this->assertCount(1, $foundFiles);
-//    }
+    public function test(): void
+    {
+        $sourceFinder = new SourceFinder;
+        $foundFiles = $sourceFinder->find([__DIR__ . '/SourceFinderSource/Source']);
+        $this->assertCount(1, $foundFiles);
+
+        $foundFiles = $sourceFinder->find([__DIR__ . '/SourceFinderSource/Source/SomeClass.php.inc']);
+        $this->assertCount(1, $foundFiles);
+    }
 
     public function testSourceProviders(): void
     {

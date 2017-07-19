@@ -4,6 +4,7 @@ namespace Symplify\PackageBuilder\Neon\Loader;
 
 use Nette\DI\Config\Loader;
 use Nette\Utils\Strings;
+use ReflectionClass;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\Config\Loader\LoaderResolverInterface;
@@ -11,6 +12,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
+use Symplify\EasyCodingStandard\SniffRunner\Exception\ClassNotFoundException;
 use Symplify\PackageBuilder\Exception\Neon\InvalidSectionException;
 
 final class NeonLoader implements LoaderInterface
@@ -72,14 +74,13 @@ final class NeonLoader implements LoaderInterface
                 return;
             }
 
+            $content = $this->prepareServicesToYamlFormat($content, $resource); // ~ => null
+
             $yamlFileLoader = new YamlFileLoader($this->containerBuilder, new FileLocator());
             $classReflection = new \ReflectionClass(YamlFileLoader::class);
             $parseDefinitionsMethod = $classReflection->getMethod('parseDefinitions');
             $parseDefinitionsMethod->setAccessible(true);
             $parseDefinitionsMethod->invoke($yamlFileLoader, $content, $resource);
-
-            dump($content['services']);
-            die;
         }
     }
 
@@ -114,5 +115,42 @@ final class NeonLoader implements LoaderInterface
             implode('", "', array_keys($content)),
             implode('", "', $allowedSections)
         ));
+    }
+
+    /**
+     * @param mixed[] $content
+     * @return mixed[]
+     */
+    private function prepareServicesToYamlFormat(array $content, string $resource): array
+    {
+        foreach ($content['services'] as $name => $service) {
+            if ($service === '~') {
+                $service = $name;
+
+                if (! class_exists($service)) {
+                    throw new ClassNotFoundException(sprintf(
+                        'Class "%s" was not found while loading a config file "%s".',
+                        $service,
+                        $resource
+                    ));
+                }
+
+                $content['services'][$name] = ['class' => $service];
+            }
+        }
+
+        return $content;
+    }
+
+    /**
+     * @param mixed[] $content
+     */
+    private function symfonyConfigServiceSectionParser(string $resource, array $content): void
+    {
+        $yamlFileLoader = new YamlFileLoader($this->containerBuilder, new FileLocator());
+        $classReflection = new ReflectionClass(YamlFileLoader::class);
+        $parseDefinitionsMethod = $classReflection->getMethod('parseDefinitions');
+        $parseDefinitionsMethod->setAccessible(true);
+        $parseDefinitionsMethod->invoke($yamlFileLoader, $content, $resource);
     }
 }

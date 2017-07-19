@@ -4,9 +4,9 @@ namespace Symplify\EasyCodingStandard\Tests\Finder\SourceFinderSource;
 
 use Nette\Utils\Finder;
 use SplFileInfo;
-use Symplify\EasyCodingStandard\Contract\Finder\CustomSourceFinderInterface;
+use Symplify\EasyCodingStandard\Contract\Finder\CustomSourceProviderInterface;
 
-final class PhpAndIncFilesSourceFinder implements CustomSourceFinderInterface
+final class PhpAndIncFilesSourceProvider implements CustomSourceProviderInterface
 {
     /**
      * @param string[] $source

@@ -4,7 +4,7 @@ namespace Symplify\EasyCodingStandard\Contract\Finder;
 
 use SplFileInfo;
 
-interface CustomSourceFinderInterface
+interface CustomSourceProviderInterface
 {
     /**
      * @param string[]
