@@ -64,20 +64,6 @@ final class DocBlockWrapper
         return Strings::contains($docBlockContent, $annotation);
     }
 
-    public function removeAnnotation(string $annotation): void
-    {
-        $docBlockTokens = ContentFinder::getTokensBetween($this->file, $this->startPosition, $this->endPosition);
-
-        foreach ($docBlockTokens as $position => $content) {
-            if ($content === $annotation) {
-                $file = $this->file;
-                $fixer = $file->fixer;
-                $fixer->replaceToken($position, '');
-                $this->cleanupSpaces($position, $docBlockTokens);
-            }
-        }
-    }
-
     public function isSingleLine(): bool
     {
         $tokens = $this->file->getTokens();
@@ -126,24 +112,6 @@ final class DocBlockWrapper
         }
 
         return '    ';
-    }
-
-    /**
-     * @param mixed[] $docBlockTokens
-     */
-    private function cleanupSpaces(int $position, array $docBlockTokens): void
-    {
-        $cleanupPosition = $position;
-        while ($docBlockTokens[$cleanupPosition] !== PHP_EOL) {
-            --$cleanupPosition;
-            $file = $this->file;
-            $fixer = $file->fixer;
-            $fixer->replaceToken($cleanupPosition, '');
-
-            if (! isset($docBlockTokens[$cleanupPosition])) {
-                break;
-            }
-        }
     }
 
     private function processMultipleAnnotations(string $content): string

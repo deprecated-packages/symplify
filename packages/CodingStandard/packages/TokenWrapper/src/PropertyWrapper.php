@@ -82,16 +82,6 @@ final class PropertyWrapper
         );
     }
 
-    public function removeAnnotation(string $annotation): void
-    {
-        $this->getDocBlock()
-            ->removeAnnotation($annotation);
-
-        // here use fixer
-        // todo1: remove before/after spaces
-        /* @var Type @inject */
-    }
-
     public function changeAccesibilityToPrivate(): void
     {
         $accesiblityPosition = $this->getPropertyAccessibilityPosition();
