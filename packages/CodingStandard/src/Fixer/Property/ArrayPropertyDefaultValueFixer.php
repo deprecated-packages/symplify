@@ -100,7 +100,12 @@ public $property;'
         }
 
         $varAnnotation = $docBlock->getAnnotationsOfType('var')[0];
-        if (! Strings::contains($varAnnotation->getTypes()[0], '[]')) {
+        $varTypes = $varAnnotation->getTypes();
+        if (! count($varTypes)) {
+            return false;
+        }
+
+        if (! Strings::contains($varTypes[0], '[]')) {
             return false;
         }
 
