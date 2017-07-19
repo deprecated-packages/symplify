@@ -75,12 +75,7 @@ final class NeonLoader implements LoaderInterface
             }
 
             $content = $this->prepareServicesToYamlFormat($content, $resource); // ~ => null
-
-            $yamlFileLoader = new YamlFileLoader($this->containerBuilder, new FileLocator());
-            $classReflection = new \ReflectionClass(YamlFileLoader::class);
-            $parseDefinitionsMethod = $classReflection->getMethod('parseDefinitions');
-            $parseDefinitionsMethod->setAccessible(true);
-            $parseDefinitionsMethod->invoke($yamlFileLoader, $content, $resource);
+            $this->symfonyConfigServiceSectionParser($content, $resource);
         }
     }
 
@@ -145,9 +140,9 @@ final class NeonLoader implements LoaderInterface
     /**
      * @param mixed[] $content
      */
-    private function symfonyConfigServiceSectionParser(string $resource, array $content): void
+    private function symfonyConfigServiceSectionParser(array $content, string $resource): void
     {
-        $yamlFileLoader = new YamlFileLoader($this->containerBuilder, new FileLocator());
+        $yamlFileLoader = new YamlFileLoader($this->containerBuilder, new FileLocator);
         $classReflection = new ReflectionClass(YamlFileLoader::class);
         $parseDefinitionsMethod = $classReflection->getMethod('parseDefinitions');
         $parseDefinitionsMethod->setAccessible(true);

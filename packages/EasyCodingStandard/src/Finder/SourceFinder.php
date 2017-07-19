@@ -13,7 +13,7 @@ final class SourceFinder
      */
     private $customSourceProvider;
 
-    public function setCustomSourceProvider(CustomSourceProviderInterface $customSourceProvider = null)
+    public function setCustomSourceProvider(?CustomSourceProviderInterface $customSourceProvider = null): void
     {
         $this->customSourceProvider = $customSourceProvider;
     }
