@@ -84,6 +84,8 @@ checkers:
     # Namespaces
     - PhpCsFixer\Fixer\NamespaceNotation\SingleBlankLineBeforeNamespaceFixer
     - PhpCsFixer\Fixer\Import\OrderedImportsFixer
+    - PhpCsFixer\Fixer\Import\SingleImportPerStatementFixer
+    - PhpCsFixer\Fixer\Import\SingleLineAfterImportsFixer
     - SlevomatCodingStandard\Sniffs\Namespaces\ReferenceUsedNamesOnlySniff
 
     # Naming
