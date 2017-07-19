@@ -6,11 +6,10 @@ use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 use Symplify\EasyCodingStandard\Contract\Finder\CustomSourceProviderInterface;
-use Symplify\EasyCodingStandard\Contract\Finder\ExtraFilesProviderInterface;
 use Symplify\EasyCodingStandard\Finder\SourceFinder;
 use Symplify\PackageBuilder\Adapter\Symfony\DependencyInjection\DefinitionFinder;
 
-final class CustomDefinitionsCompilerPass implements CompilerPassInterface
+final class CustomSourceProviderDefinitionCompilerPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $containerBuilder): void
     {
