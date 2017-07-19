@@ -186,35 +186,35 @@ Normally you want to exclude these files, because they're not common code - they
 
 Let's say you want to include `*.phpt` files.
 
-- Create a class in `src/Finder/PhptFilesProvider.php`
-- Implement `Symplify\EasyCodingStandard\Contract\Finder\ExtraFilesProviderInterface`
+- Create a class in `src/Finder/PhpAndPhptSourceFinder.php`
+- Implement `Symplify\EasyCodingStandard\Finder\SourceFinderInterface`
 - Register it as services to `easy-coding-standard.neon`:
 
     ```yaml
     services:
-        - App/Finder/PhptFilesProvider
+        - App/Finder/PhpAndPhptSourceFinder
     ```
 
-The `PhptFilesProvider` might look like this:
+The `PhpAndPhptSourceFinder` might look like this:
 
 ```php
 namespace App\Finder;
 
 use Nette\Utils\Finder;
 use SplFileInfo;
-use Symplify\EasyCodingStandard\Contract\Finder\ExtraFilesProviderInterface;
+use Symplify\EasyCodingStandard\Finder\SourceFinderInterface;
 
-final class PhptFilesProvider implements ExtraFilesProviderInterface
+final class PhpAndPhptSourceFinder implements SourceFinderInterface
 {
     /**
      * @param string[] $source
      * @return SplFileInfo[]
      */
-    public function provideForSource(array $source): array
+    public function find(array $source): array
     {
         # $source is "source" argument passed in CLI
         # inc CLI: "vendor/bin/ecs check /src" => here: ['/src']
-        $finder = Finder::find('*.phpt')->in($source);
+        $finder = Finder::find('*.php', '*.phpt')->in($source);
 
         return iterator_to_array($finder->getIterator());
     }

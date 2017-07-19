@@ -4,15 +4,15 @@ namespace Symplify\EasyCodingStandard\Tests\Finder\SourceFinderSource;
 
 use Nette\Utils\Finder;
 use SplFileInfo;
-use Symplify\EasyCodingStandard\Contract\Finder\ExtraFilesProviderInterface;
+use Symplify\EasyCodingStandard\Finder\SourceFinderInterface;
 
-final class IncFilesExtraFilesProvider implements ExtraFilesProviderInterface
+final class IncSourceFinder implements SourceFinderInterface
 {
     /**
      * @param string[] $source
      * @return SplFileInfo[]
      */
-    public function provideForSource(array $source): array
+    public function find(array $source): array
     {
         $finder = Finder::find('*.php.inc')->in($source);
 
