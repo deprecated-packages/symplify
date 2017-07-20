@@ -123,7 +123,6 @@ checkers:
     - PhpCsFixer\Fixer\LanguageConstruct\DirConstantFixer
     - PhpCsFixer\Fixer\CastNotation\ModernizeTypesCastingFixer
     - PhpCsFixer\Fixer\Semicolon\SemicolonAfterInstructionFixer
-    - PhpCsFixer\Fixer\ReturnNotation\SimplifiedNullReturnFixer
     - PhpCsFixer\Fixer\Operator\NotOperatorWithSuccessorSpaceFixer
     - PhpCsFixer\Fixer\ControlStructure\NoUselessElseFixer
     - PhpCsFixer\Fixer\ReturnNotation\NoUselessReturnFixer
@@ -222,10 +221,6 @@ parameters:
             - packages/Statie/src/Configuration/Configuration.php
             - packages/SymbioticController/src/Adapter/Nette/Application/PresenterFactory.php
             - packages/SymbioticController/src/Adapter/Nette/Application/PresenterHelper.php
-
-        PhpCsFixer\Fixer\ReturnNotation\SimplifiedNullReturnFixer:
-            - packages/SymbioticController/src/Adapter/Nette/Routing/PresenterRoute.php
-            - packages/PackageBuilder/src/Configuration/ConfigFilePathHelper.php
 
         Symplify\CodingStandard\Sniffs\Classes\EqualInterfaceImplementationSniff:
             - packages/EasyCodingStandard/packages/SniffRunner/src/Application/SniffFileProcessor.php

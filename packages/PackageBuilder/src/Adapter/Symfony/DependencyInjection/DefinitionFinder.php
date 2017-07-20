@@ -26,6 +26,17 @@ final class DefinitionFinder
 
     public static function getByType(ContainerBuilder $containerBuilder, string $type): Definition
     {
+        if ($definition = self::getByTypeIfExists($containerBuilder, $type)) {
+            return $definition;
+        }
+
+        throw new DefinitionForTypeNotFoundException(
+            sprintf('Definition for type "%s" was not found.', $type)
+        );
+    }
+
+    public static function getByTypeIfExists(ContainerBuilder $containerBuilder, string $type): ?Definition
+    {
         foreach ($containerBuilder->getDefinitions() as $name => $definition) {
             $class = $definition->getClass() ?: $name;
             if (is_a($class, $type, true)) {
@@ -33,8 +44,6 @@ final class DefinitionFinder
             }
         }
 
-        throw new DefinitionForTypeNotFoundException(
-            sprintf('Definition for type "%s" was not found.', $type)
-        );
+        return null;
     }
 }
