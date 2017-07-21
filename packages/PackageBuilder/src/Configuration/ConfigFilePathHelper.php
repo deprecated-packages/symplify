@@ -21,7 +21,7 @@ final class ConfigFilePathHelper
     {
         if ($input->hasParameterOption(self::CONFIG_OPTION_NAME)) {
             $relativeFilePath = $input->getParameterOption(self::CONFIG_OPTION_NAME);
-            $filePath = getcwd() . '/' . $relativeFilePath;
+            $filePath = self::makeAbsolutePath($relativeFilePath);
 
             if (! file_exists($filePath)) {
                 throw new FileNotFoundException(sprintf(
@@ -52,5 +52,12 @@ final class ConfigFilePathHelper
     public static function set(string $name, string $configFilePath): void
     {
         self::$configFilePaths[$name] = $configFilePath;
+    }
+
+    public static function makeAbsolutePath(string $relativeFilePath): string
+    {
+        return preg_match('#/|\\\\|[a-z]:#iA', $relativeFilePath)
+            ? $relativeFilePath
+            : getcwd() . '/' . $relativeFilePath;
     }
 }
