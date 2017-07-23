@@ -53,7 +53,7 @@ final class LatteFileDecorator implements FileDecoratorInterface
 
     public function getPriority(): int
     {
-        return 800;
+        return 700;
     }
 
     private function decorateFile(AbstractFile $file): void

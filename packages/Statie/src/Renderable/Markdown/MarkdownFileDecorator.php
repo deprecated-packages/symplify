@@ -43,7 +43,8 @@ final class MarkdownFileDecorator implements FileDecoratorInterface
 
     public function getPriority(): int
     {
-        return 700;
+        // have to run before Latte; it fails the other way
+        return 800;
     }
 
     private function decorateFile(AbstractFile $file): void
