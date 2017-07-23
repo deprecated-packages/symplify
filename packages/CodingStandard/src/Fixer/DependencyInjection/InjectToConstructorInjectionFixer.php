@@ -2,8 +2,6 @@
 
 namespace Symplify\CodingStandard\Fixer\DependencyInjection;
 
-use Nette\PhpGenerator\Method;
-use Nette\Utils\Strings;
 use PhpCsFixer\DocBlock\DocBlock;
 use PhpCsFixer\Fixer\DefinedFixerInterface;
 use PhpCsFixer\FixerDefinition\CodeSample;
@@ -75,7 +73,6 @@ class SomeClass
 
             // save changed annotation
             $token->setContent($doc->getContent());
-
 
             // 3. add dependency to constructor
             $propertyNameTokenPosition = $tokens->getNextMeaningfulToken($visibilityTokenPosition);
@@ -167,37 +164,44 @@ class SomeClass
         }
     }
 
-    private function createConstructorWithPropertyCodeInTokens(string $propertyType, string $propertyName): Tokens
+    /**
+     * public function __construct(type $name)
+     * {
+     *      $this->name = $name;
+     * }
+     *
+     * @return Token[]
+     */
+    private function createConstructorWithPropertyCodeInTokens(string $propertyType, string $propertyName): array
     {
-        $indentedConstructorCode = $this->createConstructorWithPropertyCodeInString($propertyType, $propertyName);
-        $constructorTokens = Tokens::fromCode(sprintf('<?php class SomeClass {
+        $constructorTokens = [];
 
-%s
-}', $indentedConstructorCode));
+        // public function construct
+        $constructorTokens[] = new Token([T_WHITESPACE, PHP_EOL . PHP_EOL . '    ']);
+        $constructorTokens[] = new Token([T_PUBLIC, 'public']);
+        $constructorTokens[] = new Token([T_WHITESPACE, ' ']);
+        $constructorTokens[] = new Token([T_FUNCTION, 'function']);
+        $constructorTokens[] = new Token([T_WHITESPACE, ' ']);
+        $constructorTokens[] = new Token([T_STRING, '__construct']);
 
-        $constructorTokens->clearRange(0, 5); // drop initial code: "<?php class SomeClass {"
-        $constructorTokens->clearRange(30, 31); // drop closing code: "}"
+        // (type $name) {
+        $constructorTokens[] = new Token('(');
+        $constructorTokens[] = new Token([T_STRING, $propertyType]);
+        $constructorTokens[] = new Token([T_WHITESPACE, ' ']);
+        $constructorTokens[] = new Token([T_VARIABLE, '$' . $propertyName]);
 
-        $constructorTokens->clearEmptyTokens();
+        $constructorTokens[] = new Token(')');
+        $constructorTokens[] = new Token([T_WHITESPACE, PHP_EOL . '    ']);
+        $constructorTokens[] = new Token('{');
+
+        // $this->name = $name
+        $constructorTokens += $this->createPropertyAssignmentTokens($propertyName);
+
+        // }
+        $constructorTokens[] = new Token([T_WHITESPACE, PHP_EOL . '    ']);
+        $constructorTokens[] = new Token('}');
 
         return $constructorTokens;
-    }
-
-    private function createConstructorWithPropertyCodeInString(string $propertyType, string $propertyName): string
-    {
-        $method = new Method('__construct');
-        $method->setVisibility('public');
-
-        $parameter = $method->addParameter($propertyName);
-        $parameter->setTypeHint($propertyType);
-        $method->setBody('$this->? = $?;', [$propertyName, $propertyName]);
-
-        $methodAsString = (string) $method;
-        // tabs are used by default as indent; use spaces instead
-        $methodAsString = str_replace("\t", '    ', $methodAsString);
-
-        // indent method code with 4 spaces
-        return Strings::indent($methodAsString, 1, '    ');
     }
 
     private function addPropertyToConstructor(
@@ -227,8 +231,21 @@ class SomeClass
         $startBraceIndex = $tokens->getNextTokenOfKind($endParenthesisIndex, [';', '{']);
         $endBraceIndex = $tokens->findBlockEnd(Tokens::BLOCK_TYPE_CURLY_BRACE, $startBraceIndex);
 
-        // add property as last assignment: "$this->property = $property;"
-        $tokens->insertAt($endBraceIndex - 1, [
+        // add property as last assignment
+        $tokens->insertAt($endBraceIndex - 1,
+            $this->createPropertyAssignmentTokens($propertyName)
+        );
+    }
+
+    /**
+     * Create tokens for
+     * "$this->property = $property;"
+     *
+     * @return Token[]
+     */
+    private function createPropertyAssignmentTokens(string $propertyName): array
+    {
+        return [
             new Token([T_WHITESPACE, PHP_EOL . '        ']), // 2x indent with spaces
             new Token([T_VARIABLE, '$this']),
             new Token([T_OBJECT_OPERATOR, '->']),
@@ -238,6 +255,6 @@ class SomeClass
             new Token([T_WHITESPACE, ' ']),
             new Token([T_VARIABLE, '$' . $propertyName]),
             new Token(';'),
-        ]);
+        ];
     }
 }
