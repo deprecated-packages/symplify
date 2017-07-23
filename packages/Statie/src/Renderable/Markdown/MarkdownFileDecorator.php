@@ -43,6 +43,7 @@ final class MarkdownFileDecorator implements FileDecoratorInterface
 
     public function getPriority(): int
     {
+        // have to run before Latte; it fails the other way
         return 800;
     }
 

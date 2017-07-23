@@ -34,14 +34,14 @@ final class LatteDecoratorTest extends AbstractContainerAwareTestCase
         );
     }
 
-//    public function testDecorateFile(): void
-//    {
-//        $fileInfo = new SplFileInfo(__DIR__ . '/LatteDecoratorSource/fileWithoutLayout.latte');
-//        $file = $this->fileFactory->create($fileInfo);
-//        $this->latteDecorator->addAmphtmlLinkToFile($file);
-//
-//        $this->assertContains('Contact me!', $file->getContent());
-//    }
+    public function testDecorateFile(): void
+    {
+        $fileInfo = new SplFileInfo(__DIR__ . '/LatteDecoratorSource/fileWithoutLayout.latte');
+        $file = $this->fileFactory->create($fileInfo);
+        $this->latteDecorator->decorateFiles([$file]);
+
+        $this->assertContains('Contact me!', $file->getContent());
+    }
 
     public function testDecorateFileWithLayout(): void
     {
