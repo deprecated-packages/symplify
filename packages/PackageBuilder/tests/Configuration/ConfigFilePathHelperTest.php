@@ -18,6 +18,15 @@ final class ConfigFilePathHelperTest extends TestCase
         $this->assertSame(getcwd() . '/.travis.yml', ConfigFilePathHelper::provide('another-name'));
     }
 
+    public function testDetectFromInputAndProvideWithAbsolutePath(): void
+    {
+        ConfigFilePathHelper::detectFromInput('another-name', new ArrayInput([
+            '--config' => getcwd() . '/.travis.yml',
+        ]));
+
+        $this->assertSame(getcwd() . '/.travis.yml', ConfigFilePathHelper::provide('another-name'));
+    }
+
     public function testMissingFileInInput(): void
     {
         $this->expectException(FileNotFoundException::class);
