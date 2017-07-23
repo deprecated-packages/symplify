@@ -10,6 +10,7 @@ use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
+use Symplify\CodingStandard\Fixer\TokenBuilder;
 
 final class InjectToConstructorInjectionFixer implements DefinedFixerInterface
 {
@@ -134,7 +135,7 @@ class SomeClass
     private function addConstructorMethod(Tokens $tokens, string $propertyType, string $propertyName): void
     {
         $constructorPosition = $this->getConstructorPosition($tokens);
-        $constructorTokens = $this->createConstructorWithPropertyCodeInTokens($propertyType, $propertyName);
+        $constructorTokens = TokenBuilder::createConstructorWithPropertyTokens($propertyType, $propertyName);
 
         $tokens->insertAt($constructorPosition, $constructorTokens);
     }
@@ -164,45 +165,7 @@ class SomeClass
         }
     }
 
-    /**
-     * public function __construct(type $name)
-     * {
-     *      $this->name = $name;
-     * }
-     *
-     * @return Token[]
-     */
-    private function createConstructorWithPropertyCodeInTokens(string $propertyType, string $propertyName): array
-    {
-        $constructorTokens = [];
 
-        // public function construct
-        $constructorTokens[] = new Token([T_WHITESPACE, PHP_EOL . PHP_EOL . '    ']);
-        $constructorTokens[] = new Token([T_PUBLIC, 'public']);
-        $constructorTokens[] = new Token([T_WHITESPACE, ' ']);
-        $constructorTokens[] = new Token([T_FUNCTION, 'function']);
-        $constructorTokens[] = new Token([T_WHITESPACE, ' ']);
-        $constructorTokens[] = new Token([T_STRING, '__construct']);
-
-        // (type $name) {
-        $constructorTokens[] = new Token('(');
-        $constructorTokens[] = new Token([T_STRING, $propertyType]);
-        $constructorTokens[] = new Token([T_WHITESPACE, ' ']);
-        $constructorTokens[] = new Token([T_VARIABLE, '$' . $propertyName]);
-
-        $constructorTokens[] = new Token(')');
-        $constructorTokens[] = new Token([T_WHITESPACE, PHP_EOL . '    ']);
-        $constructorTokens[] = new Token('{');
-
-        // $this->name = $name
-        $constructorTokens = array_merge($constructorTokens, $this->createPropertyAssignmentTokens($propertyName));
-
-        // }
-        $constructorTokens[] = new Token([T_WHITESPACE, PHP_EOL . '    ']);
-        $constructorTokens[] = new Token('}');
-
-        return $constructorTokens;
-    }
 
     private function addPropertyToConstructor(
         Tokens $tokens,
@@ -217,14 +180,7 @@ class SomeClass
 
         $endParenthesisIndex = $tokens->findBlockEnd(Tokens::BLOCK_TYPE_PARENTHESIS_BRACE, $startParenthesisIndex);
 
-        // add property as last argument: ", Type $property"
-        $tokens->insertAt($endParenthesisIndex, [
-            new Token(','),
-            new Token([T_WHITESPACE, ' ']),
-            new Token([T_STRING, $propertyType]),
-            new Token([T_WHITESPACE, ' ']),
-            new Token([T_VARIABLE, '$' . $propertyName]),
-        ]);
+        $tokens->insertAt($endParenthesisIndex, TokenBuilder::createLastArgumentTokens($propertyType, $propertyName));
 
         // detect end brace
         $endParenthesisIndex = $tokens->findBlockEnd(Tokens::BLOCK_TYPE_PARENTHESIS_BRACE, $startParenthesisIndex);
@@ -232,29 +188,6 @@ class SomeClass
         $endBraceIndex = $tokens->findBlockEnd(Tokens::BLOCK_TYPE_CURLY_BRACE, $startBraceIndex);
 
         // add property as last assignment
-        $tokens->insertAt($endBraceIndex - 1,
-            $this->createPropertyAssignmentTokens($propertyName)
-        );
-    }
-
-    /**
-     * Create tokens for
-     * "$this->property = $property;"
-     *
-     * @return Token[]
-     */
-    private function createPropertyAssignmentTokens(string $propertyName): array
-    {
-        return [
-            new Token([T_WHITESPACE, PHP_EOL . '        ']), // 2x indent with spaces
-            new Token([T_VARIABLE, '$this']),
-            new Token([T_OBJECT_OPERATOR, '->']),
-            new Token([T_STRING, $propertyName]),
-            new Token([T_WHITESPACE, ' ']),
-            new Token('='),
-            new Token([T_WHITESPACE, ' ']),
-            new Token([T_VARIABLE, '$' . $propertyName]),
-            new Token(';'),
-        ];
+        $tokens->insertAt($endBraceIndex - 1, TokenBuilder::createPropertyAssignmentTokens($propertyName));
     }
 }
