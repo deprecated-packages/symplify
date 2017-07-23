@@ -195,7 +195,7 @@ class SomeClass
         $constructorTokens[] = new Token('{');
 
         // $this->name = $name
-        $constructorTokens += $this->createPropertyAssignmentTokens($propertyName);
+        $constructorTokens = array_merge($constructorTokens, $this->createPropertyAssignmentTokens($propertyName));
 
         // }
         $constructorTokens[] = new Token([T_WHITESPACE, PHP_EOL . '    ']);
