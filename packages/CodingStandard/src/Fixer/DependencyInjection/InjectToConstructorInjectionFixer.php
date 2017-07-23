@@ -15,6 +15,11 @@ use SplFileInfo;
 
 final class InjectToConstructorInjectionFixer implements DefinedFixerInterface
 {
+    /**
+     * @var string
+     */
+    private const VAR_NAME = 'var';
+
     public function getDefinition(): FixerDefinitionInterface
     {
         return new FixerDefinition(
@@ -58,48 +63,47 @@ class SomeClass
                 $injectAnnotation->remove();
             }
 
+            // 2. make public property private
+            $visibilityTokenPosition = $tokens->getNextMeaningfulToken($index);
+            $visibilityToken = $tokens[$visibilityTokenPosition];
+            if ($visibilityToken->isGivenKind(T_PUBLIC)) {
+                $visibilityToken->override([T_PRIVATE, 'private']);
+            } else {
+                // probably not a property with @inject annotation
+                continue;
+            }
+
+            // save changed annotation
             $token->setContent($doc->getContent());
 
-            // 2. make public property private
-            for ($i = $index;; ++$i) {
-                $token = $tokens[$i];
-                if ($token->isGivenKind(T_PUBLIC)) {
-                    $token->override([T_PRIVATE, 'private']);
-                    break;
-                }
-            }
 
             // 3. add dependency to constructor
-            $propertyName = '';
-            for ($i = $index;; ++$i) {
-                $token = $tokens[$i];
-                if ($token->isGivenKind(T_VARIABLE)) {
-                    $propertyName = ltrim($token->getContent(), '$');
-                    break;
-                }
-            }
-            $varAnnotation = $doc->getAnnotationsOfType('var')[0];
-            $propertyType = $varAnnotation->getTypes()[0];
+            $propertyNameTokenPosition = $tokens->getNextMeaningfulToken($visibilityTokenPosition);
+            $propertyNameToken = $tokens[$propertyNameTokenPosition];
+            $propertyName = ltrim($propertyNameToken->getContent(), '$');
 
             // detect constructor
             $constructMethodPosition = null;
             for ($i = $index; $i < count($tokens); ++$i) {
                 $token = $tokens[$i];
                 if ($token->isGivenKind(T_FUNCTION)) {
-                    $namePosition = $tokens->getNextNonWhitespace($i);
+                    $namePosition = $tokens->getNextMeaningfulToken($i);
                     $methodNameToken = $tokens[$namePosition];
-                    if ($methodNameToken->getContent() === '__construct') {
+                    if (strtolower($methodNameToken->getContent()) === '__construct') {
                         $constructMethodPosition = $i;
                         break;
                     }
                 }
             }
 
+            $varAnnotation = $doc->getAnnotationsOfType(self::VAR_NAME)[0];
+            $propertyType = $varAnnotation->getTypes()[0];
+
             // A. has a constructor?
             if (is_int($constructMethodPosition)) { // "function" token
                 $this->addPropertyToConstructor($tokens, $propertyType, $propertyName, $constructMethodPosition);
             } else {
-                // B. doesn't have a constructor?
+                // B. doesn't have a constructor
                 $this->addConstructorMethod($tokens, $propertyType, $propertyName);
             }
 
