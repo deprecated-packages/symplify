@@ -24,7 +24,7 @@ final class ForbiddenTraitSniff implements Sniff
      * @param File $file
      * @param int $position
      */
-    public function process(File $file, $position)
+    public function process(File $file, $position): void
     {
         $file->addError(self::ERROR_MESSAGE, $position, self::class);
     }

@@ -10,8 +10,13 @@ use Symplify\EasyCodingStandard\Error\Error;
 use Symplify\EasyCodingStandard\Error\ErrorCollector;
 use Symplify\EasyCodingStandard\FixerRunner\Application\FixerFileProcessor;
 
-final class FixerRunnerLineTest extends TestCase
+final class FixerLineTest extends TestCase
 {
+    /**
+     * @var string
+     */
+    private const PROCESSED_FILE = __DIR__ . '/ErrorCollectorSource/ConstantWithoutPublicDeclaration.php.inc';
+
     /**
      * @var ErrorCollector
      */
@@ -40,21 +45,24 @@ final class FixerRunnerLineTest extends TestCase
     {
         $this->runFileProcessor();
 
-        $this->assertSame(1, $this->errorDataCollector->getErrorCount());
+        $this->assertSame(2, $this->errorDataCollector->getErrorCount());
 
-        $errorMessages = $this->errorDataCollector->getAllErrors();
+        $errorMessages = $this->errorDataCollector->getAllErrors()[self::PROCESSED_FILE];
 
-        /** @var Error $error */
-        $error = array_pop($errorMessages)[0];
-        $this->assertInstanceOf(Error::class, $error);
+        /** @var Error $firstError */
+        $firstError = $errorMessages[0];
+        $this->assertInstanceOf(Error::class, $firstError);
+        $this->assertSame(7, $firstError->getLine());
 
-        $this->assertSame(8, $error->getLine());
+        /** @var Error $secondError */
+        $secondError = $errorMessages[1];
+        $this->assertInstanceOf(Error::class, $secondError);
+        $this->assertSame(9, $secondError->getLine());
     }
 
     private function runFileProcessor(): void
     {
-        $fileInfo = new SplFileInfo(__DIR__ . '/ErrorCollectorSource/ConstantWithoutPublicDeclaration.php.inc');
-
+        $fileInfo = new SplFileInfo(self::PROCESSED_FILE);
         $this->fileProcessor->processFile($fileInfo);
     }
 }

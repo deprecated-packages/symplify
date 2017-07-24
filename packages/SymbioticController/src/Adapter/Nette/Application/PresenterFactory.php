@@ -44,7 +44,7 @@ final class PresenterFactory implements IPresenterFactory, PresenterMappingAware
 
     /**
      * @param string $name
-     * @return IPresenter|callable|object
+     * @return callable|IPresenter|object
      */
     public function createPresenter($name)
     {

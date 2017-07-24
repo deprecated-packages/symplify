@@ -69,7 +69,7 @@ final class PresenterFactoryTest extends TestCase
         $errorPresenter = $this->presenterFactory->createPresenter('Error');
         $this->assertInstanceOf(ErrorPresenter::class, $errorPresenter);
 
-        /* @var Presenter $somePresenter */
+        // @var Presenter $somePresenter
         $this->assertInstanceOf(User::class, $errorPresenter->getUser());
     }
 

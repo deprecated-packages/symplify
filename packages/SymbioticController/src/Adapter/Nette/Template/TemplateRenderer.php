@@ -10,7 +10,7 @@ use Symplify\SymbioticController\Contract\Template\TemplateRendererInterface;
 final class TemplateRenderer implements TemplateRendererInterface
 {
     /**
-     * @var TemplateFactory|ITemplateFactory
+     * @var ITemplateFactory|TemplateFactory
      */
     private $templateFactory;
 

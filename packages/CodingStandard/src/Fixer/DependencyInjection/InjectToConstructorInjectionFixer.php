@@ -2,8 +2,6 @@
 
 namespace Symplify\CodingStandard\Fixer\DependencyInjection;
 
-use Nette\PhpGenerator\Method;
-use Nette\Utils\Strings;
 use PhpCsFixer\DocBlock\DocBlock;
 use PhpCsFixer\Fixer\DefinedFixerInterface;
 use PhpCsFixer\FixerDefinition\CodeSample;
@@ -12,9 +10,16 @@ use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
+use Symplify\CodingStandard\Fixer\PositionDetector;
+use Symplify\CodingStandard\Fixer\TokenBuilder;
 
 final class InjectToConstructorInjectionFixer implements DefinedFixerInterface
 {
+    /**
+     * @var string
+     */
+    private const VAR_NAME = 'var';
+
     public function getDefinition(): FixerDefinitionInterface
     {
         return new FixerDefinition(
@@ -58,50 +63,45 @@ class SomeClass
                 $injectAnnotation->remove();
             }
 
-            $token->setContent($doc->getContent());
-
             // 2. make public property private
-            for ($i = $index;; ++$i) {
-                $token = $tokens[$i];
-                if ($token->isGivenKind(T_PUBLIC)) {
-                    $token->override([T_PRIVATE, 'private']);
-                    break;
-                }
+            $visibilityTokenPosition = $tokens->getNextMeaningfulToken($index);
+            $visibilityToken = $tokens[$visibilityTokenPosition];
+            if (! $visibilityToken->isGivenKind(T_PUBLIC)) {
+                // not a public property with @inject annotation
+                continue;
             }
+
+            $tokens[$visibilityTokenPosition] = new Token([T_PRIVATE, 'private']);
 
             // 3. add dependency to constructor
-            $propertyName = '';
-            for ($i = $index;; ++$i) {
-                $token = $tokens[$i];
-                if ($token->isGivenKind(T_VARIABLE)) {
-                    $propertyName = ltrim($token->getContent(), '$');
-                    break;
-                }
+            $propertyNameTokenPosition = $tokens->getNextMeaningfulToken($visibilityTokenPosition);
+            $propertyNameToken = $tokens[$propertyNameTokenPosition];
+            $propertyName = ltrim($propertyNameToken->getContent(), '$');
+
+            $varAnnotations = $doc->getAnnotationsOfType(self::VAR_NAME);
+            if (! count($varAnnotations)) {
+                // missing @var annotation, not an @inject property
+                continue;
             }
-            $varAnnotation = $doc->getAnnotationsOfType('var')[0];
+
+            $varAnnotation = $varAnnotations[0];
+            if (! count($varAnnotation->getTypes())) {
+                // missing type at @var annotation, not an @inject property
+                continue;
+            }
             $propertyType = $varAnnotation->getTypes()[0];
 
-            // detect constructor
-            $constructMethodPosition = null;
-            for ($i = $index; $i < count($tokens); ++$i) {
-                $token = $tokens[$i];
-                if ($token->isGivenKind(T_FUNCTION)) {
-                    $namePosition = $tokens->getNextNonWhitespace($i);
-                    $methodNameToken = $tokens[$namePosition];
-                    if ($methodNameToken->getContent() === '__construct') {
-                        $constructMethodPosition = $i;
-                        break;
-                    }
-                }
-            }
-
             // A. has a constructor?
-            if (is_int($constructMethodPosition)) { // "function" token
-                $this->addPropertyToConstructor($tokens, $propertyType, $propertyName, $constructMethodPosition);
+            $constructorPosition = PositionDetector::detectConstructorPosition($tokens);
+            if ($constructorPosition) { // "function" token
+                $this->addPropertyToConstructor($tokens, $propertyType, $propertyName, $constructorPosition);
             } else {
-                // B. doesn't have a constructor?
+                // B. doesn't have a constructor
                 $this->addConstructorMethod($tokens, $propertyType, $propertyName);
             }
+
+            // save changed annotation
+            $token->setContent($doc->getContent());
 
             // run again with new tokens; @todo: can this be done any better to notice new __construct method added
             // by these tokens?
@@ -133,7 +133,7 @@ class SomeClass
     private function addConstructorMethod(Tokens $tokens, string $propertyType, string $propertyName): void
     {
         $constructorPosition = $this->getConstructorPosition($tokens);
-        $constructorTokens = $this->createConstructorWithPropertyCodeInTokens($propertyType, $propertyName);
+        $constructorTokens = TokenBuilder::createConstructorWithPropertyTokens($propertyType, $propertyName);
 
         $tokens->insertAt($constructorPosition, $constructorTokens);
     }
@@ -163,77 +163,27 @@ class SomeClass
         }
     }
 
-    private function createConstructorWithPropertyCodeInTokens(string $propertyType, string $propertyName): Tokens
-    {
-        $indentedConstructorCode = $this->createConstructorWithPropertyCodeInString($propertyType, $propertyName);
-        $constructorTokens = Tokens::fromCode(sprintf('<?php class SomeClass {
-
-%s
-}', $indentedConstructorCode));
-
-        $constructorTokens->clearRange(0, 5); // drop initial code: "<?php class SomeClass {"
-        $constructorTokens->clearRange(30, 31); // drop closing code: "}"
-
-        $constructorTokens->clearEmptyTokens();
-
-        return $constructorTokens;
-    }
-
-    private function createConstructorWithPropertyCodeInString(string $propertyType, string $propertyName): string
-    {
-        $method = new Method('__construct');
-        $method->setVisibility('public');
-
-        $parameter = $method->addParameter($propertyName);
-        $parameter->setTypeHint($propertyType);
-        $method->setBody('$this->? = $?;', [$propertyName, $propertyName]);
-
-        $methodAsString = (string) $method;
-        // tabs are used by default as indent; use spaces instead
-        $methodAsString = str_replace("\t", '    ', $methodAsString);
-
-        // indent method code with 4 spaces
-        return Strings::indent($methodAsString, 1, '    ');
-    }
-
     private function addPropertyToConstructor(
         Tokens $tokens,
         string $propertyType,
         string $propertyName,
-        int $constructMethodPosition
+        int $constructorPosition
     ): void {
-        $startParenthesisIndex = $tokens->getNextTokenOfKind($constructMethodPosition, ['(', ';', [T_CLOSE_TAG]]);
+        $startParenthesisIndex = $tokens->getNextTokenOfKind($constructorPosition, ['(', ';', T_CLOSE_TAG]);
         if (! $tokens[$startParenthesisIndex]->equals('(')) {
             return;
         }
 
         $endParenthesisIndex = $tokens->findBlockEnd(Tokens::BLOCK_TYPE_PARENTHESIS_BRACE, $startParenthesisIndex);
 
-        // add property as last argument: ", Type $property"
-        $tokens->insertAt($endParenthesisIndex, [
-            new Token(','),
-            new Token([T_WHITESPACE, ' ']),
-            new Token([T_STRING, $propertyType]),
-            new Token([T_WHITESPACE, ' ']),
-            new Token([T_VARIABLE, '$' . $propertyName]),
-        ]);
+        $tokens->insertAt($endParenthesisIndex, TokenBuilder::createLastArgumentTokens($propertyType, $propertyName));
 
         // detect end brace
         $endParenthesisIndex = $tokens->findBlockEnd(Tokens::BLOCK_TYPE_PARENTHESIS_BRACE, $startParenthesisIndex);
         $startBraceIndex = $tokens->getNextTokenOfKind($endParenthesisIndex, [';', '{']);
         $endBraceIndex = $tokens->findBlockEnd(Tokens::BLOCK_TYPE_CURLY_BRACE, $startBraceIndex);
 
-        // add property as last assignment: "$this->property = $property;"
-        $tokens->insertAt($endBraceIndex - 1, [
-            new Token([T_WHITESPACE, PHP_EOL . '        ']), // 2x indent with spaces
-            new Token([T_VARIABLE, '$this']),
-            new Token([T_OBJECT_OPERATOR, '->']),
-            new Token([T_STRING, $propertyName]),
-            new Token([T_WHITESPACE, ' ']),
-            new Token('='),
-            new Token([T_WHITESPACE, ' ']),
-            new Token([T_VARIABLE, '$' . $propertyName]),
-            new Token(';'),
-        ]);
+        // add property as last assignment
+        $tokens->insertAt($endBraceIndex - 1, TokenBuilder::createPropertyAssignmentTokens($propertyName));
     }
 }

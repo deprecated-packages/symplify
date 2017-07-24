@@ -8,7 +8,7 @@
         "contributte/event-dispatcher": "^0.3",
         "cpliakas/git-wrapper": "^1.7",
         "erusev/parsedown-extra": "^0.7",
-        "friendsofphp/php-cs-fixer": "2.3.2",
+        "friendsofphp/php-cs-fixer": "^2.4",
         "latte/latte": "^2.4",
         "lullabot/amp": "^1.1",
         "nette/application": "^2.4|^3.0",

@@ -37,7 +37,7 @@ final class NeonLoader implements LoaderInterface
 
     /**
      * @param mixed $resource
-     * @param string|null $type
+     * @param null|string $type
      */
     public function supports($resource, $type = null): bool
     {
