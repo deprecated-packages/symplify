@@ -7,9 +7,9 @@ use PhpCsFixer\Fixer\DefinedFixerInterface;
 use PhpCsFixer\FixerDefinition\CodeSample;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
-use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
+use Symplify\CodingStandard\Fixer\PositionDetector;
 use Symplify\CodingStandard\Fixer\TokenBuilder;
 
 final class InjectToConstructorInjectionFixer implements DefinedFixerInterface
@@ -72,38 +72,35 @@ class SomeClass
                 continue;
             }
 
-            // save changed annotation
-            $token->setContent($doc->getContent());
-
             // 3. add dependency to constructor
             $propertyNameTokenPosition = $tokens->getNextMeaningfulToken($visibilityTokenPosition);
             $propertyNameToken = $tokens[$propertyNameTokenPosition];
             $propertyName = ltrim($propertyNameToken->getContent(), '$');
 
-            // detect constructor
-            $constructMethodPosition = null;
-            for ($i = $index; $i < count($tokens); ++$i) {
-                $token = $tokens[$i];
-                if ($token->isGivenKind(T_FUNCTION)) {
-                    $namePosition = $tokens->getNextMeaningfulToken($i);
-                    $methodNameToken = $tokens[$namePosition];
-                    if (strtolower($methodNameToken->getContent()) === '__construct') {
-                        $constructMethodPosition = $i;
-                        break;
-                    }
-                }
+            $varAnnotations = $doc->getAnnotationsOfType(self::VAR_NAME);
+            if (! count($varAnnotations)) {
+                // missing @var annotation, not an @inject property
+                continue;
             }
 
-            $varAnnotation = $doc->getAnnotationsOfType(self::VAR_NAME)[0];
+            $varAnnotation = $varAnnotations[0];
+            if (! count($varAnnotation->getTypes())) {
+                // missing type at @var annotation, not an @inject property
+                continue;
+            }
             $propertyType = $varAnnotation->getTypes()[0];
 
             // A. has a constructor?
-            if (is_int($constructMethodPosition)) { // "function" token
-                $this->addPropertyToConstructor($tokens, $propertyType, $propertyName, $constructMethodPosition);
+            $constructorPosition = PositionDetector::detectConstructorPosition($tokens);
+            if (is_int($constructorPosition)) { // "function" token
+                $this->addPropertyToConstructor($tokens, $propertyType, $propertyName, $constructorPosition);
             } else {
                 // B. doesn't have a constructor
                 $this->addConstructorMethod($tokens, $propertyType, $propertyName);
             }
+
+            // save changed annotation
+            $token->setContent($doc->getContent());
 
             // run again with new tokens; @todo: can this be done any better to notice new __construct method added
             // by these tokens?
@@ -165,15 +162,13 @@ class SomeClass
         }
     }
 
-
-
     private function addPropertyToConstructor(
         Tokens $tokens,
         string $propertyType,
         string $propertyName,
-        int $constructMethodPosition
+        int $constructorPosition
     ): void {
-        $startParenthesisIndex = $tokens->getNextTokenOfKind($constructMethodPosition, ['(', ';', [T_CLOSE_TAG]]);
+        $startParenthesisIndex = $tokens->getNextTokenOfKind($constructorPosition, ['(', ';', T_CLOSE_TAG]);
         if (! $tokens[$startParenthesisIndex]->equals('(')) {
             return;
         }

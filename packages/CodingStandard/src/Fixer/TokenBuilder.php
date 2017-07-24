@@ -7,10 +7,10 @@ use PhpCsFixer\Tokenizer\Token;
 final class TokenBuilder
 {
     /**
-     * public function __construct(type $name)
+     * Generates tokens for code like: "public function __construct(type $name)
      * {
      *      $this->name = $name;
-     * }
+     * }".
      *
      * @return Token[]
      */
@@ -36,7 +36,6 @@ final class TokenBuilder
         $constructorTokens[] = new Token([T_WHITESPACE, PHP_EOL . '    ']);
         $constructorTokens[] = new Token('{');
 
-        // $this->name = $name
         $constructorTokens = array_merge(
             $constructorTokens,
             self::createPropertyAssignmentTokens($propertyName)
@@ -50,7 +49,7 @@ final class TokenBuilder
     }
 
     /**
-     * , Type $property
+     * Generates tokens for code like: ", Type $property".
      *
      * @return Token[]
      */
@@ -66,7 +65,7 @@ final class TokenBuilder
     }
 
     /**
-     * $this->property = $property;
+     * Generates tokens for code like: "$this->property = $property;".
      *
      * @return Token[]
      */
