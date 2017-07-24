@@ -8,7 +8,7 @@ use PhpCsFixer\Tokenizer\Tokens;
 final class PositionDetector
 {
     /**
-     * @param Tokens|Token[] $tokens
+     * @param Token[]|Tokens $tokens
      */
     public static function detectConstructorPosition(Tokens $tokens): ?int
     {
