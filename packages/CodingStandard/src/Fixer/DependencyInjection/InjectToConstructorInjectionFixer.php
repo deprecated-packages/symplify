@@ -7,6 +7,7 @@ use PhpCsFixer\Fixer\DefinedFixerInterface;
 use PhpCsFixer\FixerDefinition\CodeSample;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
+use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
 use Symplify\CodingStandard\Fixer\PositionDetector;
@@ -65,12 +66,12 @@ class SomeClass
             // 2. make public property private
             $visibilityTokenPosition = $tokens->getNextMeaningfulToken($index);
             $visibilityToken = $tokens[$visibilityTokenPosition];
-            if ($visibilityToken->isGivenKind(T_PUBLIC)) {
-                $visibilityToken->override([T_PRIVATE, 'private']);
-            } else {
-                // probably not a property with @inject annotation
+            if (! $visibilityToken->isGivenKind(T_PUBLIC)) {
+                // not a public property with @inject annotation
                 continue;
             }
+
+            $tokens[$visibilityTokenPosition] = new Token([T_PRIVATE, 'private']);
 
             // 3. add dependency to constructor
             $propertyNameTokenPosition = $tokens->getNextMeaningfulToken($visibilityTokenPosition);
@@ -92,7 +93,7 @@ class SomeClass
 
             // A. has a constructor?
             $constructorPosition = PositionDetector::detectConstructorPosition($tokens);
-            if (is_int($constructorPosition)) { // "function" token
+            if ($constructorPosition) { // "function" token
                 $this->addPropertyToConstructor($tokens, $propertyType, $propertyName, $constructorPosition);
             } else {
                 // B. doesn't have a constructor

@@ -22,15 +22,14 @@ final class InjectToConstructorInjectionFixerTest extends AbstractFixerTestCase
     public function provideFixCases(): array
     {
         return [
-            // properties with @inject annotation
             [
                 file_get_contents(__DIR__ . '/fixed/fixed.php.inc'),
                 file_get_contents(__DIR__ . '/wrong/wrong.php.inc'),
             ],
-            [
-                file_get_contents(__DIR__ . '/fixed/fixed2.php.inc'),
-                file_get_contents(__DIR__ . '/wrong/wrong2.php.inc'),
-            ],
+//            [
+//                file_get_contents(__DIR__ . '/fixed/fixed2.php.inc'),
+//                file_get_contents(__DIR__ . '/wrong/wrong2.php.inc'),
+//            ],
         ];
     }
 
