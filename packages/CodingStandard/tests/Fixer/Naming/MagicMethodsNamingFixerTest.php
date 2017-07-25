@@ -4,9 +4,9 @@ namespace Symplify\CodingStandard\Tests\Fixer\Naming;
 
 use PhpCsFixer\Fixer\FixerInterface;
 use PhpCsFixer\Test\AbstractFixerTestCase;
-use Symplify\CodingStandard\Fixer\Naming\LowercasePhpInternalMethodsFixer;
+use Symplify\CodingStandard\Fixer\Naming\MagicMethodsNamingFixer;
 
-final class LowercasePhpInternalMethodsFixerTest extends AbstractFixerTestCase
+final class MagicMethodsNamingFixerTest extends AbstractFixerTestCase
 {
     /**
      * @dataProvider provideFixCases()
@@ -39,6 +39,6 @@ final class LowercasePhpInternalMethodsFixerTest extends AbstractFixerTestCase
 
     protected function createFixer(): FixerInterface
     {
-        return new LowercasePhpInternalMethodsFixer;
+        return new MagicMethodsNamingFixer;
     }
 }

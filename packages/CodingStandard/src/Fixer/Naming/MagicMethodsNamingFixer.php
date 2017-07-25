@@ -11,7 +11,7 @@ use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
 
-final class LowercasePhpInternalMethodsFixer extends AbstractFixer
+final class MagicMethodsNamingFixer extends AbstractFixer
 {
     /**
      * @var string[]

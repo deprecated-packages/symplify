@@ -6,6 +6,7 @@ includes:
 checkers:
     - Symplify\CodingStandard\Fixer\Php\ClassStringToClassConstantFixer
     - Symplify\CodingStandard\Fixer\Property\ArrayPropertyDefaultValueFixer
+    - Symplify\CodingStandard\Fixer\Naming\MagicMethodsNamingFixer
 
     # Classes
     - PHP_CodeSniffer\Standards\Generic\Sniffs\Classes\DuplicateClassNameSniff
