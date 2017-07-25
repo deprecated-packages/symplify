@@ -47,9 +47,9 @@ final class MagicMethodsNamingFixer extends AbstractFixer
                 '<?php
 class SomeClass
 {
-public function __CONSTRUCT()
-{
-}
+    public function __CONSTRUCT()
+    {
+    }
 }'),
         ]);
     }
