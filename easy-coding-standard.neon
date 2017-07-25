@@ -212,7 +212,6 @@ checkers:
         syntax: short
 
     # new since PHP-CS-Fixer 2.4
-    - PhpCsFixer\Fixer\FunctionNotation\VoidReturnFixer
     - PhpCsFixer\Fixer\Phpdoc\PhpdocTypesOrderFixer
     - PhpCsFixer\Fixer\Comment\SingleLineCommentStyleFixer
 
