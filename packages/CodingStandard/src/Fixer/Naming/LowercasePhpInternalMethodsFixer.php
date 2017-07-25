@@ -28,7 +28,7 @@ final class LowercasePhpInternalMethodsFixer extends AbstractFixer
         '__wakeup',
         '__invoke',
         '__set_state',
-        '__clone()',
+        '__clone',
     ];
 
     /**
