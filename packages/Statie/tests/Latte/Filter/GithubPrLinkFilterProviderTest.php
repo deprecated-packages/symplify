@@ -3,6 +3,7 @@
 namespace Symplify\Statie\Tests\Latte\Filter;
 
 use PHPUnit\Framework\TestCase;
+use Psr\Container\ContainerInterface;
 use Symfony\Component\DependencyInjection\Container;
 use Symplify\Statie\DependencyInjection\ContainerFactory;
 use Symplify\Statie\Latte\Filter\GithubPrLinkFilterProvider;
@@ -12,7 +13,7 @@ use Symplify\Statie\Renderable\File\AbstractFile;
 final class GithubPrLinkFilterProviderTest extends TestCase
 {
     /**
-     * @var Container
+     * @var Container|ContainerInterface
      */
     private $container;
 

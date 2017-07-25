@@ -6,13 +6,12 @@ use Nette\Application\UI\InvalidLinkException;
 use Nette\InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use Symplify\PackageBuilder\Adapter\Nette\GeneralContainerFactory;
-use Symplify\SymbioticController\Adapter\Nette\Template\TemplateRenderer;
 use Symplify\SymbioticController\Contract\Template\TemplateRendererInterface;
 
 final class TemplateRendererTest extends TestCase
 {
     /**
-     * @var TemplateRenderer|TemplateRendererInterface
+     * @var TemplateRendererInterface
      */
     private $templateRenderer;
 
