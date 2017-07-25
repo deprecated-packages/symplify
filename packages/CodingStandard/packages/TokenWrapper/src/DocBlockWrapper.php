@@ -78,7 +78,7 @@ final class DocBlockWrapper
         }
 
         $empty = [T_DOC_COMMENT_WHITESPACE, T_DOC_COMMENT_STAR];
-        $shortPosition = $this->file->findNext($empty, $this->startPosition + 1, $this->endPosition, true);
+        $shortPosition = (int) $this->file->findNext($empty, $this->startPosition + 1, $this->endPosition, true);
 
         // indent content after /** to indented new line
         $this->fixer->addContentBefore($shortPosition, PHP_EOL . $this->getIndentationSign() . ' * ');

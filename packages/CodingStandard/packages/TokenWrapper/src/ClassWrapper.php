@@ -179,7 +179,7 @@ final class ClassWrapper
         $namespaceStart = $this->file->findNext([T_NAMESPACE], 0);
         $class = '';
         if ($namespaceStart !== false) {
-            $namespaceEnd = $this->file->findNext([T_SEMICOLON], $namespaceStart + 2);
+            $namespaceEnd = (int) $this->file->findNext([T_SEMICOLON], $namespaceStart + 2);
             for ($i = $namespaceStart + 2; $i < $namespaceEnd; ++$i) {
                 $class .= $this->tokens[$i]['content'];
             }
@@ -188,7 +188,9 @@ final class ClassWrapper
             $namespaceEnd = 0;
         }
 
-        $class .= $this->file->getDeclarationName($this->file->findNext([T_CLASS, T_INTERFACE], $namespaceEnd));
+
+        $classPosition = (int) $this->file->findNext([T_CLASS, T_INTERFACE], $namespaceEnd);
+        $class .= $this->file->getDeclarationName($classPosition);
 
         return $class;
     }

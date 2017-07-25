@@ -56,9 +56,9 @@ final class ClassMetrics
      */
     public function getLineDistanceBetweenNamespaceAndFirstUseStatement()
     {
-        $namespacePosition = $this->file->findPrevious(T_NAMESPACE, $this->classPosition);
+        $namespacePosition = (int) $this->file->findPrevious(T_NAMESPACE, $this->classPosition);
 
-        $nextUseStatementPosition = $this->file->findNext(T_USE, $namespacePosition);
+        $nextUseStatementPosition = (int) $this->file->findNext(T_USE, $namespacePosition);
         if (! $nextUseStatementPosition) {
             return false;
         }

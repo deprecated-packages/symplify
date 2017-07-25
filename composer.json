@@ -39,6 +39,7 @@
     },
     "require-dev": {
         "phpstan/phpstan": "^0.8",
+        "symfony/expression-language": "^3.3",
         "phpunit/phpunit": "^6.2",
         "tracy/tracy": "^2.4",
         "gecko-packages/gecko-php-unit": "dev-master#b32f1d8 as 2.1"
@@ -87,7 +88,7 @@
         ],
         "check-cs": "packages/EasyCodingStandard/bin/ecs check packages",
         "fix-cs": "packages/EasyCodingStandard/bin/ecs check packages --fix",
-        "phpstan": "phpstan analyse packages --level=5 -c phpstan.neon"
+        "phpstan": "phpstan analyse packages --level=6 -c phpstan.neon"
     },
     "config": {
         "sort-packages": true
