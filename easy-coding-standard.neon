@@ -217,7 +217,6 @@ checkers:
     - PhpCsFixer\Fixer\Comment\SingleLineCommentStyleFixer
 
     # Architecture
-    - Symplify\CodingStandard\Sniffs\Architecture\ForbiddenTraitSniff
     - Symplify\CodingStandard\Sniffs\Classes\EqualInterfaceImplementationSniff
     - Symplify\CodingStandard\Sniffs\Classes\FinalInterfaceSniff
 
@@ -234,9 +233,6 @@ parameters:
         Symplify\CodingStandard\Sniffs\Classes\EqualInterfaceImplementationSniff:
             - packages/EasyCodingStandard/packages/SniffRunner/src/Application/SniffFileProcessor.php
             - packages/EasyCodingStandard/packages/FixerRunner/src/Application/FixerFileProcessor.php
-
-        Symplify\CodingStandard\Sniffs\Architecture\ForbiddenTraitSniff:
-            - packages/PackageBuilder/src/Neon/NeonLoaderAwareKernelTrait.php
 
         PhpCsFixer\Fixer\PhpUnit\PhpUnitStrictFixer:
             - packages/EasyCodingStandard/tests/Indentation/IndentationTest.php
