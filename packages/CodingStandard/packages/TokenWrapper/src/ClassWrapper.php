@@ -188,7 +188,6 @@ final class ClassWrapper
             $namespaceEnd = 0;
         }
 
-
         $classPosition = (int) $this->file->findNext([T_CLASS, T_INTERFACE], $namespaceEnd);
         $class .= $this->file->getDeclarationName($classPosition);
 

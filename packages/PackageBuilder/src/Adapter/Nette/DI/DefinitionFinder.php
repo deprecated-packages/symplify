@@ -30,12 +30,14 @@ final class DefinitionFinder
     {
         $containerBuilder->prepareClassList();
 
-        if ($name = $containerBuilder->getByType($type)) {
+        $name = $containerBuilder->getByType($type);
+        if ($name !== null) {
             return $name;
         }
 
-        throw new DefinitionForTypeNotFoundException(
-            sprintf('Definition for type "%s" was not found.', $type)
-        );
+        throw new DefinitionForTypeNotFoundException(sprintf(
+            'Definition for type "%s" was not found.',
+            $type
+        ));
     }
 }

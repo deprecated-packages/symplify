@@ -33,7 +33,7 @@ final class InvokablePresenterAwareApplication extends Application
     private $requests = [];
 
     /**
-     * @var null|callable|IPresenter
+     * @var callable|IPresenter
      */
     private $presenter;
 

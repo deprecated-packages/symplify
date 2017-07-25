@@ -59,7 +59,7 @@ final class InterfaceNameSniff implements Sniff
 
     private function getInterfaceName(): string
     {
-        return $this->file->getDeclarationName($this->position);
+        return (string) $this->file->getDeclarationName($this->position);
     }
 
     private function getInterfaceNamePosition(): int

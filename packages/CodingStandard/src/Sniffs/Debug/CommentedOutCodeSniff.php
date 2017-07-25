@@ -95,6 +95,10 @@ final class CommentedOutCodeSniff implements Sniff
 
         try {
             $tokens = $parser->parse($content);
+            if ($tokens === null) {
+                return false;
+            }
+
             if (count($tokens) === 1 && $this->guessIsTextCommentToken($tokens[0])) {
                 return false;
             }

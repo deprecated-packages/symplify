@@ -4,12 +4,17 @@ parameters:
         - '#Symplify\\EasyCodingStandard\\SniffRunner\\File\\File::__construct\(\) does not call parent constructor from PHP_CodeSniffer\\Files\\File#'
         - '#Call to an undefined method Symfony\\Component\\Config\\Loader\\LoaderResolverInterface::addLoader\(\)#'
         - '#Parameter \#2 \$type of method Symfony\\Component\\Config\\Loader\\LoaderInterface::load\(\) expects string\|null, string\[\] given#'
+        # lvl 6
         - '#Parameter \#1 \$container of class Symfony\\Component\\DependencyInjection\\Loader\\YamlFileLoader constructor expects Symfony\\Component\\DependencyInjection\\ContainerBuilder, Symfony\\Component\\DependencyInjection\\ContainerBuilder\|Symfony\\Component\\DependencyInjection\\ContainerInterface given#'
+        # lvl 7
         - '#Parameter \#2 \$config of class PHP_CodeSniffer\\Tokenizers\\PHP constructor expects PHP_CodeSniffer\\Config\|null, PHP_CodeSniffer\\Config\|stdClass given#'
         - '# Symplify\\CodingStandard\\TokenWrapper#'
+        - '#Parameter \#1 \$id of class Symfony\\Component\\DependencyInjection\\Reference constructor expects string, string\|null given#'
     excludes_analyse:
         - *packages/CodingStandard/tests/**/correct*
         - *packages/CodingStandard/tests/**/wrong*
+        # lvl 7
+        - *packages/CodingStandard/src/Fixer/DependencyInjection/InjectToConstructorInjectionFixer.php
 
     enableUnionTypes: true
     autoload_files:

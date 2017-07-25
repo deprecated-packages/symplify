@@ -24,6 +24,9 @@ final class MatchTest extends TestCase
         $presenterRoute = new PresenterRoute($mask, StandalonePresenter::class);
 
         $appRequest = $presenterRoute->match($httpRequest);
+        if ($appRequest === null) {
+            return;
+        }
 
         $expectedAppRequest = new ApplicationRequest(
             StandalonePresenter::class,

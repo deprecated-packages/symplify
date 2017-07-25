@@ -57,7 +57,7 @@ public $property;'
 
             // @todo: how to get variable here?
             $equalTokenPosition = $tokens->getNextTokenOfKind($index, ['=']);
-            $semicolonTokenPosition = $tokens->getNextTokenOfKind($index, [';']);
+            $semicolonTokenPosition = (int) $tokens->getNextTokenOfKind($index, [';']);
 
             // default definition is set
             if (is_numeric($equalTokenPosition) && $equalTokenPosition < $semicolonTokenPosition) {

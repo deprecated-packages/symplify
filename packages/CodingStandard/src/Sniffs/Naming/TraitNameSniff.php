@@ -59,7 +59,7 @@ final class TraitNameSniff implements Sniff
 
     private function getTraitName(): string
     {
-        return $this->file->getDeclarationName($this->position);
+        return (string) $this->file->getDeclarationName($this->position);
     }
 
     private function getTraitNamePosition(): int

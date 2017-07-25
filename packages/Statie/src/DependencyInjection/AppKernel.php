@@ -10,7 +10,7 @@ use Symplify\Statie\DependencyInjection\CompilerPass\CollectorCompilerPass;
 final class AppKernel extends AbstractCliKernel
 {
     /**
-     * @var string
+     * @var null|string
      */
     private $configFile;
 
