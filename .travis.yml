@@ -31,6 +31,5 @@ after_script:
       php coveralls.phar --verbose
     fi
 
-# do not send success notifications, they have no value
 notifications:
   email: never
