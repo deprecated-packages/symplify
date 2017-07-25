@@ -49,6 +49,33 @@ class SomeClass
 ```
 
 
+### Magic PHP methods (`__*()`) should respect their casing form
+
+- [Naming/MagicMethodsNamingFixer](/src/Fixer/Naming/MagicMethodsNamingFixer.php)
+- This checker uses *[PHP-CS-Fixer](https://github.com/friendsofphp/php-cs-fixer)*
+
+:x:
+
+```php
+class SomeClass
+{
+    public function __CONSTRUCT()
+    {
+    }
+}
+```
+
+:+1:
+
+```php
+class SomeClass
+{
+    public function __construct()
+    {
+    }
+}
+```
+
 ### `::class` references should be used over string for classes and interfaces
  
  
