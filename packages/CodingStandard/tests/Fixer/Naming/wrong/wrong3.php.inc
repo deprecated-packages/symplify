@@ -1,38 +1,16 @@
 <?php
 
-class SomeClassWithMagicMethods
+class SomeClassWithCamelMagicMethods
 {
-    function __destRUCT()
+    public function __callStATIC()
     {
     }
-    function __call()
+
+    public function __tostring()
     {
     }
-    function __GET()
-    {
-    }
-    function __SET()
-    {
-    }
-    function __isset()
-    {
-    }
-    function __unSET()
-    {
-    }
-    function __slEEp()
-    {
-    }
-    function __WAKEUP()
-    {
-    }
-    function __invOKE()
-    {
-    }
-    function __seT_STate()
-    {
-    }
-    function __cLOne()
+
+    public function __deBUGinfo()
     {
     }
 }

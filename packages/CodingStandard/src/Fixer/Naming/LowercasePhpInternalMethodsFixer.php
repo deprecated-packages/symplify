@@ -34,12 +34,11 @@ final class LowercasePhpInternalMethodsFixer extends AbstractFixer
     /**
      * @var string[]
      */
-    private $otherMagicMethods = [
+    private $pascalCaseMagicMethods = [
          '__callStatic',
          '__toString',
-         '__debugInfo()',
+         '__debugInfo',
     ];
-
 
     public function getDefinition(): FixerDefinitionInterface
     {
@@ -78,17 +77,10 @@ class SomeClass
                 continue;
             }
 
-            $methodName = $methodNameToken->getContent();
-            $lowercasedMethodName = strtolower($methodName);
-            if ($methodName === $lowercasedMethodName) {
-                continue;
+            $correctName = $this->getCorrectedNameIfNeeded($methodNameToken->getContent());
+            if ($correctName) {
+                $this->fixMethodName($tokens, $correctName, $methodNamePosition);
             }
-
-            if (! in_array($lowercasedMethodName, $this->lowercaseMagicMethods)) {
-                continue;
-            }
-
-            $tokens[$methodNamePosition] = new Token([T_STRING, $lowercasedMethodName]);
         }
     }
 
@@ -105,5 +97,29 @@ class SomeClass
         }
 
         return true;
+    }
+
+    private function fixMethodName(Tokens $tokens, string $correctName, int $methodNamePosition): void
+    {
+        $tokens[$methodNamePosition] = new Token([T_STRING, $correctName]);
+    }
+
+    /**
+     * @return bool|string
+     */
+    private function getCorrectedNameIfNeeded(string $methodName)
+    {
+        foreach ($this->pascalCaseMagicMethods as $otherMagicMethod) {
+            if ($otherMagicMethod !== $methodName && strtolower($otherMagicMethod) === strtolower($methodName)) {
+                return $otherMagicMethod;
+            }
+        }
+
+        $lowercasedMethodName = strtolower($methodName);
+        if (in_array($lowercasedMethodName, $this->lowercaseMagicMethods, true)) {
+            return $lowercasedMethodName;
+        }
+
+        return false;
     }
 }
