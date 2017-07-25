@@ -70,7 +70,7 @@ class SomeClass
                 continue;
             }
 
-            $methodNamePosition = $tokens->getNextMeaningfulToken($index);
+            $methodNamePosition = (int) $tokens->getNextMeaningfulToken($index);
             $methodNameToken = $tokens[$methodNamePosition];
 
             if (! $this->isMethodNameCandidate($methodNameToken)) {
@@ -78,9 +78,11 @@ class SomeClass
             }
 
             $correctName = $this->getCorrectedNameIfNeeded($methodNameToken->getContent());
-            if ($correctName) {
-                $this->fixMethodName($tokens, $correctName, $methodNamePosition);
+            if ($correctName === false) {
+                continue;
             }
+
+            $this->fixMethodName($tokens, $correctName, $methodNamePosition);
         }
     }
 
@@ -105,7 +107,7 @@ class SomeClass
     }
 
     /**
-     * @return bool|string
+     * @return false|string
      */
     private function getCorrectedNameIfNeeded(string $methodName)
     {
