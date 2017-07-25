@@ -16,7 +16,7 @@ final class LowercasePhpInternalMethodsFixer extends AbstractFixer
     /**
      * @var string[]
      */
-    private $phpMethods = [
+    private $lowercaseMagicMethods = [
         '__construct',
         '__destruct',
         '__call',
@@ -29,11 +29,17 @@ final class LowercasePhpInternalMethodsFixer extends AbstractFixer
         '__invoke',
         '__set_state',
         '__clone()',
-        // todo: not lowercased
-        // '__callStatic',
-        // '__toString',
-        // '__debugInfo()',
     ];
+
+    /**
+     * @var string[]
+     */
+    private $otherMagicMethods = [
+         '__callStatic',
+         '__toString',
+         '__debugInfo()',
+    ];
+
 
     public function getDefinition(): FixerDefinitionInterface
     {
@@ -68,13 +74,7 @@ class SomeClass
             $methodNamePosition = $tokens->getNextMeaningfulToken($index);
             $methodNameToken = $tokens[$methodNamePosition];
 
-            if (! $methodNameToken->isGivenKind(T_STRING)) {
-                // expected next token is not a method name, not our match
-                continue;
-            }
-
-            if (! Strings::startsWith($methodNameToken->getContent(), '__')) {
-                // not PHP internal method
+            if (! $this->isMethodNameCandidate($methodNameToken)) {
                 continue;
             }
 
@@ -84,11 +84,26 @@ class SomeClass
                 continue;
             }
 
-            if (! in_array($lowercasedMethodName, $this->phpMethods)) {
+            if (! in_array($lowercasedMethodName, $this->lowercaseMagicMethods)) {
                 continue;
             }
 
             $tokens[$methodNamePosition] = new Token([T_STRING, $lowercasedMethodName]);
         }
+    }
+
+    private function isMethodNameCandidate(Token $methodNameToken): bool
+    {
+        if (! $methodNameToken->isGivenKind(T_STRING)) {
+            // expected next token is not a method name, not our match
+            return false;
+        }
+
+        if (! Strings::startsWith($methodNameToken->getContent(), '__')) {
+            // not PHP internal method
+            return false;
+        }
+
+        return true;
     }
 }
