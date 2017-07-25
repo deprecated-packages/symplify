@@ -42,7 +42,7 @@ final class MagicMethodsNamingFixer extends AbstractFixer
 
     public function getDefinition(): FixerDefinitionInterface
     {
-        return new FixerDefinition('Magic PHP methods (`__*()`) should respect their casing form', [
+        return new FixerDefinition('Magic PHP methods (__*()) should respect their casing form', [
             new CodeSample(
                 '<?php
 class SomeClass
