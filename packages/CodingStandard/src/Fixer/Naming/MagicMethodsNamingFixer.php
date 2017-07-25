@@ -42,19 +42,16 @@ final class MagicMethodsNamingFixer extends AbstractFixer
 
     public function getDefinition(): FixerDefinitionInterface
     {
-        return new FixerDefinition(
-            'Internal PHP methods should be lowercased.',
-            [
-                new CodeSample(
-                    '<?php
+        return new FixerDefinition('Magic PHP methods (`__*()`) should respect their casing form', [
+            new CodeSample(
+                '<?php
 class SomeClass
 {
-    public function __CONSTRUCT()
-    {
-    }
+public function __CONSTRUCT()
+{
+}
 }'),
-            ]
-        );
+        ]);
     }
 
     public function isCandidate(Tokens $tokens): bool
