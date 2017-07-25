@@ -109,19 +109,6 @@ class SomeClass
 ```
 
 
-### Traits are forbidden. Prefer services and constructor injection
-
-- [Architecture/ForbiddenTraitSniff](/src/Sniffs/Architecture/ForbiddenTraitSniff.php)
-- `Symplify.Architecture.ForbiddenTrait`
-
-:x:
-
-```php
-trait SomeTrait
-{
-}
-```
-
 ### Implementation of interface should only contain its methods
 
 - [Classes/EqualInterfaceImplementationSniff](/src/Sniffs/Classes/EqualInterfaceImplementationSniff.php)
