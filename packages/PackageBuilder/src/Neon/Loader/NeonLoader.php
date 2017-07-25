@@ -10,7 +10,6 @@ use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\Config\Loader\LoaderResolverInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symplify\EasyCodingStandard\SniffRunner\Exception\ClassNotFoundException;
 use Symplify\PackageBuilder\Exception\Neon\InvalidSectionException;
@@ -23,7 +22,7 @@ final class NeonLoader implements LoaderInterface
     private $resolver;
 
     /**
-     * @var ContainerBuilder
+     * @var ContainerBuilder|ContainerInterface
      */
     private $containerBuilder;
 

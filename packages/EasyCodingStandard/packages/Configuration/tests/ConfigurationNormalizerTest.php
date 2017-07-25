@@ -61,4 +61,20 @@ final class ConfigurationNormalizerTest extends TestCase
             'sniff' => 'configuration',
         ]);
     }
+
+    public function testMerging(): void
+    {
+        $normalizedConfiguration = $this->configurationNormalizer->normalize([
+            0 => 'sniff',
+            'sniff' => [
+                'key' => 'value',
+            ],
+        ]);
+
+        $this->assertSame([
+            'sniff' => [
+                'key' => 'value',
+            ],
+        ], $normalizedConfiguration);
+    }
 }

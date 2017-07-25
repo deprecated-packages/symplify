@@ -2,9 +2,7 @@
 
 namespace Symplify\EasyCodingStandard\DependencyInjection\Extension;
 
-use Nette\Utils\ObjectMixin;
 use PHP_CodeSniffer\Sniffs\Sniff;
-use PhpCsFixer\Fixer\ConfigurationDefinitionFixerInterface;
 use PhpCsFixer\Fixer\FixerInterface;
 use PhpCsFixer\Fixer\WhitespacesAwareFixerInterface;
 use PhpCsFixer\WhitespacesFixerConfig;
@@ -13,12 +11,25 @@ use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symplify\EasyCodingStandard\Configuration\CheckerConfigurationNormalizer;
-use Symplify\EasyCodingStandard\Exception\DependencyInjection\Extension\FixerIsNotConfigurableException;
-use Symplify\EasyCodingStandard\Exception\DependencyInjection\Extension\InvalidSniffPropertyException;
 use Symplify\EasyCodingStandard\Validator\CheckerTypeValidator;
 
 final class CheckersExtension extends Extension
 {
+    /**
+     * @var string
+     */
+    private const SERVICE_NAME_WHITESPACE_CONFIG = 'fixerWhitespaceConfig';
+
+    /**
+     * @var string
+     */
+    private const FOUR_SPACES = '    ';
+
+    /**
+     * @var string
+     */
+    private const ONE_TAB = '	';
+
     /**
      * @var string
      */
@@ -35,18 +46,19 @@ final class CheckersExtension extends Extension
     private $checkerTypeValidator;
 
     /**
-     * @var bool
+     * @var CheckersExtensionGuardian
      */
-    private $isWhitespaceFixerConfigRegistered = false;
+    private $checkerExtensionGuardian;
 
     public function __construct()
     {
         $this->configurationNormalizer = new CheckerConfigurationNormalizer;
         $this->checkerTypeValidator = new CheckerTypeValidator;
+        $this->checkerExtensionGuardian = new CheckersExtensionGuardian;
     }
 
     /**
-     * @param mixed[] $configs
+     * @param string[] $configs
      */
     public function load(array $configs, ContainerBuilder $containerBuilder): void
     {
@@ -55,10 +67,11 @@ final class CheckersExtension extends Extension
             return;
         }
 
+        $this->registerWhitespacesFixerConfigDefinition($containerBuilder);
+
         $checkersConfiguration = $parameterBag->get(self::NAME) ?? [];
         $checkers = $this->configurationNormalizer->normalize($checkersConfiguration);
         $this->checkerTypeValidator->validate(array_keys($checkers));
-
         $this->registerCheckersAsServices($containerBuilder, $checkers);
     }
 
@@ -70,7 +83,7 @@ final class CheckersExtension extends Extension
         foreach ($checkers as $checkerClass => $configuration) {
             $checkerDefinition = new Definition($checkerClass);
             $this->setupCheckerConfiguration($checkerDefinition, $configuration);
-            $this->setupCheckerWithIndentation($checkerDefinition, $containerBuilder);
+            $this->setupCheckerWithIndentation($checkerDefinition);
             $containerBuilder->setDefinition($checkerClass, $checkerDefinition);
         }
     }
@@ -85,77 +98,55 @@ final class CheckersExtension extends Extension
         }
 
         $checkerClass = $checkerDefinition->getClass();
+
         if (is_a($checkerClass, FixerInterface::class, true)) {
-            $this->ensureFixerIsConfigurable($checkerClass, $configuration);
+            $this->checkerExtensionGuardian->ensureFixerIsConfigurable($checkerClass, $configuration);
             $checkerDefinition->addMethodCall('configure', [$configuration]);
-        } elseif (is_a($checkerClass, Sniff::class, true)) {
+        }
+
+        if (is_a($checkerClass, Sniff::class, true)) {
             foreach ($configuration as $property => $value) {
-                $this->ensurePropertyExists($checkerClass, $property);
+                $this->checkerExtensionGuardian->ensurePropertyExists($checkerClass, $property);
                 $checkerDefinition->setProperty($property, $value);
             }
         }
     }
 
-    /**
-     * @param mixed[] $configuration
-     */
-    private function ensureFixerIsConfigurable(string $fixerClass, array $configuration): void
+    private function setupCheckerWithIndentation(Definition $definition): void
     {
-        if (is_a($fixerClass, ConfigurationDefinitionFixerInterface::class, true)) {
-            return;
-        }
-
-        throw new FixerIsNotConfigurableException(sprintf(
-            'Fixer "%s" is not configurable with configuration: %s.',
-            $fixerClass,
-            json_encode($configuration)
-        ));
-    }
-
-    private function ensurePropertyExists(string $sniffClass, string $property): void
-    {
-        if (property_exists($sniffClass, $property)) {
-            return;
-        }
-
-        $suggested = ObjectMixin::getSuggestion(array_keys(get_class_vars($sniffClass)), $property);
-
-        throw new InvalidSniffPropertyException(sprintf(
-            'Property "%s" was not found on "%s" sniff class in configuration. %s',
-            $property,
-            $sniffClass,
-            $suggested ? sprintf('Did you mean "%s"?', $suggested) : ''
-        ));
-    }
-
-    private function setupCheckerWithIndentation(Definition $definition, ContainerBuilder $containerBuilder): void
-    {
-        $this->registerWhitespacesFixerConfigDefinition($containerBuilder);
         $checkerClass = $definition->getClass();
         if (! is_a($checkerClass, WhitespacesAwareFixerInterface::class, true)) {
             return;
         }
 
-        $definition->addMethodCall('setWhitespacesConfig', [new Reference('fixerWhitespaceConfig')]);
+        $definition->addMethodCall(
+            'setWhitespacesConfig',
+            [new Reference(self::SERVICE_NAME_WHITESPACE_CONFIG)]
+        );
     }
 
     private function registerWhitespacesFixerConfigDefinition(ContainerBuilder $containerBuilder): void
     {
-        if ($this->isWhitespaceFixerConfigRegistered) {
-            return;
+        $indentation = $this->resolveIndentationValueFromParameter($containerBuilder);
+
+        $whitespacesFixerConfigDefinition = new Definition(
+            WhitespacesFixerConfig::class,
+            [$indentation, PHP_EOL]
+        );
+        $containerBuilder->setDefinition(self::SERVICE_NAME_WHITESPACE_CONFIG, $whitespacesFixerConfigDefinition);
+    }
+
+    private function resolveIndentationValueFromParameter(ContainerBuilder $containerBuilder): string
+    {
+        if (! $containerBuilder->hasParameter('indentation')) {
+            return self::FOUR_SPACES;
         }
 
-        $indentation = $containerBuilder->hasParameter('indentation') ?
-            $containerBuilder->getParameter('indentation') : 'spaces';
-        if ($indentation === 'spaces') {
-            $indentation = '    ';
-        } elseif ($indentation === 'tab') {
-            $indentation = '	';
+        $indentation = $containerBuilder->getParameter('indentation');
+        if ($indentation === 'tab') {
+            return self::ONE_TAB;
         }
 
-        $whitespacesFixerConfigDefinition = new Definition(WhitespacesFixerConfig::class, [$indentation, PHP_EOL]);
-        $containerBuilder->setDefinition('fixerWhitespaceConfig', $whitespacesFixerConfigDefinition);
-
-        $this->isWhitespaceFixerConfigRegistered = true;
+        return self::FOUR_SPACES;
     }
 }

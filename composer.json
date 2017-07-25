@@ -23,6 +23,7 @@
         "nette/security": "^2.4|^3.0",
         "nette/utils": "^2.4|^3.0",
         "nikic/php-parser": "^3.0",
+        "sebastian/diff": "^1.4",
         "slevomat/coding-standard": "^3.0",
         "spatie/regex": "^1.1",
         "squizlabs/php_codesniffer": "^3.0.1",
@@ -37,7 +38,7 @@
         "yooper/php-text-analysis": "^1.1"
     },
     "require-dev": {
-        "phpstan/phpstan": "^0.7",
+        "phpstan/phpstan": "^0.8",
         "phpunit/phpunit": "^6.2",
         "tracy/tracy": "^2.4",
         "gecko-packages/gecko-php-unit": "dev-master#b32f1d8 as 2.1"
