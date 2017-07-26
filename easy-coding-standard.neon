@@ -86,6 +86,7 @@ checkers:
     - PhpCsFixer\Fixer\NamespaceNotation\SingleBlankLineBeforeNamespaceFixer
     - PhpCsFixer\Fixer\Import\OrderedImportsFixer
     - SlevomatCodingStandard\Sniffs\Namespaces\ReferenceUsedNamesOnlySniff
+    - PhpCsFixer\Fixer\Import\NoUnusedImportsFixer
 
     # Naming
     - Symplify\CodingStandard\Sniffs\Naming\AbstractClassNameSniff
@@ -246,6 +247,7 @@ parameters:
             - packages/CodingStandard/src/Sniffs/Classes/EqualInterfaceImplementationSniff.php
             # "Exception" is string part of the name
             - packages/CodingStandard/src/Sniffs/Naming/ExceptionNameSniff.php
+            - packages/CodingStandard/src/Fixer/Naming/ExceptionNameFixer.php
             # "Error" is a name of Presenter
             - packages/SymbioticController/tests/Adapter/Nette/Application/PresenterFactoryTest.php
             # class is only for tested cases, it doesn't exist
