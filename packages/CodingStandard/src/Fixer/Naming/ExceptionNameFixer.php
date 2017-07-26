@@ -64,7 +64,7 @@ class SomeClass extends Exception
                 continue;
             }
 
-            $classNamePosition = $tokens->getPrevMeaningfulToken($index);
+            $classNamePosition = (int) $tokens->getPrevMeaningfulToken($index);
             $classNameToken = $tokens[$classNamePosition];
             if (Strings::endsWith($classNameToken->getContent(), 'Exception')) {
                 continue;
