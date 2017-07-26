@@ -34,7 +34,8 @@ class SomeClass
      * @var stdClass
      */
     public $property;
-}'),
+}'
+                ),
             ]
         );
     }

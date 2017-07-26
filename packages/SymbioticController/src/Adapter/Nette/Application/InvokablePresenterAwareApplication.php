@@ -76,11 +76,13 @@ final class InvokablePresenterAwareApplication extends Application
     {
         try {
             $this->eventDispatcher->dispatch(
-                ApplicationEvents::ON_STARTUP, new StartupEvent($this)
+                ApplicationEvents::ON_STARTUP,
+                new StartupEvent($this)
             );
             $this->processRequest($this->createInitialRequest());
             $this->eventDispatcher->dispatch(
-                ApplicationEvents::ON_SHUTDOWN, new ShutdownEvent($this)
+                ApplicationEvents::ON_SHUTDOWN,
+                new ShutdownEvent($this)
             );
         } catch (Throwable $exception) {
             $this->dispatchException($exception);
@@ -94,7 +96,8 @@ final class InvokablePresenterAwareApplication extends Application
 
         $this->requests[] = $request;
         $this->eventDispatcher->dispatch(
-            ApplicationEvents::ON_REQUEST, new RequestEvent($this, $request)
+            ApplicationEvents::ON_REQUEST,
+            new RequestEvent($this, $request)
         );
 
         $this->ensureRequestIsValid($request);
@@ -108,7 +111,8 @@ final class InvokablePresenterAwareApplication extends Application
         }
 
         $this->eventDispatcher->dispatch(
-            ApplicationEvents::ON_PRESENTER, new CallablePresenterEvent($this, $this->presenter)
+            ApplicationEvents::ON_PRESENTER,
+            new CallablePresenterEvent($this, $this->presenter)
         );
 
         $response = $this->processPresenterWithRequestAndReturnResponse($request);
@@ -119,7 +123,8 @@ final class InvokablePresenterAwareApplication extends Application
         }
 
         $this->eventDispatcher->dispatch(
-            ApplicationEvents::ON_RESPONSE, new ResponseEvent($this, $response)
+            ApplicationEvents::ON_RESPONSE,
+            new ResponseEvent($this, $response)
         );
 
         $response->send($this->httpRequest, $this->httpResponse);
@@ -141,7 +146,8 @@ final class InvokablePresenterAwareApplication extends Application
             try {
                 $this->processException($exception);
                 $this->eventDispatcher->dispatch(
-                    ApplicationEvents::ON_SHUTDOWN, new ShutdownEvent($this)
+                    ApplicationEvents::ON_SHUTDOWN,
+                    new ShutdownEvent($this)
                 );
 
                 return;

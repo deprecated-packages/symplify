@@ -50,7 +50,8 @@ class SomeClass
     public function __CONSTRUCT()
     {
     }
-}'),
+}'
+            ),
         ]);
     }
 

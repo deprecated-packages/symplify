@@ -34,7 +34,8 @@ final class NeonParserTest extends TestCase
 
         $this->expectException(InvalidNeonSyntaxException::class);
         $this->expectExceptionMessage(sprintf(
-            'Invalid NEON syntax found in "%s" file: Bad indentation on line 2, column 2.', $brokenNeonFilePath
+            'Invalid NEON syntax found in "%s" file: Bad indentation on line 2, column 2.',
+            $brokenNeonFilePath
         ));
 
         $this->neonParser->decodeFromFile(__DIR__ . '/NeonParserSource/broken-config.neon');
