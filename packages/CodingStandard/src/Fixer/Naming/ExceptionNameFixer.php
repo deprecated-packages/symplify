@@ -3,6 +3,7 @@
 namespace Symplify\CodingStandard\Fixer\Naming;
 
 use Nette\Utils\Strings;
+use PhpCsFixer\Fixer\Basic\Psr4Fixer;
 use PhpCsFixer\Fixer\DefinedFixerInterface;
 use PhpCsFixer\FixerDefinition\CodeSample;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
@@ -45,8 +46,7 @@ class SomeClass extends Exception
     }
 
     /**
-     * Run before PSR4 fixer to fix-up file names if needed.
-     * @see Psr4Fixer
+     * Run before @see Psr4Fixer fixer to fix-up file names if needed.
      */
     public function getPriority(): int
     {
