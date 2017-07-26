@@ -76,6 +76,7 @@ class SomeClass
 }
 ```
 
+
 ### `::class` references should be used over string for classes and interfaces
  
  
@@ -381,8 +382,14 @@ abstract class AbstractSomeClass
 
 ### Exception should have suffix "Exception"
 
+For *PHP_CodeSniffer*:
+
 - [Naming/ExceptionNameSniff](/src/Sniffs/Naming/ExceptionNameSniff.php)
 - `Symplify.Naming.ExceptionName`
+
+or *[PHP-CS-Fixer]*:
+
+- [Naming/ExceptionNameSniff](/src/Fixer/Naming/ExceptionNameFixer.php)
 
 :x:
 
