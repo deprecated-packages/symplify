@@ -26,7 +26,8 @@ final class ExceptionNameFixer implements DefinedFixerInterface
                 '<?php
 class SomeClass extends Exception
 {
-}'),
+}'
+            ),
         ]);
     }
 
@@ -77,6 +78,7 @@ class SomeClass extends Exception
     private function isException(Tokens $tokens, int $index): bool
     {
         $parentClassName = $this->getParentClassName($tokens, $index);
+
         return Strings::endsWith($parentClassName, 'Exception');
     }
 

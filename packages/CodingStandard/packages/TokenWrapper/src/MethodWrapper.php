@@ -94,7 +94,10 @@ final class MethodWrapper
         }
 
         $parameterPositions = TokenFinder::findAllOfType(
-            $this->file, T_VARIABLE, $this->methodToken['parenthesis_opener'], $this->methodToken['parenthesis_closer']
+            $this->file,
+            T_VARIABLE,
+            $this->methodToken['parenthesis_opener'],
+            $this->methodToken['parenthesis_closer']
         );
 
         $parameters = [];

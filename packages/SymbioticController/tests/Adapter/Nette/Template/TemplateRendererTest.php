@@ -33,9 +33,11 @@ final class TemplateRendererTest extends TestCase
     public function testRenderFileWithParameters(): void
     {
         $template = $this->templateRenderer->renderFileWithParameters(
-            __DIR__ . '/TemplateRendererSource/someTemplateWithVariable.latte', [
+            __DIR__ . '/TemplateRendererSource/someTemplateWithVariable.latte',
+            [
                 'name' => 'Tom',
-            ]);
+            ]
+        );
 
         $this->assertSame('Hi Tom', trim($template));
     }

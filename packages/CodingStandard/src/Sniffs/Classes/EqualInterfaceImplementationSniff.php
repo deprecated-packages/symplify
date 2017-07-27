@@ -83,7 +83,8 @@ final class EqualInterfaceImplementationSniff implements Sniff
         }
 
         $inheritsSkippedInterface = (bool) array_intersect(
-            $this->classWrapper->getInterfaces(), $this->interfacesToSkip
+            $this->classWrapper->getInterfaces(),
+            $this->interfacesToSkip
         );
 
         if ($inheritsSkippedInterface) {

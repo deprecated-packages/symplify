@@ -80,7 +80,8 @@ final class ClassWrapper
         while (($propertyTokenPointer = $this->file->findNext(
             T_VARIABLE,
             $classOpenerPosition,
-            $this->classToken['scope_closer'])) !== false
+            $this->classToken['scope_closer']
+        )) !== false
         ) {
             $classOpenerPosition = $propertyTokenPointer + 1;
 
@@ -105,7 +106,8 @@ final class ClassWrapper
         while (($methodTokenPointer = $this->file->findNext(
             T_FUNCTION,
             $classOpenerPosition,
-            $this->classToken['scope_closer'])) !== false
+            $this->classToken['scope_closer']
+        )) !== false
         ) {
             $classOpenerPosition = $methodTokenPointer + 1;
 
