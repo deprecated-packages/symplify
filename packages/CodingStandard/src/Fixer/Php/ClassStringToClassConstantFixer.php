@@ -26,17 +26,20 @@ final class ClassStringToClassConstantFixer implements DefinedFixerInterface
 '<?php      
 
 $className = "DateTime";  
-                '),
+                '
+                ),
                 new CodeSample(
 '<?php      
 
 $interfaceName = "DateTimeInterface";  
-                '),
+                '
+                ),
                 new CodeSample(
 '<?php      
 
 $interfaceName = "Nette\Utils\DateTime";  
-                '),
+                '
+                ),
             ]
         );
     }

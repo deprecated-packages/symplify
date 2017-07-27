@@ -15,6 +15,31 @@ composer require symplify/package-builder
 
 ## Collect Services Together in Extension/Bundle
 
+### In Symfony
+
+```php
+use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
+use Symplify\PackageBuilder\Adapter\Symfony\DependencyInjection\DefinitionFinder;
+use Symplify\PackageBuilder\Adapter\Symfony\DependencyInjection\DefinitionCollector;
+
+final class CollectorCompilerPass implements CompilerPassInterface
+{
+    public function process(ContainerBuilder $containerBuilder): void
+    {
+        $eventDispatcherDefinition = DefinitionFinder::getByType($containerBuilder, EventDispatcher::class);
+        
+        $eventSubscribersDefinitions = DefinitionFinder::findAllByType($containerBuilder, EventSubscriberInterface::class);
+        
+        DefinitionCollector::loadCollectorWithType(
+            $containerBuilder,
+            EventDispatcher::class,
+            EventSubscriberInterface::class,
+            'addSubscriber'
+        );
+    }
+}
+```
+
 ### In Nette
 
 ```php
@@ -40,30 +65,6 @@ final class SomeExtension extends CompilerExtension
 }
 ```
 
-### In Symfony
-
-```php
-use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
-use Symplify\PackageBuilder\Adapter\Symfony\DependencyInjection\DefinitionFinder;
-use Symplify\PackageBuilder\Adapter\Symfony\DependencyInjection\DefinitionCollector;
-
-final class CollectorCompilerPass implements CompilerPassInterface
-{
-    public function process(ContainerBuilder $containerBuilder): void
-    {
-        $eventDispatcherDefinition = DefinitionFinder::getByType($containerBuilder, EventDispatcher::class);
-        
-        $eventSubscribersDefinitions = DefinitionFinder::findAllByType($containerBuilder, EventSubscriberInterface::class);
-        
-        DefinitionCollector::loadCollectorWithType(
-            $containerBuilder,
-            EventDispatcher::class,
-            EventSubscriberInterface::class,
-            'addSubscriber'
-        );
-    }
-}
-```
 
 ## All Parameters Available in a Service
 
@@ -154,7 +155,7 @@ final class StatieConfiguration
 ```php
 Symplify\PackageBuilder\Composer\VendorDirProvider::provide(); // return path to vendor directory
 ```
-'
+
 ## Load a Config for CLI Application?
 
 Use in CLI entry file `bin/<app-name>`, e.g. `bin/statie` or `bin/apigen`. 
@@ -165,7 +166,8 @@ Use in CLI entry file `bin/<app-name>`, e.g. `bin/statie` or `bin/apigen`.
 use Symfony\Component\Console\Input\ArgvInput;
 
 Symplify\PackageBuilder\Configuration\ConfigFilePathHelper::detectFromInput('statie', new ArgvInput);
-# throws "Symplify\PackageBuilder\Exception\Configuration\FileNotFoundException" exception if no file is found
+# throws "Symplify\PackageBuilder\Exception\Configuration\FileNotFoundException" 
+# exception if no file is found
 ```
 
 Where "statie" is key to save the location under. Later you'll use it get the config.  
@@ -209,7 +211,7 @@ try {
 ```
 
 
-### Load `*.neon` config files in Kernel
+## Load `*.neon` config files in Kernel
  
 You can load `*.yaml` files in Kernel by default. Now `*.neon` as well:
   

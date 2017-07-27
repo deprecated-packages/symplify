@@ -72,7 +72,8 @@ final class PropertyWrapper
 
         $docBlockClosePosition = $this->getDocCommentCloseTokenPosition();
         $docBlockOpenPosition = $this->file->findPrevious(
-            T_DOC_COMMENT_OPEN_TAG, $docBlockClosePosition - 1
+            T_DOC_COMMENT_OPEN_TAG,
+            $docBlockClosePosition - 1
         ) + 1;
 
         return DocBlockWrapper::createFromFileAndPosition(
@@ -139,7 +140,9 @@ final class PropertyWrapper
         );
 
         return TokenHelper::findPreviousExcluding(
-            $this->file, [T_WHITESPACE], $visibilityModifiedTokenPointer - 1
+            $this->file,
+            [T_WHITESPACE],
+            $visibilityModifiedTokenPointer - 1
         );
     }
 

@@ -107,8 +107,9 @@ final class PostFilesProcessorTest extends TestCase
         $this->expectException(Throwable::class);
         $this->expectExceptionMessage(sprintf(
             'Value "key" was not found for "%s" object. Available values are "layout", "title", "relativeUrl"',
-            PostFile::class)
-        );
+            PostFile::class
+        ));
+
         $value = $post['key'];
     }
 

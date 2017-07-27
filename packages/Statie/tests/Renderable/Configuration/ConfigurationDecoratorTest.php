@@ -52,7 +52,8 @@ final class ConfigurationDecoratorTest extends AbstractContainerAwareTestCase
 
         $this->expectException(InvalidNeonSyntaxException::class);
         $this->expectExceptionMessage(sprintf(
-            'Invalid NEON syntax found in "%s" file: Bad indentation on line 2, column 3.', $brokenNeonFilePath
+            'Invalid NEON syntax found in "%s" file: Bad indentation on line 2, column 3.',
+            $brokenNeonFilePath
         ));
 
         $this->configurationDecorator->decorateFiles([$file]);
