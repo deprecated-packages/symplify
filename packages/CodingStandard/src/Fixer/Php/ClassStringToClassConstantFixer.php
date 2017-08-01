@@ -22,24 +22,9 @@ final class ClassStringToClassConstantFixer implements DefinedFixerInterface
         return new FixerDefinition(
             '`::class` references should be used over string for classes and interfaces.',
             [
-                new CodeSample(
-'<?php      
-
-$className = "DateTime";  
-                '
-                ),
-                new CodeSample(
-'<?php      
-
-$interfaceName = "DateTimeInterface";  
-                '
-                ),
-                new CodeSample(
-'<?php      
-
-$interfaceName = "Nette\Utils\DateTime";  
-                '
-                ),
+                new CodeSample('<?php $className = "DateTime";'),
+                new CodeSample('<?php $interfaceName = "DateTimeInterface";'),
+                new CodeSample('<?php $interfaceName = "Nette\Utils\DateTime";'),
             ]
         );
     }

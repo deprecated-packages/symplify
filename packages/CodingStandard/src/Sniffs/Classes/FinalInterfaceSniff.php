@@ -104,6 +104,7 @@ final class FinalInterfaceSniff implements Sniff
             if (Strings::contains($docCommentTokenContent, 'Entity')) {
                 return true;
             }
+
             ++$seekPosition;
         } while ($docCommentPosition = $this->file->findNext(T_DOC_COMMENT_TAG, $seekPosition, $this->position));
 

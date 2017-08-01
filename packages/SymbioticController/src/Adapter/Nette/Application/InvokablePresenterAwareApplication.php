@@ -155,6 +155,7 @@ final class InvokablePresenterAwareApplication extends Application
                 $this->dispatchApplicationException($exception);
             }
         }
+
         $this->eventDispatcher->dispatch(ApplicationEvents::ON_SHUTDOWN, new ShutdownEvent($this, $exception));
 
         throw $exception;

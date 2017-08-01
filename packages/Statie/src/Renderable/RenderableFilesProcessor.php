@@ -55,6 +55,7 @@ final class RenderableFilesProcessor
         if (! count($fileInfos)) {
             return;
         }
+
         $files = $this->fileFactory->createFromFileInfos($fileInfos);
 
         $this->setPostsToConfiguration($files);

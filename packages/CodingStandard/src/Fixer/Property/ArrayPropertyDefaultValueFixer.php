@@ -21,7 +21,7 @@ final class ArrayPropertyDefaultValueFixer implements DefinedFixerInterface
             'Array property should have default value, to prevent undefined array issues.',
             [
                 new CodeSample(
-'<?php
+                    '<?php
 /**
  * @var string[]
  */

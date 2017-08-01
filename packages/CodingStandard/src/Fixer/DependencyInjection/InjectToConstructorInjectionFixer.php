@@ -25,8 +25,7 @@ final class InjectToConstructorInjectionFixer implements DefinedFixerInterface
         return new FixerDefinition(
             'Constructor injection should be used instead of @inject annotations.',
             [
-                new CodeSample(
-'<?php
+                new CodeSample('<?php
 class SomeClass
 {
     /**
@@ -34,8 +33,7 @@ class SomeClass
      * @var stdClass
      */
     public $property;
-}'
-                ),
+}'),
             ]
         );
     }
@@ -90,6 +88,7 @@ class SomeClass
                 // missing type at @var annotation, not an @inject property
                 continue;
             }
+
             $propertyType = $varAnnotation->getTypes()[0];
 
             // A. has a constructor?
