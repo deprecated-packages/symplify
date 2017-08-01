@@ -129,6 +129,7 @@ final class ClassWrapper
                 $publicMethods[$methodName] = $method;
             }
         }
+
         unset($publicMethods['__construct']);
 
         return $publicMethods;
@@ -185,6 +186,7 @@ final class ClassWrapper
             for ($i = $namespaceStart + 2; $i < $namespaceEnd; ++$i) {
                 $class .= $this->tokens[$i]['content'];
             }
+
             $class .= '\\';
         } else {
             $namespaceEnd = 0;

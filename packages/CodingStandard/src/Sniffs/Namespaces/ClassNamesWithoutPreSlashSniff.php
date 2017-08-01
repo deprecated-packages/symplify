@@ -52,6 +52,7 @@ final class ClassNamesWithoutPreSlashSniff implements Sniff
             if ($this->isExcludedClassName($tokens[$position + 3]['content'])) {
                 return;
             }
+
             $file->addError(
                 'Class name after new/instanceof should not start with slash.',
                 $position,
