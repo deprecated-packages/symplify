@@ -5,7 +5,6 @@ namespace Symplify\EasyCodingStandard;
 use Nette\Utils\Strings;
 use PHP_CodeSniffer\Sniffs\Sniff;
 use PhpCsFixer\Fixer\FixerInterface;
-use Symfony\Component\Finder\Glob;
 use Symplify\EasyCodingStandard\Validator\CheckerTypeValidator;
 use Symplify\PackageBuilder\Adapter\Symfony\Parameter\ParameterProvider;
 
@@ -32,14 +31,14 @@ final class Skipper
     /**
      * @param FixerInterface|Sniff|string $checker
      */
-    public function shouldSkipCheckerAndFile($checker, string $relativeFilePath): bool
+    public function shouldSkipCheckerAndFile($checker, string $absoluteFilePath): bool
     {
         foreach ($this->skipped as $skippedClass => $skippedFiles) {
             if (! is_a($checker, $skippedClass, true)) {
                 continue;
             }
 
-            if ($this->doesFileMatchSkippedFiles($skippedClass, $relativeFilePath, $skippedFiles)) {
+            if ($this->doesFileMatchSkippedFiles($skippedClass, $absoluteFilePath, $skippedFiles)) {
                 return true;
             }
         }
@@ -72,11 +71,11 @@ final class Skipper
      */
     private function doesFileMatchSkippedFiles(
         string $skippedClass,
-        string $relativeFilePath,
+        string $absoluteFilePath,
         array $skippedFiles
     ): bool {
         foreach ($skippedFiles as $key => $skippedFile) {
-            if ($this->fileMatchesPattern($relativeFilePath, $skippedFile)) {
+            if ($this->fileMatchesPattern($absoluteFilePath, $skippedFile)) {
                 unset($this->unusedSkipped[$skippedClass][$key]);
 
                 return true;
@@ -89,11 +88,12 @@ final class Skipper
     private function fileMatchesPattern(string $file, string $ignoredPath): bool
     {
         $file = str_replace('\\', '/', $file);
-        if ((bool) Strings::match($file, Glob::toRegex($ignoredPath))) {
+
+        if (Strings::endsWith($file, $ignoredPath)) {
             return true;
         }
 
-        return Strings::endsWith($file, $ignoredPath);
+        return fnmatch($ignoredPath, $file);
     }
 
     private function removeEmptyUnusedSkipped(string $skippedChecker): void

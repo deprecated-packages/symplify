@@ -42,7 +42,6 @@ final class NewClassSniff implements Sniff
     }
 
     /**
-     * @param File $file
      * @param int $position
      */
     public function process(File $file, $position): void
@@ -81,7 +80,6 @@ final class NewClassSniff implements Sniff
     }
 
     /**
-     * @param string $content
      * @param string[] $chars
      */
     private function doesContentContains(string $content, array $chars): bool
