@@ -5,6 +5,8 @@
 
 *Write controller once and let many other frameworks use it.*
 
+This repository is maintained by @Lexinek.
+
 ## Install
 
 ```bash
