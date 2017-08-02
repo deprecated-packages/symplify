@@ -16,6 +16,11 @@ final class PostFile extends AbstractFile implements ArrayAccess
     private const READ_WORDS_PER_MINUTE = 260;
 
     /**
+     * @var string
+     */
+    private const RELATED_POSTS = 'related_posts';
+
+    /**
      * @var DateTimeInterface
      */
     private $date;
@@ -40,7 +45,20 @@ final class PostFile extends AbstractFile implements ArrayAccess
         $this->filenameWithoutDate = PathAnalyzer::detectFilenameWithoutDate($fileInfo);
 
         $rawContent = strip_tags(file_get_contents($fileInfo->getRealPath()));
-        $this->wordCount = count(explode(' ', $rawContent));
+        $this->wordCount = substr_count($rawContent, ' ') + 1;
+    }
+
+    public function getId(): ?int
+    {
+        return $this->configuration['id'] ?? null;
+    }
+
+    /**
+     * @return int[]
+     */
+    public function getRelatedPostIds(): array
+    {
+        return $this->getConfiguration()[self::RELATED_POSTS] ?? [];
     }
 
     public function getDate(): DateTimeInterface

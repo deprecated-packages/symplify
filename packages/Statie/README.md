@@ -163,6 +163,45 @@ parameters:
     amp: true
 ```
 
+### Show Related Posts
+
+If you write a series, you can show related posts bellow.
+
+Just use post ids and `related_posts` section in post files like:
+
+```yaml
+---
+id: 1
+title: My first post
+related_posts: [2]
+```
+
+
+```yaml
+---
+id: 2
+title: My second post
+related_posts: [1]
+---
+```
+
+Then use in template:
+
+```twig
+{var $similarPosts = call_user_func($this->filters->similarPosts, $post)}
+
+<div n:if="count($similarPosts)">
+    <strong>Continue Reading</strong>
+    <ul>
+        {foreach $similarPosts as $similarPost}
+            <li>
+                <a href="/{$similarPost['relativeUrl']}">{$similarPost['title']}</a>
+            </li>
+        {/foreach}
+    </ul>
+</div>
+```
+
 
 ### Enable Github-like Headline Anchors
 

@@ -24,9 +24,10 @@ final class SimilarPostsFilter implements FilterProviderInterface
     public function provide(): array
     {
         return [
-            // use in *.latte like this: {$post|similarPosts: 3}
-            'similarPosts' => function (PostFile $post, int $postCount) {
-                return $this->similarPostsResolver->resolveForPostWithLimit($post, $postCount);
+            // use in *.latte like this:
+            // {var $similarPosts = call_user_func($this->filters->similarPosts, $post)}
+            'similarPosts' => function (PostFile $post) {
+                return $this->similarPostsResolver->resolveForPostWithLimit($post);
             },
         ];
     }

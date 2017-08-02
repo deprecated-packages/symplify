@@ -1,4 +1,5 @@
 ---
+id: 3
 layout: post
 title: "Statie 3: How to Add Reusable Parts of Code"
 perex: '''
@@ -7,6 +8,7 @@ You already know <a href="/blog/2017/02/20/statie-how-to-run-it-locally">how to 
 Today I will show you: how to use <strong>decouple big templates to smaller and reusable snippets</strong>. Like Google Analytics code.
 '''
 lang: en
+related_posts: [2, 4]
 ---
 
 Sometimes you need to add part of template, that you want to use on multiple pages (in the same form or with smaller changes) or that makes your template less readable.
