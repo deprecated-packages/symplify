@@ -188,7 +188,7 @@ related_posts: [1]
 Then use in template:
 
 ```twig
-{var $similarPosts = call_user_func($this->filters->similarPosts, $post)}
+{var $similarPosts = ($post|similarPosts)}
 
 <div n:if="count($similarPosts)">
     <strong>Continue Reading</strong>
