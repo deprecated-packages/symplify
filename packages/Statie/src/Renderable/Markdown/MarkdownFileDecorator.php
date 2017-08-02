@@ -4,8 +4,6 @@ namespace Symplify\Statie\Renderable\Markdown;
 
 use Nette\Utils\Strings;
 use ParsedownExtra;
-use Spatie\Regex\MatchResult;
-use Spatie\Regex\Regex;
 use Symplify\Statie\Configuration\Configuration;
 use Symplify\Statie\Contract\Renderable\FileDecoratorInterface;
 use Symplify\Statie\Renderable\File\AbstractFile;
@@ -65,20 +63,18 @@ final class MarkdownFileDecorator implements FileDecoratorInterface
 
     private function decorateHeadlinesWithTocAnchors(string $htmlContent): string
     {
-        return Regex::replace('/<h([1-6])>(.*?)<\/h([1-6])>/', function (MatchResult $result) {
-            $headline = $result->group(2);
-            $headlineId = Strings::webalize($result->group(2));
-            $iconLink = '<a class="anchor" href="#' . $headlineId . '" ' .
-                'aria-hidden="true"><span class="anchor-icon">#</span></a>';
+        return Strings::replace($htmlContent, '#<h([1-6])>(.*?)<\/h[1-6]>#', function ($result) {
+            [$original, $headlineLevel, $headline] = $result;
+            $headlineId = Strings::webalize($headline);
 
             return sprintf(
-                '<h%s id="%s">' .
-                $iconLink . '%s</h%s>',
-                $result->group(1),
+                '<h%s id="%s"><a class="anchor" href="#%s" aria-hidden="true"><span class="anchor-icon">#</span></a>%s</h%s>',
+                $headlineLevel,
+                $headlineId,
                 $headlineId,
                 $headline,
-                $result->group(1)
+                $headlineLevel
             );
-        }, $htmlContent)->result();
+        });
     }
 }

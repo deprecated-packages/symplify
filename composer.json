@@ -25,7 +25,6 @@
         "nikic/php-parser": "^3.0",
         "sebastian/diff": "^1.4",
         "slevomat/coding-standard": "^3.0",
-        "spatie/regex": "^1.1",
         "squizlabs/php_codesniffer": "^3.0.1",
         "symfony/config": "^3.3",
         "symfony/console": "^3.3",
@@ -34,8 +33,7 @@
         "symfony/http-foundation": "^3.3",
         "symfony/http-kernel": "^3.3",
         "symfony/twig-bundle": "^3.3",
-        "symfony/yaml": "^3.3",
-        "yooper/php-text-analysis": "^1.1"
+        "symfony/yaml": "^3.3"
     },
     "require-dev": {
         "phpstan/phpstan": "^0.8",

@@ -12,45 +12,29 @@ final class SimilarPostsResolver
      */
     private $configuration;
 
-    /**
-     * @var PostSimilarityAnalyzer
-     */
-    private $postSimilarityAnalyzer;
-
-    public function __construct(Configuration $configuration, PostSimilarityAnalyzer $postSimilarityAnalyzer)
+    public function __construct(Configuration $configuration)
     {
         $this->configuration = $configuration;
-        $this->postSimilarityAnalyzer = $postSimilarityAnalyzer;
     }
 
     /**
      * @return PostFile[]
      */
-    public function resolveForPostWithLimit(PostFile $mainPost, int $maxPostCount): array
+    public function resolveForPostWithLimit(PostFile $mainPost): array
     {
-        $similarityMap = $this->buildSimilarityMap($mainPost);
-
-        return array_slice($similarityMap, 0, $maxPostCount);
-    }
-
-    /**
-     * @return PostFile[]
-     */
-    private function buildSimilarityMap(PostFile $mainPost): array
-    {
-        $map = [];
-        foreach ($this->getPosts() as $post) {
-            if ($this->arePostsIdentical($mainPost, $post)) {
-                continue;
-            }
-
-            $score = $this->postSimilarityAnalyzer->analyzeTwoPosts($mainPost, $post);
-            $map[$score] = $post;
+        if (! $mainPost->getRelatedPostIds()) {
+            return [];
         }
 
-        krsort($map);
+        $relatedPosts = [];
 
-        return $map;
+        foreach ($this->getPosts() as $post) {
+            if (in_array($post->getId(), $mainPost->getRelatedPostIds(), true)) {
+                $relatedPosts[] = $post;
+            }
+        }
+
+        return $relatedPosts;
     }
 
     /**
@@ -59,10 +43,5 @@ final class SimilarPostsResolver
     private function getPosts(): array
     {
         return $this->configuration->getOptions()['posts'];
-    }
-
-    private function arePostsIdentical(PostFile $firstPost, PostFile $secondPost): bool
-    {
-        return $firstPost->getBaseName() === $secondPost->getBaseName();
     }
 }

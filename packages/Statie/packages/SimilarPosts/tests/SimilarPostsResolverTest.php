@@ -44,19 +44,15 @@ final class SimilarPostsResolverTest extends AbstractContainerAwareTestCase
         );
     }
 
-    public function testOrder(): void
+    public function test(): void
     {
-        $similarPosts = $this->similarPostsResolver->resolveForPostWithLimit($this->mainPost, 3);
+        $similarPosts = $this->similarPostsResolver->resolveForPostWithLimit($this->mainPost);
+
+        $this->assertCount(3, $similarPosts);
 
         $mostSimilarPost = $similarPosts[0];
         $this->assertSame('Statie 4: How to Create The Simplest Blog', $mostSimilarPost['title']);
         $this->assertNotSame($this->mainPost['title'], $mostSimilarPost['title']);
-    }
-
-    public function testLimit(): void
-    {
-        $this->assertCount(3, $this->similarPostsResolver->resolveForPostWithLimit($this->mainPost, 3));
-        $this->assertCount(1, $this->similarPostsResolver->resolveForPostWithLimit($this->mainPost, 1));
     }
 
     /**

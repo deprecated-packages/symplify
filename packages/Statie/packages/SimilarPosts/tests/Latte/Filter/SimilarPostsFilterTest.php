@@ -42,9 +42,9 @@ final class SimilarPostsFilterTest extends AbstractContainerAwareTestCase
             self::POST_SOURCE_DIRECTORY . '/2017-01-01-some-post.md'
         );
 
-        $similarPosts = $filters['similarPosts']($mainPost, 3);
+        $similarPosts = $filters['similarPosts']($mainPost);
 
-        $this->assertCount(3, $similarPosts);
+        $this->assertCount(2, $similarPosts);
     }
 
     /**
