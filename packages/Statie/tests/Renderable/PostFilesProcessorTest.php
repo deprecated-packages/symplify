@@ -14,7 +14,6 @@ use Symplify\Statie\Exception\Renderable\File\UnsupportedMethodException;
 use Symplify\Statie\FlatWhite\Latte\DynamicStringLoader;
 use Symplify\Statie\Renderable\File\PostFile;
 use Symplify\Statie\Renderable\RenderableFilesProcessor;
-use Throwable;
 
 final class PostFilesProcessorTest extends TestCase
 {

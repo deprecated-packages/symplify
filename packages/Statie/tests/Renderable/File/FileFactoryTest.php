@@ -61,7 +61,9 @@ final class FileFactoryTest extends AbstractContainerAwareTestCase
     public function testInvalidPostName(): void
     {
         $this->expectException(MissingDateInFileNameException::class);
-        $this->expectExceptionMessage('Post file "somePost.latte" name has to start with a date in "Y-m-d" format. E.g. "2016-01-01-name.md".');
+        $this->expectExceptionMessage(
+            'Post file "somePost.latte" name has to start with a date in "Y-m-d" format. E.g. "2016-01-01-name.md".'
+        );
 
         $this->fileFactory->createFromFilePath(__DIR__ . '/FileFactorySource/_posts/somePost.latte');
     }
