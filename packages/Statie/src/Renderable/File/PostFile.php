@@ -4,9 +4,11 @@ namespace Symplify\Statie\Renderable\File;
 
 use ArrayAccess;
 use DateTimeInterface;
-use Exception;
+use Nette\Utils\ObjectMixin;
 use SplFileInfo;
 use Symplify\Statie\Exception\Renderable\File\AccessKeyNotAvailableException;
+use Symplify\Statie\Exception\Renderable\File\MissingDateInFileNameException;
+use Symplify\Statie\Exception\Renderable\File\UnsupportedMethodException;
 use Symplify\Statie\Utils\PathAnalyzer;
 
 final class PostFile extends AbstractFile implements ArrayAccess
@@ -121,7 +123,7 @@ final class PostFile extends AbstractFile implements ArrayAccess
      */
     public function offsetSet($offset, $value): void
     {
-        throw new Exception(__METHOD__ . ' is not supported');
+        throw new UnsupportedMethodException(__METHOD__ . ' is not supported');
     }
 
     /**
@@ -129,15 +131,16 @@ final class PostFile extends AbstractFile implements ArrayAccess
      */
     public function offsetUnset($offset): void
     {
-        throw new Exception(__METHOD__ . ' is not supported');
+        throw new UnsupportedMethodException(__METHOD__ . ' is not supported');
     }
 
     private function ensurePathStartsWithDate(SplFileInfo $fileInfo): void
     {
         if (! PathAnalyzer::startsWithDate($fileInfo)) {
-            throw new Exception(
-                'Post name has to start with a date in "Y-m-d" format. E.g. "2016-01-01-name.md".'
-            );
+            throw new MissingDateInFileNameException(sprintf(
+                'Post file "%s" name has to start with a date in "Y-m-d" format. E.g. "2016-01-01-name.md".',
+                $fileInfo->getFilename()
+            ));
         }
     }
 
@@ -147,13 +150,16 @@ final class PostFile extends AbstractFile implements ArrayAccess
     private function ensureAccessExistingKey($offset): void
     {
         if (! isset($this->configuration[$offset])) {
-            throw new AccessKeyNotAvailableException(sprintf(
-                'Value "%s" was not found for "%s" object. Available values are "%s"',
+            $suggestion = ObjectMixin::getSuggestion(array_keys($this->configuration), $offset);
+
+            $message = sprintf(
+                'Value "%s" was not found for "%s" object. %s',
                 $offset,
                 __CLASS__,
-                implode('", "', array_keys($this->configuration))
-            ));
-            // @todo: use did you mean?
+                $suggestion ? ' Did you mean ' . $suggestion : ''
+            );
+
+            throw new AccessKeyNotAvailableException($message);
         }
     }
 }
