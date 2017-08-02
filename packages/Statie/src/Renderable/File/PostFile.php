@@ -6,6 +6,7 @@ use ArrayAccess;
 use DateTimeInterface;
 use Exception;
 use SplFileInfo;
+use Symplify\Statie\Exception\Renderable\File\AccessKeyNotAvailableException;
 use Symplify\Statie\Utils\PathAnalyzer;
 
 final class PostFile extends AbstractFile implements ArrayAccess
@@ -93,21 +94,14 @@ final class PostFile extends AbstractFile implements ArrayAccess
      */
     public function offsetGet($offset)
     {
+        $this->ensureAccessExistingKey($offset);
+
         if ($offset === 'content') {
             return $this->getContent();
         }
 
         if ($offset === 'date') {
             return $this->getDate();
-        }
-
-        if (! isset($this->configuration[$offset])) {
-            throw new Exception(sprintf(
-                'Value "%s" was not found for "%s" object. Available values are "%s"',
-                $offset,
-                get_class(),
-                implode('", "', array_keys($this->configuration))
-            ));
         }
 
         return $this->configuration[$offset];
@@ -144,6 +138,22 @@ final class PostFile extends AbstractFile implements ArrayAccess
             throw new Exception(
                 'Post name has to start with a date in "Y-m-d" format. E.g. "2016-01-01-name.md".'
             );
+        }
+    }
+
+    /**
+     * @param mixed $offset
+     */
+    private function ensureAccessExistingKey($offset): void
+    {
+        if (! isset($this->configuration[$offset])) {
+            throw new AccessKeyNotAvailableException(sprintf(
+                'Value "%s" was not found for "%s" object. Available values are "%s"',
+                $offset,
+                __CLASS__,
+                implode('", "', array_keys($this->configuration))
+            ));
+            // @todo: use did you mean?
         }
     }
 }
