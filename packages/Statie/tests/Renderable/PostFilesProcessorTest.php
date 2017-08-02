@@ -9,6 +9,8 @@ use PHPUnit\Framework\TestCase;
 use SplFileInfo;
 use Symplify\Statie\Configuration\Configuration;
 use Symplify\Statie\DependencyInjection\ContainerFactory;
+use Symplify\Statie\Exception\Renderable\File\AccessKeyNotAvailableException;
+use Symplify\Statie\Exception\Renderable\File\UnsupportedMethodException;
 use Symplify\Statie\FlatWhite\Latte\DynamicStringLoader;
 use Symplify\Statie\Renderable\File\PostFile;
 use Symplify\Statie\Renderable\RenderableFilesProcessor;
@@ -90,23 +92,37 @@ final class PostFilesProcessorTest extends TestCase
     public function testPostExceptionsOnUnset(): void
     {
         $post = $this->getPost();
-        $this->expectException(Throwable::class);
+        $this->expectException(UnsupportedMethodException::class);
         unset($post['key']);
     }
 
     public function testPostExceptionOnSet(): void
     {
         $post = $this->getPost();
-        $this->expectException(Throwable::class);
+        $this->expectException(UnsupportedMethodException::class);
         $post['key'] = 'value';
     }
 
-    public function testPostExceptionOnGetNonExisting(): void
+    public function testPostExceptionOnGetNonExistingSuggestion(): void
     {
         $post = $this->getPost();
-        $this->expectException(Throwable::class);
+
+        $this->expectException(AccessKeyNotAvailableException::class);
         $this->expectExceptionMessage(sprintf(
-            'Value "key" was not found for "%s" object. Available values are "layout", "title", "relativeUrl"',
+            'Value "layou" was not found for "%s" object. Did you mean "layout"?',
+            PostFile::class
+        ));
+
+        $value = $post['layou'];
+    }
+
+    public function testPostExceptionOnGetNonExistingAllKeys(): void
+    {
+        $post = $this->getPost();
+
+        $this->expectException(AccessKeyNotAvailableException::class);
+        $this->expectExceptionMessage(sprintf(
+            'Value "key" was not found for "%s" object. Available keys are: "layout", "title", "relativeUrl".',
             PostFile::class
         ));
 

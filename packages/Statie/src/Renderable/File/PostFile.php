@@ -96,8 +96,6 @@ final class PostFile extends AbstractFile implements ArrayAccess
      */
     public function offsetGet($offset)
     {
-        $this->ensureAccessExistingKey($offset);
-
         if ($offset === 'content') {
             return $this->getContent();
         }
@@ -106,6 +104,7 @@ final class PostFile extends AbstractFile implements ArrayAccess
             return $this->getDate();
         }
 
+        $this->ensureAccessExistingKey($offset);
         return $this->configuration[$offset];
     }
 
@@ -150,16 +149,21 @@ final class PostFile extends AbstractFile implements ArrayAccess
     private function ensureAccessExistingKey($offset): void
     {
         if (! isset($this->configuration[$offset])) {
-            $suggestion = ObjectMixin::getSuggestion(array_keys($this->configuration), $offset);
+            $availableKeys = array_keys($this->configuration);
+            $suggestion = ObjectMixin::getSuggestion($availableKeys, $offset);
 
-            $message = sprintf(
+            if ($suggestion) {
+                $help = sprintf('Did you mean "%s"?', $suggestion);
+            } else {
+                $help = sprintf('Available keys are: "%s".', implode('", "', $availableKeys));
+            }
+
+            throw new AccessKeyNotAvailableException(sprintf(
                 'Value "%s" was not found for "%s" object. %s',
                 $offset,
                 __CLASS__,
-                $suggestion ? ' Did you mean ' . $suggestion : ''
-            );
-
-            throw new AccessKeyNotAvailableException($message);
+                $help
+            ));
         }
     }
 }
