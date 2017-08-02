@@ -11,7 +11,6 @@
         "erusev/parsedown-extra": "^0.7",
         "cpliakas/git-wrapper": "^1.7",
         "spatie/regex": "^1.1",
-        "yooper/php-text-analysis": "^1.1",
 
         "latte/latte": "^2.4|^3.0",
         "lullabot/amp": "^1.1",
