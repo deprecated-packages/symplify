@@ -8,11 +8,6 @@ use Symplify\Statie\Renderable\File\PostFile;
 final class SimilarPostsResolver
 {
     /**
-     * @var string
-     */
-    public const RELATED_POSTS = 'related_posts';
-
-    /**
      * @var Configuration
      */
     private $configuration;
@@ -27,6 +22,10 @@ final class SimilarPostsResolver
      */
     public function resolveForPostWithLimit(PostFile $mainPost): array
     {
+        if (! $mainPost->getRelatedPostIds()) {
+            return [];
+        }
+
         $relatedPosts = [];
 
         foreach ($this->getPosts() as $post) {
