@@ -63,19 +63,17 @@ final class MarkdownFileDecorator implements FileDecoratorInterface
 
     private function decorateHeadlinesWithTocAnchors(string $htmlContent): string
     {
-        return Strings::replace($htmlContent, '#<h([1-6])>(.*?)<\/h([1-6])>#', function ($result) {
-            $headline = $result[2];
-            $headlineId = Strings::webalize($result[2]);
-            $iconLink = '<a class="anchor" href="#' . $headlineId . '" ' .
-                'aria-hidden="true"><span class="anchor-icon">#</span></a>';
+        return Strings::replace($htmlContent, '#<h([1-6])>(.*?)<\/h[1-6]>#', function ($result) {
+            [$original, $headlineLevel, $headline] = $result;
+            $headlineId = Strings::webalize($headline);
 
             return sprintf(
-                '<h%s id="%s">' .
-                $iconLink . '%s</h%s>',
-                $result[1],
+                '<h%s id="%s"><a class="anchor" href="#%s" aria-hidden="true"><span class="anchor-icon">#</span></a>%s</h%s>',
+                $headlineLevel,
+                $headlineId,
                 $headlineId,
                 $headline,
-                $result[1]
+                $headlineLevel
             );
         });
     }
