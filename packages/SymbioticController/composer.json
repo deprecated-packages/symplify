@@ -8,7 +8,7 @@
         "latte/latte": "^2.4|^3.0",
         "contributte/event-dispatcher": "^0.3",
         "contributte/event-application-bridge": "^0.1",
-        "symplify/package-builder": "^1.4"
+        "symplify/package-builder": "^2.2"
     },
     "require-dev": {
         "nette/security": "^2.4|^3.0",

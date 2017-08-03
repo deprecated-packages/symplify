@@ -68,7 +68,9 @@ final class MarkdownFileDecorator implements FileDecoratorInterface
             $headlineId = Strings::webalize($headline);
 
             return sprintf(
-                '<h%s id="%s"><a class="anchor" href="#%s" aria-hidden="true"><span class="anchor-icon">#</span></a>%s</h%s>',
+                '<h%s id="%s"><a class="anchor" href="#%s" aria-hidden="true">'
+                        . '<span class="anchor-icon">#</span>'
+                        . '</a>%s</h%s>',
                 $headlineLevel,
                 $headlineId,
                 $headlineId,
