@@ -1,4 +1,5 @@
 includes:
+    - packages/EasyCodingStandard/config/php54-checkers.neon
     - packages/EasyCodingStandard/config/php70-checkers.neon
     - packages/EasyCodingStandard/config/php71-checkers.neon
     - packages/EasyCodingStandard/config/symfony-checkers.neon
@@ -12,14 +13,6 @@ checkers:
     - SlevomatCodingStandard\Sniffs\Exceptions\ReferenceThrowableOnlySniff
     - SlevomatCodingStandard\Sniffs\Namespaces\ReferenceUsedNamesOnlySniff
     - SlevomatCodingStandard\Sniffs\Classes\UnusedPrivateElementsSniff
-    - SlevomatCodingStandard\Sniffs\TypeHints\ParameterTypeHintSpacingSniff
-    - SlevomatCodingStandard\Sniffs\TypeHints\NullableTypeForNullDefaultValueSniff
-    - SlevomatCodingStandard\Sniffs\TypeHints\ReturnTypeHintSpacingSniff
-    SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff:
-        usefulAnnotations:
-            - @todo
-            - @dataProvider
-        enableEachParameterAndReturnInspection: true
 
     # Files
     PHP_CodeSniffer\Standards\Generic\Sniffs\Files\LineLengthSniff:
@@ -51,8 +44,6 @@ checkers:
 
     PhpCsFixer\Fixer\Operator\ConcatSpaceFixer:
         spacing: one
-    PhpCsFixer\Fixer\ArrayNotation\ArraySyntaxFixer:
-        syntax: short
     - PhpCsFixer\Fixer\ClassNotation\OrderedClassElementsFixer
     - PhpCsFixer\Fixer\LanguageConstruct\DirConstantFixer
     - PhpCsFixer\Fixer\CastNotation\ModernizeTypesCastingFixer
@@ -79,6 +70,13 @@ checkers:
     - PhpCsFixer\Fixer\Comment\SingleLineCommentStyleFixer
 
 parameters:
+    exclude_checkers:
+        # from PHP-CS-Fixer Symfony set
+        - PhpCsFixer\Fixer\PhpTag\BlankLineAfterOpeningTagFixer
+        - PhpCsFixer\Fixer\Operator\NewWithBracesFixer
+        - PhpCsFixer\Fixer\Phpdoc\PhpdocAlignFixer
+        - PhpCsFixer\Fixer\Operator\UnaryOperatorSpacesFixer
+
     skip:
         SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff:
             - *packages/CodingStandard/src/Sniffs/*/*Sniff.php
