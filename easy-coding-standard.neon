@@ -4,13 +4,44 @@ includes:
     - packages/EasyCodingStandard/config/symfony-checkers.neon
 
 checkers:
+    # Symplify
     - Symplify\CodingStandard\Fixer\Php\ClassStringToClassConstantFixer
     - Symplify\CodingStandard\Fixer\Property\ArrayPropertyDefaultValueFixer
     - Symplify\CodingStandard\Fixer\Naming\MagicMethodsNamingFixer
+    - Symplify\CodingStandard\Sniffs\PHPUnit\FinalTestCaseSniff
+    - Symplify\CodingStandard\Sniffs\Commenting\BlockPropertyCommentSniff
+    - Symplify\CodingStandard\Sniffs\Commenting\VarConstantCommentSniff
+    - Symplify\CodingStandard\Sniffs\Debug\DebugFunctionCallSniff
+    - Symplify\CodingStandard\Sniffs\Debug\CommentedOutCodeSniff
+    - Symplify\CodingStandard\Sniffs\ControlStructures\NewClassSniff
+    # Naming
+    - Symplify\CodingStandard\Sniffs\Naming\AbstractClassNameSniff
+    - Symplify\CodingStandard\Sniffs\Naming\InterfaceNameSniff
+    - Symplify\CodingStandard\Sniffs\Naming\TraitNameSniff
+    # Architecture
+    - Symplify\CodingStandard\Sniffs\Classes\EqualInterfaceImplementationSniff
+    - Symplify\CodingStandard\Sniffs\Classes\FinalInterfaceSniff
 
-    # Classes
-    - PHP_CodeSniffer\Standards\Generic\Sniffs\Classes\DuplicateClassNameSniff
-    - PHP_CodeSniffer\Standards\Squiz\Sniffs\Classes\LowercaseClassKeywordsSniff
+    # Slevomat
+    - SlevomatCodingStandard\Sniffs\ControlStructures\DisallowEqualOperatorsSniff
+    - SlevomatCodingStandard\Sniffs\ControlStructures\YodaComparisonSniff
+    - SlevomatCodingStandard\Sniffs\Exceptions\DeadCatchSniff
+    - SlevomatCodingStandard\Sniffs\Exceptions\ReferenceThrowableOnlySniff
+    - SlevomatCodingStandard\Sniffs\Namespaces\ReferenceUsedNamesOnlySniff
+    - SlevomatCodingStandard\Sniffs\Classes\UnusedPrivateElementsSniff
+    SlevomatCodingStandard\Sniffs\Commenting\ForbiddenAnnotationsSniff:
+        forbiddenAnnotations:
+            - @author
+            - @throws
+            - @expectedException
+    - SlevomatCodingStandard\Sniffs\TypeHints\ParameterTypeHintSpacingSniff
+    - SlevomatCodingStandard\Sniffs\TypeHints\NullableTypeForNullDefaultValueSniff
+    - SlevomatCodingStandard\Sniffs\TypeHints\ReturnTypeHintSpacingSniff
+    SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff:
+        usefulAnnotations:
+            - @todo
+            - @dataProvider
+        enableEachParameterAndReturnInspection: true
 
     # Code Analysis
     - PHP_CodeSniffer\Standards\Generic\Sniffs\CodeAnalysis\EmptyStatementSniff
@@ -20,11 +51,6 @@ checkers:
 
     # Control Structures
     - PHP_CodeSniffer\Standards\PEAR\Sniffs\ControlStructures\MultiLineConditionSniff
-    - Symplify\CodingStandard\Sniffs\ControlStructures\NewClassSniff
-    - SlevomatCodingStandard\Sniffs\ControlStructures\DisallowEqualOperatorsSniff
-    - SlevomatCodingStandard\Sniffs\ControlStructures\YodaComparisonSniff
-    - SlevomatCodingStandard\Sniffs\Exceptions\DeadCatchSniff
-    - SlevomatCodingStandard\Sniffs\Exceptions\ReferenceThrowableOnlySniff
 
     # Files
     PHP_CodeSniffer\Standards\Generic\Sniffs\Files\LineLengthSniff:
@@ -32,24 +58,17 @@ checkers:
 
     # PSR-4
     - PhpCsFixer\Fixer\Basic\Psr4Fixer
-    - PHP_CodeSniffer\Standards\Generic\Sniffs\Files\OneClassPerFileSniff
-    - PHP_CodeSniffer\Standards\Generic\Sniffs\Files\OneInterfacePerFileSniff
-
-    # Formatting
-    - PHP_CodeSniffer\Standards\Generic\Sniffs\Formatting\SpaceAfterCastSniff
 
     # Metrics
-    - PHP_CodeSniffer\Standards\Generic\Sniffs\Metrics\CyclomaticComplexitySniff
+    PHP_CodeSniffer\Standards\Generic\Sniffs\Metrics\CyclomaticComplexitySniff:
+        absoluteComplexity: 10
     PHP_CodeSniffer\Standards\Generic\Sniffs\Metrics\NestingLevelSniff:
-        nestingLevel: 3
-        absoluteNestingLevel: 6
+        absoluteNestingLevel: 5
 
     # Naming Conventions
     - PHP_CodeSniffer\Standards\Generic\Sniffs\NamingConventions\CamelCapsFunctionNameSniff
 
     # PHP
-    - PHP_CodeSniffer\Standards\MySource\Sniffs\PHP\EvalObjectFactorySniff
-    - PHP_CodeSniffer\Standards\MySource\Sniffs\PHP\GetRequestDataSniff
     - PHP_CodeSniffer\Standards\Squiz\Sniffs\PHP\NonExecutableCodeSniff
 
     # WhiteSpace
@@ -57,46 +76,8 @@ checkers:
     PHP_CodeSniffer\Standards\Squiz\Sniffs\WhiteSpace\SuperfluousWhitespaceSniff:
         ignoreBlankLines: false
 
-    # Commenting
-    - Symplify\CodingStandard\Sniffs\Commenting\BlockPropertyCommentSniff
-    - Symplify\CodingStandard\Sniffs\Commenting\VarConstantCommentSniff
-
-    # Debug and dev
-    - Symplify\CodingStandard\Sniffs\Debug\DebugFunctionCallSniff
-    - Symplify\CodingStandard\Sniffs\Debug\CommentedOutCodeSniff
-
     # Namespaces
     - PhpCsFixer\Fixer\Import\OrderedImportsFixer
-    - SlevomatCodingStandard\Sniffs\Namespaces\ReferenceUsedNamesOnlySniff
-
-    # Naming
-    - Symplify\CodingStandard\Sniffs\Naming\AbstractClassNameSniff
-    - Symplify\CodingStandard\Sniffs\Naming\InterfaceNameSniff
-    - Symplify\CodingStandard\Sniffs\Naming\TraitNameSniff
-
-    # Slevomat
-    - SlevomatCodingStandard\Sniffs\Classes\UnusedPrivateElementsSniff
-    SlevomatCodingStandard\Sniffs\Commenting\ForbiddenAnnotationsSniff:
-        forbiddenAnnotations:
-            - @author
-            - @created
-            - @copyright
-            - @license
-            - @package
-            - @throws
-            - @version
-            - @expectedException
-
-    # Type Hints
-    - SlevomatCodingStandard\Sniffs\TypeHints\LongTypeHintsSniff
-    - SlevomatCodingStandard\Sniffs\TypeHints\ParameterTypeHintSpacingSniff
-    - SlevomatCodingStandard\Sniffs\TypeHints\NullableTypeForNullDefaultValueSniff
-    - SlevomatCodingStandard\Sniffs\TypeHints\ReturnTypeHintSpacingSniff
-    SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff:
-        usefulAnnotations:
-            - @todo
-            - @dataProvider
-        enableEachParameterAndReturnInspection: true
 
     PhpCsFixer\Fixer\Operator\ConcatSpaceFixer:
         spacing: one
@@ -116,7 +97,6 @@ checkers:
 
     # PHPUnit
     - PhpCsFixer\Fixer\PhpUnit\PhpUnitStrictFixer
-    - Symplify\CodingStandard\Sniffs\PHPUnit\FinalTestCaseSniff
 
     # new since PhpCsFixer 2.1/2.2
     - PhpCsFixer\Fixer\Phpdoc\PhpdocReturnSelfReferenceFixer
@@ -131,10 +111,6 @@ checkers:
     # new since PHP-CS-Fixer 2.4
     - PhpCsFixer\Fixer\Phpdoc\PhpdocTypesOrderFixer
     - PhpCsFixer\Fixer\Comment\SingleLineCommentStyleFixer
-
-    # Architecture
-    - Symplify\CodingStandard\Sniffs\Classes\EqualInterfaceImplementationSniff
-    - Symplify\CodingStandard\Sniffs\Classes\FinalInterfaceSniff
 
 parameters:
     skip:
