@@ -105,6 +105,7 @@ final class PostFile extends AbstractFile implements ArrayAccess
         }
 
         $this->ensureAccessExistingKey($offset);
+
         return $this->configuration[$offset];
     }
 
