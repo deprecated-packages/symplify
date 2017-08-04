@@ -12,6 +12,7 @@
     },
     "require-dev": {
         "nette/security": "^2.4|^3.0",
+        "tracy/tracy": "^2.4|^3.0",
         "phpunit/phpunit": "^6.0"
     },
     "autoload": {
