@@ -2,26 +2,9 @@ includes:
     - packages/EasyCodingStandard/config/php70-checkers.neon
     - packages/EasyCodingStandard/config/php71-checkers.neon
     - packages/EasyCodingStandard/config/symfony-checkers.neon
+    - packages/EasyCodingStandard/config/symplify-checkers.neon
 
 checkers:
-    # Symplify
-    - Symplify\CodingStandard\Fixer\Php\ClassStringToClassConstantFixer
-    - Symplify\CodingStandard\Fixer\Property\ArrayPropertyDefaultValueFixer
-    - Symplify\CodingStandard\Fixer\Naming\MagicMethodsNamingFixer
-    - Symplify\CodingStandard\Sniffs\PHPUnit\FinalTestCaseSniff
-    - Symplify\CodingStandard\Sniffs\Commenting\BlockPropertyCommentSniff
-    - Symplify\CodingStandard\Sniffs\Commenting\VarConstantCommentSniff
-    - Symplify\CodingStandard\Sniffs\Debug\DebugFunctionCallSniff
-    - Symplify\CodingStandard\Sniffs\Debug\CommentedOutCodeSniff
-    - Symplify\CodingStandard\Sniffs\ControlStructures\NewClassSniff
-    # Naming
-    - Symplify\CodingStandard\Sniffs\Naming\AbstractClassNameSniff
-    - Symplify\CodingStandard\Sniffs\Naming\InterfaceNameSniff
-    - Symplify\CodingStandard\Sniffs\Naming\TraitNameSniff
-    # Architecture
-    - Symplify\CodingStandard\Sniffs\Classes\EqualInterfaceImplementationSniff
-    - Symplify\CodingStandard\Sniffs\Classes\FinalInterfaceSniff
-
     # Slevomat
     - SlevomatCodingStandard\Sniffs\ControlStructures\DisallowEqualOperatorsSniff
     - SlevomatCodingStandard\Sniffs\ControlStructures\YodaComparisonSniff
@@ -29,11 +12,6 @@ checkers:
     - SlevomatCodingStandard\Sniffs\Exceptions\ReferenceThrowableOnlySniff
     - SlevomatCodingStandard\Sniffs\Namespaces\ReferenceUsedNamesOnlySniff
     - SlevomatCodingStandard\Sniffs\Classes\UnusedPrivateElementsSniff
-    SlevomatCodingStandard\Sniffs\Commenting\ForbiddenAnnotationsSniff:
-        forbiddenAnnotations:
-            - @author
-            - @throws
-            - @expectedException
     - SlevomatCodingStandard\Sniffs\TypeHints\ParameterTypeHintSpacingSniff
     - SlevomatCodingStandard\Sniffs\TypeHints\NullableTypeForNullDefaultValueSniff
     - SlevomatCodingStandard\Sniffs\TypeHints\ReturnTypeHintSpacingSniff
@@ -43,15 +21,6 @@ checkers:
             - @dataProvider
         enableEachParameterAndReturnInspection: true
 
-    # Code Analysis
-    - PHP_CodeSniffer\Standards\Generic\Sniffs\CodeAnalysis\EmptyStatementSniff
-    - PHP_CodeSniffer\Standards\Generic\Sniffs\CodeAnalysis\JumbledIncrementerSniff
-    - PHP_CodeSniffer\Standards\Generic\Sniffs\CodeAnalysis\UnconditionalIfStatementSniff
-    - PHP_CodeSniffer\Standards\Generic\Sniffs\CodeAnalysis\UselessOverridingMethodSniff
-
-    # Control Structures
-    - PHP_CodeSniffer\Standards\PEAR\Sniffs\ControlStructures\MultiLineConditionSniff
-
     # Files
     PHP_CodeSniffer\Standards\Generic\Sniffs\Files\LineLengthSniff:
         absoluteLineLimit: 120
@@ -59,7 +28,8 @@ checkers:
     # PSR-4
     - PhpCsFixer\Fixer\Basic\Psr4Fixer
 
-    # Metrics
+    # Code Analysis
+    - PHP_CodeSniffer\Standards\Generic\Sniffs\CodeAnalysis\EmptyStatementSniff
     PHP_CodeSniffer\Standards\Generic\Sniffs\Metrics\CyclomaticComplexitySniff:
         absoluteComplexity: 10
     PHP_CodeSniffer\Standards\Generic\Sniffs\Metrics\NestingLevelSniff:
@@ -92,23 +62,19 @@ checkers:
     - PhpCsFixer\Fixer\ReturnNotation\NoUselessReturnFixer
     - PhpCsFixer\Fixer\LanguageConstruct\CombineConsecutiveUnsetsFixer
     - PhpCsFixer\Fixer\Strict\StrictComparisonFixer
-    - PhpCsFixer\Fixer\Alias\EregToPregFixer
-    - PhpCsFixer\Fixer\Phpdoc\GeneralPhpdocAnnotationRemoveFixer
+    PhpCsFixer\Fixer\Phpdoc\GeneralPhpdocAnnotationRemoveFixer:
+        annotations:
+            - author
+            - throws
+            - expectedException
 
     # PHPUnit
     - PhpCsFixer\Fixer\PhpUnit\PhpUnitStrictFixer
 
-    # new since PhpCsFixer 2.1/2.2
+    # new since PhpCsFixer 2.2-2.4
     - PhpCsFixer\Fixer\Phpdoc\PhpdocReturnSelfReferenceFixer
     - PhpCsFixer\Fixer\LanguageConstruct\IsNullFixer
-    - PhpCsFixer\Fixer\LanguageConstruct\FunctionToConstantFixer
     - PhpCsFixer\Fixer\Basic\NonPrintableCharacterFixer
-
-    # new since PHP-CS-Fixer 2.3
-    PhpCsFixer\Fixer\ListNotation\ListSyntaxFixer:
-        syntax: short
-
-    # new since PHP-CS-Fixer 2.4
     - PhpCsFixer\Fixer\Phpdoc\PhpdocTypesOrderFixer
     - PhpCsFixer\Fixer\Comment\SingleLineCommentStyleFixer
 
