@@ -13,6 +13,9 @@ use SplFileInfo;
 use Symplify\CodingStandard\Fixer\PositionDetector;
 use Symplify\CodingStandard\Fixer\TokenBuilder;
 
+/**
+ * @todo use Rector instead
+ */
 final class InjectToConstructorInjectionFixer implements DefinedFixerInterface
 {
     /**
