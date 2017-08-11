@@ -106,7 +106,8 @@ final class FinalInterfaceSniff implements Sniff
             }
 
             ++$seekPosition;
-        } while ($docCommentPosition = $this->file->findNext(T_DOC_COMMENT_TAG, $seekPosition, $this->position));
+            $docCommentPosition = $this->file->findNext(T_DOC_COMMENT_TAG, $seekPosition, $this->position);
+        } while ($docCommentPosition);
 
         return false;
     }

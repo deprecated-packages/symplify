@@ -27,7 +27,8 @@ final class BlockPropertyCommentSniff implements Sniff
     public function process(File $file, $position): void
     {
         $propertyWrapper = PropertyWrapper::createFromFileAndPosition($file, $position);
-        if (! $docBlock = $propertyWrapper->getDocBlock()) {
+        $docBlock = $propertyWrapper->getDocBlock();
+        if (! $docBlock) {
             return;
         }
 
