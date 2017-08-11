@@ -59,3 +59,6 @@ parameters:
             - packages/SymbioticController/tests/Adapter/Nette/Application/PresenterFactoryTest.php
             # class is only for tested cases, it doesn't exist
             - packages/SymbioticController/tests/Adapter/Nette/Routing/PresenterMapperTest.php
+            # class might not exist
+            - packages/EasyCodingStandard/packages/Configuration/src/MutualCheckerExcluder.php
+            - packages/EasyCodingStandard/packages/Configuration/tests/MutualCheckerExcluderTest.php
