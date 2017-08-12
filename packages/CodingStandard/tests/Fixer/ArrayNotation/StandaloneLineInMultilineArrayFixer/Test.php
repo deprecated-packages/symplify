@@ -1,12 +1,12 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Fixer\Property;
+namespace Symplify\CodingStandard\Tests\Fixer\Naming\ExceptionNameFixer;
 
 use PhpCsFixer\Fixer\FixerInterface;
 use PhpCsFixer\Test\AbstractFixerTestCase;
-use Symplify\CodingStandard\Fixer\Property\ArrayPropertyDefaultValueFixer;
+use Symplify\CodingStandard\Fixer\Naming\ExceptionNameFixer;
 
-final class ArrayPropertyDefaultValueFixerTest extends AbstractFixerTestCase
+final class Test extends AbstractFixerTestCase
 {
     /**
      * @dataProvider provideFixCases()
@@ -26,15 +26,11 @@ final class ArrayPropertyDefaultValueFixerTest extends AbstractFixerTestCase
                 file_get_contents(__DIR__ . '/fixed/fixed.php.inc'),
                 file_get_contents(__DIR__ . '/wrong/wrong.php.inc'),
             ],
-            [
-                file_get_contents(__DIR__ . '/fixed/fixed2.php.inc'),
-                file_get_contents(__DIR__ . '/wrong/wrong2.php.inc'),
-            ],
         ];
     }
 
     protected function createFixer(): FixerInterface
     {
-        return new ArrayPropertyDefaultValueFixer;
+        return new ExceptionNameFixer;
     }
 }
