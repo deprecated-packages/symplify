@@ -21,11 +21,6 @@ final class StandaloneLineInMultilineArrayFixer implements DefinedFixerInterface
     private const ARRAY_TOKENS = [T_ARRAY, CT::T_ARRAY_SQUARE_BRACE_OPEN];
 
     /**
-     * @var ?int
-     */
-    private $arrayEndIndex;
-
-    /**
      * @var WhitespacesFixerConfig
      */
     private $whitespacesFixerConfig;
@@ -33,7 +28,7 @@ final class StandaloneLineInMultilineArrayFixer implements DefinedFixerInterface
     public function getDefinition(): FixerDefinitionInterface
     {
         return new FixerDefinition(
-            'Indexed PHP arrays should have 1 item per line.',
+            'Indexed PHP arrays with 2 and more items should have 1 item per line.',
             [
                 new CodeSample(
                     '<?php
@@ -45,7 +40,7 @@ $values = [ 1 => \'hey\', 2 => \'hello\' ];'
 
     public function isCandidate(Tokens $tokens): bool
     {
-        return $tokens->isAnyTokenKindsFound(self::ARRAY_TOKENS);
+        return $tokens->isAnyTokenKindsFound(self::ARRAY_TOKENS + [T_DOUBLE_ARROW]);
     }
 
     public function fix(SplFileInfo $file, Tokens $tokens): void
@@ -55,13 +50,13 @@ $values = [ 1 => \'hey\', 2 => \'hello\' ];'
                 continue;
             }
 
-            $this->arrayEndIndex = $this->detectArrayEndPosition($tokens, $index);
+            $arrayEndIndex = $this->detectArrayEndPosition($tokens, $index);
 
-            if (! $this->isAssociativeArray($tokens, $index, $this->arrayEndIndex)) {
+            if (! $this->isAssociativeArray($tokens, $index, $arrayEndIndex)) {
                 continue;
             }
 
-            $this->fixArray($tokens, $index);
+            $this->fixArray($tokens, $index, $arrayEndIndex);
         }
     }
 
@@ -91,23 +86,29 @@ $values = [ 1 => \'hey\', 2 => \'hello\' ];'
         $this->whitespacesFixerConfig = $whitespacesFixerConfig;
     }
 
-    private function fixArray(Tokens $tokens, int $index): void
+    private function fixArray(Tokens $tokens, int $arrayStartIndex, int $arrayEndIndex): void
     {
-        $arrayStartIndex = $index;
-        $arrayEndIndex = $this->arrayEndIndex;
+        $itemCount = $this->getItemCount($tokens, $arrayEndIndex, $arrayStartIndex);
+
+        if ($itemCount <= 1) {
+            return;
+        }
 
         for ($i = $arrayEndIndex; $i >= $arrayStartIndex; --$i) {
             $token = $tokens[$i];
 
-            if ($token->getContent() !== ',') {
+            if ($token->getContent() !== ',') { // item separator
                 continue;
             }
 
             $nextToken = $tokens[$i + 1];
+            // if next token is just space, turn it to newline
             if ($nextToken->getContent() === ' ') {
                 $tokens[$i + 1] = new Token([T_WHITESPACE, $this->whitespacesFixerConfig->getLineEnding()]);
                 ++$i;
             }
+
+            // skip in case of 1 item :)
         }
 
         $this->insertNewlineBeforeClosingIfNeeded($tokens, $arrayEndIndex);
@@ -162,5 +163,18 @@ $values = [ 1 => \'hey\', 2 => \'hello\' ];'
             new Token([T_WHITESPACE, $this->whitespacesFixerConfig->getLineEnding()]),
             new Token([CT::T_ARRAY_SQUARE_BRACE_CLOSE, ']']),
         ]);
+    }
+
+    private function getItemCount(Tokens $tokens, int $arrayEndIndex, int $arrayStartIndex): int
+    {
+        $itemCount = 0;
+        for ($i = $arrayEndIndex; $i >= $arrayStartIndex; --$i) {
+            $token = $tokens[$i];
+            if ($token->isGivenKind(T_DOUBLE_ARROW)) {
+                $itemCount++;
+            }
+        }
+
+        return $itemCount;
     }
 }
