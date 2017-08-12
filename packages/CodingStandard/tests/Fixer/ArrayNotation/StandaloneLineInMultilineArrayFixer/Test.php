@@ -3,7 +3,8 @@
 namespace Symplify\CodingStandard\Tests\Fixer\ArrayNotation\StandaloneLineInMultilineArrayFixer;
 
 use PhpCsFixer\Fixer\FixerInterface;
-use PhpCsFixer\Test\AbstractFixerTestCase;
+use PhpCsFixer\Tests\Test\AbstractFixerTestCase;
+use PhpCsFixer\WhitespacesFixerConfig;
 use Symplify\CodingStandard\Fixer\ArrayNotation\StandaloneLineInMultilineArrayFixer;
 
 final class Test extends AbstractFixerTestCase
@@ -31,6 +32,10 @@ final class Test extends AbstractFixerTestCase
 
     protected function createFixer(): FixerInterface
     {
-        return new StandaloneLineInMultilineArrayFixer;
+        $standaloneLineInMultilineArrayFixer = new StandaloneLineInMultilineArrayFixer;
+        $whitespacesFixerConfig = new WhitespacesFixerConfig('    ', PHP_EOL);
+        $standaloneLineInMultilineArrayFixer->setWhitespacesConfig($whitespacesFixerConfig);
+
+        return $standaloneLineInMultilineArrayFixer;
     }
 }

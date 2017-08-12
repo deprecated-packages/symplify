@@ -9,6 +9,7 @@ includes:
     - packages/EasyCodingStandard/config/spaces.neon
 
 checkers:
+    - Symplify\CodingStandard\Fixer\ArrayNotation\StandaloneLineInMultilineArrayFixer
 
     # Slevomat
     SlevomatCodingStandard\Sniffs\Namespaces\ReferenceUsedNamesOnlySniff:

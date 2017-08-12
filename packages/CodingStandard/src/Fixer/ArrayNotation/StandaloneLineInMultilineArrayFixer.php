@@ -3,15 +3,17 @@
 namespace Symplify\CodingStandard\Fixer\ArrayNotation;
 
 use PhpCsFixer\Fixer\DefinedFixerInterface;
+use PhpCsFixer\Fixer\WhitespacesAwareFixerInterface;
 use PhpCsFixer\FixerDefinition\CodeSample;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Tokenizer\CT;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
+use PhpCsFixer\WhitespacesFixerConfig;
 use SplFileInfo;
 
-final class StandaloneLineInMultilineArrayFixer implements DefinedFixerInterface
+final class StandaloneLineInMultilineArrayFixer implements DefinedFixerInterface, WhitespacesAwareFixerInterface
 {
     /**
      * @var int[]
@@ -22,6 +24,11 @@ final class StandaloneLineInMultilineArrayFixer implements DefinedFixerInterface
      * @var ?int
      */
     private $arrayEndIndex;
+
+    /**
+     * @var WhitespacesFixerConfig
+     */
+    private $whitespacesFixerConfig;
 
     public function getDefinition(): FixerDefinitionInterface
     {
@@ -48,7 +55,9 @@ $values = [ 1 => \'hey\', 2 => \'hello\' ];'
                 continue;
             }
 
-            if (! $this->isAssociativeArray($tokens, $index)) {
+            $this->arrayEndIndex = $this->detectArrayEndPosition($tokens, $index);
+
+            if (! $this->isAssociativeArray($tokens, $index, $this->arrayEndIndex)) {
                 continue;
             }
 
@@ -68,8 +77,8 @@ $values = [ 1 => \'hey\', 2 => \'hello\' ];'
 
     public function getPriority(): int
     {
-        // @todo: should run before indentation fixer
-        return 0;
+        // run before IndentationTypeFixer
+        return 70;
     }
 
     public function supports(SplFileInfo $file): bool
@@ -85,16 +94,13 @@ $values = [ 1 => \'hey\', 2 => \'hello\' ];'
         for ($i = $arrayStartIndex; $i <= $arrayEndIndex; ++$i) {
             $token = $tokens[$i];
 
-            // add space after [
-            // add space before ]
-
             if ($token->getContent() !== ',') {
                 continue;
             }
 
             $nextToken = $tokens[$i + 1];
             if ($nextToken->getContent() === ' ') {
-                $tokens[$i + 1] = new Token([T_WHITESPACE, PHP_EOL]);
+                $tokens[$i + 1] = new Token([T_WHITESPACE, $this->whitespacesFixerConfig->getLineEnding()]);
             }
         }
 
@@ -102,34 +108,42 @@ $values = [ 1 => \'hey\', 2 => \'hello\' ];'
         $tokens[$arrayStartIndex]->clear();
         $tokens->insertAt($arrayStartIndex, [
             new Token([CT::T_ARRAY_SQUARE_BRACE_OPEN, '[']),
-            new Token([T_WHITESPACE, PHP_EOL]), // @todo: get from config
+            new Token([T_WHITESPACE, $this->whitespacesFixerConfig->getLineEnding()]),
         ]);
 
         // insert new line before [
-        $tokens[$arrayEndIndex]->clear();
-        $tokens->insertAt($arrayEndIndex, [
-            new Token([T_WHITESPACE, PHP_EOL]), // @todo: get from config
+        $tokens[$arrayEndIndex + 2]->clear();
+        $tokens->insertAt($arrayEndIndex + 2, [
+            new Token([T_WHITESPACE, $this->whitespacesFixerConfig->getLineEnding()]),
             new Token([CT::T_ARRAY_SQUARE_BRACE_CLOSE, ']']),
         ]);
     }
 
-    private function isAssociativeArray(Tokens $tokens, int $index): bool
+    private function detectArrayEndPosition(Tokens $tokens, int $startIndex): int
     {
-        $this->arrayEndIndex = null;
-        $isAssociativeArray = false;
+        if ($tokens[$startIndex]->isGivenKind(T_ARRAY)) {
+            $startIndex = $tokens->getNextTokenOfKind($startIndex, ['(']);
+            return $tokens->findBlockEnd(Tokens::BLOCK_TYPE_PARENTHESIS_BRACE, $startIndex);
+        }
 
-        for ($i = $index; $i <= count($tokens) - 1; ++$i) {
+        return $tokens->findBlockEnd(Tokens::BLOCK_TYPE_ARRAY_SQUARE_BRACE, $startIndex);
+    }
+
+    private function isAssociativeArray(Tokens $tokens, int $startIndex, int $endIndex): bool
+    {
+        for ($i = $startIndex; $i <= $endIndex; ++$i) {
             $token = $tokens[$i];
 
             if ($token->isGivenKind(T_DOUBLE_ARROW)) {
-                $isAssociativeArray = true;
-            }
-
-            if ($token->isGivenKind([CT::T_ARRAY_SQUARE_BRACE_CLOSE, ']'])) {
-                $this->arrayEndIndex = $i + 2;
+                return true;
             }
         }
 
-        return $isAssociativeArray && $this->arrayEndIndex;
+        return false;
+    }
+
+    public function setWhitespacesConfig(WhitespacesFixerConfig $whitespacesFixerConfig): void
+    {
+        $this->whitespacesFixerConfig = $whitespacesFixerConfig;
     }
 }
