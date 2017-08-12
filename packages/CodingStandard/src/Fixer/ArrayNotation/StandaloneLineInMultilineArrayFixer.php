@@ -18,7 +18,12 @@ final class StandaloneLineInMultilineArrayFixer implements DefinedFixerInterface
     /**
      * @var int[]
      */
-    private const ARRAY_TOKENS = [T_ARRAY, CT::T_ARRAY_SQUARE_BRACE_OPEN];
+    private const ARRAY_OPEN_TOKENS = [T_ARRAY, CT::T_ARRAY_SQUARE_BRACE_OPEN];
+
+    /**
+     * @var int[]
+     */
+    private const ARRAY_CLOSING_TOKENS = [')', CT::T_ARRAY_SQUARE_BRACE_CLOSE];
 
     /**
      * @var WhitespacesFixerConfig
@@ -29,6 +34,11 @@ final class StandaloneLineInMultilineArrayFixer implements DefinedFixerInterface
      * @var bool
      */
     private $isOldArray = false;
+
+    /**
+     * @var bool
+     */
+    private $isDivedInAnotherArray = false;
 
     public function getDefinition(): FixerDefinitionInterface
     {
@@ -45,13 +55,13 @@ $values = [ 1 => \'hey\', 2 => \'hello\' ];'
 
     public function isCandidate(Tokens $tokens): bool
     {
-        return $tokens->isAnyTokenKindsFound(self::ARRAY_TOKENS + [T_DOUBLE_ARROW]);
+        return $tokens->isAnyTokenKindsFound(self::ARRAY_OPEN_TOKENS + [T_DOUBLE_ARROW]);
     }
 
     public function fix(SplFileInfo $file, Tokens $tokens): void
     {
         foreach ($tokens as $index => $token) {
-            if (! $token->isGivenKind(self::ARRAY_TOKENS)) {
+            if (! $token->isGivenKind(self::ARRAY_OPEN_TOKENS)) {
                 continue;
             }
 
@@ -101,6 +111,19 @@ $values = [ 1 => \'hey\', 2 => \'hello\' ];'
 
         for ($i = $arrayEndIndex; $i >= $arrayStartIndex; --$i) {
             $token = $tokens[$i];
+
+            if ($this->isDivedInAnotherArray === false && $token->isGivenKind(self::ARRAY_CLOSING_TOKENS)) {
+                $this->isDivedInAnotherArray = true;
+            }
+
+            if ($this->isDivedInAnotherArray && $token->isGivenKind(self::ARRAY_OPEN_TOKENS)) {
+                $this->isDivedInAnotherArray = false;
+            }
+
+            // do not process dived arrays in this run
+            if ($this->isDivedInAnotherArray) {
+                continue;
+            }
 
             if ($token->getContent() !== ',') { // item separator
                 continue;
