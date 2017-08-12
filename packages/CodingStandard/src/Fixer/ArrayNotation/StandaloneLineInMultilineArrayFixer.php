@@ -105,11 +105,13 @@ $values = [ 1 => \'hey\', 2 => \'hello\' ];'
     {
         $itemCount = $this->getItemCount($tokens, $arrayEndIndex, $arrayStartIndex);
 
+        $this->isDivedInAnotherArray = false;
+
         if ($itemCount <= 1) {
             return;
         }
 
-        for ($i = $arrayEndIndex; $i >= $arrayStartIndex; --$i) {
+        for ($i = $arrayEndIndex - 1; $i >= $arrayStartIndex; --$i) {
             $token = $tokens[$i];
 
             if ($this->isDivedInAnotherArray === false && $token->isGivenKind(self::ARRAY_CLOSING_TOKENS)) {
@@ -157,8 +159,23 @@ $values = [ 1 => \'hey\', 2 => \'hello\' ];'
 
     private function isAssociativeArray(Tokens $tokens, int $startIndex, int $endIndex): bool
     {
-        for ($i = $startIndex; $i <= $endIndex; ++$i) {
+        $this->isDivedInAnotherArray = false;
+
+        for ($i = $startIndex + 1; $i <= $endIndex - 1; ++$i) {
             $token = $tokens[$i];
+
+            if ($this->isDivedInAnotherArray === false && $token->isGivenKind(self::ARRAY_OPEN_TOKENS)) {
+                $this->isDivedInAnotherArray = true;
+            }
+
+            if ($this->isDivedInAnotherArray && $token->isGivenKind(self::ARRAY_CLOSING_TOKENS)) {
+                $this->isDivedInAnotherArray = false;
+            }
+
+            // do not process dived arrays in this run
+            if ($this->isDivedInAnotherArray) {
+                continue;
+            }
 
             if ($token->isGivenKind(T_DOUBLE_ARROW)) {
                 return true;
