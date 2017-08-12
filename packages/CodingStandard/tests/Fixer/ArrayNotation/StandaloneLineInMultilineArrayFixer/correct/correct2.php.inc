@@ -1,3 +1,8 @@
 <?php declare(strict_types=1);
 
-$emotions = [1 => 'Happy'];
+$emotions = [
+    'filePath' => [
+        new Error(5, 'error message'), // keep this in line
+    ],
+    'anotherFilePath' => 'Hou'
+];

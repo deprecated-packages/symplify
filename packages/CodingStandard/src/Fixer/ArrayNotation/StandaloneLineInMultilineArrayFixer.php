@@ -25,6 +25,11 @@ final class StandaloneLineInMultilineArrayFixer implements DefinedFixerInterface
      */
     private $whitespacesFixerConfig;
 
+    /**
+     * @var bool
+     */
+    private $isOldArray = false;
+
     public function getDefinition(): FixerDefinitionInterface
     {
         return new FixerDefinition(
@@ -103,7 +108,7 @@ $values = [ 1 => \'hey\', 2 => \'hello\' ];'
 
             $nextToken = $tokens[$i + 1];
             // if next token is just space, turn it to newline
-            if ($nextToken->getContent() === ' ') {
+            if ($nextToken->isWhitespace(' ')) {
                 $tokens[$i + 1] = new Token([T_WHITESPACE, $this->whitespacesFixerConfig->getLineEnding()]);
                 ++$i;
             }
@@ -117,9 +122,12 @@ $values = [ 1 => \'hey\', 2 => \'hello\' ];'
     {
         if ($tokens[$startIndex]->isGivenKind(T_ARRAY)) {
             $startIndex = $tokens->getNextTokenOfKind($startIndex, ['(']);
+            $this->isOldArray = true;
 
             return $tokens->findBlockEnd(Tokens::BLOCK_TYPE_PARENTHESIS_BRACE, $startIndex);
         }
+
+        $this->isOldArray = false;
 
         return $tokens->findBlockEnd(Tokens::BLOCK_TYPE_ARRAY_SQUARE_BRACE, $startIndex);
     }
@@ -143,9 +151,9 @@ $values = [ 1 => \'hey\', 2 => \'hello\' ];'
             return;
         }
 
-        $tokens[$arrayStartIndex]->clear();
-        $tokens->insertAt($arrayStartIndex, [
-            new Token([CT::T_ARRAY_SQUARE_BRACE_OPEN, '[']),
+        $tokens[$arrayStartIndex + 1]->clear();
+        $tokens->insertAt($arrayStartIndex + 1, [
+            $this->isOldArray ? new Token('(') : new Token([CT::T_ARRAY_SQUARE_BRACE_OPEN, '[']),
             new Token([T_WHITESPACE, $this->whitespacesFixerConfig->getLineEnding()]),
         ]);
     }
@@ -159,7 +167,7 @@ $values = [ 1 => \'hey\', 2 => \'hello\' ];'
         $tokens[$arrayEndIndex]->clear();
         $tokens->insertAt($arrayEndIndex, [
             new Token([T_WHITESPACE, $this->whitespacesFixerConfig->getLineEnding()]),
-            new Token([CT::T_ARRAY_SQUARE_BRACE_CLOSE, ']']),
+            $this->isOldArray ? new Token(')') : new Token([CT::T_ARRAY_SQUARE_BRACE_CLOSE, ']']),
         ]);
     }
 
