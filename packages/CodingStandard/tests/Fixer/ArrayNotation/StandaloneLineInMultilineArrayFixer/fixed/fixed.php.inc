@@ -4,8 +4,3 @@ $friends = [
 1 => 'Peter',
 2 => 'Paul',
 ];
-
-$emotions = [
-    1 => 'Happy',
-    2 => 'Relaxed',
-];

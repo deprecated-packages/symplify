@@ -86,12 +86,17 @@ $values = [ 1 => \'hey\', 2 => \'hello\' ];'
         return true;
     }
 
+    public function setWhitespacesConfig(WhitespacesFixerConfig $whitespacesFixerConfig): void
+    {
+        $this->whitespacesFixerConfig = $whitespacesFixerConfig;
+    }
+
     private function fixArray(Tokens $tokens, int $index): void
     {
         $arrayStartIndex = $index;
         $arrayEndIndex = $this->arrayEndIndex;
 
-        for ($i = $arrayStartIndex; $i <= $arrayEndIndex; ++$i) {
+        for ($i = $arrayEndIndex; $i >= $arrayStartIndex; --$i) {
             $token = $tokens[$i];
 
             if ($token->getContent() !== ',') {
@@ -101,17 +106,19 @@ $values = [ 1 => \'hey\', 2 => \'hello\' ];'
             $nextToken = $tokens[$i + 1];
             if ($nextToken->getContent() === ' ') {
                 $tokens[$i + 1] = new Token([T_WHITESPACE, $this->whitespacesFixerConfig->getLineEnding()]);
+                ++$i;
             }
         }
 
-        $this->insertNewlineAfterOpeningIfNeeded($tokens, $arrayStartIndex);
         $this->insertNewlineBeforeClosingIfNeeded($tokens, $arrayEndIndex);
+        $this->insertNewlineAfterOpeningIfNeeded($tokens, $arrayStartIndex);
     }
 
     private function detectArrayEndPosition(Tokens $tokens, int $startIndex): int
     {
         if ($tokens[$startIndex]->isGivenKind(T_ARRAY)) {
             $startIndex = $tokens->getNextTokenOfKind($startIndex, ['(']);
+
             return $tokens->findBlockEnd(Tokens::BLOCK_TYPE_PARENTHESIS_BRACE, $startIndex);
         }
 
@@ -131,11 +138,6 @@ $values = [ 1 => \'hey\', 2 => \'hello\' ];'
         return false;
     }
 
-    public function setWhitespacesConfig(WhitespacesFixerConfig $whitespacesFixerConfig): void
-    {
-        $this->whitespacesFixerConfig = $whitespacesFixerConfig;
-    }
-
     private function insertNewlineAfterOpeningIfNeeded(Tokens $tokens, int $arrayStartIndex): void
     {
         if ($tokens[$arrayStartIndex + 1]->isGivenKind(T_WHITESPACE)) {
@@ -151,12 +153,12 @@ $values = [ 1 => \'hey\', 2 => \'hello\' ];'
 
     private function insertNewlineBeforeClosingIfNeeded(Tokens $tokens, int $arrayEndIndex): void
     {
-        if ($tokens[$arrayEndIndex + 2 ]->isGivenKind(T_WHITESPACE)) {
+        if ($tokens[$arrayEndIndex - 1]->isGivenKind(T_WHITESPACE)) {
             return;
         }
 
-        $tokens[$arrayEndIndex + 2]->clear();
-        $tokens->insertAt($arrayEndIndex + 2, [
+        $tokens[$arrayEndIndex]->clear();
+        $tokens->insertAt($arrayEndIndex, [
             new Token([T_WHITESPACE, $this->whitespacesFixerConfig->getLineEnding()]),
             new Token([CT::T_ARRAY_SQUARE_BRACE_CLOSE, ']']),
         ]);
