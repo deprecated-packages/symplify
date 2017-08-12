@@ -1,12 +1,12 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Fixer\Php;
+namespace Symplify\CodingStandard\Tests\Fixer\Php\ClassStringToClassConstantFixer;
 
 use PhpCsFixer\Fixer\FixerInterface;
 use PhpCsFixer\Test\AbstractFixerTestCase;
 use Symplify\CodingStandard\Fixer\Php\ClassStringToClassConstantFixer;
 
-final class ClassStringToClassConstantFixerTest extends AbstractFixerTestCase
+final class Test extends AbstractFixerTestCase
 {
     /**
      * @dataProvider provideFixCases()

@@ -1,10 +1,10 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Fixer\Naming\ExceptionNameFixer;
+namespace Symplify\CodingStandard\Tests\Fixer\ArrayNotation\StandaloneLineInMultilineArrayFixer;
 
 use PhpCsFixer\Fixer\FixerInterface;
 use PhpCsFixer\Test\AbstractFixerTestCase;
-use Symplify\CodingStandard\Fixer\Naming\ExceptionNameFixer;
+use Symplify\CodingStandard\Fixer\ArrayNotation\StandaloneLineInMultilineArrayFixer;
 
 final class Test extends AbstractFixerTestCase
 {
@@ -31,6 +31,6 @@ final class Test extends AbstractFixerTestCase
 
     protected function createFixer(): FixerInterface
     {
-        return new ExceptionNameFixer;
+        return new StandaloneLineInMultilineArrayFixer;
     }
 }

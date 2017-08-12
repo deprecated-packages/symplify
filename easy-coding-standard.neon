@@ -9,6 +9,7 @@ includes:
     - packages/EasyCodingStandard/config/spaces.neon
 
 checkers:
+
     # Slevomat
     SlevomatCodingStandard\Sniffs\Namespaces\ReferenceUsedNamesOnlySniff:
         allowPartialUses: false

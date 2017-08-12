@@ -1,5 +1,3 @@
-<?php
+<?php declare(strict_types=1);
 
-class Some extends Exception
-{
-}
+$friends = [1 => 'Peter', 2 => 'Paul',];

@@ -1,12 +1,12 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Fixer\DependencyInjection;
+namespace Symplify\CodingStandard\Tests\Fixer\DependencyInjection\InjectToConstructorInjectionFixer;
 
 use PhpCsFixer\Fixer\FixerInterface;
 use PhpCsFixer\Test\AbstractFixerTestCase;
 use Symplify\CodingStandard\Fixer\DependencyInjection\InjectToConstructorInjectionFixer;
 
-final class InjectToConstructorInjectionFixerTest extends AbstractFixerTestCase
+final class Test extends AbstractFixerTestCase
 {
     /**
      * @dataProvider provideFixCases()

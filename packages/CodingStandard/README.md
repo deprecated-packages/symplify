@@ -13,6 +13,28 @@ composer require symplify/coding-standard --dev
 
 ## Rules Overview
 
+
+### Indexed PHP arrays should have 1 item per line
+ 
+- [ArrayNotation/StandaloneLineInMultilineArrayFixer](/src/Fixer/ArrayNotation/StandaloneLineInMultilineArrayFixer.php)
+- This checker uses *[PHP-CS-Fixer](https://github.com/friendsofphp/php-cs-fixer)*
+
+:x:
+
+```php
+$friends = [1 => 'Peter', 2 => 'Paul'];
+```
+
+:+1:
+
+```php
+$friends = [
+    1 => 'Peter',
+    2 => 'Paul'
+];
+```
+
+
 ### Constructor injection should be used instead of @inject annotations 
 
 - [DependencyInjection/InjectToConstructorInjectionFixer](/src/Fixer/DependencyInjection/InjectToConstructorInjectionFixer.php)
@@ -94,7 +116,6 @@ $className = 'DateTime';
 ```php
 $className = DateTime::class;
 ```
-
 
 
 ### Array property should have default value, to prevent undefined array issues
