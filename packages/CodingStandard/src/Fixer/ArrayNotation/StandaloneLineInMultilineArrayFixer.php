@@ -104,19 +104,8 @@ $values = [ 1 => \'hey\', 2 => \'hello\' ];'
             }
         }
 
-        // insert new line after [
-        $tokens[$arrayStartIndex]->clear();
-        $tokens->insertAt($arrayStartIndex, [
-            new Token([CT::T_ARRAY_SQUARE_BRACE_OPEN, '[']),
-            new Token([T_WHITESPACE, $this->whitespacesFixerConfig->getLineEnding()]),
-        ]);
-
-        // insert new line before [
-        $tokens[$arrayEndIndex + 2]->clear();
-        $tokens->insertAt($arrayEndIndex + 2, [
-            new Token([T_WHITESPACE, $this->whitespacesFixerConfig->getLineEnding()]),
-            new Token([CT::T_ARRAY_SQUARE_BRACE_CLOSE, ']']),
-        ]);
+        $this->insertNewlineAfterOpeningIfNeeded($tokens, $arrayStartIndex);
+        $this->insertNewlineBeforeClosingIfNeeded($tokens, $arrayEndIndex);
     }
 
     private function detectArrayEndPosition(Tokens $tokens, int $startIndex): int
@@ -145,5 +134,31 @@ $values = [ 1 => \'hey\', 2 => \'hello\' ];'
     public function setWhitespacesConfig(WhitespacesFixerConfig $whitespacesFixerConfig): void
     {
         $this->whitespacesFixerConfig = $whitespacesFixerConfig;
+    }
+
+    private function insertNewlineAfterOpeningIfNeeded(Tokens $tokens, int $arrayStartIndex): void
+    {
+        if ($tokens[$arrayStartIndex + 1]->isGivenKind(T_WHITESPACE)) {
+            return;
+        }
+
+        $tokens[$arrayStartIndex]->clear();
+        $tokens->insertAt($arrayStartIndex, [
+            new Token([CT::T_ARRAY_SQUARE_BRACE_OPEN, '[']),
+            new Token([T_WHITESPACE, $this->whitespacesFixerConfig->getLineEnding()]),
+        ]);
+    }
+
+    private function insertNewlineBeforeClosingIfNeeded(Tokens $tokens, int $arrayEndIndex): void
+    {
+        if ($tokens[$arrayEndIndex + 2 ]->isGivenKind(T_WHITESPACE)) {
+            return;
+        }
+
+        $tokens[$arrayEndIndex + 2]->clear();
+        $tokens->insertAt($arrayEndIndex + 2, [
+            new Token([T_WHITESPACE, $this->whitespacesFixerConfig->getLineEnding()]),
+            new Token([CT::T_ARRAY_SQUARE_BRACE_CLOSE, ']']),
+        ]);
     }
 }
