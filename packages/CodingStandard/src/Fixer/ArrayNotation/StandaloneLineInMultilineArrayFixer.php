@@ -147,12 +147,13 @@ $values = [ 1 => \'hey\', 2 => \'hello\' ];'
 
     private function insertNewlineAfterOpeningIfNeeded(Tokens $tokens, int $arrayStartIndex): void
     {
-        if ($tokens[$arrayStartIndex + 1]->isGivenKind(T_WHITESPACE)) {
+        $offset = $this->isOldArray ? 1 : 0;
+        if ($tokens[$arrayStartIndex + $offset + 1]->isGivenKind(T_WHITESPACE)) {
             return;
         }
 
-        $tokens[$arrayStartIndex + 1]->clear();
-        $tokens->insertAt($arrayStartIndex + 1, [
+        $tokens[$arrayStartIndex + $offset]->clear();
+        $tokens->insertAt($arrayStartIndex + $offset, [
             $this->isOldArray ? new Token('(') : new Token([CT::T_ARRAY_SQUARE_BRACE_OPEN, '[']),
             new Token([T_WHITESPACE, $this->whitespacesFixerConfig->getLineEnding()]),
         ]);

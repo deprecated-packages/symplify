@@ -23,22 +23,22 @@ final class Test extends AbstractFixerTestCase
     public function provideFixCases(): array
     {
         return [
-//            [
-//                file_get_contents(__DIR__ . '/fixed/fixed.php.inc'),
-//                file_get_contents(__DIR__ . '/wrong/wrong.php.inc'),
-//            ],
+            [
+                file_get_contents(__DIR__ . '/fixed/fixed.php.inc'),
+                file_get_contents(__DIR__ . '/wrong/wrong.php.inc'),
+            ],
             [
                 file_get_contents(__DIR__ . '/fixed/fixed2.php.inc'),
                 file_get_contents(__DIR__ . '/wrong/wrong2.php.inc'),
             ],
-//            [
-//                file_get_contents(__DIR__ . '/correct/correct.php.inc'),
-//            ],
+            [
+                file_get_contents(__DIR__ . '/correct/correct.php.inc'),
+            ],
 //            [
 //                file_get_contents(__DIR__ . '/correct/correct2.php.inc'),
 //            ],
-//            ['<?php $emotions = [1 => \'Happy\'];'],
-//            ['<?php $emotions = [\'Happy\', \'Excited\'];'],
+            ['<?php $emotions = [1 => \'Happy\'];'],
+            ['<?php $emotions = [\'Happy\', \'Excited\'];'],
         ];
     }
 
