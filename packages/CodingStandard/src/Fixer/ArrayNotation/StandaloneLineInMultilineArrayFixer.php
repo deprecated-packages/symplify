@@ -107,8 +107,6 @@ $values = [ 1 => \'hey\', 2 => \'hello\' ];'
                 $tokens[$i + 1] = new Token([T_WHITESPACE, $this->whitespacesFixerConfig->getLineEnding()]);
                 ++$i;
             }
-
-            // skip in case of 1 item :)
         }
 
         $this->insertNewlineBeforeClosingIfNeeded($tokens, $arrayEndIndex);
@@ -171,7 +169,7 @@ $values = [ 1 => \'hey\', 2 => \'hello\' ];'
         for ($i = $arrayEndIndex; $i >= $arrayStartIndex; --$i) {
             $token = $tokens[$i];
             if ($token->isGivenKind(T_DOUBLE_ARROW)) {
-                $itemCount++;
+                ++$itemCount;
             }
         }
 
