@@ -16,7 +16,7 @@ final class ClassStringToClassConstantFixer implements DefinedFixerInterface
     /**
      * @var string
      */
-    private const CLASS_OR_INTERFACE_PATTERN = '#^[A-Z]\w*[a-z]\w*(\\\\[A-Z]\w*[a-z]\w*)+\z#';
+    private const CLASS_INTERFACE_OR_TRAIT_PATTERN = '#^[A-Z]\w*[a-z]\w*(\\\\[A-Z]\w*[a-z]\w*)+\z#';
 
     public function getDefinition(): FixerDefinitionInterface
     {
@@ -87,7 +87,7 @@ final class ClassStringToClassConstantFixer implements DefinedFixerInterface
         return class_exists($potentialClassInterfaceOrTrait)
             || interface_exists($potentialClassInterfaceOrTrait)
             || trait_exists($potentialClassInterfaceOrTrait)
-            || (bool) preg_match(self::CLASS_OR_INTERFACE_PATTERN, $potentialClassInterfaceOrTrait);
+            || (bool) preg_match(self::CLASS_INTERFACE_OR_TRAIT_PATTERN, $potentialClassInterfaceOrTrait);
     }
 
     /**
