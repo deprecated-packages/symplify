@@ -97,8 +97,7 @@ $values = [ 1 => \'hey\', 2 => \'hello\' ];'
 
     public function getPriority(): int
     {
-        // run before IndentationTypeFixer
-        return 70;
+        return 0;
     }
 
     public function supports(SplFileInfo $file): bool
