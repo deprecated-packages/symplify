@@ -6,6 +6,7 @@ use PhpCsFixer\Fixer\DefinedFixerInterface;
 use PhpCsFixer\FixerDefinition\CodeSample;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
+use PhpCsFixer\Tokenizer\CT;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
@@ -50,7 +51,7 @@ final class ClassStringToClassConstantFixer implements DefinedFixerInterface
                 continue;
             }
 
-            $token->clear();
+            unset($tokens[$index]);
             $tokens->insertAt($index, $this->convertClassOrInterfaceNameToTokens($potentialClassOrInterface));
         }
     }
@@ -88,16 +89,21 @@ final class ClassStringToClassConstantFixer implements DefinedFixerInterface
             || (bool) preg_match(self::CLASS_OR_INTERFACE_PATTERN, $potentialClassOrInterface);
     }
 
-    private function convertClassOrInterfaceNameToTokens(string $potentialClassOrInterface): Tokens
+    /**
+     * @return Token[]
+     */
+    private function convertClassOrInterfaceNameToTokens(string $potentialClassOrInterface): array
     {
-        $tokens = Tokens::fromCode(sprintf(
-            '<?php echo \\%s::class;',
-            $potentialClassOrInterface
-        ));
+        $tokens = [];
 
-        $tokens->clearRange(0, 2); // clear start "<?php"
-        $tokens[$tokens->getSize() - 1]->clear(); // clear end ";"
-        $tokens->clearEmptyTokens();
+        $parts = explode('\\', $potentialClassOrInterface);
+        foreach ($parts as $part) {
+            $tokens[] = new Token([T_NS_SEPARATOR, '\\']);
+            $tokens[] = new Token([T_STRING, $part]);
+        }
+
+        $tokens[] = new Token([T_DOUBLE_COLON,'::']);
+        $tokens[] = new Token([CT::T_CLASS_CONSTANT, 'class']);
 
         return $tokens;
     }

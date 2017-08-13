@@ -40,8 +40,8 @@ final class Naming
 
         throw new UnexpectedTokenException(sprintf(
             'This requires "%s" token. "%s" given.',
-            $token['type'],
-            T_CLASS
+            'T_CLASS',
+            $token['type']
         ));
     }
 }
