@@ -169,19 +169,19 @@ $values = [1 => \'hey\', 2 => \'hello\'];'
 
     private function skipBlocks(Tokens $tokens, Token $token, int $i): int
     {
-        $tokenCountToSkipOver = 0;
+        $tokenCountToSkip = 0;
 
         if ($token->isGivenKind(CT::T_ARRAY_SQUARE_BRACE_CLOSE)) {
             // @wtf: with 3rd arg false works like "findBlockStart()"
             $blockStart = $tokens->findBlockEnd(Tokens::BLOCK_TYPE_ARRAY_SQUARE_BRACE, $i, false);
-            $tokenCountToSkipOver = $i - $blockStart;
+            $tokenCountToSkip = $i - $blockStart;
         }
 
         if ($token->getContent() === ')') {
             $blockStart = $tokens->findBlockEnd(Tokens::BLOCK_TYPE_PARENTHESIS_BRACE, $i, false);
-            $tokenCountToSkipOver = $i - $blockStart;
+            $tokenCountToSkip = $i - $blockStart;
         }
 
-        return $i - $tokenCountToSkipOver;
+        return $i - $tokenCountToSkip;
     }
 }

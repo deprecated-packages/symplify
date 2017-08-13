@@ -3,19 +3,11 @@
 namespace Symplify\CodingStandard\Tokenizer;
 
 use PhpCsFixer\Tokenizer\CT;
+use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 
 final class ArrayTokensAnalyzer
 {
-    /**
-     * @var int[]
-     */
-    private const ARRAY_OPEN_TOKENS = [T_ARRAY, CT::T_ARRAY_SQUARE_BRACE_OPEN];
-    /**
-     * @var int[]
-     */
-    private const ARRAY_CLOSING_TOKENS = [')', CT::T_ARRAY_SQUARE_BRACE_CLOSE];
-
     /**
      * @var Tokens
      */
@@ -65,21 +57,12 @@ final class ArrayTokensAnalyzer
 
     public function isAssociativeArray(): bool
     {
-        $isDivedInAnotherArray = false;
-
         for ($i = $this->startIndex + 1; $i <= $this->getEndIndex() - 1; ++$i) {
             $token = $this->tokens[$i];
 
-            if ($isDivedInAnotherArray === false && $token->isGivenKind(self::ARRAY_OPEN_TOKENS)) {
-                $isDivedInAnotherArray = true;
-            } elseif ($isDivedInAnotherArray && $token->isGivenKind(self::ARRAY_CLOSING_TOKENS)) {
-                $isDivedInAnotherArray = false;
-            }
+            $i = $this->skipBlocksReverse($this->tokens, $token, $i);
 
-            // do not process dived arrays in this run
-            if ($isDivedInAnotherArray) {
-                continue;
-            }
+            $token = $this->tokens[$i];
 
             if ($token->isGivenKind(T_DOUBLE_ARROW)) {
                 return true;
@@ -100,5 +83,22 @@ final class ArrayTokensAnalyzer
         }
 
         return $itemCount;
+    }
+
+    private function skipBlocksReverse(Tokens $tokens, Token $token, int $i): int
+    {
+        $tokenCountToSkip = 0;
+
+        if ($token->isGivenKind(CT::T_ARRAY_SQUARE_BRACE_OPEN)) {
+            $blockEnd = $tokens->findBlockEnd(Tokens::BLOCK_TYPE_ARRAY_SQUARE_BRACE, $i);
+            $tokenCountToSkip = $blockEnd - $i;
+        }
+
+        if ($token->isGivenKind(T_ARRAY) && $token->getContent() === '(') {
+            $blockEnd = $tokens->findBlockEnd(Tokens::BLOCK_TYPE_PARENTHESIS_BRACE, $i);
+            $tokenCountToSkip = $blockEnd - $i;
+        }
+
+        return $i + $tokenCountToSkip;
     }
 }
