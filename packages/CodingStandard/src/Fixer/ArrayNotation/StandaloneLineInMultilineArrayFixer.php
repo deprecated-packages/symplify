@@ -23,11 +23,6 @@ final class StandaloneLineInMultilineArrayFixer implements DefinedFixerInterface
     private const ARRAY_OPEN_TOKENS = [T_ARRAY, CT::T_ARRAY_SQUARE_BRACE_OPEN];
 
     /**
-     * @var int[]
-     */
-    private const ARRAY_CLOSING_TOKENS = [')', CT::T_ARRAY_SQUARE_BRACE_CLOSE];
-
-    /**
      * @var WhitespacesFixerConfig
      */
     private $whitespacesFixerConfig;
@@ -67,7 +62,8 @@ $values = [1 => \'hey\', 2 => \'hello\'];'
 
     public function isCandidate(Tokens $tokens): bool
     {
-        return $tokens->isAnyTokenKindsFound(self::ARRAY_OPEN_TOKENS + [T_DOUBLE_ARROW]);
+        return $tokens->isAnyTokenKindsFound(self::ARRAY_OPEN_TOKENS)
+            && $tokens->isTokenKindFound(T_DOUBLE_ARROW);
     }
 
     public function fix(SplFileInfo $file, Tokens $tokens): void
@@ -81,11 +77,11 @@ $values = [1 => \'hey\', 2 => \'hello\'];'
             $arrayEndIndex = $arrayTokensAnalyzer->getEndIndex();
             $this->isOldArray = $arrayTokensAnalyzer->isOldArray();
 
-            if (! $this->isAssociativeArray($tokens, $index, $arrayEndIndex)) {
+            if (! $arrayTokensAnalyzer->isAssociativeArray()) {
                 continue;
             }
 
-            $this->fixArray($tokens, $index, $arrayEndIndex);
+            $this->fixArray($tokens, $index, $arrayEndIndex, $arrayTokensAnalyzer);
         }
     }
 
@@ -115,9 +111,9 @@ $values = [1 => \'hey\', 2 => \'hello\'];'
         $this->indentDetector = new IndentDetector($whitespacesFixerConfig);
     }
 
-    private function fixArray(Tokens $tokens, int $arrayStartIndex, int $arrayEndIndex): void
+    private function fixArray(Tokens $tokens, int $arrayStartIndex, int $arrayEndIndex, ArrayTokensAnalyzer $arrayTokensAnalyzer): void
     {
-        $itemCount = $this->getItemCount($tokens, $arrayEndIndex, $arrayStartIndex);
+        $itemCount = $arrayTokensAnalyzer->getItemCount();
         if ($itemCount <= 1) {
             return;
         }
@@ -145,35 +141,6 @@ $values = [1 => \'hey\', 2 => \'hello\'];'
         $this->insertNewlineAfterOpeningIfNeeded($tokens, $arrayStartIndex);
     }
 
-    /**
-     * @todo Move to ArrayTokensAnalyzer class
-     */
-    private function isAssociativeArray(Tokens $tokens, int $startIndex, int $endIndex): bool
-    {
-        $isDivedInAnotherArray = false;
-
-        for ($i = $startIndex + 1; $i <= $endIndex - 1; ++$i) {
-            $token = $tokens[$i];
-
-            if ($isDivedInAnotherArray === false && $token->isGivenKind(self::ARRAY_OPEN_TOKENS)) {
-                $isDivedInAnotherArray = true;
-            } elseif ($isDivedInAnotherArray && $token->isGivenKind(self::ARRAY_CLOSING_TOKENS)) {
-                $isDivedInAnotherArray = false;
-            }
-
-            // do not process dived arrays in this run
-            if ($isDivedInAnotherArray) {
-                continue;
-            }
-
-            if ($token->isGivenKind(T_DOUBLE_ARROW)) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
     private function insertNewlineAfterOpeningIfNeeded(Tokens $tokens, int $arrayStartIndex): void
     {
         $offset = $this->isOldArray ? 1 : 0;
@@ -199,22 +166,6 @@ $values = [1 => \'hey\', 2 => \'hello\'];'
             new Token([T_WHITESPACE, $this->whitespacesFixerConfig->getLineEnding()]),
             $this->isOldArray ? new Token(')') : new Token([CT::T_ARRAY_SQUARE_BRACE_CLOSE, ']']),
         ]);
-    }
-
-    /**
-     * @todo Move to ArrayTokensAnalyzer class
-     */
-    private function getItemCount(Tokens $tokens, int $arrayEndIndex, int $arrayStartIndex): int
-    {
-        $itemCount = 0;
-        for ($i = $arrayEndIndex; $i >= $arrayStartIndex; --$i) {
-            $token = $tokens[$i];
-            if ($token->isGivenKind(T_DOUBLE_ARROW)) {
-                ++$itemCount;
-            }
-        }
-
-        return $itemCount;
     }
 
     private function prepareIndentWhitespaces(Tokens $tokens, int $arrayStartIndex): void
