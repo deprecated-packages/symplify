@@ -61,7 +61,7 @@ final class ArrayTokensAnalyzer
 
     public function isOldArray(): bool
     {
-        return (bool) $this->startToken->isGivenKind(T_ARRAY);
+        return $this->startToken->isGivenKind(T_ARRAY);
     }
 
     public function isAssociativeArray(): bool
