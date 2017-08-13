@@ -79,6 +79,10 @@ final class ClassStringToClassConstantFixer implements DefinedFixerInterface
 
     private function isClassInterfaceOrTrait(string $potentialClassInterfaceOrTrait): bool
     {
+        if ($potentialClassInterfaceOrTrait === '') {
+            return false;
+        }
+
         // lowercase string are not classes; because class_exists() is case-insensitive
         if (ctype_lower($potentialClassInterfaceOrTrait[0])) {
             return false;
@@ -103,7 +107,7 @@ final class ClassStringToClassConstantFixer implements DefinedFixerInterface
             $tokens[] = new Token([T_STRING, $part]);
         }
 
-        $tokens[] = new Token([T_DOUBLE_COLON,'::']);
+        $tokens[] = new Token([T_DOUBLE_COLON, '::']);
         $tokens[] = new Token([CT::T_CLASS_CONSTANT, 'class']);
 
         return $tokens;
