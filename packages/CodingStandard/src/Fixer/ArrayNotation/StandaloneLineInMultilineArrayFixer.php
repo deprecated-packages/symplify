@@ -122,12 +122,16 @@ $values = [ 1 => \'hey\', 2 => \'hello\' ];'
         for ($i = $arrayEndIndex - 1; $i >= $arrayStartIndex; --$i) {
             $token = $tokens[$i];
 
-            if ($isDivedInAnotherArray === false && $token->isGivenKind(self::ARRAY_CLOSING_TOKENS)) {
-                $isDivedInAnotherArray = true;
+            if ($isDivedInAnotherArray === false) {
+                if ($token->isGivenKind(self::ARRAY_CLOSING_TOKENS) || $token->getContent() === ')') {
+                    $isDivedInAnotherArray = true;
+                }
             }
 
-            if ($isDivedInAnotherArray && $token->isGivenKind(self::ARRAY_OPEN_TOKENS)) {
-                $isDivedInAnotherArray = false;
+            if ($isDivedInAnotherArray) {
+                if ($token->isGivenKind(self::ARRAY_OPEN_TOKENS) || $token->getContent() === '(') {
+                    $isDivedInAnotherArray = false;
+                }
             }
 
             // do not process dived arrays in this run

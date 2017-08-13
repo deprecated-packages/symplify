@@ -54,7 +54,7 @@ final class MatchTest extends TestCase
             ['/hele/<id>/mese', 'http://www.hele.cz/hele/21/mese', ['id' => '21']],
             ['/hele/<id>/<pid>', 'http://www.hele.cz/hele/123/456', [
                 'id' => '123',
-                'pid' => '456'
+                'pid' => '456',
             ]],
         ];
     }
