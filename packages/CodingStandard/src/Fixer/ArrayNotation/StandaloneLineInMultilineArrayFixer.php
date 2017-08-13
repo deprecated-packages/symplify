@@ -12,6 +12,7 @@ use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use PhpCsFixer\WhitespacesFixerConfig;
 use SplFileInfo;
+use Symplify\CodingStandard\Tokenizer\ArrayTokensAnalyzer;
 
 final class StandaloneLineInMultilineArrayFixer implements DefinedFixerInterface, WhitespacesAwareFixerInterface
 {
@@ -70,7 +71,9 @@ $values = [1 => \'hey\', 2 => \'hello\'];'
                 continue;
             }
 
-            $arrayEndIndex = $this->detectArrayEndPosition($tokens, $index);
+            $arrayTokensAnalyzer = new ArrayTokensAnalyzer($tokens, $index);
+            $arrayEndIndex = $arrayTokensAnalyzer->getEndIndex();
+            $this->isOldArray = $arrayTokensAnalyzer->isOldArray();
 
             if (! $this->isAssociativeArray($tokens, $index, $arrayEndIndex)) {
                 continue;
@@ -117,17 +120,7 @@ $values = [1 => \'hey\', 2 => \'hello\'];'
         for ($i = $arrayEndIndex - 1; $i >= $arrayStartIndex; --$i) {
             $token = $tokens[$i];
 
-            if ($token->isGivenKind(CT::T_ARRAY_SQUARE_BRACE_CLOSE)) {
-                // @wtf: with 3rd arg false works like findBlockStart(),
-                $blockStart = $tokens->findBlockEnd(Tokens::BLOCK_TYPE_ARRAY_SQUARE_BRACE, $i, false);
-                $tokenCountToSkipOver = $i - $blockStart;
-                $i -= $tokenCountToSkipOver;
-            } elseif ($token->getContent() === ')') {
-                $blockStart = $tokens->findBlockEnd(Tokens::BLOCK_TYPE_PARENTHESIS_BRACE, $i, false);
-                $tokenCountToSkipOver = $i - $blockStart;
-
-                $i -= $tokenCountToSkipOver;
-            }
+            $i = $this->skipBlocks($tokens, $token, $i);
 
             if ($token->getContent() !== ',') { // item separator
                 continue;
@@ -143,22 +136,6 @@ $values = [1 => \'hey\', 2 => \'hello\'];'
 
         $this->insertNewlineBeforeClosingIfNeeded($tokens, $arrayEndIndex);
         $this->insertNewlineAfterOpeningIfNeeded($tokens, $arrayStartIndex);
-    }
-
-    /**
-     * @todo Move to ArrayTokensAnalyzer class
-     */
-    private function detectArrayEndPosition(Tokens $tokens, int $startIndex): int
-    {
-        if ($tokens[$startIndex]->isGivenKind(T_ARRAY)) {
-            $this->isOldArray = true;
-
-            return $tokens->findBlockEnd(Tokens::BLOCK_TYPE_PARENTHESIS_BRACE, $startIndex + 1);
-        }
-
-        $this->isOldArray = false;
-
-        return $tokens->findBlockEnd(Tokens::BLOCK_TYPE_ARRAY_SQUARE_BRACE, $startIndex);
     }
 
     /**
@@ -255,5 +232,23 @@ $values = [1 => \'hey\', 2 => \'hello\'];'
         }
 
         return 0;
+    }
+
+    private function skipBlocks(Tokens $tokens, Token $token, int $i): int
+    {
+        $tokenCountToSkipOver = 0;
+
+        if ($token->isGivenKind(CT::T_ARRAY_SQUARE_BRACE_CLOSE)) {
+            // @wtf: with 3rd arg false works like "findBlockStart()"
+            $blockStart = $tokens->findBlockEnd(Tokens::BLOCK_TYPE_ARRAY_SQUARE_BRACE, $i, false);
+            $tokenCountToSkipOver = $i - $blockStart;
+        }
+
+        if ($token->getContent() === ')') {
+            $blockStart = $tokens->findBlockEnd(Tokens::BLOCK_TYPE_PARENTHESIS_BRACE, $i, false);
+            $tokenCountToSkipOver = $i - $blockStart;
+        }
+
+        return $i - $tokenCountToSkipOver;
     }
 }
