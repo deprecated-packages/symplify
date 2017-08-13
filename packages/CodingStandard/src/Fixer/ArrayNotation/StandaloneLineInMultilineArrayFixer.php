@@ -52,7 +52,7 @@ final class StandaloneLineInMultilineArrayFixer implements DefinedFixerInterface
             [
                 new CodeSample(
                     '<?php
-$values = [ 1 => \'hey\', 2 => \'hello\' ];'
+$values = [1 => \'hey\', 2 => \'hello\'];'
                 ),
             ]
         );
@@ -108,36 +108,38 @@ $values = [ 1 => \'hey\', 2 => \'hello\' ];'
     private function fixArray(Tokens $tokens, int $arrayStartIndex, int $arrayEndIndex): void
     {
         $itemCount = $this->getItemCount($tokens, $arrayEndIndex, $arrayStartIndex);
-
-        $indentLevel = $this->getIndentLevel($tokens, $arrayStartIndex);
-        $this->indentWhitespace = str_repeat($this->whitespacesFixerConfig->getIndent(), $indentLevel + 1);
-        $this->newlineIndentWhitespace = $this->whitespacesFixerConfig->getLineEnding() . $this->indentWhitespace;
-
-        $isDivedInAnotherArray = false;
-
         if ($itemCount <= 1) {
             return;
         }
 
+        $this->prepareIndentWhitespaces($tokens, $arrayStartIndex);
+
+//        $isDivedInAnotherArray = false;
+
         for ($i = $arrayEndIndex - 1; $i >= $arrayStartIndex; --$i) {
             $token = $tokens[$i];
 
-            if ($isDivedInAnotherArray === false) {
+//            if ($isDivedInAnotherArray === false) {
                 if ($token->isGivenKind(self::ARRAY_CLOSING_TOKENS) || $token->getContent() === ')') {
                     $isDivedInAnotherArray = true;
-                }
-            }
 
-            if ($isDivedInAnotherArray) {
-                if ($token->isGivenKind(self::ARRAY_OPEN_TOKENS) || $token->getContent() === '(') {
-                    $isDivedInAnotherArray = false;
+                    // @wtf: with 3rd arg false works like findBlockStart(),
+                    $blockStart = $tokens->findBlockEnd(Tokens::BLOCK_TYPE_ARRAY_SQUARE_BRACE, $i, false);
+                    $tokenCountToSkipOver = $i - $blockStart;
+                    $i -= $tokenCountToSkipOver;
                 }
-            }
+//            }
 
-            // do not process dived arrays in this run
-            if ($isDivedInAnotherArray) {
-                continue;
-            }
+//            if ($isDivedInAnotherArray) {
+//                if ($token->isGivenKind(self::ARRAY_OPEN_TOKENS) || $token->getContent() === '(') {
+//                    $isDivedInAnotherArray = false;
+//                }
+//            }
+
+//            // do not process dived arrays in this run
+//            if ($isDivedInAnotherArray) {
+//                continue;
+//            }
 
             if ($token->getContent() !== ',') { // item separator
                 continue;
@@ -155,6 +157,9 @@ $values = [ 1 => \'hey\', 2 => \'hello\' ];'
         $this->insertNewlineAfterOpeningIfNeeded($tokens, $arrayStartIndex);
     }
 
+    /**
+     * @todo Move to ArrayTokensAnalyzer class
+     */
     private function detectArrayEndPosition(Tokens $tokens, int $startIndex): int
     {
         if ($tokens[$startIndex]->isGivenKind(T_ARRAY)) {
@@ -168,6 +173,9 @@ $values = [ 1 => \'hey\', 2 => \'hello\' ];'
         return $tokens->findBlockEnd(Tokens::BLOCK_TYPE_ARRAY_SQUARE_BRACE, $startIndex);
     }
 
+    /**
+     * @todo Move to ArrayTokensAnalyzer class
+     */
     private function isAssociativeArray(Tokens $tokens, int $startIndex, int $endIndex): bool
     {
         $isDivedInAnotherArray = false;
@@ -221,6 +229,9 @@ $values = [ 1 => \'hey\', 2 => \'hello\' ];'
         ]);
     }
 
+    /**
+     * @todo Move to ArrayTokensAnalyzer class
+     */
     private function getItemCount(Tokens $tokens, int $arrayEndIndex, int $arrayStartIndex): int
     {
         $itemCount = 0;
@@ -234,6 +245,17 @@ $values = [ 1 => \'hey\', 2 => \'hello\' ];'
         return $itemCount;
     }
 
+    private function prepareIndentWhitespaces(Tokens $tokens, int $arrayStartIndex): void
+    {
+        $indentLevel = $this->getIndentLevel($tokens, $arrayStartIndex);
+
+        $this->indentWhitespace = str_repeat($this->whitespacesFixerConfig->getIndent(), $indentLevel + 1);
+        $this->newlineIndentWhitespace = $this->whitespacesFixerConfig->getLineEnding() . $this->indentWhitespace;
+    }
+
+    /**
+     * @todo Move to helper class
+     */
     private function getIndentLevel(Tokens $tokens, int $arrayStartIndex): int
     {
         for ($i = $arrayStartIndex; $i > 0; --$i) {
