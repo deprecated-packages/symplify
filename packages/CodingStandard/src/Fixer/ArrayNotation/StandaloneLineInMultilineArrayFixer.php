@@ -13,6 +13,7 @@ use PhpCsFixer\Tokenizer\Tokens;
 use PhpCsFixer\WhitespacesFixerConfig;
 use SplFileInfo;
 use Symplify\CodingStandard\Tokenizer\ArrayTokensAnalyzer;
+use Symplify\CodingStandard\Tokenizer\IndentDetector;
 
 final class StandaloneLineInMultilineArrayFixer implements DefinedFixerInterface, WhitespacesAwareFixerInterface
 {
@@ -45,6 +46,11 @@ final class StandaloneLineInMultilineArrayFixer implements DefinedFixerInterface
      * @var string
      */
     private $newlineIndentWhitespace;
+
+    /**
+     * @var IndentDetector
+     */
+    private $indentDetector;
 
     public function getDefinition(): FixerDefinitionInterface
     {
@@ -106,6 +112,7 @@ $values = [1 => \'hey\', 2 => \'hello\'];'
     public function setWhitespacesConfig(WhitespacesFixerConfig $whitespacesFixerConfig): void
     {
         $this->whitespacesFixerConfig = $whitespacesFixerConfig;
+        $this->indentDetector = new IndentDetector($whitespacesFixerConfig);
     }
 
     private function fixArray(Tokens $tokens, int $arrayStartIndex, int $arrayEndIndex): void
@@ -212,26 +219,10 @@ $values = [1 => \'hey\', 2 => \'hello\'];'
 
     private function prepareIndentWhitespaces(Tokens $tokens, int $arrayStartIndex): void
     {
-        $indentLevel = $this->getIndentLevel($tokens, $arrayStartIndex);
+        $indentLevel = $this->indentDetector->detectOnPosition($tokens, $arrayStartIndex);
 
         $this->indentWhitespace = str_repeat($this->whitespacesFixerConfig->getIndent(), $indentLevel + 1);
         $this->newlineIndentWhitespace = $this->whitespacesFixerConfig->getLineEnding() . $this->indentWhitespace;
-    }
-
-    /**
-     * @todo Move to helper class
-     */
-    private function getIndentLevel(Tokens $tokens, int $arrayStartIndex): int
-    {
-        for ($i = $arrayStartIndex; $i > 0; --$i) {
-            $token = $tokens[$i];
-
-            if ($token->isWhitespace() && $token->getContent() !== ' ') {
-                return substr_count($token->getContent(), $this->whitespacesFixerConfig->getIndent());
-            }
-        }
-
-        return 0;
     }
 
     private function skipBlocks(Tokens $tokens, Token $token, int $i): int
