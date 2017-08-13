@@ -36,11 +36,6 @@ final class StandaloneLineInMultilineArrayFixer implements DefinedFixerInterface
     private $isOldArray = false;
 
     /**
-     * @var bool
-     */
-    private $isDivedInAnotherArray = false;
-
-    /**
      * @var string
      */
     private $indentWhitespace;
@@ -118,7 +113,7 @@ $values = [ 1 => \'hey\', 2 => \'hello\' ];'
         $this->indentWhitespace = str_repeat($this->whitespacesFixerConfig->getIndent(), $indentLevel + 1);
         $this->newlineIndentWhitespace = $this->whitespacesFixerConfig->getLineEnding() . $this->indentWhitespace;
 
-        $this->isDivedInAnotherArray = false;
+        $isDivedInAnotherArray = false;
 
         if ($itemCount <= 1) {
             return;
@@ -127,16 +122,16 @@ $values = [ 1 => \'hey\', 2 => \'hello\' ];'
         for ($i = $arrayEndIndex - 1; $i >= $arrayStartIndex; --$i) {
             $token = $tokens[$i];
 
-            if ($this->isDivedInAnotherArray === false && $token->isGivenKind(self::ARRAY_CLOSING_TOKENS)) {
-                $this->isDivedInAnotherArray = true;
+            if ($isDivedInAnotherArray === false && $token->isGivenKind(self::ARRAY_CLOSING_TOKENS)) {
+                $isDivedInAnotherArray = true;
             }
 
-            if ($this->isDivedInAnotherArray && $token->isGivenKind(self::ARRAY_OPEN_TOKENS)) {
-                $this->isDivedInAnotherArray = false;
+            if ($isDivedInAnotherArray && $token->isGivenKind(self::ARRAY_OPEN_TOKENS)) {
+                $isDivedInAnotherArray = false;
             }
 
             // do not process dived arrays in this run
-            if ($this->isDivedInAnotherArray) {
+            if ($isDivedInAnotherArray) {
                 continue;
             }
 
@@ -159,10 +154,9 @@ $values = [ 1 => \'hey\', 2 => \'hello\' ];'
     private function detectArrayEndPosition(Tokens $tokens, int $startIndex): int
     {
         if ($tokens[$startIndex]->isGivenKind(T_ARRAY)) {
-            $startIndex = $tokens->getNextTokenOfKind($startIndex, ['(']);
             $this->isOldArray = true;
 
-            return $tokens->findBlockEnd(Tokens::BLOCK_TYPE_PARENTHESIS_BRACE, $startIndex);
+            return $tokens->findBlockEnd(Tokens::BLOCK_TYPE_PARENTHESIS_BRACE, $startIndex + 1);
         }
 
         $this->isOldArray = false;
