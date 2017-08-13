@@ -11,7 +11,6 @@ final class ArrayTokensAnalyzer
      * @var int[]
      */
     private const ARRAY_OPEN_TOKENS = [T_ARRAY, CT::T_ARRAY_SQUARE_BRACE_OPEN];
-
     /**
      * @var int[]
      */
@@ -27,6 +26,11 @@ final class ArrayTokensAnalyzer
      */
     private $startIndex;
 
+    /**
+     * @var int
+     */
+    private $endIndex;
+
     public function __construct(Tokens $tokens, int $startIndex)
     {
         $this->tokens = $tokens;
@@ -34,18 +38,29 @@ final class ArrayTokensAnalyzer
         $this->startToken = $tokens[$startIndex];
     }
 
-    public function isOldArray(): bool
+    public function getStartIndex(): int
     {
-        return (bool) $this->startToken->isGivenKind(T_ARRAY);
+        return $this->startIndex;
     }
 
     public function getEndIndex(): int
     {
-        if ($this->isOldArray()) {
-            return $this->tokens->findBlockEnd(Tokens::BLOCK_TYPE_PARENTHESIS_BRACE, $this->startIndex + 1);
+        if ($this->endIndex) {
+            return $this->endIndex;
         }
 
-        return $this->tokens->findBlockEnd(Tokens::BLOCK_TYPE_ARRAY_SQUARE_BRACE, $this->startIndex);
+        if ($this->isOldArray()) {
+            $this->endIndex = $this->tokens->findBlockEnd(Tokens::BLOCK_TYPE_PARENTHESIS_BRACE, $this->startIndex + 1);
+        } else {
+            $this->endIndex = $this->tokens->findBlockEnd(Tokens::BLOCK_TYPE_ARRAY_SQUARE_BRACE, $this->startIndex);
+        }
+
+        return $this->endIndex;
+    }
+
+    public function isOldArray(): bool
+    {
+        return (bool) $this->startToken->isGivenKind(T_ARRAY);
     }
 
     public function isAssociativeArray(): bool

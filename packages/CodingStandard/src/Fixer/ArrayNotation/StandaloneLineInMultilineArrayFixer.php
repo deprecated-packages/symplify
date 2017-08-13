@@ -81,7 +81,7 @@ $values = [1 => \'hey\', 2 => \'hello\'];'
                 continue;
             }
 
-            $this->fixArray($tokens, $index, $arrayEndIndex, $arrayTokensAnalyzer);
+            $this->fixArray($tokens, $arrayTokensAnalyzer);
         }
     }
 
@@ -111,16 +111,16 @@ $values = [1 => \'hey\', 2 => \'hello\'];'
         $this->indentDetector = new IndentDetector($whitespacesFixerConfig);
     }
 
-    private function fixArray(Tokens $tokens, int $arrayStartIndex, int $arrayEndIndex, ArrayTokensAnalyzer $arrayTokensAnalyzer): void
+    private function fixArray(Tokens $tokens, ArrayTokensAnalyzer $arrayTokensAnalyzer): void
     {
         $itemCount = $arrayTokensAnalyzer->getItemCount();
         if ($itemCount <= 1) {
             return;
         }
 
-        $this->prepareIndentWhitespaces($tokens, $arrayStartIndex);
+        $this->prepareIndentWhitespaces($tokens, $arrayTokensAnalyzer->getStartIndex());
 
-        for ($i = $arrayEndIndex - 1; $i >= $arrayStartIndex; --$i) {
+        for ($i = $arrayTokensAnalyzer->getEndIndex() - 1; $i >= $arrayTokensAnalyzer->getStartIndex(); --$i) {
             $token = $tokens[$i];
 
             $i = $this->skipBlocks($tokens, $token, $i);
@@ -137,8 +137,8 @@ $values = [1 => \'hey\', 2 => \'hello\'];'
             }
         }
 
-        $this->insertNewlineBeforeClosingIfNeeded($tokens, $arrayEndIndex);
-        $this->insertNewlineAfterOpeningIfNeeded($tokens, $arrayStartIndex);
+        $this->insertNewlineBeforeClosingIfNeeded($tokens, $arrayTokensAnalyzer->getEndIndex());
+        $this->insertNewlineAfterOpeningIfNeeded($tokens, $arrayTokensAnalyzer->getStartIndex());
     }
 
     private function insertNewlineAfterOpeningIfNeeded(Tokens $tokens, int $arrayStartIndex): void
@@ -148,11 +148,7 @@ $values = [1 => \'hey\', 2 => \'hello\'];'
             return;
         }
 
-        $tokens[$arrayStartIndex + $offset]->clear();
-        $tokens->insertAt($arrayStartIndex + $offset, [
-            $this->isOldArray ? new Token('(') : new Token([CT::T_ARRAY_SQUARE_BRACE_OPEN, '[']),
-            new Token([T_WHITESPACE, $this->newlineIndentWhitespace]),
-        ]);
+        $tokens->ensureWhitespaceAtIndex($arrayStartIndex + $offset, 1, $this->newlineIndentWhitespace);
     }
 
     private function insertNewlineBeforeClosingIfNeeded(Tokens $tokens, int $arrayEndIndex): void
@@ -161,11 +157,7 @@ $values = [1 => \'hey\', 2 => \'hello\'];'
             return;
         }
 
-        $tokens[$arrayEndIndex]->clear();
-        $tokens->insertAt($arrayEndIndex, [
-            new Token([T_WHITESPACE, $this->whitespacesFixerConfig->getLineEnding()]),
-            $this->isOldArray ? new Token(')') : new Token([CT::T_ARRAY_SQUARE_BRACE_CLOSE, ']']),
-        ]);
+        $tokens->ensureWhitespaceAtIndex($arrayEndIndex, 0, $this->whitespacesFixerConfig->getLineEnding());
     }
 
     private function prepareIndentWhitespaces(Tokens $tokens, int $arrayStartIndex): void

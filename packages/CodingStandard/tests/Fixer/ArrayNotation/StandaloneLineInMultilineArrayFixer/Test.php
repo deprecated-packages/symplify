@@ -51,9 +51,13 @@ final class Test extends AbstractFixerTestCase
     protected function createFixer(): FixerInterface
     {
         $standaloneLineInMultilineArrayFixer = new StandaloneLineInMultilineArrayFixer;
-        $whitespacesFixerConfig = new WhitespacesFixerConfig('    ', PHP_EOL);
-        $standaloneLineInMultilineArrayFixer->setWhitespacesConfig($whitespacesFixerConfig);
+        $standaloneLineInMultilineArrayFixer->setWhitespacesConfig($this->createWhitespacesFixerConfig());
 
         return $standaloneLineInMultilineArrayFixer;
+    }
+
+    private function createWhitespacesFixerConfig(): WhitespacesFixerConfig
+    {
+        return new WhitespacesFixerConfig('    ', PHP_EOL);
     }
 }
