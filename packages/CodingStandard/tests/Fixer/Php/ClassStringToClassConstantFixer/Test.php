@@ -1,12 +1,12 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Fixer\Naming;
+namespace Symplify\CodingStandard\Tests\Fixer\Php\ClassStringToClassConstantFixer;
 
 use PhpCsFixer\Fixer\FixerInterface;
 use PhpCsFixer\Test\AbstractFixerTestCase;
-use Symplify\CodingStandard\Fixer\Naming\MagicMethodsNamingFixer;
+use Symplify\CodingStandard\Fixer\Php\ClassStringToClassConstantFixer;
 
-final class MagicMethodsNamingFixerTest extends AbstractFixerTestCase
+final class Test extends AbstractFixerTestCase
 {
     /**
      * @dataProvider provideFixCases()
@@ -39,6 +39,6 @@ final class MagicMethodsNamingFixerTest extends AbstractFixerTestCase
 
     protected function createFixer(): FixerInterface
     {
-        return new MagicMethodsNamingFixer;
+        return new ClassStringToClassConstantFixer;
     }
 }
