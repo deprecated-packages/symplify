@@ -40,6 +40,16 @@ final class StandaloneLineInMultilineArrayFixer implements DefinedFixerInterface
      */
     private $isDivedInAnotherArray = false;
 
+    /**
+     * @var string
+     */
+    private $indentWhitespace;
+
+    /**
+     * @var string
+     */
+    private $newlineIndentWhitespace;
+
     public function getDefinition(): FixerDefinitionInterface
     {
         return new FixerDefinition(
@@ -105,6 +115,10 @@ $values = [ 1 => \'hey\', 2 => \'hello\' ];'
     {
         $itemCount = $this->getItemCount($tokens, $arrayEndIndex, $arrayStartIndex);
 
+        $indentLevel = $this->getIndentLevel($tokens, $arrayStartIndex);
+        $this->indentWhitespace = str_repeat($this->whitespacesFixerConfig->getIndent(), $indentLevel + 1);
+        $this->newlineIndentWhitespace = $this->whitespacesFixerConfig->getLineEnding() . $this->indentWhitespace;
+
         $this->isDivedInAnotherArray = false;
 
         if ($itemCount <= 1) {
@@ -134,7 +148,7 @@ $values = [ 1 => \'hey\', 2 => \'hello\' ];'
             $nextToken = $tokens[$i + 1];
             // if next token is just space, turn it to newline
             if ($nextToken->isWhitespace(' ')) {
-                $tokens[$i + 1] = new Token([T_WHITESPACE, $this->whitespacesFixerConfig->getLineEnding()]);
+                $tokens[$i + 1] = new Token([T_WHITESPACE, $this->newlineIndentWhitespace]);
                 ++$i;
             }
         }
@@ -159,21 +173,19 @@ $values = [ 1 => \'hey\', 2 => \'hello\' ];'
 
     private function isAssociativeArray(Tokens $tokens, int $startIndex, int $endIndex): bool
     {
-        $this->isDivedInAnotherArray = false;
+        $isDivedInAnotherArray = false;
 
         for ($i = $startIndex + 1; $i <= $endIndex - 1; ++$i) {
             $token = $tokens[$i];
 
-            if ($this->isDivedInAnotherArray === false && $token->isGivenKind(self::ARRAY_OPEN_TOKENS)) {
-                $this->isDivedInAnotherArray = true;
-            }
-
-            if ($this->isDivedInAnotherArray && $token->isGivenKind(self::ARRAY_CLOSING_TOKENS)) {
-                $this->isDivedInAnotherArray = false;
+            if ($isDivedInAnotherArray === false && $token->isGivenKind(self::ARRAY_OPEN_TOKENS)) {
+                $isDivedInAnotherArray = true;
+            } elseif ($isDivedInAnotherArray && $token->isGivenKind(self::ARRAY_CLOSING_TOKENS)) {
+                $isDivedInAnotherArray = false;
             }
 
             // do not process dived arrays in this run
-            if ($this->isDivedInAnotherArray) {
+            if ($isDivedInAnotherArray) {
                 continue;
             }
 
@@ -195,7 +207,7 @@ $values = [ 1 => \'hey\', 2 => \'hello\' ];'
         $tokens[$arrayStartIndex + $offset]->clear();
         $tokens->insertAt($arrayStartIndex + $offset, [
             $this->isOldArray ? new Token('(') : new Token([CT::T_ARRAY_SQUARE_BRACE_OPEN, '[']),
-            new Token([T_WHITESPACE, $this->whitespacesFixerConfig->getLineEnding()]),
+            new Token([T_WHITESPACE, $this->newlineIndentWhitespace]),
         ]);
     }
 
@@ -223,5 +235,18 @@ $values = [ 1 => \'hey\', 2 => \'hello\' ];'
         }
 
         return $itemCount;
+    }
+
+    private function getIndentLevel(Tokens $tokens, int $arrayStartIndex): int
+    {
+        for ($i = $arrayStartIndex; $i > 0; --$i) {
+            $token = $tokens[$i];
+
+            if ($token->isWhitespace() && $token->getContent() !== ' ') {
+                return substr_count($token->getContent(), $this->whitespacesFixerConfig->getIndent());
+            }
+        }
+
+        return 0;
     }
 }
