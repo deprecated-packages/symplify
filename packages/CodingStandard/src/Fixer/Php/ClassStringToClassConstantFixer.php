@@ -46,13 +46,13 @@ final class ClassStringToClassConstantFixer implements DefinedFixerInterface
             }
 
             // remove quotes "" around the string
-            $potentialClassOrInterface = substr($token->getContent(), 1, -1);
-            if (! $this->isClassOrInterface($potentialClassOrInterface)) {
+            $potentialClassInterfaceOrTrait = substr($token->getContent(), 1, -1);
+            if (! $this->isClassInterfaceOrTrait($potentialClassInterfaceOrTrait)) {
                 continue;
             }
 
             unset($tokens[$index]);
-            $tokens->insertAt($index, $this->convertClassOrInterfaceNameToTokens($potentialClassOrInterface));
+            $tokens->insertAt($index, $this->convertNameToTokens($potentialClassInterfaceOrTrait));
         }
     }
 
@@ -68,7 +68,7 @@ final class ClassStringToClassConstantFixer implements DefinedFixerInterface
 
     public function getPriority(): int
     {
-        // should be run before the OrderedImportsFixer, after the NoLeadingImportSlashFixer
+        // run before the OrderedImportsFixer, after the NoLeadingImportSlashFixer
         return -25;
     }
 
@@ -77,26 +77,27 @@ final class ClassStringToClassConstantFixer implements DefinedFixerInterface
         return true;
     }
 
-    private function isClassOrInterface(string $potentialClassOrInterface): bool
+    private function isClassInterfaceOrTrait(string $potentialClassInterfaceOrTrait): bool
     {
-        // exception for often used "error" string; because class_exists() is case-insensitive
-        if ($potentialClassOrInterface === 'error') {
+        // lowercase string are not classes; because class_exists() is case-insensitive
+        if (ctype_lower($potentialClassInterfaceOrTrait[0])) {
             return false;
         }
 
-        return class_exists($potentialClassOrInterface)
-            || interface_exists($potentialClassOrInterface)
-            || (bool) preg_match(self::CLASS_OR_INTERFACE_PATTERN, $potentialClassOrInterface);
+        return class_exists($potentialClassInterfaceOrTrait)
+            || interface_exists($potentialClassInterfaceOrTrait)
+            || trait_exists($potentialClassInterfaceOrTrait)
+            || (bool) preg_match(self::CLASS_OR_INTERFACE_PATTERN, $potentialClassInterfaceOrTrait);
     }
 
     /**
      * @return Token[]
      */
-    private function convertClassOrInterfaceNameToTokens(string $potentialClassOrInterface): array
+    private function convertNameToTokens(string $classInterfaceOrTraitName): array
     {
         $tokens = [];
 
-        $parts = explode('\\', $potentialClassOrInterface);
+        $parts = explode('\\', $classInterfaceOrTraitName);
         foreach ($parts as $part) {
             $tokens[] = new Token([T_NS_SEPARATOR, '\\']);
             $tokens[] = new Token([T_STRING, $part]);
