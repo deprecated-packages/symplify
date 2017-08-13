@@ -74,7 +74,6 @@ $values = [1 => \'hey\', 2 => \'hello\'];'
             }
 
             $arrayTokensAnalyzer = new ArrayTokensAnalyzer($tokens, $index);
-            $arrayEndIndex = $arrayTokensAnalyzer->getEndIndex();
             $this->isOldArray = $arrayTokensAnalyzer->isOldArray();
 
             if (! $arrayTokensAnalyzer->isAssociativeArray()) {
@@ -132,7 +131,7 @@ $values = [1 => \'hey\', 2 => \'hello\'];'
             $nextToken = $tokens[$i + 1];
             // if next token is just space, turn it to newline
             if ($nextToken->isWhitespace(' ')) {
-                $tokens[$i + 1] = new Token([T_WHITESPACE, $this->newlineIndentWhitespace]);
+                $tokens->ensureWhitespaceAtIndex($i + 1, 0, $this->newlineIndentWhitespace);
                 ++$i;
             }
         }
