@@ -114,32 +114,20 @@ $values = [1 => \'hey\', 2 => \'hello\'];'
 
         $this->prepareIndentWhitespaces($tokens, $arrayStartIndex);
 
-//        $isDivedInAnotherArray = false;
-
         for ($i = $arrayEndIndex - 1; $i >= $arrayStartIndex; --$i) {
             $token = $tokens[$i];
 
-//            if ($isDivedInAnotherArray === false) {
-                if ($token->isGivenKind(self::ARRAY_CLOSING_TOKENS) || $token->getContent() === ')') {
-                    $isDivedInAnotherArray = true;
+            if ($token->isGivenKind(CT::T_ARRAY_SQUARE_BRACE_CLOSE)) {
+                // @wtf: with 3rd arg false works like findBlockStart(),
+                $blockStart = $tokens->findBlockEnd(Tokens::BLOCK_TYPE_ARRAY_SQUARE_BRACE, $i, false);
+                $tokenCountToSkipOver = $i - $blockStart;
+                $i -= $tokenCountToSkipOver;
+            } elseif ($token->getContent() === ')') {
+                $blockStart = $tokens->findBlockEnd(Tokens::BLOCK_TYPE_PARENTHESIS_BRACE, $i, false);
+                $tokenCountToSkipOver = $i - $blockStart;
 
-                    // @wtf: with 3rd arg false works like findBlockStart(),
-                    $blockStart = $tokens->findBlockEnd(Tokens::BLOCK_TYPE_ARRAY_SQUARE_BRACE, $i, false);
-                    $tokenCountToSkipOver = $i - $blockStart;
-                    $i -= $tokenCountToSkipOver;
-                }
-//            }
-
-//            if ($isDivedInAnotherArray) {
-//                if ($token->isGivenKind(self::ARRAY_OPEN_TOKENS) || $token->getContent() === '(') {
-//                    $isDivedInAnotherArray = false;
-//                }
-//            }
-
-//            // do not process dived arrays in this run
-//            if ($isDivedInAnotherArray) {
-//                continue;
-//            }
+                $i -= $tokenCountToSkipOver;
+            }
 
             if ($token->getContent() !== ',') { // item separator
                 continue;
