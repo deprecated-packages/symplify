@@ -2,6 +2,7 @@
 
 namespace Symplify\CodingStandard\Tokenizer;
 
+use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 
 final class ArrayTokensAnalyzer
@@ -17,10 +18,14 @@ final class ArrayTokensAnalyzer
     private $startIndex;
 
     /**
+     * @var Token
+     */
+    private $startToken;
+
+    /**
      * @var int
      */
     private $endIndex;
-
     /**
      * @var TokenSkipper
      */
