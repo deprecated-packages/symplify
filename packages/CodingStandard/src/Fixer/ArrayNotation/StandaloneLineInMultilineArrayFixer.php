@@ -8,12 +8,12 @@ use PhpCsFixer\FixerDefinition\CodeSample;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Tokenizer\CT;
-use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use PhpCsFixer\WhitespacesFixerConfig;
 use SplFileInfo;
 use Symplify\CodingStandard\Tokenizer\ArrayTokensAnalyzer;
 use Symplify\CodingStandard\Tokenizer\IndentDetector;
+use Symplify\CodingStandard\Tokenizer\TokenSkipper;
 
 final class StandaloneLineInMultilineArrayFixer implements DefinedFixerInterface, WhitespacesAwareFixerInterface
 {
@@ -46,6 +46,16 @@ final class StandaloneLineInMultilineArrayFixer implements DefinedFixerInterface
      * @var IndentDetector
      */
     private $indentDetector;
+
+    /**
+     * @var TokenSkipper
+     */
+    private $tokenSkipper;
+
+    public function __construct()
+    {
+        $this->tokenSkipper = new TokenSkipper;
+    }
 
     public function getDefinition(): FixerDefinitionInterface
     {
@@ -120,10 +130,9 @@ $values = [1 => \'hey\', 2 => \'hello\'];'
         $this->prepareIndentWhitespaces($tokens, $arrayTokensAnalyzer->getStartIndex());
 
         for ($i = $arrayTokensAnalyzer->getEndIndex() - 1; $i >= $arrayTokensAnalyzer->getStartIndex(); --$i) {
+            $i = $this->tokenSkipper->skipBlocksReversed($tokens, $i);
+
             $token = $tokens[$i];
-
-            $i = $this->skipBlocks($tokens, $token, $i);
-
             if ($token->getContent() !== ',') { // item separator
                 continue;
             }
@@ -165,23 +174,5 @@ $values = [1 => \'hey\', 2 => \'hello\'];'
 
         $this->indentWhitespace = str_repeat($this->whitespacesFixerConfig->getIndent(), $indentLevel + 1);
         $this->newlineIndentWhitespace = $this->whitespacesFixerConfig->getLineEnding() . $this->indentWhitespace;
-    }
-
-    private function skipBlocks(Tokens $tokens, Token $token, int $i): int
-    {
-        $tokenCountToSkip = 0;
-
-        if ($token->isGivenKind(CT::T_ARRAY_SQUARE_BRACE_CLOSE)) {
-            // @wtf: with 3rd arg false works like "findBlockStart()"
-            $blockStart = $tokens->findBlockEnd(Tokens::BLOCK_TYPE_ARRAY_SQUARE_BRACE, $i, false);
-            $tokenCountToSkip = $i - $blockStart;
-        }
-
-        if ($token->getContent() === ')') {
-            $blockStart = $tokens->findBlockEnd(Tokens::BLOCK_TYPE_PARENTHESIS_BRACE, $i, false);
-            $tokenCountToSkip = $i - $blockStart;
-        }
-
-        return $i - $tokenCountToSkip;
     }
 }

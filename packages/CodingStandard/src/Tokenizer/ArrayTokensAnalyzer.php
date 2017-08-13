@@ -2,8 +2,6 @@
 
 namespace Symplify\CodingStandard\Tokenizer;
 
-use PhpCsFixer\Tokenizer\CT;
-use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 
 final class ArrayTokensAnalyzer
@@ -23,11 +21,17 @@ final class ArrayTokensAnalyzer
      */
     private $endIndex;
 
+    /**
+     * @var TokenSkipper
+     */
+    private $tokenSkipper;
+
     public function __construct(Tokens $tokens, int $startIndex)
     {
         $this->tokens = $tokens;
         $this->startIndex = $startIndex;
         $this->startToken = $tokens[$startIndex];
+        $this->tokenSkipper = new TokenSkipper;
     }
 
     public function getStartIndex(): int
@@ -58,9 +62,7 @@ final class ArrayTokensAnalyzer
     public function isAssociativeArray(): bool
     {
         for ($i = $this->startIndex + 1; $i <= $this->getEndIndex() - 1; ++$i) {
-            $token = $this->tokens[$i];
-
-            $i = $this->skipBlocksReverse($this->tokens, $token, $i);
+            $i = $this->tokenSkipper->skipBlocks($this->tokens, $i);
 
             $token = $this->tokens[$i];
 
@@ -83,22 +85,5 @@ final class ArrayTokensAnalyzer
         }
 
         return $itemCount;
-    }
-
-    private function skipBlocksReverse(Tokens $tokens, Token $token, int $i): int
-    {
-        $tokenCountToSkip = 0;
-
-        if ($token->isGivenKind(CT::T_ARRAY_SQUARE_BRACE_OPEN)) {
-            $blockEnd = $tokens->findBlockEnd(Tokens::BLOCK_TYPE_ARRAY_SQUARE_BRACE, $i);
-            $tokenCountToSkip = $blockEnd - $i;
-        }
-
-        if ($token->isGivenKind(T_ARRAY) && $token->getContent() === '(') {
-            $blockEnd = $tokens->findBlockEnd(Tokens::BLOCK_TYPE_PARENTHESIS_BRACE, $i);
-            $tokenCountToSkip = $blockEnd - $i;
-        }
-
-        return $i + $tokenCountToSkip;
     }
 }
