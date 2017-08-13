@@ -114,15 +114,12 @@ public $property;'
 
     private function addDefaultValueForArrayProperty(Tokens $tokens, int $semicolonPosition): void
     {
-        $tokens[$semicolonPosition]->clear();
-
         $tokens->insertAt($semicolonPosition, [
             new Token([T_WHITESPACE, ' ']),
             new Token('='),
             new Token([T_WHITESPACE, ' ']),
             new Token([CT::T_ARRAY_SQUARE_BRACE_OPEN, '[']),
             new Token([CT::T_ARRAY_SQUARE_BRACE_CLOSE, ']']),
-            new Token(';'),
         ]);
     }
 }

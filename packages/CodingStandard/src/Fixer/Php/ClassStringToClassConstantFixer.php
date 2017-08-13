@@ -6,6 +6,7 @@ use PhpCsFixer\Fixer\DefinedFixerInterface;
 use PhpCsFixer\FixerDefinition\CodeSample;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
+use PhpCsFixer\Tokenizer\CT;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
@@ -15,7 +16,7 @@ final class ClassStringToClassConstantFixer implements DefinedFixerInterface
     /**
      * @var string
      */
-    private const CLASS_OR_INTERFACE_PATTERN = '#^[A-Z]\w*[a-z]\w*(\\\\[A-Z]\w*[a-z]\w*)+\z#';
+    private const CLASS_INTERFACE_OR_TRAIT_PATTERN = '#^[A-Z]\w*[a-z]\w*(\\\\[A-Z]\w*[a-z]\w*)+\z#';
 
     public function getDefinition(): FixerDefinitionInterface
     {
@@ -45,13 +46,13 @@ final class ClassStringToClassConstantFixer implements DefinedFixerInterface
             }
 
             // remove quotes "" around the string
-            $potentialClassOrInterface = substr($token->getContent(), 1, -1);
-            if (! $this->isClassOrInterface($potentialClassOrInterface)) {
+            $potentialClassInterfaceOrTrait = substr($token->getContent(), 1, -1);
+            if (! $this->isClassInterfaceOrTrait($potentialClassInterfaceOrTrait)) {
                 continue;
             }
 
-            $token->clear();
-            $tokens->insertAt($index, $this->convertClassOrInterfaceNameToTokens($potentialClassOrInterface));
+            unset($tokens[$index]);
+            $tokens->insertAt($index, $this->convertNameToTokens($potentialClassInterfaceOrTrait));
         }
     }
 
@@ -67,7 +68,7 @@ final class ClassStringToClassConstantFixer implements DefinedFixerInterface
 
     public function getPriority(): int
     {
-        // should be run before the OrderedImportsFixer, after the NoLeadingImportSlashFixer
+        // run before the OrderedImportsFixer, after the NoLeadingImportSlashFixer
         return -25;
     }
 
@@ -76,28 +77,38 @@ final class ClassStringToClassConstantFixer implements DefinedFixerInterface
         return true;
     }
 
-    private function isClassOrInterface(string $potentialClassOrInterface): bool
+    private function isClassInterfaceOrTrait(string $potentialClassInterfaceOrTrait): bool
     {
-        // exception for often used "error" string; because class_exists() is case-insensitive
-        if ($potentialClassOrInterface === 'error') {
+        if ($potentialClassInterfaceOrTrait === '') {
             return false;
         }
 
-        return class_exists($potentialClassOrInterface)
-            || interface_exists($potentialClassOrInterface)
-            || (bool) preg_match(self::CLASS_OR_INTERFACE_PATTERN, $potentialClassOrInterface);
+        // lowercase string are not classes; because class_exists() is case-insensitive
+        if (ctype_lower($potentialClassInterfaceOrTrait[0])) {
+            return false;
+        }
+
+        return class_exists($potentialClassInterfaceOrTrait)
+            || interface_exists($potentialClassInterfaceOrTrait)
+            || trait_exists($potentialClassInterfaceOrTrait)
+            || (bool) preg_match(self::CLASS_INTERFACE_OR_TRAIT_PATTERN, $potentialClassInterfaceOrTrait);
     }
 
-    private function convertClassOrInterfaceNameToTokens(string $potentialClassOrInterface): Tokens
+    /**
+     * @return Token[]
+     */
+    private function convertNameToTokens(string $classInterfaceOrTraitName): array
     {
-        $tokens = Tokens::fromCode(sprintf(
-            '<?php echo \\%s::class;',
-            $potentialClassOrInterface
-        ));
+        $tokens = [];
 
-        $tokens->clearRange(0, 2); // clear start "<?php"
-        $tokens[$tokens->getSize() - 1]->clear(); // clear end ";"
-        $tokens->clearEmptyTokens();
+        $parts = explode('\\', $classInterfaceOrTraitName);
+        foreach ($parts as $part) {
+            $tokens[] = new Token([T_NS_SEPARATOR, '\\']);
+            $tokens[] = new Token([T_STRING, $part]);
+        }
+
+        $tokens[] = new Token([T_DOUBLE_COLON, '::']);
+        $tokens[] = new Token([CT::T_CLASS_CONSTANT, 'class']);
 
         return $tokens;
     }

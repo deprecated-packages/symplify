@@ -10,7 +10,7 @@ final class MutualCheckerExcluder
      *
      * @var string[][]
      */
-    private $matchingCheckerGroups = [
+    private static $matchingCheckerGroups = [
         [
             'SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff',
             'Symplify\CodingStandard\Sniffs\Commenting\VarPropertyCommentSniff',
@@ -50,6 +50,51 @@ final class MutualCheckerExcluder
         [
             'PhpCsFixer\Fixer\ArrayNotation\ArraySyntaxFixer',
             'PHP_CodeSniffer\Standards\Generic\Sniffs\Arrays\DisallowLongArraySyntaxSniff',
+        ], [
+            'PhpCsFixer\Fixer\Casing\LowercaseKeywordsFixer',
+            'PHP_CodeSniffer\Standards\Squiz\Sniffs\Classes\LowercaseClassKeywordsSniff',
+        ], [
+            'PhpCsFixer\Fixer\Casing\LowercaseKeywordsFixer',
+            'PHP_CodeSniffer\Standards\Generic\Sniffs\PHP\LowerCaseKeywordSniff',
+        ], [
+            'PhpCsFixer\Fixer\Import\SingleImportPerStatementFixer',
+            'PHP_CodeSniffer\Standards\PSR2\Sniffs\Namespaces\UseDeclarationSniff',
+        ], [
+            'PhpCsFixer\Fixer\Import\SingleImportPerStatementFixer',
+            'SlevomatCodingStandard\Sniffs\Namespaces\DisallowGroupUseSniff',
+        ], [
+            'PhpCsFixer\Fixer\Import\SingleImportPerStatementFixer',
+            'SlevomatCodingStandard\Sniffs\Namespaces\MultipleUsesPerLineSniff',
+        ], [
+            'PhpCsFixer\Fixer\Phpdoc\PhpdocScalarFixer',
+            'SlevomatCodingStandard\Sniffs\TypeHints\LongTypeHintsSniff',
+        ], [
+            'PhpCsFixer\Fixer\Import\OrderedImportsFixer',
+            'SlevomatCodingStandard\Sniffs\Namespaces\AlphabeticallySortedUsesSniff',
+        ], [
+            'PhpCsFixer\Fixer\Import\NoUnusedImportsFixer',
+            'SlevomatCodingStandard\Sniffs\Namespaces\UnusedUses',
+        ], [
+            'PhpCsFixer\Fixer\ArrayNotation\TrailingCommaInMultilineArrayFixer',
+            'SlevomatCodingStandard\Sniffs\Arrays\TrailingArrayCommaSniff',
+        ], [
+            'PhpCsFixer\Fixer\ControlStructure\NoUnneededControlParenthesesFixer',
+            'SlevomatCodingStandard\Sniffs\ControlStructures\LanguageConstructWithParenthesesSniff',
+        ], [
+            'PhpCsFixer\Fixer\Basic\Psr4Fixer',
+            'SlevomatCodingStandard\Sniffs\Files\TypeNameMatchesFileNameSniff',
+        ], [
+            'PhpCsFixer\Fixer\FunctionNotation\ReturnTypeDeclarationFixer',
+            'SlevomatCodingStandard\Sniffs\TypeHints\ReturnTypeHintSpacingSniff',
+        ], [
+            'PhpCsFixer\Fixer\FunctionNotation\FunctionTypehintSpaceFixer',
+            'SlevomatCodingStandard\Sniffs\TypeHints\ParameterTypeHintSpacingSniff',
+        ], [
+            'PhpCsFixer\Fixer\FunctionNotation\FunctionTypehintSpaceFixer',
+            'PHP_CodeSniffer\Standards\Squiz\Sniffs\Functions\FunctionDeclarationArgumentSpacingSniff',
+        ], [
+            'PhpCsFixer\Fixer\Phpdoc\GeneralPhpdocAnnotationRemoveFixer',
+            'SlevomatCodingStandard\Sniffs\Commenting\ForbiddenAnnotationsSniff',
         ],
     ];
 
@@ -59,7 +104,7 @@ final class MutualCheckerExcluder
      */
     public function exclude(array $checkers): array
     {
-        foreach ($this->matchingCheckerGroups as $matchingCheckerGroup) {
+        foreach (self::$matchingCheckerGroups as $matchingCheckerGroup) {
             if (! $this->isMatch($checkers, $matchingCheckerGroup)) {
                 continue;
             }

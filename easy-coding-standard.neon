@@ -12,6 +12,7 @@ checkers:
     # Slevomat
     SlevomatCodingStandard\Sniffs\Namespaces\ReferenceUsedNamesOnlySniff:
         allowPartialUses: false
+    - SlevomatCodingStandard\Sniffs\ControlStructures\AssignmentInConditionSniff
 
     # Complexity limits
     PHP_CodeSniffer\Standards\Generic\Sniffs\Files\LineLengthSniff:
