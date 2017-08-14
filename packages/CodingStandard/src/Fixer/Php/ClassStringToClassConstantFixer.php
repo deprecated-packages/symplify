@@ -2,7 +2,11 @@
 
 namespace Symplify\CodingStandard\Fixer\Php;
 
+use PhpCsFixer\Fixer\ConfigurationDefinitionFixerInterface;
 use PhpCsFixer\Fixer\DefinedFixerInterface;
+use PhpCsFixer\FixerConfiguration\FixerConfigurationResolver;
+use PhpCsFixer\FixerConfiguration\FixerConfigurationResolverInterface;
+use PhpCsFixer\FixerConfiguration\FixerOptionBuilder;
 use PhpCsFixer\FixerDefinition\CodeSample;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
@@ -11,12 +15,29 @@ use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
 
-final class ClassStringToClassConstantFixer implements DefinedFixerInterface
+final class ClassStringToClassConstantFixer implements DefinedFixerInterface, ConfigurationDefinitionFixerInterface
 {
     /**
      * @var string
      */
+    private const CLASS_MUST_EXIST_OPTION = 'class_must_exist';
+
+    /**
+     * @var string
+     */
     private const CLASS_INTERFACE_OR_TRAIT_PATTERN = '#^[A-Z]\w*[a-z]\w*(\\\\[A-Z]\w*[a-z]\w*)+\z#';
+
+    /**
+     * @var mixed[]
+     */
+    private $configuration = [];
+
+    public function __construct()
+    {
+        // set defaults
+        $this->configuration = $this->getConfigurationDefinition()
+            ->resolve([]);
+    }
 
     public function getDefinition(): FixerDefinitionInterface
     {
@@ -45,8 +66,7 @@ final class ClassStringToClassConstantFixer implements DefinedFixerInterface
                 continue;
             }
 
-            // remove quotes "" around the string
-            $potentialClassInterfaceOrTrait = substr($token->getContent(), 1, -1);
+            $potentialClassInterfaceOrTrait = $this->getNameFromToken($token);
             if (! $this->isClassInterfaceOrTrait($potentialClassInterfaceOrTrait)) {
                 continue;
             }
@@ -77,21 +97,60 @@ final class ClassStringToClassConstantFixer implements DefinedFixerInterface
         return true;
     }
 
+    /**
+     * @param mixed[]|null $configuration
+     */
+    public function configure(?array $configuration = null): void
+    {
+        if ($configuration === null) {
+            return;
+        }
+
+        $this->configuration = $this->getConfigurationDefinition()
+            ->resolve($configuration);
+    }
+
+    public function getConfigurationDefinition(): FixerConfigurationResolverInterface
+    {
+        $classMustExistOption = (new FixerOptionBuilder(
+            self::CLASS_MUST_EXIST_OPTION,
+            'Whether class has to exist or not.'
+        ))->setAllowedValues([true, false])
+            ->setDefault(true)
+            ->getOption();
+
+        return new FixerConfigurationResolver([$classMustExistOption]);
+    }
+
+    private function getNameFromToken(Token $token): string
+    {
+        // remove quotes "" around the string
+        $name = substr($token->getContent(), 1, -1);
+
+        // remove "\" prefix
+        return ltrim($name, '\\');
+    }
+
     private function isClassInterfaceOrTrait(string $potentialClassInterfaceOrTrait): bool
     {
         if ($potentialClassInterfaceOrTrait === '') {
             return false;
         }
 
-        // lowercase string are not classes; because class_exists() is case-insensitive
+        // lowercase string are not classes; required because class_exists() is case-insensitive
         if (ctype_lower($potentialClassInterfaceOrTrait[0])) {
             return false;
         }
 
-        return class_exists($potentialClassInterfaceOrTrait)
+        $accepted = class_exists($potentialClassInterfaceOrTrait)
             || interface_exists($potentialClassInterfaceOrTrait)
-            || trait_exists($potentialClassInterfaceOrTrait)
-            || (bool) preg_match(self::CLASS_INTERFACE_OR_TRAIT_PATTERN, $potentialClassInterfaceOrTrait);
+            || trait_exists($potentialClassInterfaceOrTrait);
+
+        if ($this->configuration[self::CLASS_MUST_EXIST_OPTION] === false) {
+            $accepted = (bool) preg_match(self::CLASS_INTERFACE_OR_TRAIT_PATTERN, $potentialClassInterfaceOrTrait);
+        }
+
+        return $accepted;
     }
 
     /**
