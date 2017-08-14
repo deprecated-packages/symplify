@@ -17,7 +17,7 @@ final class TokenSkipper
             $tokenCountToSkip = $blockEnd - $i;
         }
 
-        if ($token->isGivenKind(T_ARRAY) && $token->getContent() === '(') {
+        if ($token->isGivenKind(T_ARRAY) && $token->equals('(')) {
             $blockEnd = $tokens->findBlockEnd(Tokens::BLOCK_TYPE_PARENTHESIS_BRACE, $i);
             $tokenCountToSkip = $blockEnd - $i;
         }
@@ -35,7 +35,7 @@ final class TokenSkipper
             $tokenCountToSkip = $i - $blockStart;
         }
 
-        if ($token->getContent() === ')') {
+        if ($token->equals(')')) {
             $blockStart = $this->findBlockStart($tokens, Tokens::BLOCK_TYPE_PARENTHESIS_BRACE, $i);
             $tokenCountToSkip = $i - $blockStart;
         }
