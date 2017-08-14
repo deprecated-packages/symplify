@@ -16,7 +16,7 @@ final class PositionDetector
             if ($token->isGivenKind(T_FUNCTION)) {
                 $namePosition = $tokens->getNextMeaningfulToken($index);
                 $methodNameToken = $tokens[$namePosition];
-                if ($methodNameToken->getContent() === '__construct') {
+                if ($methodNameToken->equals(new Token([T_STRING, '__construct']))) {
                     return $index;
                 }
             }

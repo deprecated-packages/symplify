@@ -82,7 +82,9 @@ final class ArrayTokensAnalyzer
     public function getItemCount(): int
     {
         $itemCount = 0;
-        for ($i = $this->getEndIndex(); $i >= $this->startIndex; --$i) {
+        for ($i = $this->getEndIndex() - 1; $i >= $this->startIndex; --$i) {
+            $i = $this->tokenSkipper->skipBlocksReversed($this->tokens, $i);
+
             $token = $this->tokens[$i];
             if ($token->isGivenKind(T_DOUBLE_ARROW)) {
                 ++$itemCount;

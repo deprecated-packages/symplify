@@ -43,6 +43,9 @@ final class Test extends AbstractFixerTestCase
             [
                 file_get_contents(__DIR__ . '/correct/correct4.php.inc'),
             ],
+            [
+                file_get_contents(__DIR__ . '/correct/correct5.php.inc'),
+            ],
             ['<?php $emotions = [1 => \'Happy\'];'],
             ['<?php $emotions = [\'Happy\', \'Excited\'];'],
         ];

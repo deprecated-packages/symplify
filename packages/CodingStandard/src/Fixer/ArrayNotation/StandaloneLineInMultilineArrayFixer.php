@@ -133,7 +133,7 @@ $values = [1 => \'hey\', 2 => \'hello\'];'
             $i = $this->tokenSkipper->skipBlocksReversed($tokens, $i);
 
             $token = $tokens[$i];
-            if ($token->getContent() !== ',') { // item separator
+            if (! $token->equals(',')) { // item separator
                 continue;
             }
 
