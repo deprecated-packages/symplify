@@ -2,7 +2,11 @@
 
 namespace Symplify\CodingStandard\Fixer\Php;
 
+use PhpCsFixer\Fixer\ConfigurationDefinitionFixerInterface;
 use PhpCsFixer\Fixer\DefinedFixerInterface;
+use PhpCsFixer\FixerConfiguration\FixerConfigurationResolver;
+use PhpCsFixer\FixerConfiguration\FixerConfigurationResolverInterface;
+use PhpCsFixer\FixerConfiguration\FixerOptionBuilder;
 use PhpCsFixer\FixerDefinition\CodeSample;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
@@ -11,15 +15,29 @@ use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
 
-/**
- * @todo configure for element existence, true by default
- */
-final class ClassStringToClassConstantFixer implements DefinedFixerInterface
+final class ClassStringToClassConstantFixer implements DefinedFixerInterface, ConfigurationDefinitionFixerInterface
 {
     /**
      * @var string
      */
+    private const CLASS_MUST_EXIST_OPTION = 'class_must_exist';
+
+    /**
+     * @var string
+     */
     private const CLASS_INTERFACE_OR_TRAIT_PATTERN = '#^[A-Z]\w*[a-z]\w*(\\\\[A-Z]\w*[a-z]\w*)+\z#';
+
+    /**
+     * @var mixed[]
+     */
+    private $configuration = [];
+
+    public function __construct()
+    {
+        // set defaults
+        $this->configuration = $this->getConfigurationDefinition()
+            ->resolve([]);
+    }
 
     public function getDefinition(): FixerDefinitionInterface
     {
@@ -79,6 +97,25 @@ final class ClassStringToClassConstantFixer implements DefinedFixerInterface
         return true;
     }
 
+    /**
+     * @param mixed[]|null $configuration
+     */
+    public function configure(?array $configuration = null): void
+    {
+        $this->configuration = $this->getConfigurationDefinition()
+            ->resolve($configuration);
+    }
+
+    public function getConfigurationDefinition(): FixerConfigurationResolverInterface
+    {
+        $classMustExistOption = (new FixerOptionBuilder(self::CLASS_MUST_EXIST_OPTION, 'Whether class has to exist or not.'))
+            ->setAllowedValues([true, false])
+            ->setDefault(true)
+            ->getOption();
+
+        return new FixerConfigurationResolver([$classMustExistOption]);
+    }
+
     private function getNameFromToken(Token $token): string
     {
         // remove quotes "" around the string
@@ -99,12 +136,15 @@ final class ClassStringToClassConstantFixer implements DefinedFixerInterface
             return false;
         }
 
-        // if required class exist option
-
-        return class_exists($potentialClassInterfaceOrTrait)
+        $accepted = class_exists($potentialClassInterfaceOrTrait)
             || interface_exists($potentialClassInterfaceOrTrait)
-            || trait_exists($potentialClassInterfaceOrTrait)
-            || (bool) preg_match(self::CLASS_INTERFACE_OR_TRAIT_PATTERN, $potentialClassInterfaceOrTrait);
+            || trait_exists($potentialClassInterfaceOrTrait);
+
+        if ($this->configuration[self::CLASS_MUST_EXIST_OPTION] === false) {
+            $accepted = (bool) preg_match(self::CLASS_INTERFACE_OR_TRAIT_PATTERN, $potentialClassInterfaceOrTrait);
+        }
+
+        return $accepted;
     }
 
     /**

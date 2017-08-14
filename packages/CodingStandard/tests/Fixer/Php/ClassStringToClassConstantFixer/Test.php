@@ -31,12 +31,10 @@ final class Test extends AbstractFixerTestCase
             ], [
                 file_get_contents(__DIR__ . '/fixed/fixed3.php.inc'),
                 file_get_contents(__DIR__ . '/wrong/wrong3.php.inc'),
-            ], [
-                file_get_contents(__DIR__ . '/fixed/fixed4.php.inc'),
-                file_get_contents(__DIR__ . '/wrong/wrong4.php.inc'),
             ],
             ['<?php $form->addText(\'datetime\');'],
             ['<?php $request->getParameter(\'exception\');'],
+            ['<?php $this->assertTrue(class_exists(\'\ApiGen\Reflection\Tests\Parser\ExtendingSources\ExtendingClass\'));'],
         ];
     }
 
