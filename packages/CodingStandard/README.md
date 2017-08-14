@@ -117,6 +117,14 @@ $className = 'DateTime';
 $className = DateTime::class;
 ```
 
+This fixers takes **only existing classes by default**. In case want to check another code not loaded by local composer, you can **configure it**:
+
+```yaml
+# easy-coding-standard.neon
+checkers:
+    Symplify\CodingStandard\Fixer\Php\ClassStringToClassConstantFixer:
+      class_must_exist: false # true by default
+```
 
 ### Array property should have default value, to prevent undefined array issues
 

@@ -34,7 +34,7 @@ final class Test extends AbstractFixerTestCase
             ],
             ['<?php $form->addText(\'datetime\');'],
             ['<?php $request->getParameter(\'exception\');'],
-            ['<?php $this->assertTrue(class_exists(\'\ApiGen\Reflection\Tests\Parser\ExtendingSources\ExtendingClass\'));'],
+            ['<?php $this->assertTrue(class_exists(\'\ApiGen\Reflection\Tests\ExtendingClass\'));'],
         ];
     }
 
