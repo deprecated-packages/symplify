@@ -11,6 +11,9 @@ use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
 
+/**
+ * @todo configure for element existence, true by default
+ */
 final class ClassStringToClassConstantFixer implements DefinedFixerInterface
 {
     /**
@@ -45,8 +48,7 @@ final class ClassStringToClassConstantFixer implements DefinedFixerInterface
                 continue;
             }
 
-            // remove quotes "" around the string
-            $potentialClassInterfaceOrTrait = substr($token->getContent(), 1, -1);
+            $potentialClassInterfaceOrTrait = $this->getNameFromToken($token);
             if (! $this->isClassInterfaceOrTrait($potentialClassInterfaceOrTrait)) {
                 continue;
             }
@@ -77,16 +79,27 @@ final class ClassStringToClassConstantFixer implements DefinedFixerInterface
         return true;
     }
 
+    private function getNameFromToken(Token $token): string
+    {
+        // remove quotes "" around the string
+        $name = substr($token->getContent(), 1, -1);
+
+        // remove "\" prefix
+        return ltrim($name, '\\');
+    }
+
     private function isClassInterfaceOrTrait(string $potentialClassInterfaceOrTrait): bool
     {
         if ($potentialClassInterfaceOrTrait === '') {
             return false;
         }
 
-        // lowercase string are not classes; because class_exists() is case-insensitive
+        // lowercase string are not classes; required because class_exists() is case-insensitive
         if (ctype_lower($potentialClassInterfaceOrTrait[0])) {
             return false;
         }
+
+        // if required class exist option
 
         return class_exists($potentialClassInterfaceOrTrait)
             || interface_exists($potentialClassInterfaceOrTrait)
