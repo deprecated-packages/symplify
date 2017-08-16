@@ -244,6 +244,26 @@ h1:hover .anchor-icon, h2:hover .anchor-icon, h3:hover .anchor-icon {
 }
 ```
 
+### Custom Output Path
+
+Default output path for files is `<filename>/index.html`. That makes url nice and short.
+
+In case you need a different path, use `outputPath` key in the configuration of the file.
+
+E.g. running [Github Pages and 404 page](https://help.github.com/articles/creating-a-custom-404-page-for-your-github-pages-site/).
+
+```html
+---
+layout: default
+title: "Missing page, missing you"
+outputPath: 404.html
+---
+
+{block content}
+    ...
+{/block}
+```
+
 
 ## Contributing
 
