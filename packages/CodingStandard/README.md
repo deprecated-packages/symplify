@@ -16,7 +16,7 @@ composer require symplify/coding-standard --dev
 
 ### Indexed PHP arrays should have 1 item per line
  
-- [ArrayNotation/StandaloneLineInMultilineArrayFixer](/src/Fixer/ArrayNotation/StandaloneLineInMultilineArrayFixer.php)
+- class: [`Symplify\CodingStandard\Fixer\ArrayNotation\StandaloneLineInMultilineArrayFixer`](/src/Fixer/ArrayNotation/StandaloneLineInMultilineArrayFixer.php)
 - This checker uses *[PHP-CS-Fixer](https://github.com/friendsofphp/php-cs-fixer)*
 
 :x:
@@ -35,9 +35,9 @@ $friends = [
 ```
 
 
-### Constructor injection should be used instead of @inject annotations 
+### Constructor injection should be used instead of `@inject` annotations 
 
-- [DependencyInjection/InjectToConstructorInjectionFixer](/src/Fixer/DependencyInjection/InjectToConstructorInjectionFixer.php)
+- class: [`Symplify\CodingStandard\Fixer\DependencyInjection\InjectToConstructorInjectionFixer`](/src/Fixer/DependencyInjection/InjectToConstructorInjectionFixer.php)
 - This checker uses *[PHP-CS-Fixer](https://github.com/friendsofphp/php-cs-fixer)*
 
 :x:
@@ -73,7 +73,7 @@ class SomeClass
 
 ### Magic PHP methods (`__*()`) should respect their casing form
 
-- [Naming/MagicMethodsNamingFixer](/src/Fixer/Naming/MagicMethodsNamingFixer.php)
+- class: [`Symplify\CodingStandard\Fixer\Naming\MagicMethodsNamingFixer`](/src/Fixer/Naming/MagicMethodsNamingFixer.php)
 - This checker uses *[PHP-CS-Fixer](https://github.com/friendsofphp/php-cs-fixer)*
 
 :x:
@@ -102,7 +102,7 @@ class SomeClass
 ### `::class` references should be used over string for classes and interfaces
  
  
-- [Php/ClassStringToClassConstantFixer](/src/Fixer/Php/ClassStringToClassConstantFixer.php)
+- class: [`Symplify\CodingStandard\Fixer\Php\ClassStringToClassConstantFixer`](/src/Fixer/Php/ClassStringToClassConstantFixer.php)
 - This checker uses *[PHP-CS-Fixer](https://github.com/friendsofphp/php-cs-fixer)*
 
 :x:
