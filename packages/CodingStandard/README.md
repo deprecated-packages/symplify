@@ -3,7 +3,7 @@
 [![Build Status](https://img.shields.io/travis/Symplify/CodingStandard/master.svg?style=flat-square)](https://travis-ci.org/Symplify/CodingStandard)
 [![Downloads](https://img.shields.io/packagist/dt/symplify/coding-standard.svg?style=flat-square)](https://packagist.org/packages/symplify/coding-standard)
 
-Set of smart and advanced sniffs PHP_CodeSniffer.
+Set of PHP_CodeSniffer Sniffs and PHP-CS-Fixer Fixers used by Symplify projects.
 
 ## Install
 
