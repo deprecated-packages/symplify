@@ -5,6 +5,9 @@
 
 Set of PHP_CodeSniffer Sniffs and PHP-CS-Fixer Fixers used by Symplify projects.
 
+**They run best with [EasyCodingStandard](https://github.com/Symplify/EasyCodingStandard)**.
+
+
 ## Install
 
 ```bash
