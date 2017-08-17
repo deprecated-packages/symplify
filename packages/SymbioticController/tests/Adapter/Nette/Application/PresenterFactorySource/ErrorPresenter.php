@@ -4,7 +4,7 @@ namespace Symplify\SymbioticController\Tests\Adapter\Nette\Application\Presenter
 
 use Nette\Application\UI\Presenter;
 
-class ErrorPresenter extends Presenter
+final class ErrorPresenter extends Presenter
 {
     protected function startup(): void
     {

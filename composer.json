@@ -36,11 +36,12 @@
         "symfony/yaml": "^3.3"
     },
     "require-dev": {
+        "gecko-packages/gecko-php-unit": "dev-master#b32f1d8 as 2.1",
         "phpstan/phpstan": "^0.8",
-        "symfony/expression-language": "^3.3",
         "phpunit/phpunit": "^6.2",
-        "tracy/tracy": "^2.4",
-        "gecko-packages/gecko-php-unit": "dev-master#b32f1d8 as 2.1"
+        "slam/php-cs-fixer-extensions": "^1.4",
+        "symfony/expression-language": "^3.3",
+        "tracy/tracy": "^2.4"
     },
     "autoload": {
         "psr-4": {

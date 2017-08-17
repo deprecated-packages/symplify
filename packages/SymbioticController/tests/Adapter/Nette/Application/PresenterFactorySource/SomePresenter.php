@@ -4,7 +4,7 @@ namespace Symplify\SymbioticController\Tests\Adapter\Nette\Application\Presenter
 
 use Nette\Application\UI\Presenter;
 
-class SomePresenter extends Presenter
+final class SomePresenter extends Presenter
 {
     public function renderDefault(): void
     {
