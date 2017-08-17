@@ -13,6 +13,13 @@ checkers:
     SlevomatCodingStandard\Sniffs\Namespaces\ReferenceUsedNamesOnlySniff:
         allowPartialUses: false
     - SlevomatCodingStandard\Sniffs\ControlStructures\AssignmentInConditionSniff
+    SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff:
+        usefulAnnotations:
+            - @dataProvider
+            - @deprecated
+            - @todo
+        enableEachParameterAndReturnInspection: true
+    - SlevomatCodingStandard\Sniffs\Exceptions\ReferenceThrowableOnlySniff
 
     # Complexity limits
     PHP_CodeSniffer\Standards\Generic\Sniffs\Files\LineLengthSniff:
@@ -21,6 +28,9 @@ checkers:
         absoluteComplexity: 10
     PHP_CodeSniffer\Standards\Generic\Sniffs\Metrics\NestingLevelSniff:
         absoluteNestingLevel: 4
+
+    # class should be Abstact or Final
+    - SlamCsFixer\FinalInternalClassFixer
 
 parameters:
     exclude_checkers:
