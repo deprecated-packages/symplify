@@ -128,7 +128,7 @@ checkers:
 
 ### Array property should have default value, to prevent undefined array issues
 
-- [Property/ArrayPropertyDefaultValueFixer](/src/Fixer/Property/ArrayPropertyDefaultValueFixer.php)
+- class: [`Symplify\CodingStandard\Fixer\Property/ArrayPropertyDefaultValueFixer`](/src/Fixer/Property/ArrayPropertyDefaultValueFixer.php)
 - This checker uses *[PHP-CS-Fixer](https://github.com/friendsofphp/php-cs-fixer)*
 
 
@@ -168,7 +168,7 @@ class SomeClass
 
 ### Implementation of interface should only contain its methods
 
-- [Classes/EqualInterfaceImplementationSniff](/src/Sniffs/Classes/EqualInterfaceImplementationSniff.php)
+- class: [`Symplify\CodingStandard\Sniffs\Classes\EqualInterfaceImplementationSniff`](/src/Sniffs/Classes/EqualInterfaceImplementationSniff.php)
 - `Symplify.Classes.EqualInterfaceImplementation`
 
 :x:
@@ -210,7 +210,7 @@ final class SomeClass implements SomeInterface
 
 ### Non-abstract class that implements interface should be final
 
-- [Classes/FinalInterfaceSniff](/src/Sniffs/Classes/FinalInterfaceSniff.php)
+- class: [`Symplify\CodingStandard\Sniffs\Classes\FinalInterfaceSniff`](/src/Sniffs/Classes/FinalInterfaceSniff.php)
 - `Symplify.Classes.FinalInterface`
 
 :x:
@@ -233,7 +233,7 @@ final class SomeClass implements SomeInterface
 
 ### Block comment should be used instead of one liner
 
-- [Commenting/BlockPropertyCommentSniff](/src/Sniffs/Commenting/BlockPropertyCommentSniff.php)
+- class: [`Symplify\CodingStandard\Sniffs\Commenting\BlockPropertyCommentSniff`](/src/Sniffs/Commenting/BlockPropertyCommentSniff.php)
 - `Symplify.Commenting.BlockPropertyComment`
 
 :x:
@@ -261,7 +261,7 @@ class SomeClass
 
 ### Constant should have docblock comment
 
-- [Commenting/VarConstantCommentSniff](/src/Sniffs/Commenting/VarConstantCommentSniff.php)
+- class: [`Symplify\CodingStandard\Sniffs\Commenting\VarConstantCommentSniff`](/src/Sniffs/Commenting/VarConstantCommentSniff.php)
 - `Symplify.Commenting.VarConstantComment`
 
 :x:
@@ -288,7 +288,7 @@ class SomeClass
 
 ### Controller should have max. 1 render method
 
-- [Classes/ControllerRenderMethodLimitSniff](/src/Sniffs/Classes/ControllerRenderMethodLimitSniff.php)
+- class: [`Symplify\CodingStandard\Sniffs\Classes\ControllerRenderMethodLimitSniff`](/src/Sniffs/Classes/ControllerRenderMethodLimitSniff.php)
 - `Symplify.Classes.ControllerRenderMethodLimit`
 
 :x:
@@ -319,7 +319,7 @@ final class Controller
 
 ### Controller has to contain `__invoke()` method
  
-- [Classes/InvokableControllerSniff](/src/Sniffs/Classes/InvokableControllerSniff.php)
+- class: [`Symplify\CodingStandard\Sniffs\Classes\InvokableControllerSniff`](/src/Sniffs/Classes/InvokableControllerSniff.php)
 - `Symplify.Classes.InvokableController`
 
 :x:
@@ -347,7 +347,7 @@ final class Controller
 
 ### New class statement should not have empty parentheses
 
-- [ControlStructures/NewClassSniff](/src/Sniffs/ControlStructures/NewClassSniff.php)
+- class: [`Symplify\CodingStandard\Sniffs\ControlStructures\NewClassSniff`](/src/Sniffs/ControlStructures/NewClassSniff.php)
 - `Symplify.ControlStructures.NewClass`
 
 :x:
@@ -365,7 +365,7 @@ $directory = new Directory([$file]);
 
 ### There should comments with valid code
 
-- [Debug/CommentedOutCodeSniff](/src/Sniffs/Debug/CommentedOutCodeSniff.php)
+- class: [`Symplify\CodingStandard\Sniffs\Debug\CommentedOutCodeSniff`](/src/Sniffs/Debug/CommentedOutCodeSniff.php)
 - `Symplify.Debug.CommentedOutCode`
 
 :x:
@@ -377,7 +377,7 @@ $directory = new Directory([$file]);
 
 ### Debug functions should not be left in the code
 
-- [Debug/DebugFunctionCallSniff](/src/Sniffs/Debug/DebugFunctionCallSniff.php)
+- class: [`Symplify\CodingStandard\Sniffs\Debug\DebugFunctionCallSniff`](/src/Sniffs/Debug/DebugFunctionCallSniff.php)
 - `Symplify.Debug.DebugFunctionCall`
 
 :x:
@@ -389,7 +389,7 @@ dump($value);
 
 ### Abstract class should have prefix "Abstract"
 
-- [Naming/AbstractClassNameSniff](/src/Sniffs/Naming/AbstractClassNameSniff.php)
+- class: [`Symplify\CodingStandard\Sniffs\Naming\AbstractClassNameSniff`](/src/Sniffs/Naming/AbstractClassNameSniff.php)
 - `Symplify.Naming.AbstractClassName`
 
 :x:
@@ -413,7 +413,7 @@ abstract class AbstractSomeClass
 
 For *PHP_CodeSniffer*:
 
-- [Naming/ExceptionNameSniff](/src/Sniffs/Naming/ExceptionNameSniff.php)
+- class: [`Symplify\CodingStandard\Sniffs\Naming\ExceptionNameSniff`](/src/Sniffs/Naming/ExceptionNameSniff.php)
 - `Symplify.Naming.ExceptionName`
 
 or *[PHP-CS-Fixer]*:
@@ -438,7 +438,7 @@ class SomeClassException extends Exception
 
 ### Interface should have suffix "Interface"
 
-- [Naming/InterfaceNameSniff](/src/Sniffs/Naming/InterfaceNameSniff.php)
+- class: [`Symplify\CodingStandard\Sniffs\Naming\InterfaceNameSniff`](/src/Sniffs/Naming/InterfaceNameSniff.php)
 - `Symplify.Naming.InterfaceName`
 
 :x:
@@ -460,7 +460,7 @@ interface SomeInterface
 
 ### Trait should have suffix "Trait"
 
-- [Naming/TraitNameSniff](/src/Sniffs/Naming/TraitNameSniff.php)
+- class: [`Symplify\CodingStandard\Sniffs\Naming\TraitNameSniff`](/src/Sniffs/Naming/TraitNameSniff.php)
 - `Symplify.Naming.TraitName`
 
 :x:
@@ -482,7 +482,7 @@ trait SomeTrait
 
 ### Non-abstract class that extends TestCase should be final
 
-- [PHPUnit\FinalTestCaseSniff]((/src/Sniffs/PHPUnit/FinalTestCaseSniff.php)
+- class: [`Symplify\CodingStandard\Sniffs\PHPUnit\FinalTestCaseSniff`](/src/Sniffs/PHPUnit/FinalTestCaseSniff.php)
 - `Symplify.PHPUnit.FinalTestCase`
 
 :x:
