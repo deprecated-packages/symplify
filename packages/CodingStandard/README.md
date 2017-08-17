@@ -419,9 +419,9 @@ For *PHP_CodeSniffer*:
 - class: [`Symplify\CodingStandard\Sniffs\Naming\ExceptionNameSniff`](/src/Sniffs/Naming/ExceptionNameSniff.php)
 - `Symplify.Naming.ExceptionName`
 
-or *[PHP-CS-Fixer]*:
+or *PHP-CS-Fixer*:
 
-- [Naming/ExceptionNameSniff](/src/Fixer/Naming/ExceptionNameFixer.php)
+- class: [`Symplify\CodingStandard\Fixer\Naming\ExceptionNameSniff`](/src/Fixer/Naming/ExceptionNameFixer.php)
 
 :x:
 
