@@ -42,7 +42,7 @@ final class ClassWrapper
         $this->file = $file;
         $this->position = $position;
 
-        $this->tokens = $this->file->getTokens();
+        $this->tokens = $file->getTokens();
         $this->classToken = $this->tokens[$position];
     }
 
@@ -66,29 +66,6 @@ final class ClassWrapper
     public function hasNameSuffix(string $suffix): bool
     {
         return Strings::contains($this->getClassName(), $suffix);
-    }
-
-    /**
-     * @return PropertyWrapper[]
-     */
-    public function getProperties(): array
-    {
-        $properties = [];
-
-        $classOpenerPosition = $this->classToken['scope_opener'] + 1;
-
-        while (($propertyTokenPointer = $this->file->findNext(
-            T_VARIABLE,
-            $classOpenerPosition,
-            $this->classToken['scope_closer']
-        )) !== false
-        ) {
-            $classOpenerPosition = $propertyTokenPointer + 1;
-
-            $properties[] = PropertyWrapper::createFromFileAndPosition($this->file, $propertyTokenPointer);
-        }
-
-        return $properties;
     }
 
     /**
