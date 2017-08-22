@@ -51,21 +51,11 @@ final class ClassWrapper
         return new self($file, $position);
     }
 
-    public function getClassName(): string
-    {
-        return $this->file->getDeclarationName($this->position);
-    }
-
     public function isAbstract(): bool
     {
         $classProperties = $this->file->getClassProperties($this->position);
 
         return $classProperties['is_abstract'];
-    }
-
-    public function hasNameSuffix(string $suffix): bool
-    {
-        return Strings::contains($this->getClassName(), $suffix);
     }
 
     /**
