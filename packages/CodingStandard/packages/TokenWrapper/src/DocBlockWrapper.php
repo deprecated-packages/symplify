@@ -57,13 +57,6 @@ final class DocBlockWrapper
         return new self($file, $startPosition, $endPosition);
     }
 
-    public function hasAnnotation(string $annotation): bool
-    {
-        $docBlockContent = ContentFinder::getContentBetween($this->file, $this->startPosition, $this->endPosition);
-
-        return Strings::contains($docBlockContent, $annotation);
-    }
-
     public function isSingleLine(): bool
     {
         $tokens = $this->file->getTokens();
