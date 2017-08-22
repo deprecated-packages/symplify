@@ -14,10 +14,6 @@ checkers:
         allowPartialUses: false
     - SlevomatCodingStandard\Sniffs\ControlStructures\AssignmentInConditionSniff
     SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff:
-        usefulAnnotations:
-            - @dataProvider
-            - @deprecated
-            - @todo
         enableEachParameterAndReturnInspection: true
     - SlevomatCodingStandard\Sniffs\Exceptions\ReferenceThrowableOnlySniff
 
