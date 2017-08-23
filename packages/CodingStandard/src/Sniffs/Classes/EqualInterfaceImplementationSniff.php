@@ -19,6 +19,7 @@ final class EqualInterfaceImplementationSniff implements Sniff
      * @var string[]
      */
     public $interfacesToSkip = [
+        'Serializable',
         'Symfony\Component\EventDispatcher\EventSubscriberInterface',
     ];
 
