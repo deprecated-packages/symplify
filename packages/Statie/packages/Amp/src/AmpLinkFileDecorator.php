@@ -31,6 +31,10 @@ final class AmpLinkFileDecorator implements FileDecoratorInterface
      */
     public function decorateFiles(array $files): array
     {
+        if (! $this->configuration->isAmpEnabled()) {
+            return $files;
+        }
+
         foreach ($files as $file) {
             if (! Strings::endsWith($file->getOutputPath(), '.html')) {
                 continue;
