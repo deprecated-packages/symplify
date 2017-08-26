@@ -68,8 +68,9 @@ final class LatteFileDecorator implements FileDecoratorInterface
         if ($file instanceof PostFile) {
             $parameters['post'] = $file;
 
-            // add "post" layout by default
-            $file->changeContent('{layout "post"}' . PHP_EOL . $file->getContent());
+            // add layout, "post" by default
+            $layout = $file->getLayout() ?: 'post';
+            $file->changeContent('{layout "' . $layout . '"}' . PHP_EOL . $file->getContent());
             $this->addTemplateToDynamicLatteStringLoader($file);
 
             $htmlContent = $this->renderToString($file, $parameters);
