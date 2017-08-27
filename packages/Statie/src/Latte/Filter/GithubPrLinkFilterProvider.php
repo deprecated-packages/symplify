@@ -28,8 +28,8 @@ final class GithubPrLinkFilterProvider implements FilterProviderInterface
             'githubEditPostUrl' => function (AbstractFile $file) {
                 return 'https://github.com/'
                     . $this->configuration->getGithubRepositorySlug()
-                    . '/edit/master/source/'
-                    . $file->getRelativeSource();
+                    . '/edit/master/'
+                    . $file->getFilePath();
             },
         ];
     }
