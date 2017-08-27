@@ -83,27 +83,4 @@ final class TokenBuilder
             new Token(';'),
         ];
     }
-
-    /**
-     * @return Token[]
-     */
-    public static function createPropertyTokens($propertyType, $propertyName): array
-    {
-        return [
-            new Token([T_WHITESPACE, PHP_EOL]), // 1x indent with 4 spaces
-            new Token([T_DOC_COMMENT,
-                '    /** '
-                . PHP_EOL . '     '
-                .'* @var ' . $propertyType
-                . PHP_EOL . '     '
-                . '*/'
-            ]),
-            new Token([T_WHITESPACE, PHP_EOL . '    ']), // new line with 4 spaces
-            new Token([T_PRIVATE, 'private']),
-            new Token([T_WHITESPACE, ' ']),
-            new Token([T_VARIABLE, '$' . $propertyName]),
-            new Token(';'),
-            new Token([T_WHITESPACE, PHP_EOL]), // new line
-        ];
-    }
 }

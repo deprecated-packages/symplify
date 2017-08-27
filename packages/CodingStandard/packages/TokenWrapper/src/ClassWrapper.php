@@ -2,7 +2,6 @@
 
 namespace Symplify\CodingStandard\TokenWrapper;
 
-use Nette\Utils\Strings;
 use PHP_CodeSniffer\Files\File;
 
 final class ClassWrapper

@@ -2,10 +2,10 @@
 
 namespace Symplify\CodingStandard\Sniffs\DependencyInjection;
 
+use DateTime;
 use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Sniffs\Sniff;
 use SlevomatCodingStandard\Helpers\TokenHelper;
-use Symplify\CodingStandard\Helper\TokenFinder;
 
 final class NoClassInstantiationSniff implements Sniff
 {
@@ -18,7 +18,7 @@ final class NoClassInstantiationSniff implements Sniff
      * @var string[]
      */
     public $allowedClasses = [
-        'DateTime'
+        DateTime::class,
     ];
 
     /**
