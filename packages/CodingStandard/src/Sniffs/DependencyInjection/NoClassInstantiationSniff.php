@@ -7,7 +7,10 @@ use Nette\Utils\Strings;
 use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Sniffs\Sniff;
 use ReflectionClass;
+use SlevomatCodingStandard\Helpers\NamespaceHelper;
+use SlevomatCodingStandard\Helpers\ReferencedNameHelper;
 use SlevomatCodingStandard\Helpers\TokenHelper;
+use SlevomatCodingStandard\Helpers\UseStatementHelper;
 
 final class NoClassInstantiationSniff implements Sniff
 {
@@ -28,6 +31,16 @@ final class NoClassInstantiationSniff implements Sniff
      */
     public $allowedClassSuffixes = [
         'Response',
+        'Exception',
+        'Route'
+
+    ];
+
+    /**
+     * @var string[]
+     */
+    public $allowedClassPrefixes = [
+        'Reflection',
     ];
 
     /**
@@ -41,6 +54,11 @@ final class NoClassInstantiationSniff implements Sniff
     private $file;
 
     /**
+     * @var mixed[]
+     */
+    private $tokens = [];
+
+    /**
      * @return int[]
      */
     public function register(): array
@@ -51,6 +69,7 @@ final class NoClassInstantiationSniff implements Sniff
     public function process(File $file, $position): void
     {
         $this->file = $file;
+        $this->tokens = $file->getTokens();
 
         if ($this->isTestFile($file->getFilename())) {
             return;
@@ -61,9 +80,7 @@ final class NoClassInstantiationSniff implements Sniff
             return;
         }
 
-        $tokens = $file->getTokens();
-        $classNameToken = $tokens[$classNameTokenPosition];
-        $className = $classNameToken['content'];
+        $className = $this->getClassName($classNameTokenPosition);
 
         if ($this->isClassInstantiationAllowed($className, $classNameTokenPosition)) {
             return;
@@ -87,7 +104,13 @@ final class NoClassInstantiationSniff implements Sniff
             }
         }
 
-        if ($this->isEntityClass($class, $classTokenPosition)) {
+        foreach ($this->allowedClassPrefixes as $allowedClassPrefix) {
+            if (Strings::startsWith($class, $allowedClassPrefix)) {
+                return true;
+            }
+        }
+
+        if (! $this->includeEntities && $this->isEntityClass($class, $classTokenPosition)) {
             return true;
         }
 
@@ -109,8 +132,9 @@ final class NoClassInstantiationSniff implements Sniff
 
     private function isEntityClass(string $class, int $classTokenPosition): bool
     {
-        // @todo: resolve FQN
-        if (class_exists($class)) {
+        $fqnClassName = $this->getFqnClassName($class, $classTokenPosition);
+
+        if (class_exists($fqnClassName)) {
             $classReflection = new ReflectionClass($class);
             $docComment = $classReflection->getDocComment();
 
@@ -118,5 +142,46 @@ final class NoClassInstantiationSniff implements Sniff
         }
 
         return false;
+    }
+
+    private function getClassName(int $classNameStartPosition): string
+    {
+        $classNameParts = [];
+        $classNameParts[] = $this->tokens[$classNameStartPosition]['content'];
+
+        $nextTokenPointer = $classNameStartPosition + 1;
+        while ($this->tokens[$nextTokenPointer]['code'] === T_NS_SEPARATOR) {
+            $nextTokenPointer++;
+            $classNameParts[] = $this->tokens[$nextTokenPointer]['content'];
+            $nextTokenPointer++;
+        }
+
+        $completeClassName = implode('\\', $classNameParts);
+
+        $fqnClassName = $this->getFqnClassName($completeClassName, $classNameStartPosition);
+
+        return ltrim($fqnClassName, '\\');
+    }
+
+    private function getFqnClassName(string $className, int $classTokenPosition): string
+    {
+        $openTagPointer = TokenHelper::findPrevious($this->file, T_OPEN_TAG, $classTokenPosition);
+        $useStatements = UseStatementHelper::getUseStatements($this->file, $openTagPointer);
+        $referencedNames = ReferencedNameHelper::getAllReferencedNames($this->file, $openTagPointer);
+
+        foreach ($referencedNames as $referencedName) {
+            $resolvedName = NamespaceHelper::resolveClassName(
+                $this->file,
+                $referencedName->getNameAsReferencedInFile(),
+                $useStatements,
+                $classTokenPosition
+            );
+
+            if (Strings::endsWith($resolvedName, $className)) {
+                return $resolvedName;
+            }
+        }
+
+        return '';
     }
 }
