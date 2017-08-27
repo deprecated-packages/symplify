@@ -12,7 +12,7 @@ final class NoClassInstantiationSniff implements Sniff
     /**
      * @var string
      */
-    private const ERROR_MESSAGE = 'Use service and constructor injection rather than manual new %s.';
+    private const ERROR_MESSAGE = 'Use service and constructor injection rather than instantiation with new %s.';
 
     /**
      * @var string[]

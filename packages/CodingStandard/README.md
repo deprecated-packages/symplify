@@ -120,7 +120,7 @@ $className = 'DateTime';
 $className = DateTime::class;
 ```
 
-This fixers takes **only existing classes by default**. In case want to check another code not loaded by local composer, you can **configure it**:
+This checker takes **only existing classes by default**. In case want to check another code not loaded by local composer, you can **configure it**:
 
 ```yaml
 # easy-coding-standard.neon
@@ -388,6 +388,66 @@ $directory = new Directory([$file]);
 ```php
 dump($value);
 ```
+
+
+
+### Use service and constructor injection rather than instantiation with new
+
+- class: [`Symplify\CodingStandard\Sniffs\DependencyInjection\NoClassInstantiationSniff`](/src/Sniffs/DependencyInjection/NoClassInstantiationSniff.php)
+- `Symplify.DependencyInjection.NoClassInstantiation`
+
+:x:
+
+```php
+class SomeController
+{
+   public function renderEdit(array $data)
+   {
+        $database = new Database;
+        $database->save($data);
+   }
+}
+```
+
+:+1:
+
+```php
+class SomeController
+{
+   public function renderEdit(array $data)
+   {
+        $this->database->save($data);
+   }
+}
+```
+
+This checkers ignores by default:
+
+- `DateTime`
+- `*Exception` (@todo)
+
+In case want to exclude more classes, you can **configure it**:
+
+```yaml
+# easy-coding-standard.neon
+checkers:
+    Symplify\CodingStandard\Fixer\DependencyInjection\NoClassInstantiationSniff:
+        allowedClasses:
+            - DateTime
+            - App\ProductModule\Product
+```
+
+(@todo)
+
+Doctrine entities are skipped as well. You can disable that by:
+
+```yaml
+# easy-coding-standard.neon
+checkers:
+    Symplify\CodingStandard\Fixer\DependencyInjection\NoClassInstantiationSniff:
+        includeEntities: true
+```
+
 
 
 ### Abstract class should have prefix "Abstract"
