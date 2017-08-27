@@ -433,8 +433,11 @@ In case want to exclude more classes, you can **configure it**:
 checkers:
     Symplify\CodingStandard\Fixer\DependencyInjection\NoClassInstantiationSniff:
         allowedClasses:
-            - DateTime
+            - DateTime # by default
             - App\ProductModule\Product
+        allowedClassSuffixes:
+            - Response # by default
+            - ValueObject
 ```
 
 (@todo)
