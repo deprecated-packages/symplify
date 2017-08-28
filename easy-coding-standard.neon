@@ -10,9 +10,8 @@ includes:
 
 checkers:
     Symplify\CodingStandard\Sniffs\DependencyInjection\NoClassInstantiationSniff:
-        extraAllowedClassSuffixes:
-            - Error
-            - PHP_CodeSniffer\Tokenizers\PHP
+        extraAllowedClasses:
+            - Symplify\EasyCodingStandard\Error\Error
 
     # Slevomat
     SlevomatCodingStandard\Sniffs\Namespaces\ReferenceUsedNamesOnlySniff:

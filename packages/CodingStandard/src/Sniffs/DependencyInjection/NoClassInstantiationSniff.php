@@ -3,6 +3,7 @@
 namespace Symplify\CodingStandard\Sniffs\DependencyInjection;
 
 use DateTime;
+use DateTimeImmutable;
 use Nette\Utils\Strings;
 use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Sniffs\Sniff;
@@ -30,6 +31,7 @@ final class NoClassInstantiationSniff implements Sniff
      */
     public $allowedClasses = [
         DateTime::class,
+        DateTimeImmutable::class,
         SplFileInfo::class,
         stdClass::class,
 
@@ -37,13 +39,30 @@ final class NoClassInstantiationSniff implements Sniff
         'Symfony\Component\Console\Input\InputArgument',
         'Symfony\Component\Console\Input\InputDefinition',
         'Symfony\Component\Console\Input\InputOption',
+        'Symfony\Component\Console\Helper\Table',
+
+        // Nette DI
+        'Nette\DI\Config\Loader',
+
+        // Symfony DependencyInjection
+        'Symfony\Component\DependencyInjection\Loader\YamlFileLoader',
+        'Symfony\Component\Config\FileLocator',
 
         // php-cs-fixer
         'PhpCsFixer\Tokenizer\Token',
         'PhpCsFixer\FixerDefinition\CodeSample',
         'PhpCsFixer\FixerDefinition\FixerDefinition',
         'PhpCsFixer\FixerConfiguration\FixerOptionBuilder',
+
+        // PHP_CodeSniffer
+        'PHP_CodeSniffer\Util\Tokens',
+        'PHP_CodeSniffer\Tokenizers\PHP',
     ];
+
+    /**
+     * @var string[]
+     */
+    public $extraAllowedClasses = [];
 
     /**
      * @var string[]
@@ -130,11 +149,13 @@ final class NoClassInstantiationSniff implements Sniff
 
     private function isClassInstantiationAllowed(string $class, int $classTokenPosition): bool
     {
-        if (in_array($class, $this->allowedClasses, true)) {
+        $allowedClasses = array_merge($this->allowedClasses, $this->extraAllowedClasses);
+
+        if (in_array($class, $allowedClasses, true)) {
             return true;
         }
 
-        $allowedClassSuffixes = $this->allowedClassSuffixes + $this->extraAllowedClassSuffixes;
+        $allowedClassSuffixes = array_merge($this->allowedClassSuffixes, $this->extraAllowedClassSuffixes);
         foreach ($allowedClassSuffixes as $allowedClassSuffix) {
             if (Strings::endsWith($class, $allowedClassSuffix)) {
                 return true;
@@ -192,7 +213,7 @@ final class NoClassInstantiationSniff implements Sniff
 
     private function getFqnClassName(string $className, int $classTokenPosition): string
     {
-        $openTagPointer = TokenHelper::findPrevious($this->file, T_OPEN_TAG, $classTokenPosition);
+        $openTagPointer = (int) TokenHelper::findPrevious($this->file, T_OPEN_TAG, $classTokenPosition);
         $useStatements = UseStatementHelper::getUseStatements($this->file, $openTagPointer);
         $referencedNames = ReferencedNameHelper::getAllReferencedNames($this->file, $openTagPointer);
 
