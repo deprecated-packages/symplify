@@ -13,7 +13,6 @@ parameters:
     excludes_analyse:
         - *packages/CodingStandard/tests/**/correct*
         - *packages/CodingStandard/tests/**/wrong*
-        # lvl 7
         - *packages/CodingStandard/src/Fixer/DependencyInjection/InjectToConstructorInjectionFixer.php
 
     enableUnionTypes: true

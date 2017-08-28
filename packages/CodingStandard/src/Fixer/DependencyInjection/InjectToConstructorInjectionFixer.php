@@ -13,9 +13,6 @@ use SplFileInfo;
 use Symplify\CodingStandard\Fixer\PositionDetector;
 use Symplify\CodingStandard\Fixer\TokenBuilder;
 
-/**
- * @todo use Rector instead
- */
 final class InjectToConstructorInjectionFixer implements DefinedFixerInterface
 {
     /**
@@ -104,10 +101,9 @@ class SomeClass
             }
 
             // save changed annotation
-            $token->setContent($doc->getContent());
+            $tokens[$index] = new Token([T_DOC_COMMENT, $doc->getContent()]);
 
-            // run again with new tokens; @todo: can this be done any better to notice new __construct method added
-            // by these tokens?
+            // run again with new tokens to take new __construct method into account
             $this->fix($file, $tokens);
             break;
         }
