@@ -27,11 +27,6 @@ final class PropertyWrapper
      */
     private $tokens = [];
 
-    /**
-     * @var ?int
-     */
-    private $accessibilityPosition;
-
     private function __construct(File $file, int $position)
     {
         $this->file = $file;
@@ -43,17 +38,6 @@ final class PropertyWrapper
     public static function createFromFileAndPosition(File $file, int $position): self
     {
         return new self($file, $position);
-    }
-
-    public function hasAnnotation(string $annotation): bool
-    {
-        $docBlock = $this->getDocBlock();
-
-        if (! $docBlock instanceof DocBlockWrapper) {
-            return false;
-        }
-
-        return $docBlock->hasAnnotation($annotation);
     }
 
     public function getPosition(): int
@@ -83,50 +67,9 @@ final class PropertyWrapper
         );
     }
 
-    public function changeAccesibilityToPrivate(): void
-    {
-        $accesiblityPosition = $this->getPropertyAccessibilityPosition();
-        if ($accesiblityPosition === false) {
-            return;
-        }
-
-        $file = $this->file;
-        $fixer = $file->fixer;
-        $fixer->replaceToken($accesiblityPosition, 'private');
-    }
-
-    public function getType(): string
-    {
-        return $this->getDocBlock()
-            ->getAnnotationValue('@var');
-    }
-
     public function getName(): string
     {
         return ltrim($this->propertyToken['content'], '$');
-    }
-
-    /**
-     * @return false|int
-     */
-    private function getPropertyAccessibilityPosition()
-    {
-        if ($this->accessibilityPosition) {
-            return $this->accessibilityPosition;
-        }
-
-        $visibilityModifiedTokenPointer = TokenHelper::findPreviousEffective(
-            $this->file,
-            $this->position - 1
-        );
-
-        $visibilityModifiedToken = $this->tokens[$visibilityModifiedTokenPointer];
-
-        if (in_array($visibilityModifiedToken['code'], [T_PUBLIC, T_PROTECTED, T_PRIVATE], true)) {
-            return (int) $visibilityModifiedTokenPointer;
-        }
-
-        return false;
     }
 
     /**

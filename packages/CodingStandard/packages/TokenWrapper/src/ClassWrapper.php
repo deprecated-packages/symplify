@@ -2,7 +2,6 @@
 
 namespace Symplify\CodingStandard\TokenWrapper;
 
-use Nette\Utils\Strings;
 use PHP_CodeSniffer\Files\File;
 
 final class ClassWrapper
@@ -42,7 +41,7 @@ final class ClassWrapper
         $this->file = $file;
         $this->position = $position;
 
-        $this->tokens = $this->file->getTokens();
+        $this->tokens = $file->getTokens();
         $this->classToken = $this->tokens[$position];
     }
 
@@ -51,44 +50,11 @@ final class ClassWrapper
         return new self($file, $position);
     }
 
-    public function getClassName(): string
-    {
-        return $this->file->getDeclarationName($this->position);
-    }
-
     public function isAbstract(): bool
     {
         $classProperties = $this->file->getClassProperties($this->position);
 
         return $classProperties['is_abstract'];
-    }
-
-    public function hasNameSuffix(string $suffix): bool
-    {
-        return Strings::contains($this->getClassName(), $suffix);
-    }
-
-    /**
-     * @return PropertyWrapper[]
-     */
-    public function getProperties(): array
-    {
-        $properties = [];
-
-        $classOpenerPosition = $this->classToken['scope_opener'] + 1;
-
-        while (($propertyTokenPointer = $this->file->findNext(
-            T_VARIABLE,
-            $classOpenerPosition,
-            $this->classToken['scope_closer']
-        )) !== false
-        ) {
-            $classOpenerPosition = $propertyTokenPointer + 1;
-
-            $properties[] = PropertyWrapper::createFromFileAndPosition($this->file, $propertyTokenPointer);
-        }
-
-        return $properties;
     }
 
     /**

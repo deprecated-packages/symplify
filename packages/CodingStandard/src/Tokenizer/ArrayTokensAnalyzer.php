@@ -26,17 +26,17 @@ final class ArrayTokensAnalyzer
      * @var int
      */
     private $endIndex;
-    /**
-     * @var TokenSkipper
-     */
-    private $tokenSkipper;
 
-    public function __construct(Tokens $tokens, int $startIndex)
+    private function __construct(Tokens $tokens, int $startIndex)
     {
         $this->tokens = $tokens;
         $this->startIndex = $startIndex;
         $this->startToken = $tokens[$startIndex];
-        $this->tokenSkipper = new TokenSkipper;
+    }
+
+    public static function createFromTokensArrayStartPosition(Tokens $tokens, int $startIndex): self
+    {
+        return new self($tokens, $startIndex);
     }
 
     public function getStartIndex(): int
@@ -67,7 +67,7 @@ final class ArrayTokensAnalyzer
     public function isAssociativeArray(): bool
     {
         for ($i = $this->startIndex + 1; $i <= $this->getEndIndex() - 1; ++$i) {
-            $i = $this->tokenSkipper->skipBlocks($this->tokens, $i);
+            $i = TokenSkipper::skipBlocks($this->tokens, $i);
 
             $token = $this->tokens[$i];
 
@@ -83,7 +83,7 @@ final class ArrayTokensAnalyzer
     {
         $itemCount = 0;
         for ($i = $this->getEndIndex() - 1; $i >= $this->startIndex; --$i) {
-            $i = $this->tokenSkipper->skipBlocksReversed($this->tokens, $i);
+            $i = TokenSkipper::skipBlocksReversed($this->tokens, $i);
 
             $token = $this->tokens[$i];
             if ($token->isGivenKind(T_DOUBLE_ARROW)) {

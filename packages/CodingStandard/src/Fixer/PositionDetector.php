@@ -13,12 +13,14 @@ final class PositionDetector
     public static function detectConstructorPosition(Tokens $tokens): ?int
     {
         foreach ($tokens as $index => $token) {
-            if ($token->isGivenKind(T_FUNCTION)) {
-                $namePosition = $tokens->getNextMeaningfulToken($index);
-                $methodNameToken = $tokens[$namePosition];
-                if ($methodNameToken->equals(new Token([T_STRING, '__construct']))) {
-                    return $index;
-                }
+            if (! $token->isGivenKind(T_FUNCTION)) {
+                continue;
+            }
+
+            $namePosition = $tokens->getNextMeaningfulToken($index);
+            $methodNameToken = $tokens[$namePosition];
+            if ($methodNameToken->equals(new Token([T_STRING, '__construct']))) {
+                return $index;
             }
         }
 

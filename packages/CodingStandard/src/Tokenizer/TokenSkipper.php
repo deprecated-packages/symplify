@@ -7,7 +7,7 @@ use PhpCsFixer\Tokenizer\Tokens;
 
 final class TokenSkipper
 {
-    public function skipBlocks(Tokens $tokens, int $i): int
+    public static function skipBlocks(Tokens $tokens, int $i): int
     {
         $tokenCountToSkip = 0;
         $token = $tokens[$i];
@@ -25,25 +25,25 @@ final class TokenSkipper
         return $i + $tokenCountToSkip;
     }
 
-    public function skipBlocksReversed(Tokens $tokens, int $i): int
+    public static function skipBlocksReversed(Tokens $tokens, int $i): int
     {
         $tokenCountToSkip = 0;
         $token = $tokens[$i];
 
         if ($token->isGivenKind(CT::T_ARRAY_SQUARE_BRACE_CLOSE)) {
-            $blockStart = $this->findBlockStart($tokens, Tokens::BLOCK_TYPE_ARRAY_SQUARE_BRACE, $i);
+            $blockStart = self::findBlockStart($tokens, Tokens::BLOCK_TYPE_ARRAY_SQUARE_BRACE, $i);
             $tokenCountToSkip = $i - $blockStart;
         }
 
         if ($token->equals(')')) {
-            $blockStart = $this->findBlockStart($tokens, Tokens::BLOCK_TYPE_PARENTHESIS_BRACE, $i);
+            $blockStart = self::findBlockStart($tokens, Tokens::BLOCK_TYPE_PARENTHESIS_BRACE, $i);
             $tokenCountToSkip = $i - $blockStart;
         }
 
         return $i - $tokenCountToSkip;
     }
 
-    private function findBlockStart(Tokens $tokens, int $type, int $i): int
+    private static function findBlockStart(Tokens $tokens, int $type, int $i): int
     {
         return $tokens->findBlockEnd($type, $i, false);
     }

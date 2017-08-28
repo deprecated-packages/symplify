@@ -87,7 +87,7 @@
         ],
         "check-cs": "packages/EasyCodingStandard/bin/ecs check packages",
         "fix-cs": "packages/EasyCodingStandard/bin/ecs check packages --fix",
-        "phpstan": "phpstan analyse packages --level 7 --configuration phpstan.neon"
+        "phpstan": "phpstan analyse packages --level max --configuration phpstan.neon"
     },
     "config": {
         "sort-packages": true

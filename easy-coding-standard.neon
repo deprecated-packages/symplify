@@ -1,23 +1,23 @@
 includes:
     - packages/EasyCodingStandard/config/symfony-checkers.neon
-    - packages/EasyCodingStandard/config/symplify-checkers.neon
     - packages/EasyCodingStandard/config/php54-checkers.neon
     - packages/EasyCodingStandard/config/php70-checkers.neon
     - packages/EasyCodingStandard/config/php71-checkers.neon
     # custom
+    - packages/EasyCodingStandard/config/symplify-checkers.neon
     - packages/EasyCodingStandard/config/common.neon
     - packages/EasyCodingStandard/config/spaces.neon
 
 checkers:
+    Symplify\CodingStandard\Sniffs\DependencyInjection\NoClassInstantiationSniff:
+        extraAllowedClasses:
+            - Symplify\EasyCodingStandard\Error\Error
+
     # Slevomat
     SlevomatCodingStandard\Sniffs\Namespaces\ReferenceUsedNamesOnlySniff:
         allowPartialUses: false
     - SlevomatCodingStandard\Sniffs\ControlStructures\AssignmentInConditionSniff
     SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff:
-        usefulAnnotations:
-            - @dataProvider
-            - @deprecated
-            - @todo
         enableEachParameterAndReturnInspection: true
     - SlevomatCodingStandard\Sniffs\Exceptions\ReferenceThrowableOnlySniff
 
@@ -31,6 +31,8 @@ checkers:
 
     # class should be Abstact or Final
     - SlamCsFixer\FinalInternalClassFixer
+
+
 
 parameters:
     exclude_checkers:
@@ -61,6 +63,9 @@ parameters:
             - packages/CodingStandard/src/Fixer/DependencyInjection/InjectToConstructorInjectionFixer.php
 
         Symplify\CodingStandard\Fixer\Php\ClassStringToClassConstantFixer:
+            # name parts, not classes
+            - packages/CodingStandard/src/Sniffs/DependencyInjection/NoClassInstantiationSniff.php
+
             # optional package, interface might not exist
             - packages/CodingStandard/src/Sniffs/Classes/EqualInterfaceImplementationSniff.php
             # "Exception" is string part of the name
@@ -73,3 +78,8 @@ parameters:
             # class might not exist
             - packages/EasyCodingStandard/packages/Configuration/src/MutualCheckerExcluder.php
             - packages/EasyCodingStandard/packages/Configuration/tests/MutualCheckerExcluderTest.php
+
+        Symplify\CodingStandard\Sniffs\DependencyInjection\NoClassInstantiationSniff:
+            # fix later
+            - packages/CodingStandard/src/Sniffs/Debug/CommentedOutCodeSniff.php
+            - packages/Statie/src/Github/GihubPublishingProcess.php
