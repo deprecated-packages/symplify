@@ -47,16 +47,6 @@ final class StandaloneLineInMultilineArrayFixer implements DefinedFixerInterface
      */
     private $indentDetector;
 
-    /**
-     * @var TokenSkipper
-     */
-    private $tokenSkipper;
-
-    public function __construct()
-    {
-        $this->tokenSkipper = new TokenSkipper;
-    }
-
     public function getDefinition(): FixerDefinitionInterface
     {
         return new FixerDefinition(
@@ -83,7 +73,7 @@ $values = [1 => \'hey\', 2 => \'hello\'];'
                 continue;
             }
 
-            $arrayTokensAnalyzer = new ArrayTokensAnalyzer($tokens, $index);
+            $arrayTokensAnalyzer = ArrayTokensAnalyzer::createFromTokensArrayStartPosition($tokens, $index);
             $this->isOldArray = $arrayTokensAnalyzer->isOldArray();
 
             if (! $arrayTokensAnalyzer->isAssociativeArray()) {
@@ -117,7 +107,7 @@ $values = [1 => \'hey\', 2 => \'hello\'];'
     public function setWhitespacesConfig(WhitespacesFixerConfig $whitespacesFixerConfig): void
     {
         $this->whitespacesFixerConfig = $whitespacesFixerConfig;
-        $this->indentDetector = new IndentDetector($whitespacesFixerConfig);
+        $this->indentDetector = IndentDetector::createFromWhitespacesFixerConfig($whitespacesFixerConfig);
     }
 
     private function fixArray(Tokens $tokens, ArrayTokensAnalyzer $arrayTokensAnalyzer): void
@@ -130,7 +120,7 @@ $values = [1 => \'hey\', 2 => \'hello\'];'
         $this->prepareIndentWhitespaces($tokens, $arrayTokensAnalyzer->getStartIndex());
 
         for ($i = $arrayTokensAnalyzer->getEndIndex() - 1; $i >= $arrayTokensAnalyzer->getStartIndex(); --$i) {
-            $i = $this->tokenSkipper->skipBlocksReversed($tokens, $i);
+            $i = TokenSkipper::skipBlocksReversed($tokens, $i);
 
             $token = $tokens[$i];
             if (! $token->equals(',')) { // item separator

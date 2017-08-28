@@ -27,11 +27,16 @@ final class ArrayTokensAnalyzer
      */
     private $endIndex;
 
-    public function __construct(Tokens $tokens, int $startIndex)
+    private function __construct(Tokens $tokens, int $startIndex)
     {
         $this->tokens = $tokens;
         $this->startIndex = $startIndex;
         $this->startToken = $tokens[$startIndex];
+    }
+
+    public static function createFromTokensArrayStartPosition(Tokens $tokens, int $startIndex): self
+    {
+        return new self($tokens, $startIndex);
     }
 
     public function getStartIndex(): int

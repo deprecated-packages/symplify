@@ -78,3 +78,8 @@ parameters:
             # class might not exist
             - packages/EasyCodingStandard/packages/Configuration/src/MutualCheckerExcluder.php
             - packages/EasyCodingStandard/packages/Configuration/tests/MutualCheckerExcluderTest.php
+
+        Symplify\CodingStandard\Sniffs\DependencyInjection\NoClassInstantiationSniff:
+            # fix later
+            - packages/CodingStandard/src/Sniffs/Debug/CommentedOutCodeSniff.php
+            - packages/Statie/src/Github/GihubPublishingProcess.php

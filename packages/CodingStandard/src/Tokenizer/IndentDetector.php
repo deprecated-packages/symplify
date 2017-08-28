@@ -12,9 +12,14 @@ final class IndentDetector
      */
     private $whitespacesFixerConfig;
 
-    public function __construct(WhitespacesFixerConfig $whitespacesFixerConfig)
+    private function __construct(WhitespacesFixerConfig $whitespacesFixerConfig)
     {
         $this->whitespacesFixerConfig = $whitespacesFixerConfig;
+    }
+
+    public static function createFromWhitespacesFixerConfig(WhitespacesFixerConfig $whitespacesFixerConfig): self
+    {
+        return new self($whitespacesFixerConfig);
     }
 
     public function detectOnPosition(Tokens $tokens, int $arrayStartIndex): int
