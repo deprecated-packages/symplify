@@ -53,6 +53,8 @@ final class NoClassInstantiationSniff implements Sniff
         'PhpCsFixer\FixerDefinition\CodeSample',
         'PhpCsFixer\FixerDefinition\FixerDefinition',
         'PhpCsFixer\FixerConfiguration\FixerOptionBuilder',
+        'PhpCsFixer\FixerConfiguration\FixerConfigurationResolver',
+        'PhpCsFixer\DocBlock\DocBlock',
 
         // PHP_CodeSniffer
         'PHP_CodeSniffer\Util\Tokens',
@@ -131,7 +133,7 @@ final class NoClassInstantiationSniff implements Sniff
             return;
         }
 
-        $classNameTokenPosition = TokenHelper::findNext($file, [T_STRING], $position);
+        $classNameTokenPosition = TokenHelper::findNext($file, [T_STRING], $position, $position + 3);
         if ($classNameTokenPosition === null) {
             return;
         }
@@ -141,10 +143,7 @@ final class NoClassInstantiationSniff implements Sniff
             return;
         }
 
-        $file->addError(sprintf(
-            self::ERROR_MESSAGE,
-            $className
-        ), $position, self::class);
+        $file->addError(sprintf(self::ERROR_MESSAGE, $className), $position, self::class);
     }
 
     private function isClassInstantiationAllowed(string $class, int $classTokenPosition): bool
