@@ -31,10 +31,18 @@ final class NoClassInstantiationSniff implements Sniff
     public $allowedClasses = [
         DateTime::class,
         SplFileInfo::class,
+        stdClass::class,
+
+        // Symfony Console
         'Symfony\Component\Console\Input\InputArgument',
         'Symfony\Component\Console\Input\InputDefinition',
         'Symfony\Component\Console\Input\InputOption',
-        stdClass::class,
+
+        // php-cs-fixer
+        'PhpCsFixer\Tokenizer\Token',
+        'PhpCsFixer\FixerDefinition\CodeSample',
+        'PhpCsFixer\FixerDefinition\FixerDefinition',
+        'PhpCsFixer\FixerConfiguration\FixerOptionBuilder',
     ];
 
     /**

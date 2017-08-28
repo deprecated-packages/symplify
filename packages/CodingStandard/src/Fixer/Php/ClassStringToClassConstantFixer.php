@@ -112,10 +112,12 @@ final class ClassStringToClassConstantFixer implements DefinedFixerInterface, Co
 
     public function getConfigurationDefinition(): FixerConfigurationResolverInterface
     {
-        $classMustExistOption = (new FixerOptionBuilder(
+        $fixerOptionBuilder = new FixerOptionBuilder(
             self::CLASS_MUST_EXIST_OPTION,
             'Whether class has to exist or not.'
-        ))->setAllowedValues([true, false])
+        );
+
+        $classMustExistOption = $fixerOptionBuilder->setAllowedValues([true, false])
             ->setDefault(true)
             ->getOption();
 
