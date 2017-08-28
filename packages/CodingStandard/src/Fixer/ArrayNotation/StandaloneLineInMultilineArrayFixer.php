@@ -123,13 +123,16 @@ $values = [1 => \'hey\', 2 => \'hello\'];'
             $i = TokenSkipper::skipBlocksReversed($tokens, $i);
 
             $token = $tokens[$i];
-            if (! $token->equals(',')) { // item separator
+
+            if (! $token->equalsAny([',', T_END_HEREDOC])) { // item separator or comment behind it
                 continue;
             }
 
             $nextToken = $tokens[$i + 1];
+
+            $nextNextToken = $tokens[$i + 2];
             // if next token is just space, turn it to newline
-            if ($nextToken->isWhitespace(' ')) {
+            if ($nextToken->isWhitespace(' ') && ! $nextNextToken->isComment()) {
                 $tokens->ensureWhitespaceAtIndex($i + 1, 0, $this->newlineIndentWhitespace);
                 ++$i;
             }
