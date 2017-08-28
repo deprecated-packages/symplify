@@ -9,6 +9,10 @@ includes:
     - packages/EasyCodingStandard/config/spaces.neon
 
 checkers:
+    Symplify\CodingStandard\Sniffs\DependencyInjection\NoClassInstantiationSniff:
+        extraAllowedClassSuffixes:
+            - Error
+
     # Slevomat
     SlevomatCodingStandard\Sniffs\Namespaces\ReferenceUsedNamesOnlySniff:
         allowPartialUses: false
@@ -27,6 +31,8 @@ checkers:
 
     # class should be Abstact or Final
     - SlamCsFixer\FinalInternalClassFixer
+
+
 
 parameters:
     exclude_checkers:
@@ -57,6 +63,9 @@ parameters:
             - packages/CodingStandard/src/Fixer/DependencyInjection/InjectToConstructorInjectionFixer.php
 
         Symplify\CodingStandard\Fixer\Php\ClassStringToClassConstantFixer:
+            # name parts, not classes
+            - packages/CodingStandard/src/Sniffs/DependencyInjection/NoClassInstantiationSniff.php
+
             # optional package, interface might not exist
             - packages/CodingStandard/src/Sniffs/Classes/EqualInterfaceImplementationSniff.php
             # "Exception" is string part of the name

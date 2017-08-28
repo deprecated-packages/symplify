@@ -7,6 +7,7 @@ use Nette\Utils\Strings;
 use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Sniffs\Sniff;
 use ReflectionClass;
+use SlevomatCodingStandard\Helpers\ClassHelper;
 use SlevomatCodingStandard\Helpers\NamespaceHelper;
 use SlevomatCodingStandard\Helpers\ReferencedNameHelper;
 use SlevomatCodingStandard\Helpers\TokenHelper;
@@ -17,7 +18,7 @@ final class NoClassInstantiationSniff implements Sniff
     /**
      * @var string
      */
-    private const ERROR_MESSAGE = 'Use service and constructor injection rather than instantiation with new %s.';
+    private const ERROR_MESSAGE = 'Use service and constructor injection rather than instantiation with "new %s".';
 
     /**
      * @var string[]
@@ -32,9 +33,24 @@ final class NoClassInstantiationSniff implements Sniff
     public $allowedClassSuffixes = [
         'Response',
         'Exception',
-        'Route'
-
+        'Route',
+        'Event',
+        'Iterator',
+        'Reference' // Symfony DI Reference class
     ];
+
+    /**
+     * @var string[]
+     */
+    public $allowedFileClassSuffixes = [
+        'Extension', // Symfony and Nette DI Extension classes
+        'Factory', // in factories "new" is expected
+    ];
+
+    /**
+     * @var string[]
+     */
+    public $extraAllowedClassSuffixes = [];
 
     /**
      * @var string[]
@@ -71,7 +87,7 @@ final class NoClassInstantiationSniff implements Sniff
         $this->file = $file;
         $this->tokens = $file->getTokens();
 
-        if ($this->isTestFile($file->getFilename())) {
+        if ($this->shouldSkipFile()) {
             return;
         }
 
@@ -81,7 +97,6 @@ final class NoClassInstantiationSniff implements Sniff
         }
 
         $className = $this->getClassName($classNameTokenPosition);
-
         if ($this->isClassInstantiationAllowed($className, $classNameTokenPosition)) {
             return;
         }
@@ -98,7 +113,8 @@ final class NoClassInstantiationSniff implements Sniff
             return true;
         }
 
-        foreach ($this->allowedClassSuffixes as $allowedClassSuffix) {
+        $allowedClassSuffixes = $this->allowedClassSuffixes + $this->extraAllowedClassSuffixes;
+        foreach ($allowedClassSuffixes as $allowedClassSuffix) {
             if (Strings::endsWith($class, $allowedClassSuffix)) {
                 return true;
             }
@@ -117,24 +133,17 @@ final class NoClassInstantiationSniff implements Sniff
         return false;
     }
 
-    private function isTestFile(string $filename): bool
-    {
-        if (Strings::endsWith($filename, 'Test.php')) {
-            return true;
-        }
 
-        if (Strings::endsWith($filename, '.phpt')) {
-            return true;
-        }
 
-        return false;
-    }
 
     private function isEntityClass(string $class, int $classTokenPosition): bool
     {
-        $fqnClassName = $this->getFqnClassName($class, $classTokenPosition);
+        $className = $this->getClassName($classTokenPosition);
 
-        if (class_exists($fqnClassName)) {
+        if (class_exists($className)) {
+            // too slow
+            // better approach of external class?
+            // better reflection?
             $classReflection = new ReflectionClass($class);
             $docComment = $classReflection->getDocComment();
 
@@ -151,9 +160,9 @@ final class NoClassInstantiationSniff implements Sniff
 
         $nextTokenPointer = $classNameStartPosition + 1;
         while ($this->tokens[$nextTokenPointer]['code'] === T_NS_SEPARATOR) {
-            $nextTokenPointer++;
+            ++$nextTokenPointer;
             $classNameParts[] = $this->tokens[$nextTokenPointer]['content'];
-            $nextTokenPointer++;
+            ++$nextTokenPointer;
         }
 
         $completeClassName = implode('\\', $classNameParts);
@@ -183,5 +192,85 @@ final class NoClassInstantiationSniff implements Sniff
         }
 
         return '';
+    }
+
+    private function shouldSkipFile(): bool
+    {
+        if ($this->isTrait()) {
+            return true;
+        }
+
+        if ($this->isAllowedFileClass()) {
+            return true;
+        }
+
+        if ($this->isBinFile()) {
+            return true;
+        }
+
+        if ($this->isTestFile()) {
+            return true;
+        }
+
+        if ($this->isAppKernel()) {
+            return true;
+        }
+
+        return false;
+    }
+
+    private function isTestFile(): bool
+    {
+        if (Strings::endsWith($this->file->getFilename(), 'TestCase.php')) {
+            return true;
+        }
+
+        if (Strings::endsWith($this->file->getFilename(), 'Test.php')) {
+            return true;
+        }
+
+        if (Strings::endsWith($this->file->getFilename(), '.phpt')) {
+            return true;
+        }
+
+        return false;
+    }
+
+    private function isAppKernel(): bool
+    {
+        return Strings::endsWith($this->file->getFilename(), 'AppKernel.php');
+    }
+
+    private function isTrait(): bool
+    {
+        return (bool) $this->file->findNext(T_TRAIT, 1);
+    }
+
+    private function isBinFile(): bool
+    {
+        return Strings::contains($this->file->getFilename(), DIRECTORY_SEPARATOR . 'bin' . DIRECTORY_SEPARATOR);
+    }
+
+    private function isAllowedFileClass(): bool
+    {
+        $fileClassName = $this->getFileClassName();
+
+        foreach ($this->allowedFileClassSuffixes as $allowedFileClassSuffix) {
+            if (Strings::endsWith($fileClassName, 'Factory')) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private function getFileClassName(): ?string
+    {
+        $classPosition = TokenHelper::findNext($this->file, T_CLASS, 1);
+        if ($classPosition === null) {
+            return null;
+        }
+
+        return ClassHelper::getFullyQualifiedName($this->file, $classPosition);
     }
 }

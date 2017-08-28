@@ -438,6 +438,8 @@ checkers:
         allowedClassSuffixes:
             - Response # by default
             - ValueObject
+        allowedFileClassSuffixes:
+            - Factory # by default  
 ```
 
 (@todo)
