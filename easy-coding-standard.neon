@@ -12,6 +12,7 @@ checkers:
     Symplify\CodingStandard\Sniffs\DependencyInjection\NoClassInstantiationSniff:
         extraAllowedClassSuffixes:
             - Error
+            - PHP_CodeSniffer\Tokenizers\PHP
 
     # Slevomat
     SlevomatCodingStandard\Sniffs\Namespaces\ReferenceUsedNamesOnlySniff:

@@ -12,6 +12,8 @@ use SlevomatCodingStandard\Helpers\NamespaceHelper;
 use SlevomatCodingStandard\Helpers\ReferencedNameHelper;
 use SlevomatCodingStandard\Helpers\TokenHelper;
 use SlevomatCodingStandard\Helpers\UseStatementHelper;
+use SplFileInfo;
+use stdClass;
 
 final class NoClassInstantiationSniff implements Sniff
 {
@@ -21,10 +23,18 @@ final class NoClassInstantiationSniff implements Sniff
     private const ERROR_MESSAGE = 'Use service and constructor injection rather than instantiation with "new %s".';
 
     /**
+     * @todo try to refactor to simple fnmatch on class name?
+     * That would include exact match, starts with, ends with and contains
+     *
      * @var string[]
      */
     public $allowedClasses = [
         DateTime::class,
+        SplFileInfo::class,
+        'Symfony\Component\Console\Input\InputArgument',
+        'Symfony\Component\Console\Input\InputDefinition',
+        'Symfony\Component\Console\Input\InputOption',
+        stdClass::class,
     ];
 
     /**
@@ -36,7 +46,7 @@ final class NoClassInstantiationSniff implements Sniff
         'Route',
         'Event',
         'Iterator',
-        'Reference' // Symfony DI Reference class
+        'Reference', // Symfony DI Reference class
     ];
 
     /**
@@ -45,6 +55,9 @@ final class NoClassInstantiationSniff implements Sniff
     public $allowedFileClassSuffixes = [
         'Extension', // Symfony and Nette DI Extension classes
         'Factory', // in factories "new" is expected
+        // Symfony DI bootstrap
+        'Bundle',
+        'Kernel',
     ];
 
     /**
@@ -133,9 +146,6 @@ final class NoClassInstantiationSniff implements Sniff
         return false;
     }
 
-
-
-
     private function isEntityClass(string $class, int $classTokenPosition): bool
     {
         $className = $this->getClassName($classTokenPosition);
@@ -212,10 +222,6 @@ final class NoClassInstantiationSniff implements Sniff
             return true;
         }
 
-        if ($this->isAppKernel()) {
-            return true;
-        }
-
         return false;
     }
 
@@ -236,11 +242,6 @@ final class NoClassInstantiationSniff implements Sniff
         return false;
     }
 
-    private function isAppKernel(): bool
-    {
-        return Strings::endsWith($this->file->getFilename(), 'AppKernel.php');
-    }
-
     private function isTrait(): bool
     {
         return (bool) $this->file->findNext(T_TRAIT, 1);
@@ -256,7 +257,7 @@ final class NoClassInstantiationSniff implements Sniff
         $fileClassName = $this->getFileClassName();
 
         foreach ($this->allowedFileClassSuffixes as $allowedFileClassSuffix) {
-            if (Strings::endsWith($fileClassName, 'Factory')) {
+            if (Strings::endsWith($fileClassName, $allowedFileClassSuffix)) {
                 return true;
             }
         }

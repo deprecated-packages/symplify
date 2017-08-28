@@ -435,8 +435,7 @@ checkers:
         allowedClasses:
             - DateTime # by default
             - App\ProductModule\Product
-        allowedClassSuffixes:
-            - Response # by default
+        extraAllowedClassSuffixes:
             - ValueObject
         allowedFileClassSuffixes:
             - Factory # by default  
