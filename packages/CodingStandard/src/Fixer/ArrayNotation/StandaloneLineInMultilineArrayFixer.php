@@ -124,7 +124,7 @@ $values = [1 => \'hey\', 2 => \'hello\'];'
 
             $token = $tokens[$i];
 
-            if (! $token->equalsAny([',', T_END_HEREDOC])) { // item separator or comment behind it
+            if (! $token->equals(',')) { // item separator behind it
                 continue;
             }
 
