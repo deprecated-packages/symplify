@@ -22,11 +22,17 @@ final class Configuration
      */
     private $shouldClearCache = false;
 
+    /**
+     * @var bool
+     */
+    private $showPerformance = false;
+
     public function resolveFromInput(InputInterface $input): void
     {
         $this->setSources($input->getArgument('source'));
         $this->isFixer = (bool) $input->getOption('fix');
         $this->shouldClearCache = (bool) $input->getOption('clear-cache');
+        $this->showPerformance = (bool) $input->getOption('show-performance');
     }
 
     /**
@@ -53,6 +59,11 @@ final class Configuration
     public function shouldClearCache(): bool
     {
         return $this->shouldClearCache;
+    }
+
+    public function showPerformance(): bool
+    {
+        return $this->showPerformance;
     }
 
     /**

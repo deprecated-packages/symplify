@@ -5,6 +5,7 @@ namespace Symplify\EasyCodingStandard\Console\Command;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symplify\EasyCodingStandard\Application\Application;
@@ -13,6 +14,7 @@ use Symplify\EasyCodingStandard\Configuration\Exception\NoCheckersLoadedExceptio
 use Symplify\EasyCodingStandard\Console\Style\EasyCodingStandardStyle;
 use Symplify\EasyCodingStandard\Error\ErrorCollector;
 use Symplify\EasyCodingStandard\FixerRunner\Application\FixerFileProcessor;
+use Symplify\EasyCodingStandard\Performance\CheckerMetricRecorder;
 use Symplify\EasyCodingStandard\Skipper;
 use Symplify\EasyCodingStandard\SniffRunner\Application\SniffFileProcessor;
 
@@ -63,6 +65,11 @@ final class CheckCommand extends Command
      */
     private $sniffFileProcessor;
 
+    /**
+     * @var CheckerMetricRecorder
+     */
+    private $checkerMetricRecorder;
+
     public function __construct(
         Application $application,
         EasyCodingStandardStyle $easyCodingStandardStyle,
@@ -71,7 +78,8 @@ final class CheckCommand extends Command
         ErrorCollector $errorDataCollector,
         SymfonyStyle $symfonyStyle,
         FixerFileProcessor $fixerFileProcessor,
-        SniffFileProcessor $sniffFileProcessor
+        SniffFileProcessor $sniffFileProcessor,
+        CheckerMetricRecorder $checkerMetricRecorder
     ) {
         parent::__construct();
 
@@ -83,6 +91,7 @@ final class CheckCommand extends Command
         $this->symfonyStyle = $symfonyStyle;
         $this->fixerFileProcessor = $fixerFileProcessor;
         $this->sniffFileProcessor = $sniffFileProcessor;
+        $this->checkerMetricRecorder = $checkerMetricRecorder;
     }
 
     protected function configure(): void
@@ -92,6 +101,12 @@ final class CheckCommand extends Command
         $this->addArgument('source', InputArgument::REQUIRED | InputArgument::IS_ARRAY, 'The path(s) to be checked.');
         $this->addOption('fix', null, null, 'Fix found violations.');
         $this->addOption('clear-cache', null, null, 'Clear cache for already checked files.');
+        $this->addOption(
+            'show-performance',
+            null,
+            InputOption::VALUE_NONE,
+            'Show performance of every checker.'
+        );
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -105,13 +120,18 @@ final class CheckCommand extends Command
             $this->symfonyStyle->newLine();
             $this->symfonyStyle->success('No errors found. Great job - your code is shiny in style!');
             $this->reportUnusedSkipped();
+            $this->reportPerformance();
 
             return 0;
         }
 
         $this->symfonyStyle->newLine();
 
-        return $this->configuration->isFixer() ? $this->printAfterFixerStatus() : $this->printNoFixerStatus();
+        $exitCode = $this->configuration->isFixer() ? $this->printAfterFixerStatus() : $this->printNoFixerStatus();
+
+        $this->reportPerformance();
+
+        return $exitCode;
     }
 
     private function printAfterFixerStatus(): int
@@ -191,5 +211,34 @@ final class CheckCommand extends Command
                 . 'section or load them via "--config <file>.neon" option.'
             );
         }
+    }
+
+    private function reportPerformance(): void
+    {
+        if (! $this->configuration->showPerformance()) {
+            return;
+        }
+
+        $this->symfonyStyle->newLine();
+
+        $this->symfonyStyle->title('Performance Statistics');
+
+        $metrics = $this->checkerMetricRecorder->getMetrics();
+        $metricsForTable = $this->prepareForTable($metrics);
+        $this->symfonyStyle->table(['Checker', 'Total duration'], $metricsForTable);
+    }
+
+    /**
+     * @param mixed[] $metrics
+     * @return mixed[]
+     */
+    private function prepareForTable(array $metrics): array
+    {
+        $metricsForTable = [];
+        foreach ($metrics as $checkerClass => $duration) {
+            $metricsForTable[] = [$checkerClass, $duration . ' ms'];
+        }
+
+        return $metricsForTable;
     }
 }

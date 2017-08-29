@@ -53,6 +53,7 @@
             "Symplify\\EasyCodingStandard\\ChangedFilesDetector\\": "packages/EasyCodingStandard/packages/ChangedFilesDetector/src",
             "Symplify\\EasyCodingStandard\\Configuration\\": "packages/EasyCodingStandard/packages/Configuration/src",
             "Symplify\\EasyCodingStandard\\FixerRunner\\": "packages/EasyCodingStandard/packages/FixerRunner/src",
+            "Symplify\\EasyCodingStandard\\Performance\\": "packages/EasyCodingStandard/packages/Performance/src",
             "Symplify\\PackageBuilder\\": "packages/PackageBuilder/src",
             "Symplify\\Statie\\": "packages/Statie/src",
             "Symplify\\Statie\\Amp\\": "packages/Statie/packages/Amp/src",
