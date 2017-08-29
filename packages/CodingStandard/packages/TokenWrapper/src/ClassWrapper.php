@@ -36,6 +36,11 @@ final class ClassWrapper
      */
     private $interfaces = [];
 
+    /**
+     * @var string[]
+     */
+    private $propertyNames = [];
+
     private function __construct(File $file, int $position)
     {
         $this->file = $file;
@@ -55,6 +60,31 @@ final class ClassWrapper
         $classProperties = $this->file->getClassProperties($this->position);
 
         return $classProperties['is_abstract'];
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getPropertyNames(): array
+    {
+        if ($this->propertyNames) {
+            return $this->propertyNames;
+        }
+
+        $classOpenerPosition = $this->classToken['scope_opener'] + 1;
+        $startPosition = $classOpenerPosition;
+
+        while (($propertyTokenPointer = $this->file->findNext(
+            T_VARIABLE,
+            $startPosition,
+            $this->classToken['scope_closer']
+        )) !== false) {
+            $startPosition = $propertyTokenPointer + 1;
+            $propertyToken = $this->tokens[$propertyTokenPointer];
+            $this->propertyNames[] = ltrim($propertyToken['content'], '$');
+        }
+
+        return $this->propertyNames;
     }
 
     /**
