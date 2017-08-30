@@ -88,11 +88,10 @@ final class ClassWrapper
         }
 
         $parentClass = $this->getParentClass();
+
         if ($parentClass) {
-            $parentClassReflection = new ReflectionClass($parentClass);
-            foreach ($parentClassReflection->getProperties() as $propertyReflection) {
-                $this->propertyNames[] = $propertyReflection->getName();
-            }
+            $parentClassProperties = get_class_vars($parentClass);
+            $this->propertyNames += array_keys($parentClassProperties);
         }
 
         return $this->propertyNames;
