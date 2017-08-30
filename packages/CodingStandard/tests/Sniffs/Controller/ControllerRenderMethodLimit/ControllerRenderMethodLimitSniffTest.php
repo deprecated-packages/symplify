@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Sniffs\Controller\ControllerRenderMethodLimitSniff;
+namespace Symplify\CodingStandard\Tests\Sniffs\Controller\ControllerRenderMethodLimit;
 
 use Symplify\CodingStandard\Sniffs\Controller\ControllerRenderMethodLimitSniff;
 use Symplify\CodingStandard\Tests\Sniffs\AbstractSniffTestCase;

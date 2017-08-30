@@ -3,6 +3,10 @@
 namespace Symplify\CodingStandard\TokenWrapper;
 
 use PHP_CodeSniffer\Files\File;
+use ReflectionClass;
+use ReflectionProperty;
+use SlevomatCodingStandard\Helpers\TokenHelper;
+use Symplify\CodingStandard\Helper\Naming;
 
 final class ClassWrapper
 {
@@ -36,6 +40,11 @@ final class ClassWrapper
      */
     private $interfaces = [];
 
+    /**
+     * @var string[]
+     */
+    private $propertyNames = [];
+
     private function __construct(File $file, int $position)
     {
         $this->file = $file;
@@ -50,11 +59,43 @@ final class ClassWrapper
         return new self($file, $position);
     }
 
+    public function getClassName(): string
+    {
+        return Naming::getClassName($this->file, $this->position);
+    }
+
     public function isAbstract(): bool
     {
         $classProperties = $this->file->getClassProperties($this->position);
 
         return $classProperties['is_abstract'];
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getPropertyNames(): array
+    {
+        if ($this->propertyNames) {
+            return $this->propertyNames;
+        }
+
+        $classOpenerPosition = $this->classToken['scope_opener'] + 1;
+        $startPosition = $classOpenerPosition;
+
+        while (($propertyTokenPointer = $this->file->findNext(
+            T_VARIABLE,
+            $startPosition,
+            $this->classToken['scope_closer']
+        )) !== false) {
+            $startPosition = $propertyTokenPointer + 1;
+            $propertyToken = $this->tokens[$propertyTokenPointer];
+            $this->propertyNames[] = ltrim($propertyToken['content'], '$');
+        }
+
+        $this->propertyNames = array_merge($this->propertyNames, $this->getParentClassPropertyNames());
+
+        return $this->propertyNames;
     }
 
     /**
@@ -143,6 +184,18 @@ final class ClassWrapper
         return $this->interfaces;
     }
 
+    public function getParentClassName(): ?string
+    {
+        $extendsTokenPosition = TokenHelper::findNext($this->file, T_EXTENDS, $this->position, $this->position + 10);
+        if ($extendsTokenPosition === null) {
+            return null;
+        }
+
+        $parentClassPosition = (int) TokenHelper::findNext($this->file, T_STRING, $extendsTokenPosition);
+
+        return Naming::getClassName($this->file, $parentClassPosition);
+    }
+
     private function getClassFullyQualifiedName(): string
     {
         $namespaceStart = $this->file->findNext([T_NAMESPACE], 0);
@@ -162,5 +215,53 @@ final class ClassWrapper
         $class .= $this->file->getDeclarationName($classPosition);
 
         return $class;
+    }
+
+    /**
+     * @return string[]
+     */
+    private function getParentClasses(): array
+    {
+        $firstParentClass = $this->getParentClassName();
+        if ($firstParentClass === null || $firstParentClass === '') {
+            return [];
+        }
+
+        $parentClasses = array_merge([$firstParentClass], class_parents($firstParentClass));
+
+        return array_unique($parentClasses);
+    }
+
+    /**
+     * @return string[]
+     */
+    private function getParentClassPropertyNames(): array
+    {
+        $parentClassPropertyNames = [];
+
+        foreach ($this->getParentClasses() as $parentClass) {
+            $classPropertyNames = $this->getPublicAndProtectedPropertyNamesFromClass($parentClass);
+            $parentClassPropertyNames = array_merge($parentClassPropertyNames, $classPropertyNames);
+        }
+
+        return $parentClassPropertyNames;
+    }
+
+    /**
+     * @return string[]
+     */
+    private function getPublicAndProtectedPropertyNamesFromClass(string $parentClass): array
+    {
+        $propertyNames = [];
+
+        $propertyReflections = (new ReflectionClass($parentClass))->getProperties(
+            ReflectionProperty::IS_PUBLIC | ReflectionProperty::IS_PROTECTED
+        );
+
+        foreach ($propertyReflections as $propertyReflection) {
+            $propertyNames[] = $propertyReflection->getName();
+        }
+
+        return $propertyNames;
     }
 }

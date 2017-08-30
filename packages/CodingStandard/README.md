@@ -573,6 +573,44 @@ final class SomeTest extends TestCase
 ```
 
 
+### Properties should be used instead of dynamically defined properties
+
+- class: [`Symplify\CodingStandard\Sniffs\Property\DynamicPropertySniff`](/src/Sniffs/Property/DynamicPropertySniff.php)
+- `Symplify.Property.DynamicProperty`
+
+:x:
+
+```php
+class SomeClass
+{
+    public function __construct()
+    {
+        $this->someProperty = 5;
+    }
+}
+
+```
+
+:+1:
+
+```php
+class SomeClass
+{
+    /**
+     * @var int
+     */
+    public $someProperty;
+
+    public function __construct()
+    {
+        $this->someProperty = 5;
+    }
+}
+```
+
+
+
+
 ## Contributing
 
 Send [issue](https://github.com/Symplify/Symplify/issues) or [pull-request](https://github.com/Symplify/Symplify/pulls) to main repository.

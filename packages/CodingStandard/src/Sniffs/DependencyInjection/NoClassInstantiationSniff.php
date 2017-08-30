@@ -9,12 +9,10 @@ use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Sniffs\Sniff;
 use ReflectionClass;
 use SlevomatCodingStandard\Helpers\ClassHelper;
-use SlevomatCodingStandard\Helpers\NamespaceHelper;
-use SlevomatCodingStandard\Helpers\ReferencedNameHelper;
 use SlevomatCodingStandard\Helpers\TokenHelper;
-use SlevomatCodingStandard\Helpers\UseStatementHelper;
 use SplFileInfo;
 use stdClass;
+use Symplify\CodingStandard\Helper\Naming;
 
 final class NoClassInstantiationSniff implements Sniff
 {
@@ -112,11 +110,6 @@ final class NoClassInstantiationSniff implements Sniff
     private $file;
 
     /**
-     * @var mixed[]
-     */
-    private $tokens = [];
-
-    /**
      * @return int[]
      */
     public function register(): array
@@ -127,7 +120,6 @@ final class NoClassInstantiationSniff implements Sniff
     public function process(File $file, $position): void
     {
         $this->file = $file;
-        $this->tokens = $file->getTokens();
 
         if ($this->shouldSkipFile()) {
             return;
@@ -138,7 +130,7 @@ final class NoClassInstantiationSniff implements Sniff
             return;
         }
 
-        $className = $this->getClassName($classNameTokenPosition);
+        $className = Naming::getClassName($this->file, $classNameTokenPosition);
         if ($this->isClassInstantiationAllowed($className, $classNameTokenPosition)) {
             return;
         }
@@ -176,7 +168,7 @@ final class NoClassInstantiationSniff implements Sniff
 
     private function isEntityClass(string $class, int $classTokenPosition): bool
     {
-        $className = $this->getClassName($classTokenPosition);
+        $className = Naming::getClassName($this->file, $classTokenPosition);
 
         if (class_exists($className)) {
             // too slow
@@ -189,47 +181,6 @@ final class NoClassInstantiationSniff implements Sniff
         }
 
         return false;
-    }
-
-    private function getClassName(int $classNameStartPosition): string
-    {
-        $classNameParts = [];
-        $classNameParts[] = $this->tokens[$classNameStartPosition]['content'];
-
-        $nextTokenPointer = $classNameStartPosition + 1;
-        while ($this->tokens[$nextTokenPointer]['code'] === T_NS_SEPARATOR) {
-            ++$nextTokenPointer;
-            $classNameParts[] = $this->tokens[$nextTokenPointer]['content'];
-            ++$nextTokenPointer;
-        }
-
-        $completeClassName = implode('\\', $classNameParts);
-
-        $fqnClassName = $this->getFqnClassName($completeClassName, $classNameStartPosition);
-
-        return ltrim($fqnClassName, '\\');
-    }
-
-    private function getFqnClassName(string $className, int $classTokenPosition): string
-    {
-        $openTagPointer = (int) TokenHelper::findPrevious($this->file, T_OPEN_TAG, $classTokenPosition);
-        $useStatements = UseStatementHelper::getUseStatements($this->file, $openTagPointer);
-        $referencedNames = ReferencedNameHelper::getAllReferencedNames($this->file, $openTagPointer);
-
-        foreach ($referencedNames as $referencedName) {
-            $resolvedName = NamespaceHelper::resolveClassName(
-                $this->file,
-                $referencedName->getNameAsReferencedInFile(),
-                $useStatements,
-                $classTokenPosition
-            );
-
-            if (Strings::endsWith($resolvedName, $className)) {
-                return $resolvedName;
-            }
-        }
-
-        return '';
     }
 
     private function shouldSkipFile(): bool

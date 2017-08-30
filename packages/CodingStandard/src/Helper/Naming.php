@@ -4,10 +4,19 @@ namespace Symplify\CodingStandard\Helper;
 
 use Nette\Utils\Strings;
 use PHP_CodeSniffer\Files\File;
+use SlevomatCodingStandard\Helpers\NamespaceHelper;
+use SlevomatCodingStandard\Helpers\ReferencedNameHelper;
+use SlevomatCodingStandard\Helpers\TokenHelper;
+use SlevomatCodingStandard\Helpers\UseStatementHelper;
 use Symplify\CodingStandard\Exception\UnexpectedTokenException;
 
 final class Naming
 {
+    /**
+     * @var string
+     */
+    private const NAMESPACE_SEPARATOR = '\\';
+
     /**
      * @var string[]
      */
@@ -29,6 +38,54 @@ final class Naming
         }
 
         return false;
+    }
+
+    public static function getClassName(File $file, int $classNameStartPosition): string
+    {
+        $tokens = $file->getTokens();
+
+        $classNameParts = [];
+        $classNameParts[] = $tokens[$classNameStartPosition]['content'];
+
+        $nextTokenPointer = $classNameStartPosition + 1;
+        while ($tokens[$nextTokenPointer]['code'] === T_NS_SEPARATOR) {
+            ++$nextTokenPointer;
+            $classNameParts[] = $tokens[$nextTokenPointer]['content'];
+            ++$nextTokenPointer;
+        }
+
+        $completeClassName = implode(self::NAMESPACE_SEPARATOR, $classNameParts);
+
+        $fqnClassName = self::getFqnClassName($file, $completeClassName, $classNameStartPosition);
+
+        return ltrim($fqnClassName, self::NAMESPACE_SEPARATOR);
+    }
+
+    private static function getFqnClassName(File $file, string $className, int $classTokenPosition): string
+    {
+        $openTagPointer = (int) TokenHelper::findPrevious($file, T_OPEN_TAG, $classTokenPosition);
+        $useStatements = UseStatementHelper::getUseStatements($file, $openTagPointer);
+
+        $referencedNames = ReferencedNameHelper::getAllReferencedNames($file, $openTagPointer);
+
+        foreach ($referencedNames as $referencedName) {
+            $resolvedName = NamespaceHelper::resolveClassName(
+                $file,
+                $referencedName->getNameAsReferencedInFile(),
+                $useStatements,
+                $classTokenPosition
+            );
+
+            if (Strings::endsWith($resolvedName, $className)) {
+                return $resolvedName;
+            }
+
+            if ($referencedName->getNameAsReferencedInFile() === $className) {
+                return $resolvedName;
+            }
+        }
+
+        return '';
     }
 
     private static function ensureIsClassToken(File $file, int $position): void
