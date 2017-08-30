@@ -110,11 +110,6 @@ final class NoClassInstantiationSniff implements Sniff
     private $file;
 
     /**
-     * @var mixed[]
-     */
-    private $tokens = [];
-
-    /**
      * @return int[]
      */
     public function register(): array
@@ -125,7 +120,6 @@ final class NoClassInstantiationSniff implements Sniff
     public function process(File $file, $position): void
     {
         $this->file = $file;
-        $this->tokens = $file->getTokens();
 
         if ($this->shouldSkipFile()) {
             return;

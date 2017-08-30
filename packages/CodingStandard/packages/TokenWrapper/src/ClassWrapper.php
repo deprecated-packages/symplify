@@ -3,7 +3,6 @@
 namespace Symplify\CodingStandard\TokenWrapper;
 
 use PHP_CodeSniffer\Files\File;
-use ReflectionClass;
 use SlevomatCodingStandard\Helpers\TokenHelper;
 use Symplify\CodingStandard\Helper\Naming;
 
@@ -87,9 +86,9 @@ final class ClassWrapper
             $this->propertyNames[] = ltrim($propertyToken['content'], '$');
         }
 
-        $parentClass = $this->getParentClass();
+        $parentClasses = $this->getParentClasses();
 
-        if ($parentClass) {
+        foreach ($parentClasses as $parentClass) {
             $parentClassProperties = get_class_vars($parentClass);
             $this->propertyNames += array_keys($parentClassProperties);
         }
@@ -204,15 +203,24 @@ final class ClassWrapper
         return $class;
     }
 
-    private function getParentClass(): ?string
+    /**
+     * @return string[]
+     */
+    private function getParentClasses(): array
     {
+        $parentClasses = [];
+
         $extendsPosition = TokenHelper::findNext($this->file, T_EXTENDS, $this->position, $this->position + 5);
         if ($extendsPosition === null) {
-            return null;
+            return [];
         }
 
         $parentClassPosition = TokenHelper::findNext($this->file, T_STRING, $extendsPosition);
 
-        return Naming::getClassName($this->file, $parentClassPosition);
+        $firstParentClass = Naming::getClassName($this->file, $parentClassPosition);
+        $parentClasses[] = $firstParentClass;
+        $parentClasses += class_parents($firstParentClass);
+
+        return array_unique($parentClasses);
     }
 }
