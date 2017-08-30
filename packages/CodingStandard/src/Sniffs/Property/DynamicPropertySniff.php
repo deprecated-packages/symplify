@@ -57,6 +57,11 @@ final class DynamicPropertySniff implements Sniff
     {
         $previousToken = $this->tokens[$position - 1];
         $nextToken = $this->tokens[$position + 1];
+        $nextNextToken = $this->tokens[$position + 2];
+
+        if ($nextNextToken['code'] === T_OPEN_PARENTHESIS) {
+            return false;
+        }
 
         return $previousToken['content'] === '$this' && $nextToken['code'] === T_STRING;
     }
