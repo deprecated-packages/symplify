@@ -1,14 +1,9 @@
 <?php
 
-class SomeClass
+class SomeClass extends \Nette\Application\UI\Presenter
 {
-    /**
-     * @var SomeService
-     */
-    public $someProperty;
-
     public function __construct()
     {
-        $this->someProperty->someMethod();
+        $this->autoCanonicalize = true;
     }
 }
