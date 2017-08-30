@@ -3,6 +3,8 @@
 namespace Symplify\CodingStandard\TokenWrapper;
 
 use PHP_CodeSniffer\Files\File;
+use ReflectionClass;
+use ReflectionProperty;
 use SlevomatCodingStandard\Helpers\TokenHelper;
 use Symplify\CodingStandard\Helper\Naming;
 
@@ -221,7 +223,7 @@ final class ClassWrapper
     private function getParentClasses(): array
     {
         $firstParentClass = $this->getParentClassName();
-        if ($firstParentClass === null) {
+        if ($firstParentClass === null || $firstParentClass === '') {
             return [];
         }
 
@@ -235,13 +237,31 @@ final class ClassWrapper
      */
     private function getParentClassPropertyNames(): array
     {
-        $parentClassProperties = [];
-        $parentClasses = $this->getParentClasses();
+        $parentClassPropertyNames = [];
 
-        foreach ($parentClasses as $parentClass) {
-            $parentClassProperties = array_merge($parentClassProperties, array_keys(get_class_vars($parentClass)));
+        foreach ($this->getParentClasses() as $parentClass) {
+            $classPropertyNames = $this->getPublicAndProtectedPropertyNamesFromClass($parentClass);
+            $parentClassPropertyNames = array_merge($parentClassPropertyNames, $classPropertyNames);
         }
 
-        return $parentClassProperties;
+        return $parentClassPropertyNames;
+    }
+
+    /**
+     * @return string[]
+     */
+    private function getPublicAndProtectedPropertyNamesFromClass(string $parentClass): array
+    {
+        $propertyNames = [];
+
+        $propertyReflections = (new ReflectionClass($parentClass))->getProperties(
+            ReflectionProperty::IS_PUBLIC | ReflectionProperty::IS_PROTECTED
+        );
+
+        foreach ($propertyReflections as $propertyReflection) {
+            $propertyNames[] = $propertyReflection->getName();
+        }
+
+        return $propertyNames;
     }
 }

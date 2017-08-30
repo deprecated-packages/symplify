@@ -65,6 +65,7 @@ final class Naming
     {
         $openTagPointer = (int) TokenHelper::findPrevious($file, T_OPEN_TAG, $classTokenPosition);
         $useStatements = UseStatementHelper::getUseStatements($file, $openTagPointer);
+
         $referencedNames = ReferencedNameHelper::getAllReferencedNames($file, $openTagPointer);
 
         foreach ($referencedNames as $referencedName) {
@@ -76,6 +77,10 @@ final class Naming
             );
 
             if (Strings::endsWith($resolvedName, $className)) {
+                return $resolvedName;
+            }
+
+            if ($referencedName->getNameAsReferencedInFile() === $className) {
                 return $resolvedName;
             }
         }

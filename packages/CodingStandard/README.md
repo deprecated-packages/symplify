@@ -575,7 +575,7 @@ final class SomeTest extends TestCase
 
 ### Properties should be used instead of dynamically defined properties
 
-- class: [`Symplify\CodingStandard\Sniffs\Property\FinalTestCaseSniff`](/src/Sniffs/Property/DynamicPropertySniff.php)
+- class: [`Symplify\CodingStandard\Sniffs\Property\DynamicPropertySniff`](/src/Sniffs/Property/DynamicPropertySniff.php)
 - `Symplify.Property.DynamicProperty`
 
 :x:
