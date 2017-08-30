@@ -2,6 +2,7 @@
 
 namespace Symplify\CodingStandard\Sniffs\Property;
 
+use Nette\Utils\Strings;
 use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Sniffs\Sniff;
 use Symplify\CodingStandard\TokenWrapper\ClassWrapper;
@@ -11,7 +12,7 @@ final class DynamicPropertySniff implements Sniff
     /**
      * @var string
      */
-    private const ERROR_MESSAGE = 'Properties should be used instead of dynamically defined properties.';
+    private const ERROR_MESSAGE = 'Property "$%s" should be used instead of dynamically defined one.';
 
     /**
      * @var mixed[]
@@ -50,7 +51,14 @@ final class DynamicPropertySniff implements Sniff
             return;
         }
 
-        $file->addError(self::ERROR_MESSAGE, $position, self::class);
+        if ($this->isMagicProperty($propertyName, $classWrapper)) {
+            return;
+        }
+
+        $file->addError(sprintf(
+            self::ERROR_MESSAGE,
+            $propertyName
+        ), $position, self::class);
     }
 
     private function isLocalPropertyAccess($position): bool
@@ -71,5 +79,15 @@ final class DynamicPropertySniff implements Sniff
         $classTokenPosition = $this->file->findNext(T_CLASS, 1);
 
         return ClassWrapper::createFromFileAndPosition($this->file, $classTokenPosition);
+    }
+
+    private function isMagicProperty(string $propertyName, ClassWrapper $classWrapper): bool
+    {
+        return $this->isNettePresenterTemplateMagicProperty($propertyName, $classWrapper);
+    }
+
+    private function isNettePresenterTemplateMagicProperty(string $propertyName, ClassWrapper $classWrapper): bool
+    {
+        return $propertyName === 'template' && Strings::endsWith($classWrapper->getParentClassName(), 'Presenter');
     }
 }

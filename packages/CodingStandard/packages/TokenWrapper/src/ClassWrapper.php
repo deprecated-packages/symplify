@@ -57,6 +57,11 @@ final class ClassWrapper
         return new self($file, $position);
     }
 
+    public function getClassName(): string
+    {
+        return Naming::getClassName($this->file, $this->position);
+    }
+
     public function isAbstract(): bool
     {
         $classProperties = $this->file->getClassProperties($this->position);
@@ -86,12 +91,7 @@ final class ClassWrapper
             $this->propertyNames[] = ltrim($propertyToken['content'], '$');
         }
 
-        $parentClasses = $this->getParentClasses();
-
-        foreach ($parentClasses as $parentClass) {
-            $parentClassProperties = get_class_vars($parentClass);
-            $this->propertyNames += array_keys($parentClassProperties);
-        }
+        $this->propertyNames = array_merge($this->propertyNames, $this->getParentClassPropertyNames());
 
         return $this->propertyNames;
     }
@@ -182,6 +182,18 @@ final class ClassWrapper
         return $this->interfaces;
     }
 
+    public function getParentClassName(): ?string
+    {
+        $extendsTokenPosition = TokenHelper::findNext($this->file, T_EXTENDS, $this->position, $this->position + 10);
+        if ($extendsTokenPosition === null) {
+            return null;
+        }
+
+        $parentClassPosition = (int) TokenHelper::findNext($this->file, T_STRING, $extendsTokenPosition);
+
+        return Naming::getClassName($this->file, $parentClassPosition);
+    }
+
     private function getClassFullyQualifiedName(): string
     {
         $namespaceStart = $this->file->findNext([T_NAMESPACE], 0);
@@ -208,19 +220,28 @@ final class ClassWrapper
      */
     private function getParentClasses(): array
     {
-        $parentClasses = [];
-
-        $extendsPosition = TokenHelper::findNext($this->file, T_EXTENDS, $this->position, $this->position + 5);
-        if ($extendsPosition === null) {
+        $firstParentClass = $this->getParentClassName();
+        if ($firstParentClass === null) {
             return [];
         }
 
-        $parentClassPosition = TokenHelper::findNext($this->file, T_STRING, $extendsPosition);
-
-        $firstParentClass = Naming::getClassName($this->file, $parentClassPosition);
-        $parentClasses[] = $firstParentClass;
-        $parentClasses += class_parents($firstParentClass);
+        $parentClasses = array_merge([$firstParentClass], class_parents($firstParentClass));
 
         return array_unique($parentClasses);
+    }
+
+    /**
+     * @return string[]
+     */
+    private function getParentClassPropertyNames(): array
+    {
+        $parentClassProperties = [];
+        $parentClasses = $this->getParentClasses();
+
+        foreach ($parentClasses as $parentClass) {
+            $parentClassProperties = array_merge($parentClassProperties, array_keys(get_class_vars($parentClass)));
+        }
+
+        return $parentClassProperties;
     }
 }
