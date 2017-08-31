@@ -12,8 +12,9 @@
         "nikic/php-parser": "^3.0"
     },
     "require-dev": {
-        "symplify/easy-coding-standard": "^2.1",
-        "symplify/package-builder": "^2.1",
+        "nette/application": "^2.4",
+        "symplify/easy-coding-standard": "^2.2",
+        "symplify/package-builder": "^2.2",
         "phpunit/phpunit": "^6.0",
         "gecko-packages/gecko-php-unit": "dev-master#b32f1d8 as 2.1"
     },
