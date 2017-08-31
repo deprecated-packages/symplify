@@ -77,7 +77,7 @@ final class NoClassInstantiationSniff implements Sniff
     /**
      * @var string[]
      */
-    public $allowedFileClassSuffixes = [
+    public $allowedFileClasses = [
         '*Extension', // Symfony and Nette DI Extension classes
         '*Factory', // in factories "new" is expected
         // Symfony DI bootstrap
@@ -207,8 +207,8 @@ final class NoClassInstantiationSniff implements Sniff
     {
         $fileClassName = $this->getFileClassName();
 
-        foreach ($this->allowedFileClassSuffixes as $allowedFileClassSuffix) {
-            if (fnmatch($fileClassName, $allowedFileClassSuffix, FNM_NOESCAPE)) {
+        foreach ($this->allowedFileClasses as $allowedFileClass) {
+            if (fnmatch($allowedFileClass, $fileClassName,FNM_NOESCAPE)) {
                 return true;
             }
         }
