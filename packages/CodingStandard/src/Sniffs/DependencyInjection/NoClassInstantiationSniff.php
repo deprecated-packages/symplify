@@ -126,6 +126,10 @@ final class NoClassInstantiationSniff implements Sniff
 
     private function isClassInstantiationAllowed(string $class, int $classTokenPosition): bool
     {
+        if ($class === null) {
+            return false;
+        }
+
         $allowedClasses = array_merge($this->allowedClasses, $this->extraAllowedClasses);
 
         foreach ($allowedClasses as $allowedClass) {
@@ -206,9 +210,12 @@ final class NoClassInstantiationSniff implements Sniff
     private function isAllowedFileClass(): bool
     {
         $fileClassName = $this->getFileClassName();
+        if ($fileClassName === null) {
+            return false;
+        }
 
         foreach ($this->allowedFileClasses as $allowedFileClass) {
-            if (fnmatch($allowedFileClass, $fileClassName,FNM_NOESCAPE)) {
+            if (fnmatch($allowedFileClass, $fileClassName, FNM_NOESCAPE)) {
                 return true;
             }
         }
