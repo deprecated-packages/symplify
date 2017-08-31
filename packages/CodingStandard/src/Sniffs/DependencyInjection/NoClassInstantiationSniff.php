@@ -22,9 +22,6 @@ final class NoClassInstantiationSniff implements Sniff
     private const ERROR_MESSAGE = 'Use service and constructor injection rather than instantiation with "new %s".';
 
     /**
-     * @todo try to refactor to simple fnmatch on class name?
-     * That would include exact match, starts with, ends with and contains
-     *
      * @var string[]
      */
     public $allowedClasses = [
@@ -32,6 +29,7 @@ final class NoClassInstantiationSniff implements Sniff
         DateTimeImmutable::class,
         SplFileInfo::class,
         stdClass::class,
+        'Nette\Utils\Html',
 
         // Symfony Console
         'Symfony\Component\Console\Input\InputArgument',
@@ -57,6 +55,18 @@ final class NoClassInstantiationSniff implements Sniff
         // PHP_CodeSniffer
         'PHP_CodeSniffer\Util\Tokens',
         'PHP_CodeSniffer\Tokenizers\PHP',
+
+        // suffixes
+        '*Response',
+        '*Exception',
+        '*Route',
+        '*Event',
+        '*Iterator',
+        '*Reference', // Symfony DI Reference class
+        '*ContainerFactory',
+
+        // prefixes
+        'Reflection*',
     ];
 
     /**
@@ -67,36 +77,12 @@ final class NoClassInstantiationSniff implements Sniff
     /**
      * @var string[]
      */
-    public $allowedClassSuffixes = [
-        'Response',
-        'Exception',
-        'Route',
-        'Event',
-        'Iterator',
-        'Reference', // Symfony DI Reference class
-    ];
-
-    /**
-     * @var string[]
-     */
     public $allowedFileClassSuffixes = [
-        'Extension', // Symfony and Nette DI Extension classes
-        'Factory', // in factories "new" is expected
+        '*Extension', // Symfony and Nette DI Extension classes
+        '*Factory', // in factories "new" is expected
         // Symfony DI bootstrap
-        'Bundle',
-        'Kernel',
-    ];
-
-    /**
-     * @var string[]
-     */
-    public $extraAllowedClassSuffixes = [];
-
-    /**
-     * @var string[]
-     */
-    public $allowedClassPrefixes = [
-        'Reflection',
+        '*Bundle',
+        '*Kernel',
     ];
 
     /**
@@ -142,19 +128,8 @@ final class NoClassInstantiationSniff implements Sniff
     {
         $allowedClasses = array_merge($this->allowedClasses, $this->extraAllowedClasses);
 
-        if (in_array($class, $allowedClasses, true)) {
-            return true;
-        }
-
-        $allowedClassSuffixes = array_merge($this->allowedClassSuffixes, $this->extraAllowedClassSuffixes);
-        foreach ($allowedClassSuffixes as $allowedClassSuffix) {
-            if (Strings::endsWith($class, $allowedClassSuffix)) {
-                return true;
-            }
-        }
-
-        foreach ($this->allowedClassPrefixes as $allowedClassPrefix) {
-            if (Strings::startsWith($class, $allowedClassPrefix)) {
+        foreach ($allowedClasses as $allowedClass) {
+            if (fnmatch($allowedClass, $class, FNM_NOESCAPE)) {
                 return true;
             }
         }
@@ -171,9 +146,6 @@ final class NoClassInstantiationSniff implements Sniff
         $className = Naming::getClassName($this->file, $classTokenPosition);
 
         if (class_exists($className)) {
-            // too slow
-            // better approach of external class?
-            // better reflection?
             $classReflection = new ReflectionClass($class);
             $docComment = $classReflection->getDocComment();
 
@@ -236,7 +208,7 @@ final class NoClassInstantiationSniff implements Sniff
         $fileClassName = $this->getFileClassName();
 
         foreach ($this->allowedFileClassSuffixes as $allowedFileClassSuffix) {
-            if (Strings::endsWith($fileClassName, $allowedFileClassSuffix)) {
+            if (fnmatch($fileClassName, $allowedFileClassSuffix, FNM_NOESCAPE)) {
                 return true;
             }
         }
