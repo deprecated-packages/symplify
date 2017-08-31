@@ -227,9 +227,7 @@ final class ClassWrapper
             return [];
         }
 
-        $parentClasses = array_merge([$firstParentClass], class_parents($firstParentClass));
-
-        return array_unique($parentClasses);
+        return array_merge([$firstParentClass], class_parents($firstParentClass));
     }
 
     /**
@@ -240,8 +238,10 @@ final class ClassWrapper
         $parentClassPropertyNames = [];
 
         foreach ($this->getParentClasses() as $parentClass) {
-            $classPropertyNames = $this->getPublicAndProtectedPropertyNamesFromClass($parentClass);
-            $parentClassPropertyNames = array_merge($parentClassPropertyNames, $classPropertyNames);
+            $parentClassPropertyNames = array_merge(
+                $parentClassPropertyNames,
+                $this->getPublicAndProtectedPropertyNamesFromClass($parentClass)
+            );
         }
 
         return $parentClassPropertyNames;
@@ -250,11 +250,11 @@ final class ClassWrapper
     /**
      * @return string[]
      */
-    private function getPublicAndProtectedPropertyNamesFromClass(string $parentClass): array
+    private function getPublicAndProtectedPropertyNamesFromClass(string $class): array
     {
         $propertyNames = [];
 
-        $propertyReflections = (new ReflectionClass($parentClass))->getProperties(
+        $propertyReflections = (new ReflectionClass($class))->getProperties(
             ReflectionProperty::IS_PUBLIC | ReflectionProperty::IS_PROTECTED
         );
 
