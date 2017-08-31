@@ -44,14 +44,34 @@ public $property;'
 
     public function fix(SplFileInfo $file, Tokens $tokens): void
     {
-        for ($index = count($tokens) - 1; $index > 1; --$index) {
+        $blockLevel = 0;
+        $classOrTraitLevel = 0;
+
+        for ($index = 0; $index < count($tokens) - 1; ++$index) {
             $token = $tokens[$index];
+
+            if ($token->isGivenKind([T_CLASS, T_TRAIT])) {
+                $classOrTraitLevel = $blockLevel + 1;
+                continue;
+            }
+
+            if ($token->equals('{')) {
+                ++$blockLevel;
+                continue;
+            } elseif ($token->equals('}')) {
+                --$blockLevel;
+                continue;
+            }
 
             if (! $token->isGivenKind(T_DOC_COMMENT)) {
                 continue;
             }
 
             if (! $this->isArrayPropertyDocComment($token)) {
+                continue;
+            }
+
+            if ($blockLevel !== $classOrTraitLevel) {
                 continue;
             }
 
