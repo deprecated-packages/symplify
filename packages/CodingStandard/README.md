@@ -421,27 +421,17 @@ class SomeController
 }
 ```
 
-This checkers ignores by default:
+This checkers ignores by default some classes, see `$allowedClasses` property.
 
-- `DateTime`
-- `*Exception` (@todo)
-
-In case want to exclude more classes, you can **configure it**:
+In case want to exclude more classes, you can **configure it** with class or pattern using [`fnmatch`](http://php.net/manual/en/function.fnmatch.php):
 
 ```yaml
 # easy-coding-standard.neon
 checkers:
     Symplify\CodingStandard\Fixer\DependencyInjection\NoClassInstantiationSniff:
-        allowedClasses:
-            - DateTime # by default
-            - App\ProductModule\Product
-        extraAllowedClassSuffixes:
-            - ValueObject
-        allowedFileClassSuffixes:
-            - Factory # by default  
+        extraAllowedClasses:
+            - 'PhpParser\Node\*'
 ```
-
-(@todo)
 
 Doctrine entities are skipped as well. You can disable that by:
 
