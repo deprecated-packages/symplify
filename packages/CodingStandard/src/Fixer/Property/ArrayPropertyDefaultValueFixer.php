@@ -91,10 +91,6 @@ public $property;'
 
         $docBlock = new DocBlock($token->getContent());
 
-        if (count($docBlock->getLines()) === 1) {
-            return false;
-        }
-
         if (! $docBlock->getAnnotationsOfType('var')) {
             return false;
         }
