@@ -4,6 +4,7 @@ namespace Symplify\CodingStandard\Tokenizer;
 
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
+use PhpCsFixer\Tokenizer\TokensAnalyzer;
 
 final class ArrayTokensAnalyzer
 {

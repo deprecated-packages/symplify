@@ -45,12 +45,7 @@ final class NoClassInstantiationSniff implements Sniff
         'Symfony\Component\Config\FileLocator',
 
         // php-cs-fixer
-        'PhpCsFixer\Tokenizer\Token',
-        'PhpCsFixer\FixerDefinition\CodeSample',
-        'PhpCsFixer\FixerDefinition\FixerDefinition',
-        'PhpCsFixer\FixerConfiguration\FixerOptionBuilder',
-        'PhpCsFixer\FixerConfiguration\FixerConfigurationResolver',
-        'PhpCsFixer\DocBlock\DocBlock',
+        'PhpCsFixer\*',
 
         // PHP_CodeSniffer
         'PHP_CodeSniffer\Util\Tokens',
