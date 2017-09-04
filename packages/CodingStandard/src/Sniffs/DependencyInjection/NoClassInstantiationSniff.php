@@ -126,10 +126,6 @@ final class NoClassInstantiationSniff implements Sniff
 
     private function isClassInstantiationAllowed(string $class, int $classTokenPosition): bool
     {
-        if ($class === null) {
-            return false;
-        }
-
         $allowedClasses = array_merge($this->allowedClasses, $this->extraAllowedClasses);
 
         foreach ($allowedClasses as $allowedClass) {
