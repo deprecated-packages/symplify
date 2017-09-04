@@ -94,7 +94,9 @@ class SomeClass
         $propertiesAndConstants = $classTokensAnalyzer->getPropertiesAndConstants();
         foreach ($propertiesAndConstants as $index => $propertyOrConstantToken) {
             $constantOrPropertyEnd = $tokens->getNextTokenOfKind($index, [';']);
-            $this->fixSpacesBelow($tokens, $classTokensAnalyzer->getClassEnd(), $constantOrPropertyEnd);
+            if ($constantOrPropertyEnd) {
+                $this->fixSpacesBelow($tokens, $classTokensAnalyzer->getClassEnd(), $constantOrPropertyEnd);
+            }
         }
     }
 
@@ -105,6 +107,10 @@ class SomeClass
     private function fixSpacesBelow(Tokens $tokens, int $classEnd, int $constantOrPropertyEnd): void
     {
         $nextNotWhite = $tokens->getNextNonWhitespace($constantOrPropertyEnd);
+        if ($nextNotWhite === null) {
+            return;
+        }
+
         $this->correctLineBreaks($tokens, $constantOrPropertyEnd, $nextNotWhite, $nextNotWhite === $classEnd ? 1 : 2);
     }
 

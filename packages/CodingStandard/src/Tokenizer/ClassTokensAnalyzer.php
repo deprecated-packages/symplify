@@ -2,8 +2,10 @@
 
 namespace Symplify\CodingStandard\Tokenizer;
 
+use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use PhpCsFixer\Tokenizer\TokensAnalyzer;
+use Symplify\CodingStandard\Exception\UnexpectedTokenException;
 
 final class ClassTokensAnalyzer
 {
@@ -19,10 +21,12 @@ final class ClassTokensAnalyzer
 
     private function __construct(Tokens $tokens, int $startIndex)
     {
-        $this->tokensAnalyzer = new TokensAnalyzer($tokens);
+        $this->ensureIsClassToken($tokens[$startIndex]);
 
         $startBracketIndex = $tokens->getNextTokenOfKind($startIndex, ['{']);
         $this->endBracketIndex = $tokens->findBlockEnd(Tokens::BLOCK_TYPE_CURLY_BRACE, $startBracketIndex);
+
+        $this->tokensAnalyzer = new TokensAnalyzer($tokens);
     }
 
     public static function createFromTokensArrayStartPosition(Tokens $tokens, int $startIndex): self
@@ -60,5 +64,19 @@ final class ClassTokensAnalyzer
         }
 
         return $propertyAndConstantTokens;
+    }
+
+    private function ensureIsClassToken(Token $token): void
+    {
+        if ($token->isGivenKind(T_CLASS)) {
+            return;
+        }
+
+        throw new UnexpectedTokenException(sprintf(
+            '"%s" expected "%s" token in its constructor. "%s" token given.',
+            self::class,
+            'T_CLASS',
+            $token->getName()
+        ));
     }
 }
