@@ -10,11 +10,6 @@ final class ClassTokensAnalyzer
     /**
      * @var int
      */
-    private $startBracketIndex;
-
-    /**
-     * @var int
-     */
     private $endBracketIndex;
 
     /**
@@ -26,8 +21,8 @@ final class ClassTokensAnalyzer
     {
         $this->tokensAnalyzer = new TokensAnalyzer($tokens);
 
-        $this->startBracketIndex = $tokens->getNextTokenOfKind($startIndex, ['{']);
-        $this->endBracketIndex = $tokens->findBlockEnd(Tokens::BLOCK_TYPE_CURLY_BRACE, $this->startBracketIndex);
+        $startBracketIndex = $tokens->getNextTokenOfKind($startIndex, ['{']);
+        $this->endBracketIndex = $tokens->findBlockEnd(Tokens::BLOCK_TYPE_CURLY_BRACE, $startBracketIndex);
     }
 
     public static function createFromTokensArrayStartPosition(Tokens $tokens, int $startIndex): self
@@ -40,20 +35,12 @@ final class ClassTokensAnalyzer
      */
     public function getPropertiesAndConstants(): array
     {
-        return $this->getPropertyAndConstantTokens();
+        return $this->filterPropertyAndConstantTokens($this->tokensAnalyzer->getClassyElements());
     }
 
     public function getClassEnd(): int
     {
         return $this->endBracketIndex;
-    }
-
-    /**
-     * @return mixed[]
-     */
-    private function getPropertyAndConstantTokens(): array
-    {
-        return $this->filterPropertyAndConstantTokens($this->tokensAnalyzer->getClassyElements());
     }
 
     /**
