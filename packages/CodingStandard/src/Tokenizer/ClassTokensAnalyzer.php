@@ -8,11 +8,6 @@ use PhpCsFixer\Tokenizer\TokensAnalyzer;
 final class ClassTokensAnalyzer
 {
     /**
-     * @var Tokens
-     */
-    private $tokens;
-
-    /**
      * @var int
      */
     private $startBracketIndex;
@@ -29,7 +24,6 @@ final class ClassTokensAnalyzer
 
     private function __construct(Tokens $tokens, int $startIndex)
     {
-        $this->tokens = $tokens;
         $this->tokensAnalyzer = new TokensAnalyzer($tokens);
 
         $this->startBracketIndex = $tokens->getNextTokenOfKind($startIndex, ['{']);
@@ -47,6 +41,11 @@ final class ClassTokensAnalyzer
     public function getPropertiesAndConstants(): array
     {
         return $this->getPropertyAndConstantTokens();
+    }
+
+    public function getClassEnd(): int
+    {
+        return $this->endBracketIndex;
     }
 
     /**
@@ -74,10 +73,5 @@ final class ClassTokensAnalyzer
         }
 
         return $propertyAndConstantTokens;
-    }
-
-    public function getClassEnd(): int
-    {
-        return $this->endBracketIndex;
     }
 }

@@ -69,7 +69,7 @@ class SomeClass
     }
 
     /**
-     * Same as @see \PhpCsFixer\Fixer\ClassNotation\MethodSeparationFixer::getPriority()
+     * Same as @see \PhpCsFixer\Fixer\ClassNotation\MethodSeparationFixer::getPriority().
      *
      * Must run before BracesFixer and IndentationTypeFixer fixers because this fixer
      * might add line breaks to the code without indenting.
@@ -84,6 +84,11 @@ class SomeClass
         return true;
     }
 
+    public function setWhitespacesConfig(WhitespacesFixerConfig $whitespacesFixerConfig): void
+    {
+        $this->whitespacesFixerConfig = $whitespacesFixerConfig;
+    }
+
     private function fixClass(Tokens $tokens, ClassTokensAnalyzer $classTokensAnalyzer): void
     {
         $propertiesAndConstants = $classTokensAnalyzer->getPropertiesAndConstants();
@@ -94,7 +99,7 @@ class SomeClass
     }
 
     /**
-     * Same as @see \PhpCsFixer\Fixer\ClassNotation\MethodSeparationFixer::fixSpacesBelow()
+     * Same as @see \PhpCsFixer\Fixer\ClassNotation\MethodSeparationFixer::fixSpacesBelow().
      * @todo maybe rather reflection?
      */
     private function fixSpacesBelow(Tokens $tokens, int $classEnd, int $constantOrPropertyEnd): void
@@ -104,7 +109,7 @@ class SomeClass
     }
 
     /**
-     * Same as @see \PhpCsFixer\Fixer\ClassNotation\MethodSeparationFixer::correctLineBreaks()
+     * Same as @see \PhpCsFixer\Fixer\ClassNotation\MethodSeparationFixer::correctLineBreaks().
      */
     private function correctLineBreaks(Tokens $tokens, int $startIndex, int $endIndex, int $reqLineCount = 2): void
     {
@@ -112,7 +117,7 @@ class SomeClass
 
         ++$startIndex;
         $numbOfWhiteTokens = $endIndex - $startIndex;
-        if (0 === $numbOfWhiteTokens) {
+        if ($numbOfWhiteTokens === 0) {
             $tokens->insertAt($startIndex, new Token([T_WHITESPACE, str_repeat($lineEnding, $reqLineCount)]));
 
             return;
@@ -126,14 +131,14 @@ class SomeClass
         if ($lineBreakCount < $reqLineCount) {
             $tokens[$startIndex] = new Token([
                 T_WHITESPACE,
-                str_repeat($lineEnding, $reqLineCount - $lineBreakCount).$tokens[$startIndex]->getContent(),
+                str_repeat($lineEnding, $reqLineCount - $lineBreakCount) . $tokens[$startIndex]->getContent(),
             ]);
 
             return;
         }
 
         // $lineCount = > $reqLineCount : check the one Token case first since this one will be true most of the time
-        if (1 === $numbOfWhiteTokens) {
+        if ($numbOfWhiteTokens === 1) {
             $tokens[$startIndex] = new Token([
                 T_WHITESPACE,
                 preg_replace('/\r\n|\n/', '', $tokens[$startIndex]->getContent(), $lineBreakCount - $reqLineCount),
@@ -157,7 +162,7 @@ class SomeClass
     }
 
     /**
-     * Same as @see \PhpCsFixer\Fixer\ClassNotation\MethodSeparationFixer::getLineBreakCount()
+     * Same as @see \PhpCsFixer\Fixer\ClassNotation\MethodSeparationFixer::getLineBreakCount().
      */
     private function getLineBreakCount(Tokens $tokens, int $whiteStart, int $whiteEnd): int
     {
@@ -167,10 +172,5 @@ class SomeClass
         }
 
         return $lineCount;
-    }
-
-    public function setWhitespacesConfig(WhitespacesFixerConfig $whitespacesFixerConfig): void
-    {
-        $this->whitespacesFixerConfig = $whitespacesFixerConfig;
     }
 }

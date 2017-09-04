@@ -25,6 +25,7 @@ final class VarConstantCommentSniff implements Sniff
     {
         return [T_CONST];
     }
+
     /**
      * @param int $position
      */
