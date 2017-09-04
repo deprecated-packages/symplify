@@ -2,6 +2,7 @@
 
 namespace Symplify\CodingStandard\Fixer\ClassNotation;
 
+use PhpCsFixer\Fixer\ClassNotation\MethodSeparationFixer;
 use PhpCsFixer\Fixer\DefinedFixerInterface;
 use PhpCsFixer\Fixer\WhitespacesAwareFixerInterface;
 use PhpCsFixer\FixerDefinition\CodeSample;
@@ -10,6 +11,7 @@ use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use PhpCsFixer\WhitespacesFixerConfig;
+use ReflectionClass;
 use SplFileInfo;
 use Symplify\CodingStandard\Tokenizer\ClassTokensAnalyzer;
 
@@ -102,7 +104,6 @@ class SomeClass
 
     /**
      * Same as @see \PhpCsFixer\Fixer\ClassNotation\MethodSeparationFixer::fixSpacesBelow().
-     * @todo maybe rather reflection?
      */
     private function fixSpacesBelow(Tokens $tokens, int $classEnd, int $constantOrPropertyEnd): void
     {
@@ -111,72 +112,24 @@ class SomeClass
             return;
         }
 
-        $this->correctLineBreaks($tokens, $constantOrPropertyEnd, $nextNotWhite, $nextNotWhite === $classEnd ? 1 : 2);
+        $this->callClassPrivateMethod(
+            MethodSeparationFixer::class,
+            'correctLineBreaks',
+            $tokens,
+            $constantOrPropertyEnd,
+            $nextNotWhite,
+            $nextNotWhite === $classEnd ? 1 : 2
+        );
     }
 
     /**
-     * Same as @see \PhpCsFixer\Fixer\ClassNotation\MethodSeparationFixer::correctLineBreaks().
+     * @param mixed[] ...$arguments
      */
-    private function correctLineBreaks(Tokens $tokens, int $startIndex, int $endIndex, int $reqLineCount = 2): void
+    private function callClassPrivateMethod(string $class, string $method, ...$arguments): void
     {
-        $lineEnding = $this->whitespacesFixerConfig->getLineEnding();
-
-        ++$startIndex;
-        $numbOfWhiteTokens = $endIndex - $startIndex;
-        if ($numbOfWhiteTokens === 0) {
-            $tokens->insertAt($startIndex, new Token([T_WHITESPACE, str_repeat($lineEnding, $reqLineCount)]));
-
-            return;
-        }
-
-        $lineBreakCount = $this->getLineBreakCount($tokens, $startIndex, $endIndex);
-        if ($reqLineCount === $lineBreakCount) {
-            return;
-        }
-
-        if ($lineBreakCount < $reqLineCount) {
-            $tokens[$startIndex] = new Token([
-                T_WHITESPACE,
-                str_repeat($lineEnding, $reqLineCount - $lineBreakCount) . $tokens[$startIndex]->getContent(),
-            ]);
-
-            return;
-        }
-
-        // $lineCount = > $reqLineCount : check the one Token case first since this one will be true most of the time
-        if ($numbOfWhiteTokens === 1) {
-            $tokens[$startIndex] = new Token([
-                T_WHITESPACE,
-                preg_replace('/\r\n|\n/', '', $tokens[$startIndex]->getContent(), $lineBreakCount - $reqLineCount),
-            ]);
-
-            return;
-        }
-
-        // $numbOfWhiteTokens = > 1
-        $toReplaceCount = $lineBreakCount - $reqLineCount;
-        for ($i = $startIndex; $i < $endIndex && $toReplaceCount > 0; ++$i) {
-            $tokenLineCount = substr_count($tokens[$i]->getContent(), "\n");
-            if ($tokenLineCount > 0) {
-                $tokens[$i] = new Token([
-                    T_WHITESPACE,
-                    preg_replace('/\r\n|\n/', '', $tokens[$i]->getContent(), min($toReplaceCount, $tokenLineCount)),
-                ]);
-                $toReplaceCount -= $tokenLineCount;
-            }
-        }
-    }
-
-    /**
-     * Same as @see \PhpCsFixer\Fixer\ClassNotation\MethodSeparationFixer::getLineBreakCount().
-     */
-    private function getLineBreakCount(Tokens $tokens, int $whiteStart, int $whiteEnd): int
-    {
-        $lineCount = 0;
-        for ($i = $whiteStart; $i < $whiteEnd; ++$i) {
-            $lineCount += substr_count($tokens[$i]->getContent(), "\n");
-        }
-
-        return $lineCount;
+        $classReflection = new ReflectionClass($class);
+        $methodReflection = $classReflection->getMethod($method);
+        $methodReflection->setAccessible(true);
+        $methodReflection->invoke(new $class, ...$arguments);
     }
 }

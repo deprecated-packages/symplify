@@ -21,7 +21,7 @@ final class ClassTokensAnalyzer
 
     private function __construct(Tokens $tokens, int $startIndex)
     {
-        $this->ensureIsClassToken($tokens[$startIndex]);
+        $this->ensureIsClassyToken($tokens[$startIndex]);
 
         $startBracketIndex = $tokens->getNextTokenOfKind($startIndex, ['{']);
         $this->endBracketIndex = $tokens->findBlockEnd(Tokens::BLOCK_TYPE_CURLY_BRACE, $startBracketIndex);
@@ -66,16 +66,16 @@ final class ClassTokensAnalyzer
         return $propertyAndConstantTokens;
     }
 
-    private function ensureIsClassToken(Token $token): void
+    private function ensureIsClassyToken(Token $token): void
     {
-        if ($token->isGivenKind(T_CLASS)) {
+        if ($token->isGivenKind([T_CLASS, T_INTERFACE, T_TRAIT])) {
             return;
         }
 
         throw new UnexpectedTokenException(sprintf(
             '"%s" expected "%s" token in its constructor. "%s" token given.',
             self::class,
-            'T_CLASS',
+            implode(',', ['T_CLASS', 'T_INTERFACE', 'T_TRAIT']),
             $token->getName()
         ));
     }
