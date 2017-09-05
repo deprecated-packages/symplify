@@ -2,16 +2,14 @@
 
 namespace Symplify\CodingStandard\Fixer\Property;
 
-use Nette\Utils\Strings;
-use PhpCsFixer\DocBlock\DocBlock;
 use PhpCsFixer\Fixer\DefinedFixerInterface;
 use PhpCsFixer\FixerDefinition\CodeSample;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
-use PhpCsFixer\Tokenizer\CT;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
+use Symplify\CodingStandard\Fixer\TokenBuilder;
 use Symplify\CodingStandard\Tokenizer\ClassTokensAnalyzer;
 use Symplify\CodingStandard\Tokenizer\DocBlockAnalyzer;
 use Symplify\CodingStandard\Tokenizer\DocBlockFinder;
@@ -75,17 +73,6 @@ public $property;'
         return true;
     }
 
-    private function addDefaultValueForArrayProperty(Tokens $tokens, int $semicolonPosition): void
-    {
-        $tokens->insertAt($semicolonPosition, [
-            new Token([T_WHITESPACE, ' ']),
-            new Token('='),
-            new Token([T_WHITESPACE, ' ']),
-            new Token([CT::T_ARRAY_SQUARE_BRACE_OPEN, '[']),
-            new Token([CT::T_ARRAY_SQUARE_BRACE_CLOSE, ']']),
-        ]);
-    }
-
     /**
      * @param mixed[]|Token[] $properties
      */
@@ -108,7 +95,7 @@ public $property;'
                 continue;
             }
 
-            $this->addDefaultValueForArrayProperty($tokens, $semicolonTokenPosition);
+            $tokens->insertAt($semicolonTokenPosition, TokenBuilder::createDefaultArrayTokens());
         }
     }
 
