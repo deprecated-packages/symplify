@@ -33,7 +33,7 @@ final class DocBlockAnalyzer
         $foundTypes = 0;
         foreach ($annotations as $annotation) {
             if ($docBlock->getAnnotationsOfType($annotation)) {
-                $foundTypes++;
+                ++$foundTypes;
             }
         }
 

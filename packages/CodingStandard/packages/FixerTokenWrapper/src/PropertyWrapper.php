@@ -4,7 +4,6 @@ namespace Symplify\CodingStandard\FixerTokenWrapper;
 
 use PhpCsFixer\DocBlock\Annotation;
 use PhpCsFixer\DocBlock\DocBlock;
-use PhpCsFixer\DocBlock\Tag;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use Symplify\CodingStandard\Tokenizer\DocBlockAnalyzer;
@@ -17,11 +16,6 @@ final class PropertyWrapper
      * @var Tokens
      */
     private $tokens;
-
-    /**
-     * @var int
-     */
-    private $index;
 
     /**
      * @var DocBlock|null
@@ -43,15 +37,9 @@ final class PropertyWrapper
      */
     private $docBlockPosition;
 
-    public static function createFromTokensAndPosition(Tokens $tokens, int $position): self
-    {
-        return new self($tokens, $position);
-    }
-
     private function __construct(Tokens $tokens, int $index)
     {
         $this->tokens = $tokens;
-        $this->index = $index;
 
         $this->docBlockPosition = DocBlockFinder::findPreviousPosition($tokens, $index);
         $docBlockToken = DocBlockFinder::findPrevious($tokens, $index);
@@ -61,6 +49,11 @@ final class PropertyWrapper
 
         $this->visibilityPosition = PropertyAnalyzer::findVisibilityPosition($tokens, $index);
         $this->visibilityToken = $tokens[$this->visibilityPosition];
+    }
+
+    public static function createFromTokensAndPosition(Tokens $tokens, int $position): self
+    {
+        return new self($tokens, $position);
     }
 
     public function isInjectProperty(): bool
