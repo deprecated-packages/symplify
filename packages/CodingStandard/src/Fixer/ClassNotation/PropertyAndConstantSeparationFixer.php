@@ -50,8 +50,13 @@ final class PropertyAndConstantSeparationFixer implements DefinedFixerInterface,
 
     public function getDefinition(): FixerDefinitionInterface
     {
+        $summary = sprintf(
+            'Properties and constants must be separated by %d blank line(s).',
+            $this->configuration[self::SPACE_COUNT_OPTION]
+        );
+
         return new FixerDefinition(
-            'Properties and constants must be separated with one blank line.',
+            $summary,
             [
                 new CodeSample(
                     '<?php

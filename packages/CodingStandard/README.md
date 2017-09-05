@@ -38,6 +38,43 @@ $friends = [
 ```
 
 
+### Properties and constants must be separated by 1 blank line(s).
+
+- class: [`Symplify\CodingStandard\Fixer\ClassNotation\PropertyAndConstantSeparationFixer`](/src/Fixer/ClassNotation/PropertyAndConstantSeparationFixer.php)
+- This checker uses *[PHP-CS-Fixer](https://github.com/friendsofphp/php-cs-fixer)*
+
+:x:
+
+```php
+class SomeClass
+{
+    public $someProperty;
+    public $anotherProperty;
+}
+```
+
+:+1:
+
+```php
+class SomeClass
+{
+    public $someProperty;
+
+    public $anotherProperty;
+}
+```
+
+This checker requires 1 space by default. But if you need, you can **configure it**:
+
+
+```yaml
+# easy-coding-standard.neon
+checkers:
+    Symplify\CodingStandard\Fixer\ClassNotation\PropertyAndConstantSeparationFixer:
+        space_count: 2 # 1 by default
+```
+
+
 ### Constructor injection should be used instead of `@inject` annotations 
 
 - class: [`Symplify\CodingStandard\Fixer\DependencyInjection\InjectToConstructorInjectionFixer`](/src/Fixer/DependencyInjection/InjectToConstructorInjectionFixer.php)
