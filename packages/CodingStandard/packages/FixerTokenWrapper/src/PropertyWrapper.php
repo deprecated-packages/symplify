@@ -6,6 +6,7 @@ use PhpCsFixer\DocBlock\Annotation;
 use PhpCsFixer\DocBlock\DocBlock;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
+use Symplify\CodingStandard\FixerTokenWrapper\Exception\MissingDocBlockException;
 use Symplify\CodingStandard\Tokenizer\DocBlockAnalyzer;
 use Symplify\CodingStandard\Tokenizer\DocBlockFinder;
 use Symplify\CodingStandard\Tokenizer\PropertyAnalyzer;
@@ -23,12 +24,12 @@ final class PropertyWrapper
     private $docBlock;
 
     /**
-     * @var Token|null
+     * @var Token
      */
     private $visibilityToken;
 
     /**
-     * @var int|null
+     * @var int
      */
     private $visibilityPosition;
 
@@ -79,6 +80,8 @@ final class PropertyWrapper
 
     public function removeAnnotation(string $annotationType): void
     {
+        $this->ensureHasDocBlock(__METHOD__);
+
         foreach ($this->docBlock->getAnnotationsOfType($annotationType) as $annotation) {
             $annotation->remove();
         }
@@ -101,11 +104,25 @@ final class PropertyWrapper
 
     public function getType(): string
     {
+        $this->ensureHasDocBlock(__METHOD__);
+
         $varAnnotations = $this->docBlock->getAnnotationsOfType('var');
 
         /** @var Annotation $varAnnotation */
         $varAnnotation = $varAnnotations[0];
 
         return $varAnnotation->getTypes()[0];
+    }
+
+    private function ensureHasDocBlock(string $calledMethod): void
+    {
+        if ($this->docBlock === null) {
+            throw new MissingDocBlockException(sprintf(
+                'Property %s does not have a docblock. So method "%s::%s()" cannot be used.',
+                $this->getName(),
+                self::class,
+                $calledMethod
+            ));
+        }
     }
 }
