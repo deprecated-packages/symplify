@@ -49,7 +49,9 @@ class SomeClass
 
             $classTokenAnalyzer = ClassTokensAnalyzer::createFromTokensArrayStartPosition($tokens, $index);
 
-            $this->fixClass($tokens, $classTokenAnalyzer);
+            foreach ($classTokenAnalyzer->getProperties() as $propertyIndex => $propertyToken) {
+                $this->fixProperty($tokens, $propertyIndex);
+            }
         }
     }
 
@@ -71,15 +73,6 @@ class SomeClass
     public function supports(SplFileInfo $file): bool
     {
         return true;
-    }
-
-    private function fixClass(Tokens $tokens, ClassTokensAnalyzer $classTokenAnalyzer): void
-    {
-        $properties = $classTokenAnalyzer->getProperties();
-
-        foreach ($properties as $index => $propertyToken) {
-            $this->fixProperty($tokens, $index);
-        }
     }
 
     private function fixProperty(Tokens $tokens, int $index): void
