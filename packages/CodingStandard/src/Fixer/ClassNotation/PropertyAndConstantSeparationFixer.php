@@ -156,7 +156,7 @@ class SomeClass
     /**
      * Same as @see \PhpCsFixer\Fixer\ClassNotation\MethodSeparationFixer::fixSpaceBelowMethod().
      *
-     ;* This is nasty solution to prevent BC breaks and include fixes from
+     * This is nasty solution to prevent BC breaks and include fixes from
      * @see \PhpCsFixer\Fixer\ClassNotation\MethodSeparationFixer.
      *
      * Don't to this at home!

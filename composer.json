@@ -47,6 +47,7 @@
         "psr-4": {
             "Symplify\\CodingStandard\\": "packages/CodingStandard/src",
             "Symplify\\CodingStandard\\TokenWrapper\\": "packages/CodingStandard/packages/TokenWrapper/src",
+            "Symplify\\CodingStandard\\FixerTokenWrapper\\": "packages/CodingStandard/packages/FixerTokenWrapper/src",
             "Symplify\\EasyCodingStandard\\": "packages/EasyCodingStandard/src",
             "Symplify\\EasyCodingStandard\\CheckerSetExtractor\\": "packages/EasyCodingStandard/packages/CheckerSetExtractor/src",
             "Symplify\\EasyCodingStandard\\SniffRunner\\": "packages/EasyCodingStandard/packages/SniffRunner/src",
