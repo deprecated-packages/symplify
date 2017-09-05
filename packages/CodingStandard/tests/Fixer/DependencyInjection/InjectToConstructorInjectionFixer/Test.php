@@ -11,7 +11,7 @@ final class Test extends AbstractFixerTestCase
     /**
      * @dataProvider provideFixCases()
      */
-    public function testFix(string $expected, string $input): void
+    public function testFix(string $expected, ?string $input = null): void
     {
         $this->doTest($expected, $input);
     }
@@ -23,13 +23,16 @@ final class Test extends AbstractFixerTestCase
     {
         return [
             [
+                file_get_contents(__DIR__ . '/correct/correct.php.inc'),
+            ],
+            [
                 file_get_contents(__DIR__ . '/fixed/fixed.php.inc'),
                 file_get_contents(__DIR__ . '/wrong/wrong.php.inc'),
             ],
-//            [
-//                file_get_contents(__DIR__ . '/fixed/fixed2.php.inc'),
-//                file_get_contents(__DIR__ . '/wrong/wrong2.php.inc'),
-//            ],
+            [
+                file_get_contents(__DIR__ . '/fixed/fixed2.php.inc'),
+                file_get_contents(__DIR__ . '/wrong/wrong2.php.inc'),
+            ],
         ];
     }
 

@@ -40,12 +40,15 @@ class SomeClass
 
     public function fix(SplFileInfo $file, Tokens $tokens): void
     {
-        foreach ($tokens as $index => $token) {
+        for ($index = count($tokens) - 1; $index > 1; --$index) {
+            $token = $tokens[$index];
+
             if (! $token->isGivenKind(T_CLASS)) {
                 continue;
             }
 
             $classTokenAnalyzer = ClassTokensAnalyzer::createFromTokensArrayStartPosition($tokens, $index);
+
             $this->fixClass($tokens, $classTokenAnalyzer);
         }
     }
@@ -68,6 +71,39 @@ class SomeClass
     public function supports(SplFileInfo $file): bool
     {
         return true;
+    }
+
+    private function fixClass(Tokens $tokens, ClassTokensAnalyzer $classTokenAnalyzer): void
+    {
+        $properties = $classTokenAnalyzer->getProperties();
+
+        foreach ($properties as $index => $propertyToken) {
+            $this->fixProperty($tokens, $index);
+        }
+    }
+
+    private function fixProperty(Tokens $tokens, int $index): void
+    {
+        $propertyWrapper = PropertyWrapper::createFromTokensAndPosition($tokens, $index);
+
+        if (! $propertyWrapper->isInjectProperty()) {
+            return;
+        }
+
+        $propertyWrapper->removeAnnotation('inject');
+        $propertyWrapper->makePrivate();
+
+        $propertyName = $propertyWrapper->getName();
+        $propertyType = $propertyWrapper->getType();
+
+        // A. has a constructor?
+        $constructorPosition = PositionDetector::detectConstructorPosition($tokens);
+        if ($constructorPosition) { // "function" token
+            $this->addPropertyToConstructor($tokens, $propertyType, $propertyName, $constructorPosition);
+        } else {
+            // B. doesn't have a constructor
+            $this->addConstructorMethod($tokens, $propertyType, $propertyName);
+        }
     }
 
     private function addConstructorMethod(Tokens $tokens, string $propertyType, string $propertyName): void
@@ -125,38 +161,5 @@ class SomeClass
 
         // add property as last assignment
         $tokens->insertAt($endBraceIndex - 1, TokenBuilder::createPropertyAssignmentTokens($propertyName));
-    }
-
-    private function fixClass(Tokens $tokens, ClassTokensAnalyzer $classTokenAnalyzer): void
-    {
-        $properties = $classTokenAnalyzer->getProperties();
-
-        foreach ($properties as $index => ['token' => $propertyToken]) {
-            $this->fixProperty($tokens, $index);
-        }
-    }
-
-    private function fixProperty(Tokens $tokens, int $index): void
-    {
-        $propertyWrapper = PropertyWrapper::createFromTokensAndPosition($tokens, $index);
-
-        if (! $propertyWrapper->isInjectProperty()) {
-            return;
-        }
-
-        $propertyWrapper->removeAnnotation('inject');
-        $propertyWrapper->makePrivate();
-
-        $propertyName = $propertyWrapper->getName();
-        $propertyType = $propertyWrapper->getType();
-
-        // A. has a constructor?
-        $constructorPosition = PositionDetector::detectConstructorPosition($tokens);
-        if ($constructorPosition) { // "function" token
-            $this->addPropertyToConstructor($tokens, $propertyType, $propertyName, $constructorPosition);
-        } else {
-            // B. doesn't have a constructor
-            $this->addConstructorMethod($tokens, $propertyType, $propertyName);
-        }
     }
 }

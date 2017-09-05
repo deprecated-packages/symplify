@@ -48,7 +48,7 @@ final class PropertyWrapper
         return new self($tokens, $position);
     }
 
-    public function __construct(Tokens $tokens, int $index)
+    private function __construct(Tokens $tokens, int $index)
     {
         $this->tokens = $tokens;
         $this->index = $index;
