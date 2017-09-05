@@ -9,7 +9,7 @@ final class DocBlockFinder
 {
     public static function findPrevious(Tokens $tokens, int $index): ?Token
     {
-        for ($i = 1; $i < 6; ++$i) {
+        for ($i = 0; $i < 8; ++$i) {
             $possibleDocBlockTokenPosition = $tokens->getPrevNonWhitespace($index - $i);
             if ($possibleDocBlockTokenPosition === null) {
                 break;

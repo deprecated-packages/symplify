@@ -35,8 +35,9 @@ public $property;'
 
     public function isCandidate(Tokens $tokens): bool
     {
-        // analyze only properties with comments
-        return $tokens->isAllTokenKindsFound([T_DOC_COMMENT, T_VARIABLE]);
+        // analyze only class/trait properties with comments
+        return $tokens->isAnyTokenKindsFound(Token::getClassyTokenKinds()) &&
+            $tokens->isAllTokenKindsFound([T_DOC_COMMENT, T_VARIABLE]);
     }
 
     public function isRisky(): bool
@@ -87,11 +88,7 @@ public $property;'
             return false;
         }
 
-        if (! Strings::contains($varTypes[0], '[]')) {
-            return false;
-        }
-
-        return true;
+        return Strings::contains($varTypes[0], '[]');
     }
 
     private function addDefaultValueForArrayProperty(Tokens $tokens, int $semicolonPosition): void
@@ -120,7 +117,7 @@ public $property;'
                 continue;
             }
 
-            $equalTokenPosition = (int) $tokens->getNextTokenOfKind($index, ['=']);
+            $equalTokenPosition = $tokens->getNextTokenOfKind($index, ['=']);
             $semicolonTokenPosition = (int) $tokens->getNextTokenOfKind($index, [';']);
 
             if ($this->isDefaultDefinitionSet($equalTokenPosition, $semicolonTokenPosition)) {
@@ -131,7 +128,7 @@ public $property;'
         }
     }
 
-    private function isDefaultDefinitionSet(int $equalTokenPosition, int $semicolonTokenPosition): bool
+    private function isDefaultDefinitionSet(?int $equalTokenPosition, int $semicolonTokenPosition): bool
     {
         return is_numeric($equalTokenPosition) && $equalTokenPosition < $semicolonTokenPosition;
     }
