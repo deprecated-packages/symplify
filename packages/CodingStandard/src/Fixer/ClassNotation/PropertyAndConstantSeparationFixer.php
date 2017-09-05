@@ -3,28 +3,53 @@
 namespace Symplify\CodingStandard\Fixer\ClassNotation;
 
 use PhpCsFixer\Fixer\ClassNotation\MethodSeparationFixer;
+use PhpCsFixer\Fixer\ConfigurationDefinitionFixerInterface;
 use PhpCsFixer\Fixer\DefinedFixerInterface;
 use PhpCsFixer\Fixer\WhitespacesAwareFixerInterface;
+use PhpCsFixer\FixerConfiguration\FixerConfigurationResolver;
+use PhpCsFixer\FixerConfiguration\FixerConfigurationResolverInterface;
+use PhpCsFixer\FixerConfiguration\FixerOptionBuilder;
 use PhpCsFixer\FixerDefinition\CodeSample;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use PhpCsFixer\WhitespacesFixerConfig;
-use ReflectionClass;
+use ReflectionMethod;
 use SplFileInfo;
 use Symplify\CodingStandard\Tokenizer\ClassTokensAnalyzer;
 
 /**
  * @todo change for methods as well?
- * @todo make configurable? usable in Nette etc.?
  */
-final class PropertyAndConstantSeparationFixer implements DefinedFixerInterface, WhitespacesAwareFixerInterface
+final class PropertyAndConstantSeparationFixer implements DefinedFixerInterface, WhitespacesAwareFixerInterface, ConfigurationDefinitionFixerInterface
 {
+    /**
+     * @var string
+     */
+    private const SPACE_COUNT_OPTION = 'space_count';
+
+    /**
+     * @var int
+     */
+    private const DEFAULT_SPACE_COUNT = 1;
+
     /**
      * @var WhitespacesFixerConfig
      */
     private $whitespacesFixerConfig;
+
+    /**
+     * @var mixed[]
+     */
+    private $configuration = [];
+
+    public function __construct()
+    {
+        // set defaults
+        $this->configuration = $this->getConfigurationDefinition()
+            ->resolve([]);
+    }
 
     public function getDefinition(): FixerDefinitionInterface
     {
@@ -72,9 +97,6 @@ class SomeClass
 
     /**
      * Same as @see \PhpCsFixer\Fixer\ClassNotation\MethodSeparationFixer::getPriority().
-     *
-     * Must run before BracesFixer and IndentationTypeFixer fixers because this fixer
-     * might add line breaks to the code without indenting.
      */
     public function getPriority(): int
     {
@@ -118,18 +140,45 @@ class SomeClass
             $tokens,
             $constantOrPropertyEnd,
             $nextNotWhite,
-            $nextNotWhite === $classEnd ? 1 : 2
+            $nextNotWhite === $classEnd ? $this->configuration[self::SPACE_COUNT_OPTION] : $this->configuration[self::SPACE_COUNT_OPTION] + 1
         );
     }
 
     /**
+     * @todo extract to reflection class?
      * @param mixed[] ...$arguments
      */
     private function callClassPrivateMethod(string $class, string $method, ...$arguments): void
     {
-        $classReflection = new ReflectionClass($class);
-        $methodReflection = $classReflection->getMethod($method);
+        $methodReflection = new ReflectionMethod($class, $method);
         $methodReflection->setAccessible(true);
         $methodReflection->invoke(new $class, ...$arguments);
+    }
+
+    /**
+     * @param mixed[]|null $configuration
+     */
+    public function configure(?array $configuration = null): void
+    {
+        if ($configuration === null) {
+            return;
+        }
+
+        $this->configuration = $this->getConfigurationDefinition()
+            ->resolve($configuration);
+    }
+
+    public function getConfigurationDefinition(): FixerConfigurationResolverInterface
+    {
+        $fixerOptionBuilder = new FixerOptionBuilder(
+            self::SPACE_COUNT_OPTION,
+            'Number of spaces between constant and property elements.'
+        );
+
+        $spaceCountOption = $fixerOptionBuilder->setAllowedTypes(['int'])
+            ->setDefault(self::DEFAULT_SPACE_COUNT)
+            ->getOption();
+
+        return new FixerConfigurationResolver([$spaceCountOption]);
     }
 }
