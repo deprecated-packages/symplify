@@ -13,6 +13,7 @@ use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
 use Symplify\CodingStandard\Tokenizer\ClassTokensAnalyzer;
+use Symplify\CodingStandard\Tokenizer\DocBlockAnalyzer;
 use Symplify\CodingStandard\Tokenizer\DocBlockFinder;
 
 final class ArrayPropertyDefaultValueFixer implements DefinedFixerInterface
@@ -74,23 +75,6 @@ public $property;'
         return true;
     }
 
-    private function isArrayPropertyDocComment(Token $token): bool
-    {
-        $docBlock = new DocBlock($token->getContent());
-
-        if (! $docBlock->getAnnotationsOfType('var')) {
-            return false;
-        }
-
-        $varAnnotation = $docBlock->getAnnotationsOfType('var')[0];
-        $varTypes = $varAnnotation->getTypes();
-        if (! count($varTypes)) {
-            return false;
-        }
-
-        return Strings::contains($varTypes[0], '[]');
-    }
-
     private function addDefaultValueForArrayProperty(Tokens $tokens, int $semicolonPosition): void
     {
         $tokens->insertAt($semicolonPosition, [
@@ -113,7 +97,7 @@ public $property;'
                 continue;
             }
 
-            if (! $this->isArrayPropertyDocComment($docBlockToken)) {
+            if (! DocBlockAnalyzer::isArrayProperty($docBlockToken)) {
                 continue;
             }
 
