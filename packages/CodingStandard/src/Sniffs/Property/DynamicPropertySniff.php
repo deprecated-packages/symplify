@@ -47,7 +47,7 @@ final class DynamicPropertySniff implements Sniff
         $propertyName = $this->tokens[$position + 1]['content'];
 
         $classWrapper = $this->getClassWrapper();
-        if (in_array($propertyName, $classWrapper->getPropertyNames())) {
+        if (in_array($propertyName, $classWrapper->getPropertyNames(), true)) {
             return;
         }
 

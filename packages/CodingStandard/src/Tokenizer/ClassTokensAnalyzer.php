@@ -39,7 +39,7 @@ final class ClassTokensAnalyzer
      */
     public function getPropertiesAndConstants(): array
     {
-        return $this->filterPropertyAndConstantTokens($this->tokensAnalyzer->getClassyElements());
+        return $this->filterClassyTokens($this->tokensAnalyzer->getClassyElements(), ['property', 'const']);
     }
 
     public function getClassEnd(): int
@@ -48,22 +48,31 @@ final class ClassTokensAnalyzer
     }
 
     /**
-     * @param mixed[] $classyElements
      * @return mixed[]
      */
-    private function filterPropertyAndConstantTokens(array $classyElements): array
+    public function getProperties(): array
     {
-        $propertyAndConstantTokens = [];
+        return $this->filterClassyTokens($this->tokensAnalyzer->getClassyElements(), ['property']);
+    }
+
+    /**
+     * @param mixed[] $classyElements
+     * @param string[] $types
+     * @return mixed[]
+     */
+    private function filterClassyTokens(array $classyElements, array $types): array
+    {
+        $filteredClassyTokens = [];
 
         foreach ($classyElements as $index => $classyToken) {
-            if ($classyToken['type'] !== 'property' && $classyToken['type'] !== 'const') {
+            if (! in_array($classyToken['type'], $types, true)) {
                 continue;
             }
 
-            $propertyAndConstantTokens[$index] = $classyToken;
+            $filteredClassyTokens[$index] = $classyToken;
         }
 
-        return $propertyAndConstantTokens;
+        return $filteredClassyTokens;
     }
 
     private function ensureIsClassyToken(Token $token): void

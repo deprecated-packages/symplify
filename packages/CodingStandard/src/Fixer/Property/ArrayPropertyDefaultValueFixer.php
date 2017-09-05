@@ -12,6 +12,7 @@ use PhpCsFixer\Tokenizer\CT;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
+use Symplify\CodingStandard\Tokenizer\ClassTokensAnalyzer;
 
 final class ArrayPropertyDefaultValueFixer implements DefinedFixerInterface
 {
@@ -44,47 +45,15 @@ public $property;'
 
     public function fix(SplFileInfo $file, Tokens $tokens): void
     {
-        $blockLevel = 0;
-        $classOrTraitLevel = 0;
-
         for ($index = 0; $index < count($tokens) - 1; ++$index) {
             $token = $tokens[$index];
-
-            if ($token->isGivenKind([T_CLASS, T_TRAIT])) {
-                $classOrTraitLevel = $blockLevel + 1;
+            if (! $token->isClassy()) {
                 continue;
             }
 
-            if ($token->equals('{')) {
-                ++$blockLevel;
-                continue;
-            } elseif ($token->equals('}')) {
-                --$blockLevel;
-                continue;
-            }
+            $classTokensAnalyzer = ClassTokensAnalyzer::createFromTokensArrayStartPosition($tokens, $index);
 
-            if (! $token->isGivenKind(T_DOC_COMMENT)) {
-                continue;
-            }
-
-            if (! $this->isArrayPropertyDocComment($token)) {
-                continue;
-            }
-
-            if ($blockLevel !== $classOrTraitLevel) {
-                continue;
-            }
-
-            // @todo: how to get variable here?
-            $equalTokenPosition = $tokens->getNextTokenOfKind($index, ['=']);
-            $semicolonTokenPosition = (int) $tokens->getNextTokenOfKind($index, [';']);
-
-            // default definition is set
-            if (is_numeric($equalTokenPosition) && $equalTokenPosition < $semicolonTokenPosition) {
-                continue;
-            }
-
-            $this->addDefaultValueForArrayProperty($tokens, $semicolonTokenPosition);
+            $this->fixProperties($tokens, $classTokensAnalyzer->getProperties());
         }
     }
 
@@ -105,10 +74,6 @@ public $property;'
 
     private function isArrayPropertyDocComment(Token $token): bool
     {
-        if (! $token->isComment()) {
-            return false;
-        }
-
         $docBlock = new DocBlock($token->getContent());
 
         if (! $docBlock->getAnnotationsOfType('var')) {
@@ -137,5 +102,53 @@ public $property;'
             new Token([CT::T_ARRAY_SQUARE_BRACE_OPEN, '[']),
             new Token([CT::T_ARRAY_SQUARE_BRACE_CLOSE, ']']),
         ]);
+    }
+
+    /**
+     * @param mixed[]|Token[] $properties
+     */
+    private function fixProperties(Tokens $tokens, array $properties): void
+    {
+        foreach ($properties as $index => ['token' => $propertyToken]) {
+            $docBlockToken = $this->findPreviousDocBlockToken($tokens, $index);
+            if ($docBlockToken === null) {
+                continue;
+            }
+
+            if (! $this->isArrayPropertyDocComment($docBlockToken)) {
+                continue;
+            }
+
+            $equalTokenPosition = (int) $tokens->getNextTokenOfKind($index, ['=']);
+            $semicolonTokenPosition = (int) $tokens->getNextTokenOfKind($index, [';']);
+
+            if ($this->isDefaultDefinitionSet($equalTokenPosition, $semicolonTokenPosition)) {
+                continue;
+            }
+
+            $this->addDefaultValueForArrayProperty($tokens, $semicolonTokenPosition);
+        }
+    }
+
+    private function findPreviousDocBlockToken(Tokens $tokens, int $index): ?Token
+    {
+        for ($i = 1; $i < 6; ++$i) {
+            $possibleDocBlockTokenPosition = $tokens->getPrevNonWhitespace($index - $i);
+            if ($possibleDocBlockTokenPosition === null) {
+                break;
+            }
+
+            $possibleDocBlockToken = $tokens[$possibleDocBlockTokenPosition];
+            if ($possibleDocBlockToken->isComment()) {
+                return $possibleDocBlockToken;
+            }
+        }
+
+        return null;
+    }
+
+    private function isDefaultDefinitionSet(int $equalTokenPosition, int $semicolonTokenPosition): bool
+    {
+        return is_numeric($equalTokenPosition) && $equalTokenPosition < $semicolonTokenPosition;
     }
 }
