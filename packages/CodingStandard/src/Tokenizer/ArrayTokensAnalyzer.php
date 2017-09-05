@@ -2,8 +2,10 @@
 
 namespace Symplify\CodingStandard\Tokenizer;
 
+use PhpCsFixer\Tokenizer\CT;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
+use Symplify\CodingStandard\Exception\UnexpectedTokenException;
 
 final class ArrayTokensAnalyzer
 {
@@ -29,6 +31,8 @@ final class ArrayTokensAnalyzer
 
     private function __construct(Tokens $tokens, int $startIndex)
     {
+        $this->ensureIsArrayOpenToken($tokens[$startIndex]);
+
         $this->tokens = $tokens;
         $this->startIndex = $startIndex;
         $this->startToken = $tokens[$startIndex];
@@ -92,5 +96,19 @@ final class ArrayTokensAnalyzer
         }
 
         return $itemCount;
+    }
+
+    private function ensureIsArrayOpenToken(Token $token): void
+    {
+        if ($token->isGivenKind([T_ARRAY, CT::T_ARRAY_SQUARE_BRACE_OPEN])) {
+            return;
+        }
+
+        throw new UnexpectedTokenException(sprintf(
+            '"%s" expected "%s" token in its constructor. "%s" token given.',
+            self::class,
+            implode(',', ['T_ARRAY', 'CT::T_ARRAY_SQUARE_BRACE_OPEN']),
+            $token->getName()
+        ));
     }
 }

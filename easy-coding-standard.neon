@@ -43,6 +43,10 @@ parameters:
         - PhpCsFixer\Fixer\Operator\UnaryOperatorSpacesFixer
 
     skip:
+        PHP_CodeSniffer\Standards\Generic\Sniffs\Files\LineLengthSniff:
+            # many implemented interfaces
+            - packages/CodingStandard/src/Fixer/ClassNotation/PropertyAndConstantSeparationFixer.php
+
         SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff:
             - *packages/CodingStandard/src/Sniffs/*/*Sniff.php
             - packages/EasyCodingStandard/packages/SniffRunner/src/File/File.php
