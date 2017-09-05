@@ -24,4 +24,19 @@ final class DocBlockAnalyzer
 
         return Strings::contains($varTypes[0], '[]');
     }
+
+    /**
+     * @param string[] $annotations
+     */
+    public static function hasAnnotations(DocBlock $docBlock, array $annotations): bool
+    {
+        $foundTypes = 0;
+        foreach ($annotations as $annotation) {
+            if ($docBlock->getAnnotationsOfType($annotation)) {
+                ++$foundTypes;
+            }
+        }
+
+        return $foundTypes === count($annotations);
+    }
 }

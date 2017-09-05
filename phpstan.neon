@@ -12,6 +12,9 @@ parameters:
         - '#Parameter \#1 \$id of class Symfony\\Component\\DependencyInjection\\Reference constructor expects string, string\|null given#'
         # is valid code
         - '#Parameter \#2 \$searchIndex of method PhpCsFixer\\Tokenizer\\Tokens::findBlockEnd\(\) expects int, int\|null given#'
+        - '#Property Symplify\\CodingStandard\\FixerTokenWrapper\\PropertyWrapper::\$visibilityPosition \(int\) does not accept int\|null#'
+        - '#Calling method getAnnotationsOfType\(\) on possibly null value of type PhpCsFixer\\DocBlock\\DocBlock\|null#'
+        - '#Calling method getContent\(\) on possibly null value of type PhpCsFixer\\DocBlock\\DocBlock\|null#'
     excludes_analyse:
         - *packages/CodingStandard/tests/**/correct*
         - *packages/CodingStandard/tests/**/wrong*

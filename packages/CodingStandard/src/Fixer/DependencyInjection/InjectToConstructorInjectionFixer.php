@@ -2,24 +2,19 @@
 
 namespace Symplify\CodingStandard\Fixer\DependencyInjection;
 
-use PhpCsFixer\DocBlock\DocBlock;
 use PhpCsFixer\Fixer\DefinedFixerInterface;
 use PhpCsFixer\FixerDefinition\CodeSample;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
-use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
 use Symplify\CodingStandard\Fixer\PositionDetector;
 use Symplify\CodingStandard\Fixer\TokenBuilder;
+use Symplify\CodingStandard\FixerTokenWrapper\PropertyWrapper;
+use Symplify\CodingStandard\Tokenizer\ClassTokensAnalyzer;
 
 final class InjectToConstructorInjectionFixer implements DefinedFixerInterface
 {
-    /**
-     * @var string
-     */
-    private const VAR_NAME = 'var';
-
     public function getDefinition(): FixerDefinitionInterface
     {
         return new FixerDefinition(
@@ -45,67 +40,16 @@ class SomeClass
 
     public function fix(SplFileInfo $file, Tokens $tokens): void
     {
-        // 1. find annotation @inject
-        foreach ($tokens as $index => $token) {
-            if (! $token->isGivenKind(T_DOC_COMMENT)) {
+        for ($index = count($tokens) - 1; $index > 1; --$index) {
+            $token = $tokens[$index];
+
+            if (! $token->isGivenKind(T_CLASS)) {
                 continue;
             }
 
-            $doc = new DocBlock($token->getContent());
-            $injectAnnotations = $doc->getAnnotationsOfType('inject');
-            if (! count($injectAnnotations)) {
-                continue;
-            }
+            $classTokenAnalyzer = ClassTokensAnalyzer::createFromTokensArrayStartPosition($tokens, $index);
 
-            // 1. remove it
-            foreach ($injectAnnotations as $injectAnnotation) {
-                $injectAnnotation->remove();
-            }
-
-            // 2. make public property private
-            $visibilityTokenPosition = $tokens->getNextMeaningfulToken($index);
-            $visibilityToken = $tokens[$visibilityTokenPosition];
-            if (! $visibilityToken->isGivenKind(T_PUBLIC)) {
-                // not a public property with @inject annotation
-                continue;
-            }
-
-            $tokens[$visibilityTokenPosition] = new Token([T_PRIVATE, 'private']);
-
-            // 3. add dependency to constructor
-            $propertyNameTokenPosition = $tokens->getNextMeaningfulToken($visibilityTokenPosition);
-            $propertyNameToken = $tokens[$propertyNameTokenPosition];
-            $propertyName = ltrim($propertyNameToken->getContent(), '$');
-
-            $varAnnotations = $doc->getAnnotationsOfType(self::VAR_NAME);
-            if (! count($varAnnotations)) {
-                // missing @var annotation, not an @inject property
-                continue;
-            }
-
-            $varAnnotation = $varAnnotations[0];
-            if (! count($varAnnotation->getTypes())) {
-                // missing type at @var annotation, not an @inject property
-                continue;
-            }
-
-            $propertyType = $varAnnotation->getTypes()[0];
-
-            // A. has a constructor?
-            $constructorPosition = PositionDetector::detectConstructorPosition($tokens);
-            if ($constructorPosition) { // "function" token
-                $this->addPropertyToConstructor($tokens, $propertyType, $propertyName, $constructorPosition);
-            } else {
-                // B. doesn't have a constructor
-                $this->addConstructorMethod($tokens, $propertyType, $propertyName);
-            }
-
-            // save changed annotation
-            $tokens[$index] = new Token([T_DOC_COMMENT, $doc->getContent()]);
-
-            // run again with new tokens to take new __construct method into account
-            $this->fix($file, $tokens);
-            break;
+            $this->fixClass($tokens, $classTokenAnalyzer);
         }
     }
 
@@ -127,6 +71,39 @@ class SomeClass
     public function supports(SplFileInfo $file): bool
     {
         return true;
+    }
+
+    private function fixClass(Tokens $tokens, ClassTokensAnalyzer $classTokenAnalyzer): void
+    {
+        $properties = $classTokenAnalyzer->getProperties();
+
+        foreach ($properties as $index => $propertyToken) {
+            $this->fixProperty($tokens, $index);
+        }
+    }
+
+    private function fixProperty(Tokens $tokens, int $index): void
+    {
+        $propertyWrapper = PropertyWrapper::createFromTokensAndPosition($tokens, $index);
+
+        if (! $propertyWrapper->isInjectProperty()) {
+            return;
+        }
+
+        $propertyWrapper->removeAnnotation('inject');
+        $propertyWrapper->makePrivate();
+
+        $propertyName = $propertyWrapper->getName();
+        $propertyType = $propertyWrapper->getType();
+
+        // A. has a constructor?
+        $constructorPosition = PositionDetector::detectConstructorPosition($tokens);
+        if ($constructorPosition) { // "function" token
+            $this->addPropertyToConstructor($tokens, $propertyType, $propertyName, $constructorPosition);
+        } else {
+            // B. doesn't have a constructor
+            $this->addConstructorMethod($tokens, $propertyType, $propertyName);
+        }
     }
 
     private function addConstructorMethod(Tokens $tokens, string $propertyType, string $propertyName): void
