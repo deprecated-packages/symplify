@@ -15,13 +15,10 @@ use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use PhpCsFixer\WhitespacesFixerConfig;
-use ReflectionMethod;
+use ReflectionClass;
 use SplFileInfo;
 use Symplify\CodingStandard\Tokenizer\ClassTokensAnalyzer;
 
-/**
- * @todo change for methods as well?
- */
 final class PropertyAndConstantSeparationFixer implements DefinedFixerInterface, WhitespacesAwareFixerInterface, ConfigurationDefinitionFixerInterface
 {
     /**
@@ -113,48 +110,6 @@ class SomeClass
         $this->whitespacesFixerConfig = $whitespacesFixerConfig;
     }
 
-    private function fixClass(Tokens $tokens, ClassTokensAnalyzer $classTokensAnalyzer): void
-    {
-        $propertiesAndConstants = $classTokensAnalyzer->getPropertiesAndConstants();
-        foreach ($propertiesAndConstants as $index => $propertyOrConstantToken) {
-            $constantOrPropertyEnd = $tokens->getNextTokenOfKind($index, [';']);
-            if ($constantOrPropertyEnd) {
-                $this->fixSpacesBelow($tokens, $classTokensAnalyzer->getClassEnd(), $constantOrPropertyEnd);
-            }
-        }
-    }
-
-    /**
-     * Same as @see \PhpCsFixer\Fixer\ClassNotation\MethodSeparationFixer::fixSpacesBelow().
-     */
-    private function fixSpacesBelow(Tokens $tokens, int $classEnd, int $constantOrPropertyEnd): void
-    {
-        $nextNotWhite = $tokens->getNextNonWhitespace($constantOrPropertyEnd);
-        if ($nextNotWhite === null) {
-            return;
-        }
-
-        $this->callClassPrivateMethod(
-            MethodSeparationFixer::class,
-            'correctLineBreaks',
-            $tokens,
-            $constantOrPropertyEnd,
-            $nextNotWhite,
-            $nextNotWhite === $classEnd ? $this->configuration[self::SPACE_COUNT_OPTION] : $this->configuration[self::SPACE_COUNT_OPTION] + 1
-        );
-    }
-
-    /**
-     * @todo extract to reflection class?
-     * @param mixed[] ...$arguments
-     */
-    private function callClassPrivateMethod(string $class, string $method, ...$arguments): void
-    {
-        $methodReflection = new ReflectionMethod($class, $method);
-        $methodReflection->setAccessible(true);
-        $methodReflection->invoke(new $class, ...$arguments);
-    }
-
     /**
      * @param mixed[]|null $configuration
      */
@@ -180,5 +135,48 @@ class SomeClass
             ->getOption();
 
         return new FixerConfigurationResolver([$spaceCountOption]);
+    }
+
+    private function fixClass(Tokens $tokens, ClassTokensAnalyzer $classTokensAnalyzer): void
+    {
+        $propertiesAndConstants = $classTokensAnalyzer->getPropertiesAndConstants();
+        foreach ($propertiesAndConstants as $index => $propertyOrConstantToken) {
+            $constantOrPropertyEnd = $tokens->getNextTokenOfKind($index, [';']);
+            if ($constantOrPropertyEnd) {
+                $this->fixSpacesBelow($tokens, $classTokensAnalyzer->getClassEnd(), $constantOrPropertyEnd);
+            }
+        }
+    }
+
+    /**
+     * Same as @see \PhpCsFixer\Fixer\ClassNotation\MethodSeparationFixer::fixSpaceBelowMethod().
+     *
+     ;* This is nasty solution to prevent BC breaks and include fixes from
+     * @see \PhpCsFixer\Fixer\ClassNotation\MethodSeparationFixer.
+     *
+     * Don't to this at home!
+     */
+    private function fixSpacesBelow(Tokens $tokens, int $classEnd, int $constantOrPropertyEnd): void
+    {
+        $nextNotWhitePosition = $tokens->getNextNonWhitespace($constantOrPropertyEnd);
+        if ($nextNotWhitePosition === null) {
+            return;
+        }
+
+        $methodSeparationFixer = new MethodSeparationFixer;
+        $methodSeparationFixer->setWhitespacesConfig($this->whitespacesFixerConfig);
+        $methodSeparationFixerClassReflection = new ReflectionClass(MethodSeparationFixer::class);
+
+        $correctLineBreaksMethodReflection = $methodSeparationFixerClassReflection->getMethod('correctLineBreaks');
+        $correctLineBreaksMethodReflection->setAccessible(true);
+
+        $arguments = [
+            $tokens,
+            $constantOrPropertyEnd,
+            $nextNotWhitePosition,
+            $nextNotWhitePosition === $classEnd ? $this->configuration[self::SPACE_COUNT_OPTION] : $this->configuration[self::SPACE_COUNT_OPTION] + 1,
+        ];
+
+        $correctLineBreaksMethodReflection->invoke($methodSeparationFixer, ...$arguments);
     }
 }

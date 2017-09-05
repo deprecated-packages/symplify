@@ -1,85 +1,89 @@
 includes:
-#    - packages/EasyCodingStandard/config/symfony-checkers.neon
-#    - packages/EasyCodingStandard/config/php54-checkers.neon
-#    - packages/EasyCodingStandard/config/php70-checkers.neon
-#    - packages/EasyCodingStandard/config/php71-checkers.neon
+    - packages/EasyCodingStandard/config/symfony-checkers.neon
+    - packages/EasyCodingStandard/config/php54-checkers.neon
+    - packages/EasyCodingStandard/config/php70-checkers.neon
+    - packages/EasyCodingStandard/config/php71-checkers.neon
     # custom
     - packages/EasyCodingStandard/config/symplify-checkers.neon
-#    - packages/EasyCodingStandard/config/common.neon
-#    - packages/EasyCodingStandard/config/spaces.neon
+    - packages/EasyCodingStandard/config/common.neon
+    - packages/EasyCodingStandard/config/spaces.neon
 
-#checkers:
-#    Symplify\CodingStandard\Sniffs\DependencyInjection\NoClassInstantiationSniff:
-#        extraAllowedClasses:
-#            - Symplify\EasyCodingStandard\Error\Error
-#
-#    # Slevomat
-#    SlevomatCodingStandard\Sniffs\Namespaces\ReferenceUsedNamesOnlySniff:
-#        allowPartialUses: false
-#    - SlevomatCodingStandard\Sniffs\ControlStructures\AssignmentInConditionSniff
-#    SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff:
-#        enableEachParameterAndReturnInspection: true
-#    - SlevomatCodingStandard\Sniffs\Exceptions\ReferenceThrowableOnlySniff
-#
-#    # Complexity limits
-#    PHP_CodeSniffer\Standards\Generic\Sniffs\Files\LineLengthSniff:
-#        absoluteLineLimit: 120
-#    PHP_CodeSniffer\Standards\Generic\Sniffs\Metrics\CyclomaticComplexitySniff:
-#        absoluteComplexity: 10
-#    PHP_CodeSniffer\Standards\Generic\Sniffs\Metrics\NestingLevelSniff:
-#        absoluteNestingLevel: 4
-#
-#    # class should be Abstact or Final
-#    - SlamCsFixer\FinalInternalClassFixer
-#
-#
-#
-#parameters:
-#    exclude_checkers:
-#        # from PHP-CS-Fixer Symfony set
-#        - PhpCsFixer\Fixer\PhpTag\BlankLineAfterOpeningTagFixer
-#        - PhpCsFixer\Fixer\Operator\NewWithBracesFixer
-#        - PhpCsFixer\Fixer\Phpdoc\PhpdocAlignFixer
-#        - PhpCsFixer\Fixer\Operator\UnaryOperatorSpacesFixer
-#
-#    skip:
-#        SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff:
-#            - *packages/CodingStandard/src/Sniffs/*/*Sniff.php
-#            - packages/EasyCodingStandard/packages/SniffRunner/src/File/File.php
-#            - packages/Statie/packages/FlatWhite/src/Latte/DynamicStringLoader.php
-#            - packages/Statie/src/Configuration/Configuration.php
-#            - packages/SymbioticController/src/Adapter/Nette/Application/PresenterFactory.php
-#            - packages/SymbioticController/src/Adapter/Nette/Application/PresenterHelper.php
-#
-#        Symplify\CodingStandard\Sniffs\Classes\EqualInterfaceImplementationSniff:
-#            - packages/EasyCodingStandard/packages/SniffRunner/src/Application/SniffFileProcessor.php
-#            - packages/EasyCodingStandard/packages/FixerRunner/src/Application/FixerFileProcessor.php
-#
-#        PhpCsFixer\Fixer\PhpUnit\PhpUnitStrictFixer:
-#            - packages/EasyCodingStandard/tests/Indentation/IndentationTest.php
-#
-#        PhpCsFixer\Fixer\Semicolon\SpaceAfterSemicolonFixer:
-#            # bugged fixer
-#            - packages/CodingStandard/src/Fixer/DependencyInjection/InjectToConstructorInjectionFixer.php
-#
-#        Symplify\CodingStandard\Fixer\Php\ClassStringToClassConstantFixer:
-#            # name parts, not classes
-#            - packages/CodingStandard/src/Sniffs/DependencyInjection/NoClassInstantiationSniff.php
-#
-#            # optional package, interface might not exist
-#            - packages/CodingStandard/src/Sniffs/Classes/EqualInterfaceImplementationSniff.php
-#            # "Exception" is string part of the name
-#            - packages/CodingStandard/src/Sniffs/Naming/ExceptionNameSniff.php
-#            - packages/CodingStandard/src/Fixer/Naming/ExceptionNameFixer.php
-#            # "Error" is a name of Presenter
-#            - packages/SymbioticController/tests/Adapter/Nette/Application/PresenterFactoryTest.php
-#            # class is only for tested cases, it doesn't exist
-#            - packages/SymbioticController/tests/Adapter/Nette/Routing/PresenterMapperTest.php
-#            # class might not exist
-#            - packages/EasyCodingStandard/packages/Configuration/src/MutualCheckerExcluder.php
-#            - packages/EasyCodingStandard/packages/Configuration/tests/MutualCheckerExcluderTest.php
-#
-#        Symplify\CodingStandard\Sniffs\DependencyInjection\NoClassInstantiationSniff:
-#            # fix later
-#            - packages/CodingStandard/src/Sniffs/Debug/CommentedOutCodeSniff.php
-#            - packages/Statie/src/Github/GihubPublishingProcess.php
+checkers:
+    Symplify\CodingStandard\Sniffs\DependencyInjection\NoClassInstantiationSniff:
+        extraAllowedClasses:
+            - Symplify\EasyCodingStandard\Error\Error
+
+    # Slevomat
+    SlevomatCodingStandard\Sniffs\Namespaces\ReferenceUsedNamesOnlySniff:
+        allowPartialUses: false
+    - SlevomatCodingStandard\Sniffs\ControlStructures\AssignmentInConditionSniff
+    SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff:
+        enableEachParameterAndReturnInspection: true
+    - SlevomatCodingStandard\Sniffs\Exceptions\ReferenceThrowableOnlySniff
+
+    # Complexity limits
+    PHP_CodeSniffer\Standards\Generic\Sniffs\Files\LineLengthSniff:
+        absoluteLineLimit: 120
+    PHP_CodeSniffer\Standards\Generic\Sniffs\Metrics\CyclomaticComplexitySniff:
+        absoluteComplexity: 10
+    PHP_CodeSniffer\Standards\Generic\Sniffs\Metrics\NestingLevelSniff:
+        absoluteNestingLevel: 4
+
+    # class should be Abstact or Final
+    - SlamCsFixer\FinalInternalClassFixer
+
+
+
+parameters:
+    exclude_checkers:
+        # from PHP-CS-Fixer Symfony set
+        - PhpCsFixer\Fixer\PhpTag\BlankLineAfterOpeningTagFixer
+        - PhpCsFixer\Fixer\Operator\NewWithBracesFixer
+        - PhpCsFixer\Fixer\Phpdoc\PhpdocAlignFixer
+        - PhpCsFixer\Fixer\Operator\UnaryOperatorSpacesFixer
+
+    skip:
+        PHP_CodeSniffer\Standards\Generic\Sniffs\Files\LineLengthSniff:
+            # many implemented interfaces
+            - packages/CodingStandard/src/Fixer/ClassNotation/PropertyAndConstantSeparationFixer.php
+
+        SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff:
+            - *packages/CodingStandard/src/Sniffs/*/*Sniff.php
+            - packages/EasyCodingStandard/packages/SniffRunner/src/File/File.php
+            - packages/Statie/packages/FlatWhite/src/Latte/DynamicStringLoader.php
+            - packages/Statie/src/Configuration/Configuration.php
+            - packages/SymbioticController/src/Adapter/Nette/Application/PresenterFactory.php
+            - packages/SymbioticController/src/Adapter/Nette/Application/PresenterHelper.php
+
+        Symplify\CodingStandard\Sniffs\Classes\EqualInterfaceImplementationSniff:
+            - packages/EasyCodingStandard/packages/SniffRunner/src/Application/SniffFileProcessor.php
+            - packages/EasyCodingStandard/packages/FixerRunner/src/Application/FixerFileProcessor.php
+
+        PhpCsFixer\Fixer\PhpUnit\PhpUnitStrictFixer:
+            - packages/EasyCodingStandard/tests/Indentation/IndentationTest.php
+
+        PhpCsFixer\Fixer\Semicolon\SpaceAfterSemicolonFixer:
+            # bugged fixer
+            - packages/CodingStandard/src/Fixer/DependencyInjection/InjectToConstructorInjectionFixer.php
+
+        Symplify\CodingStandard\Fixer\Php\ClassStringToClassConstantFixer:
+            # name parts, not classes
+            - packages/CodingStandard/src/Sniffs/DependencyInjection/NoClassInstantiationSniff.php
+
+            # optional package, interface might not exist
+            - packages/CodingStandard/src/Sniffs/Classes/EqualInterfaceImplementationSniff.php
+            # "Exception" is string part of the name
+            - packages/CodingStandard/src/Sniffs/Naming/ExceptionNameSniff.php
+            - packages/CodingStandard/src/Fixer/Naming/ExceptionNameFixer.php
+            # "Error" is a name of Presenter
+            - packages/SymbioticController/tests/Adapter/Nette/Application/PresenterFactoryTest.php
+            # class is only for tested cases, it doesn't exist
+            - packages/SymbioticController/tests/Adapter/Nette/Routing/PresenterMapperTest.php
+            # class might not exist
+            - packages/EasyCodingStandard/packages/Configuration/src/MutualCheckerExcluder.php
+            - packages/EasyCodingStandard/packages/Configuration/tests/MutualCheckerExcluderTest.php
+
+        Symplify\CodingStandard\Sniffs\DependencyInjection\NoClassInstantiationSniff:
+            # fix later
+            - packages/CodingStandard/src/Sniffs/Debug/CommentedOutCodeSniff.php
+            - packages/Statie/src/Github/GihubPublishingProcess.php
