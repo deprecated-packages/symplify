@@ -13,6 +13,7 @@ use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
 use Symplify\CodingStandard\Tokenizer\ClassTokensAnalyzer;
+use Symplify\CodingStandard\Tokenizer\DocBlockFinder;
 
 final class ArrayPropertyDefaultValueFixer implements DefinedFixerInterface
 {
@@ -110,7 +111,7 @@ public $property;'
     private function fixProperties(Tokens $tokens, array $properties): void
     {
         foreach ($properties as $index => ['token' => $propertyToken]) {
-            $docBlockToken = $this->findPreviousDocBlockToken($tokens, $index);
+            $docBlockToken = DocBlockFinder::findPrevious($tokens, $index);
             if ($docBlockToken === null) {
                 continue;
             }
@@ -128,23 +129,6 @@ public $property;'
 
             $this->addDefaultValueForArrayProperty($tokens, $semicolonTokenPosition);
         }
-    }
-
-    private function findPreviousDocBlockToken(Tokens $tokens, int $index): ?Token
-    {
-        for ($i = 1; $i < 6; ++$i) {
-            $possibleDocBlockTokenPosition = $tokens->getPrevNonWhitespace($index - $i);
-            if ($possibleDocBlockTokenPosition === null) {
-                break;
-            }
-
-            $possibleDocBlockToken = $tokens[$possibleDocBlockTokenPosition];
-            if ($possibleDocBlockToken->isComment()) {
-                return $possibleDocBlockToken;
-            }
-        }
-
-        return null;
     }
 
     private function isDefaultDefinitionSet(int $equalTokenPosition, int $semicolonTokenPosition): bool
