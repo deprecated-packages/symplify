@@ -25,7 +25,12 @@ final class ClassStringToClassConstantFixer implements DefinedFixerInterface, Co
     /**
      * @var string
      */
-    private const CLASS_INTERFACE_OR_TRAIT_PATTERN = '#^[A-Z]\w*[a-z]\w*(\\\\[A-Z]\w*[a-z]\w*)+\z#';
+    private const CLASS_PART_PATTERN = '[A-Z]\w*[a-z]\w*';
+
+    /**
+     * @var string
+     */
+    private const CLASS_INTERFACE_OR_TRAIT_PATTERN = '#^' . self::CLASS_PART_PATTERN . '(\\\\' . self::CLASS_PART_PATTERN . ')+\z#';
 
     /**
      * @var mixed[]
