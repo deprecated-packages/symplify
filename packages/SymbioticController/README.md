@@ -5,7 +5,7 @@
 
 *Write controller once and let many other frameworks use it.*
 
-This repository is maintained by @Lexinek.
+This repository is maintained by [@Lexinek](https://github.com/lexinek).
 
 ## Install
 
