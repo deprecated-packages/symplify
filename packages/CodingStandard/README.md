@@ -20,7 +20,6 @@ composer require symplify/coding-standard --dev
 ### Indexed PHP arrays should have 1 item per line
  
 - class: [`Symplify\CodingStandard\Fixer\ArrayNotation\StandaloneLineInMultilineArrayFixer`](/src/Fixer/ArrayNotation/StandaloneLineInMultilineArrayFixer.php)
-- This checker uses *[PHP-CS-Fixer](https://github.com/friendsofphp/php-cs-fixer)*
 
 :x:
 
@@ -38,10 +37,52 @@ $friends = [
 ```
 
 
+### Last property and first method must be separated by 1 blank line(s).
+
+- class: [`Symplify\CodingStandard\Fixer\ClassNotation\LastPropertyAndFirstMethodSeparationFixer`](/src/Fixer/ClassNotation/LastPropertyAndFirstMethodSeparationFixer.php)
+
+:x:
+
+```php
+class SomeClass
+{
+    public $lastProperty;
+    public function someFunction()
+    {
+
+    }
+}
+```
+
+:+1:
+
+```php
+class SomeClass
+{
+    public $lastProperty;
+
+    public function someFunction()
+    {
+
+    }
+}
+```
+
+This checker requires 1 space by default. But if you need, you can **configure it**:
+
+
+```yaml
+# easy-coding-standard.neon
+checkers:
+    Symplify\CodingStandard\Fixer\ClassNotation\LastPropertyAndFirstMethodSeparationFixer:
+        space_count: 2 # 1 by default
+```
+
+
+
 ### Properties and constants must be separated by 1 blank line(s).
 
 - class: [`Symplify\CodingStandard\Fixer\ClassNotation\PropertyAndConstantSeparationFixer`](/src/Fixer/ClassNotation/PropertyAndConstantSeparationFixer.php)
-- This checker uses *[PHP-CS-Fixer](https://github.com/friendsofphp/php-cs-fixer)*
 
 :x:
 
@@ -78,7 +119,6 @@ checkers:
 ### Constructor injection should be used instead of `@inject` annotations 
 
 - class: [`Symplify\CodingStandard\Fixer\DependencyInjection\InjectToConstructorInjectionFixer`](/src/Fixer/DependencyInjection/InjectToConstructorInjectionFixer.php)
-- This checker uses *[PHP-CS-Fixer](https://github.com/friendsofphp/php-cs-fixer)*
 
 :x:
 
@@ -114,7 +154,6 @@ class SomeClass
 ### Magic PHP methods (`__*()`) should respect their casing form
 
 - class: [`Symplify\CodingStandard\Fixer\Naming\MagicMethodsNamingFixer`](/src/Fixer/Naming/MagicMethodsNamingFixer.php)
-- This checker uses *[PHP-CS-Fixer](https://github.com/friendsofphp/php-cs-fixer)*
 
 :x:
 
@@ -143,7 +182,6 @@ class SomeClass
  
  
 - class: [`Symplify\CodingStandard\Fixer\Php\ClassStringToClassConstantFixer`](/src/Fixer/Php/ClassStringToClassConstantFixer.php)
-- This checker uses *[PHP-CS-Fixer](https://github.com/friendsofphp/php-cs-fixer)*
 
 :x:
 
@@ -169,7 +207,6 @@ checkers:
 ### Array property should have default value, to prevent undefined array issues
 
 - class: [`Symplify\CodingStandard\Fixer\Property/ArrayPropertyDefaultValueFixer`](/src/Fixer/Property/ArrayPropertyDefaultValueFixer.php)
-- This checker uses *[PHP-CS-Fixer](https://github.com/friendsofphp/php-cs-fixer)*
 
 
 :x:
@@ -209,7 +246,6 @@ class SomeClass
 ### Implementation of interface should only contain its methods
 
 - class: [`Symplify\CodingStandard\Sniffs\Classes\EqualInterfaceImplementationSniff`](/src/Sniffs/Classes/EqualInterfaceImplementationSniff.php)
-- `Symplify.Classes.EqualInterfaceImplementation`
 
 :x:
 
@@ -251,7 +287,6 @@ final class SomeClass implements SomeInterface
 ### Non-abstract class that implements interface should be final
 
 - class: [`Symplify\CodingStandard\Sniffs\Classes\FinalInterfaceSniff`](/src/Sniffs/Classes/FinalInterfaceSniff.php)
-- `Symplify.Classes.FinalInterface`
 
 :x:
 
@@ -329,7 +364,6 @@ class SomeClass
 ### Controller should have max. 1 render method
 
 - class: [`Symplify\CodingStandard\Sniffs\Classes\ControllerRenderMethodLimitSniff`](/src/Sniffs/Classes/ControllerRenderMethodLimitSniff.php)
-- `Symplify.Classes.ControllerRenderMethodLimit`
 
 :x:
 
@@ -360,7 +394,6 @@ final class Controller
 ### Controller has to contain `__invoke()` method
  
 - class: [`Symplify\CodingStandard\Sniffs\Classes\InvokableControllerSniff`](/src/Sniffs/Classes/InvokableControllerSniff.php)
-- `Symplify.Classes.InvokableController`
 
 :x:
 

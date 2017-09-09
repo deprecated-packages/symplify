@@ -19,7 +19,7 @@ use ReflectionClass;
 use SplFileInfo;
 use Symplify\CodingStandard\Tokenizer\ClassTokensAnalyzer;
 
-final class PropertyAndConstantSeparationFixer implements DefinedFixerInterface, WhitespacesAwareFixerInterface, ConfigurationDefinitionFixerInterface
+final class LastPropertyAndFirstMethodSeparationFixer implements DefinedFixerInterface, WhitespacesAwareFixerInterface, ConfigurationDefinitionFixerInterface
 {
     /**
      * @var string
@@ -51,7 +51,7 @@ final class PropertyAndConstantSeparationFixer implements DefinedFixerInterface,
     public function getDefinition(): FixerDefinitionInterface
     {
         $summary = sprintf(
-            'Properties and constants must be separated by %d blank line(s).',
+            'Last property and first method must be separated by %d blank line(s).',
             $this->configuration[self::SPACE_COUNT_OPTION]
         );
 
@@ -62,9 +62,10 @@ final class PropertyAndConstantSeparationFixer implements DefinedFixerInterface,
                     '<?php
 class SomeClass
 {
-    const SOME_CONSTANT = \'someValue\';
-    public $firstProperty;
-    public $secondProperty;
+    public $lastProperty;
+    public function firstMethod()
+    {
+    }
 }'
                 ),
             ]
@@ -73,7 +74,8 @@ class SomeClass
 
     public function isCandidate(Tokens $tokens): bool
     {
-        return $tokens->isAnyTokenKindsFound(Token::getClassyTokenKinds());
+        return $tokens->isAnyTokenKindsFound(Token::getClassyTokenKinds())
+            && $tokens->isAllTokenKindsFound([T_VARIABLE, T_FUNCTION]);
     }
 
     public function fix(SplFileInfo $file, Tokens $tokens): void
@@ -133,7 +135,7 @@ class SomeClass
     {
         $fixerOptionBuilder = new FixerOptionBuilder(
             self::SPACE_COUNT_OPTION,
-            'Number of spaces between constant and property elements.'
+            'Number of spaces between last property and first method.'
         );
 
         $spaceCountOption = $fixerOptionBuilder->setAllowedTypes(['int'])
@@ -145,16 +147,16 @@ class SomeClass
 
     private function fixClass(Tokens $tokens, ClassTokensAnalyzer $classTokensAnalyzer): void
     {
-        $propertiesAndConstants = $classTokensAnalyzer->getPropertiesAndConstants();
+        $lastPropertyPosition = $classTokensAnalyzer->getLastPropertyPosition();
+        $firstMethodPosition = $classTokensAnalyzer->getFirstMethodPosition();
 
-        // drop last element of array, check only in-between spacing
-        array_pop($propertiesAndConstants);
+        if ($lastPropertyPosition === null || $firstMethodPosition === null) {
+            return;
+        }
 
-        foreach ($propertiesAndConstants as $index => $propertyOrConstantToken) {
-            $constantOrPropertyEnd = $tokens->getNextTokenOfKind($index, [';']);
-            if ($constantOrPropertyEnd) {
-                $this->fixSpacesBelow($tokens, $classTokensAnalyzer->getClassEnd(), $constantOrPropertyEnd);
-            }
+        $propertyEnd = $tokens->getNextTokenOfKind($lastPropertyPosition, [';']);
+        if ($propertyEnd) {
+            $this->fixSpacesBelow($tokens, $classTokensAnalyzer->getClassEnd(), $propertyEnd);
         }
     }
 
@@ -166,9 +168,9 @@ class SomeClass
      *
      * Don't to this at home!
      */
-    private function fixSpacesBelow(Tokens $tokens, int $classEnd, int $constantOrPropertyEnd): void
+    private function fixSpacesBelow(Tokens $tokens, int $classEnd, int $propertyEnd): void
     {
-        $nextNotWhitePosition = $tokens->getNextNonWhitespace($constantOrPropertyEnd);
+        $nextNotWhitePosition = $tokens->getNextNonWhitespace($propertyEnd);
         if ($nextNotWhitePosition === null) {
             return;
         }
@@ -182,7 +184,7 @@ class SomeClass
 
         $arguments = [
             $tokens,
-            $constantOrPropertyEnd,
+            $propertyEnd,
             $nextNotWhitePosition,
             $nextNotWhitePosition === $classEnd ? $this->configuration[self::SPACE_COUNT_OPTION] : $this->configuration[self::SPACE_COUNT_OPTION] + 1,
         ];

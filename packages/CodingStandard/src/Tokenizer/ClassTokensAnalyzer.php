@@ -55,6 +55,38 @@ final class ClassTokensAnalyzer
         return $this->filterClassyTokens($this->tokensAnalyzer->getClassyElements(), ['property']);
     }
 
+    public function getLastPropertyPosition(): ?int
+    {
+        $properties = $this->getProperties();
+        if ($properties === []) {
+            return null;
+        }
+
+        end($properties);
+
+        return key($properties);
+    }
+
+    public function getFirstMethodPosition(): ?int
+    {
+        $methods = $this->getMethods();
+        if ($methods === []) {
+            return null;
+        }
+
+        end($methods);
+
+        return key($methods);
+    }
+
+    /**
+     * @return mixed[]
+     */
+    private function getMethods(): array
+    {
+        return $this->filterClassyTokens($this->tokensAnalyzer->getClassyElements(), ['method']);
+    }
+
     /**
      * @param mixed[] $classyElements
      * @param string[] $types
