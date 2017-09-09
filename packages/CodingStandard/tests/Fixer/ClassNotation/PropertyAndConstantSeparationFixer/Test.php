@@ -39,15 +39,19 @@ final class Test extends AbstractFixerTestCase
                 file_get_contents(__DIR__ . '/fixed/fixed4.php.inc'),
                 file_get_contents(__DIR__ . '/wrong/wrong4.php.inc'),
             ],
+            [
+                file_get_contents(__DIR__ . '/fixed/fixed5.php.inc'),
+                file_get_contents(__DIR__ . '/wrong/wrong5.php.inc'),
+            ],
         ];
     }
 
     protected function createFixer(): FixerInterface
     {
-        $propertyAndConstantSeparationFixer = new PropertyAndConstantSeparationFixer;
-        $propertyAndConstantSeparationFixer->setWhitespacesConfig($this->createWhitespacesFixerConfig());
+        $fixer = new PropertyAndConstantSeparationFixer;
+        $fixer->setWhitespacesConfig($this->createWhitespacesFixerConfig());
 
-        return $propertyAndConstantSeparationFixer;
+        return $fixer;
     }
 
     private function createWhitespacesFixerConfig(): WhitespacesFixerConfig

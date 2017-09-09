@@ -62,6 +62,7 @@ final class PropertyAndConstantSeparationFixer implements DefinedFixerInterface,
                     '<?php
 class SomeClass
 {
+    const SOME_CONSTANT = \'someValue\';
     public $firstProperty;
     public $secondProperty;
 }'
@@ -145,6 +146,10 @@ class SomeClass
     private function fixClass(Tokens $tokens, ClassTokensAnalyzer $classTokensAnalyzer): void
     {
         $propertiesAndConstants = $classTokensAnalyzer->getPropertiesAndConstants();
+
+        // drop last element of array, check only in-between spacing
+        array_pop($propertiesAndConstants);
+
         foreach ($propertiesAndConstants as $index => $propertyOrConstantToken) {
             $constantOrPropertyEnd = $tokens->getNextTokenOfKind($index, [';']);
             if ($constantOrPropertyEnd) {
