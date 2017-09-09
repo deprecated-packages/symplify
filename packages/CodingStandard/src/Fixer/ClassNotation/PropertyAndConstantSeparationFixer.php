@@ -152,7 +152,12 @@ class SomeClass
 
         foreach ($propertiesAndConstants as $index => $propertyOrConstantToken) {
             $constantOrPropertyEnd = $tokens->getNextTokenOfKind($index, [';']);
+
             if ($constantOrPropertyEnd) {
+                if ($this->isCommentBehindSemicolon($tokens, $constantOrPropertyEnd)) {
+                    $constantOrPropertyEnd += 2;
+                }
+
                 $this->fixSpacesBelow($tokens, $classTokensAnalyzer->getClassEnd(), $constantOrPropertyEnd);
             }
         }
@@ -188,5 +193,13 @@ class SomeClass
         ];
 
         $correctLineBreaksMethodReflection->invoke($methodSeparationFixer, ...$arguments);
+    }
+
+    private function isCommentBehindSemicolon(Tokens $tokens, int $constantOrPropertyEnd): bool
+    {
+        $nextToken = $tokens[$constantOrPropertyEnd + 1];
+        $nextNextToken = $tokens[$constantOrPropertyEnd + 2];
+
+        return $nextToken->isWhitespace(' ') && $nextNextToken->isComment();
     }
 }

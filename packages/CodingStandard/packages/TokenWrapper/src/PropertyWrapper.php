@@ -107,6 +107,10 @@ final class PropertyWrapper
     {
         $phpDocCommentCloseToken = $this->tokens[$phpDocCommentCloseTokenPosition];
 
+        if ($phpDocCommentCloseToken === null) {
+            return false;
+        }
+
         return $phpDocCommentCloseToken['code'] === T_DOC_COMMENT_CLOSE_TAG;
     }
 }
