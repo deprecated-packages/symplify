@@ -11,6 +11,7 @@ use ReflectionClass;
 use SlevomatCodingStandard\Helpers\ClassHelper;
 use SlevomatCodingStandard\Helpers\TokenHelper;
 use SplFileInfo;
+use SplObjectStorage;
 use stdClass;
 use Symplify\CodingStandard\Helper\Naming;
 
@@ -29,6 +30,7 @@ final class NoClassInstantiationSniff implements Sniff
         DateTimeImmutable::class,
         SplFileInfo::class,
         stdClass::class,
+        SplObjectStorage::class,
         'Nette\Utils\Html',
 
         // Symfony Console
