@@ -82,16 +82,11 @@ final class EqualInterfaceImplementationSniff implements Sniff
             return true;
         }
 
-        $inheritsSkippedInterface = (bool) array_intersect(
-            $this->classWrapper->getInterfaces(),
-            $this->interfacesToSkip
-        );
-
-        if ($inheritsSkippedInterface) {
+        if ($this->hasOnlyEmptyInterface()) {
             return true;
         }
 
-        return false;
+        return $this->hasInterfaceToSkip();
     }
 
     private function implementsInterface(): bool
@@ -108,5 +103,18 @@ final class EqualInterfaceImplementationSniff implements Sniff
         $extraPublicMethodNames = array_diff($publicMethodNames, $this->classWrapper->getInterfacesRequiredMethods());
 
         return $extraPublicMethodNames;
+    }
+
+    private function hasInterfaceToSkip(): bool
+    {
+        return (bool) array_intersect(
+            $this->classWrapper->getInterfaces(),
+            $this->interfacesToSkip
+        );
+    }
+
+    private function hasOnlyEmptyInterface(): bool
+    {
+        return ! (bool) $this->classWrapper->getInterfacesRequiredMethods();
     }
 }

@@ -1,10 +1,7 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Symplify\CodingStandard\Tests\Sniffs\Classes\EqualInterfaceImplementation\Source;
 
-class SomeClass implements SomeInterface
+interface SomeEmptyInterface
 {
-    public function resolve(): void
-    {
-    }
 }

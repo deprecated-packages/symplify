@@ -2,9 +2,9 @@
 
 namespace Symplify\CodingStandard\Tests\Sniffs\Classes\EqualInterfaceImplementation\Source;
 
-class SomeClass implements SomeInterface
+class SomeOtherClass implements SomeEmptyInterface
 {
-    public function resolve(): void
+    public function getName()
     {
     }
 }

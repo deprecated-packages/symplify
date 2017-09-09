@@ -57,8 +57,11 @@ final class Naming
         $completeClassName = implode(self::NAMESPACE_SEPARATOR, $classNameParts);
 
         $fqnClassName = self::getFqnClassName($file, $completeClassName, $classNameStartPosition);
+        if ($fqnClassName) {
+            return ltrim($fqnClassName, self::NAMESPACE_SEPARATOR);
+        }
 
-        return ltrim($fqnClassName, self::NAMESPACE_SEPARATOR);
+        return $completeClassName;
     }
 
     private static function getFqnClassName(File $file, string $className, int $classTokenPosition): string

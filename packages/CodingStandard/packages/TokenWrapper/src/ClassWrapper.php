@@ -61,7 +61,7 @@ final class ClassWrapper
 
     public function getClassName(): string
     {
-        return Naming::getClassName($this->file, $this->position);
+        return Naming::getClassName($this->file, $this->position + 2);
     }
 
     public function isAbstract(): bool

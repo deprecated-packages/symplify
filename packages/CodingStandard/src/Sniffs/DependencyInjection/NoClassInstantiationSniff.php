@@ -26,11 +26,14 @@ final class NoClassInstantiationSniff implements Sniff
      * @var string[]
      */
     public $allowedClasses = [
+        // PHP internal classes
         DateTime::class,
         DateTimeImmutable::class,
         SplFileInfo::class,
         stdClass::class,
         SplObjectStorage::class,
+        'Reflection*',
+
         'Nette\Utils\Html',
 
         // Symfony Console
@@ -61,9 +64,6 @@ final class NoClassInstantiationSniff implements Sniff
         '*Iterator',
         '*Reference', // Symfony DI Reference class
         '*ContainerFactory',
-
-        // prefixes
-        'Reflection*',
     ];
 
     /**
