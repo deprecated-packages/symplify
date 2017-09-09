@@ -5,7 +5,7 @@ class SomeClass
     /**
      * @var string
      */
-    const SOME_CONST = 'yea';
+    const SOME_CONST = 'yea'; // allow comment
 
     /**
      * @var string
