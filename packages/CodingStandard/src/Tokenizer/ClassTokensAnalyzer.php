@@ -55,6 +55,9 @@ final class ClassTokensAnalyzer
         return $this->filterClassyTokens($this->tokensAnalyzer->getClassyElements(), ['property']);
     }
 
+    /**
+     * @return mixed[]
+     */
     public function getLastPropertyPosition(): ?int
     {
         $properties = $this->getProperties();
@@ -62,12 +65,14 @@ final class ClassTokensAnalyzer
             return null;
         }
 
-        $wrappedProperties = [$properties];
-        $lastProperty = end($wrappedProperties);
+        end($properties);
 
-        return key($lastProperty);
+        return key($properties);
     }
 
+    /**
+     * @return mixed[]
+     */
     public function getFirstMethodPosition(): ?int
     {
         $methods = $this->getMethods();
@@ -75,10 +80,9 @@ final class ClassTokensAnalyzer
             return null;
         }
 
-        $wrappedMethods = [$methods];
-        $firstMethod = end($wrappedMethods);
+        end($methods);
 
-        return key($firstMethod);
+        return key($methods);
     }
 
     /**

@@ -154,15 +154,9 @@ class SomeClass
             return;
         }
 
-        dump($lastPropertyPosition, $firstMethodPosition);
-        die;
-
-        $propertiesAndConstants = $classTokensAnalyzer->getPropertiesAndConstants();
-        foreach ($propertiesAndConstants as $index => $propertyOrConstantToken) {
-            $constantOrPropertyEnd = $tokens->getNextTokenOfKind($index, [';']);
-            if ($constantOrPropertyEnd) {
-                $this->fixSpacesBelow($tokens, $classTokensAnalyzer->getClassEnd(), $constantOrPropertyEnd);
-            }
+        $propertyEnd = $tokens->getNextTokenOfKind($lastPropertyPosition, [';']);
+        if ($propertyEnd) {
+            $this->fixSpacesBelow($tokens, $classTokensAnalyzer->getClassEnd(), $propertyEnd);
         }
     }
 
@@ -174,9 +168,9 @@ class SomeClass
      *
      * Don't to this at home!
      */
-    private function fixSpacesBelow(Tokens $tokens, int $classEnd, int $constantOrPropertyEnd): void
+    private function fixSpacesBelow(Tokens $tokens, int $classEnd, int $propertyEnd): void
     {
-        $nextNotWhitePosition = $tokens->getNextNonWhitespace($constantOrPropertyEnd);
+        $nextNotWhitePosition = $tokens->getNextNonWhitespace($propertyEnd);
         if ($nextNotWhitePosition === null) {
             return;
         }
@@ -190,7 +184,7 @@ class SomeClass
 
         $arguments = [
             $tokens,
-            $constantOrPropertyEnd,
+            $propertyEnd,
             $nextNotWhitePosition,
             $nextNotWhitePosition === $classEnd ? $this->configuration[self::SPACE_COUNT_OPTION] : $this->configuration[self::SPACE_COUNT_OPTION] + 1,
         ];
