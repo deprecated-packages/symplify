@@ -8,7 +8,7 @@
         "nette/finder": "^2.4|^3.0",
         "slevomat/coding-standard": "^3.3",
         "squizlabs/php_codesniffer": "^3.0.2",
-        "friendsofphp/php-cs-fixer": "^2.5",
+        "friendsofphp/php-cs-fixer": "^2.6",
         "nikic/php-parser": "^3.1"
     },
     "require-dev": {
