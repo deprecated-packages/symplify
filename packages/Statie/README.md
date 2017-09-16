@@ -79,7 +79,7 @@ parameters:
 And push it with CLI command:
 
 ```
-vendor/bin/statie push-to-github-pages tomasvotruba/tomasvotruba.cz --token=${GH_TOKEN}
+vendor/bin/statie push-to-github tomasvotruba/tomasvotruba.cz --token=${GH_TOKEN}
 ```
 
 How to setup `${GH_TOKEN}`? Just check [this exemplary .travis.yml](https://github.com/TomasVotruba/tomasvotruba.cz/blob/fddcbe9298ae376145622d735e1408ece447ea09/.travis.yml#L9-L26).
