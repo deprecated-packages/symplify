@@ -41,6 +41,7 @@ parameters:
         - PhpCsFixer\Fixer\Operator\NewWithBracesFixer
         - PhpCsFixer\Fixer\Phpdoc\PhpdocAlignFixer
         - PhpCsFixer\Fixer\Operator\UnaryOperatorSpacesFixer
+        - PhpCsFixer\Fixer\ControlStructure\YodaStyleFixer
 
     skip:
         PHP_CodeSniffer\Standards\Generic\Sniffs\Files\LineLengthSniff:
