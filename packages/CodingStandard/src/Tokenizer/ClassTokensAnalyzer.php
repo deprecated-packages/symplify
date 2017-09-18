@@ -2,13 +2,10 @@
 
 namespace Symplify\CodingStandard\Tokenizer;
 
-use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use PhpCsFixer\Tokenizer\TokensAnalyzer;
-use Symplify\CodingStandard\Exception\UnexpectedTokenException;
-use Symplify\CodingStandard\FixerTokenWrapper\ArgumentWrapper;
+use Symplify\CodingStandard\FixerTokenWrapper\Guard\TokenTypeGuard;
 use Symplify\CodingStandard\FixerTokenWrapper\PropertyAccessWrapper;
-use Symplify\CodingStandard\FixerTokenWrapper\PropertyWrapper;
 
 final class ClassTokensAnalyzer
 {
@@ -29,7 +26,7 @@ final class ClassTokensAnalyzer
 
     private function __construct(Tokens $tokens, int $startIndex)
     {
-        $this->ensureIsClassyToken($tokens[$startIndex]);
+        TokenTypeGuard::ensureIsTokenType($tokens[$startIndex], [T_CLASS, T_INTERFACE, T_TRAIT], self::class);
 
         $this->startBracketIndex = $tokens->getNextTokenOfKind($startIndex, ['{']);
         $this->endBracketIndex = $tokens->findBlockEnd(Tokens::BLOCK_TYPE_CURLY_BRACE, $this->startBracketIndex);
@@ -135,19 +132,5 @@ final class ClassTokensAnalyzer
         }
 
         return $filteredClassyTokens;
-    }
-
-    private function ensureIsClassyToken(Token $token): void
-    {
-        if ($token->isGivenKind([T_CLASS, T_INTERFACE, T_TRAIT])) {
-            return;
-        }
-
-        throw new UnexpectedTokenException(sprintf(
-            '"%s" expected "%s" token in its constructor. "%s" token given.',
-            self::class,
-            implode(',', ['T_CLASS', 'T_INTERFACE', 'T_TRAIT']),
-            $token->getName()
-        ));
     }
 }

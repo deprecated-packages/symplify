@@ -75,7 +75,7 @@ class SomeClass
         foreach ($this->classTokenAnalyzer->getProperties() as $propertyIndex => $propertyToken) {
             $propertyWrapper = PropertyWrapper::createFromTokensAndPosition($tokens, $propertyIndex);
 
-            if ($propertyWrapper->getType() === null) {
+            if ($propertyWrapper->getType() === null || ! $propertyWrapper->isClassType()) {
                 continue;
             }
 
@@ -109,8 +109,12 @@ class SomeClass
                 continue;
             }
 
-            $oldName = $argumentWrapper->getName();
             if ($argumentWrapper->getType() === null) {
+                continue;
+            }
+
+            $oldName = $argumentWrapper->getName();
+            if ($this->isSplClass($argumentWrapper->getType())) {
                 continue;
             }
 
@@ -146,5 +150,10 @@ class SomeClass
         }
 
         return lcfirst($rawName);
+    }
+
+    private function isSplClass(string $class): bool
+    {
+        return Strings::startsWith($class, 'Spl');
     }
 }
