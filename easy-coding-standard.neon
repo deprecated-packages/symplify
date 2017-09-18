@@ -84,6 +84,8 @@ parameters:
             # class might not exist
             - packages/EasyCodingStandard/packages/Configuration/src/MutualCheckerExcluder.php
             - packages/EasyCodingStandard/packages/Configuration/tests/MutualCheckerExcluderTest.php
+            - packages/EasyCodingStandard/packages/Configuration/src/ConflictingCheckerGuard.php
+            - packages/EasyCodingStandard/packages/Configuration/tests/ConflictingCheckerGuardTest.php
 
         Symplify\CodingStandard\Sniffs\DependencyInjection\NoClassInstantiationSniff:
             # fix later
