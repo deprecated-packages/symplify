@@ -6,8 +6,8 @@ use Nette\Utils\Strings;
 use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Sniffs\Sniff;
 use Symplify\CodingStandard\Helper\Naming;
-use Symplify\CodingStandard\TokenWrapper\ClassWrapper;
-use Symplify\CodingStandard\TokenWrapper\MethodWrapper;
+use Symplify\CodingStandard\SniffTokenWrapper\ClassWrapper;
+use Symplify\CodingStandard\SniffTokenWrapper\MethodWrapper;
 
 final class ControllerRenderMethodLimitSniff implements Sniff
 {

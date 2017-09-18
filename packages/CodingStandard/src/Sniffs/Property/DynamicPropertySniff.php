@@ -5,7 +5,7 @@ namespace Symplify\CodingStandard\Sniffs\Property;
 use Nette\Utils\Strings;
 use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Sniffs\Sniff;
-use Symplify\CodingStandard\TokenWrapper\ClassWrapper;
+use Symplify\CodingStandard\SniffTokenWrapper\ClassWrapper;
 
 final class DynamicPropertySniff implements Sniff
 {
