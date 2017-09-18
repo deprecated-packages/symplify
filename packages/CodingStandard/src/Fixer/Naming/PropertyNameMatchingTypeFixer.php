@@ -75,13 +75,17 @@ class SomeClass
         foreach ($this->classTokenAnalyzer->getProperties() as $propertyIndex => $propertyToken) {
             $propertyWrapper = PropertyWrapper::createFromTokensAndPosition($tokens, $propertyIndex);
 
+            $oldName = $propertyWrapper->getName();
             if ($propertyWrapper->getType() === null || ! $propertyWrapper->isClassType()) {
                 continue;
             }
 
-            $expectedName = $this->getExpectedNameFromType($propertyWrapper->getType());
+            // anything cached should be skipped
+            if (Strings::contains($oldName, 'cached')) {
+                continue;
+            }
 
-            $oldName = $propertyWrapper->getName();
+            $expectedName = $this->getExpectedNameFromType($propertyWrapper->getType());
             if ($oldName === $expectedName) {
                 continue;
             }
@@ -137,16 +141,29 @@ class SomeClass
     {
         $rawName = $type;
 
+        // is SomeInterface
         if (Strings::endsWith($rawName, 'Interface')) {
             $rawName = Strings::substring($rawName, 0, - strlen('Interface'));
         }
 
+        // is ISomeClass
+        if ($this->isIPrefixedInterface($rawName)) {
+            $rawName = Strings::substring($rawName, 1);
+        }
+
+        // is AbstractClass
         if (Strings::startsWith($rawName, 'Abstract')) {
             $rawName = Strings::substring($rawName, strlen('Abstract'));
         }
 
+        // is Spl
         if (Strings::startsWith($rawName, 'Spl')) {
             $rawName = Strings::substring($rawName, strlen('Spl'));
+        }
+
+        // if all is upper-cased, it should be lower-cased
+        if ($rawName === strtoupper($rawName)) {
+            $rawName = strtolower($rawName);
         }
 
         return lcfirst($rawName);
@@ -155,5 +172,13 @@ class SomeClass
     private function isSplClass(string $class): bool
     {
         return Strings::startsWith($class, 'Spl');
+    }
+
+    private function isIPrefixedInterface($rawName): bool
+    {
+        return strlen($rawName) > 3
+            && Strings::startsWith($rawName, 'I')
+            && ctype_upper($rawName[1])
+            && ctype_lower($rawName[2]);
     }
 }

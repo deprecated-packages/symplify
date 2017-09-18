@@ -12,6 +12,11 @@ class SomeClass
      */
     private $options = [];
 
+    /**
+     * @var AMP
+     */
+    private $amp;
+
     public function __construct(EntityManager $entityManager)
     {
         $this->entityManager = $entityManager;

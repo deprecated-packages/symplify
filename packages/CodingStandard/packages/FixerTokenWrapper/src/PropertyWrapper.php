@@ -149,9 +149,13 @@ final class PropertyWrapper
         $this->tokens[$this->getPropertyNamePosition()] = new Token([T_VARIABLE, $newName]);
     }
 
-    private function getPropertyNamePosition(): ?int
+    private function getPropertyNamePosition(): int
     {
-        return $this->tokens->getNextMeaningfulToken($this->visibilityPosition);
+        $nextVariableTokens = $this->tokens->findGivenKind([T_VARIABLE], $this->visibilityPosition, $this->visibilityPosition + 5);
+
+        $nextVariableToken = array_pop($nextVariableTokens);
+
+        return key($nextVariableToken);
     }
 
     public function isClassType(): bool

@@ -12,6 +12,16 @@ class SomeClass
      */
     private $someClasses;
 
+    /**
+     * @var ILoader
+     */
+    private $loader;
+
+    /**
+     * @var ContainerInterface
+     */
+    private static $cachedContainer;
+
     public function __construct(SplFileInfo $firstFile, SplFileInfo $secondFile, SomeClassInterface $class)
     {
     }
