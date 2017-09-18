@@ -82,7 +82,7 @@ final class ClassTokensAnalyzer
     /**
      * @return mixed[]
      */
-    private function getMethods(): array
+    public function getMethods(): array
     {
         return $this->filterClassyTokens($this->tokensAnalyzer->getClassyElements(), ['method']);
     }

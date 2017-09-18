@@ -41,6 +41,10 @@ class SomeClass
             && $tokens->isAnyTokenKindsFound(Token::getClassyTokenKinds());
     }
 
+    /**
+     * @param SplFileInfo $file
+     * @param Tokens $tokens
+     */
     protected function applyFix(SplFileInfo $file, Tokens $tokens): void
     {
         for ($index = $tokens->count() - 1; $index >= 0; --$index) {
@@ -54,6 +58,10 @@ class SomeClass
 
             foreach ($classTokenAnalyzer->getProperties() as $propertyIndex => $propertyToken) {
                 $this->fixProperty($tokens, $propertyIndex);
+            }
+
+            foreach ($classTokenAnalyzer->getMethods() as $methodIndex => $methodToken) {
+                $this->fixMethod($tokens, $methodIndex);
             }
 
             // fix properties inside variables
@@ -72,5 +80,13 @@ class SomeClass
 
             $this->changedPropertyNames[$oldName] = $expectedName;
         }
+    }
+
+    private function fixMethod(Tokens $tokens, int $methodIndex): void
+    {
+        $methodWrapper = MethodWrapper::createFromTokensAndPosition($tokens, $index);
+
+        dump($methodWrapper);
+        die;
     }
 }
