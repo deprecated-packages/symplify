@@ -22,6 +22,11 @@ class SomeClass
      */
     private static $cachedContainer;
 
+    /**
+     * @var ContainerInterface
+     */
+    private static $smartContainer;
+
     public function __construct(SplFileInfo $firstFile, SplFileInfo $secondFile, SomeClassInterface $someClass)
     {
     }

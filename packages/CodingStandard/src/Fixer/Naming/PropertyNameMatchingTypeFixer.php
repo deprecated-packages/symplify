@@ -80,8 +80,7 @@ class SomeClass
                 continue;
             }
 
-            // anything cached should be skipped
-            if (Strings::contains($oldName, 'cached')) {
+            if ($this->isAllowedNameOrType($oldName, $propertyWrapper->getType())) {
                 continue;
             }
 
@@ -109,16 +108,12 @@ class SomeClass
         $arguments = array_reverse($methodWrapper->getArguments());
 
         foreach ($arguments as $argumentWrapper) {
-            if (! $argumentWrapper->isClassType()) {
-                continue;
-            }
-
-            if ($argumentWrapper->getType() === null) {
+            if ($argumentWrapper->getType() === null && ! $argumentWrapper->isClassType()) {
                 continue;
             }
 
             $oldName = $argumentWrapper->getName();
-            if ($this->isSplClass($argumentWrapper->getType())) {
+            if ($this->isAllowedNameOrType($oldName, $argumentWrapper->getType())) {
                 continue;
             }
 
@@ -180,5 +175,17 @@ class SomeClass
             && Strings::startsWith($rawName, 'I')
             && ctype_upper($rawName[1])
             && ctype_lower($rawName[2]);
+    }
+
+    private function isAllowedNameOrType(string $name, string $type): bool
+    {
+        if ($this->isSplClass($type)) {
+            return true;
+        }
+
+        // starts with adjective, e.g. (Post $firstPost, Post $secondPost)
+        $expectedName = $this->getExpectedNameFromType($type);
+
+        return Strings::contains($name, ucfirst($expectedName)) && Strings::endsWith($name, ucfirst($expectedName));
     }
 }
