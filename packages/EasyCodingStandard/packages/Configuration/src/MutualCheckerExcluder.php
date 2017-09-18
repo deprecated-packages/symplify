@@ -10,7 +10,7 @@ final class MutualCheckerExcluder
      *
      * @var string[][]
      */
-    private static $matchingCheckerGroups = [
+    private static $duplicatedCheckerGroups = [
         [
             'SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff',
             'Symplify\CodingStandard\Sniffs\Commenting\VarPropertyCommentSniff',
@@ -128,12 +128,12 @@ final class MutualCheckerExcluder
     ];
 
     /**
-     * @param mixed[][] $checkers
-     * @return mixed[][]
+     * @param mixed[] $checkers
+     * @return mixed[]
      */
-    public function exclude(array $checkers): array
+    public function processCheckers(array $checkers): array
     {
-        foreach (self::$matchingCheckerGroups as $matchingCheckerGroup) {
+        foreach (self::$duplicatedCheckerGroups as $matchingCheckerGroup) {
             if (! $this->isMatch($checkers, $matchingCheckerGroup)) {
                 continue;
             }
