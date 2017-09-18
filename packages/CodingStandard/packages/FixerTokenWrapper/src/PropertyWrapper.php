@@ -134,7 +134,7 @@ final class PropertyWrapper
     {
         $newName = Strings::startsWith($newName, '$') ?: '$' . $newName;
 
-        $this->tokens[$this->getPropertyNamePosition()] = new Token([T_STRING, $newName]);
+        $this->tokens[$this->getPropertyNamePosition()] = new Token([T_VARIABLE, $newName]);
     }
 
     private function getPropertyNamePosition(): ?int

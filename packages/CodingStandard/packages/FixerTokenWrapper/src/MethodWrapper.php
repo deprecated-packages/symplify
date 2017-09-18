@@ -2,6 +2,7 @@
 
 namespace Symplify\CodingStandard\FixerTokenWrapper;
 
+use Nette\Utils\Strings;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use Symplify\CodingStandard\Exception\UnexpectedTokenException;
@@ -75,20 +76,22 @@ final class MethodWrapper
         for ($i = $methodBodyStart + 1; $i < $methodBodyEnd; $i++) {
             $token = $this->tokens[$i];
 
+
             if ($token->isGivenKind(T_VARIABLE) === false) {
                 continue;
             }
 
-            $argumentWrapper = ArgumentWrapper::createFromTokensAndPosition($this->tokens, $i);
-
-            // local property
-            if ($argumentWrapper->getName() === 'this') {
+            if ($token->getContent() === '$this') {
                 continue;
             }
 
-            if ($argumentWrapper->getName() === $oldName) {
-                $argumentWrapper->changeName($newName);
+            if ($token->getContent() !== '$' . $oldName) {
+                continue;
             }
+
+            $newName = Strings::startsWith($newName, '$') ?: '$' . $newName;
+
+            $this->tokens[$i] = new Token([T_VARIABLE, $newName]);
         }
     }
 }

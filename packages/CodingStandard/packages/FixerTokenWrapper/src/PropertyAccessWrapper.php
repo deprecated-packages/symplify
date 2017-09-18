@@ -2,7 +2,6 @@
 
 namespace Symplify\CodingStandard\FixerTokenWrapper;
 
-use Nette\Utils\Strings;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use Symplify\CodingStandard\Exception\UnexpectedTokenException;

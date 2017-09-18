@@ -78,6 +78,6 @@ final class ArgumentWrapper
     {
         $newName = Strings::startsWith($newName, '$') ?: '$' . $newName;
 
-        $this->tokens[$this->position] = new Token([T_STRING, $newName]);
+        $this->tokens[$this->position] = new Token([T_VARIABLE, $newName]);
     }
 }
