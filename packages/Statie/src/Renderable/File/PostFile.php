@@ -26,7 +26,7 @@ final class PostFile extends AbstractFile implements ArrayAccess
     /**
      * @var DateTimeInterface
      */
-    private $date;
+    private $dateTime;
 
     /**
      * @var string
@@ -44,7 +44,7 @@ final class PostFile extends AbstractFile implements ArrayAccess
 
         $this->ensurePathStartsWithDate($fileInfo);
 
-        $this->date = PathAnalyzer::detectDate($fileInfo);
+        $this->dateTime = PathAnalyzer::detectDate($fileInfo);
         $this->filenameWithoutDate = PathAnalyzer::detectFilenameWithoutDate($fileInfo);
 
         $rawContent = strip_tags(file_get_contents($fileInfo->getRealPath()));
@@ -66,12 +66,12 @@ final class PostFile extends AbstractFile implements ArrayAccess
 
     public function getDate(): DateTimeInterface
     {
-        return $this->date;
+        return $this->dateTime;
     }
 
     public function getDateInFormat(string $format): string
     {
-        return $this->date->format($format);
+        return $this->dateTime->format($format);
     }
 
     public function getFilenameWithoutDate(): string
