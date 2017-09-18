@@ -2,10 +2,12 @@
 
 namespace Symplify\CodingStandard\FixerTokenWrapper;
 
+use Nette\Utils\Strings;
 use PhpCsFixer\DocBlock\Annotation;
 use PhpCsFixer\DocBlock\DocBlock;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
+use Symplify\CodingStandard\Exception\UnexpectedTokenException;
 use Symplify\CodingStandard\FixerTokenWrapper\Exception\MissingDocBlockException;
 use Symplify\CodingStandard\Tokenizer\DocBlockAnalyzer;
 use Symplify\CodingStandard\Tokenizer\DocBlockFinder;
@@ -40,6 +42,8 @@ final class PropertyWrapper
 
     private function __construct(Tokens $tokens, int $index)
     {
+        $this->ensureIsPropertyToken($tokens[$index]);
+
         $this->tokens = $tokens;
 
         $this->docBlockPosition = DocBlockFinder::findPreviousPosition($tokens, $index);
@@ -96,8 +100,7 @@ final class PropertyWrapper
 
     public function getName(): string
     {
-        $propertyNamePosition = $this->tokens->getNextMeaningfulToken($this->visibilityPosition);
-        $propertyNameToken = $this->tokens[$propertyNamePosition];
+        $propertyNameToken = $this->tokens[$this->getPropertyNamePosition()];
 
         return ltrim($propertyNameToken->getContent(), '$');
     }
@@ -124,5 +127,31 @@ final class PropertyWrapper
                 $calledMethod
             ));
         }
+    }
+
+    public function changeName(string $newName): void
+    {
+        $newName = Strings::startsWith($newName, '$') ?: '$' . $newName;
+
+        $this->tokens[$this->getPropertyNamePosition()] = new Token([T_STRING, $newName]);
+    }
+
+    private function getPropertyNamePosition(): ?int
+    {
+        return $this->tokens->getNextMeaningfulToken($this->visibilityPosition);
+    }
+
+    private function ensureIsPropertyToken(Token $token): void
+    {
+        if ($token->isGivenKind(T_VARIABLE)) {
+            return;
+        }
+
+        throw new UnexpectedTokenException(sprintf(
+            '"%s" expected "%s" token in its constructor. "%s" token given.',
+            self::class,
+            implode(',', ['T_VARIABLE']),
+            $token->getName()
+        ));
     }
 }

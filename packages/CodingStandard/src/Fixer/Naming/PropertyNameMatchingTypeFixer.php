@@ -2,7 +2,6 @@
 
 namespace Symplify\CodingStandard\Fixer\Naming;
 
-use Nette\Utils\Strings;
 use PhpCsFixer\AbstractFixer;
 use PhpCsFixer\FixerDefinition\CodeSample;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
@@ -10,10 +9,16 @@ use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
+use Symplify\CodingStandard\FixerTokenWrapper\PropertyWrapper;
 use Symplify\CodingStandard\Tokenizer\ClassTokensAnalyzer;
 
 final class PropertyNameMatchingTypeFixer extends AbstractFixer
 {
+    /**
+     * @var string[]
+     */
+    private $changedPropertyNames = [];
+
     public function getDefinition(): FixerDefinitionInterface
     {
         return new FixerDefinition('Property name should match its type, if possible.', [
@@ -38,62 +43,34 @@ class SomeClass
 
     protected function applyFix(SplFileInfo $file, Tokens $tokens): void
     {
-        foreach ($tokens as $index => $token) {
+        for ($index = $tokens->count() - 1; $index >= 0; --$index) {
+            $token = $tokens[$index];
+
             if (! $token->isClassy()) {
                 continue;
             }
 
             $classTokenAnalyzer = ClassTokensAnalyzer::createFromTokensArrayStartPosition($tokens, $index);
 
-            dump($classTokenAnalyzer);
-            die;
+            foreach ($classTokenAnalyzer->getProperties() as $propertyIndex => $propertyToken) {
+                $this->fixProperty($tokens, $propertyIndex);
+            }
 
-            dump($token);
-            die;
-
-
-            // process properties
-            // process method
-
-            // collect renames? => rename
-
-            // var?
-            dump($token);
-//            die;
-//
-//            $methodNamePosition = (int) $tokens->getNextMeaningfulToken($index);
-//            $methodNameToken = $tokens[$methodNamePosition];
-//
-//            if (! $this->isMethodNameCandidate($methodNameToken)) {
-//                continue;
-//            }
-//
-//            $correctName = $this->getCorrectedNameIfNeeded($methodNameToken->getContent());
-//            if ($correctName === false) {
-//                continue;
-//            }
-//
-//            $this->fixMethodName($tokens, $correctName, $methodNamePosition);
+            // fix properties inside variables
         }
     }
 
-    private function isMethodNameCandidate(Token $methodNameToken): bool
+    private function fixProperty(Tokens $tokens, int $index): void
     {
-        if (! $methodNameToken->isGivenKind(T_STRING)) {
-            // expected next token is not a method name, not our match
-            return false;
+        $propertyWrapper = PropertyWrapper::createFromTokensAndPosition($tokens, $index);
+
+        $oldName = $propertyWrapper->getName();
+        $expectedName = lcfirst($propertyWrapper->getType());
+
+        if ($oldName !== $expectedName) {
+            $propertyWrapper->changeName($expectedName);
+
+            $this->changedPropertyNames[$oldName] = $expectedName;
         }
-
-        if (! Strings::startsWith($methodNameToken->getContent(), '__')) {
-            // not PHP internal method
-            return false;
-        }
-
-        return true;
-    }
-
-    private function fixVariableOrPropertyName(Tokens $tokens, string $correctName, int $methodNamePosition): void
-    {
-        $tokens[$methodNamePosition] = new Token([T_STRING, $correctName]);
     }
 }
