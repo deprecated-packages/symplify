@@ -9,6 +9,7 @@ use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
+use Symplify\CodingStandard\FixerTokenWrapper\MethodWrapper;
 use Symplify\CodingStandard\FixerTokenWrapper\PropertyWrapper;
 use Symplify\CodingStandard\Tokenizer\ClassTokensAnalyzer;
 
@@ -84,9 +85,21 @@ class SomeClass
 
     private function fixMethod(Tokens $tokens, int $methodIndex): void
     {
-        $methodWrapper = MethodWrapper::createFromTokensAndPosition($tokens, $index);
+        $methodWrapper = MethodWrapper::createFromTokensAndPosition($tokens, $methodIndex);
 
-        dump($methodWrapper);
-        die;
+        $methodArguments = $methodWrapper->getArguments();
+
+        foreach ($methodArguments as $argumentWrapper) {
+            if (! $argumentWrapper->isClassType()) {
+                continue;
+            }
+
+            $oldName = $argumentWrapper->getName();
+            $expectedName = lcfirst($argumentWrapper->getType());
+
+            if ($oldName !== $expectedName) {
+                $argumentWrapper->changeName($expectedName);
+            }
+        }
     }
 }
