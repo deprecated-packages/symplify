@@ -7,6 +7,11 @@ class SomeClass
      */
     private $entityManager;
 
+    /**
+     * @var array
+     */
+    private $options = [];
+
     public function __construct(EntityManager $entityManager)
     {
         $this->entityManager = $entityManager;

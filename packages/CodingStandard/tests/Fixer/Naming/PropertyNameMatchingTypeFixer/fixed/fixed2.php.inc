@@ -3,12 +3,16 @@
 class SomeClass
 {
     /**
-     * @var EntityManager
+     * @var string
      */
-    private $entityManager;
+    private $filenameWithoutDate;
 
-    public function __construct(EntityManager $entityManager)
+    /**
+     * @var SomeClass[]
+     */
+    private $someClasses;
+
+    public function __construct(SplFileInfo $firstFile, SplFileInfo $secondFile, SomeClassInterface $someClass)
     {
-        $this->entityManager = $entityManager;
     }
 }
