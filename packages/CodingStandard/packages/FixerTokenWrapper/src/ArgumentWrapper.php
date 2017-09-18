@@ -31,14 +31,14 @@ final class ArgumentWrapper
     {
         $nameToken = $this->tokens[$this->position];
 
-        return ltrim($nameToken->getContent(), '$');
+        return ltrim((string) $nameToken->getContent(), '$');
     }
 
     public function isClassType(): bool
     {
         $type = $this->getType();
 
-        if (in_array($type, ['string', 'int', 'bool'], true)) {
+        if (in_array($type, ['string', 'int', 'bool', null], true)) {
             return false;
         }
 

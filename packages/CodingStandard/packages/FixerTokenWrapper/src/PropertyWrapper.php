@@ -106,7 +106,7 @@ final class PropertyWrapper
         return ltrim($propertyNameToken->getContent(), '$');
     }
 
-    public function getType(): string
+    public function getType(): ?string
     {
         $this->ensureHasDocBlock(__METHOD__);
 
@@ -114,6 +114,10 @@ final class PropertyWrapper
 
         /** @var Annotation $varAnnotation */
         $varAnnotation = $varAnnotations[0];
+
+        if (! isset ($varAnnotation->getTypes()[0])) {
+            return null;
+        }
 
         return $varAnnotation->getTypes()[0];
     }

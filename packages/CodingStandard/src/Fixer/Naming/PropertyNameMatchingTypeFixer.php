@@ -2,6 +2,7 @@
 
 namespace Symplify\CodingStandard\Fixer\Naming;
 
+use Nette\Utils\Strings;
 use PhpCsFixer\AbstractFixer;
 use PhpCsFixer\FixerDefinition\CodeSample;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
@@ -9,6 +10,7 @@ use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
+use Symplify\CodingStandard\FixerTokenWrapper\ArgumentWrapper;
 use Symplify\CodingStandard\FixerTokenWrapper\MethodWrapper;
 use Symplify\CodingStandard\FixerTokenWrapper\PropertyWrapper;
 use Symplify\CodingStandard\Tokenizer\ClassTokensAnalyzer;
@@ -27,7 +29,7 @@ final class PropertyNameMatchingTypeFixer extends AbstractFixer
                 '<?php
 class SomeClass
 {
-    public function __construct(EntityManager $manager)
+    public function __construct(EntityManagerInterface $manager)
     {
         $this->manager = $manager;
     }
@@ -73,9 +75,13 @@ class SomeClass
         foreach ($this->classTokenAnalyzer->getProperties() as $propertyIndex => $propertyToken) {
             $propertyWrapper = PropertyWrapper::createFromTokensAndPosition($tokens, $propertyIndex);
 
-            $oldName = $propertyWrapper->getName();
-            $expectedName = lcfirst($propertyWrapper->getType());
+            if ($propertyWrapper->getType() === null) {
+                continue;
+            }
 
+            $expectedName = $this->getExpectedNameFromType($propertyWrapper->getType());
+
+            $oldName = $propertyWrapper->getName();
             if ($oldName === $expectedName) {
                 continue;
             }
@@ -95,13 +101,20 @@ class SomeClass
         $methodWrapper = MethodWrapper::createFromTokensAndPosition($tokens, $methodIndex);
         $changedVariableNames = [];
 
-        foreach ($methodWrapper->getArguments() as $argumentWrapper) {
+        /** @var ArgumentWrapper[] $arguments */
+        $arguments = array_reverse($methodWrapper->getArguments());
+
+        foreach ($arguments as $argumentWrapper) {
             if (! $argumentWrapper->isClassType()) {
                 continue;
             }
 
             $oldName = $argumentWrapper->getName();
-            $expectedName = lcfirst($argumentWrapper->getType());
+            if ($argumentWrapper->getType() === null) {
+                continue;
+            }
+
+            $expectedName = $this->getExpectedNameFromType($argumentWrapper->getType());
 
             if ($oldName === $expectedName) {
                 continue;
@@ -114,5 +127,24 @@ class SomeClass
         foreach ($changedVariableNames as $oldName => $newName) {
             $methodWrapper->renameEveryVariableOccurrence($oldName, $newName);
         }
+    }
+
+    private function getExpectedNameFromType(string $type): string
+    {
+        $rawName = $type;
+
+        if (Strings::endsWith($rawName, 'Interface')) {
+            $rawName = Strings::substring($rawName, 0, - strlen('Interface'));
+        }
+
+        if (Strings::startsWith($rawName, 'Abstract')) {
+            $rawName = Strings::substring($rawName, strlen('Abstract'));
+        }
+
+        if (Strings::startsWith($rawName, 'Spl')) {
+            $rawName = Strings::substring($rawName, strlen('Spl'));
+        }
+
+        return lcfirst($rawName);
     }
 }

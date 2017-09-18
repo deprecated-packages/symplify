@@ -73,9 +73,8 @@ final class MethodWrapper
         $methodBodyStart = $this->tokens->getNextTokenOfKind($this->position, ['{']);
         $methodBodyEnd = $this->tokens->getNextTokenOfKind($this->position, ['}']);
 
-        for ($i = $methodBodyStart + 1; $i < $methodBodyEnd; $i++) {
+        for ($i = $methodBodyEnd - 1; $i > $methodBodyStart; $i--) {
             $token = $this->tokens[$i];
-
 
             if ($token->isGivenKind(T_VARIABLE) === false) {
                 continue;
@@ -89,7 +88,7 @@ final class MethodWrapper
                 continue;
             }
 
-            $newName = Strings::startsWith($newName, '$') ?: '$' . $newName;
+            $newName = Strings::startsWith($newName, '$') ? $newName : ('$' . $newName);
 
             $this->tokens[$i] = new Token([T_VARIABLE, $newName]);
         }
