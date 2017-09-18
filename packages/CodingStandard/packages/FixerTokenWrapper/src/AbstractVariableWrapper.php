@@ -5,34 +5,28 @@ namespace Symplify\CodingStandard\FixerTokenWrapper;
 use Nette\Utils\Strings;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
-use Symplify\CodingStandard\Exception\UnexpectedTokenException;
 
-final class AbstractTypedWrapper
+abstract class AbstractVariableWrapper
 {
     /**
      * @var Tokens
      */
-    private $tokens;
+    protected $tokens;
 
     /**
      * @var int
      */
-    private $index;
+    protected $index;
 
-    private function __construct(Tokens $tokens, int $index)
+    protected function __construct(Tokens $tokens, int $index)
     {
         $this->tokens = $tokens;
         $this->index = $index;
     }
 
-    public static function createFromTokensAndPosition(Tokens $tokens, int $position): self
-    {
-        return new self($tokens, $position);
-    }
-
     public function getName(): string
     {
-        $nameToken = $this->tokens[$this->index];
+        $nameToken = $this->tokens[$this->getNamePosition()];
 
         return ltrim((string) $nameToken->getContent(), '$');
     }
@@ -62,10 +56,14 @@ final class AbstractTypedWrapper
         return $previousToken->getContent();
     }
 
-    public function changeName(string $newName): void
+    protected function changeNameWithTokenType(string $newName, int $tokenType): void
     {
-        $newName = Strings::startsWith($newName, '$') ?: '$' . $newName;
+        if ($tokenType === T_VARIABLE) {
+            $newName = Strings::startsWith($newName, '$') ?: '$' . $newName;
+        }
 
-        $this->tokens[$this->index] = new Token([T_VARIABLE, $newName]);
+        $this->tokens[$this->getNamePosition()] = new Token([$tokenType, $newName]);
     }
+
+    abstract protected function getNamePosition(): ?int;
 }
