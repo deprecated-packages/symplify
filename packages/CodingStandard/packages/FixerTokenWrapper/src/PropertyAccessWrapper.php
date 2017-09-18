@@ -4,7 +4,7 @@ namespace Symplify\CodingStandard\FixerTokenWrapper;
 
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
-use Symplify\CodingStandard\Exception\UnexpectedTokenException;
+use Symplify\CodingStandard\FixerTokenWrapper\Guard\TokenTypeGuard;
 
 final class PropertyAccessWrapper
 {
@@ -13,9 +13,14 @@ final class PropertyAccessWrapper
      */
     private $tokens;
 
+    /**
+     * @var int
+     */
+    private $index;
+
     private function __construct(Tokens $tokens, int $index)
     {
-        $this->ensureIsPropertyAccessToken($tokens[$index]);
+        TokenTypeGuard::ensureIsTokenType($tokens[$index], [T_VARIABLE], self::class);
 
         $this->index = $index;
         $this->tokens = $tokens;
@@ -41,19 +46,5 @@ final class PropertyAccessWrapper
     private function getPropertyNamePosition(): ?int
     {
         return $this->tokens->getNextMeaningfulToken($this->index + 1);
-    }
-
-    private function ensureIsPropertyAccessToken(Token $token): void
-    {
-        if ($token->isGivenKind(T_VARIABLE)) {
-            return;
-        }
-
-        throw new UnexpectedTokenException(sprintf(
-            '"%s" expected "%s" token in its constructor. "%s" token given.',
-            self::class,
-            implode(',', ['T_VARIABLE']),
-            $token->getName()
-        ));
     }
 }

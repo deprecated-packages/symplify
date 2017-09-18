@@ -7,8 +7,8 @@ use PhpCsFixer\DocBlock\Annotation;
 use PhpCsFixer\DocBlock\DocBlock;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
-use Symplify\CodingStandard\Exception\UnexpectedTokenException;
 use Symplify\CodingStandard\FixerTokenWrapper\Exception\MissingDocBlockException;
+use Symplify\CodingStandard\FixerTokenWrapper\Guard\TokenTypeGuard;
 use Symplify\CodingStandard\Tokenizer\DocBlockAnalyzer;
 use Symplify\CodingStandard\Tokenizer\DocBlockFinder;
 use Symplify\CodingStandard\Tokenizer\PropertyAnalyzer;
@@ -40,10 +40,14 @@ final class PropertyWrapper
      */
     private $docBlockPosition;
 
+    /**
+     * @var string|null
+     */
+    private $type;
+
     private function __construct(Tokens $tokens, int $index)
     {
-        $this->ensureIsPropertyToken($tokens[$index]);
-
+        TokenTypeGuard::ensureIsTokenType($tokens[$index], [T_VARIABLE], self::class);
 
         $this->tokens = $tokens;
 
@@ -108,6 +112,10 @@ final class PropertyWrapper
 
     public function getType(): ?string
     {
+        if ($this->type) {
+            return $this->type;
+        }
+
         $this->ensureHasDocBlock(__METHOD__);
 
         $varAnnotations = $this->docBlock->getAnnotationsOfType('var');
@@ -119,7 +127,7 @@ final class PropertyWrapper
             return null;
         }
 
-        return $varAnnotation->getTypes()[0];
+        return $this->type = $varAnnotation->getTypes()[0];
     }
 
     private function ensureHasDocBlock(string $calledMethod): void
@@ -146,17 +154,18 @@ final class PropertyWrapper
         return $this->tokens->getNextMeaningfulToken($this->visibilityPosition);
     }
 
-    private function ensureIsPropertyToken(Token $token): void
+    public function isClassType(): bool
     {
-        if ($token->isGivenKind(T_VARIABLE)) {
-            return;
+        $type = $this->getType();
+
+        if (in_array($type, ['string', 'int', 'bool', 'null', 'array'], true)) {
+            return false;
         }
 
-        throw new UnexpectedTokenException(sprintf(
-            '"%s" expected "%s" token in its constructor. "%s" token given.',
-            self::class,
-            implode(',', ['T_VARIABLE']),
-            $token->getName()
-        ));
+        if (Strings::contains($type, '[]')) {
+            return false;
+        }
+
+        return true;
     }
 }

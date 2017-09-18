@@ -5,7 +5,7 @@ namespace Symplify\CodingStandard\FixerTokenWrapper;
 use Nette\Utils\Strings;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
-use Symplify\CodingStandard\Exception\UnexpectedTokenException;
+use Symplify\CodingStandard\FixerTokenWrapper\Guard\TokenTypeGuard;
 
 final class MethodWrapper
 {
@@ -16,7 +16,7 @@ final class MethodWrapper
 
     private function __construct(Tokens $tokens, int $index)
     {
-        $this->ensureIsMethodToken($tokens[$index]);
+        TokenTypeGuard::ensureIsTokenType($tokens[$index], [T_FUNCTION], self::class);
 
         $this->tokens = $tokens;
 
@@ -26,20 +26,6 @@ final class MethodWrapper
     public static function createFromTokensAndPosition(Tokens $tokens, int $position): self
     {
         return new self($tokens, $position);
-    }
-
-    private function ensureIsMethodToken(Token $token): void
-    {
-        if ($token->isGivenKind(T_FUNCTION)) {
-            return;
-        }
-
-        throw new UnexpectedTokenException(sprintf(
-            '"%s" expected "%s" token in its constructor. "%s" token given.',
-            self::class,
-            implode(',', ['T_FUNCTION']),
-            $token->getName()
-        ));
     }
 
     /**

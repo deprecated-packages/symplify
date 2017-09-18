@@ -7,19 +7,22 @@ use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use Symplify\CodingStandard\Exception\UnexpectedTokenException;
 
-final class ArgumentWrapper
+final class AbstractTypedWrapper
 {
     /**
      * @var Tokens
      */
     private $tokens;
 
+    /**
+     * @var int
+     */
+    private $index;
+
     private function __construct(Tokens $tokens, int $index)
     {
-        $this->ensureIsVariableToken($tokens[$index]);
-
         $this->tokens = $tokens;
-        $this->position = $index;
+        $this->index = $index;
     }
 
     public static function createFromTokensAndPosition(Tokens $tokens, int $position): self
@@ -29,7 +32,7 @@ final class ArgumentWrapper
 
     public function getName(): string
     {
-        $nameToken = $this->tokens[$this->position];
+        $nameToken = $this->tokens[$this->index];
 
         return ltrim((string) $nameToken->getContent(), '$');
     }
@@ -51,7 +54,7 @@ final class ArgumentWrapper
 
     public function getType(): ?string
     {
-        $previousToken = $this->tokens[$this->tokens->getPrevMeaningfulToken($this->position)];
+        $previousToken = $this->tokens[$this->tokens->getPrevMeaningfulToken($this->index)];
         if (! $previousToken->isGivenKind(T_STRING)) {
             return null;
         }
@@ -59,24 +62,10 @@ final class ArgumentWrapper
         return $previousToken->getContent();
     }
 
-    private function ensureIsVariableToken(Token $token): void
-    {
-        if ($token->isGivenKind(T_VARIABLE)) {
-            return;
-        }
-
-        throw new UnexpectedTokenException(sprintf(
-            '"%s" expected "%s" token in its constructor. "%s" token given.',
-            self::class,
-            implode(',', ['T_VARIABLE']),
-            $token->getName()
-        ));
-    }
-
     public function changeName(string $newName): void
     {
         $newName = Strings::startsWith($newName, '$') ?: '$' . $newName;
 
-        $this->tokens[$this->position] = new Token([T_VARIABLE, $newName]);
+        $this->tokens[$this->index] = new Token([T_VARIABLE, $newName]);
     }
 }

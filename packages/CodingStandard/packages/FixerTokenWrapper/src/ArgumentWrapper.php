@@ -5,7 +5,7 @@ namespace Symplify\CodingStandard\FixerTokenWrapper;
 use Nette\Utils\Strings;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
-use Symplify\CodingStandard\Exception\UnexpectedTokenException;
+use Symplify\CodingStandard\FixerTokenWrapper\Guard\TokenTypeGuard;
 
 final class ArgumentWrapper
 {
@@ -16,7 +16,7 @@ final class ArgumentWrapper
 
     private function __construct(Tokens $tokens, int $index)
     {
-        $this->ensureIsVariableToken($tokens[$index]);
+        TokenTypeGuard::ensureIsTokenType($tokens[$index], [T_VARIABLE], self::class);
 
         $this->tokens = $tokens;
         $this->position = $index;
@@ -38,7 +38,7 @@ final class ArgumentWrapper
     {
         $type = $this->getType();
 
-        if (in_array($type, ['string', 'int', 'bool', null], true)) {
+        if (in_array($type, ['string', 'int', 'bool', 'null', 'array'], true)) {
             return false;
         }
 
@@ -52,26 +52,11 @@ final class ArgumentWrapper
     public function getType(): ?string
     {
         $previousToken = $this->tokens[$this->tokens->getPrevMeaningfulToken($this->position)];
-
         if (! $previousToken->isGivenKind(T_STRING)) {
             return null;
         }
 
         return $previousToken->getContent();
-    }
-
-    private function ensureIsVariableToken(Token $token): void
-    {
-        if ($token->isGivenKind(T_VARIABLE)) {
-            return;
-        }
-
-        throw new UnexpectedTokenException(sprintf(
-            '"%s" expected "%s" token in its constructor. "%s" token given.',
-            self::class,
-            implode(',', ['T_VARIABLE']),
-            $token->getName()
-        ));
     }
 
     public function changeName(string $newName): void
