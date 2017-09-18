@@ -16,9 +16,9 @@ use Symplify\CodingStandard\Tokenizer\ClassTokensAnalyzer;
 final class PropertyNameMatchingTypeFixer extends AbstractFixer
 {
     /**
-     * @var string[]
+     * @var ClassTokensAnalyzer|null
      */
-    private $changedPropertyNames = [];
+    private $classTokenAnalyzer;
 
     public function getDefinition(): FixerDefinitionInterface
     {
@@ -52,44 +52,50 @@ class SomeClass
             $token = $tokens[$index];
 
             if (! $token->isClassy()) {
+                $this->classTokenAnalyzer = null;
                 continue;
             }
 
-            $classTokenAnalyzer = ClassTokensAnalyzer::createFromTokensArrayStartPosition($tokens, $index);
+            $this->classTokenAnalyzer = ClassTokensAnalyzer::createFromTokensArrayStartPosition($tokens, $index);
 
-            foreach ($classTokenAnalyzer->getProperties() as $propertyIndex => $propertyToken) {
-                $this->fixProperty($tokens, $propertyIndex);
-            }
+            $this->fixClassProperties($tokens);
 
-            foreach ($classTokenAnalyzer->getMethods() as $methodIndex => $methodToken) {
+            foreach ($this->classTokenAnalyzer->getMethods() as $methodIndex => $methodToken) {
                 $this->fixMethod($tokens, $methodIndex);
             }
-
-            // fix properties inside variables
         }
     }
 
-    private function fixProperty(Tokens $tokens, int $index): void
+    private function fixClassProperties(Tokens $tokens): void
     {
-        $propertyWrapper = PropertyWrapper::createFromTokensAndPosition($tokens, $index);
+        $changedPropertyNames = [];
 
-        $oldName = $propertyWrapper->getName();
-        $expectedName = lcfirst($propertyWrapper->getType());
+        foreach ($this->classTokenAnalyzer->getProperties() as $propertyIndex => $propertyToken) {
+            $propertyWrapper = PropertyWrapper::createFromTokensAndPosition($tokens, $propertyIndex);
 
-        if ($oldName !== $expectedName) {
+            $oldName = $propertyWrapper->getName();
+            $expectedName = lcfirst($propertyWrapper->getType());
+
+            if ($oldName === $expectedName) {
+                continue;
+            }
+
             $propertyWrapper->changeName($expectedName);
 
-            $this->changedPropertyNames[$oldName] = $expectedName;
+            $changedPropertyNames[$oldName] = $expectedName;
+        }
+
+        foreach ($changedPropertyNames as $oldName => $newName) {
+            $this->classTokenAnalyzer->renameEveryPropertyOccurrence($oldName, $newName);
         }
     }
 
     private function fixMethod(Tokens $tokens, int $methodIndex): void
     {
         $methodWrapper = MethodWrapper::createFromTokensAndPosition($tokens, $methodIndex);
+        $changedVariableNames = [];
 
-        $methodArguments = $methodWrapper->getArguments();
-
-        foreach ($methodArguments as $argumentWrapper) {
+        foreach ($methodWrapper->getArguments() as $argumentWrapper) {
             if (! $argumentWrapper->isClassType()) {
                 continue;
             }
@@ -97,9 +103,16 @@ class SomeClass
             $oldName = $argumentWrapper->getName();
             $expectedName = lcfirst($argumentWrapper->getType());
 
-            if ($oldName !== $expectedName) {
-                $argumentWrapper->changeName($expectedName);
+            if ($oldName === $expectedName) {
+                continue;
             }
+
+            $argumentWrapper->changeName($expectedName);
+            $changedVariableNames[$oldName] = $expectedName;
+        }
+
+        foreach ($changedVariableNames as $oldName => $newName) {
+            $methodWrapper->renameEveryVariableOccurrence($oldName, $newName);
         }
     }
 }

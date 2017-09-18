@@ -6,6 +6,9 @@ use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use PhpCsFixer\Tokenizer\TokensAnalyzer;
 use Symplify\CodingStandard\Exception\UnexpectedTokenException;
+use Symplify\CodingStandard\FixerTokenWrapper\ArgumentWrapper;
+use Symplify\CodingStandard\FixerTokenWrapper\PropertyAccessWrapper;
+use Symplify\CodingStandard\FixerTokenWrapper\PropertyWrapper;
 
 final class ClassTokensAnalyzer
 {
@@ -19,13 +22,19 @@ final class ClassTokensAnalyzer
      */
     private $tokensAnalyzer;
 
+    /**
+     * @var Tokens
+     */
+    private $tokens;
+
     private function __construct(Tokens $tokens, int $startIndex)
     {
         $this->ensureIsClassyToken($tokens[$startIndex]);
 
-        $startBracketIndex = $tokens->getNextTokenOfKind($startIndex, ['{']);
-        $this->endBracketIndex = $tokens->findBlockEnd(Tokens::BLOCK_TYPE_CURLY_BRACE, $startBracketIndex);
+        $this->startBracketIndex = $tokens->getNextTokenOfKind($startIndex, ['{']);
+        $this->endBracketIndex = $tokens->findBlockEnd(Tokens::BLOCK_TYPE_CURLY_BRACE, $this->startBracketIndex);
 
+        $this->tokens = $tokens;
         $this->tokensAnalyzer = new TokensAnalyzer($tokens);
     }
 
@@ -85,6 +94,27 @@ final class ClassTokensAnalyzer
     public function getMethods(): array
     {
         return $this->filterClassyTokens($this->tokensAnalyzer->getClassyElements(), ['method']);
+    }
+
+    public function renameEveryPropertyOccurrence(string $oldName, string $newName): void
+    {
+        for ($i = $this->startBracketIndex + 1; $i < $this->endBracketIndex; $i++) {
+            $token = $this->tokens[$i];
+
+            if ($token->isGivenKind(T_VARIABLE) === false) {
+                continue;
+            }
+
+            if ($token->getContent() !== '$this') {
+                continue;
+            }
+
+            $propertyAccessWrapper = PropertyAccessWrapper::createFromTokensAndPosition($this->tokens, $i);
+
+            if ($propertyAccessWrapper->getName() === $oldName) {
+                $propertyAccessWrapper->changeName($newName);
+            }
+        }
     }
 
     /**

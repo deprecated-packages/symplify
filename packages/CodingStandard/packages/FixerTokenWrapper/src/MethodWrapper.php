@@ -66,4 +66,29 @@ final class MethodWrapper
 
         return $arguments;
     }
+
+    public function renameEveryVariableOccurrence(string $oldName, string $newName): void
+    {
+        $methodBodyStart = $this->tokens->getNextTokenOfKind($this->position, ['{']);
+        $methodBodyEnd = $this->tokens->getNextTokenOfKind($this->position, ['}']);
+
+        for ($i = $methodBodyStart + 1; $i < $methodBodyEnd; $i++) {
+            $token = $this->tokens[$i];
+
+            if ($token->isGivenKind(T_VARIABLE) === false) {
+                continue;
+            }
+
+            $argumentWrapper = ArgumentWrapper::createFromTokensAndPosition($this->tokens, $i);
+
+            // local property
+            if ($argumentWrapper->getName() === 'this') {
+                continue;
+            }
+
+            if ($argumentWrapper->getName() === $oldName) {
+                $argumentWrapper->changeName($newName);
+            }
+        }
+    }
 }

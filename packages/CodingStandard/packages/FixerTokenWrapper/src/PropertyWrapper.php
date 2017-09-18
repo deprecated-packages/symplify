@@ -44,6 +44,7 @@ final class PropertyWrapper
     {
         $this->ensureIsPropertyToken($tokens[$index]);
 
+
         $this->tokens = $tokens;
 
         $this->docBlockPosition = DocBlockFinder::findPreviousPosition($tokens, $index);
