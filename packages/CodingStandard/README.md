@@ -178,6 +178,11 @@ class SomeClass
 ```
 
 
+### Property Name Matching Type... 
+
+@todo
+
+
 ### `::class` references should be used over string for classes and interfaces
  
  
