@@ -23,7 +23,8 @@ final class AnnotateMagicContainerGetterFixer implements FixerInterface, Defined
             . 'so every IDE supports autocomplete without any plugins.',
             [
                 new CodeSample('<?php
-$variable = $container->get(SomeType::class);
+$someService = $container->get(SomeType::class);
+$someService->unknownMethod();
 '),
             ]
         );

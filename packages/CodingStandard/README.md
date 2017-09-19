@@ -117,6 +117,40 @@ checkers:
 ```
 
 
+
+### Variables created with `$container->get(SomeService::class)` should have annotation, so every IDE supports autocomplete without any plugins
+
+
+- class: [`Symplify\CodingStandard\Fixer\Commenting\AnnotateMagicContainerGetterFixer`](/src/Fixer/Commenting/AnnotateMagicContainerGetterFixer.php)
+
+:x:
+
+```php
+class SomeTest extends ContainerAwareTestCase
+{
+    protected function setUp(): void
+    {
+        $someService = $this->container->get(SomeType::class);
+        $someService->unknownMethod();
+    }
+}
+```
+
+:+1:
+
+```php
+class SomeTest extends ContainerAwareTestCase
+{
+    protected function setUp(): void
+    {
+        /** @var SomeType $someService */
+        $someService = $this->container->get(SomeType::class);
+        $someService->knownMethod();
+    }
+}
+```
+
+
 ### Constructor injection should be used instead of `@inject` annotations 
 
 - class: [`Symplify\CodingStandard\Fixer\DependencyInjection\InjectToConstructorInjectionFixer`](/src/Fixer/DependencyInjection/InjectToConstructorInjectionFixer.php)
