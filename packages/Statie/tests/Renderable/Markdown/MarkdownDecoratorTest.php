@@ -60,7 +60,7 @@ final class MarkdownDecoratorTest extends AbstractContainerAwareTestCase
 
         $this->markdownFileDecorator->decorateFiles([$file]);
 
-        $this->assertContains('<strong>Hey</strong>', $file->getConfiguration()['perex']);
+        $this->assertSame('<strong>Hey</strong>', $file->getConfiguration()['perex']);
     }
 
     public function testMarkdownWithAnchors(): void

@@ -86,7 +86,11 @@ final class MarkdownFileDecorator implements FileDecoratorInterface
             return;
         }
 
-        $configuration['perex'] = $this->parsedownExtra->parse($configuration['perex']);
+        $markdownedPerexInParagraph = $this->parsedownExtra->parse($configuration['perex']);
+
+        // remove <p></p>
+        $markdownedPerex = substr($markdownedPerexInParagraph, 3, -4);
+        $configuration['perex'] = $markdownedPerex;
 
         $file->addConfiguration($configuration);
     }
