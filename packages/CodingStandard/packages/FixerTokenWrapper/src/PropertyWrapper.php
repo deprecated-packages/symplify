@@ -127,7 +127,7 @@ final class PropertyWrapper
             return null;
         }
 
-        return $this->type = $varAnnotation->getTypes()[0];
+        return $this->type = implode('|' , $varAnnotation->getTypes());
     }
 
     private function ensureHasDocBlock(string $calledMethod): void

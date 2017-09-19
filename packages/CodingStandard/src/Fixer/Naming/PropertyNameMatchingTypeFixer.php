@@ -183,6 +183,11 @@ class SomeClass
             return true;
         }
 
+        // union types
+        if (Strings::contains($type, '|')) {
+            return true;
+        }
+
         // starts with adjective, e.g. (Post $firstPost, Post $secondPost)
         $expectedName = $this->getExpectedNameFromType($type);
 

@@ -27,6 +27,11 @@ class SomeClass
      */
     private static $smartContainer;
 
+    /**
+     * @var callable|IPresenter
+     */
+    private $presenter;
+
     public function __construct(SplFileInfo $firstFile, SplFileInfo $secondFile, SomeClassInterface $class)
     {
     }
