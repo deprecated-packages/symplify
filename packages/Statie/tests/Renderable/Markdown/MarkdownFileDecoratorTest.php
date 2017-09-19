@@ -7,7 +7,7 @@ use Symplify\Statie\Renderable\File\FileFactory;
 use Symplify\Statie\Renderable\Markdown\MarkdownFileDecorator;
 use Symplify\Statie\Tests\AbstractContainerAwareTestCase;
 
-final class MarkdownDecoratorTest extends AbstractContainerAwareTestCase
+final class MarkdownFileDecoratorTest extends AbstractContainerAwareTestCase
 {
     /**
      * @var MarkdownFileDecorator
@@ -35,7 +35,7 @@ final class MarkdownDecoratorTest extends AbstractContainerAwareTestCase
 
     public function testNotMarkdown(): void
     {
-        $file = $this->fileFactory->createFromFilePath(__DIR__ . '/MarkdownDecoratorSource/someFile.latte');
+        $file = $this->fileFactory->createFromFilePath(__DIR__ . '/MarkdownFileDecoratorSource/someFile.latte');
         $this->markdownFileDecorator->decorateFiles([$file]);
 
         $this->assertContains('# Content...', $file->getContent());
@@ -43,7 +43,7 @@ final class MarkdownDecoratorTest extends AbstractContainerAwareTestCase
 
     public function testMarkdownContent(): void
     {
-        $file = $this->fileFactory->createFromFilePath(__DIR__ . '/MarkdownDecoratorSource/someFile.md');
+        $file = $this->fileFactory->createFromFilePath(__DIR__ . '/MarkdownFileDecoratorSource/someFile.md');
 
         $this->markdownFileDecorator->decorateFiles([$file]);
 
@@ -52,7 +52,7 @@ final class MarkdownDecoratorTest extends AbstractContainerAwareTestCase
 
     public function testMarkdownPerex(): void
     {
-        $file = $this->fileFactory->createFromFilePath(__DIR__ . '/MarkdownDecoratorSource/someFile.md');
+        $file = $this->fileFactory->createFromFilePath(__DIR__ . '/MarkdownFileDecoratorSource/someFile.md');
 
         $file->addConfiguration([
             'perex' => '**Hey**',
@@ -67,7 +67,7 @@ final class MarkdownDecoratorTest extends AbstractContainerAwareTestCase
     {
         $this->configuration->enableMarkdownHeadlineAnchors();
 
-        $file = $this->fileFactory->createFromFilePath(__DIR__ . '/MarkdownDecoratorSource/someFile.md');
+        $file = $this->fileFactory->createFromFilePath(__DIR__ . '/MarkdownFileDecoratorSource/someFile.md');
         $this->markdownFileDecorator->decorateFiles([$file]);
 
         $this->assertSame(
