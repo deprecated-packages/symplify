@@ -123,23 +123,11 @@ final class PropertyWrapper
         /** @var Annotation $varAnnotation */
         $varAnnotation = $varAnnotations[0];
 
-        if (! isset ($varAnnotation->getTypes()[0])) {
+        if (! isset($varAnnotation->getTypes()[0])) {
             return null;
         }
 
-        return $this->type = implode('|' , $varAnnotation->getTypes());
-    }
-
-    private function ensureHasDocBlock(string $calledMethod): void
-    {
-        if ($this->docBlock === null) {
-            throw new MissingDocBlockException(sprintf(
-                'Property %s does not have a docblock. So method "%s::%s()" cannot be used.',
-                $this->getName(),
-                self::class,
-                $calledMethod
-            ));
-        }
+        return $this->type = implode('|', $varAnnotation->getTypes());
     }
 
     public function changeName(string $newName): void
@@ -147,15 +135,6 @@ final class PropertyWrapper
         $newName = Strings::startsWith($newName, '$') ?: '$' . $newName;
 
         $this->tokens[$this->getPropertyNamePosition()] = new Token([T_VARIABLE, $newName]);
-    }
-
-    private function getPropertyNamePosition(): int
-    {
-        $nextVariableTokens = $this->tokens->findGivenKind([T_VARIABLE], $this->visibilityPosition, $this->visibilityPosition + 5);
-
-        $nextVariableToken = array_pop($nextVariableTokens);
-
-        return key($nextVariableToken);
     }
 
     public function isClassType(): bool
@@ -171,5 +150,30 @@ final class PropertyWrapper
         }
 
         return true;
+    }
+
+    private function ensureHasDocBlock(string $calledMethod): void
+    {
+        if ($this->docBlock === null) {
+            throw new MissingDocBlockException(sprintf(
+                'Property %s does not have a docblock. So method "%s::%s()" cannot be used.',
+                $this->getName(),
+                self::class,
+                $calledMethod
+            ));
+        }
+    }
+
+    private function getPropertyNamePosition(): int
+    {
+        $nextVariableTokens = $this->tokens->findGivenKind(
+            [T_VARIABLE],
+            $this->visibilityPosition,
+            $this->visibilityPosition + 5
+        );
+
+        $nextVariableToken = array_pop($nextVariableTokens);
+
+        return key($nextVariableToken);
     }
 }

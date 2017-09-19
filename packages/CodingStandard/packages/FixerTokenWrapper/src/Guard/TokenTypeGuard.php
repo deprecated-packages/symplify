@@ -7,6 +7,9 @@ use Symplify\CodingStandard\Exception\UnexpectedTokenException;
 
 final class TokenTypeGuard
 {
+    /**
+     * @param int[] $types
+     */
     public static function ensureIsTokenType(Token $token, array $types, string $class): void
     {
         if ($token->isGivenKind($types)) {

@@ -21,6 +21,7 @@ final class GithubPublishingProcess
      * @var FilesystemChecker
      */
     private $filesystemChecker;
+
     /**
      * @var GitWrapper
      */

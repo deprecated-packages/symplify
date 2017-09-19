@@ -45,7 +45,7 @@ final class MethodWrapper
         }
 
         $arguments = [];
-        for ($i = $argumentsBracketStart + 1; $i < $argumentsBracketEnd; $i++) {
+        for ($i = $argumentsBracketStart + 1; $i < $argumentsBracketEnd; ++$i) {
             $token = $this->tokens[$i];
 
             if ($token->isGivenKind(T_VARIABLE) === false) {
@@ -63,7 +63,7 @@ final class MethodWrapper
         $methodBodyStart = $this->tokens->getNextTokenOfKind($this->index, ['{']);
         $methodBodyEnd = $this->tokens->getNextTokenOfKind($this->index, ['}']);
 
-        for ($i = $methodBodyEnd - 1; $i > $methodBodyStart; $i--) {
+        for ($i = $methodBodyEnd - 1; $i > $methodBodyStart; --$i) {
             $token = $this->tokens[$i];
 
             if ($token->isGivenKind(T_VARIABLE) === false) {

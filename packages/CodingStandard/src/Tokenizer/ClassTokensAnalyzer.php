@@ -100,7 +100,7 @@ final class ClassTokensAnalyzer
 
     public function renameEveryPropertyOccurrence(string $oldName, string $newName): void
     {
-        for ($i = $this->startBracketIndex + 1; $i < $this->endBracketIndex; $i++) {
+        for ($i = $this->startBracketIndex + 1; $i < $this->endBracketIndex; ++$i) {
             $token = $this->tokens[$i];
 
             if ($token->isGivenKind(T_VARIABLE) === false) {

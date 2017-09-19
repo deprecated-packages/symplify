@@ -2,6 +2,7 @@
 
 namespace Symplify\CodingStandard\Fixer\Naming;
 
+use IteratorAggregate;
 use Nette\Utils\Strings;
 use PhpCsFixer\AbstractFixer;
 use PhpCsFixer\FixerDefinition\CodeSample;
@@ -9,6 +10,7 @@ use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
+use SimpleXMLElement;
 use SplFileInfo;
 use Symplify\CodingStandard\FixerTokenWrapper\ArgumentWrapper;
 use Symplify\CodingStandard\FixerTokenWrapper\MethodWrapper;
@@ -44,10 +46,6 @@ class SomeClass
             && $tokens->isAnyTokenKindsFound(Token::getClassyTokenKinds());
     }
 
-    /**
-     * @param SplFileInfo $file
-     * @param Tokens $tokens
-     */
     protected function applyFix(SplFileInfo $file, Tokens $tokens): void
     {
         for ($index = $tokens->count() - 1; $index >= 0; --$index) {
@@ -55,6 +53,7 @@ class SomeClass
 
             if (! $token->isClassy()) {
                 $this->classTokenAnalyzer = null;
+
                 continue;
             }
 
@@ -142,7 +141,7 @@ class SomeClass
         }
 
         // is ISomeClass
-        if ($this->isIPrefixedInterface($rawName)) {
+        if ($this->isPrefixedInterface($rawName)) {
             $rawName = Strings::substring($rawName, 1);
         }
 
@@ -164,7 +163,7 @@ class SomeClass
         return lcfirst($rawName);
     }
 
-    private function isIPrefixedInterface($rawName): bool
+    private function isPrefixedInterface(string $rawName): bool
     {
         return strlen($rawName) > 3
             && Strings::startsWith($rawName, 'I')
@@ -193,7 +192,7 @@ class SomeClass
     {
         return Strings::startsWith($class, 'Spl')
             || Strings::startsWith($class, 'std')
-            || Strings::startsWith($class, 'IteratorAggregate')
-            || Strings::startsWith($class, 'SimpleXMLElement');
+            || Strings::startsWith($class, IteratorAggregate::class)
+            || Strings::startsWith($class, SimpleXMLElement::class);
     }
 }

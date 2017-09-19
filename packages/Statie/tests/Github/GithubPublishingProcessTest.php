@@ -3,10 +3,8 @@
 namespace Symplify\Statie\Tests\Github;
 
 use Nette\Utils\FileSystem;
-use PHPUnit\Framework\TestCase;
 use Symplify\Statie\Github\GithubPublishingProcess;
 use Symplify\Statie\Tests\AbstractContainerAwareTestCase;
-use Symplify\Statie\Utils\FilesystemChecker;
 use Throwable;
 
 final class GithubPublishingProcessTest extends AbstractContainerAwareTestCase
