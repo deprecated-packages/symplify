@@ -2,6 +2,7 @@
 
 namespace Symplify\CodingStandard\Fixer\Commenting;
 
+use Nette\Utils\Strings;
 use PhpCsFixer\DocBlock\DocBlock;
 use PhpCsFixer\Fixer\DefinedFixerInterface;
 use PhpCsFixer\Fixer\FixerInterface;
@@ -98,34 +99,32 @@ $variable = $container->get(SomeType::class);
             return null;
         }
 
-        $nextVariableTokens = $tokens->findGivenKind(T_VARIABLE, $position + 1, $position + 5);
-
-        /** @var Token $nextVariableToken */
-        $nextVariablePosition = key($nextVariableTokens);
-        $nextVariableToken = array_pop($nextVariableTokens);
-
-        if ($nextVariableToken->getContent() === '$this') {
-            $seekSequence = [
-                new Token([T_DOUBLE_COLON, '::']),
-                new Token([CT::T_CLASS_CONSTANT, 'class']),
-            ];
-
-            $foundSequence = $tokens->findSequence($seekSequence, $nextVariablePosition, $nextVariablePosition + 10);
-            if ($foundSequence === null || count($foundSequence) === 0) {
-                return null;
-            }
-
-            $classNameEndPosition = key($foundSequence) - 1;
-            $className = $this->getContentUntilBracket($tokens, $classNameEndPosition);
-
-            if ($className === '') {
-                return null;
-            }
-
-            return $className;
+        if ($this->isContainerGetCall($tokens, $position) === false) {
+            return null;
         }
 
-        return null;
+        $seekSequence = [
+            new Token([T_DOUBLE_COLON, '::']),
+            new Token([CT::T_CLASS_CONSTANT, 'class']),
+        ];
+
+        /** @var Token[] $nextVariableTokens */
+        $nextVariableTokens = $tokens->findGivenKind(T_VARIABLE, $position + 1, $position + 5);
+        $nextVariablePosition = key($nextVariableTokens);
+
+        $foundSequence = $tokens->findSequence($seekSequence, $nextVariablePosition, $nextVariablePosition + 10);
+        if ($foundSequence === null || count($foundSequence) === 0) {
+            return null;
+        }
+
+        $classNameEndPosition = key($foundSequence) - 1;
+        $className = $this->getContentUntilBracket($tokens, $classNameEndPosition);
+
+        if ($className === '') {
+            return null;
+        }
+
+        return $className;
     }
 
     private function getContentUntilBracket(Tokens $tokens, int $classNameEndPosition): string
@@ -152,5 +151,45 @@ $variable = $container->get(SomeType::class);
             $className,
             $variableName
         )]);
+    }
+
+    private function isContainerGetCall(Tokens $tokens, int $position): bool
+    {
+        $nextVariableTokens = $tokens->findGivenKind(T_VARIABLE, $position + 1, $position + 5);
+
+        /** @var Token $nextVariableToken */
+        $nextVariablePosition = key($nextVariableTokens);
+        $nextVariableToken = array_pop($nextVariableTokens);
+
+        if ($nextVariableToken->getContent() !== '$this') {
+            return false;
+        }
+
+        /** @var Token[] $nextStringTokens */
+        $nextStringTokens = $tokens->findGivenKind(T_STRING, $nextVariablePosition + 1, $nextVariablePosition + 5);
+
+        // @todo: try token sequence
+
+        // $this->container->get()
+        if (count($nextStringTokens) === 2) {
+            $firstToken = array_shift($nextStringTokens);
+            $secondToken = array_shift($nextStringTokens);
+
+            if (Strings::contains($firstToken->getContent(), 'container') && $secondToken->getContent() === 'get') {
+                return true;
+            }
+        }
+
+        // @todo: try token sequence
+
+        // $this->get()
+        if (count($nextVariableTokens) === 1) {
+            $firstToken = array_pop($nextStringTokens);
+            if ($firstToken->getContent() === 'get') {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
