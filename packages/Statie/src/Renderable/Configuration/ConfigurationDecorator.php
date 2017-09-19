@@ -33,6 +33,11 @@ final class ConfigurationDecorator implements FileDecoratorInterface
         return $files;
     }
 
+    /**
+     * Higher priorities are executed first.
+     *
+     * Has to run before Markdown; so it can render perex and content is set.
+     */
     public function getPriority(): int
     {
         return 1000;
