@@ -2,7 +2,6 @@
 
 namespace Symplify\CodingStandard\Fixer\Commenting;
 
-use Nette\Utils\Strings;
 use PhpCsFixer\DocBlock\DocBlock;
 use PhpCsFixer\Fixer\DefinedFixerInterface;
 use PhpCsFixer\Fixer\FixerInterface;
@@ -103,16 +102,15 @@ $variable = $container->get(SomeType::class);
             return null;
         }
 
-        $seekSequence = [
-            new Token([T_DOUBLE_COLON, '::']),
-            new Token([CT::T_CLASS_CONSTANT, 'class']),
-        ];
-
         /** @var Token[] $nextVariableTokens */
         $nextVariableTokens = $tokens->findGivenKind(T_VARIABLE, $position + 1, $position + 5);
         $nextVariablePosition = key($nextVariableTokens);
 
-        $foundSequence = $tokens->findSequence($seekSequence, $nextVariablePosition, $nextVariablePosition + 10);
+        $foundSequence = $tokens->findSequence([
+            new Token([T_DOUBLE_COLON, '::']),
+            new Token([CT::T_CLASS_CONSTANT, 'class']),
+        ], $nextVariablePosition, $nextVariablePosition + 10);
+
         if ($foundSequence === null || count($foundSequence) === 0) {
             return null;
         }
@@ -155,39 +153,30 @@ $variable = $container->get(SomeType::class);
 
     private function isContainerGetCall(Tokens $tokens, int $position): bool
     {
+        /** @var Token[] $nextVariableTokens */
         $nextVariableTokens = $tokens->findGivenKind(T_VARIABLE, $position + 1, $position + 5);
-
-        /** @var Token $nextVariableToken */
         $nextVariablePosition = key($nextVariableTokens);
-        $nextVariableToken = array_pop($nextVariableTokens);
 
-        if ($nextVariableToken->getContent() !== '$this') {
-            return false;
+        $thisGetSequence = $tokens->findSequence([
+            new Token([T_VARIABLE, '$this']),
+            new Token([T_OBJECT_OPERATOR, '->']),
+            new Token([T_STRING, 'get']),
+        ], $nextVariablePosition, $nextVariablePosition + 5);
+
+        if ($thisGetSequence !== null) {
+            return true;
         }
 
-        /** @var Token[] $nextStringTokens */
-        $nextStringTokens = $tokens->findGivenKind(T_STRING, $nextVariablePosition + 1, $nextVariablePosition + 5);
+        $thisContainerGetSequence = $tokens->findSequence([
+            new Token([T_VARIABLE, '$this']),
+            new Token([T_OBJECT_OPERATOR, '->']),
+            new Token([T_STRING, 'container']),
+            new Token([T_OBJECT_OPERATOR, '->']),
+            new Token([T_STRING, 'get']),
+        ], $nextVariablePosition, $nextVariablePosition + 5);
 
-        // @todo: try token sequence
-
-        // $this->container->get()
-        if (count($nextStringTokens) === 2) {
-            $firstToken = array_shift($nextStringTokens);
-            $secondToken = array_shift($nextStringTokens);
-
-            if (Strings::contains($firstToken->getContent(), 'container') && $secondToken->getContent() === 'get') {
-                return true;
-            }
-        }
-
-        // @todo: try token sequence
-
-        // $this->get()
-        if (count($nextVariableTokens) === 1) {
-            $firstToken = array_pop($nextStringTokens);
-            if ($firstToken->getContent() === 'get') {
-                return true;
-            }
+        if ($thisContainerGetSequence !== null) {
+            return true;
         }
 
         return false;
