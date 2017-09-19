@@ -21,10 +21,15 @@ final class GithubPublishingProcess
      * @var FilesystemChecker
      */
     private $filesystemChecker;
+    /**
+     * @var GitWrapper
+     */
+    private $gitWrapper;
 
-    public function __construct(FilesystemChecker $filesystemChecker)
+    public function __construct(FilesystemChecker $filesystemChecker, GitWrapper $gitWrapper)
     {
         $this->filesystemChecker = $filesystemChecker;
+        $this->gitWrapper = $gitWrapper;
     }
 
     public function pushDirectoryContentToRepository(
@@ -34,7 +39,7 @@ final class GithubPublishingProcess
     ): void {
         $this->filesystemChecker->ensureDirectoryExists($outputDirectory);
 
-        $git = (new GitWrapper)->init($outputDirectory);
+        $git = $this->gitWrapper->init($outputDirectory);
 
         if (getenv('TRAVIS')) {
             $git->config('user.email', self::CONFIG_EMAIL);

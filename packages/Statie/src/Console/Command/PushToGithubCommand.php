@@ -15,11 +15,11 @@ final class PushToGithubCommand extends Command
     /**
      * @var GithubPublishingProcess
      */
-    private $gihubPublishingProcess;
+    private $githubPublishingProcess;
 
-    public function __construct(GithubPublishingProcess $gihubPublishingProcess)
+    public function __construct(GithubPublishingProcess $githubPublishingProcess)
     {
-        $this->gihubPublishingProcess = $gihubPublishingProcess;
+        $this->githubPublishingProcess = $githubPublishingProcess;
 
         parent::__construct();
     }
@@ -53,7 +53,7 @@ final class PushToGithubCommand extends Command
             $input->getArgument('repository-slug')
         );
 
-        $this->gihubPublishingProcess->pushDirectoryContentToRepository(
+        $this->githubPublishingProcess->pushDirectoryContentToRepository(
             $input->getOption('output'),
             $githubRepository,
             $input->getOption('branch')

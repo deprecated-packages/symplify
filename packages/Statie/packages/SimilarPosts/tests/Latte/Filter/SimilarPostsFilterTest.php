@@ -18,7 +18,7 @@ final class SimilarPostsFilterTest extends AbstractContainerAwareTestCase
     /**
      * @var SimilarPostsFilter
      */
-    private $similarPostFilter;
+    private $similarPostsFilter;
 
     /**
      * @var PostFactory
@@ -28,7 +28,7 @@ final class SimilarPostsFilterTest extends AbstractContainerAwareTestCase
     protected function setUp(): void
     {
         $this->postFactory = new PostFactory;
-        $this->similarPostFilter = $this->container->get(SimilarPostsFilter::class);
+        $this->similarPostsFilter = $this->container->get(SimilarPostsFilter::class);
 
         $configuration = $this->container->get(Configuration::class);
         $configuration->addPosts($this->getAllPosts());
@@ -36,9 +36,8 @@ final class SimilarPostsFilterTest extends AbstractContainerAwareTestCase
 
     public function test(): void
     {
-        $filters = $this->similarPostFilter->provide();
+        $filters = $this->similarPostsFilter->provide();
 
-        $mainPost = $this->postFactory->createPostFromFilePath(
         $mainPost = $this->postFactory->createPostFromFilePath(
             self::POST_SOURCE_DIRECTORY . '/2017-01-01-some-post.md'
         );
