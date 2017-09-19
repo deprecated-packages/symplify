@@ -2,7 +2,7 @@
 
 [![Build Status](https://img.shields.io/travis/Symplify/Statie/master.svg?style=flat-square)](https://travis-ci.org/Symplify/Statie)
 [![Downloads](https://img.shields.io/packagist/dt/symplify/statie.svg?style=flat-square)](htptps://packagist.org/packages/symplify/statie)
-[![Subscribe]](https://img.shields.io/badge/subscribe-to--releases-green.svg?style=flat-square)[https://libraries.io/packagist/symplify%2Fstatie]
+[![Subscribe](https://img.shields.io/badge/subscribe-to--releases-green.svg?style=flat-square)](https://libraries.io/packagist/symplify%2Fstatie)
 
 
 Statie takes HTML, Markdown and Latte files and generates static HTML page.

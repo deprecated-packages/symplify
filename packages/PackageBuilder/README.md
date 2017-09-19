@@ -2,7 +2,7 @@
 
 [![Build Status](https://img.shields.io/travis/Symplify/PackageBuilder/master.svg?style=flat-square)](https://travis-ci.org/Symplify/PackageBuilder)
 [![Downloads](https://img.shields.io/packagist/dt/symplify/package-builder.svg?style=flat-square)](https://packagist.org/packages/symplify/package-builder)
-[![Subscribe]](https://img.shields.io/badge/subscribe-to--releases-green.svg?style=flat-square)[https://libraries.io/packagist/symplify%2Fpackage-builder]
+[![Subscribe](https://img.shields.io/badge/subscribe-to--releases-green.svg?style=flat-square)](https://libraries.io/packagist/symplify%2Fpackage-builder)
 
 
 *Write package once and let many other frameworks use it.*
