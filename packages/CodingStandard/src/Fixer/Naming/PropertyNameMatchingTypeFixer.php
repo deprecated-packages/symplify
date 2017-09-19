@@ -108,7 +108,7 @@ class SomeClass
         $arguments = array_reverse($methodWrapper->getArguments());
 
         foreach ($arguments as $argumentWrapper) {
-            if ($argumentWrapper->getType() === null && ! $argumentWrapper->isClassType()) {
+            if ($argumentWrapper->getType() === null || ! $argumentWrapper->isClassType()) {
                 continue;
             }
 
