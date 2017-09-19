@@ -15,6 +15,9 @@ parameters:
         - '#Property Symplify\\CodingStandard\\FixerTokenWrapper\\PropertyWrapper::\$visibilityPosition \(int\) does not accept int\|null#'
         - '#Calling method getAnnotationsOfType\(\) on possibly null value of type PhpCsFixer\\DocBlock\\DocBlock\|null#'
         - '#Calling method getContent\(\) on possibly null value of type PhpCsFixer\\DocBlock\\DocBlock\|null#'
+        - '#Property Symplify\\CodingStandard\\Tokenizer\\ClassTokensAnalyzer::\$startBracketIndex \(int\) does not accept int\|null#'
+        - '#Parameter \#1 \$index of method PhpCsFixer\\Tokenizer\\Tokens::getNextTokenOfKind\(\) expects int, int\|null given#'
+        - '#Calling method [A-Za-z]+\(\) on possibly null value of type Symplify\\CodingStandard\\Tokenizer\\ClassTokensAnalyzer\|null#'
     excludes_analyse:
         - *packages/CodingStandard/tests/**/correct*
         - *packages/CodingStandard/tests/**/wrong*

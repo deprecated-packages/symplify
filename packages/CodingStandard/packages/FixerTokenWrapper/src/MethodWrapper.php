@@ -14,13 +14,17 @@ final class MethodWrapper
      */
     private $tokens;
 
+    /**
+     * @var int
+     */
+    private $index;
+
     private function __construct(Tokens $tokens, int $index)
     {
         TokenTypeGuard::ensureIsTokenType($tokens[$index], [T_FUNCTION], self::class);
 
         $this->tokens = $tokens;
-
-        $this->position = $index;
+        $this->index = $index;
     }
 
     public static function createFromTokensAndPosition(Tokens $tokens, int $position): self
@@ -33,7 +37,7 @@ final class MethodWrapper
      */
     public function getArguments(): array
     {
-        $argumentsBracketStart = $this->tokens->getNextTokenOfKind($this->position, ['(']);
+        $argumentsBracketStart = $this->tokens->getNextTokenOfKind($this->index, ['(']);
         $argumentsBracketEnd = $this->tokens->getNextTokenOfKind($argumentsBracketStart, [')']);
 
         if ($argumentsBracketStart === ($argumentsBracketEnd + 1)) {
@@ -56,8 +60,8 @@ final class MethodWrapper
 
     public function renameEveryVariableOccurrence(string $oldName, string $newName): void
     {
-        $methodBodyStart = $this->tokens->getNextTokenOfKind($this->position, ['{']);
-        $methodBodyEnd = $this->tokens->getNextTokenOfKind($this->position, ['}']);
+        $methodBodyStart = $this->tokens->getNextTokenOfKind($this->index, ['{']);
+        $methodBodyEnd = $this->tokens->getNextTokenOfKind($this->index, ['}']);
 
         for ($i = $methodBodyEnd - 1; $i > $methodBodyStart; $i--) {
             $token = $this->tokens[$i];

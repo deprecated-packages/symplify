@@ -12,6 +12,11 @@ final class ClassTokensAnalyzer
     /**
      * @var int
      */
+    private $startBracketIndex;
+
+    /**
+     * @var int
+     */
     private $endBracketIndex;
 
     /**
