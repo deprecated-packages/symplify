@@ -65,6 +65,8 @@ $variable = $container->get(SomeType::class);
             $previousWhitespacePosition = $tokens->getTokenNotOfKindSibling($index, -1, [T_WHITESPACE]);
             $whitespaceToken = clone $tokens[$previousWhitespacePosition];
 
+            $whitespaceToken = $this->removeMultiWhitespaces($whitespaceToken);
+
             $tokens->insertAt($index, [
                 $this->createDocCommentToken($className, $variableName),
                 $whitespaceToken, // original space whitespace
@@ -180,5 +182,12 @@ $variable = $container->get(SomeType::class);
         }
 
         return false;
+    }
+
+    private function removeMultiWhitespaces(Token $whitespaceToken): Token
+    {
+        $newContent = str_replace([PHP_EOL . PHP_EOL, '\n' . '\n'], [PHP_EOL, '\n'], $whitespaceToken->getContent());
+
+        return new Token([T_WHITESPACE, $newContent]);
     }
 }
