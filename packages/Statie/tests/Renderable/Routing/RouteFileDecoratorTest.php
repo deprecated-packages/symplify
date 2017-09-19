@@ -36,6 +36,7 @@ final class RouteFileDecoratorTest extends AbstractContainerAwareTestCase
     {
         $file = $this->createFileFromFilePath(__DIR__ . '/RoutingDecoratorSource/someFile.latte');
 
+        /** @var Configuration $configuration */
         $configuration = $this->container->get(Configuration::class);
         $configuration->setSourceDirectory(__DIR__ . '/RoutingDecoratorSource');
 

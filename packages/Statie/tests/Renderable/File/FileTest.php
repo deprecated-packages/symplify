@@ -16,6 +16,7 @@ final class FileTest extends AbstractContainerAwareTestCase
 
     protected function setUp(): void
     {
+        /** @var Configuration $configuration */
         $configuration = $this->container->get(Configuration::class);
         $configuration->setSourceDirectory(__DIR__ . '/FileFactorySource');
 

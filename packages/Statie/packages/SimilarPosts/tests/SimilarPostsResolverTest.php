@@ -36,6 +36,7 @@ final class SimilarPostsResolverTest extends AbstractContainerAwareTestCase
 
         $this->similarPostsResolver = $this->container->get(SimilarPostsResolver::class);
 
+        /** @var Configuration $configuration */
         $configuration = $this->container->get(Configuration::class);
         $configuration->addPosts($this->getAllPosts());
 
