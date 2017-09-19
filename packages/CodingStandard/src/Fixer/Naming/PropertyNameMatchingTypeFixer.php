@@ -164,11 +164,6 @@ class SomeClass
         return lcfirst($rawName);
     }
 
-    private function isSplClass(string $class): bool
-    {
-        return Strings::startsWith($class, 'Spl');
-    }
-
     private function isIPrefixedInterface($rawName): bool
     {
         return strlen($rawName) > 3
@@ -179,7 +174,7 @@ class SomeClass
 
     private function isAllowedNameOrType(string $name, string $type): bool
     {
-        if ($this->isSplClass($type)) {
+        if ($this->isPhpInternalClass($type)) {
             return true;
         }
 
@@ -192,5 +187,13 @@ class SomeClass
         $expectedName = $this->getExpectedNameFromType($type);
 
         return Strings::contains($name, ucfirst($expectedName)) && Strings::endsWith($name, ucfirst($expectedName));
+    }
+
+    private function isPhpInternalClass(string $class): bool
+    {
+        return Strings::startsWith($class, 'Spl')
+            || Strings::startsWith($class, 'std')
+            || Strings::startsWith($class, 'IteratorAggregate')
+            || Strings::startsWith($class, 'SimpleXMLElement');
     }
 }
