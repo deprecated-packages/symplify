@@ -51,6 +51,9 @@ final class LatteFileDecorator implements FileDecoratorInterface
         return $files;
     }
 
+    /**
+     * Higher priorities are executed first.
+     */
     public function getPriority(): int
     {
         return 700;

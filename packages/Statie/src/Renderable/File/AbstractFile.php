@@ -114,9 +114,9 @@ abstract class AbstractFile
     /**
      * @param mixed[] $configuration
      */
-    public function setConfiguration(array $configuration): void
+    public function addConfiguration(array $configuration): void
     {
-        $this->configuration += $configuration;
+        $this->configuration = array_merge($this->configuration, $configuration);
     }
 
     /**

@@ -39,9 +39,13 @@ final class MarkdownFileDecorator implements FileDecoratorInterface
         return $files;
     }
 
+    /**
+     * Higher priorities are executed first.
+     *
+     * Has to run before Latte; it fails the other way.
+     */
     public function getPriority(): int
     {
-        // have to run before Latte; it fails the other way
         return 800;
     }
 
@@ -52,13 +56,8 @@ final class MarkdownFileDecorator implements FileDecoratorInterface
             return;
         }
 
-        $htmlContent = $this->parsedownExtra->parse($file->getContent());
-
-        if ($this->configuration->isMarkdownHeadlineAnchors()) {
-            $htmlContent = $this->decorateHeadlinesWithTocAnchors($htmlContent);
-        }
-
-        $file->changeContent($htmlContent);
+        $this->decoratePerex($file);
+        $this->decorateContent($file);
     }
 
     private function decorateHeadlinesWithTocAnchors(string $htmlContent): string
@@ -78,5 +77,32 @@ final class MarkdownFileDecorator implements FileDecoratorInterface
                 $headlineLevel
             );
         });
+    }
+
+    private function decoratePerex(AbstractFile $file): void
+    {
+        $configuration = $file->getConfiguration();
+        if (! isset($configuration['perex'])) {
+            return;
+        }
+
+        $markdownedPerexInParagraph = $this->parsedownExtra->parse($configuration['perex']);
+
+        // remove <p></p>
+        $markdownedPerex = substr($markdownedPerexInParagraph, 3, -4);
+        $configuration['perex'] = $markdownedPerex;
+
+        $file->addConfiguration($configuration);
+    }
+
+    private function decorateContent(AbstractFile $file): void
+    {
+        $htmlContent = $this->parsedownExtra->parse($file->getContent());
+
+        if ($this->configuration->isMarkdownHeadlineAnchors()) {
+            $htmlContent = $this->decorateHeadlinesWithTocAnchors($htmlContent);
+        }
+
+        $file->changeContent($htmlContent);
     }
 }
