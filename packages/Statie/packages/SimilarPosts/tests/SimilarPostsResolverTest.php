@@ -40,7 +40,7 @@ final class SimilarPostsResolverTest extends AbstractContainerAwareTestCase
         $configuration->addPosts($this->getAllPosts());
 
         $this->mainPostFile = $this->postFactory->createPostFromFilePath(
-            self::POST_SOURCE_DIRECTORY . '/2017-01-05-another-related-post.md'
+            self::POST_SOURCE_DIRECTORY . '/2017-01-01-some-post.md'
         );
     }
 
@@ -61,9 +61,6 @@ final class SimilarPostsResolverTest extends AbstractContainerAwareTestCase
     private function getAllPosts(): array
     {
         return [
-            $this->postFactory->createPostFromFilePath(
-                self::POST_SOURCE_DIRECTORY . '/2017-01-01-some-post.md'
-            ),
             $this->postFactory->createPostFromFilePath(
                 self::POST_SOURCE_DIRECTORY . '/2017-01-05-some-related-post.md'
             ),

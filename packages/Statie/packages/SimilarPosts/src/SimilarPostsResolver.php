@@ -20,16 +20,16 @@ final class SimilarPostsResolver
     /**
      * @return PostFile[]
      */
-    public function resolveForPost(PostFile $postFile): array
+    public function resolveForPost(PostFile $mainPostFile): array
     {
-        if (! $postFile->getRelatedPostIds()) {
+        if (! $mainPostFile->getRelatedPostIds()) {
             return [];
         }
 
         $relatedPosts = [];
 
         foreach ($this->getPosts() as $post) {
-            if (in_array($post->getId(), $postFile->getRelatedPostIds(), true)) {
+            if (in_array($post->getId(), $mainPostFile->getRelatedPostIds(), true)) {
                 $relatedPosts[] = $post;
             }
         }

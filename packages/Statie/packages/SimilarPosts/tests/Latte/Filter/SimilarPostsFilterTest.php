@@ -44,7 +44,7 @@ final class SimilarPostsFilterTest extends AbstractContainerAwareTestCase
 
         $similarPosts = $filters['similarPosts']($mainPost);
 
-        $this->assertCount(2, $similarPosts);
+        $this->assertCount(3, $similarPosts);
     }
 
     /**
