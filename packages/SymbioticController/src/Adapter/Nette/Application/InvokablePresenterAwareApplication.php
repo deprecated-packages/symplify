@@ -138,32 +138,32 @@ final class InvokablePresenterAwareApplication extends Application
         return $this->presenter;
     }
 
-    private function dispatchException(Throwable $exception): void
+    private function dispatchException(Throwable $throwable): void
     {
-        $this->dispatchApplicationException($exception);
+        $this->dispatchApplicationException($throwable);
 
         if ($this->catchExceptions && $this->errorPresenter) {
             try {
-                $this->processException($exception);
+                $this->processException($throwable);
                 $this->eventDispatcher->dispatch(
                     ApplicationEvents::ON_SHUTDOWN,
                     new ShutdownEvent($this)
                 );
 
                 return;
-            } catch (Throwable $exception) {
-                $this->dispatchApplicationException($exception);
+            } catch (Throwable $throwable) {
+                $this->dispatchApplicationException($throwable);
             }
         }
 
-        $this->eventDispatcher->dispatch(ApplicationEvents::ON_SHUTDOWN, new ShutdownEvent($this, $exception));
+        $this->eventDispatcher->dispatch(ApplicationEvents::ON_SHUTDOWN, new ShutdownEvent($this, $throwable));
 
-        throw $exception;
+        throw $throwable;
     }
 
-    private function dispatchApplicationException(Throwable $exception): void
+    private function dispatchApplicationException(Throwable $throwable): void
     {
-        $this->eventDispatcher->dispatch(ApplicationEvents::ON_ERROR, new ErrorEvent($this, $exception));
+        $this->eventDispatcher->dispatch(ApplicationEvents::ON_ERROR, new ErrorEvent($this, $throwable));
     }
 
     private function processPresenterWithRequestAndReturnResponse(Request $request): ApplicationResponse
