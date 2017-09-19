@@ -27,7 +27,7 @@ final class SimilarPostsFilter implements FilterProviderInterface
             // use in *.latte like this:
             // {var $similarPosts = ($post|similarPosts)}
             'similarPosts' => function (PostFile $post) {
-                return $this->similarPostsResolver->resolveForPostWithLimit($post);
+                return $this->similarPostsResolver->resolveForPost($post);
             },
         ];
     }

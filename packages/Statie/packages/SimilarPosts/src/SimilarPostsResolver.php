@@ -20,16 +20,16 @@ final class SimilarPostsResolver
     /**
      * @return PostFile[]
      */
-    public function resolveForPostWithLimit(PostFile $mainPost): array
+    public function resolveForPost(PostFile $mainPostFile): array
     {
-        if (! $mainPost->getRelatedPostIds()) {
+        if (! $mainPostFile->getRelatedPostIds()) {
             return [];
         }
 
         $relatedPosts = [];
 
         foreach ($this->getPosts() as $post) {
-            if (in_array($post->getId(), $mainPost->getRelatedPostIds(), true)) {
+            if (in_array($post->getId(), $mainPostFile->getRelatedPostIds(), true)) {
                 $relatedPosts[] = $post;
             }
         }

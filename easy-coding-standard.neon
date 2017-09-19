@@ -90,4 +90,3 @@ parameters:
         Symplify\CodingStandard\Sniffs\DependencyInjection\NoClassInstantiationSniff:
             # fix later
             - packages/CodingStandard/src/Sniffs/Debug/CommentedOutCodeSniff.php
-            - packages/Statie/src/Github/GihubPublishingProcess.php

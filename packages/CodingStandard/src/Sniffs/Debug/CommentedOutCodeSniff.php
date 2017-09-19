@@ -115,13 +115,13 @@ final class CommentedOutCodeSniff implements Sniff
         return $this->parser = (new ParserFactory)->create(ParserFactory::PREFER_PHP7);
     }
 
-    private function guessIsTextCommentToken(Node $token): bool
+    private function guessIsTextCommentToken(Node $node): bool
     {
-        if ($token instanceof ConstFetch) {
+        if ($node instanceof ConstFetch) {
             return true;
         }
 
-        if ($token instanceof Minus && ! $token->left instanceof Variable) {
+        if ($node instanceof Minus && ! $node->left instanceof Variable) {
             return true;
         }
 

@@ -2,11 +2,13 @@
 
 namespace Symplify\CodingStandard\FixerTokenWrapper;
 
+use Nette\Utils\Strings;
 use PhpCsFixer\DocBlock\Annotation;
 use PhpCsFixer\DocBlock\DocBlock;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use Symplify\CodingStandard\FixerTokenWrapper\Exception\MissingDocBlockException;
+use Symplify\CodingStandard\FixerTokenWrapper\Guard\TokenTypeGuard;
 use Symplify\CodingStandard\Tokenizer\DocBlockAnalyzer;
 use Symplify\CodingStandard\Tokenizer\DocBlockFinder;
 use Symplify\CodingStandard\Tokenizer\PropertyAnalyzer;
@@ -38,8 +40,15 @@ final class PropertyWrapper
      */
     private $docBlockPosition;
 
+    /**
+     * @var string|null
+     */
+    private $type;
+
     private function __construct(Tokens $tokens, int $index)
     {
+        TokenTypeGuard::ensureIsTokenType($tokens[$index], [T_VARIABLE], self::class);
+
         $this->tokens = $tokens;
 
         $this->docBlockPosition = DocBlockFinder::findPreviousPosition($tokens, $index);
@@ -96,14 +105,17 @@ final class PropertyWrapper
 
     public function getName(): string
     {
-        $propertyNamePosition = $this->tokens->getNextMeaningfulToken($this->visibilityPosition);
-        $propertyNameToken = $this->tokens[$propertyNamePosition];
+        $propertyNameToken = $this->tokens[$this->getPropertyNamePosition()];
 
         return ltrim($propertyNameToken->getContent(), '$');
     }
 
-    public function getType(): string
+    public function getType(): ?string
     {
+        if ($this->type) {
+            return $this->type;
+        }
+
         $this->ensureHasDocBlock(__METHOD__);
 
         $varAnnotations = $this->docBlock->getAnnotationsOfType('var');
@@ -111,7 +123,33 @@ final class PropertyWrapper
         /** @var Annotation $varAnnotation */
         $varAnnotation = $varAnnotations[0];
 
-        return $varAnnotation->getTypes()[0];
+        if (! isset($varAnnotation->getTypes()[0])) {
+            return null;
+        }
+
+        return $this->type = implode('|', $varAnnotation->getTypes());
+    }
+
+    public function changeName(string $newName): void
+    {
+        $newName = Strings::startsWith($newName, '$') ?: '$' . $newName;
+
+        $this->tokens[$this->getPropertyNamePosition()] = new Token([T_VARIABLE, $newName]);
+    }
+
+    public function isClassType(): bool
+    {
+        $type = $this->getType();
+
+        if (in_array($type, ['string', 'int', 'bool', 'null', 'array'], true)) {
+            return false;
+        }
+
+        if (Strings::contains($type, '[]')) {
+            return false;
+        }
+
+        return true;
     }
 
     private function ensureHasDocBlock(string $calledMethod): void
@@ -124,5 +162,18 @@ final class PropertyWrapper
                 $calledMethod
             ));
         }
+    }
+
+    private function getPropertyNamePosition(): int
+    {
+        $nextVariableTokens = $this->tokens->findGivenKind(
+            [T_VARIABLE],
+            $this->visibilityPosition,
+            $this->visibilityPosition + 5
+        );
+
+        $nextVariableToken = array_pop($nextVariableTokens);
+
+        return key($nextVariableToken);
     }
 }

@@ -178,6 +178,29 @@ class SomeClass
 ```
 
 
+### Property name should match its type, if possible
+
+- class: [`Symplify\CodingStandard\Fixer\Naming\PropertyNameMatchingTypeFixer`](/src/Fixer/Naming/PropertyNameMatchingTypeFixer.php)
+
+:x:
+
+```php
+public function __construct(EntityManagerInterface $eventManager)
+{
+    $this->eventManager = $eventManager;
+}
+```
+
+:+1:
+
+```php
+public function __construct(EntityManagerInterface $entityManager)
+{
+    $this->entityManager = $entityManager;
+}
+```
+
+
 ### `::class` references should be used over string for classes and interfaces
  
  

@@ -6,8 +6,8 @@ use Nette\Utils\Strings;
 use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Sniffs\Sniff;
 use Symplify\CodingStandard\Helper\Naming;
-use Symplify\CodingStandard\TokenWrapper\ClassWrapper;
-use Symplify\CodingStandard\TokenWrapper\MethodWrapper;
+use Symplify\CodingStandard\SniffTokenWrapper\ClassWrapper;
+use Symplify\CodingStandard\SniffTokenWrapper\MethodWrapper;
 
 final class ControllerRenderMethodLimitSniff implements Sniff
 {
@@ -84,17 +84,17 @@ final class ControllerRenderMethodLimitSniff implements Sniff
         return $renderMethodCount;
     }
 
-    private function isControllerRenderMethod(MethodWrapper $method): bool
+    private function isControllerRenderMethod(MethodWrapper $methodWrapper): bool
     {
-        if (! $method->isPublic()) {
+        if (! $methodWrapper->isPublic()) {
             return false;
         }
 
-        if (Strings::contains($method->getName(), 'render')) {
+        if (Strings::contains($methodWrapper->getName(), 'render')) {
             return true;
         }
 
-        if (Strings::contains($method->getName(), 'Render')) {
+        if (Strings::contains($methodWrapper->getName(), 'Render')) {
             return true;
         }
 

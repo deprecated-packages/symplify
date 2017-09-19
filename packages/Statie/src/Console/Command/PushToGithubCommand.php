@@ -8,18 +8,18 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symplify\Statie\Github\GihubPublishingProcess;
+use Symplify\Statie\Github\GithubPublishingProcess;
 
 final class PushToGithubCommand extends Command
 {
     /**
-     * @var GihubPublishingProcess
+     * @var GithubPublishingProcess
      */
-    private $gihubPublishingProcess;
+    private $githubPublishingProcess;
 
-    public function __construct(GihubPublishingProcess $gihubPublishingProcess)
+    public function __construct(GithubPublishingProcess $githubPublishingProcess)
     {
-        $this->gihubPublishingProcess = $gihubPublishingProcess;
+        $this->githubPublishingProcess = $githubPublishingProcess;
 
         parent::__construct();
     }
@@ -53,7 +53,7 @@ final class PushToGithubCommand extends Command
             $input->getArgument('repository-slug')
         );
 
-        $this->gihubPublishingProcess->pushDirectoryContentToRepository(
+        $this->githubPublishingProcess->pushDirectoryContentToRepository(
             $input->getOption('output'),
             $githubRepository,
             $input->getOption('branch')

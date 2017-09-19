@@ -4,7 +4,7 @@ namespace Symplify\CodingStandard\Sniffs\Commenting;
 
 use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Sniffs\Sniff;
-use Symplify\CodingStandard\TokenWrapper\PropertyWrapper;
+use Symplify\CodingStandard\SniffTokenWrapper\PropertyWrapper;
 
 final class BlockPropertyCommentSniff implements Sniff
 {

@@ -19,7 +19,7 @@ final class NeonLoader implements LoaderInterface
     /**
      * @var LoaderResolverInterface
      */
-    private $resolver;
+    private $loaderResolver;
 
     /**
      * @var ContainerBuilder|ContainerInterface
@@ -29,9 +29,9 @@ final class NeonLoader implements LoaderInterface
     /**
      * @param ContainerBuilder|ContainerInterface $containerBuilder
      */
-    public function __construct(ContainerInterface $containerBuilder)
+    public function __construct(ContainerInterface $container)
     {
-        $this->containerBuilder = $containerBuilder;
+        $this->containerBuilder = $container;
     }
 
     /**
@@ -80,12 +80,12 @@ final class NeonLoader implements LoaderInterface
 
     public function getResolver(): LoaderResolverInterface
     {
-        return $this->resolver;
+        return $this->loaderResolver;
     }
 
-    public function setResolver(LoaderResolverInterface $resolver): void
+    public function setResolver(LoaderResolverInterface $loaderResolver): void
     {
-        $this->resolver = $resolver;
+        $this->loaderResolver = $loaderResolver;
     }
 
     /**

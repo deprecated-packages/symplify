@@ -12,7 +12,7 @@ final class MarkdownDecoratorTest extends AbstractContainerAwareTestCase
     /**
      * @var MarkdownFileDecorator
      */
-    private $markdownDecorator;
+    private $markdownFileDecorator;
 
     /**
      * @var Configuration
@@ -28,7 +28,7 @@ final class MarkdownDecoratorTest extends AbstractContainerAwareTestCase
     {
         $this->configuration = $this->container->get(Configuration::class);
         $this->configuration->disableMarkdownHeadlineAnchors();
-        $this->markdownDecorator = $this->container->get(MarkdownFileDecorator::class);
+        $this->markdownFileDecorator = $this->container->get(MarkdownFileDecorator::class);
 
         $this->fileFactory = $this->container->get(FileFactory::class);
     }
@@ -36,7 +36,7 @@ final class MarkdownDecoratorTest extends AbstractContainerAwareTestCase
     public function testNotMarkdown(): void
     {
         $file = $this->fileFactory->createFromFilePath(__DIR__ . '/MarkdownDecoratorSource/someFile.latte');
-        $this->markdownDecorator->decorateFiles([$file]);
+        $this->markdownFileDecorator->decorateFiles([$file]);
 
         $this->assertContains('# Content...', $file->getContent());
     }
@@ -44,7 +44,7 @@ final class MarkdownDecoratorTest extends AbstractContainerAwareTestCase
     public function testMarkdown(): void
     {
         $file = $this->fileFactory->createFromFilePath(__DIR__ . '/MarkdownDecoratorSource/someFile.md');
-        $this->markdownDecorator->decorateFiles([$file]);
+        $this->markdownFileDecorator->decorateFiles([$file]);
 
         $this->assertContains('<h1>Content...</h1>', $file->getContent());
     }
@@ -54,7 +54,7 @@ final class MarkdownDecoratorTest extends AbstractContainerAwareTestCase
         $this->configuration->enableMarkdownHeadlineAnchors();
 
         $file = $this->fileFactory->createFromFilePath(__DIR__ . '/MarkdownDecoratorSource/someFile.md');
-        $this->markdownDecorator->decorateFiles([$file]);
+        $this->markdownFileDecorator->decorateFiles([$file]);
 
         $this->assertSame(
             '<h1 id="content"><a class="anchor" href="#content" aria-hidden="true">' .

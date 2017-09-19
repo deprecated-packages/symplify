@@ -5,7 +5,7 @@ namespace Symplify\Statie\Github;
 use GitWrapper\GitWrapper;
 use Symplify\Statie\Utils\FilesystemChecker;
 
-final class GihubPublishingProcess
+final class GithubPublishingProcess
 {
     /**
      * @var string
@@ -22,9 +22,15 @@ final class GihubPublishingProcess
      */
     private $filesystemChecker;
 
-    public function __construct(FilesystemChecker $filesystemChecker)
+    /**
+     * @var GitWrapper
+     */
+    private $gitWrapper;
+
+    public function __construct(FilesystemChecker $filesystemChecker, GitWrapper $gitWrapper)
     {
         $this->filesystemChecker = $filesystemChecker;
+        $this->gitWrapper = $gitWrapper;
     }
 
     public function pushDirectoryContentToRepository(
@@ -34,7 +40,7 @@ final class GihubPublishingProcess
     ): void {
         $this->filesystemChecker->ensureDirectoryExists($outputDirectory);
 
-        $git = (new GitWrapper)->init($outputDirectory);
+        $git = $this->gitWrapper->init($outputDirectory);
 
         if (getenv('TRAVIS')) {
             $git->config('user.email', self::CONFIG_EMAIL);

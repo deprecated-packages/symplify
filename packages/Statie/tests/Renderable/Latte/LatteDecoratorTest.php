@@ -14,7 +14,7 @@ final class LatteDecoratorTest extends AbstractContainerAwareTestCase
     /**
      * @var LatteFileDecorator
      */
-    private $latteDecorator;
+    private $latteFileDecorator;
 
     /**
      * @var FileFactory
@@ -23,7 +23,7 @@ final class LatteDecoratorTest extends AbstractContainerAwareTestCase
 
     protected function setUp(): void
     {
-        $this->latteDecorator = $this->container->get(LatteFileDecorator::class);
+        $this->latteFileDecorator = $this->container->get(LatteFileDecorator::class);
         $this->fileFactory = $this->container->get(FileFactory::class);
 
         /** @var DynamicStringLoader $dynamicStringLoader */
@@ -38,7 +38,7 @@ final class LatteDecoratorTest extends AbstractContainerAwareTestCase
     {
         $fileInfo = new SplFileInfo(__DIR__ . '/LatteDecoratorSource/fileWithoutLayout.latte');
         $file = $this->fileFactory->create($fileInfo);
-        $this->latteDecorator->decorateFiles([$file]);
+        $this->latteFileDecorator->decorateFiles([$file]);
 
         $this->assertContains('Contact me!', $file->getContent());
     }
@@ -51,7 +51,7 @@ final class LatteDecoratorTest extends AbstractContainerAwareTestCase
             'layout' => 'default',
         ]);
 
-        $this->latteDecorator->decorateFiles([$file]);
+        $this->latteFileDecorator->decorateFiles([$file]);
 
         $this->assertStringEqualsFile(
             __DIR__ . '/LatteDecoratorSource/expectedContact.html',
@@ -63,7 +63,7 @@ final class LatteDecoratorTest extends AbstractContainerAwareTestCase
     {
         $fileInfo = new SplFileInfo(__DIR__ . '/LatteDecoratorSource/fileWithFileVariable.latte');
         $file = $this->fileFactory->create($fileInfo);
-        $this->latteDecorator->decorateFiles([$file]);
+        $this->latteFileDecorator->decorateFiles([$file]);
 
         $this->assertContains('fileWithFileVariable.latte', $file->getContent());
     }
@@ -80,6 +80,6 @@ final class LatteDecoratorTest extends AbstractContainerAwareTestCase
             $fileWithInvalidLatteSyntax
         ));
 
-        $this->latteDecorator->decorateFiles([$file]);
+        $this->latteFileDecorator->decorateFiles([$file]);
     }
 }

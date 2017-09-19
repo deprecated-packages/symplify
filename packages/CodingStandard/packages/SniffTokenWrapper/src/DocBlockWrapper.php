@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\CodingStandard\TokenWrapper;
+namespace Symplify\CodingStandard\SniffTokenWrapper;
 
 use Nette\Utils\Strings;
 use PHP_CodeSniffer\Files\File;

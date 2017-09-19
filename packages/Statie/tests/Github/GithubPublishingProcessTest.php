@@ -3,12 +3,11 @@
 namespace Symplify\Statie\Tests\Github;
 
 use Nette\Utils\FileSystem;
-use PHPUnit\Framework\TestCase;
-use Symplify\Statie\Github\GihubPublishingProcess;
-use Symplify\Statie\Utils\FilesystemChecker;
+use Symplify\Statie\Github\GithubPublishingProcess;
+use Symplify\Statie\Tests\AbstractContainerAwareTestCase;
 use Throwable;
 
-final class GithubPublishingProcessTest extends TestCase
+final class GithubPublishingProcessTest extends AbstractContainerAwareTestCase
 {
     /**
      * @var string
@@ -16,13 +15,13 @@ final class GithubPublishingProcessTest extends TestCase
     private $outputDirectory = __DIR__ . DIRECTORY_SEPARATOR . 'GithubPublishingProcessSource';
 
     /**
-     * @var GihubPublishingProcess
+     * @var GithubPublishingProcess
      */
     private $githubPublishingProcess;
 
     protected function setUp(): void
     {
-        $this->githubPublishingProcess = new GihubPublishingProcess(new FilesystemChecker);
+        $this->githubPublishingProcess = $this->container->get(GithubPublishingProcess::class);
     }
 
     protected function tearDown(): void

@@ -25,7 +25,7 @@ final class LatteRenderer
     /**
      * @var Engine
      */
-    private $latte;
+    private $engine;
 
     /**
      * @var DynamicStringLoader
@@ -34,7 +34,7 @@ final class LatteRenderer
 
     public function __construct(LatteFactory $latteFactory, DynamicStringLoader $dynamicStringLoader)
     {
-        $this->latte = $latteFactory->create();
+        $this->engine = $latteFactory->create();
         $this->dynamicStringLoader = $dynamicStringLoader;
     }
 
@@ -65,7 +65,7 @@ final class LatteRenderer
 
         // due to StringLoader
         $this->dynamicStringLoader->changeContent($originalReference, $contentWithPlaceholders);
-        $renderedContentWithPlaceholders = $this->latte->renderToString($originalReference, $parameters);
+        $renderedContentWithPlaceholders = $this->engine->renderToString($originalReference, $parameters);
 
         return Strings::replace(
             $renderedContentWithPlaceholders,
