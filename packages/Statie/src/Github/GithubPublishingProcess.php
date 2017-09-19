@@ -5,7 +5,7 @@ namespace Symplify\Statie\Github;
 use GitWrapper\GitWrapper;
 use Symplify\Statie\Utils\FilesystemChecker;
 
-final class GihubPublishingProcess
+final class GithubPublishingProcess
 {
     /**
      * @var string

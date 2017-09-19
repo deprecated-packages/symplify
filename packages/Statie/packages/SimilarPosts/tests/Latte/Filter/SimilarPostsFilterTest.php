@@ -39,6 +39,7 @@ final class SimilarPostsFilterTest extends AbstractContainerAwareTestCase
         $filters = $this->similarPostFilter->provide();
 
         $mainPost = $this->postFactory->createPostFromFilePath(
+        $mainPost = $this->postFactory->createPostFromFilePath(
             self::POST_SOURCE_DIRECTORY . '/2017-01-01-some-post.md'
         );
 

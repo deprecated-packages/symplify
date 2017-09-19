@@ -18,7 +18,7 @@ final class SimilarPostsResolverTest extends AbstractContainerAwareTestCase
     /**
      * @var PostFile
      */
-    private $mainPost;
+    private $mainPostFile;
 
     /**
      * @var PostFactory
@@ -39,20 +39,20 @@ final class SimilarPostsResolverTest extends AbstractContainerAwareTestCase
         $configuration = $this->container->get(Configuration::class);
         $configuration->addPosts($this->getAllPosts());
 
-        $this->mainPost = $this->postFactory->createPostFromFilePath(
+        $this->mainPostFile = $this->postFactory->createPostFromFilePath(
             self::POST_SOURCE_DIRECTORY . '/2017-01-05-another-related-post.md'
         );
     }
 
     public function test(): void
     {
-        $similarPosts = $this->similarPostsResolver->resolveForPostWithLimit($this->mainPost);
+        $similarPosts = $this->similarPostsResolver->resolveForPost($this->mainPostFile);
 
         $this->assertCount(3, $similarPosts);
 
         $mostSimilarPost = $similarPosts[0];
         $this->assertSame('Statie 4: How to Create The Simplest Blog', $mostSimilarPost['title']);
-        $this->assertNotSame($this->mainPost['title'], $mostSimilarPost['title']);
+        $this->assertNotSame($this->mainPostFile['title'], $mostSimilarPost['title']);
     }
 
     /**

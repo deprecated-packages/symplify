@@ -4,7 +4,7 @@ namespace Symplify\Statie\Tests\Github;
 
 use Nette\Utils\FileSystem;
 use PHPUnit\Framework\TestCase;
-use Symplify\Statie\Github\GihubPublishingProcess;
+use Symplify\Statie\Github\GithubPublishingProcess;
 use Symplify\Statie\Utils\FilesystemChecker;
 use Throwable;
 
@@ -16,13 +16,13 @@ final class GithubPublishingProcessTest extends TestCase
     private $outputDirectory = __DIR__ . DIRECTORY_SEPARATOR . 'GithubPublishingProcessSource';
 
     /**
-     * @var GihubPublishingProcess
+     * @var GithubPublishingProcess
      */
     private $githubPublishingProcess;
 
     protected function setUp(): void
     {
-        $this->githubPublishingProcess = new GihubPublishingProcess(new FilesystemChecker);
+        $this->githubPublishingProcess = new GithubPublishingProcess(new FilesystemChecker);
     }
 
     protected function tearDown(): void

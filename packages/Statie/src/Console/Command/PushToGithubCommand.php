@@ -8,16 +8,16 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symplify\Statie\Github\GihubPublishingProcess;
+use Symplify\Statie\Github\GithubPublishingProcess;
 
 final class PushToGithubCommand extends Command
 {
     /**
-     * @var GihubPublishingProcess
+     * @var GithubPublishingProcess
      */
     private $gihubPublishingProcess;
 
-    public function __construct(GihubPublishingProcess $gihubPublishingProcess)
+    public function __construct(GithubPublishingProcess $gihubPublishingProcess)
     {
         $this->gihubPublishingProcess = $gihubPublishingProcess;
 
