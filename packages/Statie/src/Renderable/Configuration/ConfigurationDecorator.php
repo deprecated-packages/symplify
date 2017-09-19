@@ -59,7 +59,7 @@ final class ConfigurationDecorator implements FileDecoratorInterface
                 ));
             }
 
-            $file->setConfiguration($configuration);
+            $file->addConfiguration($configuration);
         }
     }
 }

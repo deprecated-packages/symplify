@@ -52,13 +52,8 @@ final class MarkdownFileDecorator implements FileDecoratorInterface
             return;
         }
 
-        $htmlContent = $this->parsedownExtra->parse($file->getContent());
-
-        if ($this->configuration->isMarkdownHeadlineAnchors()) {
-            $htmlContent = $this->decorateHeadlinesWithTocAnchors($htmlContent);
-        }
-
-        $file->changeContent($htmlContent);
+        $this->decoratePerex($file);
+        $this->decorateContent($file);
     }
 
     private function decorateHeadlinesWithTocAnchors(string $htmlContent): string
@@ -78,5 +73,28 @@ final class MarkdownFileDecorator implements FileDecoratorInterface
                 $headlineLevel
             );
         });
+    }
+
+    private function decoratePerex(AbstractFile $file): void
+    {
+        $configuration = $file->getConfiguration();
+        if (! isset($configuration['perex'])) {
+            return;
+        }
+
+        $configuration['perex'] = $this->parsedownExtra->parse($configuration['perex']);
+
+        $file->addConfiguration($configuration);
+    }
+
+    private function decorateContent(AbstractFile $file): void
+    {
+        $htmlContent = $this->parsedownExtra->parse($file->getContent());
+
+        if ($this->configuration->isMarkdownHeadlineAnchors()) {
+            $htmlContent = $this->decorateHeadlinesWithTocAnchors($htmlContent);
+        }
+
+        $file->changeContent($htmlContent);
     }
 }

@@ -47,7 +47,7 @@ final class LatteDecoratorTest extends AbstractContainerAwareTestCase
     {
         $fileInfo = new SplFileInfo(__DIR__ . '/LatteDecoratorSource/contact.latte');
         $file = $this->fileFactory->create($fileInfo);
-        $file->setConfiguration([
+        $file->addConfiguration([
             'layout' => 'default',
         ]);
 

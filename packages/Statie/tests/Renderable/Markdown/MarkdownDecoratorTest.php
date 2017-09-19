@@ -41,12 +41,26 @@ final class MarkdownDecoratorTest extends AbstractContainerAwareTestCase
         $this->assertContains('# Content...', $file->getContent());
     }
 
-    public function testMarkdown(): void
+    public function testMarkdownContent(): void
     {
         $file = $this->fileFactory->createFromFilePath(__DIR__ . '/MarkdownDecoratorSource/someFile.md');
+
         $this->markdownFileDecorator->decorateFiles([$file]);
 
         $this->assertContains('<h1>Content...</h1>', $file->getContent());
+    }
+
+    public function testMarkdownPerex(): void
+    {
+        $file = $this->fileFactory->createFromFilePath(__DIR__ . '/MarkdownDecoratorSource/someFile.md');
+
+        $file->addConfiguration([
+            'perex' => '**Hey**',
+        ]);
+
+        $this->markdownFileDecorator->decorateFiles([$file]);
+
+        $this->assertContains('<strong>Hey</strong>', $file->getConfiguration()['perex']);
     }
 
     public function testMarkdownWithAnchors(): void
