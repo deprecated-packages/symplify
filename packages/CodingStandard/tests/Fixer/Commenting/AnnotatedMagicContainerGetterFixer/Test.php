@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Fixer\ClassNotation\AnnotatedMagicContainerGetterFixer;
+namespace Symplify\CodingStandard\Tests\Fixer\Commenting\AnnotatedMagicContainerGetterFixer;
 
 use PhpCsFixer\Fixer\FixerInterface;
 use PhpCsFixer\Tests\Test\AbstractFixerTestCase;

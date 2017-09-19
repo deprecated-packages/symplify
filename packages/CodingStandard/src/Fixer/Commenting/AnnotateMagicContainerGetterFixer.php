@@ -53,7 +53,7 @@ $variable = $container->get(SomeType::class);
             // has variable a @var annotation?
             $docBlockToken = DocBlockFinder::findPrevious($tokens, $index);
             $docBlock = null;
-            if ($docBlockToken) {
+            if ($docBlockToken instanceof Token) {
                 $docBlock = new DocBlock($docBlockToken->getContent());
                 $varAnnotations = $docBlock->getAnnotationsOfType('var');
                 if (count($varAnnotations)) {
@@ -111,7 +111,7 @@ $variable = $container->get(SomeType::class);
             ];
 
             $foundSequence = $tokens->findSequence($seekSequence, $nextVariablePosition, $nextVariablePosition + 10);
-            if (count($foundSequence) === 0) {
+            if ($foundSequence === null || count($foundSequence) === 0) {
                 return null;
             }
 
