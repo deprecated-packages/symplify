@@ -1,11 +1,10 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Fixer\ClassNotation\LastPropertyAndFirstMethodSeparationFixer;
+namespace Symplify\CodingStandard\Tests\Fixer\Commenting\AnnotatedMagicContainerGetterFixer;
 
 use PhpCsFixer\Fixer\FixerInterface;
 use PhpCsFixer\Tests\Test\AbstractFixerTestCase;
-use PhpCsFixer\WhitespacesFixerConfig;
-use Symplify\CodingStandard\Fixer\ClassNotation\LastPropertyAndFirstMethodSeparationFixer;
+use Symplify\CodingStandard\Fixer\Commenting\AnnotateMagicContainerGetterFixer;
 
 final class Test extends AbstractFixerTestCase
 {
@@ -31,19 +30,15 @@ final class Test extends AbstractFixerTestCase
                 file_get_contents(__DIR__ . '/fixed/fixed2.php.inc'),
                 file_get_contents(__DIR__ . '/wrong/wrong2.php.inc'),
             ],
+            [
+                file_get_contents(__DIR__ . '/fixed/fixed3.php.inc'),
+                file_get_contents(__DIR__ . '/wrong/wrong3.php.inc'),
+            ],
         ];
     }
 
     protected function createFixer(): FixerInterface
     {
-        $fixer = new LastPropertyAndFirstMethodSeparationFixer;
-        $fixer->setWhitespacesConfig($this->createWhitespacesFixerConfig());
-
-        return $fixer;
-    }
-
-    private function createWhitespacesFixerConfig(): WhitespacesFixerConfig
-    {
-        return new WhitespacesFixerConfig('    ', PHP_EOL);
+        return new AnnotateMagicContainerGetterFixer;
     }
 }

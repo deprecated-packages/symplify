@@ -2,6 +2,7 @@
 
 [![Build Status](https://img.shields.io/travis/Symplify/CodingStandard/master.svg?style=flat-square)](https://travis-ci.org/Symplify/CodingStandard)
 [![Downloads](https://img.shields.io/packagist/dt/symplify/coding-standard.svg?style=flat-square)](https://packagist.org/packages/symplify/coding-standard)
+[![Subscribe](https://img.shields.io/badge/subscribe-to--releases-green.svg?style=flat-square)(https://libraries.io/packagist/symplify%2Fcoding-standard)
 
 Set of PHP_CodeSniffer Sniffs and PHP-CS-Fixer Fixers used by Symplify projects.
 
@@ -113,6 +114,40 @@ This checker requires 1 space by default. But if you need, you can **configure i
 checkers:
     Symplify\CodingStandard\Fixer\ClassNotation\PropertyAndConstantSeparationFixer:
         space_count: 2 # 1 by default
+```
+
+
+
+### Variables created with `$container->get(SomeService::class)` should have annotation, so every IDE supports autocomplete without any plugins
+
+
+- class: [`Symplify\CodingStandard\Fixer\Commenting\AnnotateMagicContainerGetterFixer`](/src/Fixer/Commenting/AnnotateMagicContainerGetterFixer.php)
+
+:x:
+
+```php
+class SomeTest extends ContainerAwareTestCase
+{
+    protected function setUp(): void
+    {
+        $someService = $this->container->get(SomeType::class);
+        $someService->unknownMethod();
+    }
+}
+```
+
+:+1:
+
+```php
+class SomeTest extends ContainerAwareTestCase
+{
+    protected function setUp(): void
+    {
+        /** @var SomeType $someService */
+        $someService = $this->container->get(SomeType::class);
+        $someService->knownMethod();
+    }
+}
 ```
 
 
@@ -332,7 +367,6 @@ final class SomeClass implements SomeInterface
 ### Block comment should be used instead of one liner
 
 - class: [`Symplify\CodingStandard\Sniffs\Commenting\BlockPropertyCommentSniff`](/src/Sniffs/Commenting/BlockPropertyCommentSniff.php)
-- `Symplify.Commenting.BlockPropertyComment`
 
 :x:
 
@@ -360,7 +394,6 @@ class SomeClass
 ### Constant should have docblock comment
 
 - class: [`Symplify\CodingStandard\Sniffs\Commenting\VarConstantCommentSniff`](/src/Sniffs/Commenting/VarConstantCommentSniff.php)
-- `Symplify.Commenting.VarConstantComment`
 
 :x:
 
@@ -444,7 +477,6 @@ final class Controller
 ### New class statement should not have empty parentheses
 
 - class: [`Symplify\CodingStandard\Sniffs\ControlStructures\NewClassSniff`](/src/Sniffs/ControlStructures/NewClassSniff.php)
-- `Symplify.ControlStructures.NewClass`
 
 :x:
 
@@ -462,7 +494,6 @@ $directory = new Directory([$file]);
 ### There should comments with valid code
 
 - class: [`Symplify\CodingStandard\Sniffs\Debug\CommentedOutCodeSniff`](/src/Sniffs/Debug/CommentedOutCodeSniff.php)
-- `Symplify.Debug.CommentedOutCode`
 
 :x:
 
@@ -474,7 +505,6 @@ $directory = new Directory([$file]);
 ### Debug functions should not be left in the code
 
 - class: [`Symplify\CodingStandard\Sniffs\Debug\DebugFunctionCallSniff`](/src/Sniffs/Debug/DebugFunctionCallSniff.php)
-- `Symplify.Debug.DebugFunctionCall`
 
 :x:
 
@@ -487,7 +517,6 @@ dump($value);
 ### Use service and constructor injection rather than instantiation with new
 
 - class: [`Symplify\CodingStandard\Sniffs\DependencyInjection\NoClassInstantiationSniff`](/src/Sniffs/DependencyInjection/NoClassInstantiationSniff.php)
-- `Symplify.DependencyInjection.NoClassInstantiation`
 
 :x:
 
@@ -540,7 +569,6 @@ checkers:
 ### Abstract class should have prefix "Abstract"
 
 - class: [`Symplify\CodingStandard\Sniffs\Naming\AbstractClassNameSniff`](/src/Sniffs/Naming/AbstractClassNameSniff.php)
-- `Symplify.Naming.AbstractClassName`
 
 :x:
 
@@ -564,7 +592,6 @@ abstract class AbstractSomeClass
 For *PHP_CodeSniffer*:
 
 - class: [`Symplify\CodingStandard\Sniffs\Naming\ExceptionNameSniff`](/src/Sniffs/Naming/ExceptionNameSniff.php)
-- `Symplify.Naming.ExceptionName`
 
 or *PHP-CS-Fixer*:
 
@@ -589,7 +616,6 @@ class SomeClassException extends Exception
 ### Interface should have suffix "Interface"
 
 - class: [`Symplify\CodingStandard\Sniffs\Naming\InterfaceNameSniff`](/src/Sniffs/Naming/InterfaceNameSniff.php)
-- `Symplify.Naming.InterfaceName`
 
 :x:
 
@@ -611,7 +637,6 @@ interface SomeInterface
 ### Trait should have suffix "Trait"
 
 - class: [`Symplify\CodingStandard\Sniffs\Naming\TraitNameSniff`](/src/Sniffs/Naming/TraitNameSniff.php)
-- `Symplify.Naming.TraitName`
 
 :x:
 
@@ -633,7 +658,6 @@ trait SomeTrait
 ### Non-abstract class that extends TestCase should be final
 
 - class: [`Symplify\CodingStandard\Sniffs\PHPUnit\FinalTestCaseSniff`](/src/Sniffs/PHPUnit/FinalTestCaseSniff.php)
-- `Symplify.PHPUnit.FinalTestCase`
 
 :x:
 
@@ -659,7 +683,6 @@ final class SomeTest extends TestCase
 ### Properties should be used instead of dynamically defined properties
 
 - class: [`Symplify\CodingStandard\Sniffs\Property\DynamicPropertySniff`](/src/Sniffs/Property/DynamicPropertySniff.php)
-- `Symplify.Property.DynamicProperty`
 
 :x:
 
