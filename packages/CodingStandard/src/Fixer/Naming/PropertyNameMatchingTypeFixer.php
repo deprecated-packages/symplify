@@ -182,6 +182,10 @@ class SomeClass
             return true;
         }
 
+        if (Strings::contains($type, 'DateTime')) {
+            return true;
+        }
+
         // starts with adjective, e.g. (Post $firstPost, Post $secondPost)
         $expectedName = $this->getExpectedNameFromType($type);
 
