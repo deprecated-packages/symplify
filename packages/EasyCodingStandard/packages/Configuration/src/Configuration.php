@@ -27,12 +27,24 @@ final class Configuration
      */
     private $showPerformance = false;
 
+    /**
+     * @var bool
+     */
+    private $showProgressBar = true;
+
+    /**
+     * @var bool
+     */
+    private $showErrorTable = true;
+
     public function resolveFromInput(InputInterface $input): void
     {
         $this->setSources($input->getArgument('source'));
         $this->isFixer = (bool) $input->getOption('fix');
         $this->shouldClearCache = (bool) $input->getOption('clear-cache');
         $this->showPerformance = (bool) $input->getOption('show-performance');
+        $this->showProgressBar = ! (bool) $input->getOption('no-progress-bar');
+        $this->showErrorTable = ! (bool) $input->getOption('no-error-table');
     }
 
     /**
@@ -64,6 +76,16 @@ final class Configuration
     public function showPerformance(): bool
     {
         return $this->showPerformance;
+    }
+
+    public function showProgressBar(): bool
+    {
+        return $this->showProgressBar;
+    }
+
+    public function showErrorTable(): bool
+    {
+        return $this->showErrorTable;
     }
 
     /**

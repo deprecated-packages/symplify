@@ -2,7 +2,7 @@
 
 [![Build Status](https://img.shields.io/travis/Symplify/Symplify/master.svg?style=flat-square)](https://travis-ci.org/Symplify/Symplify)
 [![Coverage Status](https://img.shields.io/coveralls/Symplify/Symplify/master.svg?style=flat-square)](https://coveralls.io/github/Symplify/Symplify?branch=master)
-[![Subscribe]](https://img.shields.io/badge/subscribe-to--releases-green.svg?style=flat-square)[https://libraries.io/packagist/symplify%2Fsymplify]
+[![Subscribe](https://img.shields.io/badge/subscribe-to--releases-green.svg?style=flat-square)](https://libraries.io/packagist/symplify%2Fsymplify)
 
 
 ## [Coding Standard](https://github.com/Symplify/CodingStandard)
