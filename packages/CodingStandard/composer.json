@@ -21,7 +21,7 @@
     "autoload": {
         "psr-4": {
             "Symplify\\CodingStandard\\": "src",
-            "Symplify\\CodingStandard\\SniffTokenWrapper\\": "packages/TokenWrapper/src",
+            "Symplify\\CodingStandard\\SniffTokenWrapper\\": "packages/SniffTokenWrapper/src",
             "Symplify\\CodingStandard\\FixerTokenWrapper\\": "packages/FixerTokenWrapper/src"
         }
     },
