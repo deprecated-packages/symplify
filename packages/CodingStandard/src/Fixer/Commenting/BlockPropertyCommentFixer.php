@@ -11,7 +11,6 @@ use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Tokenizer\Tokens;
 use PhpCsFixer\WhitespacesFixerConfig;
 use SplFileInfo;
-use Symplify\CodingStandard\FixerTokenWrapper\PropertyWrapper;
 use Symplify\CodingStandard\Tokenizer\ClassTokensAnalyzer;
 
 final class BlockPropertyCommentFixer implements FixerInterface, DefinedFixerInterface, WhitespacesAwareFixerInterface
@@ -50,19 +49,17 @@ private $property;
             }
 
             $classTokenAnalyzer = ClassTokensAnalyzer::createFromTokensArrayStartPosition($tokens, $index);
-            foreach ($classTokenAnalyzer->getProperties() as $propertyPosition => $propertyToken) {
-                $propertyWrapper = PropertyWrapper::createFromTokensAndPosition($tokens, $propertyPosition);
+            foreach ($classTokenAnalyzer->getPropertyWrappers() as $propertyWrapper) {
                 if (! $propertyWrapper->hasDocBlock()) {
                     continue;
                 }
 
                 $docBlockWrapper = $propertyWrapper->getDocBlockWrapper();
-                $docBlockWrapper->setWhitespacesFixerConfig($this->whitespacesFixerConfig);
-
                 if (! $docBlockWrapper->isSingleLine()) {
                     continue;
                 }
 
+                $docBlockWrapper->setWhitespacesFixerConfig($this->whitespacesFixerConfig);
                 $docBlockWrapper->changeToMultiLine();
             }
         }
