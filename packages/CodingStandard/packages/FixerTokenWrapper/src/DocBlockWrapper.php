@@ -53,8 +53,17 @@ final class DocBlockWrapper
     {
         $indent = $this->whitespacesFixerConfig->getIndent();
         $lineEnding = $this->whitespacesFixerConfig->getLineEnding();
-        $newDocBlock = str_replace('/**', '/** ' . $lineEnding . $indent . ' *', $this->docBlock->getContent());
-        $newDocBlock = str_replace('*/', $lineEnding . $indent . ' */', $newDocBlock);
+        $newLineWithIndent = $lineEnding . $indent;
+
+        $newDocBlock = str_replace(
+            [' @', '/** ', ' */', ],
+            [
+                $newLineWithIndent . ' * @',
+                '/**',
+                $newLineWithIndent . ' */',
+            ],
+            $this->docBlock->getContent()
+        );
 
         $this->tokens[$this->docBlockPosition] = new Token([T_DOC_COMMENT, $newDocBlock]);
     }
