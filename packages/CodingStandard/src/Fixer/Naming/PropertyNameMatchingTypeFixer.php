@@ -2,6 +2,7 @@
 
 namespace Symplify\CodingStandard\Fixer\Naming;
 
+use DateTime;
 use IteratorAggregate;
 use Nette\Utils\Strings;
 use PhpCsFixer\AbstractFixer;
@@ -182,7 +183,7 @@ class SomeClass
             return true;
         }
 
-        if (Strings::contains($type, 'DateTime')) {
+        if (Strings::contains($type, DateTime::class)) {
             return true;
         }
 
