@@ -56,7 +56,7 @@ final class DocBlockWrapper
         $newLineWithIndent = $lineEnding . $indent;
 
         $newDocBlock = str_replace(
-            [' @', '/** ', ' */', ],
+            [' @', '/** ', ' */'],
             [
                 $newLineWithIndent . ' * @',
                 '/**',
