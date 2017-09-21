@@ -152,6 +152,24 @@ final class PropertyWrapper
         return true;
     }
 
+    public function hasDocBlock(): bool
+    {
+        return $this->docBlock !== null;
+    }
+
+    public function getDocBlockWrapper(): ?DocBlockWrapper
+    {
+        if (! $this->hasDocBlock()) {
+            return null;
+        }
+
+        return DocBlockWrapper::createFromTokensPositionAndDocBlock(
+            $this->tokens,
+            $this->docBlockPosition,
+            $this->docBlock
+        );
+    }
+
     private function ensureHasDocBlock(string $calledMethod): void
     {
         if ($this->docBlock === null) {
