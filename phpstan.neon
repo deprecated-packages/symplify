@@ -18,12 +18,14 @@ parameters:
         - '#Property Symplify\\CodingStandard\\Tokenizer\\ClassTokensAnalyzer::\$startBracketIndex \(int\) does not accept int\|null#'
         - '#Parameter \#1 \$index of method PhpCsFixer\\Tokenizer\\Tokens::getNextTokenOfKind\(\) expects int, int\|null given#'
         - '#Calling method [A-Za-z]+\(\) on possibly null value of type Symplify\\CodingStandard\\Tokenizer\\ClassTokensAnalyzer\|null#'
+        - '#Parameter \#3 \$docBlock of static method Symplify\\CodingStandard\\FixerTokenWrapper\\DocBlockWrapper::createFromTokensPositionAndDocBlock\(\) expects PhpCsFixer\\DocBlock\\DocBlock, PhpCsFixer\\DocBlock\\DocBlock\|null given#'
+        - '#Parameter \#2 \$docBlockPosition of static method Symplify\\CodingStandard\\FixerTokenWrapper\\DocBlockWrapper::createFromTokensPositionAndDocBlock\(\) expects int, int\|null given#'
+        - '#Calling method setWhitespacesFixerConfig|isSingleLine|changeToMultiLine\(\) on possibly null value of type Symplify\\CodingStandard\\FixerTokenWrapper\\DocBlockWrapper\|null#'
     excludes_analyse:
         - *packages/CodingStandard/tests/**/correct*
         - *packages/CodingStandard/tests/**/wrong*
         - *packages/CodingStandard/src/Fixer/DependencyInjection/InjectToConstructorInjectionFixer.php
 
-    enableUnionTypes: true
     autoload_files:
         - %currentWorkingDirectory%/vendor/squizlabs/php_codesniffer/autoload.php
         - packages/EasyCodingStandard/tests/Finder/SourceFinderSource/Source/SomeClass.php
