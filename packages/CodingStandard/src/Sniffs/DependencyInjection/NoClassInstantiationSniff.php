@@ -34,7 +34,9 @@ final class NoClassInstantiationSniff implements Sniff
         SplObjectStorage::class,
         'Reflection*',
 
+        // Nette misc
         'Nette\Utils\Html',
+        'Nette\Loaders\RobotLoader',
 
         // Symfony Console
         'Symfony\Component\Console\Input\InputArgument',
@@ -51,6 +53,9 @@ final class NoClassInstantiationSniff implements Sniff
         // Symfony DependencyInjection
         'Symfony\Component\DependencyInjection\Loader\YamlFileLoader',
         'Symfony\Component\Config\FileLocator',
+        
+        // Symfony misc
+        'Symfony\Component\Process\Process',
 
         // php-cs-fixer
         'PhpCsFixer\*',
