@@ -89,15 +89,6 @@ private $property;
         return true;
     }
 
-//    private function createDocCommentToken(string $className, string $variableName): Token
-//    {
-//        return new Token([T_DOC_COMMENT, sprintf(
-//            '/** @var %s %s */',
-//            $className,
-//            $variableName
-//        )]);
-//    }
-
     public function setWhitespacesConfig(WhitespacesFixerConfig $whitespacesFixerConfig): void
     {
         $this->whitespacesFixerConfig = $whitespacesFixerConfig;
