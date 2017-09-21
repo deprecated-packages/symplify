@@ -4,6 +4,7 @@ namespace Symplify\CodingStandard\SniffTokenWrapper;
 
 use PHP_CodeSniffer\Files\File;
 use SlevomatCodingStandard\Helpers\TokenHelper;
+use Symplify\CodingStandard\FixerTokenWrapper\PropertyWrapper as FixerPropertyWrapper;
 
 final class PropertyWrapper
 {
@@ -29,6 +30,12 @@ final class PropertyWrapper
 
     private function __construct(File $file, int $position)
     {
+        trigger_error(sprintf(
+            'Class "%s" was deprecated in favor of "%s". Use it instead.',
+            self::class,
+            FixerPropertyWrapper::class
+        ), E_USER_DEPRECATED);
+
         $this->file = $file;
         $this->position = $position;
         $this->tokens = $this->file->getTokens();
