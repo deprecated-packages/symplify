@@ -6,6 +6,7 @@ use PhpCsFixer\Tokenizer\Tokens;
 use PhpCsFixer\Tokenizer\TokensAnalyzer;
 use Symplify\CodingStandard\FixerTokenWrapper\Guard\TokenTypeGuard;
 use Symplify\CodingStandard\FixerTokenWrapper\PropertyAccessWrapper;
+use Symplify\CodingStandard\FixerTokenWrapper\PropertyWrapper;
 
 final class ClassTokensAnalyzer
 {
@@ -117,6 +118,20 @@ final class ClassTokensAnalyzer
                 $propertyAccessWrapper->changeName($newName);
             }
         }
+    }
+
+    /**
+     * @return PropertyWrapper[]
+     */
+    public function getPropertyWrappers(): array
+    {
+        $propertyWrappers = [];
+
+        foreach ($this->getProperties() as $propertyPosition => $propertyToken) {
+            $propertyWrappers[] = PropertyWrapper::createFromTokensAndPosition($this->tokens, $propertyPosition);
+        }
+
+        return $propertyWrappers;
     }
 
     /**
