@@ -366,7 +366,7 @@ final class SomeClass implements SomeInterface
 
 ### Block comment should be used instead of one liner
 
-- class: [`Symplify\CodingStandard\Sniffs\Commenting\BlockPropertyCommentSniff`](/src/Sniffs/Commenting/BlockPropertyCommentSniff.php)
+- class: [`Symplify\CodingStandard\Fixer\Commenting\BlockPropertyCommentFixer`](/src/Fixer/Commenting/BlockPropertyCommentFixer.php)
 
 :x:
 
