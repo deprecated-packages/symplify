@@ -5,6 +5,7 @@ namespace Symplify\CodingStandard\SniffTokenWrapper;
 use Nette\Utils\Strings;
 use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Fixer;
+use Symplify\CodingStandard\FixerTokenWrapper\DocBlockWrapper as FixerDocBlockWrapper;
 use Symplify\CodingStandard\Helper\ContentFinder;
 
 /**
@@ -45,6 +46,12 @@ final class DocBlockWrapper
 
     private function __construct(File $file, int $startPosition, int $endPosition)
     {
+        trigger_error(sprintf(
+            'Class "%s" was deprecated in favor of "%s". Use it instead.',
+            self::class,
+            FixerDocBlockWrapper::class
+        ), E_USER_DEPRECATED);
+
         $this->file = $file;
         $this->fixer = $file->fixer;
         $this->tokens = $file->getTokens();
