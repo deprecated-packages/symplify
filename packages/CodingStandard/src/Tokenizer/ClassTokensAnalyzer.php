@@ -35,10 +35,6 @@ final class ClassTokensAnalyzer
         TokenTypeGuard::ensureIsTokenType($tokens[$startIndex], [T_CLASS, T_INTERFACE, T_TRAIT], self::class);
 
         $this->startBracketIndex = $tokens->getNextTokenOfKind($startIndex, ['{']);
-
-        // bugged - use own method for now and send PR
-        // actually find last } in the code, not first on the same level
-
         $this->endBracketIndex = $tokens->findBlockEnd(Tokens::BLOCK_TYPE_CURLY_BRACE, $this->startBracketIndex);
 
         $this->tokens = $tokens;
