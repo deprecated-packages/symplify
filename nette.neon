@@ -1,4 +1,0 @@
-checkers:
-    - Symplify\CodingStandard\Fixer\ClassNotation\PropertyAndConstantSeparationFixer
-    Symplify\CodingStandard\Fixer\ClassNotation\LastPropertyAndFirstMethodSeparationFixer:
-        space_count: 2
