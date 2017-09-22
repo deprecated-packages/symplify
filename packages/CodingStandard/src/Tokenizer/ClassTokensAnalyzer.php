@@ -144,6 +144,10 @@ final class ClassTokensAnalyzer
         $filteredClassyTokens = [];
 
         foreach ($classyElements as $index => $classyToken) {
+            if (! $this->isInClassRange($index)) {
+                continue;
+            }
+
             if (! in_array($classyToken['type'], $types, true)) {
                 continue;
             }
@@ -152,5 +156,18 @@ final class ClassTokensAnalyzer
         }
 
         return $filteredClassyTokens;
+    }
+
+    private function isInClassRange(int $index): bool
+    {
+        if ($index < $this->startBracketIndex) {
+            return false;
+        }
+
+        if ($index > $this->endBracketIndex) {
+            return false;
+        }
+
+        return true;
     }
 }

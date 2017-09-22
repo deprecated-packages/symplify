@@ -53,7 +53,7 @@ final class NoClassInstantiationSniff implements Sniff
         // Symfony DependencyInjection
         'Symfony\Component\DependencyInjection\Loader\YamlFileLoader',
         'Symfony\Component\Config\FileLocator',
-        
+
         // Symfony misc
         'Symfony\Component\Process\Process',
 
