@@ -43,6 +43,7 @@ final class NoClassInstantiationSniff implements Sniff
         'Symfony\Component\Console\Input\InputDefinition',
         'Symfony\Component\Console\Input\InputOption',
         'Symfony\Component\Console\Helper\Table',
+        'Symfony\Component\Console\Input\ArgvInput',
 
         // Symfony Validator
         '*Constraint',
