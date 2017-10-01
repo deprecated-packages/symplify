@@ -74,10 +74,10 @@ class SomeClass
                 continue;
             }
 
-            $classTokenAnalyzer = ClassTokensAnalyzer::createFromTokensArrayStartPosition($tokens, $index);
+            $classTokensAnalyzer = ClassTokensAnalyzer::createFromTokensArrayStartPosition($tokens, $index);
 
-            $this->fixClassProperties($classTokenAnalyzer);
-            $this->fixClassMethods($classTokenAnalyzer);
+            $this->fixClassProperties($classTokensAnalyzer);
+            $this->fixClassMethods($classTokensAnalyzer);
         }
     }
 
@@ -129,19 +129,7 @@ class SomeClass
 
     private function fixClassProperties(ClassTokensAnalyzer $classTokensAnalyzer): void
     {
-        $changedPropertyNames = [];
-
-        foreach ($classTokensAnalyzer->getPropertyWrappers() as $propertyWrapper) {
-            if ($this->shouldSkipWrapper($propertyWrapper)) {
-                continue;
-            }
-
-            $oldName = $propertyWrapper->getName();
-            $expectedName = $this->getExpectedNameFromType($propertyWrapper->getType());
-
-            $propertyWrapper->changeName($expectedName);
-            $changedPropertyNames[$oldName] = $expectedName;
-        }
+        $changedPropertyNames = $this->resolveWrappers($classTokensAnalyzer->getPropertyWrappers());
 
         foreach ($changedPropertyNames as $oldName => $newName) {
             $classTokensAnalyzer->renameEveryPropertyOccurrence($oldName, $newName);
@@ -151,22 +139,10 @@ class SomeClass
     private function fixClassMethods(ClassTokensAnalyzer $classTokensAnalyzer): void
     {
         foreach ($classTokensAnalyzer->getMethodWrappers() as $methodWrapper) {
-            $changedVariableNames = [];
+            /** @var ArgumentWrapper[] $argumentWrappers */
+            $argumentWrappers = array_reverse($methodWrapper->getArguments());
 
-            /** @var ArgumentWrapper[] $arguments */
-            $arguments = array_reverse($methodWrapper->getArguments());
-
-            foreach ($arguments as $argumentWrapper) {
-                if ($this->shouldSkipWrapper($argumentWrapper)) {
-                    continue;
-                }
-
-                $oldName = $argumentWrapper->getName();
-                $expectedName = $this->getExpectedNameFromType($argumentWrapper->getType());
-
-                $argumentWrapper->changeName($expectedName);
-                $changedVariableNames[$oldName] = $expectedName;
-            }
+            $changedVariableNames = $this->resolveWrappers($argumentWrappers);
 
             foreach ($changedVariableNames as $oldName => $newName) {
                 $methodWrapper->renameEveryVariableOccurrence($oldName, $newName);
@@ -257,5 +233,30 @@ class SomeClass
         }
 
         return false;
+    }
+
+    /**
+     * @param ArgumentWrapper[]|PropertyWrapper[] $typeWrappers
+     * @return string[]
+     */
+    private function resolveWrappers(array $typeWrappers): array
+    {
+        $changedNames = [];
+
+        foreach ($typeWrappers as $typeWrapper) {
+            if ($this->shouldSkipWrapper($typeWrapper)) {
+                continue;
+            }
+
+            $oldName = $typeWrapper->getName();
+
+            $expectedName = $this->getExpectedNameFromType($typeWrapper->getType());
+
+            $typeWrapper->changeName($expectedName);
+
+            $changedNames[$oldName] = $expectedName;
+        }
+
+        return $changedNames;
     }
 }
