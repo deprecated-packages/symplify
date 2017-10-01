@@ -113,9 +113,7 @@ final class PropertyWrapper
 
     public function getFqnType(): ?string
     {
-        $type = $this->getType();
-
-        return ClassFqnResolver::resolveForName($this->tokens, $type);
+        return ClassFqnResolver::resolveForName($this->tokens, $this->getType());
     }
 
     public function getType(): ?string
@@ -124,7 +122,9 @@ final class PropertyWrapper
             return $this->type;
         }
 
-        $this->ensureHasDocBlock(__METHOD__);
+        if ($this->docBlock === null) {
+            return null;
+        }
 
         $varAnnotations = $this->docBlock->getAnnotationsOfType('var');
 
@@ -135,7 +135,7 @@ final class PropertyWrapper
             return null;
         }
 
-        return implode('|', $varAnnotation->getTypes());;
+        return implode('|', $varAnnotation->getTypes());
     }
 
     public function changeName(string $newName): void

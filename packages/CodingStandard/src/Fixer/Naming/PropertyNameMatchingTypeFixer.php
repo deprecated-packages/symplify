@@ -30,14 +30,14 @@ final class PropertyNameMatchingTypeFixer implements DefinedFixerInterface, Conf
      */
     public $skippedClasses = [
         '*DateTime*',
-        'Spl*',
+        '*Spl*',
         'std*',
         'Iterator*',
         'SimpleXML*',
         '*|*', // union types
         '*[]', // arrays
         'PhpParser\Node\*',
-        'PhpCsFixer\Tokenizer\Token'
+        Token::class,
     ];
 
     /**
@@ -187,18 +187,6 @@ class SomeClass
             && ctype_lower($rawName[2]);
     }
 
-    private function isAllowedNameOrType(string $name, string $type): bool
-    {
-        if ($this->shouldSkipClass($type)) {
-            return true;
-        }
-
-        // starts with adjective, e.g. (Post $firstPost, Post $secondPost)
-        $expectedName = $this->getExpectedNameFromType($type);
-
-        return Strings::contains($name, ucfirst($expectedName)) && Strings::endsWith($name, ucfirst($expectedName));
-    }
-
     private function shouldSkipClass(string $class): bool
     {
         $skippedClasses = array_merge(
@@ -215,6 +203,18 @@ class SomeClass
         return false;
     }
 
+    private function isAllowedNameOrType(string $name, string $type, string $fqnType): bool
+    {
+        if ($this->shouldSkipClass($fqnType)) {
+            return true;
+        }
+
+        // starts with adjective, e.g. (Post $firstPost, Post $secondPost)
+        $expectedName = $this->getExpectedNameFromType($type);
+
+        return Strings::contains($name, ucfirst($expectedName)) && Strings::endsWith($name, ucfirst($expectedName));
+    }
+
     /**
      * @param ArgumentWrapper|PropertyWrapper $typeWrapper
      */
@@ -225,7 +225,7 @@ class SomeClass
         }
 
         $oldName = $typeWrapper->getName();
-        if ($this->isAllowedNameOrType($oldName, $typeWrapper->getFqnType())) {
+        if ($this->isAllowedNameOrType($oldName, $typeWrapper->getType(), $typeWrapper->getFqnType())) {
             return true;
         }
 

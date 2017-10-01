@@ -5,11 +5,10 @@ namespace Symplify\CodingStandard\FixerTokenWrapper\Naming;
 use PhpCsFixer\Fixer\Import\NoUnusedImportsFixer;
 use PhpCsFixer\Tokenizer\Tokens;
 use PhpCsFixer\Tokenizer\TokensAnalyzer;
-use ReflectionClass;
 use ReflectionMethod;
 
 /**
- * Mimics @see \Symplify\CodingStandard\Helper\Naming
+ * Mimics @see \Symplify\CodingStandard\Helper\Naming.
  */
 final class ClassFqnResolver
 {
@@ -61,7 +60,7 @@ final class ClassFqnResolver
     }
 
     /**
-     * Mimics @see NoUnusedImportsFixer::getNamespaceUseDeclarations()
+     * Mimics @see NoUnusedImportsFixer::getNamespaceUseDeclarations().
      *
      * @return mixed[]
      */
