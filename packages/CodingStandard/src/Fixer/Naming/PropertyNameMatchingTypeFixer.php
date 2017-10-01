@@ -5,7 +5,11 @@ namespace Symplify\CodingStandard\Fixer\Naming;
 use DateTime;
 use IteratorAggregate;
 use Nette\Utils\Strings;
-use PhpCsFixer\AbstractFixer;
+use PhpCsFixer\Fixer\ConfigurationDefinitionFixerInterface;
+use PhpCsFixer\Fixer\DefinedFixerInterface;
+use PhpCsFixer\FixerConfiguration\FixerConfigurationResolver;
+use PhpCsFixer\FixerConfiguration\FixerConfigurationResolverInterface;
+use PhpCsFixer\FixerConfiguration\FixerOptionBuilder;
 use PhpCsFixer\FixerDefinition\CodeSample;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
@@ -18,12 +22,28 @@ use Symplify\CodingStandard\FixerTokenWrapper\MethodWrapper;
 use Symplify\CodingStandard\FixerTokenWrapper\PropertyWrapper;
 use Symplify\CodingStandard\Tokenizer\ClassTokensAnalyzer;
 
-final class PropertyNameMatchingTypeFixer extends AbstractFixer
+final class PropertyNameMatchingTypeFixer implements DefinedFixerInterface, ConfigurationDefinitionFixerInterface
 {
+    /**
+     * @var string
+     */
+    private const SKIPPED_CLASSES_OPTION = 'skipped_classes';
+
+    /**
+     * @var string[]
+     */
+    public $skippedClasses = [
+    ];
+
     /**
      * @var ClassTokensAnalyzer|null
      */
     private $classTokenAnalyzer;
+
+    /**
+     * @var mixed[]
+     */
+    private $configuration = [];
 
     public function getDefinition(): FixerDefinitionInterface
     {
@@ -47,7 +67,7 @@ class SomeClass
             && $tokens->isAnyTokenKindsFound(Token::getClassyTokenKinds());
     }
 
-    protected function applyFix(SplFileInfo $file, Tokens $tokens): void
+    public function fix(SplFileInfo $file, Tokens $tokens): void
     {
         for ($index = $tokens->count() - 1; $index >= 0; --$index) {
             $token = $tokens[$index];
@@ -61,11 +81,51 @@ class SomeClass
             $this->classTokenAnalyzer = ClassTokensAnalyzer::createFromTokensArrayStartPosition($tokens, $index);
 
             $this->fixClassProperties($tokens);
-
-            foreach ($this->classTokenAnalyzer->getMethods() as $methodIndex => $methodToken) {
-                $this->fixMethod($tokens, $methodIndex);
-            }
+            $this->fixClassMethods($tokens);
         }
+    }
+
+    public function isRisky(): bool
+    {
+        return false;
+    }
+
+    public function getName(): string
+    {
+        return self::class;
+    }
+
+    public function getPriority(): int
+    {
+        return 0;
+    }
+
+    public function supports(SplFileInfo $file): bool
+    {
+        return true;
+    }
+
+    public function configure(?array $configuration = null): void
+    {
+        if ($configuration === null) {
+            return;
+        }
+
+        $this->configuration = $this->getConfigurationDefinition()
+            ->resolve($configuration);
+    }
+
+    public function getConfigurationDefinition(): FixerConfigurationResolverInterface
+    {
+        $fixerOptionBuilder = new FixerOptionBuilder(
+            self::SKIPPED_CLASSES_OPTION,
+            'Classes that are skipped using fnmatch().'
+        );
+
+        $skippedClassesOption = $fixerOptionBuilder->setAllowedTypes(['string'])
+            ->getOption();
+
+        return new FixerConfigurationResolver([$skippedClassesOption]);
     }
 
     private function fixClassProperties(Tokens $tokens): void
@@ -199,5 +259,12 @@ class SomeClass
             || Strings::startsWith($class, 'std')
             || Strings::startsWith($class, IteratorAggregate::class)
             || Strings::startsWith($class, SimpleXMLElement::class);
+    }
+
+    private function fixClassMethods(Tokens $tokens): void
+    {
+        foreach ($this->classTokenAnalyzer->getMethods() as $methodIndex => $methodToken) {
+            $this->fixMethod($tokens, $methodIndex);
+        }
     }
 }
