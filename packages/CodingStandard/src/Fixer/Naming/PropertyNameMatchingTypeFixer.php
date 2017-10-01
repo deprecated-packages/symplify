@@ -201,40 +201,6 @@ class SomeClass
         }
     }
 
-//
-//    private function fixMethod(Tokens $tokens, int $methodIndex): void
-//    {
-//        $methodWrapper = MethodWrapper::createFromTokensAndPosition($tokens, $methodIndex);
-//        $changedVariableNames = [];
-//
-//        /** @var ArgumentWrapper[] $arguments */
-//        $arguments = array_reverse($methodWrapper->getArguments());
-//
-//        foreach ($arguments as $argumentWrapper) {
-//            if ($argumentWrapper->getType() === null || ! $argumentWrapper->isClassType()) {
-//                continue;
-//            }
-//
-//            $oldName = $argumentWrapper->getName();
-//            if ($this->isAllowedNameOrType($oldName, $argumentWrapper->getType())) {
-//                continue;
-//            }
-//
-//            $expectedName = $this->getExpectedNameFromType($argumentWrapper->getType());
-//
-//            if ($oldName === $expectedName) {
-//                continue;
-//            }
-//
-//            $argumentWrapper->changeName($expectedName);
-//            $changedVariableNames[$oldName] = $expectedName;
-//        }
-//
-//        foreach ($changedVariableNames as $oldName => $newName) {
-//            $methodWrapper->renameEveryVariableOccurrence($oldName, $newName);
-//        }
-//    }
-
     private function getExpectedNameFromType(string $type): string
     {
         $rawName = $type;
