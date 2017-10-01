@@ -9,6 +9,7 @@ use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use Symplify\CodingStandard\FixerTokenWrapper\Exception\MissingDocBlockException;
 use Symplify\CodingStandard\FixerTokenWrapper\Guard\TokenTypeGuard;
+use Symplify\CodingStandard\FixerTokenWrapper\Naming\ClassFqnResolver;
 use Symplify\CodingStandard\Tokenizer\DocBlockAnalyzer;
 use Symplify\CodingStandard\Tokenizer\DocBlockFinder;
 use Symplify\CodingStandard\Tokenizer\PropertyAnalyzer;
@@ -116,8 +117,6 @@ final class PropertyWrapper
             return $this->type;
         }
 
-        // @todo resolve FQN type :)
-
         $this->ensureHasDocBlock(__METHOD__);
 
         $varAnnotations = $this->docBlock->getAnnotationsOfType('var');
@@ -129,7 +128,9 @@ final class PropertyWrapper
             return null;
         }
 
-        return $this->type = implode('|', $varAnnotation->getTypes());
+        $gluedTypes = implode('|', $varAnnotation->getTypes());;
+
+        return $this->type = ClassFqnResolver::resolveForName($this->tokens, $gluedTypes);
     }
 
     public function changeName(string $newName): void
