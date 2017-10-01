@@ -2,8 +2,6 @@
 
 namespace Symplify\CodingStandard\Fixer\Naming;
 
-use DateTime;
-use IteratorAggregate;
 use Nette\Utils\Strings;
 use PhpCsFixer\Fixer\ConfigurationDefinitionFixerInterface;
 use PhpCsFixer\Fixer\DefinedFixerInterface;
@@ -15,7 +13,6 @@ use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
-use SimpleXMLElement;
 use SplFileInfo;
 use Symplify\CodingStandard\FixerTokenWrapper\ArgumentWrapper;
 use Symplify\CodingStandard\FixerTokenWrapper\MethodWrapper;
@@ -33,7 +30,13 @@ final class PropertyNameMatchingTypeFixer implements DefinedFixerInterface, Conf
      * @var string[]
      */
     public $skippedClasses = [
-        '*' . DateTime::class . '*',
+        '*DateTime*',
+        'Spl*',
+        'std*',
+        'Iterator*',
+        'SimpleXML*',
+        '*|*', // union types
+        '*[]', // arrays
     ];
 
     /**
@@ -278,34 +281,17 @@ class SomeClass
             return true;
         }
 
-        if ($this->isPhpInternalClass($type)) {
-            return true;
-        }
-
-        // union types
-        if (Strings::contains($type, '|')) {
-            return true;
-        }
-
         // starts with adjective, e.g. (Post $firstPost, Post $secondPost)
         $expectedName = $this->getExpectedNameFromType($type);
 
         return Strings::contains($name, ucfirst($expectedName)) && Strings::endsWith($name, ucfirst($expectedName));
     }
 
-    private function isPhpInternalClass(string $class): bool
-    {
-        return Strings::startsWith($class, 'Spl')
-            || Strings::startsWith($class, 'std')
-            || Strings::startsWith($class, IteratorAggregate::class)
-            || Strings::startsWith($class, SimpleXMLElement::class);
-    }
-
-
     private function shouldSkipClass(string $class): bool
     {
         $skippedClasses = array_merge(
-            $this->skippedClasses, $this->configuration[self::EXTRA_SKIPPED_CLASSES_OPTION] ?? []
+            $this->skippedClasses,
+            $this->configuration[self::EXTRA_SKIPPED_CLASSES_OPTION] ?? []
         );
 
         foreach ($skippedClasses as $skippedClass) {
