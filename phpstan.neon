@@ -21,6 +21,7 @@ parameters:
         - '#Parameter \#3 \$docBlock of static method Symplify\\CodingStandard\\FixerTokenWrapper\\DocBlockWrapper::createFromTokensPositionAndDocBlock\(\) expects PhpCsFixer\\DocBlock\\DocBlock, PhpCsFixer\\DocBlock\\DocBlock\|null given#'
         - '#Parameter \#2 \$docBlockPosition of static method Symplify\\CodingStandard\\FixerTokenWrapper\\DocBlockWrapper::createFromTokensPositionAndDocBlock\(\) expects int, int\|null given#'
         - '#Calling method setWhitespacesFixerConfig|isSingleLine|changeToMultiLine\(\) on possibly null value of type Symplify\\CodingStandard\\FixerTokenWrapper\\DocBlockWrapper\|null#'
+        - '#Parameter \#1 \$type of method Symplify\\CodingStandard\\Fixer\\Naming\\PropertyNameMatchingTypeFixer::getExpectedNameFromType\(\) expects string, string\|null given#'
     excludes_analyse:
         - *packages/CodingStandard/tests/**/correct*
         - *packages/CodingStandard/tests/**/wrong*
