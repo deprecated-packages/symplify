@@ -254,11 +254,6 @@ class SomeClass
             $rawName = Strings::substring($rawName, strlen('Abstract'));
         }
 
-        // is Spl
-        if (Strings::startsWith($rawName, 'Spl')) {
-            $rawName = Strings::substring($rawName, strlen('Spl'));
-        }
-
         // if all is upper-cased, it should be lower-cased
         if ($rawName === strtoupper($rawName)) {
             $rawName = strtolower($rawName);
