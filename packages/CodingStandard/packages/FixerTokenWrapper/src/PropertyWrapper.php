@@ -116,6 +116,8 @@ final class PropertyWrapper
             return $this->type;
         }
 
+        // @todo resolve FQN type :)
+
         $this->ensureHasDocBlock(__METHOD__);
 
         $varAnnotations = $this->docBlock->getAnnotationsOfType('var');

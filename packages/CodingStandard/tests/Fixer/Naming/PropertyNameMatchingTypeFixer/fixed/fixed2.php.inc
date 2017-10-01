@@ -1,5 +1,7 @@
 <?php
 
+use PhpParser\Node\Arg;
+
 class SomeClass
 {
     /**
@@ -32,7 +34,11 @@ class SomeClass
      */
     private $presenter;
 
-    public function __construct(SplFileInfo $firstFile, SplFileInfo $secondFile, SomeClassInterface $someClass)
-    {
+    public function __construct(
+        SplFileInfo $firstFile,
+        SplFileInfo $secondFile,
+        SomeClassInterface $someClass,
+        Arg $argNode
+    ) {
     }
 }
