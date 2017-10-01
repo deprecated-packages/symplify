@@ -36,7 +36,8 @@ final class PropertyNameMatchingTypeFixer implements DefinedFixerInterface, Conf
         'SimpleXML*',
         '*|*', // union types
         '*[]', // arrays
-        'PhpParser\Node\*'
+        'PhpParser\Node\*',
+        'PhpCsFixer\Tokenizer\Token'
     ];
 
     /**
