@@ -142,22 +142,14 @@ class SomeClass
         foreach ($this->classTokenAnalyzer->getProperties() as $propertyIndex => $propertyToken) {
             $propertyWrapper = PropertyWrapper::createFromTokensAndPosition($tokens, $propertyIndex);
 
+            if ($this->shouldSkipWrapper($propertyWrapper)) {
+                continue;
+            }
+
             $oldName = $propertyWrapper->getName();
-            if ($propertyWrapper->getType() === null || ! $propertyWrapper->isClassType()) {
-                continue;
-            }
-
-            if ($this->isAllowedNameOrType($oldName, $propertyWrapper->getType())) {
-                continue;
-            }
-
             $expectedName = $this->getExpectedNameFromType($propertyWrapper->getType());
-            if ($oldName === $expectedName) {
-                continue;
-            }
 
             $propertyWrapper->changeName($expectedName);
-
             $changedPropertyNames[$oldName] = $expectedName;
         }
 
@@ -176,20 +168,12 @@ class SomeClass
             $arguments = array_reverse($methodWrapper->getArguments());
 
             foreach ($arguments as $argumentWrapper) {
-                if ($argumentWrapper->getType() === null || ! $argumentWrapper->isClassType()) {
+                if ($this->shouldSkipWrapper($argumentWrapper)) {
                     continue;
                 }
 
                 $oldName = $argumentWrapper->getName();
-                if ($this->isAllowedNameOrType($oldName, $argumentWrapper->getType())) {
-                    continue;
-                }
-
                 $expectedName = $this->getExpectedNameFromType($argumentWrapper->getType());
-
-                if ($oldName === $expectedName) {
-                    continue;
-                }
 
                 $argumentWrapper->changeName($expectedName);
                 $changedVariableNames[$oldName] = $expectedName;
@@ -259,6 +243,28 @@ class SomeClass
             if (fnmatch($skippedClass, $class, FNM_NOESCAPE)) {
                 return true;
             }
+        }
+
+        return false;
+    }
+
+    /**
+     * @param ArgumentWrapper|PropertyWrapper $typeWrapper
+     */
+    private function shouldSkipWrapper($typeWrapper): bool
+    {
+        if ($typeWrapper->getType() === null || ! $typeWrapper->isClassType()) {
+            return true;
+        }
+
+        $oldName = $typeWrapper->getName();
+        if ($this->isAllowedNameOrType($oldName, $typeWrapper->getType())) {
+            return true;
+        }
+
+        $expectedName = $this->getExpectedNameFromType($typeWrapper->getType());
+        if ($oldName === $expectedName) {
+            return true;
         }
 
         return false;
