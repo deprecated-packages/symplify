@@ -27,12 +27,13 @@ final class PropertyNameMatchingTypeFixer implements DefinedFixerInterface, Conf
     /**
      * @var string
      */
-    private const SKIPPED_CLASSES_OPTION = 'skipped_classes';
+    private const EXTRA_SKIPPED_CLASSES_OPTION = 'extra_skipped_classes';
 
     /**
      * @var string[]
      */
     public $skippedClasses = [
+        '*' . DateTime::class . '*',
     ];
 
     /**
@@ -105,6 +106,9 @@ class SomeClass
         return true;
     }
 
+    /**
+     * @param mixed[]|null $configuration
+     */
     public function configure(?array $configuration = null): void
     {
         if ($configuration === null) {
@@ -118,7 +122,7 @@ class SomeClass
     public function getConfigurationDefinition(): FixerConfigurationResolverInterface
     {
         $fixerOptionBuilder = new FixerOptionBuilder(
-            self::SKIPPED_CLASSES_OPTION,
+            self::EXTRA_SKIPPED_CLASSES_OPTION,
             'Classes that are skipped using fnmatch().'
         );
 
@@ -159,38 +163,74 @@ class SomeClass
         }
     }
 
-    private function fixMethod(Tokens $tokens, int $methodIndex): void
+    private function fixClassMethods(Tokens $tokens): void
     {
-        $methodWrapper = MethodWrapper::createFromTokensAndPosition($tokens, $methodIndex);
-        $changedVariableNames = [];
+        foreach ($this->classTokenAnalyzer->getMethods() as $methodIndex => $methodToken) {
+            $methodWrapper = MethodWrapper::createFromTokensAndPosition($tokens, $methodIndex);
+            $changedVariableNames = [];
 
-        /** @var ArgumentWrapper[] $arguments */
-        $arguments = array_reverse($methodWrapper->getArguments());
+            /** @var ArgumentWrapper[] $arguments */
+            $arguments = array_reverse($methodWrapper->getArguments());
 
-        foreach ($arguments as $argumentWrapper) {
-            if ($argumentWrapper->getType() === null || ! $argumentWrapper->isClassType()) {
-                continue;
+            foreach ($arguments as $argumentWrapper) {
+                if ($argumentWrapper->getType() === null || ! $argumentWrapper->isClassType()) {
+                    continue;
+                }
+
+                $oldName = $argumentWrapper->getName();
+                if ($this->isAllowedNameOrType($oldName, $argumentWrapper->getType())) {
+                    continue;
+                }
+
+                $expectedName = $this->getExpectedNameFromType($argumentWrapper->getType());
+
+                if ($oldName === $expectedName) {
+                    continue;
+                }
+
+                $argumentWrapper->changeName($expectedName);
+                $changedVariableNames[$oldName] = $expectedName;
             }
 
-            $oldName = $argumentWrapper->getName();
-            if ($this->isAllowedNameOrType($oldName, $argumentWrapper->getType())) {
-                continue;
+            foreach ($changedVariableNames as $oldName => $newName) {
+                $methodWrapper->renameEveryVariableOccurrence($oldName, $newName);
             }
-
-            $expectedName = $this->getExpectedNameFromType($argumentWrapper->getType());
-
-            if ($oldName === $expectedName) {
-                continue;
-            }
-
-            $argumentWrapper->changeName($expectedName);
-            $changedVariableNames[$oldName] = $expectedName;
-        }
-
-        foreach ($changedVariableNames as $oldName => $newName) {
-            $methodWrapper->renameEveryVariableOccurrence($oldName, $newName);
         }
     }
+
+//
+//    private function fixMethod(Tokens $tokens, int $methodIndex): void
+//    {
+//        $methodWrapper = MethodWrapper::createFromTokensAndPosition($tokens, $methodIndex);
+//        $changedVariableNames = [];
+//
+//        /** @var ArgumentWrapper[] $arguments */
+//        $arguments = array_reverse($methodWrapper->getArguments());
+//
+//        foreach ($arguments as $argumentWrapper) {
+//            if ($argumentWrapper->getType() === null || ! $argumentWrapper->isClassType()) {
+//                continue;
+//            }
+//
+//            $oldName = $argumentWrapper->getName();
+//            if ($this->isAllowedNameOrType($oldName, $argumentWrapper->getType())) {
+//                continue;
+//            }
+//
+//            $expectedName = $this->getExpectedNameFromType($argumentWrapper->getType());
+//
+//            if ($oldName === $expectedName) {
+//                continue;
+//            }
+//
+//            $argumentWrapper->changeName($expectedName);
+//            $changedVariableNames[$oldName] = $expectedName;
+//        }
+//
+//        foreach ($changedVariableNames as $oldName => $newName) {
+//            $methodWrapper->renameEveryVariableOccurrence($oldName, $newName);
+//        }
+//    }
 
     private function getExpectedNameFromType(string $type): string
     {
@@ -234,16 +274,16 @@ class SomeClass
 
     private function isAllowedNameOrType(string $name, string $type): bool
     {
+        if ($this->shouldSkipClass($type)) {
+            return true;
+        }
+
         if ($this->isPhpInternalClass($type)) {
             return true;
         }
 
         // union types
         if (Strings::contains($type, '|')) {
-            return true;
-        }
-
-        if (Strings::contains($type, DateTime::class)) {
             return true;
         }
 
@@ -261,10 +301,19 @@ class SomeClass
             || Strings::startsWith($class, SimpleXMLElement::class);
     }
 
-    private function fixClassMethods(Tokens $tokens): void
+
+    private function shouldSkipClass(string $class): bool
     {
-        foreach ($this->classTokenAnalyzer->getMethods() as $methodIndex => $methodToken) {
-            $this->fixMethod($tokens, $methodIndex);
+        $skippedClasses = array_merge(
+            $this->skippedClasses, $this->configuration[self::EXTRA_SKIPPED_CLASSES_OPTION] ?? []
+        );
+
+        foreach ($skippedClasses as $skippedClass) {
+            if (fnmatch($skippedClass, $class, FNM_NOESCAPE)) {
+                return true;
+            }
         }
+
+        return false;
     }
 }
