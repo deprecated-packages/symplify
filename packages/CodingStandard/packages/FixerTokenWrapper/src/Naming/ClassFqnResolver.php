@@ -62,6 +62,7 @@ final class ClassFqnResolver
     /**
      * Mimics @see NoUnusedImportsFixer::getNamespaceUseDeclarations().
      *
+     * @param int[] $useIndexes
      * @return mixed[]
      */
     private static function getNamespaceUseDeclarations(Tokens $tokens, array $useIndexes): array
@@ -70,14 +71,14 @@ final class ClassFqnResolver
             return self::$namespaceUseDeclarationsPerTokens[$tokens->getCodeHash()];
         }
 
-        $getNamespaceUseDeclarationsMethodReflection = new ReflectionMethod(
+        $methodReflection = new ReflectionMethod(
             NoUnusedImportsFixer::class,
             'getNamespaceUseDeclarations'
         );
 
-        $getNamespaceUseDeclarationsMethodReflection->setAccessible(true);
+        $methodReflection->setAccessible(true);
 
-        $namespaceUseDeclarations = $getNamespaceUseDeclarationsMethodReflection->invoke(new NoUnusedImportsFixer, $tokens, $useIndexes);
+        $namespaceUseDeclarations = $methodReflection->invoke(new NoUnusedImportsFixer, $tokens, $useIndexes);
 
         self::$namespaceUseDeclarationsPerTokens[$tokens->getCodeHash()] = $namespaceUseDeclarations;
 
