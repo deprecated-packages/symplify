@@ -111,6 +111,13 @@ final class PropertyWrapper
         return ltrim($propertyNameToken->getContent(), '$');
     }
 
+    public function getFqnType(): ?string
+    {
+        $type = $this->getType();
+
+        return ClassFqnResolver::resolveForName($this->tokens, $type);
+    }
+
     public function getType(): ?string
     {
         if ($this->type) {
@@ -128,9 +135,7 @@ final class PropertyWrapper
             return null;
         }
 
-        $gluedTypes = implode('|', $varAnnotation->getTypes());;
-
-        return $this->type = ClassFqnResolver::resolveForName($this->tokens, $gluedTypes);
+        return implode('|', $varAnnotation->getTypes());;
     }
 
     public function changeName(string $newName): void

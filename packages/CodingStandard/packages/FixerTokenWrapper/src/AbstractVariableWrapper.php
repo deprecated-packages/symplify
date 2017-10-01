@@ -50,11 +50,18 @@ abstract class AbstractVariableWrapper
     public function getType(): ?string
     {
         $previousTokenPosition = $this->tokens->getPrevMeaningfulToken($this->index);
-
         $previousToken = $this->tokens[$previousTokenPosition];
         if (! $previousToken->isGivenKind(T_STRING)) {
             return null;
         }
+
+        // probably not a class type
+        return $previousToken->getContent();
+    }
+
+    public function getFqnType(): ?string
+    {
+        $previousTokenPosition = $this->tokens->getPrevMeaningfulToken($this->index);
 
         return ClassFqnResolver::resolveForNamePosition($this->tokens, $previousTokenPosition);
     }

@@ -18,6 +18,11 @@ final class ClassFqnResolver
      */
     private const NAMESPACE_SEPARATOR = '\\';
 
+    /**
+     * @var string[]
+     */
+    private static $namespaceUseDeclarationsPerTokens = [];
+
     public static function resolveForNamePosition(Tokens $tokens, int $classNameEndPosition): string
     {
         $classNameParts = [];
@@ -38,6 +43,11 @@ final class ClassFqnResolver
 
     public static function resolveForName(Tokens $tokens, string $className): string
     {
+        // probably not a class name, skip
+        if (ctype_lower($className[0])) {
+            return $className;
+        }
+
         $tokensAnalyzer = new TokensAnalyzer($tokens);
         $useDeclarations = self::getNamespaceUseDeclarations($tokens, $tokensAnalyzer->getImportUseIndexes());
 
@@ -56,13 +66,22 @@ final class ClassFqnResolver
      * @return mixed[]
      */
     private static function getNamespaceUseDeclarations(Tokens $tokens, array $useIndexes): array
-    {        $getNamespaceUseDeclarationsMethodReflection = new ReflectionMethod(
+    {
+        if (isset(self::$namespaceUseDeclarationsPerTokens[$tokens->getCodeHash()])) {
+            return self::$namespaceUseDeclarationsPerTokens[$tokens->getCodeHash()];
+        }
+
+        $getNamespaceUseDeclarationsMethodReflection = new ReflectionMethod(
             NoUnusedImportsFixer::class,
             'getNamespaceUseDeclarations'
         );
 
         $getNamespaceUseDeclarationsMethodReflection->setAccessible(true);
 
-        return $getNamespaceUseDeclarationsMethodReflection->invoke(new NoUnusedImportsFixer, $tokens, $useIndexes);
+        $namespaceUseDeclarations = $getNamespaceUseDeclarationsMethodReflection->invoke(new NoUnusedImportsFixer, $tokens, $useIndexes);
+
+        self::$namespaceUseDeclarationsPerTokens[$tokens->getCodeHash()] = $namespaceUseDeclarations;
+
+        return $namespaceUseDeclarations;
     }
 }

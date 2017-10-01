@@ -46,7 +46,7 @@ final class PropertyNameMatchingTypeFixer implements DefinedFixerInterface, Conf
 
     public function getDefinition(): FixerDefinitionInterface
     {
-        return new FixerDefinition('Property name should match its type, if possible.', [
+        return new FixerDefinition('Property and argument name should match its type, if possible.', [
             new CodeSample(
                 '<?php
 class SomeClass
@@ -224,7 +224,7 @@ class SomeClass
         }
 
         $oldName = $typeWrapper->getName();
-        if ($this->isAllowedNameOrType($oldName, $typeWrapper->getType())) {
+        if ($this->isAllowedNameOrType($oldName, $typeWrapper->getFqnType())) {
             return true;
         }
 
