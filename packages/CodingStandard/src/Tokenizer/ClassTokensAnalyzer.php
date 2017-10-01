@@ -5,6 +5,7 @@ namespace Symplify\CodingStandard\Tokenizer;
 use PhpCsFixer\Tokenizer\Tokens;
 use PhpCsFixer\Tokenizer\TokensAnalyzer;
 use Symplify\CodingStandard\FixerTokenWrapper\Guard\TokenTypeGuard;
+use Symplify\CodingStandard\FixerTokenWrapper\MethodWrapper;
 use Symplify\CodingStandard\FixerTokenWrapper\PropertyAccessWrapper;
 use Symplify\CodingStandard\FixerTokenWrapper\PropertyWrapper;
 
@@ -132,6 +133,20 @@ final class ClassTokensAnalyzer
         }
 
         return $propertyWrappers;
+    }
+
+    /**
+     * @return MethodWrapper[]
+     */
+    public function getMethodWrappers(): array
+    {
+        $methodWrappers = [];
+
+        foreach ($this->getMethods() as $methodPosition => $methodToken) {
+            $methodWrappers[] = MethodWrapper::createFromTokensAndPosition($this->tokens, $methodPosition);
+        }
+
+        return $methodWrappers;
     }
 
     /**

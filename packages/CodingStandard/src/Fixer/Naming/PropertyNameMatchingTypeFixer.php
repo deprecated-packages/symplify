@@ -15,7 +15,6 @@ use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
 use Symplify\CodingStandard\FixerTokenWrapper\ArgumentWrapper;
-use Symplify\CodingStandard\FixerTokenWrapper\MethodWrapper;
 use Symplify\CodingStandard\FixerTokenWrapper\PropertyWrapper;
 use Symplify\CodingStandard\Tokenizer\ClassTokensAnalyzer;
 
@@ -38,11 +37,6 @@ final class PropertyNameMatchingTypeFixer implements DefinedFixerInterface, Conf
         '*|*', // union types
         '*[]', // arrays
     ];
-
-    /**
-     * @var ClassTokensAnalyzer|null
-     */
-    private $classTokenAnalyzer;
 
     /**
      * @var mixed[]
@@ -77,15 +71,13 @@ class SomeClass
             $token = $tokens[$index];
 
             if (! $token->isClassy()) {
-                $this->classTokenAnalyzer = null;
-
                 continue;
             }
 
-            $this->classTokenAnalyzer = ClassTokensAnalyzer::createFromTokensArrayStartPosition($tokens, $index);
+            $classTokenAnalyzer = ClassTokensAnalyzer::createFromTokensArrayStartPosition($tokens, $index);
 
-            $this->fixClassProperties($tokens);
-            $this->fixClassMethods($tokens);
+            $this->fixClassProperties($classTokenAnalyzer);
+            $this->fixClassMethods($classTokenAnalyzer);
         }
     }
 
@@ -135,13 +127,11 @@ class SomeClass
         return new FixerConfigurationResolver([$skippedClassesOption]);
     }
 
-    private function fixClassProperties(Tokens $tokens): void
+    private function fixClassProperties(ClassTokensAnalyzer $classTokensAnalyzer): void
     {
         $changedPropertyNames = [];
 
-        foreach ($this->classTokenAnalyzer->getProperties() as $propertyIndex => $propertyToken) {
-            $propertyWrapper = PropertyWrapper::createFromTokensAndPosition($tokens, $propertyIndex);
-
+        foreach ($classTokensAnalyzer->getPropertyWrappers() as $propertyWrapper) {
             if ($this->shouldSkipWrapper($propertyWrapper)) {
                 continue;
             }
@@ -154,14 +144,13 @@ class SomeClass
         }
 
         foreach ($changedPropertyNames as $oldName => $newName) {
-            $this->classTokenAnalyzer->renameEveryPropertyOccurrence($oldName, $newName);
+            $classTokensAnalyzer->renameEveryPropertyOccurrence($oldName, $newName);
         }
     }
 
-    private function fixClassMethods(Tokens $tokens): void
+    private function fixClassMethods(ClassTokensAnalyzer $classTokensAnalyzer): void
     {
-        foreach ($this->classTokenAnalyzer->getMethods() as $methodIndex => $methodToken) {
-            $methodWrapper = MethodWrapper::createFromTokensAndPosition($tokens, $methodIndex);
+        foreach ($classTokensAnalyzer->getMethodWrappers() as $methodWrapper) {
             $changedVariableNames = [];
 
             /** @var ArgumentWrapper[] $arguments */
