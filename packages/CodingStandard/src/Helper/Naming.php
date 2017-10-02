@@ -79,10 +79,6 @@ final class Naming
                 $classTokenPosition
             );
 
-            if (Strings::endsWith($resolvedName, $className)) {
-                return $resolvedName;
-            }
-
             if ($referencedName->getNameAsReferencedInFile() === $className) {
                 return $resolvedName;
             }
