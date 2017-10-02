@@ -18,7 +18,7 @@ final class ClassFqnResolver
     private const NAMESPACE_SEPARATOR = '\\';
 
     /**
-     * @var string[]
+     * @var string[][]
      */
     private static $namespaceUseDeclarationsPerTokens = [];
 
@@ -63,7 +63,7 @@ final class ClassFqnResolver
      * Mimics @see NoUnusedImportsFixer::getNamespaceUseDeclarations().
      *
      * @param int[] $useIndexes
-     * @return mixed[]
+     * @return string[]
      */
     private static function getNamespaceUseDeclarations(Tokens $tokens, array $useIndexes): array
     {

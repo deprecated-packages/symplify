@@ -113,6 +113,10 @@ final class PropertyWrapper
 
     public function getFqnType(): ?string
     {
+        if ($this->getType() === null) {
+            return null;
+        }
+
         return ClassFqnResolver::resolveForName($this->tokens, $this->getType());
     }
 
