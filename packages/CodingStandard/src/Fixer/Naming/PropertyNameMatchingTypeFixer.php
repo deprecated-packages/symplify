@@ -2,32 +2,52 @@
 
 namespace Symplify\CodingStandard\Fixer\Naming;
 
-use DateTime;
-use IteratorAggregate;
 use Nette\Utils\Strings;
-use PhpCsFixer\AbstractFixer;
+use PhpCsFixer\Fixer\ConfigurationDefinitionFixerInterface;
+use PhpCsFixer\Fixer\DefinedFixerInterface;
+use PhpCsFixer\FixerConfiguration\FixerConfigurationResolver;
+use PhpCsFixer\FixerConfiguration\FixerConfigurationResolverInterface;
+use PhpCsFixer\FixerConfiguration\FixerOptionBuilder;
 use PhpCsFixer\FixerDefinition\CodeSample;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
-use SimpleXMLElement;
 use SplFileInfo;
 use Symplify\CodingStandard\FixerTokenWrapper\ArgumentWrapper;
-use Symplify\CodingStandard\FixerTokenWrapper\MethodWrapper;
 use Symplify\CodingStandard\FixerTokenWrapper\PropertyWrapper;
 use Symplify\CodingStandard\Tokenizer\ClassTokensAnalyzer;
 
-final class PropertyNameMatchingTypeFixer extends AbstractFixer
+final class PropertyNameMatchingTypeFixer implements DefinedFixerInterface, ConfigurationDefinitionFixerInterface
 {
     /**
-     * @var ClassTokensAnalyzer|null
+     * @var string
      */
-    private $classTokenAnalyzer;
+    private const EXTRA_SKIPPED_CLASSES_OPTION = 'extra_skipped_classes';
+
+    /**
+     * @var string[]
+     */
+    public $skippedClasses = [
+        '*DateTime*',
+        '*Spl*',
+        'std*',
+        'Iterator*',
+        'SimpleXML*',
+        '*|*', // union types
+        '*[]', // arrays
+        'PhpParser\Node\*',
+        Token::class,
+    ];
+
+    /**
+     * @var mixed[]
+     */
+    private $configuration = [];
 
     public function getDefinition(): FixerDefinitionInterface
     {
-        return new FixerDefinition('Property name should match its type, if possible.', [
+        return new FixerDefinition('Property and argument name should match its type, if possible.', [
             new CodeSample(
                 '<?php
 class SomeClass
@@ -47,88 +67,88 @@ class SomeClass
             && $tokens->isAnyTokenKindsFound(Token::getClassyTokenKinds());
     }
 
-    protected function applyFix(SplFileInfo $file, Tokens $tokens): void
+    public function fix(SplFileInfo $file, Tokens $tokens): void
     {
         for ($index = $tokens->count() - 1; $index >= 0; --$index) {
             $token = $tokens[$index];
 
             if (! $token->isClassy()) {
-                $this->classTokenAnalyzer = null;
-
                 continue;
             }
 
-            $this->classTokenAnalyzer = ClassTokensAnalyzer::createFromTokensArrayStartPosition($tokens, $index);
+            $classTokensAnalyzer = ClassTokensAnalyzer::createFromTokensArrayStartPosition($tokens, $index);
 
-            $this->fixClassProperties($tokens);
-
-            foreach ($this->classTokenAnalyzer->getMethods() as $methodIndex => $methodToken) {
-                $this->fixMethod($tokens, $methodIndex);
-            }
+            $this->fixClassProperties($classTokensAnalyzer);
+            $this->fixClassMethods($classTokensAnalyzer);
         }
     }
 
-    private function fixClassProperties(Tokens $tokens): void
+    public function isRisky(): bool
     {
-        $changedPropertyNames = [];
+        return false;
+    }
 
-        foreach ($this->classTokenAnalyzer->getProperties() as $propertyIndex => $propertyToken) {
-            $propertyWrapper = PropertyWrapper::createFromTokensAndPosition($tokens, $propertyIndex);
+    public function getName(): string
+    {
+        return self::class;
+    }
 
-            $oldName = $propertyWrapper->getName();
-            if ($propertyWrapper->getType() === null || ! $propertyWrapper->isClassType()) {
-                continue;
-            }
+    public function getPriority(): int
+    {
+        return 0;
+    }
 
-            if ($this->isAllowedNameOrType($oldName, $propertyWrapper->getType())) {
-                continue;
-            }
+    public function supports(SplFileInfo $file): bool
+    {
+        return true;
+    }
 
-            $expectedName = $this->getExpectedNameFromType($propertyWrapper->getType());
-            if ($oldName === $expectedName) {
-                continue;
-            }
-
-            $propertyWrapper->changeName($expectedName);
-
-            $changedPropertyNames[$oldName] = $expectedName;
+    /**
+     * @param mixed[]|null $configuration
+     */
+    public function configure(?array $configuration = null): void
+    {
+        if ($configuration === null) {
+            return;
         }
+
+        $this->configuration = $this->getConfigurationDefinition()
+            ->resolve($configuration);
+    }
+
+    public function getConfigurationDefinition(): FixerConfigurationResolverInterface
+    {
+        $fixerOptionBuilder = new FixerOptionBuilder(
+            self::EXTRA_SKIPPED_CLASSES_OPTION,
+            'Classes that are skipped using fnmatch().'
+        );
+
+        $skippedClassesOption = $fixerOptionBuilder->setAllowedTypes(['string'])
+            ->getOption();
+
+        return new FixerConfigurationResolver([$skippedClassesOption]);
+    }
+
+    private function fixClassProperties(ClassTokensAnalyzer $classTokensAnalyzer): void
+    {
+        $changedPropertyNames = $this->resolveWrappers($classTokensAnalyzer->getPropertyWrappers());
 
         foreach ($changedPropertyNames as $oldName => $newName) {
-            $this->classTokenAnalyzer->renameEveryPropertyOccurrence($oldName, $newName);
+            $classTokensAnalyzer->renameEveryPropertyOccurrence($oldName, $newName);
         }
     }
 
-    private function fixMethod(Tokens $tokens, int $methodIndex): void
+    private function fixClassMethods(ClassTokensAnalyzer $classTokensAnalyzer): void
     {
-        $methodWrapper = MethodWrapper::createFromTokensAndPosition($tokens, $methodIndex);
-        $changedVariableNames = [];
+        foreach ($classTokensAnalyzer->getMethodWrappers() as $methodWrapper) {
+            /** @var ArgumentWrapper[] $argumentWrappers */
+            $argumentWrappers = array_reverse($methodWrapper->getArguments());
 
-        /** @var ArgumentWrapper[] $arguments */
-        $arguments = array_reverse($methodWrapper->getArguments());
+            $changedVariableNames = $this->resolveWrappers($argumentWrappers);
 
-        foreach ($arguments as $argumentWrapper) {
-            if ($argumentWrapper->getType() === null || ! $argumentWrapper->isClassType()) {
-                continue;
+            foreach ($changedVariableNames as $oldName => $newName) {
+                $methodWrapper->renameEveryVariableOccurrence($oldName, $newName);
             }
-
-            $oldName = $argumentWrapper->getName();
-            if ($this->isAllowedNameOrType($oldName, $argumentWrapper->getType())) {
-                continue;
-            }
-
-            $expectedName = $this->getExpectedNameFromType($argumentWrapper->getType());
-
-            if ($oldName === $expectedName) {
-                continue;
-            }
-
-            $argumentWrapper->changeName($expectedName);
-            $changedVariableNames[$oldName] = $expectedName;
-        }
-
-        foreach ($changedVariableNames as $oldName => $newName) {
-            $methodWrapper->renameEveryVariableOccurrence($oldName, $newName);
         }
     }
 
@@ -151,11 +171,6 @@ class SomeClass
             $rawName = Strings::substring($rawName, strlen('Abstract'));
         }
 
-        // is Spl
-        if (Strings::startsWith($rawName, 'Spl')) {
-            $rawName = Strings::substring($rawName, strlen('Spl'));
-        }
-
         // if all is upper-cased, it should be lower-cased
         if ($rawName === strtoupper($rawName)) {
             $rawName = strtolower($rawName);
@@ -172,18 +187,25 @@ class SomeClass
             && ctype_lower($rawName[2]);
     }
 
-    private function isAllowedNameOrType(string $name, string $type): bool
+    private function shouldSkipClass(string $class): bool
     {
-        if ($this->isPhpInternalClass($type)) {
-            return true;
+        $skippedClasses = array_merge(
+            $this->skippedClasses,
+            $this->configuration[self::EXTRA_SKIPPED_CLASSES_OPTION] ?? []
+        );
+
+        foreach ($skippedClasses as $skippedClass) {
+            if (fnmatch($skippedClass, $class, FNM_NOESCAPE)) {
+                return true;
+            }
         }
 
-        // union types
-        if (Strings::contains($type, '|')) {
-            return true;
-        }
+        return false;
+    }
 
-        if (Strings::contains($type, DateTime::class)) {
+    private function isAllowedNameOrType(string $name, string $type, string $fqnType): bool
+    {
+        if ($this->shouldSkipClass($fqnType)) {
             return true;
         }
 
@@ -193,11 +215,50 @@ class SomeClass
         return Strings::contains($name, ucfirst($expectedName)) && Strings::endsWith($name, ucfirst($expectedName));
     }
 
-    private function isPhpInternalClass(string $class): bool
+    /**
+     * @param ArgumentWrapper|PropertyWrapper $typeWrapper
+     */
+    private function shouldSkipWrapper($typeWrapper): bool
     {
-        return Strings::startsWith($class, 'Spl')
-            || Strings::startsWith($class, 'std')
-            || Strings::startsWith($class, IteratorAggregate::class)
-            || Strings::startsWith($class, SimpleXMLElement::class);
+        if ($typeWrapper->getType() === null || ! $typeWrapper->isClassType()) {
+            return true;
+        }
+
+        $oldName = $typeWrapper->getName();
+        if ($this->isAllowedNameOrType($oldName, $typeWrapper->getType(), $typeWrapper->getFqnType())) {
+            return true;
+        }
+
+        $expectedName = $this->getExpectedNameFromType($typeWrapper->getType());
+        if ($oldName === $expectedName) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * @param ArgumentWrapper[]|PropertyWrapper[] $typeWrappers
+     * @return string[]
+     */
+    private function resolveWrappers(array $typeWrappers): array
+    {
+        $changedNames = [];
+
+        foreach ($typeWrappers as $typeWrapper) {
+            if ($this->shouldSkipWrapper($typeWrapper)) {
+                continue;
+            }
+
+            $oldName = $typeWrapper->getName();
+
+            $expectedName = $this->getExpectedNameFromType($typeWrapper->getType());
+
+            $typeWrapper->changeName($expectedName);
+
+            $changedNames[$oldName] = $expectedName;
+        }
+
+        return $changedNames;
     }
 }

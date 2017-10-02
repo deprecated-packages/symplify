@@ -32,7 +32,10 @@ class SomeClass
      */
     private $presenter;
 
-    public function __construct(SplFileInfo $firstFile, SplFileInfo $secondFile, SomeClassInterface $someClass)
-    {
+    public function __construct(
+        SplFileInfo $firstFile,
+        SplFileInfo $secondFile,
+        SomeClassInterface $someClass
+    ) {
     }
 }

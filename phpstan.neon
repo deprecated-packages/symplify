@@ -10,6 +10,7 @@ parameters:
         - '#Parameter \#2 \$config of class PHP_CodeSniffer\\Tokenizers\\PHP constructor expects PHP_CodeSniffer\\Config\|null, PHP_CodeSniffer\\Config\|stdClass given#'
         - '# Symplify\\CodingStandard\\SniffTokenWrapper#'
         - '#Parameter \#1 \$id of class Symfony\\Component\\DependencyInjection\\Reference constructor expects string, string\|null given#'
+
         # is valid code
         - '#Parameter \#2 \$searchIndex of method PhpCsFixer\\Tokenizer\\Tokens::findBlockEnd\(\) expects int, int\|null given#'
         - '#Property Symplify\\CodingStandard\\FixerTokenWrapper\\PropertyWrapper::\$visibilityPosition \(int\) does not accept int\|null#'
@@ -17,10 +18,11 @@ parameters:
         - '#Calling method getContent\(\) on possibly null value of type PhpCsFixer\\DocBlock\\DocBlock\|null#'
         - '#Property Symplify\\CodingStandard\\Tokenizer\\ClassTokensAnalyzer::\$startBracketIndex \(int\) does not accept int\|null#'
         - '#Parameter \#1 \$index of method PhpCsFixer\\Tokenizer\\Tokens::getNextTokenOfKind\(\) expects int, int\|null given#'
-        - '#Calling method [A-Za-z]+\(\) on possibly null value of type Symplify\\CodingStandard\\Tokenizer\\ClassTokensAnalyzer\|null#'
         - '#Parameter \#3 \$docBlock of static method Symplify\\CodingStandard\\FixerTokenWrapper\\DocBlockWrapper::createFromTokensPositionAndDocBlock\(\) expects PhpCsFixer\\DocBlock\\DocBlock, PhpCsFixer\\DocBlock\\DocBlock\|null given#'
         - '#Parameter \#2 \$docBlockPosition of static method Symplify\\CodingStandard\\FixerTokenWrapper\\DocBlockWrapper::createFromTokensPositionAndDocBlock\(\) expects int, int\|null given#'
         - '#Calling method setWhitespacesFixerConfig|isSingleLine|changeToMultiLine\(\) on possibly null value of type Symplify\\CodingStandard\\FixerTokenWrapper\\DocBlockWrapper\|null#'
+        - '#Parameter \#2 \$useIndexes of static method Symplify\\CodingStandard\\FixerTokenWrapper\\Naming\\ClassFqnResolver::getNamespaceUseDeclarations\(\) expects int\[\], mixed\[\]\|mixed\[\]\[\] given#'
+        - '#Parameter \#2 \$classNameEndPosition of static method Symplify\\CodingStandard\\FixerTokenWrapper\\Naming\\ClassFqnResolver::resolveForNamePosition\(\) expects int, int\|null given#'
     excludes_analyse:
         - *packages/CodingStandard/tests/**/correct*
         - *packages/CodingStandard/tests/**/wrong*

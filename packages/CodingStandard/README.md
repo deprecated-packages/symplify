@@ -235,6 +235,16 @@ public function __construct(EntityManagerInterface $entityManager)
 }
 ```
 
+This checker ignores few **system classes like `std*` or `Spl*` by default**. In case want to skip more classes, you can **configure it**:
+
+```yaml
+# easy-coding-standard.neon
+checkers:
+    Symplify\CodingStandard\Fixer\Naming\PropertyNameMatchingTypeFixer:
+        extra_skipped_classes:
+            - 'MyApp*' # accepts anything like fnmatch
+```
+
 
 ### `::class` references should be used over string for classes and interfaces
  
