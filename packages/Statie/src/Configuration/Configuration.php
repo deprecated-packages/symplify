@@ -75,6 +75,7 @@ final class Configuration
 
     public function setSourceDirectory(string $sourceDirectory): void
     {
+        $sourceDirectory = rtrim($sourceDirectory, '/');
         $this->filesystemChecker->ensureDirectoryExists($sourceDirectory);
         $this->sourceDirectory = $sourceDirectory;
     }
