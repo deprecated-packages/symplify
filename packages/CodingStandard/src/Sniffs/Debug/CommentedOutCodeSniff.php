@@ -2,6 +2,7 @@
 
 namespace Symplify\CodingStandard\Sniffs\Debug;
 
+use Nette\Utils\Strings;
 use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Sniffs\Sniff;
 use PhpParser\Error;
@@ -96,9 +97,10 @@ final class CommentedOutCodeSniff implements Sniff
                 return false;
             }
 
-            if (count($tokens) === 1 && $this->guessIsTextCommentToken($tokens[0])) {
+            if (count($tokens) === 1 && $this->guessIsTextCommentToken($tokens[0], $content)) {
                 return false;
             }
+
         } catch (Error $error) {
             return false;
         }
@@ -115,13 +117,17 @@ final class CommentedOutCodeSniff implements Sniff
         return $this->parser = (new ParserFactory)->create(ParserFactory::PREFER_PHP7);
     }
 
-    private function guessIsTextCommentToken(Node $node): bool
+    private function guessIsTextCommentToken(Node $node, string $content): bool
     {
         if ($node instanceof ConstFetch) {
             return true;
         }
 
         if ($node instanceof Minus && ! $node->left instanceof Variable) {
+            return true;
+        }
+
+        if (Strings::contains($content, 'e.g.')) {
             return true;
         }
 
