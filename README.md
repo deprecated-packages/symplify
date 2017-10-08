@@ -21,6 +21,8 @@
 
 The best and easiest way to start coding standard with. Combined both CodeSniffer and PHP-CS-Fixer
 
+**Used by [Nette](https://github.com/nette/coding-standard) and [Sylius](https://github.com/SyliusLabs/CodingStandard).**
+
 
 ## [Package Builder](https://github.com/Symplify/PackageBuilder)
 
