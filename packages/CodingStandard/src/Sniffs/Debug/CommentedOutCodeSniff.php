@@ -100,7 +100,6 @@ final class CommentedOutCodeSniff implements Sniff
             if (count($tokens) === 1 && $this->guessIsTextCommentToken($tokens[0], $content)) {
                 return false;
             }
-
         } catch (Error $error) {
             return false;
         }
