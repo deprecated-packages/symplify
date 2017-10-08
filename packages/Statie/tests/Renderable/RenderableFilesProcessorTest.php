@@ -60,22 +60,4 @@ final class RenderableFilesProcessorTest extends TestCase
             __DIR__ . '/RenderFilesProcessorSource/output/file/index.html'
         );
     }
-
-    public function testAmp(): void
-    {
-        $finder = Finder::findFiles('*')->from(__DIR__ . '/RenderFilesProcessorSource/source')
-            ->getIterator();
-        $fileInfos = iterator_to_array($finder);
-
-        $this->renderableFilesProcessor->processFiles($fileInfos);
-
-        $htmlContactFile = __DIR__ . '/RenderFilesProcessorSource/output/contact-me.html';
-        $ampContactFile = __DIR__ . '/RenderFilesProcessorSource/output/amp/contact-me.html';
-
-        $this->assertFileExists($htmlContactFile);
-        $this->assertFileExists($ampContactFile);
-
-        $this->assertFileEquals(__DIR__ . '/RenderFilesProcessorSource/contact-expected.html', $htmlContactFile);
-        $this->assertFileEquals(__DIR__ . '/RenderFilesProcessorSource/amp-contact-expected.html', $ampContactFile);
-    }
 }

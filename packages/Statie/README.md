@@ -153,17 +153,6 @@ parameters:
     # blog/:title => blog/how-to-host-open-source-blog-for-free
 ```
 
-### AMPize whole Website
-
-Let people enjoy your webiste in subways, transatlantic ships and planes with poor wifi connections.
-Turn on [AMP](https://www.ampproject.org/):
-
-```yaml
-# statie.neon
-parameters:
-    amp: true
-```
-
 ### Show Related Posts
 
 If you write a series, you can show related posts bellow.

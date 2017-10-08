@@ -1,3 +1,6 @@
+imports:
+    - { resource: '../../packages/**/src/config/services.yml' }
+
 services:
     _defaults:
         autowire: true
@@ -6,12 +9,6 @@ services:
     Symplify\Statie\:
         resource: ../../src
         exclude: ../../src/{Exception,Renderable/File/File.php,Renderable/File/PostFile.php}
-    Symplify\Statie\Amp\:
-        resource: ../../packages/Amp/src
-    Symplify\Statie\FlatWhite\:
-        resource: ../../packages/FlatWhite/src
-    Symplify\Statie\SimilarPosts\:
-        resource: ../../packages/SimilarPosts/src
 
     # 3rd party services
     Symfony\Component\Console\Application: ~
