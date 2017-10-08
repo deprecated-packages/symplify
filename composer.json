@@ -23,7 +23,7 @@
         "nette/security": "^2.4|^3.0",
         "nette/utils": "^2.4|^3.0",
         "nikic/php-parser": "^3.1",
-        "sebastian/diff": "^1.4|^2.0",
+        "sebastian/diff": "^2.0",
         "slevomat/coding-standard": "^4.0",
         "squizlabs/php_codesniffer": "^3.1",
         "symfony/config": "^3.3",

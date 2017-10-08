@@ -12,7 +12,6 @@
         "cpliakas/git-wrapper": "^1.7",
 
         "latte/latte": "^2.4|^3.0",
-        "lullabot/amp": "^1.1",
 
         "symfony/dependency-injection": "^3.3",
         "symfony/http-kernel": "^3.3",
@@ -34,7 +33,6 @@
     "autoload": {
         "psr-4": {
             "Symplify\\Statie\\": "src",
-            "Symplify\\Statie\\Amp\\": "packages/Amp/src",
             "Symplify\\Statie\\FlatWhite\\": "packages/FlatWhite/src",
             "Symplify\\Statie\\SimilarPosts\\": "packages/SimilarPosts/src"
         }
@@ -42,7 +40,6 @@
     "autoload-dev": {
         "psr-4": {
             "Symplify\\Statie\\Tests\\": "tests",
-            "Symplify\\Statie\\Amp\\Tests\\": "packages/Amp/tests",
             "Symplify\\Statie\\FlatWhite\\Tests\\": "packages/FlatWhite/tests",
             "Symplify\\Statie\\SimilarPosts\\Tests\\": "packages/SimilarPosts/tests"
         }

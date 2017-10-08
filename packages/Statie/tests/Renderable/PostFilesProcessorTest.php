@@ -57,12 +57,8 @@ final class PostFilesProcessorTest extends TestCase
         $this->renderableFilesProcessor->processFiles($fileInfos);
 
         $normalPostLocation = __DIR__ . '/RenderFilesProcessorSource/output/blog/2016/01/02/second-title/index.html';
-        $ampPostLocation = __DIR__ . '/RenderFilesProcessorSource/output/amp/blog/2016/01/02/second-title/index.html';
         $this->assertFileExists(__DIR__ . '/RenderFilesProcessorSource/output/blog/2016/10/10/title/index.html');
         $this->assertFileExists($normalPostLocation);
-        $this->assertFileExists($ampPostLocation);
-
-        $this->assertFalse(file_get_contents($normalPostLocation) === file_get_contents($ampPostLocation));
 
         $this->assertArrayHasKey('posts', $this->configuration->getOptions());
     }
