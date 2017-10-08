@@ -14,7 +14,6 @@ services:
     Symfony\Component\Console\Application: ~
     parsedown_extra:
         class: ParsedownExtra
-    Lullabot\AMP\AMP: ~
     Symplify\PackageBuilder\Adapter\Symfony\Parameter\ParameterProvider: ~
 
     GitWrapper\GitWrapper: ~
