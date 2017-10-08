@@ -47,6 +47,7 @@ final class DynamicPropertySniff implements Sniff
         $propertyName = $this->tokens[$position + 1]['content'];
 
         $classWrapper = $this->getClassWrapper();
+
         if (in_array($propertyName, $classWrapper->getPropertyNames(), true)) {
             return;
         }
@@ -55,10 +56,7 @@ final class DynamicPropertySniff implements Sniff
             return;
         }
 
-        $file->addError(sprintf(
-            self::ERROR_MESSAGE,
-            $propertyName
-        ), $position, self::class);
+        $file->addError(sprintf(self::ERROR_MESSAGE, $propertyName), $position, self::class);
     }
 
     private function isLocalPropertyAccess($position): bool

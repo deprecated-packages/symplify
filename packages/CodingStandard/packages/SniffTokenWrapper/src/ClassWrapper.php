@@ -3,6 +3,7 @@
 namespace Symplify\CodingStandard\SniffTokenWrapper;
 
 use PHP_CodeSniffer\Files\File;
+use PhpCsFixer\Tokenizer\TokensAnalyzer;
 use ReflectionClass;
 use ReflectionProperty;
 use SlevomatCodingStandard\Helpers\TokenHelper;
@@ -72,6 +73,8 @@ final class ClassWrapper
     }
 
     /**
+     * Inspired by @see TokensAnalyzer.
+     *
      * @return string[]
      */
     public function getPropertyNames(): array
@@ -81,18 +84,11 @@ final class ClassWrapper
         }
 
         $classOpenerPosition = $this->classToken['scope_opener'] + 1;
-        $startPosition = $classOpenerPosition;
+        $classCloserPosition = $this->classToken['scope_closer'] - 1;
 
-        while (($propertyTokenPointer = $this->file->findNext(
-            T_VARIABLE,
-            $startPosition,
-            $this->classToken['scope_closer']
-        )) !== false) {
-            $startPosition = $propertyTokenPointer + 1;
-            $propertyToken = $this->tokens[$propertyTokenPointer];
-            $this->propertyNames[] = ltrim($propertyToken['content'], '$');
-        }
+        $propertyTokens = $this->findClassLevelTokensType($classOpenerPosition, $classCloserPosition, T_VARIABLE);
 
+        $this->propertyNames = $this->extractPropertyNamesFromPropertyTokens($propertyTokens);
         $this->propertyNames = array_merge($this->propertyNames, $this->getParentClassPropertyNames());
 
         return $this->propertyNames;
@@ -260,6 +256,76 @@ final class ClassWrapper
 
         foreach ($propertyReflections as $propertyReflection) {
             $propertyNames[] = $propertyReflection->getName();
+        }
+
+        return $propertyNames;
+    }
+
+    /**
+     * @return mixed[]
+     */
+    private function findClassLevelTokensType(int $classOpenerPosition, int $classCloserPosition, int $type): array
+    {
+        $curlyBracesLevel = 0;
+        $bracesLevel = 0;
+        $foundTokens = [];
+
+        // find properties inside class scope (between { and } of the class)
+        for ($i = $classOpenerPosition; $i < $classCloserPosition; ++$i) {
+            $token = $this->tokens[$i];
+
+            // into arguments
+            if ($token['content'] === '(') {
+                ++$bracesLevel;
+
+                continue;
+            }
+
+            // out of arguments
+            if ($token['content'] === ')') {
+                --$bracesLevel;
+
+                continue;
+            }
+
+            // into method or function
+            if ($token['content'] === '{') {
+                ++$curlyBracesLevel;
+
+                continue;
+            }
+
+            // out of method or function
+            if ($token['content'] === '}') {
+                --$curlyBracesLevel;
+
+                continue;
+            }
+
+            // not in class level
+            if ($curlyBracesLevel !== 0 || $bracesLevel !== 0) {
+                continue;
+            }
+
+            if ($token['code'] === $type) {
+                $foundTokens[$i] = $token;
+            }
+        }
+
+        return $foundTokens;
+    }
+
+    /**
+     * @param mixed[] $propertyTokens
+     * @return string[]
+     */
+    private function extractPropertyNamesFromPropertyTokens(array $propertyTokens): array
+    {
+        $propertyNames = [];
+
+        foreach ($propertyTokens as $propertyTokenPointer => $propertyToken) {
+            $propertyToken = $this->tokens[$propertyTokenPointer];
+            $propertyNames[] = ltrim($propertyToken['content'], '$');
         }
 
         return $propertyNames;
