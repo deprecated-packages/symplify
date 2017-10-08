@@ -10,7 +10,6 @@
         "erusev/parsedown-extra": "^0.7",
         "friendsofphp/php-cs-fixer": "^2.7",
         "latte/latte": "^2.4",
-        "lullabot/amp": "^1.1",
         "nette/application": "^2.4|^3.0",
         "nette/bootstrap": "^2.4|^3.0",
         "nette/caching": "^2.4|^3.0",
