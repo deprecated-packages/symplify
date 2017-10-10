@@ -2,6 +2,7 @@
 
 namespace Symplify\CodingStandard\Fixer\ControlStructure;
 
+use Nette\Utils\Strings;
 use PhpCsFixer\Fixer\DefinedFixerInterface;
 use PhpCsFixer\Fixer\Operator\ConcatSpaceFixer;
 use PhpCsFixer\FixerDefinition\CodeSample;
@@ -48,16 +49,29 @@ final class RequireFollowedByAbsolutePathFixer implements DefinedFixerInterface
             }
 
             $nextTokenPosition = $tokens->getNextNonWhitespace($index);
-            $nextToken = $tokens[$nextTokenPosition];
+            if ($nextTokenPosition === null) {
+                continue;
+            }
 
+            $nextToken = $tokens[$nextTokenPosition];
             if (! $nextToken->isGivenKind(T_CONSTANT_ENCAPSED_STRING)) {
                 continue;
             }
 
-            $tokens->insertAt($nextTokenPosition, [
+            $tokensToAdd = [
                 new Token([T_DIR, '__DIR__']),
                 new Token('.'),
-            ]);
+            ];
+
+            if (! $this->startsWithSlash($nextToken)) {
+                $oldNextTokenContentWithSlash = '\'/' . ltrim($nextToken->getContent(), '\'');
+                $tokensToAdd[] = new Token([T_CONSTANT_ENCAPSED_STRING, $oldNextTokenContentWithSlash]);
+            } else {
+                $tokensToAdd[] = clone $nextToken;
+            }
+
+            unset($tokens[$nextTokenPosition]);
+            $tokens->insertAt($nextTokenPosition, $tokensToAdd);
         }
     }
 
@@ -77,5 +91,10 @@ final class RequireFollowedByAbsolutePathFixer implements DefinedFixerInterface
     public function supports(SplFileInfo $file): bool
     {
         return true;
+    }
+
+    private function startsWithSlash(Token $nextToken): bool
+    {
+        return Strings::startsWith($nextToken->getContent(), "'/");
     }
 }
