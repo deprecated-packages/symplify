@@ -34,11 +34,6 @@ final class RequireFollowedByAbsolutePathFixer implements DefinedFixerInterface
         return $tokens->isAnyTokenKindsFound(self::INCLUDY_TOKEN_KINDS);
     }
 
-    public function isRisky(): bool
-    {
-        return false;
-    }
-
     public function fix(SplFileInfo $file, Tokens $tokens): void
     {
         for ($index = $tokens->count() - 1; 0 <= $index; --$index) {
@@ -55,6 +50,10 @@ final class RequireFollowedByAbsolutePathFixer implements DefinedFixerInterface
 
             $nextToken = $tokens[$nextTokenPosition];
             if (! $nextToken->isGivenKind(T_CONSTANT_ENCAPSED_STRING)) {
+                continue;
+            }
+
+            if ($this->startsWithPhar($nextToken)) {
                 continue;
             }
 
@@ -75,6 +74,11 @@ final class RequireFollowedByAbsolutePathFixer implements DefinedFixerInterface
         }
     }
 
+    public function isRisky(): bool
+    {
+        return false;
+    }
+
     public function getName(): string
     {
         return self::class;
@@ -91,6 +95,11 @@ final class RequireFollowedByAbsolutePathFixer implements DefinedFixerInterface
     public function supports(SplFileInfo $file): bool
     {
         return true;
+    }
+
+    private function startsWithPhar(Token $nextToken): bool
+    {
+        return Strings::startsWith($nextToken->getContent(), "'phar://");
     }
 
     private function startsWithSlash(Token $nextToken): bool
