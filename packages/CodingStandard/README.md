@@ -120,7 +120,6 @@ checkers:
 
 ### Variables created with `$container->get(SomeService::class)` should have annotation, so every IDE supports autocomplete without any plugins
 
-
 - class: [`Symplify\CodingStandard\Fixer\Commenting\AnnotateMagicContainerGetterFixer`](/src/Fixer/Commenting/AnnotateMagicContainerGetterFixer.php)
 
 :x:
@@ -148,6 +147,23 @@ class SomeTest extends ContainerAwareTestCase
         $someService->knownMethod();
     }
 }
+```
+
+
+### Include/Require should be followed by absolute path
+
+- class: [`Symplify\CodingStandard\Fixer\ControlStructure\RequireFollowedByAbsolutePathFixer`](/src/Fixer/ControlStructure/RequireFollowedByAbsolutePathFixer.php)
+
+:x:
+
+```php
+require 'vendor/autoload.php';
+```
+
+:+1:
+
+```php
+require __DIR__.'/vendor/autoload.php';
 ```
 
 
