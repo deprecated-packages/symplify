@@ -163,7 +163,7 @@ require 'vendor/autoload.php';
 :+1:
 
 ```php
-require __DIR__.'vendor/autoload.php';
+require __DIR__.'/vendor/autoload.php';
 ```
 
 
