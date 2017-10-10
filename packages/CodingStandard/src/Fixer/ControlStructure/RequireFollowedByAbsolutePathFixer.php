@@ -31,7 +31,8 @@ final class RequireFollowedByAbsolutePathFixer implements DefinedFixerInterface
 
     public function isCandidate(Tokens $tokens): bool
     {
-        return $tokens->isAnyTokenKindsFound(self::INCLUDY_TOKEN_KINDS);
+        return $tokens->isAnyTokenKindsFound(self::INCLUDY_TOKEN_KINDS)
+            && $tokens->isTokenKindFound(T_CONSTANT_ENCAPSED_STRING);
     }
 
     public function fix(SplFileInfo $file, Tokens $tokens): void
@@ -49,28 +50,12 @@ final class RequireFollowedByAbsolutePathFixer implements DefinedFixerInterface
             }
 
             $nextToken = $tokens[$nextTokenPosition];
-            if (! $nextToken->isGivenKind(T_CONSTANT_ENCAPSED_STRING)) {
+
+            if ($this->shouldSkipToken($nextToken)) {
                 continue;
             }
 
-            if ($this->startsWithPhar($nextToken)) {
-                continue;
-            }
-
-            $tokensToAdd = [
-                new Token([T_DIR, '__DIR__']),
-                new Token('.'),
-            ];
-
-            if (! $this->startsWithSlash($nextToken)) {
-                $oldNextTokenContentWithSlash = '\'/' . ltrim($nextToken->getContent(), '\'');
-                $tokensToAdd[] = new Token([T_CONSTANT_ENCAPSED_STRING, $oldNextTokenContentWithSlash]);
-            } else {
-                $tokensToAdd[] = clone $nextToken;
-            }
-
-            unset($tokens[$nextTokenPosition]);
-            $tokens->insertAt($nextTokenPosition, $tokensToAdd);
+            $this->fixToken($tokens, $nextToken, $nextTokenPosition);
         }
     }
 
@@ -105,5 +90,32 @@ final class RequireFollowedByAbsolutePathFixer implements DefinedFixerInterface
     private function startsWithSlash(Token $nextToken): bool
     {
         return Strings::startsWith($nextToken->getContent(), "'/");
+    }
+
+    private function shouldSkipToken(Token $token): bool
+    {
+        if (! $token->isGivenKind(T_CONSTANT_ENCAPSED_STRING)) {
+            return true;
+        }
+
+        return $this->startsWithPhar($token);
+    }
+
+    private function fixToken(Tokens $tokens, Token $token, int $tokenPosition): void
+    {
+        $tokensToAdd = [
+            new Token([T_DIR, '__DIR__']),
+            new Token('.'),
+        ];
+
+        if ($this->startsWithSlash($token)) {
+            $tokensToAdd[] = $token;
+        } else {
+            $oldNextTokenContentWithSlash = '\'/' . ltrim($token->getContent(), '\'');
+            $tokensToAdd[] = new Token([T_CONSTANT_ENCAPSED_STRING, $oldNextTokenContentWithSlash]);
+        }
+
+        unset($tokens[$tokenPosition]);
+        $tokens->insertAt($tokenPosition, $tokensToAdd);
     }
 }
