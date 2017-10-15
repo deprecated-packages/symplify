@@ -3,8 +3,9 @@
 namespace Symplify\EasyCodingStandard\SniffRunner\File;
 
 use PHP_CodeSniffer\Files\File as BaseFile;
-use PHP_CodeSniffer\Sniffs\Sniff;
 use Symplify\EasyCodingStandard\Error\ErrorCollector;
+use Symplify\EasyCodingStandard\Skipper;
+use Symplify\EasyCodingStandard\SniffRunner\Application\CurrentSniffProvider;
 use Symplify\EasyCodingStandard\SniffRunner\Exception\File\NotImplementedException;
 use Symplify\EasyCodingStandard\SniffRunner\Fixer\Fixer;
 
@@ -31,6 +32,16 @@ final class File extends BaseFile
     private $isFixer;
 
     /**
+     * @var CurrentSniffProvider
+     */
+    private $currentSniffProvider;
+
+    /**
+     * @var Skipper
+     */
+    private $skipper;
+
+    /**
      * @param string $path
      * @param array[] $tokens
      * @param Fixer $fixer
@@ -42,7 +53,9 @@ final class File extends BaseFile
         array $tokens,
         Fixer $fixer,
         ErrorCollector $errorCollector,
-        bool $isFixer
+        bool $isFixer,
+        CurrentSniffProvider $currentSniffProvider,
+        Skipper $skipper
     ) {
         $this->path = $path;
         $this->tokens = $tokens;
@@ -54,6 +67,8 @@ final class File extends BaseFile
         $this->isFixer = $isFixer;
 
         $this->eolChar = PHP_EOL;
+        $this->currentSniffProvider = $currentSniffProvider;
+        $this->skipper = $skipper;
     }
 
     /**
@@ -115,6 +130,19 @@ final class File extends BaseFile
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function addError($error, $stackPtr, $code, $data = [], $severity = 0, $fixable = false): bool
+    {
+        $fullyQualifiedCode = $this->currentSniffProvider->getSniffClass() . '.' . $code;
+        if ($this->skipper->shouldSkipCode($fullyQualifiedCode)) {
+            return false;
+        }
+
+        return parent::addError($error, $stackPtr, $code, $data, $severity, $fixable);
+    }
+
+    /**
      * Delegated from addError().
      *
      * {@inheritdoc}
@@ -124,7 +152,7 @@ final class File extends BaseFile
         $message,
         $line,
         $column,
-        $sniffClass,
+        $sniffClassOrCode,
         $data,
         $severity,
         $isFixable = false
@@ -137,38 +165,23 @@ final class File extends BaseFile
             $message = vsprintf($message, $data);
         }
 
-        $sniffClass = $this->normalizeSniffClass($sniffClass);
-
         $this->errorCollector->addErrorMessage(
             $this->path,
             $line,
             $message,
-            $sniffClass,
+            $this->resolveFullyQualifiedCode($sniffClassOrCode),
             $isFixable
         );
 
         return true;
     }
 
-    private function normalizeSniffClass(string $sourceClass): string
+    private function resolveFullyQualifiedCode(string $sniffClassOrCode): string
     {
-        if (class_exists($sourceClass, false)) {
-            return $sourceClass;
+        if (class_exists($sniffClassOrCode)) {
+            return $sniffClassOrCode;
         }
 
-        $trace = debug_backtrace(0, 6);
-
-        for ($i = 2; $i < count($trace); ++$i) {
-            if ($this->isSniffClass($trace[$i]['class'])) {
-                return $trace[$i]['class'];
-            }
-        }
-
-        return 'Unable to determined responsible sniff class.';
-    }
-
-    private function isSniffClass(string $class): bool
-    {
-        return is_a($class, Sniff::class, true);
+        return $this->currentSniffProvider->getSniffClass() . '.' . $sniffClassOrCode;
     }
 }
