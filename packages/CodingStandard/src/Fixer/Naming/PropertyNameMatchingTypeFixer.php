@@ -123,7 +123,7 @@ class SomeClass
             'Classes that are skipped using fnmatch().'
         );
 
-        $skippedClassesOption = $fixerOptionBuilder->setAllowedTypes(['string'])
+        $skippedClassesOption = $fixerOptionBuilder->setAllowedTypes(['array'])
             ->getOption();
 
         return new FixerConfigurationResolver([$skippedClassesOption]);
