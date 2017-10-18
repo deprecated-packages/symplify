@@ -37,8 +37,8 @@
     "require-dev": {
         "gecko-packages/gecko-php-unit": "3.0 as 2.2",
         "phpstan/phpstan": "^0.8",
-        "phpunit/phpunit": "^6.2",
-        "slam/php-cs-fixer-extensions": "^1.4",
+        "phpunit/phpunit": "^6.4",
+        "slam/php-cs-fixer-extensions": "^1.6",
         "symfony/expression-language": "^3.3",
         "tracy/tracy": "^2.4"
     },

@@ -38,7 +38,10 @@ final class MethodWrapper
     public function getArguments(): array
     {
         $argumentsBracketStart = $this->tokens->getNextTokenOfKind($this->index, ['(']);
-        $argumentsBracketEnd = $this->tokens->getNextTokenOfKind($argumentsBracketStart, [')']);
+        $argumentsBracketEnd = $this->tokens->findBlockEnd(
+            Tokens::BLOCK_TYPE_PARENTHESIS_BRACE,
+            $argumentsBracketStart
+        );
 
         if ($argumentsBracketStart === ($argumentsBracketEnd + 1)) {
             return [];
@@ -61,7 +64,7 @@ final class MethodWrapper
     public function renameEveryVariableOccurrence(string $oldName, string $newName): void
     {
         $methodBodyStart = $this->tokens->getNextTokenOfKind($this->index, ['{']);
-        $methodBodyEnd = $this->tokens->getNextTokenOfKind($this->index, ['}']);
+        $methodBodyEnd = $this->tokens->findBlockEnd(Tokens::BLOCK_TYPE_CURLY_BRACE, $methodBodyStart);
 
         for ($i = $methodBodyEnd - 1; $i > $methodBodyStart; --$i) {
             $token = $this->tokens[$i];
