@@ -49,6 +49,7 @@ final class NoClassInstantiationSniff implements Sniff
         '*Constraint',
 
         // Nette DI
+        'Nette\Configurator',
         'Nette\DI\Config\Loader',
 
         // Symfony DependencyInjection
