@@ -1,59 +1,51 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\Statie\SimilarPosts\Tests;
+namespace Symplify\Statie\RelatedPosts\Tests\Latte\Filter;
 
 use Symplify\Statie\Configuration\Configuration;
+use Symplify\Statie\RelatedPosts\Latte\Filter\RelatedPostsFilter;
 use Symplify\Statie\Renderable\File\PostFile;
-use Symplify\Statie\SimilarPosts\SimilarPostsResolver;
 use Symplify\Statie\Tests\AbstractContainerAwareTestCase;
 use Symplify\Statie\Tests\Helper\PostFactory;
 
-final class SimilarPostsResolverTest extends AbstractContainerAwareTestCase
+final class RelatedPostsFilterTest extends AbstractContainerAwareTestCase
 {
     /**
      * @var string
      */
-    private const POST_SOURCE_DIRECTORY = __DIR__ . '/../../../tests/PostsSource';
+    private const POST_SOURCE_DIRECTORY = __DIR__ . '/../../../../../tests/PostsSource';
 
     /**
-     * @var PostFile
+     * @var RelatedPostsFilter
      */
-    private $mainPostFile;
+    private $relatedPostsFilter;
 
     /**
      * @var PostFactory
      */
     private $postFactory;
 
-    /**
-     * @var SimilarPostsResolver
-     */
-    private $similarPostsResolver;
-
     protected function setUp(): void
     {
         $this->postFactory = new PostFactory;
-
-        $this->similarPostsResolver = $this->container->get(SimilarPostsResolver::class);
+        $this->relatedPostsFilter = $this->container->get(RelatedPostsFilter::class);
 
         /** @var Configuration $configuration */
         $configuration = $this->container->get(Configuration::class);
         $configuration->addPosts($this->getAllPosts());
-
-        $this->mainPostFile = $this->postFactory->createPostFromFilePath(
-            self::POST_SOURCE_DIRECTORY . '/2017-01-01-some-post.md'
-        );
     }
 
     public function test(): void
     {
-        $similarPosts = $this->similarPostsResolver->resolveForPost($this->mainPostFile);
+        $filters = $this->relatedPostsFilter->provide();
 
-        $this->assertCount(3, $similarPosts);
+        $mainPost = $this->postFactory->createPostFromFilePath(
+            self::POST_SOURCE_DIRECTORY . '/2017-01-01-some-post.md'
+        );
 
-        $mostSimilarPost = $similarPosts[0];
-        $this->assertSame('Statie 4: How to Create The Simplest Blog', $mostSimilarPost['title']);
-        $this->assertNotSame($this->mainPostFile['title'], $mostSimilarPost['title']);
+        $relatedPosts = $filters['relatedPosts']($mainPost);
+
+        $this->assertCount(3, $relatedPosts);
     }
 
     /**
@@ -62,6 +54,9 @@ final class SimilarPostsResolverTest extends AbstractContainerAwareTestCase
     private function getAllPosts(): array
     {
         return [
+            $this->postFactory->createPostFromFilePath(
+                self::POST_SOURCE_DIRECTORY . '/2017-01-01-some-post.md'
+            ),
             $this->postFactory->createPostFromFilePath(
                 self::POST_SOURCE_DIRECTORY . '/2017-01-05-some-related-post.md'
             ),

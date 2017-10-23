@@ -35,14 +35,14 @@
         "psr-4": {
             "Symplify\\Statie\\": "src",
             "Symplify\\Statie\\FlatWhite\\": "packages/FlatWhite/src",
-            "Symplify\\Statie\\SimilarPosts\\": "packages/SimilarPosts/src"
+            "Symplify\\Statie\\RelatedPosts\\": "packages/RelatedPosts/src"
         }
     },
     "autoload-dev": {
         "psr-4": {
             "Symplify\\Statie\\Tests\\": "tests",
             "Symplify\\Statie\\FlatWhite\\Tests\\": "packages/FlatWhite/tests",
-            "Symplify\\Statie\\SimilarPosts\\Tests\\": "packages/SimilarPosts/tests"
+            "Symplify\\Statie\\RelatedPosts\\Tests\\": "packages/RelatedPosts/tests"
         }
     }
 }

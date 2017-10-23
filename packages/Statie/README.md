@@ -178,14 +178,14 @@ related_posts: [1]
 Then use in template:
 
 ```twig
-{var $similarPosts = ($post|similarPosts)}
+{var $relatedPosts = ($post|relatedPosts)}
 
-<div n:if="count($similarPosts)">
+<div n:if="count($relatedPosts)">
     <strong>Continue Reading</strong>
     <ul>
-        {foreach $similarPosts as $similarPost}
+        {foreach $relatedPosts as $relatedPost}
             <li>
-                <a href="/{$similarPost['relativeUrl']}">{$similarPost['title']}</a>
+                <a href="/{$relatedPost['relativeUrl']}">{$relatedPost['title']}</a>
             </li>
         {/foreach}
     </ul>
