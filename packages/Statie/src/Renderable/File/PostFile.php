@@ -47,7 +47,7 @@ final class PostFile extends AbstractFile implements ArrayAccess
         $this->dateTime = PathAnalyzer::detectDate($fileInfo);
         $this->filenameWithoutDate = PathAnalyzer::detectFilenameWithoutDate($fileInfo);
 
-        $rawContent = strip_tags(file_get_contents($fileInfo->getRealPath()));
+        $rawContent = file_get_contents($fileInfo->getRealPath());
         $this->wordCount = substr_count($rawContent, ' ') + 1;
     }
 
