@@ -2,5 +2,5 @@ services:
     _defaults:
         autowire: true
 
-    Symplify\Statie\SimilarPosts\:
+    Symplify\Statie\RelatedPosts\:
         resource: ../

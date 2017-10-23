@@ -5,7 +5,7 @@
 >
     <!-- tests directories to run -->
     <testsuite>
-        <directory>packages/*/tests</directory>
+        <directory>packages/**/tests</directory>
     </testsuite>
     <!-- source to check coverage for -->
     <filter>

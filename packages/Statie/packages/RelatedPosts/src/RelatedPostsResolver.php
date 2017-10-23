@@ -1,11 +1,11 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\Statie\SimilarPosts;
+namespace Symplify\Statie\RelatedPosts;
 
 use Symplify\Statie\Configuration\Configuration;
 use Symplify\Statie\Renderable\File\PostFile;
 
-final class SimilarPostsResolver
+final class RelatedPostsResolver
 {
     /**
      * @var Configuration
