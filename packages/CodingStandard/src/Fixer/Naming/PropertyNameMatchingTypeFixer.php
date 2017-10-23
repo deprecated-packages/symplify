@@ -146,6 +146,10 @@ class SomeClass
 
             $changedVariableNames = $this->resolveWrappers($argumentWrappers);
 
+            if (! $classTokensAnalyzer->isGivenKind([T_CLASS, T_TRAIT])) {
+                continue;
+            }
+
             foreach ($changedVariableNames as $oldName => $newName) {
                 $methodWrapper->renameEveryVariableOccurrence($oldName, $newName);
             }
