@@ -2,6 +2,7 @@
 
 namespace Symplify\CodingStandard\Tokenizer;
 
+use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use PhpCsFixer\Tokenizer\TokensAnalyzer;
 use Symplify\CodingStandard\FixerTokenWrapper\Guard\TokenTypeGuard;
@@ -31,10 +32,16 @@ final class ClassTokensAnalyzer
      */
     private $tokens;
 
+    /**
+     * @var Token
+     */
+    private $classToken;
+
     private function __construct(Tokens $tokens, int $startIndex)
     {
         TokenTypeGuard::ensureIsTokenType($tokens[$startIndex], [T_CLASS, T_INTERFACE, T_TRAIT], self::class);
 
+        $this->classToken = $tokens[$startIndex];
         $this->startBracketIndex = $tokens->getNextTokenOfKind($startIndex, ['{']);
         $this->endBracketIndex = $tokens->findBlockEnd(Tokens::BLOCK_TYPE_CURLY_BRACE, $this->startBracketIndex);
 
@@ -147,6 +154,14 @@ final class ClassTokensAnalyzer
         }
 
         return $methodWrappers;
+    }
+
+    /**
+     * @param int[]
+     */
+    public function isGivenKind(array $tokenKinds): bool
+    {
+        return $this->classToken->isGivenKind($tokenKinds);
     }
 
     /**
