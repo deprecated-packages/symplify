@@ -18,7 +18,8 @@ final class DocBlockAnalyzer
 
         $varAnnotation = $docBlock->getAnnotationsOfType('var')[0];
 
-        return Strings::contains($varAnnotation->getContent(), '[]');
+        return Strings::contains($varAnnotation->getContent(), '[]')
+            && ! Strings::contains($varAnnotation->getContent(), '|');
     }
 
     /**
