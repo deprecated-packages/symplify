@@ -13,6 +13,9 @@ use PhpParser\Node\Expr\Variable;
 use PhpParser\Parser;
 use PhpParser\ParserFactory;
 
+/**
+ * Checks 2+ lines with comments in a row.
+ */
 final class CommentedOutCodeSniff implements Sniff
 {
     /**
@@ -40,12 +43,12 @@ final class CommentedOutCodeSniff implements Sniff
     {
         $tokens = $file->getTokens();
 
-        // Process whole comment blocks at once, so skip all but the first token.
-        if ($position > 0 && $tokens[$position]['code'] === $tokens[($position - 1)]['code']) {
+        if ($this->shouldSkip($file, $position, $tokens)) {
             return;
         }
 
         $content = $this->turnCommentedCodeIntoPhpCode($file, $position, $tokens);
+
         $isCode = $this->isCodeContent($content);
         if ($isCode) {
             $file->addError(self::ERROR_MESSAGE, $position, self::class);
@@ -170,5 +173,20 @@ final class CommentedOutCodeSniff implements Sniff
         }
 
         return $tokenContent;
+    }
+
+    /**
+     * @param mixed[] $tokens
+     */
+    private function shouldSkip(File $file, int $position, array $tokens): bool
+    {
+        // is only single line of comment in the file
+        $possibleNextCommentToken = $file->findNext(T_COMMENT, $position + 1);
+        if ($possibleNextCommentToken === false) {
+            return true;
+        }
+
+        // is one standalone line, skip it
+        return ($tokens[$possibleNextCommentToken]['line'] - $tokens[$position]['line']) > 1;
     }
 }
