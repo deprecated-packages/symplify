@@ -1,6 +1,11 @@
 <?php
 
-class SomeClass extends \Nette\Application\UI\Presenter
+class ParentClassWithProperty
+{
+    public $autoCanonicalize;
+}
+
+class SomeClass extends ParentClassWithProperty
 {
     public function __construct()
     {
