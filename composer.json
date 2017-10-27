@@ -12,7 +12,6 @@
         "nette/caching": "^2.4|^3.0",
         "nette/di": "^2.4.6|^3.0",
         "nette/finder": "^2.4|^3.0",
-        "nette/http": "^2.4|^3.0",
         "nette/neon": "^2.4|^3.0",
         "nette/robot-loader": "^2.4|^3.0.1",
         "nette/utils": "^2.4|^3.0",
