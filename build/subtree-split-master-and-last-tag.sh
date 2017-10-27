@@ -8,7 +8,6 @@ git subsplit publish --heads="master" --tags=$LAST_TAG packages/CodingStandard:g
 git subsplit publish --heads="master" --tags=$LAST_TAG packages/EasyCodingStandard:git@github.com:Symplify/EasyCodingStandard.git
 git subsplit publish --heads="master" --tags=$LAST_TAG packages/PackageBuilder:git@github.com:Symplify/PackageBuilder.git
 git subsplit publish --heads="master" --tags=$LAST_TAG packages/Statie:git@github.com:Symplify/Statie.git
-git subsplit publish --heads="master" --tags=$LAST_TAG packages/SymbioticController:git@github.com:Symplify/SymbioticController.git
 
 rm -rf .subsplit/
 

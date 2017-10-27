@@ -55,13 +55,6 @@ A static site generator with aim on community websites.
 
 [Pehapkari.cz](https://pehapkari.cz/) ([Github repo](https://github.com/pehapkari/pehapkari.cz)) and [TomasVotruba.cz](https://www.tomasvotruba.cz/) ([Github repo](https://github.com/tomasvotruba/tomasvotruba.cz)).
 
-## [Symbiotic Controller](https://github.com/Symplify/SymbioticController)
-
-[![Build Status](https://img.shields.io/travis/Symplify/SymbioticController/master.svg?style=flat-square)](https://travis-ci.org/Symplify/SymbioticController)
-[![Downloads](https://img.shields.io/packagist/dt/Symplify/symbiotic-controller.svg?style=flat-square)](https://packagist.org/packages/Symplify/symbiotic-controller)
-
-Single action and framework-independent presenters with `__invoke()` support in Nette.
-
 
 ## Install
 
