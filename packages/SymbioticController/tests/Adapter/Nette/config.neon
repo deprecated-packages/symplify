@@ -1,7 +1,0 @@
-application:
-    scanDirs: false
-    scanComposer: false
-
-extensions:
-    - Symplify\SymbioticController\Adapter\Nette\DI\SymbioticControllerExtension
-    - Contributte\EventDispatcher\DI\EventDispatcherExtension

@@ -57,8 +57,6 @@ parameters:
             - packages/EasyCodingStandard/packages/SniffRunner/src/File/File.php
             - packages/Statie/packages/FlatWhite/src/Latte/DynamicStringLoader.php
             - packages/Statie/src/Configuration/Configuration.php
-            - packages/SymbioticController/src/Adapter/Nette/Application/PresenterFactory.php
-            - packages/SymbioticController/src/Adapter/Nette/Application/PresenterHelper.php
 
         Symplify\CodingStandard\Sniffs\Classes\EqualInterfaceImplementationSniff:
             - packages/EasyCodingStandard/packages/SniffRunner/src/Application/SniffFileProcessor.php
@@ -80,10 +78,6 @@ parameters:
             # "Exception" is string part of the name
             - packages/CodingStandard/src/Sniffs/Naming/ExceptionNameSniff.php
             - packages/CodingStandard/src/Fixer/Naming/ExceptionNameFixer.php
-            # "Error" is a name of Presenter
-            - packages/SymbioticController/tests/Adapter/Nette/Application/PresenterFactoryTest.php
-            # class is only for tested cases, it doesn't exist
-            - packages/SymbioticController/tests/Adapter/Nette/Routing/PresenterMapperTest.php
             # class might not exist
             - packages/EasyCodingStandard/packages/Configuration/src/MutualCheckerExcluder.php
             - packages/EasyCodingStandard/packages/Configuration/tests/MutualCheckerExcluderTest.php
