@@ -41,7 +41,7 @@ final class CommentedOutCodeSniff implements Sniff
         if ($this->shouldSkip($file, $position, $tokens)) {
             return;
         }
-l
+
         $content = $this->turnCommentedCodeIntoPhpCode($file, $position, $tokens);
 
         $isCode = $this->isCodeContent($content);
