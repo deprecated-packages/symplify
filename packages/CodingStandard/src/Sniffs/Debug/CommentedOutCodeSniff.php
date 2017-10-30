@@ -87,11 +87,6 @@ final class CommentedOutCodeSniff implements Sniff
 
     private function isCodeContent(string $content): bool
     {
-        $tokens = token_get_all($content);
-//        dump($content);
-//        dump($tokens);
-//        die;
-
         $parser = $this->getParser();
 
         try {
@@ -100,8 +95,7 @@ final class CommentedOutCodeSniff implements Sniff
                 return false;
             }
 
-//            dump($tokens);
-            if (count($tokens) === 1 && (property_exists($tokens[0],'stmts') && count($tokens[0]->stmts) < 2)) {
+            if (count($tokens) === 1 && (property_exists($tokens[0], 'stmts') && count($tokens[0]->stmts) < 2)) {
                 return false;
             }
         } catch (Error $error) {
