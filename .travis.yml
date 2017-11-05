@@ -1,5 +1,9 @@
 language: php
 
+php:
+  - 7.2
+  - 7.1
+
 matrix:
   include:
     # run extra build with PHP 7.1
