@@ -1,10 +1,10 @@
 {
     "name": "symplify/package-builder",
+    "description": "Dependency Injection, Console and Kernel toolkit for Symplify packages.",
     "license": "MIT",
     "require": {
         "php": "^7.1",
         "nette/neon": "^2.4|^3.0",
-        "nette/utils": "^2.4|^3.0",
         "symfony/config": "^3.3",
         "symfony/console": "^3.3",
         "symfony/dependency-injection": "^3.3",
