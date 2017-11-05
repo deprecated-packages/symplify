@@ -52,7 +52,7 @@ final class NeonLoader implements LoaderInterface
         $neonLoader = new Loader;
         $content = $neonLoader->load($resource);
 
-        if (count($allowedSections)) {
+        if (is_array($allowedSections) && count($allowedSections)) {
             $this->validateContentSections($content, $allowedSections);
         }
 
