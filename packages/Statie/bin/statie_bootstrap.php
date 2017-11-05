@@ -7,7 +7,7 @@
 $possibleAutoloadPaths = [
     __DIR__ . '/../../../autoload.php',
     __DIR__ . '/../vendor/autoload.php',
-    __DIR__ . '/../../../vendor/autoload.php'
+    __DIR__ . '/../../../vendor/autoload.php',
 ];
 
 foreach ($possibleAutoloadPaths as $possibleAutoloadPath) {

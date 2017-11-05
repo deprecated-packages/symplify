@@ -3,7 +3,6 @@
     "license": "MIT",
     "require": {
         "php": "^7.1",
-        "nette/bootstrap": "^2.4|^3.0",
         "nette/neon": "^2.4|^3.0",
         "nette/utils": "^2.4|^3.0",
         "symfony/config": "^3.3",
