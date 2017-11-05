@@ -7,15 +7,18 @@
 
 This tools helps build Symplify packages without any knowledge of Dependency Injection components.
 
+
 ## Install
 
 ```bash
 composer require symplify/package-builder
 ```
 
-## Collect Services Together in Extension/Bundle
+## Usage
 
-### In Symfony
+### 1.Usage in Symfony CompilerPass
+
+#### Collect Services of Certain Type Together
 
 ```php
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
@@ -26,10 +29,6 @@ final class CollectorCompilerPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $containerBuilder): void
     {
-        $eventDispatcherDefinition = DefinitionFinder::getByType($containerBuilder, EventDispatcher::class);
-        
-        $eventSubscribersDefinitions = DefinitionFinder::findAllByType($containerBuilder, EventSubscriberInterface::class);
-        
         DefinitionCollector::loadCollectorWithType(
             $containerBuilder,
             EventDispatcher::class,
@@ -40,11 +39,40 @@ final class CollectorCompilerPass implements CompilerPassInterface
 }
 ```
 
-## All Parameters Available in a Service
+
+#### 2. Add Service if Found
+
+
+```php
+use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
+use Symplify\PackageBuilder\Adapter\Symfony\DependencyInjection\DefinitionFinder;
+
+final class CustomSourceProviderDefinitionCompilerPass implements CompilerPassInterface
+{
+    public function process(ContainerBuilder $containerBuilder): void
+    {
+        $customSourceProviderDefinition = DefinitionFinder::getByTypeIfExists(
+            $containerBuilder,
+            CustomSourceProviderInterface::class
+        );
+        
+        if ($customSourceProviderDefinition === null) {
+            return;
+        }
+        
+        $sourceFinderDefinition = DefinitionFinder::getByType($containerBuilder, SourceFinder::class);
+        $sourceFinderDefinition->addMethodCall(
+            'setCustomSourceProvider',
+            [new Reference($customSourceProviderDefinition->getClass())]
+        );
+    }
+}
+```
+
+
+### 2. All Parameters Available in a Service
 
 Note: System parameters are excluded by default.
-
-### In Symfony
 
 Register: 
 
@@ -86,13 +114,13 @@ final class StatieConfiguration
 ```
 
 
-## Do you need a Vendor Directory?
+### 3. Do you need a Vendor Directory?
 
 ```php
 Symplify\PackageBuilder\Composer\VendorDirProvider::provide(); // return path to vendor directory
 ```
 
-## Load a Config for CLI Application?
+### 4. Load a Config for CLI Application?
 
 Use in CLI entry file `bin/<app-name>`, e.g. `bin/statie` or `bin/apigen`. 
   
@@ -131,7 +159,7 @@ $config = Symplify\PackageBuilder\Configuration\ConfigFilePathHelper::provide('s
 This is common practise in CLI applications, e.g. [PHPUnit](https://phpunit.de/) looks for `phpunit.xml`.
 
 
-## Use SymfonyStyle for Console Output Anywhere You Need
+### 5. Use SymfonyStyle for Console Output Anywhere You Need
 
 Another use case for `bin/<app-name>`, when you need to output before building Dependency Injection Container. E.g. when ContainerFactory fails on exception that you need to report nicely.    
  
@@ -147,7 +175,7 @@ try {
 ```
 
 
-## Load `*.neon` config files in Kernel
+### 6. Load `*.neon` config files in Kernel
  
 You can load `*.yaml` files in Kernel by default. Now `*.neon` as well:
   
