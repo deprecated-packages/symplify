@@ -1,9 +1,0 @@
-includes:
-    - included-config.neon
-
-parameters:
-    two: 2
-
-
-services:
-    - Symplify\PackageBuilder\Adapter\Nette\Parameter\ParameterProvider

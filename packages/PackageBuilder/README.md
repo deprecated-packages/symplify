@@ -5,9 +5,8 @@
 [![Subscribe](https://img.shields.io/badge/subscribe-to--releases-green.svg?style=flat-square)](https://libraries.io/packagist/symplify%2Fpackage-builder)
 
 
-*Write package once and let many other frameworks use it.*
+This tools helps build Symplify packages without any knowledge of Dependency Injection components.
 
-This tools helps you to build package integrations to Symfony and Nette, without any knowledge of their Dependency Injection components.
 
 ## Install
 
@@ -15,9 +14,11 @@ This tools helps you to build package integrations to Symfony and Nette, without
 composer require symplify/package-builder
 ```
 
-## Collect Services Together in Extension/Bundle
+## Usage
 
-### In Symfony
+### 1.Usage in Symfony CompilerPass
+
+#### Collect Services of Certain Type Together
 
 ```php
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
@@ -28,10 +29,6 @@ final class CollectorCompilerPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $containerBuilder): void
     {
-        $eventDispatcherDefinition = DefinitionFinder::getByType($containerBuilder, EventDispatcher::class);
-        
-        $eventSubscribersDefinitions = DefinitionFinder::findAllByType($containerBuilder, EventSubscriberInterface::class);
-        
         DefinitionCollector::loadCollectorWithType(
             $containerBuilder,
             EventDispatcher::class,
@@ -42,37 +39,40 @@ final class CollectorCompilerPass implements CompilerPassInterface
 }
 ```
 
-### In Nette
+
+#### 2. Add Service if Found
+
 
 ```php
-use Nette\DI\CompilerExtension;
-use Symplify\PackageBuilder\Adapter\Nette\DI\DefinitionCollector;
-use Symplify\PackageBuilder\Adapter\Nette\DI\DefinitionFinder;
+use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
+use Symplify\PackageBuilder\Adapter\Symfony\DependencyInjection\DefinitionFinder;
 
-final class SomeExtension extends CompilerExtension
+final class CustomSourceProviderDefinitionCompilerPass implements CompilerPassInterface
 {
-    public function beforeCompile(): void
+    public function process(ContainerBuilder $containerBuilder): void
     {
-        $eventDispatcherDefinition = DefinitionFinder::getByType($containerBuilder, EventDispatcher::class);
-        
-        $eventSubscribersDefinitions = DefinitionFinder::findAllByType($containerBuilder, EventSubscriberInterface::class);
-        
-        DefinitionCollector::loadCollectorWithType(
+        $customSourceProviderDefinition = DefinitionFinder::getByTypeIfExists(
             $containerBuilder,
-            EventDispatcher::class,
-            EventSubscriberInterface::class,
-            'addSubscriber'
+            CustomSourceProviderInterface::class
+        );
+        
+        if ($customSourceProviderDefinition === null) {
+            return;
+        }
+        
+        $sourceFinderDefinition = DefinitionFinder::getByType($containerBuilder, SourceFinder::class);
+        $sourceFinderDefinition->addMethodCall(
+            'setCustomSourceProvider',
+            [new Reference($customSourceProviderDefinition->getClass())]
         );
     }
 }
 ```
 
 
-## All Parameters Available in a Service
+### 2. All Parameters Available in a Service
 
 Note: System parameters are excluded by default.
-
-### In Symfony
 
 Register: 
 
@@ -113,52 +113,14 @@ final class StatieConfiguration
 }
 ```
 
-### In Nette
 
-Register: 
-
-```yml
-# app/config/config.neon
-
-parameters:
-    source: src 
-
-services:
-    - Symplify\PackageBuilder\Adapter\Nette\Parameter\ParameterProvider
-```
-
-Then require in `__construct()` where needed:
-
-```php
-use Symplify\PackageBuilder\Adapter\Nette\Parameter\ParameterProvider;
-
-final class StatieConfiguration
-{
-    /**
-     * @var ParameterProvider
-     */
-    private $parameterProvider;
-    
-    public function __construct(ParameterProvider $parameterProvider)
-    {
-        $this->parameterProvider = $parameterProvider;
-    }
-    
-    public function getSource(): string
-    {
-        return $parameterProvider->provide()['source']; // returns "src"
-    }
-}
-```
-
-
-## Do you need a Vendor Directory?
+### 3. Do you need a Vendor Directory?
 
 ```php
 Symplify\PackageBuilder\Composer\VendorDirProvider::provide(); // return path to vendor directory
 ```
 
-## Load a Config for CLI Application?
+### 4. Load a Config for CLI Application?
 
 Use in CLI entry file `bin/<app-name>`, e.g. `bin/statie` or `bin/apigen`. 
   
@@ -197,7 +159,7 @@ $config = Symplify\PackageBuilder\Configuration\ConfigFilePathHelper::provide('s
 This is common practise in CLI applications, e.g. [PHPUnit](https://phpunit.de/) looks for `phpunit.xml`.
 
 
-## Use SymfonyStyle for Console Output Anywhere You Need
+### 5. Use SymfonyStyle for Console Output Anywhere You Need
 
 Another use case for `bin/<app-name>`, when you need to output before building Dependency Injection Container. E.g. when ContainerFactory fails on exception that you need to report nicely.    
  
@@ -213,7 +175,7 @@ try {
 ```
 
 
-## Load `*.neon` config files in Kernel
+### 6. Load `*.neon` config files in Kernel
  
 You can load `*.yaml` files in Kernel by default. Now `*.neon` as well:
   
