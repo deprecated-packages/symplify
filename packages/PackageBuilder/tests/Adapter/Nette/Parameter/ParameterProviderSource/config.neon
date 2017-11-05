@@ -1,5 +1,0 @@
-parameters:
-    key: value
-
-services:
-    - Symplify\PackageBuilder\Adapter\Nette\Parameter\ParameterProvider

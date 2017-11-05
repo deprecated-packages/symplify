@@ -5,9 +5,7 @@
 [![Subscribe](https://img.shields.io/badge/subscribe-to--releases-green.svg?style=flat-square)](https://libraries.io/packagist/symplify%2Fpackage-builder)
 
 
-*Write package once and let many other frameworks use it.*
-
-This tools helps you to build package integrations to Symfony and Nette, without any knowledge of their Dependency Injection components.
+This tools helps build Symplify packages without any knowledge of Dependency Injection components.
 
 ## Install
 
