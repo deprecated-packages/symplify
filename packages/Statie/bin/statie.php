@@ -9,19 +9,7 @@ use Symplify\Statie\DependencyInjection\ContainerFactory;
 // performance boost
 gc_disable();
 
-/**
- * This allows to load "vendor/autoload.php" both from
- * "composer create-project ..." and "composer require" installation.
- */
-$possibleAutoloadPaths = [__DIR__ . '/../../..', __DIR__ . '/../vendor', __DIR__ . '/../../../vendor'];
-
-foreach ($possibleAutoloadPaths as $possibleAutoloadPath) {
-    if (file_exists($possibleAutoloadPath . '/autoload.php')) {
-        require_once $possibleAutoloadPath . '/autoload.php';
-
-        break;
-    }
-}
+require_once __DIR__ . '/statie_bootstrap.php';
 
 try {
     // 1. Detect configuration
