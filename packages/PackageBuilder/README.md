@@ -40,32 +40,6 @@ final class CollectorCompilerPass implements CompilerPassInterface
 }
 ```
 
-### In Nette
-
-```php
-use Nette\DI\CompilerExtension;
-use Symplify\PackageBuilder\Adapter\Nette\DI\DefinitionCollector;
-use Symplify\PackageBuilder\Adapter\Nette\DI\DefinitionFinder;
-
-final class SomeExtension extends CompilerExtension
-{
-    public function beforeCompile(): void
-    {
-        $eventDispatcherDefinition = DefinitionFinder::getByType($containerBuilder, EventDispatcher::class);
-        
-        $eventSubscribersDefinitions = DefinitionFinder::findAllByType($containerBuilder, EventSubscriberInterface::class);
-        
-        DefinitionCollector::loadCollectorWithType(
-            $containerBuilder,
-            EventDispatcher::class,
-            EventSubscriberInterface::class,
-            'addSubscriber'
-        );
-    }
-}
-```
-
-
 ## All Parameters Available in a Service
 
 Note: System parameters are excluded by default.
@@ -91,44 +65,6 @@ Then require in `__construct()` where needed:
 
 ```php
 use Symplify\PackageBuilder\Adapter\Symfony\Parameter\ParameterProvider;
-
-final class StatieConfiguration
-{
-    /**
-     * @var ParameterProvider
-     */
-    private $parameterProvider;
-    
-    public function __construct(ParameterProvider $parameterProvider)
-    {
-        $this->parameterProvider = $parameterProvider;
-    }
-    
-    public function getSource(): string
-    {
-        return $parameterProvider->provide()['source']; // returns "src"
-    }
-}
-```
-
-### In Nette
-
-Register: 
-
-```yml
-# app/config/config.neon
-
-parameters:
-    source: src 
-
-services:
-    - Symplify\PackageBuilder\Adapter\Nette\Parameter\ParameterProvider
-```
-
-Then require in `__construct()` where needed:
-
-```php
-use Symplify\PackageBuilder\Adapter\Nette\Parameter\ParameterProvider;
 
 final class StatieConfiguration
 {
