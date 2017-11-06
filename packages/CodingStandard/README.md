@@ -167,41 +167,6 @@ require __DIR__.'/vendor/autoload.php';
 ```
 
 
-### Constructor injection should be used instead of `@inject` annotations 
-
-- class: [`Symplify\CodingStandard\Fixer\DependencyInjection\InjectToConstructorInjectionFixer`](/src/Fixer/DependencyInjection/InjectToConstructorInjectionFixer.php)
-
-:x:
-
-```php
-class SomeClass
-{
-    /**
-     * @inject
-     * @var RequiredDependencyClass
-     */
-    public $requiredDependencyClass;
-}
-```
-
-:+1:
-
-```php
-class SomeClass
-{
-    /**
-     * @var RequiredDependencyClass
-     */
-    private $requiredDependencyClass;
-    
-    public function __construct(RequiredDependencyClass $requiredDependencyClass)
-    {
-        $this->requiredDependencyClass = $requiredDependencyClass;
-    }
-}
-```
-
-
 ### Magic PHP methods (`__*()`) should respect their casing form
 
 - class: [`Symplify\CodingStandard\Fixer\Naming\MagicMethodsNamingFixer`](/src/Fixer/Naming/MagicMethodsNamingFixer.php)
