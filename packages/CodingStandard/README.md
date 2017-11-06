@@ -425,7 +425,7 @@ $file = new File;
 $directory = new Directory([$file]);
 ```
 
-### There should comments with valid code
+### There should not be comments with valid code
 
 - class: [`Symplify\CodingStandard\Sniffs\Debug\CommentedOutCodeSniff`](/src/Sniffs/Debug/CommentedOutCodeSniff.php)
 
