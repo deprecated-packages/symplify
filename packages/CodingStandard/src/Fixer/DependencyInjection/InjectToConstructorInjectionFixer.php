@@ -15,6 +15,15 @@ use Symplify\CodingStandard\Tokenizer\ClassTokensAnalyzer;
 
 final class InjectToConstructorInjectionFixer implements DefinedFixerInterface
 {
+    public function __construct()
+    {
+        trigger_error(sprintf(
+            'Class "%s" was deprecated and will be remove in Symplify 3.0. Use %s instead.',
+            self::class,
+            'Rector and InjectPropertyRector (https://github.com/RectorPHP/Rector/blob/4668f1feb25763b234738a8b920350fb133694b4/src/Rector/Contrib/Nette/Application/InjectPropertyRector.php)'
+        ), E_USER_DEPRECATED);
+    }
+
     public function getDefinition(): FixerDefinitionInterface
     {
         return new FixerDefinition(
