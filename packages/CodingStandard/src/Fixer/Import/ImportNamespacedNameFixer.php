@@ -6,6 +6,7 @@ use PhpCsFixer\Fixer\FixerInterface;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
+use Symplify\CodingStandard\FixerTokenWrapper\NameAnalyzer;
 use Symplify\CodingStandard\FixerTokenWrapper\Naming\ClassFqnResolver;
 
 /**
@@ -37,8 +38,8 @@ final class ImportNamespacedNameFixer implements FixerInterface
         for ($index = $tokens->getSize() - 1; $index > 0; --$index) {
             $token = $tokens[$index];
 
-            // case 1.
-            if (! $this->isImportableName($tokens, $token, $index)) {
+            // Case 1.
+            if (! NameAnalyzer::isImportableName($tokens, $token, $index)) {
                 continue;
             }
 
@@ -112,47 +113,6 @@ final class ImportNamespacedNameFixer implements FixerInterface
             $namespaceSemicolonPosition + 2,
             $this->createUseStatementTokens($nameTokens)
         );
-    }
-
-    private function isImportableName(Tokens $tokens, Token $token, int $index): bool
-    {
-        if (! $token->isGivenKind(T_STRING)) {
-            return false;
-        }
-
-        // already part of another namespaced name
-        if ($tokens[$index + 1]->isGivenKind(T_NS_SEPARATOR)) {
-            return false;
-        }
-
-        if ($tokens[$index - 2]->isGivenKind(T_NAMESPACE)) {
-            // namespace: namespace "SomeName"
-            return false;
-        }
-
-        if ($tokens[$index - 2]->isGivenKind(T_USE)) {
-            // use statement: use "SomeName"
-            return false;
-        }
-
-        if (! $tokens[$index - 1]->isGivenKind(T_NS_SEPARATOR)
-            && ! $tokens[$index + 1]->isGivenKind(T_NS_SEPARATOR)) {
-            // cannot be bare name SomeName - use slash before/after, only \SomeName or SomeName\
-            return false;
-        }
-
-        // one is in use statement, how to detect it?
-        $currentIndex = $index;
-        while ($tokens[$currentIndex]->isGivenKind([T_NS_SEPARATOR, T_STRING])) {
-            if ($tokens[$currentIndex - 2]->isGivenKind(T_USE)) {
-                // namespace: namespace "SomeName"
-                return false;
-            }
-
-            --$currentIndex;
-        }
-
-        return true;
     }
 
     /**
