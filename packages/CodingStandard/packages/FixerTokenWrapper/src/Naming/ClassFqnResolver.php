@@ -42,7 +42,7 @@ final class ClassFqnResolver
     }
 
     /**
-     * @return string[]|int[]
+     * @return mixed[]
      */
     public static function resolveDataFromEnd(Tokens $tokens, int $end): array
     {
