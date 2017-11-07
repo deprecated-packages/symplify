@@ -23,34 +23,6 @@ final class ClassFqnResolver
      */
     private static $namespaceUseDeclarationsPerTokens = [];
 
-    /**
-     * @param int $start Position of string or namespace separator
-     *
-     * Resolves from start:
-     * - {\}Some\Namespace => Some\Namespace
-     * - {Some}\Namespace => Some\Namespace
-     *
-     * @return int[]|string[]
-     */
-    public static function resolveDataFromStart(Tokens $tokens, int $start): array
-    {
-        $nameParts = [];
-
-        $nextTokenPointer = $start;
-
-        while ($tokens[$nextTokenPointer]->isGivenKind([T_NS_SEPARATOR, T_STRING])) {
-            $nameParts[] = $tokens[$nextTokenPointer]->getContent();
-            ++$nextTokenPointer;
-        }
-
-        return [
-            'start' => $start,
-            'end' => $nextTokenPointer,
-            'name' => implode('', $nameParts),
-            'lastPart' => $nameParts[count($nameParts) - 1]
-        ];
-    }
-
     public static function resolveForNamePosition(Tokens $tokens, int $classNameEndPosition): string
     {
         $classNameParts = [];

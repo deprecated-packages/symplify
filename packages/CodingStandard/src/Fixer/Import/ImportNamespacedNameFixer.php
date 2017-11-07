@@ -118,11 +118,6 @@ final class ImportNamespacedNameFixer implements FixerInterface
             return false;
         }
 
-        // end of name - vague
-        if ($tokens[$index - 1]->isGivenKind(T_NS_SEPARATOR) && $tokens[$index + 1]->getContent() === ';') {
-            return false;
-        }
-
         if ($tokens[$index - 2]->isGivenKind(T_NAMESPACE)) {
             // namespace: namespace "SomeName"
             return false;
