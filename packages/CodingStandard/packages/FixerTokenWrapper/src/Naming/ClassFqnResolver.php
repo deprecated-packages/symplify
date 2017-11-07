@@ -61,6 +61,9 @@ final class ClassFqnResolver
             unset($nameTokens[0]);
             // reset array keys
             $nameTokens = array_values($nameTokens);
+
+            // move start pointer after "\"
+            ++$previousTokenPointer;
         }
 
         $name = '';

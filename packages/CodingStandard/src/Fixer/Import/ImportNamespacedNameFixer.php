@@ -46,14 +46,9 @@ final class ImportNamespacedNameFixer implements FixerInterface
             $nameData = ClassFqnResolver::resolveDataFromEnd($tokens, $index);
 
             // replace with last name part
-            $tokens->overrideRange(
-                $nameData['start'],
-                $nameData['end'],
-                [
-                    new Token([T_WHITESPACE, ' ']),
-                    new Token([T_STRING, $nameData['lastPart']]),
-                ]
-            );
+            $tokens->overrideRange($nameData['start'], $nameData['end'], [
+                new Token([T_STRING, $nameData['lastPart']]),
+            ]);
 
             // has this been already imported?
             if ($this->wasNameImported($nameData['name'])) {
