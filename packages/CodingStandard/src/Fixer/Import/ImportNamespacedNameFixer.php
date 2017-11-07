@@ -136,8 +136,7 @@ final class ImportNamespacedNameFixer implements FixerInterface
         }
 
         if (! $tokens[$index - 1]->isGivenKind(T_NS_SEPARATOR)
-            && ! $tokens[$index + 1]->isGivenKind(T_NS_SEPARATOR)
-        ) {
+            && ! $tokens[$index + 1]->isGivenKind(T_NS_SEPARATOR)) {
             // cannot be bare name SomeName - use slash before/after, only \SomeName or SomeName\
             return false;
         }
