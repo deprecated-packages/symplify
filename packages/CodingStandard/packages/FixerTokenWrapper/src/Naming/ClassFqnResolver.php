@@ -3,6 +3,7 @@
 namespace Symplify\CodingStandard\FixerTokenWrapper\Naming;
 
 use PhpCsFixer\Fixer\Import\NoUnusedImportsFixer;
+use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use PhpCsFixer\Tokenizer\TokensAnalyzer;
 use ReflectionMethod;
@@ -23,7 +24,7 @@ final class ClassFqnResolver
     private static $namespaceUseDeclarationsPerTokens = [];
 
     /**
-     * @param int $start Position of string of namespace separator
+     * @param int $start Position of string or namespace separator
      *
      * Resolves from start:
      * - {\}Some\Namespace => Some\Namespace
@@ -66,6 +67,42 @@ final class ClassFqnResolver
         $completeClassName = implode(self::NAMESPACE_SEPARATOR, $classNameParts);
 
         return self::resolveForName($tokens, $completeClassName);
+    }
+
+    /**
+     * @return string[]|int[]
+     */
+    public static function resolveDataFromEnd(Tokens $tokens, int $end): array
+    {
+        $nameTokens = [];
+
+        $previousTokenPointer = $end;
+
+        while ($tokens[$previousTokenPointer]->isGivenKind([T_NS_SEPARATOR, T_STRING])) {
+            $nameTokens[] = $tokens[$previousTokenPointer];
+            --$previousTokenPointer;
+        }
+
+        /** @var Token[] $nameTokens */
+        $nameTokens = array_reverse($nameTokens);
+        if ($nameTokens[0]->isGivenKind(T_NS_SEPARATOR)) {
+            unset($nameTokens[0]);
+            // reset array keys
+            $nameTokens = array_values($nameTokens);
+        }
+
+        $name = '';
+        foreach ($nameTokens as $nameToken) {
+            $name .= $nameToken->getContent();
+        }
+
+        return [
+            'start' => $previousTokenPointer,
+            'end' => $end,
+            'name' => $name,
+            'lastPart' => $nameTokens[count($nameTokens) - 1]->getContent(),
+            'nameTokens' => $nameTokens,
+        ];
     }
 
     public static function resolveForName(Tokens $tokens, string $className): string

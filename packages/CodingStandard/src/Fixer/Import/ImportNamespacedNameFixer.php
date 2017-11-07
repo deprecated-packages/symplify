@@ -37,32 +37,31 @@ final class ImportNamespacedNameFixer implements FixerInterface
 //        $tokensAnalyzer = new TokensAnalyzer($tokens);
 //        $uses = array_reverse($tokensAnalyzer->getImportUseIndexes());
 
-        for ($index = 0; $index < $tokens->getSize(); ++$index) {
+        for ($index = $tokens->getSize() - 1; $index > 0; --$index) {
             $token = $tokens[$index];
 
             // case 1.
-            if ($token->isGivenKind([T_NS_SEPARATOR]) && ! $tokens[$index - 1]->isGivenKind(T_STRING)) {
-                $nameData = ClassFqnResolver::resolveDataFromStart($tokens, $index);
-
-                // todo: put into top
-                $this->addIntoUseStatements($tokens, $nameData['name']);
-
-                $tokens->overrideRange(
-                    $nameData['start'],
-                    $nameData['end'],
-                    [
-                        new Token([T_WHITESPACE, ' ']),
-                        new Token([T_STRING, $nameData['lastPart']])
-                    ]
-                );
-
-                $index = $nameData['end'];
-
-                // replace with last name part
-
-                // increase index to skip all used tokens
-                // $i+
+            if (! $this->isImportableName($tokens, $token, $index)) {
+                continue;
             }
+
+            $nameData = ClassFqnResolver::resolveDataFromEnd($tokens, $index);
+
+            // replace with last name part
+            $tokens->overrideRange(
+                $nameData['start'],
+                $nameData['end'],
+                [
+                    new Token([T_WHITESPACE, ' ']),
+                    new Token([T_STRING, $nameData['lastPart']]),
+                ]
+            );
+
+            // add use statement
+            $this->addIntoUseStatements($tokens, $nameData['nameTokens']);
+
+            // increase index to skip all used tokens
+            $index = $nameData['start'];
         }
     }
 
@@ -94,15 +93,63 @@ final class ImportNamespacedNameFixer implements FixerInterface
         return $this->namespacePosition = key($namespace);
     }
 
-    private function addIntoUseStatements(Tokens $tokens, string $useStatement): void
+    /**
+     * @param Token[] $nameTokens
+     */
+    private function addIntoUseStatements(Tokens $tokens, array $nameTokens): void
     {
         $namespacePosition = $this->getNamespacePosition($tokens);
         $namespaceSemicolonPosition = $tokens->getNextTokenOfKind($namespacePosition, [';']);
 
-        $tokens->insertAt($namespaceSemicolonPosition + 1, [
-           new Token([T_USE, 'use']),
-           new Token([T_WHITESPACE, PHP_EOL . ' ']),
-           new Token([T_STRING, $useStatement]),
-        ]);
+        $tokens->insertAt(
+            $namespaceSemicolonPosition + 2,
+            $this->createUseStatementTokens($nameTokens)
+        );
+    }
+
+    private function isImportableName(Tokens $tokens, Token $token, int $index): bool
+    {
+        if (! $token->isGivenKind(T_STRING)) {
+            return false;
+        }
+
+        // already part of another namespaced name
+        if ($tokens[$index + 1]->isGivenKind(T_NS_SEPARATOR)) {
+            return false;
+        }
+
+        // end of name - vague
+        if ($tokens[$index - 1]->isGivenKind(T_NS_SEPARATOR) && $tokens[$index + 1]->getContent() === ';') {
+            return false;
+        }
+
+        if ($tokens[$index - 2]->isGivenKind(T_NAMESPACE)) {
+            // namespace: namespace "SomeName"
+            return false;
+        }
+
+        if ($tokens[$index - 2]->isGivenKind(T_USE)) {
+            // use statement: use "SomeName"
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * @param Token[] $nameTokens
+     * @return Token[]
+     */
+    private function createUseStatementTokens(array $nameTokens): array
+    {
+        $tokens = [];
+
+        $tokens[] = new Token([T_USE, 'use']);
+        $tokens[] = new Token([T_WHITESPACE, ' ']);
+        $tokens = array_merge($tokens, $nameTokens);
+        $tokens[] = new Token(';');
+        $tokens[] = new Token([T_WHITESPACE, PHP_EOL]);
+
+        return $tokens;
     }
 }
