@@ -13,6 +13,7 @@ use Symplify\CodingStandard\FixerTokenWrapper\Naming\ClassFqnResolver;
  * Possible cases.
  *
  * - 1. string that start with pre slash \SomeThing
+ * - 2. namespace with conflicts \First\SomeClass + \Second\SomeClass
  */
 final class ImportNamespacedNameFixer implements FixerInterface
 {
@@ -45,13 +46,15 @@ final class ImportNamespacedNameFixer implements FixerInterface
 
             $nameData = ClassFqnResolver::resolveDataFromEnd($tokens, $index);
 
+            $nameData = $this->uniquateLastPart($nameData);
+
             // replace with last name part
             $tokens->overrideRange($nameData['start'], $nameData['end'], [
                 new Token([T_STRING, $nameData['lastPart']]),
             ]);
 
             // has this been already imported?
-            if ($this->wasNameImported($nameData['name'])) {
+            if ($this->wasNameImported($nameData)) {
                 continue;
             }
 
@@ -127,14 +130,34 @@ final class ImportNamespacedNameFixer implements FixerInterface
         return $tokens;
     }
 
-    private function wasNameImported(string $name): bool
+    /**
+     * @todo use DTO object for nameData
+     */
+    private function wasNameImported(array $nameData): bool
     {
-        if (isset($this->importedNames[$name])) {
+        if (isset($this->importedNames[$nameData['name']])) {
             return true;
         }
 
-        $this->importedNames[$name] = true;
+        $this->importedNames[$nameData['name']] = $nameData['lastPart'];
 
         return false;
+    }
+
+    /**
+     * Make last part unique
+     *
+     * @param array $nameData
+     * @return array
+     */
+    private function uniquateLastPart(array $nameData): array
+    {
+        foreach ($this->importedNames as $fullName => $lastName) {
+            if ($lastName === $nameData['lastPart'] && $fullName !== $nameData['name']) {
+                $nameData['lastPart'] = 'Second' . $nameData['lastPart'];
+            }
+        }
+
+        return $nameData;
     }
 }
