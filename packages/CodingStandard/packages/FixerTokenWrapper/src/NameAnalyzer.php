@@ -18,27 +18,17 @@ final class NameAnalyzer
             return false;
         }
 
-        if ($tokens[$index - 2]->isGivenKind(T_NAMESPACE)) {
-            // namespace: namespace "SomeName"
-            return false;
-        }
-
-        if ($tokens[$index - 2]->isGivenKind(T_USE)) {
-            // use statement: use "SomeName"
-            return false;
-        }
-
         if (! $tokens[$index - 1]->isGivenKind(T_NS_SEPARATOR)
             && ! $tokens[$index + 1]->isGivenKind(T_NS_SEPARATOR)) {
             // cannot be bare name SomeName - use slash before/after, only \SomeName or SomeName\
             return false;
         }
 
-        // one is in use statement, how to detect it?
+        // is part of use/namespace statement
         $currentIndex = $index;
         while ($tokens[$currentIndex]->isGivenKind([T_NS_SEPARATOR, T_STRING])) {
-            if ($tokens[$currentIndex - 2]->isGivenKind(T_USE)) {
-                // namespace: namespace "SomeName"
+            if ($tokens[$currentIndex - 2]->isGivenKind([T_USE, T_NAMESPACE])) {
+                // use "SomeName" or namespace "SomeName"
                 return false;
             }
 
