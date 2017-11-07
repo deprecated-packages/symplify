@@ -46,6 +46,7 @@ final class ClassFqnResolver
             'start' => $start,
             'end' => $nextTokenPointer,
             'name' => implode('', $nameParts),
+            'lastPart' => $nameParts[count($nameParts) - 1]
         ];
     }
 

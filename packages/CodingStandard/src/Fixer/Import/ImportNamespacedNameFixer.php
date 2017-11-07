@@ -34,8 +34,8 @@ final class ImportNamespacedNameFixer implements FixerInterface
 
     public function fix(SplFileInfo $file, Tokens $tokens): void
     {
-        $tokensAnalyzer = new TokensAnalyzer($tokens);
-        $uses = array_reverse($tokensAnalyzer->getImportUseIndexes());
+//        $tokensAnalyzer = new TokensAnalyzer($tokens);
+//        $uses = array_reverse($tokensAnalyzer->getImportUseIndexes());
 
         for ($index = 0; $index < $tokens->getSize(); ++$index) {
             $token = $tokens[$index];
@@ -46,6 +46,15 @@ final class ImportNamespacedNameFixer implements FixerInterface
 
                 // todo: put into top
                 $this->addIntoUseStatements($tokens, $nameData['name']);
+
+                $tokens->overrideRange(
+                    $nameData['start'],
+                    $nameData['end'],
+                    [
+                        new Token([T_WHITESPACE, ' ']),
+                        new Token([T_STRING, $nameData['lastPart']])
+                    ]
+                );
 
                 $index = $nameData['end'];
 
@@ -88,8 +97,11 @@ final class ImportNamespacedNameFixer implements FixerInterface
     private function addIntoUseStatements(Tokens $tokens, string $useStatement): void
     {
         $namespacePosition = $this->getNamespacePosition($tokens);
+        $namespaceSemicolonPosition = $tokens->getNextTokenOfKind($namespacePosition, [';']);
 
-        $tokens->insertAt($namespacePosition + 1, [
+        $tokens->insertAt($namespaceSemicolonPosition + 1, [
+           new Token([T_USE, 'use']),
+           new Token([T_WHITESPACE, PHP_EOL . ' ']),
            new Token([T_STRING, $useStatement]),
         ]);
     }
