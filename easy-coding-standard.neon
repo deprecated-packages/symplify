@@ -64,10 +64,6 @@ parameters:
         PhpCsFixer\Fixer\PhpUnit\PhpUnitStrictFixer:
             - packages/EasyCodingStandard/tests/Indentation/IndentationTest.php
 
-        PhpCsFixer\Fixer\Semicolon\SpaceAfterSemicolonFixer:
-            # bugged fixer
-            - packages/CodingStandard/src/Fixer/DependencyInjection/InjectToConstructorInjectionFixer.php
-
         Symplify\CodingStandard\Fixer\Php\ClassStringToClassConstantFixer:
             # name parts, not classes
             - packages/CodingStandard/src/Sniffs/DependencyInjection/NoClassInstantiationSniff.php
