@@ -5,7 +5,6 @@ namespace Symplify\CodingStandard\Fixer\Import;
 use PhpCsFixer\Fixer\FixerInterface;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
-use PhpCsFixer\Tokenizer\TokensAnalyzer;
 use SplFileInfo;
 use Symplify\CodingStandard\FixerTokenWrapper\Naming\ClassFqnResolver;
 
@@ -21,21 +20,19 @@ final class ImportNamespacedNameFixer implements FixerInterface
      */
     private $namespacePosition;
 
+    /**
+     * @var bool[]
+     */
+    private $importedNames = [];
+
     public function isCandidate(Tokens $tokens): bool
     {
-        return $tokens->isTokenKindFound(T_STRING);
-    }
-
-    public function isRisky(): bool
-    {
-        // first version is unable to deal with duplicated names
-        return true;
+        return $tokens->isAllTokenKindsFound([T_CLASS, T_STRING]);
     }
 
     public function fix(SplFileInfo $file, Tokens $tokens): void
     {
-//        $tokensAnalyzer = new TokensAnalyzer($tokens);
-//        $uses = array_reverse($tokensAnalyzer->getImportUseIndexes());
+        $this->importedNames = [];
 
         for ($index = $tokens->getSize() - 1; $index > 0; --$index) {
             $token = $tokens[$index];
@@ -57,11 +54,13 @@ final class ImportNamespacedNameFixer implements FixerInterface
                 ]
             );
 
+            // has this been already imported?
+            if ($this->wasNameImported($nameData['name'])) {
+                continue;
+            }
+
             // add use statement
             $this->addIntoUseStatements($tokens, $nameData['nameTokens']);
-
-            // increase index to skip all used tokens
-            $index = $nameData['start'];
         }
     }
 
@@ -70,10 +69,18 @@ final class ImportNamespacedNameFixer implements FixerInterface
         return self::class;
     }
 
+    /**
+     * Run before @see \PhpCsFixer\Fixer\Import\OrderedImportsFixer.
+     */
     public function getPriority(): int
     {
-        // @todo: run before namespace sorting sorting
-        return 0;
+        return -40;
+    }
+
+    public function isRisky(): bool
+    {
+        // first version is unable to deal with duplicated names
+        return true;
     }
 
     public function supports(SplFileInfo $file): bool
@@ -128,6 +135,26 @@ final class ImportNamespacedNameFixer implements FixerInterface
             return false;
         }
 
+
+        if (
+            ! $tokens[$index - 1]->isGivenKind(T_NS_SEPARATOR)
+            && ! $tokens[$index + 1]->isGivenKind(T_NS_SEPARATOR)
+        ) {
+            // cannot be bare name SomeName - use slash before/after, only \SomeName or SomeName\
+            return false;
+        }
+
+        // one is in use statement, how to detect it?
+        $currentIndex = $index;
+        while ($tokens[$currentIndex]->isGivenKind([T_NS_SEPARATOR, T_STRING])) {
+            if ($tokens[$currentIndex - 2]->isGivenKind(T_USE)) {
+                // namespace: namespace "SomeName"
+                return false;
+            }
+
+            --$currentIndex;
+        }
+
         return true;
     }
 
@@ -146,5 +173,16 @@ final class ImportNamespacedNameFixer implements FixerInterface
         $tokens[] = new Token([T_WHITESPACE, PHP_EOL]);
 
         return $tokens;
+    }
+
+    private function wasNameImported(string $name): bool
+    {
+        if (isset($this->importedNames[$name])) {
+            return true;
+        }
+
+        $this->importedNames[$name] = true;
+
+        return false;
     }
 }
