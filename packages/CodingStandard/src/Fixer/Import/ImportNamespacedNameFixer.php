@@ -60,7 +60,7 @@ final class ImportNamespacedNameFixer implements FixerInterface
             }
 
             // add use statement
-            $this->addIntoUseStatements($tokens, $name->getNameTokens());
+            $this->addIntoUseStatements($tokens, $name);
         }
     }
 
@@ -103,37 +103,17 @@ final class ImportNamespacedNameFixer implements FixerInterface
     /**
      * @param Token[] $nameTokens
      */
-    private function addIntoUseStatements(Tokens $tokens, array $nameTokens): void
+    private function addIntoUseStatements(Tokens $tokens, Name $name): void
     {
         $namespacePosition = $this->getNamespacePosition($tokens);
         $namespaceSemicolonPosition = $tokens->getNextTokenOfKind($namespacePosition, [';']);
 
         $tokens->insertAt(
             $namespaceSemicolonPosition + 2,
-            $this->createUseStatementTokens($nameTokens)
+            $name->getUseNameTokens()
         );
     }
 
-    /**
-     * @param Token[] $nameTokens
-     * @return Token[]
-     */
-    private function createUseStatementTokens(array $nameTokens): array
-    {
-        $tokens = [];
-
-        $tokens[] = new Token([T_USE, 'use']);
-        $tokens[] = new Token([T_WHITESPACE, ' ']);
-        $tokens = array_merge($tokens, $nameTokens);
-        $tokens[] = new Token(';');
-        $tokens[] = new Token([T_WHITESPACE, PHP_EOL]);
-
-        return $tokens;
-    }
-
-    /**
-     * @todo use DTO object for nameData
-     */
     private function wasNameImported(Name $name): bool
     {
         if (isset($this->importedNames[$name->getName()])) {
@@ -145,9 +125,6 @@ final class ImportNamespacedNameFixer implements FixerInterface
         return false;
     }
 
-    /**
-     * Make last part unique.
-     */
     private function uniquateLastPart(Name $name): Name
     {
         foreach ($this->importedNames as $fullName => $lastName) {

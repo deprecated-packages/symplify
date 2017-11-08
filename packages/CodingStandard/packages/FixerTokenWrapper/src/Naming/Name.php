@@ -75,4 +75,20 @@ final class Name
     {
         $this->lastName = $lastName;
     }
+
+    /**
+     * @return Token[]
+     */
+    public function getUseNameTokens(): array
+    {
+        $tokens = [];
+
+        $tokens[] = new Token([T_USE, 'use']);
+        $tokens[] = new Token([T_WHITESPACE, ' ']);
+        $tokens = array_merge($tokens, $this->getNameTokens());
+        $tokens[] = new Token(';');
+        $tokens[] = new Token([T_WHITESPACE, PHP_EOL]);
+
+        return $tokens;
+    }
 }
