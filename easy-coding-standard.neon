@@ -12,6 +12,7 @@ checkers:
     Symplify\CodingStandard\Sniffs\DependencyInjection\NoClassInstantiationSniff:
         extraAllowedClasses:
             - Symplify\EasyCodingStandard\Error\Error
+            - Symplify\CodingStandard\FixerTokenWrapper\Naming\Name
 
     # Slevomat
     SlevomatCodingStandard\Sniffs\Namespaces\ReferenceUsedNamesOnlySniff:

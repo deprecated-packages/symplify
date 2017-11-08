@@ -6,8 +6,9 @@ use PhpCsFixer\Fixer\FixerInterface;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
-use Symplify\CodingStandard\FixerTokenWrapper\NameAnalyzer;
 use Symplify\CodingStandard\FixerTokenWrapper\Naming\ClassFqnResolver;
+use Symplify\CodingStandard\FixerTokenWrapper\Naming\Name;
+use Symplify\CodingStandard\FixerTokenWrapper\Naming\NameAnalyzer;
 
 /**
  * Possible cases.
@@ -44,22 +45,22 @@ final class ImportNamespacedNameFixer implements FixerInterface
                 continue;
             }
 
-            $nameData = ClassFqnResolver::resolveDataFromEnd($tokens, $index);
+            $name = ClassFqnResolver::resolveDataFromEnd($tokens, $index);
 
-            $nameData = $this->uniquateLastPart($nameData);
+            $name = $this->uniquateLastPart($name);
 
             // replace with last name part
-            $tokens->overrideRange($nameData['start'], $nameData['end'], [
-                new Token([T_STRING, $nameData['lastPart']]),
+            $tokens->overrideRange($name->getStart(), $name->getEnd(), [
+                new Token([T_STRING, $name->getLastName()]),
             ]);
 
             // has this been already imported?
-            if ($this->wasNameImported($nameData)) {
+            if ($this->wasNameImported($name)) {
                 continue;
             }
 
             // add use statement
-            $this->addIntoUseStatements($tokens, $nameData['nameTokens']);
+            $this->addIntoUseStatements($tokens, $name->getNameTokens());
         }
     }
 
@@ -133,31 +134,29 @@ final class ImportNamespacedNameFixer implements FixerInterface
     /**
      * @todo use DTO object for nameData
      */
-    private function wasNameImported(array $nameData): bool
+    private function wasNameImported(Name $name): bool
     {
-        if (isset($this->importedNames[$nameData['name']])) {
+        if (isset($this->importedNames[$name->getName()])) {
             return true;
         }
 
-        $this->importedNames[$nameData['name']] = $nameData['lastPart'];
+        $this->importedNames[$name->getName()] = $name->getLastName();
 
         return false;
     }
 
     /**
-     * Make last part unique
-     *
-     * @param array $nameData
-     * @return array
+     * Make last part unique.
      */
-    private function uniquateLastPart(array $nameData): array
+    private function uniquateLastPart(Name $name): Name
     {
         foreach ($this->importedNames as $fullName => $lastName) {
-            if ($lastName === $nameData['lastPart'] && $fullName !== $nameData['name']) {
-                $nameData['lastPart'] = 'Second' . $nameData['lastPart'];
+            if ($lastName === $name->getLastName() && $fullName !== $name->getName()) {
+                // @todo: make configurable
+                $name->changeLastName('Second' . $name->getLastName());
             }
         }
 
-        return $nameData;
+        return $name;
     }
 }

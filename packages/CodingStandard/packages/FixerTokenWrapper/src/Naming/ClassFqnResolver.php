@@ -41,10 +41,7 @@ final class ClassFqnResolver
         return self::resolveForName($tokens, $completeClassName);
     }
 
-    /**
-     * @return mixed[]
-     */
-    public static function resolveDataFromEnd(Tokens $tokens, int $end): array
+    public static function resolveDataFromEnd(Tokens $tokens, int $end): Name
     {
         $nameTokens = [];
 
@@ -71,13 +68,12 @@ final class ClassFqnResolver
             $name .= $nameToken->getContent();
         }
 
-        return [
-            'start' => $previousTokenPointer,
-            'end' => $end,
-            'name' => $name,
-            'lastPart' => $nameTokens[count($nameTokens) - 1]->getContent(),
-            'nameTokens' => $nameTokens,
-        ];
+        return new Name(
+            $previousTokenPointer,
+            $end,
+            $name,
+            $nameTokens
+        );
     }
 
     public static function resolveForName(Tokens $tokens, string $className): string
