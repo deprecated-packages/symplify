@@ -50,9 +50,7 @@ final class ImportNamespacedNameFixer implements FixerInterface
             $name = $this->uniquateLastPart($name);
 
             // replace with last name part
-            $tokens->overrideRange($name->getStart(), $name->getEnd(), [
-                new Token([T_STRING, $name->getLastName()]),
-            ]);
+            $tokens->overrideRange($name->getStart(), $name->getEnd(), [$name->getLastNameToken()]);
 
             // has this been already imported?
             if ($this->wasNameImported($name)) {

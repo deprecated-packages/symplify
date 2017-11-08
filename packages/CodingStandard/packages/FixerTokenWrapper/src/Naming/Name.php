@@ -91,4 +91,9 @@ final class Name
 
         return $tokens;
     }
+
+    public function getLastNameToken(): Token
+    {
+        return new Token([T_STRING, $this->getLastName()]);
+    }
 }
