@@ -38,6 +38,10 @@ final class Test extends AbstractFixerTestCase
                 file_get_contents(__DIR__ . '/fixed/fixed4.php.inc'),
                 file_get_contents(__DIR__ . '/wrong/wrong4.php.inc'),
             ],
+            [
+                file_get_contents(__DIR__ . '/fixed/fixed5.php.inc'),
+                file_get_contents(__DIR__ . '/wrong/wrong5.php.inc'),
+            ],
         ];
     }
 

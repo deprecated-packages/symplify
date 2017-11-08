@@ -22,9 +22,9 @@ final class Name
     private $name;
 
     /**
-     * @var array|Token[]
+     * @var Token[]
      */
-    private $nameTokens;
+    private $nameTokens = [];
 
     /**
      * @var string
@@ -35,6 +35,11 @@ final class Name
      * @var string|null
      */
     private $alias;
+
+    /**
+     * @var mixed[]|null
+     */
+    private $partialUseDeclaration;
 
     /**
      * @param Token[] $nameTokens
@@ -86,6 +91,21 @@ final class Name
 
         $tokens[] = new Token([T_USE, 'use']);
         $tokens[] = new Token([T_WHITESPACE, ' ']);
+
+        if ($this->partialUseDeclaration) {
+            $startName = $this->nameTokens[0]->getContent();
+            $useDeclarationParts = explode('\\', $this->partialUseDeclaration['fullName']);
+
+            foreach ($useDeclarationParts as $useDeclarationPart) {
+                if ($useDeclarationPart === $startName) {
+                    break;
+                }
+
+                $tokens[] = new Token([T_STRING, $useDeclarationPart]);
+                $tokens[] = new Token([T_NS_SEPARATOR, '\\']);
+            }
+        }
+
         $tokens = array_merge($tokens, $this->nameTokens);
 
         if ($this->alias) {
@@ -104,5 +124,13 @@ final class Name
     public function getLastNameToken(): Token
     {
         return new Token([T_STRING, $this->getLastName()]);
+    }
+
+    /**
+     * @param mixed[] $partialUseDeclaration
+     */
+    public function setPartialUseDeclaration(array $partialUseDeclaration): void
+    {
+        $this->partialUseDeclaration = $partialUseDeclaration;
     }
 }

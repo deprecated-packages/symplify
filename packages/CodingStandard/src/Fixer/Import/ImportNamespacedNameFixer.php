@@ -41,16 +41,22 @@ final class ImportNamespacedNameFixer implements FixerInterface
             $token = $tokens[$index];
 
             // Case 1.
-            if (! NameAnalyzer::isImportableName($tokens, $token, $index)) {
+            if (! NameAnalyzer::isImportableNameToken($tokens, $token, $index)) {
                 continue;
             }
 
             $name = ClassFqnResolver::resolveDataFromEnd($tokens, $index);
-
             $name = $this->uniquateLastPart($name);
 
             // replace with last name part
             $tokens->overrideRange($name->getStart(), $name->getEnd(), [$name->getLastNameToken()]);
+
+            if (NameAnalyzer::isPartialName($tokens, $name)) {
+                // add use statement
+                $this->addIntoUseStatements($tokens, $name);
+
+                return;
+            }
 
             // has this been already imported?
             if ($this->wasNameImported($name)) {

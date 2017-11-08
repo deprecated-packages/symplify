@@ -2,12 +2,16 @@
 
 namespace Symplify\CodingStandard\FixerTokenWrapper\Naming;
 
+use Nette\Utils\Strings;
+use PhpCsFixer\Fixer\Import\NoUnusedImportsFixer;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
+use PhpCsFixer\Tokenizer\TokensAnalyzer;
+use ReflectionMethod;
 
 final class NameAnalyzer
 {
-    public static function isImportableName(Tokens $tokens, Token $token, int $index): bool
+    public static function isImportableNameToken(Tokens $tokens, Token $token, int $index): bool
     {
         if (! $token->isGivenKind(T_STRING)) {
             return false;
@@ -36,5 +40,49 @@ final class NameAnalyzer
         }
 
         return true;
+    }
+
+    public static function isPartialName(Tokens $tokens, Name $name): bool
+    {
+        if (Strings::startsWith($name->getName(), '\\')) {
+            return false;
+        }
+
+        if (! Strings::contains($name->getName(), '\\')) {
+            return false;
+        }
+
+        $importUseIndexes = (new TokensAnalyzer($tokens))->getImportUseIndexes();
+        if (! $importUseIndexes) {
+            return false;
+        }
+
+        $namespaceUseDeclarations = self::getNamespaceUseDeclarations($tokens, $importUseIndexes);
+
+        foreach ($namespaceUseDeclarations as $useDeclaration) {
+            if (Strings::startsWith($name->getName(), $useDeclaration['shortName'])) {
+                $name->setPartialUseDeclaration($useDeclaration);
+
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Reflection over code copying that would force many updates.
+     *
+     * @todo consider objectify for better API
+     *
+     * @param string[] $importUseIndexes
+     * @return string[]
+     */
+    private static function getNamespaceUseDeclarations(Tokens $tokens, array $importUseIndexes): array
+    {
+        $reflectionMethod = new ReflectionMethod(NoUnusedImportsFixer::class, 'getNamespaceUseDeclarations');
+        $reflectionMethod->setAccessible(true);
+
+        return $reflectionMethod->invoke(new NoUnusedImportsFixer, $tokens, $importUseIndexes);
     }
 }

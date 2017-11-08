@@ -63,6 +63,10 @@ final class ClassFqnResolver
             ++$previousTokenPointer;
         }
 
+        if (! $tokens[$previousTokenPointer]->isGivenKind([T_STRING, T_NS_SEPARATOR])) {
+            ++$previousTokenPointer;
+        }
+
         $name = '';
         foreach ($nameTokens as $nameToken) {
             $name .= $nameToken->getContent();
