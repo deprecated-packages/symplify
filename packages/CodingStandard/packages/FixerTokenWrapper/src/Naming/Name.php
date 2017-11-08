@@ -32,6 +32,11 @@ final class Name
     private $lastName;
 
     /**
+     * @var string|null
+     */
+    private $alias;
+
+    /**
      * @param Token[] $nameTokens
      */
     public function __construct(int $start, int $end, string $name, array $nameTokens)
@@ -60,6 +65,10 @@ final class Name
 
     public function getLastName(): string
     {
+        if ($this->alias) {
+            return $this->alias;
+        }
+
         return $this->lastName;
     }
 
@@ -76,6 +85,11 @@ final class Name
         $this->lastName = $lastName;
     }
 
+    public function addAlias(string $alias): void
+    {
+        $this->alias = $alias;
+    }
+
     /**
      * @return Token[]
      */
@@ -86,6 +100,14 @@ final class Name
         $tokens[] = new Token([T_USE, 'use']);
         $tokens[] = new Token([T_WHITESPACE, ' ']);
         $tokens = array_merge($tokens, $this->getNameTokens());
+
+        if ($this->alias) {
+            $tokens[] = new Token([T_WHITESPACE, ' ']);
+            $tokens[] = new Token([T_AS, 'as']);
+            $tokens[] = new Token([T_WHITESPACE, ' ']);
+            $tokens[] = new Token([T_STRING, $this->alias]);
+        }
+
         $tokens[] = new Token(';');
         $tokens[] = new Token([T_WHITESPACE, PHP_EOL]);
 

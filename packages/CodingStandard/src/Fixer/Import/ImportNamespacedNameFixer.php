@@ -24,7 +24,7 @@ final class ImportNamespacedNameFixer implements FixerInterface
     private $namespacePosition;
 
     /**
-     * @var bool[]
+     * @var string[]
      */
     private $importedNames = [];
 
@@ -106,10 +106,7 @@ final class ImportNamespacedNameFixer implements FixerInterface
         $namespacePosition = $this->getNamespacePosition($tokens);
         $namespaceSemicolonPosition = $tokens->getNextTokenOfKind($namespacePosition, [';']);
 
-        $tokens->insertAt(
-            $namespaceSemicolonPosition + 2,
-            $name->getUseNameTokens()
-        );
+        $tokens->insertAt($namespaceSemicolonPosition + 2, $name->getUseNameTokens());
     }
 
     private function wasNameImported(Name $name): bool
@@ -127,8 +124,8 @@ final class ImportNamespacedNameFixer implements FixerInterface
     {
         foreach ($this->importedNames as $fullName => $lastName) {
             if ($lastName === $name->getLastName() && $fullName !== $name->getName()) {
-                // @todo: make configurable
-                $name->changeLastName('Second' . $name->getLastName());
+                // @todo: make "Second" configurable
+                $name->addAlias('Second' . $name->getLastName());
             }
         }
 
