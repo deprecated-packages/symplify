@@ -72,12 +72,7 @@ final class ClassFqnResolver
             $name .= $nameToken->getContent();
         }
 
-        return new Name(
-            $previousTokenPointer,
-            $end,
-            $name,
-            $nameTokens
-        );
+        return new Name($previousTokenPointer, $end, $name, $nameTokens);
     }
 
     public static function resolveForName(Tokens $tokens, string $className): string

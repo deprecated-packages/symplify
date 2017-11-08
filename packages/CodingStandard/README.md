@@ -355,6 +355,7 @@ final class SomeClass implements SomeInterface
 
 - Except for Doctrine entities, they cannot be final.
 
+
 ### Block comment should be used instead of one liner
 
 - class: [`Symplify\CodingStandard\Fixer\Commenting\BlockPropertyCommentFixer`](/src/Fixer/Commenting/BlockPropertyCommentFixer.php)
@@ -425,6 +426,7 @@ $file = new File;
 $directory = new Directory([$file]);
 ```
 
+
 ### There should not be comments with valid code
 
 - class: [`Symplify\CodingStandard\Sniffs\Debug\CommentedOutCodeSniff`](/src/Sniffs/Debug/CommentedOutCodeSniff.php)
@@ -436,6 +438,7 @@ $directory = new Directory([$file]);
 // $directory = new Diretory([$file]);
 ```
 
+
 ### Debug functions should not be left in the code
 
 - class: [`Symplify\CodingStandard\Sniffs\Debug\DebugFunctionCallSniff`](/src/Sniffs/Debug/DebugFunctionCallSniff.php)
@@ -445,7 +448,6 @@ $directory = new Directory([$file]);
 ```php
 dump($value);
 ```
-
 
 
 ### Use service and constructor injection rather than instantiation with new
@@ -497,7 +499,6 @@ checkers:
     Symplify\CodingStandard\Fixer\DependencyInjection\NoClassInstantiationSniff:
         includeEntities: true
 ```
-
 
 
 ### Abstract class should have prefix "Abstract"
