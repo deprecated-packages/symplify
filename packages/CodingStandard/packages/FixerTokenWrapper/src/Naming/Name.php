@@ -72,14 +72,6 @@ final class Name
         return $this->lastName;
     }
 
-    /**
-     * @return Token[]
-     */
-    public function getNameTokens(): array
-    {
-        return $this->nameTokens;
-    }
-
     public function changeLastName(string $lastName): void
     {
         $this->lastName = $lastName;
@@ -99,7 +91,7 @@ final class Name
 
         $tokens[] = new Token([T_USE, 'use']);
         $tokens[] = new Token([T_WHITESPACE, ' ']);
-        $tokens = array_merge($tokens, $this->getNameTokens());
+        $tokens = array_merge($tokens, $this->nameTokens);
 
         if ($this->alias) {
             $tokens[] = new Token([T_WHITESPACE, ' ']);
