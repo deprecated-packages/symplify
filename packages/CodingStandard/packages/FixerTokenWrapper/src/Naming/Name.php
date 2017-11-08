@@ -72,11 +72,6 @@ final class Name
         return $this->lastName;
     }
 
-    public function changeLastName(string $lastName): void
-    {
-        $this->lastName = $lastName;
-    }
-
     public function addAlias(string $alias): void
     {
         $this->alias = $alias;
