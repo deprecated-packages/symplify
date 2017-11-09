@@ -2,7 +2,10 @@
 
 namespace Symplify\CodingStandard\Fixer\Import;
 
+use PhpCsFixer\Fixer\DefinedFixerInterface;
 use PhpCsFixer\Fixer\FixerInterface;
+use PhpCsFixer\FixerDefinition\FixerDefinition;
+use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
@@ -16,7 +19,7 @@ use Symplify\CodingStandard\FixerTokenWrapper\Naming\NameAnalyzer;
  * - 1. string that start with pre slash \SomeThing
  * - 2. namespace with conflicts \First\SomeClass + \Second\SomeClass
  */
-final class ImportNamespacedNameFixer implements FixerInterface
+final class ImportNamespacedNameFixer implements FixerInterface, DefinedFixerInterface
 {
     /**
      * @var int
@@ -27,6 +30,16 @@ final class ImportNamespacedNameFixer implements FixerInterface
      * @var string[]
      */
     private $importedNames = [];
+
+    public function getDefinition(): FixerDefinitionInterface
+    {
+        return new FixerDefinition(
+            'Types should not be referenced via a fully/partially qualified name, but via a use statement.',
+            [
+                '<?php $value = \SomeNamespace\SomeClass',
+            ]
+        );
+    }
 
     public function isCandidate(Tokens $tokens): bool
     {
