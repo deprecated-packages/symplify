@@ -2,13 +2,12 @@
 
 namespace SomeNamespace;
 
-use PrefixedNamespace\SameClass as ThirdSameClass;
-use AnotherNamespace\SameClass as SecondSameClass;
-use YetAnotherNamespace\SameClass;
-class SomeClass extends ThirdSameClass
+use Nette\Utils\Finder as NetteFinder;
+use Symfony\Finder\Finder;
+class SomeClass
 {
-    public function create(SecondSameClass $someClass)
+    public function create(NetteFinder $someClass)
     {
-        return new SameClass;
+        return new Finder;
     }
 }

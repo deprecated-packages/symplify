@@ -2,10 +2,10 @@
 
 namespace SomeNamespace;
 
-class SomeClass extends \PrefixedNamespace\SameClass
+class SomeClass
 {
-    public function create(\AnotherNamespace\SameClass $someClass)
+    public function create(\Nette\Utils\Finder $someClass)
     {
-        return new \YetAnotherNamespace\SameClass;
+        return new \Symfony\Finder\Finder;
     }
 }

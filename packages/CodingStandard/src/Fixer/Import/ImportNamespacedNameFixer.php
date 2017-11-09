@@ -33,11 +33,6 @@ final class ImportNamespacedNameFixer implements FixerInterface, DefinedFixerInt
     private const ALLOW_SINGLE_NAMES_OPTION = 'allow_single_names';
 
     /**
-     * @var string
-     */
-    private const ALIAS_NAMES_OPTION = 'alias_names';
-
-    /**
      * @var int
      */
     private $namespacePosition;
@@ -168,15 +163,7 @@ final class ImportNamespacedNameFixer implements FixerInterface, DefinedFixerInt
             ->setDefault(false)
             ->getOption();
 
-        $fixerOptionBuilder = new FixerOptionBuilder(
-            self::ALIAS_NAMES_OPTION,
-            'Alias names for duplicated classes.'
-        );
-
-        $aliasNamesOption = $fixerOptionBuilder->setDefault(['Second', 'Third', 'Fourth', 'Fifth'])
-            ->getOption();
-
-        return new FixerConfigurationResolver([$singleNameOption, $aliasNamesOption]);
+        return new FixerConfigurationResolver([$singleNameOption]);
     }
 
     private function getNamespacePosition(Tokens $tokens): int
@@ -217,7 +204,7 @@ final class ImportNamespacedNameFixer implements FixerInterface, DefinedFixerInt
     {
         foreach ($this->importedNames as $fullName => $lastName) {
             if ($lastName === $name->getLastName() && $fullName !== $name->getName()) {
-                $uniquePrefix = $this->configuration[self::ALIAS_NAMES_OPTION][$this->duplicatedNameCount];
+                $uniquePrefix = $name->getFirstName();
                 $name->addAlias($uniquePrefix . $name->getLastName());
                 ++$this->duplicatedNameCount;
             }

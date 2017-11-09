@@ -82,6 +82,11 @@ final class Name
         $this->alias = $alias;
     }
 
+    public function getFirstName(): string
+    {
+        return $this->nameTokens[0]->getContent();
+    }
+
     /**
      * @return Token[]
      */
