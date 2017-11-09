@@ -214,6 +214,26 @@ checkers:
         allow_single_names: true # false by default
 ```
 
+Duplicated class names are uniquized by vendor name:
+
+
+```php
+<?php declare(strict_types=1);
+
+namespace SomeNamespace;
+
+use Nette\Utils\Finder as NetteFinder;
+use Symfony\Finder\Finder;
+
+class SomeClass
+{
+    public function create(NetteFinder $someClass)
+    {
+        return new Finder;
+    }
+}
+```
+
 
 ### Magic PHP methods (`__*()`) should respect their casing form
 
