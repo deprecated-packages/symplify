@@ -219,7 +219,7 @@ final class ImportNamespacedNameFixer implements FixerInterface, DefinedFixerInt
             if ($lastName === $name->getLastName() && $fullName !== $name->getName()) {
                 $uniquePrefix = $this->configuration[self::ALIAS_NAMES_OPTION][$this->duplicatedNameCount];
                 $name->addAlias($uniquePrefix . $name->getLastName());
-                $this->duplicatedNameCount++;
+                ++$this->duplicatedNameCount;
             }
         }
 
