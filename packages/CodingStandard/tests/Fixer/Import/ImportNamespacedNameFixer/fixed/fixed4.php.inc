@@ -2,9 +2,9 @@
 
 namespace SomeNamespace;
 
-use PrefixedNamespace\SameClass as SecondSameClass;
+use PrefixedNamespace\SameClass as PrefixedNamespaceSameClass;
 use AnotherNamespace\SameClass;
-class SomeClass extends SecondSameClass
+class SomeClass extends PrefixedNamespaceSameClass
 {
     public function create(SameClass $someClass)
     {
