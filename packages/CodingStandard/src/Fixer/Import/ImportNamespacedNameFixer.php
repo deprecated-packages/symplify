@@ -28,9 +28,14 @@ use Symplify\CodingStandard\FixerTokenWrapper\Naming\NameAnalyzer;
 final class ImportNamespacedNameFixer implements FixerInterface, DefinedFixerInterface, ConfigurationDefinitionFixerInterface
 {
     /**
-     * @var bool
+     * @var string
      */
     private const ALLOW_SINGLE_NAMES_OPTION = 'allow_single_names';
+
+    /**
+     * @var string
+     */
+    private const ALIAS_NAMES_OPTION = 'alias_names';
 
     /**
      * @var int
@@ -46,6 +51,11 @@ final class ImportNamespacedNameFixer implements FixerInterface, DefinedFixerInt
      * @var mixed[]
      */
     private $configuration = [];
+
+    /**
+     * @var int
+     */
+    private $duplicatedNameCount = 0;
 
     public function __construct()
     {
@@ -71,6 +81,8 @@ final class ImportNamespacedNameFixer implements FixerInterface, DefinedFixerInt
 
     public function fix(SplFileInfo $file, Tokens $tokens): void
     {
+        $this->duplicatedNameCount = 0;
+
         $this->importedNames = [];
 
         for ($index = $tokens->getSize() - 1; $index > 0; --$index) {
@@ -156,7 +168,15 @@ final class ImportNamespacedNameFixer implements FixerInterface, DefinedFixerInt
             ->setDefault(false)
             ->getOption();
 
-        return new FixerConfigurationResolver([$singleNameOption]);
+        $fixerOptionBuilder = new FixerOptionBuilder(
+            self::ALIAS_NAMES_OPTION,
+            'Alias names for duplicated classes.'
+        );
+
+        $aliasNamesOption = $fixerOptionBuilder->setDefault(['Second', 'Third', 'Fourth', 'Fifth'])
+            ->getOption();
+
+        return new FixerConfigurationResolver([$singleNameOption, $aliasNamesOption]);
     }
 
     private function getNamespacePosition(Tokens $tokens): int
@@ -197,8 +217,9 @@ final class ImportNamespacedNameFixer implements FixerInterface, DefinedFixerInt
     {
         foreach ($this->importedNames as $fullName => $lastName) {
             if ($lastName === $name->getLastName() && $fullName !== $name->getName()) {
-                // @todo: make "Second" configurable
-                $name->addAlias('Second' . $name->getLastName());
+                $uniquePrefix = $this->configuration[self::ALIAS_NAMES_OPTION][$this->duplicatedNameCount];
+                $name->addAlias($uniquePrefix . $name->getLastName());
+                $this->duplicatedNameCount++;
             }
         }
 
