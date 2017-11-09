@@ -29,7 +29,7 @@ final class ImportNamespacedNameFixer implements FixerInterface, DefinedFixerInt
     /**
      * @var bool
      */
-    private const ALLOW_SINGLE_NAMES = false;
+    private const ALLOW_SINGLE_NAMES_OPTION = 'allow_single_names';
 
     /**
      * @var int
@@ -81,6 +81,10 @@ final class ImportNamespacedNameFixer implements FixerInterface, DefinedFixerInt
             }
 
             $name = ClassFqnResolver::resolveDataFromEnd($tokens, $index);
+            if ($this->configuration[self::ALLOW_SINGLE_NAMES_OPTION] && $name->isSingleName()) {
+                continue;
+            }
+
             $name = $this->uniquateLastPart($name);
 
             // replace with last name part
@@ -127,6 +131,33 @@ final class ImportNamespacedNameFixer implements FixerInterface, DefinedFixerInt
         return true;
     }
 
+    /**
+     * @param mixed[]|null $configuration
+     */
+    public function configure(?array $configuration = null): void
+    {
+        if ($configuration === null) {
+            return;
+        }
+
+        $this->configuration = $this->getConfigurationDefinition()
+            ->resolve($configuration);
+    }
+
+    public function getConfigurationDefinition(): FixerConfigurationResolverInterface
+    {
+        $fixerOptionBuilder = new FixerOptionBuilder(
+            self::ALLOW_SINGLE_NAMES_OPTION,
+            'Whether allow \SingleClassName or import it.'
+        );
+
+        $singleNameOption = $fixerOptionBuilder->setAllowedValues([true, false])
+            ->setDefault(false)
+            ->getOption();
+
+        return new FixerConfigurationResolver([$singleNameOption]);
+    }
+
     private function getNamespacePosition(Tokens $tokens): int
     {
         if ($this->namespacePosition) {
@@ -171,32 +202,5 @@ final class ImportNamespacedNameFixer implements FixerInterface, DefinedFixerInt
         }
 
         return $name;
-    }
-
-    /**
-     * @param mixed[]|null $configuration
-     */
-    public function configure(?array $configuration = null): void
-    {
-        if ($configuration === null) {
-            return;
-        }
-
-        $this->configuration = $this->getConfigurationDefinition()
-            ->resolve($configuration);
-    }
-
-    public function getConfigurationDefinition(): FixerConfigurationResolverInterface
-    {
-        $fixerOptionBuilder = new FixerOptionBuilder(
-            self::ALLOW_SINGLE_NAMES,
-            'Whether allow \SingleClassName or import it.'
-        );
-
-        $singleNameOption = $fixerOptionBuilder->setAllowedValues([true, false])
-            ->setDefault(false)
-            ->getOption();
-
-        return new FixerConfigurationResolver([$singleNameOption]);
     }
 }

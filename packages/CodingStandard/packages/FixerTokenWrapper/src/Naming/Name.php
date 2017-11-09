@@ -133,4 +133,9 @@ final class Name
     {
         $this->partialUseDeclaration = $partialUseDeclaration;
     }
+
+    public function isSingleName(): bool
+    {
+        return count($this->nameTokens) === 1;
+    }
 }

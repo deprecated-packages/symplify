@@ -51,6 +51,7 @@ parameters:
             # many implemented interfaces
             - packages/CodingStandard/src/Fixer/ClassNotation/PropertyAndConstantSeparationFixer.php
             - packages/CodingStandard/src/Fixer/ClassNotation/LastPropertyAndFirstMethodSeparationFixer.php
+            - packages/CodingStandard/src/Fixer/Import/ImportNamespacedNameFixer.php
 
         SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff:
             - *packages/CodingStandard/src/Sniffs/*/*Sniff.php
