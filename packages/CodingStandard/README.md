@@ -167,6 +167,55 @@ require __DIR__.'/vendor/autoload.php';
 ```
 
 
+### Types should not be referenced via a fully/partially qualified name, but via a use statement
+
+- class: [`Symplify\CodingStandard\Fixer\Import\ImportNamespacedNameFixer`](/src/Fixer/Import/ImportNamespacedNameFixer.php)
+
+
+:x:
+
+```php
+namespace SomeNamespace;
+
+class SomeClass
+{
+    public function someMethod()
+    {
+        return new \AnotherNamespace\AnotherType;
+    }
+}
+```
+
+
+:+1:
+
+```php
+namespace SomeNamespace;
+
+use AnotherNamespace\AnotherType;
+
+class SomeClass
+{
+    public function someMethod()
+    {
+        return new AnotherType;
+    }
+}
+```
+
+
+This checker imports single name classes like `\Twig_Extension` or `\SplFileInfo` by default. But if you need, you can **configure it**:
+
+
+```yaml
+# easy-coding-standard.neon
+checkers:
+    Symplify\CodingStandard\Fixer\Import\ImportNamespacedNameFixer:
+        allow_single_names: true # false by default
+```
+
+
+
 ### Magic PHP methods (`__*()`) should respect their casing form
 
 - class: [`Symplify\CodingStandard\Fixer\Naming\MagicMethodsNamingFixer`](/src/Fixer/Naming/MagicMethodsNamingFixer.php)

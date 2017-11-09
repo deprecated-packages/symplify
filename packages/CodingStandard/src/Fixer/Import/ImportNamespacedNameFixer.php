@@ -23,6 +23,7 @@ use Symplify\CodingStandard\FixerTokenWrapper\Naming\NameAnalyzer;
  *
  * - 1. string that start with pre slash \SomeThing
  * - 2. namespace with conflicts \First\SomeClass + \Second\SomeClass
+ * - 3. partial namespaces \Namespace\Partial + Partial\Class
  */
 final class ImportNamespacedNameFixer implements FixerInterface, DefinedFixerInterface, ConfigurationDefinitionFixerInterface
 {
