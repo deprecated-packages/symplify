@@ -2,8 +2,12 @@
 
 namespace Symplify\CodingStandard\Fixer\Import;
 
+use PhpCsFixer\Fixer\ConfigurationDefinitionFixerInterface;
 use PhpCsFixer\Fixer\DefinedFixerInterface;
 use PhpCsFixer\Fixer\FixerInterface;
+use PhpCsFixer\FixerConfiguration\FixerConfigurationResolver;
+use PhpCsFixer\FixerConfiguration\FixerConfigurationResolverInterface;
+use PhpCsFixer\FixerConfiguration\FixerOptionBuilder;
 use PhpCsFixer\FixerDefinition\CodeSample;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
@@ -20,8 +24,13 @@ use Symplify\CodingStandard\FixerTokenWrapper\Naming\NameAnalyzer;
  * - 1. string that start with pre slash \SomeThing
  * - 2. namespace with conflicts \First\SomeClass + \Second\SomeClass
  */
-final class ImportNamespacedNameFixer implements FixerInterface, DefinedFixerInterface
+final class ImportNamespacedNameFixer implements FixerInterface, DefinedFixerInterface, ConfigurationDefinitionFixerInterface
 {
+    /**
+     * @var bool
+     */
+    private const ALLOW_SINGLE_NAMES = false;
+
     /**
      * @var int
      */
@@ -31,6 +40,18 @@ final class ImportNamespacedNameFixer implements FixerInterface, DefinedFixerInt
      * @var string[]
      */
     private $importedNames = [];
+
+    /**
+     * @var mixed[]
+     */
+    private $configuration = [];
+
+    public function __construct()
+    {
+        // set defaults
+        $this->configuration = $this->getConfigurationDefinition()
+            ->resolve([]);
+    }
 
     public function getDefinition(): FixerDefinitionInterface
     {
@@ -150,5 +171,32 @@ final class ImportNamespacedNameFixer implements FixerInterface, DefinedFixerInt
         }
 
         return $name;
+    }
+
+    /**
+     * @param mixed[]|null $configuration
+     */
+    public function configure(?array $configuration = null): void
+    {
+        if ($configuration === null) {
+            return;
+        }
+
+        $this->configuration = $this->getConfigurationDefinition()
+            ->resolve($configuration);
+    }
+
+    public function getConfigurationDefinition(): FixerConfigurationResolverInterface
+    {
+        $fixerOptionBuilder = new FixerOptionBuilder(
+            self::ALLOW_SINGLE_NAMES,
+            'Whether allow \SingleClassName or import it.'
+        );
+
+        $singleNameOption = $fixerOptionBuilder->setAllowedValues([true, false])
+            ->setDefault(false)
+            ->getOption();
+
+        return new FixerConfigurationResolver([$singleNameOption]);
     }
 }
