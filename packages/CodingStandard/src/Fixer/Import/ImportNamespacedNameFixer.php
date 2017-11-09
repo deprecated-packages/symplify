@@ -4,6 +4,7 @@ namespace Symplify\CodingStandard\Fixer\Import;
 
 use PhpCsFixer\Fixer\DefinedFixerInterface;
 use PhpCsFixer\Fixer\FixerInterface;
+use PhpCsFixer\FixerDefinition\CodeSample;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Tokenizer\Token;
@@ -36,7 +37,7 @@ final class ImportNamespacedNameFixer implements FixerInterface, DefinedFixerInt
         return new FixerDefinition(
             'Types should not be referenced via a fully/partially qualified name, but via a use statement.',
             [
-                '<?php $value = \SomeNamespace\SomeClass',
+                new CodeSample('<?php $value = \SomeNamespace\SomeClass'),
             ]
         );
     }

@@ -75,8 +75,8 @@ final class NameAnalyzer
      *
      * @todo consider objectify for better API
      *
-     * @param string[] $importUseIndexes
-     * @return string[]
+     * @param int[] $importUseIndexes
+     * @return mixed[][]
      */
     private static function getNamespaceUseDeclarations(Tokens $tokens, array $importUseIndexes): array
     {

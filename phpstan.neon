@@ -22,6 +22,7 @@ parameters:
         - '#Calling method setWhitespacesFixerConfig|isSingleLine|changeToMultiLine\(\) on possibly null value of type Symplify\\CodingStandard\\FixerTokenWrapper\\DocBlockWrapper\|null#'
         - '#Parameter \#2 \$useIndexes of static method Symplify\\CodingStandard\\FixerTokenWrapper\\Naming\\ClassFqnResolver::getNamespaceUseDeclarations\(\) expects int\[\], mixed\[\]\|mixed\[\]\[\] given#'
         - '#Parameter \#2 \$classNameEndPosition of static method Symplify\\CodingStandard\\FixerTokenWrapper\\Naming\\ClassFqnResolver::resolveForNamePosition\(\) expects int, int\|null given#'
+        - '#Parameter \#2 \$importUseIndexes of static method Symplify\\CodingStandard\\FixerTokenWrapper\\Naming\\NameAnalyzer::getNamespaceUseDeclarations\(\) expects int\[\], mixed\[\]\|mixed\[\]\[\] given#'
 
     excludes_analyse:
         - *packages/CodingStandard/tests/**/correct*
