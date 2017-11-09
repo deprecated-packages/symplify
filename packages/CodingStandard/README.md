@@ -212,7 +212,6 @@ This checker imports single name classes like `\Twig_Extension` or `\SplFileInfo
 checkers:
     Symplify\CodingStandard\Fixer\Import\ImportNamespacedNameFixer:
         allow_single_names: true # false by default
-        alias_names: ['Super', 'Another'] # ['Second', 'Third'] by default
 ```
 
 
