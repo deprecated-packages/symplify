@@ -10,7 +10,6 @@ use PhpCsFixer\Tokenizer\Tokens;
 use Symplify\CodingStandard\FixerTokenWrapper\Exception\MissingDocBlockException;
 use Symplify\CodingStandard\FixerTokenWrapper\Guard\TokenTypeGuard;
 use Symplify\CodingStandard\FixerTokenWrapper\Naming\ClassFqnResolver;
-use Symplify\CodingStandard\Tokenizer\DocBlockAnalyzer;
 use Symplify\CodingStandard\Tokenizer\DocBlockFinder;
 use Symplify\CodingStandard\Tokenizer\PropertyAnalyzer;
 
@@ -65,27 +64,6 @@ final class PropertyWrapper
     public static function createFromTokensAndPosition(Tokens $tokens, int $position): self
     {
         return new self($tokens, $position);
-    }
-
-    public function isInjectProperty(): bool
-    {
-        if ($this->visibilityToken === null) {
-            return false;
-        }
-
-        if (! $this->visibilityToken->isGivenKind(T_PUBLIC)) {
-            return false;
-        }
-
-        if ($this->docBlock === null) {
-            return false;
-        }
-
-        if (! DocBlockAnalyzer::hasAnnotations($this->docBlock, ['inject', 'var'])) {
-            return false;
-        }
-
-        return true;
     }
 
     public function removeAnnotation(string $annotationType): void
