@@ -19,7 +19,7 @@ final class DocBlockAnalyzer
         $varAnnotation = $docBlock->getAnnotationsOfType('var')[0];
 
         $content = trim($varAnnotation->getContent());
-        $content = rtrim($content,' */');
+        $content = rtrim($content, ' */');
 
         [, $types] = explode('@var', $content);
 

@@ -2,23 +2,28 @@
 
 class SomeClass
 {
-	/**
-	 * @var ArrayObject|int[]
-	 */
-	public $property;
+    /**
+     * @var Collection|Foo[]
+     */
+    private $foo;
 
-	/**
-	 * @var SplObjectStorage|int[]
-	 */
-	public $anotherProperty;
+    /**
+     * @var ArrayObject|int[]
+     */
+    public $property;
 
-	/**
-	 * @var \ArrayObject|int[]
-	 */
-	public $propertyWithPreslash;
+    /**
+     * @var SplObjectStorage|int[]
+     */
+    public $anotherProperty;
 
-	/**
-	 * @var \SplObjectStorage|int[]
-	 */
-	public $anotherPropertyWithPreslash;
+    /**
+     * @var \ArrayObject|int[]
+     */
+    public $propertyWithPreslash;
+
+    /**
+     * @var \SplObjectStorage|int[]
+     */
+    public $anotherPropertyWithPreslash;
 }
