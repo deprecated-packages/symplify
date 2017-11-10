@@ -34,8 +34,7 @@ public $property;'
 
     public function isCandidate(Tokens $tokens): bool
     {
-        // analyze only class/trait properties with comments
-        return $tokens->isAnyTokenKindsFound(Token::getClassyTokenKinds()) &&
+        return $tokens->isAnyTokenKindsFound([T_CLASS, T_TRAIT]) &&
             $tokens->isAllTokenKindsFound([T_DOC_COMMENT, T_VARIABLE]);
     }
 
@@ -46,7 +45,7 @@ public $property;'
 
     public function fix(SplFileInfo $file, Tokens $tokens): void
     {
-        for ($index = 0; $index < count($tokens) - 1; ++$index) {
+        for ($index = count($tokens) - 1; $index > 1; --$index) {
             $token = $tokens[$index];
             if (! $token->isClassy()) {
                 continue;
@@ -78,6 +77,8 @@ public $property;'
      */
     private function fixProperties(Tokens $tokens, array $properties): void
     {
+        $properties = array_reverse($properties, true);
+
         foreach ($properties as $index => ['token' => $propertyToken]) {
             $docBlockToken = DocBlockFinder::findPrevious($tokens, $index);
             if ($docBlockToken === null) {
