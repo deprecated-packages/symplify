@@ -18,8 +18,20 @@ final class DocBlockAnalyzer
 
         $varAnnotation = $docBlock->getAnnotationsOfType('var')[0];
 
-        return Strings::contains($varAnnotation->getContent(), '[]')
-            && ! Strings::contains($varAnnotation->getContent(), '|');
+        $content = trim($varAnnotation->getContent());
+        $content = rtrim($content, ' */');
+
+        [, $types] = explode('@var', $content);
+
+        $types = explode('|', trim($types));
+
+        foreach ($types as $type) {
+            if (! self::isIterableType($type)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     /**
@@ -35,5 +47,18 @@ final class DocBlockAnalyzer
         }
 
         return $foundTypes === count($annotations);
+    }
+
+    private static function isIterableType(string $type): bool
+    {
+        if (Strings::endsWith($type, '[]')) {
+            return true;
+        }
+
+        if ($type === 'array') {
+            return true;
+        }
+
+        return false;
     }
 }

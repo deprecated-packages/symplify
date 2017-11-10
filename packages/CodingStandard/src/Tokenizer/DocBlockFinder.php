@@ -9,15 +9,15 @@ final class DocBlockFinder
 {
     public static function findPreviousPosition(Tokens $tokens, int $index): ?int
     {
-        for ($i = 0; $i < 8; ++$i) {
-            $possibleDocBlockTokenPosition = $tokens->getPrevNonWhitespace($index - $i);
-            if ($possibleDocBlockTokenPosition === null) {
-                break;
+        for ($i = $index; $i > 0; --$i) {
+            $token = $tokens[$i];
+
+            if ($token->getContent() === ';') {
+                return null;
             }
 
-            $possibleDocBlockToken = $tokens[$possibleDocBlockTokenPosition];
-            if ($possibleDocBlockToken->isComment()) {
-                return $possibleDocBlockTokenPosition;
+            if ($token->isComment()) {
+                return $i;
             }
         }
 
@@ -26,11 +26,11 @@ final class DocBlockFinder
 
     public static function findPrevious(Tokens $tokens, int $index): ?Token
     {
-        $position = self::findPreviousPosition($tokens, $index);
-        if ($position === null) {
-            return null;
+        $docBlockPosition = self::findPreviousPosition($tokens, $index);
+        if ($docBlockPosition) {
+            return $tokens[$docBlockPosition];
         }
 
-        return $tokens[$position];
+        return null;
     }
 }
