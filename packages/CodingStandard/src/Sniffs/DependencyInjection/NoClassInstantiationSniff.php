@@ -176,6 +176,10 @@ final class NoClassInstantiationSniff implements Sniff
             return true;
         }
 
+        if ($this->isBootstrapFile()) {
+            return true;
+        }
+
         if ($this->isTestFile()) {
             return true;
         }
@@ -207,7 +211,13 @@ final class NoClassInstantiationSniff implements Sniff
 
     private function isBinFile(): bool
     {
-        return Strings::contains($this->file->getFilename(), DIRECTORY_SEPARATOR . 'bin' . DIRECTORY_SEPARATOR);
+        return Strings::contains($this->file->getFilename(), DIRECTORY_SEPARATOR . 'bin' . DIRECTORY_SEPARATOR)
+            || Strings::startsWith($this->file->getFilename(), 'bin' . DIRECTORY_SEPARATOR);
+    }
+
+    private function isBootstrapFile(): bool
+    {
+        return Strings::endsWith($this->file->getFilename(), 'bootstra.php');
     }
 
     private function isAllowedFileClass(): bool
