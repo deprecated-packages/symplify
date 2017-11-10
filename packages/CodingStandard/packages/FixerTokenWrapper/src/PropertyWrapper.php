@@ -26,11 +26,6 @@ final class PropertyWrapper
     private $docBlock;
 
     /**
-     * @var Token
-     */
-    private $visibilityToken;
-
-    /**
      * @var int
      */
     private $visibilityPosition;
@@ -58,7 +53,6 @@ final class PropertyWrapper
         }
 
         $this->visibilityPosition = PropertyAnalyzer::findVisibilityPosition($tokens, $index);
-        $this->visibilityToken = $tokens[$this->visibilityPosition];
     }
 
     public static function createFromTokensAndPosition(Tokens $tokens, int $position): self
@@ -75,11 +69,6 @@ final class PropertyWrapper
         }
 
         $this->tokens[$this->docBlockPosition] = new Token([T_DOC_COMMENT, $this->docBlock->getContent()]);
-    }
-
-    public function makePrivate(): void
-    {
-        $this->tokens[$this->visibilityPosition] = new Token([T_PRIVATE, 'private']);
     }
 
     public function getName(): string

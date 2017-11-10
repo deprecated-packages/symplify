@@ -10,7 +10,6 @@ use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
 use Symplify\CodingStandard\Tokenizer\ClassTokensAnalyzer;
-use Symplify\CodingStandard\Tokenizer\DocBlockFinder;
 
 final class RemoveUselessDocBlockFixer implements FixerInterface, DefinedFixerInterface
 {
@@ -47,25 +46,11 @@ public function getCount(): int
 
             $classTokensAnalyzer = ClassTokensAnalyzer::createFromTokensArrayStartPosition($tokens, $index);
             foreach ($classTokensAnalyzer->getMethodWrappers() as $methodWrapper) {
-                $methodWrapper->getDocBlockWrapper()
-                dump($methodWrapper);
+                $docBlockWrapper = $methodWrapper->getDocBlockWrapper();
 
-                die;
+                // 1. process return tag
+                // 2. process param tag
             }
-
-//            if (! $token->isGivenKind(T_FUNCTION)) {
-//                continue;
-//            }
-//
-//            $methodDocBlock = DocBlockFinder::findPrevious($tokens, $index);
-//            if ($methodDocBlock === null) {
-//                continue;
-//            }
-//
-//
-//
-//            dump($methodDocBlock);
-//            die;
         }
     }
 
