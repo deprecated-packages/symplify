@@ -207,7 +207,8 @@ final class NoClassInstantiationSniff implements Sniff
 
     private function isBinFile(): bool
     {
-        return Strings::contains($this->file->getFilename(), DIRECTORY_SEPARATOR . 'bin' . DIRECTORY_SEPARATOR);
+        return Strings::contains($this->file->getFilename(), DIRECTORY_SEPARATOR . 'bin' . DIRECTORY_SEPARATOR)
+            || Strings::startsWith($this->file->getFilename(), 'bin' . DIRECTORY_SEPARATOR);
     }
 
     private function isAllowedFileClass(): bool
