@@ -23,6 +23,7 @@ parameters:
         - '#Parameter \#2 \$useIndexes of static method Symplify\\CodingStandard\\FixerTokenWrapper\\Naming\\ClassFqnResolver::getNamespaceUseDeclarations\(\) expects int\[\], mixed\[\]\|mixed\[\]\[\] given#'
         - '#Parameter \#2 \$classNameEndPosition of static method Symplify\\CodingStandard\\FixerTokenWrapper\\Naming\\ClassFqnResolver::resolveForNamePosition\(\) expects int, int\|null given#'
         - '#Parameter \#2 \$importUseIndexes of static method Symplify\\CodingStandard\\FixerTokenWrapper\\Naming\\NameAnalyzer::getNamespaceUseDeclarations\(\) expects int\[\], mixed\[\]\|mixed\[\]\[\] given#'
+        - '#Access to an undefined property PhpParser\\Node::\$stmts#'
 
     excludes_analyse:
         - *packages/CodingStandard/tests/**/correct*
