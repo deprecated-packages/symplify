@@ -2,14 +2,9 @@
 
 namespace Symplify\CodingStandard\Sniffs\Debug;
 
-use Nette\Utils\Strings;
 use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Sniffs\Sniff;
 use PhpParser\Error;
-use PhpParser\Node;
-use PhpParser\Node\Expr\BinaryOp\Minus;
-use PhpParser\Node\Expr\ConstFetch;
-use PhpParser\Node\Expr\Variable;
 use PhpParser\Parser;
 use PhpParser\ParserFactory;
 
@@ -100,7 +95,7 @@ final class CommentedOutCodeSniff implements Sniff
                 return false;
             }
 
-            if (count($tokens) === 1 && $this->guessIsTextCommentToken($tokens[0], $content)) {
+            if (count($tokens) === 1 && (property_exists($tokens[0], 'stmts') && count($tokens[0]->stmts) < 2)) {
                 return false;
             }
         } catch (Error $error) {
@@ -117,23 +112,6 @@ final class CommentedOutCodeSniff implements Sniff
         }
 
         return $this->parser = (new ParserFactory)->create(ParserFactory::PREFER_PHP7);
-    }
-
-    private function guessIsTextCommentToken(Node $node, string $content): bool
-    {
-        if ($node instanceof ConstFetch) {
-            return true;
-        }
-
-        if ($node instanceof Minus && ! $node->left instanceof Variable) {
-            return true;
-        }
-
-        if (Strings::contains($content, 'e.g.')) {
-            return true;
-        }
-
-        return false;
     }
 
     private function trimCommentStart(string $tokenContent): string

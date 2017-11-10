@@ -33,7 +33,6 @@ checkers:
     # class should be Abstact or Final
     - SlamCsFixer\FinalInternalClassFixer
 
-
 parameters:
     exclude_checkers:
         # from PHP-CS-Fixer Symfony set
