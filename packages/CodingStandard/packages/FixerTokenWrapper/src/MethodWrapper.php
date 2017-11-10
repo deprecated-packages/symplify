@@ -3,9 +3,11 @@
 namespace Symplify\CodingStandard\FixerTokenWrapper;
 
 use Nette\Utils\Strings;
+use PhpCsFixer\DocBlock\DocBlock;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use Symplify\CodingStandard\FixerTokenWrapper\Guard\TokenTypeGuard;
+use Symplify\CodingStandard\Tokenizer\DocBlockFinder;
 
 final class MethodWrapper
 {
@@ -85,5 +87,21 @@ final class MethodWrapper
 
             $this->tokens[$i] = new Token([T_VARIABLE, $newName]);
         }
+    }
+
+    public function getDocBlockWrapper(): ?DocBlockWrapper
+    {
+        $docBlockToken = DocBlockFinder::findPrevious($this->tokens, $this->index);
+        if ($docBlockToken === null) {
+            return null;
+        }
+
+        $docBlock = new DocBlock($docBlockToken->getContent());
+
+        return DocBlockWrapper::createFromTokensPositionAndDocBlock(
+            $this->tokens,
+            DocBlockFinder::findPreviousPosition($this->tokens, $this->index),
+            $docBlock
+        );
     }
 }
