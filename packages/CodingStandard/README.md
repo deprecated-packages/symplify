@@ -167,36 +167,69 @@ require __DIR__.'/vendor/autoload.php';
 ```
 
 
-### Constructor injection should be used instead of `@inject` annotations 
+### Types should not be referenced via a fully/partially qualified name, but via a use statement
 
-- class: [`Symplify\CodingStandard\Fixer\DependencyInjection\InjectToConstructorInjectionFixer`](/src/Fixer/DependencyInjection/InjectToConstructorInjectionFixer.php)
+- class: [`Symplify\CodingStandard\Fixer\Import\ImportNamespacedNameFixer`](/src/Fixer/Import/ImportNamespacedNameFixer.php)
+
 
 :x:
 
 ```php
+namespace SomeNamespace;
+
 class SomeClass
 {
-    /**
-     * @inject
-     * @var RequiredDependencyClass
-     */
-    public $requiredDependencyClass;
+    public function someMethod()
+    {
+        return new \AnotherNamespace\AnotherType;
+    }
 }
 ```
+
 
 :+1:
 
 ```php
+namespace SomeNamespace;
+
+use AnotherNamespace\AnotherType;
+
 class SomeClass
 {
-    /**
-     * @var RequiredDependencyClass
-     */
-    private $requiredDependencyClass;
-    
-    public function __construct(RequiredDependencyClass $requiredDependencyClass)
+    public function someMethod()
     {
-        $this->requiredDependencyClass = $requiredDependencyClass;
+        return new AnotherType;
+    }
+}
+```
+
+
+This checker imports single name classes like `\Twig_Extension` or `\SplFileInfo` by default. But if you need, you can **configure it**:
+
+
+```yaml
+# easy-coding-standard.neon
+checkers:
+    Symplify\CodingStandard\Fixer\Import\ImportNamespacedNameFixer:
+        allow_single_names: true # false by default
+```
+
+Duplicated class names are uniquized by vendor name:
+
+
+```php
+<?php declare(strict_types=1);
+
+namespace SomeNamespace;
+
+use Nette\Utils\Finder as NetteFinder;
+use Symfony\Finder\Finder;
+
+class SomeClass
+{
+    public function create(NetteFinder $someClass)
+    {
+        return new Finder;
     }
 }
 ```
@@ -390,6 +423,7 @@ final class SomeClass implements SomeInterface
 
 - Except for Doctrine entities, they cannot be final.
 
+
 ### Block comment should be used instead of one liner
 
 - class: [`Symplify\CodingStandard\Fixer\Commenting\BlockPropertyCommentFixer`](/src/Fixer/Commenting/BlockPropertyCommentFixer.php)
@@ -443,63 +477,6 @@ class SomeClass
 ```
 
 
-### Controller should have max. 1 render method
-
-- class: [`Symplify\CodingStandard\Sniffs\Classes\ControllerRenderMethodLimitSniff`](/src/Sniffs/Classes/ControllerRenderMethodLimitSniff.php)
-
-:x:
-
-```php
-final class Controller
-{
-    public function defaultAction()
-    {
-    }
-    
-    public function listAction()
-    {
-    }
-}
-```
-
-:+1:
-
-```php
-final class Controller
-{
-    public function defaultAction()
-    {
-    }
-}
-```
-
-### Controller has to contain `__invoke()` method
- 
-- class: [`Symplify\CodingStandard\Sniffs\Classes\InvokableControllerSniff`](/src/Sniffs/Classes/InvokableControllerSniff.php)
-
-:x:
-
-```php
-final class Controller
-{
-    public function defaultAction()
-    {
-    }
-}
-```
-
-:+1:
-
-```php
-final class Controller
-{
-    public function __invoke()
-    {
-    }
-}
-```
-
-
 ### New class statement should not have empty parentheses
 
 - class: [`Symplify\CodingStandard\Sniffs\ControlStructures\NewClassSniff`](/src/Sniffs/ControlStructures/NewClassSniff.php)
@@ -517,7 +494,8 @@ $file = new File;
 $directory = new Directory([$file]);
 ```
 
-### There should comments with valid code
+
+### There should not be comments with valid code
 
 - class: [`Symplify\CodingStandard\Sniffs\Debug\CommentedOutCodeSniff`](/src/Sniffs/Debug/CommentedOutCodeSniff.php)
 
@@ -528,6 +506,7 @@ $directory = new Directory([$file]);
 // $directory = new Diretory([$file]);
 ```
 
+
 ### Debug functions should not be left in the code
 
 - class: [`Symplify\CodingStandard\Sniffs\Debug\DebugFunctionCallSniff`](/src/Sniffs/Debug/DebugFunctionCallSniff.php)
@@ -537,7 +516,6 @@ $directory = new Directory([$file]);
 ```php
 dump($value);
 ```
-
 
 
 ### Use service and constructor injection rather than instantiation with new
@@ -589,7 +567,6 @@ checkers:
     Symplify\CodingStandard\Fixer\DependencyInjection\NoClassInstantiationSniff:
         includeEntities: true
 ```
-
 
 
 ### Abstract class should have prefix "Abstract"

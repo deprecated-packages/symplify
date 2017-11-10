@@ -24,27 +24,6 @@ The best and easiest way to start coding standard with. Combined both CodeSniffe
 **Used by [Nette](https://github.com/nette/coding-standard) and [Sylius](https://github.com/SyliusLabs/CodingStandard).**
 
 
-## [Package Builder](https://github.com/Symplify/PackageBuilder)
-
-[![Build Status](https://img.shields.io/travis/Symplify/PackageBuilder/master.svg?style=flat-square)](https://travis-ci.org/Symplify/PackageBuilder)
-[![Downloads](https://img.shields.io/packagist/dt/symplify/package-builder.svg?style=flat-square)](https://packagist.org/packages/symplify/package-builder)
-
-Handy Dependency Injection methods for Symfony and Nette.
-
-```php
-$eventDispatcherDefinition = DefinitionFinder::getByType($containerBuilder, EventDispatcher::class);
-
-$eventSubscribersDefinitions = DefinitionFinder::findAllByType($containerBuilder, EventSubscriberInterface::class);
-
-DefinitionCollector::loadCollectorWithType(
-    $containerBuilder,
-    EventDispatcher::class,
-    EventSubscriberInterface::class,
-    'addSubscriber'
-);
-```
-
-
 ## [Statie](https://github.com/Symplify/Statie)
 
 [![Build Status](https://img.shields.io/travis/Symplify/Statie/master.svg?style=flat-square)](https://travis-ci.org/Symplify/Statie)

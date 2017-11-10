@@ -3,8 +3,9 @@
     "description": "Static Site Generator",
     "license": "MIT",
     "bin": [
-        "bin/statie",
-        "bin/statie.php"
+        "bnin/statie",
+        "bin/statie.php",
+        "bin/statie_bootstrap.php"
     ],
     "require": {
         "php": "^7.1",
