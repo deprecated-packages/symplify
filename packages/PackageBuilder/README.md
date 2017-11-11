@@ -205,8 +205,25 @@ vendor/bin/your-app --config vendor/organization-name/package-name/config/subdir
 ```
 
 ```php
-use Symplify\PackageBuilder\Configuration\LevelConfigShortcutFinder
+use Symplify\PackageBuilder\Configuration\ConfigFilePathHelper;
+use Symplify\PackageBuilder\Configuration\LevelConfigShortcutFinder;
+
+// 1. Try --level
 $configFile = (new LevelConfigShortcutFinder)->resolveLevel(new ArgvInput, __DIR__ . '/../config/');
+
+// 2. try --config
+if ($configFile === null) {
+    ConfigFilePathHelper::detectFromInput('ecs', new ArgvInput);
+    $configFile = ConfigFilePathHelper::provide('ecs', 'easy-coding-standard.neon');
+}
+
+// 3. Build DI container
+$containerFactory = new ContainerFactory; // your own class
+if ($configFile) {
+    $container = $containerFactory->createWithConfig($configFile);
+} else {
+    $container = $containerFactory->create();
+}
 ```
 
 And use like:
