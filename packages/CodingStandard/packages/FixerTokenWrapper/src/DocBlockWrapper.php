@@ -92,7 +92,7 @@ final class DocBlockWrapper
                 $types = $this->resolveAnnotationContent($paramAnnotation, 'param');
                 [$type, ] = explode(' $' . $name, $types);
 
-                return $type;
+                return trim($type);
             }
         }
 
@@ -108,14 +108,13 @@ final class DocBlockWrapper
 
         foreach ($paramAnnotations as $paramAnnotation) {
             if (Strings::contains($paramAnnotation->getContent(), '$' . $name)) {
-                $annotationParts = explode(' ', $this->resolveAnnotationContent($paramAnnotation, 'param'));
-                if (count($annotationParts) < 3) {
+                $annotationParts = explode('$' . $name, $this->resolveAnnotationContent($paramAnnotation, 'param'));
+
+                if (count($annotationParts) < 2) {
                     return null;
                 }
 
-                $annotationParts = array_slice($annotationParts, 2);
-
-                return implode(' ', $annotationParts);
+                return $annotationParts[1];
             }
         }
 

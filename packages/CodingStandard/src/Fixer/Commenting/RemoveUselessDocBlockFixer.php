@@ -95,6 +95,7 @@ public function getCount(): int
     {
         foreach ($methodWrapper->getArguments() as $argumentWrapper) {
             $argumentType = $docBlockWrapper->getArgumentType($argumentWrapper->getName());
+
             if ($argumentType === $argumentWrapper->getType()) {
                 if ($docBlockWrapper->getArgumentTypeDescription($argumentWrapper->getName())) {
                     continue;
