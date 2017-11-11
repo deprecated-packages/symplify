@@ -151,7 +151,6 @@ class SomeTest extends ContainerAwareTestCase
 
 
 ### Block comment should only contain useful information about types
-
 - class: [`Symplify\CodingStandard\Fixer\Commenting\RemoveUselessDocBlockFixer`](/src/Fixer/Commenting/RemoveUselessDocBlockFixer.php)
 
 :x:
