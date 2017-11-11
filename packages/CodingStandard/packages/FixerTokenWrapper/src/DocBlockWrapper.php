@@ -72,7 +72,7 @@ final class DocBlockWrapper
             if (Strings::contains($paramAnnotation->getContent(), '$' . $name)) {
                 $types = $this->resolveAnnotationContent($paramAnnotation, 'param');
 
-                return rtrim($types , ' $' . $name);
+                return rtrim($types, ' $' . $name);
             }
         }
 
@@ -95,6 +95,7 @@ final class DocBlockWrapper
         foreach ($paramAnnotations as $paramAnnotation) {
             if (Strings::contains($paramAnnotation, '$' . $name)) {
                 $paramAnnotation->remove();
+
                 break;
             }
         }
@@ -129,7 +130,7 @@ final class DocBlockWrapper
     private function resolveAnnotationContent(Annotation $annotation, string $name): string
     {
         $content = $annotation->getContent();
-        [, $content] = explode('@'. $name, $content);
+        [, $content] = explode('@' . $name, $content);
 
         $content = ltrim($content, ' *');
         $content = trim($content);
