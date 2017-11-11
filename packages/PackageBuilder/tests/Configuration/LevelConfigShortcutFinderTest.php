@@ -20,7 +20,7 @@ final class LevelConfigShortcutFinderTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->levelConfigShortcutFinder = new LevelConfigShortcutFinder;
+        $this->levelConfigShortcutFinder = new LevelConfigShortcutFinder();
     }
 
     /**

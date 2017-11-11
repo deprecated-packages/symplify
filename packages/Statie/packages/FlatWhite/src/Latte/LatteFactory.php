@@ -30,7 +30,7 @@ final class LatteFactory
 
     public function create(): Engine
     {
-        $latteEngine = new Engine;
+        $latteEngine = new Engine();
         $latteEngine->setLoader($this->loader);
         $latteEngine->setTempDirectory(sys_get_temp_dir() . '/_flat_white_latte_factory_cache');
 

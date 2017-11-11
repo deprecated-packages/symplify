@@ -15,7 +15,7 @@ final class NeonParserTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->neonParser = new NeonParser;
+        $this->neonParser = new NeonParser();
     }
 
     public function testDecode(): void

@@ -55,6 +55,6 @@ final class Test extends AbstractFixerTestCase
 
     protected function createFixer(): FixerInterface
     {
-        return new ImportNamespacedNameFixer;
+        return new ImportNamespacedNameFixer();
     }
 }

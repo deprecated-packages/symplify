@@ -11,7 +11,7 @@ final class ConfigurationTest extends TestCase
 {
     public function testSettings(): void
     {
-        $container = (new ContainerFactory)->createWithConfig(__DIR__ . '/ConfigurationSource/statie-settings.neon');
+        $container = (new ContainerFactory())->createWithConfig(__DIR__ . '/ConfigurationSource/statie-settings.neon');
 
         /** @var Configuration $configuration */
         $configuration = $container->get(Configuration::class);
@@ -24,7 +24,7 @@ final class ConfigurationTest extends TestCase
 
     public function testMarkdownHeadlineAnchors(): void
     {
-        $container = (new ContainerFactory)->create();
+        $container = (new ContainerFactory())->create();
         $configuration = $container->get(Configuration::class);
 
         $configuration->enableMarkdownHeadlineAnchors();
@@ -36,7 +36,7 @@ final class ConfigurationTest extends TestCase
 
     public function testExceptionForEmptyGithubRepositorySlug(): void
     {
-        $container = (new ContainerFactory)->createWithConfig(
+        $container = (new ContainerFactory())->createWithConfig(
             __DIR__ . '/ConfigurationSource/settings-without-github-slug.neon'
         );
 

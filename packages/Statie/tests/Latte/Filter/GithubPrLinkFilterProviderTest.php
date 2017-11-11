@@ -19,7 +19,7 @@ final class GithubPrLinkFilterProviderTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->container = (new ContainerFactory)->createWithConfig(
+        $this->container = (new ContainerFactory())->createWithConfig(
             __DIR__ . '/GithubPrLinkFilterProviderSource/statie-config-with-github-slug.neon'
         );
     }

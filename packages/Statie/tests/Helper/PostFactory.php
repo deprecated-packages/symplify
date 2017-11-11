@@ -16,7 +16,7 @@ final class PostFactory
 
     public function __construct()
     {
-        $this->configurationDecorator = new ConfigurationDecorator(new NeonParser);
+        $this->configurationDecorator = new ConfigurationDecorator(new NeonParser());
     }
 
     public function createPostFromFilePath(string $filePath): PostFile

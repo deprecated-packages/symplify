@@ -110,7 +110,7 @@ final class CommentedOutCodeSniff implements Sniff
             return $this->parser;
         }
 
-        return $this->parser = (new ParserFactory)->create(ParserFactory::PREFER_PHP7);
+        return $this->parser = (new ParserFactory())->create(ParserFactory::PREFER_PHP7);
     }
 
     private function trimCommentStart(string $tokenContent): string

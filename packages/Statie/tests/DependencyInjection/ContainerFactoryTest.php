@@ -12,7 +12,7 @@ final class ContainerFactoryTest extends TestCase
 {
     public function test(): void
     {
-        $containerFactory = new ContainerFactory;
+        $containerFactory = new ContainerFactory();
         $container = $containerFactory->create();
         $this->assertInstanceOf(ContainerInterface::class, $container);
         $this->assertInstanceOf(Container::class, $container);
@@ -27,7 +27,7 @@ final class ContainerFactoryTest extends TestCase
             'Invalid sections found: "invalid". Only "parameters", "includes", "services" are allowed.'
         );
 
-        $containerFactory = new ContainerFactory;
+        $containerFactory = new ContainerFactory();
         $containerFactory->createWithConfig(__DIR__ . '/ContainerFactorySource/config-with-invalid-sections.neon');
     }
 }

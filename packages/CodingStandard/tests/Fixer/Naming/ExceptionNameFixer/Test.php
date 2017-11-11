@@ -31,6 +31,6 @@ final class Test extends AbstractFixerTestCase
 
     protected function createFixer(): FixerInterface
     {
-        return new ExceptionNameFixer;
+        return new ExceptionNameFixer();
     }
 }

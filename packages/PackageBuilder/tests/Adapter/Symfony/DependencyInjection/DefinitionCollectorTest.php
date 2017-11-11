@@ -20,7 +20,7 @@ final class DefinitionCollectorTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->containerBuilder = new ContainerBuilder;
+        $this->containerBuilder = new ContainerBuilder();
     }
 
     public function testLoadCollectorWithType(): void

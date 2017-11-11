@@ -46,6 +46,6 @@ final class Test extends AbstractFixerTestCase
 
     protected function createFixer(): FixerInterface
     {
-        return new ArrayPropertyDefaultValueFixer;
+        return new ArrayPropertyDefaultValueFixer();
     }
 }

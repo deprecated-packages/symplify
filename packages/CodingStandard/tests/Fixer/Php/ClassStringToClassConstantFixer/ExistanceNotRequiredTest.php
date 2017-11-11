@@ -31,7 +31,7 @@ final class ExistanceNotRequiredTest extends AbstractFixerTestCase
 
     protected function createFixer(): FixerInterface
     {
-        $classStringToClassConstantFixer = new ClassStringToClassConstantFixer;
+        $classStringToClassConstantFixer = new ClassStringToClassConstantFixer();
         $classStringToClassConstantFixer->configure([
             'class_must_exist' => false,
         ]);

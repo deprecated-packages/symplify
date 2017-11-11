@@ -51,12 +51,12 @@ final class SourceFileStorageTest extends TestCase
 
     private function prepareSourceFileStorage(): SourceFileStorage
     {
-        $sourceFileStorage = new SourceFileStorage;
+        $sourceFileStorage = new SourceFileStorage();
 
-        $sourceFileStorage->addSourceFileFilter(new GlobalLatteSourceFilter);
-        $sourceFileStorage->addSourceFileFilter(new PostSourceFilter);
-        $sourceFileStorage->addSourceFileFilter(new StaticSourceFilter);
-        $sourceFileStorage->addSourceFileFilter(new RenderableSourceFilter);
+        $sourceFileStorage->addSourceFileFilter(new GlobalLatteSourceFilter());
+        $sourceFileStorage->addSourceFileFilter(new PostSourceFilter());
+        $sourceFileStorage->addSourceFileFilter(new StaticSourceFilter());
+        $sourceFileStorage->addSourceFileFilter(new RenderableSourceFilter());
 
         $finder = Finder::findFiles('*')->from(__DIR__ . '/SourceFileStorageSource');
         $sourceFileStorage->loadSourcesFromFiles(iterator_to_array($finder));

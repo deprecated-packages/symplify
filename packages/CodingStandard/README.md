@@ -505,24 +505,6 @@ class SomeClass
 ```
 
 
-### New class statement should not have empty parentheses
-
-- class: [`Symplify\CodingStandard\Sniffs\ControlStructures\NewClassSniff`](/src/Sniffs/ControlStructures/NewClassSniff.php)
-
-:x:
-
-```php
-$file = new File();
-```
- 
-:+1:
-
-```php
-$file = new File;
-$directory = new Directory([$file]);
-```
-
-
 ### There should not be comments with valid code
 
 - class: [`Symplify\CodingStandard\Sniffs\Debug\CommentedOutCodeSniff`](/src/Sniffs/Debug/CommentedOutCodeSniff.php)

@@ -49,7 +49,7 @@ final class NeonLoader implements LoaderInterface
      */
     public function load($resource, $allowedSections = ['parameters', 'services', 'includes']): void
     {
-        $neonLoader = new Loader;
+        $neonLoader = new Loader();
         $content = $neonLoader->load($resource);
 
         if (is_array($allowedSections) && count($allowedSections)) {
@@ -141,7 +141,7 @@ final class NeonLoader implements LoaderInterface
      */
     private function symfonyConfigServiceSectionParser(array $content, string $resource): void
     {
-        $yamlFileLoader = new YamlFileLoader($this->containerBuilder, new FileLocator);
+        $yamlFileLoader = new YamlFileLoader($this->containerBuilder, new FileLocator());
         $classReflection = new ReflectionClass(YamlFileLoader::class);
         $parseDefinitionsMethod = $classReflection->getMethod('parseDefinitions');
         $parseDefinitionsMethod->setAccessible(true);

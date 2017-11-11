@@ -23,7 +23,7 @@ final class StatieApplicationTest extends TestCase
 
     protected function setUp(): void
     {
-        $container = (new ContainerFactory)->createWithConfig(__DIR__ . '/StatieApplicationSource/statie.neon');
+        $container = (new ContainerFactory())->createWithConfig(__DIR__ . '/StatieApplicationSource/statie.neon');
         $this->statieApplication = $container->get(StatieApplication::class);
         $this->dynamicStringLoader = $container->get(DynamicStringLoader::class);
     }

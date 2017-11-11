@@ -29,7 +29,7 @@ final class PostFilesProcessorTest extends TestCase
 
     protected function setUp(): void
     {
-        $container = (new ContainerFactory)->createWithConfig(__DIR__ . '/RenderFilesProcessorSource/statie.neon');
+        $container = (new ContainerFactory())->createWithConfig(__DIR__ . '/RenderFilesProcessorSource/statie.neon');
 
         $this->renderableFilesProcessor = $container->get(RenderableFilesProcessor::class);
         $this->configuration = $container->get(Configuration::class);

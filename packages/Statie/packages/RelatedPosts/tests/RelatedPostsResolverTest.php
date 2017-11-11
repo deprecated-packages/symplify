@@ -32,7 +32,7 @@ final class RelatedPostsResolverTest extends AbstractContainerAwareTestCase
 
     protected function setUp(): void
     {
-        $this->postFactory = new PostFactory;
+        $this->postFactory = new PostFactory();
 
         $this->relatedPostsResolver = $this->container->get(RelatedPostsResolver::class);
 

@@ -36,6 +36,6 @@ final class AppKernel extends AbstractCliKernel
 
     protected function build(ContainerBuilder $containerBuilder): void
     {
-        $containerBuilder->addCompilerPass(new CollectorCompilerPass);
+        $containerBuilder->addCompilerPass(new CollectorCompilerPass());
     }
 }

@@ -178,7 +178,7 @@ class SomeClass
             return;
         }
 
-        $methodSeparationFixer = new MethodSeparationFixer;
+        $methodSeparationFixer = new MethodSeparationFixer();
         $methodSeparationFixer->setWhitespacesConfig($this->whitespacesFixerConfig);
         $methodSeparationFixerClassReflection = new ReflectionClass(MethodSeparationFixer::class);
 

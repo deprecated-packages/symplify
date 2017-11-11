@@ -35,7 +35,7 @@ final class GenerateCommandTest extends AbstractContainerAwareTestCase
         );
 
         $input = new StringInput($stringInput);
-        $result = $this->application->run($input, new NullOutput);
+        $result = $this->application->run($input, new NullOutput());
         $this->assertSame(0, $result);
 
         $this->assertFileExists(__DIR__ . '/GenerateCommandSource/output/index.html');
@@ -49,6 +49,6 @@ final class GenerateCommandTest extends AbstractContainerAwareTestCase
         );
         $input = new StringInput($stringInput);
 
-        $this->assertSame(1, $this->application->run($input, new NullOutput));
+        $this->assertSame(1, $this->application->run($input, new NullOutput()));
     }
 }

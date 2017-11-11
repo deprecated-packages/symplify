@@ -113,7 +113,7 @@ final class ClassFqnResolver
 
         $methodReflection->setAccessible(true);
 
-        $namespaceUseDeclarations = $methodReflection->invoke(new NoUnusedImportsFixer, $tokens, $useIndexes);
+        $namespaceUseDeclarations = $methodReflection->invoke(new NoUnusedImportsFixer(), $tokens, $useIndexes);
 
         self::$namespaceUseDeclarationsPerTokens[$tokens->getCodeHash()] = $namespaceUseDeclarations;
 
