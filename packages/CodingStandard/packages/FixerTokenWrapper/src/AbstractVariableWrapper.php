@@ -3,6 +3,7 @@
 namespace Symplify\CodingStandard\FixerTokenWrapper;
 
 use Nette\Utils\Strings;
+use PhpCsFixer\Tokenizer\CT;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use Symplify\CodingStandard\FixerTokenWrapper\Naming\ClassFqnResolver;
@@ -51,7 +52,8 @@ abstract class AbstractVariableWrapper
     {
         $previousTokenPosition = $this->tokens->getPrevMeaningfulToken($this->index);
         $previousToken = $this->tokens[$previousTokenPosition];
-        if (! $previousToken->isGivenKind(T_STRING)) {
+
+        if (! $previousToken->isGivenKind([T_STRING, CT::T_ARRAY_TYPEHINT])) {
             return null;
         }
 
