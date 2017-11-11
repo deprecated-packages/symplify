@@ -3,7 +3,7 @@
     "description": "Static Site Generator",
     "license": "MIT",
     "bin": [
-        "bnin/statie",
+        "bin/statie",
         "bin/statie.php",
         "bin/statie_bootstrap.php"
     ],
@@ -27,7 +27,7 @@
         "symfony/translation": "^3.3",
         "symfony/yaml": "^3.3",
 
-        "symplify/package-builder": "^2.3"
+        "symplify/package-builder": "^2.5"
     },
     "require-dev": {
         "phpunit/phpunit": "^6.0"
