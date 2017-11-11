@@ -53,6 +53,10 @@ public function getCount(): int
 
                 // 1. process return tag
                 if ($methodWrapper->getReturnType() === $docBlockWrapper->getReturnType()) {
+                    if ($docBlockWrapper->getReturnTypeDescription()) {
+                        continue;
+                    }
+
                     $docBlockWrapper->removeReturnType();
                 }
 
