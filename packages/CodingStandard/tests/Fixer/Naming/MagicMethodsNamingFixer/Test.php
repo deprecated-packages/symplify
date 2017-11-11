@@ -39,6 +39,6 @@ final class Test extends AbstractFixerTestCase
 
     protected function createFixer(): FixerInterface
     {
-        return new MagicMethodsNamingFixer;
+        return new MagicMethodsNamingFixer();
     }
 }

@@ -54,7 +54,7 @@ final class Test extends AbstractFixerTestCase
 
     protected function createFixer(): FixerInterface
     {
-        $fixer = new PropertyAndConstantSeparationFixer;
+        $fixer = new PropertyAndConstantSeparationFixer();
         $fixer->setWhitespacesConfig($this->createWhitespacesFixerConfig());
 
         return $fixer;

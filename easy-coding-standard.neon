@@ -37,7 +37,6 @@ parameters:
     exclude_checkers:
         # from PHP-CS-Fixer Symfony set
         - PhpCsFixer\Fixer\PhpTag\BlankLineAfterOpeningTagFixer
-        - PhpCsFixer\Fixer\Operator\NewWithBracesFixer
         - PhpCsFixer\Fixer\Phpdoc\PhpdocAlignFixer
         - PhpCsFixer\Fixer\Operator\UnaryOperatorSpacesFixer
         - PhpCsFixer\Fixer\ControlStructure\YodaStyleFixer

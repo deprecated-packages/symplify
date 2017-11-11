@@ -21,7 +21,7 @@ final class NeonLoaderTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->containerBuilder = new ContainerBuilder;
+        $this->containerBuilder = new ContainerBuilder();
         $this->neonLoader = new NeonLoader($this->containerBuilder);
     }
 

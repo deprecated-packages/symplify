@@ -40,6 +40,6 @@ final class Test extends AbstractFixerTestCase
 
     protected function createFixer(): FixerInterface
     {
-        return new ClassStringToClassConstantFixer;
+        return new ClassStringToClassConstantFixer();
     }
 }

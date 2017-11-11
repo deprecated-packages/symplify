@@ -31,7 +31,7 @@ final class DynamicStringLoaderTest extends TestCase
 
     private function createStringLoader(): DynamicStringLoader
     {
-        $loader = new DynamicStringLoader;
+        $loader = new DynamicStringLoader();
         $loader->changeContent(
             'default',
             file_get_contents(__DIR__ . '/DynamicStringLoaderSource/default.latte')

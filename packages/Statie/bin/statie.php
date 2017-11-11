@@ -13,10 +13,10 @@ require_once __DIR__ . '/statie_bootstrap.php';
 
 try {
     // 1. Detect configuration
-    ConfigFilePathHelper::detectFromInput('statie', new ArgvInput);
+    ConfigFilePathHelper::detectFromInput('statie', new ArgvInput());
 
     // 2. Build DI container
-    $containerFactory = new ContainerFactory;
+    $containerFactory = new ContainerFactory();
     $configFile = ConfigFilePathHelper::provide('statie', 'statie.neon');
 
     if ($configFile) {

@@ -27,7 +27,7 @@ final class RelatedPostsFilterTest extends AbstractContainerAwareTestCase
 
     protected function setUp(): void
     {
-        $this->postFactory = new PostFactory;
+        $this->postFactory = new PostFactory();
         $this->relatedPostsFilter = $this->container->get(RelatedPostsFilter::class);
 
         /** @var Configuration $configuration */

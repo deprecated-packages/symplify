@@ -36,7 +36,7 @@ final class Test extends AbstractFixerTestCase
 
     protected function createFixer(): FixerInterface
     {
-        $blockPropertyCommentFixer = new BlockPropertyCommentFixer;
+        $blockPropertyCommentFixer = new BlockPropertyCommentFixer();
         $blockPropertyCommentFixer->setWhitespacesConfig($this->createWhitespacesFixerConfig());
 
         return $blockPropertyCommentFixer;

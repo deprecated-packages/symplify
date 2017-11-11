@@ -10,6 +10,6 @@ final class SymfonyStyleFactory
 {
     public static function create(): SymfonyStyle
     {
-        return new SymfonyStyle(new ArrayInput([]), new ConsoleOutput);
+        return new SymfonyStyle(new ArrayInput([]), new ConsoleOutput());
     }
 }

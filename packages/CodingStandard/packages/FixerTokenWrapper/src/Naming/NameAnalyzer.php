@@ -83,6 +83,6 @@ final class NameAnalyzer
         $reflectionMethod = new ReflectionMethod(NoUnusedImportsFixer::class, 'getNamespaceUseDeclarations');
         $reflectionMethod->setAccessible(true);
 
-        return $reflectionMethod->invoke(new NoUnusedImportsFixer, $tokens, $importUseIndexes);
+        return $reflectionMethod->invoke(new NoUnusedImportsFixer(), $tokens, $importUseIndexes);
     }
 }

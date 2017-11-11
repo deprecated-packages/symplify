@@ -35,6 +35,6 @@ final class Test extends AbstractFixerTestCase
 
     protected function createFixer(): FixerInterface
     {
-        return new RequireFollowedByAbsolutePathFixer;
+        return new RequireFollowedByAbsolutePathFixer();
     }
 }

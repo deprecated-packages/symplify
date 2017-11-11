@@ -10,7 +10,7 @@ final class ParameterProviderTest extends TestCase
 {
     public function test(): void
     {
-        $container = (new ContainerFactory)->createWithConfig(
+        $container = (new ContainerFactory())->createWithConfig(
             __DIR__ . '/ParameterProviderSource/config.yml'
         );
 
@@ -22,7 +22,7 @@ final class ParameterProviderTest extends TestCase
 
     public function testParameterLowerCasing(): void
     {
-        $container = (new ContainerFactory)->createWithConfig(
+        $container = (new ContainerFactory())->createWithConfig(
             __DIR__ . '/ParameterProviderSource/Neon/casing-config.neon'
         );
 
@@ -35,7 +35,7 @@ final class ParameterProviderTest extends TestCase
 
     public function testIncludingYaml(): void
     {
-        $container = (new ContainerFactory)->createWithConfig(
+        $container = (new ContainerFactory())->createWithConfig(
             __DIR__ . '/ParameterProviderSource/Yaml/including-config.yml'
         );
 
@@ -49,7 +49,7 @@ final class ParameterProviderTest extends TestCase
 
     public function testIncludingNeon(): void
     {
-        $container = (new ContainerFactory)->createWithConfig(
+        $container = (new ContainerFactory())->createWithConfig(
             __DIR__ . '/ParameterProviderSource/Neon/including-config.neon'
         );
 
