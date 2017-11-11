@@ -70,7 +70,7 @@ public function getCount(): int
     }
 
     /**
-     * Runs before @see \PhpCsFixer\Fixer\Phpdoc\NoEmptyPhpdocFixer
+     * Runs before @see \PhpCsFixer\Fixer\Phpdoc\NoEmptyPhpdocFixer.
      */
     public function getPriority(): int
     {
@@ -102,8 +102,8 @@ public function getCount(): int
 
             if ($argumentType === null && $argumentDescription === null) {
                 $docBlockWrapper->removeParamType($argumentWrapper->getName());
-                continue;
 
+                continue;
             }
 
             if ($argumentType === $argumentWrapper->getType()) {
