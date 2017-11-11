@@ -150,6 +150,35 @@ class SomeTest extends ContainerAwareTestCase
 ```
 
 
+### Block comment should only contain useful information about types
+
+- class: [`Symplify\CodingStandard\Fixer\Commenting\RemoveUselessDocBlockFixer`](/src/Fixer/Commenting/RemoveUselessDocBlockFixer.php)
+
+:x:
+
+```php
+/**
+ * @param int $value
+ * @param $anotherValue
+ * @param SomeType $someService
+ * @return array
+ */
+public function setCount(int $value, $anotherValue, SomeType $someService): array
+{
+}
+```
+
+:+1:
+
+```php
+/**
+ */
+public function setCount(int $value, $anotherValue, SomeType $someService): array
+{
+}
+```
+
+
 ### Include/Require should be followed by absolute path
 
 - class: [`Symplify\CodingStandard\Fixer\ControlStructure\RequireFollowedByAbsolutePathFixer`](/src/Fixer/ControlStructure/RequireFollowedByAbsolutePathFixer.php)

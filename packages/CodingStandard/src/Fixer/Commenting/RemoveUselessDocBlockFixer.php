@@ -18,7 +18,7 @@ final class RemoveUselessDocBlockFixer implements FixerInterface, DefinedFixerIn
     public function getDefinition(): FixerDefinitionInterface
     {
         return new FixerDefinition(
-            'Block comment should only contain useful information.',
+            'Block comment should only contain useful information about types.',
             [
                 new CodeSample('<?php
 /**
