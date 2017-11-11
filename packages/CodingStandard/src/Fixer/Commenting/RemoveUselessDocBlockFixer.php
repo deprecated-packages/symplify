@@ -69,10 +69,12 @@ public function getCount(): int
         return self::class;
     }
 
+    /**
+     * Runs before @see \PhpCsFixer\Fixer\Phpdoc\NoEmptyPhpdocFixer
+     */
     public function getPriority(): int
     {
-        // before empty doc block cleaner
-        return 0;
+        return 10;
     }
 
     public function supports(SplFileInfo $file): bool
@@ -96,8 +98,16 @@ public function getCount(): int
         foreach ($methodWrapper->getArguments() as $argumentWrapper) {
             $argumentType = $docBlockWrapper->getArgumentType($argumentWrapper->getName());
 
+            $argumentDescription = $docBlockWrapper->getArgumentTypeDescription($argumentWrapper->getName());
+
+            if ($argumentType === null && $argumentDescription === null) {
+                $docBlockWrapper->removeParamType($argumentWrapper->getName());
+                continue;
+
+            }
+
             if ($argumentType === $argumentWrapper->getType()) {
-                if ($docBlockWrapper->getArgumentTypeDescription($argumentWrapper->getName())) {
+                if ($argumentDescription) {
                     continue;
                 }
 

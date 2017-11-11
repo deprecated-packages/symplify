@@ -5,7 +5,7 @@ class SomeClass
 {
     /**
      */
-    public function setCount(int $value)
+    public function setCount(int $value, $anotherValue)
     {
     }
 }

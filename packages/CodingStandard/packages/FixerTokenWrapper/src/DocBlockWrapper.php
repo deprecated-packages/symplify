@@ -90,7 +90,12 @@ final class DocBlockWrapper
         foreach ($paramAnnotations as $paramAnnotation) {
             if (Strings::contains($paramAnnotation->getContent(), '$' . $name)) {
                 $types = $this->resolveAnnotationContent($paramAnnotation, 'param');
-                [$type, ] = explode(' $' . $name, $types);
+                $typeParts = explode(' $' . $name, $types);
+                if (count($typeParts) < 2) {
+                    return null;
+                }
+
+                [$type, ] = $typeParts;
 
                 return trim($type);
             }
