@@ -9,6 +9,8 @@ use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
+use Symplify\CodingStandard\FixerTokenWrapper\DocBlockWrapper;
+use Symplify\CodingStandard\FixerTokenWrapper\MethodWrapper;
 use Symplify\CodingStandard\Tokenizer\ClassTokensAnalyzer;
 
 final class RemoveUselessDocBlockFixer implements FixerInterface, DefinedFixerInterface
@@ -51,22 +53,8 @@ public function getCount(): int
                     continue;
                 }
 
-                // 1. process return tag
-                if ($methodWrapper->getReturnType() === $docBlockWrapper->getReturnType()) {
-                    if ($docBlockWrapper->getReturnTypeDescription()) {
-                        continue;
-                    }
-
-                    $docBlockWrapper->removeReturnType();
-                }
-
-                // 2. process param tag
-                foreach ($methodWrapper->getArguments() as $argumentWrapper) {
-                    $argumentType = $docBlockWrapper->getArgumentType($argumentWrapper->getName());
-                    if ($argumentType === $argumentWrapper->getType()) {
-                        $docBlockWrapper->removeParamType($argumentWrapper->getName());
-                    }
-                }
+                $this->processReturnTag($methodWrapper, $docBlockWrapper);
+                $this->processParamTag($methodWrapper, $docBlockWrapper);
             }
         }
     }
@@ -90,5 +78,30 @@ public function getCount(): int
     public function supports(SplFileInfo $file): bool
     {
         return true;
+    }
+
+    private function processReturnTag(MethodWrapper $methodWrapper, DocBlockWrapper $docBlockWrapper): void
+    {
+        if ($methodWrapper->getReturnType() === $docBlockWrapper->getReturnType()) {
+            if ($docBlockWrapper->getReturnTypeDescription()) {
+                return;
+            }
+
+            $docBlockWrapper->removeReturnType();
+        }
+    }
+
+    private function processParamTag(MethodWrapper $methodWrapper, DocBlockWrapper $docBlockWrapper): void
+    {
+        foreach ($methodWrapper->getArguments() as $argumentWrapper) {
+            $argumentType = $docBlockWrapper->getArgumentType($argumentWrapper->getName());
+            if ($argumentType === $argumentWrapper->getType()) {
+                if ($docBlockWrapper->getArgumentTypeDescription($argumentWrapper->getName())) {
+                    continue;
+                }
+
+                $docBlockWrapper->removeParamType($argumentWrapper->getName());
+            }
+        }
     }
 }

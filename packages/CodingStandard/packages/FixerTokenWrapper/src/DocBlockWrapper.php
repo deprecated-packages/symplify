@@ -99,6 +99,29 @@ final class DocBlockWrapper
         return null;
     }
 
+    public function getArgumentTypeDescription(string $name): ?string
+    {
+        $paramAnnotations = $this->docBlock->getAnnotationsOfType('param');
+        if (! $paramAnnotations) {
+            return null;
+        }
+
+        foreach ($paramAnnotations as $paramAnnotation) {
+            if (Strings::contains($paramAnnotation->getContent(), '$' . $name)) {
+                $annotationParts = explode(' ', $this->resolveAnnotationContent($paramAnnotation, 'param'));
+                if (count($annotationParts) < 3) {
+                    return null;
+                }
+
+                $annotationParts = array_slice($annotationParts, 2);
+
+                return implode(' ', $annotationParts);
+            }
+        }
+
+        return null;
+    }
+
     public function removeReturnType(): void
     {
         $returnAnnotations = $this->docBlock->getAnnotationsOfType('return');
