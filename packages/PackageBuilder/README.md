@@ -5,7 +5,7 @@
 [![Subscribe](https://img.shields.io/badge/subscribe-to--releases-green.svg?style=flat-square)](https://libraries.io/packagist/symplify%2Fpackage-builder)
 
 
-This tools helps build Symplify packages without any knowledge of Dependency Injection components.
+This tools helps you with Collectors in DependecyInjection, Console shortcuts, ParameterProvider as service and many more.
 
 
 ## Install
@@ -191,6 +191,45 @@ final class SuperKernel extends Kernel
         $loader->load(__DIR__ . '/config/services.neon');
     }
 }
+````
+
+### 7. Load config via `--level` option in your Console Application
+
+
+In you `bin/your-app` you can use `--level` option as shortcut to load config from `/config` directory. 
+
+It makes is easier to load config over traditional super long way: 
+
+```bash
+vendor/bin/your-app --config vendor/organization-name/package-name/config/subdirectory/the-config.yml
+```
+
+```php
+use Symplify\PackageBuilder\Configuration\ConfigFilePathHelper;
+use Symplify\PackageBuilder\Configuration\LevelConfigShortcutFinder;
+
+// 1. Try --level
+$configFile = (new LevelConfigShortcutFinder)->resolveLevel(new ArgvInput, __DIR__ . '/../config/');
+
+// 2. try --config
+if ($configFile === null) {
+    ConfigFilePathHelper::detectFromInput('ecs', new ArgvInput);
+    $configFile = ConfigFilePathHelper::provide('ecs', 'easy-coding-standard.neon');
+}
+
+// 3. Build DI container
+$containerFactory = new ContainerFactory; // your own class
+if ($configFile) {
+    $container = $containerFactory->createWithConfig($configFile);
+} else {
+    $container = $containerFactory->create();
+}
+```
+
+And use like:
+
+```bash
+vendor/bin/your-app --level the-config
 ```
 
 
