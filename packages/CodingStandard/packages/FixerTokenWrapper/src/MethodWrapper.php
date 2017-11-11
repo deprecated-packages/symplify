@@ -104,4 +104,22 @@ final class MethodWrapper
             $docBlock
         );
     }
+
+    public function getReturnType(): ?string
+    {
+        for ($i = $this->index; $i < count($this->tokens); ++$i) {
+            $token = $this->tokens[$i];
+            if ($token->getContent() === '{') {
+                return null;
+            }
+
+            if ($token->getContent() === ':') {
+                $typeToken = $this->tokens[$this->tokens->getNextMeaningfulToken($i)];
+
+                return $typeToken->getContent();
+            }
+        }
+
+        return null;
+    }
 }

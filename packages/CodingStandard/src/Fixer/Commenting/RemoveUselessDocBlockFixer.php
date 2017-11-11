@@ -46,9 +46,12 @@ public function getCount(): int
 
             $classTokensAnalyzer = ClassTokensAnalyzer::createFromTokensArrayStartPosition($tokens, $index);
             foreach ($classTokensAnalyzer->getMethodWrappers() as $methodWrapper) {
-                $docBlockWrapper = $methodWrapper->getDocBlockWrapper();
-
                 // 1. process return tag
+                $docBlockWrapper = $methodWrapper->getDocBlockWrapper();
+                if ($methodWrapper->getReturnType() === $docBlockWrapper->getReturnType()) {
+                    $docBlockWrapper->removeReturnType();
+                }
+
                 // 2. process param tag
             }
         }

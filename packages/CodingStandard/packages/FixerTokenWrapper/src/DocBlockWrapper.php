@@ -49,6 +49,31 @@ final class DocBlockWrapper
         return count($this->docBlock->getLines()) === 1;
     }
 
+    public function getReturnType(): ?string
+    {
+        $returnAnnotations = $this->docBlock->getAnnotationsOfType('return');
+        if (! $returnAnnotations) {
+            return null;
+        }
+
+        $content = $returnAnnotations[0]->getContent();
+        [, $content] = explode('@return', $content);
+        $content = ltrim($content, ' *');
+        $content = trim($content);
+
+        return $content;
+    }
+
+    public function removeReturnType(): void
+    {
+        $returnAnnotations = $this->docBlock->getAnnotationsOfType('return');
+        foreach ($returnAnnotations as $returnAnnotation) {
+            $returnAnnotation->remove();
+        }
+
+        $this->tokens[$this->docBlockPosition] = new Token([T_DOC_COMMENT, $this->docBlock->getContent()]);
+    }
+
     public function changeToMultiLine(): void
     {
         $indent = $this->whitespacesFixerConfig->getIndent();
