@@ -10,7 +10,6 @@ use PhpCsFixer\Tokenizer\Tokens;
 use Symplify\CodingStandard\FixerTokenWrapper\Exception\MissingDocBlockException;
 use Symplify\CodingStandard\FixerTokenWrapper\Guard\TokenTypeGuard;
 use Symplify\CodingStandard\FixerTokenWrapper\Naming\ClassFqnResolver;
-use Symplify\CodingStandard\Tokenizer\DocBlockAnalyzer;
 use Symplify\CodingStandard\Tokenizer\DocBlockFinder;
 use Symplify\CodingStandard\Tokenizer\PropertyAnalyzer;
 
@@ -25,11 +24,6 @@ final class PropertyWrapper
      * @var DocBlock|null
      */
     private $docBlock;
-
-    /**
-     * @var Token
-     */
-    private $visibilityToken;
 
     /**
      * @var int
@@ -59,33 +53,11 @@ final class PropertyWrapper
         }
 
         $this->visibilityPosition = PropertyAnalyzer::findVisibilityPosition($tokens, $index);
-        $this->visibilityToken = $tokens[$this->visibilityPosition];
     }
 
     public static function createFromTokensAndPosition(Tokens $tokens, int $position): self
     {
         return new self($tokens, $position);
-    }
-
-    public function isInjectProperty(): bool
-    {
-        if ($this->visibilityToken === null) {
-            return false;
-        }
-
-        if (! $this->visibilityToken->isGivenKind(T_PUBLIC)) {
-            return false;
-        }
-
-        if ($this->docBlock === null) {
-            return false;
-        }
-
-        if (! DocBlockAnalyzer::hasAnnotations($this->docBlock, ['inject', 'var'])) {
-            return false;
-        }
-
-        return true;
     }
 
     public function removeAnnotation(string $annotationType): void
@@ -97,11 +69,6 @@ final class PropertyWrapper
         }
 
         $this->tokens[$this->docBlockPosition] = new Token([T_DOC_COMMENT, $this->docBlock->getContent()]);
-    }
-
-    public function makePrivate(): void
-    {
-        $this->tokens[$this->visibilityPosition] = new Token([T_PRIVATE, 'private']);
     }
 
     public function getName(): string

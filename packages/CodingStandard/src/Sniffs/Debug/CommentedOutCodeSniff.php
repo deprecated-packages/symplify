@@ -51,7 +51,6 @@ final class CommentedOutCodeSniff implements Sniff
     }
 
     /**
-     * @param int $position
      * @param mixed[] $tokens
      */
     private function turnCommentedCodeIntoPhpCode(File $file, int $position, array $tokens): string
