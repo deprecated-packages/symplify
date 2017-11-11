@@ -9,4 +9,11 @@ class SomeClass
     {
 
     }
+
+    /**
+     * @return Expr\StaticCall
+     */
+    protected function getComposed() : Expr\StaticCall
+    {
+    }
 }

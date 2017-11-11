@@ -7,6 +7,7 @@ use PhpCsFixer\DocBlock\DocBlock;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use Symplify\CodingStandard\FixerTokenWrapper\Guard\TokenTypeGuard;
+use Symplify\CodingStandard\FixerTokenWrapper\Naming\ClassFqnResolver;
 use Symplify\CodingStandard\Tokenizer\DocBlockFinder;
 
 final class MethodWrapper
@@ -114,9 +115,16 @@ final class MethodWrapper
             }
 
             if ($token->getContent() === ':') {
-                $typeToken = $this->tokens[$this->tokens->getNextMeaningfulToken($i)];
+                $nextTokenPosition = $this->tokens->getNextMeaningfulToken($i);
+                $nextToken = $this->tokens[$nextTokenPosition];
 
-                return $typeToken->getContent();
+                if (! $nextToken->isGivenKind([T_NS_SEPARATOR, T_STRING])) {
+                    return $nextToken->getContent();
+                }
+
+                $name = ClassFqnResolver::resolveDataFromStart($this->tokens, $nextTokenPosition);
+
+                return $name->getName();
             }
         }
 

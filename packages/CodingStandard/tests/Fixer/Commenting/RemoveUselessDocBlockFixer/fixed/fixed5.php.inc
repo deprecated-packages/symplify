@@ -8,4 +8,10 @@ class SomeClass
     {
 
     }
+
+    /**
+     */
+    protected function getComposed() : Expr\StaticCall
+    {
+    }
 }
