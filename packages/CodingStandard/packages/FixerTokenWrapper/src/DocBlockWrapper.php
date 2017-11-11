@@ -8,7 +8,6 @@ use PhpCsFixer\DocBlock\DocBlock;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use PhpCsFixer\WhitespacesFixerConfig;
-use phpDocumentor\Reflection\DocBlock\Tags\Return_;
 
 final class DocBlockWrapper
 {
