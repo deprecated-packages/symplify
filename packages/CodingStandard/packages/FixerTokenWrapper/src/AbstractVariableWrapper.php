@@ -53,6 +53,11 @@ abstract class AbstractVariableWrapper
         $previousTokenPosition = $this->tokens->getPrevMeaningfulToken($this->index);
         $previousToken = $this->tokens[$previousTokenPosition];
 
+        if ($previousToken->getContent() === '&') {
+            $previousTokenPosition = $this->tokens->getPrevMeaningfulToken($previousTokenPosition);
+            $previousToken = $this->tokens[$previousTokenPosition];
+        }
+
         if (! $previousToken->isGivenKind([T_STRING, CT::T_ARRAY_TYPEHINT])) {
             return null;
         }
