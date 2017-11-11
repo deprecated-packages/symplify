@@ -2,6 +2,8 @@
 
 namespace Symplify\CodingStandard\FixerTokenWrapper;
 
+use Nette\Utils\Strings;
+use PhpCsFixer\DocBlock\Annotation;
 use PhpCsFixer\DocBlock\DocBlock;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
@@ -56,12 +58,25 @@ final class DocBlockWrapper
             return null;
         }
 
-        $content = $returnAnnotations[0]->getContent();
-        [, $content] = explode('@return', $content);
-        $content = ltrim($content, ' *');
-        $content = trim($content);
+        return $this->resolveAnnotationContent($returnAnnotations[0], 'return');
+    }
 
-        return $content;
+    public function getArgumentType(string $name): ?string
+    {
+        $paramAnnotations = $this->docBlock->getAnnotationsOfType('param');
+        if (! $paramAnnotations) {
+            return null;
+        }
+
+        foreach ($paramAnnotations as $paramAnnotation) {
+            if (Strings::contains($paramAnnotation->getContent(), '$' . $name)) {
+                $types = $this->resolveAnnotationContent($paramAnnotation, 'param');
+
+                return rtrim($types , ' $' . $name);
+            }
+        }
+
+        return null;
     }
 
     public function removeReturnType(): void
@@ -69,6 +84,19 @@ final class DocBlockWrapper
         $returnAnnotations = $this->docBlock->getAnnotationsOfType('return');
         foreach ($returnAnnotations as $returnAnnotation) {
             $returnAnnotation->remove();
+        }
+
+        $this->tokens[$this->docBlockPosition] = new Token([T_DOC_COMMENT, $this->docBlock->getContent()]);
+    }
+
+    public function removeParamType(string $name): void
+    {
+        $paramAnnotations = $this->docBlock->getAnnotationsOfType('param');
+        foreach ($paramAnnotations as $paramAnnotation) {
+            if (Strings::contains($paramAnnotation, '$' . $name)) {
+                $paramAnnotation->remove();
+                break;
+            }
         }
 
         $this->tokens[$this->docBlockPosition] = new Token([T_DOC_COMMENT, $this->docBlock->getContent()]);
@@ -96,5 +124,16 @@ final class DocBlockWrapper
     public function setWhitespacesFixerConfig(WhitespacesFixerConfig $whitespacesFixerConfig): void
     {
         $this->whitespacesFixerConfig = $whitespacesFixerConfig;
+    }
+
+    private function resolveAnnotationContent(Annotation $annotation, string $name): string
+    {
+        $content = $annotation->getContent();
+        [, $content] = explode('@'. $name, $content);
+
+        $content = ltrim($content, ' *');
+        $content = trim($content);
+
+        return $content;
     }
 }

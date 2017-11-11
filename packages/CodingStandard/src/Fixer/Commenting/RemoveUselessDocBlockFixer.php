@@ -53,6 +53,12 @@ public function getCount(): int
                 }
 
                 // 2. process param tag
+                foreach ($methodWrapper->getArguments() as $argumentWrapper) {
+                    $argumentType = $docBlockWrapper->getArgumentType($argumentWrapper->getName());
+                    if ($argumentType === $argumentWrapper->getType()) {
+                        $docBlockWrapper->removeParamType($argumentWrapper->getName());
+                    }
+                }
             }
         }
     }
