@@ -128,14 +128,14 @@ public function getCount(): int
         }
     }
 
-    private function isUsefulArgumentDescription(string $description, string $type): bool
+    private function isUsefulArgumentDescription(string $description, ?string $type): bool
     {
         if (! $description) {
             return false;
         }
 
         // improve with additional cases, probably regex
-        if ($description === sprintf('A %s instance', $type)) {
+        if ($type && $description === sprintf('A %s instance', $type)) {
             return false;
         }
 
