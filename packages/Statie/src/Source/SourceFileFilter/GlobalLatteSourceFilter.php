@@ -16,11 +16,11 @@ final class GlobalLatteSourceFilter implements SourceFileFilterInterface
 
     public function matchesFileSource(SplFileInfo $fileInfo): bool
     {
-        if (Strings::contains($fileInfo, '_layouts')) {
+        if (Strings::contains($fileInfo->getRealPath(), '_layouts')) {
             return true;
         }
 
-        if (Strings::contains($fileInfo, '_snippets')) {
+        if (Strings::contains($fileInfo->getRealPath(), '_snippets')) {
             return true;
         }
 
