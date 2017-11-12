@@ -119,7 +119,7 @@ final class DocBlockWrapper
                     return null;
                 }
 
-                return $annotationParts[1];
+                return trim($annotationParts[1]);
             }
         }
 

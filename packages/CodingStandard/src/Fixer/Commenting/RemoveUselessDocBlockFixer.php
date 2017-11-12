@@ -107,12 +107,25 @@ public function getCount(): int
             }
 
             if ($argumentType === $argumentWrapper->getType()) {
-                if ($argumentDescription) {
+                if ($argumentDescription && $this->isUsefulArgumentDescription($argumentDescription, $argumentType)) {
                     continue;
                 }
 
                 $docBlockWrapper->removeParamType($argumentWrapper->getName());
             }
         }
+    }
+
+    private function isUsefulArgumentDescription(string $description, string $type): bool
+    {
+        if (! $description) {
+            return false;
+        }
+
+        if ($description === sprintf('A %s instance', $type)) {
+            return false;
+        }
+
+        return true;
     }
 }
