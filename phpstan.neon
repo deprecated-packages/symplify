@@ -4,8 +4,6 @@ parameters:
         - '#Symplify\\EasyCodingStandard\\SniffRunner\\File\\File::__construct\(\) does not call parent constructor from PHP_CodeSniffer\\Files\\File#'
         - '#Call to an undefined method Symfony\\Component\\Config\\Loader\\LoaderResolverInterface::addLoader\(\)#'
         - '#Parameter \#2 \$type of method Symfony\\Component\\Config\\Loader\\LoaderInterface::load\(\) expects string\|null, string\[\] given#'
-        # lvl 6
-        - '#Parameter \#1 \$container of class Symfony\\Component\\DependencyInjection\\Loader\\YamlFileLoader constructor expects Symfony\\Component\\DependencyInjection\\ContainerBuilder, Symfony\\Component\\DependencyInjection\\ContainerBuilder\|Symfony\\Component\\DependencyInjection\\ContainerInterface given#'
         # lvl 7
         - '#Parameter \#2 \$config of class PHP_CodeSniffer\\Tokenizers\\PHP constructor expects PHP_CodeSniffer\\Config\|null, PHP_CodeSniffer\\Config\|stdClass given#'
         - '# Symplify\\CodingStandard\\SniffTokenWrapper#'
@@ -20,12 +18,22 @@ parameters:
         - '#Parameter \#3 \$docBlock of static method Symplify\\CodingStandard\\FixerTokenWrapper\\DocBlockWrapper::createFromTokensPositionAndDocBlock\(\) expects PhpCsFixer\\DocBlock\\DocBlock, PhpCsFixer\\DocBlock\\DocBlock\|null given#'
         - '#Parameter \#2 \$docBlockPosition of static method Symplify\\CodingStandard\\FixerTokenWrapper\\DocBlockWrapper::createFromTokensPositionAndDocBlock\(\) expects int, int\|null given#'
         - '#Calling method setWhitespacesFixerConfig|isSingleLine|changeToMultiLine\(\) on possibly null value of type Symplify\\CodingStandard\\FixerTokenWrapper\\DocBlockWrapper\|null#'
-        - '#Parameter \#2 \$useIndexes of static method Symplify\\CodingStandard\\FixerTokenWrapper\\Naming\\ClassFqnResolver::getNamespaceUseDeclarations\(\) expects int\[\], mixed\[\]\|mixed\[\]\[\] given#'
         - '#Parameter \#2 \$classNameEndPosition of static method Symplify\\CodingStandard\\FixerTokenWrapper\\Naming\\ClassFqnResolver::resolveForNamePosition\(\) expects int, int\|null given#'
-        - '#Parameter \#2 \$importUseIndexes of static method Symplify\\CodingStandard\\FixerTokenWrapper\\Naming\\NameAnalyzer::getNamespaceUseDeclarations\(\) expects int\[\], mixed\[\]\|mixed\[\]\[\] given#'
         - '#Parameter \#1 \$index of method PhpCsFixer\\Tokenizer\\Tokens::getPrevMeaningfulToken\(\) expects int, int\|null given#'
         - '#Parameter \#2 \$start of static method Symplify\\CodingStandard\\FixerTokenWrapper\\Naming\\ClassFqnResolver::resolveDataFromStart\(\) expects int, int\|null given#'
         - '#Parameter \#1 \$index of method PhpCsFixer\\Tokenizer\\Tokens::getNextMeaningfulToken\(\) expects int, int\|null given#'
+        - '#Call to an undefined method Psr\\Container\\ContainerInterface::isCompiled\(\)#'
+        - '#Call to an undefined method Symfony\\Component\\DependencyInjection\\ContainerInterface::getParameterBag()#'
+        - '#Parameter \#2 \$useIndexes of static method Symplify\\CodingStandard\\FixerTokenWrapper\\Naming\\ClassFqnResolver::getNamespaceUseDeclarations\(\) expects int\[\], mixed\[\]\[\] given#'
+        - '#Parameter \#1 \$haystack of static method Nette\\Utils\\Strings::startsWith\(\) expects string, string\|null given#'
+
+        # buggy
+        - '#Parameter \#2 \$items of method PhpCsFixer\\Tokenizer\\Tokens::insertAt\(\) expects \(iterable\(PhpCsFixer\\Tokenizer\\Token\[\]\)&PhpCsFixer\\Tokenizer\\Tokens\)\|PhpCsFixer\\Tokenizer\\Token, PhpCsFixer\\Tokenizer\\Token\[\] given#'
+        - '#Parameter \#3 \$items of method PhpCsFixer\\Tokenizer\\Tokens::overrideRange\(\) expects iterable\(PhpCsFixer\\Tokenizer\\Token\[\]\)&PhpCsFixer\\Tokenizer\\Tokens, PhpCsFixer\\Tokenizer\\Token\[\] given#'
+        - '#Call to method getContent\(\) on an unknown class Symplify\\CodingStandard\\Fixer\\Commenting\\annotation#'
+
+        # 3rd party errors
+        - '#Parameter \#1 \$container of class Symfony\\Component\\DependencyInjection\\Loader\\YamlFileLoader constructor expects Symfony\\Component\\DependencyInjection\\ContainerBuilder, Symfony\\Component\\DependencyInjection\\ContainerInterface given#'
 
     excludes_analyse:
         - *packages/CodingStandard/tests/**/correct*

@@ -1,2 +1,4 @@
 parameters:
     key: value
+    camelCase: Lion
+    pascal_case: Celsius

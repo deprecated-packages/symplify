@@ -17,18 +17,7 @@ final class ParameterProviderTest extends TestCase
         $parameterProvider = $container->get(ParameterProvider::class);
         $this->assertSame([
             'key' => 'value',
-        ], $parameterProvider->provide());
-    }
-
-    public function testParameterLowerCasing(): void
-    {
-        $container = (new ContainerFactory())->createWithConfig(
-            __DIR__ . '/ParameterProviderSource/Neon/casing-config.neon'
-        );
-
-        $parameterProvider = $container->get(ParameterProvider::class);
-        $this->assertSame([
-            'camelcase' => 'Lion',
+            'camelCase' => 'Lion',
             'pascal_case' => 'Celsius',
         ], $parameterProvider->provide());
     }

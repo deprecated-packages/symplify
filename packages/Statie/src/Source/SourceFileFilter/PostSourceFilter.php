@@ -16,6 +16,6 @@ final class PostSourceFilter implements SourceFileFilterInterface
 
     public function matchesFileSource(SplFileInfo $fileInfo): bool
     {
-        return Strings::contains($fileInfo, '_posts');
+        return Strings::contains($fileInfo->getRealPath(), '_posts');
     }
 }

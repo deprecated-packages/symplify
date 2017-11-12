@@ -86,6 +86,11 @@ final class DynamicPropertySniff implements Sniff
 
     private function isNettePresenterTemplateMagicProperty(string $propertyName, ClassWrapper $classWrapper): bool
     {
-        return $propertyName === 'template' && Strings::endsWith($classWrapper->getParentClassName(), 'Presenter');
+        $parentClassName = $classWrapper->getParentClassName();
+        if ($parentClassName === null) {
+            return false;
+        }
+
+        return $propertyName === 'template' && Strings::endsWith($parentClassName, 'Presenter');
     }
 }

@@ -98,6 +98,9 @@ So this...
 # statie.neon
 parameters:
     site_url: http://github.com
+    # or if you prefer
+    siteUrl: http://github.com
+
     socials:
         facebook: http://facebook.com/github
 ```
@@ -133,8 +136,6 @@ parameters:
             name: "Suis Marco"
             url: "http://ocramius.github.io/"
  ```
-
-Note: [parameter names have to be lowercased](https://github.com/symfony/symfony/issues/23381), due to Symfony\DependencyInjection component. So `basePath` in config is converted to `{$basepath}` in template. That's why I used `base_path` above.
 
 ### Modify Post Url Format
 
