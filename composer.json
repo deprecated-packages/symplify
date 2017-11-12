@@ -17,21 +17,19 @@
         "sebastian/diff": "^2.0",
         "slevomat/coding-standard": "^4.0",
         "squizlabs/php_codesniffer": "^3.1",
-        "symfony/config": "^3.3",
-        "symfony/console": "^3.3",
-        "symfony/dependency-injection": "^3.3",
-        "symfony/finder": "^3.3",
-        "symfony/http-foundation": "^3.3",
-        "symfony/http-kernel": "^3.3",
-        "symfony/twig-bundle": "^3.3",
-        "symfony/yaml": "^3.3"
+        "symfony/config": "^3.3|^4.0",
+        "symfony/console": "^3.3|^4.0",
+        "symfony/dependency-injection": "^3.3|^4.0",
+        "symfony/finder": "^3.3|^4.0",
+        "symfony/http-kernel": "^3.3|^4.0",
+        "symfony/yaml": "^3.3|^4.0"
     },
     "require-dev": {
         "gecko-packages/gecko-php-unit": "3.0 as 2.2",
         "phpstan/phpstan": "^0.8",
         "phpunit/phpunit": "^6.4",
         "slam/php-cs-fixer-extensions": "^1.6",
-        "symfony/expression-language": "^3.3",
+        "symfony/expression-language": "^3.3|^4.0",
         "tracy/tracy": "^2.4"
     },
     "autoload": {

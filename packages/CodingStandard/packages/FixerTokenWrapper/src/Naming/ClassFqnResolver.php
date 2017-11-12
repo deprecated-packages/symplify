@@ -30,7 +30,7 @@ final class ClassFqnResolver
 
         $previousTokenPointer = $classNameEndPosition - 1;
 
-        while ($tokens[$previousTokenPointer]->getId() === T_NS_SEPARATOR) {
+        while ($tokens[$previousTokenPointer]->isGivenKind([T_NS_SEPARATOR])) {
             --$previousTokenPointer;
             $classNameParts[] = $tokens[$previousTokenPointer]->getContent();
             --$previousTokenPointer;
@@ -73,6 +73,39 @@ final class ClassFqnResolver
         }
 
         return new Name($previousTokenPointer, $end, $name, $nameTokens);
+    }
+
+    public static function resolveDataFromStart(Tokens $tokens, int $start): Name
+    {
+        $nameTokens = [];
+
+        $nextTokenPointer = $start;
+
+        while ($tokens[$nextTokenPointer]->isGivenKind([T_NS_SEPARATOR, T_STRING])) {
+            $nameTokens[] = $tokens[$nextTokenPointer];
+            ++$nextTokenPointer;
+        }
+
+        /** @var Token[] $nameTokens */
+        if ($nameTokens[0]->isGivenKind(T_NS_SEPARATOR)) {
+            unset($nameTokens[0]);
+            // reset array keys
+            $nameTokens = array_values($nameTokens);
+
+            // move start pointer after "\"
+            --$nextTokenPointer;
+        }
+
+        if (! $tokens[$nextTokenPointer]->isGivenKind([T_STRING, T_NS_SEPARATOR])) {
+            --$nextTokenPointer;
+        }
+
+        $name = '';
+        foreach ($nameTokens as $nameToken) {
+            $name .= $nameToken->getContent();
+        }
+
+        return new Name($nextTokenPointer, $start, $name, $nameTokens);
     }
 
     public static function resolveForName(Tokens $tokens, string $className): string

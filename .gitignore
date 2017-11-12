@@ -1,6 +1,2 @@
 /vendor
 composer.lock
-
-# Statie
-/source
-/output
