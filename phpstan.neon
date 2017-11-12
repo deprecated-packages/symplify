@@ -23,6 +23,11 @@ parameters:
         - '#Parameter \#2 \$start of static method Symplify\\CodingStandard\\FixerTokenWrapper\\Naming\\ClassFqnResolver::resolveDataFromStart\(\) expects int, int\|null given#'
         - '#Parameter \#1 \$index of method PhpCsFixer\\Tokenizer\\Tokens::getNextMeaningfulToken\(\) expects int, int\|null given#'
         - '#Call to an undefined method Psr\\Container\\ContainerInterface::isCompiled\(\)#'
+        - '#Call to an undefined method Symfony\\Component\\DependencyInjection\\ContainerInterface::getParameterBag()#'
+        - '#Parameter \#2 \$items of method PhpCsFixer\\Tokenizer\\Tokens::insertAt\(\) expects \(iterable\(PhpCsFixer\\Tokenizer\\Token\[\]\)&PhpCsFixer\\Tokenizer\\Tokens\)\|PhpCsFixer\\Tokenizer\\Token, PhpCsFixer\\Tokenizer\\Token\[\] given#'
+
+        # 3rd party errors
+        - '#Parameter \#1 \$container of class Symfony\\Component\\DependencyInjection\\Loader\\YamlFileLoader constructor expects Symfony\\Component\\DependencyInjection\\ContainerBuilder, Symfony\\Component\\DependencyInjection\\ContainerInterface given#'
 
     excludes_analyse:
         - *packages/CodingStandard/tests/**/correct*

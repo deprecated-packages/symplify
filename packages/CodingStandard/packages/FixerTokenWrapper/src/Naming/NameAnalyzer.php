@@ -52,6 +52,7 @@ final class NameAnalyzer
             return false;
         }
 
+        /** @var int[] $importUseIndexes */
         $importUseIndexes = (new TokensAnalyzer($tokens))->getImportUseIndexes();
         if (! $importUseIndexes) {
             return false;

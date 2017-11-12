@@ -130,7 +130,7 @@ public function getCount(): int
 
     private function isDescriptionUseful(string $description, ?string $type): bool
     {
-        if (! $description) {
+        if (! $description || $type === null) {
             return false;
         }
 

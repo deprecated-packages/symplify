@@ -140,7 +140,7 @@ final class DocBlockWrapper
     {
         $paramAnnotations = $this->docBlock->getAnnotationsOfType('param');
         foreach ($paramAnnotations as $paramAnnotation) {
-            if (Strings::contains($paramAnnotation, '$' . $name)) {
+            if (Strings::contains($paramAnnotation->getContent(), '$' . $name)) {
                 $paramAnnotation->remove();
 
                 break;

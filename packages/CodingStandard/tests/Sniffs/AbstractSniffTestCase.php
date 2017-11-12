@@ -6,6 +6,7 @@ use Nette\Utils\Finder;
 use Nette\Utils\Strings;
 use PHPUnit\Framework\TestCase;
 use SplFileInfo;
+use Symfony\Component\DependencyInjection\Container;
 use Symplify\EasyCodingStandard\DependencyInjection\ContainerFactory;
 use Symplify\EasyCodingStandard\Error\ErrorCollector;
 use Symplify\EasyCodingStandard\SniffRunner\Application\SniffFileProcessor;
@@ -31,6 +32,7 @@ abstract class AbstractSniffTestCase extends TestCase
     protected function runSniffTestForDirectory(string $sniffClass, string $directory): void
     {
         $container = (new ContainerFactory())->create();
+
         $this->sniffFileProcessor = $container->get(SniffFileProcessor::class);
         $this->errorCollector = $container->get(ErrorCollector::class);
         $this->fixer = $container->get(Fixer::class);
