@@ -27,6 +27,7 @@ parameters:
         - '#Parameter \#1 \$index of method PhpCsFixer\\Tokenizer\\Tokens::getPrevMeaningfulToken\(\) expects int, int\|null given#'
         - '#Parameter \#2 \$start of static method Symplify\\CodingStandard\\FixerTokenWrapper\\Naming\\ClassFqnResolver::resolveDataFromStart\(\) expects int, int\|null given#'
         - '#Parameter \#2 \$type of method Symplify\\CodingStandard\\Fixer\\Commenting\\RemoveUselessDocBlockFixer::isUsefulArgumentDescription\(\) expects string, string\|null given#'
+        - '#Parameter \#1 \$index of method PhpCsFixer\\Tokenizer\\Tokens::getNextMeaningfulToken\(\) expects int, int\|null given#'
 
     excludes_analyse:
         - *packages/CodingStandard/tests/**/correct*
