@@ -92,7 +92,7 @@ final class CommentedOutCodeSniff implements Sniff
     {
         $tokens = token_get_all($content);
 
-        foreach ($tokens as $token) {
+        foreach ($tokens as $index => $token) {
             // if first found is string => comment
             if ($token[0] === T_STRING) {
                 if (in_array($token[1], self::$phpKeywords, true)) {
@@ -106,8 +106,18 @@ final class CommentedOutCodeSniff implements Sniff
                 continue;
             }
 
-            // if first found is variable => code
+            // if first found is token => code
             if (in_array($token[1] ?? $token, self::$phpKeywords, true)) {
+                // exceptions
+                if ($this->isException($tokens, $index, $token)) {
+                    return false;
+                }
+
+                return true;
+            }
+
+            // if first found is variable => code
+            if ($token[0] === T_VARIABLE) {
                 return true;
             }
         }
@@ -167,5 +177,25 @@ final class CommentedOutCodeSniff implements Sniff
 
         // is one standalone line, skip it
         return ($tokens[$possibleNextCommentToken]['line'] - $tokens[$position]['line']) > 1;
+    }
+
+    /**
+     * @param mixed[] $tokens
+     * @param mixed[] $token
+     */
+    private function isException(array $tokens, int $index, array $token): bool
+    {
+        if ($token[1] === 'use') { // "use like"
+            $nextMeaninfulToken = $tokens[$index + 2];
+            if ($nextMeaninfulToken[0] === T_STRING) {
+                if (ctype_upper($nextMeaninfulToken[1][0])) {
+                    return false;
+                }
+
+                return true;
+            }
+        }
+
+        return false;
     }
 }
