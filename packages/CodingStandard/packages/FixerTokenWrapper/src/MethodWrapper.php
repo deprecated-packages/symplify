@@ -119,6 +119,14 @@ final class MethodWrapper
                 $nextToken = $this->tokens[$nextTokenPosition];
 
                 if (! $nextToken->isGivenKind([T_NS_SEPARATOR, T_STRING])) {
+                    // nullable
+                    if ($nextToken->getContent() === '?') {
+                        $nextTokenPosition = $this->tokens->getNextMeaningfulToken($nextTokenPosition);
+                        $nextToken = $this->tokens[$nextTokenPosition];
+
+                        return 'null|' . $nextToken->getContent();
+                    }
+
                     return $nextToken->getContent();
                 }
 

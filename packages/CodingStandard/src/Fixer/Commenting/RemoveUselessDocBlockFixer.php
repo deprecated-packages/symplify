@@ -2,6 +2,7 @@
 
 namespace Symplify\CodingStandard\Fixer\Commenting;
 
+use Nette\Utils\Strings;
 use PhpCsFixer\Fixer\DefinedFixerInterface;
 use PhpCsFixer\Fixer\FixerInterface;
 use PhpCsFixer\FixerDefinition\CodeSample;
@@ -84,12 +85,23 @@ public function getCount(): int
 
     private function processReturnTag(MethodWrapper $methodWrapper, DocBlockWrapper $docBlockWrapper): void
     {
-        if ($methodWrapper->getReturnType() === $docBlockWrapper->getReturnType()) {
+        $typehintType = $methodWrapper->getReturnType();
+        $docBlockType = $docBlockWrapper->getReturnType();
+
+        if ($typehintType === $docBlockType) {
             if ($docBlockWrapper->getReturnTypeDescription()) {
                 return;
             }
 
             $docBlockWrapper->removeReturnType();
+        }
+
+        if ($typehintType === null || $docBlockType === null) {
+            return;
+        }
+
+        if (Strings::contains($typehintType, '|') && Strings::contains($docBlockType, '|')) {
+            $this->processReturnTagMultiTypes($typehintType, $docBlockType, $docBlockWrapper);
         }
     }
 
@@ -107,12 +119,39 @@ public function getCount(): int
             }
 
             if ($argumentType === $argumentWrapper->getType()) {
-                if ($argumentDescription) {
+                if ($argumentDescription && $this->isUsefulArgumentDescription($argumentDescription, $argumentType)) {
                     continue;
                 }
 
                 $docBlockWrapper->removeParamType($argumentWrapper->getName());
             }
+        }
+    }
+
+    private function isUsefulArgumentDescription(string $description, string $type): bool
+    {
+        if (! $description) {
+            return false;
+        }
+
+        // improve with additional cases, probably regex
+        if ($description === sprintf('A %s instance', $type)) {
+            return false;
+        }
+
+        return true;
+    }
+
+    private function processReturnTagMultiTypes(
+        string $docBlockType,
+        string $typehintType,
+        DocBlockWrapper $docBlockWrapper
+    ): void {
+        $typehintTypes = explode('|', $typehintType);
+        $docBlockTypes = explode('|', $docBlockType);
+
+        if (sort($typehintTypes) === sort($docBlockTypes)) {
+            $docBlockWrapper->removeReturnType();
         }
     }
 }
