@@ -13,6 +13,7 @@ checkers:
         extraAllowedClasses:
             - Symplify\EasyCodingStandard\Error\Error
             - Symplify\CodingStandard\FixerTokenWrapper\Naming\Name
+            - Symplify\CodingStandard\SniffTokenWrapper\CommentCleaner
 
     # Slevomat
     SlevomatCodingStandard\Sniffs\Namespaces\ReferenceUsedNamesOnlySniff:

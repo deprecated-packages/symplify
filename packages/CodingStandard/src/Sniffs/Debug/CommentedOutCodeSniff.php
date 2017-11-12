@@ -4,6 +4,7 @@ namespace Symplify\CodingStandard\Sniffs\Debug;
 
 use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Sniffs\Sniff;
+use Symplify\CodingStandard\SniffTokenWrapper\CommentCleaner;
 
 /**
  * Checks 2+ lines with comments in a row.
@@ -27,6 +28,16 @@ final class CommentedOutCodeSniff implements Sniff
         'private', 'protected', 'public', 'require', 'require_once', 'return', 'static', 'switch', 'throw', 'trait',
         'try', 'unset', 'use', 'var', 'while', 'xor', 'yield',
     ];
+
+    /**
+     * @var CommentCleaner
+     */
+    private $commentCleaner;
+
+    public function __construct()
+    {
+        $this->commentCleaner = new CommentCleaner();
+    }
 
     /**
      * @return int[]
@@ -66,26 +77,13 @@ final class CommentedOutCodeSniff implements Sniff
                 break;
             }
 
-            $content .= $this->trimCodeComments($tokens, $i) . $file->eolChar;
+            $content .= $this->commentCleaner->clearFromComment($tokens[$i]['content']) . $file->eolChar;
         }
 
         $content = trim($content);
         $content .= ' ?>';
 
         return $content;
-    }
-
-    /**
-     * @param string[] $tokens
-     */
-    private function trimCodeComments(array $tokens, int $i): string
-    {
-        $tokenContent = trim($tokens[$i]['content']);
-        $tokenContent = $this->trimCommentStart($tokenContent);
-        $tokenContent = $this->trimContentBody($tokenContent);
-        $tokenContent = $this->trimCommentEnd($tokenContent);
-
-        return $tokenContent;
     }
 
     private function isCodeContent(string $content): bool
@@ -108,7 +106,6 @@ final class CommentedOutCodeSniff implements Sniff
 
             // if first found is token => code
             if (in_array($token[1] ?? $token, self::$phpKeywords, true)) {
-                // exceptions
                 if ($this->isException($tokens, $index, $token)) {
                     return false;
                 }
@@ -123,45 +120,6 @@ final class CommentedOutCodeSniff implements Sniff
         }
 
         return false;
-    }
-
-    private function trimCommentStart(string $tokenContent): string
-    {
-        if (substr($tokenContent, 0, 2) === '//') {
-            $tokenContent = substr($tokenContent, 2);
-        }
-
-        if (substr($tokenContent, 0, 1) === '#') {
-            $tokenContent = substr($tokenContent, 1);
-        }
-
-        if (substr($tokenContent, 0, 3) === '/**') {
-            $tokenContent = substr($tokenContent, 3);
-        }
-
-        if (substr($tokenContent, 0, 2) === '/*') {
-            $tokenContent = substr($tokenContent, 2);
-        }
-
-        return $tokenContent;
-    }
-
-    private function trimCommentEnd(string $tokenContent): string
-    {
-        if (substr($tokenContent, -2) === '*/') {
-            $tokenContent = substr($tokenContent, 0, -2);
-        }
-
-        return $tokenContent;
-    }
-
-    private function trimContentBody(string $tokenContent): string
-    {
-        if (isset($tokenContent[0]) && $tokenContent[0] === '*') {
-            $tokenContent = substr($tokenContent, 1);
-        }
-
-        return $tokenContent;
     }
 
     /**
