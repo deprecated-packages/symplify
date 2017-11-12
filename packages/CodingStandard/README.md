@@ -150,7 +150,34 @@ class SomeTest extends ContainerAwareTestCase
 ```
 
 
+
+### There should not be empty PHPDoc blocks
+
+Just like `PhpCsFixer\Fixer\Phpdoc\NoEmptyPhpdocFixer`, but this one removes all doc block lines. 
+
+- class: [`Symplify\CodingStandard\Fixer\Commenting\RemoveEmptyDocBlockFixer`](/src/Fixer/Commenting/RemoveEmptyDocBlockFixer.php)
+
+:x:
+
+```php
+/**
+ */
+public function someMethod()
+{
+}
+```
+
+:+1:
+
+```php
+public function someMethod()
+{
+}
+```
+
+
 ### Block comment should only contain useful information about types
+
 - class: [`Symplify\CodingStandard\Fixer\Commenting\RemoveUselessDocBlockFixer`](/src/Fixer/Commenting/RemoveUselessDocBlockFixer.php)
 
 :x:
