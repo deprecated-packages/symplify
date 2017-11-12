@@ -4,6 +4,7 @@ imports:
 services:
     _defaults:
         autowire: true
+        public: true # for tests
 
     # PSR-4 autodiscovery
     Symplify\Statie\:
@@ -12,8 +13,10 @@ services:
 
     # 3rd party services
     Symfony\Component\Console\Application: ~
-    parsedown_extra:
+
+    ParsedownExtra:
         class: ParsedownExtra
+
     Symplify\PackageBuilder\Adapter\Symfony\Parameter\ParameterProvider: ~
 
     GitWrapper\GitWrapper: ~
