@@ -154,7 +154,10 @@ public function getCount(): int
             return;
         }
 
-        if (sort($typehintTypes) === sort($docBlockTypes)) {
+        sort($typehintTypes);
+        sort($docBlockTypes);
+
+        if ($typehintTypes === $docBlockTypes) {
             $docBlockWrapper->removeReturnType();
         }
     }
