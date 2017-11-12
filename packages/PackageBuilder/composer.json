@@ -24,5 +24,6 @@
         "psr-4": {
             "Symplify\\PackageBuilder\\Tests\\": "tests"
         }
-    }
+    },
+    "minimum-stability": "dev"
 }

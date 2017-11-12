@@ -12,8 +12,8 @@
     },
     "require-dev": {
         "nette/application": "^2.4",
-        "symplify/easy-coding-standard": "^2.5",
-        "symplify/package-builder": "^2.5",
+        "symplify/easy-coding-standard": "^2.5|^3.0",
+        "symplify/package-builder": "^2.5|^3.0",
         "phpunit/phpunit": "^6.4",
         "gecko-packages/gecko-php-unit": "3.0 as 2.2"
     },
@@ -28,5 +28,6 @@
         "psr-4": {
             "Symplify\\CodingStandard\\Tests\\": "tests"
         }
-    }
+    },
+    "minimum-stability": "dev"
 }
