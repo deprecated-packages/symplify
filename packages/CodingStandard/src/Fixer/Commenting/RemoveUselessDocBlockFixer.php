@@ -134,8 +134,18 @@ public function getCount(): int
             return false;
         }
 
+        if (Strings::endsWith($type, 'Interface')) {
+            // SomeTypeInterface => TypeInterface
+            $type = substr($type, 0, -strlen('Interface'));
+        }
+
+        $isDummyDescription = (bool) Strings::match(
+            $description,
+            sprintf('#(A|An) %s(Interface)? instance#', $type)
+        );
+
         // improve with additional cases, probably regex
-        if ($type && $description === sprintf('A %s instance', $type)) {
+        if ($type && $isDummyDescription) {
             return false;
         }
 
