@@ -4,9 +4,7 @@ namespace Symplify\CodingStandard\Sniffs\Debug;
 
 use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Sniffs\Sniff;
-use PhpParser\Error;
-use PhpParser\Parser;
-use PhpParser\ParserFactory;
+use Symplify\CodingStandard\SniffTokenWrapper\CommentCleaner;
 
 /**
  * Checks 2+ lines with comments in a row.
@@ -19,9 +17,27 @@ final class CommentedOutCodeSniff implements Sniff
     private const ERROR_MESSAGE = 'This comment is valid code. Uncomment it or remove it.';
 
     /**
-     * @var Parser
+     * @var string[]
      */
-    private $parser;
+    private static $phpKeywords = [
+        '__halt_compiler()', 'abstract', 'and', 'array', 'as', 'break', 'callable', 'case',
+        'catch', 'class', 'clone', 'const', 'continue', 'declare', 'default', 'die', 'do', 'echo', 'else', 'elseif',
+        'empty', 'enddeclare', 'endfor', 'endforeach', 'endif', 'endswitch', 'endwhile', 'eval', 'exit', 'extends',
+        'final', 'finally', 'for', 'foreach', 'function', 'global', 'goto', 'if', 'implements', 'include',
+        'include_once', 'instanceof', 'insteadof', 'interface', 'isset', 'list', 'namespace', 'new', 'or', 'print',
+        'private', 'protected', 'public', 'require', 'require_once', 'return', 'static', 'switch', 'throw', 'trait',
+        'try', 'unset', 'use', 'var', 'while', 'xor', 'yield',
+    ];
+
+    /**
+     * @var CommentCleaner
+     */
+    private $commentCleaner;
+
+    public function __construct()
+    {
+        $this->commentCleaner = new CommentCleaner();
+    }
 
     /**
      * @return int[]
@@ -44,8 +60,7 @@ final class CommentedOutCodeSniff implements Sniff
 
         $content = $this->turnCommentedCodeIntoPhpCode($file, $position, $tokens);
 
-        $isCode = $this->isCodeContent($content);
-        if ($isCode) {
+        if ($this->isCodeContent($content)) {
             $file->addError(self::ERROR_MESSAGE, $position, self::class);
         }
     }
@@ -62,7 +77,7 @@ final class CommentedOutCodeSniff implements Sniff
                 break;
             }
 
-            $content .= $this->trimCodeComments($tokens, $i) . $file->eolChar;
+            $content .= $this->commentCleaner->clearFromComment($tokens[$i]['content']) . $file->eolChar;
         }
 
         $content = trim($content);
@@ -71,85 +86,40 @@ final class CommentedOutCodeSniff implements Sniff
         return $content;
     }
 
-    /**
-     * @param string[] $tokens
-     */
-    private function trimCodeComments(array $tokens, int $i): string
-    {
-        $tokenContent = trim($tokens[$i]['content']);
-        $tokenContent = $this->trimCommentStart($tokenContent);
-        $tokenContent = $this->trimContentBody($tokenContent);
-        $tokenContent = $this->trimCommentEnd($tokenContent);
-
-        return $tokenContent;
-    }
-
     private function isCodeContent(string $content): bool
     {
-        $parser = $this->getParser();
+        $tokens = token_get_all($content);
 
-        try {
-            $tokens = $parser->parse($content);
-            if ($tokens === null) {
+        foreach ($tokens as $index => $token) {
+            // if first found is string => comment
+            if ($token[0] === T_STRING) {
+                if (in_array($token[1], self::$phpKeywords, true)) {
+                    continue;
+                }
+
                 return false;
             }
 
-            if (count($tokens) === 1 && (property_exists($tokens[0], 'stmts') && count($tokens[0]->stmts) < 2)) {
-                return false;
+            if ($token[0] === T_WHITESPACE) {
+                continue;
             }
-        } catch (Error $error) {
-            return false;
+
+            // if first found is token => code
+            if (in_array($token[1] ?? $token, self::$phpKeywords, true)) {
+                if ($this->isException($tokens, $index, $token)) {
+                    return false;
+                }
+
+                return true;
+            }
+
+            // if first found is variable => code
+            if ($token[0] === T_VARIABLE) {
+                return true;
+            }
         }
 
-        return true;
-    }
-
-    private function getParser(): Parser
-    {
-        if ($this->parser) {
-            return $this->parser;
-        }
-
-        return $this->parser = (new ParserFactory())->create(ParserFactory::PREFER_PHP7);
-    }
-
-    private function trimCommentStart(string $tokenContent): string
-    {
-        if (substr($tokenContent, 0, 2) === '//') {
-            $tokenContent = substr($tokenContent, 2);
-        }
-
-        if (substr($tokenContent, 0, 1) === '#') {
-            $tokenContent = substr($tokenContent, 1);
-        }
-
-        if (substr($tokenContent, 0, 3) === '/**') {
-            $tokenContent = substr($tokenContent, 3);
-        }
-
-        if (substr($tokenContent, 0, 2) === '/*') {
-            $tokenContent = substr($tokenContent, 2);
-        }
-
-        return $tokenContent;
-    }
-
-    private function trimCommentEnd(string $tokenContent): string
-    {
-        if (substr($tokenContent, -2) === '*/') {
-            $tokenContent = substr($tokenContent, 0, -2);
-        }
-
-        return $tokenContent;
-    }
-
-    private function trimContentBody(string $tokenContent): string
-    {
-        if (isset($tokenContent[0]) && $tokenContent[0] === '*') {
-            $tokenContent = substr($tokenContent, 1);
-        }
-
-        return $tokenContent;
+        return false;
     }
 
     /**
@@ -165,5 +135,25 @@ final class CommentedOutCodeSniff implements Sniff
 
         // is one standalone line, skip it
         return ($tokens[$possibleNextCommentToken]['line'] - $tokens[$position]['line']) > 1;
+    }
+
+    /**
+     * @param mixed[] $tokens
+     * @param mixed[] $token
+     */
+    private function isException(array $tokens, int $index, array $token): bool
+    {
+        if ($token[1] === 'use') { // "use like"
+            $nextMeaninfulToken = $tokens[$index + 2];
+            if ($nextMeaninfulToken[0] === T_STRING) {
+                if (ctype_upper($nextMeaninfulToken[1][0])) {
+                    return false;
+                }
+
+                return true;
+            }
+        }
+
+        return false;
     }
 }

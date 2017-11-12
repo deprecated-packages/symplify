@@ -13,6 +13,7 @@ checkers:
         extraAllowedClasses:
             - Symplify\EasyCodingStandard\Error\Error
             - Symplify\CodingStandard\FixerTokenWrapper\Naming\Name
+            - Symplify\CodingStandard\SniffTokenWrapper\CommentCleaner
 
     # Slevomat
     SlevomatCodingStandard\Sniffs\Namespaces\ReferenceUsedNamesOnlySniff:
@@ -78,7 +79,3 @@ parameters:
             - packages/EasyCodingStandard/packages/Configuration/tests/MutualCheckerExcluderTest.php
             - packages/EasyCodingStandard/packages/Configuration/src/ConflictingCheckerGuard.php
             - packages/EasyCodingStandard/packages/Configuration/tests/ConflictingCheckerGuardTest.php
-
-        Symplify\CodingStandard\Sniffs\DependencyInjection\NoClassInstantiationSniff:
-            # fix later
-            - packages/CodingStandard/src/Sniffs/Debug/CommentedOutCodeSniff.php
