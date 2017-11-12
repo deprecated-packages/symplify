@@ -10,6 +10,10 @@ use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
 
+/**
+ * Inspired by https://github.com/FriendsOfPHP/PHP-CS-Fixer/blob/2.8/src/Fixer/Phpdoc/NoEmptyPhpdocFixer.php
+ * With difference: it doesn't add extra spaces instead of docblock.
+ */
 final class RemoveEmptyDocBlockFixer extends AbstractFixer
 {
     public function getDefinition(): FixerDefinitionInterface
