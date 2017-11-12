@@ -36,6 +36,9 @@ abstract class AbstractVariableWrapper
     public function isClassType(): bool
     {
         $type = $this->getType();
+        if ($type === null) {
+            return false;
+        }
 
         if (in_array($type, ['string', 'int', 'bool', 'null', 'array'], true)) {
             return false;
