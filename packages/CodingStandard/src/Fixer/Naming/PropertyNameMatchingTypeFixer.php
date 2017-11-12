@@ -229,7 +229,7 @@ class SomeClass
         }
 
         $oldName = $typeWrapper->getName();
-        if ($this->isAllowedNameOrType($oldName, $typeWrapper->getType(), $typeWrapper->getFqnType())) {
+        if ($this->isAllowedNameOrType($oldName, $typeWrapper->getType(), (string) $typeWrapper->getFqnType())) {
             return true;
         }
 
@@ -256,7 +256,7 @@ class SomeClass
 
             $oldName = $typeWrapper->getName();
 
-            $expectedName = $this->getExpectedNameFromType($typeWrapper->getType());
+            $expectedName = $this->getExpectedNameFromType((string) $typeWrapper->getType());
 
             $typeWrapper->changeName($expectedName);
 
