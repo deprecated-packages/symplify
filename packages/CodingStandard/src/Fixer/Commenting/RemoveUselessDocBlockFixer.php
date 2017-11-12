@@ -119,7 +119,7 @@ public function getCount(): int
             }
 
             if ($argumentType === $argumentWrapper->getType()) {
-                if ($argumentDescription && $this->isUsefulArgumentDescription($argumentDescription, $argumentType)) {
+                if ($argumentDescription && $this->isDescriptionUseful($argumentDescription, $argumentType)) {
                     continue;
                 }
 
@@ -128,7 +128,7 @@ public function getCount(): int
         }
     }
 
-    private function isUsefulArgumentDescription(string $description, ?string $type): bool
+    private function isDescriptionUseful(string $description, ?string $type): bool
     {
         if (! $description) {
             return false;
@@ -149,6 +149,10 @@ public function getCount(): int
     ): void {
         $typehintTypes = explode('|', $typehintType);
         $docBlockTypes = explode('|', $docBlockType);
+
+        if ($docBlockWrapper->getReturnTypeDescription()) {
+            return;
+        }
 
         if (sort($typehintTypes) === sort($docBlockTypes)) {
             $docBlockWrapper->removeReturnType();
