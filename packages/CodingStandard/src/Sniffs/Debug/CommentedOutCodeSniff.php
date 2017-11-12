@@ -4,9 +4,6 @@ namespace Symplify\CodingStandard\Sniffs\Debug;
 
 use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Sniffs\Sniff;
-use PhpParser\Error;
-use PhpParser\Parser;
-use PhpParser\ParserFactory;
 
 /**
  * Checks 2+ lines with comments in a row.
@@ -19,9 +16,17 @@ final class CommentedOutCodeSniff implements Sniff
     private const ERROR_MESSAGE = 'This comment is valid code. Uncomment it or remove it.';
 
     /**
-     * @var Parser
+     * @var string[]
      */
-    private $parser;
+    private static $phpKeywords = [
+        '__halt_compiler()', 'abstract', 'and', 'array', 'as', 'break', 'callable', 'case',
+        'catch', 'class', 'clone', 'const', 'continue', 'declare', 'default', 'die', 'do', 'echo', 'else', 'elseif',
+        'empty', 'enddeclare', 'endfor', 'endforeach', 'endif', 'endswitch', 'endwhile', 'eval', 'exit', 'extends',
+        'final', 'finally', 'for', 'foreach', 'function', 'global', 'goto', 'if', 'implements', 'include',
+        'include_once', 'instanceof', 'insteadof', 'interface', 'isset', 'list', 'namespace', 'new', 'or', 'print',
+        'private', 'protected', 'public', 'require', 'require_once', 'return', 'static', 'switch', 'throw', 'trait',
+        'try', 'unset', 'use', 'var', 'while', 'xor', 'yield',
+    ];
 
     /**
      * @return int[]
@@ -44,8 +49,7 @@ final class CommentedOutCodeSniff implements Sniff
 
         $content = $this->turnCommentedCodeIntoPhpCode($file, $position, $tokens);
 
-        $isCode = $this->isCodeContent($content);
-        if ($isCode) {
+        if ($this->isCodeContent($content)) {
             $file->addError(self::ERROR_MESSAGE, $position, self::class);
         }
     }
@@ -86,31 +90,29 @@ final class CommentedOutCodeSniff implements Sniff
 
     private function isCodeContent(string $content): bool
     {
-        $parser = $this->getParser();
+        $tokens = token_get_all($content);
 
-        try {
-            $tokens = $parser->parse($content);
-            if ($tokens === null) {
+        foreach ($tokens as $token) {
+            // if first found is string => comment
+            if ($token[0] === T_STRING) {
+                if (in_array($token[1], self::$phpKeywords, true)) {
+                    continue;
+                }
+
                 return false;
             }
 
-            if (count($tokens) === 1 && (property_exists($tokens[0], 'stmts') && count($tokens[0]->stmts) < 2)) {
-                return false;
+            if ($token[0] === T_WHITESPACE) {
+                continue;
             }
-        } catch (Error $error) {
-            return false;
+
+            // if first found is variable => code
+            if (in_array($token[1] ?? $token, self::$phpKeywords, true)) {
+                return true;
+            }
         }
 
-        return true;
-    }
-
-    private function getParser(): Parser
-    {
-        if ($this->parser) {
-            return $this->parser;
-        }
-
-        return $this->parser = (new ParserFactory())->create(ParserFactory::PREFER_PHP7);
+        return false;
     }
 
     private function trimCommentStart(string $tokenContent): string

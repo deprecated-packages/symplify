@@ -78,7 +78,3 @@ parameters:
             - packages/EasyCodingStandard/packages/Configuration/tests/MutualCheckerExcluderTest.php
             - packages/EasyCodingStandard/packages/Configuration/src/ConflictingCheckerGuard.php
             - packages/EasyCodingStandard/packages/Configuration/tests/ConflictingCheckerGuardTest.php
-
-        Symplify\CodingStandard\Sniffs\DependencyInjection\NoClassInstantiationSniff:
-            # fix later
-            - packages/CodingStandard/src/Sniffs/Debug/CommentedOutCodeSniff.php
