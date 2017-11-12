@@ -39,6 +39,7 @@ final class AppKernel extends Kernel
 
     protected function build(ContainerBuilder $containerBuilder): void
     {
-        $containerBuilder->autowire(ParameterProvider::class);
+        $containerBuilder->autowire(ParameterProvider::class)
+            ->setPublic(true);
     }
 }
