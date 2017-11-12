@@ -62,7 +62,6 @@ final class RemoveEmptyDocBlockFixer extends AbstractFixer
                 $newWhitespaceContent = substr($previousWhitespaceContent, 0, $lastLineBreak);
                 if ($newWhitespaceContent) {
                     $tokens[$index - 1] = new Token([T_WHITESPACE, $newWhitespaceContent]);
-
                 } else {
                     $tokens->clearAt($index - 1);
                 }
