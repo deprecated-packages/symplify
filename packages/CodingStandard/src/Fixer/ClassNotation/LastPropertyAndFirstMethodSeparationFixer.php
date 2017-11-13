@@ -74,7 +74,7 @@ class SomeClass
 
     public function isCandidate(Tokens $tokens): bool
     {
-        return $tokens->isAnyTokenKindsFound(Token::getClassyTokenKinds())
+        return $tokens->isAnyTokenKindsFound([T_CLASS, T_TRAIT])
             && $tokens->isAllTokenKindsFound([T_VARIABLE, T_FUNCTION]);
     }
 
@@ -148,9 +148,12 @@ class SomeClass
     private function fixClass(Tokens $tokens, ClassTokensAnalyzer $classTokensAnalyzer): void
     {
         $lastPropertyPosition = $classTokensAnalyzer->getLastPropertyPosition();
-        $firstMethodPosition = $classTokensAnalyzer->getFirstMethodPosition();
+        if ($lastPropertyPosition === null) {
+            return;
+        }
 
-        if ($lastPropertyPosition === null || $firstMethodPosition === null) {
+        $firstMethodPosition = $classTokensAnalyzer->getFirstMethodPosition();
+        if ($firstMethodPosition === null) {
             return;
         }
 

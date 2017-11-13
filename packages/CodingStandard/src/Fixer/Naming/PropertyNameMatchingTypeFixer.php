@@ -78,7 +78,10 @@ class SomeClass
 
             $classTokensAnalyzer = ClassTokensAnalyzer::createFromTokensArrayStartPosition($tokens, $index);
 
-            $this->fixClassProperties($classTokensAnalyzer);
+            if ($classTokensAnalyzer->isGivenKind([T_CLASS, T_TRAIT])) {
+                $this->fixClassProperties($classTokensAnalyzer);
+            }
+
             $this->fixClassMethods($classTokensAnalyzer);
         }
     }
@@ -145,10 +148,6 @@ class SomeClass
             $argumentWrappers = array_reverse($methodWrapper->getArguments());
 
             $changedVariableNames = $this->resolveWrappers($argumentWrappers);
-
-            if (! $classTokensAnalyzer->isGivenKind([T_CLASS, T_TRAIT])) {
-                continue;
-            }
 
             foreach ($changedVariableNames as $oldName => $newName) {
                 $methodWrapper->renameEveryVariableOccurrence($oldName, $newName);
