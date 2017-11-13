@@ -5,7 +5,9 @@ matrix:
     - php: 7.1
       env: PHPUNIT_FLAGS="--coverage-clover coverage.xml"
     - php: 7.2
-      env: STATIC_ANALYSIS=true
+      env: CODING_STANDARD=true
+    - php: 7.2
+      env: PHPSTAN=true
 
 install:
   - composer install
@@ -18,12 +20,10 @@ script:
   - vendor/bin/phpunit $PHPUNIT_FLAGS
   # disable xdebug
   - phpenv config-rm xdebug.ini || return 0
-  - set -e
-  - |
-    if [[ $STATIC_ANALYSIS != "" ]]; then
-      packages/EasyCodingStandard/bin/ecs check packages;
-      vendor/bin/phpstan analyse packages --level max --configuration phpstan.neon;
-    fi
+
+  # static analysis
+  - if [[ $CODING_STANDARD != "" ]]; then packages/EasyCodingStandard/bin/ecs check packages; fi
+  - if [[ $PHPSTAN != "" ]]; then vendor/bin/phpstan analyse packages --level max --configuration phpstan.neon; fi
 
 after_script:
   # upload coverage.xml to Coveralls
