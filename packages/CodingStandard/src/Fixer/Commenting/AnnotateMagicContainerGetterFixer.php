@@ -2,6 +2,7 @@
 
 namespace Symplify\CodingStandard\Fixer\Commenting;
 
+use Nette\Utils\Strings;
 use PhpCsFixer\DocBlock\DocBlock;
 use PhpCsFixer\Fixer\DefinedFixerInterface;
 use PhpCsFixer\Fixer\FixerInterface;
@@ -32,7 +33,7 @@ $someService->unknownMethod();
 
     public function isCandidate(Tokens $tokens): bool
     {
-        return $tokens->isAllTokenKindsFound([T_CLASS, T_VARIABLE]);
+        return $tokens->isAllTokenKindsFound([T_CLASS, T_VARIABLE, T_OBJECT_OPERATOR, T_STRING]);
     }
 
     public function fix(SplFileInfo $file, Tokens $tokens): void
@@ -92,7 +93,17 @@ $someService->unknownMethod();
 
     public function supports(SplFileInfo $file): bool
     {
-        return true;
+        // is in tests
+        if (Strings::contains($file->getRealPath(), 'tests' . DIRECTORY_SEPARATOR)) {
+            return true;
+        }
+
+        // is bin file
+        if (Strings::contains($file->getRealPath(), 'bin' . DIRECTORY_SEPARATOR)) {
+            return true;
+        }
+
+        return false;
     }
 
     private function getClassNameIfContainerCreatedVariable(Tokens $tokens, Token $token, int $position): ?string
@@ -160,6 +171,14 @@ $someService->unknownMethod();
         $nextVariableTokens = $tokens->findGivenKind(T_VARIABLE, $position + 1, $position + 5);
         $nextVariablePosition = key($nextVariableTokens);
 
+        if ($nextVariablePosition === null) {
+            return false;
+        }
+
+        if ($tokens[$nextVariablePosition]->getContent() !== '$this') {
+            return false;
+        }
+
         $thisGetSequence = $tokens->findSequence([
             new Token([T_VARIABLE, '$this']),
             new Token([T_OBJECT_OPERATOR, '->']),
@@ -178,11 +197,7 @@ $someService->unknownMethod();
             new Token([T_STRING, 'get']),
         ], $nextVariablePosition, $nextVariablePosition + 5);
 
-        if ($thisContainerGetSequence !== null) {
-            return true;
-        }
-
-        return false;
+        return $thisContainerGetSequence !== null;
     }
 
     private function removeMultiWhitespaces(Token $whitespaceToken): Token
