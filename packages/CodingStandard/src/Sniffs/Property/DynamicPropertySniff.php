@@ -25,6 +25,11 @@ final class DynamicPropertySniff implements Sniff
     private $file;
 
     /**
+     * @var ClassWrapper[]
+     */
+    private $classWrappersPerFile = [];
+
+    /**
      * @return int[]
      */
     public function register(): array
@@ -74,9 +79,16 @@ final class DynamicPropertySniff implements Sniff
 
     private function getClassWrapper(): ClassWrapper
     {
+        $filename = $this->file->getFilename();
+        if (isset($this->classWrappersPerFile[$filename])) {
+            return $this->classWrappersPerFile[$filename];
+        }
+
         $classTokenPosition = $this->file->findNext(T_CLASS, 1);
 
-        return ClassWrapper::createFromFileAndPosition($this->file, $classTokenPosition);
+        $classWrapper = ClassWrapper::createFromFileAndPosition($this->file, $classTokenPosition);
+
+        return $this->classWrappersPerFile[$filename] = $classWrapper;
     }
 
     private function isMagicProperty(string $propertyName, ClassWrapper $classWrapper): bool

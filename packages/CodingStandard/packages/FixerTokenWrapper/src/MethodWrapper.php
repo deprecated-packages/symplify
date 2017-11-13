@@ -66,7 +66,14 @@ final class MethodWrapper
 
     public function renameEveryVariableOccurrence(string $oldName, string $newName): void
     {
+        $possibleInterfaceEnd = $this->tokens->getNextTokenOfKind($this->index, [';']);
         $methodBodyStart = $this->tokens->getNextTokenOfKind($this->index, ['{']);
+
+        // is interface method, nothing to fix
+        if ($possibleInterfaceEnd !== null && ($methodBodyStart === null || $possibleInterfaceEnd < $methodBodyStart)) {
+            return;
+        }
+
         $methodBodyEnd = $this->tokens->findBlockEnd(Tokens::BLOCK_TYPE_CURLY_BRACE, $methodBodyStart);
 
         for ($i = $methodBodyEnd - 1; $i > $methodBodyStart; --$i) {
