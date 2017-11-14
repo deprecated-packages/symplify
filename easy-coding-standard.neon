@@ -1,6 +1,5 @@
 includes:
     - packages/EasyCodingStandard/config/symfony.neon
-    - packages/EasyCodingStandard/config/php54.neon
     - packages/EasyCodingStandard/config/php70.neon
     - packages/EasyCodingStandard/config/php71.neon
     # custom
