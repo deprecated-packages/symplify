@@ -23,7 +23,7 @@ final class ParameterProviderTest extends TestCase
 
         $this->assertSame('value', $parameterProvider->provideParameter('key'));
 
-        $parameterProvider->changeParameter('key','anotherKey');
+        $parameterProvider->changeParameter('key', 'anotherKey');
         $this->assertSame('anotherKey', $parameterProvider->provideParameter('key'));
     }
 
