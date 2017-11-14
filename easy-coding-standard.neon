@@ -62,14 +62,11 @@ parameters:
         Symplify\CodingStandard\Fixer\Php\ClassStringToClassConstantFixer:
             # name parts, not classes
             - packages/CodingStandard/src/Sniffs/DependencyInjection/NoClassInstantiationSniff.php
-
             # optional package, interface might not exist
             - packages/CodingStandard/src/Sniffs/Classes/EqualInterfaceImplementationSniff.php
             # "Exception" is string part of the name
             - packages/CodingStandard/src/Sniffs/Naming/ExceptionNameSniff.php
             - packages/CodingStandard/src/Fixer/Naming/ExceptionNameFixer.php
             # class might not exist
-            - packages/EasyCodingStandard/packages/Configuration/src/MutualCheckerExcluder.php
-            - packages/EasyCodingStandard/packages/Configuration/tests/MutualCheckerExcluderTest.php
-            - packages/EasyCodingStandard/packages/Configuration/src/ConflictingCheckerGuard.php
-            - packages/EasyCodingStandard/packages/Configuration/tests/ConflictingCheckerGuardTest.php
+            - *packages/EasyCodingStandard/packages/Configuration/**/MutualCheckerExcluder**.php
+            - *packages/EasyCodingStandard/packages/Configuration/**/ConflictingCheckerGuard**.php

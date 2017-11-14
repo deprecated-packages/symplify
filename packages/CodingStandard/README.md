@@ -695,31 +695,6 @@ trait SomeTrait
 ```
 
 
-### Non-abstract class that extends TestCase should be final
-
-- class: [`Symplify\CodingStandard\Sniffs\PHPUnit\FinalTestCaseSniff`](/src/Sniffs/PHPUnit/FinalTestCaseSniff.php)
-
-:x:
-
-```php
-use PHPUnit\Framework\TestCase;
-
-class SomeTest extends TestCase
-{
-}
-```
-
-:+1:
-
-```php
-use PHPUnit\Framework\TestCase;
-
-final class SomeTest extends TestCase
-{
-}
-```
-
-
 ### Properties should be used instead of dynamically defined properties
 
 - class: [`Symplify\CodingStandard\Sniffs\Property\DynamicPropertySniff`](/src/Sniffs/Property/DynamicPropertySniff.php)
