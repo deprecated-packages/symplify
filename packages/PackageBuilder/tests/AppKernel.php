@@ -1,13 +1,13 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\PackageBuilder\Tests\Adapter\Symfony;
+namespace Symplify\PackageBuilder\Tests;
 
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 use Symfony\Component\HttpKernel\Kernel;
-use Symplify\PackageBuilder\Parameter\ParameterProvider;
 use Symplify\PackageBuilder\Neon\NeonLoaderAwareKernelTrait;
+use Symplify\PackageBuilder\Parameter\ParameterProvider;
 
 final class AppKernel extends Kernel
 {

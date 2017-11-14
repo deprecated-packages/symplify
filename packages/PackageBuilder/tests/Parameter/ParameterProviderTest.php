@@ -1,10 +1,10 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\PackageBuilder\Tests\Adapter\Symfony\Parameter;
+namespace Symplify\PackageBuilder\Tests\Parameter;
 
 use PHPUnit\Framework\TestCase;
 use Symplify\PackageBuilder\Parameter\ParameterProvider;
-use Symplify\PackageBuilder\Tests\Adapter\Symfony\ContainerFactory;
+use Symplify\PackageBuilder\Tests\ContainerFactory;
 
 final class ParameterProviderTest extends TestCase
 {

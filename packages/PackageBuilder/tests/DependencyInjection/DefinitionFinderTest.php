@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\PackageBuilder\Tests\Adapter\Symfony\DependencyInjection;
+namespace Symplify\PackageBuilder\Tests\DependencyInjection;
 
 use PHPUnit\Framework\TestCase;
 use stdClass;
