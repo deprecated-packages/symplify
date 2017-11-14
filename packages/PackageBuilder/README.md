@@ -40,7 +40,7 @@ final class CollectorCompilerPass implements CompilerPassInterface
 ```
 
 
-#### 2. Add Service if Found
+#### Add Service if Found
 
 
 ```php
