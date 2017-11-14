@@ -239,9 +239,9 @@ When you use [BetterReflection](https://github.com/Roave/BetterReflection/) and 
  
  
 ```php
-$autolaodFile = Symplify\PackageBuilder\Composer\AutoloadFinder::findNearDirectories(
+$autolaodFile = Symplify\PackageBuilder\Composer\AutoloadFinder::findNearDirectories([
     __DIR__ . '/src'
-);
+]);
 
 var_dump($autolaodFile); # contains: __DIR__ . '/vendor`
 ````
