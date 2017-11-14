@@ -5,7 +5,7 @@ namespace Symplify\PackageBuilder\Tests\Adapter\Symfony\DependencyInjection;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
-use Symplify\PackageBuilder\Adapter\Symfony\DependencyInjection\DefinitionCollector;
+use Symplify\PackageBuilder\DependencyInjection\DefinitionCollector;
 use Symplify\PackageBuilder\Tests\Adapter\Source\Collected;
 use Symplify\PackageBuilder\Tests\Adapter\Source\CollectedInterface;
 use Symplify\PackageBuilder\Tests\Adapter\Source\Collector;

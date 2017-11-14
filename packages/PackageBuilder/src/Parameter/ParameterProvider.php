@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\PackageBuilder\Adapter\Symfony\Parameter;
+namespace Symplify\PackageBuilder\Parameter;
 
 use Nette\Utils\Strings;
 use Symfony\Component\DependencyInjection\Container;

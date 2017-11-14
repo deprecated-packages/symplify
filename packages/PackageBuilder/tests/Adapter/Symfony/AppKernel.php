@@ -6,7 +6,7 @@ use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 use Symfony\Component\HttpKernel\Kernel;
-use Symplify\PackageBuilder\Adapter\Symfony\Parameter\ParameterProvider;
+use Symplify\PackageBuilder\Parameter\ParameterProvider;
 use Symplify\PackageBuilder\Neon\NeonLoaderAwareKernelTrait;
 
 final class AppKernel extends Kernel

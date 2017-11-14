@@ -22,8 +22,8 @@ composer require symplify/package-builder
 
 ```php
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
-use Symplify\PackageBuilder\Adapter\Symfony\DependencyInjection\DefinitionFinder;
-use Symplify\PackageBuilder\Adapter\Symfony\DependencyInjection\DefinitionCollector;
+use Symplify\PackageBuilder\DependencyInjection\DefinitionFinder;
+use Symplify\PackageBuilder\DependencyInjection\DefinitionCollector;
 
 final class CollectorCompilerPass implements CompilerPassInterface
 {
@@ -45,7 +45,7 @@ final class CollectorCompilerPass implements CompilerPassInterface
 
 ```php
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
-use Symplify\PackageBuilder\Adapter\Symfony\DependencyInjection\DefinitionFinder;
+use Symplify\PackageBuilder\DependencyInjection\DefinitionFinder;
 
 final class CustomSourceProviderDefinitionCompilerPass implements CompilerPassInterface
 {
@@ -86,13 +86,13 @@ services:
     _defaults:
         autowire: true
     
-    Symplify\PackageBuilder\Adapter\Symfony\Parameter\ParameterProvider: ~
+    Symplify\PackageBuilder\Parameter\ParameterProvider: ~
 ```
 
 Then require in `__construct()` where needed:
 
 ```php
-use Symplify\PackageBuilder\Adapter\Symfony\Parameter\ParameterProvider;
+use Symplify\PackageBuilder\Parameter\ParameterProvider;
 
 final class StatieConfiguration
 {
