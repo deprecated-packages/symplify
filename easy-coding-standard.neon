@@ -1,10 +1,10 @@
 includes:
-    - packages/EasyCodingStandard/config/symfony-checkers.neon
-    - packages/EasyCodingStandard/config/php54-checkers.neon
-    - packages/EasyCodingStandard/config/php70-checkers.neon
-    - packages/EasyCodingStandard/config/php71-checkers.neon
+    - packages/EasyCodingStandard/config/symfony.neon
+    - packages/EasyCodingStandard/config/php54.neon
+    - packages/EasyCodingStandard/config/php70.neon
+    - packages/EasyCodingStandard/config/php71.neon
     # custom
-    - packages/EasyCodingStandard/config/symplify-checkers.neon
+    - packages/EasyCodingStandard/config/symplify.neon
     - packages/EasyCodingStandard/config/common.neon
     - packages/EasyCodingStandard/config/spaces.neon
 
