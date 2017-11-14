@@ -10,12 +10,13 @@ final class AutoloadFinder
     public static function findNearDirectories(array $directories): ?string
     {
         foreach ($directories as $directory) {
-            $directory = rtrim($directory);
+            $directory = rtrim($directory, '/');
 
             if (file_exists($directory . '/autoload.php')) {
                 return $directory . '/autoload.php';
             }
 
+            // traverse up
             for ($i = 0; $i < 5; ++$i) {
                 $autoload = $directory . str_repeat('/..', $i) . '/vendor/autoload.php';
                 if (file_exists($autoload)) {

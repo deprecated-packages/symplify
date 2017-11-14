@@ -11,7 +11,7 @@ final class AutoloadFinderTest extends TestCase
     {
         $this->assertSame(
             __DIR__ . '/AutoloadFinderSource/vendor/autoload.php',
-            AutoloadFinder::findNearDirectories([__DIR__ . '/AutoloadFinderSource/src'])
+            AutoloadFinder::findNearDirectories([__DIR__ . '/AutoloadFinderSource/SomeDirectory/src'])
         );
 
         $this->assertSame(
