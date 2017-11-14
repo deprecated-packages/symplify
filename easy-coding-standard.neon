@@ -1,4 +1,5 @@
 includes:
+    - packages/EasyCodingStandard/config/psr2.neon
     - packages/EasyCodingStandard/config/symfony.neon
     - packages/EasyCodingStandard/config/php70.neon
     - packages/EasyCodingStandard/config/php71.neon
@@ -14,13 +15,7 @@ checkers:
             - Symplify\CodingStandard\FixerTokenWrapper\Naming\Name
             - Symplify\CodingStandard\SniffTokenWrapper\CommentCleaner
 
-    # Slevomat
-    SlevomatCodingStandard\Sniffs\Namespaces\ReferenceUsedNamesOnlySniff:
-        allowPartialUses: false
     - SlevomatCodingStandard\Sniffs\ControlStructures\AssignmentInConditionSniff
-    SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff:
-        enableEachParameterAndReturnInspection: true
-    - SlevomatCodingStandard\Sniffs\Exceptions\ReferenceThrowableOnlySniff
 
     # Complexity limits
     PHP_CodeSniffer\Standards\Generic\Sniffs\Files\LineLengthSniff:
