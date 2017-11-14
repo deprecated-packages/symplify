@@ -20,6 +20,11 @@ final class ParameterProviderTest extends TestCase
             'camelCase' => 'Lion',
             'pascal_case' => 'Celsius',
         ], $parameterProvider->provide());
+
+        $this->assertSame('value', $parameterProvider->provideParameter('key'));
+
+        $parameterProvider->changeParameter('key','anotherKey');
+        $this->assertSame('anotherKey', $parameterProvider->provideParameter('key'));
     }
 
     public function testIncludingYaml(): void

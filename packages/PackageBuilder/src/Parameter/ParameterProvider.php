@@ -25,6 +25,22 @@ final class ParameterProvider
     }
 
     /**
+     * @return null|mixed
+     */
+    public function provideParameter(string $name)
+    {
+        return $this->parameters[$name] ?? null;
+    }
+
+    /**
+     * @param mixed $value
+     */
+    public function changeParameter(string $name, $value): void
+    {
+        $this->parameters[$name] = $value;
+    }
+
+    /**
      * @return mixed[]
      */
     public function provide(): array
