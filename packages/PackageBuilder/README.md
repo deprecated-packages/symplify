@@ -22,8 +22,8 @@ composer require symplify/package-builder
 
 ```php
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
-use Symplify\PackageBuilder\Adapter\Symfony\DependencyInjection\DefinitionFinder;
-use Symplify\PackageBuilder\Adapter\Symfony\DependencyInjection\DefinitionCollector;
+use Symplify\PackageBuilder\DependencyInjection\DefinitionFinder;
+use Symplify\PackageBuilder\DependencyInjection\DefinitionCollector;
 
 final class CollectorCompilerPass implements CompilerPassInterface
 {
@@ -45,7 +45,7 @@ final class CollectorCompilerPass implements CompilerPassInterface
 
 ```php
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
-use Symplify\PackageBuilder\Adapter\Symfony\DependencyInjection\DefinitionFinder;
+use Symplify\PackageBuilder\DependencyInjection\DefinitionFinder;
 
 final class CustomSourceProviderDefinitionCompilerPass implements CompilerPassInterface
 {
@@ -86,13 +86,13 @@ services:
     _defaults:
         autowire: true
     
-    Symplify\PackageBuilder\Adapter\Symfony\Parameter\ParameterProvider: ~
+    Symplify\PackageBuilder\Parameter\ParameterProvider: ~
 ```
 
 Then require in `__construct()` where needed:
 
 ```php
-use Symplify\PackageBuilder\Adapter\Symfony\Parameter\ParameterProvider;
+use Symplify\PackageBuilder\Parameter\ParameterProvider;
 
 final class StatieConfiguration
 {
@@ -232,5 +232,18 @@ And use like:
 vendor/bin/your-app --level the-config
 ```
 
+
+### 8. Find `vendor/autoload.php` in specific directory for BetterReflection
+
+When you use [BetterReflection](https://github.com/Roave/BetterReflection/) and [`ComposerSourceLocator`](https://github.com/Roave/BetterReflection/blob/master/UPGRADE.md#source-locators-now-require-additional-dependencies), you need to locate non-locator `/vendor/autoload.php`.
+ 
+ 
+```php
+$autolaodFile = Symplify\PackageBuilder\Composer\AutoloadFinder::findNearDirectories([
+    __DIR__ . '/src'
+]);
+
+var_dump($autolaodFile); # contains: __DIR__ . '/vendor`
+````
 
 That's all :)

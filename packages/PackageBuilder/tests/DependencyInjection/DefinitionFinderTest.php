@@ -1,11 +1,11 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\PackageBuilder\Tests\Adapter\Symfony\DependencyInjection;
+namespace Symplify\PackageBuilder\Tests\DependencyInjection;
 
 use PHPUnit\Framework\TestCase;
 use stdClass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symplify\PackageBuilder\Adapter\Symfony\DependencyInjection\DefinitionFinder;
+use Symplify\PackageBuilder\DependencyInjection\DefinitionFinder;
 use Symplify\PackageBuilder\Exception\DependencyInjection\DefinitionForTypeNotFoundException;
 
 final class DefinitionFinderTest extends TestCase

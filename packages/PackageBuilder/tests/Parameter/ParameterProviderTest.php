@@ -1,10 +1,10 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\PackageBuilder\Tests\Adapter\Symfony\Parameter;
+namespace Symplify\PackageBuilder\Tests\Parameter;
 
 use PHPUnit\Framework\TestCase;
-use Symplify\PackageBuilder\Adapter\Symfony\Parameter\ParameterProvider;
-use Symplify\PackageBuilder\Tests\Adapter\Symfony\ContainerFactory;
+use Symplify\PackageBuilder\Parameter\ParameterProvider;
+use Symplify\PackageBuilder\Tests\ContainerFactory;
 
 final class ParameterProviderTest extends TestCase
 {
@@ -20,6 +20,11 @@ final class ParameterProviderTest extends TestCase
             'camelCase' => 'Lion',
             'pascal_case' => 'Celsius',
         ], $parameterProvider->provide());
+
+        $this->assertSame('value', $parameterProvider->provideParameter('key'));
+
+        $parameterProvider->changeParameter('key', 'anotherKey');
+        $this->assertSame('anotherKey', $parameterProvider->provideParameter('key'));
     }
 
     public function testIncludingYaml(): void

@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\PackageBuilder\Adapter\Symfony\Parameter;
+namespace Symplify\PackageBuilder\Parameter;
 
 use Nette\Utils\Strings;
 use Symfony\Component\DependencyInjection\Container;
@@ -22,6 +22,22 @@ final class ParameterProvider
             ->all();
 
         $this->parameters = $this->unsetKernelParameters($parameters);
+    }
+
+    /**
+     * @return null|mixed
+     */
+    public function provideParameter(string $name)
+    {
+        return $this->parameters[$name] ?? null;
+    }
+
+    /**
+     * @param mixed $value
+     */
+    public function changeParameter(string $name, $value): void
+    {
+        $this->parameters[$name] = $value;
     }
 
     /**

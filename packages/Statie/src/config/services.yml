@@ -17,6 +17,6 @@ services:
     ParsedownExtra:
         class: ParsedownExtra
 
-    Symplify\PackageBuilder\Adapter\Symfony\Parameter\ParameterProvider: ~
+    Symplify\PackageBuilder\Parameter\ParameterProvider: ~
 
     GitWrapper\GitWrapper: ~

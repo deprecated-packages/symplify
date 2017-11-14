@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\PackageBuilder\Tests\Adapter\Source;
+namespace Symplify\PackageBuilder\Tests\DependencyInjectionSource;
 
 final class Collector implements CollectorInterface
 {

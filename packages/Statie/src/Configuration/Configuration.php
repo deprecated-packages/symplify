@@ -2,7 +2,7 @@
 
 namespace Symplify\Statie\Configuration;
 
-use Symplify\PackageBuilder\Adapter\Symfony\Parameter\ParameterProvider;
+use Symplify\PackageBuilder\Parameter\ParameterProvider;
 use Symplify\Statie\Exception\Configuration\MissingGithubRepositorySlugException;
 use Symplify\Statie\Renderable\File\PostFile;
 use Symplify\Statie\Utils\FilesystemChecker;
