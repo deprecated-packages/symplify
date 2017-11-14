@@ -233,4 +233,17 @@ vendor/bin/your-app --level the-config
 ```
 
 
+### 8. Find `vendor/autoload.php` in specific directory for BetterReflection
+
+When you use [BetterReflection](https://github.com/Roave/BetterReflection/) and [`ComposerSourceLocator`](https://github.com/Roave/BetterReflection/blob/master/UPGRADE.md#source-locators-now-require-additional-dependencies), you need to locate non-locator `/vendor/autoload.php`.
+ 
+ 
+```php
+$autolaodFile = Symplify\PackageBuilder\Composer\AutoloadFinder::findNearDirectories(
+    __DIR__ . '/src'
+);
+
+var_dump($autolaodFile); # contains: __DIR__ . '/vendor`
+````
+
 That's all :)
