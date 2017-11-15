@@ -1,59 +1,31 @@
 includes:
     - packages/EasyCodingStandard/config/psr2.neon
-    - packages/EasyCodingStandard/config/php70.neon
     - packages/EasyCodingStandard/config/php71.neon
 
-    # custom
     - packages/EasyCodingStandard/config/symplify.neon
     - packages/EasyCodingStandard/config/common.neon
 
     - packages/EasyCodingStandard/config/common/array.neon
+    - packages/EasyCodingStandard/config/common/control-structures.neon
     - packages/EasyCodingStandard/config/common/docblock.neon
     - packages/EasyCodingStandard/config/common/namespaces.neon
     - packages/EasyCodingStandard/config/common/spaces.neon
     - packages/EasyCodingStandard/config/common/strict.neon
 
 checkers:
-    - PhpCsFixer\Fixer\Operator\NewWithBracesFixer
-
-    - PhpCsFixer\Fixer\Semicolon\NoEmptyStatementFixer
-    - PhpCsFixer\Fixer\Phpdoc\PhpdocIndentFixer
-    - PhpCsFixer\Fixer\Phpdoc\PhpdocTypesFixer
-
-    PhpCsFixer\Fixer\Operator\IncrementStyleFixer:
-        style: pre
-
-    - PhpCsFixer\Fixer\ClassNotation\SelfAccessorFixer
-    - PhpCsFixer\Fixer\CastNotation\ShortScalarCastFixer
-    - PhpCsFixer\Fixer\StringNotation\SingleQuoteFixer
-
-    # spaces !
-    PhpCsFixer\Fixer\ClassNotation\ClassDefinitionFixer:
-        singleLine: true
-
-    - PhpCsFixer\Fixer\Casing\MagicConstantCasingFixer
-    - PhpCsFixer\Fixer\FunctionNotation\MethodArgumentSpaceFixer
-
-    - PhpCsFixer\Fixer\ClassNotation\ProtectedToPrivateFixer
-
-    - PhpCsFixer\Fixer\ClassNotation\SingleClassElementPerStatementFixer
-    - PhpCsFixer\Fixer\ControlStructure\NoUnneededCurlyBracesFixer
-
-    Symplify\CodingStandard\Sniffs\DependencyInjection\NoClassInstantiationSniff:
-        extraAllowedClasses:
-            - Symplify\EasyCodingStandard\Error\Error
-            - Symplify\CodingStandard\FixerTokenWrapper\Naming\Name
-            - Symplify\CodingStandard\SniffTokenWrapper\CommentCleaner
-
-    - SlevomatCodingStandard\Sniffs\ControlStructures\AssignmentInConditionSniff
-
-    # Complexity limits
+    # Code Complexity
     PHP_CodeSniffer\Standards\Generic\Sniffs\Files\LineLengthSniff:
         absoluteLineLimit: 120
     PHP_CodeSniffer\Standards\Generic\Sniffs\Metrics\CyclomaticComplexitySniff:
         absoluteComplexity: 10
     PHP_CodeSniffer\Standards\Generic\Sniffs\Metrics\NestingLevelSniff:
         absoluteNestingLevel: 4
+
+    Symplify\CodingStandard\Sniffs\DependencyInjection\NoClassInstantiationSniff:
+        extraAllowedClasses:
+            - Symplify\EasyCodingStandard\Error\Error
+            - Symplify\CodingStandard\FixerTokenWrapper\Naming\Name
+            - Symplify\CodingStandard\SniffTokenWrapper\CommentCleaner
 
     # class should be Abstact or Final
     - SlamCsFixer\FinalInternalClassFixer
