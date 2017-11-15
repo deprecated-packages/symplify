@@ -2,6 +2,7 @@ includes:
     - packages/EasyCodingStandard/config/psr2.neon
     - packages/EasyCodingStandard/config/php70.neon
     - packages/EasyCodingStandard/config/php71.neon
+
     # custom
     - packages/EasyCodingStandard/config/symplify.neon
     - packages/EasyCodingStandard/config/common.neon
@@ -16,12 +17,7 @@ checkers:
     - PhpCsFixer\Fixer\Operator\NewWithBracesFixer
 
     - PhpCsFixer\Fixer\Semicolon\NoEmptyStatementFixer
-
-    - PhpCsFixer\Fixer\ControlStructure\NoUnneededControlParenthesesFixer
-
     - PhpCsFixer\Fixer\Phpdoc\PhpdocIndentFixer
-    - PhpCsFixer\Fixer\Phpdoc\PhpdocNoEmptyReturnFixer
-
     - PhpCsFixer\Fixer\Phpdoc\PhpdocTypesFixer
 
     PhpCsFixer\Fixer\Operator\IncrementStyleFixer:
@@ -30,26 +26,15 @@ checkers:
     - PhpCsFixer\Fixer\ClassNotation\SelfAccessorFixer
     - PhpCsFixer\Fixer\CastNotation\ShortScalarCastFixer
     - PhpCsFixer\Fixer\StringNotation\SingleQuoteFixer
-    - PhpCsFixer\Fixer\Semicolon\SpaceAfterSemicolonFixer
-    - PhpCsFixer\Fixer\Operator\StandardizeNotEqualsFixer
 
     # spaces !
-    - PhpCsFixer\Fixer\Operator\TernaryOperatorSpacesFixer
-
-
-    - PhpCsFixer\Fixer\ArrayNotation\TrimArraySpacesFixer
-    - PhpCsFixer\Fixer\ArrayNotation\WhitespaceAfterCommaInArrayFixer
     PhpCsFixer\Fixer\ClassNotation\ClassDefinitionFixer:
         singleLine: true
+
     - PhpCsFixer\Fixer\Casing\MagicConstantCasingFixer
     - PhpCsFixer\Fixer\FunctionNotation\MethodArgumentSpaceFixer
 
-    - PhpCsFixer\Fixer\Import\NoUnusedImportsFixer
-
     - PhpCsFixer\Fixer\ClassNotation\ProtectedToPrivateFixer
-
-    # namespace
-    - PhpCsFixer\Fixer\NamespaceNotation\SingleBlankLineBeforeNamespaceFixer
 
     - PhpCsFixer\Fixer\ClassNotation\SingleClassElementPerStatementFixer
     - PhpCsFixer\Fixer\ControlStructure\NoUnneededCurlyBracesFixer
@@ -74,9 +59,6 @@ checkers:
     - SlamCsFixer\FinalInternalClassFixer
 
 parameters:
-    skip_codes:
-        - SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff.UselessDocComment
-
     skip:
         PHP_CodeSniffer\Standards\Generic\Sniffs\Files\LineLengthSniff:
             # many implemented interfaces

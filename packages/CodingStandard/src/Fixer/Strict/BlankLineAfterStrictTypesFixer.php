@@ -39,7 +39,7 @@ namespace SomeNamespace;'),
 
     public function isCandidate(Tokens $tokens): bool
     {
-        return $tokens->isAllTokenKindsFound([T_OPEN_TAG, T_DECLARE, T_STRING, T_LNUMBER]);
+        return $tokens->isAllTokenKindsFound([T_OPEN_TAG, T_WHITESPACE, T_DECLARE, T_STRING, '=', T_LNUMBER, ';']);
     }
 
     public function fix(SplFileInfo $file, Tokens $tokens): void
