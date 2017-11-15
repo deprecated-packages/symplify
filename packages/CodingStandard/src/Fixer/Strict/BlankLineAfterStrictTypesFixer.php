@@ -28,31 +28,18 @@ final class BlankLineAfterStrictTypesFixer implements FixerInterface, DefinedFix
     public function getDefinition(): FixerDefinitionInterface
     {
         return new FixerDefinition(
-            'Strict type declaration has to be followed by empty line.',
+            'Strict type declaration has to be followed by empty line',
             [
                 new CodeSample('
 <?php declare(strict_types=1);
-namespace SomeNamespace;')
-           ]
+namespace SomeNamespace;'),
+            ]
         );
-    }
-
-    /**
-     * Must run after @see \PhpCsFixer\Fixer\Strict\DeclareStrictTypesFixer
-     */
-    public function getPriority(): int
-    {
-        return 0;
     }
 
     public function isCandidate(Tokens $tokens): bool
     {
         return $tokens->isAllTokenKindsFound([T_OPEN_TAG, T_DECLARE, T_STRING, T_LNUMBER]);
-    }
-
-    public function isRisky(): bool
-    {
-        return false;
     }
 
     public function fix(SplFileInfo $file, Tokens $tokens): void
@@ -65,9 +52,22 @@ namespace SomeNamespace;')
         end($sequenceLocation);
         $semicolonPosition = key($sequenceLocation);
 
+        // empty file
+        if (! isset($tokens[$semicolonPosition + 2])) {
+            return;
+        }
+
         $lineEnding = $this->whitespacesFixerConfig->getLineEnding();
 
         $tokens->ensureWhitespaceAtIndex($semicolonPosition + 1, 0, $lineEnding . $lineEnding);
+    }
+
+    /**
+     * Must run after @see \PhpCsFixer\Fixer\Strict\DeclareStrictTypesFixer
+     */
+    public function getPriority(): int
+    {
+        return 0;
     }
 
     public function getName(): string
@@ -78,6 +78,11 @@ namespace SomeNamespace;')
     public function supports(SplFileInfo $file): bool
     {
         return true;
+    }
+
+    public function isRisky(): bool
+    {
+        return false;
     }
 
     public function setWhitespacesConfig(WhitespacesFixerConfig $whitespacesFixerConfig): void
