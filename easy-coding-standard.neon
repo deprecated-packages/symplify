@@ -6,8 +6,11 @@ includes:
     - packages/EasyCodingStandard/config/symplify.neon
     - packages/EasyCodingStandard/config/common.neon
 
-    - packages/EasyCodingStandard/config/spaces.neon
+    - packages/EasyCodingStandard/config/common/array.neon
+    - packages/EasyCodingStandard/config/common/docblock.neon
     - packages/EasyCodingStandard/config/common/namespaces.neon
+    - packages/EasyCodingStandard/config/common/spaces.neon
+    - packages/EasyCodingStandard/config/common/strict.neon
 
 checkers:
     - PhpCsFixer\Fixer\Operator\UnaryOperatorSpacesFixer
