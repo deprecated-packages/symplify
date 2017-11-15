@@ -7,16 +7,6 @@ includes:
     - packages/EasyCodingStandard/config/common.neon
 
     - packages/EasyCodingStandard/config/spaces.neon
-    # - PhpCsFixer\Fixer\CastNotation\CastSpacesFixer
-#    PhpCsFixer\Fixer\Operator\BinaryOperatorSpacesFixer:
-#        align_double_arrow: false
-#        align_equals: false
-#    - PhpCsFixer\Fixer\FunctionNotation\FunctionTypehintSpaceFixer
-#    - PhpCsFixer\Fixer\ClassNotation\NoBlankLinesAfterClassOpeningFixer
-#    - PhpCsFixer\Fixer\Semicolon\NoSinglelineWhitespaceBeforeSemicolonsFixer
-
-
-#    - PhpCsFixer\Fixer\ClassNotation\MethodSeparationFixer
 
 checkers:
     - PhpCsFixer\Fixer\Operator\NewWithBracesFixer
@@ -24,13 +14,6 @@ checkers:
 #    - PhpCsFixer\Fixer\CastNotation\LowercaseCastFixer
 
     - PhpCsFixer\Fixer\Semicolon\NoEmptyStatementFixer
-    PhpCsFixer\Fixer\Whitespace\NoExtraConsecutiveBlankLinesFixer:
-        - curly_brace_block
-        - extra
-        - parenthesis_brace_block
-        - square_brace_block
-        - throw
-        - use
 
     - PhpCsFixer\Fixer\NamespaceNotation\NoLeadingNamespaceWhitespaceFixer
     - PhpCsFixer\Fixer\Whitespace\NoSpacesAroundOffsetFixer
@@ -43,8 +26,6 @@ checkers:
     - PhpCsFixer\Fixer\ArrayNotation\NormalizeIndexBraceFixer
     - PhpCsFixer\Fixer\Phpdoc\PhpdocIndentFixer
     - PhpCsFixer\Fixer\Phpdoc\PhpdocNoEmptyReturnFixer
-    - PhpCsFixer\Fixer\Phpdoc\PhpdocScalarFixer
-    - PhpCsFixer\Fixer\Phpdoc\PhpdocSingleLineVarSpacingFixer
     - PhpCsFixer\Fixer\Phpdoc\PhpdocToCommentFixer
     - PhpCsFixer\Fixer\Phpdoc\PhpdocTrimFixer
     - PhpCsFixer\Fixer\Phpdoc\PhpdocTypesFixer
