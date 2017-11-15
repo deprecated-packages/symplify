@@ -12,8 +12,12 @@ final class BlankLineAfterStrictTypesFixerTest extends AbstractFixerTestCase
     /**
      * @dataProvider provideFixCases()
      */
-    public function testFix(string $input, string $fixedOutput): void
+    public function testFix(string $input, ?string $fixedOutput = null): void
     {
+        if ($fixedOutput === null) {
+            [$input, $fixedOutput] = [$fixedOutput, $input];
+        }
+
         $this->doTest($fixedOutput, $input);
     }
 
@@ -31,6 +35,20 @@ namespace SomeNamespace;',
                 '<?php declare(strict_types=1);
 
 namespace SomeNamespace;',
+            ], [
+                // wrong
+                '<?php declare(strict_types=1);
+
+
+namespace SomeNamespace;',
+                // fixed
+                '<?php declare(strict_types=1);
+
+namespace SomeNamespace;',
+            ], [
+                // correct
+                '<?php declare(strict_types=1);
+',
             ],
         ];
     }
