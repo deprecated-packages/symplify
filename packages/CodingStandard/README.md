@@ -378,7 +378,7 @@ checkers:
 
 ### Array property should have default value, to prevent undefined array issues
 
-- class: [`Symplify\CodingStandard\Fixer\Property/ArrayPropertyDefaultValueFixer`](/src/Fixer/Property/ArrayPropertyDefaultValueFixer.php)
+- class: [`Symplify\CodingStandard\Fixer\Property\ArrayPropertyDefaultValueFixer`](/src/Fixer/Property/ArrayPropertyDefaultValueFixer.php)
 
 
 :x:
@@ -412,6 +412,27 @@ class SomeClass
      */
     public $apples = [];
 }
+```
+
+
+### Strict type declaration has to be followed by empty line
+
+- class: [`Symplify\CodingStandard\Fixer\Strict\BlankLineAfterStrictTypesFixer`](/src/Fixer/Strict/BlankLineAfterStrictTypesFixer.php)
+
+
+:x:
+
+``` php
+<?php declare(strict_types=1);
+namespace SomeNamespace;'
+```
+
+:+1:
+
+``` php
+<?php declare(strict_types=1);
+
+namespace SomeNamespace;'
 ```
 
 
