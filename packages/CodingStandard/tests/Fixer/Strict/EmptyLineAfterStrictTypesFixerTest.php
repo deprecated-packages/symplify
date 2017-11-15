@@ -5,9 +5,9 @@ namespace Symplify\CodingStandard\Tests\Fixer\Strict;
 use PhpCsFixer\Fixer\FixerInterface;
 use PhpCsFixer\Test\AbstractFixerTestCase;
 use PhpCsFixer\WhitespacesFixerConfig;
-use Symplify\CodingStandard\Fixer\Strict\EmptyLineAfterStrictTypesFixer;
+use Symplify\CodingStandard\Fixer\Strict\BlankLineAfterStrictTypesFixer;
 
-final class EmptyLineAfterStrictTypesFixerTest extends AbstractFixerTestCase
+final class BlankLineAfterStrictTypesFixerTest extends AbstractFixerTestCase
 {
     /**
      * @dataProvider provideFixCases()
@@ -37,7 +37,7 @@ namespace SomeNamespace;',
 
     protected function createFixer(): FixerInterface
     {
-        $fixer = new EmptyLineAfterStrictTypesFixer();
+        $fixer = new BlankLineAfterStrictTypesFixer();
         $fixer->setWhitespacesConfig(new WhitespacesFixerConfig('    ', PHP_EOL));
         return $fixer;
     }

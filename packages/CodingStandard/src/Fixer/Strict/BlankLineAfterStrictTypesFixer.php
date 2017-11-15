@@ -2,6 +2,7 @@
 
 namespace Symplify\CodingStandard\Fixer\Strict;
 
+use PhpCsFixer\Fixer\DefinedFixerInterface;
 use PhpCsFixer\Fixer\FixerInterface;
 use PhpCsFixer\Fixer\WhitespacesAwareFixerInterface;
 use PhpCsFixer\FixerDefinition\CodeSample;
@@ -17,7 +18,7 @@ use Symplify\CodingStandard\Fixer\TokenBuilder;
  *
  * @thanks Aidan Woods
  */
-final class EmptyLineAfterStrictTypesFixer implements FixerInterface, WhitespacesAwareFixerInterface
+final class BlankLineAfterStrictTypesFixer implements FixerInterface, DefinedFixerInterface, WhitespacesAwareFixerInterface
 {
     /**
      * @var WhitespacesFixerConfig
@@ -32,14 +33,16 @@ final class EmptyLineAfterStrictTypesFixer implements FixerInterface, Whitespace
                 new CodeSample('
 <?php declare(strict_types=1);
 namespace SomeNamespace;')
-            ]
+           ]
         );
     }
 
+    /**
+     * Must run after @see \PhpCsFixer\Fixer\Strict\DeclareStrictTypesFixer
+     */
     public function getPriority(): int
     {
-        // must ran before SingleBlankLineBeforeNamespaceFixer, BlankLineAfterOpeningTagFixer and DeclareEqualNormalizeFixer.
-        return 2;
+        return 0;
     }
 
     public function isCandidate(Tokens $tokens): bool
