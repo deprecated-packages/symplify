@@ -13,9 +13,6 @@ includes:
     - packages/EasyCodingStandard/config/common/strict.neon
 
 checkers:
-    - PhpCsFixer\Fixer\Operator\UnaryOperatorSpacesFixer
-    - PhpCsFixer\Fixer\Operator\NotOperatorWithSuccessorSpaceFixer
-
     - PhpCsFixer\Fixer\Operator\NewWithBracesFixer
 
     - PhpCsFixer\Fixer\Semicolon\NoEmptyStatementFixer
