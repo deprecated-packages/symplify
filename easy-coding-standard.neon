@@ -1,14 +1,85 @@
 includes:
     - packages/EasyCodingStandard/config/psr2.neon
-    - packages/EasyCodingStandard/config/symfony.neon
     - packages/EasyCodingStandard/config/php70.neon
     - packages/EasyCodingStandard/config/php71.neon
     # custom
     - packages/EasyCodingStandard/config/symplify.neon
     - packages/EasyCodingStandard/config/common.neon
+
     - packages/EasyCodingStandard/config/spaces.neon
+    # - PhpCsFixer\Fixer\CastNotation\CastSpacesFixer
+#    PhpCsFixer\Fixer\Operator\BinaryOperatorSpacesFixer:
+#        align_double_arrow: false
+#        align_equals: false
+#    - PhpCsFixer\Fixer\FunctionNotation\FunctionTypehintSpaceFixer
+#    - PhpCsFixer\Fixer\ClassNotation\NoBlankLinesAfterClassOpeningFixer
+#    - PhpCsFixer\Fixer\Semicolon\NoSinglelineWhitespaceBeforeSemicolonsFixer
+
+
+#    - PhpCsFixer\Fixer\ClassNotation\MethodSeparationFixer
 
 checkers:
+    - PhpCsFixer\Fixer\Operator\NewWithBracesFixer
+#    - PhpCsFixer\Fixer\Operator\UnaryOperatorSpacesFixer
+#    - PhpCsFixer\Fixer\CastNotation\LowercaseCastFixer
+
+    - PhpCsFixer\Fixer\Semicolon\NoEmptyStatementFixer
+    PhpCsFixer\Fixer\Whitespace\NoExtraConsecutiveBlankLinesFixer:
+        - curly_brace_block
+        - extra
+        - parenthesis_brace_block
+        - square_brace_block
+        - throw
+        - use
+
+    - PhpCsFixer\Fixer\NamespaceNotation\NoLeadingNamespaceWhitespaceFixer
+    - PhpCsFixer\Fixer\Whitespace\NoSpacesAroundOffsetFixer
+    - PhpCsFixer\Fixer\ControlStructure\NoTrailingCommaInListCallFixer
+    - PhpCsFixer\Fixer\ArrayNotation\NoTrailingCommaInSinglelineArrayFixer
+    - PhpCsFixer\Fixer\ArrayNotation\TrailingCommaInMultilineArrayFixer
+    - PhpCsFixer\Fixer\ControlStructure\NoUnneededControlParenthesesFixer
+    - PhpCsFixer\Fixer\ArrayNotation\NoWhitespaceBeforeCommaInArrayFixer
+    - PhpCsFixer\Fixer\Whitespace\NoWhitespaceInBlankLineFixer
+    - PhpCsFixer\Fixer\ArrayNotation\NormalizeIndexBraceFixer
+    - PhpCsFixer\Fixer\Phpdoc\PhpdocIndentFixer
+    - PhpCsFixer\Fixer\Phpdoc\PhpdocNoEmptyReturnFixer
+    - PhpCsFixer\Fixer\Phpdoc\PhpdocScalarFixer
+    - PhpCsFixer\Fixer\Phpdoc\PhpdocSingleLineVarSpacingFixer
+    - PhpCsFixer\Fixer\Phpdoc\PhpdocToCommentFixer
+    - PhpCsFixer\Fixer\Phpdoc\PhpdocTrimFixer
+    - PhpCsFixer\Fixer\Phpdoc\PhpdocTypesFixer
+
+    PhpCsFixer\Fixer\Operator\IncrementStyleFixer:
+        style: pre
+
+    - PhpCsFixer\Fixer\FunctionNotation\ReturnTypeDeclarationFixer
+    - PhpCsFixer\Fixer\ClassNotation\SelfAccessorFixer
+    - PhpCsFixer\Fixer\CastNotation\ShortScalarCastFixer
+    - PhpCsFixer\Fixer\StringNotation\SingleQuoteFixer
+    - PhpCsFixer\Fixer\Semicolon\SpaceAfterSemicolonFixer
+    - PhpCsFixer\Fixer\Operator\StandardizeNotEqualsFixer
+
+    # spaces !
+    - PhpCsFixer\Fixer\Operator\TernaryOperatorSpacesFixer
+
+
+    - PhpCsFixer\Fixer\ArrayNotation\TrimArraySpacesFixer
+    - PhpCsFixer\Fixer\ArrayNotation\WhitespaceAfterCommaInArrayFixer
+    PhpCsFixer\Fixer\ClassNotation\ClassDefinitionFixer:
+        singleLine: true
+    - PhpCsFixer\Fixer\Casing\MagicConstantCasingFixer
+    - PhpCsFixer\Fixer\FunctionNotation\MethodArgumentSpaceFixer
+
+    - PhpCsFixer\Fixer\Import\NoUnusedImportsFixer
+
+    - PhpCsFixer\Fixer\ClassNotation\ProtectedToPrivateFixer
+
+    # namespace
+    - PhpCsFixer\Fixer\NamespaceNotation\SingleBlankLineBeforeNamespaceFixer
+
+    - PhpCsFixer\Fixer\ClassNotation\SingleClassElementPerStatementFixer
+    - PhpCsFixer\Fixer\ControlStructure\NoUnneededCurlyBracesFixer
+
     Symplify\CodingStandard\Sniffs\DependencyInjection\NoClassInstantiationSniff:
         extraAllowedClasses:
             - Symplify\EasyCodingStandard\Error\Error
@@ -29,13 +100,6 @@ checkers:
     - SlamCsFixer\FinalInternalClassFixer
 
 parameters:
-    exclude_checkers:
-        # from PHP-CS-Fixer Symfony set
-        - PhpCsFixer\Fixer\PhpTag\BlankLineAfterOpeningTagFixer
-        - PhpCsFixer\Fixer\Phpdoc\PhpdocAlignFixer
-        - PhpCsFixer\Fixer\Operator\UnaryOperatorSpacesFixer
-        - PhpCsFixer\Fixer\ControlStructure\YodaStyleFixer
-
     skip_codes:
         - SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff.UselessDocComment
 
@@ -52,21 +116,20 @@ parameters:
             - packages/Statie/packages/FlatWhite/src/Latte/DynamicStringLoader.php
             - packages/Statie/src/Configuration/Configuration.php
 
-        Symplify\CodingStandard\Sniffs\Classes\EqualInterfaceImplementationSniff:
-            - packages/EasyCodingStandard/packages/SniffRunner/src/Application/SniffFileProcessor.php
-            - packages/EasyCodingStandard/packages/FixerRunner/src/Application/FixerFileProcessor.php
-
         PhpCsFixer\Fixer\PhpUnit\PhpUnitStrictFixer:
             - packages/EasyCodingStandard/tests/Indentation/IndentationTest.php
 
         Symplify\CodingStandard\Fixer\Php\ClassStringToClassConstantFixer:
             # name parts, not classes
             - packages/CodingStandard/src/Sniffs/DependencyInjection/NoClassInstantiationSniff.php
-            # optional package, interface might not exist
-            - packages/CodingStandard/src/Sniffs/Classes/EqualInterfaceImplementationSniff.php
             # "Exception" is string part of the name
             - packages/CodingStandard/src/Sniffs/Naming/ExceptionNameSniff.php
             - packages/CodingStandard/src/Fixer/Naming/ExceptionNameFixer.php
             # class might not exist
             - *packages/EasyCodingStandard/packages/Configuration/**/MutualCheckerExcluder**.php
             - *packages/EasyCodingStandard/packages/Configuration/**/ConflictingCheckerGuard**.php
+            - packages/CodingStandard/src/Sniffs/Classes/EqualInterfaceImplementationSniff.php
+
+        Symplify\CodingStandard\Sniffs\Classes\EqualInterfaceImplementationSniff:
+            - packages/EasyCodingStandard/packages/SniffRunner/src/Application/SniffFileProcessor.php
+            - packages/EasyCodingStandard/packages/FixerRunner/src/Application/FixerFileProcessor.php
