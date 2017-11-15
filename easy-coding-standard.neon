@@ -7,33 +7,26 @@ includes:
     - packages/EasyCodingStandard/config/common.neon
 
     - packages/EasyCodingStandard/config/spaces.neon
+    - packages/EasyCodingStandard/config/common/namespaces.neon
 
 checkers:
+    - PhpCsFixer\Fixer\Operator\UnaryOperatorSpacesFixer
+    - PhpCsFixer\Fixer\Operator\NotOperatorWithSuccessorSpaceFixer
+
     - PhpCsFixer\Fixer\Operator\NewWithBracesFixer
-#    - PhpCsFixer\Fixer\Operator\UnaryOperatorSpacesFixer
-#    - PhpCsFixer\Fixer\CastNotation\LowercaseCastFixer
 
     - PhpCsFixer\Fixer\Semicolon\NoEmptyStatementFixer
 
-    - PhpCsFixer\Fixer\NamespaceNotation\NoLeadingNamespaceWhitespaceFixer
-    - PhpCsFixer\Fixer\Whitespace\NoSpacesAroundOffsetFixer
-    - PhpCsFixer\Fixer\ControlStructure\NoTrailingCommaInListCallFixer
-    - PhpCsFixer\Fixer\ArrayNotation\NoTrailingCommaInSinglelineArrayFixer
-    - PhpCsFixer\Fixer\ArrayNotation\TrailingCommaInMultilineArrayFixer
     - PhpCsFixer\Fixer\ControlStructure\NoUnneededControlParenthesesFixer
-    - PhpCsFixer\Fixer\ArrayNotation\NoWhitespaceBeforeCommaInArrayFixer
-    - PhpCsFixer\Fixer\Whitespace\NoWhitespaceInBlankLineFixer
-    - PhpCsFixer\Fixer\ArrayNotation\NormalizeIndexBraceFixer
+
     - PhpCsFixer\Fixer\Phpdoc\PhpdocIndentFixer
     - PhpCsFixer\Fixer\Phpdoc\PhpdocNoEmptyReturnFixer
-    - PhpCsFixer\Fixer\Phpdoc\PhpdocToCommentFixer
-    - PhpCsFixer\Fixer\Phpdoc\PhpdocTrimFixer
+
     - PhpCsFixer\Fixer\Phpdoc\PhpdocTypesFixer
 
     PhpCsFixer\Fixer\Operator\IncrementStyleFixer:
         style: pre
 
-    - PhpCsFixer\Fixer\FunctionNotation\ReturnTypeDeclarationFixer
     - PhpCsFixer\Fixer\ClassNotation\SelfAccessorFixer
     - PhpCsFixer\Fixer\CastNotation\ShortScalarCastFixer
     - PhpCsFixer\Fixer\StringNotation\SingleQuoteFixer
