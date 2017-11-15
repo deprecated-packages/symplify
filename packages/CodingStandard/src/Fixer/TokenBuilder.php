@@ -8,7 +8,7 @@ use PhpCsFixer\Tokenizer\Token;
 final class TokenBuilder
 {
     /**
-     * Generates token for code like: " = []".
+     * Generates: " = []".
      *
      * @return Token[]
      */
@@ -24,7 +24,7 @@ final class TokenBuilder
     }
 
     /**
-     * Generates: declare(strict_types=1);
+     * Generates: "declare(strict_types=1);"
      *
      * @return Token[]
      */
