@@ -26,6 +26,7 @@ parameters:
         - '#Call to an undefined method Symfony\\Component\\DependencyInjection\\ContainerInterface::getParameterBag()#'
         - '#Parameter \#2 \$useIndexes of static method Symplify\\CodingStandard\\FixerTokenWrapper\\Naming\\ClassFqnResolver::getNamespaceUseDeclarations\(\) expects int\[\], mixed\[\]\[\] given#'
         - '#Parameter \#1 \$haystack of static method Nette\\Utils\\Strings::startsWith\(\) expects string, string\|null given#'
+        - '#Parameter \#1 \$index of method PhpCsFixer\\Tokenizer\\Tokens::getNextMeaningfulToken\(\) expects int, mixed\[\] given#'
 
         # buggy
         - '#Parameter \#2 \$items of method PhpCsFixer\\Tokenizer\\Tokens::insertAt\(\) expects \(iterable\(PhpCsFixer\\Tokenizer\\Token\[\]\)&PhpCsFixer\\Tokenizer\\Tokens\)\|PhpCsFixer\\Tokenizer\\Token, PhpCsFixer\\Tokenizer\\Token\[\] given#'
