@@ -1,29 +1,16 @@
 includes:
-    - packages/EasyCodingStandard/config/symfony.neon
-    - packages/EasyCodingStandard/config/php54.neon
-    - packages/EasyCodingStandard/config/php70.neon
+    - packages/EasyCodingStandard/config/psr2.neon
     - packages/EasyCodingStandard/config/php71.neon
-    # custom
+
+    - packages/EasyCodingStandard/config/clean-code.neon
     - packages/EasyCodingStandard/config/symplify.neon
     - packages/EasyCodingStandard/config/common.neon
-    - packages/EasyCodingStandard/config/spaces.neon
 
 checkers:
-    Symplify\CodingStandard\Sniffs\DependencyInjection\NoClassInstantiationSniff:
-        extraAllowedClasses:
-            - Symplify\EasyCodingStandard\Error\Error
-            - Symplify\CodingStandard\FixerTokenWrapper\Naming\Name
-            - Symplify\CodingStandard\SniffTokenWrapper\CommentCleaner
+    # class should be Abstact or Final
+    - SlamCsFixer\FinalInternalClassFixer
 
-    # Slevomat
-    SlevomatCodingStandard\Sniffs\Namespaces\ReferenceUsedNamesOnlySniff:
-        allowPartialUses: false
-    - SlevomatCodingStandard\Sniffs\ControlStructures\AssignmentInConditionSniff
-    SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff:
-        enableEachParameterAndReturnInspection: true
-    - SlevomatCodingStandard\Sniffs\Exceptions\ReferenceThrowableOnlySniff
-
-    # Complexity limits
+    # code complexity
     PHP_CodeSniffer\Standards\Generic\Sniffs\Files\LineLengthSniff:
         absoluteLineLimit: 120
     PHP_CodeSniffer\Standards\Generic\Sniffs\Metrics\CyclomaticComplexitySniff:
@@ -31,26 +18,20 @@ checkers:
     PHP_CodeSniffer\Standards\Generic\Sniffs\Metrics\NestingLevelSniff:
         absoluteNestingLevel: 4
 
-    # class should be Abstact or Final
-    - SlamCsFixer\FinalInternalClassFixer
+    Symplify\CodingStandard\Sniffs\DependencyInjection\NoClassInstantiationSniff:
+        extraAllowedClasses:
+            - Symplify\EasyCodingStandard\Error\Error
+            - Symplify\CodingStandard\FixerTokenWrapper\Naming\Name
+            - Symplify\CodingStandard\SniffTokenWrapper\CommentCleaner
 
 parameters:
-    exclude_checkers:
-        # from PHP-CS-Fixer Symfony set
-        - PhpCsFixer\Fixer\PhpTag\BlankLineAfterOpeningTagFixer
-        - PhpCsFixer\Fixer\Phpdoc\PhpdocAlignFixer
-        - PhpCsFixer\Fixer\Operator\UnaryOperatorSpacesFixer
-        - PhpCsFixer\Fixer\ControlStructure\YodaStyleFixer
-
-    skip_codes:
-        - SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff.UselessDocComment
-
     skip:
         PHP_CodeSniffer\Standards\Generic\Sniffs\Files\LineLengthSniff:
             # many implemented interfaces
             - packages/CodingStandard/src/Fixer/ClassNotation/PropertyAndConstantSeparationFixer.php
             - packages/CodingStandard/src/Fixer/ClassNotation/LastPropertyAndFirstMethodSeparationFixer.php
             - packages/CodingStandard/src/Fixer/Import/ImportNamespacedNameFixer.php
+            - packages/CodingStandard/src/Fixer/Strict/BlankLineAfterStrictTypesFixer.php
 
         SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff:
             - *packages/CodingStandard/src/Sniffs/*/*Sniff.php
@@ -58,24 +39,20 @@ parameters:
             - packages/Statie/packages/FlatWhite/src/Latte/DynamicStringLoader.php
             - packages/Statie/src/Configuration/Configuration.php
 
-        Symplify\CodingStandard\Sniffs\Classes\EqualInterfaceImplementationSniff:
-            - packages/EasyCodingStandard/packages/SniffRunner/src/Application/SniffFileProcessor.php
-            - packages/EasyCodingStandard/packages/FixerRunner/src/Application/FixerFileProcessor.php
-
         PhpCsFixer\Fixer\PhpUnit\PhpUnitStrictFixer:
             - packages/EasyCodingStandard/tests/Indentation/IndentationTest.php
 
         Symplify\CodingStandard\Fixer\Php\ClassStringToClassConstantFixer:
             # name parts, not classes
             - packages/CodingStandard/src/Sniffs/DependencyInjection/NoClassInstantiationSniff.php
-
-            # optional package, interface might not exist
-            - packages/CodingStandard/src/Sniffs/Classes/EqualInterfaceImplementationSniff.php
             # "Exception" is string part of the name
             - packages/CodingStandard/src/Sniffs/Naming/ExceptionNameSniff.php
             - packages/CodingStandard/src/Fixer/Naming/ExceptionNameFixer.php
             # class might not exist
-            - packages/EasyCodingStandard/packages/Configuration/src/MutualCheckerExcluder.php
-            - packages/EasyCodingStandard/packages/Configuration/tests/MutualCheckerExcluderTest.php
-            - packages/EasyCodingStandard/packages/Configuration/src/ConflictingCheckerGuard.php
-            - packages/EasyCodingStandard/packages/Configuration/tests/ConflictingCheckerGuardTest.php
+            - *packages/EasyCodingStandard/packages/Configuration/**/MutualCheckerExcluder**.php
+            - *packages/EasyCodingStandard/packages/Configuration/**/ConflictingCheckerGuard**.php
+            - packages/CodingStandard/src/Sniffs/Classes/EqualInterfaceImplementationSniff.php
+
+        Symplify\CodingStandard\Sniffs\Classes\EqualInterfaceImplementationSniff:
+            - packages/EasyCodingStandard/packages/SniffRunner/src/Application/SniffFileProcessor.php
+            - packages/EasyCodingStandard/packages/FixerRunner/src/Application/FixerFileProcessor.php

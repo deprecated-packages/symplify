@@ -1,22 +1,32 @@
 checkers:
-    # PHP-CS-Fixer
-    - PhpCsFixer\Fixer\Alias\PowToExponentiationFixer
-    - PhpCsFixer\Fixer\Operator\TernaryToNullCoalescingFixer
+    # array(    );
+    PhpCsFixer\Fixer\ArrayNotation\ArraySyntaxFixer:
+        syntax: short
+
+    # new methods
     PhpCsFixer\Fixer\Alias\RandomApiMigrationFixer:
         mt_rand: random_int
         rand: random_int
 
-    # risky
-    - PhpCsFixer\Fixer\Strict\DeclareStrictTypesFixer
+    # ?? operator
+    - PhpCsFixer\Fixer\Operator\TernaryToNullCoalescingFixer
 
-    # Typehints
-    - PhpCsFixer\Fixer\FunctionNotation\FunctionTypehintSpaceFixer
+    # strict types
+    - PhpCsFixer\Fixer\Strict\DeclareStrictTypesFixer
+    - Symplify\CodingStandard\Fixer\Strict\BlankLineAfterStrictTypesFixer
+    - PhpCsFixer\Fixer\LanguageConstruct\DeclareEqualNormalizeFixer
+
+    # typehints
     - PhpCsFixer\Fixer\FunctionNotation\ReturnTypeDeclarationFixer
     SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff:
-        usefulAnnotations:
-            - @todo
-            - @dataProvider
         enableEachParameterAndReturnInspection: true
+        enableVoidTypeHint: false
+        enableNullableTypeHints: false
 
-    # Throwable
+    # throwable
     - SlevomatCodingStandard\Sniffs\Exceptions\ReferenceThrowableOnlySniff
+
+parameters:
+    # disable any annotation removal
+    skip_codes:
+        - SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff.UselessDocComment
