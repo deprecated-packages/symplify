@@ -424,7 +424,7 @@ class SomeClass
 
 ``` php
 <?php declare(strict_types=1);
-namespace SomeNamespace;'
+namespace SomeNamespace;
 ```
 
 :+1:
@@ -432,7 +432,7 @@ namespace SomeNamespace;'
 ``` php
 <?php declare(strict_types=1);
 
-namespace SomeNamespace;'
+namespace SomeNamespace;
 ```
 
 
