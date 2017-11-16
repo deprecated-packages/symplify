@@ -6,7 +6,6 @@ use PhpCsFixer\Fixer\DefinedFixerInterface;
 use PhpCsFixer\Fixer\FixerInterface;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
-use Symfony\Component\Filesystem\Exception\IOException;
 use Symplify\EasyCodingStandard\Configuration\Configuration;
 use Symplify\EasyCodingStandard\Contract\Application\FileProcessorInterface;
 use Symplify\EasyCodingStandard\Error\ErrorCollector;
@@ -48,6 +47,11 @@ final class FixerFileProcessor implements FileProcessorInterface
      */
     private $checkerMetricRecorder;
 
+    /**
+     * @var bool
+     */
+    private $areFixersSorted = false;
+
     public function __construct(
         ErrorCollector $errorCollector,
         Skipper $skipper,
@@ -72,7 +76,9 @@ final class FixerFileProcessor implements FileProcessorInterface
      */
     public function getFixers(): array
     {
-        $this->sortFixers();
+        if (! $this->areFixersSorted) {
+            $this->sortFixers();
+        }
 
         return $this->fixers;
     }
@@ -81,29 +87,16 @@ final class FixerFileProcessor implements FileProcessorInterface
     {
         $oldContent = file_get_contents($file->getRealPath());
         $tokens = Tokens::fromCode($oldContent);
-        $oldHash = $tokens->getCodeHash();
-
-        $newHash = $oldHash;
-        $newContent = $oldContent;
 
         $appliedFixers = [];
-
         $latestContent = $oldContent;
 
-        foreach ($this->getFixers() as $fixer) {
+        foreach ($this->getFixers() as $name => $fixer) {
+            if ($this->shouldSkip($file, $fixer, $tokens)) {
+                continue;
+            }
+
             $this->checkerMetricRecorder->startWithChecker($fixer);
-
-            if ($this->skipper->shouldSkipCheckerAndFile($fixer, $file->getRealPath())) {
-                $this->checkerMetricRecorder->endWithChecker($fixer);
-
-                continue;
-            }
-
-            if (! $fixer->supports($file) || ! $fixer->isCandidate($tokens)) {
-                $this->checkerMetricRecorder->endWithChecker($fixer);
-
-                continue;
-            }
 
             try {
                 $fixer->fix($file, $tokens);
@@ -116,49 +109,33 @@ final class FixerFileProcessor implements FileProcessorInterface
                     $throwable->getFile(),
                     $throwable->getLine()
                 ));
-            } finally {
-                $this->checkerMetricRecorder->endWithChecker($fixer);
+            }
+
+            $this->checkerMetricRecorder->endWithChecker($fixer);
+
+            if (! $tokens->isChanged()) {
+                continue;
             }
 
             $changedLines = $this->changedLinesDetector->detectInBeforeAfter($latestContent, $tokens->generateCode());
             $latestContent = $tokens->generateCode();
 
-            if ($tokens->isChanged()) {
-                foreach ($changedLines as $changedLine) {
-                    $this->addErrorToErrorMessageCollector($file, $fixer, $changedLine);
-                }
-
-                $tokens->clearEmptyTokens();
-                $tokens->clearChanged();
-                $appliedFixers[] = $fixer->getName();
+            foreach ($changedLines as $changedLine) {
+                $this->addErrorToErrorMessageCollector($file, $fixer, $changedLine);
             }
+
+            $tokens->clearEmptyTokens();
+            $tokens->clearChanged();
+            $appliedFixers[] = $fixer->getName();
         }
 
-        if (! empty($appliedFixers)) {
-            $newContent = $tokens->generateCode();
-            $newHash = $tokens->getCodeHash();
+        if (! $appliedFixers) {
+            Tokens::clearCache();
+            return;
         }
 
-        // We need to check if content was changed and then applied changes.
-        // But we can't simple check $appliedFixers, because one fixer may revert
-        // work of other and both of them will mark collection as changed.
-        // Therefore we need to check if code hashes changed.
-        if ($this->configuration->isFixer() && ($oldHash !== $newHash)) {
-            if (@file_put_contents($file->getRealPath(), $newContent) === false) {
-                // @todo: move to sniffer FixerFileProcessor as well, decouple FileSystem service?
-                $error = error_get_last();
-
-                throw new IOException(
-                    sprintf(
-                        'Failed to write file "%s", "%s".',
-                        $file->getPathname(),
-                        $error ? $error['message'] : 'no reason available'
-                    ),
-                    0,
-                    null,
-                    $file->getRealPath()
-                );
-            }
+        if ($this->configuration->isFixer() && $oldContent !== $tokens->getCodeHash()) {
+            file_put_contents($file->getRealPath(), $tokens->generateCode());
         }
 
         Tokens::clearCache();
@@ -180,12 +157,24 @@ final class FixerFileProcessor implements FileProcessorInterface
     private function prepareErrorMessageFromFixer(FixerInterface $fixer): string
     {
         if ($fixer instanceof DefinedFixerInterface) {
-            $definition = $fixer->getDefinition();
-
-            return $definition->getSummary();
+            return $fixer->getDefinition()
+                ->getSummary();
         }
 
         return $fixer->getName();
+    }
+
+    private function shouldSkip(SplFileInfo $file, FixerInterface $fixer, Tokens $tokens): bool
+    {
+        if ($this->skipper->shouldSkipCheckerAndFile($fixer, $file->getRealPath())) {
+            return true;
+        }
+
+        if (! $fixer->supports($file) || ! $fixer->isCandidate($tokens)) {
+            return true;
+        }
+
+        return false;
     }
 
     private function sortFixers(): void
@@ -193,5 +182,7 @@ final class FixerFileProcessor implements FileProcessorInterface
         usort($this->fixers, function (FixerInterface $firstFixer, FixerInterface $secondFixer) {
             return $firstFixer->getPriority() < $secondFixer->getPriority();
         });
+
+        $this->areFixersSorted = true;
     }
 }
