@@ -97,7 +97,7 @@ final class DocBlockWrapper
 
                 [$type, ] = $typeParts;
 
-                return trim($type);
+                return trim($type, ' \\');
             }
         }
 
