@@ -15,6 +15,7 @@ use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
 use Symplify\CodingStandard\FixerTokenWrapper\Naming\ClassFqnResolver;
+use Symplify\CodingStandard\FixerTokenWrapper\Naming\ImportsResolver;
 use Symplify\CodingStandard\FixerTokenWrapper\Naming\Name;
 use Symplify\CodingStandard\FixerTokenWrapper\Naming\NameAnalyzer;
 
@@ -78,7 +79,7 @@ final class ImportNamespacedNameFixer implements FixerInterface, DefinedFixerInt
     {
         $this->duplicatedNameCount = 0;
 
-        $this->importedNames = [];
+        $this->importedNames = array_flip(ImportsResolver::getFromTokens($tokens));
 
         for ($index = $tokens->getSize() - 1; $index > 0; --$index) {
             $token = $tokens[$index];
@@ -115,28 +116,12 @@ final class ImportNamespacedNameFixer implements FixerInterface, DefinedFixerInt
         }
     }
 
-    public function getName(): string
-    {
-        return self::class;
-    }
-
     /**
      * Run before @see \PhpCsFixer\Fixer\Import\OrderedImportsFixer.
      */
     public function getPriority(): int
     {
         return -40;
-    }
-
-    public function isRisky(): bool
-    {
-        // first version is unable to deal with duplicated names
-        return true;
-    }
-
-    public function supports(SplFileInfo $file): bool
-    {
-        return true;
     }
 
     /**
@@ -164,6 +149,21 @@ final class ImportNamespacedNameFixer implements FixerInterface, DefinedFixerInt
             ->getOption();
 
         return new FixerConfigurationResolver([$singleNameOption]);
+    }
+
+    public function supports(SplFileInfo $file): bool
+    {
+        return true;
+    }
+
+    public function isRisky(): bool
+    {
+        return false;
+    }
+
+    public function getName(): string
+    {
+        return self::class;
     }
 
     private function getNamespacePosition(Tokens $tokens): int
