@@ -58,7 +58,9 @@ final class DocBlockWrapper
             return null;
         }
 
-        return $this->resolveAnnotationContent($returnAnnotations[0], 'return');
+        $content = $this->resolveAnnotationContent($returnAnnotations[0], 'return');
+
+        return ltrim($content, '\\');
     }
 
     public function getReturnTypeDescription(): ?string

@@ -9,4 +9,11 @@ class SomeClass
     public function getParent(\Exception $e)
     {
     }
+
+    /**
+     */
+    protected function getClientMock(): \Github\Client
+    {
+        return new \Github\Client($this->getHttpMethodsMock());
+    }
 }
