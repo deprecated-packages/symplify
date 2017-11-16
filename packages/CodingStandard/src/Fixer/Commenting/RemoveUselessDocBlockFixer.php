@@ -141,7 +141,7 @@ public function getCount(): int
 
         $isDummyDescription = (bool) Strings::match(
             $description,
-            sprintf('#^(A|An) %s(Interface)? instance$#', $type)
+            sprintf('#^(A|An) (\\\\)?%s(Interface)? instance$#', $type)
         );
 
         // improve with additional cases, probably regex
