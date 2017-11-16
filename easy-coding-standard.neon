@@ -2,18 +2,15 @@ includes:
     - packages/EasyCodingStandard/config/psr2.neon
     - packages/EasyCodingStandard/config/php71.neon
 
+    - packages/EasyCodingStandard/config/clean-code.neon
     - packages/EasyCodingStandard/config/symplify.neon
     - packages/EasyCodingStandard/config/common.neon
 
-    - packages/EasyCodingStandard/config/common/array.neon
-    - packages/EasyCodingStandard/config/common/control-structures.neon
-    - packages/EasyCodingStandard/config/common/docblock.neon
-    - packages/EasyCodingStandard/config/common/namespaces.neon
-    - packages/EasyCodingStandard/config/common/spaces.neon
-    - packages/EasyCodingStandard/config/common/strict.neon
-
 checkers:
-    # Code Complexity
+    # class should be Abstact or Final
+    - SlamCsFixer\FinalInternalClassFixer
+
+    # code complexity
     PHP_CodeSniffer\Standards\Generic\Sniffs\Files\LineLengthSniff:
         absoluteLineLimit: 120
     PHP_CodeSniffer\Standards\Generic\Sniffs\Metrics\CyclomaticComplexitySniff:
@@ -26,9 +23,6 @@ checkers:
             - Symplify\EasyCodingStandard\Error\Error
             - Symplify\CodingStandard\FixerTokenWrapper\Naming\Name
             - Symplify\CodingStandard\SniffTokenWrapper\CommentCleaner
-
-    # class should be Abstact or Final
-    - SlamCsFixer\FinalInternalClassFixer
 
 parameters:
     skip:
