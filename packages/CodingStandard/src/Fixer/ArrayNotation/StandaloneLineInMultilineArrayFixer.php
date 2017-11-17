@@ -8,6 +8,7 @@ use PhpCsFixer\FixerDefinition\CodeSample;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Tokenizer\CT;
+use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use PhpCsFixer\WhitespacesFixerConfig;
 use SplFileInfo;
@@ -160,10 +161,10 @@ $values = [1 => \'hey\', 2 => \'hello\'];'
     private function insertNewlineBeforeClosingIfNeeded(Tokens $tokens, int $arrayEndIndex): void
     {
         if ($tokens[$arrayEndIndex - 1]->isGivenKind(T_WHITESPACE)) {
-            return;
+            $tokens[$arrayEndIndex - 1] = new Token([T_WHITESPACE, $this->closingBracketNewlineIndentWhitespace]);
+        } else {
+            $tokens->ensureWhitespaceAtIndex($arrayEndIndex, 0, $this->closingBracketNewlineIndentWhitespace);
         }
-
-        $tokens->ensureWhitespaceAtIndex($arrayEndIndex, 0, $this->closingBracketNewlineIndentWhitespace);
     }
 
     private function prepareIndentWhitespaces(Tokens $tokens, int $arrayStartIndex): void
