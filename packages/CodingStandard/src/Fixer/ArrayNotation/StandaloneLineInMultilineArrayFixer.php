@@ -47,6 +47,11 @@ final class StandaloneLineInMultilineArrayFixer implements DefinedFixerInterface
      */
     private $indentDetector;
 
+    /**
+     * @var string
+     */
+    private $closingBracketNewlineIndentWhitespace;
+
     public function getDefinition(): FixerDefinitionInterface
     {
         return new FixerDefinition(
@@ -158,14 +163,17 @@ $values = [1 => \'hey\', 2 => \'hello\'];'
             return;
         }
 
-        $tokens->ensureWhitespaceAtIndex($arrayEndIndex, 0, $this->whitespacesFixerConfig->getLineEnding());
+        $tokens->ensureWhitespaceAtIndex($arrayEndIndex, 0, $this->closingBracketNewlineIndentWhitespace);
     }
 
     private function prepareIndentWhitespaces(Tokens $tokens, int $arrayStartIndex): void
     {
         $indentLevel = $this->indentDetector->detectOnPosition($tokens, $arrayStartIndex);
+        $indentWhitespace = $this->whitespacesFixerConfig->getIndent();
+        $lineEnding = $this->whitespacesFixerConfig->getLineEnding();
 
-        $this->indentWhitespace = str_repeat($this->whitespacesFixerConfig->getIndent(), $indentLevel + 1);
-        $this->newlineIndentWhitespace = $this->whitespacesFixerConfig->getLineEnding() . $this->indentWhitespace;
+        $this->indentWhitespace = str_repeat($indentWhitespace, $indentLevel + 1);
+        $this->closingBracketNewlineIndentWhitespace = $lineEnding . str_repeat($indentWhitespace, $indentLevel);
+        $this->newlineIndentWhitespace = $lineEnding . $this->indentWhitespace;
     }
 }
