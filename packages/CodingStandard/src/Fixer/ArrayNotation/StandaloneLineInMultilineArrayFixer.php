@@ -8,6 +8,7 @@ use PhpCsFixer\FixerDefinition\CodeSample;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Tokenizer\CT;
+use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use PhpCsFixer\WhitespacesFixerConfig;
 use SplFileInfo;
@@ -46,6 +47,11 @@ final class StandaloneLineInMultilineArrayFixer implements DefinedFixerInterface
      * @var IndentDetector
      */
     private $indentDetector;
+
+    /**
+     * @var string
+     */
+    private $closingBracketNewlineIndentWhitespace;
 
     public function getDefinition(): FixerDefinitionInterface
     {
@@ -155,17 +161,20 @@ $values = [1 => \'hey\', 2 => \'hello\'];'
     private function insertNewlineBeforeClosingIfNeeded(Tokens $tokens, int $arrayEndIndex): void
     {
         if ($tokens[$arrayEndIndex - 1]->isGivenKind(T_WHITESPACE)) {
-            return;
+            $tokens[$arrayEndIndex - 1] = new Token([T_WHITESPACE, $this->closingBracketNewlineIndentWhitespace]);
+        } else {
+            $tokens->ensureWhitespaceAtIndex($arrayEndIndex, 0, $this->closingBracketNewlineIndentWhitespace);
         }
-
-        $tokens->ensureWhitespaceAtIndex($arrayEndIndex, 0, $this->whitespacesFixerConfig->getLineEnding());
     }
 
     private function prepareIndentWhitespaces(Tokens $tokens, int $arrayStartIndex): void
     {
         $indentLevel = $this->indentDetector->detectOnPosition($tokens, $arrayStartIndex);
+        $indentWhitespace = $this->whitespacesFixerConfig->getIndent();
+        $lineEnding = $this->whitespacesFixerConfig->getLineEnding();
 
-        $this->indentWhitespace = str_repeat($this->whitespacesFixerConfig->getIndent(), $indentLevel + 1);
-        $this->newlineIndentWhitespace = $this->whitespacesFixerConfig->getLineEnding() . $this->indentWhitespace;
+        $this->indentWhitespace = str_repeat($indentWhitespace, $indentLevel + 1);
+        $this->closingBracketNewlineIndentWhitespace = $lineEnding . str_repeat($indentWhitespace, $indentLevel);
+        $this->newlineIndentWhitespace = $lineEnding . $this->indentWhitespace;
     }
 }
