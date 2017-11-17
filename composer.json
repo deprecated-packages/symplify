@@ -77,5 +77,10 @@
     "config": {
         "sort-packages": true
     },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "3.0-dev"
+        }
+    },
     "minimum-stability": "dev"
 }
