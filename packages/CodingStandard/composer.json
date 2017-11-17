@@ -29,5 +29,10 @@
             "Symplify\\CodingStandard\\Tests\\": "tests"
         }
     },
-    "minimum-stability": "dev"
+    "minimum-stability": "dev",
+    "extra": {
+        "branch-alias": {
+            "dev-master": "3.0-dev"
+        }
+    }
 }
