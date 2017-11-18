@@ -73,6 +73,8 @@ final class ClassStringToClassConstantFixer implements DefinedFixerInterface, Co
             }
 
             $potentialClassInterfaceOrTrait = $this->getNameFromToken($token);
+            $potentialClassInterfaceOrTrait = str_replace('\\\\', '\\', $potentialClassInterfaceOrTrait);
+
             if (! $this->isClassInterfaceOrTrait($potentialClassInterfaceOrTrait)) {
                 continue;
             }
