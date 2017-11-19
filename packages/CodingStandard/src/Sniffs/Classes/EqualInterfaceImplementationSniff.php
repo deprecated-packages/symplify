@@ -23,7 +23,13 @@ final class EqualInterfaceImplementationSniff implements Sniff
         'IteratorAggregate',
         'Serializable',
         'Symfony\Component\EventDispatcher\EventSubscriberInterface',
+        'JMS\Serializer\EventDispatcher\EventSubscriberInterface',
     ];
+
+    /**
+     * @var string[]
+     */
+    public $extractInterfacesToSkip = [];
 
     /**
      * @var ClassWrapper
@@ -111,7 +117,7 @@ final class EqualInterfaceImplementationSniff implements Sniff
     {
         return (bool) array_intersect(
             $this->classWrapper->getInterfaces(),
-            $this->interfacesToSkip
+            $this->interfacesToSkip + $this->extractInterfacesToSkip
         );
     }
 

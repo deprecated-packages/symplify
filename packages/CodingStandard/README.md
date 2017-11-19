@@ -476,6 +476,16 @@ final class SomeClass implements SomeInterface
 }
 ```
 
+This checker ignores **class implementing `Countable`, `IteratorAggregate`** etc. To add more interfaces to ignore, you can **configure it**:
+
+```yaml
+# easy-coding-standard.neon
+checkers:
+    Symplify\CodingStandard\Fixer\Php\EqualInterfaceImplementationSniff:
+        extractInterfacesToSkip:
+            - 'MyCommonInterface'
+```
+
 
 ### Non-abstract class that implements interface should be final
 
