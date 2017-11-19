@@ -1,14 +1,14 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Helper;
+namespace Symplify\TokenRunner\Helper;
 
 use Nette\Utils\Strings;
 use PHP_CodeSniffer\Files\File;
-use SlevomatCodingStandard\Helpers\NamespaceHelper;
-use SlevomatCodingStandard\Helpers\ReferencedNameHelper;
-use SlevomatCodingStandard\Helpers\TokenHelper;
-use SlevomatCodingStandard\Helpers\UseStatementHelper;
-use Symplify\CodingStandard\Exception\UnexpectedTokenException;
+use SlevomatTokenRunner\Helpers\NamespaceHelper;
+use SlevomatTokenRunner\Helpers\ReferencedNameHelper;
+use SlevomatTokenRunner\Helpers\TokenHelper;
+use SlevomatTokenRunner\Helpers\UseStatementHelper;
+use Symplify\TokenRunner\Exception\UnexpectedTokenException;
 
 final class Naming
 {

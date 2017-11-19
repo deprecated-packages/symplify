@@ -1,9 +1,9 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\CodingStandard\FixerTokenWrapper\Guard;
+namespace Symplify\TokenRunner\FixerTokenWrapper\Guard;
 
 use PhpCsFixer\Tokenizer\Token;
-use Symplify\CodingStandard\Exception\UnexpectedTokenException;
+use Symplify\TokenRunner\Exception\UnexpectedTokenException;
 
 final class TokenTypeGuard
 {

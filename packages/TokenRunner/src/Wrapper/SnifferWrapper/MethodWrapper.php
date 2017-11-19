@@ -1,9 +1,9 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\CodingStandard\SniffTokenWrapper;
+namespace Symplify\TokenRunner\SniffTokenWrapper;
 
 use PHP_CodeSniffer\Files\File;
-use SlevomatCodingStandard\Helpers\TokenHelper;
+use SlevomatTokenRunner\Helpers\TokenHelper;
 
 final class MethodWrapper
 {

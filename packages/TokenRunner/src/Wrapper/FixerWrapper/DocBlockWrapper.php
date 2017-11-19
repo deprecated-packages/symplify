@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\CodingStandard\FixerTokenWrapper;
+namespace Symplify\TokenRunner\FixerTokenWrapper;
 
 use Nette\Utils\Strings;
 use PhpCsFixer\DocBlock\Annotation;

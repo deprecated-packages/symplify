@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Helper\Whitespace;
+namespace Symplify\TokenRunner\Helper\Whitespace;
 
 use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Fixer;

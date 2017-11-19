@@ -1,17 +1,17 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\CodingStandard\FixerTokenWrapper;
+namespace Symplify\TokenRunner\FixerTokenWrapper;
 
 use Nette\Utils\Strings;
 use PhpCsFixer\DocBlock\Annotation;
 use PhpCsFixer\DocBlock\DocBlock;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
-use Symplify\CodingStandard\FixerTokenWrapper\Exception\MissingDocBlockException;
-use Symplify\CodingStandard\FixerTokenWrapper\Guard\TokenTypeGuard;
-use Symplify\CodingStandard\FixerTokenWrapper\Naming\ClassFqnResolver;
-use Symplify\CodingStandard\Tokenizer\DocBlockFinder;
-use Symplify\CodingStandard\Tokenizer\PropertyAnalyzer;
+use Symplify\TokenRunner\FixerTokenWrapper\Exception\MissingDocBlockException;
+use Symplify\TokenRunner\FixerTokenWrapper\Guard\TokenTypeGuard;
+use Symplify\TokenRunner\FixerTokenWrapper\Naming\ClassFqnResolver;
+use Symplify\TokenRunner\Tokenizer\DocBlockFinder;
+use Symplify\TokenRunner\Tokenizer\PropertyAnalyzer;
 
 final class PropertyWrapper
 {

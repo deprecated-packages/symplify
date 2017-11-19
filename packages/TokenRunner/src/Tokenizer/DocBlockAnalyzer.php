@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tokenizer;
+namespace Symplify\TokenRunner\Tokenizer;
 
 use Nette\Utils\Strings;
 use PhpCsFixer\DocBlock\DocBlock;

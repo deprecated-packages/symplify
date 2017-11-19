@@ -1,12 +1,12 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\CodingStandard\FixerTokenWrapper;
+namespace Symplify\TokenRunner\FixerTokenWrapper;
 
 use Nette\Utils\Strings;
 use PhpCsFixer\Tokenizer\CT;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
-use Symplify\CodingStandard\FixerTokenWrapper\Naming\ClassFqnResolver;
+use Symplify\TokenRunner\FixerTokenWrapper\Naming\ClassFqnResolver;
 
 abstract class AbstractVariableWrapper
 {

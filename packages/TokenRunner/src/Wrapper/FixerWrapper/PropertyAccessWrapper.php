@@ -1,9 +1,9 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\CodingStandard\FixerTokenWrapper;
+namespace Symplify\TokenRunner\FixerTokenWrapper;
 
 use PhpCsFixer\Tokenizer\Tokens;
-use Symplify\CodingStandard\FixerTokenWrapper\Guard\TokenTypeGuard;
+use Symplify\TokenRunner\FixerTokenWrapper\Guard\TokenTypeGuard;
 
 final class PropertyAccessWrapper extends AbstractVariableWrapper
 {

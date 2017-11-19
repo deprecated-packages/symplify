@@ -1,14 +1,14 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tokenizer;
+namespace Symplify\TokenRunner\Tokenizer;
 
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use PhpCsFixer\Tokenizer\TokensAnalyzer;
-use Symplify\CodingStandard\FixerTokenWrapper\Guard\TokenTypeGuard;
-use Symplify\CodingStandard\FixerTokenWrapper\MethodWrapper;
-use Symplify\CodingStandard\FixerTokenWrapper\PropertyAccessWrapper;
-use Symplify\CodingStandard\FixerTokenWrapper\PropertyWrapper;
+use Symplify\TokenRunner\FixerTokenWrapper\Guard\TokenTypeGuard;
+use Symplify\TokenRunner\FixerTokenWrapper\MethodWrapper;
+use Symplify\TokenRunner\FixerTokenWrapper\PropertyAccessWrapper;
+use Symplify\TokenRunner\FixerTokenWrapper\PropertyWrapper;
 
 final class ClassTokensAnalyzer
 {

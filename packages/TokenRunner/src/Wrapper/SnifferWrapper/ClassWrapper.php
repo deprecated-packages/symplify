@@ -1,13 +1,13 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\CodingStandard\SniffTokenWrapper;
+namespace Symplify\TokenRunner\SniffTokenWrapper;
 
 use PHP_CodeSniffer\Files\File;
 use PhpCsFixer\Tokenizer\TokensAnalyzer;
 use ReflectionClass;
 use ReflectionProperty;
-use SlevomatCodingStandard\Helpers\TokenHelper;
-use Symplify\CodingStandard\Helper\Naming;
+use SlevomatTokenRunner\Helpers\TokenHelper;
+use Symplify\TokenRunner\Helper\Naming;
 
 final class ClassWrapper
 {

@@ -1,11 +1,11 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tokenizer;
+namespace Symplify\TokenRunner\Tokenizer;
 
 use PhpCsFixer\Tokenizer\CT;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
-use Symplify\CodingStandard\Exception\UnexpectedTokenException;
+use Symplify\TokenRunner\Exception\UnexpectedTokenException;
 
 final class ArrayTokensAnalyzer
 {

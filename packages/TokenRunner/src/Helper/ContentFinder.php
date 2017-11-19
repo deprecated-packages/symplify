@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Helper;
+namespace Symplify\TokenRunner\Helper;
 
 use PHP_CodeSniffer\Files\File;
 
