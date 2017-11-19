@@ -12,9 +12,9 @@ use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use PhpCsFixer\WhitespacesFixerConfig;
 use SplFileInfo;
-use Symplify\CodingStandard\Tokenizer\ArrayTokensAnalyzer;
-use Symplify\CodingStandard\Tokenizer\IndentDetector;
-use Symplify\CodingStandard\Tokenizer\TokenSkipper;
+use Symplify\TokenRunner\Analyzer\FixerAnalyzer\IndentDetector;
+use Symplify\TokenRunner\Analyzer\FixerAnalyzer\TokenSkipper;
+use Symplify\TokenRunner\Wrapper\FixerWrapper\ArrayWrapper;
 
 final class StandaloneLineInMultilineArrayFixer implements DefinedFixerInterface, WhitespacesAwareFixerInterface
 {
@@ -79,7 +79,7 @@ $values = [1 => \'hey\', 2 => \'hello\'];'
                 continue;
             }
 
-            $arrayTokensAnalyzer = ArrayTokensAnalyzer::createFromTokensArrayStartPosition($tokens, $index);
+            $arrayTokensAnalyzer = ArrayWrapper::createFromTokensArrayStartPosition($tokens, $index);
             $this->isOldArray = $arrayTokensAnalyzer->isOldArray();
 
             if (! $arrayTokensAnalyzer->isAssociativeArray()) {
@@ -116,16 +116,16 @@ $values = [1 => \'hey\', 2 => \'hello\'];'
         $this->indentDetector = IndentDetector::createFromWhitespacesFixerConfig($whitespacesFixerConfig);
     }
 
-    private function fixArray(Tokens $tokens, ArrayTokensAnalyzer $arrayTokensAnalyzer): void
+    private function fixArray(Tokens $tokens, ArrayWrapper $arrayWrapper): void
     {
-        $itemCount = $arrayTokensAnalyzer->getItemCount();
+        $itemCount = $arrayWrapper->getItemCount();
         if ($itemCount <= 1) {
             return;
         }
 
-        $this->prepareIndentWhitespaces($tokens, $arrayTokensAnalyzer->getStartIndex());
+        $this->prepareIndentWhitespaces($tokens, $arrayWrapper->getStartIndex());
 
-        for ($i = $arrayTokensAnalyzer->getEndIndex() - 1; $i >= $arrayTokensAnalyzer->getStartIndex(); --$i) {
+        for ($i = $arrayWrapper->getEndIndex() - 1; $i >= $arrayWrapper->getStartIndex(); --$i) {
             $i = TokenSkipper::skipBlocksReversed($tokens, $i);
 
             $token = $tokens[$i];
@@ -144,8 +144,8 @@ $values = [1 => \'hey\', 2 => \'hello\'];'
             }
         }
 
-        $this->insertNewlineBeforeClosingIfNeeded($tokens, $arrayTokensAnalyzer->getEndIndex());
-        $this->insertNewlineAfterOpeningIfNeeded($tokens, $arrayTokensAnalyzer->getStartIndex());
+        $this->insertNewlineBeforeClosingIfNeeded($tokens, $arrayWrapper->getEndIndex());
+        $this->insertNewlineAfterOpeningIfNeeded($tokens, $arrayWrapper->getStartIndex());
     }
 
     private function insertNewlineAfterOpeningIfNeeded(Tokens $tokens, int $arrayStartIndex): void

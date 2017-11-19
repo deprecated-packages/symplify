@@ -1,10 +1,11 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\TokenRunner\Tokenizer;
+namespace Symplify\TokenRunner\Wrapper\FixerWrapper;
 
 use PhpCsFixer\Tokenizer\CT;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
+use Symplify\TokenRunner\Analyzer\FixerAnalyzer\TokenSkipper;
 use Symplify\TokenRunner\Exception\UnexpectedTokenException;
 
 final class ArrayWrapper
