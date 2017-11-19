@@ -5,6 +5,7 @@ namespace Symplify\PackageBuilder\Configuration;
 use SplFileInfo;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Finder\Finder;
+use Symplify\PackageBuilder\Exception\Configuration\LevelNotFoundException;
 
 final class LevelConfigShortcutFinder
 {
@@ -19,16 +20,22 @@ final class LevelConfigShortcutFinder
             return null;
         }
 
-        $levelConfigName = $input->getParameterOption(self::LEVEL_OPTION_NAME);
+        $levelName = $input->getParameterOption(self::LEVEL_OPTION_NAME);
 
         $finder = Finder::create()
             ->files()
-            ->name($levelConfigName . '.*')
+            ->name($levelName . '.*')
             ->in($configDirectory);
 
         $firstFile = $this->getFirstFileFromFinder($finder);
         if (! $firstFile) {
-            return null;
+            $allLevels = $this->findAllLevelsInDirectory($configDirectory);
+
+            throw new LevelNotFoundException(sprintf(
+                'Level "%s" was not found. Pick one of: "%s"',
+                $levelName,
+                implode('", "', $allLevels)
+            ));
         }
 
         return $firstFile->getRealPath();
@@ -40,5 +47,24 @@ final class LevelConfigShortcutFinder
         $iterator->rewind();
 
         return $iterator->current();
+    }
+
+    /**
+     * @return string[]
+     */
+    private function findAllLevelsInDirectory(string $configDirectory): array
+    {
+        $finder = Finder::create()
+            ->files()
+            ->in($configDirectory);
+
+        $levels = [];
+        foreach ($finder->getIterator() as $fileInfo) {
+            $levels[] = $fileInfo->getBasename('.' . $fileInfo->getExtension());
+        }
+
+        sort($levels);
+
+        return array_unique($levels);
     }
 }
