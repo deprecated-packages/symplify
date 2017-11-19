@@ -19,7 +19,7 @@ final class ImportsResolver
             $nameStartPosition = $tokens->getNextMeaningfulToken($importUseIndex);
             $name = ClassFqnResolver::resolveDataFromStart($tokens, $nameStartPosition);
 
-            $imports[] = $name->getName();
+            $imports[$name->getName()] = $name->getLastName();
         }
 
         return $imports;
