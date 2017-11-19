@@ -6,9 +6,9 @@ use Nette\Utils\Strings;
 use PhpCsFixer\DocBlock\DocBlock;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
-use Symplify\TokenRunner\FixerTokenWrapper\Naming\ClassFqnResolver;
+use Symplify\TokenRunner\Analyzer\FixerAnalyzer\DocBlockFinder;
+use Symplify\TokenRunner\Analyzer\FixerAnalyzer\Naming\ClassFqnResolver;
 use Symplify\TokenRunner\Guard\TokenTypeGuard;
-use Symplify\TokenRunner\Tokenizer\DocBlockFinder;
 
 final class MethodWrapper
 {
