@@ -104,7 +104,7 @@ public function getCount(): int
             $this->processReturnTagMultiTypes($typehintType, $docBlockType, $docBlockWrapper);
         }
 
-        if ($typehintType && Strings::endsWith($docBlockWrapper->getReturnType(), '\\' . $typehintType)) {
+        if ($typehintType && Strings::endsWith((string) $docBlockWrapper->getReturnType(), '\\' . $typehintType)) {
             $docBlockWrapper->removeReturnType();
         }
     }
