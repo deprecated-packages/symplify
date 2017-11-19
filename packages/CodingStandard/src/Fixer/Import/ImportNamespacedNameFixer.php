@@ -79,7 +79,7 @@ final class ImportNamespacedNameFixer implements FixerInterface, DefinedFixerInt
     {
         $this->duplicatedNameCount = 0;
 
-        $this->importedNames = array_flip(ImportsResolver::getFromTokens($tokens));
+        $this->importedNames = ImportsResolver::getFromTokens($tokens);
 
         for ($index = $tokens->getSize() - 1; $index > 0; --$index) {
             $token = $tokens[$index];
