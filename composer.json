@@ -35,8 +35,6 @@
     "autoload": {
         "psr-4": {
             "Symplify\\CodingStandard\\": "packages/CodingStandard/src",
-            "Symplify\\CodingStandard\\SniffTokenWrapper\\": "packages/CodingStandard/packages/SniffTokenWrapper/src",
-            "Symplify\\CodingStandard\\FixerTokenWrapper\\": "packages/CodingStandard/packages/FixerTokenWrapper/src",
             "Symplify\\EasyCodingStandard\\": "packages/EasyCodingStandard/src",
             "Symplify\\EasyCodingStandard\\SniffRunner\\": "packages/EasyCodingStandard/packages/SniffRunner/src",
             "Symplify\\EasyCodingStandard\\ChangedFilesDetector\\": "packages/EasyCodingStandard/packages/ChangedFilesDetector/src",
@@ -46,7 +44,8 @@
             "Symplify\\PackageBuilder\\": "packages/PackageBuilder/src",
             "Symplify\\Statie\\": "packages/Statie/src",
             "Symplify\\Statie\\FlatWhite\\": "packages/Statie/packages/FlatWhite/src",
-            "Symplify\\Statie\\RelatedPosts\\": "packages/Statie/packages/RelatedPosts/src"
+            "Symplify\\Statie\\RelatedPosts\\": "packages/Statie/packages/RelatedPosts/src",
+            "Symplify\\TokenRunner\\": "packages/TokenRunner/src"
         }
     },
     "autoload-dev": {
@@ -61,6 +60,7 @@
             "Symplify\\Statie\\Tests\\": "packages/Statie/tests",
             "Symplify\\Statie\\FlatWhite\\Tests\\": "packages/Statie/packages/FlatWhite/tests",
             "Symplify\\Statie\\RelatedPosts\\Tests\\": "packages/Statie/packages/RelatedPosts/tests",
+            "Symplify\\TokenRunner\\Tests\\": "packages/TokenRunner/tests",
             "Symplify\\Tests\\": "tests"
         }
     },
