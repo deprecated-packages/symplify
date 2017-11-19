@@ -4,6 +4,7 @@ namespace Symplify\CodingStandard\Sniffs\Classes;
 
 use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Sniffs\Sniff;
+use Symplify\TokenRunner\Analyzer\SnifferAnalyzer\Naming;
 use Symplify\TokenRunner\Wrapper\SnifferWrapper\ClassWrapper;
 
 final class EqualInterfaceImplementationSniff implements Sniff

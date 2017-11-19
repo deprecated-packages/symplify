@@ -21,15 +21,15 @@ final class TokenTypeGuard
             return;
         }
 
-        if (is_array($token) && in_array($token['type'], $types, true)) {
+        if (is_array($token) && in_array($token['code'], $types, true)) {
             return;
         }
 
         throw new UnexpectedTokenException(sprintf(
             '"%s" expected "%s" token. "%s" token given.',
             $location,
-            implode(',', [$types]),
-            $token instanceof Token ? $token->getName() : $token['name']
+            implode(',', $types),
+            $token instanceof Token ? $token->getName() : $token['type']
         ));
     }
 }

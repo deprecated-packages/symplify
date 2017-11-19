@@ -8,8 +8,8 @@ use ReflectionClass;
 use ReflectionProperty;
 // @todo: remove deps
 use SlevomatCodingStandard\Helpers\TokenHelper;
+use Symplify\TokenRunner\Analyzer\SnifferAnalyzer\Naming;
 use Symplify\TokenRunner\Guard\TokenTypeGuard;
-use Symplify\TokenRunner\Helper\Naming;
 
 final class ClassWrapper
 {
@@ -18,7 +18,7 @@ final class ClassWrapper
      */
     private $file;
 
-    /**
+    /**okenTypeGua
      * @var int
      */
     private $position;
