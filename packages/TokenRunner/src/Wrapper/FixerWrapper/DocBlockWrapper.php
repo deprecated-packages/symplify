@@ -44,7 +44,7 @@ final class DocBlockWrapper
         int $docBlockPosition,
         DocBlock $docBlock
     ): self {
-        TokenTypeGuard::ensureIsTokenType($tokens[$docBlockPosition], [T_DOC_COMMENT], __METHOD__);
+        TokenTypeGuard::ensureIsTokenType($tokens[$docBlockPosition], [T_COMMENT, T_DOC_COMMENT], __METHOD__);
 
         return new self($tokens, $docBlockPosition, $docBlock);
     }
