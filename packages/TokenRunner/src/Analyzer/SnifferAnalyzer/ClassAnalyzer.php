@@ -1,10 +1,13 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\TokenRunner\Helper\Whitespace;
+namespace Symplify\TokenRunner\Analyzer\SnifferAnalyzer;
 
 use PHP_CodeSniffer\Files\File;
 
-final class ClassMetrics
+
+// @todo: this is class wrapper!!! :OOOO
+
+final class ClassAnalyzer
 {
     /**
      * @var File

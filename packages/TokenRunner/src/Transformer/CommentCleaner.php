@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\TokenRunner\SniffTokenWrapper;
+namespace Symplify\TokenRunner\Transformer;
 
 final class CommentCleaner
 {

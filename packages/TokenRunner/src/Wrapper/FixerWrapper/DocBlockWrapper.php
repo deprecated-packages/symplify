@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\TokenRunner\FixerTokenWrapper;
+namespace Symplify\TokenRunner\Wrapper\FixerWrapper;
 
 use Nette\Utils\Strings;
 use PhpCsFixer\DocBlock\Annotation;
@@ -8,6 +8,7 @@ use PhpCsFixer\DocBlock\DocBlock;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use PhpCsFixer\WhitespacesFixerConfig;
+use Symplify\TokenRunner\Guard\TokenTypeGuard;
 
 final class DocBlockWrapper
 {
@@ -43,6 +44,8 @@ final class DocBlockWrapper
         int $docBlockPosition,
         DocBlock $docBlock
     ): self {
+        TokenTypeGuard::ensureIsTokenType($tokens[$docBlockPosition], [T_DOC_COMMENT], __METHOD__);
+
         return new self($tokens, $docBlockPosition, $docBlock);
     }
 

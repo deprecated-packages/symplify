@@ -1,15 +1,15 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\TokenRunner\FixerTokenWrapper;
+namespace Symplify\TokenRunner\Wrapper\FixerWrapper;
 
 use PhpCsFixer\Tokenizer\Tokens;
-use Symplify\TokenRunner\FixerTokenWrapper\Guard\TokenTypeGuard;
+use Symplify\TokenRunner\Guard\TokenTypeGuard;
 
 final class PropertyAccessWrapper extends AbstractVariableWrapper
 {
     public static function createFromTokensAndPosition(Tokens $tokens, int $position): self
     {
-        TokenTypeGuard::ensureIsTokenType($tokens[$position], [T_VARIABLE], self::class);
+        TokenTypeGuard::ensureIsTokenType($tokens[$position], [T_VARIABLE], __METHOD__);
 
         return new self($tokens, $position);
     }

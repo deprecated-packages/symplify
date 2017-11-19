@@ -1,13 +1,13 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\TokenRunner\FixerTokenWrapper;
+namespace Symplify\TokenRunner\Wrapper\FixerWrapper;
 
 use Nette\Utils\Strings;
 use PhpCsFixer\DocBlock\DocBlock;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
-use Symplify\TokenRunner\FixerTokenWrapper\Guard\TokenTypeGuard;
 use Symplify\TokenRunner\FixerTokenWrapper\Naming\ClassFqnResolver;
+use Symplify\TokenRunner\Guard\TokenTypeGuard;
 use Symplify\TokenRunner\Tokenizer\DocBlockFinder;
 
 final class MethodWrapper
@@ -24,7 +24,7 @@ final class MethodWrapper
 
     private function __construct(Tokens $tokens, int $index)
     {
-        TokenTypeGuard::ensureIsTokenType($tokens[$index], [T_FUNCTION], self::class);
+        TokenTypeGuard::ensureIsTokenType($tokens[$index], [T_FUNCTION], __METHOD__);
 
         $this->tokens = $tokens;
         $this->index = $index;

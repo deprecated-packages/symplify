@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\TokenRunner\Helper\Whitespace;
+namespace Symplify\TokenRunner\Transformer\SnifferTransformer;
 
 use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Fixer;
@@ -12,17 +12,16 @@ final class EmptyLinesResizer
      */
     private static $fixer;
 
-    public static function resizeLines(
-        File $file,
-        int $position,
-        int $currentLineCount,
-        int $desiredLineCount
-    ): void {
+    public static function resizeLines(File $file, int $position, int $currentLineCount, int $desiredLineCount): void
+    {
         self::$fixer = $file->fixer;
 
         if ($currentLineCount > $desiredLineCount) {
             self::reduceBlankLines($position, $currentLineCount, $desiredLineCount);
-        } elseif ($currentLineCount < $desiredLineCount) {
+            return;
+        }
+
+        if ($currentLineCount < $desiredLineCount) {
             self::increaseBlankLines($position, $currentLineCount, $desiredLineCount);
         }
     }

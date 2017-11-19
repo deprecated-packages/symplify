@@ -1,9 +1,10 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\TokenRunner\SniffTokenWrapper;
+namespace Symplify\TokenRunner\Wrapper\SnifferWrapper;
 
 use PHP_CodeSniffer\Files\File;
-use SlevomatTokenRunner\Helpers\TokenHelper;
+use SlevomatCodingStandard\Helpers\TokenHelper;
+use Symplify\TokenRunner\Guard\TokenTypeGuard;
 
 final class MethodWrapper
 {
@@ -31,9 +32,14 @@ final class MethodWrapper
     {
         $this->file = $file;
         $this->position = $position;
+
+        TokenTypeGuard::ensureIsTokenType($file->getTokens()[$position], [T_FUNCTION], __METHOD__);
+
         $this->tokens = $file->getTokens();
 
+        // @todo: not really needed
         $namePointer = TokenHelper::findNextEffective($file, $this->position + 1);
+
         $this->methodName = $this->tokens[$namePointer]['content'];
     }
 

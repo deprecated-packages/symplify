@@ -1,12 +1,13 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\TokenRunner\SniffTokenWrapper;
+namespace Symplify\TokenRunner\Wrapper\SnifferWrapper;
 
 use PHP_CodeSniffer\Files\File;
 use PhpCsFixer\Tokenizer\TokensAnalyzer;
 use ReflectionClass;
 use ReflectionProperty;
 use SlevomatTokenRunner\Helpers\TokenHelper;
+use Symplify\TokenRunner\Guard\TokenTypeGuard;
 use Symplify\TokenRunner\Helper\Naming;
 
 final class ClassWrapper
@@ -50,6 +51,8 @@ final class ClassWrapper
     {
         $this->file = $file;
         $this->position = $position;
+
+        TokenTypeGuard::ensureIsTokenType($file->getTokens()[$position], [T_CLASS, T_TRAIT, T_INTERFACE], __METHOD__);
 
         $this->tokens = $file->getTokens();
         $this->classToken = $this->tokens[$position];

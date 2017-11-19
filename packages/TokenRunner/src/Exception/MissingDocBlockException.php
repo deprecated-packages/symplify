@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\TokenRunner\FixerTokenWrapper\Exception;
+namespace Symplify\TokenRunner\Exception;
 
 use Exception;
 
