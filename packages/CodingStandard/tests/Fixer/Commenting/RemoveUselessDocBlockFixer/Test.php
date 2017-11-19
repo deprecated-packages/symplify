@@ -22,18 +22,11 @@ final class Test extends AbstractFixerTestCase
     public function provideFixCases(): array
     {
         return [
-            [
-                file_get_contents(__DIR__ . '/correct/correct.php.inc'),
-            ],
-            [
-                file_get_contents(__DIR__ . '/correct/correct2.php.inc'),
-            ],
-            [
-                file_get_contents(__DIR__ . '/correct/correct3.php.inc'),
-            ],
-            [
-                file_get_contents(__DIR__ . '/correct/correct4.php.inc'),
-            ],
+            [file_get_contents(__DIR__ . '/correct/correct.php.inc')],
+            [file_get_contents(__DIR__ . '/correct/correct2.php.inc')],
+            [file_get_contents(__DIR__ . '/correct/correct3.php.inc')],
+            [file_get_contents(__DIR__ . '/correct/correct4.php.inc')],
+            [file_get_contents(__DIR__ . '/correct/correct5.php.inc')],
             [
                 file_get_contents(__DIR__ . '/fixed/fixed.php.inc'),
                 file_get_contents(__DIR__ . '/wrong/wrong.php.inc'),
@@ -65,6 +58,10 @@ final class Test extends AbstractFixerTestCase
             [
                 file_get_contents(__DIR__ . '/fixed/fixed8.php.inc'),
                 file_get_contents(__DIR__ . '/wrong/wrong8.php.inc'),
+            ],
+            [
+                file_get_contents(__DIR__ . '/fixed/fixed9.php.inc'),
+                file_get_contents(__DIR__ . '/wrong/wrong9.php.inc'),
             ],
         ];
     }

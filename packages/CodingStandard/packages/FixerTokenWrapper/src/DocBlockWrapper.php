@@ -92,7 +92,8 @@ final class DocBlockWrapper
         foreach ($paramAnnotations as $paramAnnotation) {
             if (Strings::contains($paramAnnotation->getContent(), '$' . $name)) {
                 $types = $this->resolveAnnotationContent($paramAnnotation, 'param');
-                $typeParts = explode(' $' . $name, $types);
+                $typeParts = explode('$' . $name, $types);
+
                 if (count($typeParts) < 2) {
                     return null;
                 }
@@ -179,6 +180,7 @@ final class DocBlockWrapper
     private function resolveAnnotationContent(Annotation $annotation, string $name): string
     {
         $content = $annotation->getContent();
+
         [, $content] = explode('@' . $name, $content);
 
         $content = ltrim($content, ' *');
