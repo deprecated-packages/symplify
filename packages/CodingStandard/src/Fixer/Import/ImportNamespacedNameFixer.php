@@ -99,15 +99,15 @@ final class ImportNamespacedNameFixer implements FixerInterface, DefinedFixerInt
             // replace with last name part
             $tokens->overrideRange($name->getStart(), $name->getEnd(), [$name->getLastNameToken()]);
 
+            // has this been already imported?
+            if ($this->wasNameImported($name)) {
+                continue;
+            }
+
             if (NameAnalyzer::isPartialName($tokens, $name)) {
                 // add use statement
                 $this->addIntoUseStatements($tokens, $name);
 
-                return;
-            }
-
-            // has this been already imported?
-            if ($this->wasNameImported($name)) {
                 continue;
             }
 
