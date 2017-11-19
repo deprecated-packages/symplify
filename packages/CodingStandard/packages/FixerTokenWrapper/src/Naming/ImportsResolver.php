@@ -17,8 +17,13 @@ final class ImportsResolver
         $importUseIndexes = (new TokensAnalyzer($tokens))->getImportUseIndexes();
         foreach ($importUseIndexes as $importUseIndex) {
             $nameStartPosition = $tokens->getNextMeaningfulToken($importUseIndex);
-            $name = ClassFqnResolver::resolveDataFromStart($tokens, $nameStartPosition);
+            $nextToken = $tokens[$nameStartPosition];
 
+            if ($nextToken->getContent() === 'function') {
+                continue;
+            }
+
+            $name = ClassFqnResolver::resolveDataFromStart($tokens, $nameStartPosition);
             $imports[$name->getName()] = $name->getLastName();
         }
 

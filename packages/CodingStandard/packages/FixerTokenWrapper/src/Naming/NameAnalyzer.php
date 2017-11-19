@@ -17,6 +17,11 @@ final class NameAnalyzer
             return false;
         }
 
+        $previousToken = $tokens[$index - 2];
+        if ($previousToken->getContent() === 'function') {
+            return false;
+        }
+
         // already part of another namespaced name
         if ($tokens[$index + 1]->isGivenKind(T_NS_SEPARATOR)) {
             return false;
@@ -36,8 +41,14 @@ final class NameAnalyzer
                 return false;
             }
 
+            if ($tokens[$currentIndex - 2]->getContent() === 'function') {
+                return false;
+            }
+
             --$currentIndex;
         }
+
+        // is use funtion statement
 
         return true;
     }
