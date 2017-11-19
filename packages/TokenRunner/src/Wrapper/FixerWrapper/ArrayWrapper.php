@@ -7,7 +7,7 @@ use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use Symplify\TokenRunner\Exception\UnexpectedTokenException;
 
-final class ArrayTokensAnalyzer
+final class ArrayWrapper
 {
     /**
      * @var Tokens
@@ -40,6 +40,8 @@ final class ArrayTokensAnalyzer
 
     public static function createFromTokensArrayStartPosition(Tokens $tokens, int $startIndex): self
     {
+        // validate type!
+
         return new self($tokens, $startIndex);
     }
 

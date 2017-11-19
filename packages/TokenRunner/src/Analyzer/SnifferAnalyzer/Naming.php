@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\TokenRunner\Helper;
+namespace Symplify\TokenRunner\Analyzer\SnifferAnalyzer;
 
 use Nette\Utils\Strings;
 use PHP_CodeSniffer\Files\File;

@@ -5,12 +5,12 @@ namespace Symplify\TokenRunner\Tokenizer;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use PhpCsFixer\Tokenizer\TokensAnalyzer;
-use Symplify\TokenRunner\FixerTokenWrapper\Guard\TokenTypeGuard;
 use Symplify\TokenRunner\FixerTokenWrapper\MethodWrapper;
 use Symplify\TokenRunner\FixerTokenWrapper\PropertyAccessWrapper;
 use Symplify\TokenRunner\FixerTokenWrapper\PropertyWrapper;
+use Symplify\TokenRunner\Guard\TokenTypeGuard;
 
-final class ClassTokensAnalyzer
+final class ClassWrapper
 {
     /**
      * @var int
@@ -39,7 +39,6 @@ final class ClassTokensAnalyzer
 
     private function __construct(Tokens $tokens, int $startIndex)
     {
-        TokenTypeGuard::ensureIsTokenType($tokens[$startIndex], [T_CLASS, T_INTERFACE, T_TRAIT], self::class);
 
         $this->classToken = $tokens[$startIndex];
         $this->startBracketIndex = $tokens->getNextTokenOfKind($startIndex, ['{']);
@@ -51,6 +50,8 @@ final class ClassTokensAnalyzer
 
     public static function createFromTokensArrayStartPosition(Tokens $tokens, int $startIndex): self
     {
+        TokenTypeGuard::ensureIsTokenType($tokens[$startIndex], [T_CLASS, T_INTERFACE, T_TRAIT], self::class);
+
         return new self($tokens, $startIndex);
     }
 

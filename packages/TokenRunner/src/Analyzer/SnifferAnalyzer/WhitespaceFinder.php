@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\TokenRunner\Helper\Whitespace;
+namespace Symplify\TokenRunner\Analyzer\SnifferAnalyzer;
 
 use PHP_CodeSniffer\Files\File;
 
@@ -12,6 +12,7 @@ final class WhitespaceFinder
 
         $currentLine = $tokens[$position]['line'];
         $nextLinePosition = $position;
+
         do {
             ++$nextLinePosition;
             $nextLine = $tokens[$nextLinePosition]['line'];
