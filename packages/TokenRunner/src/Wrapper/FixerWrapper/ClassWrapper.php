@@ -1,13 +1,10 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\TokenRunner\Tokenizer;
+namespace Symplify\TokenRunner\Wrapper\FixerWrapper;
 
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use PhpCsFixer\Tokenizer\TokensAnalyzer;
-use Symplify\TokenRunner\FixerTokenWrapper\MethodWrapper;
-use Symplify\TokenRunner\FixerTokenWrapper\PropertyAccessWrapper;
-use Symplify\TokenRunner\FixerTokenWrapper\PropertyWrapper;
 use Symplify\TokenRunner\Guard\TokenTypeGuard;
 
 final class ClassWrapper

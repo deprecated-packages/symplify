@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\TokenRunner\Tokenizer;
+namespace Symplify\TokenRunner\Analyzer\FixerAnalyzer;
 
 use Nette\Utils\Strings;
 use PhpCsFixer\DocBlock\DocBlock;
@@ -8,6 +8,8 @@ use PhpCsFixer\Tokenizer\Token;
 
 final class DocBlockAnalyzer
 {
+    // @todo: turn into wrapper
+
     public static function isArrayProperty(Token $token): bool
     {
         $docBlock = new DocBlock($token->getContent());

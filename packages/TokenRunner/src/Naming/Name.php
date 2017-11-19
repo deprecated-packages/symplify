@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\TokenRunner\FixerTokenWrapper\Naming;
+namespace Symplify\TokenRunner\Naming;
 
 use PhpCsFixer\Tokenizer\Token;
 

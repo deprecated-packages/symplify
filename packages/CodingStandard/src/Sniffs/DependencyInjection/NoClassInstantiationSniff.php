@@ -13,7 +13,8 @@ use SlevomatCodingStandard\Helpers\TokenHelper;
 use SplFileInfo;
 use SplObjectStorage;
 use stdClass;
-use Symplify\CodingStandard\Helper\Naming;
+use Symplify\TokenRunner\Analyzer\FixerAnalyzer;
+use Symplify\TokenRunner\Analyzer\SnifferAnalyzer\Naming;
 
 final class NoClassInstantiationSniff implements Sniff
 {

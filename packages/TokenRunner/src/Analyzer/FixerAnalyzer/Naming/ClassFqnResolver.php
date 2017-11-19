@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\TokenRunner\FixerTokenWrapper\Naming;
+namespace Symplify\TokenRunner\Analyzer\FixerAnalyzer\Naming;
 
 use PhpCsFixer\Fixer\Import\NoUnusedImportsFixer;
 use PhpCsFixer\Tokenizer\Token;
@@ -8,9 +8,6 @@ use PhpCsFixer\Tokenizer\Tokens;
 use PhpCsFixer\Tokenizer\TokensAnalyzer;
 use ReflectionMethod;
 
-/**
- * Mimics @see \Symplify\TokenRunner\Helper\Naming.
- */
 final class ClassFqnResolver
 {
     /**
