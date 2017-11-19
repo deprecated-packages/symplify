@@ -650,12 +650,6 @@ abstract class AbstractSomeClass
 
 ### Exception should have suffix "Exception"
 
-For *PHP_CodeSniffer*:
-
-- class: [`Symplify\CodingStandard\Sniffs\Naming\ExceptionNameSniff`](/src/Sniffs/Naming/ExceptionNameSniff.php)
-
-or *PHP-CS-Fixer*:
-
 - class: [`Symplify\CodingStandard\Fixer\Naming\ExceptionNameSniff`](/src/Fixer/Naming/ExceptionNameFixer.php)
 
 :x:
