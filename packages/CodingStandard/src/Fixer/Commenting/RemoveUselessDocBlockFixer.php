@@ -103,16 +103,19 @@ public function getCount(): int
         if (Strings::contains($typehintType, '|') && Strings::contains($docBlockType, '|')) {
             $this->processReturnTagMultiTypes($typehintType, $docBlockType, $docBlockWrapper);
         }
+
+        if ($typehintType && Strings::endsWith((string) $docBlockWrapper->getReturnType(), '\\' . $typehintType)) {
+            $docBlockWrapper->removeReturnType();
+        }
     }
 
     private function processParamTag(MethodWrapper $methodWrapper, DocBlockWrapper $docBlockWrapper): void
     {
         foreach ($methodWrapper->getArguments() as $argumentWrapper) {
             $argumentType = $docBlockWrapper->getArgumentType($argumentWrapper->getName());
-
             $argumentDescription = $docBlockWrapper->getArgumentTypeDescription($argumentWrapper->getName());
 
-            if ($argumentType === null && $argumentDescription === null) {
+            if ($argumentType === $argumentDescription) {
                 $docBlockWrapper->removeParamType($argumentWrapper->getName());
 
                 continue;
@@ -123,6 +126,11 @@ public function getCount(): int
                     continue;
                 }
 
+                $docBlockWrapper->removeParamType($argumentWrapper->getName());
+                continue;
+            }
+
+            if ($argumentType && Strings::endsWith($argumentType, '\\' . $argumentWrapper->getType())) {
                 $docBlockWrapper->removeParamType($argumentWrapper->getName());
             }
         }
