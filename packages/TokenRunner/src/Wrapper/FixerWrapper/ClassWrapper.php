@@ -36,7 +36,6 @@ final class ClassWrapper
 
     private function __construct(Tokens $tokens, int $startIndex)
     {
-
         $this->classToken = $tokens[$startIndex];
         $this->startBracketIndex = $tokens->getNextTokenOfKind($startIndex, ['{']);
         $this->endBracketIndex = $tokens->findBlockEnd(Tokens::BLOCK_TYPE_CURLY_BRACE, $this->startBracketIndex);

@@ -5,14 +5,10 @@ namespace Symplify\TokenRunner\Guard;
 use PhpCsFixer\Tokenizer\Token;
 use Symplify\TokenRunner\Exception\UnexpectedTokenException;
 
-/**
- * @todo make univesal for both!!!
- */
 final class TokenTypeGuard
 {
     /**
-     *
-     * @parma Token|mixed[] $token
+     * @param Token|mixed[] $token
      * @param int[] $types
      */
     public static function ensureIsTokenType($token, array $types, string $location): void
@@ -25,10 +21,15 @@ final class TokenTypeGuard
             return;
         }
 
+        $tokenNames = [];
+        foreach ($types as $type) {
+            $tokenNames[] = token_name($type);
+        }
+
         throw new UnexpectedTokenException(sprintf(
             '"%s" expected "%s" token. "%s" token given.',
             $location,
-            implode(',', $types),
+            implode(',', $tokenNames),
             $token instanceof Token ? $token->getName() : $token['type']
         ));
     }
