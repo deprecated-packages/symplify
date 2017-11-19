@@ -181,6 +181,10 @@ final class DocBlockWrapper
     {
         $content = $annotation->getContent();
 
+        if ($content === '') {
+            return $content;
+        }
+
         [, $content] = explode('@' . $name, $content);
 
         $content = ltrim($content, ' *');

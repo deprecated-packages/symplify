@@ -115,7 +115,7 @@ public function getCount(): int
             $argumentType = $docBlockWrapper->getArgumentType($argumentWrapper->getName());
             $argumentDescription = $docBlockWrapper->getArgumentTypeDescription($argumentWrapper->getName());
 
-            if ($argumentType === null && $argumentDescription === null) {
+            if ($argumentType === $argumentDescription) {
                 $docBlockWrapper->removeParamType($argumentWrapper->getName());
 
                 continue;
