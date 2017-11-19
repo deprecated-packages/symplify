@@ -6,7 +6,7 @@ use Nette\Utils\Strings;
 use PhpCsFixer\Tokenizer\CT;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
-use Symplify\TokenRunner\FixerTokenWrapper\Naming\ClassFqnResolver;
+use Symplify\TokenRunner\Analyzer\FixerAnalyzer\Naming\ClassFqnResolver;
 
 abstract class AbstractVariableWrapper
 {

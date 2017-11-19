@@ -14,10 +14,10 @@ use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
-use Symplify\CodingStandard\FixerTokenWrapper\Naming\ClassFqnResolver;
-use Symplify\CodingStandard\FixerTokenWrapper\Naming\ImportsResolver;
-use Symplify\CodingStandard\FixerTokenWrapper\Naming\Name;
-use Symplify\CodingStandard\FixerTokenWrapper\Naming\NameAnalyzer;
+use Symplify\TokenRunner\Analyzer\FixerAnalyzer\Naming\ClassFqnResolver;
+use Symplify\TokenRunner\Analyzer\FixerAnalyzer\Naming\ImportsResolver;
+use Symplify\TokenRunner\Analyzer\FixerAnalyzer\Naming\NameAnalyzer;
+use Symplify\TokenRunner\Naming\Name;
 
 /**
  * Possible cases.

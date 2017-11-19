@@ -7,6 +7,7 @@ use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use PhpCsFixer\Tokenizer\TokensAnalyzer;
 use ReflectionMethod;
+use Symplify\TokenRunner\Naming\Name;
 
 final class ClassFqnResolver
 {
