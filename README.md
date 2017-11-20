@@ -34,7 +34,14 @@ The best and easiest way to start coding standard with. Combined both CodeSniffe
 [![Subscribe](https://img.shields.io/badge/subscribe-to--releases-green.svg?style=flat-square)](https://libraries.io/packagist/symplify%2Ftoken-runner)
 
 
-@todo
+Building own Sniffs and Fixers made easy. It helps you with:
+
+- space counts
+- testing
+- (fully qualified) names
+- property and argument types and more 
+
+
 
 ## [Statie](https://github.com/Symplify/Statie)
 
