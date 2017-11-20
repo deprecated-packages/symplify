@@ -3,12 +3,11 @@
 namespace Symplify\TokenRunner\Analyzer\FixerAnalyzer\Naming;
 
 use Nette\Utils\Strings;
-use PhpCsFixer\Fixer\Import\NoUnusedImportsFixer;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use PhpCsFixer\Tokenizer\TokensAnalyzer;
-use ReflectionMethod;
 use Symplify\TokenRunner\Naming\Name;
+use Symplify\TokenRunner\Naming\UseImportsFactory;
 
 final class NameAnalyzer
 {
@@ -70,7 +69,7 @@ final class NameAnalyzer
             return false;
         }
 
-        $namespaceUseDeclarations = self::getNamespaceUseDeclarations($tokens, $importUseIndexes);
+        $namespaceUseDeclarations = (new UseImportsFactory())->createForTokens($tokens);
 
         foreach ($namespaceUseDeclarations as $useDeclaration) {
             if (Strings::startsWith($name->getName(), $useDeclaration['shortName'])) {
@@ -81,21 +80,5 @@ final class NameAnalyzer
         }
 
         return false;
-    }
-
-    /**
-     * Reflection over code copying that would force many updates.
-     *
-     * @todo consider objectify for better API
-     *
-     * @param int[] $importUseIndexes
-     * @return mixed[][]
-     */
-    private static function getNamespaceUseDeclarations(Tokens $tokens, array $importUseIndexes): array
-    {
-        $reflectionMethod = new ReflectionMethod(NoUnusedImportsFixer::class, 'getNamespaceUseDeclarations');
-        $reflectionMethod->setAccessible(true);
-
-        return $reflectionMethod->invoke(new NoUnusedImportsFixer(), $tokens, $importUseIndexes);
     }
 }
