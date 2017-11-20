@@ -34,7 +34,7 @@ final class ConfiguredTest extends AbstractFixerTestCase
         $fixer = new FinalInterfaceFixer();
 
         $fixer->configure([
-            'only_interfaces' => ['SomeInterface']
+            'only_interfaces' => ['SomeInterface'],
         ]);
 
         return $fixer;

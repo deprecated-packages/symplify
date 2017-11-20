@@ -92,11 +92,33 @@ class SomeClass implements SomeInterface {};'),
         return true;
     }
 
+    /**
+     * @param mixed[]|null $configuration
+     */
+    public function configure(?array $configuration = null): void
+    {
+        if ($configuration === null) {
+            return;
+        }
+
+        $this->configuration = $this->getConfigurationDefinition()
+            ->resolve($configuration);
+    }
+
+    public function getConfigurationDefinition(): FixerConfigurationResolverInterface
+    {
+        $option = (new FixerOptionBuilder(self::ONLY_INTERFACES_OPTION, 'List of interfaces to check.'))
+            ->setDefault([])
+            ->getOption();
+
+        return new FixerConfigurationResolver([$option]);
+    }
+
     private function fixClass(Tokens $tokens, int $position): void
     {
         $tokens->insertAt($position, [
             new Token([T_FINAL, 'final']),
-            new Token([T_WHITESPACE, ' '])
+            new Token([T_WHITESPACE, ' ']),
         ]);
     }
 
@@ -121,27 +143,5 @@ class SomeClass implements SomeInterface {};'),
         }
 
         return false;
-    }
-
-    /**
-     * @param mixed[]|null $configuration
-     */
-    public function configure(?array $configuration = null): void
-    {
-        if ($configuration === null) {
-            return;
-        }
-
-        $this->configuration = $this->getConfigurationDefinition()
-            ->resolve($configuration);
-    }
-
-    public function getConfigurationDefinition(): FixerConfigurationResolverInterface
-    {
-        $option = (new FixerOptionBuilder(self::ONLY_INTERFACES_OPTION, 'List of interfaces to check.'))
-            ->setDefault([])
-            ->getOption();
-
-        return new FixerConfigurationResolver([$option]);
     }
 }

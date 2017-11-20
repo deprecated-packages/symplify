@@ -2,7 +2,6 @@
 
 namespace Symplify\TokenRunner\Naming\Name;
 
-use PHP_CodeSniffer\Files\File;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use Symplify\TokenRunner\Naming\UseImport\UseImportsFactory;
@@ -119,6 +118,9 @@ final class NameFactory
         return $className;
     }
 
+    /**
+     * @return string[]
+     */
     private static function collectNameTokens(Tokens $tokens, int $position): array
     {
         $nameTokens = [];
@@ -133,10 +135,6 @@ final class NameFactory
 
     private static function shouldPrependNamespace(Tokens $tokens, int $position): bool
     {
-//        if ($tokens[$position - 1]->isGivenKind(T_WHITESPACE)) {
-//            return true;
-//        }
-
         if ($tokens[$position - 1]->isGivenKind(T_NS_SEPARATOR)) {
             return false;
         }

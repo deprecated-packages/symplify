@@ -2,14 +2,11 @@
 
 namespace Symplify\TokenRunner\Wrapper\FixerWrapper;
 
-use Nette\Utils\Strings;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use PhpCsFixer\Tokenizer\TokensAnalyzer;
-use PhpParser\NodeVisitor\NameResolver;
 use Symplify\TokenRunner\Analyzer\FixerAnalyzer\DocBlockFinder;
 use Symplify\TokenRunner\Guard\TokenTypeGuard;
-use Symplify\TokenRunner\Naming\Name\Name;
 use Symplify\TokenRunner\Naming\Name\NameFactory;
 
 final class ClassWrapper
@@ -172,43 +169,6 @@ final class ClassWrapper
         return $this->classToken->isGivenKind($tokenKinds);
     }
 
-    /**
-     * @param mixed[] $classyElements
-     * @param string[] $types
-     * @return mixed[]
-     */
-    private function filterClassyTokens(array $classyElements, array $types): array
-    {
-        $filteredClassyTokens = [];
-
-        foreach ($classyElements as $index => $classyToken) {
-            if (! $this->isInClassRange($index)) {
-                continue;
-            }
-
-            if (! in_array($classyToken['type'], $types, true)) {
-                continue;
-            }
-
-            $filteredClassyTokens[$index] = $classyToken;
-        }
-
-        return $filteredClassyTokens;
-    }
-
-    private function isInClassRange(int $index): bool
-    {
-        if ($index < $this->startBracketIndex) {
-            return false;
-        }
-
-        if ($index > $this->endBracketIndex) {
-            return false;
-        }
-
-        return true;
-    }
-
     public function implementsInterface(): bool
     {
         return (bool) $this->getInterfaceNames();
@@ -251,7 +211,11 @@ final class ClassWrapper
 
         $implementPosition = key($implementTokens);
 
-        $interfacePartialNameTokens = $this->tokens->findGivenKind(T_STRING, $implementPosition, $this->startBracketIndex);
+        $interfacePartialNameTokens = $this->tokens->findGivenKind(
+            T_STRING,
+            $implementPosition,
+            $this->startBracketIndex
+        );
 
         $interfaceNames = [];
         foreach ($interfacePartialNameTokens as $position => $interfacePartialNameToken) {
@@ -259,5 +223,42 @@ final class ClassWrapper
         }
 
         return $interfaceNames;
+    }
+
+    /**
+     * @param mixed[] $classyElements
+     * @param string[] $types
+     * @return mixed[]
+     */
+    private function filterClassyTokens(array $classyElements, array $types): array
+    {
+        $filteredClassyTokens = [];
+
+        foreach ($classyElements as $index => $classyToken) {
+            if (! $this->isInClassRange($index)) {
+                continue;
+            }
+
+            if (! in_array($classyToken['type'], $types, true)) {
+                continue;
+            }
+
+            $filteredClassyTokens[$index] = $classyToken;
+        }
+
+        return $filteredClassyTokens;
+    }
+
+    private function isInClassRange(int $index): bool
+    {
+        if ($index < $this->startBracketIndex) {
+            return false;
+        }
+
+        if ($index > $this->endBracketIndex) {
+            return false;
+        }
+
+        return true;
     }
 }
