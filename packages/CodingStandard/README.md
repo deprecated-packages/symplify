@@ -436,57 +436,6 @@ namespace SomeNamespace;
 ```
 
 
-### Implementation of interface should only contain its methods
-
-- class: [`Symplify\CodingStandard\Sniffs\Classes\EqualInterfaceImplementationSniff`](/src/Sniffs/Classes/EqualInterfaceImplementationSniff.php)
-
-:x:
-
-```php
-interface SomeInterface
-{
-    public function run(): void;
-}
-
-final class SomeClass implements SomeInterface
-{
-    public function run(): void
-    {
-    }
-    
-    public function extra(): void
-    {
-    }
-}
-```
-
-:+1:
-
-```php
-interface SomeInterface
-{
-    public function run(): void;
-}
-
-final class SomeClass implements SomeInterface
-{
-    public function run(): void
-    {
-    }
-}
-```
-
-This checker ignores **class implementing `Countable`, `IteratorAggregate`** etc. To add more interfaces to ignore, you can **configure it**:
-
-```yaml
-# easy-coding-standard.neon
-checkers:
-    Symplify\CodingStandard\Fixer\Php\EqualInterfaceImplementationSniff:
-        extractInterfacesToSkip:
-            - 'MyCommonInterface'
-```
-
-
 ### Non-abstract class that implements interface should be final
 
 - class: [`Symplify\CodingStandard\Sniffs\Classes\FinalInterfaceSniff`](/src/Sniffs/Classes/FinalInterfaceSniff.php)

@@ -50,8 +50,3 @@ parameters:
             # class might not exist
             - *packages/EasyCodingStandard/packages/Configuration/**/MutualCheckerExcluder**.php
             - *packages/EasyCodingStandard/packages/Configuration/**/ConflictingCheckerGuard**.php
-            - packages/CodingStandard/src/Sniffs/Classes/EqualInterfaceImplementationSniff.php
-
-        Symplify\CodingStandard\Sniffs\Classes\EqualInterfaceImplementationSniff:
-            - packages/EasyCodingStandard/packages/SniffRunner/src/Application/SniffFileProcessor.php
-            - packages/EasyCodingStandard/packages/FixerRunner/src/Application/FixerFileProcessor.php
