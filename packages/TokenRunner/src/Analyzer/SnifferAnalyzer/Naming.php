@@ -9,6 +9,7 @@ use SlevomatCodingStandard\Helpers\ReferencedNameHelper;
 use SlevomatCodingStandard\Helpers\TokenHelper;
 use SlevomatCodingStandard\Helpers\UseStatementHelper;
 use Symplify\TokenRunner\Exception\UnexpectedTokenException;
+use Symplify\TokenRunner\Guard\TokenTypeGuard;
 
 final class Naming
 {
@@ -24,7 +25,7 @@ final class Naming
 
     public static function isControllerClass(File $file, int $position): bool
     {
-        self::ensureIsClassToken($file, $position);
+        TokenTypeGuard::ensureIsTokenType($file->getTokens()[$position], [T_CLASS], __METHOD__);
 
         $className = $file->getDeclarationName($position);
         if (! $className) {
@@ -67,6 +68,7 @@ final class Naming
     private static function getFqnClassName(File $file, string $className, int $classTokenPosition): string
     {
         $openTagPointer = (int) TokenHelper::findPrevious($file, T_OPEN_TAG, $classTokenPosition);
+
         $useStatements = UseStatementHelper::getUseStatements($file, $openTagPointer);
 
         $referencedNames = ReferencedNameHelper::getAllReferencedNames($file, $openTagPointer);
@@ -85,19 +87,5 @@ final class Naming
         }
 
         return '';
-    }
-
-    private static function ensureIsClassToken(File $file, int $position): void
-    {
-        $token = $file->getTokens()[$position];
-        if ($token['code'] === T_CLASS) {
-            return;
-        }
-
-        throw new UnexpectedTokenException(sprintf(
-            'This requires "%s" token. "%s" given.',
-            'T_CLASS',
-            $token['type']
-        ));
     }
 }
