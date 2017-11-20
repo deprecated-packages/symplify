@@ -9,32 +9,10 @@ use Symplify\TokenRunner\Naming\UseImport\UseImportsFactory;
 
 final class FullyQualifiedNameResolver
 {
-    /**
-     * @var string
-     */
-    private const NAMESPACE_SEPARATOR = '\\';
-
-    /**
-     * @var string[][]
-     */
-    private static $namespaceUseDeclarationsPerTokens = [];
-
     public static function resolveForNamePosition(Tokens $tokens, int $classNameEndPosition): string
     {
-        $classNameParts = [];
-        $classNameParts[] = $tokens[$classNameEndPosition]->getContent();
-
-        $previousTokenPointer = $classNameEndPosition - 1;
-
-        while ($tokens[$previousTokenPointer]->isGivenKind([T_NS_SEPARATOR])) {
-            --$previousTokenPointer;
-            $classNameParts[] = $tokens[$previousTokenPointer]->getContent();
-            --$previousTokenPointer;
-        }
-
-        $completeClassName = implode(self::NAMESPACE_SEPARATOR, $classNameParts);
-
-        return self::resolveForName($tokens, $completeClassName);
+        $name = self::resolveDataFromEnd($tokens, $classNameEndPosition);
+        return self::resolveForName($tokens, $name->getName());
     }
 
     public static function resolveDataFromEnd(Tokens $tokens, int $end): Name
