@@ -8,7 +8,7 @@ use PhpCsFixer\DocBlock\DocBlock;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use Symplify\TokenRunner\Analyzer\FixerAnalyzer\DocBlockFinder;
-use Symplify\TokenRunner\Analyzer\FixerAnalyzer\Naming\ClassFqnResolver;
+use Symplify\TokenRunner\Naming\FullyQualifiedNameResolver;
 use Symplify\TokenRunner\Analyzer\FixerAnalyzer\PropertyAnalyzer;
 use Symplify\TokenRunner\Exception\MissingDocBlockException;
 use Symplify\TokenRunner\Guard\TokenTypeGuard;
@@ -84,7 +84,7 @@ final class PropertyWrapper
             return null;
         }
 
-        return ClassFqnResolver::resolveForName($this->tokens, $this->getType());
+        return FullyQualifiedNameResolver::resolveForName($this->tokens, $this->getType());
     }
 
     public function getType(): ?string

@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\TokenRunner\Naming;
+namespace Symplify\TokenRunner\Naming\UseImport;
 
 use Nette\Utils\Strings;
 

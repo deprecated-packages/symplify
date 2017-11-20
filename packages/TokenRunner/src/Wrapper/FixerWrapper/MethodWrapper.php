@@ -7,7 +7,7 @@ use PhpCsFixer\DocBlock\DocBlock;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use Symplify\TokenRunner\Analyzer\FixerAnalyzer\DocBlockFinder;
-use Symplify\TokenRunner\Analyzer\FixerAnalyzer\Naming\ClassFqnResolver;
+use Symplify\TokenRunner\Naming\FullyQualifiedNameResolver;
 use Symplify\TokenRunner\Guard\TokenTypeGuard;
 
 final class MethodWrapper
@@ -137,7 +137,7 @@ final class MethodWrapper
                     return $nextToken->getContent();
                 }
 
-                $name = ClassFqnResolver::resolveDataFromStart($this->tokens, $nextTokenPosition);
+                $name = FullyQualifiedNameResolver::resolveDataFromStart($this->tokens, $nextTokenPosition);
 
                 return $name->getName();
             }

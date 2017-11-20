@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\TokenRunner\Naming;
+namespace Symplify\TokenRunner\Naming\Name;
 
 // get fqn name for position
 // universal!!!

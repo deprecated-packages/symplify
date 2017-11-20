@@ -1,12 +1,11 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\TokenRunner\Analyzer\FixerAnalyzer\Naming;
+namespace Symplify\TokenRunner\Naming\Name;
 
 use Nette\Utils\Strings;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
-use Symplify\TokenRunner\Naming\Name;
-use Symplify\TokenRunner\Naming\UseImportsFactory;
+use Symplify\TokenRunner\Naming\UseImport\UseImportsFactory;
 
 final class NameAnalyzer
 {
@@ -47,7 +46,7 @@ final class NameAnalyzer
             --$currentIndex;
         }
 
-        // is use funtion statement
+        // is "use function" statement
 
         return true;
     }

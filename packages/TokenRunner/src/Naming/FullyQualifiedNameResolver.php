@@ -1,13 +1,13 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\TokenRunner\Analyzer\FixerAnalyzer\Naming;
+namespace Symplify\TokenRunner\Naming;
 
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
-use Symplify\TokenRunner\Naming\Name;
-use Symplify\TokenRunner\Naming\UseImportsFactory;
+use Symplify\TokenRunner\Naming\Name\Name;
+use Symplify\TokenRunner\Naming\UseImport\UseImportsFactory;
 
-final class ClassFqnResolver
+final class FullyQualifiedNameResolver
 {
     /**
      * @var string

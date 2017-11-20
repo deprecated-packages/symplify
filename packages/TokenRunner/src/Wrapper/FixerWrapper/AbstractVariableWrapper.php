@@ -6,7 +6,7 @@ use Nette\Utils\Strings;
 use PhpCsFixer\Tokenizer\CT;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
-use Symplify\TokenRunner\Analyzer\FixerAnalyzer\Naming\ClassFqnResolver;
+use Symplify\TokenRunner\Naming\FullyQualifiedNameResolver;
 
 abstract class AbstractVariableWrapper
 {
@@ -73,7 +73,7 @@ abstract class AbstractVariableWrapper
     {
         $previousTokenPosition = $this->tokens->getPrevMeaningfulToken($this->index);
 
-        return ClassFqnResolver::resolveForNamePosition($this->tokens, $previousTokenPosition);
+        return FullyQualifiedNameResolver::resolveForNamePosition($this->tokens, $previousTokenPosition);
     }
 
     protected function changeNameWithTokenType(string $newName, int $tokenType): void

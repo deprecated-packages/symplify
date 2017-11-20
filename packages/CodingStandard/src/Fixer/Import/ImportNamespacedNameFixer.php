@@ -14,11 +14,11 @@ use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
-use Symplify\TokenRunner\Analyzer\FixerAnalyzer\Naming\ClassFqnResolver;
-use Symplify\TokenRunner\Analyzer\FixerAnalyzer\Naming\NameAnalyzer;
-use Symplify\TokenRunner\Naming\Name;
-use Symplify\TokenRunner\Naming\UseImport;
-use Symplify\TokenRunner\Naming\UseImportsFactory;
+use Symplify\TokenRunner\Naming\FullyQualifiedNameResolver;
+use Symplify\TokenRunner\Naming\Name\Name;
+use Symplify\TokenRunner\Naming\Name\NameAnalyzer;
+use Symplify\TokenRunner\Naming\UseImport\UseImport;
+use Symplify\TokenRunner\Naming\UseImport\UseImportsFactory;
 
 /**
  * Possible cases.
@@ -83,7 +83,7 @@ final class ImportNamespacedNameFixer implements FixerInterface, DefinedFixerInt
                 continue;
             }
 
-            $name = ClassFqnResolver::resolveDataFromEnd($tokens, $index);
+            $name = FullyQualifiedNameResolver::resolveDataFromEnd($tokens, $index);
             if ($this->configuration[self::ALLOW_SINGLE_NAMES_OPTION] && $name->isSingleName()) {
                 continue;
             }
