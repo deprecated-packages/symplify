@@ -6,8 +6,11 @@ use Nette\Utils\Strings;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use PhpCsFixer\Tokenizer\TokensAnalyzer;
+use PhpParser\NodeVisitor\NameResolver;
 use Symplify\TokenRunner\Analyzer\FixerAnalyzer\DocBlockFinder;
 use Symplify\TokenRunner\Guard\TokenTypeGuard;
+use Symplify\TokenRunner\Naming\Name\Name;
+use Symplify\TokenRunner\Naming\Name\NameFactory;
 
 final class ClassWrapper
 {
@@ -208,9 +211,7 @@ final class ClassWrapper
 
     public function implementsInterface(): bool
     {
-        $nextTokenPosition = $this->tokens->getNextNonWhitespace($this->startIndex + 2);
-
-        return $this->tokens[$nextTokenPosition]->isGivenKind(T_IMPLEMENTS);
+        return (bool) $this->getInterfaceNames();
     }
 
     public function isFinal(): bool
@@ -233,5 +234,30 @@ final class ClassWrapper
         $docBlockWrapper = DocBlockWrapper::createFromDocBlockToken($docCommentToken);
 
         return $docBlockWrapper->contains('Entity');
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getInterfaceNames(): array
+    {
+        $implementTokens = $this->tokens->findGivenKind(T_IMPLEMENTS, $this->startIndex, $this->startBracketIndex);
+
+        if (! $implementTokens) {
+            return [];
+        }
+
+        reset($implementTokens);
+
+        $implementPosition = key($implementTokens);
+
+        $interfacePartialNameTokens = $this->tokens->findGivenKind(T_STRING, $implementPosition, $this->startBracketIndex);
+
+        $interfaceNames = [];
+        foreach ($interfacePartialNameTokens as $position => $interfacePartialNameToken) {
+            $interfaceNames[] = NameFactory::createFromTokensAndStart($this->tokens, $position)->getName();
+        }
+
+        return $interfaceNames;
     }
 }

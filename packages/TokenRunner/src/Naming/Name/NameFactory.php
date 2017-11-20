@@ -11,14 +11,9 @@ final class NameFactory
 {
     public static function createFromTokensAndEnd(Tokens $tokens, int $end): Name
     {
-        $nameTokens = [];
-
         $previousTokenPointer = $end;
 
-        while ($tokens[$previousTokenPointer]->isGivenKind([T_NS_SEPARATOR, T_STRING])) {
-            $nameTokens[] = $tokens[$previousTokenPointer];
-            --$previousTokenPointer;
-        }
+        [$nameTokens, $previousTokenPointer] = self::collectNameTokens($tokens, $previousTokenPointer);
 
         /** @var Token[] $nameTokens */
         $nameTokens = array_reverse($nameTokens);
@@ -55,6 +50,8 @@ final class NameFactory
 
         $nextTokenPointer = $start;
 
+        $prependNamespace = self::shouldPrependNamespace($tokens, $nextTokenPointer);
+
         while ($tokens[$nextTokenPointer]->isGivenKind([T_NS_SEPARATOR, T_STRING])) {
             $nameTokens[] = $tokens[$nextTokenPointer];
             ++$nextTokenPointer;
@@ -80,12 +77,12 @@ final class NameFactory
         }
 
         // resolve fully qualified name - as argument?
-        $name = self::resolveForName($tokens, $name);
+        $name = self::resolveForName($tokens, $name, $prependNamespace);
 
         return new Name($nextTokenPointer, $start, $name, $nameTokens, $tokens);
     }
 
-    public static function resolveForName(Tokens $tokens, string $className): string
+    public static function resolveForName(Tokens $tokens, string $className, ?bool $prependNamespace = false): string
     {
         // probably not a class name, skip
         if (ctype_lower($className[0])) {
@@ -94,37 +91,62 @@ final class NameFactory
 
         $useImports = (new UseImportsFactory())->createForTokens($tokens);
 
+
         foreach ($useImports as $useImport) {
             if ($className === $useImport->getShortName()) {
-                return $useImport->getFullName();
+                $className = $useImport->getFullName();
+                break;
+            }
+        }
+
+        if ($prependNamespace) {
+            $namespaceTokens = $tokens->findGivenKind([T_NAMESPACE], 0);
+            if (count($namespaceTokens)) {
+                $namespaceToken = array_pop($namespaceTokens);
+                reset($namespaceToken);
+                $namespacePosition = key($namespaceToken);
+
+                [$nameTokens, $previousTokenPointer] = self::collectNameTokens($tokens, $namespacePosition + 2);
+
+                $namespaceName = '';
+                /** @var Token[] $nameTokens */
+                foreach ($nameTokens as $nameToken) {
+                    $namespaceName .= $nameToken->getContent();
+                }
+
+                $className = $namespaceName . '\\' . $className;
             }
         }
 
         return $className;
     }
 
+    private static function collectNameTokens(Tokens $tokens, int $position): array
+    {
+        $nameTokens = [];
+
+        while ($tokens[$position]->isGivenKind([T_NS_SEPARATOR, T_STRING])) {
+            $nameTokens[] = $tokens[$position];
+            --$position;
+        }
+
+        return [$nameTokens, $position];
+    }
+
+    private static function shouldPrependNamespace(Tokens $tokens, int $position): bool
+    {
+        if ($tokens[$position - 1]->isGivenKind(T_NS_SEPARATOR)) {
+            return false;
+        }
+
+        if ($tokens[$position]->isGivenKind(T_NS_SEPARATOR)) {
+            return false;
+        }
+
+        return false;
+    }
+
     /**
      * @todo merge with one above in private method and direction switcher
      */
-    public static function createFromFileAndStart(File $file, int $start): Name
-    {
-        $tokens = $file->getTokens();
-        $nextTokenPointer = $start;
-
-        $nameTokens = [];
-//        dump($tokens[$nextTokenPointer]);
-//        die;
-
-        while (in_array($tokens[$nextTokenPointer]['code'], [T_NS_SEPARATOR, T_STRING], true)) {
-            $nameTokens[] = $tokens[$nextTokenPointer];
-            ++$nextTokenPointer;
-        }
-
-        dump($nameTokens);
-        die;
-
-        dump($file);
-        dump('...');
-        die;
-    }
 }

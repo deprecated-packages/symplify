@@ -118,8 +118,7 @@ class SomeClass implements SomeInterface {};'),
         if ($this->configuration[self::ONLY_INTERFACES_OPTION]) {
             $interfaces = $this->configuration[self::ONLY_INTERFACES_OPTION];
 
-            dump($classWrapper->getInterfaces());
-            die;
+            return ! (bool) array_intersect($interfaces, $classWrapper->getInterfaceNames());
         }
 
         return false;
