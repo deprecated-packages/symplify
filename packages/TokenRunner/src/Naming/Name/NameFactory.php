@@ -98,7 +98,8 @@ final class NameFactory
 
         if ($prependNamespace) {
             $namespaceTokens = $tokens->findGivenKind([T_NAMESPACE], 0);
-            if (count($namespaceTokens)) {
+
+            if (count($namespaceTokens[T_NAMESPACE])) {
                 $namespaceToken = array_pop($namespaceTokens);
                 reset($namespaceToken);
                 $namespacePosition = key($namespaceToken);
