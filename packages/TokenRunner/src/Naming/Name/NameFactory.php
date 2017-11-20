@@ -2,6 +2,7 @@
 
 namespace Symplify\TokenRunner\Naming\Name;
 
+use PHP_CodeSniffer\Files\File;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use Symplify\TokenRunner\Naming\UseImport\UseImportsFactory;
@@ -100,5 +101,30 @@ final class NameFactory
         }
 
         return $className;
+    }
+
+    /**
+     * @todo merge with one above in private method and direction switcher
+     */
+    public static function createFromFileAndStart(File $file, int $start): Name
+    {
+        $tokens = $file->getTokens();
+        $nextTokenPointer = $start;
+
+        $nameTokens = [];
+//        dump($tokens[$nextTokenPointer]);
+//        die;
+
+        while (in_array($tokens[$nextTokenPointer]['code'], [T_NS_SEPARATOR, T_STRING], true)) {
+            $nameTokens[] = $tokens[$nextTokenPointer];
+            ++$nextTokenPointer;
+        }
+
+        dump($nameTokens);
+        die;
+
+        dump($file);
+        dump('...');
+        die;
     }
 }

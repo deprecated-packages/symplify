@@ -243,4 +243,9 @@ final class DocBlockWrapper
 
         return $content;
     }
+
+    public function contains(string $content): bool
+    {
+        return Strings::contains($this->docBlock->getContent(), $content);
+    }
 }

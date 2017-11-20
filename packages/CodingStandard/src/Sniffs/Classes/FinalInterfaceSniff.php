@@ -6,6 +6,9 @@ use Nette\Utils\Strings;
 use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Fixer;
 use PHP_CodeSniffer\Sniffs\Sniff;
+use Symplify\TokenRunner\Naming\Name\NameFactory;
+
+// @todo: turn in fixer!!!
 
 final class FinalInterfaceSniff implements Sniff
 {
@@ -13,6 +16,11 @@ final class FinalInterfaceSniff implements Sniff
      * @var string
      */
     private const ERROR_MESSAGE = 'Non-abstract class that implements interface should be final.';
+
+    /**
+     * @var string[]
+     */
+    public $onlyInterfaces = ['EventSubscriber'];
 
     /**
      * @var File
@@ -75,11 +83,24 @@ final class FinalInterfaceSniff implements Sniff
             return true;
         }
 
+
+        if ($this->onlyInterfaces) {
+            $interfacePosition = $this->file->findNext(T_IMPLEMENTS, $this->position + 2);$interfacePosition =                          nameStart = $this->file->findNext(T_IMPLEMENTS, $interfacePosition);
+            // ...
+            $name = NameFactory::createFromFileAndStart($this->file, $interfacePosition);
+            dump($name);
+            die;
+
+//            NameFactory::createFromTokensAndStart('...');
+        }
+
         return false;
     }
 
     private function implementsInterface(): bool
     {
+        // exclusiveInterfaces
+
         return (bool) $this->file->findNext(T_IMPLEMENTS, $this->position);
     }
 

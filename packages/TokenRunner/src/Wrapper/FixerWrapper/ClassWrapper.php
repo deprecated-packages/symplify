@@ -2,9 +2,11 @@
 
 namespace Symplify\TokenRunner\Wrapper\FixerWrapper;
 
+use Nette\Utils\Strings;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use PhpCsFixer\Tokenizer\TokensAnalyzer;
+use Symplify\TokenRunner\Analyzer\FixerAnalyzer\DocBlockFinder;
 use Symplify\TokenRunner\Guard\TokenTypeGuard;
 
 final class ClassWrapper
@@ -34,6 +36,11 @@ final class ClassWrapper
      */
     private $classToken;
 
+    /**
+     * @var int
+     */
+    private $startIndex;
+
     private function __construct(Tokens $tokens, int $startIndex)
     {
         $this->classToken = $tokens[$startIndex];
@@ -42,6 +49,7 @@ final class ClassWrapper
 
         $this->tokens = $tokens;
         $this->tokensAnalyzer = new TokensAnalyzer($tokens);
+        $this->startIndex = $startIndex;
     }
 
     public static function createFromTokensArrayStartPosition(Tokens $tokens, int $startIndex): self
@@ -196,5 +204,34 @@ final class ClassWrapper
         }
 
         return true;
+    }
+
+    public function implementsInterface(): bool
+    {
+        $nextTokenPosition = $this->tokens->getNextNonWhitespace($this->startIndex + 2);
+
+        return $this->tokens[$nextTokenPosition]->isGivenKind(T_IMPLEMENTS);
+    }
+
+    public function isFinal(): bool
+    {
+        return (bool) $this->tokens->findGivenKind(T_FINAL, 0, $this->startIndex);
+    }
+
+    public function isAbstract(): bool
+    {
+        return (bool) $this->tokens->findGivenKind(T_ABSTRACT, 0, $this->startIndex);
+    }
+
+    public function isDoctrineEntity(): bool
+    {
+        $docCommentToken = DocBlockFinder::findPrevious($this->tokens, $this->startIndex);
+        if (! $docCommentToken) {
+            return false;
+        }
+
+        $docBlockWrapper = DocBlockWrapper::createFromDocBlockToken($docCommentToken);
+
+        return $docBlockWrapper->contains('Entity');
     }
 }
