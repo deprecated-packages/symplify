@@ -22,7 +22,7 @@ checkers:
         extraAllowedClasses:
             - Symplify\EasyCodingStandard\Error\Error
             - Symplify\CodingStandard\FixerTokenWrapper\Naming\Name
-            - Symplify\CodingStandard\SniffTokenWrapper\CommentCleaner
+            - Symplify\TokenRunner\*
 
 parameters:
     skip:

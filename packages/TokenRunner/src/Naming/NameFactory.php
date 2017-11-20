@@ -13,11 +13,11 @@ final class NameFactory
 //    {
 //    }
 
-    public function getNameForStartingPosition()
+    public function getNameForStartingPosition(): void
     {
     }
 
-    public function getNameForEndingPosition()
+    public function getNameForEndingPosition(): void
     {
     }
 }

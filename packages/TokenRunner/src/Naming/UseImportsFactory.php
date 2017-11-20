@@ -35,7 +35,8 @@ final class UseImportsFactory
         $useImports = $this->callPrivateMethod(
             NoUnusedImportsFixer::class,
             'getNamespaceUseDeclarations',
-            $tokens, $importUseIndexes
+            $tokens,
+            $importUseIndexes
         );
 
         $useImports = $this->wrapToValueObjects($useImports);
@@ -44,7 +45,7 @@ final class UseImportsFactory
     }
 
     /**
-     * @param mixed[] ...$args
+     * @param mixed ...$args
      * @return string[]
      */
     private function callPrivateMethod(string $class, string $method, ...$args): array

@@ -5,7 +5,6 @@ namespace Symplify\TokenRunner\Analyzer\FixerAnalyzer\Naming;
 use Nette\Utils\Strings;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
-use PhpCsFixer\Tokenizer\TokensAnalyzer;
 use Symplify\TokenRunner\Naming\Name;
 use Symplify\TokenRunner\Naming\UseImportsFactory;
 
@@ -60,12 +59,6 @@ final class NameAnalyzer
         }
 
         if (! Strings::contains($name->getName(), '\\')) {
-            return false;
-        }
-
-        /** @var int[] $importUseIndexes */
-        $importUseIndexes = (new TokensAnalyzer($tokens))->getImportUseIndexes();
-        if (! $importUseIndexes) {
             return false;
         }
 

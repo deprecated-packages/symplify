@@ -10,6 +10,7 @@ final class UseImport
      * @var string
      */
     private $fullName;
+
     /**
      * @var string
      */
