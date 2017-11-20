@@ -48,5 +48,5 @@ parameters:
             # "Exception" is string part of the name
             - packages/CodingStandard/src/Fixer/Naming/ExceptionNameFixer.php
             # class might not exist
-            - *packages/EasyCodingStandard/packages/Configuration/**/MutualCheckerExcluder**.php
-            - *packages/EasyCodingStandard/packages/Configuration/**/ConflictingCheckerGuard**.php
+            - *packages/EasyCodingStandard/packages/Configuration/*/MutualCheckerExcluder*.php
+            - *packages/EasyCodingStandard/packages/Configuration/*/ConflictingCheckerGuard*.php
