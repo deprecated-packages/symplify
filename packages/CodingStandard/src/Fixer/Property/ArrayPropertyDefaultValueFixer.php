@@ -10,9 +10,9 @@ use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
 use Symplify\CodingStandard\Fixer\TokenBuilder;
-use Symplify\CodingStandard\Tokenizer\ClassTokensAnalyzer;
-use Symplify\CodingStandard\Tokenizer\DocBlockAnalyzer;
-use Symplify\CodingStandard\Tokenizer\DocBlockFinder;
+use Symplify\TokenRunner\Analyzer\FixerAnalyzer\DocBlockFinder;
+use Symplify\TokenRunner\Wrapper\FixerWrapper\ClassWrapper;
+use Symplify\TokenRunner\Wrapper\FixerWrapper\DocBlockWrapper;
 
 final class ArrayPropertyDefaultValueFixer implements DefinedFixerInterface
 {
@@ -51,7 +51,7 @@ public $property;'
                 continue;
             }
 
-            $classTokensAnalyzer = ClassTokensAnalyzer::createFromTokensArrayStartPosition($tokens, $index);
+            $classTokensAnalyzer = ClassWrapper::createFromTokensArrayStartPosition($tokens, $index);
 
             $this->fixProperties($tokens, $classTokensAnalyzer->getProperties());
         }
@@ -85,7 +85,9 @@ public $property;'
                 continue;
             }
 
-            if (! DocBlockAnalyzer::isArrayProperty($docBlockToken)) {
+            $docBlockWrapper = DocBlockWrapper::createFromDocBlockToken($docBlockToken);
+
+            if (! $docBlockWrapper->isArrayProperty()) {
                 continue;
             }
 

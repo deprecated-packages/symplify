@@ -6,22 +6,19 @@
         "php": "^7.1",
         "nette/utils": "^2.4|^3.0",
         "nette/finder": "^2.4|^3.0",
-        "slevomat/coding-standard": "^4.0",
         "squizlabs/php_codesniffer": "^3.1",
-        "friendsofphp/php-cs-fixer": "^2.8"
+        "friendsofphp/php-cs-fixer": "^2.8",
+        "symplify/token-runner": "^3.0"
     },
     "require-dev": {
         "nette/application": "^2.4",
         "symplify/easy-coding-standard": "^2.5|^3.0",
         "symplify/package-builder": "^2.5|^3.0",
-        "phpunit/phpunit": "^6.4",
-        "gecko-packages/gecko-php-unit": "3.0 as 2.2"
+        "phpunit/phpunit": "^6.4"
     },
     "autoload": {
         "psr-4": {
-            "Symplify\\CodingStandard\\": "src",
-            "Symplify\\CodingStandard\\SniffTokenWrapper\\": "packages/SniffTokenWrapper/src",
-            "Symplify\\CodingStandard\\FixerTokenWrapper\\": "packages/FixerTokenWrapper/src"
+            "Symplify\\CodingStandard\\": "src"
         }
     },
     "autoload-dev": {

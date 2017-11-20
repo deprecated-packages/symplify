@@ -3,11 +3,11 @@ git subsplit init git@github.com:symplify/symplify.git
 
 LAST_TAG=$(git tag -l  --sort=committerdate | tail -n1);
 
-# Symplify
 git subsplit publish --heads="master" --tags=$LAST_TAG packages/CodingStandard:git@github.com:Symplify/CodingStandard.git
 git subsplit publish --heads="master" --tags=$LAST_TAG packages/EasyCodingStandard:git@github.com:Symplify/EasyCodingStandard.git
 git subsplit publish --heads="master" --tags=$LAST_TAG packages/PackageBuilder:git@github.com:Symplify/PackageBuilder.git
 git subsplit publish --heads="master" --tags=$LAST_TAG packages/Statie:git@github.com:Symplify/Statie.git
+git subsplit publish --heads="master" --tags=$LAST_TAG packages/TokenRunner:git@github.com:Symplify/TokenRunner.git
 
 rm -rf .subsplit/
 

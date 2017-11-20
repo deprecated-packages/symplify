@@ -17,7 +17,7 @@ use PhpCsFixer\Tokenizer\Tokens;
 use PhpCsFixer\WhitespacesFixerConfig;
 use ReflectionClass;
 use SplFileInfo;
-use Symplify\CodingStandard\Tokenizer\ClassTokensAnalyzer;
+use Symplify\TokenRunner\Wrapper\FixerWrapper\ClassWrapper;
 
 final class PropertyAndConstantSeparationFixer implements DefinedFixerInterface, WhitespacesAwareFixerInterface, ConfigurationDefinitionFixerInterface
 {
@@ -83,8 +83,8 @@ class SomeClass
                 continue;
             }
 
-            $classTokensAnalyzer = ClassTokensAnalyzer::createFromTokensArrayStartPosition($tokens, $index);
-            $this->fixClass($tokens, $classTokensAnalyzer);
+            $classWrapper = ClassWrapper::createFromTokensArrayStartPosition($tokens, $index);
+            $this->fixClass($tokens, $classWrapper);
         }
     }
 
@@ -143,9 +143,9 @@ class SomeClass
         return new FixerConfigurationResolver([$spaceCountOption]);
     }
 
-    private function fixClass(Tokens $tokens, ClassTokensAnalyzer $classTokensAnalyzer): void
+    private function fixClass(Tokens $tokens, ClassWrapper $classWrapper): void
     {
-        $propertiesAndConstants = $classTokensAnalyzer->getPropertiesAndConstants();
+        $propertiesAndConstants = $classWrapper->getPropertiesAndConstants();
 
         // drop last element of array, check only in-between spacing
         array_pop($propertiesAndConstants);
@@ -158,7 +158,7 @@ class SomeClass
                     $constantOrPropertyEnd += 2;
                 }
 
-                $this->fixSpacesBelow($tokens, $classTokensAnalyzer->getClassEnd(), $constantOrPropertyEnd);
+                $this->fixSpacesBelow($tokens, $classWrapper->getClassEnd(), $constantOrPropertyEnd);
             }
         }
     }

@@ -436,47 +436,6 @@ namespace SomeNamespace;
 ```
 
 
-### Implementation of interface should only contain its methods
-
-- class: [`Symplify\CodingStandard\Sniffs\Classes\EqualInterfaceImplementationSniff`](/src/Sniffs/Classes/EqualInterfaceImplementationSniff.php)
-
-:x:
-
-```php
-interface SomeInterface
-{
-    public function run(): void;
-}
-
-final class SomeClass implements SomeInterface
-{
-    public function run(): void
-    {
-    }
-    
-    public function extra(): void
-    {
-    }
-}
-```
-
-:+1:
-
-```php
-interface SomeInterface
-{
-    public function run(): void;
-}
-
-final class SomeClass implements SomeInterface
-{
-    public function run(): void
-    {
-    }
-}
-```
-
-
 ### Non-abstract class that implements interface should be final
 
 - class: [`Symplify\CodingStandard\Sniffs\Classes\FinalInterfaceSniff`](/src/Sniffs/Classes/FinalInterfaceSniff.php)
@@ -649,12 +608,6 @@ abstract class AbstractSomeClass
 
 
 ### Exception should have suffix "Exception"
-
-For *PHP_CodeSniffer*:
-
-- class: [`Symplify\CodingStandard\Sniffs\Naming\ExceptionNameSniff`](/src/Sniffs/Naming/ExceptionNameSniff.php)
-
-or *PHP-CS-Fixer*:
 
 - class: [`Symplify\CodingStandard\Fixer\Naming\ExceptionNameSniff`](/src/Fixer/Naming/ExceptionNameFixer.php)
 

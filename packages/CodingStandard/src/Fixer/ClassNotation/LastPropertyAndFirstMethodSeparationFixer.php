@@ -16,7 +16,7 @@ use PhpCsFixer\Tokenizer\Tokens;
 use PhpCsFixer\WhitespacesFixerConfig;
 use ReflectionClass;
 use SplFileInfo;
-use Symplify\CodingStandard\Tokenizer\ClassTokensAnalyzer;
+use Symplify\TokenRunner\Wrapper\FixerWrapper\ClassWrapper;
 
 final class LastPropertyAndFirstMethodSeparationFixer implements DefinedFixerInterface, WhitespacesAwareFixerInterface, ConfigurationDefinitionFixerInterface
 {
@@ -84,8 +84,8 @@ class SomeClass
                 continue;
             }
 
-            $classTokensAnalyzer = ClassTokensAnalyzer::createFromTokensArrayStartPosition($tokens, $index);
-            $this->fixClass($tokens, $classTokensAnalyzer);
+            $classWrapper = ClassWrapper::createFromTokensArrayStartPosition($tokens, $index);
+            $this->fixClass($tokens, $classWrapper);
         }
     }
 
@@ -144,21 +144,21 @@ class SomeClass
         return new FixerConfigurationResolver([$spaceCountOption]);
     }
 
-    private function fixClass(Tokens $tokens, ClassTokensAnalyzer $classTokensAnalyzer): void
+    private function fixClass(Tokens $tokens, ClassWrapper $classWrapper): void
     {
-        $lastPropertyPosition = $classTokensAnalyzer->getLastPropertyPosition();
+        $lastPropertyPosition = $classWrapper->getLastPropertyPosition();
         if ($lastPropertyPosition === null) {
             return;
         }
 
-        $firstMethodPosition = $classTokensAnalyzer->getFirstMethodPosition();
+        $firstMethodPosition = $classWrapper->getFirstMethodPosition();
         if ($firstMethodPosition === null) {
             return;
         }
 
         $propertyEnd = $tokens->getNextTokenOfKind($lastPropertyPosition, [';']);
         if ($propertyEnd) {
-            $this->fixSpacesBelow($tokens, $classTokensAnalyzer->getClassEnd(), $propertyEnd);
+            $this->fixSpacesBelow($tokens, $classWrapper->getClassEnd(), $propertyEnd);
         }
     }
 

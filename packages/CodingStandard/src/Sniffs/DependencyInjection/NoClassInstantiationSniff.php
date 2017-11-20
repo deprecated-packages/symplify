@@ -13,7 +13,7 @@ use SlevomatCodingStandard\Helpers\TokenHelper;
 use SplFileInfo;
 use SplObjectStorage;
 use stdClass;
-use Symplify\CodingStandard\Helper\Naming;
+use Symplify\TokenRunner\Analyzer\SnifferAnalyzer\Naming;
 
 final class NoClassInstantiationSniff implements Sniff
 {
@@ -155,6 +155,9 @@ final class NoClassInstantiationSniff implements Sniff
         if (class_exists($className)) {
             $classReflection = new ReflectionClass($class);
             $docComment = $classReflection->getDocComment();
+            if ($docComment === false) {
+                return false;
+            }
 
             return Strings::contains($docComment, '@ORM\Entity');
         }

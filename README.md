@@ -27,6 +27,22 @@ The best and easiest way to start coding standard with. Combined both CodeSniffe
 **Used by [Nette](https://github.com/nette/coding-standard) and [Sylius](https://github.com/SyliusLabs/CodingStandard).**
 
 
+## [TokenRunner](https://github.com/Symplify/TokenRunner)
+
+[![Build Status](https://img.shields.io/travis/Symplify/TokenRunner/master.svg?style=flat-square)](https://travis-ci.org/Symplify/TokenRunner)
+[![Downloads](https://img.shields.io/packagist/dt/Symplify/token-runner.svg?style=flat-square)](https://packagist.org/packages/Symplify/token-runner)
+[![Subscribe](https://img.shields.io/badge/subscribe-to--releases-green.svg?style=flat-square)](https://libraries.io/packagist/symplify%2Ftoken-runner)
+
+
+Building own Sniffs and Fixers made easy. It helps you with:
+
+- space counts
+- testing
+- (fully qualified) names
+- property and argument types and more 
+
+
+
 ## [Statie](https://github.com/Symplify/Statie)
 
 [![Build Status](https://img.shields.io/travis/Symplify/Statie/master.svg?style=flat-square)](https://travis-ci.org/Symplify/Statie)

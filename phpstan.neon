@@ -4,6 +4,8 @@ parameters:
         - '#Symplify\\EasyCodingStandard\\SniffRunner\\File\\File::__construct\(\) does not call parent constructor from PHP_CodeSniffer\\Files\\File#'
         - '#Call to an undefined method Symfony\\Component\\Config\\Loader\\LoaderResolverInterface::addLoader\(\)#'
         - '#Parameter \#2 \$type of method Symfony\\Component\\Config\\Loader\\LoaderInterface::load\(\) expects string\|null, string\[\] given#'
+        - '#Calling method getLines\(\) on possibly null value of type PhpCsFixer\\DocBlock\\DocBlock\|null#'
+
         # lvl 7
         - '#Parameter \#2 \$config of class PHP_CodeSniffer\\Tokenizers\\PHP constructor expects PHP_CodeSniffer\\Config\|null, PHP_CodeSniffer\\Config\|stdClass given#'
         - '# Symplify\\CodingStandard\\SniffTokenWrapper#'
@@ -11,22 +13,23 @@ parameters:
 
         # is valid code
         - '#Parameter \#2 \$searchIndex of method PhpCsFixer\\Tokenizer\\Tokens::findBlockEnd\(\) expects int, int\|null given#'
-        - '#Property Symplify\\CodingStandard\\FixerTokenWrapper\\PropertyWrapper::\$visibilityPosition \(int\) does not accept int\|null#'
+        - '#Property Symplify\\TokenRunner\\Wrapper\\FixerWrapper\\PropertyWrapper::\$visibilityPosition \(int\) does not accept int\|null#'
         - '#Calling method getAnnotationsOfType\(\) on possibly null value of type PhpCsFixer\\DocBlock\\DocBlock\|null#'
         - '#Calling method getContent\(\) on possibly null value of type PhpCsFixer\\DocBlock\\DocBlock\|null#'
-        - '#Property Symplify\\CodingStandard\\Tokenizer\\ClassTokensAnalyzer::\$startBracketIndex \(int\) does not accept int\|null#'
-        - '#Parameter \#3 \$docBlock of static method Symplify\\CodingStandard\\FixerTokenWrapper\\DocBlockWrapper::createFromTokensPositionAndDocBlock\(\) expects PhpCsFixer\\DocBlock\\DocBlock, PhpCsFixer\\DocBlock\\DocBlock\|null given#'
-        - '#Parameter \#2 \$docBlockPosition of static method Symplify\\CodingStandard\\FixerTokenWrapper\\DocBlockWrapper::createFromTokensPositionAndDocBlock\(\) expects int, int\|null given#'
-        - '#Calling method setWhitespacesFixerConfig|isSingleLine|changeToMultiLine\(\) on possibly null value of type Symplify\\CodingStandard\\FixerTokenWrapper\\DocBlockWrapper\|null#'
-        - '#Parameter \#2 \$classNameEndPosition of static method Symplify\\CodingStandard\\FixerTokenWrapper\\Naming\\ClassFqnResolver::resolveForNamePosition\(\) expects int, int\|null given#'
-        - '#Parameter \#1 \$index of method PhpCsFixer\\Tokenizer\\Tokens::getPrevMeaningfulToken\(\) expects int, int\|null given#'
-        - '#Parameter \#2 \$start of static method Symplify\\CodingStandard\\FixerTokenWrapper\\Naming\\ClassFqnResolver::resolveDataFromStart\(\) expects int, int\|null given#'
-        - '#Parameter \#1 \$index of method PhpCsFixer\\Tokenizer\\Tokens::getNextMeaningfulToken\(\) expects int, int\|null given#'
+        - '#Property Symplify\\TokenRunner\\Wrapper\\FixerWrapper\\ClassWrapper::\$startBracketIndex \(int\) does not accept int\|null#'
+        - '#Parameter \#3 \$docBlock of static method Symplify\\TokenRunner\\Wrapper\\FixerWrapper\\DocBlockWrapper::createFromTokensPositionAndDocBlock\(\) expects PhpCsFixer\\DocBlock\\DocBlock, PhpCsFixer\\DocBlock\\DocBlock\|null given#'
+
+        # Token Runner
+        - '#Parameter \#2 \$docBlockPosition of static method Symplify\\TokenRunner\\Wrapper\\FixerWrapper\\DocBlockWrapper::createFromTokensPositionAndDocBlock\(\) expects int, int\|null given#'
+        - '#Calling method setWhitespacesFixerConfig|isSingleLine|changeToMultiLine\(\) on possibly null value of type Symplify\\TokenRunner\\Wrapper\\FixerWrapper\\DocBlockWrapper\|null#'
+        - '#Parameter \#1 \$index of method PhpCsFixer\\Tokenizer\\Tokens::(getPrevMeaningfulToken|getNextMeaningfulToken)\(\) expects int, int\|null given#'
         - '#Call to an undefined method Psr\\Container\\ContainerInterface::isCompiled\(\)#'
         - '#Call to an undefined method Symfony\\Component\\DependencyInjection\\ContainerInterface::getParameterBag()#'
-        - '#Parameter \#2 \$useIndexes of static method Symplify\\CodingStandard\\FixerTokenWrapper\\Naming\\ClassFqnResolver::getNamespaceUseDeclarations\(\) expects int\[\], mixed\[\]\[\] given#'
         - '#Parameter \#1 \$haystack of static method Nette\\Utils\\Strings::startsWith\(\) expects string, string\|null given#'
-        - '#Parameter \#1 \$index of method PhpCsFixer\\Tokenizer\\Tokens::getNextMeaningfulToken\(\) expects int, mixed\[\] given#'
+        - '#Parameter \#2 \$(start|end) of static method Symplify\\TokenRunner\\Naming\\Name\\NameFactory::createFromTokensAnd(Start|End)\(\) expects int, int\|null given#'
+        - '#Parameter \#2 \$position of static method Symplify\\TokenRunner\\Wrapper\\SnifferWrapper\\ClassWrapper::createFromFileAndPosition\(\) expects int, bool\|int given#'
+        - '#Parameter \#2 \$position of static method Symplify\\TokenRunner\\Wrapper\\SnifferWrapper\\MethodWrapper::createFromFileAndPosition\(\) expects int, bool\|int given#'
+        - '#Parameter \#1 \$types of method PHP_CodeSniffer\\Files\\File::findPrevious\(\) expects int\|mixed\[\], string given#'
 
         # buggy
         - '#Parameter \#2 \$items of method PhpCsFixer\\Tokenizer\\Tokens::insertAt\(\) expects \(iterable\(PhpCsFixer\\Tokenizer\\Token\[\]\)&PhpCsFixer\\Tokenizer\\Tokens\)\|PhpCsFixer\\Tokenizer\\Token, PhpCsFixer\\Tokenizer\\Token\[\] given#'

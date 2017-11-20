@@ -22,7 +22,7 @@ checkers:
         extraAllowedClasses:
             - Symplify\EasyCodingStandard\Error\Error
             - Symplify\CodingStandard\FixerTokenWrapper\Naming\Name
-            - Symplify\CodingStandard\SniffTokenWrapper\CommentCleaner
+            - Symplify\TokenRunner\*
 
 parameters:
     skip:
@@ -46,13 +46,7 @@ parameters:
             # name parts, not classes
             - packages/CodingStandard/src/Sniffs/DependencyInjection/NoClassInstantiationSniff.php
             # "Exception" is string part of the name
-            - packages/CodingStandard/src/Sniffs/Naming/ExceptionNameSniff.php
             - packages/CodingStandard/src/Fixer/Naming/ExceptionNameFixer.php
             # class might not exist
             - *packages/EasyCodingStandard/packages/Configuration/**/MutualCheckerExcluder**.php
             - *packages/EasyCodingStandard/packages/Configuration/**/ConflictingCheckerGuard**.php
-            - packages/CodingStandard/src/Sniffs/Classes/EqualInterfaceImplementationSniff.php
-
-        Symplify\CodingStandard\Sniffs\Classes\EqualInterfaceImplementationSniff:
-            - packages/EasyCodingStandard/packages/SniffRunner/src/Application/SniffFileProcessor.php
-            - packages/EasyCodingStandard/packages/FixerRunner/src/Application/FixerFileProcessor.php

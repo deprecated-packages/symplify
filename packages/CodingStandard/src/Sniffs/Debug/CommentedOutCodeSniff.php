@@ -4,7 +4,7 @@ namespace Symplify\CodingStandard\Sniffs\Debug;
 
 use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Sniffs\Sniff;
-use Symplify\CodingStandard\SniffTokenWrapper\CommentCleaner;
+use Symplify\TokenRunner\Transformer\CommentCleaner;
 
 /**
  * Checks 2+ lines with comments in a row.

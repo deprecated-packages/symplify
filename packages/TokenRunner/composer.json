@@ -1,0 +1,32 @@
+{
+    "name": "symplify/token-runner",
+    "description": "Set of utils for PHP_CodeSniffer and PHP CS Fixer.",
+    "license": "MIT",
+    "require": {
+        "php": "^7.1",
+        "nette/utils": "^2.4|^3.0",
+        "nette/finder": "^2.4|^3.0",
+        "squizlabs/php_codesniffer": "^3.1",
+        "friendsofphp/php-cs-fixer": "^2.8"
+    },
+    "require-dev": {
+        "symplify/easy-coding-standard": "^2.5|^3.0",
+        "phpunit/phpunit": "^6.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "Symplify\\TokenRunner\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Symplify\\TokenRunner\\Tests\\": "tests"
+        }
+    },
+    "minimum-stability": "dev",
+    "extra": {
+        "branch-alias": {
+            "dev-master": "3.0-dev"
+        }
+    }
+}

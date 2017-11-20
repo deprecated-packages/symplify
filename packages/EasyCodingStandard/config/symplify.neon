@@ -26,11 +26,11 @@ checkers:
     - Symplify\CodingStandard\Sniffs\Naming\AbstractClassNameSniff
     - Symplify\CodingStandard\Sniffs\Naming\InterfaceNameSniff
     - Symplify\CodingStandard\Sniffs\Naming\TraitNameSniff
+    - Symplify\CodingStandard\Fixer\Naming\ExceptionNameFixer
     - Symplify\CodingStandard\Fixer\Naming\MagicMethodsNamingFixer
     - Symplify\CodingStandard\Fixer\Naming\PropertyNameMatchingTypeFixer
 
     # Architecture
-    - Symplify\CodingStandard\Sniffs\Classes\EqualInterfaceImplementationSniff
     - Symplify\CodingStandard\Sniffs\Classes\FinalInterfaceSniff
     - Symplify\CodingStandard\Sniffs\DependencyInjection\NoClassInstantiationSniff
 

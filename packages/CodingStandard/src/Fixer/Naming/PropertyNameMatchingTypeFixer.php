@@ -14,9 +14,9 @@ use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
-use Symplify\CodingStandard\FixerTokenWrapper\ArgumentWrapper;
-use Symplify\CodingStandard\FixerTokenWrapper\PropertyWrapper;
-use Symplify\CodingStandard\Tokenizer\ClassTokensAnalyzer;
+use Symplify\TokenRunner\Wrapper\FixerWrapper\ArgumentWrapper;
+use Symplify\TokenRunner\Wrapper\FixerWrapper\ClassWrapper;
+use Symplify\TokenRunner\Wrapper\FixerWrapper\PropertyWrapper;
 
 final class PropertyNameMatchingTypeFixer implements DefinedFixerInterface, ConfigurationDefinitionFixerInterface
 {
@@ -76,7 +76,7 @@ class SomeClass
                 continue;
             }
 
-            $classTokensAnalyzer = ClassTokensAnalyzer::createFromTokensArrayStartPosition($tokens, $index);
+            $classTokensAnalyzer = ClassWrapper::createFromTokensArrayStartPosition($tokens, $index);
 
             if ($classTokensAnalyzer->isGivenKind([T_CLASS, T_TRAIT])) {
                 $this->fixClassProperties($classTokensAnalyzer);
@@ -132,18 +132,18 @@ class SomeClass
         return new FixerConfigurationResolver([$skippedClassesOption]);
     }
 
-    private function fixClassProperties(ClassTokensAnalyzer $classTokensAnalyzer): void
+    private function fixClassProperties(ClassWrapper $classWrapper): void
     {
-        $changedPropertyNames = $this->resolveWrappers($classTokensAnalyzer->getPropertyWrappers());
+        $changedPropertyNames = $this->resolveWrappers($classWrapper->getPropertyWrappers());
 
         foreach ($changedPropertyNames as $oldName => $newName) {
-            $classTokensAnalyzer->renameEveryPropertyOccurrence($oldName, $newName);
+            $classWrapper->renameEveryPropertyOccurrence($oldName, $newName);
         }
     }
 
-    private function fixClassMethods(ClassTokensAnalyzer $classTokensAnalyzer): void
+    private function fixClassMethods(ClassWrapper $classWrapper): void
     {
-        foreach ($classTokensAnalyzer->getMethodWrappers() as $methodWrapper) {
+        foreach ($classWrapper->getMethodWrappers() as $methodWrapper) {
             /** @var ArgumentWrapper[] $argumentWrappers */
             $argumentWrappers = array_reverse($methodWrapper->getArguments());
 
