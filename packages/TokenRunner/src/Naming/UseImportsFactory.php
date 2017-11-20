@@ -10,7 +10,7 @@ use ReflectionMethod;
 final class UseImportsFactory
 {
     /**
-     * @var string[][]
+     * @var UseImport[][]
      */
     private $cachedUseImports = [];
 
@@ -59,7 +59,7 @@ final class UseImportsFactory
     }
 
     /**
-     * @param mixed[][] $useImports
+     * @param mixed[] $useImports
      * @return UseImport[]
      */
     private function wrapToValueObjects(array $useImports): array
