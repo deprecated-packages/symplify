@@ -2,8 +2,11 @@
 
 namespace Symplify\TokenRunner\Naming\Name;
 
+use Nette\Utils\Strings;
 use PhpCsFixer\Tokenizer\Token;
+use PhpCsFixer\Tokenizer\Tokens;
 use Symplify\TokenRunner\Naming\UseImport\UseImport;
+use Symplify\TokenRunner\Naming\UseImport\UseImportsFactory;
 
 final class Name
 {
@@ -43,15 +46,21 @@ final class Name
     private $relatedUseImport;
 
     /**
+     * @var Tokens
+     */
+    private $tokens;
+
+    /**
      * @param Token[] $nameTokens
      */
-    public function __construct(int $start, int $end, string $name, array $nameTokens)
+    public function __construct(int $start, int $end, string $name, array $nameTokens, Tokens $tokens)
     {
         $this->start = $start;
         $this->end = $end;
         $this->name = $name;
         $this->nameTokens = $nameTokens;
         $this->lastName = $this->nameTokens[count($this->nameTokens) - 1]->getContent();
+        $this->tokens = $tokens;
     }
 
     public function getStart(): int
@@ -139,5 +148,32 @@ final class Name
     public function isSingleName(): bool
     {
         return count($this->nameTokens) === 1;
+    }
+
+    public function isPartialName()
+    {
+    }
+
+    public function isPartialName(): bool
+    {
+        if (Strings::startsWith($this->name, '\\')) {
+            return false;
+        }
+
+        if (! Strings::contains($this->name, '\\')) {
+            return false;
+        }
+
+        $useImports = (new UseImportsFactory())->createForTokens($this->tokens);
+
+        foreach ($useImports as $useImport) {
+            if ($useImport->startsWith($this->name)) {
+                $this->relatedUseImport = $useImport;
+
+                return true;
+            }
+        }
+
+        return false;
     }
 }

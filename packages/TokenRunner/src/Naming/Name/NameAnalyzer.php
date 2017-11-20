@@ -51,6 +51,8 @@ final class NameAnalyzer
         return true;
     }
 
+
+    // @todo: move to name?
     public static function isPartialName(Tokens $tokens, Name $name): bool
     {
         if (Strings::startsWith($name->getName(), '\\')) {
