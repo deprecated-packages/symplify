@@ -2,8 +2,13 @@
 
 namespace Symplify\CodingStandard\Fixer\Solid;
 
+use PhpCsFixer\ConfigurationException\InvalidFixerConfigurationException;
+use PhpCsFixer\Fixer\ConfigurationDefinitionFixerInterface;
 use PhpCsFixer\Fixer\DefinedFixerInterface;
 use PhpCsFixer\Fixer\FixerInterface;
+use PhpCsFixer\FixerConfiguration\FixerConfigurationResolver;
+use PhpCsFixer\FixerConfiguration\FixerConfigurationResolverInterface;
+use PhpCsFixer\FixerConfiguration\FixerOptionBuilder;
 use PhpCsFixer\FixerDefinition\CodeSample;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
@@ -12,14 +17,24 @@ use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\ClassWrapper;
 
-final class FinalInterfaceFixer implements FixerInterface, DefinedFixerInterface
+final class FinalInterfaceFixer implements FixerInterface, DefinedFixerInterface, ConfigurationDefinitionFixerInterface
 {
     /**
-     * Optional
-     *
-     * @var string[]
+     * @var string
      */
-    public $onlyInterfaces = ['EventSubscriber'];
+    private const ONLY_INTERFACES_OPTION = 'only_interfaces';
+
+    /**
+     * @var mixed[]
+     */
+    private $configuration = [];
+
+    public function __construct()
+    {
+        // set defaults
+        $this->configuration = $this->getConfigurationDefinition()
+            ->resolve([]);
+    }
 
     public function getDefinition(): FixerDefinitionInterface
     {
@@ -47,16 +62,8 @@ class SomeClass implements SomeInterface {};'),
             }
 
             $classWrapper = ClassWrapper::createFromTokensArrayStartPosition($tokens, $index);
-            if (! $classWrapper->implementsInterface()) {
-                return;
-            }
-
-            if ($classWrapper->isFinal() || $classWrapper->isAbstract()) {
-                return;
-            }
-
-            if ($classWrapper->isDoctrineEntity()) {
-                return;
+            if ($this->shouldBeSkipped($classWrapper)) {
+                continue;
             }
 
             $this->fixClass($tokens, $index);
@@ -78,7 +85,7 @@ class SomeClass implements SomeInterface {};'),
         return 0;
     }
 
-    public function supports(SplFileInfo $file)
+    public function supports(SplFileInfo $file): bool
     {
         return true;
     }
@@ -91,18 +98,49 @@ class SomeClass implements SomeInterface {};'),
         ]);
     }
 
-    private function shouldBeSkipped(): bool
+    private function shouldBeSkipped(ClassWrapper $classWrapper): bool
     {
-//        if ($this->onlyInterfaces) {
-//            $interfacePosition = $this->file->findNext(T_IMPLEMENTS, $this->position + 2);$interfacePosition =                          nameStart = $this->file->findNext(T_IMPLEMENTS, $interfacePosition);
-//            // ...
-//            $name = NameFactory::createFromFileAndStart($this->file, $interfacePosition);
-//            dump($name);
-//            die;
-//
-////            NameFactory::createFromTokensAndStart('...');
-//        }
+        if (! $classWrapper->implementsInterface()) {
+            return true;
+        }
+
+        if ($classWrapper->isFinal() || $classWrapper->isAbstract()) {
+            return true;
+        }
+
+        if ($classWrapper->isDoctrineEntity()) {
+            return true;
+        }
+
+        if ($this->configuration[self::ONLY_INTERFACES_OPTION]) {
+            $interfaces = $this->configuration[self::ONLY_INTERFACES_OPTION];
+
+            dump($classWrapper->getInterfaces());
+            die;
+        }
 
         return false;
+    }
+
+    /**
+     * @param mixed[]|null $configuration
+     */
+    public function configure(?array $configuration = null): void
+    {
+        if ($configuration === null) {
+            return;
+        }
+
+        $this->configuration = $this->getConfigurationDefinition()
+            ->resolve($configuration);
+    }
+
+    public function getConfigurationDefinition(): FixerConfigurationResolverInterface
+    {
+        $option = (new FixerOptionBuilder(self::ONLY_INTERFACES_OPTION, 'List of interfaces to check.'))
+            ->setDefault([])
+            ->getOption();
+
+        return new FixerConfigurationResolver([$option]);
     }
 }
