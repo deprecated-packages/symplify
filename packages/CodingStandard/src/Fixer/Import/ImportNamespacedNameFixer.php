@@ -98,10 +98,7 @@ final class ImportNamespacedNameFixer implements FixerInterface, DefinedFixerInt
                 continue;
             }
 
-            dump($name->isPartialName());
-            die;
-
-            if (NameAnalyzer::isPartialName($tokens, $name)) {
+            if ($name->isPartialName()) {
                 // add use statement
                 $this->addIntoUseStatements($tokens, $name);
 

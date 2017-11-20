@@ -68,7 +68,7 @@ final class FullyQualifiedNameResolver
             $name .= $nameToken->getContent();
         }
 
-        return new Name($previousTokenPointer, $end, $name, $nameTokens);
+        return new Name($previousTokenPointer, $end, $name, $nameTokens, $tokens);
     }
 
     public static function resolveDataFromStart(Tokens $tokens, int $start): Name
@@ -101,7 +101,7 @@ final class FullyQualifiedNameResolver
             $name .= $nameToken->getContent();
         }
 
-        return new Name($nextTokenPointer, $start, $name, $nameTokens);
+        return new Name($nextTokenPointer, $start, $name, $nameTokens, $tokens);
     }
 
     public static function resolveForName(Tokens $tokens, string $className): string

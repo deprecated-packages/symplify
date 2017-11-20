@@ -150,10 +150,6 @@ final class Name
         return count($this->nameTokens) === 1;
     }
 
-    public function isPartialName()
-    {
-    }
-
     public function isPartialName(): bool
     {
         if (Strings::startsWith($this->name, '\\')) {

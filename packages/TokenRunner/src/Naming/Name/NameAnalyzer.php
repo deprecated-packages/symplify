@@ -2,10 +2,8 @@
 
 namespace Symplify\TokenRunner\Naming\Name;
 
-use Nette\Utils\Strings;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
-use Symplify\TokenRunner\Naming\UseImport\UseImportsFactory;
 
 final class NameAnalyzer
 {
@@ -49,30 +47,5 @@ final class NameAnalyzer
         // is "use function" statement
 
         return true;
-    }
-
-
-    // @todo: move to name?
-    public static function isPartialName(Tokens $tokens, Name $name): bool
-    {
-        if (Strings::startsWith($name->getName(), '\\')) {
-            return false;
-        }
-
-        if (! Strings::contains($name->getName(), '\\')) {
-            return false;
-        }
-
-        $useImports = (new UseImportsFactory())->createForTokens($tokens);
-
-        foreach ($useImports as $useImport) {
-            if ($useImport->startsWith($name->getName())) {
-                $name->setRelatedUseImport($useImport);
-
-                return true;
-            }
-        }
-
-        return false;
     }
 }
