@@ -8,10 +8,10 @@ use PhpCsFixer\DocBlock\DocBlock;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use Symplify\TokenRunner\Analyzer\FixerAnalyzer\DocBlockFinder;
-use Symplify\TokenRunner\Naming\FullyQualifiedNameResolver;
 use Symplify\TokenRunner\Analyzer\FixerAnalyzer\PropertyAnalyzer;
 use Symplify\TokenRunner\Exception\MissingDocBlockException;
 use Symplify\TokenRunner\Guard\TokenTypeGuard;
+use Symplify\TokenRunner\Naming\FullyQualifiedNameResolver;
 
 final class PropertyWrapper
 {
