@@ -56,7 +56,10 @@ class SomeClass implements SomeInterface {};'),
 
     public function fix(SplFileInfo $file, Tokens $tokens): void
     {
-        foreach ($tokens as $index => $token) {
+        $tokensReversed = array_reverse(iterator_to_array($tokens), true);
+
+        /** @var Token $token */
+        foreach ($tokensReversed as $index => $token) {
             if (! $token->isGivenKind(T_CLASS)) {
                 continue;
             }
