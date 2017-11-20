@@ -32,11 +32,22 @@ final class DocBlockWrapper
      */
     private $docBlockPosition;
 
-    private function __construct(Tokens $tokens, int $docBlockPosition, DocBlock $docBlock)
+    /**
+     * @var null|Token
+     */
+    private $token;
+
+    private function __construct(?Tokens $tokens, ?int $docBlockPosition, ?DocBlock $docBlock, ?Token $token = null)
     {
         $this->tokens = $tokens;
         $this->docBlockPosition = $docBlockPosition;
         $this->docBlock = $docBlock;
+
+        if ($docBlock === null) {
+            $this->docBlock= new DocBlock($token->getContent());
+        }
+
+        $this->token = $token;
     }
 
     public static function createFromTokensPositionAndDocBlock(
@@ -47,6 +58,13 @@ final class DocBlockWrapper
         TokenTypeGuard::ensureIsTokenType($tokens[$docBlockPosition], [T_COMMENT, T_DOC_COMMENT], __METHOD__);
 
         return new self($tokens, $docBlockPosition, $docBlock);
+    }
+
+    public static function createFromDocBlockToken(Token $docBlockToken): self
+    {
+        TokenTypeGuard::ensureIsTokenType($docBlockToken, [T_COMMENT, T_DOC_COMMENT], __METHOD__);
+
+        return new self(null, null, null, $docBlockToken);
     }
 
     public function isSingleLine(): bool
@@ -178,6 +196,43 @@ final class DocBlockWrapper
     public function setWhitespacesFixerConfig(WhitespacesFixerConfig $whitespacesFixerConfig): void
     {
         $this->whitespacesFixerConfig = $whitespacesFixerConfig;
+    }
+
+    public function isArrayProperty(): bool
+    {
+        if (! $this->docBlock->getAnnotationsOfType('var')) {
+            return false;
+        }
+
+        $varAnnotation = $this->docBlock->getAnnotationsOfType('var')[0];
+
+        $content = trim($varAnnotation->getContent());
+        $content = rtrim($content, ' */');
+
+        [, $types] = explode('@var', $content);
+
+        $types = explode('|', trim($types));
+
+        foreach ($types as $type) {
+            if (! self::isIterableType($type)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private function isIterableType(string $type): bool
+    {
+        if (Strings::endsWith($type, '[]')) {
+            return true;
+        }
+
+        if ($type === 'array') {
+            return true;
+        }
+
+        return false;
     }
 
     private function resolveAnnotationContent(Annotation $annotation, string $name): string

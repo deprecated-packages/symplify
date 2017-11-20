@@ -6,8 +6,23 @@ use Nette\Utils\Strings;
 use PhpCsFixer\DocBlock\DocBlock;
 use PhpCsFixer\Tokenizer\Token;
 
-final class DocBlockAnalyzer
+final class DocBlockWrapper
 {
+    /**
+     * @var Token
+     */
+    private $token;
+
+    public function createFromToken(Token $token): self
+    {
+        return new self($token);
+    }
+
+    private function __construct(Token $token)
+    {
+        $this->token = $token;
+    }
+
     // @todo: turn into wrapper
 
     public static function isArrayProperty(Token $token): bool
@@ -34,21 +49,6 @@ final class DocBlockAnalyzer
         }
 
         return true;
-    }
-
-    /**
-     * @param string[] $annotations
-     */
-    public static function hasAnnotations(DocBlock $docBlock, array $annotations): bool
-    {
-        $foundTypes = 0;
-        foreach ($annotations as $annotation) {
-            if ($docBlock->getAnnotationsOfType($annotation)) {
-                ++$foundTypes;
-            }
-        }
-
-        return $foundTypes === count($annotations);
     }
 
     private static function isIterableType(string $type): bool
