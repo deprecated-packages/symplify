@@ -119,20 +119,6 @@ final class ClassWrapper
         return $this->methods = $methods;
     }
 
-    /**
-     * @return false|MethodWrapper
-     */
-    public function getMethod(string $name)
-    {
-        foreach ($this->getMethods() as $methodName => $methodWrapper) {
-            if ($methodName === $name) {
-                return $methodWrapper;
-            }
-        }
-
-        return false;
-    }
-
     public function getParentClassName(): ?string
     {
         $extendsTokenPosition = TokenHelper::findNext($this->file, T_EXTENDS, $this->position, $this->position + 10);

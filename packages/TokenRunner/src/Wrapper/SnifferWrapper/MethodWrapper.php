@@ -8,11 +8,6 @@ use Symplify\TokenRunner\Guard\TokenTypeGuard;
 final class MethodWrapper
 {
     /**
-     * @var File
-     */
-    private $file;
-
-    /**
      * @var int
      */
     private $position;
@@ -29,7 +24,6 @@ final class MethodWrapper
 
     private function __construct(File $file, int $position)
     {
-        $this->file = $file;
         $this->position = $position;
         $this->tokens = $file->getTokens();
 
