@@ -91,11 +91,9 @@ final class NameFactory
 
         $useImports = (new UseImportsFactory())->createForTokens($tokens);
 
-
         foreach ($useImports as $useImport) {
             if ($className === $useImport->getShortName()) {
-                $className = $useImport->getFullName();
-                break;
+                return $useImport->getFullName();
             }
         }
 
@@ -135,6 +133,10 @@ final class NameFactory
 
     private static function shouldPrependNamespace(Tokens $tokens, int $position): bool
     {
+//        if ($tokens[$position - 1]->isGivenKind(T_WHITESPACE)) {
+//            return true;
+//        }
+
         if ($tokens[$position - 1]->isGivenKind(T_NS_SEPARATOR)) {
             return false;
         }
@@ -143,7 +145,7 @@ final class NameFactory
             return false;
         }
 
-        return false;
+        return true;
     }
 
     /**
