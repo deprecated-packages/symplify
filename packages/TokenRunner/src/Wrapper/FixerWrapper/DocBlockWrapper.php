@@ -32,22 +32,15 @@ final class DocBlockWrapper
      */
     private $docBlockPosition;
 
-    /**
-     * @var null|Token
-     */
-    private $token;
-
     private function __construct(?Tokens $tokens, ?int $docBlockPosition, ?DocBlock $docBlock, ?Token $token = null)
     {
         $this->tokens = $tokens;
         $this->docBlockPosition = $docBlockPosition;
         $this->docBlock = $docBlock;
 
-        if ($docBlock === null) {
-            $this->docBlock= new DocBlock($token->getContent());
+        if ($docBlock === null && $token !== null) {
+            $this->docBlock = new DocBlock($token->getContent());
         }
-
-        $this->token = $token;
     }
 
     public static function createFromTokensPositionAndDocBlock(

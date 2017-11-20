@@ -85,7 +85,7 @@ public $property;'
                 continue;
             }
 
-            $docBlockWrapper = DocBlockWrapper::createFromDocBlockToken( $docBlockToken);
+            $docBlockWrapper = DocBlockWrapper::createFromDocBlockToken($docBlockToken);
 
             if (! $docBlockWrapper->isArrayProperty()) {
                 continue;
