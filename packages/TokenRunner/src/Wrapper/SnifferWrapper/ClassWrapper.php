@@ -120,23 +120,6 @@ final class ClassWrapper
     }
 
     /**
-     * @return MethodWrapper[]
-     */
-    public function getPublicMethods(): array
-    {
-        $publicMethods = [];
-        foreach ($this->getMethods() as $methodName => $method) {
-            if ($method->isPublic()) {
-                $publicMethods[$methodName] = $method;
-            }
-        }
-
-        unset($publicMethods['__construct']);
-
-        return $publicMethods;
-    }
-
-    /**
      * @return false|MethodWrapper
      */
     public function getMethod(string $name)

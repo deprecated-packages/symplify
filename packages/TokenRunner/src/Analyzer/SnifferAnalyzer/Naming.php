@@ -6,7 +6,6 @@ use Nette\Utils\Strings;
 use PHP_CodeSniffer\Files\File;
 use SlevomatCodingStandard\Helpers\NamespaceHelper;
 use SlevomatCodingStandard\Helpers\ReferencedNameHelper;
-use SlevomatCodingStandard\Helpers\TokenHelper;
 use SlevomatCodingStandard\Helpers\UseStatementHelper;
 use Symplify\TokenRunner\Guard\TokenTypeGuard;
 
@@ -66,11 +65,8 @@ final class Naming
 
     private static function getFqnClassName(File $file, string $className, int $classTokenPosition): string
     {
-        $openTagPointer = (int) TokenHelper::findPrevious($file, T_OPEN_TAG, $classTokenPosition);
-
-        $useStatements = UseStatementHelper::getUseStatements($file, $openTagPointer);
-
-        $referencedNames = ReferencedNameHelper::getAllReferencedNames($file, $openTagPointer);
+        $useStatements = UseStatementHelper::getUseStatements($file, 0);
+        $referencedNames = ReferencedNameHelper::getAllReferencedNames($file, 0);
 
         foreach ($referencedNames as $referencedName) {
             $resolvedName = NamespaceHelper::resolveClassName(

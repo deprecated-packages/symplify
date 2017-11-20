@@ -4,6 +4,9 @@ namespace Symplify\TokenRunner\Analyzer\SnifferAnalyzer;
 
 use PHP_CodeSniffer\Files\File;
 
+/**
+ * Inspired by SlevomatCodingStandard\Helpers\TokenHelper
+ */
 final class TokenFinder
 {
     public static function findNextLinePosition(File $file, int $position): int
