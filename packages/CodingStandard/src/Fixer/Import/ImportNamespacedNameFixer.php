@@ -15,9 +15,10 @@ use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
 use Symplify\TokenRunner\Analyzer\FixerAnalyzer\Naming\ClassFqnResolver;
-use Symplify\TokenRunner\Analyzer\FixerAnalyzer\Naming\ImportsResolver;
 use Symplify\TokenRunner\Analyzer\FixerAnalyzer\Naming\NameAnalyzer;
 use Symplify\TokenRunner\Naming\Name;
+use Symplify\TokenRunner\Naming\UseImport;
+use Symplify\TokenRunner\Naming\UseImportsFactory;
 
 /**
  * Possible cases.
@@ -39,19 +40,14 @@ final class ImportNamespacedNameFixer implements FixerInterface, DefinedFixerInt
     private $namespacePosition;
 
     /**
-     * @var string[]
+     * @var UseImport[]
      */
-    private $importedNames = [];
+    private $useImports = [];
 
     /**
      * @var mixed[]
      */
     private $configuration = [];
-
-    /**
-     * @var int
-     */
-    private $duplicatedNameCount = 0;
 
     public function __construct()
     {
@@ -77,9 +73,7 @@ final class ImportNamespacedNameFixer implements FixerInterface, DefinedFixerInt
 
     public function fix(SplFileInfo $file, Tokens $tokens): void
     {
-        $this->duplicatedNameCount = 0;
-
-        $this->importedNames = ImportsResolver::getFromTokens($tokens);
+        $this->useImports = (new UseImportsFactory())->createForTokens($tokens);
 
         for ($index = $tokens->getSize() - 1; $index > 0; --$index) {
             $token = $tokens[$index];
@@ -191,22 +185,23 @@ final class ImportNamespacedNameFixer implements FixerInterface, DefinedFixerInt
 
     private function wasNameImported(Name $name): bool
     {
-        if (isset($this->importedNames[$name->getName()])) {
-            return true;
+        foreach ($this->useImports as $useImport) {
+            if ($useImport->getFullName() === $name->getName()) {
+                return true;
+            }
         }
 
-        $this->importedNames[$name->getName()] = $name->getLastName();
+        $this->useImports[] = new UseImport($name->getName(), $name->getLastName());
 
         return false;
     }
 
     private function uniquateLastPart(Name $name): Name
     {
-        foreach ($this->importedNames as $fullName => $lastName) {
-            if ($lastName === $name->getLastName() && $fullName !== $name->getName()) {
+        foreach ($this->useImports as $useImport) {
+            if ($useImport->getShortName() === $name->getLastName() && $useImport->getFullName() !== $name->getName()) {
                 $uniquePrefix = $name->getFirstName();
                 $name->addAlias($uniquePrefix . $name->getLastName());
-                ++$this->duplicatedNameCount;
             }
         }
 

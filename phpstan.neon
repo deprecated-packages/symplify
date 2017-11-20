@@ -22,12 +22,10 @@ parameters:
         # Token Runner
         - '#Parameter \#2 \$docBlockPosition of static method Symplify\\TokenRunner\\Wrapper\\FixerWrapper\\DocBlockWrapper::createFromTokensPositionAndDocBlock\(\) expects int, int\|null given#'
         - '#Calling method setWhitespacesFixerConfig|isSingleLine|changeToMultiLine\(\) on possibly null value of type Symplify\\TokenRunner\\Wrapper\\FixerWrapper\\DocBlockWrapper\|null#'
-        - '#Parameter \#1 \$index of method PhpCsFixer\\Tokenizer\\Tokens::getPrevMeaningfulToken\(\) expects int, int\|null given#'
-        - '#Parameter \#1 \$index of method PhpCsFixer\\Tokenizer\\Tokens::getNextMeaningfulToken\(\) expects int, int\|null given#'
+        - '#Parameter \#1 \$index of method PhpCsFixer\\Tokenizer\\Tokens::(getPrevMeaningfulToken|getNextMeaningfulToken)\(\) expects int, int\|null given#'
         - '#Call to an undefined method Psr\\Container\\ContainerInterface::isCompiled\(\)#'
         - '#Call to an undefined method Symfony\\Component\\DependencyInjection\\ContainerInterface::getParameterBag()#'
         - '#Parameter \#1 \$haystack of static method Nette\\Utils\\Strings::startsWith\(\) expects string, string\|null given#'
-        - '#Parameter \#1 \$index of method PhpCsFixer\\Tokenizer\\Tokens::getNextMeaningfulToken\(\) expects int, mixed\[\] given#'
         - '#Parameter \#2 \$classNameEndPosition of static method Symplify\\TokenRunner\\Analyzer\\FixerAnalyzer\\Naming\\ClassFqnResolver::resolveForNamePosition\(\) expects int, int\|null given#'
         - '#Parameter \#2 \$start of static method Symplify\\TokenRunner\\Analyzer\\FixerAnalyzer\\Naming\\ClassFqnResolver::resolveDataFromStart\(\) expects int, int\|null given#'
         - '#Parameter \#2 \$useIndexes of static method Symplify\\TokenRunner\\Analyzer\\FixerAnalyzer\\Naming\\ClassFqnResolver::getNamespaceUseDeclarations\(\) expects int\[\], mixed\[\]\[\] given#'
