@@ -119,7 +119,7 @@ final class NameFactory
     }
 
     /**
-     * @return string[]
+     * @return mixed[][]
      */
     private static function collectNameTokens(Tokens $tokens, int $position): array
     {

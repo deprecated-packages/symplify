@@ -30,6 +30,7 @@ parameters:
         - '#Parameter \#2 \$position of static method Symplify\\TokenRunner\\Wrapper\\SnifferWrapper\\ClassWrapper::createFromFileAndPosition\(\) expects int, bool\|int given#'
         - '#Parameter \#2 \$position of static method Symplify\\TokenRunner\\Wrapper\\SnifferWrapper\\MethodWrapper::createFromFileAndPosition\(\) expects int, bool\|int given#'
         - '#Parameter \#1 \$types of method PHP_CodeSniffer\\Files\\File::findPrevious\(\) expects int\|mixed\[\], string given#'
+        - '#Method Symplify\\TokenRunner\\Naming\\Name\\NameFactory::collectNameTokens\(\) should return mixed\[\]\[\] but returns \(int\|mixed\[\]\)\[\]#'
 
         # buggy
         - '#Parameter \#2 \$items of method PhpCsFixer\\Tokenizer\\Tokens::insertAt\(\) expects \(iterable\(PhpCsFixer\\Tokenizer\\Token\[\]\)&PhpCsFixer\\Tokenizer\\Tokens\)\|PhpCsFixer\\Tokenizer\\Token, PhpCsFixer\\Tokenizer\\Token\[\] given#'
