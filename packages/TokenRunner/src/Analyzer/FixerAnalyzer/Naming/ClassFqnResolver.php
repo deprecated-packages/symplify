@@ -2,12 +2,10 @@
 
 namespace Symplify\TokenRunner\Analyzer\FixerAnalyzer\Naming;
 
-use PhpCsFixer\Fixer\Import\NoUnusedImportsFixer;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
-use PhpCsFixer\Tokenizer\TokensAnalyzer;
-use ReflectionMethod;
 use Symplify\TokenRunner\Naming\Name;
+use Symplify\TokenRunner\Naming\UseImportsFactory;
 
 final class ClassFqnResolver
 {
@@ -113,41 +111,14 @@ final class ClassFqnResolver
             return $className;
         }
 
-        $tokensAnalyzer = new TokensAnalyzer($tokens);
-        $useDeclarations = self::getNamespaceUseDeclarations($tokens, $tokensAnalyzer->getImportUseIndexes());
+        $useImports = (new UseImportsFactory())->createForTokens($tokens);
 
-        foreach ($useDeclarations as $name => $settings) {
-            if ($className === $name) {
-                return $settings['fullName'];
+        foreach ($useImports as $useImport) {
+            if ($className === $useImport->getShortName()) {
+                return $useImport->getFullName();
             }
         }
 
         return $className;
-    }
-
-    /**
-     * Mimics @see NoUnusedImportsFixer::getNamespaceUseDeclarations().
-     *
-     * @param int[] $useIndexes
-     * @return string[]
-     */
-    private static function getNamespaceUseDeclarations(Tokens $tokens, array $useIndexes): array
-    {
-        if (isset(self::$namespaceUseDeclarationsPerTokens[$tokens->getCodeHash()])) {
-            return self::$namespaceUseDeclarationsPerTokens[$tokens->getCodeHash()];
-        }
-
-        $methodReflection = new ReflectionMethod(
-            NoUnusedImportsFixer::class,
-            'getNamespaceUseDeclarations'
-        );
-
-        $methodReflection->setAccessible(true);
-
-        $namespaceUseDeclarations = $methodReflection->invoke(new NoUnusedImportsFixer(), $tokens, $useIndexes);
-
-        self::$namespaceUseDeclarationsPerTokens[$tokens->getCodeHash()] = $namespaceUseDeclarations;
-
-        return $namespaceUseDeclarations;
     }
 }
