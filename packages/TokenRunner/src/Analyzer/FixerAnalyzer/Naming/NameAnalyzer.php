@@ -69,11 +69,11 @@ final class NameAnalyzer
             return false;
         }
 
-        $namespaceUseDeclarations = (new UseImportsFactory())->createForTokens($tokens);
+        $useImports = (new UseImportsFactory())->createForTokens($tokens);
 
-        foreach ($namespaceUseDeclarations as $useDeclaration) {
-            if (Strings::startsWith($name->getName(), $useDeclaration['shortName'])) {
-                $name->setPartialUseDeclaration($useDeclaration);
+        foreach ($useImports as $useImport) {
+            if ($useImport->startsWith($name->getName())) {
+                $name->setRelatedUseImport($useImport);
 
                 return true;
             }

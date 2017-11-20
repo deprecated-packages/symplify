@@ -37,9 +37,9 @@ final class Name
     private $alias;
 
     /**
-     * @var mixed[]|null
+     * @var UseImport|null
      */
-    private $partialUseDeclaration;
+    private $relatedUseImport;
 
     /**
      * @param Token[] $nameTokens
@@ -97,11 +97,10 @@ final class Name
         $tokens[] = new Token([T_USE, 'use']);
         $tokens[] = new Token([T_WHITESPACE, ' ']);
 
-        if ($this->partialUseDeclaration) {
+        if ($this->relatedUseImport) {
             $startName = $this->nameTokens[0]->getContent();
-            $useDeclarationParts = explode('\\', $this->partialUseDeclaration['fullName']);
 
-            foreach ($useDeclarationParts as $useDeclarationPart) {
+            foreach ($this->relatedUseImport->getNameParts() as $useDeclarationPart) {
                 if ($useDeclarationPart === $startName) {
                     break;
                 }
@@ -131,12 +130,9 @@ final class Name
         return new Token([T_STRING, $this->getLastName()]);
     }
 
-    /**
-     * @param mixed[] $partialUseDeclaration
-     */
-    public function setPartialUseDeclaration(array $partialUseDeclaration): void
+    public function setRelatedUseImport(UseImport $useImport): void
     {
-        $this->partialUseDeclaration = $partialUseDeclaration;
+        $this->relatedUseImport = $useImport;
     }
 
     public function isSingleName(): bool

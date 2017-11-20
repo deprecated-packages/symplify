@@ -18,8 +18,7 @@ final class UseImportsFactory
      * Reflection over code copying
      * that would force many updates and instability.
      *
-     * @param int[] $importUseIndexes
-     * @return string[][]
+     * @return UseImport[]
      */
     public function createForTokens(Tokens $tokens): array
     {
@@ -39,6 +38,8 @@ final class UseImportsFactory
             $tokens, $importUseIndexes
         );
 
+        $useImports = $this->wrapToValueObjects($useImports);
+
         return $this->cachedUseImports[$tokens->getCodeHash()] = $useImports;
     }
 
@@ -54,5 +55,19 @@ final class UseImportsFactory
         $object = new $class();
 
         return $reflectionMethod->invoke($object, ...$args);
+    }
+
+    /**
+     * @param mixed[][] $useImports
+     * @return UseImport[]
+     */
+    private function wrapToValueObjects(array $useImports): array
+    {
+        $valueObjects = [];
+        foreach ($useImports as $useImport) {
+            $valueObjects[] = new UseImport($useImport['fullName'], $useImport['shortName']);
+        }
+
+        return $valueObjects;
     }
 }
