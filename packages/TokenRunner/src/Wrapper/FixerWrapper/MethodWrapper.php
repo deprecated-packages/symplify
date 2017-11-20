@@ -8,7 +8,7 @@ use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use Symplify\TokenRunner\Analyzer\FixerAnalyzer\DocBlockFinder;
 use Symplify\TokenRunner\Guard\TokenTypeGuard;
-use Symplify\TokenRunner\Naming\FullyQualifiedNameResolver;
+use Symplify\TokenRunner\Naming\Name\NameFactory;
 
 final class MethodWrapper
 {
@@ -137,7 +137,7 @@ final class MethodWrapper
                     return $nextToken->getContent();
                 }
 
-                $name = FullyQualifiedNameResolver::resolveDataFromStart($this->tokens, $nextTokenPosition);
+                $name = NameFactory::createFromTokensAndStart($this->tokens, $nextTokenPosition);
 
                 return $name->getName();
             }

@@ -11,7 +11,7 @@ use Symplify\TokenRunner\Analyzer\FixerAnalyzer\DocBlockFinder;
 use Symplify\TokenRunner\Analyzer\FixerAnalyzer\PropertyAnalyzer;
 use Symplify\TokenRunner\Exception\MissingDocBlockException;
 use Symplify\TokenRunner\Guard\TokenTypeGuard;
-use Symplify\TokenRunner\Naming\FullyQualifiedNameResolver;
+use Symplify\TokenRunner\Naming\Name\NameFactory;
 
 final class PropertyWrapper
 {
@@ -84,7 +84,7 @@ final class PropertyWrapper
             return null;
         }
 
-        return FullyQualifiedNameResolver::resolveForName($this->tokens, $this->getType());
+        return NameFactory::resolveForName($this->tokens, $this->getType());
     }
 
     public function getType(): ?string

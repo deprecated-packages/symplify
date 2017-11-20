@@ -14,7 +14,7 @@ use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
-use Symplify\TokenRunner\Naming\FullyQualifiedNameResolver;
+use Symplify\TokenRunner\Naming\Name\NameFactory;
 use Symplify\TokenRunner\Naming\Name\Name;
 use Symplify\TokenRunner\Naming\Name\NameAnalyzer;
 use Symplify\TokenRunner\Naming\UseImport\UseImport;
@@ -83,7 +83,7 @@ final class ImportNamespacedNameFixer implements FixerInterface, DefinedFixerInt
                 continue;
             }
 
-            $name = FullyQualifiedNameResolver::resolveDataFromEnd($tokens, $index);
+            $name = NameFactory::createFromTokensAndEnd($tokens, $index);
             if ($this->configuration[self::ALLOW_SINGLE_NAMES_OPTION] && $name->isSingleName()) {
                 continue;
             }
