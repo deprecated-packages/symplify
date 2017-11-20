@@ -26,9 +26,7 @@ final class MethodWrapper
     {
         $this->position = $position;
         $this->tokens = $file->getTokens();
-
-        $namePosition = $file->findNext(T_STRING, $this->position + 1);
-        $this->methodName = $this->tokens[$namePosition]['content'];
+        $this->methodName = $this->resolveMethodNameFromPosition($file, $this->position + 1);
     }
 
     public static function createFromFileAndPosition(File $file, int $position): self
@@ -46,5 +44,12 @@ final class MethodWrapper
     public function getName(): string
     {
         return $this->methodName;
+    }
+
+    private function resolveMethodNameFromPosition(File $file, int $position): string
+    {
+        $namePosition = $file->findNext(T_STRING, $position);
+
+        return $this->tokens[$namePosition]['content'];
     }
 }
