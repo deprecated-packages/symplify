@@ -8,7 +8,6 @@ use SlevomatCodingStandard\Helpers\NamespaceHelper;
 use SlevomatCodingStandard\Helpers\ReferencedNameHelper;
 use SlevomatCodingStandard\Helpers\TokenHelper;
 use SlevomatCodingStandard\Helpers\UseStatementHelper;
-use Symplify\TokenRunner\Exception\UnexpectedTokenException;
 use Symplify\TokenRunner\Guard\TokenTypeGuard;
 
 final class Naming

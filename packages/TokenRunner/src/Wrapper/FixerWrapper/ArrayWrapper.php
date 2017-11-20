@@ -6,7 +6,6 @@ use PhpCsFixer\Tokenizer\CT;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use Symplify\TokenRunner\Analyzer\FixerAnalyzer\TokenSkipper;
-use Symplify\TokenRunner\Exception\UnexpectedTokenException;
 use Symplify\TokenRunner\Guard\TokenTypeGuard;
 
 final class ArrayWrapper
