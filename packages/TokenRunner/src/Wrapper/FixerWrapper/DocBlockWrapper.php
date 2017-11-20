@@ -13,12 +13,12 @@ use Symplify\TokenRunner\Guard\TokenTypeGuard;
 final class DocBlockWrapper
 {
     /**
-     * @var Tokens
+     * @var Tokens|null
      */
     private $tokens;
 
     /**
-     * @var DocBlock
+     * @var DocBlock|null
      */
     private $docBlock;
 
@@ -28,7 +28,7 @@ final class DocBlockWrapper
     private $whitespacesFixerConfig;
 
     /**
-     * @var int
+     * @var int|null
      */
     private $docBlockPosition;
 

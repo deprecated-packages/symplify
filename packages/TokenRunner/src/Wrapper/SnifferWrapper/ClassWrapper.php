@@ -6,7 +6,6 @@ use PHP_CodeSniffer\Files\File;
 use PhpCsFixer\Tokenizer\TokensAnalyzer;
 use ReflectionClass;
 use ReflectionProperty;
-// @todo: remove deps
 use SlevomatCodingStandard\Helpers\TokenHelper;
 use Symplify\TokenRunner\Analyzer\SnifferAnalyzer\Naming;
 use Symplify\TokenRunner\Guard\TokenTypeGuard;
@@ -18,7 +17,7 @@ final class ClassWrapper
      */
     private $file;
 
-    /**okenTypeGua
+    /**
      * @var int
      */
     private $position;
@@ -37,11 +36,6 @@ final class ClassWrapper
      * @var MethodWrapper[]
      */
     private $methods = [];
-
-    /**
-     * @var string[]
-     */
-    private $interfaces = [];
 
     /**
      * @var string[]
@@ -156,34 +150,6 @@ final class ClassWrapper
         return false;
     }
 
-    /**
-     * @return string[]
-     */
-    public function getInterfacesRequiredMethods(): array
-    {
-        $interfaceMethods = [];
-        foreach ($this->getInterfaces() as $interface) {
-            $interfaceMethods = array_merge($interfaceMethods, get_class_methods($interface));
-        }
-
-        return $interfaceMethods;
-    }
-
-    /**
-     * @return string[]
-     */
-    public function getInterfaces(): array
-    {
-        if (empty($this->interfaces)) {
-            $class = $this->getClassFullyQualifiedName();
-            if (class_exists($class)) {
-                $this->interfaces = class_implements($class);
-            }
-        }
-
-        return $this->interfaces;
-    }
-
     public function getParentClassName(): ?string
     {
         $extendsTokenPosition = TokenHelper::findNext($this->file, T_EXTENDS, $this->position, $this->position + 10);
@@ -275,27 +241,6 @@ final class ClassWrapper
         }
 
         return false;
-    }
-
-    private function getClassFullyQualifiedName(): string
-    {
-        $namespaceStart = $this->file->findNext([T_NAMESPACE], 0);
-        $class = '';
-        if ($namespaceStart !== false) {
-            $namespaceEnd = (int) $this->file->findNext([T_SEMICOLON], $namespaceStart + 2);
-            for ($i = $namespaceStart + 2; $i < $namespaceEnd; ++$i) {
-                $class .= $this->tokens[$i]['content'];
-            }
-
-            $class .= '\\';
-        } else {
-            $namespaceEnd = 0;
-        }
-
-        $classPosition = (int) $this->file->findNext([T_CLASS, T_INTERFACE], $namespaceEnd);
-        $class .= $this->file->getDeclarationName($classPosition);
-
-        return $class;
     }
 
     /**

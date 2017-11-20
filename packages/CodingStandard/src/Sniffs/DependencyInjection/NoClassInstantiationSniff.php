@@ -155,6 +155,9 @@ final class NoClassInstantiationSniff implements Sniff
         if (class_exists($className)) {
             $classReflection = new ReflectionClass($class);
             $docComment = $classReflection->getDocComment();
+            if ($docComment === false) {
+                return false;
+            }
 
             return Strings::contains($docComment, '@ORM\Entity');
         }
