@@ -18,6 +18,9 @@ composer require symplify/coding-standard --dev
 ## Rules Overview
 
 
+- Rules with :wrench: are configurable.
+
+
 ### Indexed PHP arrays should have 1 item per line
  
 - class: [`Symplify\CodingStandard\Fixer\ArrayNotation\StandaloneLineInMultilineArrayFixer`](/src/Fixer/ArrayNotation/StandaloneLineInMultilineArrayFixer.php)
@@ -38,7 +41,7 @@ $friends = [
 ```
 
 
-### Last property and first method must be separated by 1 blank line(s).
+### Last property and first method must be separated by 1 blank line :wrench:
 
 - class: [`Symplify\CodingStandard\Fixer\ClassNotation\LastPropertyAndFirstMethodSeparationFixer`](/src/Fixer/ClassNotation/LastPropertyAndFirstMethodSeparationFixer.php)
 
@@ -81,7 +84,7 @@ checkers:
 
 
 
-### Properties and constants must be separated by 1 blank line(s).
+### Properties and constants must be separated by 1 blank line :wrench:
 
 - class: [`Symplify\CodingStandard\Fixer\ClassNotation\PropertyAndConstantSeparationFixer`](/src/Fixer/ClassNotation/PropertyAndConstantSeparationFixer.php)
 
@@ -222,7 +225,7 @@ require __DIR__.'/vendor/autoload.php';
 ```
 
 
-### Types should not be referenced via a fully/partially qualified name, but via a use statement
+### Types should not be referenced via a fully/partially qualified name, but via a use statement :wrench:
 
 - class: [`Symplify\CodingStandard\Fixer\Import\ImportNamespacedNameFixer`](/src/Fixer/Import/ImportNamespacedNameFixer.php)
 
@@ -317,7 +320,7 @@ class SomeClass
 ```
 
 
-### Property name should match its type, if possible
+### Property name should match its type, if possible :wrench:
 
 - class: [`Symplify\CodingStandard\Fixer\Naming\PropertyNameMatchingTypeFixer`](/src/Fixer/Naming/PropertyNameMatchingTypeFixer.php)
 
@@ -350,7 +353,7 @@ checkers:
 ```
 
 
-### `::class` references should be used over string for classes and interfaces
+### `::class` references should be used over string for classes and interfaces :wrench:
  
  
 - class: [`Symplify\CodingStandard\Fixer\Php\ClassStringToClassConstantFixer`](/src/Fixer/Php/ClassStringToClassConstantFixer.php)
@@ -436,7 +439,7 @@ namespace SomeNamespace;
 ```
 
 
-### Non-abstract class that implements interface should be final
+### Non-abstract class that implements interface should be final :wrench:
 
 *Except for Doctrine entities, they cannot be final.*
 
@@ -548,7 +551,7 @@ dump($value);
 ```
 
 
-### Use service and constructor injection rather than instantiation with new
+### Use service and constructor injection rather than instantiation with new :wrench:
 
 - class: [`Symplify\CodingStandard\Sniffs\DependencyInjection\NoClassInstantiationSniff`](/src/Sniffs/DependencyInjection/NoClassInstantiationSniff.php)
 
