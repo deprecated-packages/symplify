@@ -2,6 +2,7 @@
 
 namespace Symplify\TokenRunner\Wrapper\FixerWrapper;
 
+use Nette\Utils\Strings;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use PhpCsFixer\Tokenizer\TokensAnalyzer;
@@ -260,5 +261,23 @@ final class ClassWrapper
         }
 
         return true;
+    }
+
+    public function clearImplements(): void
+    {
+        $implementTokens = $this->tokens->findGivenKind(T_IMPLEMENTS, $this->startIndex, $this->startBracketIndex);
+
+        reset($implementTokens);
+        $implementPosition = key($implementTokens);
+
+        $this->tokens->clearAt($implementPosition - 1);
+
+        for ($i = $implementPosition; $i < $this->startBracketIndex; ++$i) {
+            if (Strings::contains($this->tokens[$i]->getContent(), PHP_EOL)) {
+                return;
+            }
+
+            $this->tokens->clearAt($i);
+        }
     }
 }
