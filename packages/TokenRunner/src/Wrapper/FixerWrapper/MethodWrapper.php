@@ -102,7 +102,7 @@ final class MethodWrapper
             return;
         }
 
-        for ($i = $this->bodyStart - 1; $i > $this->bodyStart; --$i) {
+        for ($i = $this->bodyEnd - 1; $i > $this->bodyStart; --$i) {
             $token = $this->tokens[$i];
 
             if ($token->isGivenKind(T_VARIABLE) === false) {
