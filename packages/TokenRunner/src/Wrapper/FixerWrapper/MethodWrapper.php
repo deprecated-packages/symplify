@@ -22,12 +22,37 @@ final class MethodWrapper
      */
     private $index;
 
+    /**
+     * @var int|null
+     */
+    private $bodyStart;
+
+    /**
+     * @var int|null
+     */
+    private $bodyEnd;
+
     private function __construct(Tokens $tokens, int $index)
     {
         TokenTypeGuard::ensureIsTokenType($tokens[$index], [T_FUNCTION], __METHOD__);
 
         $this->tokens = $tokens;
         $this->index = $index;
+
+        $this->bodyStart = $this->tokens->getNextTokenOfKind($this->index, ['{']);
+        if ($this->bodyStart) {
+            $this->bodyEnd = $this->tokens->findBlockEnd(Tokens::BLOCK_TYPE_CURLY_BRACE, $this->bodyStart);
+        }
+    }
+
+    public function getBodyStart(): int
+    {
+        return $this->bodyStart;
+    }
+
+    public function getBodyEnd(): int
+    {
+        return $this->bodyEnd;
     }
 
     public static function createFromTokensAndPosition(Tokens $tokens, int $position): self
@@ -67,16 +92,13 @@ final class MethodWrapper
     public function renameEveryVariableOccurrence(string $oldName, string $newName): void
     {
         $possibleInterfaceEnd = $this->tokens->getNextTokenOfKind($this->index, [';']);
-        $methodBodyStart = $this->tokens->getNextTokenOfKind($this->index, ['{']);
 
         // is interface method, nothing to fix
-        if ($possibleInterfaceEnd !== null && ($methodBodyStart === null || $possibleInterfaceEnd < $methodBodyStart)) {
+        if ($possibleInterfaceEnd !== null && ($this->bodyStart === null || $possibleInterfaceEnd < $this->bodyStart)) {
             return;
         }
 
-        $methodBodyEnd = $this->tokens->findBlockEnd(Tokens::BLOCK_TYPE_CURLY_BRACE, $methodBodyStart);
-
-        for ($i = $methodBodyEnd - 1; $i > $methodBodyStart; --$i) {
+        for ($i = $this->bodyStart - 1; $i > $this->bodyStart; --$i) {
             $token = $this->tokens[$i];
 
             if ($token->isGivenKind(T_VARIABLE) === false) {
@@ -144,5 +166,19 @@ final class MethodWrapper
         }
 
         return null;
+    }
+
+    public function getMethodStart(): int
+    {
+        $previousPosition = $this->index;
+
+        while ($previousToken = $this->tokens[$this->tokens->getPrevMeaningfulToken($previousPosition)]) {
+            if ($previousToken->isGivenKind([T_PUBLIC, T_ABSTRACT])) {
+                --$previousPosition;
+                continue;
+            }
+
+            return $previousPosition - 1;
+        }
     }
 }
