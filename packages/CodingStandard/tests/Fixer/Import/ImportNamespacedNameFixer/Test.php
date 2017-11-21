@@ -3,10 +3,10 @@
 namespace Symplify\CodingStandard\Tests\Fixer\Import\ImportNamespacedNameFixer;
 
 use PhpCsFixer\Fixer\FixerInterface;
-use PhpCsFixer\Tests\Test\AbstractFixerTestCase;
 use Symplify\CodingStandard\Fixer\Import\ImportNamespacedNameFixer;
+use Symplify\TokenRunner\Testing\AbstractSimpleFixerTestCase;
 
-final class Test extends AbstractFixerTestCase
+final class Test extends AbstractSimpleFixerTestCase
 {
     /**
      * @dataProvider provideFixCases()

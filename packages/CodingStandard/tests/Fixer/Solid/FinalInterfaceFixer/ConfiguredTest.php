@@ -3,10 +3,10 @@
 namespace Symplify\CodingStandard\Tests\Fixer\Solid\FinalInterfaceFixer;
 
 use PhpCsFixer\Fixer\FixerInterface;
-use PhpCsFixer\Tests\Test\AbstractFixerTestCase;
 use Symplify\CodingStandard\Fixer\Solid\FinalInterfaceFixer;
+use Symplify\TokenRunner\Testing\AbstractSimpleFixerTestCase;
 
-final class ConfiguredTest extends AbstractFixerTestCase
+final class ConfiguredTest extends AbstractSimpleFixerTestCase
 {
     /**
      * @dataProvider provideFixCases()
@@ -22,10 +22,7 @@ final class ConfiguredTest extends AbstractFixerTestCase
     public function provideFixCases(): array
     {
         return [
-            [
-                file_get_contents(__DIR__ . '/fixed/fixed3.php.inc'),
-                file_get_contents(__DIR__ . '/wrong/wrong3.php.inc'),
-            ],
+            [__DIR__ . '/fixed/fixed3.php.inc', __DIR__ . '/wrong/wrong3.php.inc'],
         ];
     }
 

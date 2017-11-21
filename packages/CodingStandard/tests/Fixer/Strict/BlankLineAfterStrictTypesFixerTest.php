@@ -3,11 +3,11 @@
 namespace Symplify\CodingStandard\Tests\Fixer\Strict;
 
 use PhpCsFixer\Fixer\FixerInterface;
-use PhpCsFixer\Tests\Test\AbstractFixerTestCase;
 use PhpCsFixer\WhitespacesFixerConfig;
 use Symplify\CodingStandard\Fixer\Strict\BlankLineAfterStrictTypesFixer;
+use Symplify\TokenRunner\Testing\AbstractSimpleFixerTestCase;
 
-final class BlankLineAfterStrictTypesFixerTest extends AbstractFixerTestCase
+final class BlankLineAfterStrictTypesFixerTest extends AbstractSimpleFixerTestCase
 {
     /**
      * @dataProvider provideFixCases()
