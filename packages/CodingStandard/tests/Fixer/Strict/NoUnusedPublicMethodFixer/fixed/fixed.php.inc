@@ -5,10 +5,6 @@ namespace SomeNamespace;
 
 class SomeClass
 {
-    public function someMethod()
-    {
-
-    }
 
     public function anotherMethod()
     {
@@ -16,5 +12,5 @@ class SomeClass
     }
 }
 
-
+$someObject = new SomeClass;
 $someObject->anotherMethod();

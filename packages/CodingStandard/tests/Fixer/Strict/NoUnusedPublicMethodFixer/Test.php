@@ -1,9 +1,9 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Fixer\Solid\NoUnusedPublicMethodFixer;
+namespace Symplify\CodingStandard\Tests\Fixer\Strict\NoUnusedPublicMethodFixer;
 
 use PhpCsFixer\Fixer\FixerInterface;
-use Symplify\CodingStandard\Fixer\Solid\NoUnusedPublicMethodFixer;
+use Symplify\CodingStandard\Fixer\Strict\NoUnusedPublicMethodFixer;
 use Symplify\EasyCodingStandard\Tests\AbstractDualRunTestCase;
 
 final class Test extends AbstractDualRunTestCase

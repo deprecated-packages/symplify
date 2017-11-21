@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Fixer\Solid;
+namespace Symplify\CodingStandard\Fixer\Strict;
 
 use PhpCsFixer\Fixer\DefinedFixerInterface;
 use PhpCsFixer\Fixer\FixerInterface;
@@ -40,7 +40,7 @@ final class NoUnusedPublicMethodFixer implements FixerInterface, DefinedFixerInt
     public function getDefinition(): FixerDefinitionInterface
     {
         return new FixerDefinition(
-            'Unused public method can be removed.',
+            'There should be no unused public methods.',
             [
                 new CodeSample('
 <?php
@@ -98,7 +98,6 @@ class SomeClass {
     private function collectPublicMethodNames(Tokens $tokens): void
     {
         foreach ($tokens as $index => $token) {
-
             if (! $this->isPublicMethodToken($tokens, $token, $index)) {
                 continue;
             }
@@ -132,7 +131,7 @@ class SomeClass {
     }
 
     /**
-     * @param string[] $tokens
+     * @param string[] $unusedMethodNames
      */
     private function removeUnusedPublicMethods(Tokens $tokens, array $unusedMethodNames): void
     {
