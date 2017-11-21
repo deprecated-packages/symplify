@@ -438,7 +438,10 @@ namespace SomeNamespace;
 
 ### Non-abstract class that implements interface should be final
 
-- class: [`Symplify\CodingStandard\Sniffs\Classes\FinalInterfaceSniff`](/src/Sniffs/Classes/FinalInterfaceSniff.php)
+*Except for Doctrine entities, they cannot be final.*
+
+
+- class: [`Symplify\CodingStandard\Fixer\Solid\FinalInterfaceFixer`](/src/Fixer/Solid/FinalInterfaceFixer.php)
 
 :x:
 
@@ -456,7 +459,17 @@ final class SomeClass implements SomeInterface
 }
 ```
 
-- Except for Doctrine entities, they cannot be final.
+
+In case want check this only for specific interfaces, you can **configure them**:
+
+```yaml
+# easy-coding-standard.neon
+checkers:
+    Symplify\CodingStandard\Fixer\Solid\FinalInterfaceFixer:
+        onlyInterfaces:
+            - 'Symfony\Component\EventDispatcher\EventSubscriberInterface'
+            - 'Nette\Application\IPresenter'
+```
 
 
 ### Block comment should be used instead of one liner

@@ -215,6 +215,11 @@ final class DocBlockWrapper
         return true;
     }
 
+    public function contains(string $content): bool
+    {
+        return Strings::contains($this->docBlock->getContent(), $content);
+    }
+
     private function isIterableType(string $type): bool
     {
         if (Strings::endsWith($type, '[]')) {

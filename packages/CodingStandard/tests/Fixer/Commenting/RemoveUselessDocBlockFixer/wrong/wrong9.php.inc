@@ -1,5 +1,9 @@
 <?php
 
+namespace SomeNamespace;
+
+use Illuminate\Http\Request;
+
 class SomeClass
 {
     /**

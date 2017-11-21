@@ -5,7 +5,9 @@ namespace Symplify\TokenRunner\Wrapper\FixerWrapper;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use PhpCsFixer\Tokenizer\TokensAnalyzer;
+use Symplify\TokenRunner\Analyzer\FixerAnalyzer\DocBlockFinder;
 use Symplify\TokenRunner\Guard\TokenTypeGuard;
+use Symplify\TokenRunner\Naming\Name\NameFactory;
 
 final class ClassWrapper
 {
@@ -34,6 +36,11 @@ final class ClassWrapper
      */
     private $classToken;
 
+    /**
+     * @var int
+     */
+    private $startIndex;
+
     private function __construct(Tokens $tokens, int $startIndex)
     {
         $this->classToken = $tokens[$startIndex];
@@ -42,6 +49,7 @@ final class ClassWrapper
 
         $this->tokens = $tokens;
         $this->tokensAnalyzer = new TokensAnalyzer($tokens);
+        $this->startIndex = $startIndex;
     }
 
     public static function createFromTokensArrayStartPosition(Tokens $tokens, int $startIndex): self
@@ -159,6 +167,62 @@ final class ClassWrapper
     public function isGivenKind(array $tokenKinds): bool
     {
         return $this->classToken->isGivenKind($tokenKinds);
+    }
+
+    public function implementsInterface(): bool
+    {
+        return (bool) $this->getInterfaceNames();
+    }
+
+    public function isFinal(): bool
+    {
+        return (bool) $this->tokens->findGivenKind(T_FINAL, 0, $this->startIndex);
+    }
+
+    public function isAbstract(): bool
+    {
+        return (bool) $this->tokens->findGivenKind(T_ABSTRACT, 0, $this->startIndex);
+    }
+
+    public function isDoctrineEntity(): bool
+    {
+        $docCommentToken = DocBlockFinder::findPrevious($this->tokens, $this->startIndex);
+        if (! $docCommentToken) {
+            return false;
+        }
+
+        $docBlockWrapper = DocBlockWrapper::createFromDocBlockToken($docCommentToken);
+
+        return $docBlockWrapper->contains('Entity');
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getInterfaceNames(): array
+    {
+        $implementTokens = $this->tokens->findGivenKind(T_IMPLEMENTS, $this->startIndex, $this->startBracketIndex);
+
+        if (! $implementTokens) {
+            return [];
+        }
+
+        reset($implementTokens);
+
+        $implementPosition = key($implementTokens);
+
+        $interfacePartialNameTokens = $this->tokens->findGivenKind(
+            T_STRING,
+            $implementPosition,
+            $this->startBracketIndex
+        );
+
+        $interfaceNames = [];
+        foreach ($interfacePartialNameTokens as $position => $interfacePartialNameToken) {
+            $interfaceNames[] = NameFactory::createFromTokensAndStart($this->tokens, $position)->getName();
+        }
+
+        return $interfaceNames;
     }
 
     /**
