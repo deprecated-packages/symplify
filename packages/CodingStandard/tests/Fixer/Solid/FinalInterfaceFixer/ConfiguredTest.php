@@ -22,7 +22,8 @@ final class ConfiguredTest extends AbstractSimpleFixerTestCase
     public function provideFixCases(): array
     {
         return [
-            [__DIR__ . '/fixed/fixed3.php.inc', __DIR__ . '/wrong/wrong3.php.inc'],
+            # wrong => fixed
+            [__DIR__ . '/wrong/wrong3.php.inc', __DIR__ . '/fixed/fixed3.php.inc'],
         ];
     }
 

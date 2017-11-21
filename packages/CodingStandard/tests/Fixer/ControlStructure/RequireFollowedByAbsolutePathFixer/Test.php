@@ -22,8 +22,9 @@ final class Test extends AbstractSimpleFixerTestCase
     public function provideFixCases(): array
     {
         return [
-            [__DIR__ . '/fixed/fixed.php.inc', __DIR__ . '/wrong/wrong.php.inc', ],
-            [__DIR__ . '/fixed/fixed2.php.inc', __DIR__ . '/wrong/wrong2.php.inc', ],
+            # wrong => fixed
+            [__DIR__ . '/wrong/wrong.php.inc', __DIR__ . '/fixed/fixed.php.inc'],
+            [__DIR__ . '/wrong/wrong2.php.inc', __DIR__ . '/fixed/fixed2.php.inc'],
         ];
     }
 

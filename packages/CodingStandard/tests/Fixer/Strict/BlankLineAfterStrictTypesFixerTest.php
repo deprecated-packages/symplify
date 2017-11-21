@@ -12,13 +12,9 @@ final class BlankLineAfterStrictTypesFixerTest extends AbstractSimpleFixerTestCa
     /**
      * @dataProvider provideFixCases()
      */
-    public function testFix(string $input, ?string $fixedOutput = null): void
+    public function testFix(string $expected, ?string $input = null): void
     {
-        if ($fixedOutput === null) {
-            [$input, $fixedOutput] = [$fixedOutput, $input];
-        }
-
-        $this->doTest($fixedOutput, $input);
+        $this->doTest($expected, $input);
     }
 
     /**
@@ -27,29 +23,25 @@ final class BlankLineAfterStrictTypesFixerTest extends AbstractSimpleFixerTestCa
     public function provideFixCases(): array
     {
         return [
+            # wrong => fixed
             [
-                // wrong
                 '<?php declare(strict_types=1);
 namespace SomeNamespace;',
-                // fixed
                 '<?php declare(strict_types=1);
 
 namespace SomeNamespace;',
             ], [
-                // wrong
                 '<?php declare(strict_types=1);
 
 
 namespace SomeNamespace;',
-                // fixed
                 '<?php declare(strict_types=1);
 
 namespace SomeNamespace;',
-            ], [
-                // correct
-                '<?php declare(strict_types=1);
-',
             ],
+            # correct
+            ['<?php declare(strict_types=1);
+',]
         ];
     }
 
