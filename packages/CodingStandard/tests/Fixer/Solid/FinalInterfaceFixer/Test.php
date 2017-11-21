@@ -3,7 +3,7 @@
 namespace Symplify\CodingStandard\Tests\Fixer\Solid\FinalInterfaceFixer;
 
 use PhpCsFixer\Fixer\FixerInterface;
-use PhpCsFixer\Test\AbstractFixerTestCase;
+use PhpCsFixer\Tests\Test\AbstractFixerTestCase;
 use Symplify\CodingStandard\Fixer\Solid\FinalInterfaceFixer;
 
 final class Test extends AbstractFixerTestCase

@@ -3,7 +3,7 @@
 namespace Symplify\CodingStandard\Tests\Fixer\Strict;
 
 use PhpCsFixer\Fixer\FixerInterface;
-use PhpCsFixer\Test\AbstractFixerTestCase;
+use PhpCsFixer\Tests\Test\AbstractFixerTestCase;
 use PhpCsFixer\WhitespacesFixerConfig;
 use Symplify\CodingStandard\Fixer\Strict\BlankLineAfterStrictTypesFixer;
 

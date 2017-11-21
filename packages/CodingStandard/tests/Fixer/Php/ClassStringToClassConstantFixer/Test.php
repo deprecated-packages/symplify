@@ -3,7 +3,7 @@
 namespace Symplify\CodingStandard\Tests\Fixer\Php\ClassStringToClassConstantFixer;
 
 use PhpCsFixer\Fixer\FixerInterface;
-use PhpCsFixer\Test\AbstractFixerTestCase;
+use PhpCsFixer\Tests\Test\AbstractFixerTestCase;
 use Symplify\CodingStandard\Fixer\Php\ClassStringToClassConstantFixer;
 
 final class Test extends AbstractFixerTestCase

@@ -1,10 +1,10 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Fixer\Solid\NoInterfaceOnAbstractClassFixer;
+namespace Symplify\CodingStandard\Tests\Fixer\Solid\NoUnusedPublicMethodFixer;
 
 use PhpCsFixer\Fixer\FixerInterface;
 use PhpCsFixer\Tests\Test\AbstractFixerTestCase;
-use Symplify\CodingStandard\Fixer\Solid\NoInterfaceOnAbstractClassFixer;
+use Symplify\CodingStandard\Fixer\Solid\NoUnusedPublicMethodFixer;
 
 final class Test extends AbstractFixerTestCase
 {
@@ -31,6 +31,6 @@ final class Test extends AbstractFixerTestCase
 
     protected function createFixer(): FixerInterface
     {
-        return new NoInterfaceOnAbstractClassFixer();
+        return new NoUnusedPublicMethodFixer();
     }
 }

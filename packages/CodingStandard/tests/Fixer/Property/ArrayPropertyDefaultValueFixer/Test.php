@@ -3,7 +3,7 @@
 namespace Symplify\CodingStandard\Tests\Fixer\Property\ArrayPropertyDefaultValueFixer;
 
 use PhpCsFixer\Fixer\FixerInterface;
-use PhpCsFixer\Test\AbstractFixerTestCase;
+use PhpCsFixer\Tests\Test\AbstractFixerTestCase;
 use Symplify\CodingStandard\Fixer\Property\ArrayPropertyDefaultValueFixer;
 
 final class Test extends AbstractFixerTestCase
