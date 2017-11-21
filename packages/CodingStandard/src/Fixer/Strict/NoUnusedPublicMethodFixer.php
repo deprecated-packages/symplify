@@ -116,7 +116,7 @@ class SomeClass {
             }
 
             $openBracketToken = $tokens[$tokens->getNextMeaningfulToken($index + 1)];
-            if (! $openBracketToken->getContent() === '(') {
+            if ($openBracketToken->getContent() !== '(') {
                 continue;
             }
 

@@ -23,11 +23,15 @@ final class MethodWrapper
     private $index;
 
     /**
+     * Interface method has no body
+     *
      * @var int|null
      */
     private $bodyStart;
 
     /**
+     * Interface method has no body
+     *
      * @var int|null
      */
     private $bodyEnd;
@@ -45,12 +49,12 @@ final class MethodWrapper
         }
     }
 
-    public function getBodyStart(): int
+    public function getBodyStart(): ?int
     {
         return $this->bodyStart;
     }
 
-    public function getBodyEnd(): int
+    public function getBodyEnd(): ?int
     {
         return $this->bodyEnd;
     }
@@ -98,7 +102,7 @@ final class MethodWrapper
             return;
         }
 
-        for ($i = $this->bodyEnd - 1; $i > $this->bodyStart; --$i) {
+        for ($i = $this->bodyStart - 1; $i > $this->bodyStart; --$i) {
             $token = $this->tokens[$i];
 
             if ($token->isGivenKind(T_VARIABLE) === false) {
