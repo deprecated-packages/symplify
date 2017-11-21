@@ -11,7 +11,7 @@ abstract class AbstractSimpleFixerTestCase extends AbstractFixerTestCase
      * @param string $expected
      * @param string|null $input
      */
-    protected function doTest($expected, ?string $input = null, ?SplFileInfo $file = null): void
+    protected function doTest($expected, $input = null, ?SplFileInfo $file = null): void
     {
         if ($input === null) {
             parent::doTest($expected, $input, $file);
