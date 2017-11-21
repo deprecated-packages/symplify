@@ -8,7 +8,7 @@ class SomeClass
 {
     /**
      */
-    public function __construct(Request $request): Request
+    public function someMethod(Request $request): Request
     {
     }
 }
