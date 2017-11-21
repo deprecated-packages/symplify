@@ -41,7 +41,7 @@ namespace SomeNamespace;',
             ],
             # correct
             ['<?php declare(strict_types=1);
-',]
+', ],
         ];
     }
 

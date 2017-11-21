@@ -4,9 +4,9 @@ namespace Symplify\CodingStandard\Tests\Fixer\Solid\NoUnusedPublicMethodFixer;
 
 use PhpCsFixer\Fixer\FixerInterface;
 use Symplify\CodingStandard\Fixer\Solid\NoUnusedPublicMethodFixer;
-use Symplify\TokenRunner\Testing\AbstractSimpleFixerTestCase;
+use Symplify\EasyCodingStandard\Tests\AbstractDualRunTestCase;
 
-final class Test extends AbstractSimpleFixerTestCase
+final class Test extends AbstractDualRunTestCase
 {
     /**
      * @dataProvider provideFixCases()

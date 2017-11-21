@@ -2,16 +2,16 @@
 
 namespace Symplify\TokenRunner\Testing;
 
-use Nette\Utils\Strings;
 use PhpCsFixer\Tests\Test\AbstractFixerTestCase;
 use SplFileInfo;
 
 abstract class AbstractSimpleFixerTestCase extends AbstractFixerTestCase
 {
     /**
+     * @param string $expected
      * @param string|null $input
      */
-    protected function doTest(string $expected, ?string $input = null, ?SplFileInfo $file = null): void
+    protected function doTest($expected, ?string $input = null, ?SplFileInfo $file = null): void
     {
         if ($input === null) {
             parent::doTest($expected, $input, $file);
@@ -19,9 +19,7 @@ abstract class AbstractSimpleFixerTestCase extends AbstractFixerTestCase
         }
 
         // natural order for humans
-        if (Strings::contains($input, 'fixed')) {
-            [$expected, $input] = [$input, $expected];
-        }
+        [$expected, $input] = [$input, $expected];
 
         // autoload files
         [$expected, $input] = $this->loadFileContents($expected, $input);

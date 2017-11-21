@@ -38,6 +38,9 @@ parameters:
             - packages/EasyCodingStandard/packages/SniffRunner/src/File/File.php
             - packages/Statie/packages/FlatWhite/src/Latte/DynamicStringLoader.php
             - packages/Statie/src/Configuration/Configuration.php
+            # parent class without typehints
+            - packages/TokenRunner/src/Testing/AbstractSimpleFixerTestCase.php
+            - packages/EasyCodingStandard/tests/AbstractDualRunTestCase.php
 
         PhpCsFixer\Fixer\PhpUnit\PhpUnitStrictFixer:
             - packages/EasyCodingStandard/tests/Indentation/IndentationTest.php

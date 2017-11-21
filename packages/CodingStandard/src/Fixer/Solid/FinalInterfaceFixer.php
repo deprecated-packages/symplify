@@ -72,9 +72,13 @@ class SomeClass implements SomeInterface {};'),
         }
     }
 
+    /**
+     * Classes implementing interface that are further extended
+     * can break the code.
+     */
     public function isRisky(): bool
     {
-        return false;
+        return true;
     }
 
     public function getName(): string
