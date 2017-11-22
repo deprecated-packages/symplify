@@ -51,7 +51,7 @@ abstract class AbstractSniffTestCase extends TestCase
 
     private function runSniffTestForCorrectFile(string $sniffClass, SplFileInfo $fileInfo): void
     {
-        $sniff = new $sniffClass;
+        $sniff = new $sniffClass();
         $this->processFileWithSniff($sniff, $fileInfo);
 
         $this->assertSame(0, $this->errorCollector->getErrorCount(), sprintf(

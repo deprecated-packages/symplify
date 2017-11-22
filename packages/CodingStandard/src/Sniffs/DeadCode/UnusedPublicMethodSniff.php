@@ -4,14 +4,6 @@ namespace Symplify\CodingStandard\Sniffs\DeadCode;
 
 use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Sniffs\Sniff;
-use PhpCsFixer\Fixer\DefinedFixerInterface;
-use PhpCsFixer\Fixer\FixerInterface;
-use PhpCsFixer\FixerDefinition\CodeSample;
-use PhpCsFixer\FixerDefinition\FixerDefinition;
-use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
-use PhpCsFixer\Tokenizer\Token;
-use PhpCsFixer\Tokenizer\Tokens;
-use SplFileInfo;
 use Symplify\EasyCodingStandard\Contract\Application\DualRunInterface;
 
 /**
@@ -87,6 +79,11 @@ final class UnusedPublicMethodSniff implements Sniff, DualRunInterface
         }
     }
 
+    public function increaseRun(): void
+    {
+        ++$this->runNumber;
+    }
+
     private function collectPublicMethodNames(): void
     {
         $token = $this->tokens[$this->position];
@@ -158,10 +155,5 @@ final class UnusedPublicMethodSniff implements Sniff, DualRunInterface
 
         // is function with name
         return $nextToken['code'] === T_STRING;
-    }
-
-    public function increaseRun(): void
-    {
-        ++$this->runNumber;
     }
 }
