@@ -36,11 +36,6 @@ final class MethodWrapper
         return new self($file, $position);
     }
 
-    public function getPosition(): int
-    {
-        return $this->position;
-    }
-
     public function getName(): string
     {
         return $this->methodName;

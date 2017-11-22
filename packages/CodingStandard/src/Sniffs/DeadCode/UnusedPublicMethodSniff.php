@@ -2,6 +2,7 @@
 
 namespace Symplify\CodingStandard\Sniffs\DeadCode;
 
+use Nette\Utils\Strings;
 use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Sniffs\Sniff;
 use Symplify\EasyCodingStandard\Contract\Application\DualRunInterface;
@@ -93,6 +94,12 @@ final class UnusedPublicMethodSniff implements Sniff, DualRunInterface
         }
 
         $methodNameToken = $this->tokens[$this->position + 2];
+        $methodName = $methodNameToken['content'];
+
+        // native PHP method
+        if (Strings::startsWith($methodName, '__')) {
+            return;
+        }
 
         $this->publicMethodNames[] = $methodNameToken['content'];
     }
