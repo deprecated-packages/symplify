@@ -54,6 +54,11 @@ final class UnusedPublicMethodSniff implements Sniff, DualRunInterface
     private $position;
 
     /**
+     * @var mixed[]
+     */
+    private $tokens = [];
+
+    /**
      * @return int[]
      */
     public function register(): array
@@ -67,6 +72,7 @@ final class UnusedPublicMethodSniff implements Sniff, DualRunInterface
     public function process(File $file, $position): void
     {
         $this->file = $file;
+        $this->tokens = $file->getTokens();
         $this->position = $position;
 
         if ($this->runNumber === 1) {
@@ -74,50 +80,46 @@ final class UnusedPublicMethodSniff implements Sniff, DualRunInterface
             $this->collectMethodCalls();
         }
 
-        if ($this->runNumber === 2) {
-            $unusedMethodNames = array_diff($this->publicMethodNames, $this->calledMethodNames);
-
-            $this->removeUnusedPublicMethods($tokens, $unusedMethodNames);
-        }
-
-        ++$this->runNumber;
+//        if ($this->runNumber === 2) {
+//            $unusedMethodNames = array_diff($this->publicMethodNames, $this->calledMethodNames);
+//
+//            $this->removeUnusedPublicMethods($unusedMethodNames);
+//        }
     }
 
     private function collectPublicMethodNames(): void
     {
-        // ... $this->file
+        $token = $this->tokens[$this->position];
 
-        foreach ($tokens as $index => $token) {
-            if (! $this->isPublicMethodToken($tokens, $token, $index)) {
-                continue;
-            }
-
-            $functionNameToken = $tokens[$tokens->getNextMeaningfulToken($index)];
-
-            $this->publicMethodNames[] = $functionNameToken->getContent();
+        if (! $this->isPublicMethodToken($token)) {
+            return;
         }
+
+        $methodNameToken = $this->tokens[$this->position + 2];
+
+        $this->publicMethodNames[] = $methodNameToken['content'];
     }
 
     private function collectMethodCalls(): void
     {
-        foreach ($tokens as $index => $token) {
-            if (! $token->isGivenKind(T_OBJECT_OPERATOR)) {
-                continue;
-            }
+        $token = $this->tokens[$this->position];
 
-            $openBracketToken = $tokens[$tokens->getNextMeaningfulToken($index + 1)];
-            if ($openBracketToken->getContent() !== '(') {
-                continue;
-            }
-
-            $methodNameToken = $tokens[$tokens->getNextMeaningfulToken($index)];
-
-            if (! $methodNameToken->isGivenKind(T_STRING)) {
-                continue;
-            }
-
-            $this->calledMethodNames[] = $methodNameToken->getContent();
+        if ($token['code'] !== T_OBJECT_OPERATOR) {
+            return;
         }
+
+        $openBracketToken = $this->tokens[$this->position + 2];
+        if ($openBracketToken['content'] !== '(') {
+            return;
+        }
+
+        $methodNameToken = $this->tokens[$this->position + 1];
+
+        if ($methodNameToken['code'] !== T_STRING) {
+            return;
+        }
+
+        $this->calledMethodNames[] = $methodNameToken['content'];
     }
 
     /**
@@ -137,21 +139,25 @@ final class UnusedPublicMethodSniff implements Sniff, DualRunInterface
         }
     }
 
-    private function isPublicMethodToken(Tokens $tokens, Token $token, int $index): bool
+    private function isPublicMethodToken(array $token): bool
     {
-        if (! $token->isGivenKind(T_FUNCTION)) {
+        if (! $token['code'] === T_FUNCTION) {
             return false;
         }
 
-        if ($tokens[$index - 1]->isGivenKind(T_PUBLIC)) {
+        // not a public function
+        if ($this->tokens[$this->position - 2]['code'] === T_PUBLIC) {
             return false;
         }
 
-        $functionNameToken = $tokens[$tokens->getNextMeaningfulToken($index)];
-        if (! $functionNameToken->isGivenKind(T_STRING)) {
-            return false;
-        }
+        $nextToken = $this->tokens[$this->position + 2];
 
-        return true;
+        // is function with name
+        return $nextToken['type'] === T_STRING;
+    }
+
+    public function increaseRun(): void
+    {
+        ++$this->runNumber;
     }
 }
