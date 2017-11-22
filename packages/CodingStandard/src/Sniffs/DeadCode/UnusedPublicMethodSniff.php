@@ -1,7 +1,9 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Fixer\Strict;
+namespace Symplify\CodingStandard\Sniffs\DeadCode;
 
+use PHP_CodeSniffer\Files\File;
+use PHP_CodeSniffer\Sniffs\Sniff;
 use PhpCsFixer\Fixer\DefinedFixerInterface;
 use PhpCsFixer\Fixer\FixerInterface;
 use PhpCsFixer\FixerDefinition\CodeSample;
@@ -11,7 +13,6 @@ use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
 use Symplify\EasyCodingStandard\Contract\Application\DualRunInterface;
-use Symplify\TokenRunner\Wrapper\FixerWrapper\MethodWrapper;
 
 /**
  * @experimental
@@ -20,8 +21,13 @@ use Symplify\TokenRunner\Wrapper\FixerWrapper\MethodWrapper;
  *
  * Inspiration http://www.andreybutov.com/2011/08/20/how-do-i-find-unused-functions-in-my-php-project/
  */
-final class NoUnusedPublicMethodFixer implements FixerInterface, DefinedFixerInterface, DualRunInterface
+final class UnusedPublicMethodSniff implements Sniff, DualRunInterface
 {
+    /**
+     * @var string
+     */
+    private const MESSAGE = 'There should be no unused public methods.';
+
     /**
      * @var int
      */
@@ -37,33 +43,35 @@ final class NoUnusedPublicMethodFixer implements FixerInterface, DefinedFixerInt
      */
     private $calledMethodNames = [];
 
-    public function getDefinition(): FixerDefinitionInterface
+    /**
+     * @var File
+     */
+    private $file;
+
+    /**
+     * @var int
+     */
+    private $position;
+
+    /**
+     * @return int[]
+     */
+    public function register(): array
     {
-        return new FixerDefinition(
-            'There should be no unused public methods.',
-            [
-                new CodeSample('
-<?php
-class SomeClass {
-    public function someMethod()
-    {
-    }
-}'),
-            ]
-        );
+        return [T_FUNCTION, T_OBJECT_OPERATOR];
     }
 
-    public function isCandidate(Tokens $tokens): bool
+    /**
+     * @param int $position
+     */
+    public function process(File $file, $position): void
     {
-        return $tokens->isAllTokenKindsFound([T_CLASS, T_FUNCTION])
-            && $tokens->isAnyTokenKindsFound([T_PUBLIC, T_OBJECT_OPERATOR]);
-    }
+        $this->file = $file;
+        $this->position = $position;
 
-    public function fix(SplFileInfo $file, Tokens $tokens): void
-    {
         if ($this->runNumber === 1) {
-            $this->collectPublicMethodNames($tokens);
-            $this->collectMethodCalls($tokens);
+            $this->collectPublicMethodNames();
+            $this->collectMethodCalls();
         }
 
         if ($this->runNumber === 2) {
@@ -75,28 +83,10 @@ class SomeClass {
         ++$this->runNumber;
     }
 
-    public function isRisky(): bool
+    private function collectPublicMethodNames(): void
     {
-        return false;
-    }
+        // ... $this->file
 
-    public function getName(): string
-    {
-        return self::class;
-    }
-
-    public function getPriority(): int
-    {
-        return 0;
-    }
-
-    public function supports(SplFileInfo $file): bool
-    {
-        return true;
-    }
-
-    private function collectPublicMethodNames(Tokens $tokens): void
-    {
         foreach ($tokens as $index => $token) {
             if (! $this->isPublicMethodToken($tokens, $token, $index)) {
                 continue;
@@ -108,7 +98,7 @@ class SomeClass {
         }
     }
 
-    private function collectMethodCalls(Tokens $tokens): void
+    private function collectMethodCalls(): void
     {
         foreach ($tokens as $index => $token) {
             if (! $token->isGivenKind(T_OBJECT_OPERATOR)) {
@@ -143,16 +133,7 @@ class SomeClass {
                 continue;
             }
 
-            $functionNameToken = $tokens[$tokens->getNextMeaningfulToken($index)];
-            $functionName = $functionNameToken->getContent();
-
-            if (! in_array($functionName, $unusedMethodNames, true)) {
-                continue;
-            }
-
-            $methodWrapper = MethodWrapper::createFromTokensAndPosition($tokens, $index);
-
-            $tokens->clearRange($methodWrapper->getMethodStart(), $methodWrapper->getBodyEnd());
+            $file->addError(self::MESSAGE, '...');
         }
     }
 
