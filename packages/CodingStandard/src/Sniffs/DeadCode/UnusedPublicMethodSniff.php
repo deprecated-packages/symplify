@@ -146,7 +146,6 @@ final class UnusedPublicMethodSniff implements Sniff, DualRunInterface
 
         $this->file->addError(sprintf(
             self::MESSAGE,
-
             $methodName
         ), $this->position, self::class);
     }
