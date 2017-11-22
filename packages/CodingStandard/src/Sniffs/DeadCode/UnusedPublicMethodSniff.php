@@ -19,7 +19,7 @@ final class UnusedPublicMethodSniff implements Sniff, DualRunInterface
     /**
      * @var string
      */
-    private const MESSAGE = 'There should be no unused public methods.';
+    private const MESSAGE = 'Public method "%s()" is probably unused.';
 
     /**
      * @var int
@@ -144,12 +144,16 @@ final class UnusedPublicMethodSniff implements Sniff, DualRunInterface
             return;
         }
 
-        $this->file->addError(self::MESSAGE, $this->position, self::class);
+        $this->file->addError(sprintf(
+            self::MESSAGE,
+
+            $methodName
+        ), $this->position, self::class);
     }
 
     private function isPublicMethodToken(array $token): bool
     {
-        if (! $token['code'] === T_FUNCTION) {
+        if ($token['code'] !== T_FUNCTION) {
             return false;
         }
 

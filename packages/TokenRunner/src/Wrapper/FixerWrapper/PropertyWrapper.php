@@ -9,7 +9,6 @@ use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use Symplify\TokenRunner\Analyzer\FixerAnalyzer\DocBlockFinder;
 use Symplify\TokenRunner\Analyzer\FixerAnalyzer\PropertyAnalyzer;
-use Symplify\TokenRunner\Exception\MissingDocBlockException;
 use Symplify\TokenRunner\Guard\TokenTypeGuard;
 use Symplify\TokenRunner\Naming\Name\NameFactory;
 
@@ -58,17 +57,6 @@ final class PropertyWrapper
     public static function createFromTokensAndPosition(Tokens $tokens, int $position): self
     {
         return new self($tokens, $position);
-    }
-
-    public function removeAnnotation(string $annotationType): void
-    {
-        $this->ensureHasDocBlock(__METHOD__);
-
-        foreach ($this->docBlock->getAnnotationsOfType($annotationType) as $annotation) {
-            $annotation->remove();
-        }
-
-        $this->tokens[$this->docBlockPosition] = new Token([T_DOC_COMMENT, $this->docBlock->getContent()]);
     }
 
     public function getName(): string
@@ -150,18 +138,6 @@ final class PropertyWrapper
             $this->docBlockPosition,
             $this->docBlock
         );
-    }
-
-    private function ensureHasDocBlock(string $calledMethod): void
-    {
-        if ($this->docBlock === null) {
-            throw new MissingDocBlockException(sprintf(
-                'Property %s does not have a docblock. So method "%s::%s()" cannot be used.',
-                $this->getName(),
-                self::class,
-                $calledMethod
-            ));
-        }
     }
 
     private function getPropertyNamePosition(): int
