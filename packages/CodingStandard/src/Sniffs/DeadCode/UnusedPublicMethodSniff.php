@@ -133,7 +133,7 @@ final class UnusedPublicMethodSniff implements Sniff, DualRunInterface
         $methodNameToken = $this->tokens[$this->position + 2];
         $methodName = $methodNameToken['content'];
 
-        if (! in_array($methodName, $unusedMethodNames)) {
+        if (! in_array($methodName, $unusedMethodNames, true)) {
             return;
         }
 
