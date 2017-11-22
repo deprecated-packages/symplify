@@ -80,11 +80,11 @@ final class UnusedPublicMethodSniff implements Sniff, DualRunInterface
             $this->collectMethodCalls();
         }
 
-//        if ($this->runNumber === 2) {
-//            $unusedMethodNames = array_diff($this->publicMethodNames, $this->calledMethodNames);
-//
-//            $this->removeUnusedPublicMethods($unusedMethodNames);
-//        }
+        if ($this->runNumber === 2) {
+            $unusedMethodNames = array_diff($this->publicMethodNames, $this->calledMethodNames);
+
+            $this->checkUnusedPublicMethods($unusedMethodNames);
+        }
     }
 
     private function collectPublicMethodNames(): void
@@ -125,18 +125,22 @@ final class UnusedPublicMethodSniff implements Sniff, DualRunInterface
     /**
      * @param string[] $unusedMethodNames
      */
-    private function removeUnusedPublicMethods(Tokens $tokens, array $unusedMethodNames): void
+    private function checkUnusedPublicMethods(array $unusedMethodNames): void
     {
-        /** @var Token[] $reversedTokens */
-        $reversedTokens = array_reverse(iterator_to_array($tokens), true);
+        $token = $this->tokens[$this->position];
 
-        foreach ($reversedTokens as $index => $token) {
-            if (! $this->isPublicMethodToken($tokens, $token, $index)) {
-                continue;
-            }
-
-            $file->addError(self::MESSAGE, '...');
+        if (! $this->isPublicMethodToken($token)) {
+            return;
         }
+
+        $methodNameToken = $this->tokens[$this->position + 2];
+        $methodName = $methodNameToken['content'];
+
+        if (! in_array($methodName, $unusedMethodNames)) {
+            return;
+        }
+
+        $this->file->addError(self::MESSAGE, $this->position, self::class);
     }
 
     private function isPublicMethodToken(array $token): bool
@@ -146,14 +150,14 @@ final class UnusedPublicMethodSniff implements Sniff, DualRunInterface
         }
 
         // not a public function
-        if ($this->tokens[$this->position - 2]['code'] === T_PUBLIC) {
+        if ($this->tokens[$this->position - 2]['code'] !== T_PUBLIC) {
             return false;
         }
 
         $nextToken = $this->tokens[$this->position + 2];
 
         // is function with name
-        return $nextToken['type'] === T_STRING;
+        return $nextToken['code'] === T_STRING;
     }
 
     public function increaseRun(): void

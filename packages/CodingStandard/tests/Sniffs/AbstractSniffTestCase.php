@@ -4,8 +4,10 @@ namespace Symplify\CodingStandard\Tests\Sniffs;
 
 use Nette\Utils\Finder;
 use Nette\Utils\Strings;
+use PHP_CodeSniffer\Sniffs\Sniff;
 use PHPUnit\Framework\TestCase;
 use SplFileInfo;
+use Symplify\EasyCodingStandard\Contract\Application\DualRunInterface;
 use Symplify\EasyCodingStandard\DependencyInjection\ContainerFactory;
 use Symplify\EasyCodingStandard\Error\ErrorCollector;
 use Symplify\EasyCodingStandard\SniffRunner\Application\SniffFileProcessor;
@@ -49,7 +51,8 @@ abstract class AbstractSniffTestCase extends TestCase
 
     private function runSniffTestForCorrectFile(string $sniffClass, SplFileInfo $fileInfo): void
     {
-        $this->processFileWithSniff($sniffClass, $fileInfo);
+        $sniff = new $sniffClass;
+        $this->processFileWithSniff($sniff, $fileInfo);
 
         $this->assertSame(0, $this->errorCollector->getErrorCount(), sprintf(
             'File "%s" should have no errors. %s found.',
@@ -60,7 +63,13 @@ abstract class AbstractSniffTestCase extends TestCase
 
     private function runSniffTestForWrongFile(string $sniffClass, SplFileInfo $fileInfo): void
     {
-        $this->processFileWithSniff($sniffClass, $fileInfo);
+        /** @var Sniff $sniff */
+        $sniff = new $sniffClass();
+        $this->processFileWithSniff($sniff, $fileInfo);
+        if ($sniff instanceof DualRunInterface) {
+            $sniff->increaseRun();
+            $this->processFileWithSniff($sniff, $fileInfo);
+        }
 
         $this->assertGreaterThanOrEqual(1, $this->errorCollector->getErrorCount(), sprintf(
             'File "%s" should have at least 1 error.',
@@ -98,11 +107,11 @@ abstract class AbstractSniffTestCase extends TestCase
         return dirname($fileInfo->getPathname()) . '/' . $fileInfo->getBasename('.php.inc') . '-fixed.php.inc';
     }
 
-    private function processFileWithSniff(string $sniffClass, SplFileInfo $fileInfo): void
+    private function processFileWithSniff(Sniff $sniff, SplFileInfo $fileInfo): void
     {
         $this->errorCollector->resetCounters();
         $this->sniffFileProcessor->setIsFixer(true); // to test changed content of file
-        $this->sniffFileProcessor->setSingleSniff(new $sniffClass());
+        $this->sniffFileProcessor->setSingleSniff($sniff);
         $this->sniffFileProcessor->processFile($fileInfo, true);
     }
 }
