@@ -27,7 +27,7 @@ final class NeonLoader implements LoaderInterface
     private $containerBuilder;
 
     /**
-     * @param ContainerBuilder|ContainerInterface $containerBuilder
+     * @param ContainerBuilder|ContainerInterface $container
      */
     public function __construct(ContainerInterface $container)
     {

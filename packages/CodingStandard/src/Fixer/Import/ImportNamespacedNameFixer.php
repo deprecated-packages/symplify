@@ -49,6 +49,16 @@ final class ImportNamespacedNameFixer implements FixerInterface, DefinedFixerInt
      */
     private $configuration = [];
 
+    /**
+     * @var string
+     */
+    private $className;
+
+    /**
+     * @var Tokens
+     */
+    private $tokens;
+
     public function __construct()
     {
         // set defaults
@@ -73,10 +83,17 @@ final class ImportNamespacedNameFixer implements FixerInterface, DefinedFixerInt
 
     public function fix(SplFileInfo $file, Tokens $tokens): void
     {
+        $this->tokens = $tokens;
+
         $this->useImports = (new UseImportsFactory())->createForTokens($tokens);
 
         for ($index = $tokens->getSize() - 1; $index > 0; --$index) {
             $token = $tokens[$index];
+
+            // class name is same as token that could be imported, skip
+            if ($token->getContent() === $this->getClassName()) {
+                continue;
+            }
 
             // Case 1.
             if (! NameAnalyzer::isImportableNameToken($tokens, $token, $index)) {
@@ -111,11 +128,13 @@ final class ImportNamespacedNameFixer implements FixerInterface, DefinedFixerInt
     }
 
     /**
-     * Run before @see \PhpCsFixer\Fixer\Import\OrderedImportsFixer.
+     * Run before:
+     * - @see \PhpCsFixer\Fixer\Import\OrderedImportsFixer
+     * - @see \PhpCsFixer\Fixer\Import\SingleLineAfterImportsFixer
      */
     public function getPriority(): int
     {
-        return -40;
+        return 10;
     }
 
     /**
@@ -150,9 +169,12 @@ final class ImportNamespacedNameFixer implements FixerInterface, DefinedFixerInt
         return true;
     }
 
+    /**
+     * There are still some edge cases to be found and improve.
+     */
     public function isRisky(): bool
     {
-        return false;
+        return true;
     }
 
     public function getName(): string
@@ -172,9 +194,6 @@ final class ImportNamespacedNameFixer implements FixerInterface, DefinedFixerInt
         return $this->namespacePosition = key($namespace);
     }
 
-    /**
-     * @param Token[] $nameTokens
-     */
     private function addIntoUseStatements(Tokens $tokens, Name $name): void
     {
         $namespacePosition = $this->getNamespacePosition($tokens);
@@ -206,5 +225,18 @@ final class ImportNamespacedNameFixer implements FixerInterface, DefinedFixerInt
         }
 
         return $name;
+    }
+
+    private function getClassName(): string
+    {
+        if ($this->className) {
+            return $this->className;
+        }
+
+        $classPosition = $this->tokens->getNextTokenOfKind(0, [new Token([T_CLASS, 'class'])]);
+
+        $classNamePosition = $this->tokens->getNextMeaningfulToken($classPosition);
+
+        return $this->className = $this->tokens[$classNamePosition]->getContent();
     }
 }

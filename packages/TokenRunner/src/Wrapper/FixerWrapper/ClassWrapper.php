@@ -163,7 +163,7 @@ final class ClassWrapper
     }
 
     /**
-     * @param int[]
+     * @param int[] $tokenKinds
      */
     public function isGivenKind(array $tokenKinds): bool
     {
