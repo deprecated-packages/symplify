@@ -44,10 +44,10 @@ final class ClassWrapper
 
     private function __construct(File $file, int $position)
     {
+        TokenTypeGuard::ensureIsTokenType($file->getTokens()[$position], [T_CLASS, T_TRAIT, T_INTERFACE], __METHOD__);
+
         $this->file = $file;
         $this->position = $position;
-
-        TokenTypeGuard::ensureIsTokenType($file->getTokens()[$position], [T_CLASS, T_TRAIT, T_INTERFACE], __METHOD__);
 
         $this->tokens = $file->getTokens();
         $this->classToken = $this->tokens[$position];
@@ -55,7 +55,18 @@ final class ClassWrapper
 
     public static function createFromFileAndPosition(File $file, int $position): self
     {
+        // consider static cache factory
         return new self($file, $position);
+    }
+
+    public static function createFromFirstClassInFile(File $file): ?self
+    {
+        $possibleClassPosition = $file->findNext(T_CLASS, 0);
+        if ($possibleClassPosition === false) {
+            return null;
+        }
+
+        return self::createFromFileAndPosition($file, $possibleClassPosition);
     }
 
     public function getClassName(): string
@@ -68,6 +79,11 @@ final class ClassWrapper
         $classProperties = $this->file->getClassProperties($this->position);
 
         return $classProperties['is_abstract'];
+    }
+
+    public function implementsInterface(): bool
+    {
+        return (bool) $this->file->findNext(T_IMPLEMENTS, $this->position, 10);
     }
 
     /**

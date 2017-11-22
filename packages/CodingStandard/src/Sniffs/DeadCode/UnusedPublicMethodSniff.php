@@ -6,6 +6,7 @@ use Nette\Utils\Strings;
 use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Sniffs\Sniff;
 use Symplify\EasyCodingStandard\Contract\Application\DualRunInterface;
+use Symplify\TokenRunner\Wrapper\SnifferWrapper\ClassWrapper;
 
 /**
  * @experimental
@@ -183,10 +184,21 @@ final class UnusedPublicMethodSniff implements Sniff, DualRunInterface
     }
 
     /**
-     * Skip tests as there might be many unused public methods.
+     * Skip tests as there might be many unused public methods
+     *
+     * Skip anything that implements interface, because those methods are enforced by interface
      */
     private function shouldSkipFile(File $file): bool
     {
-        return Strings::contains($file->getFilename(), '/tests/') && ! Strings::contains($file->getFilename(), 'CodingStandard/tests/');
+        if (Strings::contains($file->getFilename(), '/tests/') && ! Strings::contains($file->getFilename(), 'CodingStandard/tests/')) {
+            return true;
+        }
+
+        $classWraper = ClassWrapper::createFromFirstClassInFile($file);
+        if ($classWraper === null) {
+            return true;
+        }
+
+        return $classWraper->implementsInterface();
     }
 }
