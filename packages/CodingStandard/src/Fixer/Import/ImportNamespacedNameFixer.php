@@ -194,9 +194,6 @@ final class ImportNamespacedNameFixer implements FixerInterface, DefinedFixerInt
         return $this->namespacePosition = key($namespace);
     }
 
-    /**
-     * @param Token[] $nameTokens
-     */
     private function addIntoUseStatements(Tokens $tokens, Name $name): void
     {
         $namespacePosition = $this->getNamespacePosition($tokens);
