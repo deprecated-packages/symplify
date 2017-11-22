@@ -79,11 +79,6 @@ final class PostFile extends AbstractFile implements ArrayAccess
         return $this->filenameWithoutDate;
     }
 
-    public function getWordCount(): int
-    {
-        return $this->wordCount;
-    }
-
     public function getReadingTimeInMinutes(): int
     {
         return (int) ceil($this->wordCount / self::READ_WORDS_PER_MINUTE);

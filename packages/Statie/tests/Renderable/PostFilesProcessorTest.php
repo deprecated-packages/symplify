@@ -77,7 +77,6 @@ final class PostFilesProcessorTest extends TestCase
     {
         $post = $this->getPost();
 
-        $this->assertSame(9, $post->getWordCount());
         $this->assertSame(1, $post->getReadingTimeInMinutes());
 
         $this->assertFalse(isset($post['some_key']));
