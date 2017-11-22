@@ -68,7 +68,7 @@ abstract class AbstractSniffTestCase extends TestCase
         $this->processFileWithSniff($sniff, $fileInfo);
         if ($sniff instanceof DualRunInterface) {
             $sniff->increaseRun();
-            $this->processFileWithSniff($sniff, $fileInfo);
+            $this->processFileWithSniffSecondRun($sniff, $fileInfo);
         }
 
         $this->assertGreaterThanOrEqual(1, $this->errorCollector->getErrorCount(), sprintf(
@@ -113,5 +113,13 @@ abstract class AbstractSniffTestCase extends TestCase
         $this->sniffFileProcessor->setIsFixer(true); // to test changed content of file
         $this->sniffFileProcessor->setSingleSniff($sniff);
         $this->sniffFileProcessor->processFile($fileInfo, true);
+    }
+
+    private function processFileWithSniffSecondRun(Sniff $sniff, SplFileInfo $fileInfo): void
+    {
+        $this->errorCollector->resetCounters();
+        $this->sniffFileProcessor->setIsFixer(true); // to test changed content of file
+        $this->sniffFileProcessor->setSingleSniff($sniff);
+        $this->sniffFileProcessor->processFileSecondRun($fileInfo, true);
     }
 }
