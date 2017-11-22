@@ -115,7 +115,7 @@ final class ImportNamespacedNameFixer implements FixerInterface, DefinedFixerInt
      */
     public function getPriority(): int
     {
-        return -40;
+        return -20;
     }
 
     /**
@@ -150,9 +150,12 @@ final class ImportNamespacedNameFixer implements FixerInterface, DefinedFixerInt
         return true;
     }
 
+    /**
+     * There are still some edge cases to be found and improve.
+     */
     public function isRisky(): bool
     {
-        return false;
+        return true;
     }
 
     public function getName(): string
