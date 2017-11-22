@@ -49,16 +49,6 @@ final class MethodWrapper
         }
     }
 
-    public function getBodyStart(): ?int
-    {
-        return $this->bodyStart;
-    }
-
-    public function getBodyEnd(): ?int
-    {
-        return $this->bodyEnd;
-    }
-
     public static function createFromTokensAndPosition(Tokens $tokens, int $position): self
     {
         return new self($tokens, $position);
@@ -170,19 +160,5 @@ final class MethodWrapper
         }
 
         return null;
-    }
-
-    public function getMethodStart(): int
-    {
-        $previousPosition = $this->index;
-
-        while ($previousToken = $this->tokens[$this->tokens->getPrevMeaningfulToken($previousPosition)]) {
-            if ($previousToken->isGivenKind([T_PUBLIC, T_ABSTRACT])) {
-                --$previousPosition;
-                continue;
-            }
-
-            return $previousPosition - 1;
-        }
     }
 }
