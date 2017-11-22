@@ -111,11 +111,13 @@ final class ImportNamespacedNameFixer implements FixerInterface, DefinedFixerInt
     }
 
     /**
-     * Run before @see \PhpCsFixer\Fixer\Import\OrderedImportsFixer.
+     * Run before:
+     * - @see \PhpCsFixer\Fixer\Import\OrderedImportsFixer
+     * - @see \PhpCsFixer\Fixer\Import\SingleLineAfterImportsFixer
      */
     public function getPriority(): int
     {
-        return -20;
+        return 10;
     }
 
     /**
