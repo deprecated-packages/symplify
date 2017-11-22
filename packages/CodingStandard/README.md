@@ -720,11 +720,11 @@ class SomeClass
 ```
 
 
-## Brave Risky Checkers
+## Brave Checkers
 
-### There should be no unused public methods
+### Possible Unused Public Method
 
-- class: [`Symplify\CodingStandard\Fixer\Strict\NoUnusedPublicMethodFixer`](/src/Fixer/Strict/NoUnusedPublicMethodFixer.php)
+- class: [`Symplify\CodingStandard\Sniffs\DeadCode\UnusedPublicMethodSniff`](/src/Sniffs/DeadCode/UnusedPublicMethodSniff.php)
   
 - **Requires ECS due *double run* feature**.
 
@@ -748,23 +748,6 @@ class SomeClass
 $someObject = new SomeClass;
 $someObject->anotherMethod();
 ```
-
-
-:+1:
-
-```php
-class SomeClass
-{
-    public function anotherMethod()
-    {
-
-    }
-}
-
-$someObject = new SomeClass;
-$someObject->anotherMethod();
-```
-
 
 
 ## Contributing
