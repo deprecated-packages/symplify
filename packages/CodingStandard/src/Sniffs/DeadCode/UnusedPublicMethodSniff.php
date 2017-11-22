@@ -52,6 +52,18 @@ final class UnusedPublicMethodSniff implements Sniff, DualRunInterface
     private $tokens = [];
 
     /**
+     * Fmmatch list of methods to ignore
+     *
+     * @var string[]
+     */
+    private $methodsToIgnore = [
+        '__*',
+        'test*',
+        'provide*',
+        'offset*',
+    ];
+
+    /**
      * @return int[]
      */
     public function register(): array
@@ -64,6 +76,10 @@ final class UnusedPublicMethodSniff implements Sniff, DualRunInterface
      */
     public function process(File $file, $position): void
     {
+        if ($this->shouldSkipFile($file)) {
+            return;
+        }
+
         $this->file = $file;
         $this->tokens = $file->getTokens();
         $this->position = $position;
@@ -96,8 +112,7 @@ final class UnusedPublicMethodSniff implements Sniff, DualRunInterface
         $methodNameToken = $this->tokens[$this->position + 2];
         $methodName = $methodNameToken['content'];
 
-        // native PHP method
-        if (Strings::startsWith($methodName, '__')) {
+        if (Strings::match($methodName, sprintf('#^(%s)#', implode('|', $this->methodsToIgnore)))) {
             return;
         }
 
@@ -165,5 +180,13 @@ final class UnusedPublicMethodSniff implements Sniff, DualRunInterface
 
         // is function with name
         return $nextToken['code'] === T_STRING;
+    }
+
+    /**
+     * Skip tests as there might be many unused public methods.
+     */
+    private function shouldSkipFile(File $file): bool
+    {
+        return Strings::contains($file->getFilename(), '/tests/') && ! Strings::contains($file->getFilename(), 'CodingStandard/tests/');
     }
 }
