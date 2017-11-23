@@ -35,6 +35,8 @@ parameters:
         # buggy
         - '#Parameter \#2 \$items of method PhpCsFixer\\Tokenizer\\Tokens::insertAt\(\) expects \(iterable\(PhpCsFixer\\Tokenizer\\Token\[\]\)&PhpCsFixer\\Tokenizer\\Tokens\)\|PhpCsFixer\\Tokenizer\\Token, PhpCsFixer\\Tokenizer\\Token\[\] given#'
         - '#Parameter \#3 \$items of method PhpCsFixer\\Tokenizer\\Tokens::overrideRange\(\) expects iterable\(PhpCsFixer\\Tokenizer\\Token\[\]\)&PhpCsFixer\\Tokenizer\\Tokens, PhpCsFixer\\Tokenizer\\Token\[\] given#'
+        - '#Call to an undefined method PHP_CodeSniffer\\Sniffs\\Sniff|Symplify\\EasyCodingStandard\\Contract\\Application\\DualRunInterface::increaseRun\(\)#'
+        - '#Symplify\\EasyCodingStandard\\Contract\\Application\\DualRunInterface#'
 
         # 3rd party errors
         - '#Parameter \#1 \$container of class Symfony\\Component\\DependencyInjection\\Loader\\YamlFileLoader constructor expects Symfony\\Component\\DependencyInjection\\ContainerBuilder, Symfony\\Component\\DependencyInjection\\ContainerInterface given#'

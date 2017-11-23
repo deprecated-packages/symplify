@@ -77,55 +77,42 @@ final class Application
 
     public function run(): void
     {
-        // 1. clear cache
+        // 1. find files in sources
+        $files = $this->sourceFinder->find($this->configuration->getSources());
+
+        // 2. clear cache
         if ($this->configuration->shouldClearCache()) {
             $this->changedFilesDetector->clearCache();
+        } else {
+            $files = $this->filterOnlyChangedFiles($files);
         }
-
-        // 2. find files in sources
-        $files = $this->sourceFinder->find($this->configuration->getSources());
 
         // no files found
         if (! count($files)) {
             return;
         }
 
+        // 3. start progress bar
         if ($this->configuration->showProgressBar()) {
-            $this->startProgressBar($files);
+            $this->easyCodingStandardStyle->startProgressBar(count($files));
         }
 
-        // 3. process found files by each processors
+        // 4. process found files by each processors
         $this->processFoundFiles($files);
 
-        // 4. process files with DualRun
-        $this->processFoundFilesSecondRun($files);
+        // 5. process files with DualRun
+        if ($this->isDualRunEnabled()) {
+            $this->processFoundFilesSecondRun($files);
+        }
     }
 
     /**
-     * @param SplFileInfo[] $files
+     * @param SplFileInfo[] $fileInfos
      */
-    private function startProgressBar(array $files): void
+    private function processFoundFiles(array $fileInfos): void
     {
-        $this->easyCodingStandardStyle->startProgressBar(count($files) * 2);
-    }
-
-    /**
-     * @param SplFileInfo[] $files
-     */
-    private function processFoundFiles(array $files): void
-    {
-        foreach ($files as $relativePath => $fileInfo) {
+        foreach ($fileInfos as $relativePath => $fileInfo) {
             $this->easyCodingStandardStyle->advanceProgressBar();
-
-            // skip file if it didn't change
-            if ($this->changedFilesDetector->hasFileChanged($relativePath) === false) {
-                $this->skipper->removeFileFromUnused($relativePath);
-
-                continue;
-            }
-
-            // add it elsewhere
-            $this->changedFilesDetector->addFile($relativePath);
 
             try {
                 $this->sniffFileProcessor->processFile($fileInfo);
@@ -148,11 +135,37 @@ final class Application
      */
     private function processFoundFilesSecondRun(array $fileInfos): void
     {
-        foreach ($fileInfos as $fileInfo) {
+        foreach ($fileInfos as $relativePath => $fileInfo) {
             $this->easyCodingStandardStyle->advanceProgressBar();
 
             $this->sniffFileProcessor->processFileSecondRun($fileInfo);
             $this->fixerFileProcessor->processFileSecondRun($fileInfo);
         }
+    }
+
+    /**
+     * @param SplFileInfo[] $fileInfos
+     * @return SplFileInfo[]
+     */
+    private function filterOnlyChangedFiles(array $fileInfos): array
+    {
+        $changedFiles = [];
+
+        foreach ($fileInfos as $relativePath => $fileInfo) {
+            if ($this->changedFilesDetector->hasFileChanged($relativePath)) {
+                $changedFiles[] = $fileInfo;
+
+                $this->changedFilesDetector->addFile($relativePath);
+            } else {
+                $this->skipper->removeFileFromUnused($relativePath);
+            }
+        }
+
+        return $changedFiles;
+    }
+
+    private function isDualRunEnabled(): bool
+    {
+        return $this->sniffFileProcessor->getDualRunSniffs() || $this->fixerFileProcessor->getDualRunFixers();
     }
 }

@@ -26,10 +26,6 @@ checkers:
 
 parameters:
     skip:
-        Symplify\CodingStandard\Sniffs\DeadCode\UnusedPublicMethodSniff:
-            # BC with 3rd party package
-            - packages/EasyCodingStandard/packages/SniffRunner/src/Fixer/Fixer.php
-
         PHP_CodeSniffer\Standards\Generic\Sniffs\Files\LineLengthSniff:
             # many implemented interfaces
             - packages/CodingStandard/src/Fixer/ClassNotation/PropertyAndConstantSeparationFixer.php

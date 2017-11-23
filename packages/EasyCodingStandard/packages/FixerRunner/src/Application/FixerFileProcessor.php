@@ -12,6 +12,7 @@ use Symplify\EasyCodingStandard\Contract\Application\FileProcessorInterface;
 use Symplify\EasyCodingStandard\Error\ErrorCollector;
 use Symplify\EasyCodingStandard\FixerRunner\ChangedLinesDetector;
 use Symplify\EasyCodingStandard\FixerRunner\Exception\Application\FixerFailedException;
+use Symplify\EasyCodingStandard\FixerRunner\Parser\FileToTokensParser;
 use Symplify\EasyCodingStandard\Performance\CheckerMetricRecorder;
 use Symplify\EasyCodingStandard\Skipper;
 use Throwable;
@@ -19,7 +20,7 @@ use Throwable;
 final class FixerFileProcessor implements FileProcessorInterface
 {
     /**
-     * @var FixerInterface[]
+     * @var FixerInterface[]|DualRunInterface[]
      */
     private $fixers = [];
 
@@ -58,18 +59,25 @@ final class FixerFileProcessor implements FileProcessorInterface
      */
     private $isSecondRunPrepared = false;
 
+    /**
+     * @var FileToTokensParser
+     */
+    private $fileToTokensParser;
+
     public function __construct(
         ErrorCollector $errorCollector,
         Skipper $skipper,
         Configuration $configuration,
         ChangedLinesDetector $changedLinesDetector,
-        CheckerMetricRecorder $checkerMetricRecorder
+        CheckerMetricRecorder $checkerMetricRecorder,
+        FileToTokensParser $fileToTokensParser
     ) {
         $this->errorCollector = $errorCollector;
         $this->skipper = $skipper;
         $this->configuration = $configuration;
         $this->changedLinesDetector = $changedLinesDetector;
         $this->checkerMetricRecorder = $checkerMetricRecorder;
+        $this->fileToTokensParser = $fileToTokensParser;
     }
 
     public function addFixer(FixerInterface $fixer): void
@@ -78,7 +86,7 @@ final class FixerFileProcessor implements FileProcessorInterface
     }
 
     /**
-     * @return FixerInterface[]
+     * @return FixerInterface[]|DualRunInterface[]
      */
     public function getFixers(): array
     {
@@ -92,7 +100,8 @@ final class FixerFileProcessor implements FileProcessorInterface
     public function processFile(SplFileInfo $file): void
     {
         $oldContent = file_get_contents($file->getRealPath());
-        $tokens = Tokens::fromCode($oldContent);
+
+        $tokens = $this->fileToTokensParser->parseFromFilePath($file->getRealPath());
 
         $appliedFixers = [];
         $latestContent = $oldContent;
@@ -106,9 +115,6 @@ final class FixerFileProcessor implements FileProcessorInterface
 
             try {
                 $fixer->fix($file, $tokens);
-                if ($fixer instanceof DualRunInterface) {
-                    $fixer->fix($file, $tokens);
-                }
             } catch (Throwable $throwable) {
                 throw new FixerFailedException(sprintf(
                     'Fixing of "%s" file by "%s" failed: %s in file %s on line %d',
@@ -139,7 +145,7 @@ final class FixerFileProcessor implements FileProcessorInterface
         }
 
         if (! $appliedFixers) {
-            Tokens::clearCache();
+            $this->fileToTokensParser->clearCache();
             return;
         }
 
@@ -154,6 +160,16 @@ final class FixerFileProcessor implements FileProcessorInterface
     {
         $this->prepareSecondRun();
         $this->processFile($file);
+    }
+
+    /**
+     * @return DualRunInterface[]
+     */
+    public function getDualRunFixers(): array
+    {
+        return array_filter($this->fixers, function (FixerInterface $fixer) {
+            return $fixer instanceof DualRunInterface;
+        });
     }
 
     private function addErrorToErrorMessageCollector(SplFileInfo $file, FixerInterface $fixer, int $line): void
@@ -185,11 +201,7 @@ final class FixerFileProcessor implements FileProcessorInterface
             return true;
         }
 
-        if (! $fixer->supports($file) || ! $fixer->isCandidate($tokens)) {
-            return true;
-        }
-
-        return false;
+        return ! $fixer->supports($file) || ! $fixer->isCandidate($tokens);
     }
 
     private function sortFixers(): void
@@ -207,15 +219,10 @@ final class FixerFileProcessor implements FileProcessorInterface
             return;
         }
 
-        $this->fixers = array_filter($this->fixers, function (FixerInterface $fixer) {
-            if (! $fixer instanceof DualRunInterface) {
-                return false;
-            }
-
+        $this->fixers = $this->getDualRunFixers();
+        foreach ($this->fixers as $fixer) {
             $fixer->increaseRun();
-
-            return $fixer;
-        });
+        }
 
         $this->isSecondRunPrepared = true;
     }
