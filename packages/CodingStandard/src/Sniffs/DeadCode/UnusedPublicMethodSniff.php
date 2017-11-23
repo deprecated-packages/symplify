@@ -198,7 +198,9 @@ final class UnusedPublicMethodSniff implements Sniff, DualRunInterface
      */
     private function shouldSkipFile(File $file): bool
     {
-        if (Strings::contains($file->getFilename(), '/tests/') && ! Strings::contains($file->getFilename(), 'CodingStandard/tests/')) {
+        if (Strings::contains($file->getFilename(), '/tests/')
+            && ! Strings::contains($file->getFilename(), 'CodingStandard/tests/')
+        ) {
             return true;
         }
 
@@ -210,9 +212,6 @@ final class UnusedPublicMethodSniff implements Sniff, DualRunInterface
         return $classWrapper->implementsInterface() || $classWrapper->extends();
     }
 
-    /**
-     * @param $token
-     */
     private function processObjectOperatorToken($token): void
     {
         $openBracketToken = $this->tokens[$this->position + 2];
