@@ -44,10 +44,10 @@ final class ClassWrapper
 
     private function __construct(File $file, int $position)
     {
+        TokenTypeGuard::ensureIsTokenType($file->getTokens()[$position], [T_CLASS, T_TRAIT, T_INTERFACE], __METHOD__);
+
         $this->file = $file;
         $this->position = $position;
-
-        TokenTypeGuard::ensureIsTokenType($file->getTokens()[$position], [T_CLASS, T_TRAIT, T_INTERFACE], __METHOD__);
 
         $this->tokens = $file->getTokens();
         $this->classToken = $this->tokens[$position];
@@ -55,7 +55,18 @@ final class ClassWrapper
 
     public static function createFromFileAndPosition(File $file, int $position): self
     {
+        // consider static cache factory
         return new self($file, $position);
+    }
+
+    public static function createFromFirstClassInFile(File $file): ?self
+    {
+        $possibleClassPosition = $file->findNext(T_CLASS, 0);
+        if ($possibleClassPosition === false) {
+            return null;
+        }
+
+        return self::createFromFileAndPosition($file, $possibleClassPosition);
     }
 
     public function getClassName(): string
@@ -63,11 +74,14 @@ final class ClassWrapper
         return Naming::getClassName($this->file, $this->position + 2);
     }
 
-    public function isAbstract(): bool
+    public function implementsInterface(): bool
     {
-        $classProperties = $this->file->getClassProperties($this->position);
+        return (bool) $this->file->findNext(T_IMPLEMENTS, $this->position, $this->position + 15);
+    }
 
-        return $classProperties['is_abstract'];
+    public function extends(): bool
+    {
+        return (bool) $this->file->findNext(T_EXTENDS, $this->position, $this->position + 5);
     }
 
     /**
@@ -129,87 +143,6 @@ final class ClassWrapper
         $parentClassPosition = (int) TokenHelper::findNext($this->file, T_STRING, $extendsTokenPosition);
 
         return Naming::getClassName($this->file, $parentClassPosition);
-    }
-
-    /**
-     * @return false|int
-     */
-    public function getLineDistanceBetweenClassAndLastUseStatement()
-    {
-        $lastUseStatementPosition = $this->getLastUseStatementPosition();
-        if (! $lastUseStatementPosition) {
-            return false;
-        }
-
-        return (int) $this->tokens[$this->getClassPositionIncludingComment()]['line']
-            - $this->tokens[$lastUseStatementPosition]['line']
-            - 1;
-    }
-
-    /**
-     * @return bool|int
-     */
-    public function getLastUseStatementPosition()
-    {
-        return $this->file->findPrevious(T_USE, $this->position);
-    }
-
-    /**
-     * @return bool|int
-     */
-    public function getLineDistanceBetweenNamespaceAndFirstUseStatement()
-    {
-        $namespacePosition = (int) $this->file->findPrevious(T_NAMESPACE, $this->position);
-
-        $nextUseStatementPosition = (int) $this->file->findNext(T_USE, $namespacePosition);
-        if (! $nextUseStatementPosition) {
-            return false;
-        }
-
-        if ($this->tokens[$nextUseStatementPosition]['line'] === 1 || $this->isInsideClass($nextUseStatementPosition)) {
-            return false;
-        }
-
-        return $this->tokens[$nextUseStatementPosition]['line'] - $this->tokens[$namespacePosition]['line'] - 1;
-    }
-
-    /**
-     * @return false|int
-     */
-    public function getLineDistanceBetweenClassAndNamespace()
-    {
-        $namespacePosition = $this->file->findPrevious(T_NAMESPACE, $this->position);
-
-        if (! $namespacePosition) {
-            return false;
-        }
-
-        $classStartPosition = $this->getClassPositionIncludingComment();
-
-        return $this->tokens[$classStartPosition]['line'] - $this->tokens[$namespacePosition]['line'] - 1;
-    }
-
-    /**
-     * @return bool|int
-     */
-    private function getClassPositionIncludingComment()
-    {
-        $classStartPosition = $this->file->findPrevious(T_DOC_COMMENT_OPEN_TAG, $this->position);
-        if ($classStartPosition) {
-            return $classStartPosition;
-        }
-
-        return $this->position;
-    }
-
-    private function isInsideClass(int $position): bool
-    {
-        $prevClassPosition = $this->file->findPrevious(T_CLASS, $position, null, false);
-        if ($prevClassPosition) {
-            return true;
-        }
-
-        return false;
     }
 
     /**

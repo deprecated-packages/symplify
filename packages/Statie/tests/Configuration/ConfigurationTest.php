@@ -18,7 +18,6 @@ final class ConfigurationTest extends TestCase
 
         $this->assertSame('blog/:year/:month/:day/:title', $configuration->getPostRoute());
         $this->assertTrue($configuration->isMarkdownHeadlineAnchors());
-        $this->assertTrue($configuration->isAmpEnabled());
         $this->assertSame('TomasVotruba/tomasvotruba.cz', $configuration->getGithubRepositorySlug());
     }
 

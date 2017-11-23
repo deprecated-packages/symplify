@@ -18,6 +18,7 @@ parameters:
         - '#Calling method getContent\(\) on possibly null value of type PhpCsFixer\\DocBlock\\DocBlock\|null#'
         - '#Property Symplify\\TokenRunner\\Wrapper\\FixerWrapper\\ClassWrapper::\$startBracketIndex \(int\) does not accept int\|null#'
         - '#Parameter \#3 \$docBlock of static method Symplify\\TokenRunner\\Wrapper\\FixerWrapper\\DocBlockWrapper::createFromTokensPositionAndDocBlock\(\) expects PhpCsFixer\\DocBlock\\DocBlock, PhpCsFixer\\DocBlock\\DocBlock\|null given#'
+        - '#Parameter \#2 \$position of static method Symplify\\TokenRunner\\Wrapper\\SnifferWrapper\\ClassWrapper::createFromFileAndPosition\(\) expects int, int\|true given#'
 
         # Token Runner
         - '#Parameter \#2 \$docBlockPosition of static method Symplify\\TokenRunner\\Wrapper\\FixerWrapper\\DocBlockWrapper::createFromTokensPositionAndDocBlock\(\) expects int, int\|null given#'
@@ -29,7 +30,6 @@ parameters:
         - '#Parameter \#2 \$(start|end) of static method Symplify\\TokenRunner\\Naming\\Name\\NameFactory::createFromTokensAnd(Start|End)\(\) expects int, int\|null given#'
         - '#Parameter \#2 \$position of static method Symplify\\TokenRunner\\Wrapper\\SnifferWrapper\\ClassWrapper::createFromFileAndPosition\(\) expects int, bool\|int given#'
         - '#Parameter \#2 \$position of static method Symplify\\TokenRunner\\Wrapper\\SnifferWrapper\\MethodWrapper::createFromFileAndPosition\(\) expects int, bool\|int given#'
-        - '#Parameter \#1 \$types of method PHP_CodeSniffer\\Files\\File::findPrevious\(\) expects int\|mixed\[\], string given#'
         - '#Method Symplify\\TokenRunner\\Naming\\Name\\NameFactory::collectNameTokens\(\) should return mixed\[\]\[\] but returns \(int\|mixed\[\]\)\[\]#'
 
         # buggy

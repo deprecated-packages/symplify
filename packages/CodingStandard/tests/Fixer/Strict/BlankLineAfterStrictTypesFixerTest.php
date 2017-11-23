@@ -3,22 +3,18 @@
 namespace Symplify\CodingStandard\Tests\Fixer\Strict;
 
 use PhpCsFixer\Fixer\FixerInterface;
-use PhpCsFixer\Test\AbstractFixerTestCase;
 use PhpCsFixer\WhitespacesFixerConfig;
 use Symplify\CodingStandard\Fixer\Strict\BlankLineAfterStrictTypesFixer;
+use Symplify\TokenRunner\Testing\AbstractSimpleFixerTestCase;
 
-final class BlankLineAfterStrictTypesFixerTest extends AbstractFixerTestCase
+final class BlankLineAfterStrictTypesFixerTest extends AbstractSimpleFixerTestCase
 {
     /**
      * @dataProvider provideFixCases()
      */
-    public function testFix(string $input, ?string $fixedOutput = null): void
+    public function testFix(string $expected, ?string $input = null): void
     {
-        if ($fixedOutput === null) {
-            [$input, $fixedOutput] = [$fixedOutput, $input];
-        }
-
-        $this->doTest($fixedOutput, $input);
+        $this->doTest($expected, $input);
     }
 
     /**
@@ -27,29 +23,25 @@ final class BlankLineAfterStrictTypesFixerTest extends AbstractFixerTestCase
     public function provideFixCases(): array
     {
         return [
+            # wrong => fixed
             [
-                // wrong
                 '<?php declare(strict_types=1);
 namespace SomeNamespace;',
-                // fixed
                 '<?php declare(strict_types=1);
 
 namespace SomeNamespace;',
             ], [
-                // wrong
                 '<?php declare(strict_types=1);
 
 
 namespace SomeNamespace;',
-                // fixed
                 '<?php declare(strict_types=1);
 
 namespace SomeNamespace;',
-            ], [
-                // correct
-                '<?php declare(strict_types=1);
-',
             ],
+            # correct
+            ['<?php declare(strict_types=1);
+', ],
         ];
     }
 

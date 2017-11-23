@@ -3,10 +3,10 @@
 namespace Symplify\CodingStandard\Tests\Fixer\Php\ClassStringToClassConstantFixer;
 
 use PhpCsFixer\Fixer\FixerInterface;
-use PhpCsFixer\Test\AbstractFixerTestCase;
 use Symplify\CodingStandard\Fixer\Php\ClassStringToClassConstantFixer;
+use Symplify\TokenRunner\Testing\AbstractSimpleFixerTestCase;
 
-final class ExistanceNotRequiredTest extends AbstractFixerTestCase
+final class ExistanceNotRequiredTest extends AbstractSimpleFixerTestCase
 {
     /**
      * @dataProvider provideFixCases()
@@ -22,14 +22,9 @@ final class ExistanceNotRequiredTest extends AbstractFixerTestCase
     public function provideFixCases(): array
     {
         return [
-            [
-                file_get_contents(__DIR__ . '/fixed/fixed4.php.inc'),
-                file_get_contents(__DIR__ . '/wrong/wrong4.php.inc'),
-            ],
-            [
-                file_get_contents(__DIR__ . '/fixed/fixed5.php.inc'),
-                file_get_contents(__DIR__ . '/wrong/wrong5.php.inc'),
-            ],
+            # wrong => fixed
+            [__DIR__ . '/wrong/wrong4.php.inc', __DIR__ . '/fixed/fixed4.php.inc'],
+            [__DIR__ . '/wrong/wrong5.php.inc', __DIR__ . '/fixed/fixed5.php.inc'],
         ];
     }
 

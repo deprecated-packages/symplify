@@ -22,12 +22,31 @@ final class MethodWrapper
      */
     private $index;
 
+    /**
+     * Interface method has no body
+     *
+     * @var int|null
+     */
+    private $bodyStart;
+
+    /**
+     * Interface method has no body
+     *
+     * @var int|null
+     */
+    private $bodyEnd;
+
     private function __construct(Tokens $tokens, int $index)
     {
         TokenTypeGuard::ensureIsTokenType($tokens[$index], [T_FUNCTION], __METHOD__);
 
         $this->tokens = $tokens;
         $this->index = $index;
+
+        $this->bodyStart = $this->tokens->getNextTokenOfKind($this->index, ['{']);
+        if ($this->bodyStart) {
+            $this->bodyEnd = $this->tokens->findBlockEnd(Tokens::BLOCK_TYPE_CURLY_BRACE, $this->bodyStart);
+        }
     }
 
     public static function createFromTokensAndPosition(Tokens $tokens, int $position): self
@@ -67,16 +86,13 @@ final class MethodWrapper
     public function renameEveryVariableOccurrence(string $oldName, string $newName): void
     {
         $possibleInterfaceEnd = $this->tokens->getNextTokenOfKind($this->index, [';']);
-        $methodBodyStart = $this->tokens->getNextTokenOfKind($this->index, ['{']);
 
         // is interface method, nothing to fix
-        if ($possibleInterfaceEnd !== null && ($methodBodyStart === null || $possibleInterfaceEnd < $methodBodyStart)) {
+        if ($possibleInterfaceEnd !== null && ($this->bodyStart === null || $possibleInterfaceEnd < $this->bodyStart)) {
             return;
         }
 
-        $methodBodyEnd = $this->tokens->findBlockEnd(Tokens::BLOCK_TYPE_CURLY_BRACE, $methodBodyStart);
-
-        for ($i = $methodBodyEnd - 1; $i > $methodBodyStart; --$i) {
+        for ($i = $this->bodyEnd - 1; $i > $this->bodyStart; --$i) {
             $token = $this->tokens[$i];
 
             if ($token->isGivenKind(T_VARIABLE) === false) {

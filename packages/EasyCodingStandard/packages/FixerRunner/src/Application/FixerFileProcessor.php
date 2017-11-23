@@ -7,6 +7,7 @@ use PhpCsFixer\Fixer\FixerInterface;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
 use Symplify\EasyCodingStandard\Configuration\Configuration;
+use Symplify\EasyCodingStandard\Contract\Application\DualRunInterface;
 use Symplify\EasyCodingStandard\Contract\Application\FileProcessorInterface;
 use Symplify\EasyCodingStandard\Error\ErrorCollector;
 use Symplify\EasyCodingStandard\FixerRunner\ChangedLinesDetector;
@@ -51,6 +52,11 @@ final class FixerFileProcessor implements FileProcessorInterface
      * @var bool
      */
     private $areFixersSorted = false;
+
+    /**
+     * @var bool
+     */
+    private $isSecondRunPrepared = false;
 
     public function __construct(
         ErrorCollector $errorCollector,
@@ -100,6 +106,9 @@ final class FixerFileProcessor implements FileProcessorInterface
 
             try {
                 $fixer->fix($file, $tokens);
+                if ($fixer instanceof DualRunInterface) {
+                    $fixer->fix($file, $tokens);
+                }
             } catch (Throwable $throwable) {
                 throw new FixerFailedException(sprintf(
                     'Fixing of "%s" file by "%s" failed: %s in file %s on line %d',
@@ -139,6 +148,12 @@ final class FixerFileProcessor implements FileProcessorInterface
         }
 
         Tokens::clearCache();
+    }
+
+    public function processFileSecondRun(SplFileInfo $file): void
+    {
+        $this->prepareSecondRun();
+        $this->processFile($file);
     }
 
     private function addErrorToErrorMessageCollector(SplFileInfo $file, FixerInterface $fixer, int $line): void
@@ -184,5 +199,24 @@ final class FixerFileProcessor implements FileProcessorInterface
         });
 
         $this->areFixersSorted = true;
+    }
+
+    private function prepareSecondRun(): void
+    {
+        if ($this->isSecondRunPrepared) {
+            return;
+        }
+
+        $this->fixers = array_filter($this->fixers, function (FixerInterface $fixer) {
+            if (! $fixer instanceof DualRunInterface) {
+                return false;
+            }
+
+            $fixer->increaseRun();
+
+            return $fixer;
+        });
+
+        $this->isSecondRunPrepared = true;
     }
 }

@@ -96,6 +96,9 @@ final class Application
 
         // 3. process found files by each processors
         $this->processFoundFiles($files);
+
+        // 4. process files with DualRun
+        $this->processFoundFilesSecondRun($files);
     }
 
     /**
@@ -103,7 +106,7 @@ final class Application
      */
     private function startProgressBar(array $files): void
     {
-        $this->easyCodingStandardStyle->startProgressBar(count($files));
+        $this->easyCodingStandardStyle->startProgressBar(count($files) * 2);
     }
 
     /**
@@ -137,6 +140,19 @@ final class Application
                     false
                 );
             }
+        }
+    }
+
+    /**
+     * @param SplFileInfo[] $fileInfos
+     */
+    private function processFoundFilesSecondRun(array $fileInfos): void
+    {
+        foreach ($fileInfos as $fileInfo) {
+            $this->easyCodingStandardStyle->advanceProgressBar();
+
+            $this->sniffFileProcessor->processFileSecondRun($fileInfo);
+            $this->fixerFileProcessor->processFileSecondRun($fileInfo);
         }
     }
 }

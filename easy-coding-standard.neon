@@ -26,6 +26,10 @@ checkers:
 
 parameters:
     skip:
+        Symplify\CodingStandard\Sniffs\DeadCode\UnusedPublicMethodSniff:
+            # BC with 3rd party package
+            - packages/EasyCodingStandard/packages/SniffRunner/src/Fixer/Fixer.php
+
         PHP_CodeSniffer\Standards\Generic\Sniffs\Files\LineLengthSniff:
             # many implemented interfaces
             - packages/CodingStandard/src/Fixer/ClassNotation/PropertyAndConstantSeparationFixer.php
@@ -38,6 +42,9 @@ parameters:
             - packages/EasyCodingStandard/packages/SniffRunner/src/File/File.php
             - packages/Statie/packages/FlatWhite/src/Latte/DynamicStringLoader.php
             - packages/Statie/src/Configuration/Configuration.php
+            # parent class without typehints
+            - packages/TokenRunner/src/Testing/AbstractSimpleFixerTestCase.php
+            - packages/EasyCodingStandard/tests/AbstractDualRunTestCase.php
 
         PhpCsFixer\Fixer\PhpUnit\PhpUnitStrictFixer:
             - packages/EasyCodingStandard/tests/Indentation/IndentationTest.php

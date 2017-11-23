@@ -3,10 +3,10 @@
 namespace Symplify\CodingStandard\Tests\Fixer\Php\ClassStringToClassConstantFixer;
 
 use PhpCsFixer\Fixer\FixerInterface;
-use PhpCsFixer\Test\AbstractFixerTestCase;
 use Symplify\CodingStandard\Fixer\Php\ClassStringToClassConstantFixer;
+use Symplify\TokenRunner\Testing\AbstractSimpleFixerTestCase;
 
-final class Test extends AbstractFixerTestCase
+final class Test extends AbstractSimpleFixerTestCase
 {
     /**
      * @dataProvider provideFixCases()
@@ -22,16 +22,11 @@ final class Test extends AbstractFixerTestCase
     public function provideFixCases(): array
     {
         return [
-            [
-                file_get_contents(__DIR__ . '/fixed/fixed.php.inc'),
-                file_get_contents(__DIR__ . '/wrong/wrong.php.inc'),
-            ], [
-                file_get_contents(__DIR__ . '/fixed/fixed2.php.inc'),
-                file_get_contents(__DIR__ . '/wrong/wrong2.php.inc'),
-            ], [
-                file_get_contents(__DIR__ . '/fixed/fixed3.php.inc'),
-                file_get_contents(__DIR__ . '/wrong/wrong3.php.inc'),
-            ],
+            # wrong => fixed
+            [__DIR__ . '/wrong/wrong.php.inc', __DIR__ . '/fixed/fixed.php.inc', ],
+            [__DIR__ . '/wrong/wrong2.php.inc', __DIR__ . '/fixed/fixed2.php.inc', ],
+            [__DIR__ . '/wrong/wrong3.php.inc', __DIR__ . '/fixed/fixed3.php.inc', ],
+            # correct
             ['<?php $form->addText(\'datetime\');'],
             ['<?php $request->getParameter(\'exception\');'],
             ['<?php $this->assertTrue(class_exists(\'\ApiGen\Reflection\Tests\ExtendingClass\'));'],

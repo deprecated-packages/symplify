@@ -720,6 +720,34 @@ class SomeClass
 ```
 
 
+## Brave Checkers
+
+### Possible Unused Public Method
+
+- class: [`Symplify\CodingStandard\Sniffs\DeadCode\UnusedPublicMethodSniff`](/src/Sniffs/DeadCode/UnusedPublicMethodSniff.php)
+  
+- **Requires ECS due *double run* feature**.
+
+
+:x:
+
+```php
+class SomeClass
+{
+    public function someMethod()
+    {
+
+    }
+
+    public function anotherMethod()
+    {
+
+    }
+}
+
+$someObject = new SomeClass;
+$someObject->anotherMethod();
+```
 
 
 ## Contributing

@@ -3,10 +3,10 @@
 namespace Symplify\CodingStandard\Tests\Fixer\Naming\ExceptionNameFixer;
 
 use PhpCsFixer\Fixer\FixerInterface;
-use PhpCsFixer\Test\AbstractFixerTestCase;
 use Symplify\CodingStandard\Fixer\Naming\ExceptionNameFixer;
+use Symplify\TokenRunner\Testing\AbstractSimpleFixerTestCase;
 
-final class Test extends AbstractFixerTestCase
+final class Test extends AbstractSimpleFixerTestCase
 {
     /**
      * @dataProvider provideFixCases()
@@ -22,10 +22,8 @@ final class Test extends AbstractFixerTestCase
     public function provideFixCases(): array
     {
         return [
-            [
-                file_get_contents(__DIR__ . '/fixed/fixed.php.inc'),
-                file_get_contents(__DIR__ . '/wrong/wrong.php.inc'),
-            ],
+            # wrong => fixed
+            [__DIR__ . '/wrong/wrong.php.inc', __DIR__ . '/fixed/fixed.php.inc'],
         ];
     }
 

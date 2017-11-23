@@ -140,11 +140,6 @@ final class Name
         return new Token([T_STRING, $this->getLastName()]);
     }
 
-    public function setRelatedUseImport(UseImport $useImport): void
-    {
-        $this->relatedUseImport = $useImport;
-    }
-
     public function isSingleName(): bool
     {
         return count($this->nameTokens) === 1;
