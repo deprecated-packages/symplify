@@ -190,7 +190,9 @@ final class UnusedPublicMethodSniff implements Sniff, DualRunInterface
      */
     private function shouldSkipFile(File $file): bool
     {
-        if (Strings::contains($file->getFilename(), '/tests/') && ! Strings::contains($file->getFilename(), 'CodingStandard/tests/')) {
+        if (Strings::contains($file->getFilename(), '/tests/')
+            && ! Strings::contains($file->getFilename(), 'CodingStandard/tests/')
+        ) {
             return true;
         }
 
