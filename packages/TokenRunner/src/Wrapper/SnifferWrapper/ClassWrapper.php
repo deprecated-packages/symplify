@@ -74,16 +74,14 @@ final class ClassWrapper
         return Naming::getClassName($this->file, $this->position + 2);
     }
 
-    public function isAbstract(): bool
-    {
-        $classProperties = $this->file->getClassProperties($this->position);
-
-        return $classProperties['is_abstract'];
-    }
-
     public function implementsInterface(): bool
     {
-        return (bool) $this->file->findNext(T_IMPLEMENTS, $this->position, 10);
+        return (bool) $this->file->findNext(T_IMPLEMENTS, $this->position, $this->position + 15);
+    }
+
+    public function extends(): bool
+    {
+        return (bool) $this->file->findNext(T_EXTENDS, $this->position, $this->position + 5);
     }
 
     /**

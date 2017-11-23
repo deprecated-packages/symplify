@@ -27,11 +27,6 @@ final class Configuration
     /**
      * @var string
      */
-    private const OPTION_AMP = 'amp';
-
-    /**
-     * @var string
-     */
     private const OPTION_POSTS = 'posts';
 
     /**
@@ -121,11 +116,6 @@ final class Configuration
     public function isMarkdownHeadlineAnchors(): bool
     {
         return $this->options[self::OPTION_MARKDOWN_HEADLINE_ANCHORS] ?? false;
-    }
-
-    public function isAmpEnabled(): bool
-    {
-        return $this->options[self::OPTION_AMP] ?? false;
     }
 
     /**

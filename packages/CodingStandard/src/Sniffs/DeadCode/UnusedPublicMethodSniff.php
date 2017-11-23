@@ -69,7 +69,7 @@ final class UnusedPublicMethodSniff implements Sniff, DualRunInterface
      */
     public function register(): array
     {
-        return [T_FUNCTION, T_OBJECT_OPERATOR];
+        return [T_FUNCTION, T_OBJECT_OPERATOR, T_CONSTANT_ENCAPSED_STRING];
     }
 
     /**
@@ -77,20 +77,22 @@ final class UnusedPublicMethodSniff implements Sniff, DualRunInterface
      */
     public function process(File $file, $position): void
     {
-        if ($this->shouldSkipFile($file)) {
-            return;
-        }
-
         $this->file = $file;
         $this->tokens = $file->getTokens();
         $this->position = $position;
 
         if ($this->runNumber === 1) {
-            $this->collectPublicMethodNames();
+            $this->collectPublicMethodNames($file);
             $this->collectMethodCalls();
         }
 
         if ($this->runNumber === 2) {
+            if ($this->shouldSkipFile($file)) {
+                return;
+            }
+
+            $this->publicMethodNames = array_unique($this->publicMethodNames);
+
             $unusedMethodNames = array_diff($this->publicMethodNames, $this->calledMethodNames);
 
             $this->checkUnusedPublicMethods($unusedMethodNames);
@@ -102,8 +104,12 @@ final class UnusedPublicMethodSniff implements Sniff, DualRunInterface
         ++$this->runNumber;
     }
 
-    private function collectPublicMethodNames(): void
+    private function collectPublicMethodNames(File $file): void
     {
+        if ($this->shouldSkipFile($file)) {
+            return;
+        }
+
         $token = $this->tokens[$this->position];
 
         if (! $this->isPublicMethodToken($token)) {
@@ -124,22 +130,23 @@ final class UnusedPublicMethodSniff implements Sniff, DualRunInterface
     {
         $token = $this->tokens[$this->position];
 
-        if ($token['code'] !== T_OBJECT_OPERATOR) {
+        if ($token['code'] === T_OBJECT_OPERATOR) {
+            $this->processObjectOperatorToken($token);
+        }
+
+        // possible method call in string
+        if ($token['code'] === T_CONSTANT_ENCAPSED_STRING) {
+            // match method name
+            if (Strings::match($token['content'], '#^\'[a-z]{1}[a-zA-Z]+\'$#')) {
+                $this->calledMethodNames[] = trim($token['content'], '\'');
+            }
+
             return;
         }
 
-        $openBracketToken = $this->tokens[$this->position + 2];
-        if ($openBracketToken['content'] !== '(') {
-            return;
+        if ($token['code'] === T_STRING) {
+            $this->publicMethodNames[] = $token['content'];
         }
-
-        $methodNameToken = $this->tokens[$this->position + 1];
-
-        if ($methodNameToken['code'] !== T_STRING) {
-            return;
-        }
-
-        $this->calledMethodNames[] = $methodNameToken['content'];
     }
 
     /**
@@ -186,7 +193,8 @@ final class UnusedPublicMethodSniff implements Sniff, DualRunInterface
     /**
      * Skip tests as there might be many unused public methods
      *
-     * Skip anything that implements interface, because those methods are enforced by interface
+     * Skip anything that implements interface or extends class,
+     * because methods can be enforced by them.
      */
     private function shouldSkipFile(File $file): bool
     {
@@ -196,11 +204,27 @@ final class UnusedPublicMethodSniff implements Sniff, DualRunInterface
             return true;
         }
 
-        $classWraper = ClassWrapper::createFromFirstClassInFile($file);
-        if ($classWraper === null) {
+        $classWrapper = ClassWrapper::createFromFirstClassInFile($file);
+        if ($classWrapper === null) {
             return true;
         }
 
-        return $classWraper->implementsInterface();
+        return $classWrapper->implementsInterface() || $classWrapper->extends();
+    }
+
+    private function processObjectOperatorToken($token): void
+    {
+        $openBracketToken = $this->tokens[$this->position + 2];
+        if ($openBracketToken['content'] !== '(') {
+            return;
+        }
+
+        $methodNameToken = $this->tokens[$this->position + 1];
+
+        if ($methodNameToken['code'] !== T_STRING) {
+            return;
+        }
+
+        $this->calledMethodNames[] = $methodNameToken['content'];
     }
 }
