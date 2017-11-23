@@ -69,7 +69,7 @@ $values = [1 => \'hey\', 2 => \'hello\'];'
     public function isCandidate(Tokens $tokens): bool
     {
         return $tokens->isAnyTokenKindsFound(self::ARRAY_OPEN_TOKENS)
-            && $tokens->isTokenKindFound(T_DOUBLE_ARROW);
+            && $tokens->isAllTokenKindsFound([T_DOUBLE_ARROW, ',']);
     }
 
     public function fix(SplFileInfo $file, Tokens $tokens): void
