@@ -13,6 +13,11 @@ use Symplify\TokenRunner\Naming\Name\NameFactory;
 final class ClassWrapper
 {
     /**
+     * @var self[]
+     */
+    private static $cache = [];
+
+    /**
      * @var int
      */
     private $startBracketIndex;
@@ -60,9 +65,15 @@ final class ClassWrapper
 
     public static function createFromTokensArrayStartPosition(Tokens $tokens, int $startIndex): self
     {
+        $cacheKey = $tokens->getCodeHash() . $startIndex;
+
+        if (isset(self::$cache[$cacheKey])) {
+            return self::$cache[$cacheKey];
+        }
+
         TokenTypeGuard::ensureIsTokenType($tokens[$startIndex], [T_CLASS, T_INTERFACE, T_TRAIT], self::class);
 
-        return new self($tokens, $startIndex);
+        return self::$cache[$cacheKey] = new self($tokens, $startIndex);
     }
 
     /**
