@@ -37,7 +37,8 @@ final class RemoveEmptyDocBlockFixer extends AbstractFixer
 
     public function isCandidate(Tokens $tokens): bool
     {
-        return $tokens->isTokenKindFound(T_DOC_COMMENT);
+        return $tokens->isTokenKindFound(T_DOC_COMMENT)
+            && $tokens->isAnyTokenKindsFound([T_VARIABLE, T_FUNCTION]);
     }
 
     protected function applyFix(SplFileInfo $file, Tokens $tokens): void

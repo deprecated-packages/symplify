@@ -63,7 +63,7 @@ class SomeClass
 
     public function isCandidate(Tokens $tokens): bool
     {
-        return $tokens->isTokenKindFound(T_STRING)
+        return $tokens->isAllTokenKindsFound([T_STRING, T_VARIABLE])
             && $tokens->isAnyTokenKindsFound(Token::getClassyTokenKinds());
     }
 

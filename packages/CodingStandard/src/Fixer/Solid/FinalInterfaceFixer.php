@@ -49,7 +49,7 @@ class SomeClass implements SomeInterface {};'),
 
     public function isCandidate(Tokens $tokens): bool
     {
-        return $tokens->isAllTokenKindsFound([T_CLASS, T_IMPLEMENTS])
+        return $tokens->isAllTokenKindsFound([T_CLASS, T_STRING, T_IMPLEMENTS, '{', '}'])
             && ! $tokens->isTokenKindFound(T_FINAL);
     }
 
