@@ -211,7 +211,7 @@ final class DocBlockWrapper
 
         if ($type === 'array') {
             return true;
-        };
+        }
 
         return false;
     }
