@@ -8,6 +8,8 @@ use PhpCsFixer\DocBlock\DocBlock;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use PhpCsFixer\WhitespacesFixerConfig;
+use phpDocumentor\Reflection\DocBlock as PhpDocumentorDocBlock;
+use phpDocumentor\Reflection\DocBlockFactory;
 use Symplify\TokenRunner\Guard\TokenTypeGuard;
 
 final class DocBlockWrapper
@@ -32,6 +34,11 @@ final class DocBlockWrapper
      */
     private $docBlockPosition;
 
+    /**
+     * @var PhpDocumentorDocBlock
+     */
+    private $phpDocumentorDocBlock;
+
     private function __construct(?Tokens $tokens, ?int $docBlockPosition, ?DocBlock $docBlock, ?Token $token = null)
     {
         $this->tokens = $tokens;
@@ -41,6 +48,10 @@ final class DocBlockWrapper
         if ($docBlock === null && $token !== null) {
             $this->docBlock = new DocBlock($token->getContent());
         }
+
+        $docBlockFactory = DocBlockFactory::createInstance();
+        $content = $token ? $token->getContent() : $docBlock->getContent();
+        $this->phpDocumentorDocBlock = $docBlockFactory->create($content);
     }
 
     public static function createFromTokensPositionAndDocBlock(
@@ -67,14 +78,14 @@ final class DocBlockWrapper
 
     public function getReturnType(): ?string
     {
-        $returnAnnotations = $this->docBlock->getAnnotationsOfType('return');
-        if (! $returnAnnotations) {
+        $returnTags = $this->phpDocumentorDocBlock->getTagsByName('return');
+        if (! $returnTags) {
             return null;
         }
 
-        $content = $this->resolveAnnotationContent($returnAnnotations[0], 'return');
+        $content = (string) $returnTags[0];
 
-        return ltrim($content, '\\');
+        return $this->clean($content);
     }
 
     public function getReturnTypeDescription(): ?string
@@ -247,5 +258,10 @@ final class DocBlockWrapper
         $content = trim($content);
 
         return $content;
+    }
+
+    private function clean(string $content): string
+    {
+        return ltrim(trim($content), '\\');
     }
 }

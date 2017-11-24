@@ -18,7 +18,7 @@ abstract class AbstractSimpleFixerTestCase extends AbstractFixerTestCase
             parent::doTest($expected, $input, $file);
             return;
         }
-
+        RemoveUselessDocBlockFixer/Test.php d
         // natural order for humans
         [$expected, $input] = [$input, $expected];
 
