@@ -55,6 +55,9 @@ final class DocBlockWrapper
         $content = $token ? $token->getContent() : $docBlock->getContent();
         $this->phpDocumentorDocBlock = $docBlockFactory->create($content);
 
+        // 2 bugs:
+        // - adds spaces after empty tag
+        // - adds \ to every type
         $this->docBlockSerializer = new Serializer(4, ' ', false);
     }
 
@@ -221,22 +224,6 @@ final class DocBlockWrapper
 
         return false;
     }
-
-//    private function resolveAnnotationContent(Annotation $annotation, string $name): string
-//    {
-//        $content = $annotation->getContent();
-//
-//        if ($content === '') {
-//            return $content;
-//        }
-//
-//        [, $content] = explode('@' . $name, $content);
-//
-//        $content = ltrim($content, ' *');
-//        $content = trim($content);
-//
-//        return $content;
-//    }
 
     private function clean(string $content): string
     {
