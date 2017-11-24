@@ -106,13 +106,9 @@ final class DocBlockWrapper
 
     public function getArgumentType(string $name): ?string
     {
-        /** @var Param[] $paramTags */
-        $paramTags = $this->phpDocumentorDocBlock->getTagsByName('param');
-
-        foreach ($paramTags as $paramTag) {
-            if ($paramTag->getVariableName() === $name) {
-                return $this->clean((string) $paramTag->getType());
-            }
+        $paramTag = $this->findParamTagByName($name);
+        if ($paramTag) {
+            return $this->clean((string) $paramTag->getType());
         }
 
         return null;
@@ -120,13 +116,9 @@ final class DocBlockWrapper
 
     public function getArgumentTypeDescription(string $name): ?string
     {
-        $paramTags = $this->phpDocumentorDocBlock->getTagsByName('param');
-
-        /** @var Param $paramTag */
-        foreach ($paramTags as $paramTag) {
-            if ($paramTag->getVariableName() === $name) {
-                return $this->clean((string) $paramTag->getDescription());
-            }
+        $paramTag = $this->findParamTagByName($name);
+        if ($paramTag) {
+            return $this->clean((string) $paramTag->getDescription());
         }
 
         return null;
@@ -139,24 +131,23 @@ final class DocBlockWrapper
             $this->phpDocumentorDocBlock->removeTag($returnTag);
         }
 
-        $this->tokens[$this->docBlockPosition] = new Token([T_DOC_COMMENT, $this->docBlock->getContent()]);
+        $docBlockContent = $this->docBlockSerializer->getDocComment($this->phpDocumentorDocBlock);
+
+        $this->tokens[$this->docBlockPosition] = new Token([T_DOC_COMMENT, $docBlockContent]);
     }
 
     public function removeParamType(string $name): void
     {
-        $paramTags = $this->phpDocumentorDocBlock->getTagsByName('param');
+        $paramTag = $this->findParamTagByName($name);
 
-        /** @var Param $paramTag */
-        foreach ($paramTags as $paramTag) {
-            if ($paramTag->getVariableName() === $name) {
-                $this->phpDocumentorDocBlock->removeTag($paramTag);
-                break;
-            }
+        if (! $paramTag) {
+            return;
         }
 
-        $docBlock = $this->docBlockSerializer->getDocComment($this->phpDocumentorDocBlock);
+        $this->phpDocumentorDocBlock->removeTag($paramTag);
 
-        $this->tokens[$this->docBlockPosition] = new Token([T_DOC_COMMENT, $docBlock]);
+        $docBlockContent = $this->docBlockSerializer->getDocComment($this->phpDocumentorDocBlock);
+        $this->tokens[$this->docBlockPosition] = new Token([T_DOC_COMMENT, $docBlockContent]);
     }
 
     public function changeToMultiLine(): void
@@ -220,7 +211,7 @@ final class DocBlockWrapper
 
         if ($type === 'array') {
             return true;
-        }
+        };
 
         return false;
     }
@@ -228,5 +219,19 @@ final class DocBlockWrapper
     private function clean(string $content): string
     {
         return ltrim(trim($content), '\\');
+    }
+
+    private function findParamTagByName(string $name): ?Param
+    {
+        $paramTags = $this->phpDocumentorDocBlock->getTagsByName('param');
+
+        /** @var Param $paramTag */
+        foreach ($paramTags as $paramTag) {
+            if ($paramTag->getVariableName() === $name) {
+                return $paramTag;
+            }
+        }
+
+        return null;
     }
 }
