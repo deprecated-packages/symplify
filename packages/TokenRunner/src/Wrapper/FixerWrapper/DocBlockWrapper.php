@@ -9,6 +9,7 @@ use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use PhpCsFixer\WhitespacesFixerConfig;
 use phpDocumentor\Reflection\DocBlock as PhpDocumentorDocBlock;
+use phpDocumentor\Reflection\DocBlock\Tags\Return_;
 use phpDocumentor\Reflection\DocBlockFactory;
 use Symplify\TokenRunner\Guard\TokenTypeGuard;
 
@@ -83,28 +84,20 @@ final class DocBlockWrapper
             return null;
         }
 
-        $content = (string) $returnTags[0];
-
-        return $this->clean($content);
+        return $this->clean((string) $returnTags[0]);
     }
 
     public function getReturnTypeDescription(): ?string
     {
-        $returnAnnotations = $this->docBlock->getAnnotationsOfType('return');
-        if (! $returnAnnotations) {
+        $returnTags = $this->phpDocumentorDocBlock->getTagsByName('return');
+        if (! $returnTags) {
             return null;
         }
 
-        $returnAnnotation = $returnAnnotations[0];
+        /** @var Return_ $returnTag */
+        $returnTag = $returnTags[0];
 
-        $annotationParts = explode(' ', $this->resolveAnnotationContent($returnAnnotation, 'return'));
-        if (count($annotationParts) < 2) {
-            return null;
-        }
-
-        [, $description] = $annotationParts;
-
-        return $description;
+        return (string) $returnTag->getDescription();
     }
 
     public function getArgumentType(string $name): ?string
