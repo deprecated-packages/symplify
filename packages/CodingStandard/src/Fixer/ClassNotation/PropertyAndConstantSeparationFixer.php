@@ -180,10 +180,6 @@ class SomeClass
 
         $methodSeparationFixer = new MethodSeparationFixer();
         $methodSeparationFixer->setWhitespacesConfig($this->whitespacesFixerConfig);
-        $methodSeparationFixerClassReflection = new ReflectionClass(MethodSeparationFixer::class);
-
-        $correctLineBreaksMethodReflection = $methodSeparationFixerClassReflection->getMethod('correctLineBreaks');
-        $correctLineBreaksMethodReflection->setAccessible(true);
 
         $arguments = [
             $tokens,
@@ -192,7 +188,7 @@ class SomeClass
             $nextNotWhitePosition === $classEnd ? $this->configuration[self::SPACE_COUNT_OPTION] : $this->configuration[self::SPACE_COUNT_OPTION] + 1,
         ];
 
-        $correctLineBreaksMethodReflection->invoke($methodSeparationFixer, ...$arguments);
+        $this->callPrivateMethod($methodSeparationFixer, 'correctLineBreaks', ...$arguments);
     }
 
     private function isCommentBehindSemicolon(Tokens $tokens, int $constantOrPropertyEnd): bool
@@ -201,5 +197,19 @@ class SomeClass
         $nextNextToken = $tokens[$constantOrPropertyEnd + 2];
 
         return $nextToken->isWhitespace(' ') && $nextNextToken->isComment();
+    }
+
+    /**
+     * @param object $object
+     * @return mixed
+     */
+    private function callPrivateMethod($object, string $methodName, ...$arguments)
+    {
+        $classReflection = new ReflectionClass(get_class($object));
+
+        $methodReflection = $classReflection->getMethod($methodName);
+        $methodReflection->setAccessible(true);
+
+        return $methodReflection->invoke($object, ...$arguments);
     }
 }
