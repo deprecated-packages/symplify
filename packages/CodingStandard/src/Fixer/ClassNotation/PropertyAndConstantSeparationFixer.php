@@ -99,7 +99,7 @@ class SomeClass
     }
 
     /**
-     * Same as @see \PhpCsFixer\Fixer\ClassNotation\MethodSeparationFixer::getPriority().
+     * Same as @see \PhpCsFixer\Fixer\ClassNotation\MethodSeparationFixer::getPriority()
      */
     public function getPriority(): int
     {
@@ -167,7 +167,7 @@ class SomeClass
      * Same as @see \PhpCsFixer\Fixer\ClassNotation\MethodSeparationFixer::fixSpaceBelowMethod().
      *
      * This is nasty solution to prevent BC breaks and include fixes from
-     * @see \PhpCsFixer\Fixer\ClassNotation\MethodSeparationFixer.
+     * @see \PhpCsFixer\Fixer\ClassNotation\MethodSeparationFixer
      *
      * Don't to this at home!
      */
