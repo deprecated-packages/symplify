@@ -14,7 +14,6 @@
         "nette/neon": "^2.4|^3.0",
         "nette/robot-loader": "^2.4|^3.0.1",
         "nette/utils": "^2.4|^3.0",
-        "sebastian/diff": "^2.0",
         "slevomat/coding-standard": "^4.0",
         "squizlabs/php_codesniffer": "^3.1",
         "symfony/config": "^3.4|^4.0",
