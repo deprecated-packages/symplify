@@ -12,6 +12,7 @@ use phpDocumentor\Reflection\DocBlock\Serializer;
 use phpDocumentor\Reflection\DocBlock\Tags\Param;
 use phpDocumentor\Reflection\DocBlock\Tags\Return_;
 use phpDocumentor\Reflection\DocBlockFactory;
+use Symplify\TokenRunner\DocBlock\DocBlockSerializerFactory;
 use Symplify\TokenRunner\Guard\TokenTypeGuard;
 
 final class DocBlockWrapper
@@ -41,6 +42,11 @@ final class DocBlockWrapper
      */
     private $phpDocumentorDocBlock;
 
+    /**
+     * @var Serializer
+     */
+    private $docBlockSerializer;
+
     private function __construct(?Tokens $tokens, ?int $docBlockPosition, ?DocBlock $docBlock, ?Token $token = null)
     {
         $this->tokens = $tokens;
@@ -54,11 +60,6 @@ final class DocBlockWrapper
         $docBlockFactory = DocBlockFactory::createInstance();
         $content = $token ? $token->getContent() : $docBlock->getContent();
         $this->phpDocumentorDocBlock = $docBlockFactory->create($content);
-
-        // 2 bugs:
-        // - adds spaces after empty tag
-        // - adds \ to every type
-        $this->docBlockSerializer = new Serializer(4, ' ', false);
     }
 
     public static function createFromTokensPositionAndDocBlock(
@@ -81,6 +82,25 @@ final class DocBlockWrapper
     public function isSingleLine(): bool
     {
         return count($this->docBlock->getLines()) === 1;
+    }
+
+    public function changeToMultiLine(): void
+    {
+        $indent = $this->whitespacesFixerConfig->getIndent();
+        $lineEnding = $this->whitespacesFixerConfig->getLineEnding();
+        $newLineWithIndent = $lineEnding . $indent;
+
+        $newDocBlock = str_replace(
+            [' @', '/** ', ' */'],
+            [
+                $newLineWithIndent . ' * @',
+                '/**',
+                $newLineWithIndent . ' */',
+            ],
+            $this->docBlock->getContent()
+        );
+
+        $this->tokens[$this->docBlockPosition] = new Token([T_DOC_COMMENT, $newDocBlock]);
     }
 
     public function getReturnType(): ?string
@@ -127,46 +147,27 @@ final class DocBlockWrapper
     public function removeReturnType(): void
     {
         $returnTags = $this->phpDocumentorDocBlock->getTagsByName('return');
+        if (! $returnTags) {
+            return;
+        }
+
         foreach ($returnTags as $returnTag) {
             $this->phpDocumentorDocBlock->removeTag($returnTag);
         }
 
-        $docBlockContent = $this->docBlockSerializer->getDocComment($this->phpDocumentorDocBlock);
-
-        $this->tokens[$this->docBlockPosition] = new Token([T_DOC_COMMENT, $docBlockContent]);
+        $this->updateDocBlockTokenContent();
     }
 
     public function removeParamType(string $name): void
     {
         $paramTag = $this->findParamTagByName($name);
-
         if (! $paramTag) {
             return;
         }
 
         $this->phpDocumentorDocBlock->removeTag($paramTag);
 
-        $docBlockContent = $this->docBlockSerializer->getDocComment($this->phpDocumentorDocBlock);
-        $this->tokens[$this->docBlockPosition] = new Token([T_DOC_COMMENT, $docBlockContent]);
-    }
-
-    public function changeToMultiLine(): void
-    {
-        $indent = $this->whitespacesFixerConfig->getIndent();
-        $lineEnding = $this->whitespacesFixerConfig->getLineEnding();
-        $newLineWithIndent = $lineEnding . $indent;
-
-        $newDocBlock = str_replace(
-            [' @', '/** ', ' */'],
-            [
-                $newLineWithIndent . ' * @',
-                '/**',
-                $newLineWithIndent . ' */',
-            ],
-            $this->docBlock->getContent()
-        );
-
-        $this->tokens[$this->docBlockPosition] = new Token([T_DOC_COMMENT, $newDocBlock]);
+        $this->updateDocBlockTokenContent();
     }
 
     public function setWhitespacesFixerConfig(WhitespacesFixerConfig $whitespacesFixerConfig): void
@@ -233,5 +234,24 @@ final class DocBlockWrapper
         }
 
         return null;
+    }
+
+    private function getDocBlockSerializer(): Serializer
+    {
+        if ($this->docBlockSerializer) {
+            return $this->docBlockSerializer;
+        }
+
+        return $this->docBlockSerializer = DocBlockSerializerFactory::createFromWhitespaceFixerConfig(
+            $this->whitespacesFixerConfig
+        );
+    }
+
+    private function updateDocBlockTokenContent(): void
+    {
+        $docBlockContent = $this->getDocBlockSerializer()
+            ->getDocComment($this->phpDocumentorDocBlock);
+
+        $this->tokens[$this->docBlockPosition] = new Token([T_DOC_COMMENT, $docBlockContent]);
     }
 }

@@ -5,17 +5,24 @@ namespace Symplify\CodingStandard\Fixer\Commenting;
 use Nette\Utils\Strings;
 use PhpCsFixer\Fixer\DefinedFixerInterface;
 use PhpCsFixer\Fixer\FixerInterface;
+use PhpCsFixer\Fixer\WhitespacesAwareFixerInterface;
 use PhpCsFixer\FixerDefinition\CodeSample;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Tokenizer\Tokens;
+use PhpCsFixer\WhitespacesFixerConfig;
 use SplFileInfo;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\ClassWrapper;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\DocBlockWrapper;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\MethodWrapper;
 
-final class RemoveUselessDocBlockFixer implements FixerInterface, DefinedFixerInterface
+final class RemoveUselessDocBlockFixer implements FixerInterface, DefinedFixerInterface, WhitespacesAwareFixerInterface
 {
+    /**
+     * @var WhitespacesFixerConfig
+     */
+    private $whitespacesFixerConfig;
+
     public function getDefinition(): FixerDefinitionInterface
     {
         return new FixerDefinition(
@@ -54,6 +61,8 @@ public function getCount(): int
                     continue;
                 }
 
+                $docBlockWrapper->setWhitespacesFixerConfig($this->whitespacesFixerConfig);
+
                 $this->processReturnTag($methodWrapper, $docBlockWrapper);
                 $this->processParamTag($methodWrapper, $docBlockWrapper);
             }
@@ -88,16 +97,16 @@ public function getCount(): int
         $typehintType = $methodWrapper->getReturnType();
         $docBlockType = $docBlockWrapper->getReturnType();
 
+        if ($typehintType === null || $docBlockType === null) {
+            return;
+        }
+
         if ($typehintType === $docBlockType) {
             if ($docBlockWrapper->getReturnTypeDescription()) {
                 return;
             }
 
             $docBlockWrapper->removeReturnType();
-        }
-
-        if ($typehintType === null || $docBlockType === null) {
-            return;
         }
 
         if (Strings::contains($typehintType, '|') && Strings::contains($docBlockType, '|')) {
@@ -212,5 +221,10 @@ public function getCount(): int
         if ($typehintTypes === $docBlockTypes) {
             $docBlockWrapper->removeReturnType();
         }
+    }
+
+    public function setWhitespacesConfig(WhitespacesFixerConfig $whitespacesFixerConfig): void
+    {
+        $this->whitespacesFixerConfig = $whitespacesFixerConfig;
     }
 }
