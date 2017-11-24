@@ -9,6 +9,8 @@ use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use PhpCsFixer\WhitespacesFixerConfig;
 use phpDocumentor\Reflection\DocBlock as PhpDocumentorDocBlock;
+use phpDocumentor\Reflection\DocBlock\Serializer;
+use phpDocumentor\Reflection\DocBlock\Tags\Param;
 use phpDocumentor\Reflection\DocBlock\Tags\Return_;
 use phpDocumentor\Reflection\DocBlockFactory;
 use Symplify\TokenRunner\Guard\TokenTypeGuard;
@@ -89,15 +91,13 @@ final class DocBlockWrapper
 
     public function getReturnTypeDescription(): ?string
     {
+        /** @var Return_[] $returnTags */
         $returnTags = $this->phpDocumentorDocBlock->getTagsByName('return');
         if (! $returnTags) {
             return null;
         }
 
-        /** @var Return_ $returnTag */
-        $returnTag = $returnTags[0];
-
-        return (string) $returnTag->getDescription();
+        return (string) $returnTags[0]->getDescription();
     }
 
     public function getArgumentType(string $name): ?string
@@ -128,27 +128,11 @@ final class DocBlockWrapper
     public function getArgumentTypeDescription(string $name): ?string
     {
         $paramTags = $this->phpDocumentorDocBlock->getTagsByName('param');
+
+        /** @var Param $paramTag */
         foreach ($paramTags as $paramTag) {
-            dump($paramTag);
-            die;
-        }
-
-
-
-        $paramAnnotations = $this->docBlock->getAnnotationsOfType('param');
-        if (! $paramAnnotations) {
-            return null;
-        }
-
-        foreach ($paramAnnotations as $paramAnnotation) {
-            if (Strings::contains($paramAnnotation->getContent(), '$' . $name)) {
-                $annotationParts = explode('$' . $name, $this->resolveAnnotationContent($paramAnnotation, 'param'));
-
-                if (count($annotationParts) < 2) {
-                    return null;
-                }
-
-                return trim($annotationParts[1]);
+            if ($paramTag->getVariableName() === $name) {
+                return $this->clean((string) $paramTag->getDescription());
             }
         }
 
@@ -167,16 +151,21 @@ final class DocBlockWrapper
 
     public function removeParamType(string $name): void
     {
-        $paramAnnotations = $this->docBlock->getAnnotationsOfType('param');
-        foreach ($paramAnnotations as $paramAnnotation) {
-            if (Strings::contains($paramAnnotation->getContent(), '$' . $name)) {
-                $paramAnnotation->remove();
+        $paramTags = $this->phpDocumentorDocBlock->getTagsByName('param');
 
+        /** @var Param $paramTag */
+        foreach ($paramTags as $paramTag) {
+            if ($paramTag->getVariableName() === $name) {
+                $this->phpDocumentorDocBlock->removeTag($paramTag);
                 break;
             }
         }
 
-        $this->tokens[$this->docBlockPosition] = new Token([T_DOC_COMMENT, $this->docBlock->getContent()]);
+        $docBlockSerializer = new Serializer(4, ' ', false);
+
+        $docBlock = $docBlockSerializer->getDocComment($this->phpDocumentorDocBlock);
+
+        $this->tokens[$this->docBlockPosition] = new Token([T_DOC_COMMENT, $docBlock]);
     }
 
     public function changeToMultiLine(): void
