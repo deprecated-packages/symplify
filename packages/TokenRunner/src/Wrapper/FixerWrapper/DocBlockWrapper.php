@@ -127,6 +127,14 @@ final class DocBlockWrapper
 
     public function getArgumentTypeDescription(string $name): ?string
     {
+        $paramTags = $this->phpDocumentorDocBlock->getTagsByName('param');
+        foreach ($paramTags as $paramTag) {
+            dump($paramTag);
+            die;
+        }
+
+
+
         $paramAnnotations = $this->docBlock->getAnnotationsOfType('param');
         if (! $paramAnnotations) {
             return null;
