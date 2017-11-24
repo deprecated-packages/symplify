@@ -3,7 +3,6 @@
 namespace Symplify\TokenRunner\Wrapper\FixerWrapper;
 
 use Nette\Utils\Strings;
-use PhpCsFixer\DocBlock\Annotation;
 use PhpCsFixer\DocBlock\DocBlock;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
@@ -55,6 +54,8 @@ final class DocBlockWrapper
         $docBlockFactory = DocBlockFactory::createInstance();
         $content = $token ? $token->getContent() : $docBlock->getContent();
         $this->phpDocumentorDocBlock = $docBlockFactory->create($content);
+
+        $this->docBlockSerializer = new Serializer(4, ' ', false);
     }
 
     public static function createFromTokensPositionAndDocBlock(
@@ -102,23 +103,12 @@ final class DocBlockWrapper
 
     public function getArgumentType(string $name): ?string
     {
-        $paramAnnotations = $this->docBlock->getAnnotationsOfType('param');
-        if (! $paramAnnotations) {
-            return null;
-        }
+        /** @var Param[] $paramTags */
+        $paramTags = $this->phpDocumentorDocBlock->getTagsByName('param');
 
-        foreach ($paramAnnotations as $paramAnnotation) {
-            if (Strings::contains($paramAnnotation->getContent(), '$' . $name)) {
-                $types = $this->resolveAnnotationContent($paramAnnotation, 'param');
-                $typeParts = explode('$' . $name, $types);
-
-                if (count($typeParts) < 2) {
-                    return null;
-                }
-
-                [$type, ] = $typeParts;
-
-                return trim($type, ' \\');
+        foreach ($paramTags as $paramTag) {
+            if ($paramTag->getVariableName() === $name) {
+                return $this->clean((string) $paramTag->getType());
             }
         }
 
@@ -141,9 +131,9 @@ final class DocBlockWrapper
 
     public function removeReturnType(): void
     {
-        $returnAnnotations = $this->docBlock->getAnnotationsOfType('return');
-        foreach ($returnAnnotations as $returnAnnotation) {
-            $returnAnnotation->remove();
+        $returnTags = $this->phpDocumentorDocBlock->getTagsByName('return');
+        foreach ($returnTags as $returnTag) {
+            $this->phpDocumentorDocBlock->removeTag($returnTag);
         }
 
         $this->tokens[$this->docBlockPosition] = new Token([T_DOC_COMMENT, $this->docBlock->getContent()]);
@@ -161,9 +151,7 @@ final class DocBlockWrapper
             }
         }
 
-        $docBlockSerializer = new Serializer(4, ' ', false);
-
-        $docBlock = $docBlockSerializer->getDocComment($this->phpDocumentorDocBlock);
+        $docBlock = $this->docBlockSerializer->getDocComment($this->phpDocumentorDocBlock);
 
         $this->tokens[$this->docBlockPosition] = new Token([T_DOC_COMMENT, $docBlock]);
     }
@@ -234,21 +222,21 @@ final class DocBlockWrapper
         return false;
     }
 
-    private function resolveAnnotationContent(Annotation $annotation, string $name): string
-    {
-        $content = $annotation->getContent();
-
-        if ($content === '') {
-            return $content;
-        }
-
-        [, $content] = explode('@' . $name, $content);
-
-        $content = ltrim($content, ' *');
-        $content = trim($content);
-
-        return $content;
-    }
+//    private function resolveAnnotationContent(Annotation $annotation, string $name): string
+//    {
+//        $content = $annotation->getContent();
+//
+//        if ($content === '') {
+//            return $content;
+//        }
+//
+//        [, $content] = explode('@' . $name, $content);
+//
+//        $content = ltrim($content, ' *');
+//        $content = trim($content);
+//
+//        return $content;
+//    }
 
     private function clean(string $content): string
     {
