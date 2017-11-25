@@ -2,10 +2,10 @@
 
 namespace Symplify\CodingStandard\Tests\Sniffs;
 
-use Nette\Utils\Finder;
 use Nette\Utils\Strings;
 use PHP_CodeSniffer\Sniffs\Sniff;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
 use Symplify\EasyCodingStandard\Contract\Application\DualRunInterface;
 use Symplify\EasyCodingStandard\DependencyInjection\ContainerFactory;
@@ -95,9 +95,10 @@ abstract class AbstractSniffTestCase extends TestCase
      */
     private function findFilesInDirectory(string $directory): array
     {
-        $iterator = Finder::findFiles('*.php.inc')
+        $iterator = Finder::create()
+            ->name('*.php.inc')
             ->exclude('*-fixed*')
-            ->from($directory)
+            ->in($directory)
             ->getIterator();
 
         return iterator_to_array($iterator);
