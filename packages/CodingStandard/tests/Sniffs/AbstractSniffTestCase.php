@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 use Symfony\Component\Finder\SplFileInfo;
 use Symplify\EasyCodingStandard\Contract\Application\DualRunInterface;
 use Symplify\EasyCodingStandard\DependencyInjection\ContainerFactory;
-use Symplify\EasyCodingStandard\Error\ErrorCollector;
+use Symplify\EasyCodingStandard\Error\ErrorAndDiffCollector;
 use Symplify\EasyCodingStandard\SniffRunner\Application\SniffFileProcessor;
 use Symplify\EasyCodingStandard\SniffRunner\Fixer\Fixer;
 
@@ -21,7 +21,7 @@ abstract class AbstractSniffTestCase extends TestCase
     private $sniffFileProcessor;
 
     /**
-     * @var ErrorCollector
+     * @var ErrorAndDiffCollector
      */
     private $errorCollector;
 
@@ -35,7 +35,7 @@ abstract class AbstractSniffTestCase extends TestCase
         $container = (new ContainerFactory())->create();
 
         $this->sniffFileProcessor = $container->get(SniffFileProcessor::class);
-        $this->errorCollector = $container->get(ErrorCollector::class);
+        $this->errorCollector = $container->get(ErrorAndDiffCollector::class);
         $this->fixer = $container->get(Fixer::class);
 
         foreach ($this->findFilesInDirectory($directory) as $file) {
