@@ -43,6 +43,7 @@ parameters:
     excludes_analyse:
         - *packages/CodingStandard/tests/**/correct*
         - *packages/CodingStandard/tests/**/wrong*
+        - *packages/EasyCodingStandard/tests/Finder/FinderSanitizerSource/FileWithClass.php
 
     autoload_files:
         - %currentWorkingDirectory%/vendor/squizlabs/php_codesniffer/autoload.php
