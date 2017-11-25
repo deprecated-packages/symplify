@@ -1,7 +1,0 @@
-<?php
-
-
-trait TraitSomeClass
-{
-
-}

@@ -17,14 +17,6 @@ final class VarConstantCommentSniffTest extends AbstractSniffTestCase
     }
 
     /**
-     * @dataProvider provideCorrectCases()
-     */
-    public function testCorrect(string $file): void
-    {
-        $this->doTestCorrectFile($file);
-    }
-
-    /**
      * @return string[][]
      */
     public function provideWrongCases(): array
@@ -34,6 +26,14 @@ final class VarConstantCommentSniffTest extends AbstractSniffTestCase
             [__DIR__ . '/wrong/wrong2.php.inc'],
             [__DIR__ . '/wrong/wrong3.php.inc'],
         ];
+    }
+
+    /**
+     * @dataProvider provideCorrectCases()
+     */
+    public function testCorrect(string $file): void
+    {
+        $this->doTestCorrectFile($file);
     }
 
     /**

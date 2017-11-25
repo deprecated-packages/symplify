@@ -8,22 +8,27 @@ use Symplify\CodingStandard\Tests\Sniffs\AbstractSniffTestCase;
 
 final class AbstractClassNameSniffTest extends AbstractSniffTestCase
 {
-    /**
-     * @dataProvider provideCases()
-     */
-    public function testFix(string $input, string $expected): void
+    public function testWrongToFixed(): void
     {
-        $this->doTest($input, $expected);
+        $this->doTest(__DIR__ . '/wrong/wrong.php.inc', __DIR__ . '/wrong/wrong-fixed.php.inc');
+    }
+
+    /**
+     * @dataProvider provideCorrectCases()
+     */
+    public function testCorrect(string $file): void
+    {
+        $this->doTestCorrectFile($file);
     }
 
     /**
      * @return string[][]
      */
-    public function provideCases(): array
+    public function provideCorrectCases(): array
     {
         return [
-            // wrong => fixed
-            [__DIR__ . '/wrong/wrong.php.inc', __DIR__ . '/wrong/wrong-fixed.php.inc']
+            [__DIR__ . '/correct/correct.php.inc'],
+            [__DIR__ . '/correct/correct2.php.inc'],
         ];
     }
 

@@ -2,13 +2,24 @@
 
 namespace Symplify\CodingStandard\Tests\Sniffs\Debug\DebugFunctionCall;
 
+use PHP_CodeSniffer\Sniffs\Sniff;
 use Symplify\CodingStandard\Sniffs\Debug\DebugFunctionCallSniff;
 use Symplify\CodingStandard\Tests\Sniffs\AbstractSniffTestCase;
 
 final class DebugFunctionCallSniffTest extends AbstractSniffTestCase
 {
-    public function test(): void
+    public function testWrong(): void
     {
-        $this->runSniffTestForDirectory(DebugFunctionCallSniff::class, __DIR__);
+        $this->doTestWrongFile(__DIR__ . '/wrong/wrong.php.inc');
+    }
+
+    public function testCorrect(): void
+    {
+        $this->doTestCorrectFile(__DIR__ . '/correct/correct.php.inc');
+    }
+
+    protected function createSniff(): Sniff
+    {
+        return new DebugFunctionCallSniff();
     }
 }

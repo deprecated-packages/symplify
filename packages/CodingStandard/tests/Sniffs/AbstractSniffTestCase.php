@@ -5,6 +5,7 @@ namespace Symplify\CodingStandard\Tests\Sniffs;
 use PHP_CodeSniffer\Sniffs\Sniff;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Finder\SplFileInfo;
+use Symplify\EasyCodingStandard\Contract\Application\DualRunInterface;
 use Symplify\EasyCodingStandard\DependencyInjection\ContainerFactory;
 use Symplify\EasyCodingStandard\Error\ErrorAndDiffCollector;
 use Symplify\EasyCodingStandard\SniffRunner\Application\SniffFileProcessor;
@@ -65,9 +66,17 @@ abstract class AbstractSniffTestCase extends TestCase
 
     protected function processFileWithChecker(string $input): string
     {
-        $this->sniffFileProcessor->setSingleSniff($this->createSniff());
+        $sniff = $this->createSniff();
+
+        $this->sniffFileProcessor->setSingleSniff($sniff);
         $fileInfo = $this->createFileInfo($input);
+
         $result = $this->sniffFileProcessor->processFile($fileInfo);
+
+        if ($sniff instanceof DualRunInterface) {
+            $result = $this->sniffFileProcessor->processFileSecondRun($fileInfo);
+        }
+
         return $result;
     }
 }
