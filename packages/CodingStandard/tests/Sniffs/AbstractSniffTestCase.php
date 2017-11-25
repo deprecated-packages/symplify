@@ -23,7 +23,7 @@ abstract class AbstractSniffTestCase extends TestCase
     /**
      * @var ErrorAndDiffCollector
      */
-    private $errorCollector;
+    private $errorAndDiffCollector;
 
     /**
      * @var Fixer
@@ -35,7 +35,7 @@ abstract class AbstractSniffTestCase extends TestCase
         $container = (new ContainerFactory())->create();
 
         $this->sniffFileProcessor = $container->get(SniffFileProcessor::class);
-        $this->errorCollector = $container->get(ErrorAndDiffCollector::class);
+        $this->errorAndDiffCollector = $container->get(ErrorAndDiffCollector::class);
         $this->fixer = $container->get(Fixer::class);
 
         foreach ($this->findFilesInDirectory($directory) as $file) {
@@ -54,10 +54,10 @@ abstract class AbstractSniffTestCase extends TestCase
         $sniff = new $sniffClass();
         $this->processFileWithSniff($sniff, $fileInfo);
 
-        $this->assertSame(0, $this->errorCollector->getErrorCount(), sprintf(
+        $this->assertSame(0, $this->errorAndDiffCollector->getErrorCount(), sprintf(
             'File "%s" should have no errors. %s found.',
             $fileInfo->getPathname(),
-            $this->errorCollector->getErrorCount()
+            $this->errorAndDiffCollector->getErrorCount()
         ));
     }
 
@@ -72,7 +72,7 @@ abstract class AbstractSniffTestCase extends TestCase
             $this->processFileWithSniff($sniff, $fileInfo);
         }
 
-        $this->assertGreaterThanOrEqual(1, $this->errorCollector->getErrorCount(), sprintf(
+        $this->assertGreaterThanOrEqual(1, $this->errorAndDiffCollector->getErrorCount(), sprintf(
             'File "%s" should have at least 1 error.',
             $fileInfo->getPathname()
         ));
@@ -110,7 +110,7 @@ abstract class AbstractSniffTestCase extends TestCase
 
     private function processFileWithSniff(Sniff $sniff, SplFileInfo $fileInfo): void
     {
-        $this->errorCollector->resetCounters();
+        $this->errorAndDiffCollector->resetCounters();
         $this->sniffFileProcessor->setSingleSniff($sniff);
         $this->sniffFileProcessor->processFile($fileInfo);
     }
