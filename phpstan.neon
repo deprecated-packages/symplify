@@ -36,6 +36,10 @@ parameters:
         - '#Parameter \#3 \$items of method PhpCsFixer\\Tokenizer\\Tokens::overrideRange\(\) expects iterable\(PhpCsFixer\\Tokenizer\\Token\[\]\)&PhpCsFixer\\Tokenizer\\Tokens, PhpCsFixer\\Tokenizer\\Token\[\] given#'
         - '#Call to an undefined method PHP_CodeSniffer\\Sniffs\\Sniff|Symplify\\EasyCodingStandard\\Contract\\Application\\DualRunInterface::increaseRun\(\)#'
         - '#Symplify\\EasyCodingStandard\\Contract\\Application\\DualRunInterface#'
+        - '#Method Symplify\\EasyCodingStandard\\Finder\\FinderSanitizer::turnInfoSymfonyFileInfos\(\) should return Symfony\\Component\\Finder\\SplFileInfo\[\] but returns SplFileInfo\[\]#'
+
+        # part of test
+        - '#Parameter \#1 \$finder of method Symplify\\EasyCodingStandard\\Finder\\FinderSanitizer::sanitize\(\) expects Nette\\Utils\\Finder|Symfony\\Component\\Finder\\Finder, SplFileInfo\[\] given#'
 
         # 3rd party errors
         - '#Parameter \#1 \$container of class Symfony\\Component\\DependencyInjection\\Loader\\YamlFileLoader constructor expects Symfony\\Component\\DependencyInjection\\ContainerBuilder, Symfony\\Component\\DependencyInjection\\ContainerInterface given#'
@@ -43,9 +47,11 @@ parameters:
     excludes_analyse:
         - *packages/CodingStandard/tests/**/correct*
         - *packages/CodingStandard/tests/**/wrong*
-        - *packages/EasyCodingStandard/tests/Finder/FinderSanitizerSource/FileWithClass.php
+        # tests
+        - packages/EasyCodingStandard/tests/Finder/FinderSanitizerSource/FileWithClass.php
+        - packages/EasyCodingStandard/tests/Finder/FinderSanitizerSource/NestedDirectory/FileWithClass.php
 
     autoload_files:
         - %currentWorkingDirectory%/vendor/squizlabs/php_codesniffer/autoload.php
-        - packages/EasyCodingStandard/tests/Finder/SourceFinderSource/Source/SomeClass.php
         - packages/EasyCodingStandard/packages/ChangedFilesDetector/tests/ChangedFilesDetectorSource/OneClass.php
+        - packages/EasyCodingStandard/tests/Finder/SourceFinderSource/Source/SomeClass.php
