@@ -6,6 +6,7 @@ use PHP_CodeSniffer\Sniffs\Sniff;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Finder\SplFileInfo;
 use Symplify\EasyCodingStandard\DependencyInjection\ContainerFactory;
+use Symplify\EasyCodingStandard\Error\ErrorAndDiffCollector;
 use Symplify\EasyCodingStandard\SniffRunner\Application\SniffFileProcessor;
 
 abstract class AbstractSniffTestCase extends TestCase
@@ -15,22 +16,58 @@ abstract class AbstractSniffTestCase extends TestCase
      */
     private $sniffFileProcessor;
 
+    /**
+     * @var ErrorAndDiffCollector
+     */
+    private $errorAndDiffCollector;
+
     protected function setUp(): void
     {
         $container = (new ContainerFactory())->create();
 
         $this->sniffFileProcessor = $container->get(SniffFileProcessor::class);
+        $this->errorAndDiffCollector = $container->get(ErrorAndDiffCollector::class);
     }
 
-    protected function doTest(string $input, string $expected): void
+    protected function doTest(string $inputFile, string $expectedFile): void
     {
-        $this->sniffFileProcessor->setSingleSniff($this->createSniff());
+        $result = $this->processFileWithChecker($inputFile);
 
-        $fileInfo = new SplFileInfo($input, '', '');
-        $result = $this->sniffFileProcessor->processFile($fileInfo);
+        $this->assertStringEqualsFile($expectedFile, $result);
+    }
 
-        $this->assertStringEqualsFile($expected, $result);
+    /**
+     * File should contain at least 1 error
+     */
+    protected function doTestWrongFile(string $file): void
+    {
+        $this->processFileWithChecker($file);
+
+        $this->assertGreaterThanOrEqual(1, $this->errorAndDiffCollector->getErrorCount());
+    }
+
+    /**
+     * File should contain 0 errors
+     */
+    protected function doTestCorrectFile(string $file): void
+    {
+        $this->processFileWithChecker($file);
+
+        $this->assertSame(0, $this->errorAndDiffCollector->getErrorCount());
     }
 
     abstract protected function createSniff(): Sniff;
+
+    protected function createFileInfo(string $file): SplFileInfo
+    {
+        return new SplFileInfo($file, '', '');
+    }
+
+    protected function processFileWithChecker(string $input): string
+    {
+        $this->sniffFileProcessor->setSingleSniff($this->createSniff());
+        $fileInfo = $this->createFileInfo($input);
+        $result = $this->sniffFileProcessor->processFile($fileInfo);
+        return $result;
+    }
 }

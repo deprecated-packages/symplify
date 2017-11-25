@@ -9,22 +9,41 @@ use Symplify\CodingStandard\Tests\Sniffs\AbstractSniffTestCase;
 final class VarConstantCommentSniffTest extends AbstractSniffTestCase
 {
     /**
-     * @dataProvider provideCases()
+     * @dataProvider provideWrongCases()
      */
-    public function testFix(string $input, string $expected): void
+    public function testWrong(string $file): void
     {
-        $this->doTest($input, $expected);
-//        $this->runSniffTestForDirectory(VarConstantCommentSniff::class, __DIR__);
+        $this->doTestWrongFile($file);
+    }
+
+    /**
+     * @dataProvider provideCorrectCases()
+     */
+    public function testCorrect(string $file): void
+    {
+        $this->doTestCorrectFile($file);
     }
 
     /**
      * @return string[][]
      */
-    public function provideCases(): array
+    public function provideWrongCases(): array
     {
         return [
-            // wrong => fixed
+            [__DIR__ . '/wrong/wrong.php.inc'],
+            [__DIR__ . '/wrong/wrong2.php.inc'],
+            [__DIR__ . '/wrong/wrong3.php.inc'],
+        ];
+    }
 
+    /**
+     * @return string[][]
+     */
+    public function provideCorrectCases(): array
+    {
+        return [
+            [__DIR__ . '/correct/correct.php.inc'],
+            [__DIR__ . '/correct/correct2.php.inc'],
         ];
     }
 
