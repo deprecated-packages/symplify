@@ -58,6 +58,7 @@ final class NoClassInstantiationSniff implements Sniff
 
         // Symfony misc
         'Symfony\Component\Process\Process',
+        'Symfony\Component\Finder\SplFileInfo',
 
         // php-cs-fixer
         'PhpCsFixer\*',
