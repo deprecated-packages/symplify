@@ -2,16 +2,15 @@
 
 namespace Symplify\EasyCodingStandard\FixerRunner\Application;
 
-use PhpCsFixer\Fixer\DefinedFixerInterface;
+use PhpCsFixer\Differ\DifferInterface;
 use PhpCsFixer\Fixer\FixerInterface;
 use PhpCsFixer\Tokenizer\Tokens;
-use SplFileInfo;
+use Symfony\Component\Finder\SplFileInfo;
 use Symplify\EasyCodingStandard\Configuration\Configuration;
 use Symplify\EasyCodingStandard\Contract\Application\DualRunInterface;
 use Symplify\EasyCodingStandard\Contract\Application\FileProcessorInterface;
-use Symplify\EasyCodingStandard\Error\ErrorCollector;
+use Symplify\EasyCodingStandard\Error\ErrorAndDiffCollector;
 use Symplify\EasyCodingStandard\FileSystem\CachedFileLoader;
-use Symplify\EasyCodingStandard\FixerRunner\ChangedLinesDetector;
 use Symplify\EasyCodingStandard\FixerRunner\Exception\Application\FixerFailedException;
 use Symplify\EasyCodingStandard\FixerRunner\Parser\FileToTokensParser;
 use Symplify\EasyCodingStandard\Performance\CheckerMetricRecorder;
@@ -26,9 +25,9 @@ final class FixerFileProcessor implements FileProcessorInterface
     private $fixers = [];
 
     /**
-     * @var ErrorCollector
+     * @var ErrorAndDiffCollector
      */
-    private $errorCollector;
+    private $errorAndDiffCollector;
 
     /**
      * @var Skipper
@@ -39,11 +38,6 @@ final class FixerFileProcessor implements FileProcessorInterface
      * @var Configuration
      */
     private $configuration;
-
-    /**
-     * @var ChangedLinesDetector
-     */
-    private $changedLinesDetector;
 
     /**
      * @var CheckerMetricRecorder
@@ -70,22 +64,27 @@ final class FixerFileProcessor implements FileProcessorInterface
      */
     private $cachedFileLoader;
 
+    /**
+     * @var DifferInterface
+     */
+    private $differ;
+
     public function __construct(
-        ErrorCollector $errorCollector,
-        Skipper $skipper,
+        ErrorAndDiffCollector $errorAndDiffCollector,
         Configuration $configuration,
-        ChangedLinesDetector $changedLinesDetector,
         CheckerMetricRecorder $checkerMetricRecorder,
         FileToTokensParser $fileToTokensParser,
-        CachedFileLoader $cachedFileLoader
+        CachedFileLoader $cachedFileLoader,
+        Skipper $skipper,
+        DifferInterface $differ
     ) {
-        $this->errorCollector = $errorCollector;
+        $this->errorAndDiffCollector = $errorAndDiffCollector;
         $this->skipper = $skipper;
         $this->configuration = $configuration;
-        $this->changedLinesDetector = $changedLinesDetector;
         $this->checkerMetricRecorder = $checkerMetricRecorder;
         $this->fileToTokensParser = $fileToTokensParser;
         $this->cachedFileLoader = $cachedFileLoader;
+        $this->differ = $differ;
     }
 
     public function addFixer(FixerInterface $fixer): void
@@ -105,14 +104,13 @@ final class FixerFileProcessor implements FileProcessorInterface
         return $this->fixers;
     }
 
-    public function processFile(SplFileInfo $fileInfo): void
+    public function processFile(SplFileInfo $fileInfo): string
     {
         $oldContent = $this->cachedFileLoader->getFileContent($fileInfo);
 
         $tokens = $this->fileToTokensParser->parseFromFilePath($fileInfo->getRealPath());
 
         $appliedFixers = [];
-        $latestContent = $oldContent;
 
         foreach ($this->getCheckers() as $name => $fixer) {
             if ($this->shouldSkip($fileInfo, $fixer, $tokens)) {
@@ -140,34 +138,33 @@ final class FixerFileProcessor implements FileProcessorInterface
                 continue;
             }
 
-            $changedLines = $this->changedLinesDetector->detectInBeforeAfter($latestContent, $tokens->generateCode());
-            $latestContent = $tokens->generateCode();
-
-            foreach ($changedLines as $changedLine) {
-                $this->addErrorToErrorMessageCollector($fileInfo, $fixer, $changedLine);
-            }
-
             $tokens->clearEmptyTokens();
             $tokens->clearChanged();
-            $appliedFixers[] = $fixer->getName();
+            $appliedFixers[] = get_class($fixer);
         }
 
         if (! $appliedFixers) {
             $this->fileToTokensParser->clearCache();
-            return;
+            return $oldContent;
         }
 
-        if ($this->configuration->isFixer() && $oldContent !== $tokens->getCodeHash()) {
+        $diff = $this->differ->diff($oldContent, $tokens->generateCode());
+        $this->errorAndDiffCollector->addDiffForFile($fileInfo->getRealPath(), $diff, $appliedFixers);
+
+        if ($this->configuration->isFixer()) {
             file_put_contents($fileInfo->getRealPath(), $tokens->generateCode());
         }
 
         Tokens::clearCache();
+
+        return $tokens->generateCode();
     }
 
-    public function processFileSecondRun(SplFileInfo $file): void
+    public function processFileSecondRun(SplFileInfo $file): string
     {
         $this->prepareSecondRun();
-        $this->processFile($file);
+
+        return $this->processFile($file);
     }
 
     /**
@@ -178,29 +175,6 @@ final class FixerFileProcessor implements FileProcessorInterface
         return array_filter($this->fixers, function (FixerInterface $fixer) {
             return $fixer instanceof DualRunInterface;
         });
-    }
-
-    private function addErrorToErrorMessageCollector(SplFileInfo $file, FixerInterface $fixer, int $line): void
-    {
-        $filePath = str_replace('//', '/', $file->getPathname());
-
-        $this->errorCollector->addErrorMessage(
-            $filePath,
-            $line,
-            $this->prepareErrorMessageFromFixer($fixer),
-            get_class($fixer),
-            true
-        );
-    }
-
-    private function prepareErrorMessageFromFixer(FixerInterface $fixer): string
-    {
-        if ($fixer instanceof DefinedFixerInterface) {
-            return $fixer->getDefinition()
-                ->getSummary();
-        }
-
-        return $fixer->getName();
     }
 
     private function shouldSkip(SplFileInfo $file, FixerInterface $fixer, Tokens $tokens): bool

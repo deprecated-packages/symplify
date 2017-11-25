@@ -3,8 +3,8 @@
 namespace Symplify\EasyCodingStandard\SniffRunner\File;
 
 use SplFileInfo;
-use Symplify\EasyCodingStandard\Error\ErrorCollector;
-use Symplify\EasyCodingStandard\FileSystem\CachedFileLoader;
+use Symplify\EasyCodingStandard\Application\AppliedCheckersCollector;
+use Symplify\EasyCodingStandard\Error\ErrorAndDiffCollector;
 use Symplify\EasyCodingStandard\Skipper;
 use Symplify\EasyCodingStandard\SniffRunner\Application\CurrentSniffProvider;
 use Symplify\EasyCodingStandard\SniffRunner\Fixer\Fixer;
@@ -18,9 +18,9 @@ final class FileFactory
     private $fixer;
 
     /**
-     * @var ErrorCollector
+     * @var ErrorAndDiffCollector
      */
-    private $errorCollector;
+    private $errorAndDiffCollector;
 
     /**
      * @var FileToTokensParser
@@ -43,27 +43,27 @@ final class FileFactory
     private $filesByHash = [];
 
     /**
-     * @var CachedFileLoader
+     * @var AppliedCheckersCollector
      */
-    private $cachedFileLoader;
+    private $appliedCheckersCollector;
 
     public function __construct(
         Fixer $fixer,
-        ErrorCollector $errorCollector,
+        ErrorAndDiffCollector $errorAndDiffCollector,
         FileToTokensParser $fileToTokensParser,
         CurrentSniffProvider $currentSniffProvider,
         Skipper $skipper,
-        CachedFileLoader $cachedFileLoader
+        AppliedCheckersCollector $appliedCheckersCollector
     ) {
         $this->fixer = $fixer;
-        $this->errorCollector = $errorCollector;
+        $this->errorAndDiffCollector = $errorAndDiffCollector;
         $this->fileToTokensParser = $fileToTokensParser;
         $this->currentSniffProvider = $currentSniffProvider;
         $this->skipper = $skipper;
-        $this->cachedFileLoader = $cachedFileLoader;
+        $this->appliedCheckersCollector = $appliedCheckersCollector;
     }
 
-    public function createFromFileInfo(SplFileInfo $fileInfo, bool $isFixer): File
+    public function createFromFileInfo(SplFileInfo $fileInfo): File
     {
         $fileHash = md5_file($fileInfo->getPathname());
 
@@ -75,13 +75,12 @@ final class FileFactory
 
         $file = new File(
             $filePathName,
-            $this->cachedFileLoader->getFileContent($fileInfo),
             $this->fileToTokensParser->parseFromFilePath($filePathName),
             $this->fixer,
-            $this->errorCollector,
-            $isFixer,
+            $this->errorAndDiffCollector,
             $this->currentSniffProvider,
-            $this->skipper
+            $this->skipper,
+            $this->appliedCheckersCollector
         );
 
         return $this->filesByHash[$fileHash] = $file;

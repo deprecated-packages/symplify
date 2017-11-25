@@ -3,7 +3,7 @@
 namespace Symplify\EasyCodingStandard\SniffRunner\Tests\File;
 
 use SplFileInfo;
-use Symplify\EasyCodingStandard\Error\ErrorCollector;
+use Symplify\EasyCodingStandard\Error\ErrorAndDiffCollector;
 use Symplify\EasyCodingStandard\SniffRunner\Exception\File\NotImplementedException;
 use Symplify\EasyCodingStandard\SniffRunner\File\File;
 use Symplify\EasyCodingStandard\SniffRunner\File\FileFactory;
@@ -17,31 +17,31 @@ final class FileTest extends AbstractContainerAwareTestCase
     private $file;
 
     /**
-     * @var ErrorCollector
+     * @var ErrorAndDiffCollector
      */
-    private $errorCollector;
+    private $errorAndDiffCollector;
 
     protected function setUp(): void
     {
-        $this->errorCollector = $this->container->get(ErrorCollector::class);
+        $this->errorAndDiffCollector = $this->container->get(ErrorAndDiffCollector::class);
 
         /** @var FileFactory $fileFactory */
         $fileFactory = $this->container->get(FileFactory::class);
         $fileInfo = new SplFileInfo(__DIR__ . '/FileFactorySource/SomeFile.php');
-        $this->file = $fileFactory->createFromFileInfo($fileInfo, false);
+        $this->file = $fileFactory->createFromFileInfo($fileInfo);
     }
 
     public function testErrorDataCollector(): void
     {
-        $this->assertSame(0, $this->errorCollector->getErrorCount());
+        $this->assertSame(0, $this->errorAndDiffCollector->getErrorCount());
 
         $this->file->addError('Some Error', 0, 'code');
-        $this->assertSame(1, $this->errorCollector->getErrorCount());
-        $this->assertSame(0, $this->errorCollector->getFixableErrorCount());
+        $this->assertSame(1, $this->errorAndDiffCollector->getErrorCount());
+        $this->assertSame(0, $this->errorAndDiffCollector->getFileDiffsCount());
 
         $this->file->addFixableError('Some Other Error', 0, 'code');
-        $this->assertSame(2, $this->errorCollector->getErrorCount());
-        $this->assertSame(1, $this->errorCollector->getFixableErrorCount());
+        $this->assertSame(2, $this->errorAndDiffCollector->getErrorCount());
+        $this->assertSame(1, $this->errorAndDiffCollector->getFileDiffsCount());
     }
 
     public function testNotImplementedGetErrorCount(): void

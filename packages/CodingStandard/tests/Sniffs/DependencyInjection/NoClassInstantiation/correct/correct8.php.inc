@@ -7,7 +7,7 @@ final class ObjectCollectionWrapper
      */
     private $objects;
 
-    public function __constsruct()
+    public function __construct()
     {
         $this->objects = new SplObjectStorage;
     }

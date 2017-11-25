@@ -3,15 +3,14 @@
 namespace Symplify\EasyCodingStandard\Application;
 
 use ParseError;
-use SplFileInfo;
+use Symfony\Component\Finder\SplFileInfo;
 use Symplify\EasyCodingStandard\ChangedFilesDetector\ChangedFilesDetector;
 use Symplify\EasyCodingStandard\Configuration\Configuration;
 use Symplify\EasyCodingStandard\Console\Style\EasyCodingStandardStyle;
-use Symplify\EasyCodingStandard\Error\ErrorCollector;
+use Symplify\EasyCodingStandard\Contract\Application\FileProcessorInterface;
+use Symplify\EasyCodingStandard\Error\ErrorAndDiffCollector;
+use Symplify\EasyCodingStandard\FileSystem\FileFilter;
 use Symplify\EasyCodingStandard\Finder\SourceFinder;
-use Symplify\EasyCodingStandard\FixerRunner\Application\FixerFileProcessor;
-use Symplify\EasyCodingStandard\Skipper;
-use Symplify\EasyCodingStandard\SniffRunner\Application\SniffFileProcessor;
 
 final class Application
 {
@@ -31,48 +30,44 @@ final class Application
     private $changedFilesDetector;
 
     /**
-     * @var Skipper
+     * @var ErrorAndDiffCollector
      */
-    private $skipper;
-
-    /**
-     * @var SniffFileProcessor
-     */
-    private $sniffFileProcessor;
-
-    /**
-     * @var FixerFileProcessor
-     */
-    private $fixerFileProcessor;
-
-    /**
-     * @var ErrorCollector
-     */
-    private $errorCollector;
+    private $errorAndDiffCollector;
 
     /**
      * @var Configuration
      */
     private $configuration;
 
+    /**
+     * @var FileProcessorInterface[]
+     */
+    private $fileProcessors = [];
+
+    /**
+     * @var FileFilter
+     */
+    private $fileFilter;
+
     public function __construct(
         EasyCodingStandardStyle $easyCodingStandardStyle,
         SourceFinder $sourceFinder,
         ChangedFilesDetector $changedFilesDetector,
-        Skipper $skipper,
-        SniffFileProcessor $sniffFileProcessor,
-        FixerFileProcessor $fixerFileProcessor,
-        ErrorCollector $errorCollector,
-        Configuration $configuration
+        ErrorAndDiffCollector $errorAndDiffCollector,
+        Configuration $configuration,
+        FileFilter $fileFilter
     ) {
         $this->easyCodingStandardStyle = $easyCodingStandardStyle;
         $this->sourceFinder = $sourceFinder;
         $this->changedFilesDetector = $changedFilesDetector;
-        $this->skipper = $skipper;
-        $this->sniffFileProcessor = $sniffFileProcessor;
-        $this->fixerFileProcessor = $fixerFileProcessor;
-        $this->errorCollector = $errorCollector;
+        $this->errorAndDiffCollector = $errorAndDiffCollector;
         $this->configuration = $configuration;
+        $this->fileFilter = $fileFilter;
+    }
+
+    public function addFileProcessor(FileProcessorInterface $fileProcessor): void
+    {
+        $this->fileProcessors[] = $fileProcessor;
     }
 
     public function run(): void
@@ -84,7 +79,7 @@ final class Application
         if ($this->configuration->shouldClearCache()) {
             $this->changedFilesDetector->clearCache();
         } else {
-            $files = $this->filterOnlyChangedFiles($files);
+            $files = $this->fileFilter->filterOnlyChangedFiles($files);
         }
 
         // no files found
@@ -94,7 +89,7 @@ final class Application
 
         // 3. start progress bar
         if ($this->configuration->showProgressBar()) {
-            $this->easyCodingStandardStyle->startProgressBar(count($files));
+            $this->easyCodingStandardStyle->startProgressBar(count($files) * ($this->isDualRunEnabled() ? 2 : 1));
         }
 
         // 4. process found files by each processors
@@ -106,6 +101,17 @@ final class Application
         }
     }
 
+    public function getCheckerCount(): int
+    {
+        $checkerCount = 0;
+
+        foreach ($this->fileProcessors as $fileProcessor) {
+            $checkerCount += count($fileProcessor->getCheckers());
+        }
+
+        return $checkerCount;
+    }
+
     /**
      * @param SplFileInfo[] $fileInfos
      */
@@ -115,16 +121,19 @@ final class Application
             $this->easyCodingStandardStyle->advanceProgressBar();
 
             try {
-                $this->sniffFileProcessor->processFile($fileInfo);
-                $this->fixerFileProcessor->processFile($fileInfo);
+                // @todo pass file content?
+                foreach ($this->fileProcessors as $fileProcessor) {
+                    $fileProcessor->processFile($fileInfo);
+                }
+
+                // @todo add diff here? + save just once :)
             } catch (ParseError $parseError) {
                 $this->changedFilesDetector->invalidateFile($relativePath);
-                $this->errorCollector->addErrorMessage(
+                $this->errorAndDiffCollector->addErrorMessage(
                     $relativePath,
                     $parseError->getLine(),
                     $parseError->getMessage(),
-                    ParseError::class,
-                    false
+                    ParseError::class
                 );
             }
         }
@@ -138,34 +147,20 @@ final class Application
         foreach ($fileInfos as $relativePath => $fileInfo) {
             $this->easyCodingStandardStyle->advanceProgressBar();
 
-            $this->sniffFileProcessor->processFileSecondRun($fileInfo);
-            $this->fixerFileProcessor->processFileSecondRun($fileInfo);
-        }
-    }
-
-    /**
-     * @param SplFileInfo[] $fileInfos
-     * @return SplFileInfo[]
-     */
-    private function filterOnlyChangedFiles(array $fileInfos): array
-    {
-        $changedFiles = [];
-
-        foreach ($fileInfos as $relativePath => $fileInfo) {
-            if ($this->changedFilesDetector->hasFileChanged($relativePath)) {
-                $changedFiles[] = $fileInfo;
-
-                $this->changedFilesDetector->addFile($relativePath);
-            } else {
-                $this->skipper->removeFileFromUnused($relativePath);
+            foreach ($this->fileProcessors as $fileProcessor) {
+                $fileProcessor->processFileSecondRun($fileInfo);
             }
         }
-
-        return $changedFiles;
     }
 
     private function isDualRunEnabled(): bool
     {
-        return $this->sniffFileProcessor->getDualRunCheckers() || $this->fixerFileProcessor->getDualRunCheckers();
+        foreach ($this->fileProcessors as $fileProcessor) {
+            if ($fileProcessor->getDualRunCheckers()) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

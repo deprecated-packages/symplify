@@ -3,7 +3,8 @@
 namespace Symplify\EasyCodingStandard\SniffRunner\File;
 
 use PHP_CodeSniffer\Files\File as BaseFile;
-use Symplify\EasyCodingStandard\Error\ErrorCollector;
+use Symplify\EasyCodingStandard\Application\AppliedCheckersCollector;
+use Symplify\EasyCodingStandard\Error\ErrorAndDiffCollector;
 use Symplify\EasyCodingStandard\Skipper;
 use Symplify\EasyCodingStandard\SniffRunner\Application\CurrentSniffProvider;
 use Symplify\EasyCodingStandard\SniffRunner\Exception\File\NotImplementedException;
@@ -22,14 +23,9 @@ final class File extends BaseFile
     public $fixer;
 
     /**
-     * @var ErrorCollector
+     * @var ErrorAndDiffCollector
      */
-    private $errorCollector;
-
-    /**
-     * @var bool
-     */
-    private $isFixer;
+    private $errorAndDiffCollector;
 
     /**
      * @var CurrentSniffProvider
@@ -42,30 +38,33 @@ final class File extends BaseFile
     private $skipper;
 
     /**
+     * @var AppliedCheckersCollector
+     */
+    private $appliedCheckersCollector;
+
+    /**
      * @param array[] $tokens
      */
     public function __construct(
         string $path,
-        string $content,
         array $tokens,
         Fixer $fixer,
-        ErrorCollector $errorCollector,
-        bool $isFixer,
+        ErrorAndDiffCollector $errorAndDiffCollector,
         CurrentSniffProvider $currentSniffProvider,
-        Skipper $skipper
+        Skipper $skipper,
+        AppliedCheckersCollector $appliedCheckersCollector
     ) {
         $this->path = $path;
-        $this->content = $content;
         $this->tokens = $tokens;
         $this->fixer = $fixer;
-        $this->errorCollector = $errorCollector;
+        $this->errorAndDiffCollector = $errorAndDiffCollector;
 
         $this->numTokens = count($this->tokens);
-        $this->isFixer = $isFixer;
 
         $this->eolChar = PHP_EOL;
         $this->currentSniffProvider = $currentSniffProvider;
         $this->skipper = $skipper;
+        $this->appliedCheckersCollector = $appliedCheckersCollector;
     }
 
     public function parse(): void
@@ -89,7 +88,7 @@ final class File extends BaseFile
         throw new NotImplementedException(sprintf(
             'Method "%s" is not needed to be public. Use "%s" service.',
             __METHOD__,
-            ErrorCollector::class
+            ErrorAndDiffCollector::class
         ));
     }
 
@@ -98,7 +97,7 @@ final class File extends BaseFile
         throw new NotImplementedException(sprintf(
             'Method "%s" is not needed to be public. Use "%s" service.',
             __METHOD__,
-            ErrorCollector::class
+            ErrorAndDiffCollector::class
         ));
     }
 
@@ -109,7 +108,16 @@ final class File extends BaseFile
      */
     public function addFixableError($error, $stackPtr, $code, $data = [], $severity = 0): bool
     {
-        return $this->addError($error, $stackPtr, $code, $data, $severity, true) && $this->isFixer;
+        $this->appliedCheckersCollector->addFileAndChecker(
+            $this->getFilename(),
+            $this->resolveFullyQualifiedCode($code)
+        );
+
+        if ($this->skipper->shouldSkipCodeAndFile($this->resolveFullyQualifiedCode($code), $this->path)) {
+            return false;
+        }
+
+        return true;
     }
 
     /**
@@ -117,8 +125,7 @@ final class File extends BaseFile
      */
     public function addError($error, $stackPtr, $code, $data = [], $severity = 0, $fixable = false): bool
     {
-        $fullyQualifiedCode = $this->currentSniffProvider->getSniffClass() . '.' . $code;
-        if ($this->skipper->shouldSkipCodeAndFile($fullyQualifiedCode, $this->path)) {
+        if ($this->skipper->shouldSkipCodeAndFile($this->resolveFullyQualifiedCode($code), $this->path)) {
             return false;
         }
 
@@ -148,12 +155,15 @@ final class File extends BaseFile
             $message = vsprintf($message, $data);
         }
 
-        $this->errorCollector->addErrorMessage(
+        if ($isFixable === true) {
+            return $isFixable;
+        }
+
+        $this->errorAndDiffCollector->addErrorMessage(
             $this->path,
             $line,
             $message,
-            $this->resolveFullyQualifiedCode($sniffClassOrCode),
-            $isFixable
+            $this->resolveFullyQualifiedCode($sniffClassOrCode)
         );
 
         return true;

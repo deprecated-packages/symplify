@@ -3,19 +3,17 @@
 namespace Symplify\EasyCodingStandard\Tests\Error\ErrorCollector;
 
 use PHPUnit\Framework\TestCase;
-use SplFileInfo;
-use Symplify\EasyCodingStandard\ChangedFilesDetector\ChangedFilesDetector;
+use Symfony\Component\Finder\SplFileInfo;
 use Symplify\EasyCodingStandard\DependencyInjection\ContainerFactory;
-use Symplify\EasyCodingStandard\Error\Error;
-use Symplify\EasyCodingStandard\Error\ErrorCollector;
+use Symplify\EasyCodingStandard\Error\ErrorAndDiffCollector;
 use Symplify\EasyCodingStandard\FixerRunner\Application\FixerFileProcessor;
 
 final class FixerFileProcessorTest extends TestCase
 {
     /**
-     * @var ErrorCollector
+     * @var ErrorAndDiffCollector
      */
-    private $errorCollector;
+    private $errorAndDiffCollector;
 
     /**
      * @var FixerFileProcessor
@@ -28,38 +26,21 @@ final class FixerFileProcessorTest extends TestCase
             __DIR__ . '/FixerRunnerSource/phpunit-fixer-config.neon'
         );
 
-        $this->errorCollector = $container->get(ErrorCollector::class);
+        $this->errorAndDiffCollector = $container->get(ErrorAndDiffCollector::class);
         $this->fixerFileProcessor = $container->get(FixerFileProcessor::class);
-
-        /** @var ChangedFilesDetector $changedFilesDetector */
-        $changedFilesDetector = $container->get(ChangedFilesDetector::class);
-        $changedFilesDetector->clearCache();
     }
 
     public function test(): void
     {
         $this->runFileProcessor();
 
-        $this->assertSame(1, $this->errorCollector->getErrorCount());
-        $this->assertSame(1, $this->errorCollector->getFixableErrorCount());
-        $this->assertSame(0, $this->errorCollector->getUnfixableErrorCount());
-
-        $errorMessages = $this->errorCollector->getAllErrors();
-        $this->assertCount(1, $errorMessages);
-
-        /** @var Error $error */
-        $error = array_pop($errorMessages)[0];
-        $this->assertInstanceOf(Error::class, $error);
-
-        $this->assertSame(
-            'PHPUnit methods like `assertSame` should be used instead of `assertEquals`.',
-            $error->getMessage()
-        );
+        $this->assertSame(0, $this->errorAndDiffCollector->getErrorCount());
+        $this->assertSame(1, $this->errorAndDiffCollector->getFileDiffsCount());
     }
 
     private function runFileProcessor(): void
     {
-        $fileInfo = new SplFileInfo(__DIR__ . '/ErrorCollectorSource/NotPsr2Class.php.inc');
+        $fileInfo = new SplFileInfo(__DIR__ . '/ErrorCollectorSource/NotPsr2Class.php.inc', '', '');
 
         $this->fixerFileProcessor->processFile($fileInfo);
     }

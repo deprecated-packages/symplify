@@ -11,12 +11,10 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 use Symplify\EasyCodingStandard\Application\Application;
 use Symplify\EasyCodingStandard\Configuration\Configuration;
 use Symplify\EasyCodingStandard\Configuration\Exception\NoCheckersLoadedException;
+use Symplify\EasyCodingStandard\Console\Output\CheckCommandReporter;
 use Symplify\EasyCodingStandard\Console\Style\EasyCodingStandardStyle;
-use Symplify\EasyCodingStandard\Error\ErrorCollector;
-use Symplify\EasyCodingStandard\FixerRunner\Application\FixerFileProcessor;
-use Symplify\EasyCodingStandard\Performance\CheckerMetricRecorder;
-use Symplify\EasyCodingStandard\Skipper;
-use Symplify\EasyCodingStandard\SniffRunner\Application\SniffFileProcessor;
+use Symplify\EasyCodingStandard\Error\ErrorAndDiffCollector;
+use Symplify\EasyCodingStandard\Error\FileDiff;
 
 final class CheckCommand extends Command
 {
@@ -33,12 +31,7 @@ final class CheckCommand extends Command
     /**
      * @var Application
      */
-    private $application;
-
-    /**
-     * @var Skipper
-     */
-    private $skipper;
+    private $ecsApplication;
 
     /**
      * @var Configuration
@@ -46,9 +39,9 @@ final class CheckCommand extends Command
     private $configuration;
 
     /**
-     * @var ErrorCollector
+     * @var ErrorAndDiffCollector
      */
-    private $errorCollector;
+    private $errorAndDiffCollector;
 
     /**
      * @var SymfonyStyle
@@ -56,42 +49,26 @@ final class CheckCommand extends Command
     private $symfonyStyle;
 
     /**
-     * @var FixerFileProcessor
+     * @var CheckCommandReporter
      */
-    private $fixerFileProcessor;
-
-    /**
-     * @var SniffFileProcessor
-     */
-    private $sniffFileProcessor;
-
-    /**
-     * @var CheckerMetricRecorder
-     */
-    private $checkerMetricRecorder;
+    private $checkCommandReporter;
 
     public function __construct(
         Application $application,
         EasyCodingStandardStyle $easyCodingStandardStyle,
-        Skipper $skipper,
         Configuration $configuration,
-        ErrorCollector $errorCollector,
+        ErrorAndDiffCollector $errorAndDiffCollector,
         SymfonyStyle $symfonyStyle,
-        FixerFileProcessor $fixerFileProcessor,
-        SniffFileProcessor $sniffFileProcessor,
-        CheckerMetricRecorder $checkerMetricRecorder
+        CheckCommandReporter $checkCommandReporter
     ) {
         parent::__construct();
 
-        $this->application = $application;
+        $this->ecsApplication = $application;
         $this->easyCodingStandardStyle = $easyCodingStandardStyle;
-        $this->skipper = $skipper;
         $this->configuration = $configuration;
-        $this->errorCollector = $errorCollector;
+        $this->errorAndDiffCollector = $errorAndDiffCollector;
         $this->symfonyStyle = $symfonyStyle;
-        $this->fixerFileProcessor = $fixerFileProcessor;
-        $this->sniffFileProcessor = $sniffFileProcessor;
-        $this->checkerMetricRecorder = $checkerMetricRecorder;
+        $this->checkCommandReporter = $checkCommandReporter;
     }
 
     protected function configure(): void
@@ -126,13 +103,17 @@ final class CheckCommand extends Command
         $this->ensureSomeCheckersAreRegistered();
 
         $this->configuration->resolveFromInput($input);
-        $this->application->run();
+        $this->ecsApplication->run();
 
-        if ($this->errorCollector->getErrorCount() === 0) {
+        $this->reportFileDiffs();
+
+        if ($this->errorAndDiffCollector->getErrorCount() === 0
+            && $this->errorAndDiffCollector->getFileDiffsCount() === 0
+        ) {
             $this->symfonyStyle->newLine();
             $this->symfonyStyle->success('No errors found. Great job - your code is shiny in style!');
-            $this->reportUnusedSkipped();
-            $this->reportPerformance();
+            $this->checkCommandReporter->reportUnusedSkipped();
+            $this->checkCommandReporter->reportPerformance();
 
             return 0;
         }
@@ -141,7 +122,7 @@ final class CheckCommand extends Command
 
         $exitCode = $this->configuration->isFixer() ? $this->printAfterFixerStatus() : $this->printNoFixerStatus();
 
-        $this->reportPerformance();
+        $this->checkCommandReporter->reportPerformance();
 
         return $exitCode;
     }
@@ -149,22 +130,22 @@ final class CheckCommand extends Command
     private function printAfterFixerStatus(): int
     {
         if ($this->configuration->showErrorTable()) {
-            $this->easyCodingStandardStyle->printErrors($this->errorCollector->getUnfixableErrors());
+            $this->easyCodingStandardStyle->printErrors($this->errorAndDiffCollector->getErrors());
         }
 
-        if ($this->errorCollector->getUnfixableErrorCount() === 0) {
+        if ($this->errorAndDiffCollector->getErrorCount() === 0) {
             $this->symfonyStyle->success(sprintf(
                 '%d %s successfully fixed and no other found!',
-                $this->errorCollector->getFixableErrorCount(),
-                $this->errorCollector->getFixableErrorCount() === 1 ? 'error' : 'errors'
+                $this->errorAndDiffCollector->getFileDiffsCount(),
+                $this->errorAndDiffCollector->getFileDiffsCount() === 1 ? 'error' : 'errors'
             ));
 
             return 0;
         }
 
         $this->printErrorMessageFromErrorCounts(
-            $this->errorCollector->getUnfixableErrorCount(),
-            $this->errorCollector->getFixableErrorCount()
+            $this->errorAndDiffCollector->getErrorCount(),
+            $this->errorAndDiffCollector->getFileDiffsCount()
         );
 
         return 1;
@@ -173,58 +154,40 @@ final class CheckCommand extends Command
     private function printNoFixerStatus(): int
     {
         if ($this->configuration->showErrorTable()) {
-            $this->easyCodingStandardStyle->printErrors($this->errorCollector->getAllErrors());
+            $this->easyCodingStandardStyle->printErrors($this->errorAndDiffCollector->getErrors());
         }
 
         $this->printErrorMessageFromErrorCounts(
-            $this->errorCollector->getErrorCount(),
-            $this->errorCollector->getFixableErrorCount()
+            $this->errorAndDiffCollector->getErrorCount(),
+            $this->errorAndDiffCollector->getFileDiffsCount()
         );
 
         return 1;
     }
 
-    private function printErrorMessageFromErrorCounts(int $errorCount, int $fixableErrorCount): void
+    private function printErrorMessageFromErrorCounts(int $errorCount, int $fileDiffsCount): void
     {
-        $this->symfonyStyle->error(sprintf(
-            $errorCount === 1 ? 'Found %d error.' : 'Found %d errors.',
-            $errorCount
-        ));
+        if ($errorCount) {
+            $this->symfonyStyle->error(sprintf(
+                $errorCount === 1 ? 'Found %d error.' : 'Found %d errors.',
+                $errorCount
+            ));
+        }
 
-        if (! $fixableErrorCount || $this->configuration->isFixer()) {
+        if (! $fileDiffsCount || $this->configuration->isFixer()) {
             return;
         }
 
         $this->symfonyStyle->success(sprintf(
-            ' %s of them %s fixable! Just add "--fix" to console command and rerun to apply.',
-            ($errorCount === $fixableErrorCount) ? 'ALL' : $fixableErrorCount,
-            ($fixableErrorCount === 1) ? 'is' : 'are'
+            ' %s file(s) %s fixable! Just add "--fix" to console command and rerun to apply.',
+            $fileDiffsCount,
+            ($fileDiffsCount === 1) ? 'is' : 'are'
         ));
-    }
-
-    private function reportUnusedSkipped(): void
-    {
-        foreach ($this->skipper->getUnusedSkipped() as $skippedClass => $skippedFiles) {
-            foreach ($skippedFiles as $skippedFile) {
-                if (! $this->isSkippedFileInSource($skippedFile)) {
-                    continue;
-                }
-
-                $this->symfonyStyle->error(sprintf(
-                    'Skipped checker "%s" and file path "%s" were not found. '
-                        . 'You can remove them from "parameters: > skip:" section in your config.',
-                    $skippedClass,
-                    $skippedFile
-                ));
-            }
-        }
     }
 
     private function ensureSomeCheckersAreRegistered(): void
     {
-        $totalCheckersLoaded = count($this->sniffFileProcessor->getCheckers())
-            + count($this->fixerFileProcessor->getCheckers());
-
+        $totalCheckersLoaded = $this->ecsApplication->getCheckerCount();
         if ($totalCheckersLoaded === 0) {
             throw new NoCheckersLoadedException(
                 'No checkers were found. Registers them in your config in "checkers:" '
@@ -233,43 +196,22 @@ final class CheckCommand extends Command
         }
     }
 
-    private function reportPerformance(): void
+    private function reportFileDiffs(): void
     {
-        if (! $this->configuration->showPerformance()) {
-            return;
-        }
+        foreach ($this->errorAndDiffCollector->getFileDiffs() as $file => $fileDiffs) {
+            $this->symfonyStyle->newLine(2);
+            $this->symfonyStyle->writeln($file);
 
-        $this->symfonyStyle->newLine();
+            /** @var FileDiff[] $fileDiffs */
+            foreach ($fileDiffs as $fileDiff) {
+                $this->symfonyStyle->newLine();
+                $this->symfonyStyle->writeln($fileDiff->getDiffConsoleFormatted());
+                $this->symfonyStyle->newLine();
 
-        $this->symfonyStyle->title('Performance Statistics');
-
-        $metrics = $this->checkerMetricRecorder->getMetrics();
-        $metricsForTable = $this->prepareForTable($metrics);
-        $this->symfonyStyle->table(['Checker', 'Total duration'], $metricsForTable);
-    }
-
-    /**
-     * @param mixed[] $metrics
-     * @return mixed[]
-     */
-    private function prepareForTable(array $metrics): array
-    {
-        $metricsForTable = [];
-        foreach ($metrics as $checkerClass => $duration) {
-            $metricsForTable[] = [$checkerClass, $duration . ' ms'];
-        }
-
-        return $metricsForTable;
-    }
-
-    private function isSkippedFileInSource(string $skippedFile): bool
-    {
-        foreach ($this->configuration->getSources() as $source) {
-            if (fnmatch(sprintf('*%s', $source), $skippedFile)) {
-                return true;
+                $this->symfonyStyle->writeln('Applied checkers:');
+                $this->symfonyStyle->newLine();
+                $this->symfonyStyle->listing($fileDiff->getAppliedCheckers());
             }
         }
-
-        return false;
     }
 }
