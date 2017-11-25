@@ -6,7 +6,7 @@ use Nette\Utils\Finder;
 use Nette\Utils\Strings;
 use PHP_CodeSniffer\Sniffs\Sniff;
 use PHPUnit\Framework\TestCase;
-use SplFileInfo;
+use Symfony\Component\Finder\SplFileInfo;
 use Symplify\EasyCodingStandard\Contract\Application\DualRunInterface;
 use Symplify\EasyCodingStandard\DependencyInjection\ContainerFactory;
 use Symplify\EasyCodingStandard\Error\ErrorCollector;
@@ -111,8 +111,7 @@ abstract class AbstractSniffTestCase extends TestCase
     private function processFileWithSniff(Sniff $sniff, SplFileInfo $fileInfo): void
     {
         $this->errorCollector->resetCounters();
-        $this->sniffFileProcessor->setIsFixer(true); // to test changed content of file
         $this->sniffFileProcessor->setSingleSniff($sniff);
-        $this->sniffFileProcessor->processFile($fileInfo, true);
+        $this->sniffFileProcessor->processFile($fileInfo);
     }
 }
