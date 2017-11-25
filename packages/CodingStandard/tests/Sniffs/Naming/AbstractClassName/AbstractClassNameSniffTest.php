@@ -10,7 +10,7 @@ final class AbstractClassNameSniffTest extends AbstractSniffTestCase
 {
     public function testWrongToFixed(): void
     {
-        $this->doTest(__DIR__ . '/wrong/wrong.php.inc', __DIR__ . '/wrong/wrong-fixed.php.inc');
+        $this->doTest(__DIR__ . '/wrong/wrong.php.inc', __DIR__ . '/fixed/fixed.php.inc');
     }
 
     /**
