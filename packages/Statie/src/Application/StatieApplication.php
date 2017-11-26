@@ -6,6 +6,7 @@ use Nette\Utils\Finder;
 use SplFileInfo;
 use Symplify\Statie\Configuration\Configuration;
 use Symplify\Statie\FlatWhite\Latte\DynamicStringLoader;
+use Symplify\Statie\Generator\Generator;
 use Symplify\Statie\Output\FileSystemWriter;
 use Symplify\Statie\Renderable\RenderableFilesProcessor;
 use Symplify\Statie\Source\SourceFileStorage;
@@ -37,18 +38,25 @@ final class StatieApplication
      */
     private $dynamicStringLoader;
 
+    /**
+     * @var Generator
+     */
+    private $generator;
+
     public function __construct(
         SourceFileStorage $sourceFileStorage,
         Configuration $configuration,
         FileSystemWriter $fileSystemWriter,
         RenderableFilesProcessor $renderableFilesProcessor,
-        DynamicStringLoader $dynamicStringLoader
+        DynamicStringLoader $dynamicStringLoader,
+        Generator $generator
     ) {
         $this->sourceFileStorage = $sourceFileStorage;
         $this->configuration = $configuration;
         $this->fileSystemWriter = $fileSystemWriter;
         $this->renderableFilesProcessor = $renderableFilesProcessor;
         $this->dynamicStringLoader = $dynamicStringLoader;
+        $this->generator = $generator;
     }
 
     public function run(string $source, string $destination): void
@@ -102,7 +110,8 @@ final class StatieApplication
         $this->loadLayoutsToLatteLoader($this->sourceFileStorage->getLayoutFiles());
 
         // 2. process posts
-        $this->renderableFilesProcessor->processFiles($this->sourceFileStorage->getPostFiles());
+        $this->generator->run();
+        //$this->renderableFilesProcessor->processFiles($this->sourceFileStorage->getPostFiles());
 
         // 3. render files
         $this->renderableFilesProcessor->processFiles($this->sourceFileStorage->getRenderableFiles());

@@ -12,7 +12,8 @@ services:
         exclude: ../../src/{Exception,Renderable/File/File.php,Renderable/File/PostFile.php}
 
     # 3rd party services
-    Symfony\Component\Console\Application: ~
+    Symfony\Component\Console\Application:
+        alias: Symplify\Statie\Console\Application
 
     ParsedownExtra:
         class: ParsedownExtra

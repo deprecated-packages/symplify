@@ -43,6 +43,7 @@
             "Symplify\\PackageBuilder\\": "packages/PackageBuilder/src",
             "Symplify\\Statie\\": "packages/Statie/src",
             "Symplify\\Statie\\FlatWhite\\": "packages/Statie/packages/FlatWhite/src",
+            "Symplify\\Statie\\Generator\\": "packages/Statie/packages/Generator/src",
             "Symplify\\Statie\\RelatedPosts\\": "packages/Statie/packages/RelatedPosts/src",
             "Symplify\\TokenRunner\\": "packages/TokenRunner/src"
         }
