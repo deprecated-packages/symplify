@@ -1,8 +1,0 @@
-parameters:
-    generators:
-        # example
-        posts:
-            path: "_posts"
-            layout: "_layouts/@post.latte"
-            route_prefix: "blog"
-            object: "Symplify\Statie\Renderable\File\PostFile"
