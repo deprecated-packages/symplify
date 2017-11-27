@@ -54,16 +54,6 @@ final class SourceFileStorage
     /**
      * @return SplFileInfo[]
      */
-    public function getPostFiles(): array
-    {
-        krsort($this->sourceFilesByType[SourceFileTypes::POSTS]);
-
-        return $this->sourceFilesByType[SourceFileTypes::POSTS];
-    }
-
-    /**
-     * @return SplFileInfo[]
-     */
     public function getLayoutFiles(): array
     {
         return $this->sourceFilesByType[SourceFileTypes::GLOBAL_LATTE];

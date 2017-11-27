@@ -12,11 +12,6 @@ final class SourceFileTypes
     /**
      * @var string
      */
-    public const POSTS = 'posts';
-
-    /**
-     * @var string
-     */
     public const STATIC = 'static';
 
     /**

@@ -6,7 +6,11 @@ use Symplify\PackageBuilder\Parameter\ParameterProvider;
 
 final class GeneratorConfiguration
 {
-    const CONFIG_KEY = 'generators';
+    /**
+     * @var string
+     */
+    private const CONFIG_KEY = 'generators';
+
     /**
      * @var ParameterProvider
      */
@@ -22,10 +26,13 @@ final class GeneratorConfiguration
      */
     public function getGeneratorElements(): array
     {
-        dump($this->parameterProvider);
-
         $generators = $this->parameterProvider->provideParameter(self::CONFIG_KEY);
-        dump($generators);
-        die;
+
+        $generatorElements = [];
+        foreach ($generators as $variableName => $generatorConfiguration) {
+            $generatorElements[] = GeneratorElement::createFromConfiguration($generatorConfiguration);
+        }
+
+        return $generatorElements;
     }
 }

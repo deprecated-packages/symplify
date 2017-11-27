@@ -22,22 +22,6 @@ final class SourceFileStorageTest extends TestCase
         $this->assertCount(1, $sourceFileStorage->getRenderableFiles());
     }
 
-    public function testPostDescendentSorting(): void
-    {
-        $sourceFileStorage = $this->prepareSourceFileStorage();
-
-        $postFiles = $sourceFileStorage->getPostFiles();
-        /** @var SplFileInfo $firstPost */
-        $firstPost = array_shift($postFiles);
-        /** @var SplFileInfo $secondPost */
-        $secondPost = array_shift($postFiles);
-
-        $this->assertCount(3, $sourceFileStorage->getPostFiles());
-
-        $this->assertSame('2016-01-30-post.latte', $firstPost->getFilename());
-        $this->assertSame('2016-05-10-post.latte', $secondPost->getFilename());
-    }
-
     public function testCnameIsFound(): void
     {
         $sourceFileStorage = $this->prepareSourceFileStorage();
@@ -54,7 +38,6 @@ final class SourceFileStorageTest extends TestCase
         $sourceFileStorage = new SourceFileStorage();
 
         $sourceFileStorage->addSourceFileFilter(new GlobalLatteSourceFilter());
-        $sourceFileStorage->addSourceFileFilter(new PostSourceFilter());
         $sourceFileStorage->addSourceFileFilter(new StaticSourceFilter());
         $sourceFileStorage->addSourceFileFilter(new RenderableSourceFilter());
 

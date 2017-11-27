@@ -3,6 +3,7 @@
 namespace Symplify\Statie\Generator;
 
 use Symplify\Statie\Generator\Configuration\GeneratorConfiguration;
+use Symplify\Statie\Generator\Configuration\GeneratorElement;
 
 final class Generator
 {
@@ -18,7 +19,19 @@ final class Generator
 
     public function run(): void
     {
-        dump($this->generatorConfiguration->getGeneratorElements());
+        foreach ($this->generatorConfiguration->getGeneratorElements() as $generatorElement) {
+            $this->processGeneratorElement($generatorElement);
+        }
+    }
+
+    private function processGeneratorElement(GeneratorElement $generatorElement): void
+    {
+        dump($generatorElement);
         die;
+
+        // find files in...
+        // process object
+        // save them to property
+        // render them
     }
 }
