@@ -12,11 +12,6 @@ final class Configuration
     /**
      * @var string
      */
-    public const OPTION_POST_ROUTE = 'post_route';
-
-    /**
-     * @var string
-     */
     public const OPTION_GITHUB_REPOSITORY_SLUG = 'github_repository_slug';
 
     /**
@@ -94,11 +89,6 @@ final class Configuration
         return getcwd() . DIRECTORY_SEPARATOR . 'source';
     }
 
-    public function getPostRoute(): string
-    {
-        return $this->options[self::OPTION_POST_ROUTE] ?? self::DEFAULT_POST_ROUTE;
-    }
-
     public function getGithubRepositorySlug(): string
     {
         if (isset($this->options[self::OPTION_GITHUB_REPOSITORY_SLUG])) {
@@ -124,11 +114,6 @@ final class Configuration
     public function getOptions(): array
     {
         return $this->options;
-    }
-
-    public function setPostRoute(string $postRoute): void
-    {
-        $this->options[self::OPTION_POST_ROUTE] = $postRoute;
     }
 
     public function enableMarkdownHeadlineAnchors(): void

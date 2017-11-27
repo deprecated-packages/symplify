@@ -111,7 +111,6 @@ final class StatieApplication
 
         // 2. process posts
         $this->generator->run();
-        //$this->renderableFilesProcessor->processFiles($this->sourceFileStorage->getPostFiles());
 
         // 3. render files
         $this->renderableFilesProcessor->processFiles($this->sourceFileStorage->getRenderableFiles());
