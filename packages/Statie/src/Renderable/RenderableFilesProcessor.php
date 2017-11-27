@@ -6,9 +6,7 @@ use SplFileInfo;
 use Symplify\Statie\Configuration\Configuration;
 use Symplify\Statie\Contract\Renderable\FileDecoratorInterface;
 use Symplify\Statie\Output\FileSystemWriter;
-use Symplify\Statie\Renderable\File\AbstractFile;
 use Symplify\Statie\Renderable\File\FileFactory;
-use Symplify\Statie\Renderable\File\PostFile;
 
 final class RenderableFilesProcessor
 {
@@ -58,23 +56,11 @@ final class RenderableFilesProcessor
 
         $files = $this->fileFactory->createFromFileInfos($fileInfos);
 
-        $this->setPostsToConfiguration($files);
-
         foreach ($this->getFileDecorators() as $fileDecorator) {
             $files = $fileDecorator->decorateFiles($files);
         }
 
         $this->fileSystemWriter->copyRenderableFiles($files);
-    }
-
-    /**
-     * @param AbstractFile[] $files
-     */
-    private function setPostsToConfiguration(array $files): void
-    {
-        if (reset($files) instanceof PostFile) {
-            $this->configuration->addPosts($files);
-        }
     }
 
     /**

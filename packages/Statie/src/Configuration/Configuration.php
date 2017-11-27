@@ -55,14 +55,6 @@ final class Configuration
         $this->filesystemChecker = $filesystemChecker;
     }
 
-    /**
-     * @param PostFile[] $posts
-     */
-    public function addPosts(array $posts): void
-    {
-        $this->options[self::OPTION_POSTS] = $posts;
-    }
-
     public function setSourceDirectory(string $sourceDirectory): void
     {
         $sourceDirectory = rtrim($sourceDirectory, '/');
