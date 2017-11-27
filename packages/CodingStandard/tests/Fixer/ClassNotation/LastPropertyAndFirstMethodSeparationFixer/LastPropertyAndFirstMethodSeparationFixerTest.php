@@ -7,7 +7,7 @@ use PhpCsFixer\WhitespacesFixerConfig;
 use Symplify\CodingStandard\Fixer\ClassNotation\LastPropertyAndFirstMethodSeparationFixer;
 use Symplify\TokenRunner\Testing\AbstractSimpleFixerTestCase;
 
-final class Test extends AbstractSimpleFixerTestCase
+final class LastPropertyAndFirstMethodSeparationFixerTest extends AbstractSimpleFixerTestCase
 {
     /**
      * @dataProvider provideFixCases()

@@ -1,12 +1,13 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Fixer\Naming\MagicMethodsNamingFixer;
+namespace Symplify\CodingStandard\Tests\Fixer\Commenting\BlockPropertyCommentFixer;
 
 use PhpCsFixer\Fixer\FixerInterface;
-use Symplify\CodingStandard\Fixer\Naming\MagicMethodsNamingFixer;
+use PhpCsFixer\WhitespacesFixerConfig;
+use Symplify\CodingStandard\Fixer\Commenting\BlockPropertyCommentFixer;
 use Symplify\TokenRunner\Testing\AbstractSimpleFixerTestCase;
 
-final class Test extends AbstractSimpleFixerTestCase
+final class BlockPropertyCommentFixerTest extends AbstractSimpleFixerTestCase
 {
     /**
      * @dataProvider provideFixCases()
@@ -25,12 +26,20 @@ final class Test extends AbstractSimpleFixerTestCase
             # wrong => fixed
             [__DIR__ . '/wrong/wrong.php.inc', __DIR__ . '/fixed/fixed.php.inc', ],
             [__DIR__ . '/wrong/wrong2.php.inc', __DIR__ . '/fixed/fixed2.php.inc', ],
-            [__DIR__ . '/wrong/wrong3.php.inc', __DIR__ . '/fixed/fixed3.php.inc', ],
         ];
     }
 
     protected function createFixer(): FixerInterface
     {
-        return new MagicMethodsNamingFixer();
+        $blockPropertyCommentFixer = new BlockPropertyCommentFixer();
+        $blockPropertyCommentFixer->setWhitespacesConfig($this->createWhitespacesFixerConfig());
+
+        return $blockPropertyCommentFixer;
+    }
+
+    private function createWhitespacesFixerConfig(): WhitespacesFixerConfig
+    {
+        // @try tabs?
+        return new WhitespacesFixerConfig('    ', PHP_EOL);
     }
 }

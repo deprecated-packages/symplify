@@ -7,7 +7,7 @@ use PhpCsFixer\WhitespacesFixerConfig;
 use Symplify\CodingStandard\Fixer\ArrayNotation\StandaloneLineInMultilineArrayFixer;
 use Symplify\TokenRunner\Testing\AbstractSimpleFixerTestCase;
 
-final class Test extends AbstractSimpleFixerTestCase
+final class ArrayNotationTest extends AbstractSimpleFixerTestCase
 {
     /**
      * @dataProvider provideFixCases()
