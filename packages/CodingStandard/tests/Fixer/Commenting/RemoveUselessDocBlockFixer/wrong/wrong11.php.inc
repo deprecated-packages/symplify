@@ -5,18 +5,10 @@ namespace SomeNamespace;
 class SomeClass
 {
     /**
-     * @param ConvertEvent $convertEvent Convert Event
+     * @param boolean $isIt
+     * @return boolean
      */
-    public function beforeConvert(ConvertEvent $convertEvent)
-    {
-    }
-
-    /**
-     * @param string $name Name
-     *
-     * @return ConverterInterface
-     */
-    public function converter(string $name): ConverterInterface
+    public function isTemplateEnd(bool $isIt): bool
     {
     }
 }

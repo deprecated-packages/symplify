@@ -6,14 +6,7 @@ class SomeClass
 {
     /**
      */
-    public function beforeConvert(ConvertEvent $convertEvent)
-    {
-    }
-
-    /**
-     *
-     */
-    public function converter(string $name): ConverterInterface
+    public function isTemplateEnd(bool $isIt): bool
     {
     }
 }

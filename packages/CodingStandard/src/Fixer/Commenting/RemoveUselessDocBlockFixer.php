@@ -106,6 +106,12 @@ public function getCount(): int
 
         if ($typehintType && Strings::endsWith((string) $typehintType, '\\' . $docBlockWrapper->getReturnType())) {
             $docBlockWrapper->removeReturnType();
+            return;
+        }
+
+        // simple types
+        if ($docBlockType === 'boolean' && $typehintType === 'bool') {
+            $docBlockWrapper->removeReturnType();
         }
     }
 
@@ -138,6 +144,12 @@ public function getCount(): int
                     continue;
                 }
 
+                $docBlockWrapper->removeParamType($argumentWrapper->getName());
+                return;
+            }
+
+            // simple types
+            if ($argumentType === 'boolean' && $argumentWrapper->getType() === 'bool') {
                 $docBlockWrapper->removeParamType($argumentWrapper->getName());
             }
         }
