@@ -14,6 +14,7 @@ abstract class AbstractSimpleFixerTestCase extends AbstractFixerTestCase
     protected function doTest($expected, $input = null, ?SplFileInfo $file = null): void
     {
         if ($input === null) {
+            $expected = file_exists($expected) ? file_get_contents($expected) : $expected;
             parent::doTest($expected, $input, $file);
             return;
         }
