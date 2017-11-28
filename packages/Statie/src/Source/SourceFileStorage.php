@@ -36,16 +36,6 @@ final class SourceFileStorage
     /**
      * @return SplFileInfo[]
      */
-    public function getStaticFiles(): array
-    {
-        ksort($this->sourceFilesByType[SourceFileTypes::STATIC]);
-
-        return $this->sourceFilesByType[SourceFileTypes::STATIC];
-    }
-
-    /**
-     * @return SplFileInfo[]
-     */
     public function getRenderableFiles(): array
     {
         return $this->sourceFilesByType[SourceFileTypes::RENDERABLE];

@@ -2,8 +2,8 @@
 
 namespace Symplify\Statie\Application;
 
-use Nette\Utils\Finder;
 use SplFileInfo;
+use Symfony\Component\Finder\Finder;
 use Symplify\Statie\Configuration\Configuration;
 use Symplify\Statie\FlatWhite\Latte\DynamicStringLoader;
 use Symplify\Statie\Generator\Generator;
@@ -66,7 +66,7 @@ final class StatieApplication
 
         $this->loadSourcesFromSourceDirectory($source);
 
-        $this->fileSystemWriter->copyStaticFiles($this->sourceFileStorage->getStaticFiles());
+        $this->fileSystemWriter->copyStaticFiles($this->findStaticFiles($source);
 
         $this->processTemplates();
     }
@@ -78,14 +78,36 @@ final class StatieApplication
     }
 
     /**
+     * @todo outsource to finder
      * @return SplFileInfo[]
      */
     private function findFilesInSourceDirectory(string $sourceDirectory): array
     {
-        $finder = Finder::findFiles('*')->from($sourceDirectory);
+        $finder = Finder::create()->files()
+            ->name('*')
+            ->in($sourceDirectory);
 
         $files = [];
-        foreach ($finder as $key => $file) {
+        foreach ($finder->getIterator() as $key => $file) {
+            $files[$key] = $file;
+        }
+
+        return $files;
+    }
+
+    private function findStaticFiles(string $sourceDirectory): array
+    {
+        $staticFileExtensions = ['png', 'jpg', 'svg', 'css', 'ico', 'js', '', 'jpeg', 'gif', 'zip', 'tgz', 'gz', 'rar', 'bz2', 'pdf', 'txt',
+            'tar', 'mp3', 'doc', 'xls', 'pdf', 'ppt', 'txt', 'tar', 'bmp', 'rtf', 'woff2', 'woff', 'otf', 'ttf', 'eot'];
+
+        $staticFileMask = '*' . implode(',*', $staticFileExtensions);
+
+        $finder = Finder::create()->files()
+            ->name($staticFileMask)
+            ->in($sourceDirectory);
+
+        $files = [];
+        foreach ($finder->getIterator() as $key => $file) {
             $files[$key] = $file;
         }
 

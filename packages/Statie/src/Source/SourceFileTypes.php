@@ -12,10 +12,5 @@ final class SourceFileTypes
     /**
      * @var string
      */
-    public const STATIC = 'static';
-
-    /**
-     * @var string
-     */
     public const RENDERABLE = 'renderable';
 }

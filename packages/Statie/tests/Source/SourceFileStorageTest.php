@@ -18,19 +18,7 @@ final class SourceFileStorageTest extends TestCase
         $sourceFileStorage = $this->prepareSourceFileStorage();
 
         $this->assertCount(1, $sourceFileStorage->getLayoutFiles());
-        $this->assertCount(2, $sourceFileStorage->getStaticFiles());
         $this->assertCount(1, $sourceFileStorage->getRenderableFiles());
-    }
-
-    public function testCnameIsFound(): void
-    {
-        $sourceFileStorage = $this->prepareSourceFileStorage();
-
-        $staticFiles = $sourceFileStorage->getStaticFiles();
-
-        /** @var SplFileInfo $cnameStdFile */
-        $cnameStdFile = array_shift($staticFiles);
-        $this->assertStringEndsWith('CNAME', $cnameStdFile->getFilename());
     }
 
     private function prepareSourceFileStorage(): SourceFileStorage
@@ -38,7 +26,6 @@ final class SourceFileStorageTest extends TestCase
         $sourceFileStorage = new SourceFileStorage();
 
         $sourceFileStorage->addSourceFileFilter(new GlobalLatteSourceFilter());
-        $sourceFileStorage->addSourceFileFilter(new StaticSourceFilter());
         $sourceFileStorage->addSourceFileFilter(new RenderableSourceFilter());
 
         $finder = Finder::findFiles('*')->from(__DIR__ . '/SourceFileStorageSource');
