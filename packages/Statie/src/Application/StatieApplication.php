@@ -3,8 +3,8 @@
 namespace Symplify\Statie\Application;
 
 use SplFileInfo;
-use Symfony\Component\Finder\Finder;
 use Symplify\Statie\Configuration\Configuration;
+use Symplify\Statie\FileSystem\FileFinder;
 use Symplify\Statie\FlatWhite\Latte\DynamicStringLoader;
 use Symplify\Statie\Generator\Generator;
 use Symplify\Statie\Output\FileSystemWriter;
@@ -42,6 +42,10 @@ final class StatieApplication
      * @var Generator
      */
     private $generator;
+    /**
+     * @var FileFinder
+     */
+    private $fileFinder;
 
     public function __construct(
         SourceFileStorage $sourceFileStorage,
@@ -49,7 +53,8 @@ final class StatieApplication
         FileSystemWriter $fileSystemWriter,
         RenderableFilesProcessor $renderableFilesProcessor,
         DynamicStringLoader $dynamicStringLoader,
-        Generator $generator
+        Generator $generator,
+        FileFinder $fileFinder
     ) {
         $this->sourceFileStorage = $sourceFileStorage;
         $this->configuration = $configuration;
@@ -57,6 +62,7 @@ final class StatieApplication
         $this->renderableFilesProcessor = $renderableFilesProcessor;
         $this->dynamicStringLoader = $dynamicStringLoader;
         $this->generator = $generator;
+        $this->fileFinder = $fileFinder;
     }
 
     public function run(string $source, string $destination): void
@@ -64,54 +70,17 @@ final class StatieApplication
         $this->configuration->setSourceDirectory($source);
         $this->configuration->setOutputDirectory($destination);
 
-        $this->loadSourcesFromSourceDirectory($source);
+        $this->loadSourcesFromDirectory($source);
 
-        $this->fileSystemWriter->copyStaticFiles($this->findStaticFiles($source);
+        $this->fileSystemWriter->copyStaticFiles($this->fileFinder->findStaticFiles($source);
 
         $this->processTemplates();
     }
 
-    private function loadSourcesFromSourceDirectory(string $sourceDirectory): void
+    private function loadSourcesFromDirectory(string $directory): void
     {
-        $files = $this->findFilesInSourceDirectory($sourceDirectory);
+        $files = $this->fileFinder->findInDirectory($directory);
         $this->sourceFileStorage->loadSourcesFromFiles($files);
-    }
-
-    /**
-     * @todo outsource to finder
-     * @return SplFileInfo[]
-     */
-    private function findFilesInSourceDirectory(string $sourceDirectory): array
-    {
-        $finder = Finder::create()->files()
-            ->name('*')
-            ->in($sourceDirectory);
-
-        $files = [];
-        foreach ($finder->getIterator() as $key => $file) {
-            $files[$key] = $file;
-        }
-
-        return $files;
-    }
-
-    private function findStaticFiles(string $sourceDirectory): array
-    {
-        $staticFileExtensions = ['png', 'jpg', 'svg', 'css', 'ico', 'js', '', 'jpeg', 'gif', 'zip', 'tgz', 'gz', 'rar', 'bz2', 'pdf', 'txt',
-            'tar', 'mp3', 'doc', 'xls', 'pdf', 'ppt', 'txt', 'tar', 'bmp', 'rtf', 'woff2', 'woff', 'otf', 'ttf', 'eot'];
-
-        $staticFileMask = '*' . implode(',*', $staticFileExtensions);
-
-        $finder = Finder::create()->files()
-            ->name($staticFileMask)
-            ->in($sourceDirectory);
-
-        $files = [];
-        foreach ($finder->getIterator() as $key => $file) {
-            $files[$key] = $file;
-        }
-
-        return $files;
     }
 
     /**
