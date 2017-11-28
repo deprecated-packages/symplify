@@ -104,7 +104,7 @@ public function getCount(): int
             $this->processReturnTagMultiTypes($typehintType, $docBlockType, $docBlockWrapper);
         }
 
-        if ($typehintType && Strings::endsWith((string) $docBlockWrapper->getReturnType(), '\\' . $typehintType)) {
+        if ($typehintType && Strings::endsWith((string) $typehintType, '\\' . $docBlockWrapper->getReturnType())) {
             $docBlockWrapper->removeReturnType();
         }
     }
@@ -122,7 +122,7 @@ public function getCount(): int
             }
 
             if ($argumentType === $argumentWrapper->getType()) {
-                if ($argumentDescription && $this->isDescriptionUseful($argumentDescription, $argumentType)) {
+                if ($argumentDescription && $this->isDescriptionUseful($argumentDescription, $argumentType, $argumentWrapper->getName())) {
                     continue;
                 }
 
@@ -136,7 +136,7 @@ public function getCount(): int
         }
     }
 
-    private function isDescriptionUseful(string $description, ?string $type): bool
+    private function isDescriptionUseful(string $description, ?string $type, ?string $name): bool
     {
         if (! $description || $type === null) {
             return false;
@@ -154,6 +154,10 @@ public function getCount(): int
 
         // improve with additional cases, probably regex
         if ($type && $isDummyDescription) {
+            return false;
+        }
+
+        if (levenshtein($name, $description) < 2) {
             return false;
         }
 

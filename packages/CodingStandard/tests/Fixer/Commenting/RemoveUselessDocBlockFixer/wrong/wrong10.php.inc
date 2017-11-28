@@ -10,4 +10,13 @@ class SomeClass
     public function beforeConvert(ConvertEvent $convertEvent)
     {
     }
+
+    /**
+     * @param string $name Name
+     *
+     * @return ConverterInterface
+     */
+    public function converter(string $name): ConverterInterface
+    {
+    }
 }
