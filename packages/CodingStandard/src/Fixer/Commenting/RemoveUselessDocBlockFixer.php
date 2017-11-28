@@ -104,7 +104,13 @@ public function getCount(): int
             $this->processReturnTagMultiTypes($typehintType, $docBlockType, $docBlockWrapper);
         }
 
-        if ($typehintType && Strings::endsWith((string) $docBlockWrapper->getReturnType(), '\\' . $typehintType)) {
+        if ($typehintType && Strings::endsWith($typehintType, '\\' . $docBlockWrapper->getReturnType())) {
+            $docBlockWrapper->removeReturnType();
+            return;
+        }
+
+        // simple types
+        if ($docBlockType === 'boolean' && $typehintType === 'bool') {
             $docBlockWrapper->removeReturnType();
         }
     }
@@ -121,8 +127,18 @@ public function getCount(): int
                 continue;
             }
 
+            if ($argumentDescription === null || $argumentType === null) {
+                continue;
+            }
+
+            $isDescriptionUseful = $this->isDescriptionUseful(
+                $argumentDescription,
+                $argumentType,
+                $argumentWrapper->getName()
+            );
+
             if ($argumentType === $argumentWrapper->getType()) {
-                if ($argumentDescription && $this->isDescriptionUseful($argumentDescription, $argumentType)) {
+                if ($argumentDescription && $isDescriptionUseful) {
                     continue;
                 }
 
@@ -131,12 +147,22 @@ public function getCount(): int
             }
 
             if ($argumentType && Strings::endsWith($argumentType, '\\' . $argumentWrapper->getType())) {
+                if ($isDescriptionUseful) {
+                    continue;
+                }
+
+                $docBlockWrapper->removeParamType($argumentWrapper->getName());
+                return;
+            }
+
+            // simple types
+            if ($argumentType === 'boolean' && $argumentWrapper->getType() === 'bool') {
                 $docBlockWrapper->removeParamType($argumentWrapper->getName());
             }
         }
     }
 
-    private function isDescriptionUseful(string $description, ?string $type): bool
+    private function isDescriptionUseful(string $description, ?string $type, ?string $name): bool
     {
         if (! $description || $type === null) {
             return false;
@@ -147,13 +173,21 @@ public function getCount(): int
             $type = substr($type, 0, -strlen('Interface'));
         }
 
+        if (Strings::endsWith($type, '[]')) {
+            return true;
+        }
+
         $isDummyDescription = (bool) Strings::match(
             $description,
             sprintf('#^(A|An|The|the) (\\\\)?%s(Interface)?( instance)?$#i', $type)
-        );
+        ) || levenshtein($type, $description) < 2;
 
         // improve with additional cases, probably regex
         if ($type && $isDummyDescription) {
+            return false;
+        }
+
+        if (levenshtein($name, $description) < 2) {
             return false;
         }
 

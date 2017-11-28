@@ -1,12 +1,12 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Fixer\Php\ClassStringToClassConstantFixer;
+namespace Symplify\CodingStandard\Tests\Fixer\Property\ArrayPropertyDefaultValueFixer;
 
 use PhpCsFixer\Fixer\FixerInterface;
-use Symplify\CodingStandard\Fixer\Php\ClassStringToClassConstantFixer;
+use Symplify\CodingStandard\Fixer\Property\ArrayPropertyDefaultValueFixer;
 use Symplify\TokenRunner\Testing\AbstractSimpleFixerTestCase;
 
-final class Test extends AbstractSimpleFixerTestCase
+final class ArrayPropertyDefaultValueFixerTest extends AbstractSimpleFixerTestCase
 {
     /**
      * @dataProvider provideFixCases()
@@ -26,15 +26,13 @@ final class Test extends AbstractSimpleFixerTestCase
             [__DIR__ . '/wrong/wrong.php.inc', __DIR__ . '/fixed/fixed.php.inc', ],
             [__DIR__ . '/wrong/wrong2.php.inc', __DIR__ . '/fixed/fixed2.php.inc', ],
             [__DIR__ . '/wrong/wrong3.php.inc', __DIR__ . '/fixed/fixed3.php.inc', ],
+            [__DIR__ . '/wrong/wrong4.php.inc', __DIR__ . '/fixed/fixed4.php.inc', ],
             # correct
-            ['<?php $form->addText(\'datetime\');'],
-            ['<?php $request->getParameter(\'exception\');'],
-            ['<?php $this->assertTrue(class_exists(\'\ApiGen\Reflection\Tests\ExtendingClass\'));'],
-        ];
+            [__DIR__ . '/correct/correct.php.inc', ], ];
     }
 
     protected function createFixer(): FixerInterface
     {
-        return new ClassStringToClassConstantFixer();
+        return new ArrayPropertyDefaultValueFixer();
     }
 }

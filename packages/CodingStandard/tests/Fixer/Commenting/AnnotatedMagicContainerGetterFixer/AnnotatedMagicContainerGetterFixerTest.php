@@ -1,12 +1,12 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Fixer\Naming\ExceptionNameFixer;
+namespace Symplify\CodingStandard\Tests\Fixer\Commenting\AnnotatedMagicContainerGetterFixer;
 
 use PhpCsFixer\Fixer\FixerInterface;
-use Symplify\CodingStandard\Fixer\Naming\ExceptionNameFixer;
+use Symplify\CodingStandard\Fixer\Commenting\AnnotateMagicContainerGetterFixer;
 use Symplify\TokenRunner\Testing\AbstractSimpleFixerTestCase;
 
-final class Test extends AbstractSimpleFixerTestCase
+final class AnnotatedMagicContainerGetterFixerTest extends AbstractSimpleFixerTestCase
 {
     /**
      * @dataProvider provideFixCases()
@@ -24,11 +24,13 @@ final class Test extends AbstractSimpleFixerTestCase
         return [
             # wrong => fixed
             [__DIR__ . '/wrong/wrong.php.inc', __DIR__ . '/fixed/fixed.php.inc'],
+            [__DIR__ . '/wrong/wrong2.php.inc', __DIR__ . '/fixed/fixed2.php.inc'],
+            [__DIR__ . '/wrong/wrong3.php.inc', __DIR__ . '/fixed/fixed3.php.inc'],
         ];
     }
 
     protected function createFixer(): FixerInterface
     {
-        return new ExceptionNameFixer();
+        return new AnnotateMagicContainerGetterFixer();
     }
 }

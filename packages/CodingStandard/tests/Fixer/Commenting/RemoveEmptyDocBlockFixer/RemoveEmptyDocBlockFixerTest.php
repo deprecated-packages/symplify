@@ -6,7 +6,7 @@ use PhpCsFixer\Fixer\FixerInterface;
 use Symplify\CodingStandard\Fixer\Commenting\RemoveEmptyDocBlockFixer;
 use Symplify\TokenRunner\Testing\AbstractSimpleFixerTestCase;
 
-final class Test extends AbstractSimpleFixerTestCase
+final class RemoveEmptyDocBlockFixerTest extends AbstractSimpleFixerTestCase
 {
     /**
      * @dataProvider provideFixCases()

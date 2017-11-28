@@ -1,17 +1,17 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Fixer\Solid\NoInterfaceOnAbstractClassFixer;
+namespace Symplify\CodingStandard\Tests\Fixer\Naming\ExceptionNameFixer;
 
 use PhpCsFixer\Fixer\FixerInterface;
-use Symplify\CodingStandard\Fixer\Solid\NoInterfaceOnAbstractClassFixer;
+use Symplify\CodingStandard\Fixer\Naming\ExceptionNameFixer;
 use Symplify\TokenRunner\Testing\AbstractSimpleFixerTestCase;
 
-final class Test extends AbstractSimpleFixerTestCase
+final class ExceptionNameFixerTest extends AbstractSimpleFixerTestCase
 {
     /**
      * @dataProvider provideFixCases()
      */
-    public function testFix(string $expected, ?string $input = null): void
+    public function testFix(string $expected, string $input): void
     {
         $this->doTest($expected, $input);
     }
@@ -29,6 +29,6 @@ final class Test extends AbstractSimpleFixerTestCase
 
     protected function createFixer(): FixerInterface
     {
-        return new NoInterfaceOnAbstractClassFixer();
+        return new ExceptionNameFixer();
     }
 }

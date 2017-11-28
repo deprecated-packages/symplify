@@ -7,7 +7,7 @@ use PhpCsFixer\WhitespacesFixerConfig;
 use Symplify\CodingStandard\Fixer\ClassNotation\PropertyAndConstantSeparationFixer;
 use Symplify\TokenRunner\Testing\AbstractSimpleFixerTestCase;
 
-final class Test extends AbstractSimpleFixerTestCase
+final class PropertyAndConstantSeparationFixerTest extends AbstractSimpleFixerTestCase
 {
     /**
      * @dataProvider provideFixCases()
@@ -23,7 +23,7 @@ final class Test extends AbstractSimpleFixerTestCase
     public function provideFixCases(): array
     {
         return [
-            # wrong => fixed
+            // wrong => fixed
             [__DIR__ . '/wrong/wrong.php.inc', __DIR__ . '/fixed/fixed.php.inc'],
             [__DIR__ . '/wrong/wrong2.php.inc', __DIR__ . '/fixed/fixed.php.inc'],
             [__DIR__ . '/wrong/wrong3.php.inc', __DIR__ . '/fixed/fixed3.php.inc'],
