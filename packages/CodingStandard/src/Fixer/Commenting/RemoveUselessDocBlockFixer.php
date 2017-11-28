@@ -104,7 +104,7 @@ public function getCount(): int
             $this->processReturnTagMultiTypes($typehintType, $docBlockType, $docBlockWrapper);
         }
 
-        if ($typehintType && Strings::endsWith((string) $typehintType, '\\' . $docBlockWrapper->getReturnType())) {
+        if ($typehintType && Strings::endsWith($typehintType, '\\' . $docBlockWrapper->getReturnType())) {
             $docBlockWrapper->removeReturnType();
             return;
         }
@@ -121,14 +121,21 @@ public function getCount(): int
             $argumentType = $docBlockWrapper->getArgumentType($argumentWrapper->getName());
             $argumentDescription = $docBlockWrapper->getArgumentTypeDescription($argumentWrapper->getName());
 
-
             if ($argumentType === $argumentDescription) {
                 $docBlockWrapper->removeParamType($argumentWrapper->getName());
 
                 continue;
             }
 
-            $isDescriptionUseful = $this->isDescriptionUseful($argumentDescription, $argumentType, $argumentWrapper->getName());
+            if ($argumentDescription === null || $argumentType === null) {
+                continue;
+            }
+
+            $isDescriptionUseful = $this->isDescriptionUseful(
+                $argumentDescription,
+                $argumentType,
+                $argumentWrapper->getName()
+            );
 
             if ($argumentType === $argumentWrapper->getType()) {
                 if ($argumentDescription && $isDescriptionUseful) {
@@ -166,6 +173,9 @@ public function getCount(): int
             $type = substr($type, 0, -strlen('Interface'));
         }
 
+        if (Strings::endsWith($type, '[]')) {
+            return true;
+        }
 
         $isDummyDescription = (bool) Strings::match(
             $description,
