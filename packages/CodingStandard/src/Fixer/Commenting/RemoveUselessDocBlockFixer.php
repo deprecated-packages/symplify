@@ -127,26 +127,34 @@ public function getCount(): int
     private function processParamTag(MethodWrapper $methodWrapper, DocBlockWrapper $docBlockWrapper): void
     {
         foreach ($methodWrapper->getArguments() as $argumentWrapper) {
-            $argumentType = $docBlockWrapper->getArgumentType($argumentWrapper->getName());
+            $docBlockType = $docBlockWrapper->getArgumentType($argumentWrapper->getName());
             $argumentDescription = $docBlockWrapper->getArgumentTypeDescription($argumentWrapper->getName());
 
-            if ($argumentType === $argumentDescription) {
+            // is array - keep it
+            dump($docBlockType);
+            dump($argumentWrapper->getType());
+
+            if (Strings::contains($docBlockType, '[]')) {
+                continue;
+            }
+
+            if ($docBlockType === $argumentDescription) {
                 $docBlockWrapper->removeParamType($argumentWrapper->getName());
 
                 continue;
             }
 
-            if ($argumentDescription === null || $argumentType === null) {
+            if ($argumentDescription === null || $docBlockType === null) {
                 continue;
             }
 
             $isDescriptionUseful = $this->isDescriptionUseful(
                 $argumentDescription,
-                $argumentType,
+                $docBlockType,
                 $argumentWrapper->getName()
             );
 
-            if ($argumentType === $argumentWrapper->getType()) {
+            if ($docBlockType === $argumentWrapper->getType()) {
                 if ($argumentDescription && $isDescriptionUseful) {
                     continue;
                 }
@@ -155,7 +163,7 @@ public function getCount(): int
                 continue;
             }
 
-            if ($argumentType && Strings::endsWith($argumentType, '\\' . $argumentWrapper->getType())) {
+            if ($docBlockType && Strings::endsWith($docBlockType, '\\' . $argumentWrapper->getType())) {
                 if ($isDescriptionUseful) {
                     continue;
                 }
@@ -165,7 +173,7 @@ public function getCount(): int
             }
 
             // simple types
-            if ($argumentType === 'boolean' && $argumentWrapper->getType() === 'bool') {
+            if ($docBlockType === 'boolean' && $argumentWrapper->getType() === 'bool') {
                 $docBlockWrapper->removeParamType($argumentWrapper->getName());
             }
         }

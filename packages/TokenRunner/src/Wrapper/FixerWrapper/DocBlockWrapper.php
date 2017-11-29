@@ -12,6 +12,8 @@ use phpDocumentor\Reflection\DocBlock\Serializer;
 use phpDocumentor\Reflection\DocBlock\Tags\Param;
 use phpDocumentor\Reflection\DocBlock\Tags\Return_;
 use phpDocumentor\Reflection\DocBlockFactory;
+use phpDocumentor\Reflection\Types\Array_;
+use phpDocumentor\Reflection\Types\Mixed_;
 use Symplify\TokenRunner\DocBlock\DocBlockSerializerFactory;
 use Symplify\TokenRunner\Guard\TokenTypeGuard;
 
@@ -128,6 +130,13 @@ final class DocBlockWrapper
     {
         $paramTag = $this->findParamTagByName($name);
         if ($paramTag) {
+            // bug
+            if ($paramTag->getType() instanceof Array_) {
+                if ($paramTag->getType()->getValueType() instanceof Mixed_) {
+                    return 'mixed[]';
+                }
+            }
+
             return $this->clean((string) $paramTag->getType());
         }
 

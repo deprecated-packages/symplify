@@ -1,4 +1,5 @@
 <?php
+
 namespace SomeNamespace;
 
 class SomeClass
@@ -11,4 +12,3 @@ class SomeClass
 
     }
 }
-
