@@ -130,14 +130,6 @@ public function getCount(): int
             $docBlockType = $docBlockWrapper->getArgumentType($argumentWrapper->getName());
             $argumentDescription = $docBlockWrapper->getArgumentTypeDescription($argumentWrapper->getName());
 
-            // is array - keep it
-            dump($docBlockType);
-            dump($argumentWrapper->getType());
-
-            if (Strings::contains($docBlockType, '[]')) {
-                continue;
-            }
-
             if ($docBlockType === $argumentDescription) {
                 $docBlockWrapper->removeParamType($argumentWrapper->getName());
 
@@ -145,6 +137,11 @@ public function getCount(): int
             }
 
             if ($argumentDescription === null || $docBlockType === null) {
+                continue;
+            }
+
+            // is array specification - keep it
+            if (Strings::contains($docBlockType, '[]')) {
                 continue;
             }
 

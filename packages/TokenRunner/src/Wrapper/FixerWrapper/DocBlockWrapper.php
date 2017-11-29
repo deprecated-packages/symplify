@@ -62,6 +62,7 @@ final class DocBlockWrapper
         $docBlockFactory = DocBlockFactory::createInstance();
         $content = $token ? $token->getContent() : $docBlock->getContent();
         $this->phpDocumentorDocBlock = $docBlockFactory->create($content);
+        $this->originalContent = $content;
     }
 
     public static function createFromTokensPositionAndDocBlock(
@@ -130,10 +131,16 @@ final class DocBlockWrapper
     {
         $paramTag = $this->findParamTagByName($name);
         if ($paramTag) {
-            // bug
+            // distinguish array vs mixed[]
+            // false value resolve, @see https://github.com/phpDocumentor/TypeResolver/pull/48
             if ($paramTag->getType() instanceof Array_) {
                 if ($paramTag->getType()->getValueType() instanceof Mixed_) {
-                    return 'mixed[]';
+                    if ((bool) Strings::match($this->originalContent, sprintf('#array\s+\$%s#', $name))) {
+                        return 'array';
+                    }
+                    if ((bool) Strings::match($this->originalContent, sprintf('#mixed\[\]\s+\$%s#', $name))) {
+                        return 'mixed[]';
+                    }
                 }
             }
 
