@@ -51,12 +51,8 @@ private $property;
 
             $classWrapper = ClassWrapper::createFromTokensArrayStartPosition($tokens, $index);
             foreach ($classWrapper->getPropertyWrappers() as $propertyWrapper) {
-                if (! $propertyWrapper->hasDocBlock()) {
-                    continue;
-                }
-
                 $docBlockWrapper = $propertyWrapper->getDocBlockWrapper();
-                if (! $docBlockWrapper->isSingleLine()) {
+                if ($docBlockWrapper === null || ! $docBlockWrapper->isSingleLine()) {
                     continue;
                 }
 

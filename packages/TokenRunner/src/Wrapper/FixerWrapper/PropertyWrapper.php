@@ -122,14 +122,9 @@ final class PropertyWrapper
         return true;
     }
 
-    public function hasDocBlock(): bool
-    {
-        return $this->docBlock !== null;
-    }
-
     public function getDocBlockWrapper(): ?DocBlockWrapper
     {
-        if (! $this->hasDocBlock()) {
+        if ($this->docBlock === null) {
             return null;
         }
 
