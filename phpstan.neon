@@ -44,6 +44,9 @@ parameters:
         # 3rd party errors
         - '#Parameter \#1 \$container of class Symfony\\Component\\DependencyInjection\\Loader\\YamlFileLoader constructor expects Symfony\\Component\\DependencyInjection\\ContainerBuilder, Symfony\\Component\\DependencyInjection\\ContainerInterface given#'
 
+        # too strict
+        - '#Parameter \#1 \$checkers of method Symplify\\EasyCodingStandard\\Configuration\\MutualCheckerExcluder::processCheckers\(\) expects string\[\], mixed\[\]\[\] given#'
+
     excludes_analyse:
         - *packages/CodingStandard/tests/**/correct*
         - *packages/CodingStandard/tests/**/wrong*

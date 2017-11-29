@@ -49,6 +49,11 @@ final class DocBlockWrapper
      */
     private $docBlockSerializer;
 
+    /**
+     * @var string
+     */
+    private $originalContent;
+
     private function __construct(?Tokens $tokens, ?int $docBlockPosition, ?DocBlock $docBlock, ?Token $token = null)
     {
         $this->tokens = $tokens;
