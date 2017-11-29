@@ -11,7 +11,6 @@ class SomeClass
     }
 
     /**
-     *
      */
     public function converter(string $name): ConverterInterface
     {

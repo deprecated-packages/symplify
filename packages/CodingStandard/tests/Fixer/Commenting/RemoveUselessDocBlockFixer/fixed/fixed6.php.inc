@@ -3,7 +3,6 @@
 class SomeClass
 {
     /**
-     *
      * @param \OutputInterface $outputTwo An Output instance with extra comment
      */
     protected function registerMappingDrivers(
