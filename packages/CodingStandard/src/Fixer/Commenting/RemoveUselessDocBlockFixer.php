@@ -92,6 +92,11 @@ public function getCount(): int
         return true;
     }
 
+    public function setWhitespacesConfig(WhitespacesFixerConfig $whitespacesFixerConfig): void
+    {
+        $this->whitespacesFixerConfig = $whitespacesFixerConfig;
+    }
+
     private function processReturnTag(MethodWrapper $methodWrapper, DocBlockWrapper $docBlockWrapper): void
     {
         $typehintType = $methodWrapper->getReturnType();
@@ -226,10 +231,5 @@ public function getCount(): int
         if ($typehintTypes === $docBlockTypes) {
             $docBlockWrapper->removeReturnType();
         }
-    }
-
-    public function setWhitespacesConfig(WhitespacesFixerConfig $whitespacesFixerConfig): void
-    {
-        $this->whitespacesFixerConfig = $whitespacesFixerConfig;
     }
 }
