@@ -3,6 +3,7 @@
 namespace Symplify\CodingStandard\Tests\Fixer\Commenting\RemoveUselessDocBlockFixer;
 
 use PhpCsFixer\Fixer\FixerInterface;
+use PhpCsFixer\WhitespacesFixerConfig;
 use Symplify\CodingStandard\Fixer\Commenting\RemoveUselessDocBlockFixer;
 use Symplify\TokenRunner\Testing\AbstractSimpleFixerTestCase;
 
@@ -46,6 +47,8 @@ final class RemoveUselessDocBlockFixerTest extends AbstractSimpleFixerTestCase
 
     protected function createFixer(): FixerInterface
     {
-        return new RemoveUselessDocBlockFixer();
+        $removeUselessDocBlockFixer = new RemoveUselessDocBlockFixer();
+        $removeUselessDocBlockFixer->setWhitespacesConfig(new WhitespacesFixerConfig('    ', PHP_EOL));
+        return $removeUselessDocBlockFixer;
     }
 }
