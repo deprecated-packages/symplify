@@ -24,6 +24,6 @@ final class DocBlockSerializerFactory
             $indentString = $whitespacesFixerConfig->getIndent();
         }
 
-        return new Serializer($indent, $indentString, false, null, new CleanFormatter);
+        return new FixedSerializer($indent, $indentString, false, null, new CleanFormatter);
     }
 }
