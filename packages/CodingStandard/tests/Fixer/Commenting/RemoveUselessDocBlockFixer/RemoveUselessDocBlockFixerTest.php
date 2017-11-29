@@ -30,6 +30,7 @@ final class RemoveUselessDocBlockFixerTest extends AbstractSimpleFixerTestCase
             [__DIR__ . '/correct/correct4.php.inc'],
             [__DIR__ . '/correct/correct5.php.inc'],
             [__DIR__ . '/correct/correct6.php.inc'],
+
             // wrong => fixed
             [__DIR__ . '/wrong/wrong.php.inc', __DIR__ . '/fixed/fixed.php.inc'],
             [__DIR__ . '/wrong/wrong2.php.inc', __DIR__ . '/fixed/fixed2.php.inc'],
@@ -47,8 +48,9 @@ final class RemoveUselessDocBlockFixerTest extends AbstractSimpleFixerTestCase
 
     protected function createFixer(): FixerInterface
     {
-        $removeUselessDocBlockFixer = new RemoveUselessDocBlockFixer();
-        $removeUselessDocBlockFixer->setWhitespacesConfig(new WhitespacesFixerConfig('    ', PHP_EOL));
-        return $removeUselessDocBlockFixer;
+        $fixer = new RemoveUselessDocBlockFixer();
+        $fixer->setWhitespacesConfig(new WhitespacesFixerConfig());
+
+        return $fixer;
     }
 }
