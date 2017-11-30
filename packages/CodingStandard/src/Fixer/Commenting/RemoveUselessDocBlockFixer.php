@@ -137,21 +137,10 @@ public function getCount(): int
 
             if ($docBlockType === $argumentDescription) {
                 $docBlockWrapper->removeParamType($argumentWrapper->getName());
-
                 continue;
             }
 
-            if ($argumentDescription === null || $docBlockType === null) {
-                continue;
-            }
-
-            // is array specification - keep it
-            if (Strings::contains($docBlockType, '[]')) {
-                continue;
-            }
-
-            // is intersect type specification - keep it
-            if (Strings::contains($docBlockType, '|')) {
+            if ($this->shouldSkip($docBlockType, $argumentDescription)) {
                 continue;
             }
 
@@ -236,5 +225,24 @@ public function getCount(): int
         if ($typehintTypes === $docBlockTypes) {
             $docBlockWrapper->removeReturnType();
         }
+    }
+
+    private function shouldSkip(?string $docBlockType, ?string $argumentDescription): bool
+    {
+        if ($argumentDescription === null || $docBlockType === null) {
+            return true;
+        }
+
+        // is array specification - keep it
+        if (Strings::contains($docBlockType, '[]')) {
+            return true;
+        }
+
+        // is intersect type specification - keep it
+        if (Strings::contains($docBlockType, '|')) {
+            return true;
+        }
+
+        return false;
     }
 }

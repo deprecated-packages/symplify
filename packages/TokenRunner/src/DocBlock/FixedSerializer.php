@@ -30,7 +30,7 @@ final class FixedSerializer extends Serializer
                 $this,
                 'addAsterisksForEachLine',
                 $indent,
-                 $privatesCaller->callPrivateMethod($this, 'getSummaryAndDescriptionTextBlock', $docBlock, $wrapLength)
+                $privatesCaller->callPrivateMethod($this, 'getSummaryAndDescriptionTextBlock', $docBlock, $wrapLength)
             )
         );
 
