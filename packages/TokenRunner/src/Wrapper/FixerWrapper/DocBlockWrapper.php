@@ -134,7 +134,7 @@ final class DocBlockWrapper
                 if ($singleTag instanceof Array_) {
                     $types[] = ArrayResolver::resolveArrayType($this->originalContent, $singleTag, 'return');
                 } else {
-                    $types[] = (string) $singleTag;
+                    $types[] = ltrim((string) $singleTag, '\\');
                 }
             }
 

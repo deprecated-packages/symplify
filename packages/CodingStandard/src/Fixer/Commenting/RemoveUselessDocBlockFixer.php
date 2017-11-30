@@ -238,8 +238,8 @@ public function getCount(): int
             return true;
         }
 
-        // is intersect type specification - keep it
-        if (Strings::contains($docBlockType, '|')) {
+        // is intersect type specification, but not nullable - keep it
+        if (Strings::contains($docBlockType, '|') && ! Strings::contains($docBlockType, 'null')) {
             return true;
         }
 
