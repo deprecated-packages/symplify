@@ -9,13 +9,13 @@ class SomeClass
      */
     private function addLineNumbers(array $arrayDiff): array
     {
-
     }
 
     /**
      * @param array[] $tokens
+     * @return mixed[]|null
      */
-    public function __construct(string $path, array $tokens)
+    public function __construct(string $path, array $tokens): array
     {
     }
 }
