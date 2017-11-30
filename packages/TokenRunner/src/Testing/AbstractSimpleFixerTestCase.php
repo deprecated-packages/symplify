@@ -32,37 +32,8 @@ abstract class AbstractSimpleFixerTestCase extends AbstractFixerTestCase
     protected function doTest($expected, $input = null, ?SplFileInfo $file = null): void
     {
         throw new UndesiredMethodException(sprintf(
-            'Do not use wide-range "%s()". Call more specfiic "doTestCorrectFile()" or "doTestWrongToFixedFile()".', __METHOD__
+            'Do not use wide-range "%s()". Call more specfiic "doTestCorrectFile()" or "doTestWrongToFixedFile()".',
+            __METHOD__
         ));
-
-        if ($input === null) {
-            $expected = file_exists($expected) ? file_get_contents($expected) : $expected;
-            parent::doTest($expected, $input, $file);
-            return;
-        }
-
-        // natural order for humans
-        [$expected, $input] = [$input, $expected];
-
-        // autoload files
-        [$expected, $input] = $this->loadFileContents($expected, $input);
-
-        parent::doTest($expected, $input, $file);
-    }
-
-    /**
-     * @return string[]
-     */
-    private function loadFileContents(string $expected, string $input): array
-    {
-        if (file_exists($expected)) {
-            $expected = file_get_contents($expected);
-        }
-
-        if (file_exists($input)) {
-            $input = file_get_contents($input);
-        }
-
-        return [$expected, $input];
     }
 }
