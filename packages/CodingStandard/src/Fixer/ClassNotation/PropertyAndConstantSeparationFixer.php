@@ -15,8 +15,8 @@ use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use PhpCsFixer\WhitespacesFixerConfig;
-use ReflectionClass;
 use SplFileInfo;
+use Symplify\PackageBuilder\Reflection\PrivatesCaller;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\ClassWrapper;
 
 final class PropertyAndConstantSeparationFixer implements DefinedFixerInterface, WhitespacesAwareFixerInterface, ConfigurationDefinitionFixerInterface
@@ -181,14 +181,16 @@ class SomeClass
         $methodSeparationFixer = new MethodSeparationFixer();
         $methodSeparationFixer->setWhitespacesConfig($this->whitespacesFixerConfig);
 
-        $arguments = [
-            $tokens,
-            $constantOrPropertyEnd,
-            $nextNotWhitePosition,
-            $nextNotWhitePosition === $classEnd ? $this->configuration[self::SPACE_COUNT_OPTION] : $this->configuration[self::SPACE_COUNT_OPTION] + 1,
-        ];
-
-        $this->callPrivateMethod($methodSeparationFixer, 'correctLineBreaks', ...$arguments);
+        (new PrivatesCaller())->callPrivateMethod(
+            $methodSeparationFixer,
+            'correctLineBreaks',
+            ...[
+                $tokens,
+                $constantOrPropertyEnd,
+                $nextNotWhitePosition,
+                $nextNotWhitePosition === $classEnd ? $this->configuration[self::SPACE_COUNT_OPTION] : $this->configuration[self::SPACE_COUNT_OPTION] + 1,
+            ]
+        );
     }
 
     private function isCommentBehindSemicolon(Tokens $tokens, int $constantOrPropertyEnd): bool
@@ -197,19 +199,5 @@ class SomeClass
         $nextNextToken = $tokens[$constantOrPropertyEnd + 2];
 
         return $nextToken->isWhitespace(' ') && $nextNextToken->isComment();
-    }
-
-    /**
-     * @param object $object
-     * @return mixed
-     */
-    private function callPrivateMethod($object, string $methodName, ...$arguments)
-    {
-        $classReflection = new ReflectionClass(get_class($object));
-
-        $methodReflection = $classReflection->getMethod($methodName);
-        $methodReflection->setAccessible(true);
-
-        return $methodReflection->invoke($object, ...$arguments);
     }
 }

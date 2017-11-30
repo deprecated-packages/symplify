@@ -5,7 +5,7 @@ namespace Symplify\TokenRunner\Naming\UseImport;
 use PhpCsFixer\Fixer\Import\NoUnusedImportsFixer;
 use PhpCsFixer\Tokenizer\Tokens;
 use PhpCsFixer\Tokenizer\TokensAnalyzer;
-use ReflectionMethod;
+use Symplify\PackageBuilder\Reflection\PrivatesCaller;
 
 final class UseImportsFactory
 {
@@ -32,8 +32,8 @@ final class UseImportsFactory
             return [];
         }
 
-        $useImports = $this->callPrivateMethod(
-            NoUnusedImportsFixer::class,
+        $useImports = (new PrivatesCaller())->callPrivateMethod(
+            (new NoUnusedImportsFixer()),
             'getNamespaceUseDeclarations',
             $tokens,
             $importUseIndexes
@@ -44,21 +44,7 @@ final class UseImportsFactory
         return $this->cachedUseImports[$tokens->getCodeHash()] = $useImports;
     }
 
-    /**
-     * @param mixed ...$args
-     * @return string[]
-     */
-    private function callPrivateMethod(string $class, string $method, ...$args): array
-    {
-        $reflectionMethod = new ReflectionMethod($class, $method);
-        $reflectionMethod->setAccessible(true);
-
-        $object = new $class();
-
-        return $reflectionMethod->invoke($object, ...$args);
-    }
-
-    /**
+/**
      * @param mixed[] $useImports
      * @return UseImport[]
      */
