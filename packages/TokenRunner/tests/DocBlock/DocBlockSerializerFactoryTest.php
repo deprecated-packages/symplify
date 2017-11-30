@@ -12,7 +12,10 @@ final class DocBlockSerializerFactoryTest extends TestCase
     public function testNoSpaceOnEmptyLine(): void
     {
         $whitespaceFixerConfig = new WhitespacesFixerConfig();
-        $docBlockSerializer = DocBlockSerializerFactory::createFromWhitespaceFixerConfigAndContent($whitespaceFixerConfig);
+        $docBlockSerializer = DocBlockSerializerFactory::createFromWhitespaceFixerConfigAndContent(
+            $whitespaceFixerConfig,
+            'someContent'
+        );
 
         $docBlock = new DocBlock();
 

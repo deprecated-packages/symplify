@@ -11,8 +11,10 @@ use phpDocumentor\Reflection\DocBlock as PhpDocumentorDocBlock;
 use phpDocumentor\Reflection\DocBlock\Serializer;
 use phpDocumentor\Reflection\DocBlock\Tags\Param;
 use phpDocumentor\Reflection\DocBlock\Tags\Return_;
+use phpDocumentor\Reflection\DocBlock\Tags\Var_;
 use phpDocumentor\Reflection\DocBlockFactory;
 use phpDocumentor\Reflection\Types\Array_;
+use phpDocumentor\Reflection\Types\Compound;
 use Symplify\TokenRunner\DocBlock\ArrayResolver;
 use Symplify\TokenRunner\DocBlock\DocBlockSerializerFactory;
 use Symplify\TokenRunner\Guard\TokenTypeGuard;
@@ -197,18 +199,15 @@ final class DocBlockWrapper
 
     public function isArrayProperty(): bool
     {
-        if (! $this->docBlock->getAnnotationsOfType('var')) {
+        $varTags = $this->phpDocumentorDocBlock->getTagsByName('var');
+        if (! count($varTags)) {
             return false;
         }
 
-        $varAnnotation = $this->docBlock->getAnnotationsOfType('var')[0];
+        /** @var Var_ $varTag */
+        $varTag = $varTags[0];
 
-        $content = trim($varAnnotation->getContent());
-        $content = rtrim($content, ' */');
-
-        [, $types] = explode('@var', $content);
-
-        $types = explode('|', trim($types));
+        $types = explode('|', trim((string) $varTag->getType()));
 
         foreach ($types as $type) {
             if (! self::isIterableType($type)) {
