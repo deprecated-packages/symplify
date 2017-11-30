@@ -277,15 +277,31 @@ final class DocBlockWrapper
     private function resolveArrayType(Array_ $arrayType, string $tagName, ?string $propertyName = null): string
     {
         if ($arrayType->getValueType() instanceof Mixed_) {
-            if ((bool) Strings::match($this->originalContent, sprintf('#@%s\s+array(\s+\$%s)?#', $tagName, $propertyName))) {
-                return 'array';
-            }
-
-            if ((bool) Strings::match($this->originalContent, sprintf('#@%s\s+mixed\[\](\s+\$%s)?#', $tagName, $propertyName))) {
-                return 'mixed[]';
+            $matched = $this->matchArrayOrMixedAnnotation($tagName, $propertyName);
+            if ($matched) {
+                return $matched['type'];
             }
         }
 
         return 'array';
+    }
+
+    /**
+     * Matches:
+     * - @param array $propertyName
+     * - @param mixed[] $propertyName
+     * - @return array
+     * - @return mixed[]
+     *
+     * @return mixed[]
+     */
+    private function matchArrayOrMixedAnnotation(string $tagName, ?string $propertyName = null): ?array
+    {
+        $mask = sprintf('@%s\s+(?<type>array|mixed\[\])', $tagName);
+        if ($propertyName) {
+            $mask .= sprintf('\s+\$%s', $propertyName);
+        }
+
+        return Strings::match($this->originalContent, '#' . $mask . '#');
     }
 }
