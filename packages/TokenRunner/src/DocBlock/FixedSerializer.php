@@ -22,8 +22,7 @@ final class FixedSerializer extends Serializer
         // 3 === strlen(' * ')
         $wrapLength = $this->lineLength ? $this->lineLength - strlen($indent) - 3 : null;
 
-        $text = $privatesCaller->callPrivateMethod(
-            $this,
+        $text = $privatesCaller->callPrivateMethod($this,
             'removeTrailingSpaces',
             $indent,
             $privatesCaller->callPrivateMethod(

@@ -14,8 +14,10 @@ use phpDocumentor\Reflection\DocBlock\Serializer;
 
 final class DocBlockSerializerFactory
 {
-    public static function createFromWhitespaceFixerConfig(WhitespacesFixerConfig $whitespacesFixerConfig): Serializer
-    {
+    public static function createFromWhitespaceFixerConfigAndContent(
+        WhitespacesFixerConfig $whitespacesFixerConfig,
+        string $originalContent
+    ): Serializer {
         if ($whitespacesFixerConfig->getIndent() === '    ') {
             $indent = 4;
             $indentString = ' ';
@@ -24,6 +26,6 @@ final class DocBlockSerializerFactory
             $indentString = $whitespacesFixerConfig->getIndent();
         }
 
-        return new FixedSerializer($indent, $indentString, false, null, new CleanFormatter);
+        return new FixedSerializer($indent, $indentString, false, null, new CleanFormatter($originalContent));
     }
 }

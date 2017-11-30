@@ -13,8 +13,7 @@ use phpDocumentor\Reflection\DocBlock\Tags\Param;
 use phpDocumentor\Reflection\DocBlock\Tags\Return_;
 use phpDocumentor\Reflection\DocBlockFactory;
 use phpDocumentor\Reflection\Types\Array_;
-use phpDocumentor\Reflection\Types\Mixed_;
-use Symfony\Component\DependencyInjection\Tests\Compiler\D;
+use Symplify\TokenRunner\DocBlock\ArrayResolver;
 use Symplify\TokenRunner\DocBlock\DocBlockSerializerFactory;
 use Symplify\TokenRunner\Guard\TokenTypeGuard;
 
@@ -120,7 +119,7 @@ final class DocBlockWrapper
         }
 
         if ($returnTags[0]->getType() instanceof Array_) {
-            return $this->resolveArrayType($returnTags[0]->getType(), 'return');
+            return ArrayResolver::resolveArrayType($this->originalContent, $returnTags[0]->getType(), 'return');
         }
 
         return $this->clean((string) $returnTags[0]);
@@ -144,7 +143,7 @@ final class DocBlockWrapper
             // distinguish array vs mixed[]
             // false value resolve, @see https://github.com/phpDocumentor/TypeResolver/pull/48
             if ($paramTag->getType() instanceof Array_) {
-                return $this->resolveArrayType($paramTag->getType(), 'param', $name);
+                return ArrayResolver::resolveArrayType($this->originalContent, $paramTag->getType(), 'param', $name);
             }
 
             return $this->clean((string) $paramTag->getType());
@@ -261,8 +260,8 @@ final class DocBlockWrapper
             return $this->docBlockSerializer;
         }
 
-        return $this->docBlockSerializer = DocBlockSerializerFactory::createFromWhitespaceFixerConfig(
-            $this->whitespacesFixerConfig
+        return $this->docBlockSerializer = DocBlockSerializerFactory::createFromWhitespaceFixerConfigAndContent(
+            $this->whitespacesFixerConfig, $this->originalContent
         );
     }
 
@@ -272,36 +271,5 @@ final class DocBlockWrapper
             ->getDocComment($this->phpDocumentorDocBlock);
 
         $this->tokens[$this->docBlockPosition] = new Token([T_DOC_COMMENT, $docBlockContent]);
-    }
-
-    private function resolveArrayType(Array_ $arrayType, string $tagName, ?string $propertyName = null): string
-    {
-        if ($arrayType->getValueType() instanceof Mixed_) {
-            $matched = $this->matchArrayOrMixedAnnotation($tagName, $propertyName);
-            if ($matched) {
-                return $matched['type'];
-            }
-        }
-
-        return 'array';
-    }
-
-    /**
-     * Matches:
-     * - @param array $propertyName
-     * - @param mixed[] $propertyName
-     * - @return array
-     * - @return mixed[]
-     *
-     * @return mixed[]
-     */
-    private function matchArrayOrMixedAnnotation(string $tagName, ?string $propertyName = null): ?array
-    {
-        $mask = sprintf('@%s\s+(?<type>array|mixed\[\])', $tagName);
-        if ($propertyName) {
-            $mask .= sprintf('\s+\$%s', $propertyName);
-        }
-
-        return Strings::match($this->originalContent, '#' . $mask . '#');
     }
 }
