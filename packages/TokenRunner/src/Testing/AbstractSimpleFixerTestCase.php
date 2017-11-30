@@ -32,7 +32,7 @@ abstract class AbstractSimpleFixerTestCase extends AbstractFixerTestCase
     protected function doTest($expected, $input = null, ?SplFileInfo $file = null): void
     {
         throw new UndesiredMethodException(sprintf(
-            'Do not use wide-range "%s()". Call more specfiic "doTestCorrectFile()" or "doTestWrongToFixedFile()".',
+            'Do not use wide-range "%s()". Prefer specific "doTestCorrectFile()" or "doTestWrongToFixedFile() method".',
             __METHOD__
         ));
     }
