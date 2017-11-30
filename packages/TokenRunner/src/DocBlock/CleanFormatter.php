@@ -27,7 +27,7 @@ final class CleanFormatter implements Formatter
     {
         $tagTypeAndDescription = ltrim((string) $tag, '\\');
 
-        if (($tag instanceof Return_ || $tag instanceof Param)  && $tag->getType() instanceof Array_) {
+        if (($tag instanceof Return_ || $tag instanceof Param) && $tag->getType() instanceof Array_) {
             $tagTypeAndDescription = $this->resolveAndFixArrayTypeIfNeeded($tag, $tagTypeAndDescription);
         }
 

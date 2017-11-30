@@ -44,7 +44,7 @@ final class UseImportsFactory
         return $this->cachedUseImports[$tokens->getCodeHash()] = $useImports;
     }
 
-/**
+    /**
      * @param mixed[] $useImports
      * @return UseImport[]
      */
