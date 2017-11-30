@@ -2,12 +2,10 @@
 
 namespace Symplify\TokenRunner\Analyzer\SnifferAnalyzer;
 
-use Nette\Utils\Strings;
 use PHP_CodeSniffer\Files\File;
 use SlevomatCodingStandard\Helpers\NamespaceHelper;
 use SlevomatCodingStandard\Helpers\ReferencedNameHelper;
 use SlevomatCodingStandard\Helpers\UseStatementHelper;
-use Symplify\TokenRunner\Guard\TokenTypeGuard;
 
 final class Naming
 {
@@ -20,24 +18,6 @@ final class Naming
      * @var string[]
      */
     private static $controllerNameSuffixes = ['Controller', 'Presenter'];
-
-    public static function isControllerClass(File $file, int $position): bool
-    {
-        TokenTypeGuard::ensureIsTokenType($file->getTokens()[$position], [T_CLASS], __METHOD__);
-
-        $className = $file->getDeclarationName($position);
-        if (! $className) {
-            return false;
-        }
-
-        foreach (self::$controllerNameSuffixes as $controllerNameSuffix) {
-            if (Strings::endsWith($className, $controllerNameSuffix)) {
-                return true;
-            }
-        }
-
-        return false;
-    }
 
     public static function getClassName(File $file, int $classNameStartPosition): string
     {
