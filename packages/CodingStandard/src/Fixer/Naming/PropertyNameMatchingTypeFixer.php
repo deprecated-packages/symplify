@@ -38,6 +38,7 @@ final class PropertyNameMatchingTypeFixer implements DefinedFixerInterface, Conf
         '*[]', // arrays
         'PhpParser\Node\*',
         Token::class,
+        '*_' // anything that ends with underscore
     ];
 
     /**
