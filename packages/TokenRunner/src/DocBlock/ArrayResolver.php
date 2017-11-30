@@ -4,6 +4,7 @@ namespace Symplify\TokenRunner\DocBlock;
 
 use Nette\Utils\Strings;
 use phpDocumentor\Reflection\Types\Array_;
+use phpDocumentor\Reflection\Types\Integer;
 use phpDocumentor\Reflection\Types\Mixed_;
 use phpDocumentor\Reflection\Types\Object_;
 use phpDocumentor\Reflection\Types\String_;
@@ -28,6 +29,7 @@ final class ArrayResolver
         }
 
         if ($arrayType->getValueType() instanceof String_ ||
+            $arrayType->getValueType() instanceof Integer ||
             $arrayType->getValueType() instanceof Object_
         ) {
             return (string) $arrayType->getValueType() . '[]';
