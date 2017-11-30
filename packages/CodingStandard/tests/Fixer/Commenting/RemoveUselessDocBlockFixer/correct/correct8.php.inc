@@ -4,13 +4,11 @@ namespace SomeNamespace;
 class SomeClass
 {
     /**
-     * @param mixed[] $checkers
-     * @param string[] $matchingCheckerGroup
+     * @param mixed[] $arrayDiff
+     * @return mixed[]
      */
-    private function isMatch(array $checkers, array $matchingCheckerGroup): bool
+    private function addLineNumbers(array $arrayDiff): array
     {
-        $matchingCheckerGroupKeys = array_flip($matchingCheckerGroup);
 
-        return count(array_intersect_key($matchingCheckerGroupKeys, $checkers)) === count($matchingCheckerGroup);
     }
 }

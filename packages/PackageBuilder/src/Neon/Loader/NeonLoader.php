@@ -129,7 +129,9 @@ final class NeonLoader implements LoaderInterface
                     ));
                 }
 
-                $content['services'][$name] = ['class' => $service];
+                $content['services'][$name] = [
+                    'class' => $service
+                ];
             }
         }
 

@@ -8,6 +8,23 @@ use SplFileInfo;
 abstract class AbstractSimpleFixerTestCase extends AbstractFixerTestCase
 {
     /**
+     * File should contain 0 errors
+     */
+    protected function doTestCorrectFile(string $file): void
+    {
+        parent::doTest(file_get_contents($file), null, null);
+    }
+
+    protected function doTestWrongToFixedFile(string $wrongFile, string $fixedFile): void
+    {
+        parent::doTest(
+            file_get_contents($fixedFile),
+            file_get_contents($wrongFile),
+            null
+        );
+    }
+
+    /**
      * @param string $expected
      * @param string|null $input
      */

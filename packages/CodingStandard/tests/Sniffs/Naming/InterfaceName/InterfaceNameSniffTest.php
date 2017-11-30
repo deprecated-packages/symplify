@@ -10,7 +10,7 @@ final class InterfaceNameSniffTest extends AbstractSniffTestCase
 {
     public function testWrongToFixed(): void
     {
-        $this->doTest(__DIR__ . '/wrong/wrong.php.inc', __DIR__ . '/fixed/fixed.php.inc');
+        $this->doTestWrongToFixedFile(__DIR__ . '/wrong/wrong.php.inc', __DIR__ . '/fixed/fixed.php.inc');
     }
 
     /**
