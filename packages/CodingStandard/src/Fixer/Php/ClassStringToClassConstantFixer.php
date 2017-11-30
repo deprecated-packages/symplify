@@ -20,7 +20,7 @@ final class ClassStringToClassConstantFixer implements DefinedFixerInterface, Co
     /**
      * @var string
      */
-    private const CLASS_MUST_EXIST_OPTION = 'class_must_exist';
+    public const CLASS_MUST_EXIST_OPTION = 'class_must_exist';
 
     /**
      * @var string

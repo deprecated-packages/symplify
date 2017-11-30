@@ -9,20 +9,19 @@ use Symplify\TokenRunner\Testing\AbstractSimpleFixerTestCase;
 final class ExistanceNotRequiredTest extends AbstractSimpleFixerTestCase
 {
     /**
-     * @dataProvider provideFixCases()
+     * @dataProvider provideWrongToFixedCases()
      */
-    public function testFix(string $expected, ?string $input = null): void
+    public function testWrongToFixed(string $wrongFile, string $fixedFile): void
     {
-        $this->doTest($expected, $input);
+        $this->doTestWrongToFixedFile($wrongFile, $fixedFile);
     }
 
     /**
      * @return string[][]
      */
-    public function provideFixCases(): array
+    public function provideWrongToFixedCases(): array
     {
         return [
-            # wrong => fixed
             [__DIR__ . '/wrong/wrong4.php.inc', __DIR__ . '/fixed/fixed4.php.inc'],
             [__DIR__ . '/wrong/wrong5.php.inc', __DIR__ . '/fixed/fixed5.php.inc'],
         ];
@@ -30,11 +29,11 @@ final class ExistanceNotRequiredTest extends AbstractSimpleFixerTestCase
 
     protected function createFixer(): FixerInterface
     {
-        $classStringToClassConstantFixer = new ClassStringToClassConstantFixer();
-        $classStringToClassConstantFixer->configure([
-            'class_must_exist' => false,
+        $fixer = new ClassStringToClassConstantFixer();
+        $fixer->configure([
+            ClassStringToClassConstantFixer::CLASS_MUST_EXIST_OPTION => false,
         ]);
 
-        return $classStringToClassConstantFixer;
+        return $fixer;
     }
 }

@@ -21,7 +21,7 @@ final class FinalInterfaceFixer implements FixerInterface, DefinedFixerInterface
     /**
      * @var string
      */
-    private const ONLY_INTERFACES_OPTION = 'only_interfaces';
+    public const ONLY_INTERFACES_OPTION = 'only_interfaces';
 
     /**
      * @var mixed[]

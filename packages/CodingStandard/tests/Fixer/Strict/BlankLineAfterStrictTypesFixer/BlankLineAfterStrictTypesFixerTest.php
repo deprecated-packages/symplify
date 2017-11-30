@@ -1,12 +1,13 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Fixer\Naming\PropertyNameMatchingTypeFixer;
+namespace Symplify\CodingStandard\Tests\Fixer\Strict\BlankLineAfterStrictTypesFixer;
 
 use PhpCsFixer\Fixer\FixerInterface;
-use Symplify\CodingStandard\Fixer\Naming\PropertyNameMatchingTypeFixer;
+use PhpCsFixer\WhitespacesFixerConfig;
+use Symplify\CodingStandard\Fixer\Strict\BlankLineAfterStrictTypesFixer;
 use Symplify\TokenRunner\Testing\AbstractSimpleFixerTestCase;
 
-final class PropertyNameMatchingTypeFixerTest extends AbstractSimpleFixerTestCase
+final class BlankLineAfterStrictTypesFixerTest extends AbstractSimpleFixerTestCase
 {
     /**
      * @dataProvider provideCorrectCases()
@@ -29,7 +30,7 @@ final class PropertyNameMatchingTypeFixerTest extends AbstractSimpleFixerTestCas
     /**
      * @dataProvider provideWrongToFixedCases()
      */
-    public function testWrongToFixed(string $wrongFile, string $fixedFile): void
+    public function testFix(string $wrongFile, string $fixedFile): void
     {
         $this->doTestWrongToFixedFile($wrongFile, $fixedFile);
     }
@@ -41,14 +42,14 @@ final class PropertyNameMatchingTypeFixerTest extends AbstractSimpleFixerTestCas
     {
         return [
             [__DIR__ . '/wrong/wrong.php.inc', __DIR__ . '/fixed/fixed.php.inc'],
-            [__DIR__ . '/wrong/wrong2.php.inc', __DIR__ . '/fixed/fixed2.php.inc'],
-            [__DIR__ . '/wrong/wrong3.php.inc', __DIR__ . '/fixed/fixed3.php.inc'],
-            [__DIR__ . '/wrong/wrong4.php.inc', __DIR__ . '/fixed/fixed4.php.inc'],
+            [__DIR__ . '/wrong/wrong2.php.inc', __DIR__ . '/fixed/fixed.php.inc'],
         ];
     }
 
     protected function createFixer(): FixerInterface
     {
-        return new PropertyNameMatchingTypeFixer();
+        $fixer = new BlankLineAfterStrictTypesFixer();
+        $fixer->setWhitespacesConfig(new WhitespacesFixerConfig('    ', PHP_EOL));
+        return $fixer;
     }
 }
