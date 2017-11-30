@@ -27,15 +27,33 @@ final class CleanFormatter implements Formatter
     {
         $tagTypeAndDescription = ltrim((string) $tag, '\\');
 
-        if ($tag instanceof Param && $tag->getType() instanceof Array_) {
-            $original = ArrayResolver::resolveArrayType($this->originalContent, $tag->getType(), 'param', $tag->getVariableName());
-
-            // possible mixed[] override
-            if ($original !== 'array') {
-                $tagTypeAndDescription = substr_replace($tagTypeAndDescription, 'mixed[]', 0, strlen('array'));
-            }
+        if (($tag instanceof Return_ || $tag instanceof Param)  && $tag->getType() instanceof Array_) {
+            $tagTypeAndDescription = $this->resolveAndFixArrayTypeIfNeeded($tag, $tagTypeAndDescription);
         }
 
         return trim('@' . $tag->getName() . ' ' . $tagTypeAndDescription);
+    }
+
+    /**
+     * @param Param|Return_ $tag
+     */
+    private function resolveAndFixArrayTypeIfNeeded(Tag $tag, string $tagTypeAndDescription): string
+    {
+        $original = 'array';
+
+        if ($tag instanceof Param) {
+            $original = ArrayResolver::resolveArrayType($this->originalContent, $tag->getType(), 'param', $tag->getVariableName());
+        }
+
+        if ($tag instanceof Return_) {
+            $original = ArrayResolver::resolveArrayType($this->originalContent, $tag->getType(), 'return');
+        }
+
+        // possible mixed[] override
+        if ($original !== 'array') {
+            $tagTypeAndDescription = substr_replace($tagTypeAndDescription, 'mixed[]', 0, strlen('array'));
+        }
+
+        return $tagTypeAndDescription;
     }
 }
