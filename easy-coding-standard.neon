@@ -23,6 +23,7 @@ checkers:
             - Symplify\EasyCodingStandard\Error\Error
             - Symplify\CodingStandard\FixerTokenWrapper\Naming\Name
             - Symplify\TokenRunner\*
+            - Symplify\PackageBuilder\Reflection\PrivatesCaller
 
 parameters:
     skip:
@@ -41,6 +42,7 @@ parameters:
             # parent class without typehints
             - packages/TokenRunner/src/Testing/AbstractSimpleFixerTestCase.php
             - packages/EasyCodingStandard/tests/AbstractDualRunTestCase.php
+            - packages/FixerRunner/src/Differ/LineLimitSebastianBergmannDiffer.php
 
         PhpCsFixer\Fixer\PhpUnit\PhpUnitStrictFixer:
             - packages/EasyCodingStandard/tests/Indentation/IndentationTest.php

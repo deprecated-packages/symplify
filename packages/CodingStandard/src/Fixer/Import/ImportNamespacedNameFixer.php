@@ -78,7 +78,7 @@ final class ImportNamespacedNameFixer implements FixerInterface, DefinedFixerInt
 
     public function isCandidate(Tokens $tokens): bool
     {
-        return $tokens->isAllTokenKindsFound([T_CLASS, T_STRING]);
+        return $tokens->isAllTokenKindsFound([T_CLASS, T_STRING, T_NS_SEPARATOR]);
     }
 
     public function fix(SplFileInfo $file, Tokens $tokens): void

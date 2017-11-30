@@ -47,6 +47,7 @@ final class PropertyWrapper
 
         $this->docBlockPosition = DocBlockFinder::findPreviousPosition($tokens, $index);
         $docBlockToken = DocBlockFinder::findPrevious($tokens, $index);
+
         if ($docBlockToken) {
             $this->docBlock = new DocBlock($docBlockToken->getContent());
         }
@@ -122,14 +123,9 @@ final class PropertyWrapper
         return true;
     }
 
-    public function hasDocBlock(): bool
-    {
-        return $this->docBlock !== null;
-    }
-
     public function getDocBlockWrapper(): ?DocBlockWrapper
     {
-        if (! $this->hasDocBlock()) {
+        if ($this->docBlock === null) {
             return null;
         }
 

@@ -34,8 +34,9 @@ public $property;'
 
     public function isCandidate(Tokens $tokens): bool
     {
-        return $tokens->isAnyTokenKindsFound([T_CLASS, T_TRAIT]) &&
-            $tokens->isAllTokenKindsFound([T_DOC_COMMENT, T_VARIABLE]);
+        return $tokens->isAnyTokenKindsFound([T_CLASS, T_TRAIT])
+            && $tokens->isAllTokenKindsFound([T_DOC_COMMENT, T_VARIABLE])
+            && $tokens->isAnyTokenKindsFound([T_PUBLIC, T_PROTECTED, T_PRIVATE]);
     }
 
     public function isRisky(): bool

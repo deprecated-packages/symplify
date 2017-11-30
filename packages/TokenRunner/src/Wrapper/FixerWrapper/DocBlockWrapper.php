@@ -3,11 +3,20 @@
 namespace Symplify\TokenRunner\Wrapper\FixerWrapper;
 
 use Nette\Utils\Strings;
-use PhpCsFixer\DocBlock\Annotation;
 use PhpCsFixer\DocBlock\DocBlock;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use PhpCsFixer\WhitespacesFixerConfig;
+use phpDocumentor\Reflection\DocBlock as PhpDocumentorDocBlock;
+use phpDocumentor\Reflection\DocBlock\Serializer;
+use phpDocumentor\Reflection\DocBlock\Tags\Param;
+use phpDocumentor\Reflection\DocBlock\Tags\Return_;
+use phpDocumentor\Reflection\DocBlock\Tags\Var_;
+use phpDocumentor\Reflection\DocBlockFactory;
+use phpDocumentor\Reflection\Types\Array_;
+use phpDocumentor\Reflection\Types\Compound;
+use Symplify\TokenRunner\DocBlock\ArrayResolver;
+use Symplify\TokenRunner\DocBlock\DocBlockSerializerFactory;
 use Symplify\TokenRunner\Guard\TokenTypeGuard;
 
 final class DocBlockWrapper
@@ -32,6 +41,21 @@ final class DocBlockWrapper
      */
     private $docBlockPosition;
 
+    /**
+     * @var PhpDocumentorDocBlock
+     */
+    private $phpDocumentorDocBlock;
+
+    /**
+     * @var Serializer
+     */
+    private $docBlockSerializer;
+
+    /**
+     * @var string
+     */
+    private $originalContent;
+
     private function __construct(?Tokens $tokens, ?int $docBlockPosition, ?DocBlock $docBlock, ?Token $token = null)
     {
         $this->tokens = $tokens;
@@ -41,6 +65,13 @@ final class DocBlockWrapper
         if ($docBlock === null && $token !== null) {
             $this->docBlock = new DocBlock($token->getContent());
         }
+
+        $docBlockFactory = DocBlockFactory::createInstance();
+
+        $content = $token ? $token->getContent() : $docBlock->getContent();
+
+        $this->phpDocumentorDocBlock = $docBlockFactory->create($content);
+        $this->originalContent = $content;
     }
 
     public static function createFromTokensPositionAndDocBlock(
@@ -62,109 +93,8 @@ final class DocBlockWrapper
 
     public function isSingleLine(): bool
     {
+        // or substr_count($this->originalContent, PHP_EOL));
         return count($this->docBlock->getLines()) === 1;
-    }
-
-    public function getReturnType(): ?string
-    {
-        $returnAnnotations = $this->docBlock->getAnnotationsOfType('return');
-        if (! $returnAnnotations) {
-            return null;
-        }
-
-        $content = $this->resolveAnnotationContent($returnAnnotations[0], 'return');
-
-        return ltrim($content, '\\');
-    }
-
-    public function getReturnTypeDescription(): ?string
-    {
-        $returnAnnotations = $this->docBlock->getAnnotationsOfType('return');
-        if (! $returnAnnotations) {
-            return null;
-        }
-
-        $returnAnnotation = $returnAnnotations[0];
-
-        $annotationParts = explode(' ', $this->resolveAnnotationContent($returnAnnotation, 'return'));
-        if (count($annotationParts) < 2) {
-            return null;
-        }
-
-        [, $description] = $annotationParts;
-
-        return $description;
-    }
-
-    public function getArgumentType(string $name): ?string
-    {
-        $paramAnnotations = $this->docBlock->getAnnotationsOfType('param');
-        if (! $paramAnnotations) {
-            return null;
-        }
-
-        foreach ($paramAnnotations as $paramAnnotation) {
-            if (Strings::contains($paramAnnotation->getContent(), '$' . $name)) {
-                $types = $this->resolveAnnotationContent($paramAnnotation, 'param');
-                $typeParts = explode('$' . $name, $types);
-
-                if (count($typeParts) < 2) {
-                    return null;
-                }
-
-                [$type, ] = $typeParts;
-
-                return trim($type, ' \\');
-            }
-        }
-
-        return null;
-    }
-
-    public function getArgumentTypeDescription(string $name): ?string
-    {
-        $paramAnnotations = $this->docBlock->getAnnotationsOfType('param');
-        if (! $paramAnnotations) {
-            return null;
-        }
-
-        foreach ($paramAnnotations as $paramAnnotation) {
-            if (Strings::contains($paramAnnotation->getContent(), '$' . $name)) {
-                $annotationParts = explode('$' . $name, $this->resolveAnnotationContent($paramAnnotation, 'param'));
-
-                if (count($annotationParts) < 2) {
-                    return null;
-                }
-
-                return trim($annotationParts[1]);
-            }
-        }
-
-        return null;
-    }
-
-    public function removeReturnType(): void
-    {
-        $returnAnnotations = $this->docBlock->getAnnotationsOfType('return');
-        foreach ($returnAnnotations as $returnAnnotation) {
-            $returnAnnotation->remove();
-        }
-
-        $this->tokens[$this->docBlockPosition] = new Token([T_DOC_COMMENT, $this->docBlock->getContent()]);
-    }
-
-    public function removeParamType(string $name): void
-    {
-        $paramAnnotations = $this->docBlock->getAnnotationsOfType('param');
-        foreach ($paramAnnotations as $paramAnnotation) {
-            if (Strings::contains($paramAnnotation->getContent(), '$' . $name)) {
-                $paramAnnotation->remove();
-
-                break;
-            }
-        }
-
-        $this->tokens[$this->docBlockPosition] = new Token([T_DOC_COMMENT, $this->docBlock->getContent()]);
     }
 
     public function changeToMultiLine(): void
@@ -186,6 +116,110 @@ final class DocBlockWrapper
         $this->tokens[$this->docBlockPosition] = new Token([T_DOC_COMMENT, $newDocBlock]);
     }
 
+    public function getReturnType(): ?string
+    {
+        /** @var Return_[] $returnTags */
+        $returnTags = $this->phpDocumentorDocBlock->getTagsByName('return');
+        if (! $returnTags) {
+            return null;
+        }
+
+        if ($returnTags[0]->getType() instanceof Array_) {
+            return ArrayResolver::resolveArrayType($this->originalContent, $returnTags[0]->getType(), 'return');
+        }
+
+        if ($returnTags[0]->getType() instanceof Compound) {
+            $types = [];
+            foreach ($returnTags[0]->getType()->getIterator() as $singleTag) {
+                if ($singleTag instanceof Array_) {
+                    $types[] = ArrayResolver::resolveArrayType($this->originalContent, $singleTag, 'return');
+                } else {
+                    $types[] = ltrim((string) $singleTag, '\\');
+                }
+            }
+
+            return implode('|', $types);
+        }
+
+        return $this->clean((string) $returnTags[0]);
+    }
+
+    public function getReturnTypeDescription(): ?string
+    {
+        /** @var Return_[] $returnTags */
+        $returnTags = $this->phpDocumentorDocBlock->getTagsByName('return');
+        if (! $returnTags) {
+            return null;
+        }
+
+        return (string) $returnTags[0]->getDescription();
+    }
+
+    public function getArgumentType(string $name): ?string
+    {
+        $paramTag = $this->findParamTagByName($name);
+        if ($paramTag) {
+            // distinguish array vs mixed[]
+            // false value resolve, @see https://github.com/phpDocumentor/TypeResolver/pull/48
+            if ($paramTag->getType() instanceof Array_) {
+                return ArrayResolver::resolveArrayType($this->originalContent, $paramTag->getType(), 'param', $name);
+            }
+
+            if ($paramTag->getType() instanceof Compound) {
+                $types = [];
+                foreach ($paramTag->getType()->getIterator() as $singleTag) {
+                    if ($singleTag instanceof Array_) {
+                        $types[] = ArrayResolver::resolveArrayType($this->originalContent, $singleTag, 'param', $name);
+                    } else {
+                        $types[] = (string) $singleTag;
+                    }
+                }
+
+                return implode('|', $types);
+            }
+
+            return $this->clean((string) $paramTag->getType());
+        }
+
+        return null;
+    }
+
+    public function getArgumentTypeDescription(string $name): ?string
+    {
+        $paramTag = $this->findParamTagByName($name);
+        if ($paramTag) {
+            return $this->clean((string) $paramTag->getDescription());
+        }
+
+        return null;
+    }
+
+    public function removeReturnType(): void
+    {
+        $returnTags = $this->phpDocumentorDocBlock->getTagsByName('return');
+        if (! $returnTags) {
+            return;
+        }
+
+        foreach ($returnTags as $returnTag) {
+            $this->phpDocumentorDocBlock->removeTag($returnTag);
+        }
+
+        $this->updateDocBlockTokenContent();
+    }
+
+    public function removeParamType(string $name): void
+    {
+        $paramTag = $this->findParamTagByName($name);
+        if (! $paramTag) {
+            return;
+        }
+
+        $this->phpDocumentorDocBlock->removeTag($paramTag);
+
+        $this->updateDocBlockTokenContent();
+    }
+
     public function setWhitespacesFixerConfig(WhitespacesFixerConfig $whitespacesFixerConfig): void
     {
         $this->whitespacesFixerConfig = $whitespacesFixerConfig;
@@ -193,18 +227,15 @@ final class DocBlockWrapper
 
     public function isArrayProperty(): bool
     {
-        if (! $this->docBlock->getAnnotationsOfType('var')) {
+        $varTags = $this->phpDocumentorDocBlock->getTagsByName('var');
+        if (! count($varTags)) {
             return false;
         }
 
-        $varAnnotation = $this->docBlock->getAnnotationsOfType('var')[0];
+        /** @var Var_ $varTag */
+        $varTag = $varTags[0];
 
-        $content = trim($varAnnotation->getContent());
-        $content = rtrim($content, ' */');
-
-        [, $types] = explode('@var', $content);
-
-        $types = explode('|', trim($types));
+        $types = explode('|', trim((string) $varTag->getType()));
 
         foreach ($types as $type) {
             if (! self::isIterableType($type)) {
@@ -233,19 +264,42 @@ final class DocBlockWrapper
         return false;
     }
 
-    private function resolveAnnotationContent(Annotation $annotation, string $name): string
+    private function clean(string $content): string
     {
-        $content = $annotation->getContent();
+        return ltrim(trim($content), '\\');
+    }
 
-        if ($content === '') {
-            return $content;
+    private function findParamTagByName(string $name): ?Param
+    {
+        $paramTags = $this->phpDocumentorDocBlock->getTagsByName('param');
+
+        /** @var Param $paramTag */
+        foreach ($paramTags as $paramTag) {
+            if ($paramTag->getVariableName() === $name) {
+                return $paramTag;
+            }
         }
 
-        [, $content] = explode('@' . $name, $content);
+        return null;
+    }
 
-        $content = ltrim($content, ' *');
-        $content = trim($content);
+    private function getDocBlockSerializer(): Serializer
+    {
+        if ($this->docBlockSerializer) {
+            return $this->docBlockSerializer;
+        }
 
-        return $content;
+        return $this->docBlockSerializer = DocBlockSerializerFactory::createFromWhitespaceFixerConfigAndContent(
+            $this->whitespacesFixerConfig,
+            $this->originalContent
+        );
+    }
+
+    private function updateDocBlockTokenContent(): void
+    {
+        $docBlockContent = $this->getDocBlockSerializer()
+            ->getDocComment($this->phpDocumentorDocBlock);
+
+        $this->tokens[$this->docBlockPosition] = new Token([T_DOC_COMMENT, $docBlockContent]);
     }
 }

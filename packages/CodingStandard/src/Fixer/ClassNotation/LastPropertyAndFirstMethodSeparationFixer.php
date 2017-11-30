@@ -74,7 +74,8 @@ class SomeClass
     public function isCandidate(Tokens $tokens): bool
     {
         return $tokens->isAnyTokenKindsFound([T_CLASS, T_TRAIT])
-            && $tokens->isAllTokenKindsFound([T_VARIABLE, T_FUNCTION]);
+            && $tokens->isAllTokenKindsFound([T_VARIABLE, T_FUNCTION])
+            && $tokens->isAnyTokenKindsFound([T_PUBLIC, T_PROTECTED, T_PRIVATE]);
     }
 
     public function fix(SplFileInfo $file, Tokens $tokens): void

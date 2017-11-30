@@ -4,7 +4,7 @@ namespace SomeNamespace;
 class SomeClass
 {
     /**
-     * @param array $samples
+     * @param array         $samples
      *
      * @return array
      */

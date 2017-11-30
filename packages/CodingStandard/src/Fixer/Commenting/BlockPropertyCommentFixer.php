@@ -36,7 +36,8 @@ private $property;
     public function isCandidate(Tokens $tokens): bool
     {
         return $tokens->isAnyTokenKindsFound([T_CLASS, T_TRAIT]) &&
-            $tokens->isAllTokenKindsFound([T_VARIABLE, T_DOC_COMMENT]);
+            $tokens->isAllTokenKindsFound([T_VARIABLE, T_DOC_COMMENT]) &&
+            $tokens->isAnyTokenKindsFound([T_PUBLIC, T_PROTECTED, T_PRIVATE]);
     }
 
     public function fix(SplFileInfo $file, Tokens $tokens): void
@@ -44,18 +45,14 @@ private $property;
         for ($index = count($tokens) - 1; $index > 1; --$index) {
             $token = $tokens[$index];
 
-            if (! $token->isGivenKind(T_CLASS)) {
+            if (! $token->isGivenKind([T_CLASS, T_TRAIT])) {
                 continue;
             }
 
             $classWrapper = ClassWrapper::createFromTokensArrayStartPosition($tokens, $index);
             foreach ($classWrapper->getPropertyWrappers() as $propertyWrapper) {
-                if (! $propertyWrapper->hasDocBlock()) {
-                    continue;
-                }
-
                 $docBlockWrapper = $propertyWrapper->getDocBlockWrapper();
-                if (! $docBlockWrapper->isSingleLine()) {
+                if ($docBlockWrapper === null || ! $docBlockWrapper->isSingleLine()) {
                     continue;
                 }
 

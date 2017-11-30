@@ -14,7 +14,7 @@ final class Fixer
     public $loops;
 
     /**
-     * @var array<int, string>|string[]
+     * @var int[]|string[]
      */
     private $tokens = [];
 
@@ -39,7 +39,7 @@ final class Fixer
 
     public function getTokenContent(int $stackPtr): string
     {
-        return $this->tokens[$stackPtr];
+        return (string) $this->tokens[$stackPtr];
     }
 
     public function replaceToken(int $stackPtr, string $content): bool

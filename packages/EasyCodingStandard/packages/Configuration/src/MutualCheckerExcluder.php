@@ -159,7 +159,7 @@ final class MutualCheckerExcluder
     }
 
     /**
-     * @param mixed[] $checkers
+     * @param string[] $checkers
      * @param string[] $matchingCheckerGroup
      */
     private function isMatch(array $checkers, array $matchingCheckerGroup): bool

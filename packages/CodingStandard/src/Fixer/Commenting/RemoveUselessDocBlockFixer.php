@@ -5,17 +5,24 @@ namespace Symplify\CodingStandard\Fixer\Commenting;
 use Nette\Utils\Strings;
 use PhpCsFixer\Fixer\DefinedFixerInterface;
 use PhpCsFixer\Fixer\FixerInterface;
+use PhpCsFixer\Fixer\WhitespacesAwareFixerInterface;
 use PhpCsFixer\FixerDefinition\CodeSample;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Tokenizer\Tokens;
+use PhpCsFixer\WhitespacesFixerConfig;
 use SplFileInfo;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\ClassWrapper;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\DocBlockWrapper;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\MethodWrapper;
 
-final class RemoveUselessDocBlockFixer implements FixerInterface, DefinedFixerInterface
+final class RemoveUselessDocBlockFixer implements FixerInterface, DefinedFixerInterface, WhitespacesAwareFixerInterface
 {
+    /**
+     * @var WhitespacesFixerConfig
+     */
+    private $whitespacesFixerConfig;
+
     public function getDefinition(): FixerDefinitionInterface
     {
         return new FixerDefinition(
@@ -54,6 +61,8 @@ public function getCount(): int
                     continue;
                 }
 
+                $docBlockWrapper->setWhitespacesFixerConfig($this->whitespacesFixerConfig);
+
                 $this->processReturnTag($methodWrapper, $docBlockWrapper);
                 $this->processParamTag($methodWrapper, $docBlockWrapper);
             }
@@ -83,10 +92,19 @@ public function getCount(): int
         return true;
     }
 
+    public function setWhitespacesConfig(WhitespacesFixerConfig $whitespacesFixerConfig): void
+    {
+        $this->whitespacesFixerConfig = $whitespacesFixerConfig;
+    }
+
     private function processReturnTag(MethodWrapper $methodWrapper, DocBlockWrapper $docBlockWrapper): void
     {
         $typehintType = $methodWrapper->getReturnType();
         $docBlockType = $docBlockWrapper->getReturnType();
+
+        if ($typehintType === null || $docBlockType === null) {
+            return;
+        }
 
         if ($typehintType === $docBlockType) {
             if ($docBlockWrapper->getReturnTypeDescription()) {
@@ -94,10 +112,6 @@ public function getCount(): int
             }
 
             $docBlockWrapper->removeReturnType();
-        }
-
-        if ($typehintType === null || $docBlockType === null) {
-            return;
         }
 
         if (Strings::contains($typehintType, '|') && Strings::contains($docBlockType, '|')) {
@@ -118,26 +132,25 @@ public function getCount(): int
     private function processParamTag(MethodWrapper $methodWrapper, DocBlockWrapper $docBlockWrapper): void
     {
         foreach ($methodWrapper->getArguments() as $argumentWrapper) {
-            $argumentType = $docBlockWrapper->getArgumentType($argumentWrapper->getName());
+            $docBlockType = $docBlockWrapper->getArgumentType($argumentWrapper->getName());
             $argumentDescription = $docBlockWrapper->getArgumentTypeDescription($argumentWrapper->getName());
 
-            if ($argumentType === $argumentDescription) {
+            if ($docBlockType === $argumentDescription) {
                 $docBlockWrapper->removeParamType($argumentWrapper->getName());
-
                 continue;
             }
 
-            if ($argumentDescription === null || $argumentType === null) {
+            if ($this->shouldSkip($docBlockType, $argumentDescription)) {
                 continue;
             }
 
             $isDescriptionUseful = $this->isDescriptionUseful(
                 $argumentDescription,
-                $argumentType,
+                $docBlockType,
                 $argumentWrapper->getName()
             );
 
-            if ($argumentType === $argumentWrapper->getType()) {
+            if ($docBlockType === $argumentWrapper->getType()) {
                 if ($argumentDescription && $isDescriptionUseful) {
                     continue;
                 }
@@ -146,7 +159,7 @@ public function getCount(): int
                 continue;
             }
 
-            if ($argumentType && Strings::endsWith($argumentType, '\\' . $argumentWrapper->getType())) {
+            if ($docBlockType && Strings::endsWith($docBlockType, '\\' . $argumentWrapper->getType())) {
                 if ($isDescriptionUseful) {
                     continue;
                 }
@@ -156,7 +169,7 @@ public function getCount(): int
             }
 
             // simple types
-            if ($argumentType === 'boolean' && $argumentWrapper->getType() === 'bool') {
+            if ($docBlockType === 'boolean' && $argumentWrapper->getType() === 'bool') {
                 $docBlockWrapper->removeParamType($argumentWrapper->getName());
             }
         }
@@ -212,5 +225,24 @@ public function getCount(): int
         if ($typehintTypes === $docBlockTypes) {
             $docBlockWrapper->removeReturnType();
         }
+    }
+
+    private function shouldSkip(?string $docBlockType, ?string $argumentDescription): bool
+    {
+        if ($argumentDescription === null || $docBlockType === null) {
+            return true;
+        }
+
+        // is array specification - keep it
+        if (Strings::contains($docBlockType, '[]')) {
+            return true;
+        }
+
+        // is intersect type specification, but not nullable - keep it
+        if (Strings::contains($docBlockType, '|') && ! Strings::contains($docBlockType, 'null')) {
+            return true;
+        }
+
+        return false;
     }
 }

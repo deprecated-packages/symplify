@@ -96,11 +96,11 @@ final class SniffFileProcessor implements FileProcessorInterface
         $this->skipper = $skipper;
         $this->checkerMetricRecorder = $checkerMetricRecorder;
         $this->currentSniffProvider = $currentSniffProvider;
-
-        $this->addCompatibilityLayer();
         $this->errorAndDiffCollector = $errorAndDiffCollector;
         $this->differ = $differ;
         $this->appliedCheckersCollector = $appliedCheckersCollector;
+
+        $this->addCompatibilityLayer();
     }
 
     public function addSniff(Sniff $sniff): void
@@ -149,10 +149,12 @@ final class SniffFileProcessor implements FileProcessorInterface
         if ($fileInfo->getContents() !== $this->fixer->getContents()) {
             $diff = $this->differ->diff($fileInfo->getContents(), $this->fixer->getContents());
 
+            $relativeFilePath = $fileInfo->getPath() . DIRECTORY_SEPARATOR . $fileInfo->getFilename();
+
             $this->errorAndDiffCollector->addDiffForFile(
-                $fileInfo->getRelativePath(),
+                $relativeFilePath,
                 $diff,
-                $this->appliedCheckersCollector->getAppliedCheckersPerFile($fileInfo->getRelativePath())
+                $this->appliedCheckersCollector->getAppliedCheckersPerFile($relativeFilePath)
             );
         }
 

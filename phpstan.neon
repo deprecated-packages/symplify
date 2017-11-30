@@ -3,7 +3,6 @@ parameters:
         - '#Constant T_[A-Z_]+ not found#'
         - '#Symplify\\EasyCodingStandard\\SniffRunner\\File\\File::__construct\(\) does not call parent constructor from PHP_CodeSniffer\\Files\\File#'
         - '#Call to an undefined method Symfony\\Component\\Config\\Loader\\LoaderResolverInterface::addLoader\(\)#'
-        - '#Parameter \#2 \$type of method Symfony\\Component\\Config\\Loader\\LoaderInterface::load\(\) expects string\|null, string\[\] given#'
         - '#Calling method getLines\(\) on possibly null value of type PhpCsFixer\\DocBlock\\DocBlock\|null#'
 
         # lvl 7
@@ -13,36 +12,37 @@ parameters:
         # is valid code
         - '#Parameter \#2 \$searchIndex of method PhpCsFixer\\Tokenizer\\Tokens::findBlockEnd\(\) expects int, int\|null given#'
         - '#Property Symplify\\TokenRunner\\Wrapper\\FixerWrapper\\PropertyWrapper::\$visibilityPosition \(int\) does not accept int\|null#'
-        - '#Calling method getAnnotationsOfType\(\) on possibly null value of type PhpCsFixer\\DocBlock\\DocBlock\|null#'
         - '#Calling method getContent\(\) on possibly null value of type PhpCsFixer\\DocBlock\\DocBlock\|null#'
         - '#Property Symplify\\TokenRunner\\Wrapper\\FixerWrapper\\ClassWrapper::\$startBracketIndex \(int\) does not accept int\|null#'
-        - '#Parameter \#3 \$docBlock of static method Symplify\\TokenRunner\\Wrapper\\FixerWrapper\\DocBlockWrapper::createFromTokensPositionAndDocBlock\(\) expects PhpCsFixer\\DocBlock\\DocBlock, PhpCsFixer\\DocBlock\\DocBlock\|null given#'
         - '#Parameter \#2 \$position of static method Symplify\\TokenRunner\\Wrapper\\SnifferWrapper\\ClassWrapper::createFromFileAndPosition\(\) expects int, int\|true given#'
+        - '#Method Symplify\\EasyCodingStandard\\Finder\\FinderSanitizer::turnInfoSymfonyFileInfos\(\) should return array<Symfony\\Component\\Finder\\SplFileInfo> but returns array<SplFileInfo>#'
+        - '#Parameter \#2 \$arrayType of static method Symplify\\TokenRunner\\DocBlock\\ArrayResolver::resolveArrayType\(\) expects phpDocumentor\\Reflection\\Types\\Array_, phpDocumentor\\Reflection\\Type(\|null)? given#'
+        - '#Parameter \#1 \$description of method Symplify\\CodingStandard\\Fixer\\Commenting\\RemoveUselessDocBlockFixer::isDescriptionUseful\(\) expects string, string\|null given#'
 
         # Token Runner
         - '#Parameter \#2 \$docBlockPosition of static method Symplify\\TokenRunner\\Wrapper\\FixerWrapper\\DocBlockWrapper::createFromTokensPositionAndDocBlock\(\) expects int, int\|null given#'
-        - '#Calling method setWhitespacesFixerConfig|isSingleLine|changeToMultiLine\(\) on possibly null value of type Symplify\\TokenRunner\\Wrapper\\FixerWrapper\\DocBlockWrapper\|null#'
         - '#Parameter \#1 \$index of method PhpCsFixer\\Tokenizer\\Tokens::(getPrevMeaningfulToken|getNextMeaningfulToken)\(\) expects int, int\|null given#'
         - '#Call to an undefined method Psr\\Container\\ContainerInterface::isCompiled\(\)#'
         - '#Call to an undefined method Symfony\\Component\\DependencyInjection\\ContainerInterface::getParameterBag()#'
-        - '#Parameter \#1 \$haystack of static method Nette\\Utils\\Strings::startsWith\(\) expects string, string\|null given#'
         - '#Parameter \#2 \$(start|end) of static method Symplify\\TokenRunner\\Naming\\Name\\NameFactory::createFromTokensAnd(Start|End)\(\) expects int, int\|null given#'
         - '#Parameter \#2 \$position of static method Symplify\\TokenRunner\\Wrapper\\SnifferWrapper\\ClassWrapper::createFromFileAndPosition\(\) expects int, bool\|int given#'
         - '#Parameter \#2 \$position of static method Symplify\\TokenRunner\\Wrapper\\SnifferWrapper\\MethodWrapper::createFromFileAndPosition\(\) expects int, bool\|int given#'
-        - '#Method Symplify\\TokenRunner\\Naming\\Name\\NameFactory::collectNameTokens\(\) should return mixed\[\]\[\] but returns \(int\|mixed\[\]\)\[\]#'
 
         # buggy
-        - '#Parameter \#2 \$items of method PhpCsFixer\\Tokenizer\\Tokens::insertAt\(\) expects \(iterable\(PhpCsFixer\\Tokenizer\\Token\[\]\)&PhpCsFixer\\Tokenizer\\Tokens\)\|PhpCsFixer\\Tokenizer\\Token, PhpCsFixer\\Tokenizer\\Token\[\] given#'
-        - '#Parameter \#3 \$items of method PhpCsFixer\\Tokenizer\\Tokens::overrideRange\(\) expects iterable\(PhpCsFixer\\Tokenizer\\Token\[\]\)&PhpCsFixer\\Tokenizer\\Tokens, PhpCsFixer\\Tokenizer\\Token\[\] given#'
         - '#Call to an undefined method PHP_CodeSniffer\\Sniffs\\Sniff|Symplify\\EasyCodingStandard\\Contract\\Application\\DualRunInterface::increaseRun\(\)#'
         - '#Symplify\\EasyCodingStandard\\Contract\\Application\\DualRunInterface#'
-        - '#Method Symplify\\EasyCodingStandard\\Finder\\FinderSanitizer::turnInfoSymfonyFileInfos\(\) should return Symfony\\Component\\Finder\\SplFileInfo\[\] but returns SplFileInfo\[\]#'
 
         # part of test
         - '#Parameter \#1 \$finder of method Symplify\\EasyCodingStandard\\Finder\\FinderSanitizer::sanitize\(\) expects Nette\\Utils\\Finder|Symfony\\Component\\Finder\\Finder, SplFileInfo\[\] given#'
 
         # 3rd party errors
         - '#Parameter \#1 \$container of class Symfony\\Component\\DependencyInjection\\Loader\\YamlFileLoader constructor expects Symfony\\Component\\DependencyInjection\\ContainerBuilder, Symfony\\Component\\DependencyInjection\\ContainerInterface given#'
+
+        # needed method args override
+        - '#Parameter \#2 \$type of method Symfony\\Component\\Config\\Loader\\LoaderInterface::load\(\) expects string\|null, array<int, string> given#'
+
+        # intersect/union buggy
+        - '#Parameter \#(2|3) \$items of method PhpCsFixer\\Tokenizer\\Tokens::(insertAt|overrideRange)\(\) expects (\()?iterable<PhpCsFixer\\Tokenizer\\Token>&PhpCsFixer\\Tokenizer\\Tokens(\))?(\|PhpCsFixer\\Tokenizer\\Token)?, array<(int, )?PhpCsFixer\\Tokenizer\\Token> given#'
 
     excludes_analyse:
         - *packages/CodingStandard/tests/**/correct*

@@ -21,7 +21,7 @@ final class FinalInterfaceFixer implements FixerInterface, DefinedFixerInterface
     /**
      * @var string
      */
-    private const ONLY_INTERFACES_OPTION = 'only_interfaces';
+    public const ONLY_INTERFACES_OPTION = 'only_interfaces';
 
     /**
      * @var mixed[]
@@ -49,7 +49,7 @@ class SomeClass implements SomeInterface {};'),
 
     public function isCandidate(Tokens $tokens): bool
     {
-        return $tokens->isAllTokenKindsFound([T_CLASS, T_IMPLEMENTS])
+        return $tokens->isAllTokenKindsFound([T_CLASS, T_STRING, T_IMPLEMENTS, '{', '}'])
             && ! $tokens->isTokenKindFound(T_FINAL);
     }
 

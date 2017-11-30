@@ -42,6 +42,11 @@ final class ClassWrapper
      */
     private $startIndex;
 
+    /**
+     * @var mixed[]
+     */
+    private $classyElements = [];
+
     private function __construct(Tokens $tokens, int $startIndex)
     {
         $this->classToken = $tokens[$startIndex];
@@ -65,7 +70,7 @@ final class ClassWrapper
      */
     public function getPropertiesAndConstants(): array
     {
-        return $this->filterClassyTokens($this->tokensAnalyzer->getClassyElements(), ['property', 'const']);
+        return $this->filterClassyTokens($this->getClassyElements(), ['property', 'const']);
     }
 
     public function getClassEnd(): int
@@ -78,7 +83,7 @@ final class ClassWrapper
      */
     public function getProperties(): array
     {
-        return $this->filterClassyTokens($this->tokensAnalyzer->getClassyElements(), ['property']);
+        return $this->filterClassyTokens($this->getClassyElements(), ['property']);
     }
 
     public function getLastPropertyPosition(): ?int
@@ -110,7 +115,7 @@ final class ClassWrapper
      */
     public function getMethods(): array
     {
-        return $this->filterClassyTokens($this->tokensAnalyzer->getClassyElements(), ['method']);
+        return $this->filterClassyTokens($this->getClassyElements(), ['method']);
     }
 
     public function renameEveryPropertyOccurrence(string $oldName, string $newName): void
@@ -279,5 +284,17 @@ final class ClassWrapper
         }
 
         return true;
+    }
+
+    /**
+     * @return mixed[]
+     */
+    private function getClassyElements(): array
+    {
+        if ($this->classyElements) {
+            return $this->classyElements;
+        }
+
+        return $this->classyElements = $this->tokensAnalyzer->getClassyElements();
     }
 }

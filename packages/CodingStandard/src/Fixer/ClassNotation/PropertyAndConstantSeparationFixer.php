@@ -15,8 +15,8 @@ use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use PhpCsFixer\WhitespacesFixerConfig;
-use ReflectionClass;
 use SplFileInfo;
+use Symplify\PackageBuilder\Reflection\PrivatesCaller;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\ClassWrapper;
 
 final class PropertyAndConstantSeparationFixer implements DefinedFixerInterface, WhitespacesAwareFixerInterface, ConfigurationDefinitionFixerInterface
@@ -99,7 +99,7 @@ class SomeClass
     }
 
     /**
-     * Same as @see \PhpCsFixer\Fixer\ClassNotation\MethodSeparationFixer::getPriority().
+     * Same as @see \PhpCsFixer\Fixer\ClassNotation\MethodSeparationFixer::getPriority()
      */
     public function getPriority(): int
     {
@@ -167,7 +167,7 @@ class SomeClass
      * Same as @see \PhpCsFixer\Fixer\ClassNotation\MethodSeparationFixer::fixSpaceBelowMethod().
      *
      * This is nasty solution to prevent BC breaks and include fixes from
-     * @see \PhpCsFixer\Fixer\ClassNotation\MethodSeparationFixer.
+     * @see \PhpCsFixer\Fixer\ClassNotation\MethodSeparationFixer
      *
      * Don't to this at home!
      */
@@ -180,19 +180,17 @@ class SomeClass
 
         $methodSeparationFixer = new MethodSeparationFixer();
         $methodSeparationFixer->setWhitespacesConfig($this->whitespacesFixerConfig);
-        $methodSeparationFixerClassReflection = new ReflectionClass(MethodSeparationFixer::class);
 
-        $correctLineBreaksMethodReflection = $methodSeparationFixerClassReflection->getMethod('correctLineBreaks');
-        $correctLineBreaksMethodReflection->setAccessible(true);
-
-        $arguments = [
-            $tokens,
-            $constantOrPropertyEnd,
-            $nextNotWhitePosition,
-            $nextNotWhitePosition === $classEnd ? $this->configuration[self::SPACE_COUNT_OPTION] : $this->configuration[self::SPACE_COUNT_OPTION] + 1,
-        ];
-
-        $correctLineBreaksMethodReflection->invoke($methodSeparationFixer, ...$arguments);
+        (new PrivatesCaller())->callPrivateMethod(
+            $methodSeparationFixer,
+            'correctLineBreaks',
+            ...[
+                $tokens,
+                $constantOrPropertyEnd,
+                $nextNotWhitePosition,
+                $nextNotWhitePosition === $classEnd ? $this->configuration[self::SPACE_COUNT_OPTION] : $this->configuration[self::SPACE_COUNT_OPTION] + 1,
+            ]
+        );
     }
 
     private function isCommentBehindSemicolon(Tokens $tokens, int $constantOrPropertyEnd): bool

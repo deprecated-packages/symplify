@@ -30,7 +30,7 @@ abstract class AbstractSniffTestCase extends TestCase
         $this->errorAndDiffCollector = $container->get(ErrorAndDiffCollector::class);
     }
 
-    protected function doTest(string $inputFile, string $expectedFile): void
+    protected function doTestWrongToFixedFile(string $inputFile, string $expectedFile): void
     {
         $result = $this->processFileWithChecker($inputFile);
 
