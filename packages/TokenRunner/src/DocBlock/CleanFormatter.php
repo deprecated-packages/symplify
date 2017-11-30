@@ -43,7 +43,8 @@ final class CleanFormatter implements Formatter
 
         if ($tag instanceof Param) {
             $original = ArrayResolver::resolveArrayType(
-                $this->originalContent, $tag->getType(),
+                $this->originalContent,
+                $tag->getType(),
                 'param',
                 $tag->getVariableName()
             );

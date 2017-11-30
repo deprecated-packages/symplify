@@ -12,11 +12,11 @@ parameters:
         # is valid code
         - '#Parameter \#2 \$searchIndex of method PhpCsFixer\\Tokenizer\\Tokens::findBlockEnd\(\) expects int, int\|null given#'
         - '#Property Symplify\\TokenRunner\\Wrapper\\FixerWrapper\\PropertyWrapper::\$visibilityPosition \(int\) does not accept int\|null#'
-        - '#Calling method getAnnotationsOfType\(\) on possibly null value of type PhpCsFixer\\DocBlock\\DocBlock\|null#'
         - '#Calling method getContent\(\) on possibly null value of type PhpCsFixer\\DocBlock\\DocBlock\|null#'
         - '#Property Symplify\\TokenRunner\\Wrapper\\FixerWrapper\\ClassWrapper::\$startBracketIndex \(int\) does not accept int\|null#'
         - '#Parameter \#2 \$position of static method Symplify\\TokenRunner\\Wrapper\\SnifferWrapper\\ClassWrapper::createFromFileAndPosition\(\) expects int, int\|true given#'
         - '#Method Symplify\\EasyCodingStandard\\Finder\\FinderSanitizer::turnInfoSymfonyFileInfos\(\) should return array<Symfony\\Component\\Finder\\SplFileInfo> but returns array<SplFileInfo>#'
+        - '#Parameter \#2 \$arrayType of static method Symplify\\TokenRunner\\DocBlock\\ArrayResolver::resolveArrayType\(\) expects phpDocumentor\\Reflection\\Types\\Array_, phpDocumentor\\Reflection\\Type(\|null)? given#'
 
         # Token Runner
         - '#Parameter \#2 \$docBlockPosition of static method Symplify\\TokenRunner\\Wrapper\\FixerWrapper\\DocBlockWrapper::createFromTokensPositionAndDocBlock\(\) expects int, int\|null given#'

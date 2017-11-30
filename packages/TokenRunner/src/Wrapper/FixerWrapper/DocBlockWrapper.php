@@ -117,6 +117,7 @@ final class DocBlockWrapper
 
     public function getReturnType(): ?string
     {
+        /** @var Return_[] $returnTags */
         $returnTags = $this->phpDocumentorDocBlock->getTagsByName('return');
         if (! $returnTags) {
             return null;
