@@ -42,7 +42,12 @@ final class CleanFormatter implements Formatter
         $original = 'array';
 
         if ($tag instanceof Param) {
-            $original = ArrayResolver::resolveArrayType($this->originalContent, $tag->getType(), 'param', $tag->getVariableName());
+            $original = ArrayResolver::resolveArrayType(
+                $this->originalContent,
+                $tag->getType(),
+                'param',
+                $tag->getVariableName()
+            );
         }
 
         if ($tag instanceof Return_) {
@@ -50,7 +55,7 @@ final class CleanFormatter implements Formatter
         }
 
         // possible mixed[] override
-        if ($original !== 'array' && $original !== 'array[]') {
+        if ($original !== 'array' && ) {
             $tagTypeAndDescription = substr_replace($tagTypeAndDescription, 'mixed[]', 0, strlen('array'));
         }
 
