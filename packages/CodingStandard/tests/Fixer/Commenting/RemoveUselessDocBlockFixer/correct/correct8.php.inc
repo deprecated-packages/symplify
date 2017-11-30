@@ -18,4 +18,18 @@ class SomeClass
     public function __construct(string $path, array $tokens): array
     {
     }
+
+    /**
+     * @return mixed[]|null
+     */
+    private static function matchArrayOrMixedAnnotation(): ?array
+    {
+    }
+
+    /**
+     * @param Container|ContainerInterface $container
+     */
+    public function anotherMehod(ContainerInterface $container)
+    {
+    }
 }
