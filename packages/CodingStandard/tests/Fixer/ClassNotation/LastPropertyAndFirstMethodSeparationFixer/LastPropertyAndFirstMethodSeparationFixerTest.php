@@ -10,35 +10,29 @@ use Symplify\TokenRunner\Testing\AbstractSimpleFixerTestCase;
 final class LastPropertyAndFirstMethodSeparationFixerTest extends AbstractSimpleFixerTestCase
 {
     /**
-     * @dataProvider provideFixCases()
+     * @dataProvider wrongToFixedCases()
      */
-    public function testFix(string $expected, string $input): void
+    public function test(string $wrongFile, string $fixedFile): void
     {
-        $this->doTest($expected, $input);
+        $this->doTestWrongToFixedFile($wrongFile, $fixedFile);
     }
 
     /**
      * @return string[][]
      */
-    public function provideFixCases(): array
+    public function wrongToFixedCases(): array
     {
         return [
-            # wrong => fixed
-            [__DIR__ . '/wrong/wrong.php.inc', __DIR__ . '/fixed/fixed.php.inc', ],
-            [__DIR__ . '/wrong/wrong2.php.inc', __DIR__ . '/fixed/fixed2.php.inc', ],
+            [__DIR__ . '/wrong/wrong.php.inc', __DIR__ . '/fixed/fixed.php.inc'],
+            [__DIR__ . '/wrong/wrong2.php.inc', __DIR__ . '/fixed/fixed2.php.inc'],
         ];
     }
 
     protected function createFixer(): FixerInterface
     {
         $fixer = new LastPropertyAndFirstMethodSeparationFixer();
-        $fixer->setWhitespacesConfig($this->createWhitespacesFixerConfig());
+        $fixer->setWhitespacesConfig(new WhitespacesFixerConfig('    ', PHP_EOL));
 
         return $fixer;
-    }
-
-    private function createWhitespacesFixerConfig(): WhitespacesFixerConfig
-    {
-        return new WhitespacesFixerConfig('    ', PHP_EOL);
     }
 }

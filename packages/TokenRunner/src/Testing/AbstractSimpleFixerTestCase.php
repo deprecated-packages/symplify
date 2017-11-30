@@ -4,15 +4,16 @@ namespace Symplify\TokenRunner\Testing;
 
 use PhpCsFixer\Tests\Test\AbstractFixerTestCase;
 use SplFileInfo;
+use Symplify\TokenRunner\Exception\Testing\UndesiredMethodException;
 
 abstract class AbstractSimpleFixerTestCase extends AbstractFixerTestCase
 {
     /**
      * File should contain 0 errors
      */
-    protected function doTestCorrectFile(string $file): void
+    protected function doTestCorrectFile(string $correctFile): void
     {
-        parent::doTest(file_get_contents($file), null, null);
+        parent::doTest(file_get_contents($correctFile), null, null);
     }
 
     protected function doTestWrongToFixedFile(string $wrongFile, string $fixedFile): void
@@ -30,6 +31,10 @@ abstract class AbstractSimpleFixerTestCase extends AbstractFixerTestCase
      */
     protected function doTest($expected, $input = null, ?SplFileInfo $file = null): void
     {
+        throw new UndesiredMethodException(sprintf(
+            'Do not use wide-range "%s()". Call more specfiic "doTestCorrectFile()" or "doTestWrongToFixedFile()".', __METHOD__
+        ));
+
         if ($input === null) {
             $expected = file_exists($expected) ? file_get_contents($expected) : $expected;
             parent::doTest($expected, $input, $file);
