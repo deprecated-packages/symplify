@@ -45,10 +45,12 @@ final class ArrayResolver
     /**
      * Matches:
      *
-     * - @_param array $propertyName
-     * - @_param mixed[] $propertyName
-     * - @_return array
-     * - @_return mixed[]
+     * - @{param} array $propertyName
+     * - @{param} mixed[] $propertyName
+     * - @{return} array
+     * - @{return} mixed[]
+     *
+     * @return mixed[]|null
      */
     private static function matchArrayOrMixedAnnotation(
         string $originalContent,
