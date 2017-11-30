@@ -47,6 +47,7 @@ final class PropertyWrapper
 
         $this->docBlockPosition = DocBlockFinder::findPreviousPosition($tokens, $index);
         $docBlockToken = DocBlockFinder::findPrevious($tokens, $index);
+
         if ($docBlockToken) {
             $this->docBlock = new DocBlock($docBlockToken->getContent());
         }

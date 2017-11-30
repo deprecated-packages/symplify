@@ -65,7 +65,9 @@ final class DocBlockWrapper
         }
 
         $docBlockFactory = DocBlockFactory::createInstance();
+
         $content = $token ? $token->getContent() : $docBlock->getContent();
+
         $this->phpDocumentorDocBlock = $docBlockFactory->create($content);
         $this->originalContent = $content;
     }

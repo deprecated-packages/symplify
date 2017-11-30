@@ -4,7 +4,13 @@ namespace Symplify\TokenRunner\DocBlock;
 
 use phpDocumentor\Reflection\DocBlock\Tag;
 use phpDocumentor\Reflection\DocBlock\Tags\Formatter;
+use phpDocumentor\Reflection\DocBlock\Tags\Param;
+use phpDocumentor\Reflection\DocBlock\Tags\Return_;
+use phpDocumentor\Reflection\Types\Array_;
 
+/**
+ * Keeps mixed[] as mixed[], not array
+ */
 final class CleanFormatter implements Formatter
 {
     /**
@@ -17,14 +23,19 @@ final class CleanFormatter implements Formatter
         $this->originalContent = $originalContent;
     }
 
-    // need original content
-
     public function format(Tag $tag): string
     {
-        dump($this->originalContent);
-        die;
+        $tagTypeAndDescription = ltrim((string) $tag, '\\');
 
-        // keep mixed[] as mixed[], not array
-        return trim('@' . $tag->getName() . ' ' . ltrim((string) $tag, '\\'));
+        if ($tag instanceof Param && $tag->getType() instanceof Array_) {
+            $original = ArrayResolver::resolveArrayType($this->originalContent, $tag->getType(), 'param', $tag->getVariableName());
+
+            // possible mixed[] override
+            if ($original !== 'array') {
+                $tagTypeAndDescription = substr_replace($tagTypeAndDescription, 'mixed[]', 0, strlen('array'));
+            }
+        }
+
+        return trim('@' . $tag->getName() . ' ' . $tagTypeAndDescription);
     }
 }

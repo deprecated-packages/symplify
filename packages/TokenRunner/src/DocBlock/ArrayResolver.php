@@ -2,7 +2,9 @@
 
 namespace Symplify\TokenRunner\DocBlock;
 
+use Nette\Utils\Strings;
 use phpDocumentor\Reflection\Types\Array_;
+use phpDocumentor\Reflection\Types\Mixed_;
 
 final class ArrayResolver
 {
