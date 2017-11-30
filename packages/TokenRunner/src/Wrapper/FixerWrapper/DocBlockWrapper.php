@@ -14,6 +14,7 @@ use phpDocumentor\Reflection\DocBlock\Tags\Return_;
 use phpDocumentor\Reflection\DocBlockFactory;
 use phpDocumentor\Reflection\Types\Array_;
 use phpDocumentor\Reflection\Types\Mixed_;
+use Symfony\Component\DependencyInjection\Tests\Compiler\D;
 use Symplify\TokenRunner\DocBlock\DocBlockSerializerFactory;
 use Symplify\TokenRunner\Guard\TokenTypeGuard;
 
@@ -118,6 +119,10 @@ final class DocBlockWrapper
             return null;
         }
 
+        if ($returnTags[0]->getType() instanceof Array_) {
+            return $this->resolveArrayType($returnTags[0]->getType(), 'return');
+        }
+
         return $this->clean((string) $returnTags[0]);
     }
 
@@ -139,14 +144,7 @@ final class DocBlockWrapper
             // distinguish array vs mixed[]
             // false value resolve, @see https://github.com/phpDocumentor/TypeResolver/pull/48
             if ($paramTag->getType() instanceof Array_) {
-                if ($paramTag->getType()->getValueType() instanceof Mixed_) {
-                    if ((bool) Strings::match($this->originalContent, sprintf('#array\s+\$%s#', $name))) {
-                        return 'array';
-                    }
-                    if ((bool) Strings::match($this->originalContent, sprintf('#mixed\[\]\s+\$%s#', $name))) {
-                        return 'mixed[]';
-                    }
-                }
+                return $this->resolveArrayType($paramTag->getType(), 'param', $name);
             }
 
             return $this->clean((string) $paramTag->getType());
@@ -274,5 +272,20 @@ final class DocBlockWrapper
             ->getDocComment($this->phpDocumentorDocBlock);
 
         $this->tokens[$this->docBlockPosition] = new Token([T_DOC_COMMENT, $docBlockContent]);
+    }
+
+    private function resolveArrayType(Array_ $arrayType, string $tagName, ?string $propertyName = null): string
+    {
+        if ($arrayType->getValueType() instanceof Mixed_) {
+            if ((bool) Strings::match($this->originalContent, sprintf('#@%s\s+array(\s+\$%s)?#', $tagName, $propertyName))) {
+                return 'array';
+            }
+
+            if ((bool) Strings::match($this->originalContent, sprintf('#@%s\s+mixed\[\](\s+\$%s)?#', $tagName, $propertyName))) {
+                return 'mixed[]';
+            }
+        }
+
+        return 'array';
     }
 }
