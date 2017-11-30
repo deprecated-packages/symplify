@@ -26,9 +26,6 @@ checkers:
             - Symplify\PackageBuilder\Reflection\PrivatesCaller
 
 parameters:
-    excluded_checkers:
-        - Symplify\CodingStandard\Fixer\Commenting\RemoveUselessDocBlockFixer
-
     skip:
         PHP_CodeSniffer\Standards\Generic\Sniffs\Files\LineLengthSniff:
             # many implemented interfaces
