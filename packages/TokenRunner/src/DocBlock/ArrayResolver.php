@@ -10,8 +10,12 @@ use phpDocumentor\Reflection\Types\String_;
 
 final class ArrayResolver
 {
-    public static function resolveArrayType(string $originalContent, Array_ $arrayType, string $tagName, ?string $propertyName = null): string
-    {
+    public static function resolveArrayType(
+        string $originalContent,
+        Array_ $arrayType,
+        string $tagName,
+        ?string $propertyName = null
+    ): string {
         if ($arrayType->getValueType() instanceof Mixed_) {
             $matched = self::matchArrayOrMixedAnnotation($originalContent, $tagName, $propertyName);
             if ($matched) {
