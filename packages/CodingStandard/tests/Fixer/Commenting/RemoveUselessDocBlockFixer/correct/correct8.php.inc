@@ -11,4 +11,11 @@ class SomeClass
     {
 
     }
+
+    /**
+     * @param array[] $tokens
+     */
+    public function __construct(string $path, array $tokens)
+    {
+    }
 }

@@ -5,6 +5,8 @@ namespace Symplify\TokenRunner\DocBlock;
 use Nette\Utils\Strings;
 use phpDocumentor\Reflection\Types\Array_;
 use phpDocumentor\Reflection\Types\Mixed_;
+use phpDocumentor\Reflection\Types\Object_;
+use phpDocumentor\Reflection\Types\String_;
 
 final class ArrayResolver
 {
@@ -15,6 +17,16 @@ final class ArrayResolver
             if ($matched) {
                 return $matched['type'];
             }
+        }
+
+        if ($arrayType->getValueType() instanceof Array_) {
+            return self::resolveArrayType($originalContent, $arrayType->getValueType(), $tagName, $propertyName);
+        }
+
+        if ($arrayType->getValueType() instanceof String_ ||
+            $arrayType->getValueType() instanceof Object_
+        ) {
+            return (string) $arrayType->getValueType() . '[]';
         }
 
         return 'array';
@@ -34,7 +46,7 @@ final class ArrayResolver
         string $tagName,
         ?string $propertyName = null
     ): ?array {
-        $mask = sprintf('@%s\s+(?<type>array|mixed\[\])', $tagName);
+        $mask = sprintf('@%s\s+(?<type>array\[\]|array|mixed\[\])', $tagName);
         if ($propertyName) {
             $mask .= sprintf('\s+\$%s', $propertyName);
         }

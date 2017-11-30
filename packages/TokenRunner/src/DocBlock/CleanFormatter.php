@@ -50,7 +50,7 @@ final class CleanFormatter implements Formatter
         }
 
         // possible mixed[] override
-        if ($original !== 'array') {
+        if ($original !== 'array' && $original !== 'array[]') {
             $tagTypeAndDescription = substr_replace($tagTypeAndDescription, 'mixed[]', 0, strlen('array'));
         }
 
