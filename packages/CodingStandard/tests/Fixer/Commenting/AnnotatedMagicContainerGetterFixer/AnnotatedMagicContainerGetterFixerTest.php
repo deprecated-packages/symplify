@@ -9,20 +9,19 @@ use Symplify\TokenRunner\Testing\AbstractSimpleFixerTestCase;
 final class AnnotatedMagicContainerGetterFixerTest extends AbstractSimpleFixerTestCase
 {
     /**
-     * @dataProvider provideFixCases()
+     * @dataProvider provideWrongToFixedCases()
      */
-    public function testFix(string $expected, string $input): void
+    public function testWrongToFixedCases(string $wrongFile, string $correctFile): void
     {
-        $this->doTest($expected, $input);
+        $this->doTestWrongToFixedFile($wrongFile, $correctFile);
     }
 
     /**
      * @return string[][]
      */
-    public function provideFixCases(): array
+    public function provideWrongToFixedCases(): array
     {
         return [
-            # wrong => fixed
             [__DIR__ . '/wrong/wrong.php.inc', __DIR__ . '/fixed/fixed.php.inc'],
             [__DIR__ . '/wrong/wrong2.php.inc', __DIR__ . '/fixed/fixed2.php.inc'],
             [__DIR__ . '/wrong/wrong3.php.inc', __DIR__ . '/fixed/fixed3.php.inc'],
