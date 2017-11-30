@@ -150,6 +150,11 @@ public function getCount(): int
                 continue;
             }
 
+            // is intersect type specification - keep it
+            if (Strings::contains($docBlockType, '|')) {
+                continue;
+            }
+
             $isDescriptionUseful = $this->isDescriptionUseful(
                 $argumentDescription,
                 $docBlockType,

@@ -26,6 +26,7 @@ final class ArrayResolver
             }
         }
 
+        // nested array
         if ($arrayType->getValueType() instanceof Array_) {
             return self::resolveArrayType($originalContent, $arrayType->getValueType(), $tagName, $propertyName);
         }

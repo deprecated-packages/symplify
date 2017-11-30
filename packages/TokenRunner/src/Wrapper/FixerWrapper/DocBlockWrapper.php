@@ -14,6 +14,7 @@ use phpDocumentor\Reflection\DocBlock\Tags\Return_;
 use phpDocumentor\Reflection\DocBlock\Tags\Var_;
 use phpDocumentor\Reflection\DocBlockFactory;
 use phpDocumentor\Reflection\Types\Array_;
+use phpDocumentor\Reflection\Types\Compound;
 use Symplify\TokenRunner\DocBlock\ArrayResolver;
 use Symplify\TokenRunner\DocBlock\DocBlockSerializerFactory;
 use Symplify\TokenRunner\Guard\TokenTypeGuard;
@@ -92,6 +93,7 @@ final class DocBlockWrapper
 
     public function isSingleLine(): bool
     {
+        // or substr_count($this->originalContent, PHP_EOL));
         return count($this->docBlock->getLines()) === 1;
     }
 
@@ -126,6 +128,19 @@ final class DocBlockWrapper
             return ArrayResolver::resolveArrayType($this->originalContent, $returnTags[0]->getType(), 'return');
         }
 
+        if ($returnTags[0]->getType() instanceof Compound) {
+            $types = [];
+            foreach ($returnTags[0]->getType()->getIterator() as $singleTag) {
+                if ($singleTag instanceof Array_) {
+                    $types[] = ArrayResolver::resolveArrayType($this->originalContent, $singleTag, 'return');
+                } else {
+                    $types[] = (string) $singleTag;
+                }
+            }
+
+            return implode('|', $types);
+        }
+
         return $this->clean((string) $returnTags[0]);
     }
 
@@ -148,6 +163,19 @@ final class DocBlockWrapper
             // false value resolve, @see https://github.com/phpDocumentor/TypeResolver/pull/48
             if ($paramTag->getType() instanceof Array_) {
                 return ArrayResolver::resolveArrayType($this->originalContent, $paramTag->getType(), 'param', $name);
+            }
+
+            if ($paramTag->getType() instanceof Compound) {
+                $types = [];
+                foreach ($paramTag->getType()->getIterator() as $singleTag) {
+                    if ($singleTag instanceof Array_) {
+                        $types[] = ArrayResolver::resolveArrayType($this->originalContent, $singleTag, 'param', $name);
+                    } else {
+                        $types[] = (string) $singleTag;
+                    }
+                }
+
+                return implode('|', $types);
             }
 
             return $this->clean((string) $paramTag->getType());
