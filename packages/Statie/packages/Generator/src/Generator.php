@@ -35,6 +35,8 @@ final class Generator
     {
         $items = $this->fileFinder->findInDirectory($generatorElement->getPath());
 
+        dump($generatorElement->getObject());
+
         dump($items);
         dump($generatorElement);
         die;

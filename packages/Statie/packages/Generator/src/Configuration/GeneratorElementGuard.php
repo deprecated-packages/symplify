@@ -36,5 +36,23 @@ final class GeneratorElementGuard
                 $key
             ));
         }
+
+        self::ensureObjectExists($key, $data['object']);
+    }
+
+    /**
+     * @param int|string $key
+     */
+    private static function ensureObjectExists($key, string $object): void
+    {
+        if (class_exists($object)) {
+            return;
+        }
+
+        throw new InvalidGeneratorElementDefinitionException(sprintf(
+            'Object class "%s" not found in "parameters > generators > %s".',
+            $object,
+            $key
+        ));
     }
 }
