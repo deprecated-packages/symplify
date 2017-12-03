@@ -33,26 +33,11 @@ final class RouteFileDecorator implements FileDecoratorInterface
 
     private function decorateFile(AbstractFile $file): void
     {
-
-        // index route
-
-//        public function matches(AbstractFile $file): bool
-//    {
-//        return $file->getBaseName() === 'index';
-//    }
-//
-//        public function buildOutputPath(AbstractFile $file): string
-//    {
-//        return 'index.html';
-//    }
-//
-//        public function buildRelativeUrl(AbstractFile $file): string
-//    {
-//        return '/';
-//    }
-//    }
-
-
+        if ($file->getBaseName() === 'index') {
+            $file->setOutputPath('index.html');
+            $file->setRelativeUrl('/');
+            return;
+        }
 
         // most of files
 //
@@ -68,7 +53,6 @@ final class RouteFileDecorator implements FileDecoratorInterface
 //        }
 //
 //        return $file->getBaseName() . '.' . $file->getPrimaryExtension();
-//    }
 //
 //        public function buildRelativeUrl(AbstractFile $file): string
 //    {
@@ -89,14 +73,14 @@ final class RouteFileDecorator implements FileDecoratorInterface
 
 //        return preg_replace('/:title/', $file->getFilenameWithoutDate(), $permalink);
 
-        foreach ($this->routes as $route) {
-            if ($route->matches($file)) {
-                $file->setOutputPath($route->buildOutputPath($file));
-                $file->setRelativeUrl($route->buildRelativeUrl($file));
-
-                return;
-            }
-        }
+//        foreach ($this->routes as $route) {
+//            if ($route->matches($file)) {
+//                $file->setOutputPath($route->buildOutputPath($file));
+//                $file->setRelativeUrl($route->buildRelativeUrl($file));
+//
+//                return;
+//            }
+//        }
 
         if (isset($file->getConfiguration()['outputPath'])) {
             $file->setOutputPath($file->getConfiguration()['outputPath']);
