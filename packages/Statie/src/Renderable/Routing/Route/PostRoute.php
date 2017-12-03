@@ -38,7 +38,6 @@ final class PostRoute implements RouteInterface
      */
     public function buildRelativeUrl(AbstractFile $file): string
     {
-        $permalink = $this->configuration->getPostRoute();
         $permalink = preg_replace('/:year/', $file->getDateInFormat('Y'), $permalink);
         $permalink = preg_replace('/:month/', $file->getDateInFormat('m'), $permalink);
         $permalink = preg_replace('/:day/', $file->getDateInFormat('d'), $permalink);

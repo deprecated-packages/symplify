@@ -39,10 +39,12 @@ final class GeneratorElement
     }
 
     /**
-     * @param string[] $configuration
+     * @param mixed[]|mixed $configuration
      */
-    public static function createFromConfiguration(array $configuration): self
+    public static function createFromConfiguration($configuration): self
     {
+        GeneratorElementGuard::ensureInputIsValid($configuration);
+
         return new self(
             $configuration['variable'],
             $configuration['path'],

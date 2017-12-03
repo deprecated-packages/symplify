@@ -4,3 +4,4 @@ services:
 
     Symplify\Statie\Generator\:
         resource: ../
+        exclude: ../{Configuration/GeneratorElementGuard.php}

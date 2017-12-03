@@ -25,7 +25,6 @@ final class RouteFileDecoratorTest extends AbstractContainerAwareTestCase
     {
         /** @var Configuration $configuration */
         $configuration = $this->container->get(Configuration::class);
-        $configuration->setPostRoute('blog/:title');
         $configuration->setSourceDirectory(__DIR__ . '/RouteFileDecoratorSource');
 
         $this->fileFactory = $this->container->get(FileFactory::class);
