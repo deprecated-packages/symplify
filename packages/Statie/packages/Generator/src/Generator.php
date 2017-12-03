@@ -64,7 +64,7 @@ final class Generator
 
     /**
      * @param SplFileInfo[] $fileInfos
-     * @param object[]
+     * @return object[]
      */
     private function createObjectsFromFileInfos(GeneratorElement $generatorElement, array $fileInfos): array
     {
