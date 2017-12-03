@@ -27,6 +27,14 @@ final class FileFinder
     /**
      * @return SplFileInfo[]
      */
+    public function findLatteLayoutsAndSnippets(string $directory): array
+    {
+        return $this->findInDirectoryByMask($directory, '_layouts,_snippets');
+    }
+
+    /**
+     * @return SplFileInfo[]
+     */
     public function findStaticFiles(string $directory): array
     {
         $staticFileMask = '*' . implode(',*', $this->staticFileExtensions);
@@ -37,12 +45,33 @@ final class FileFinder
     /**
      * @return SplFileInfo[]
      */
-    private function findInDirectoryByMask(string $sourceDirectory, string $mask): array
+    public function getRestOfRenderableFiles(string $directory): array
+    {
+        $finder = Finder::create()->files()
+            ->name('*.html,*.latte')
+            ->notName('_layout,_snippets')
+            ->in($directory);
+
+        return $this->getFilesFromFinder($finder);
+    }
+
+    /**
+     * @return SplFileInfo[]
+     */
+    private function findInDirectoryByMask(string $directory, string $mask): array
     {
         $finder = Finder::create()->files()
             ->name($mask)
-            ->in($sourceDirectory);
+            ->in($directory);
 
+        return $this->getFilesFromFinder($finder);
+    }
+
+    /**
+     * @return SplFileInfo[]
+     */
+    private function getFilesFromFinder(Finder $finder): array
+    {
         $files = [];
         foreach ($finder->getIterator() as $key => $file) {
             $files[$key] = $file;
