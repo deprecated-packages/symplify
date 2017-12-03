@@ -6,7 +6,7 @@ use SplFileInfo;
 use Symplify\Statie\Configuration\Configuration;
 use Symplify\Statie\Renderable\File\AbstractFile;
 use Symplify\Statie\Renderable\File\FileFactory;
-use Symplify\Statie\Renderable\Routing\RouteFileDecorator;
+use Symplify\Statie\Renderable\RouteFileDecorator;
 use Symplify\Statie\Tests\AbstractContainerAwareTestCase;
 
 final class RouteFileDecoratorTest extends AbstractContainerAwareTestCase

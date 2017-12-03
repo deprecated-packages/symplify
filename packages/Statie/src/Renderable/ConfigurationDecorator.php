@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\Statie\Renderable\Configuration;
+namespace Symplify\Statie\Renderable;
 
 use Nette\Neon\Exception;
 use Symplify\Statie\Configuration\Parser\NeonParser;

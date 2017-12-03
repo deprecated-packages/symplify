@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\Statie\Renderable\Markdown;
+namespace Symplify\Statie\Renderable;
 
 use Nette\Utils\Strings;
 use ParsedownExtra;

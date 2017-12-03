@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\Statie\Renderable\Routing;
+namespace Symplify\Statie\Renderable;
 
 use Symplify\Statie\Configuration\Configuration;
 use Symplify\Statie\Contract\Renderable\FileDecoratorInterface;
