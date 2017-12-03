@@ -34,8 +34,14 @@ final class GeneratorElement
      */
     private $object;
 
-    public function __construct(string $variable, string $variableGlobal, string $path, string $layout, string $routePrefix, string $object)
-    {
+    public function __construct(
+        string $variable,
+        string $variableGlobal,
+        string $path,
+        string $layout,
+        string $routePrefix,
+        string $object
+    ) {
         $this->variable = $variable;
         $this->variableGlobal = $variableGlobal;
         $this->path = $path;

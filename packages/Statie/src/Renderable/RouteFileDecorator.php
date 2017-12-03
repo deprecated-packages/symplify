@@ -5,7 +5,6 @@ namespace Symplify\Statie\Renderable;
 use Symplify\Statie\Configuration\Configuration;
 use Symplify\Statie\Contract\Renderable\FileDecoratorInterface;
 use Symplify\Statie\Generator\Configuration\GeneratorElement;
-use Symplify\Statie\Generator\Generator;
 use Symplify\Statie\Renderable\File\AbstractFile;
 use Symplify\Statie\Utils\PathNormalizer;
 
@@ -17,19 +16,13 @@ final class RouteFileDecorator implements FileDecoratorInterface
     private $configuration;
 
     /**
-     * @var Generator
-     */
-    private $generator;
-
-    /**
      * @var PathNormalizer
      */
     private $pathNormalizer;
 
-    public function __construct(Configuration $configuration, Generator $generator, PathNormalizer $pathNormalizer)
+    public function __construct(Configuration $configuration, PathNormalizer $pathNormalizer)
     {
         $this->configuration = $configuration;
-        $this->generator = $generator;
         $this->pathNormalizer = $pathNormalizer;
     }
 
