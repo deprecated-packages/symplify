@@ -1,9 +1,7 @@
 services:
     _defaults:
         autowire: true
-
-    Symfony\Component\Console\Application:
-        alias: Symplify\Statie\Console\Application
+        public: true # for statie.bin file
 
     ParsedownExtra:
         class: ParsedownExtra
@@ -11,3 +9,12 @@ services:
     Symplify\PackageBuilder\Parameter\ParameterProvider: ~
 
     GitWrapper\GitWrapper: ~
+
+    # Symfony Console
+    Symfony\Component\Console\Input\ArgvInput: ~
+    Symfony\Component\Console\Input\InputInterface:
+        alias: Symfony\Component\Console\Input\ArgvInput
+
+    Symfony\Component\Console\Output\ConsoleOutput: ~
+    Symfony\Component\Console\Output\OutputInterface:
+        alias: Symfony\Component\Console\Output\ConsoleOutput

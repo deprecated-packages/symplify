@@ -1,6 +1,8 @@
 <?php declare(strict_types=1);
 
 use Symfony\Component\Console\Input\ArgvInput;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 use Symplify\PackageBuilder\Configuration\ConfigFilePathHelper;
 use Symplify\PackageBuilder\Console\Style\SymfonyStyleFactory;
 use Symplify\Statie\Console\Application;
@@ -28,7 +30,11 @@ try {
     // 3. Run Console Application
     /** @var Application $application */
     $application = $container->get(Application::class);
-    exit($application->run());
+    /** @var InputInterface $input */
+    $input = $container->get(InputInterface::class);
+    /** @var OutputInterface $output */
+    $output = $container->get(OutputInterface::class);
+    exit($application->run($input, $output));
 } catch (Throwable $throwable) {
     $symfonyStyle = SymfonyStyleFactory::create();
     $symfonyStyle->error($throwable->getMessage());
