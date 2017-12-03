@@ -4,6 +4,7 @@ namespace Symplify\Statie\Renderable;
 
 use Symplify\Statie\Configuration\Configuration;
 use Symplify\Statie\Contract\Renderable\FileDecoratorInterface;
+use Symplify\Statie\Generator\Generator;
 use Symplify\Statie\Renderable\File\AbstractFile;
 
 final class RouteFileDecorator implements FileDecoratorInterface
@@ -13,9 +14,15 @@ final class RouteFileDecorator implements FileDecoratorInterface
      */
     private $configuration;
 
-    public function __construct(Configuration $configuration)
+    /**
+     * @var Generator
+     */
+    private $generator;
+
+    public function __construct(Configuration $configuration, Generator $generator)
     {
         $this->configuration = $configuration;
+        $this->generator = $generator;
     }
 
     /**
@@ -33,6 +40,13 @@ final class RouteFileDecorator implements FileDecoratorInterface
 
     private function decorateFile(AbstractFile $file): void
     {
+        // manual config override has preference
+        if (isset($file->getConfiguration()['outputPath'])) {
+            $file->setOutputPath($file->getConfiguration()['outputPath']);
+            $file->setRelativeUrl($file->getConfiguration()['outputPath']);
+            return;
+        }
+
         // index file
         if ($file->getBaseName() === 'index') {
             $file->setOutputPath('index.html');
@@ -51,6 +65,7 @@ final class RouteFileDecorator implements FileDecoratorInterface
             return;
         }
 
+
         // post, but make globally available for any type of post
         // return PathNormalizer::normalize($this->buildRelativeUrl($file) . '/index.html');
         //
@@ -60,11 +75,6 @@ final class RouteFileDecorator implements FileDecoratorInterface
 
 //        return preg_replace('/:title/', $file->getFilenameWithoutDate(), $permalink);
 
-        if (isset($file->getConfiguration()['outputPath'])) {
-            $file->setOutputPath($file->getConfiguration()['outputPath']);
-            $file->setRelativeUrl($file->getConfiguration()['outputPath']);
-            return;
-        }
 
         $relativeDirectory = $this->getRelativeDirectory($file);
         $relativeOutputDirectory = $relativeDirectory . DIRECTORY_SEPARATOR . $file->getBaseName();

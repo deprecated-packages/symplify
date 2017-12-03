@@ -52,7 +52,7 @@ final class MarkdownFileDecorator implements FileDecoratorInterface
 
     private function decorateHeadlinesWithTocAnchors(string $htmlContent): string
     {
-        return Strings::replace($htmlContent, '#<h([1-6])>(.*?)<\/h[1-6]>#', function ($result) {
+        return Strings::replace($htmlContent, '#<h([1-6])>(.*?)<\/h[1-6]>#', function (array $result) {
             [$original, $headlineLevel, $headline] = $result;
             $headlineId = Strings::webalize($headline);
 
@@ -76,7 +76,7 @@ final class MarkdownFileDecorator implements FileDecoratorInterface
             return;
         }
 
-        $markdownedPerexInParagraph = $this->parsedownExtra->parse($configuration['perex']);
+        $markdownedPerexInParagraph = $this->parsedownExtra->text($configuration['perex']);
 
         // remove <p></p>
         $markdownedPerex = substr($markdownedPerexInParagraph, 3, -4);
@@ -87,7 +87,7 @@ final class MarkdownFileDecorator implements FileDecoratorInterface
 
     private function decorateContent(AbstractFile $file): void
     {
-        $htmlContent = $this->parsedownExtra->parse($file->getContent());
+        $htmlContent = $this->parsedownExtra->text($file->getContent());
 
         if ($this->configuration->isMarkdownHeadlineAnchors()) {
             $htmlContent = $this->decorateHeadlinesWithTocAnchors($htmlContent);
