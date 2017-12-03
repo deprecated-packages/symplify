@@ -18,11 +18,6 @@ final class PathAnalyzer
      */
     private const NAME_PATTERN = '(?<name>[a-zA-Z0-9-_]*)';
 
-    public static function startsWithDate(SplFileInfo $fileInfo): bool
-    {
-        return (bool) preg_match('#' . self::DATE_PATTERN . '#', $fileInfo->getFilename(), $matches);
-    }
-
     public static function detectDate(SplFileInfo $fileInfo): DateTimeInterface
     {
         preg_match('#' . self::DATE_PATTERN . '#', $fileInfo->getFilename(), $matches);

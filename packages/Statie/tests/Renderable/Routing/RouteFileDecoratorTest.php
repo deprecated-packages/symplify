@@ -4,7 +4,6 @@ namespace Symplify\Statie\Tests\Renderable\Routing;
 
 use SplFileInfo;
 use Symplify\Statie\Configuration\Configuration;
-use Symplify\Statie\Generator\Configuration\GeneratorElement;
 use Symplify\Statie\Renderable\File\AbstractFile;
 use Symplify\Statie\Renderable\File\FileFactory;
 use Symplify\Statie\Renderable\RouteFileDecorator;
