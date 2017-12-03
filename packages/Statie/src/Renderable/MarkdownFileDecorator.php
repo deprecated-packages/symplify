@@ -6,6 +6,7 @@ use Nette\Utils\Strings;
 use ParsedownExtra;
 use Symplify\Statie\Configuration\Configuration;
 use Symplify\Statie\Contract\Renderable\FileDecoratorInterface;
+use Symplify\Statie\Generator\Configuration\GeneratorElement;
 use Symplify\Statie\Renderable\File\AbstractFile;
 
 final class MarkdownFileDecorator implements FileDecoratorInterface
@@ -37,6 +38,14 @@ final class MarkdownFileDecorator implements FileDecoratorInterface
         }
 
         return $files;
+    }
+
+    /**
+     * @param AbstractFile[] $files
+     * @return AbstractFile[]
+     */
+    public function decorateFilesWithGeneratorElement(array $files, GeneratorElement $generatorElement): array
+    {
     }
 
     private function decorateFile(AbstractFile $file): void

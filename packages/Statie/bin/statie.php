@@ -1,9 +1,9 @@
 <?php declare(strict_types=1);
 
-use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symplify\PackageBuilder\Configuration\ConfigFilePathHelper;
 use Symplify\PackageBuilder\Console\Style\SymfonyStyleFactory;
+use Symplify\Statie\Console\Application;
 use Symplify\Statie\DependencyInjection\ContainerFactory;
 
 // performance boost

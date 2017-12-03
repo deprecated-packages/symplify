@@ -3,7 +3,7 @@
 namespace Symplify\Statie\Github;
 
 use GitWrapper\GitWrapper;
-use Symplify\Statie\Utils\FilesystemChecker;
+use Symplify\Statie\FileSystem\FileSystemGuard;
 
 final class GithubPublishingProcess
 {
@@ -18,18 +18,18 @@ final class GithubPublishingProcess
     private const CONFIG_NAME = 'Travis';
 
     /**
-     * @var FilesystemChecker
+     * @var FilesystemGuard
      */
-    private $filesystemChecker;
+    private $fileSystemGuard;
 
     /**
      * @var GitWrapper
      */
     private $gitWrapper;
 
-    public function __construct(FilesystemChecker $filesystemChecker, GitWrapper $gitWrapper)
+    public function __construct(FileSystemGuard $fileSystemGuard, GitWrapper $gitWrapper)
     {
-        $this->filesystemChecker = $filesystemChecker;
+        $this->fileSystemGuard = $fileSystemGuard;
         $this->gitWrapper = $gitWrapper;
     }
 
@@ -38,7 +38,7 @@ final class GithubPublishingProcess
         string $githubRepository,
         string $branch
     ): void {
-        $this->filesystemChecker->ensureDirectoryExists($outputDirectory);
+        $this->fileSystemGuard->ensureDirectoryExists($outputDirectory);
 
         $git = $this->gitWrapper->init($outputDirectory);
 

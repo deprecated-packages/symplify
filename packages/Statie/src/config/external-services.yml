@@ -1,0 +1,13 @@
+services:
+    _defaults:
+        autowire: true
+
+    Symfony\Component\Console\Application:
+        alias: Symplify\Statie\Console\Application
+
+    ParsedownExtra:
+        class: ParsedownExtra
+
+    Symplify\PackageBuilder\Parameter\ParameterProvider: ~
+
+    GitWrapper\GitWrapper: ~

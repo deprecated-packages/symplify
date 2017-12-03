@@ -8,6 +8,7 @@ use Symplify\Statie\Contract\Renderable\FileDecoratorInterface;
 use Symplify\Statie\Exception\Latte\InvalidLatteSyntaxException;
 use Symplify\Statie\FlatWhite\Latte\DynamicStringLoader;
 use Symplify\Statie\FlatWhite\Latte\LatteRenderer;
+use Symplify\Statie\Generator\Configuration\GeneratorElement;
 use Symplify\Statie\Renderable\File\AbstractFile;
 use Symplify\Statie\Renderable\File\PostFile;
 
@@ -49,6 +50,16 @@ final class LatteFileDecorator implements FileDecoratorInterface
         }
 
         return $files;
+    }
+
+    /**
+     * @param AbstractFile[] $files
+     * @return AbstractFile[]
+     */
+    public function decorateFilesWithGeneratorElement(array $files, GeneratorElement $generatorElement): array
+    {
+        dump($files, $generatorElement);
+        die;
     }
 
     private function decorateFile(AbstractFile $file): void

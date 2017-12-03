@@ -1,5 +1,6 @@
 imports:
     - { resource: '../../packages/**/src/config/services.yml' }
+    - { resource: 'external-services.yml' }
 
 services:
     _defaults:
@@ -20,13 +21,3 @@ services:
             - ['addFileDecorator', ['@Symplify\Statie\Renderable\MarkdownFileDecorator']]
             - ['addFileDecorator', ['@Symplify\Statie\Renderable\LatteFileDecorator']]
             - ['addFileDecorator', ['@Symplify\Statie\Renderable\RouteFileDecorator']]
-
-    Symfony\Component\Console\Application:
-        alias: Symplify\Statie\Console\Application
-
-    ParsedownExtra:
-        class: ParsedownExtra
-
-    Symplify\PackageBuilder\Parameter\ParameterProvider: ~
-
-    GitWrapper\GitWrapper: ~

@@ -6,6 +6,7 @@ use Nette\Neon\Exception;
 use Symplify\Statie\Configuration\Parser\NeonParser;
 use Symplify\Statie\Contract\Renderable\FileDecoratorInterface;
 use Symplify\Statie\Exception\Neon\InvalidNeonSyntaxException;
+use Symplify\Statie\Generator\Configuration\GeneratorElement;
 use Symplify\Statie\Renderable\File\AbstractFile;
 
 final class ConfigurationDecorator implements FileDecoratorInterface
@@ -56,5 +57,14 @@ final class ConfigurationDecorator implements FileDecoratorInterface
 
             $file->addConfiguration($configuration);
         }
+    }
+
+    /**
+     * @param AbstractFile[] $files
+     * @return AbstractFile[]
+     */
+    public function decorateFilesWithGeneratorElement(array $files, GeneratorElement $generatorElement): array
+    {
+        // TODO: Implement decorateFilesWithGeneratorElement() method.
     }
 }

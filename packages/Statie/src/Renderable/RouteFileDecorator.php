@@ -4,6 +4,7 @@ namespace Symplify\Statie\Renderable;
 
 use Symplify\Statie\Configuration\Configuration;
 use Symplify\Statie\Contract\Renderable\FileDecoratorInterface;
+use Symplify\Statie\Generator\Configuration\GeneratorElement;
 use Symplify\Statie\Generator\Generator;
 use Symplify\Statie\Renderable\File\AbstractFile;
 
@@ -38,6 +39,28 @@ final class RouteFileDecorator implements FileDecoratorInterface
         return $files;
     }
 
+
+
+    /**
+     * @param AbstractFile[] $files
+     * @return AbstractFile[]
+     */
+    public function decorateFilesWithGeneratorElement(array $files, GeneratorElement $generatorElement): array
+    {
+        dump($files, $generatorElement);
+
+        // post, but make globally available for any type of post
+        // return PathNormalizer::normalize($this->buildRelativeUrl($file) . '/index.html');
+        //
+//        $permalink = preg_replace('/:year/', $file->getDateInFormat('Y'), $permalink);
+//        $permalink = preg_replace('/:month/', $file->getDateInFormat('m'), $permalink);
+//        $permalink = preg_replace('/:day/', $file->getDateInFormat('d'), $permalink);
+
+//        return preg_replace('/:title/', $file->getFilenameWithoutDate(), $permalink);
+
+        // TODO: Implement decorateFilesWithGeneratorElement() method.
+    }
+
     private function decorateFile(AbstractFile $file): void
     {
         // manual config override has preference
@@ -64,17 +87,6 @@ final class RouteFileDecorator implements FileDecoratorInterface
             $file->setRelativeUrl($outputPath);
             return;
         }
-
-
-        // post, but make globally available for any type of post
-        // return PathNormalizer::normalize($this->buildRelativeUrl($file) . '/index.html');
-        //
-//        $permalink = preg_replace('/:year/', $file->getDateInFormat('Y'), $permalink);
-//        $permalink = preg_replace('/:month/', $file->getDateInFormat('m'), $permalink);
-//        $permalink = preg_replace('/:day/', $file->getDateInFormat('d'), $permalink);
-
-//        return preg_replace('/:title/', $file->getFilenameWithoutDate(), $permalink);
-
 
         $relativeDirectory = $this->getRelativeDirectory($file);
         $relativeOutputDirectory = $relativeDirectory . DIRECTORY_SEPARATOR . $file->getBaseName();

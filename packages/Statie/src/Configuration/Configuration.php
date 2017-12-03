@@ -4,7 +4,7 @@ namespace Symplify\Statie\Configuration;
 
 use Symplify\PackageBuilder\Parameter\ParameterProvider;
 use Symplify\Statie\Exception\Configuration\MissingGithubRepositorySlugException;
-use Symplify\Statie\Utils\FilesystemChecker;
+use Symplify\Statie\FileSystem\FileSystemGuard;
 
 final class Configuration
 {
@@ -34,20 +34,20 @@ final class Configuration
     private $outputDirectory;
 
     /**
-     * @var FilesystemChecker
+     * @var FileSystemGuard
      */
-    private $filesystemChecker;
+    private $fileSystemGuard;
 
-    public function __construct(ParameterProvider $parameterProvider, FilesystemChecker $filesystemChecker)
+    public function __construct(ParameterProvider $parameterProvider, FileSystemGuard $fileSystemGuard)
     {
         $this->options += $parameterProvider->provide();
-        $this->filesystemChecker = $filesystemChecker;
+        $this->fileSystemGuard = $fileSystemGuard;
     }
 
     public function setSourceDirectory(string $sourceDirectory): void
     {
         $sourceDirectory = rtrim($sourceDirectory, '/');
-        $this->filesystemChecker->ensureDirectoryExists($sourceDirectory);
+        $this->fileSystemGuard->ensureDirectoryExists($sourceDirectory);
         $this->sourceDirectory = $sourceDirectory;
     }
 
