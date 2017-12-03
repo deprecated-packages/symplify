@@ -2,7 +2,9 @@
 
 namespace Symplify\Statie\Renderable\File;
 
+use DateTimeInterface;
 use SplFileInfo;
+use Symplify\Statie\Utils\PathAnalyzer;
 
 abstract class AbstractFile
 {
@@ -36,12 +38,26 @@ abstract class AbstractFile
      */
     private $filePath;
 
+    /**
+     * @var DateTimeInterface|null
+     */
+    private $dateTime;
+
+    /**
+     * @var string
+     */
+    private $filenameWithoutDate;
+
     public function __construct(SplFileInfo $fileInfo, string $relativeSource, string $filePath)
     {
         $this->relativeSource = $relativeSource;
         $this->fileInfo = $fileInfo;
         $this->filePath = $filePath;
         $this->content = file_get_contents($fileInfo->getRealPath());
+
+        // optional values
+        $this->dateTime = PathAnalyzer::detectDate($fileInfo);
+        $this->filenameWithoutDate = PathAnalyzer::detectFilenameWithoutDate($fileInfo);
     }
 
     public function getFilePath(): string
@@ -127,8 +143,33 @@ abstract class AbstractFile
         return $this->configuration;
     }
 
-    public function getLayout(): string
+    /**
+     * Get single option from configuration
+     *
+     * @return mixed|null
+     */
+    public function getOption(string $name)
     {
-        return $this->configuration['layout'] ?? '';
+        return $this->configuration[$name] ?? null;
+    }
+
+    public function getLayout(): ?string
+    {
+        return $this->configuration['layout'] ?? null;
+    }
+
+    public function getDate(): DateTimeInterface
+    {
+        return $this->dateTime;
+    }
+
+    public function getDateInFormat(string $format): string
+    {
+        return $this->dateTime->format($format);
+    }
+
+    public function getFilenameWithoutDate(): string
+    {
+        return $this->filenameWithoutDate;
     }
 }

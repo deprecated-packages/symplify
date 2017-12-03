@@ -7,9 +7,7 @@ use DateTimeInterface;
 use Nette\Utils\ObjectMixin;
 use SplFileInfo;
 use Symplify\Statie\Exception\Renderable\File\AccessKeyNotAvailableException;
-use Symplify\Statie\Exception\Renderable\File\MissingDateInFileNameException;
 use Symplify\Statie\Exception\Renderable\File\UnsupportedMethodException;
-use Symplify\Statie\Utils\PathAnalyzer;
 
 final class PostFile extends AbstractFile implements ArrayAccess
 {
@@ -24,16 +22,6 @@ final class PostFile extends AbstractFile implements ArrayAccess
     private const RELATED_POSTS = 'related_posts';
 
     /**
-     * @var DateTimeInterface
-     */
-    private $dateTime;
-
-    /**
-     * @var string
-     */
-    private $filenameWithoutDate;
-
-    /**
      * @var int
      */
     private $wordCount;
@@ -41,11 +29,6 @@ final class PostFile extends AbstractFile implements ArrayAccess
     public function __construct(SplFileInfo $fileInfo, string $relativeSource, string $filePath)
     {
         parent::__construct($fileInfo, $relativeSource, $filePath);
-
-        $this->ensurePathStartsWithDate($fileInfo);
-
-        $this->dateTime = PathAnalyzer::detectDate($fileInfo);
-        $this->filenameWithoutDate = PathAnalyzer::detectFilenameWithoutDate($fileInfo);
 
         $rawContent = file_get_contents($fileInfo->getRealPath());
         $this->wordCount = substr_count($rawContent, ' ') + 1;
@@ -62,21 +45,6 @@ final class PostFile extends AbstractFile implements ArrayAccess
     public function getRelatedPostIds(): array
     {
         return $this->getConfiguration()[self::RELATED_POSTS] ?? [];
-    }
-
-    public function getDate(): DateTimeInterface
-    {
-        return $this->dateTime;
-    }
-
-    public function getDateInFormat(string $format): string
-    {
-        return $this->dateTime->format($format);
-    }
-
-    public function getFilenameWithoutDate(): string
-    {
-        return $this->filenameWithoutDate;
     }
 
     public function getReadingTimeInMinutes(): int
@@ -129,37 +97,29 @@ final class PostFile extends AbstractFile implements ArrayAccess
         throw new UnsupportedMethodException(__METHOD__ . ' is not supported');
     }
 
-    private function ensurePathStartsWithDate(SplFileInfo $fileInfo): void
-    {
-        if (! PathAnalyzer::startsWithDate($fileInfo)) {
-            throw new MissingDateInFileNameException(sprintf(
-                'Post file "%s" name has to start with a date in "Y-m-d" format. E.g. "2016-01-01-name.md".',
-                $fileInfo->getFilename()
-            ));
-        }
-    }
-
     /**
      * @param mixed $offset
      */
     private function ensureAccessExistingKey($offset): void
     {
-        if (! isset($this->configuration[$offset])) {
-            $availableKeys = array_keys($this->configuration);
-            $suggestion = ObjectMixin::getSuggestion($availableKeys, $offset);
-
-            if ($suggestion) {
-                $help = sprintf('Did you mean "%s"?', $suggestion);
-            } else {
-                $help = sprintf('Available keys are: "%s".', implode('", "', $availableKeys));
-            }
-
-            throw new AccessKeyNotAvailableException(sprintf(
-                'Value "%s" was not found for "%s" object. %s',
-                $offset,
-                __CLASS__,
-                $help
-            ));
+        if (isset($this->configuration[$offset])) {
+            return;
         }
+
+        $availableKeys = array_keys($this->configuration);
+        $suggestion = ObjectMixin::getSuggestion($availableKeys, $offset);
+
+        if ($suggestion) {
+            $help = sprintf('Did you mean "%s"?', $suggestion);
+        } else {
+            $help = sprintf('Available keys are: "%s".', implode('", "', $availableKeys));
+        }
+
+        throw new AccessKeyNotAvailableException(sprintf(
+            'Value "%s" was not found for "%s" object. %s',
+            $offset,
+            __CLASS__,
+            $help
+        ));
     }
 }
