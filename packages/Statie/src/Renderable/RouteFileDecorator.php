@@ -7,6 +7,7 @@ use Symplify\Statie\Contract\Renderable\FileDecoratorInterface;
 use Symplify\Statie\Generator\Configuration\GeneratorElement;
 use Symplify\Statie\Generator\Generator;
 use Symplify\Statie\Renderable\File\AbstractFile;
+use Symplify\Statie\Utils\PathNormalizer;
 
 final class RouteFileDecorator implements FileDecoratorInterface
 {
@@ -20,10 +21,16 @@ final class RouteFileDecorator implements FileDecoratorInterface
      */
     private $generator;
 
-    public function __construct(Configuration $configuration, Generator $generator)
+    /**
+     * @var PathNormalizer
+     */
+    private $pathNormalizer;
+
+    public function __construct(Configuration $configuration, Generator $generator, PathNormalizer $pathNormalizer)
     {
         $this->configuration = $configuration;
         $this->generator = $generator;
+        $this->pathNormalizer = $pathNormalizer;
     }
 
     /**
@@ -39,34 +46,12 @@ final class RouteFileDecorator implements FileDecoratorInterface
         return $files;
     }
 
-
-
-    /**
-     * @param AbstractFile[] $files
-     * @return AbstractFile[]
-     */
-    public function decorateFilesWithGeneratorElement(array $files, GeneratorElement $generatorElement): array
-    {
-        dump($files, $generatorElement);
-
-        // post, but make globally available for any type of post
-        // return PathNormalizer::normalize($this->buildRelativeUrl($file) . '/index.html');
-        //
-//        $permalink = preg_replace('/:year/', $file->getDateInFormat('Y'), $permalink);
-//        $permalink = preg_replace('/:month/', $file->getDateInFormat('m'), $permalink);
-//        $permalink = preg_replace('/:day/', $file->getDateInFormat('d'), $permalink);
-
-//        return preg_replace('/:title/', $file->getFilenameWithoutDate(), $permalink);
-
-        // TODO: Implement decorateFilesWithGeneratorElement() method.
-    }
-
     private function decorateFile(AbstractFile $file): void
     {
         // manual config override has preference
-        if (isset($file->getConfiguration()['outputPath'])) {
-            $file->setOutputPath($file->getConfiguration()['outputPath']);
-            $file->setRelativeUrl($file->getConfiguration()['outputPath']);
+        if ($file->getOption('outputPath')) {
+            $file->setOutputPath((string) $file->getOption('outputPath'));
+            $file->setRelativeUrl((string) $file->getOption('outputPath'));
             return;
         }
 
@@ -88,12 +73,39 @@ final class RouteFileDecorator implements FileDecoratorInterface
             return;
         }
 
+        // fallback
         $relativeDirectory = $this->getRelativeDirectory($file);
         $relativeOutputDirectory = $relativeDirectory . DIRECTORY_SEPARATOR . $file->getBaseName();
         $outputPath = $relativeOutputDirectory . DIRECTORY_SEPARATOR . 'index.html';
 
         $file->setOutputPath($outputPath);
         $file->setRelativeUrl($relativeDirectory . DIRECTORY_SEPARATOR . $file->getBaseName());
+    }
+
+    /**
+     * @param AbstractFile[] $files
+     * @return AbstractFile[]
+     */
+    public function decorateFilesWithGeneratorElement(array $files, GeneratorElement $generatorElement): array
+    {
+        foreach ($files as $file) {
+            $outputPath = $generatorElement->getRoutePrefix() . DIRECTORY_SEPARATOR;
+
+            // if the date is part of file name, it is part of the output path
+            if ($file->getDate()) {
+                $outputPath .= $file->getDateInFormat('Y') . DIRECTORY_SEPARATOR;
+                $outputPath .= $file->getDateInFormat('m') . DIRECTORY_SEPARATOR;
+                $outputPath .= $file->getDateInFormat('d') . DIRECTORY_SEPARATOR;
+            }
+
+            $outputPath .= $file->getFilenameWithoutDate();
+            $outputPath = $this->pathNormalizer->normalize($outputPath);
+
+            $file->setRelativeUrl($outputPath);
+            $file->setOutputPath($outputPath . DIRECTORY_SEPARATOR . 'index.html');
+        }
+
+        return $files;
     }
 
     private function getRelativeDirectory(AbstractFile $file): string
