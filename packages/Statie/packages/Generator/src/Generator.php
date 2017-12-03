@@ -2,6 +2,7 @@
 
 namespace Symplify\Statie\Generator;
 
+use SplFileInfo;
 use Symplify\Statie\Configuration\Configuration;
 use Symplify\Statie\FileSystem\FileFinder;
 use Symplify\Statie\Generator\Configuration\GeneratorConfiguration;
@@ -49,6 +50,24 @@ final class Generator
             return;
         }
 
+        // process to objects
+        $objects = $this->createObjectsFromFileInfos($generatorElement, $fileInfos);
+
+        // save them to property
+        $this->configuration->addOption($generatorElement->getVariable(), $objects);
+
+        // run them throught decorator
+        // @todo
+
+        // render them
+    }
+
+    /**
+     * @param SplFileInfo[] $fileInfos
+     * @param object[]
+     */
+    private function createObjectsFromFileInfos(GeneratorElement $generatorElement, array $fileInfos): array
+    {
         $objects = [];
 
         foreach ($fileInfos as $fileInfo) {
@@ -56,18 +75,10 @@ final class Generator
             $relativeSource = ltrim($relativeSource, DIRECTORY_SEPARATOR);
 
             $class = $generatorElement->getObject();
+
             $objects[] = new $class($fileInfo, $relativeSource, $fileInfo->getPathname());
         }
 
-        dump($objects);
-
-        // process to objects
-        dump($generatorElement->getObject());
-        dump($fileInfos);
-//        dump($generatorElement);
-        die;
-
-        // save them to property
-        // render them
+        return $objects;
     }
 }
