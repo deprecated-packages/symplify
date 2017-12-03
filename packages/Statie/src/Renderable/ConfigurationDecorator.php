@@ -34,6 +34,15 @@ final class ConfigurationDecorator implements FileDecoratorInterface
         return $files;
     }
 
+    /**
+     * @param AbstractFile[] $files
+     * @return AbstractFile[]
+     */
+    public function decorateFilesWithGeneratorElement(array $files, GeneratorElement $generatorElement): array
+    {
+        return $this->decorateFiles($files);
+    }
+
     private function decorateFile(AbstractFile $file): void
     {
         if (preg_match('/^\s*(?:---[\s]*[\r\n]+)(.*?)(?:---[\s]*[\r\n]+)(.*?)$/s', $file->getContent(), $matches)) {
@@ -57,14 +66,5 @@ final class ConfigurationDecorator implements FileDecoratorInterface
 
             $file->addConfiguration($configuration);
         }
-    }
-
-    /**
-     * @param AbstractFile[] $files
-     * @return AbstractFile[]
-     */
-    public function decorateFilesWithGeneratorElement(array $files, GeneratorElement $generatorElement): array
-    {
-        // TODO: Implement decorateFilesWithGeneratorElement() method.
     }
 }

@@ -38,14 +38,6 @@ final class RenderableFilesProcessor
     }
 
     /**
-     * @param AbstractFile[] $objects
-     */
-    public function processGeneratorElementObjects(array $objects, GeneratorElement $generatorElement): void
-    {
-        dump($generatorElement->getRoutePrefix());
-    }
-
-    /**
      * @param SplFileInfo[] $fileInfos
      */
     public function processFileInfos(array $fileInfos): void
@@ -55,19 +47,26 @@ final class RenderableFilesProcessor
         }
 
         $files = $this->fileFactory->createFromFileInfos($fileInfos);
-
-        $this->processFileObjects($files);
-    }
-
-    /**
-     * @param AbstractFile[] $files
-     */
-    private function processFileObjects(array $files): void
-    {
         foreach ($this->fileDecorators as $fileDecorator) {
             $files = $fileDecorator->decorateFiles($files);
         }
 
         $this->fileSystemWriter->copyRenderableFiles($files);
+    }
+
+    /**
+     * @param AbstractFile[] $objects
+     */
+    public function processGeneratorElementObjects(array $objects, GeneratorElement $generatorElement): void
+    {
+        if (! count($objects)) {
+            return;
+        }
+
+        foreach ($this->fileDecorators as $fileDecorator) {
+            $objects = $fileDecorator->decorateFilesWithGeneratorElement($objects, $generatorElement);
+        }
+
+        $this->fileSystemWriter->copyRenderableFiles($objects);
     }
 }

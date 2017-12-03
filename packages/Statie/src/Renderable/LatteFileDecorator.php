@@ -58,8 +58,11 @@ final class LatteFileDecorator implements FileDecoratorInterface
      */
     public function decorateFilesWithGeneratorElement(array $files, GeneratorElement $generatorElement): array
     {
-        dump($files, $generatorElement);
-        die;
+        foreach ($files as $file) {
+            $this->decorateFileWithGeneratorElements($file, $generatorElement);
+        }
+
+        return $files;
     }
 
     private function decorateFile(AbstractFile $file): void
@@ -67,37 +70,35 @@ final class LatteFileDecorator implements FileDecoratorInterface
         $options = $this->configuration->getOptions();
 
         $parameters = $file->getConfiguration() + $options + [
-            'posts' => $options['posts'] ?? [],
-            'file' => $file,
+            'file' => $file
         ];
 
-        if ($file instanceof PostFile) {
-            $parameters['post'] = $file;
+        $htmlContent = $this->renderOuterWithLayout($file, $parameters);
+        $file->changeContent($htmlContent);
+    }
 
-            // add layout, "post" by default
-            $layout = $file->getLayout() ?: 'post';
-            $file->changeContent(sprintf('{layout "%s"}', $layout) . PHP_EOL . $file->getContent());
-            $this->addTemplateToDynamicLatteStringLoader($file);
+    private function decorateFileWithGeneratorElements(AbstractFile $file, GeneratorElement $generatorElement): void
+    {
+        $parameters[$generatorElement->getVariable()] = $file;
 
-            $htmlContent = $this->renderToString($file, $parameters);
+        // add layout, "post" by default
+        $layout = $generatorElement->getLayout();
 
-            // trim {layout %s} left over
-            $htmlContent = preg_replace('/{layout "[a-z]+"}/', '', $htmlContent);
+        $file->changeContent(sprintf('{layout "%s"}', $layout) . PHP_EOL . $file->getContent());
 
-            $file->changeContent($htmlContent);
-        } else {
-            // normal file
-            $htmlContent = $this->renderOuterWithLayout($file, $parameters);
-            $file->changeContent($htmlContent);
-        }
+        $this->addTemplateToDynamicLatteStringLoader($file);
+
+        $htmlContent = $this->renderToString($file, $parameters);
+
+        // trim {layout %s} left over
+        $htmlContent = preg_replace('/{layout "[a-z]+"}/', '', $htmlContent);
+
+        $file->changeContent($htmlContent);
     }
 
     private function addTemplateToDynamicLatteStringLoader(AbstractFile $file): void
     {
-        $this->dynamicStringLoader->changeContent(
-            $file->getBaseName(),
-            $file->getContent()
-        );
+        $this->dynamicStringLoader->changeContent($file->getBaseName(), $file->getContent());
     }
 
     private function prependLayoutToFileContent(AbstractFile $file): void

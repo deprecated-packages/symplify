@@ -46,6 +46,7 @@ final class MarkdownFileDecorator implements FileDecoratorInterface
      */
     public function decorateFilesWithGeneratorElement(array $files, GeneratorElement $generatorElement): array
     {
+        return $this->decorateFiles($files);
     }
 
     private function decorateFile(AbstractFile $file): void

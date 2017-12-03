@@ -4,7 +4,7 @@ namespace Symplify\Statie\Tests\Renderable\Configuration;
 
 use SplFileInfo;
 use Symplify\Statie\Exception\Neon\InvalidNeonSyntaxException;
-use Symplify\Statie\Renderable\Configuration\ConfigurationDecorator;
+use Symplify\Statie\Renderable\ConfigurationDecorator;
 use Symplify\Statie\Renderable\File\FileFactory;
 use Symplify\Statie\Tests\AbstractContainerAwareTestCase;
 
