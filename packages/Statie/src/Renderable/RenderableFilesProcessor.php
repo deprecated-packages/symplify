@@ -5,6 +5,7 @@ namespace Symplify\Statie\Renderable;
 use SplFileInfo;
 use Symplify\Statie\Contract\Renderable\FileDecoratorInterface;
 use Symplify\Statie\FileSystem\FileSystemWriter;
+use Symplify\Statie\Renderable\File\AbstractFile;
 use Symplify\Statie\Renderable\File\FileFactory;
 
 final class RenderableFilesProcessor
@@ -24,10 +25,8 @@ final class RenderableFilesProcessor
      */
     private $fileDecorators = [];
 
-    public function __construct(
-        FileFactory $fileFactory,
-        FileSystemWriter $fileSystemWriter
-    ) {
+    public function __construct(FileFactory $fileFactory, FileSystemWriter $fileSystemWriter)
+    {
         $this->fileFactory = $fileFactory;
         $this->fileSystemWriter = $fileSystemWriter;
     }
@@ -40,7 +39,7 @@ final class RenderableFilesProcessor
     /**
      * @param SplFileInfo[] $fileInfos
      */
-    public function processFiles(array $fileInfos): void
+    public function processFileInfos(array $fileInfos): void
     {
         if (! count($fileInfos)) {
             return;
@@ -48,6 +47,14 @@ final class RenderableFilesProcessor
 
         $files = $this->fileFactory->createFromFileInfos($fileInfos);
 
+        $this->processFileObjects($files);
+    }
+
+    /**
+     * @param AbstractFile[] $files
+     */
+    public function processFileObjects(array $files): void
+    {
         foreach ($this->getFileDecorators() as $fileDecorator) {
             $files = $fileDecorator->decorateFiles($files);
         }

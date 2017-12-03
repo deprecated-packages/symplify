@@ -7,6 +7,7 @@ use Symplify\Statie\Configuration\Configuration;
 use Symplify\Statie\FileSystem\FileFinder;
 use Symplify\Statie\Generator\Configuration\GeneratorConfiguration;
 use Symplify\Statie\Generator\Configuration\GeneratorElement;
+use Symplify\Statie\Renderable\RenderableFilesProcessor;
 
 final class Generator
 {
@@ -24,15 +25,21 @@ final class Generator
      * @var Configuration
      */
     private $configuration;
+    /**
+     * @var RenderableFilesProcessor
+     */
+    private $renderableFilesProcessor;
 
     public function __construct(
         GeneratorConfiguration $generatorConfiguration,
         FileFinder $fileFinder,
-        Configuration $configuration
+        Configuration $configuration,
+        RenderableFilesProcessor $renderableFilesProcessor
     ) {
         $this->generatorConfiguration = $generatorConfiguration;
         $this->fileFinder = $fileFinder;
         $this->configuration = $configuration;
+        $this->renderableFilesProcessor = $renderableFilesProcessor;
     }
 
     public function run(): void
@@ -56,10 +63,8 @@ final class Generator
         // save them to property
         $this->configuration->addOption($generatorElement->getVariable(), $objects);
 
-        // run them throught decorator
-        // @todo
-
-        // render them
+        // run them through decorator and render them
+        $this->renderableFilesProcessor->processFileObjects($objects);
     }
 
     /**
