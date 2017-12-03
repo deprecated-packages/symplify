@@ -32,15 +32,6 @@ final class ConfigurationDecorator implements FileDecoratorInterface
 
         return $files;
     }
-    /**
-     * Higher priorities are executed first.
-     *
-     *
-     */
-    public function getPriority(): int
-    {
-        return 1000;
-    }
 
     private function decorateFile(AbstractFile $file): void
     {
