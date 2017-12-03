@@ -66,7 +66,11 @@ final class FileFinder
     {
         $finder = Finder::create()->files()
             ->name($mask)
-            ->in($directory);
+            ->in($directory)
+            // sort by name descending
+            ->sort(function (SplFileInfo $firstFileInfo, SplFileInfo $secondFileInfo) {
+                return strcmp($secondFileInfo->getRealpath(), $firstFileInfo->getRealpath());
+            });
 
         return $this->getFilesFromFinder($finder);
     }
