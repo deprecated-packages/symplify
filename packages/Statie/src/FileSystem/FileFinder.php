@@ -29,7 +29,11 @@ final class FileFinder
      */
     public function findLatteLayoutsAndSnippets(string $directory): array
     {
-        return $this->findInDirectoryByMask($directory, '_layouts,_snippets');
+        $finder = Finder::create()->files()
+            ->in($directory)
+            ->path('#(_layouts|_snippets)#');
+
+        return $this->getFilesFromFinder($finder);
     }
 
     /**

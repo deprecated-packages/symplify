@@ -63,7 +63,9 @@ final class StatieApplication
         $this->configuration->setSourceDirectory($source);
         $this->configuration->setOutputDirectory($destination);
 
-        $this->loadLayoutsToLatteLoader($this->fileFinder->findLatteLayoutsAndSnippets($source));
+        // load layouts and snippets
+        $layoutAndSnippetFiles = $this->fileFinder->findLatteLayoutsAndSnippets($source);
+        $this->loadLayoutsToLatteLoader($layoutAndSnippetFiles);
 
         // process static files
         $staticFiles = $this->fileFinder->findStaticFiles($source);
