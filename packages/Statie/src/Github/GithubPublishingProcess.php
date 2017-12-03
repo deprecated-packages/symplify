@@ -18,7 +18,7 @@ final class GithubPublishingProcess
     private const CONFIG_NAME = 'Travis';
 
     /**
-     * @var FilesystemGuard
+     * @var FileSystemGuard
      */
     private $fileSystemGuard;
 

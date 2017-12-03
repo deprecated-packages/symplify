@@ -69,7 +69,7 @@ final class FileFinder
             ->in($directory)
             // sort by name descending
             ->sort(function (SplFileInfo $firstFileInfo, SplFileInfo $secondFileInfo) {
-                return strcmp($secondFileInfo->getRealpath(), $firstFileInfo->getRealpath());
+                return strcmp($secondFileInfo->getRealPath(), $firstFileInfo->getRealPath());
             });
 
         return $this->getFilesFromFinder($finder);
