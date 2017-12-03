@@ -19,7 +19,6 @@ final class CollectorCompilerPass implements CompilerPassInterface
     public function process(ContainerBuilder $containerBuilder): void
     {
         $this->collectCommandsToConsoleApplication($containerBuilder);
-        $this->loadSourceFileStorageWithSourceFileFilters($containerBuilder);
         $this->loadRouterDecoratorWithRoutes($containerBuilder);
         $this->loadFilterProvidersToLatteFactory($containerBuilder);
         $this->loadFileDecoratorToRenderableFilesProcessor($containerBuilder);

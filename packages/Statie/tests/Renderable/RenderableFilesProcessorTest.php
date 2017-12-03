@@ -52,7 +52,7 @@ final class RenderableFilesProcessorTest extends TestCase
             ->getIterator();
         $fileInfos = iterator_to_array($finder);
 
-        $this->renderableFilesProcessor->processFiles($fileInfos);
+        $this->renderableFilesProcessor->processFileInfos($fileInfos);
 
         $this->assertFileExists(__DIR__ . '/RenderFilesProcessorSource/output/file/index.html');
         $this->assertFileEquals(

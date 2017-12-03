@@ -6,12 +6,10 @@ services:
         autowire: true
         public: true # for tests
 
-    # PSR-4 autodiscovery
     Symplify\Statie\:
         resource: ../../src
         exclude: ../../src/{Exception,Renderable/File/File.php,Renderable/File/PostFile.php}
 
-    # 3rd party services
     Symfony\Component\Console\Application:
         alias: Symplify\Statie\Console\Application
 
