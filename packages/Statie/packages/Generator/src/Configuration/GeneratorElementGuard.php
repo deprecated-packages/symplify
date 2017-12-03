@@ -14,7 +14,7 @@ final class GeneratorElementGuard
 
     /**
      * @param string|int $key
-     * @param string|mixed[] $data
+     * @param string|mixed $data
      */
     public static function ensureInputIsValid($key, $data): void
     {

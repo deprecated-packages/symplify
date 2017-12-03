@@ -38,7 +38,7 @@ final class RelatedPostsResolverTest extends AbstractContainerAwareTestCase
 
         /** @var Configuration $configuration */
         $configuration = $this->container->get(Configuration::class);
-        $configuration->addPosts($this->getAllPosts());
+        $configuration->addOption('posts', $this->getAllPosts());
 
         $this->mainPostFile = $this->postFactory->createPostFromFilePath(
             self::POST_SOURCE_DIRECTORY . '/2017-01-01-some-post.md'

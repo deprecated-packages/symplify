@@ -32,7 +32,7 @@ final class RelatedPostsFilterTest extends AbstractContainerAwareTestCase
 
         /** @var Configuration $configuration */
         $configuration = $this->container->get(Configuration::class);
-        $configuration->addPosts($this->getAllPosts());
+        $configuration->addOption('posts', $this->getAllPosts());
     }
 
     public function test(): void

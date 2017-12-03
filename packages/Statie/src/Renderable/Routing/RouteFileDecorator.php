@@ -5,29 +5,18 @@ namespace Symplify\Statie\Renderable\Routing;
 use Symplify\Statie\Configuration\Configuration;
 use Symplify\Statie\Contract\Renderable\FileDecoratorInterface;
 use Symplify\Statie\Contract\Renderable\Routing\Route\RouteInterface;
-use Symplify\Statie\Contract\Renderable\Routing\RouteCollectorInterface;
 use Symplify\Statie\Renderable\File\AbstractFile;
 
-final class RouteFileDecorator implements FileDecoratorInterface, RouteCollectorInterface
+final class RouteFileDecorator implements FileDecoratorInterface
 {
     /**
      * @var Configuration
      */
     private $configuration;
 
-    /**
-     * @var RouteInterface[]
-     */
-    private $routes = [];
-
     public function __construct(Configuration $configuration)
     {
         $this->configuration = $configuration;
-    }
-
-    public function addRoute(RouteInterface $route): void
-    {
-        $this->routes[] = $route;
     }
 
     /**
@@ -50,6 +39,62 @@ final class RouteFileDecorator implements FileDecoratorInterface, RouteCollector
 
     private function decorateFile(AbstractFile $file): void
     {
+
+        // index route
+
+//        public function matches(AbstractFile $file): bool
+//    {
+//        return $file->getBaseName() === 'index';
+//    }
+//
+//        public function buildOutputPath(AbstractFile $file): string
+//    {
+//        return 'index.html';
+//    }
+//
+//        public function buildRelativeUrl(AbstractFile $file): string
+//    {
+//        return '/';
+//    }
+//    }
+
+
+
+        // most of files
+//
+//        public function matches(AbstractFile $file): bool
+//    {
+//        return in_array($file->getPrimaryExtension(), ['xml', 'rss', 'json', 'atom', 'css']);
+//    }
+//
+//        public function buildOutputPath(AbstractFile $file): string
+//    {
+//        if (in_array($file->getExtension(), ['latte', 'md'])) {
+//            return $file->getBaseName();
+//        }
+//
+//        return $file->getBaseName() . '.' . $file->getPrimaryExtension();
+//    }
+//
+//        public function buildRelativeUrl(AbstractFile $file): string
+//    {
+//        return $this->buildOutputPath($file);
+//    }
+
+
+
+
+        // post, but make globally available for any type of post
+
+        // return PathNormalizer::normalize($this->buildRelativeUrl($file) . '/index.html');
+
+        //
+//        $permalink = preg_replace('/:year/', $file->getDateInFormat('Y'), $permalink);
+//        $permalink = preg_replace('/:month/', $file->getDateInFormat('m'), $permalink);
+//        $permalink = preg_replace('/:day/', $file->getDateInFormat('d'), $permalink);
+
+//        return preg_replace('/:title/', $file->getFilenameWithoutDate(), $permalink);
+
         foreach ($this->routes as $route) {
             if ($route->matches($file)) {
                 $file->setOutputPath($route->buildOutputPath($file));

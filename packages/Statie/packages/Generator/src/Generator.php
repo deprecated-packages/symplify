@@ -7,6 +7,7 @@ use Symplify\Statie\Configuration\Configuration;
 use Symplify\Statie\FileSystem\FileFinder;
 use Symplify\Statie\Generator\Configuration\GeneratorConfiguration;
 use Symplify\Statie\Generator\Configuration\GeneratorElement;
+use Symplify\Statie\Renderable\File\AbstractFile;
 use Symplify\Statie\Renderable\RenderableFilesProcessor;
 
 final class Generator
@@ -69,7 +70,7 @@ final class Generator
 
     /**
      * @param SplFileInfo[] $fileInfos
-     * @return object[]
+     * @return AbstractFile[]
      */
     private function createObjectsFromFileInfos(GeneratorElement $generatorElement, array $fileInfos): array
     {
