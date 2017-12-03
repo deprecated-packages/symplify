@@ -10,7 +10,6 @@ use Symplify\Statie\FlatWhite\Latte\DynamicStringLoader;
 use Symplify\Statie\FlatWhite\Latte\LatteRenderer;
 use Symplify\Statie\Generator\Configuration\GeneratorElement;
 use Symplify\Statie\Renderable\File\AbstractFile;
-use Symplify\Statie\Renderable\File\PostFile;
 
 final class LatteFileDecorator implements FileDecoratorInterface
 {
@@ -67,9 +66,7 @@ final class LatteFileDecorator implements FileDecoratorInterface
 
     private function decorateFile(AbstractFile $file): void
     {
-        $options = $this->configuration->getOptions();
-
-        $parameters = $file->getConfiguration() + $options + [
+        $parameters = $file->getConfiguration() + $this->configuration->getOptions() + [
             'file' => $file
         ];
 
@@ -92,7 +89,6 @@ final class LatteFileDecorator implements FileDecoratorInterface
 
         // trim {layout %s} left over
         $htmlContent = preg_replace('/{layout "[a-z]+"}/', '', $htmlContent);
-
         $file->changeContent($htmlContent);
     }
 

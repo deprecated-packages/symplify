@@ -12,6 +12,11 @@ final class GeneratorElement
     /**
      * @var string
      */
+    private $variableGlobal;
+
+    /**
+     * @var string
+     */
     private $path;
 
     /**
@@ -29,9 +34,10 @@ final class GeneratorElement
      */
     private $object;
 
-    public function __construct(string $variable, string $path, string $layout, string $routePrefix, string $object)
+    public function __construct(string $variable, string $variableGlobal, string $path, string $layout, string $routePrefix, string $object)
     {
         $this->variable = $variable;
+        $this->variableGlobal = $variableGlobal;
         $this->path = $path;
         $this->layout = $layout;
         $this->routePrefix = $routePrefix;
@@ -45,6 +51,7 @@ final class GeneratorElement
     {
         return new self(
             $configuration['variable'],
+            $configuration['variable_global'],
             $configuration['path'],
             $configuration['layout'],
             $configuration['route_prefix'],
@@ -55,6 +62,11 @@ final class GeneratorElement
     public function getVariable(): string
     {
         return $this->variable;
+    }
+
+    public function getVariableGlobal(): string
+    {
+        return $this->variableGlobal;
     }
 
     public function getPath(): string

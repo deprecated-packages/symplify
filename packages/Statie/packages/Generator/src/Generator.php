@@ -63,7 +63,7 @@ final class Generator
         $objects = $this->createObjectsFromFileInfos($generatorElement, $fileInfos);
 
         // save them to property
-        $this->configuration->addOption($generatorElement->getVariable(), $objects);
+        $this->configuration->addOption($generatorElement->getVariableGlobal(), $objects);
 
         // run them through decorator and render them
         $this->renderableFilesProcessor->processGeneratorElementObjects($objects, $generatorElement);

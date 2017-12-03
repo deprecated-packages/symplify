@@ -10,7 +10,7 @@ final class GeneratorElementGuard
     /**
      * @var string[]
      */
-    private static $requiredKeys = ['variable', 'path', 'layout', 'route_prefix', 'object'];
+    private static $requiredKeys = ['variable', 'variable_global', 'path', 'layout', 'route_prefix', 'object'];
 
     /**
      * @param string|int $key
