@@ -14,7 +14,6 @@ final class SourceFileStorageTest extends TestCase
     {
         $sourceFileStorage = $this->prepareSourceFileStorage();
 
-        $this->assertCount(1, $sourceFileStorage->getLayoutFiles());
         $this->assertCount(1, $sourceFileStorage->getRenderableFiles());
     }
 

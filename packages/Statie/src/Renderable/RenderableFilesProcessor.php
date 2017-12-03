@@ -4,7 +4,7 @@ namespace Symplify\Statie\Renderable;
 
 use SplFileInfo;
 use Symplify\Statie\Contract\Renderable\FileDecoratorInterface;
-use Symplify\Statie\Output\FileSystemWriter;
+use Symplify\Statie\FileSystem\FileSystemWriter;
 use Symplify\Statie\Renderable\File\FileFactory;
 
 final class RenderableFilesProcessor
