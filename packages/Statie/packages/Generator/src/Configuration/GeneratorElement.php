@@ -43,8 +43,6 @@ final class GeneratorElement
      */
     public static function createFromConfiguration($configuration): self
     {
-        GeneratorElementGuard::ensureInputIsValid($configuration);
-
         return new self(
             $configuration['variable'],
             $configuration['path'],

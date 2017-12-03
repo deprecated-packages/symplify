@@ -12,14 +12,15 @@ final class GeneratorElementGuard
     private static $requiredKeys = ['variable', 'path', 'layout', 'route_prefix', 'object'];
 
     /**
+     * @param string|int $key
      * @param string|mixed[] $data
      */
-    public static function ensureInputIsValid($data): void
+    public static function ensureInputIsValid($key, $data): void
     {
         if (! is_array($data)) {
             throw new InvalidGeneratorElementDefinitionException(sprintf(
-                'Element in "parameters > generators > { }" must be array. "%s" given.',
-
+                'Element in "parameters > generators > %s" must be array. "%s" given.',
+                $key,
                 is_object($data) ? get_class($data) : $data
             ));
         }
@@ -30,8 +31,9 @@ final class GeneratorElementGuard
             }
 
             throw new InvalidGeneratorElementDefinitionException(sprintf(
-                'Key "%s" is missing in "parameters > generators > { }".',
-                $requiredKey
+                'Key "%s" is missing in "parameters > generators > %s".',
+                $requiredKey,
+                $key
             ));
         }
     }

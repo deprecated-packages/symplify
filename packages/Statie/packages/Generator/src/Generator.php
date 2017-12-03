@@ -2,6 +2,7 @@
 
 namespace Symplify\Statie\Generator;
 
+use Symplify\Statie\FileSystem\FileFinder;
 use Symplify\Statie\Generator\Configuration\GeneratorConfiguration;
 use Symplify\Statie\Generator\Configuration\GeneratorElement;
 
@@ -12,9 +13,15 @@ final class Generator
      */
     private $generatorConfiguration;
 
-    public function __construct(GeneratorConfiguration $generatorConfiguration)
+    /**
+     * @var FileFinder
+     */
+    private $fileFinder;
+
+    public function __construct(GeneratorConfiguration $generatorConfiguration, FileFinder $fileFinder)
     {
         $this->generatorConfiguration = $generatorConfiguration;
+        $this->fileFinder = $fileFinder;
     }
 
     public function run(): void
@@ -26,6 +33,9 @@ final class Generator
 
     private function processGeneratorElement(GeneratorElement $generatorElement): void
     {
+        $items = $this->fileFinder->findInDirectory($generatorElement->getPath());
+
+        dump($items);
         dump($generatorElement);
         die;
 
