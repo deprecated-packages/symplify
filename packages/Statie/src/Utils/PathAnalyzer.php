@@ -8,27 +8,39 @@ use SplFileInfo;
 
 final class PathAnalyzer
 {
-    public static function startsWithDate(SplFileInfo $file): bool
+    /**
+     * @var string
+     */
+    private const DATE_PATTERN = '(?<year>\d{4})-(?<month>\d{2})-(?<day>\d{2})';
+
+    /**
+     * @var string
+     */
+    private const NAME_PATTERN = '(?<name>[a-zA-Z0-9-_]*)';
+
+    public static function startsWithDate(SplFileInfo $fileInfo): bool
     {
-        return (bool) preg_match('/(\d{4})[\/\-]*(\d{2})[\/\-]*(\d{2})[\/\-]*(\d+|)/', $file->getFilename(), $matches);
+        return (bool) preg_match('#' . self::DATE_PATTERN . '#', $fileInfo->getFilename(), $matches);
     }
 
-    public static function detectDate(SplFileInfo $file): DateTimeInterface
+    public static function detectDate(SplFileInfo $fileInfo): DateTimeInterface
     {
-        preg_match('/(\d{4})[\/\-]*(\d{2})[\/\-]*(\d{2})[\/\-]*(\d+|)/', $file->getFilename(), $matches);
-        [$dummy, $year, $month, $day] = $matches;
+        preg_match('#' . self::DATE_PATTERN . '#', $fileInfo->getFilename(), $matches);
 
-        return new DateTime(implode('-', [$year, $month, $day]));
-    }
-
-    public static function detectFilenameWithoutDate(SplFileInfo $file): string
-    {
-        preg_match(
-            '/(\d{4})[\/\-]*(\d{2})[\/\-]*(\d{2})[\/\-]*(.+?)(\.[^\.]+|\.[^\.]+\.[^\.]+)$/',
-            $file->getFilename(),
-            $matches
+        $date = sprintf(
+            '%d-%d-%d',
+            $matches['year'],
+            $matches['month'],
+            $matches['day']
         );
 
-        return $matches[4];
+        return new DateTime($date);
+    }
+
+    public static function detectFilenameWithoutDate(SplFileInfo $fileInfo): string
+    {
+        preg_match('#' . self::DATE_PATTERN . '-' . self::NAME_PATTERN . '#', $fileInfo->getFilename(), $matches);
+
+        return $matches['name'];
     }
 }
