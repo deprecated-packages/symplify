@@ -4,7 +4,6 @@ namespace Symplify\Statie\Tests\Helper;
 
 use SplFileInfo;
 use Symplify\Statie\Configuration\Parser\NeonParser;
-use Symplify\Statie\Renderable\Configuration\ConfigurationDecorator;
 use Symplify\Statie\Renderable\File\PostFile;
 
 final class PostFactory

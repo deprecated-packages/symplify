@@ -55,7 +55,7 @@ final class PostFile extends AbstractFile implements ArrayAccess
     /**
      * @param mixed $offset
      *
-     * @return DateTimeInterface|string
+     * @return DateTimeInterface|string|null
      */
     public function offsetGet($offset)
     {

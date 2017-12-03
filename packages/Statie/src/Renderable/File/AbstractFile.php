@@ -158,14 +158,18 @@ abstract class AbstractFile
         return $this->configuration['layout'] ?? null;
     }
 
-    public function getDate(): DateTimeInterface
+    public function getDate(): ?DateTimeInterface
     {
         return $this->dateTime;
     }
 
-    public function getDateInFormat(string $format): string
+    public function getDateInFormat(string $format): ?string
     {
-        return $this->dateTime->format($format);
+        if ($this->dateTime) {
+            return $this->dateTime->format($format);
+        }
+
+        return null;
     }
 
     public function getFilenameWithoutDate(): string
