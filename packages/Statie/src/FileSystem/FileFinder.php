@@ -48,7 +48,7 @@ final class FileFinder
     public function getRestOfRenderableFiles(string $directory): array
     {
         $finder = Finder::create()->files()
-            ->name('*.html,*.latte')
+            ->name('*.html,*.latte,*.rss,*.xml')
             ->notName('_layout,_snippets')
             ->in($directory);
 

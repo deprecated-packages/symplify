@@ -10,11 +10,9 @@ use Symplify\PackageBuilder\DependencyInjection\DefinitionCollector;
 use Symplify\Statie\Contract\Renderable\FileDecoratorInterface;
 use Symplify\Statie\Contract\Renderable\Routing\Route\RouteInterface;
 use Symplify\Statie\Contract\Renderable\Routing\RouteCollectorInterface;
-use Symplify\Statie\Contract\Source\SourceFileFilter\SourceFileFilterInterface;
 use Symplify\Statie\Contract\Templating\FilterProviderInterface;
 use Symplify\Statie\FlatWhite\Latte\LatteFactory;
 use Symplify\Statie\Renderable\RenderableFilesProcessor;
-use Symplify\Statie\Source\SourceFileStorage;
 
 final class CollectorCompilerPass implements CompilerPassInterface
 {
@@ -34,16 +32,6 @@ final class CollectorCompilerPass implements CompilerPassInterface
             ConsoleApplication::class,
             Command::class,
             'add'
-        );
-    }
-
-    private function loadSourceFileStorageWithSourceFileFilters(ContainerBuilder $containerBuilder): void
-    {
-        DefinitionCollector::loadCollectorWithType(
-            $containerBuilder,
-            SourceFileStorage::class,
-            SourceFileFilterInterface::class,
-            'addSourceFileFilter'
         );
     }
 
