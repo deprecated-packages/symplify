@@ -33,16 +33,18 @@ final class Generator
 
     private function processGeneratorElement(GeneratorElement $generatorElement): void
     {
+        // find files in...
         $items = $this->fileFinder->findInDirectory($generatorElement->getPath());
+        if (! count($items)) {
+            return;
+        }
 
+        // process to objects
         dump($generatorElement->getObject());
-
         dump($items);
-        dump($generatorElement);
+//        dump($generatorElement);
         die;
 
-        // find files in...
-        // process object
         // save them to property
         // render them
     }

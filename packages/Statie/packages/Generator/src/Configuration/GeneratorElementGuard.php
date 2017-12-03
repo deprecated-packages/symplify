@@ -3,6 +3,7 @@
 namespace Symplify\Statie\Generator\Configuration;
 
 use Symplify\Statie\Generator\Exception\Configuration\InvalidGeneratorElementDefinitionException;
+use Symplify\Statie\Renderable\File\AbstractFile;
 
 final class GeneratorElementGuard
 {
@@ -31,13 +32,14 @@ final class GeneratorElementGuard
             }
 
             throw new InvalidGeneratorElementDefinitionException(sprintf(
-                'Key "%s" is missing in "parameters > generators > %s".',
+                'Key "%s" is missing. In "parameters > generators > %s".',
                 $requiredKey,
                 $key
             ));
         }
 
         self::ensureObjectExists($key, $data['object']);
+        self::ensureObjectIsParentOfAbstractFile($key, $data['object']);
     }
 
     /**
@@ -50,8 +52,25 @@ final class GeneratorElementGuard
         }
 
         throw new InvalidGeneratorElementDefinitionException(sprintf(
-            'Object class "%s" not found in "parameters > generators > %s".',
+            'Object class "%s" not found. In "parameters > generators > %s".',
             $object,
+            $key
+        ));
+    }
+
+    /**
+     * @param int|string $key
+     */
+    private static function ensureObjectIsParentOfAbstractFile($key, string $object): void
+    {
+        if (is_a($object, AbstractFile::class, true)) {
+            return;
+        }
+
+        throw new InvalidGeneratorElementDefinitionException(sprintf(
+            'Object class "%s" must extend "%s". In "parameters > generators > %s".',
+            $object,
+            AbstractFile::class,
             $key
         ));
     }
