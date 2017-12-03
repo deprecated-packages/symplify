@@ -64,27 +64,10 @@ final class RenderableFilesProcessor
      */
     private function processFileObjects(array $files): void
     {
-        foreach ($this->getFileDecorators() as $fileDecorator) {
+        foreach ($this->fileDecorators as $fileDecorator) {
             $files = $fileDecorator->decorateFiles($files);
         }
 
         $this->fileSystemWriter->copyRenderableFiles($files);
-    }
-
-    /**
-     * @return FileDecoratorInterface[]
-     */
-    private function getFileDecorators(): array
-    {
-        $this->sortFileDecorators();
-
-        return $this->fileDecorators;
-    }
-
-    private function sortFileDecorators(): void
-    {
-        usort($this->fileDecorators, function (FileDecoratorInterface $first, FileDecoratorInterface $second) {
-            return $first->getPriority() < $second->getPriority();
-        });
     }
 }

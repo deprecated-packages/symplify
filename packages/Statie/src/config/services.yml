@@ -10,6 +10,17 @@ services:
         resource: ../../src
         exclude: ../../src/{Exception,Renderable/File/File.php,Renderable/File/PostFile.php}
 
+
+    Symplify\Statie\Renderable\RenderableFilesProcessor:
+        # order is important, since determined order of calls in code
+        calls:
+            # has to run before Markdown; so it can render perex and content is set
+            - ['addFileDecorator', ['@Symplify\Statie\Renderable\ConfigurationDecorator']]
+            # has to run before Latte; it fails the other way.
+            - ['addFileDecorator', ['@Symplify\Statie\Renderable\MarkdownFileDecorator']]
+            - ['addFileDecorator', ['@Symplify\Statie\Renderable\LatteFileDecorator']]
+            - ['addFileDecorator', ['@Symplify\Statie\Renderable\RouteFileDecorator']]
+
     Symfony\Component\Console\Application:
         alias: Symplify\Statie\Console\Application
 

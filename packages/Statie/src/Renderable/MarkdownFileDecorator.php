@@ -39,16 +39,6 @@ final class MarkdownFileDecorator implements FileDecoratorInterface
         return $files;
     }
 
-    /**
-     * Higher priorities are executed first.
-     *
-     * Has to run before Latte; it fails the other way.
-     */
-    public function getPriority(): int
-    {
-        return 800;
-    }
-
     private function decorateFile(AbstractFile $file): void
     {
         // skip due to HTML content incompatibility

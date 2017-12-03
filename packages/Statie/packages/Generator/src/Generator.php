@@ -26,6 +26,7 @@ final class Generator
      * @var Configuration
      */
     private $configuration;
+
     /**
      * @var RenderableFilesProcessor
      */

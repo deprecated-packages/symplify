@@ -11,9 +11,4 @@ interface FileDecoratorInterface
      * @return AbstractFile[]
      */
     public function decorateFiles(array $files): array;
-
-    /**
-     * Higher priorities are executed first.
-     */
-    public function getPriority(): int;
 }
