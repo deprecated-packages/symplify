@@ -4,11 +4,8 @@ namespace Symplify\Statie\Tests\Source;
 
 use Nette\Utils\Finder;
 use PHPUnit\Framework\TestCase;
-use Symfony\Component\Finder\SplFileInfo;
 use Symplify\Statie\Source\SourceFileFilter\GlobalLatteSourceFilter;
-use Symplify\Statie\Source\SourceFileFilter\PostSourceFilter;
 use Symplify\Statie\Source\SourceFileFilter\RenderableSourceFilter;
-use Symplify\Statie\Source\SourceFileFilter\StaticSourceFilter;
 use Symplify\Statie\Source\SourceFileStorage;
 
 final class SourceFileStorageTest extends TestCase

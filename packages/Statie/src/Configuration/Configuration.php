@@ -4,7 +4,6 @@ namespace Symplify\Statie\Configuration;
 
 use Symplify\PackageBuilder\Parameter\ParameterProvider;
 use Symplify\Statie\Exception\Configuration\MissingGithubRepositorySlugException;
-use Symplify\Statie\Renderable\File\PostFile;
 use Symplify\Statie\Utils\FilesystemChecker;
 
 final class Configuration
@@ -18,16 +17,6 @@ final class Configuration
      * @var string
      */
     public const OPTION_MARKDOWN_HEADLINE_ANCHORS = 'markdown_headline_anchors';
-
-    /**
-     * @var string
-     */
-    private const OPTION_POSTS = 'posts';
-
-    /**
-     * @var string
-     */
-    private const DEFAULT_POST_ROUTE = 'blog/:year/:month/:day/:title';
 
     /**
      * @var array

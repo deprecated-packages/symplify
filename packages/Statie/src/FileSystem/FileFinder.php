@@ -34,6 +34,9 @@ final class FileFinder
         return $this->findInDirectoryByMask($directory, $staticFileMask);
     }
 
+    /**
+     * @return SplFileInfo[]
+     */
     private function findInDirectoryByMask(string $sourceDirectory, string $mask): array
     {
         $finder = Finder::create()->files()

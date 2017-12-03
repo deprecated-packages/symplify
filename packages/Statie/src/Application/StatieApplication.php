@@ -72,7 +72,7 @@ final class StatieApplication
 
         $this->loadSourcesFromDirectory($source);
 
-        $this->fileSystemWriter->copyStaticFiles($this->fileFinder->findStaticFiles($source);
+        $this->fileSystemWriter->copyStaticFiles($this->fileFinder->findStaticFiles($source));
 
         $this->processTemplates();
     }

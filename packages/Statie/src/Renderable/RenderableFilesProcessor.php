@@ -3,7 +3,6 @@
 namespace Symplify\Statie\Renderable;
 
 use SplFileInfo;
-use Symplify\Statie\Configuration\Configuration;
 use Symplify\Statie\Contract\Renderable\FileDecoratorInterface;
 use Symplify\Statie\Output\FileSystemWriter;
 use Symplify\Statie\Renderable\File\FileFactory;
@@ -21,23 +20,16 @@ final class RenderableFilesProcessor
     private $fileSystemWriter;
 
     /**
-     * @var Configuration
-     */
-    private $configuration;
-
-    /**
      * @var FileDecoratorInterface[]
      */
     private $fileDecorators = [];
 
     public function __construct(
         FileFactory $fileFactory,
-        FileSystemWriter $fileSystemWriter,
-        Configuration $configuration
+        FileSystemWriter $fileSystemWriter
     ) {
         $this->fileFactory = $fileFactory;
         $this->fileSystemWriter = $fileSystemWriter;
-        $this->configuration = $configuration;
     }
 
     public function addFileDecorator(FileDecoratorInterface $fileDecorator): void
