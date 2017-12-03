@@ -2,7 +2,6 @@
 
 namespace Symplify\Statie\Renderable\Routing\Route;
 
-use Symplify\Statie\Configuration\Configuration;
 use Symplify\Statie\Contract\Renderable\Routing\Route\RouteInterface;
 use Symplify\Statie\Renderable\File\AbstractFile;
 use Symplify\Statie\Renderable\File\PostFile;
@@ -10,16 +9,6 @@ use Symplify\Statie\Utils\PathNormalizer;
 
 final class PostRoute implements RouteInterface
 {
-    /**
-     * @var Configuration
-     */
-    private $configuration;
-
-    public function __construct(Configuration $configuration)
-    {
-        $this->configuration = $configuration;
-    }
-
     public function matches(AbstractFile $file): bool
     {
         return $file instanceof PostFile;

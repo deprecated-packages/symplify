@@ -35,7 +35,6 @@ final class GeneratorConfiguration
     {
         $generators = $this->parameterProvider->provideParameter(self::CONFIG_KEY);
 
-
         $generatorElements = [];
 
         foreach ($generators as $key => $generatorConfiguration) {
