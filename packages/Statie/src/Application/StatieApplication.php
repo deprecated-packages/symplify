@@ -7,17 +7,12 @@ use Symplify\Statie\Configuration\Configuration;
 use Symplify\Statie\FileSystem\FileFinder;
 use Symplify\Statie\FlatWhite\Latte\DynamicStringLoader;
 use Symplify\Statie\Generator\Generator;
-use Symplify\Statie\Output\FileSystemWriter;
+use Symplify\Statie\FileSystem\FileSystemWriter;
 use Symplify\Statie\Renderable\RenderableFilesProcessor;
 use Symplify\Statie\Source\SourceFileStorage;
 
 final class StatieApplication
 {
-    /**
-     * @var SourceFileStorage
-     */
-    private $sourceFileStorage;
-
     /**
      * @var Configuration
      */
@@ -48,7 +43,6 @@ final class StatieApplication
     private $fileFinder;
 
     public function __construct(
-        SourceFileStorage $sourceFileStorage,
         Configuration $configuration,
         FileSystemWriter $fileSystemWriter,
         RenderableFilesProcessor $renderableFilesProcessor,
@@ -56,7 +50,6 @@ final class StatieApplication
         Generator $generator,
         FileFinder $fileFinder
     ) {
-        $this->sourceFileStorage = $sourceFileStorage;
         $this->configuration = $configuration;
         $this->fileSystemWriter = $fileSystemWriter;
         $this->renderableFilesProcessor = $renderableFilesProcessor;
@@ -70,17 +63,18 @@ final class StatieApplication
         $this->configuration->setSourceDirectory($source);
         $this->configuration->setOutputDirectory($destination);
 
-        $this->loadSourcesFromDirectory($source);
+        $this->loadLayoutsToLatteLoader($this->fileFinder->findLatteLayoutsAndSnippets($source));
 
-        $this->fileSystemWriter->copyStaticFiles($this->fileFinder->findStaticFiles($source));
+        // process static files
+        $staticFiles = $this->fileFinder->findStaticFiles($source);
+        $this->fileSystemWriter->copyStaticFiles($staticFiles);
 
-        $this->processTemplates();
-    }
+        // process generator items
+        $this->generator->run();
 
-    private function loadSourcesFromDirectory(string $directory): void
-    {
-        $files = $this->fileFinder->findInDirectory($directory);
-        $this->sourceFileStorage->loadSourcesFromFiles($files);
+        // render rest of files
+        $restOfRenderableFiles = $this->fileFinder->getRestOfRenderableFiles($source);
+        $this->renderableFilesProcessor->processFiles($restOfRenderableFiles);
     }
 
     /**
@@ -93,17 +87,5 @@ final class StatieApplication
             $content = file_get_contents($layoutFile->getRealPath());
             $this->dynamicStringLoader->changeContent($name, $content);
         }
-    }
-
-    private function processTemplates(): void
-    {
-        // 1. collect layouts
-        $this->loadLayoutsToLatteLoader($this->sourceFileStorage->getLayoutFiles());
-
-        // 2. process posts
-        $this->generator->run();
-
-        // 3. render files
-        $this->renderableFilesProcessor->processFiles($this->sourceFileStorage->getRenderableFiles());
     }
 }
