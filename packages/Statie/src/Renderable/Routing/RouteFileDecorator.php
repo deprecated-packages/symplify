@@ -4,7 +4,6 @@ namespace Symplify\Statie\Renderable\Routing;
 
 use Symplify\Statie\Configuration\Configuration;
 use Symplify\Statie\Contract\Renderable\FileDecoratorInterface;
-use Symplify\Statie\Contract\Renderable\Routing\Route\RouteInterface;
 use Symplify\Statie\Renderable\File\AbstractFile;
 
 final class RouteFileDecorator implements FileDecoratorInterface

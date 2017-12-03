@@ -8,8 +8,6 @@ use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symplify\PackageBuilder\DependencyInjection\DefinitionCollector;
 use Symplify\Statie\Contract\Renderable\FileDecoratorInterface;
-use Symplify\Statie\Contract\Renderable\Routing\Route\RouteInterface;
-use Symplify\Statie\Contract\Renderable\Routing\RouteCollectorInterface;
 use Symplify\Statie\Contract\Templating\FilterProviderInterface;
 use Symplify\Statie\FlatWhite\Latte\LatteFactory;
 use Symplify\Statie\Renderable\RenderableFilesProcessor;
@@ -19,7 +17,6 @@ final class CollectorCompilerPass implements CompilerPassInterface
     public function process(ContainerBuilder $containerBuilder): void
     {
         $this->collectCommandsToConsoleApplication($containerBuilder);
-        $this->loadRouterDecoratorWithRoutes($containerBuilder);
         $this->loadFilterProvidersToLatteFactory($containerBuilder);
         $this->loadFileDecoratorToRenderableFilesProcessor($containerBuilder);
     }
@@ -31,16 +28,6 @@ final class CollectorCompilerPass implements CompilerPassInterface
             ConsoleApplication::class,
             Command::class,
             'add'
-        );
-    }
-
-    private function loadRouterDecoratorWithRoutes(ContainerBuilder $containerBuilder): void
-    {
-        DefinitionCollector::loadCollectorWithType(
-            $containerBuilder,
-            RouteCollectorInterface::class,
-            RouteInterface::class,
-            'addRoute'
         );
     }
 
