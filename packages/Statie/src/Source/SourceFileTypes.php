@@ -7,10 +7,5 @@ final class SourceFileTypes
     /**
      * @var string
      */
-    public const GLOBAL_LATTE = 'global_latte';
-
-    /**
-     * @var string
-     */
     public const RENDERABLE = 'renderable';
 }

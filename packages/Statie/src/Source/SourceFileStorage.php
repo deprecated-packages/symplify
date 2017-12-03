@@ -41,14 +41,6 @@ final class SourceFileStorage
         return $this->sourceFilesByType[SourceFileTypes::RENDERABLE];
     }
 
-    /**
-     * @return SplFileInfo[]
-     */
-    public function getLayoutFiles(): array
-    {
-        return $this->sourceFilesByType[SourceFileTypes::GLOBAL_LATTE];
-    }
-
     private function addSource(SplFileInfo $fileInfo): void
     {
         foreach ($this->sourceFileFilters as $sourceFileFilter) {
