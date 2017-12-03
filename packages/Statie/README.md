@@ -137,23 +137,6 @@ parameters:
             url: "http://ocramius.github.io/"
  ```
 
-### Modify Post Url Format
-
-To configure post url address just modify:
-
-```yaml
-# statie.neon
-
-parameters:
-    post_route: blog/:year/:month/:day/:title # default one
-    # will produce post detail link: blog/2016/12/01/how-to-host-open-source-blog-for-free
-    
-    # other examples:
-    # :year/:month/:title => 2016/12/how-to-host-open-source-blog-for-free
-    # :year/:title => 2016/how-to-host-open-source-blog-for-free
-    # blog/:title => blog/how-to-host-open-source-blog-for-free
-```
-
 ### Show Related Posts
 
 If you write a series, you can show related posts bellow.
@@ -247,7 +230,7 @@ E.g. running [Github Pages and 404 page](https://help.github.com/articles/creati
 ---
 layout: default
 title: "Missing page, missing you"
-outputPath: 404.html
+outputPath: "404.html"
 ---
 
 {block content}
