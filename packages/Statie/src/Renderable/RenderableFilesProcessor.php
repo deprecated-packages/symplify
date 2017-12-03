@@ -5,6 +5,7 @@ namespace Symplify\Statie\Renderable;
 use SplFileInfo;
 use Symplify\Statie\Contract\Renderable\FileDecoratorInterface;
 use Symplify\Statie\FileSystem\FileSystemWriter;
+use Symplify\Statie\Generator\Configuration\GeneratorElement;
 use Symplify\Statie\Renderable\File\AbstractFile;
 use Symplify\Statie\Renderable\File\FileFactory;
 
@@ -37,6 +38,14 @@ final class RenderableFilesProcessor
     }
 
     /**
+     * @param AbstractFile[] $objects
+     */
+    public function processGeneratorElementObjects(array $objects, GeneratorElement $generatorElement): void
+    {
+        dump($generatorElement->getRoutePrefix());
+    }
+
+    /**
      * @param SplFileInfo[] $fileInfos
      */
     public function processFileInfos(array $fileInfos): void
@@ -53,7 +62,7 @@ final class RenderableFilesProcessor
     /**
      * @param AbstractFile[] $files
      */
-    public function processFileObjects(array $files): void
+    private function processFileObjects(array $files): void
     {
         foreach ($this->getFileDecorators() as $fileDecorator) {
             $files = $fileDecorator->decorateFiles($files);

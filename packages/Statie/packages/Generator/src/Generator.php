@@ -65,7 +65,7 @@ final class Generator
         $this->configuration->addOption($generatorElement->getVariable(), $objects);
 
         // run them through decorator and render them
-        $this->renderableFilesProcessor->processFileObjects($objects);
+        $this->renderableFilesProcessor->processGeneratorElementObjects($objects, $generatorElement);
     }
 
     /**
