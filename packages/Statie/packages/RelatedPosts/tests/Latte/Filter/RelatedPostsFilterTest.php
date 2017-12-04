@@ -8,6 +8,9 @@ use Symplify\Statie\Renderable\File\PostFile;
 use Symplify\Statie\Tests\AbstractContainerAwareTestCase;
 use Symplify\Statie\Tests\Helper\PostFactory;
 
+/**
+ * @todo rename to general "related_items:"
+ */
 final class RelatedPostsFilterTest extends AbstractContainerAwareTestCase
 {
     /**
