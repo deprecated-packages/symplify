@@ -47,6 +47,7 @@ final class RenderableFilesProcessor
         }
 
         $files = $this->fileFactory->createFromFileInfos($fileInfos);
+
         foreach ($this->fileDecorators as $fileDecorator) {
             $files = $fileDecorator->decorateFiles($files);
         }
