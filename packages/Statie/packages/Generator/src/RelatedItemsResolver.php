@@ -28,7 +28,7 @@ final class RelatedItemsResolver
         }
 
         $relatedPosts = [];
-        foreach ($this->getPosts() as $post) {
+        foreach ($this->getItems() as $post) {
             if (in_array($post->getId(), $file->getRelatedItemsIds(), true)) {
                 $relatedPosts[] = $post;
             }
@@ -40,8 +40,10 @@ final class RelatedItemsResolver
     /**
      * @return PostFile[]
      */
-    private function getPosts(): array
+    private function getItems(): array
     {
-        return $this->configuration->getOptions()['posts'];
+        // @todo resolve variable_global name by object,
+        // get generator in here.
+        return $this->configuration->getOption('posts');
     }
 }

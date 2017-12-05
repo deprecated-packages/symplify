@@ -141,13 +141,13 @@ parameters:
 
 If you write a series, you can show related posts bellow.
 
-Just use post ids and `related_posts` section in post files like:
+Just use post ids and `related_items` section in post files like:
 
 ```yaml
 ---
 id: 1
 title: My first post
-related_posts: [2]
+related_items: [2]
 ```
 
 
@@ -155,7 +155,7 @@ related_posts: [2]
 ---
 id: 2
 title: My second post
-related_posts: [1]
+related_items: [1]
 ---
 ```
 
