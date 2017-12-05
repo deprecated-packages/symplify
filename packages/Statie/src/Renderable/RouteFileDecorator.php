@@ -56,7 +56,7 @@ final class RouteFileDecorator implements FileDecoratorInterface
         }
 
         // special files
-        if (in_array($file->getPrimaryExtension(), ['xml', 'rss', 'json', 'atom'], true)) {
+        if (in_array($file->getPrimaryExtension(), ['xml', 'rss', 'json', 'atom', 'css', 'js'], true)) {
             $outputPath = $file->getBaseName();
             // trim file.xml.latte => file.xml
             $outputPath .= in_array($file->getExtension(), ['latte', 'md'], true) ?: '.' . $file->getPrimaryExtension();

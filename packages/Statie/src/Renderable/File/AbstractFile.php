@@ -60,7 +60,7 @@ abstract class AbstractFile
         if ($this->dateTime) {
             $this->filenameWithoutDate = PathAnalyzer::detectFilenameWithoutDate($fileInfo);
         } else {
-            $this->filenameWithoutDate = $fileInfo->getFilename();
+            $this->filenameWithoutDate = $fileInfo->getBasename('.' . $fileInfo->getExtension());
         }
     }
 
