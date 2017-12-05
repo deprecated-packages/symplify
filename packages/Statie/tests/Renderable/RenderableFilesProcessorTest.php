@@ -3,42 +3,45 @@
 namespace Symplify\Statie\Tests\Renderable;
 
 use Nette\Utils\FileSystem;
-use Nette\Utils\Finder;
 use PHPUnit\Framework\TestCase;
 use Symplify\Statie\Configuration\Configuration;
 use Symplify\Statie\DependencyInjection\ContainerFactory;
-use Symplify\Statie\FlatWhite\Latte\DynamicStringLoader;
+use Symplify\Statie\FileSystem\FileFinder;
 use Symplify\Statie\Renderable\RenderableFilesProcessor;
 
 final class RenderableFilesProcessorTest extends TestCase
 {
+    /**
+     * @var string
+     */
+    private $outputDirectory = __DIR__ . '/RenderFilesProcessorSource/output';
+
+    /**
+     * @var string
+     */
+    private $sourceDirectory = __DIR__ . '/RenderFilesProcessorSource/source';
+
     /**
      * @var RenderableFilesProcessor
      */
     private $renderableFilesProcessor;
 
     /**
-     * @var Configuration
+     * @var FileFinder
      */
-    private $configuration;
+    private $fileFinder;
 
     protected function setUp(): void
     {
-        $container = (new ContainerFactory())->createWithConfig(__DIR__ . '/RenderFilesProcessorSource/statie.neon');
+        $container = (new ContainerFactory())->create();
 
         $this->renderableFilesProcessor = $container->get(RenderableFilesProcessor::class);
-        $this->configuration = $container->get(Configuration::class);
+        $this->fileFinder = $container->get(FileFinder::class);
 
-        $this->configuration->setSourceDirectory(__DIR__ . '/RenderFilesProcessorSource/source');
-        $this->configuration->setOutputDirectory(__DIR__ . '/RenderFilesProcessorSource/output');
-
-        // add post layout
-        /** @var DynamicStringLoader $dynamicStringLoader */
-        $dynamicStringLoader = $container->get(DynamicStringLoader::class);
-        $dynamicStringLoader->changeContent(
-            'post',
-            file_get_contents(__DIR__ . '/RenderFilesProcessorSource/_layouts/post.latte')
-        );
+        /** @var Configuration $configuration */
+        $configuration = $container->get(Configuration::class);
+        $configuration->setSourceDirectory($this->sourceDirectory);
+        $configuration->setOutputDirectory($this->outputDirectory);
     }
 
     protected function tearDown(): void
@@ -48,16 +51,13 @@ final class RenderableFilesProcessorTest extends TestCase
 
     public function test(): void
     {
-        $finder = Finder::findFiles('*')->from(__DIR__ . '/RenderFilesProcessorSource/source')
-            ->getIterator();
-        $fileInfos = iterator_to_array($finder);
-
+        $fileInfos = $this->fileFinder->findRestOfRenderableFiles($this->sourceDirectory);
         $this->renderableFilesProcessor->processFileInfos($fileInfos);
 
-        $this->assertFileExists(__DIR__ . '/RenderFilesProcessorSource/output/file/index.html');
+        $this->assertFileExists($this->outputDirectory . '/contact-me.html');
         $this->assertFileEquals(
-            __DIR__ . '/RenderFilesProcessorSource/file-expected.html',
-            __DIR__ . '/RenderFilesProcessorSource/output/file/index.html'
+             __DIR__ . '/RenderFilesProcessorSource/contact-expected.html',
+            $this->outputDirectory . '/contact-me.html'
         );
     }
 }

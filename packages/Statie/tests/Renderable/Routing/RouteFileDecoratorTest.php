@@ -44,15 +44,6 @@ final class RouteFileDecoratorTest extends AbstractContainerAwareTestCase
         $this->assertSame('/someFile' . DIRECTORY_SEPARATOR . 'index.html', $file->getOutputPath());
     }
 
-    public function testStaticFile(): void
-    {
-        $file = $this->createFileFromFilePath(__DIR__ . '/RouteFileDecoratorSource/static.css');
-
-        $this->routeFileDecorator->decorateFiles([$file]);
-        $this->assertSame('static.css', $file->getRelativeUrl());
-        $this->assertSame('static.css', $file->getOutputPath());
-    }
-
     public function testIndexFile(): void
     {
         $file = $this->createFileFromFilePath(__DIR__ . '/RouteFileDecoratorSource/index.html');

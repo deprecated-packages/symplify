@@ -76,7 +76,7 @@ final class StatieApplication
         $this->generator->run();
 
         // render rest of files
-        $restOfRenderableFiles = $this->fileFinder->getRestOfRenderableFiles($source);
+        $restOfRenderableFiles = $this->fileFinder->findRestOfRenderableFiles($source);
         $this->renderableFilesProcessor->processFileInfos($restOfRenderableFiles);
     }
 

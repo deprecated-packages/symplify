@@ -49,7 +49,7 @@ final class FileFinder
     /**
      * @return SplFileInfo[]
      */
-    public function getRestOfRenderableFiles(string $directory): array
+    public function findRestOfRenderableFiles(string $directory): array
     {
         $finder = Finder::create()->files()
             ->name('*.html')
