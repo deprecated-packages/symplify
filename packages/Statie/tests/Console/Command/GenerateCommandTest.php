@@ -3,9 +3,9 @@
 namespace Symplify\Statie\Tests\Console\Command;
 
 use Nette\Utils\FileSystem;
-use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Input\StringInput;
 use Symfony\Component\Console\Output\NullOutput;
+use Symplify\Statie\Console\Application;
 use Symplify\Statie\Tests\AbstractContainerAwareTestCase;
 
 final class GenerateCommandTest extends AbstractContainerAwareTestCase
