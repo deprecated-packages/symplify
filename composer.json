@@ -44,7 +44,6 @@
             "Symplify\\Statie\\": "packages/Statie/src",
             "Symplify\\Statie\\FlatWhite\\": "packages/Statie/packages/FlatWhite/src",
             "Symplify\\Statie\\Generator\\": "packages/Statie/packages/Generator/src",
-            "Symplify\\Statie\\RelatedPosts\\": "packages/Statie/packages/RelatedPosts/src",
             "Symplify\\TokenRunner\\": "packages/TokenRunner/src"
         }
     },
@@ -60,7 +59,6 @@
             "Symplify\\Statie\\Tests\\": "packages/Statie/tests",
             "Symplify\\Statie\\FlatWhite\\Tests\\": "packages/Statie/packages/FlatWhite/tests",
             "Symplify\\Statie\\Generator\\Tests\\": "packages/Statie/packages/Generator/tests",
-            "Symplify\\Statie\\RelatedPosts\\Tests\\": "packages/Statie/packages/RelatedPosts/tests",
             "Symplify\\TokenRunner\\Tests\\": "packages/TokenRunner/tests",
             "Symplify\\Tests\\": "tests"
         }
