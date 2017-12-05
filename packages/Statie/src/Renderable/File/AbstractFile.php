@@ -180,4 +180,12 @@ abstract class AbstractFile
     {
         return $this->filenameWithoutDate;
     }
+
+    /**
+     * @return int[]
+     */
+    public function getRelatedItemsIds(): array
+    {
+        return $this->getOption('related_items') ?? [];
+    }
 }

@@ -2,12 +2,12 @@
 
 namespace Symplify\Statie\Generator\Tests;
 
-use Symplify\Statie\RelatedPosts\RelatedPostsResolver;
+use Symplify\Statie\Generator\RelatedItemsResolver;
 
 final class GeneratorRelatedItemsTest extends AbstractGeneratorTest
 {
     /**
-     * @var RelatedPostsResolver
+     * @var RelatedItemsResolver
      */
     private $relatedPostsResolver;
 
@@ -15,7 +15,7 @@ final class GeneratorRelatedItemsTest extends AbstractGeneratorTest
     {
         parent::setUp();
 
-        $this->relatedPostsResolver = $this->container->get(RelatedPostsResolver::class);
+        $this->relatedPostsResolver = $this->container->get(RelatedItemsResolver::class);
     }
 
     public function testRelatedItems(): void
@@ -24,7 +24,7 @@ final class GeneratorRelatedItemsTest extends AbstractGeneratorTest
         $posts = $this->configuration->getOption('posts');
         $postWithRelatedItems = $posts[3];
 
-        $relatedItems = $this->relatedPostsResolver->resolveForPost($postWithRelatedItems);
+        $relatedItems = $this->relatedPostsResolver->resolveForFile($postWithRelatedItems);
 
         $this->assertCount(3, $relatedItems);
 

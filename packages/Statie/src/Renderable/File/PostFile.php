@@ -17,11 +17,6 @@ final class PostFile extends AbstractFile implements ArrayAccess
     private const READ_WORDS_PER_MINUTE = 260;
 
     /**
-     * @var string
-     */
-    private const RELATED_POSTS = 'related_posts';
-
-    /**
      * @var int
      */
     private $wordCount;
@@ -37,14 +32,6 @@ final class PostFile extends AbstractFile implements ArrayAccess
     public function getId(): ?int
     {
         return $this->configuration['id'] ?? null;
-    }
-
-    /**
-     * @return int[]
-     */
-    public function getRelatedPostIds(): array
-    {
-        return $this->getConfiguration()[self::RELATED_POSTS] ?? [];
     }
 
     public function getReadingTimeInMinutes(): int

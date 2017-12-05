@@ -1,11 +1,12 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\Statie\RelatedPosts;
+namespace Symplify\Statie\Generator;
 
 use Symplify\Statie\Configuration\Configuration;
+use Symplify\Statie\Renderable\File\AbstractFile;
 use Symplify\Statie\Renderable\File\PostFile;
 
-final class RelatedPostsResolver
+final class RelatedItemsResolver
 {
     /**
      * @var Configuration
@@ -20,16 +21,15 @@ final class RelatedPostsResolver
     /**
      * @return PostFile[]
      */
-    public function resolveForPost(PostFile $mainPostFile): array
+    public function resolveForFile(AbstractFile $file): array
     {
-        if (! $mainPostFile->getRelatedPostIds()) {
+        if (! $file->getRelatedItemsIds()) {
             return [];
         }
 
         $relatedPosts = [];
-
         foreach ($this->getPosts() as $post) {
-            if (in_array($post->getId(), $mainPostFile->getRelatedPostIds(), true)) {
+            if (in_array($post->getId(), $file->getRelatedItemsIds(), true)) {
                 $relatedPosts[] = $post;
             }
         }
