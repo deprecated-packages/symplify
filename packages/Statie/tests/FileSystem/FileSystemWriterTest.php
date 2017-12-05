@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\Statie\Tests\Output;
+namespace Symplify\Statie\Tests\FileSystem;
 
 use Nette\Utils\FileSystem;
 use SplFileInfo;
