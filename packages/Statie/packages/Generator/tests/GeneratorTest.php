@@ -13,18 +13,18 @@ final class GeneratorTest extends AbstractGeneratorTest
     {
         $this->generator->run();
 
-        $this->assertFileExists($this->outputDirectory. '/blog/2016/10/10/title/index.html');
-        $this->assertFileExists($this->outputDirectory. '/blog/2016/01/02/second-title/index.html');
+        $this->assertFileExists($this->outputDirectory . '/blog/2016/10/10/title/index.html');
+        $this->assertFileExists($this->outputDirectory . '/blog/2016/01/02/second-title/index.html');
 
-        $this->assertFileExists($this->outputDirectory. '/blog/2017/01/01/some-post/index.html');
-        $this->assertFileExists($this->outputDirectory. '/blog/2017/01/05/another-related-post/index.html');
-        $this->assertFileExists($this->outputDirectory. '/blog/2017/01/05/some-related-post/index.html');
+        $this->assertFileExists($this->outputDirectory . '/blog/2017/01/01/some-post/index.html');
+        $this->assertFileExists($this->outputDirectory . '/blog/2017/01/05/another-related-post/index.html');
+        $this->assertFileExists($this->outputDirectory . '/blog/2017/01/05/some-related-post/index.html');
 
-        $this->assertFileExists($this->outputDirectory. '/blog/2017/02/05/offtopic-post/index.html');
+        $this->assertFileExists($this->outputDirectory . '/blog/2017/02/05/offtopic-post/index.html');
 
         $this->assertStringEqualsFile(
             __DIR__ . '/GeneratorSource/expected/post-with-latte-blocks-expected.html',
-            file_get_contents($this->outputDirectory. '/blog/2016/01/02/second-title/index.html')
+            file_get_contents($this->outputDirectory . '/blog/2016/01/02/second-title/index.html')
         );
     }
 

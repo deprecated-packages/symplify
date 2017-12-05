@@ -67,7 +67,7 @@ final class LatteFileDecorator implements FileDecoratorInterface
     private function decorateFile(AbstractFile $file): void
     {
         $parameters = $file->getConfiguration() + $this->configuration->getOptions() + [
-            'file' => $file
+            'file' => $file,
         ];
 
         $htmlContent = $this->renderOuterWithLayout($file, $parameters);

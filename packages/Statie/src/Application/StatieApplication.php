@@ -5,11 +5,10 @@ namespace Symplify\Statie\Application;
 use SplFileInfo;
 use Symplify\Statie\Configuration\Configuration;
 use Symplify\Statie\FileSystem\FileFinder;
+use Symplify\Statie\FileSystem\FileSystemWriter;
 use Symplify\Statie\FlatWhite\Latte\DynamicStringLoader;
 use Symplify\Statie\Generator\Generator;
-use Symplify\Statie\FileSystem\FileSystemWriter;
 use Symplify\Statie\Renderable\RenderableFilesProcessor;
-use Symplify\Statie\Source\SourceFileStorage;
 
 final class StatieApplication
 {

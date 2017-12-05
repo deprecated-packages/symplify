@@ -4,7 +4,6 @@ namespace Symplify\Statie\Tests\Renderable\File;
 
 use DateTimeInterface;
 use Symplify\Statie\Configuration\Configuration;
-use Symplify\Statie\Exception\Renderable\File\MissingDateInFileNameException;
 use Symplify\Statie\Renderable\File\File;
 use Symplify\Statie\Renderable\File\FileFactory;
 use Symplify\Statie\Renderable\File\PostFile;

@@ -9,13 +9,13 @@ final class GeneratorRelatedItemsTest extends AbstractGeneratorTest
     /**
      * @var RelatedItemsResolver
      */
-    private $relatedPostsResolver;
+    private $relatedItemsResolver;
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->relatedPostsResolver = $this->container->get(RelatedItemsResolver::class);
+        $this->relatedItemsResolver = $this->container->get(RelatedItemsResolver::class);
     }
 
     public function testRelatedItems(): void
@@ -24,7 +24,7 @@ final class GeneratorRelatedItemsTest extends AbstractGeneratorTest
         $posts = $this->configuration->getOption('posts');
         $postWithRelatedItems = $posts[3];
 
-        $relatedItems = $this->relatedPostsResolver->resolveForFile($postWithRelatedItems);
+        $relatedItems = $this->relatedItemsResolver->resolveForFile($postWithRelatedItems);
 
         $this->assertCount(3, $relatedItems);
 

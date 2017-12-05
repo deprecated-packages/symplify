@@ -39,6 +39,32 @@ final class RouteFileDecorator implements FileDecoratorInterface
         return $files;
     }
 
+    /**
+     * @param AbstractFile[] $files
+     * @return AbstractFile[]
+     */
+    public function decorateFilesWithGeneratorElement(array $files, GeneratorElement $generatorElement): array
+    {
+        foreach ($files as $file) {
+            $outputPath = $generatorElement->getRoutePrefix() . DIRECTORY_SEPARATOR;
+
+            // if the date is part of file name, it is part of the output path
+            if ($file->getDate()) {
+                $outputPath .= $file->getDateInFormat('Y') . DIRECTORY_SEPARATOR;
+                $outputPath .= $file->getDateInFormat('m') . DIRECTORY_SEPARATOR;
+                $outputPath .= $file->getDateInFormat('d') . DIRECTORY_SEPARATOR;
+            }
+
+            $outputPath .= $file->getFilenameWithoutDate();
+            $outputPath = $this->pathNormalizer->normalize($outputPath);
+
+            $file->setRelativeUrl($outputPath);
+            $file->setOutputPath($outputPath . DIRECTORY_SEPARATOR . 'index.html');
+        }
+
+        return $files;
+    }
+
     private function decorateFile(AbstractFile $file): void
     {
         // manual config override has preference
@@ -75,32 +101,6 @@ final class RouteFileDecorator implements FileDecoratorInterface
 
         $file->setOutputPath($outputPath);
         $file->setRelativeUrl($relativeDirectory . DIRECTORY_SEPARATOR . $file->getBaseName());
-    }
-
-    /**
-     * @param AbstractFile[] $files
-     * @return AbstractFile[]
-     */
-    public function decorateFilesWithGeneratorElement(array $files, GeneratorElement $generatorElement): array
-    {
-        foreach ($files as $file) {
-            $outputPath = $generatorElement->getRoutePrefix() . DIRECTORY_SEPARATOR;
-
-            // if the date is part of file name, it is part of the output path
-            if ($file->getDate()) {
-                $outputPath .= $file->getDateInFormat('Y') . DIRECTORY_SEPARATOR;
-                $outputPath .= $file->getDateInFormat('m') . DIRECTORY_SEPARATOR;
-                $outputPath .= $file->getDateInFormat('d') . DIRECTORY_SEPARATOR;
-            }
-
-            $outputPath .= $file->getFilenameWithoutDate();
-            $outputPath = $this->pathNormalizer->normalize($outputPath);
-
-            $file->setRelativeUrl($outputPath);
-            $file->setOutputPath($outputPath . DIRECTORY_SEPARATOR . 'index.html');
-        }
-
-        return $files;
     }
 
     private function getRelativeDirectory(AbstractFile $file): string

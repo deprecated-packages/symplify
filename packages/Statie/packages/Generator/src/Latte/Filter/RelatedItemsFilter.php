@@ -13,9 +13,9 @@ final class RelatedItemsFilter implements FilterProviderInterface
      */
     private $relatedItemsResolver;
 
-    public function __construct(RelatedItemsResolver $relatedPostsResolver)
+    public function __construct(RelatedItemsResolver $relatedItemsResolver)
     {
-        $this->relatedItemsResolver = $relatedPostsResolver;
+        $this->relatedItemsResolver = $relatedItemsResolver;
     }
 
     /**
