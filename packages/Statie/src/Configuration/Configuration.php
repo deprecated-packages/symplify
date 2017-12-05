@@ -114,4 +114,12 @@ final class Configuration
     {
         $this->options[$name] = $value;
     }
+
+    /**
+     * @return mixed|null
+     */
+    public function getOption(string $name)
+    {
+        return $this->options[$name] ?? null;
+    }
 }

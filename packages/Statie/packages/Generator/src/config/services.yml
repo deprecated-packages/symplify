@@ -1,7 +1,8 @@
 services:
     _defaults:
         autowire: true
+        public: true # for tests
 
     Symplify\Statie\Generator\:
         resource: ../
-        exclude: ../{Configuration/GeneratorElementGuard.php}
+        exclude: ../{Configuration/GeneratorElement.php,Configuration/GeneratorElementGuard.php}
