@@ -59,6 +59,7 @@
             "Symplify\\PackageBuilder\\Tests\\": "packages/PackageBuilder/tests",
             "Symplify\\Statie\\Tests\\": "packages/Statie/tests",
             "Symplify\\Statie\\FlatWhite\\Tests\\": "packages/Statie/packages/FlatWhite/tests",
+            "Symplify\\Statie\\Generator\\Tests\\": "packages/Statie/packages/Generator/tests",
             "Symplify\\Statie\\RelatedPosts\\Tests\\": "packages/Statie/packages/RelatedPosts/tests",
             "Symplify\\TokenRunner\\Tests\\": "packages/TokenRunner/tests",
             "Symplify\\Tests\\": "tests"
