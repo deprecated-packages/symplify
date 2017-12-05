@@ -3,6 +3,7 @@
 namespace Symplify\Statie\Generator;
 
 use Symplify\Statie\Configuration\Configuration;
+use Symplify\Statie\Generator\Configuration\GeneratorConfiguration;
 use Symplify\Statie\Renderable\File\AbstractFile;
 use Symplify\Statie\Renderable\File\PostFile;
 
@@ -13,9 +14,15 @@ final class RelatedItemsResolver
      */
     private $configuration;
 
-    public function __construct(Configuration $configuration)
+    /**
+     * @var GeneratorConfiguration
+     */
+    private $generatorConfiguration;
+
+    public function __construct(Configuration $configuration, GeneratorConfiguration $generatorConfiguration)
     {
         $this->configuration = $configuration;
+        $this->generatorConfiguration = $generatorConfiguration;
     }
 
     /**
@@ -28,9 +35,9 @@ final class RelatedItemsResolver
         }
 
         $relatedPosts = [];
-        foreach ($this->getItems() as $post) {
-            if (in_array($post->getId(), $file->getRelatedItemsIds(), true)) {
-                $relatedPosts[] = $post;
+        foreach ($this->getItemsByFile($file) as $item) {
+            if (in_array($item->getId(), $file->getRelatedItemsIds(), true)) {
+                $relatedPosts[] = $item;
             }
         }
 
@@ -38,12 +45,18 @@ final class RelatedItemsResolver
     }
 
     /**
-     * @return PostFile[]
+     * @return AbstractFile[]
      */
-    private function getItems(): array
+    private function getItemsByFile(AbstractFile $file): array
     {
-        // @todo resolve variable_global name by object,
-        // get generator in here.
-        return $this->configuration->getOption('posts');
+        foreach ($this->generatorConfiguration->getGeneratorElements() as $generatorElement) {
+            if (! is_a($file, $generatorElement->getObject(), true)) {
+                continue;
+            }
+
+            return $this->configuration->getOption($generatorElement->getVariableGlobal());
+        }
+
+        return [];
     }
 }
