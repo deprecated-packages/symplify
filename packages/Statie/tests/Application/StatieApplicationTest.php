@@ -33,7 +33,7 @@ final class StatieApplicationTest extends TestCase
         FileSystem::delete(__DIR__ . '/StatieApplicationSource/output');
     }
 
-    public function testRUn(): void
+    public function testRun(): void
     {
         $this->statieApplication->run(
             __DIR__ . '/StatieApplicationSource/source',
