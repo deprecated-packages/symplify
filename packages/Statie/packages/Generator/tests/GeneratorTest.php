@@ -13,7 +13,6 @@ use Symplify\Statie\FileSystem\FileFinder;
 use Symplify\Statie\FlatWhite\Latte\DynamicStringLoader;
 use Symplify\Statie\Generator\Generator;
 use Symplify\Statie\Renderable\File\PostFile;
-use Symplify\Statie\Renderable\RenderableFilesProcessor;
 
 final class GeneratorTest extends TestCase
 {
@@ -28,19 +27,9 @@ final class GeneratorTest extends TestCase
     private $sourceDirectory = __DIR__ . '/GeneratorSource/source';
 
     /**
-     * @var RenderableFilesProcessor
-     */
-    private $renderableFilesProcessor;
-
-    /**
      * @var Configuration
      */
     private $configuration;
-
-    /**
-     * @var FileFinder
-     */
-    private $fileFinder;
 
     /**
      * @var Generator
@@ -51,13 +40,10 @@ final class GeneratorTest extends TestCase
     {
         $container = (new ContainerFactory())->create();
 
-        $this->renderableFilesProcessor = $container->get(RenderableFilesProcessor::class);
-
         $this->configuration = $container->get(Configuration::class);
         $this->configuration->setSourceDirectory($this->sourceDirectory);
         $this->configuration->setOutputDirectory($this->outputDirectory);
 
-        $this->fileFinder = $container->get(FileFinder::class);
         $this->generator = $container->get(Generator::class);
 
         // add post layout

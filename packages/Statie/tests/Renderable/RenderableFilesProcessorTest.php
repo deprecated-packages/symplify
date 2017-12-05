@@ -56,7 +56,7 @@ final class RenderableFilesProcessorTest extends TestCase
 
         $this->assertFileExists($this->outputDirectory . '/contact-me.html');
         $this->assertFileEquals(
-             __DIR__ . '/RenderFilesProcessorSource/contact-expected.html',
+            __DIR__ . '/RenderFilesProcessorSource/contact-expected.html',
             $this->outputDirectory . '/contact-me.html'
         );
     }
