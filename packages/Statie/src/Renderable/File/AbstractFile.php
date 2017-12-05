@@ -57,7 +57,11 @@ abstract class AbstractFile
 
         // optional values
         $this->dateTime = PathAnalyzer::detectDate($fileInfo);
-        $this->filenameWithoutDate = PathAnalyzer::detectFilenameWithoutDate($fileInfo);
+        if ($this->dateTime) {
+            $this->filenameWithoutDate = PathAnalyzer::detectFilenameWithoutDate($fileInfo);
+        } else {
+            $this->filenameWithoutDate = $fileInfo->getFilename();
+        }
     }
 
     public function getFilePath(): string

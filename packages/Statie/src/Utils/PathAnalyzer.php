@@ -16,11 +16,15 @@ final class PathAnalyzer
     /**
      * @var string
      */
-    private const NAME_PATTERN = '(?<name>[a-zA-Z0-9-_]*)';
+    private const NAME_PATTERN = '(?<name>[a-zA-Z0-9-_\.]*)';
 
-    public static function detectDate(SplFileInfo $fileInfo): DateTimeInterface
+    public static function detectDate(SplFileInfo $fileInfo): ?DateTimeInterface
     {
         preg_match('#' . self::DATE_PATTERN . '#', $fileInfo->getFilename(), $matches);
+
+        if (count($matches) <= 3) {
+            return null;
+        }
 
         $date = sprintf(
             '%d-%d-%d',
