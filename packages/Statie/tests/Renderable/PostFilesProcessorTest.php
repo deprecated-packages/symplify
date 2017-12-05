@@ -62,66 +62,66 @@ final class PostFilesProcessorTest extends TestCase
 
         $this->assertArrayHasKey('posts', $this->configuration->getOptions());
     }
-
-    public function testPostWithLayoutContent(): void
-    {
-        $this->renderableFilesProcessor->processFileInfos($this->findPostFiles());
-
-        $this->assertStringEqualsFile(
-            __DIR__ . '/RenderFilesProcessorSource/post-with-latte-blocks-expected.html',
-            file_get_contents(__DIR__ . '/RenderFilesProcessorSource/output/blog/2016/01/02/second-title/index.html')
-        );
-    }
-
-    public function testPost(): void
-    {
-        $post = $this->getPost();
-
-        $this->assertSame(1, $post->getReadingTimeInMinutes());
-
-        $this->assertFalse(isset($post['some_key']));
-        $this->assertInstanceOf(DateTimeInterface::class, $post['date']);
-    }
-
-    public function testPostExceptionsOnUnset(): void
-    {
-        $post = $this->getPost();
-        $this->expectException(UnsupportedMethodException::class);
-        unset($post['key']);
-    }
-
-    public function testPostExceptionOnSet(): void
-    {
-        $post = $this->getPost();
-        $this->expectException(UnsupportedMethodException::class);
-        $post['key'] = 'value';
-    }
-
-    public function testPostExceptionOnGetNonExistingSuggestion(): void
-    {
-        $post = $this->getPost();
-
-        $this->expectException(AccessKeyNotAvailableException::class);
-        $this->expectExceptionMessage(sprintf(
-            'Value "layou" was not found for "%s" object. Did you mean "layout"?',
-            PostFile::class
-        ));
-
-        $value = $post['layou'];
-    }
-
-    public function testPostExceptionOnGetNonExistingAllKeys(): void
-    {
-        $post = $this->getPost();
-
-        $this->expectException(AccessKeyNotAvailableException::class);
-        $this->expectExceptionMessage(sprintf(
-            'Value "key" was not found for "%s" object. Available keys are: "layout", "title", "relativeUrl".',
-            PostFile::class
-        ));
-
-        $value = $post['key'];
-    }
+//
+//    public function testPostWithLayoutContent(): void
+//    {
+//        $this->renderableFilesProcessor->processFileInfos($this->findPostFiles());
+//
+//        $this->assertStringEqualsFile(
+//            __DIR__ . '/RenderFilesProcessorSource/post-with-latte-blocks-expected.html',
+//            file_get_contents(__DIR__ . '/RenderFilesProcessorSource/output/blog/2016/01/02/second-title/index.html')
+//        );
+//    }
+//
+//    public function testPost(): void
+//    {
+//        $post = $this->getPost();
+//
+//        $this->assertSame(1, $post->getReadingTimeInMinutes());
+//
+//        $this->assertFalse(isset($post['some_key']));
+//        $this->assertInstanceOf(DateTimeInterface::class, $post['date']);
+//    }
+//
+//    public function testPostExceptionsOnUnset(): void
+//    {
+//        $post = $this->getPost();
+//        $this->expectException(UnsupportedMethodException::class);
+//        unset($post['key']);
+//    }
+//
+//    public function testPostExceptionOnSet(): void
+//    {
+//        $post = $this->getPost();
+//        $this->expectException(UnsupportedMethodException::class);
+//        $post['key'] = 'value';
+//    }
+//
+//    public function testPostExceptionOnGetNonExistingSuggestion(): void
+//    {
+//        $post = $this->getPost();
+//
+//        $this->expectException(AccessKeyNotAvailableException::class);
+//        $this->expectExceptionMessage(sprintf(
+//            'Value "layou" was not found for "%s" object. Did you mean "layout"?',
+//            PostFile::class
+//        ));
+//
+//        $value = $post['layou'];
+//    }
+//
+//    public function testPostExceptionOnGetNonExistingAllKeys(): void
+//    {
+//        $post = $this->getPost();
+//
+//        $this->expectException(AccessKeyNotAvailableException::class);
+//        $this->expectExceptionMessage(sprintf(
+//            'Value "key" was not found for "%s" object. Available keys are: "layout", "title", "relativeUrl".',
+//            PostFile::class
+//        ));
+//
+//        $value = $post['key'];
+//    }
 
     /**
      * @return SplFileInfo[]

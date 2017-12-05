@@ -30,7 +30,7 @@ final class StatieApplicationTest extends TestCase
 
     protected function tearDown(): void
     {
-//        FileSystem::delete(__DIR__ . '/StatieApplicationSource/output');
+        FileSystem::delete(__DIR__ . '/StatieApplicationSource/output');
     }
 
     public function testRUn(): void
@@ -41,15 +41,15 @@ final class StatieApplicationTest extends TestCase
         );
 
         $this->assertFileExists(__DIR__ . '/StatieApplicationSource/output/index.html');
-//        $this->assertFileEquals(
-//            __DIR__ . '/StatieApplicationSource/expected-index.html',
-//            __DIR__ . '/StatieApplicationSource/output/index.html'
-//        );
+        $this->assertFileEquals(
+            __DIR__ . '/StatieApplicationSource/expected-index.html',
+            __DIR__ . '/StatieApplicationSource/output/index.html'
+        );
 
-//        $this->assertFileExists(__DIR__ . '/StatieApplicationSource/output/feed.xml');
-//        $this->assertFileExists(__DIR__ . '/StatieApplicationSource/output/atom.rss');
-//
-//        $this->assertNotEmpty($this->dynamicStringLoader->getContent('default'));
+        $this->assertFileExists(__DIR__ . '/StatieApplicationSource/output/feed.xml');
+        $this->assertFileExists(__DIR__ . '/StatieApplicationSource/output/atom.rss');
+
+        $this->assertNotEmpty($this->dynamicStringLoader->getContent('default'));
     }
 
     public function testRunForMissingSource(): void
