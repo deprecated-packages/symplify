@@ -3,9 +3,6 @@
 namespace Symplify\Statie\Generator\Tests;
 
 use DateTimeInterface;
-use Symplify\Statie\Exception\Renderable\File\AccessKeyNotAvailableException;
-use Symplify\Statie\Exception\Renderable\File\UnsupportedMethodException;
-use Symplify\Statie\Renderable\File\PostFile;
 
 final class GeneratorTest extends AbstractGeneratorTest
 {
