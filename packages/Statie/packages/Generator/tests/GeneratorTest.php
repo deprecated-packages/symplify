@@ -3,13 +3,8 @@
 namespace Symplify\Statie\Generator\Tests;
 
 use DateTimeInterface;
-use Nette\Utils\FileSystem;
-use Symplify\Statie\Configuration\Configuration;
-use Symplify\Statie\DependencyInjection\ContainerFactory;
 use Symplify\Statie\Exception\Renderable\File\AccessKeyNotAvailableException;
 use Symplify\Statie\Exception\Renderable\File\UnsupportedMethodException;
-use Symplify\Statie\FlatWhite\Latte\DynamicStringLoader;
-use Symplify\Statie\Generator\Generator;
 use Symplify\Statie\Renderable\File\PostFile;
 
 final class GeneratorTest extends AbstractGeneratorTest
