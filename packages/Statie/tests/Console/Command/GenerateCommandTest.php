@@ -11,6 +11,11 @@ use Symplify\Statie\Tests\AbstractContainerAwareTestCase;
 final class GenerateCommandTest extends AbstractContainerAwareTestCase
 {
     /**
+     * @var string
+     */
+    private $outputDirectory = __DIR__ . '/GenerateCommandSource/output';
+
+    /**
      * @var Application
      */
     private $application;
@@ -23,7 +28,7 @@ final class GenerateCommandTest extends AbstractContainerAwareTestCase
 
     protected function tearDown(): void
     {
-        FileSystem::delete(__DIR__ . DIRECTORY_SEPARATOR . 'GenerateCommandSource' . DIRECTORY_SEPARATOR . 'output');
+        FileSystem::delete($this->outputDirectory);
     }
 
     public function test(): void
@@ -31,21 +36,21 @@ final class GenerateCommandTest extends AbstractContainerAwareTestCase
         $stringInput = sprintf(
             'generate %s --output %s',
             __DIR__ . '/GenerateCommandSource/source',
-            __DIR__ . '/GenerateCommandSource/output'
+            $this->outputDirectory
         );
 
         $input = new StringInput($stringInput);
         $result = $this->application->run($input, new NullOutput());
         $this->assertSame(0, $result);
 
-        $this->assertFileExists(__DIR__ . '/GenerateCommandSource/output/index.html');
+        $this->assertFileExists($this->outputDirectory . '/index.html');
     }
 
     public function testException(): void
     {
         $stringInput = sprintf(
             'generate --source %s',
-            __DIR__ . DIRECTORY_SEPARATOR . 'GenerateCommandSource' . 'missing'
+            __DIR__ . '/GenerateCommandSource/missing'
         );
         $input = new StringInput($stringInput);
 

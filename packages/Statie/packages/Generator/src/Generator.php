@@ -53,6 +53,10 @@ final class Generator
 
     private function processGeneratorElement(GeneratorElement $generatorElement): void
     {
+        if (! is_dir($generatorElement->getPath())) {
+            return;
+        }
+
         // find files in ...
         $fileInfos = $this->fileFinder->findInDirectory($generatorElement->getPath());
         if (! count($fileInfos)) {
