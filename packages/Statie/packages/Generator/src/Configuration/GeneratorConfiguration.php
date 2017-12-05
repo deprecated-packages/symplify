@@ -33,7 +33,7 @@ final class GeneratorConfiguration
      */
     public function getGeneratorElements(): array
     {
-        $generators = $this->parameterProvider->provideParameter(self::CONFIG_KEY);
+        $generators = (array) $this->parameterProvider->provideParameter(self::CONFIG_KEY);
 
         $generatorElements = [];
 

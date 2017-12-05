@@ -37,6 +37,7 @@ final class StatieApplication
      * @var Generator
      */
     private $generator;
+
     /**
      * @var FileFinder
      */
