@@ -1,4 +1,5 @@
 ---
+
 id: 3
 layout: post
 title: "Statie 3: How to Add Reusable Parts of Code"

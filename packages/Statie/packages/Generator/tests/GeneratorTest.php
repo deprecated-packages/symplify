@@ -4,62 +4,16 @@ namespace Symplify\Statie\Generator\Tests;
 
 use DateTimeInterface;
 use Nette\Utils\FileSystem;
-use PHPUnit\Framework\TestCase;
 use Symplify\Statie\Configuration\Configuration;
 use Symplify\Statie\DependencyInjection\ContainerFactory;
 use Symplify\Statie\Exception\Renderable\File\AccessKeyNotAvailableException;
 use Symplify\Statie\Exception\Renderable\File\UnsupportedMethodException;
-use Symplify\Statie\FileSystem\FileFinder;
 use Symplify\Statie\FlatWhite\Latte\DynamicStringLoader;
 use Symplify\Statie\Generator\Generator;
 use Symplify\Statie\Renderable\File\PostFile;
 
-final class GeneratorTest extends TestCase
+final class GeneratorTest extends AbstractGeneratorTest
 {
-    /**
-     * @var string
-     */
-    private $outputDirectory = __DIR__ . '/GeneratorSource/output';
-
-    /**
-     * @var string
-     */
-    private $sourceDirectory = __DIR__ . '/GeneratorSource/source';
-
-    /**
-     * @var Configuration
-     */
-    private $configuration;
-
-    /**
-     * @var Generator
-     */
-    private $generator;
-
-    protected function setUp(): void
-    {
-        $container = (new ContainerFactory())->create();
-
-        $this->configuration = $container->get(Configuration::class);
-        $this->configuration->setSourceDirectory($this->sourceDirectory);
-        $this->configuration->setOutputDirectory($this->outputDirectory);
-
-        $this->generator = $container->get(Generator::class);
-
-        // add post layout
-        /** @var DynamicStringLoader $dynamicStringLoader */
-        $dynamicStringLoader = $container->get(DynamicStringLoader::class);
-        $dynamicStringLoader->changeContent(
-            'post',
-            file_get_contents($this->sourceDirectory . '/_layouts/post.latte')
-        );
-    }
-
-    protected function tearDown(): void
-    {
-        FileSystem::delete($this->outputDirectory);
-    }
-
     public function testPosts(): void
     {
         $this->generator->run();
@@ -134,12 +88,12 @@ final class GeneratorTest extends TestCase
         $value = $post['key'];
     }
 
-    private function getPost(): PostFile
+    private function getPost(int $order = 0): PostFile
     {
         $this->generator->run();
 
         $posts = $this->configuration->getOption('posts');
 
-        return $posts[0];
+        return $posts[$order];
     }
 }
