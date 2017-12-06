@@ -29,8 +29,7 @@ parameters:
         - '#Parameter \#1 \$index of method PhpCsFixer\\Tokenizer\\Tokens::(getPrevMeaningfulToken|getNextMeaningfulToken)\(\) expects int, int\|null given#'
         - '#Call to an undefined method Symfony\\Component\\DependencyInjection\\ContainerInterface::getParameterBag()#'
         - '#Parameter \#2 \$(start|end) of static method Symplify\\TokenRunner\\Naming\\Name\\NameFactory::createFromTokensAnd(Start|End)\(\) expects int, int\|null given#'
-        - '#Parameter \#2 \$position of static method Symplify\\TokenRunner\\Wrapper\\SnifferWrapper\\ClassWrapper::createFromFileAndPosition\(\) expects int, bool\|int given#'
-        - '#Parameter \#2 \$position of static method Symplify\\TokenRunner\\Wrapper\\SnifferWrapper\\MethodWrapper::createFromFileAndPosition\(\) expects int, bool\|int given#'
+        - '#Parameter \#2 \$position of static method Symplify\\TokenRunner\\Wrapper\\SnifferWrapper\\(Class|Method)Wrapper::createFromFileAndPosition\(\) expects int, (bool\|int|int\|true) given#'
 
         # buggy
         - '#Call to an undefined method PHP_CodeSniffer\\Sniffs\\Sniff|Symplify\\EasyCodingStandard\\Contract\\Application\\DualRunInterface::increaseRun\(\)#'
