@@ -41,7 +41,7 @@ public function getCount()
 
     public function isCandidate(Tokens $tokens): bool
     {
-        return $tokens->isAllTokenKindsFound([T_FUNCTION, T_DOC_COMMENT]);
+        return $tokens->isTokenKindFound(T_DOC_COMMENT);
     }
 
     public function fix(SplFileInfo $file, Tokens $tokens): void
