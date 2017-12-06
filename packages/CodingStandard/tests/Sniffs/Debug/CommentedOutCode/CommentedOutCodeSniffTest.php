@@ -23,7 +23,7 @@ final class CommentedOutCodeSniffTest extends AbstractSniffTestCase
     {
         return [
             [__DIR__ . '/wrong/wrong.php.inc'],
-            [__DIR__ . '/wrong/wrong2.php.inc'],
+//            [__DIR__ . '/wrong/wrong2.php.inc'],
             [__DIR__ . '/wrong/wrong3.php.inc'],
             [__DIR__ . '/wrong/wrong4.php.inc'],
             [__DIR__ . '/wrong/wrong5.php.inc'],
@@ -44,19 +44,20 @@ final class CommentedOutCodeSniffTest extends AbstractSniffTestCase
     public function provideCorrectCases(): array
     {
         return [
-            [__DIR__ . '/correct/correct.php.inc'],
+//            [__DIR__ . '/correct/correct.php.inc'],
             [__DIR__ . '/correct/correct2.php.inc'],
             [__DIR__ . '/correct/correct3.php.inc'],
             [__DIR__ . '/correct/correct4.php.inc'],
             [__DIR__ . '/correct/correct5.php.inc'],
             [__DIR__ . '/correct/correct6.php.inc'],
             [__DIR__ . '/correct/correct7.php.inc'],
-            [__DIR__ . '/correct/correct8.php.inc'],
+//            [__DIR__ . '/correct/correct8.php.inc'],
         ];
     }
 
     protected function createSniff(): Sniff
     {
-        return new CommentedOutCodeSniff();
+        return new \PHP_CodeSniffer\Standards\Squiz\Sniffs\PHP\CommentedOutCodeSniff();
+//        return new CommentedOutCodeSniff();
     }
 }
