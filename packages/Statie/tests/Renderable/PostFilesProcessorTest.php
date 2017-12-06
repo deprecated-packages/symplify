@@ -77,7 +77,7 @@ final class PostFilesProcessorTest extends TestCase
     {
         $post = $this->getPost();
 
-        $this->assertSame(9, $post->getWordCount());
+        $this->assertSame(2, $post->getWordCount());
         $this->assertSame(1, $post->getReadingTimeInMinutes());
 
         $this->assertFalse(isset($post['some_key']));
@@ -104,11 +104,11 @@ final class PostFilesProcessorTest extends TestCase
 
         $this->expectException(AccessKeyNotAvailableException::class);
         $this->expectExceptionMessage(sprintf(
-            'Value "layou" was not found for "%s" object. Did you mean "layout"?',
+            'Value "relativeUr" was not found for "%s" object. Did you mean "relativeUrl"?',
             PostFile::class
         ));
 
-        $value = $post['layou'];
+        $value = $post['relativeUr'];
     }
 
     public function testPostExceptionOnGetNonExistingAllKeys(): void
@@ -117,7 +117,7 @@ final class PostFilesProcessorTest extends TestCase
 
         $this->expectException(AccessKeyNotAvailableException::class);
         $this->expectExceptionMessage(sprintf(
-            'Value "key" was not found for "%s" object. Available keys are: "layout", "title", "relativeUrl".',
+            'Value "key" was not found for "%s" object. Available keys are: "relativeUrl".',
             PostFile::class
         ));
 
