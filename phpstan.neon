@@ -18,6 +18,7 @@ parameters:
         - '#Method Symplify\\EasyCodingStandard\\Finder\\FinderSanitizer::turnInfoSymfonyFileInfos\(\) should return array<Symfony\\Component\\Finder\\SplFileInfo> but returns array<SplFileInfo>#'
         - '#Parameter \#2 \$arrayType of static method Symplify\\TokenRunner\\DocBlock\\ArrayResolver::resolveArrayType\(\) expects phpDocumentor\\Reflection\\Types\\Array_, phpDocumentor\\Reflection\\Type(\|null)? given#'
         - '#Parameter \#1 \$description of method Symplify\\CodingStandard\\Fixer\\Commenting\\RemoveUselessDocBlockFixer::isDescriptionUseful\(\) expects string, string\|null given#'
+        - '#Parameter \#1 \$sniffClass of method Symplify\\EasyCodingStandard\\SniffRunner\\File\\File::isSniffClassWarningAllowed\(\) expects string, (string\|null) given#'
 
         # intentional stricter phpDocumentor\Reflection\Types\This
         - '#Method Symplify\\[A-Za-z\\]+\\ContainerFactory::(create|createWithConfig)\(\) should return Symfony\\Component\\DependencyInjection\\Container but returns Symfony\\Component\\DependencyInjection\\ContainerInterface#'
@@ -28,8 +29,7 @@ parameters:
         - '#Parameter \#1 \$index of method PhpCsFixer\\Tokenizer\\Tokens::(getPrevMeaningfulToken|getNextMeaningfulToken)\(\) expects int, int\|null given#'
         - '#Call to an undefined method Symfony\\Component\\DependencyInjection\\ContainerInterface::getParameterBag()#'
         - '#Parameter \#2 \$(start|end) of static method Symplify\\TokenRunner\\Naming\\Name\\NameFactory::createFromTokensAnd(Start|End)\(\) expects int, int\|null given#'
-        - '#Parameter \#2 \$position of static method Symplify\\TokenRunner\\Wrapper\\SnifferWrapper\\ClassWrapper::createFromFileAndPosition\(\) expects int, bool\|int given#'
-        - '#Parameter \#2 \$position of static method Symplify\\TokenRunner\\Wrapper\\SnifferWrapper\\MethodWrapper::createFromFileAndPosition\(\) expects int, bool\|int given#'
+        - '#Parameter \#2 \$position of static method Symplify\\TokenRunner\\Wrapper\\SnifferWrapper\\(Class|Method)Wrapper::createFromFileAndPosition\(\) expects int, (bool\|int|int\|true) given#'
 
         # buggy
         - '#Call to an undefined method PHP_CodeSniffer\\Sniffs\\Sniff|Symplify\\EasyCodingStandard\\Contract\\Application\\DualRunInterface::increaseRun\(\)#'

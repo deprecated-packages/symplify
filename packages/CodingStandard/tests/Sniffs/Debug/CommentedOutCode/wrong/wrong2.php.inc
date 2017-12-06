@@ -1,6 +1,5 @@
 <?php
 
-return [
-/*    new SymplifyDefaultAutowireBundle */
-/*    new SymplifyDefaultAutowireBundle */
-];
+// $variable = "hello";
+// $variable = 1;
+// return $this->variable;

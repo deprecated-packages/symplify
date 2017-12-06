@@ -26,7 +26,6 @@ final class CommentedOutCodeSniffTest extends AbstractSniffTestCase
             [__DIR__ . '/wrong/wrong2.php.inc'],
             [__DIR__ . '/wrong/wrong3.php.inc'],
             [__DIR__ . '/wrong/wrong4.php.inc'],
-            [__DIR__ . '/wrong/wrong5.php.inc'],
         ];
     }
 

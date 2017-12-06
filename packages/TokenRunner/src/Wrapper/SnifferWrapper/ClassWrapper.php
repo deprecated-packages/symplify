@@ -116,18 +116,21 @@ final class ClassWrapper
         }
 
         $methods = [];
-        $classOpenerPosition = $this->classToken['scope_opener'] + 1;
-
-        while (($methodTokenPointer = $this->file->findNext(
+        $methodTokenPointer = $this->file->findNext(
             T_FUNCTION,
-            $classOpenerPosition,
+            $this->classToken['scope_opener'] + 1,
             $this->classToken['scope_closer']
-        )) !== false
-        ) {
-            $classOpenerPosition = $methodTokenPointer + 1;
+        );
 
+        while ($methodTokenPointer !== false) {
             $method = MethodWrapper::createFromFileAndPosition($this->file, $methodTokenPointer);
             $methods[$method->getName()] = $method;
+
+            $methodTokenPointer = $this->file->findNext(
+                T_FUNCTION,
+                $methodTokenPointer + 1,
+                $this->classToken['scope_closer']
+            );
         }
 
         return $this->methods = $methods;
