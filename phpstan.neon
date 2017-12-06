@@ -21,6 +21,7 @@ parameters:
 
         # intentional stricter phpDocumentor\Reflection\Types\This
         - '#Method Symplify\\[A-Za-z\\]+\\ContainerFactory::(create|createWithConfig)\(\) should return Symfony\\Component\\DependencyInjection\\Container but returns Symfony\\Component\\DependencyInjection\\ContainerInterface#'
+        - '#Symplify\\TokenRunner\\Wrapper\\FixerWrapper\\DocBlockWrapper::getParamTags\(\) should return array<phpDocumentor\\Reflection\\DocBlock\\Tags\\Param> but returns array<phpDocumentor\\Reflection\\DocBlock\\Tag>#'
 
         # Token Runner
         - '#Parameter \#2 \$docBlockPosition of static method Symplify\\TokenRunner\\Wrapper\\FixerWrapper\\DocBlockWrapper::createFromTokensPositionAndDocBlock\(\) expects int, int\|null given#'
