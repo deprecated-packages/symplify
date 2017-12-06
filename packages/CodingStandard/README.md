@@ -208,6 +208,39 @@ public function setCount(int $value, $anotherValue, SomeType $someService): arra
 ```
 
 
+
+### Block comment should not have 2 empty lines in a row
+
+- class: [`Symplify\CodingStandard\Fixer\Commenting\RemoveSuperfluousDocBlockWhitespaceFixer`](/src/Fixer/Commenting/RemoveSuperfluousDocBlockWhitespaceFixer.php)
+
+:x:
+
+```php
+/**
+ * @param int $value
+ *
+ *
+ * @return array
+ */
+public function setCount($value)
+{
+}
+```
+
+:+1:
+
+```php
+/**
+ * @param int $value
+ *
+ * @return array
+ */
+public function setCount($value)
+{
+}
+```
+
+
 ### Include/Require should be followed by absolute path
 
 - class: [`Symplify\CodingStandard\Fixer\ControlStructure\RequireFollowedByAbsolutePathFixer`](/src/Fixer/ControlStructure/RequireFollowedByAbsolutePathFixer.php)
