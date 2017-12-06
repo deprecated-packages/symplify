@@ -35,7 +35,8 @@
         "psr-4": {
             "Symplify\\Statie\\": "src",
             "Symplify\\Statie\\FlatWhite\\": "packages/FlatWhite/src",
-            "Symplify\\Statie\\RelatedPosts\\": "packages/RelatedPosts/src"
+            "Symplify\\Statie\\RelatedPosts\\": "packages/RelatedPosts/src",
+            "Symplify\\Statie\\Generator\\": "packages/Generator/src"
         }
     },
     "autoload-dev": {

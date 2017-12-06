@@ -2,7 +2,9 @@
 
 namespace Symplify\Statie\Renderable\File;
 
+use DateTimeInterface;
 use SplFileInfo;
+use Symplify\Statie\Utils\PathAnalyzer;
 
 abstract class AbstractFile
 {
@@ -36,12 +38,30 @@ abstract class AbstractFile
      */
     private $filePath;
 
+    /**
+     * @var DateTimeInterface|null
+     */
+    private $dateTime;
+
+    /**
+     * @var string
+     */
+    private $filenameWithoutDate;
+
     public function __construct(SplFileInfo $fileInfo, string $relativeSource, string $filePath)
     {
         $this->relativeSource = $relativeSource;
         $this->fileInfo = $fileInfo;
         $this->filePath = $filePath;
         $this->content = file_get_contents($fileInfo->getRealPath());
+
+        // optional values
+        $this->dateTime = PathAnalyzer::detectDate($fileInfo);
+        if ($this->dateTime) {
+            $this->filenameWithoutDate = PathAnalyzer::detectFilenameWithoutDate($fileInfo);
+        } else {
+            $this->filenameWithoutDate = $fileInfo->getBasename('.' . $fileInfo->getExtension());
+        }
     }
 
     public function getFilePath(): string
@@ -127,8 +147,50 @@ abstract class AbstractFile
         return $this->configuration;
     }
 
-    public function getLayout(): string
+    /**
+     * Get single option from configuration
+     *
+     * @return mixed|null
+     */
+    public function getOption(string $name)
     {
-        return $this->configuration['layout'] ?? '';
+        return $this->configuration[$name] ?? null;
+    }
+
+    public function getLayout(): ?string
+    {
+        return $this->configuration['layout'] ?? null;
+    }
+
+    public function getDate(): ?DateTimeInterface
+    {
+        return $this->dateTime;
+    }
+
+    public function getDateInFormat(string $format): ?string
+    {
+        if ($this->dateTime) {
+            return $this->dateTime->format($format);
+        }
+
+        return null;
+    }
+
+    public function getFilenameWithoutDate(): string
+    {
+        return $this->filenameWithoutDate;
+    }
+
+    /**
+     * @return int[]
+     */
+    public function getRelatedItemsIds(): array
+    {
+        return $this->getOption('related_items') ?? [];
+    }
+
+    public function getId(): ?int
+    {
+        return $this->getOption('id');
     }
 }

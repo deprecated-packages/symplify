@@ -1,22 +1,18 @@
-imports:
-    - { resource: '../../packages/**/src/config/services.yml' }
-
 services:
     _defaults:
         autowire: true
         public: true # for tests
 
-    # PSR-4 autodiscovery
     Symplify\Statie\:
         resource: ../../src
         exclude: ../../src/{Exception,Renderable/File/File.php,Renderable/File/PostFile.php}
 
-    # 3rd party services
-    Symfony\Component\Console\Application: ~
-
-    ParsedownExtra:
-        class: ParsedownExtra
-
-    Symplify\PackageBuilder\Parameter\ParameterProvider: ~
-
-    GitWrapper\GitWrapper: ~
+    Symplify\Statie\Renderable\RenderableFilesProcessor:
+        # order is important, since determined order of calls in code
+        calls:
+            # has to run before Markdown; so it can render perex and content is set
+            - ['addFileDecorator', ['@Symplify\Statie\Renderable\ConfigurationDecorator']]
+            # has to run before Latte; it fails the other way.
+            - ['addFileDecorator', ['@Symplify\Statie\Renderable\MarkdownFileDecorator']]
+            - ['addFileDecorator', ['@Symplify\Statie\Renderable\LatteFileDecorator']]
+            - ['addFileDecorator', ['@Symplify\Statie\Renderable\RouteFileDecorator']]

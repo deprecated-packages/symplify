@@ -19,10 +19,12 @@ parameters:
         - '#Parameter \#2 \$arrayType of static method Symplify\\TokenRunner\\DocBlock\\ArrayResolver::resolveArrayType\(\) expects phpDocumentor\\Reflection\\Types\\Array_, phpDocumentor\\Reflection\\Type(\|null)? given#'
         - '#Parameter \#1 \$description of method Symplify\\CodingStandard\\Fixer\\Commenting\\RemoveUselessDocBlockFixer::isDescriptionUseful\(\) expects string, string\|null given#'
 
+        # intentional stricter phpDocumentor\Reflection\Types\This
+        - '#Method Symplify\\[A-Za-z\\]+\\ContainerFactory::(create|createWithConfig)\(\) should return Symfony\\Component\\DependencyInjection\\Container but returns Symfony\\Component\\DependencyInjection\\ContainerInterface#'
+
         # Token Runner
         - '#Parameter \#2 \$docBlockPosition of static method Symplify\\TokenRunner\\Wrapper\\FixerWrapper\\DocBlockWrapper::createFromTokensPositionAndDocBlock\(\) expects int, int\|null given#'
         - '#Parameter \#1 \$index of method PhpCsFixer\\Tokenizer\\Tokens::(getPrevMeaningfulToken|getNextMeaningfulToken)\(\) expects int, int\|null given#'
-        - '#Call to an undefined method Psr\\Container\\ContainerInterface::isCompiled\(\)#'
         - '#Call to an undefined method Symfony\\Component\\DependencyInjection\\ContainerInterface::getParameterBag()#'
         - '#Parameter \#2 \$(start|end) of static method Symplify\\TokenRunner\\Naming\\Name\\NameFactory::createFromTokensAnd(Start|End)\(\) expects int, int\|null given#'
         - '#Parameter \#2 \$position of static method Symplify\\TokenRunner\\Wrapper\\SnifferWrapper\\ClassWrapper::createFromFileAndPosition\(\) expects int, bool\|int given#'
@@ -31,6 +33,9 @@ parameters:
         # buggy
         - '#Call to an undefined method PHP_CodeSniffer\\Sniffs\\Sniff|Symplify\\EasyCodingStandard\\Contract\\Application\\DualRunInterface::increaseRun\(\)#'
         - '#Symplify\\EasyCodingStandard\\Contract\\Application\\DualRunInterface#'
+        # object
+        - '#does not accept object#'
+        - '#Call to an undefined method object#'
 
         # part of test
         - '#Parameter \#1 \$finder of method Symplify\\EasyCodingStandard\\Finder\\FinderSanitizer::sanitize\(\) expects Nette\\Utils\\Finder|Symfony\\Component\\Finder\\Finder, SplFileInfo\[\] given#'

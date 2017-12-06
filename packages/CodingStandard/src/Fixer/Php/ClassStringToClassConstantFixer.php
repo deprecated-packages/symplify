@@ -94,10 +94,12 @@ final class ClassStringToClassConstantFixer implements DefinedFixerInterface, Co
         return self::class;
     }
 
+    /**
+     * Run before @see \Symplify\CodingStandard\Fixer\Import\ImportNamespacedNameFixer
+     */
     public function getPriority(): int
     {
-        // run before the OrderedImportsFixer, after the NoLeadingImportSlashFixer
-        return -25;
+        return 15;
     }
 
     public function supports(SplFileInfo $file): bool
