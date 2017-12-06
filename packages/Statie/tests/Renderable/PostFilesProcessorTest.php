@@ -77,7 +77,7 @@ final class PostFilesProcessorTest extends TestCase
     {
         $post = $this->getPost();
 
-        $this->assertSame(2, $post->getWordCount());
+        $this->assertSame(9, $post->getWordCount());
         $this->assertSame(1, $post->getReadingTimeInMinutes());
 
         $this->assertFalse(isset($post['some_key']));
@@ -117,7 +117,7 @@ final class PostFilesProcessorTest extends TestCase
 
         $this->expectException(AccessKeyNotAvailableException::class);
         $this->expectExceptionMessage(sprintf(
-            'Value "key" was not found for "%s" object. Available keys are: "relativeUrl".',
+            'Value "key" was not found for "%s" object. Available keys are: "layout", "title", "relativeUrl".',
             PostFile::class
         ));
 
