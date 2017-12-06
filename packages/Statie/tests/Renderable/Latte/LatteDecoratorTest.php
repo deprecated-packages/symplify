@@ -6,7 +6,7 @@ use SplFileInfo;
 use Symplify\Statie\Exception\Latte\InvalidLatteSyntaxException;
 use Symplify\Statie\FlatWhite\Latte\DynamicStringLoader;
 use Symplify\Statie\Renderable\File\FileFactory;
-use Symplify\Statie\Renderable\Latte\LatteFileDecorator;
+use Symplify\Statie\Renderable\LatteFileDecorator;
 use Symplify\Statie\Tests\AbstractContainerAwareTestCase;
 
 final class LatteDecoratorTest extends AbstractContainerAwareTestCase

@@ -3,12 +3,11 @@
 namespace Symplify\Statie\Renderable;
 
 use SplFileInfo;
-use Symplify\Statie\Configuration\Configuration;
 use Symplify\Statie\Contract\Renderable\FileDecoratorInterface;
-use Symplify\Statie\Output\FileSystemWriter;
+use Symplify\Statie\FileSystem\FileSystemWriter;
+use Symplify\Statie\Generator\Configuration\GeneratorElement;
 use Symplify\Statie\Renderable\File\AbstractFile;
 use Symplify\Statie\Renderable\File\FileFactory;
-use Symplify\Statie\Renderable\File\PostFile;
 
 final class RenderableFilesProcessor
 {
@@ -23,23 +22,14 @@ final class RenderableFilesProcessor
     private $fileSystemWriter;
 
     /**
-     * @var Configuration
-     */
-    private $configuration;
-
-    /**
      * @var FileDecoratorInterface[]
      */
     private $fileDecorators = [];
 
-    public function __construct(
-        FileFactory $fileFactory,
-        FileSystemWriter $fileSystemWriter,
-        Configuration $configuration
-    ) {
+    public function __construct(FileFactory $fileFactory, FileSystemWriter $fileSystemWriter)
+    {
         $this->fileFactory = $fileFactory;
         $this->fileSystemWriter = $fileSystemWriter;
-        $this->configuration = $configuration;
     }
 
     public function addFileDecorator(FileDecoratorInterface $fileDecorator): void
@@ -50,7 +40,7 @@ final class RenderableFilesProcessor
     /**
      * @param SplFileInfo[] $fileInfos
      */
-    public function processFiles(array $fileInfos): void
+    public function processFileInfos(array $fileInfos): void
     {
         if (! count($fileInfos)) {
             return;
@@ -58,9 +48,7 @@ final class RenderableFilesProcessor
 
         $files = $this->fileFactory->createFromFileInfos($fileInfos);
 
-        $this->setPostsToConfiguration($files);
-
-        foreach ($this->getFileDecorators() as $fileDecorator) {
+        foreach ($this->fileDecorators as $fileDecorator) {
             $files = $fileDecorator->decorateFiles($files);
         }
 
@@ -68,29 +56,18 @@ final class RenderableFilesProcessor
     }
 
     /**
-     * @param AbstractFile[] $files
+     * @param AbstractFile[] $objects
      */
-    private function setPostsToConfiguration(array $files): void
+    public function processGeneratorElementObjects(array $objects, GeneratorElement $generatorElement): void
     {
-        if (reset($files) instanceof PostFile) {
-            $this->configuration->addPosts($files);
+        if (! count($objects)) {
+            return;
         }
-    }
 
-    /**
-     * @return FileDecoratorInterface[]
-     */
-    private function getFileDecorators(): array
-    {
-        $this->sortFileDecorators();
+        foreach ($this->fileDecorators as $fileDecorator) {
+            $objects = $fileDecorator->decorateFilesWithGeneratorElement($objects, $generatorElement);
+        }
 
-        return $this->fileDecorators;
-    }
-
-    private function sortFileDecorators(): void
-    {
-        usort($this->fileDecorators, function (FileDecoratorInterface $first, FileDecoratorInterface $second) {
-            return $first->getPriority() < $second->getPriority();
-        });
+        $this->fileSystemWriter->copyRenderableFiles($objects);
     }
 }

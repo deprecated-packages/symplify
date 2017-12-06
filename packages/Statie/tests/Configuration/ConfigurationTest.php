@@ -16,7 +16,6 @@ final class ConfigurationTest extends TestCase
         /** @var Configuration $configuration */
         $configuration = $container->get(Configuration::class);
 
-        $this->assertSame('blog/:year/:month/:day/:title', $configuration->getPostRoute());
         $this->assertTrue($configuration->isMarkdownHeadlineAnchors());
         $this->assertSame('TomasVotruba/tomasvotruba.cz', $configuration->getGithubRepositorySlug());
     }

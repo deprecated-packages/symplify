@@ -4,16 +4,10 @@ namespace Symplify\Statie\Configuration;
 
 use Symplify\PackageBuilder\Parameter\ParameterProvider;
 use Symplify\Statie\Exception\Configuration\MissingGithubRepositorySlugException;
-use Symplify\Statie\Renderable\File\PostFile;
-use Symplify\Statie\Utils\FilesystemChecker;
+use Symplify\Statie\FileSystem\FileSystemGuard;
 
 final class Configuration
 {
-    /**
-     * @var string
-     */
-    public const OPTION_POST_ROUTE = 'post_route';
-
     /**
      * @var string
      */
@@ -23,16 +17,6 @@ final class Configuration
      * @var string
      */
     public const OPTION_MARKDOWN_HEADLINE_ANCHORS = 'markdown_headline_anchors';
-
-    /**
-     * @var string
-     */
-    private const OPTION_POSTS = 'posts';
-
-    /**
-     * @var string
-     */
-    private const DEFAULT_POST_ROUTE = 'blog/:year/:month/:day/:title';
 
     /**
      * @var array
@@ -50,28 +34,20 @@ final class Configuration
     private $outputDirectory;
 
     /**
-     * @var FilesystemChecker
+     * @var FileSystemGuard
      */
-    private $filesystemChecker;
+    private $fileSystemGuard;
 
-    public function __construct(ParameterProvider $parameterProvider, FilesystemChecker $filesystemChecker)
+    public function __construct(ParameterProvider $parameterProvider, FileSystemGuard $fileSystemGuard)
     {
         $this->options += $parameterProvider->provide();
-        $this->filesystemChecker = $filesystemChecker;
-    }
-
-    /**
-     * @param PostFile[] $posts
-     */
-    public function addPosts(array $posts): void
-    {
-        $this->options[self::OPTION_POSTS] = $posts;
+        $this->fileSystemGuard = $fileSystemGuard;
     }
 
     public function setSourceDirectory(string $sourceDirectory): void
     {
         $sourceDirectory = rtrim($sourceDirectory, '/');
-        $this->filesystemChecker->ensureDirectoryExists($sourceDirectory);
+        $this->fileSystemGuard->ensureDirectoryExists($sourceDirectory);
         $this->sourceDirectory = $sourceDirectory;
     }
 
@@ -92,11 +68,6 @@ final class Configuration
         }
 
         return getcwd() . DIRECTORY_SEPARATOR . 'source';
-    }
-
-    public function getPostRoute(): string
-    {
-        return $this->options[self::OPTION_POST_ROUTE] ?? self::DEFAULT_POST_ROUTE;
     }
 
     public function getGithubRepositorySlug(): string
@@ -126,11 +97,6 @@ final class Configuration
         return $this->options;
     }
 
-    public function setPostRoute(string $postRoute): void
-    {
-        $this->options[self::OPTION_POST_ROUTE] = $postRoute;
-    }
-
     public function enableMarkdownHeadlineAnchors(): void
     {
         $this->options[self::OPTION_MARKDOWN_HEADLINE_ANCHORS] = true;
@@ -139,5 +105,21 @@ final class Configuration
     public function disableMarkdownHeadlineAnchors(): void
     {
         $this->options[self::OPTION_MARKDOWN_HEADLINE_ANCHORS] = false;
+    }
+
+    /**
+     * @param mixed $value
+     */
+    public function addOption(string $name, $value): void
+    {
+        $this->options[$name] = $value;
+    }
+
+    /**
+     * @return mixed|null
+     */
+    public function getOption(string $name)
+    {
+        return $this->options[$name] ?? null;
     }
 }

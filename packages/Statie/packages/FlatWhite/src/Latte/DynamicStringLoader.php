@@ -4,12 +4,11 @@ namespace Symplify\Statie\FlatWhite\Latte;
 
 use Latte\ILoader;
 use RuntimeException;
-use Symplify\Statie\FlatWhite\Contract\Latte\MutableContentLoaderInterface;
 
 /**
  * Inspired by @see \Latte\Loaders\StringLoader.
  */
-final class DynamicStringLoader implements ILoader, MutableContentLoaderInterface
+final class DynamicStringLoader implements ILoader
 {
     /**
      * @var string[]

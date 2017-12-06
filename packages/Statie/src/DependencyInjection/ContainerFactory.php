@@ -2,15 +2,11 @@
 
 namespace Symplify\Statie\DependencyInjection;
 
-use Psr\Container\ContainerInterface;
 use Symfony\Component\DependencyInjection\Container;
 
 final class ContainerFactory
 {
-    /**
-     * @return Container|ContainerInterface
-     */
-    public function create(): ContainerInterface
+    public function create(): Container
     {
         $appKernel = new AppKernel();
         $appKernel->boot();
@@ -18,10 +14,7 @@ final class ContainerFactory
         return $appKernel->getContainer();
     }
 
-    /**
-     * @return Container|ContainerInterface
-     */
-    public function createWithConfig(string $config): ContainerInterface
+    public function createWithConfig(string $config): Container
     {
         $appKernel = new AppKernel($config);
         $appKernel->boot();

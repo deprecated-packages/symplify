@@ -20,7 +20,7 @@ final class LatteRenderer
     /**
      * @var string
      */
-    private const PLACEHOLDER_PREFIX = '___replace_block_';
+    private const PLACEHOLDER_PREFIX = '___replace_block___';
 
     /**
      * @var Engine

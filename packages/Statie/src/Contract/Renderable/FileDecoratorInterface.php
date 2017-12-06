@@ -2,6 +2,7 @@
 
 namespace Symplify\Statie\Contract\Renderable;
 
+use Symplify\Statie\Generator\Configuration\GeneratorElement;
 use Symplify\Statie\Renderable\File\AbstractFile;
 
 interface FileDecoratorInterface
@@ -13,7 +14,8 @@ interface FileDecoratorInterface
     public function decorateFiles(array $files): array;
 
     /**
-     * Higher priorities are executed first.
+     * @param AbstractFile[] $files
+     * @return AbstractFile[]
      */
-    public function getPriority(): int;
+    public function decorateFilesWithGeneratorElement(array $files, GeneratorElement $generatorElement): array;
 }

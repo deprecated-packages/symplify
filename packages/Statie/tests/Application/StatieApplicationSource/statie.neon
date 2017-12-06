@@ -1,5 +1,2 @@
 includes:
     - source/data/config.neon
-
-parameters:
-    amp: true

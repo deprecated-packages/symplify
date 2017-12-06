@@ -2,11 +2,11 @@
 
 namespace Symplify\PackageBuilder\Tests;
 
-use Psr\Container\ContainerInterface;
+use Symfony\Component\DependencyInjection\Container;
 
 final class ContainerFactory
 {
-    public function createWithConfig(string $configPath): ContainerInterface
+    public function createWithConfig(string $configPath): Container
     {
         $appKernel = new AppKernel($configPath);
         $appKernel->boot();

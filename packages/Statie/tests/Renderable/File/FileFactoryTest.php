@@ -4,7 +4,6 @@ namespace Symplify\Statie\Tests\Renderable\File;
 
 use DateTimeInterface;
 use Symplify\Statie\Configuration\Configuration;
-use Symplify\Statie\Exception\Renderable\File\MissingDateInFileNameException;
 use Symplify\Statie\Renderable\File\File;
 use Symplify\Statie\Renderable\File\FileFactory;
 use Symplify\Statie\Renderable\File\PostFile;
@@ -42,7 +41,7 @@ final class FileFactoryTest extends AbstractContainerAwareTestCase
 
         $this->assertSame('someRemoteFile', $file->getRelativeUrl());
         $this->assertSame('someFile', $file->getBaseName());
-        $this->assertSame('', $file->getLayout());
+        $this->assertNull($file->getLayout());
     }
 
     public function testPost(): void
@@ -57,15 +56,5 @@ final class FileFactoryTest extends AbstractContainerAwareTestCase
         $this->assertInstanceOf(DateTimeInterface::class, $postFile->getDate());
         $this->assertSame('2016-01-01', $postFile->getDateInFormat('Y-m-d'));
         $this->assertSame('somePost', $postFile->getFilenameWithoutDate());
-    }
-
-    public function testInvalidPostName(): void
-    {
-        $this->expectException(MissingDateInFileNameException::class);
-        $this->expectExceptionMessage(
-            'Post file "somePost.latte" name has to start with a date in "Y-m-d" format. E.g. "2016-01-01-name.md".'
-        );
-
-        $this->fileFactory->createFromFilePath(__DIR__ . '/FileFactorySource/_posts/somePost.latte');
     }
 }

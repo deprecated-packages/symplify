@@ -4,7 +4,7 @@ namespace Symplify\Statie\Tests\Renderable\Markdown;
 
 use Symplify\Statie\Configuration\Configuration;
 use Symplify\Statie\Renderable\File\FileFactory;
-use Symplify\Statie\Renderable\Markdown\MarkdownFileDecorator;
+use Symplify\Statie\Renderable\MarkdownFileDecorator;
 use Symplify\Statie\Tests\AbstractContainerAwareTestCase;
 
 final class MarkdownFileDecoratorTest extends AbstractContainerAwareTestCase

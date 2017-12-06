@@ -3,4 +3,4 @@ composer.lock
 
 # Statie dev
 /output
-/statie-source
+/source
