@@ -10,7 +10,6 @@ use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
-use PhpCsFixer\WhitespacesFixerConfig;
 use SplFileInfo;
 
 final class RemoveSuperfluousDocBlockWhitespaceFixer implements FixerInterface, DefinedFixerInterface
@@ -19,11 +18,6 @@ final class RemoveSuperfluousDocBlockWhitespaceFixer implements FixerInterface, 
      * @var string
      */
     private const EMPTY_LINE_PATTERN = '#(?<oneLine>[\t ]+\*\n){2,}#';
-
-    /**
-     * @var WhitespacesFixerConfig
-     */
-    private $whitespacesFixerConfig;
 
     public function getDefinition(): FixerDefinitionInterface
     {
