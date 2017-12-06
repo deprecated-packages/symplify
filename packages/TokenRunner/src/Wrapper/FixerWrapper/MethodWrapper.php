@@ -161,4 +161,17 @@ final class MethodWrapper
 
         return null;
     }
+
+    /**
+     * @return string[]
+     */
+    public function getArgumentNames(): array
+    {
+        $argumentNames = [];
+        foreach ($this->getArguments() as $argument) {
+            $argumentNames[] = $argument->getName();
+        }
+
+        return $argumentNames;
+    }
 }

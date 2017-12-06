@@ -184,6 +184,14 @@ final class DocBlockWrapper
         return null;
     }
 
+    /**
+     * @return Param[]
+     */
+    public function getParamTags(): array
+    {
+        return $this->phpDocumentorDocBlock->getTagsByName('param');
+    }
+
     public function getArgumentTypeDescription(string $name): ?string
     {
         $paramTag = $this->findParamTagByName($name);

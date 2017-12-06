@@ -173,6 +173,8 @@ public function getCount(): int
                 $docBlockWrapper->removeParamType($argumentWrapper->getName());
             }
         }
+
+        $this->removeUnpresentTags($docBlockWrapper, $methodWrapper);
     }
 
     private function isDescriptionUseful(string $description, ?string $type, ?string $name): bool
@@ -244,5 +246,18 @@ public function getCount(): int
         }
 
         return false;
+    }
+
+    private function removeUnpresentTags(DocBlockWrapper $docBlockWrapper, MethodWrapper $methodWrapper): void
+    {
+        $argumentNames = $methodWrapper->getArgumentNames();
+
+        foreach ($docBlockWrapper->getParamTags() as $paramTag) {
+            if (in_array($paramTag->getVariableName(), $argumentNames)) {
+                continue;
+            }
+
+            $docBlockWrapper->removeParamType($paramTag->getVariableName());
+        }
     }
 }
