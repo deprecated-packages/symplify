@@ -4,10 +4,20 @@ namespace SomeNamespace;
 class SomeClass
 {
     /**
-     * @param int $value
-     * @param $anotherValue
+     * @param array $arrayDiff
+     * @return mixed[]
      */
-    public function setCount(int $value, $anotherValue)
+    private function addLineNumbers(array $arrayDiff): array
     {
+
+    }
+
+    /**
+     * @param mixed[] $arrayDiff
+     * @return array
+     */
+    private function addMoreLineNumbers(array $arrayDiff): array
+    {
+
     }
 }

@@ -4,8 +4,18 @@ namespace SomeNamespace;
 class SomeClass
 {
     /**
+     * @return mixed[]
      */
-    public function setCount(int $value, $anotherValue)
+    private function addLineNumbers(array $arrayDiff): array
     {
+
+    }
+
+    /**
+     * @param mixed[] $arrayDiff
+     */
+    private function addMoreLineNumbers(array $arrayDiff): array
+    {
+
     }
 }
