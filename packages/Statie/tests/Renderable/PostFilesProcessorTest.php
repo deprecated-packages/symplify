@@ -104,11 +104,11 @@ final class PostFilesProcessorTest extends TestCase
 
         $this->expectException(AccessKeyNotAvailableException::class);
         $this->expectExceptionMessage(sprintf(
-            'Value "layou" was not found for "%s" object. Did you mean "layout"?',
+            'Value "relativeUr" was not found for "%s" object. Did you mean "relativeUrl"?',
             PostFile::class
         ));
 
-        $value = $post['layou'];
+        $value = $post['relativeUr'];
     }
 
     public function testPostExceptionOnGetNonExistingAllKeys(): void
