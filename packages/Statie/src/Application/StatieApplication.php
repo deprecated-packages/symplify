@@ -58,18 +58,21 @@ final class StatieApplication
         $this->fileFinder = $fileFinder;
     }
 
-    public function run(string $source, string $destination): void
+    public function run(string $source, string $destination, bool $dryRun = false): void
     {
         $this->configuration->setSourceDirectory($source);
         $this->configuration->setOutputDirectory($destination);
+        $this->configuration->setDryRun($dryRun);
 
         // load layouts and snippets
         $layoutAndSnippetFiles = $this->fileFinder->findLatteLayoutsAndSnippets($source);
         $this->loadLayoutsToLatteLoader($layoutAndSnippetFiles);
 
         // process static files
-        $staticFiles = $this->fileFinder->findStaticFiles($source);
-        $this->fileSystemWriter->copyStaticFiles($staticFiles);
+        if ($dryRun === false) {
+            $staticFiles = $this->fileFinder->findStaticFiles($source);
+            $this->fileSystemWriter->copyStaticFiles($staticFiles);
+        }
 
         // process generator items
         $this->generator->run();

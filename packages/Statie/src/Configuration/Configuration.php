@@ -38,6 +38,11 @@ final class Configuration
      */
     private $fileSystemGuard;
 
+    /**
+     * @var bool
+     */
+    private $isDryRun = false;
+
     public function __construct(ParameterProvider $parameterProvider, FileSystemGuard $fileSystemGuard)
     {
         $this->options += $parameterProvider->provide();
@@ -121,5 +126,15 @@ final class Configuration
     public function getOption(string $name)
     {
         return $this->options[$name] ?? null;
+    }
+
+    public function setDryRun(bool $isDryRun): bool
+    {
+        $this->isDryRun = $isDryRun;
+    }
+
+    public function isDryRun(): bool
+    {
+        return $this->isDryRun;
     }
 }

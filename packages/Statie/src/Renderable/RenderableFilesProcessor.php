@@ -3,6 +3,7 @@
 namespace Symplify\Statie\Renderable;
 
 use SplFileInfo;
+use Symplify\Statie\Configuration\Configuration;
 use Symplify\Statie\Contract\Renderable\FileDecoratorInterface;
 use Symplify\Statie\FileSystem\FileSystemWriter;
 use Symplify\Statie\Generator\Configuration\GeneratorElement;
@@ -25,11 +26,19 @@ final class RenderableFilesProcessor
      * @var FileDecoratorInterface[]
      */
     private $fileDecorators = [];
+    /**
+     * @var Configuration
+     */
+    private $configuration;
 
-    public function __construct(FileFactory $fileFactory, FileSystemWriter $fileSystemWriter)
-    {
+    public function __construct(
+        FileFactory $fileFactory,
+        FileSystemWriter $fileSystemWriter,
+        Configuration $configuration
+    ) {
         $this->fileFactory = $fileFactory;
         $this->fileSystemWriter = $fileSystemWriter;
+        $this->configuration = $configuration;
     }
 
     public function addFileDecorator(FileDecoratorInterface $fileDecorator): void
@@ -52,7 +61,9 @@ final class RenderableFilesProcessor
             $files = $fileDecorator->decorateFiles($files);
         }
 
-        $this->fileSystemWriter->copyRenderableFiles($files);
+        if ($this->configuration->isDryRun() === false) {
+            $this->fileSystemWriter->copyRenderableFiles($files);
+        }
     }
 
     /**
@@ -68,6 +79,8 @@ final class RenderableFilesProcessor
             $objects = $fileDecorator->decorateFilesWithGeneratorElement($objects, $generatorElement);
         }
 
-        $this->fileSystemWriter->copyRenderableFiles($objects);
+        if ($this->configuration->isDryRun() === false) {
+            $this->fileSystemWriter->copyRenderableFiles($objects);
+        }
     }
 }
