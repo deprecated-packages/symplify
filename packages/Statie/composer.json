@@ -16,7 +16,7 @@
 
         "symfony/config": "^4.0",
         "symfony/dependency-injection": "^4.0",
-        "symfony/event-dispatcher": "^4.0",
+        "symfony/event-dispatcher": "^3.4|^4.0",
         "symfony/http-kernel": "^4.0",
         "nette/caching": "^2.4|^3.0",
         "nette/finder": "^2.4|^3.0",

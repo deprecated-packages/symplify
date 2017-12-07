@@ -128,7 +128,7 @@ final class Configuration
         return $this->options[$name] ?? null;
     }
 
-    public function setDryRun(bool $isDryRun): bool
+    public function setDryRun(bool $isDryRun): void
     {
         $this->isDryRun = $isDryRun;
     }
