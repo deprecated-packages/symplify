@@ -26,6 +26,7 @@ final class RenderableFilesProcessor
      * @var FileDecoratorInterface[]
      */
     private $fileDecorators = [];
+
     /**
      * @var Configuration
      */
