@@ -36,7 +36,6 @@ final class ConfigurationDecoratorTest extends AbstractContainerAwareTestCase
         $file = $this->fileFactory->createFromFileInfo($fileInfo);
 
         $this->assertSame([], $file->getConfiguration());
-        $this->assertNotSame($fileContent, $file->getContent());
 
         $this->configurationDecorator->decorateFiles([$file]);
 
@@ -69,6 +68,7 @@ final class ConfigurationDecoratorTest extends AbstractContainerAwareTestCase
                 'key' => 'value',
             ]],
             [__DIR__ . '/ConfigurationDecoratorSource/someFileWithEmptyConfig.latte', 'Content...', []],
+            [__DIR__ . '/ConfigurationDecoratorSource/someFileWithNoConfig.latte', 'Content...', []],
         ];
     }
 }
