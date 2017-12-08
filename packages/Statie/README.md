@@ -66,6 +66,10 @@ gulp
 ```
 
 
+## Detailed Documentation
+
+- [Hook to Statie Application cycle with Events](/docs/HookToStatie.md)
+
 
 ### Push content of `/output` to Github pages
 
