@@ -2,8 +2,10 @@
 
 namespace Symplify\Statie\Generator;
 
+use Symfony\Component\Finder\SplFileInfo;
 use Symplify\Statie\Configuration\Configuration;
 use Symplify\Statie\Generator\Configuration\GeneratorElement;
+use Symplify\Statie\Renderable\File\AbstractFile;
 
 final class ObjectFactory
 {

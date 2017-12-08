@@ -7,7 +7,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\EventDispatcher\Tests\Debug\EventSubscriber;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symplify\PackageBuilder\DependencyInjection\DefinitionCollector;
 use Symplify\Statie\Contract\Templating\FilterProviderInterface;
 use Symplify\Statie\FlatWhite\Latte\LatteFactory;
@@ -46,7 +46,7 @@ final class CollectorCompilerPass implements CompilerPassInterface
         DefinitionCollector::loadCollectorWithType(
             $containerBuilder,
             EventDispatcherInterface::class,
-            EventSubscriber::class,
+            EventSubscriberInterface::class,
             'addSubscriber'
         );
     }
