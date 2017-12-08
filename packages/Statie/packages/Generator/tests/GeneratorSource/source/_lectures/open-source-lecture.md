@@ -10,3 +10,6 @@ I wrote these posts:
 
 {foreach $posts as $post}
 {/foreach}
+
+{foreach $lectures as $anotherLecture}
+{/foreach}
