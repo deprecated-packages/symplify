@@ -79,10 +79,10 @@ final class Generator
         $processedObjects = [];
         foreach ($this->generatorConfiguration->getGeneratorElements() as $generatorElement) {
             // run them through decorator and render content to string
-            $processedObjects += $this->renderableFilesProcessor->processGeneratorElementObjects(
+            $processedObjects = array_merge($processedObjects, $this->renderableFilesProcessor->processGeneratorElementObjects(
                 $generatorElement->getObjects(),
                 $generatorElement
-            );
+            ));
         }
 
         return $processedObjects;
