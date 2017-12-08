@@ -73,8 +73,11 @@ final class Generator
             // save them to property
             $this->configuration->addOption($generatorElement->getVariableGlobal(), $objects);
 
-            // run them through decorator and render them
-            $processedObjects += $this->renderableFilesProcessor->processGeneratorElementObjects($objects, $generatorElement);
+            // run them through decorator and render content to string
+            $processedObjects += $this->renderableFilesProcessor->processGeneratorElementObjects(
+                $objects,
+                $generatorElement
+            );
         }
 
         return $processedObjects;
