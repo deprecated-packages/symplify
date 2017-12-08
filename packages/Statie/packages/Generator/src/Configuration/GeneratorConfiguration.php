@@ -22,6 +22,11 @@ final class GeneratorConfiguration
      */
     private $configuration;
 
+    /**
+     * @var GeneratorElement[]
+     */
+    private $generatorElements = [];
+
     public function __construct(ParameterProvider $parameterProvider, Configuration $configuration)
     {
         $this->parameterProvider = $parameterProvider;
@@ -33,6 +38,10 @@ final class GeneratorConfiguration
      */
     public function getGeneratorElements(): array
     {
+        if ($this->generatorElements) {
+            return $this->generatorElements;
+        }
+
         $generators = (array) $this->parameterProvider->provideParameter(self::CONFIG_KEY);
 
         $generatorElements = [];
@@ -44,7 +53,7 @@ final class GeneratorConfiguration
             $generatorElements[] = GeneratorElement::createFromConfiguration($generatorConfiguration);
         }
 
-        return $generatorElements;
+        return $this->generatorElements = $generatorElements;
     }
 
     /**
