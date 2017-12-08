@@ -79,7 +79,11 @@ final class StatieApplication
 
         // render rest of files
         $restOfRenderableFiles = $this->fileFinder->findRestOfRenderableFiles($source);
-        $this->renderableFilesProcessor->processFileInfos($restOfRenderableFiles);
+        $restOfRenderableFiles = $this->renderableFilesProcessor->processFileInfos($restOfRenderableFiles);
+
+        if ($this->configuration->isDryRun() === false) {
+            $this->fileSystemWriter->copyRenderableFiles($restOfRenderableFiles);
+        }
     }
 
     /**

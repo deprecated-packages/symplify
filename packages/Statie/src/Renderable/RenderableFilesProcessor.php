@@ -5,7 +5,6 @@ namespace Symplify\Statie\Renderable;
 use SplFileInfo;
 use Symplify\Statie\Configuration\Configuration;
 use Symplify\Statie\Contract\Renderable\FileDecoratorInterface;
-use Symplify\Statie\FileSystem\FileSystemWriter;
 use Symplify\Statie\Generator\Configuration\GeneratorElement;
 use Symplify\Statie\Renderable\File\AbstractFile;
 use Symplify\Statie\Renderable\File\FileFactory;
@@ -18,11 +17,6 @@ final class RenderableFilesProcessor
     private $fileFactory;
 
     /**
-     * @var FileSystemWriter
-     */
-    private $fileSystemWriter;
-
-    /**
      * @var FileDecoratorInterface[]
      */
     private $fileDecorators = [];
@@ -32,13 +26,9 @@ final class RenderableFilesProcessor
      */
     private $configuration;
 
-    public function __construct(
-        FileFactory $fileFactory,
-        FileSystemWriter $fileSystemWriter,
-        Configuration $configuration
-    ) {
+    public function __construct(FileFactory $fileFactory, Configuration $configuration)
+    {
         $this->fileFactory = $fileFactory;
-        $this->fileSystemWriter = $fileSystemWriter;
         $this->configuration = $configuration;
     }
 
@@ -49,11 +39,12 @@ final class RenderableFilesProcessor
 
     /**
      * @param SplFileInfo[] $fileInfos
+     * @return AbstractFile[]
      */
-    public function processFileInfos(array $fileInfos): void
+    public function processFileInfos(array $fileInfos): array
     {
         if (! count($fileInfos)) {
-            return;
+            return [];
         }
 
         $files = $this->fileFactory->createFromFileInfos($fileInfos);
@@ -62,26 +53,23 @@ final class RenderableFilesProcessor
             $files = $fileDecorator->decorateFiles($files);
         }
 
-        if ($this->configuration->isDryRun() === false) {
-            $this->fileSystemWriter->copyRenderableFiles($files);
-        }
+        return $files;
     }
 
     /**
      * @param AbstractFile[] $objects
+     * @return AbstractFile[]
      */
-    public function processGeneratorElementObjects(array $objects, GeneratorElement $generatorElement): void
+    public function processGeneratorElementObjects(array $objects, GeneratorElement $generatorElement): array
     {
         if (! count($objects)) {
-            return;
+            return [];
         }
 
         foreach ($this->fileDecorators as $fileDecorator) {
             $objects = $fileDecorator->decorateFilesWithGeneratorElement($objects, $generatorElement);
         }
 
-        if ($this->configuration->isDryRun() === false) {
-            $this->fileSystemWriter->copyRenderableFiles($objects);
-        }
+        return $objects;
     }
 }
