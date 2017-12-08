@@ -5,6 +5,7 @@ namespace Symplify\Statie\DependencyInjection;
 use Nette\Utils\Strings;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 use Symfony\Component\HttpKernel\Kernel;
 use Symplify\Statie\DependencyInjection\CompilerPass\CollectorCompilerPass;
 use Symplify\Statie\Exception\Configuration\DeprecatedConfigSuffixException;
