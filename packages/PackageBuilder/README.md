@@ -139,21 +139,21 @@ Where "statie" is key to save the location under. Later you'll use it get the co
 With `--config` you can set config via CLI.
 
 ```bash
-bin/statie --config config/statie.neon
+bin/statie --config config/statie.yml
 ```
 
 Then get the config just run:
 
 ```php
 $config = Symplify\PackageBuilder\Configuration\ConfigFilePathHelper::provide('statie');
-dump($config); // returns absolute path to "config/statie.neon"
+dump($config); // returns absolute path to "config/statie.yml"
 // or NULL if none was found before
 ```
 
 You can also provide fallback to file in [current working directory](http://php.net/manual/en/function.getcwd.php):
 
 ```php
-$config = Symplify\PackageBuilder\Configuration\ConfigFilePathHelper::provide('statie', 'statie.neon');
+$config = Symplify\PackageBuilder\Configuration\ConfigFilePathHelper::provide('statie', 'statie.yml');
 ```
 
 This is common practise in CLI applications, e.g. [PHPUnit](https://phpunit.de/) looks for `phpunit.xml`.

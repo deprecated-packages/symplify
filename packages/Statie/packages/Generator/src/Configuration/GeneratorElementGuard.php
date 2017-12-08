@@ -10,7 +10,7 @@ final class GeneratorElementGuard
     /**
      * @var string[]
      */
-    private static $requiredKeys = ['variable', 'variable_global', 'path', 'layout', 'route_prefix', 'object'];
+    private static $requiredKeys = ['variable', 'variable_global', 'path', 'layout', 'route_prefix'];
 
     /**
      * @param string|int $key
@@ -38,8 +38,10 @@ final class GeneratorElementGuard
             ));
         }
 
-        self::ensureObjectExists($key, $data['object']);
-        self::ensureObjectIsParentOfAbstractFile($key, $data['object']);
+        if (isset($data['object'])) {
+            self::ensureObjectExists($key, $data['object']);
+            self::ensureObjectIsParentOfAbstractFile($key, $data['object']);
+        }
     }
 
     /**

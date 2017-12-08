@@ -52,12 +52,14 @@ final class RenderableFilesProcessorTest extends TestCase
     public function test(): void
     {
         $fileInfos = $this->fileFinder->findRestOfRenderableFiles($this->sourceDirectory);
-        $this->renderableFilesProcessor->processFileInfos($fileInfos);
+        $files = $this->renderableFilesProcessor->processFileInfos($fileInfos);
 
-        $this->assertFileExists($this->outputDirectory . '/contact-me.html');
-        $this->assertFileEquals(
-            __DIR__ . '/RenderFilesProcessorSource/contact-expected.html',
-            $this->outputDirectory . '/contact-me.html'
+        $this->assertCount(1, $files);
+
+        $contactFile = array_pop($files);
+        $this->assertSame(
+            file_get_contents(__DIR__ . '/RenderFilesProcessorSource/contact-expected.html'),
+            $contactFile->getContent()
         );
     }
 }

@@ -2,11 +2,9 @@
 
 namespace Symplify\Statie\Generator;
 
-use SplFileInfo;
 use Symplify\Statie\Configuration\Configuration;
 use Symplify\Statie\FileSystem\FileFinder;
 use Symplify\Statie\Generator\Configuration\GeneratorConfiguration;
-use Symplify\Statie\Generator\Configuration\GeneratorElement;
 use Symplify\Statie\Renderable\File\AbstractFile;
 use Symplify\Statie\Renderable\RenderableFilesProcessor;
 
@@ -32,64 +30,63 @@ final class Generator
      */
     private $renderableFilesProcessor;
 
+    /**
+     * @var ObjectFactory
+     */
+    private $objectFactory;
+
     public function __construct(
         GeneratorConfiguration $generatorConfiguration,
         FileFinder $fileFinder,
         Configuration $configuration,
-        RenderableFilesProcessor $renderableFilesProcessor
+        RenderableFilesProcessor $renderableFilesProcessor,
+        ObjectFactory $objectFactory
     ) {
         $this->generatorConfiguration = $generatorConfiguration;
         $this->fileFinder = $fileFinder;
         $this->configuration = $configuration;
         $this->renderableFilesProcessor = $renderableFilesProcessor;
-    }
-
-    public function run(): void
-    {
-        foreach ($this->generatorConfiguration->getGeneratorElements() as $generatorElement) {
-            $this->processGeneratorElement($generatorElement);
-        }
-    }
-
-    private function processGeneratorElement(GeneratorElement $generatorElement): void
-    {
-        if (! is_dir($generatorElement->getPath())) {
-            return;
-        }
-
-        // find files in ...
-        $fileInfos = $this->fileFinder->findInDirectory($generatorElement->getPath());
-        if (! count($fileInfos)) {
-            return;
-        }
-
-        // process to objects
-        $objects = $this->createObjectsFromFileInfos($generatorElement, $fileInfos);
-
-        // save them to property
-        $this->configuration->addOption($generatorElement->getVariableGlobal(), $objects);
-
-        // run them through decorator and render them
-        $this->renderableFilesProcessor->processGeneratorElementObjects($objects, $generatorElement);
+        $this->objectFactory = $objectFactory;
     }
 
     /**
-     * @param SplFileInfo[] $fileInfos
      * @return AbstractFile[]
      */
-    private function createObjectsFromFileInfos(GeneratorElement $generatorElement, array $fileInfos): array
+    public function run(): array
     {
-        $objects = [];
+        // configure
+        foreach ($this->generatorConfiguration->getGeneratorElements() as $generatorElement) {
+            if (! is_dir($generatorElement->getPath())) {
+                continue;
+            }
 
-        foreach ($fileInfos as $fileInfo) {
-            $relativeSource = substr($fileInfo->getPathname(), strlen($this->configuration->getSourceDirectory()));
-            $relativeSource = ltrim($relativeSource, DIRECTORY_SEPARATOR);
+            // find files in ...
+            $fileInfos = $this->fileFinder->findInDirectory($generatorElement->getPath());
 
-            $class = $generatorElement->getObject();
+            if (! count($fileInfos)) {
+                continue;
+            }
 
-            $objects[] = new $class($fileInfo, $relativeSource, $fileInfo->getPathname());
+            // process to objects
+            $objects = $this->objectFactory->createFromFileInfosAndGeneratorElement($fileInfos, $generatorElement);
+
+            // save them to property
+            $this->configuration->addOption($generatorElement->getVariableGlobal(), $objects);
+
+            $generatorElement->setObjects($objects);
         }
 
-        return $objects;
+        $processedObjects = [];
+        foreach ($this->generatorConfiguration->getGeneratorElements() as $generatorElement) {
+            // run them through decorator and render content to string
+            $newObjects = $this->renderableFilesProcessor->processGeneratorElementObjects(
+                $generatorElement->getObjects(),
+                $generatorElement
+            );
+
+            $processedObjects = array_merge($processedObjects, $newObjects);
+        }
+
+        return $processedObjects;
     }
 }

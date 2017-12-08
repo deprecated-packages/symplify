@@ -53,7 +53,7 @@ final class RouteFileDecoratorTest extends AbstractContainerAwareTestCase
         $this->assertSame('/', $file->getRelativeUrl());
 
         $fileInfo = new SplFileInfo(__DIR__ . '/RouteFileDecoratorSource/index.latte');
-        $file = $this->fileFactory->create($fileInfo);
+        $file = $this->fileFactory->createFromFileInfo($fileInfo);
 
         $this->routeFileDecorator->decorateFiles([$file]);
         $this->assertSame('index.html', $file->getOutputPath());
@@ -63,6 +63,6 @@ final class RouteFileDecoratorTest extends AbstractContainerAwareTestCase
     private function createFileFromFilePath(string $filePath): AbstractFile
     {
         $fileInfo = new SplFileInfo($filePath);
-        return $this->fileFactory->create($fileInfo);
+        return $this->fileFactory->createFromFileInfo($fileInfo);
     }
 }

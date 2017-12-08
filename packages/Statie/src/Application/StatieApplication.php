@@ -3,7 +3,9 @@
 namespace Symplify\Statie\Application;
 
 use SplFileInfo;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symplify\Statie\Configuration\Configuration;
+use Symplify\Statie\Event\BeforeRenderEvent;
 use Symplify\Statie\FileSystem\FileFinder;
 use Symplify\Statie\FileSystem\FileSystemWriter;
 use Symplify\Statie\FlatWhite\Latte\DynamicStringLoader;
@@ -42,13 +44,19 @@ final class StatieApplication
      */
     private $fileFinder;
 
+    /**
+     * @var EventDispatcherInterface
+     */
+    private $eventDispatcher;
+
     public function __construct(
         Configuration $configuration,
         FileSystemWriter $fileSystemWriter,
         RenderableFilesProcessor $renderableFilesProcessor,
         DynamicStringLoader $dynamicStringLoader,
         Generator $generator,
-        FileFinder $fileFinder
+        FileFinder $fileFinder,
+        EventDispatcherInterface $eventDispatcher
     ) {
         $this->configuration = $configuration;
         $this->fileSystemWriter = $fileSystemWriter;
@@ -56,27 +64,35 @@ final class StatieApplication
         $this->dynamicStringLoader = $dynamicStringLoader;
         $this->generator = $generator;
         $this->fileFinder = $fileFinder;
+        $this->eventDispatcher = $eventDispatcher;
     }
 
-    public function run(string $source, string $destination): void
+    public function run(string $source, string $destination, bool $dryRun = false): void
     {
         $this->configuration->setSourceDirectory($source);
         $this->configuration->setOutputDirectory($destination);
+        $this->configuration->setDryRun($dryRun);
 
         // load layouts and snippets
         $layoutAndSnippetFiles = $this->fileFinder->findLatteLayoutsAndSnippets($source);
         $this->loadLayoutsToLatteLoader($layoutAndSnippetFiles);
 
-        // process static files
-        $staticFiles = $this->fileFinder->findStaticFiles($source);
-        $this->fileSystemWriter->copyStaticFiles($staticFiles);
-
         // process generator items
-        $this->generator->run();
+        $objectsToRender = $this->generator->run();
 
-        // render rest of files
-        $restOfRenderableFiles = $this->fileFinder->findRestOfRenderableFiles($source);
-        $this->renderableFilesProcessor->processFileInfos($restOfRenderableFiles);
+        // process rest of files
+        $fileInfos = $this->fileFinder->findRestOfRenderableFiles($source);
+        $objectsToRender = array_merge($objectsToRender, $this->renderableFilesProcessor->processFileInfos($fileInfos));
+
+        $this->eventDispatcher->dispatch(BeforeRenderEvent::class, new BeforeRenderEvent($objectsToRender));
+
+        if ($dryRun === false) {
+            // process static files
+            $staticFiles = $this->fileFinder->findStaticFiles($source);
+            $this->fileSystemWriter->copyStaticFiles($staticFiles);
+
+            $this->fileSystemWriter->copyRenderableFiles($objectsToRender);
+        }
     }
 
     /**

@@ -47,13 +47,7 @@ final class RouteFileDecorator implements FileDecoratorInterface
     {
         foreach ($files as $file) {
             $outputPath = $generatorElement->getRoutePrefix() . DIRECTORY_SEPARATOR;
-
-            // if the date is part of file name, it is part of the output path
-            if ($file->getDate()) {
-                $outputPath .= $file->getDateInFormat('Y') . DIRECTORY_SEPARATOR;
-                $outputPath .= $file->getDateInFormat('m') . DIRECTORY_SEPARATOR;
-                $outputPath .= $file->getDateInFormat('d') . DIRECTORY_SEPARATOR;
-            }
+            $outputPath = $this->prefixWithDateIfFound($file, $outputPath);
 
             $outputPath .= $file->getFilenameWithoutDate();
             $outputPath = $this->pathNormalizer->normalize($outputPath);
@@ -111,5 +105,19 @@ final class RouteFileDecorator implements FileDecoratorInterface
         $relativeParts = explode($sourceDirectory, $file->getRelativeDirectory());
 
         return array_pop($relativeParts);
+    }
+
+    /**
+     * If the date is part of file name, it is part of the output path
+     */
+    private function prefixWithDateIfFound(AbstractFile $file, string $outputPath): string
+    {
+        if ($file->getDate()) {
+            $outputPath .= $file->getDateInFormat('Y') . DIRECTORY_SEPARATOR;
+            $outputPath .= $file->getDateInFormat('m') . DIRECTORY_SEPARATOR;
+            $outputPath .= $file->getDateInFormat('d') . DIRECTORY_SEPARATOR;
+        }
+
+        return $outputPath;
     }
 }

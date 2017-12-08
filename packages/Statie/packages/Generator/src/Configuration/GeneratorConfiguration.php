@@ -4,6 +4,7 @@ namespace Symplify\Statie\Generator\Configuration;
 
 use Symplify\PackageBuilder\Parameter\ParameterProvider;
 use Symplify\Statie\Configuration\Configuration;
+use Symplify\Statie\Renderable\File\PostFile;
 
 final class GeneratorConfiguration
 {
@@ -22,6 +23,11 @@ final class GeneratorConfiguration
      */
     private $configuration;
 
+    /**
+     * @var GeneratorElement[]
+     */
+    private $generatorElements = [];
+
     public function __construct(ParameterProvider $parameterProvider, Configuration $configuration)
     {
         $this->parameterProvider = $parameterProvider;
@@ -33,7 +39,12 @@ final class GeneratorConfiguration
      */
     public function getGeneratorElements(): array
     {
+        if ($this->generatorElements) {
+            return $this->generatorElements;
+        }
+
         $generators = (array) $this->parameterProvider->provideParameter(self::CONFIG_KEY);
+        $generators = $this->addPostDefaults($generators);
 
         $generatorElements = [];
 
@@ -44,7 +55,7 @@ final class GeneratorConfiguration
             $generatorElements[] = GeneratorElement::createFromConfiguration($generatorConfiguration);
         }
 
-        return $generatorElements;
+        return $this->generatorElements = $generatorElements;
     }
 
     /**
@@ -58,5 +69,33 @@ final class GeneratorConfiguration
             $generatorConfiguration['path'];
 
         return $generatorConfiguration;
+    }
+
+    /**
+     * @param mixed[] $generators
+     * @return mixed[]
+     */
+    private function addPostDefaults(array $generators): array
+    {
+        if (isset($generators['posts'])) {
+            return $generators;
+        }
+
+        $generators['posts'] = [
+            # name of variable inside one elg, elenent (e,post)
+            'variable' => 'post',
+            # used global variable with all found items
+            'variable_global' => 'posts',
+            # directory, where to look for them
+            'path' => '_posts',
+            # which layout to use, a file from "_layouts/<name>.latte"
+            'layout' => 'post',
+            # and url prefix, e.g. /blog/some-post.md
+            'route_prefix' => 'blog',
+            # an object that will wrap it's logic, you can add helper methods into it and use it in templates
+            'object' => PostFile::class,
+        ];
+
+        return $generators;
     }
 }

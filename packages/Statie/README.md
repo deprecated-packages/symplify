@@ -1,11 +1,11 @@
-# Statie - PHP Static Site Generator
+# Statie - Modern and Simple Static Site Generator in PHP
 
 [![Build Status](https://img.shields.io/travis/Symplify/Statie/master.svg?style=flat-square)](https://travis-ci.org/Symplify/Statie)
 [![Downloads](https://img.shields.io/packagist/dt/symplify/statie.svg?style=flat-square)](htptps://packagist.org/packages/symplify/statie)
 [![Subscribe](https://img.shields.io/badge/subscribe-to--releases-green.svg?style=flat-square)](https://libraries.io/packagist/symplify%2Fstatie)
 
-
 Statie takes HTML, Markdown and Latte files and generates static HTML page.
+
 
 ## Install via Composer
 
@@ -16,7 +16,7 @@ composer require symplify/statie
 ## And via Node
 
 ```bash
-npm install -g gulp gulp-watch
+npm install -g gulp gulp-watch child_process
 ```
 
 ## Usage
@@ -66,46 +66,24 @@ gulp
 ```
 
 
-
-### Push content of `/output` to Github pages
-
-To push to e.g. [tomasvotruba/tomasvotruba.cz](https://github.com/TomasVotruba/tomasvotruba.cz) repository, setup repository slug:
-
-```yaml
-# statie.neon
-parameters:
-    github_repository_slug: "TomasVotruba/tomasvotruba.cz"
-```
-
-And push it with CLI command:
-
-```
-vendor/bin/statie push-to-github tomasvotruba/tomasvotruba.cz --token=${GH_TOKEN}
-```
-
-How to setup `${GH_TOKEN}`? Just check [this exemplary .travis.yml](https://github.com/TomasVotruba/tomasvotruba.cz/blob/fddcbe9298ae376145622d735e1408ece447ea09/.travis.yml#L9-L26).
-
- 
 ## Configuration
 
-### `statie.neon` Config
+### `statie.yml ` Config
 
-They way you are used to use Symfony/Nette cofings: single file that allows you to add parameters, include other configs and register services.
+This is basically `config.yml` Symfony Kernel that you know from Symfony apps. You can.
 
-So this...
+**1. [Add Parameters](https://symfony.com/doc/current/service_container/parameters.html)**
 
 ```yaml
-# statie.neon
+# statie.yml
 parameters:
     site_url: http://github.com
-    # or if you prefer
-    siteUrl: http://github.com
 
     socials:
         facebook: http://facebook.com/github
 ```
 
-...can be used in any template as:
+...that are available in every template:
 
 ```twig
 # source/_layouts/default.latte
@@ -115,12 +93,12 @@ parameters:
 <p>Checkout my FB page: {$socials['facebook']}</p>
 ```
 
-Need more data in standalone files? Use `includes` section:
+**2. [Import other configs](http://symfony.com/doc/current/service_container/import.html)**
 
 ```yaml
-# statie.neon
-includes:
-    - data/favorite_links.neon
+# statie.yml
+imports:
+    - { resource: 'data/favorite_links.yml' }
 
 parameters:
     site_url: http://github.com
@@ -128,95 +106,67 @@ parameters:
         facebook: http://facebook.com/github
 ```
 
+...and split long configuration into more smaller files:
+
 ```yaml
-# data/favorite_links.neon
+# data/favorite_links.yml
 parameters:
     favorite_links:
         blog:
             name: "Suis Marco"
             url: "http://ocramius.github.io/"
- ```
+```
 
-### Show Related Posts
-
-If you write a series, you can show related posts bellow.
-
-Just use post ids and `related_items` section in post files like:
+**3. And [Register Services](https://symfony.com/doc/current/service_container.html)**
 
 ```yaml
----
-id: 1
-title: My first post
-related_items: [2]
+services:
+    App\SomeService: ~
+   
+    App\TweetService:
+        arguments:
+          - '%twitter.api_key%'
 ```
 
 
-```yaml
----
-id: 2
-title: My second post
-related_items: [1]
----
+## Detailed Documentation
+
+- [Hook to Statie Application cycle with Events](/docs/HookToStatie.md)
+- [Add Headline Anchor Links](/docs/HeadlineAnchors.md)
+- [Add Related Items](/docs/RelatedItems.md)
+- [Push Content to Github Pages with Travis](/docs/PushContentToGithubPagesWithTravis.md)
+
+
+### Generator Elements
+
+All items that **contain multiple records and need own html page** - e.g. posts - can be configured in `statie.yml`:  
+
+```yml
+parameters:
+    generators:
+        # key name, nice to have for more informative error reports
+        posts:
+            # required parameters
+         
+            # name of variable inside single such item
+            variable: post
+            # name of variable that contains all items
+            varbiale_global: posts
+            # directory, where to look for them
+            path: '_posts' 
+            # which layout to use
+            layout: '_layouts/@post.latte' 
+            # and url prefix, e.g. /blog/some-post.md
+            route_prefix: 'blog'
+             
+            # optional parameters
+             
+            # an object that will wrap it's logic, you can add helper methods into it and use it in templates
+            # Symplify\Statie\Renderable\File\File is used by default
+            object: 'Symplify\Statie\Renderable\File\PostFile' 
 ```
 
-Then use in template:
 
-```twig
-{var $relatedPosts = ($post|relatedPosts)}
-
-<div n:if="count($relatedPosts)">
-    <strong>Continue Reading</strong>
-    <ul>
-        {foreach $relatedPosts as $relatedPost}
-            <li>
-                <a href="/{$relatedPost['relativeUrl']}">{$relatedPost['title']}</a>
-            </li>
-        {/foreach}
-    </ul>
-</div>
-```
-
-
-### Enable Github-like Headline Anchors
-
-Sharing long post to show specific paragraph is not a sci-fi anymore.
-
-When your hover any headline, an anchor link to it will appear on the left. Click it & share it!
-
-![Headline Anchors](docs/github-like-headline-anchors.png)
- 
-```yaml
-# statie.neon
-parameters:   
-    markdown_headline_anchors: true 
-```
-
-You can use this sample css and modify it to your needs:
-
-```css
-/* anchors for post headlines */
-.anchor {
-    padding-right: .3em;
-    float: left;
-    margin-left: -.9em;
-}
-
-.anchor, .anchor:hover {
-    text-decoration: none;
-}
-
-h1 .anchor .anchor-icon, h2 .anchor .anchor-icon, h3 .anchor .anchor-icon {
-    visibility: hidden;
-}
-
-h1:hover .anchor-icon, h2:hover .anchor-icon, h3:hover .anchor-icon {
-    visibility: inherit;
-}
-
-.anchor-icon {
-    display: inline-block;
-}
-```
 
 ### Custom Output Path
 
@@ -237,6 +187,20 @@ outputPath: "404.html"
     ...
 {/block}
 ```
+
+
+## Runs on Statie
+
+What website runs on Statie?
+
+- [github.com/tomasvotruba/tomasvotruba.cz](https://github.com/tomasvotruba/tomasvotruba.cz)
+- [github.com/pehapkari/pehapkari.cz](https://github.com/pehapkari/pehapkari.cz)
+- [github.com/enumag/enumag.cz](https://github.com/pehapkarienumag.cz)
+- [github.com/ikvasnicaikvasnica.com](https://github.com/ikvasnica/ikvasnica.com)
+- [github.com/ikvasnicaikvasnica.com](https://github.com/ikvasnica/ikvasnica.com)
+- [posobota.cz](https://www.posobota.cz/)
+
+Get inspired, what Statie can do and how to use it!
 
 
 ## Contributing

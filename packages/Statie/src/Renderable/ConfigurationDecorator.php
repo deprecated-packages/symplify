@@ -3,6 +3,7 @@
 namespace Symplify\Statie\Renderable;
 
 use Nette\Neon\Exception;
+use Nette\Utils\Strings;
 use Symplify\Statie\Configuration\Parser\NeonParser;
 use Symplify\Statie\Contract\Renderable\FileDecoratorInterface;
 use Symplify\Statie\Exception\Neon\InvalidNeonSyntaxException;
@@ -11,6 +12,19 @@ use Symplify\Statie\Renderable\File\AbstractFile;
 
 final class ConfigurationDecorator implements FileDecoratorInterface
 {
+    /**
+     * @var string
+     */
+    private const CONFIG_AND_CONTENT_PATTERN =
+        '/^\s*' .
+        self::SLASHES_WITH_SPACES_PATTERN . '(?<config>.*?)' . self::SLASHES_WITH_SPACES_PATTERN .
+        '(?<content>.*?)$/s';
+
+    /**
+     * @var string
+     */
+    private const SLASHES_WITH_SPACES_PATTERN = '(?:---[\s]*[\r\n]+)';
+
     /**
      * @var NeonParser
      */
@@ -45,26 +59,27 @@ final class ConfigurationDecorator implements FileDecoratorInterface
 
     private function decorateFile(AbstractFile $file): void
     {
-        if (preg_match('/^\s*(?:---[\s]*[\r\n]+)(.*?)(?:---[\s]*[\r\n]+)(.*?)$/s', $file->getContent(), $matches)) {
-            $file->changeContent($matches[2]);
-            $this->setConfigurationToFileIfFoundAny($matches[1], $file);
+        $matches = Strings::match($file->getContent(), self::CONFIG_AND_CONTENT_PATTERN);
+        if ($matches) {
+            $file->changeContent($matches['content']);
+            if ($matches['config']) {
+                $this->setConfigurationToFileIfFoundAny($matches['config'], $file);
+            }
         }
     }
 
     private function setConfigurationToFileIfFoundAny(string $content, AbstractFile $file): void
     {
-        if (! preg_match('/^(\s*[-]+\s*|\s*)$/', $content)) {
-            try {
-                $configuration = $this->neonParser->decode($content);
-            } catch (Exception $neonException) {
-                throw new InvalidNeonSyntaxException(sprintf(
-                    'Invalid NEON syntax found in "%s" file: %s',
-                    $file->getFilePath(),
-                    $neonException->getMessage()
-                ));
-            }
-
-            $file->addConfiguration($configuration);
+        try {
+            $configuration = $this->neonParser->decode($content);
+        } catch (Exception $neonException) {
+            throw new InvalidNeonSyntaxException(sprintf(
+                'Invalid NEON syntax found in "%s" file: %s',
+                $file->getFilePath(),
+                $neonException->getMessage()
+            ));
         }
+
+        $file->addConfiguration($configuration);
     }
 }

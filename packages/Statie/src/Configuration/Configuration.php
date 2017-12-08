@@ -38,6 +38,11 @@ final class Configuration
      */
     private $fileSystemGuard;
 
+    /**
+     * @var bool
+     */
+    private $isDryRun = false;
+
     public function __construct(ParameterProvider $parameterProvider, FileSystemGuard $fileSystemGuard)
     {
         $this->options += $parameterProvider->provide();
@@ -78,7 +83,7 @@ final class Configuration
 
         throw new MissingGithubRepositorySlugException(sprintf(
             'Settings of "%s" is required for "{$post|githubEditPostUrl}" Latte filter. '
-            . 'Add it to "statie.neon" under "parameters" section, e.g.: "%s".',
+            . 'Add it to "statie.yml" under "parameters" section, e.g.: "%s".',
             self::OPTION_GITHUB_REPOSITORY_SLUG,
             'TomasVotruba/tomasvotruba.cz'
         ));
@@ -121,5 +126,15 @@ final class Configuration
     public function getOption(string $name)
     {
         return $this->options[$name] ?? null;
+    }
+
+    public function setDryRun(bool $isDryRun): void
+    {
+        $this->isDryRun = $isDryRun;
+    }
+
+    public function isDryRun(): bool
+    {
+        return $this->isDryRun;
     }
 }
