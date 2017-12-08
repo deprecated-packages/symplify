@@ -5,6 +5,7 @@ namespace Symplify\Statie\Generator;
 use Symplify\Statie\Configuration\Configuration;
 use Symplify\Statie\FileSystem\FileFinder;
 use Symplify\Statie\Generator\Configuration\GeneratorConfiguration;
+use Symplify\Statie\Renderable\File\AbstractFile;
 use Symplify\Statie\Renderable\RenderableFilesProcessor;
 
 final class Generator
@@ -48,8 +49,12 @@ final class Generator
         $this->objectFactory = $objectFactory;
     }
 
-    public function run(): void
+    /**
+     * @return AbstractFile[]
+     */
+    public function run(): array
     {
+        $processedObjects = [];
         foreach ($this->generatorConfiguration->getGeneratorElements() as $generatorElement) {
             if (! is_dir($generatorElement->getPath())) {
                 continue;
@@ -57,6 +62,7 @@ final class Generator
 
             // find files in ...
             $fileInfos = $this->fileFinder->findInDirectory($generatorElement->getPath());
+
             if (! count($fileInfos)) {
                 continue;
             }
@@ -68,7 +74,9 @@ final class Generator
             $this->configuration->addOption($generatorElement->getVariableGlobal(), $objects);
 
             // run them through decorator and render them
-            $this->renderableFilesProcessor->processGeneratorElementObjects($objects, $generatorElement);
+            $processedObjects += $this->renderableFilesProcessor->processGeneratorElementObjects($objects, $generatorElement);
         }
+
+        return $processedObjects;
     }
 }

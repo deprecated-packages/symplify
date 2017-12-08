@@ -7,6 +7,7 @@ use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\Container;
 use Symplify\Statie\Configuration\Configuration;
 use Symplify\Statie\DependencyInjection\ContainerFactory;
+use Symplify\Statie\FileSystem\FileSystemWriter;
 use Symplify\Statie\FlatWhite\Latte\DynamicStringLoader;
 use Symplify\Statie\Generator\Generator;
 
@@ -33,6 +34,11 @@ abstract class AbstractGeneratorTest extends TestCase
     protected $container;
 
     /**
+     * @var FileSystemWriter
+     */
+    protected $fileSystemWriter;
+
+    /**
      * @var string
      */
     private $sourceDirectory = __DIR__ . '/GeneratorSource/source';
@@ -46,6 +52,7 @@ abstract class AbstractGeneratorTest extends TestCase
         $this->configuration->setOutputDirectory($this->outputDirectory);
 
         $this->generator = $this->container->get(Generator::class);
+        $this->fileSystemWriter = $this->container->get(FileSystemWriter::class);
 
         // add post layout
         /** @var DynamicStringLoader $dynamicStringLoader */

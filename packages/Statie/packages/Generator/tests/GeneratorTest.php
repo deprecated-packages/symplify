@@ -8,7 +8,8 @@ final class GeneratorTest extends AbstractGeneratorTest
 {
     public function testPosts(): void
     {
-        $this->generator->run();
+        $objects = $this->generator->run();
+        $this->fileSystemWriter->copyRenderableFiles($objects);
 
         $this->assertFileExists($this->outputDirectory . '/blog/2016/10/10/title/index.html');
         $this->assertFileExists($this->outputDirectory . '/blog/2016/01/02/second-title/index.html');
