@@ -2,12 +2,10 @@
 
 namespace Symplify\Statie\Generator;
 
-use SplFileInfo;
 use Symplify\Statie\Configuration\Configuration;
 use Symplify\Statie\FileSystem\FileFinder;
 use Symplify\Statie\Generator\Configuration\GeneratorConfiguration;
 use Symplify\Statie\Generator\Configuration\GeneratorElement;
-use Symplify\Statie\Renderable\File\AbstractFile;
 use Symplify\Statie\Renderable\RenderableFilesProcessor;
 
 final class Generator
@@ -32,16 +30,23 @@ final class Generator
      */
     private $renderableFilesProcessor;
 
+    /**
+     * @var ObjectFactory
+     */
+    private $objectFactory;
+
     public function __construct(
         GeneratorConfiguration $generatorConfiguration,
         FileFinder $fileFinder,
         Configuration $configuration,
-        RenderableFilesProcessor $renderableFilesProcessor
+        RenderableFilesProcessor $renderableFilesProcessor,
+        ObjectFactory $objectFactory
     ) {
         $this->generatorConfiguration = $generatorConfiguration;
         $this->fileFinder = $fileFinder;
         $this->configuration = $configuration;
         $this->renderableFilesProcessor = $renderableFilesProcessor;
+        $this->objectFactory = $objectFactory;
     }
 
     public function run(): void
@@ -64,32 +69,12 @@ final class Generator
         }
 
         // process to objects
-        $objects = $this->createObjectsFromFileInfos($generatorElement, $fileInfos);
+        $objects = $this->objectFactory->createFromFileInfosAndGeneratorElement($fileInfos, $generatorElement);
 
         // save them to property
         $this->configuration->addOption($generatorElement->getVariableGlobal(), $objects);
 
         // run them through decorator and render them
         $this->renderableFilesProcessor->processGeneratorElementObjects($objects, $generatorElement);
-    }
-
-    /**
-     * @param SplFileInfo[] $fileInfos
-     * @return AbstractFile[]
-     */
-    private function createObjectsFromFileInfos(GeneratorElement $generatorElement, array $fileInfos): array
-    {
-        $objects = [];
-
-        foreach ($fileInfos as $fileInfo) {
-            $relativeSource = substr($fileInfo->getPathname(), strlen($this->configuration->getSourceDirectory()));
-            $relativeSource = ltrim($relativeSource, DIRECTORY_SEPARATOR);
-
-            $class = $generatorElement->getObject();
-
-            $objects[] = new $class($fileInfo, $relativeSource, $fileInfo->getPathname());
-        }
-
-        return $objects;
     }
 }
