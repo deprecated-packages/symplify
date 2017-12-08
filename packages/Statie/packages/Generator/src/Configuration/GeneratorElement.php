@@ -2,6 +2,7 @@
 
 namespace Symplify\Statie\Generator\Configuration;
 
+use Symplify\Statie\Renderable\File\AbstractFile;
 use Symplify\Statie\Renderable\File\File;
 
 final class GeneratorElement
@@ -35,6 +36,11 @@ final class GeneratorElement
      * @var string
      */
     private $object;
+
+    /**
+     * @var AbstractFile[]
+     */
+    private $objects = [];
 
     public function __construct(
         string $variable,
@@ -95,5 +101,21 @@ final class GeneratorElement
     public function getObject(): string
     {
         return $this->object;
+    }
+
+    /**
+     * @param AbstractFile[] $objects
+     */
+    public function setObjects(array $objects): void
+    {
+        $this->objects = $objects;
+    }
+
+    /**
+     * @return AbstractFile[]
+     */
+    public function getObjects(): array
+    {
+        return $this->objects;
     }
 }
