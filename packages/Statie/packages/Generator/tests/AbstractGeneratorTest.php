@@ -45,7 +45,7 @@ abstract class AbstractGeneratorTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->container = (new ContainerFactory())->create();
+        $this->container = (new ContainerFactory())->createWithConfig(__DIR__ . '/GeneratorSource/statie.neon');
 
         $this->configuration = $this->container->get(Configuration::class);
         $this->configuration->setSourceDirectory($this->sourceDirectory);
@@ -54,12 +54,16 @@ abstract class AbstractGeneratorTest extends TestCase
         $this->generator = $this->container->get(Generator::class);
         $this->fileSystemWriter = $this->container->get(FileSystemWriter::class);
 
-        // add post layout
+        // emulate layout loading
         /** @var DynamicStringLoader $dynamicStringLoader */
         $dynamicStringLoader = $this->container->get(DynamicStringLoader::class);
         $dynamicStringLoader->changeContent(
             'post',
             file_get_contents($this->sourceDirectory . '/_layouts/post.latte')
+        );
+        $dynamicStringLoader->changeContent(
+            'lecture',
+            file_get_contents($this->sourceDirectory . '/_layouts/lecture.latte')
         );
     }
 

@@ -2,6 +2,8 @@
 
 namespace Symplify\Statie\Generator\Configuration;
 
+use Symplify\Statie\Renderable\File\File;
+
 final class GeneratorElement
 {
     /**
@@ -61,7 +63,7 @@ final class GeneratorElement
             $configuration['path'],
             $configuration['layout'],
             $configuration['route_prefix'],
-            $configuration['object']
+            $configuration['object'] ?? File::class
         );
     }
 

@@ -177,6 +177,36 @@ Then use in template:
 ```
 
 
+### Generator Elements
+
+All items that **contain multiple records and need own html page** - e.g. posts - can be configured in `statie.neon`:  
+
+```yml
+parameters:
+    generators:
+        # key name, nice to have for more informative error reports
+        posts:
+            # required parameters
+         
+            # name of variable inside single such item
+            variable: post
+            # name of variable that contains all items
+            varbiale_global: posts
+            # directory, where to look for them
+            path: '_posts' 
+            # which layout to use
+            layout: '_layouts/@post.latte' 
+            # and url prefix, e.g. /blog/some-post.md
+            route_prefix: 'blog'
+             
+            # optional parameters
+             
+            # an object that will wrap it's logic, you can add helper methods into it and use it in templates
+            # Symplify\Statie\Renderable\File\File is used by default
+            object: 'Symplify\Statie\Renderable\File\PostFile' 
+```
+
+
 ### Enable Github-like Headline Anchors
 
 Sharing long post to show specific paragraph is not a sci-fi anymore.
