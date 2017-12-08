@@ -2,12 +2,14 @@
 
 namespace Symplify\Statie\DependencyInjection;
 
+use Nette\Utils\Strings;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symplify\PackageBuilder\HttpKernel\AbstractCliKernel;
+use Symfony\Component\HttpKernel\Kernel;
 use Symplify\Statie\DependencyInjection\CompilerPass\CollectorCompilerPass;
+use Symplify\Statie\Exception\Configuration\DeprecatedConfigSuffixException;
 
-final class AppKernel extends AbstractCliKernel
+final class AppKernel extends Kernel
 {
     /**
      * @var null|string
@@ -17,7 +19,9 @@ final class AppKernel extends AbstractCliKernel
     public function __construct(?string $configConfig = '')
     {
         $this->configFile = $configConfig;
-        parent::__construct();
+
+        // random_int is used to prevent container name duplication during tests
+        parent::__construct((string) random_int(1, 1000000), false);
     }
 
     public function registerContainerConfiguration(LoaderInterface $loader): void
@@ -25,7 +29,17 @@ final class AppKernel extends AbstractCliKernel
         $loader->load(__DIR__ . '/../config/config.yml');
 
         if ($this->configFile) {
-            $loader->load($this->configFile, ['parameters', 'includes', 'services']);
+            // deprecation info
+            if (! Strings::endsWith($this->configFile, 'yml')) {
+                throw new DeprecatedConfigSuffixException(sprintf(
+                    'Statie now uses "*.yml" files and Symfony DI to configure itself. "%s" given.%sJust rename it to "%s":',
+                    $this->configFile,
+                    PHP_EOL,
+                    pathinfo($this->configFile)['filename'] . '.yml'
+                ));
+            }
+
+            $loader->load($this->configFile);
         }
     }
 
@@ -37,5 +51,13 @@ final class AppKernel extends AbstractCliKernel
     protected function build(ContainerBuilder $containerBuilder): void
     {
         $containerBuilder->addCompilerPass(new CollectorCompilerPass());
+    }
+
+    /**
+     * @return BundleInterface[]
+     */
+    public function registerBundles(): array
+    {
+        return [];
     }
 }

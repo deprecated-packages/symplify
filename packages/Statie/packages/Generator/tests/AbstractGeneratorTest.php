@@ -45,7 +45,7 @@ abstract class AbstractGeneratorTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->container = (new ContainerFactory())->createWithConfig(__DIR__ . '/GeneratorSource/statie.neon');
+        $this->container = (new ContainerFactory())->createWithConfig(__DIR__ . '/GeneratorSource/statie.yml');
 
         $this->configuration = $this->container->get(Configuration::class);
         $this->configuration->setSourceDirectory($this->sourceDirectory);
