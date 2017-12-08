@@ -83,7 +83,7 @@ final class Configuration
 
         throw new MissingGithubRepositorySlugException(sprintf(
             'Settings of "%s" is required for "{$post|githubEditPostUrl}" Latte filter. '
-            . 'Add it to "statie.neon" under "parameters" section, e.g.: "%s".',
+            . 'Add it to "statie.yml" under "parameters" section, e.g.: "%s".',
             self::OPTION_GITHUB_REPOSITORY_SLUG,
             'TomasVotruba/tomasvotruba.cz'
         ));

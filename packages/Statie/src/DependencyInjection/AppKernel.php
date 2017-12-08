@@ -29,16 +29,7 @@ final class AppKernel extends Kernel
         $loader->load(__DIR__ . '/../config/config.yml');
 
         if ($this->configFile) {
-            // deprecation info
-            if (! Strings::endsWith($this->configFile, 'yml')) {
-                throw new DeprecatedConfigSuffixException(sprintf(
-                    'Statie now uses "*.yml" files and Symfony DI to configure itself. "%s" given.%sJust rename it to "%s":',
-                    $this->configFile,
-                    PHP_EOL,
-                    pathinfo($this->configFile)['filename'] . '.yml'
-                ));
-            }
-
+            $this->ensureConfigIsYml($this->configFile);
             $loader->load($this->configFile);
         }
     }
@@ -48,16 +39,33 @@ final class AppKernel extends Kernel
         return sys_get_temp_dir() . '/_statie_kernel';
     }
 
-    protected function build(ContainerBuilder $containerBuilder): void
-    {
-        $containerBuilder->addCompilerPass(new CollectorCompilerPass());
-    }
-
     /**
      * @return BundleInterface[]
      */
     public function registerBundles(): array
     {
         return [];
+    }
+
+    protected function build(ContainerBuilder $containerBuilder): void
+    {
+        $containerBuilder->addCompilerPass(new CollectorCompilerPass());
+    }
+
+    /**
+     * Deprecation info about .neon => .yml suffix switch
+     */
+    private function ensureConfigIsYml(string $configFile): void
+    {
+        if (Strings::endsWith($configFile, 'yml')) {
+            return;
+        }
+
+        throw new DeprecatedConfigSuffixException(sprintf(
+            'Statie now uses "*.yml" files and Symfony DI. "%s" given.%sJust rename it to "%s":',
+            $this->configFile,
+            PHP_EOL,
+            pathinfo($this->configFile)['filename'] . '.yml'
+        ));
     }
 }

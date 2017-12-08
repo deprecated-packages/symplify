@@ -19,7 +19,7 @@ try {
 
     // 2. Build DI container
     $containerFactory = new ContainerFactory();
-    $configFile = ConfigFilePathHelper::provide('statie', 'statie.neon');
+    $configFile = ConfigFilePathHelper::provide('statie', 'statie.yml');
 
     if ($configFile) {
         $container = $containerFactory->createWithConfig($configFile);
