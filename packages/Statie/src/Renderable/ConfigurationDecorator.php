@@ -3,6 +3,7 @@
 namespace Symplify\Statie\Renderable;
 
 use Nette\Neon\Exception;
+use Nette\Utils\Strings;
 use Symplify\Statie\Configuration\Parser\NeonParser;
 use Symplify\Statie\Contract\Renderable\FileDecoratorInterface;
 use Symplify\Statie\Exception\Neon\InvalidNeonSyntaxException;
@@ -58,7 +59,8 @@ final class ConfigurationDecorator implements FileDecoratorInterface
 
     private function decorateFile(AbstractFile $file): void
     {
-        if (preg_match(self::CONFIG_AND_CONTENT_PATTERN, $file->getContent(), $matches)) {
+        $matches = Strings::match($file->getContent(), self::CONFIG_AND_CONTENT_PATTERN);
+        if ($matches) {
             $file->changeContent($matches['content']);
             if ($matches['config']) {
                 $this->setConfigurationToFileIfFoundAny($matches['config'], $file);

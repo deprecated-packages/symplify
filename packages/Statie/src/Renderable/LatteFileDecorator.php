@@ -76,7 +76,9 @@ final class LatteFileDecorator implements FileDecoratorInterface
 
     private function decorateFileWithGeneratorElements(AbstractFile $file, GeneratorElement $generatorElement): void
     {
-        $parameters[$generatorElement->getVariable()] = $file;
+        $parameters = $file->getConfiguration() + $this->configuration->getOptions() + [
+            $generatorElement->getVariable() => $file
+        ];
 
         // add layout, "post" by default
         $layout = $generatorElement->getLayout();

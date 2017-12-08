@@ -54,7 +54,7 @@ final class Generator
      */
     public function run(): array
     {
-        $processedObjects = [];
+        // configure
         foreach ($this->generatorConfiguration->getGeneratorElements() as $generatorElement) {
             if (! is_dir($generatorElement->getPath())) {
                 continue;
@@ -73,9 +73,14 @@ final class Generator
             // save them to property
             $this->configuration->addOption($generatorElement->getVariableGlobal(), $objects);
 
+            $generatorElement->setObjects($objects);
+        }
+
+        $processedObjects = [];
+        foreach ($this->generatorConfiguration->getGeneratorElements() as $generatorElement) {
             // run them through decorator and render content to string
             $processedObjects += $this->renderableFilesProcessor->processGeneratorElementObjects(
-                $objects,
+                $generatorElement->getObjects(),
                 $generatorElement
             );
         }

@@ -5,7 +5,7 @@ imports:
 
 parameters:
     generators:
-        -
+        posts:
             # name of variable inside one elg, elenent (e,post)
             variable: post
             # used global variable with all found items

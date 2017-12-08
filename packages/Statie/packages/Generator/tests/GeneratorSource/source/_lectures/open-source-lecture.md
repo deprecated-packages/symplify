@@ -8,4 +8,5 @@ I teach open-source
 
 I wrote these posts:
 
-...
+{foreach $posts as $post}
+{/foreach}
