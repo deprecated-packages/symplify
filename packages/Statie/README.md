@@ -72,7 +72,7 @@ gulp
 To push to e.g. [tomasvotruba/tomasvotruba.cz](https://github.com/TomasVotruba/tomasvotruba.cz) repository, setup repository slug:
 
 ```yaml
-# statie.neon
+# statie.yml
 parameters:
     github_repository_slug: "TomasVotruba/tomasvotruba.cz"
 ```
@@ -88,24 +88,22 @@ How to setup `${GH_TOKEN}`? Just check [this exemplary .travis.yml](https://gith
  
 ## Configuration
 
-### `statie.neon` Config
+### `statie.yml ` Config
 
-They way you are used to use Symfony/Nette cofings: single file that allows you to add parameters, include other configs and register services.
+This is basically `config.yml` Symfony Kernel that you know from Symfony apps. You can.
 
-So this...
+**1. [Add Parameters](https://symfony.com/doc/current/service_container/parameters.html)**
 
 ```yaml
-# statie.neon
+# statie.yml
 parameters:
     site_url: http://github.com
-    # or if you prefer
-    siteUrl: http://github.com
 
     socials:
         facebook: http://facebook.com/github
 ```
 
-...can be used in any template as:
+...that are available in every template:
 
 ```twig
 # source/_layouts/default.latte
@@ -115,12 +113,12 @@ parameters:
 <p>Checkout my FB page: {$socials['facebook']}</p>
 ```
 
-Need more data in standalone files? Use `includes` section:
+**2. [Import other configs](http://symfony.com/doc/current/service_container/import.html)**
 
 ```yaml
-# statie.neon
-includes:
-    - data/favorite_links.neon
+# statie.yml
+imports:
+    - { resource: 'data/favorite_links.yml' }
 
 parameters:
     site_url: http://github.com
@@ -128,14 +126,19 @@ parameters:
         facebook: http://facebook.com/github
 ```
 
+...and split long configuration into more smaller files:
+
 ```yaml
-# data/favorite_links.neon
+# data/favorite_links.yml
 parameters:
     favorite_links:
         blog:
             name: "Suis Marco"
             url: "http://ocramius.github.io/"
- ```
+```
+
+**3. And [Register Services](https://symfony.com/doc/current/service_container.html)**
+
 
 ### Show Related Posts
 
@@ -179,7 +182,7 @@ Then use in template:
 
 ### Generator Elements
 
-All items that **contain multiple records and need own html page** - e.g. posts - can be configured in `statie.neon`:  
+All items that **contain multiple records and need own html page** - e.g. posts - can be configured in `statie.yml`:  
 
 ```yml
 parameters:
@@ -216,7 +219,7 @@ When your hover any headline, an anchor link to it will appear on the left. Clic
 ![Headline Anchors](docs/github-like-headline-anchors.png)
  
 ```yaml
-# statie.neon
+# statie.yml
 parameters:   
     markdown_headline_anchors: true 
 ```
