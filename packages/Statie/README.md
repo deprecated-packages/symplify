@@ -1,11 +1,11 @@
-# Statie - PHP Static Site Generator
+# Statie - Modern and Simple Static Site Generator in PHP
 
 [![Build Status](https://img.shields.io/travis/Symplify/Statie/master.svg?style=flat-square)](https://travis-ci.org/Symplify/Statie)
 [![Downloads](https://img.shields.io/packagist/dt/symplify/statie.svg?style=flat-square)](htptps://packagist.org/packages/symplify/statie)
 [![Subscribe](https://img.shields.io/badge/subscribe-to--releases-green.svg?style=flat-square)](https://libraries.io/packagist/symplify%2Fstatie)
 
-
 Statie takes HTML, Markdown and Latte files and generates static HTML page.
+
 
 ## Install via Composer
 
@@ -16,7 +16,7 @@ composer require symplify/statie
 ## And via Node
 
 ```bash
-npm install -g gulp gulp-watch
+npm install -g gulp gulp-watch child_process
 ```
 
 ## Usage
@@ -66,30 +66,6 @@ gulp
 ```
 
 
-## Detailed Documentation
-
-- [Hook to Statie Application cycle with Events](/docs/HookToStatie.md)
-
-
-### Push content of `/output` to Github pages
-
-To push to e.g. [tomasvotruba/tomasvotruba.cz](https://github.com/TomasVotruba/tomasvotruba.cz) repository, setup repository slug:
-
-```yaml
-# statie.yml
-parameters:
-    github_repository_slug: "TomasVotruba/tomasvotruba.cz"
-```
-
-And push it with CLI command:
-
-```
-vendor/bin/statie push-to-github tomasvotruba/tomasvotruba.cz --token=${GH_TOKEN}
-```
-
-How to setup `${GH_TOKEN}`? Just check [this exemplary .travis.yml](https://github.com/TomasVotruba/tomasvotruba.cz/blob/fddcbe9298ae376145622d735e1408ece447ea09/.travis.yml#L9-L26).
-
- 
 ## Configuration
 
 ### `statie.yml ` Config
@@ -143,45 +119,22 @@ parameters:
 
 **3. And [Register Services](https://symfony.com/doc/current/service_container.html)**
 
-
-### Show Related Posts
-
-If you write a series, you can show related posts bellow.
-
-Just use post ids and `related_items` section in post files like:
-
 ```yaml
----
-id: 1
-title: My first post
-related_items: [2]
+services:
+    App\SomeService: ~
+   
+    App\TweetService:
+        arguments:
+          - '%twitter.api_key%'
 ```
 
 
-```yaml
----
-id: 2
-title: My second post
-related_items: [1]
----
-```
+## Detailed Documentation
 
-Then use in template:
-
-```twig
-{var $relatedPosts = ($post|relatedPosts)}
-
-<div n:if="count($relatedPosts)">
-    <strong>Continue Reading</strong>
-    <ul>
-        {foreach $relatedPosts as $relatedPost}
-            <li>
-                <a href="/{$relatedPost['relativeUrl']}">{$relatedPost['title']}</a>
-            </li>
-        {/foreach}
-    </ul>
-</div>
-```
+- [Hook to Statie Application cycle with Events](/docs/HookToStatie.md)
+- [Add Headline Anchor Links](/docs/HeadlineAnchors.md)
+- [Add Related Items](/docs/RelatedItems.md)
+- [Push Content to Github Pages with Travis](/docs/PushContentToGithubPagesWithTravis.md)
 
 
 ### Generator Elements
@@ -214,46 +167,6 @@ parameters:
 ```
 
 
-### Enable Github-like Headline Anchors
-
-Sharing long post to show specific paragraph is not a sci-fi anymore.
-
-When your hover any headline, an anchor link to it will appear on the left. Click it & share it!
-
-![Headline Anchors](docs/github-like-headline-anchors.png)
- 
-```yaml
-# statie.yml
-parameters:   
-    markdown_headline_anchors: true 
-```
-
-You can use this sample css and modify it to your needs:
-
-```css
-/* anchors for post headlines */
-.anchor {
-    padding-right: .3em;
-    float: left;
-    margin-left: -.9em;
-}
-
-.anchor, .anchor:hover {
-    text-decoration: none;
-}
-
-h1 .anchor .anchor-icon, h2 .anchor .anchor-icon, h3 .anchor .anchor-icon {
-    visibility: hidden;
-}
-
-h1:hover .anchor-icon, h2:hover .anchor-icon, h3:hover .anchor-icon {
-    visibility: inherit;
-}
-
-.anchor-icon {
-    display: inline-block;
-}
-```
 
 ### Custom Output Path
 
@@ -274,6 +187,16 @@ outputPath: "404.html"
     ...
 {/block}
 ```
+
+
+## Runs on Statie
+
+On there website you can find inspiration, how to use it!
+
+- [github.com/tomasvotruba/tomasvotruba.cz](https://github.com/tomasvotruba/tomasvotruba.cz)
+- [github.com/pehapkari/pehapkari.cz](https://github.com/pehapkari/pehapkari.cz)
+- [github.com/enumag/enumag.cz](https://github.com/pehapkarienumag.cz)
+- [github.com/ikvasnicaikvasnica.com](https://github.com/ikvasnica/ikvasnica.com)
 
 
 ## Contributing
