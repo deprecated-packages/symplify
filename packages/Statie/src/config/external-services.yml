@@ -18,3 +18,5 @@ services:
     Symfony\Component\Console\Output\ConsoleOutput: ~
     Symfony\Component\Console\Output\OutputInterface:
         alias: Symfony\Component\Console\Output\ConsoleOutput
+
+    Symfony\Component\EventDispatcher\EventDispatcher: ~
