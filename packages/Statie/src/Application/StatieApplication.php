@@ -81,7 +81,7 @@ final class StatieApplication
         $restOfRenderableFiles = $this->fileFinder->findRestOfRenderableFiles($source);
         $restOfRenderableFiles = $this->renderableFilesProcessor->processFileInfos($restOfRenderableFiles);
 
-        if ($this->configuration->isDryRun() === false) {
+        if ($dryRun === false) {
             $this->fileSystemWriter->copyRenderableFiles($restOfRenderableFiles);
         }
     }

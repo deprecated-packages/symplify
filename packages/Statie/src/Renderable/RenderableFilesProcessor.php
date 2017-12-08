@@ -3,7 +3,6 @@
 namespace Symplify\Statie\Renderable;
 
 use SplFileInfo;
-use Symplify\Statie\Configuration\Configuration;
 use Symplify\Statie\Contract\Renderable\FileDecoratorInterface;
 use Symplify\Statie\Generator\Configuration\GeneratorElement;
 use Symplify\Statie\Renderable\File\AbstractFile;
@@ -21,15 +20,9 @@ final class RenderableFilesProcessor
      */
     private $fileDecorators = [];
 
-    /**
-     * @var Configuration
-     */
-    private $configuration;
-
-    public function __construct(FileFactory $fileFactory, Configuration $configuration)
+    public function __construct(FileFactory $fileFactory)
     {
         $this->fileFactory = $fileFactory;
-        $this->configuration = $configuration;
     }
 
     public function addFileDecorator(FileDecoratorInterface $fileDecorator): void
