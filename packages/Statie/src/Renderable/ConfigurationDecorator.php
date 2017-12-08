@@ -25,11 +25,6 @@ final class ConfigurationDecorator implements FileDecoratorInterface
     private const SLASHES_WITH_SPACES_PATTERN = '(?:---[\s]*[\r\n]+)';
 
     /**
-     * @var string
-     */
-    private const CONFIG_BEFORE_THREE_DASHES_PATTERN = '/^(\s*[-]+\s*|\s*)$/';
-
-    /**
      * @var NeonParser
      */
     private $neonParser;
@@ -65,24 +60,24 @@ final class ConfigurationDecorator implements FileDecoratorInterface
     {
         if (preg_match(self::CONFIG_AND_CONTENT_PATTERN, $file->getContent(), $matches)) {
             $file->changeContent($matches['content']);
-            $this->setConfigurationToFileIfFoundAny($matches['config'], $file);
+            if ($matches['config']) {
+                $this->setConfigurationToFileIfFoundAny($matches['config'], $file);
+            }
         }
     }
 
     private function setConfigurationToFileIfFoundAny(string $content, AbstractFile $file): void
     {
-        if (! preg_match(self::CONFIG_BEFORE_THREE_DASHES_PATTERN, $content)) {
-            try {
-                $configuration = $this->neonParser->decode($content);
-            } catch (Exception $neonException) {
-                throw new InvalidNeonSyntaxException(sprintf(
-                    'Invalid NEON syntax found in "%s" file: %s',
-                    $file->getFilePath(),
-                    $neonException->getMessage()
-                ));
-            }
-
-            $file->addConfiguration($configuration);
+        try {
+            $configuration = $this->neonParser->decode($content);
+        } catch (Exception $neonException) {
+            throw new InvalidNeonSyntaxException(sprintf(
+                'Invalid NEON syntax found in "%s" file: %s',
+                $file->getFilePath(),
+                $neonException->getMessage()
+            ));
         }
+
+        $file->addConfiguration($configuration);
     }
 }
