@@ -26,7 +26,7 @@ final class FileFactory
     {
         $files = [];
         foreach ($fileInfos as $id => $fileInfo) {
-            $files[$id] = $this->create($fileInfo);
+            $files[$id] = $this->createFromFileInfo($fileInfo);
         }
 
         return $files;
@@ -34,13 +34,13 @@ final class FileFactory
 
     public function createFromFilePath(string $filePath): AbstractFile
     {
-        return $this->create(new SplFileInfo($filePath));
+        return $this->createFromFileInfo(new SplFileInfo($filePath));
     }
 
     /**
      * @return File|PostFile
      */
-    public function create(SplFileInfo $file): AbstractFile
+    public function createFromFileInfo(SplFileInfo $file): AbstractFile
     {
         $relativeSource = substr($file->getPathname(), strlen($this->configuration->getSourceDirectory()));
         $relativeSource = ltrim($relativeSource, DIRECTORY_SEPARATOR);

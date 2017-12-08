@@ -37,7 +37,7 @@ final class LatteDecoratorTest extends AbstractContainerAwareTestCase
     public function testDecorateFile(): void
     {
         $fileInfo = new SplFileInfo(__DIR__ . '/LatteDecoratorSource/fileWithoutLayout.latte');
-        $file = $this->fileFactory->create($fileInfo);
+        $file = $this->fileFactory->createFromFileInfo($fileInfo);
         $this->latteFileDecorator->decorateFiles([$file]);
 
         $this->assertContains('Contact me!', $file->getContent());
@@ -46,7 +46,7 @@ final class LatteDecoratorTest extends AbstractContainerAwareTestCase
     public function testDecorateFileWithLayout(): void
     {
         $fileInfo = new SplFileInfo(__DIR__ . '/LatteDecoratorSource/contact.latte');
-        $file = $this->fileFactory->create($fileInfo);
+        $file = $this->fileFactory->createFromFileInfo($fileInfo);
         $file->addConfiguration([
             'layout' => 'default',
         ]);
@@ -62,7 +62,7 @@ final class LatteDecoratorTest extends AbstractContainerAwareTestCase
     public function testDecorateFileWithFileVariable(): void
     {
         $fileInfo = new SplFileInfo(__DIR__ . '/LatteDecoratorSource/fileWithFileVariable.latte');
-        $file = $this->fileFactory->create($fileInfo);
+        $file = $this->fileFactory->createFromFileInfo($fileInfo);
         $this->latteFileDecorator->decorateFiles([$file]);
 
         $this->assertContains('fileWithFileVariable.latte', $file->getContent());
@@ -72,7 +72,7 @@ final class LatteDecoratorTest extends AbstractContainerAwareTestCase
     {
         $fileWithInvalidLatteSyntax = __DIR__ . '/LatteDecoratorSource/fileWithInvalidLatteSyntax.latte';
         $fileInfo = new SplFileInfo($fileWithInvalidLatteSyntax);
-        $file = $this->fileFactory->create($fileInfo);
+        $file = $this->fileFactory->createFromFileInfo($fileInfo);
 
         $this->expectException(InvalidLatteSyntaxException::class);
         $this->expectExceptionMessage(sprintf(

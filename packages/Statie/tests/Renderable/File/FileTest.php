@@ -26,7 +26,7 @@ final class FileTest extends AbstractContainerAwareTestCase
     public function testGetRelativeSource(): void
     {
         $fileInfo = new SplFileInfo(__DIR__ . '/FileFactorySource/someFile.latte');
-        $file = $this->fileFactory->create($fileInfo);
+        $file = $this->fileFactory->createFromFileInfo($fileInfo);
 
         $this->assertSame('someFile.latte', $file->getRelativeSource());
     }

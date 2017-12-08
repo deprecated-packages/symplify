@@ -33,7 +33,7 @@ final class ConfigurationDecoratorTest extends AbstractContainerAwareTestCase
     public function testDecorateFile(string $filePath, string $fileContent, array $expectedConfiguration): void
     {
         $fileInfo = new SplFileInfo($filePath);
-        $file = $this->fileFactory->create($fileInfo);
+        $file = $this->fileFactory->createFromFileInfo($fileInfo);
 
         $this->assertSame([], $file->getConfiguration());
         $this->assertNotSame($fileContent, $file->getContent());
@@ -48,7 +48,7 @@ final class ConfigurationDecoratorTest extends AbstractContainerAwareTestCase
     {
         $brokenNeonFilePath = __DIR__ . '/ConfigurationDecoratorSource/someFileWithBrokenConfigurationSyntax.latte';
         $fileInfo = new SplFileInfo($brokenNeonFilePath);
-        $file = $this->fileFactory->create($fileInfo);
+        $file = $this->fileFactory->createFromFileInfo($fileInfo);
 
         $this->expectException(InvalidNeonSyntaxException::class);
         $this->expectExceptionMessage(sprintf(
@@ -68,6 +68,7 @@ final class ConfigurationDecoratorTest extends AbstractContainerAwareTestCase
             [__DIR__ . '/ConfigurationDecoratorSource/someFile.latte', 'Content...', [
                 'key' => 'value',
             ]],
+            [__DIR__ . '/ConfigurationDecoratorSource/someFileWithEmptyConfig.latte', 'Content...', []],
         ];
     }
 }
