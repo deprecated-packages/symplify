@@ -20,3 +20,5 @@ services:
         alias: Symfony\Component\Console\Output\ConsoleOutput
 
     Symfony\Component\EventDispatcher\EventDispatcher: ~
+    Symfony\Component\EventDispatcher\EventDispatcherInterface:
+        alias: Symfony\Component\EventDispatcher\EventDispatcher
