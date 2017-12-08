@@ -43,6 +43,7 @@ final class StatieApplication
      * @var FileFinder
      */
     private $fileFinder;
+
     /**
      * @var EventDispatcherInterface
      */
