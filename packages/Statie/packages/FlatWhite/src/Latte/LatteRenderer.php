@@ -10,12 +10,12 @@ final class LatteRenderer
     /**
      * @var string
      */
-    private const MATCH_CODE_BLOCKS_HTML = '#<code(?: class=\"[a-z-]+\")?>*(?:(?!<\/code>).)+<\/code>#ms';
+    private const CODE_BLOCKS_HTML_PATTERN = '#(?<code><code(?: class=\"[a-z-]+\")?>*(?:(?!<\/code>).)+<\/code>)#ms';
 
     /**
      * @var string
      */
-    private const MATCH_PLACEHOLDERS = '#' . self::PLACEHOLDER_PREFIX . '[0-9]+#m';
+    private const PLACEHOLDER_PATTERN = '#(?<placeholder>' . self::PLACEHOLDER_PREFIX . '[0-9]+)#m';
 
     /**
      * @var string
@@ -51,13 +51,13 @@ final class LatteRenderer
         $originalReference = $content;
         $content = $this->dynamicStringLoader->getContent($content);
 
+        // replace code with placeholder
         $contentWithPlaceholders = Strings::replace(
             $content,
-            self::MATCH_CODE_BLOCKS_HTML,
+            self::CODE_BLOCKS_HTML_PATTERN,
             function (array $match) use (&$i, &$highlightedCodeBlocks) {
-                $highlightedCodeBlock = $match[0];
                 $placeholder = self::PLACEHOLDER_PREFIX . ++$i;
-                $highlightedCodeBlocks[$placeholder] = $highlightedCodeBlock;
+                $highlightedCodeBlocks[$placeholder] = $match['code'];
 
                 return $placeholder;
             }
@@ -67,13 +67,12 @@ final class LatteRenderer
         $this->dynamicStringLoader->changeContent($originalReference, $contentWithPlaceholders);
         $renderedContentWithPlaceholders = $this->engine->renderToString($originalReference, $parameters);
 
+        // replace placeholder back with code
         return Strings::replace(
             $renderedContentWithPlaceholders,
-            self::MATCH_PLACEHOLDERS,
+            self::PLACEHOLDER_PATTERN,
             function (array $match) use ($highlightedCodeBlocks) {
-                $placeholder = $match[0];
-
-                return $highlightedCodeBlocks[$placeholder];
+                return $highlightedCodeBlocks[$match['placeholder']];
             }
         );
     }
