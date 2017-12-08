@@ -191,12 +191,16 @@ outputPath: "404.html"
 
 ## Runs on Statie
 
-On there website you can find inspiration, how to use it!
+What website runs on Statie?
 
 - [github.com/tomasvotruba/tomasvotruba.cz](https://github.com/tomasvotruba/tomasvotruba.cz)
 - [github.com/pehapkari/pehapkari.cz](https://github.com/pehapkari/pehapkari.cz)
 - [github.com/enumag/enumag.cz](https://github.com/pehapkarienumag.cz)
 - [github.com/ikvasnicaikvasnica.com](https://github.com/ikvasnica/ikvasnica.com)
+- [github.com/ikvasnicaikvasnica.com](https://github.com/ikvasnica/ikvasnica.com)
+- [posobota.cz](https://www.posobota.cz/)
+
+Get inspired, what Statie can do and how to use it!
 
 
 ## Contributing
