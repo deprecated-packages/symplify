@@ -11,7 +11,7 @@ final class ConfigurationTest extends TestCase
 {
     public function testSettings(): void
     {
-        $container = (new ContainerFactory())->createWithConfig(__DIR__ . '/ConfigurationSource/statie-settings.neon');
+        $container = (new ContainerFactory())->createWithConfig(__DIR__ . '/ConfigurationSource/statie-settings.yml');
 
         /** @var Configuration $configuration */
         $configuration = $container->get(Configuration::class);
@@ -35,7 +35,7 @@ final class ConfigurationTest extends TestCase
     public function testExceptionForEmptyGithubRepositorySlug(): void
     {
         $container = (new ContainerFactory())->createWithConfig(
-            __DIR__ . '/ConfigurationSource/settings-without-github-slug.neon'
+            __DIR__ . '/ConfigurationSource/settings-without-github-slug.yml'
         );
 
         $configuration = $container->get(Configuration::class);
