@@ -83,44 +83,6 @@ checkers:
 ```
 
 
-
-### Properties and constants must be separated by 1 blank line :wrench:
-
-- class: [`Symplify\CodingStandard\Fixer\ClassNotation\PropertyAndConstantSeparationFixer`](/src/Fixer/ClassNotation/PropertyAndConstantSeparationFixer.php)
-
-:x:
-
-```php
-class SomeClass
-{
-    public $someProperty;
-    public $anotherProperty;
-}
-```
-
-:+1:
-
-```php
-class SomeClass
-{
-    public $someProperty;
-
-    public $anotherProperty;
-}
-```
-
-This checker requires 1 space by default. But if you need, you can **configure it**:
-
-
-```yaml
-# easy-coding-standard.neon
-checkers:
-    Symplify\CodingStandard\Fixer\ClassNotation\PropertyAndConstantSeparationFixer:
-        space_count: 2 # 1 by default
-```
-
-
-
 ### Variables created with `$container->get(SomeService::class)` should have annotation, so every IDE supports autocomplete without any plugins
 
 - class: [`Symplify\CodingStandard\Fixer\Commenting\AnnotateMagicContainerGetterFixer`](/src/Fixer/Commenting/AnnotateMagicContainerGetterFixer.php)

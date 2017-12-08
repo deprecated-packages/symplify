@@ -29,7 +29,6 @@ parameters:
     skip:
         PHP_CodeSniffer\Standards\Generic\Sniffs\Files\LineLengthSniff:
             # many implemented interfaces
-            - packages/CodingStandard/src/Fixer/ClassNotation/PropertyAndConstantSeparationFixer.php
             - packages/CodingStandard/src/Fixer/ClassNotation/LastPropertyAndFirstMethodSeparationFixer.php
             - packages/CodingStandard/src/Fixer/Import/ImportNamespacedNameFixer.php
             - packages/CodingStandard/src/Fixer/Strict/BlankLineAfterStrictTypesFixer.php
