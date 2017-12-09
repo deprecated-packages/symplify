@@ -21,7 +21,7 @@ final class FileFinder
      */
     public function findInDirectory(string $sourceDirectory): array
     {
-        return $this->findInDirectoryByMask($sourceDirectory, '*');
+        return $this->findInDirectoryNames($sourceDirectory, ['*']);
     }
 
     /**
@@ -41,9 +41,7 @@ final class FileFinder
      */
     public function findStaticFiles(string $directory): array
     {
-        $staticFileMask = '*' . implode(',*', $this->staticFileExtensions);
-
-        return $this->findInDirectoryByMask($directory, $staticFileMask);
+        return $this->findInDirectoryNames($directory, $this->staticFileExtensions);
     }
 
     /**
@@ -65,15 +63,18 @@ final class FileFinder
     /**
      * @return SplFileInfo[]
      */
-    private function findInDirectoryByMask(string $directory, string $mask): array
+    private function findInDirectoryNames(string $directory, array $names): array
     {
         $finder = Finder::create()->files()
-            ->name($mask)
             ->in($directory)
             // sort by name descending
             ->sort(function (SplFileInfo $firstFileInfo, SplFileInfo $secondFileInfo) {
                 return strcmp($secondFileInfo->getRealPath(), $firstFileInfo->getRealPath());
             });
+
+        foreach ($names as $name) {
+            $finder->name('*.' . $name);
+        }
 
         return $this->getFilesFromFinder($finder);
     }
