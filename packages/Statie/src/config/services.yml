@@ -14,5 +14,6 @@ services:
             - ['addFileDecorator', ['@Symplify\Statie\Renderable\ConfigurationDecorator']]
             # has to run before Latte; it fails the other way.
             - ['addFileDecorator', ['@Symplify\Statie\Renderable\MarkdownFileDecorator']]
-            - ['addFileDecorator', ['@Symplify\Statie\Renderable\LatteFileDecorator']]
+            # has to run befefore Latte, because "relativePath" can be used in Latte rendering
             - ['addFileDecorator', ['@Symplify\Statie\Renderable\RouteFileDecorator']]
+            - ['addFileDecorator', ['@Symplify\Statie\Renderable\LatteFileDecorator']]
