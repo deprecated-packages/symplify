@@ -25,5 +25,10 @@
         "psr-4": {
             "Symplify\\CodingStandard\\Tests\\": "tests"
         }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "3.1-dev"
+        }
     }
 }
