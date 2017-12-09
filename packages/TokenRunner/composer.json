@@ -8,6 +8,7 @@
         "nette/finder": "^2.4|^3.0",
         "symplify/package-builder": "^3.0",
         "friendsofphp/php-cs-fixer": "^2.9",
+        "squizlabs/php_codesniffer": "^3.1",
         "phpdocumentor/reflection-docblock": "^4.0"
     },
     "require-dev": {
