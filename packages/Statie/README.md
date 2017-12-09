@@ -33,41 +33,6 @@ php -S localhost:8000 -t output
 4. And see web in browser [localhost:8000](http://localhost:8000).
 
 
-## Live Rebuild
-
-```bash
-npm install -g gulp gulp-watch child_process
-```
-
-For live rebuild, just add `gulpfile.js`:
-
-```javascript
-var gulp = require('gulp');
-var watch = require('gulp-watch');
-var exec = require('child_process').exec;
-
-gulp.task('default', function () {
-    // Run local server, open localhost:8000 in your browser
-    exec('php -S localhost:8000 -t output');
-
-    return watch(['source/**/*', '!**/*___jb_tmp___'], { ignoreInitial: false })
-        // For the second arg see: https://github.com/floatdrop/gulp-watch/issues/242#issuecomment-230209702
-        .on('change', function() {
-            exec('vendor/bin/statie generate source', function (err, stdout, stderr) {
-                console.log(stdout);
-                console.log(stderr);
-            });
-        });
-});
-```
-
-And run:
-
-```bash
-gulp
-```
-
-
 ## Configuration
 
 ### `statie.yml ` Config
@@ -138,6 +103,16 @@ services:
 - [Push Content to Github Pages with Travis](/docs/PushContentToGithubPagesWithTravis.md)
 - [Custom File Output Path](/docs/CustomOutputPath.md)
 
+### Community Docs
+
+- [How to use Gulp to Rebuild on Change](https://www.tomasvotruba.cz/blog/2017/02/20/statie-how-to-run-it-locally/#minitip-use-gulp-work-for-you)
+- [How to re-generate and refresh static website in Statie?](https://romanvesely.com/statie-generate-and-refresh/)
+- [Implement a CSS preprocessor into Statie project](https://romanvesely.com/statie-with-css-preprocessor/)
+
+
+*Got one too? [Send PR and share it with others](https://github.com/Symplify/Symplify/edit/master/packages/Statie/README.md).*
+
+
 ### Extending Statie
 
 - [Hook to Statie Application cycle with Events](/docs/HookToStatie.md)
@@ -157,7 +132,7 @@ See what Statie can do and how community uses it:
 - [posobota.cz](https://www.posobota.cz/)
 
 
-**Do you run on Statie too?** Let the world know and [send PR to add your website here](https://github.com/Symplify/Symplify/edit/master/packages/Statie/README.md).
+*Do you run on Statie too? Let the world know and [send PR to add your website here](https://github.com/Symplify/Symplify/edit/master/packages/Statie/README.md).*
 
 
 ## Contributing
