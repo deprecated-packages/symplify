@@ -62,6 +62,7 @@ final class FileFinder
 
     /**
      * @return SplFileInfo[]
+     * @param string[] $names
      */
     private function findInDirectoryNames(string $directory, array $names): array
     {
