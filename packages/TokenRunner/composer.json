@@ -11,7 +11,6 @@
         "phpdocumentor/reflection-docblock": "^4.0"
     },
     "require-dev": {
-        "symplify/easy-coding-standard": "^3.0",
         "phpunit/phpunit": "^6.4"
     },
     "autoload": {
