@@ -12,7 +12,9 @@ final class PathNormalizerTest extends TestCase
      */
     public function test(string $normalizedPath, string $path): void
     {
-        $this->assertSame($normalizedPath, PathNormalizer::normalize($path));
+        $pathNormalizer = new PathNormalizer();
+
+        $this->assertSame($normalizedPath, $pathNormalizer->normalize($path));
     }
 
     /**
