@@ -25,12 +25,5 @@
         "psr-4": {
             "Symplify\\PackageBuilder\\Tests\\": "tests"
         }
-    },
-    "minimum-stability": "dev",
-    "prefer-stable": true,
-    "extra": {
-        "branch-alias": {
-            "dev-master": "3.0-dev"
-        }
     }
 }

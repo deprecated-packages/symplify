@@ -46,12 +46,5 @@
             "Symplify\\Statie\\FlatWhite\\Tests\\": "packages/FlatWhite/tests",
             "Symplify\\Statie\\RelatedPosts\\Tests\\": "packages/RelatedPosts/tests"
         }
-    },
-    "minimum-stability": "dev",
-    "prefer-stable": true,
-    "extra": {
-        "branch-alias": {
-            "dev-master": "3.0-dev"
-        }
     }
 }
