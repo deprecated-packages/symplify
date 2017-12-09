@@ -56,8 +56,7 @@ final class FileFinder
             ->name('*.latte')
             ->name('*.rss')
             ->name('*.xml')
-            ->notName('_layout')
-            ->notName('_snippets')
+            ->notPath('#(_layouts|_snippets)#')
             ->in($directory);
 
         return $this->getFilesFromFinder($finder);
