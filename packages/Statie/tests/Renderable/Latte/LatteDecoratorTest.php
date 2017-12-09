@@ -76,7 +76,7 @@ final class LatteDecoratorTest extends AbstractContainerAwareTestCase
 
         $this->expectException(InvalidLatteSyntaxException::class);
         $this->expectExceptionMessage(sprintf(
-            'Invalid Latte syntax found in "%s" file: Unknown macro {iff}, did you mean {if}?',
+            'Invalid Latte syntax found or missing value in "%s" file: Unknown macro {iff}, did you mean {if}?',
             $fileWithInvalidLatteSyntax
         ));
 
