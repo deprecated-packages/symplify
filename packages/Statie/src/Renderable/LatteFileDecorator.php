@@ -79,12 +79,15 @@ final class LatteFileDecorator implements FileDecoratorInterface
     {
         $parameters = $file->getConfiguration() + $this->configuration->getOptions() + [
             $generatorElement->getVariable() => $file,
+            'layout' => $generatorElement->getLayout(),
         ];
 
-        // add layout, "post" by default
-        $layout = $generatorElement->getLayout();
-
-        $file->changeContent(sprintf('{layout "%s"}', $layout) . PHP_EOL . $file->getContent());
+        // add layout
+        $file->changeContent(
+            sprintf('{layout "%s"}', $generatorElement->getLayout()) .
+            PHP_EOL .
+            $file->getContent()
+        );
 
         $this->addTemplateToDynamicLatteStringLoader($file);
 
