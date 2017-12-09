@@ -77,17 +77,14 @@ final class LatteFileDecorator implements FileDecoratorInterface
 
     private function decorateFileWithGeneratorElements(AbstractFile $file, GeneratorElement $generatorElement): void
     {
+        // prepare parameters
         $parameters = $file->getConfiguration() + $this->configuration->getOptions() + [
             $generatorElement->getVariable() => $file,
             'layout' => $generatorElement->getLayout(),
         ];
 
         // add layout
-        $file->changeContent(
-            sprintf('{layout "%s"}', $generatorElement->getLayout()) .
-            PHP_EOL .
-            $file->getContent()
-        );
+        $this->prependLayoutToFileContent($file, $generatorElement->getLayout());
 
         $this->addTemplateToDynamicLatteStringLoader($file);
 
@@ -103,14 +100,13 @@ final class LatteFileDecorator implements FileDecoratorInterface
         $this->dynamicStringLoader->changeContent($file->getBaseName(), $file->getContent());
     }
 
-    private function prependLayoutToFileContent(AbstractFile $file): void
+    private function prependLayoutToFileContent(AbstractFile $file, string $layout): void
     {
-        if (! $file->getLayout()) {
-            return;
-        }
-
-        $layoutLine = sprintf('{layout "%s"}', $file->getLayout());
-        $file->changeContent($layoutLine . PHP_EOL . PHP_EOL . $file->getContent());
+        $file->changeContent(
+            sprintf('{layout "%s"}', $layout) .
+            PHP_EOL .
+            $file->getContent()
+        );
     }
 
     /**
@@ -118,7 +114,9 @@ final class LatteFileDecorator implements FileDecoratorInterface
      */
     private function renderOuterWithLayout(AbstractFile $file, array $parameters): string
     {
-        $this->prependLayoutToFileContent($file);
+        if ($file->getLayout()) {
+            $this->prependLayoutToFileContent($file, $file->getLayout());
+        }
         $this->addTemplateToDynamicLatteStringLoader($file);
 
         return $this->renderToString($file, $parameters);
@@ -131,7 +129,7 @@ final class LatteFileDecorator implements FileDecoratorInterface
     {
         try {
             return $this->latteRenderer->renderExcludingHighlightBlocks($file->getBaseName(), $parameters);
-        } catch (CompileException | AccessKeyNotAvailableException $exception) {
+        } catch (CompileException|AccessKeyNotAvailableException $exception) {
             throw new InvalidLatteSyntaxException(sprintf(
                 'Invalid Latte syntax found or missing value in "%s" file: %s',
                 $file->getFilePath(),
