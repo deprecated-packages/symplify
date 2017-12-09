@@ -6,6 +6,7 @@ use Latte\CompileException;
 use Symplify\Statie\Configuration\Configuration;
 use Symplify\Statie\Contract\Renderable\FileDecoratorInterface;
 use Symplify\Statie\Exception\Latte\InvalidLatteSyntaxException;
+use Symplify\Statie\Exception\Renderable\File\AccessKeyNotAvailableException;
 use Symplify\Statie\FlatWhite\Latte\DynamicStringLoader;
 use Symplify\Statie\FlatWhite\Latte\LatteRenderer;
 use Symplify\Statie\Generator\Configuration\GeneratorElement;
@@ -127,11 +128,11 @@ final class LatteFileDecorator implements FileDecoratorInterface
     {
         try {
             return $this->latteRenderer->renderExcludingHighlightBlocks($file->getBaseName(), $parameters);
-        } catch (CompileException $latteCompileException) {
+        } catch (CompileException|AccessKeyNotAvailableException $exception) {
             throw new InvalidLatteSyntaxException(sprintf(
-                'Invalid Latte syntax found in "%s" file: %s',
+                'Invalid Latte syntax found or missing value in "%s" file: %s',
                 $file->getFilePath(),
-                $latteCompileException->getMessage()
+                $exception->getMessage()
             ));
         }
     }
