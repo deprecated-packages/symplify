@@ -2,7 +2,7 @@
 
 namespace Symplify\CodingStandard\Fixer\ClassNotation;
 
-use PhpCsFixer\Fixer\ClassNotation\MethodSeparationFixer;
+use PhpCsFixer\Fixer\ClassNotation\ClassAttributesSeparationFixer;
 use PhpCsFixer\Fixer\ConfigurationDefinitionFixerInterface;
 use PhpCsFixer\Fixer\DefinedFixerInterface;
 use PhpCsFixer\Fixer\WhitespacesAwareFixerInterface;
@@ -14,8 +14,8 @@ use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Tokenizer\Tokens;
 use PhpCsFixer\WhitespacesFixerConfig;
-use ReflectionClass;
 use SplFileInfo;
+use Symplify\PackageBuilder\Reflection\PrivatesCaller;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\ClassWrapper;
 
 final class LastPropertyAndFirstMethodSeparationFixer implements DefinedFixerInterface, WhitespacesAwareFixerInterface, ConfigurationDefinitionFixerInterface
@@ -101,11 +101,12 @@ class SomeClass
     }
 
     /**
-     * Same as @see \PhpCsFixer\Fixer\ClassNotation\MethodSeparationFixer::getPriority().
+     * Run after @see \PhpCsFixer\Fixer\ClassNotation\ClassAttributesSeparationFixer
+     * to give these spaces priority.
      */
     public function getPriority(): int
     {
-        return 55;
+        return 50;
     }
 
     public function supports(SplFileInfo $file): bool
@@ -164,11 +165,9 @@ class SomeClass
     }
 
     /**
-     * Same as @see \PhpCsFixer\Fixer\ClassNotation\MethodSeparationFixer::fixSpaceBelowMethod().
+     * Same as @see \PhpCsFixer\Fixer\ClassNotation\ClassAttributesSeparationFixer::correctLineBreaks().
      *
-     * This is nasty solution to prevent BC breaks and include code updates.
-     *
-     * Don't to this at home!
+     * This solution prevents BC breaks and include code updates.
      */
     private function fixSpacesBelow(Tokens $tokens, int $classEnd, int $propertyEnd): void
     {
@@ -177,12 +176,8 @@ class SomeClass
             return;
         }
 
-        $methodSeparationFixer = new MethodSeparationFixer();
-        $methodSeparationFixer->setWhitespacesConfig($this->whitespacesFixerConfig);
-        $methodSeparationFixerClassReflection = new ReflectionClass(MethodSeparationFixer::class);
-
-        $correctLineBreaksMethodReflection = $methodSeparationFixerClassReflection->getMethod('correctLineBreaks');
-        $correctLineBreaksMethodReflection->setAccessible(true);
+        $classAttributesSeparationFixer = new ClassAttributesSeparationFixer();
+        $classAttributesSeparationFixer->setWhitespacesConfig($this->whitespacesFixerConfig);
 
         $arguments = [
             $tokens,
@@ -191,6 +186,10 @@ class SomeClass
             $nextNotWhitePosition === $classEnd ? $this->configuration[self::SPACE_COUNT_OPTION] : $this->configuration[self::SPACE_COUNT_OPTION] + 1,
         ];
 
-        $correctLineBreaksMethodReflection->invoke($methodSeparationFixer, ...$arguments);
+        (new PrivatesCaller())->callPrivateMethod(
+            $classAttributesSeparationFixer,
+            'correctLineBreaks',
+            ...$arguments
+        );
     }
 }
