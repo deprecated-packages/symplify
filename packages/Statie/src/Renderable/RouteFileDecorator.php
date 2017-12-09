@@ -48,7 +48,6 @@ final class RouteFileDecorator implements FileDecoratorInterface
         foreach ($files as $file) {
             $outputPath = $generatorElement->getRoutePrefix() . DIRECTORY_SEPARATOR;
             $outputPath = $this->prefixWithDateIfFound($file, $outputPath);
-
             $outputPath .= $file->getFilenameWithoutDate();
             $outputPath = $this->pathNormalizer->normalize($outputPath);
 
@@ -108,15 +107,17 @@ final class RouteFileDecorator implements FileDecoratorInterface
     }
 
     /**
-     * If the date is part of file name, it is part of the output path
+     * Only if the date is part of file name
      */
     private function prefixWithDateIfFound(AbstractFile $file, string $outputPath): string
     {
-        if ($file->getDate()) {
-            $outputPath .= $file->getDateInFormat('Y') . DIRECTORY_SEPARATOR;
-            $outputPath .= $file->getDateInFormat('m') . DIRECTORY_SEPARATOR;
-            $outputPath .= $file->getDateInFormat('d') . DIRECTORY_SEPARATOR;
+        if ($file->getDate() === null) {
+            return $outputPath;
         }
+
+        $outputPath = preg_replace('#:year#', $file->getDateInFormat('Y'), $outputPath);
+        $outputPath = preg_replace('#:month#', $file->getDateInFormat('m'), $outputPath);
+        $outputPath = preg_replace('#:day#', $file->getDateInFormat('d'), $outputPath);
 
         return $outputPath;
     }

@@ -91,7 +91,7 @@ final class GeneratorConfiguration
             # which layout to use, a file from "_layouts/<name>.latte"
             'layout' => 'post',
             # and url prefix, e.g. /blog/some-post.md
-            'route_prefix' => 'blog',
+            'route_prefix' => 'blog/:year/:month/:day',
             # an object that will wrap it's logic, you can add helper methods into it and use it in templates
             'object' => PostFile::class,
         ];
