@@ -7,7 +7,7 @@
         "cpliakas/git-wrapper": "^1.7",
         "erusev/parsedown-extra": "^0.7",
         "sebastian/diff": "^2.0",
-        "friendsofphp/php-cs-fixer": "^2.8",
+        "friendsofphp/php-cs-fixer": "^2.9",
         "latte/latte": "^2.4",
         "nette/caching": "^2.4|^3.0",
         "nette/di": "^2.4|^3.0",
