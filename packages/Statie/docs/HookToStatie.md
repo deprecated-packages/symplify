@@ -2,7 +2,7 @@
 
 Statie use using common [EventDispatcher](https://symfony.com/doc/current/components/event_dispatcher.html) that allows you to get into application cycle in few spots.
 
-### Allowed Events:
+### Available Events
 
 You can find all events as [standalone classes](https://pehapkari.cz/blog/2017/07/12/the-bulletproof-event-naming-for-symfony-event-dispatcher/) in [/src/Event](/../src/Event) directory:
 

@@ -7,35 +7,37 @@
 Statie takes HTML, Markdown and Latte files and generates static HTML page.
 
 
-## Install via Composer
+## Install
 
 ```bash
 composer require symplify/statie
 ```
 
-## And via Node
+## How to Generate and See the Website?
 
-```bash
-npm install -g gulp gulp-watch child_process
-```
+1. Prepare content for Statie... . Simple 'index.latte' would do for start, but you can also inspire in [tomasvotruba.cz personal website](https://github.com/TomasVotruba/tomasvotruba.cz/tree/master/source).
 
-## Usage
 
-### Generate content from `/source` to `/output` in HTML
+2. Generate static site from `/source` (argument) to `/output` (default value) in HTML:
 
 ```bash
 vendor/bin/statie generate source
 ```
 
-### See Generated web
+3. Run local PHP server
 
 ```bash
 php -S localhost:8000 -t output
 ```
 
-And open [localhost:8000](http://localhost:8000) in browser.
+4. And see web in browser [localhost:8000](http://localhost:8000).
 
-### Live Rebuild
+
+## Live Rebuild
+
+```bash
+npm install -g gulp gulp-watch child_process
+```
 
 For live rebuild, just add `gulpfile.js`:
 
@@ -129,69 +131,23 @@ services:
 ```
 
 
-## Detailed Documentation
+## Documentation
 
-- [Hook to Statie Application cycle with Events](/docs/HookToStatie.md)
 - [Add Headline Anchor Links](/docs/HeadlineAnchors.md)
 - [Add Related Items](/docs/RelatedItems.md)
 - [Push Content to Github Pages with Travis](/docs/PushContentToGithubPagesWithTravis.md)
+- [Custom File Output Path](/docs/CustomOutputPath.md)
 
+### Extending Statie
 
-### Generator Elements
-
-All items that **contain multiple records and need own html page** - e.g. posts - can be configured in `statie.yml`:  
-
-```yml
-parameters:
-    generators:
-        # key name, nice to have for more informative error reports
-        posts:
-            # required parameters
-         
-            # name of variable inside single such item
-            variable: post
-            # name of variable that contains all items
-            varbiale_global: posts
-            # directory, where to look for them
-            path: '_posts' 
-            # which layout to use
-            layout: '_layouts/@post.latte' 
-            # and url prefix, e.g. /blog/some-post.md
-            route_prefix: 'blog'
-             
-            # optional parameters
-             
-            # an object that will wrap it's logic, you can add helper methods into it and use it in templates
-            # Symplify\Statie\Renderable\File\File is used by default
-            object: 'Symplify\Statie\Renderable\File\PostFile' 
-```
+- [Hook to Statie Application cycle with Events](/docs/HookToStatie.md)
+- [Add Generator like Posts](/docs/Generators.md)
 
 
 
-### Custom Output Path
+## Who Runs on Statie?
 
-Default output path for files is `<filename>/index.html`. That makes url nice and short.
-
-In case you need a different path, use `outputPath` key in the configuration of the file.
-
-E.g. running [Github Pages and 404 page](https://help.github.com/articles/creating-a-custom-404-page-for-your-github-pages-site/).
-
-```html
----
-layout: default
-title: "Missing page, missing you"
-outputPath: "404.html"
----
-
-{block content}
-    ...
-{/block}
-```
-
-
-## Who runs on Statie?
-
-Get inspired, what Statie can do and how community uses it.
+See what Statie can do and how community uses it:
 
 - [github.com/tomasvotruba/tomasvotruba.cz](https://github.com/tomasvotruba/tomasvotruba.cz)
 - [github.com/pehapkari/pehapkari.cz](https://github.com/pehapkari/pehapkari.cz)
@@ -200,7 +156,8 @@ Get inspired, what Statie can do and how community uses it.
 - [github.com/enumag/enumag.cz](https://github.com/enumag/enumag.cz)
 - [posobota.cz](https://www.posobota.cz/)
 
-**Do you run on Statie too?** Let the world know and send PR to add your website here.
+
+**Do you run on Statie too?** Let the world know and [send PR to add your website here](https://github.com/Symplify/Symplify/edit/master/packages/Statie/README.md).
 
 
 ## Contributing
