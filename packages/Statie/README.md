@@ -189,18 +189,18 @@ outputPath: "404.html"
 ```
 
 
-## Runs on Statie
+## Who runs on Statie?
 
-What website runs on Statie?
+Get inspired, what Statie can do and how community uses it.
 
 - [github.com/tomasvotruba/tomasvotruba.cz](https://github.com/tomasvotruba/tomasvotruba.cz)
 - [github.com/pehapkari/pehapkari.cz](https://github.com/pehapkari/pehapkari.cz)
-- [github.com/enumag/enumag.cz](https://github.com/pehapkarienumag.cz)
-- [github.com/ikvasnicaikvasnica.com](https://github.com/ikvasnica/ikvasnica.com)
-- [github.com/ikvasnicaikvasnica.com](https://github.com/ikvasnica/ikvasnica.com)
+- [github.com/crazko/romanvesely.com](https://github.com/crazko/romanvesely.com)
+- [github.com/ikvasnica/ikvasnica.com](https://github.com/ikvasnica/ikvasnica.com)
+- [github.com/enumag/enumag.cz](https://github.com/enumag/enumag.cz)
 - [posobota.cz](https://www.posobota.cz/)
 
-Get inspired, what Statie can do and how to use it!
+**Do you run on Statie too?** Let the world know and send PR to add your website here.
 
 
 ## Contributing
