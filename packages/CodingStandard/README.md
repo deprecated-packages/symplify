@@ -17,7 +17,6 @@ composer require symplify/coding-standard --dev
 
 ## Rules Overview
 
-
 - Rules with :wrench: are configurable.
 
 
