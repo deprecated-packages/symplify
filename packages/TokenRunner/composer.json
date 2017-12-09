@@ -6,7 +6,7 @@
         "php": "^7.1",
         "nette/utils": "^2.4|^3.0",
         "nette/finder": "^2.4|^3.0",
-        "squizlabs/php_codesniffer": "^3.1",
+        "symplify/package-builder": "^3.0",
         "friendsofphp/php-cs-fixer": "^2.9",
         "phpdocumentor/reflection-docblock": "^4.0"
     },
