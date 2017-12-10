@@ -11,14 +11,14 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 final class GitLoggerListener implements EventSubscriberInterface, LoggerAwareInterface
 {
     /**
-     * @var \Psr\Log\LoggerInterface
+     * @var LoggerInterface
      */
     private $logger;
 
     /**
      * Mapping of event to log level.
      *
-     * @var array
+     * @var string[]
      */
     private $logLevelMappings = [
         GitEvents::GIT_PREPARE => LogLevel::INFO,
@@ -30,7 +30,7 @@ final class GitLoggerListener implements EventSubscriberInterface, LoggerAwareIn
 
     public function __construct(LoggerInterface $logger)
     {
-        $this->setLogger($logger);
+        $this->logger = $logger;
     }
 
     /**
@@ -51,10 +51,9 @@ final class GitLoggerListener implements EventSubscriberInterface, LoggerAwareIn
      *
      * @param string|false $logLevel
      */
-    public function setLogLevelMapping(string $eventName, $logLevel): self
+    public function setLogLevelMapping(string $eventName, $logLevel): void
     {
         $this->logLevelMappings[$eventName] = $logLevel;
-        return $this;
     }
 
     /**
@@ -93,7 +92,7 @@ final class GitLoggerListener implements EventSubscriberInterface, LoggerAwareIn
     public function log(GitEvent $gitEvent, string $message, array $context = [], ?string $eventName = null): void
     {
         // Provide backwards compatibility with Symfony 2.
-        if (empty($eventName) && method_exists($gitEvent, 'getName')) {
+        if ($eventName === null && method_exists($gitEvent, 'getName')) {
             $eventName = $gitEvent->getName();
         }
 

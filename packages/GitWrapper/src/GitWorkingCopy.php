@@ -110,7 +110,6 @@ final class GitWorkingCopy
     public function clearOutput(): self
     {
         $this->output = '';
-        return $this;
     }
 
     /**
@@ -121,7 +120,6 @@ final class GitWorkingCopy
     public function setCloned(bool $cloned): self
     {
         $this->cloned = (bool) $cloned;
-        return $this;
     }
 
     /**
@@ -159,7 +157,6 @@ final class GitWorkingCopy
         }
 
         $this->output .= $this->gitWrapper->run($command);
-        return $this;
     }
 
     /**
