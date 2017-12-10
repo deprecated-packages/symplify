@@ -11,9 +11,9 @@ final class FileFinder
      * @var string[]
      */
     private $staticFileExtensions = [
-        'png', 'jpg', 'svg', 'css', 'ico', 'js', '', 'jpeg', 'gif', 'zip', 'tgz', 'gz',
-        'rar', 'bz2', 'pdf', 'txt', 'tar', 'mp3', 'doc', 'xls', 'pdf', 'ppt', 'txt', 'tar', 'bmp', 'rtf', 'woff2',
-        'woff', 'otf', 'ttf', 'eot',
+        'CNAME', '*.png', '*.jpg', '*.svg', '*.css', '*.ico', '*.js', '*.', '*.jpeg', '*.gif', '*.zip', '*.tgz', '*.gz',
+        '*.rar', '*.bz2', '*.pdf', '*.txt', '*.tar', '*.mp3', '*.doc', '*.xls', '*.pdf', '*.ppt', '*.txt', '*.tar',
+        '*.bmp', '*.rtf', '*.woff2', '*.woff', '*.otf', '*.ttf', '*.eot'
     ];
 
     /**
@@ -74,7 +74,7 @@ final class FileFinder
             });
 
         foreach ($names as $name) {
-            $finder->name('*.' . $name);
+            $finder->name($name);
         }
 
         return $this->getFilesFromFinder($finder);
