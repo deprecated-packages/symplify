@@ -87,6 +87,9 @@ final class PropertyWrapper
         }
 
         $varAnnotations = $this->docBlock->getAnnotationsOfType('var');
+        if (! count($varAnnotations)) {
+            return null;
+        }
 
         /** @var Annotation $varAnnotation */
         $varAnnotation = $varAnnotations[0];
