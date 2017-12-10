@@ -2,13 +2,13 @@
 
 namespace Symplify\GitWrapper\Tests;
 
+use PHPUnit\Framework\TestCase;
+use Symfony\Component\Filesystem\Filesystem;
 use Symplify\GitWrapper\Event\GitEvents;
 use Symplify\GitWrapper\GitException;
 use Symplify\GitWrapper\GitWrapper;
 use Symplify\GitWrapper\Tests\Event\TestBypassListener;
 use Symplify\GitWrapper\Tests\Event\TestListener;
-use PHPUnit\Framework\TestCase;
-use Symfony\Component\Filesystem\Filesystem;
 
 abstract class AbstractGitWrapperTestCase extends TestCase
 {
@@ -40,13 +40,13 @@ abstract class AbstractGitWrapperTestCase extends TestCase
     /**
      * @var \Symplify\GitWrapper\GitWrapper
      */
-    protected $wrapper;
+    protected $gitWrapper;
 
     public function setUp(): void
     {
         parent::setUp();
         $this->filesystem = new Filesystem();
-        $this->wrapper = new GitWrapper();
+        $this->gitWrapper = new GitWrapper();
     }
 
     /**
@@ -59,7 +59,7 @@ abstract class AbstractGitWrapperTestCase extends TestCase
         $values = array_merge(range(65, 90), range(97, 122), range(48, 57));
         $max = count($values) - 1;
         $str = chr(random_int(97, 122));
-        for ($i = 1; $i < $length; $i++) {
+        for ($i = 1; $i < $length; ++$i) {
             $str .= chr($values[random_int(0, $max)]);
         }
 
@@ -69,9 +69,9 @@ abstract class AbstractGitWrapperTestCase extends TestCase
     /**
      * Adds the test listener for all events, returns the listener.
      */
-    public function addListener(): \Symplify\GitWrapper\Tests\Event\TestListener
+    public function addListener(): TestListener
     {
-        $dispatcher = $this->wrapper->getDispatcher();
+        $dispatcher = $this->gitWrapper->getDispatcher();
         $listener = new TestListener();
 
         $dispatcher->addListener(GitEvents::GIT_PREPARE, [$listener, 'onPrepare']);
@@ -85,10 +85,10 @@ abstract class AbstractGitWrapperTestCase extends TestCase
     /**
      * Adds the bypass listener so that Git commands are not run.
      */
-    public function addBypassListener(): \Symplify\GitWrapper\Tests\Event\TestBypassListener
+    public function addBypassListener(): TestBypassListener
     {
         $listener = new TestBypassListener();
-        $dispatcher = $this->wrapper->getDispatcher();
+        $dispatcher = $this->gitWrapper->getDispatcher();
         $dispatcher->addListener(GitEvents::GIT_PREPARE, [$listener, 'onPrepare'], -5);
         return $listener;
     }
@@ -96,12 +96,11 @@ abstract class AbstractGitWrapperTestCase extends TestCase
     /**
      * Asserts a correct Git version string was returned.
      *
-     * @param type $version
      *   The version returned by the `git --version` command.
      */
-    public function assertGitVersion(type $version): void
+    public function assertGitVersion(type $type): void
     {
-        $match = preg_match('/^git version [.0-9]+/', $version);
+        $match = preg_match('/^git version [.0-9]+/', $type);
         $this->assertNotEmpty($match);
     }
 
@@ -113,9 +112,9 @@ abstract class AbstractGitWrapperTestCase extends TestCase
     public function runBadCommand(bool $catchException = false): void
     {
         try {
-            $this->wrapper->git('a-bad-command');
+            $this->gitWrapper->git('a-bad-command');
         } catch (GitException $e) {
-            if (!$catchException) {
+            if (! $catchException) {
                 throw $e;
             }
         }

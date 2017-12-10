@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\GitWrapper\Test\Event;
+namespace Symplify\GitWrapper\Tests\Event;
 
 use Symplify\GitWrapper\Event\GitEvent;
 
@@ -16,38 +16,37 @@ final class TestListener
     /**
      * The event object passed to the onPrepare method.
      *
-     * @var \GitWrapper\Event\GitEvent
+     * @var \Symplify\GitWrapper\Event\GitEvent
      */
-    private $event;
+    private $gitEvent;
 
     public function methodCalled($method)
     {
         return in_array($method, $this->methods);
     }
 
-
-    public function getEvent(): \GitWrapper\Event\GitEvent
+    public function getEvent(): GitEvent
     {
-        return $this->event;
+        return $this->gitEvent;
     }
 
-    public function onPrepare(GitEvent $event): void
+    public function onPrepare(GitEvent $gitEvent): void
     {
         $this->methods[] = 'onPrepare';
-        $this->event = $event;
+        $this->gitEvent = $gitEvent;
     }
 
-    public function onSuccess(GitEvent $event): void
+    public function onSuccess(GitEvent $gitEvent): void
     {
         $this->methods[] = 'onSuccess';
     }
 
-    public function onError(GitEvent $event): void
+    public function onError(GitEvent $gitEvent): void
     {
         $this->methods[] = 'onError';
     }
 
-    public function onBypass(GitEvent $event): void
+    public function onBypass(GitEvent $gitEvent): void
     {
         $this->methods[] = 'onBypass';
     }

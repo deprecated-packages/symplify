@@ -1,25 +1,25 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\GitWrapper\Test\Event;
+namespace Symplify\GitWrapper\Tests\Event;
 
+use GitWrapper\Event\GitOutputEvent as GitWrapperGitOutputEvent;
 use Symplify\GitWrapper\Event\GitOutputEvent;
 use Symplify\GitWrapper\Event\GitOutputListenerInterface;
 
 final class TestOutputListener implements GitOutputListenerInterface
 {
     /**
-     * @var \GitWrapper\Event\GitOutputEvent
+     * @var \Symplify\GitWrapper\Event\GitOutputEvent
      */
-    private $event;
+    private $gitOutputEvent;
 
-
-    public function getLastEvent(): GitWrapper\Event\GitOutputEvent
+    public function getLastEvent(): GitWrapperGitOutputEvent
     {
-        return $this->event;
+        return $this->gitOutputEvent;
     }
 
-    public function handleOutput(GitOutputEvent $event): void
+    public function handleOutput(GitOutputEvent $gitOutputEvent): void
     {
-        $this->event = $event;
+        $this->gitOutputEvent = $gitOutputEvent;
     }
 }
