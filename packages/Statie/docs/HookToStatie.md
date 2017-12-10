@@ -1,6 +1,6 @@
 ## Hook To Statie
 
-Statie use using common [EventDispatcher](https://symfony.com/doc/current/components/event_dispatcher.html) that allows you to get into application cycle in few spots.
+Statie uses common [EventDispatcher](https://symfony.com/doc/current/components/event_dispatcher.html) that allows you to get into application cycle in few spots.
 
 ### Available Events
 

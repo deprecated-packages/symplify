@@ -17,7 +17,7 @@ parameters:
             variable: post
 
             # name of variable that contains all items
-            varbiale_global: posts
+            variable_global: posts
 
             # directory, where to look for them
             path: '_posts'
@@ -41,7 +41,7 @@ parameters:
 1. Create directory in `/source`
 
 ```bash
-/source/_letures
+/source/_lectures
 ```
 
 2. Create own layout in `/source/_layouts`
