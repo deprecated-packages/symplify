@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace GitWrapper\Event;
+namespace Symplify\GitWrapper\Event;
 
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerInterface;
@@ -27,7 +27,7 @@ final class GitLoggerListener implements EventSubscriberInterface, LoggerAwareIn
         GitEvents::GIT_BYPASS  => LogLevel::INFO,
     ];
 
-    
+
     public function __construct(LoggerInterface $logger)
     {
         $this->setLogger($logger);
@@ -41,7 +41,7 @@ final class GitLoggerListener implements EventSubscriberInterface, LoggerAwareIn
         $this->logger = $logger;
     }
 
-    
+
     public function getLogger(): \Psr\Log\LoggerInterface
     {
         return $this->logger;

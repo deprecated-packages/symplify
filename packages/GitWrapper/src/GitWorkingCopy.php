@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace GitWrapper;
+namespace Symplify\GitWrapper;
 
 /**
  * Interacts with a working copy.

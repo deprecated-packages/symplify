@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace GitWrapper\Test;
+namespace Symplify\GitWrapper\Tests;
 
 /**
  * Intercepts data sent to STDOUT and STDERR and uses the echo construct to

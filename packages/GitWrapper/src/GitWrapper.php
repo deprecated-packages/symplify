@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace GitWrapper;
+namespace Symplify\GitWrapper;
 
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;

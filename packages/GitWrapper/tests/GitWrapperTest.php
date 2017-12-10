@@ -1,11 +1,11 @@
 <?php declare(strict_types=1);
 
-namespace GitWrapper\Test;
+namespace Symplify\GitWrapper\Tests;
 
-use GitWrapper\GitCommand;
-use GitWrapper\GitWorkingCopy;
-use GitWrapper\GitWrapper;
-use GitWrapper\Test\Event\TestDispatcher;
+use Symplify\GitWrapper\GitCommand;
+use Symplify\GitWrapper\GitWorkingCopy;
+use Symplify\GitWrapper\GitWrapper;
+use Symplify\GitWrapper\Test\Event\TestDispatcher;
 
 final class GitWrapperTest extends AbstractGitWrapperTestCase
 {

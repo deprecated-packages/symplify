@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace GitWrapper\Event;
+namespace Symplify\GitWrapper\Event;
 
 /**
  * Static list of events thrown by this library.

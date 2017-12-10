@@ -8,13 +8,13 @@
 ## Install
 
 ```json
-composer require cpliakas/git-wrapper
+composer require symplify/git-wrapper
 ```
 
 ## Usage
 
 ```php
-use GitWrapper\GitWrapper;
+use Symplify\GitWrapper\GitWrapper;
 
 // Initialize the library. If the path to the Git binary is not passed as
 // the first argument when instantiating GitWrapper, it is auto-discovered.
@@ -68,7 +68,7 @@ Use the logger listener with [PSR-3](https://github.com/php-fig/fig-standards/bl
 compatible loggers such as [Monolog](https://github.com/Seldaek/monolog) to log commands that are executed.
 
 ```php
-use GitWrapper\Event\GitLoggerListener;
+use Symplify\GitWrapper\Event\GitLoggerListener;
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
 

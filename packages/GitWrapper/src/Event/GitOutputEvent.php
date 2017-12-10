@@ -1,9 +1,9 @@
 <?php declare(strict_types=1);
 
-namespace GitWrapper\Event;
+namespace Symplify\GitWrapper\Event;
 
-use GitWrapper\GitCommand;
-use GitWrapper\GitWrapper;
+use Symplify\GitWrapper\GitCommand;
+use Symplify\GitWrapper\GitWrapper;
 use Symfony\Component\Process\Process;
 
 /**
@@ -34,13 +34,13 @@ final class GitOutputEvent extends GitEvent
         $this->buffer = $buffer;
     }
 
-    
+
     public function getType(): string
     {
         return $this->type;
     }
 
-    
+
     public function getBuffer(): string
     {
         return $this->buffer;

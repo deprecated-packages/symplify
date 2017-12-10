@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace GitWrapper\Test;
+namespace Symplify\GitWrapper\Tests;
 
-use GitWrapper\GitCommand;
+use Symplify\GitWrapper\GitCommand;
 
 final class GitCommandTest extends AbstractGitWrapperTestCase
 {

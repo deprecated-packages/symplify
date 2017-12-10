@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace GitWrapper;
+namespace Symplify\GitWrapper;
 
 /**
  * Base class extended by all Git command classes.

@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace GitWrapper\Event;
+namespace Symplify\GitWrapper\Event;
 
 /**
  * Event handler that streams real-time output from Git commands to STDOUT and

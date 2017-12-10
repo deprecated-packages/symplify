@@ -1,9 +1,9 @@
 <?php declare(strict_types=1);
 
-namespace GitWrapper\Test;
+namespace Symplify\GitWrapper\Tests;
 
-use GitWrapper\GitCommand;
-use GitWrapper\Event\GitEvent;
+use Symplify\GitWrapper\GitCommand;
+use Symplify\GitWrapper\Event\GitEvent;
 use Symfony\Component\Process\Process;
 
 final class GitListenerTest extends AbstractGitWrapperTestCase

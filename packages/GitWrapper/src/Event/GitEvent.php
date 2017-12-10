@@ -1,9 +1,9 @@
 <?php declare(strict_types=1);
 
-namespace GitWrapper\Event;
+namespace Symplify\GitWrapper\Event;
 
-use GitWrapper\GitCommand;
-use GitWrapper\GitWrapper;
+use Symplify\GitWrapper\GitCommand;
+use Symplify\GitWrapper\GitWrapper;
 use Symfony\Component\EventDispatcher\Event;
 use Symfony\Component\Process\Process;
 

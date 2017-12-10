@@ -5,16 +5,31 @@ namespace Symplify\GitWrapper\Tests;
 use Symplify\GitWrapper\Event\GitEvents;
 use Symplify\GitWrapper\GitException;
 use Symplify\GitWrapper\GitWrapper;
-use Symplify\GitWrapper\Test\Event\TestBypassListener;
-use Symplify\GitWrapper\Test\Event\TestListener;
+use Symplify\GitWrapper\Tests\Event\TestBypassListener;
+use Symplify\GitWrapper\Tests\Event\TestListener;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Filesystem\Filesystem;
 
 abstract class AbstractGitWrapperTestCase extends TestCase
 {
+    /**
+     * @var string
+     */
     public const REPO_DIR = 'build/test/repo';
+
+    /**
+     * @var string
+     */
     public const WORKING_DIR = 'build/test/wc';
+
+    /**
+     * @var string
+     */
     public const CONFIG_EMAIL = 'opensource@chrispliakas.com';
+
+    /**
+     * @var string
+     */
     public const CONFIG_NAME = 'Chris Pliakas';
 
     /**
@@ -23,7 +38,7 @@ abstract class AbstractGitWrapperTestCase extends TestCase
     protected $filesystem;
 
     /**
-     * @var \GitWrapper\GitWrapper
+     * @var \Symplify\GitWrapper\GitWrapper
      */
     protected $wrapper;
 
@@ -54,7 +69,7 @@ abstract class AbstractGitWrapperTestCase extends TestCase
     /**
      * Adds the test listener for all events, returns the listener.
      */
-    public function addListener(): \GitWrapper\Test\Event\TestListener
+    public function addListener(): \Symplify\GitWrapper\Tests\Event\TestListener
     {
         $dispatcher = $this->wrapper->getDispatcher();
         $listener = new TestListener();
@@ -70,7 +85,7 @@ abstract class AbstractGitWrapperTestCase extends TestCase
     /**
      * Adds the bypass listener so that Git commands are not run.
      */
-    public function addBypassListener(): \GitWrapper\Test\Event\TestBypassListener
+    public function addBypassListener(): \Symplify\GitWrapper\Tests\Event\TestBypassListener
     {
         $listener = new TestBypassListener();
         $dispatcher = $this->wrapper->getDispatcher();

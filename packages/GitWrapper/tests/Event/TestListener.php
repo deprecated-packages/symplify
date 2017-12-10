@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace GitWrapper\Test\Event;
+namespace Symplify\GitWrapper\Test\Event;
 
-use GitWrapper\Event\GitEvent;
+use Symplify\GitWrapper\Event\GitEvent;
 
 final class TestListener
 {
@@ -25,7 +25,7 @@ final class TestListener
         return in_array($method, $this->methods);
     }
 
-    
+
     public function getEvent(): \GitWrapper\Event\GitEvent
     {
         return $this->event;

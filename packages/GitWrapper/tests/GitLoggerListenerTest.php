@@ -1,9 +1,9 @@
 <?php declare(strict_types=1);
 
-namespace GitWrapper\Test;
+namespace Symplify\GitWrapper\Tests;
 
-use GitWrapper\Event\GitLoggerListener;
-use GitWrapper\GitCommand;
+use Symplify\GitWrapper\Event\GitLoggerListener;
+use Symplify\GitWrapper\GitCommand;
 use Psr\Log\LogLevel;
 use Psr\Log\NullLogger;
 

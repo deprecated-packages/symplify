@@ -1,9 +1,9 @@
 <?php declare(strict_types=1);
 
-namespace GitWrapper\Test;
+namespace Symplify\GitWrapper\Tests;
 
-use GitWrapper\GitException;
-use GitWrapper\GitWorkingCopy;
+use Symplify\GitWrapper\GitException;
+use Symplify\GitWrapper\GitWorkingCopy;
 use Symfony\Component\Process\Process;
 
 final class GitWorkingCopyTest extends AbstractGitWrapperTestCase
