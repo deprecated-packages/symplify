@@ -10,7 +10,7 @@ use Symplify\GitWrapper\GitWrapper;
 /**
  * Event instance passed as a result of git.* commands.
  */
-final class GitEvent extends Event
+class GitEvent extends Event
 {
     /**
      * The GitWrapper object that likely instantiated this class.
@@ -33,11 +33,6 @@ final class GitEvent extends Event
      */
     protected $gitCommand;
 
-    /**
-     * Constructs a GitEvent object.
-     *
-     * @param Symfony\Component\Process\Process $process The Process object being run.
-     */
     public function __construct(GitWrapper $gitWrapper, Process $process, GitCommand $gitCommand)
     {
         $this->gitWrapper = $gitWrapper;

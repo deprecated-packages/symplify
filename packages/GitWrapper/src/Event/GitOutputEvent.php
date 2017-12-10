@@ -14,18 +14,13 @@ final class GitOutputEvent extends GitEvent
     /**
      * @var string
      */
-    protected $type;
+    private $type;
 
     /**
      * @var string
      */
-    protected $buffer;
+    private $buffer;
 
-    /**
-     * Constructs a GitEvent object.
-     *
-     * @param Symfony\Component\Process\Process $process The Process object being run.
-     */
     public function __construct(GitWrapper $gitWrapper, Process $process, GitCommand $gitCommand, $type, $buffer)
     {
         parent::__construct($gitWrapper, $process, $gitCommand);
@@ -44,9 +39,9 @@ final class GitOutputEvent extends GitEvent
     }
 
     /**
-     * Tests wheter the buffer was captured from STDERR.
+     * Tests whether the buffer was captured from STDERR.
      */
-    public function isError()
+    public function isError(): bool
     {
         return $this->type === Process::ERR;
     }

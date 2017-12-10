@@ -2,9 +2,6 @@
 
 namespace Symplify\GitWrapper;
 
-/**
- * Base class extended by all Git command classes.
- */
 final class GitCommand
 {
     /**
@@ -26,14 +23,14 @@ final class GitCommand
     /**
      * An associative array of command line options and flags.
      *
-     * @var array
+     * @var mixed[]
      */
     private $options = [];
 
     /**
      * Command line arguments passed to the Git command.
      *
-     * @var array
+     * @var mixed[]
      */
     private $args = [];
 
@@ -42,46 +39,29 @@ final class GitCommand
      *
      * @var boolean
      */
-    private $boolean = false;
+    private $bypass = false;
 
-    /**
-     * Constructs a GitCommand object.
-     *
-     * Use GitCommand::getInstance() as the factory method for this class.
-     *
-     * @param array $args The arguments passed to GitCommand::getInstance().
-     */
-    private function __construct(array $args)
-    {
-        if ($args) {
-            // The first argument is the command.
-            $this->command = array_shift($args);
-
-            // If the last element is an array, set it as the options.
-            $options = end($args);
-            if (is_array($options)) {
-                $this->setOptions($options);
-                array_pop($args);
-            }
-
-            // Pass all other method arguments as the Git command arguments.
-            foreach ($args as $arg) {
-                $this->addArgument($arg);
-            }
-        }
-    }
-
-    /**
-     * Constructs a GitCommand object.
-     *
-     * Accepts a variable number of arguments to model the arguments passed to
-     * the Git command line utility. If the last argument is an array, it is
-     * passed as the command options.
-     */
-    public static function getInstance(): self
+    public function __construct()
     {
         $args = func_get_args();
-        return new static($args);
+        if (! $args) {
+            return;
+
+        }
+        // The first argument is the command.
+        $this->command = array_shift($args);
+
+        // If the last element is an array, set it as the options.
+        $options = end($args);
+        if (is_array($options)) {
+            $this->setOptions($options);
+            array_pop($args);
+        }
+
+        // Pass all other method arguments as the Git command arguments.
+        foreach ($args as $arg) {
+            $this->addArgument($arg);
+        }
     }
 
     /**
@@ -97,10 +77,9 @@ final class GitCommand
      *
      * @param string $directory The path to the directory containing the working copy.
      */
-    public function setDirectory(string $directory): self
+    public function setDirectory(string $directory): void
     {
         $this->directory = $directory;
-        return $this;
     }
 
     /**
@@ -119,10 +98,9 @@ final class GitCommand
      * @param boolean $bypass Whether to bypass execution of the command. The parameter defaults to
      * true for code readability, however the default behavior of this class is to run the command.
      */
-    public function bypass(bool $bypass = true): self
+    public function bypass(bool $bypass = true): void
     {
-        $this->boolean = (bool) $bypass;
-        return $this;
+        $this->bypass = (bool) $bypass;
     }
 
     /**
@@ -136,7 +114,7 @@ final class GitCommand
      */
     public function notBypassed(): bool
     {
-        return ! $this->boolean;
+        return ! $this->bypass;
     }
 
     /**
@@ -170,39 +148,24 @@ final class GitCommand
      * @param string $option The option name, e.g. "branch", "q".
      * @param string|true $value The option's value, pass true if the options is a flag.
      */
-    public function setOption(string $option, $value): self
+    public function setOption(string $option, $value): void
     {
         $this->options[$option] = $value;
-        return $this;
     }
 
-    /**
-     * Sets multiple command line options.
-     *
-     * @param array $options An associative array of command line options.
-     */
-    public function setOptions(array $options): self
+    public function setOptions(array $options): void
     {
         foreach ($options as $option => $value) {
             $this->setOption($option, $value);
         }
-
-        return $this;
     }
 
-    /**
-     * Sets a command line flag.
-     *
-     * @see Symplify\GitWrapper\GitCommand::setOption()
-     */
-    public function setFlag($option): self
+    public function setFlag($option): void
     {
-        return $this->setOption($option, true);
+        $this->setOption($option, true);
     }
 
     /**
-     * Gets a command line option.
-     *
      * @param string $option The option name, e.g. "branch", "q".
      * @param mixed $default Value that is returned if the option is not set, defaults to null.
      *
@@ -210,29 +173,23 @@ final class GitCommand
      */
     public function getOption(string $option, $default = null)
     {
-        return (isset($this->options[$option])) ? $this->options[$option] : $default;
+        return $this->options[$option] ?? $default;
     }
 
     /**
-     * Unsets a command line option.
-     *
      * @param string $option The option name, e.g. "branch", "q".
      */
-    public function unsetOption(string $option): self
+    public function unsetOption(string $option): void
     {
         unset($this->options[$option]);
-        return $this;
     }
 
     /**
-     * Adds a command line argument passed to the Git command.
-     *
      * @param string $arg The argument, e.g. the repo URL, directory, etc.
      */
-    public function addArgument(string $arg): self
+    public function addArgument(string $arg): void
     {
         $this->args[] = $arg;
-        return $this;
     }
 
     /**
