@@ -4,6 +4,6 @@ namespace Symplify\Statie\Exception\Configuration;
 
 use Exception;
 
-final class DeprecatedConfigSuffixException extends Exception
+final class DeprecatedConfigException extends Exception
 {
 }
