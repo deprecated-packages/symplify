@@ -2,6 +2,7 @@
 
 namespace Symplify\GitWrapper;
 
+use Event\GitEvent;
 use RuntimeException;
 use Symfony\Component\Process\Process;
 use Symplify\GitWrapper\Event\GitEvents;
@@ -56,7 +57,7 @@ final class GitProcess extends Process
      */
     public function run(?callable $callback = null, array $env = []): int
     {
-        $event = new Event\GitEvent($this->gitWrapper, $this, $this->gitCommand);
+        $event = new GitEvent($this->gitWrapper, $this, $this->gitCommand);
         $dispatcher = $this->gitWrapper->getDispatcher();
 
         try {

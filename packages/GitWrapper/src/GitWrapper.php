@@ -320,7 +320,7 @@ final class GitWrapper
     {
         $git = $this->workingCopy($directory);
         $git->init($options);
-        $git->setCloned(true);
+        $git->setIsCloned(true);
         return $git;
     }
 
@@ -345,7 +345,7 @@ final class GitWrapper
 
         $git = $this->workingCopy($directory);
         $git->cloneRepository($repository, ...$options);
-        $git->setCloned(true);
+        $git->setIsCloned(true);
         return $git;
     }
 

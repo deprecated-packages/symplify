@@ -4,5 +4,4 @@ namespace Symplify\GitWrapper\Event;
 
 final class GitEvent extends AbstractGitEvent
 {
-
 }
