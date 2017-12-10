@@ -2,13 +2,13 @@
 
 namespace Symplify\GitWrapper;
 
-use Event\GitOutputEvent;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Process\ExecutableFinder;
 use Symfony\Component\Process\Process;
 use Symplify\GitWrapper\Event\GitEvents;
 use Symplify\GitWrapper\Event\GitLoggerListener;
+use Symplify\GitWrapper\Event\GitOutputEvent;
 use Symplify\GitWrapper\Event\GitOutputListenerInterface;
 use Symplify\GitWrapper\Event\GitOutputStreamListener;
 
@@ -387,11 +387,11 @@ final class GitWrapper
      */
     public function run(GitCommand $gitCommand, ?string $cwd = null): string
     {
-        $wrapper = $this;
+        $gitWrapper = $this;
         $process = new GitProcess($this, $gitCommand, $cwd);
-        $process->run(function ($type, $buffer) use ($wrapper, $process, $gitCommand): void {
-            $event = new GitOutputEvent($wrapper, $process, $gitCommand, $type, $buffer);
-            $wrapper->getDispatcher()->dispatch(GitEvents::GIT_OUTPUT, $event);
+        $process->run(function ($type, $buffer) use ($gitWrapper, $process, $gitCommand): void {
+            $event = new GitOutputEvent($gitWrapper, $process, $gitCommand, $type, $buffer);
+            $gitWrapper->getDispatcher()->dispatch(GitEvents::GIT_OUTPUT, $event);
         });
 
         return $gitCommand->notBypassed() ? $process->getOutput() : '';

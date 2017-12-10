@@ -135,7 +135,7 @@ final class GitWorkingCopy
      */
     public function run(array $args, bool $setDirectory = true): string
     {
-        $command = call_user_func_array(['GitWrapper\GitCommand', 'getInstance'], $args);
+        $command = new GitCommand($args);
         if ($setDirectory) {
             $command->setDirectory($this->directory);
         }
@@ -596,11 +596,11 @@ final class GitWorkingCopy
      * @code $git->fetch('origin');
      * $git->fetch(array('all' => true));
      */
-    public function fetch(): void
+    public function fetch(): string
     {
         $args = func_get_args();
         array_unshift($args, 'fetch');
-        $this->run($args);
+        return $this->run($args);
     }
 
     /**

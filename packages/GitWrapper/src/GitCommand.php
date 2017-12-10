@@ -37,9 +37,9 @@ final class GitCommand
     /**
      * Whether command execution should be bypassed.
      *
-     * @var boolean
+     * @var bool
      */
-    private $boolean = false;
+    private $bypass = false;
 
     public function __construct()
     {
@@ -99,7 +99,7 @@ final class GitCommand
      */
     public function bypass(bool $bypass = true): void
     {
-        $this->boolean = (bool) $bypass;
+        $this->bypass = (bool) $bypass;
     }
 
     /**
@@ -113,7 +113,7 @@ final class GitCommand
      */
     public function notBypassed(): bool
     {
-        return ! $this->boolean;
+        return ! $this->bypass;
     }
 
     /**
