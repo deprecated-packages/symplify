@@ -85,25 +85,6 @@ final class GitWrapper
     }
 
     /**
-     * Hackish, allows us to use "clone" as a method name.
-     *
-     * @param mixed[] $args
-     * @return mixed
-     *
-     * @throws \BadMethodCallException
-     */
-    public function __call(string $method, array $args)
-    {
-        if ($method === 'clone') {
-            return call_user_func_array([$this, 'cloneRepository'], $args);
-        }
-
-        $class = get_called_class();
-        $message = "Call to undefined method ${class}::${method}()";
-        throw new \BadMethodCallException($message);
-    }
-
-    /**
      * Gets the dispatcher used by this library to dispatch events.
      */
     public function getDispatcher(): \Symfony\Component\EventDispatcher\EventDispatcherInterface

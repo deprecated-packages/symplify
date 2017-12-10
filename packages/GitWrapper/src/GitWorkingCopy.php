@@ -55,20 +55,6 @@ final class GitWorkingCopy
     }
 
     /**
-     * Hackish, allows us to use "clone" as a method name.
-     */
-    public function __call($method, $args)
-    {
-        if ($method === 'clone') {
-            return call_user_func_array([$this, 'cloneRepository'], $args);
-        }
-
-        $class = get_called_class();
-        $message = "Call to undefined method ${class}::${method}()";
-        throw new BadMethodCallException($message);
-    }
-
-    /**
      * Gets the output captured by the last run Git commnd(s).
      *
      * @see GitWorkingCopy::getOutput()
@@ -107,7 +93,7 @@ final class GitWorkingCopy
     /**
      * Clears the stored output captured by the last run Git command(s).
      */
-    public function clearOutput(): self
+    public function clearOutput(): void
     {
         $this->output = '';
     }
@@ -117,7 +103,7 @@ final class GitWorkingCopy
      *
      * @param boolean $cloned Whether the repository is cloned into the directory or not.
      */
-    public function setCloned(bool $cloned): self
+    public function setCloned(bool $cloned): void
     {
         $this->cloned = (bool) $cloned;
     }
@@ -149,7 +135,7 @@ final class GitWorkingCopy
      *
      * @see GitWrapper::run()
      */
-    public function run(array $args, bool $setDirectory = true): self
+    public function run(array $args, bool $setDirectory = true): void
     {
         $command = call_user_func_array(['GitWrapper\GitCommand', 'getInstance'], $args);
         if ($setDirectory) {
@@ -365,7 +351,7 @@ final class GitWorkingCopy
      *     master branch on the remote. When omitted, no symbolic ref will be
      *     created.
      */
-    public function addRemote(string $name, string $url, array $options = []): self
+    public function addRemote(string $name, string $url, array $options = []): void
     {
         $this->ensureAddRemoveArgsAreValid($name, $url);
 
@@ -401,7 +387,7 @@ final class GitWorkingCopy
      *
      * @param string $name The name of the remote to remove.
      */
-    public function removeRemote(string $name): self
+    public function removeRemote(string $name): void
     {
         return $this->remote('rm', $name);
     }
@@ -505,14 +491,15 @@ final class GitWorkingCopy
      *   directory, recursively.
      * @param array $options An optional array of command line options.
      */
-    public function add(string $filepattern, array $options = []): self
+    public function add(string $filepattern, array $options = []): void
     {
         $args = [
             'add',
             $filepattern,
             $options,
         ];
-        return $this->run($args);
+
+        $this->run($args);
     }
 
     /**
@@ -523,11 +510,12 @@ final class GitWorkingCopy
      * @code $git->apply('the/file/to/read/the/patch/from');
      * @throws GitException
      */
-    public function apply(): self
+    public function apply(): void
     {
         $args = func_get_args();
         array_unshift($args, 'apply');
-        return $this->run($args);
+
+        $this->run($args);
     }
 
     /**
@@ -539,11 +527,12 @@ final class GitWorkingCopy
      * $git->bisect('view', array('stat' => true));
      * @param string $sub_command The subcommand passed to `git bisect`.
      */
-    public function bisect(string $sub_command): self
+    public function bisect(string $sub_command): void
     {
         $args = func_get_args();
         $args[0] = 'bisect ' . $sub_command;
-        return $this->run($args);
+
+        $this->run($args);
     }
 
     /**
@@ -554,11 +543,11 @@ final class GitWorkingCopy
      * @code $git->branch('my2.6.14', 'v2.6.14');
      * $git->branch('origin/html', 'origin/man', array('d' => true, 'r' => 'origin/todo'));
      */
-    public function branch(): self
+    public function branch(): void
     {
         $args = func_get_args();
         array_unshift($args, 'branch');
-        return $this->run($args);
+        $this->run($args);
     }
 
     /**
@@ -568,11 +557,12 @@ final class GitWorkingCopy
      *
      * @code $git->checkout('new-branch', array('b' => true));
      */
-    public function checkout(): self
+    public function checkout(): void
     {
         $args = func_get_args();
         array_unshift($args, 'checkout');
-        return $this->run($args);
+
+        $this->run($args);
     }
 
     /**
@@ -581,12 +571,12 @@ final class GitWorkingCopy
      * Clone a repository into a new directory. Use GitWorkingCopy::clone()
      * instead for more readable code.
      *
-     * @code $git->clone('git://github.com/cpliakas/git-wrapper.git');
+     * @code $git->cloneRepository('git://github.com/cpliakas/git-wrapper.git');
      * @param string $repository The Git URL of the repository being cloned.
      *
      * @param string ...$options An associative array of command line options
      */
-    public function cloneRepository(string $repository, string ...$options): self
+    public function cloneRepository(string $repository, string ...$options): void
     {
         $args = [
             'clone',
@@ -594,7 +584,7 @@ final class GitWorkingCopy
             $this->directory,
             $options,
         ];
-        return $this->run($args, false);
+        $this->run($args, false);
     }
 
     /**
@@ -607,7 +597,7 @@ final class GitWorkingCopy
      * @code $git->commit('My commit message');
      * $git->commit('Makefile', array('m' => 'My commit message'));
      */
-    public function commit(): self
+    public function commit(): void
     {
         $args = func_get_args();
         if (isset($args[0]) && is_string($args[0]) && ! isset($args[1])) {
@@ -618,7 +608,7 @@ final class GitWorkingCopy
         }
 
         array_unshift($args, 'commit');
-        return $this->run($args);
+        $this->run($args);
     }
 
     /**
@@ -629,11 +619,11 @@ final class GitWorkingCopy
      * @code $git->config('user.email', 'opensource@chrispliakas.com');
      * $git->config('user.name', 'Chris Pliakas');
      */
-    public function config(): self
+    public function config(): void
     {
         $args = func_get_args();
         array_unshift($args, 'config');
-        return $this->run($args);
+        $this->run($args);
     }
 
     /**
@@ -644,11 +634,11 @@ final class GitWorkingCopy
      * @code $git->diff();
      * $git->diff('topic', 'master');
      */
-    public function diff(): self
+    public function diff(): void
     {
         $args = func_get_args();
         array_unshift($args, 'diff');
-        return $this->run($args);
+        $this->run($args);
     }
 
     /**
@@ -659,11 +649,11 @@ final class GitWorkingCopy
      * @code $git->fetch('origin');
      * $git->fetch(array('all' => true));
      */
-    public function fetch(): self
+    public function fetch(): void
     {
         $args = func_get_args();
         array_unshift($args, 'fetch');
-        return $this->run($args);
+        $this->run($args);
     }
 
     /**
@@ -673,11 +663,11 @@ final class GitWorkingCopy
      *
      * @code $git->grep('time_t', '--', '*.[ch]');
      */
-    public function grep(): self
+    public function grep(): void
     {
         $args = func_get_args();
         array_unshift($args, 'grep');
-        return $this->run($args);
+        $this->run($args);
     }
 
     /**
@@ -689,14 +679,14 @@ final class GitWorkingCopy
      *
      * @param string ...$options An associative array of command line options
      */
-    public function init(array $options = []): self
+    public function init(array $options = []): void
     {
         $args = [
             'init',
             $this->directory,
             $options,
         ];
-        return $this->run($args, false);
+        $this->run($args, false);
     }
 
     /**
@@ -707,11 +697,11 @@ final class GitWorkingCopy
      * @code $git->log(array('no-merges' => true));
      * $git->log('v2.6.12..', 'include/scsi', 'drivers/scsi');
      */
-    public function log(): self
+    public function log(): void
     {
         $args = func_get_args();
         array_unshift($args, 'log');
-        return $this->run($args);
+        $this->run($args);
     }
 
     /**
@@ -721,11 +711,11 @@ final class GitWorkingCopy
      *
      * @code $git->merge('fixes', 'enhancements');
      */
-    public function merge(): self
+    public function merge(): void
     {
         $args = func_get_args();
         array_unshift($args, 'merge');
-        return $this->run($args);
+        $this->run($args);
     }
 
     /**
@@ -739,7 +729,7 @@ final class GitWorkingCopy
      *
      * @param string ...$options An associative array of command line options
      */
-    public function mv(string $source, string $destination, array $options = []): self
+    public function mv(string $source, string $destination, array $options = []): void
     {
         $args = [
             'mv',
@@ -747,7 +737,7 @@ final class GitWorkingCopy
             $destination,
             $options,
         ];
-        return $this->run($args);
+        $this->run($args);
     }
 
     /**
@@ -757,11 +747,11 @@ final class GitWorkingCopy
      *
      * @code $git->pull('upstream', 'master');
      */
-    public function pull(): self
+    public function pull(): void
     {
         $args = func_get_args();
         array_unshift($args, 'pull');
-        return $this->run($args);
+        $this->run($args);
     }
 
     /**
@@ -771,11 +761,11 @@ final class GitWorkingCopy
      *
      * @code $git->push('upstream', 'master');
      */
-    public function push(): self
+    public function push(): void
     {
         $args = func_get_args();
         array_unshift($args, 'push');
-        return $this->run($args);
+        $this->run($args);
     }
 
     /**
@@ -785,11 +775,11 @@ final class GitWorkingCopy
      *
      * @code $git->rebase('subsystem@{1}', array('onto' => 'subsystem'));
      */
-    public function rebase(): self
+    public function rebase(): void
     {
         $args = func_get_args();
         array_unshift($args, 'rebase');
-        return $this->run($args);
+        $this->run($args);
     }
 
     /**
@@ -799,11 +789,11 @@ final class GitWorkingCopy
      *
      * @code $git->remote('add', 'upstream', 'git://github.com/cpliakas/git-wrapper.git');
      */
-    public function remote(): self
+    public function remote(): void
     {
         $args = func_get_args();
         array_unshift($args, 'remote');
-        return $this->run($args);
+        $this->run($args);
     }
 
     /**
@@ -813,11 +803,11 @@ final class GitWorkingCopy
      *
      * @code $git->reset(array('hard' => true));
      */
-    public function reset(): self
+    public function reset(): void
     {
         $args = func_get_args();
         array_unshift($args, 'reset');
-        return $this->run($args);
+        $this->run($args);
     }
 
     /**
@@ -833,14 +823,14 @@ final class GitWorkingCopy
      *
      * @param string ...$options An associative array of command line options
      */
-    public function rm(string $filepattern, array $options = []): self
+    public function rm(string $filepattern, array $options = []): void
     {
         $args = [
             'rm',
             $filepattern,
             $options,
         ];
-        return $this->run($args);
+        $this->run($args);
     }
 
     /**
@@ -854,10 +844,10 @@ final class GitWorkingCopy
      *
      * @param string ...$options An associative array of command line options
      */
-    public function show(string $object, array $options = []): self
+    public function show(string $object, array $options = []): void
     {
         $args = ['show', $object, $options];
-        return $this->run($args);
+        $this->run($args);
     }
 
     /**
@@ -867,11 +857,11 @@ final class GitWorkingCopy
      *
      * @code $git->status(array('s' => true));
      */
-    public function status(): self
+    public function status(): void
     {
         $args = func_get_args();
         array_unshift($args, 'status');
-        return $this->run($args);
+        $this->run($args);
     }
 
     /**
@@ -881,11 +871,11 @@ final class GitWorkingCopy
      *
      * @code $git->tag('v1.0.0');
      */
-    public function tag(): self
+    public function tag(): void
     {
         $args = func_get_args();
         array_unshift($args, 'tag');
-        return $this->run($args);
+        $this->run($args);
     }
 
     /**
@@ -895,11 +885,11 @@ final class GitWorkingCopy
      *
      * @code $git->clean('-d', '-f');
      */
-    public function clean(): self
+    public function clean(): void
     {
         $args = func_get_args();
         array_unshift($args, 'clean');
-        return $this->run($args);
+        $this->run($args);
     }
 
     /**
@@ -909,11 +899,11 @@ final class GitWorkingCopy
      *
      * @code $git->archive('HEAD', array('o' => '/path/to/archive'));
      */
-    public function archive(): self
+    public function archive(): void
     {
         $args = func_get_args();
         array_unshift($args, 'archive');
-        return $this->run($args);
+        $this->run($args);
     }
 
     private function ensureAddRemoveArgsAreValid(string $name, string $url): void

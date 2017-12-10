@@ -2,7 +2,6 @@
 
 namespace Symplify\GitWrapper\Tests;
 
-use Event\TestOutputListener;
 use Exception;
 use Symfony\Component\Process\Process;
 use Symplify\GitWrapper\GitBranches;
@@ -11,6 +10,9 @@ use Symplify\GitWrapper\GitWorkingCopy;
 
 final class GitWorkingCopyTest extends AbstractGitWrapperTestCase
 {
+    /**
+     * @var string
+     */
     public const REMOTE_REPO_DIR = 'build/test/remote';
 
     /**
@@ -21,11 +23,11 @@ final class GitWorkingCopyTest extends AbstractGitWrapperTestCase
         parent::setUp();
 
         // Create the local repository.
-        $this->wrapper->init(self::REPO_DIR, ['bare' => true]);
+        $this->gitWrapper->init(self::REPO_DIR, ['bare' => true]);
 
         // Clone the local repository.
         $directory = 'build/test/wc_init';
-        $git = $this->wrapper->clone('file://' . realpath(self::REPO_DIR), $directory);
+        $git = $this->gitWrapper->cloneRepository('file://' . realpath(self::REPO_DIR), $directory);
         $git->config('user.email', self::CONFIG_EMAIL);
         $git->config('user.name', self::CONFIG_NAME);
 
@@ -84,7 +86,7 @@ final class GitWorkingCopyTest extends AbstractGitWrapperTestCase
      */
     public function getWorkingCopy(string $directory = self::WORKING_DIR): GitWorkingCopy
     {
-        $git = $this->wrapper->workingCopy($directory);
+        $git = $this->gitWrapper->workingCopy($directory);
         $git
             ->cloneRepository('file://' . realpath(self::REPO_DIR))
             ->config('user.email', self::CONFIG_EMAIL)
@@ -626,12 +628,7 @@ PATCH;
                     '--tags' => true,
                 ],
                 [
-                    // @todo Versions prior to git 1.9.0 do not fetch the
-                    //   branches when the `--tags` option is specified.
-                    //   Uncomment this line when Travis CI updates to a more
-                    //   recent version of git.
-                    // @see https://github.com/git/git/blob/master/Documentation/RelNotes/1.9.0.txt
-                    // 'assertRemoteBranches' => array(array('remote/master')),
+                    'assertRemoteBranches' => [['remote/master']],
                     'assertNoRemoteBranches' => [['remote/remote-branch']],
                     'assertGitTag' => ['remote-tag'],
                     'assertNoRemoteMaster' => [],
@@ -719,7 +716,10 @@ PATCH;
         $this->assertSame('file://' . realpath($expected), $git->getRemoteUrl($remote, $operation));
     }
 
-    public function getRemoteUrlDataProvider()
+    /**
+     * @return mixed[][]
+     */
+    public function getRemoteUrlDataProvider(): array
     {
         return [
             ['origin', 'fetch', self::REPO_DIR],
@@ -792,7 +792,7 @@ PATCH;
     protected function createRemote(): void
     {
         // Create a clone of the working copy that will serve as a remote.
-        $git = $this->wrapper->clone('file://' . realpath(self::REPO_DIR), self::REMOTE_REPO_DIR);
+        $git = $this->gitWrapper->cloneRepository('file://' . realpath(self::REPO_DIR), self::REMOTE_REPO_DIR);
         $git->config('user.email', self::CONFIG_EMAIL);
         $git->config('user.name', self::CONFIG_NAME);
 

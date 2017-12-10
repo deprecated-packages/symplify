@@ -2,6 +2,7 @@
 
 namespace Symplify\GitWrapper\Tests;
 
+use Nette\Utils\Random;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Filesystem\Filesystem;
 use Symplify\GitWrapper\Event\GitEvents;
@@ -15,30 +16,30 @@ abstract class AbstractGitWrapperTestCase extends TestCase
     /**
      * @var string
      */
-    public const REPO_DIR = 'build/test/repo';
+    protected const REPO_DIR = 'build/test/repo';
 
     /**
      * @var string
      */
-    public const WORKING_DIR = 'build/test/wc';
+    protected const WORKING_DIR = 'build/test/wc';
 
     /**
      * @var string
      */
-    public const CONFIG_EMAIL = 'opensource@chrispliakas.com';
+    protected const CONFIG_EMAIL = 'opensource@chrispliakas.com';
 
     /**
      * @var string
      */
-    public const CONFIG_NAME = 'Chris Pliakas';
+    protected const CONFIG_NAME = 'Chris Pliakas';
 
     /**
-     * @var \Symfony\Component\Filesystem\Filesystem
+     * @var Filesystem
      */
     protected $filesystem;
 
     /**
-     * @var \Symplify\GitWrapper\GitWrapper
+     * @var GitWrapper
      */
     protected $gitWrapper;
 
@@ -54,16 +55,9 @@ abstract class AbstractGitWrapperTestCase extends TestCase
      *
      * @see http://api.drupal.org/api/drupal/modules%21simpletest%21drupal_web_test_case.php/function/DrupalTestCase%3A%3ArandomName/7
      */
-    public function randomString(int $length = 8): string
+    protected function randomString(int $length = 8): string
     {
-        $values = array_merge(range(65, 90), range(97, 122), range(48, 57));
-        $max = count($values) - 1;
-        $str = chr(random_int(97, 122));
-        for ($i = 1; $i < $length; ++$i) {
-            $str .= chr($values[random_int(0, $max)]);
-        }
-
-        return $str;
+        return Random::generate($length);
     }
 
     /**
@@ -96,9 +90,9 @@ abstract class AbstractGitWrapperTestCase extends TestCase
     /**
      * Asserts a correct Git version string was returned.
      *
-     *   The version returned by the `git --version` command.
+     * The version returned by the `git --version` command.
      */
-    public function assertGitVersion(type $type): void
+    public function assertGitVersion(string $type): void
     {
         $match = preg_match('/^git version [.0-9]+/', $type);
         $this->assertNotEmpty($match);
@@ -113,9 +107,9 @@ abstract class AbstractGitWrapperTestCase extends TestCase
     {
         try {
             $this->gitWrapper->git('a-bad-command');
-        } catch (GitException $e) {
+        } catch (GitException $gitException) {
             if (! $catchException) {
-                throw $e;
+                throw $gitException;
             }
         }
     }
