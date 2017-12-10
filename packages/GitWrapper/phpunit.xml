@@ -1,15 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <phpunit
-    bootstrap="vendor/autoload.php"
+    bootstrap="tests/bootstrap.php"
     colors="true"
+    verbose="true"
 >
+    <!-- tests directories to run -->
     <testsuite>
-         <directory>test</directory>
+        <directory>tests</directory>
+        <directory>packages/*/tests</directory>
     </testsuite>
-
-    <filter>
-        <whitelist>
-            <directory suffix=".php">src</directory>
-        </whitelist>
-    </filter>
 </phpunit>
