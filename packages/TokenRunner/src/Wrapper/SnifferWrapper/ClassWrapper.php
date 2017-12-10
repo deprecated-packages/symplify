@@ -158,7 +158,7 @@ final class ClassWrapper
             return [];
         }
 
-        return array_merge([$firstParentClass], class_parents($firstParentClass));
+        return array_merge([$firstParentClass], (array) class_parents($firstParentClass));
     }
 
     /**
