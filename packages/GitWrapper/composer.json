@@ -1,0 +1,34 @@
+{
+    "name": "symplify/git-wrapper",
+    "description": "A PHP wrapper around the Git command line utility.",
+    "license": "MIT",
+    "authors": [
+        { "name": "Chris Pliakas", "email": "opensource@chrispliakas.com" },
+        { "name": "Tomas Votruba", "email": "tomas.vot@gmail.com" }
+    ],
+    "require": {
+        "php": "^7.1",
+        "symfony/process": "^4.0",
+        "symfony/event-dispatcher": "^4.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^6.5",
+        "symfony/filesystem": "^4.0",
+        "psr/log": "1.0",
+        "symplify/easy-coding-standard": "^3.0",
+        "slam/php-cs-fixer-extensions": "^1.8"
+    },
+    "suggest": {
+        "monolog/monolog": "Enables logging of executed git commands"
+    },
+    "autoload": {
+        "psr-4": {
+            "GitWrapper\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "GitWrapper\\Tests\\": "tests"
+        }
+    }
+}
