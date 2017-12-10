@@ -7,5 +7,5 @@ namespace Symplify\GitWrapper\Event;
  */
 interface GitOutputListenerInterface
 {
-    public function handleOutput(GitOutputEvent $event): void;
+    public function handleOutput(GitOutputEvent $gitOutputEvent): void;
 }

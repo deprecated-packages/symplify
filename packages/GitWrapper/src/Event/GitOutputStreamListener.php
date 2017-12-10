@@ -8,9 +8,9 @@ namespace Symplify\GitWrapper\Event;
  */
 final class GitOutputStreamListener implements GitOutputListenerInterface
 {
-    public function handleOutput(GitOutputEvent $event): void
+    public function handleOutput(GitOutputEvent $gitOutputEvent): void
     {
-        $handler = $event->isError() ? STDERR : STDOUT;
-        fputs($handler, $event->getBuffer());
+        $handler = $gitOutputEvent->isError() ? STDERR : STDOUT;
+        fputs($handler, $gitOutputEvent->getBuffer());
     }
 }

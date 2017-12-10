@@ -2,10 +2,10 @@
 
 namespace Symplify\GitWrapper\Event;
 
-use Symplify\GitWrapper\GitCommand;
-use Symplify\GitWrapper\GitWrapper;
 use Symfony\Component\EventDispatcher\Event;
 use Symfony\Component\Process\Process;
+use Symplify\GitWrapper\GitCommand;
+use Symplify\GitWrapper\GitWrapper;
 
 /**
  * Event instance passed as a result of git.* commands.
@@ -15,9 +15,9 @@ final class GitEvent extends Event
     /**
      * The GitWrapper object that likely instantiated this class.
      *
-     * @var \GitWrapper\GitWrapper
+     * @var \Symplify\GitWrapper\GitWrapper
      */
-    protected $wrapper;
+    protected $gitWrapper;
 
     /**
      * The Process object being run.
@@ -29,36 +29,34 @@ final class GitEvent extends Event
     /**
      * The GitCommand object being executed.
      *
-     * @var \GitWrapper\GitCommand
+     * @var \Symplify\GitWrapper\GitCommand
      */
-    protected $command;
+    protected $gitCommand;
 
     /**
      * Constructs a GitEvent object.
      *
-     * @param GitWrapper $wrapper The GitWrapper object that likely instantiated this class.
-     * @param \Symfony\Component\Process\Process $process The Process object being run.
-     * @param \GitWrapper\GitCommand $command The GitCommand object being executed.
+     * @param Symfony\Component\Process\Process $process The Process object being run.
      */
-    public function __construct(GitWrapper $wrapper, Process $process, GitCommand $command)
+    public function __construct(GitWrapper $gitWrapper, Process $process, GitCommand $gitCommand)
     {
-        $this->wrapper = $wrapper;
+        $this->gitWrapper = $gitWrapper;
         $this->process = $process;
-        $this->command = $command;
+        $this->gitCommand = $gitCommand;
     }
 
     /**
      * Gets the GitWrapper object that likely instantiated this class.
      */
-    public function getWrapper(): \GitWrapper\GitWrapper
+    public function getWrapper(): GitWrapper
     {
-        return $this->wrapper;
+        return $this->gitWrapper;
     }
 
     /**
      * Gets the Process object being run.
      */
-    public function getProcess(): \Symfony\Component\Process\Process
+    public function getProcess(): Process
     {
         return $this->process;
     }
@@ -66,8 +64,8 @@ final class GitEvent extends Event
     /**
      * Gets the GitCommand object being executed.
      */
-    public function getCommand(): \GitWrapper\GitCommand
+    public function getCommand(): GitCommand
     {
-        return $this->command;
+        return $this->gitCommand;
     }
 }

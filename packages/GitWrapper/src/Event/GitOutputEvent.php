@@ -2,9 +2,9 @@
 
 namespace Symplify\GitWrapper\Event;
 
+use Symfony\Component\Process\Process;
 use Symplify\GitWrapper\GitCommand;
 use Symplify\GitWrapper\GitWrapper;
-use Symfony\Component\Process\Process;
 
 /**
  * Event instance passed when output is returned from Git commands.
@@ -23,23 +23,20 @@ final class GitOutputEvent extends GitEvent
 
     /**
      * Constructs a GitEvent object.
-     * @param GitWrapper $wrapper The GitWrapper object that likely instantiated this class.
-     * @param \Symfony\Component\Process\Process $process The Process object being run.
-     * @param \GitWrapper\GitCommand $command The GitCommand object being executed.
+     *
+     * @param Symfony\Component\Process\Process $process The Process object being run.
      */
-    public function __construct(GitWrapper $wrapper, Process $process, GitCommand $command, $type, $buffer)
+    public function __construct(GitWrapper $gitWrapper, Process $process, GitCommand $gitCommand, $type, $buffer)
     {
-        parent::__construct($wrapper, $process, $command);
+        parent::__construct($gitWrapper, $process, $gitCommand);
         $this->type = $type;
         $this->buffer = $buffer;
     }
-
 
     public function getType(): string
     {
         return $this->type;
     }
-
 
     public function getBuffer(): string
     {
@@ -51,6 +48,6 @@ final class GitOutputEvent extends GitEvent
      */
     public function isError()
     {
-        return (Process::ERR == $this->type);
+        return $this->type === Process::ERR;
     }
 }

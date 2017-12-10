@@ -46,7 +46,7 @@ final class GitWrapper
     private $procOptions = [];
 
     /**
-     * @var \GitWrapper\Event\GitOutputListenerInterface
+     * @var \Symplify\GitWrapper\Event\GitOutputListenerInterface
      */
     private $streamListener;
 
@@ -118,7 +118,7 @@ final class GitWrapper
      *
      * The Symfony event dispatcher object.
      */
-    public function setDispatcher(EventDispatcherInterface $dispatcher): \GitWrapper\GitWrapper
+    public function setDispatcher(EventDispatcherInterface $dispatcher): \Symplify\GitWrapper\GitWrapper
     {
         $this->dispatcher = $dispatcher;
         return $this;
@@ -129,7 +129,7 @@ final class GitWrapper
      *
      * @param string $gitBinary Path to the Git binary.
      */
-    public function setGitBinary(string $gitBinary): \GitWrapper\GitWrapper
+    public function setGitBinary(string $gitBinary): \Symplify\GitWrapper\GitWrapper
     {
         $this->gitBinary = $gitBinary;
         return $this;
@@ -150,7 +150,7 @@ final class GitWrapper
      * @param string $var The name of the environment variable, e.g. "HOME", "GIT_SSH".
      * @param mixed $value
      */
-    public function setEnvVar(string $var, $value): \GitWrapper\GitWrapper
+    public function setEnvVar(string $var, $value): \Symplify\GitWrapper\GitWrapper
     {
         $this->env[$var] = $value;
         return $this;
@@ -162,7 +162,7 @@ final class GitWrapper
      *
      * @param string $var The name of the environment variable, e.g. "HOME", "GIT_SSH".
      */
-    public function unsetEnvVar(string $var): \GitWrapper\GitWrapper
+    public function unsetEnvVar(string $var): \Symplify\GitWrapper\GitWrapper
     {
         unset($this->env[$var]);
         return $this;
@@ -200,7 +200,7 @@ final class GitWrapper
      *
      * @param int $timeout The timeout in seconds.
      */
-    public function setTimeout(int $timeout): \GitWrapper\GitWrapper
+    public function setTimeout(int $timeout): \Symplify\GitWrapper\GitWrapper
     {
         $this->timeout = (int) $timeout;
         return $this;
@@ -221,7 +221,7 @@ final class GitWrapper
      *
      * @param mixed[] $options
      */
-    public function setProcOptions(array $options): \GitWrapper\GitWrapper
+    public function setProcOptions(array $options): \Symplify\GitWrapper\GitWrapper
     {
         $this->procOptions = $options;
         return $this;
@@ -250,7 +250,7 @@ final class GitWrapper
      * script included with this library.
      * @throws GitWrapper\GitException Thrown when any of the paths cannot be resolved.
      */
-    public function setPrivateKey(string $privateKey, int $port = 22, ?string $wrapper = null): \GitWrapper\GitWrapper
+    public function setPrivateKey(string $privateKey, int $port = 22, ?string $wrapper = null): \Symplify\GitWrapper\GitWrapper
     {
         if ($wrapper === null) {
             $wrapper = __DIR__ . '/../../bin/git-ssh-wrapper.sh';
@@ -275,7 +275,7 @@ final class GitWrapper
     /**
      * Unsets the private key by removing the appropriate environment variables.
      */
-    public function unsetPrivateKey(): \GitWrapper\GitWrapper
+    public function unsetPrivateKey(): \Symplify\GitWrapper\GitWrapper
     {
         return $this
             ->unsetEnvVar('GIT_SSH')
@@ -286,7 +286,7 @@ final class GitWrapper
     /**
      * Adds output listener.
      */
-    public function addOutputListener(Event\GitOutputListenerInterface $listener): \GitWrapper\GitWrapper
+    public function addOutputListener(Event\GitOutputListenerInterface $listener): \Symplify\GitWrapper\GitWrapper
     {
         $this
             ->getDispatcher()
@@ -308,7 +308,7 @@ final class GitWrapper
     /**
      * Removes an output listener.
      */
-    public function removeOutputListener(Event\GitOutputListenerInterface $listener): \GitWrapper\GitWrapper
+    public function removeOutputListener(Event\GitOutputListenerInterface $listener): \Symplify\GitWrapper\GitWrapper
     {
         $this
             ->getDispatcher()
@@ -319,7 +319,7 @@ final class GitWrapper
     /**
      * Set whether or not to stream real-time output to STDOUT and STDERR.
      */
-    public function streamOutput(bool $streamOutput = true): \GitWrapper\GitWrapper
+    public function streamOutput(bool $streamOutput = true): \Symplify\GitWrapper\GitWrapper
     {
         if ($streamOutput && ! isset($this->streamListener)) {
             $this->streamListener = new Event\GitOutputStreamListener();
