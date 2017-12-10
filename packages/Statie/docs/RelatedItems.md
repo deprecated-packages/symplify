@@ -2,7 +2,7 @@
 
 *Note: this applied only to Generated Elements.*
 
-Do you write a post series? Help a reader and **show related posts bellow**.
+Do you write a post series? Help a reader and **show related posts bellow** using `relatedItems` Latte filter.
 
 
 ### How to Setup?
@@ -30,7 +30,7 @@ related_items: [1]
 
 ```twig
 # _layout/post.latte
-{var $relatedPosts = ($post|relatedPosts)}
+{var $relatedPosts = ($post|relatedItems)}
 
 <div n:if="count($relatedPosts)">
     <strong>Continue Reading</strong>

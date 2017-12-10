@@ -8,7 +8,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 use Symfony\Component\HttpKernel\Kernel;
 use Symplify\Statie\DependencyInjection\CompilerPass\CollectorCompilerPass;
-use Symplify\Statie\Exception\Configuration\DeprecatedConfigSuffixException;
+use Symplify\Statie\Exception\Configuration\DeprecatedConfigException;
 
 final class AppKernel extends Kernel
 {
@@ -30,7 +30,7 @@ final class AppKernel extends Kernel
         $loader->load(__DIR__ . '/../config/config.yml');
 
         if ($this->configFile) {
-            $this->ensureConfigIsYml($this->configFile);
+            $this->informAboutOldConfigSuffix($this->configFile);
             $loader->load($this->configFile);
         }
     }
@@ -55,14 +55,16 @@ final class AppKernel extends Kernel
 
     /**
      * Deprecation info about .neon => .yml suffix switch
+     *
+     * @deprecated
      */
-    private function ensureConfigIsYml(string $configFile): void
+    private function informAboutOldConfigSuffix(string $configFile): void
     {
         if (Strings::endsWith($configFile, 'yml')) {
             return;
         }
 
-        throw new DeprecatedConfigSuffixException(sprintf(
+        throw new DeprecatedConfigException(sprintf(
             'Statie now uses "*.yml" files and Symfony DI. "%s" given.%sJust rename it to "%s":',
             $this->configFile,
             PHP_EOL,
