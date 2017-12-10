@@ -4,7 +4,6 @@
     "license": "MIT",
     "require": {
         "php": "^7.1",
-        "cpliakas/git-wrapper": "^1.7",
         "erusev/parsedown-extra": "^0.7",
         "friendsofphp/php-cs-fixer": "^2.9",
         "latte/latte": "^2.4",
@@ -12,7 +11,7 @@
         "nette/di": "^2.4",
         "nette/finder": "^2.4",
         "nette/neon": "^2.4",
-        "nette/robot-loader": "^2.4",
+        "nette/robot-loader": "^2.4|^3.0.1",
         "nette/utils": "^2.4",
         "phpdocumentor/reflection-docblock": "^4.2",
         "slevomat/coding-standard": "^4.0",
@@ -35,6 +34,7 @@
     "autoload": {
         "psr-4": {
             "Symplify\\CodingStandard\\": "packages/CodingStandard/src",
+            "Symplify\\GitWrapper\\": "packages/GitWrapper/src",
             "Symplify\\EasyCodingStandard\\": "packages/EasyCodingStandard/src",
             "Symplify\\EasyCodingStandard\\SniffRunner\\": "packages/EasyCodingStandard/packages/SniffRunner/src",
             "Symplify\\EasyCodingStandard\\ChangedFilesDetector\\": "packages/EasyCodingStandard/packages/ChangedFilesDetector/src",
@@ -51,6 +51,7 @@
     "autoload-dev": {
         "psr-4": {
             "Symplify\\CodingStandard\\Tests\\": "packages/CodingStandard/tests",
+            "Symplify\\GitWrapper\\Tests\\": "packages/GitWrapper/tests",
             "Symplify\\EasyCodingStandard\\Tests\\": "packages/EasyCodingStandard/tests",
             "Symplify\\EasyCodingStandard\\SniffRunner\\Tests\\": "packages/EasyCodingStandard/packages/SniffRunner/tests",
             "Symplify\\EasyCodingStandard\\Configuration\\Tests\\": "packages/EasyCodingStandard/packages/Configuration/tests",

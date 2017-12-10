@@ -10,33 +10,30 @@
     "require": {
         "php": "^7.1",
         "erusev/parsedown-extra": "^0.7",
-        "cpliakas/git-wrapper": "^1.7",
-
-        "latte/latte": "^2.4|^3.0",
-
+        "latte/latte": "^2.4",
         "symfony/config": "^4.0",
         "symfony/dependency-injection": "^4.0",
         "symfony/event-dispatcher": "^4.0",
         "symfony/http-kernel": "^4.0",
-        "nette/caching": "^2.4|^3.0",
-        "nette/finder": "^2.4|^3.0",
-        "nette/utils": "^2.4|^3.0",
+        "nette/caching": "^2.4",
+        "nette/finder": "^2.4",
+        "nette/utils": "^2.4",
         "tracy/tracy": "^2.4",
 
         "symfony/console": "^4.0",
         "symfony/finder": "^4.0",
         "symfony/yaml": "^4.0",
 
+        "symplify/git-wrapper": "^3.0",
         "symplify/package-builder": "^3.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "^6.4"
+        "phpunit/phpunit": "^6.5"
     },
     "autoload": {
         "psr-4": {
             "Symplify\\Statie\\": "src",
             "Symplify\\Statie\\FlatWhite\\": "packages/FlatWhite/src",
-            "Symplify\\Statie\\RelatedPosts\\": "packages/RelatedPosts/src",
             "Symplify\\Statie\\Generator\\": "packages/Generator/src"
         }
     },
@@ -44,7 +41,7 @@
         "psr-4": {
             "Symplify\\Statie\\Tests\\": "tests",
             "Symplify\\Statie\\FlatWhite\\Tests\\": "packages/FlatWhite/tests",
-            "Symplify\\Statie\\RelatedPosts\\Tests\\": "packages/RelatedPosts/tests"
+            "Symplify\\Statie\\Generator\\Tests\\": "packages/Generator/tests"
         }
     }
 }
