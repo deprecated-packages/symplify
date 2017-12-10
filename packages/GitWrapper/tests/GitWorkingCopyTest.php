@@ -81,27 +81,17 @@ final class GitWorkingCopyTest extends AbstractGitWrapperTestCase
     /**
      * Clones the local repo and returns an initialized GitWorkingCopy object.
      *
-     * @param string $directory The directory that the repository is being cloned to, defaults to
-     * "test/wc".
+     * @param string $directory The directory that the repository is being cloned to.
      */
     public function getWorkingCopy(string $directory = self::WORKING_DIR): GitWorkingCopy
     {
         $git = $this->gitWrapper->workingCopy($directory);
-        $git
-            ->cloneRepository('file://' . realpath(self::REPO_DIR))
-            ->config('user.email', self::CONFIG_EMAIL)
-            ->config('user.name', self::CONFIG_NAME)
-            ->clearOutput();
-        return $git;
-    }
+        $git->cloneRepository('file://' . realpath(self::REPO_DIR));
+        $git->config('user.email', self::CONFIG_EMAIL);
+        $git->config('user.name', self::CONFIG_NAME);
+        $git->clearOutput();
 
-    /**
-     * @expectedException \BadMethodCallException
-     */
-    public function testCallError(): void
-    {
-        $git = $this->getWorkingCopy();
-        $git->badMethod();
+        return $git;
     }
 
     public function testIsCloned(): void

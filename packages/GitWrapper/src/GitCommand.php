@@ -95,8 +95,7 @@ final class GitCommand
     /**
      * A boolean flagging whether to skip running the command.
      *
-     * @param boolean $bypass Whether to bypass execution of the command. The parameter defaults to
-     * true for code readability, however the default behavior of this class is to run the command.
+     * @param boolean $bypass Whether to bypass execution of the command. The parameter defaults to true for code readability, however the default behavior of this class is to run the command.
      */
     public function bypass(bool $bypass = true): void
     {
@@ -167,7 +166,7 @@ final class GitCommand
 
     /**
      * @param string $option The option name, e.g. "branch", "q".
-     * @param mixed $default Value that is returned if the option is not set, defaults to null.
+     * @param mixed $default Value that is returned if the option is not set.
      *
      * @return mixed
      */

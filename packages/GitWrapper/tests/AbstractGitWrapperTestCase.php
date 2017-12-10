@@ -101,7 +101,7 @@ abstract class AbstractGitWrapperTestCase extends TestCase
     /**
      * Executes a bad command.
      *
-     * @param bool $catchException Whether to catch the exception to continue script execution, defaults to false.
+     * @param bool $catchException Whether to catch the exception to continue script execution.
      */
     public function runBadCommand(bool $catchException = false): void
     {

@@ -133,7 +133,7 @@ final class GitWorkingCopy
      *
      * @see GitWrapper::run()
      */
-    public function run(array $args, bool $setDirectory = true): void
+    public function run(array $args, bool $setDirectory = true): string
     {
         $command = call_user_func_array(['GitWrapper\GitCommand', 'getInstance'], $args);
         if ($setDirectory) {
@@ -141,6 +141,8 @@ final class GitWorkingCopy
         }
 
         $this->output .= $this->gitWrapper->run($command);
+
+        return $this->output;
     }
 
     /**
@@ -151,9 +153,6 @@ final class GitWorkingCopy
         return $this->gitWrapper->git('status -s', $this->directory);
     }
 
-    /**
-     * Returns true if there are changes to commit.
-     */
     public function hasChanges(): bool
     {
         $output = $this->getStatus();
@@ -188,18 +187,16 @@ final class GitWorkingCopy
         }
 
         $this->clearOutput();
-        $merge_base = (string) $this->run(['merge-base @ @{u}']);
-        $remote_sha = (string) $this->run(['rev-parse @{u}']);
-        return $merge_base === $remote_sha;
+        $mergeBase = (string) $this->run(['merge-base @ @{u}']);
+        $remoteSha = (string) $this->run(['rev-parse @{u}']);
+
+        return $mergeBase === $remoteSha;
     }
 
     /**
      * Returns whether HEAD is ahead of its remote tracking branch.
      *
-     * If this returns true it means that commits are present locally which have
-     * not yet been pushed to the remote.
-     *
-     *   Thrown when HEAD does not have a remote tracking branch.
+     * Returns true if commits are present locally which have not yet been pushed to the remote.
      */
     public function isAhead(): bool
     {
@@ -219,8 +216,6 @@ final class GitWorkingCopy
      *
      * If this returns true it means that a pull is needed to bring the branch
      * up-to-date with the remote.
-     *
-     *   Thrown when HEAD does not have a remote tracking branch.
      */
     public function isBehind(): bool
     {
@@ -243,8 +238,6 @@ final class GitWorkingCopy
      * remote.
      *
      * @return bool True if HEAD needs to be merged with the remote, false otherwise.
-     *
-     *   Thrown when HEAD does not have a remote tracking branch.
      */
     public function needsMerge(): bool
     {
@@ -274,8 +267,7 @@ final class GitWorkingCopy
      * This is synonymous with `git push origin tag v1.2.3`.
      *
      * @param string $tag The tag being pushed.
-     * @param string $repository The destination of the push operation, which is either a URL or name of
-     * the remote. Defaults to "origin".
+     * @param string $repository The destination of the push operation, which is either a URL or name of the remote.
        @param array $options An associative array of command line options.
      * @see GitWorkingCopy::push()
      */
@@ -289,8 +281,7 @@ final class GitWorkingCopy
      *
      * This is synonymous with `git push --tags origin`.
      *
-     * @param string $repository The destination of the push operation, which is either a URL or name of
-     * the remote. Defaults to "origin".
+     * @param string $repository The destination of the push operation, which is either a URL or name of the remote.
      * @param array $options An associative array of command line options.
      * @see GitWorkingCopy::push()
      */
@@ -428,8 +419,7 @@ final class GitWorkingCopy
      * Returns the fetch or push URL of a given remote.
      *
      * @param string $remote The name of the remote for which to return the fetch or push URL.
-     * @param string $operation The operation for which to return the remote. Can be either 'fetch' or
-     *   'push'. Defaults to 'fetch'.
+     * @param string $operation The operation for which to return the remote. Can be either 'fetch' or 'push'.
      */
     public function getRemoteUrl(string $remote, string $operation = 'fetch'): string
     {
@@ -510,11 +500,11 @@ final class GitWorkingCopy
      * @code $git->branch('my2.6.14', 'v2.6.14');
      * $git->branch('origin/html', 'origin/man', array('d' => true, 'r' => 'origin/todo'));
      */
-    public function branch(): void
+    public function branch(): string
     {
         $args = func_get_args();
         array_unshift($args, 'branch');
-        $this->run($args);
+        return $this->run($args);
     }
 
     /**
@@ -704,11 +694,12 @@ final class GitWorkingCopy
      *
      * @code $git->push('upstream', 'master');
      */
-    public function push(): void
+    public function push(): string
     {
         $args = func_get_args();
         array_unshift($args, 'push');
-        $this->run($args);
+
+        return $this->run($args);
     }
 
     /**
@@ -792,7 +783,7 @@ final class GitWorkingCopy
     {
         $args = func_get_args();
         array_unshift($args, 'status');
-        $this->run($args);
+        return $this->run($args);
     }
 
     /**
