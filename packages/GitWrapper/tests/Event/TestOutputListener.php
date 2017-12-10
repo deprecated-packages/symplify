@@ -2,18 +2,17 @@
 
 namespace Symplify\GitWrapper\Tests\Event;
 
-use GitWrapper\Event\GitOutputEvent as GitWrapperGitOutputEvent;
 use Symplify\GitWrapper\Event\GitOutputEvent;
 use Symplify\GitWrapper\Event\GitOutputListenerInterface;
 
 final class TestOutputListener implements GitOutputListenerInterface
 {
     /**
-     * @var \Symplify\GitWrapper\Event\GitOutputEvent
+     * @var GitOutputEvent
      */
     private $gitOutputEvent;
 
-    public function getLastEvent(): GitWrapperGitOutputEvent
+    public function getLastEvent(): GitOutputEvent
     {
         return $this->gitOutputEvent;
     }

@@ -10,7 +10,7 @@ use Throwable;
 
 final class GitLoggerListenerTest extends AbstractGitWrapperTestCase
 {
-    public function tearDown(): void
+    protected function tearDown(): void
     {
         parent::tearDown();
 
@@ -33,11 +33,10 @@ final class GitLoggerListenerTest extends AbstractGitWrapperTestCase
         $this->assertSame('test-level', $listener->getLogLevelMapping('test.event'));
     }
 
-    /**
-     * @expectedException \DomainException
-     */
     public function testGetInvalidLogLevelMapping(): void
     {
+        $this->expectException(\DomainException::class);
+
         $listener = new GitLoggerListener(new NullLogger());
         $listener->getLogLevelMapping('bad.event');
     }
@@ -45,8 +44,8 @@ final class GitLoggerListenerTest extends AbstractGitWrapperTestCase
     public function testRegisterLogger(): void
     {
         $logger = new TestLogger();
-        $this->wrapper->addLoggerListener(new GitLoggerListener($logger));
-        $git = $this->wrapper->init(self::REPO_DIR, ['bare' => true]);
+        $this->gitWrapper->addLoggerListener(new GitLoggerListener($logger));
+        $git = $this->gitWrapper->init(self::REPO_DIR, ['bare' => true]);
 
         $this->assertSame('Git command preparing to run', $logger->messages[0]);
         $this->assertSame(
@@ -79,12 +78,12 @@ final class GitLoggerListenerTest extends AbstractGitWrapperTestCase
     public function testLogBypassedCommand(): void
     {
         $logger = new TestLogger();
-        $this->wrapper->addLoggerListener(new GitLoggerListener($logger));
+        $this->gitWrapper->addLoggerListener(new GitLoggerListener($logger));
 
-        $command = GitCommand::getInstance('status', ['s' => true]);
+        $command = new GitCommand('status', ['s' => true]);
         $command->bypass();
 
-        $this->wrapper->run($command);
+        $this->gitWrapper->run($command);
 
         $this->assertSame('Git command bypassed', $logger->messages[1]);
         $this->assertArrayHasKey('command', $logger->contexts[1]);
