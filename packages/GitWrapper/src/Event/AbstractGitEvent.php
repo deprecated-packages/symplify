@@ -13,54 +13,39 @@ use Symplify\GitWrapper\GitWrapper;
 abstract class AbstractGitEvent extends Event
 {
     /**
-     * The GitWrapper object that likely instantiated this class.
-     *
-     * @var \Symplify\GitWrapper\GitWrapper
+     * @var GitWrapper
      */
-    protected $\Symplify\GitWrapper\GitWrapper;
+    protected $gitWrapper;
 
     /**
-     * The Process object being run.
-     *
-     * @var \Symfony\Component\Process\Process
+     * @var Process
      */
-    protected $\Symfony\Component\Process\Process;
+    protected $process;
 
     /**
-     * The GitCommand object being executed.
-     *
-     * @var \Symplify\GitWrapper\GitCommand
+     * @var GitCommand
      */
-    protected $\Symplify\GitWrapper\GitCommand;
+    protected $gitCommand;
 
     public function __construct(GitWrapper $gitWrapper, Process $process, GitCommand $gitCommand)
     {
-        $this->\Symplify\GitWrapper\GitWrapper = $gitWrapper;
-        $this->\Symfony\Component\Process\Process = $process;
-        $this->\Symplify\GitWrapper\GitCommand = $gitCommand;
+        $this->gitWrapper = $gitWrapper;
+        $this->process = $process;
+        $this->gitCommand = $gitCommand;
     }
 
-    /**
-     * Gets the GitWrapper object that likely instantiated this class.
-     */
     public function getWrapper(): GitWrapper
     {
-        return $this->\Symplify\GitWrapper\GitWrapper;
+        return $this->gitWrapper;
     }
 
-    /**
-     * Gets the Process object being run.
-     */
     public function getProcess(): Process
     {
-        return $this->\Symfony\Component\Process\Process;
+        return $this->process;
     }
 
-    /**
-     * Gets the GitCommand object being executed.
-     */
     public function getCommand(): GitCommand
     {
-        return $this->\Symplify\GitWrapper\GitCommand;
+        return $this->gitCommand;
     }
 }

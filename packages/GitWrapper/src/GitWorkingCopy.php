@@ -2,8 +2,6 @@
 
 namespace Symplify\GitWrapper;
 
-use BadMethodCallException;
-
 /**
  * Interacts with a working copy.
  *
@@ -379,17 +377,12 @@ final class GitWorkingCopy
         // Add remote name and URL.
         array_push($args, $name, $url);
 
-        return call_user_func_array([$this, 'remote'], $args);
+        call_user_func_array([$this, 'remote'], $args);
     }
 
-    /**
-     * Removes the given remote.
-     *
-     * @param string $name The name of the remote to remove.
-     */
     public function removeRemote(string $name): void
     {
-        return $this->remote('rm', $name);
+        $this->remote('rm', $name);
     }
 
     public function hasRemote(string $name): bool
@@ -398,18 +391,14 @@ final class GitWorkingCopy
     }
 
     /**
-     * Returns the given remote.
-     *
-     * @param string $name The name of the remote.
-     *
-     * @return array An associative array with the following keys:
+     * @return mixed[] An associative array with the following keys:
      *   - fetch: the fetch URL.
      *   - push: the push URL.
      */
     public function getRemote(string $name): array
     {
         if (! $this->hasRemote($name)) {
-            throw new GitException('The remote "' . $name . '" does not exist.');
+            throw new GitException(sprintf('The remote "%s" does not exist.', $name));
         }
 
         $remotes = $this->getRemotes();
@@ -417,9 +406,7 @@ final class GitWorkingCopy
     }
 
     /**
-     * Returns all existing remotes.
-     *
-     * @return array An associative array, keyed by remote name, containing an associative
+     * @return mixed[] An associative array, keyed by remote name, containing an associative
      *   array with the following keys:
      *   - fetch: the fetch URL.
      *   - push: the push URL.
@@ -466,19 +453,6 @@ final class GitWorkingCopy
     }
 
     /**
-     * @} End of "defgroup command_helpers".
-     */
-
-    /**
-     * @defgroup commands Git Commands
-     *
-     * All methods in this group correspond with Git commands, for example
-     * "git add", "git commit", "git push", etc.
-     *
-     * @{
-     */
-
-    /**
      * Executes a `git add` command.
      *
      * Add file contents to the index.
@@ -489,7 +463,7 @@ final class GitWorkingCopy
      *   all matching files. Also a leading directory name (e.g.  dir to add
      *   dir/file1 and dir/file2) can be given to add all files in the
      *   directory, recursively.
-     * @param array $options An optional array of command line options.
+     * @param mixed[] $options An optional array of command line options.
      */
     public function add(string $filepattern, array $options = []): void
     {
@@ -503,12 +477,9 @@ final class GitWorkingCopy
     }
 
     /**
-     * Executes a `git apply` command.
-     *
      * Apply a patch to files and/or to the index
      *
      * @code $git->apply('the/file/to/read/the/patch/from');
-     * @throws GitException
      */
     public function apply(): void
     {
@@ -519,25 +490,21 @@ final class GitWorkingCopy
     }
 
     /**
-     * Executes a `git bisect` command.
-     *
      * Find by binary search the change that introduced a bug.
      *
      * @code $git->bisect('good', '2.6.13-rc2');
      * $git->bisect('view', array('stat' => true));
-     * @param string $sub_command The subcommand passed to `git bisect`.
+     * @param string $subCommand The subcommand passed to `git bisect`.
      */
-    public function bisect(string $sub_command): void
+    public function bisect(string $subCommand): void
     {
         $args = func_get_args();
-        $args[0] = 'bisect ' . $sub_command;
+        $args[0] = 'bisect ' . $subCommand;
 
         $this->run($args);
     }
 
     /**
-     * Executes a `git branch` command.
-     *
      * List, create, or delete branches.
      *
      * @code $git->branch('my2.6.14', 'v2.6.14');
@@ -551,8 +518,6 @@ final class GitWorkingCopy
     }
 
     /**
-     * Executes a `git checkout` command.
-     *
      * Checkout a branch or paths to the working tree.
      *
      * @code $git->checkout('new-branch', array('b' => true));
@@ -588,8 +553,6 @@ final class GitWorkingCopy
     }
 
     /**
-     * Executes a `git commit` command.
-     *
      * Record changes to the repository. If only one argument is passed, it is
      * assumed to be the commit message. Therefore `$git->commit('Message');`
      * yields a `git commit -am "Message"` command.
@@ -612,8 +575,6 @@ final class GitWorkingCopy
     }
 
     /**
-     * Executes a `git config` command.
-     *
      * Get and set repository options.
      *
      * @code $git->config('user.email', 'opensource@chrispliakas.com');
@@ -627,8 +588,6 @@ final class GitWorkingCopy
     }
 
     /**
-     * Executes a `git diff` command.
-     *
      * Show changes between commits, commit and working tree, etc.
      *
      * @code $git->diff();
@@ -642,8 +601,6 @@ final class GitWorkingCopy
     }
 
     /**
-     * Executes a `git fetch` command.
-     *
      * Download objects and refs from another repository.
      *
      * @code $git->fetch('origin');
@@ -657,8 +614,6 @@ final class GitWorkingCopy
     }
 
     /**
-     * Executes a `git grep` command.
-     *
      * Print lines matching a pattern.
      *
      * @code $git->grep('time_t', '--', '*.[ch]');
@@ -671,13 +626,11 @@ final class GitWorkingCopy
     }
 
     /**
-     * Executes a `git init` command.
-     *
      * Create an empty git repository or reinitialize an existing one.
      *
      * @code $git->init(array('bare' => true));
      *
-     * @param string ...$options An associative array of command line options
+     * @param mixed[] $options An associative array of command line options
      */
     public function init(array $options = []): void
     {
@@ -690,8 +643,6 @@ final class GitWorkingCopy
     }
 
     /**
-     * Executes a `git log` command.
-     *
      * Show commit logs.
      *
      * @code $git->log(array('no-merges' => true));
@@ -705,8 +656,6 @@ final class GitWorkingCopy
     }
 
     /**
-     * Executes a `git merge` command.
-     *
      * Join two or more development histories together.
      *
      * @code $git->merge('fixes', 'enhancements');
@@ -719,8 +668,6 @@ final class GitWorkingCopy
     }
 
     /**
-     * Executes a `git mv` command.
-     *
      * Move or rename a file, a directory, or a symlink.
      *
      * @code $git->mv('orig.txt', 'dest.txt');
@@ -741,8 +688,6 @@ final class GitWorkingCopy
     }
 
     /**
-     * Executes a `git pull` command.
-     *
      * Fetch from and merge with another repository or a local branch.
      *
      * @code $git->pull('upstream', 'master');
@@ -755,8 +700,6 @@ final class GitWorkingCopy
     }
 
     /**
-     * Executes a `git push` command.
-     *
      * Update remote refs along with associated objects.
      *
      * @code $git->push('upstream', 'master');
@@ -769,8 +712,6 @@ final class GitWorkingCopy
     }
 
     /**
-     * Executes a `git rebase` command.
-     *
      * Forward-port local commits to the updated upstream head.
      *
      * @code $git->rebase('subsystem@{1}', array('onto' => 'subsystem'));
@@ -783,8 +724,6 @@ final class GitWorkingCopy
     }
 
     /**
-     * Executes a `git remote` command.
-     *
      * Manage the set of repositories ("remotes") whose branches you track.
      *
      * @code $git->remote('add', 'upstream', 'git://github.com/cpliakas/git-wrapper.git');
@@ -797,8 +736,6 @@ final class GitWorkingCopy
     }
 
     /**
-     * Executes a `git reset` command.
-     *
      * Reset current HEAD to the specified state.
      *
      * @code $git->reset(array('hard' => true));
@@ -811,8 +748,6 @@ final class GitWorkingCopy
     }
 
     /**
-     * Executes a `git rm` command.
-     *
      * Remove files from the working tree and from the index.
      *
      * @code $git->rm('oldfile.txt');
@@ -834,8 +769,6 @@ final class GitWorkingCopy
     }
 
     /**
-     * Executes a `git show` command.
-     *
      * Show various types of objects.
      *
      * @code $git->show('v1.0.0');
@@ -851,8 +784,6 @@ final class GitWorkingCopy
     }
 
     /**
-     * Executes a `git status` command.
-     *
      * Show the working tree status.
      *
      * @code $git->status(array('s' => true));
@@ -865,8 +796,6 @@ final class GitWorkingCopy
     }
 
     /**
-     * Executes a `git tag` command.
-     *
      * Create, list, delete or verify a tag object signed with GPG.
      *
      * @code $git->tag('v1.0.0');
@@ -879,8 +808,6 @@ final class GitWorkingCopy
     }
 
     /**
-     * Executes a `git clean` command.
-     *
      * Remove untracked files from the working tree
      *
      * @code $git->clean('-d', '-f');
@@ -893,8 +820,6 @@ final class GitWorkingCopy
     }
 
     /**
-     * Executes a `git archive` command.
-     *
      * Create an archive of files from a named tree
      *
      * @code $git->archive('HEAD', array('o' => '/path/to/archive'));

@@ -2,6 +2,7 @@
 
 namespace Symplify\GitWrapper;
 
+use Event\GitOutputEvent;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Process\ExecutableFinder;
@@ -50,14 +51,14 @@ final class GitWrapper
     /**
      * @var \Symplify\GitWrapper\Event\GitOutputListenerInterface
      */
-    private $streamListener;
+    private $gitOutputListener;
 
     /**
      * Symfony event dispatcher object used by this library to dispatch events.
      *
      * @var EventDispatcherInterface
      */
-    private $dispatcher;
+    private $eventDispatcher;
 
     /**
      * Constructs a GitWrapper object.
@@ -91,16 +92,16 @@ final class GitWrapper
      */
     public function getDispatcher(): EventDispatcherInterface
     {
-        if ($this->dispatcher === null) {
-            $this->dispatcher = new EventDispatcher();
+        if ($this->eventDispatcher === null) {
+            $this->eventDispatcher = new EventDispatcher();
         }
 
-        return $this->dispatcher;
+        return $this->eventDispatcher;
     }
 
-    public function setDispatcher(EventDispatcherInterface $dispatcher): void
+    public function setDispatcher(EventDispatcherInterface $eventDispatcher): void
     {
-        $this->dispatcher = $dispatcher;
+        $this->eventDispatcher = $eventDispatcher;
     }
 
     public function setGitBinary(string $gitBinary): void
@@ -231,22 +232,22 @@ final class GitWrapper
         $this->unsetEnvVar('GIT_SSH_PORT');
     }
 
-    public function addOutputListener(GitOutputListenerInterface $listener): void
+    public function addOutputListener(GitOutputListenerInterface $gitOutputListener): void
     {
         $this->getDispatcher()
-            ->addListener(GitEvents::GIT_OUTPUT, [$listener, 'handleOutput']);
+            ->addListener(GitEvents::GIT_OUTPUT, [$gitOutputListener, 'handleOutput']);
     }
 
-    public function addLoggerListener(GitLoggerListener $listener): void
+    public function addLoggerListener(GitLoggerListener $gitLoggerListener): void
     {
         $this->getDispatcher()
-            ->addSubscriber($listener);
+            ->addSubscriber($gitLoggerListener);
     }
 
-    public function removeOutputListener(GitOutputListenerInterface $listener): void
+    public function removeOutputListener(GitOutputListenerInterface $gitOutputListener): void
     {
         $this->getDispatcher()
-            ->removeListener(GitEvents::GIT_OUTPUT, [$listener, 'handleOutput']);
+            ->removeListener(GitEvents::GIT_OUTPUT, [$gitOutputListener, 'handleOutput']);
     }
 
     /**
@@ -254,16 +255,15 @@ final class GitWrapper
      */
     public function streamOutput(bool $streamOutput = true): void
     {
-        if ($streamOutput && $this->streamListener === null) {
-            $this->streamListener = new GitOutputStreamListener();
-            $this->addOutputListener($this->streamListener);
+        if ($streamOutput && $this->gitOutputListener === null) {
+            $this->gitOutputListener = new GitOutputStreamListener();
+            $this->addOutputListener($this->gitOutputListener);
         }
 
-        if (! $streamOutput && $this->streamListener !== null) {
-            $this->removeOutputListener($this->streamListener);
-            unset($this->streamListener);
+        if (! $streamOutput && $this->gitOutputListener !== null) {
+            $this->removeOutputListener($this->gitOutputListener);
+            unset($this->gitOutputListener);
         }
-
     }
 
     /**
@@ -360,7 +360,7 @@ final class GitWrapper
      *
      * @param string $commandLine The raw command containing the Git options and arguments. The Git
      * binary should not be in the command, for example `git config -l` would translate to "config -l".
-     * @param string|null The working directory of the Git process. Defaults to null which uses the current working
+     * @param string|null $cwd The working directory of the Git process. Defaults to null which uses the current working
      * directory of the PHP process.
      *
      * @return string The STDOUT returned by the Git command.
@@ -385,15 +385,15 @@ final class GitWrapper
      *
      * @see Process
      */
-    public function run(GitCommand $command, ?string $cwd = null): string
+    public function run(GitCommand $gitCommand, ?string $cwd = null): string
     {
         $wrapper = $this;
-        $process = new GitProcess($this, $command, $cwd);
-        $process->run(function ($type, $buffer) use ($wrapper, $process, $command): void {
-            $event = new Event\GitOutputEvent($wrapper, $process, $command, $type, $buffer);
+        $process = new GitProcess($this, $gitCommand, $cwd);
+        $process->run(function ($type, $buffer) use ($wrapper, $process, $gitCommand): void {
+            $event = new GitOutputEvent($wrapper, $process, $gitCommand, $type, $buffer);
             $wrapper->getDispatcher()->dispatch(GitEvents::GIT_OUTPUT, $event);
         });
 
-        return $command->notBypassed() ? $process->getOutput() : '';
+        return $gitCommand->notBypassed() ? $process->getOutput() : '';
     }
 }

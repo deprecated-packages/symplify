@@ -39,15 +39,15 @@ final class GitCommand
      *
      * @var boolean
      */
-    private $bypass = false;
+    private $boolean = false;
 
     public function __construct()
     {
         $args = func_get_args();
         if (! $args) {
             return;
-
         }
+
         // The first argument is the command.
         $this->command = array_shift($args);
 
@@ -100,7 +100,7 @@ final class GitCommand
      */
     public function bypass(bool $bypass = true): void
     {
-        $this->bypass = (bool) $bypass;
+        $this->boolean = (bool) $bypass;
     }
 
     /**
@@ -114,7 +114,7 @@ final class GitCommand
      */
     public function notBypassed(): bool
     {
-        return ! $this->bypass;
+        return ! $this->boolean;
     }
 
     /**

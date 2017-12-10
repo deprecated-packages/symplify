@@ -1,6 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\GitWrapper\Event;
+namespace Symplify\GitWrapper\Contract\EventListener;
+
+use Symplify\GitWrapper\Event\GitOutputEvent;
 
 /**
  * Interface implemented by output listeners.
