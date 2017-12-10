@@ -103,7 +103,12 @@ services:
 - [Push Content to Github Pages with Travis](/docs/PushContentToGithubPagesWithTravis.md)
 - [Custom File Output Path](/docs/CustomOutputPath.md)
 
-### Community Docs
+### Extending Statie
+
+- [Hook to Statie Application cycle with Events](/docs/HookToStatie.md)
+- [Add Generator like Posts](/docs/Generators.md)
+
+### Community articles
 
 - [How to use Gulp to Rebuild on Change](https://www.tomasvotruba.cz/blog/2017/02/20/statie-how-to-run-it-locally/#minitip-use-gulp-work-for-you)
 - [How to re-generate and refresh static website in Statie?](https://romanvesely.com/statie-generate-and-refresh/)
@@ -111,13 +116,6 @@ services:
 
 
 *Got one too? [Send PR and share it with others](https://github.com/Symplify/Symplify/edit/master/packages/Statie/README.md).*
-
-
-### Extending Statie
-
-- [Hook to Statie Application cycle with Events](/docs/HookToStatie.md)
-- [Add Generator like Posts](/docs/Generators.md)
-
 
 
 ## Who Runs on Statie?
