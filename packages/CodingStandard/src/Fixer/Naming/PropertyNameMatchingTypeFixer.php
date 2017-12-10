@@ -160,6 +160,12 @@ class SomeClass
     {
         $rawName = $type;
 
+        // is FQN namespace
+        if (Strings::contains($rawName, '\\')) {
+            $rawNameParts = explode('\\', $rawName);
+            $rawName = array_pop($rawNameParts);
+        }
+
         // is SomeInterface
         if (Strings::endsWith($rawName, 'Interface')) {
             $rawName = Strings::substring($rawName, 0, - strlen('Interface'));
