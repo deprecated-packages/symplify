@@ -13,7 +13,7 @@ final class FileFinder
     private $staticFileExtensions = [
         'CNAME', '*.png', '*.jpg', '*.svg', '*.css', '*.ico', '*.js', '*.', '*.jpeg', '*.gif', '*.zip', '*.tgz', '*.gz',
         '*.rar', '*.bz2', '*.pdf', '*.txt', '*.tar', '*.mp3', '*.doc', '*.xls', '*.pdf', '*.ppt', '*.txt', '*.tar',
-        '*.bmp', '*.rtf', '*.woff2', '*.woff', '*.otf', '*.ttf', '*.eot'
+        '*.bmp', '*.rtf', '*.woff2', '*.woff', '*.otf', '*.ttf', '*.eot',
     ];
 
     /**
