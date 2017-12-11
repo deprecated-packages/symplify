@@ -1,12 +1,13 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\GitWrapper\Tests;
+namespace Symplify\GitWrapper\Tests\Logging;
 
 use DomainException;
 use Psr\Log\LogLevel;
 use Psr\Log\NullLogger;
 use Symplify\GitWrapper\EventListener\GitLoggerListener;
 use Symplify\GitWrapper\GitCommand;
+use Symplify\GitWrapper\Tests\AbstractGitWrapperTestCase;
 use Throwable;
 
 final class GitLoggerListenerTest extends AbstractGitWrapperTestCase

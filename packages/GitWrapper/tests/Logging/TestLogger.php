@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\GitWrapper\Tests;
+namespace Symplify\GitWrapper\Tests\Logging;
 
 use Psr\Log\AbstractLogger;
 

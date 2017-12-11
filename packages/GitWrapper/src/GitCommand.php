@@ -41,25 +41,27 @@ final class GitCommand
      */
     private $bypass = false;
 
-    public function __construct()
+    public function __construct(?string $command = null, ...$argAndOptions)
     {
-        $args = func_get_args();
-        if (! $args) {
+        if ($command === null) {
             return;
         }
 
-        // The first argument is the command.
-        $this->command = array_shift($args);
+        $this->command = $command;
+
+        if (! count($argAndOptions)) {
+            return;
+        }
 
         // If the last element is an array, set it as the options.
-        $options = end($args);
+        $options = end($argAndOptions);
         if (is_array($options)) {
             $this->setOptions($options);
-            array_pop($args);
+            array_pop($argAndOptions);
         }
 
         // Pass all other method arguments as the Git command arguments.
-        foreach ($args as $arg) {
+        foreach ($argAndOptions as $arg) {
             $this->addArgument($arg);
         }
     }

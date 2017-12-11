@@ -9,19 +9,18 @@ use Symplify\GitWrapper\Event\GitEvents;
 use Symplify\GitWrapper\GitException;
 use Symplify\GitWrapper\GitWrapper;
 use Symplify\GitWrapper\Tests\Event\TestBypassListener;
-use Symplify\GitWrapper\Tests\Event\TestListener;
 
 abstract class AbstractGitWrapperTestCase extends TestCase
 {
     /**
      * @var string
      */
-    protected const REPO_DIR = 'build/test/repo';
+    protected const REPO_DIR = __DIR__ .'/temp/repository';
 
     /**
      * @var string
      */
-    protected const WORKING_DIR = 'build/test/wc';
+    protected const WORKING_DIR = __DIR__ . '/temp/working-dir';
 
     /**
      * @var string
@@ -43,37 +42,16 @@ abstract class AbstractGitWrapperTestCase extends TestCase
      */
     protected $gitWrapper;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->filesystem = new Filesystem();
         $this->gitWrapper = new GitWrapper();
     }
 
-    /**
-     * Generates a random string.
-     *
-     * @see http://api.drupal.org/api/drupal/modules%21simpletest%21drupal_web_test_case.php/function/DrupalTestCase%3A%3ArandomName/7
-     */
     protected function randomString(int $length = 8): string
     {
         return Random::generate($length);
-    }
-
-    /**
-     * Adds the test listener for all events, returns the listener.
-     */
-    public function addListener(): TestListener
-    {
-        $dispatcher = $this->gitWrapper->getDispatcher();
-        $listener = new TestListener();
-
-        $dispatcher->addListener(GitEvents::GIT_PREPARE, [$listener, 'onPrepare']);
-        $dispatcher->addListener(GitEvents::GIT_SUCCESS, [$listener, 'onSuccess']);
-        $dispatcher->addListener(GitEvents::GIT_ERROR, [$listener, 'onError']);
-        $dispatcher->addListener(GitEvents::GIT_BYPASS, [$listener, 'onBypass']);
-
-        return $listener;
     }
 
     /**

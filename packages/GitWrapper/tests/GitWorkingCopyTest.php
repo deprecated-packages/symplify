@@ -13,12 +13,9 @@ final class GitWorkingCopyTest extends AbstractGitWrapperTestCase
     /**
      * @var string
      */
-    public const REMOTE_REPO_DIR = 'build/test/remote';
+    private const REMOTE_REPO_DIR = __DIR__ . '/temp/remote';
 
-    /**
-     * Creates and initializes the local repository used for testing.
-     */
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -26,7 +23,7 @@ final class GitWorkingCopyTest extends AbstractGitWrapperTestCase
         $this->gitWrapper->init(self::REPO_DIR, ['bare' => true]);
 
         // Clone the local repository.
-        $directory = 'build/test/wc_init';
+        $directory = __DIR__ . '/temp/wc_init';
         $git = $this->gitWrapper->cloneRepository('file://' . realpath(self::REPO_DIR), $directory);
         $git->config('user.email', self::CONFIG_EMAIL);
         $git->config('user.name', self::CONFIG_NAME);
@@ -38,24 +35,21 @@ final class GitWorkingCopyTest extends AbstractGitWrapperTestCase
         $this->filesystem->touch($directory . '/a.directory/remove.me');
 
         // Initial commit.
-        $git
-            ->add('*')
-            ->commit('Initial commit.')
-            ->push('origin', 'master', ['u' => true]);
+        $git->add('*');
+        $git->commit('Initial commit.');
+        $git->push('origin', 'master', ['u' => true]);
 
         // Create a branch, add a file.
         $branch = 'test-branch';
         file_put_contents($directory . '/branch.txt', "${branch}\n");
-        $git
-            ->checkoutNewBranch($branch)
-            ->add('branch.txt')
-            ->commit('Committed testing branch.')
-            ->push('origin', $branch, ['u' => true]);
+        $git->checkoutNewBranch($branch);
+        $git->add('branch.txt');
+        $git->commit('Committed testing branch.');
+        $git->push('origin', $branch, ['u' => true]);
 
         // Create a tag of the branch.
-        $git
-            ->tag('test-tag')
-            ->pushTags();
+        $git->tag('test-tag');
+        $git->pushTags();
 
         $this->filesystem->remove($directory);
     }
@@ -63,7 +57,7 @@ final class GitWorkingCopyTest extends AbstractGitWrapperTestCase
     /**
      * Removes the local repository.
      */
-    public function tearDown(): void
+    protected function tearDown(): void
     {
         parent::tearDown();
 
@@ -80,8 +74,6 @@ final class GitWorkingCopyTest extends AbstractGitWrapperTestCase
 
     /**
      * Clones the local repo and returns an initialized GitWorkingCopy object.
-     *
-     * @param string $directory The directory that the repository is being cloned to.
      */
     public function getWorkingCopy(string $directory = self::WORKING_DIR): GitWorkingCopy
     {
@@ -728,7 +720,7 @@ PATCH;
     {
         try {
             $gitWorkingCopy->run(['rev-parse ' . $tag]);
-        } catch (GitException $e) {
+        } catch (GitException $gitException) {
             // Expected result. The tag does not exist.
             return;
         }
@@ -745,7 +737,7 @@ PATCH;
     {
         try {
             $gitWorkingCopy->run(['rev-parse remote/HEAD']);
-        } catch (GitException $e) {
+        } catch (GitException $gitException) {
             // Expected result. The remote master does not exist.
             return;
         }
@@ -788,17 +780,15 @@ PATCH;
 
         // Make a change to the remote repo.
         file_put_contents(self::REMOTE_REPO_DIR . '/remote.file', "remote code\n");
-        $git
-            ->add('*')
-            ->commit('Remote change.');
+        $git->add('*');
+        $git->commit('Remote change.');
 
         // Create a branch.
         $branch = 'remote-branch';
         file_put_contents(self::REMOTE_REPO_DIR . '/remote-branch.txt', "${branch}\n");
-        $git
-            ->checkoutNewBranch($branch)
-            ->add('*')
-            ->commit('Commit remote testing branch.');
+        $git->checkoutNewBranch($branch);
+        $git->add('*');
+        $git->commit('Commit remote testing branch.');
 
         // Create a tag.
         $git->tag('remote-tag');
