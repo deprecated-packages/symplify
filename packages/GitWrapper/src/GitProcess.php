@@ -43,7 +43,7 @@ final class GitProcess extends Process
         }
 
         // Finalize the environment variables, an empty array is converted
-        // to null which enherits the environment of the PHP process.
+        // to null which inherits the environment of the PHP process.
         $env = $gitWrapper->getEnvVars();
         if (! $env) {
             $env = null;
@@ -61,7 +61,6 @@ final class GitProcess extends Process
         $dispatcher = $this->gitWrapper->getDispatcher();
 
         try {
-            // Throw the "git.command.prepare" event prior to executing.
             $dispatcher->dispatch(GitEvents::GIT_PREPARE, $event);
 
             // Execute command if it is not flagged to be bypassed and throw the

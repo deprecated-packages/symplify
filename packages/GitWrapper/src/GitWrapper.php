@@ -358,8 +358,6 @@ final class GitWrapper
      * automatically sets the working directory based on the command being executed relative to the working copy.
      *
      * @return string The STDOUT returned by the Git command.
-     *
-     * @see Process
      */
     public function run(GitCommand $gitCommand, ?string $cwd = null): string
     {

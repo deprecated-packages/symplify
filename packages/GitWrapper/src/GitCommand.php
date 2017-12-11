@@ -43,11 +43,10 @@ final class GitCommand
 
     public function __construct(?string $command = null, ...$argAndOptions)
     {
-        if ($command === null) {
-            return;
-        }
-
         $this->command = $command;
+
+        // If the last element is an array, set it as the options.
+        $options = end($argAndOptions);
 
         foreach ($argAndOptions as $argOrOption) {
             if (is_array($argOrOption)) {
