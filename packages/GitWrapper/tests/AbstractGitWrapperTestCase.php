@@ -23,16 +23,6 @@ abstract class AbstractGitWrapperTestCase extends TestCase
     protected const WORKING_DIR = __DIR__ . '/temp/working-dir';
 
     /**
-     * @var string
-     */
-    protected const CONFIG_EMAIL = 'opensource@chrispliakas.com';
-
-    /**
-     * @var string
-     */
-    protected const CONFIG_NAME = 'Chris Pliakas';
-
-    /**
      * @var Filesystem
      */
     protected $filesystem;

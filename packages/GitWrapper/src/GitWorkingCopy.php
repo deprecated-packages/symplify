@@ -39,7 +39,7 @@ final class GitWorkingCopy
      *
      * @param bool|null
      */
-    private $isCloned = false;
+    private $isCloned;
 
     /**
      * Constructs a GitWorkingCopy object.
@@ -106,7 +106,7 @@ final class GitWorkingCopy
      */
     public function isCloned(): bool
     {
-        if (! isset($this->isCloned)) {
+        if ($this->isCloned === null) {
             $gitDir = $this->directory;
             if (is_dir($gitDir . '/.git')) {
                 $gitDir .= '/.git';
@@ -135,7 +135,7 @@ final class GitWorkingCopy
 
         $this->output .= $this->gitWrapper->run($command);
 
-        return $this->output;
+        return $this->getOutput();
     }
 
     /**
