@@ -10,6 +10,8 @@ checkers:
     # class should be Abstact or Final
     - SlamCsFixer\FinalInternalClassFixer
 
+    - Symplify\CodingStandard\Fixer\Import\ImportNamespacedNameFixer
+
     # code complexity
     PHP_CodeSniffer\Standards\Generic\Sniffs\Files\LineLengthSniff:
         absoluteLineLimit: 120

@@ -49,9 +49,9 @@ abstract class AbstractGitWrapperTestCase extends TestCase
         $this->gitWrapper = new GitWrapper();
     }
 
-    protected function randomString(int $length = 8): string
+    protected function randomString(): string
     {
-        return Random::generate($length);
+        return Random::generate();
     }
 
     /**

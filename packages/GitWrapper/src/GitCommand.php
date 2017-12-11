@@ -41,7 +41,7 @@ final class GitCommand
      */
     private $bypass = false;
 
-    public function __construct(?string $command = null, ...$argAndOptions)
+    public function __construct(string $command = '', ...$argAndOptions)
     {
         $this->command = $command;
 

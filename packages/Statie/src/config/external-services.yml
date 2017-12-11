@@ -8,7 +8,7 @@ services:
 
     Symplify\PackageBuilder\Parameter\ParameterProvider: ~
 
-    GitWrapper\GitWrapper: ~
+    Symplify\GitWrapper\GitWrapper: ~
 
     # Symfony Console
     Symfony\Component\Console\Input\ArgvInput: ~

@@ -177,7 +177,7 @@ final class GitWrapper
     public function setPrivateKey(string $privateKey, int $port = 22, ?string $wrapper = null): void
     {
         if ($wrapper === null) {
-            $wrapper = __DIR__ . '/../../bin/git-ssh-wrapper.sh';
+            $wrapper = __DIR__ . '/../bin/git-ssh-wrapper.sh';
         }
 
         $wrapperPath = realpath($wrapper);
