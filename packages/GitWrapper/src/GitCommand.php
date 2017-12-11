@@ -18,7 +18,7 @@ final class GitCommand
      *
      * @var string
      */
-    private $command = '';
+    private $command;
 
     /**
      * An associative array of command line options and flags.
@@ -49,20 +49,14 @@ final class GitCommand
 
         $this->command = $command;
 
-        if (! count($argAndOptions)) {
-            return;
-        }
-
-        // If the last element is an array, set it as the options.
-        $options = end($argAndOptions);
-        if (is_array($options)) {
-            $this->setOptions($options);
-            array_pop($argAndOptions);
-        }
-
-        // Pass all other method arguments as the Git command arguments.
-        foreach ($argAndOptions as $arg) {
-            $this->addArgument($arg);
+        foreach ($argAndOptions as $argOrOption) {
+            if (is_array($argOrOption)) {
+                // If item is array, set it as the options.
+                $this->setOptions($argOrOption);
+            } else {
+                // Pass all other method arguments as the Git command arguments.
+                $this->addArgument($argOrOption);
+            }
         }
     }
 
@@ -86,8 +80,6 @@ final class GitCommand
 
     /**
      * Gets the path to the directory containing the working copy.
-     *
-     * @return string|null The path, null if no path is set.
      */
     public function getDirectory(): ?string
     {
@@ -95,9 +87,8 @@ final class GitCommand
     }
 
     /**
-     * A boolean flagging whether to skip running the command.
-     *
-     * @param boolean $bypass Whether to bypass execution of the command. The parameter defaults to true for code readability, however the default behavior of this class is to run the command.
+     * @param boolean $bypass Whether to bypass execution of the command. The parameter defaults to true for code
+     * readability, however the default behavior of this class is to run the command.
      */
     public function bypass(bool $bypass = true): void
     {
@@ -105,7 +96,6 @@ final class GitCommand
     }
 
     /**
-     * Returns true if the Git command should be run.
      *
      * The return value is the boolean opposite $this->bypass. Although this
      * seems complex, it makes the code more readable when checking whether the
@@ -141,12 +131,8 @@ final class GitCommand
     }
 
     /**
-     * Sets a command line option.
+     * Option names are passed as-is to the command line, whereas the values are escaped.
      *
-     * Option names are passed as-is to the command line, whereas the values are
-     * escaped using \Symfony\Component\Process\ProcessUtils.
-     *
-     * @param string $option The option name, e.g. "branch", "q".
      * @param string|true $value The option's value, pass true if the options is a flag.
      */
     public function setOption(string $option, $value): void
@@ -167,7 +153,6 @@ final class GitCommand
     }
 
     /**
-     * @param string $option The option name, e.g. "branch", "q".
      * @param mixed $default Value that is returned if the option is not set.
      *
      * @return mixed
@@ -177,17 +162,11 @@ final class GitCommand
         return $this->options[$option] ?? $default;
     }
 
-    /**
-     * @param string $option The option name, e.g. "branch", "q".
-     */
     public function unsetOption(string $option): void
     {
         unset($this->options[$option]);
     }
 
-    /**
-     * @param string $arg The argument, e.g. the repo URL, directory, etc.
-     */
     public function addArgument(string $arg): void
     {
         $this->args[] = $arg;
@@ -195,9 +174,6 @@ final class GitCommand
 
     /**
      * Renders the arguments and options for the Git command.
-     *
-     * @see GitCommand::getCommand()
-     * @see GitCommand::buildOptions()
      */
     public function getCommandLine(): string
     {

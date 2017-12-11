@@ -9,11 +9,11 @@ use Symplify\GitWrapper\Tests\Event\TestDispatcher;
 
 final class GitWrapperTest extends AbstractGitWrapperTestCase
 {
-    public function testSetGitBinary(): void
+    public function testGitBinary(): void
     {
-        $binary = '/path/to/binary';
-        $this->gitWrapper->setGitBinary($binary);
-        $this->assertSame($binary, $this->gitWrapper->getGitBinary());
+//        $binary = '/path/to/binary';
+//        $this->gitWrapper->setGitBinary($binary);
+        $this->assertSame('...', $this->gitWrapper->getGitBinary());
     }
 
     public function testSetDispatcher(): void
@@ -50,14 +50,6 @@ final class GitWrapperTest extends AbstractGitWrapperTestCase
         $var = $this->randomString();
         $default = $this->randomString();
         $this->assertSame($default, $this->gitWrapper->getEnvVar($var, $default));
-    }
-
-    public function testProcOptions(): void
-    {
-        $value = (bool) random_int(0, 1);
-        $options = ['suppress_errors' => $value];
-        $this->gitWrapper->setProcOptions($options);
-        $this->assertSame($options, $this->gitWrapper->getProcOptions());
     }
 
     public function testGitVersion(): void

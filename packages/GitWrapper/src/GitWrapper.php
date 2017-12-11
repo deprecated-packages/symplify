@@ -25,6 +25,21 @@ final class GitWrapper
     /**
      * @var string
      */
+    private const ENV_GIT_SSH = 'GIT_SSH';
+
+    /**
+     * @var string
+     */
+    private const ENV_GIT_SSH_KEY = 'GIT_SSH_KEY';
+
+    /**
+     * @var string
+     */
+    private const ENV_GIT_SSH_PORT = 'GIT_SSH_PORT';
+
+    /**
+     * @var string
+     */
     private $gitBinary;
 
     /**
@@ -42,32 +57,18 @@ final class GitWrapper
     private $timeout = 60;
 
     /**
-     * An array of options passed to the proc_open() function.
-     *
-     * @var mixed[]
-     */
-    private $procOptions = [];
-
-    /**
      * @var GitOutputListenerInterface
      */
     private $gitOutputListener;
 
     /**
-     * Symfony event dispatcher object used by this library to dispatch events.
-     *
      * @var EventDispatcherInterface
      */
     private $eventDispatcher;
 
     /**
-     * Constructs a GitWrapper object.
-     *
-     *   The path to the Git binary. Defaults to null, which uses Symfony's
-     *   ExecutableFinder to resolve it automatically.
-     *
-     *   Throws an exception if the path to the Git binary couldn't be resolved
-     *   by the ExecutableFinder class.
+     * @param string $gitBinary The path to the Git binary. Defaults to null, which uses Symfony's
+     * ExecutableFinder to resolve it automatically.
      */
     public function __construct(?string $gitBinary = null)
     {
@@ -79,7 +80,7 @@ final class GitWrapper
             }
         }
 
-        $this->setGitBinary($gitBinary);
+        $this->gitBinary = $gitBinary;
     }
 
     /**
@@ -99,11 +100,6 @@ final class GitWrapper
     public function setDispatcher(EventDispatcherInterface $eventDispatcher): void
     {
         $this->eventDispatcher = $eventDispatcher;
-    }
-
-    public function setGitBinary(string $gitBinary): void
-    {
-        $this->gitBinary = $gitBinary;
     }
 
     public function getGitBinary(): string
@@ -168,26 +164,6 @@ final class GitWrapper
     }
 
     /**
-     * Sets the options passed to proc_open() when executing the Git command.
-     *
-     * @param mixed[] $options
-     */
-    public function setProcOptions(array $options): void
-    {
-        $this->procOptions = $options;
-    }
-
-    /**
-     * Gets the options passed to proc_open() when executing the Git command.
-     *
-     * @return mixed[]
-     */
-    public function getProcOptions(): array
-    {
-        return $this->procOptions;
-    }
-
-    /**
      * Set an alternate private key used to connect to the repository.
      *
      * This method sets the GIT_SSH environment variable to use the wrapper
@@ -214,9 +190,9 @@ final class GitWrapper
             throw new GitException('Path private key could not be resolved: ' . $privateKey);
         }
 
-        $this->setEnvVar('GIT_SSH', $wrapperPath);
-        $this->setEnvVar('GIT_SSH_KEY', $privateKeyPath);
-        $this->setEnvVar('GIT_SSH_PORT', (int) $port);
+        $this->setEnvVar(self::ENV_GIT_SSH, $wrapperPath);
+        $this->setEnvVar(self::ENV_GIT_SSH_KEY, $privateKeyPath);
+        $this->setEnvVar(self::ENV_GIT_SSH_PORT, (int) $port);
     }
 
     /**
@@ -224,9 +200,9 @@ final class GitWrapper
      */
     public function unsetPrivateKey(): void
     {
-        $this->unsetEnvVar('GIT_SSH');
-        $this->unsetEnvVar('GIT_SSH_KEY');
-        $this->unsetEnvVar('GIT_SSH_PORT');
+        $this->unsetEnvVar(self::ENV_GIT_SSH);
+        $this->unsetEnvVar(self::ENV_GIT_SSH_KEY);
+        $this->unsetEnvVar(self::ENV_GIT_SSH_PORT);
     }
 
     public function addOutputListener(GitOutputListenerInterface $gitOutputListener): void

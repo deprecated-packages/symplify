@@ -49,7 +49,7 @@ final class GitProcess extends Process
             $env = null;
         }
 
-        parent::__construct($commandLine, $cwd, $env, null, (float) $gitWrapper->getTimeout(), $gitWrapper->getProcOptions());
+        parent::__construct($commandLine, $cwd, $env, null, (float) $gitWrapper->getTimeout());
     }
 
     /**
