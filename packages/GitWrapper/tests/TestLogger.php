@@ -10,12 +10,26 @@ use Psr\Log\AbstractLogger;
  */
 final class TestLogger extends AbstractLogger
 {
+    /**
+     * @var string[]
+     */
     public $messages = [];
 
+    /**
+     * @var string[]
+     */
     public $levels = [];
 
+    /**
+     * @var string[]
+     */
     public $contexts = [];
 
+    /**
+     * @param mixed $level
+     * @param string $message
+     * @param string[] $context
+     */
     public function log($level, $message, array $context = []): void
     {
         $this->messages[] = $message;
@@ -25,6 +39,8 @@ final class TestLogger extends AbstractLogger
 
     public function clearMessages(): void
     {
-        $this->messages = $this->levels = $this->contexts = [];
+        $this->messages = [];
+        $this->levels = [];
+        $this->contexts = [];
     }
 }

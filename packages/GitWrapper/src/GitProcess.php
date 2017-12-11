@@ -2,9 +2,9 @@
 
 namespace Symplify\GitWrapper;
 
-use Event\GitEvent;
 use RuntimeException;
 use Symfony\Component\Process\Process;
+use Symplify\GitWrapper\Event\GitEvent;
 use Symplify\GitWrapper\Event\GitEvents;
 
 /**
@@ -68,7 +68,7 @@ final class GitProcess extends Process
             // "git.command.success" event, otherwise do not execute the comamnd
             // and throw the "git.command.bypass" event.
             if ($this->gitCommand->notBypassed()) {
-                parent::run($callback);
+                $status = parent::run($callback);
 
                 if ($this->isSuccessful()) {
                     $dispatcher->dispatch(GitEvents::GIT_SUCCESS, $event);
@@ -81,12 +81,16 @@ final class GitProcess extends Process
 
                     throw new RuntimeException($output);
                 }
-            } else {
-                $dispatcher->dispatch(GitEvents::GIT_BYPASS, $event);
+                return $status;
             }
-        } catch (RuntimeException $e) {
+
+            $dispatcher->dispatch(GitEvents::GIT_BYPASS, $event);
+            // success code
+            return 0;
+
+        } catch (RuntimeException $exception) {
             $dispatcher->dispatch(GitEvents::GIT_ERROR, $event);
-            throw new GitException($e->getMessage());
+            throw new GitException($exception->getMessage());
         }
     }
 }
