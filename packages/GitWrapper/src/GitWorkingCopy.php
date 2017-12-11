@@ -128,7 +128,7 @@ final class GitWorkingCopy
      */
     public function run(array $args, bool $setDirectory = true): string
     {
-        $command = new GitCommand($args);
+        $command = new GitCommand(...$args);
         if ($setDirectory) {
             $command->setDirectory($this->directory);
         }
@@ -456,7 +456,7 @@ final class GitWorkingCopy
             $options,
         ];
 
-        return $this->run($args);
+        $this->run($args);
     }
 
     /**
@@ -464,7 +464,7 @@ final class GitWorkingCopy
      *
      * @code $git->apply('the/file/to/read/the/patch/from');
      */
-    public function apply(): void
+    public function apply(): string
     {
         $args = func_get_args();
         array_unshift($args, 'apply');
@@ -479,7 +479,7 @@ final class GitWorkingCopy
      * $git->bisect('view', array('stat' => true));
      * @param string $subCommand The subcommand passed to `git bisect`.
      */
-    public function bisect(string $subCommand): void
+    public function bisect(string $subCommand): string
     {
         $args = func_get_args();
         $args[0] = 'bisect ' . $subCommand;

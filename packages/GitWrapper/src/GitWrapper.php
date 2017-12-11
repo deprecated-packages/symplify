@@ -6,11 +6,11 @@ use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Process\ExecutableFinder;
 use Symfony\Component\Process\Process;
+use Symplify\GitWrapper\Contract\EventListener\GitOutputListenerInterface;
 use Symplify\GitWrapper\Event\GitEvents;
-use Symplify\GitWrapper\Event\GitLoggerListener;
 use Symplify\GitWrapper\Event\GitOutputEvent;
-use Symplify\GitWrapper\Event\GitOutputListenerInterface;
 use Symplify\GitWrapper\Event\GitOutputStreamListener;
+use Symplify\GitWrapper\EventListener\GitLoggerListener;
 
 /**
  * A wrapper class around the Git binary.
@@ -49,7 +49,7 @@ final class GitWrapper
     private $procOptions = [];
 
     /**
-     * @var \Symplify\GitWrapper\Event\GitOutputListenerInterface
+     * @var GitOutputListenerInterface
      */
     private $gitOutputListener;
 
@@ -72,14 +72,11 @@ final class GitWrapper
     public function __construct(?string $gitBinary = null)
     {
         if ($gitBinary === null) {
-            // @codeCoverageIgnoreStart
             $finder = new ExecutableFinder();
             $gitBinary = $finder->find('git');
             if (! $gitBinary) {
                 throw new GitException('Unable to find the Git executable.');
             }
-
-            // @codeCoverageIgnoreEnd
         }
 
         $this->setGitBinary($gitBinary);

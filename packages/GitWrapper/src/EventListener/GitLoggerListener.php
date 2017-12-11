@@ -8,6 +8,7 @@ use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symplify\GitWrapper\Event\AbstractGitEvent;
+use Symplify\GitWrapper\Event\GitEvents;
 use Symplify\GitWrapper\Event\GitOutputEvent;
 
 final class GitLoggerListener implements EventSubscriberInterface, LoggerAwareInterface
