@@ -25,17 +25,17 @@ final class GitWrapper
     /**
      * @var string
      */
-    private const ENV_GIT_SSH = 'GIT_SSH';
+    public const ENV_GIT_SSH = 'GIT_SSH';
 
     /**
      * @var string
      */
-    private const ENV_GIT_SSH_KEY = 'GIT_SSH_KEY';
+    public const ENV_GIT_SSH_KEY = 'GIT_SSH_KEY';
 
     /**
      * @var string
      */
-    private const ENV_GIT_SSH_PORT = 'GIT_SSH_PORT';
+    public const ENV_GIT_SSH_PORT = 'GIT_SSH_PORT';
 
     /**
      * @var string

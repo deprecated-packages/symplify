@@ -3,6 +3,7 @@
 namespace Symplify\GitWrapper\Tests;
 
 use Symplify\GitWrapper\GitCommand;
+use Symplify\GitWrapper\GitWrapper;
 use Symplify\GitWrapper\Tests\Event\TestDispatcher;
 
 final class GitWrapperTest extends AbstractGitWrapperTestCase
@@ -59,16 +60,16 @@ final class GitWrapperTest extends AbstractGitWrapperTestCase
         $sshWrapperExpected = dirname(__DIR__) . '/bin/git-ssh-wrapper.sh';
 
         $this->gitWrapper->setPrivateKey(__DIR__ . '/id_rsa');
-        $this->assertSame(__DIR__ . '/id_rsa', $this->gitWrapper->getEnvVar('GIT_SSH_KEY'));
-        $this->assertSame(22, $this->gitWrapper->getEnvVar('GIT_SSH_PORT'));
-        $this->assertSame($sshWrapperExpected, $this->gitWrapper->getEnvVar('GIT_SSH'));
+        $this->assertSame(__DIR__ . '/id_rsa', $this->gitWrapper->getEnvVar(GitWrapper::ENV_GIT_SSH_KEY));
+        $this->assertSame(22, $this->gitWrapper->getEnvVar(GitWrapper::ENV_GIT_SSH_PORT));
+        $this->assertSame($sshWrapperExpected, $this->gitWrapper->getEnvVar(GitWrapper::ENV_GIT_SSH));
     }
 
     public function testSetPrivateKeyPort(): void
     {
         $port = random_int(1024, 10000);
         $this->gitWrapper->setPrivateKey(__DIR__ . '/id_rsa', $port);
-        $this->assertSame($port, $this->gitWrapper->getEnvVar('GIT_SSH_PORT'));
+        $this->assertSame($port, $this->gitWrapper->getEnvVar(GitWrapper::ENV_GIT_SSH_PORT));
     }
 
     public function testSetPrivateKeyWrapper(): void
@@ -76,7 +77,7 @@ final class GitWrapperTest extends AbstractGitWrapperTestCase
         $sshWrapper = __DIR__ . '/dummy-wrapper.sh';
         $sshWrapperExpected = realpath($sshWrapper);
         $this->gitWrapper->setPrivateKey(__DIR__ . '/id_rsa', 22, $sshWrapper);
-        $this->assertSame($sshWrapperExpected, $this->gitWrapper->getEnvVar('GIT_SSH'));
+        $this->assertSame($sshWrapperExpected, $this->gitWrapper->getEnvVar(GitWrapper::ENV_GIT_SSH));
     }
 
     /**
@@ -104,9 +105,9 @@ final class GitWrapperTest extends AbstractGitWrapperTestCase
         $this->gitWrapper->setPrivateKey($key, 22, $sshWrapper);
         $this->gitWrapper->unsetPrivateKey();
 
-        $this->assertNull($this->gitWrapper->getEnvVar('GIT_SSH_KEY'));
-        $this->assertNull($this->gitWrapper->getEnvVar('GIT_SSH_PORT'));
-        $this->assertNull($this->gitWrapper->getEnvVar('GIT_SSH'));
+        $this->assertNull($this->gitWrapper->getEnvVar(GitWrapper::ENV_GIT_SSH_KEY));
+        $this->assertNull($this->gitWrapper->getEnvVar(GitWrapper::ENV_GIT_SSH_PORT));
+        $this->assertNull($this->gitWrapper->getEnvVar(GitWrapper::ENV_GIT_SSH));
     }
 
     public function testGitCommand(): void
