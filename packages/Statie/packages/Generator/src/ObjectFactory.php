@@ -3,22 +3,11 @@
 namespace Symplify\Statie\Generator;
 
 use Symfony\Component\Finder\SplFileInfo;
-use Symplify\Statie\Configuration\Configuration;
 use Symplify\Statie\Generator\Configuration\GeneratorElement;
 use Symplify\Statie\Renderable\File\AbstractFile;
 
 final class ObjectFactory
 {
-    /**
-     * @var Configuration
-     */
-    private $configuration;
-
-    public function __construct(Configuration $configuration)
-    {
-        $this->configuration = $configuration;
-    }
-
     /**
      * @param SplFileInfo[] $fileInfos
      * @return AbstractFile[]
@@ -28,12 +17,8 @@ final class ObjectFactory
         $objects = [];
 
         foreach ($fileInfos as $fileInfo) {
-            $relativeSource = substr($fileInfo->getPathname(), strlen($this->configuration->getSourceDirectory()));
-            $relativeSource = ltrim($relativeSource, DIRECTORY_SEPARATOR);
-
             $class = $generatorElement->getObject();
-
-            $objects[] = new $class($fileInfo, $relativeSource, $fileInfo->getPathname());
+            $objects[] = new $class($fileInfo, $fileInfo->getRelativePathname(), $fileInfo->getPathname());
         }
 
         return $objects;
