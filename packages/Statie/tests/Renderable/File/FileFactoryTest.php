@@ -2,7 +2,6 @@
 
 namespace Symplify\Statie\Tests\Renderable\File;
 
-use DateTimeInterface;
 use Symplify\Statie\Configuration\Configuration;
 use Symplify\Statie\Renderable\File\File;
 use Symplify\Statie\Renderable\File\FileFactory;
@@ -42,19 +41,5 @@ final class FileFactoryTest extends AbstractContainerAwareTestCase
         $this->assertSame('someRemoteFile', $file->getRelativeUrl());
         $this->assertSame('someFile', $file->getBaseName());
         $this->assertNull($file->getLayout());
-    }
-
-    public function testPost(): void
-    {
-        /** @var PostFile $postFile */
-        $postFile = $this->fileFactory->createFromFilePath(
-            __DIR__ . '/FileFactorySource/_posts/2016-01-01-somePost.latte'
-        );
-
-        $this->assertInstanceOf(PostFile::class, $postFile);
-
-        $this->assertInstanceOf(DateTimeInterface::class, $postFile->getDate());
-        $this->assertSame('2016-01-01', $postFile->getDateInFormat('Y-m-d'));
-        $this->assertSame('somePost', $postFile->getFilenameWithoutDate());
     }
 }
