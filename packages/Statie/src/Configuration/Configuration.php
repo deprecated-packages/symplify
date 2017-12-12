@@ -4,7 +4,6 @@ namespace Symplify\Statie\Configuration;
 
 use Nette\Utils\Strings;
 use Symplify\PackageBuilder\Parameter\ParameterProvider;
-use Symplify\Statie\Exception\Configuration\DeprecatedConfigException;
 use Symplify\Statie\Exception\Configuration\InvalidGithubRepositorySourceDirectoryException;
 use Symplify\Statie\Exception\Configuration\MissingGithubRepositorySlugException;
 use Symplify\Statie\FileSystem\FileSystemGuard;
@@ -161,7 +160,8 @@ final class Configuration
         }
 
         throw new InvalidGithubRepositorySourceDirectoryException(sprintf(
-            'Option "parameters > %s" should be in "%s" format, where <source> is directory where Statie content is.%s"%s" was given.',
+            'Option "parameters > %s" should be in "%s" format, where <source> is directory '
+                . 'where Statie content is.%s"%s" was given.',
             self::OPTION_GITHUB_REPOSITORY_SLUG,
             'https://github.com/<user>/<repository>/tree/master/<source>',
             PHP_EOL . PHP_EOL,
