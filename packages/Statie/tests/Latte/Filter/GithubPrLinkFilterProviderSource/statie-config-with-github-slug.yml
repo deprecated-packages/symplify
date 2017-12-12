@@ -1,2 +1,2 @@
 parameters:
-    github_repository_slug: "Organization/Repository"
+    github_repository_slug: "https://github.com/TomasVotruba/tomasvotruba.cz/tree/master/source"
