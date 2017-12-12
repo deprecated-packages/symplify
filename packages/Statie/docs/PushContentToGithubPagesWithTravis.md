@@ -4,15 +4,7 @@ The best way to use Statie is have [website on Github repository](https://github
 
 ### How to Setup?
 
-**1. Add repository slug to config**
-
-```yaml
-# statie.yml
-parameters:
-    github_repository_slug: "TomasVotruba/tomasvotruba.cz"
-```
-
-**2. Setup GH_TOKEN to `travis.yml`**
+**1. Setup GH_TOKEN to `travis.yml`**
 
 Add Github Token, so Travis is allowed to push to your Github repository.
 
@@ -42,12 +34,12 @@ Add Github Token, so Travis is allowed to push to your Github repository.
 Now the Travis is able to push to your Github repository for you!
 
 
-**3. And push command to `travis.yml`**
+**2. And push command to `travis.yml`**
 
 ```yaml
 # travis.yml
 script:
-    # this is needed to generate /output first
+    # this is needed to generate /output firstrepository_slug
     - vendor/bin/statie generate source
     # this works with content from /output
     - vendor/bin/statie push-to-github tomasvotruba/tomasvotruba.cz --token=${GH_TOKEN}
