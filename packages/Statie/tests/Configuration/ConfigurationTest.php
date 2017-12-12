@@ -17,7 +17,10 @@ final class ConfigurationTest extends TestCase
         $configuration = $container->get(Configuration::class);
 
         $this->assertTrue($configuration->isMarkdownHeadlineAnchors());
-        $this->assertSame('TomasVotruba/tomasvotruba.cz', $configuration->getGithubRepositorySlug());
+        $this->assertSame(
+            'https://github.com/TomasVotruba/tomasvotruba.cz/tree/master/source',
+            $configuration->getGithubRepositorySourceDirectory()
+        );
     }
 
     public function testMarkdownHeadlineAnchors(): void
@@ -41,6 +44,6 @@ final class ConfigurationTest extends TestCase
         $configuration = $container->get(Configuration::class);
 
         $this->expectException(MissingGithubRepositorySlugException::class);
-        $configuration->getGithubRepositorySlug();
+        $configuration->getGithubRepositorySourceDirectory();
     }
 }
