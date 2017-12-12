@@ -5,7 +5,7 @@ namespace Symplify\Statie\Tests\Latte\Filter;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\DependencyInjection\Container;
-use Symfony\Component\Finder\SplFileInfo;
+use Symfony\Component\Finder\Finder;
 use Symplify\Statie\Configuration\Configuration;
 use Symplify\Statie\DependencyInjection\ContainerFactory;
 use Symplify\Statie\Generator\Configuration\GeneratorElement;
@@ -53,13 +53,24 @@ final class GithubPrLinkFilterProviderTest extends TestCase
 
     private function getFile(): AbstractFile
     {
-        $fileInfo = new SplFileInfo(
-            __DIR__ . '/GithubPrLinkFilterProviderSource/source/_posts/2017-12-31-happy-new-years.md',
-            '',
-            ''
+        $finder = Finder::create()
+            ->files()
+            ->in(__DIR__ . '/GithubPrLinkFilterProviderSource/source');
+
+        $fileInfos = iterator_to_array($finder->getIterator());
+        $fileInfo = array_pop($fileInfos);
+
+        $objectFile = $this->objectFactory->createFromFileInfosAndGeneratorElement(
+            [$fileInfo],
+            $this->createDummyPostElement()
         );
 
-        $dummyPostElement = GeneratorElement::createFromConfiguration([
+        return $objectFile[0];
+    }
+
+    private function createDummyPostElement(): GeneratorElement
+    {
+        return GeneratorElement::createFromConfiguration([
             'variable' => '...',
             'variable_global' => '...',
             'path' => '...',
@@ -67,12 +78,5 @@ final class GithubPrLinkFilterProviderTest extends TestCase
             'route_prefix' => '...',
             'object' => File::class,
         ]);
-
-        $objectFile = $this->objectFactory->createFromFileInfosAndGeneratorElement(
-            [$fileInfo],
-            $dummyPostElement
-        );
-
-        return $objectFile[0];
     }
 }
