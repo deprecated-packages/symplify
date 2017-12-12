@@ -9,6 +9,7 @@ use Symplify\Statie\Renderable\File\File;
 use Symplify\Statie\Renderable\File\FileFactory;
 use Symplify\Statie\Renderable\LatteFileDecorator;
 use Symplify\Statie\Tests\AbstractContainerAwareTestCase;
+use Symplify\Statie\Tests\SymfonyFileInfoFactory;
 
 final class LatteDecoratorTest extends AbstractContainerAwareTestCase
 {
@@ -82,7 +83,7 @@ final class LatteDecoratorTest extends AbstractContainerAwareTestCase
 
     private function createFileFromFilePath(string $filePath): File
     {
-        $fileInfo = new SplFileInfo($filePath, '', '');
+        $fileInfo = SymfonyFileInfoFactory::createFromFilePath($filePath);
         return $this->fileFactory->createFromFileInfo($fileInfo);
     }
 }
