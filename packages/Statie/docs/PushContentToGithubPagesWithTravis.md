@@ -39,7 +39,7 @@ Now the Travis is able to push to your Github repository for you!
 ```yaml
 # travis.yml
 script:
-    # this is needed to generate /output firstrepository_slug
+    # this is needed to generate /output first
     - vendor/bin/statie generate source
     # this works with content from /output
     - vendor/bin/statie push-to-github tomasvotruba/tomasvotruba.cz --token=${GH_TOKEN}
