@@ -8,10 +8,8 @@ use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\Finder\Finder;
 use Symplify\Statie\Configuration\Configuration;
 use Symplify\Statie\DependencyInjection\ContainerFactory;
-use Symplify\Statie\Generator\Configuration\GeneratorElement;
 use Symplify\Statie\Latte\Filter\GithubPrLinkFilterProvider;
 use Symplify\Statie\Renderable\File\AbstractFile;
-use Symplify\Statie\Renderable\File\File;
 use Symplify\Statie\Renderable\File\FileFactory;
 
 final class GithubPrLinkFilterProviderTest extends TestCase
