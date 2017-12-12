@@ -6,6 +6,7 @@ use Symplify\Statie\Configuration\Configuration;
 use Symplify\Statie\FileSystem\FileFinder;
 use Symplify\Statie\Generator\Configuration\GeneratorConfiguration;
 use Symplify\Statie\Renderable\File\AbstractFile;
+use Symplify\Statie\Renderable\File\FileFactory;
 use Symplify\Statie\Renderable\RenderableFilesProcessor;
 
 final class Generator
@@ -31,22 +32,22 @@ final class Generator
     private $renderableFilesProcessor;
 
     /**
-     * @var ObjectFactory
+     * @var FileFactory
      */
-    private $objectFactory;
+    private $fileFactory;
 
     public function __construct(
         GeneratorConfiguration $generatorConfiguration,
         FileFinder $fileFinder,
         Configuration $configuration,
         RenderableFilesProcessor $renderableFilesProcessor,
-        ObjectFactory $objectFactory
+        FileFactory $fileFactory
     ) {
         $this->generatorConfiguration = $generatorConfiguration;
         $this->fileFinder = $fileFinder;
         $this->configuration = $configuration;
         $this->renderableFilesProcessor = $renderableFilesProcessor;
-        $this->objectFactory = $objectFactory;
+        $this->fileFactory = $fileFactory;
     }
 
     /**
@@ -68,7 +69,7 @@ final class Generator
             }
 
             // process to objects
-            $objects = $this->objectFactory->createFromFileInfosAndGeneratorElement($fileInfos, $generatorElement);
+            $objects = $this->fileFactory->createFromFileInfosAndClass($fileInfos, $generatorElement->getObject());
 
             // save them to property
             $this->configuration->addOption($generatorElement->getVariableGlobal(), $objects);

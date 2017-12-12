@@ -9,10 +9,10 @@ use Symfony\Component\Finder\Finder;
 use Symplify\Statie\Configuration\Configuration;
 use Symplify\Statie\DependencyInjection\ContainerFactory;
 use Symplify\Statie\Generator\Configuration\GeneratorElement;
-use Symplify\Statie\Generator\ObjectFactory;
 use Symplify\Statie\Latte\Filter\GithubPrLinkFilterProvider;
 use Symplify\Statie\Renderable\File\AbstractFile;
 use Symplify\Statie\Renderable\File\File;
+use Symplify\Statie\Renderable\File\FileFactory;
 
 final class GithubPrLinkFilterProviderTest extends TestCase
 {
@@ -22,9 +22,9 @@ final class GithubPrLinkFilterProviderTest extends TestCase
     private $container;
 
     /**
-     * @var ObjectFactory
+     * @var FileFactory
      */
-    private $objectFactory;
+    private $fileFactory;
 
     protected function setUp(): void
     {
@@ -32,7 +32,7 @@ final class GithubPrLinkFilterProviderTest extends TestCase
             __DIR__ . '/GithubPrLinkFilterProviderSource/statie-config-with-github-slug.yml'
         );
 
-        $this->objectFactory = $this->container->get(ObjectFactory::class);
+        $this->fileFactory = $this->container->get(FileFactory::class);
 
         /** @var Configuration $configuration */
         $configuration = $this->container->get(Configuration::class);
@@ -60,23 +60,6 @@ final class GithubPrLinkFilterProviderTest extends TestCase
         $fileInfos = iterator_to_array($finder->getIterator());
         $fileInfo = array_pop($fileInfos);
 
-        $objectFile = $this->objectFactory->createFromFileInfosAndGeneratorElement(
-            [$fileInfo],
-            $this->createDummyPostElement()
-        );
-
-        return $objectFile[0];
-    }
-
-    private function createDummyPostElement(): GeneratorElement
-    {
-        return GeneratorElement::createFromConfiguration([
-            'variable' => '...',
-            'variable_global' => '...',
-            'path' => '...',
-            'layout' => '...',
-            'route_prefix' => '...',
-            'object' => File::class,
-        ]);
+        return $this->fileFactory->createFromFileInfo($fileInfo);
     }
 }
