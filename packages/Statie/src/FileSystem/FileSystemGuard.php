@@ -8,7 +8,7 @@ final class FileSystemGuard
 {
     public function ensureDirectoryExists(string $directory): void
     {
-        if (is_dir($directory)) {
+        if (is_dir($directory) && file_exists($directory)) {
             return;
         }
 

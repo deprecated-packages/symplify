@@ -61,7 +61,7 @@ final class Configuration
     {
         $sourceDirectory = rtrim($sourceDirectory, '/');
         $this->fileSystemGuard->ensureDirectoryExists($sourceDirectory);
-        $this->sourceDirectory = $sourceDirectory;
+        $this->sourceDirectory = realpath($sourceDirectory);
     }
 
     public function setOutputDirectory(string $outputDirectory): void
