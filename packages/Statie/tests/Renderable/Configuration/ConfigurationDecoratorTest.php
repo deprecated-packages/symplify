@@ -2,7 +2,6 @@
 
 namespace Symplify\Statie\Tests\Renderable\Configuration;
 
-use Symfony\Component\Finder\SplFileInfo;
 use Symplify\Statie\Exception\Neon\InvalidNeonSyntaxException;
 use Symplify\Statie\Renderable\ConfigurationDecorator;
 use Symplify\Statie\Renderable\File\FileFactory;

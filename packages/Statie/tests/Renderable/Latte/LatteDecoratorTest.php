@@ -2,7 +2,6 @@
 
 namespace Symplify\Statie\Tests\Renderable\Latte;
 
-use Symfony\Component\Finder\SplFileInfo;
 use Symplify\Statie\Exception\Latte\InvalidLatteSyntaxException;
 use Symplify\Statie\FlatWhite\Latte\DynamicStringLoader;
 use Symplify\Statie\Renderable\File\File;
