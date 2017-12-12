@@ -42,7 +42,7 @@ final class GeneratorElement
      */
     private $objects = [];
 
-    public function __construct(
+    private function __construct(
         string $variable,
         string $variableGlobal,
         string $path,

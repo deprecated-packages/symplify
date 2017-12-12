@@ -24,13 +24,16 @@ final class GithubPrLinkFilterProvider implements FilterProviderInterface
     public function provide(): array
     {
         return [
-            // @todo usage
+            // e.g. <a href="{$post|githubEditPostUrl}">Typo? Fix me please</a>
             'githubEditPostUrl' => function (AbstractFile $file) {
-                return 'https://github.com/'
-                    . $this->configuration->getGithubRepositorySlug()
-                    . '/edit/master/'
-                    . $file->getFilePath();
+                $editPrefix = $this->renameTreeToEdit($this->configuration->getGithubRepositorySourceDirectory());
+                return $editPrefix . DIRECTORY_SEPARATOR . $file->getRelativeSource();
             },
         ];
+    }
+
+    private function renameTreeToEdit(string $string): string
+    {
+        return str_replace('/tree/', '/edit/', $string);
     }
 }
