@@ -21,7 +21,7 @@ final class FileFactory
     }
 
     /**
-     * @return File|PostFile
+     * @return File
      */
     public function createFromFileInfo(SplFileInfo $fileInfo): AbstractFile
     {

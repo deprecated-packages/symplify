@@ -2,7 +2,7 @@
 
 namespace Symplify\Statie\Renderable;
 
-use SplFileInfo;
+use Symfony\Component\Finder\SplFileInfo;
 use Symplify\Statie\Contract\Renderable\FileDecoratorInterface;
 use Symplify\Statie\Generator\Configuration\GeneratorElement;
 use Symplify\Statie\Renderable\File\AbstractFile;
