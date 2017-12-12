@@ -2,9 +2,9 @@
 
 namespace Symplify\Statie\Tests\Renderable\Routing;
 
-use SplFileInfo;
+use Symfony\Component\Finder\SplFileInfo;
 use Symplify\Statie\Configuration\Configuration;
-use Symplify\Statie\Renderable\File\AbstractFile;
+use Symplify\Statie\Renderable\File\File;
 use Symplify\Statie\Renderable\File\FileFactory;
 use Symplify\Statie\Renderable\RouteFileDecorator;
 use Symplify\Statie\Tests\AbstractContainerAwareTestCase;
@@ -31,10 +31,14 @@ final class RouteFileDecoratorTest extends AbstractContainerAwareTestCase
         $this->routeFileDecorator = $this->container->get(RouteFileDecorator::class);
     }
 
+    /**
+     * @todo use data provider
+     */
     public function test(): void
     {
         $file = $this->createFileFromFilePath(__DIR__ . '/RouteFileDecoratorSource/someFile.latte');
 
+        // @todo: is this really needed?
         /** @var Configuration $configuration */
         $configuration = $this->container->get(Configuration::class);
         $configuration->setSourceDirectory(__DIR__ . '/RouteFileDecoratorSource');
@@ -52,17 +56,16 @@ final class RouteFileDecoratorTest extends AbstractContainerAwareTestCase
         $this->assertSame('index.html', $file->getOutputPath());
         $this->assertSame('/', $file->getRelativeUrl());
 
-        $fileInfo = new SplFileInfo(__DIR__ . '/RouteFileDecoratorSource/index.latte');
-        $file = $this->fileFactory->createFromFileInfo($fileInfo);
+        $file = $this->createFileFromFilePath(__DIR__ . '/RouteFileDecoratorSource/index.latte');
 
         $this->routeFileDecorator->decorateFiles([$file]);
         $this->assertSame('index.html', $file->getOutputPath());
         $this->assertSame('/', $file->getRelativeUrl());
     }
 
-    private function createFileFromFilePath(string $filePath): AbstractFile
+    private function createFileFromFilePath(string $filePath): File
     {
-        $fileInfo = new SplFileInfo($filePath);
+        $fileInfo = new SplFileInfo($filePath, '', '');
         return $this->fileFactory->createFromFileInfo($fileInfo);
     }
 }

@@ -2,10 +2,11 @@
 
 namespace Symplify\Statie\Tests\Renderable\File;
 
-use SplFileInfo;
+use Symfony\Component\Finder\SplFileInfo as SymfonySplFileInfo;
 use Symplify\Statie\Configuration\Configuration;
 use Symplify\Statie\Renderable\File\FileFactory;
 use Symplify\Statie\Tests\AbstractContainerAwareTestCase;
+use Symplify\Statie\Tests\SymfonyFileInfoFactory;
 
 final class FileTest extends AbstractContainerAwareTestCase
 {
@@ -23,17 +24,12 @@ final class FileTest extends AbstractContainerAwareTestCase
         $this->fileFactory = $this->container->get(FileFactory::class);
     }
 
-    public function testGetRelativeSource(): void
+    public function test(): void
     {
-        $fileInfo = new SplFileInfo(__DIR__ . '/FileFactorySource/someFile.latte');
+        $fileInfo = SymfonyFileInfoFactory::createFromFilePath(__DIR__ . '/FileFactorySource/someFile.html.latte');
         $file = $this->fileFactory->createFromFileInfo($fileInfo);
 
-        $this->assertSame('someFile.latte', $file->getRelativeSource());
-    }
-
-    public function testGetPrimaryExtension(): void
-    {
-        $file = $this->fileFactory->createFromFilePath(__DIR__ . '/FileSource/some.html.latte');
+        $this->assertSame('', $file->getRelativeSource());
 
         $this->assertSame('html', $file->getPrimaryExtension());
     }

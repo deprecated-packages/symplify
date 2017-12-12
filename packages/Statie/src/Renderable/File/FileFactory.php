@@ -2,21 +2,10 @@
 
 namespace Symplify\Statie\Renderable\File;
 
-use SplFileInfo;
-use Symplify\Statie\Configuration\Configuration;
+use Symfony\Component\Finder\SplFileInfo;
 
 final class FileFactory
 {
-    /**
-     * @var Configuration
-     */
-    private $configuration;
-
-    public function __construct(Configuration $configuration)
-    {
-        $this->configuration = $configuration;
-    }
-
     /**
      * @param SplFileInfo[] $fileInfos
      * @return AbstractFile[]
@@ -31,19 +20,11 @@ final class FileFactory
         return $files;
     }
 
-    public function createFromFilePath(string $filePath): AbstractFile
-    {
-        return $this->createFromFileInfo(new SplFileInfo($filePath));
-    }
-
     /**
      * @return File|PostFile
      */
-    public function createFromFileInfo(SplFileInfo $file): AbstractFile
+    public function createFromFileInfo(SplFileInfo $fileInfo): AbstractFile
     {
-        $relativeSource = substr($file->getPathname(), strlen($this->configuration->getSourceDirectory()));
-        $relativeSource = ltrim($relativeSource, DIRECTORY_SEPARATOR);
-
-        return new File($file, $relativeSource, $file->getPathname());
+        return new File($fileInfo, $fileInfo->getRelativePathname(), $fileInfo->getPathname());
     }
 }

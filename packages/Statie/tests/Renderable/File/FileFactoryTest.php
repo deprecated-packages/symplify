@@ -7,6 +7,7 @@ use Symplify\Statie\Renderable\File\File;
 use Symplify\Statie\Renderable\File\FileFactory;
 use Symplify\Statie\Renderable\File\PostFile;
 use Symplify\Statie\Tests\AbstractContainerAwareTestCase;
+use Symplify\Statie\Tests\SymfonyFileInfoFactory;
 
 final class FileFactoryTest extends AbstractContainerAwareTestCase
 {
@@ -26,7 +27,8 @@ final class FileFactoryTest extends AbstractContainerAwareTestCase
 
     public function test(): void
     {
-        $file = $this->fileFactory->createFromFilePath(__DIR__ . '/FileFactorySource/someFile.latte');
+        $fileInfo = SymfonyFileInfoFactory::createFromFilePath(__DIR__ . '/FileFactorySource/someFile.latte');
+        $file = $this->fileFactory->createFromFileInfo($fileInfo);
 
         $this->assertInstanceOf(File::class, $file);
         $this->assertNotInstanceOf(PostFile::class, $file);
