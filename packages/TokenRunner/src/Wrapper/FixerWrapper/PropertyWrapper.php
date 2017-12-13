@@ -2,23 +2,16 @@
 
 namespace Symplify\TokenRunner\Wrapper\FixerWrapper;
 
-use Nette\Utils\Strings;
 use PhpCsFixer\DocBlock\Annotation;
 use PhpCsFixer\DocBlock\DocBlock;
-use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use Symplify\TokenRunner\Analyzer\FixerAnalyzer\DocBlockFinder;
 use Symplify\TokenRunner\Analyzer\FixerAnalyzer\PropertyAnalyzer;
 use Symplify\TokenRunner\Guard\TokenTypeGuard;
 use Symplify\TokenRunner\Naming\Name\NameFactory;
 
-final class PropertyWrapper
+final class PropertyWrapper extends AbstractVariableWrapper
 {
-    /**
-     * @var Tokens
-     */
-    private $tokens;
-
     /**
      * @var DocBlock|null
      */
@@ -39,7 +32,7 @@ final class PropertyWrapper
      */
     private $type;
 
-    private function __construct(Tokens $tokens, int $index)
+    protected function __construct(Tokens $tokens, int $index)
     {
         TokenTypeGuard::ensureIsTokenType($tokens[$index], [T_VARIABLE], __METHOD__);
 
@@ -62,7 +55,7 @@ final class PropertyWrapper
 
     public function getName(): string
     {
-        $propertyNameToken = $this->tokens[$this->getPropertyNamePosition()];
+        $propertyNameToken = $this->tokens[$this->getNamePosition()];
 
         return ltrim($propertyNameToken->getContent(), '$');
     }
@@ -103,27 +96,7 @@ final class PropertyWrapper
 
     public function changeName(string $newName): void
     {
-        $newName = Strings::startsWith($newName, '$') ?: '$' . $newName;
-
-        $this->tokens[$this->getPropertyNamePosition()] = new Token([T_VARIABLE, $newName]);
-    }
-
-    public function isClassType(): bool
-    {
-        $type = $this->getType();
-        if ($type === null) {
-            return false;
-        }
-
-        if (in_array($type, ['string', 'int', 'bool', 'null', 'array', 'iterable', 'boolean', 'integer'], true)) {
-            return false;
-        }
-
-        if (Strings::contains($type, '[]')) {
-            return false;
-        }
-
-        return true;
+        $this->changeNameWithTokenType($newName, T_VARIABLE);
     }
 
     public function getDocBlockWrapper(): ?DocBlockWrapper
@@ -139,7 +112,7 @@ final class PropertyWrapper
         );
     }
 
-    private function getPropertyNamePosition(): int
+    protected function getNamePosition(): int
     {
         $nextVariableTokens = $this->tokens->findGivenKind(
             [T_VARIABLE],
