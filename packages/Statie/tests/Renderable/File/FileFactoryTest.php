@@ -25,7 +25,7 @@ final class FileFactoryTest extends AbstractContainerAwareTestCase
         $this->fileFactory = $this->container->get(FileFactory::class);
     }
 
-    public function test(): void
+    public function testCreateFromFileInfo(): void
     {
         $fileInfo = SymfonyFileInfoFactory::createFromFilePath(__DIR__ . '/FileFactorySource/someFile.latte');
         $file = $this->fileFactory->createFromFileInfo($fileInfo);
