@@ -2,11 +2,11 @@
 
 namespace Symplify\Statie\Tests\Renderable\Configuration;
 
-use SplFileInfo;
 use Symplify\Statie\Exception\Neon\InvalidNeonSyntaxException;
 use Symplify\Statie\Renderable\ConfigurationDecorator;
 use Symplify\Statie\Renderable\File\FileFactory;
 use Symplify\Statie\Tests\AbstractContainerAwareTestCase;
+use Symplify\Statie\Tests\SymfonyFileInfoFactory;
 
 final class ConfigurationDecoratorTest extends AbstractContainerAwareTestCase
 {
@@ -32,7 +32,7 @@ final class ConfigurationDecoratorTest extends AbstractContainerAwareTestCase
      */
     public function testDecorateFile(string $filePath, string $fileContent, array $expectedConfiguration): void
     {
-        $fileInfo = new SplFileInfo($filePath);
+        $fileInfo = SymfonyFileInfoFactory::createFromFilePath($filePath);
         $file = $this->fileFactory->createFromFileInfo($fileInfo);
 
         $this->assertSame([], $file->getConfiguration());
@@ -43,10 +43,10 @@ final class ConfigurationDecoratorTest extends AbstractContainerAwareTestCase
         $this->assertSame($expectedConfiguration, $file->getConfiguration());
     }
 
-    public function testDecorateFileWithInvalidNeonSyntax(): void
+    public function testInvalidNeonSyntax(): void
     {
         $brokenNeonFilePath = __DIR__ . '/ConfigurationDecoratorSource/someFileWithBrokenConfigurationSyntax.latte';
-        $fileInfo = new SplFileInfo($brokenNeonFilePath);
+        $fileInfo = SymfonyFileInfoFactory::createFromFilePath($brokenNeonFilePath);
         $file = $this->fileFactory->createFromFileInfo($fileInfo);
 
         $this->expectException(InvalidNeonSyntaxException::class);

@@ -2,12 +2,11 @@
 
 namespace Symplify\Statie\Tests\Renderable\Routing;
 
-use SplFileInfo;
 use Symplify\Statie\Configuration\Configuration;
-use Symplify\Statie\Renderable\File\AbstractFile;
 use Symplify\Statie\Renderable\File\FileFactory;
 use Symplify\Statie\Renderable\RouteFileDecorator;
 use Symplify\Statie\Tests\AbstractContainerAwareTestCase;
+use Symplify\Statie\Tests\SymfonyFileInfoFactory;
 
 final class RouteFileDecoratorTest extends AbstractContainerAwareTestCase
 {
@@ -31,38 +30,28 @@ final class RouteFileDecoratorTest extends AbstractContainerAwareTestCase
         $this->routeFileDecorator = $this->container->get(RouteFileDecorator::class);
     }
 
-    public function test(): void
+    /**
+     * @dataProvider provideFileAndOutputAndRelativePath()
+     */
+    public function test(string $fileName, string $relativeUrl, string $outputPath): void
     {
-        $file = $this->createFileFromFilePath(__DIR__ . '/RouteFileDecoratorSource/someFile.latte');
-
-        /** @var Configuration $configuration */
-        $configuration = $this->container->get(Configuration::class);
-        $configuration->setSourceDirectory(__DIR__ . '/RouteFileDecoratorSource');
-
-        $this->routeFileDecorator->decorateFiles([$file]);
-        $this->assertSame('/someFile', $file->getRelativeUrl());
-        $this->assertSame('/someFile' . DIRECTORY_SEPARATOR . 'index.html', $file->getOutputPath());
-    }
-
-    public function testIndexFile(): void
-    {
-        $file = $this->createFileFromFilePath(__DIR__ . '/RouteFileDecoratorSource/index.html');
-
-        $this->routeFileDecorator->decorateFiles([$file]);
-        $this->assertSame('index.html', $file->getOutputPath());
-        $this->assertSame('/', $file->getRelativeUrl());
-
-        $fileInfo = new SplFileInfo(__DIR__ . '/RouteFileDecoratorSource/index.latte');
+        $fileInfo = SymfonyFileInfoFactory::createFromFilePath($fileName);
         $file = $this->fileFactory->createFromFileInfo($fileInfo);
-
         $this->routeFileDecorator->decorateFiles([$file]);
-        $this->assertSame('index.html', $file->getOutputPath());
-        $this->assertSame('/', $file->getRelativeUrl());
+
+        $this->assertSame($relativeUrl, $file->getRelativeUrl());
+        $this->assertSame($outputPath, $file->getOutputPath());
     }
 
-    private function createFileFromFilePath(string $filePath): AbstractFile
+    /**
+     * @return string[][]
+     */
+    public function provideFileAndOutputAndRelativePath(): array
     {
-        $fileInfo = new SplFileInfo($filePath);
-        return $this->fileFactory->createFromFileInfo($fileInfo);
+        return [
+            [__DIR__ . '/RouteFileDecoratorSource/someFile.latte', '/someFile', '/someFile/index.html'],
+            [__DIR__ . '/RouteFileDecoratorSource/index.html', '/', 'index.html'],
+            [__DIR__ . '/RouteFileDecoratorSource/index.latte', '/', 'index.html'],
+        ];
     }
 }

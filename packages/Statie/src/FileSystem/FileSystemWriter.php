@@ -3,7 +3,7 @@
 namespace Symplify\Statie\FileSystem;
 
 use Nette\Utils\FileSystem;
-use SplFileInfo;
+use Symfony\Component\Finder\SplFileInfo;
 use Symplify\Statie\Configuration\Configuration;
 use Symplify\Statie\Renderable\File\AbstractFile;
 
@@ -25,10 +25,12 @@ final class FileSystemWriter
     public function copyStaticFiles(array $files): void
     {
         foreach ($files as $file) {
-            $relativeDestination = substr($file->getPathname(), strlen($this->configuration->getSourceDirectory()));
-            $absoluteDestination = $this->configuration->getOutputDirectory() . $relativeDestination;
+            $relativeSource = substr($this->configuration->getSourceDirectory(), strlen(getcwd()) + 1);
+            $absoluteDestination = $this->configuration->getOutputDirectory() .
+                DIRECTORY_SEPARATOR .
+                $file->getRelativePathname();
 
-            FileSystem::copy($file->getRealPath(), $absoluteDestination, true);
+            FileSystem::copy($relativeSource, $absoluteDestination, true);
         }
     }
 

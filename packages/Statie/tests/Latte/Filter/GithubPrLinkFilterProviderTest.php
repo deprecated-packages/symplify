@@ -5,14 +5,12 @@ namespace Symplify\Statie\Tests\Latte\Filter;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\DependencyInjection\Container;
-use Symfony\Component\Finder\SplFileInfo;
+use Symfony\Component\Finder\Finder;
 use Symplify\Statie\Configuration\Configuration;
 use Symplify\Statie\DependencyInjection\ContainerFactory;
-use Symplify\Statie\Generator\Configuration\GeneratorElement;
-use Symplify\Statie\Generator\ObjectFactory;
 use Symplify\Statie\Latte\Filter\GithubPrLinkFilterProvider;
 use Symplify\Statie\Renderable\File\AbstractFile;
-use Symplify\Statie\Renderable\File\File;
+use Symplify\Statie\Renderable\File\FileFactory;
 
 final class GithubPrLinkFilterProviderTest extends TestCase
 {
@@ -22,9 +20,9 @@ final class GithubPrLinkFilterProviderTest extends TestCase
     private $container;
 
     /**
-     * @var ObjectFactory
+     * @var FileFactory
      */
-    private $objectFactory;
+    private $fileFactory;
 
     protected function setUp(): void
     {
@@ -32,7 +30,7 @@ final class GithubPrLinkFilterProviderTest extends TestCase
             __DIR__ . '/GithubPrLinkFilterProviderSource/statie-config-with-github-slug.yml'
         );
 
-        $this->objectFactory = $this->container->get(ObjectFactory::class);
+        $this->fileFactory = $this->container->get(FileFactory::class);
 
         /** @var Configuration $configuration */
         $configuration = $this->container->get(Configuration::class);
@@ -53,26 +51,13 @@ final class GithubPrLinkFilterProviderTest extends TestCase
 
     private function getFile(): AbstractFile
     {
-        $fileInfo = new SplFileInfo(
-            __DIR__ . '/GithubPrLinkFilterProviderSource/source/_posts/2017-12-31-happy-new-years.md',
-            '',
-            ''
-        );
+        $finder = Finder::create()
+            ->files()
+            ->in(__DIR__ . '/GithubPrLinkFilterProviderSource/source');
 
-        $dummyPostElement = GeneratorElement::createFromConfiguration([
-            'variable' => '...',
-            'variable_global' => '...',
-            'path' => '...',
-            'layout' => '...',
-            'route_prefix' => '...',
-            'object' => File::class,
-        ]);
+        $fileInfos = iterator_to_array($finder->getIterator());
+        $fileInfo = array_pop($fileInfos);
 
-        $objectFile = $this->objectFactory->createFromFileInfosAndGeneratorElement(
-            [$fileInfo],
-            $dummyPostElement
-        );
-
-        return $objectFile[0];
+        return $this->fileFactory->createFromFileInfo($fileInfo);
     }
 }

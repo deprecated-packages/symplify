@@ -6,6 +6,7 @@ use Symplify\Statie\Configuration\Configuration;
 use Symplify\Statie\Renderable\File\FileFactory;
 use Symplify\Statie\Renderable\MarkdownFileDecorator;
 use Symplify\Statie\Tests\AbstractContainerAwareTestCase;
+use Symplify\Statie\Tests\SymfonyFileInfoFactory;
 
 final class MarkdownFileDecoratorTest extends AbstractContainerAwareTestCase
 {
@@ -33,9 +34,14 @@ final class MarkdownFileDecoratorTest extends AbstractContainerAwareTestCase
         $this->fileFactory = $this->container->get(FileFactory::class);
     }
 
+    /**
+     * @todo data providers
+     */
     public function testNotMarkdown(): void
     {
-        $file = $this->fileFactory->createFromFilePath(__DIR__ . '/MarkdownFileDecoratorSource/someFile.latte');
+        $fileInfo = SymfonyFileInfoFactory::createFromFilePath(__DIR__ . '/MarkdownFileDecoratorSource/someFile.latte');
+        $file = $this->fileFactory->createFromFileInfo($fileInfo);
+
         $this->markdownFileDecorator->decorateFiles([$file]);
 
         $this->assertContains('# Content...', $file->getContent());
@@ -43,7 +49,8 @@ final class MarkdownFileDecoratorTest extends AbstractContainerAwareTestCase
 
     public function testMarkdownContent(): void
     {
-        $file = $this->fileFactory->createFromFilePath(__DIR__ . '/MarkdownFileDecoratorSource/someFile.md');
+        $fileInfo = SymfonyFileInfoFactory::createFromFilePath(__DIR__ . '/MarkdownFileDecoratorSource/someFile.md');
+        $file = $this->fileFactory->createFromFileInfo($fileInfo);
 
         $this->markdownFileDecorator->decorateFiles([$file]);
 
@@ -52,7 +59,8 @@ final class MarkdownFileDecoratorTest extends AbstractContainerAwareTestCase
 
     public function testMarkdownPerex(): void
     {
-        $file = $this->fileFactory->createFromFilePath(__DIR__ . '/MarkdownFileDecoratorSource/someFile.md');
+        $fileInfo = SymfonyFileInfoFactory::createFromFilePath(__DIR__ . '/MarkdownFileDecoratorSource/someFile.md');
+        $file = $this->fileFactory->createFromFileInfo($fileInfo);
 
         $file->addConfiguration([
             'perex' => '**Hey**',
@@ -67,7 +75,8 @@ final class MarkdownFileDecoratorTest extends AbstractContainerAwareTestCase
     {
         $this->configuration->enableMarkdownHeadlineAnchors();
 
-        $file = $this->fileFactory->createFromFilePath(__DIR__ . '/MarkdownFileDecoratorSource/someFile.md');
+        $fileInfo = SymfonyFileInfoFactory::createFromFilePath(__DIR__ . '/MarkdownFileDecoratorSource/someFile.md');
+        $file = $this->fileFactory->createFromFileInfo($fileInfo);
         $this->markdownFileDecorator->decorateFiles([$file]);
 
         $this->assertSame(
