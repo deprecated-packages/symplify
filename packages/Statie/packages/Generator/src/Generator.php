@@ -62,7 +62,7 @@ final class Generator
             }
 
             // find files in ...
-            $fileInfos = $this->fileFinder->findInDirectory($generatorElement->getPath());
+            $fileInfos = $this->fileFinder->findInDirectoryForGenerator($generatorElement->getPath());
 
             if (! count($fileInfos)) {
                 continue;

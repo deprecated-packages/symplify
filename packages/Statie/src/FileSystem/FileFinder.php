@@ -2,6 +2,7 @@
 
 namespace Symplify\Statie\FileSystem;
 
+use SplFileInfo as NativeSplFileInfo;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
 
@@ -19,14 +20,6 @@ final class FileFinder
     /**
      * @return SplFileInfo[]
      */
-    public function findInDirectory(string $sourceDirectory): array
-    {
-        return $this->findInDirectoryNames($sourceDirectory, ['*']);
-    }
-
-    /**
-     * @return SplFileInfo[]
-     */
     public function findLatteLayoutsAndSnippets(string $directory): array
     {
         $finder = Finder::create()->files()
@@ -39,9 +32,35 @@ final class FileFinder
     /**
      * @return SplFileInfo[]
      */
+    public function findInDirectoryForGenerator(string $directoryPath): array
+    {
+        $directoryInfo = new NativeSplFileInfo($directoryPath);
+        $pathPattern = '#' . $directoryInfo->getFilename() . DIRECTORY_SEPARATOR . '#';
+
+        $finder = Finder::create()->files()
+            ->in($directoryInfo->getPath())
+            ->path($pathPattern)
+            // sort by name descending
+            ->sort(function (SplFileInfo $firstFileInfo, SplFileInfo $secondFileInfo) {
+                return strcmp($secondFileInfo->getRealPath(), $firstFileInfo->getRealPath());
+            });
+
+        return $this->getFilesFromFinder($finder);
+    }
+
+    /**
+     * @return SplFileInfo[]
+     */
     public function findStaticFiles(string $directory): array
     {
-        return $this->findInDirectoryNames($directory, $this->staticFileExtensions);
+        $finder = Finder::create()->files()
+            ->in($directory);
+
+        foreach ($this->staticFileExtensions as $name) {
+            $finder->name($name);
+        }
+
+        return $this->getFilesFromFinder($finder);
     }
 
     /**
@@ -56,26 +75,6 @@ final class FileFinder
             ->name('*.xml')
             ->notPath('#(_layouts|_snippets)#')
             ->in($directory);
-
-        return $this->getFilesFromFinder($finder);
-    }
-
-    /**
-     * @return SplFileInfo[]
-     * @param string[] $names
-     */
-    private function findInDirectoryNames(string $directory, array $names): array
-    {
-        $finder = Finder::create()->files()
-            ->in($directory)
-            // sort by name descending
-            ->sort(function (SplFileInfo $firstFileInfo, SplFileInfo $secondFileInfo) {
-                return strcmp($secondFileInfo->getRealPath(), $firstFileInfo->getRealPath());
-            });
-
-        foreach ($names as $name) {
-            $finder->name($name);
-        }
 
         return $this->getFilesFromFinder($finder);
     }
