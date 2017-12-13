@@ -115,7 +115,7 @@ final class PropertyWrapper
             return false;
         }
 
-        if (in_array($type, ['string', 'int', 'bool', 'null', 'array'], true)) {
+        if (in_array($type, ['string', 'int', 'bool', 'null', 'array', 'iterable', 'boolean', 'integer'], true)) {
             return false;
         }
 

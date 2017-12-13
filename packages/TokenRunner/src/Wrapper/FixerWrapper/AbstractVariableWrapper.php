@@ -40,7 +40,7 @@ abstract class AbstractVariableWrapper
             return false;
         }
 
-        if (in_array($type, ['string', 'int', 'bool', 'null', 'array'], true)) {
+        if (in_array($type, ['string', 'int', 'bool', 'null', 'array', 'iterable', 'integer', 'boolean'], true)) {
             return false;
         }
 
