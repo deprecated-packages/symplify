@@ -3,7 +3,6 @@
 namespace Symplify\Statie\Tests\FileSystem;
 
 use Nette\Utils\FileSystem;
-use SplFileInfo;
 use Symplify\Statie\Configuration\Configuration;
 use Symplify\Statie\FileSystem\FileSystemWriter;
 use Symplify\Statie\Renderable\File\FileFactory;
@@ -51,8 +50,8 @@ final class FileSystemWriterTest extends AbstractContainerAwareTestCase
 
     public function testCopyStaticFiles(): void
     {
-        $files = [new SplFileInfo($this->sourceDirectory . '/index.html')];
-        $this->fileSystemWriter->copyStaticFiles($files);
+        $file = SymfonyFileInfoFactory::createFromFilePath($this->sourceDirectory . '/index.html');
+        $this->fileSystemWriter->copyStaticFiles([$file]);
 
         $this->assertFileEquals(
             $this->sourceDirectory . '/index.html',
