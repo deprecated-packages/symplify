@@ -26,11 +26,12 @@ final class FileSystemWriter
     {
         foreach ($files as $file) {
             $relativeSource = substr($this->configuration->getSourceDirectory(), strlen(getcwd()) + 1);
+            $relativeFileSource = $relativeSource . DIRECTORY_SEPARATOR . $file->getRelativePathname();
             $absoluteDestination = $this->configuration->getOutputDirectory() .
                 DIRECTORY_SEPARATOR .
                 $file->getRelativePathname();
 
-            FileSystem::copy($relativeSource, $absoluteDestination, true);
+            FileSystem::copy($relativeFileSource, $absoluteDestination, true);
         }
     }
 
