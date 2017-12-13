@@ -34,9 +34,9 @@ final class PropertyWrapper extends AbstractVariableWrapper
 
     protected function __construct(Tokens $tokens, int $index)
     {
-        TokenTypeGuard::ensureIsTokenType($tokens[$index], [T_VARIABLE], __METHOD__);
+        parent::__construct($tokens, $index);
 
-        $this->tokens = $tokens;
+        TokenTypeGuard::ensureIsTokenType($tokens[$index], [T_VARIABLE], __METHOD__);
 
         $this->docBlockPosition = DocBlockFinder::findPreviousPosition($tokens, $index);
         $docBlockToken = DocBlockFinder::findPrevious($tokens, $index);
