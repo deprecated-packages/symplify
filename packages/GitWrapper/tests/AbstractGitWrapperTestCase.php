@@ -32,7 +32,6 @@ abstract class AbstractGitWrapperTestCase extends TestCase
 
     protected function setUp(): void
     {
-        parent::setUp();
         $this->filesystem = new Filesystem();
         $this->gitWrapper = new GitWrapper();
     }
@@ -43,8 +42,6 @@ abstract class AbstractGitWrapperTestCase extends TestCase
     }
 
     /**
-     * Asserts a correct Git version string was returned.
-     *
      * The version returned by the `git --version` command.
      */
     public function assertGitVersion(string $type): void
@@ -53,11 +50,6 @@ abstract class AbstractGitWrapperTestCase extends TestCase
         $this->assertNotEmpty($match);
     }
 
-    /**
-     * Executes a bad command.
-     *
-     * @param bool $catchException Whether to catch the exception to continue script execution.
-     */
     public function runBadCommand(bool $catchException = false): void
     {
         try {
