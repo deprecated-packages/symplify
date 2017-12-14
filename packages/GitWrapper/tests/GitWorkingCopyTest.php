@@ -90,20 +90,6 @@ final class GitWorkingCopyTest extends AbstractGitWrapperTestCase
         $this->assertTrue($git->isCloned());
     }
 
-    /**
-     * Clones the local repo and returns an initialized GitWorkingCopy object.
-     */
-    private function getWorkingCopy(string $directory = self::WORKING_DIR): GitWorkingCopy
-    {
-        $git = $this->gitWrapper->workingCopy($directory);
-        $git->cloneRepository('file://' . realpath(self::REPO_DIR));
-        $git->config('user.email', self::CONFIG_EMAIL);
-        $git->config('user.name', self::CONFIG_NAME);
-        $git->clearOutput();
-
-        return $git;
-    }
-
     public function testGetOutput(): void
     {
         $git = $this->getWorkingCopy();
@@ -130,114 +116,108 @@ final class GitWorkingCopyTest extends AbstractGitWrapperTestCase
     public function testHasChanges(): void
     {
         $git = $this->getWorkingCopy();
-
-        dump($git->hasChanges());
-
         $this->assertFalse($git->hasChanges());
 
         file_put_contents(self::WORKING_DIR . '/change.me', "changed\n");
         $this->assertTrue($git->hasChanges());
     }
 
-//    public function testGetBranches(): void
-//    {
-//        $git = $this->getWorkingCopy();
-//        $branches = $git->getBranches();
-//
-//        $this->assertTrue($branches instanceof GitBranches);
-//
-//        // Dumb count checks. Is there a better way to do this?
-//        $allBranches = 0;
-//        foreach ($branches as $branch) {
-//            ++$allBranches;
-//        }
-//
-//        $this->assertSame($allBranches, 1);
-//
-//        $remoteBranches = $branches->remote();
-//        $this->assertSame(count($remoteBranches), 1);
-//    }
-//
-//    public function testFetchAll(): void
-//    {
-//        $git = $this->getWorkingCopy();
-//
-//        $output = rtrim((string) $git->fetchAll());
-//
-//        $this->assertSame('Fetching origin', $output);
-//    }
-//
-//    public function testGitAdd(): void
-//    {
-//        $git = $this->getWorkingCopy();
-//        $this->filesystem->touch(self::WORKING_DIR . '/add.me');
-//
-//        $git->add('add.me');
-//
-//        $this->assertTrue((bool) preg_match('@A\s+add\.me@s', $git->getStatus()));
-//    }
-//
-//    public function testGitApply(): void
-//    {
-//        $git = $this->getWorkingCopy();
-//
-//        $patch = <<<PATCH
-//diff --git a/FileCreatedByPatch.txt b/FileCreatedByPatch.txt
-//new file mode 100644
-//index 0000000..dfe437b
-//--- /dev/null
-//+++ b/FileCreatedByPatch.txt
-//@@ -0,0 +1 @@
-//+contents
-//
-//PATCH;
-//        file_put_contents(self::WORKING_DIR . '/patch.txt', $patch);
-//        $git->apply('patch.txt');
-//        $this->assertRegExp('@\?\?\s+FileCreatedByPatch\.txt@s', $git->getStatus());
-//        $this->assertSame("contents\n", file_get_contents(self::WORKING_DIR . '/FileCreatedByPatch.txt'));
-//    }
-//
-//    public function testGitRm(): void
-//    {
-//        $git = $this->getWorkingCopy();
-//        $git->rm('a.directory/remove.me');
-//
-//        dump($git);
-//        die;
-//
-//        $this->assertFalse(is_file(self::WORKING_DIR . '/a.directory/remove.me'));
-//    }
-//
-//    public function testGitMv(): void
-//    {
-//        $git = $this->getWorkingCopy();
-//        $git->mv('move.me', 'moved');
-//
-//        $this->assertFalse(is_file(self::WORKING_DIR . '/move.me'));
-//        $this->assertTrue(is_file(self::WORKING_DIR . '/moved'));
-//    }
-//
-//    public function testGitBranch(): void
-//    {
-//        $branchName = $this->randomString();
-//
-//        // Create the branch.
-//        $git = $this->getWorkingCopy();
-//        $git->branch($branchName);
-//
-//        // Get list of local branches.
-//        $branches = (string) $git->branch();
-//
-//        // Check that our branch is there.
-//        $this->assertTrue(strpos($branches, $branchName) !== false);
-//    }
-//
-//    public function testGitLog()
-//    {
-//        $git = $this->getWorkingCopy();
-//        $output = (string) $git->log();
-//        return $this->assertTrue(strpos($output, 'Initial commit.') !== false);
-//    }
+    public function testGetBranches(): void
+    {
+        $git = $this->getWorkingCopy();
+        $branches = $git->getBranches();
+
+        $this->assertTrue($branches instanceof GitBranches);
+
+        // Dumb count checks. Is there a better way to do this?
+        $allBranches = 0;
+        foreach ($branches as $branch) {
+            ++$allBranches;
+        }
+
+        $this->assertSame($allBranches, 4);
+
+        $remoteBranches = $branches->remote();
+        $this->assertSame(count($remoteBranches), 3);
+    }
+
+    public function testFetchAll(): void
+    {
+        $git = $this->getWorkingCopy();
+
+        $output = rtrim((string) $git->fetchAll());
+
+        $this->assertSame('Fetching origin', $output);
+    }
+
+    public function testGitAdd(): void
+    {
+        $git = $this->getWorkingCopy();
+        $this->filesystem->touch(self::WORKING_DIR . '/add.me');
+
+        $git->add('add.me');
+
+        $this->assertTrue((bool) preg_match('@A\s+add\.me@s', $git->getStatus()));
+    }
+
+    public function testGitApply(): void
+    {
+        $git = $this->getWorkingCopy();
+
+        $patch = <<<PATCH
+diff --git a/FileCreatedByPatch.txt b/FileCreatedByPatch.txt
+new file mode 100644
+index 0000000..dfe437b
+--- /dev/null
++++ b/FileCreatedByPatch.txt
+@@ -0,0 +1 @@
++contents
+
+PATCH;
+        file_put_contents(self::WORKING_DIR . '/patch.txt', $patch);
+        $git->apply('patch.txt');
+        $this->assertRegExp('@\?\?\s+FileCreatedByPatch\.txt@s', $git->getStatus());
+        $this->assertSame("contents\n", file_get_contents(self::WORKING_DIR . '/FileCreatedByPatch.txt'));
+    }
+
+    public function testGitRm(): void
+    {
+        $git = $this->getWorkingCopy();
+        $git->rm('a.directory/remove.me');
+
+        $this->assertFalse(is_file(self::WORKING_DIR . '/a.directory/remove.me'));
+    }
+
+    public function testGitMv(): void
+    {
+        $git = $this->getWorkingCopy();
+        $git->mv('move.me', 'moved');
+
+        $this->assertFalse(is_file(self::WORKING_DIR . '/move.me'));
+        $this->assertTrue(is_file(self::WORKING_DIR . '/moved'));
+    }
+
+    public function testGitBranch(): void
+    {
+        $branchName = $this->randomString();
+
+        // Create the branch.
+        $git = $this->getWorkingCopy();
+        $git->branch($branchName);
+
+        // Get list of local branches.
+        $branches = (string) $git->branch();
+
+        // Check that our branch is there.
+        $this->assertTrue(strpos($branches, $branchName) !== false);
+    }
+
+    public function testGitLog()
+    {
+        $git = $this->getWorkingCopy();
+        $output = (string) $git->log();
+        return $this->assertTrue(strpos($output, 'Initial commit.') !== false);
+    }
 //
 //    public function testGitConfig(): void
 //    {
@@ -809,4 +789,18 @@ final class GitWorkingCopyTest extends AbstractGitWrapperTestCase
 //        // Create a tag.
 //        $git->tag('remote-tag');
 //    }
+
+    /**
+     * Clones the local repo and returns an initialized GitWorkingCopy object.
+     */
+    private function getWorkingCopy(string $directory = self::WORKING_DIR): GitWorkingCopy
+    {
+        $git = $this->gitWrapper->workingCopy($directory);
+        $git->cloneRepository('file://' . realpath(self::REPO_DIR));
+        $git->config('user.email', self::CONFIG_EMAIL);
+        $git->config('user.name', self::CONFIG_NAME);
+        $git->clearOutput();
+
+        return $git;
+    }
 }

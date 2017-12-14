@@ -43,8 +43,6 @@ final class GitWorkingCopy
 
     /**
      * Gets the output captured by the last run Git command(s).
-     *
-     * @todo remove this magic
      */
     public function __toString(): string
     {
@@ -127,6 +125,7 @@ final class GitWorkingCopy
     public function hasChanges(): bool
     {
         $output = $this->getStatus();
+
         return ! empty($output);
     }
 

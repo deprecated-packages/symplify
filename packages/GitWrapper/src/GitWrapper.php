@@ -351,6 +351,9 @@ final class GitWrapper
             return ['', implode (' ', $commandLineItems)];
         }
 
-        return [$commandLineItems[0], implode (' ', $commandLineItems)];
+        $name = $commandLineItems[0];
+        unset($commandLineItems[0]);
+
+        return [$name, implode (' ', $commandLineItems)];
     }
 }
