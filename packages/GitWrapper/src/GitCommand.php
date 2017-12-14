@@ -48,62 +48,43 @@ final class GitCommand
     {
         $this->command = $command;
 
-        // If the last element is an array, set it as the options.
-        $options = end($argAndOptions);
-
         foreach ($argAndOptions as $argOrOption) {
             if (is_array($argOrOption)) {
-                // If item is array, set it as the options.
+                // If item is array, set it as the options
                 $this->setOptions($argOrOption);
             } else {
-                // Pass all other method arguments as the Git command arguments.
+                // Pass all other as the Git command arguments
                 $this->addArgument($argOrOption);
             }
         }
     }
 
-    /**
-     * Returns Git command being run, e.g. "clone", "commit", etc.
-     */
     public function getCommand(): string
     {
         return $this->command;
     }
 
-    /**
-     * Sets the path to the directory containing the working copy.
-     *
-     * @param string $directory The path to the directory containing the working copy.
-     */
     public function setDirectory(string $directory): void
     {
         $this->directory = $directory;
     }
 
-    /**
-     * Gets the path to the directory containing the working copy.
-     */
     public function getDirectory(): ?string
     {
         return $this->directory;
     }
 
     /**
-     * @param boolean $bypass Whether to bypass execution of the command. The parameter defaults to true for code
+     * @param bool $bypass Whether to bypass execution of the command. The parameter defaults to true for code
      * readability, however the default behavior of this class is to run the command.
      */
     public function bypass(bool $bypass = true): void
     {
-        $this->bypass = (bool) $bypass;
+        $this->bypass = $bypass;
     }
 
     /**
-     *
-     * The return value is the boolean opposite $this->bypass. Although this
-     * seems complex, it makes the code more readable when checking whether the
-     * command should be run or not.
-     *
-     * @return boolean If true, the command should be run.
+     * @return bool
      */
     public function notBypassed(): bool
     {

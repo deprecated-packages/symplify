@@ -320,21 +320,21 @@ final class GitWorkingCopy
 
         $args = ['add'];
 
-        // Add boolean options.
+        // Add boolean options
         foreach (['-f', '--tags', '--no-tags'] as $option) {
             if (! empty($options[$option])) {
                 $args[] = $option;
             }
         }
 
-        // Add tracking branches.
+        // Add tracking branches
         if (! empty($options['-t'])) {
             foreach ($options['-t'] as $branch) {
                 array_push($args, '-t', $branch);
             }
         }
 
-        // Add master branch.
+        // Add master branch
         if (! empty($options['-m'])) {
             array_push($args, '-m', $options['-m']);
         }
@@ -342,7 +342,7 @@ final class GitWorkingCopy
         // Add remote name and URL.
         array_push($args, $name, $url);
 
-        call_user_func_array([$this, 'remote'], $args);
+        $this->run('remote', $args);
     }
 
     public function removeRemote(string $name): void
@@ -357,8 +357,8 @@ final class GitWorkingCopy
 
     /**
      * @return mixed[] An associative array with the following keys:
-     *   - fetch: the fetch URL.
-     *   - push: the push URL.
+     *   - fetch: the fetch URL
+     *   - push: the push URL
      */
     public function getRemote(string $name): array
     {
@@ -417,10 +417,6 @@ final class GitWorkingCopy
     }
 
     /**
-     * Executes a `git add` command.
-     *
-     * Add file contents to the index.
-     *
      * @code $git->add('some/file.txt');
      *
      * @param string $filepattern Files to add content from. Fileglobs (e.g.  *.c) can be given to add
@@ -450,7 +446,8 @@ final class GitWorkingCopy
      *
      * @code $git->bisect('good', '2.6.13-rc2');
      * $git->bisect('view', array('stat' => true));
-     * @param string $subCommand The subcommand passed to `git bisect`.
+     *
+     * @param string $subCommand The subcommand passed to `git bisect`
      */
     public function bisect(string $subCommand, ...$argsAndOptions): string
     {
@@ -458,8 +455,6 @@ final class GitWorkingCopy
     }
 
     /**
-     * List, create, or delete branches.
-     *
      * @code $git->branch('my2.6.14', 'v2.6.14');
      * $git->branch('origin/html', 'origin/man', array('d' => true, 'r' => 'origin/todo'));
      */
@@ -469,8 +464,6 @@ final class GitWorkingCopy
     }
 
     /**
-     * Checkout a branch or paths to the working tree.
-     *
      * @code $git->checkout('new-branch', array('b' => true));
      */
     public function checkout(...$argsAndOptions): string
@@ -479,8 +472,6 @@ final class GitWorkingCopy
     }
 
     /**
-     * Executes a `git clone` command.
-     *
      * Clone a repository into a new directory. Use GitWorkingCopy::clone()
      * instead for more readable code.
      *
@@ -508,7 +499,7 @@ final class GitWorkingCopy
         if (isset($argsAndOptions[0]) && is_string($argsAndOptions[0]) && ! isset($argsAndOptions[1])) {
             $argsAndOptions[0] = [
                 'm' => $argsAndOptions[0], // message
-                'a' => true, // commit all - buggy?
+                //'a' => true, // commit all - buggy?
             ];
         }
 

@@ -342,7 +342,6 @@ final class GitWrapper
      */
     public function git(string $commandLine, ?string $cwd = null): string
     {
-
         $command = new GitCommand($commandLine);
         if ($cwd) {
             $command->setDirectory($cwd);
@@ -362,6 +361,7 @@ final class GitWrapper
     public function run(GitCommand $gitCommand, ?string $cwd = null): string
     {
         $gitWrapper = $this;
+
         $process = new GitProcess($this, $gitCommand, $cwd);
         $process->run(function ($type, $buffer) use ($gitWrapper, $process, $gitCommand): void {
             $event = new GitOutputEvent($gitWrapper, $process, $gitCommand, $type, $buffer);
