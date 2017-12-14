@@ -338,7 +338,7 @@ final class GitWrapper
     {
         [$name, $argsAndOptions] = $this->parseCommandLineToNameAndArgsAndOptions($commandLine);
 
-        $command = new GitCommand($name, $argsAndOptions);
+        $command = GitCommand::createFromNameArgsAndOptions($name, $argsAndOptions);
         if ($cwd) {
             $command->setDirectory($cwd);
         }

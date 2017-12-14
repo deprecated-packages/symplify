@@ -127,7 +127,7 @@ final class GitWrapperTest extends AbstractGitWrapperTestCase
 
     public function testGitRun(): void
     {
-        $command = new GitCommand('', ['version' => true]);
+        $command = GitCommand::createFromArgsAndOptions(['version' => true]);
         $command->setDirectory(__DIR__ . '/../tests'); // Directory just has to exist.
         $version = $this->gitWrapper->run($command);
         $this->assertGitVersion($version);
@@ -137,14 +137,14 @@ final class GitWrapperTest extends AbstractGitWrapperTestCase
     {
         $this->expectException(GitException::class);
 
-        $command = new GitCommand('', ['version' => true]);
+        $command = GitCommand::createFromArgsAndOptions(['version' => true]);
         $command->setDirectory('/some/bad/directory');
         $this->gitWrapper->run($command);
     }
 
     public function testWrapperExecutable(): void
     {
-        $sshWrapper = realpath(__DIR__ . '/../bin/git-ssh-wrapper.sh');
+        $sshWrapper = dirname(__DIR__) . '/bin/git-ssh-wrapper.sh';
         $this->assertTrue(is_executable($sshWrapper));
     }
 
