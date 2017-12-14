@@ -2,6 +2,7 @@
 
 namespace Symplify\GitWrapper;
 
+use Nette\Utils\Strings;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Process\ExecutableFinder;
@@ -260,9 +261,6 @@ final class GitWrapper
         return new GitWorkingCopy($this, $directory);
     }
 
-    /**
-     * Returns the version of the installed Git client.
-     */
     public function version(): string
     {
         return $this->git('--version');
@@ -271,10 +269,8 @@ final class GitWrapper
     /**
      * Parses name of the repository from the path.
      *
-     * For example, passing the "git@github.com:cpliakas/git-wrapper.git"
+     * E.g. passing the "git@github.com:cpliakas/git-wrapper.git"
      * repository would return "git-wrapper".
-     *
-     * @param string $repository The repository URL.
      */
     public static function parseRepositoryName(string $repository): string
     {
@@ -291,14 +287,6 @@ final class GitWrapper
         return basename($path, '.git');
     }
 
-    /**
-     * Executes a `git init` command.
-     *
-     * Create an empty git repository or reinitialize an existing one.
-     *
-     * @param string $directory The directory being initialized.
-     * @param mixed[] $options An associative array of command line options.
-     */
     public function init(string $directory, array $options = []): GitWorkingCopy
     {
         $git = $this->workingCopy($directory);
@@ -307,18 +295,6 @@ final class GitWrapper
         return $git;
     }
 
-    /**
-     * Executes a `git clone` command and returns a working copy object.
-     *
-     * Clone a repository into a new directory. Use GitWorkingCopy::clone()
-     * instead for more readable code.
-     *
-     * @param string $repository The Git URL of the repository being cloned.
-     * @param string $directory The directory that the repository will be cloned into. If null is
-     * passed, the directory will automatically be generated from the URL via
-     * the GitWrapper::parseRepositoryName() method.
-     * @param mixed[] $options An associative array of command line options.
-     */
     public function cloneRepository(string $repository, ?string $directory = null, array $options = []): GitWorkingCopy
     {
         if ($directory === null) {
@@ -332,22 +308,14 @@ final class GitWrapper
     }
 
     /**
-     * Runs an arbitrary Git command.
-     *
-     * The command is simply a raw command line entry for everything after the
-     * Git binary. For example, a `git config -l` command would be passed as
-     * `config -l` via the first argument of this method.
-     *
-     * @param string $commandLine The raw command containing the Git options and arguments. The Git
-     * binary should not be in the command, for example `git config -l` would translate to "config -l".
-     * @param string|null $cwd The working directory of the Git process. Defaults to null which uses the current working
-     * directory of the PHP process.
-     *
-     * @return string The STDOUT returned by the Git command.
+     * @param string $commandLine Raw command with Git options and arguments. The Git binary should not be in
+     * the command, for example `git config -l` would translate to "config -l".
      */
     public function git(string $commandLine, ?string $cwd = null): string
     {
-        $command = new GitCommand($commandLine);
+        [$name, $argsAndOptions] = $this->parseCommandLineToNameAndArgsAndOptions($commandLine);
+
+        $command = new GitCommand($name, $argsAndOptions);
         if ($cwd) {
             $command->setDirectory($cwd);
         }
@@ -355,24 +323,33 @@ final class GitWrapper
         return $this->run($command);
     }
 
-    /**
-     * Runs a Git command.
-     *
-     * @param string $cwd Explicitly specify the working directory of the Git process. Defaults to null which
-     * automatically sets the working directory based on the command being executed relative to the working copy.
-     *
-     * @return string The STDOUT returned by the Git command.
-     */
     public function run(GitCommand $gitCommand, ?string $cwd = null): string
     {
-        $gitWrapper = $this;
-
         $process = new GitProcess($this, $gitCommand, $cwd);
-        $process->run(function ($type, $buffer) use ($gitWrapper, $process, $gitCommand): void {
-            $event = new GitOutputEvent($gitWrapper, $process, $gitCommand, $type, $buffer);
-            $gitWrapper->getDispatcher()->dispatch(GitEvents::GIT_OUTPUT, $event);
+
+        $process->run(function ($type, $buffer) use ($process, $gitCommand): void {
+            $event = new GitOutputEvent($this, $process, $gitCommand, $type, $buffer);
+            $this->getDispatcher()
+                ->dispatch(GitEvents::GIT_OUTPUT, $event);
         });
 
         return $process->getOutput();
+    }
+
+    /**
+     * @return mixed[]
+     */
+    private function parseCommandLineToNameAndArgsAndOptions(string $commandLine): array
+    {
+        $commandLineItems = explode(' ', $commandLine);
+        if (! count($commandLineItems)) {
+            return ['', []];
+        }
+
+        if (Strings::startsWith($commandLineItems[0], '-')) {
+            return ['', implode (' ', $commandLineItems)];
+        }
+
+        return [$commandLineItems[0], implode (' ', $commandLineItems)];
     }
 }
