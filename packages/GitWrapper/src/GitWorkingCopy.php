@@ -96,7 +96,7 @@ final class GitWorkingCopy
     /**
      * Runs a Git command and captures the output.
      *
-     * @param mixed... $argsAndOptions
+     * @param mixed[] $argsAndOptions
      */
     public function run(string $command, array $argsAndOptions = [], bool $setDirectory = true): string
     {
@@ -389,6 +389,8 @@ final class GitWorkingCopy
 
     /**
      * @code $git->add('some/file.txt');
+     *
+     * @param mixed[] $options
      */
     public function add(string $filePattern, array $options = []): void
     {
@@ -527,6 +529,8 @@ final class GitWorkingCopy
      * Create an empty git repository or reinitialize an existing one.
      *
      * @code $git->init(['bare' => true]);
+     *
+     * @param mixed[] $options
      */
     public function init(array $options = []): void
     {
@@ -565,6 +569,7 @@ final class GitWorkingCopy
      * @code $git->mv('orig.txt', 'dest.txt');
      * @param string $source The file / directory being moved.
      * @param string $destination The target file / directory that the source is being move to.
+     * @param mixed[] $options
      */
     public function mv(string $source, string $destination, array $options = []): string
     {
@@ -636,9 +641,12 @@ final class GitWorkingCopy
      * Remove files from the working tree and from the index.
      *
      * @code $git->rm('oldfile.txt');
+     *
      * @param string $filepattern Files to remove from version control. Fileglobs (e.g.  *.c) can be given to add all
      * matching files. Also a leading directory name (e.g. dir to add dir/file1 and dir/file2) can be given to add all
      * files in the directory, recursively.
+     *
+     * @param mixed[] $options
      */
     public function rm(string $filepattern, array $options = []): string
     {
@@ -650,8 +658,11 @@ final class GitWorkingCopy
      * Show various types of objects.
      *
      * @code $git->show('v1.0.0');
+     *
      * @param string $object The names of objects to show. For a more complete list of ways to spell
      * object names, see "SPECIFYING REVISIONS" section in gitrevisions(7).
+     *
+     * @param mixed[] $options
      */
     public function show(string $object, array $options = []): string
     {
@@ -687,6 +698,8 @@ final class GitWorkingCopy
      * Remove untracked files from the working tree
      *
      * @code $git->clean('-d', '-f');
+     *
+     * @param mixed ...$argsAndOptions
      */
     public function clean(...$argsAndOptions): string
     {

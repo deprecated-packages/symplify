@@ -21,8 +21,13 @@ final class GitOutputEvent extends AbstractGitEvent
      */
     private $buffer;
 
-    public function __construct(GitWrapper $gitWrapper, Process $process, GitCommand $gitCommand, $type, $buffer)
-    {
+    public function __construct(
+        GitWrapper $gitWrapper,
+        Process $process,
+        GitCommand $gitCommand,
+        string $type,
+        string $buffer
+    ) {
         parent::__construct($gitWrapper, $process, $gitCommand);
         $this->type = $type;
         $this->buffer = $buffer;

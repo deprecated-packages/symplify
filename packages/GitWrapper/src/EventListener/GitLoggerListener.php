@@ -60,8 +60,6 @@ final class GitLoggerListener implements EventSubscriberInterface, LoggerAwareIn
 
     /**
      * Returns the log level mapping for an event.
-     *
-     * @throws \DomainException
      */
     public function getLogLevelMapping(string $eventName): string
     {
@@ -75,7 +73,7 @@ final class GitLoggerListener implements EventSubscriberInterface, LoggerAwareIn
     /**
      * {@inheritDoc}
      */
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [
             GitEvents::GIT_PREPARE => ['onPrepare', 0],
@@ -88,10 +86,14 @@ final class GitLoggerListener implements EventSubscriberInterface, LoggerAwareIn
     /**
      * Adds a log message using the level defined in the mappings.
      *
-     * @throws DomainException
+     * @param mixed[] $context
      */
-    public function log(AbstractGitEvent $gitEvent, string $message, array $context = [], ?string $eventName = null): void
-    {
+    public function log(
+        AbstractGitEvent $gitEvent,
+        string $message,
+        array $context = [],
+        ?string $eventName = null
+    ): void {
         $method = $this->getLogLevelMapping($eventName);
         if ($method !== false) {
             $context += ['command' => $gitEvent->getProcess()->getCommandLine()];
@@ -99,23 +101,23 @@ final class GitLoggerListener implements EventSubscriberInterface, LoggerAwareIn
         }
     }
 
-    public function onPrepare(AbstractGitEvent $gitEvent, $eventName = null): void
+    public function onPrepare(AbstractGitEvent $gitEvent, ?string $eventName = null): void
     {
         $this->log($gitEvent, 'Git command preparing to run', [], $eventName);
     }
 
-    public function handleOutput(GitOutputEvent $gitOutputEvent, $eventName = null): void
+    public function handleOutput(GitOutputEvent $gitOutputEvent, ?string $eventName = null): void
     {
         $context = ['error' => $gitOutputEvent->isError() ? true : false];
         $this->log($gitOutputEvent, $gitOutputEvent->getBuffer(), $context, $eventName);
     }
 
-    public function onSuccess(AbstractGitEvent $gitEvent, $eventName = null): void
+    public function onSuccess(AbstractGitEvent $gitEvent, ?string $eventName = null): void
     {
         $this->log($gitEvent, 'Git command successfully run', [], $eventName);
     }
 
-    public function onError(AbstractGitEvent $gitEvent, $eventName = null): void
+    public function onError(AbstractGitEvent $gitEvent, ?string $eventName = null): void
     {
         $this->log($gitEvent, 'Error running Git command', [], $eventName);
     }

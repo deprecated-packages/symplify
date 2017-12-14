@@ -28,11 +28,14 @@ final class GitCommand
      */
     private $args = [];
 
-    private function __construct(string $command = '', ...$argAndOptions)
+    /**
+     * @param mixed ...$argsAndOptions
+     */
+    private function __construct(string $command = '', ...$argsAndOptions)
     {
         $this->command = $command;
 
-        foreach ($argAndOptions as $argOrOption) {
+        foreach ($argsAndOptions as $argOrOption) {
             if (is_array($argOrOption)) {
                 // If item is array, set it as the options
                 $this->setOptions($argOrOption);
@@ -106,6 +109,9 @@ final class GitCommand
         $this->options[$option] = $value;
     }
 
+    /**
+     * @param mixed[] $options
+     */
     public function setOptions(array $options): void
     {
         foreach ($options as $option => $value) {
