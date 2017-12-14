@@ -1,11 +1,14 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\GitWrapper;
+namespace Symplify\GitWrapper\Process;
 
 use RuntimeException;
 use Symfony\Component\Process\Process;
 use Symplify\GitWrapper\Event\GitEvent;
 use Symplify\GitWrapper\Event\GitEvents;
+use Symplify\GitWrapper\Exception\GitException;
+use Symplify\GitWrapper\GitCommand;
+use Symplify\GitWrapper\GitWrapper;
 
 final class GitProcess extends Process
 {

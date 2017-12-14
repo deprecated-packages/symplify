@@ -2,6 +2,7 @@
 
 namespace Symplify\GitWrapper\Tests;
 
+use Symplify\GitWrapper\Exception\GitException;
 use Symplify\GitWrapper\GitCommand;
 use Symplify\GitWrapper\GitWrapper;
 use Symplify\GitWrapper\Tests\Event\TestDispatcher;
@@ -10,17 +11,18 @@ final class GitWrapperTest extends AbstractGitWrapperTestCase
 {
     public function testGitBinary(): void
     {
-        $this->assertSame('/usr/bin/git', $this->gitWrapper->getGitBinary());
+        $this->gitWrapper->setGitBinary('some/bin/git');
+        $this->assertSame('some/bin/git', $this->gitWrapper->getGitBinary());
     }
 
-    public function testSetDispatcher(): void
+    public function testDispatcher(): void
     {
         $dispatcher = new TestDispatcher();
         $this->gitWrapper->setDispatcher($dispatcher);
         $this->assertSame($dispatcher, $this->gitWrapper->getDispatcher());
     }
 
-    public function testSetTimeout(): void
+    public function testTimeout(): void
     {
         $timeout = random_int(1, 60);
         $this->gitWrapper->setTimeout($timeout);
@@ -80,18 +82,17 @@ final class GitWrapperTest extends AbstractGitWrapperTestCase
         $this->assertSame($sshWrapperExpected, $this->gitWrapper->getEnvVar(GitWrapper::ENV_GIT_SSH));
     }
 
-    /**
-     * @expectedException \Symplify\GitWrapper\GitException
-     */
     public function testSetPrivateKeyError(): void
     {
+        $this->expectException(GitException::class);
+
         $badKey = './test/id_rsa_bad';
         $this->gitWrapper->setPrivateKey($badKey);
     }
 
     public function testSetPrivateKeyWrapperError(): void
     {
-        $this->expectException(\Symplify\GitWrapper\GitException::class);
+        $this->expectException(GitException ::class);
 
         $badWrapper = __DIR__  . '/dummy-wrapper-bad.sh';
         $this->gitWrapper->setPrivateKey(__DIR__ . '/id_rsa', 22, $badWrapper);
@@ -116,11 +117,10 @@ final class GitWrapperTest extends AbstractGitWrapperTestCase
         $this->assertGitVersion($version);
     }
 
-    /**
-     * @expectedException \Symplify\GitWrapper\GitException
-     */
     public function testGitCommandError(): void
     {
+        $this->expectException(GitException::class);
+
         $this->runBadCommand();
     }
 
@@ -133,11 +133,10 @@ final class GitWrapperTest extends AbstractGitWrapperTestCase
         $this->assertGitVersion($version);
     }
 
-    /**
-     * @expectedException \Symplify\GitWrapper\GitException
-     */
     public function testGitRunDirectoryError(): void
     {
+        $this->expectException(GitException::class);
+
         $command = new GitCommand;
         $command->setFlag('version');
         $command->setDirectory('/some/bad/directory');

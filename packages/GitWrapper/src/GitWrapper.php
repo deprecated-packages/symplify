@@ -5,12 +5,12 @@ namespace Symplify\GitWrapper;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Process\ExecutableFinder;
-use Symfony\Component\Process\Process;
-use Symplify\GitWrapper\Contract\EventListener\GitOutputListenerInterface;
 use Symplify\GitWrapper\Event\GitEvents;
 use Symplify\GitWrapper\Event\GitOutputEvent;
 use Symplify\GitWrapper\Event\GitOutputStreamListener;
 use Symplify\GitWrapper\EventListener\GitLoggerListener;
+use Symplify\GitWrapper\Exception\GitException;
+use Symplify\GitWrapper\Process\GitProcess;
 
 /**
  * A wrapper class around the Git binary.
@@ -100,6 +100,11 @@ final class GitWrapper
     public function setDispatcher(EventDispatcherInterface $eventDispatcher): void
     {
         $this->eventDispatcher = $eventDispatcher;
+    }
+
+    public function setGitBinary(string $gitBanary): void
+    {
+        $this->gitBinary = $gitBanary;
     }
 
     public function getGitBinary(): string

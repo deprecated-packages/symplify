@@ -5,7 +5,7 @@ namespace Symplify\GitWrapper\Tests;
 use Exception;
 use Symfony\Component\Process\Process;
 use Symplify\GitWrapper\GitBranches;
-use Symplify\GitWrapper\GitException;
+use Symplify\GitWrapper\Exception\GitException ;
 use Symplify\GitWrapper\GitWorkingCopy;
 
 final class GitWorkingCopyTest extends AbstractGitWrapperTestCase
@@ -48,6 +48,7 @@ final class GitWorkingCopyTest extends AbstractGitWrapperTestCase
         // Initial commit.
 
         $git->add('*');
+        die;
         $git->commit('Initial commit.');
         $git->push('origin', 'master', ['u' => true]);
 
