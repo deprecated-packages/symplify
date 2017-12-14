@@ -41,6 +41,9 @@ final class GitCommand
      */
     private $bypass = false;
 
+    /**
+     * @param mixed[]|mixed[][] @$argAndOptions
+     */
     public function __construct(string $command = '', ...$argAndOptions)
     {
         $this->command = $command;

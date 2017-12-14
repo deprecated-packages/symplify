@@ -46,6 +46,7 @@ final class GitWorkingCopyTest extends AbstractGitWrapperTestCase
         $this->filesystem->touch($directory . '/a.directory/remove.me');
 
         // Initial commit.
+
         $git->add('*');
         $git->commit('Initial commit.');
         $git->push('origin', 'master', ['u' => true]);
@@ -53,7 +54,10 @@ final class GitWorkingCopyTest extends AbstractGitWrapperTestCase
         // Create a branch, add a file.
         $branch = 'test-branch';
         file_put_contents($directory . '/branch.txt', "${branch}\n");
-        $git->checkoutNewBranch($branch);
+        $git->checkoutNewBranch($branch);;
+
+
+
         $git->add('branch.txt');
         $git->commit('Committed testing branch.');
         $git->push('origin', $branch, ['u' => true]);
@@ -70,8 +74,6 @@ final class GitWorkingCopyTest extends AbstractGitWrapperTestCase
      */
     protected function tearDown(): void
     {
-        parent::tearDown();
-
         $this->filesystem->remove(self::REPO_DIR);
         $this->filesystem->remove(__DIR__ . '/temp/wc_init');
 
@@ -87,7 +89,7 @@ final class GitWorkingCopyTest extends AbstractGitWrapperTestCase
     /**
      * Clones the local repo and returns an initialized GitWorkingCopy object.
      */
-    public function getWorkingCopy(string $directory = self::WORKING_DIR): GitWorkingCopy
+    private function getWorkingCopy(string $directory = self::WORKING_DIR): GitWorkingCopy
     {
         $git = $this->gitWrapper->workingCopy($directory);
         $git->cloneRepository('file://' . realpath(self::REPO_DIR));
@@ -104,17 +106,17 @@ final class GitWorkingCopyTest extends AbstractGitWrapperTestCase
         $this->assertTrue($git->isCloned());
     }
 
-    public function testGetOutput(): void
-    {
-        $git = $this->getWorkingCopy();
-
-        // Test getting output of a simple status command.
-        $output = (string) $git->status();
-        $this->assertContains('nothing to commit', $output);
-
-        // Getting output should clear the buffer.
-        $this->assertEmpty((string) $git);
-    }
+//    public function testGetOutput(): void
+//    {
+//        $git = $this->getWorkingCopy();
+//
+//        // Test getting output of a simple status command.
+//        $output = (string) $git->status();
+//        $this->assertContains('nothing to commit', $output);
+//
+//        // Getting output should clear the buffer.
+//        $this->assertEmpty((string) $git);
+//    }
 
 //    public function testClearOutput(): void
 //    {
