@@ -92,11 +92,6 @@ final class GitLoggerListener implements EventSubscriberInterface, LoggerAwareIn
      */
     public function log(AbstractGitEvent $gitEvent, string $message, array $context = [], ?string $eventName = null): void
     {
-        // Provide backwards compatibility with Symfony 2.
-        if ($eventName === null && method_exists($gitEvent, 'getName')) {
-            $eventName = $gitEvent->getName();
-        }
-
         $method = $this->getLogLevelMapping($eventName);
         if ($method !== false) {
             $context += ['command' => $gitEvent->getProcess()->getCommandLine()];

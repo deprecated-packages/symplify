@@ -166,7 +166,7 @@ final class GitCommand
     }
 
     /**
-     * Provide CLI items for Process 1st arguments construtor
+     * Provide CLI items for Process 1st arguments constructor
      *
      * @return mixed[]
      */

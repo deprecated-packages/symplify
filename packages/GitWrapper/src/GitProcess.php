@@ -25,40 +25,15 @@ final class GitProcess extends Process
         $this->gitCommand = $gitCommand;
 
         // Build the command line options, flags, and arguments.
-        $binary = $gitWrapper->getGitBinary();
-        $commandLine = trim($binary . ' ' . $gitCommand->getCommandLine());
-
-        // Rather array, so they can be escaped
-        $commandLineItems = $gitCommand->getCommandLineItems();
         $commandLineItems = array_merge(
-            [$binary],
-            [$gitCommand->getCommand()],
-            $gitCommand->buildOptionsToArray(),
-            $gitCommand->getArgs()
+            [$gitWrapper->getGitBinary()],
+            $gitCommand->getCommandLineItems()
         );
-
-        // Resolve the working directory of the Git process. Use the directory
-        // in the command object if it exists.
-        if ($cwd === null) {
-            $directory = $gitCommand->getDirectory();
-            if ($directory !== null) {
-                if (! $cwd = realpath($directory)) {
-                    throw new GitException('Path to working directory could not be resolved: ' . $directory);
-                }
-            }
-        }
-
-        // Finalize the environment variables, an empty array is converted
-        // to null which inherits the environment of the PHP process.
-        $env = $gitWrapper->getEnvVars();
-        if (! $env) {
-            $env = null;
-        }
 
         parent::__construct(
             $commandLineItems,
-            $cwd,
-            $env,
+            $this->resolveCwd($gitCommand, $cwd),
+            $this->resolveEnvVars($gitWrapper),
             null,
             (float) $gitWrapper->getTimeout()
         );
@@ -92,5 +67,42 @@ final class GitProcess extends Process
             $dispatcher->dispatch(GitEvents::GIT_ERROR, $event);
             throw new GitException($exception->getMessage());
         }
+    }
+
+    /**
+     * Resolve the working directory of the Git process. Use the directory
+     * in the command object if it exists.
+     */
+    private function resolveCwd(GitCommand $gitCommand, ?string $cwd): ?string
+    {
+        if ($cwd) {
+            return $cwd;
+        }
+
+        $directory = $gitCommand->getDirectory();
+        if ($directory !== null) {
+            if (! $cwd = realpath($directory)) {
+                throw new GitException(sprintf(
+                    'Path to working directory "%s" could not be resolved.',
+                    $directory
+                ));
+            }
+        }
+
+        return $cwd;
+    }
+
+    /**
+     * Finalize the environment variables, an empty array is converted
+     * to null which inherits the environment of the PHP process.
+     */
+    private function resolveEnvVars(GitWrapper $gitWrapper): ?array
+    {
+        $env = $gitWrapper->getEnvVars();
+        if (! $env) {
+            return null;
+        }
+
+        return $env;
     }
 }
