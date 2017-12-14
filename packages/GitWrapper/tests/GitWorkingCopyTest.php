@@ -535,6 +535,8 @@ PATCH;
 
     /**
      * @dataProvider addRemoteDataProvider
+     * @param mixed[] $options
+     * @param mixed[] $asserts
      */
     public function testAddRemote(array $options, array $asserts): void
     {
@@ -693,7 +695,7 @@ PATCH;
     /**
      * @dataProvider getRemoteUrlDataProvider
      */
-    public function testGetRemoteUrl($remote, $operation, $expected): void
+    public function testGetRemoteUrl(string $remote, string $operation, string $expected): void
     {
         $this->createRemote();
         $git = $this->getWorkingCopy();
@@ -714,12 +716,12 @@ PATCH;
         ];
     }
 
-    protected function assertGitTag(GitWorkingCopy $gitWorkingCopy, $tag): void
+    protected function assertGitTag(GitWorkingCopy $gitWorkingCopy, string $tag): void
     {
         $gitWorkingCopy->run('rev-parse', [$tag]);
     }
 
-    protected function assertNoGitTag(GitWorkingCopy $gitWorkingCopy, $tag): void
+    protected function assertNoGitTag(GitWorkingCopy $gitWorkingCopy, string $tag): void
     {
         try {
             $gitWorkingCopy->run('rev-parse', [$tag]);
@@ -754,27 +756,30 @@ PATCH;
     /**
      * @param mixed[] $branches
      */
-    private function assertRemoteBranches(GitWorkingCopy $gitWorkingCopy, array $branches): void
+    protected function assertRemoteBranches(GitWorkingCopy $gitWorkingCopy, array $branches): void
     {
         foreach ($branches as $branch) {
             $this->assertRemoteBranch($gitWorkingCopy, $branch);
         }
     }
 
-    private function assertRemoteBranch(GitWorkingCopy $gitWorkingCopy, $branch): void
+    protected function assertRemoteBranch(GitWorkingCopy $gitWorkingCopy, string $branch): void
     {
         $branches = $gitWorkingCopy->getBranches()->remote();
         $this->assertArrayHasKey($branch, array_flip($branches));
     }
 
-    private function assertNoRemoteBranches(GitWorkingCopy $gitWorkingCopy, $branches): void
+    /**
+     * @param string[] $branches
+     */
+    protected function assertNoRemoteBranches(GitWorkingCopy $gitWorkingCopy, array $branches): void
     {
         foreach ($branches as $branch) {
             $this->assertNoRemoteBranch($gitWorkingCopy, $branch);
         }
     }
 
-    private function assertNoRemoteBranch(GitWorkingCopy $gitWorkingCopy, $branch): void
+    protected function assertNoRemoteBranch(GitWorkingCopy $gitWorkingCopy, string $branch): void
     {
         $branches = $gitWorkingCopy->getBranches()->remote();
         $this->assertArrayNotHasKey($branch, array_flip($branches));

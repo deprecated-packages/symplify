@@ -28,7 +28,7 @@ final class GitCommand
      */
     private $args = [];
 
-    public function __construct(string $command = '', ...$argAndOptions)
+    private function __construct(string $command = '', ...$argAndOptions)
     {
         $this->command = $command;
 
@@ -41,6 +41,11 @@ final class GitCommand
                 $this->addArgument($argOrOption);
             }
         }
+    }
+
+    public static function createFromNameArgsAndOptions(string $command = '', ...$argsAndOptions): self
+    {
+        return new self($command, $argsAndOptions);
     }
 
     public function getCommand(): string

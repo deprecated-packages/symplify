@@ -83,7 +83,9 @@ final class GitProcess extends Process
 
         $directory = $gitCommand->getDirectory();
         if ($directory !== null) {
-            if (! $cwd = realpath($directory)) {
+            $cwd = realpath($directory);
+
+            if ($cwd === false) {
                 throw new GitException(sprintf(
                     'Path to working directory "%s" could not be resolved.',
                     $directory
@@ -97,6 +99,8 @@ final class GitProcess extends Process
     /**
      * Finalize the environment variables, an empty array is converted
      * to null which inherits the environment of the PHP process.
+     *
+     * @return mixed[]
      */
     private function resolveEnvVars(GitWrapper $gitWrapper): ?array
     {

@@ -108,9 +108,9 @@ final class GitWrapper
         $this->eventDispatcher = $eventDispatcher;
     }
 
-    public function setGitBinary(string $gitBanary): void
+    public function setGitBinary(string $gitBinary): void
     {
-        $this->gitBinary = $gitBanary;
+        $this->gitBinary = $gitBinary;
     }
 
     public function getGitBinary(): string
@@ -175,15 +175,15 @@ final class GitWrapper
     }
 
     /**
-     * Set an alternate private key used to connect to the repository.
+     * Set an alternate private key used to connect to the repository
      *
-     * This method sets the GIT_SSH environment variable to use the wrapper
-     * script included with this library. It also sets the custom GIT_SSH_KEY
-     * and GIT_SSH_PORT environment variables that are used by the script.
+     * This method sets:
+     * - GIT_SSH environment variable to use the wrapper script included with this library.
+     * - GIT_SSH_KEY
+     * - GIT_SSH_PORT environment variables
      *
-     * @param string $privateKeyPath Path to the private key.
-     * @param int $port Port that the SSH server being connected to listens on, defaults to 22.
-     * @param string|null $wrapperPath Path the the GIT_SSH wrapper script, defaults to null which uses the script included with this library.
+     * @param string|null $wrapperPath Path the the GIT_SSH wrapper script, defaults to null which uses the script
+     *  included with this library.
      */
     public function setPrivateKey(string $privateKeyPath, int $port = 22, ?string $wrapperPath = null): void
     {
@@ -303,6 +303,9 @@ final class GitWrapper
         return basename($path, '.git');
     }
 
+    /**
+     * @param mixed[] $options
+     */
     public function init(string $directory, array $options = []): GitWorkingCopy
     {
         $git = $this->workingCopy($directory);
@@ -311,6 +314,9 @@ final class GitWrapper
         return $git;
     }
 
+    /**
+     * @param mixed[] $options
+     */
     public function cloneRepository(string $repository, ?string $directory = null, array $options = []): GitWorkingCopy
     {
         if ($directory === null) {

@@ -9,18 +9,18 @@ final class TestListener
     /**
      * The methods that were called.
      *
-     * @var array
+     * @var string[]
      */
     private $methods = [];
 
     /**
      * The event object passed to the onPrepare method.
      *
-     * @var \Symplify\GitWrapper\Event\GitEvent
+     * @var GitEvent
      */
     private $gitEvent;
 
-    public function methodCalled($method)
+    public function methodCalled(string $method): bool
     {
         return in_array($method, $this->methods);
     }

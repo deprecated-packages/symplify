@@ -28,7 +28,7 @@ final class GitWorkingCopy
      * If the variable is null, the a rudimentary check will be performed to see
      * if the directory looks like it is a working copy.
      *
-     * @param bool|null
+     * @var bool|null
      */
     private $isCloned;
 
@@ -96,12 +96,11 @@ final class GitWorkingCopy
     /**
      * Runs a Git command and captures the output.
      *
-     * @param array $argsAndOptions The arguments passed to the command method.
-     * @param boolean $setDirectory Set the working directory, defaults to true.
+     * @param mixed... $argsAndOptions
      */
     public function run(string $command, array $argsAndOptions = [], bool $setDirectory = true): string
     {
-        $command = new GitCommand($command, ...$argsAndOptions);
+        $command = GitCommand::createFromNameArgsAndOptions($command, ...$argsAndOptions);
         if ($setDirectory) {
             $command->setDirectory($this->directory);
         }
@@ -230,12 +229,10 @@ final class GitWorkingCopy
     }
 
     /**
-     * Helper method that pushes a tag to a repository.
-     *
      * This is synonymous with `git push origin tag v1.2.3`.
      *
-     * @param string $tag The tag being pushed.
      * @param string $repository The destination of the push operation, which is either a URL or name of the remote.
+     * @param mixed[] $options
      */
     public function pushTag(string $tag, string $repository = 'origin', array $options = []): string
     {
@@ -248,6 +245,7 @@ final class GitWorkingCopy
      * This is synonymous with `git push --tags origin`.
      *
      * @param string $repository The destination of the push operation, which is either a URL or name of the remote.
+     * @param mixed[] $options
      */
     public function pushTags(string $repository = 'origin', array $options = []): string
     {
@@ -256,7 +254,9 @@ final class GitWorkingCopy
     }
 
     /**
-     * This is synonymous with `git fetch --all`.
+     * This is synonymous with `git fetch --all`
+     *
+     * @param mixed[] $options
      */
     public function fetchAll(array $options = []): string
     {
@@ -266,7 +266,9 @@ final class GitWorkingCopy
     }
 
     /**
-     * This is synonymous with `git checkout -b`.
+     * This is synonymous with `git checkout -b`
+     *
+     * @param mixed[] $options
      */
     public function checkoutNewBranch(string $branch, array $options = []): string
     {
@@ -278,9 +280,7 @@ final class GitWorkingCopy
     /**
      * Adds a remote to the repository.
      *
-     * @param string $name The name of the remote to add.
-     * @param string $url The URL of the remote to add.
-     * @param array $options An associative array of options, with the following keys:
+     * @param mixed[] $options An associative array of options, with the following keys:
      *   - -f: Boolean, set to true to run git fetch immediately after the
      *     remote is set up. Defaults to false.
      *   - --tags: Boolean. By default only the tags from the fetched branches
@@ -399,6 +399,8 @@ final class GitWorkingCopy
 
     /**
      * @code $git->apply('the/file/to/read/the/patch/from');
+     *
+     * @param mixed ...$argsAndOptions
      */
     public function apply(...$argsAndOptions): string
     {
@@ -408,6 +410,8 @@ final class GitWorkingCopy
     /**
      * @code $git->bisect('good', '2.6.13-rc2');
      * $git->bisect('view', ['stat' => true]);
+     *
+     * @param mixed ...$argsAndOptions
      */
     public function bisect(string $subCommand, ...$argsAndOptions): string
     {
@@ -418,6 +422,8 @@ final class GitWorkingCopy
     /**
      * @code $git->branch('my2.6.14', 'v2.6.14');
      * $git->branch('origin/html', 'origin/man', ['d' => true, 'r' => 'origin/todo']);
+     *
+     * @param mixed ...$argsAndOptions
      */
     public function branch(...$argsAndOptions): string
     {
@@ -426,6 +432,8 @@ final class GitWorkingCopy
 
     /**
      * @code $git->checkout('new-branch', ['b' => true]);
+     *
+     * @param mixed ...$argsAndOptions
      */
     public function checkout(...$argsAndOptions): string
     {
@@ -451,6 +459,8 @@ final class GitWorkingCopy
      *
      * @code $git->commit('My commit message');
      * $git->commit('Makefile', ['m' => 'My commit message']);
+     *
+     * @param mixed ...$argsAndOptions
      */
     public function commit(...$argsAndOptions): string
     {
@@ -469,6 +479,8 @@ final class GitWorkingCopy
      *
      * @code $git->config('user.email', 'opensource@chrispliakas.com');
      * $git->config('user.name', 'Chris Pliakas');
+     *
+     * @param mixed ...$argsAndOptions
      */
     public function config(...$argsAndOptions): string
     {
@@ -478,6 +490,8 @@ final class GitWorkingCopy
     /**
      * @code $git->diff();
      * $git->diff('topic', 'master');
+     *
+     * @param mixed ...$argsAndOptions
      */
     public function diff(...$argsAndOptions): string
     {
@@ -489,6 +503,8 @@ final class GitWorkingCopy
      *
      * @code $git->fetch('origin');
      * $git->fetch(['all' => true]);
+     *
+     * @param mixed ...$argsAndOptions
      */
     public function fetch(...$argsAndOptions): string
     {
@@ -499,6 +515,8 @@ final class GitWorkingCopy
      * Print lines matching a pattern.
      *
      * @code $git->grep('time_t', '--', '*.[ch]');
+     *
+     * @param mixed ...$argsAndOptions
      */
     public function grep(...$argsAndOptions): string
     {
@@ -521,6 +539,8 @@ final class GitWorkingCopy
      *
      * @code $git->log(['no-merges' => true]);
      * $git->log('v2.6.12..', 'include/scsi', 'drivers/scsi');
+     *
+     * @param mixed ...$argsAndOptions
      */
     public function log(...$argsAndOptions): string
     {
@@ -531,6 +551,8 @@ final class GitWorkingCopy
      * Join two or more development histories together.
      *
      * @code $git->merge('fixes', 'enhancements');
+     *
+     * @param mixed ...$argsAndOptions
      */
     public function merge(...$argsAndOptions): string
     {
@@ -554,6 +576,8 @@ final class GitWorkingCopy
      * Fetch from and merge with another repository or a local branch.
      *
      * @code $git->pull('upstream', 'master');
+     *
+     * @param mixed ...$argsAndOptions
      */
     public function pull(...$argsAndOptions): string
     {
@@ -564,6 +588,8 @@ final class GitWorkingCopy
      * Update remote refs along with associated objects.
      *
      * @code $git->push('upstream', 'master');
+     *
+     * @param mixed ...$argsAndOptions
      */
     public function push(...$argsAndOptions): string
     {
@@ -574,6 +600,8 @@ final class GitWorkingCopy
      * Forward-port local commits to the updated upstream head.
      *
      * @code $git->rebase('subsystem@{1}', ['onto' => 'subsystem']);
+     *
+     * @param mixed ...$argsAndOptions
      */
     public function rebase(...$argsAndOptions): string
     {
@@ -584,6 +612,8 @@ final class GitWorkingCopy
      * Manage the set of repositories ("remotes") whose branches you track.
      *
      * @code $git->remote('add', 'upstream', 'git://github.com/cpliakas/git-wrapper.git');
+     *
+     * @param mixed ...$argsAndOptions
      */
     public function remote(...$argsAndOptions): string
     {
@@ -594,6 +624,8 @@ final class GitWorkingCopy
      * Reset current HEAD to the specified state.
      *
      * @code $git->reset(['hard' => true]);
+     *
+     * @param mixed ...$argsAndOptions
      */
     public function reset(...$argsAndOptions): string
     {
@@ -631,6 +663,8 @@ final class GitWorkingCopy
      * Show the working tree status.
      *
      * @code $git->status(['s' => true]);
+     *
+     * @param mixed ...$argsAndOptions
      */
     public function status(...$argsAndOptions): string
     {
@@ -641,6 +675,8 @@ final class GitWorkingCopy
      * Create, list, delete or verify a tag object signed with GPG.
      *
      * @code $git->tag('v1.0.0');
+     *
+     * @param mixed ...$argsAndOptions
      */
     public function tag(...$argsAndOptions): string
     {
@@ -661,6 +697,8 @@ final class GitWorkingCopy
      * Create an archive of files from a named tree
      *
      * @code $git->archive('HEAD', ['o' => '/path/to/archive']);
+     *
+     * @param mixed ...$argsAndOptions
      */
     public function archive(...$argsAndOptions): string
     {
