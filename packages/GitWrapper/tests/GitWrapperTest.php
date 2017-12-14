@@ -4,6 +4,7 @@ namespace Symplify\GitWrapper\Tests;
 
 use Symplify\GitWrapper\Exception\GitException;
 use Symplify\GitWrapper\GitCommand;
+use Symplify\GitWrapper\GitWorkingCopy;
 use Symplify\GitWrapper\GitWrapper;
 use Symplify\GitWrapper\Tests\Event\TestDispatcher;
 
@@ -143,33 +144,34 @@ final class GitWrapperTest extends AbstractGitWrapperTestCase
         $this->gitWrapper->run($command);
     }
 
-//    public function testWrapperExecutable(): void
-//    {
-//        $sshWrapper = realpath(__DIR__ . '/../../../bin/git-ssh-wrapper.sh');
-//        $this->assertTrue(is_executable($sshWrapper));
-//    }
-//
-//    public function testWorkingCopy(): void
-//    {
-//        $directory = './' . $this->randomString();
-//        $git = $this->gitWrapper->workingCopy($directory);
-//
-//        $this->assertTrue($git instanceof GitWorkingCopy);
-//        $this->assertSame($directory, $git->getDirectory());
-//        $this->assertSame($this->gitWrapper, $git->getWrapper());
-//    }
-//
-//    public function testParseRepositoryName(): void
-//    {
-//        $nameGit = GitWrapper::parseRepositoryName('git@github.com:cpliakas/git-wrapper.git');
-//        $this->assertSame($nameGit, 'git-wrapper');
-//
-//        $nameHttps = GitWrapper::parseRepositoryName('https://github.com/cpliakas/git-wrapper.git');
-//        $this->assertSame($nameHttps, 'git-wrapper');
-//    }
-//
-//    public function testCloneWothoutDirectory(): void
-//    {
-//        $this->gitWrapper->cloneRepository('file:///' . $this->randomString());
-//    }
+    public function testWrapperExecutable(): void
+    {
+        $sshWrapper = realpath(__DIR__ . '/../bin/git-ssh-wrapper.sh');
+        $this->assertTrue(is_executable($sshWrapper));
+    }
+
+    public function testWorkingCopy(): void
+    {
+        $directory = './' . $this->randomString();
+        $git = $this->gitWrapper->workingCopy($directory);
+
+        $this->assertInstanceOf(GitWorkingCopy::class, $git);
+        $this->assertSame($directory, $git->getDirectory());
+        $this->assertSame($this->gitWrapper, $git->getWrapper());
+    }
+
+    public function testParseRepositoryName(): void
+    {
+        $nameGit = GitWrapper::parseRepositoryName('git@github.com:cpliakas/git-wrapper.git');
+        $this->assertSame($nameGit, 'git-wrapper');
+
+        $nameHttps = GitWrapper::parseRepositoryName('https://github.com/cpliakas/git-wrapper.git');
+        $this->assertSame($nameHttps, 'git-wrapper');
+    }
+
+    public function testCloneWithoutDirectory(): void
+    {
+        $this->expectException(GitException::class);
+        $this->gitWrapper->cloneRepository('file:///random');
+    }
 }

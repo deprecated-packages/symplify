@@ -48,7 +48,6 @@ final class GitWorkingCopyTest extends AbstractGitWrapperTestCase
         // Initial commit.
 
         $git->add('*');
-        die;
         $git->commit('Initial commit.');
         $git->push('origin', 'master', ['u' => true]);
 
@@ -56,8 +55,6 @@ final class GitWorkingCopyTest extends AbstractGitWrapperTestCase
         $branch = 'test-branch';
         file_put_contents($directory . '/branch.txt', "${branch}\n");
         $git->checkoutNewBranch($branch);;
-
-
 
         $git->add('branch.txt');
         $git->commit('Committed testing branch.');

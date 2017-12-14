@@ -34,7 +34,6 @@ final class GitCommandTest extends AbstractGitWrapperTestCase
         $optionValue = 'optionValue';
 
         $git = new GitCommand('', [$optionName => $optionValue]);
-
         $this->assertSame($optionValue, $git->getOption($optionName));
 
         $git->unsetOption($optionName);

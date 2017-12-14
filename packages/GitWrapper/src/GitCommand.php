@@ -132,10 +132,13 @@ final class GitCommand
      */
     public function getCommandLineItems(): array
     {
-        return array_merge(
+        $items = array_merge(
             [$this->command],
             $this->buildOptions(),
             $this->args
         );
+
+        // remove empty values
+        return array_filter($items);
     }
 }
