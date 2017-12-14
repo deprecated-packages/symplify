@@ -16,9 +16,10 @@ use Symplify\GitWrapper\Process\GitProcess;
 /**
  * A wrapper class around the Git binary.
  *
- * A GitWrapper object contains the necessary context to run Git commands such
- * as the path to the Git binary and environment variables. It also provides
- * helper methods to run Git commands as set up the connection to the GIT_SSH
+ * A GitWrapper object contains the necessary context to run Git commands such  as the path to the Git binary
+ * and environment variables.
+ *
+ * It also provides helper methods to run Git commands as set up the connection to the GIT_SSH
  * wrapper script.
  */
 final class GitWrapper
