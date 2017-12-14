@@ -95,7 +95,7 @@ final class GitWrapperTest extends AbstractGitWrapperTestCase
     {
         $this->expectException(GitException ::class);
 
-        $badWrapper = __DIR__  . '/dummy-wrapper-bad.sh';
+        $badWrapper = __DIR__ . '/dummy-wrapper-bad.sh';
         $this->gitWrapper->setPrivateKey(__DIR__ . '/id_rsa', 22, $badWrapper);
     }
 
@@ -127,7 +127,7 @@ final class GitWrapperTest extends AbstractGitWrapperTestCase
 
     public function testGitRun(): void
     {
-        $command = new GitCommand;
+        $command = new GitCommand();
         $command->setFlag('version');
         $command->setDirectory(__DIR__ . '/../tests'); // Directory just has to exist.
         $version = $this->gitWrapper->run($command);
@@ -138,7 +138,7 @@ final class GitWrapperTest extends AbstractGitWrapperTestCase
     {
         $this->expectException(GitException::class);
 
-        $command = new GitCommand;
+        $command = new GitCommand();
         $command->setFlag('version');
         $command->setDirectory('/some/bad/directory');
         $this->gitWrapper->run($command);

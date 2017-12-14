@@ -16,9 +16,8 @@ composer require symplify/git-wrapper
 ```php
 use Symplify\GitWrapper\GitWrapper;
 
-// Initialize the library. If the path to the Git binary is not passed as
-// the first argument when instantiating GitWrapper, it is auto-discovered.
 require_once __DIR__ . '/vendor/autoload.php';
+
 $wrapper = new GitWrapper();
 
 // Optionally specify a private key other than one of the defaults.
@@ -31,8 +30,7 @@ $git = $wrapper->cloneRepository('git://github.com/cpliakas/git-wrapper.git', '/
 touch('/path/to/working/copy/text.txt');
 
 // Add it, commit it, and push the change.
-$git
-    ->add('test.txt')
+$git->add('test.txt')
     ->commit('Added the test.txt file as per the examples.')
     ->push();
 

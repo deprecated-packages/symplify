@@ -45,7 +45,6 @@ final class GitWorkingCopy
      * Gets the output captured by the last run Git command(s).
      *
      * @todo remove this magic
-     * @see GitWorkingCopy::getOutput()
      */
     public function __toString(): string
     {
@@ -104,8 +103,6 @@ final class GitWorkingCopy
      *
      * @param array $args The arguments passed to the command method.
      * @param boolean $setDirectory Set the working directory, defaults to true.
-     *
-     * @see GitWrapper::run()
      */
     public function run(string $command, array $args = [], bool $setDirectory = true): string
     {
@@ -243,7 +240,6 @@ final class GitWorkingCopy
      * @param string $tag The tag being pushed.
      * @param string $repository The destination of the push operation, which is either a URL or name of the remote.
        @param array $options An associative array of command line options.
-     * @see GitWorkingCopy::push()
      */
     public function pushTag(string $tag, string $repository = 'origin', array $options = [])
     {
@@ -257,7 +253,6 @@ final class GitWorkingCopy
      *
      * @param string $repository The destination of the push operation, which is either a URL or name of the remote.
      * @param array $options An associative array of command line options.
-     * @see GitWorkingCopy::push()
      */
     public function pushTags(string $repository = 'origin', array $options = [])
     {
@@ -271,7 +266,6 @@ final class GitWorkingCopy
      * This is synonymous with `git fetch --all`.
      * @param array $options An associative array of command line options.
      *
-     * @see GitWorkingCopy::fetch()
      */
     public function fetchAll(array $options = [])
     {
@@ -283,10 +277,6 @@ final class GitWorkingCopy
      * Create a new branch and check it out.
      *
      * This is synonymous with `git checkout -b`.
-     *
-     * @param string $branch The new branch being created.
-     *
-     * @see GitWorkingCopy::checkout()
      */
     public function checkoutNewBranch(string $branch, array $options = []): string
     {

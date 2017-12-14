@@ -4,8 +4,8 @@ namespace Symplify\GitWrapper\Tests;
 
 use Exception;
 use Symfony\Component\Process\Process;
+use Symplify\GitWrapper\Exception\GitException;
 use Symplify\GitWrapper\GitBranches;
-use Symplify\GitWrapper\Exception\GitException ;
 use Symplify\GitWrapper\GitWorkingCopy;
 
 final class GitWorkingCopyTest extends AbstractGitWrapperTestCase
@@ -54,7 +54,7 @@ final class GitWorkingCopyTest extends AbstractGitWrapperTestCase
         // Create a branch, add a file.
         $branch = 'test-branch';
         file_put_contents($directory . '/branch.txt', "${branch}\n");
-        $git->checkoutNewBranch($branch);;
+        $git->checkoutNewBranch($branch);
 
         $git->add('branch.txt');
         $git->commit('Committed testing branch.');
@@ -84,6 +84,12 @@ final class GitWorkingCopyTest extends AbstractGitWrapperTestCase
         }
     }
 
+    public function testIsCloned(): void
+    {
+        $git = $this->getWorkingCopy();
+        $this->assertTrue($git->isCloned());
+    }
+
     /**
      * Clones the local repo and returns an initialized GitWorkingCopy object.
      */
@@ -98,44 +104,38 @@ final class GitWorkingCopyTest extends AbstractGitWrapperTestCase
         return $git;
     }
 
-    public function testIsCloned(): void
+    public function testGetOutput(): void
     {
         $git = $this->getWorkingCopy();
-        $this->assertTrue($git->isCloned());
+
+        // Test getting output of a simple status command.
+        $output = (string) $git->status();
+        $this->assertContains('nothing to commit', $output);
+
+        // Getting output should clear the buffer.
+        $this->assertEmpty((string) $git);
     }
 
-//    public function testGetOutput(): void
-//    {
-//        $git = $this->getWorkingCopy();
-//
-//        // Test getting output of a simple status command.
-//        $output = (string) $git->status();
-//        $this->assertContains('nothing to commit', $output);
-//
-//        // Getting output should clear the buffer.
-//        $this->assertEmpty((string) $git);
-//    }
+    public function testClearOutput(): void
+    {
+        $git = $this->getWorkingCopy();
 
-//    public function testClearOutput(): void
-//    {
-//        $git = $this->getWorkingCopy();
-//
-//        // Put stuff in the output buffer.
-//        $git->status();
-//
-//        $git->clearOutput();
-//        $this->assertEmpty($git->getOutput());
-//    }
-//
-//    public function testHasChanges(): void
-//    {
-//        $git = $this->getWorkingCopy();
-//        $this->assertFalse($git->hasChanges());
-//
-//        file_put_contents(self::WORKING_DIR . '/change.me', "changed\n");
-//        $this->assertTrue($git->hasChanges());
-//    }
-//
+        // Put stuff in the output buffer.
+        $git->status();
+
+        $git->clearOutput();
+        $this->assertEmpty($git->getOutput());
+    }
+
+    public function testHasChanges(): void
+    {
+        $git = $this->getWorkingCopy();
+        $this->assertFalse($git->hasChanges());
+
+        file_put_contents(self::WORKING_DIR . '/change.me', "changed\n");
+        $this->assertTrue($git->hasChanges());
+    }
+
 //    public function testGetBranches(): void
 //    {
 //        $git = $this->getWorkingCopy();

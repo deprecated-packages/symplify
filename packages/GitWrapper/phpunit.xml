@@ -1,11 +1,10 @@
 <phpunit
-    bootstrap="tests/bootstrap.php"
-    colors="true"
-    verbose="true"
+        bootstrap="tests/bootstrap.php"
+        colors="true"
+        verbose="true"
 >
     <!-- tests directories to run -->
     <testsuite>
         <directory>tests</directory>
-        <directory>packages/*/tests</directory>
     </testsuite>
 </phpunit>

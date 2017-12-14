@@ -5,7 +5,7 @@ namespace Symplify\GitWrapper\Tests;
 use Nette\Utils\Random;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Filesystem\Filesystem;
-use Symplify\GitWrapper\Exception\GitException ;
+use Symplify\GitWrapper\Exception\GitException;
 use Symplify\GitWrapper\GitWrapper;
 
 abstract class AbstractGitWrapperTestCase extends TestCase
@@ -13,7 +13,7 @@ abstract class AbstractGitWrapperTestCase extends TestCase
     /**
      * @var string
      */
-    protected const REPO_DIR = __DIR__ .'/temp/repository';
+    protected const REPO_DIR = __DIR__ . '/temp/repository';
 
     /**
      * @var string
@@ -36,11 +36,6 @@ abstract class AbstractGitWrapperTestCase extends TestCase
         $this->gitWrapper = new GitWrapper();
     }
 
-    protected function randomString(): string
-    {
-        return Random::generate();
-    }
-
     /**
      * The version returned by the `git --version` command.
      */
@@ -59,5 +54,10 @@ abstract class AbstractGitWrapperTestCase extends TestCase
                 throw $gitException;
             }
         }
+    }
+
+    protected function randomString(): string
+    {
+        return Random::generate();
     }
 }

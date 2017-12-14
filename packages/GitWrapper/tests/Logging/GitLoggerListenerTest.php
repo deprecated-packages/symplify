@@ -6,7 +6,6 @@ use DomainException;
 use Psr\Log\LogLevel;
 use Psr\Log\NullLogger;
 use Symplify\GitWrapper\EventListener\GitLoggerListener;
-use Symplify\GitWrapper\GitCommand;
 use Symplify\GitWrapper\Tests\AbstractGitWrapperTestCase;
 use Throwable;
 

@@ -28,9 +28,6 @@ final class GitCommand
      */
     private $args = [];
 
-    /**
-     * @param mixed[]|mixed[][] @$argAndOptions
-     */
     public function __construct(string $command = '', ...$argAndOptions)
     {
         $this->command = $command;

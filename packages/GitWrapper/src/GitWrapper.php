@@ -175,24 +175,30 @@ final class GitWrapper
      * script included with this library. It also sets the custom GIT_SSH_KEY
      * and GIT_SSH_PORT environment variables that are used by the script.
      *
-     * @param string $privateKey Path to the private key.
+     * @param string $privateKeyPath Path to the private key.
      * @param int $port Port that the SSH server being connected to listens on, defaults to 22.
-     * @param string|null $wrapper Path the the GIT_SSH wrapper script, defaults to null which uses the script included with this library.
+     * @param string|null $wrapperPath Path the the GIT_SSH wrapper script, defaults to null which uses the script included with this library.
      */
-    public function setPrivateKey(string $privateKey, int $port = 22, ?string $wrapper = null): void
+    public function setPrivateKey(string $privateKeyPath, int $port = 22, ?string $wrapperPath = null): void
     {
-        if ($wrapper === null) {
-            $wrapper = __DIR__ . '/../bin/git-ssh-wrapper.sh';
+        if ($wrapperPath === null) {
+            $wrapperPath = __DIR__ . '/../bin/git-ssh-wrapper.sh';
         }
 
-        $wrapperPath = realpath($wrapper);
+        $wrapperPath = realpath($wrapperPath);
         if (! $wrapperPath) {
-            throw new GitException('Path to GIT_SSH wrapper script could not be resolved: ' . $wrapper);
+            throw new GitException(sprintf(
+                'Path to GIT_SSH wrapper script "%s" could not be resolved.',
+                $wrapperPath)
+            );
         }
 
-        $privateKeyPath = realpath($privateKey);
+        $privateKeyPath = realpath($privateKeyPath);
         if (! $privateKeyPath) {
-            throw new GitException('Path private key could not be resolved: ' . $privateKey);
+            throw new GitException(sprintf(
+                'Path to private key "%s" could not be resolved.',
+                $privateKeyPath
+            ));
         }
 
         $this->setEnvVar(self::ENV_GIT_SSH, $wrapperPath);
@@ -292,7 +298,6 @@ final class GitWrapper
      *
      * @param string $directory The directory being initialized.
      * @param mixed[] $options An associative array of command line options.
-     * @see GitWorkingCopy::cloneRepository()
      */
     public function init(string $directory, array $options = []): GitWorkingCopy
     {
@@ -313,7 +318,6 @@ final class GitWrapper
      * passed, the directory will automatically be generated from the URL via
      * the GitWrapper::parseRepositoryName() method.
      * @param mixed[] $options An associative array of command line options.
-     * @see GitWorkingCopy::cloneRepository()
      */
     public function cloneRepository(string $repository, ?string $directory = null, array $options = []): GitWorkingCopy
     {
@@ -334,16 +338,12 @@ final class GitWrapper
      * Git binary. For example, a `git config -l` command would be passed as
      * `config -l` via the first argument of this method.
      *
-     * Note that no events are thrown by this method.
-     *
      * @param string $commandLine The raw command containing the Git options and arguments. The Git
      * binary should not be in the command, for example `git config -l` would translate to "config -l".
      * @param string|null $cwd The working directory of the Git process. Defaults to null which uses the current working
      * directory of the PHP process.
      *
      * @return string The STDOUT returned by the Git command.
-     *
-     * @see GitWrapper::run()
      */
     public function git(string $commandLine, ?string $cwd = null): string
     {

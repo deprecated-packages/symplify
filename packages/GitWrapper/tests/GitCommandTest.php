@@ -22,7 +22,7 @@ final class GitCommandTest extends AbstractGitWrapperTestCase
             "${command}",
             "--${flag}",
             "--${optionName}=${optionValue}",
-            "${argument}"
+            "${argument}",
         ];
 
         $this->assertSame($expected, $gitCommand->getCommandLineItems());
@@ -40,12 +40,9 @@ final class GitCommandTest extends AbstractGitWrapperTestCase
         $this->assertNull($git->getOption($optionName));
     }
 
-    /**
-     * @see https://github.com/cpliakas/git-wrapper/issues/50
-     */
     public function testMultiOption(): void
     {
         $gitCommand = new GitCommand('test-command', ['test-arg' => [true, true]]);
-        $this->assertSame(['--test-arg' ,'--test-arg'], $gitCommand->buildOptions());
+        $this->assertSame(['--test-arg', '--test-arg'], $gitCommand->buildOptions());
     }
 }
