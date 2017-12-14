@@ -6,6 +6,7 @@ use Nette\Utils\Strings;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Process\ExecutableFinder;
+use Symplify\GitWrapper\Contract\EventListener\GitOutputListenerInterface;
 use Symplify\GitWrapper\Event\GitEvents;
 use Symplify\GitWrapper\Event\GitOutputEvent;
 use Symplify\GitWrapper\Event\GitOutputStreamListener;
@@ -99,6 +100,9 @@ final class GitWrapper
         return $this->eventDispatcher;
     }
 
+    /**
+     * @todo use EventDispatcher via constructor
+     */
     public function setDispatcher(EventDispatcherInterface $eventDispatcher): void
     {
         $this->eventDispatcher = $eventDispatcher;
@@ -218,18 +222,27 @@ final class GitWrapper
         $this->unsetEnvVar(self::ENV_GIT_SSH_PORT);
     }
 
+    /**
+     * @todo resolve via DI and factory
+     */
     public function addOutputListener(GitOutputListenerInterface $gitOutputListener): void
     {
         $this->getDispatcher()
             ->addListener(GitEvents::GIT_OUTPUT, [$gitOutputListener, 'handleOutput']);
     }
 
+    /**
+     * @todo resolve via DI and factory
+     */
     public function addLoggerListener(GitLoggerListener $gitLoggerListener): void
     {
         $this->getDispatcher()
             ->addSubscriber($gitLoggerListener);
     }
 
+    /**
+     * @todo resolve via DI and factory
+     */
     public function removeOutputListener(GitOutputListenerInterface $gitOutputListener): void
     {
         $this->getDispatcher()
@@ -242,7 +255,7 @@ final class GitWrapper
     public function streamOutput(bool $streamOutput = true): void
     {
         if ($streamOutput && $this->gitOutputListener === null) {
-            $this->gitOutputListener = new GitOutputStreamListener();
+            $this->gitOutputListener = new EventListener\GitOutputStreamListener();
             $this->addOutputListener($this->gitOutputListener);
         }
 
@@ -268,6 +281,8 @@ final class GitWrapper
     }
 
     /**
+     * @todo decouple to external service
+     *
      * Parses name of the repository from the path.
      *
      * E.g. passing the "git@github.com:cpliakas/git-wrapper.git"
@@ -305,6 +320,7 @@ final class GitWrapper
         $git = $this->workingCopy($directory);
         $git->cloneRepository($repository, ...$options);
         $git->setIsCloned(true);
+
         return $git;
     }
 

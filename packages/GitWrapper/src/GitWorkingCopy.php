@@ -3,10 +3,7 @@
 namespace Symplify\GitWrapper;
 
 /**
- * Interacts with a working copy.
- *
- * All commands executed via an instance of this class act on the working copy
- * that is set through the constructor.
+ * All commands executed via an instance of this class act on the working copy that is set through the constructor
  */
 final class GitWorkingCopy
 {
@@ -99,12 +96,12 @@ final class GitWorkingCopy
     /**
      * Runs a Git command and captures the output.
      *
-     * @param array $args The arguments passed to the command method.
+     * @param array $argsAndOptions The arguments passed to the command method.
      * @param boolean $setDirectory Set the working directory, defaults to true.
      */
-    public function run(string $command, array $args = [], bool $setDirectory = true): string
+    public function run(string $command, array $argsAndOptions = [], bool $setDirectory = true): string
     {
-        $command = new GitCommand($command, ...$args);
+        $command = new GitCommand($command, ...$argsAndOptions);
         if ($setDirectory) {
             $command->setDirectory($this->directory);
         }
@@ -130,12 +127,12 @@ final class GitWorkingCopy
     }
 
     /**
-     * Returns whether HEAD has a remote tracking branch.
+     * Returns whether HEAD has a remote tracking branch
      */
     public function isTracking(): bool
     {
         try {
-            $this->run('rev-parse @{u}');
+            $this->run('rev-parse', ['@{u}']);
         } catch (GitException $e) {
             return false;
         }
@@ -145,8 +142,6 @@ final class GitWorkingCopy
 
     /**
      * Returns whether HEAD is up-to-date with its remote tracking branch.
-     *
-     *   Thrown when HEAD does not have a remote tracking branch.
      */
     public function isUpToDate(): bool
     {
@@ -157,8 +152,8 @@ final class GitWorkingCopy
         }
 
         $this->clearOutput();
-        $mergeBase = (string) $this->run('merge-base @ @{u}');
-        $remoteSha = (string) $this->run('rev-parse @{u}');
+        $mergeBase = (string) $this->run('merge-base', ['@', '@{u}']);
+        $remoteSha = (string) $this->run('rev-parse', ['@{u}']);
 
         return $mergeBase === $remoteSha;
     }
@@ -175,9 +170,10 @@ final class GitWorkingCopy
         }
 
         $this->clearOutput();
-        $mergeBase = (string) $this->run('merge-base @ @{u}');
-        $localSha = (string) $this->run('rev-parse @');
-        $remoteSha = (string) $this->run('rev-parse @{u}');
+        $mergeBase = (string) $this->run('merge-base', ['@', '@{u}']);
+        $localSha = (string) $this->run('rev-parse', ['@']);
+        $remoteSha = (string) $this->run('rev-parse', ['@{u}']);
+
         return $mergeBase === $remoteSha && $localSha !== $remoteSha;
     }
 
@@ -194,9 +190,10 @@ final class GitWorkingCopy
         }
 
         $this->clearOutput();
-        $mergeBase = (string) $this->run('merge-base @ @{u}');
-        $localSha = (string) $this->run('rev-parse @');
-        $remoteSha = (string) $this->run('rev-parse @{u}');
+        $mergeBase = (string) $this->run('merge-base', ['@', '@{u}']);
+        $localSha = (string) $this->run('rev-parse', ['@']);
+        $remoteSha = (string) $this->run('rev-parse', ['@{u}']);
+
         return $mergeBase === $localSha && $localSha !== $remoteSha;
     }
 
@@ -216,9 +213,10 @@ final class GitWorkingCopy
         }
 
         $this->clearOutput();
-        $mergeBase = (string) $this->run('merge-base @ @{u}');
-        $localSha = (string) $this->run('rev-parse @');
-        $remoteSha = (string) $this->run('rev-parse @{u}');
+        $mergeBase = (string) $this->run('merge-base', ['@', '@{u}']);
+        $localSha = (string) $this->run('rev-parse', ['@']);
+        $remoteSha = (string) $this->run('rev-parse', ['@{u}']);
+
         return $mergeBase !== $localSha && $mergeBase !== $remoteSha;
     }
 
@@ -238,7 +236,6 @@ final class GitWorkingCopy
      *
      * @param string $tag The tag being pushed.
      * @param string $repository The destination of the push operation, which is either a URL or name of the remote.
-       @param array $options An associative array of command line options.
      */
     public function pushTag(string $tag, string $repository = 'origin', array $options = [])
     {
@@ -251,7 +248,6 @@ final class GitWorkingCopy
      * This is synonymous with `git push --tags origin`.
      *
      * @param string $repository The destination of the push operation, which is either a URL or name of the remote.
-     * @param array $options An associative array of command line options.
      */
     public function pushTags(string $repository = 'origin', array $options = [])
     {
@@ -260,26 +256,22 @@ final class GitWorkingCopy
     }
 
     /**
-     * Fetches all remotes.
-     *
      * This is synonymous with `git fetch --all`.
-     * @param array $options An associative array of command line options.
-     *
      */
-    public function fetchAll(array $options = [])
+    public function fetchAll(array $options = []): string
     {
         $options['all'] = true;
+
         return $this->fetch($options);
     }
 
     /**
-     * Create a new branch and check it out.
-     *
      * This is synonymous with `git checkout -b`.
      */
     public function checkoutNewBranch(string $branch, array $options = []): string
     {
         $options['b'] = true;
+
         return $this->checkout($branch, $options);
     }
 
@@ -346,8 +338,8 @@ final class GitWorkingCopy
 
     /**
      * @return mixed[] An associative array with the following keys:
-     *   - fetch: the fetch URL
-     *   - push: the push URL
+     *  - fetch: the fetch URL
+     *  - push: the push URL
      */
     public function getRemote(string $name): array
     {
@@ -370,7 +362,8 @@ final class GitWorkingCopy
         $this->clearOutput();
 
         $remotes = [];
-        foreach (explode("\n", rtrim($this->remote()->getOutput())) as $remote) {
+
+        foreach (explode(PHP_EOL, rtrim($this->remote())) as $remote) {
             $remotes[$remote]['fetch'] = $this->getRemoteUrl($remote);
             $remotes[$remote]['push'] = $this->getRemoteUrl($remote, 'push');
         }
@@ -381,48 +374,30 @@ final class GitWorkingCopy
     /**
      * Returns the fetch or push URL of a given remote.
      *
-     * @param string $remote The name of the remote for which to return the fetch or push URL.
      * @param string $operation The operation for which to return the remote. Can be either 'fetch' or 'push'.
      */
     public function getRemoteUrl(string $remote, string $operation = 'fetch'): string
     {
         $this->clearOutput();
 
-        $args = $operation === 'push' ? ['get-url', '--push', $remote] : ['get-url', $remote];
-        try {
-            return rtrim(call_user_func_array([$this, 'remote'], $args)->getOutput());
-        } catch (GitException $e) {
-            // Fall back to parsing 'git remote -v' for older versions of git
-            // that do not support `git remote get-url`.
-            $identifier = " (${operation})";
-            foreach (explode("\n", rtrim($this->remote('-v')->getOutput())) as $line) {
-                if (strpos($line, $remote) === 0 && strrpos($line, $identifier) === strlen($line) - strlen($identifier)
-                ) {
-                    preg_match('/^.+\t(.+) \(' . $operation . '\)$/', $line, $matches);
-                    return $matches[1];
-                }
-            }
+        if ($operation === 'push') {
+            return $this->remote('get-url', '--push', $remote);
         }
+
+        return $this->remote('get-url', $remote);
     }
 
     /**
      * @code $git->add('some/file.txt');
-     *
-     * @param string $filepattern Files to add content from. Fileglobs (e.g.  *.c) can be given to add
-     *   all matching files. Also a leading directory name (e.g.  dir to add
-     *   dir/file1 and dir/file2) can be given to add all files in the
-     *   directory, recursively.
-     * @param mixed[] $options An optional array of command line options.
      */
-    public function add(string $filepattern, array $options = []): void
+    public function add(string $filePattern, array $options = []): void
     {
-        $argsAndOptions = [$filepattern, $options];
+        $argsAndOptions = [$filePattern, $options];
+
         $this->run('add', $argsAndOptions);
     }
 
     /**
-     * Apply a patch to files and/or to the index
-     *
      * @code $git->apply('the/file/to/read/the/patch/from');
      */
     public function apply(...$argsAndOptions): string
@@ -431,8 +406,6 @@ final class GitWorkingCopy
     }
 
     /**
-     * Find by binary search the change that introduced a bug.
-     *
      * @code $git->bisect('good', '2.6.13-rc2');
      * $git->bisect('view', array('stat' => true));
      *
@@ -440,7 +413,8 @@ final class GitWorkingCopy
      */
     public function bisect(string $subCommand, ...$argsAndOptions): string
     {
-        return $this->run('bisect ' . $subCommand, $argsAndOptions);
+        $argsAndOptions = [$subCommand] + $argsAndOptions;
+        return $this->run('bisect', $argsAndOptions);
     }
 
     /**
@@ -465,9 +439,6 @@ final class GitWorkingCopy
      * instead for more readable code.
      *
      * @code $git->cloneRepository('git://github.com/cpliakas/git-wrapper.git');
-     * @param string $repository The Git URL of the repository being cloned.
-     *
-     * @param string ...$options An associative array of command line options
      */
     public function cloneRepository(string $repository, string ...$options): void
     {
@@ -481,7 +452,7 @@ final class GitWorkingCopy
      * yields a `git commit -am "Message"` command.
      *
      * @code $git->commit('My commit message');
-     * $git->commit('Makefile', array('m' => 'My commit message'));
+     * $git->commit('Makefile', ['m' => 'My commit message']);
      */
     public function commit(...$argsAndOptions): string
     {
@@ -542,8 +513,6 @@ final class GitWorkingCopy
      * Create an empty git repository or reinitialize an existing one.
      *
      * @code $git->init(array('bare' => true));
-     *
-     * @param mixed[] $options An associative array of command line options
      */
     public function init(array $options = []): void
     {
@@ -578,8 +547,6 @@ final class GitWorkingCopy
      * @code $git->mv('orig.txt', 'dest.txt');
      * @param string $source The file / directory being moved.
      * @param string $destination The target file / directory that the source is being move to.
-     *
-     * @param string ...$options An associative array of command line options
      */
     public function mv(string $source, string $destination, array $options = []): string
     {
@@ -622,9 +589,9 @@ final class GitWorkingCopy
      *
      * @code $git->remote('add', 'upstream', 'git://github.com/cpliakas/git-wrapper.git');
      */
-    public function remote(... $argsAndOptions): string
+    public function remote(...$argsAndOptions): string
     {
-        return $this->run('remote', $argsAndOptions);
+        return trim($this->run('remote', $argsAndOptions));
     }
 
     /**
@@ -644,8 +611,6 @@ final class GitWorkingCopy
      * @param string $filepattern Files to remove from version control. Fileglobs (e.g.  *.c) can be given to add all
      * matching files. Also a leading directory name (e.g. dir to add dir/file1 and dir/file2) can be given to add all
      * files in the directory, recursively.
-     *
-     * @param string ...$options An associative array of command line options
      */
     public function rm(string $filepattern, array $options = []): string
     {
@@ -659,8 +624,6 @@ final class GitWorkingCopy
      * @code $git->show('v1.0.0');
      * @param string $object The names of objects to show. For a more complete list of ways to spell
      * object names, see "SPECIFYING REVISIONS" section in gitrevisions(7).
-     *
-     * @param string ...$options An associative array of command line options
      */
     public function show(string $object, array $options = []): string
     {
@@ -671,7 +634,7 @@ final class GitWorkingCopy
     /**
      * Show the working tree status.
      *
-     * @code $git->status(array('s' => true));
+     * @code $git->status(['s' => true]);
      */
     public function status(...$argsAndOptions): string
     {

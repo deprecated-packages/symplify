@@ -2,8 +2,8 @@
 
 namespace Symplify\GitWrapper\Tests\Event;
 
+use Symplify\GitWrapper\Contract\EventListener\GitOutputListenerInterface;
 use Symplify\GitWrapper\Event\GitOutputEvent;
-use Symplify\GitWrapper\Event\GitOutputListenerInterface;
 
 final class TestOutputListener implements GitOutputListenerInterface
 {
