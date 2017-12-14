@@ -8,11 +8,11 @@ final class GitCommandTest extends AbstractGitWrapperTestCase
 {
     public function testCommand(): void
     {
-        $command = $this->randomString();
-        $argument = $this->randomString();
-        $flag = $this->randomString();
-        $optionName = $this->randomString();
-        $optionValue = $this->randomString();
+        $command = 'command';
+        $argument = 'argument';
+        $flag = 'flag';
+        $optionName = 'optionName';
+        $optionValue = 'optionValue';
 
         $gitCommand = new GitCommand($command, $argument);
         $gitCommand->setFlag($flag);
@@ -30,8 +30,8 @@ final class GitCommandTest extends AbstractGitWrapperTestCase
 
     public function testOption(): void
     {
-        $optionName = $this->randomString();
-        $optionValue = $this->randomString();
+        $optionName = 'optionName';
+        $optionValue = 'optionValue';
 
         $git = new GitCommand('', [$optionName => $optionValue]);
 
