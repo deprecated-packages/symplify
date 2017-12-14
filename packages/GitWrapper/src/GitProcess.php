@@ -7,9 +7,6 @@ use Symfony\Component\Process\Process;
 use Symplify\GitWrapper\Event\GitEvent;
 use Symplify\GitWrapper\Event\GitEvents;
 
-/**
- * GitProcess runs a Git command in an independent process.
- */
 final class GitProcess extends Process
 {
     /**
@@ -29,7 +26,16 @@ final class GitProcess extends Process
 
         // Build the command line options, flags, and arguments.
         $binary = $gitWrapper->getGitBinary();
-        $commandLine = rtrim($binary . ' ' . $gitCommand->getCommandLine());
+        $commandLine = trim($binary . ' ' . $gitCommand->getCommandLine());
+
+        // Rather array, so they can be escaped
+        $commandLineItems = $gitCommand->getCommandLineItems();
+        $commandLineItems = array_merge(
+            [$binary],
+            [$gitCommand->getCommand()],
+            $gitCommand->buildOptionsToArray(),
+            $gitCommand->getArgs()
+        );
 
         // Resolve the working directory of the Git process. Use the directory
         // in the command object if it exists.
@@ -49,7 +55,13 @@ final class GitProcess extends Process
             $env = null;
         }
 
-        parent::__construct($commandLine, $cwd, $env, null, (float) $gitWrapper->getTimeout());
+        parent::__construct(
+            $commandLineItems,
+            $cwd,
+            $env,
+            null,
+            (float) $gitWrapper->getTimeout()
+        );
     }
 
     /**

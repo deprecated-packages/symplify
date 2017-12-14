@@ -67,10 +67,15 @@ final class GitCommand
         return $this->directory;
     }
 
-    /**
-     * Builds the command line options for use in the Git command.
-     */
     public function buildOptions(): string
+    {
+        return implode(' ', $this->buildOptionsToArray());
+    }
+
+    /**
+     * @return mixed[]
+     */
+    public function buildOptionsToArray(): array
     {
         $options = [];
         foreach ($this->options as $option => $values) {
@@ -86,7 +91,7 @@ final class GitCommand
             }
         }
 
-        return implode(' ', $options);
+        return $options;
     }
 
     /**
@@ -132,6 +137,22 @@ final class GitCommand
     }
 
     /**
+     * @return mixed[]
+     */
+    public function getOptions(): array
+    {
+        return $this->options;
+    }
+
+    /**
+     * @return mixed[]
+     */
+    public function getArgs(): array
+    {
+        return $this->args;
+    }
+
+    /**
      * Renders the arguments and options for the Git command.
      */
     public function getCommandLine(): string
@@ -142,5 +163,19 @@ final class GitCommand
             implode(' ', $this->args),
         ];
         return implode(' ', array_filter($command));
+    }
+
+    /**
+     * Provide CLI items for Process 1st arguments construtor
+     *
+     * @return mixed[]
+     */
+    public function getCommandLineItems(): array
+    {
+        return array_merge(
+            [$this->command],
+            $this->buildOptionsToArray(),
+            $this->getArgs()
+        );
     }
 }
