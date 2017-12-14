@@ -14,22 +14,16 @@ final class GitCommand
     private $directory;
 
     /**
-     * The command being run, e.g. "clone", "commit", etc.
-     *
      * @var string
      */
     private $command;
 
     /**
-     * An associative array of command line options and flags.
-     *
      * @var mixed[]
      */
     private $options = [];
 
     /**
-     * Command line arguments passed to the Git command.
-     *
      * @var mixed[]
      */
     private $args = [];
@@ -67,15 +61,10 @@ final class GitCommand
         return $this->directory;
     }
 
-    public function buildOptions(): string
-    {
-        return implode(' ', $this->buildOptionsToArray());
-    }
-
     /**
      * @return mixed[]
      */
-    public function buildOptionsToArray(): array
+    public function buildOptions(): array
     {
         $options = [];
         foreach ($this->options as $option => $values) {
@@ -137,35 +126,6 @@ final class GitCommand
     }
 
     /**
-     * @return mixed[]
-     */
-    public function getOptions(): array
-    {
-        return $this->options;
-    }
-
-    /**
-     * @return mixed[]
-     */
-    public function getArgs(): array
-    {
-        return $this->args;
-    }
-
-    /**
-     * Renders the arguments and options for the Git command.
-     */
-    public function getCommandLine(): string
-    {
-        $command = [
-            $this->getCommand(),
-            $this->buildOptions(),
-            implode(' ', $this->args),
-        ];
-        return implode(' ', array_filter($command));
-    }
-
-    /**
      * Provide CLI items for Process 1st arguments constructor
      *
      * @return mixed[]
@@ -174,8 +134,8 @@ final class GitCommand
     {
         return array_merge(
             [$this->command],
-            $this->buildOptionsToArray(),
-            $this->getArgs()
+            $this->buildOptions(),
+            $this->args
         );
     }
 }
