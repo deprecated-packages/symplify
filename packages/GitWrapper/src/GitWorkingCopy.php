@@ -237,7 +237,7 @@ final class GitWorkingCopy
      * @param string $tag The tag being pushed.
      * @param string $repository The destination of the push operation, which is either a URL or name of the remote.
      */
-    public function pushTag(string $tag, string $repository = 'origin', array $options = [])
+    public function pushTag(string $tag, string $repository = 'origin', array $options = []): string
     {
         return $this->push($repository, 'tag', $tag, $options);
     }
@@ -249,7 +249,7 @@ final class GitWorkingCopy
      *
      * @param string $repository The destination of the push operation, which is either a URL or name of the remote.
      */
-    public function pushTags(string $repository = 'origin', array $options = [])
+    public function pushTags(string $repository = 'origin', array $options = []): string
     {
         $options['tags'] = true;
         return $this->push($repository, $options);
@@ -407,9 +407,7 @@ final class GitWorkingCopy
 
     /**
      * @code $git->bisect('good', '2.6.13-rc2');
-     * $git->bisect('view', array('stat' => true));
-     *
-     * @param string $subCommand The subcommand passed to `git bisect`
+     * $git->bisect('view', ['stat' => true]);
      */
     public function bisect(string $subCommand, ...$argsAndOptions): string
     {
@@ -419,7 +417,7 @@ final class GitWorkingCopy
 
     /**
      * @code $git->branch('my2.6.14', 'v2.6.14');
-     * $git->branch('origin/html', 'origin/man', array('d' => true, 'r' => 'origin/todo'));
+     * $git->branch('origin/html', 'origin/man', ['d' => true, 'r' => 'origin/todo']);
      */
     public function branch(...$argsAndOptions): string
     {
@@ -427,7 +425,7 @@ final class GitWorkingCopy
     }
 
     /**
-     * @code $git->checkout('new-branch', array('b' => true));
+     * @code $git->checkout('new-branch', ['b' => true]);
      */
     public function checkout(...$argsAndOptions): string
     {
@@ -478,8 +476,6 @@ final class GitWorkingCopy
     }
 
     /**
-     * Show changes between commits, commit and working tree, etc.
-     *
      * @code $git->diff();
      * $git->diff('topic', 'master');
      */
@@ -512,7 +508,7 @@ final class GitWorkingCopy
     /**
      * Create an empty git repository or reinitialize an existing one.
      *
-     * @code $git->init(array('bare' => true));
+     * @code $git->init(['bare' => true]);
      */
     public function init(array $options = []): void
     {
@@ -523,7 +519,7 @@ final class GitWorkingCopy
     /**
      * Show commit logs.
      *
-     * @code $git->log(array('no-merges' => true));
+     * @code $git->log(['no-merges' => true]);
      * $git->log('v2.6.12..', 'include/scsi', 'drivers/scsi');
      */
     public function log(...$argsAndOptions): string
@@ -577,7 +573,7 @@ final class GitWorkingCopy
     /**
      * Forward-port local commits to the updated upstream head.
      *
-     * @code $git->rebase('subsystem@{1}', array('onto' => 'subsystem'));
+     * @code $git->rebase('subsystem@{1}', ['onto' => 'subsystem']);
      */
     public function rebase(...$argsAndOptions): string
     {
@@ -597,7 +593,7 @@ final class GitWorkingCopy
     /**
      * Reset current HEAD to the specified state.
      *
-     * @code $git->reset(array('hard' => true));
+     * @code $git->reset(['hard' => true]);
      */
     public function reset(...$argsAndOptions): string
     {
@@ -664,7 +660,7 @@ final class GitWorkingCopy
     /**
      * Create an archive of files from a named tree
      *
-     * @code $git->archive('HEAD', array('o' => '/path/to/archive'));
+     * @code $git->archive('HEAD', ['o' => '/path/to/archive']);
      */
     public function archive(...$argsAndOptions): string
     {

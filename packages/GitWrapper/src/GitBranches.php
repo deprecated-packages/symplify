@@ -66,6 +66,6 @@ final class GitBranches implements IteratorAggregate
 
     public function head(): string
     {
-        return trim((string) $this->gitWorkingCopy->run('rev-parse', ['--abbrev-ref', 'HEAD']));
+        return trim((string) $this->gitWorkingCopy->run('rev-parse', ['--abbrev-ref' => 'HEAD']));
     }
 }

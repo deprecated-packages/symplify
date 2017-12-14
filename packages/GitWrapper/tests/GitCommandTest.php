@@ -15,7 +15,7 @@ final class GitCommandTest extends AbstractGitWrapperTestCase
         $optionValue = 'optionValue';
 
         $gitCommand = new GitCommand($command, $argument);
-        $gitCommand->setFlag($flag);
+        $gitCommand->setOption($flag, true);
         $gitCommand->setOption($optionName, $optionValue);
 
         $expected = [

@@ -97,11 +97,6 @@ final class GitCommand
         }
     }
 
-    public function setFlag($option): void
-    {
-        $this->setOption($option, true);
-    }
-
     /**
      * @param mixed $default Value that is returned if the option is not set.
      *
