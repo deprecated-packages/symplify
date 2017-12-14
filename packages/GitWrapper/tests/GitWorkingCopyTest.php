@@ -130,6 +130,9 @@ final class GitWorkingCopyTest extends AbstractGitWrapperTestCase
     public function testHasChanges(): void
     {
         $git = $this->getWorkingCopy();
+
+        dump($git->hasChanges());
+
         $this->assertFalse($git->hasChanges());
 
         file_put_contents(self::WORKING_DIR . '/change.me', "changed\n");
