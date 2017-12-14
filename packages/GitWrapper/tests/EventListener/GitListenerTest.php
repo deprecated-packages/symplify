@@ -19,7 +19,6 @@ final class GitListenerTest extends AbstractGitWrapperTestCase
         $this->assertTrue($listener->methodCalled('onPrepare'));
         $this->assertTrue($listener->methodCalled('onSuccess'));
         $this->assertFalse($listener->methodCalled('onError'));
-        $this->assertFalse($listener->methodCalled('onBypass'));
     }
 
     public function testListenerError(): void
@@ -30,22 +29,6 @@ final class GitListenerTest extends AbstractGitWrapperTestCase
         $this->assertTrue($listener->methodCalled('onPrepare'));
         $this->assertFalse($listener->methodCalled('onSuccess'));
         $this->assertTrue($listener->methodCalled('onError'));
-        $this->assertFalse($listener->methodCalled('onBypass'));
-    }
-
-    public function testGitBypass(): void
-    {
-        $this->addBypassListener();
-        $listener = $this->addListener();
-
-        $output = $this->gitWrapper->version();
-
-        $this->assertTrue($listener->methodCalled('onPrepare'));
-        $this->assertFalse($listener->methodCalled('onSuccess'));
-        $this->assertFalse($listener->methodCalled('onError'));
-        $this->assertTrue($listener->methodCalled('onBypass'));
-
-        $this->assertEmpty($output);
     }
 
     public function testEvent(): void
@@ -70,7 +53,6 @@ final class GitListenerTest extends AbstractGitWrapperTestCase
         $dispatcher->addListener(GitEvents::GIT_PREPARE, [$listener, 'onPrepare']);
         $dispatcher->addListener(GitEvents::GIT_SUCCESS, [$listener, 'onSuccess']);
         $dispatcher->addListener(GitEvents::GIT_ERROR, [$listener, 'onError']);
-        $dispatcher->addListener(GitEvents::GIT_BYPASS, [$listener, 'onBypass']);
 
         return $listener;
     }

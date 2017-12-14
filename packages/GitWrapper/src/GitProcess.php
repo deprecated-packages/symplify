@@ -63,29 +63,18 @@ final class GitProcess extends Process
         try {
             $dispatcher->dispatch(GitEvents::GIT_PREPARE, $event);
 
-            // Execute command if it is not flagged to be bypassed and throw the
-            // "git.command.success" event, otherwise do not execute the comamnd
-            // and throw the "git.command.bypass" event.
-            if ($this->gitCommand->notBypassed()) {
-                $status = parent::run($callback);
-
-                if ($this->isSuccessful()) {
-                    $dispatcher->dispatch(GitEvents::GIT_SUCCESS, $event);
-                } else {
-                    $output = $this->getErrorOutput();
-
-                    if (trim($output) === '') {
-                        $output = $this->getOutput();
-                    }
-
-                    throw new RuntimeException($output);
-                }
-                return $status;
+            parent::run($callback);
+            if ($this->isSuccessful()) {
+                $dispatcher->dispatch(GitEvents::GIT_SUCCESS, $event);
+                return $this->getExitCode();
             }
 
-            $dispatcher->dispatch(GitEvents::GIT_BYPASS, $event);
-            // success code
-            return 0;
+            $output = $this->getErrorOutput();
+            if (trim($output) === '') {
+                $output = $this->getOutput();
+            }
+
+            throw new RuntimeException($output);
 
         } catch (RuntimeException $exception) {
             $dispatcher->dispatch(GitEvents::GIT_ERROR, $event);

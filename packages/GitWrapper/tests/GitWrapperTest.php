@@ -171,7 +171,6 @@ final class GitWrapperTest extends AbstractGitWrapperTestCase
 //
 //    public function testCloneWothoutDirectory(): void
 //    {
-//        $this->addBypassListener();
 //        $this->gitWrapper->cloneRepository('file:///' . $this->randomString());
 //    }
 }

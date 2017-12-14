@@ -5,10 +5,8 @@ namespace Symplify\GitWrapper\Tests;
 use Nette\Utils\Random;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Filesystem\Filesystem;
-use Symplify\GitWrapper\Event\GitEvents;
 use Symplify\GitWrapper\GitException;
 use Symplify\GitWrapper\GitWrapper;
-use Symplify\GitWrapper\Tests\Event\TestBypassListener;
 
 abstract class AbstractGitWrapperTestCase extends TestCase
 {
@@ -42,17 +40,6 @@ abstract class AbstractGitWrapperTestCase extends TestCase
     protected function randomString(): string
     {
         return Random::generate();
-    }
-
-    /**
-     * Adds the bypass listener so that Git commands are not run.
-     */
-    public function addBypassListener(): TestBypassListener
-    {
-        $listener = new TestBypassListener();
-        $dispatcher = $this->gitWrapper->getDispatcher();
-        $dispatcher->addListener(GitEvents::GIT_PREPARE, [$listener, 'onPrepare'], -5);
-        return $listener;
     }
 
     /**

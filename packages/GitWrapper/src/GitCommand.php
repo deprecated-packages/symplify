@@ -35,13 +35,6 @@ final class GitCommand
     private $args = [];
 
     /**
-     * Whether command execution should be bypassed.
-     *
-     * @var bool
-     */
-    private $bypass = false;
-
-    /**
      * @param mixed[]|mixed[][] @$argAndOptions
      */
     public function __construct(string $command = '', ...$argAndOptions)
@@ -72,23 +65,6 @@ final class GitCommand
     public function getDirectory(): ?string
     {
         return $this->directory;
-    }
-
-    /**
-     * @param bool $bypass Whether to bypass execution of the command. The parameter defaults to true for code
-     * readability, however the default behavior of this class is to run the command.
-     */
-    public function bypass(bool $bypass = true): void
-    {
-        $this->bypass = $bypass;
-    }
-
-    /**
-     * @return bool
-     */
-    public function notBypassed(): bool
-    {
-        return ! $this->bypass;
     }
 
     /**

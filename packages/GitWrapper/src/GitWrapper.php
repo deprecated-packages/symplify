@@ -368,6 +368,6 @@ final class GitWrapper
             $gitWrapper->getDispatcher()->dispatch(GitEvents::GIT_OUTPUT, $event);
         });
 
-        return $gitCommand->notBypassed() ? $process->getOutput() : '';
+        return $process->getOutput();
     }
 }

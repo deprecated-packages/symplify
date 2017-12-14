@@ -27,8 +27,7 @@ final class GitLoggerListener implements EventSubscriberInterface, LoggerAwareIn
         GitEvents::GIT_PREPARE => LogLevel::INFO,
         GitEvents::GIT_OUTPUT => LogLevel::DEBUG,
         GitEvents::GIT_SUCCESS => LogLevel::INFO,
-        GitEvents::GIT_ERROR => LogLevel::ERROR,
-        GitEvents::GIT_BYPASS => LogLevel::INFO,
+        GitEvents::GIT_ERROR => LogLevel::ERROR
     ];
 
     public function __construct(LoggerInterface $logger)
@@ -83,7 +82,6 @@ final class GitLoggerListener implements EventSubscriberInterface, LoggerAwareIn
             GitEvents::GIT_OUTPUT => ['handleOutput', 0],
             GitEvents::GIT_SUCCESS => ['onSuccess', 0],
             GitEvents::GIT_ERROR => ['onError', 0],
-            GitEvents::GIT_BYPASS => ['onBypass', 0],
         ];
     }
 
@@ -125,10 +123,5 @@ final class GitLoggerListener implements EventSubscriberInterface, LoggerAwareIn
     public function onError(AbstractGitEvent $gitEvent, $eventName = null): void
     {
         $this->log($gitEvent, 'Error running Git command', [], $eventName);
-    }
-
-    public function onBypass(AbstractGitEvent $gitEvent, $eventName = null): void
-    {
-        $this->log($gitEvent, 'Git command bypassed', [], $eventName);
     }
 }

@@ -34,11 +34,4 @@ final class GitEvents
      * @var string
      */
     public const GIT_ERROR = 'git.command.error';
-
-    /**
-     * Event thrown if the command is flagged to skip execution.
-     *
-     * @var string
-     */
-    public const GIT_BYPASS = 'git.command.bypass';
 }

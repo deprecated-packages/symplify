@@ -45,9 +45,4 @@ final class TestListener
     {
         $this->methods[] = 'onError';
     }
-
-    public function onBypass(GitEvent $gitEvent): void
-    {
-        $this->methods[] = 'onBypass';
-    }
 }

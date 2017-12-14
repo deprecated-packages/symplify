@@ -76,19 +76,4 @@ final class GitLoggerListenerTest extends AbstractGitWrapperTestCase
         $this->assertArrayHasKey('command', $logger->contexts[2]);
         $this->assertSame(LogLevel::ERROR, $logger->levels[2]);
     }
-
-    public function testLogBypassedCommand(): void
-    {
-        $logger = new TestLogger();
-        $this->gitWrapper->addLoggerListener(new GitLoggerListener($logger));
-
-        $command = new GitCommand('status', ['s' => true]);
-        $command->bypass();
-
-        $this->gitWrapper->run($command);
-
-        $this->assertSame('Git command bypassed', $logger->messages[1]);
-        $this->assertArrayHasKey('command', $logger->contexts[1]);
-        $this->assertSame(LogLevel::INFO, $logger->levels[1]);
-    }
 }
