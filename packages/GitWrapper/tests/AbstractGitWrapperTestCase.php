@@ -8,7 +8,7 @@ use Symfony\Component\Filesystem\Filesystem;
 use Symplify\GitWrapper\Exception\GitException;
 use Symplify\GitWrapper\GitWrapper;
 
-abstract class AbstractGitWrapperTestCase extends TestCase
+abstract class AbstractGitWrapperTestCase extends AbstractContainerAwareTestCase
 {
     /**
      * @var string
@@ -33,7 +33,7 @@ abstract class AbstractGitWrapperTestCase extends TestCase
     protected function setUp(): void
     {
         $this->filesystem = new Filesystem();
-        $this->gitWrapper = new GitWrapper();
+        $this->gitWrapper = $this->container->get(GitWrapper::class);
     }
 
     /**

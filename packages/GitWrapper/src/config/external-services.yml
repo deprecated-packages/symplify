@@ -1,0 +1,9 @@
+services:
+    _defaults:
+        autowire: true
+        public: true # for tests
+
+    Symfony\Component\EventDispatcher\EventDispatcher: ~
+
+    Symfony\Component\EventDispatcher\EventDispatcherInterface:
+        alias: 'Symfony\Component\EventDispatcher\EventDispatcher'

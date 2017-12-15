@@ -1,0 +1,11 @@
+imports:
+    - { resource: 'external-services.yml' }
+
+services:
+    _defaults:
+        autowire: true
+        public: true # for tests
+
+    Symplify\GitWrapper\:
+        resource: '..'
+        exclude: '../{Contract,Event,GitWorkingCopy.php,GitBranches.php}'
