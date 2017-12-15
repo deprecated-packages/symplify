@@ -29,10 +29,10 @@ final class GitLoggerEventSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            GitPrepareEvent::class => ['onPrepare', 0],
-            GitOutputEvent::class => ['handleOutput', 0],
-            GitSuccessEvent::class => ['onSuccess', 0],
-            GitErrorEvent::class => ['onError', 0],
+            GitPrepareEvent::class => 'onPrepare',
+            GitOutputEvent::class => 'handleOutput',
+            GitSuccessEvent::class => 'onSuccess',
+            GitErrorEvent::class => 'onError',
         ];
     }
 
@@ -40,7 +40,7 @@ final class GitLoggerEventSubscriber implements EventSubscriberInterface
     {
         $data = [
             'command' => $gitEvent->getProcess()->getCommandLine(),
-            'eventClass' => get_class($gitEvent)
+            'eventName' => get_class($gitEvent)
         ];
 
         $this->logger->info('Git command preparing to run', $data);
@@ -50,7 +50,7 @@ final class GitLoggerEventSubscriber implements EventSubscriberInterface
     {
         $data = [
             'command' => $gitOutputEvent->getProcess()->getCommandLine(),
-            'eventClass' => get_class($gitOutputEvent),
+            'eventName' => get_class($gitOutputEvent),
             'error' => $gitOutputEvent->isError()
         ];
 
@@ -61,7 +61,7 @@ final class GitLoggerEventSubscriber implements EventSubscriberInterface
     {
         $data = [
             'command' => $gitEvent->getProcess()->getCommandLine(),
-            'eventClass' => get_class($gitEvent)
+            'eventName' => get_class($gitEvent)
         ];
 
         $this->logger->info('Git command successfully run', $data);
@@ -71,7 +71,7 @@ final class GitLoggerEventSubscriber implements EventSubscriberInterface
     {
         $data = [
             'command' => $gitEvent->getProcess()->getCommandLine(),
-            'eventClass' => get_class($gitEvent)
+            'eventName' => get_class($gitEvent)
         ];
 
         $this->logger->error( 'Error running Git command', $data);

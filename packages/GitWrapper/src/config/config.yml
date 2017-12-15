@@ -8,4 +8,4 @@ services:
 
     Symplify\GitWrapper\:
         resource: '..'
-        exclude: '../{Contract,Event,GitWorkingCopy.php,GitBranches.php}'
+        exclude: '../{Contract,Event,EventSubscriber,GitWorkingCopy.php,GitBranches.php}'

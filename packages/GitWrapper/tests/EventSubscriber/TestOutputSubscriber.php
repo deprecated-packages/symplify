@@ -3,7 +3,6 @@
 namespace Symplify\GitWrapper\Tests\Event;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symplify\GitWrapper\Event\GitEvents;
 use Symplify\GitWrapper\Event\GitOutputEvent;
 
 final class TestOutputSubscriber implements EventSubscriberInterface
@@ -19,7 +18,7 @@ final class TestOutputSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            GitEvents::GIT_OUTPUT => 'handleOutput'
+            GitOutputEvent::class => 'handleOutput'
         ];
     }
 

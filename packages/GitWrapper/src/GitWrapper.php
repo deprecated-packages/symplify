@@ -175,16 +175,16 @@ final class GitWrapper
         $this->unsetEnvVar(self::ENV_GIT_SSH_PORT);
     }
 
-    /**
-     * Stream real-time output to STDOUT and STDERR.
-     */
-    public function streamOutput(bool $streamOutput = true): void
-    {
-        $this->eventDispatcher->addListener(
-            GitOutputEvent::class,
-            [new GitOutputStreamListener(), 'handleOutput']
-        );
-    }
+//    /**
+//     * Stream real-time output to STDOUT and STDERR.
+//     */
+//    public function streamOutput(bool $streamOutput = true): void
+//    {
+//        $this->eventDispatcher->addListener(
+//            GitOutputEvent::class,
+//            [new GitOutputStreamListener(), 'handleOutput']
+//        );
+//    }
 
     /**
      * Returns an object that interacts with a working copy.

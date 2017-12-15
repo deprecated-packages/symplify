@@ -83,18 +83,52 @@ $git = $gitWrapper->cloneRepository('git://github.com/cpliakas/git-wrapper.git',
 
 GitWrapper uses prepareEvent system based on Symfony\EventDispatcher.
 
-There are x events:
+There are 4 events to hook on:
 
-- 
--
--
--
+- `GitPrepareEvent` 
+- `GitSuccessEvent`
+- `GitErrorEvent`
+- `GitOutputEvent`
 
-// Instantiate the listener, add the logger to it, and register it.
-$listener = new GitLoggerListener($log);
-$gitWrapper->addLoggerListener($listener);
+All than be hook using their `::class` name, e.g. to get every success event, create and register this subscriber:
+
+```php
+namespace App\EventSubscriber;
+
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symplify\GitWrapper\Event\GitSuccessEvent;
+
+final class MyEventSubscriber implements EventSubscriberInterface
+{
+    public static function getSubscribedEvents(): array
+    {
+        return [
+            GitSuccessEvent::class => 'onSuccess',
+        ];
+    }
+    
+    public function onSuccess(GitSuccessEvent $gitSuccessEvent)
+    {
+        // do what you like to do
+    }
+}
+```
 
 
+
+### Prepared Subscribers
+
+To stream output right away, add `GitOutputStreamEventSubscriber` to your dispatcher:
+ 
+```php
+$this->eventDispatcher->addSubscriber(new GitOutputStreamEventSubscriber);
+```
+
+To enabled logging, do the same with `GitLoggerEventSubscriber`:
+
+```php
+$this->eventDispatcher->addSubscriber(new GitLoggerEventSubscriber);
+```
 
 
 ## Gotchas

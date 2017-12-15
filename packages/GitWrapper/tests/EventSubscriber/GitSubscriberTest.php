@@ -9,10 +9,15 @@ use Symplify\GitWrapper\Event\GitEvents;
 use Symplify\GitWrapper\Event\GitSuccessEvent;
 use Symplify\GitWrapper\GitCommand;
 use Symplify\GitWrapper\Tests\AbstractGitWrapperTestCase;
-use Symplify\GitWrapper\Tests\Event\TestListener;
+use Symplify\GitWrapper\Tests\EventSubscriber\TestSubscriber;
 
-final class GitListenerTest extends AbstractGitWrapperTestCase
+final class GitSubscriberTest extends AbstractGitWrapperTestCase
 {
+    /**
+     * @var TestSubscriber
+     */
+    private $testSubscriber;
+
     /**
      * @var EventDispatcherInterface
      */
@@ -22,27 +27,29 @@ final class GitListenerTest extends AbstractGitWrapperTestCase
     {
         parent::setUp();
 
+        $this->testSubscriber = new TestSubscriber();
+
         $this->eventDispatcher = $this->container->get(EventDispatcherInterface::class);
+        $this->eventDispatcher->addSubscriber($this->testSubscriber);
     }
 
-    public function testListener(): void
+    public function testSubscriber(): void
     {
-        $listener = $this->addListener();
         $this->gitWrapper->version();
 
-        $this->assertTrue($listener->methodCalled('onPrepare'));
-        $this->assertTrue($listener->methodCalled('onSuccess'));
-        $this->assertFalse($listener->methodCalled('onError'));
+        $this->assertTrue($this->testSubscriber->wasMethodCalled('onPrepare'));
+        $this->assertTrue($this->testSubscriber->wasMethodCalled('onSuccess'));
+        $this->assertFalse($this->testSubscriber->wasMethodCalled('onError'));
     }
 
     public function testListenerError(): void
     {
-        $listener = $this->addListener();
+//        $listener = $this->addListener();
         $this->runBadCommand(true);
 
-        $this->assertTrue($listener->methodCalled('onPrepare'));
-        $this->assertFalse($listener->methodCalled('onSuccess'));
-        $this->assertTrue($listener->methodCalled('onError'));
+        $this->assertTrue($listener->wasMethodCalled('onPrepare'));
+        $this->assertFalse($listener->wasMethodCalled('onSuccess'));
+        $this->assertTrue($listener->wasMethodCalled('onError'));
     }
 
     public function testEvent(): void
@@ -54,19 +61,5 @@ final class GitListenerTest extends AbstractGitWrapperTestCase
         $this->assertSame($this->gitWrapper, $event->getWrapper());
         $this->assertSame($process, $event->getProcess());
         $this->assertSame($command, $event->getCommand());
-    }
-
-    /**
-     * Adds the test listener for all events, returns the listener.
-     */
-    private function addListener(): TestListener
-    {
-        $listener = new TestListener();
-
-        $this->eventDispatcher->addListener(GitEvents::GIT_PREPARE, [$listener, 'onPrepare']);
-        $this->eventDispatcher->addListener(GitEvents::GIT_SUCCESS, [$listener, 'onSuccess']);
-        $this->eventDispatcher->addListener(GitEvents::GIT_ERROR, [$listener, 'onError']);
-
-        return $listener;
     }
 }
