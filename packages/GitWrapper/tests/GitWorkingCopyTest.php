@@ -274,7 +274,8 @@ PATCH;
     {
         $git = $this->getWorkingCopy();
         $output = (string) $git->pull();
-        $this->assertSame('Already up-to-date.', trim($output));
+        // message can differ per OS/CI
+        $this->assertRegExp('#Already up(?:-)to(?:-)date#', trim($output));
     }
 
     public function testGitArchive(): void
