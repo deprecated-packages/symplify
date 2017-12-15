@@ -2,6 +2,7 @@
 
 namespace Symplify\GitWrapper\Tests\EventListener;
 
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Process\Process;
 use Symplify\GitWrapper\Event\GitEvent;
 use Symplify\GitWrapper\Event\GitEvents;
@@ -11,6 +12,18 @@ use Symplify\GitWrapper\Tests\Event\TestListener;
 
 final class GitListenerTest extends AbstractGitWrapperTestCase
 {
+    /**
+     * @var EventDispatcherInterface
+     */
+    private $eventDispatcher;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->eventDispatcher = $this->container->get(EventDispatcherInterface::class);
+    }
+
     public function testListener(): void
     {
         $listener = $this->addListener();
@@ -47,12 +60,11 @@ final class GitListenerTest extends AbstractGitWrapperTestCase
      */
     private function addListener(): TestListener
     {
-        $dispatcher = $this->gitWrapper->getDispatcher();
         $listener = new TestListener();
 
-        $dispatcher->addListener(GitEvents::GIT_PREPARE, [$listener, 'onPrepare']);
-        $dispatcher->addListener(GitEvents::GIT_SUCCESS, [$listener, 'onSuccess']);
-        $dispatcher->addListener(GitEvents::GIT_ERROR, [$listener, 'onError']);
+        $this->eventDispatcher->addListener(GitEvents::GIT_PREPARE, [$listener, 'onPrepare']);
+        $this->eventDispatcher->addListener(GitEvents::GIT_SUCCESS, [$listener, 'onSuccess']);
+        $this->eventDispatcher->addListener(GitEvents::GIT_ERROR, [$listener, 'onError']);
 
         return $listener;
     }
