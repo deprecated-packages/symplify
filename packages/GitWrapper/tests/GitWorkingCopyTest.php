@@ -304,7 +304,7 @@ PATCH;
 
         $this->expectException(GitException::class);
         $this->expectExceptionMessageRegExp("#Your branch is up(-| )to(-| )date with 'origin/master'#");
-        $this->expectExceptionMessageRegExp("#nothing to commit, working tree clean#");
+        $this->expectExceptionMessageRegExp('#nothing to commit, working tree clean#');
 
         $git->commit('Nothing to commit so generates an error / not error');
     }
