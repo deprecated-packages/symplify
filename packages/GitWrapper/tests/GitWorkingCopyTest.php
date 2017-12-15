@@ -275,7 +275,7 @@ PATCH;
         $git = $this->getWorkingCopy();
         $output = (string) $git->pull();
         // message can differ per OS/CI
-        $this->assertRegExp('#Already up(?:-)to(?:-)date#', trim($output));
+        $this->assertRegExp('#Already up(-| )to(-| )date#', trim($output));
     }
 
     public function testGitArchive(): void
@@ -303,7 +303,8 @@ PATCH;
         $git = $this->getWorkingCopy();
 
         $this->expectException(GitException::class);
-        $this->expectExceptionMessageRegExp("#Your branch is up-to-date with 'origin/master'#");
+        $this->expectExceptionMessageRegExp("#Your branch is up(-| )to(-| )date with 'origin/master'#");
+        $this->expectExceptionMessageRegExp("#nothing to commit, working tree clean#");
 
         $git->commit('Nothing to commit so generates an error / not error');
     }
