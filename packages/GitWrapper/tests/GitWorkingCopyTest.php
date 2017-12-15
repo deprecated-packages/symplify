@@ -303,7 +303,7 @@ PATCH;
         $git = $this->getWorkingCopy();
 
         $this->expectException(GitException::class);
-        $this->expectExceptionMessage("Your branch is up-to-date with 'origin/master'");
+        $this->expectExceptionMessageRegExp("#Your branch is up-to-date with 'origin/master'#");
 
         $git->commit('Nothing to commit so generates an error / not error');
     }
