@@ -2,9 +2,7 @@
 
 namespace Symplify\GitWrapper\Tests\EventSubscriber;
 
-use DomainException;
 use Psr\Log\LogLevel;
-use Psr\Log\NullLogger;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symplify\GitWrapper\EventSubscriber\GitLoggerEventSubscriber;
 use Symplify\GitWrapper\Tests\AbstractGitWrapperTestCase;
