@@ -274,23 +274,22 @@ PATCH;
     {
         $git = $this->getWorkingCopy();
         $output = (string) $git->pull();
-        $this->assertSame("Already up-to-date.\n", $output);
+        $this->assertSame('Already up-to-date.', trim($output));
     }
 
-//    /**
-//     * Failing not sure why :(
-//     */
-//    public function testGitArchive(): void
-//    {
-//        $archiveName = uniqid('', true) . '.tar';
-//        $archivePath = __DIR__ . '/temp/' . $archiveName;
-//
-//        $git = $this->getWorkingCopy();
-    ////        $output = $git->archive('HEAD', ['o' => $archivePath]);
-    ////        $this->assertSame('', $output);
-//
-    ////        $this->assertFileExists($archivePath);
-//    }
+    public function testGitArchive(): void
+    {
+        $this->markTestSkipped('Failing, not sure why.');
+
+        $archiveName = uniqid('', true) . '.tar';
+        $archivePath = __DIR__ . '/temp/' . $archiveName;
+
+        $git = $this->getWorkingCopy();
+        $output = $git->archive('HEAD', ['o' => $archivePath]);
+        $this->assertSame('', $output);
+
+        $this->assertFileExists($archivePath);
+    }
 
     /**
      * This tests an odd case where sometimes even though a command fails and an exception is thrown
@@ -302,13 +301,10 @@ PATCH;
     {
         $git = $this->getWorkingCopy();
 
-        try {
-            $git->commit('Nothing to commit so generates an error / not error');
-        } catch (GitException $exception) {
-            $errorOutput = $exception->getMessage();
-        }
+        $this->expectException(GitException::class);
+        $this->expectExceptionMessage("Your branch is up-to-date with 'origin/master'");
 
-        $this->assertTrue(strpos($errorOutput, "Your branch is up-to-date with 'origin/master'.") !== false);
+        $git->commit('Nothing to commit so generates an error / not error');
     }
 
     public function testGitDiff(): void
