@@ -3,14 +3,13 @@
 namespace Symplify\GitWrapper\EventSubscriber;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symplify\GitWrapper\Contract\EventListener\GitOutputListenerInterface;
 use Symplify\GitWrapper\Event\GitOutputEvent;
 
 /**
  * Event handler that streams real-time output from Git commands to STDOUT and
  * STDERR.
  */
-final class GitOutputStreamListener implements GitOutputListenerInterface, EventSubscriberInterface
+final class GitOutputStreamEventSubscriber implements EventSubscriberInterface
 {
     /**
      * @return string[]

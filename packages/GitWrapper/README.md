@@ -81,7 +81,7 @@ $git = $gitWrapper->cloneRepository('git://github.com/cpliakas/git-wrapper.git',
 
 ## Event System
 
-GitWrapper uses event system based on Symfony\EventDispatcher.
+GitWrapper uses prepareEvent system based on Symfony\EventDispatcher.
 
 There are x events:
 

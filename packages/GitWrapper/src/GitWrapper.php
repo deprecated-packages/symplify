@@ -181,7 +181,7 @@ final class GitWrapper
     public function streamOutput(bool $streamOutput = true): void
     {
         $this->eventDispatcher->addListener(
-            GitEvents::GIT_OUTPUT,
+            GitOutputEvent::class,
             [new GitOutputStreamListener(), 'handleOutput']
         );
     }

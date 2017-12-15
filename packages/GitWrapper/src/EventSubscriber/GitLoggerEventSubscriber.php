@@ -1,12 +1,15 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\GitWrapper\EventListener;
+namespace Symplify\GitWrapper\EventSubscriber;
 
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symplify\GitWrapper\Event\AbstractGitEvent;
+use Symplify\GitWrapper\Event\GitErrorEvent;
 use Symplify\GitWrapper\Event\GitEvents;
 use Symplify\GitWrapper\Event\GitOutputEvent;
+use Symplify\GitWrapper\Event\GitPrepareEvent;
+use Symplify\GitWrapper\Event\GitSuccessEvent;
 
 final class GitLoggerEventSubscriber implements EventSubscriberInterface
 {
@@ -26,10 +29,10 @@ final class GitLoggerEventSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            GitEvents::GIT_PREPARE => ['onPrepare', 0],
-            GitEvents::GIT_OUTPUT => ['handleOutput', 0],
-            GitEvents::GIT_SUCCESS => ['onSuccess', 0],
-            GitEvents::GIT_ERROR => ['onError', 0],
+            GitPrepareEvent::class => ['onPrepare', 0],
+            GitOutputEvent::class => ['handleOutput', 0],
+            GitSuccessEvent::class => ['onSuccess', 0],
+            GitErrorEvent::class => ['onError', 0],
         ];
     }
 
