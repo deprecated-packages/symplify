@@ -59,7 +59,6 @@ final class GitProcess extends Process
      */
     public function run(?callable $callback = null, array $env = []): int
     {
-
         try {
             $prepareEvent = new GitPrepareEvent($this->gitWrapper, $this, $this->gitCommand);
             $this->eventDispatcher->dispatch(GitPrepareEvent::class, $prepareEvent);

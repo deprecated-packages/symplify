@@ -18,7 +18,7 @@ final class TestOutputSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            GitOutputEvent::class => 'handleOutput'
+            GitOutputEvent::class => 'handleOutput',
         ];
     }
 

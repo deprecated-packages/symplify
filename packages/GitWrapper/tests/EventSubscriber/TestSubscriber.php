@@ -30,7 +30,7 @@ final class TestSubscriber implements EventSubscriberInterface
         return [
             GitPrepareEvent::class => 'onPrepare',
             GitSuccessEvent::class => 'onSucess',
-            GitErrorEvent::class => 'onError'
+            GitErrorEvent::class => 'onError',
         ];
     }
 

@@ -7,8 +7,8 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Process\ExecutableFinder;
 use Symplify\GitWrapper\Event\GitEvents;
 use Symplify\GitWrapper\Event\GitOutputEvent;
-use Symplify\GitWrapper\EventListener\GitOutputStreamListener;
 use Symplify\GitWrapper\Exception\GitException;
+use Symplify\GitWrapper\Naming\NameParser;
 use Symplify\GitWrapper\Process\GitProcessFactory;
 
 /**
@@ -63,11 +63,17 @@ final class GitWrapper
      */
     private $gitProcessFactory;
 
+    /**
+     * @var NameParser
+     */
+    private $nameParser;
+
     public function __construct(
+        ?string $gitBinary = null,
         EventDispatcherInterface $eventDispatcher,
         ExecutableFinder $executableFinder,
         GitProcessFactory $gitProcessFactory,
-        ?string $gitBinary = null
+        NameParser $nameParser
     ) {
         if ($gitBinary === null) {
             $gitBinary = $executableFinder->find('git');
@@ -79,6 +85,7 @@ final class GitWrapper
         $this->gitBinary = $gitBinary;
         $this->eventDispatcher = $eventDispatcher;
         $this->gitProcessFactory = $gitProcessFactory;
+        $this->nameParser = $nameParser;
     }
 
     public function getGitBinary(): string
@@ -175,17 +182,6 @@ final class GitWrapper
         $this->unsetEnvVar(self::ENV_GIT_SSH_PORT);
     }
 
-//    /**
-//     * Stream real-time output to STDOUT and STDERR.
-//     */
-//    public function streamOutput(bool $streamOutput = true): void
-//    {
-//        $this->eventDispatcher->addListener(
-//            GitOutputEvent::class,
-//            [new GitOutputStreamListener(), 'handleOutput']
-//        );
-//    }
-
     /**
      * Returns an object that interacts with a working copy.
      */
@@ -197,29 +193,6 @@ final class GitWrapper
     public function version(): string
     {
         return $this->git('--version');
-    }
-
-    /**
-     * @todo decouple to external service
-     *
-     * Parses name of the repository from the path.
-     *
-     * E.g. passing the "git@github.com:cpliakas/git-wrapper.git"
-     * repository would return "git-wrapper".
-     */
-    public static function parseRepositoryName(string $repository): string
-    {
-        $scheme = parse_url($repository, PHP_URL_SCHEME);
-
-        if ($scheme === null) {
-            $parts = explode('/', $repository);
-            $path = end($parts);
-        } else {
-            $strpos = strpos($repository, ':');
-            $path = substr($repository, $strpos + 1);
-        }
-
-        return basename($path, '.git');
     }
 
     /**
@@ -239,7 +212,7 @@ final class GitWrapper
     public function cloneRepository(string $repository, ?string $directory = null, array $options = []): GitWorkingCopy
     {
         if ($directory === null) {
-            $directory = self::parseRepositoryName($repository);
+            $directory = $this->nameParser->parseRepositoryName($repository);
         }
 
         $git = $this->workingCopy($directory);

@@ -34,11 +34,8 @@ $gitWorkingCopy->add('test.txt');
 $gitWorkingCopy->commit('Added the test.txt file as per the examples.');
 $gitWorkingCopy->push();
 
-// Render the output.
+// Render the output
 echo $gitWorkingCopy->getOutput();
-
-// Stream output of subsequent Git commands in real time to STDOUT and STDERR.
-$gitWrapper->streamOutput();
 
 // Execute an arbitrary git command.
 // The following is synonymous with `git config -l`
@@ -81,7 +78,7 @@ $git = $gitWrapper->cloneRepository('git://github.com/cpliakas/git-wrapper.git',
 
 ## Event System
 
-GitWrapper uses prepareEvent system based on Symfony\EventDispatcher.
+GitWrapper uses event system based on [Symfony\EventDispatcher](https://symfony.com/doc/current/components/event_dispatcher.html).
 
 There are 4 events to hook on:
 
@@ -90,7 +87,7 @@ There are 4 events to hook on:
 - `GitErrorEvent`
 - `GitOutputEvent`
 
-All than be hook using their `::class` name, e.g. to get every success event, create and register this subscriber:
+To hook one on use their `::class` name, e.g. to get every success event create and register this subscriber:
 
 ```php
 namespace App\EventSubscriber;
@@ -118,13 +115,16 @@ final class MyEventSubscriber implements EventSubscriberInterface
 
 ### Prepared Subscribers
 
-To stream output right away, add `GitOutputStreamEventSubscriber` to your dispatcher:
+We have also few prepared special EventSubscibers for you:
+
+
+**1. To stream output right away**, add `GitOutputStreamEventSubscriber` to your dispatcher:
  
 ```php
 $this->eventDispatcher->addSubscriber(new GitOutputStreamEventSubscriber);
 ```
 
-To enabled logging, do the same with `GitLoggerEventSubscriber`:
+**2. To enabled logging** do the same with `GitLoggerEventSubscriber`:
 
 ```php
 $this->eventDispatcher->addSubscriber(new GitLoggerEventSubscriber);

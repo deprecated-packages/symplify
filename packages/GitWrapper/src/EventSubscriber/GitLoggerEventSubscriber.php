@@ -6,7 +6,6 @@ use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symplify\GitWrapper\Event\AbstractGitEvent;
 use Symplify\GitWrapper\Event\GitErrorEvent;
-use Symplify\GitWrapper\Event\GitEvents;
 use Symplify\GitWrapper\Event\GitOutputEvent;
 use Symplify\GitWrapper\Event\GitPrepareEvent;
 use Symplify\GitWrapper\Event\GitSuccessEvent;
@@ -40,7 +39,7 @@ final class GitLoggerEventSubscriber implements EventSubscriberInterface
     {
         $data = [
             'command' => $gitEvent->getProcess()->getCommandLine(),
-            'eventName' => get_class($gitEvent)
+            'eventName' => get_class($gitEvent),
         ];
 
         $this->logger->info('Git command preparing to run', $data);
@@ -51,7 +50,7 @@ final class GitLoggerEventSubscriber implements EventSubscriberInterface
         $data = [
             'command' => $gitOutputEvent->getProcess()->getCommandLine(),
             'eventName' => get_class($gitOutputEvent),
-            'error' => $gitOutputEvent->isError()
+            'error' => $gitOutputEvent->isError(),
         ];
 
         $this->logger->debug($gitOutputEvent->getBuffer(), $data);
@@ -61,7 +60,7 @@ final class GitLoggerEventSubscriber implements EventSubscriberInterface
     {
         $data = [
             'command' => $gitEvent->getProcess()->getCommandLine(),
-            'eventName' => get_class($gitEvent)
+            'eventName' => get_class($gitEvent),
         ];
 
         $this->logger->info('Git command successfully run', $data);
@@ -71,9 +70,9 @@ final class GitLoggerEventSubscriber implements EventSubscriberInterface
     {
         $data = [
             'command' => $gitEvent->getProcess()->getCommandLine(),
-            'eventName' => get_class($gitEvent)
+            'eventName' => get_class($gitEvent),
         ];
 
-        $this->logger->error( 'Error running Git command', $data);
+        $this->logger->error('Error running Git command', $data);
     }
 }

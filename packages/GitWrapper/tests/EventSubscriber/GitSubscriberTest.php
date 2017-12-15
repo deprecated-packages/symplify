@@ -4,8 +4,6 @@ namespace Symplify\GitWrapper\Tests\EventListener;
 
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Process\Process;
-use Symplify\GitWrapper\Event\GitEvent;
-use Symplify\GitWrapper\Event\GitEvents;
 use Symplify\GitWrapper\Event\GitSuccessEvent;
 use Symplify\GitWrapper\GitCommand;
 use Symplify\GitWrapper\Tests\AbstractGitWrapperTestCase;
