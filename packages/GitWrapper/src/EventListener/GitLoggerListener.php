@@ -30,7 +30,7 @@ final class GitLoggerListener implements EventSubscriberInterface, LoggerAwareIn
         GitEvents::GIT_ERROR => LogLevel::ERROR,
     ];
 
-    public function __construct(LoggerInterface $logger)
+    public function __construct(LoggerInterface $logger = null)
     {
         $this->logger = $logger;
     }

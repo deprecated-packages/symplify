@@ -3,13 +3,11 @@
 namespace Symplify\GitWrapper;
 
 use Nette\Utils\Strings;
-use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Process\ExecutableFinder;
 use Symplify\GitWrapper\Contract\EventListener\GitOutputListenerInterface;
 use Symplify\GitWrapper\Event\GitEvents;
 use Symplify\GitWrapper\Event\GitOutputEvent;
-use Symplify\GitWrapper\EventListener\GitLoggerListener;
 use Symplify\GitWrapper\EventListener\GitOutputStreamListener;
 use Symplify\GitWrapper\Exception\GitException;
 use Symplify\GitWrapper\Process\GitProcess;
@@ -69,14 +67,12 @@ final class GitWrapper
      */
     private $eventDispatcher;
 
-    /**
-     * @param string $gitBinary The path to the Git binary. Defaults to null, which uses Symfony's
-     * ExecutableFinder to resolve it automatically.
-     */
-    public function __construct(?string $gitBinary = null)
-    {
+    public function __construct(
+        EventDispatcherInterface $eventDispatcher,
+        ?string $gitBinary = null
+    ) {
         if ($gitBinary === null) {
-            $finder = new ExecutableFinder();
+            $finder = new ExecutableFinder(); // di
             $gitBinary = $finder->find('git');
             if (! $gitBinary) {
                 throw new GitException('Unable to find the Git executable.');
@@ -84,27 +80,6 @@ final class GitWrapper
         }
 
         $this->gitBinary = $gitBinary;
-    }
-
-    /**
-     * Gets the dispatcher used by this library to dispatch events.
-     *
-     * @todo ctor?
-     */
-    public function getDispatcher(): EventDispatcherInterface
-    {
-        if ($this->eventDispatcher === null) {
-            $this->eventDispatcher = new EventDispatcher();
-        }
-
-        return $this->eventDispatcher;
-    }
-
-    /**
-     * @todo use EventDispatcher via constructor
-     */
-    public function setDispatcher(EventDispatcherInterface $eventDispatcher): void
-    {
         $this->eventDispatcher = $eventDispatcher;
     }
 
@@ -119,10 +94,6 @@ final class GitWrapper
     }
 
     /**
-     * Sets an environment variable that is defined only in the scope of the Git
-     * command.
-     *
-     * @param string $var The name of the environment variable, e.g. "HOME", "GIT_SSH".
      * @param mixed $value
      */
     public function setEnvVar(string $var, $value): void
@@ -130,11 +101,6 @@ final class GitWrapper
         $this->env[$var] = $value;
     }
 
-    /**
-     * Unsets an environment variable that is defined only in the scope of the Git command.
-     *
-     * @param string $var The name of the environment variable, e.g. "HOME", "GIT_SSH".
-     */
     public function unsetEnvVar(string $var): void
     {
         unset($this->env[$var]);
@@ -144,7 +110,6 @@ final class GitWrapper
      * Returns an environment variable that is defined only in the scope of the
      * Git command.
      *
-     * @param string $var The name of the environment variable, e.g. "HOME", "GIT_SSH".
      * @param mixed $default The value returned if the environment variable is not set, defaults to null.
      *
      * @return mixed
@@ -155,8 +120,6 @@ final class GitWrapper
     }
 
     /**
-     * Returns the associative array of environment variables that are defined only in the scope of the Git command.
-     *
      * @return mixed[]
      */
     public function getEnvVars(): array
@@ -223,52 +186,18 @@ final class GitWrapper
     }
 
     /**
-     * @todo resolve via DI and factory
-     */
-    public function addOutputListener(GitOutputListenerInterface $gitOutputListener): void
-    {
-        $this->getDispatcher()
-            ->addListener(GitEvents::GIT_OUTPUT, [$gitOutputListener, 'handleOutput']);
-    }
-
-    /**
-     * @todo resolve via DI and factory
-     */
-    public function addLoggerListener(GitLoggerListener $gitLoggerListener): void
-    {
-        $this->getDispatcher()
-            ->addSubscriber($gitLoggerListener);
-    }
-
-    /**
-     * @todo resolve via DI and factory
-     */
-    public function removeOutputListener(GitOutputListenerInterface $gitOutputListener): void
-    {
-        $this->getDispatcher()
-            ->removeListener(GitEvents::GIT_OUTPUT, [$gitOutputListener, 'handleOutput']);
-    }
-
-    /**
-     * Set whether or not to stream real-time output to STDOUT and STDERR.
+     * Stream real-time output to STDOUT and STDERR.
      */
     public function streamOutput(bool $streamOutput = true): void
     {
-        if ($streamOutput && $this->gitOutputListener === null) {
-            $this->gitOutputListener = new GitOutputStreamListener();
-            $this->addOutputListener($this->gitOutputListener);
-        }
-
-        if (! $streamOutput && $this->gitOutputListener !== null) {
-            $this->removeOutputListener($this->gitOutputListener);
-            unset($this->gitOutputListener);
-        }
+        $this->eventDispatcher->addListener(
+            GitEvents::GIT_OUTPUT,
+            [new GitOutputStreamListener(), 'handleOutput']
+        );
     }
 
     /**
      * Returns an object that interacts with a working copy.
-     *
-     * @param string $directory Path to the directory containing the working copy.
      */
     public function workingCopy(string $directory): GitWorkingCopy
     {
@@ -352,8 +281,7 @@ final class GitWrapper
 
         $process->run(function ($type, $buffer) use ($process, $gitCommand): void {
             $event = new GitOutputEvent($this, $process, $gitCommand, $type, $buffer);
-            $this->getDispatcher()
-                ->dispatch(GitEvents::GIT_OUTPUT, $event);
+            $this->eventDispatcher->dispatch(GitEvents::GIT_OUTPUT, $event);
         });
 
         return $process->getOutput();

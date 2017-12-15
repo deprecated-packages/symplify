@@ -3,6 +3,7 @@
 namespace Symplify\GitWrapper\Process;
 
 use RuntimeException;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Process\Process;
 use Symplify\GitWrapper\Event\GitEvent;
 use Symplify\GitWrapper\Event\GitEvents;
@@ -21,11 +22,20 @@ final class GitProcess extends Process
      * @var GitCommand
      */
     private $gitCommand;
+    /**
+     * @var EventDispatcherInterface
+     */
+    private $eventDispatcher;
 
-    public function __construct(GitWrapper $gitWrapper, GitCommand $gitCommand, ?string $cwd = null)
-    {
+    public function __construct(
+        GitWrapper $gitWrapper,
+        GitCommand $gitCommand,
+        EventDispatcherInterface $eventDispatcher,
+        ?string $cwd = null
+    ) {
         $this->gitWrapper = $gitWrapper;
         $this->gitCommand = $gitCommand;
+        $this->eventDispatcher = $eventDispatcher;
 
         // Build the command line options, flags, and arguments.
         $commandLineItems = array_merge(
@@ -48,14 +58,13 @@ final class GitProcess extends Process
     public function run(?callable $callback = null, array $env = []): int
     {
         $event = new GitEvent($this->gitWrapper, $this, $this->gitCommand);
-        $dispatcher = $this->gitWrapper->getDispatcher();
 
         try {
-            $dispatcher->dispatch(GitEvents::GIT_PREPARE, $event);
+            $this->eventDispatcher->dispatch(GitEvents::GIT_PREPARE, $event);
 
             parent::run($callback);
             if ($this->isSuccessful()) {
-                $dispatcher->dispatch(GitEvents::GIT_SUCCESS, $event);
+                $this->eventDispatcher->dispatch(GitEvents::GIT_SUCCESS, $event);
                 return (int) $this->getExitCode();
             }
 
@@ -66,7 +75,7 @@ final class GitProcess extends Process
 
             throw new RuntimeException($output);
         } catch (RuntimeException $exception) {
-            $dispatcher->dispatch(GitEvents::GIT_ERROR, $event);
+            $this->eventDispatcher->dispatch(GitEvents::GIT_ERROR, $event);
             throw new GitException($exception->getMessage());
         }
     }
