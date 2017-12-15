@@ -9,7 +9,7 @@ use Symplify\GitWrapper\Event\GitEvents;
 use Symplify\GitWrapper\Event\GitOutputEvent;
 use Symplify\GitWrapper\EventListener\GitOutputStreamListener;
 use Symplify\GitWrapper\Exception\GitException;
-use Symplify\GitWrapper\Process\GitProcess;
+use Symplify\GitWrapper\Process\GitProcessFactory;
 
 /**
  * A wrapper class around the Git binary.
@@ -59,17 +59,18 @@ final class GitWrapper
     private $eventDispatcher;
 
     /**
-     * @var ExecutableFinder
+     * @var GitProcessFactory
      */
-    private $executableFinder;
+    private $gitProcessFactory;
 
     public function __construct(
         EventDispatcherInterface $eventDispatcher,
         ExecutableFinder $executableFinder,
+        GitProcessFactory $gitProcessFactory,
         ?string $gitBinary = null
     ) {
         if ($gitBinary === null) {
-            $gitBinary = $this->executableFinder->find('git');
+            $gitBinary = $executableFinder->find('git');
             if (! $gitBinary) {
                 throw new GitException('Unable to find the Git executable.');
             }
@@ -77,15 +78,7 @@ final class GitWrapper
 
         $this->gitBinary = $gitBinary;
         $this->eventDispatcher = $eventDispatcher;
-        $this->executableFinder = $executableFinder;
-    }
-
-    /**
-     * @todo only for test reasons
-     */
-    public function setGitBinary(string $gitBinary): void
-    {
-        $this->gitBinary = $gitBinary;
+        $this->gitProcessFactory = $gitProcessFactory;
     }
 
     public function getGitBinary(): string
@@ -274,7 +267,7 @@ final class GitWrapper
 
     public function run(GitCommand $gitCommand, ?string $cwd = null): string
     {
-        $process = new GitProcess($this, $gitCommand, $cwd);
+        $process = $this->gitProcessFactory->createFromWrapperCommandAndCwd($this, $gitCommand, $cwd);
 
         $process->run(function ($type, $buffer) use ($process, $gitCommand): void {
             $event = new GitOutputEvent($this, $process, $gitCommand, $type, $buffer);

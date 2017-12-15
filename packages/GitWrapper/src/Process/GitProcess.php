@@ -22,6 +22,7 @@ final class GitProcess extends Process
      * @var GitCommand
      */
     private $gitCommand;
+
     /**
      * @var EventDispatcherInterface
      */

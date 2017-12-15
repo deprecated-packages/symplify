@@ -3,7 +3,6 @@
 namespace Symplify\GitWrapper\Tests;
 
 use Nette\Utils\Random;
-use PHPUnit\Framework\TestCase;
 use Symfony\Component\Filesystem\Filesystem;
 use Symplify\GitWrapper\Exception\GitException;
 use Symplify\GitWrapper\GitWrapper;
