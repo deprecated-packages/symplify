@@ -16,8 +16,6 @@ final class TestSubscriber implements EventSubscriberInterface
     private $calledMethods = [];
 
     /**
-     * The event object passed to the onPrepare method.
-     *
      * @var GitEvent
      */
     private $gitEvent;

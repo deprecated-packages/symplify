@@ -42,12 +42,11 @@ final class GitSubscriberTest extends AbstractGitWrapperTestCase
 
     public function testListenerError(): void
     {
-//        $listener = $this->addListener();
         $this->runBadCommand(true);
 
-        $this->assertTrue($listener->wasMethodCalled('onPrepare'));
-        $this->assertFalse($listener->wasMethodCalled('onSuccess'));
-        $this->assertTrue($listener->wasMethodCalled('onError'));
+        $this->assertTrue($this->testSubscriber->wasMethodCalled('onPrepare'));
+        $this->assertFalse($this->testSubscriber->wasMethodCalled('onSuccess'));
+        $this->assertTrue($this->testSubscriber->wasMethodCalled('onError'));
     }
 
     public function testEvent(): void

@@ -1,16 +1,23 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\GitWrapper\Tests\Logging;
+namespace Symplify\GitWrapper\Tests\EventSubscriber;
 
 use DomainException;
 use Psr\Log\LogLevel;
 use Psr\Log\NullLogger;
-use Symplify\GitWrapper\EventListener\GitLoggerEventSubscriber;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symplify\GitWrapper\EventSubscriber\GitLoggerEventSubscriber;
 use Symplify\GitWrapper\Tests\AbstractGitWrapperTestCase;
+use Symplify\GitWrapper\Tests\Logging\TestLogger;
 use Throwable;
 
-final class GitLoggerListenerTest extends AbstractGitWrapperTestCase
+final class GitLoggerSubscriberTest extends AbstractGitWrapperTestCase
 {
+    /**
+     * @var EventDispatcherInterface
+     */
+    private $eventDispatcher;
+
     protected function tearDown(): void
     {
         parent::tearDown();
@@ -18,21 +25,8 @@ final class GitLoggerListenerTest extends AbstractGitWrapperTestCase
         if (is_dir(self::REPO_DIR)) {
             $this->filesystem->remove(self::REPO_DIR);
         }
-    }
 
-    public function testGetLogger(): void
-    {
-        $log = new NullLogger();
-        $listener = new GitLoggerEventSubscriber($log);
-        $this->assertSame($log, $listener->getLogger());
-    }
-
-    public function testGetInvalidLogLevelMapping(): void
-    {
-        $this->expectException(DomainException::class);
-
-        $listener = new GitLoggerEventSubscriber(new NullLogger());
-        $listener->getLogLevelMapping('bad.event');
+        $this->eventDispatcher = $this->container->get(EventDispatcherInterface::class);
     }
 
     public function testRegisterLogger(): void
@@ -40,7 +34,7 @@ final class GitLoggerListenerTest extends AbstractGitWrapperTestCase
         // @todo create container with config
 
         $logger = new TestLogger();
-        $this->gitWrapper->addLoggerListener(new GitLoggerEventSubscriber($logger));
+        $this->eventDispatcher->addSubscriber(new GitLoggerEventSubscriber($logger));
         $git = $this->gitWrapper->init(self::REPO_DIR, ['bare' => true]);
 
         $this->assertSame('Git command preparing to run', $logger->messages[0]);
@@ -62,7 +56,7 @@ final class GitLoggerListenerTest extends AbstractGitWrapperTestCase
         try {
             $logger->clearMessages();
             $git->commit('fatal: This operation must be run in a work tree');
-        } catch (Throwable $e) {
+        } catch (Throwable $exception) {
             // Nothing to do, this is expected.
         }
 
