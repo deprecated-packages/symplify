@@ -18,37 +18,37 @@ use Symplify\GitWrapper\GitWrapper;
 
 require_once __DIR__ . '/vendor/autoload.php';
 
-$wrapper = new GitWrapper();
+$gitWrapper = new GitWrapper();
 
 // Optionally specify a private key other than one of the defaults.
-$wrapper->setPrivateKey('/path/to/private/key');
+$gitWrapper->setPrivateKey('/path/to/private/key');
 
 // Clone a repo into `/path/to/working/copy`, get a working copy object.
-$git = $wrapper->cloneRepository('git://github.com/cpliakas/git-wrapper.git', '/path/to/working/copy');
+$gitWorkingCopy = $gitWrapper->cloneRepository('git://github.com/cpliakas/git-wrapper.git', '/path/to/working/copy');
 
 // Create a file in the working copy.
 touch('/path/to/working/copy/text.txt');
 
 // Add it, commit it, and push the change.
-$git->add('test.txt')
-    ->commit('Added the test.txt file as per the examples.')
-    ->push();
+$gitWorkingCopy->add('test.txt');
+$gitWorkingCopy->commit('Added the test.txt file as per the examples.');
+$gitWorkingCopy->push();
 
 // Render the output.
-print $git->getOutput();
+echo $gitWorkingCopy->getOutput();
 
 // Stream output of subsequent Git commands in real time to STDOUT and STDERR.
-$wrapper->streamOutput();
+$gitWrapper->streamOutput();
 
 // Execute an arbitrary git command.
 // The following is synonymous with `git config -l`
-$wrapper->git('config -l');
+$gitWrapper->git('config -l');
 ```
 
 All command methods adhere to the following paradigm:
 
 ```php
-$git->command($arg1, $arg2, ..., $options);
+$gitWrapper->command($arg1, $arg2, ..., $options);
 ```
 
 Replace `command` with the Git command being executed, e.g. `checkout`, `push`, etc. The `$arg*` parameters are a variable number of arguments as they would be passed to the Git command line tool. `$options` is an optional array of command line options in the following format: 
@@ -76,12 +76,11 @@ $log->pushHandler(new StreamHandler('git.log', Logger::DEBUG));
 
 // Instantiate the listener, add the logger to it, and register it.
 $listener = new GitLoggerListener($log);
-$wrapper->addLoggerListener($listener);
+$gitWrapper->addLoggerListener($listener);
 
-$git = $wrapper->cloneRepository('git://github.com/cpliakas/git-wrapper.git', '/path/to/working/copy');
+$git = $gitWrapper->cloneRepository('git://github.com/cpliakas/git-wrapper.git', '/path/to/working/copy');
 
 // The "git.log" file now has info about the command that was executed above.
-
 ```
 
 
@@ -94,7 +93,7 @@ There are a few "gotchas" that are out of scope for this library to solve but mi
 Sometimes the `HOME` environment variable is not set in the Git process that is spawned by PHP. This will cause many Git operations to fail. It is advisable to set the `HOME` environment variable to a path outside of the document root that the web server has write access to. Note that this environment variable is only set for the process running Git and NOT the PHP process that is spawns it.
 
 ```php
-$wrapper->setEnvVar('HOME', '/path/to/a/private/writable/dir');
+$gitWrapper->setEnvVar('HOME', '/path/to/a/private/writable/dir');
 ```
 
 It is important that the storage is persistent as the ~/.gitconfig file will be
@@ -111,20 +110,20 @@ to the repository, and it will likely throw an error.
 
 ```php
 // Set configuration options globally.
-$wrapper->git('config --global user.name "User name"');
-$wrapper->git('config --global user.email user@example.com');
+$gitWrapper->git('config --global user.name "User name"');
+$gitWrapper->git('config --global user.email user@example.com');
 
 // Set configuration options per repository.
-$git->config('user.name', 'User name')
-    ->config('user.email', 'user@example.com');
+$gitWorkingCopy->config('user.name', 'User name');
+$gitWorkingCopy->config('user.email', 'user@example.com');
 ```
 
 ### Commits To Repositories With No Changes
 
-Running `git commit` on a repository with no changes returns no output but exits with a status of 1. Therefore the library will throw a `GitException` since it correctly detected an error. It is advisable to check whether a working copy has any changes prior to running the commit operation in order to prevent unwanted exceptions.
+Running `git commit` on a repository *with no changes* fails with exception. To prevent that, check changes like:
 
 ```php
-if ($git->hasChanges()) {
-    $git->commit('Committed the changes.');
+if ($gitWorkingCopy->hasChanges()) {
+    $gitWorkingCopy->commit('Committed the changes.');
 }
 ```

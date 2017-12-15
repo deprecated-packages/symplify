@@ -31,7 +31,7 @@ final class GitCommand
     /**
      * @param mixed ...$argsAndOptions
      */
-    private function __construct(string $command = '', ...$argsAndOptions)
+    public function __construct(string $command = '', ...$argsAndOptions)
     {
         $this->command = $command;
 
@@ -44,22 +44,6 @@ final class GitCommand
                 $this->addArgument($argOrOption);
             }
         }
-    }
-
-    /**
-     * @param mixed ...$argsAndOptions
-     */
-    public static function createFromNameArgsAndOptions(string $command = '', ...$argsAndOptions): self
-    {
-        return new self($command, $argsAndOptions);
-    }
-
-    /**
-     * @param mixed ...$argsAndOptions
-     */
-    public static function createFromArgsAndOptions(...$argsAndOptions): self
-    {
-        return new self('', $argsAndOptions);
     }
 
     public function getCommand(): string

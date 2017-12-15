@@ -19,7 +19,7 @@ final class GitLoggerListener implements EventSubscriberInterface, LoggerAwareIn
     private $logger;
 
     /**
-     * Mapping of event to log level.
+     * Mapping of event to log level (method)
      *
      * @var string[]
      */
@@ -64,7 +64,7 @@ final class GitLoggerListener implements EventSubscriberInterface, LoggerAwareIn
     public function getLogLevelMapping(string $eventName): string
     {
         if (! isset($this->logLevelMappings[$eventName])) {
-            throw new DomainException('Unknown event: ' . $eventName);
+            throw new DomainException(sprintf('Unknown event "%s"', $eventName));
         }
 
         return $this->logLevelMappings[$eventName];
@@ -95,10 +95,12 @@ final class GitLoggerListener implements EventSubscriberInterface, LoggerAwareIn
         ?string $eventName = null
     ): void {
         $method = $this->getLogLevelMapping($eventName);
-        if ($method !== false) {
-            $context += ['command' => $gitEvent->getProcess()->getCommandLine()];
-            $this->logger->{$method}($message, $context);
-        }
+
+        $context += [
+            'command' => $gitEvent->getProcess()->getCommandLine(),
+        ];
+
+        $this->logger->{$method}($message, $context);
     }
 
     public function onPrepare(AbstractGitEvent $gitEvent, ?string $eventName = null): void

@@ -56,7 +56,7 @@ final class GitProcess extends Process
             parent::run($callback);
             if ($this->isSuccessful()) {
                 $dispatcher->dispatch(GitEvents::GIT_SUCCESS, $event);
-                return $this->getExitCode();
+                return (int) $this->getExitCode();
             }
 
             $output = $this->getErrorOutput();

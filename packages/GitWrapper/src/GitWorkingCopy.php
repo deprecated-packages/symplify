@@ -100,7 +100,7 @@ final class GitWorkingCopy
      */
     public function run(string $command, array $argsAndOptions = [], bool $setDirectory = true): string
     {
-        $command = GitCommand::createFromNameArgsAndOptions($command, ...$argsAndOptions);
+        $command = new GitCommand($command, ...$argsAndOptions);
         if ($setDirectory) {
             $command->setDirectory($this->directory);
         }

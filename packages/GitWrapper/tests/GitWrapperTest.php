@@ -127,7 +127,7 @@ final class GitWrapperTest extends AbstractGitWrapperTestCase
 
     public function testGitRun(): void
     {
-        $command = GitCommand::createFromArgsAndOptions(['version' => true]);
+        $command = new GitCommand('', ['version' => true]);
         $command->setDirectory(__DIR__ . '/../tests'); // Directory just has to exist.
         $version = $this->gitWrapper->run($command);
         $this->assertGitVersion($version);
@@ -137,7 +137,7 @@ final class GitWrapperTest extends AbstractGitWrapperTestCase
     {
         $this->expectException(GitException::class);
 
-        $command = GitCommand::createFromArgsAndOptions(['version' => true]);
+        $command = new GitCommand('', ['version' => true]);
         $command->setDirectory('/some/bad/directory');
         $this->gitWrapper->run($command);
     }

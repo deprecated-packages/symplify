@@ -9,8 +9,8 @@ use Symfony\Component\Process\ExecutableFinder;
 use Symplify\GitWrapper\Contract\EventListener\GitOutputListenerInterface;
 use Symplify\GitWrapper\Event\GitEvents;
 use Symplify\GitWrapper\Event\GitOutputEvent;
-use Symplify\GitWrapper\Event\GitOutputStreamListener;
 use Symplify\GitWrapper\EventListener\GitLoggerListener;
+use Symplify\GitWrapper\EventListener\GitOutputStreamListener;
 use Symplify\GitWrapper\Exception\GitException;
 use Symplify\GitWrapper\Process\GitProcess;
 
@@ -195,8 +195,8 @@ final class GitWrapper
         if (! $wrapperPath) {
             throw new GitException(sprintf(
                 'Path to GIT_SSH wrapper script "%s" could not be resolved.',
-                $wrapperPath)
-            );
+                $wrapperPath
+            ));
         }
 
         $privateKeyPath = realpath($privateKeyPath);
@@ -255,7 +255,7 @@ final class GitWrapper
     public function streamOutput(bool $streamOutput = true): void
     {
         if ($streamOutput && $this->gitOutputListener === null) {
-            $this->gitOutputListener = new EventListener\GitOutputStreamListener();
+            $this->gitOutputListener = new GitOutputStreamListener();
             $this->addOutputListener($this->gitOutputListener);
         }
 
@@ -338,7 +338,7 @@ final class GitWrapper
     {
         [$name, $argsAndOptions] = $this->parseCommandLineToNameAndArgsAndOptions($commandLine);
 
-        $command = GitCommand::createFromNameArgsAndOptions($name, $argsAndOptions);
+        $command = new GitCommand($name, $argsAndOptions);
         if ($cwd) {
             $command->setDirectory($cwd);
         }
@@ -370,12 +370,12 @@ final class GitWrapper
         }
 
         if (Strings::startsWith($commandLineItems[0], '-')) {
-            return ['', implode (' ', $commandLineItems)];
+            return ['', implode(' ', $commandLineItems)];
         }
 
         $name = $commandLineItems[0];
         unset($commandLineItems[0]);
 
-        return [$name, implode (' ', $commandLineItems)];
+        return [$name, implode(' ', $commandLineItems)];
     }
 }
