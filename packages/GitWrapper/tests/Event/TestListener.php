@@ -7,11 +7,9 @@ use Symplify\GitWrapper\Event\GitEvent;
 final class TestListener
 {
     /**
-     * The methods that were called.
-     *
      * @var string[]
      */
-    private $methods = [];
+    private $calledMethods = [];
 
     /**
      * The event object passed to the onPrepare method.
@@ -22,7 +20,7 @@ final class TestListener
 
     public function methodCalled(string $method): bool
     {
-        return in_array($method, $this->methods);
+        return in_array($method, $this->calledMethods);
     }
 
     public function getEvent(): GitEvent
@@ -32,17 +30,17 @@ final class TestListener
 
     public function onPrepare(GitEvent $gitEvent): void
     {
-        $this->methods[] = 'onPrepare';
+        $this->calledMethods[] = 'onPrepare';
         $this->gitEvent = $gitEvent;
     }
 
     public function onSuccess(GitEvent $gitEvent): void
     {
-        $this->methods[] = 'onSuccess';
+        $this->calledMethods[] = 'onSuccess';
     }
 
     public function onError(GitEvent $gitEvent): void
     {
-        $this->methods[] = 'onError';
+        $this->calledMethods[] = 'onError';
     }
 }

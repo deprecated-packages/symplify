@@ -74,14 +74,27 @@ use Monolog\Handler\StreamHandler;
 $log = new Logger('git');
 $log->pushHandler(new StreamHandler('git.log', Logger::DEBUG));
 
-// Instantiate the listener, add the logger to it, and register it.
-$listener = new GitLoggerListener($log);
-$gitWrapper->addLoggerListener($listener);
-
 $git = $gitWrapper->cloneRepository('git://github.com/cpliakas/git-wrapper.git', '/path/to/working/copy');
 
 // The "git.log" file now has info about the command that was executed above.
 ```
+
+## Event System
+
+GitWrapper uses event system based on Symfony\EventDispatcher.
+
+There are x events:
+
+- 
+-
+-
+-
+
+// Instantiate the listener, add the logger to it, and register it.
+$listener = new GitLoggerListener($log);
+$gitWrapper->addLoggerListener($listener);
+
+
 
 
 ## Gotchas

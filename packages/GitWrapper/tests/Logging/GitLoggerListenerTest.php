@@ -5,7 +5,7 @@ namespace Symplify\GitWrapper\Tests\Logging;
 use DomainException;
 use Psr\Log\LogLevel;
 use Psr\Log\NullLogger;
-use Symplify\GitWrapper\EventListener\GitLoggerListener;
+use Symplify\GitWrapper\EventListener\GitLoggerEventSubscriber;
 use Symplify\GitWrapper\Tests\AbstractGitWrapperTestCase;
 use Throwable;
 
@@ -23,29 +23,24 @@ final class GitLoggerListenerTest extends AbstractGitWrapperTestCase
     public function testGetLogger(): void
     {
         $log = new NullLogger();
-        $listener = new GitLoggerListener($log);
+        $listener = new GitLoggerEventSubscriber($log);
         $this->assertSame($log, $listener->getLogger());
-    }
-
-    public function testSetLogLevelMapping(): void
-    {
-        $listener = new GitLoggerListener(new NullLogger());
-        $listener->setLogLevelMapping('test.event', 'test-level');
-        $this->assertSame('test-level', $listener->getLogLevelMapping('test.event'));
     }
 
     public function testGetInvalidLogLevelMapping(): void
     {
         $this->expectException(DomainException::class);
 
-        $listener = new GitLoggerListener(new NullLogger());
+        $listener = new GitLoggerEventSubscriber(new NullLogger());
         $listener->getLogLevelMapping('bad.event');
     }
 
     public function testRegisterLogger(): void
     {
+        // @todo create container with config
+
         $logger = new TestLogger();
-        $this->gitWrapper->addLoggerListener(new GitLoggerListener($logger));
+        $this->gitWrapper->addLoggerListener(new GitLoggerEventSubscriber($logger));
         $git = $this->gitWrapper->init(self::REPO_DIR, ['bare' => true]);
 
         $this->assertSame('Git command preparing to run', $logger->messages[0]);

@@ -32,7 +32,12 @@ final class AppKernel extends Kernel
 
     public function getCacheDir(): string
     {
-        return sys_get_temp_dir() . '/_gitwrapper_kernel';
+        return sys_get_temp_dir() . '/_gitwrapper_kernel_cache';
+    }
+
+    public function getLogDir(): string
+    {
+        return sys_get_temp_dir() . '/_gitwrapper_kernel_log';
     }
 
     /**
