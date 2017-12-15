@@ -3,7 +3,10 @@ services:
         autowire: true
         public: true # for tests
 
+    # Symfony\EventDispatcher
     Symfony\Component\EventDispatcher\EventDispatcher: ~
-
     Symfony\Component\EventDispatcher\EventDispatcherInterface:
         alias: 'Symfony\Component\EventDispatcher\EventDispatcher'
+
+    # Symfony\Process
+    Symfony\Component\Process\ExecutableFinder: ~

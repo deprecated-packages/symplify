@@ -5,7 +5,6 @@ namespace Symplify\GitWrapper;
 use Nette\Utils\Strings;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Process\ExecutableFinder;
-use Symplify\GitWrapper\Contract\EventListener\GitOutputListenerInterface;
 use Symplify\GitWrapper\Event\GitEvents;
 use Symplify\GitWrapper\Event\GitOutputEvent;
 use Symplify\GitWrapper\EventListener\GitOutputStreamListener;
@@ -15,11 +14,8 @@ use Symplify\GitWrapper\Process\GitProcess;
 /**
  * A wrapper class around the Git binary.
  *
- * A GitWrapper object contains the necessary context to run Git commands such  as the path to the Git binary
- * and environment variables.
- *
- * It also provides helper methods to run Git commands as set up the connection to the GIT_SSH
- * wrapper script.
+ * Contains necessary context to run Git commands - the path to the Git binary, environment variables,
+ * helper methods to run Git commands and set up the connection to the GIT_SSH wrapper script
  */
 final class GitWrapper
 {
@@ -58,22 +54,22 @@ final class GitWrapper
     private $timeout = 60;
 
     /**
-     * @var GitOutputListenerInterface
-     */
-    private $gitOutputListener;
-
-    /**
      * @var EventDispatcherInterface
      */
     private $eventDispatcher;
 
+    /**
+     * @var ExecutableFinder
+     */
+    private $executableFinder;
+
     public function __construct(
         EventDispatcherInterface $eventDispatcher,
+        ExecutableFinder $executableFinder,
         ?string $gitBinary = null
     ) {
         if ($gitBinary === null) {
-            $finder = new ExecutableFinder(); // di
-            $gitBinary = $finder->find('git');
+            $gitBinary = $this->executableFinder->find('git');
             if (! $gitBinary) {
                 throw new GitException('Unable to find the Git executable.');
             }
@@ -81,8 +77,12 @@ final class GitWrapper
 
         $this->gitBinary = $gitBinary;
         $this->eventDispatcher = $eventDispatcher;
+        $this->executableFinder = $executableFinder;
     }
 
+    /**
+     * @todo only for test reasons
+     */
     public function setGitBinary(string $gitBinary): void
     {
         $this->gitBinary = $gitBinary;
@@ -101,15 +101,7 @@ final class GitWrapper
         $this->env[$var] = $value;
     }
 
-    public function unsetEnvVar(string $var): void
-    {
-        unset($this->env[$var]);
-    }
-
     /**
-     * Returns an environment variable that is defined only in the scope of the
-     * Git command.
-     *
      * @param mixed $default The value returned if the environment variable is not set, defaults to null.
      *
      * @return mixed
@@ -117,6 +109,11 @@ final class GitWrapper
     public function getEnvVar(string $var, $default = null)
     {
         return $this->env[$var] ?? $default;
+    }
+
+    public function unsetEnvVar(string $var): void
+    {
+        unset($this->env[$var]);
     }
 
     /**
