@@ -1,7 +1,11 @@
 imports:
     # optional import of GitWrapper services
-    - { resource: '../../../GitWrapper/src/config/services.yml' }
-    - { resource: '../../../GitWrapper/src/config/external-services.yml' }
+    # monorepo
+    - { resource: '../../../GitWrapper/src/config/services.yml', ignore_errors: true }
+    - { resource: '../../../GitWrapper/src/config/external-services.yml', ignore_errors: true }
+    # vendor dependency
+    - { resource: '../../../git-wrapper/src/config/services.yml', ignore_errors: true }
+    - { resource: '../../../git-wrapper/src/config/external-services.yml', ignore_errors: true }
 
 services:
     _defaults:
@@ -12,8 +16,6 @@ services:
         class: ParsedownExtra
 
     Symplify\PackageBuilder\Parameter\ParameterProvider: ~
-
-#    Symplify\GitWrapper\GitWrapper: ~
 
     # Symfony Console
     Symfony\Component\Console\Input\ArgvInput: ~
