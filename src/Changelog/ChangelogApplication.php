@@ -77,9 +77,13 @@ final class ChangelogApplication
                 continue;
             }
 
+            if (in_array($match['id'], $this->linkedIds, true)) {
+                continue;
+            }
+
             $possibleUrls = [
                 $this->repositoryLink . '/pull/' . $match['id'],
-                $this->repositoryLink . '/issue/' . $match['id'],
+                $this->repositoryLink . '/issues/' . $match['id'],
             ];
 
             foreach ($possibleUrls as $possibleUrl) {

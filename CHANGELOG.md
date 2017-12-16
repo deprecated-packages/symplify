@@ -152,3 +152,6 @@ parameters:
 [#471]: https://github.com/Symplify/Symplify/pull/471
 [#466]: https://github.com/Symplify/Symplify/pull/466
 [#437]: https://github.com/Symplify/Symplify/pull/437
+[#487]: https://github.com/Symplify/Symplify/issues/487
+[#483]: https://github.com/Symplify/Symplify/issues/483
+[#477]: https://github.com/Symplify/Symplify/issues/477
