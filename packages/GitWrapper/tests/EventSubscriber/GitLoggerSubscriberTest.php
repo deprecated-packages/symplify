@@ -16,6 +16,13 @@ final class GitLoggerSubscriberTest extends AbstractGitWrapperTestCase
      */
     private $eventDispatcher;
 
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->eventDispatcher = $this->container->get(EventDispatcherInterface::class);
+    }
+
     protected function tearDown(): void
     {
         parent::tearDown();
@@ -23,13 +30,6 @@ final class GitLoggerSubscriberTest extends AbstractGitWrapperTestCase
         if (is_dir(self::REPO_DIR)) {
             $this->filesystem->remove(self::REPO_DIR);
         }
-    }
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->eventDispatcher = $this->container->get(EventDispatcherInterface::class);
     }
 
     public function testRegisterLogger(): void

@@ -44,10 +44,10 @@ final class TestSubscriber implements EventSubscriberInterface
         $this->gitEvent = $gitSuccessEvent;
     }
 
-    public function onError(GitErrorEvent $gitEventgitErrorEvent): void
+    public function onError(GitErrorEvent $gitErrorEvent): void
     {
         $this->calledMethods[] = 'onError';
-        $this->gitEvent = $gitEventgitErrorEvent;
+        $this->gitEvent = $gitErrorEvent;
     }
 
     public function wasMethodCalled(string $method): bool

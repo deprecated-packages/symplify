@@ -5,7 +5,6 @@ namespace Symplify\GitWrapper;
 use Nette\Utils\Strings;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Process\ExecutableFinder;
-use Symplify\GitWrapper\Event\GitEvents;
 use Symplify\GitWrapper\Event\GitOutputEvent;
 use Symplify\GitWrapper\Exception\GitException;
 use Symplify\GitWrapper\Naming\NameParser;

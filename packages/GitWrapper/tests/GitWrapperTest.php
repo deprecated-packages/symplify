@@ -144,7 +144,6 @@ final class GitWrapperTest extends AbstractGitWrapperTestCase
         $this->assertSame($this->gitWrapper, $git->getWrapper());
     }
 
-
     public function testCloneWithoutDirectory(): void
     {
         $this->expectException(GitException::class);
