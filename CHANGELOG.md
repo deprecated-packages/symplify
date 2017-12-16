@@ -155,3 +155,6 @@ parameters:
 [#487]: https://github.com/Symplify/Symplify/issues/487
 [#483]: https://github.com/Symplify/Symplify/issues/483
 [#477]: https://github.com/Symplify/Symplify/issues/477
+
+[3.0]: https://github.com/Symplify/Symplify/compare/v3.0.0-RC5...3.0
+[3.0.1]: https://github.com/Symplify/Symplify/compare/3.0...3.0.1

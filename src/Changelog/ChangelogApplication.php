@@ -46,6 +46,16 @@ final class ChangelogApplication
      */
     private $linksToAppend = [];
 
+    /**
+     * @var string[]
+     */
+    private $versionIds = [];
+
+    /**
+     * @var string[]
+     */
+    private $linkedVersionIds = [];
+
     public function __construct(string $repositoryLink = 'https://github.com/Symplify/Symplify')
     {
         $this->repositoryLink = $repositoryLink;
@@ -64,7 +74,14 @@ final class ChangelogApplication
         foreach ($matches as $match) {
             $this->linkedIds[] = $match['id'];
         }
+
+        $matches = Strings::matchAll($this->content, '#\[(?<versionId>(v|[0-9])[a-zA-Z0-9\.-]+)\]: #');
+        foreach ($matches as $match) {
+            $this->linkedVersionIds[] = $match['versionId'];
+        }
     }
+
+    // todo, unwrapped version and id references, put [] around them
 
     /**
      * @worker
@@ -98,19 +115,51 @@ final class ChangelogApplication
                 }
             }
         }
-
-        rsort($this->linksToAppend);
-
-        // append new links to the file
-        $this->content .= PHP_EOL . PHP_EOL . implode(PHP_EOL, $this->linksToAppend);
-        file_put_contents($this->filePath, $this->content);
     }
 
     /**
+     * ## [3.0.1] - 2017-12-10
+     *
      * @worker
      */
     public function completeDiffLinksToVersions(): void
     {
+        $matches = Strings::matchAll($this->content, '#\#\# \[(?<versionId>(v|[0-9])[a-zA-Z0-9\.-]+)\]#');
+        foreach ($matches as $match) {
+            $this->versionIds[] = $match['versionId'];
+        }
+
+        foreach ($this->versionIds as $index => $versionId) {
+            if (in_array($versionId, $this->linkedVersionIds, true)) {
+                continue;
+            }
+
+            // last version, no previous one
+            if (! isset($this->versionIds[$index + 1])) {
+                continue;
+            }
+
+            $this->linksToAppend[] = sprintf(
+                '[%s]: %s/compare/%s...%s',
+                $versionId,
+                $this->repositoryLink,
+                $this->versionIds[$index + 1],
+                $versionId
+            );
+        }
+    }
+
+    public function appendLinks(): void
+    {
+        if (! count($this->linksToAppend)) {
+            return;
+        }
+
+        rsort($this->linksToAppend);
+
+        // append new links to the file
+        $this->content .= PHP_EOL . implode(PHP_EOL, $this->linksToAppend);
+        file_put_contents($this->filePath, $this->content);
     }
 
     private function doesUrlExist(string $url): bool
