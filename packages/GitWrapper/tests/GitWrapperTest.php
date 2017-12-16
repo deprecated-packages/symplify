@@ -144,14 +144,6 @@ final class GitWrapperTest extends AbstractGitWrapperTestCase
         $this->assertSame($this->gitWrapper, $git->getWrapper());
     }
 
-    public function testParseRepositoryName(): void
-    {
-        $nameGit = GitWrapper::parseRepositoryName('git@github.com:cpliakas/git-wrapper.git');
-        $this->assertSame($nameGit, 'git-wrapper');
-
-        $nameHttps = GitWrapper::parseRepositoryName('https://github.com/cpliakas/git-wrapper.git');
-        $this->assertSame($nameHttps, 'git-wrapper');
-    }
 
     public function testCloneWithoutDirectory(): void
     {

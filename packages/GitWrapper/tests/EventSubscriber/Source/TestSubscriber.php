@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\GitWrapper\Tests\EventSubscriber;
+namespace Symplify\GitWrapper\Tests\EventSubscriber\Source;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symplify\GitWrapper\Event\GitErrorEvent;
@@ -27,27 +27,27 @@ final class TestSubscriber implements EventSubscriberInterface
     {
         return [
             GitPrepareEvent::class => 'onPrepare',
-            GitSuccessEvent::class => 'onSucess',
+            GitSuccessEvent::class => 'onSuccess',
             GitErrorEvent::class => 'onError',
         ];
     }
 
-    public function onPrepare(GitEvent $gitEvent): void
+    public function onPrepare(GitPrepareEvent $gitPrepareEvent): void
     {
         $this->calledMethods[] = 'onPrepare';
-        $this->gitEvent = $gitEvent;
+        $this->gitEvent = $gitPrepareEvent;
     }
 
-    public function onSuccess(GitEvent $gitEvent): void
+    public function onSuccess(GitSuccessEvent $gitSuccessEvent): void
     {
         $this->calledMethods[] = 'onSuccess';
-        $this->gitEvent = $gitEvent;
+        $this->gitEvent = $gitSuccessEvent;
     }
 
-    public function onError(GitEvent $gitEvent): void
+    public function onError(GitErrorEvent $gitEventgitErrorEvent): void
     {
         $this->calledMethods[] = 'onError';
-        $this->gitEvent = $gitEvent;
+        $this->gitEvent = $gitEventgitErrorEvent;
     }
 
     public function wasMethodCalled(string $method): bool

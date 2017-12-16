@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\GitWrapper\Tests\Event;
+namespace Symplify\GitWrapper\Tests\EventSubscriber\Source;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symplify\GitWrapper\Event\GitOutputEvent;

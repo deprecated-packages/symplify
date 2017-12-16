@@ -8,7 +8,7 @@ use Symfony\Component\Process\Process;
 use Symplify\GitWrapper\Exception\GitException;
 use Symplify\GitWrapper\GitBranches;
 use Symplify\GitWrapper\GitWorkingCopy;
-use Symplify\GitWrapper\Tests\Event\TestOutputSubscriber;
+use Symplify\GitWrapper\Tests\EventSubscriber\Source\TestOutputSubscriber;
 
 final class GitWorkingCopyTest extends AbstractGitWrapperTestCase
 {
@@ -186,7 +186,7 @@ PATCH;
         file_put_contents(self::WORKING_DIR . '/patch.txt', $patch);
         $git->apply('patch.txt');
         $this->assertRegExp('@\?\?\s+FileCreatedByPatch\.txt@s', $git->getStatus());
-        $this->assertSame("contents\n", file_get_contents(self::WORKING_DIR . '/FileCreatedByPatch.txt'));
+        $this->assertStringEqualsFile(self::WORKING_DIR . '/FileCreatedByPatch.txt', "contents\n");
     }
 
     public function testGitRm(): void
@@ -381,38 +381,13 @@ PATCH;
         $listener = new TestOutputSubscriber();
 
         $this->eventDispatcher->addSubscriber($listener);
-//        $git->getWrapper()
-//            ->addOutputListener($listener);
-
         $git->status();
         $event = $listener->getLastEvent();
 
         $expectedType = Process::OUT;
         $this->assertSame($expectedType, $event->getType());
 
-        $this->assertTrue(stripos($event->getBuffer(), 'nothing to commit') !== false);
-    }
-
-    public function testLiveOutput(): void
-    {
-        $git = $this->getWorkingCopy();
-
-        // Capture output written to STDOUT and use echo so we can suppress and
-        // capture it using normal output buffering.
-        stream_filter_register('suppress', StreamSuppressFilter::class);
-        $stdoutSuppress = stream_filter_append(STDOUT, 'suppress');
-
-        $git->getWrapper()->streamOutput(true);
-        ob_start();
-        $git->status();
-        $contents = ob_get_contents();
-        ob_end_clean();
-
-        $this->assertContains('nothing to commit', $contents);
-
-        $git->clearOutput();
-
-        stream_filter_remove($stdoutSuppress);
+        $this->assertContains('nothing to commit', $event->getBuffer());
     }
 
     public function testCommitWithAuthor(): void

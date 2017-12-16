@@ -7,7 +7,7 @@ use Symfony\Component\Process\Process;
 use Symplify\GitWrapper\Event\GitSuccessEvent;
 use Symplify\GitWrapper\GitCommand;
 use Symplify\GitWrapper\Tests\AbstractGitWrapperTestCase;
-use Symplify\GitWrapper\Tests\EventSubscriber\TestSubscriber;
+use Symplify\GitWrapper\Tests\EventSubscriber\Source\TestSubscriber;
 
 final class GitSubscriberTest extends AbstractGitWrapperTestCase
 {
@@ -26,7 +26,6 @@ final class GitSubscriberTest extends AbstractGitWrapperTestCase
         parent::setUp();
 
         $this->testSubscriber = new TestSubscriber();
-
         $this->eventDispatcher = $this->container->get(EventDispatcherInterface::class);
         $this->eventDispatcher->addSubscriber($this->testSubscriber);
     }

@@ -80,6 +80,7 @@ final class GitProcess extends Process
         } catch (RuntimeException $exception) {
             $errorEvent = new GitErrorEvent($this->gitWrapper, $this, $this->gitCommand);
             $this->eventDispatcher->dispatch(GitErrorEvent::class, $errorEvent);
+
             throw new GitException($exception->getMessage());
         }
     }

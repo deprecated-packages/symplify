@@ -243,8 +243,8 @@ final class GitWrapper
         $process = $this->gitProcessFactory->createFromWrapperCommandAndCwd($this, $gitCommand, $cwd);
 
         $process->run(function ($type, $buffer) use ($process, $gitCommand): void {
-            $event = new GitOutputEvent($this, $process, $gitCommand, $type, $buffer);
-            $this->eventDispatcher->dispatch(GitEvents::GIT_OUTPUT, $event);
+            $outputEvent = new GitOutputEvent($this, $process, $gitCommand, $type, $buffer);
+            $this->eventDispatcher->dispatch(GitOutputEvent::class, $outputEvent);
         });
 
         return $process->getOutput();

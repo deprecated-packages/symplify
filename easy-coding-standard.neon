@@ -44,8 +44,6 @@ parameters:
             - packages/TokenRunner/src/Testing/AbstractSimpleFixerTestCase.php
             - packages/EasyCodingStandard/tests/AbstractDualRunTestCase.php
             - packages/FixerRunner/src/Differ/LineLimitSebastianBergmannDiffer.php
-            # build in parent
-            - packages/GitWrapper/tests/StreamSuppressFilter.php
 
         PhpCsFixer\Fixer\PhpUnit\PhpUnitStrictFixer:
             - packages/EasyCodingStandard/tests/Indentation/IndentationTest.php
@@ -60,7 +58,6 @@ parameters:
             - *packages/EasyCodingStandard/packages/Configuration/*/ConflictingCheckerGuard*.php
 
         PHP_CodeSniffer\Standards\Generic\Sniffs\CodeAnalysis\AssignmentInConditionSniff:
-            - packages/GitWrapper/tests/StreamSuppressFilter.php
             - packages/GitWrapper/src/Process/GitProcess.php
 
         Symplify\CodingStandard\Sniffs\DependencyInjection\NoClassInstantiationSniff:
