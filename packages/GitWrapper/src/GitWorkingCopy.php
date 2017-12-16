@@ -262,7 +262,7 @@ final class GitWorkingCopy
     {
         $options['all'] = true;
 
-        return $this->fetch($options);
+        return trim($this->fetch($options));
     }
 
     /**

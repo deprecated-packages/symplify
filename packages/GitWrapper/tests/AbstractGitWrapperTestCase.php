@@ -38,13 +38,13 @@ abstract class AbstractGitWrapperTestCase extends AbstractContainerAwareTestCase
     /**
      * The version returned by the `git --version` command.
      */
-    public function assertGitVersion(string $type): void
+    protected function assertGitVersion(string $type): void
     {
         $match = preg_match('/^git version [.0-9]+/', $type);
         $this->assertNotEmpty($match);
     }
 
-    public function runBadCommand(bool $catchException = false): void
+    protected function runBadCommand(bool $catchException = false): void
     {
         try {
             $this->gitWrapper->git('a-bad-command');

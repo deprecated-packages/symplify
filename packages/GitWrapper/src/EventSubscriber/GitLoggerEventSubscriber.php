@@ -17,13 +17,13 @@ final class GitLoggerEventSubscriber implements EventSubscriberInterface
      */
     private $logger;
 
-    public function __construct(?LoggerInterface $logger = null)
+    public function __construct(LoggerInterface $logger)
     {
         $this->logger = $logger;
     }
 
     /**
-     * {@inheritDoc}
+     * @return string[]
      */
     public static function getSubscribedEvents(): array
     {
