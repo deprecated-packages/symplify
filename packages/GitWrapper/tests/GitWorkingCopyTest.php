@@ -3,11 +3,12 @@
 namespace Symplify\GitWrapper\Tests;
 
 use Exception;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Process\Process;
 use Symplify\GitWrapper\Exception\GitException;
 use Symplify\GitWrapper\GitBranches;
 use Symplify\GitWrapper\GitWorkingCopy;
-use Symplify\GitWrapper\Tests\Event\TestOutputListener;
+use Symplify\GitWrapper\Tests\EventSubscriber\Source\TestOutputSubscriber;
 
 final class GitWorkingCopyTest extends AbstractGitWrapperTestCase
 {
@@ -26,9 +27,16 @@ final class GitWorkingCopyTest extends AbstractGitWrapperTestCase
      */
     private const CONFIG_NAME = 'Chris Pliakas';
 
+    /**
+     * @var EventDispatcherInterface
+     */
+    private $eventDispatcher;
+
     protected function setUp(): void
     {
         parent::setUp();
+
+        $this->eventDispatcher = $this->container->get(EventDispatcherInterface::class);
 
         // Create the local repository.
         $this->gitWrapper->init(self::REPO_DIR, ['bare' => true]);
@@ -178,7 +186,7 @@ PATCH;
         file_put_contents(self::WORKING_DIR . '/patch.txt', $patch);
         $git->apply('patch.txt');
         $this->assertRegExp('@\?\?\s+FileCreatedByPatch\.txt@s', $git->getStatus());
-        $this->assertSame("contents\n", file_get_contents(self::WORKING_DIR . '/FileCreatedByPatch.txt'));
+        $this->assertStringEqualsFile(self::WORKING_DIR . '/FileCreatedByPatch.txt', "contents\n");
     }
 
     public function testGitRm(): void
@@ -370,46 +378,16 @@ PATCH;
     {
         $git = $this->getWorkingCopy();
 
-        $listener = new TestOutputListener();
-        $git->getWrapper()
-            ->addOutputListener($listener);
+        $listener = new TestOutputSubscriber();
 
+        $this->eventDispatcher->addSubscriber($listener);
         $git->status();
         $event = $listener->getLastEvent();
 
         $expectedType = Process::OUT;
         $this->assertSame($expectedType, $event->getType());
 
-        $this->assertTrue(stripos($event->getBuffer(), 'nothing to commit') !== false);
-    }
-
-    public function testLiveOutput(): void
-    {
-        $git = $this->getWorkingCopy();
-
-        // Capture output written to STDOUT and use echo so we can suppress and
-        // capture it using normal output buffering.
-        stream_filter_register('suppress', StreamSuppressFilter::class);
-        $stdoutSuppress = stream_filter_append(STDOUT, 'suppress');
-
-        $git->getWrapper()->streamOutput(true);
-        ob_start();
-        $git->status();
-        $contents = ob_get_contents();
-        ob_end_clean();
-
-        $this->assertTrue(stripos($contents, 'nothing to commit') !== false);
-
-        $git->clearOutput();
-        $git->getWrapper()->streamOutput(false);
-        ob_start();
-        $git->status();
-        $empty = ob_get_contents();
-        ob_end_clean();
-
-        $this->assertEmpty($empty);
-
-        stream_filter_remove($stdoutSuppress);
+        $this->assertContains('nothing to commit', $event->getBuffer());
     }
 
     public function testCommitWithAuthor(): void

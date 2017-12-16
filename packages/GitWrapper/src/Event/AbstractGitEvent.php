@@ -7,9 +7,6 @@ use Symfony\Component\Process\Process;
 use Symplify\GitWrapper\GitCommand;
 use Symplify\GitWrapper\GitWrapper;
 
-/**
- * Event instance passed as a result of git.* commands.
- */
 abstract class AbstractGitEvent extends Event
 {
     /**

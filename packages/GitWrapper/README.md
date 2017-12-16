@@ -34,11 +34,8 @@ $gitWorkingCopy->add('test.txt');
 $gitWorkingCopy->commit('Added the test.txt file as per the examples.');
 $gitWorkingCopy->push();
 
-// Render the output.
+// Render the output
 echo $gitWorkingCopy->getOutput();
-
-// Stream output of subsequent Git commands in real time to STDOUT and STDERR.
-$gitWrapper->streamOutput();
 
 // Execute an arbitrary git command.
 // The following is synonymous with `git config -l`
@@ -74,13 +71,63 @@ use Monolog\Handler\StreamHandler;
 $log = new Logger('git');
 $log->pushHandler(new StreamHandler('git.log', Logger::DEBUG));
 
-// Instantiate the listener, add the logger to it, and register it.
-$listener = new GitLoggerListener($log);
-$gitWrapper->addLoggerListener($listener);
-
 $git = $gitWrapper->cloneRepository('git://github.com/cpliakas/git-wrapper.git', '/path/to/working/copy');
 
 // The "git.log" file now has info about the command that was executed above.
+```
+
+## Event System
+
+GitWrapper uses event system based on [Symfony\EventDispatcher](https://symfony.com/doc/current/components/event_dispatcher.html).
+
+There are 4 events to hook on:
+
+- `GitPrepareEvent` 
+- `GitSuccessEvent`
+- `GitErrorEvent`
+- `GitOutputEvent`
+
+To hook one on use their `::class` name, e.g. to get every success event create and register this subscriber:
+
+```php
+namespace App\EventSubscriber;
+
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symplify\GitWrapper\Event\GitSuccessEvent;
+
+final class MyEventSubscriber implements EventSubscriberInterface
+{
+    public static function getSubscribedEvents(): array
+    {
+        return [
+            GitSuccessEvent::class => 'onSuccess',
+        ];
+    }
+    
+    public function onSuccess(GitSuccessEvent $gitSuccessEvent)
+    {
+        // do what you like to do
+    }
+}
+```
+
+
+
+### Prepared Subscribers
+
+We have also few prepared special EventSubscibers for you:
+
+
+**1. To stream output right away**, add `GitOutputStreamEventSubscriber` to your dispatcher:
+ 
+```php
+$this->eventDispatcher->addSubscriber(new GitOutputStreamEventSubscriber);
+```
+
+**2. To enabled logging** do the same with `GitLoggerEventSubscriber`:
+
+```php
+$this->eventDispatcher->addSubscriber(new GitLoggerEventSubscriber);
 ```
 
 

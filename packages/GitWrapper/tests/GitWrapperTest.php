@@ -6,23 +6,9 @@ use Symplify\GitWrapper\Exception\GitException;
 use Symplify\GitWrapper\GitCommand;
 use Symplify\GitWrapper\GitWorkingCopy;
 use Symplify\GitWrapper\GitWrapper;
-use Symplify\GitWrapper\Tests\Event\TestDispatcher;
 
 final class GitWrapperTest extends AbstractGitWrapperTestCase
 {
-    public function testGitBinary(): void
-    {
-        $this->gitWrapper->setGitBinary('some/bin/git');
-        $this->assertSame('some/bin/git', $this->gitWrapper->getGitBinary());
-    }
-
-    public function testDispatcher(): void
-    {
-        $dispatcher = new TestDispatcher();
-        $this->gitWrapper->setDispatcher($dispatcher);
-        $this->assertSame($dispatcher, $this->gitWrapper->getDispatcher());
-    }
-
     public function testTimeout(): void
     {
         $timeout = random_int(1, 60);
@@ -156,15 +142,6 @@ final class GitWrapperTest extends AbstractGitWrapperTestCase
         $this->assertInstanceOf(GitWorkingCopy::class, $git);
         $this->assertSame($directory, $git->getDirectory());
         $this->assertSame($this->gitWrapper, $git->getWrapper());
-    }
-
-    public function testParseRepositoryName(): void
-    {
-        $nameGit = GitWrapper::parseRepositoryName('git@github.com:cpliakas/git-wrapper.git');
-        $this->assertSame($nameGit, 'git-wrapper');
-
-        $nameHttps = GitWrapper::parseRepositoryName('https://github.com/cpliakas/git-wrapper.git');
-        $this->assertSame($nameHttps, 'git-wrapper');
     }
 
     public function testCloneWithoutDirectory(): void
