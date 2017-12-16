@@ -40,8 +40,7 @@ abstract class AbstractGitWrapperTestCase extends AbstractContainerAwareTestCase
      */
     protected function assertGitVersion(string $type): void
     {
-        $match = preg_match('/^git version [.0-9]+/', $type);
-        $this->assertNotEmpty($match);
+        $this->assertRegExp('/^git version [.0-9]+/', $type);
     }
 
     protected function runBadCommand(bool $catchException = false): void

@@ -236,7 +236,6 @@ PATCH;
         $this->assertContains('usage: git bisect', $git->bisect('help'));
         $this->assertContains('origin', $git->remote());
         $this->assertContains('opensource@chrispliakas.com', $git->config('user.email'));
-
     }
 
     public function testRebase(): void

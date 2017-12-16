@@ -107,6 +107,7 @@ final class GitWrapperTest extends AbstractGitWrapperTestCase
     public function testGitCommandError(): void
     {
         $this->expectException(GitException::class);
+        $this->expectExceptionMessage('git: \'a-bad-command\' is not a git command. See \'git --help\'.');
 
         $this->runBadCommand();
     }
@@ -114,7 +115,7 @@ final class GitWrapperTest extends AbstractGitWrapperTestCase
     public function testGitRun(): void
     {
         $command = new GitCommand('', ['version' => true]);
-        $command->setDirectory(__DIR__ . '/../tests'); // Directory just has to exist.
+        $command->setDirectory(__DIR__ . '/../tests'); // Directory just has to exist
         $version = $this->gitWrapper->run($command);
         $this->assertGitVersion($version);
     }
@@ -122,6 +123,7 @@ final class GitWrapperTest extends AbstractGitWrapperTestCase
     public function testGitRunDirectoryError(): void
     {
         $this->expectException(GitException::class);
+        $this->expectExceptionMessage('Path to working directory "/some/bad/directory" could not be resolved.');
 
         $command = new GitCommand('', ['version' => true]);
         $command->setDirectory('/some/bad/directory');
