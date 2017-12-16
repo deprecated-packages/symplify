@@ -26,7 +26,7 @@ abstract class AbstractGitWorkingCopyTestCase extends AbstractGitWrapperTestCase
     /**
      * @var EventDispatcherInterface
      */
-    private $eventDispatcher;
+    protected $eventDispatcher;
 
     protected function setUp(): void
     {
@@ -85,26 +85,6 @@ abstract class AbstractGitWorkingCopyTestCase extends AbstractGitWrapperTestCase
 
         if (is_dir(self::REMOTE_REPO_DIR)) {
             $this->filesystem->remove(self::REMOTE_REPO_DIR);
-        }
-    }
-
-    /**
-     * @dataProvider addRemoteDataProvider
-     * @param mixed[] $options
-     * @param mixed[] $asserts
-     */
-    public function testAddRemote(array $options, array $asserts): void
-    {
-        $this->createRemote();
-
-        $git = $this->getWorkingCopy();
-        $git->addRemote('remote', 'file://' . realpath(self::REMOTE_REPO_DIR), $options);
-
-        $this->assertTrue($git->hasRemote('remote'));
-
-        foreach ($asserts as $method => $parameters) {
-            array_unshift($parameters, $git);
-            $this->{$method}(...$parameters);
         }
     }
 
