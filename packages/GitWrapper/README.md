@@ -1,7 +1,7 @@
 # PHP Wrapper around the Git CLI
 
-[![Build Status](https://travis-ci.org/Symplify/GitWrapper.svg?branch=master)](https://travis-ci.org/Symplify/GitWrapper)
-[![Downloads](https://img.shields.io/packagist/dt/symplify/git-wrapper.svg)](https://packagist.org/packages/symplify/git-wrapper)
+[![Build Status](https://img.shields.io/travis/Symplify/GitWrapper/master.svg?style=flat-square)](https://travis-ci.org/Symplify/GitWrapper)
+[![Downloads](https://img.shields.io/packagist/dt/symplify/git-wrapper.svg?style=flat-square)](https://packagist.org/packages/symplify/git-wrapper)
 [![Subscribe](https://img.shields.io/badge/subscribe-to--releases-green.svg?style=flat-square)](https://libraries.io/packagist/symplify%2Fgit-wrapper)
 
 ## Install
