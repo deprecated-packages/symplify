@@ -26,7 +26,6 @@ final class TestLogger extends AbstractLogger
     public $contexts = [];
 
     /**
-     * @param mixed $level
      * @param string $message
      * @param string[] $context
      */

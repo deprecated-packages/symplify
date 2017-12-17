@@ -32,9 +32,6 @@ final class ParameterProvider
         return $this->parameters[$name] ?? null;
     }
 
-    /**
-     * @param mixed $value
-     */
     public function changeParameter(string $name, $value): void
     {
         $this->parameters[$name] = $value;

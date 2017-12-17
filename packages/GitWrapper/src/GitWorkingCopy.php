@@ -401,8 +401,6 @@ final class GitWorkingCopy
 
     /**
      * @code $git->apply('the/file/to/read/the/patch/from');
-     *
-     * @param mixed ...$argsAndOptions
      */
     public function apply(...$argsAndOptions): string
     {
@@ -412,8 +410,6 @@ final class GitWorkingCopy
     /**
      * @code $git->bisect('good', '2.6.13-rc2');
      * $git->bisect('view', ['stat' => true]);
-     *
-     * @param mixed ...$argsAndOptions
      */
     public function bisect(string $subCommand, ...$argsAndOptions): string
     {
@@ -424,8 +420,6 @@ final class GitWorkingCopy
     /**
      * @code $git->branch('my2.6.14', 'v2.6.14');
      * $git->branch('origin/html', 'origin/man', ['d' => true, 'r' => 'origin/todo']);
-     *
-     * @param mixed ...$argsAndOptions
      */
     public function branch(...$argsAndOptions): string
     {
@@ -434,8 +428,6 @@ final class GitWorkingCopy
 
     /**
      * @code $git->checkout('new-branch', ['b' => true]);
-     *
-     * @param mixed ...$argsAndOptions
      */
     public function checkout(...$argsAndOptions): string
     {
@@ -461,8 +453,6 @@ final class GitWorkingCopy
      *
      * @code $git->commit('My commit message');
      * $git->commit('Makefile', ['m' => 'My commit message']);
-     *
-     * @param mixed ...$argsAndOptions
      */
     public function commit(...$argsAndOptions): string
     {
@@ -481,8 +471,6 @@ final class GitWorkingCopy
      *
      * @code $git->config('user.email', 'opensource@chrispliakas.com');
      * $git->config('user.name', 'Chris Pliakas');
-     *
-     * @param mixed ...$argsAndOptions
      */
     public function config(...$argsAndOptions): string
     {
@@ -492,8 +480,6 @@ final class GitWorkingCopy
     /**
      * @code $git->diff();
      * $git->diff('topic', 'master');
-     *
-     * @param mixed ...$argsAndOptions
      */
     public function diff(...$argsAndOptions): string
     {
@@ -505,8 +491,6 @@ final class GitWorkingCopy
      *
      * @code $git->fetch('origin');
      * $git->fetch(['all' => true]);
-     *
-     * @param mixed ...$argsAndOptions
      */
     public function fetch(...$argsAndOptions): string
     {
@@ -517,8 +501,6 @@ final class GitWorkingCopy
      * Print lines matching a pattern.
      *
      * @code $git->grep('time_t', '--', '*.[ch]');
-     *
-     * @param mixed ...$argsAndOptions
      */
     public function grep(...$argsAndOptions): string
     {
@@ -543,8 +525,6 @@ final class GitWorkingCopy
      *
      * @code $git->log(['no-merges' => true]);
      * $git->log('v2.6.12..', 'include/scsi', 'drivers/scsi');
-     *
-     * @param mixed ...$argsAndOptions
      */
     public function log(...$argsAndOptions): string
     {
@@ -555,8 +535,6 @@ final class GitWorkingCopy
      * Join two or more development histories together.
      *
      * @code $git->merge('fixes', 'enhancements');
-     *
-     * @param mixed ...$argsAndOptions
      */
     public function merge(...$argsAndOptions): string
     {
@@ -581,8 +559,6 @@ final class GitWorkingCopy
      * Fetch from and merge with another repository or a local branch.
      *
      * @code $git->pull('upstream', 'master');
-     *
-     * @param mixed ...$argsAndOptions
      */
     public function pull(...$argsAndOptions): string
     {
@@ -593,8 +569,6 @@ final class GitWorkingCopy
      * Update remote refs along with associated objects.
      *
      * @code $git->push('upstream', 'master');
-     *
-     * @param mixed ...$argsAndOptions
      */
     public function push(...$argsAndOptions): string
     {
@@ -605,8 +579,6 @@ final class GitWorkingCopy
      * Forward-port local commits to the updated upstream head.
      *
      * @code $git->rebase('subsystem@{1}', ['onto' => 'subsystem']);
-     *
-     * @param mixed ...$argsAndOptions
      */
     public function rebase(...$argsAndOptions): string
     {
@@ -617,8 +589,6 @@ final class GitWorkingCopy
      * Manage the set of repositories ("remotes") whose branches you track.
      *
      * @code $git->remote('add', 'upstream', 'git://github.com/cpliakas/git-wrapper.git');
-     *
-     * @param mixed ...$argsAndOptions
      */
     public function remote(...$argsAndOptions): string
     {
@@ -629,8 +599,6 @@ final class GitWorkingCopy
      * Reset current HEAD to the specified state.
      *
      * @code $git->reset(['hard' => true]);
-     *
-     * @param mixed ...$argsAndOptions
      */
     public function reset(...$argsAndOptions): string
     {
@@ -674,8 +642,6 @@ final class GitWorkingCopy
      * Show the working tree status.
      *
      * @code $git->status(['s' => true]);
-     *
-     * @param mixed ...$argsAndOptions
      */
     public function status(...$argsAndOptions): string
     {
@@ -686,8 +652,6 @@ final class GitWorkingCopy
      * Create, list, delete or verify a tag object signed with GPG.
      *
      * @code $git->tag('v1.0.0');
-     *
-     * @param mixed ...$argsAndOptions
      */
     public function tag(...$argsAndOptions): string
     {
@@ -698,8 +662,6 @@ final class GitWorkingCopy
      * Remove untracked files from the working tree
      *
      * @code $git->clean('-d', '-f');
-     *
-     * @param mixed ...$argsAndOptions
      */
     public function clean(...$argsAndOptions): string
     {
@@ -710,8 +672,6 @@ final class GitWorkingCopy
      * Create an archive of files from a named tree
      *
      * @code $git->archive('HEAD', ['o' => '/path/to/archive']);
-     *
-     * @param mixed ...$argsAndOptions
      */
     public function archive(...$argsAndOptions): string
     {
