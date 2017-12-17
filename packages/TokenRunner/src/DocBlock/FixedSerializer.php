@@ -7,7 +7,7 @@ use phpDocumentor\Reflection\DocBlock\Serializer;
 use Symplify\PackageBuilder\Reflection\PrivatesCaller;
 
 /**
- * Includes empty indend fix
+ * Includes empty indent fix
  *
  * @See https://github.com/phpDocumentor/ReflectionDocBlock/pull/138
  */
