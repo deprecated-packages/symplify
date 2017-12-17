@@ -1,8 +1,9 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\Changelog;
+namespace Symplify\ChangelogLinker;
 
 use Nette\Utils\Strings;
+use Symplify\ChangelogLinker\Contract\Worker\WorkerInterface;
 
 final class ChangelogApplication
 {
@@ -57,13 +58,18 @@ final class ChangelogApplication
     private $linkedVersionIds = [];
 
     /**
-     * @var string[]
+     * @var WorkerInterface[]
      */
-    private $unwrappedReferences = [];
+    private $workers = [];
 
     public function __construct(string $repositoryLink = 'https://github.com/Symplify/Symplify')
     {
         $this->repositoryLink = $repositoryLink;
+    }
+
+    public function addWorker(WorkerInterface $worker): void
+    {
+        $this->workers[] = $worker;
     }
 
     public function loadFile(string $filePath): void
