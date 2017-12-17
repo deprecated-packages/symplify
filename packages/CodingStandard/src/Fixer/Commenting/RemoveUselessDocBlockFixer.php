@@ -170,7 +170,7 @@ public function getCount(): int
                 }
 
                 $docBlockWrapper->removeParamType($argumentWrapper->getName());
-                return;
+                continue;
             }
 
             // simple types
