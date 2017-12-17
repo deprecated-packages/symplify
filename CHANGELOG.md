@@ -30,7 +30,7 @@
 ### Changed
 
 - [#484] **[Statie]** add *dry-run* optiont to `StatieApplication` and `BeforeRenderEvent` to improve extendability, closes [#483] 
-- https://github.com/Symplify/Symplify/commit/9a9c0e61d0b7af073d3819e4c4798a251eca1f14 **[Statie]** use `statie.yml` config based on Symfony DI over "fake" `statie.neon` to prevent confusion, closes [#487] 
+- 9a9c0e61d0b7af073d3819e4c4798a251eca1f14 **[Statie]** use `statie.yml` config based on Symfony DI over "fake" `statie.neon` to prevent confusion, closes [#487]
 
     **Before**
 
@@ -91,7 +91,7 @@ parameters:
 ```
 
 
-- https://github.com/Symplify/Symplify/commit/9b154d9b6e88075e14b6812613bce7c1a2a79daa **[Statie]** added `-vvv` CLI option for debug output
+- 9b154d9b6e88075e14b6812613bce7c1a2a79daa **[Statie]** added `-vvv` CLI option for debug output
 
 - [#473] bump to Symfony 4
 
@@ -442,8 +442,8 @@ parameters:
 
 ### Fixed
 
-- https://github.com/Symplify/Symplify/commit/b45335c4e3674f7d0348ab31f1c359695d9d1d51 **[EasyCodingStandard]** fix missing `nette\robot-loader` dependency
-- https://github.com/Symplify/Symplify/commit/b025353e06364cdb06f81d535dcb1d70b76b3a53 **[EasyCodingStandard]** fix ChangedFilesDetector for missing config file
+- b45335c4e3674f7d0348ab31f1c359695d9d1d51 **[EasyCodingStandard]** fix missing `nette\robot-loader` dependency
+- b025353e06364cdb06f81d535dcb1d70b76b3a53 **[EasyCodingStandard]** fix ChangedFilesDetector for missing config file
 
 
 ## [v2.0.0] - 2017-06-16
