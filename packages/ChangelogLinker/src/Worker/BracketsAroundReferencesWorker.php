@@ -11,26 +11,16 @@ use Symplify\ChangelogLinker\Regex\RegexPattern;
  */
 final class BracketsAroundReferencesWorker implements WorkerInterface
 {
-    /**
-     * @var string
-     */
-    private const ISSUE_OR_PR_ID_PATTERN = '# (?<reference>\#(v|[0-9])[a-zA-Z0-9\.-]+)#';
-
-    /**
-     * @var string
-     */
-    private const VERSION_REFERENCE = '#\#\# ' . RegexPattern::VERSION . '#';
-
     public function processContent(string $content, string $repositoryLink): string
     {
         // issue or PR references
-        $content = Strings::replace($content, self::ISSUE_OR_PR_ID_PATTERN, function (array $match): string {
+        $content = Strings::replace($content, '# ' . RegexPattern::PR_OR_ISSUE . '#', function (array $match): string {
             return sprintf(' [%s]', $match['reference']);
         });
 
         // version references
-        $content = Strings::replace($content, self::VERSION_REFERENCE, function (array $match): string {
-            return sprintf('## [%s]', $match['versionId']);
+        $content = Strings::replace($content, '#\#\# ' . RegexPattern::VERSION . '#', function (array $match): string {
+            return sprintf('## [%s]', $match['version']);
         });
 
         // commit references

@@ -16,7 +16,7 @@ final class DiffLinksToVersionsWorker implements WorkerInterface
     /**
      * @var string[]
      */
-    private $versionIds = [];
+    private $versions = [];
 
     public function processContent(string $content, string $repositoryLink): string
     {
@@ -24,17 +24,17 @@ final class DiffLinksToVersionsWorker implements WorkerInterface
         $this->collectVersionsIds($content);
 
         $linksToAppend = [];
-        foreach ($this->versionIds as $index => $versionId) {
-            if ($this->shouldSkip($versionId, $index)) {
+        foreach ($this->versions as $index => $version) {
+            if ($this->shouldSkip($version, $index)) {
                 continue;
             }
 
             $linksToAppend[] = sprintf(
                 '[%s]: %s/compare/%s...%s',
-                $versionId,
+                $version,
                 $repositoryLink,
-                $this->versionIds[$index + 1],
-                $versionId
+                $this->versions[$index + 1],
+                $version
             );
         }
 
@@ -52,7 +52,7 @@ final class DiffLinksToVersionsWorker implements WorkerInterface
     {
         $matches = Strings::matchAll($content, '#\[' . RegexPattern::VERSION . '\]: #');
         foreach ($matches as $match) {
-            $this->linkedVersionIds[] = $match['versionId'];
+            $this->linkedVersionIds[] = $match['version'];
         }
     }
 
@@ -60,18 +60,18 @@ final class DiffLinksToVersionsWorker implements WorkerInterface
     {
         $matches = Strings::matchAll($content, '#\#\# \[' . RegexPattern::VERSION . '\]#');
         foreach ($matches as $match) {
-            $this->versionIds[] = $match['versionId'];
+            $this->versions[] = $match['version'];
         }
     }
 
-    private function shouldSkip(string $versionId, int $index): bool
+    private function shouldSkip(string $version, int $index): bool
     {
-        if (in_array($versionId, $this->linkedVersionIds, true)) {
+        if (in_array($version, $this->linkedVersionIds, true)) {
             return true;
         }
 
         // last version, no previous one
-        if (! isset($this->versionIds[$index + 1])) {
+        if (! isset($this->versions[$index + 1])) {
             return true;
         }
 

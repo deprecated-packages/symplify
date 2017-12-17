@@ -12,5 +12,10 @@ final class RegexPattern
     /**
      * @var string
      */
-    public const VERSION = '(?<versionId>(v|[0-9])[a-zA-Z0-9\.-]+)';
+    public const VERSION = '(?<version>(v|[0-9])[a-zA-Z0-9\.-]+)';
+
+    /**
+     * @var string
+     */
+    public const PR_OR_ISSUE = '(?<reference>\#[0-9]+)';
 }
