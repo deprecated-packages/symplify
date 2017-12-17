@@ -5,6 +5,7 @@ namespace Symplify\ChangelogLinker\Tests;
 use PHPUnit\Framework\TestCase;
 use Symplify\ChangelogLinker\ChangelogApplication;
 use Symplify\ChangelogLinker\Worker\CompleteBracketsAroundReferencesWorker;
+use Symplify\ChangelogLinker\Worker\CompleteDiffLinksToVersionsWorker;
 
 final class ChangelogApplicationTest extends TestCase
 {
@@ -17,6 +18,7 @@ final class ChangelogApplicationTest extends TestCase
     {
         $this->changelogApplication = new ChangelogApplication('https://github.com/Symplify/Symplify');
         $this->changelogApplication->addWorker(new CompleteBracketsAroundReferencesWorker());
+        $this->changelogApplication->addWorker(new CompleteDiffLinksToVersionsWorker());
     }
 
     /**
@@ -34,6 +36,7 @@ final class ChangelogApplicationTest extends TestCase
     {
         return [
             [__DIR__ . '/ChangelogApplicationSource/before/01.md', __DIR__ . '/ChangelogApplicationSource/after/01.md'],
+            [__DIR__ . '/ChangelogApplicationSource/before/02.md', __DIR__ . '/ChangelogApplicationSource/after/02.md'],
         ];
     }
 

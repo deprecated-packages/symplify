@@ -2,6 +2,7 @@
 
 namespace Symplify\ChangelogLinker\Worker;
 
+use Nette\Utils\Strings;
 use Symplify\ChangelogLinker\Contract\Worker\WorkerInterface;
 
 final class CompleteDiffLinksToVersionsWorker implements WorkerInterface

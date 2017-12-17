@@ -47,15 +47,15 @@ final class ChangelogApplication
      */
     private $linksToAppend = [];
 
-    /**
-     * @var string[]
-     */
-    private $versionIds = [];
-
-    /**
-     * @var string[]
-     */
-    private $linkedVersionIds = [];
+//    /**
+//     * @var string[]
+//     */
+//    private $versionIds = [];
+//
+//    /**
+//     * @var string[]
+//     */
+//    private $linkedVersionIds = [];
 
     /**
      * @var WorkerInterface[]
@@ -72,29 +72,12 @@ final class ChangelogApplication
         $this->workers[] = $worker;
     }
 
-    public function loadFile(string $filePath): void
+    public function processFile(string $filePath): string
     {
         $this->filePath = $filePath;
         $this->content = file_get_contents($filePath);
+
         $this->resolveLinkedElements();
-    }
-
-    private function resolveLinkedElements(): void
-    {
-        $matches = Strings::matchAll($this->content, self::LINKED_ID_PATTERN);
-        foreach ($matches as $match) {
-            $this->linkedIds[] = $match['id'];
-        }
-
-        $matches = Strings::matchAll($this->content, '#\[(?<versionId>(v|[0-9])[a-zA-Z0-9\.-]+)\]: #');
-        foreach ($matches as $match) {
-            $this->linkedVersionIds[] = $match['versionId'];
-        }
-    }
-
-    public function processFile(string $filePath): string
-    {
-        $this->loadFile($filePath);
 
         foreach ($this->workers as $worker) {
             $this->content = $worker->processContent($this->content, $this->repositoryLink);
@@ -102,25 +85,6 @@ final class ChangelogApplication
 
         return $this->content;
     }
-
-//    /**
-//     * Comletes [] around commit, pull-request, issues and version references
-//     * @worker
-//     */
-//    public function completeBracketsAroundReferences(): void
-//    {
-//        // issue or PR references
-//        $this->content = Strings::replace($this->content, '# (?<reference>\#(v|[0-9])[a-zA-Z0-9\.-]+) #', function (array $match): string {
-//            return sprintf(' [%s] ', $match['reference']);
-//        });
-//
-//        // version references
-//        $this->content = Strings::replace($this->content, '#\#\# (?<versionId>(v|[0-9])[a-zA-Z0-9\.-]+)#', function (array $match): string {
-//            return sprintf('## [%s]', $match['versionId']);
-//        });
-//
-//        $this->saveContent();
-//    }
 
     /**
      * @worker
@@ -156,35 +120,48 @@ final class ChangelogApplication
         }
     }
 
-    /**
-     * @worker
-     */
-    public function completeDiffLinksToVersions(): void
+    private function resolveLinkedElements(): void
     {
-        $matches = Strings::matchAll($this->content, '#\#\# \[(?<versionId>(v|[0-9])[a-zA-Z0-9\.-]+)\]#');
+        $matches = Strings::matchAll($this->content, self::LINKED_ID_PATTERN);
         foreach ($matches as $match) {
-            $this->versionIds[] = $match['versionId'];
+            $this->linkedIds[] = $match['id'];
         }
-
-        foreach ($this->versionIds as $index => $versionId) {
-            if (in_array($versionId, $this->linkedVersionIds, true)) {
-                continue;
-            }
-
-            // last version, no previous one
-            if (! isset($this->versionIds[$index + 1])) {
-                continue;
-            }
-
-            $this->linksToAppend[] = sprintf(
-                '[%s]: %s/compare/%s...%s',
-                $versionId,
-                $this->repositoryLink,
-                $this->versionIds[$index + 1],
-                $versionId
-            );
-        }
+//
+//        $matches = Strings::matchAll($this->content, '#\[(?<versionId>(v|[0-9])[a-zA-Z0-9\.-]+)\]: #');
+//        foreach ($matches as $match) {
+//            $this->linkedVersionIds[] = $match['versionId'];
+//        }
     }
+
+//    /**
+//     * @worker
+//     */
+//    public function completeDiffLinksToVersions(): void
+//    {
+//        $matches = Strings::matchAll($this->content, '#\#\# \[(?<versionId>(v|[0-9])[a-zA-Z0-9\.-]+)\]#');
+//        foreach ($matches as $match) {
+//            $this->versionIds[] = $match['versionId'];
+//        }
+//
+//        foreach ($this->versionIds as $index => $versionId) {
+//            if (in_array($versionId, $this->linkedVersionIds, true)) {
+//                continue;
+//            }
+//
+//            // last version, no previous one
+//            if (! isset($this->versionIds[$index + 1])) {
+//                continue;
+//            }
+//
+//            $this->linksToAppend[] = sprintf(
+//                '[%s]: %s/compare/%s...%s',
+//                $versionId,
+//                $this->repositoryLink,
+//                $this->versionIds[$index + 1],
+//                $versionId
+//            );
+//        }
+//    }
 
     public function appendLinks(): void
     {
@@ -211,7 +188,7 @@ final class ChangelogApplication
         return $doesUrlExist;
     }
 
-    private function saveContent(): void
+    public function saveContent(): void
     {
         file_put_contents($this->filePath, $this->content);
     }
