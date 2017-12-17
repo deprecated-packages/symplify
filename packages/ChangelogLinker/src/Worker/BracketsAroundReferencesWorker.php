@@ -4,6 +4,7 @@ namespace Symplify\ChangelogLinker\Worker;
 
 use Nette\Utils\Strings;
 use Symplify\ChangelogLinker\Contract\Worker\WorkerInterface;
+use Symplify\ChangelogLinker\Regex\RegexPattern;
 
 /**
  * Comletes [] around commit, pull-request, issues and version references
@@ -20,11 +21,6 @@ final class BracketsAroundReferencesWorker implements WorkerInterface
      */
     private const VERSION_REFERENCE = '#\#\# (?<versionId>(v|[0-9])[a-zA-Z0-9\.-]+)#';
 
-    /**
-     * @var string
-     */
-    private const COMMIT_REFERENCE = '# (?<commit>[0-9a-z]{40})#';
-
     public function processContent(string $content, string $repositoryLink): string
     {
         // issue or PR references
@@ -38,7 +34,7 @@ final class BracketsAroundReferencesWorker implements WorkerInterface
         });
 
         // commit references
-        $content = Strings::replace($content, self::COMMIT_REFERENCE, function (array $match): string {
+        $content = Strings::replace($content, '# ' . RegexPattern::COMMIT . '#', function (array $match): string {
             return sprintf(' [%s]', $match['commit']);
         });
 

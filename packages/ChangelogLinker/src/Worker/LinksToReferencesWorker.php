@@ -4,6 +4,7 @@ namespace Symplify\ChangelogLinker\Worker;
 
 use Nette\Utils\Strings;
 use Symplify\ChangelogLinker\Contract\Worker\WorkerInterface;
+use Symplify\ChangelogLinker\Regex\RegexPattern;
 
 final class LinksToReferencesWorker implements WorkerInterface
 {
@@ -84,6 +85,7 @@ final class LinksToReferencesWorker implements WorkerInterface
                 }
             }
         }
+
         return $linksToAppend;
     }
 
@@ -94,7 +96,7 @@ final class LinksToReferencesWorker implements WorkerInterface
     {
         $linksToAppend = [];
 
-        $matches = Strings::matchAll($content, '# \[(?<commit>[0-9a-z]{40})\] #');
+        $matches = Strings::matchAll($content, '# \[' . RegexPattern::COMMIT . '\] #');
         foreach ($matches as $match) {
             $markdownLink = sprintf(
                 '[%s]: %s/commit/%s',

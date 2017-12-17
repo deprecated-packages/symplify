@@ -20,6 +20,11 @@ abstract class AbstractVariableWrapper
      */
     protected $index;
 
+    /**
+     * @var string[]
+     */
+    private $simpleTypes = ['string', 'int', 'bool', 'null', 'array', 'iterable', 'integer', 'boolean', 'resource'];
+
     protected function __construct(Tokens $tokens, int $index)
     {
         $this->tokens = $tokens;
@@ -40,7 +45,7 @@ abstract class AbstractVariableWrapper
             return false;
         }
 
-        if (in_array($type, ['string', 'int', 'bool', 'null', 'array', 'iterable', 'integer', 'boolean'], true)) {
+        if (in_array($type, $this->simpleTypes, true)) {
             return false;
         }
 

@@ -20,6 +20,7 @@ if (! file_exists($filePath)) {
 }
 
 $changelogApplication = new ChangelogApplication('https://github.com/Symplify/Symplify');
+// order matters, as later depend on former
 $changelogApplication->addWorker(new BracketsAroundReferencesWorker());
 $changelogApplication->addWorker(new DiffLinksToVersionsWorker());
 $changelogApplication->addWorker(new LinksToReferencesWorker());
