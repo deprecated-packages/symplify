@@ -33,7 +33,7 @@ final class LinksToReferencesWorkerTest extends TestCase
     public function dataProvider(): array
     {
         return [
-//            [__DIR__ . '/Source/before/01.md', __DIR__ . '/Source/after/01.md'],
+            [__DIR__ . '/Source/before/01.md', __DIR__ . '/Source/after/01.md'],
             [__DIR__ . '/Source/before/02.md', __DIR__ . '/Source/after/02.md'],
         ];
     }
