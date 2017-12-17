@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\ChangelogLinker\Tests\Worker\DiffLinksToVersionsWorker;
+namespace Symplify\ChangelogLinker\Tests\Worker\BracketsAroundReferencesWorker;
 
 use PHPUnit\Framework\TestCase;
 use Symplify\ChangelogLinker\ChangelogApplication;
