@@ -30,7 +30,7 @@
 ### Changed
 
 - [#484] **[Statie]** add *dry-run* optiont to `StatieApplication` and `BeforeRenderEvent` to improve extendability, closes [#483] 
-- 9a9c0e61d0b7af073d3819e4c4798a251eca1f14 **[Statie]** use `statie.yml` config based on Symfony DI over "fake" `statie.neon` to prevent confusion, closes [#487]
+- [9a9c0e] **[Statie]** use `statie.yml` config based on Symfony DI over "fake" `statie.neon` to prevent confusion, closes [#487]
 
     **Before**
 
@@ -91,7 +91,7 @@ parameters:
 ```
 
 
-- 9b154d9b6e88075e14b6812613bce7c1a2a79daa **[Statie]** added `-vvv` CLI option for debug output
+- [9b154d] **[Statie]** added `-vvv` CLI option for debug output
 
 - [#473] bump to Symfony 4
 
@@ -442,8 +442,8 @@ parameters:
 
 ### Fixed
 
-- b45335c4e3674f7d0348ab31f1c359695d9d1d51 **[EasyCodingStandard]** fix missing `nette\robot-loader` dependency
-- b025353e06364cdb06f81d535dcb1d70b76b3a53 **[EasyCodingStandard]** fix ChangedFilesDetector for missing config file
+- [b45335] **[EasyCodingStandard]** fix missing `nette\robot-loader` dependency
+- [b02535] **[EasyCodingStandard]** fix ChangedFilesDetector for missing config file
 
 
 ## [v2.0.0] - 2017-06-16
@@ -728,3 +728,7 @@ For more deprecation details see https://www.tomasvotruba.cz/blog/2017/05/29/sym
 [@SpacePossum]: https://github.com/SpacePossum
 [@RectorPHP]: https://github.com/RectorPHP
 [@Lexinek]: https://github.com/Lexinek
+[b45335]: https://github.com/Symplify/Symplify/commit/b45335c4e3674f7d0348ab31f1c359695d9d1d51
+[b02535]: https://github.com/Symplify/Symplify/commit/b025353e06364cdb06f81d535dcb1d70b76b3a53
+[9b154d]: https://github.com/Symplify/Symplify/commit/9b154d9b6e88075e14b6812613bce7c1a2a79daa
+[9a9c0e]: https://github.com/Symplify/Symplify/commit/9a9c0e61d0b7af073d3819e4c4798a251eca1f14
