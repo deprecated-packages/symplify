@@ -184,7 +184,7 @@ parameters:
 
 ### Changed
 
-- [#399] **[Statie]** Filter `similarPosts` renamed to `relatedPosts`, closes #386
+- [#399] **[Statie]** Filter `similarPosts` renamed to `relatedPosts`, closes [#386]
 
 
 ### Removed
@@ -197,7 +197,7 @@ parameters:
 
 - [#412] **[PackageBuilder]** Removed Nette related-features, make package mostly internall for Symplify
 
-- [#404] **[SymbioticController]** package deprecated, closes #402
+- [#404] **[SymbioticController]** package deprecated, closes [#402]
 
 
 ## [v2.5.0] - 2017-10-08
@@ -237,7 +237,7 @@ parameters:
 ---
 
 - [#354] **[EasyCodingStandard]** Added [clean-code set](https://www.tomasvotruba.cz/blog/2017/09/18/4-simple-checkers-for-coding-standard-haters-but-clean-code-lovers/)
-- [430fc5] **[EasyCodingStandard]** ConflictingGuard feature added, see #333
+- [430fc5] **[EasyCodingStandard]** ConflictingGuard feature added, see [#333]
 - [33f28a] **[EasyCodingStandard]** Add new rules to `symfony-checkers`
 - [#342] **[EasyCodingStandard]** Add parser error reporting, Thanks @webrouse 
 - [#359] **[Statie]** Added Markdown support in `perex` in post
@@ -315,7 +315,7 @@ parameters:
 - [#279] **[CodingStandard]** Added `MagicMethodsNamingFixer`, converts `__CONSTUCT()` to `__construct()`, Thanks @SpacePossum
 
 - [#234] **[EasyCodingStandard]** Added support for custom spaces/tabs indentation in PHP-CS-Fixer
-- #266, [#272] **[EasyCodingStandard]** Added support for custom SourceProvider
+- [#266], [#272] **[EasyCodingStandard]** Added support for custom SourceProvider
 - [#267] **[EasyCodingStandard]** Added ready to go configs with group of PHP-CS-Fixer fixers, `psr2`, `symfony`, `php70`, `php71` etc.
 
     Use in CLI:
@@ -351,8 +351,8 @@ parameters:
 - [#276] **[PackageBuilder]** Added support for absolute path in `--config`, Thanks @dg
 - [#225] **[PackageBuilder]** Added `ParameterProvider` for Nette 
 
-- #243, #258, [#275] **[Statie]** Added cache for AMP + various fixes
-- #252, [#256] **[Statie]** Added support for Latte code in highlight in posts, Thanks @enumag 
+- [#243], [#258], [#275] **[Statie]** Added cache for AMP + various fixes
+- [#252], [#256] **[Statie]** Added support for Latte code in highlight in posts, Thanks @enumag 
 
  
 
@@ -438,7 +438,7 @@ parameters:
 
 - [#224] **[Statie]** use local `statie.neon` config file over global loading + use `underscore_case` (due to Symfony) - **BC BREAK!**
 - [#196] **[Statie]** improved message for Latte parser exception 
-- [#195] **[Statie]** improved NEON parser error exception, closes #99
+- [#195] **[Statie]** improved NEON parser error exception, closes [#99]
 
 ### Fixed
 
@@ -470,7 +470,7 @@ Based on discussion with friends and maintainers, I've found there are better ma
 - [#170] [EventDispatcher] package deprecated in favor of https://github.com/contributte/event-dispatcher
 - [#162] [DefaultAutowire] package deprecated in favor of Symfony 3.3 `_defaults` section
 - [#186] [ModularLatteFilter] package deprecated in favor of https://github.com/contributte/latte
-- [#182] [ModularRouting] package deprecated based poor usage and discussion in #181
+- [#182] [ModularRouting] package deprecated based poor usage and discussion in [#181]
 - [#184] [Statie] dropped translation support, not very extensive and shown unable in practise, implement own simple filter instead
 
 
@@ -705,3 +705,8 @@ For more deprecation details see https://www.tomasvotruba.cz/blog/2017/05/29/sym
 [430fc5]: https://github.com/Symplify/Symplify/commit/430fc59da26c5a43ccdbb2d2f8d75b2edff4aea6
 [33f28a]: https://github.com/Symplify/Symplify/commit/33f28a03daafa76f7bbdad380348a736650e357b
 [0ab538]: https://github.com/Symplify/Symplify/commit/0ab538bd53c971f6a7163485230a44658f613768
+[#99]: https://github.com/Symplify/Symplify/issues/99
+[#402]: https://github.com/Symplify/Symplify/issues/402
+[#386]: https://github.com/Symplify/Symplify/issues/386
+[#333]: https://github.com/Symplify/Symplify/issues/333
+[#181]: https://github.com/Symplify/Symplify/issues/181
