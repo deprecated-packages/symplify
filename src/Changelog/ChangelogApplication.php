@@ -92,8 +92,14 @@ final class ChangelogApplication
      */
     public function completeBracketsAroundReferences(): void
     {
+        // issue or PR references
         $this->content = Strings::replace($this->content, '# (?<reference>\#(v|[0-9])[a-zA-Z0-9\.-]+) #', function (array $match): string {
             return sprintf(' [%s] ', $match['reference']);
+        });
+
+        // version references
+        $this->content = Strings::replace($this->content, '#\#\# (?<versionId>(v|[0-9])[a-zA-Z0-9\.-]+)#', function (array $match): string {
+            return sprintf('## [%s]', $match['versionId']);
         });
 
         $this->saveContent();

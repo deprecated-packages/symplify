@@ -129,11 +129,12 @@ parameters:
 - [#476] **[CodingStandard]** dropped `NoInterfaceOnAbstractClassFixer`, not useful in practise
 
 
-## v3.0.0-RC4
+## [v3.0.0-RC3]
 
 ### Added
 
-- #452 **[CodingStandard]** `ClassStringToClassConstantFixer` now covers classes with double slashes: `SomeNamespace\\SomeClass`
+- [#452] **[CodingStandard]** `ClassStringToClassConstantFixer` now covers classes with double slashes: `SomeNamespace\\SomeClass`
+
 
 
 [comment]: # (links to issues, PRs and release diffs)
@@ -158,3 +159,5 @@ parameters:
 [v3.0.1]: https://github.com/Symplify/Symplify/compare/v3.0.0...v3.0.1
 [v3.0.0]: https://github.com/Symplify/Symplify/compare/v3.0.0-RC5...v3.0.0
 [v3.0.0-RC5]: https://github.com/Symplify/Symplify/compare/v3.0.0-RC4...v3.0.0-RC5
+[#452]: https://github.com/Symplify/Symplify/pull/452
+[v3.0.0-RC4]: https://github.com/Symplify/Symplify/compare/v3.0.0-RC3...v3.0.0-RC4
