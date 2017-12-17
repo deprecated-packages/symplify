@@ -62,7 +62,7 @@ final class ChangelogApplication
      */
     private $workers = [];
 
-    public function __construct(string $repositoryLink = 'https://github.com/Symplify/Symplify')
+    public function __construct(string $repositoryLink)
     {
         $this->repositoryLink = $repositoryLink;
     }
@@ -92,24 +92,35 @@ final class ChangelogApplication
         }
     }
 
-    /**
-     * Comletes [] around commit, pull-request, issues and version references
-     * @worker
-     */
-    public function completeBracketsAroundReferences(): void
+    public function processFile(string $filePath): string
     {
-        // issue or PR references
-        $this->content = Strings::replace($this->content, '# (?<reference>\#(v|[0-9])[a-zA-Z0-9\.-]+) #', function (array $match): string {
-            return sprintf(' [%s] ', $match['reference']);
-        });
+        $this->loadFile($filePath);
 
-        // version references
-        $this->content = Strings::replace($this->content, '#\#\# (?<versionId>(v|[0-9])[a-zA-Z0-9\.-]+)#', function (array $match): string {
-            return sprintf('## [%s]', $match['versionId']);
-        });
+        foreach ($this->workers as $worker) {
+            $this->content = $worker->processContent($this->content, $this->repositoryLink);
+        }
 
-        $this->saveContent();
+        return $this->content;
     }
+
+//    /**
+//     * Comletes [] around commit, pull-request, issues and version references
+//     * @worker
+//     */
+//    public function completeBracketsAroundReferences(): void
+//    {
+//        // issue or PR references
+//        $this->content = Strings::replace($this->content, '# (?<reference>\#(v|[0-9])[a-zA-Z0-9\.-]+) #', function (array $match): string {
+//            return sprintf(' [%s] ', $match['reference']);
+//        });
+//
+//        // version references
+//        $this->content = Strings::replace($this->content, '#\#\# (?<versionId>(v|[0-9])[a-zA-Z0-9\.-]+)#', function (array $match): string {
+//            return sprintf('## [%s]', $match['versionId']);
+//        });
+//
+//        $this->saveContent();
+//    }
 
     /**
      * @worker

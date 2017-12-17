@@ -4,6 +4,7 @@ require_once __DIR__ . '/changelog-linker-bootstrap.php';
 
 use Symfony\Component\Console\Input\ArgvInput;
 use Symplify\ChangelogLinker\ChangelogApplication;
+use Symplify\ChangelogLinker\Worker\CompleteDiffLinksToVersionsWorker;
 
 $input = new ArgvInput();
 if ($input->getFirstArgument() === null) {
@@ -15,12 +16,11 @@ if (! file_exists($filePath)) {
     die(sprintf('Changelog file "%s" was not found' . PHP_EOL, $filePath));
 }
 
-// path as arg...
+$changelogApplication = new ChangelogApplication('https://github.com/Symplify/Symplify');
+$changelogApplication->addWorker(new CompleteDiffLinksToVersionsWorker());
 
-$changelogApplication = new ChangelogApplication;
 $changelogApplication->loadFile($filePath);
 
-$changelogApplication->completeBracketsAroundReferences();
 $changelogApplication->completeLinksToIds();
 $changelogApplication->completeDiffLinksToVersions();
 
