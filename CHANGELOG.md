@@ -30,7 +30,7 @@
 ### Changed
 
 - [#484] **[Statie]** add *dry-run* optiont to `StatieApplication` and `BeforeRenderEvent` to improve extendability, closes [#483] 
-- https://github.com/Symplify/Symplify/commit/9a9c0e61d0b7af073d3819e4c4798a251eca1f14 **[Statie]** use `statie.yml` config based on Symfony DI over "fake" `statie.neon` to prevent confusion, closes [#487] 
+- [9a9c0e] **[Statie]** use `statie.yml` config based on Symfony DI over "fake" `statie.neon` to prevent confusion, closes [#487]
 
     **Before**
 
@@ -91,7 +91,7 @@ parameters:
 ```
 
 
-- https://github.com/Symplify/Symplify/commit/9b154d9b6e88075e14b6812613bce7c1a2a79daa **[Statie]** added `-vvv` CLI option for debug output
+- [9b154d] **[Statie]** added `-vvv` CLI option for debug output
 
 - [#473] bump to Symfony 4
 
@@ -176,8 +176,8 @@ parameters:
 
 
 - [#388] **[EasyCodingStandard]** Added support for ignoring particular sniff codes
-- [#406] **[EasyCodingStandard]** Added support for ignoring particular codes and files, Thanks to @ostrolucky 
-- [#397] **[EasyCodingStandard]** Added validation to `exclude_checkers` option, Thanks to @mzstic 
+- [#406] **[EasyCodingStandard]** Added support for ignoring particular codes and files, Thanks to [@ostrolucky] 
+- [#397] **[EasyCodingStandard]** Added validation to `exclude_checkers` option, Thanks to [@mzstic] 
 
 - [#431] **[PackageBuilder]** Added `--level` shortcut helper builder
 
@@ -189,7 +189,7 @@ parameters:
 
 ### Removed
 
-- [#417] **[CodingStandard]** Dropped `InjectToConstructorInjectionFixer`, use @RectorPHP instead
+- [#417] **[CodingStandard]** Dropped `InjectToConstructorInjectionFixer`, use [@RectorPHP] instead
 - [#419] **[CodingStandard]** Dropped `ControllerRenderMethodLimitSniff` and `InvokableControllerSniff`, as related to SymbioticController
 - [#432] **[CodingStandard]** Dropped `NewClassSniff`, use `NewWithBracesFixer` instead
 
@@ -218,7 +218,7 @@ parameters:
 - [#376] **[CodingStandard]** Fixed nested array in ArrayPropertyDefaultValueFixer 
 - [#381] **[CodingStandard]** Fixed DynamicProperySniff miss
 
-- [#379] **[Statie]** Fixed source path bug, Thanks to @chemix 
+- [#379] **[Statie]** Fixed source path bug, Thanks to [@chemix] 
 
 ### Removed
 
@@ -239,7 +239,7 @@ parameters:
 - [#354] **[EasyCodingStandard]** Added [clean-code set](https://www.tomasvotruba.cz/blog/2017/09/18/4-simple-checkers-for-coding-standard-haters-but-clean-code-lovers/)
 - [430fc5] **[EasyCodingStandard]** ConflictingGuard feature added, see [#333]
 - [33f28a] **[EasyCodingStandard]** Add new rules to `symfony-checkers`
-- [#342] **[EasyCodingStandard]** Add parser error reporting, Thanks @webrouse 
+- [#342] **[EasyCodingStandard]** Add parser error reporting, Thanks [@webrouse] 
 - [#359] **[Statie]** Added Markdown support in `perex` in post
 
 
@@ -276,7 +276,7 @@ parameters:
 
 ### Changed
 
-- [#334] **[CodingStandard]** `ArrayPropertyDefaultValueFixer` now allows single line comments, Thanks to @vlastavesely 
+- [#334] **[CodingStandard]** `ArrayPropertyDefaultValueFixer` now allows single line comments, Thanks to [@vlastavesely] 
 - [#314] **[CodingStandard]** Make `ClassStringToClassConstantFixer` configurable
 
 ---
@@ -298,7 +298,7 @@ parameters:
 
 ---
 
-- [#328] **[Statie]** Removed hardcoded path from github filter, Thanks to @crazko 
+- [#328] **[Statie]** Removed hardcoded path from github filter, Thanks to [@crazko] 
 - [#327] **[Statie]** Fixed ability to set layout for posts
 - [#325] **[Statie]** Disable decoration when AMP disabled
 
@@ -312,7 +312,7 @@ parameters:
 ### Added
 
 - [#262] **[CodingStandard]** Added `ClassStringToClassConstantFixer`, convert `"SomeClass"` to `SomeClass::class`
-- [#279] **[CodingStandard]** Added `MagicMethodsNamingFixer`, converts `__CONSTUCT()` to `__construct()`, Thanks @SpacePossum
+- [#279] **[CodingStandard]** Added `MagicMethodsNamingFixer`, converts `__CONSTUCT()` to `__construct()`, Thanks [@SpacePossum]
 
 - [#234] **[EasyCodingStandard]** Added support for custom spaces/tabs indentation in PHP-CS-Fixer
 - [#266], [#272] **[EasyCodingStandard]** Added support for custom SourceProvider
@@ -348,11 +348,11 @@ parameters:
 
 - [#281] **[EasyCodingStandard]** Added info about no checkers loaded + allow checker merging in configuration
 
-- [#276] **[PackageBuilder]** Added support for absolute path in `--config`, Thanks @dg
+- [#276] **[PackageBuilder]** Added support for absolute path in `--config`, Thanks [@dg]
 - [#225] **[PackageBuilder]** Added `ParameterProvider` for Nette 
 
 - [#243], [#258], [#275] **[Statie]** Added cache for AMP + various fixes
-- [#252], [#256] **[Statie]** Added support for Latte code in highlight in posts, Thanks @enumag 
+- [#252], [#256] **[Statie]** Added support for Latte code in highlight in posts, Thanks [@enumag] 
 
  
 
@@ -362,14 +362,14 @@ parameters:
 
 - [#232] **[EasyCodingStandard]** Improved report after all is fixed 
 - [#255] **[EasyCodingStandard]** Fixers are sorted by priority
-- [#239] **[EasyCodingStandard]** `PHP_EOL` is now default line-ending for PHP-CS-Fixer, Thanks @dg
+- [#239] **[EasyCodingStandard]** `PHP_EOL` is now default line-ending for PHP-CS-Fixer, Thanks [@dg]
 
 
 ### Fixed
 
 - [#230] **[EasyCodingStandard]** Fixed Configuration BC break by PHP-CS-Fixer 2.3
 - [#238] **[EasyCodingStandard]** Fixed caching invalidation for config including other configs
-- [#257] **[EasyCodingStandard]** Error is propagated to exit code, Thanks @dg 
+- [#257] **[EasyCodingStandard]** Error is propagated to exit code, Thanks [@dg] 
 
 - [#245] **[Statie]** Fixed Configuration in ParametersProvider
 
@@ -398,7 +398,7 @@ parameters:
     }
     ```
 
-    Thanks @keradus and @SpacePossum
+    Thanks [@keradus] and [@SpacePossum]
 
 
 - [#190] **[EasyCodingStandard]** add show command to display all loaded checkers
@@ -413,7 +413,7 @@ parameters:
         # someTemporaryCommentedConfig: value
     ```
 
-    Thanks @dg
+    Thanks [@dg]
 
 - [#197] **[PackageBuilder]** added `AbstractCliKernel` for CLI apps bootstrapping
 - [#199] **[PackageBuilder]** added `ConfigFilePathHelper` for CLI and local config detection
@@ -442,15 +442,15 @@ parameters:
 
 ### Fixed
 
-- https://github.com/Symplify/Symplify/commit/b45335c4e3674f7d0348ab31f1c359695d9d1d51 **[EasyCodingStandard]** fix missing `nette\robot-loader` dependency
-- https://github.com/Symplify/Symplify/commit/b025353e06364cdb06f81d535dcb1d70b76b3a53 **[EasyCodingStandard]** fix ChangedFilesDetector for missing config file
+- [b45335] **[EasyCodingStandard]** fix missing `nette\robot-loader` dependency
+- [b02535] **[EasyCodingStandard]** fix ChangedFilesDetector for missing config file
 
 
 ## [v2.0.0] - 2017-06-16
 
 ### Added
 
-- [#179] [EasyCodingStandard] check for unused skipped errors and report them (inspired by @phpstan)
+- [#179] [EasyCodingStandard] check for unused skipped errors and report them (inspired by [@phpstan])
 
 
 ### Changed
@@ -485,18 +485,18 @@ Based on discussion with friends and maintainers, I've found there are better ma
 ### Fixed
 
 - [#157] [CodingStandard] fix property docblock sniff for multiple annotations
-- [#164] [SymbioticController] fixed typo in nette application request event name, Thanks @Lexinek 
+- [#164] [SymbioticController] fixed typo in nette application request event name, Thanks [@Lexinek] 
 
 
 ### Removed
 
 - [#155] [AutoServiceRegistration] package deprecated
-    - Use @Symfony 3.3 PSR-4 service autodiscovery: symfony/symfony#21289
+    - Use [@Symfony] 3.3 PSR-4 service autodiscovery: symfony/symfony#21289
 - [#155] [ControllerAutowire] package deprecated
-    - Use @Symfony 3.3 `AbstractController` symfony/symfony#22157
-    - Use @Symfony 3.3 service PSR-4 autodiscovery: symfony/symfony#21289
+    - Use [@Symfony] 3.3 `AbstractController` symfony/symfony#22157
+    - Use [@Symfony] 3.3 service PSR-4 autodiscovery: symfony/symfony#21289
 - [#155] [ServiceDefinitionDecorator] package deprecated
-    - Use `_instanceof` @Symfony 3.3: https://symfony.com/blog/new-in-symfony-3-3-simpler-service-configuration#interface-based-service-configuration
+    - Use `_instanceof` [@Symfony] 3.3: https://symfony.com/blog/new-in-symfony-3-3-simpler-service-configuration#interface-based-service-configuration
 
 For more deprecation details see https://www.tomasvotruba.cz/blog/2017/05/29/symplify-packages-deprecations-brought-by-symfony-33/
 
@@ -710,3 +710,25 @@ For more deprecation details see https://www.tomasvotruba.cz/blog/2017/05/29/sym
 [#386]: https://github.com/Symplify/Symplify/issues/386
 [#333]: https://github.com/Symplify/Symplify/issues/333
 [#181]: https://github.com/Symplify/Symplify/issues/181
+[#266]: https://github.com/Symplify/Symplify/pull/266
+[#258]: https://github.com/Symplify/Symplify/pull/258
+[#252]: https://github.com/Symplify/Symplify/pull/252
+[#243]: https://github.com/Symplify/Symplify/pull/243
+[@webrouse]: https://github.com/webrouse
+[@vlastavesely]: https://github.com/vlastavesely
+[@phpstan]: https://github.com/phpstan
+[@ostrolucky]: https://github.com/ostrolucky
+[@mzstic]: https://github.com/mzstic
+[@keradus]: https://github.com/keradus
+[@enumag]: https://github.com/enumag
+[@dg]: https://github.com/dg
+[@crazko]: https://github.com/crazko
+[@chemix]: https://github.com/chemix
+[@Symfony]: https://github.com/Symfony
+[@SpacePossum]: https://github.com/SpacePossum
+[@RectorPHP]: https://github.com/RectorPHP
+[@Lexinek]: https://github.com/Lexinek
+[b45335]: https://github.com/Symplify/Symplify/commit/b45335c4e3674f7d0348ab31f1c359695d9d1d51
+[b02535]: https://github.com/Symplify/Symplify/commit/b025353e06364cdb06f81d535dcb1d70b76b3a53
+[9b154d]: https://github.com/Symplify/Symplify/commit/9b154d9b6e88075e14b6812613bce7c1a2a79daa
+[9a9c0e]: https://github.com/Symplify/Symplify/commit/9a9c0e61d0b7af073d3819e4c4798a251eca1f14

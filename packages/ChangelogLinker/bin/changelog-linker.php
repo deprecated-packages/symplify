@@ -8,6 +8,7 @@ use Symplify\ChangelogLinker\Worker\BracketsAroundReferencesWorker;
 use Symplify\ChangelogLinker\Worker\DiffLinksToVersionsWorker;
 use Symplify\ChangelogLinker\Worker\LinksToReferencesWorker;
 use Symplify\ChangelogLinker\Worker\ShortenReferencesWorker;
+use Symplify\ChangelogLinker\Worker\UserReferencesWorker;
 
 $input = new ArgvInput();
 if ($input->getFirstArgument() === null) {
@@ -19,11 +20,20 @@ if (! file_exists($filePath)) {
     die(sprintf('Changelog file "%s" was not found' . PHP_EOL, $filePath));
 }
 
-$changelogApplication = new ChangelogApplication('https://github.com/Symplify/Symplify');
+// --repository https://github.com/rectorphp/rector
+if ($input->getParameterOption('--repository')) {
+    $repository = $input->getParameterOption('--repository');
+} else {
+    $repository = 'https://github.com/Symplify/Symplify';
+}
+
+$changelogApplication = new ChangelogApplication($repository);
+
 // order matters, as later depend on former
 $changelogApplication->addWorker(new BracketsAroundReferencesWorker());
 $changelogApplication->addWorker(new DiffLinksToVersionsWorker());
 $changelogApplication->addWorker(new LinksToReferencesWorker());
 $changelogApplication->addWorker(new ShortenReferencesWorker());
+$changelogApplication->addWorker(new UserReferencesWorker());
 
 $changelogApplication->processFileAndSave($filePath);
