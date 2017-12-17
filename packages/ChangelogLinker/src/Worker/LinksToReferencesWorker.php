@@ -41,15 +41,29 @@ final class LinksToReferencesWorker implements WorkerInterface
     {
         $this->resolveLinkedElements($content);
 
+        $linksToAppend = $this->processPullRequestAndIssueReferences($content, $repositoryLink);
+        $linksToAppend = array_merge($linksToAppend, $this->processCommitReferences($content, $repositoryLink));
+
+        if (! count($linksToAppend)) {
+            return $content;
+        }
+
+        rsort($linksToAppend);
+
+        // append new links to the file
+        return $content . PHP_EOL . implode(PHP_EOL, $linksToAppend);
+    }
+
+    /**
+     * @return string[]
+     */
+    private function processPullRequestAndIssueReferences(string $content, string $repositoryLink): array
+    {
         $linksToAppend = [];
 
         $matches = Strings::matchAll($content, self::UNLINKED_ID_PATTERN);
         foreach ($matches as $match) {
-            if (array_key_exists($match['id'], $linksToAppend)) {
-                continue;
-            }
-
-            if (in_array($match['id'], $this->linkedIds, true)) {
+            if ($this->shouldSkipPullRequestOrIssueReference($match, $linksToAppend)) {
                 continue;
             }
 
@@ -70,15 +84,29 @@ final class LinksToReferencesWorker implements WorkerInterface
                 }
             }
         }
+        return $linksToAppend;
+    }
 
-        if (! count($linksToAppend)) {
-            return $content;
+    /**
+     * @return string[]
+     */
+    private function processCommitReferences(string $content, string $repositoryLink): array
+    {
+        $linksToAppend = [];
+
+        $matches = Strings::matchAll($content, '# \[(?<commit>[0-9a-z]{40})\] #');
+        foreach ($matches as $match) {
+            $markdownLink = sprintf(
+                '[%s]: %s/commit/%s',
+                $match['commit'],
+                $repositoryLink,
+                $match['commit']
+            );
+
+            $linksToAppend[$match['commit']] = $markdownLink;
         }
 
-        rsort($linksToAppend);
-
-        // append new links to the file
-        return $content . PHP_EOL . implode(PHP_EOL, $linksToAppend);
+        return $linksToAppend;
     }
 
     private function doesUrlExist(string $url): bool
@@ -111,5 +139,22 @@ final class LinksToReferencesWorker implements WorkerInterface
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 
         return $curl;
+    }
+
+    /**
+     * @param string[] $match
+     * @param string[] $linksToAppend
+     */
+    private function shouldSkipPullRequestOrIssueReference(array $match, array $linksToAppend): bool
+    {
+        if (array_key_exists($match['id'], $linksToAppend)) {
+            return true;
+        }
+
+        if (in_array($match['id'], $this->linkedIds, true)) {
+            return true;
+        }
+
+        return false;
     }
 }

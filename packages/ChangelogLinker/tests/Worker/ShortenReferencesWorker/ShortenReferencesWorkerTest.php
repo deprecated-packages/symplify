@@ -1,12 +1,12 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\ChangelogLinker\Tests\Worker\BracketsAroundReferencesWorker;
+namespace Symplify\ChangelogLinker\Tests\Worker\ShortenReferencesWorker;
 
 use PHPUnit\Framework\TestCase;
 use Symplify\ChangelogLinker\ChangelogApplication;
-use Symplify\ChangelogLinker\Worker\BracketsAroundReferencesWorker;
+use Symplify\ChangelogLinker\Worker\ShortenReferencesWorker;
 
-final class BracketsAroundReferencesWorkerTest extends TestCase
+final class ShortenReferencesWorkerTest extends TestCase
 {
     /**
      * @var ChangelogApplication
@@ -16,7 +16,7 @@ final class BracketsAroundReferencesWorkerTest extends TestCase
     protected function setUp(): void
     {
         $this->changelogApplication = new ChangelogApplication('https://github.com/Symplify/Symplify');
-        $this->changelogApplication->addWorker(new BracketsAroundReferencesWorker());
+        $this->changelogApplication->addWorker(new ShortenReferencesWorker());
     }
 
     /**
@@ -34,7 +34,6 @@ final class BracketsAroundReferencesWorkerTest extends TestCase
     {
         return [
             [__DIR__ . '/Source/before/01.md', __DIR__ . '/Source/after/01.md'],
-            [__DIR__ . '/Source/before/02.md', __DIR__ . '/Source/after/02.md'],
         ];
     }
 }

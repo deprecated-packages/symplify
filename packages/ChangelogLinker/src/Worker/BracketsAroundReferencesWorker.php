@@ -20,6 +20,11 @@ final class BracketsAroundReferencesWorker implements WorkerInterface
      */
     private const VERSION_REFERENCE = '#\#\# (?<versionId>(v|[0-9])[a-zA-Z0-9\.-]+)#';
 
+    /**
+     * @var string
+     */
+    private const COMMIT_REFERENCE = '# (?<commit>[0-9a-z]{40}) #';
+
     public function processContent(string $content, string $repositoryLink): string
     {
         // issue or PR references
@@ -30,6 +35,11 @@ final class BracketsAroundReferencesWorker implements WorkerInterface
         // version references
         $content = Strings::replace($content, self::VERSION_REFERENCE, function (array $match): string {
             return sprintf('## [%s]', $match['versionId']);
+        });
+
+        // commit references
+        $content = Strings::replace($content, self::COMMIT_REFERENCE, function (array $match): string {
+            return sprintf(' [%s] ', $match['commit']);
         });
 
         return $content;
