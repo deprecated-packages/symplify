@@ -710,3 +710,7 @@ For more deprecation details see https://www.tomasvotruba.cz/blog/2017/05/29/sym
 [#386]: https://github.com/Symplify/Symplify/issues/386
 [#333]: https://github.com/Symplify/Symplify/issues/333
 [#181]: https://github.com/Symplify/Symplify/issues/181
+[#266]: https://github.com/Symplify/Symplify/pull/266
+[#258]: https://github.com/Symplify/Symplify/pull/258
+[#252]: https://github.com/Symplify/Symplify/pull/252
+[#243]: https://github.com/Symplify/Symplify/pull/243
