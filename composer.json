@@ -36,6 +36,7 @@
         "psr-4": {
             "Symplify\\CodingStandard\\": "packages/CodingStandard/src",
             "Symplify\\GitWrapper\\": "packages/GitWrapper/src",
+            "Symplify\\ChangelogLinker\\": "packages/ChangelogLinker/src",
             "Symplify\\EasyCodingStandard\\": "packages/EasyCodingStandard/src",
             "Symplify\\EasyCodingStandard\\SniffRunner\\": "packages/EasyCodingStandard/packages/SniffRunner/src",
             "Symplify\\EasyCodingStandard\\ChangedFilesDetector\\": "packages/EasyCodingStandard/packages/ChangedFilesDetector/src",
@@ -53,6 +54,7 @@
         "psr-4": {
             "Symplify\\CodingStandard\\Tests\\": "packages/CodingStandard/tests",
             "Symplify\\GitWrapper\\Tests\\": "packages/GitWrapper/tests",
+            "Symplify\\ChangelogLinker\\Tests\\": "packages/ChangelogLinker/tests",
             "Symplify\\EasyCodingStandard\\Tests\\": "packages/EasyCodingStandard/tests",
             "Symplify\\EasyCodingStandard\\SniffRunner\\Tests\\": "packages/EasyCodingStandard/packages/SniffRunner/tests",
             "Symplify\\EasyCodingStandard\\Configuration\\Tests\\": "packages/EasyCodingStandard/packages/Configuration/tests",
