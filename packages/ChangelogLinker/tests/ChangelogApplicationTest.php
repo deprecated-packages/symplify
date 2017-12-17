@@ -39,5 +39,4 @@ final class ChangelogApplicationTest extends TestCase
             [__DIR__ . '/ChangelogApplicationSource/before/02.md', __DIR__ . '/ChangelogApplicationSource/after/02.md'],
         ];
     }
-
 }

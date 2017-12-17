@@ -110,14 +110,6 @@ final class ChangelogApplication
         }
     }
 
-    private function resolveLinkedElements(): void
-    {
-        $matches = Strings::matchAll($this->content, self::LINKED_ID_PATTERN);
-        foreach ($matches as $match) {
-            $this->linkedIds[] = $match['id'];
-        }
-    }
-
     public function appendLinks(): void
     {
         if (! count($this->linksToAppend)) {
@@ -131,6 +123,19 @@ final class ChangelogApplication
         $this->saveContent();
     }
 
+    public function saveContent(): void
+    {
+        file_put_contents($this->filePath, $this->content);
+    }
+
+    private function resolveLinkedElements(): void
+    {
+        $matches = Strings::matchAll($this->content, self::LINKED_ID_PATTERN);
+        foreach ($matches as $match) {
+            $this->linkedIds[] = $match['id'];
+        }
+    }
+
     private function doesUrlExist(string $url): bool
     {
         $ch = curl_init($url);
@@ -141,10 +146,5 @@ final class ChangelogApplication
         curl_close($ch);
 
         return $doesUrlExist;
-    }
-
-    public function saveContent(): void
-    {
-        file_put_contents($this->filePath, $this->content);
     }
 }

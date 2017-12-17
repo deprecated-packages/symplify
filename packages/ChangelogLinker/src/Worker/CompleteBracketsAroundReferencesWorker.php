@@ -10,15 +10,25 @@ use Symplify\ChangelogLinker\Contract\Worker\WorkerInterface;
  */
 final class CompleteBracketsAroundReferencesWorker implements WorkerInterface
 {
+    /**
+     * @var string
+     */
+    private const ISSUE_OR_PR_ID_PATTERN = '# (?<reference>\#(v|[0-9])[a-zA-Z0-9\.-]+) #';
+
+    /**
+     * @var string
+     */
+    private const VERSION_REFERENCE = '#\#\# (?<versionId>(v|[0-9])[a-zA-Z0-9\.-]+)#';
+
     public function processContent(string $content, string $repositoryLink): string
     {
         // issue or PR references
-        $content = Strings::replace($content, '# (?<reference>\#(v|[0-9])[a-zA-Z0-9\.-]+) #', function (array $match): string {
+        $content = Strings::replace($content, self::ISSUE_OR_PR_ID_PATTERN, function (array $match): string {
             return sprintf(' [%s] ', $match['reference']);
         });
 
         // version references
-        $content = Strings::replace($content, '#\#\# (?<versionId>(v|[0-9])[a-zA-Z0-9\.-]+)#', function (array $match): string {
+        $content = Strings::replace($content, self::VERSION_REFERENCE, function (array $match): string {
             return sprintf('## [%s]', $match['versionId']);
         });
 
