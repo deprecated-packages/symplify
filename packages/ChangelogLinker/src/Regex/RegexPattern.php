@@ -17,5 +17,5 @@ final class RegexPattern
     /**
      * @var string
      */
-    public const PR_OR_ISSUE = '(?<reference>\#[0-9]+)';
+    public const PR_OR_ISSUE = '(?<reference>\#(?<id>[0-9]+))';
 }

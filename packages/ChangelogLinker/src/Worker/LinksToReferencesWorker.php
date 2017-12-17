@@ -9,21 +9,6 @@ use Symplify\ChangelogLinker\Regex\RegexPattern;
 final class LinksToReferencesWorker implements WorkerInterface
 {
     /**
-     * @var string
-     */
-    private const ID_PATTERN = '\#(?<id>[0-9]+)';
-
-    /**
-     * @var string
-     */
-    private const UNLINKED_ID_PATTERN = '#\[' . self::ID_PATTERN . '\]\s+#';
-
-    /**
-     * @var string
-     */
-    private const LINKED_ID_PATTERN = '#\[' . self::ID_PATTERN . '\]:\s+#';
-
-    /**
      * @var string[]
      */
     private $linkedIds = [];
@@ -52,7 +37,7 @@ final class LinksToReferencesWorker implements WorkerInterface
         rsort($linksToAppend);
 
         // append new links to the file
-        return $content . PHP_EOL . implode(PHP_EOL, $linksToAppend);
+        return $content . implode(PHP_EOL, $linksToAppend) . PHP_EOL;
     }
 
     /**
@@ -62,7 +47,7 @@ final class LinksToReferencesWorker implements WorkerInterface
     {
         $linksToAppend = [];
 
-        $matches = Strings::matchAll($content, self::UNLINKED_ID_PATTERN);
+        $matches = Strings::matchAll($content, '#\[' . RegexPattern::PR_OR_ISSUE . '\][\s,]#');
         foreach ($matches as $match) {
             if ($this->shouldSkipPullRequestOrIssueReference($match, $linksToAppend)) {
                 continue;
@@ -121,7 +106,7 @@ final class LinksToReferencesWorker implements WorkerInterface
 
     private function resolveLinkedElements(string $content): void
     {
-        $matches = Strings::matchAll($content, self::LINKED_ID_PATTERN);
+        $matches = Strings::matchAll($content, '#\[' . RegexPattern::PR_OR_ISSUE . '\]:\s+#');
         foreach ($matches as $match) {
             $this->linkedIds[] = $match['id'];
         }
