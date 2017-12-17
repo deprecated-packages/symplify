@@ -1,12 +1,12 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\ChangelogLinker\Tests\Worker\DiffLinksToVersionsWorker;
+namespace Symplify\ChangelogLinker\Tests\Worker\LinksToReferencesWorker;
 
 use PHPUnit\Framework\TestCase;
 use Symplify\ChangelogLinker\ChangelogApplication;
-use Symplify\ChangelogLinker\Worker\DiffLinksToVersionsWorker;
+use Symplify\ChangelogLinker\Worker\LinksToReferencesWorker;
 
-final class DiffLinksToVersionsWorkerTest extends TestCase
+final class LinksToReferencesWorkerTest extends TestCase
 {
     /**
      * @var ChangelogApplication
@@ -16,7 +16,7 @@ final class DiffLinksToVersionsWorkerTest extends TestCase
     protected function setUp(): void
     {
         $this->changelogApplication = new ChangelogApplication('https://github.com/Symplify/Symplify');
-        $this->changelogApplication->addWorker(new DiffLinksToVersionsWorker());
+        $this->changelogApplication->addWorker(new LinksToReferencesWorker());
     }
 
     /**

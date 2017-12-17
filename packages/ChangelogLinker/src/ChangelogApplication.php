@@ -9,11 +9,6 @@ final class ChangelogApplication
     /**
      * @var string
      */
-    private $filePath;
-
-    /**
-     * @var string
-     */
     private $repositoryLink;
 
     /**
@@ -39,7 +34,6 @@ final class ChangelogApplication
 
     public function processFile(string $filePath): string
     {
-        $this->filePath = $filePath;
         $content = file_get_contents($filePath);
 
         foreach ($this->workers as $worker) {
