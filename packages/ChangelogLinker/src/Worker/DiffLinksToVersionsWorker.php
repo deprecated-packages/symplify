@@ -4,6 +4,7 @@ namespace Symplify\ChangelogLinker\Worker;
 
 use Nette\Utils\Strings;
 use Symplify\ChangelogLinker\Contract\Worker\WorkerInterface;
+use Symplify\ChangelogLinker\Regex\RegexPattern;
 
 final class DiffLinksToVersionsWorker implements WorkerInterface
 {
@@ -49,7 +50,7 @@ final class DiffLinksToVersionsWorker implements WorkerInterface
 
     private function collectLinkedVersionIds(string $content): void
     {
-        $matches = Strings::matchAll($content, '#\[(?<versionId>(v|[0-9])[a-zA-Z0-9\.-]+)\]: #');
+        $matches = Strings::matchAll($content, '#\[' . RegexPattern::VERSION . '\]: #');
         foreach ($matches as $match) {
             $this->linkedVersionIds[] = $match['versionId'];
         }
@@ -57,7 +58,7 @@ final class DiffLinksToVersionsWorker implements WorkerInterface
 
     private function collectVersionsIds(string $content): void
     {
-        $matches = Strings::matchAll($content, '#\#\# \[(?<versionId>(v|[0-9])[a-zA-Z0-9\.-]+)\]#');
+        $matches = Strings::matchAll($content, '#\#\# \[' . RegexPattern::VERSION . '\]#');
         foreach ($matches as $match) {
             $this->versionIds[] = $match['versionId'];
         }

@@ -19,7 +19,7 @@ final class BracketsAroundReferencesWorker implements WorkerInterface
     /**
      * @var string
      */
-    private const VERSION_REFERENCE = '#\#\# (?<versionId>(v|[0-9])[a-zA-Z0-9\.-]+)#';
+    private const VERSION_REFERENCE = '#\#\# ' . RegexPattern::VERSION . '#';
 
     public function processContent(string $content, string $repositoryLink): string
     {
