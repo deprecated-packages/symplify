@@ -7,7 +7,6 @@
 
 ### Added
 
-- [#505] Added `CHANGELOG.md`
 - [#505] Added `CHANGELOG.md` 
 
 
@@ -130,10 +129,11 @@ parameters:
 - [#476] **[CodingStandard]** dropped `NoInterfaceOnAbstractClassFixer`, not useful in practise
 
 
+## v3.0.0-RC4
 
-**Full diff:** https://github.com/Symplify/Symplify/compare/v3.0.0-RC3...v3.0.0-RC4
+### Added
 
-
+- #452 **[CodingStandard]** `ClassStringToClassConstantFixer` now covers classes with double slashes: `SomeNamespace\\SomeClass`
 
 
 [comment]: # (links to issues, PRs and release diffs)
