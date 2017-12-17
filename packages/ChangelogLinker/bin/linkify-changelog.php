@@ -4,6 +4,8 @@ use Symplify\Changelog\ChangelogApplication;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
+// path as arg...
+
 $changelogApplication = new ChangelogApplication;
 $changelogApplication->loadFile(__DIR__ . '/../CHANGELOG.md');
 
