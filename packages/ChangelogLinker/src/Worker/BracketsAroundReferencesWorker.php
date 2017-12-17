@@ -28,6 +28,11 @@ final class BracketsAroundReferencesWorker implements WorkerInterface
             return sprintf(' [%s]', $match['commit']);
         });
 
+        // user references
+        $content = Strings::replace($content, '# ' . RegexPattern::USER . '#', function (array $match): string {
+            return sprintf(' [%s]', $match['reference']);
+        });
+
         return $content;
     }
 }

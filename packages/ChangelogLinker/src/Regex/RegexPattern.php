@@ -7,6 +7,11 @@ final class RegexPattern
     /**
      * @var string
      */
+    public const USER = '(?<reference>@(?<name>[a-z]+))';
+
+    /**
+     * @var string
+     */
     public const COMMIT = '(?<commit>[0-9a-z]{40})';
 
     /**

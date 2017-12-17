@@ -4,6 +4,7 @@ namespace Symplify\ChangelogLinker\Worker;
 
 use Nette\Utils\Strings;
 use Symplify\ChangelogLinker\Contract\Worker\WorkerInterface;
+use Symplify\ChangelogLinker\Regex\RegexPattern;
 
 /**
  * Completes link to @user mentions
@@ -19,7 +20,7 @@ final class UserReferencesWorker implements WorkerInterface
     {
         $linksToAppend = [];
 
-        $matches = Strings::matchAll($content, '#\[@(?<name>[a-z]+)\]#');
+        $matches = Strings::matchAll($content, '#\[' . RegexPattern::USER . '\]#');
         foreach ($matches as $match) {
             if (isset($this->linksToPrepend[$match['name']])) {
                 continue;
