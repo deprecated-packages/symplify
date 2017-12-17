@@ -27,6 +27,16 @@ final class LinksToReferencesWorker implements WorkerInterface
      */
     private $linkedIds = [];
 
+    /**
+     * @var resource
+     */
+    private $curl;
+
+    public function __construct()
+    {
+        $this->curl = $this->createCurl();
+    }
+
     public function processContent(string $content, string $repositoryLink): string
     {
         $this->resolveLinkedElements($content);
@@ -73,14 +83,10 @@ final class LinksToReferencesWorker implements WorkerInterface
 
     private function doesUrlExist(string $url): bool
     {
-        $ch = curl_init($url);
-        curl_setopt($ch, CURLOPT_NOBODY, true); // set to HEAD request
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); // don't output the response
-        curl_exec($ch);
-        $doesUrlExist = curl_getinfo($ch, CURLINFO_HTTP_CODE) === 200;
-        curl_close($ch);
+        curl_setopt($this->curl, CURLOPT_URL, $url);
+        curl_exec($this->curl);
 
-        return $doesUrlExist;
+        return curl_getinfo($this->curl, CURLINFO_HTTP_CODE) === 200;
     }
 
     private function resolveLinkedElements(string $content): void
@@ -89,5 +95,21 @@ final class LinksToReferencesWorker implements WorkerInterface
         foreach ($matches as $match) {
             $this->linkedIds[] = $match['id'];
         }
+    }
+
+    /**
+     * @return resource
+     */
+    private function createCurl()
+    {
+        $curl = curl_init();
+
+        // set to HEAD request
+        curl_setopt($curl, CURLOPT_NOBODY, true);
+        curl_setopt($curl, CURLOPT_FAILONERROR, true);
+        // don't output the response
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+
+        return $curl;
     }
 }
