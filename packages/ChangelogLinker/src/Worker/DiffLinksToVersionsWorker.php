@@ -11,7 +11,7 @@ final class DiffLinksToVersionsWorker implements WorkerInterface
     /**
      * @var string[]
      */
-    private $linkedVersionIds = [];
+    private $linkedVersions = [];
 
     /**
      * @var string[]
@@ -20,8 +20,8 @@ final class DiffLinksToVersionsWorker implements WorkerInterface
 
     public function processContent(string $content, string $repositoryLink): string
     {
-        $this->collectLinkedVersionIds($content);
-        $this->collectVersionsIds($content);
+        $this->collectLinkedVersions($content);
+        $this->collectVersions($content);
 
         $linksToAppend = [];
         foreach ($this->versions as $index => $version) {
@@ -48,15 +48,15 @@ final class DiffLinksToVersionsWorker implements WorkerInterface
         return $content . PHP_EOL . implode(PHP_EOL, $linksToAppend);
     }
 
-    private function collectLinkedVersionIds(string $content): void
+    private function collectLinkedVersions(string $content): void
     {
         $matches = Strings::matchAll($content, '#\[' . RegexPattern::VERSION . '\]: #');
         foreach ($matches as $match) {
-            $this->linkedVersionIds[] = $match['version'];
+            $this->linkedVersions[] = $match['version'];
         }
     }
 
-    private function collectVersionsIds(string $content): void
+    private function collectVersions(string $content): void
     {
         $matches = Strings::matchAll($content, '#\#\# \[' . RegexPattern::VERSION . '\]#');
         foreach ($matches as $match) {
@@ -66,7 +66,7 @@ final class DiffLinksToVersionsWorker implements WorkerInterface
 
     private function shouldSkip(string $version, int $index): bool
     {
-        if (in_array($version, $this->linkedVersionIds, true)) {
+        if (in_array($version, $this->linkedVersions, true)) {
             return true;
         }
 
