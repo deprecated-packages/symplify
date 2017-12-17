@@ -4,8 +4,9 @@ require_once __DIR__ . '/changelog-linker-bootstrap.php';
 
 use Symfony\Component\Console\Input\ArgvInput;
 use Symplify\ChangelogLinker\ChangelogApplication;
-use Symplify\ChangelogLinker\Worker\CompleteBracketsAroundReferencesWorker;
-use Symplify\ChangelogLinker\Worker\CompleteDiffLinksToVersionsWorker;
+use Symplify\ChangelogLinker\Worker\BracketsAroundReferencesWorker;
+use Symplify\ChangelogLinker\Worker\DiffLinksToVersionsWorker;
+use Symplify\ChangelogLinker\Worker\LinksToReferencesWorker;
 
 $input = new ArgvInput();
 if ($input->getFirstArgument() === null) {
@@ -18,12 +19,10 @@ if (! file_exists($filePath)) {
 }
 
 $changelogApplication = new ChangelogApplication('https://github.com/Symplify/Symplify');
-$changelogApplication->addWorker(new CompleteBracketsAroundReferencesWorker());
-$changelogApplication->addWorker(new CompleteDiffLinksToVersionsWorker());
+$changelogApplication->addWorker(new BracketsAroundReferencesWorker());
+$changelogApplication->addWorker(new DiffLinksToVersionsWorker());
+$changelogApplication->addWorker(new LinksToReferencesWorker());
 
-$changelogApplication->completeLinksToIds();
+$changelogApplication->processFileAndSave($filePath);
 
-$changelogApplication->processFile($filePath);
-$changelogApplication->saveContent();
-
-// 3. links to commits
+// @todo links to commits

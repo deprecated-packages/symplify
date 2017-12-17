@@ -8,7 +8,7 @@ use Symplify\ChangelogLinker\Contract\Worker\WorkerInterface;
 /**
  * Comletes [] around commit, pull-request, issues and version references
  */
-final class CompleteBracketsAroundReferencesWorker implements WorkerInterface
+final class BracketsAroundReferencesWorker implements WorkerInterface
 {
     /**
      * @var string

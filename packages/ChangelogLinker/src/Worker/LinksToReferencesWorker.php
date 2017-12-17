@@ -2,7 +2,10 @@
 
 namespace Symplify\ChangelogLinker\Worker;
 
-final class CompleteLinksToReferencesWorker implements WorkerInterface
+use Nette\Utils\Strings;
+use Symplify\ChangelogLinker\Contract\Worker\WorkerInterface;
+
+final class LinksToReferencesWorker implements WorkerInterface
 {
     /**
      * @var string
@@ -58,8 +61,14 @@ final class CompleteLinksToReferencesWorker implements WorkerInterface
             }
         }
 
-        dump($linksToAppend);
-        die;
+        if (! count($linksToAppend)) {
+            return $content;
+        }
+
+        rsort($linksToAppend);
+
+        // append new links to the file
+        return $content . PHP_EOL . implode(PHP_EOL, $linksToAppend);
     }
 
     private function doesUrlExist(string $url): bool
