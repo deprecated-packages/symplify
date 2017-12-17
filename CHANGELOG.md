@@ -7,16 +7,17 @@
 
 ### Added
 
+- [#505] Added `CHANGELOG.md`
 - [#505] Added `CHANGELOG.md` 
 
 
-## [3.0.1] - 2017-12-10
+## [v3.0.1] - 2017-12-10
 
 ### Added
 
 ### Removed
 
-## [3.0]
+## [v3.0.0]
 
 
 
@@ -69,7 +70,7 @@
 
 ### Added
 
-- #475 **[Statie]** added support for generators
+- [#475] **[Statie]** added support for generators
 
 ```yaml
 parameters:
@@ -93,7 +94,7 @@ parameters:
 
 - https://github.com/Symplify/Symplify/commit/9b154d9b6e88075e14b6812613bce7c1a2a79daa **[Statie]** added `-vvv` CLI option for debug output
 
-- #473 bump to Symfony 4
+- [#473] bump to Symfony 4
 
 - [#466] **[CodingStandard]** added `Symplify\CodingStandard\Sniffs\DeadCode\UnusedPublicMethodSniff`
 
@@ -134,8 +135,6 @@ parameters:
 
 
 
-[v3.0.0-RC5]: https://github.com/Symplify/Symplify/compare/v3.0.0-RC4...v3.0.0-RC5
-
 
 [comment]: # (links to issues, PRs and release diffs)
 
@@ -156,5 +155,6 @@ parameters:
 [#483]: https://github.com/Symplify/Symplify/issues/483
 [#477]: https://github.com/Symplify/Symplify/issues/477
 
-[3.0]: https://github.com/Symplify/Symplify/compare/v3.0.0-RC5...3.0
-[3.0.1]: https://github.com/Symplify/Symplify/compare/3.0...3.0.1
+[v3.0.1]: https://github.com/Symplify/Symplify/compare/v3.0.0...v3.0.1
+[v3.0.0]: https://github.com/Symplify/Symplify/compare/v3.0.0-RC5...v3.0.0
+[v3.0.0-RC5]: https://github.com/Symplify/Symplify/compare/v3.0.0-RC4...v3.0.0-RC5

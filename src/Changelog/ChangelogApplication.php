@@ -56,6 +56,11 @@ final class ChangelogApplication
      */
     private $linkedVersionIds = [];
 
+    /**
+     * @var string[]
+     */
+    private $unwrappedReferences = [];
+
     public function __construct(string $repositoryLink = 'https://github.com/Symplify/Symplify')
     {
         $this->repositoryLink = $repositoryLink;
@@ -81,7 +86,18 @@ final class ChangelogApplication
         }
     }
 
-    // todo, unwrapped version and id references, put [] around them
+    /**
+     * Comletes [] around commit, pull-request, issues and version references
+     * @worker
+     */
+    public function completeBracketsAroundReferences(): void
+    {
+        $this->content = Strings::replace($this->content, '# (?<reference>\#(v|[0-9])[a-zA-Z0-9\.-]+) #', function (array $match): string {
+            return sprintf(' [%s] ', $match['reference']);
+        });
+
+        $this->saveContent();
+    }
 
     /**
      * @worker
@@ -118,8 +134,6 @@ final class ChangelogApplication
     }
 
     /**
-     * ## [3.0.1] - 2017-12-10
-     *
      * @worker
      */
     public function completeDiffLinksToVersions(): void
@@ -159,7 +173,7 @@ final class ChangelogApplication
 
         // append new links to the file
         $this->content .= PHP_EOL . implode(PHP_EOL, $this->linksToAppend);
-        file_put_contents($this->filePath, $this->content);
+        $this->saveContent();
     }
 
     private function doesUrlExist(string $url): bool
@@ -172,5 +186,10 @@ final class ChangelogApplication
         curl_close($ch);
 
         return $doesUrlExist;
+    }
+
+    private function saveContent(): void
+    {
+        file_put_contents($this->filePath, $this->content);
     }
 }
