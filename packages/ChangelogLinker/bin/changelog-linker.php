@@ -20,7 +20,15 @@ if (! file_exists($filePath)) {
     die(sprintf('Changelog file "%s" was not found' . PHP_EOL, $filePath));
 }
 
-$changelogApplication = new ChangelogApplication('https://github.com/Symplify/Symplify');
+// --repository https://github.com/rectorphp/rector
+if ($input->getParameterOption('--repository')) {
+    $repository = $input->getParameterOption('--repository');
+} else {
+    $repository = 'https://github.com/Symplify/Symplify';
+}
+
+$changelogApplication = new ChangelogApplication($repository);
+
 // order matters, as later depend on former
 $changelogApplication->addWorker(new BracketsAroundReferencesWorker());
 $changelogApplication->addWorker(new DiffLinksToVersionsWorker());
