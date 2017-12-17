@@ -47,16 +47,6 @@ final class ChangelogApplication
      */
     private $linksToAppend = [];
 
-//    /**
-//     * @var string[]
-//     */
-//    private $versionIds = [];
-//
-//    /**
-//     * @var string[]
-//     */
-//    private $linkedVersionIds = [];
-
     /**
      * @var WorkerInterface[]
      */
@@ -126,42 +116,7 @@ final class ChangelogApplication
         foreach ($matches as $match) {
             $this->linkedIds[] = $match['id'];
         }
-//
-//        $matches = Strings::matchAll($this->content, '#\[(?<versionId>(v|[0-9])[a-zA-Z0-9\.-]+)\]: #');
-//        foreach ($matches as $match) {
-//            $this->linkedVersionIds[] = $match['versionId'];
-//        }
     }
-
-//    /**
-//     * @worker
-//     */
-//    public function completeDiffLinksToVersions(): void
-//    {
-//        $matches = Strings::matchAll($this->content, '#\#\# \[(?<versionId>(v|[0-9])[a-zA-Z0-9\.-]+)\]#');
-//        foreach ($matches as $match) {
-//            $this->versionIds[] = $match['versionId'];
-//        }
-//
-//        foreach ($this->versionIds as $index => $versionId) {
-//            if (in_array($versionId, $this->linkedVersionIds, true)) {
-//                continue;
-//            }
-//
-//            // last version, no previous one
-//            if (! isset($this->versionIds[$index + 1])) {
-//                continue;
-//            }
-//
-//            $this->linksToAppend[] = sprintf(
-//                '[%s]: %s/compare/%s...%s',
-//                $versionId,
-//                $this->repositoryLink,
-//                $this->versionIds[$index + 1],
-//                $versionId
-//            );
-//        }
-//    }
 
     public function appendLinks(): void
     {
