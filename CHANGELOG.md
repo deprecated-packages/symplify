@@ -16,11 +16,11 @@
 
 ### Removed
 
-## [v3.0.0]
+## [v3.0.0] - 2017-12-09 
 
 
 
-## [v3.0.0-RC5]
+## [v3.0.0-RC5] - 2017-12-09 
 
 ### Added 
 
@@ -65,7 +65,7 @@
 - [#488] **[CodingStandard]** drop `PropertyAndConstantSeparationFixer`, use `PhpCsFixer\Fixer\ClassNotation\ClassAttributesSeparationFixer` instead
 
 
-## [v3.0.0-RC4]
+## [v3.0.0-RC4] - 2017-12-06
 
 ### Added
 
@@ -129,14 +129,14 @@ parameters:
 - [#476] **[CodingStandard]** dropped `NoInterfaceOnAbstractClassFixer`, not useful in practise
 
 
-## [v3.0.0-RC3]
+## [v3.0.0-RC3] - 2017-11-18
 
 ### Added
 
 - [#452] **[CodingStandard]** `ClassStringToClassConstantFixer` now covers classes with double slashes: `SomeNamespace\\SomeClass`
 
 
-## [v3.0.0-RC2]
+## [v3.0.0-RC2] - 2017-11-17
 
 ### Added
 
@@ -166,9 +166,7 @@ parameters:
 - bc0cb09d5e5166830ba4ad95fd4d0ba8f4bcacf4 **[EasyCodingStandard]** `php54.neon` set removed
 
 
-
-## [v3.0.0-RC1]
- 
+## [v3.0.0-RC1] - 2017-11-12
 
 ### Added
 
@@ -202,7 +200,7 @@ parameters:
 - [#404] **[SymbioticController]** package deprecated, closes #402
 
 
-## [v2.5.0]
+## [v2.5.0] - 2017-10-08
 
 ### Added
 
@@ -227,7 +225,7 @@ parameters:
 - [#382] **[Statie]** Dropped broken and poor AMP support
 
 
-## [v2.4.0]
+## [v2.4.0] - 2017-09-20
 
 ### Added
 
@@ -242,9 +240,6 @@ parameters:
 - 430fc59da26c5a43ccdbb2d2f8d75b2edff4aea6 **[EasyCodingStandard]** ConflictingGuard feature added, see #333
 - 33f28a03daafa76f7bbdad380348a736650e357b **[EasyCodingStandard]** Add new rules to `symfony-checkers`
 - [#342] **[EasyCodingStandard]** Add parser error reporting, Thanks @webrouse 
-
----
-
 - [#359] **[Statie]** Added Markdown support in `perex` in post
 
 
@@ -257,13 +252,10 @@ parameters:
 ### Fixed
 
 - [#347] **[CodingStandard]** Fix comment behind constant in `PropertyAndConstantSeparationFixer`
-
----
-
 - [#355] **[EasyCodingStandard]** Fix `fnmatch` support both for relative and absolute paths
 
 
-## [v2.3.0]
+## [v2.3.0] - 2017-09-06
 
 ### Added
 
@@ -312,7 +304,7 @@ parameters:
 
 
 
-## [v2.2.0]
+## [v2.2.0] - 2017-07-26
 
 **News for EasyCodingStandard 2.2 explained in a post: https://www.tomasvotruba.cz/blog/2017/08/07/7-new-features-in-easy-coding-standard-22/**
 
@@ -390,7 +382,7 @@ parameters:
 
 
 
-## [v2.1.0]
+## [v2.1.0] - 2017-07-04
 
 ### Added
 
@@ -454,7 +446,7 @@ parameters:
 - https://github.com/Symplify/Symplify/commit/b025353e06364cdb06f81d535dcb1d70b76b3a53 **[EasyCodingStandard]** fix ChangedFilesDetector for missing config file
 
 
-## [v2.0.0]
+## [v2.0.0] - 2017-06-16
 
 ### Added
 
@@ -483,7 +475,7 @@ Based on discussion with friends and maintainers, I've found there are better ma
 
 
 
-## [v2.0.0-RC3]
+## [v2.0.0-RC3] - 2017-05-05
 
 ### Changed
 
@@ -509,7 +501,7 @@ Based on discussion with friends and maintainers, I've found there are better ma
 For more deprecation details see https://www.tomasvotruba.cz/blog/2017/05/29/symplify-packages-deprecations-brought-by-symfony-33/
 
 
-## [v2.0.0-RC2]
+## [v2.0.0-RC2] - 2017-04-27
 
 ### Added
 
@@ -545,7 +537,7 @@ For more deprecation details see https://www.tomasvotruba.cz/blog/2017/05/29/sym
 - [#153] [SymfonySecurityVoters] package deprecated, for no practical use
 
 
-## [v2.0.0-RC1] 
+## [v2.0.0-RC1] - 2017-04-15  
 
 ### Changed
 
@@ -576,13 +568,11 @@ For more deprecation details see https://www.tomasvotruba.cz/blog/2017/05/29/sym
 [#487]: https://github.com/Symplify/Symplify/issues/487
 [#483]: https://github.com/Symplify/Symplify/issues/483
 [#477]: https://github.com/Symplify/Symplify/issues/477
-
 [v3.0.1]: https://github.com/Symplify/Symplify/compare/v3.0.0...v3.0.1
 [v3.0.0]: https://github.com/Symplify/Symplify/compare/v3.0.0-RC5...v3.0.0
 [v3.0.0-RC5]: https://github.com/Symplify/Symplify/compare/v3.0.0-RC4...v3.0.0-RC5
 [#452]: https://github.com/Symplify/Symplify/pull/452
 [v3.0.0-RC4]: https://github.com/Symplify/Symplify/compare/v3.0.0-RC3...v3.0.0-RC4
-
 [v3.0.0-RC3]: https://github.com/Symplify/Symplify/compare/v3.0.0-RC2...v3.0.0-RC3
 [v3.0.0-RC2]: https://github.com/Symplify/Symplify/compare/v3.0.0-RC1...v3.0.0-RC2
 [v3.0.0-RC1]: https://github.com/Symplify/Symplify/compare/v2.5.0...v3.0.0-RC1
@@ -594,6 +584,7 @@ For more deprecation details see https://www.tomasvotruba.cz/blog/2017/05/29/sym
 [v2.0.0]: https://github.com/Symplify/Symplify/compare/v2.0.0-RC3...v2.0.0
 [v2.0.0-RC3]: https://github.com/Symplify/Symplify/compare/v2.0.0-RC2...v2.0.0-RC3
 [v2.0.0-RC2]: https://github.com/Symplify/Symplify/compare/v2.0.0-RC1...v2.0.0-RC2
+[v2.0.0-RC1]: https://github.com/Symplify/Symplify/compare/v1.4.10...v2.0.0-RC1
 [#447]: https://github.com/Symplify/Symplify/pull/447
 [#443]: https://github.com/Symplify/Symplify/pull/443
 [#442]: https://github.com/Symplify/Symplify/pull/442
