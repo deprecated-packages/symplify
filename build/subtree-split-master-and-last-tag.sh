@@ -8,6 +8,9 @@ git subsplit publish --heads="master" --tags=$LAST_TAG packages/EasyCodingStanda
 git subsplit publish --heads="master" --tags=$LAST_TAG packages/PackageBuilder:git@github.com:Symplify/PackageBuilder.git
 git subsplit publish --heads="master" --tags=$LAST_TAG packages/Statie:git@github.com:Symplify/Statie.git
 git subsplit publish --heads="master" --tags=$LAST_TAG packages/TokenRunner:git@github.com:Symplify/TokenRunner.git
+# 3.0
+git subsplit publish --heads="master" --tags=$LAST_TAG packages/GitWrapper:git@github.com:Symplify/GitWrapper.git
+git subsplit publish --heads="master" --tags=$LAST_TAG packages/ChangelogLinker:git@github.com:Symplify/ChangelogLinker.git
 
 rm -rf .subsplit/
 
