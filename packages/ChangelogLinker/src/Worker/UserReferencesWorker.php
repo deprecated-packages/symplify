@@ -16,13 +16,20 @@ final class UserReferencesWorker implements WorkerInterface
      */
     private $linksToPrepend = [];
 
+    /**
+     * @var string[]
+     */
+    private $linkedUsers = [];
+
     public function processContent(string $content, string $repositoryLink): string
     {
+        $this->collectLinkedUsers($content);
+
         $linksToAppend = [];
 
         $matches = Strings::matchAll($content, '#\[' . RegexPattern::USER . '\]#');
         foreach ($matches as $match) {
-            if (isset($this->linksToPrepend[$match['name']])) {
+            if ($this->shouldSkip($match)) {
                 continue;
             }
 
@@ -43,5 +50,29 @@ final class UserReferencesWorker implements WorkerInterface
 
         // append new links to the file
         return $content . implode(PHP_EOL, $linksToAppend) . PHP_EOL;
+    }
+
+    private function collectLinkedUsers(string $content): void
+    {
+        $matches = Strings::matchAll($content, '#\[' . RegexPattern::USER . '\]: #');
+        foreach ($matches as $match) {
+            $this->linkedUsers[] = $match['name'];
+        }
+    }
+
+    /**
+     * @param mixed[] $match
+     */
+    private function shouldSkip(array $match): bool
+    {
+        if (in_array($match['name'], $this->linkedUsers, true)) {
+            return true;
+        }
+
+        if (isset($this->linksToPrepend[$match['name']])) {
+            return true;
+        }
+
+        return false;
     }
 }

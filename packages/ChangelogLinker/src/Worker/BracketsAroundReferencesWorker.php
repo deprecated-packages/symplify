@@ -30,7 +30,7 @@ final class BracketsAroundReferencesWorker implements WorkerInterface
 
         // user references
         $content = Strings::replace($content, '# ' . RegexPattern::USER . '#', function (array $match): string {
-            if ($match['reference'] === '@var') { // exclude
+            if ($match['name'] === 'var') { // exclude @var annotation
                 return sprintf(' %s', $match['reference']);
             }
 
