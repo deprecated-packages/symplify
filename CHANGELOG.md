@@ -140,7 +140,7 @@ parameters:
 
 ### Added
 
-- 0ab538bd53c971f6a7163485230a44658f613768 **[CodingStandard]** Added `BlankLineAfterStrictTypesFixer` 
+- [0ab538] **[CodingStandard]** Added `BlankLineAfterStrictTypesFixer` 
 
 - [#443] **[EasyCodingStandard]** Added smaller common configs for better `--level` usage
 - [#447] **[EasyCodingStandard]** Allow `-vvv` for ProgressBar + **27 % speed improvement**
@@ -153,7 +153,7 @@ parameters:
 
 ### Changed
 
-- 881577af893ed1e73260f713153004be78aaf101 **[EasyCodingStandard]** Removed `-checkers` suffix to make file naming consistent
+- [881577] **[EasyCodingStandard]** Removed `-checkers` suffix to make file naming consistent
 
 
 ### Fixed
@@ -163,7 +163,7 @@ parameters:
 ### Removed
 
 - [#443] **[CodingStandard]** Dropped `FinalTestCase`, use `SlamCsFixer\FinalInternalClassFixer` instead
-- bc0cb09d5e5166830ba4ad95fd4d0ba8f4bcacf4 **[EasyCodingStandard]** `php54.neon` set removed
+- [bc0cb0] **[EasyCodingStandard]** `php54.neon` set removed
 
 
 ## [v3.0.0-RC1] - 2017-11-12
@@ -237,16 +237,16 @@ parameters:
 ---
 
 - [#354] **[EasyCodingStandard]** Added [clean-code set](https://www.tomasvotruba.cz/blog/2017/09/18/4-simple-checkers-for-coding-standard-haters-but-clean-code-lovers/)
-- 430fc59da26c5a43ccdbb2d2f8d75b2edff4aea6 **[EasyCodingStandard]** ConflictingGuard feature added, see #333
-- 33f28a03daafa76f7bbdad380348a736650e357b **[EasyCodingStandard]** Add new rules to `symfony-checkers`
+- [430fc5] **[EasyCodingStandard]** ConflictingGuard feature added, see #333
+- [33f28a] **[EasyCodingStandard]** Add new rules to `symfony-checkers`
 - [#342] **[EasyCodingStandard]** Add parser error reporting, Thanks @webrouse 
 - [#359] **[Statie]** Added Markdown support in `perex` in post
 
 
 ### Changed
 
-- d350b1c5ff8f763a41907068d6a5e9cbb6a13379 Bump to `slevomat/coding-standard` 4.0
-- bf802422b9528946a8bd7e7f0331d858a9bf5740 Bump to `friendsofphp/php-cs-fixer` 2.6
+- [d350b1] Bump to `slevomat/coding-standard` 4.0
+- [bf8024] Bump to `friendsofphp/php-cs-fixer` 2.6
 
 
 ### Fixed
@@ -698,3 +698,10 @@ For more deprecation details see https://www.tomasvotruba.cz/blog/2017/05/29/sym
 [#149]: https://github.com/Symplify/Symplify/pull/149
 [#144]: https://github.com/Symplify/Symplify/pull/144
 [#142]: https://github.com/Symplify/Symplify/pull/142
+[d350b1]: https://github.com/Symplify/Symplify/commit/d350b1c5ff8f763a41907068d6a5e9cbb6a13379
+[bf8024]: https://github.com/Symplify/Symplify/commit/bf802422b9528946a8bd7e7f0331d858a9bf5740
+[bc0cb0]: https://github.com/Symplify/Symplify/commit/bc0cb09d5e5166830ba4ad95fd4d0ba8f4bcacf4
+[881577]: https://github.com/Symplify/Symplify/commit/881577af893ed1e73260f713153004be78aaf101
+[430fc5]: https://github.com/Symplify/Symplify/commit/430fc59da26c5a43ccdbb2d2f8d75b2edff4aea6
+[33f28a]: https://github.com/Symplify/Symplify/commit/33f28a03daafa76f7bbdad380348a736650e357b
+[0ab538]: https://github.com/Symplify/Symplify/commit/0ab538bd53c971f6a7163485230a44658f613768
