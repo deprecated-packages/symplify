@@ -150,8 +150,9 @@ public function getCount(): int
                 $argumentWrapper->getName()
             );
 
-            if ($docBlockType === 'mixed') {
+            if ($docBlockType === 'mixed' && $isDescriptionUseful === false) {
                 $docBlockWrapper->removeParamType($argumentWrapper->getName());
+                continue;
             }
 
             if ($docBlockType === $argumentWrapper->getType()) {
@@ -169,7 +170,7 @@ public function getCount(): int
                 }
 
                 $docBlockWrapper->removeParamType($argumentWrapper->getName());
-                return;
+                continue;
             }
 
             // simple types

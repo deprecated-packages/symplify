@@ -2,6 +2,7 @@
 
 namespace Symplify\TokenRunner\DocBlock;
 
+use Nette\Utils\Strings;
 use phpDocumentor\Reflection\DocBlock\Tag;
 use phpDocumentor\Reflection\DocBlock\Tags\Formatter;
 use phpDocumentor\Reflection\DocBlock\Tags\Param;
@@ -55,7 +56,7 @@ final class CleanFormatter implements Formatter
         }
 
         // possible mixed[] override
-        if ($original !== 'array' && $original !== 'array[]') {
+        if ($original !== 'array' && $original !== 'array[]' && Strings::contains($tagTypeAndDescription, 'array')) {
             $tagTypeAndDescription = substr_replace($tagTypeAndDescription, 'mixed[]', 0, strlen('array'));
         }
 
