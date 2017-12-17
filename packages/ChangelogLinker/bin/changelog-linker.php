@@ -4,6 +4,7 @@ require_once __DIR__ . '/changelog-linker-bootstrap.php';
 
 use Symfony\Component\Console\Input\ArgvInput;
 use Symplify\ChangelogLinker\ChangelogApplication;
+use Symplify\ChangelogLinker\Worker\CompleteBracketsAroundReferencesWorker;
 use Symplify\ChangelogLinker\Worker\CompleteDiffLinksToVersionsWorker;
 
 $input = new ArgvInput();
@@ -17,13 +18,12 @@ if (! file_exists($filePath)) {
 }
 
 $changelogApplication = new ChangelogApplication('https://github.com/Symplify/Symplify');
+$changelogApplication->addWorker(new CompleteBracketsAroundReferencesWorker());
 $changelogApplication->addWorker(new CompleteDiffLinksToVersionsWorker());
 
-$changelogApplication->loadFile($filePath);
-
 $changelogApplication->completeLinksToIds();
-$changelogApplication->completeDiffLinksToVersions();
 
-$changelogApplication->appendLinks();
+$changelogApplication->processFile($filePath);
+$changelogApplication->saveContent();
 
 // 3. links to commits

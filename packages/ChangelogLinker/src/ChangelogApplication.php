@@ -110,19 +110,6 @@ final class ChangelogApplication
         }
     }
 
-    public function appendLinks(): void
-    {
-        if (! count($this->linksToAppend)) {
-            return;
-        }
-
-        rsort($this->linksToAppend);
-
-        // append new links to the file
-        $this->content .= PHP_EOL . implode(PHP_EOL, $this->linksToAppend);
-        $this->saveContent();
-    }
-
     public function saveContent(): void
     {
         file_put_contents($this->filePath, $this->content);
