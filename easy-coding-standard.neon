@@ -63,22 +63,3 @@ parameters:
 
         Symplify\CodingStandard\Sniffs\DependencyInjection\NoClassInstantiationSniff:
             - *packages/GitWrapper/*
-
-    skip_codes:
-        SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff.MissingParameterTypeHint:
-            # forcing "mixed" type
-            - packages/Statie/src/Renderable/File/PostFile.php
-            - packages/GitWrapper/src/GitWrapper.php
-            - packages/GitWrapper/tests/Logging/TestLogger.php
-            - packages/PackageBuilder/src/Neon/Loader/NeonLoader.php
-            - packages/PackageBuilder/src/Parameter/ParameterProvider.php
-            - packages/GitWrapper/src/GitWorkingCopy.php
-            - packages/GitWrapper/src/GitCommand.php
-            - packages/EasyCodingStandard/src/Finder/FinderSanitizer.php
-            - packages/EasyCodingStandard/tests/Finder/FinderSanitizerTest.php
-        SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff.MissingReturnTypeHint:
-            # forcing "mixed" type
-            - packages/GitWrapper/src/GitWrapper.php
-            - packages/PackageBuilder/src/Reflection/PrivatesCaller.php
-            - packages/GitWrapper/src/GitCommand.php
-            - packages/EasyCodingStandard/src/Finder/FinderSanitizer.php
