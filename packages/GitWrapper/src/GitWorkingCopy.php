@@ -200,52 +200,50 @@ final class GitWorkingCopy
     }
 
     /**
-     * Adds a remote to the repository.
-     *
      * @param mixed[] $options An associative array of options, with the following keys:
-     *   - -f: Boolean, set to true to run git fetch immediately after the
-     *     remote is set up. Defaults to false.
-     *   - --tags: Boolean. By default only the tags from the fetched branches
-     *     are imported when git fetch is run. Set this to true to import every
-     *     tag from the remote repository. Defaults to false.
-     *   - --no-tags: Boolean, when set to true, git fetch does not import tags
-     *     from the remote repository. Defaults to false.
-     *   - -t: Optional array of branch names to track. If left empty, all
+     *   -f: Boolean, set to true to run git fetch immediately after the remote is set up. Defaults to false.
+     *
+     *   --tags: Boolean. By default only the tags from the fetched branches are imported when git fetch is run.
+     *      Set this to true to import every tag from the remote repository. Defaults to false.
+     *
+     *   --no-tags: Boolean, when set to true, git fetch does not import tags from the remote repository.
+     *      Defaults to false.
+     *
+     *   -t: Optional array of branch names to track. If left empty, all
      *     branches will be tracked.
-     *   - -m: Optional name of the master branch to track. This will set up a
-     *     symbolic ref 'refs/remotes/<name>/HEAD which points at the specified
-     *     master branch on the remote. When omitted, no symbolic ref will be
-     *     created.
+     *
+     *   -m: Optional name of the master branch to track. This will set up a symbolic ref 'refs/remotes/<name>/HEAD
+     *      which points at the specified master branch on the remote. When omitted, no symbolic ref will be created.
      */
     public function addRemote(string $name, string $url, array $options = []): void
     {
         $this->ensureAddRemoveArgsAreValid($name, $url);
 
-        $args = ['add'];
+        $argsAndOptions = ['add'];
 
         // Add boolean options
         foreach (['-f', '--tags', '--no-tags'] as $option) {
             if (! empty($options[$option])) {
-                $args[] = $option;
+                $argsAndOptions[] = $option;
             }
         }
 
         // Add tracking branches
         if (! empty($options['-t'])) {
             foreach ($options['-t'] as $branch) {
-                array_push($args, '-t', $branch);
+                array_push($argsAndOptions, '-t', $branch);
             }
         }
 
         // Add master branch
         if (! empty($options['-m'])) {
-            array_push($args, '-m', $options['-m']);
+            array_push($argsAndOptions, '-m', $options['-m']);
         }
 
         // Add remote name and URL.
-        array_push($args, $name, $url);
+        array_push($argsAndOptions, $name, $url);
 
-        $this->run('remote', $args);
+        $this->run('remote', $argsAndOptions);
     }
 
     public function removeRemote(string $name): void
