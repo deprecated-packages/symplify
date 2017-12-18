@@ -203,35 +203,13 @@ public function getCount(): int
                 continue;
             }
 
-            $this->paramTagAnalyzer->isParamTagUseful($docType, $docDescription, $argumentWrapper->getType());
-
-            if ($docType === $docDescription) {
-                $docBlockWrapper->removeParamType($argumentWrapper->getName());
-                continue;
-            }
-
             if ($this->shouldSkip($docType, $docDescription)) {
                 continue;
             }
 
-            if ($docType === 'mixed') {
+            if (! $this->paramTagAnalyzer->isParamTagUseful($docType, $docDescription, $argumentWrapper->getType())) {
                 $docBlockWrapper->removeParamType($argumentWrapper->getName());
                 continue;
-            }
-
-            if ($docType === $argumentWrapper->getType()) {
-                $docBlockWrapper->removeParamType($argumentWrapper->getName());
-                continue;
-            }
-
-            if ($docType && Strings::endsWith($docType, '\\' . $argumentWrapper->getType())) {
-                $docBlockWrapper->removeParamType($argumentWrapper->getName());
-                continue;
-            }
-
-            // simple types
-            if ($docType === 'boolean' && $argumentWrapper->getType() === 'bool') {
-                $docBlockWrapper->removeParamType($argumentWrapper->getName());
             }
         }
 
