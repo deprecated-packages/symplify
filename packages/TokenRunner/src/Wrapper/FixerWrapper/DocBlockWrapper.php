@@ -12,13 +12,12 @@ use phpDocumentor\Reflection\DocBlock\Serializer;
 use phpDocumentor\Reflection\DocBlock\Tags\Param;
 use phpDocumentor\Reflection\DocBlock\Tags\Return_;
 use phpDocumentor\Reflection\DocBlock\Tags\Var_;
-use phpDocumentor\Reflection\DocBlockFactory;
 use phpDocumentor\Reflection\Types\Array_;
 use phpDocumentor\Reflection\Types\Compound;
 use Symplify\TokenRunner\DocBlock\ArrayResolver;
+use Symplify\TokenRunner\Guard\TokenTypeGuard;
 use Symplify\TokenRunner\ReflectionDocBlock\CleanDocBlockFactory;
 use Symplify\TokenRunner\ReflectionDocBlock\DocBlockSerializerFactory;
-use Symplify\TokenRunner\Guard\TokenTypeGuard;
 
 final class DocBlockWrapper
 {
@@ -66,7 +65,6 @@ final class DocBlockWrapper
         if ($docBlock === null && $token !== null) {
             $this->docBlock = new DocBlock($token->getContent());
         }
-
 
         $content = $token ? $token->getContent() : $docBlock->getContent();
 
