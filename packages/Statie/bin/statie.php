@@ -11,7 +11,7 @@ use Symplify\Statie\DependencyInjection\ContainerFactory;
 // performance boost
 gc_disable();
 
-require_once __DIR__ . '/statie_bootstrap.php';
+require_once __DIR__ . '/statie-bootstrap.php';
 
 try {
     // 1. Detect configuration

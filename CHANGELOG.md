@@ -5,6 +5,18 @@
 
 ## [Unreleased]
 
+### Changed
+
+- [#508] `RemoveUselessDocBlockFixer` is now configurable to accept types with your own preferences
+
+    ```yaml
+    # easy-coding-standard.neon
+    checkers:
+        Symplify\CodingStandard\Fixer\Commenting\RemoveUselessDocBlockFixer:
+            # defaults
+            useful_types: ['mixed', 'object']
+    ```
+
 ### Added
 
 - [#505] Added `CHANGELOG.md` 
@@ -732,3 +744,4 @@ For more deprecation details see https://www.tomasvotruba.cz/blog/2017/05/29/sym
 [b02535]: https://github.com/Symplify/Symplify/commit/b025353e06364cdb06f81d535dcb1d70b76b3a53
 [9b154d]: https://github.com/Symplify/Symplify/commit/9b154d9b6e88075e14b6812613bce7c1a2a79daa
 [9a9c0e]: https://github.com/Symplify/Symplify/commit/9a9c0e61d0b7af073d3819e4c4798a251eca1f14
+[#508]: https://github.com/Symplify/Symplify/pull/508

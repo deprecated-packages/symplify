@@ -140,7 +140,7 @@ public function someMethod()
 ```
 
 
-### Block comment should only contain useful information about types
+### Block comment should only contain useful information about types :wrench: 
 
 - class: [`Symplify\CodingStandard\Fixer\Commenting\RemoveUselessDocBlockFixer`](/src/Fixer/Commenting/RemoveUselessDocBlockFixer.php)
 
@@ -168,6 +168,15 @@ public function setCount(int $value, $anotherValue, SomeType $someService): arra
 }
 ```
 
+This checker keeps 'mixed' and 'object' doc types by default. But if you need, you can **configure it**:
+
+```yaml
+# easy-coding-standard.neon
+checkers:
+    Symplify\CodingStandard\Fixer\Commenting\RemoveUselessDocBlockFixer:
+        # defaults
+        useful_types: ['mixed', 'object']
+```
 
 
 ### Block comment should not have 2 empty lines in a row
@@ -408,6 +417,13 @@ class SomeClass
      * @var string[]
      */
     public $apples = [];
+    
+    public function run()
+    {
+        foreach ($this->apples as $mac) {
+            // ...
+        }
+    }
 }
 ```
 
@@ -728,19 +744,35 @@ class SomeClass
 ```php
 class SomeClass
 {
-    public function someMethod()
+    public function usedMethod()
     {
 
     }
 
-    public function anotherMethod()
+    public function unusedMethod()
     {
 
     }
 }
 
 $someObject = new SomeClass;
-$someObject->anotherMethod();
+$someObject->unusedMethod();
+```
+
+
+:+1:
+
+```php
+class SomeClass
+{
+    public function usedMethod()
+    {
+
+    }
+}
+
+$someObject = new SomeClass;
+$someObject->usedMethod();
 ```
 
 

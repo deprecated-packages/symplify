@@ -3,25 +3,54 @@
 namespace Symplify\CodingStandard\Fixer\Commenting;
 
 use Nette\Utils\Strings;
+use PhpCsFixer\Fixer\ConfigurationDefinitionFixerInterface;
 use PhpCsFixer\Fixer\DefinedFixerInterface;
 use PhpCsFixer\Fixer\FixerInterface;
 use PhpCsFixer\Fixer\WhitespacesAwareFixerInterface;
+use PhpCsFixer\FixerConfiguration\FixerConfigurationResolver;
+use PhpCsFixer\FixerConfiguration\FixerConfigurationResolverInterface;
+use PhpCsFixer\FixerConfiguration\FixerOptionBuilder;
 use PhpCsFixer\FixerDefinition\CodeSample;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Tokenizer\Tokens;
 use PhpCsFixer\WhitespacesFixerConfig;
 use SplFileInfo;
+use Symplify\TokenRunner\DocBlock\DescriptionAnalyzer;
+use Symplify\TokenRunner\DocBlock\ParamAndReturnTagAnalyzer;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\ClassWrapper;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\DocBlockWrapper;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\MethodWrapper;
 
-final class RemoveUselessDocBlockFixer implements FixerInterface, DefinedFixerInterface, WhitespacesAwareFixerInterface
+final class RemoveUselessDocBlockFixer implements FixerInterface, DefinedFixerInterface, WhitespacesAwareFixerInterface, ConfigurationDefinitionFixerInterface
 {
+    /**
+     * @var string
+     */
+    public const USEFUL_TYPES_OPTION = 'useful_types';
+
     /**
      * @var WhitespacesFixerConfig
      */
     private $whitespacesFixerConfig;
+
+    /**
+     * @var DescriptionAnalyzer
+     */
+    private $descriptionAnalyzer;
+
+    /**
+     * @var ParamAndReturnTagAnalyzer
+     */
+    private $paramAndReturnTagAnalyzer;
+
+    public function __construct()
+    {
+        $this->descriptionAnalyzer = new DescriptionAnalyzer();
+        $this->paramAndReturnTagAnalyzer = new ParamAndReturnTagAnalyzer();
+
+        $this->configure([]);
+    }
 
     public function getDefinition(): FixerDefinitionInterface
     {
@@ -65,6 +94,7 @@ public function getCount(): int
 
                 $this->processReturnTag($methodWrapper, $docBlockWrapper);
                 $this->processParamTag($methodWrapper, $docBlockWrapper);
+                $this->removeTagForMissingParameters($methodWrapper, $docBlockWrapper);
             }
         }
     }
@@ -97,34 +127,42 @@ public function getCount(): int
         $this->whitespacesFixerConfig = $whitespacesFixerConfig;
     }
 
+    /**
+     * @param mixed[] $configuration
+     */
+    public function configure(?array $configuration = null): void
+    {
+        if ($configuration === null) {
+            return;
+        }
+
+        $configuration = $this->getConfigurationDefinition()
+            ->resolve($configuration);
+
+        $this->paramAndReturnTagAnalyzer->setUsefulTypes($configuration[self::USEFUL_TYPES_OPTION]);
+    }
+
+    public function getConfigurationDefinition(): FixerConfigurationResolverInterface
+    {
+        $option = (new FixerOptionBuilder(self::USEFUL_TYPES_OPTION, 'List of useful types to allow.'))
+            ->setDefault(['object', 'mixed'])
+            ->getOption();
+
+        return new FixerConfigurationResolver([$option]);
+    }
+
     private function processReturnTag(MethodWrapper $methodWrapper, DocBlockWrapper $docBlockWrapper): void
     {
         $typehintType = $methodWrapper->getReturnType();
-        $docBlockType = $docBlockWrapper->getReturnType();
+        $docType = $docBlockWrapper->getReturnType();
+        $docDescription = $docBlockWrapper->getReturnTypeDescription();
 
-        if ($typehintType === null || $docBlockType === null) {
+        if (Strings::contains($typehintType, '|') && Strings::contains($docType, '|')) {
+            $this->processReturnTagMultiTypes((string) $typehintType, (string) $docType, $docBlockWrapper);
             return;
         }
 
-        if ($typehintType === $docBlockType) {
-            if ($docBlockWrapper->getReturnTypeDescription()) {
-                return;
-            }
-
-            $docBlockWrapper->removeReturnType();
-        }
-
-        if (Strings::contains($typehintType, '|') && Strings::contains($docBlockType, '|')) {
-            $this->processReturnTagMultiTypes($typehintType, $docBlockType, $docBlockWrapper);
-        }
-
-        if ($typehintType && Strings::endsWith($typehintType, '\\' . $docBlockWrapper->getReturnType())) {
-            $docBlockWrapper->removeReturnType();
-            return;
-        }
-
-        // simple types
-        if ($docBlockType === 'boolean' && $typehintType === 'bool') {
+        if (! $this->paramAndReturnTagAnalyzer->isTagUseful($docType, $docDescription, $typehintType)) {
             $docBlockWrapper->removeReturnType();
         }
     }
@@ -132,86 +170,24 @@ public function getCount(): int
     private function processParamTag(MethodWrapper $methodWrapper, DocBlockWrapper $docBlockWrapper): void
     {
         foreach ($methodWrapper->getArguments() as $argumentWrapper) {
-            $docBlockType = $docBlockWrapper->getArgumentType($argumentWrapper->getName());
-            $argumentDescription = $docBlockWrapper->getArgumentTypeDescription($argumentWrapper->getName());
+            $typehintType = $argumentWrapper->getType();
+            $docType = $docBlockWrapper->getArgumentType($argumentWrapper->getName());
+            $docDescription = $docBlockWrapper->getArgumentTypeDescription($argumentWrapper->getName());
 
-            if ($docBlockType === $argumentDescription) {
-                $docBlockWrapper->removeParamType($argumentWrapper->getName());
-                continue;
-            }
-
-            if ($this->shouldSkip($docBlockType, $argumentDescription)) {
-                continue;
-            }
-
-            $isDescriptionUseful = $this->isDescriptionUseful(
-                $argumentDescription,
-                $docBlockType,
+            $isDescriptionUseful = $this->descriptionAnalyzer->isDescriptionUseful(
+                (string) $docDescription,
+                $docType,
                 $argumentWrapper->getName()
             );
 
-            if ($docBlockType === 'mixed' && $isDescriptionUseful === false) {
-                $docBlockWrapper->removeParamType($argumentWrapper->getName());
+            if ($isDescriptionUseful === true || $this->shouldSkip($docType, $docDescription)) {
                 continue;
             }
 
-            if ($docBlockType === $argumentWrapper->getType()) {
-                if ($argumentDescription && $isDescriptionUseful) {
-                    continue;
-                }
-
-                $docBlockWrapper->removeParamType($argumentWrapper->getName());
-                continue;
-            }
-
-            if ($docBlockType && Strings::endsWith($docBlockType, '\\' . $argumentWrapper->getType())) {
-                if ($isDescriptionUseful) {
-                    continue;
-                }
-
-                $docBlockWrapper->removeParamType($argumentWrapper->getName());
-                continue;
-            }
-
-            // simple types
-            if ($docBlockType === 'boolean' && $argumentWrapper->getType() === 'bool') {
+            if (! $this->paramAndReturnTagAnalyzer->isTagUseful($docType, $docDescription, $typehintType)) {
                 $docBlockWrapper->removeParamType($argumentWrapper->getName());
             }
         }
-
-        $this->removeUnpresentTags($docBlockWrapper, $methodWrapper);
-    }
-
-    private function isDescriptionUseful(string $description, ?string $type, ?string $name): bool
-    {
-        if (! $description || $type === null) {
-            return false;
-        }
-
-        if (Strings::endsWith($type, 'Interface')) {
-            // SomeTypeInterface => TypeInterface
-            $type = substr($type, 0, -strlen('Interface'));
-        }
-
-        if (Strings::endsWith($type, '[]')) {
-            return true;
-        }
-
-        $isDummyDescription = (bool) Strings::match(
-            $description,
-            sprintf('#^(A|An|The|the) (\\\\)?%s(Interface)?( instance)?$#i', preg_quote((string) $type, '/'))
-        ) || ((strlen($description) < (strlen($type) + 10)) && levenshtein($type, $description) < 2);
-
-        // improve with additional cases, probably regex
-        if ($type && $isDummyDescription) {
-            return false;
-        }
-
-        if ((strlen($description) < (strlen($type) + 10)) && levenshtein($name, $description) < 2) {
-            return false;
-        }
-
-        return true;
     }
 
     private function processReturnTagMultiTypes(
@@ -253,12 +229,12 @@ public function getCount(): int
         return false;
     }
 
-    private function removeUnpresentTags(DocBlockWrapper $docBlockWrapper, MethodWrapper $methodWrapper): void
+    private function removeTagForMissingParameters(MethodWrapper $methodWrapper, DocBlockWrapper $docBlockWrapper): void
     {
         $argumentNames = $methodWrapper->getArgumentNames();
 
         foreach ($docBlockWrapper->getParamTags() as $paramTag) {
-            if (in_array($paramTag->getVariableName(), $argumentNames)) {
+            if (in_array($paramTag->getVariableName(), $argumentNames, true)) {
                 continue;
             }
 

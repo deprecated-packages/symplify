@@ -17,7 +17,6 @@ parameters:
         - '#Parameter \#2 \$position of static method Symplify\\TokenRunner\\Wrapper\\SnifferWrapper\\ClassWrapper::createFromFileAndPosition\(\) expects int, int\|true given#'
         - '#Method Symplify\\EasyCodingStandard\\Finder\\FinderSanitizer::turnInfoSymfonyFileInfos\(\) should return array<Symfony\\Component\\Finder\\SplFileInfo> but returns array<SplFileInfo>#'
         - '#Parameter \#2 \$arrayType of static method Symplify\\TokenRunner\\DocBlock\\ArrayResolver::resolveArrayType\(\) expects phpDocumentor\\Reflection\\Types\\Array_, phpDocumentor\\Reflection\\Type(\|null)? given#'
-        - '#Parameter \#1 \$description of method Symplify\\CodingStandard\\Fixer\\Commenting\\RemoveUselessDocBlockFixer::isDescriptionUseful\(\) expects string, string\|null given#'
         - '#Parameter \#1 \$sniffClass of method Symplify\\EasyCodingStandard\\SniffRunner\\File\\File::isSniffClassWarningAllowed\(\) expects string, (string\|null) given#'
 
         # intentional stricter phpDocumentor\Reflection\Types\This
@@ -49,6 +48,7 @@ parameters:
 
         # intersect/union buggy
         - '#Parameter \#(2|3) \$items of method PhpCsFixer\\Tokenizer\\Tokens::(insertAt|overrideRange)\(\) expects (\()?iterable<PhpCsFixer\\Tokenizer\\Token>&PhpCsFixer\\Tokenizer\\Tokens(\))?(\|PhpCsFixer\\Tokenizer\\Token)?, array<(int, )?PhpCsFixer\\Tokenizer\\Token> given#'
+        - '#Method Symplify\\TokenRunner\\Tests\\DocBlock\\ParamAndReturnTagAnalyzerTest::provideDocTypeDocDescriptionParamTypeAndResult\(\) should return array<array<bool|string\>\> but returns array<int, array<int,bool\|string\|null\>\>#'
 
     excludes_analyse:
         - *packages/CodingStandard/tests/**/correct*

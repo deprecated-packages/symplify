@@ -5,7 +5,7 @@ namespace Symplify\TokenRunner\Tests\DocBlock;
 use PhpCsFixer\WhitespacesFixerConfig;
 use phpDocumentor\Reflection\DocBlock;
 use PHPUnit\Framework\TestCase;
-use Symplify\TokenRunner\DocBlock\DocBlockSerializerFactory;
+use Symplify\TokenRunner\ReflectionDocBlock\DocBlockSerializerFactory;
 
 final class DocBlockSerializerFactoryTest extends TestCase
 {
