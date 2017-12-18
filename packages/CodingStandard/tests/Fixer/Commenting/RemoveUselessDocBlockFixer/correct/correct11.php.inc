@@ -5,9 +5,24 @@ namespace SomeNamespace;
 class SomeClass
 {
     /**
-     * @param mixed $default Value that is returned if the option is not set.
+     * @param string $expected
+     * @param string|null $input
      */
-    public function setDefaultValue($default)
+    protected function doTest($expected, $input = null, ?SplFileInfo $file = null): void
+    {
+    }
+
+    /**
+     * @return DateTimeInterface|string|null
+     */
+    public function offsetGet($offset)
+    {
+    }
+
+    /**
+     * @return File
+     */
+    public function createFromFileInfo(SplFileInfo $fileInfo): AbstractFile
     {
     }
 }
