@@ -140,7 +140,7 @@ public function someMethod()
 ```
 
 
-### Block comment should only contain useful information about types
+### Block comment should only contain useful information about types :wrench: 
 
 - class: [`Symplify\CodingStandard\Fixer\Commenting\RemoveUselessDocBlockFixer`](/src/Fixer/Commenting/RemoveUselessDocBlockFixer.php)
 
@@ -168,6 +168,15 @@ public function setCount(int $value, $anotherValue, SomeType $someService): arra
 }
 ```
 
+This checker removes 'mixed' and 'object' doc types by default. But if you need, you can **configure it**:
+
+
+```yaml
+# easy-coding-standard.neon
+checkers:
+    Symplify\CodingStandard\Fixer\Commenting\RemoveUselessDocBlockFixer:
+        useful_types: ['mixed', 'object']
+```
 
 
 ### Block comment should not have 2 empty lines in a row
