@@ -38,11 +38,18 @@ final class RemoveUselessDocBlockFixer implements FixerInterface, DefinedFixerIn
      */
     private $configuration = [];
 
+    /**
+     * @var DescriptionAnalyzer
+     */
+    private $descriptionAnalyzer;
+
     public function __construct()
     {
         // set defaults
         $this->configuration = $this->getConfigurationDefinition()
             ->resolve([]);
+
+        $this->descriptionAnalyzer = new DescriptionAnalyzer();
     }
 
     public function getDefinition(): FixerDefinitionInterface
@@ -179,7 +186,7 @@ public function getCount(): int
             $docBlockType = $docBlockWrapper->getArgumentType($argumentWrapper->getName());
             $argumentDescription = $docBlockWrapper->getArgumentTypeDescription($argumentWrapper->getName());
 
-            $isDescriptionUseful = (new DescriptionAnalyzer())->isDescriptionUseful(
+            $isDescriptionUseful = $this->descriptionAnalyzer->isDescriptionUseful(
                 (string) $argumentDescription,
                 $docBlockType,
                 $argumentWrapper->getName()
