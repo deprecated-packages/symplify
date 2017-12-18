@@ -16,6 +16,7 @@ use phpDocumentor\Reflection\DocBlockFactory;
 use phpDocumentor\Reflection\Types\Array_;
 use phpDocumentor\Reflection\Types\Compound;
 use Symplify\TokenRunner\DocBlock\ArrayResolver;
+use Symplify\TokenRunner\ReflectionDocBlock\CleanDocBlockFactory;
 use Symplify\TokenRunner\ReflectionDocBlock\DocBlockSerializerFactory;
 use Symplify\TokenRunner\Guard\TokenTypeGuard;
 
@@ -66,11 +67,11 @@ final class DocBlockWrapper
             $this->docBlock = new DocBlock($token->getContent());
         }
 
-        $docBlockFactory = DocBlockFactory::createInstance();
 
         $content = $token ? $token->getContent() : $docBlock->getContent();
 
-        $this->phpDocumentorDocBlock = $docBlockFactory->create($content);
+        $cleanDocBlockFactory = new CleanDocBlockFactory();
+        $this->phpDocumentorDocBlock = $cleanDocBlockFactory->createFromContent($content);
         $this->originalContent = $content;
     }
 
