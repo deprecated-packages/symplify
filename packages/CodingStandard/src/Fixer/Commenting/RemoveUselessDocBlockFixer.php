@@ -94,7 +94,7 @@ public function getCount(): int
 
                 $this->processReturnTag($methodWrapper, $docBlockWrapper);
                 $this->processParamTag($methodWrapper, $docBlockWrapper);
-                $this->removeUnpresentTags($methodWrapper, $docBlockWrapper);
+                $this->removeTagForMissingParameters($methodWrapper, $docBlockWrapper);
             }
         }
     }
@@ -229,7 +229,7 @@ public function getCount(): int
         return false;
     }
 
-    private function removeUnpresentTags(MethodWrapper $methodWrapper, DocBlockWrapper $docBlockWrapper): void
+    private function removeTagForMissingParameters(MethodWrapper $methodWrapper, DocBlockWrapper $docBlockWrapper): void
     {
         $argumentNames = $methodWrapper->getArgumentNames();
 
