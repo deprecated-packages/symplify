@@ -205,7 +205,7 @@ public function getCount(): int
                 continue;
             }
 
-            if ($docBlockType === 'mixed' && $isDescriptionUseful === false) {
+            if ($docBlockType === 'mixed') {
                 $docBlockWrapper->removeParamType($argumentWrapper->getName());
                 continue;
             }
@@ -273,7 +273,7 @@ public function getCount(): int
         $argumentNames = $methodWrapper->getArgumentNames();
 
         foreach ($docBlockWrapper->getParamTags() as $paramTag) {
-            if (in_array($paramTag->getVariableName(), $argumentNames)) {
+            if (in_array($paramTag->getVariableName(), $argumentNames, true)) {
                 continue;
             }
 
