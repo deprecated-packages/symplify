@@ -2,6 +2,8 @@
 
 namespace Symplify\GitWrapper;
 
+use Symplify\GitWrapper\Exception\GitException;
+
 /**
  * All commands executed via an instance of this class act on the working copy that is set through the constructor
  */
@@ -132,7 +134,7 @@ final class GitWorkingCopy
     {
         try {
             $this->run('rev-parse', ['@{u}']);
-        } catch (GitException $e) {
+        } catch (GitException $exception) {
             return false;
         }
 
