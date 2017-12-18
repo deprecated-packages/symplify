@@ -141,6 +141,7 @@ public function getCount(): int
             ->resolve($configuration);
 
         $this->paramTagAnalyzer->setUsefulTypes($configuration[self::USEFUL_TYPES_OPTION]);
+        $this->returnTagAnalyzer->setUsefulTypes($configuration[self::USEFUL_TYPES_OPTION]);
     }
 
     public function getConfigurationDefinition(): FixerConfigurationResolverInterface

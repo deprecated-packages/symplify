@@ -6,6 +6,11 @@ use Nette\Utils\Strings;
 
 final class ReturnTagAnalyzer
 {
+    /**
+     * @var string[]
+     */
+    private $usefulTypes = [];
+
     public function isReturnTagUseful(?string $docType, ?string $docDescription, ?string $returnType): bool
     {
         if ($returnType === null || $docType === null) {
@@ -34,5 +39,13 @@ final class ReturnTagAnalyzer
         }
 
         return true;
+    }
+
+    /**
+     * @param string[] $usefulTypes
+     */
+    public function setUsefulTypes(array $usefulTypes): void
+    {
+        $this->usefulTypes = $usefulTypes;
     }
 }
