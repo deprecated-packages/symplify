@@ -35,6 +35,7 @@ final class PostFile extends AbstractFile implements ArrayAccess
     }
 
     /**
+     * @param mixed $offset
      * @return DateTimeInterface|string|null
      */
     public function offsetGet($offset)
@@ -52,21 +53,34 @@ final class PostFile extends AbstractFile implements ArrayAccess
         return $this->configuration[$offset];
     }
 
+    /**
+     * @param mixed $offset
+     */
     public function offsetExists($offset): bool
     {
         return isset($this->configuration[$offset]);
     }
 
+    /**
+     * @param mixed $offset
+     * @param mixed $value
+     */
     public function offsetSet($offset, $value): void
     {
         throw new UnsupportedMethodException(__METHOD__ . ' is not supported');
     }
 
+    /**
+     * @param mixed $offset
+     */
     public function offsetUnset($offset): void
     {
         throw new UnsupportedMethodException(__METHOD__ . ' is not supported');
     }
 
+    /**
+     * @param mixed $offset
+     */
     private function ensureAccessExistingKey($offset): void
     {
         if (isset($this->configuration[$offset])) {

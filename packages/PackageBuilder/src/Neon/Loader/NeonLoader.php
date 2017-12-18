@@ -35,6 +35,7 @@ final class NeonLoader implements LoaderInterface
     }
 
     /**
+     * @param mixed $resource
      * @param null|string $type
      */
     public function supports($resource, $type = null): bool
@@ -43,6 +44,7 @@ final class NeonLoader implements LoaderInterface
     }
 
     /**
+     * @param mixed $resource
      * @param string[] $allowedSections
      */
     public function load($resource, $allowedSections = ['parameters', 'services', 'includes']): void
