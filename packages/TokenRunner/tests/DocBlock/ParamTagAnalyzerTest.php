@@ -3,7 +3,6 @@
 namespace Symplify\TokenRunner\Tests\DocBlock;
 
 use PHPUnit\Framework\TestCase;
-use Symplify\TokenRunner\DocBlock\DescriptionAnalyzer;
 use Symplify\TokenRunner\DocBlock\ParamTagAnalyzer;
 
 final class ParamTagAnalyzerTest extends TestCase

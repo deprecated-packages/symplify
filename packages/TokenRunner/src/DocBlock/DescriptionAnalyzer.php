@@ -28,7 +28,7 @@ final class DescriptionAnalyzer
         );
 
         // just copy-pasting type(interface) or property name
-        $isDummyDescription = (bool) Strings::match($description, $uselessPattern ) ||
+        $isDummyDescription = (bool) Strings::match($description, $uselessPattern) ||
             ((strlen($description) < (strlen($type) + 10)) && levenshtein($type, $description) < 3);
 
         if ($type && $isDummyDescription) {

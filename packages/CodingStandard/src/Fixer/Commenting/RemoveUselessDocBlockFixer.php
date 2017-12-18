@@ -18,6 +18,7 @@ use PhpCsFixer\WhitespacesFixerConfig;
 use SplFileInfo;
 use Symplify\TokenRunner\DocBlock\DescriptionAnalyzer;
 use Symplify\TokenRunner\DocBlock\ParamTagAnalyzer;
+use Symplify\TokenRunner\DocBlock\ReturnTagAnalyzer;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\ClassWrapper;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\DocBlockWrapper;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\MethodWrapper;
@@ -49,6 +50,11 @@ final class RemoveUselessDocBlockFixer implements FixerInterface, DefinedFixerIn
      */
     private $paramTagAnalyzer;
 
+    /**
+     * @var ReturnTagAnalyzer
+     */
+    private $returnTagAnalyzer;
+
     public function __construct()
     {
         // set defaults
@@ -57,6 +63,7 @@ final class RemoveUselessDocBlockFixer implements FixerInterface, DefinedFixerIn
 
         $this->descriptionAnalyzer = new DescriptionAnalyzer();
         $this->paramTagAnalyzer = new ParamTagAnalyzer();
+        $this->returnTagAnalyzer = new ReturnTagAnalyzer();
     }
 
     public function getDefinition(): FixerDefinitionInterface
@@ -159,6 +166,7 @@ public function getCount(): int
     {
         $typehintType = $methodWrapper->getReturnType();
         $docBlockType = $docBlockWrapper->getReturnType();
+        $docDescription = $docBlockWrapper->getReturnTypeDescription();
 
         if ($typehintType === null || $docBlockType === null) {
             return;
@@ -176,13 +184,7 @@ public function getCount(): int
             $this->processReturnTagMultiTypes($typehintType, $docBlockType, $docBlockWrapper);
         }
 
-        if ($typehintType && Strings::endsWith($typehintType, '\\' . $docBlockWrapper->getReturnType())) {
-            $docBlockWrapper->removeReturnType();
-            return;
-        }
-
-        // simple types
-        if ($docBlockType === 'boolean' && $typehintType === 'bool') {
+        if (! $this->returnTagAnalyzer->isReturnTagUseful($docBlockType, $docDescription, $typehintType)) {
             $docBlockWrapper->removeReturnType();
         }
     }
