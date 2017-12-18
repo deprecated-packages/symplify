@@ -6,8 +6,6 @@ final class TrackingTest extends AbstractGitWorkingCopyTestCase
 {
     public function testIsTracking(): void
     {
-        $this->markTestSkipped('Only failing test, not sure why');
-
         $git = $this->getWorkingCopy();
 
         // The master branch is a remote tracking branch.
