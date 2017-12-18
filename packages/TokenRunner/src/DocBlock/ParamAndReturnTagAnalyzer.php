@@ -13,11 +13,7 @@ final class ParamAndReturnTagAnalyzer
 
     public function isTagUseful(?string $docType, ?string $docDescription, ?string $paramType): bool
     {
-        if ($docType === $paramType) {
-            return false;
-        }
-
-        if ($docType && (Strings::endsWith($docType, '\\' . $paramType) || Strings::endsWith($paramType, '\\' . $docType))) {
+        if ($this->isMatch($docType, $paramType)) {
             return false;
         }
 
@@ -25,11 +21,7 @@ final class ParamAndReturnTagAnalyzer
             return true;
         }
 
-        // simple types
-        if ($docType === 'boolean' && $paramType === 'bool') {
-            return false;
-        }
-        if ($docType === 'integer' && $paramType === 'int') {
+        if ($this->isLongSimpleType($docType, $paramType)) {
             return false;
         }
 
@@ -62,5 +54,31 @@ final class ParamAndReturnTagAnalyzer
     public function setUsefulTypes(array $usefulTypes): void
     {
         $this->usefulTypes = $usefulTypes;
+    }
+
+    private function isMatch(?string $docType, ?string $paramType): bool
+    {
+        if ($docType === $paramType) {
+            return true;
+        }
+
+        if ($docType && (Strings::endsWith($docType, '\\' . $paramType) || Strings::endsWith($paramType, '\\' . $docType))) {
+            return true;
+        }
+
+        return false;
+    }
+
+    private function isLongSimpleType(?string $docType, ?string $paramType): bool
+    {
+        if ($docType === 'boolean' && $paramType === 'bool') {
+            return true;
+        }
+
+        if ($docType === 'integer' && $paramType === 'int') {
+            return true;
+        }
+
+        return false;
     }
 }
