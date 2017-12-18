@@ -10,20 +10,21 @@ use Symplify\TokenRunner\Testing\AbstractSimpleFixerTestCase;
 final class ConfiguredTest extends AbstractSimpleFixerTestCase
 {
     /**
-     * @dataProvider provideCorrectCases()
+     * @dataProvider provideWrongToFixedCases()
      */
-    public function testCorrectCases(string $file): void
+    public function testFix(string $wrongFile, string $fixedFile): void
     {
-        $this->doTestCorrectFile($file);
+        $this->doTestWrongToFixedFile($wrongFile, $fixedFile);
     }
 
     /**
      * @return string[][]
      */
-    public function provideCorrectCases(): array
+    public function provideWrongToFixedCases(): array
     {
         return [
-            [__DIR__ . '/correct/correct10.php.inc'],
+            [__DIR__ . '/wrong/wrong13.php.inc', __DIR__ . '/fixed/fixed13.php.inc'],
+            [__DIR__ . '/wrong/wrong14.php.inc', __DIR__ . '/fixed/fixed14.php.inc'],
         ];
     }
 
@@ -32,7 +33,7 @@ final class ConfiguredTest extends AbstractSimpleFixerTestCase
         $fixer = new RemoveUselessDocBlockFixer();
         $fixer->setWhitespacesConfig(new WhitespacesFixerConfig());
         $fixer->configure([
-           'useful_types' => ['mixed', 'object'],
+           'useful_types' => [],
         ]);
 
         return $fixer;

@@ -168,14 +168,15 @@ public function setCount(int $value, $anotherValue, SomeType $someService): arra
 }
 ```
 
-This checker removes 'mixed' doc types by default. But if you need, you can **configure it**:
+This checker keeps 'mixed' and 'object' doc types by default. But if you need, you can **configure it**:
 
-
+RemoveUselessDocBlockFixerTes
 ```yaml
 # easy-coding-standard.neon
 checkers:
     Symplify\CodingStandard\Fixer\Commenting\RemoveUselessDocBlockFixer:
-        useful_types: ['mixed', 'object'] # ['object'] is default
+        # defaults
+        useful_types: ['mixed', 'object']
 ```
 
 

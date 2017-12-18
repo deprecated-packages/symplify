@@ -7,13 +7,13 @@
 
 ### Changed
 
-- [#508] `RemoveUselessDocBlockFixer` is now configurable to accept certain types
+- [#508] `RemoveUselessDocBlockFixer` is now configurable to accept types with your own preferences
 
     ```yaml
     # easy-coding-standard.neon
     checkers:
         Symplify\CodingStandard\Fixer\Commenting\RemoveUselessDocBlockFixer:
-            # empty by default
+            # defaults
             useful_types: ['mixed', 'object']
     ```
 

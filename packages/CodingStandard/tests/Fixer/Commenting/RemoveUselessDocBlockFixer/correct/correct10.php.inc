@@ -5,11 +5,25 @@ namespace SomeNamespace;
 class SomeClass
 {
     /**
-     * @param mixed $default
-     * @param object $object
-     * @return mixed
+     * @param string $expected
+     * @param string|null $input
      */
-    public function setDefaultValue($default, $object)
+    protected function doTest($expected, $input = null, ?SplFileInfo $file = null): void
+    {
+    }
+
+    /**
+     * @return DateTimeInterface|string|null
+     */
+    public function offsetGet($offset)
+    {
+    }
+
+    /**
+     * @author Tobias Schultze <http://tobion.de>
+     * @return File
+     */
+    public function createFromFileInfo(SplFileInfo $fileInfo): AbstractFile
     {
     }
 }

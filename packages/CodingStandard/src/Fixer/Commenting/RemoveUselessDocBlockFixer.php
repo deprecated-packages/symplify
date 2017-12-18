@@ -152,7 +152,7 @@ public function getCount(): int
     public function getConfigurationDefinition(): FixerConfigurationResolverInterface
     {
         $option = (new FixerOptionBuilder(self::USEFUL_TYPES_OPTION, 'List of useful types to allow.'))
-            ->setDefault(['object'])
+            ->setDefault(['object', 'mixed'])
             ->getOption();
 
         return new FixerConfigurationResolver([$option]);
