@@ -177,10 +177,7 @@ final class GitWorkingCopy
     }
 
     /**
-     * Returns whether HEAD is behind its remote tracking branch.
-     *
-     * If this returns true it means that a pull is needed to bring the branch
-     * up-to-date with the remote.
+     * If this returns true it means that a pull is needed to bring the branch up-to-date with the remote.
      */
     public function isBehind(): bool
     {
@@ -197,13 +194,9 @@ final class GitWorkingCopy
     }
 
     /**
-     * Returns whether HEAD needs to be merged with its remote tracking branch.
-     *
      * If this returns true it means that HEAD has diverged from its remote
      * tracking branch; new commits are present locally as well as on the
      * remote.
-     *
-     * @return bool True if HEAD needs to be merged with the remote, false otherwise.
      */
     public function needsMerge(): bool
     {

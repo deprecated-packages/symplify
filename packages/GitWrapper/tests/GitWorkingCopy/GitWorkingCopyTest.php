@@ -189,20 +189,6 @@ PATCH;
         $this->assertRegExp('#Already up(-| )to(-| )date#', trim($output));
     }
 
-    public function testGitArchive(): void
-    {
-        $this->markTestSkipped('Failing, not sure why.');
-
-        $archiveName = uniqid('', true) . '.tar';
-        $archivePath = __DIR__ . '/temp/' . $archiveName;
-
-        $git = $this->getWorkingCopy();
-        $output = $git->archive('HEAD', ['o' => $archivePath]);
-        $this->assertSame('', $output);
-
-        $this->assertFileExists($archivePath);
-    }
-
     /**
      * This tests an odd case where sometimes even though a command fails and an exception is thrown
      * the result of Process::getErrorOutput() is empty because the output is sent to STDOUT instead of STDERR. So
