@@ -7,7 +7,9 @@ use PhpCsFixer\Fixer\ConfigurationDefinitionFixerInterface;
 use PhpCsFixer\Fixer\DefinedFixerInterface;
 use PhpCsFixer\Fixer\FixerInterface;
 use PhpCsFixer\Fixer\WhitespacesAwareFixerInterface;
+use PhpCsFixer\FixerConfiguration\FixerConfigurationResolver;
 use PhpCsFixer\FixerConfiguration\FixerConfigurationResolverInterface;
+use PhpCsFixer\FixerConfiguration\FixerOptionBuilder;
 use PhpCsFixer\FixerDefinition\CodeSample;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
@@ -22,9 +24,26 @@ use Symplify\TokenRunner\Wrapper\FixerWrapper\MethodWrapper;
 final class RemoveUselessDocBlockFixer implements FixerInterface, DefinedFixerInterface, WhitespacesAwareFixerInterface, ConfigurationDefinitionFixerInterface
 {
     /**
+     * @var string
+     */
+    public const USEFUL_TYPES_OPTION = 'useful_types';
+
+    /**
      * @var WhitespacesFixerConfig
      */
     private $whitespacesFixerConfig;
+
+    /**
+     * @var mixed[]
+     */
+    private $configuration = [];
+
+    public function __construct()
+    {
+        // set defaults
+        $this->configuration = $this->getConfigurationDefinition()
+            ->resolve([]);
+    }
 
     public function getDefinition(): FixerDefinitionInterface
     {
@@ -100,12 +119,26 @@ public function getCount(): int
         $this->whitespacesFixerConfig = $whitespacesFixerConfig;
     }
 
+    /**
+     * @param mixed[]|null $configuration
+     */
     public function configure(?array $configuration = null): void
     {
+        if ($configuration === null) {
+            return;
+        }
+
+        $this->configuration = $this->getConfigurationDefinition()
+            ->resolve($configuration);
     }
 
     public function getConfigurationDefinition(): FixerConfigurationResolverInterface
     {
+        $option = (new FixerOptionBuilder(self::USEFUL_TYPES_OPTION, 'List of useful types to allow.'))
+            ->setDefault([])
+            ->getOption();
+
+        return new FixerConfigurationResolver([$option]);
     }
 
     private function processReturnTag(MethodWrapper $methodWrapper, DocBlockWrapper $docBlockWrapper): void
