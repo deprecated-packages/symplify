@@ -36,11 +36,6 @@ final class RemoveUselessDocBlockFixer implements FixerInterface, DefinedFixerIn
     private $whitespacesFixerConfig;
 
     /**
-     * @var mixed[]
-     */
-    private $configuration = [];
-
-    /**
      * @var DescriptionAnalyzer
      */
     private $descriptionAnalyzer;
@@ -57,10 +52,6 @@ final class RemoveUselessDocBlockFixer implements FixerInterface, DefinedFixerIn
 
     public function __construct()
     {
-        // set defaults
-        $this->configuration = $this->getConfigurationDefinition()
-            ->resolve([]);
-
         $this->descriptionAnalyzer = new DescriptionAnalyzer();
         $this->paramTagAnalyzer = new ParamTagAnalyzer();
         $this->returnTagAnalyzer = new ReturnTagAnalyzer();
@@ -140,17 +131,16 @@ public function getCount(): int
         $this->whitespacesFixerConfig = $whitespacesFixerConfig;
     }
 
-    /**
-     * @param mixed[]|null $configuration
-     */
     public function configure(?array $configuration = null): void
     {
         if ($configuration === null) {
             return;
         }
 
-        $this->configuration = $this->getConfigurationDefinition()
+        $configuration = $this->getConfigurationDefinition()
             ->resolve($configuration);
+
+        $this->paramTagAnalyzer->setUsefulTypes($configuration[self::USEFUL_TYPES_OPTION]);
     }
 
     public function getConfigurationDefinition(): FixerConfigurationResolverInterface

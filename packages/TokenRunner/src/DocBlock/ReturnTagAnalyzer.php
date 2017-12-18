@@ -8,7 +8,7 @@ final class ReturnTagAnalyzer
 {
     public function isReturnTagUseful(?string $docType, ?string $docDescription, ?string $returnType): bool
     {
-        if ($returnType === null || $docType=== null) {
+        if ($returnType === null || $docType === null) {
             return false;
         }
 

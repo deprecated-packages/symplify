@@ -6,13 +6,14 @@ use Nette\Utils\Strings;
 
 final class ParamTagAnalyzer
 {
+    /**
+     * @var string[]
+     */
+    private $usefulTypes = [];
+
     public function isParamTagUseful(?string $docType, ?string $docDescription, ?string $paramType): bool
     {
         if ($docType === $docDescription) {
-            return false;
-        }
-
-        if ($docType === 'mixed') {
             return false;
         }
 
@@ -37,6 +38,14 @@ final class ParamTagAnalyzer
             return false;
         }
 
-        return true;
+        return in_array($docType, $this->usefulTypes, true);
+    }
+
+    /**
+     * @param string[] $usefulTypes
+     */
+    public function setUsefulTypes(array $usefulTypes): void
+    {
+        $this->usefulTypes = $usefulTypes;
     }
 }
