@@ -55,6 +55,8 @@ final class RemoveUselessDocBlockFixer implements FixerInterface, DefinedFixerIn
         $this->descriptionAnalyzer = new DescriptionAnalyzer();
         $this->paramTagAnalyzer = new ParamTagAnalyzer();
         $this->returnTagAnalyzer = new ReturnTagAnalyzer();
+
+        $this->configure([]);
     }
 
     public function getDefinition(): FixerDefinitionInterface
@@ -150,7 +152,7 @@ public function getCount(): int
     public function getConfigurationDefinition(): FixerConfigurationResolverInterface
     {
         $option = (new FixerOptionBuilder(self::USEFUL_TYPES_OPTION, 'List of useful types to allow.'))
-            ->setDefault([])
+            ->setDefault(['object'])
             ->getOption();
 
         return new FixerConfigurationResolver([$option]);
