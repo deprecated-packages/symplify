@@ -8,12 +8,20 @@ final class ReturnTagAnalyzer
 {
     public function isReturnTagUseful(?string $docType, ?string $docDescription, ?string $returnType): bool
     {
-        if ($returnType && Strings::endsWith($returnType, '\\' . $docType)) {
+        if ($returnType === null || $docType=== null) {
             return false;
         }
 
         if ($docDescription) {
             return true;
+        }
+
+        if ($returnType === $docType) {
+            return false;
+        }
+
+        if ($returnType && Strings::endsWith($returnType, '\\' . $docType)) {
+            return false;
         }
 
         // simple types

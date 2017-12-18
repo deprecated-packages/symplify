@@ -168,18 +168,6 @@ public function getCount(): int
         $docBlockType = $docBlockWrapper->getReturnType();
         $docDescription = $docBlockWrapper->getReturnTypeDescription();
 
-        if ($typehintType === null || $docBlockType === null) {
-            return;
-        }
-
-        if ($typehintType === $docBlockType) {
-            if ($docBlockWrapper->getReturnTypeDescription()) {
-                return;
-            }
-
-            $docBlockWrapper->removeReturnType();
-        }
-
         if (Strings::contains($typehintType, '|') && Strings::contains($docBlockType, '|')) {
             $this->processReturnTagMultiTypes($typehintType, $docBlockType, $docBlockWrapper);
         }
