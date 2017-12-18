@@ -70,8 +70,7 @@ final class DocBlockWrapper
 
         $content = $token ? $token->getContent() : $docBlock->getContent();
 
-        $cleanDocBlockFactory = new CleanDocBlockFactory();
-        $this->phpDocumentorDocBlock = $cleanDocBlockFactory->createFromContent($content);
+        $this->phpDocumentorDocBlock = (new CleanDocBlockFactory())->createFromContent($content);
         $this->originalContent = $content;
     }
 

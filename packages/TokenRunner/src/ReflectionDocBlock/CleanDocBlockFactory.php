@@ -3,7 +3,11 @@
 namespace Symplify\TokenRunner\ReflectionDocBlock;
 
 use phpDocumentor\Reflection\DocBlock;
+use phpDocumentor\Reflection\DocBlock\DescriptionFactory;
+use phpDocumentor\Reflection\DocBlock\StandardTagFactory;
 use phpDocumentor\Reflection\DocBlockFactory;
+use phpDocumentor\Reflection\FqsenResolver;
+use phpDocumentor\Reflection\TypeResolver;
 
 final class CleanDocBlockFactory
 {
@@ -14,7 +18,14 @@ final class CleanDocBlockFactory
 
     public function __construct()
     {
-        $this->phpDocumentorDocBlockFactory = DocBlockFactory::createInstance();
+        $fqsenResolver = new FqsenResolver();
+        $tagFactory = new StandardTagFactory($fqsenResolver);
+        $descriptionFactory = new DescriptionFactory($tagFactory);
+
+        $tagFactory->addService($descriptionFactory);
+        $tagFactory->addService(new TypeResolver($fqsenResolver));
+
+        $this->phpDocumentorDocBlockFactory = new DocBlockFactory($descriptionFactory, $tagFactory);
     }
 
     public function createFromContent(string $content): DocBlock
