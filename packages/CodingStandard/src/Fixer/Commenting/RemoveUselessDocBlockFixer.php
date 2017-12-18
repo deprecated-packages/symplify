@@ -17,6 +17,7 @@ use PhpCsFixer\Tokenizer\Tokens;
 use PhpCsFixer\WhitespacesFixerConfig;
 use SplFileInfo;
 use Symplify\TokenRunner\DocBlock\DescriptionAnalyzer;
+use Symplify\TokenRunner\DocBlock\ParamTagAnalyzer;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\ClassWrapper;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\DocBlockWrapper;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\MethodWrapper;
@@ -43,6 +44,11 @@ final class RemoveUselessDocBlockFixer implements FixerInterface, DefinedFixerIn
      */
     private $descriptionAnalyzer;
 
+    /**
+     * @var ParamTagAnalyzer
+     */
+    private $paramTagAnalyzer;
+
     public function __construct()
     {
         // set defaults
@@ -50,6 +56,7 @@ final class RemoveUselessDocBlockFixer implements FixerInterface, DefinedFixerIn
             ->resolve([]);
 
         $this->descriptionAnalyzer = new DescriptionAnalyzer();
+        $this->paramTagAnalyzer = new ParamTagAnalyzer();
     }
 
     public function getDefinition(): FixerDefinitionInterface
@@ -183,12 +190,12 @@ public function getCount(): int
     private function processParamTag(MethodWrapper $methodWrapper, DocBlockWrapper $docBlockWrapper): void
     {
         foreach ($methodWrapper->getArguments() as $argumentWrapper) {
-            $docBlockType = $docBlockWrapper->getArgumentType($argumentWrapper->getName());
-            $argumentDescription = $docBlockWrapper->getArgumentTypeDescription($argumentWrapper->getName());
+            $docType = $docBlockWrapper->getArgumentType($argumentWrapper->getName());
+            $docDescription = $docBlockWrapper->getArgumentTypeDescription($argumentWrapper->getName());
 
             $isDescriptionUseful = $this->descriptionAnalyzer->isDescriptionUseful(
-                (string) $argumentDescription,
-                $docBlockType,
+                (string) $docDescription,
+                $docType,
                 $argumentWrapper->getName()
             );
 
@@ -196,32 +203,34 @@ public function getCount(): int
                 continue;
             }
 
-            if ($docBlockType === $argumentDescription) {
+            $this->paramTagAnalyzer->isParamTagUseful($docType, $docDescription, $argumentWrapper->getType());
+
+            if ($docType === $docDescription) {
                 $docBlockWrapper->removeParamType($argumentWrapper->getName());
                 continue;
             }
 
-            if ($this->shouldSkip($docBlockType, $argumentDescription)) {
+            if ($this->shouldSkip($docType, $docDescription)) {
                 continue;
             }
 
-            if ($docBlockType === 'mixed') {
+            if ($docType === 'mixed') {
                 $docBlockWrapper->removeParamType($argumentWrapper->getName());
                 continue;
             }
 
-            if ($docBlockType === $argumentWrapper->getType()) {
+            if ($docType === $argumentWrapper->getType()) {
                 $docBlockWrapper->removeParamType($argumentWrapper->getName());
                 continue;
             }
 
-            if ($docBlockType && Strings::endsWith($docBlockType, '\\' . $argumentWrapper->getType())) {
+            if ($docType && Strings::endsWith($docType, '\\' . $argumentWrapper->getType())) {
                 $docBlockWrapper->removeParamType($argumentWrapper->getName());
                 continue;
             }
 
             // simple types
-            if ($docBlockType === 'boolean' && $argumentWrapper->getType() === 'bool') {
+            if ($docType === 'boolean' && $argumentWrapper->getType() === 'bool') {
                 $docBlockWrapper->removeParamType($argumentWrapper->getName());
             }
         }
