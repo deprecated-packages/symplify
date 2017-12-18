@@ -3,18 +3,18 @@
 namespace Symplify\TokenRunner\Tests\DocBlock;
 
 use PHPUnit\Framework\TestCase;
-use Symplify\TokenRunner\DocBlock\ParamTagAnalyzer;
+use Symplify\TokenRunner\DocBlock\ParamAndReturnTagAnalyzer;
 
 final class ParamTagAnalyzerTest extends TestCase
 {
     /**
-     * @var ParamTagAnalyzer
+     * @var ParamAndReturnTagAnalyzer
      */
-    private $paramTagAnalyzer;
+    private $paramAndReturnTagAnalyzer;
 
     protected function setUp(): void
     {
-        $this->paramTagAnalyzer = new ParamTagAnalyzer();
+        $this->paramAndReturnTagAnalyzer = new ParamAndReturnTagAnalyzer();
     }
 
     /**
@@ -22,7 +22,7 @@ final class ParamTagAnalyzerTest extends TestCase
      */
     public function test(?string $docType, ?string $docDescription, string $paramType, bool $expectedIsUseful): void
     {
-        $isUseful = $this->paramTagAnalyzer->isParamTagUseful(
+        $isUseful = $this->paramAndReturnTagAnalyzer->isTagUseful(
             $docType,
             $docDescription,
             $paramType

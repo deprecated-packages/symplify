@@ -4,37 +4,37 @@ namespace Symplify\TokenRunner\DocBlock;
 
 use Nette\Utils\Strings;
 
-final class ReturnTagAnalyzer
+final class ParamAndReturnTagAnalyzer
 {
     /**
      * @var string[]
      */
     private $usefulTypes = [];
 
-    public function isReturnTagUseful(?string $docType, ?string $docDescription, ?string $returnType): bool
+    public function isTagUseful(?string $docType, ?string $docDescription, ?string $paramType): bool
     {
+        if ($docType === $paramType) {
+            return false;
+        }
+
+        if ($docType && Strings::endsWith($docType, '\\' . $paramType)) {
+            return false;
+        }
+
         if ($docDescription) {
             return true;
         }
 
-        if ($returnType === $docType) {
-            return false;
-        }
-
-        if ($returnType && Strings::endsWith($returnType, '\\' . $docType)) {
-            return false;
-        }
-
         // simple types
-        if ($docType === 'boolean' && $returnType === 'bool') {
+        if ($docType === 'boolean' && $paramType === 'bool') {
             return false;
         }
 
-        if ($docType === 'integer' && $returnType === 'int') {
+        if ($docType === 'integer' && $paramType === 'int') {
             return false;
         }
 
-        if ($returnType && $docType && ($returnType !== $docType)) {
+        if ($docType === null) {
             return true;
         }
 
@@ -46,7 +46,7 @@ final class ReturnTagAnalyzer
             return true;
         }
 
-        if ($returnType === null) {
+        if ($paramType === null) {
             return in_array($docType, ['string', 'bool', 'resource', 'false', 'int', 'true'], true);
         }
 

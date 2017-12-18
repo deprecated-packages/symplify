@@ -17,8 +17,7 @@ use PhpCsFixer\Tokenizer\Tokens;
 use PhpCsFixer\WhitespacesFixerConfig;
 use SplFileInfo;
 use Symplify\TokenRunner\DocBlock\DescriptionAnalyzer;
-use Symplify\TokenRunner\DocBlock\ParamTagAnalyzer;
-use Symplify\TokenRunner\DocBlock\ReturnTagAnalyzer;
+use Symplify\TokenRunner\DocBlock\ParamAndReturnTagAnalyzer;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\ClassWrapper;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\DocBlockWrapper;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\MethodWrapper;
@@ -41,20 +40,14 @@ final class RemoveUselessDocBlockFixer implements FixerInterface, DefinedFixerIn
     private $descriptionAnalyzer;
 
     /**
-     * @var ParamTagAnalyzer
+     * @var ParamAndReturnTagAnalyzer
      */
-    private $paramTagAnalyzer;
-
-    /**
-     * @var ReturnTagAnalyzer
-     */
-    private $returnTagAnalyzer;
+    private $paramAndReturnTagAnalyzer;
 
     public function __construct()
     {
         $this->descriptionAnalyzer = new DescriptionAnalyzer();
-        $this->paramTagAnalyzer = new ParamTagAnalyzer();
-        $this->returnTagAnalyzer = new ReturnTagAnalyzer();
+        $this->paramAndReturnTagAnalyzer = new ParamAndReturnTagAnalyzer();
 
         $this->configure([]);
     }
@@ -145,8 +138,7 @@ public function getCount(): int
         $configuration = $this->getConfigurationDefinition()
             ->resolve($configuration);
 
-        $this->paramTagAnalyzer->setUsefulTypes($configuration[self::USEFUL_TYPES_OPTION]);
-        $this->returnTagAnalyzer->setUsefulTypes($configuration[self::USEFUL_TYPES_OPTION]);
+        $this->paramAndReturnTagAnalyzer->setUsefulTypes($configuration[self::USEFUL_TYPES_OPTION]);
     }
 
     public function getConfigurationDefinition(): FixerConfigurationResolverInterface
@@ -169,7 +161,7 @@ public function getCount(): int
             return;
         }
 
-        if (! $this->returnTagAnalyzer->isReturnTagUseful($docBlockType, $docDescription, $typehintType)) {
+        if (! $this->paramAndReturnTagAnalyzer->isTagUseful($docBlockType, $docDescription, $typehintType)) {
             $docBlockWrapper->removeReturnType();
         }
     }
@@ -190,7 +182,7 @@ public function getCount(): int
                 continue;
             }
 
-            if (! $this->paramTagAnalyzer->isParamTagUseful($docType, $docDescription, $argumentWrapper->getType())) {
+            if (! $this->paramAndReturnTagAnalyzer->isTagUseful($docType, $docDescription, $argumentWrapper->getType())) {
                 $docBlockWrapper->removeParamType($argumentWrapper->getName());
             }
         }
