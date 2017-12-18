@@ -13,10 +13,6 @@ final class ParamTagAnalyzer
 
     public function isParamTagUseful(?string $docType, ?string $docDescription, ?string $paramType): bool
     {
-        if ($docType === $docDescription) {
-            return false;
-        }
-
         if ($docType === $paramType) {
             return false;
         }

@@ -30,15 +30,11 @@ final class ReturnTagAnalyzer
             return false;
         }
 
-        if ($returnType && $docType && ($returnType !== $docType)) {
-            return true;
-        }
-
         if ($docType === 'integer' && $returnType === 'int') {
             return false;
         }
 
-        if ($docType === null) {
+        if ($returnType && $docType && ($returnType !== $docType)) {
             return true;
         }
 
