@@ -11,6 +11,7 @@ use phpDocumentor\Reflection\DocBlock\Tags\Var_;
 use phpDocumentor\Reflection\DocBlockFactory;
 use phpDocumentor\Reflection\FqsenResolver;
 use phpDocumentor\Reflection\TypeResolver;
+use Symplify\TokenRunner\ReflectionDocBlock\Tag\TolerantReturn;
 
 /**
  * Same as DocBlockFactory::instance(), but uses only tags that are needed
@@ -27,7 +28,7 @@ final class CleanDocBlockFactory
         $fqsenResolver = new FqsenResolver();
         $tagFactory = new StandardTagFactory($fqsenResolver, [
             'param' => Param::class,
-            'return' => Return_::class,
+            'return' => TolerantReturn::class,
             'var' => Var_::class,
         ]);
 
