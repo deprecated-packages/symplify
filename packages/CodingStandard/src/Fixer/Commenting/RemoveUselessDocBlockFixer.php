@@ -199,17 +199,12 @@ public function getCount(): int
                 $argumentWrapper->getName()
             );
 
-            if ($isDescriptionUseful === true) {
-                continue;
-            }
-
-            if ($this->shouldSkip($docType, $docDescription)) {
+            if ($isDescriptionUseful === true || $this->shouldSkip($docType, $docDescription)) {
                 continue;
             }
 
             if (! $this->paramTagAnalyzer->isParamTagUseful($docType, $docDescription, $argumentWrapper->getType())) {
                 $docBlockWrapper->removeParamType($argumentWrapper->getName());
-                continue;
             }
         }
 

@@ -24,8 +24,16 @@ final class ParamTagAnalyzer
             return false;
         }
 
+        if ($docDescription) {
+            return true;
+        }
+
         // simple types
         if ($docType === 'boolean' && $paramType === 'bool') {
+            return false;
+        }
+
+        if ($docType === 'integer' && $paramType === 'int') {
             return false;
         }
 
