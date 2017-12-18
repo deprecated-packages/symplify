@@ -13,10 +13,6 @@ final class ReturnTagAnalyzer
 
     public function isReturnTagUseful(?string $docType, ?string $docDescription, ?string $returnType): bool
     {
-        if ($returnType === null || $docType === null) {
-            return false;
-        }
-
         if ($docDescription) {
             return true;
         }
@@ -38,7 +34,15 @@ final class ReturnTagAnalyzer
             return false;
         }
 
-        return true;
+        if ($docType === null) {
+            return true;
+        }
+
+        if (Strings::contains($docType, '[]')) {
+            return true;
+        }
+
+        return in_array($docType, $this->usefulTypes, true);
     }
 
     /**

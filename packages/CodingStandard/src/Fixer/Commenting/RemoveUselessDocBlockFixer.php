@@ -131,6 +131,9 @@ public function getCount(): int
         $this->whitespacesFixerConfig = $whitespacesFixerConfig;
     }
 
+    /**
+     * @param mixed[] $configuration
+     */
     public function configure(?array $configuration = null): void
     {
         if ($configuration === null) {
@@ -161,6 +164,7 @@ public function getCount(): int
 
         if (Strings::contains($typehintType, '|') && Strings::contains($docBlockType, '|')) {
             $this->processReturnTagMultiTypes($typehintType, $docBlockType, $docBlockWrapper);
+            return;
         }
 
         if (! $this->returnTagAnalyzer->isReturnTagUseful($docBlockType, $docDescription, $typehintType)) {
