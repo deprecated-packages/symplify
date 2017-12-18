@@ -8,7 +8,6 @@ final class PrivatesCaller
 {
     /**
      * @param object $object
-     * @return mixed
      */
     public function callPrivateMethod($object, string $methodName, ...$arguments)
     {
