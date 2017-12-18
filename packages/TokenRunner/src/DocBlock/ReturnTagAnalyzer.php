@@ -30,6 +30,10 @@ final class ReturnTagAnalyzer
             return false;
         }
 
+        if ($returnType && $docType && ($returnType !== $docType)) {
+            return true;
+        }
+
         if ($docType === 'integer' && $returnType === 'int') {
             return false;
         }
@@ -38,11 +42,19 @@ final class ReturnTagAnalyzer
             return true;
         }
 
-        if (Strings::contains($docType, '[]')) {
+        if (Strings::contains($docType, '[]') || Strings::contains($docType, '|')) {
             return true;
         }
 
-        return in_array($docType, $this->usefulTypes, true);
+        if (in_array($docType, $this->usefulTypes, true)) {
+            return true;
+        }
+
+        if ($returnType === null) {
+            return in_array($docType, ['string', 'bool', 'resource', 'false', 'int', 'true'], true);
+        }
+
+        return false;
     }
 
     /**

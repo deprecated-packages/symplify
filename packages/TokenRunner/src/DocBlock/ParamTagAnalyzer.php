@@ -38,7 +38,23 @@ final class ParamTagAnalyzer
             return false;
         }
 
-        return in_array($docType, $this->usefulTypes, true);
+        if ($docType === null) {
+            return true;
+        }
+
+        if (Strings::contains($docType, '[]') || Strings::contains($docType, '|')) {
+            return true;
+        }
+
+        if (in_array($docType, $this->usefulTypes, true)) {
+            return true;
+        }
+
+        if ($paramType === null) {
+            return in_array($docType, ['string', 'bool', 'resource', 'false', 'int', 'true'], true);
+        }
+
+        return false;
     }
 
     /**
