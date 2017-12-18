@@ -12,8 +12,16 @@ final class ReturnTagAnalyzer
             return false;
         }
 
+        if ($docDescription) {
+            return true;
+        }
+
         // simple types
         if ($docType === 'boolean' && $returnType === 'bool') {
+            return false;
+        }
+
+        if ($docType === 'integer' && $returnType === 'int') {
             return false;
         }
 
