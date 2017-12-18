@@ -20,6 +20,7 @@ class SomeClass
     }
 
     /**
+     * @author Tobias Schultze <http://tobion.de>
      * @return File
      */
     public function createFromFileInfo(SplFileInfo $fileInfo): AbstractFile
