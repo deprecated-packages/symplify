@@ -5,7 +5,7 @@ namespace Symplify\TokenRunner\Tests\DocBlock;
 use PHPUnit\Framework\TestCase;
 use Symplify\TokenRunner\DocBlock\ParamAndReturnTagAnalyzer;
 
-final class ParamTagAnalyzerTest extends TestCase
+final class ParamAndReturnTagAnalyzerTest extends TestCase
 {
     /**
      * @var ParamAndReturnTagAnalyzer
