@@ -48,7 +48,7 @@ parameters:
 
         # intersect/union buggy
         - '#Parameter \#(2|3) \$items of method PhpCsFixer\\Tokenizer\\Tokens::(insertAt|overrideRange)\(\) expects (\()?iterable<PhpCsFixer\\Tokenizer\\Token>&PhpCsFixer\\Tokenizer\\Tokens(\))?(\|PhpCsFixer\\Tokenizer\\Token)?, array<(int, )?PhpCsFixer\\Tokenizer\\Token> given#'
-        - '#Method Symplify\\TokenRunner\\Tests\\DocBlock\\(Param|Return)TagAnalyzerTest::provideDocTypeDocDescriptionParamTypeAndResult\(\) should return array<array<bool|string\>\> but returns array<int, array<int,bool\|string\|null\>\>#'
+        - '#Method Symplify\\TokenRunner\\Tests\\DocBlock\\ParamAndReturnTagAnalyzerTest::provideDocTypeDocDescriptionParamTypeAndResult\(\) should return array<array<bool|string\>\> but returns array<int, array<int,bool\|string\|null\>\>#'
 
     excludes_analyse:
         - *packages/CodingStandard/tests/**/correct*
