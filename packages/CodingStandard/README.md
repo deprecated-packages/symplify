@@ -408,6 +408,13 @@ class SomeClass
      * @var string[]
      */
     public $apples = [];
+    
+    public function run()
+    {
+        foreach ($this->apples as $mac) {
+            // ...
+        }
+    }
 }
 ```
 
@@ -728,19 +735,35 @@ class SomeClass
 ```php
 class SomeClass
 {
-    public function someMethod()
+    public function usedMethod()
     {
 
     }
 
-    public function anotherMethod()
+    public function unusedMethod()
     {
 
     }
 }
 
 $someObject = new SomeClass;
-$someObject->anotherMethod();
+$someObject->unusedMethod();
+```
+
+
+:+1:
+
+```php
+class SomeClass
+{
+    public function usedMethod()
+    {
+
+    }
+}
+
+$someObject = new SomeClass;
+$someObject->usedMethod();
 ```
 
 
