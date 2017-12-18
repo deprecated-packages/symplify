@@ -163,7 +163,7 @@ public function getCount(): int
         $docDescription = $docBlockWrapper->getReturnTypeDescription();
 
         if (Strings::contains($typehintType, '|') && Strings::contains($docBlockType, '|')) {
-            $this->processReturnTagMultiTypes($typehintType, $docBlockType, $docBlockWrapper);
+            $this->processReturnTagMultiTypes((string) $typehintType, (string) $docBlockType, $docBlockWrapper);
             return;
         }
 

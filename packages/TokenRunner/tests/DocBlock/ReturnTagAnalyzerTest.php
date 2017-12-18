@@ -32,7 +32,7 @@ final class ReturnTagAnalyzerTest extends TestCase
     }
 
     /**
-     * @return string[][]|bool[][]
+     * @return string[][]|bool[][]|null[][]
      */
     public function provideDocTypeDocDescriptionParamTypeAndResult(): array
     {
