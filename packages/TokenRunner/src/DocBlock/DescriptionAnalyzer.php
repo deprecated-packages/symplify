@@ -17,6 +17,7 @@ final class DescriptionAnalyzer
             $type = substr($type, 0, -strlen('Interface'));
         }
 
+        // array type, is is useful
         if (Strings::endsWith($type, '[]')) {
             return true;
         }
