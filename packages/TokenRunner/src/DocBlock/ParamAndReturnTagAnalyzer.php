@@ -17,7 +17,7 @@ final class ParamAndReturnTagAnalyzer
             return false;
         }
 
-        if ($docType && Strings::endsWith($docType, '\\' . $paramType)) {
+        if ($docType && (Strings::endsWith($docType, '\\' . $paramType) || Strings::endsWith($paramType, '\\' . $docType))) {
             return false;
         }
 
@@ -29,7 +29,6 @@ final class ParamAndReturnTagAnalyzer
         if ($docType === 'boolean' && $paramType === 'bool') {
             return false;
         }
-
         if ($docType === 'integer' && $paramType === 'int') {
             return false;
         }
@@ -48,6 +47,10 @@ final class ParamAndReturnTagAnalyzer
 
         if ($paramType === null) {
             return in_array($docType, ['string', 'bool', 'resource', 'false', 'int', 'true'], true);
+        }
+
+        if ($docType && $paramType && ($docType !== $paramType)) {
+            return true;
         }
 
         return false;
