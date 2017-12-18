@@ -13,7 +13,7 @@ final class DescriptionAnalyzer
         }
 
         if (Strings::endsWith($type, 'Interface')) {
-            // SomeTypeInterface => TypeInterface
+            // SomeTypeInterface => SomeType
             $type = substr($type, 0, -strlen('Interface'));
         }
 
@@ -21,17 +21,19 @@ final class DescriptionAnalyzer
             return true;
         }
 
-        $isDummyDescription = (bool) Strings::match(
-            $description,
-            sprintf('#^(A|An|The|the) (\\\\)?%s(Interface)?( instance)?$#i', preg_quote((string) $type, '/'))
-        ) || ((strlen($description) < (strlen($type) + 10)) && levenshtein($type, $description) < 2);
+        $uselessPattern = sprintf(
+            '#^((A|An|The|the) )?(\\\\)?%s(Interface)?( instance)?$#i',
+            preg_quote((string) $type, '/')
+        );
 
-        // improve with additional cases, probably regex
+        $isDummyDescription = (bool) Strings::match($description, $uselessPattern ) ||
+            ((strlen($description) < (strlen($type) + 10)) && levenshtein($type, $description) < 3);
+
         if ($type && $isDummyDescription) {
             return false;
         }
 
-        if ((strlen($description) < (strlen($type) + 10)) && levenshtein($name, $description) < 2) {
+        if ((strlen($description) < (strlen($type) + 10)) && levenshtein($name, $description) < 3) {
             return false;
         }
 

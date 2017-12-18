@@ -48,6 +48,9 @@ final class DescriptionAnalyzerTest extends TestCase
             ['the \TypeInterface instance', 'Type', 'name', false],
             ['the \Namespaced\TypeInterface instance', 'Namespaced\TypeInterface', 'name', false],
             ['a \Namespaced\TypeInterface', 'Namespaced\TypeInterface', 'name', false],
+            ['\Namespaced\TypeInterface', 'Namespaced\TypeInterface', 'name', false],
+            ['name', 'Namespaced\TypeInterface', 'name', false],
+            ['a name', 'Namespaced\TypeInterface', 'name', false],
         ];
     }
 }
