@@ -153,15 +153,15 @@ public function getCount(): int
     private function processReturnTag(MethodWrapper $methodWrapper, DocBlockWrapper $docBlockWrapper): void
     {
         $typehintType = $methodWrapper->getReturnType();
-        $docBlockType = $docBlockWrapper->getReturnType();
+        $docType = $docBlockWrapper->getReturnType();
         $docDescription = $docBlockWrapper->getReturnTypeDescription();
 
-        if (Strings::contains($typehintType, '|') && Strings::contains($docBlockType, '|')) {
-            $this->processReturnTagMultiTypes((string) $typehintType, (string) $docBlockType, $docBlockWrapper);
+        if (Strings::contains($typehintType, '|') && Strings::contains($docType, '|')) {
+            $this->processReturnTagMultiTypes((string) $typehintType, (string) $docType, $docBlockWrapper);
             return;
         }
 
-        if (! $this->paramAndReturnTagAnalyzer->isTagUseful($docBlockType, $docDescription, $typehintType)) {
+        if (! $this->paramAndReturnTagAnalyzer->isTagUseful($docType, $docDescription, $typehintType)) {
             $docBlockWrapper->removeReturnType();
         }
     }
@@ -169,6 +169,7 @@ public function getCount(): int
     private function processParamTag(MethodWrapper $methodWrapper, DocBlockWrapper $docBlockWrapper): void
     {
         foreach ($methodWrapper->getArguments() as $argumentWrapper) {
+            $typehintType = $argumentWrapper->getType();
             $docType = $docBlockWrapper->getArgumentType($argumentWrapper->getName());
             $docDescription = $docBlockWrapper->getArgumentTypeDescription($argumentWrapper->getName());
 
@@ -182,7 +183,7 @@ public function getCount(): int
                 continue;
             }
 
-            if (! $this->paramAndReturnTagAnalyzer->isTagUseful($docType, $docDescription, $argumentWrapper->getType())) {
+            if (! $this->paramAndReturnTagAnalyzer->isTagUseful($docType, $docDescription, $typehintType)) {
                 $docBlockWrapper->removeParamType($argumentWrapper->getName());
             }
         }
