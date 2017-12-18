@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\TokenRunner\DocBlock;
+namespace Symplify\TokenRunner\ReflectionDocBlock;
 
 use PhpCsFixer\WhitespacesFixerConfig;
 use phpDocumentor\Reflection\DocBlock\Serializer;

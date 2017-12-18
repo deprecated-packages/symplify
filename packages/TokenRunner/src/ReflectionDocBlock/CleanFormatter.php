@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\TokenRunner\DocBlock;
+namespace Symplify\TokenRunner\ReflectionDocBlock;
 
 use Nette\Utils\Strings;
 use phpDocumentor\Reflection\DocBlock\Tag;
@@ -8,6 +8,7 @@ use phpDocumentor\Reflection\DocBlock\Tags\Formatter;
 use phpDocumentor\Reflection\DocBlock\Tags\Param;
 use phpDocumentor\Reflection\DocBlock\Tags\Return_;
 use phpDocumentor\Reflection\Types\Array_;
+use Symplify\TokenRunner\DocBlock\ArrayResolver;
 
 /**
  * Keeps mixed[] as mixed[], not array
