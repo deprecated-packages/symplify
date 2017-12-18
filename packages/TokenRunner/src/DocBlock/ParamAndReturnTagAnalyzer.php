@@ -62,8 +62,14 @@ final class ParamAndReturnTagAnalyzer
             return true;
         }
 
-        if ($docType && (Strings::endsWith($docType, '\\' . $paramType) || Strings::endsWith($paramType, '\\' . $docType))) {
-            return true;
+        if ($docType) {
+            if (Strings::endsWith($docType, '\\' . $paramType)) {
+                return true;
+            }
+
+            if (Strings::endsWith($paramType, '\\' . $docType)) {
+                return true;
+            }
         }
 
         return false;

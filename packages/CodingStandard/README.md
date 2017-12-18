@@ -170,7 +170,6 @@ public function setCount(int $value, $anotherValue, SomeType $someService): arra
 
 This checker keeps 'mixed' and 'object' doc types by default. But if you need, you can **configure it**:
 
-RemoveUselessDocBlockFixerTes
 ```yaml
 # easy-coding-standard.neon
 checkers:
