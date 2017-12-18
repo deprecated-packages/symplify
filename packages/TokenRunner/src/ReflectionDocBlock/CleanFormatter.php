@@ -9,6 +9,7 @@ use phpDocumentor\Reflection\DocBlock\Tags\Param;
 use phpDocumentor\Reflection\DocBlock\Tags\Return_;
 use phpDocumentor\Reflection\Types\Array_;
 use Symplify\TokenRunner\DocBlock\ArrayResolver;
+use Symplify\TokenRunner\ReflectionDocBlock\Tag\TolerantReturn;
 
 /**
  * Keeps mixed[] as mixed[], not array
@@ -29,7 +30,7 @@ final class CleanFormatter implements Formatter
     {
         $tagTypeAndDescription = ltrim((string) $tag, '\\');
 
-        if (($tag instanceof Return_ || $tag instanceof Param) && $tag->getType() instanceof Array_) {
+        if (($tag instanceof TolerantReturn || $tag instanceof Param) && $tag->getType() instanceof Array_) {
             $tagTypeAndDescription = $this->resolveAndFixArrayTypeIfNeeded($tag, $tagTypeAndDescription);
         }
 
@@ -52,7 +53,7 @@ final class CleanFormatter implements Formatter
             );
         }
 
-        if ($tag instanceof Return_) {
+        if ($tag instanceof TolerantReturn) {
             $original = ArrayResolver::resolveArrayType($this->originalContent, $tag->getType(), 'return');
         }
 
