@@ -22,9 +22,9 @@ final class DescriptionAnalyzer
         }
 
         $isDummyDescription = (bool) Strings::match(
-                $description,
-                sprintf('#^(A|An|The|the) (\\\\)?%s(Interface)?( instance)?$#i', preg_quote((string) $type, '/'))
-            ) || ((strlen($description) < (strlen($type) + 10)) && levenshtein($type, $description) < 2);
+            $description,
+            sprintf('#^(A|An|The|the) (\\\\)?%s(Interface)?( instance)?$#i', preg_quote((string) $type, '/'))
+        ) || ((strlen($description) < (strlen($type) + 10)) && levenshtein($type, $description) < 2);
 
         // improve with additional cases, probably regex
         if ($type && $isDummyDescription) {

@@ -3,7 +3,6 @@
 namespace Symplify\CodingStandard\Fixer\Commenting;
 
 use Nette\Utils\Strings;
-use PhpCsFixer\ConfigurationException\InvalidFixerConfigurationException;
 use PhpCsFixer\Fixer\ConfigurationDefinitionFixerInterface;
 use PhpCsFixer\Fixer\DefinedFixerInterface;
 use PhpCsFixer\Fixer\FixerInterface;
@@ -99,6 +98,14 @@ public function getCount(): int
     public function setWhitespacesConfig(WhitespacesFixerConfig $whitespacesFixerConfig): void
     {
         $this->whitespacesFixerConfig = $whitespacesFixerConfig;
+    }
+
+    public function configure(?array $configuration = null): void
+    {
+    }
+
+    public function getConfigurationDefinition(): FixerConfigurationResolverInterface
+    {
     }
 
     private function processReturnTag(MethodWrapper $methodWrapper, DocBlockWrapper $docBlockWrapper): void
@@ -232,13 +239,5 @@ public function getCount(): int
 
             $docBlockWrapper->removeParamType($paramTag->getVariableName());
         }
-    }
-
-    public function configure(?array $configuration = null)
-    {
-    }
-
-    public function getConfigurationDefinition(): FixerConfigurationResolverInterface
-    {
     }
 }
