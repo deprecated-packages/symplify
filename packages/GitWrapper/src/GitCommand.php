@@ -102,6 +102,8 @@ final class GitCommand
 
     /**
      * @param mixed $default Value that is returned if the option is not set.
+     *
+     * @return mixed
      */
     public function getOption(string $option, $default = null)
     {

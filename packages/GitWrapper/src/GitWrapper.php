@@ -99,6 +99,8 @@ final class GitWrapper
 
     /**
      * @param mixed $default The value returned if the environment variable is not set, defaults to null.
+     *
+     * @return mixed
      */
     public function getEnvVar(string $var, $default = null)
     {
