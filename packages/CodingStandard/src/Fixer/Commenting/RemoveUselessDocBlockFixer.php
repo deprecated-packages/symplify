@@ -94,6 +94,7 @@ public function getCount(): int
 
                 $this->processReturnTag($methodWrapper, $docBlockWrapper);
                 $this->processParamTag($methodWrapper, $docBlockWrapper);
+                $this->removeUnpresentTags($methodWrapper, $docBlockWrapper);
             }
         }
     }
@@ -187,8 +188,6 @@ public function getCount(): int
                 $docBlockWrapper->removeParamType($argumentWrapper->getName());
             }
         }
-
-        $this->removeUnpresentTags($docBlockWrapper, $methodWrapper);
     }
 
     private function processReturnTagMultiTypes(
@@ -230,7 +229,7 @@ public function getCount(): int
         return false;
     }
 
-    private function removeUnpresentTags(DocBlockWrapper $docBlockWrapper, MethodWrapper $methodWrapper): void
+    private function removeUnpresentTags(MethodWrapper $methodWrapper, DocBlockWrapper $docBlockWrapper): void
     {
         $argumentNames = $methodWrapper->getArgumentNames();
 
