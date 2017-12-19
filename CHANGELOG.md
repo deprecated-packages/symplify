@@ -21,7 +21,10 @@
 
 ## [v3.0.1] - 2017-12-10
 
-### Added
+### Changed
+
+- [3fce4e] **[EasyCodingStandard]** drop `LineLimitSebastianBergmanDiffer` over `PhpCsFixer\Differ\UnifiedDiffer`
+
 
 ### Removed
 
@@ -731,3 +734,4 @@ For more deprecation details see https://www.tomasvotruba.cz/blog/2017/05/29/sym
 [9a9c0e]: https://github.com/Symplify/Symplify/commit/9a9c0e61d0b7af073d3819e4c4798a251eca1f14
 [#508]: https://github.com/Symplify/Symplify/pull/508
 [contributte/event-dispatcher]: https://github.com/contributte/event-dispatcher
+[3fce4e]: https://github.com/Symplify/Symplify/commit/3fce4e4168a67efe3d7e19be5fd8dc231d352c76
