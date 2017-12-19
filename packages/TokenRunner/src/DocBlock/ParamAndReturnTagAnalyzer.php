@@ -6,7 +6,6 @@ use Nette\Utils\Strings;
 
 final class ParamAndReturnTagAnalyzer
 {
-    private $usefulNativeTypes = ['string', 'bool', 'resource', 'false', 'int', 'true', 'self', '$this', 'static'];
     /**
      * @var string[]
      */
@@ -39,10 +38,6 @@ final class ParamAndReturnTagAnalyzer
                 return false;
             }
         }
-
-//        if (in_array($docType, $this->uselessTypes, true)) {
-//            return true;
-//        }
 
         // not code type and no type in typehint
         if ($codeType === null && ! $docType) {

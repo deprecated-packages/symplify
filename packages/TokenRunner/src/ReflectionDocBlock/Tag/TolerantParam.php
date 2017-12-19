@@ -40,11 +40,12 @@ final class TolerantParam extends BaseTag implements StaticMethod
      */
     private $isVariadic = false;
 
-    /**
-     * @param Type|null|false $type
-     */
-    public function __construct(string $variableName, $type = null, bool $isVariadic = false, Description $description = null)
-    {
+    public function __construct(
+        string $variableName,
+        ?Type $type = null,
+        bool $isVariadic = false,
+        ?Description $description = null
+    ) {
         $this->variableName = $variableName;
         $this->type = $type;
         $this->isVariadic = $isVariadic;
@@ -52,13 +53,37 @@ final class TolerantParam extends BaseTag implements StaticMethod
     }
 
     /**
+     * @param mixed[][] $parts
+     */
+    private static function isVariadicParam(array $parts): bool
+    {
+        if (
+            isset($parts[0])
+            && (strlen($parts[0]) > 0)
+            && ($parts[0][0] === '$' || substr($parts[0], 0, 4) === '...$')
+        ) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function __toString(): string
+    {
+        return ($this->type ? $this->type . ' ' : '')
+            . ($this->isVariadic() ? '...' : '')
+            . '$' . $this->variableName
+            . ($this->description ? ' ' . $this->description : '');
+    }
+
+    /**
      * {@inheritdoc}
      */
     public static function create(
         $body,
-        TypeResolver $typeResolver = null,
-        DescriptionFactory $descriptionFactory = null,
-        Context $context = null
+        ?TypeResolver $typeResolver = null,
+        ?DescriptionFactory $descriptionFactory = null,
+        ?Context $context = null
     ) {
         Assert::stringNotEmpty($body);
         Assert::allNotNull([$typeResolver, $descriptionFactory]);
@@ -73,13 +98,14 @@ final class TolerantParam extends BaseTag implements StaticMethod
             try {
                 $type = $typeResolver->resolve(array_shift($parts), $context);
             } catch (Throwable $throwable) {
-                $type = false;
+                $type = null;
             }
+
             array_shift($parts);
         }
 
         // if the next item starts with a $ or ...$ it must be the variable name
-        if (isset($parts[0]) && (strlen($parts[0]) > 0) && ($parts[0][0] === '$' || substr($parts[0], 0, 4) === '...$')) {
+        if (self::isVariadicParam($parts)) {
             $variableName = array_shift($parts);
             array_shift($parts);
 
@@ -103,7 +129,7 @@ final class TolerantParam extends BaseTag implements StaticMethod
         return $this->variableName;
     }
 
-    public function getType()
+    public function getType(): ?Type
     {
         return $this->type;
     }
@@ -111,13 +137,5 @@ final class TolerantParam extends BaseTag implements StaticMethod
     public function isVariadic(): bool
     {
         return $this->isVariadic;
-    }
-
-    public function __toString(): string
-    {
-        return ($this->type ? $this->type . ' ' : '')
-            . ($this->isVariadic() ? '...' : '')
-            . '$' . $this->variableName
-            . ($this->description ? ' ' . $this->description : '');
     }
 }
