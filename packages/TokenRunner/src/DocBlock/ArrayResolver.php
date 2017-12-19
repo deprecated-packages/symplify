@@ -58,7 +58,7 @@ final class ArrayResolver
         string $tagName,
         ?string $propertyName = null
     ): ?array {
-        $mask = sprintf('@%s\s+(?<type>array\[\]|array|mixed\[\])', $tagName);
+        $mask = sprintf('@%s\s+(?<type>array\[\]|array|mixed(\[\])+)', $tagName);
         if ($propertyName) {
             $mask .= sprintf('\s+\$%s', $propertyName);
         }
