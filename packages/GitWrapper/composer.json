@@ -23,12 +23,12 @@
     },
     "autoload": {
         "psr-4": {
-            "GitWrapper\\": "src"
+            "Symplify\\GitWrapper\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "GitWrapper\\Tests\\": "tests"
+            "Symplify\\GitWrapper\\Tests\\": "tests"
         }
     }
 }
