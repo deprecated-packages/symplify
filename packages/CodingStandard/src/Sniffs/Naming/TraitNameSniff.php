@@ -46,8 +46,7 @@ final class TraitNameSniff implements Sniff
         $this->fixer = $file->fixer;
         $this->position = $position;
 
-        $interfaceName = $this->getTraitName();
-        if (Strings::endsWith($interfaceName, 'Trait')) {
+        if (Strings::endsWith($this->getTraitName(), 'Trait')) {
             return;
         }
 

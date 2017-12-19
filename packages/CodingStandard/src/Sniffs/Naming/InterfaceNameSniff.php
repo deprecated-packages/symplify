@@ -46,9 +46,7 @@ final class InterfaceNameSniff implements Sniff
         $this->fixer = $file->fixer;
         $this->position = $position;
 
-        $interfaceName = $this->getInterfaceName();
-
-        if (Strings::endsWith($interfaceName, 'Interface')) {
+        if (Strings::endsWith($this->getInterfaceName(), 'Interface')) {
             return;
         }
 

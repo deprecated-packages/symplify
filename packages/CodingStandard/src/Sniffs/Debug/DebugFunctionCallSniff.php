@@ -11,9 +11,7 @@ final class DebugFunctionCallSniff extends ForbiddenFunctionsSniff
 {
     /**
      * A list of forbidden functions with their alternatives.
-     *
-     * The value is NULL if no alternative exists. IE, the
-     * function should just not be used.
+     * The value is NULL if no alternative exists => the function should just not be used.
      *
      * @var mixed[]
      */

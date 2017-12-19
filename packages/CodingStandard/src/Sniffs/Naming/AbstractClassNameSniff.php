@@ -50,8 +50,7 @@ final class AbstractClassNameSniff implements Sniff
             return;
         }
 
-        $fix = $file->addFixableError(self::ERROR_MESSAGE, $position, self::class);
-        if ($fix === true) {
+        if ($file->addFixableError(self::ERROR_MESSAGE, $position, self::class)) {
             $this->fix();
         }
     }

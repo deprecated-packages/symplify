@@ -9,16 +9,6 @@ use SlevomatCodingStandard\Helpers\AnnotationHelper;
 final class VarConstantCommentSniff implements Sniff
 {
     /**
-     * @var string
-     */
-    private const VAR_ANNOTATION = '@var';
-
-    /**
-     * @var string
-     */
-    private const ERROR_MESSAGE = 'Constant should have docblock comment.';
-
-    /**
      * @return int[]
      */
     public function register(): array
@@ -33,8 +23,10 @@ final class VarConstantCommentSniff implements Sniff
     {
         $propertyAnnotations = AnnotationHelper::getAnnotations($file, $position);
 
-        if (! isset($propertyAnnotations[self::VAR_ANNOTATION])) {
-            $file->addError(self::ERROR_MESSAGE, $position, self::class);
+        if (isset($propertyAnnotations['@var'])) {
+            return;
         }
+
+        $file->addError('Constant should have docblock comment.', $position, self::class);
     }
 }
