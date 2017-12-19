@@ -18,6 +18,7 @@ use Symplify\TokenRunner\DocBlock\ArrayResolver;
 use Symplify\TokenRunner\Guard\TokenTypeGuard;
 use Symplify\TokenRunner\ReflectionDocBlock\CleanDocBlockFactory;
 use Symplify\TokenRunner\ReflectionDocBlock\DocBlockSerializerFactory;
+use Symplify\TokenRunner\ReflectionDocBlock\Tag\TolerantParam;
 
 final class DocBlockWrapper
 {
@@ -275,7 +276,7 @@ final class DocBlockWrapper
         return ltrim(trim($content), '\\');
     }
 
-    private function findParamTagByName(string $name): ?Param
+    private function findParamTagByName(string $name): ?TolerantParam
     {
         $paramTags = $this->phpDocumentorDocBlock->getTagsByName('param');
 

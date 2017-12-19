@@ -5,13 +5,11 @@ namespace SomeNamespace;
 class SomeClass
 {
     /**
-     * Normalizes the value before any other normalization is applied.
+     * @param (Command|string)[] $commands
      *
      * @return $value The normalized array value
      */
-    protected function preNormalize($value)
+    protected function preNormalize($commands, $value)
     {
-        return $value;
     }
-
 }
