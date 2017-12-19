@@ -3,8 +3,8 @@
 namespace Symplify\GitWrapper\Tests\EventSubscriber\Source;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symplify\GitWrapper\Event\AbstractGitEvent;
 use Symplify\GitWrapper\Event\GitErrorEvent;
-use Symplify\GitWrapper\Event\GitEvent;
 use Symplify\GitWrapper\Event\GitPrepareEvent;
 use Symplify\GitWrapper\Event\GitSuccessEvent;
 
@@ -16,7 +16,7 @@ final class TestSubscriber implements EventSubscriberInterface
     private $calledMethods = [];
 
     /**
-     * @var GitEvent
+     * @var AbstractGitEvent
      */
     private $gitEvent;
 
@@ -55,7 +55,7 @@ final class TestSubscriber implements EventSubscriberInterface
         return in_array($method, $this->calledMethods);
     }
 
-    public function getEvent(): GitEvent
+    public function getEvent(): AbstractGitEvent
     {
         return $this->gitEvent;
     }

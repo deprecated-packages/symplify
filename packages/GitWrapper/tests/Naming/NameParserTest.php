@@ -26,7 +26,7 @@ final class NameParserTest extends AbstractContainerAwareTestCase
     }
 
     /**
-     * @return string[]
+     * @return string[][]
      */
     public function provideRepositoryUrls(): array
     {

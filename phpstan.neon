@@ -56,8 +56,6 @@ parameters:
         # tests
         - packages/EasyCodingStandard/tests/Finder/FinderSanitizerSource/FileWithClass.php
         - packages/EasyCodingStandard/tests/Finder/FinderSanitizerSource/NestedDirectory/FileWithClass.php
-        # git-wrapper, temporary off
-        - *packages/GitWrapper/*
         # 3rd party code
         - packages/TokenRunner/src/ReflectionDocBlock/Tag/TolerantParam.php
         - packages/TokenRunner/src/ReflectionDocBlock/Tag/TolerantReturn.php
