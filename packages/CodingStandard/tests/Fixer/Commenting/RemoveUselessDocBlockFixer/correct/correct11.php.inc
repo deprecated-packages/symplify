@@ -5,11 +5,30 @@ namespace SomeNamespace;
 class SomeClass
 {
     /**
-     * @param (Command|string)[] $commands
-     *
-     * @return $value The normalized array value
+     * @return self
      */
-    protected function preNormalize($commands, $value)
+    protected function getSelf()
+    {
+    }
+
+    /**
+     * @return $this
+     */
+    protected function getThis()
+    {
+    }
+
+    /**
+     * @return static
+     */
+    protected function getStatic()
+    {
+    }
+
+    /**
+     * @return Anything
+     */
+    protected function getStatic()
     {
     }
 }

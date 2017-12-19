@@ -33,7 +33,7 @@ final class ConfiguredTest extends AbstractSimpleFixerTestCase
         $fixer = new RemoveUselessDocBlockFixer();
         $fixer->setWhitespacesConfig(new WhitespacesFixerConfig());
         $fixer->configure([
-           'useful_types' => [],
+           'useless_types' => ['object', 'mixed'],
         ]);
 
         return $fixer;
