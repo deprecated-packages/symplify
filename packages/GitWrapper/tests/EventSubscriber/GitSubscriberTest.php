@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\GitWrapper\Tests\EventListener;
+namespace Symplify\GitWrapper\Tests\EventSubscriber;
 
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Process\Process;

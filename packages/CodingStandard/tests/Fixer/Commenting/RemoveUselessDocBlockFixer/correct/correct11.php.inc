@@ -5,13 +5,30 @@ namespace SomeNamespace;
 class SomeClass
 {
     /**
-     * Normalizes the value before any other normalization is applied.
-     *
-     * @return $value The normalized array value
+     * @return self
      */
-    protected function preNormalize($value)
+    protected function getSelf()
     {
-        return $value;
     }
 
+    /**
+     * @return $this
+     */
+    protected function getThis()
+    {
+    }
+
+    /**
+     * @return static
+     */
+    protected function getStatic()
+    {
+    }
+
+    /**
+     * @return Anything
+     */
+    protected function getStatic()
+    {
+    }
 }

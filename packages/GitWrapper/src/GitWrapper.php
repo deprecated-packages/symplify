@@ -168,7 +168,7 @@ final class GitWrapper
 
         $this->setEnvVar(self::ENV_GIT_SSH, $wrapperPath);
         $this->setEnvVar(self::ENV_GIT_SSH_KEY, $privateKeyPath);
-        $this->setEnvVar(self::ENV_GIT_SSH_PORT, (int) $port);
+        $this->setEnvVar(self::ENV_GIT_SSH_PORT, $port);
     }
 
     /**

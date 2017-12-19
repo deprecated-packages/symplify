@@ -20,7 +20,7 @@ final class GitWorkingCopyTest extends AbstractGitWorkingCopyTestCase
         $git = $this->getWorkingCopy();
 
         // Test getting output of a simple status command.
-        $output = (string) $git->status();
+        $output = $git->status();
         $this->assertContains('nothing to commit', $output);
 
         // Getting output should clear the buffer.
@@ -129,7 +129,7 @@ PATCH;
         $git->branch($branchName);
 
         // Get list of local branches.
-        $branches = (string) $git->branch();
+        $branches = $git->branch();
 
         // Check that our branch is there.
         $this->assertContains($branchName, $branches);
@@ -177,14 +177,14 @@ PATCH;
     {
         $git = $this->getWorkingCopy();
         file_put_contents(self::WORKING_DIR . '/change.me', "changed\n");
-        $output = (string) $git->status(['s' => true]);
+        $output = $git->status(['s' => true]);
         $this->assertSame(" M change.me\n", $output);
     }
 
     public function testGitPull(): void
     {
         $git = $this->getWorkingCopy();
-        $output = (string) $git->pull();
+        $output = $git->pull();
         // message can differ per OS/CI
         $this->assertRegExp('#Already up(-| )to(-| )date#', trim($output));
     }
@@ -210,7 +210,7 @@ PATCH;
     {
         $git = $this->getWorkingCopy();
         file_put_contents(self::WORKING_DIR . '/change.me', "changed\n");
-        $output = (string) $git->diff();
+        $output = $git->diff();
         $this->assertContains('diff --git a/change.me b/change.me', $output);
     }
 
@@ -230,7 +230,7 @@ PATCH;
         $git->checkout('test-branch');
         $git->clearOutput();
 
-        $output = (string) $git->rebase('test-branch', 'master');
+        $output = $git->rebase('test-branch', 'master');
         $this->assertContains('First, rewinding head', $output);
     }
 
@@ -241,7 +241,7 @@ PATCH;
         $git->checkout('master');
         $git->clearOutput();
 
-        $output = (string) $git->merge('test-branch');
+        $output = $git->merge('test-branch');
         $this->assertStringStartsWith('Updating', $output);
     }
 
@@ -273,7 +273,7 @@ PATCH;
             'author' => 'test <test@lol.com>',
         ]);
 
-        $output = (string) $git->log();
+        $output = $git->log();
         $this->assertContains('Committed testing branch', $output);
         $this->assertContains('Author: test <test@lol.com>', $output);
     }

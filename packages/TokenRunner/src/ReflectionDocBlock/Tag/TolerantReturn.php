@@ -30,10 +30,15 @@ final class TolerantReturn extends BaseTag implements StaticMethod
      */
     private $type;
 
-    public function __construct(Type $type = null, Description $description = null)
+    public function __construct(?Type $type = null, ?Description $description = null)
     {
         $this->type = $type;
         $this->description = $description;
+    }
+
+    public function __toString(): string
+    {
+        return $this->type . ' ' . $this->description;
     }
 
     /**
@@ -41,9 +46,9 @@ final class TolerantReturn extends BaseTag implements StaticMethod
      */
     public static function create(
         $body,
-        TypeResolver $typeResolver = null,
-        DescriptionFactory $descriptionFactory = null,
-        Context $context = null
+        ?TypeResolver $typeResolver = null,
+        ?DescriptionFactory $descriptionFactory = null,
+        ?Context $context = null
     ) {
         Assert::string($body);
         Assert::allNotNull([$typeResolver, $descriptionFactory]);
@@ -52,12 +57,12 @@ final class TolerantReturn extends BaseTag implements StaticMethod
 
         // tolerant part here
         try {
-            $type = $typeResolver->resolve(isset($parts[0]) ? $parts[0] : '', $context);
+            $type = $typeResolver->resolve($parts[0] ?? '', $context);
         } catch (Throwable $throwable) {
             $type = null;
         }
 
-        $description = $descriptionFactory->create(isset($parts[1]) ? $parts[1] : '', $context);
+        $description = $descriptionFactory->create($parts[1] ?? '', $context);
 
         return new static($type, $description);
     }
@@ -65,10 +70,5 @@ final class TolerantReturn extends BaseTag implements StaticMethod
     public function getType(): ?Type
     {
         return $this->type;
-    }
-
-    public function __toString(): string
-    {
-        return $this->type . ' ' . $this->description;
     }
 }

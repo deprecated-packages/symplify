@@ -21,7 +21,7 @@ final class TestLogger extends AbstractLogger
     public $levels = [];
 
     /**
-     * @var string[]
+     * @var string[][]
      */
     public $contexts = [];
 

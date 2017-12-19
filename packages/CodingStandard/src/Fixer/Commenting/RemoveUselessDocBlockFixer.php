@@ -27,7 +27,7 @@ final class RemoveUselessDocBlockFixer implements FixerInterface, DefinedFixerIn
     /**
      * @var string
      */
-    public const USEFUL_TYPES_OPTION = 'useful_types';
+    public const USELESS_TYPES_OPTION = 'useless_types';
 
     /**
      * @var WhitespacesFixerConfig
@@ -139,13 +139,13 @@ public function getCount(): int
         $configuration = $this->getConfigurationDefinition()
             ->resolve($configuration);
 
-        $this->paramAndReturnTagAnalyzer->setUsefulTypes($configuration[self::USEFUL_TYPES_OPTION]);
+        $this->paramAndReturnTagAnalyzer->setUselessTypes($configuration[self::USELESS_TYPES_OPTION]);
     }
 
     public function getConfigurationDefinition(): FixerConfigurationResolverInterface
     {
-        $option = (new FixerOptionBuilder(self::USEFUL_TYPES_OPTION, 'List of useful types to allow.'))
-            ->setDefault(['object', 'mixed'])
+        $option = (new FixerOptionBuilder(self::USELESS_TYPES_OPTION, 'List of types to remove.'))
+            ->setDefault([])
             ->getOption();
 
         return new FixerConfigurationResolver([$option]);

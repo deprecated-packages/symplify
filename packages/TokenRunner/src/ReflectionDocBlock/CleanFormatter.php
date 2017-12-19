@@ -6,9 +6,9 @@ use Nette\Utils\Strings;
 use phpDocumentor\Reflection\DocBlock\Tag;
 use phpDocumentor\Reflection\DocBlock\Tags\Formatter;
 use phpDocumentor\Reflection\DocBlock\Tags\Param;
-use phpDocumentor\Reflection\DocBlock\Tags\Return_;
 use phpDocumentor\Reflection\Types\Array_;
 use Symplify\TokenRunner\DocBlock\ArrayResolver;
+use Symplify\TokenRunner\ReflectionDocBlock\Tag\TolerantParam;
 use Symplify\TokenRunner\ReflectionDocBlock\Tag\TolerantReturn;
 
 /**
@@ -30,7 +30,7 @@ final class CleanFormatter implements Formatter
     {
         $tagTypeAndDescription = ltrim((string) $tag, '\\');
 
-        if (($tag instanceof TolerantReturn || $tag instanceof Param) && $tag->getType() instanceof Array_) {
+        if (($tag instanceof TolerantReturn || $tag instanceof TolerantParam) && $tag->getType() instanceof Array_) {
             $tagTypeAndDescription = $this->resolveAndFixArrayTypeIfNeeded($tag, $tagTypeAndDescription);
         }
 
@@ -38,13 +38,13 @@ final class CleanFormatter implements Formatter
     }
 
     /**
-     * @param Param|Return_ $tag
+     * @param TolerantParam|TolerantReturn $tag
      */
     private function resolveAndFixArrayTypeIfNeeded(Tag $tag, string $tagTypeAndDescription): string
     {
         $original = 'array';
 
-        if ($tag instanceof Param) {
+        if ($tag instanceof TolerantParam) {
             $original = ArrayResolver::resolveArrayType(
                 $this->originalContent,
                 $tag->getType(),
