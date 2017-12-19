@@ -1,8 +1,5 @@
 # Changelog
 
-(@todo tool to complete all the links?)
-
-
 ## [Unreleased]
 
 ### Changed
@@ -246,8 +243,6 @@ parameters:
 - [#356] **[CodingStandard]** Added `PropertyNameMatchingTypeFixer`
 - [#346] **[CodingStandard]** Added `LastPropertyAndFirstMethodSeparationFixer`
 
----
-
 - [#354] **[EasyCodingStandard]** Added [clean-code set](https://www.tomasvotruba.cz/blog/2017/09/18/4-simple-checkers-for-coding-standard-haters-but-clean-code-lovers/)
 - [430fc5] **[EasyCodingStandard]** ConflictingGuard feature added, see [#333]
 - [33f28a] **[EasyCodingStandard]** Add new rules to `symfony-checkers`
@@ -278,8 +273,6 @@ parameters:
 - [#311] **[CodingStandard]** Added `StandaloneLineInMultilineArrayFixer`
 - [#283] **[CodingStandard]** Added `ExceptionNameFixer`
 
----
-
 - [#330] **[EasyCodingStandard]** Added performance overview per checker via `--show-performance` options
 - [#305] **[EasyCodingStandard]** Added MutualCheckerExcluder
 - [#301] **[EasyCodingStandard]** Added `exclude_checkers` option to config, that allows to exclude specific checkers, e.g. inherited from configs
@@ -291,12 +284,8 @@ parameters:
 - [#334] **[CodingStandard]** `ArrayPropertyDefaultValueFixer` now allows single line comments, Thanks to [@vlastavesely] 
 - [#314] **[CodingStandard]** Make `ClassStringToClassConstantFixer` configurable
 
----
-
 - [#337] **[EasyCodingStandard]** Fail table is less agressive
 - [#287] **[EasyCodingStandard]** Allow SourceFinder to return Nette or Symfony Finder without any extra work
-
----
 
 - [#295] **[Statie]** Rework similar posts concept from semi-AI magic to manual option `related_posts` in post file
 
@@ -304,11 +293,7 @@ parameters:
 
 - [#331] **[CodingStandard]** Fix `StandaloneLineInMultilieArray` with comments
 
----
-
 - [#289] **[EasyCodingStandard]** Fix skipper for `fnmatch`
-
----
 
 - [#328] **[Statie]** Removed hardcoded path from github filter, Thanks to [@crazko] 
 - [#327] **[Statie]** Fixed ability to set layout for posts
@@ -462,15 +447,15 @@ parameters:
 
 ### Added
 
-- [#179] [EasyCodingStandard] check for unused skipped errors and report them (inspired by [@phpstan])
+- [#179] **[EasyCodingStandard]** check for unused skipped errors and report them (inspired by [@phpstan])
 
 
 ### Changed
 
-- [#183] [EasyCodingStandard] [CodingStandard] use squizlabs/PHP_CodeSniffer 3.0.1
-- [#179] [EasyCodingStandard] use Symfony\DependencyInjection instead of Nette\DI, due to [new Symfony 3.3 features](https://www.tomasvotruba.cz/blog/2017/05/07/how-to-refactor-to-new-dependency-injection-features-in-symfony-3-3/)
+- [#183] **[EasyCodingStandard]** **[CodingStandard]** use squizlabs/PHP_CodeSniffer 3.0.1
+- [#179] **[EasyCodingStandard]** use Symfony\DependencyInjection instead of Nette\DI, due to [new Symfony 3.3 features](https://www.tomasvotruba.cz/blog/2017/05/07/how-to-refactor-to-new-dependency-injection-features-in-symfony-3-3/)
 
-- [#184] [Statie] use Symfony\DependencyInjection instead of Nette\DI
+- [#184] **[Statie]** use Symfony\DependencyInjection instead of Nette\DI
 
 - [#173] use Coveralls over Scrutinizerfor code coverage
 
@@ -479,11 +464,11 @@ parameters:
 
 Based on discussion with friends and maintainers, I've found there are better managed and actively used packages, that provide similar features as few Simplify packages.
 
-- [#170] [EventDispatcher] package deprecated in favor of https://github.com/contributte/event-dispatcher
-- [#162] [DefaultAutowire] package deprecated in favor of Symfony 3.3 `_defaults` section
-- [#186] [ModularLatteFilter] package deprecated in favor of https://github.com/contributte/latte
-- [#182] [ModularRouting] package deprecated based poor usage and discussion in [#181]
-- [#184] [Statie] dropped translation support, not very extensive and shown unable in practise, implement own simple filter instead
+- [#170] **[EventDispatcher]** package deprecated in favor of [contributte/event-dispatcher]
+- [#162] **[DefaultAutowire]** package deprecated in favor of Symfony 3.3 `_defaults` section
+- [#186] **[ModularLatteFilter]** package deprecated in favor of https://github.com/contributte/latte
+- [#182] **[ModularRouting]** package deprecated based poor usage and discussion in [#181]
+- [#184] **[Statie]** dropped translation support, not very extensive and shown unable in practise, implement own simple filter instead
 
 
 
@@ -496,18 +481,18 @@ Based on discussion with friends and maintainers, I've found there are better ma
 
 ### Fixed
 
-- [#157] [CodingStandard] fix property docblock sniff for multiple annotations
-- [#164] [SymbioticController] fixed typo in nette application request event name, Thanks [@Lexinek] 
+- [#157] **[CodingStandard]** fix property docblock sniff for multiple annotations
+- [#164] **[SymbioticController]** fixed typo in nette application request event name, Thanks [@Lexinek] 
 
 
 ### Removed
 
-- [#155] [AutoServiceRegistration] package deprecated
+- [#155] **[AutoServiceRegistration]** package deprecated
     - Use [@Symfony] 3.3 PSR-4 service autodiscovery: symfony/symfony#21289
-- [#155] [ControllerAutowire] package deprecated
+- [#155] **[ControllerAutowire]** package deprecated
     - Use [@Symfony] 3.3 `AbstractController` symfony/symfony#22157
     - Use [@Symfony] 3.3 service PSR-4 autodiscovery: symfony/symfony#21289
-- [#155] [ServiceDefinitionDecorator] package deprecated
+- [#155] **[ServiceDefinitionDecorator]** package deprecated
     - Use `_instanceof` [@Symfony] 3.3: https://symfony.com/blog/new-in-symfony-3-3-simpler-service-configuration#interface-based-service-configuration
 
 For more deprecation details see https://www.tomasvotruba.cz/blog/2017/05/29/symplify-packages-deprecations-brought-by-symfony-33/
@@ -517,36 +502,36 @@ For more deprecation details see https://www.tomasvotruba.cz/blog/2017/05/29/sym
 
 ### Added
 
-- [#144] [CodingStandard] added new sniffs
+- [#144] **[CodingStandard]** added new sniffs
     - `Symplify\CodingStandard\Sniffs\Architecture\ForbiddenTraitSniff`
     - `Symplify\CodingStandard\Sniffs\Commenting\VarConstantCommentSniff`
     - `Symplify\CodingStandard\Sniffs\Controller\ControllerRenderMethodLimitSniff`
     - `Symplify\CodingStandard\Sniffs\Controller\InvokableControllerSniff`
 
-- [#149] [CodingStandard] added `Symplify\CodingStandard\Sniffs\Classes\EqualInterfaceImplementationSniff`
-- [#149] [CodingStandard] added `Symplify\CodingStandard\Sniffs\Debug\CommentedOutCodeSniff`
-- [#152] [CodingStandard] check for duplicated checker added - https://github.com/Symplify/Symplify/pull/152/files#diff-9c8034d27d44f02880909bfad4a7f853
+- [#149] **[CodingStandard]** added `Symplify\CodingStandard\Sniffs\Classes\EqualInterfaceImplementationSniff`
+- [#149] **[CodingStandard]** added `Symplify\CodingStandard\Sniffs\Debug\CommentedOutCodeSniff`
+- [#152] **[CodingStandard]** check for duplicated checker added - https://github.com/Symplify/Symplify/pull/152/files#diff-9c8034d27d44f02880909bfad4a7f853
 
-- [#150] [Statie] decouple Latte related files to FlatWhite sub-package
+- [#150] **[Statie]** decouple Latte related files to FlatWhite sub-package
 
 
 ### Changed
 
-- [#151] [EasyCodingStandard] Nette\DI conControllerRenderMethodLimitSnifffig loading style added, parameters are now in Container and sniffs/fixers are registered as services
+- [#151] **[EasyCodingStandard]** Nette\DI conControllerRenderMethodLimitSnifffig loading style added, parameters are now in Container and sniffs/fixers are registered as services
 
 
 ### Fixed
 
-- [#142] [ControllerAutowire] prevent duplicated controller registraction
+- [#142] **[ControllerAutowire]** prevent duplicated controller registraction
 
 
 ### Removed
 
-- [#144] [CodingStandard] drop sniffs duplicated in 3rd party packages
+- [#144] **[CodingStandard]** drop sniffs duplicated in 3rd party packages
     - `Symplify\CodingStandard\Sniffs\Commenting\MethodCommentSniff`, replaced by `SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff`
     - `Symplify\CodingStandard\Sniffs\Commenting\MethodReturnTypeSniff`, replaced by `SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff`
-- [#152] [CodingStandard] removed unused sniff `Symplify\CodingStandard\Sniffs\Commenting\ComponentFactoryCommentSniff`
-- [#153] [SymfonySecurityVoters] package deprecated, for no practical use
+- [#152] **[CodingStandard]** removed unused sniff `Symplify\CodingStandard\Sniffs\Commenting\ComponentFactoryCommentSniff`
+- [#153] **[SymfonySecurityVoters]** package deprecated, for no practical use
 
 
 ## [v2.0.0-RC1] - 2017-04-15  
@@ -745,3 +730,4 @@ For more deprecation details see https://www.tomasvotruba.cz/blog/2017/05/29/sym
 [9b154d]: https://github.com/Symplify/Symplify/commit/9b154d9b6e88075e14b6812613bce7c1a2a79daa
 [9a9c0e]: https://github.com/Symplify/Symplify/commit/9a9c0e61d0b7af073d3819e4c4798a251eca1f14
 [#508]: https://github.com/Symplify/Symplify/pull/508
+[contributte/event-dispatcher]: https://github.com/contributte/event-dispatcher
