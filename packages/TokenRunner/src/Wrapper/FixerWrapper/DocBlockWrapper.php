@@ -280,7 +280,7 @@ final class DocBlockWrapper
     {
         $paramTags = $this->phpDocumentorDocBlock->getTagsByName('param');
 
-        /** @var Param $paramTag */
+        /** @var TolerantParam $paramTag */
         foreach ($paramTags as $paramTag) {
             if ($paramTag->getVariableName() === $name) {
                 return $paramTag;

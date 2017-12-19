@@ -6,7 +6,6 @@ use Nette\Utils\Strings;
 use phpDocumentor\Reflection\DocBlock\Tag;
 use phpDocumentor\Reflection\DocBlock\Tags\Formatter;
 use phpDocumentor\Reflection\DocBlock\Tags\Param;
-use phpDocumentor\Reflection\DocBlock\Tags\Return_;
 use phpDocumentor\Reflection\Types\Array_;
 use Symplify\TokenRunner\DocBlock\ArrayResolver;
 use Symplify\TokenRunner\ReflectionDocBlock\Tag\TolerantParam;
@@ -39,7 +38,7 @@ final class CleanFormatter implements Formatter
     }
 
     /**
-     * @param Param|Return_ $tag
+     * @param TolerantParam|TolerantReturn $tag
      */
     private function resolveAndFixArrayTypeIfNeeded(Tag $tag, string $tagTypeAndDescription): string
     {

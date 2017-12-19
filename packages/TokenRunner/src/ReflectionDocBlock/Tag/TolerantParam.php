@@ -52,22 +52,6 @@ final class TolerantParam extends BaseTag implements StaticMethod
         $this->description = $description;
     }
 
-    /**
-     * @param mixed[][] $parts
-     */
-    private static function isVariadicParam(array $parts): bool
-    {
-        if (
-            isset($parts[0])
-            && (strlen($parts[0]) > 0)
-            && ($parts[0][0] === '$' || substr($parts[0], 0, 4) === '...$')
-        ) {
-            return true;
-        }
-
-        return false;
-    }
-
     public function __toString(): string
     {
         return ($this->type ? $this->type . ' ' : '')
@@ -137,5 +121,20 @@ final class TolerantParam extends BaseTag implements StaticMethod
     public function isVariadic(): bool
     {
         return $this->isVariadic;
+    }
+
+    /**
+     * @param mixed[] $parts
+     */
+    private static function isVariadicParam(array $parts): bool
+    {
+        if (isset($parts[0])
+            && (strlen($parts[0]) > 0)
+            && ($parts[0][0] === '$' || substr($parts[0], 0, 4) === '...$')
+        ) {
+            return true;
+        }
+
+        return false;
     }
 }
