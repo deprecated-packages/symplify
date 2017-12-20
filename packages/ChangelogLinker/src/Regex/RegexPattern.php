@@ -7,7 +7,7 @@ final class RegexPattern
     /**
      * @var string
      */
-    public const USER = '(?<reference>@(?<name>[A-Za-z]+))';
+    public const USER = '(?<reference>@(?<name>[A-Za-z-]+))';
 
     /**
      * @var string
