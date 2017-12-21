@@ -10,5 +10,18 @@ install:
 script:
   - vendor/bin/phpunit
 
+after_success:
+  - cd docs
+  - composer require symplify/statie
+  - vendor/bin/statie generate source
+
+deploy:
+  provider: pages
+  skip_cleanup: true
+  github_token: $GH_TOKEN
+  local_dir: output
+  on:
+    branch: master
+
 notifications:
   email: never
