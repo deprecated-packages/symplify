@@ -1,10 +1,13 @@
-## Push Content To Github Pages With Travis
+---
+title: Push Content To Github Pages With Travis
+id: 9
+---
 
 The best way to use Statie is have [website on Github repository](https://github.com/TomasVotruba/tomasvotruba.cz), use Github Pages and use Travis to update generated content for you.
 
-### How to Setup?
+## How to Setup?
 
-**1. Setup GH_TOKEN to `travis.yml`**
+### Setup GH_TOKEN to `travis.yml`
 
 Add Github Token, so Travis is allowed to push to your Github repository.
 
@@ -34,7 +37,7 @@ Add Github Token, so Travis is allowed to push to your Github repository.
 Now the Travis is able to push to your Github repository for you!
 
 
-**2. And push command to `travis.yml`**
+### And push command to `travis.yml`
 
 ```yaml
 # travis.yml

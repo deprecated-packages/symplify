@@ -1,17 +1,19 @@
-## Hook To Statie
+---
+title: Hooks
+id: 8
+---
 
 Statie uses common [EventDispatcher](https://symfony.com/doc/current/components/event_dispatcher.html) that allows you to get into application cycle in few spots.
 
 ### Available Events
 
-You can find all events as [standalone classes](https://pehapkari.cz/blog/2017/07/12/the-bulletproof-event-naming-for-symfony-event-dispatcher/) in [/src/Event](/../src/Event) directory:
+You can find all events as [standalone classes](https://pehapkari.cz/blog/2017/07/12/the-bulletproof-event-naming-for-symfony-event-dispatcher/) in [/src/Event](https://github.com/Symplify/Statie/blob/src/Event) directory:
 
 - `BeforeRenderEvent` - is called after all GeneratorElement and Files and before they will be saved to file system
 
-
 ### How to Hook In?
 
-1. Just create your subscriber
+Just create your subscriber
 
 ```php
 namespace App\Statie\Twitter;
@@ -33,12 +35,12 @@ final class TweetNewPostsSubscriber implements SubscriberInterface
 }
 ```
 
-2. And register as service in `statie.yml`
+And register as service in `statie.yml`
 
 ```yml
 # statie.yml
 services:
-   App\Statie\Twitter\TweetNewPostsSubscriber: ~ 
+   App\Statie\Twitter\TweetNewPostsSubscriber: ~
 ```
 
-3. Your subscriber will be called right when `BeforeRenderEvent` occurs!
+Your subscriber will be called right when `BeforeRenderEvent` occurs!

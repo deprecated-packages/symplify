@@ -1,0 +1,20 @@
+parameters:
+    projects:
+        -
+            url: https://www.tomasvotruba.cz
+            repository: https://github.com/tomasvotruba/tomasvotruba.cz
+        -
+            url: https://pehapkari.cz
+            repository: https://github.com/pehapkari/pehapkari.cz
+        -
+            url: https://romanvesely.com
+            repository: https://github.com/crazko/romanvesely.com
+        -
+            url: https://ikvasnica.com
+            repository: https://github.com/ikvasnica/ikvasnica.com
+        -
+            url: http://enumag.cz
+            repository: https://github.com/enumag/enumag.cz
+        -
+            url: https://www.posobota.cz
+            repository:

@@ -1,0 +1,15 @@
+imports:
+    - { resource: 'source/_data/projects.yml' }
+
+parameters:
+    site:
+        url: /statie
+        title: Statie - Modern and Simple Static Site Generator in PHP
+
+    generators:
+        docs:
+            variable: 'doc'
+            variable_global: 'docs'
+            path: '_docs'
+            layout: 'docs'
+            route_prefix: 'docs'
