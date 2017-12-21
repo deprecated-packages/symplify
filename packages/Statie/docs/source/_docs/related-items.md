@@ -1,13 +1,15 @@
-## Related Items
+---
+title: Related Items
+id: 6
+---
 
-*Note: this applied only to Generated Elements.*
+_Note: this applied only to Generated Elements._
 
 Do you write a post series? Help a reader and **show related posts bellow** using `relatedItems` Latte filter.
 
+## How to Setup?
 
-### How to Setup?
-
-**1. Add Post ids to `related_items` section in the Post**
+### Add Post ids to `related_items` section in the Post
 
 ```yaml
 # _posts/2017-12-31-happy-new-year.md
@@ -17,7 +19,6 @@ title: My first post
 related_items: [2]
 ```
 
-
 ```yaml
 ---
 id: 2
@@ -26,7 +27,7 @@ related_items: [1]
 ---
 ```
 
-**2. Add Section to Post template:**
+### Add Section to Post template:
 
 ```twig
 # _layout/post.latte

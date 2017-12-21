@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>{include "title"}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	{* @link http://realfavicongenerator.net/ *}
+	{* <link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32"> *}
+	{* <link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16"> *}
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss/dist/tailwind.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/themes/prism.min.css" integrity="sha256-DJJDQyzflMYiUb2jX3gilm9m3gAkHPC4WLv9BAk4rTE=" crossorigin="anonymous" />
+	<link rel="stylesheet" href="{$site['url']}/assets/css/styles.css">
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/prism.min.js" integrity="sha256-hK55yYjZp3vXqUhowkWYVaoavcWSYRR6fE8sgHqyt5A=" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-php.min.js" integrity="sha256-YiD4iV/2ItR7G+/f9kSqSxPn/7TYqX9vFxKdZ8mcx5w=" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-yaml.min.js"
+	integrity="sha256-aKpS5lS6EuYfqhnxcX2EHcTiqoL6zIbLtM0UAVNmue4=" crossorigin="anonymous"></script>
+</head>
+<body class="bg-teal-dark font-sans text-grey-darkest">
+	<header class="header max-w-xl mx-auto py-8 px-4">
+		{include "navigation"}
+	</header>
+
+	{ifset #hero}
+		<div class="hero max-w-xl mx-auto py-8 px-4 text-white flex flex-col justify-end text-white relative">
+			{include hero}
+		</div>
+	{/ifset}
+
+	<main role="main" class="main bg-white">
+		<div class="max-w-xl mx-auto py-8 px-4">
+			{block content}{/block}
+		</div>
+	</main>
+
+	{block subcontent}{/block}
+
+	<footer role="contentinfo" class="footer text-center  p-4 text-white">
+		<p>Thanks to all the <a href="https://github.com/Symplify/Statie/graphs/contributors">contributors</a> &copy; {date('Y')}, <a href="https://github.com/Symplify/Statie/blob/master/LICENSE" class="text-white">MIT License</a></p>
+		<p class="uppercase text-xs mt-2">Runs on Statie, obviously 🤓</p>
+	</footer>
+</body>
+</html>

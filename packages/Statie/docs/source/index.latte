@@ -1,0 +1,61 @@
+---
+layout: default
+page: index
+---
+
+{block hero}
+	<div class="hero__title text-5xl my-2">Statie</div>
+	<div class="hero__subtitle text-3xl font-thin my-2">Modern and Simple Static Site Generator written in PHP</div>
+	<p class="text-teal-darker">Statie takes HTML, Markdown and Latte files and generates static HTML page.</p>
+	<div class="my-8">
+		<a href="{$site['url']}/docs/getting-started" class="bg-yellow-dark p-2 rounded w-32 inline-block text-xl text-center text-yellow-darkest no-underline hover:bg-yellow mr-2">See Docs</a>
+		<a href="https://github.com/Symplify/Statie" class="border p-2 rounded w-32 inline-block text-xl text-center text-white no-underline hover:bg-white hover:text-grey-darkest">Github</a>
+	</div>
+	<pre class="terminal md:absolute"><code>$ composer require symplify/statie
+$ vendor/bin/statie generate source
+
+  <span class="text-yellow">Website</b> was successfully generated to /output.</span>
+
+$ php -S localhost:8000 -t output
+
+  <span class="text-yellow">Open browser at http://localhost:8000 to see it.</span></code></pre>
+{/block}
+
+{block content}
+	<h2>Features</h2>
+	<div class="sm:flex text-center">
+		<div class="flex-1 mx-4">
+			<h3>Markdown and Latte</h3>
+			<p>Create your content easily in <a href="https://daringfireball.net/projects/markdown/">Markdown</a> and your templates with the use of the greate engine <a href="https://latte.nette.org/en/">Latte</a>.<p>
+		</div>
+		<div class="flex-1 mx-4">
+			<h3>Symfony-like configuration</h3>
+			<p>Use yaml <a href="{$site['url']}/docs/configuration">configuration files</a> to set globally accessible parameters and service autowiring.</p>
+		</div>
+		<div class="flex-1 mx-4">
+			<h3>PHP 7.1</h3>
+			<p>Built with the newest version under the hood so you can be sure you work with the most reliable ally.</p>
+		</div>
+	</div>
+{/block}
+
+{block subcontent}
+	<section class="bg-yellow-dark text-grey-darkest">
+		<div class="max-w-xl mx-auto py-8 px-4 ">
+			<h1>Built with Statie</h1>
+			<p class="mb-4">Take a look on what have been built so far. Be sure to <a href="https://github.com/Symplify/Symplify/edit/master/packages/Statie/docs/source/index.latte" class="text-black">add your project</a> as well!</p>
+
+			{foreach $projects as $project}
+				<div class="inline-block mr-2 mb-2 relative">
+					<a href="{$project['url']}" class="border p-2 rounded inline-block border-grey-darkest hover:text-grey-darkest hover:bg-white hover:border-white no-underline text-grey-darkest text-sm">
+						{$project['url']|replaceRE:'/.*\/{2}(w{3}\.)?/':''}
+					</a>
+
+					{ifset $project['repository']}
+						<a href="{$project['repository']}" class="project__repository">github</a>
+					{/ifset}
+				</div>
+			{/foreach}
+		</div>
+	</section>
+{/block}

@@ -1,0 +1,10 @@
+<div class="uppercase mb-4">{$type}</div>
+
+<ul class="list-reset" n:inner-foreach="$items as $item">
+	{foreach $docs as $page}
+		{continueIf $page->getOption('id') !== $item}
+		<li class="border-b">
+			<a href="{$site['url']}/{$page->getRelativeUrl()}" n:class="block, py-2, no-underline, 'hover:underline', $page->getOption('id') === $doc->getOption('id') ? text-teal-dark">{$page->getOption('title')}</a>
+		</li>
+	{/foreach}
+</ul>
