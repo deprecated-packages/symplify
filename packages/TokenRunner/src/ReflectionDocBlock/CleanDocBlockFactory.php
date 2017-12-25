@@ -10,6 +10,7 @@ use phpDocumentor\Reflection\DocBlock\Tags\Var_;
 use phpDocumentor\Reflection\DocBlockFactory;
 use phpDocumentor\Reflection\FqsenResolver;
 use phpDocumentor\Reflection\TypeResolver;
+use phpDocumentor\Reflection\Types\Context;
 use Symplify\TokenRunner\ReflectionDocBlock\Tag\TolerantParam;
 use Symplify\TokenRunner\ReflectionDocBlock\Tag\TolerantReturn;
 
@@ -40,6 +41,15 @@ final class CleanDocBlockFactory
         $this->phpDocumentorDocBlockFactory = new DocBlockFactory($descriptionFactory, $tagFactory);
     }
 
+    public function create(string $content, Context $context = null): DocBlock
+    {
+        return $this->phpDocumentorDocBlockFactory->create($content, $context);
+    }
+
+    /**
+     * @deprecated Use @see CleanDocBlockFactory::create() instead, as it better respects original API,
+     * and is easier to use.
+     */
     public function createFromContent(string $content): DocBlock
     {
         return $this->phpDocumentorDocBlockFactory->create($content);
