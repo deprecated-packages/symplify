@@ -5,7 +5,6 @@ namespace Symplify\TokenRunner\ReflectionDocBlock;
 use phpDocumentor\Reflection\DocBlock;
 use phpDocumentor\Reflection\DocBlock\DescriptionFactory;
 use phpDocumentor\Reflection\DocBlock\StandardTagFactory;
-use phpDocumentor\Reflection\DocBlock\Tags\Param;
 use phpDocumentor\Reflection\DocBlock\Tags\Var_;
 use phpDocumentor\Reflection\DocBlockFactory;
 use phpDocumentor\Reflection\FqsenResolver;
@@ -41,7 +40,7 @@ final class CleanDocBlockFactory
         $this->phpDocumentorDocBlockFactory = new DocBlockFactory($descriptionFactory, $tagFactory);
     }
 
-    public function create(string $content, Context $context = null): DocBlock
+    public function create(string $content, ?Context $context = null): DocBlock
     {
         return $this->phpDocumentorDocBlockFactory->create($content, $context);
     }
