@@ -19,8 +19,8 @@ final class DocBlockSerializerFactoryTest extends TestCase
 
         $docBlock = new DocBlock();
 
-        $this->assertSame(
-            file_get_contents(__DIR__ . '/DocBlockSerializerFactorySource/Expected.php.inc'),
+        $this->assertStringEqualsFile(
+            __DIR__ . '/DocBlockSerializerFactorySource/Expected.php.inc',
             $docBlockSerializer->getDocComment($docBlock)
         );
     }
