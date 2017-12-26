@@ -5,7 +5,6 @@ namespace Symplify\TokenRunner\ReflectionDocBlock\Tag;
 use phpDocumentor\Reflection\DocBlock\Description;
 use phpDocumentor\Reflection\DocBlock\DescriptionFactory;
 use phpDocumentor\Reflection\DocBlock\Tags\BaseTag;
-use phpDocumentor\Reflection\DocBlock\Tags\Factory\StaticMethod;
 use phpDocumentor\Reflection\Type;
 use phpDocumentor\Reflection\TypeResolver;
 use phpDocumentor\Reflection\Types\Context;
@@ -18,7 +17,7 @@ use Webmozart\Assert\Assert;
  *
  * - "_return $value"
  */
-final class TolerantReturn extends BaseTag implements StaticMethod
+final class TolerantReturn extends BaseTag
 {
     /**
      * @var string
