@@ -40,8 +40,11 @@ final class TolerantParam extends BaseTag implements StaticMethod
      */
     private $isVariadic = false;
 
+    /**
+     * @param string $variableName
+     */
     public function __construct(
-        string $variableName,
+        $variableName,
         ?Type $type = null,
         bool $isVariadic = false,
         ?Description $description = null

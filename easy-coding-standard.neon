@@ -63,3 +63,8 @@ parameters:
 
         Symplify\CodingStandard\Sniffs\DependencyInjection\NoClassInstantiationSniff:
             - *packages/GitWrapper/*
+
+    skip_codes:
+        SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff.MissingParameterTypeHint:
+            # respect param typehint
+            - packages/TokenRunner/src/ReflectionDocBlock/Tag/TolerantParam.php
