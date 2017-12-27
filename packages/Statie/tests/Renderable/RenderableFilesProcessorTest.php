@@ -57,8 +57,8 @@ final class RenderableFilesProcessorTest extends TestCase
         $this->assertCount(1, $files);
 
         $contactFile = array_pop($files);
-        $this->assertSame(
-            file_get_contents(__DIR__ . '/RenderFilesProcessorSource/contact-expected.html'),
+        $this->assertStringEqualsFile(
+            __DIR__ . '/RenderFilesProcessorSource/contact-expected.html',
             $contactFile->getContent()
         );
     }

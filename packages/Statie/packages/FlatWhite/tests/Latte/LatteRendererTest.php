@@ -24,7 +24,9 @@ final class LatteRendererTest extends AbstractContainerAwareTestCase
             'hi' => 'Welcome',
         ]);
 
-        $expectedFileContent = file_get_contents(__DIR__ . '/LatteRendererSource/expectedCode.latte');
-        $this->assertSame($expectedFileContent, $rendered);
+        $this->assertStringEqualsFile(
+            __DIR__ . '/LatteRendererSource/expectedCode.latte',
+            $rendered
+        );
     }
 }
