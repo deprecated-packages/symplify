@@ -101,21 +101,22 @@ class SomeClass
         $start = $methodWrapper->getArgumentsBracketStart();
         $end = $methodWrapper->getArgumentsBracketEnd();
 
-        // reverse?
+        // @todo use whitespace config
+        $breakToken = new Token([T_WHITESPACE, PHP_EOL]);
+
+        // 1. break after arguments opening
+        $tokens->insertAt($start + 1, [$breakToken]);
+
+        // 2. break before arguments closing
+        $tokens->insertAt($end + 1, [$breakToken]);
 
         for ($i = $start; $i < $end; ++$i) {
             $currentToken = $tokens[$i];
 
-            // 1. space after each comma ","
+            // 3. new line after each comma ",", instead of just space
             if ($currentToken->getContent() === ',') {
-                $tokens->insertAt($i + 1, [
-                    new Token([T_WHITESPACE, PHP_EOL])
-                ]);
-                ++$i;
+                $tokens[$i + 1] = new Token([T_WHITESPACE, PHP_EOL]);
             }
-
-            // 2. break after arguments opening
-            // 3. break before arguments closing
         }
     }
 }
