@@ -7,9 +7,9 @@ use phpDocumentor\Reflection\DocBlock\Tag;
 use phpDocumentor\Reflection\DocBlock\Tags\Formatter;
 use phpDocumentor\Reflection\DocBlock\Tags\Param;
 use phpDocumentor\Reflection\Types\Array_;
-use Symplify\TokenRunner\DocBlock\ArrayResolver;
 use Symplify\BetterReflectionDocBlock\Tag\TolerantParam;
 use Symplify\BetterReflectionDocBlock\Tag\TolerantReturn;
+use Symplify\TokenRunner\DocBlock\ArrayResolver;
 
 /**
  * Keeps mixed[] as mixed[], not array

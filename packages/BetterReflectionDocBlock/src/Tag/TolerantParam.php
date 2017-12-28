@@ -39,11 +39,8 @@ final class TolerantParam extends BaseTag
      */
     private $isVariadic = false;
 
-    /**
-     * @param string $variableName
-     */
     public function __construct(
-        $variableName,
+        string $variableName,
         ?Type $type = null,
         bool $isVariadic = false,
         ?Description $description = null
