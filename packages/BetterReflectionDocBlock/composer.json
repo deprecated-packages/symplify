@@ -1,0 +1,22 @@
+{
+    "name": "symplify/better-reflection-docblock",
+    "description": "Slim wrapper around phpdocumentor/reflection-docblock with better DX and simpler API.",
+    "license": "MIT",
+    "require": {
+        "php": "^7.1",
+        "phpdocumentor/reflection-docblock": "^4.2"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^6.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "Symplify\\BetterReflectionDocBlock\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Symplify\\BetterReflectionDocBlock\\Tests\\": "tests"
+        }
+    }
+}

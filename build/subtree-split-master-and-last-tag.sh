@@ -11,6 +11,7 @@ git subsplit publish --heads="master" --tags=$LAST_TAG packages/TokenRunner:git@
 # 3.0
 git subsplit publish --heads="master" --tags=$LAST_TAG packages/GitWrapper:git@github.com:Symplify/GitWrapper.git
 git subsplit publish --heads="master" --tags=$LAST_TAG packages/ChangelogLinker:git@github.com:Symplify/ChangelogLinker.git
+git subsplit publish --heads="master" --tags=$LAST_TAG packages/BetterReflectionDocBlock:git@github.com:Symplify/BetterReflectionDocBlock.git
 
 rm -rf .subsplit/
 
