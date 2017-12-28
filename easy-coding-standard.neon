@@ -65,7 +65,15 @@ parameters:
             - *packages/GitWrapper/*
             - packages/TokenRunner/src/Wrapper/FixerWrapper/DocBlockWrapper.php
 
+        Symplify\CodingStandard\Sniffs\Architecture\ExplicitExceptionSniff:
+            # will be removed soon
+            - packages/GitWrapper/src/Process/GitProcess.php
+
     skip_codes:
         SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff.MissingParameterTypeHint:
             # respect param typehint
             - packages/TokenRunner/src/ReflectionDocBlock/Tag/TolerantParam.php
+
+        SlevomatCodingStandard\Sniffs\Exceptions\ReferenceThrowableOnlySniff.ReferencedGeneralException:
+            # intentionally "Exception" value
+            - packages/CodingStandard/src/Sniffs/Architecture/ExplicitExceptionSniff.php

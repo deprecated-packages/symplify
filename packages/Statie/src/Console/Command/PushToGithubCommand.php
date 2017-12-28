@@ -2,12 +2,13 @@
 
 namespace Symplify\Statie\Console\Command;
 
-use Exception;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symplify\Statie\Exception\Console\Command\GithubRepositoryNotFoundException;
+use Symplify\Statie\Exception\Console\Command\MissingGithubTokenException;
 use Symplify\Statie\Github\GithubPublishingProcess;
 
 final class PushToGithubCommand extends Command
@@ -72,21 +73,25 @@ final class PushToGithubCommand extends Command
 
     private function ensureTokenOptionIsSet(string $token): void
     {
-        if ($token === '') {
-            throw new Exception('Set token value via "--token=<GITHUB_TOKEN>" option.');
+        if ($token) {
+            return;
         }
+
+        throw new MissingGithubTokenException('Set token value via "--token=<GITHUB_TOKEN>" option.');
     }
 
     private function ensureGithubRepositorySlugIsValid(string $repositorySlug): void
     {
         $repositoryUrl = 'https://github.com/' . $repositorySlug;
-        if (! $this->doesUrlExist($repositoryUrl)) {
-            throw new Exception(sprintf(
-                'Repository "%s" is not accessible. Try fixing the "%s" slug.',
-                $repositoryUrl,
-                $repositorySlug
-            ));
+        if ($this->doesUrlExist($repositoryUrl)) {
+            return;
         }
+
+        throw new GithubRepositoryNotFoundException(sprintf(
+            'Repository "%s" is not accessible. Try fixing the "%s" slug.',
+            $repositoryUrl,
+            $repositorySlug
+        ));
     }
 
     private function doesUrlExist(string $url): bool
