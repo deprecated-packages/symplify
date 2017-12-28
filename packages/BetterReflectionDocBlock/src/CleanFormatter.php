@@ -1,15 +1,15 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\TokenRunner\ReflectionDocBlock;
+namespace Symplify\BetterReflectionDocBlock;
 
 use Nette\Utils\Strings;
 use phpDocumentor\Reflection\DocBlock\Tag;
 use phpDocumentor\Reflection\DocBlock\Tags\Formatter;
 use phpDocumentor\Reflection\DocBlock\Tags\Param;
 use phpDocumentor\Reflection\Types\Array_;
+use Symplify\BetterReflectionDocBlock\Tag\TolerantParam;
+use Symplify\BetterReflectionDocBlock\Tag\TolerantReturn;
 use Symplify\TokenRunner\DocBlock\ArrayResolver;
-use Symplify\TokenRunner\ReflectionDocBlock\Tag\TolerantParam;
-use Symplify\TokenRunner\ReflectionDocBlock\Tag\TolerantReturn;
 
 /**
  * Keeps mixed[] as mixed[], not array

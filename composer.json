@@ -34,6 +34,7 @@
     },
     "autoload": {
         "psr-4": {
+            "Symplify\\BetterReflectionDocBlock\\": "packages/BetterReflectionDocBlock/src",
             "Symplify\\CodingStandard\\": "packages/CodingStandard/src",
             "Symplify\\GitWrapper\\": "packages/GitWrapper/src",
             "Symplify\\ChangelogLinker\\": "packages/ChangelogLinker/src",
@@ -52,6 +53,7 @@
     },
     "autoload-dev": {
         "psr-4": {
+            "Symplify\\BetterReflectionDocBlock\\Tests\\": "packages/BetterReflectionDocBlock/tests",
             "Symplify\\CodingStandard\\Tests\\": "packages/CodingStandard/tests",
             "Symplify\\GitWrapper\\Tests\\": "packages/GitWrapper/tests",
             "Symplify\\ChangelogLinker\\Tests\\": "packages/ChangelogLinker/tests",

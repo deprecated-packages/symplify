@@ -14,11 +14,11 @@ use phpDocumentor\Reflection\DocBlock\Tags\Return_;
 use phpDocumentor\Reflection\DocBlock\Tags\Var_;
 use phpDocumentor\Reflection\Types\Array_;
 use phpDocumentor\Reflection\Types\Compound;
+use Symplify\BetterReflectionDocBlock\CleanDocBlockFactory;
+use Symplify\BetterReflectionDocBlock\DocBlockSerializerFactory;
+use Symplify\BetterReflectionDocBlock\Tag\TolerantParam;
 use Symplify\TokenRunner\DocBlock\ArrayResolver;
 use Symplify\TokenRunner\Guard\TokenTypeGuard;
-use Symplify\TokenRunner\ReflectionDocBlock\CleanDocBlockFactory;
-use Symplify\TokenRunner\ReflectionDocBlock\DocBlockSerializerFactory;
-use Symplify\TokenRunner\ReflectionDocBlock\Tag\TolerantParam;
 
 final class DocBlockWrapper
 {

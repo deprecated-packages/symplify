@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\TokenRunner\ReflectionDocBlock\Tag;
+namespace Symplify\BetterReflectionDocBlock\Tag;
 
 use phpDocumentor\Reflection\DocBlock\Description;
 use phpDocumentor\Reflection\DocBlock\DescriptionFactory;
@@ -39,11 +39,8 @@ final class TolerantParam extends BaseTag
      */
     private $isVariadic = false;
 
-    /**
-     * @param string $variableName
-     */
     public function __construct(
-        $variableName,
+        string $variableName,
         ?Type $type = null,
         bool $isVariadic = false,
         ?Description $description = null

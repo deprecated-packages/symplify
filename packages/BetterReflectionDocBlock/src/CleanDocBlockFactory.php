@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\TokenRunner\ReflectionDocBlock;
+namespace Symplify\BetterReflectionDocBlock;
 
 use phpDocumentor\Reflection\DocBlock;
 use phpDocumentor\Reflection\DocBlock\DescriptionFactory;
@@ -10,8 +10,8 @@ use phpDocumentor\Reflection\DocBlockFactory;
 use phpDocumentor\Reflection\FqsenResolver;
 use phpDocumentor\Reflection\TypeResolver;
 use phpDocumentor\Reflection\Types\Context;
-use Symplify\TokenRunner\ReflectionDocBlock\Tag\TolerantParam;
-use Symplify\TokenRunner\ReflectionDocBlock\Tag\TolerantReturn;
+use Symplify\BetterReflectionDocBlock\Tag\TolerantParam;
+use Symplify\BetterReflectionDocBlock\Tag\TolerantReturn;
 
 /**
  * Same as DocBlockFactory::instance(), but uses only tags that are needed
