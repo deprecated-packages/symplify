@@ -52,7 +52,7 @@ final class TestSubscriber implements EventSubscriberInterface
 
     public function wasMethodCalled(string $method): bool
     {
-        return in_array($method, $this->calledMethods);
+        return in_array($method, $this->calledMethods, true);
     }
 
     public function getEvent(): AbstractGitEvent
