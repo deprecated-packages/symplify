@@ -3,7 +3,7 @@
 namespace Symplify\Statie\FlatWhite\Latte;
 
 use Latte\ILoader;
-use RuntimeException;
+use Symplify\Statie\FlatWhite\Exception\MissingLatteTemplateException;
 
 /**
  * Inspired by @see \Latte\Loaders\StringLoader.
@@ -34,9 +34,10 @@ final class DynamicStringLoader implements ILoader
             return $this->templates[$name];
         }
 
-        throw new RuntimeException(
-            sprintf('Missing template "%s".', $name)
-        );
+        throw new MissingLatteTemplateException(sprintf(
+            'Missing template "%s". Is it placed in "/_layouts" or "/_snippets" directory?',
+            $name
+        ));
     }
 
     /**

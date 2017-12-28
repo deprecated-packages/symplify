@@ -534,6 +534,23 @@ class SomeClass
 ```
 
 
+### Use explicit and informative exception names over generic ones
+
+- class: [`Symplify\CodingStandard\Sniffs\Architecture\ExplicitExceptionSniff`](/src/Sniffs/Architecture/ExplicitExceptionSniff.php)
+
+:x:
+
+```php
+throw new RuntimeException('...');
+```
+
+:+1:
+
+```php
+throw new FileNotFoundException('...');
+```
+
+
 ### Constant should have docblock comment
 
 - class: [`Symplify\CodingStandard\Sniffs\Commenting\VarConstantCommentSniff`](/src/Sniffs/Commenting/VarConstantCommentSniff.php)
