@@ -56,9 +56,9 @@ parameters:
         # tests
         - packages/EasyCodingStandard/tests/Finder/FinderSanitizerSource/FileWithClass.php
         - packages/EasyCodingStandard/tests/Finder/FinderSanitizerSource/NestedDirectory/FileWithClass.php
-        # 3rd party code
-        - packages/TokenRunner/src/ReflectionDocBlock/Tag/TolerantParam.php
-        - packages/TokenRunner/src/ReflectionDocBlock/Tag/TolerantReturn.php
+        # messy 3rd party code
+        - packages/BetterReflectionDocBlock/src/Tag/TolerantParam.php
+        - packages/BetterReflectionDocBlock/src/Tag/TolerantReturn.php
 
     autoload_files:
         - %currentWorkingDirectory%/vendor/squizlabs/php_codesniffer/autoload.php
