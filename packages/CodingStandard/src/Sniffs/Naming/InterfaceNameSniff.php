@@ -4,7 +4,6 @@ namespace Symplify\CodingStandard\Sniffs\Naming;
 
 use Nette\Utils\Strings;
 use PHP_CodeSniffer\Files\File;
-use PHP_CodeSniffer\Fixer;
 use PHP_CodeSniffer\Sniffs\Sniff;
 
 final class InterfaceNameSniff implements Sniff
@@ -25,11 +24,6 @@ final class InterfaceNameSniff implements Sniff
     private $position;
 
     /**
-     * @var Fixer
-     */
-    private $fixer;
-
-    /**
      * @return int[]
      */
     public function register(): array
@@ -43,7 +37,6 @@ final class InterfaceNameSniff implements Sniff
     public function process(File $file, $position): void
     {
         $this->file = $file;
-        $this->fixer = $file->fixer;
         $this->position = $position;
 
         if (Strings::endsWith($this->getInterfaceName(), 'Interface')) {
@@ -69,13 +62,13 @@ final class InterfaceNameSniff implements Sniff
     {
         $interfaceNamePosition = $this->getInterfaceNamePosition();
 
-        $name = $this->fixer->getTokenContent($interfaceNamePosition);
+        $name = $this->file->fixer->getTokenContent($interfaceNamePosition);
 
         if ($this->isIPrefixedName($name)) {
             $name = substr($name, 1);
         }
 
-        $this->fixer->replaceToken($interfaceNamePosition, $name . 'Interface');
+        $this->file->fixer->replaceToken($interfaceNamePosition, $name . 'Interface');
     }
 
     private function isIPrefixedName(string $name): bool
