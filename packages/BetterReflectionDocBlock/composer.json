@@ -18,5 +18,10 @@
         "psr-4": {
             "Symplify\\BetterReflectionDocBlock\\Tests\\": "tests"
         }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "3.1-dev"
+        }
     }
 }
