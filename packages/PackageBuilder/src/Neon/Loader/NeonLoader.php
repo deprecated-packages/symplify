@@ -95,7 +95,7 @@ final class NeonLoader implements LoaderInterface
     private function validateContentSections(array $content, array $allowedSections): void
     {
         foreach ($content as $key => $values) {
-            if (in_array($key, $allowedSections)) {
+            if (in_array($key, $allowedSections, true)) {
                 unset($content[$key]);
             }
         }

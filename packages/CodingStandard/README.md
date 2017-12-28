@@ -448,6 +448,29 @@ namespace SomeNamespace;
 ```
 
 
+### `in_array()` should use 3rd param for strict comparison
+
+- class: [`Symplify\CodingStandard\Fixer\Strict\InArrayStrictFixer`](/src/Fixer/Strict/InArrayStrictFixer.php)
+
+
+:x:
+
+``` php
+<?php
+
+in_array('value', $listOfValues);
+```
+
+:+1:
+
+``` php
+<?php
+
+in_array('value', $listOfValues, true);
+```
+
+
+
 ### Non-abstract class that implements interface should be final :wrench:
 
 *Except for Doctrine entities, they cannot be final.*

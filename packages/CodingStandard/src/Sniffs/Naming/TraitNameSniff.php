@@ -4,7 +4,6 @@ namespace Symplify\CodingStandard\Sniffs\Naming;
 
 use Nette\Utils\Strings;
 use PHP_CodeSniffer\Files\File;
-use PHP_CodeSniffer\Fixer;
 use PHP_CodeSniffer\Sniffs\Sniff;
 
 final class TraitNameSniff implements Sniff
@@ -25,11 +24,6 @@ final class TraitNameSniff implements Sniff
     private $position;
 
     /**
-     * @var Fixer
-     */
-    private $fixer;
-
-    /**
      * @return int[]
      */
     public function register(): array
@@ -43,7 +37,6 @@ final class TraitNameSniff implements Sniff
     public function process(File $file, $position): void
     {
         $this->file = $file;
-        $this->fixer = $file->fixer;
         $this->position = $position;
 
         if (Strings::endsWith($this->getTraitName(), 'Trait')) {
@@ -67,6 +60,6 @@ final class TraitNameSniff implements Sniff
 
     private function fix(): void
     {
-        $this->fixer->addContent($this->getTraitNamePosition(), 'Trait');
+        $this->file->fixer->addContent($this->getTraitNamePosition(), 'Trait');
     }
 }

@@ -4,7 +4,6 @@ namespace Symplify\CodingStandard\Sniffs\Naming;
 
 use Nette\Utils\Strings;
 use PHP_CodeSniffer\Files\File;
-use PHP_CodeSniffer\Fixer;
 use PHP_CodeSniffer\Sniffs\Sniff;
 
 final class AbstractClassNameSniff implements Sniff
@@ -25,11 +24,6 @@ final class AbstractClassNameSniff implements Sniff
     private $position;
 
     /**
-     * @var Fixer
-     */
-    private $fixer;
-
-    /**
      * @return int[]
      */
     public function register(): array
@@ -43,7 +37,6 @@ final class AbstractClassNameSniff implements Sniff
     public function process(File $file, $position): void
     {
         $this->file = $file;
-        $this->fixer = $file->fixer;
         $this->position = $position;
 
         if ($this->shouldBeSkipped()) {
@@ -82,6 +75,6 @@ final class AbstractClassNameSniff implements Sniff
 
     private function fix(): void
     {
-        $this->fixer->addContent($this->position + 1, 'Abstract');
+        $this->file->fixer->addContent($this->position + 1, 'Abstract');
     }
 }
