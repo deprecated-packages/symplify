@@ -40,7 +40,7 @@ Building own Sniffs and Fixers made easy. It helps you with:
 
 
 
-## [Statie](https://github.com/Symplify/Statie)
+## [Statie](https://github.com/Symplify/Statie) - [www.statie.org](https://www.statie.org)
 
 [![Build Status](https://img.shields.io/travis/Symplify/Statie/master.svg?style=flat-square)](https://travis-ci.org/Symplify/Statie)
 [![Downloads](https://img.shields.io/packagist/dt/Symplify/statie.svg?style=flat-square)](https://packagist.org/packages/Symplify/statie)

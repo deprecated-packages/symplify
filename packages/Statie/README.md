@@ -98,15 +98,17 @@ services:
 
 ## Documentation
 
-- [Add Headline Anchor Links](/docs/HeadlineAnchors.md)
-- [Add Related Items](/docs/RelatedItems.md)
-- [Push Content to Github Pages with Travis](/docs/PushContentToGithubPagesWithTravis.md)
-- [Custom File Output Path](/docs/CustomOutputPath.md)
+See documentation at  [www.statie.org](https://www.statie.org).
+
+- [Add Headline Anchor Links](https://www.statie.org/docs/headline-anchors/)
+- [Add Related Items](https://www.statie.org/docs/related-items/)
+- [Push Content to Github Pages with Travis](https://www.statie.org/docs/github-pages/)
+- [Custom File Output Path](https://www.statie.org/docs/custom-output-path/)
 
 ### Extending Statie
 
-- [Hook to Statie Application cycle with Events](/docs/HookToStatie.md)
-- [Add Generator like Posts](/docs/Generators.md)
+- [Hook to Statie Application cycle with Events](https://www.statie.org/docs/hooks/)
+- [Add Generator like Posts](https://www.statie.org/docs/generators/)
 
 ### Community articles
 
