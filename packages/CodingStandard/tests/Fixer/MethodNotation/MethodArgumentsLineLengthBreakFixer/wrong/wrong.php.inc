@@ -2,7 +2,7 @@
 
 class SomeClass
 {
-    public function someFunction(SomeLongArgument $someLongArgument, AnotherLongArgument $anotherLongArgument)
+    public function someFunction(SomeLongArgument $someLongArgument, AnotherLongArgument $anotherLongArgument, $passTheLimit)
     {
     }
 }

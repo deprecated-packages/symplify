@@ -4,7 +4,8 @@ class SomeClass
 {
     public function someFunction(
         SomeLongArgument $someLongArgument,
-        AnotherLongArgument $anotherLongArgument
+        AnotherLongArgument $anotherLongArgument,
+        $passTheLimit
     )
     {
     }

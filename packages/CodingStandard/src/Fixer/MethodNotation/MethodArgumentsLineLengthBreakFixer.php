@@ -11,6 +11,7 @@ use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use PhpCsFixer\WhitespacesFixerConfig;
 use SplFileInfo;
+use Symplify\TokenRunner\Wrapper\FixerWrapper\MethodWrapper;
 
 final class MethodArgumentsLineLengthBreakFixer implements DefinedFixerInterface, WhitespacesAwareFixerInterface
 {
@@ -41,7 +42,7 @@ class SomeClass
 
     public function isCandidate(Tokens $tokens): bool
     {
-        return $tokens->isAllTokenKindsFound([T_FUNCTION, '?,']);
+        return $tokens->isAllTokenKindsFound([T_FUNCTION, ',']);
     }
 
     public function fix(SplFileInfo $file, Tokens $tokens): void
@@ -54,8 +55,7 @@ class SomeClass
                 continue;
             }
 
-            dump($token);
-            die;
+            $this->fixMethod($position, $token, $tokens);
         }
     }
 
@@ -88,7 +88,34 @@ class SomeClass
         $this->whitespacesFixerConfig = $whitespacesFixerConfig;
     }
 
-    private function fixMethod(Tokens $tokens): void
+    private function fixMethod(int $position, Token $token, Tokens $tokens): void
     {
+        $methodWrapper = MethodWrapper::createFromTokensAndPosition($tokens, $position);
+        $firstLineLength = $methodWrapper->getFirstLineLength();
+
+        if ($firstLineLength <= self::LINE_LENGTH) {
+            return;
+        }
+
+
+        $start = $methodWrapper->getArgumentsBracketStart();
+        $end = $methodWrapper->getArgumentsBracketEnd();
+
+        // reverse?
+
+        for ($i = $start; $i < $end; ++$i) {
+            $currentToken = $tokens[$i];
+
+            // 1. space after each comma ","
+            if ($currentToken->getContent() === ',') {
+                $tokens->insertAt($i + 1, [
+                    new Token([T_WHITESPACE, PHP_EOL])
+                ]);
+                ++$i;
+            }
+
+            // 2. break after arguments opening
+            // 3. break before arguments closing
+        }
     }
 }

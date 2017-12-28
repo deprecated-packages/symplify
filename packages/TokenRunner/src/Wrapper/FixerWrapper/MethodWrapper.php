@@ -36,6 +36,16 @@ final class MethodWrapper
      */
     private $bodyEnd;
 
+    /**
+     * @var int
+     */
+    private $argumentsBracketStart;
+
+    /**
+     * @var int
+     */
+    private $argumentsBracketEnd;
+
     private function __construct(Tokens $tokens, int $index)
     {
         TokenTypeGuard::ensureIsTokenType($tokens[$index], [T_FUNCTION], __METHOD__);
@@ -47,6 +57,9 @@ final class MethodWrapper
         if ($this->bodyStart) {
             $this->bodyEnd = $this->tokens->findBlockEnd(Tokens::BLOCK_TYPE_CURLY_BRACE, $this->bodyStart);
         }
+
+        $this->argumentsBracketStart = $this->tokens->getNextTokenOfKind($this->index, ['(']);
+        $this->argumentsBracketEnd = $this->tokens->findBlockEnd(Tokens::BLOCK_TYPE_PARENTHESIS_BRACE, $this->argumentsBracketStart);
     }
 
     public static function createFromTokensAndPosition(Tokens $tokens, int $position): self
@@ -173,5 +186,42 @@ final class MethodWrapper
         }
 
         return $argumentNames;
+    }
+
+    public function getFirstLineLength(): int
+    {
+        $lineLength = 0;
+
+        // compute from here to start of line
+        $currentPosition = $this->index;
+        while (! Strings::startsWith($this->tokens[$currentPosition]->getContent(), PHP_EOL)) {
+            $lineLength += strlen($this->tokens[$currentPosition]->getContent());
+            --$currentPosition;
+        }
+
+        $currentToken = $this->tokens[$currentPosition];
+
+        // includes indent in the beggining
+        // -1 = do not count PHP_EOL as character
+        $lineLength += strlen($currentToken->getContent()) - 1;
+
+        // compute from here to end of line
+        $currentPosition = $this->index + 1;
+        while (! Strings::startsWith($this->tokens[$currentPosition]->getContent(), PHP_EOL)) {
+            $lineLength += strlen($this->tokens[$currentPosition]->getContent());
+            ++$currentPosition;
+        }
+
+        return $lineLength;
+    }
+
+    public function getArgumentsBracketStart(): int
+    {
+        return $this->argumentsBracketStart;
+    }
+
+    public function getArgumentsBracketEnd(): int
+    {
+        return $this->argumentsBracketEnd;
     }
 }
