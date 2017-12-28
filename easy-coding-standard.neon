@@ -63,6 +63,7 @@ parameters:
 
         Symplify\CodingStandard\Sniffs\DependencyInjection\NoClassInstantiationSniff:
             - *packages/GitWrapper/*
+            - packages/TokenRunner/src/Wrapper/FixerWrapper/DocBlockWrapper.php
 
     skip_codes:
         SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff.MissingParameterTypeHint:
