@@ -46,7 +46,9 @@ final class RouteFileDecorator implements FileDecoratorInterface
     public function decorateFilesWithGeneratorElement(array $files, GeneratorElement $generatorElement): array
     {
         foreach ($files as $file) {
-            $outputPath = $generatorElement->getRoutePrefix() . DIRECTORY_SEPARATOR;
+            $outputPath = $generatorElement->getRoutePrefix()
+                ? $generatorElement->getRoutePrefix() . DIRECTORY_SEPARATOR
+                : '';
             $outputPath = $this->prefixWithDateIfFound($file, $outputPath);
             $outputPath .= $file->getFilenameWithoutDate();
             $outputPath = $this->pathNormalizer->normalize($outputPath);
