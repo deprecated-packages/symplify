@@ -4,9 +4,7 @@
 [![Downloads](https://img.shields.io/packagist/dt/symplify/package-builder.svg?style=flat-square)](https://packagist.org/packages/symplify/package-builder)
 [![Subscribe](https://img.shields.io/badge/subscribe-to--releases-green.svg?style=flat-square)](https://libraries.io/packagist/symplify%2Fpackage-builder)
 
-
 This tools helps you with Collectors in DependecyInjection, Console shortcuts, ParameterProvider as service and many more.
-
 
 ## Install
 
@@ -39,9 +37,7 @@ final class CollectorCompilerPass implements CompilerPassInterface
 }
 ```
 
-
 #### Add Service if Found
-
 
 ```php
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
@@ -55,11 +51,11 @@ final class CustomSourceProviderDefinitionCompilerPass implements CompilerPassIn
             $containerBuilder,
             CustomSourceProviderInterface::class
         );
-        
+
         if ($customSourceProviderDefinition === null) {
             return;
         }
-        
+
         $sourceFinderDefinition = DefinitionFinder::getByType($containerBuilder, SourceFinder::class);
         $sourceFinderDefinition->addMethodCall(
             'setCustomSourceProvider',
@@ -69,23 +65,22 @@ final class CustomSourceProviderDefinitionCompilerPass implements CompilerPassIn
 }
 ```
 
-
 ### 2. All Parameters Available in a Service
 
 Note: System parameters are excluded by default.
 
-Register: 
+Register:
 
 ```yml
 # app/config/services.yml
 
 parameters:
-    source: src 
+    source: src
 
 services:
     _defaults:
         autowire: true
-    
+
     Symplify\PackageBuilder\Parameter\ParameterProvider: ~
 ```
 
@@ -100,19 +95,18 @@ final class StatieConfiguration
      * @var ParameterProvider
      */
     private $parameterProvider;
-    
+
     public function __construct(ParameterProvider $parameterProvider)
     {
         $this->parameterProvider = $parameterProvider;
     }
-    
+
     public function getSource(): string
     {
         return $parameterProvider->provide()['source']; // returns "src"
     }
 }
 ```
-
 
 ### 3. Do you need a Vendor Directory?
 
@@ -122,15 +116,15 @@ Symplify\PackageBuilder\Composer\VendorDirProvider::provide(); // return path to
 
 ### 4. Load a Config for CLI Application?
 
-Use in CLI entry file `bin/<app-name>`, e.g. `bin/statie` or `bin/apigen`. 
-  
+Use in CLI entry file `bin/<app-name>`, e.g. `bin/statie` or `bin/apigen`.
+
 ```php
 # bin/statie
 
 use Symfony\Component\Console\Input\ArgvInput;
 
 Symplify\PackageBuilder\Configuration\ConfigFilePathHelper::detectFromInput('statie', new ArgvInput);
-# throws "Symplify\PackageBuilder\Exception\Configuration\FileNotFoundException" 
+# throws "Symplify\PackageBuilder\Exception\Configuration\FileNotFoundException"
 # exception if no file is found
 ```
 
@@ -158,13 +152,12 @@ $config = Symplify\PackageBuilder\Configuration\ConfigFilePathHelper::provide('s
 
 This is common practise in CLI applications, e.g. [PHPUnit](https://phpunit.de/) looks for `phpunit.xml`.
 
-
 ### 5. Use SymfonyStyle for Console Output Anywhere You Need
 
 Another use case for `bin/<app-name>`, when you need to output before building Dependency Injection Container. E.g. when ContainerFactory fails on exception that you need to report nicely.    
- 
+
 ```php
-# bin/statie 
+# bin/statie
 
 $symfonyStyle = Symplify\PackageBuilder\Console\Style\SymfonyStyleFactory::create();
 try {
@@ -174,11 +167,10 @@ try {
 }
 ```
 
-
 ### 6. Load `*.neon` config files in Kernel
- 
+
 You can load `*.yaml` files in Kernel by default. Now `*.neon` as well:
-  
+
 ```php
 namespace Symplify\PackageBuilder\Neon\NeonLoaderAwareKernelTrait;
 
@@ -195,10 +187,9 @@ final class SuperKernel extends Kernel
 
 ### 7. Load config via `--level` option in your Console Application
 
+In you `bin/your-app` you can use `--level` option as shortcut to load config from `/config` directory.
 
-In you `bin/your-app` you can use `--level` option as shortcut to load config from `/config` directory. 
-
-It makes is easier to load config over traditional super long way: 
+It makes is easier to load config over traditional super long way:
 
 ```bash
 vendor/bin/your-app --config vendor/organization-name/package-name/config/subdirectory/the-config.yml
@@ -232,12 +223,10 @@ And use like:
 vendor/bin/your-app --level the-config
 ```
 
-
 ### 8. Find `vendor/autoload.php` in specific directory for BetterReflection
 
 When you use [BetterReflection](https://github.com/Roave/BetterReflection/) and [`ComposerSourceLocator`](https://github.com/Roave/BetterReflection/blob/master/UPGRADE.md#source-locators-now-require-additional-dependencies), you need to locate non-locator `/vendor/autoload.php`.
- 
- 
+
 ```php
 $autolaodFile = Symplify\PackageBuilder\Composer\AutoloadFinder::findNearDirectories([
     __DIR__ . '/src'
