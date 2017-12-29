@@ -284,7 +284,6 @@ checkers:
  namespace SomeNamespace;
 ```
 
-
 ### `in_array()` should use 3rd param for strict comparison
 
 - class: [`Symplify\CodingStandard\Fixer\Strict\InArrayStrictFixer`](src/Fixer/Strict/InArrayStrictFixer.php)
@@ -295,7 +294,6 @@ checkers:
 -in_array('value', $listOfValues);
 +in_array('value', $listOfValues, true);
 ```
-
 
 ### Non-abstract class that implements interface should be final :wrench:
 
@@ -342,35 +340,21 @@ checkers:
 
 :x:
 
-```php
-throw new RuntimeException('...');
-```
-
-:+1:
-
-```php
-throw new FileNotFoundException('...');
+```diff
+- throw new RuntimeException('...');
++ throw new FileNotFoundException('...');
 ```
 
 ### Constant should have docblock comment
 
 - class: [`Symplify\CodingStandard\Sniffs\Commenting\VarConstantCommentSniff`](src/Sniffs/Commenting/VarConstantCommentSniff.php)
 
-```php
+```diff
 class SomeClass
 {
-    private const EMPATH_LEVEL = 55;
-}
-```
-
-:+1:
-
-```php
-class SomeClass
-{
-    /**
-     * @var int
-     */
+    +/**
+    +* @var int
+    +*/
     private const EMPATH_LEVEL = 55;
 }
 ```
@@ -381,9 +365,9 @@ class SomeClass
 
 :x:
 
-```php
-// $file = new File;
-// $directory = new Diretory([$file]);
+```diff
+- // $file = new File;
+- // $directory = new Diretory([$file]);
 ```
 
 ### Debug functions should not be left in the code
@@ -392,8 +376,8 @@ class SomeClass
 
 :x:
 
-```php
-dump($value);
+```diff
+- dump($value);
 ```
 
 ### Use service and constructor injection rather than instantiation with new :wrench:
@@ -496,25 +480,12 @@ checkers:
 
 :x:
 
-```php
+```diff
 class SomeClass
 {
-    public function __construct()
-    {
-        $this->someProperty = 5;
-    }
-}
-
-```
-
-:+1:
-
-```php
-class SomeClass
-{
-    /**
-     * @var int
-     */
+    +/**
+    +* @var int
+    +*/
     public $someProperty;
 
     public function __construct()
@@ -542,10 +513,10 @@ class SomeClass
 
     }
 
--    public function unusedMethod()
--    {
+-   public function unusedMethod()
+-   {
 -
--    }
+-   }
 }
 
 $someObject = new SomeClass;
