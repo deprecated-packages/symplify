@@ -55,7 +55,7 @@ final class LatteRenderer
         $contentWithPlaceholders = Strings::replace(
             $content,
             self::CODE_BLOCKS_HTML_PATTERN,
-            function (array $match) use (&$i, &$highlightedCodeBlocks) {
+            function (array $match) use (&$i, &$highlightedCodeBlocks): string {
                 $placeholder = self::PLACEHOLDER_PREFIX . ++$i;
                 $highlightedCodeBlocks[$placeholder] = $match['code'];
 
@@ -71,7 +71,7 @@ final class LatteRenderer
         return Strings::replace(
             $renderedContentWithPlaceholders,
             self::PLACEHOLDER_PATTERN,
-            function (array $match) use ($highlightedCodeBlocks) {
+            function (array $match) use ($highlightedCodeBlocks): string {
                 return $highlightedCodeBlocks[$match['placeholder']];
             }
         );

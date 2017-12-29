@@ -26,7 +26,7 @@ final class RelatedItemsFilter implements FilterProviderInterface
         return [
             // use in *.latte like this:
             // {var $relatedPosts = ($post|relatedItems)}
-            'relatedItems' => function (AbstractFile $file) {
+            'relatedItems' => function (AbstractFile $file): array {
                 return $this->relatedItemsResolver->resolveForFile($file);
             },
         ];
