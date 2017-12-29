@@ -25,7 +25,7 @@ final class GithubPrLinkFilterProvider implements FilterProviderInterface
     {
         return [
             // e.g. <a href="{$post|githubEditPostUrl}">Typo? Fix me please</a>
-            'githubEditPostUrl' => function (AbstractFile $file) {
+            'githubEditPostUrl' => function (AbstractFile $file): string {
                 $editPrefix = $this->renameTreeToEdit($this->configuration->getGithubRepositorySourceDirectory());
                 return $editPrefix . DIRECTORY_SEPARATOR . $file->getRelativeSource();
             },

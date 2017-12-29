@@ -41,7 +41,7 @@ final class FileFinder
             ->in($directoryInfo->getPath())
             ->path($pathPattern)
             // sort by name descending
-            ->sort(function (SplFileInfo $firstFileInfo, SplFileInfo $secondFileInfo) {
+            ->sort(function (SplFileInfo $firstFileInfo, SplFileInfo $secondFileInfo): int {
                 return strcmp($secondFileInfo->getRealPath(), $firstFileInfo->getRealPath());
             });
 

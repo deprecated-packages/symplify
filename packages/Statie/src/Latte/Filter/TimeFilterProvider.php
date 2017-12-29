@@ -13,7 +13,7 @@ final class TimeFilterProvider implements FilterProviderInterface
     {
         return [
             // @todo: usage
-            'timeToSeconds' => function (string $time) {
+            'timeToSeconds' => function (string $time): int {
                 return $this->convertTimeToSeconds($time);
             },
         ];

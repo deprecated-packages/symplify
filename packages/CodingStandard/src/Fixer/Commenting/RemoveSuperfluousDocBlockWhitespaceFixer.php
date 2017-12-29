@@ -29,7 +29,7 @@ final class RemoveSuperfluousDocBlockWhitespaceFixer implements FixerInterface, 
  * Description
  *
  *
- * @return int 
+ * @return int
  */
 public function getCount()
 {
@@ -53,9 +53,13 @@ public function getCount()
                 continue;
             }
 
-            $newContent = Strings::replace($token->getContent(), self::EMPTY_LINE_PATTERN, function (array $match) {
-                return $match['oneLine'];
-            });
+            $newContent = Strings::replace(
+                $token->getContent(),
+                self::EMPTY_LINE_PATTERN,
+                function (array $match): string {
+                    return $match['oneLine'];
+                }
+            );
 
             $tokens[$index] = new Token([T_DOC_COMMENT, $newContent]);
         }

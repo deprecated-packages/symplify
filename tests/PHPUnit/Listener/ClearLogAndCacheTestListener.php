@@ -36,7 +36,7 @@ final class ClearLogAndCacheTestListener extends BaseTestListener
 
         $directories = iterator_to_array($finder->getIterator());
 
-        $tempDirectories = array_filter($directories, function (SplFileInfo $file) {
+        $tempDirectories = array_filter($directories, function (SplFileInfo $file): bool {
             return ! Strings::contains($file->getPathname(), 'Cache');
         });
 
