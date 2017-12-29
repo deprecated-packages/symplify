@@ -753,7 +753,7 @@ class SomeClass
 }
 
 $someObject = new SomeClass;
-$someObject->unusedMethod();
+$someObject->usedMethod();
 ```
 
 :+1:
@@ -773,4 +773,4 @@ $someObject->usedMethod();
 
 ## Contributing
 
-Send [issue](https://github.com/Symplify/Symplify/issues) or [pull-request](https://github.com/Symplify/Symplify/pulls) to main repository.
+Open an [issue](https://github.com/Symplify/Symplify/issues) or send a [pull-request](https://github.com/Symplify/Symplify/pulls) to main repository.
