@@ -8,7 +8,6 @@ Set of PHP_CodeSniffer Sniffs and PHP-CS-Fixer Fixers used by Symplify projects.
 
 **They run best with [EasyCodingStandard](https://github.com/Symplify/EasyCodingStandard)**.
 
-
 ## Install
 
 ```bash
@@ -19,10 +18,9 @@ composer require symplify/coding-standard --dev
 
 - Rules with :wrench: are configurable.
 
-
 ### Indexed PHP arrays should have 1 item per line
- 
-- class: [`Symplify\CodingStandard\Fixer\ArrayNotation\StandaloneLineInMultilineArrayFixer`](/src/Fixer/ArrayNotation/StandaloneLineInMultilineArrayFixer.php)
+
+- class: [`Symplify\CodingStandard\Fixer\ArrayNotation\StandaloneLineInMultilineArrayFixer`](src/Fixer/ArrayNotation/StandaloneLineInMultilineArrayFixer.php)
 
 :x:
 
@@ -39,10 +37,9 @@ $friends = [
 ];
 ```
 
-
 ### Last property and first method must be separated by 1 blank line :wrench:
 
-- class: [`Symplify\CodingStandard\Fixer\ClassNotation\LastPropertyAndFirstMethodSeparationFixer`](/src/Fixer/ClassNotation/LastPropertyAndFirstMethodSeparationFixer.php)
+- class: [`Symplify\CodingStandard\Fixer\ClassNotation\LastPropertyAndFirstMethodSeparationFixer`](src/Fixer/ClassNotation/LastPropertyAndFirstMethodSeparationFixer.php)
 
 :x:
 
@@ -73,7 +70,6 @@ class SomeClass
 
 This checker requires 1 space by default. But if you need, you can **configure it**:
 
-
 ```yaml
 # easy-coding-standard.neon
 checkers:
@@ -81,10 +77,9 @@ checkers:
         space_count: 2 # 1 by default
 ```
 
-
 ### Variables created with `$container->get(SomeService::class)` should have annotation, so every IDE supports autocomplete without any plugins
 
-- class: [`Symplify\CodingStandard\Fixer\Commenting\AnnotateMagicContainerGetterFixer`](/src/Fixer/Commenting/AnnotateMagicContainerGetterFixer.php)
+- class: [`Symplify\CodingStandard\Fixer\Commenting\AnnotateMagicContainerGetterFixer`](src/Fixer/Commenting/AnnotateMagicContainerGetterFixer.php)
 
 :x:
 
@@ -113,13 +108,11 @@ class SomeTest extends ContainerAwareTestCase
 }
 ```
 
-
-
 ### There should not be empty PHPDoc blocks
 
-Just like `PhpCsFixer\Fixer\Phpdoc\NoEmptyPhpdocFixer`, but this one removes all doc block lines. 
+Just like `PhpCsFixer\Fixer\Phpdoc\NoEmptyPhpdocFixer`, but this one removes all doc block lines.
 
-- class: [`Symplify\CodingStandard\Fixer\Commenting\RemoveEmptyDocBlockFixer`](/src/Fixer/Commenting/RemoveEmptyDocBlockFixer.php)
+- class: [`Symplify\CodingStandard\Fixer\Commenting\RemoveEmptyDocBlockFixer`](src/Fixer/Commenting/RemoveEmptyDocBlockFixer.php)
 
 :x:
 
@@ -139,10 +132,9 @@ public function someMethod()
 }
 ```
 
+### Block comment should only contain useful information about types :wrench:
 
-### Block comment should only contain useful information about types :wrench: 
-
-- class: [`Symplify\CodingStandard\Fixer\Commenting\RemoveUselessDocBlockFixer`](/src/Fixer/Commenting/RemoveUselessDocBlockFixer.php)
+- class: [`Symplify\CodingStandard\Fixer\Commenting\RemoveUselessDocBlockFixer`](src/Fixer/Commenting/RemoveUselessDocBlockFixer.php)
 
 :x:
 
@@ -174,13 +166,12 @@ This checker keeps 'mixed' and 'object' and other types by default. But if you n
 # easy-coding-standard.neon
 checkers:
     Symplify\CodingStandard\Fixer\Commenting\RemoveUselessDocBlockFixer:
-        useless_types: ['mixed', 'object'] # [] by default 
+        useless_types: ['mixed', 'object'] # [] by default
 ```
-
 
 ### Block comment should not have 2 empty lines in a row
 
-- class: [`Symplify\CodingStandard\Fixer\Commenting\RemoveSuperfluousDocBlockWhitespaceFixer`](/src/Fixer/Commenting/RemoveSuperfluousDocBlockWhitespaceFixer.php)
+- class: [`Symplify\CodingStandard\Fixer\Commenting\RemoveSuperfluousDocBlockWhitespaceFixer`](src/Fixer/Commenting/RemoveSuperfluousDocBlockWhitespaceFixer.php)
 
 :x:
 
@@ -209,10 +200,9 @@ public function setCount($value)
 }
 ```
 
-
 ### Include/Require should be followed by absolute path
 
-- class: [`Symplify\CodingStandard\Fixer\ControlStructure\RequireFollowedByAbsolutePathFixer`](/src/Fixer/ControlStructure/RequireFollowedByAbsolutePathFixer.php)
+- class: [`Symplify\CodingStandard\Fixer\ControlStructure\RequireFollowedByAbsolutePathFixer`](src/Fixer/ControlStructure/RequireFollowedByAbsolutePathFixer.php)
 
 :x:
 
@@ -226,11 +216,9 @@ require 'vendor/autoload.php';
 require __DIR__.'/vendor/autoload.php';
 ```
 
-
 ### Types should not be referenced via a fully/partially qualified name, but via a use statement :wrench:
 
-- class: [`Symplify\CodingStandard\Fixer\Import\ImportNamespacedNameFixer`](/src/Fixer/Import/ImportNamespacedNameFixer.php)
-
+- class: [`Symplify\CodingStandard\Fixer\Import\ImportNamespacedNameFixer`](src/Fixer/Import/ImportNamespacedNameFixer.php)
 
 :x:
 
@@ -245,7 +233,6 @@ class SomeClass
     }
 }
 ```
-
 
 :+1:
 
@@ -263,9 +250,7 @@ class SomeClass
 }
 ```
 
-
 This checker imports single name classes like `\Twig_Extension` or `\SplFileInfo` by default. But if you need, you can **configure it**:
-
 
 ```yaml
 # easy-coding-standard.neon
@@ -275,7 +260,6 @@ checkers:
 ```
 
 Duplicated class names are uniquized by vendor name:
-
 
 ```php
 <?php declare(strict_types=1);
@@ -294,10 +278,9 @@ class SomeClass
 }
 ```
 
-
 ### Magic PHP methods (`__*()`) should respect their casing form
 
-- class: [`Symplify\CodingStandard\Fixer\Naming\MagicMethodsNamingFixer`](/src/Fixer/Naming/MagicMethodsNamingFixer.php)
+- class: [`Symplify\CodingStandard\Fixer\Naming\MagicMethodsNamingFixer`](src/Fixer/Naming/MagicMethodsNamingFixer.php)
 
 :x:
 
@@ -321,10 +304,9 @@ class SomeClass
 }
 ```
 
-
 ### Property name should match its type, if possible :wrench:
 
-- class: [`Symplify\CodingStandard\Fixer\Naming\PropertyNameMatchingTypeFixer`](/src/Fixer/Naming/PropertyNameMatchingTypeFixer.php)
+- class: [`Symplify\CodingStandard\Fixer\Naming\PropertyNameMatchingTypeFixer`](src/Fixer/Naming/PropertyNameMatchingTypeFixer.php)
 
 :x:
 
@@ -354,11 +336,9 @@ checkers:
             - 'MyApp*' # accepts anything like fnmatch
 ```
 
-
 ### `::class` references should be used over string for classes and interfaces :wrench:
- 
- 
-- class: [`Symplify\CodingStandard\Fixer\Php\ClassStringToClassConstantFixer`](/src/Fixer/Php/ClassStringToClassConstantFixer.php)
+
+- class: [`Symplify\CodingStandard\Fixer\Php\ClassStringToClassConstantFixer`](src/Fixer/Php/ClassStringToClassConstantFixer.php)
 
 :x:
 
@@ -383,8 +363,7 @@ checkers:
 
 ### Array property should have default value, to prevent undefined array issues
 
-- class: [`Symplify\CodingStandard\Fixer\Property\ArrayPropertyDefaultValueFixer`](/src/Fixer/Property/ArrayPropertyDefaultValueFixer.php)
-
+- class: [`Symplify\CodingStandard\Fixer\Property\ArrayPropertyDefaultValueFixer`](src/Fixer/Property/ArrayPropertyDefaultValueFixer.php)
 
 :x:
 
@@ -395,7 +374,7 @@ class SomeClass
      * @var string[]
      */
     public $apples;
-    
+
     public function run()
     {
         foreach ($this->apples as $mac) {
@@ -405,9 +384,7 @@ class SomeClass
 }
 ```
 
-
 :+1:
-
 
 ``` php
 class SomeClass
@@ -416,7 +393,7 @@ class SomeClass
      * @var string[]
      */
     public $apples = [];
-    
+
     public function run()
     {
         foreach ($this->apples as $mac) {
@@ -426,11 +403,9 @@ class SomeClass
 }
 ```
 
-
 ### Strict type declaration has to be followed by empty line
 
-- class: [`Symplify\CodingStandard\Fixer\Strict\BlankLineAfterStrictTypesFixer`](/src/Fixer/Strict/BlankLineAfterStrictTypesFixer.php)
-
+- class: [`Symplify\CodingStandard\Fixer\Strict\BlankLineAfterStrictTypesFixer`](src/Fixer/Strict/BlankLineAfterStrictTypesFixer.php)
 
 :x:
 
@@ -447,11 +422,9 @@ namespace SomeNamespace;
 namespace SomeNamespace;
 ```
 
-
 ### `in_array()` should use 3rd param for strict comparison
 
-- class: [`Symplify\CodingStandard\Fixer\Strict\InArrayStrictFixer`](/src/Fixer/Strict/InArrayStrictFixer.php)
-
+- class: [`Symplify\CodingStandard\Fixer\Strict\InArrayStrictFixer`](src/Fixer/Strict/InArrayStrictFixer.php)
 
 :x:
 
@@ -470,13 +443,11 @@ in_array('value', $listOfValues, true);
 ```
 
 
-
 ### Non-abstract class that implements interface should be final :wrench:
 
 *Except for Doctrine entities, they cannot be final.*
 
-
-- class: [`Symplify\CodingStandard\Fixer\Solid\FinalInterfaceFixer`](/src/Fixer/Solid/FinalInterfaceFixer.php)
+- class: [`Symplify\CodingStandard\Fixer\Solid\FinalInterfaceFixer`](src/Fixer/Solid/FinalInterfaceFixer.php)
 
 :x:
 
@@ -494,7 +465,6 @@ final class SomeClass implements SomeInterface
 }
 ```
 
-
 In case want check this only for specific interfaces, you can **configure them**:
 
 ```yaml
@@ -506,10 +476,9 @@ checkers:
             - 'Nette\Application\IPresenter'
 ```
 
-
 ### Block comment should be used instead of one liner
 
-- class: [`Symplify\CodingStandard\Fixer\Commenting\BlockPropertyCommentFixer`](/src/Fixer/Commenting/BlockPropertyCommentFixer.php)
+- class: [`Symplify\CodingStandard\Fixer\Commenting\BlockPropertyCommentFixer`](src/Fixer/Commenting/BlockPropertyCommentFixer.php)
 
 :x:
 
@@ -527,16 +496,15 @@ class SomeClass
 class SomeClass
 {
     /**
-     * @var int 
+     * @var int
      */
     public $count;
 }
 ```
 
-
 ### Use explicit and informative exception names over generic ones
 
-- class: [`Symplify\CodingStandard\Sniffs\Architecture\ExplicitExceptionSniff`](/src/Sniffs/Architecture/ExplicitExceptionSniff.php)
+- class: [`Symplify\CodingStandard\Sniffs\Architecture\ExplicitExceptionSniff`](src/Sniffs/Architecture/ExplicitExceptionSniff.php)
 
 :x:
 
@@ -550,10 +518,9 @@ throw new RuntimeException('...');
 throw new FileNotFoundException('...');
 ```
 
-
 ### Constant should have docblock comment
 
-- class: [`Symplify\CodingStandard\Sniffs\Commenting\VarConstantCommentSniff`](/src/Sniffs/Commenting/VarConstantCommentSniff.php)
+- class: [`Symplify\CodingStandard\Sniffs\Commenting\VarConstantCommentSniff`](src/Sniffs/Commenting/VarConstantCommentSniff.php)
 
 :x:
 
@@ -576,10 +543,9 @@ class SomeClass
 }
 ```
 
-
 ### There should not be comments with valid code
 
-- class: [`Symplify\CodingStandard\Sniffs\Debug\CommentedOutCodeSniff`](/src/Sniffs/Debug/CommentedOutCodeSniff.php)
+- class: [`Symplify\CodingStandard\Sniffs\Debug\CommentedOutCodeSniff`](src/Sniffs/Debug/CommentedOutCodeSniff.php)
 
 :x:
 
@@ -588,10 +554,9 @@ class SomeClass
 // $directory = new Diretory([$file]);
 ```
 
-
 ### Debug functions should not be left in the code
 
-- class: [`Symplify\CodingStandard\Sniffs\Debug\DebugFunctionCallSniff`](/src/Sniffs/Debug/DebugFunctionCallSniff.php)
+- class: [`Symplify\CodingStandard\Sniffs\Debug\DebugFunctionCallSniff`](src/Sniffs/Debug/DebugFunctionCallSniff.php)
 
 :x:
 
@@ -599,10 +564,9 @@ class SomeClass
 dump($value);
 ```
 
-
 ### Use service and constructor injection rather than instantiation with new :wrench:
 
-- class: [`Symplify\CodingStandard\Sniffs\DependencyInjection\NoClassInstantiationSniff`](/src/Sniffs/DependencyInjection/NoClassInstantiationSniff.php)
+- class: [`Symplify\CodingStandard\Sniffs\DependencyInjection\NoClassInstantiationSniff`](src/Sniffs/DependencyInjection/NoClassInstantiationSniff.php)
 
 :x:
 
@@ -650,10 +614,9 @@ checkers:
         includeEntities: true
 ```
 
-
 ### Abstract class should have prefix "Abstract"
 
-- class: [`Symplify\CodingStandard\Sniffs\Naming\AbstractClassNameSniff`](/src/Sniffs/Naming/AbstractClassNameSniff.php)
+- class: [`Symplify\CodingStandard\Sniffs\Naming\AbstractClassNameSniff`](src/Sniffs/Naming/AbstractClassNameSniff.php)
 
 :x:
 
@@ -671,10 +634,9 @@ abstract class AbstractSomeClass
 }
 ```
 
-
 ### Exception should have suffix "Exception"
 
-- class: [`Symplify\CodingStandard\Fixer\Naming\ExceptionNameSniff`](/src/Fixer/Naming/ExceptionNameFixer.php)
+- class: [`Symplify\CodingStandard\Fixer\Naming\ExceptionNameSniff`](src/Fixer/Naming/ExceptionNameFixer.php)
 
 :x:
 
@@ -694,7 +656,7 @@ class SomeClassException extends Exception
 
 ### Interface should have suffix "Interface"
 
-- class: [`Symplify\CodingStandard\Sniffs\Naming\InterfaceNameSniff`](/src/Sniffs/Naming/InterfaceNameSniff.php)
+- class: [`Symplify\CodingStandard\Sniffs\Naming\InterfaceNameSniff`](src/Sniffs/Naming/InterfaceNameSniff.php)
 
 :x:
 
@@ -712,10 +674,9 @@ interface SomeInterface
 }
 ```
 
-
 ### Trait should have suffix "Trait"
 
-- class: [`Symplify\CodingStandard\Sniffs\Naming\TraitNameSniff`](/src/Sniffs/Naming/TraitNameSniff.php)
+- class: [`Symplify\CodingStandard\Sniffs\Naming\TraitNameSniff`](src/Sniffs/Naming/TraitNameSniff.php)
 
 :x:
 
@@ -733,10 +694,9 @@ trait SomeTrait
 }
 ```
 
-
 ### Properties should be used instead of dynamically defined properties
 
-- class: [`Symplify\CodingStandard\Sniffs\Property\DynamicPropertySniff`](/src/Sniffs/Property/DynamicPropertySniff.php)
+- class: [`Symplify\CodingStandard\Sniffs\Property\DynamicPropertySniff`](src/Sniffs/Property/DynamicPropertySniff.php)
 
 :x:
 
@@ -768,15 +728,13 @@ class SomeClass
 }
 ```
 
-
 ## Brave Checkers
 
 ### Possible Unused Public Method
 
-- class: [`Symplify\CodingStandard\Sniffs\DeadCode\UnusedPublicMethodSniff`](/src/Sniffs/DeadCode/UnusedPublicMethodSniff.php)
-  
-- **Requires ECS due *double run* feature**.
+- class: [`Symplify\CodingStandard\Sniffs\DeadCode\UnusedPublicMethodSniff`](src/Sniffs/DeadCode/UnusedPublicMethodSniff.php)
 
+- **Requires ECS due *double run* feature**.
 
 :x:
 
@@ -795,9 +753,8 @@ class SomeClass
 }
 
 $someObject = new SomeClass;
-$someObject->unusedMethod();
+$someObject->usedMethod();
 ```
-
 
 :+1:
 
@@ -814,7 +771,6 @@ $someObject = new SomeClass;
 $someObject->usedMethod();
 ```
 
-
 ## Contributing
 
-Send [issue](https://github.com/Symplify/Symplify/issues) or [pull-request](https://github.com/Symplify/Symplify/pulls) to main repository.
+Open an [issue](https://github.com/Symplify/Symplify/issues) or send a [pull-request](https://github.com/Symplify/Symplify/pulls) to main repository.
