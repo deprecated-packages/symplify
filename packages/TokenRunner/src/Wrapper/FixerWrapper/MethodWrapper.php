@@ -59,7 +59,10 @@ final class MethodWrapper
         }
 
         $this->argumentsBracketStart = $this->tokens->getNextTokenOfKind($this->index, ['(']);
-        $this->argumentsBracketEnd = $this->tokens->findBlockEnd(Tokens::BLOCK_TYPE_PARENTHESIS_BRACE, $this->argumentsBracketStart);
+        $this->argumentsBracketEnd = $this->tokens->findBlockEnd(
+            Tokens::BLOCK_TYPE_PARENTHESIS_BRACE,
+            $this->argumentsBracketStart
+        );
     }
 
     public static function createFromTokensAndPosition(Tokens $tokens, int $position): self

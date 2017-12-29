@@ -3,40 +3,34 @@
 namespace Symplify\CodingStandard\Fixer\MethodNotation;
 
 use PhpCsFixer\Fixer\DefinedFixerInterface;
-use PhpCsFixer\Fixer\WhitespacesAwareFixerInterface;
+use PhpCsFixer\Fixer\FixerInterface;
 use PhpCsFixer\FixerDefinition\CodeSample;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
-use PhpCsFixer\WhitespacesFixerConfig;
 use SplFileInfo;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\MethodWrapper;
 
-final class MethodArgumentsLineLengthBreakFixer implements DefinedFixerInterface, WhitespacesAwareFixerInterface
+final class MethodArgumentsLineLengthBreakFixer implements FixerInterface, DefinedFixerInterface
 {
     /**
      * @var int
      */
     private const LINE_LENGTH = 120;
 
-    /**
-     * @var WhitespacesFixerConfig
-     */
-    private $whitespacesFixerConfig;
-
     public function getDefinition(): FixerDefinitionInterface
     {
         return new FixerDefinition('Arguments should be on the same/standalone line to fit line length.', [
             new CodeSample(
-                    '<?php
+                '<?php
 class SomeClass
 {
-    public function someMethod(SuperLongArguments $superLongArguments, AnotherSuperLongArguments $anotherSuperLongArguments)
+    public function someMethod(SuperLongArguments $superLongArguments, AnotherLongArguments $anotherLongArguments)
     {
     }
 }'
-                ),
+            ),
         ]);
     }
 
@@ -83,11 +77,6 @@ class SomeClass
         return true;
     }
 
-    public function setWhitespacesConfig(WhitespacesFixerConfig $whitespacesFixerConfig): void
-    {
-        $this->whitespacesFixerConfig = $whitespacesFixerConfig;
-    }
-
     private function fixMethod(int $position, Token $token, Tokens $tokens): void
     {
         $methodWrapper = MethodWrapper::createFromTokensAndPosition($tokens, $position);
@@ -96,7 +85,6 @@ class SomeClass
         if ($firstLineLength <= self::LINE_LENGTH) {
             return;
         }
-
 
         $start = $methodWrapper->getArgumentsBracketStart();
         $end = $methodWrapper->getArgumentsBracketEnd();
