@@ -22,50 +22,28 @@ composer require symplify/coding-standard --dev
 
 - class: [`Symplify\CodingStandard\Fixer\ArrayNotation\StandaloneLineInMultilineArrayFixer`](src/Fixer/ArrayNotation/StandaloneLineInMultilineArrayFixer.php)
 
-:x:
-
-```php
-$friends = [1 => 'Peter', 2 => 'Paul'];
-```
-
-:+1:
-
-```php
-$friends = [
-    1 => 'Peter',
-    2 => 'Paul'
-];
+```diff
+-$friends = [1 => 'Peter', 2 => 'Paul'];
++$friends = [
++    1 => 'Peter',
++    2 => 'Paul'
++];
 ```
 
 ### Last property and first method must be separated by 1 blank line :wrench:
 
 - class: [`Symplify\CodingStandard\Fixer\ClassNotation\LastPropertyAndFirstMethodSeparationFixer`](src/Fixer/ClassNotation/LastPropertyAndFirstMethodSeparationFixer.php)
 
-:x:
+```diff
+ class SomeClass
+ {
+     public $lastProperty;
++
+     public function someFunction()
+     {
 
-```php
-class SomeClass
-{
-    public $lastProperty;
-    public function someFunction()
-    {
-
-    }
-}
-```
-
-:+1:
-
-```php
-class SomeClass
-{
-    public $lastProperty;
-
-    public function someFunction()
-    {
-
-    }
-}
+     }
+ }
 ```
 
 This checker requires 1 space by default. But if you need, you can **configure it**:
@@ -114,50 +92,28 @@ Just like `PhpCsFixer\Fixer\Phpdoc\NoEmptyPhpdocFixer`, but this one removes all
 
 - class: [`Symplify\CodingStandard\Fixer\Commenting\RemoveEmptyDocBlockFixer`](src/Fixer/Commenting/RemoveEmptyDocBlockFixer.php)
 
-:x:
-
-```php
-/**
- */
-public function someMethod()
-{
-}
-```
-
-:+1:
-
-```php
-public function someMethod()
-{
-}
+```diff
+-/**
+- */
+ public function someMethod()
+ {
+ }
 ```
 
 ### Block comment should only contain useful information about types :wrench:
 
 - class: [`Symplify\CodingStandard\Fixer\Commenting\RemoveUselessDocBlockFixer`](src/Fixer/Commenting/RemoveUselessDocBlockFixer.php)
 
-:x:
-
-```php
-/**
- * @param int $value
- * @param $anotherValue
- * @param SomeType $someService
- * @return array
- */
-public function setCount(int $value, $anotherValue, SomeType $someService): array
-{
-}
-```
-
-:+1:
-
-```php
-/**
- */
-public function setCount(int $value, $anotherValue, SomeType $someService): array
-{
-}
+```diff
+ /**
+- * @param int $value
+- * @param $anotherValue
+- * @param SomeType $someService
+- * @return array
+  */
+ public function setCount(int $value, $anotherValue, SomeType $someService): array
+ {
+ }
 ```
 
 This checker keeps 'mixed' and 'object' and other types by default. But if you need, you can **configure it**:
@@ -173,81 +129,44 @@ checkers:
 
 - class: [`Symplify\CodingStandard\Fixer\Commenting\RemoveSuperfluousDocBlockWhitespaceFixer`](src/Fixer/Commenting/RemoveSuperfluousDocBlockWhitespaceFixer.php)
 
-:x:
-
-```php
-/**
- * @param int $value
- *
- *
- * @return array
- */
-public function setCount($value)
-{
-}
-```
-
-:+1:
-
-```php
-/**
- * @param int $value
- *
- * @return array
- */
-public function setCount($value)
-{
-}
+```diff
+ /**
+  * @param int $value
+  *
+- *
+  * @return array
+  */
+ public function setCount($value)
+ {
+ }
 ```
 
 ### Include/Require should be followed by absolute path
 
 - class: [`Symplify\CodingStandard\Fixer\ControlStructure\RequireFollowedByAbsolutePathFixer`](src/Fixer/ControlStructure/RequireFollowedByAbsolutePathFixer.php)
 
-:x:
-
-```php
-require 'vendor/autoload.php';
-```
-
-:+1:
-
-```php
-require __DIR__.'/vendor/autoload.php';
+```diff
+-require 'vendor/autoload.php';
++require __DIR__.'/vendor/autoload.php';
 ```
 
 ### Types should not be referenced via a fully/partially qualified name, but via a use statement :wrench:
 
 - class: [`Symplify\CodingStandard\Fixer\Import\ImportNamespacedNameFixer`](src/Fixer/Import/ImportNamespacedNameFixer.php)
 
-:x:
+```diff
+ namespace SomeNamespace;
 
-```php
-namespace SomeNamespace;
++use AnotherNamespace\AnotherType;
 
-class SomeClass
-{
-    public function someMethod()
-    {
-        return new \AnotherNamespace\AnotherType;
-    }
-}
-```
-
-:+1:
-
-```php
-namespace SomeNamespace;
-
-use AnotherNamespace\AnotherType;
-
-class SomeClass
-{
-    public function someMethod()
-    {
-        return new AnotherType;
-    }
-}
+ class SomeClass
+ {
+     public function someMethod()
+     {
+-        return new \AnotherNamespace\AnotherType;
++        return new AnotherType;
+     }
+ }
 ```
 
 This checker imports single name classes like `\Twig_Extension` or `\SplFileInfo` by default. But if you need, you can **configure it**:
@@ -282,48 +201,27 @@ class SomeClass
 
 - class: [`Symplify\CodingStandard\Fixer\Naming\MagicMethodsNamingFixer`](src/Fixer/Naming/MagicMethodsNamingFixer.php)
 
-:x:
-
-```php
-class SomeClass
-{
-    public function __CONSTRUCT()
-    {
-    }
-}
-```
-
-:+1:
-
-```php
-class SomeClass
-{
-    public function __construct()
-    {
-    }
-}
+```diff
+ class SomeClass
+ {
+-    public function __CONSTRUCT()
++    public function __construct()
+     {
+     }
+ }
 ```
 
 ### Property name should match its type, if possible :wrench:
 
 - class: [`Symplify\CodingStandard\Fixer\Naming\PropertyNameMatchingTypeFixer`](src/Fixer/Naming/PropertyNameMatchingTypeFixer.php)
 
-:x:
-
-```php
-public function __construct(EntityManagerInterface $eventManager)
-{
-    $this->eventManager = $eventManager;
-}
-```
-
-:+1:
-
-```php
-public function __construct(EntityManagerInterface $entityManager)
-{
-    $this->entityManager = $entityManager;
-}
+```diff
+-public function __construct(EntityManagerInterface $eventManager)
++public function __construct(EntityManagerInterface $entityManager)
+ {
+-    $this->eventManager = $eventManager;
++    $this->entityManager = $entityManager;
+ }
 ```
 
 This checker ignores few **system classes like `std*` or `Spl*` by default**. In case want to skip more classes, you can **configure it**:
@@ -340,16 +238,9 @@ checkers:
 
 - class: [`Symplify\CodingStandard\Fixer\Php\ClassStringToClassConstantFixer`](src/Fixer/Php/ClassStringToClassConstantFixer.php)
 
-:x:
-
-```php
-$className = 'DateTime';
-```
-
-:+1:
-
-```php
-$className = DateTime::class;
+```diff
+-$className = 'DateTime';
++$className = DateTime::class;
 ```
 
 This checker takes **only existing classes by default**. In case want to check another code not loaded by local composer, you can **configure it**:
@@ -365,81 +256,44 @@ checkers:
 
 - class: [`Symplify\CodingStandard\Fixer\Property\ArrayPropertyDefaultValueFixer`](src/Fixer/Property/ArrayPropertyDefaultValueFixer.php)
 
-:x:
+```diff
+ class SomeClass
+ {
+     /**
+      * @var string[]
+      */
+-    public $apples;
++    public $apples = [];
 
-``` php
-class SomeClass
-{
-    /**
-     * @var string[]
-     */
-    public $apples;
-
-    public function run()
-    {
-        foreach ($this->apples as $mac) {
-            // ...
-        }
-    }
-}
-```
-
-:+1:
-
-``` php
-class SomeClass
-{
-    /**
-     * @var string[]
-     */
-    public $apples = [];
-
-    public function run()
-    {
-        foreach ($this->apples as $mac) {
-            // ...
-        }
-    }
-}
+     public function run()
+     {
+         foreach ($this->apples as $mac) {
+             // ...
+         }
+     }
+ }
 ```
 
 ### Strict type declaration has to be followed by empty line
 
 - class: [`Symplify\CodingStandard\Fixer\Strict\BlankLineAfterStrictTypesFixer`](src/Fixer/Strict/BlankLineAfterStrictTypesFixer.php)
 
-:x:
-
-``` php
-<?php declare(strict_types=1);
-namespace SomeNamespace;
+```diff
+ <?php declare(strict_types=1);
++
+ namespace SomeNamespace;
 ```
 
-:+1:
-
-``` php
-<?php declare(strict_types=1);
-
-namespace SomeNamespace;
-```
 
 ### `in_array()` should use 3rd param for strict comparison
 
 - class: [`Symplify\CodingStandard\Fixer\Strict\InArrayStrictFixer`](src/Fixer/Strict/InArrayStrictFixer.php)
 
-:x:
+```diff
+ <?php
 
-``` php
-<?php
-
-in_array('value', $listOfValues);
-```
-
-:+1:
-
-``` php
-<?php
-
-in_array('value', $listOfValues, true);
+-in_array('value', $listOfValues);
++in_array('value', $listOfValues, true);
 ```
 
 
@@ -449,20 +303,11 @@ in_array('value', $listOfValues, true);
 
 - class: [`Symplify\CodingStandard\Fixer\Solid\FinalInterfaceFixer`](src/Fixer/Solid/FinalInterfaceFixer.php)
 
-:x:
-
-```php
-class SomeClass implements SomeInterface
-{
-}
-```
-
-:+1:
-
-```php
-final class SomeClass implements SomeInterface
-{
-}
+```diff
+-class SomeClass implements SomeInterface
++final class SomeClass implements SomeInterface
+ {
+ }
 ```
 
 In case want check this only for specific interfaces, you can **configure them**:
@@ -480,26 +325,15 @@ checkers:
 
 - class: [`Symplify\CodingStandard\Fixer\Commenting\BlockPropertyCommentFixer`](src/Fixer/Commenting/BlockPropertyCommentFixer.php)
 
-:x:
-
-```php
-class SomeClass
-{
-    /** @var int */
-    public $count;
-}
-```
-
-:+1:
-
-```php
-class SomeClass
-{
-    /**
-     * @var int
-     */
-    public $count;
-}
+```diff
+ class SomeClass
+ {
+-    /** @var int */
++    /**
++     * @var int
++     */
+     public $count;
+ }
 ```
 
 ### Use explicit and informative exception names over generic ones
@@ -521,8 +355,6 @@ throw new FileNotFoundException('...');
 ### Constant should have docblock comment
 
 - class: [`Symplify\CodingStandard\Sniffs\Commenting\VarConstantCommentSniff`](src/Sniffs/Commenting/VarConstantCommentSniff.php)
-
-:x:
 
 ```php
 class SomeClass
@@ -618,80 +450,44 @@ checkers:
 
 - class: [`Symplify\CodingStandard\Sniffs\Naming\AbstractClassNameSniff`](src/Sniffs/Naming/AbstractClassNameSniff.php)
 
-:x:
-
-```php
-abstract class SomeClass
-{
-}
-```
-
-:+1:
-
-```php
-abstract class AbstractSomeClass
-{
-}
+```diff
+-abstract class SomeClass
++abstract class AbstractSomeClass
+ {
+ }
 ```
 
 ### Exception should have suffix "Exception"
 
 - class: [`Symplify\CodingStandard\Fixer\Naming\ExceptionNameSniff`](src/Fixer/Naming/ExceptionNameFixer.php)
 
-:x:
-
-```php
-class SomeClass extends Exception
-{
-}
-```
-
-:+1:
-
-```php
-class SomeClassException extends Exception
-{
-}
+```diff
+-class SomeClass extends Exception
++class SomeClassException extends Exception
+ {
+ }
 ```
 
 ### Interface should have suffix "Interface"
 
 - class: [`Symplify\CodingStandard\Sniffs\Naming\InterfaceNameSniff`](src/Sniffs/Naming/InterfaceNameSniff.php)
 
-:x:
-
-```php
-interface Some
-{
-}
-```
-
-:+1:
-
-```php
-interface SomeInterface
-{
-}
+```diff
+-interface Some
++interface SomeInterface
+ {
+ }
 ```
 
 ### Trait should have suffix "Trait"
 
 - class: [`Symplify\CodingStandard\Sniffs\Naming\TraitNameSniff`](src/Sniffs/Naming/TraitNameSniff.php)
 
-:x:
-
-```php
-trait Some
-{
-}
-```
-
-:+1:
-
-```php
-trait SomeTrait
-{
-}
+```diff
+-trait Some
++trait SomeTrait
+ {
+ }
 ```
 
 ### Properties should be used instead of dynamically defined properties
@@ -746,25 +542,10 @@ class SomeClass
 
     }
 
-    public function unusedMethod()
-    {
-
-    }
-}
-
-$someObject = new SomeClass;
-$someObject->usedMethod();
-```
-
-:+1:
-
-```php
-class SomeClass
-{
-    public function usedMethod()
-    {
-
-    }
+-    public function unusedMethod()
+-    {
+-
+-    }
 }
 
 $someObject = new SomeClass;
