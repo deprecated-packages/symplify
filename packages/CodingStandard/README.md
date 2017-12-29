@@ -129,8 +129,6 @@ checkers:
 
 - class: [`Symplify\CodingStandard\Fixer\Commenting\RemoveSuperfluousDocBlockWhitespaceFixer`](src/Fixer/Commenting/RemoveSuperfluousDocBlockWhitespaceFixer.php)
 
-:x:
-
 ```diff
  /**
   * @param int $value
@@ -155,8 +153,6 @@ checkers:
 ### Types should not be referenced via a fully/partially qualified name, but via a use statement :wrench:
 
 - class: [`Symplify\CodingStandard\Fixer\Import\ImportNamespacedNameFixer`](src/Fixer/Import/ImportNamespacedNameFixer.php)
-
-:x:
 
 ```diff
  namespace SomeNamespace;
@@ -487,7 +483,7 @@ checkers:
 
 - class: [`Symplify\CodingStandard\Sniffs\Naming\TraitNameSniff`](src/Sniffs/Naming/TraitNameSniff.php)
 
-```php
+```diff
 -trait Some
 +trait SomeTrait
  {
