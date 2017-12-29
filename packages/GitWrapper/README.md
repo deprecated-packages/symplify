@@ -6,7 +6,7 @@
 
 ## Install
 
-```json
+```bash
 composer require symplify/git-wrapper
 ```
 
@@ -47,7 +47,7 @@ All command methods adhere to the following paradigm:
 $gitWrapper->command($arg1, $arg2, ..., $options);
 ```
 
-Replace `command` with the Git command being executed, e.g. `checkout`, `push`, etc. The `$arg*` parameters are a variable number of arguments as they would be passed to the Git command line tool. `$options` is an optional array of command line options in the following format: 
+Replace `command` with the Git command being executed, e.g. `checkout`, `push`, etc. The `$arg*` parameters are a variable number of arguments as they would be passed to the Git command line tool. `$options` is an optional array of command line options in the following format:
 
 ```php
 $options = [
@@ -56,7 +56,7 @@ $options = [
 ];
 ```
 
-#### Logging
+### Logging
 
 Use the logger listener with [PSR-3](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-3-logger-interface.md)
 compatible loggers such as [Monolog](https://github.com/Seldaek/monolog) to log commands that are executed.
@@ -81,7 +81,7 @@ GitWrapper uses event system based on [Symfony\EventDispatcher](https://symfony.
 
 There are 4 events to hook on:
 
-- `GitPrepareEvent` 
+- `GitPrepareEvent`
 - `GitSuccessEvent`
 - `GitErrorEvent`
 - `GitOutputEvent`
@@ -102,7 +102,7 @@ final class MyEventSubscriber implements EventSubscriberInterface
             GitSuccessEvent::class => 'onSuccess',
         ];
     }
-    
+
     public function onSuccess(GitSuccessEvent $gitSuccessEvent)
     {
         // do what you like to do
@@ -110,15 +110,12 @@ final class MyEventSubscriber implements EventSubscriberInterface
 }
 ```
 
-
-
 ### Prepared Subscribers
 
 We have also few prepared special EventSubscibers for you:
 
-
 **1. To stream output right away**, add `GitOutputStreamEventSubscriber` to your dispatcher:
- 
+
 ```php
 $this->eventDispatcher->addSubscriber(new GitOutputStreamEventSubscriber);
 ```
@@ -128,7 +125,6 @@ $this->eventDispatcher->addSubscriber(new GitOutputStreamEventSubscriber);
 ```php
 $this->eventDispatcher->addSubscriber(new GitLoggerEventSubscriber);
 ```
-
 
 ## Gotchas
 
