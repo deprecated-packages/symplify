@@ -285,12 +285,20 @@ class SomeClass
 ```diff
  class SomeClass
  {
--    public function someMethod(SuperLongArguments $superLongArguments, AnotherLongArguments $anotherLongArguments)
+-    public function someMethod(SuperLongArguments $superLongArguments, AnotherLongArguments $anotherLongArguments, $oneMore)
 +    public function someMethod(
 +        SuperLongArguments $superLongArguments,
-+        AnotherLongArguments $anotherLongArguments
-+     )
++        AnotherLongArguments $anotherLongArguments,
++        $oneMore
++    )
      {
+     }
+
+-    public function someOtherMethod(
+-        ShortArgument $shortArgument,
+-        $oneMore
+-    ) {
++    public function someOtherMethod(ShortArgument $shortArgument, $oneMore) {
      }
  }
 ```
