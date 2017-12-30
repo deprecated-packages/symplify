@@ -116,7 +116,7 @@ class SomeClass
     {
         $methodWrapper = MethodWrapper::createFromTokensAndPosition($tokens, $position);
 
-        if ($methodWrapper->getFirstLineLength() >= self::LINE_LENGTH) {
+        if ($methodWrapper->getFirstLineLength() > self::LINE_LENGTH) {
             $this->breakMethodArguments($methodWrapper, $tokens, $position);
             return;
         }
