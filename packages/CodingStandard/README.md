@@ -540,8 +540,6 @@ class SomeClass
 
 - **Requires ECS due *double run* feature**.
 
-:x:
-
 ```diff
  class SomeClass
  {
