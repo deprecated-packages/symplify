@@ -14,7 +14,7 @@ use SplFileInfo;
 use Symplify\TokenRunner\Analyzer\FixerAnalyzer\IndentDetector;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\MethodWrapper;
 
-final class BreakMethodArgumentFixer implements DefinedFixerInterface, WhitespacesAwareFixerInterface
+final class BreakMethodArgumentsFixer implements DefinedFixerInterface, WhitespacesAwareFixerInterface
 {
     /**
      * @var int
