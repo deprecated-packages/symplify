@@ -169,10 +169,6 @@ $values = [1 => \'hey\', 2 => \'hello\'];'
 
     private function prepareIndentWhitespaces(Tokens $tokens, int $arrayStartIndex): void
     {
-        if ($this->indentWhitespace) {
-            return;
-        }
-
         $indentLevel = $this->indentDetector->detectOnPosition($tokens, $arrayStartIndex);
         $indentWhitespace = $this->whitespacesFixerConfig->getIndent();
         $lineEnding = $this->whitespacesFixerConfig->getLineEnding();

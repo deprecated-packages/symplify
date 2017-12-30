@@ -227,4 +227,41 @@ final class MethodWrapper
     {
         return $this->argumentsBracketEnd;
     }
+
+    public function getLineLengthToEndOfArguments(): int
+    {
+        $lineLength = 0;
+
+        // compute from function to start of line
+        $currentPosition = $this->index;
+        while (! Strings::startsWith($this->tokens[$currentPosition]->getContent(), PHP_EOL)) {
+            $lineLength += strlen($this->tokens[$currentPosition]->getContent());
+            --$currentPosition;
+        }
+
+        // get length from start of function till end of arguments - with spaces as one
+        $currentPosition = $this->index;
+        while ($currentPosition < $this->argumentsBracketEnd) {
+            $currentToken = $this->tokens[$currentPosition];
+            if ($currentToken->isGivenKind(T_WHITESPACE)) {
+                $lineLength += 1;
+                ++$currentPosition;
+                continue;
+            }
+
+            $lineLength += strlen($this->tokens[$currentPosition]->getContent());
+            ++$currentPosition;
+        }
+
+        // get length from end or arguments to first line break
+        $currentPosition = $this->argumentsBracketEnd;
+        while (! Strings::startsWith($this->tokens[$currentPosition]->getContent(), PHP_EOL)) {
+            $currentToken = $this->tokens[$currentPosition];
+
+            $lineLength += strlen($currentToken->getContent());
+            ++$currentPosition;
+        }
+
+        return $lineLength;
+    }
 }

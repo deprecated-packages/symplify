@@ -1,5 +1,8 @@
 <?php declare(strict_types=1);
 
+/**
+ * @todo rename "MethodNotation" to "LineLength"
+ */
 namespace Symplify\CodingStandard\Fixer\MethodNotation;
 
 use PhpCsFixer\Fixer\DefinedFixerInterface;
@@ -90,10 +93,6 @@ class SomeClass
         return self::class;
     }
 
-    /**
-     * Maybe include indent fixer and run before
-     * it to delegate spaces indentation
-     */
     public function getPriority(): int
     {
         return 0;
@@ -113,19 +112,39 @@ class SomeClass
     private function fixMethod(int $position, Tokens $tokens): void
     {
         $methodWrapper = MethodWrapper::createFromTokensAndPosition($tokens, $position);
-        $firstLineLength = $methodWrapper->getFirstLineLength();
 
-        if ($firstLineLength <= self::LINE_LENGTH) {
+        if ($methodWrapper->getFirstLineLength() >= self::LINE_LENGTH) {
+            $this->breakMethodArguments($methodWrapper, $tokens, $position);
             return;
         }
 
+        if ($methodWrapper->getLineLengthToEndOfArguments() <= self::LINE_LENGTH) {
+            $this->inlineMethodArguments($methodWrapper, $tokens, $position);
+            return;
+        }
+    }
+
+    private function prepareIndentWhitespaces(Tokens $tokens, int $arrayStartIndex): void
+    {
+        if ($this->indentWhitespace) {
+            return;
+        }
+
+        $indentLevel = $this->indentDetector->detectOnPosition($tokens, $arrayStartIndex);
+        $indentWhitespace = $this->whitespacesFixerConfig->getIndent();
+        $lineEnding = $this->whitespacesFixerConfig->getLineEnding();
+
+        $this->indentWhitespace = str_repeat($indentWhitespace, $indentLevel + 1);
+        $this->closingBracketNewlineIndentWhitespace = $lineEnding . str_repeat($indentWhitespace, $indentLevel);
+        $this->newlineIndentWhitespace = $lineEnding . $this->indentWhitespace;
+    }
+
+    private function breakMethodArguments(MethodWrapper $methodWrapper, Tokens $tokens, int $position): void
+    {
         $this->prepareIndentWhitespaces($tokens, $position);
 
         $start = $methodWrapper->getArgumentsBracketStart();
         $end = $methodWrapper->getArgumentsBracketEnd();
-
-        // @todo use whitespace config
-        $breakToken = new Token([T_WHITESPACE, PHP_EOL]);
 
         // 1. break after arguments opening
         $tokens->ensureWhitespaceAtIndex($start + 1, 0, $this->newlineIndentWhitespace);
@@ -143,18 +162,20 @@ class SomeClass
         }
     }
 
-    private function prepareIndentWhitespaces(Tokens $tokens, int $arrayStartIndex): void
+    private function inlineMethodArguments(MethodWrapper $methodWrapper, Tokens $tokens, int $position): void
     {
-        if ($this->indentWhitespace) {
-            return;
+        $endPosition = $methodWrapper->getArgumentsBracketEnd();
+
+        // @todo
+        // after ( to nothing
+        // before ) to night
+
+        // replace PHP_EOL with " "
+        for ($i = $position; $i < $endPosition; ++$i) {
+            $currentToken = $tokens[$i];
+            if ($currentToken->isGivenKind(T_WHITESPACE)) {
+                $tokens[$i] = new Token([T_WHITESPACE, ' ']);
+            }
         }
-
-        $indentLevel = $this->indentDetector->detectOnPosition($tokens, $arrayStartIndex);
-        $indentWhitespace = $this->whitespacesFixerConfig->getIndent();
-        $lineEnding = $this->whitespacesFixerConfig->getLineEnding();
-
-        $this->indentWhitespace = str_repeat($indentWhitespace, $indentLevel + 1);
-        $this->closingBracketNewlineIndentWhitespace = $lineEnding . str_repeat($indentWhitespace, $indentLevel);
-        $this->newlineIndentWhitespace = $lineEnding . $this->indentWhitespace;
     }
 }
