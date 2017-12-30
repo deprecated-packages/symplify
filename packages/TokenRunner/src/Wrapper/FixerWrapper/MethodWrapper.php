@@ -206,7 +206,7 @@ final class MethodWrapper
 
         // includes indent in the beggining
         // -1 = do not count PHP_EOL as character
-        $lineLength += strlen($currentToken->getContent()) - 1;
+        $lineLength += strlen($currentToken->getContent()) - 2;
 
         // compute from here to end of line
         $currentPosition = $this->index + 1;
