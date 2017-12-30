@@ -1,9 +1,6 @@
 <?php declare(strict_types=1);
 
-/**
- * @todo rename "MethodNotation" to "LineLength"
- */
-namespace Symplify\CodingStandard\Fixer\MethodNotation;
+namespace Symplify\CodingStandard\Fixer\LineLength;
 
 use PhpCsFixer\Fixer\DefinedFixerInterface;
 use PhpCsFixer\Fixer\WhitespacesAwareFixerInterface;
@@ -17,7 +14,7 @@ use SplFileInfo;
 use Symplify\TokenRunner\Analyzer\FixerAnalyzer\IndentDetector;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\MethodWrapper;
 
-final class MethodArgumentsLineLengthBreakFixer implements DefinedFixerInterface, WhitespacesAwareFixerInterface
+final class BreakMethodArgumentFixer implements DefinedFixerInterface, WhitespacesAwareFixerInterface
 {
     /**
      * @var int

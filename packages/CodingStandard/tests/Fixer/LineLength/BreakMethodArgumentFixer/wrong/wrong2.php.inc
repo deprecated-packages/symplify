@@ -7,4 +7,11 @@ class SomeClass
         AnotherLongArgument $anotherLongArgument
     ) {
     }
+
+    public function someOtherFunction(
+        SomeLongArgument $someLongArgument,
+        AnotherLongArgument $anotherLongArgument,
+        LongOneArgument $longOneArgument
+    ) {
+    }
 }

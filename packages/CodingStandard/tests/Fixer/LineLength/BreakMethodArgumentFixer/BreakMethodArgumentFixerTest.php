@@ -1,13 +1,13 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Fixer\MethodNotation\MethodArgumentsLineLengthBreakFixer;
+namespace Symplify\CodingStandard\Tests\Fixer\LineLength\BreakMethodArgumentFixer;
 
 use PhpCsFixer\Fixer\FixerInterface;
 use PhpCsFixer\WhitespacesFixerConfig;
-use Symplify\CodingStandard\Fixer\MethodNotation\MethodArgumentsLineLengthBreakFixer;
+use Symplify\CodingStandard\Fixer\LineLength\BreakMethodArgumentFixer;
 use Symplify\TokenRunner\Testing\AbstractSimpleFixerTestCase;
 
-final class MethodArgumentsLineLengthBreakFixerTest extends AbstractSimpleFixerTestCase
+final class BreakMethodArgumentFixerTest extends AbstractSimpleFixerTestCase
 {
     /**
      * @dataProvider wrongToFixedCases()
@@ -30,7 +30,7 @@ final class MethodArgumentsLineLengthBreakFixerTest extends AbstractSimpleFixerT
 
     protected function createFixer(): FixerInterface
     {
-        $fixer = new MethodArgumentsLineLengthBreakFixer();
+        $fixer = new BreakMethodArgumentFixer();
         $fixer->setWhitespacesConfig(new WhitespacesFixerConfig());
 
         return $fixer;

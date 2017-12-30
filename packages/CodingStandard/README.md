@@ -280,7 +280,7 @@ class SomeClass
 
 ### Arguments should be on the same/standalone line to fit line length
 
-- class: [`Symplify\CodingStandard\Fixer\MethodNotation\MethodArgumentsLineLengthBreakFixer`](src/Fixer/MethodNotation/MethodArgumentsLineLengthBreakFixer.php)
+- class: [`Symplify\CodingStandard\Fixer\LineLength\BreakMethodArgumentFixer`](src/Fixer/LineLength/BreakMethodArgumentFixer.php)
 
 ```diff
  class SomeClass
