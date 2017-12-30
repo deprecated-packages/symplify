@@ -59,6 +59,12 @@ class SomeClass
     public function someMethod(SuperLongArguments $superLongArguments, AnotherLongArguments $anotherLongArguments)
     {
     }
+
+    public function anotherMethod(
+        ShortArgument $shortArgument,
+        AnotherShortArgument $anotherShortArgument
+    ) {
+    }
 }'
             ),
         ]);
@@ -126,10 +132,6 @@ class SomeClass
 
     private function prepareIndentWhitespaces(Tokens $tokens, int $arrayStartIndex): void
     {
-        if ($this->indentWhitespace) {
-            return;
-        }
-
         $indentLevel = $this->indentDetector->detectOnPosition($tokens, $arrayStartIndex);
         $indentWhitespace = $this->whitespacesFixerConfig->getIndent();
         $lineEnding = $this->whitespacesFixerConfig->getLineEnding();
@@ -166,16 +168,22 @@ class SomeClass
     {
         $endPosition = $methodWrapper->getArgumentsBracketEnd();
 
-        // @todo
-        // after ( to nothing
-        // before ) to night
-
         // replace PHP_EOL with " "
         for ($i = $position; $i < $endPosition; ++$i) {
             $currentToken = $tokens[$i];
-            if ($currentToken->isGivenKind(T_WHITESPACE)) {
-                $tokens[$i] = new Token([T_WHITESPACE, ' ']);
+
+            if (! $currentToken->isGivenKind(T_WHITESPACE)) {
+                continue;
             }
+
+            $previousToken = $tokens[$i - 1];
+            $nextToken = $tokens[$i + 1];
+            if ($previousToken->getContent() === '(' || $nextToken->getContent() === ')') {
+                $tokens->clearAt($i);
+                continue;
+            }
+
+            $tokens[$i] = new Token([T_WHITESPACE, ' ']);
         }
     }
 }
