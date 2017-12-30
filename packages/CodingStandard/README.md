@@ -278,6 +278,23 @@ class SomeClass
 }
 ```
 
+### Arguments should be on the same/standalone line to fit line length
+
+- class: [`Symplify\CodingStandard\Fixer\MethodNotation\MethodArgumentsLineLengthBreakFixer`](src/Fixer/MethodNotation/MethodArgumentsLineLengthBreakFixer.php)
+
+```diff
+ class SomeClass
+ {
+-    public function someMethod(SuperLongArguments $superLongArguments, AnotherLongArguments $anotherLongArguments)
++    public function someMethod(
++        SuperLongArguments $superLongArguments,
++        AnotherLongArguments $anotherLongArguments
++     )
+     {
+     }
+ }
+```
+
 ### Magic PHP methods (`__*()`) should respect their casing form
 
 - class: [`Symplify\CodingStandard\Fixer\Naming\MagicMethodsNamingFixer`](src/Fixer/Naming/MagicMethodsNamingFixer.php)
