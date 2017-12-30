@@ -42,6 +42,11 @@ final class MethodArgumentsLineLengthBreakFixer implements FixerInterface, Defin
      */
     private $newlineIndentWhitespace;
 
+    /**
+     * @var string
+     */
+    private $closingBracketNewlineIndentWhitespace;
+
     public function getDefinition(): FixerDefinitionInterface
     {
         return new FixerDefinition('Arguments should be on the same/standalone line to fit line length.', [
@@ -124,17 +129,17 @@ class SomeClass
         $breakToken = new Token([T_WHITESPACE, PHP_EOL]);
 
         // 1. break after arguments opening
-        $tokens->insertAt($start + 1, [$breakToken]);
+        $tokens->ensureWhitespaceAtIndex($start + 1, 0, $this->newlineIndentWhitespace);
 
         // 2. break before arguments closing
-        $tokens->insertAt($end + 1, [$breakToken]);
+        $tokens->ensureWhitespaceAtIndex($end + 1, 0, $this->closingBracketNewlineIndentWhitespace);
 
         for ($i = $start; $i < $end; ++$i) {
             $currentToken = $tokens[$i];
 
             // 3. new line after each comma ",", instead of just space
             if ($currentToken->getContent() === ',') {
-                $tokens[$i + 1] = new Token([T_WHITESPACE, PHP_EOL]);
+                $tokens->ensureWhitespaceAtIndex($i + 1, 0, $this->newlineIndentWhitespace);
             }
         }
     }
