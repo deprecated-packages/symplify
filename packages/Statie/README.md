@@ -6,7 +6,6 @@
 
 Statie takes HTML, Markdown and Latte files and generates static HTML page.
 
-
 ## Install
 
 ```bash
@@ -16,7 +15,6 @@ composer require symplify/statie
 ## How to Generate and See the Website?
 
 1. Prepare content for Statie... . Simple 'index.latte' would do for start, but you can also inspire in [tomasvotruba.cz personal website](https://github.com/TomasVotruba/tomasvotruba.cz/tree/master/source).
-
 
 2. Generate static site from `/source` (argument) to `/output` (default value) in HTML:
 
@@ -31,7 +29,6 @@ php -S localhost:8000 -t output
 ```
 
 4. And see web in browser [localhost:8000](http://localhost:8000).
-
 
 ## Configuration
 
@@ -89,16 +86,15 @@ parameters:
 ```yaml
 services:
     App\SomeService: ~
-   
+
     App\TweetService:
         arguments:
           - '%twitter.api_key%'
 ```
 
-
 ## Documentation
 
-See documentation at  [www.statie.org](https://www.statie.org).
+See documentation at [www.statie.org](https://www.statie.org).
 
 - [Add Headline Anchor Links](https://www.statie.org/docs/headline-anchors/)
 - [Add Related Items](https://www.statie.org/docs/related-items/)
@@ -116,9 +112,7 @@ See documentation at  [www.statie.org](https://www.statie.org).
 - [How to re-generate and refresh static website in Statie?](https://romanvesely.com/statie-generate-and-refresh/)
 - [Implement a CSS preprocessor into Statie project](https://romanvesely.com/statie-with-css-preprocessor/)
 
-
-*Got one too? [Send PR and share it with others](https://github.com/Symplify/Symplify/edit/master/packages/Statie/README.md).*
-
+*Got one too? [Send a PR and share it with others](https://github.com/Symplify/Symplify/edit/master/packages/Statie/README.md).*
 
 ## Who Runs on Statie?
 
@@ -131,10 +125,8 @@ See what Statie can do and how community uses it:
 - [github.com/enumag/enumag.cz](https://github.com/enumag/enumag.cz)
 - [posobota.cz](https://www.posobota.cz/)
 
-
-*Do you run on Statie too? Let the world know and [send PR to add your website here](https://github.com/Symplify/Symplify/edit/master/packages/Statie/README.md).*
-
+*Do you run on Statie too? Let the world know and [send a PR to add your website here](https://github.com/Symplify/Symplify/edit/master/packages/Statie/README.md).*
 
 ## Contributing
 
-Send [issue](https://github.com/Symplify/Symplify/issues) or [pull-request](https://github.com/Symplify/Symplify/pulls) to main repository.
+Open an [issue](https://github.com/Symplify/Symplify/issues) or send a [pull-request](https://github.com/Symplify/Symplify/pulls) to main repository.
