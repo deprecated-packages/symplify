@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Fixer\ClassNotation\MethodArgumentsLineLengthBreakFixer;
+namespace Symplify\CodingStandard\Tests\Fixer\MethodNotation\MethodArgumentsLineLengthBreakFixer;
 
 use PhpCsFixer\Fixer\FixerInterface;
 use PhpCsFixer\WhitespacesFixerConfig;
@@ -24,6 +24,7 @@ final class MethodArgumentsLineLengthBreakFixerTest extends AbstractSimpleFixerT
     {
         return [
             [__DIR__ . '/wrong/wrong.php.inc', __DIR__ . '/fixed/fixed.php.inc'],
+            [__DIR__ . '/wrong/wrong2.php.inc', __DIR__ . '/fixed/fixed2.php.inc'],
         ];
     }
 
