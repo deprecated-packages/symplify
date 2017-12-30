@@ -284,7 +284,6 @@ checkers:
  namespace SomeNamespace;
 ```
 
-
 ### `in_array()` should use 3rd param for strict comparison
 
 - class: [`Symplify\CodingStandard\Fixer\Strict\InArrayStrictFixer`](src/Fixer/Strict/InArrayStrictFixer.php)
@@ -295,7 +294,6 @@ checkers:
 -in_array('value', $listOfValues);
 +in_array('value', $listOfValues, true);
 ```
-
 
 ### Non-abstract class that implements interface should be final :wrench:
 

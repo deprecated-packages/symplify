@@ -128,7 +128,7 @@ Symplify\PackageBuilder\Configuration\ConfigFilePathHelper::detectFromInput('sta
 # exception if no file is found
 ```
 
-Where "statie" is key to save the location under. Later you'll use it get the config.  
+Where "statie" is key to save the location under. Later you'll use it get the config.
 
 With `--config` you can set config via CLI.
 
@@ -154,7 +154,7 @@ This is common practise in CLI applications, e.g. [PHPUnit](https://phpunit.de/)
 
 ### 5. Use SymfonyStyle for Console Output Anywhere You Need
 
-Another use case for `bin/<app-name>`, when you need to output before building Dependency Injection Container. E.g. when ContainerFactory fails on exception that you need to report nicely.    
+Another use case for `bin/<app-name>`, when you need to output before building Dependency Injection Container. E.g. when ContainerFactory fails on exception that you need to report nicely.
 
 ```php
 # bin/statie

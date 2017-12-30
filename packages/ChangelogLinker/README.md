@@ -10,7 +10,7 @@ Turn your `CHANGELOG.md` from a machine readable text to a **rich text that make
 
 ```bash
 composer require symplify/changelog-linker
-```  
+```
 
 ## Usage
 
@@ -29,7 +29,7 @@ vendor/bin/changelog-linker CHANGELOG.md --repository https://github.com/symplif
 ```markdown
 ### Added
 
-- #123 Cool new without detailed description wanting me to see PR  
+- #123 Cool new without detailed description wanting me to see PR
 ```
 
 :+1:
@@ -38,7 +38,6 @@ vendor/bin/changelog-linker CHANGELOG.md --repository https://github.com/symplif
 ### Added
 
 - [#123] Cool new without detailed description wanting me to see PR
-
 
 [#123]: https://github.com/Symplify/Symplify/pull/123
 ```
