@@ -3,7 +3,6 @@
 namespace Symplify\CodingStandard\Fixer\MethodNotation;
 
 use PhpCsFixer\Fixer\DefinedFixerInterface;
-use PhpCsFixer\Fixer\FixerInterface;
 use PhpCsFixer\Fixer\WhitespacesAwareFixerInterface;
 use PhpCsFixer\FixerDefinition\CodeSample;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
@@ -15,7 +14,7 @@ use SplFileInfo;
 use Symplify\TokenRunner\Analyzer\FixerAnalyzer\IndentDetector;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\MethodWrapper;
 
-final class MethodArgumentsLineLengthBreakFixer implements FixerInterface, DefinedFixerInterface, WhitespacesAwareFixerInterface
+final class MethodArgumentsLineLengthBreakFixer implements DefinedFixerInterface, WhitespacesAwareFixerInterface
 {
     /**
      * @var int
