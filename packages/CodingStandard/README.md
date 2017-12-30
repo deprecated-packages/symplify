@@ -59,31 +59,16 @@ checkers:
 
 - class: [`Symplify\CodingStandard\Fixer\Commenting\AnnotateMagicContainerGetterFixer`](src/Fixer/Commenting/AnnotateMagicContainerGetterFixer.php)
 
-:x:
-
-```php
-class SomeTest extends ContainerAwareTestCase
-{
-    protected function setUp(): void
-    {
-        $someService = $this->container->get(SomeType::class);
-        $someService->unknownMethod();
-    }
-}
-```
-
-:+1:
-
-```php
-class SomeTest extends ContainerAwareTestCase
-{
-    protected function setUp(): void
-    {
-        /** @var SomeType $someService */
-        $someService = $this->container->get(SomeType::class);
-        $someService->knownMethod();
-    }
-}
+```diff
+ class SomeTest extends ContainerAwareTestCase
+ {
+     protected function setUp(): void
+     {
++        /** @var SomeType $someService */
+         $someService = $this->container->get(SomeType::class);
+         $someService->unknownMethod();
+     }
+ }
 ```
 
 ### There should not be empty PHPDoc blocks
@@ -557,22 +542,22 @@ class SomeClass
 
 :x:
 
-```php
-class SomeClass
-{
-    public function usedMethod()
-    {
+```diff
+ class SomeClass
+ {
+     public function usedMethod()
+     {
 
-    }
+     }
 
 -    public function unusedMethod()
 -    {
 -
 -    }
-}
+ }
 
-$someObject = new SomeClass;
-$someObject->usedMethod();
+ $someObject = new SomeClass;
+ $someObject->usedMethod();
 ```
 
 ## Contributing
