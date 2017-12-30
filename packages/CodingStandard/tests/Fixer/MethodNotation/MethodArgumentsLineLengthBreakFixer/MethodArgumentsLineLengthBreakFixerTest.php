@@ -3,6 +3,7 @@
 namespace Symplify\CodingStandard\Tests\Fixer\ClassNotation\MethodArgumentsLineLengthBreakFixer;
 
 use PhpCsFixer\Fixer\FixerInterface;
+use PhpCsFixer\WhitespacesFixerConfig;
 use Symplify\CodingStandard\Fixer\MethodNotation\MethodArgumentsLineLengthBreakFixer;
 use Symplify\TokenRunner\Testing\AbstractSimpleFixerTestCase;
 
@@ -28,6 +29,9 @@ final class MethodArgumentsLineLengthBreakFixerTest extends AbstractSimpleFixerT
 
     protected function createFixer(): FixerInterface
     {
-        return new MethodArgumentsLineLengthBreakFixer();
+        $fixer = new MethodArgumentsLineLengthBreakFixer();
+        $fixer->setWhitespacesConfig(new WhitespacesFixerConfig());
+
+        return $fixer;
     }
 }
