@@ -4,28 +4,25 @@
 [![Downloads](https://img.shields.io/packagist/dt/symplify/changelog-linker.svg?style=flat-square)](https://packagist.org/packages/symplify/changelog-linker)
 [![Subscribe](https://img.shields.io/badge/subscribe-to--releases-green.svg?style=flat-square)](https://libraries.io/packagist/symplify%2Fchangelog-linker)
 
-
-Turn your `CHANGELOG.md` from machine readable text to **rich text that makes every programmer happy**.
-
+Turn your `CHANGELOG.md` from a machine readable text to a **rich text that makes every programmer happy**.
 
 ## Install
 
 ```bash
 composer require symplify/changelog-linker
 ```  
-  
+
 ## Usage
 
-Pass file as argument and repository as base for links via `--repository` option: 
+Pass the file as argument and the repository as base for links via `--repository` option:
 
 ```bash
 vendor/bin/changelog-linker CHANGELOG.md --repository https://github.com/symplify/symplify
 ```
 
-
 ## 4 Cool Features
 
-### 1. Link issues and PRs 
+### 1. Link issues and PRs
 
 :x:
 
@@ -46,11 +43,10 @@ vendor/bin/changelog-linker CHANGELOG.md --repository https://github.com/symplif
 [#123]: https://github.com/Symplify/Symplify/pull/123
 ```
 
-
 ### 2. Link to Commits
 
 Sometimes PR is too big and 1 commit is so important to mention. Make it likable!
- 
+
 :x:
 
 ```markdown
@@ -58,7 +54,7 @@ Sometimes PR is too big and 1 commit is so important to mention. Make it likable
 
 - 9b154d9b6e88075e14b6812613bce7c1a2a79daa this was great change
 ```
- 
+
 :+1:
 
 ```markdown
@@ -93,11 +89,10 @@ Sometimes PR is too big and 1 commit is so important to mention. Make it likable
 [v2.0.0]: https://github.com/Symplify/Symplify/compare/v1.5.0...v2.0.0
 ```
 
-
 ### 4. Link Thanks to Users
 
 Credit is much more valuable with link to follow
- 
+
 :x:
 
 ```markdown
