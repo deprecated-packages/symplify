@@ -77,7 +77,10 @@
             "@phpstan"
         ],
         "check-cs": "packages/EasyCodingStandard/bin/ecs check packages",
-        "fix-cs": "packages/EasyCodingStandard/bin/ecs check packages --fix",
+        "fix-cs": [
+            "packages/EasyCodingStandard/bin/ecs check packages --fix",
+            "build/clear_readmes.sh"
+        ],
         "phpstan": "vendor/bin/phpstan analyse packages --level max --configuration phpstan.neon"
     },
     "config": {
