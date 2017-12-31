@@ -174,6 +174,11 @@ final class ImportNamespacedNameFixer implements FixerInterface, DefinedFixerInt
         return self::class;
     }
 
+    public function setWhitespacesConfig(WhitespacesFixerConfig $whitespacesFixerConfig): void
+    {
+        $this->whitespacesFixerConfig = $whitespacesFixerConfig;
+    }
+
     private function getNamespacePosition(Tokens $tokens): int
     {
         if ($this->namespacePosition) {
@@ -292,7 +297,7 @@ final class ImportNamespacedNameFixer implements FixerInterface, DefinedFixerInt
         /** @var Object_ $objectType */
         $objectType = $returnTag->getType();
 
-        $usedName = (string)$objectType->getFqsen();
+        $usedName = (string) $objectType->getFqsen();
         $lastName = $objectType->getFqsen()->getName();
 
         if ($lastName === ltrim($usedName, '\\')) {
@@ -300,7 +305,7 @@ final class ImportNamespacedNameFixer implements FixerInterface, DefinedFixerInt
         }
 
         // set new short name
-        (new PrivatesSetter)->setPrivateProperty($objectType, 'fqsen', new Fqsen('\\' . $lastName));
+        (new PrivatesSetter())->setPrivateProperty($objectType, 'fqsen', new Fqsen('\\' . $lastName));
 
         // save doc  comment
         $docBlockContent = $docBlockWrapper->getDocBlockTokenContent();
@@ -310,10 +315,5 @@ final class ImportNamespacedNameFixer implements FixerInterface, DefinedFixerInt
         $name = NameFactory::createFromStringAndTokens($usedName, $tokens);
 
         $this->addIntoUseStatements($tokens, $name);
-    }
-
-    public function setWhitespacesConfig(WhitespacesFixerConfig $whitespacesFixerConfig): void
-    {
-        $this->whitespacesFixerConfig = $whitespacesFixerConfig;
     }
 }
