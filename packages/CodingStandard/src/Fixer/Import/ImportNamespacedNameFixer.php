@@ -5,6 +5,7 @@ namespace Symplify\CodingStandard\Fixer\Import;
 use PhpCsFixer\Fixer\ConfigurationDefinitionFixerInterface;
 use PhpCsFixer\Fixer\DefinedFixerInterface;
 use PhpCsFixer\Fixer\FixerInterface;
+use PhpCsFixer\Fixer\WhitespacesAwareFixerInterface;
 use PhpCsFixer\FixerConfiguration\FixerConfigurationResolver;
 use PhpCsFixer\FixerConfiguration\FixerConfigurationResolverInterface;
 use PhpCsFixer\FixerConfiguration\FixerOptionBuilder;
@@ -13,7 +14,11 @@ use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
+use PhpCsFixer\WhitespacesFixerConfig;
+use phpDocumentor\Reflection\Fqsen;
+use phpDocumentor\Reflection\Types\Object_;
 use SplFileInfo;
+use Symplify\PackageBuilder\Reflection\PrivatesSetter;
 use Symplify\TokenRunner\Naming\Name\Name;
 use Symplify\TokenRunner\Naming\Name\NameAnalyzer;
 use Symplify\TokenRunner\Naming\Name\NameFactory;
@@ -28,7 +33,7 @@ use Symplify\TokenRunner\Wrapper\FixerWrapper\DocBlockWrapper;
  * - 2. namespace with conflicts \First\SomeClass + \Second\SomeClass
  * - 3. partial namespaces \Namespace\Partial + Partial\Class
  */
-final class ImportNamespacedNameFixer implements FixerInterface, DefinedFixerInterface, ConfigurationDefinitionFixerInterface
+final class ImportNamespacedNameFixer implements FixerInterface, DefinedFixerInterface, ConfigurationDefinitionFixerInterface, WhitespacesAwareFixerInterface
 {
     /**
      * @var string
@@ -59,6 +64,11 @@ final class ImportNamespacedNameFixer implements FixerInterface, DefinedFixerInt
      * @var Tokens
      */
     private $tokens;
+
+    /**
+     * @var WhitespacesFixerConfig
+     */
+    private $whitespacesFixerConfig;
 
     public function __construct()
     {
@@ -258,8 +268,49 @@ final class ImportNamespacedNameFixer implements FixerInterface, DefinedFixerInt
     private function processDocCommentToken(Token $token, int $index, Tokens $tokens): void
     {
         $docBlockWrapper = DocBlockWrapper::createFromDocBlockToken($token);
+        // require for doc block changes
+        $docBlockWrapper->setWhitespacesFixerConfig($this->whitespacesFixerConfig);
 
-        dump($docBlockWrapper);
-        die;
+        // @todo: process @var tag
+        // @todo: process @param tag
+
+        $this->processReturnTag($docBlockWrapper, $tokens);
+    }
+
+    private function processReturnTag(DocBlockWrapper $docBlockWrapper, Tokens $tokens): void
+    {
+        $returnTag = $docBlockWrapper->getReturnTag();
+        if (! $returnTag) {
+            return;
+        }
+
+        // only objects
+        if (! $returnTag->getType() instanceof Object_) {
+            return;
+        }
+
+        /** @var Object_ $objectType */
+        $objectType = $returnTag->getType();
+
+        $usedName = (string)$objectType->getFqsen();
+        $lastName = $objectType->getFqsen()->getName();
+
+        if ($lastName === ltrim($usedName, '\\')) {
+            return;
+        }
+
+        // set new short name
+        (new PrivatesSetter)->setPrivateProperty($objectType, 'fqsen', new Fqsen('\\' . $lastName));
+
+        $docBlockWrapper->updateDocBlockTokenContent();
+
+        // add use statement
+        $name = NameFactory::createFromStringAndTokens($usedName, $tokens);
+        $this->addIntoUseStatements($tokens, $name);
+    }
+
+    public function setWhitespacesConfig(WhitespacesFixerConfig $whitespacesFixerConfig): void
+    {
+        $this->whitespacesFixerConfig = $whitespacesFixerConfig;
     }
 }

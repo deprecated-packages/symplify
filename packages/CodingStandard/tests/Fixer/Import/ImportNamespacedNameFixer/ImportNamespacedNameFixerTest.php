@@ -3,6 +3,7 @@
 namespace Symplify\CodingStandard\Tests\Fixer\Import\ImportNamespacedNameFixer;
 
 use PhpCsFixer\Fixer\FixerInterface;
+use PhpCsFixer\WhitespacesFixerConfig;
 use Symplify\CodingStandard\Fixer\Import\ImportNamespacedNameFixer;
 use Symplify\TokenRunner\Testing\AbstractSimpleFixerTestCase;
 
@@ -57,6 +58,9 @@ final class ImportNamespacedNameFixerTest extends AbstractSimpleFixerTestCase
 
     protected function createFixer(): FixerInterface
     {
-        return new ImportNamespacedNameFixer();
+        $fixer = new ImportNamespacedNameFixer();
+        $fixer->setWhitespacesConfig(new WhitespacesFixerConfig());
+
+        return $fixer;
     }
 }

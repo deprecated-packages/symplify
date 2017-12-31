@@ -17,6 +17,7 @@ use phpDocumentor\Reflection\Types\Compound;
 use Symplify\BetterReflectionDocBlock\CleanDocBlockFactory;
 use Symplify\BetterReflectionDocBlock\DocBlockSerializerFactory;
 use Symplify\BetterReflectionDocBlock\Tag\TolerantParam;
+use Symplify\BetterReflectionDocBlock\Tag\TolerantReturn;
 use Symplify\TokenRunner\DocBlock\ArrayResolver;
 use Symplify\TokenRunner\Guard\TokenTypeGuard;
 
@@ -201,6 +202,13 @@ final class DocBlockWrapper
         return null;
     }
 
+    public function getReturnTag(): ?TolerantReturn
+    {
+        return $this->phpDocumentorDocBlock->getTagsByName('return') ?
+            $this->phpDocumentorDocBlock->getTagsByName('return')[0]
+            : null;
+    }
+
     public function removeReturnType(): void
     {
         $returnTags = $this->phpDocumentorDocBlock->getTagsByName('return');
@@ -258,6 +266,14 @@ final class DocBlockWrapper
         return Strings::contains($this->docBlock->getContent(), $content);
     }
 
+    public function updateDocBlockTokenContent(): void
+    {
+        $docBlockContent = $this->getDocBlockSerializer()
+            ->getDocComment($this->phpDocumentorDocBlock);
+
+        $this->tokens[$this->docBlockPosition] = new Token([T_DOC_COMMENT, $docBlockContent]);
+    }
+
     private function isIterableType(string $type): bool
     {
         if (Strings::endsWith($type, '[]')) {
@@ -300,13 +316,5 @@ final class DocBlockWrapper
             $this->whitespacesFixerConfig,
             $this->originalContent
         );
-    }
-
-    private function updateDocBlockTokenContent(): void
-    {
-        $docBlockContent = $this->getDocBlockSerializer()
-            ->getDocComment($this->phpDocumentorDocBlock);
-
-        $this->tokens[$this->docBlockPosition] = new Token([T_DOC_COMMENT, $docBlockContent]);
     }
 }

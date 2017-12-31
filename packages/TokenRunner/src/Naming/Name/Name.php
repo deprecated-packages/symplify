@@ -53,7 +53,7 @@ final class Name
     /**
      * @param Token[] $nameTokens
      */
-    public function __construct(int $start, int $end, string $name, array $nameTokens, Tokens $tokens)
+    public function __construct(?int $start, ?int $end, string $name, array $nameTokens, Tokens $tokens)
     {
         $this->start = $start;
         $this->end = $end;

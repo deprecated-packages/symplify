@@ -40,6 +40,22 @@ final class NameFactory
         return new Name($previousTokenPointer, $end, $name, $nameTokens, $tokens);
     }
 
+    public static function createFromStringAndTokens(string $name, Tokens $tokens): Name
+    {
+        $nameTokens = [];
+        $name = ltrim($name, '\\');
+
+        foreach (explode('\\', $name) as $namePart) {
+            $nameTokens[] = new Token([T_NS_SEPARATOR, '\\']);
+            $nameTokens[] = new Token([T_STRING, $namePart]);
+        }
+
+        // remove first pre slash
+        unset($nameTokens[0]);
+
+        return new Name(null, null, $name, $nameTokens, $tokens);
+    }
+
     /**
      * Inverse direction to @see createFromTokensAndEnd()
      */
@@ -146,8 +162,4 @@ final class NameFactory
 
         return true;
     }
-
-    /**
-     * @todo merge with one above in private method and direction switcher
-     */
 }

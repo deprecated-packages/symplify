@@ -3,7 +3,6 @@
 namespace SomeNamespace;
 
 use Symfony\Request;
-
 class SomeClass
 {
     /**
@@ -12,4 +11,5 @@ class SomeClass
     public function someMethod()
     {
     }
+
 }
