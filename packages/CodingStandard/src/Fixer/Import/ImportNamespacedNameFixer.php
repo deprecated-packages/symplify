@@ -19,6 +19,7 @@ use Symplify\TokenRunner\Naming\Name\NameAnalyzer;
 use Symplify\TokenRunner\Naming\Name\NameFactory;
 use Symplify\TokenRunner\Naming\UseImport\UseImport;
 use Symplify\TokenRunner\Naming\UseImport\UseImportsFactory;
+use Symplify\TokenRunner\Wrapper\FixerWrapper\DocBlockWrapper;
 
 /**
  * Possible cases.
@@ -78,7 +79,8 @@ final class ImportNamespacedNameFixer implements FixerInterface, DefinedFixerInt
 
     public function isCandidate(Tokens $tokens): bool
     {
-        return $tokens->isAllTokenKindsFound([T_CLASS, T_STRING, T_NS_SEPARATOR]);
+        return $tokens->isAllTokenKindsFound([T_CLASS, T_STRING, T_NS_SEPARATOR]) ||
+            $tokens->isTokenKindFound(T_DOC_COMMENT);
     }
 
     public function fix(SplFileInfo $file, Tokens $tokens): void
@@ -95,35 +97,15 @@ final class ImportNamespacedNameFixer implements FixerInterface, DefinedFixerInt
                 continue;
             }
 
-            // Case 1.
-            if (! NameAnalyzer::isImportableNameToken($tokens, $token, $index)) {
+            if ($token->isGivenKind(T_DOC_COMMENT)) {
+                $this->processDocCommentToken($token, $index, $tokens);
                 continue;
             }
 
-            $name = NameFactory::createFromTokensAndEnd($tokens, $index);
-            if ($this->configuration[self::ALLOW_SINGLE_NAMES_OPTION] && $name->isSingleName()) {
+            if ($token->isGivenKind(T_STRING)) {
+                $this->processStringToken($token, $index, $tokens);
                 continue;
             }
-
-            $name = $this->uniquateLastPart($name);
-
-            // replace with last name part
-            $tokens->overrideRange($name->getStart(), $name->getEnd(), [$name->getLastNameToken()]);
-
-            // has this been already imported?
-            if ($this->wasNameImported($name)) {
-                continue;
-            }
-
-            if ($name->isPartialName()) {
-                // add use statement
-                $this->addIntoUseStatements($tokens, $name);
-
-                continue;
-            }
-
-            // add use statement
-            $this->addIntoUseStatements($tokens, $name);
         }
     }
 
@@ -238,5 +220,46 @@ final class ImportNamespacedNameFixer implements FixerInterface, DefinedFixerInt
         $classNamePosition = $this->tokens->getNextMeaningfulToken($classPosition);
 
         return $this->className = $this->tokens[$classNamePosition]->getContent();
+    }
+
+    private function processStringToken(Token $token, int $index, Tokens $tokens): void
+    {
+        // Case 1.
+        if (! NameAnalyzer::isImportableNameToken($tokens, $token, $index)) {
+            return;
+        }
+
+        $name = NameFactory::createFromTokensAndEnd($tokens, $index);
+        if ($this->configuration[self::ALLOW_SINGLE_NAMES_OPTION] && $name->isSingleName()) {
+            return;
+        }
+
+        $name = $this->uniquateLastPart($name);
+
+        // replace with last name part
+        $tokens->overrideRange($name->getStart(), $name->getEnd(), [$name->getLastNameToken()]);
+
+        // has this been already imported?
+        if ($this->wasNameImported($name)) {
+            return;
+        }
+
+        if ($name->isPartialName()) {
+            // add use statement
+            $this->addIntoUseStatements($tokens, $name);
+
+            return;
+        }
+
+        // add use statement
+        $this->addIntoUseStatements($tokens, $name);
+    }
+
+    private function processDocCommentToken(Token $token, int $index, Tokens $tokens): void
+    {
+        $docBlockWrapper = DocBlockWrapper::createFromDocBlockToken($token);
+
+        dump($docBlockWrapper);
+        die;
     }
 }
