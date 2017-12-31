@@ -11,5 +11,4 @@ class SomeClass
     public function someMethod()
     {
     }
-
 }
