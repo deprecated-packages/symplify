@@ -4,6 +4,7 @@
     "license": "MIT",
     "require": {
         "php": "^7.1",
+        "cpliakas/git-wrapper": "^2.0",
         "erusev/parsedown-extra": "^0.7",
         "friendsofphp/php-cs-fixer": "^2.9",
         "latte/latte": "^2.4",

@@ -4,7 +4,7 @@
     "license": "MIT",
     "bin": [
         "bin/statie",
-        "bin/statie_bootstrap.php"
+        "bin/statie-bootstrap.php"
     ],
     "require": {
         "php": "^7.1",
@@ -23,7 +23,7 @@
         "symfony/finder": "^4.0",
         "symfony/yaml": "^4.0",
 
-        "symplify/git-wrapper": "^3.0",
+        "cpliakas/git-wrapper": "^2.0",
         "symplify/package-builder": "^3.0"
     },
     "require-dev": {

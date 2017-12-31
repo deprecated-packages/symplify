@@ -2,7 +2,7 @@
 
 namespace Symplify\Statie\Github;
 
-use Symplify\GitWrapper\GitWrapper;
+use GitWrapper\GitWrapper;
 use Symplify\Statie\FileSystem\FileSystemGuard;
 
 final class GithubPublishingProcess
