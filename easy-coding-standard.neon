@@ -58,16 +58,8 @@ parameters:
             - *packages/EasyCodingStandard/packages/Configuration/*/MutualCheckerExcluder*.php
             - *packages/EasyCodingStandard/packages/Configuration/*/ConflictingCheckerGuard*.php
 
-        PHP_CodeSniffer\Standards\Generic\Sniffs\CodeAnalysis\AssignmentInConditionSniff:
-            - packages/GitWrapper/src/Process/GitProcess.php
-
         Symplify\CodingStandard\Sniffs\DependencyInjection\NoClassInstantiationSniff:
-            - *packages/GitWrapper/*
             - packages/TokenRunner/src/Wrapper/FixerWrapper/DocBlockWrapper.php
-
-        Symplify\CodingStandard\Sniffs\Architecture\ExplicitExceptionSniff:
-            # will be removed soon
-            - packages/GitWrapper/src/Process/GitProcess.php
 
     skip_codes:
         SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff.MissingParameterTypeHint:
