@@ -268,10 +268,13 @@ final class DocBlockWrapper
 
     public function updateDocBlockTokenContent(): void
     {
-        $docBlockContent = $this->getDocBlockSerializer()
-            ->getDocComment($this->phpDocumentorDocBlock);
+        $this->tokens[$this->docBlockPosition] = new Token([T_DOC_COMMENT, $this->getDocBlockTokenContent()]);
+    }
 
-        $this->tokens[$this->docBlockPosition] = new Token([T_DOC_COMMENT, $docBlockContent]);
+    public function getDocBlockTokenContent(): string
+    {
+        return $this->getDocBlockSerializer()
+            ->getDocComment($this->phpDocumentorDocBlock);
     }
 
     private function isIterableType(string $type): bool
