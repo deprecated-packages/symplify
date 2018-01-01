@@ -3,7 +3,6 @@
 namespace Symplify\TokenRunner\Wrapper\FixerWrapper;
 
 use Nette\Utils\Strings;
-use PhpCsFixer\DocBlock\DocBlock;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use PhpCsFixer\WhitespacesFixerConfig;
@@ -24,19 +23,19 @@ use Symplify\TokenRunner\Guard\TokenTypeGuard;
 final class DocBlockWrapper
 {
     /**
-     * @var Tokens|null
+     * @var Tokens
      */
     private $tokens;
 
     /**
-     * @var WhitespacesFixerConfig
-     */
-    private $whitespacesFixerConfig;
-
-    /**
-     * @var int|null
+     * @var int
      */
     private $position;
+
+    /**
+     * @var WhitespacesFixerConfig|null
+     */
+    private $whitespacesFixerConfig;
 
     /**
      * @var PhpDocumentorDocBlock
@@ -44,7 +43,7 @@ final class DocBlockWrapper
     private $phpDocumentorDocBlock;
 
     /**
-     * @var Serializer
+     * @var Serializer|null
      */
     private $docBlockSerializer;
 
@@ -72,13 +71,6 @@ final class DocBlockWrapper
     public function getTokenPosition(): int
     {
         return $this->position;
-    }
-
-    public static function createFromDocBlockToken(Token $docBlockToken): self
-    {
-        TokenTypeGuard::ensureIsTokenType($docBlockToken, [T_COMMENT, T_DOC_COMMENT], __METHOD__);
-
-        return new self(null, null, null, $docBlockToken);
     }
 
     public function isSingleLine(): bool

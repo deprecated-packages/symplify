@@ -3,7 +3,6 @@
 namespace Symplify\TokenRunner\Wrapper\FixerWrapper;
 
 use Nette\Utils\Strings;
-use PhpCsFixer\DocBlock\DocBlock;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use Symplify\TokenRunner\Analyzer\FixerAnalyzer\DocBlockFinder;
