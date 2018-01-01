@@ -60,7 +60,7 @@ private $property;
                 $docBlockWrapper->setWhitespacesFixerConfig($this->whitespacesFixerConfig);
 
                 $tokens[$docBlockWrapper->getTokenPosition()] = new Token(
-                    [T_DOC_COMMENT, $docBlockWrapper->changeToMultiLine()]
+                    [T_DOC_COMMENT, $docBlockWrapper->getMultiLineVersion()]
                 );
             }
         }

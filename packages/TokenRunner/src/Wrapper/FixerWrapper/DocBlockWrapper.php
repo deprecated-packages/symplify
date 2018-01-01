@@ -90,21 +90,15 @@ final class DocBlockWrapper
         return substr_count($this->originalContent, PHP_EOL) < 1;
     }
 
-    public function changeToMultiLine(): string
+    public function getMultiLineVersion(): string
     {
-        $indent = $this->whitespacesFixerConfig->getIndent();
-        $lineEnding = $this->whitespacesFixerConfig->getLineEnding();
-        $newLineWithIndent = $lineEnding . $indent;
+        $newLineIndent = $this->whitespacesFixerConfig->getLineEnding() . $this->whitespacesFixerConfig->getIndent();
 
-        return str_replace(
-            [' @', '/** ', ' */'],
-            [
-                $newLineWithIndent . ' * @',
-                $newLineWithIndent . '/**',
-                $newLineWithIndent . ' */',
-            ],
-            $this->originalContent
-        );
+        return str_replace([' @', '/** ', ' */'], [
+            $newLineIndent . ' * @',
+            $newLineIndent . '/**',
+            $newLineIndent . ' */',
+        ], $this->originalContent);
     }
 
     public function getReturnType(): ?string
