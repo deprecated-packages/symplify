@@ -44,13 +44,4 @@ final class CleanDocBlockFactory
     {
         return $this->phpDocumentorDocBlockFactory->create($content, $context);
     }
-
-    /**
-     * @deprecated Use @see CleanDocBlockFactory::create() instead, as it better respects original API,
-     * and is easier to use.
-     */
-    public function createFromContent(string $content): DocBlock
-    {
-        return $this->phpDocumentorDocBlockFactory->create($content);
-    }
 }
