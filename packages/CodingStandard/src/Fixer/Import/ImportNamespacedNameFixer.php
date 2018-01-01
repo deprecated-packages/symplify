@@ -21,6 +21,7 @@ use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Types\Object_;
 use SplFileInfo;
 use Symplify\PackageBuilder\Reflection\PrivatesSetter;
+use Symplify\TokenRunner\Analyzer\FixerAnalyzer\NamespaceFinder;
 use Symplify\TokenRunner\Naming\Name\Name;
 use Symplify\TokenRunner\Naming\Name\NameAnalyzer;
 use Symplify\TokenRunner\Naming\Name\NameFactory;
@@ -186,21 +187,9 @@ final class ImportNamespacedNameFixer implements FixerInterface, DefinedFixerInt
         $this->whitespacesFixerConfig = $whitespacesFixerConfig;
     }
 
-    private function getNamespacePosition(Tokens $tokens): int
-    {
-        if ($this->namespacePosition) {
-            return $this->namespacePosition;
-        }
-
-        $namespace = $tokens->findGivenKind(T_NAMESPACE);
-        reset($namespace);
-
-        return $this->namespacePosition = key($namespace);
-    }
-
     private function addIntoUseStatements(Tokens $tokens, Name $name): void
     {
-        $namespacePosition = $this->getNamespacePosition($tokens);
+        $namespacePosition = NamespaceFinder::findInTokens($tokens);
         $namespaceSemicolonPosition = $tokens->getNextTokenOfKind($namespacePosition, [';']);
 
         $tokens->insertAt($namespaceSemicolonPosition + 2, $name->getUseNameTokens());
@@ -290,6 +279,7 @@ final class ImportNamespacedNameFixer implements FixerInterface, DefinedFixerInt
         $this->tokens[$index] = new Token([T_DOC_COMMENT, $docBlockContent]);
 
         $this->namesToAddIntoUseStatements = array_unique($this->namesToAddIntoUseStatements, SORT_REGULAR);
+
         foreach ($this->namesToAddIntoUseStatements as $nameToAddIntoUseStatement) {
             $this->addIntoUseStatements($tokens, $nameToAddIntoUseStatement);
         }
