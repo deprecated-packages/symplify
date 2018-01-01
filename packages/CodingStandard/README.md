@@ -542,7 +542,7 @@ class SomeClass
 
 :x:
 
-```
+```php
 class SomeClass
 {
     public function usedMethod()
@@ -560,7 +560,7 @@ $someObject->usedMethod();
 
 :+1:
 
-```
+```php
 class SomeClass
 {
     public function usedMethod()
