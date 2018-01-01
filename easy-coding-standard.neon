@@ -25,7 +25,7 @@ checkers:
             - Symplify\EasyCodingStandard\Error\Error
             - Symplify\CodingStandard\FixerTokenWrapper\Naming\Name
             - Symplify\TokenRunner\*
-            - Symplify\PackageBuilder\Reflection\PrivatesCaller
+            - Symplify\PackageBuilder\Reflection\*
 
 parameters:
     skip:

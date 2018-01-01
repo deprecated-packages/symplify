@@ -4,7 +4,6 @@ namespace Symplify\TokenRunner\Wrapper\FixerWrapper;
 
 use PhpCsFixer\Tokenizer\Tokens;
 use Symplify\TokenRunner\Analyzer\FixerAnalyzer\DocBlockFinder;
-use Symplify\TokenRunner\Analyzer\FixerAnalyzer\PropertyAnalyzer;
 use Symplify\TokenRunner\Guard\TokenTypeGuard;
 use Symplify\TokenRunner\Naming\Name\NameFactory;
 
@@ -55,7 +54,7 @@ final class PropertyWrapper extends AbstractVariableWrapper
             return null;
         }
 
-        $varTagType = (string) $this->docBlockWrapper->getVarTag();
+        $varTagType = (string) $varTag->getType();
         $varTagType = trim($varTagType);
 
         return ltrim($varTagType, '\\');
