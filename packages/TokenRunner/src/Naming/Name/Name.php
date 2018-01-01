@@ -2,7 +2,6 @@
 
 namespace Symplify\TokenRunner\Naming\Name;
 
-use Nette\Utils\Strings;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use Symplify\TokenRunner\Naming\UseImport\UseImport;
@@ -120,31 +119,20 @@ final class Name
         return count($this->nameTokens) === 1;
     }
 
-    public function isPartialName(): bool
+    public function getRelatedUseImport(): ?UseImport
     {
-        if (Strings::startsWith($this->name, '\\')) {
-            return false;
-        }
-
-        if (! Strings::contains($this->name, '\\')) {
-            return false;
+        if ($this->relatedUseImport) {
+            return $this->relatedUseImport;
         }
 
         $useImports = (new UseImportsFactory())->createForTokens($this->tokens);
-
         foreach ($useImports as $useImport) {
             if ($useImport->startsWith($this->name)) {
                 $this->relatedUseImport = $useImport;
-
-                return true;
+                break;
             }
         }
 
-        return false;
-    }
-
-    public function getRelatedUseImport(): ?UseImport
-    {
         return $this->relatedUseImport;
     }
 }

@@ -22,6 +22,7 @@ final class UseImportsTransformer
         $namespaceSemicolonPosition = $tokens->getNextTokenOfKind($namespacePosition, [';']);
 
         $useImports = (new UseImportsFactory())->createForTokens($tokens);
+
         // turn names into use import tokens
         $useTokens = [];
         foreach ($names as $name) {

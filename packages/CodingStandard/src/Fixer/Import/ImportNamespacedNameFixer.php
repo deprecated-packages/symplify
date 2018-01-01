@@ -177,6 +177,9 @@ final class ImportNamespacedNameFixer implements FixerInterface, DefinedFixerInt
         $this->whitespacesFixerConfig = $whitespacesFixerConfig;
     }
 
+    /**
+     * Prefix duplicate class names with vendor name
+     */
     private function uniquateLastPart(Name $name): Name
     {
         foreach ($this->useImports as $useImport) {
@@ -227,8 +230,7 @@ final class ImportNamespacedNameFixer implements FixerInterface, DefinedFixerInt
         $this->processReturnTag($docBlockWrapper, $index, $tokens);
 
         // save doc comment
-        $docBlockContent = $docBlockWrapper->getContent();
-        $tokens[$index] = new Token([T_DOC_COMMENT, $docBlockContent]);
+        $tokens[$index] = new Token([T_DOC_COMMENT, $docBlockWrapper->getContent()]);
 
         // @todo: process @var tag
     }
