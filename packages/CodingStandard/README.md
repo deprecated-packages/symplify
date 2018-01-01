@@ -540,22 +540,36 @@ class SomeClass
 
 - **Requires ECS due *double run* feature**.
 
-```diff
- class SomeClass
- {
-     public function usedMethod()
-     {
+:x:
 
-     }
+```
+class SomeClass
+{
+    public function usedMethod()
+    {
+    }
 
--    public function unusedMethod()
--    {
--
--    }
- }
+    public function unusedMethod()
+    {
+    }
+}
 
- $someObject = new SomeClass;
- $someObject->usedMethod();
+$someObject = new SomeClass;
+$someObject->usedMethod();
+```
+
+:+1:
+
+```
+class SomeClass
+{
+    public function usedMethod()
+    {
+    }
+}
+
+$someObject = new SomeClass;
+$someObject->usedMethod();
 ```
 
 ## Contributing
