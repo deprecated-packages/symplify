@@ -165,10 +165,19 @@ final class DocBlockWrapper
         return $this->phpDocumentorDocBlock->getTagsByName('param');
     }
 
-    public function getVarTag(): ?Var_
+    public function getVarType(): ?string
     {
-        return $this->phpDocumentorDocBlock->getTagsByName('var') ?
-            $this->phpDocumentorDocBlock->getTagsByName('var')[0] : null;
+        if (! $this->phpDocumentorDocBlock->getTagsByName('var')) {
+            return null;
+        }
+
+        /** @var Var_ $varTag */
+        $varTag = $this->phpDocumentorDocBlock->getTagsByName('var')[0];
+
+        $varTagType = (string) $varTag->getType();
+        $varTagType = trim($varTagType);
+
+        return ltrim($varTagType, '\\');
     }
 
     public function getArgumentTypeDescription(string $name): ?string

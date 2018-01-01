@@ -49,15 +49,16 @@ final class PropertyWrapper extends AbstractVariableWrapper
 
     public function getType(): ?string
     {
-        $varTag = $this->docBlockWrapper->getVarTag();
-        if ($varTag === null) {
-            return null;
-        }
-
-        $varTagType = (string) $varTag->getType();
-        $varTagType = trim($varTagType);
-
-        return ltrim($varTagType, '\\');
+        return $this->docBlockWrapper->getVarType();
+//        $varTag = $this->docBlockWrapper->getVarTag();
+//        if ($varTag === null) {
+//            return null;
+//        }
+//
+//        $varTagType = (string) $varTag->getType();
+//        $varTagType = trim($varTagType);
+//
+//        return ltrim($varTagType, '\\');
     }
 
     public function changeName(string $newName): void
