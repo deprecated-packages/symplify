@@ -2,8 +2,6 @@
 
 namespace Symplify\TokenRunner\Wrapper\FixerWrapper;
 
-use PhpCsFixer\DocBlock\Annotation;
-use PhpCsFixer\DocBlock\DocBlock;
 use PhpCsFixer\Tokenizer\Tokens;
 use Symplify\TokenRunner\Analyzer\FixerAnalyzer\DocBlockFinder;
 use Symplify\TokenRunner\Analyzer\FixerAnalyzer\PropertyAnalyzer;
@@ -12,11 +10,6 @@ use Symplify\TokenRunner\Naming\Name\NameFactory;
 
 final class PropertyWrapper extends AbstractVariableWrapper
 {
-    /**
-     * @var DocBlock|null
-     */
-    private $docBlock;
-
     /**
      * @var int
      */
@@ -32,17 +25,20 @@ final class PropertyWrapper extends AbstractVariableWrapper
      */
     private $type;
 
+    /**
+     * @var DocBlockWrapper|null
+     */
+    private $docBlockWrapper;
+
     protected function __construct(Tokens $tokens, int $index)
     {
-        parent::__construct($tokens, $index);
-
         TokenTypeGuard::ensureIsTokenType($tokens[$index], [T_VARIABLE], __METHOD__);
 
-        $this->docBlockPosition = DocBlockFinder::findPreviousPosition($tokens, $index);
-        $docBlockToken = DocBlockFinder::findPrevious($tokens, $index);
+        parent::__construct($tokens, $index);
 
-        if ($docBlockToken) {
-            $this->docBlock = new DocBlock($docBlockToken->getContent());
+        $this->docBlockPosition = DocBlockFinder::findPreviousPosition($tokens, $index);
+        if ($this->docBlockPosition) {
+            $this->docBlockWrapper = DocBlockWrapper::createFromTokensAndPosition($this->tokens, $this->docBlockPosition);
         }
 
         $this->visibilityPosition = PropertyAnalyzer::findVisibilityPosition($tokens, $index);
@@ -71,27 +67,15 @@ final class PropertyWrapper extends AbstractVariableWrapper
 
     public function getType(): ?string
     {
-        if ($this->type) {
-            return $this->type;
-        }
-
-        if ($this->docBlock === null) {
+        $varTag = $this->docBlockWrapper->getVarTag();
+        if ($varTag === null) {
             return null;
         }
 
-        $varAnnotations = $this->docBlock->getAnnotationsOfType('var');
-        if (! count($varAnnotations)) {
-            return null;
-        }
+        $varTagType = (string) $this->docBlockWrapper->getVarTag();
+        $varTagType = trim($varTagType);
 
-        /** @var Annotation $varAnnotation */
-        $varAnnotation = $varAnnotations[0];
-
-        if (! isset($varAnnotation->getTypes()[0])) {
-            return null;
-        }
-
-        return implode('|', $varAnnotation->getTypes());
+        return ltrim($varTagType, '\\');
     }
 
     public function changeName(string $newName): void
@@ -101,11 +85,7 @@ final class PropertyWrapper extends AbstractVariableWrapper
 
     public function getDocBlockWrapper(): ?DocBlockWrapper
     {
-        if ($this->docBlock === null) {
-            return null;
-        }
-
-        return DocBlockWrapper::createFromTokensAndPosition($this->tokens, $this->docBlockPosition);
+        return $this->docBlockWrapper;
     }
 
     protected function getNamePosition(): int

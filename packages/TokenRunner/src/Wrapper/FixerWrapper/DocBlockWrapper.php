@@ -165,6 +165,12 @@ final class DocBlockWrapper
         return $this->phpDocumentorDocBlock->getTagsByName('param');
     }
 
+    public function getVarTag(): ?Var_
+    {
+        return $this->phpDocumentorDocBlock->getTagsByName('var') ?
+            $this->phpDocumentorDocBlock->getTagsByName('var')[0] : null;
+    }
+
     public function getArgumentTypeDescription(string $name): ?string
     {
         $paramTag = $this->findParamTagByName($name);
@@ -232,11 +238,6 @@ final class DocBlockWrapper
         }
 
         return true;
-    }
-
-    public function contains(string $needle): bool
-    {
-        return Strings::contains($this->originalContent, $needle);
     }
 
     public function updateDocBlockTokenContent(): void
