@@ -4,7 +4,6 @@ namespace Symplify\TokenRunner\Transformer\FixerTransformer;
 
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
-use Symplify\TokenRunner\Analyzer\FixerAnalyzer\ClassNameFinder;
 use Symplify\TokenRunner\Analyzer\FixerAnalyzer\NamespaceFinder;
 use Symplify\TokenRunner\Naming\Name\Name;
 use Symplify\TokenRunner\Naming\UseImport\UseImportsFactory;
@@ -42,7 +41,7 @@ final class UseImportsTransformer
     {
         $tokens = [
             new Token([T_USE, 'use']),
-            new Token([T_WHITESPACE, ' '])
+            new Token([T_WHITESPACE, ' ']),
         ];
 
         if ($name->getRelatedUseImport()) {

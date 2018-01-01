@@ -229,24 +229,6 @@ final class ClassWrapper
         return $interfaceNames;
     }
 
-    public function clearImplements(): void
-    {
-        $implementTokens = $this->tokens->findGivenKind(T_IMPLEMENTS, $this->startIndex, $this->startBracketIndex);
-
-        reset($implementTokens);
-        $implementPosition = key($implementTokens);
-
-        $this->tokens->clearAt($implementPosition - 1);
-
-        for ($i = $implementPosition; $i < $this->startBracketIndex; ++$i) {
-            if (Strings::contains($this->tokens[$i]->getContent(), PHP_EOL)) {
-                return;
-            }
-
-            $this->tokens->clearAt($i);
-        }
-    }
-
     /**
      * @param mixed[] $classyElements
      * @param string[] $types

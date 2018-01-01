@@ -70,21 +70,6 @@ final class Name
         }
     }
 
-    private static function composePartialNamespaceAndName(string $namespace, string $name): string
-    {
-        if ($namespace === $name) {
-            return $name;
-        }
-
-        $namespaceParts = explode('\\', $namespace);
-        $nameParts = explode('\\', $name);
-
-        $nameParts = array_merge($namespaceParts, $nameParts);
-        $nameParts = array_unique($nameParts);
-
-        return implode('\\', $nameParts);
-    }
-
     public function getStart(): ?int
     {
         return $this->start;
@@ -145,5 +130,20 @@ final class Name
     public function getRelatedUseImport(): ?UseImport
     {
         return $this->relatedUseImport;
+    }
+
+    private static function composePartialNamespaceAndName(string $namespace, string $name): string
+    {
+        if ($namespace === $name) {
+            return $name;
+        }
+
+        $namespaceParts = explode('\\', $namespace);
+        $nameParts = explode('\\', $name);
+
+        $nameParts = array_merge($namespaceParts, $nameParts);
+        $nameParts = array_unique($nameParts);
+
+        return implode('\\', $nameParts);
     }
 }

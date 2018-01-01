@@ -219,6 +219,7 @@ final class DocBlockWrapper
 
         $this->updateDocBlockTokenContent();
     }
+
     public function removeParamType(string $name): void
     {
         $paramTag = $this->findParamTagByName($name);
@@ -229,7 +230,6 @@ final class DocBlockWrapper
         $this->phpDocumentorDocBlock->removeTag($paramTag);
 
         $this->updateDocBlockTokenContent();
-
     }
 
     public function setWhitespacesFixerConfig(WhitespacesFixerConfig $whitespacesFixerConfig): void
