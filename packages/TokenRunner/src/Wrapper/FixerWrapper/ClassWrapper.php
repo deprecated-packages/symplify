@@ -192,12 +192,12 @@ final class ClassWrapper
 
     public function isDoctrineEntity(): bool
     {
-        $docCommentToken = DocBlockFinder::findPrevious($this->tokens, $this->startIndex);
-        if (! $docCommentToken) {
+        $docCommentPosition = DocBlockFinder::findPreviousPosition($this->tokens, $this->startIndex);
+        if (! $docCommentPosition) {
             return false;
         }
 
-        return Strings::contains($docCommentToken->getContent(), 'Entity');
+        return Strings::contains($this->tokens[$docCommentPosition]->getContent(), 'Entity');
     }
 
     /**
