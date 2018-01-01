@@ -222,8 +222,9 @@ final class ImportNamespacedNameFixer implements DefinedFixerInterface, Configur
         $docBlockWrapper->setWhitespacesFixerConfig($this->whitespacesFixerConfig);
 
         $oldDocBlockContent = $docBlockWrapper->getContent();
-        $this->processParamsTags($docBlockWrapper, $index, $tokens);
-        $this->processReturnTag($docBlockWrapper, $index, $tokens);
+        $this->processParamsTags($docBlockWrapper, $tokens);
+        $this->processReturnTag($docBlockWrapper, $tokens);
+        $this->processVarTag($docBlockWrapper, $tokens);
 
         if ($oldDocBlockContent === $docBlockWrapper->getContent()) {
             return;
@@ -235,7 +236,7 @@ final class ImportNamespacedNameFixer implements DefinedFixerInterface, Configur
         // @todo: process @var tag
     }
 
-    private function processReturnTag(DocBlockWrapper $docBlockWrapper, int $index, Tokens $tokens): void
+    private function processReturnTag(DocBlockWrapper $docBlockWrapper, Tokens $tokens): void
     {
         $returnTag = $docBlockWrapper->getReturnTag();
         if (! $returnTag) {
@@ -250,7 +251,7 @@ final class ImportNamespacedNameFixer implements DefinedFixerInterface, Configur
         $this->namesToAddIntoUseStatements[] = NameFactory::createFromStringAndTokens($fullName, $tokens);
     }
 
-    private function processParamsTags(DocBlockWrapper $docBlockWrapper, int $index, Tokens $tokens): void
+    private function processParamsTags(DocBlockWrapper $docBlockWrapper, Tokens $tokens): void
     {
         foreach ($docBlockWrapper->getParamTags() as $paramTag) {
             $fullName = $this->shortenNameAndReturnFullName($paramTag);
@@ -261,6 +262,21 @@ final class ImportNamespacedNameFixer implements DefinedFixerInterface, Configur
             // add use statement
             $this->namesToAddIntoUseStatements[] = NameFactory::createFromStringAndTokens($fullName, $tokens);
         }
+    }
+
+    private function processVarTag(DocBlockWrapper $docBlockWrapper, Tokens $tokens): void
+    {
+        $returnTag = $docBlockWrapper->getVarTag();
+        if (! $returnTag) {
+            return;
+        }
+
+        $fullName = $this->shortenNameAndReturnFullName($returnTag);
+        if (! $fullName) {
+            return;
+        }
+
+        $this->namesToAddIntoUseStatements[] = NameFactory::createFromStringAndTokens($fullName, $tokens);
     }
 
     /**

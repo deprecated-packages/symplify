@@ -165,14 +165,19 @@ final class DocBlockWrapper
         return $this->phpDocumentorDocBlock->getTagsByName('param');
     }
 
+    public function getVarTag(): ?Var_
+    {
+        return $this->phpDocumentorDocBlock->getTagsByName('var') ?
+            $this->phpDocumentorDocBlock->getTagsByName('var')[0]
+            : null;
+    }
+
     public function getVarType(): ?string
     {
-        if (! $this->phpDocumentorDocBlock->getTagsByName('var')) {
+        $varTag = $this->getVarTag();
+        if (! $varTag) {
             return null;
         }
-
-        /** @var Var_ $varTag */
-        $varTag = $this->phpDocumentorDocBlock->getTagsByName('var')[0];
 
         $varTagType = (string) $varTag->getType();
         $varTagType = trim($varTagType);
@@ -210,7 +215,6 @@ final class DocBlockWrapper
 
         $this->updateDocBlockTokenContent();
     }
-
     public function removeParamType(string $name): void
     {
         $paramTag = $this->findParamTagByName($name);
@@ -221,6 +225,7 @@ final class DocBlockWrapper
         $this->phpDocumentorDocBlock->removeTag($paramTag);
 
         $this->updateDocBlockTokenContent();
+
     }
 
     public function setWhitespacesFixerConfig(WhitespacesFixerConfig $whitespacesFixerConfig): void
