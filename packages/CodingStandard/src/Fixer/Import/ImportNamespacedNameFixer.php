@@ -220,8 +220,14 @@ final class ImportNamespacedNameFixer implements DefinedFixerInterface, Configur
         $docBlockWrapper = DocBlockWrapper::createFromTokensAndPosition($tokens, $index);
         // require for doc block changes
         $docBlockWrapper->setWhitespacesFixerConfig($this->whitespacesFixerConfig);
+
+        $oldDocBlockContent = $docBlockWrapper->getContent();
         $this->processParamsTags($docBlockWrapper, $index, $tokens);
         $this->processReturnTag($docBlockWrapper, $index, $tokens);
+
+        if ($oldDocBlockContent === $docBlockWrapper->getContent()) {
+            return;
+        }
 
         // save doc comment
         $tokens[$index] = new Token([T_DOC_COMMENT, $docBlockWrapper->getContent()]);
