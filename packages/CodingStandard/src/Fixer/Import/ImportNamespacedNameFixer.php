@@ -88,21 +88,18 @@ final class ImportNamespacedNameFixer implements FixerInterface, DefinedFixerInt
 
     public function isCandidate(Tokens $tokens): bool
     {
-        return $tokens->isAllTokenKindsFound([T_CLASS, T_STRING, T_NS_SEPARATOR])
-            || $tokens->isAllTokenKindsFound([T_CLASS, T_DOC_COMMENT]);
+        return $tokens->isTokenKindFound(T_CLASS) && $tokens->isAnyTokenKindsFound([T_DOC_COMMENT, T_STRING]);
     }
 
     public function fix(SplFileInfo $file, Tokens $tokens): void
     {
-        $this->tokens = $tokens;
-
         $this->useImports = (new UseImportsFactory())->createForTokens($tokens);
 
         for ($index = $tokens->getSize() - 1; $index > 0; --$index) {
             $token = $tokens[$index];
 
             // class name is same as token that could be imported, skip
-            if ($token->getContent() === ClassNameFinder::findInTokens($this->tokens)) {
+            if ($token->getContent() === ClassNameFinder::findInTokens($tokens)) {
                 continue;
             }
 
@@ -117,7 +114,7 @@ final class ImportNamespacedNameFixer implements FixerInterface, DefinedFixerInt
             }
         }
 
-        UseImportsTransformer::addNamesAddUseImportsToTokens($this->namesToAddIntoUseStatements, $this->tokens);
+        UseImportsTransformer::addNamesAsUseImportsToTokens($this->namesToAddIntoUseStatements, $tokens);
     }
 
     /**
@@ -231,7 +228,7 @@ final class ImportNamespacedNameFixer implements FixerInterface, DefinedFixerInt
 
         // save doc comment
         $docBlockContent = $docBlockWrapper->getContent();
-        $this->tokens[$index] = new Token([T_DOC_COMMENT, $docBlockContent]);
+        $tokens[$index] = new Token([T_DOC_COMMENT, $docBlockContent]);
 
         // @todo: process @var tag
     }

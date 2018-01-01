@@ -6,32 +6,36 @@ use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use Symplify\TokenRunner\Analyzer\FixerAnalyzer\NamespaceFinder;
 use Symplify\TokenRunner\Naming\Name\Name;
+use Symplify\TokenRunner\Naming\UseImport\UseImportsFactory;
 
 final class UseImportsTransformer
 {
     /**
      * @param Name[] $names
      */
-    public static function addNamesAddUseImportsToTokens(array $names, Tokens $tokens): void
+    public static function addNamesAsUseImportsToTokens(array $names, Tokens $tokens): void
     {
         $names = self::namesUnique($names);
-
-//        $useImports = ''; // load from tokesns
-//        // add just once :)
-////        foreach ($useImports as $useImport) {
-////            if ($name->getName() === $useImport->getFullName()) {
-////                return;
-////            }
-////        }
 
         // find namespace start
         $namespacePosition = NamespaceFinder::findInTokens($tokens);
         $namespaceSemicolonPosition = $tokens->getNextTokenOfKind($namespacePosition, [';']);
 
+        $useImports = (new UseImportsFactory())->createForTokens($tokens);
+        // turn names into use import tokens
+        $useTokens = [];
         foreach ($names as $name) {
-            $useTokens = self::buildUseTokensFromName($name);
-            $tokens->insertAt($namespaceSemicolonPosition + 2, $useTokens);
+            // skip already existing use imports
+            foreach ($useImports as $useImport) {
+                if ($name->getName() === $useImport->getFullName()) {
+                    continue 2;
+                }
+            }
+
+            $useTokens = array_merge($useTokens, self::buildUseTokensFromName($name));
         }
+
+        $tokens->insertAt($namespaceSemicolonPosition + 2, $useTokens);
     }
 
     /**
@@ -103,6 +107,7 @@ final class UseImportsTransformer
             if (isset($uniqueNames[$name->getName()])) {
                 continue;
             }
+
             $uniqueNames[$name->getName()] = $name;
         }
 
