@@ -22,12 +22,12 @@ use phpDocumentor\Reflection\Types\Object_;
 use SplFileInfo;
 use Symplify\PackageBuilder\Reflection\PrivatesSetter;
 use Symplify\TokenRunner\Analyzer\FixerAnalyzer\ClassNameFinder;
-use Symplify\TokenRunner\Analyzer\FixerAnalyzer\NamespaceFinder;
 use Symplify\TokenRunner\Naming\Name\Name;
 use Symplify\TokenRunner\Naming\Name\NameAnalyzer;
 use Symplify\TokenRunner\Naming\Name\NameFactory;
 use Symplify\TokenRunner\Naming\UseImport\UseImport;
 use Symplify\TokenRunner\Naming\UseImport\UseImportsFactory;
+use Symplify\TokenRunner\Transformer\FixerTransformer\UseImportsTransformer;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\DocBlockWrapper;
 
 /**
@@ -117,10 +117,7 @@ final class ImportNamespacedNameFixer implements FixerInterface, DefinedFixerInt
             }
         }
 
-        $this->namesToAddIntoUseStatements = $this->namesUnique($this->namesToAddIntoUseStatements);
-        foreach ($this->namesToAddIntoUseStatements as $nameToAddIntoUseStatement) {
-            $this->addIntoUseStatements($tokens, $nameToAddIntoUseStatement);
-        }
+        UseImportsTransformer::addNamesAddUseImportsToTokens($this->namesToAddIntoUseStatements, $this->tokens);
     }
 
     /**
@@ -183,29 +180,21 @@ final class ImportNamespacedNameFixer implements FixerInterface, DefinedFixerInt
         $this->whitespacesFixerConfig = $whitespacesFixerConfig;
     }
 
-    private function addIntoUseStatements(Tokens $tokens, Name $name): void
-    {
-        foreach ($this->useImports as $useImport) {
-            if ($name->getName() === $useImport->getFullName()) {
-                return;
-            }
-        }
-
-        // add so it's not added twice
-        $this->useImports[] = new UseImport($name->getName(), $name->getLastName());
-
-        $namespacePosition = NamespaceFinder::findInTokens($tokens);
-        $namespaceSemicolonPosition = $tokens->getNextTokenOfKind($namespacePosition, [';']);
-
-        $tokens->insertAt($namespaceSemicolonPosition + 2, $name->getUseNameTokens());
-    }
-
     private function uniquateLastPart(Name $name): Name
     {
         foreach ($this->useImports as $useImport) {
             if ($useImport->getShortName() === $name->getLastName() && $useImport->getFullName() !== $name->getName()) {
                 $uniquePrefix = $name->getFirstName();
                 $name->addAlias($uniquePrefix . $name->getLastName());
+                return $name;
+            }
+        }
+
+        foreach ($this->namesToAddIntoUseStatements as $nameToAddIntoUseStatements) {
+            if ($nameToAddIntoUseStatements->getLastName() === $name->getLastName() && $nameToAddIntoUseStatements->getName() !== $name->getName()) {
+                $uniquePrefix = $name->getFirstName();
+                $name->addAlias($uniquePrefix . $name->getLastName());
+                return $name;
             }
         }
 
@@ -259,7 +248,6 @@ final class ImportNamespacedNameFixer implements FixerInterface, DefinedFixerInt
             return;
         }
 
-        // add use statement
         $this->namesToAddIntoUseStatements[] = NameFactory::createFromStringAndTokens($fullName, $tokens);
     }
 
@@ -295,25 +283,5 @@ final class ImportNamespacedNameFixer implements FixerInterface, DefinedFixerInt
         (new PrivatesSetter())->setPrivateProperty($objectType, 'fqsen', new Fqsen('\\' . $lastName));
 
         return $usedName;
-    }
-
-    /**
-     * @param Name[] $names
-     * @return Name[]
-     */
-    private function namesUnique(array $names): array
-    {
-        $uniqueNames = [];
-        foreach ($names as $name) {
-            if (isset($uniqueNames[$name->getName()])) {
-                continue;
-            }
-            $uniqueNames[$name->getName()] = $name;
-        }
-
-//        dump($uniqueNames);
-//        die;
-
-        return $uniqueNames;
     }
 }

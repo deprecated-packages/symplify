@@ -78,6 +78,14 @@ final class Name
         return $this->name;
     }
 
+    /**
+     * @return Token[]
+     */
+    public function getNameTokens(): array
+    {
+        return $this->nameTokens;
+    }
+
     public function getLastName(): string
     {
         if ($this->alias) {
@@ -85,6 +93,11 @@ final class Name
         }
 
         return $this->lastName;
+    }
+
+    public function getAlias(): ?string
+    {
+        return $this->alias;
     }
 
     public function addAlias(string $alias): void
@@ -95,44 +108,6 @@ final class Name
     public function getFirstName(): string
     {
         return $this->nameTokens[0]->getContent();
-    }
-
-    /**
-     * @return Token[]
-     */
-    public function getUseNameTokens(): array
-    {
-        $tokens = [];
-
-        $tokens[] = new Token([T_USE, 'use']);
-        $tokens[] = new Token([T_WHITESPACE, ' ']);
-
-        if ($this->relatedUseImport) {
-            $startName = $this->nameTokens[0]->getContent();
-
-            foreach ($this->relatedUseImport->getNameParts() as $useDeclarationPart) {
-                if ($useDeclarationPart === $startName) {
-                    break;
-                }
-
-                $tokens[] = new Token([T_STRING, $useDeclarationPart]);
-                $tokens[] = new Token([T_NS_SEPARATOR, '\\']);
-            }
-        }
-
-        $tokens = array_merge($tokens, $this->nameTokens);
-
-        if ($this->alias) {
-            $tokens[] = new Token([T_WHITESPACE, ' ']);
-            $tokens[] = new Token([T_AS, 'as']);
-            $tokens[] = new Token([T_WHITESPACE, ' ']);
-            $tokens[] = new Token([T_STRING, $this->alias]);
-        }
-
-        $tokens[] = new Token(';');
-        $tokens[] = new Token([T_WHITESPACE, PHP_EOL]);
-
-        return $tokens;
     }
 
     public function getLastNameToken(): Token
@@ -166,5 +141,10 @@ final class Name
         }
 
         return false;
+    }
+
+    public function getRelatedUseImport(): ?UseImport
+    {
+        return $this->relatedUseImport;
     }
 }
