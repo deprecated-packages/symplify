@@ -105,11 +105,7 @@ final class PropertyWrapper extends AbstractVariableWrapper
             return null;
         }
 
-        return DocBlockWrapper::createFromTokensPositionAndDocBlock(
-            $this->tokens,
-            $this->docBlockPosition,
-            $this->docBlock
-        );
+        return DocBlockWrapper::createFromTokensAndPosition($this->tokens, $this->docBlockPosition);
     }
 
     protected function getNamePosition(): int

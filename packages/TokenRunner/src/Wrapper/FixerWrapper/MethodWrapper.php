@@ -136,12 +136,9 @@ final class MethodWrapper
             return null;
         }
 
-        $docBlock = new DocBlock($docBlockToken->getContent());
-
-        return DocBlockWrapper::createFromTokensPositionAndDocBlock(
+        return DocBlockWrapper::createFromTokensAndPosition(
             $this->tokens,
-            DocBlockFinder::findPreviousPosition($this->tokens, $this->index),
-            $docBlock
+            DocBlockFinder::findPreviousPosition($this->tokens, $this->index)
         );
     }
 

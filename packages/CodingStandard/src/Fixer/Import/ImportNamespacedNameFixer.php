@@ -108,7 +108,7 @@ final class ImportNamespacedNameFixer implements FixerInterface, DefinedFixerInt
             }
 
             if ($token->isGivenKind(T_DOC_COMMENT)) {
-                $this->processDocCommentToken($token, $index, $tokens);
+                $this->processDocCommentToken($index, $tokens);
                 continue;
             }
 
@@ -270,9 +270,9 @@ final class ImportNamespacedNameFixer implements FixerInterface, DefinedFixerInt
         $this->addIntoUseStatements($tokens, $name);
     }
 
-    private function processDocCommentToken(Token $token, int $index, Tokens $tokens): void
+    private function processDocCommentToken(int $index, Tokens $tokens): void
     {
-        $docBlockWrapper = DocBlockWrapper::createFromTokensPositionAndContent($tokens, $index, $token->getContent());
+        $docBlockWrapper = DocBlockWrapper::createFromTokensAndPosition($tokens, $index);
         // require for doc block changes
         $docBlockWrapper->setWhitespacesFixerConfig($this->whitespacesFixerConfig);
 

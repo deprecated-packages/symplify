@@ -36,7 +36,7 @@ final class DocBlockWrapper
     /**
      * @var int|null
      */
-    private $docBlockPosition;
+    private $position;
 
     /**
      * @var PhpDocumentorDocBlock
@@ -53,39 +53,25 @@ final class DocBlockWrapper
      */
     private $originalContent;
 
-    private function __construct(?Tokens $tokens, ?int $docBlockPosition, ?DocBlock $docBlock, ?Token $token = null, ?string $content = null)
+    private function __construct(Tokens $tokens, int $position, string $content)
     {
         $this->tokens = $tokens;
-        $this->docBlockPosition = $docBlockPosition;
-
-        if ($content === null) {
-            $content = $token ? $token->getContent() : $docBlock->getContent();
-        }
+        $this->position = $position;
 
         $this->phpDocumentorDocBlock = (new CleanDocBlockFactory())->create($content);
         $this->originalContent = $content;
     }
 
-    public static function createFromTokensPositionAndContent(Tokens $tokens, int $index, string $content): self
+    public static function createFromTokensAndPosition(Tokens $tokens, int $index): self
     {
         TokenTypeGuard::ensureIsTokenType($tokens[$index], [T_COMMENT, T_DOC_COMMENT], __METHOD__);
 
-        return new self($tokens, $index, null, null, $content);
-    }
-
-    public static function createFromTokensPositionAndDocBlock(
-        Tokens $tokens,
-        int $docBlockPosition,
-        DocBlock $docBlock
-    ): self {
-        TokenTypeGuard::ensureIsTokenType($tokens[$docBlockPosition], [T_COMMENT, T_DOC_COMMENT], __METHOD__);
-
-        return new self($tokens, $docBlockPosition, $docBlock);
+        return new self($tokens, $index, $tokens[$index]->getContent());
     }
 
     public function getTokenPosition(): int
     {
-        return $this->docBlockPosition;
+        return $this->position;
     }
 
     public static function createFromDocBlockToken(Token $docBlockToken): self
@@ -263,7 +249,7 @@ final class DocBlockWrapper
 
     public function updateDocBlockTokenContent(): void
     {
-        $this->tokens[$this->docBlockPosition] = new Token([T_DOC_COMMENT, $this->getContent()]);
+        $this->tokens[$this->position] = new Token([T_DOC_COMMENT, $this->getContent()]);
     }
 
     public function getContent(): string
