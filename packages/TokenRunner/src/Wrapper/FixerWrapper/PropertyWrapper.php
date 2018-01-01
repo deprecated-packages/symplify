@@ -11,12 +11,6 @@ use Symplify\TokenRunner\Naming\Name\NameFactory;
 final class PropertyWrapper extends AbstractVariableWrapper
 {
     /**
-     * @var int
-     */
-
-    private $visibilityPosition;
-
-    /**
      * @var DocBlockWrapper|null
      */
     private $docBlockWrapper;
@@ -31,8 +25,6 @@ final class PropertyWrapper extends AbstractVariableWrapper
         if ($docBlockPosition) {
             $this->docBlockWrapper = DocBlockWrapper::createFromTokensAndPosition($this->tokens, $docBlockPosition);
         }
-
-        $this->visibilityPosition = PropertyAnalyzer::findVisibilityPosition($tokens, $index);
     }
 
     public static function createFromTokensAndPosition(Tokens $tokens, int $position): self
@@ -83,8 +75,8 @@ final class PropertyWrapper extends AbstractVariableWrapper
     {
         $nextVariableTokens = $this->tokens->findGivenKind(
             [T_VARIABLE],
-            $this->visibilityPosition,
-            $this->visibilityPosition + 5
+            $this->index,
+            $this->index + 5
         );
 
         $nextVariableToken = array_pop($nextVariableTokens);
