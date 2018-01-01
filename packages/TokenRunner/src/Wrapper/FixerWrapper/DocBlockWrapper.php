@@ -74,6 +74,11 @@ final class DocBlockWrapper
         $this->originalContent = $content;
     }
 
+    public function getTokenPosition(): int
+    {
+        return $this->docBlockPosition;
+    }
+
     public static function createFromTokensPositionAndDocBlock(
         Tokens $tokens,
         int $docBlockPosition,
@@ -97,23 +102,21 @@ final class DocBlockWrapper
         return count($this->docBlock->getLines()) === 1;
     }
 
-    public function changeToMultiLine(): void
+    public function changeToMultiLine(): string
     {
         $indent = $this->whitespacesFixerConfig->getIndent();
         $lineEnding = $this->whitespacesFixerConfig->getLineEnding();
         $newLineWithIndent = $lineEnding . $indent;
 
-        $newDocBlock = str_replace(
+        return str_replace(
             [' @', '/** ', ' */'],
             [
                 $newLineWithIndent . ' * @',
-                '/**',
+                $newLineWithIndent . '/**',
                 $newLineWithIndent . ' */',
             ],
             $this->docBlock->getContent()
         );
-
-        $this->tokens[$this->docBlockPosition] = new Token([T_DOC_COMMENT, $newDocBlock]);
     }
 
     public function getReturnType(): ?string
@@ -268,10 +271,10 @@ final class DocBlockWrapper
 
     public function updateDocBlockTokenContent(): void
     {
-        $this->tokens[$this->docBlockPosition] = new Token([T_DOC_COMMENT, $this->getDocBlockTokenContent()]);
+        $this->tokens[$this->docBlockPosition] = new Token([T_DOC_COMMENT, $this->getContent()]);
     }
 
-    public function getDocBlockTokenContent(): string
+    public function getContent(): string
     {
         return $this->getDocBlockSerializer()
             ->getDocComment($this->phpDocumentorDocBlock);

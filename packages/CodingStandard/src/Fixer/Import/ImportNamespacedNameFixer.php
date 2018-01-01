@@ -307,8 +307,8 @@ final class ImportNamespacedNameFixer implements FixerInterface, DefinedFixerInt
         // set new short name
         (new PrivatesSetter())->setPrivateProperty($objectType, 'fqsen', new Fqsen('\\' . $lastName));
 
-        // save doc  comment
-        $docBlockContent = $docBlockWrapper->getDocBlockTokenContent();
+        // save doc comment
+        $docBlockContent = $docBlockWrapper->getContent();
         $this->tokens[$index] = new Token([T_DOC_COMMENT, $docBlockContent]);
 
         // add use statement
