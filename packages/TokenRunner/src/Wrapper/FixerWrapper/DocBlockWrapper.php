@@ -29,11 +29,6 @@ final class DocBlockWrapper
     private $tokens;
 
     /**
-     * @var DocBlock|null
-     */
-    private $docBlock;
-
-    /**
      * @var WhitespacesFixerConfig
      */
     private $whitespacesFixerConfig;
@@ -62,14 +57,8 @@ final class DocBlockWrapper
     {
         $this->tokens = $tokens;
         $this->docBlockPosition = $docBlockPosition;
-        $this->docBlock = $docBlock;
-
-        if ($docBlock === null && $token !== null) {
-            $this->docBlock = new DocBlock($token->getContent());
-        }
 
         $content = $token ? $token->getContent() : $docBlock->getContent();
-
         $this->phpDocumentorDocBlock = (new CleanDocBlockFactory())->create($content);
         $this->originalContent = $content;
     }
@@ -98,8 +87,7 @@ final class DocBlockWrapper
 
     public function isSingleLine(): bool
     {
-        // or substr_count($this->originalContent, PHP_EOL));
-        return count($this->docBlock->getLines()) === 1;
+        return substr_count($this->originalContent, PHP_EOL) < 1;
     }
 
     public function changeToMultiLine(): string
@@ -115,7 +103,7 @@ final class DocBlockWrapper
                 $newLineWithIndent . '/**',
                 $newLineWithIndent . ' */',
             ],
-            $this->docBlock->getContent()
+            $this->originalContent
         );
     }
 
@@ -264,9 +252,9 @@ final class DocBlockWrapper
         return true;
     }
 
-    public function contains(string $content): bool
+    public function contains(string $needle): bool
     {
-        return Strings::contains($this->docBlock->getContent(), $content);
+        return Strings::contains($this->originalContent, $needle);
     }
 
     public function updateDocBlockTokenContent(): void
