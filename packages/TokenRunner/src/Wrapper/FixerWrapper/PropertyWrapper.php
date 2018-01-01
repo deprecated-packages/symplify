@@ -13,17 +13,8 @@ final class PropertyWrapper extends AbstractVariableWrapper
     /**
      * @var int
      */
+
     private $visibilityPosition;
-
-    /**
-     * @var int|null
-     */
-    private $docBlockPosition;
-
-    /**
-     * @var string|null
-     */
-    private $type;
 
     /**
      * @var DocBlockWrapper|null
@@ -36,9 +27,9 @@ final class PropertyWrapper extends AbstractVariableWrapper
 
         parent::__construct($tokens, $index);
 
-        $this->docBlockPosition = DocBlockFinder::findPreviousPosition($tokens, $index);
-        if ($this->docBlockPosition) {
-            $this->docBlockWrapper = DocBlockWrapper::createFromTokensAndPosition($this->tokens, $this->docBlockPosition);
+        $docBlockPosition = DocBlockFinder::findPreviousPosition($tokens, $index);
+        if ($docBlockPosition) {
+            $this->docBlockWrapper = DocBlockWrapper::createFromTokensAndPosition($this->tokens, $docBlockPosition);
         }
 
         $this->visibilityPosition = PropertyAnalyzer::findVisibilityPosition($tokens, $index);
