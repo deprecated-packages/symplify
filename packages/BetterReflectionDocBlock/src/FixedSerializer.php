@@ -49,7 +49,14 @@ final class FixedSerializer extends Serializer
 
         // tags
         if ($docBlock->getTags()) {
-            $comment = $privatesCaller->callPrivateMethod($this, 'addTagBlock', $docBlock, $wrapLength, $indent, $comment);
+            $comment = $privatesCaller->callPrivateMethod(
+                $this,
+                'addTagBlock',
+                $docBlock,
+                $wrapLength,
+                $indent,
+                $comment
+            );
         }
 
         // closing

@@ -4,7 +4,6 @@ namespace Symplify\CodingStandard\Fixer\Import;
 
 use PhpCsFixer\Fixer\ConfigurationDefinitionFixerInterface;
 use PhpCsFixer\Fixer\DefinedFixerInterface;
-use PhpCsFixer\Fixer\FixerInterface;
 use PhpCsFixer\Fixer\WhitespacesAwareFixerInterface;
 use PhpCsFixer\FixerConfiguration\FixerConfigurationResolver;
 use PhpCsFixer\FixerConfiguration\FixerConfigurationResolverInterface;
@@ -31,13 +30,13 @@ use Symplify\TokenRunner\Transformer\FixerTransformer\UseImportsTransformer;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\DocBlockWrapper;
 
 /**
- * Possible cases.
+ * Possible cases:
  *
- * - 1. string that start with pre slash \SomeThing
- * - 2. namespace with conflicts \First\SomeClass + \Second\SomeClass
- * - 3. partial namespaces \Namespace\Partial + Partial\Class
+ * - 1) string that start with pre slash \SomeThing
+ * - 2) namespace with conflicts \First\SomeClass + \Second\SomeClass
+ * - 3) partial namespaces \Namespace\Partial + Partial\Class
  */
-final class ImportNamespacedNameFixer implements FixerInterface, DefinedFixerInterface, ConfigurationDefinitionFixerInterface, WhitespacesAwareFixerInterface
+final class ImportNamespacedNameFixer implements DefinedFixerInterface, ConfigurationDefinitionFixerInterface, WhitespacesAwareFixerInterface
 {
     /**
      * @var string
@@ -53,11 +52,6 @@ final class ImportNamespacedNameFixer implements FixerInterface, DefinedFixerInt
      * @var mixed[]
      */
     private $configuration = [];
-
-    /**
-     * @var Tokens
-     */
-    private $tokens;
 
     /**
      * @var WhitespacesFixerConfig
@@ -114,7 +108,7 @@ final class ImportNamespacedNameFixer implements FixerInterface, DefinedFixerInt
             }
         }
 
-        UseImportsTransformer::addNamesAsUseImportsToTokens($this->namesToAddIntoUseStatements, $tokens);
+        UseImportsTransformer::addNamesToTokens($this->namesToAddIntoUseStatements, $tokens);
     }
 
     /**
