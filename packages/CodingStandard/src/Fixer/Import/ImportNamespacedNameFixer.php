@@ -209,19 +209,6 @@ final class ImportNamespacedNameFixer implements FixerInterface, DefinedFixerInt
         $tokens->insertAt($namespaceSemicolonPosition + 2, $name->getUseNameTokens());
     }
 
-//    private function wasNameImported(Name $name): bool
-//    {
-//        foreach ($this->useImports as $useImport) {
-//            if ($useImport->getFullName() === $name->getName()) {
-//                return true;
-//            }
-//        }
-//
-//        $this->useImports[] = new UseImport($name->getName(), $name->getLastName());
-//
-//        return false;
-//    }
-
     private function uniquateLastPart(Name $name): Name
     {
         foreach ($this->useImports as $useImport) {
@@ -264,22 +251,7 @@ final class ImportNamespacedNameFixer implements FixerInterface, DefinedFixerInt
         // replace with last name part
         $tokens->overrideRange($name->getStart(), $name->getEnd(), [$name->getLastNameToken()]);
 
-        // has this been already imported?
-//        if ($this->wasNameImported($name)) {
-//            return;
-//        }
-
-//        if ($name->isPartialName()) {
-//            // add use statement
-//            $this->addIntoUseStatements($tokens, $name);
-//
-//            return;
-//        }
-
         $this->namesToAddIntoUseStatements[] = $name;
-
-        // add use statement
-//        $this->addIntoUseStatements($tokens, $name);
     }
 
     private function processDocCommentToken(int $index, Tokens $tokens): void
@@ -348,18 +320,21 @@ final class ImportNamespacedNameFixer implements FixerInterface, DefinedFixerInt
     }
 
     /**
-     * @param Name[] $namesToAddIntoUseStatements
+     * @param Name[] $names
      * @return Name[]
      */
-    private function namesUnique(array $namesToAddIntoUseStatements): array
+    private function namesUnique(array $names): array
     {
         $uniqueNames = [];
-        foreach ($namesToAddIntoUseStatements as $nameToAddIntoUseStatements) {
-            if (isset($uniqueNames[$nameToAddIntoUseStatements->getName()])) {
+        foreach ($names as $name) {
+            if (isset($uniqueNames[$name->getName()])) {
                 continue;
             }
-            $uniqueNames[$nameToAddIntoUseStatements->getName()] = $nameToAddIntoUseStatements;
+            $uniqueNames[$name->getName()] = $name;
         }
+
+//        dump($uniqueNames);
+//        die;
 
         return $uniqueNames;
     }
