@@ -97,8 +97,8 @@ final class ImportNamespacedNameFixer implements FixerInterface, DefinedFixerInt
 
     public function isCandidate(Tokens $tokens): bool
     {
-        return $tokens->isAllTokenKindsFound([T_CLASS, T_STRING, T_NS_SEPARATOR]) ||
-            $tokens->isTokenKindFound(T_DOC_COMMENT);
+        return $tokens->isAllTokenKindsFound([T_CLASS, T_STRING, T_NS_SEPARATOR])
+            || $tokens->isAllTokenKindsFound([T_CLASS, T_DOC_COMMENT]);
     }
 
     public function fix(SplFileInfo $file, Tokens $tokens): void
@@ -126,7 +126,7 @@ final class ImportNamespacedNameFixer implements FixerInterface, DefinedFixerInt
             }
         }
 
-        $this->namesToAddIntoUseStatements = array_unique($this->namesToAddIntoUseStatements, SORT_REGULAR);
+        $this->namesToAddIntoUseStatements = $this->namesUnique($this->namesToAddIntoUseStatements);
         foreach ($this->namesToAddIntoUseStatements as $nameToAddIntoUseStatement) {
             $this->addIntoUseStatements($tokens, $nameToAddIntoUseStatement);
         }
@@ -200,24 +200,27 @@ final class ImportNamespacedNameFixer implements FixerInterface, DefinedFixerInt
             }
         }
 
+        // add so it's not added twice
+        $this->useImports[] = new UseImport($name->getName(), $name->getLastName());
+
         $namespacePosition = NamespaceFinder::findInTokens($tokens);
         $namespaceSemicolonPosition = $tokens->getNextTokenOfKind($namespacePosition, [';']);
 
         $tokens->insertAt($namespaceSemicolonPosition + 2, $name->getUseNameTokens());
     }
 
-    private function wasNameImported(Name $name): bool
-    {
-        foreach ($this->useImports as $useImport) {
-            if ($useImport->getFullName() === $name->getName()) {
-                return true;
-            }
-        }
-
-        $this->useImports[] = new UseImport($name->getName(), $name->getLastName());
-
-        return false;
-    }
+//    private function wasNameImported(Name $name): bool
+//    {
+//        foreach ($this->useImports as $useImport) {
+//            if ($useImport->getFullName() === $name->getName()) {
+//                return true;
+//            }
+//        }
+//
+//        $this->useImports[] = new UseImport($name->getName(), $name->getLastName());
+//
+//        return false;
+//    }
 
     private function uniquateLastPart(Name $name): Name
     {
@@ -233,12 +236,12 @@ final class ImportNamespacedNameFixer implements FixerInterface, DefinedFixerInt
 
     private function getClassName(): string
     {
+        // @todo: use ClassWrapper
         if ($this->className) {
             return $this->className;
         }
 
         $classPosition = $this->tokens->getNextTokenOfKind(0, [new Token([T_CLASS, 'class'])]);
-
         $classNamePosition = $this->tokens->getNextMeaningfulToken($classPosition);
 
         return $this->className = $this->tokens[$classNamePosition]->getContent();
@@ -262,19 +265,21 @@ final class ImportNamespacedNameFixer implements FixerInterface, DefinedFixerInt
         $tokens->overrideRange($name->getStart(), $name->getEnd(), [$name->getLastNameToken()]);
 
         // has this been already imported?
-        if ($this->wasNameImported($name)) {
-            return;
-        }
+//        if ($this->wasNameImported($name)) {
+//            return;
+//        }
 
-        if ($name->isPartialName()) {
-            // add use statement
-            $this->addIntoUseStatements($tokens, $name);
+//        if ($name->isPartialName()) {
+//            // add use statement
+//            $this->addIntoUseStatements($tokens, $name);
+//
+//            return;
+//        }
 
-            return;
-        }
+        $this->namesToAddIntoUseStatements[] = $name;
 
         // add use statement
-        $this->addIntoUseStatements($tokens, $name);
+//        $this->addIntoUseStatements($tokens, $name);
     }
 
     private function processDocCommentToken(int $index, Tokens $tokens): void
@@ -340,5 +345,22 @@ final class ImportNamespacedNameFixer implements FixerInterface, DefinedFixerInt
         (new PrivatesSetter())->setPrivateProperty($objectType, 'fqsen', new Fqsen('\\' . $lastName));
 
         return $usedName;
+    }
+
+    /**
+     * @param Name[] $namesToAddIntoUseStatements
+     * @return Name[]
+     */
+    private function namesUnique(array $namesToAddIntoUseStatements): array
+    {
+        $uniqueNames = [];
+        foreach ($namesToAddIntoUseStatements as $nameToAddIntoUseStatements) {
+            if (isset($uniqueNames[$nameToAddIntoUseStatements->getName()])) {
+                continue;
+            }
+            $uniqueNames[$nameToAddIntoUseStatements->getName()] = $nameToAddIntoUseStatements;
+        }
+
+        return $uniqueNames;
     }
 }
