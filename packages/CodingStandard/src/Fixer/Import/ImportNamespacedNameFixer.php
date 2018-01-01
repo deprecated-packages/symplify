@@ -288,8 +288,10 @@ final class ImportNamespacedNameFixer implements DefinedFixerInterface, Configur
      */
     private function shortenNameAndReturnFullName(Tag $tag): ?string
     {
-        /** @var Object_ $objectType */
         $objectType = $tag->getType();
+        if (! $objectType instanceof Object_) {
+            return null;
+        }
 
         $fqsen = $objectType->getFqsen();
         if (! $fqsen instanceof Fqsen) {
