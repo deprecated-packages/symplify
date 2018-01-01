@@ -4,6 +4,7 @@ namespace Symplify\TokenRunner\Transformer\FixerTransformer;
 
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
+use Symplify\TokenRunner\Analyzer\FixerAnalyzer\ClassNameFinder;
 use Symplify\TokenRunner\Analyzer\FixerAnalyzer\NamespaceFinder;
 use Symplify\TokenRunner\Naming\Name\Name;
 use Symplify\TokenRunner\Naming\UseImport\UseImportsFactory;
@@ -15,15 +16,10 @@ final class UseImportsTransformer
      */
     public static function addNamesToTokens(array $names, Tokens $tokens): void
     {
-        $names = self::namesUnique($names);
-
-        // find namespace start
-        $namespacePosition = NamespaceFinder::findInTokens($tokens);
-        $namespaceSemicolonPosition = $tokens->getNextTokenOfKind($namespacePosition, [';']);
-
         $useImports = (new UseImportsFactory())->createForTokens($tokens);
 
         $useTokens = [];
+        $names = self::namesUnique($names);
         foreach ($names as $name) {
             // skip already existing use imports
             foreach ($useImports as $useImport) {
@@ -36,7 +32,7 @@ final class UseImportsTransformer
             $useTokens = array_merge($useTokens, self::buildUseTokensFromName($name));
         }
 
-        $tokens->insertAt($namespaceSemicolonPosition + 2, $useTokens);
+        $tokens->insertAt(self::useStatementLocation($tokens), $useTokens);
     }
 
     /**
@@ -113,5 +109,25 @@ final class UseImportsTransformer
         }
 
         return $uniqueNames;
+    }
+
+    private static function useStatementLocation(Tokens $tokens): int
+    {
+        $namespacePosition = NamespaceFinder::findInTokens($tokens);
+        if ($namespacePosition) {
+            return $tokens->getNextTokenOfKind($namespacePosition, [';']) + 2;
+        }
+
+        $usePosition = $tokens->getNextTokenOfKind(0, [T_USE]);
+        if ($usePosition) {
+            return $usePosition;
+        }
+
+        $classPosition = $tokens->getNextTokenOfKind(0, [T_CLASS]);
+        if ($classPosition) {
+            return $classPosition - 3;
+        }
+
+        return 0;
     }
 }

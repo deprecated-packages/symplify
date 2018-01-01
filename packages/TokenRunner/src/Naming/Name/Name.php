@@ -10,12 +10,12 @@ use Symplify\TokenRunner\Naming\UseImport\UseImportsFactory;
 final class Name
 {
     /**
-     * @var int
+     * @var int|null
      */
     private $start;
 
     /**
-     * @var int
+     * @var int|null
      */
     private $end;
 
@@ -85,12 +85,12 @@ final class Name
         return implode('\\', $nameParts);
     }
 
-    public function getStart(): int
+    public function getStart(): ?int
     {
         return $this->start;
     }
 
-    public function getEnd(): int
+    public function getEnd(): ?int
     {
         return $this->end;
     }

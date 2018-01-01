@@ -59,10 +59,7 @@ final class MethodWrapper
 
         $docBlockPosition = DocBlockFinder::findPreviousPosition($this->tokens, $this->index);
         if ($docBlockPosition) {
-            $this->docBlockWrapper = DocBlockWrapper::createFromTokensAndPosition(
-                $this->tokens,
-                DocBlockFinder::findPreviousPosition($this->tokens, $this->index)
-            );
+            $this->docBlockWrapper = DocBlockWrapper::createFromTokensAndPosition($this->tokens, $docBlockPosition);
         }
 
         $this->bodyStart = $this->tokens->getNextTokenOfKind($this->index, ['{']);

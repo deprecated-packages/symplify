@@ -3,6 +3,7 @@
 namespace Symplify\TokenRunner\Wrapper\FixerWrapper;
 
 use Nette\Utils\Strings;
+use PhpCsFixer\Fixer\WhitespacesAwareFixerInterface;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use PhpCsFixer\WhitespacesFixerConfig;
@@ -18,6 +19,7 @@ use Symplify\BetterReflectionDocBlock\DocBlockSerializerFactory;
 use Symplify\BetterReflectionDocBlock\Tag\TolerantParam;
 use Symplify\BetterReflectionDocBlock\Tag\TolerantReturn;
 use Symplify\TokenRunner\DocBlock\ArrayResolver;
+use Symplify\TokenRunner\Exception\Wrapper\FixerWrapper\MissingWhitespacesFixerConfigException;
 use Symplify\TokenRunner\Guard\TokenTypeGuard;
 
 final class DocBlockWrapper
@@ -80,6 +82,8 @@ final class DocBlockWrapper
 
     public function getMultiLineVersion(): string
     {
+        $this->ensureWhitespacesFixerConfigIsSet();
+
         $newLineIndent = $this->whitespacesFixerConfig->getLineEnding() . $this->whitespacesFixerConfig->getIndent();
 
         return str_replace([' @', '/** ', ' */'], [
@@ -303,9 +307,26 @@ final class DocBlockWrapper
             return $this->docBlockSerializer;
         }
 
+        $this->ensureWhitespacesFixerConfigIsSet();
+
         return $this->docBlockSerializer = DocBlockSerializerFactory::createFromWhitespaceFixerConfigAndContent(
             $this->whitespacesFixerConfig,
             $this->originalContent
         );
+    }
+
+    private function ensureWhitespacesFixerConfigIsSet(): void
+    {
+        if ($this->whitespacesFixerConfig) {
+            return;
+        }
+
+        throw new MissingWhitespacesFixerConfigException(sprintf(
+            '"%s% is not set to "%s". Use %s interface on your Fixer '
+            . 'and pass it via `$docBlockWrapper->setWhitespacesFixerConfig()`',
+            WhitespacesFixerConfig::class,
+            self::class,
+            WhitespacesAwareFixerInterface::class
+        ));
     }
 }

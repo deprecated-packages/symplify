@@ -16,9 +16,13 @@ use PhpCsFixer\Tokenizer\Tokens;
 use PhpCsFixer\WhitespacesFixerConfig;
 use phpDocumentor\Reflection\DocBlock\Tag;
 use phpDocumentor\Reflection\DocBlock\Tags\Param;
+use phpDocumentor\Reflection\DocBlock\Tags\Return_;
+use phpDocumentor\Reflection\DocBlock\Tags\Var_;
 use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Types\Object_;
 use SplFileInfo;
+use Symplify\BetterReflectionDocBlock\Tag\TolerantParam;
+use Symplify\BetterReflectionDocBlock\Tag\TolerantReturn;
 use Symplify\PackageBuilder\Reflection\PrivatesSetter;
 use Symplify\TokenRunner\Analyzer\FixerAnalyzer\ClassNameFinder;
 use Symplify\TokenRunner\Naming\Name\Name;
@@ -280,15 +284,20 @@ final class ImportNamespacedNameFixer implements DefinedFixerInterface, Configur
     }
 
     /**
-     * @param Param $tag
+     * @param Param|TolerantReturn|TolerantParam|Return_|Var_ $tag
      */
     private function shortenNameAndReturnFullName(Tag $tag): ?string
     {
         /** @var Object_ $objectType */
         $objectType = $tag->getType();
 
-        $usedName = (string) $objectType->getFqsen();
-        $lastName = $objectType->getFqsen()->getName();
+        $fqsen = $objectType->getFqsen();
+        if (! $fqsen instanceof Fqsen) {
+            return null;
+        }
+
+        $usedName = (string) $fqsen;
+        $lastName = $fqsen->getName();
 
         if ($lastName === ltrim($usedName, '\\')) {
             return null;
