@@ -21,6 +21,7 @@ use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Types\Object_;
 use SplFileInfo;
 use Symplify\PackageBuilder\Reflection\PrivatesSetter;
+use Symplify\TokenRunner\Analyzer\FixerAnalyzer\ClassNameFinder;
 use Symplify\TokenRunner\Analyzer\FixerAnalyzer\NamespaceFinder;
 use Symplify\TokenRunner\Naming\Name\Name;
 use Symplify\TokenRunner\Naming\Name\NameAnalyzer;
@@ -44,11 +45,6 @@ final class ImportNamespacedNameFixer implements FixerInterface, DefinedFixerInt
     private const ALLOW_SINGLE_NAMES_OPTION = 'allow_single_names';
 
     /**
-     * @var int
-     */
-    private $namespacePosition;
-
-    /**
      * @var UseImport[]
      */
     private $useImports = [];
@@ -57,11 +53,6 @@ final class ImportNamespacedNameFixer implements FixerInterface, DefinedFixerInt
      * @var mixed[]
      */
     private $configuration = [];
-
-    /**
-     * @var string
-     */
-    private $className;
 
     /**
      * @var Tokens
@@ -111,7 +102,7 @@ final class ImportNamespacedNameFixer implements FixerInterface, DefinedFixerInt
             $token = $tokens[$index];
 
             // class name is same as token that could be imported, skip
-            if ($token->getContent() === $this->getClassName()) {
+            if ($token->getContent() === ClassNameFinder::findInTokens($this->tokens)) {
                 continue;
             }
 
@@ -219,19 +210,6 @@ final class ImportNamespacedNameFixer implements FixerInterface, DefinedFixerInt
         }
 
         return $name;
-    }
-
-    private function getClassName(): string
-    {
-        // @todo: use ClassWrapper
-        if ($this->className) {
-            return $this->className;
-        }
-
-        $classPosition = $this->tokens->getNextTokenOfKind(0, [new Token([T_CLASS, 'class'])]);
-        $classNamePosition = $this->tokens->getNextMeaningfulToken($classPosition);
-
-        return $this->className = $this->tokens[$classNamePosition]->getContent();
     }
 
     private function processStringToken(Token $token, int $index, Tokens $tokens): void
