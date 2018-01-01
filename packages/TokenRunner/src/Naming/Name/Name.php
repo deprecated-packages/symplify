@@ -60,6 +60,29 @@ final class Name
         $this->nameTokens = $nameTokens;
         $this->lastName = $this->nameTokens[count($this->nameTokens) - 1]->getContent();
         $this->tokens = $tokens;
+
+        $useImports = (new UseImportsFactory())->createForTokens($this->tokens);
+        foreach ($useImports as $useImport) {
+            if ($useImport->startsWith($this->name)) {
+                $this->relatedUseImport = $useImport;
+                $this->name = self::composePartialNamespaceAndName($useImport->getFullName(), $this->name);
+            }
+        }
+    }
+
+    private static function composePartialNamespaceAndName(string $namespace, string $name): string
+    {
+        if ($namespace === $name) {
+            return $name;
+        }
+
+        $namespaceParts = explode('\\', $namespace);
+        $nameParts = explode('\\', $name);
+
+        $nameParts = array_merge($namespaceParts, $nameParts);
+        $nameParts = array_unique($nameParts);
+
+        return implode('\\', $nameParts);
     }
 
     public function getStart(): int
@@ -121,18 +144,6 @@ final class Name
 
     public function getRelatedUseImport(): ?UseImport
     {
-        if ($this->relatedUseImport) {
-            return $this->relatedUseImport;
-        }
-
-        $useImports = (new UseImportsFactory())->createForTokens($this->tokens);
-        foreach ($useImports as $useImport) {
-            if ($useImport->startsWith($this->name)) {
-                $this->relatedUseImport = $useImport;
-                break;
-            }
-        }
-
         return $this->relatedUseImport;
     }
 }

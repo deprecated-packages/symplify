@@ -39,9 +39,7 @@ final class UseImportsFactory
             $importUseIndexes
         );
 
-        $useImports = $this->wrapToValueObjects($useImports);
-
-        return $this->cachedUseImports[$tokens->getCodeHash()] = $useImports;
+        return $this->cachedUseImports[$tokens->getCodeHash()] = $this->wrapToValueObjects($useImports);
     }
 
     /**

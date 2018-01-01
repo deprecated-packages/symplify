@@ -13,7 +13,7 @@ final class UseImportsTransformer
     /**
      * @param Name[] $names
      */
-    public static function addNamesAsUseImportsToTokens(array $names, Tokens $tokens): void
+    public static function addNamesToTokens(array $names, Tokens $tokens): void
     {
         $names = self::namesUnique($names);
 
@@ -23,7 +23,6 @@ final class UseImportsTransformer
 
         $useImports = (new UseImportsFactory())->createForTokens($tokens);
 
-        // turn names into use import tokens
         $useTokens = [];
         foreach ($names as $name) {
             // skip already existing use imports
@@ -33,6 +32,7 @@ final class UseImportsTransformer
                 }
             }
 
+            // turn names into use import tokens
             $useTokens = array_merge($useTokens, self::buildUseTokensFromName($name));
         }
 

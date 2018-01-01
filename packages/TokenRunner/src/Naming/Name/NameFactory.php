@@ -105,34 +105,35 @@ final class NameFactory
         }
 
         $useImports = (new UseImportsFactory())->createForTokens($tokens);
-
         foreach ($useImports as $useImport) {
             if ($className === $useImport->getShortName()) {
                 return $useImport->getFullName();
             }
         }
 
-        if ($prependNamespace) {
-            $namespaceTokens = $tokens->findGivenKind([T_NAMESPACE], 0);
-
-            if (count($namespaceTokens[T_NAMESPACE])) {
-                $namespaceToken = array_pop($namespaceTokens);
-                reset($namespaceToken);
-                $namespacePosition = key($namespaceToken);
-
-                [$nameTokens, $previousTokenPointer] = self::collectNameTokens($tokens, $namespacePosition + 2);
-
-                $namespaceName = '';
-                /** @var Token[] $nameTokens */
-                foreach ($nameTokens as $nameToken) {
-                    $namespaceName .= $nameToken->getContent();
-                }
-
-                $className = $namespaceName . '\\' . $className;
-            }
+        if (! $prependNamespace) {
+            return $className;
         }
 
-        return $className;
+        $namespaceTokens = $tokens->findGivenKind([T_NAMESPACE], 0);
+        if (! count($namespaceTokens[T_NAMESPACE])) {
+            return $className;
+        }
+
+        $namespaceToken = array_pop($namespaceTokens);
+        reset($namespaceToken);
+        $namespacePosition = key($namespaceToken);
+
+        [$nameTokens, $previousTokenPointer] = self::collectNameTokens($tokens, $namespacePosition + 2);
+
+        $namespaceName = '';
+
+        /** @var Token[] $nameTokens */
+        foreach ($nameTokens as $nameToken) {
+            $namespaceName .= $nameToken->getContent();
+        }
+
+        return $namespaceName . '\\' . $className;
     }
 
     /**
