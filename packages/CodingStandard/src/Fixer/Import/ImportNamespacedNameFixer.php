@@ -125,6 +125,11 @@ final class ImportNamespacedNameFixer implements FixerInterface, DefinedFixerInt
                 continue;
             }
         }
+
+        $this->namesToAddIntoUseStatements = array_unique($this->namesToAddIntoUseStatements, SORT_REGULAR);
+        foreach ($this->namesToAddIntoUseStatements as $nameToAddIntoUseStatement) {
+            $this->addIntoUseStatements($tokens, $nameToAddIntoUseStatement);
+        }
     }
 
     /**
@@ -189,6 +194,12 @@ final class ImportNamespacedNameFixer implements FixerInterface, DefinedFixerInt
 
     private function addIntoUseStatements(Tokens $tokens, Name $name): void
     {
+        foreach ($this->useImports as $useImport) {
+            if ($name->getName() === $useImport->getFullName()) {
+                return;
+            }
+        }
+
         $namespacePosition = NamespaceFinder::findInTokens($tokens);
         $namespaceSemicolonPosition = $tokens->getNextTokenOfKind($namespacePosition, [';']);
 
@@ -277,12 +288,6 @@ final class ImportNamespacedNameFixer implements FixerInterface, DefinedFixerInt
         // save doc comment
         $docBlockContent = $docBlockWrapper->getContent();
         $this->tokens[$index] = new Token([T_DOC_COMMENT, $docBlockContent]);
-
-        $this->namesToAddIntoUseStatements = array_unique($this->namesToAddIntoUseStatements, SORT_REGULAR);
-
-        foreach ($this->namesToAddIntoUseStatements as $nameToAddIntoUseStatement) {
-            $this->addIntoUseStatements($tokens, $nameToAddIntoUseStatement);
-        }
 
         // @todo: process @var tag
     }
