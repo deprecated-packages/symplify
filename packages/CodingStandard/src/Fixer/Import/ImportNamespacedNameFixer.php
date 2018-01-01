@@ -15,6 +15,8 @@ use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use PhpCsFixer\WhitespacesFixerConfig;
+use phpDocumentor\Reflection\DocBlock\Tag;
+use phpDocumentor\Reflection\DocBlock\Tags\Param;
 use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Types\Object_;
 use SplFileInfo;
@@ -69,6 +71,11 @@ final class ImportNamespacedNameFixer implements FixerInterface, DefinedFixerInt
      * @var WhitespacesFixerConfig
      */
     private $whitespacesFixerConfig;
+
+    /**
+     * @var Name[]
+     */
+    private $namesToAddIntoUseStatements = [];
 
     public function __construct()
     {
@@ -275,11 +282,14 @@ final class ImportNamespacedNameFixer implements FixerInterface, DefinedFixerInt
         $docBlockWrapper = DocBlockWrapper::createFromTokensAndPosition($tokens, $index);
         // require for doc block changes
         $docBlockWrapper->setWhitespacesFixerConfig($this->whitespacesFixerConfig);
+        $this->processParamsTags($docBlockWrapper, $index, $tokens);
+        $this->processReturnTag($docBlockWrapper, $index, $tokens);
+
+        // save doc comment
+        $docBlockContent = $docBlockWrapper->getContent();
+        $this->tokens[$index] = new Token([T_DOC_COMMENT, $docBlockContent]);
 
         // @todo: process @var tag
-        // @todo: process @param tag
-
-        $this->processReturnTag($docBlockWrapper, $index, $tokens);
     }
 
     private function processReturnTag(DocBlockWrapper $docBlockWrapper, int $index, Tokens $tokens): void
@@ -289,31 +299,46 @@ final class ImportNamespacedNameFixer implements FixerInterface, DefinedFixerInt
             return;
         }
 
-        // only objects
-        if (! $returnTag->getType() instanceof Object_) {
+        $fullName = $this->shortenNameAndReturnFullName($returnTag);
+        if (! $fullName) {
             return;
         }
 
+        // add use statement
+        $this->namesToAddIntoUseStatements[] = NameFactory::createFromStringAndTokens($fullName, $tokens);
+    }
+
+    private function processParamsTags(DocBlockWrapper $docBlockWrapper, int $index, Tokens $tokens): void
+    {
+        foreach ($docBlockWrapper->getParamTags() as $paramTag) {
+            $fullName = $this->shortenNameAndReturnFullName($paramTag);
+            if (! $fullName) {
+                return;
+            }
+
+            // add use statement
+            $this->namesToAddIntoUseStatements[] = NameFactory::createFromStringAndTokens($fullName, $tokens);
+        }
+    }
+
+    /**
+     * @param Param $tag
+     */
+    private function shortenNameAndReturnFullName(Tag $tag): ?string
+    {
         /** @var Object_ $objectType */
-        $objectType = $returnTag->getType();
+        $objectType = $tag->getType();
 
         $usedName = (string) $objectType->getFqsen();
         $lastName = $objectType->getFqsen()->getName();
 
         if ($lastName === ltrim($usedName, '\\')) {
-            return;
+            return null;
         }
 
         // set new short name
         (new PrivatesSetter())->setPrivateProperty($objectType, 'fqsen', new Fqsen('\\' . $lastName));
 
-        // save doc comment
-        $docBlockContent = $docBlockWrapper->getContent();
-        $this->tokens[$index] = new Token([T_DOC_COMMENT, $docBlockContent]);
-
-        // add use statement
-        $name = NameFactory::createFromStringAndTokens($usedName, $tokens);
-
-        $this->addIntoUseStatements($tokens, $name);
+        return $usedName;
     }
 }
