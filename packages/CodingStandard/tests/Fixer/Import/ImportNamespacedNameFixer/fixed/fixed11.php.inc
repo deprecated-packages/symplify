@@ -6,9 +6,10 @@ use Symfony\Request;
 class SomeClass
 {
     /**
+     * @param Request $request
      * @return Request
      */
-    public function someMethod()
+    public function someMethod($request)
     {
     }
 }
