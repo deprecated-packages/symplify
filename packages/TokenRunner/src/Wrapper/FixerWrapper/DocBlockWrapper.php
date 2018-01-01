@@ -53,19 +53,24 @@ final class DocBlockWrapper
      */
     private $originalContent;
 
-    private function __construct(?Tokens $tokens, ?int $docBlockPosition, ?DocBlock $docBlock, ?Token $token = null)
+    private function __construct(?Tokens $tokens, ?int $docBlockPosition, ?DocBlock $docBlock, ?Token $token = null, ?string $content = null)
     {
         $this->tokens = $tokens;
         $this->docBlockPosition = $docBlockPosition;
 
-        $content = $token ? $token->getContent() : $docBlock->getContent();
+        if ($content === null) {
+            $content = $token ? $token->getContent() : $docBlock->getContent();
+        }
+
         $this->phpDocumentorDocBlock = (new CleanDocBlockFactory())->create($content);
         $this->originalContent = $content;
     }
 
-    public function getTokenPosition(): int
+    public static function createFromTokensPositionAndContent(Tokens $tokens, int $index, string $content): self
     {
-        return $this->docBlockPosition;
+        TokenTypeGuard::ensureIsTokenType($tokens[$index], [T_COMMENT, T_DOC_COMMENT], __METHOD__);
+
+        return new self($tokens, $index, null, null, $content);
     }
 
     public static function createFromTokensPositionAndDocBlock(
@@ -76,6 +81,11 @@ final class DocBlockWrapper
         TokenTypeGuard::ensureIsTokenType($tokens[$docBlockPosition], [T_COMMENT, T_DOC_COMMENT], __METHOD__);
 
         return new self($tokens, $docBlockPosition, $docBlock);
+    }
+
+    public function getTokenPosition(): int
+    {
+        return $this->docBlockPosition;
     }
 
     public static function createFromDocBlockToken(Token $docBlockToken): self

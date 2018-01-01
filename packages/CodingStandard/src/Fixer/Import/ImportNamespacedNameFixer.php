@@ -272,7 +272,7 @@ final class ImportNamespacedNameFixer implements FixerInterface, DefinedFixerInt
 
     private function processDocCommentToken(Token $token, int $index, Tokens $tokens): void
     {
-        $docBlockWrapper = DocBlockWrapper::createFromDocBlockToken($token);
+        $docBlockWrapper = DocBlockWrapper::createFromTokensPositionAndContent($tokens, $index, $token->getContent());
         // require for doc block changes
         $docBlockWrapper->setWhitespacesFixerConfig($this->whitespacesFixerConfig);
 

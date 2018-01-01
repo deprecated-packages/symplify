@@ -197,9 +197,7 @@ final class ClassWrapper
             return false;
         }
 
-        $docBlockWrapper = DocBlockWrapper::createFromDocBlockToken($docCommentToken);
-
-        return $docBlockWrapper->contains('Entity');
+        return Strings::contains($docCommentToken->getContent(), 'Entity');
     }
 
     /**
