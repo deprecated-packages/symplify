@@ -24,5 +24,6 @@
         "psr-4": {
             "Symplify\\TokenRunner\\Tests\\": "tests"
         }
-    }
+    },
+    "minimum-stability": "dev"
 }

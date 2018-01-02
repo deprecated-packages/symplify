@@ -24,5 +24,6 @@
         "psr-4": {
             "Symplify\\ChangelogLinker\\Tests\\": "tests"
         }
-    }
+    },
+    "minimum-stability": "dev"
 }
