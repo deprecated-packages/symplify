@@ -158,6 +158,10 @@ final class ClassWrapper
             return [];
         }
 
+        if (! class_exists($firstParentClass)) {
+            return [$firstParentClass];
+        }
+
         return array_merge([$firstParentClass], (array) class_parents($firstParentClass));
     }
 
@@ -183,6 +187,10 @@ final class ClassWrapper
      */
     private function getPublicAndProtectedPropertyNamesFromClass(string $class): array
     {
+        if (! class_exists($class)) {
+            return [];
+        }
+
         $propertyNames = [];
 
         $propertyReflections = (new ReflectionClass($class))->getProperties(

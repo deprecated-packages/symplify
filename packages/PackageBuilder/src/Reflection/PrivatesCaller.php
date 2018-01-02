@@ -2,7 +2,7 @@
 
 namespace Symplify\PackageBuilder\Reflection;
 
-use ReflectionClass;
+use ReflectionMethod;
 
 final class PrivatesCaller
 {
@@ -12,9 +12,7 @@ final class PrivatesCaller
      */
     public function callPrivateMethod($object, string $methodName, ...$arguments)
     {
-        $classReflection = new ReflectionClass(get_class($object));
-
-        $methodReflection = $classReflection->getMethod($methodName);
+        $methodReflection = new ReflectionMethod(get_class($object), $methodName);
         $methodReflection->setAccessible(true);
 
         return $methodReflection->invoke($object, ...$arguments);

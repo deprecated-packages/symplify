@@ -2,7 +2,6 @@
 
 namespace Symplify\TokenRunner\Naming\Name;
 
-use Nette\Utils\Strings;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use Symplify\TokenRunner\Naming\UseImport\UseImport;
@@ -11,12 +10,12 @@ use Symplify\TokenRunner\Naming\UseImport\UseImportsFactory;
 final class Name
 {
     /**
-     * @var int
+     * @var int|null
      */
     private $start;
 
     /**
-     * @var int
+     * @var int|null
      */
     private $end;
 
@@ -53,22 +52,31 @@ final class Name
     /**
      * @param Token[] $nameTokens
      */
-    public function __construct(int $start, int $end, string $name, array $nameTokens, Tokens $tokens)
+    public function __construct(?int $start, ?int $end, string $name, array $nameTokens, Tokens $tokens)
     {
         $this->start = $start;
         $this->end = $end;
         $this->name = $name;
-        $this->nameTokens = $nameTokens;
+        // to be sure indexing is from 0
+        $this->nameTokens = array_values($nameTokens);
         $this->lastName = $this->nameTokens[count($this->nameTokens) - 1]->getContent();
         $this->tokens = $tokens;
+
+        $useImports = (new UseImportsFactory())->createForTokens($this->tokens);
+        foreach ($useImports as $useImport) {
+            if ($useImport->startsWith($this->name)) {
+                $this->relatedUseImport = $useImport;
+                $this->name = self::composePartialNamespaceAndName($useImport->getFullName(), $this->name);
+            }
+        }
     }
 
-    public function getStart(): int
+    public function getStart(): ?int
     {
         return $this->start;
     }
 
-    public function getEnd(): int
+    public function getEnd(): ?int
     {
         return $this->end;
     }
@@ -78,6 +86,14 @@ final class Name
         return $this->name;
     }
 
+    /**
+     * @return Token[]
+     */
+    public function getNameTokens(): array
+    {
+        return $this->nameTokens;
+    }
+
     public function getLastName(): string
     {
         if ($this->alias) {
@@ -85,6 +101,11 @@ final class Name
         }
 
         return $this->lastName;
+    }
+
+    public function getAlias(): ?string
+    {
+        return $this->alias;
     }
 
     public function addAlias(string $alias): void
@@ -97,44 +118,6 @@ final class Name
         return $this->nameTokens[0]->getContent();
     }
 
-    /**
-     * @return Token[]
-     */
-    public function getUseNameTokens(): array
-    {
-        $tokens = [];
-
-        $tokens[] = new Token([T_USE, 'use']);
-        $tokens[] = new Token([T_WHITESPACE, ' ']);
-
-        if ($this->relatedUseImport) {
-            $startName = $this->nameTokens[0]->getContent();
-
-            foreach ($this->relatedUseImport->getNameParts() as $useDeclarationPart) {
-                if ($useDeclarationPart === $startName) {
-                    break;
-                }
-
-                $tokens[] = new Token([T_STRING, $useDeclarationPart]);
-                $tokens[] = new Token([T_NS_SEPARATOR, '\\']);
-            }
-        }
-
-        $tokens = array_merge($tokens, $this->nameTokens);
-
-        if ($this->alias) {
-            $tokens[] = new Token([T_WHITESPACE, ' ']);
-            $tokens[] = new Token([T_AS, 'as']);
-            $tokens[] = new Token([T_WHITESPACE, ' ']);
-            $tokens[] = new Token([T_STRING, $this->alias]);
-        }
-
-        $tokens[] = new Token(';');
-        $tokens[] = new Token([T_WHITESPACE, PHP_EOL]);
-
-        return $tokens;
-    }
-
     public function getLastNameToken(): Token
     {
         return new Token([T_STRING, $this->getLastName()]);
@@ -145,26 +128,23 @@ final class Name
         return count($this->nameTokens) === 1;
     }
 
-    public function isPartialName(): bool
+    public function getRelatedUseImport(): ?UseImport
     {
-        if (Strings::startsWith($this->name, '\\')) {
-            return false;
+        return $this->relatedUseImport;
+    }
+
+    private static function composePartialNamespaceAndName(string $namespace, string $name): string
+    {
+        if ($namespace === $name) {
+            return $name;
         }
 
-        if (! Strings::contains($this->name, '\\')) {
-            return false;
-        }
+        $namespaceParts = explode('\\', $namespace);
+        $nameParts = explode('\\', $name);
 
-        $useImports = (new UseImportsFactory())->createForTokens($this->tokens);
+        $nameParts = array_merge($namespaceParts, $nameParts);
+        $nameParts = array_unique($nameParts);
 
-        foreach ($useImports as $useImport) {
-            if ($useImport->startsWith($this->name)) {
-                $this->relatedUseImport = $useImport;
-
-                return true;
-            }
-        }
-
-        return false;
+        return implode('\\', $nameParts);
     }
 }

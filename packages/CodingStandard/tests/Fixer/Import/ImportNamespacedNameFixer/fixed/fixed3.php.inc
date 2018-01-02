@@ -2,8 +2,8 @@
 
 namespace SomeNamespace;
 
-use PrefixedNamespace\ParentClass;
 use AnotherNamespace\AnotherClass;
+use PrefixedNamespace\ParentClass;
 class SomeClass extends ParentClass
 {
     public function create(AnotherClass $someClass)

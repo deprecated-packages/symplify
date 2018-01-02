@@ -34,13 +34,32 @@ final class FixedSerializer extends Serializer
             )
         );
 
-        $comment = "{$firstIndent}/**\n";
+        // opening
+        $comment = $firstIndent . '/**' . PHP_EOL;
+
+        // description
         if ($text) {
-            $comment .= "{$indent} * {$text}\n";
-            $comment .= "{$indent} *\n";
+            $comment .= $indent . ' * ' . $text . PHP_EOL;
         }
 
-        $comment = $privatesCaller->callPrivateMethod($this, 'addTagBlock', $docBlock, $wrapLength, $indent, $comment);
+        // content and tags separator
+        if ($text && $docBlock->getTags()) {
+            $comment .= $indent . ' *' . PHP_EOL;
+        }
+
+        // tags
+        if ($docBlock->getTags()) {
+            $comment = $privatesCaller->callPrivateMethod(
+                $this,
+                'addTagBlock',
+                $docBlock,
+                $wrapLength,
+                $indent,
+                $comment
+            );
+        }
+
+        // closing
         $comment .= $indent . ' */';
 
         return $comment;

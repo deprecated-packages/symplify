@@ -3,7 +3,7 @@
 namespace Symplify\TokenRunner\Wrapper\FixerWrapper;
 
 use Nette\Utils\Strings;
-use PhpCsFixer\DocBlock\DocBlock;
+use PhpCsFixer\Fixer\WhitespacesAwareFixerInterface;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use PhpCsFixer\WhitespacesFixerConfig;
@@ -17,30 +17,27 @@ use phpDocumentor\Reflection\Types\Compound;
 use Symplify\BetterReflectionDocBlock\CleanDocBlockFactory;
 use Symplify\BetterReflectionDocBlock\DocBlockSerializerFactory;
 use Symplify\BetterReflectionDocBlock\Tag\TolerantParam;
+use Symplify\BetterReflectionDocBlock\Tag\TolerantReturn;
 use Symplify\TokenRunner\DocBlock\ArrayResolver;
+use Symplify\TokenRunner\Exception\Wrapper\FixerWrapper\MissingWhitespacesFixerConfigException;
 use Symplify\TokenRunner\Guard\TokenTypeGuard;
 
 final class DocBlockWrapper
 {
     /**
-     * @var Tokens|null
+     * @var Tokens
      */
     private $tokens;
 
     /**
-     * @var DocBlock|null
+     * @var int
      */
-    private $docBlock;
+    private $position;
 
     /**
-     * @var WhitespacesFixerConfig
+     * @var WhitespacesFixerConfig|null
      */
     private $whitespacesFixerConfig;
-
-    /**
-     * @var int|null
-     */
-    private $docBlockPosition;
 
     /**
      * @var PhpDocumentorDocBlock
@@ -48,7 +45,7 @@ final class DocBlockWrapper
     private $phpDocumentorDocBlock;
 
     /**
-     * @var Serializer
+     * @var Serializer|null
      */
     private $docBlockSerializer;
 
@@ -57,62 +54,43 @@ final class DocBlockWrapper
      */
     private $originalContent;
 
-    private function __construct(?Tokens $tokens, ?int $docBlockPosition, ?DocBlock $docBlock, ?Token $token = null)
+    private function __construct(Tokens $tokens, int $position, string $content)
     {
         $this->tokens = $tokens;
-        $this->docBlockPosition = $docBlockPosition;
-        $this->docBlock = $docBlock;
-
-        if ($docBlock === null && $token !== null) {
-            $this->docBlock = new DocBlock($token->getContent());
-        }
-
-        $content = $token ? $token->getContent() : $docBlock->getContent();
+        $this->position = $position;
 
         $this->phpDocumentorDocBlock = (new CleanDocBlockFactory())->create($content);
         $this->originalContent = $content;
     }
 
-    public static function createFromTokensPositionAndDocBlock(
-        Tokens $tokens,
-        int $docBlockPosition,
-        DocBlock $docBlock
-    ): self {
-        TokenTypeGuard::ensureIsTokenType($tokens[$docBlockPosition], [T_COMMENT, T_DOC_COMMENT], __METHOD__);
+    public static function createFromTokensAndPosition(Tokens $tokens, int $index): self
+    {
+        TokenTypeGuard::ensureIsTokenType($tokens[$index], [T_COMMENT, T_DOC_COMMENT], __METHOD__);
 
-        return new self($tokens, $docBlockPosition, $docBlock);
+        return new self($tokens, $index, $tokens[$index]->getContent());
     }
 
-    public static function createFromDocBlockToken(Token $docBlockToken): self
+    public function getTokenPosition(): int
     {
-        TokenTypeGuard::ensureIsTokenType($docBlockToken, [T_COMMENT, T_DOC_COMMENT], __METHOD__);
-
-        return new self(null, null, null, $docBlockToken);
+        return $this->position;
     }
 
     public function isSingleLine(): bool
     {
-        // or substr_count($this->originalContent, PHP_EOL));
-        return count($this->docBlock->getLines()) === 1;
+        return substr_count($this->originalContent, PHP_EOL) < 1;
     }
 
-    public function changeToMultiLine(): void
+    public function getMultiLineVersion(): string
     {
-        $indent = $this->whitespacesFixerConfig->getIndent();
-        $lineEnding = $this->whitespacesFixerConfig->getLineEnding();
-        $newLineWithIndent = $lineEnding . $indent;
+        $this->ensureWhitespacesFixerConfigIsSet();
 
-        $newDocBlock = str_replace(
-            [' @', '/** ', ' */'],
-            [
-                $newLineWithIndent . ' * @',
-                '/**',
-                $newLineWithIndent . ' */',
-            ],
-            $this->docBlock->getContent()
-        );
+        $newLineIndent = $this->whitespacesFixerConfig->getLineEnding() . $this->whitespacesFixerConfig->getIndent();
 
-        $this->tokens[$this->docBlockPosition] = new Token([T_DOC_COMMENT, $newDocBlock]);
+        return str_replace([' @', '/** ', ' */'], [
+            $newLineIndent . ' * @',
+            $newLineIndent . '/**',
+            $newLineIndent . ' */',
+        ], $this->originalContent);
     }
 
     public function getReturnType(): ?string
@@ -191,6 +169,26 @@ final class DocBlockWrapper
         return $this->phpDocumentorDocBlock->getTagsByName('param');
     }
 
+    public function getVarTag(): ?Var_
+    {
+        return $this->phpDocumentorDocBlock->getTagsByName('var') ?
+            $this->phpDocumentorDocBlock->getTagsByName('var')[0]
+            : null;
+    }
+
+    public function getVarType(): ?string
+    {
+        $varTag = $this->getVarTag();
+        if (! $varTag) {
+            return null;
+        }
+
+        $varTagType = (string) $varTag->getType();
+        $varTagType = trim($varTagType);
+
+        return ltrim($varTagType, '\\');
+    }
+
     public function getArgumentTypeDescription(string $name): ?string
     {
         $paramTag = $this->findParamTagByName($name);
@@ -199,6 +197,13 @@ final class DocBlockWrapper
         }
 
         return null;
+    }
+
+    public function getReturnTag(): ?TolerantReturn
+    {
+        return $this->phpDocumentorDocBlock->getTagsByName('return') ?
+            $this->phpDocumentorDocBlock->getTagsByName('return')[0]
+            : null;
     }
 
     public function removeReturnType(): void
@@ -253,9 +258,22 @@ final class DocBlockWrapper
         return true;
     }
 
-    public function contains(string $content): bool
+    public function updateDocBlockTokenContent(): void
     {
-        return Strings::contains($this->docBlock->getContent(), $content);
+        $this->tokens[$this->position] = new Token([T_DOC_COMMENT, $this->getContent()]);
+    }
+
+    public function getContent(): string
+    {
+        $content = $this->getDocBlockSerializer()
+            ->getDocComment($this->phpDocumentorDocBlock);
+
+        if ($this->isSingleLine()) {
+            $content = Strings::replace($content, '#\s+#', ' ');
+            return Strings::replace($content, '#/\*\* #', '/*');
+        }
+
+        return $content;
     }
 
     private function isIterableType(string $type): bool
@@ -296,17 +314,26 @@ final class DocBlockWrapper
             return $this->docBlockSerializer;
         }
 
+        $this->ensureWhitespacesFixerConfigIsSet();
+
         return $this->docBlockSerializer = DocBlockSerializerFactory::createFromWhitespaceFixerConfigAndContent(
             $this->whitespacesFixerConfig,
             $this->originalContent
         );
     }
 
-    private function updateDocBlockTokenContent(): void
+    private function ensureWhitespacesFixerConfigIsSet(): void
     {
-        $docBlockContent = $this->getDocBlockSerializer()
-            ->getDocComment($this->phpDocumentorDocBlock);
+        if ($this->whitespacesFixerConfig) {
+            return;
+        }
 
-        $this->tokens[$this->docBlockPosition] = new Token([T_DOC_COMMENT, $docBlockContent]);
+        throw new MissingWhitespacesFixerConfigException(sprintf(
+            '"%s% is not set to "%s". Use %s interface on your Fixer '
+            . 'and pass it via `$docBlockWrapper->setWhitespacesFixerConfig()`',
+            WhitespacesFixerConfig::class,
+            self::class,
+            WhitespacesAwareFixerInterface::class
+        ));
     }
 }

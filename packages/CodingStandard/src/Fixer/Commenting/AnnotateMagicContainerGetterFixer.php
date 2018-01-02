@@ -3,7 +3,6 @@
 namespace Symplify\CodingStandard\Fixer\Commenting;
 
 use Nette\Utils\Strings;
-use PhpCsFixer\DocBlock\DocBlock;
 use PhpCsFixer\Fixer\DefinedFixerInterface;
 use PhpCsFixer\Fixer\FixerInterface;
 use PhpCsFixer\FixerDefinition\CodeSample;
@@ -14,6 +13,7 @@ use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
 use Symplify\TokenRunner\Analyzer\FixerAnalyzer\DocBlockFinder;
+use Symplify\TokenRunner\Wrapper\FixerWrapper\DocBlockWrapper;
 
 final class AnnotateMagicContainerGetterFixer implements FixerInterface, DefinedFixerInterface
 {
@@ -50,15 +50,11 @@ $someService->unknownMethod();
                 continue;
             }
 
-            $variableName = $token->getContent();
-
             // has variable a @var annotation?
-            $docBlockToken = DocBlockFinder::findPrevious($tokens, $index);
-            $docBlock = null;
-            if ($docBlockToken instanceof Token) {
-                $docBlock = new DocBlock($docBlockToken->getContent());
-                $varAnnotations = $docBlock->getAnnotationsOfType('var');
-                if (count($varAnnotations)) {
+            $docBlockPosition = DocBlockFinder::findPreviousPosition($tokens, $index);
+            if ($docBlockPosition) {
+                $docBlockWrapper = DocBlockWrapper::createFromTokensAndPosition($tokens, $docBlockPosition);
+                if ($docBlockWrapper->getVarType()) {
                     continue;
                 }
             }
@@ -69,6 +65,7 @@ $someService->unknownMethod();
 
             $whitespaceToken = $this->removeMultiWhitespaces($whitespaceToken);
 
+            $variableName = $token->getContent();
             $tokens->insertAt($index, [
                 $this->createDocCommentToken($className, $variableName),
                 $whitespaceToken, // original space whitespace

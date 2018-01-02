@@ -8,6 +8,7 @@ use PhpCsFixer\Fixer\WhitespacesAwareFixerInterface;
 use PhpCsFixer\FixerDefinition\CodeSample;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
+use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use PhpCsFixer\WhitespacesFixerConfig;
 use SplFileInfo;
@@ -57,7 +58,10 @@ private $property;
                 }
 
                 $docBlockWrapper->setWhitespacesFixerConfig($this->whitespacesFixerConfig);
-                $docBlockWrapper->changeToMultiLine();
+
+                $tokens[$docBlockWrapper->getTokenPosition()] = new Token(
+                    [T_DOC_COMMENT, $docBlockWrapper->getMultiLineVersion()]
+                );
             }
         }
     }

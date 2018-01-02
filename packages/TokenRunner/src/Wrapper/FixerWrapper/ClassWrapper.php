@@ -192,14 +192,12 @@ final class ClassWrapper
 
     public function isDoctrineEntity(): bool
     {
-        $docCommentToken = DocBlockFinder::findPrevious($this->tokens, $this->startIndex);
-        if (! $docCommentToken) {
+        $docCommentPosition = DocBlockFinder::findPreviousPosition($this->tokens, $this->startIndex);
+        if (! $docCommentPosition) {
             return false;
         }
 
-        $docBlockWrapper = DocBlockWrapper::createFromDocBlockToken($docCommentToken);
-
-        return $docBlockWrapper->contains('Entity');
+        return Strings::contains($this->tokens[$docCommentPosition]->getContent(), 'Entity');
     }
 
     /**
@@ -229,24 +227,6 @@ final class ClassWrapper
         }
 
         return $interfaceNames;
-    }
-
-    public function clearImplements(): void
-    {
-        $implementTokens = $this->tokens->findGivenKind(T_IMPLEMENTS, $this->startIndex, $this->startBracketIndex);
-
-        reset($implementTokens);
-        $implementPosition = key($implementTokens);
-
-        $this->tokens->clearAt($implementPosition - 1);
-
-        for ($i = $implementPosition; $i < $this->startBracketIndex; ++$i) {
-            if (Strings::contains($this->tokens[$i]->getContent(), PHP_EOL)) {
-                return;
-            }
-
-            $this->tokens->clearAt($i);
-        }
     }
 
     /**

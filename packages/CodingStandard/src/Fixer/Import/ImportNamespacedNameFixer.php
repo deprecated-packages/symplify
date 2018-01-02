@@ -4,7 +4,7 @@ namespace Symplify\CodingStandard\Fixer\Import;
 
 use PhpCsFixer\Fixer\ConfigurationDefinitionFixerInterface;
 use PhpCsFixer\Fixer\DefinedFixerInterface;
-use PhpCsFixer\Fixer\FixerInterface;
+use PhpCsFixer\Fixer\WhitespacesAwareFixerInterface;
 use PhpCsFixer\FixerConfiguration\FixerConfigurationResolver;
 use PhpCsFixer\FixerConfiguration\FixerConfigurationResolverInterface;
 use PhpCsFixer\FixerConfiguration\FixerOptionBuilder;
@@ -13,31 +13,39 @@ use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
+use PhpCsFixer\WhitespacesFixerConfig;
+use phpDocumentor\Reflection\DocBlock\Tag;
+use phpDocumentor\Reflection\DocBlock\Tags\Param;
+use phpDocumentor\Reflection\DocBlock\Tags\Return_;
+use phpDocumentor\Reflection\DocBlock\Tags\Var_;
+use phpDocumentor\Reflection\Fqsen;
+use phpDocumentor\Reflection\Types\Object_;
 use SplFileInfo;
+use Symplify\BetterReflectionDocBlock\Tag\TolerantParam;
+use Symplify\BetterReflectionDocBlock\Tag\TolerantReturn;
+use Symplify\PackageBuilder\Reflection\PrivatesSetter;
+use Symplify\TokenRunner\Analyzer\FixerAnalyzer\ClassNameFinder;
 use Symplify\TokenRunner\Naming\Name\Name;
 use Symplify\TokenRunner\Naming\Name\NameAnalyzer;
 use Symplify\TokenRunner\Naming\Name\NameFactory;
 use Symplify\TokenRunner\Naming\UseImport\UseImport;
 use Symplify\TokenRunner\Naming\UseImport\UseImportsFactory;
+use Symplify\TokenRunner\Transformer\FixerTransformer\UseImportsTransformer;
+use Symplify\TokenRunner\Wrapper\FixerWrapper\DocBlockWrapper;
 
 /**
- * Possible cases.
+ * Possible cases:
  *
- * - 1. string that start with pre slash \SomeThing
- * - 2. namespace with conflicts \First\SomeClass + \Second\SomeClass
- * - 3. partial namespaces \Namespace\Partial + Partial\Class
+ * - 1) string that start with pre slash \SomeThing
+ * - 2) namespace with conflicts \First\SomeClass + \Second\SomeClass
+ * - 3) partial namespaces \Namespace\Partial + Partial\Class
  */
-final class ImportNamespacedNameFixer implements FixerInterface, DefinedFixerInterface, ConfigurationDefinitionFixerInterface
+final class ImportNamespacedNameFixer implements DefinedFixerInterface, ConfigurationDefinitionFixerInterface, WhitespacesAwareFixerInterface
 {
     /**
      * @var string
      */
     private const ALLOW_SINGLE_NAMES_OPTION = 'allow_single_names';
-
-    /**
-     * @var int
-     */
-    private $namespacePosition;
 
     /**
      * @var UseImport[]
@@ -50,14 +58,14 @@ final class ImportNamespacedNameFixer implements FixerInterface, DefinedFixerInt
     private $configuration = [];
 
     /**
-     * @var string
+     * @var WhitespacesFixerConfig
      */
-    private $className;
+    private $whitespacesFixerConfig;
 
     /**
-     * @var Tokens
+     * @var Name[]
      */
-    private $tokens;
+    private $namesToAddIntoUseStatements = [];
 
     public function __construct()
     {
@@ -78,53 +86,33 @@ final class ImportNamespacedNameFixer implements FixerInterface, DefinedFixerInt
 
     public function isCandidate(Tokens $tokens): bool
     {
-        return $tokens->isAllTokenKindsFound([T_CLASS, T_STRING, T_NS_SEPARATOR]);
+        return $tokens->isTokenKindFound(T_CLASS) && $tokens->isAnyTokenKindsFound([T_DOC_COMMENT, T_STRING]);
     }
 
     public function fix(SplFileInfo $file, Tokens $tokens): void
     {
-        $this->tokens = $tokens;
-
         $this->useImports = (new UseImportsFactory())->createForTokens($tokens);
 
         for ($index = $tokens->getSize() - 1; $index > 0; --$index) {
             $token = $tokens[$index];
 
             // class name is same as token that could be imported, skip
-            if ($token->getContent() === $this->getClassName()) {
+            if ($token->getContent() === ClassNameFinder::findInTokens($tokens)) {
                 continue;
             }
 
-            // Case 1.
-            if (! NameAnalyzer::isImportableNameToken($tokens, $token, $index)) {
+            if ($token->isGivenKind(T_DOC_COMMENT)) {
+                $this->processDocCommentToken($index, $tokens);
                 continue;
             }
 
-            $name = NameFactory::createFromTokensAndEnd($tokens, $index);
-            if ($this->configuration[self::ALLOW_SINGLE_NAMES_OPTION] && $name->isSingleName()) {
+            if ($token->isGivenKind(T_STRING)) {
+                $this->processStringToken($token, $index, $tokens);
                 continue;
             }
-
-            $name = $this->uniquateLastPart($name);
-
-            // replace with last name part
-            $tokens->overrideRange($name->getStart(), $name->getEnd(), [$name->getLastNameToken()]);
-
-            // has this been already imported?
-            if ($this->wasNameImported($name)) {
-                continue;
-            }
-
-            if ($name->isPartialName()) {
-                // add use statement
-                $this->addIntoUseStatements($tokens, $name);
-
-                continue;
-            }
-
-            // add use statement
-            $this->addIntoUseStatements($tokens, $name);
         }
+
+        UseImportsTransformer::addNamesToTokens($this->namesToAddIntoUseStatements, $tokens);
     }
 
     /**
@@ -182,61 +170,145 @@ final class ImportNamespacedNameFixer implements FixerInterface, DefinedFixerInt
         return self::class;
     }
 
-    private function getNamespacePosition(Tokens $tokens): int
+    public function setWhitespacesConfig(WhitespacesFixerConfig $whitespacesFixerConfig): void
     {
-        if ($this->namespacePosition) {
-            return $this->namespacePosition;
-        }
-
-        $namespace = $tokens->findGivenKind(T_NAMESPACE);
-        reset($namespace);
-
-        return $this->namespacePosition = key($namespace);
+        $this->whitespacesFixerConfig = $whitespacesFixerConfig;
     }
 
-    private function addIntoUseStatements(Tokens $tokens, Name $name): void
-    {
-        $namespacePosition = $this->getNamespacePosition($tokens);
-        $namespaceSemicolonPosition = $tokens->getNextTokenOfKind($namespacePosition, [';']);
-
-        $tokens->insertAt($namespaceSemicolonPosition + 2, $name->getUseNameTokens());
-    }
-
-    private function wasNameImported(Name $name): bool
-    {
-        foreach ($this->useImports as $useImport) {
-            if ($useImport->getFullName() === $name->getName()) {
-                return true;
-            }
-        }
-
-        $this->useImports[] = new UseImport($name->getName(), $name->getLastName());
-
-        return false;
-    }
-
+    /**
+     * Prefix duplicate class names with vendor name
+     */
     private function uniquateLastPart(Name $name): Name
     {
         foreach ($this->useImports as $useImport) {
             if ($useImport->getShortName() === $name->getLastName() && $useImport->getFullName() !== $name->getName()) {
                 $uniquePrefix = $name->getFirstName();
                 $name->addAlias($uniquePrefix . $name->getLastName());
+                return $name;
+            }
+        }
+
+        foreach ($this->namesToAddIntoUseStatements as $nameToAddIntoUseStatements) {
+            if ($nameToAddIntoUseStatements->getLastName() === $name->getLastName() && $nameToAddIntoUseStatements->getName() !== $name->getName()) {
+                $uniquePrefix = $name->getFirstName();
+                $name->addAlias($uniquePrefix . $name->getLastName());
+                return $name;
             }
         }
 
         return $name;
     }
 
-    private function getClassName(): string
+    private function processStringToken(Token $token, int $index, Tokens $tokens): void
     {
-        if ($this->className) {
-            return $this->className;
+        // Case 1.
+        if (! NameAnalyzer::isImportableNameToken($tokens, $token, $index)) {
+            return;
         }
 
-        $classPosition = $this->tokens->getNextTokenOfKind(0, [new Token([T_CLASS, 'class'])]);
+        $name = NameFactory::createFromTokensAndEnd($tokens, $index);
+        if ($this->configuration[self::ALLOW_SINGLE_NAMES_OPTION] && $name->isSingleName()) {
+            return;
+        }
 
-        $classNamePosition = $this->tokens->getNextMeaningfulToken($classPosition);
+        $name = $this->uniquateLastPart($name);
 
-        return $this->className = $this->tokens[$classNamePosition]->getContent();
+        // replace with last name part
+        $tokens->overrideRange($name->getStart(), $name->getEnd(), [$name->getLastNameToken()]);
+
+        $this->namesToAddIntoUseStatements[] = $name;
+    }
+
+    private function processDocCommentToken(int $index, Tokens $tokens): void
+    {
+        $docBlockWrapper = DocBlockWrapper::createFromTokensAndPosition($tokens, $index);
+        // require for doc block changes
+        $docBlockWrapper->setWhitespacesFixerConfig($this->whitespacesFixerConfig);
+
+        $oldDocBlockContent = $docBlockWrapper->getContent();
+
+        $this->processParamsTags($docBlockWrapper, $tokens);
+        $this->processReturnTag($docBlockWrapper, $tokens);
+        $this->processVarTag($docBlockWrapper, $tokens);
+
+        if ($oldDocBlockContent === $docBlockWrapper->getContent()) {
+            return;
+        }
+
+        // save doc comment
+        $tokens[$index] = new Token([T_DOC_COMMENT, $docBlockWrapper->getContent()]);
+
+        // @todo: process @var tag
+    }
+
+    private function processReturnTag(DocBlockWrapper $docBlockWrapper, Tokens $tokens): void
+    {
+        $returnTag = $docBlockWrapper->getReturnTag();
+        if (! $returnTag) {
+            return;
+        }
+
+        $fullName = $this->shortenNameAndReturnFullName($returnTag);
+        if (! $fullName) {
+            return;
+        }
+
+        $this->namesToAddIntoUseStatements[] = NameFactory::createFromStringAndTokens($fullName, $tokens);
+    }
+
+    private function processParamsTags(DocBlockWrapper $docBlockWrapper, Tokens $tokens): void
+    {
+        foreach ($docBlockWrapper->getParamTags() as $paramTag) {
+            $fullName = $this->shortenNameAndReturnFullName($paramTag);
+            if (! $fullName) {
+                return;
+            }
+
+            // add use statement
+            $this->namesToAddIntoUseStatements[] = NameFactory::createFromStringAndTokens($fullName, $tokens);
+        }
+    }
+
+    private function processVarTag(DocBlockWrapper $docBlockWrapper, Tokens $tokens): void
+    {
+        $returnTag = $docBlockWrapper->getVarTag();
+        if (! $returnTag) {
+            return;
+        }
+
+        $fullName = $this->shortenNameAndReturnFullName($returnTag);
+        if (! $fullName) {
+            return;
+        }
+
+        $this->namesToAddIntoUseStatements[] = NameFactory::createFromStringAndTokens($fullName, $tokens);
+    }
+
+    /**
+     * @param Param|TolerantReturn|TolerantParam|Return_|Var_ $tag
+     */
+    private function shortenNameAndReturnFullName(Tag $tag): ?string
+    {
+        $objectType = $tag->getType();
+        if (! $objectType instanceof Object_) {
+            return null;
+        }
+
+        $fqsen = $objectType->getFqsen();
+        if (! $fqsen instanceof Fqsen) {
+            return null;
+        }
+
+        $usedName = (string) $fqsen;
+        $lastName = $fqsen->getName();
+
+        if ($lastName === ltrim($usedName, '\\')) {
+            return null;
+        }
+
+        // set new short name
+        (new PrivatesSetter())->setPrivateProperty($objectType, 'fqsen', new Fqsen('\\' . $lastName));
+
+        return $usedName;
     }
 }

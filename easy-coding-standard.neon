@@ -25,7 +25,8 @@ checkers:
             - Symplify\EasyCodingStandard\Error\Error
             - Symplify\CodingStandard\FixerTokenWrapper\Naming\Name
             - Symplify\TokenRunner\*
-            - Symplify\PackageBuilder\Reflection\PrivatesCaller
+            - Symplify\PackageBuilder\Reflection\*
+            - phpDocumentor\Reflection\Fqsen
 
 parameters:
     skip:

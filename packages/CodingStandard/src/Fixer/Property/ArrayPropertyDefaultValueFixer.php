@@ -81,13 +81,12 @@ public $property;'
         $properties = array_reverse($properties, true);
 
         foreach ($properties as $index => ['token' => $propertyToken]) {
-            $docBlockToken = DocBlockFinder::findPrevious($tokens, $index);
-            if ($docBlockToken === null) {
+            $docBlockTokenPosition = DocBlockFinder::findPreviousPosition($tokens, $index);
+            if ($docBlockTokenPosition === null) {
                 continue;
             }
 
-            $docBlockWrapper = DocBlockWrapper::createFromDocBlockToken($docBlockToken);
-
+            $docBlockWrapper = DocBlockWrapper::createFromTokensAndPosition($tokens, $docBlockTokenPosition);
             if (! $docBlockWrapper->isArrayProperty()) {
                 continue;
             }

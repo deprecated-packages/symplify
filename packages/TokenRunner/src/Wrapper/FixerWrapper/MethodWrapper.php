@@ -3,7 +3,6 @@
 namespace Symplify\TokenRunner\Wrapper\FixerWrapper;
 
 use Nette\Utils\Strings;
-use PhpCsFixer\DocBlock\DocBlock;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use Symplify\TokenRunner\Analyzer\FixerAnalyzer\DocBlockFinder;
@@ -46,12 +45,22 @@ final class MethodWrapper
      */
     private $argumentsBracketEnd;
 
+    /**
+     * @var DocBlockWrapper|null
+     */
+    private $docBlockWrapper;
+
     private function __construct(Tokens $tokens, int $index)
     {
         TokenTypeGuard::ensureIsTokenType($tokens[$index], [T_FUNCTION], __METHOD__);
 
         $this->tokens = $tokens;
         $this->index = $index;
+
+        $docBlockPosition = DocBlockFinder::findPreviousPosition($this->tokens, $this->index);
+        if ($docBlockPosition) {
+            $this->docBlockWrapper = DocBlockWrapper::createFromTokensAndPosition($this->tokens, $docBlockPosition);
+        }
 
         $this->bodyStart = $this->tokens->getNextTokenOfKind($this->index, ['{']);
         if ($this->bodyStart) {
@@ -131,18 +140,7 @@ final class MethodWrapper
 
     public function getDocBlockWrapper(): ?DocBlockWrapper
     {
-        $docBlockToken = DocBlockFinder::findPrevious($this->tokens, $this->index);
-        if ($docBlockToken === null) {
-            return null;
-        }
-
-        $docBlock = new DocBlock($docBlockToken->getContent());
-
-        return DocBlockWrapper::createFromTokensPositionAndDocBlock(
-            $this->tokens,
-            DocBlockFinder::findPreviousPosition($this->tokens, $this->index),
-            $docBlock
-        );
+        return $this->docBlockWrapper;
     }
 
     public function getReturnType(): ?string
