@@ -57,7 +57,8 @@ final class Name
         $this->start = $start;
         $this->end = $end;
         $this->name = $name;
-        $this->nameTokens = $nameTokens;
+        // to be sure indexing is from 0
+        $this->nameTokens = array_values($nameTokens);
         $this->lastName = $this->nameTokens[count($this->nameTokens) - 1]->getContent();
         $this->tokens = $tokens;
 
