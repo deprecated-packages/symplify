@@ -265,8 +265,15 @@ final class DocBlockWrapper
 
     public function getContent(): string
     {
-        return $this->getDocBlockSerializer()
+        $content = $this->getDocBlockSerializer()
             ->getDocComment($this->phpDocumentorDocBlock);
+
+        if ($this->isSingleLine()) {
+            $content = Strings::replace($content, '#\s+#', ' ');
+            return Strings::replace($content, '#/\*\* #', '/*');
+        }
+
+        return $content;
     }
 
     private function isIterableType(string $type): bool
