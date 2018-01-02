@@ -74,7 +74,7 @@ final class DynamicPropertySniff implements Sniff
 
     private function getClassWrapper(): ClassWrapper
     {
-        $classTokenPosition = $this->file->findNext(T_CLASS, 1);
+        $classTokenPosition = $this->file->findNext([T_CLASS, T_TRAIT], 1);
 
         return ClassWrapper::createFromFileAndPosition($this->file, $classTokenPosition);
     }
