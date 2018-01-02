@@ -6,8 +6,8 @@
         "php": "^7.1",
         "nette/utils": "^2.4",
         "nette/finder": "^2.4",
-        "symplify/package-builder": "^3.0",
-        "symplify/better-reflection-docblock": "^3.0",
+        "symplify/package-builder": "^3.1",
+        "symplify/better-reflection-docblock": "^3.1",
         "friendsofphp/php-cs-fixer": "^2.9",
         "squizlabs/php_codesniffer": "^3.2",
         "phpdocumentor/reflection-docblock": "^4.2"

@@ -4,8 +4,8 @@
     "license": "MIT",
     "require": {
         "php": "^7.1",
-        "nette/di": "^2.4|^3.0",
-        "nette/neon": "^2.4|^3.0",
+        "nette/di": "^2.4",
+        "nette/neon": "^2.4",
         "symfony/config": "^4.0",
         "symfony/console": "^4.0",
         "symfony/dependency-injection": "^4.0",
@@ -14,7 +14,7 @@
         "symfony/yaml": "^4.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "^6.4",
+        "phpunit/phpunit": "^6.5",
         "tracy/tracy": "^2.4"
     },
     "autoload": {
