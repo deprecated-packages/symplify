@@ -4,7 +4,6 @@
     "license": "MIT",
     "bin": [
         "bin/changelog-linker",
-        "bin/changelog-linker.php",
         "bin/changelog-linker-bootstrap.php"
     ],
     "require": {
