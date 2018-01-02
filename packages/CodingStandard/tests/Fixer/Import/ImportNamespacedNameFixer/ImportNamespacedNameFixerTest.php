@@ -25,6 +25,7 @@ final class ImportNamespacedNameFixerTest extends AbstractSimpleFixerTestCase
         return [
             [__DIR__ . '/correct/correct.php.inc'],
             [__DIR__ . '/correct/correct2.php.inc'],
+            [__DIR__ . '/correct/correct3.php.inc'],
         ];
     }
 
@@ -53,6 +54,7 @@ final class ImportNamespacedNameFixerTest extends AbstractSimpleFixerTestCase
             [__DIR__ . '/wrong/wrong9.php.inc', __DIR__ . '/fixed/fixed9.php.inc'],
             [__DIR__ . '/wrong/wrong10.php.inc', __DIR__ . '/fixed/fixed10.php.inc'],
             [__DIR__ . '/wrong/wrong11.php.inc', __DIR__ . '/fixed/fixed11.php.inc'],
+            [__DIR__ . '/wrong/wrong12.php.inc', __DIR__ . '/fixed/fixed12.php.inc'],
         ];
     }
 

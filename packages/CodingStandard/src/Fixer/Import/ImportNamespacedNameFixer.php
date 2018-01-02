@@ -226,6 +226,7 @@ final class ImportNamespacedNameFixer implements DefinedFixerInterface, Configur
         $docBlockWrapper->setWhitespacesFixerConfig($this->whitespacesFixerConfig);
 
         $oldDocBlockContent = $docBlockWrapper->getContent();
+
         $this->processParamsTags($docBlockWrapper, $tokens);
         $this->processReturnTag($docBlockWrapper, $tokens);
         $this->processVarTag($docBlockWrapper, $tokens);
