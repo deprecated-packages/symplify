@@ -6,7 +6,7 @@ class SomeClass
 {
     public function someMethod()
     {
-        /** @var SomeNode\SomeClass $value */
+        /** @var SomeNode\AnotherClass $value */
         $value = \stdClass::class;
     }
 }
