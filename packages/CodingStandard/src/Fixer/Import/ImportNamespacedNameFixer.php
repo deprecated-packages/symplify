@@ -92,6 +92,7 @@ final class ImportNamespacedNameFixer implements DefinedFixerInterface, Configur
     public function fix(SplFileInfo $file, Tokens $tokens): void
     {
         $this->useImports = (new UseImportsFactory())->createForTokens($tokens);
+        $this->namesToAddIntoUseStatements = [];
 
         for ($index = $tokens->getSize() - 1; $index > 0; --$index) {
             $token = $tokens[$index];
@@ -237,8 +238,6 @@ final class ImportNamespacedNameFixer implements DefinedFixerInterface, Configur
 
         // save doc comment
         $tokens[$index] = new Token([T_DOC_COMMENT, $docBlockWrapper->getContent()]);
-
-        // @todo: process @var tag
     }
 
     private function processReturnTag(DocBlockWrapper $docBlockWrapper, Tokens $tokens): void
@@ -264,7 +263,6 @@ final class ImportNamespacedNameFixer implements DefinedFixerInterface, Configur
                 return;
             }
 
-            // add use statement
             $this->namesToAddIntoUseStatements[] = NameFactory::createFromStringAndTokens($fullName, $tokens);
         }
     }
