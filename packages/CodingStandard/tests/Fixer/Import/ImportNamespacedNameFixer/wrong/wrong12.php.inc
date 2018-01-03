@@ -7,6 +7,6 @@ class SomeClass
     public function someMethod()
     {
         /** @var SomeNode\SomeClass $value */
-        $value = 5;
+        $value = \stdClass::class;
     }
 }

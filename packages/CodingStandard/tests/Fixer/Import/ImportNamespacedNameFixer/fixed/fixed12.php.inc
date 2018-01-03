@@ -8,6 +8,6 @@ class SomeClass
     public function someMethod()
     {
         /** @var SomeClass $value */
-        $value = 5;
+        $value = \stdClass::class;
     }
 }

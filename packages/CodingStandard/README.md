@@ -163,7 +163,16 @@ checkers:
         allow_single_names: true # false by default
 ```
 
-Duplicated class names are uniquized by vendor name:
+You can also configure to check `/** @var Namespaced\DocBlocks */` as well:
+
+```yaml
+# easy-coding-standard.neon
+checkers:
+    Symplify\CodingStandard\Fixer\Import\ImportNamespacedNameFixer:
+        include_doc_blocks: true # false by default
+```
+
+And what about duplicate class name? They are uniquized by vendor name:
 
 ```php
 <?php declare(strict_types=1);
