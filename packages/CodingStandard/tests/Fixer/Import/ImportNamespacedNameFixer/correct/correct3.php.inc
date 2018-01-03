@@ -1,85 +1,12 @@
-<?php declare(strict_types=1);
+<?php
 
-namespace Rector\Regex;
+namespace SomeNamespace;
 
-use Nette\Utils\Strings;
-use Rector\BetterReflection\Reflection\ReflectionClass;
-use Rector\BetterReflection\Reflection\ReflectionProperty;
-
-final class MagicMethodMatcher
+class SomeClass
 {
-    /**
-     * @var string
-     */
-    private const MAGIC_METHODS_PATTERN = '~^
-        [ \t*]*  @method  [ \t]+
-        (?: [^\s(]+  [ \t]+ )?
-        (set|get|is|add)  ([A-Z]\w*)
-        (?: ([ \t]* \()  [ \t]* ([^)$\s]*)  )?
-    ()~mx';
-
-    /**
-     * Mimics https://github.com/nette/utils/blob/v2.3/src/Utils/ObjectMixin.php#L285
-     *
-     * @return mixed[]
-     */
-    public function matchInContent(ReflectionClass $reflectionClass, string $text): array
+    public function someMethod()
     {
-        $matches = Strings::matchAll($text, self::MAGIC_METHODS_PATTERN, PREG_SET_ORDER);
-
-        $methods = [];
-
-        foreach ($matches as $match) {
-            [$all, $operation, $propertyName, $bracket, $type] = $match;
-
-            $argumentName = lcfirst($propertyName);
-
-            $methodName = $operation . $propertyName;
-            $propertyName = strtolower($propertyName[0]) . substr($propertyName, 1) . ($operation === 'add' ? 's' : '');
-
-            if (! $reflectionClass->hasProperty($propertyName)) {
-                continue;
-            }
-
-            /** @var ReflectionProperty $propertyReflection */
-            $propertyReflection = $reflectionClass->getProperty($propertyName);
-            if ($propertyReflection->isStatic()) {
-                continue;
-            }
-
-            $methods[$methodName] = [
-                'operation' => $operation,
-                'propertyName' => $propertyName,
-                'propertyType' => $this->resolveType($operation, $type, $propertyReflection, $match),
-                'argumentName' => $argumentName,
-            ];
-        }
-
-        return $methods;
-    }
-
-    /**
-     * @param mixed[] $match
-     */
-    private function resolveType(
-        string $op,
-        string $type,
-        ReflectionProperty $reflectionProperty,
-        array $match
-    ): ?string {
-        if ($op === 'get' || $op === 'is') {
-            $type = null;
-            $op = 'get';
-        }
-
-        if (! $type && preg_match(
-                '#@var[ \t]+(\S+)' . ($op === 'add' ? '\[\]#' : '#'),
-                $reflectionProperty->getDocComment(),
-                $match
-            )) {
-            $type = $match[1];
-        }
-
-        return $type;
+        /** @var SomeNode\SomeClass $value */
+        $value = 5;
     }
 }

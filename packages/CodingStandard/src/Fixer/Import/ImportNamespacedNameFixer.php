@@ -45,7 +45,12 @@ final class ImportNamespacedNameFixer implements DefinedFixerInterface, Configur
     /**
      * @var string
      */
-    private const ALLOW_SINGLE_NAMES_OPTION = 'allow_single_names';
+    public const ALLOW_SINGLE_NAMES_OPTION = 'allow_single_names';
+
+    /**
+     * @var string
+     */
+    public const INCLUDE_DOC_BLOCKS_OPTION = 'include_doc_blocks';
 
     /**
      * @var UseImport[]
@@ -103,6 +108,10 @@ final class ImportNamespacedNameFixer implements DefinedFixerInterface, Configur
             }
 
             if ($token->isGivenKind(T_DOC_COMMENT)) {
+                if (! $this->configuration[self::INCLUDE_DOC_BLOCKS_OPTION]) {
+                    continue;
+                }
+
                 $this->processDocCommentToken($index, $tokens);
                 continue;
             }
@@ -141,16 +150,21 @@ final class ImportNamespacedNameFixer implements DefinedFixerInterface, Configur
 
     public function getConfigurationDefinition(): FixerConfigurationResolverInterface
     {
-        $fixerOptionBuilder = new FixerOptionBuilder(
+        $allowSingleNamesOption = (new FixerOptionBuilder(
             self::ALLOW_SINGLE_NAMES_OPTION,
             'Whether allow \SingleClassName or import it.'
-        );
-
-        $singleNameOption = $fixerOptionBuilder->setAllowedValues([true, false])
+        ))->setAllowedValues([true, false])
             ->setDefault(false)
             ->getOption();
 
-        return new FixerConfigurationResolver([$singleNameOption]);
+        $includeDocBlocksOption = (new FixerOptionBuilder(
+            self::INCLUDE_DOC_BLOCKS_OPTION,
+            'Whether to include importing from doc blocks.'
+        ))->setAllowedValues([true, false])
+            ->setDefault(false)
+            ->getOption();
+
+        return new FixerConfigurationResolver([$allowSingleNamesOption, $includeDocBlocksOption]);
     }
 
     public function supports(SplFileInfo $file): bool

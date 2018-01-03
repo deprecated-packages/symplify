@@ -2,12 +2,12 @@
 
 namespace SomeNamespace;
 
-use SomeNode\SomeClass;
+use SomeNode\AnotherClass;
 class SomeClass
 {
     public function someMethod()
     {
-        /** @var SomeClass $value */
-        $value = 5;
+        /** @var AnotherClass $value */
+        $value = \stdClass::class;
     }
 }
