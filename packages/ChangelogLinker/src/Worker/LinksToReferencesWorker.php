@@ -67,6 +67,7 @@ final class LinksToReferencesWorker implements WorkerInterface
                     );
 
                     $linksToAppend[$match['id']] = $markdownLink;
+                    break;
                 }
             }
         }
