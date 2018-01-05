@@ -4,7 +4,7 @@
 
 ### Deprecated
 
-- [#558] **[CodingStandard]** Deprecated `Symplify\CodingStandard\Fixer\Strict\InArrayStrictFixer`; use `PhpCsFixer\Fixer\Strict\StrictParamFixer` instead; Thanks @carusogabriel
+- [#558] **[CodingStandard]** Deprecated `Symplify\CodingStandard\Fixer\Strict\InArrayStrictFixer`; use `PhpCsFixer\Fixer\Strict\StrictParamFixer` instead; Thanks [@carusogabriel]
 
 ## [v3.1.0] - 2018-01-02
 
@@ -694,3 +694,6 @@ For more deprecation details see https://www.tomasvotruba.cz/blog/2017/05/29/sym
 [#508]: https://github.com/Symplify/Symplify/pull/508
 [contributte/event-dispatcher]: https://github.com/contributte/event-dispatcher
 [3fce4e]: https://github.com/Symplify/Symplify/commit/3fce4e4168a67efe3d7e19be5fd8dc231d352c76
+[v3.1.0]: https://github.com/Symplify/Symplify/compare/v3.0.1...v3.1.0
+[#558]: https://github.com/Symplify/Symplify/pull/558
+[@carusogabriel]: https://github.com/carusogabriel
