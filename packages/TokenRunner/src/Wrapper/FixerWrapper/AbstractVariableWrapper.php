@@ -45,7 +45,7 @@ abstract class AbstractVariableWrapper
             return false;
         }
 
-        if (in_array($type, $this->simpleTypes)) {
+        if (in_array($type, $this->simpleTypes, true)) {
             return false;
         }
 

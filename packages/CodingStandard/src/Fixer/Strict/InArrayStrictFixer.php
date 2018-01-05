@@ -23,8 +23,8 @@ final class InArrayStrictFixer implements FixerInterface, DefinedFixerInterface
     {
         trigger_error(
             sprintf(
-            '"%s" is deprecated and will be removed in Symplify 4.0. Use "%s" that does the same job instead"',
-            self::class,
+                '"%s" is deprecated and will be removed in Symplify 4.0. Use "%s" that does the same job instead"',
+                self::class,
                 StrictParamFixer::class
             ),
             E_USER_DEPRECATED
