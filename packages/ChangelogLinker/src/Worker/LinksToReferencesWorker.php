@@ -37,7 +37,7 @@ final class LinksToReferencesWorker implements WorkerInterface
         rsort($linksToAppend);
 
         // append new links to the file
-        return $content . implode(PHP_EOL, $linksToAppend) . PHP_EOL;
+        return $content . PHP_EOL . implode(PHP_EOL, $linksToAppend);
     }
 
     /**

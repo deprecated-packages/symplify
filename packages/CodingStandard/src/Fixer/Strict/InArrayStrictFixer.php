@@ -4,6 +4,7 @@ namespace Symplify\CodingStandard\Fixer\Strict;
 
 use PhpCsFixer\Fixer\DefinedFixerInterface;
 use PhpCsFixer\Fixer\FixerInterface;
+use PhpCsFixer\Fixer\Strict\StrictParamFixer;
 use PhpCsFixer\FixerDefinition\CodeSample;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
@@ -12,10 +13,25 @@ use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
 
 /**
+ * @deprecated
+ *
  * Thanks for inspiration to https://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards/pull/490/files
  */
 final class InArrayStrictFixer implements FixerInterface, DefinedFixerInterface
 {
+    public function __construct()
+    {
+        trigger_error(
+            sprintf(
+                '"%s" is deprecated and will be removed in Symplify 4.0. Use "%s" that does the same job instead"',
+                self::class,
+                StrictParamFixer::class
+            ),
+            E_USER_DEPRECATED
+        );
+        sleep(3); // inspired at "deprecated interface" Tweet
+    }
+
     public function getDefinition(): FixerDefinitionInterface
     {
         return new FixerDefinition(
