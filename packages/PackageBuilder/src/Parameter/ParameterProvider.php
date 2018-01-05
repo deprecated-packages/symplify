@@ -21,7 +21,7 @@ final class ParameterProvider
         $parameters = $container->getParameterBag()
             ->all();
 
-        $this->parameters = $this->unsetKernelParameters($parameters);
+        $this->parameters = $this->unsetSymfonyParameters($parameters);
     }
 
     /**
@@ -52,10 +52,10 @@ final class ParameterProvider
      * @param mixed[] $parameters
      * @return mixed[]
      */
-    private function unsetKernelParameters(array $parameters): array
+    private function unsetSymfonyParameters(array $parameters): array
     {
         foreach ($parameters as $name => $value) {
-            if (Strings::startsWith($name, 'kernel')) {
+            if (Strings::match($name, '#^(container|kernel).#')) {
                 unset($parameters[$name]);
             }
         }
