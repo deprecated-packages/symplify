@@ -14,11 +14,6 @@ final class Naming
      */
     private const NAMESPACE_SEPARATOR = '\\';
 
-    /**
-     * @var string[]
-     */
-    private static $controllerNameSuffixes = ['Controller', 'Presenter'];
-
     public static function getClassName(File $file, int $classNameStartPosition): string
     {
         $tokens = $file->getTokens();
