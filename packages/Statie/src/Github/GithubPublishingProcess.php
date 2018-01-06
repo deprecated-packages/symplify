@@ -5,6 +5,9 @@ namespace Symplify\Statie\Github;
 use GitWrapper\GitWrapper;
 use Symplify\Statie\FileSystem\FileSystemGuard;
 
+/**
+ * @deprecated
+ */
 final class GithubPublishingProcess
 {
     /**

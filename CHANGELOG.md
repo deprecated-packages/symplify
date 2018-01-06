@@ -4,6 +4,7 @@
 
 ### Deprecated
 
+- [#559] **[Statie]** Deprecated `push-to-github` command; use [Github Deploy](https://www.statie.org/docs/github-pages/) instead
 - [#558] **[CodingStandard]** Deprecated `Symplify\CodingStandard\Fixer\Strict\InArrayStrictFixer`; use `PhpCsFixer\Fixer\Strict\StrictParamFixer` instead; Thanks [@carusogabriel]
 
 ## [v3.1.0] - 2018-01-02

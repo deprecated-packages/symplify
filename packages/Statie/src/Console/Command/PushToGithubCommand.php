@@ -11,6 +11,9 @@ use Symplify\Statie\Exception\Console\Command\GithubRepositoryNotFoundException;
 use Symplify\Statie\Exception\Console\Command\MissingGithubTokenException;
 use Symplify\Statie\Github\GithubPublishingProcess;
 
+/**
+ * @deprecated
+ */
 final class PushToGithubCommand extends Command
 {
     /**
@@ -21,14 +24,13 @@ final class PushToGithubCommand extends Command
     public function __construct(GithubPublishingProcess $githubPublishingProcess)
     {
         $this->githubPublishingProcess = $githubPublishingProcess;
-
         parent::__construct();
     }
 
     protected function configure(): void
     {
         $this->setName('push-to-github');
-        $this->setDescription('Push generated site to Github pages.');
+        $this->setDescription('[deprecated] Push generated site to Github pages.');
         $this->addArgument(
             'repository-slug',
             InputArgument::REQUIRED,
@@ -47,6 +49,12 @@ final class PushToGithubCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+        $output->writeln(
+            '<fg=white;bg=red>This command is deprecated and will be removed. Use approach described in docs ' .
+            'https://www.statie.org/docs/github-pages/ instead.</>'
+        );
+        sleep(3);
+
         $this->ensureInputIsValid($input);
 
         $githubRepository = $this->createGithubRepositoryUrlWithToken(
