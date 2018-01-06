@@ -23,3 +23,6 @@ checkers:
 
     # { echo 'hi'; }
     - PhpCsFixer\Fixer\ControlStructure\NoUnneededCurlyBracesFixer
+    
+    # 'foo' . 'bar'
+    - PHP_CodeSniffer\Standards\Generic\Sniffs\Strings\UnnecessaryStringConcatSniff
