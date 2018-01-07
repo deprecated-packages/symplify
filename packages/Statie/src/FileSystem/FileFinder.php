@@ -35,7 +35,7 @@ final class FileFinder
     public function findInDirectoryForGenerator(string $directoryPath): array
     {
         $directoryInfo = new NativeSplFileInfo($directoryPath);
-        $pathPattern = '#' . $directoryInfo->getFilename() . DIRECTORY_SEPARATOR . '#';
+        $pathPattern = '#' . preg_quote($directoryInfo->getFilename() . DIRECTORY_SEPARATOR, '#') . '#';
 
         $finder = Finder::create()->files()
             ->in($directoryInfo->getPath())
