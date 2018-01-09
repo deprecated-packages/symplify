@@ -80,7 +80,7 @@ abstract class AbstractVariableWrapper
 
         $name = NameFactory::createFromTokensAndEnd($this->tokens, $previousTokenPosition);
 
-        return $name ? $name->getName() : null;
+        return $name->getName();
     }
 
     protected function changeNameWithTokenType(string $newName, int $tokenType): void
