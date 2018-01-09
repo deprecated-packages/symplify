@@ -69,10 +69,6 @@ final class UserReferencesWorker implements WorkerInterface
             return true;
         }
 
-        if (isset($this->linksToPrepend[$match['name']])) {
-            return true;
-        }
-
-        return false;
+        return isset($this->linksToPrepend[$match['name']]);
     }
 }
