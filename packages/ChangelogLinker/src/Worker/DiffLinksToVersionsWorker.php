@@ -71,10 +71,6 @@ final class DiffLinksToVersionsWorker implements WorkerInterface
         }
 
         // last version, no previous one
-        if (! isset($this->versions[$index + 1])) {
-            return true;
-        }
-
-        return false;
+        return ! isset($this->versions[$index + 1]);
     }
 }

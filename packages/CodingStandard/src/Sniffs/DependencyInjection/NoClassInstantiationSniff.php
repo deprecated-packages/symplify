@@ -142,11 +142,7 @@ final class NoClassInstantiationSniff implements Sniff
             }
         }
 
-        if (! $this->includeEntities && $this->isEntityClass($class, $classTokenPosition)) {
-            return true;
-        }
-
-        return false;
+        return ! $this->includeEntities && $this->isEntityClass($class, $classTokenPosition);
     }
 
     private function isEntityClass(string $class, int $classTokenPosition): bool
