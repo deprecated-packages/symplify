@@ -61,13 +61,15 @@ final class TolerantParam extends BaseTag
 
     /**
      * {@inheritdoc}
+     *
+     * @return TolerantParam
      */
     public static function create(
         $body,
         ?TypeResolver $typeResolver = null,
         ?DescriptionFactory $descriptionFactory = null,
         ?Context $context = null
-    ) {
+    ) : TolerantParam {
         Assert::stringNotEmpty($body);
         Assert::allNotNull([$typeResolver, $descriptionFactory]);
 

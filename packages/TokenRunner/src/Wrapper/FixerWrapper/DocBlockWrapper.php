@@ -101,13 +101,15 @@ final class DocBlockWrapper
             return null;
         }
 
-        if ($returnTags[0]->getType() instanceof Array_) {
-            return ArrayResolver::resolveArrayType($this->originalContent, $returnTags[0]->getType(), 'return');
+        $returnTagType = $returnTags[0]->getType();
+
+        if ($returnTagType instanceof Array_) {
+            return ArrayResolver::resolveArrayType($this->originalContent, $returnTagType, 'return');
         }
 
-        if ($returnTags[0]->getType() instanceof Compound) {
+        if ($returnTagType instanceof Compound) {
             $types = [];
-            foreach ($returnTags[0]->getType()->getIterator() as $singleTag) {
+            foreach ($returnTagType->getIterator() as $singleTag) {
                 if ($singleTag instanceof Array_) {
                     $types[] = ArrayResolver::resolveArrayType($this->originalContent, $singleTag, 'return');
                 } else {
@@ -136,15 +138,17 @@ final class DocBlockWrapper
     {
         $paramTag = $this->findParamTagByName($name);
         if ($paramTag) {
+            $paramTagType = $paramTag->getType();
+
             // distinguish array vs mixed[]
             // false value resolve, @see https://github.com/phpDocumentor/TypeResolver/pull/48
-            if ($paramTag->getType() instanceof Array_) {
-                return ArrayResolver::resolveArrayType($this->originalContent, $paramTag->getType(), 'param', $name);
+            if ($paramTagType instanceof Array_) {
+                return ArrayResolver::resolveArrayType($this->originalContent, $paramTagType, 'param', $name);
             }
 
-            if ($paramTag->getType() instanceof Compound) {
+            if ($paramTagType instanceof Compound) {
                 $types = [];
-                foreach ($paramTag->getType()->getIterator() as $singleTag) {
+                foreach ($paramTagType->getIterator() as $singleTag) {
                     if ($singleTag instanceof Array_) {
                         $types[] = ArrayResolver::resolveArrayType($this->originalContent, $singleTag, 'param', $name);
                     } else {
@@ -155,7 +159,7 @@ final class DocBlockWrapper
                 return implode('|', $types);
             }
 
-            return $this->clean((string) $paramTag->getType());
+            return $this->clean((string) $paramTagType);
         }
 
         return null;
@@ -276,7 +280,7 @@ final class DocBlockWrapper
         return $content;
     }
 
-    private function isIterableType(string $type): bool
+    private static function isIterableType(string $type): bool
     {
         if (Strings::endsWith($type, '[]')) {
             return true;
