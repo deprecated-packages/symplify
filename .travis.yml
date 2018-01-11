@@ -8,6 +8,7 @@ matrix:
       env: CODING_STANDARD=true
     - php: 7.2
       env: PHPSTAN=true
+    - php: 7.2
       env: PSALM=true
 
 install:
