@@ -61,8 +61,6 @@ final class TolerantParam extends BaseTag
 
     /**
      * {@inheritdoc}
-     *
-     * @return TolerantParam
      */
     public static function create(
         $body,
