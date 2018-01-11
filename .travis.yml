@@ -8,6 +8,7 @@ matrix:
       env: CODING_STANDARD=true
     - php: 7.2
       env: PHPSTAN=true
+      env: PSALM=true
 
 install:
   - composer install
@@ -24,6 +25,7 @@ script:
   # static analysis
   - if [[ $CODING_STANDARD != "" ]]; then packages/EasyCodingStandard/bin/ecs check packages; fi
   - if [[ $PHPSTAN != "" ]]; then vendor/bin/phpstan analyse packages --level max --configuration phpstan.neon; fi
+  - if [[ $PSALM != "" ]]; then vendor/bin/psalm --show-info=false; fi
 
 after_script:
   # upload coverage.xml to Coveralls
