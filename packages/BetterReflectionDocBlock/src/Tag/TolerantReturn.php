@@ -42,15 +42,13 @@ final class TolerantReturn extends BaseTag
 
     /**
      * {@inheritdoc}
-     *
-     * @return TolerantReturn
      */
     public static function create(
         $body,
         ?TypeResolver $typeResolver = null,
         ?DescriptionFactory $descriptionFactory = null,
         ?Context $context = null
-    ) : TolerantReturn {
+    ): self {
         Assert::string($body);
         Assert::allNotNull([$typeResolver, $descriptionFactory]);
 

@@ -69,7 +69,7 @@ final class TolerantParam extends BaseTag
         ?TypeResolver $typeResolver = null,
         ?DescriptionFactory $descriptionFactory = null,
         ?Context $context = null
-    ) : TolerantParam {
+    ): self {
         Assert::stringNotEmpty($body);
         Assert::allNotNull([$typeResolver, $descriptionFactory]);
 
