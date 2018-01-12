@@ -58,7 +58,7 @@ abstract class AbstractGeneratorTest extends TestCase
         FileSystem::delete($this->outputDirectory);
     }
 
-    protected abstract function getConfig(): string;
+    abstract protected function getConfig(): string;
 
     private function prepareConfiguration(): void
     {

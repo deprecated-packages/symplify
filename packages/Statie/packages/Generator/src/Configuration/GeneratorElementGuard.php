@@ -83,8 +83,12 @@ final class GeneratorElementGuard
         ));
     }
 
-    private static function ensureObjectIsInstanceOf(string $key, string $optionName, string $object, string $expectedType): void
-    {
+    private static function ensureObjectIsInstanceOf(
+        string $key,
+        string $optionName,
+        string $object,
+        string $expectedType
+    ): void {
         if (is_a($object, $expectedType, true)) {
             return;
         }

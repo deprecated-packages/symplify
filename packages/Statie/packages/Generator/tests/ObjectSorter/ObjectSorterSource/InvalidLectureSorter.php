@@ -4,5 +4,4 @@ namespace Symplify\Statie\Generator\Tests\ObjectSorter\ObjectSorterSource;
 
 final class InvalidLectureSorter
 {
-
 }

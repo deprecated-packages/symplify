@@ -79,7 +79,7 @@ final class GeneratorElement
             $configuration['layout'],
             $configuration['route_prefix'],
             $configuration['object'] ?? File::class,
-            isset($configuration['object_sorter']) ? new $configuration['object_sorter'] : new ObjectSorter()
+            isset($configuration['object_sorter']) ? new $configuration['object_sorter']() : new ObjectSorter()
         );
     }
 
