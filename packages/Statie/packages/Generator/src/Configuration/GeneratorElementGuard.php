@@ -2,6 +2,7 @@
 
 namespace Symplify\Statie\Generator\Configuration;
 
+use Symplify\Statie\Generator\Contract\ObjectSorterInterface;
 use Symplify\Statie\Generator\Exception\Configuration\InvalidGeneratorElementDefinitionException;
 use Symplify\Statie\Renderable\File\AbstractFile;
 
@@ -42,6 +43,11 @@ final class GeneratorElementGuard
             self::ensureObjectExists($key, $data['object']);
             self::ensureObjectIsParentOfAbstractFile($key, $data['object']);
         }
+
+        if (isset($data['object_sorter'])) {
+            self::ensureObjectExists($key, $data['object_sorter']);
+            self::ensureObjectIsInstanceOf($key, 'object_sorter', $data['object_sorter'], ObjectSorterInterface::class);
+        }
     }
 
     /**
@@ -73,6 +79,21 @@ final class GeneratorElementGuard
             'Object class "%s" must extend "%s". In "parameters > generators > %s".',
             $object,
             AbstractFile::class,
+            $key
+        ));
+    }
+
+    private static function ensureObjectIsInstanceOf(string $key, string $optionName, string $object, string $expectedType): void
+    {
+        if (is_a($object, $expectedType, true)) {
+            return;
+        }
+
+        throw new InvalidGeneratorElementDefinitionException(sprintf(
+            'Value in "%s" must extend "%s". "%s" type given In "parameters > generators > %s".',
+            $optionName,
+            $expectedType,
+            $object,
             $key
         ));
     }
