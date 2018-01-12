@@ -41,7 +41,7 @@ final class GeneratorElementGuard
 
         if (isset($data['object'])) {
             self::ensureObjectExists($key, $data['object']);
-            self::ensureObjectIsParentOfAbstractFile($key, $data['object']);
+            self::ensureObjectIsInstanceOf($key, 'object', $data['object'], AbstractFile::class);
         }
 
         if (isset($data['object_sorter'])) {
@@ -62,23 +62,6 @@ final class GeneratorElementGuard
         throw new InvalidGeneratorElementDefinitionException(sprintf(
             'Object class "%s" not found. In "parameters > generators > %s".',
             $object,
-            $key
-        ));
-    }
-
-    /**
-     * @param int|string $key
-     */
-    private static function ensureObjectIsParentOfAbstractFile($key, string $object): void
-    {
-        if (is_a($object, AbstractFile::class, true)) {
-            return;
-        }
-
-        throw new InvalidGeneratorElementDefinitionException(sprintf(
-            'Object class "%s" must extend "%s". In "parameters > generators > %s".',
-            $object,
-            AbstractFile::class,
             $key
         ));
     }

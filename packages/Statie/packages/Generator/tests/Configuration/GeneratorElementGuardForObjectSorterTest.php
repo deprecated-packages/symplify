@@ -7,7 +7,7 @@ use Symplify\Statie\Generator\Exception\Configuration\InvalidGeneratorElementDef
 use Symplify\Statie\Generator\Tests\AbstractGeneratorTest;
 use Symplify\Statie\Generator\Tests\Configuration\GeneratorElementGuardSource\InvalidLectureSorter;
 
-final class GeneratorElementGuardTest extends AbstractGeneratorTest
+final class GeneratorElementGuardForObjectSorterTest extends AbstractGeneratorTest
 {
     public function testExceptionOnInvalidObjectSorter(): void
     {
