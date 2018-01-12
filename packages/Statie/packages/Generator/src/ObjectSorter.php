@@ -13,7 +13,7 @@ final class ObjectSorter implements ObjectSorterInterface
      */
     public function sort(array $files): array
     {
-        usort($files, function (AbstractFile $firstFile, AbstractFile $seconFile) {
+        usort($files, function (AbstractFile $firstFile, AbstractFile $seconFile): int {
             // from newest to oldest, Z to A
             return strcmp($seconFile->getFilePath(), $firstFile->getFilePath());
         });
