@@ -1,13 +1,13 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\Statie\Generator\Tests\ObjectSorter;
+namespace Symplify\Statie\Generator\Configuration;
 
 use Symplify\Statie\Generator\Contract\ObjectSorterInterface;
 use Symplify\Statie\Generator\Exception\Configuration\InvalidGeneratorElementDefinitionException;
 use Symplify\Statie\Generator\Tests\AbstractGeneratorTest;
-use Symplify\Statie\Generator\Tests\ObjectSorter\ObjectSorterSource\InvalidLectureSorter;
+use Symplify\Statie\Generator\Tests\Configuration\GeneratorElementGuardSource\InvalidLectureSorter;
 
-final class ObjectSorterTest extends AbstractGeneratorTest
+final class GeneratorElementGuardTest extends AbstractGeneratorTest
 {
     public function testExceptionOnInvalidObjectSorter(): void
     {
@@ -23,6 +23,6 @@ final class ObjectSorterTest extends AbstractGeneratorTest
 
     protected function getConfig(): string
     {
-        return __DIR__ . '/ObjectSorterSource/config-invalid-object-sorter.yml';
+        return __DIR__ . '/GeneratorElementGuardSource/config-invalid-object-sorter.yml';
     }
 }

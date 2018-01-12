@@ -15,4 +15,4 @@ parameters:
             # object
             object: 'Symplify\Statie\Generator\Tests\GeneratorSource\File\LectureFile'
             # object sorter
-            object_sorter: 'Symplify\Statie\Generator\Tests\ObjectSorter\ObjectSorterSource\InvalidLectureSorter'
+            object_sorter: 'Symplify\Statie\Generator\Tests\Configuration\GeneratorElementGuardSource\InvalidLectureSorter'
