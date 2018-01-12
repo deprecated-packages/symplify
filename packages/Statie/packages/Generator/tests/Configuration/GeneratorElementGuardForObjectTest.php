@@ -1,11 +1,9 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\Statie\Generator\Configuration;
+namespace Symplify\Statie\Generator\Tests\Configuration;
 
-use Symplify\Statie\Generator\Contract\ObjectSorterInterface;
 use Symplify\Statie\Generator\Exception\Configuration\InvalidGeneratorElementDefinitionException;
 use Symplify\Statie\Generator\Tests\AbstractGeneratorTest;
-use Symplify\Statie\Generator\Tests\Configuration\GeneratorElementGuardSource\InvalidLectureSorter;
 use Symplify\Statie\Generator\Tests\Configuration\GeneratorElementGuardSource\InvalidObject;
 use Symplify\Statie\Renderable\File\AbstractFile;
 

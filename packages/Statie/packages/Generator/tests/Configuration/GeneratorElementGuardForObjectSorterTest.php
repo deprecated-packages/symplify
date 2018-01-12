@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\Statie\Generator\Configuration;
+namespace Symplify\Statie\Generator\Tests\Configuration;
 
 use Symplify\Statie\Generator\Contract\ObjectSorterInterface;
 use Symplify\Statie\Generator\Exception\Configuration\InvalidGeneratorElementDefinitionException;
