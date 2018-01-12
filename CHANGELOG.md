@@ -4,7 +4,7 @@
 
 ### Added
 
-- [#570] **[EasyCodingStandar]** Add reporting for duplicated checkers
+- [#570] **[EasyCodingStandard]** Add reporting for duplicated checkers
 - [#577] **[Statie]** Add customizable `ObjectSorter`
 - [#573] Add Psalm, thanks to [@muglug]
 
