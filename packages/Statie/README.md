@@ -96,24 +96,6 @@ services:
 
 See documentation at [www.statie.org](https://www.statie.org).
 
-- [Add Headline Anchor Links](https://www.statie.org/docs/headline-anchors/)
-- [Add Related Items](https://www.statie.org/docs/related-items/)
-- [Push Content to Github Pages with Travis](https://www.statie.org/docs/github-pages/)
-- [Custom File Output Path](https://www.statie.org/docs/custom-output-path/)
-
-### Extending Statie
-
-- [Hook to Statie Application cycle with Events](https://www.statie.org/docs/hooks/)
-- [Add Generator like Posts](https://www.statie.org/docs/generators/)
-
-### Community articles
-
-- [How to use Gulp to Rebuild on Change](https://www.tomasvotruba.cz/blog/2017/02/20/statie-how-to-run-it-locally/#minitip-use-gulp-work-for-you)
-- [How to re-generate and refresh static website in Statie?](https://romanvesely.com/statie-generate-and-refresh/)
-- [Implement a CSS preprocessor into Statie project](https://romanvesely.com/statie-with-css-preprocessor/)
-
-*Got one too? [Send a PR and share it with others](https://github.com/Symplify/Symplify/edit/master/packages/Statie/README.md).*
-
 ## Who Runs on Statie?
 
 See what Statie can do and how community uses it:
