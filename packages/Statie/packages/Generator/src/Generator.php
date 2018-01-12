@@ -71,6 +71,10 @@ final class Generator
             // process to objects
             $objects = $this->fileFactory->createFromFileInfosAndClass($fileInfos, $generatorElement->getObject());
 
+            // sort them
+            $objectSorter = $generatorElement->getObjectSorter();
+            $objects = $objectSorter->sort($objects);
+
             // save them to property
             $this->configuration->addOption($generatorElement->getVariableGlobal(), $objects);
 

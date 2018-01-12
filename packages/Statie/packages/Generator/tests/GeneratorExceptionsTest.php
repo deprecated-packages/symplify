@@ -35,18 +35,18 @@ final class GeneratorExceptionsTest extends AbstractGeneratorTest
         $value = $post['tite'];
     }
 
-    public function testPostExceptionOnGetNonExistingAllKeys(): void
-    {
-        $post = $this->getPost();
-
-        $this->expectException(AccessKeyNotAvailableException::class);
-        $this->expectExceptionMessage(sprintf(
-            'Value "key" was not found for "%s" object. Available keys are: "id", "title", "relativeUrl".',
-            PostFile::class
-        ));
-
-        $value = $post['key'];
-    }
+//    public function testPostExceptionOnGetNonExistingAllKeys(): void
+//    {
+//        $post = $this->getPost();
+//
+//        $this->expectException(AccessKeyNotAvailableException::class);
+//        $this->expectExceptionMessage(sprintf(
+//            'Value "key" was not found for "%s" object. Available keys are: "id", "title", "relativeUrl".',
+//            PostFile::class
+//        ));
+//
+//        $value = $post['key'];
+//    }
 
     private function getPost(): PostFile
     {

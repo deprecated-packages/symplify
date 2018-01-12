@@ -2,6 +2,8 @@
 
 namespace Symplify\Statie\Generator\Configuration;
 
+use Symplify\Statie\Generator\Contract\ObjectSorterInterface;
+use Symplify\Statie\Generator\ObjectSorter;
 use Symplify\Statie\Renderable\File\AbstractFile;
 use Symplify\Statie\Renderable\File\File;
 
@@ -42,13 +44,19 @@ final class GeneratorElement
      */
     private $objects = [];
 
+    /**
+     * @var string
+     */
+    private $objectSorter;
+
     private function __construct(
         string $variable,
         string $variableGlobal,
         string $path,
         string $layout,
         string $routePrefix,
-        string $object
+        string $object,
+        ObjectSorterInterface $objectSorter
     ) {
         $this->variable = $variable;
         $this->variableGlobal = $variableGlobal;
@@ -56,6 +64,7 @@ final class GeneratorElement
         $this->layout = $layout;
         $this->routePrefix = $routePrefix;
         $this->object = $object;
+        $this->objectSorter = $objectSorter;
     }
 
     /**
@@ -69,7 +78,8 @@ final class GeneratorElement
             $configuration['path'],
             $configuration['layout'],
             $configuration['route_prefix'],
-            $configuration['object'] ?? File::class
+            $configuration['object'] ?? File::class,
+            isset($configuration['object_sorter']) ? new $configuration['object_sorter'] : new ObjectSorter()
         );
     }
 
@@ -117,5 +127,10 @@ final class GeneratorElement
     public function getObjects(): array
     {
         return $this->objects;
+    }
+
+    public function getObjectSorter(): ObjectSorterInterface
+    {
+        return $this->objectSorter;
     }
 }
