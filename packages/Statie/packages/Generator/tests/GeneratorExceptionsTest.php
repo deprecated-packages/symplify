@@ -56,4 +56,10 @@ final class GeneratorExceptionsTest extends AbstractGeneratorTest
 
         return $posts[0];
     }
+
+    protected function getConfig(): string
+    {
+
+        // TODO: Implement getConfig() method.
+    }
 }

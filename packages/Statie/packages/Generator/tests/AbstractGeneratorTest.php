@@ -45,16 +45,33 @@ abstract class AbstractGeneratorTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->container = (new ContainerFactory())->createWithConfig(__DIR__ . '/GeneratorSource/statie.yml');
-
-        $this->configuration = $this->container->get(Configuration::class);
-        $this->configuration->setSourceDirectory($this->sourceDirectory);
-        $this->configuration->setOutputDirectory($this->outputDirectory);
-
+        $this->container = (new ContainerFactory())->createWithConfig($this->getConfig());
         $this->generator = $this->container->get(Generator::class);
         $this->fileSystemWriter = $this->container->get(FileSystemWriter::class);
 
-        // emulate layout loading
+        $this->prepareConfiguration();
+        $this->prepareLayouts();
+    }
+
+    protected function tearDown(): void
+    {
+        FileSystem::delete($this->outputDirectory);
+    }
+
+    protected abstract function getConfig(): string;
+
+    private function prepareConfiguration(): void
+    {
+        $this->configuration = $this->container->get(Configuration::class);
+        $this->configuration->setSourceDirectory($this->sourceDirectory);
+        $this->configuration->setOutputDirectory($this->outputDirectory);
+    }
+
+    /**
+     * Emulate layout loading
+     */
+    private function prepareLayouts(): void
+    {
         /** @var DynamicStringLoader $dynamicStringLoader */
         $dynamicStringLoader = $this->container->get(DynamicStringLoader::class);
         $dynamicStringLoader->changeContent(
@@ -65,10 +82,5 @@ abstract class AbstractGeneratorTest extends TestCase
             'lecture',
             file_get_contents($this->sourceDirectory . '/_layouts/lecture.latte')
         );
-    }
-
-    protected function tearDown(): void
-    {
-        FileSystem::delete($this->outputDirectory);
     }
 }

@@ -52,4 +52,9 @@ final class GeneratorTest extends AbstractGeneratorTest
         $firstPost = $posts[0];
         $this->assertInstanceOf(DateTimeInterface::class, $firstPost['date']);
     }
+
+    protected function getConfig(): string
+    {
+        return __DIR__ . '/GeneratorSource/statie.yml';
+    }
 }
