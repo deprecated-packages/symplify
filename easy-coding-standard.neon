@@ -7,13 +7,11 @@ includes:
     - packages/EasyCodingStandard/config/common.neon
 
 checkers:
-    # this should throw an exception, because already covered in 'common.neon => namespaces.neon'
-    - PhpCsFixer\Fixer\Import\OrderedImportsFixer
-
     # class should be Abstact or Final
     - SlamCsFixer\FinalInternalClassFixer
 
-    - Symplify\CodingStandard\Fixer\Import\ImportNamespacedNameFixer
+    Symplify\CodingStandard\Fixer\Import\ImportNamespacedNameFixer:
+        include_doc_blocks: true
 
     # code complexity
     PHP_CodeSniffer\Standards\Generic\Sniffs\Files\LineLengthSniff:
