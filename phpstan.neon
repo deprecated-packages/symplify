@@ -66,5 +66,7 @@ parameters:
 
     autoload_files:
         - %currentWorkingDirectory%/vendor/squizlabs/php_codesniffer/autoload.php
+        # not autolaodable since hidden with if function
+        - %currentWorkingDirectory%/vendor/friendsofphp/php-cs-fixer/tests/TestCase.php
         - packages/EasyCodingStandard/packages/ChangedFilesDetector/tests/ChangedFilesDetectorSource/OneClass.php
         - packages/EasyCodingStandard/tests/Finder/SourceFinderSource/Source/SomeClass.php
