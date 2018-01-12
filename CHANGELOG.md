@@ -1,11 +1,28 @@
 # Changelog
 
-## [Unreleased]
+## [v3.2.0] - 2018-01-12
+
+### Added
+
+- [#570] **[EasyCodingStandar]** Add reporting for duplicated checkers
+- [#577] **[Statie]** Add customizable `ObjectSorter`
+- [#573] Add Psalm, thanks to [@muglug]
+
+### Changed
+
+- [#576] Bump to PHP CS Fixer 2.10 + minor lock to prevent BC breaks that happen for last 4 minor versions
+- [#560] Added `UnnecessaryStringConcatSniff` to `clean-code.neon` level, thanks to [@carusogabriel]
+- [#560] Added `PhpdocVarWithoutNameFixer ` to `docblock.neon` level, thanks to [@carusogabriel]
+
+## Fixed
+
+- [#574] **[Statie]** Fix path in `FileFinder` for Windows, thanks to [@tomasfejfar]
+- [#562] **[Statie]** Fix `preg_quote()` escaping, thanks to [@tomasfejfar]
 
 ### Deprecated
 
 - [#559] **[Statie]** Deprecated `push-to-github` command; use [Github Deploy](https://www.statie.org/docs/github-pages/) instead
-- [#558] **[CodingStandard]** Deprecated `Symplify\CodingStandard\Fixer\Strict\InArrayStrictFixer`; use `PhpCsFixer\Fixer\Strict\StrictParamFixer` instead; Thanks [@carusogabriel]
+- [#558] **[CodingStandard]** Deprecated `Symplify\CodingStandard\Fixer\Strict\InArrayStrictFixer`; use `PhpCsFixer\Fixer\Strict\StrictParamFixer` instead; thanks to [@carusogabriel]
 
 ## [v3.1.0] - 2018-01-02
 
@@ -698,3 +715,14 @@ For more deprecation details see https://www.tomasvotruba.cz/blog/2017/05/29/sym
 [v3.1.0]: https://github.com/Symplify/Symplify/compare/v3.0.1...v3.1.0
 [#558]: https://github.com/Symplify/Symplify/pull/558
 [@carusogabriel]: https://github.com/carusogabriel
+[v3.2.0]: https://github.com/Symplify/Symplify/compare/v3.1.0...v3.2.0
+[#577]: https://github.com/Symplify/Symplify/pull/577
+[#576]: https://github.com/Symplify/Symplify/pull/576
+[#574]: https://github.com/Symplify/Symplify/pull/574
+[#573]: https://github.com/Symplify/Symplify/pull/573
+[#570]: https://github.com/Symplify/Symplify/pull/570
+[#562]: https://github.com/Symplify/Symplify/pull/562
+[#560]: https://github.com/Symplify/Symplify/pull/560
+[#559]: https://github.com/Symplify/Symplify/pull/559
+[@tomasfejfar]: https://github.com/tomasfejfar
+[@muglug]: https://github.com/muglug
