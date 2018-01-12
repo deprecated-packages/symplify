@@ -48,7 +48,7 @@ final class TolerantReturn extends BaseTag
         ?TypeResolver $typeResolver = null,
         ?DescriptionFactory $descriptionFactory = null,
         ?Context $context = null
-    ) {
+    ): self {
         Assert::string($body);
         Assert::allNotNull([$typeResolver, $descriptionFactory]);
 
