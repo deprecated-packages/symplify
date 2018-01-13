@@ -5,7 +5,23 @@
 ### Added
 
 - [#570] **[EasyCodingStandard]** Add reporting for duplicated checkers
-- [#577] **[Statie]** Add customizable `ObjectSorter`
+- [#577] **[Statie]** Add customizable `ObjectSorter` for [Generators](https://www.statie.org/docs/generators/) as `object_sorter` option in Generator configuration 
+
+    ```yaml
+    arameters:
+        generators:
+            posts:
+                # ...
+
+                # Symplify\Statie\Generator\FileNameObjectSorter is used by default,
+                # it sorts files newer to older posts work by default 
+                object_sorter: 'Website\Statie\Generator\DateObjectSorter' 
+    ```
+    
+    The sorter needs to implement `Symplify\Statie\Generator\Contract\ObjectSorterInterface` and it returns sorting function.
+    
+    See [`Symplify\Statie\Generator\FileNameObjectSorter`](/packages/Statie/packages/Generator/src/FileNameObjectSorter.php) for inspiration.
+
 - [#573] Add Psalm, thanks to [@muglug]
 
 ### Changed
