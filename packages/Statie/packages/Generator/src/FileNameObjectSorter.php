@@ -13,9 +13,9 @@ final class FileNameObjectSorter implements ObjectSorterInterface
      */
     public function sort(array $files): array
     {
-        usort($files, function (AbstractFile $firstFile, AbstractFile $seconFile): int {
+        usort($files, function (AbstractFile $firstFile, AbstractFile $secondFile): int {
             // from newest to oldest, Z to A
-            return strcmp($seconFile->getFilePath(), $firstFile->getFilePath());
+            return strcmp($secondFile->getFilePath(), $firstFile->getFilePath());
         });
 
         return $files;
