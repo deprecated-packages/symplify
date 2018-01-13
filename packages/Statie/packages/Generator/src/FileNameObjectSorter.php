@@ -5,7 +5,7 @@ namespace Symplify\Statie\Generator;
 use Symplify\Statie\Generator\Contract\ObjectSorterInterface;
 use Symplify\Statie\Renderable\File\AbstractFile;
 
-final class ObjectSorter implements ObjectSorterInterface
+final class FileNameObjectSorter implements ObjectSorterInterface
 {
     /**
      * @param AbstractFile[] $files

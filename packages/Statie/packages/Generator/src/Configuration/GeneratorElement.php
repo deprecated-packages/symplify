@@ -3,7 +3,7 @@
 namespace Symplify\Statie\Generator\Configuration;
 
 use Symplify\Statie\Generator\Contract\ObjectSorterInterface;
-use Symplify\Statie\Generator\ObjectSorter;
+use Symplify\Statie\Generator\FileNameObjectSorter;
 use Symplify\Statie\Renderable\File\AbstractFile;
 use Symplify\Statie\Renderable\File\File;
 
@@ -79,7 +79,7 @@ final class GeneratorElement
             $configuration['layout'],
             $configuration['route_prefix'],
             $configuration['object'] ?? File::class,
-            isset($configuration['object_sorter']) ? new $configuration['object_sorter']() : new ObjectSorter()
+            isset($configuration['object_sorter']) ? new $configuration['object_sorter']() : new FileNameObjectSorter()
         );
     }
 
