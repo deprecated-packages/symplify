@@ -22,7 +22,7 @@ parameters:
         - '#Method Symplify\\TokenRunner\\Wrapper\\FixerWrapper\\DocBlockWrapper::getReturnTag\(\) should return Symplify\\BetterReflectionDocBlock\\Tag\\TolerantReturn\|null but returns phpDocumentor\\Reflection\\DocBlock\\Tag\|null#'
         - '#Parameter \#1 \$whitespacesFixerConfig of static method Symplify\\BetterReflectionDocBlock\\DocBlockSerializerFactory::createFromWhitespaceFixerConfigAndContent\(\) expects PhpCsFixer\\WhitespacesFixerConfig, PhpCsFixer\\WhitespacesFixerConfig\|null given#'
         - '#Parameter \#1 \$indexStart of method PhpCsFixer\\Tokenizer\\Tokens::overrideRange\(\) expects int, int\|null given#'
-        - '#Parameter \#2 \$indexEnd of method PhpCsFixer\\Tokenizer\\Tokens::overrideRange\(\) expects int, int\|null#'
+        - '#Parameter \#2 \$indexEnd of method PhpCsFixer\\Tokenizer\\Tokens::overrideRange\(\) expects int, int\|null given#'
 
         # intentional stricter phpDocumentor\Reflection\Types\This
         - '#Method Symplify\\[A-Za-z\\]+\\ContainerFactory::(create|createWithConfig)\(\) should return Symfony\\Component\\DependencyInjection\\Container but returns Symfony\\Component\\DependencyInjection\\ContainerInterface#'

@@ -1,0 +1,18 @@
+parameters:
+    generators:
+        # key name, nice to have for more informative error reports
+        lectures:
+            # name of variable inside single such item
+            variable: 'lecture'
+            # name of variable that contains all items
+            variable_global: 'lectures'
+            # directory, where to look for them
+            path: '_lectures'
+            # which layout to use - just key name
+            layout: 'lecture'
+            # and url prefix, e.g. /blog/some-post.md
+            route_prefix: 'lecture'
+            # object
+            object: 'Symplify\Statie\Generator\Tests\GeneratorSource\File\LectureFile'
+            # object sorter
+            object_sorter: 'Symplify\Statie\Generator\Tests\Configuration\GeneratorElementGuardSource\InvalidLectureSorter'

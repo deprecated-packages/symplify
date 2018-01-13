@@ -66,6 +66,8 @@ parameters:
 
         Symplify\CodingStandard\Sniffs\DependencyInjection\NoClassInstantiationSniff:
             - packages/TokenRunner/src/Wrapper/FixerWrapper/DocBlockWrapper.php
+            # allowed default static value
+            - packages/Statie/packages/Generator/src/Configuration/GeneratorElement.php
 
     skip_codes:
         SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff.MissingParameterTypeHint:

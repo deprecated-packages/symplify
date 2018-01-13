@@ -48,6 +48,11 @@ final class GeneratorExceptionsTest extends AbstractGeneratorTest
         $value = $post['key'];
     }
 
+    protected function getConfig(): string
+    {
+        return __DIR__ . '/GeneratorSource/statie.yml';
+    }
+
     private function getPost(): PostFile
     {
         $this->generator->run();
