@@ -83,8 +83,11 @@ final class GeneratorElementGuard
         ));
     }
 
+    /**
+     * @param int|string $key
+     */
     private static function ensureObjectIsInstanceOf(
-        string $key,
+        $key,
         string $optionName,
         string $object,
         string $expectedType

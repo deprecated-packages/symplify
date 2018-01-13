@@ -45,7 +45,7 @@ final class GeneratorElement
     private $objects = [];
 
     /**
-     * @var string
+     * @var ObjectSorterInterface
      */
     private $objectSorter;
 
