@@ -15,12 +15,12 @@
 
                 # Symplify\Statie\Generator\FileNameObjectSorter is used by default,
                 # it sorts files newer to older posts work by default 
-                object_sorter: 'Website\Statie\Generator\DateObjectSorter' 
+                object_sorter: 'Website\Statie\Generator\DateObjectSorter'
     ```
     
-    The sorter needs to implement `Symplify\Statie\Generator\Contract\ObjectSorterInterface` and it returns sorting function.
+    The sorter needs to implement `Symplify\Statie\Generator\Contract\ObjectSorterInterface` and be [loaded by composer](https://stackoverflow.com/a/25960097/1348344).
     
-    See [`Symplify\Statie\Generator\FileNameObjectSorter`](/packages/Statie/packages/Generator/src/FileNameObjectSorter.php) for inspiration.
+    It returns sorting function. For inspiration see [`Symplify\Statie\Generator\FileNameObjectSorter`](/packages/Statie/packages/Generator/src/FileNameObjectSorter.php) for inspiration.
 
 - [#573] Add Psalm, thanks to [@muglug]
 
