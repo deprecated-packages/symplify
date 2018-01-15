@@ -4,7 +4,7 @@
 
 ### Added
 
-- [#] **[EasyCodingStandard]** Add `exclude_files` option to config
+- [#583] **[EasyCodingStandard]** Add `exclude_files` option to config
 
 ## [v3.2.0] - 2018-01-13
 
@@ -749,3 +749,5 @@ For more deprecation details see https://www.tomasvotruba.cz/blog/2017/05/29/sym
 [#559]: https://github.com/Symplify/Symplify/pull/559
 [@tomasfejfar]: https://github.com/tomasfejfar
 [@muglug]: https://github.com/muglug
+[#583]: https://github.com/Symplify/Symplify/pull/583
+[#578]: https://github.com/Symplify/Symplify/pull/578
