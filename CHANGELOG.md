@@ -33,8 +33,8 @@
 ### Changed
 
 - [#576] Bump to PHP CS Fixer 2.10 + minor lock to prevent BC breaks that happen for last 4 minor versions
-- [#560] Added `UnnecessaryStringConcatSniff` to `clean-code.neon` level, thanks to [@carusogabriel]
-- [#560] Added `PhpdocVarWithoutNameFixer` to `docblock.neon` level, thanks to [@carusogabriel]
+- [#560] **[EasyCodingStandard]** Added `UnnecessaryStringConcatSniff` to `clean-code.neon` level, thanks to [@carusogabriel]
+- [#560] **[EasyCodingStandard]** Added `PhpdocVarWithoutNameFixer` to `docblock.neon` level, thanks to [@carusogabriel]
 - [#578] Use `@doesNotPerformAssertions` in tests, thanks to [@carusogabriel]
 
 ## Fixed
