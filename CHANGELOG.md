@@ -1,5 +1,11 @@
 # Changelog
 
+## [Unreleased]
+
+### Added
+
+- [#] **[EasyCodingStandard]** Add `exclude_files` option to config
+
 ## [v3.2.0] - 2018-01-13
 
 ### Added
