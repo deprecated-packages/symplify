@@ -50,35 +50,6 @@ final class MethodCallWrapper
         return new self($tokens, $position);
     }
 
-    /**
-     * @return ArgumentWrapper[]
-     */
-    public function getArguments(): array
-    {
-        $argumentsBracketStart = $this->tokens->getNextTokenOfKind($this->index, ['(']);
-        $argumentsBracketEnd = $this->tokens->findBlockEnd(
-            Tokens::BLOCK_TYPE_PARENTHESIS_BRACE,
-            $argumentsBracketStart
-        );
-
-        if ($argumentsBracketStart === ($argumentsBracketEnd + 1)) {
-            return [];
-        }
-
-        $arguments = [];
-        for ($i = $argumentsBracketStart + 1; $i < $argumentsBracketEnd; ++$i) {
-            $token = $this->tokens[$i];
-
-            if ($token->isGivenKind(T_VARIABLE) === false) {
-                continue;
-            }
-
-            $arguments[] = ArgumentWrapper::createFromTokensAndPosition($this->tokens, $i);
-        }
-
-        return $arguments;
-    }
-
     public function getFirstLineLength(): int
     {
         $lineLength = 0;
