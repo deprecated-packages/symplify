@@ -8,5 +8,7 @@ class SomeClass
             $someLoooooooooooooongArgument,
             $anotherLoooooooooooooooooooooooooooooooooooongArgumentTo
         );
+
+        $this->someFunctionCall($superShort, $anotherShort);
     }
 }

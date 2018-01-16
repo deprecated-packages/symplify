@@ -52,7 +52,7 @@ final class BreakMethodCallsFixer implements DefinedFixerInterface, WhitespacesA
             new CodeSample(
                 '<?php
 $someClass = new SomeClass;
-$someClass->someMethod(SuperLongArguments $superLongArguments, AnotherLongArguments $anotherLongArguments);
+$someClass->someMethod($superLongArgument, $superLongArgument, $superLongArgument, $superLongArgument);
 }'
             ),
         ]);
@@ -140,8 +140,11 @@ $someClass->someMethod(SuperLongArguments $superLongArguments, AnotherLongArgume
         $this->newlineIndentWhitespace = $lineEnding . $this->indentWhitespace;
     }
 
-    private function breakMethodCallParameters(MethodCallWrapper $methodCallWrapper, Tokens $tokens, int $position): void
-    {
+    private function breakMethodCallParameters(
+        MethodCallWrapper $methodCallWrapper,
+        Tokens $tokens,
+        int $position
+    ): void {
         $this->prepareIndentWhitespaces($tokens, $position);
 
         $start = $methodCallWrapper->getArgumentsBracketStart();
@@ -163,8 +166,11 @@ $someClass->someMethod(SuperLongArguments $superLongArguments, AnotherLongArgume
         }
     }
 
-    private function inlineMethodCallParameters(MethodCallWrapper $methodCallWrapper, Tokens $tokens, int $position): void
-    {
+    private function inlineMethodCallParameters(
+        MethodCallWrapper $methodCallWrapper,
+        Tokens $tokens,
+        int $position
+    ): void {
         $endPosition = $methodCallWrapper->getArgumentsBracketEnd();
 
         // replace PHP_EOL with " "
