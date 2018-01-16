@@ -147,6 +147,7 @@ $someClass->someMethod($superLongArgument, $superLongArgument, $superLongArgumen
 
         for ($i = $start; $i < $end; ++$i) {
             $currentToken = $tokens[$i];
+            $i = TokenSkipper::skipBlocks($tokens, $i);
 
             // 3. new line after each comma ",", instead of just space
             if ($currentToken->getContent() === ',') {
