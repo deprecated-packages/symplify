@@ -9,14 +9,10 @@ class SomeClass
             'two' => 2,
         ], $parameterProvider->provide());
 
-        $this->easyCodingStandardStyle->error(
-            -                sprintf('Found %d error%s.',
-                -                $errorCount,
-                -                $errorCount === 1 ? '' : 's')
-            -            );
-        +            $this->easyCodingStandardStyle->error(sprintf('Found %d error%s.', $errorCount, $errorCount === 1 ? '' : 's'));
-
+        $this->easyCodingStandardStyle->error(sprintf(
+            'Found %d error%s.',
+            $errorCount,
+            $errorCount === 1 ? '' : 's'
+        ));
     }
-
-
 }
