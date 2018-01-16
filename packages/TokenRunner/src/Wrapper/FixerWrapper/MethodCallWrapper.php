@@ -92,9 +92,9 @@ final class MethodCallWrapper
 
         $currentToken = $this->tokens[$currentPosition];
 
-        // includes indent in the beggining
+        // includes indent in the beginning
         // -1 = do not count PHP_EOL as character
-        $lineLength += strlen($currentToken->getContent()) - 2;
+        $lineLength += strlen($currentToken->getContent()) - 1;
 
         // compute from here to end of line
         $currentPosition = $this->index + 1;

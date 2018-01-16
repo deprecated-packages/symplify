@@ -194,6 +194,11 @@ $someClass->someMethod($superLongArgument, $superLongArgument, $superLongArgumen
             return false;
         }
 
+        // is "someCall()"?
+        if ($tokens[$next + 1]->equals(')')) {
+            return false;
+        }
+
         // is "(->|::|)someCall"?
         $functionNamePrefix = $tokens->getPrevMeaningfulToken($position);
 
