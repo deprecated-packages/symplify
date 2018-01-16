@@ -194,9 +194,9 @@ $someClass->someMethod($superLongArgument, $superLongArgument, $superLongArgumen
             return false;
         }
 
-        // is "(->|::|function )someCall"?
+        // is "(->|::|)someCall"?
         $functionNamePrefix = $tokens->getPrevMeaningfulToken($position);
 
-        return $tokens[$functionNamePrefix]->isGivenKind([T_DOUBLE_COLON, T_OBJECT_OPERATOR, T_FUNCTION]);
+        return $tokens[$functionNamePrefix]->isGivenKind([T_DOUBLE_COLON, T_OBJECT_OPERATOR]);
     }
 }
