@@ -143,8 +143,7 @@ final class CheckersExtension extends Extension
      */
     private function removeExcludedCheckers(array $checkers, ParameterBagInterface $parameterBag): array
     {
-        $excludedCheckers = $parameterBag->has(self::EXCLUDE_CHECKERS_OPTION)
-            ? (array) $parameterBag->get(self::EXCLUDE_CHECKERS_OPTION) : [];
+        $excludedCheckers = $this->resolveExcludedCheckersOption($parameterBag);
 
         $this->checkerTypeValidator->validate($excludedCheckers, 'parameters > exclude_checkers');
 
@@ -153,5 +152,22 @@ final class CheckersExtension extends Extension
         }
 
         return $checkers;
+    }
+
+    /**
+     * @return string[]
+     */
+    private function resolveExcludedCheckersOption(ParameterBagInterface $parameterBag): array
+    {
+        if ($parameterBag->has(self::EXCLUDE_CHECKERS_OPTION)) {
+            return $parameterBag->get(self::EXCLUDE_CHECKERS_OPTION);
+        }
+
+        // typo proof
+        if ($parameterBag->has('excluded_checkers')) {
+            return $parameterBag->get('excluded_checkers');
+        }
+
+        return [];
     }
 }
