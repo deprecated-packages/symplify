@@ -12,6 +12,7 @@ use PhpCsFixer\Tokenizer\Tokens;
 use PhpCsFixer\WhitespacesFixerConfig;
 use SplFileInfo;
 use Symplify\TokenRunner\Analyzer\FixerAnalyzer\IndentDetector;
+use Symplify\TokenRunner\Analyzer\FixerAnalyzer\TokenSkipper;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\MethodCallWrapper;
 
 final class BreakMethodCallsFixer implements DefinedFixerInterface, WhitespacesAwareFixerInterface
@@ -165,6 +166,7 @@ $someClass->someMethod($superLongArgument, $superLongArgument, $superLongArgumen
         for ($i = $position; $i < $endPosition; ++$i) {
             $currentToken = $tokens[$i];
 
+            $i = TokenSkipper::skipBlocks($tokens, $i);
             if (! $currentToken->isGivenKind(T_WHITESPACE)) {
                 continue;
             }
