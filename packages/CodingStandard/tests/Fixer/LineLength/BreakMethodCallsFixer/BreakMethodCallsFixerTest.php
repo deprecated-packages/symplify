@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Fixer\LineLength\BreakMethodCallsgumentsFixer;
+namespace Symplify\CodingStandard\Tests\Fixer\LineLength\BreakMethodCallsFixer;
 
 use PhpCsFixer\Fixer\FixerInterface;
 use PhpCsFixer\WhitespacesFixerConfig;
