@@ -69,19 +69,7 @@ $someClass->someMethod($superLongArgument, $superLongArgument, $superLongArgumen
         $reversedTokens = array_reverse($tokens->toArray(), true);
 
         foreach ($reversedTokens as $position => $token) {
-            if (! $token->isGivenKind(T_STRING)) {
-                continue;
-            }
-
-            // is "someCall("?
-            $next = $tokens->getNextMeaningfulToken($position);
-            if (! $tokens[$next]->equals('(')) {
-                continue;
-            }
-
-            // is "(->|::|function )someCall"?
-            $functionNamePrefix = $tokens->getPrevMeaningfulToken($position);
-            if (! $tokens[$functionNamePrefix]->isGivenKind([T_DOUBLE_COLON, T_OBJECT_OPERATOR, T_FUNCTION])) {
+            if (! $this->isMethodCall($tokens, $token, $position)) {
                 continue;
             }
 
@@ -190,5 +178,23 @@ $someClass->someMethod($superLongArgument, $superLongArgument, $superLongArgumen
 
             $tokens[$i] = new Token([T_WHITESPACE, ' ']);
         }
+    }
+
+    private function isMethodCall(Tokens $tokens, Token $token, int $position): bool
+    {
+        if (! $token->isGivenKind(T_STRING)) {
+            return false;
+        }
+
+        // is "someCall("?
+        $next = $tokens->getNextMeaningfulToken($position);
+        if (! $tokens[$next]->equals('(')) {
+            return false;
+        }
+
+        // is "(->|::|function )someCall"?
+        $functionNamePrefix = $tokens->getPrevMeaningfulToken($position);
+
+        return $tokens[$functionNamePrefix]->isGivenKind([T_DOUBLE_COLON, T_OBJECT_OPERATOR, T_FUNCTION]);
     }
 }
