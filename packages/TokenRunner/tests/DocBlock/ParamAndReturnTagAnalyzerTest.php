@@ -22,11 +22,7 @@ final class ParamAndReturnTagAnalyzerTest extends TestCase
      */
     public function test(?string $docType, ?string $docDescription, string $paramType, bool $expectedIsUseful): void
     {
-        $isUseful = $this->paramAndReturnTagAnalyzer->isTagUseful(
-            $docType,
-            $docDescription,
-            $paramType
-        );
+        $isUseful = $this->paramAndReturnTagAnalyzer->isTagUseful($docType, $docDescription, $paramType);
 
         $this->assertSame($expectedIsUseful, $isUseful);
     }

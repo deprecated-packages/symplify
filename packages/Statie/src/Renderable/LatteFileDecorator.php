@@ -102,11 +102,7 @@ final class LatteFileDecorator implements FileDecoratorInterface
 
     private function prependLayoutToFileContent(AbstractFile $file, string $layout): void
     {
-        $file->changeContent(
-            sprintf('{layout "%s"}', $layout) .
-            PHP_EOL .
-            $file->getContent()
-        );
+        $file->changeContent(sprintf('{layout "%s"}', $layout) . PHP_EOL . $file->getContent());
     }
 
     /**

@@ -167,10 +167,7 @@ final class UnusedPublicMethodSniff implements Sniff, DualRunInterface
             return;
         }
 
-        $this->file->addError(sprintf(
-            self::MESSAGE,
-            $methodName
-        ), $this->position, self::class);
+        $this->file->addError(sprintf(self::MESSAGE, $methodName), $this->position, self::class);
     }
 
     private function isPublicMethodToken(array $token): bool

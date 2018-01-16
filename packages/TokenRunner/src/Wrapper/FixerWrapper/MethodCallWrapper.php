@@ -127,6 +127,9 @@ final class MethodCallWrapper
             --$currentPosition;
         }
 
+        // get spaces to first line
+        $lineLength += strlen($this->tokens[$currentPosition]->getContent());
+
         // get length from start of function till end of arguments - with spaces as one
         $currentPosition = $this->index;
         while ($currentPosition < $this->argumentsBracketEnd) {
