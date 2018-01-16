@@ -53,8 +53,7 @@ final class BreakMethodCallsFixer implements DefinedFixerInterface, WhitespacesA
             new CodeSample(
                 '<?php
 $someClass = new SomeClass;
-$someClass->someMethod($superLongArgument, $superLongArgument, $superLongArgument, $superLongArgument);
-}'
+$someClass->someMethod($superLongArgument, $superLongArgument, $superLongArgument, $superLongArgument);'
             ),
         ]);
     }
