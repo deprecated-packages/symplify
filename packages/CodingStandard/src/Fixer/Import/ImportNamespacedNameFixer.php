@@ -204,7 +204,10 @@ final class ImportNamespacedNameFixer implements DefinedFixerInterface, Configur
         }
 
         foreach ($this->namesToAddIntoUseStatements as $nameToAddIntoUseStatements) {
-            if ($nameToAddIntoUseStatements->getLastName() === $name->getLastName() && $nameToAddIntoUseStatements->getName() !== $name->getName()) {
+            if (
+                $nameToAddIntoUseStatements->getLastName() === $name->getLastName()
+                && $nameToAddIntoUseStatements->getName() !== $name->getName()
+            ) {
                 $uniquePrefix = $name->getFirstName();
                 $name->addAlias($uniquePrefix . $name->getLastName());
                 return $name;
