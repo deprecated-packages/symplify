@@ -34,6 +34,10 @@
         "tracy/tracy": "^2.4",
         "vimeo/psalm": "0.3.87"
     },
+    "replace": {
+        "symplify/statie": "self.version",
+        "symplify/easy-coding-standard": "self.version"
+    },
     "autoload": {
         "psr-4": {
             "Symplify\\BetterReflectionDocBlock\\": "packages/BetterReflectionDocBlock/src",

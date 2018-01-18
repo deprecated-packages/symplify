@@ -2,12 +2,18 @@
 
 namespace Symplify\Statie\Console;
 
+use Jean85\PrettyVersions;
 use Symfony\Component\Console\Application as SymfonyApplication;
 use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputOption;
 
 final class Application extends SymfonyApplication
 {
+    public function __construct()
+    {
+        parent::__construct('Statie', PrettyVersions::getVersion('symplify/statie')->getPrettyVersion());
+    }
+
     protected function getDefaultInputDefinition(): InputDefinition
     {
         $inputDefinition = parent::getDefaultInputDefinition();
