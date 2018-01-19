@@ -22,11 +22,7 @@ final class DescriptionAnalyzerTest extends TestCase
      */
     public function test(string $description, string $type, string $name, bool $expectedIsUseful): void
     {
-        $isUseful = $this->descriptionAnalyzer->isDescriptionUseful(
-            $description,
-            $type,
-            $name
-        );
+        $isUseful = $this->descriptionAnalyzer->isDescriptionUseful($description, $type, $name);
 
         $this->assertSame($expectedIsUseful, $isUseful);
     }

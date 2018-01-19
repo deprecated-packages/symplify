@@ -74,14 +74,17 @@
         "complete-check": [
             "phpunit",
             "@fix-cs",
-            "@phpstan"
+            "@static"
         ],
         "check-cs": "packages/EasyCodingStandard/bin/ecs check packages",
         "fix-cs": [
             "packages/EasyCodingStandard/bin/ecs check packages --fix",
             "build/clear_readmes.sh"
         ],
-        "phpstan": "vendor/bin/phpstan analyse packages --level max --configuration phpstan.neon"
+        "static": [
+            "vendor/bin/phpstan analyse packages --level max --configuration phpstan.neon",
+            "vendor/bin/psalm --show-info=false"
+        ]
     },
     "config": {
         "sort-packages": true

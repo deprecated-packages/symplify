@@ -70,7 +70,7 @@ final class ImportNamespacedNameFixer implements DefinedFixerInterface, Configur
     /**
      * @var Name[]
      */
-    private $namesToAddIntoUseStatements = [];
+    private $newUseStatementNames = [];
 
     public function __construct()
     {
@@ -97,7 +97,7 @@ final class ImportNamespacedNameFixer implements DefinedFixerInterface, Configur
     public function fix(SplFileInfo $file, Tokens $tokens): void
     {
         $this->useImports = (new UseImportsFactory())->createForTokens($tokens);
-        $this->namesToAddIntoUseStatements = [];
+        $this->newUseStatementNames = [];
 
         for ($index = $tokens->getSize() - 1; $index > 0; --$index) {
             $token = $tokens[$index];
@@ -122,7 +122,7 @@ final class ImportNamespacedNameFixer implements DefinedFixerInterface, Configur
             }
         }
 
-        UseImportsTransformer::addNamesToTokens($this->namesToAddIntoUseStatements, $tokens);
+        UseImportsTransformer::addNamesToTokens($this->newUseStatementNames, $tokens);
     }
 
     /**
@@ -203,8 +203,8 @@ final class ImportNamespacedNameFixer implements DefinedFixerInterface, Configur
             }
         }
 
-        foreach ($this->namesToAddIntoUseStatements as $nameToAddIntoUseStatements) {
-            if ($nameToAddIntoUseStatements->getLastName() === $name->getLastName() && $nameToAddIntoUseStatements->getName() !== $name->getName()) {
+        foreach ($this->newUseStatementNames as $newUseStatementName) {
+            if ($this->shouldBeUniquated($newUseStatementName, $name)) {
                 $uniquePrefix = $name->getFirstName();
                 $name->addAlias($uniquePrefix . $name->getLastName());
                 return $name;
@@ -231,7 +231,7 @@ final class ImportNamespacedNameFixer implements DefinedFixerInterface, Configur
         // replace with last name part
         $tokens->overrideRange($name->getStart(), $name->getEnd(), [$name->getLastNameToken()]);
 
-        $this->namesToAddIntoUseStatements[] = $name;
+        $this->newUseStatementNames[] = $name;
     }
 
     private function processDocCommentToken(int $index, Tokens $tokens): void
@@ -266,7 +266,7 @@ final class ImportNamespacedNameFixer implements DefinedFixerInterface, Configur
             return;
         }
 
-        $this->namesToAddIntoUseStatements[] = NameFactory::createFromStringAndTokens($fullName, $tokens);
+        $this->newUseStatementNames[] = NameFactory::createFromStringAndTokens($fullName, $tokens);
     }
 
     private function processParamsTags(DocBlockWrapper $docBlockWrapper, Tokens $tokens): void
@@ -277,7 +277,7 @@ final class ImportNamespacedNameFixer implements DefinedFixerInterface, Configur
                 return;
             }
 
-            $this->namesToAddIntoUseStatements[] = NameFactory::createFromStringAndTokens($fullName, $tokens);
+            $this->newUseStatementNames[] = NameFactory::createFromStringAndTokens($fullName, $tokens);
         }
     }
 
@@ -293,7 +293,7 @@ final class ImportNamespacedNameFixer implements DefinedFixerInterface, Configur
             return;
         }
 
-        $this->namesToAddIntoUseStatements[] = NameFactory::createFromStringAndTokens($fullName, $tokens);
+        $this->newUseStatementNames[] = NameFactory::createFromStringAndTokens($fullName, $tokens);
     }
 
     /**
@@ -322,5 +322,18 @@ final class ImportNamespacedNameFixer implements DefinedFixerInterface, Configur
         (new PrivatesSetter())->setPrivateProperty($objectType, 'fqsen', new Fqsen('\\' . $lastName));
 
         return $usedName;
+    }
+
+    private function shouldBeUniquated(Name $newUseStatementName, Name $name): bool
+    {
+        if ($newUseStatementName->getLastName() !== $name->getLastName()) {
+            return false;
+        }
+
+        if ($newUseStatementName->getName() === $name->getName()) {
+            return false;
+        }
+
+        return true;
     }
 }
