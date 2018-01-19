@@ -17,7 +17,6 @@ checkers:
     - PhpCsFixer\Fixer\LanguageConstruct\DeclareEqualNormalizeFixer
 
     # typehints
-    - PhpCsFixer\Fixer\FunctionNotation\ReturnTypeDeclarationFixer
     SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff:
         enableEachParameterAndReturnInspection: true
         enableVoidTypeHint: false
