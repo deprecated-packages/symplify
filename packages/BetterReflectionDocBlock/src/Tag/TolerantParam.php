@@ -2,6 +2,7 @@
 
 namespace Symplify\BetterReflectionDocBlock\Tag;
 
+use Nette\Utils\Strings;
 use phpDocumentor\Reflection\DocBlock\Description;
 use phpDocumentor\Reflection\DocBlock\DescriptionFactory;
 use phpDocumentor\Reflection\DocBlock\Tags\BaseTag;
@@ -128,7 +129,7 @@ final class TolerantParam extends BaseTag
     private static function isVariadicParam(array $parts): bool
     {
         return isset($parts[0])
-            && strlen($parts[0]) > 0
-            && $parts[0][0] === '$' || substr($parts[0], 0, 4) === '...$';
+           && strlen($parts[0]) > 0
+           && $parts[0][0] === '$' || Strings::startsWith($parts[0], '...$');
     }
 }
