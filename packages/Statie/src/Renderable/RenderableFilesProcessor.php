@@ -3,6 +3,7 @@
 namespace Symplify\Statie\Renderable;
 
 use Symfony\Component\Finder\SplFileInfo;
+use Symplify\Statie\Configuration\Configuration;
 use Symplify\Statie\Contract\Renderable\FileDecoratorInterface;
 use Symplify\Statie\Generator\Configuration\GeneratorElement;
 use Symplify\Statie\Renderable\File\AbstractFile;
@@ -20,9 +21,15 @@ final class RenderableFilesProcessor
      */
     private $fileDecorators = [];
 
-    public function __construct(FileFactory $fileFactory)
+    /**
+     * @var Configuration
+     */
+    private $configuration;
+
+    public function __construct(FileFactory $fileFactory, Configuration $configuration)
     {
         $this->fileFactory = $fileFactory;
+        $this->configuration = $configuration;
     }
 
     public function addFileDecorator(FileDecoratorInterface $fileDecorator): void
@@ -62,6 +69,11 @@ final class RenderableFilesProcessor
         foreach ($this->fileDecorators as $fileDecorator) {
             $objects = $fileDecorator->decorateFilesWithGeneratorElement($objects, $generatorElement);
         }
+
+        $objectSorter = $generatorElement->getObjectSorter();
+        $objects = $objectSorter->sort($objects);
+
+        $this->configuration->addOption($generatorElement->getVariableGlobal(), $objects);
 
         return $objects;
     }

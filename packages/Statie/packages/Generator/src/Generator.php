@@ -71,11 +71,7 @@ final class Generator
             // process to objects
             $objects = $this->fileFactory->createFromFileInfosAndClass($fileInfos, $generatorElement->getObject());
 
-            // sort them
-            $objectSorter = $generatorElement->getObjectSorter();
-            $objects = $objectSorter->sort($objects);
-
-            // save them to property
+            // save them to property (for "related_items" option)
             $this->configuration->addOption($generatorElement->getVariableGlobal(), $objects);
 
             $generatorElement->setObjects($objects);
