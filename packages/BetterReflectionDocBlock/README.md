@@ -54,6 +54,34 @@ Slim wrapper around [phpdocumentor/reflection-docblock](https://github.com/phpDo
 
 - Fixes [redundant empty space while saving the docblock to string](https://github.com/phpDocumentor/ReflectionDocBlock/pull/138)
 - Does not add extra pre-slash while saving the docblock - `@param \SomeClass`
+
+    **Original**
+
+    ```php
+    /**
+     * @return Type
+     * @throw \AnotherType
+     */
+    ```
+    
+    **Reflection DocBlock**
+    
+    ```php
+    /**
+     * @return \Type
+     * @throw \AnotherType
+     */
+    ```
+        
+    **Better Reflection DocBlock**
+        
+    ```php
+    /**
+     * @return Type
+     * @throw \AnotherType
+     */
+    ```
+
 - Respects empty lines between tags
 
     **Original**
