@@ -2,4 +2,7 @@
  * @param something $value
  *
  * @return bool
+ * @throw that
+ *
+ * @drop this
  */
