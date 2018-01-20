@@ -4,37 +4,36 @@ namespace Symplify\BetterReflectionDocBlock;
 
 use phpDocumentor\Reflection\DocBlock;
 use phpDocumentor\Reflection\DocBlock\Serializer;
+use Symplify\BetterReflectionDocBlock\Renderer\OriginalSpacingCompleter;
 use Symplify\PackageBuilder\Reflection\PrivatesCaller;
 
 /**
  * Includes empty indent fix
  *
- * @See https://github.com/phpDocumentor/ReflectionDocBlock/pull/138
+ * @see https://github.com/phpDocumentor/ReflectionDocBlock/pull/138
  */
 final class FixedSerializer extends Serializer
 {
+    /**
+     * @var string
+     */
+    private $originalContent;
+
+    public function setOriginalContent(string $originalContent): void
+    {
+        $this->originalContent = $originalContent;
+    }
+
     public function getDocComment(DocBlock $docBlock): string
     {
-        $privatesCaller = new PrivatesCaller();
-
         $indent = str_repeat($this->indentString, $this->indent);
         $firstIndent = $this->isFirstLineIndented ? $indent : '';
         // 3 === strlen(' * ')
         $wrapLength = $this->lineLength ? $this->lineLength - strlen($indent) - 3 : null;
 
-        $text = $privatesCaller->callPrivateMethod(
-            $this,
-            'removeTrailingSpaces',
-            $indent,
-            $privatesCaller->callPrivateMethod(
-                $this,
-                'addAsterisksForEachLine',
-                $indent,
-                $privatesCaller->callPrivateMethod($this, 'getSummaryAndDescriptionTextBlock', $docBlock, $wrapLength)
-            )
-        );
+        $text = $this->prepareText($docBlock, $indent, $wrapLength);
 
-        // opening
+        // opening tag
         $comment = $firstIndent . '/**' . PHP_EOL;
 
         // description
@@ -48,6 +47,7 @@ final class FixedSerializer extends Serializer
         }
 
         // tags
+        $privatesCaller = new PrivatesCaller();
         if ($docBlock->getTags()) {
             $comment = $privatesCaller->callPrivateMethod(
                 $this,
@@ -57,11 +57,34 @@ final class FixedSerializer extends Serializer
                 $indent,
                 $comment
             );
+
+            if ($this->originalContent) {
+                $comment = (new OriginalSpacingCompleter())->completeTagSpaces($comment, $this->originalContent);
+            }
         }
 
-        // closing
-        $comment .= $indent . ' */';
+        // closing tag
+        return $comment . $indent . ' */';
+    }
 
-        return $comment;
+    private function prepareText(DocBlock $docBlock, string $indent, ?int $wrapLength): string
+    {
+        $privatesCaller = new PrivatesCaller();
+
+        $summaryAndDescription = $privatesCaller->callPrivateMethod(
+            $this,
+            'getSummaryAndDescriptionTextBlock',
+            $docBlock,
+            $wrapLength
+        );
+
+        $summaryAndDescription = $privatesCaller->callPrivateMethod(
+            $this,
+            'addAsterisksForEachLine',
+            $indent,
+            $summaryAndDescription
+        );
+
+        return $privatesCaller->callPrivateMethod($this, 'removeTrailingSpaces', $indent, $summaryAndDescription);
     }
 }

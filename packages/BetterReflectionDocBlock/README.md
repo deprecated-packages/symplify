@@ -6,9 +6,84 @@
 Slim wrapper around [phpdocumentor/reflection-docblock](https://github.com/phpDocumentor/ReflectionDocBlock) **with better DX, simpler API** and this features:
 
 - Accepts invalid `@param` and `@return` annotations instead of throwing exceptions
-- Differentiates between `mixed[]` and `array` types
-- Fixes redundant empty space while saving the docblock to string
+
+    **Original**
+
+    ```php
+    /**
+     * @param \string
+     */
+    ```
+    
+    **Reflection DocBlock**
+    
+    - `throws Exception`
+
+    **Better Reflection DocBlock**
+
+    - :+1: 
+
+- Differentiates [between `mixed[]` and `array` types](https://github.com/phpDocumentor/TypeResolver/pull/48)
+
+    **Original**
+
+    ```php
+    /**
+     * @param array $value
+     * @return mixed[]
+     */
+    ```
+    
+    **Reflection DocBlock**
+    
+    ```php
+    /**
+     * @param array $value
+     * @return array 
+     */
+    ```
+
+    **Better Reflection DocBlock**
+    
+    ```php
+    /**
+     * @param array $value
+     * @return mixed[]
+     */
+    ```
+
+- Fixes [redundant empty space while saving the docblock to string](https://github.com/phpDocumentor/ReflectionDocBlock/pull/138)
 - Does not add extra pre-slash while saving the docblock - `@param \SomeClass`
+- Respects empty lines between tags
+
+    **Original**
+
+    ```php
+    /**
+     * @param string $value
+     *
+     * @return int
+     */
+    ```
+    
+    **Reflection DocBlock**
+
+    ```php
+    /**
+     * @param string $value
+     * @return int
+     */
+    ```
+
+    **Better Reflection DocBlock**
+
+    ```php
+    /**
+     * @param string $value
+     *   
+     * @return int
+     */
+    ```
 
 ## Install
 
