@@ -25,7 +25,6 @@ final class FixedSerializerTest extends TestCase
     public function testKeepSpaceBetweentTagsAsBefore(): void
     {
         $docBlockContent = file_get_contents(__DIR__ . '/FixedSerializerSource/originalDocBlock.txt');
-
         $docBlock = (new CleanDocBlockFactory())->create($docBlockContent);
 
         $cleanFormatter = new CleanFormatter($docBlockContent);

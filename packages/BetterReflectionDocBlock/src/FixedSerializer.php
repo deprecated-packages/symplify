@@ -15,24 +15,12 @@ final class FixedSerializer extends Serializer
 {
     public function getDocComment(DocBlock $docBlock): string
     {
-        $privatesCaller = new PrivatesCaller();
-
         $indent = str_repeat($this->indentString, $this->indent);
         $firstIndent = $this->isFirstLineIndented ? $indent : '';
         // 3 === strlen(' * ')
         $wrapLength = $this->lineLength ? $this->lineLength - strlen($indent) - 3 : null;
 
-        $text = $privatesCaller->callPrivateMethod(
-            $this,
-            'removeTrailingSpaces',
-            $indent,
-            $privatesCaller->callPrivateMethod(
-                $this,
-                'addAsterisksForEachLine',
-                $indent,
-                $privatesCaller->callPrivateMethod($this, 'getSummaryAndDescriptionTextBlock', $docBlock, $wrapLength)
-            )
-        );
+        $text = $this->prepareText($docBlock, $indent, $wrapLength);
 
         // opening
         $comment = $firstIndent . '/**' . PHP_EOL;
@@ -48,6 +36,7 @@ final class FixedSerializer extends Serializer
         }
 
         // tags
+        $privatesCaller = new PrivatesCaller();
         if ($docBlock->getTags()) {
             $comment = $privatesCaller->callPrivateMethod(
                 $this,
@@ -63,5 +52,26 @@ final class FixedSerializer extends Serializer
         $comment .= $indent . ' */';
 
         return $comment;
+    }
+
+    private function prepareText(DocBlock $docBlock, string $indent, ?int $wrapLength): string
+    {
+        $privatesCaller = new PrivatesCaller();
+
+        $summaryAndDescription = $privatesCaller->callPrivateMethod(
+            $this,
+            'getSummaryAndDescriptionTextBlock',
+            $docBlock,
+            $wrapLength
+        );
+
+        $summaryAndDescription = $privatesCaller->callPrivateMethod(
+            $this,
+            'addAsterisksForEachLine',
+            $indent,
+            $summaryAndDescription
+        );
+
+        return $privatesCaller->callPrivateMethod($this, 'removeTrailingSpaces', $indent, $summaryAndDescription);
     }
 }
