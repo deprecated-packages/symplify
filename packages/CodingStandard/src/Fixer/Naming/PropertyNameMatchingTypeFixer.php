@@ -29,6 +29,9 @@ final class PropertyNameMatchingTypeFixer implements DefinedFixerInterface, Conf
      * @var string[]
      */
     public $skippedClasses = [
+        'self',
+        'static',
+        'this',
         '*DateTime*',
         '*Spl*',
         'std*',
