@@ -37,12 +37,12 @@ final class OriginalSpacingCompleterTest extends TestCase
         return [
             [
                 __DIR__ . '/OriginalSpacingCompleterSource/original/original1.txt',
-                __DIR__ . '/OriginalSpacingCompleterSource/messed/messed1.txt'
+                __DIR__ . '/OriginalSpacingCompleterSource/messed/messed1.txt',
             ],
             [
                 __DIR__ . '/OriginalSpacingCompleterSource/original/original2.txt',
-                __DIR__ . '/OriginalSpacingCompleterSource/messed/messed2.txt'
-            ]
+                __DIR__ . '/OriginalSpacingCompleterSource/messed/messed2.txt',
+            ],
         ];
     }
 }
