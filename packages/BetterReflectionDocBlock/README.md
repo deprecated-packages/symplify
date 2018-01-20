@@ -63,18 +63,18 @@ Slim wrapper around [phpdocumentor/reflection-docblock](https://github.com/phpDo
      * @throw \AnotherType
      */
     ```
-    
+
     **Reflection DocBlock**
-    
+
     ```php
     /**
      * @return \Type
      * @throw \AnotherType
      */
     ```
-        
+
     **Better Reflection DocBlock**
-        
+
     ```php
     /**
      * @return Type

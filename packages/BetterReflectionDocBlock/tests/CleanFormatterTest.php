@@ -5,7 +5,6 @@ namespace Symplify\BetterReflectionDocBlock\Tests;
 use PhpCsFixer\WhitespacesFixerConfig;
 use PHPUnit\Framework\TestCase;
 use Symplify\BetterReflectionDocBlock\CleanDocBlockFactory;
-use Symplify\BetterReflectionDocBlock\CleanFormatter;
 use Symplify\BetterReflectionDocBlock\DocBlockSerializerFactory;
 
 final class CleanFormatterTest extends TestCase
@@ -26,7 +25,6 @@ final class CleanFormatterTest extends TestCase
         $this->docBlockSerializerFactory = new DocBlockSerializerFactory();
     }
 
-
     public function test(): void
     {
         $originalDocBlockContent = file_get_contents(__DIR__ . '/CleanFormatterSource/originalDocBlock.txt');
@@ -38,6 +36,9 @@ final class CleanFormatterTest extends TestCase
         );
 
         $resultDocBlock = $docBlockSerializer->getDocComment($docBlock);
-        $this->assertSame(file_get_contents(__DIR__ . '/CleanFormatterSource/expectedDocBlock.txt'), trim($resultDocBlock));
+        $this->assertSame(
+            file_get_contents(__DIR__ . '/CleanFormatterSource/expectedDocBlock.txt'),
+            trim($resultDocBlock)
+        );
     }
 }
