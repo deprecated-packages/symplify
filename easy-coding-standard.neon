@@ -28,6 +28,7 @@ checkers:
             - Symplify\TokenRunner\*
             - Symplify\PackageBuilder\Reflection\*
             - phpDocumentor\Reflection\Fqsen
+            - Symplify\BetterReflectionDocBlock\*
 
 parameters:
     exclude_checkers:

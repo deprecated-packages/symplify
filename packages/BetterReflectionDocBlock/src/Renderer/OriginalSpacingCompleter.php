@@ -15,6 +15,11 @@ final class OriginalSpacingCompleter
      */
     private const TAG_WITH_SPACE_PATTERN = '#\s\*[\s]+\*\s@(?<tag>[a-z]+)#';
 
+    /**
+     * @var string
+     */
+    private const TAG_WITH_NEWLINE_PATTERN = '#(?<new_line>[\s]+\*\s)@%s#';
+
     public function completeTagSpaces(string $newContent, string $originalContent): string
     {
         $result = Strings::matchAll($originalContent, self::TAG_WITH_SPACE_PATTERN);
@@ -24,7 +29,9 @@ final class OriginalSpacingCompleter
 
         foreach ($result as $match) {
             $tag = $match['tag'];
-            $newContent = Strings::replace($newContent,'#(?<new_line>[\s]+\*\s)@' . $tag . '#', function (array $match) {
+            $newContent = Strings::replace($newContent, sprintf(self::TAG_WITH_NEWLINE_PATTERN, $tag), function (
+                array $match
+            ) {
                 return rtrim($match['new_line']) . $match[0];
             }, 1);
         }
