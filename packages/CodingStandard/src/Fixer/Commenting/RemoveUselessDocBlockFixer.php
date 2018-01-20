@@ -110,11 +110,13 @@ public function getCount(): int
     }
 
     /**
-     * Runs before @see \PhpCsFixer\Fixer\Phpdoc\NoEmptyPhpdocFixer.
+     * Runs before:
+     * - @see \PhpCsFixer\Fixer\Phpdoc\NoEmptyPhpdocFixer (5).
+     * - @see \PhpCsFixer\Fixer\Phpdoc\PhpdocIndentFixer (20).
      */
     public function getPriority(): int
     {
-        return 10;
+        return 30;
     }
 
     public function supports(SplFileInfo $file): bool
