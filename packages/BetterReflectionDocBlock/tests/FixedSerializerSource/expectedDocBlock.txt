@@ -1,0 +1,5 @@
+/**
+     * @param something $value
+     *
+     * @return bool
+     */

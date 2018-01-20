@@ -9,7 +9,7 @@ use Symplify\PackageBuilder\Reflection\PrivatesCaller;
 /**
  * Includes empty indent fix
  *
- * @See https://github.com/phpDocumentor/ReflectionDocBlock/pull/138
+ * @see https://github.com/phpDocumentor/ReflectionDocBlock/pull/138
  */
 final class FixedSerializer extends Serializer
 {
