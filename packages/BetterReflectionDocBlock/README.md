@@ -14,14 +14,14 @@ Slim wrapper around [phpdocumentor/reflection-docblock](https://github.com/phpDo
      * @param \string
      */
     ```
-    
+
     **Reflection DocBlock**
-    
+
     - `throws Exception`
 
     **Better Reflection DocBlock**
 
-    - :+1: 
+    - :+1:
 
 - Differentiates [between `mixed[]` and `array` types](https://github.com/phpDocumentor/TypeResolver/pull/48)
 
@@ -33,18 +33,18 @@ Slim wrapper around [phpdocumentor/reflection-docblock](https://github.com/phpDo
      * @return mixed[]
      */
     ```
-    
+
     **Reflection DocBlock**
-    
+
     ```php
     /**
      * @param array $value
-     * @return array 
+     * @return array
      */
     ```
 
     **Better Reflection DocBlock**
-    
+
     ```php
     /**
      * @param array $value
@@ -65,7 +65,7 @@ Slim wrapper around [phpdocumentor/reflection-docblock](https://github.com/phpDo
      * @return int
      */
     ```
-    
+
     **Reflection DocBlock**
 
     ```php
@@ -80,7 +80,7 @@ Slim wrapper around [phpdocumentor/reflection-docblock](https://github.com/phpDo
     ```php
     /**
      * @param string $value
-     *   
+     *
      * @return int
      */
     ```
