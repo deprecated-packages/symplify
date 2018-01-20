@@ -39,6 +39,7 @@ final class CleanFormatter implements Formatter
             if ($this->shouldAddPreslash($tag)) {
                 $content .= '\\';
             }
+
             $content .= $tagTypeAndDescription;
         }
 
