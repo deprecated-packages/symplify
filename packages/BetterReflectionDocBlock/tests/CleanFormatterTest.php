@@ -7,6 +7,9 @@ use PHPUnit\Framework\TestCase;
 use Symplify\BetterReflectionDocBlock\CleanDocBlockFactory;
 use Symplify\BetterReflectionDocBlock\DocBlockSerializerFactory;
 
+/**
+ * @covers \Symplify\BetterReflectionDocBlock\CleanFormatter
+ */
 final class CleanFormatterTest extends TestCase
 {
     /**

@@ -33,7 +33,16 @@ final class CleanFormatter implements Formatter
             $tagTypeAndDescription = $this->resolveAndFixArrayTypeIfNeeded($tag, $tagTypeAndDescription);
         }
 
-        return trim('@' . $tag->getName() . ' ' . $tagTypeAndDescription);
+        $content = '@';
+        $content .= $tag->getName() . ' ';
+        if ($tagTypeAndDescription) {
+            if ($this->shouldAddPreslash($tag)) {
+                $content .= '\\';
+            }
+            $content .= $tagTypeAndDescription;
+        }
+
+        return trim($content);
     }
 
     /**
@@ -62,5 +71,20 @@ final class CleanFormatter implements Formatter
         }
 
         return $tagTypeAndDescription;
+    }
+
+    private function shouldAddPreslash(Tag $tag): bool
+    {
+        $typeWithoutPreslash = ltrim((string) $tag, '\\');
+
+        $exactRowPattern = sprintf(
+            '#@%s[\s]+(?<has_slash>\\\\)?%s#',
+            $tag->getName(),
+            preg_quote(trim($typeWithoutPreslash), '\\')
+        );
+
+        $match = Strings::match($this->originalContent, $exactRowPattern);
+
+        return isset($match['has_slash']);
     }
 }
