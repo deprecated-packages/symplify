@@ -2,6 +2,7 @@
 
 namespace Symplify\TokenRunner\Wrapper\FixerWrapper;
 
+use Nette\Utils\Strings;
 use PhpCsFixer\Tokenizer\CT;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
@@ -97,5 +98,32 @@ final class ArrayWrapper
         }
 
         return $itemCount;
+    }
+
+    public function getFirstLineLength(): int
+    {
+        $lineLength = 0;
+
+        // compute from here to start of line
+        $currentPosition = $this->startIndex;
+        while (! Strings::startsWith($this->tokens[$currentPosition]->getContent(), PHP_EOL)) {
+            $lineLength += strlen($this->tokens[$currentPosition]->getContent());
+            --$currentPosition;
+        }
+
+        $currentToken = $this->tokens[$currentPosition];
+
+        // includes indent in the beginning
+        // -1 = do not count PHP_EOL as character
+        $lineLength += strlen($currentToken->getContent()) - 1;
+
+        // compute from here to end of line
+        $currentPosition = $this->startIndex + 1;
+        while (! Strings::startsWith($this->tokens[$currentPosition]->getContent(), PHP_EOL)) {
+            $lineLength += strlen($this->tokens[$currentPosition]->getContent());
+            ++$currentPosition;
+        }
+
+        return $lineLength;
     }
 }
