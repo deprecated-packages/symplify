@@ -64,7 +64,7 @@ $array = ["loooooooooooooooooooooooooooooooongArraaaaaaaaaaay", "loooooooooooooo
     public function isCandidate(Tokens $tokens): bool
     {
         return $tokens->isAnyTokenKindsFound(self::ARRAY_OPEN_TOKENS)
-            && $tokens->isAllTokenKindsFound(['=']);
+            && $tokens->isTokenKindFound('=');
     }
 
     public function fix(SplFileInfo $file, Tokens $tokens): void
