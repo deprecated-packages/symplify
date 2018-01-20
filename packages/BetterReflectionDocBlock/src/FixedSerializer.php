@@ -4,6 +4,7 @@ namespace Symplify\BetterReflectionDocBlock;
 
 use phpDocumentor\Reflection\DocBlock;
 use phpDocumentor\Reflection\DocBlock\Serializer;
+use Symplify\BetterReflectionDocBlock\Renderer\OriginalSpacingCompleter;
 use Symplify\PackageBuilder\Reflection\PrivatesCaller;
 
 /**
@@ -13,6 +14,16 @@ use Symplify\PackageBuilder\Reflection\PrivatesCaller;
  */
 final class FixedSerializer extends Serializer
 {
+    /**
+     * @var string
+     */
+    private $originalContent;
+
+    public function setOriginalContent(string $originalContent): void
+    {
+        $this->originalContent = $originalContent;
+    }
+
     public function getDocComment(DocBlock $docBlock): string
     {
         $indent = str_repeat($this->indentString, $this->indent);
@@ -22,7 +33,7 @@ final class FixedSerializer extends Serializer
 
         $text = $this->prepareText($docBlock, $indent, $wrapLength);
 
-        // opening
+        // opening tag
         $comment = $firstIndent . '/**' . PHP_EOL;
 
         // description
@@ -46,12 +57,14 @@ final class FixedSerializer extends Serializer
                 $indent,
                 $comment
             );
+
+            if ($this->originalContent) {
+                $comment = (new OriginalSpacingCompleter())->completeTagSpaces($comment, $this->originalContent);
+            }
         }
 
-        // closing
-        $comment .= $indent . ' */';
-
-        return $comment;
+        // closing tag
+        return $comment . $indent . ' */';
     }
 
     private function prepareText(DocBlock $docBlock, string $indent, ?int $wrapLength): string

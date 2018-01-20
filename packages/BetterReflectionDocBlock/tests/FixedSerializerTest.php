@@ -29,6 +29,7 @@ final class FixedSerializerTest extends TestCase
 
         $cleanFormatter = new CleanFormatter($docBlockContent);
         $docBlockSerializer = new FixedSerializer(4, ' ', false, null, $cleanFormatter);
+        $docBlockSerializer->setOriginalContent($docBlockContent);
 
         $expectedDocBlockContent = file_get_contents(__DIR__ . '/FixedSerializerSource/expectedDocBlock.txt');
         $this->assertSame($expectedDocBlockContent, $docBlockSerializer->getDocComment($docBlock));
