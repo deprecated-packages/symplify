@@ -81,12 +81,18 @@ final class CleanFormatter implements Formatter
 
     private function shouldAddPreslash(Tag $tag): bool
     {
-        $typeWithoutPreslash = ltrim((string) $tag, '\\');
+        $typeWithoutPreslash = trim(ltrim((string) $tag, '\\'));
+
+        // escape possibly breaking chars
+        $typeWithoutPreslashQuoted = preg_quote($typeWithoutPreslash, '#');
+
+        // this allows tabs as indent spaced, ReflectionDocBlock changes all to spaces
+        $typeWithoutPreslashWithSpaces = str_replace(' ', '[\s]*',$typeWithoutPreslashQuoted);
 
         $exactRowPattern = sprintf(
             '#@%s[\s]+(?<has_slash>\\\\)?%s#',
             $tag->getName(),
-            preg_quote(trim($typeWithoutPreslash), '#')
+            $typeWithoutPreslashWithSpaces
         );
 
         $match = Strings::match($this->originalContent, $exactRowPattern);
