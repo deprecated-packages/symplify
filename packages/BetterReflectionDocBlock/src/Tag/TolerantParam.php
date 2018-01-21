@@ -52,18 +52,6 @@ final class TolerantParam extends BaseTag
         $this->description = $description;
     }
 
-    /**
-     * @param mixed[] $parts
-     */
-    private static function isReferenceParam(array $parts): bool
-    {
-        if (! isset($parts[0])) {
-            return false;
-        }
-
-        return Strings::startsWith($parts[0], '&$');
-    }
-
     public function __toString(): string
     {
         return ($this->type ? $this->type . ' ' : '')
@@ -136,6 +124,18 @@ final class TolerantParam extends BaseTag
     public function isVariadic(): bool
     {
         return $this->isVariadic;
+    }
+
+    /**
+     * @param mixed[] $parts
+     */
+    private static function isReferenceParam(array $parts): bool
+    {
+        if (! isset($parts[0])) {
+            return false;
+        }
+
+        return Strings::startsWith($parts[0], '&$');
     }
 
     /**

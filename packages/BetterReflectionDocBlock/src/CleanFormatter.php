@@ -87,7 +87,7 @@ final class CleanFormatter implements Formatter
         $typeWithoutPreslashQuoted = preg_quote($typeWithoutPreslash, '#');
 
         // this allows tabs as indent spaced, ReflectionDocBlock changes all to spaces
-        $typeWithoutPreslashWithSpaces = str_replace(' ', '[\s]*',$typeWithoutPreslashQuoted);
+        $typeWithoutPreslashWithSpaces = str_replace(' ', '[\s]*', $typeWithoutPreslashQuoted);
 
         $exactRowPattern = sprintf(
             '#@%s[\s]+(?<has_slash>\\\\)?%s#',
