@@ -5,14 +5,9 @@ namespace SomeNamespace;
 class SomeClass
 {
     /**
-     * Returns frequent item sets only.
-     *
-     * @param mixed[][] $samples
-     *
-     * @return mixed[][]
+     * @param array &$samples
      */
-    private function frequent(array $samples): array
+    private function frequent(&$samples)
     {
-
     }
 }

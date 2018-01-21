@@ -35,6 +35,7 @@ final class RemoveUselessDocBlockFixerTest extends AbstractSimpleFixerTestCase
             [__DIR__ . '/correct/correct10.php.inc'],
             [__DIR__ . '/correct/correct11.php.inc'],
             [__DIR__ . '/correct/correct12.php.inc'],
+            [__DIR__ . '/correct/correct13.php.inc'],
         ];
     }
 
