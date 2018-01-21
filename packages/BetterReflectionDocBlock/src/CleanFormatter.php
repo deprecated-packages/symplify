@@ -27,7 +27,12 @@ final class CleanFormatter implements Formatter
 
     public function format(Tag $tag): string
     {
-        $tagTypeAndDescription = ltrim((string) $tag, '\\');
+        $tagTypeAndDescription = (string) $tag;
+
+        // remove slashes added automatically by ReflectionDocBlock
+        $tagTypeAndDescription = ltrim($tagTypeAndDescription, '\\');
+
+        $tagTypeAndDescription = str_replace('|\\', '|', $tagTypeAndDescription);
 
         if (($tag instanceof TolerantReturn || $tag instanceof TolerantParam) && $tag->getType() instanceof Array_) {
             $tagTypeAndDescription = $this->resolveAndFixArrayTypeIfNeeded($tag, $tagTypeAndDescription);

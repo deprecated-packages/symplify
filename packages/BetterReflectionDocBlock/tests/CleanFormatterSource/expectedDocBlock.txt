@@ -1,5 +1,6 @@
 /**
      * @return SomeType
+     * @param SomeType|NoSlash $value
      *
      * @throw \Type
      */
