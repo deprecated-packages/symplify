@@ -81,7 +81,7 @@ final class CleanFormatter implements Formatter
         $exactRowPattern = sprintf(
             '#@%s[\s]+(?<has_slash>\\\\)?%s#',
             $tag->getName(),
-            preg_quote(trim($typeWithoutPreslash), '\\')
+            preg_quote(trim($typeWithoutPreslash), '#')
         );
 
         $match = Strings::match($this->originalContent, $exactRowPattern);

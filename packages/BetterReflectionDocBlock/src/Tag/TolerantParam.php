@@ -128,8 +128,14 @@ final class TolerantParam extends BaseTag
      */
     private static function isVariadicParam(array $parts): bool
     {
-        return isset($parts[0])
-           && strlen($parts[0]) > 0
-           && $parts[0][0] === '$' || Strings::startsWith($parts[0], '...$');
+        if (! isset($parts[0])) {
+            return false;
+        }
+
+        if (Strings::startsWith($parts[0], '...$')) {
+            return true;
+        }
+
+        return strlen($parts[0]) > 0 && $parts[0][0] === '$';
     }
 }
