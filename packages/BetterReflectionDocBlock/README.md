@@ -59,7 +59,7 @@ Slim wrapper around [phpdocumentor/reflection-docblock](https://github.com/phpDo
 
     ```php
     /**
-     * @param Type|AnotherType
+     * @param Type|AnotherType|\PreslashedType
      * @return Type
      * @throw \AnotherType
      */
@@ -69,7 +69,7 @@ Slim wrapper around [phpdocumentor/reflection-docblock](https://github.com/phpDo
 
     ```php
     /**
-     * @param \Type|\AnotherType
+     * @param \Type|\AnotherType|\PreslashedType
      * @return \Type
      * @throw \AnotherType
      */
@@ -79,7 +79,7 @@ Slim wrapper around [phpdocumentor/reflection-docblock](https://github.com/phpDo
 
     ```php
     /**
-     * @param Type|AnotherType
+     * @param Type|AnotherType|\PreslashedType
      * @return Type
      * @throw \AnotherType
      */
