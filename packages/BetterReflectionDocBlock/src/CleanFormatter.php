@@ -107,30 +107,11 @@ final class CleanFormatter implements Formatter
         }
 
         // fallback for other types
-        if ($this->shouldAddPreslash($tag)) {
+        if ($this->shouldAddPreslashToSingleType($tag, (string) $tag)) {
             return $tagTypeAndDescription;
         }
 
         return ltrim($tagTypeAndDescription, '\\');
-    }
-
-    private function shouldAddPreslash(Tag $tag): bool
-    {
-        $typeWithoutPreslash = trim(ltrim((string) $tag, '\\'));
-
-        // escape possibly breaking chars
-        $typeWithoutPreslashQuoted = preg_quote($typeWithoutPreslash, '#');
-
-        // this allows tabs as indent spaced, ReflectionDocBlock changes all to spaces
-        $typeWithoutPreslashWithSpaces = str_replace(' ', '[\s]*', $typeWithoutPreslashQuoted);
-
-        // matches "@name \Type"
-        $exactRowPattern = sprintf(
-            '#@%s[\s]+(\\\\)%s#',
-            $tag->getName(),
-            $typeWithoutPreslashWithSpaces
-        );
-        return (bool) Strings::match($this->originalContent, $exactRowPattern);
     }
 
     /**
