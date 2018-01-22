@@ -33,12 +33,17 @@ final class TolerantParam extends BaseTag
     /**
      * @var string
      */
-    private $variableName = '';
+    private $variableName;
 
     /**
      * @var bool determines whether this is a variadic argument
      */
     private $isVariadic = false;
+
+    /**
+     * @var string
+     */
+    private static $body;
 
     public function __construct(
         string $variableName,
@@ -55,6 +60,7 @@ final class TolerantParam extends BaseTag
     public function __toString(): string
     {
         return ($this->type ? $this->type . ' ' : '')
+            . ($this->isReference() ? '&' : '')
             . ($this->isVariadic() ? '...' : '')
             . '$' . $this->variableName
             . ($this->description ? ' ' . $this->description : '');
@@ -71,6 +77,8 @@ final class TolerantParam extends BaseTag
     ): self {
         Assert::stringNotEmpty($body);
         Assert::allNotNull([$typeResolver, $descriptionFactory]);
+
+        self::$body = $body;
 
         $parts = preg_split('/(\s+)/Su', $body, 3, PREG_SPLIT_DELIM_CAPTURE);
         $type = null;
@@ -152,5 +160,12 @@ final class TolerantParam extends BaseTag
         }
 
         return strlen($parts[0]) > 0 && $parts[0][0] === '$';
+    }
+
+    private function isReference(): bool
+    {
+        $referenceVariablePattern = sprintf('#&\$%s#', preg_quote($this->variableName, '#'));
+
+        return (bool) Strings::match(self::$body, $referenceVariablePattern);
     }
 }
