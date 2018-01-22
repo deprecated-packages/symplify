@@ -24,6 +24,7 @@ final class TolerantParam extends BaseTag
      * @var string
      */
     protected $name = 'param';
+
     /**
      * @var Type|null|false
      */
