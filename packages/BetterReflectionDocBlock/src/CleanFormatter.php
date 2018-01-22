@@ -6,6 +6,8 @@ use Nette\Utils\Strings;
 use phpDocumentor\Reflection\DocBlock\Tag;
 use phpDocumentor\Reflection\DocBlock\Tags\Formatter;
 use phpDocumentor\Reflection\Types\Array_;
+use phpDocumentor\Reflection\Types\Compound;
+use phpDocumentor\Reflection\Types\Object_;
 use Symplify\BetterReflectionDocBlock\Tag\TolerantParam;
 use Symplify\BetterReflectionDocBlock\Tag\TolerantReturn;
 use Symplify\TokenRunner\DocBlock\ArrayResolver;
@@ -28,11 +30,6 @@ final class CleanFormatter implements Formatter
     public function format(Tag $tag): string
     {
         $tagTypeAndDescription = (string) $tag;
-
-        // remove slashes added automatically by ReflectionDocBlock
-        $tagTypeAndDescription = ltrim($tagTypeAndDescription, '\\');
-        $tagTypeAndDescription = str_replace('|\\', '|', $tagTypeAndDescription);
-
         if (($tag instanceof TolerantReturn || $tag instanceof TolerantParam) && $tag->getType() instanceof Array_) {
             $tagTypeAndDescription = $this->resolveAndFixArrayTypeIfNeeded($tag, $tagTypeAndDescription);
         }
@@ -75,11 +72,46 @@ final class CleanFormatter implements Formatter
 
     private function addOriginalPreslashes(Tag $tag, string $tagTypeAndDescription): string
     {
-        if (! $this->shouldAddPreslash($tag)) {
+        if ($tag instanceof TolerantReturn || $tag instanceof TolerantParam) {
+            // FirstType
+            if ($tag->getType() instanceof Object_) {
+                // ReflectionDocBlock always adds types, so we need to check if original content had them
+                $typeWithPreslash = (string) $tag->getType();
+                if ($this->shouldAddPreslashToSingleType($tag, $typeWithPreslash)) {
+                    return $tagTypeAndDescription;
+                }
+
+                return ltrim($tagTypeAndDescription, '\\');
+            }
+
+            // FirstType|SecondType
+            if ($tag->getType() instanceof Compound) {
+                $types = [];
+                /** @var Compound $compoundTypes */
+                $compoundTypes = $tag->getType();
+                foreach ($compoundTypes as $type) {
+                    $typeWithPreslash = (string) $type;
+                    if ($this->shouldAddPreslashToSingleType($tag, $typeWithPreslash)) {
+                        $types[] = $typeWithPreslash;
+                    } else {
+                        $types[] = ltrim($typeWithPreslash, '\\');
+                    }
+                }
+
+                $types = implode('|', $types);
+
+                [$oldTypes, $nameAndDescription] = explode(' ', (string) $tag);
+
+                return trim($types . ' ' . $nameAndDescription);
+            }
+        }
+
+        // fallback for other types
+        if ($this->shouldAddPreslash($tag)) {
             return $tagTypeAndDescription;
         }
 
-        return '\\' . $tagTypeAndDescription;
+        return ltrim($tagTypeAndDescription, '\\');
     }
 
     private function shouldAddPreslash(Tag $tag): bool
@@ -92,12 +124,31 @@ final class CleanFormatter implements Formatter
         // this allows tabs as indent spaced, ReflectionDocBlock changes all to spaces
         $typeWithoutPreslashWithSpaces = str_replace(' ', '[\s]*', $typeWithoutPreslashQuoted);
 
+        // matches "@name \Type"
         $exactRowPattern = sprintf(
-            '#@%s[\s]+(?<has_slash>\\\\)%s#',
+            '#@%s[\s]+(\\\\)%s#',
             $tag->getName(),
             $typeWithoutPreslashWithSpaces
         );
-
         return (bool) Strings::match($this->originalContent, $exactRowPattern);
+    }
+
+    /**
+     * Matches:
+     * - @name \<Type>
+     * - @name \PreviousType|\<Type>
+     * - @name PreviousType|\<Type> $name
+     */
+    private function shouldAddPreslashToSingleType(Tag $tag, string $singleType): bool
+    {
+        $exactRowPattern = sprintf(
+            '#@%s[\s]+([a-zA-Z\\\\]+\|)*(?<pre_slash>\\\\)%s#',
+            $tag->getName(),
+            preg_quote(ltrim($singleType, '\\'), '#')
+        );
+
+        $match = Strings::match($this->originalContent, $exactRowPattern);
+
+        return isset($match['pre_slash']);
     }
 }
