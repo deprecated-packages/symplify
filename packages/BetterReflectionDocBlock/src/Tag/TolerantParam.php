@@ -24,7 +24,6 @@ final class TolerantParam extends BaseTag
      * @var string
      */
     protected $name = 'param';
-
     /**
      * @var Type|null|false
      */
@@ -33,12 +32,22 @@ final class TolerantParam extends BaseTag
     /**
      * @var string
      */
-    private $variableName = '';
+    private $variableName;
+
+    /**
+     * @var bool
+     */
+    private static $isReference = false;
 
     /**
      * @var bool determines whether this is a variadic argument
      */
     private $isVariadic = false;
+
+    /**
+     * @var string
+     */
+    private static $body;
 
     public function __construct(
         string $variableName,
@@ -55,6 +64,7 @@ final class TolerantParam extends BaseTag
     public function __toString(): string
     {
         return ($this->type ? $this->type . ' ' : '')
+            . ($this->isReference() ? '&' : '')
             . ($this->isVariadic() ? '...' : '')
             . '$' . $this->variableName
             . ($this->description ? ' ' . $this->description : '');
@@ -72,6 +82,8 @@ final class TolerantParam extends BaseTag
         Assert::stringNotEmpty($body);
         Assert::allNotNull([$typeResolver, $descriptionFactory]);
 
+        self::$body = $body;
+
         $parts = preg_split('/(\s+)/Su', $body, 3, PREG_SPLIT_DELIM_CAPTURE);
         $type = null;
         $variableName = '';
@@ -87,6 +99,9 @@ final class TolerantParam extends BaseTag
 
             array_shift($parts);
         }
+
+        // reset
+        self::$isReference = false;
 
         // if the next item starts with a $, ...$ or &$ it must be the variable name
         if (self::isReferenceParam($parts) || self::isVariadicParam($parts)) {
@@ -152,5 +167,11 @@ final class TolerantParam extends BaseTag
         }
 
         return strlen($parts[0]) > 0 && $parts[0][0] === '$';
+    }
+
+    private function isReference(): bool
+    {
+        $referenceVariablePattern = sprintf('#&\$%s#', preg_quote($this->variableName, '#'));
+        return (bool) Strings::match(self::$body, $referenceVariablePattern);
     }
 }
