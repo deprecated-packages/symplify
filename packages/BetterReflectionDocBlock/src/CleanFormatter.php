@@ -31,21 +31,15 @@ final class CleanFormatter implements Formatter
 
         // remove slashes added automatically by ReflectionDocBlock
         $tagTypeAndDescription = ltrim($tagTypeAndDescription, '\\');
-
         $tagTypeAndDescription = str_replace('|\\', '|', $tagTypeAndDescription);
 
         if (($tag instanceof TolerantReturn || $tag instanceof TolerantParam) && $tag->getType() instanceof Array_) {
             $tagTypeAndDescription = $this->resolveAndFixArrayTypeIfNeeded($tag, $tagTypeAndDescription);
         }
 
-        $content = '@';
-        $content .= $tag->getName() . ' ';
+        $content = '@' . $tag->getName() . ' ';
         if ($tagTypeAndDescription) {
-            if ($this->shouldAddPreslash($tag)) {
-                $content .= '\\';
-            }
-
-            $content .= $tagTypeAndDescription;
+            $content .= $this->addOriginalPreslashes($tag, $tagTypeAndDescription);
         }
 
         return trim($content);
@@ -79,6 +73,15 @@ final class CleanFormatter implements Formatter
         return $tagTypeAndDescription;
     }
 
+    private function addOriginalPreslashes(Tag $tag, string $tagTypeAndDescription): string
+    {
+        if (! $this->shouldAddPreslash($tag)) {
+            return $tagTypeAndDescription;
+        }
+
+        return '\\' . $tagTypeAndDescription;
+    }
+
     private function shouldAddPreslash(Tag $tag): bool
     {
         $typeWithoutPreslash = trim(ltrim((string) $tag, '\\'));
@@ -90,13 +93,11 @@ final class CleanFormatter implements Formatter
         $typeWithoutPreslashWithSpaces = str_replace(' ', '[\s]*', $typeWithoutPreslashQuoted);
 
         $exactRowPattern = sprintf(
-            '#@%s[\s]+(?<has_slash>\\\\)?%s#',
+            '#@%s[\s]+(?<has_slash>\\\\)%s#',
             $tag->getName(),
             $typeWithoutPreslashWithSpaces
         );
 
-        $match = Strings::match($this->originalContent, $exactRowPattern);
-
-        return isset($match['has_slash']);
+        return (bool) Strings::match($this->originalContent, $exactRowPattern);
     }
 }
