@@ -35,11 +35,6 @@ final class TolerantParam extends BaseTag
     private $variableName;
 
     /**
-     * @var bool
-     */
-    private static $isReference = false;
-
-    /**
      * @var bool determines whether this is a variadic argument
      */
     private $isVariadic = false;
@@ -99,9 +94,6 @@ final class TolerantParam extends BaseTag
 
             array_shift($parts);
         }
-
-        // reset
-        self::$isReference = false;
 
         // if the next item starts with a $, ...$ or &$ it must be the variable name
         if (self::isReferenceParam($parts) || self::isVariadicParam($parts)) {
@@ -172,6 +164,7 @@ final class TolerantParam extends BaseTag
     private function isReference(): bool
     {
         $referenceVariablePattern = sprintf('#&\$%s#', preg_quote($this->variableName, '#'));
+
         return (bool) Strings::match(self::$body, $referenceVariablePattern);
     }
 }
