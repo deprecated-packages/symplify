@@ -104,7 +104,7 @@ final class CleanFormatter implements Formatter
 
                 $types = implode('|', $types);
 
-                [$oldTypes, $nameAndDescription] = explode(' ', (string) $tag);
+                [$oldTypes, $nameAndDescription] = explode(' ', (string) $tag, 2);
 
                 return trim($types . ' ' . $nameAndDescription);
             }

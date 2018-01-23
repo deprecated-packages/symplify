@@ -28,11 +28,15 @@ final class RemoveEmptyDocBlockFixer extends AbstractFixer
     }
 
     /**
-     * Should be run after PhpdocNoEmptyReturnFixer.
+     * Runs before:
+     * - @see \PhpCsFixer\Fixer\Phpdoc\PhpdocIndentFixer (20).
+     *
+     * Runs after:
+     * - @see \Symplify\CodingStandard\Fixer\Commenting\RemoveUselessDocBlockFixer (30).
      */
     public function getPriority(): int
     {
-        return 5;
+        return 25;
     }
 
     public function isCandidate(Tokens $tokens): bool
