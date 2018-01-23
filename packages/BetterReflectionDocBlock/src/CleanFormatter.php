@@ -63,8 +63,12 @@ final class CleanFormatter implements Formatter
         }
 
         // possible mixed[] override
-        if ($original !== 'array' && $original !== 'array[]' && Strings::contains($tagTypeAndDescription, 'array')) {
-            $tagTypeAndDescription = substr_replace($tagTypeAndDescription, 'mixed[]', 0, strlen('array'));
+        if ($original === 'array' || $original === 'array[]') {
+            return $tagTypeAndDescription;
+        }
+
+        if (Strings::contains($tagTypeAndDescription, 'array') && Strings::contains('mixed[]', $original)) {
+            return substr_replace($tagTypeAndDescription, 'mixed[]', 0, strlen('array'));
         }
 
         return $tagTypeAndDescription;
