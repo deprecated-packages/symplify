@@ -27,10 +27,10 @@ final class DescriptionAnalyzer
             return true;
         }
 
-        $nameUselessPattern = sprintf(self::COMMENTED_PATTERN, preg_quote((string) $type, '/'));
+        $typeUselessPattern = sprintf(self::COMMENTED_PATTERN, preg_quote((string) $type, '/'));
 
         // just copy-pasting type(interface) or property name
-        $isDummyDescription = (bool) Strings::match($description, $nameUselessPattern) ||
+        $isDummyDescription = (bool) Strings::match($description, $typeUselessPattern) ||
             ((strlen($description) < (strlen($type) + 10)) && levenshtein($type, $description) < 3);
 
         if ($type && $isDummyDescription) {
