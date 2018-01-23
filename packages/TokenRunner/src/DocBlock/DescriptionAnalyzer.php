@@ -6,6 +6,11 @@ use Nette\Utils\Strings;
 
 final class DescriptionAnalyzer
 {
+    /**
+     * @var string
+     */
+    public const COMMENTED__PATTERN = '#^((A|An|The|the)( )?)?(\\\\)?%s(Interface)?( instance)?$#i';
+
     public function isDescriptionUseful(string $description, ?string $type, ?string $name): bool
     {
         if (! $description || $type === null) {
@@ -22,10 +27,7 @@ final class DescriptionAnalyzer
             return true;
         }
 
-        $uselessPattern = sprintf(
-            '#^((A|An|The|the) )?(\\\\)?%s(Interface)?( instance)?$#i',
-            preg_quote((string) $type, '/')
-        );
+        $uselessPattern = sprintf(self::COMMENTED__PATTERN, preg_quote((string) $type, '/'));
 
         // just copy-pasting type(interface) or property name
         $isDummyDescription = (bool) Strings::match($description, $uselessPattern) ||
@@ -35,7 +37,13 @@ final class DescriptionAnalyzer
             return false;
         }
 
-        if ((strlen($description) < (strlen($type) + 10)) && levenshtein($name, $description) < 3) {
+        // e.g. description: "The object manager" => "Theobjectmanager"
+        $descriptionWithoutSpaces = str_replace(' ', '', $description);
+
+        // e.g. name "$objectManagerName"
+        $uselessPattern = sprintf(self::COMMENTED__PATTERN, preg_quote((string) $name, '#'));
+
+        if ((bool) Strings::match($descriptionWithoutSpaces, $uselessPattern)) {
             return false;
         }
 
