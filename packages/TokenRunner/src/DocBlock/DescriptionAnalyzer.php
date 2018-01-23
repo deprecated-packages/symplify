@@ -27,10 +27,10 @@ final class DescriptionAnalyzer
             return true;
         }
 
-        $uselessPattern = sprintf(self::COMMENTED__PATTERN, preg_quote((string) $type, '/'));
+        $nameUselessPattern = sprintf(self::COMMENTED__PATTERN, preg_quote((string) $type, '/'));
 
         // just copy-pasting type(interface) or property name
-        $isDummyDescription = (bool) Strings::match($description, $uselessPattern) ||
+        $isDummyDescription = (bool) Strings::match($description, $nameUselessPattern) ||
             ((strlen($description) < (strlen($type) + 10)) && levenshtein($type, $description) < 3);
 
         if ($type && $isDummyDescription) {
@@ -39,11 +39,17 @@ final class DescriptionAnalyzer
 
         // e.g. description: "The object manager" => "Theobjectmanager"
         $descriptionWithoutSpaces = str_replace(' ', '', $description);
-
         // e.g. name "$objectManagerName"
-        $uselessPattern = sprintf(self::COMMENTED__PATTERN, preg_quote((string) $name, '#'));
+        $nameUselessPattern = sprintf(self::COMMENTED__PATTERN, preg_quote((string) $name, '#'));
+        if ((bool) Strings::match($descriptionWithoutSpaces, $nameUselessPattern)) {
+            return false;
+        }
 
-        if ((bool) Strings::match($descriptionWithoutSpaces, $uselessPattern)) {
+        // e.g. description: "The URL Generator" => "TheURLGenerator"
+        $descriptionWithoutSpaces = str_replace(' ', '', $description);
+        // e.g. type "UrlGenerator"
+        $typeUselessPattern = sprintf(self::COMMENTED__PATTERN, preg_quote((string) $type, '#'));
+        if ((bool) Strings::match($descriptionWithoutSpaces, $typeUselessPattern)) {
             return false;
         }
 
