@@ -45,11 +45,17 @@ final class DescriptionAnalyzer
             return false;
         }
 
-        // e.g. description: "The URL Generator" => "TheURLGenerator"
-        $descriptionWithoutSpaces = str_replace(' ', '', $description);
+        // e.g. description: "The URL Generator"
         // e.g. type "UrlGenerator"
         $typeUselessPattern = sprintf(self::COMMENTED__PATTERN, preg_quote((string) $type, '#'));
         if ((bool) Strings::match($descriptionWithoutSpaces, $typeUselessPattern)) {
+            return false;
+        }
+
+        // e.g. description: "The twig environment"
+        // e.g. name + type  "twig" . "Environment"
+        $typeAndNameUselessPattern = sprintf(self::COMMENTED__PATTERN, preg_quote((string) $name . $type, '#'));
+        if ((bool) Strings::match($descriptionWithoutSpaces, $typeAndNameUselessPattern)) {
             return false;
         }
 

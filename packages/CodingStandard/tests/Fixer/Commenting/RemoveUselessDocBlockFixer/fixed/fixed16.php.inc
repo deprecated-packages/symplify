@@ -6,7 +6,7 @@ class SomeClass
 {
     /**
      */
-    public function load(UrlGeneratorInterface $generator)
+    public function load(UrlGeneratorInterface $generator, Environment $twig)
     {
     }
 }
