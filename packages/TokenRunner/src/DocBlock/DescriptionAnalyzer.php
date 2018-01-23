@@ -9,7 +9,7 @@ final class DescriptionAnalyzer
     /**
      * @var string
      */
-    public const COMMENTED__PATTERN = '#^((A|An|The|the)( )?)?(\\\\)?%s(Interface)?( instance)?$#i';
+    private const COMMENTED_PATTERN = '#^((A|An|The|the)( )?)?(\\\\)?%s(Interface)?( instance)?$#i';
 
     public function isDescriptionUseful(string $description, ?string $type, ?string $name): bool
     {
@@ -27,7 +27,7 @@ final class DescriptionAnalyzer
             return true;
         }
 
-        $nameUselessPattern = sprintf(self::COMMENTED__PATTERN, preg_quote((string) $type, '/'));
+        $nameUselessPattern = sprintf(self::COMMENTED_PATTERN, preg_quote((string) $type, '/'));
 
         // just copy-pasting type(interface) or property name
         $isDummyDescription = (bool) Strings::match($description, $nameUselessPattern) ||
@@ -40,21 +40,21 @@ final class DescriptionAnalyzer
         // e.g. description: "The object manager" => "Theobjectmanager"
         $descriptionWithoutSpaces = str_replace(' ', '', $description);
         // e.g. name "$objectManagerName"
-        $nameUselessPattern = sprintf(self::COMMENTED__PATTERN, preg_quote((string) $name, '#'));
+        $nameUselessPattern = sprintf(self::COMMENTED_PATTERN, preg_quote((string) $name, '#'));
         if ((bool) Strings::match($descriptionWithoutSpaces, $nameUselessPattern)) {
             return false;
         }
 
         // e.g. description: "The URL Generator"
         // e.g. type "UrlGenerator"
-        $typeUselessPattern = sprintf(self::COMMENTED__PATTERN, preg_quote((string) $type, '#'));
+        $typeUselessPattern = sprintf(self::COMMENTED_PATTERN, preg_quote((string) $type, '#'));
         if ((bool) Strings::match($descriptionWithoutSpaces, $typeUselessPattern)) {
             return false;
         }
 
         // e.g. description: "The twig environment"
         // e.g. name + type  "twig" . "Environment"
-        $typeAndNameUselessPattern = sprintf(self::COMMENTED__PATTERN, preg_quote((string) $name . $type, '#'));
+        $typeAndNameUselessPattern = sprintf(self::COMMENTED_PATTERN, preg_quote((string) $name . $type, '#'));
         if ((bool) Strings::match($descriptionWithoutSpaces, $typeAndNameUselessPattern)) {
             return false;
         }
