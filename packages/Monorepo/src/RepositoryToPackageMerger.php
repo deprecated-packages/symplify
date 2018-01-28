@@ -77,10 +77,11 @@ final class RepositoryToPackageMerger
         // prepend history
         $this->moveHistoryWorker->prependHistoryToNewPackageFiles($finder, $monorepoDirectory, $packageSubdirectory);
         $this->symfonyStyle->success(sprintf(
-            'History added for "%s"',
+            'History added for files in "%s"',
             $packageSubdirectory
         ));
-//        $this->filesystem->clearEmptyDirectories($monorepoDirectory);
+        $this->filesystem->createFilesInFinder($finder);
+//        $this->filesystem->createFilesInFinder($monorepoDirectory);
     }
 
     private function getGitWorkingCopyForDirectory(string $directory): GitWorkingCopy

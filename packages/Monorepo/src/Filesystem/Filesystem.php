@@ -34,21 +34,20 @@ final class Filesystem
         }
     }
 
-    public function clearEmptyDirectories(string $path): void
+    public function createFilesInFinder(Finder $finder): void
     {
-        $emptyDirectoriesFinder = Finder::create()
-            ->directories()
-            ->in($path)
-            ->exclude(self::EXCLUDED_LOCAL_DIRS)
+        $finder
             // sort from deepest to top to allow removal in same direction
             ->sort(function (SplFileInfo $firstFileInfo, SplFileInfo $secondFileInfo) {
                 return strlen($firstFileInfo->getRealPath()) < strlen($secondFileInfo->getRealPath());
-            })
-            // empty directory
-            ->size(0);
+            });
 
-        foreach ($emptyDirectoriesFinder->getIterator() as $emptyDirectoryFileInfo) {
-            rmdir($emptyDirectoryFileInfo->getRelativePathname());
+        foreach ($finder->getIterator() as $fileInfo) {
+            if ($fileInfo->isFile()) {
+                unlink($fileInfo->getRealPath());
+            } else {
+                rmdir($fileInfo->getRealPath());
+            }
         }
     }
 }
