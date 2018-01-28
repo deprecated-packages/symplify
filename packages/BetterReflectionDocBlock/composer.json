@@ -4,7 +4,7 @@
     "license": "MIT",
     "require": {
         "php": "^7.1",
-        "phpdocumentor/reflection-docblock": "4.2",
+        "phpdocumentor/reflection-docblock": "4.2|4.3",
         "symplify/package-builder": "^3.2"
     },
     "require-dev": {
