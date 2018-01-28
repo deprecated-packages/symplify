@@ -18,7 +18,7 @@ final class BuildCommand extends Command
     /**
      * @var string
      */
-    private const OUTPUT_DIRECTORY = 'git-repository';
+    private const MONOREPO_DIRECTORY = 'monorepo-directory';
 
     /**
      * @var RepositoryWorker
@@ -34,6 +34,7 @@ final class BuildCommand extends Command
      * @var MoveHistoryWorker
      */
     private $moveHistoryWorker;
+
     /**
      * @var ParameterProvider
      */
@@ -56,20 +57,18 @@ final class BuildCommand extends Command
     protected function configure(): void
     {
         $this->setName('build');
-        $this->getDescription('Creates monolitic repository from provided config.');
-        $this->addArgument(self::OUTPUT_DIRECTORY, InputArgument::REQUIRED, 'Path to empty .git repository');
+        $this->setDescription('Creates monolitic repository from provided config.');
+        $this->addArgument(self::MONOREPO_DIRECTORY, InputArgument::REQUIRED, 'Path to empty .git repository');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        // run.sh - DONE
-        $outputDirectory = $input->getArgument(self::OUTPUT_DIRECTORY);
-
         $build = $this->parameterProvider->provideParameter('build');
         $this->ensureConfigSectionIsFilled($build, 'build');
 
-        foreach ($build as $repositoryUrl => $monorepoDirectory) {
-            $this->mergeRepositoryToMonorepoDiretory($repositoryUrl, $outputDirectory, $monorepoDirectory);
+        $monorepoDirectory = $input->getArgument(self::MONOREPO_DIRECTORY);
+        foreach ($build as $repositoryUrl => $packagesSubdirectory) {
+            $this->mergeRepositoryToMonorepoDirectory($repositoryUrl, $monorepoDirectory, $packagesSubdirectory);
         }
     }
 
@@ -86,20 +85,22 @@ final class BuildCommand extends Command
         ));
     }
 
-    private function mergeRepositoryToMonorepoDiretory(string $repositoryUrl, string $monorepoDirectory, string $packageDirectory): void
+    private function mergeRepositoryToMonorepoDirectory(string $repositoryUrl, string $monorepoDirectory, string $packageSubdirectory): void
     {
-        //
+        $this->fetchRepositoryWorker->fetchAndMergeRepository($repositoryUrl, $monorepoDirectory);
 
-        $this->fetchRepositoryWorker->fetchAndMergeRepository($repositoryUrl);
+        dump($monorepoDirectory);
+        die;
 
         // run2.sh
         $cwd = $monorepoDirectory;
         // read from config
         $newPackageDirectory = //..;
 
+        // @todo: use git status maybe? it's better way to find those files
         $finder = $finder = $this->filesystem->findMergedPackageFiles($cwd);
-        $this->filesystem->copyFinderFilesToDirectory($finder, $packageDirectory);
-        $this->moveHistoryWorker->prependHistoryToNewPackageFiles($finder, $packageDirectory);
+        $this->filesystem->copyFinderFilesToDirectory($finder, $packageSubdirectory);
+        $this->moveHistoryWorker->prependHistoryToNewPackageFiles($finder, $packageSubdirectory);
         $this->filesystem->clearEmptyDirectories($cwd);
     }
 }
