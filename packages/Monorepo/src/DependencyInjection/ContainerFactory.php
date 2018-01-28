@@ -3,15 +3,23 @@
 namespace Symplify\Monorepo\DependencyInjection;
 
 use Psr\Container\ContainerInterface;
-use Symplify\Monorepo\MonorepoKernel;
+use Symplify\Monorepo\HttpKernel\MonorepoKernel;
 
 final class ContainerFactory
 {
     public function create(): ContainerInterface
     {
-        $MonorepoKernel = new MonorepoKernel();
-        $MonorepoKernel->boot();
+        $monorepoKernel = new MonorepoKernel();
+        $monorepoKernel->boot();
 
-        return $MonorepoKernel->getContainer();
+        return $monorepoKernel->getContainer();
+    }
+
+    public function createWithConfig(string $config): ContainerInterface
+    {
+        $monorepoKernel = new MonorepoKernel($config);
+        $monorepoKernel->boot();
+
+        return $monorepoKernel->getContainer();
     }
 }

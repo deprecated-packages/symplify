@@ -2,10 +2,12 @@
 
 namespace Symplify\Monorepo\Console\Command;
 
+use PhpParser\Node\Param;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symplify\Monorepo\Exception\MissingConfigurationSectionException;
 use Symplify\Monorepo\Filesystem\Filesystem;
 use Symplify\Monorepo\Worker\MoveHistoryWorker;
 use Symplify\Monorepo\Worker\RepositoryWorker;
@@ -63,6 +65,14 @@ final class BuildCommand extends Command
         // run.sh - DONE
         $repository = $input->getArgument(self::OUTPUT_DIRECTORY);
 
+        $build = $this->parameterProvider->provideParameter('build');
+        $this->ensureConfigSectionIsFilled($build, 'build');
+
+        foreach ($build as $repositoryUrl => $monorepoDirectory) {
+
+        }
+
+        dump($build);
         dump($repository);
         die;
 
@@ -77,5 +87,18 @@ final class BuildCommand extends Command
         $this->filesystem->copyFinderFilesToDirectory($finder, $newPackageDirectory);
         $this->moveHistoryWorker->prependHistoryToNewPackageFiles($finder, $newPackageDirectory);
         $this->filesystem->clearEmptyDirectories($cwd);
+    }
+
+    private function ensureConfigSectionIsFilled($config = null, string $section): void
+    {
+        if ($config) {
+            return;
+        }
+
+        throw new MissingConfigurationSectionException(sprintf(
+            'Section "%s" in config is rqeuired. Complete it to "%s" file under "parameters"',
+            $section,
+            'monorepo.yml'
+        ));
     }
 }

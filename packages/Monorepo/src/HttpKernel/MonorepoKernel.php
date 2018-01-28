@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\Monorepo;
+namespace Symplify\Monorepo\HttpKernel;
 
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\Console\Application;
@@ -13,8 +13,15 @@ use Symplify\PackageBuilder\DependencyInjection\DefinitionCollector;
 
 final class MonorepoKernel extends Kernel implements CompilerPassInterface
 {
-    public function __construct()
+    /**
+     * @var null|string
+     */
+    private $config;
+
+    public function __construct(?string $config = null)
     {
+        $this->config = $config;
+
         parent::__construct('dev', true);
     }
 
@@ -28,7 +35,10 @@ final class MonorepoKernel extends Kernel implements CompilerPassInterface
 
     public function registerContainerConfiguration(LoaderInterface $loader): void
     {
-        $loader->load(__DIR__ . '/config/services.yml');
+        $loader->load(__DIR__ . '/../config/services.yml');
+        if ($this->config) {
+            $loader->load($this->config);
+        }
     }
 
     public function process(ContainerBuilder $containerBuilder): void

@@ -5,8 +5,16 @@ require_once __DIR__ . '/monorepo-bootstrap.php';
 
 use Symplify\Monorepo\Console\Application;
 use Symplify\Monorepo\DependencyInjection\ContainerFactory;
+use Symplify\PackageBuilder\Configuration\ConfigFilePathHelper;
 
-$container = (new ContainerFactory())->create();
+// Detect configuration
+$configFile = ConfigFilePathHelper::provide('monorepo', 'monorepo.yml');
+$containerFactory = new ContainerFactory();
+if ($configFile) {
+    $container = $containerFactory->createWithConfig($configFile);
+} else {
+    $container = $containerFactory->create();
+}
 
 /** @var Application $application */
 $application = $container->get(Application::class);
