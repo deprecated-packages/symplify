@@ -45,8 +45,6 @@ final class MoveHistoryWorker
         } else {
             $this->symfonyStyle->error(trim($moveWithHistoryProcess->getErrorOutput()));
         }
-
-        die;
     }
 
     /**
