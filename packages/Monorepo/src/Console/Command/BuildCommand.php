@@ -63,30 +63,14 @@ final class BuildCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         // run.sh - DONE
-        $repository = $input->getArgument(self::OUTPUT_DIRECTORY);
+        $outputDirectory = $input->getArgument(self::OUTPUT_DIRECTORY);
 
         $build = $this->parameterProvider->provideParameter('build');
         $this->ensureConfigSectionIsFilled($build, 'build');
 
         foreach ($build as $repositoryUrl => $monorepoDirectory) {
-
+            $this->mergeRepositoryToMonorepoDiretory($repositoryUrl, $outputDirectory, $monorepoDirectory);
         }
-
-        dump($build);
-        dump($repository);
-        die;
-
-        $this->fetchRepositoryWorker->fetchAndMergeRepository($repository);
-
-        // run2.sh
-        $cwd = getcwd();
-        // read from config
-        $newPackageDirectory = //..;
-
-        $finder = $finder = $this->filesystem->findMergedPackageFiles($cwd);
-        $this->filesystem->copyFinderFilesToDirectory($finder, $newPackageDirectory);
-        $this->moveHistoryWorker->prependHistoryToNewPackageFiles($finder, $newPackageDirectory);
-        $this->filesystem->clearEmptyDirectories($cwd);
     }
 
     private function ensureConfigSectionIsFilled($config = null, string $section): void
@@ -100,5 +84,22 @@ final class BuildCommand extends Command
             $section,
             'monorepo.yml'
         ));
+    }
+
+    private function mergeRepositoryToMonorepoDiretory(string $repositoryUrl, string $monorepoDirectory, string $packageDirectory): void
+    {
+        //
+
+        $this->fetchRepositoryWorker->fetchAndMergeRepository($repositoryUrl);
+
+        // run2.sh
+        $cwd = $monorepoDirectory;
+        // read from config
+        $newPackageDirectory = //..;
+
+        $finder = $finder = $this->filesystem->findMergedPackageFiles($cwd);
+        $this->filesystem->copyFinderFilesToDirectory($finder, $packageDirectory);
+        $this->moveHistoryWorker->prependHistoryToNewPackageFiles($finder, $packageDirectory);
+        $this->filesystem->clearEmptyDirectories($cwd);
     }
 }
