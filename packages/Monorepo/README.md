@@ -7,11 +7,40 @@
 
 ## Install
 
+```php
+composer require symplify/monorepo
+```
+
 ## Usage
 
-### 1. Create Monolitic Repository from one
+### 3 Steps to Build Monolitic Repository from Many Repositories
 
-- empty directory
-- output
-- local monorepo config.
-- command "monorepo build"
+
+1. Add `monorepo.yml` with `build` section
+
+```yml
+parameters:
+    build:
+        # link to remote git repository => local subdirectory in monorepo 
+        'git@github.com:shopsys/product-feed-zbozi.git': 'packages/ProductFeedZbozi'
+        'git@github.com:shopsys/product-feed-heureka.git': 'packages/ProductFeedHeureka'
+```
+
+2. Prepare empty directory where, do you want to create your monorepo, e.g. `new-monorepo`. It should be outside current working directory.
+
+3. Run `build` command with path as argument.
+
+```bash
+vendor/bin/monorepo build ../new-monorepo 
+```
+
+And that's it.
+
+Now your packages will be in:
+
+```bash
+/new-monorepo
+    /packages
+        /ProductFeedZbozi
+        /ProductFeedHeureka
+```
