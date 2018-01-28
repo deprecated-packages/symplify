@@ -11,7 +11,7 @@ final class MoveHistoryWorker
     /**
      * @var string
      */
-    private const MV_WITH_HISTORY_BASH_FILE = __DIR__ . '/../bash/git-mv-with-history.sh';
+    private const GIT_MV_WITH_HISTORY_BASH_FILE = __DIR__ . '/../bash/git-mv-with-history.sh';
 
     /**
      * @var SymfonyStyle
@@ -30,32 +30,35 @@ final class MoveHistoryWorker
      *
      * Empty directories will remain
      */
-    public function prependHistoryToNewPackageFiles(Finder $finder, string $newPackageDirectory): void
+    public function prependHistoryToNewPackageFiles(Finder $finder, string $monorepoDirectory, string $packageSubdirectory): void
     {
-        $processInput = $this->createGitMoveWithHistoryProcessInput($finder, $newPackageDirectory);
+        $processInput = $this->createGitMoveWithHistoryProcessInput($finder, $monorepoDirectory, $packageSubdirectory);
 
-        $moveWithHistoryProcess = new Process($processInput);
+        $moveWithHistoryProcess = new Process($processInput, $monorepoDirectory);
         $moveWithHistoryProcess->run();
 
         if ($moveWithHistoryProcess->isSuccessful()) {
-            $this->symfonyStyle->success($moveWithHistoryProcess->getOutput());
+            $this->symfonyStyle->note(trim($moveWithHistoryProcess->getOutput()));
         } else {
-            $this->symfonyStyle->error($moveWithHistoryProcess->getErrorOutput());
+            $this->symfonyStyle->error(trim($moveWithHistoryProcess->getErrorOutput()));
         }
     }
 
     /**
      * @return mixed[]
      */
-    private function createGitMoveWithHistoryProcessInput(Finder $finder, string $newPackageDirectory): array
-    {
-        $processInput = [self::MV_WITH_HISTORY_BASH_FILE];
+    private function createGitMoveWithHistoryProcessInput(
+        Finder $finder,
+        string $monorepoDirectory,
+        string $packageSubdirectory
+    ): array {
+        $processInput = [self::GIT_MV_WITH_HISTORY_BASH_FILE];
 
         foreach ($finder as $fileInfo) {
             $processInput[] = sprintf(
                 '%s=%s',
-                $fileInfo->getRelativePathname(),
-                $newPackageDirectory . '/' . $fileInfo->getRelativePathname()
+                $monorepoDirectory . '/' . $fileInfo->getRelativePathname(),
+                $monorepoDirectory . '/' . $packageSubdirectory . '/' . $fileInfo->getRelativePathname()
             );
         }
 

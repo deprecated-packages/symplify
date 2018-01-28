@@ -11,14 +11,14 @@ final class Filesystem
     /**
      * @var string[]
      */
-    private const LOCAL_DIRS = ['packages', 'vendor', '.idea'];
+    private const EXCLUDED_LOCAL_DIRS = ['packages', 'vendor', '.idea'];
 
     public function findMergedPackageFiles(string $directory): Finder
     {
         return Finder::create()
             ->files()
             ->in($directory)
-            ->exclude(self::LOCAL_DIRS)
+            ->exclude(self::EXCLUDED_LOCAL_DIRS)
             // include .gitignore, .travis etc
             ->ignoreDotFiles(false);
     }
@@ -39,7 +39,7 @@ final class Filesystem
         $emptyDirectoriesFinder = Finder::create()
             ->directories()
             ->in($path)
-            ->exclude(self::LOCAL_DIRS)
+            ->exclude(self::EXCLUDED_LOCAL_DIRS)
             // sort from deepest to top to allow removal in same direction
             ->sort(function (SplFileInfo $firstFileInfo, SplFileInfo $secondFileInfo) {
                 return strlen($firstFileInfo->getRealPath()) < strlen($secondFileInfo->getRealPath());
