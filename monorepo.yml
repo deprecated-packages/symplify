@@ -1,0 +1,3 @@
+parameters:
+    build:
+        package.git: packages/SomePackage
