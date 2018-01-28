@@ -45,7 +45,11 @@ final class Filesystem
         foreach ($finder->getIterator() as $fileInfo) {
             if ($fileInfo->isFile()) {
                 unlink($fileInfo->getRealPath());
-            } else {
+            }
+        }
+
+        foreach ($finder->getIterator() as $fileInfo) {
+            if ($fileInfo->isDir()) {
                 rmdir($fileInfo->getRealPath());
             }
         }
