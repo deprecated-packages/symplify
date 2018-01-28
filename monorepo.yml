@@ -1,3 +1,3 @@
 parameters:
     build:
-        package.git: packages/SomePackage
+        'git@github.com:shopsys/product-feed-zbozi.git': 'packages/ProductFeedZbozi'
