@@ -51,7 +51,7 @@ final class MonorepoKernel extends Kernel implements CompilerPassInterface
         return sys_get_temp_dir() . '/_symplify_monorepo_cache';
     }
 
-    public function getLogDir()
+    public function getLogDir(): string
     {
         return sys_get_temp_dir() . '/_symplify_monorepo_log';
     }

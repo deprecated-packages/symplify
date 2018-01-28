@@ -2,7 +2,6 @@
 
 namespace Symplify\Monorepo\Console\Command;
 
-use PhpParser\Node\Param;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -61,7 +60,7 @@ final class BuildCommand extends Command
         $this->addArgument(self::MONOREPO_DIRECTORY, InputArgument::REQUIRED, 'Path to empty .git repository');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): void
     {
         $build = $this->parameterProvider->provideParameter('build');
         $this->ensureConfigSectionIsFilled($build, 'build');
@@ -72,7 +71,10 @@ final class BuildCommand extends Command
         }
     }
 
-    private function ensureConfigSectionIsFilled($config = null, string $section): void
+    /**
+     * @param mixed $config
+     */
+    private function ensureConfigSectionIsFilled($config, string $section): void
     {
         if ($config) {
             return;
@@ -85,8 +87,11 @@ final class BuildCommand extends Command
         ));
     }
 
-    private function mergeRepositoryToMonorepoDirectory(string $repositoryUrl, string $monorepoDirectory, string $packageSubdirectory): void
-    {
+    private function mergeRepositoryToMonorepoDirectory(
+        string $repositoryUrl,
+        string $monorepoDirectory,
+        string $packageSubdirectory
+    ): void {
         $this->fetchRepositoryWorker->fetchAndMergeRepository($repositoryUrl, $monorepoDirectory);
 
         dump($monorepoDirectory);

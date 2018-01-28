@@ -6,9 +6,6 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Process\Process;
 
-/**
- * Mimics run2.sh
- */
 final class MoveHistoryWorker
 {
     /**
@@ -55,7 +52,11 @@ final class MoveHistoryWorker
         $processInput = [self::MV_WITH_HISTORY_BASH_FILE];
 
         foreach ($finder as $fileInfo) {
-            $processInput[] = sprintf('%s=%s', $fileInfo->getRelativePathname(), $newPackageDirectory . '/' . $fileInfo->getRelativePathname());
+            $processInput[] = sprintf(
+                '%s=%s',
+                $fileInfo->getRelativePathname(),
+                $newPackageDirectory . '/' . $fileInfo->getRelativePathname()
+            );
         }
 
         return $processInput;

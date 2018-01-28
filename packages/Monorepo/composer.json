@@ -2,6 +2,10 @@
     "name": "symplify/monorepo",
     "description": "Build and maintain monorepo (monolithic repository) like a boss.",
     "license": "MIT",
+    "bin": [
+        "bin/monorepo",
+        "bin/monorepo-bootstrap.php"
+    ],
     "require": {
         "cpliakas/git-wrapper": "^2.0",
         "symfony/console": "^4.0",
