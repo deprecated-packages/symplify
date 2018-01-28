@@ -1,0 +1,13 @@
+#!/usr/bin/env php
+<?php declare(strict_types=1);
+
+require_once __DIR__ . '/monorepo-bootstrap.php';
+
+use Symplify\Monorepo\Console\Application;
+use Symplify\Monorepo\DependencyInjection\ContainerFactory;
+
+$container = (new ContainerFactory())->create();
+
+/** @var Application $application */
+$application = $container->get(Application::class);
+$application->run();
