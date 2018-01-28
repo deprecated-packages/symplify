@@ -30,9 +30,12 @@ final class MoveHistoryWorker
      *
      * Empty directories will remain
      */
-    public function prependHistoryToNewPackageFiles(Finder $finder, string $monorepoDirectory, string $packageSubdirectory): void
-    {
-        $processInput = $this->createGitMoveWithHistoryProcessInput($finder, $monorepoDirectory, $packageSubdirectory);
+    public function prependHistoryToNewPackageFiles(
+        Finder $finder,
+        string $monorepoDirectory,
+        string $packageSubdirectory
+    ): void {
+        $processInput = $this->createGitMoveWithHistoryProcessInput($finder, $packageSubdirectory);
 
         $moveWithHistoryProcess = new Process($processInput, $monorepoDirectory);
         $moveWithHistoryProcess->run();
@@ -42,23 +45,22 @@ final class MoveHistoryWorker
         } else {
             $this->symfonyStyle->error(trim($moveWithHistoryProcess->getErrorOutput()));
         }
+
+        die;
     }
 
     /**
      * @return mixed[]
      */
-    private function createGitMoveWithHistoryProcessInput(
-        Finder $finder,
-        string $monorepoDirectory,
-        string $packageSubdirectory
-    ): array {
+    private function createGitMoveWithHistoryProcessInput(Finder $finder, string $packageSubdirectory): array
+    {
         $processInput = [self::GIT_MV_WITH_HISTORY_BASH_FILE];
 
         foreach ($finder as $fileInfo) {
             $processInput[] = sprintf(
                 '%s=%s',
-                $monorepoDirectory . '/' . $fileInfo->getRelativePathname(),
-                $monorepoDirectory . '/' . $packageSubdirectory . '/' . $fileInfo->getRelativePathname()
+                $fileInfo->getRelativePathname(),
+                $packageSubdirectory . '/' . $fileInfo->getRelativePathname()
             );
         }
 

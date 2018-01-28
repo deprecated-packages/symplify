@@ -20,21 +20,29 @@ final class RepositoryToPackageMerger
      * @var Filesystem
      */
     private $filesystem;
+
     /**
      * @var SymfonyStyle
      */
     private $symfonyStyle;
+
     /**
      * @var GitWrapper
      */
     private $gitWrapper;
+
     /**
      * @var MoveHistoryWorker
      */
     private $moveHistoryWorker;
 
-    public function __construct(GitWrapper $gitWrapper, RepositoryWorker $repositoryWorker, Filesystem $filesystem, SymfonyStyle $symfonyStyle, MoveHistoryWorker $moveHistoryWorker)
-    {
+    public function __construct(
+        GitWrapper $gitWrapper,
+        RepositoryWorker $repositoryWorker,
+        Filesystem $filesystem,
+        SymfonyStyle $symfonyStyle,
+        MoveHistoryWorker $moveHistoryWorker
+    ) {
         $this->gitWrapper = $gitWrapper;
         $this->repositoryWorker = $repositoryWorker;
         $this->filesystem = $filesystem;
@@ -62,12 +70,6 @@ final class RepositoryToPackageMerger
         $finder = $this->filesystem->findMergedPackageFiles($monorepoDirectory);
 
         $this->filesystem->copyFinderFilesToDirectory($finder, $absolutePackageDirectory);
-
-        //        if ($gitWorkingCopy->hasChanges()) {
-//            $gitWorkingCopy->add('.');
-//            $gitWorkingCopy->commit(sprintf('merge "%s" repository', $repositoryUrl));
-//        }
-
         $this->symfonyStyle->success(sprintf(
             'Files for "%s" copied to "%s"',
             $repositoryUrl,
@@ -76,12 +78,8 @@ final class RepositoryToPackageMerger
 
         // prepend history
         $this->moveHistoryWorker->prependHistoryToNewPackageFiles($finder, $monorepoDirectory, $packageSubdirectory);
-        $this->symfonyStyle->success(sprintf(
-            'History added for files in "%s"',
-            $packageSubdirectory
-        ));
+        $this->symfonyStyle->success(sprintf('History added for files in "%s"', $packageSubdirectory));
         $this->filesystem->createFilesInFinder($finder);
-//        $this->filesystem->createFilesInFinder($monorepoDirectory);
     }
 
     private function getGitWorkingCopyForDirectory(string $directory): GitWorkingCopy
