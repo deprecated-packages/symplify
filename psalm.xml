@@ -14,6 +14,7 @@
     </projectFiles>
 
     <issueHandlers>
+        <DeprecatedInterface errorLevel="info" />
         <LessSpecificReturnType errorLevel="info" />
 
         <!-- level 3 issues - slightly lazy code writing, but provably low false-negatives -->
@@ -59,7 +60,7 @@
         </PossiblyInvalidMethodCall>
 
         <TypeCoercion errorLevel="info" />
-        
+
         <InvalidFalsableReturnType errorLevel="info" />
         <FalsableReturnStatement errorLevel="info" />
 
@@ -72,5 +73,12 @@
         <UnresolvableInclude errorLevel="info" />
 
         <LoopInvalidation errorLevel="info" />
+
+        <!-- false positive -->
+        <InvalidArgument>
+            <errorLevel type="info">
+                <file name="packages/EasyCodingStandard/src/DependencyInjection/Extension/CheckersExtension.php" />
+            </errorLevel>
+        </InvalidArgument>
     </issueHandlers>
 </psalm>

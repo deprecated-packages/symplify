@@ -38,7 +38,7 @@ final class Filesystem
     {
         $finder
             // sort from deepest to top to allow removal in same direction
-            ->sort(function (SplFileInfo $firstFileInfo, SplFileInfo $secondFileInfo) {
+            ->sort(function (SplFileInfo $firstFileInfo, SplFileInfo $secondFileInfo): bool {
                 return strlen($firstFileInfo->getRealPath()) < strlen($secondFileInfo->getRealPath());
             });
 
