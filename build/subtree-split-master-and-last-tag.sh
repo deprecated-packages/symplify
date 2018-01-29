@@ -3,6 +3,7 @@ git subsplit init git@github.com:symplify/symplify.git
 
 LAST_TAG=$(git tag -l  --sort=committerdate | tail -n1);
 
+git subsplit publish --heads="master" --tags=$LAST_TAG packages/Monorepo:git@github.com:Symplify/Monorepo.git
 git subsplit publish --heads="master" --tags=$LAST_TAG packages/PackageBuilder:git@github.com:Symplify/PackageBuilder.git
 git subsplit publish --heads="master" --tags=$LAST_TAG packages/TokenRunner:git@github.com:Symplify/TokenRunner.git
 git subsplit publish --heads="master" --tags=$LAST_TAG packages/BetterReflectionDocBlock:git@github.com:Symplify/BetterReflectionDocBlock.git
