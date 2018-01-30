@@ -15,6 +15,7 @@ final class PackageToRepositorySplitter
 
         foreach ($splitConfig as $localSubdirectory => $remoteRepository) {
             $this->splitLocalSubdirectoryToGitRepositoryWithTag(
+                $gitWorkingCopy,
                 $localSubdirectory,
                 $remoteRepository,
                 $theMostRecentTag
@@ -23,11 +24,17 @@ final class PackageToRepositorySplitter
     }
 
     private function splitLocalSubdirectoryToGitRepositoryWithTag(
+        GitWorkingCopy $gitWorkingCopy,
         string $localSubdirectory,
         string $remoteGitRepository,
-        ?string $theMostRecentTag = null
+        string $theMostRecentTag
     ): void {
-        // ...
+        $gitWorkingCopy->run('subsplit', [
+            'publish',
+            'heads' => 'master',
+            'tags' => $theMostRecentTag,
+            sprintf('%s:%s', $localSubdirectory, $remoteGitRepository),
+        ]);
     }
 
     private function getMostRecentTag(GitWorkingCopy $gitWorkingCopy): string
