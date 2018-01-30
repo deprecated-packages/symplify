@@ -19,7 +19,7 @@ parameters:
     split:
         directory in monorepo with package => remote git repository
         'packages/ProductFeedZbozi': 'git@github.com:shopsys/product-feed-zbozi.git'
-        'packages/ProductFeedHeureka': 'git@github.com:shopsys/product-feed-heureka.git':
+        'packages/ProductFeedHeureka': 'git@github.com:shopsys/product-feed-heureka.git'
 ```
 
 2. Run `split` command
@@ -78,28 +78,4 @@ vendor/bin/monorepo build ../new-monorepo
     /packages
         /ProductFeedZbozi
         /ProductFeedHeureka
-```
-
-#### How to Add Repository to Root Directory?
-
-Do you want to add remote repository not into the `packages/<name>` subdirectory but into the root directory?
-
-```yml
-# incorrect
-parameters:
-    build:
-        'git@github.com:symplify/monorepo-skeleton.git': '.'
-        'git@github.com:shopsys/product-feed-zbozi.git': 'packages/ProductFeedZbozi'
-```
-
-If it is the first one like in a list above, first `/src` directory is added in the root. Then another `/src` from `git@github.com:shopsys/product-feed-zbozi.git` will be added and will cause conflict.
-
-In such case, **this package have to be last**:
-
-```yml
-# correct
-parameters:
-    build:
-        'git@github.com:shopsys/product-feed-zbozi.git': 'packages/ProductFeedZbozi'
-        'git@github.com:symplify/monorepo-skeleton.git': '.'
 ```
