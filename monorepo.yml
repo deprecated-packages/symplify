@@ -1,8 +1,4 @@
 parameters:
-    build:
-        'git@github.com:shopsys/product-feed-zbozi.git': 'packages/ProductFeedZbozi'
-        'git@github.com:shopsys/product-feed-heureka.git': 'packages/ProductFeedHeureka'
-
     split:
         'packages/Monorepo': 'git@github.com:Symplify/Monorepo.git'
         'packages/PackageBuilder': 'git@github.com:Symplify/PackageBuilder.git'
