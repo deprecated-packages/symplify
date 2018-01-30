@@ -78,7 +78,7 @@ final class SplitCommand extends Command
         $gitWorkingCopy = $this->gitWrapper->workingCopy(getcwd());
 
         // @todo check exception if subsplit alias not installed
-        $gitWorkingCopy->run('subsplit', ['init', '.git']);
+//        $gitWorkingCopy->run('subsplit', ['init', '.git']);
         $this->symfonyStyle->success(sprintf(
             'Directory "%s" with local clone created',
             $this->getSubsplitDirectory()

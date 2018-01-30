@@ -6,29 +6,29 @@ use GitWrapper\GitWorkingCopy;
 
 final class RepositoryWorker
 {
-    public function mergeRepositoryToMonorepoDirectory(string $gitRepository, GitWorkingCopy $gitWorkingCopy): void
+    public function mergeRepositoryToMonorepoDirectory(string $repository, GitWorkingCopy $gitWorkingCopy): void
     {
-        $remoteName = $this->createRepositoryName($gitRepository);
+        $remoteName = $this->createRepositoryName($repository);
 
-        $this->addRemote($remoteName, $gitRepository, $gitWorkingCopy);
+        $this->addRemote($remoteName, $repository, $gitWorkingCopy);
 
         $gitWorkingCopy->merge($remoteName . '/master', ['allow-unrelated-histories' => true]);
     }
 
-    private function addRemote(string $remoteName, string $gitRepository, GitWorkingCopy $gitWorkingCopy): void
+    private function addRemote(string $remoteName, string $repository, GitWorkingCopy $gitWorkingCopy): void
     {
         if ($gitWorkingCopy->hasRemote($remoteName)) {
             return;
         }
 
-        $gitWorkingCopy->addRemote($remoteName, $gitRepository, ['-f' => true]);
+        $gitWorkingCopy->addRemote($remoteName, $repository, ['-f' => true]);
     }
 
     /**
      * This name is needed for git, since it requires [a-zA-Z] string name for remote.
      */
-    private function createRepositoryName(string $gitRepository): string
+    private function createRepositoryName(string $repository): string
     {
-        return md5($gitRepository);
+        return md5($repository);
     }
 }

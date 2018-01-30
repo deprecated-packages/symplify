@@ -3,9 +3,20 @@
 namespace Symplify\Monorepo;
 
 use GitWrapper\GitWorkingCopy;
+use Symfony\Component\Console\Style\SymfonyStyle;
 
 final class PackageToRepositorySplitter
 {
+    /**
+     * @var SymfonyStyle
+     */
+    private $symfonyStyle;
+
+    public function __construct(SymfonyStyle $symfonyStyle)
+    {
+        $this->symfonyStyle = $symfonyStyle;
+    }
+
     /**
      * @param mixed[] $splitConfig
      */
@@ -14,7 +25,7 @@ final class PackageToRepositorySplitter
         $theMostRecentTag = $this->getMostRecentTag($gitWorkingCopy);
 
         foreach ($splitConfig as $localSubdirectory => $remoteRepository) {
-            $this->splitLocalSubdirectoryToGitRepositoryWithTag(
+            $this->splitLocalSubdirectoryToRepositoryWithTag(
                 $gitWorkingCopy,
                 $localSubdirectory,
                 $remoteRepository,
@@ -23,18 +34,25 @@ final class PackageToRepositorySplitter
         }
     }
 
-    private function splitLocalSubdirectoryToGitRepositoryWithTag(
+    private function splitLocalSubdirectoryToRepositoryWithTag(
         GitWorkingCopy $gitWorkingCopy,
         string $localSubdirectory,
-        string $remoteGitRepository,
+        string $remoteRepository,
         string $theMostRecentTag
     ): void {
-        $gitWorkingCopy->run('subsplit', [
+        // @todo validate local directory
+        // @todo validate remote repository
+
+        $options = [
             'publish',
-            'heads' => 'master',
-            'tags' => $theMostRecentTag,
-            sprintf('%s:%s', $localSubdirectory, $remoteGitRepository),
-        ]);
+            '--heads=master',
+            sprintf('--tags=%s', $theMostRecentTag),
+            sprintf('%s:%s', $localSubdirectory, $remoteRepository),
+        ];
+
+        $gitWorkingCopy->run('subsplit', $options);
+
+        $this->symfonyStyle->success(sprintf('Packages %s was spplit to %s', $localSubdirectory, $remoteRepository));
     }
 
     private function getMostRecentTag(GitWorkingCopy $gitWorkingCopy): string
