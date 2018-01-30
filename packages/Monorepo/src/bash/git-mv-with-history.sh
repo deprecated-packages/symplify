@@ -23,7 +23,7 @@
 #
 #   git-rewrite-history [-d/--dry-run] [-v/--verbose] <srcname>=<destname> <...> <...>
 #
-# After the repsitory is re-written, eyeball it, commit and push up.
+# After the repository is re-written, eyeball it, commit and push up.
 #
 # Given this example repository structure:
 #
