@@ -20,6 +20,13 @@ The best and easiest way to start coding standard with. Combined both [PHP-CS-Fi
 
 **Used by [Shopsys](https://github.com/shopsys/coding-standards), [Nette](https://github.com/nette/coding-standard) and [Sylius](https://github.com/SyliusLabs/CodingStandard).**
 
+## [Monorepo](https://github.com/Symplify/Monorepo)
+
+[![Build Status](https://img.shields.io/travis/Symplify/Monorepo/master.svg?style=flat-square)](https://travis-ci.org/Symplify/Monorepo)
+[![Downloads](https://img.shields.io/packagist/dt/Symplify/monorepo.svg?style=flat-square)](https://packagist.org/packages/Symplify/monorepo)
+
+Build and maintain Monorepo like a Boss.
+
 ## [TokenRunner](https://github.com/Symplify/TokenRunner)
 
 [![Build Status](https://img.shields.io/travis/Symplify/TokenRunner/master.svg?style=flat-square)](https://travis-ci.org/Symplify/TokenRunner)
