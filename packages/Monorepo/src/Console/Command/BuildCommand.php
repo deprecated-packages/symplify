@@ -8,6 +8,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symplify\Monorepo\Exception\MissingConfigurationSectionException;
 use Symplify\Monorepo\RepositoryToPackageMerger;
+use Symplify\PackageBuilder\Console\Command\CommandNaming;
 use Symplify\PackageBuilder\Parameter\ParameterProvider;
 
 final class BuildCommand extends Command
@@ -39,7 +40,7 @@ final class BuildCommand extends Command
 
     protected function configure(): void
     {
-        $this->setName('build');
+        $this->setName(CommandNaming::classToName(self::class));
         $this->setDescription('Creates monolitic repository from provided config.');
         $this->addArgument(self::MONOREPO_DIRECTORY, InputArgument::REQUIRED, 'Path to empty .git repository');
     }

@@ -28,5 +28,6 @@
         "psr-4": {
             "Symplify\\Monoraper\\Tests\\": "tests"
         }
-    }
+    },
+    "minimum-stability": "dev"
 }
