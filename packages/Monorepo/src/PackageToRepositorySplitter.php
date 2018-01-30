@@ -52,7 +52,11 @@ final class PackageToRepositorySplitter
 
         $gitWorkingCopy->run('subsplit', $options);
 
-        $this->symfonyStyle->success(sprintf('Packages %s was spplit to %s', $localSubdirectory, $remoteRepository));
+        $this->symfonyStyle->success(sprintf(
+            'Package "%s" was split to "%s" repository',
+            $localSubdirectory,
+            $remoteRepository
+        ));
     }
 
     private function getMostRecentTag(GitWorkingCopy $gitWorkingCopy): string
