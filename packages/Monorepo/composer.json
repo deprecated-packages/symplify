@@ -21,12 +21,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Symplify\\Monoraper\\": "src"
+            "Symplify\\Monorepo\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Symplify\\Monoraper\\Tests\\": "tests"
+            "Symplify\\Monorepo\\Tests\\": "tests"
         }
     },
     "minimum-stability": "dev"
