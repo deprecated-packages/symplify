@@ -24,7 +24,7 @@ final class Filesystem
     }
 
     /**
-     * - find new files with finder
+     * - find new files with finder(
      * - copy to new directory
      */
     public function copyFinderFilesToDirectory(Finder $finder, string $directory): void
@@ -36,13 +36,6 @@ final class Filesystem
 
     public function deleteDirectory(string $directory): void
     {
-        $finder = Finder::create()
-            ->in($directory)
-            // include .gitignore, .travis.yml etc
-            ->ignoreDotFiles(false);
-
-        $this->deleteFilesInFinder($finder);
-
         NetteFileSystem::delete($directory);
     }
 
