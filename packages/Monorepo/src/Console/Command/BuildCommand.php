@@ -7,7 +7,6 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symplify\Monorepo\Configuration\ConfigurationGuard;
-use Symplify\Monorepo\Exception\MissingConfigurationSectionException;
 use Symplify\Monorepo\RepositoryToPackageMerger;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
 use Symplify\PackageBuilder\Parameter\ParameterProvider;
@@ -28,6 +27,7 @@ final class BuildCommand extends Command
      * @var RepositoryToPackageMerger
      */
     private $repositoryToPackageMerger;
+
     /**
      * @var ConfigurationGuard
      */
