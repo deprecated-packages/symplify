@@ -8,7 +8,7 @@ final class RepositoryWorker
 {
     public function mergeRepositoryToMonorepoDirectory(string $gitRepository, GitWorkingCopy $gitWorkingCopy): void
     {
-        $remoteName = md5($gitRepository);
+        $remoteName = $this->createRepositoryName($gitRepository);
 
         $this->addRemote($gitRepository, $gitWorkingCopy, $remoteName);
 
@@ -22,5 +22,13 @@ final class RepositoryWorker
         }
 
         $gitWorkingCopy->addRemote($remoteName, $gitRepository, ['-f' => true]);
+    }
+
+    /**
+     * This name is needed for git, since it requires [a-zA-Z] string name for remote.
+     */
+    private function createRepositoryName(string $gitRepository): string
+    {
+        return md5($gitRepository);
     }
 }
