@@ -5,6 +5,7 @@ namespace Symplify\Monorepo\Console;
 use Symfony\Component\Console\Application as SymfonyApplication;
 use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputOption;
+use Symplify\Monorepo\Configuration\ConfigurationOptions;
 
 final class Application extends SymfonyApplication
 {
@@ -39,7 +40,7 @@ final class Application extends SymfonyApplication
             null,
             InputOption::VALUE_REQUIRED,
             'Path to config file.',
-            getcwd() . '/Monorepo.yml'
+            getcwd() . '/' . ConfigurationOptions::MONOREPO_CONFIG_FILE
         ));
     }
 }

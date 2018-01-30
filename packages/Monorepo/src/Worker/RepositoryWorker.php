@@ -10,12 +10,12 @@ final class RepositoryWorker
     {
         $remoteName = $this->createRepositoryName($gitRepository);
 
-        $this->addRemote($gitRepository, $gitWorkingCopy, $remoteName);
+        $this->addRemote($remoteName, $gitRepository, $gitWorkingCopy);
 
         $gitWorkingCopy->merge($remoteName . '/master', ['allow-unrelated-histories' => true]);
     }
 
-    private function addRemote(string $gitRepository, GitWorkingCopy $gitWorkingCopy, string $remoteName): void
+    private function addRemote(string $remoteName, string $gitRepository, GitWorkingCopy $gitWorkingCopy): void
     {
         if ($gitWorkingCopy->hasRemote($remoteName)) {
             return;

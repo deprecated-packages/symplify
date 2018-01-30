@@ -23,13 +23,6 @@ final class MoveHistoryWorker
         $this->symfonyStyle = $symfonyStyle;
     }
 
-    /**
-     * This will:
-     * - add complete history to new files
-     * - delete old files
-     *
-     * Empty directories will remain
-     */
     public function prependHistoryToNewPackageFiles(
         Finder $finder,
         string $monorepoDirectory,

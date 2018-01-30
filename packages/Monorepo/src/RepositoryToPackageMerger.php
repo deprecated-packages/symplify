@@ -79,6 +79,8 @@ final class RepositoryToPackageMerger
         // prepend history
         $this->moveHistoryWorker->prependHistoryToNewPackageFiles($finder, $monorepoDirectory, $packageSubdirectory);
         $this->symfonyStyle->success(sprintf('History added for files in "%s"', $packageSubdirectory));
+
+        // clear old repository files if moved
         $this->filesystem->deleteFilesInFinder($finder);
     }
 
