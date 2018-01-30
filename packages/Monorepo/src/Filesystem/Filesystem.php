@@ -34,6 +34,18 @@ final class Filesystem
         }
     }
 
+    public function deleteDirectory(string $directory): void
+    {
+        $finder = Finder::create()
+            ->in($directory)
+            // include .gitignore, .travis.yml etc
+            ->ignoreDotFiles(false);
+
+        $this->deleteFilesInFinder($finder);
+
+        NetteFileSystem::delete($directory);
+    }
+
     public function deleteFilesInFinder(Finder $finder): void
     {
         $finder
