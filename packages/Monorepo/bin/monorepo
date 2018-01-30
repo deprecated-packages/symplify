@@ -3,12 +3,13 @@
 
 require_once __DIR__ . '/monorepo-bootstrap.php';
 
+use Symplify\Monorepo\Configuration\ConfigurationOptions;
 use Symplify\Monorepo\Console\Application;
 use Symplify\Monorepo\DependencyInjection\ContainerFactory;
 use Symplify\PackageBuilder\Configuration\ConfigFilePathHelper;
 
 // Detect configuration
-$configFile = ConfigFilePathHelper::provide('monorepo', 'monorepo.yml');
+$configFile = ConfigFilePathHelper::provide('monorepo', ConfigurationOptions::MONOREPO_CONFIG_FILE);
 $containerFactory = new ContainerFactory();
 if ($configFile) {
     $container = $containerFactory->createWithConfig($configFile);

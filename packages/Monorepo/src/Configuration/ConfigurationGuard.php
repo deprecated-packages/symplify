@@ -18,7 +18,7 @@ final class ConfigurationGuard
         throw new MissingConfigurationSectionException(sprintf(
             'Section "%s" in config is required. Complete it to "%s" file under "parameters"',
             $section,
-            'monorepo.yml'
+            ConfigurationOptions::MONOREPO_CONFIG_FILE
         ));
     }
 }
