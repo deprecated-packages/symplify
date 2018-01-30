@@ -3,10 +3,6 @@
 # author: https://github.com/emiller
 # source: https://gist.github.com/emiller/6769886
 
-## Todo
-# 1. create copy of file in packages, e.g. "packages/.travis.yml"
-# 2. run this tool with "-v .travis.yml=packages/.travis.yml"
-
 # git-mv-with-history -- move/rename file or folder, with history.
 #
 # Moving a file in git doesn't track history, so the purpose of this
