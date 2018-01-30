@@ -10,7 +10,7 @@
 
 ## Usage
 
-### Build Monolitic Repository from Many Repositories
+### Build Monolithic Repository from Many Repositories
 
 - Do you have **many packages with long git history**?
 - Do you want to **turn them into monorepo**?

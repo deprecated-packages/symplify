@@ -42,7 +42,7 @@ final class SplitCommand extends Command
     protected function configure(): void
     {
         $this->setName(CommandNaming::classToName(self::class));
-        $this->setDescription('Split monolitic repository from provided config to many repositories.');
+        $this->setDescription('Split monolithic repository from provided config to many repositories.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): void

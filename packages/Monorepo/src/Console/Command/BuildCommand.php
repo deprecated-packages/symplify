@@ -48,7 +48,7 @@ final class BuildCommand extends Command
     protected function configure(): void
     {
         $this->setName(CommandNaming::classToName(self::class));
-        $this->setDescription('Creates monolitic repository from provided config.');
+        $this->setDescription('Creates monolithic repository from provided config.');
         $this->addArgument(self::MONOREPO_DIRECTORY, InputArgument::REQUIRED, 'Path to empty .git repository');
     }
 
