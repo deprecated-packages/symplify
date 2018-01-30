@@ -6,6 +6,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symplify\Monorepo\Configuration\ConfigurationGuard;
 use Symplify\Monorepo\Exception\MissingConfigurationSectionException;
 use Symplify\Monorepo\RepositoryToPackageMerger;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
@@ -27,13 +28,19 @@ final class BuildCommand extends Command
      * @var RepositoryToPackageMerger
      */
     private $repositoryToPackageMerger;
+    /**
+     * @var ConfigurationGuard
+     */
+    private $configurationGuard;
 
     public function __construct(
         ParameterProvider $parameterProvider,
-        RepositoryToPackageMerger $repositoryToPackageMerger
+        RepositoryToPackageMerger $repositoryToPackageMerger,
+        ConfigurationGuard $configurationGuard
     ) {
         $this->parameterProvider = $parameterProvider;
         $this->repositoryToPackageMerger = $repositoryToPackageMerger;
+        $this->configurationGuard = $configurationGuard;
 
         parent::__construct();
     }
@@ -48,7 +55,7 @@ final class BuildCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): void
     {
         $build = $this->parameterProvider->provideParameter('build');
-        $this->ensureConfigSectionIsFilled($build, 'build');
+        $this->configurationGuard->ensureConfigSectionIsFilled($build, 'build');
 
         $monorepoDirectory = $input->getArgument(self::MONOREPO_DIRECTORY);
         foreach ($build as $repositoryUrl => $packagesSubdirectory) {
@@ -58,21 +65,5 @@ final class BuildCommand extends Command
                 $packagesSubdirectory
             );
         }
-    }
-
-    /**
-     * @param mixed $config
-     */
-    private function ensureConfigSectionIsFilled($config, string $section): void
-    {
-        if ($config) {
-            return;
-        }
-
-        throw new MissingConfigurationSectionException(sprintf(
-            'Section "%s" in config is rqeuired. Complete it to "%s" file under "parameters"',
-            $section,
-            'monorepo.yml'
-        ));
     }
 }
