@@ -2,6 +2,8 @@
 
 namespace Symplify\Monorepo\Configuration;
 
+use Symplify\Monorepo\Exception\MissingConfigurationSectionException;
+
 final class ConfigurationGuard
 {
     /**

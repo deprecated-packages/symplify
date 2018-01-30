@@ -4,6 +4,10 @@
 [![Downloads](https://img.shields.io/packagist/dt/symplify/monorepo.svg?style=flat-square)](https://packagist.org/packages/symplify/monorepo)
 [![Subscribe](https://img.shields.io/badge/subscribe-to--releases-green.svg?style=flat-square)](https://libraries.io/packagist/symplify%2Fmonorepo)
 
+## Requirements
+
+- [dflydev/git-subsplit](https://github.com/dflydev/git-subsplit) for `git subsplit` command
+
 ## Usage
 
 ### Build Monolitic Repository from Many Repositories
