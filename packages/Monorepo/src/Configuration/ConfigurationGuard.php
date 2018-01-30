@@ -2,7 +2,9 @@
 
 namespace Symplify\Monorepo\Configuration;
 
+use PhpCsFixer\Diff\GeckoPackages\DiffOutputBuilder\ConfigurationException;
 use Symplify\Monorepo\Exception\MissingConfigurationSectionException;
+use Symplify\Monorepo\Exception\NonEmptyDirectoryException;
 
 final class ConfigurationGuard
 {
@@ -19,6 +21,22 @@ final class ConfigurationGuard
             'Section "%s" in config is required. Complete it to "%s" file under "parameters"',
             $section,
             ConfigurationOptions::MONOREPO_CONFIG_FILE
+        ));
+    }
+
+    public function ensureDirectoryIsEmpty(string $directory): void
+    {
+        if (! file_exists($directory)) {
+            return;
+        }
+
+        if (count(glob($directory . '/*')) === 0) {
+            return;
+        }
+
+        throw new NonEmptyDirectoryException(sprintf(
+            'Directory "%s" must be empty.',
+            $directory
         ));
     }
 }
