@@ -34,7 +34,7 @@ final class Filesystem
         }
     }
 
-    public function createFilesInFinder(Finder $finder): void
+    public function deleteFilesInFinder(Finder $finder): void
     {
         $finder
             // sort from deepest to top to allow removal in same direction
