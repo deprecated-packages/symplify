@@ -81,7 +81,7 @@ final class RepositoryToPackageMerger
         $this->symfonyStyle->success(sprintf('History added for files in "%s"', $packageSubdirectory));
 
         // clear old repository files if moved
-        $this->filesystem->deleteFilesInFinder($finder);
+        $this->filesystem->deleteMergedPackage($finder);
     }
 
     private function getGitWorkingCopyForDirectory(string $directory): GitWorkingCopy

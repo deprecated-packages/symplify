@@ -39,24 +39,25 @@ final class Filesystem
         NetteFileSystem::delete($directory);
     }
 
+    /**
+     * @param string $directory
+     * @return $this
+     */
+    public function deleteMergedPackage(string $directory)
+    {
+        $finder = Finder::create()
+            ->in($directory)
+            ->exclude(self::EXCLUDED_LOCAL_DIRS)
+            // include .gitignore, .travis etc
+            ->ignoreDotFiles(false);
+
+        $this->deleteFilesInFinder($finder);
+    }
+
     public function deleteFilesInFinder(Finder $finder): void
     {
-        $finder
-            // sort from deepest to top to allow removal in same direction
-            ->sort(function (SplFileInfo $firstFileInfo, SplFileInfo $secondFileInfo): bool {
-                return strlen($firstFileInfo->getRealPath()) < strlen($secondFileInfo->getRealPath());
-            });
-
         foreach ($finder->getIterator() as $fileInfo) {
-            if ($fileInfo->isFile()) {
-                unlink($fileInfo->getRealPath());
-            }
-        }
-
-        foreach ($finder->getIterator() as $fileInfo) {
-            if ($fileInfo->isDir()) {
-                rmdir($fileInfo->getRealPath());
-            }
+            NetteFileSystem::delete($fileInfo);
         }
     }
 }
