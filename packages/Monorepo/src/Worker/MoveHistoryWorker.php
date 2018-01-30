@@ -5,6 +5,7 @@ namespace Symplify\Monorepo\Worker;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Process\Process;
+use Symplify\Monorepo\Exception\Worker\MoveWithHistoryException;
 
 final class MoveHistoryWorker
 {
@@ -33,10 +34,8 @@ final class MoveHistoryWorker
         $moveWithHistoryProcess = new Process($processInput, $monorepoDirectory);
         $moveWithHistoryProcess->run();
 
-        if ($moveWithHistoryProcess->isSuccessful()) {
-            $this->symfonyStyle->note(trim($moveWithHistoryProcess->getOutput()));
-        } else {
-            $this->symfonyStyle->error(trim($moveWithHistoryProcess->getErrorOutput()));
+        if (! $moveWithHistoryProcess->isSuccessful()) {
+            throw new MoveWithHistoryException($moveWithHistoryProcess->getErrorOutput());
         }
     }
 
