@@ -12,9 +12,9 @@
 - Do you want to **turn them into monorepo**?
 - Do you want **keep their history**?
 
-That's exactly what `build` does.
+That's exactly what `build` command does.
 
-<br>
+#### Directories to work With
 
 You're working with 2 directories:
 
@@ -27,7 +27,7 @@ You're working with 2 directories:
 
 Do all following steps in **build directory**.
 
-<br>
+#### 3 Steps to Build Monorepo
 
 1. Create `monorepo.yml` with `build` section
 
@@ -56,7 +56,7 @@ vendor/bin/monorepo build ../new-monorepo
         /ProductFeedHeureka
 ```
 
-### How to Add Repository to Root Directory?
+#### How to Add Repository to Root Directory?
 
 Do you want to add remote repository not into the `packages/<name>` subdirectory but into the root directory?
 
