@@ -4,6 +4,7 @@ namespace Symplify\Monorepo\Tests;
 
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 use Symplify\Monorepo\DependencyInjection\ContainerFactory;
 
 abstract class AbstractContainerAwareTestCase extends TestCase
@@ -28,6 +29,10 @@ abstract class AbstractContainerAwareTestCase extends TestCase
         }
 
         $this->container = self::$cachedContainer;
+
+        /** @var OutputInterface $output */
+//        $output = $this->container->get(OutputInterface::class);
+//        $output->setVerbosity(OutputInterface::VERBOSITY_QUIET);
 
         parent::__construct($name, $data, $dataName);
     }

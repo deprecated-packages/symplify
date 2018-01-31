@@ -4,7 +4,6 @@ namespace Symplify\Monorepo\Tests;
 
 use GitWrapper\GitWrapper;
 use Nette\Utils\FileSystem;
-use Symfony\Component\Console\Output\OutputInterface;
 use Symplify\Monorepo\RepositoryToPackageMerger;
 
 final class RepositoryToPackageMergerTest extends AbstractContainerAwareTestCase
@@ -28,10 +27,6 @@ final class RepositoryToPackageMergerTest extends AbstractContainerAwareTestCase
     {
         $this->gitWrapper = $this->container->get(GitWrapper::class);
         $this->repositoryToPackageMerger = $this->container->get(RepositoryToPackageMerger::class);
-
-        /** @var OutputInterface $output */
-        $output = $this->container->get(OutputInterface::class);
-        $output->setVerbosity(OutputInterface::VERBOSITY_QUIET);
     }
 
     protected function tearDown(): void
