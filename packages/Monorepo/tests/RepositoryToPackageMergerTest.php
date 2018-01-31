@@ -39,17 +39,17 @@ final class RepositoryToPackageMergerTest extends AbstractContainerAwareTestCase
         FileSystem::delete(self::TEMP_MONOREPO_DIRECTORY);
     }
 
-    /**
-     * @doesNotPerformAssertions
-     */
     public function test(): void
     {
         $this->gitWrapper->init(self::TEMP_MONOREPO_DIRECTORY);
 
         $this->repositoryToPackageMerger->mergeRepositoryToPackage(
-            'git@github.com:shopsys/product-feed-zbozi.git',
+            'https://github.com/Symplify/Monorepo.git',
             self::TEMP_MONOREPO_DIRECTORY,
-            'packages/ProductFeed'
+            'packages/Monorepo'
         );
+
+        $this->assertDirectoryNotExists(self::TEMP_MONOREPO_DIRECTORY . '/src');
+        $this->assertDirectoryExists(self::TEMP_MONOREPO_DIRECTORY . '/packages/Monorepo/src');
     }
 }
