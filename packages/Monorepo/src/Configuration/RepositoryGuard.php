@@ -2,22 +2,15 @@
 
 namespace Symplify\Monorepo\Configuration;
 
-use GitWrapper\GitWrapper;
 use Nette\Utils\Strings;
 use Symplify\Monorepo\Exception\InvalidRepositoryFormatException;
 
 final class RepositoryGuard
 {
-    const GIT_REPOSITORY_PATTERN = '#((git|ssh|http(s)?)|(git@[\w\.]+))(:(//)?)([\w\.@\:/\-~]+)(\.git)(/)?#';
     /**
-     * @var GitWrapper
+     * @var string
      */
-    private $gitWrapper;
-
-    public function __construct(GitWrapper $gitWrapper)
-    {
-        $this->gitWrapper = $gitWrapper;
-    }
+    private const GIT_REPOSITORY_PATTERN = '#((git|ssh|http(s)?)|(git@[\w\.]+))(:(//)?)([\w\.@\:/\-~]+)(\.git)(/)?#';
 
     public function ensureIsRepository(string $possibleRepository): void
     {

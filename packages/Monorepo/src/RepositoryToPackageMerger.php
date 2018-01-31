@@ -5,7 +5,6 @@ namespace Symplify\Monorepo;
 use GitWrapper\GitWorkingCopy;
 use GitWrapper\GitWrapper;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Symfony\Component\Process\Process;
 use Symplify\Monorepo\Configuration\RepositoryGuard;
 use Symplify\Monorepo\Filesystem\Filesystem;
 use Symplify\Monorepo\Worker\MoveHistoryWorker;
