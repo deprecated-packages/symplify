@@ -70,6 +70,10 @@ final class RepositoryToPackageMerger
         $finder = $this->filesystem->findMergedPackageFiles($monorepoDirectory);
 
         $this->filesystem->copyFinderFilesToDirectory($finder, $absolutePackageDirectory);
+        if ($gitWorkingCopy->hasChanges()) {
+            $gitWorkingCopy->add('.');
+            $gitWorkingCopy->commit('merge package');
+        }
         $this->symfonyStyle->success(sprintf(
             'Files for "%s" copied to "%s"',
             $repositoryUrl,
