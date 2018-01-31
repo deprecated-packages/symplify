@@ -14,6 +14,11 @@ final class RepositoryGuard
 
     public function ensureIsRepository(string $possibleRepository): void
     {
+        // local repository
+        if ($possibleRepository === '.git') {
+            return;
+        }
+
         if (Strings::match($possibleRepository, self::GIT_REPOSITORY_PATTERN)) {
             return;
         }
