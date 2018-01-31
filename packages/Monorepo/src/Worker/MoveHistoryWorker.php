@@ -47,8 +47,11 @@ final class MoveHistoryWorker
     /**
      * @param SplFileInfo[] $fileInfos
      */
-    private function processFileInfosChunk(array $fileInfos, string $monorepoDirectory, string $packageSubdirectory): void
-    {
+    private function processFileInfosChunk(
+        array $fileInfos,
+        string $monorepoDirectory,
+        string $packageSubdirectory
+    ): void {
         $processInput = $this->createGitMoveWithHistoryProcessInput($fileInfos, $packageSubdirectory);
 
         $process = new Process($processInput, $monorepoDirectory, null, null, null);
@@ -61,6 +64,7 @@ final class MoveHistoryWorker
                 $this->symfonyStyle->writeln($output);
             }
         }
+
         $process->wait();
 
         if (! $process->isSuccessful()) {

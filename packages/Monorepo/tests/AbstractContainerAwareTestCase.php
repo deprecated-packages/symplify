@@ -31,8 +31,8 @@ abstract class AbstractContainerAwareTestCase extends TestCase
         $this->container = self::$cachedContainer;
 
         /** @var OutputInterface $output */
-//        $output = $this->container->get(OutputInterface::class);
-//        $output->setVerbosity(OutputInterface::VERBOSITY_QUIET);
+        $output = $this->container->get(OutputInterface::class);
+        $output->setVerbosity(OutputInterface::VERBOSITY_QUIET);
 
         parent::__construct($name, $data, $dataName);
     }
