@@ -55,7 +55,11 @@ final class MoveHistoryWorker
         $process->start();
         while ($process->isRunning()) {
             // waiting for process to finish
-            $this->symfonyStyle->write($process->getOutput());
+            $output = trim($process->getOutput());
+            if ($output) {
+                $output = preg_replace('#(\r?\n){2,}#', PHP_EOL, $output);
+                $this->symfonyStyle->writeln($output);
+            }
         }
         $process->wait();
 
