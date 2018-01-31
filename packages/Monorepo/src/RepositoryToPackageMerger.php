@@ -81,7 +81,7 @@ final class RepositoryToPackageMerger
         $this->filesystem->copyFinderFilesToDirectory($finder, $absolutePackageDirectory);
         if ($gitWorkingCopy->hasChanges()) {
             $gitWorkingCopy->add('.');
-            $gitWorkingCopy->commit('merge package');
+            $gitWorkingCopy->commit(sprintf('merge remove repository "%s"', $repositoryUrl));
         }
 
         $this->symfonyStyle->success(sprintf(
