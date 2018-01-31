@@ -74,6 +74,7 @@ final class RepositoryToPackageMerger
             $gitWorkingCopy->add('.');
             $gitWorkingCopy->commit('merge package');
         }
+
         $this->symfonyStyle->success(sprintf(
             'Files for "%s" copied to "%s"',
             $repositoryUrl,

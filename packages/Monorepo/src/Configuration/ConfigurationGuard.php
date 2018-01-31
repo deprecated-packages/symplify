@@ -2,7 +2,6 @@
 
 namespace Symplify\Monorepo\Configuration;
 
-use PhpCsFixer\Diff\GeckoPackages\DiffOutputBuilder\ConfigurationException;
 use Symplify\Monorepo\Exception\MissingConfigurationSectionException;
 use Symplify\Monorepo\Exception\NonEmptyDirectoryException;
 

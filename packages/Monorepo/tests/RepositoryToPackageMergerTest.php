@@ -9,7 +9,11 @@ use Symplify\Monorepo\RepositoryToPackageMerger;
 
 final class RepositoryToPackageMergerTest extends AbstractContainerAwareTestCase
 {
-    const TEMP_MONOREPO_DIRECTORY = __DIR__ . '/RepositoryToPackageMergerSource/TempRepository';
+    /**
+     * @var string
+     */
+    private const TEMP_MONOREPO_DIRECTORY = __DIR__ . '/RepositoryToPackageMergerSource/TempRepository';
+
     /**
      * @var GitWrapper
      */
@@ -30,6 +34,11 @@ final class RepositoryToPackageMergerTest extends AbstractContainerAwareTestCase
         $output->setVerbosity(OutputInterface::VERBOSITY_QUIET);
     }
 
+    protected function tearDown(): void
+    {
+        FileSystem::delete(self::TEMP_MONOREPO_DIRECTORY);
+    }
+
     /**
      * @doesNotPerformAssertions
      */
@@ -42,10 +51,5 @@ final class RepositoryToPackageMergerTest extends AbstractContainerAwareTestCase
             self::TEMP_MONOREPO_DIRECTORY,
             'packages/ProductFeed'
         );
-    }
-
-    protected function tearDown(): void
-    {
-        FileSystem::delete(self::TEMP_MONOREPO_DIRECTORY);
     }
 }

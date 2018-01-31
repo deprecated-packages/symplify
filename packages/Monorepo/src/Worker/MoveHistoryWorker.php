@@ -2,7 +2,6 @@
 
 namespace Symplify\Monorepo\Worker;
 
-use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Process\Process;
 use Symplify\Monorepo\Exception\Worker\MoveWithHistoryException;
@@ -13,16 +12,6 @@ final class MoveHistoryWorker
      * @var string
      */
     private const GIT_MV_WITH_HISTORY_BASH_FILE = __DIR__ . '/../bash/git-mv-with-history.sh';
-
-    /**
-     * @var SymfonyStyle
-     */
-    private $symfonyStyle;
-
-    public function __construct(SymfonyStyle $symfonyStyle)
-    {
-        $this->symfonyStyle = $symfonyStyle;
-    }
 
     public function prependHistoryToNewPackageFiles(
         Finder $finder,
