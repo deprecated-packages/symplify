@@ -5,6 +5,8 @@ namespace Symplify\Monorepo;
 use GitWrapper\GitWorkingCopy;
 use GitWrapper\GitWrapper;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\Process\Process;
+use Symplify\Monorepo\Configuration\RepositoryGuard;
 use Symplify\Monorepo\Filesystem\Filesystem;
 use Symplify\Monorepo\Worker\MoveHistoryWorker;
 use Symplify\Monorepo\Worker\RepositoryWorker;
@@ -36,18 +38,25 @@ final class RepositoryToPackageMerger
      */
     private $moveHistoryWorker;
 
+    /**
+     * @var RepositoryGuard
+     */
+    private $repositoryGuard;
+
     public function __construct(
         GitWrapper $gitWrapper,
         RepositoryWorker $repositoryWorker,
         Filesystem $filesystem,
         SymfonyStyle $symfonyStyle,
-        MoveHistoryWorker $moveHistoryWorker
+        MoveHistoryWorker $moveHistoryWorker,
+        RepositoryGuard $repositoryGuard
     ) {
         $this->gitWrapper = $gitWrapper;
         $this->repositoryWorker = $repositoryWorker;
         $this->filesystem = $filesystem;
         $this->symfonyStyle = $symfonyStyle;
         $this->moveHistoryWorker = $moveHistoryWorker;
+        $this->repositoryGuard = $repositoryGuard;
     }
 
     public function mergeRepositoryToPackage(
@@ -55,6 +64,7 @@ final class RepositoryToPackageMerger
         string $monorepoDirectory,
         string $packageSubdirectory
     ): void {
+        $this->repositoryGuard->ensureIsRepository($repositoryUrl);
         $gitWorkingCopy = $this->getGitWorkingCopyForDirectory($monorepoDirectory);
 
         // add repository as remote and merge

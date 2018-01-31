@@ -39,7 +39,7 @@ final class RepositoryToPackageMergerTest extends AbstractContainerAwareTestCase
         FileSystem::delete(self::TEMP_MONOREPO_DIRECTORY);
     }
 
-    public function test(): void
+    public function testMergeTwoPackages(): void
     {
         $this->gitWrapper->init(self::TEMP_MONOREPO_DIRECTORY);
 
@@ -51,5 +51,14 @@ final class RepositoryToPackageMergerTest extends AbstractContainerAwareTestCase
 
         $this->assertDirectoryNotExists(self::TEMP_MONOREPO_DIRECTORY . '/src');
         $this->assertDirectoryExists(self::TEMP_MONOREPO_DIRECTORY . '/packages/Monorepo/src');
+
+//        $this->repositoryToPackageMerger->mergeRepositoryToPackage(
+//            'https://github.com/Symplify/CodingStandard.git',
+//            self::TEMP_MONOREPO_DIRECTORY,
+//            'packages/CodingStandard'
+//        );
+//
+//        $this->assertDirectoryNotExists(self::TEMP_MONOREPO_DIRECTORY . '/src');
+//        $this->assertDirectoryExists(self::TEMP_MONOREPO_DIRECTORY . '/packages/CodingStandard/src');
     }
 }
