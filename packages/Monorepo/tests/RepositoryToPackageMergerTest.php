@@ -43,15 +43,6 @@ final class RepositoryToPackageMergerTest extends AbstractContainerAwareTestCase
     {
         $this->gitWrapper->init(self::TEMP_MONOREPO_DIRECTORY);
 
-//        $this->repositoryToPackageMerger->mergeRepositoryToPackage(
-//            'https://github.com/Symplify/Monorepo.git',
-//            self::TEMP_MONOREPO_DIRECTORY,
-//            'packages/Monorepo'
-//        );
-//
-//        $this->assertDirectoryNotExists(self::TEMP_MONOREPO_DIRECTORY . '/src');
-//        $this->assertDirectoryExists(self::TEMP_MONOREPO_DIRECTORY . '/packages/Monorepo/src');
-
         $this->repositoryToPackageMerger->mergeRepositoryToPackage(
             'https://github.com/Symplify/CodingStandard.git',
             self::TEMP_MONOREPO_DIRECTORY,
