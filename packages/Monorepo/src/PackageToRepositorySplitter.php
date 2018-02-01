@@ -9,6 +9,9 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Process\Process;
 use Symplify\Monorepo\Configuration\RepositoryGuard;
 
+/**
+ * @wip
+ */
 final class PackageToRepositorySplitter
 {
     /**
@@ -28,6 +31,7 @@ final class PackageToRepositorySplitter
     }
 
     /**
+     * @todo needs works
      * @param mixed[] $splitConfig
      */
     public function splitDirectoriesToRepositories(GitWorkingCopy $gitWorkingCopy, array $splitConfig): void
