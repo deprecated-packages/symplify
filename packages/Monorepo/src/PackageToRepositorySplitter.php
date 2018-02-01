@@ -3,7 +3,11 @@
 namespace Symplify\Monorepo;
 
 use GitWrapper\GitWorkingCopy;
+use Spatie\Async\Pool;
+use Spatie\Async\Process\ParallelProcess;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\Process\Process;
+use Symplify\Monorepo\Configuration\RepositoryGuard;
 
 final class PackageToRepositorySplitter
 {
@@ -12,9 +16,15 @@ final class PackageToRepositorySplitter
      */
     private $symfonyStyle;
 
-    public function __construct(SymfonyStyle $symfonyStyle)
+    /**
+     * @var RepositoryGuard
+     */
+    private $repositoryGuard;
+
+    public function __construct(SymfonyStyle $symfonyStyle, RepositoryGuard $repositoryGuard)
     {
         $this->symfonyStyle = $symfonyStyle;
+        $this->repositoryGuard = $repositoryGuard;
     }
 
     /**
@@ -24,39 +34,24 @@ final class PackageToRepositorySplitter
     {
         $theMostRecentTag = $this->getMostRecentTag($gitWorkingCopy);
 
+        $pool = Pool::create();
+
+        $i = 0;
         foreach ($splitConfig as $localSubdirectory => $remoteRepository) {
-            $this->splitLocalSubdirectoryToRepositoryWithTag(
-                $gitWorkingCopy,
-                $localSubdirectory,
-                $remoteRepository,
-                $theMostRecentTag
-            );
+            $process = $this->createProcess($theMostRecentTag, $localSubdirectory, $remoteRepository);
+            $parallelProcess = ParallelProcess::create($process, ++$i);
+
+            $pool->add($parallelProcess)
+                ->then(function () use ($localSubdirectory, $remoteRepository): void {
+                    $this->symfonyStyle->success(sprintf(
+                        'Package "%s" was split to "%s" repository',
+                        $localSubdirectory,
+                        $remoteRepository
+                    ));
+                });
         }
-    }
 
-    private function splitLocalSubdirectoryToRepositoryWithTag(
-        GitWorkingCopy $gitWorkingCopy,
-        string $localSubdirectory,
-        string $remoteRepository,
-        string $theMostRecentTag
-    ): void {
-        // @todo validate local directory
-        // @todo validate remote repository
-
-        $options = [
-            'publish',
-            '--heads=master',
-            sprintf('--tags=%s', $theMostRecentTag),
-            sprintf('%s:%s', $localSubdirectory, $remoteRepository),
-        ];
-
-        $gitWorkingCopy->run('subsplit', $options);
-
-        $this->symfonyStyle->success(sprintf(
-            'Package "%s" was split to "%s" repository',
-            $localSubdirectory,
-            $remoteRepository
-        ));
+        $pool->wait();
     }
 
     private function getMostRecentTag(GitWorkingCopy $gitWorkingCopy): string
@@ -65,5 +60,19 @@ final class PackageToRepositorySplitter
         $tagList = explode(PHP_EOL, trim($tags));
 
         return (string) array_pop($tagList);
+    }
+
+    private function createProcess(
+        string $theMostRecentTag,
+        string $localSubdirectory,
+        string $remoteRepository
+    ): Process {
+        $this->repositoryGuard->ensureIsRepository($remoteRepository);
+
+        return new Process(sprintf(
+            'git subsplit publish --heads=master %s %s',
+            sprintf('--tags=%s', $theMostRecentTag),
+            sprintf('%s:%s', $localSubdirectory, $remoteRepository)
+        ));
     }
 }

@@ -7,7 +7,6 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Symfony\Component\Process\Process;
 use Symplify\Monorepo\Configuration\ConfigurationGuard;
 use Symplify\Monorepo\Filesystem\Filesystem;
 use Symplify\Monorepo\PackageToRepositorySplitter;
