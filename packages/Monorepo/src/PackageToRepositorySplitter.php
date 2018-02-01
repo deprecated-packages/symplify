@@ -38,9 +38,9 @@ final class PackageToRepositorySplitter
     /**
      * @param mixed[] $splitConfig
      */
-    public function splitDirectoriesToRepositories(GitWorkingCopy $gitWorkingCopy, array $splitConfig): void
+    public function splitDirectoriesToRepositories(array $splitConfig): void
     {
-        $theMostRecentTag = $this->getMostRecentTag($gitWorkingCopy);
+        $theMostRecentTag = $this->getMostRecentTag();
 
         $i = 0;
         foreach ($splitConfig as $localSubdirectory => $remoteRepository) {
@@ -66,9 +66,11 @@ final class PackageToRepositorySplitter
         $this->pool->wait();
     }
 
-    private function getMostRecentTag(GitWorkingCopy $gitWorkingCopy): string
+    private function getMostRecentTag(): string
     {
-        $tags = $gitWorkingCopy->tag('-l', '--sort=committerdate');
+        $process = new Process('git tag -l --sort=committerdate');
+        $process->run();
+        $tags = $process->getOutput();
         $tagList = explode(PHP_EOL, trim($tags));
 
         return (string) array_pop($tagList);
