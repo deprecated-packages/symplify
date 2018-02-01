@@ -4,8 +4,8 @@ parameters:
          'git@github.com:shopsys/product-feed-heureka.git': 'packages/ProductFeedHeureka'
 
     split:
-        packages/Monorepo: 'git@github.com:Symplify/Monorepo.git'
         packages/PackageBuilder: 'git@github.com:Symplify/PackageBuilder.git'
+        packages/Monorepo: 'git@github.com:Symplify/Monorepo.git'
         packages/TokenRunner: 'git@github.com:Symplify/TokenRunner.git'
         packages/BetterReflectionDocBlock: 'git@github.com:Symplify/BetterReflectionDocBlock.git'
         packages/EasyCodingStandard: 'git@github.com:Symplify/EasyCodingStandard.git'
