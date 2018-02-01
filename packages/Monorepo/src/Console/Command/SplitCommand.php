@@ -7,6 +7,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\Process\Process;
 use Symplify\Monorepo\Configuration\ConfigurationGuard;
 use Symplify\Monorepo\Filesystem\Filesystem;
 use Symplify\Monorepo\PackageToRepositorySplitter;
@@ -78,11 +79,13 @@ final class SplitCommand extends Command
         $gitWorkingCopy = $this->gitWrapper->workingCopy(getcwd());
 
         // @todo check exception if subsplit alias not installed
-        $gitWorkingCopy->run('subsplit', ['init', '.git']);
-        $this->symfonyStyle->success(sprintf(
-            'Directory "%s" with local clone created',
-            $this->getSubsplitDirectory()
-        ));
+        if (! file_exists(getcwd() . '/.subsplit')) {
+            $gitWorkingCopy->run('subsplit', ['init', '.git']);
+            $this->symfonyStyle->success(sprintf(
+                'Directory "%s" with local clone created',
+                $this->getSubsplitDirectory()
+            ));
+        }
 
         $this->packageToRepositorySplitter->splitDirectoriesToRepositories($gitWorkingCopy, $splitConfig);
 
