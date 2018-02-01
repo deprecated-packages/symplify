@@ -1,3 +1,14 @@
 parameters:
     build:
-        'git@github.com:shopsys/product-feed-zbozi.git': 'packages/ProductFeedZbozi'
+         'git@github.com:shopsys/product-feed-zbozi.git': 'packages/ProductFeedZbozi'
+         'git@github.com:shopsys/product-feed-heureka.git': 'packages/ProductFeedHeureka'
+
+    split:
+        packages/Monorepo: 'git@github.com:Symplify/Monorepo.git'
+        packages/PackageBuilder: 'git@github.com:Symplify/PackageBuilder.git'
+        packages/TokenRunner: 'git@github.com:Symplify/TokenRunner.git'
+        packages/BetterReflectionDocBlock: 'git@github.com:Symplify/BetterReflectionDocBlock.git'
+        packages/EasyCodingStandard: 'git@github.com:Symplify/EasyCodingStandard.git'
+        packages/CodingStandard: 'git@github.com:Symplify/CodingStandard.git'
+        packages/Statie: 'git@github.com:Symplify/Statie.git'
+        packages/ChangelogLinker: 'git@github.com:Symplify/ChangelogLinker.git'

@@ -2,12 +2,20 @@
 
 namespace Symplify\Monorepo\Worker;
 
+use Spatie\Async\Pool;
+use Spatie\Async\Process\SynchronousProcess;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Finder\Finder;
+use Symfony\Component\Finder\SplFileInfo;
 use Symfony\Component\Process\Process;
 
 final class MoveHistoryWorker
 {
+    /**
+     * @var int
+     */
+    private const CHUNK_SIZE = 50;
+
     /**
      * @var string
      */
@@ -23,38 +31,49 @@ final class MoveHistoryWorker
         $this->symfonyStyle = $symfonyStyle;
     }
 
-    /**
-     * This will:
-     * - add complete history to new files
-     * - delete old files
-     *
-     * Empty directories will remain
-     */
     public function prependHistoryToNewPackageFiles(
         Finder $finder,
         string $monorepoDirectory,
         string $packageSubdirectory
     ): void {
-        $processInput = $this->createGitMoveWithHistoryProcessInput($finder, $packageSubdirectory);
+        $fileInfos = iterator_to_array($finder->getIterator());
 
-        $moveWithHistoryProcess = new Process($processInput, $monorepoDirectory);
-        $moveWithHistoryProcess->run();
+        // this is needed due to long CLI arguments overflow error
+        $fileInfosChunks = array_chunk($fileInfos, self::CHUNK_SIZE, true);
 
-        if ($moveWithHistoryProcess->isSuccessful()) {
-            $this->symfonyStyle->note(trim($moveWithHistoryProcess->getOutput()));
-        } else {
-            $this->symfonyStyle->error(trim($moveWithHistoryProcess->getErrorOutput()));
+        $pool = Pool::create();
+
+        $i = 0;
+        foreach ($fileInfosChunks as $fileInfosChunk) {
+            $processInput = $this->createGitMoveWithHistoryProcessInput($fileInfosChunk, $packageSubdirectory);
+            $process = new Process($processInput, $monorepoDirectory, null, null, null);
+
+            $pool->add(SynchronousProcess::create(function () use ($process): void {
+                $process->start();
+                while ($process->isRunning()) {
+                    // waiting for process to finish
+                    $output = trim($process->getOutput());
+                    if ($output) {
+                        $output = preg_replace('#(\r?\n){2,}#', PHP_EOL, $output);
+                        $this->symfonyStyle->writeln($output);
+                    }
+                }
+
+                $process->wait();
+            }, ++$i));
         }
+
+        $pool->wait();
     }
 
     /**
+     * @param SplFileInfo[] $fileInfos
      * @return mixed[]
      */
-    private function createGitMoveWithHistoryProcessInput(Finder $finder, string $packageSubdirectory): array
+    private function createGitMoveWithHistoryProcessInput(array $fileInfos, string $packageSubdirectory): array
     {
         $processInput = [self::GIT_MV_WITH_HISTORY_BASH_FILE];
-
-        foreach ($finder as $fileInfo) {
+        foreach ($fileInfos as $fileInfo) {
             $processInput[] = sprintf(
                 '%s=%s',
                 $fileInfo->getRelativePathname(),

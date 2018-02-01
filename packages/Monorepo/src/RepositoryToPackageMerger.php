@@ -5,6 +5,7 @@ namespace Symplify\Monorepo;
 use GitWrapper\GitWorkingCopy;
 use GitWrapper\GitWrapper;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symplify\Monorepo\Configuration\RepositoryGuard;
 use Symplify\Monorepo\Filesystem\Filesystem;
 use Symplify\Monorepo\Worker\MoveHistoryWorker;
 use Symplify\Monorepo\Worker\RepositoryWorker;
@@ -36,18 +37,25 @@ final class RepositoryToPackageMerger
      */
     private $moveHistoryWorker;
 
+    /**
+     * @var RepositoryGuard
+     */
+    private $repositoryGuard;
+
     public function __construct(
         GitWrapper $gitWrapper,
         RepositoryWorker $repositoryWorker,
         Filesystem $filesystem,
         SymfonyStyle $symfonyStyle,
-        MoveHistoryWorker $moveHistoryWorker
+        MoveHistoryWorker $moveHistoryWorker,
+        RepositoryGuard $repositoryGuard
     ) {
         $this->gitWrapper = $gitWrapper;
         $this->repositoryWorker = $repositoryWorker;
         $this->filesystem = $filesystem;
         $this->symfonyStyle = $symfonyStyle;
         $this->moveHistoryWorker = $moveHistoryWorker;
+        $this->repositoryGuard = $repositoryGuard;
     }
 
     public function mergeRepositoryToPackage(
@@ -55,6 +63,7 @@ final class RepositoryToPackageMerger
         string $monorepoDirectory,
         string $packageSubdirectory
     ): void {
+        $this->repositoryGuard->ensureIsRepository($repositoryUrl);
         $gitWorkingCopy = $this->getGitWorkingCopyForDirectory($monorepoDirectory);
 
         // add repository as remote and merge
@@ -70,6 +79,11 @@ final class RepositoryToPackageMerger
         $finder = $this->filesystem->findMergedPackageFiles($monorepoDirectory);
 
         $this->filesystem->copyFinderFilesToDirectory($finder, $absolutePackageDirectory);
+        if ($gitWorkingCopy->hasChanges()) {
+            $gitWorkingCopy->add('.');
+            $gitWorkingCopy->commit(sprintf('merge remove repository "%s"', $repositoryUrl));
+        }
+
         $this->symfonyStyle->success(sprintf(
             'Files for "%s" copied to "%s"',
             $repositoryUrl,
@@ -79,7 +93,9 @@ final class RepositoryToPackageMerger
         // prepend history
         $this->moveHistoryWorker->prependHistoryToNewPackageFiles($finder, $monorepoDirectory, $packageSubdirectory);
         $this->symfonyStyle->success(sprintf('History added for files in "%s"', $packageSubdirectory));
-        $this->filesystem->createFilesInFinder($finder);
+
+        // clear old repository files if moved
+//        $this->filesystem->deleteMergedPackage($monorepoDirectory);
     }
 
     private function getGitWorkingCopyForDirectory(string $directory): GitWorkingCopy

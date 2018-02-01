@@ -4,7 +4,6 @@ namespace Symplify\Monorepo\Filesystem;
 
 use Nette\Utils\FileSystem as NetteFileSystem;
 use Symfony\Component\Finder\Finder;
-use Symfony\Component\Finder\SplFileInfo;
 
 final class Filesystem
 {
@@ -24,7 +23,7 @@ final class Filesystem
     }
 
     /**
-     * - find new files with finder
+     * - find new files with finder(
      * - copy to new directory
      */
     public function copyFinderFilesToDirectory(Finder $finder, string $directory): void
@@ -34,24 +33,25 @@ final class Filesystem
         }
     }
 
-    public function createFilesInFinder(Finder $finder): void
+    public function deleteDirectory(string $directory): void
     {
-        $finder
-            // sort from deepest to top to allow removal in same direction
-            ->sort(function (SplFileInfo $firstFileInfo, SplFileInfo $secondFileInfo): bool {
-                return strlen($firstFileInfo->getRealPath()) < strlen($secondFileInfo->getRealPath());
-            });
+        NetteFileSystem::delete($directory);
+    }
+
+    public function deleteMergedPackage(string $directory): void
+    {
+        $finder = Finder::create()
+            ->in($directory)
+            ->exclude(self::EXCLUDED_LOCAL_DIRS)
+            // include .gitignore, .travis etc
+            ->ignoreDotFiles(false);
 
         foreach ($finder->getIterator() as $fileInfo) {
-            if ($fileInfo->isFile()) {
-                unlink($fileInfo->getRealPath());
+            if (! file_exists($fileInfo->getPathname())) {
+                continue;
             }
-        }
 
-        foreach ($finder->getIterator() as $fileInfo) {
-            if ($fileInfo->isDir()) {
-                rmdir($fileInfo->getRealPath());
-            }
+            NetteFileSystem::delete($fileInfo->getPathname());
         }
     }
 }

@@ -6,8 +6,9 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symplify\Monorepo\Exception\MissingConfigurationSectionException;
+use Symplify\Monorepo\Configuration\ConfigurationGuard;
 use Symplify\Monorepo\RepositoryToPackageMerger;
+use Symplify\PackageBuilder\Console\Command\CommandNaming;
 use Symplify\PackageBuilder\Parameter\ParameterProvider;
 
 final class BuildCommand extends Command
@@ -27,29 +28,38 @@ final class BuildCommand extends Command
      */
     private $repositoryToPackageMerger;
 
+    /**
+     * @var ConfigurationGuard
+     */
+    private $configurationGuard;
+
     public function __construct(
         ParameterProvider $parameterProvider,
-        RepositoryToPackageMerger $repositoryToPackageMerger
+        RepositoryToPackageMerger $repositoryToPackageMerger,
+        ConfigurationGuard $configurationGuard
     ) {
         $this->parameterProvider = $parameterProvider;
         $this->repositoryToPackageMerger = $repositoryToPackageMerger;
+        $this->configurationGuard = $configurationGuard;
 
         parent::__construct();
     }
 
     protected function configure(): void
     {
-        $this->setName('build');
-        $this->setDescription('Creates monolitic repository from provided config.');
+        $this->setName(CommandNaming::classToName(self::class));
+        $this->setDescription('Creates monolithic repository from provided config.');
         $this->addArgument(self::MONOREPO_DIRECTORY, InputArgument::REQUIRED, 'Path to empty .git repository');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): void
     {
         $build = $this->parameterProvider->provideParameter('build');
-        $this->ensureConfigSectionIsFilled($build, 'build');
+        $this->configurationGuard->ensureConfigSectionIsFilled($build, 'build');
 
         $monorepoDirectory = $input->getArgument(self::MONOREPO_DIRECTORY);
+        $this->configurationGuard->ensureDirectoryIsEmpty($monorepoDirectory);
+
         foreach ($build as $repositoryUrl => $packagesSubdirectory) {
             $this->repositoryToPackageMerger->mergeRepositoryToPackage(
                 $repositoryUrl,
@@ -57,21 +67,5 @@ final class BuildCommand extends Command
                 $packagesSubdirectory
             );
         }
-    }
-
-    /**
-     * @param mixed $config
-     */
-    private function ensureConfigSectionIsFilled($config, string $section): void
-    {
-        if ($config) {
-            return;
-        }
-
-        throw new MissingConfigurationSectionException(sprintf(
-            'Section "%s" in config is rqeuired. Complete it to "%s" file under "parameters"',
-            $section,
-            'monorepo.yml'
-        ));
     }
 }
