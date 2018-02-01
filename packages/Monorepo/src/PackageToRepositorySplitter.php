@@ -2,12 +2,10 @@
 
 namespace Symplify\Monorepo;
 
-use GitWrapper\GitWorkingCopy;
 use Spatie\Async\Pool;
 use Spatie\Async\Process\ParallelProcess;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Process\Process;
-use Symfony\Component\Stopwatch\Stopwatch;
 use Symplify\Monorepo\Configuration\RepositoryGuard;
 use Throwable;
 
@@ -44,7 +42,6 @@ final class PackageToRepositorySplitter
 
         $i = 0;
         foreach ($splitConfig as $localSubdirectory => $remoteRepository) {
-
             if ($this->symfonyStyle->isDebug()) {
                 $this->symfonyStyle->note(sprintf(
                     'Checking if split for "%s" is needed for "%s" repository',
@@ -52,6 +49,15 @@ final class PackageToRepositorySplitter
                     $remoteRepository
                 ));
             }
+
+            // local hash...:
+            $localSubdirectoryLastCommitHash = $this->localSubdirectoryLastCommitHash($localSubdirectory);
+            dump($localSubdirectory);
+            dump($localSubdirectoryLastCommitHash);
+            # todo: validate with remote
+            # https://stackoverflow.com/questions/27611995/removing-invalid-git-subtree-split-hash
+            # https://www.google.cz/search?ei=UUpzWu24NYLyUNv-ibAH&q=validate+subtree+split+commit+hash&oq=validate+subtree+split+commit+hash&gs_l=psy-ab.3..33i160k1.6870.7304.0.7440.5.4.0.0.0.0.106.347.3j1.4.0.crnk_dmh...0...1.1.64.psy-ab..1.3.240...33i21k1.0.8ajFE3MF8mk
+            die;
 
             // @todo: check is split is needed! - check tag and check commit publish
 
@@ -114,5 +120,13 @@ final class PackageToRepositorySplitter
         $process->run();
 
         return (bool) $process->getOutput();
+    }
+
+    private function localSubdirectoryLastCommitHash(string $localSubdirectory): string
+    {
+        $process = new Process(sprintf('git log -n 1 --pretty=format:"%%H" %s', $localSubdirectory));
+        $process->run();
+
+        return trim($process->getOutput());
     }
 }
