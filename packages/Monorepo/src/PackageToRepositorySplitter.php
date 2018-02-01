@@ -44,6 +44,15 @@ final class PackageToRepositorySplitter
 
         $i = 0;
         foreach ($splitConfig as $localSubdirectory => $remoteRepository) {
+
+            if ($this->symfonyStyle->isDebug()) {
+                $this->symfonyStyle->note(sprintf(
+                    'Checking if split for "%s" is needed for "%s" repository',
+                    $localSubdirectory,
+                    $remoteRepository
+                ));
+            }
+
             // @todo: check is split is needed! - check tag and check commit publish
 
             $process = $this->createProcess($theMostRecentTag, $localSubdirectory, $remoteRepository);
@@ -83,7 +92,7 @@ final class PackageToRepositorySplitter
     ): Process {
         $this->repositoryGuard->ensureIsRepository($remoteRepository);
 
-        return new Process(sprintf(
+        $process = new Process(sprintf(
             'git subsplit publish --heads=master %s %s',
             $this->hasRepositoryTag(
                 $remoteRepository,
@@ -91,6 +100,12 @@ final class PackageToRepositorySplitter
             ) ? '' : sprintf('--tags=%s', $theMostRecentTag),
             sprintf('%s:%s', $localSubdirectory, $remoteRepository)
         ));
+
+        if ($this->symfonyStyle->isDebug()) {
+            $this->symfonyStyle->note($process->getCommandLine());
+        }
+
+        return $process;
     }
 
     private function hasRepositoryTag(string $remoteRepository, string $theMostRecentTag): bool
