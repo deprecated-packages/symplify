@@ -14,7 +14,7 @@ final class RepositoryGuard
 
     public function ensureIsRepository(string $possibleRepository): void
     {
-        // local repository
+        // local repositorye
         if ($possibleRepository === '.git') {
             return;
         }

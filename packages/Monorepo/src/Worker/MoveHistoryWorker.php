@@ -2,18 +2,19 @@
 
 namespace Symplify\Monorepo\Worker;
 
+use Spatie\Async\Pool;
+use Spatie\Async\Process\SynchronousProcess;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
 use Symfony\Component\Process\Process;
-use Symplify\Monorepo\Exception\Worker\MoveWithHistoryException;
 
 final class MoveHistoryWorker
 {
     /**
      * @var int
      */
-    private const CHUNK_SIZE = 100;
+    private const CHUNK_SIZE = 50;
 
     /**
      * @var string
@@ -39,37 +40,30 @@ final class MoveHistoryWorker
 
         // this is needed due to long CLI arguments overflow error
         $fileInfosChunks = array_chunk($fileInfos, self::CHUNK_SIZE, true);
+
+        $pool = Pool::create();
+
+        $i = 0;
         foreach ($fileInfosChunks as $fileInfosChunk) {
-            $this->processFileInfosChunk($fileInfosChunk, $monorepoDirectory, $packageSubdirectory);
-        }
-    }
+            $processInput = $this->createGitMoveWithHistoryProcessInput($fileInfosChunk, $packageSubdirectory);
+            $process = new Process($processInput, $monorepoDirectory, null, null, null);
 
-    /**
-     * @param SplFileInfo[] $fileInfos
-     */
-    private function processFileInfosChunk(
-        array $fileInfos,
-        string $monorepoDirectory,
-        string $packageSubdirectory
-    ): void {
-        $processInput = $this->createGitMoveWithHistoryProcessInput($fileInfos, $packageSubdirectory);
+            $pool->add(SynchronousProcess::create(function () use ($process): void {
+                $process->start();
+                while ($process->isRunning()) {
+                    // waiting for process to finish
+                    $output = trim($process->getOutput());
+                    if ($output) {
+                        $output = preg_replace('#(\r?\n){2,}#', PHP_EOL, $output);
+                        $this->symfonyStyle->writeln($output);
+                    }
+                }
 
-        $process = new Process($processInput, $monorepoDirectory, null, null, null);
-        $process->start();
-        while ($process->isRunning()) {
-            // waiting for process to finish
-            $output = trim($process->getOutput());
-            if ($output) {
-                $output = preg_replace('#(\r?\n){2,}#', PHP_EOL, $output);
-                $this->symfonyStyle->writeln($output);
-            }
+                $process->wait();
+            }, ++$i));
         }
 
-        $process->wait();
-
-        if (! $process->isSuccessful()) {
-            throw new MoveWithHistoryException($process->getErrorOutput());
-        }
+        $pool->wait();
     }
 
     /**

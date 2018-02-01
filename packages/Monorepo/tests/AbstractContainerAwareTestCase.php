@@ -29,11 +29,15 @@ abstract class AbstractContainerAwareTestCase extends TestCase
         }
 
         $this->container = self::$cachedContainer;
+        $this->disableConsoleOutput();
 
+        parent::__construct($name, $data, $dataName);
+    }
+
+    private function disableConsoleOutput(): void
+    {
         /** @var OutputInterface $output */
         $output = $this->container->get(OutputInterface::class);
         $output->setVerbosity(OutputInterface::VERBOSITY_QUIET);
-
-        parent::__construct($name, $data, $dataName);
     }
 }
