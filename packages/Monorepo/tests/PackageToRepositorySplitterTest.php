@@ -25,16 +25,16 @@ final class PackageToRepositorySplitterTest extends AbstractContainerAwareTestCa
         $this->gitWrapper = $this->container->get(GitWrapper::class);
     }
 
+    protected function tearDown(): void
+    {
+        FileSystem::delete(self::TEMP_MONOREPO_DIRECTORY);
+    }
+
     /**
      * @doesNotPerformAssertions
      */
     public function test(): void
     {
         $this->gitWrapper->init(self::TEMP_MONOREPO_DIRECTORY);
-    }
-
-    protected function tearDown(): void
-    {
-        FileSystem::delete(self::TEMP_MONOREPO_DIRECTORY);
     }
 }
