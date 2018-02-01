@@ -23,10 +23,16 @@ final class PackageToRepositorySplitter
      */
     private $repositoryGuard;
 
+    /**
+     * @var Pool
+     */
+    private $pool;
+
     public function __construct(SymfonyStyle $symfonyStyle, RepositoryGuard $repositoryGuard)
     {
         $this->symfonyStyle = $symfonyStyle;
         $this->repositoryGuard = $repositoryGuard;
+        $this->pool = Pool::create();
     }
 
     /**
@@ -35,8 +41,6 @@ final class PackageToRepositorySplitter
     public function splitDirectoriesToRepositories(GitWorkingCopy $gitWorkingCopy, array $splitConfig): void
     {
         $theMostRecentTag = $this->getMostRecentTag($gitWorkingCopy);
-
-        $pool = Pool::create();
 
         $i = 0;
         foreach ($splitConfig as $localSubdirectory => $remoteRepository) {
@@ -56,10 +60,10 @@ final class PackageToRepositorySplitter
                 $this->symfonyStyle->success($output);
             });
 
-            $pool->add($parallelProcess);
+            $this->pool->add($parallelProcess);
         }
 
-        $pool->wait();
+        $this->pool->wait();
     }
 
     private function getMostRecentTag(GitWorkingCopy $gitWorkingCopy): string
