@@ -6,6 +6,7 @@ use Spatie\Async\Task;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Finder\SplFileInfo;
 use Symfony\Component\Process\Process;
+use Symplify\Monorepo\Exception\Worker\MoveWithHistoryException;
 
 final class PrependHistoryToNewPackageFilesTask extends Task
 {
@@ -51,7 +52,6 @@ final class PrependHistoryToNewPackageFilesTask extends Task
 
     public function configure(): void
     {
-        return;
     }
 
     public function run(): void
