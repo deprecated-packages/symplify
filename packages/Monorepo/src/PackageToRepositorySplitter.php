@@ -2,13 +2,11 @@
 
 namespace Symplify\Monorepo;
 
-use Nette\Utils\Strings;
 use Spatie\Async\Pool;
-use Spatie\Async\Process\ParallelProcess;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Process\Process;
 use Symplify\Monorepo\Configuration\RepositoryGuard;
-use Throwable;
+use Symplify\Monorepo\Exception\Worker\PackageToRepositorySplitException;
 
 final class PackageToRepositorySplitter
 {
@@ -41,42 +39,20 @@ final class PackageToRepositorySplitter
     {
         $theMostRecentTag = $this->getMostRecentTag();
 
-        $i = 0;
         foreach ($splitConfig as $localSubdirectory => $remoteRepository) {
-            if ($this->symfonyStyle->isDebug()) {
-                $this->symfonyStyle->note(sprintf(
-                    'Checking if split for "%s" is needed for "%s" repository',
-                    $localSubdirectory,
-                    $remoteRepository
-                ));
-            }
-
             if ($this->isRemoteUpToDate($localSubdirectory, $remoteRepository)) {
                 continue;
             }
 
             $process = $this->createSubsplitPublishProcess($theMostRecentTag, $localSubdirectory, $remoteRepository);
-            $parallelProcess = ParallelProcess::create($process, ++$i);
+            $process->run();
 
-            // error
-            $parallelProcess->catch(function (Throwable $throwable): void {
-                if (Strings::contains($throwable->getMessage(), '[DONE]')) {
-                    // false positive - often success
-                    $this->symfonyStyle->success(trim($throwable->getMessage()));
-                } else {
-                    $this->symfonyStyle->error($throwable->getMessage());
-                }
-            });
-
-            // success
-            $parallelProcess->then(function (string $output): void {
-                $this->symfonyStyle->success($output);
-            });
-
-            $this->pool->add($parallelProcess);
+            if ($process->isSuccessful()) {
+                $this->symfonyStyle->success(trim($process->getOutput()));
+            } else {
+                throw new PackageToRepositorySplitException($process->getErrorOutput());
+            }
         }
-
-        $this->pool->wait();
     }
 
     private function getMostRecentTag(): string
