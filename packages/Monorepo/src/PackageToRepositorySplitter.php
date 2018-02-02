@@ -56,7 +56,7 @@ final class PackageToRepositorySplitter
             );
         }
 
-        $this->symfonyStyle->success(sprintf('Running %d jobs asynchronously', count($pool)));
+        $this->symfonyStyle->success(sprintf('Running %d jobs asynchronously', count($this->processPool)));
 
         while (count($this->processPool) > 0) {
             foreach ($this->processPool as $i => $runningProcess) {
