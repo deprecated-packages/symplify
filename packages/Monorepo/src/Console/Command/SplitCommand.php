@@ -86,7 +86,7 @@ final class SplitCommand extends Command
             ));
         }
 
-        $this->packageToRepositorySplitter->splitDirectoriesToRepositories($gitWorkingCopy, $splitConfig);
+        $this->packageToRepositorySplitter->splitDirectoriesToRepositories($splitConfig);
 
         $this->filesystem->deleteDirectory($this->getSubsplitDirectory());
         $this->symfonyStyle->success(sprintf('Directory "%s" cleaned', $this->getSubsplitDirectory()));

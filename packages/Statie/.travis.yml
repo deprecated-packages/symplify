@@ -8,6 +8,7 @@ install:
   - composer install --prefer-source
 
 script:
+  - bin/statie
   - vendor/bin/phpunit
 
 notifications:
