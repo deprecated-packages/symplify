@@ -23,7 +23,7 @@ final class PackageToRepositorySplitter
     /**
      * @var Process[]
      */
-    private $processPool = [];
+    private $activeProcesses = [];
 
     /**
      * @var SplitProcessInfo[]
@@ -48,7 +48,7 @@ final class PackageToRepositorySplitter
             $this->symfonyStyle->note('Running: ' . $process->getCommandLine());
             $process->start();
 
-            $this->processPool[] = $process;
+            $this->activeProcesses[] = $process;
             $this->processInfos[] = SplitProcessInfo::createFromProcessLocalDirectoryAndRemoteRepository(
                 $process,
                 $localSubdirectory,
@@ -56,12 +56,12 @@ final class PackageToRepositorySplitter
             );
         }
 
-        $this->symfonyStyle->success(sprintf('Running %d jobs asynchronously', count($this->processPool)));
+        $this->symfonyStyle->success(sprintf('Running %d jobs asynchronously', count($this->activeProcesses)));
 
-        while (count($this->processPool) > 0) {
-            foreach ($this->processPool as $i => $runningProcess) {
+        while (count($this->activeProcesses) > 0) {
+            foreach ($this->activeProcesses as $i => $runningProcess) {
                 if (! $runningProcess->isRunning()) {
-                    unset($this->processPool[$i]);
+                    unset($this->activeProcesses[$i]);
                 }
             }
 
