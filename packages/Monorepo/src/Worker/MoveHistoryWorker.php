@@ -2,8 +2,6 @@
 
 namespace Symplify\Monorepo\Worker;
 
-use Spatie\Async\Pool;
-use Spatie\Async\Process\SynchronousProcess;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
@@ -41,29 +39,21 @@ final class MoveHistoryWorker
         // this is needed due to long CLI arguments overflow error
         $fileInfosChunks = array_chunk($fileInfos, self::CHUNK_SIZE, true);
 
-        $pool = Pool::create();
 
-        $i = 0;
         foreach ($fileInfosChunks as $fileInfosChunk) {
             $processInput = $this->createGitMoveWithHistoryProcessInput($fileInfosChunk, $packageSubdirectory);
             $process = new Process($processInput, $monorepoDirectory, null, null, null);
 
-            $pool->add(SynchronousProcess::create(function () use ($process): void {
-                $process->start();
-                while ($process->isRunning()) {
-                    // waiting for process to finish
-                    $output = trim($process->getOutput());
-                    if ($output) {
-                        $output = preg_replace('#(\r?\n){2,}#', PHP_EOL, $output);
-                        $this->symfonyStyle->writeln($output);
-                    }
+            $process->start();
+            while ($process->isRunning()) {
+                // waiting for process to finish
+                $output = trim($process->getOutput());
+                if ($output) {
+                    $output = preg_replace('#(\r?\n){2,}#', PHP_EOL, $output);
+                    $this->symfonyStyle->writeln($output);
                 }
-
-                $process->wait();
-            }, ++$i));
+            }
         }
-
-        $pool->wait();
     }
 
     /**
