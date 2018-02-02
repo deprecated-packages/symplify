@@ -10,27 +10,7 @@
 
 ## Usage
 
-### Split Monolithic Repository to Many Repositories
-
-1. Create `monorepo.yml` with `split` section
-
-```yml
-parameters:
-    split:
-        directory in monorepo with package => remote git repository
-        'packages/ProductFeedZbozi': 'git@github.com:shopsys/product-feed-zbozi.git'
-        'packages/ProductFeedHeureka': 'git@github.com:shopsys/product-feed-heureka.git'
-```
-
-2. Run `split` command
-
-```bash
-vendor/bin/monorepo split
-```
-
-Your last tag and `master` branch is now published in the repository.
-
-### Build Monolithic Repository from Many Repositories
+### 1. Build Monolithic Repository from Many Repositories
 
 - Do you have **many packages with long git history**?
 - Do you want to **turn them into monorepo**?
@@ -79,3 +59,23 @@ vendor/bin/monorepo build ../new-monorepo
         /ProductFeedZbozi
         /ProductFeedHeureka
 ```
+
+### 2. Split Monolithic Repository to Many Repositories
+
+1. Create `monorepo.yml` with `split` section
+
+```yml
+parameters:
+    split:
+        directory in monorepo with package => remote git repository
+        'packages/ProductFeedZbozi': 'git@github.com:shopsys/product-feed-zbozi.git'
+        'packages/ProductFeedHeureka': 'git@github.com:shopsys/product-feed-heureka.git'
+```
+
+2. Run `split` command
+
+```bash
+vendor/bin/monorepo split
+```
+
+Your last tag and `master` branch is now published in the repository.
