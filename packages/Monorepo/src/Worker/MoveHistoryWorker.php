@@ -39,7 +39,6 @@ final class MoveHistoryWorker
         // this is needed due to long CLI arguments overflow error
         $fileInfosChunks = array_chunk($fileInfos, self::CHUNK_SIZE, true);
 
-
         foreach ($fileInfosChunks as $fileInfosChunk) {
             $processInput = $this->createGitMoveWithHistoryProcessInput($fileInfosChunk, $packageSubdirectory);
             $process = new Process($processInput, $monorepoDirectory, null, null, null);

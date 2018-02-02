@@ -33,12 +33,17 @@ final class PackageToRepositorySplitter
         $theMostRecentTag = $this->getMostRecentTag();
 
         foreach ($splitConfig as $localSubdirectory => $remoteRepository) {
-            if ($this->isRemoteUpToDate($localSubdirectory, $remoteRepository)) {
-                continue;
-            }
-
             $process = $this->createSubsplitPublishProcess($theMostRecentTag, $localSubdirectory, $remoteRepository);
             $process->run();
+
+            while ($process->isRunning()) {
+                // waiting for process to finish
+                $output = trim($process->getOutput());
+                if ($output) {
+                    $output = preg_replace('#(\r?\n){2,}#', PHP_EOL, $output);
+                    $this->symfonyStyle->writeln($output);
+                }
+            }
 
             if ($process->isSuccessful()) {
                 $this->symfonyStyle->success(trim($process->getOutput()));
@@ -66,11 +71,8 @@ final class PackageToRepositorySplitter
         $this->repositoryGuard->ensureIsRepository($remoteRepository);
 
         $process = new Process(sprintf(
-            'git subsplit publish --heads=master %s %s',
-            $this->hasRepositoryTag(
-                $remoteRepository,
-                $theMostRecentTag
-            ) ? '' : sprintf('--tags=%s', $theMostRecentTag),
+            'git subsplit publish --heads=master --tags=%s %s',
+            $theMostRecentTag,
             sprintf('%s:%s', $localSubdirectory, $remoteRepository)
         ));
 
@@ -79,43 +81,5 @@ final class PackageToRepositorySplitter
         }
 
         return $process;
-    }
-
-    private function hasRepositoryTag(string $remoteRepository, string $theMostRecentTag): bool
-    {
-        $process = new Process(sprintf('git ls-remote %s refs/tags/%s', $remoteRepository, $theMostRecentTag));
-        $process->run();
-
-        return (bool) $process->getOutput();
-    }
-
-    private function getUnixDateTimeForLastCommit(): string
-    {
-        $process = new Process('git log -1 --pretty=format:%ct');
-        $process->run();
-
-        return trim($process->getOutput());
-    }
-
-    /**
-     * @wip
-     */
-    private function isRemoteUpToDate(string $localSubdirectory, string $remoteRepository): bool
-    {
-        $localSubdirectoryLastCommitDateTime = $this->getUnixDateTimeForLastCommit();
-        $lastCommitHashForRemoteRepository = $this->getLastCommitHashForRemoteRepository($remoteRepository);
-
-        return false;
-    }
-
-    /**
-     * @wip
-     */
-    private function getLastCommitHashForRemoteRepository(string $remoteRepository): string
-    {
-        $process = new Process(sprintf('git ls-remote %s refs/heads/master', $remoteRepository));
-        $process->run();
-
-        return trim($process->getOutput());
     }
 }
