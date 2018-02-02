@@ -2,7 +2,6 @@
 
 namespace Symplify\Monorepo;
 
-use Spatie\Async\Pool;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Process\Process;
 use Symplify\Monorepo\Configuration\RepositoryGuard;
@@ -20,16 +19,10 @@ final class PackageToRepositorySplitter
      */
     private $repositoryGuard;
 
-    /**
-     * @var Pool
-     */
-    private $pool;
-
     public function __construct(SymfonyStyle $symfonyStyle, RepositoryGuard $repositoryGuard)
     {
         $this->symfonyStyle = $symfonyStyle;
         $this->repositoryGuard = $repositoryGuard;
-        $this->pool = Pool::create();
     }
 
     /**
