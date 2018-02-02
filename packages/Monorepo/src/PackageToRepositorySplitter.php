@@ -34,6 +34,7 @@ final class PackageToRepositorySplitter
 
         foreach ($splitConfig as $localSubdirectory => $remoteRepository) {
             $process = $this->createSubsplitPublishProcess($theMostRecentTag, $localSubdirectory, $remoteRepository);
+            $this->symfonyStyle->note('Running: ' . $process->getCommandLine());
             $process->run();
 
             while ($process->isRunning()) {
@@ -70,16 +71,11 @@ final class PackageToRepositorySplitter
     ): Process {
         $this->repositoryGuard->ensureIsRepository($remoteRepository);
 
-        $process = new Process(sprintf(
-            'git subsplit publish --heads=master --tags=%s %s',
+        $commandLine = sprintf('git subsplit publish --heads=master --tags=%s %s',
             $theMostRecentTag,
             sprintf('%s:%s', $localSubdirectory, $remoteRepository)
-        ));
+        );
 
-        if ($this->symfonyStyle->isDebug()) {
-            $this->symfonyStyle->note($process->getCommandLine());
-        }
-
-        return $process;
+        return new Process($commandLine, null, null, null, null);
     }
 }
