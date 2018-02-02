@@ -36,6 +36,7 @@ final class PackageToRepositorySplitter
             $process = $this->createSubsplitPublishProcess($theMostRecentTag, $localSubdirectory, $remoteRepository);
             $this->symfonyStyle->note('Running: ' . $process->getCommandLine());
 
+            // @todo use multi threads, if possible
             $process->start();
             while ($process->isRunning()) {
                 // waiting for process to finish
