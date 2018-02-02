@@ -10,6 +10,7 @@ use Symplify\PackageBuilder\Configuration\ConfigFilePathHelper;
 
 // Detect configuration
 $configFile = ConfigFilePathHelper::provide('monorepo', ConfigurationOptions::MONOREPO_CONFIG_FILE);
+
 $containerFactory = new ContainerFactory();
 if ($configFile) {
     $container = $containerFactory->createWithConfig($configFile);

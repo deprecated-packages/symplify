@@ -2,6 +2,7 @@
 
 namespace Symplify\Monorepo;
 
+use Nette\Utils\Strings;
 use Spatie\Async\Pool;
 use Spatie\Async\Process\ParallelProcess;
 use Symfony\Component\Console\Style\SymfonyStyle;
@@ -50,24 +51,21 @@ final class PackageToRepositorySplitter
                 ));
             }
 
-            // local hash...:
-            $localSubdirectoryLastCommitHash = $this->localSubdirectoryLastCommitHash($localSubdirectory);
-            dump($localSubdirectory);
-            dump($localSubdirectoryLastCommitHash);
-            # todo: validate with remote
-            # https://stackoverflow.com/questions/27611995/removing-invalid-git-subtree-split-hash
-            # https://www.google.cz/search?ei=UUpzWu24NYLyUNv-ibAH&q=validate+subtree+split+commit+hash&oq=validate+subtree+split+commit+hash&gs_l=psy-ab.3..33i160k1.6870.7304.0.7440.5.4.0.0.0.0.106.347.3j1.4.0.crnk_dmh...0...1.1.64.psy-ab..1.3.240...33i21k1.0.8ajFE3MF8mk
-            die;
+            if ($this->isRemoteUpToDate($localSubdirectory, $remoteRepository)) {
+                continue;
+            }
 
-            // @todo: check is split is needed! - check tag and check commit publish
-
-            $process = $this->createProcess($theMostRecentTag, $localSubdirectory, $remoteRepository);
+            $process = $this->createSubsplitPublishProcess($theMostRecentTag, $localSubdirectory, $remoteRepository);
             $parallelProcess = ParallelProcess::create($process, ++$i);
 
             // error
             $parallelProcess->catch(function (Throwable $throwable): void {
-                // @todo: false positive - often success
-                $this->symfonyStyle->error($throwable->getMessage());
+                if (Strings::contains($throwable->getMessage(), '[DONE]')) {
+                    // false positive - often success
+                    $this->symfonyStyle->success(trim($throwable->getMessage()));
+                } else {
+                    $this->symfonyStyle->error($throwable->getMessage());
+                }
             });
 
             // success
@@ -91,7 +89,7 @@ final class PackageToRepositorySplitter
         return (string) array_pop($tagList);
     }
 
-    private function createProcess(
+    private function createSubsplitPublishProcess(
         string $theMostRecentTag,
         string $localSubdirectory,
         string $remoteRepository
@@ -122,9 +120,31 @@ final class PackageToRepositorySplitter
         return (bool) $process->getOutput();
     }
 
-    private function localSubdirectoryLastCommitHash(string $localSubdirectory): string
+    private function getUnixDateTimeForLastCommit(): string
     {
-        $process = new Process(sprintf('git log -n 1 --pretty=format:"%%H" %s', $localSubdirectory));
+        $process = new Process('git log -1 --pretty=format:%ct');
+        $process->run();
+
+        return trim($process->getOutput());
+    }
+
+    /**
+     * @wip
+     */
+    private function isRemoteUpToDate(string $localSubdirectory, string $remoteRepository): bool
+    {
+        $localSubdirectoryLastCommitDateTime = $this->getUnixDateTimeForLastCommit();
+        $lastCommitHashForRemoteRepository = $this->getLastCommitHashForRemoteRepository($remoteRepository);
+
+        return false;
+    }
+
+    /**
+     * @wip
+     */
+    private function getLastCommitHashForRemoteRepository(string $remoteRepository): string
+    {
+        $process = new Process(sprintf('git ls-remote %s refs/heads/master', $remoteRepository));
         $process->run();
 
         return trim($process->getOutput());
