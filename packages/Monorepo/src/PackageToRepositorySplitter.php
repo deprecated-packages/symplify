@@ -4,6 +4,7 @@ namespace Symplify\Monorepo;
 
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Process\Process;
+use Symfony\Component\Stopwatch\Stopwatch;
 use Symplify\Monorepo\Configuration\RepositoryGuard;
 use Symplify\Monorepo\Exception\Worker\PackageToRepositorySplitException;
 
@@ -32,27 +33,51 @@ final class PackageToRepositorySplitter
     {
         $theMostRecentTag = $this->getMostRecentTag();
 
+        $stopwatch = new Stopwatch();
+        $stopwatch->start('hey');
+
+        /** @var Process[] $pool */
+        $pool = [];
+
+        /** @var Process[] $allProcesses */
+        $allProcesses = [];
+
         foreach ($splitConfig as $localSubdirectory => $remoteRepository) {
             $process = $this->createSubsplitPublishProcess($theMostRecentTag, $localSubdirectory, $remoteRepository);
+
             $this->symfonyStyle->note('Running: ' . $process->getCommandLine());
 
-            // @todo use multi threads, if possible
             $process->start();
-            while ($process->isRunning()) {
-                // waiting for process to finish
-                $output = trim($process->getOutput());
-                if ($output) {
-                    $output = preg_replace('#(\r?\n){2,}#', PHP_EOL, $output);
-                    $this->symfonyStyle->writeln($output);
+
+            $pool[] = $allProcesses[$localSubdirectory] = $process;
+        }
+
+        $this->symfonyStyle->success(sprintf('Running %d jobs asynchronously', count($pool)));
+
+        while (count($pool) > 0) {
+            foreach ($pool as $i => $runningProcess) {
+                if (! $runningProcess->isRunning())  {
+                    unset($pool[$i]);
                 }
             }
 
-            if ($process->isSuccessful()) {
-                $this->symfonyStyle->success(trim($process->getOutput()));
-            } else {
+            // check every second
+            sleep(1);
+        }
+
+        foreach ($allProcesses as $localSubdirectory => $process) {
+            if (! $process->isSuccessful()) {
                 throw new PackageToRepositorySplitException($process->getErrorOutput());
             }
+
+            $this->symfonyStyle->success(sprintf(
+                'Push of "%s" directory was successful',
+                $localSubdirectory
+            ));
         }
+
+        $total = $stopwatch->stop('hey');
+        dump((string) $total);
     }
 
     private function getMostRecentTag(): string
