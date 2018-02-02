@@ -35,8 +35,8 @@ final class PackageToRepositorySplitter
         foreach ($splitConfig as $localSubdirectory => $remoteRepository) {
             $process = $this->createSubsplitPublishProcess($theMostRecentTag, $localSubdirectory, $remoteRepository);
             $this->symfonyStyle->note('Running: ' . $process->getCommandLine());
-            $process->run();
 
+            $process->start();
             while ($process->isRunning()) {
                 // waiting for process to finish
                 $output = trim($process->getOutput());
