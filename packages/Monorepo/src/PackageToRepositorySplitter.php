@@ -71,7 +71,8 @@ final class PackageToRepositorySplitter
     ): Process {
         $this->repositoryGuard->ensureIsRepository($remoteRepository);
 
-        $commandLine = sprintf('git subsplit publish --heads=master --tags=%s %s',
+        $commandLine = sprintf(
+            'git subsplit publish --heads=master --tags=%s %s',
             $theMostRecentTag,
             sprintf('%s:%s', $localSubdirectory, $remoteRepository)
         );
