@@ -58,7 +58,7 @@ final class PackageToRepositorySplitter
 
         $this->symfonyStyle->success(sprintf('Running %d jobs asynchronously', count($this->activeProcesses)));
 
-        while (count($this->activeProcesses) > 0) {
+        while (count($this->activeProcesses)) {
             foreach ($this->activeProcesses as $i => $runningProcess) {
                 if (! $runningProcess->isRunning()) {
                     unset($this->activeProcesses[$i]);
@@ -69,18 +69,7 @@ final class PackageToRepositorySplitter
             sleep(1);
         }
 
-        foreach ($this->processInfos as $processInfo) {
-            $process = $processInfo->getProcess();
-            if (! $process->isSuccessful()) {
-                throw new PackageToRepositorySplitException($process->getErrorOutput());
-            }
-
-            $this->symfonyStyle->success(sprintf(
-                'Push of "%s" directory to "%s" repository was successful',
-                $processInfo->getLocalDirectory(),
-                $processInfo->getRemoteRepository()
-            ));
-        }
+        $this->reportFinishedProcesses();
     }
 
     private function getMostRecentTag(): string
@@ -101,11 +90,28 @@ final class PackageToRepositorySplitter
         $this->repositoryGuard->ensureIsRepository($remoteRepository);
 
         $commandLine = sprintf(
-            'git subsplit publish --heads=master --tags=%s %s',
+            'git subsplit publish --heads=master --tags=%s %s:%s',
             $theMostRecentTag,
-            sprintf('%s:%s', $localSubdirectory, $remoteRepository)
+            $localSubdirectory,
+            $remoteRepository
         );
 
         return new Process($commandLine, null, null, null, null);
+    }
+
+    private function reportFinishedProcesses(): void
+    {
+        foreach ($this->processInfos as $processInfo) {
+            $process = $processInfo->getProcess();
+            if (! $process->isSuccessful()) {
+                throw new PackageToRepositorySplitException($process->getErrorOutput());
+            }
+
+            $this->symfonyStyle->success(sprintf(
+                'Push of "%s" directory to "%s" repository was successful',
+                $processInfo->getLocalDirectory(),
+                $processInfo->getRemoteRepository()
+            ));
+        }
     }
 }
