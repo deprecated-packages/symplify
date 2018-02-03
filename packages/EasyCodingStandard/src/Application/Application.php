@@ -8,10 +8,8 @@ use Symplify\EasyCodingStandard\Configuration\Configuration;
 use Symplify\EasyCodingStandard\Console\Style\EasyCodingStandardStyle;
 use Symplify\EasyCodingStandard\Contract\Application\FileProcessorCollectorInterface;
 use Symplify\EasyCodingStandard\Contract\Application\FileProcessorInterface;
-use Symplify\EasyCodingStandard\Error\ErrorAndDiffCollector;
 use Symplify\EasyCodingStandard\FileSystem\FileFilter;
 use Symplify\EasyCodingStandard\Finder\SourceFinder;
-use Symplify\EasyCodingStandard\Skipper;
 
 final class Application implements FileProcessorCollectorInterface
 {
@@ -54,10 +52,8 @@ final class Application implements FileProcessorCollectorInterface
         EasyCodingStandardStyle $easyCodingStandardStyle,
         SourceFinder $sourceFinder,
         ChangedFilesDetector $changedFilesDetector,
-        ErrorAndDiffCollector $errorAndDiffCollector,
         Configuration $configuration,
         FileFilter $fileFilter,
-        Skipper $skipper,
         SingleFileProcessor $singleFileProcessor
     ) {
         $this->easyCodingStandardStyle = $easyCodingStandardStyle;
