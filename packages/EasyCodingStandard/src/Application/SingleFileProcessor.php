@@ -70,9 +70,9 @@ final class SingleFileProcessor implements FileProcessorCollectorInterface
     {
         $relativePath = $relativePath ?: $fileInfo->getRelativePathname();
 
-        if ($this->configuration->showProgressBar()) {
-            $this->easyCodingStandardStyle->progressAdvance();
-        }
+        //        if ($this->configuration->showProgressBar()) {
+//            $this->easyCodingStandardStyle->progressAdvance();
+//        }
 
         try {
             foreach ($this->fileProcessors as $fileProcessor) {

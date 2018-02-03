@@ -3,6 +3,7 @@
 namespace Symplify\EasyCodingStandard\Application;
 
 use Symfony\Component\Finder\SplFileInfo;
+use Symfony\Component\Process\Process;
 use Symplify\EasyCodingStandard\ChangedFilesDetector\ChangedFilesDetector;
 use Symplify\EasyCodingStandard\Configuration\Configuration;
 use Symplify\EasyCodingStandard\Console\Style\EasyCodingStandardStyle;
@@ -13,6 +14,16 @@ use Symplify\EasyCodingStandard\Finder\SourceFinder;
 
 final class Application implements FileProcessorCollectorInterface
 {
+    /**
+     * @var int
+     */
+    private const PROCESS_CONCURRENCY = 40;
+
+    /**
+     * @var Process[]
+     */
+    private $activeProcesses = [];
+
     /**
      * @var EasyCodingStandardStyle
      */
@@ -101,7 +112,6 @@ final class Application implements FileProcessorCollectorInterface
     public function getCheckerCount(): int
     {
         $checkerCount = 0;
-
         foreach ($this->fileProcessors as $fileProcessor) {
             $checkerCount += count($fileProcessor->getCheckers());
         }
@@ -114,8 +124,42 @@ final class Application implements FileProcessorCollectorInterface
      */
     private function processFoundFiles(array $fileInfos): void
     {
+        // run all files
         foreach ($fileInfos as $relativePath => $fileInfo) {
-            $this->singleFileProcessor->processFileInfo($fileInfo, $relativePath);
+            $process = new Process(implode(' ', ['php', __DIR__ . '/../../bin/micro/process-file', $relativePath]));
+            $process->start();
+
+            $this->activeProcesses[] = $process;
+//            $this->easyCodingStandardStyle->note(sprintf('Processing "%s"', $relativePath));
+
+            while (count($this->activeProcesses) > self::PROCESS_CONCURRENCY) {
+                foreach ($this->activeProcesses as $i => $runningProcess) {
+                    // specific process is finished, so we remove it
+                    if (! $runningProcess->isRunning()) {
+                        if ($this->configuration->showProgressBar()) {
+                            $this->easyCodingStandardStyle->progressAdvance();
+                        }
+                        unset($this->activeProcesses[$i]);
+                    }
+                }
+                // wait 0,5 s
+                usleep(500);
+            }
+//            $this->singleFileProcessor->processFileInfo($fileInfo, $relativePath);
+        }
+
+        while (count($this->activeProcesses)) {
+        	foreach ($this->activeProcesses as $i => $runningProcess) {
+                // specific process is finished, so we remove it
+                if (! $runningProcess->isRunning()) {
+                    if ($this->configuration->showProgressBar()) {
+                        $this->easyCodingStandardStyle->progressAdvance();
+                    }
+                    unset($this->activeProcesses[$i]);
+                }
+                // check every second
+                sleep(1);
+            }
         }
     }
 

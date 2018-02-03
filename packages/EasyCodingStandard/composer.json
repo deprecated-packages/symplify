@@ -6,7 +6,8 @@
         "bin/easy-coding-standard",
         "bin/ecs",
         "bin/easy-coding-standard.php",
-        "bin/ecs-container.php"
+        "bin/ecs-container.php",
+        "bin/micro/process-file"
     ],
     "require": {
         "php": "^7.1",

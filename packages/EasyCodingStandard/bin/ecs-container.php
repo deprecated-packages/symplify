@@ -22,12 +22,20 @@ if ($configFile === null) {
 
 // 3. Build DI container
 $containerFactory = new ContainerFactory();
+
+static $cachedContainer;
+if ($cachedContainer) {
+    return $cachedContainer;
+}
+
+file_put_contents(getcwd() . time(), 'test');
+
 if ($configFile) {
     $duplicatedCheckersToIncludesGuard = new DuplicatedCheckersToIncludesGuard(
         new CheckerConfigurationNormalizer()
     );
     $duplicatedCheckersToIncludesGuard->processConfigFile($configFile);
-    return $containerFactory->createWithConfig($configFile);
+    return $cachedContainer = $containerFactory->createWithConfig($configFile);
 }
 
-return $containerFactory->create();
+return $cachedContainer = $containerFactory->create();
