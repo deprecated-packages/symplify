@@ -3,6 +3,7 @@
 
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\DependencyInjection\Container;
+use Symfony\Component\Finder\SplFileInfo;
 use Symplify\EasyCodingStandard\Exception\Configuration\FileArgumentMissingException;
 use Symplify\EasyCodingStandard\FileSystem\FilesystemGuard;
 use Symplify\EasyCodingStandard\SniffRunner\Application\SniffFileProcessor;
@@ -14,14 +15,19 @@ $container = require __DIR__ . '/../ecs-container.php';
 try {
     $input = new ArgvInput();
     $filename = $input->getFirstArgument();
+
+    // validate input
     if ($filename === null) {
         throw new FileArgumentMissingException('A file argument is missing, pass it "bin/micro/process-file someFile.php"');
     }
-
     FilesystemGuard::ensureFileExists($filename);
 
+    // create Symfony\SplFileInfo
+    $fileInfo = new SplFileInfo(getcwd() . DIRECTORY_SEPARATOR . $filename, $filename, dirname($filename));
+
+    // process
     $sniffFileProcessor = $container->get(SniffFileProcessor::class);
-    die;
+    $changed = $sniffFileProcessor->processFile($fileInfo);
 
 } catch (Throwable $throwable) {
     $symfonyStyle = SymfonyStyleFactory::create();
