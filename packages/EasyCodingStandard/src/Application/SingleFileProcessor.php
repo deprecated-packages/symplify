@@ -63,7 +63,10 @@ final class SingleFileProcessor implements FileProcessorCollectorInterface
         $this->fileProcessors[] = $fileProcessor;
     }
 
-    public function processFileInfo(SplFileInfo $fileInfo, string $relativePath): void
+    /**
+     * @param string|null $relativePath Nullable due to migration to micro service.
+     */
+    public function processFileInfo(SplFileInfo $fileInfo, ?string $relativePath = null): void
     {
         if ($this->configuration->showProgressBar()) {
             $this->easyCodingStandardStyle->progressAdvance();

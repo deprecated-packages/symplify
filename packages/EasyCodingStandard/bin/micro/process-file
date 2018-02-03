@@ -4,9 +4,9 @@
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\Finder\SplFileInfo;
+use Symplify\EasyCodingStandard\Application\SingleFileProcessor;
 use Symplify\EasyCodingStandard\Exception\Configuration\FileArgumentMissingException;
 use Symplify\EasyCodingStandard\FileSystem\FilesystemGuard;
-use Symplify\EasyCodingStandard\SniffRunner\Application\SniffFileProcessor;
 use Symplify\PackageBuilder\Console\Style\SymfonyStyleFactory;
 
 /** @var Container $container */
@@ -26,8 +26,9 @@ try {
     $fileInfo = new SplFileInfo(getcwd() . DIRECTORY_SEPARATOR . $filename, $filename, dirname($filename));
 
     // process
-    $sniffFileProcessor = $container->get(SniffFileProcessor::class);
-    $changed = $sniffFileProcessor->processFile($fileInfo);
+    /** @var SingleFileProcessor $singleFileProcessor */
+    $singleFileProcessor = $container->get(SingleFileProcessor::class);
+    $singleFileProcessor->processFileInfo($fileInfo);
 
 } catch (Throwable $throwable) {
     $symfonyStyle = SymfonyStyleFactory::create();
