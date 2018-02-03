@@ -68,6 +68,8 @@ final class SingleFileProcessor implements FileProcessorCollectorInterface
      */
     public function processFileInfo(SplFileInfo $fileInfo, ?string $relativePath = null): void
     {
+        $relativePath = $relativePath ?: $fileInfo->getRelativePathname();
+
         if ($this->configuration->showProgressBar()) {
             $this->easyCodingStandardStyle->progressAdvance();
         }
