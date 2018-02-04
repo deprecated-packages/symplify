@@ -67,12 +67,14 @@ final class RepositoryToPackageMerger
         $gitWorkingCopy = $this->getGitWorkingCopyForDirectory($monorepoDirectory);
 
         // add repository as remote and merge
-        $this->repositoryWorker->mergeRepositoryToMonorepoDirectory($repositoryUrl, $gitWorkingCopy);
-        $this->symfonyStyle->success(sprintf(
-            'Repository "%s" was added as remote and merged in "%s"',
+        $this->symfonyStyle->note(sprintf(
+            'Adding and merging "%s" remote repository to "%s" directory',
             $repositoryUrl,
             $monorepoDirectory
         ));
+
+        $this->repositoryWorker->mergeRepositoryToMonorepoDirectory($repositoryUrl, $gitWorkingCopy);
+        $this->symfonyStyle->success('Repository was merged');
 
         // copy files into package subdirectory
         $absolutePackageDirectory = $monorepoDirectory . '/' . $packageSubdirectory;
@@ -81,7 +83,11 @@ final class RepositoryToPackageMerger
         $this->filesystem->copyFinderFilesToDirectory($finder, $absolutePackageDirectory);
         if ($gitWorkingCopy->hasChanges()) {
             $gitWorkingCopy->add('.');
-            $gitWorkingCopy->commit(sprintf('merge remove repository "%s"', $repositoryUrl));
+            $gitWorkingCopy->commit(sprintf(
+                'Merge move repository "%s" to subdirectory "%s"',
+                $repositoryUrl,
+                $packageSubdirectory
+            ));
         }
 
         $this->symfonyStyle->success(sprintf(
@@ -92,10 +98,16 @@ final class RepositoryToPackageMerger
 
         // prepend history
         $this->moveHistoryWorker->prependHistoryToNewPackageFiles($finder, $monorepoDirectory, $packageSubdirectory);
-        $this->symfonyStyle->success(sprintf('History added for files in "%s"', $packageSubdirectory));
+        $this->symfonyStyle->success('History added');
 
         // clear old repository files if moved
-        $this->filesystem->deleteMergedPackage($monorepoDirectory);
+        $this->filesystem->deleteMergedPackage($monorepoDirectory, $packageSubdirectory);
+        if ($gitWorkingCopy->hasChanges()) {
+            $gitWorkingCopy->add('.');
+            $gitWorkingCopy->commit(sprintf('Remove original files for "%s"', $repositoryUrl));
+        }
+
+        $this->symfonyStyle->newLine(2);
     }
 
     private function getGitWorkingCopyForDirectory(string $directory): GitWorkingCopy
