@@ -39,7 +39,8 @@ final class MoveHistoryWorker
         // this is needed due to long CLI arguments overflow error
         $fileInfosChunks = array_chunk($fileInfos, self::CHUNK_SIZE, true);
 
-        $this->symfonyStyle->note(sprintf('Rewriting history for %d files to "%s" directory',
+        $this->symfonyStyle->note(sprintf(
+            'Rewriting history for %d files to "%s" directory',
             count($fileInfos),
             $packageSubdirectory
         ));
