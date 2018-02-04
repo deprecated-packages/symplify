@@ -48,10 +48,11 @@ final class Filesystem
     {
         $this->excludedDirectories[] = $excludeDirectory;
 
+        $directoriesToExclude = array_merge(self::EXCLUDED_LOCAL_DIRS, $this->excludedDirectories);
+
         $finder = Finder::create()
             ->in($directory)
-            ->exclude(self::EXCLUDED_LOCAL_DIRS)
-            ->exclude($this->excludedDirectories)
+            ->exclude($directoriesToExclude)
             // include .gitignore, .travis etc
             ->ignoreDotFiles(false);
 
