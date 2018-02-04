@@ -110,6 +110,7 @@ final class RepositoryToPackageMerger
             $gitWorkingCopy->add('.');
             $gitWorkingCopy->commit(sprintf('Remove original files for "%s"', $repositoryUrl));
         }
+
         $this->symfonyStyle->success('Done');
     }
 
@@ -148,11 +149,15 @@ final class RepositoryToPackageMerger
                 $packageSubdirectory
             ));
         }
+
         $this->symfonyStyle->success('Done');
     }
 
-    private function addAndMergeRemoteRepository(string $repositoryUrl, string $monorepoDirectory, $gitWorkingCopy): void
-    {
+    private function addAndMergeRemoteRepository(
+        string $repositoryUrl,
+        string $monorepoDirectory,
+        GitWorkingCopy $gitWorkingCopy
+    ): void {
         $this->symfonyStyle->note(sprintf(
             'Adding and merging "%s" remote repository to "%s" directory',
             $repositoryUrl,
