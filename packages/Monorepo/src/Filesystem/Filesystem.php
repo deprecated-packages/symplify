@@ -4,6 +4,7 @@ namespace Symplify\Monorepo\Filesystem;
 
 use Nette\Utils\FileSystem as NetteFileSystem;
 use Symfony\Component\Finder\Finder;
+use Symfony\Component\Finder\SplFileInfo;
 
 final class Filesystem
 {
@@ -11,6 +12,11 @@ final class Filesystem
      * @var string[]
      */
     private const EXCLUDED_LOCAL_DIRS = ['packages', 'vendor', '.idea'];
+
+    /**
+     * @var string[]
+     */
+    private $excludedDirectories = [];
 
     public function findMergedPackageFiles(string $directory): Finder
     {
@@ -38,15 +44,27 @@ final class Filesystem
         NetteFileSystem::delete($directory);
     }
 
-    public function deleteMergedPackage(string $directory): void
+    public function deleteMergedPackage(string $directory, string $excludeDirectory): void
     {
+        $this->excludedDirectories[] = $excludeDirectory;
+
         $finder = Finder::create()
             ->in($directory)
             ->exclude(self::EXCLUDED_LOCAL_DIRS)
+            ->exclude($this->excludedDirectories)
             // include .gitignore, .travis etc
             ->ignoreDotFiles(false);
 
-        foreach ($finder->getIterator() as $fileInfo) {
+        $this->deleteFilesInFinder($finder);
+    }
+
+    private function deleteFilesInFinder(Finder $finder): void
+    {
+        // needs to assingned because getIterator() is lazy and it tries to find deleted directories
+        /** @var SplFileInfo[] $fileInfos */
+        $fileInfos = iterator_to_array($finder->getIterator());
+
+        foreach ($fileInfos as $fileInfo) {
             if (! file_exists($fileInfo->getPathname())) {
                 continue;
             }

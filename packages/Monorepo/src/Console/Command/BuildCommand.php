@@ -58,7 +58,7 @@ final class BuildCommand extends Command
         $this->configurationGuard->ensureConfigSectionIsFilled($build, 'build');
 
         $monorepoDirectory = $input->getArgument(self::MONOREPO_DIRECTORY);
-        $this->configurationGuard->ensureDirectoryIsEmpty($monorepoDirectory);
+//        $this->configurationGuard->ensureDirectoryIsEmpty($monorepoDirectory);
 
         foreach ($build as $repositoryUrl => $packagesSubdirectory) {
             $this->repositoryToPackageMerger->mergeRepositoryToPackage(
