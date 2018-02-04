@@ -2,7 +2,6 @@
 
 namespace Symplify\Monorepo\Worker;
 
-use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
 use Symfony\Component\Process\Process;
@@ -19,16 +18,6 @@ final class MoveHistoryWorker
      */
     private const GIT_MV_WITH_HISTORY_BASH_FILE = __DIR__ . '/../bash/git-mv-with-history.sh';
 
-    /**
-     * @var SymfonyStyle
-     */
-    private $symfonyStyle;
-
-    public function __construct(SymfonyStyle $symfonyStyle)
-    {
-        $this->symfonyStyle = $symfonyStyle;
-    }
-
     public function prependHistoryToNewPackageFiles(
         Finder $finder,
         string $monorepoDirectory,
@@ -38,12 +27,6 @@ final class MoveHistoryWorker
 
         // this is needed due to long CLI arguments overflow error
         $fileInfosChunks = array_chunk($fileInfos, self::CHUNK_SIZE, true);
-
-        $this->symfonyStyle->note(sprintf(
-            'Rewriting history for %d files to "%s" directory',
-            count($fileInfos),
-            $packageSubdirectory
-        ));
 
         foreach ($fileInfosChunks as $fileInfosChunk) {
             $processInput = $this->createGitMoveWithHistoryProcessInput($fileInfosChunk, $packageSubdirectory);
