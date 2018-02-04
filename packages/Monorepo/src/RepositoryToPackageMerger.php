@@ -72,7 +72,8 @@ final class RepositoryToPackageMerger
             $repositoryUrl,
             $monorepoDirectory
         ));
-//        $this->repositoryWorker->mergeRepositoryToMonorepoDirectory($repositoryUrl, $gitWorkingCopy);
+
+        $this->repositoryWorker->mergeRepositoryToMonorepoDirectory($repositoryUrl, $gitWorkingCopy);
         $this->symfonyStyle->success('Repository was merged');
 
         // copy files into package subdirectory
@@ -82,7 +83,11 @@ final class RepositoryToPackageMerger
         $this->filesystem->copyFinderFilesToDirectory($finder, $absolutePackageDirectory);
         if ($gitWorkingCopy->hasChanges()) {
             $gitWorkingCopy->add('.');
-            $gitWorkingCopy->commit(sprintf('merge remove repository "%s"', $repositoryUrl));
+            $gitWorkingCopy->commit(sprintf(
+                'Merge move repository "%s" to subdirectory "%s"',
+                $repositoryUrl,
+                $packageSubdirectory
+            ));
         }
 
         $this->symfonyStyle->success(sprintf(
@@ -97,6 +102,12 @@ final class RepositoryToPackageMerger
 
         // clear old repository files if moved
         $this->filesystem->deleteMergedPackage($monorepoDirectory, $packageSubdirectory);
+        if ($gitWorkingCopy->hasChanges()) {
+            $gitWorkingCopy->add('.');
+            $gitWorkingCopy->commit(sprintf('Remove original files for "%s"', $repositoryUrl));
+        }
+
+        $this->symfonyStyle->newLine(2);
     }
 
     private function getGitWorkingCopyForDirectory(string $directory): GitWorkingCopy
