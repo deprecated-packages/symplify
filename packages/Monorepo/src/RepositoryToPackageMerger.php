@@ -108,7 +108,7 @@ final class RepositoryToPackageMerger
         $this->filesystem->deleteMergedPackage($monorepoDirectory, $packageSubdirectory);
         if ($gitWorkingCopy->hasChanges()) {
             $gitWorkingCopy->add('.');
-            $gitWorkingCopy->commit(sprintf('Remove original files for "%s"', $repositoryUrl));
+            $gitWorkingCopy->commit(sprintf('[Monorepo] Remove original files for "%s"', $repositoryUrl));
         }
 
         $this->symfonyStyle->success('Done');
@@ -144,7 +144,7 @@ final class RepositoryToPackageMerger
         if ($gitWorkingCopy->hasChanges()) {
             $gitWorkingCopy->add('.');
             $gitWorkingCopy->commit(sprintf(
-                'Merge move repository "%s" to subdirectory "%s"',
+                '[Monorepo] Copy files from "%s" repository to "%s" directory',
                 $repositoryUrl,
                 $packageSubdirectory
             ));
