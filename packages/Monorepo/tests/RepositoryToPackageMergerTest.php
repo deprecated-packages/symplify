@@ -11,7 +11,7 @@ final class RepositoryToPackageMergerTest extends AbstractContainerAwareTestCase
     /**
      * @var string
      */
-    private const TEMP_MONOREPO_DIRECTORY = __DIR__ . '/RepositoryToPackageMergerSource/TempRepository';
+    private const TEMP_MONOREPO_DIRECTORY = __DIR__ . '/TempRepository';
 
     /**
      * @var GitWrapper
@@ -56,21 +56,21 @@ final class RepositoryToPackageMergerTest extends AbstractContainerAwareTestCase
         $this->gitWrapper->init(self::TEMP_MONOREPO_DIRECTORY);
 
         $this->repositoryToPackageMerger->mergeRepositoryToPackage(
-            'https://github.com/shopsys/product-feed-zbozi-copy.git',
+            'https://github.com/shopsys/coding-standards.git',
             self::TEMP_MONOREPO_DIRECTORY,
-            'packages/product-feed-zbozi-copy'
+            'packages/coding-standards'
         );
 
         $this->assertDirectoryNotExists(self::TEMP_MONOREPO_DIRECTORY . '/src');
-        $this->assertDirectoryExists(self::TEMP_MONOREPO_DIRECTORY . '/packages/product-feed-zbozi-copy/src');
+        $this->assertDirectoryExists(self::TEMP_MONOREPO_DIRECTORY . '/packages/coding-standards/src');
 
         $this->repositoryToPackageMerger->mergeRepositoryToPackage(
-            'https://github.com/shopsys/product-feed-google-copy.git',
+            'https://github.com/shopsys/product-feed-heureka.git',
             self::TEMP_MONOREPO_DIRECTORY,
-            'packages/product-feed-google-copy'
+            'packages/product-feed-heureka'
         );
 
         $this->assertDirectoryNotExists(self::TEMP_MONOREPO_DIRECTORY . '/src');
-        $this->assertDirectoryExists(self::TEMP_MONOREPO_DIRECTORY . '/packages/product-feed-google-copy/src');
+        $this->assertDirectoryExists(self::TEMP_MONOREPO_DIRECTORY . '/packages/product-feed-heureka/src');
     }
 }

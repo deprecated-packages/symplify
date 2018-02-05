@@ -2,18 +2,16 @@
 
 namespace Symplify\EasyCodingStandard\Application;
 
-use ParseError;
 use Symfony\Component\Finder\SplFileInfo;
 use Symplify\EasyCodingStandard\ChangedFilesDetector\ChangedFilesDetector;
 use Symplify\EasyCodingStandard\Configuration\Configuration;
 use Symplify\EasyCodingStandard\Console\Style\EasyCodingStandardStyle;
+use Symplify\EasyCodingStandard\Contract\Application\FileProcessorCollectorInterface;
 use Symplify\EasyCodingStandard\Contract\Application\FileProcessorInterface;
-use Symplify\EasyCodingStandard\Error\ErrorAndDiffCollector;
 use Symplify\EasyCodingStandard\FileSystem\FileFilter;
 use Symplify\EasyCodingStandard\Finder\SourceFinder;
-use Symplify\EasyCodingStandard\Skipper;
 
-final class Application
+final class Application implements FileProcessorCollectorInterface
 {
     /**
      * @var EasyCodingStandardStyle
@@ -31,11 +29,6 @@ final class Application
     private $changedFilesDetector;
 
     /**
-     * @var ErrorAndDiffCollector
-     */
-    private $errorAndDiffCollector;
-
-    /**
      * @var Configuration
      */
     private $configuration;
@@ -51,26 +44,24 @@ final class Application
     private $fileFilter;
 
     /**
-     * @var Skipper
+     * @var SingleFileProcessor
      */
-    private $skipper;
+    private $singleFileProcessor;
 
     public function __construct(
         EasyCodingStandardStyle $easyCodingStandardStyle,
         SourceFinder $sourceFinder,
         ChangedFilesDetector $changedFilesDetector,
-        ErrorAndDiffCollector $errorAndDiffCollector,
         Configuration $configuration,
         FileFilter $fileFilter,
-        Skipper $skipper
+        SingleFileProcessor $singleFileProcessor
     ) {
         $this->easyCodingStandardStyle = $easyCodingStandardStyle;
         $this->sourceFinder = $sourceFinder;
         $this->changedFilesDetector = $changedFilesDetector;
-        $this->errorAndDiffCollector = $errorAndDiffCollector;
         $this->configuration = $configuration;
         $this->fileFilter = $fileFilter;
-        $this->skipper = $skipper;
+        $this->singleFileProcessor = $singleFileProcessor;
     }
 
     public function addFileProcessor(FileProcessorInterface $fileProcessor): void
@@ -124,30 +115,7 @@ final class Application
     private function processFoundFiles(array $fileInfos): void
     {
         foreach ($fileInfos as $relativePath => $fileInfo) {
-            if ($this->configuration->showProgressBar()) {
-                $this->easyCodingStandardStyle->progressAdvance();
-            }
-
-            try {
-                // @todo pass file content?
-                foreach ($this->fileProcessors as $fileProcessor) {
-                    if ($this->skipper->shouldSkipFile($fileInfo)) {
-                        continue;
-                    }
-
-                    $fileProcessor->processFile($fileInfo);
-                }
-
-                // @todo add diff here? + save just once :)
-            } catch (ParseError $parseError) {
-                $this->changedFilesDetector->invalidateFile($relativePath);
-                $this->errorAndDiffCollector->addErrorMessage(
-                    $relativePath,
-                    $parseError->getLine(),
-                    $parseError->getMessage(),
-                    ParseError::class
-                );
-            }
+            $this->singleFileProcessor->processFileInfo($fileInfo, $relativePath);
         }
     }
 
