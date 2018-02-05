@@ -13,7 +13,7 @@ final class PackageToRepositorySplitterTest extends AbstractContainerAwareTestCa
     /**
      * @var string
      */
-    private const TEMP_MONOREPO_DIRECTORY = __DIR__ . '/PackageToRepositorySplitterSource/TempRepository';
+    private const TEMP_MONOREPO_DIRECTORY = __DIR__ . '/TempRepository';
 
     /**
      * @var GitWrapper
