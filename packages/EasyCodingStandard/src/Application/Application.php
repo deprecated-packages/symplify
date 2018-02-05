@@ -2,19 +2,28 @@
 
 namespace Symplify\EasyCodingStandard\Application;
 
-use ParseError;
 use Symfony\Component\Finder\SplFileInfo;
+use Symfony\Component\Process\Process;
 use Symplify\EasyCodingStandard\ChangedFilesDetector\ChangedFilesDetector;
 use Symplify\EasyCodingStandard\Configuration\Configuration;
 use Symplify\EasyCodingStandard\Console\Style\EasyCodingStandardStyle;
+use Symplify\EasyCodingStandard\Contract\Application\FileProcessorCollectorInterface;
 use Symplify\EasyCodingStandard\Contract\Application\FileProcessorInterface;
-use Symplify\EasyCodingStandard\Error\ErrorAndDiffCollector;
 use Symplify\EasyCodingStandard\FileSystem\FileFilter;
 use Symplify\EasyCodingStandard\Finder\SourceFinder;
-use Symplify\EasyCodingStandard\Skipper;
 
-final class Application
+final class Application implements FileProcessorCollectorInterface
 {
+    /**
+     * @var int
+     */
+    private const PROCESS_CONCURRENCY = 40;
+
+    /**
+     * @var Process[]
+     */
+    private $activeProcesses = [];
+
     /**
      * @var EasyCodingStandardStyle
      */
@@ -29,11 +38,6 @@ final class Application
      * @var ChangedFilesDetector
      */
     private $changedFilesDetector;
-
-    /**
-     * @var ErrorAndDiffCollector
-     */
-    private $errorAndDiffCollector;
 
     /**
      * @var Configuration
@@ -51,26 +55,24 @@ final class Application
     private $fileFilter;
 
     /**
-     * @var Skipper
+     * @var SingleFileProcessor
      */
-    private $skipper;
+    private $singleFileProcessor;
 
     public function __construct(
         EasyCodingStandardStyle $easyCodingStandardStyle,
         SourceFinder $sourceFinder,
         ChangedFilesDetector $changedFilesDetector,
-        ErrorAndDiffCollector $errorAndDiffCollector,
         Configuration $configuration,
         FileFilter $fileFilter,
-        Skipper $skipper
+        SingleFileProcessor $singleFileProcessor
     ) {
         $this->easyCodingStandardStyle = $easyCodingStandardStyle;
         $this->sourceFinder = $sourceFinder;
         $this->changedFilesDetector = $changedFilesDetector;
-        $this->errorAndDiffCollector = $errorAndDiffCollector;
         $this->configuration = $configuration;
         $this->fileFilter = $fileFilter;
-        $this->skipper = $skipper;
+        $this->singleFileProcessor = $singleFileProcessor;
     }
 
     public function addFileProcessor(FileProcessorInterface $fileProcessor): void
@@ -110,7 +112,6 @@ final class Application
     public function getCheckerCount(): int
     {
         $checkerCount = 0;
-
         foreach ($this->fileProcessors as $fileProcessor) {
             $checkerCount += count($fileProcessor->getCheckers());
         }
@@ -123,30 +124,41 @@ final class Application
      */
     private function processFoundFiles(array $fileInfos): void
     {
+        // run all files
         foreach ($fileInfos as $relativePath => $fileInfo) {
-            if ($this->configuration->showProgressBar()) {
-                $this->easyCodingStandardStyle->progressAdvance();
-            }
+            $process = new Process(implode(' ', ['php', __DIR__ . '/../../bin/micro/process-file', $relativePath]));
+            $process->start();
 
-            try {
-                // @todo pass file content?
-                foreach ($this->fileProcessors as $fileProcessor) {
-                    if ($this->skipper->shouldSkipFile($fileInfo)) {
-                        continue;
+            $this->activeProcesses[] = $process;
+//            $this->easyCodingStandardStyle->note(sprintf('Processing "%s"', $relativePath));
+
+            while (count($this->activeProcesses) > self::PROCESS_CONCURRENCY) {
+                foreach ($this->activeProcesses as $i => $runningProcess) {
+                    // specific process is finished, so we remove it
+                    if (! $runningProcess->isRunning()) {
+                        if ($this->configuration->showProgressBar()) {
+                            $this->easyCodingStandardStyle->progressAdvance();
+                        }
+                        unset($this->activeProcesses[$i]);
                     }
-
-                    $fileProcessor->processFile($fileInfo);
                 }
+                // wait 0,5 s
+                usleep(500);
+            }
+//            $this->singleFileProcessor->processFileInfo($fileInfo, $relativePath);
+        }
 
-                // @todo add diff here? + save just once :)
-            } catch (ParseError $parseError) {
-                $this->changedFilesDetector->invalidateFile($relativePath);
-                $this->errorAndDiffCollector->addErrorMessage(
-                    $relativePath,
-                    $parseError->getLine(),
-                    $parseError->getMessage(),
-                    ParseError::class
-                );
+        while (count($this->activeProcesses)) {
+        	foreach ($this->activeProcesses as $i => $runningProcess) {
+                // specific process is finished, so we remove it
+                if (! $runningProcess->isRunning()) {
+                    if ($this->configuration->showProgressBar()) {
+                        $this->easyCodingStandardStyle->progressAdvance();
+                    }
+                    unset($this->activeProcesses[$i]);
+                }
+                // check every second
+                sleep(1);
             }
         }
     }

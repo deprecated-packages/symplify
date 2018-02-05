@@ -31,7 +31,7 @@ final class RepositoryToPackageMergerTest extends AbstractContainerAwareTestCase
 
     protected function tearDown(): void
     {
-        FileSystem::delete(self::TEMP_MONOREPO_DIRECTORY);
+        FileSystem::delete(dirname(self::TEMP_MONOREPO_DIRECTORY));
     }
 
     public function testMergeTwoPackages(): void
