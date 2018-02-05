@@ -6,7 +6,9 @@ services:
     Symplify\Monorepo\:
         resource: ../
 
-    GitWrapper\GitWrapper: ~
+    GitWrapper\GitWrapper:
+        calls:
+            - ['setTimeout', [0]]
 
     Symplify\PackageBuilder\Parameter\ParameterProvider: ~
 
