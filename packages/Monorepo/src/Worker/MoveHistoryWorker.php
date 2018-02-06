@@ -2,7 +2,6 @@
 
 namespace Symplify\Monorepo\Worker;
 
-use Nette\Utils\Strings;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Finder\SplFileInfo;
 use Symfony\Component\Process\Process;
@@ -26,7 +25,7 @@ final class MoveHistoryWorker
     /**
      * @var int
      */
-    private $lastMvHistoryStepCount = 0;
+    private $currentFileInfoCount = 0;
 
     public function __construct(SymfonyStyle $symfonyStyle)
     {
@@ -42,14 +41,19 @@ final class MoveHistoryWorker
         string $packageSubdirectory
     ): void {
         // reset counter
-        $this->lastMvHistoryStepCount = 0;
+        $this->currentFileInfoCount = 0;
 
         $fileInfosChunks = $this->splitToChunks($fileInfos);
-        $totalStepCount = count($fileInfos) * $this->getCommitCount($monorepoDirectory);
-
-        $this->symfonyStyle->progressStart($totalStepCount);
+        $totalFileCount = count($fileInfos);
 
         foreach ($fileInfosChunks as $fileInfosChunk) {
+            $this->currentFileInfoCount += count($fileInfosChunk);
+            $this->symfonyStyle->warning(sprintf(
+                'Processing chunk %d/%d',
+                $this->currentFileInfoCount,
+                $totalFileCount
+            ));
+
             // @todo ProcessFactory
             $processInput = $this->createGitMoveWithHistoryProcessInput($fileInfosChunk, $packageSubdirectory);
             $process = new Process($processInput, $monorepoDirectory, null, null, null);
@@ -63,9 +67,7 @@ final class MoveHistoryWorker
 
                 // show process
                 if ($incrementalOutput = $process->getIncrementalOutput()) {
-                    $progressIncrement = $this->extractProgress($incrementalOutput);
-
-                    $this->symfonyStyle->progressAdvance($progressIncrement);
+                    $this->symfonyStyle->note($this->clearExtraEmptyLines($incrementalOutput));
 
                     // iterate slowly
                     sleep(10);
@@ -94,30 +96,6 @@ final class MoveHistoryWorker
         return $processInput;
     }
 
-    private function extractProgress(string $output): int
-    {
-        $matches = Strings::matchAll($output, '#(?<current>[0-9]+)\/(?<total>[0-9]+)#');
-        if (! count($matches)) {
-            return 0;
-        }
-
-        $lastMatch = array_pop($matches);
-
-        $progressIncrement = $lastMatch['current'] - $this->lastMvHistoryStepCount;
-
-        $this->lastMvHistoryStepCount = $lastMatch['current'];
-
-        return $progressIncrement;
-    }
-
-    private function getCommitCount(string $repositoryDirectory): int
-    {
-        $process = new Process('git rev-list --count master', $repositoryDirectory);
-        $process->run();
-
-        return (int) $process->getOutput();
-    }
-
     /**
      * This is needed due to long CLI arguments overflow error
      * @param SplFileInfo[] $fileInfos
@@ -126,5 +104,10 @@ final class MoveHistoryWorker
     private function splitToChunks(array $fileInfos): array
     {
         return array_chunk($fileInfos, self::CHUNK_SIZE, true);
+    }
+
+    private function clearExtraEmptyLines(string $content): string
+    {
+        return preg_replace('#(\r?\n){2,}#', PHP_EOL, $content);
     }
 }

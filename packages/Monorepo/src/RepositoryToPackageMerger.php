@@ -74,10 +74,7 @@ final class RepositoryToPackageMerger
         // add repository as remote and merge
         $this->addAndMergeRemoteRepository($repositoryUrl, $monorepoDirectory, $gitWorkingCopy);
 
-        $finder = $this->filesystem->findMergedPackageFiles($monorepoDirectory);
-
-        /** @var SplFileInfo[] $fileInfos */
-        $fileInfos = iterator_to_array($finder->getIterator());
+        $fileInfos = $this->filesystem->findMergedPackageFiles($monorepoDirectory);
 
         $this->copyFilesToPackageSubdirectory(
             $repositoryUrl,

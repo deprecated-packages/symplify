@@ -11,21 +11,26 @@ final class Filesystem
     /**
      * @var string[]
      */
-    private const EXCLUDED_LOCAL_DIRS = ['packages/*', 'vendor/*', '.idea/*', '.git/*'];
+    private const EXCLUDED_LOCAL_DIRS = ['packages', 'skeleton', 'vendor', '.idea', '.git', '.git-rewrite'];
 
     /**
      * @var string[]
      */
     private $excludedDirectories = [];
 
-    public function findMergedPackageFiles(string $directory): Finder
+    /**
+     * @return SplFileInfo[]
+     */
+    public function findMergedPackageFiles(string $directory): array
     {
-        return Finder::create()
+        $finder = Finder::create()
             ->files()
             ->in($directory)
             ->exclude(self::EXCLUDED_LOCAL_DIRS)
             // include .gitignore, .travis etc
             ->ignoreDotFiles(false);
+
+        return iterator_to_array($finder->getIterator());
     }
 
     /**
