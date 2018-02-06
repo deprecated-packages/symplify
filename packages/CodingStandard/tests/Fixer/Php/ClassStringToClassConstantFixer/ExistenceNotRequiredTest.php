@@ -6,7 +6,7 @@ use PhpCsFixer\Fixer\FixerInterface;
 use Symplify\CodingStandard\Fixer\Php\ClassStringToClassConstantFixer;
 use Symplify\TokenRunner\Testing\AbstractSimpleFixerTestCase;
 
-final class ExistanceNotRequiredTest extends AbstractSimpleFixerTestCase
+final class ExistenceNotRequiredTest extends AbstractSimpleFixerTestCase
 {
     /**
      * @dataProvider provideWrongToFixedCases()
