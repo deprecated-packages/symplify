@@ -8,6 +8,8 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\Process\Process;
+use Symplify\Monorepo\Configuration\BashFiles;
 use Symplify\Monorepo\Configuration\ConfigurationGuard;
 use Symplify\Monorepo\Configuration\ConfigurationOptions;
 use Symplify\Monorepo\Exception\Filesystem\DirectoryNotFoundException;
@@ -84,15 +86,15 @@ final class SplitCommand extends Command
         $splitConfig = $this->parameterProvider->provideParameter('split');
         $this->configurationGuard->ensureConfigSectionIsFilled($splitConfig, 'split');
 
-        // git subsplit init .git
         $monorepoDirectory = $input->getArgument(ConfigurationOptions::MONOREPO_DIRECTORY_ARGUMENT);
         $this->ensureIsGitRepository($monorepoDirectory);
 
         $subsplitDirectory = $this->getSubsplitDirectory($monorepoDirectory);
-        $gitWorkingCopy = $this->gitWrapper->workingCopy($monorepoDirectory);
 
-        // @todo check exception if subsplit alias not installed
-        $gitWorkingCopy->run('subsplit', ['init', '.git']);
+        // git subsplit init .git
+        $process = new Process([BashFiles::SUBSPLIT, 'init', '.git'], $monorepoDirectory);
+        $process->run();
+
         $this->symfonyStyle->success(sprintf('Directory "%s" with local clone created', $subsplitDirectory));
 
         $this->packageToRepositorySplitter->splitDirectoriesToRepositories($splitConfig, $monorepoDirectory);

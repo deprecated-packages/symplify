@@ -4,6 +4,7 @@ namespace Symplify\Monorepo;
 
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Process\Process;
+use Symplify\Monorepo\Configuration\BashFiles;
 use Symplify\Monorepo\Configuration\RepositoryGuard;
 use Symplify\Monorepo\Exception\Worker\PackageToRepositorySplitException;
 use Symplify\Monorepo\Filesystem\FileSystemGuard;
@@ -108,7 +109,8 @@ final class PackageToRepositorySplitter
         $this->repositoryGuard->ensureIsRepository($remoteRepository);
 
         $commandLine = sprintf(
-            'git subsplit publish --heads=master %s %s:%s',
+            '%s publish --heads=master %s %s:%s',
+            BashFiles::SUBSPLIT,
             $theMostRecentTag ? sprintf('--tags=%s', $theMostRecentTag) : '',
             $localSubdirectory,
             $remoteRepository

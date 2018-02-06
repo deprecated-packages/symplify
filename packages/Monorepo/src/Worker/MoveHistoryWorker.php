@@ -5,6 +5,7 @@ namespace Symplify\Monorepo\Worker;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
 use Symfony\Component\Process\Process;
+use Symplify\Monorepo\Configuration\BashFiles;
 
 final class MoveHistoryWorker
 {
@@ -12,11 +13,6 @@ final class MoveHistoryWorker
      * @var int
      */
     private const CHUNK_SIZE = 60;
-
-    /**
-     * @var string
-     */
-    private const GIT_MV_WITH_HISTORY_BASH_FILE = __DIR__ . '/../bash/git-mv-with-history.sh';
 
     public function prependHistoryToNewPackageFiles(
         Finder $finder,
@@ -41,7 +37,7 @@ final class MoveHistoryWorker
      */
     private function createGitMoveWithHistoryProcessInput(array $fileInfos, string $packageSubdirectory): array
     {
-        $processInput = [self::GIT_MV_WITH_HISTORY_BASH_FILE];
+        $processInput = [BashFiles::MOVE_WITH_HISTORY];
         foreach ($fileInfos as $fileInfo) {
             $processInput[] = sprintf(
                 '%s=%s',
