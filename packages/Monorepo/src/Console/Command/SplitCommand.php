@@ -8,7 +8,6 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-
 use Symplify\Monorepo\Configuration\ConfigurationGuard;
 use Symplify\Monorepo\Configuration\ConfigurationOptions;
 use Symplify\Monorepo\Exception\Filesystem\DirectoryNotFoundException;
