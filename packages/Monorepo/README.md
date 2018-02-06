@@ -78,6 +78,12 @@ parameters:
 vendor/bin/monorepo split
 ```
 
+It splits current working directory, but you can use argument to change that:
+
+```bash
+vendor/bin/monorepo split ../new-monorepo
+```
+
 Your last tag and `master` branch is now published in the repository.
 
 ## Other Features
@@ -87,3 +93,4 @@ Your last tag and `master` branch is now published in the repository.
 ```bash
 vendor/bin/monorepo --config second-monorepo.yml
 ```
+
