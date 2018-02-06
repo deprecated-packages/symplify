@@ -6,6 +6,7 @@ use GitWrapper\GitWorkingCopy;
 use GitWrapper\GitWrapper;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Finder\Finder;
+use Symfony\Component\Finder\SplFileInfo;
 use Symplify\Monorepo\Configuration\RepositoryGuard;
 use Symplify\Monorepo\Filesystem\Filesystem;
 use Symplify\Monorepo\Worker\MoveHistoryWorker;
@@ -74,6 +75,10 @@ final class RepositoryToPackageMerger
         $this->addAndMergeRemoteRepository($repositoryUrl, $monorepoDirectory, $gitWorkingCopy);
 
         $finder = $this->filesystem->findMergedPackageFiles($monorepoDirectory);
+
+        /** @var SplFileInfo[] $fileInfos */
+        $fileInfos = iterator_to_array($finder->getIterator());
+
         $this->copyFilesToPackageSubdirectory(
             $repositoryUrl,
             $packageSubdirectory,
@@ -82,7 +87,7 @@ final class RepositoryToPackageMerger
             $gitWorkingCopy
         );
 
-        $this->moveHistoryToPackageSubdirectory($monorepoDirectory, $packageSubdirectory, $finder);
+        $this->moveHistoryToPackageSubdirectory($monorepoDirectory, $packageSubdirectory, $fileInfos);
 
         $this->clearOriginalRepositoryFiles($repositoryUrl, $monorepoDirectory, $packageSubdirectory, $gitWorkingCopy);
 
@@ -114,17 +119,20 @@ final class RepositoryToPackageMerger
         $this->symfonyStyle->success('Done');
     }
 
+    /**
+     * @param SplFileInfo[] $fileInfos
+     */
     private function moveHistoryToPackageSubdirectory(
         string $monorepoDirectory,
         string $packageSubdirectory,
-        Finder $finder
+        array $fileInfos
     ): void {
         $this->symfonyStyle->note(sprintf(
             'Rewriting history for %d files to "%s" directory',
-            count($finder),
+            count($fileInfos),
             $packageSubdirectory
         ));
-        $this->moveHistoryWorker->prependHistoryToNewPackageFiles($finder, $monorepoDirectory, $packageSubdirectory);
+        $this->moveHistoryWorker->prependHistoryToNewPackageFiles($fileInfos, $monorepoDirectory, $packageSubdirectory);
         $this->symfonyStyle->success('Done');
     }
 

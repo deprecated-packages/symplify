@@ -34,15 +34,16 @@ final class MoveHistoryWorker
         $this->symfonyStyle = $symfonyStyle;
     }
 
+    /**
+     * @param SplFileInfo[] $fileInfos
+     */
     public function prependHistoryToNewPackageFiles(
-        Finder $finder,
+        array $fileInfos,
         string $monorepoDirectory,
         string $packageSubdirectory
     ): void {
         // reset counter
         $this->lastMvHistoryStepCount = 0;
-
-        $fileInfos = iterator_to_array($finder->getIterator());
 
         $fileInfosChunks = $this->splitFilesToChunks($fileInfos);
 

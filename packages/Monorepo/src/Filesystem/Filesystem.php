@@ -11,7 +11,7 @@ final class Filesystem
     /**
      * @var string[]
      */
-    private const EXCLUDED_LOCAL_DIRS = ['packages', 'vendor', '.idea'];
+    private const EXCLUDED_LOCAL_DIRS = ['packages/*', 'vendor/*', '.idea/*', '.git/*'];
 
     /**
      * @var string[]
