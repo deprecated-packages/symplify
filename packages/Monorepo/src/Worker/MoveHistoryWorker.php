@@ -4,7 +4,6 @@ namespace Symplify\Monorepo\Worker;
 
 use Nette\Utils\Strings;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
 use Symfony\Component\Process\Process;
 use Symplify\Monorepo\Configuration\BashFiles;
@@ -45,8 +44,7 @@ final class MoveHistoryWorker
         // reset counter
         $this->lastMvHistoryStepCount = 0;
 
-        $fileInfosChunks = $this->splitFilesToChunks($fileInfos);
-
+        $fileInfosChunks = $this->splitToChunks($fileInfos);
         $totalStepCount = count($fileInfos) * $this->getCommitCount($monorepoDirectory);
 
         $this->symfonyStyle->progressStart($totalStepCount);
@@ -125,7 +123,7 @@ final class MoveHistoryWorker
      * @param SplFileInfo[] $fileInfos
      * @return SplFileInfo[][]
      */
-    private function splitFilesToChunks(array $fileInfos): array
+    private function splitToChunks(array $fileInfos): array
     {
         return array_chunk($fileInfos, self::CHUNK_SIZE, true);
     }
