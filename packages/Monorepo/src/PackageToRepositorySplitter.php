@@ -110,7 +110,7 @@ final class PackageToRepositorySplitter
 
         $commandLine = sprintf(
             '%s publish --heads=master %s %s:%s',
-            BashFiles::SUBSPLIT,
+            realpath(BashFiles::SUBSPLIT),
             $theMostRecentTag ? sprintf('--tags=%s', $theMostRecentTag) : '',
             $localSubdirectory,
             $remoteRepository

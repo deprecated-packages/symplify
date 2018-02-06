@@ -37,7 +37,7 @@ final class MoveHistoryWorker
      */
     private function createGitMoveWithHistoryProcessInput(array $fileInfos, string $packageSubdirectory): array
     {
-        $processInput = [BashFiles::MOVE_WITH_HISTORY];
+        $processInput = [realpath(BashFiles::MOVE_WITH_HISTORY)];
         foreach ($fileInfos as $fileInfo) {
             $processInput[] = sprintf(
                 '%s=%s',

@@ -84,7 +84,7 @@ final class SplitCommand extends Command
         $subsplitDirectory = $this->getSubsplitDirectory($monorepoDirectory);
 
         // git subsplit init .git
-        $process = new Process([BashFiles::SUBSPLIT, 'init', '.git'], $monorepoDirectory);
+        $process = new Process([realpath(BashFiles::SUBSPLIT), 'init', '.git'], $monorepoDirectory);
         $process->run();
 
         $this->symfonyStyle->success(sprintf('Directory "%s" with local clone created', $subsplitDirectory));
