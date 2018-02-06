@@ -95,7 +95,7 @@ vendor/bin/monorepo split --config second-monorepo.yml
 - Only **committed files and directories** can be split.
 - Only **to public directories** can be split.
 
-### Build With Help 
+### Build With Help
 
 - [emiller/git-mv-with-history](https://gist.github.com/emiller/6769886) for `build` command
 - [dflydev/git-subsplit](https://github.com/dflydev/git-subsplit) for `split` command

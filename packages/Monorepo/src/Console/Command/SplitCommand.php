@@ -2,7 +2,6 @@
 
 namespace Symplify\Monorepo\Console\Command;
 
-use GitWrapper\GitWrapper;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -32,11 +31,6 @@ final class SplitCommand extends Command
     private $configurationGuard;
 
     /**
-     * @var GitWrapper
-     */
-    private $gitWrapper;
-
-    /**
      * @var SymfonyStyle
      */
     private $symfonyStyle;
@@ -54,14 +48,12 @@ final class SplitCommand extends Command
     public function __construct(
         ParameterProvider $parameterProvider,
         ConfigurationGuard $configurationGuard,
-        GitWrapper $gitWrapper,
         SymfonyStyle $symfonyStyle,
         Filesystem $filesystem,
         PackageToRepositorySplitter $packageToRepositorySplitter
     ) {
         $this->parameterProvider = $parameterProvider;
         $this->configurationGuard = $configurationGuard;
-        $this->gitWrapper = $gitWrapper;
         $this->symfonyStyle = $symfonyStyle;
         $this->filesystem = $filesystem;
         $this->packageToRepositorySplitter = $packageToRepositorySplitter;
