@@ -2,7 +2,6 @@
 
 namespace Symplify\Monorepo\Console\Command;
 
-use GitWrapper\GitWrapper;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -10,10 +9,10 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symplify\Monorepo\Configuration\ConfigurationGuard;
 use Symplify\Monorepo\Configuration\ConfigurationOptions;
-use Symplify\Monorepo\Exception\Filesystem\DirectoryNotFoundException;
-use Symplify\Monorepo\Exception\Git\InvalidGitRepositoryException;
+use Symplify\Monorepo\Configuration\RepositoryGuard;
 use Symplify\Monorepo\Filesystem\Filesystem;
 use Symplify\Monorepo\PackageToRepositorySplitter;
+use Symplify\Monorepo\Process\ProcessFactory;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
 use Symplify\PackageBuilder\Parameter\ParameterProvider;
 
@@ -30,11 +29,6 @@ final class SplitCommand extends Command
     private $configurationGuard;
 
     /**
-     * @var GitWrapper
-     */
-    private $gitWrapper;
-
-    /**
      * @var SymfonyStyle
      */
     private $symfonyStyle;
@@ -49,20 +43,32 @@ final class SplitCommand extends Command
      */
     private $packageToRepositorySplitter;
 
+    /**
+     * @var ProcessFactory
+     */
+    private $processFactory;
+
+    /**
+     * @var RepositoryGuard
+     */
+    private $repositoryGuard;
+
     public function __construct(
         ParameterProvider $parameterProvider,
         ConfigurationGuard $configurationGuard,
-        GitWrapper $gitWrapper,
         SymfonyStyle $symfonyStyle,
         Filesystem $filesystem,
-        PackageToRepositorySplitter $packageToRepositorySplitter
+        PackageToRepositorySplitter $packageToRepositorySplitter,
+        ProcessFactory $processFactory,
+        RepositoryGuard $repositoryGuard
     ) {
         $this->parameterProvider = $parameterProvider;
         $this->configurationGuard = $configurationGuard;
-        $this->gitWrapper = $gitWrapper;
         $this->symfonyStyle = $symfonyStyle;
         $this->filesystem = $filesystem;
         $this->packageToRepositorySplitter = $packageToRepositorySplitter;
+        $this->processFactory = $processFactory;
+        $this->repositoryGuard = $repositoryGuard;
 
         parent::__construct();
     }
@@ -84,32 +90,21 @@ final class SplitCommand extends Command
         $splitConfig = $this->parameterProvider->provideParameter('split');
         $this->configurationGuard->ensureConfigSectionIsFilled($splitConfig, 'split');
 
-        // git subsplit init .git
         $monorepoDirectory = $input->getArgument(ConfigurationOptions::MONOREPO_DIRECTORY_ARGUMENT);
-        $this->ensureIsGitRepository($monorepoDirectory);
+        $this->repositoryGuard->ensureIsRepositoryDirectory($monorepoDirectory);
+        $this->processFactory->setCurrentWorkingDirectory($monorepoDirectory);
 
         $subsplitDirectory = $this->getSubsplitDirectory($monorepoDirectory);
-        $gitWorkingCopy = $this->gitWrapper->workingCopy($monorepoDirectory);
 
-        // @todo check exception if subsplit alias not installed
-        $gitWorkingCopy->run('subsplit', ['init', '.git']);
+        $process = $this->processFactory->createSubsplitInit();
+        $process->run();
+
         $this->symfonyStyle->success(sprintf('Directory "%s" with local clone created', $subsplitDirectory));
 
         $this->packageToRepositorySplitter->splitDirectoriesToRepositories($splitConfig, $monorepoDirectory);
 
         $this->filesystem->deleteDirectory($subsplitDirectory);
         $this->symfonyStyle->success(sprintf('Directory "%s" cleaned', $subsplitDirectory));
-    }
-
-    private function ensureIsGitRepository(string $repository): void
-    {
-        if (! file_exists($repository)) {
-            throw new DirectoryNotFoundException(sprintf('Directory for repository "%s" was not found', $repository));
-        }
-
-        if (! file_exists($repository . '/.git')) {
-            throw new InvalidGitRepositoryException(sprintf('.git was not found in "%s" directory', $repository));
-        }
     }
 
     /**

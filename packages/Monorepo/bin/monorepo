@@ -4,6 +4,8 @@
 require_once __DIR__ . '/monorepo-bootstrap.php';
 
 use Symfony\Component\Console\Input\ArgvInput;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 use Symplify\Monorepo\Configuration\ConfigurationOptions;
 use Symplify\Monorepo\Console\Application;
 use Symplify\Monorepo\DependencyInjection\ContainerFactory;
@@ -24,7 +26,11 @@ try {
 
     /** @var Application $application */
     $application = $container->get(Application::class);
-    exit($application->run());
+    /** @var InputInterface $input */
+    $input = $container->get(InputInterface::class);
+    /** @var OutputInterface $output */
+    $output = $container->get(OutputInterface::class);
+    exit($application->run($input, $output));
 } catch (Throwable $throwable) {
     $symfonyStyle = SymfonyStyleFactory::create();
     $symfonyStyle->error($throwable->getMessage());

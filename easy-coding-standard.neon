@@ -70,6 +70,10 @@ parameters:
             # allowed default static value
             - packages/Statie/packages/Generator/src/Configuration/GeneratorElement.php
 
+        PHP_CodeSniffer\Standards\Generic\Sniffs\CodeAnalysis\AssignmentInConditionSniff:
+            # assign needed, since it clear the value on method call
+            - packages/Monorepo/src/Worker/MoveHistoryWorker.php
+
     skip_codes:
         SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff.MissingParameterTypeHint:
             # respect param typehint
@@ -78,3 +82,4 @@ parameters:
         SlevomatCodingStandard\Sniffs\Exceptions\ReferenceThrowableOnlySniff.ReferencedGeneralException:
             # intentionally "Exception" value
             - packages/CodingStandard/src/Sniffs/Architecture/ExplicitExceptionSniff.php
+
