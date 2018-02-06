@@ -7,17 +7,13 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symplify\Monorepo\Configuration\ConfigurationGuard;
+use Symplify\Monorepo\Configuration\ConfigurationOptions;
 use Symplify\Monorepo\RepositoryToPackageMerger;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
 use Symplify\PackageBuilder\Parameter\ParameterProvider;
 
 final class BuildCommand extends Command
 {
-    /**
-     * @var string
-     */
-    private const MONOREPO_DIRECTORY = 'monorepo-directory';
-
     /**
      * @var ParameterProvider
      */
@@ -49,7 +45,11 @@ final class BuildCommand extends Command
     {
         $this->setName(CommandNaming::classToName(self::class));
         $this->setDescription('Creates monolithic repository from provided config.');
-        $this->addArgument(self::MONOREPO_DIRECTORY, InputArgument::REQUIRED, 'Path to empty .git repository');
+        $this->addArgument(
+            ConfigurationOptions::MONOREPO_DIRECTORY_ARGUMENT,
+            InputArgument::REQUIRED,
+            'Path to empty .git repository'
+        );
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): void
@@ -57,7 +57,7 @@ final class BuildCommand extends Command
         $build = $this->parameterProvider->provideParameter('build');
         $this->configurationGuard->ensureConfigSectionIsFilled($build, 'build');
 
-        $monorepoDirectory = $input->getArgument(self::MONOREPO_DIRECTORY);
+        $monorepoDirectory = $input->getArgument(ConfigurationOptions::MONOREPO_DIRECTORY_ARGUMENT);
         $this->configurationGuard->ensureDirectoryIsEmpty($monorepoDirectory);
 
         foreach ($build as $repositoryUrl => $packagesSubdirectory) {
