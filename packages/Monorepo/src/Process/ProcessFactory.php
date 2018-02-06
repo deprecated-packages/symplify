@@ -3,6 +3,7 @@
 namespace Symplify\Monorepo\Process;
 
 use Symfony\Component\Process\Process;
+use Symplify\Monorepo\Configuration\BashFiles;
 
 final class ProcessFactory
 {
