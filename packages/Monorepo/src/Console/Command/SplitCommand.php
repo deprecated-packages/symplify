@@ -89,16 +89,17 @@ final class SplitCommand extends Command
         $monorepoDirectory = $input->getArgument(ConfigurationOptions::MONOREPO_DIRECTORY_ARGUMENT);
         $this->ensureIsGitRepository($monorepoDirectory);
 
+        $subsplitDirectory = $this->getSubsplitDirectory($monorepoDirectory);
         $gitWorkingCopy = $this->gitWrapper->workingCopy($monorepoDirectory);
 
         // @todo check exception if subsplit alias not installed
         $gitWorkingCopy->run('subsplit', ['init', '.git']);
-        $this->symfonyStyle->success(sprintf('Directory "%s" with local clone created', $this->getSubsplitDirectory()));
+        $this->symfonyStyle->success(sprintf('Directory "%s" with local clone created', $subsplitDirectory));
 
         $this->packageToRepositorySplitter->splitDirectoriesToRepositories($splitConfig, $monorepoDirectory);
 
-        $this->filesystem->deleteDirectory($this->getSubsplitDirectory());
-        $this->symfonyStyle->success(sprintf('Directory "%s" cleaned', $this->getSubsplitDirectory()));
+        $this->filesystem->deleteDirectory($subsplitDirectory);
+        $this->symfonyStyle->success(sprintf('Directory "%s" cleaned', $subsplitDirectory));
     }
 
     private function ensureIsGitRepository(string $repository): void
@@ -115,8 +116,8 @@ final class SplitCommand extends Command
     /**
      * Cache directory that is required by "git subsplit" command.
      */
-    private function getSubsplitDirectory(): string
+    private function getSubsplitDirectory(string $cwd): string
     {
-        return getcwd() . '/.subsplit';
+        return $cwd . '/.subsplit';
     }
 }
