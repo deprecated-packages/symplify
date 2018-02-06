@@ -30,13 +30,17 @@ final class PackageToRepositorySplitter
      * @var SplitProcessInfo[]
      */
     private $processInfos = [];
+
     /**
      * @var FileSystemGuard
      */
     private $fileSystemGuard;
 
-    public function __construct(SymfonyStyle $symfonyStyle, RepositoryGuard $repositoryGuard, FileSystemGuard $fileSystemGuard)
-    {
+    public function __construct(
+        SymfonyStyle $symfonyStyle,
+        RepositoryGuard $repositoryGuard,
+        FileSystemGuard $fileSystemGuard
+    ) {
         $this->symfonyStyle = $symfonyStyle;
         $this->repositoryGuard = $repositoryGuard;
         $this->fileSystemGuard = $fileSystemGuard;
