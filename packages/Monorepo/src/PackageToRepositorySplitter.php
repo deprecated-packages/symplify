@@ -44,7 +44,12 @@ final class PackageToRepositorySplitter
         $theMostRecentTag = $this->getMostRecentTag();
 
         foreach ($splitConfig as $localSubdirectory => $remoteRepository) {
-            $process = $this->createSubsplitPublishProcess($theMostRecentTag, $localSubdirectory, $remoteRepository, $cwd);
+            $process = $this->createSubsplitPublishProcess(
+                $theMostRecentTag,
+                $localSubdirectory,
+                $remoteRepository,
+                $cwd
+            );
             $this->symfonyStyle->note('Running: ' . $process->getCommandLine());
             $process->start();
 
