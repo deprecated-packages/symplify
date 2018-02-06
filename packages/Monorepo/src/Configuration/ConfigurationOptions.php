@@ -8,4 +8,9 @@ final class ConfigurationOptions
      * @var string
      */
     public const MONOREPO_CONFIG_FILE = 'monorepo.yml';
+
+    /**
+     * @var string
+     */
+    public const MONOREPO_DIRECTORY_ARGUMENT = 'monorepo-directory';
 }

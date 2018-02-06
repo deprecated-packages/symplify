@@ -9,6 +9,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symplify\Monorepo\Configuration\ConfigurationGuard;
+use Symplify\Monorepo\Configuration\ConfigurationOptions;
 use Symplify\Monorepo\Exception\Filesystem\DirectoryNotFoundException;
 use Symplify\Monorepo\Exception\Git\InvalidGitRepositoryException;
 use Symplify\Monorepo\Filesystem\Filesystem;
@@ -18,11 +19,6 @@ use Symplify\PackageBuilder\Parameter\ParameterProvider;
 
 final class SplitCommand extends Command
 {
-    /**
-     * @var string
-     */
-    private const MONOREPO_DIRECTORY = 'monorepo-directory';
-
     /**
      * @var ParameterProvider
      */
@@ -75,7 +71,12 @@ final class SplitCommand extends Command
     {
         $this->setName(CommandNaming::classToName(self::class));
         $this->setDescription('Split monolithic repository from provided config to many repositories.');
-        $this->addArgument(self::MONOREPO_DIRECTORY, InputArgument::OPTIONAL, 'Path to .git repository', getcwd());
+        $this->addArgument(
+            ConfigurationOptions::MONOREPO_DIRECTORY_ARGUMENT,
+            InputArgument::OPTIONAL,
+            'Path to .git repository',
+            getcwd()
+        );
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): void
@@ -84,7 +85,7 @@ final class SplitCommand extends Command
         $this->configurationGuard->ensureConfigSectionIsFilled($splitConfig, 'split');
 
         // git subsplit init .git
-        $monorepoDirectory = $input->getArgument(self::MONOREPO_DIRECTORY);
+        $monorepoDirectory = $input->getArgument(ConfigurationOptions::MONOREPO_DIRECTORY_ARGUMENT);
         $this->ensureIsGitRepository($monorepoDirectory);
 
         $subsplitDirectory = $monorepoDirectory . '/.subsplit';
