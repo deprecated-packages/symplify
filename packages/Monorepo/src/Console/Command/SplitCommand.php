@@ -7,14 +7,12 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Symfony\Component\Process\Process;
-use Symplify\Monorepo\Configuration\BashFiles;
 use Symplify\Monorepo\Configuration\ConfigurationGuard;
 use Symplify\Monorepo\Configuration\ConfigurationOptions;
-use Symplify\Monorepo\Exception\Filesystem\DirectoryNotFoundException;
-use Symplify\Monorepo\Exception\Git\InvalidGitRepositoryException;
+use Symplify\Monorepo\Configuration\RepositoryGuard;
 use Symplify\Monorepo\Filesystem\Filesystem;
 use Symplify\Monorepo\PackageToRepositorySplitter;
+use Symplify\Monorepo\Process\ProcessFactory;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
 use Symplify\PackageBuilder\Parameter\ParameterProvider;
 
@@ -45,18 +43,32 @@ final class SplitCommand extends Command
      */
     private $packageToRepositorySplitter;
 
+    /**
+     * @var ProcessFactory
+     */
+    private $processFactory;
+
+    /**
+     * @var RepositoryGuard
+     */
+    private $repositoryGuard;
+
     public function __construct(
         ParameterProvider $parameterProvider,
         ConfigurationGuard $configurationGuard,
         SymfonyStyle $symfonyStyle,
         Filesystem $filesystem,
-        PackageToRepositorySplitter $packageToRepositorySplitter
+        PackageToRepositorySplitter $packageToRepositorySplitter,
+        ProcessFactory $processFactory,
+        RepositoryGuard $repositoryGuard
     ) {
         $this->parameterProvider = $parameterProvider;
         $this->configurationGuard = $configurationGuard;
         $this->symfonyStyle = $symfonyStyle;
         $this->filesystem = $filesystem;
         $this->packageToRepositorySplitter = $packageToRepositorySplitter;
+        $this->processFactory = $processFactory;
+        $this->repositoryGuard = $repositoryGuard;
 
         parent::__construct();
     }
@@ -79,12 +91,12 @@ final class SplitCommand extends Command
         $this->configurationGuard->ensureConfigSectionIsFilled($splitConfig, 'split');
 
         $monorepoDirectory = $input->getArgument(ConfigurationOptions::MONOREPO_DIRECTORY_ARGUMENT);
-        $this->ensureIsGitRepository($monorepoDirectory);
+        $this->repositoryGuard->ensureIsRepositoryDirectory($monorepoDirectory);
+        $this->processFactory->setCurrentWorkingDirectory($monorepoDirectory);
 
         $subsplitDirectory = $this->getSubsplitDirectory($monorepoDirectory);
 
-        // git subsplit init .git
-        $process = new Process([realpath(BashFiles::SUBSPLIT), 'init', '.git'], $monorepoDirectory);
+        $process = $this->processFactory->createSubsplitInit();
         $process->run();
 
         $this->symfonyStyle->success(sprintf('Directory "%s" with local clone created', $subsplitDirectory));
@@ -93,17 +105,6 @@ final class SplitCommand extends Command
 
         $this->filesystem->deleteDirectory($subsplitDirectory);
         $this->symfonyStyle->success(sprintf('Directory "%s" cleaned', $subsplitDirectory));
-    }
-
-    private function ensureIsGitRepository(string $repository): void
-    {
-        if (! file_exists($repository)) {
-            throw new DirectoryNotFoundException(sprintf('Directory for repository "%s" was not found', $repository));
-        }
-
-        if (! file_exists($repository . '/.git')) {
-            throw new InvalidGitRepositoryException(sprintf('.git was not found in "%s" directory', $repository));
-        }
     }
 
     /**

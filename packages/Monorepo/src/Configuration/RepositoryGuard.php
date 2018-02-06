@@ -28,4 +28,15 @@ final class RepositoryGuard
             $possibleRepository
         ));
     }
+
+    public function ensureIsRepositoryDirectory(string $repositoryDirectory): void
+    {
+        if (! file_exists($repositoryDirectory)) {
+            throw new DirectoryNotFoundException(sprintf('Directory for repository "%s" was not found', $repositoryDirectory));
+        }
+
+        if (! file_exists($repositoryDirectory . '/.git')) {
+            throw new InvalidGitRepositoryException(sprintf('.git was not found in "%s" directory', $repositoryDirectory));
+        }
+    }
 }
