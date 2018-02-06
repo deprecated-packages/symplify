@@ -79,3 +79,12 @@ vendor/bin/monorepo split
 ```
 
 Your last tag and `master` branch is now published in the repository.
+
+
+## Other Features
+
+### Is Your Config in Other Location?
+
+```bash
+vendor/placebin/monorepo --config second-monorepo.yml
+```
