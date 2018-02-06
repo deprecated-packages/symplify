@@ -6,6 +6,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Process\Process;
 use Symplify\Monorepo\Configuration\RepositoryGuard;
 use Symplify\Monorepo\Exception\Worker\PackageToRepositorySplitException;
+use Symplify\Monorepo\Filesystem\FileSystemGuard;
 use Symplify\Monorepo\Process\SplitProcessInfo;
 
 final class PackageToRepositorySplitter
@@ -29,11 +30,16 @@ final class PackageToRepositorySplitter
      * @var SplitProcessInfo[]
      */
     private $processInfos = [];
+    /**
+     * @var FileSystemGuard
+     */
+    private $fileSystemGuard;
 
-    public function __construct(SymfonyStyle $symfonyStyle, RepositoryGuard $repositoryGuard)
+    public function __construct(SymfonyStyle $symfonyStyle, RepositoryGuard $repositoryGuard, FileSystemGuard $fileSystemGuard)
     {
         $this->symfonyStyle = $symfonyStyle;
         $this->repositoryGuard = $repositoryGuard;
+        $this->fileSystemGuard = $fileSystemGuard;
     }
 
     /**
@@ -44,6 +50,8 @@ final class PackageToRepositorySplitter
         $theMostRecentTag = $this->getMostRecentTag($cwd);
 
         foreach ($splitConfig as $localSubdirectory => $remoteRepository) {
+            $this->fileSystemGuard->ensureDirectoryExists($localSubdirectory);
+
             $process = $this->createSubsplitPublishProcess(
                 $theMostRecentTag,
                 $localSubdirectory,
@@ -96,8 +104,8 @@ final class PackageToRepositorySplitter
         $this->repositoryGuard->ensureIsRepository($remoteRepository);
 
         $commandLine = sprintf(
-            'git subsplit publish --heads=master --tags=%s %s:%s',
-            $theMostRecentTag,
+            'git subsplit publish --heads=master %s %s:%s',
+            $theMostRecentTag ? sprintf('--tags=%s', $theMostRecentTag) : '',
             $localSubdirectory,
             $remoteRepository
         );
