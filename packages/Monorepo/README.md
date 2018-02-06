@@ -93,3 +93,7 @@ Your last tag and `master` branch is now published in the repository.
 ```bash
 vendor/bin/monorepo split --config second-monorepo.yml
 ```
+
+## Rules of Monorepo
+
+- Only **committed files and directories** can be split.
