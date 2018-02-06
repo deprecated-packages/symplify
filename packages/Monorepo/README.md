@@ -4,10 +4,6 @@
 [![Downloads](https://img.shields.io/packagist/dt/symplify/monorepo.svg?style=flat-square)](https://packagist.org/packages/symplify/monorepo)
 [![Subscribe](https://img.shields.io/badge/subscribe-to--releases-green.svg?style=flat-square)](https://libraries.io/packagist/symplify%2Fmonorepo)
 
-## Requirements
-
-- [dflydev/git-subsplit](https://github.com/dflydev/git-subsplit) for `git subsplit` command
-
 ## Usage
 
 ### 1. Build Monolithic Repository from Many Repositories
@@ -97,4 +93,9 @@ vendor/bin/monorepo split --config second-monorepo.yml
 ## Rules of Monorepo
 
 - Only **committed files and directories** can be split.
-- Only **to public directories**.
+- Only **to public directories** can be split.
+
+### Build With Help 
+
+- [emiller/git-mv-with-history](https://gist.github.com/emiller/6769886) for `build` command
+- [dflydev/git-subsplit](https://github.com/dflydev/git-subsplit) for `split` command
