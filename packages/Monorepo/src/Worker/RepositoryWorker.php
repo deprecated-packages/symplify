@@ -3,13 +3,13 @@
 namespace Symplify\Monorepo\Worker;
 
 use GitWrapper\GitWorkingCopy;
+use Nette\Utils\Strings;
 
 final class RepositoryWorker
 {
     public function mergeRepositoryToMonorepoDirectory(string $repository, GitWorkingCopy $gitWorkingCopy): void
     {
         $remoteName = $this->createRepositoryName($repository);
-
         $this->addRemote($remoteName, $repository, $gitWorkingCopy);
 
         $gitWorkingCopy->merge($remoteName . '/master', ['allow-unrelated-histories' => true]);
@@ -29,6 +29,6 @@ final class RepositoryWorker
      */
     private function createRepositoryName(string $repository): string
     {
-        return md5($repository);
+        return Strings::webalize($repository);
     }
 }
