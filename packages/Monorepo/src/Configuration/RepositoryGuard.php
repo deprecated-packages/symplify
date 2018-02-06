@@ -3,6 +3,8 @@
 namespace Symplify\Monorepo\Configuration;
 
 use Nette\Utils\Strings;
+use Symplify\Monorepo\Exception\Filesystem\DirectoryNotFoundException;
+use Symplify\Monorepo\Exception\Git\InvalidGitRepositoryException;
 use Symplify\Monorepo\Exception\InvalidRepositoryFormatException;
 
 final class RepositoryGuard
