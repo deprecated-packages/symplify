@@ -8,6 +8,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+
 use Symplify\Monorepo\Configuration\ConfigurationGuard;
 use Symplify\Monorepo\Configuration\ConfigurationOptions;
 use Symplify\Monorepo\Exception\Filesystem\DirectoryNotFoundException;
@@ -88,17 +89,16 @@ final class SplitCommand extends Command
         $monorepoDirectory = $input->getArgument(ConfigurationOptions::MONOREPO_DIRECTORY_ARGUMENT);
         $this->ensureIsGitRepository($monorepoDirectory);
 
-        $subsplitDirectory = $monorepoDirectory . '/.subsplit';
         $gitWorkingCopy = $this->gitWrapper->workingCopy($monorepoDirectory);
 
         // @todo check exception if subsplit alias not installed
-        $gitWorkingCopy->run('subsplit', ['init', $monorepoDirectory . '/.git']);
-        $this->symfonyStyle->success(sprintf('Directory "%s" with local clone created', $subsplitDirectory));
+        $gitWorkingCopy->run('subsplit', ['init', '.git']);
+        $this->symfonyStyle->success(sprintf('Directory "%s" with local clone created', $this->getSubsplitDirectory()));
 
-        $this->packageToRepositorySplitter->splitDirectoriesToRepositories($splitConfig);
+        $this->packageToRepositorySplitter->splitDirectoriesToRepositories($splitConfig, $monorepoDirectory);
 
-        $this->filesystem->deleteDirectory($subsplitDirectory);
-        $this->symfonyStyle->success(sprintf('Directory "%s" cleaned', $subsplitDirectory));
+        $this->filesystem->deleteDirectory($this->getSubsplitDirectory());
+        $this->symfonyStyle->success(sprintf('Directory "%s" cleaned', $this->getSubsplitDirectory()));
     }
 
     private function ensureIsGitRepository(string $repository): void
@@ -110,5 +110,13 @@ final class SplitCommand extends Command
         if (! file_exists($repository . '/.git')) {
             throw new InvalidGitRepositoryException(sprintf('.git was not found in "%s" directory', $repository));
         }
+    }
+
+    /**
+     * Cache directory that is required by "git subsplit" command.
+     */
+    private function getSubsplitDirectory(): string
+    {
+        return getcwd() . '/.subsplit';
     }
 }
