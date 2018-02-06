@@ -31,7 +31,7 @@ final class MoveHistoryWorker
         foreach ($fileInfosChunks as $fileInfosChunk) {
             $processInput = $this->createGitMoveWithHistoryProcessInput($fileInfosChunk, $packageSubdirectory);
             $process = new Process($processInput, $monorepoDirectory, null, null, null);
-            $process->start();
+            $process->run();
         }
     }
 
