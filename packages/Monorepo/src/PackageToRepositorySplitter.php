@@ -39,12 +39,12 @@ final class PackageToRepositorySplitter
     /**
      * @param mixed[] $splitConfig
      */
-    public function splitDirectoriesToRepositories(array $splitConfig): void
+    public function splitDirectoriesToRepositories(array $splitConfig, string $cwd): void
     {
         $theMostRecentTag = $this->getMostRecentTag();
 
         foreach ($splitConfig as $localSubdirectory => $remoteRepository) {
-            $process = $this->createSubsplitPublishProcess($theMostRecentTag, $localSubdirectory, $remoteRepository);
+            $process = $this->createSubsplitPublishProcess($theMostRecentTag, $localSubdirectory, $remoteRepository, $cwd);
             $this->symfonyStyle->note('Running: ' . $process->getCommandLine());
             $process->start();
 
@@ -85,7 +85,8 @@ final class PackageToRepositorySplitter
     private function createSubsplitPublishProcess(
         string $theMostRecentTag,
         string $localSubdirectory,
-        string $remoteRepository
+        string $remoteRepository,
+        string $cwd
     ): Process {
         $this->repositoryGuard->ensureIsRepository($remoteRepository);
 
@@ -96,7 +97,7 @@ final class PackageToRepositorySplitter
             $remoteRepository
         );
 
-        return new Process($commandLine, null, null, null, null);
+        return new Process($commandLine, $cwd, null, null, null);
     }
 
     private function reportFinishedProcesses(): void
