@@ -5,7 +5,6 @@ namespace Symplify\Monorepo;
 use GitWrapper\GitWorkingCopy;
 use GitWrapper\GitWrapper;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
 use Symplify\Monorepo\Configuration\RepositoryGuard;
 use Symplify\Monorepo\Filesystem\Filesystem;
@@ -80,7 +79,7 @@ final class RepositoryToPackageMerger
             $repositoryUrl,
             $packageSubdirectory,
             $absolutePackageDirectory,
-            $finder,
+            $fileInfos,
             $gitWorkingCopy
         );
 
@@ -133,11 +132,14 @@ final class RepositoryToPackageMerger
         $this->symfonyStyle->success('Done');
     }
 
+    /**
+     * @param SplFileInfo[] $fileInfos
+     */
     private function copyFilesToPackageSubdirectory(
         string $repositoryUrl,
         string $packageSubdirectory,
         string $absolutePackageDirectory,
-        Finder $finder,
+        array $fileInfos,
         GitWorkingCopy $gitWorkingCopy
     ): void {
         $this->symfonyStyle->note(sprintf(
@@ -145,7 +147,7 @@ final class RepositoryToPackageMerger
             $repositoryUrl,
             $absolutePackageDirectory
         ));
-        $this->filesystem->copyFinderFilesToDirectory($finder, $absolutePackageDirectory);
+        $this->filesystem->copyFinderFilesToDirectory($fileInfos, $absolutePackageDirectory);
         if ($gitWorkingCopy->hasChanges()) {
             $gitWorkingCopy->add('.');
             $gitWorkingCopy->commit(sprintf(

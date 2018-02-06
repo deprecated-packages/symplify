@@ -34,12 +34,14 @@ final class Filesystem
     }
 
     /**
-     * - find new files with finder(
+     * @param SplFileInfo[] $fileInfos
+     *
+     * - find new files with finder
      * - copy to new directory
      */
-    public function copyFinderFilesToDirectory(Finder $finder, string $directory): void
+    public function copyFinderFilesToDirectory(array $fileInfos, string $directory): void
     {
-        foreach ($finder->getIterator() as $fileInfo) {
+        foreach ($fileInfos as $fileInfo) {
             NetteFileSystem::copy($fileInfo->getRealPath(), $directory . '/' . $fileInfo->getRelativePathname());
         }
     }
