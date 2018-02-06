@@ -86,5 +86,5 @@ Your last tag and `master` branch is now published in the repository.
 ### Is Your Config in Other Location?
 
 ```bash
-vendor/placebin/monorepo --config second-monorepo.yml
+vendor/bin/monorepo --config second-monorepo.yml
 ```
