@@ -93,7 +93,6 @@ vendor/bin/monorepo split --config second-monorepo.yml
 ## Rules of Monorepo
 
 - Only **committed files and directories** can be split.
-- Only **to public directories** can be split.
 
 ### Build With Help
 
