@@ -2,6 +2,7 @@
 
 namespace Symplify\Monorepo\Worker;
 
+use Nette\Utils\Strings;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
@@ -16,12 +17,17 @@ final class MoveHistoryWorker
      *
      * @var int
      */
-    private const CHUNK_SIZE = 300;
+    private const CHUNK_SIZE = 200;
 
     /**
      * @var SymfonyStyle
      */
     private $symfonyStyle;
+
+    /**
+     * @var int
+     */
+    private $lastMvHistoryStepCount = 0;
 
     public function __construct(SymfonyStyle $symfonyStyle)
     {
@@ -33,12 +39,16 @@ final class MoveHistoryWorker
         string $monorepoDirectory,
         string $packageSubdirectory
     ): void {
+        // reset counter
+        $this->lastMvHistoryStepCount = 0;
+
         $fileInfos = iterator_to_array($finder->getIterator());
 
-        // this is needed due to long CLI arguments overflow error
-        $fileInfosChunks = array_chunk($fileInfos, self::CHUNK_SIZE, true);
+        $fileInfosChunks = $this->splitFilesToChunks($fileInfos);
 
-        $this->symfonyStyle->progressStart(count($fileInfos));
+        $totalStepCount = count($fileInfos) * $this->getCommitCount($monorepoDirectory);
+
+        $this->symfonyStyle->progressStart($totalStepCount);
 
         foreach ($fileInfosChunks as $fileInfosChunk) {
             // @todo ProcessFactory
@@ -54,13 +64,14 @@ final class MoveHistoryWorker
 
                 // show process
                 if ($incrementalOutput = $process->getIncrementalOutput()) {
-                    $this->symfonyStyle->note($this->clearExtraEmptyLines($incrementalOutput));
+                    $progressIncrement = $this->extractProgress($incrementalOutput);
+
+                    $this->symfonyStyle->progressAdvance($progressIncrement);
+
                     // iterate slowly
                     sleep(10);
                 }
             }
-
-            $this->symfonyStyle->progressAdvance(count($fileInfosChunk));
         }
 
         $this->symfonyStyle->newLine(2);
@@ -84,8 +95,37 @@ final class MoveHistoryWorker
         return $processInput;
     }
 
-    private function clearExtraEmptyLines(string $content): string
+    private function extractProgress(string $output): int
     {
-        return preg_replace('#(\r?\n){2,}#', PHP_EOL, $content);
+        $matches = Strings::matchAll($output, '#(?<current>[0-9]+)\/(?<total>[0-9]+)#');
+        if (! count($matches)) {
+            return 0;
+        }
+
+        $lastMatch = array_pop($matches);
+
+        $progressIncrement = $lastMatch['current'] - $this->lastMvHistoryStepCount;
+
+        $this->lastMvHistoryStepCount = $lastMatch['current'];
+
+        return $progressIncrement;
+    }
+
+    private function getCommitCount(string $repositoryDirectory): int
+    {
+        $process = new Process('git rev-list --count master', $repositoryDirectory);
+        $process->run();
+
+        return (int) $process->getOutput();
+    }
+
+    /**
+     * This is needed due to long CLI arguments overflow error
+     * @param SplFileInfo[] $fileInfos
+     * @return SplFileInfo[][]
+     */
+    private function splitFilesToChunks(array $fileInfos): array
+    {
+        return array_chunk($fileInfos, self::CHUNK_SIZE, true);
     }
 }
