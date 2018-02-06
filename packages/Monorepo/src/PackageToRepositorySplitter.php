@@ -41,7 +41,7 @@ final class PackageToRepositorySplitter
      */
     public function splitDirectoriesToRepositories(array $splitConfig, string $cwd): void
     {
-        $theMostRecentTag = $this->getMostRecentTag();
+        $theMostRecentTag = $this->getMostRecentTag($cwd);
 
         foreach ($splitConfig as $localSubdirectory => $remoteRepository) {
             $process = $this->createSubsplitPublishProcess(
@@ -77,9 +77,9 @@ final class PackageToRepositorySplitter
         $this->reportFinishedProcesses();
     }
 
-    private function getMostRecentTag(): string
+    private function getMostRecentTag(string $cwd): string
     {
-        $process = new Process('git tag -l --sort=committerdate');
+        $process = new Process('git tag -l --sort=committerdate', $cwd);
         $process->run();
         $tags = $process->getOutput();
         $tagList = explode(PHP_EOL, trim($tags));
