@@ -21,7 +21,7 @@ final class ClassNameSuffixByParentFixer implements DefinedFixerInterface, Confi
     /**
      * @var string
      */
-    private const PARENT_CLASS_TO_SUFFIXES_MAP_OPTION = 'parent_types_to_suffixes';
+    private const PARENT_TYPES_TO_SUFFIXES_OPTION = 'parent_types_to_suffixes';
 
     /**
      * @var string[]
@@ -110,13 +110,15 @@ class SomeClass extends Command
     public function getConfigurationDefinition(): FixerConfigurationResolverInterface
     {
         $fixerOptionBuilder = new FixerOptionBuilder(
-            self::PARENT_CLASS_TO_SUFFIXES_MAP_OPTION,
+            self::PARENT_TYPES_TO_SUFFIXES_OPTION,
             'Map of parent classes to suffixes, that their children should have'
         );
 
-        return new FixerConfigurationResolver([$fixerOptionBuilder->setAllowedTypes(['array'])
+        $parentTypesToSuffixesOption = $fixerOptionBuilder->setAllowedTypes(['array'])
             ->setDefault($this->defaultParentClassToSuffixMap)
-            ->getOption(), ]);
+            ->getOption();
+
+        return new FixerConfigurationResolver([$parentTypesToSuffixesOption]);
     }
 
     private function processClassWrapper(Tokens $tokens, ClassWrapper $classWrapper): void
@@ -139,7 +141,7 @@ class SomeClass extends Command
         string $parentType,
         string $className
     ): void {
-        $classToSuffixMap = $this->configuration[self::PARENT_CLASS_TO_SUFFIXES_MAP_OPTION];
+        $classToSuffixMap = $this->configuration[self::PARENT_TYPES_TO_SUFFIXES_OPTION];
 
         foreach ($classToSuffixMap as $classMatch => $suffix) {
             if (! fnmatch($classMatch, $parentType)) {
