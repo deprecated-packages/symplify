@@ -45,11 +45,13 @@ final class ClassNameSuffixByParentFixer implements DefinedFixerInterface, Confi
     public function getDefinition(): FixerDefinitionInterface
     {
         return new FixerDefinition('Class should have suffix by parent class/interface', [
-            new CodeSample(
-                '<?php
+            new CodeSample(<<<CODE
+<?php
+
 class SomeClass extends Command
 {
-}'
+}
+CODE
             ),
         ]);
     }
