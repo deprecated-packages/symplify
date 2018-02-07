@@ -33,13 +33,9 @@ final class GenerateCommandTest extends AbstractContainerAwareTestCase
 
     public function test(): void
     {
-        $stringInput = sprintf(
-            'generate %s --output %s',
-            __DIR__ . '/GenerateCommandSource/source',
-            $this->outputDirectory
-        );
+        $stringInput = ['generate', __DIR__ . '/GenerateCommandSource/source', '--output', $this->outputDirectory];
+        $input = new StringInput(implode(' ', $stringInput));
 
-        $input = new StringInput($stringInput);
         $result = $this->application->run($input, new NullOutput());
         $this->assertSame(0, $result);
 
