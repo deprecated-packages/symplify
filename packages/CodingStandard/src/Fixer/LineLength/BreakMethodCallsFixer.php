@@ -191,6 +191,12 @@ final class BreakMethodCallsFixer implements DefinedFixerInterface, WhitespacesA
             return false;
         }
 
+        // starts with small letter?
+        $methodOrFunctionName = $token->getContent();
+        if (! ctype_lower($methodOrFunctionName[0])) {
+            return false;
+        }
+
         // is "someCall("?
         $next = $tokens->getNextMeaningfulToken($position);
         if (! $tokens[$next]->equals('(')) {
@@ -207,8 +213,14 @@ final class BreakMethodCallsFixer implements DefinedFixerInterface, WhitespacesA
             return true;
         }
 
-        // is "(->|::|)someCall"?
+        // is "(->|::|()someCall"?
         $functionNamePrefixPosition = $tokens->getPrevMeaningfulToken($position);
+        $functionNamePrefixToken = $tokens[$functionNamePrefixPosition];
+
+        // nested call
+        if ($functionNamePrefixToken->getContent() === '(') {
+            return true;
+        }
 
         return $tokens[$functionNamePrefixPosition]->isGivenKind([T_DOUBLE_COLON, T_OBJECT_OPERATOR, T_WHITESPACE]);
     }
