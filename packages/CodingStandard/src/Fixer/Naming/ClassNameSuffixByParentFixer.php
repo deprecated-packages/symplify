@@ -35,6 +35,7 @@ final class ClassNameSuffixByParentFixer implements DefinedFixerInterface, Confi
         '*EventSubscriber' => 'EventSubscriber',
         '*FixerInterface' => 'Fixer',
         '*Sniff' => 'Sniff',
+        '*Exception' => 'Exception',
     ];
 
     /**
