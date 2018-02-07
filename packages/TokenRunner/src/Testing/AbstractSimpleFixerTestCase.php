@@ -18,11 +18,7 @@ abstract class AbstractSimpleFixerTestCase extends AbstractFixerTestCase
 
     protected function doTestWrongToFixedFile(string $wrongFile, string $fixedFile): void
     {
-        parent::doTest(
-            file_get_contents($fixedFile),
-            file_get_contents($wrongFile),
-            null
-        );
+        parent::doTest(file_get_contents($fixedFile), file_get_contents($wrongFile), null);
     }
 
     /**

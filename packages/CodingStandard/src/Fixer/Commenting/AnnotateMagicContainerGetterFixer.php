@@ -155,11 +155,7 @@ $someService->unknownMethod();
 
     private function createDocCommentToken(string $className, string $variableName): Token
     {
-        return new Token([T_DOC_COMMENT, sprintf(
-            '/** @var %s %s */',
-            $className,
-            $variableName
-        )]);
+        return new Token([T_DOC_COMMENT, sprintf('/** @var %s %s */', $className, $variableName)]);
     }
 
     private function isContainerGetCall(Tokens $tokens, int $position): bool

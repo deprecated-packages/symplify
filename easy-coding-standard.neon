@@ -74,16 +74,9 @@ parameters:
             # assign needed, since it clear the value on method call
             - packages/Monorepo/src/Worker/MoveHistoryWorker.php
 
-        # fix these
         Symplify\CodingStandard\Fixer\LineLength\BreakMethodCallsFixer:
-            - packages/CodingStandard/src/Fixer/ArrayNotation/StandaloneLineInMultilineArrayFixer.php
-            - packages/CodingStandard/src/Fixer/Commenting/AnnotateMagicContainerGetterFixer.php
+            # false positive
             - packages/CodingStandard/src/Fixer/Commenting/RemoveUselessDocBlockFixer.php
-            - packages/CodingStandard/src/Fixer/Naming/ExceptionNameFixer.php
-            - packages/CodingStandard/src/Fixer/Naming/MagicMethodsNamingFixer.php
-            - packages/CodingStandard/src/Fixer/Property/ArrayPropertyDefaultValueFixer.php
-            - packages/EasyCodingStandard/tests/SkipperTest.php
-            - packages/TokenRunner/src/Testing/AbstractSimpleFixerTestCase.php
 
     skip_codes:
         SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff.MissingParameterTypeHint:

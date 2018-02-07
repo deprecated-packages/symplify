@@ -33,9 +33,6 @@ final class ConfigurationGuard
             return;
         }
 
-        throw new NonEmptyDirectoryException(sprintf(
-            'Directory "%s" must be empty.',
-            $directory
-        ));
+        throw new NonEmptyDirectoryException(sprintf('Directory "%s" must be empty.', $directory));
     }
 }
