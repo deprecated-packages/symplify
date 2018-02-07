@@ -28,6 +28,11 @@ final class ClassNameSuffixByParentFixer implements DefinedFixerInterface, Confi
      */
     private $defaultParentClassToSuffixMap = [
         '*Command' => 'Command',
+        '*Controller' => 'Controller',
+        '*Repository' => 'Repository',
+        '*Presenter' => 'Presenter',
+        '*Request' => 'Request',
+        '*EventSubscriber' => 'EventSubscriber',
     ];
 
     /**
