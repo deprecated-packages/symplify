@@ -438,6 +438,34 @@ checkers:
  }
 ```
 
+### Class should have suffix by parent class
+
+- :wrench:
+- class: [`Symplify\CodingStandard\Fixer\Naming\ClassNameSuffixByParentFixer`](src/Fixer/Naming/ClassNameSuffixByParentFixer.php)
+
+```diff
+-class Some extends Command
++class SomeCommand extends Command
+ {
+ }
+```
+
+This checker check few names by default. But if you need, you can **configure it**:
+
+```yaml
+# easy-coding-standard.neon
+checkers:
+    Symplify\CodingStandard\Fixer\Naming\ClassNameSuffixByParentFixer:
+        parent_classes_to_suffixes:
+            # defaults
+            '*Command': 'Command',
+            '*Controller': 'Controller',
+            '*Repository': 'Repository',
+            '*Presenter': 'Presenter',
+            '*Request': 'Request',
+            '*EventSubscriber': 'EventSubscriber',
+```
+
 ### Exception should have suffix "Exception"
 
 - class: [`Symplify\CodingStandard\Fixer\Naming\ExceptionNameSniff`](src/Fixer/Naming/ExceptionNameFixer.php)
