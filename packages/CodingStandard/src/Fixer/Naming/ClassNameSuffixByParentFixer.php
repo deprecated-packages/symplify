@@ -126,6 +126,10 @@ CODE
     private function processClassWrapper(Tokens $tokens, ClassWrapper $classWrapper): void
     {
         $className = $classWrapper->getName();
+        if ($className === null) {
+            return;
+        }
+
         $parentClassName = $classWrapper->getParentClassName();
 
         if ($parentClassName) {
