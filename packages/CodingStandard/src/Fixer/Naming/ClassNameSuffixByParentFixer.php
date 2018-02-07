@@ -21,7 +21,7 @@ final class ClassNameSuffixByParentFixer implements DefinedFixerInterface, Confi
     /**
      * @var string
      */
-    private const PARENT_CLASS_TO_SUFFIXES_MAP_OPTION = 'parent_classes_to_suffixes';
+    private const PARENT_CLASS_TO_SUFFIXES_MAP_OPTION = 'parent_types_to_suffixes';
 
     /**
      * @var string[]
@@ -33,6 +33,7 @@ final class ClassNameSuffixByParentFixer implements DefinedFixerInterface, Confi
         '*Presenter' => 'Presenter',
         '*Request' => 'Request',
         '*EventSubscriber' => 'EventSubscriber',
+        '*FixerInterface' => 'Fixer',
     ];
 
     /**
@@ -42,7 +43,7 @@ final class ClassNameSuffixByParentFixer implements DefinedFixerInterface, Confi
 
     public function getDefinition(): FixerDefinitionInterface
     {
-        return new FixerDefinition('Class should have suffix by parent class', [
+        return new FixerDefinition('Class should have suffix by parent class/interface', [
             new CodeSample(
                 '<?php
 class SomeClass extends Command
@@ -54,7 +55,8 @@ class SomeClass extends Command
 
     public function isCandidate(Tokens $tokens): bool
     {
-        return $tokens->isAllTokenKindsFound([T_STRING, T_EXTENDS, T_CLASS]);
+        return $tokens->isAllTokenKindsFound([T_STRING, T_CLASS])
+            && $tokens->isAnyTokenKindsFound([T_EXTENDS, T_IMPLEMENTS]);
     }
 
     public function fix(SplFileInfo $file, Tokens $tokens): void
@@ -62,7 +64,7 @@ class SomeClass extends Command
         for ($index = $tokens->count() - 1; $index >= 0; --$index) {
             $token = $tokens[$index];
 
-            if (! $token->isGivenKind(T_CLASS)) {
+            if (! $token->isClassy()) {
                 continue;
             }
 
@@ -118,12 +120,24 @@ class SomeClass extends Command
 
     private function processClassWrapper(Tokens $tokens, ClassWrapper $classWrapper): void
     {
+        $className = $classWrapper->getName();
+        $parentClassName = $classWrapper->getParentClassName();
+
+        if ($parentClassName) {
+            $this->processType($tokens, $classWrapper, $parentClassName, $className);
+        }
+
+        foreach ($classWrapper->getInterfaceNames() as $interfaceName) {
+            $this->processType($tokens, $classWrapper, $interfaceName, $className);
+        }
+    }
+
+    private function processType(Tokens $tokens, ClassWrapper $classWrapper, string $parentType, string $className): void
+    {
         $classToSuffixMap = $this->configuration[self::PARENT_CLASS_TO_SUFFIXES_MAP_OPTION];
 
-        $className = $classWrapper->getName();
-
         foreach ($classToSuffixMap as $classMatch => $suffix) {
-            if (! fnmatch($classMatch, $classWrapper->getParentClassName())) {
+            if (! fnmatch($classMatch, $parentType)) {
                 continue;
             }
 

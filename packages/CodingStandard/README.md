@@ -444,7 +444,7 @@ checkers:
  }
 ```
 
-### Class should have suffix by parent class
+### Class should have suffix by parent class/interface
 
 - :wrench:
 - class: [`Symplify\CodingStandard\Fixer\Naming\ClassNameSuffixByParentFixer`](src/Fixer/Naming/ClassNameSuffixByParentFixer.php)
@@ -462,7 +462,7 @@ This checker check few names by default. But if you need, you can **configure it
 # easy-coding-standard.neon
 checkers:
     Symplify\CodingStandard\Fixer\Naming\ClassNameSuffixByParentFixer:
-        parent_classes_to_suffixes:
+        parent_types_to_suffixes:
             # defaults
             '*Command': 'Command',
             '*Controller': 'Controller',
