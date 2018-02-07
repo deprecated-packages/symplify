@@ -30,31 +30,6 @@ composer require symplify/coding-standard --dev
 +];
 ```
 
-### Last property and first method must be separated by 1 blank line :wrench:
-
-- class: [`Symplify\CodingStandard\Fixer\ClassNotation\LastPropertyAndFirstMethodSeparationFixer`](src/Fixer/ClassNotation/LastPropertyAndFirstMethodSeparationFixer.php)
-
-```diff
- class SomeClass
- {
-     public $lastProperty;
-+
-     public function someFunction()
-     {
-
-     }
- }
-```
-
-This checker requires 1 space by default. But if you need, you can **configure it**:
-
-```yaml
-# easy-coding-standard.neon
-checkers:
-    Symplify\CodingStandard\Fixer\ClassNotation\LastPropertyAndFirstMethodSeparationFixer:
-        space_count: 2 # 1 by default
-```
-
 ### Variables created with `$container->get(SomeService::class)` should have annotation, so every IDE supports autocomplete without any plugins
 
 - class: [`Symplify\CodingStandard\Fixer\Commenting\AnnotateMagicContainerGetterFixer`](src/Fixer/Commenting/AnnotateMagicContainerGetterFixer.php)

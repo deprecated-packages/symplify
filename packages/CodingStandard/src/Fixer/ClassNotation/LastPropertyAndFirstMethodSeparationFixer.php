@@ -18,6 +18,9 @@ use SplFileInfo;
 use Symplify\PackageBuilder\Reflection\PrivatesCaller;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\ClassWrapper;
 
+/**
+ * @deprecated Will be removed in Symplify 4.0
+ */
 final class LastPropertyAndFirstMethodSeparationFixer implements DefinedFixerInterface, WhitespacesAwareFixerInterface, ConfigurationDefinitionFixerInterface
 {
     /**
@@ -42,6 +45,17 @@ final class LastPropertyAndFirstMethodSeparationFixer implements DefinedFixerInt
 
     public function __construct()
     {
+        trigger_error(
+            sprintf(
+                '"%s" is deprecated and will be removed in Symplify 4.0. ' .
+                    'Use "%s" that does the similar job instead or extend it."',
+                self::class,
+                ClassAttributesSeparationFixer::class
+            ),
+            E_USER_DEPRECATED
+        );
+        sleep(3); // inspired at "deprecated interface" Tweet
+
         // set defaults
         $this->configuration = $this->getConfigurationDefinition()
             ->resolve([]);
