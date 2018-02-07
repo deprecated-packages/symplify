@@ -93,8 +93,9 @@ vendor/bin/monorepo split --config second-monorepo.yml
 ## Rules of Monorepo
 
 - Only **committed files and directories** can be split.
+- It **takes time** to move commit history of big projects (`build` command), e.g. for 7000 commits in 2500 files roughly 3 hours. Running script overnight is recommended.  
 
-### Build With Help
+### Built With Help Of
 
 - [emiller/git-mv-with-history](https://gist.github.com/emiller/6769886) for `build` command
 - [dflydev/git-subsplit](https://github.com/dflydev/git-subsplit) for `split` command
