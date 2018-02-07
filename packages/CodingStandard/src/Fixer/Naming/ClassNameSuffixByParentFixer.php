@@ -34,6 +34,7 @@ final class ClassNameSuffixByParentFixer implements DefinedFixerInterface, Confi
         '*Request' => 'Request',
         '*EventSubscriber' => 'EventSubscriber',
         '*FixerInterface' => 'Fixer',
+        '*Sniff' => 'Sniff',
     ];
 
     /**
@@ -132,8 +133,12 @@ class SomeClass extends Command
         }
     }
 
-    private function processType(Tokens $tokens, ClassWrapper $classWrapper, string $parentType, string $className): void
-    {
+    private function processType(
+        Tokens $tokens,
+        ClassWrapper $classWrapper,
+        string $parentType,
+        string $className
+    ): void {
         $classToSuffixMap = $this->configuration[self::PARENT_CLASS_TO_SUFFIXES_MAP_OPTION];
 
         foreach ($classToSuffixMap as $classMatch => $suffix) {
