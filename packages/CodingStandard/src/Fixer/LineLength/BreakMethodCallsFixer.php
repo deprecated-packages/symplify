@@ -49,18 +49,21 @@ final class BreakMethodCallsFixer implements DefinedFixerInterface, WhitespacesA
 
     public function getDefinition(): FixerDefinitionInterface
     {
-        return new FixerDefinition('Method call parameters should be on the same/standalone line to fit line length.', [
-            new CodeSample(
-                '<?php
-$someClass = new SomeClass;
-$someClass->someMethod($superLongArgument, $superLongArgument, $superLongArgument, $superLongArgument);'
-            ),
-        ]);
+        return new FixerDefinition(
+            'Method and function call parameters should be on the same/standalone line to fit line length.',
+            [
+                new CodeSample(
+                    '<?php
+    $someClass = new SomeClass;
+    $someClass->someMethod($superLongArgument, $superLongArgument, $superLongArgument, $superLongArgument);'
+                ),
+            ]
+        );
     }
 
     public function isCandidate(Tokens $tokens): bool
     {
-        return $tokens->isAllTokenKindsFound([T_STRING, ',', T_OBJECT_OPERATOR, ')', '(']);
+        return $tokens->isAllTokenKindsFound([T_STRING, ',', ')', '(']);
     }
 
     public function fix(SplFileInfo $file, Tokens $tokens): void
@@ -69,7 +72,7 @@ $someClass->someMethod($superLongArgument, $superLongArgument, $superLongArgumen
         $reversedTokens = array_reverse($tokens->toArray(), true);
 
         foreach ($reversedTokens as $position => $token) {
-            if (! $this->isMethodCall($tokens, $token, $position)) {
+            if (! $this->isMethodOrFunctionCall($tokens, $token, $position)) {
                 continue;
             }
 
@@ -182,7 +185,7 @@ $someClass->someMethod($superLongArgument, $superLongArgument, $superLongArgumen
         }
     }
 
-    private function isMethodCall(Tokens $tokens, Token $token, int $position): bool
+    private function isMethodOrFunctionCall(Tokens $tokens, Token $token, int $position): bool
     {
         if (! $token->isGivenKind(T_STRING)) {
             return false;
@@ -199,9 +202,14 @@ $someClass->someMethod($superLongArgument, $superLongArgument, $superLongArgumen
             return false;
         }
 
-        // is "(->|::|)someCall"?
-        $functionNamePrefix = $tokens->getPrevMeaningfulToken($position);
+        // is " someFunction(...)" call
+        if ($tokens[$position - 1]->isWhitespace()) {
+            return true;
+        }
 
-        return $tokens[$functionNamePrefix]->isGivenKind([T_DOUBLE_COLON, T_OBJECT_OPERATOR]);
+        // is "(->|::|)someCall"?
+        $functionNamePrefixPosition = $tokens->getPrevMeaningfulToken($position);
+
+        return $tokens[$functionNamePrefixPosition]->isGivenKind([T_DOUBLE_COLON, T_OBJECT_OPERATOR, T_WHITESPACE]);
     }
 }
