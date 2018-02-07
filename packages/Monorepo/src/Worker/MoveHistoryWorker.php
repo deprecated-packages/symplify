@@ -47,12 +47,14 @@ final class MoveHistoryWorker
         $totalFileCount = count($fileInfos);
 
         foreach ($fileInfosChunks as $fileInfosChunk) {
-            $this->currentFileInfoCount += count($fileInfosChunk);
-            $this->symfonyStyle->warning(sprintf(
-                'Processing chunk %d/%d',
-                $this->currentFileInfoCount,
-                $totalFileCount
-            ));
+            if ($totalFileCount >= self::CHUNK_SIZE) {
+                $this->currentFileInfoCount += count($fileInfosChunk);
+                $this->symfonyStyle->warning(sprintf(
+                    'Processing chunk %d/%d',
+                    $this->currentFileInfoCount,
+                    $totalFileCount
+                ));
+            }
 
             // @todo ProcessFactory
             $processInput = $this->createGitMoveWithHistoryProcessInput($fileInfosChunk, $packageSubdirectory);
@@ -66,6 +68,10 @@ final class MoveHistoryWorker
                 }
 
                 // show process
+                if ($totalFileCount < self::CHUNK_SIZE) {
+                    continue;
+                }
+
                 if ($incrementalOutput = $process->getIncrementalOutput()) {
                     $this->symfonyStyle->note($this->clearExtraEmptyLines($incrementalOutput));
 
