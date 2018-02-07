@@ -28,6 +28,9 @@ final class ClassNameSuffixByParentFixerTest extends AbstractSimpleFixerTestCase
 
     protected function createFixer(): FixerInterface
     {
-        return new ClassNameSuffixByParentFixer();
+        $fixer = new ClassNameSuffixByParentFixer();
+        $fixer->configure([]);
+
+        return $fixer;
     }
 }

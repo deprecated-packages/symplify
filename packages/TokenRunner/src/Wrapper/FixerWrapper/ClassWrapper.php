@@ -67,14 +67,25 @@ final class ClassWrapper
 
     public function getName(): ?string
     {
-        /** @var Token[] $stringTokens */
+        if (! $this->getNamePosition()) {
+            return null;
+        }
+
+        $nameToken = $this->tokens[$this->getNamePosition()];
+
+        return $nameToken->getContent();
+    }
+
+    public function getNamePosition(): ?int
+    {
         $stringTokens = $this->tokens->findGivenKind(T_STRING, $this->startIndex);
         if (! count($stringTokens)) {
             return null;
         }
-        $firstStringToken = array_shift($stringTokens);
 
-        return $firstStringToken->getContent();
+        reset($stringTokens);
+
+        return key($stringTokens);
     }
 
     public function getParentClassName(): ?string

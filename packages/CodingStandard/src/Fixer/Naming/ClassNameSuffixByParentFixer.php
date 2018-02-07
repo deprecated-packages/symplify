@@ -2,6 +2,7 @@
 
 namespace Symplify\CodingStandard\Fixer\Naming;
 
+use Nette\Utils\Strings;
 use PhpCsFixer\Fixer\ConfigurationDefinitionFixerInterface;
 use PhpCsFixer\Fixer\DefinedFixerInterface;
 use PhpCsFixer\FixerConfiguration\FixerConfigurationResolver;
@@ -10,6 +11,7 @@ use PhpCsFixer\FixerConfiguration\FixerOptionBuilder;
 use PhpCsFixer\FixerDefinition\CodeSample;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
+use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\ClassWrapper;
@@ -20,6 +22,13 @@ final class ClassNameSuffixByParentFixer implements DefinedFixerInterface, Confi
      * @var string
      */
     private const PARENT_CLASS_TO_SUFFIXES_MAP_OPTION = 'parent_classes_to_suffixes';
+
+    /**
+     * @var string[]
+     */
+    private $defaultParentClassToSuffixMap = [
+        '*Command' => 'Command',
+    ];
 
     /**
      * @var mixed[]
@@ -52,10 +61,8 @@ class SomeClass extends Command
                 continue;
             }
 
-            $classTokensAnalyzer = ClassWrapper::createFromTokensArrayStartPosition($tokens, $index);
-            dump($classTokensAnalyzer->getName());
-            dump($classTokensAnalyzer->getParentClassName());
-            die;
+            $classWrapper = ClassWrapper::createFromTokensArrayStartPosition($tokens, $index);
+            $this->processClassWrapper($tokens, $classWrapper);
         }
     }
 
@@ -99,6 +106,27 @@ class SomeClass extends Command
             'Map of parent classes to suffixes, that their children should have'
         );
 
-        return new FixerConfigurationResolver([$fixerOptionBuilder->setAllowedTypes(['array'])->getOption()]);
+        return new FixerConfigurationResolver([$fixerOptionBuilder->setAllowedTypes(['array'])
+            ->setDefault($this->defaultParentClassToSuffixMap)
+            ->getOption(), ]);
+    }
+
+    private function processClassWrapper(Tokens $tokens, ClassWrapper $classWrapper): void
+    {
+        $classToSuffixMap = $this->configuration[self::PARENT_CLASS_TO_SUFFIXES_MAP_OPTION];
+
+        $className = $classWrapper->getName();
+
+        foreach ($classToSuffixMap as $classMatch => $suffix) {
+            if (! fnmatch($classMatch, $classWrapper->getParentClassName())) {
+                continue;
+            }
+
+            if (Strings::endsWith($className, $suffix)) {
+                continue;
+            }
+
+            $tokens[$classWrapper->getNamePosition()] = new Token([T_STRING, $className . $suffix]);
+        }
     }
 }
