@@ -60,11 +60,7 @@ final class LinksToReferencesWorker implements WorkerInterface
 
             foreach ($possibleUrls as $possibleUrl) {
                 if ($this->doesUrlExist($possibleUrl)) {
-                    $markdownLink = sprintf(
-                        '[#%d]: %s',
-                        $match['id'],
-                        $possibleUrl
-                    );
+                    $markdownLink = sprintf('[#%d]: %s', $match['id'], $possibleUrl);
 
                     $linksToAppend[$match['id']] = $markdownLink;
                     break;

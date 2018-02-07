@@ -26,12 +26,7 @@ final class PathAnalyzer
             return null;
         }
 
-        $date = sprintf(
-            '%d-%d-%d',
-            $matches['year'],
-            $matches['month'],
-            $matches['day']
-        );
+        $date = sprintf('%d-%d-%d', $matches['year'], $matches['month'], $matches['day']);
 
         return new DateTime($date);
     }

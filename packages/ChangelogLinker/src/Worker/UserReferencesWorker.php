@@ -33,11 +33,7 @@ final class UserReferencesWorker implements WorkerInterface
                 continue;
             }
 
-            $markdownUserLink = sprintf(
-                '[@%s]: https://github.com/%s',
-                $match['name'],
-                $match['name']
-            );
+            $markdownUserLink = sprintf('[@%s]: https://github.com/%s', $match['name'], $match['name']);
 
             $linksToAppend[$match['name']] = $markdownUserLink;
         }

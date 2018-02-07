@@ -48,10 +48,7 @@ final class GenerateCommandTest extends AbstractContainerAwareTestCase
 
     public function testException(): void
     {
-        $stringInput = sprintf(
-            'generate --source %s',
-            __DIR__ . '/GenerateCommandSource/missing'
-        );
+        $stringInput = sprintf('generate --source %s', __DIR__ . '/GenerateCommandSource/missing');
         $input = new StringInput($stringInput);
 
         $this->assertSame(1, $this->application->run($input, new NullOutput()));

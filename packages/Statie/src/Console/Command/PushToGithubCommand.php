@@ -114,10 +114,6 @@ final class PushToGithubCommand extends Command
 
     private function createGithubRepositoryUrlWithToken(string $token, string $repositorySlug): string
     {
-        return sprintf(
-            'https://%s@github.com/%s.git',
-            $token,
-            $repositorySlug
-        );
+        return sprintf('https://%s@github.com/%s.git', $token, $repositorySlug);
     }
 }
