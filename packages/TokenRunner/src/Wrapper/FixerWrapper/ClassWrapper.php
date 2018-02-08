@@ -65,6 +65,50 @@ final class ClassWrapper
         return new self($tokens, $startIndex);
     }
 
+    public function getName(): ?string
+    {
+        if (! $this->getNamePosition()) {
+            return null;
+        }
+
+        $nameToken = $this->tokens[$this->getNamePosition()];
+
+        return $nameToken->getContent();
+    }
+
+    public function getNamePosition(): ?int
+    {
+        $stringTokens = $this->tokens->findGivenKind(T_STRING, $this->startIndex);
+        if (! count($stringTokens)) {
+            return null;
+        }
+
+        reset($stringTokens);
+
+        return key($stringTokens);
+    }
+
+    public function getParentClassName(): ?string
+    {
+        $extendsTokens = $this->tokens->findGivenKind(T_EXTENDS, $this->startIndex);
+        if (! $extendsTokens) {
+            return null;
+        }
+
+        reset($extendsTokens);
+        $extendsPosition = key($extendsTokens);
+
+        /** @var Token[] $stringTokens */
+        $stringTokens = $this->tokens->findGivenKind(T_STRING, $extendsPosition);
+        if (! $stringTokens) {
+            return null;
+        }
+
+        $parentClassNameToken = array_pop($stringTokens);
+
+        return $parentClassNameToken->getContent();
+    }
+
     /**
      * @return mixed[]
      */

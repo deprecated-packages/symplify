@@ -60,8 +60,9 @@ Just like `PhpCsFixer\Fixer\Phpdoc\NoEmptyPhpdocFixer`, but this one removes all
  }
 ```
 
-### Block comment should only contain useful information about types :wrench:
+### Block comment should only contain useful information about types
 
+- :wrench:
 - class: [`Symplify\CodingStandard\Fixer\Commenting\RemoveUselessDocBlockFixer`](src/Fixer/Commenting/RemoveUselessDocBlockFixer.php)
 
 ```diff
@@ -110,8 +111,9 @@ checkers:
 +require __DIR__.'/vendor/autoload.php';
 ```
 
-### Types should not be referenced via a fully/partially qualified name, but via a use statement :wrench:
+### Types should not be referenced via a fully/partially qualified name, but via a use statement
 
+- :wrench:
 - class: [`Symplify\CodingStandard\Fixer\Import\ImportNamespacedNameFixer`](src/Fixer/Import/ImportNamespacedNameFixer.php)
 
 ```diff
@@ -205,8 +207,9 @@ class SomeClass
  }
 ```
 
-### Property name should match its type, if possible :wrench:
+### Property name should match its type, if possible
 
+- :wrench:
 - class: [`Symplify\CodingStandard\Fixer\Naming\PropertyNameMatchingTypeFixer`](src/Fixer/Naming/PropertyNameMatchingTypeFixer.php)
 
 ```diff
@@ -228,8 +231,9 @@ checkers:
             - 'MyApp*' # accepts anything like fnmatch
 ```
 
-### `::class` references should be used over string for classes and interfaces :wrench:
+### `::class` references should be used over string for classes and interfaces
 
+- :wrench:
 - class: [`Symplify\CodingStandard\Fixer\Php\ClassStringToClassConstantFixer`](src/Fixer/Php/ClassStringToClassConstantFixer.php)
 
 ```diff
@@ -278,10 +282,11 @@ checkers:
  namespace SomeNamespace;
 ```
 
-### Non-abstract class that implements interface should be final :wrench:
+### Non-abstract class that implements interface should be final
 
 *Except for Doctrine entities, they cannot be final.*
 
+- :wrench:
 - class: [`Symplify\CodingStandard\Fixer\Solid\FinalInterfaceFixer`](src/Fixer/Solid/FinalInterfaceFixer.php)
 
 ```diff
@@ -377,8 +382,9 @@ class SomeClass
 dump($value);
 ```
 
-### Use service and constructor injection rather than instantiation with new :wrench:
+### Use service and constructor injection rather than instantiation with new
 
+- :wrench:
 - class: [`Symplify\CodingStandard\Sniffs\DependencyInjection\NoClassInstantiationSniff`](src/Sniffs/DependencyInjection/NoClassInstantiationSniff.php)
 
 :x:
@@ -437,6 +443,36 @@ checkers:
  {
  }
 ```
+
+### Class should have suffix by parent class/interface
+
+- :wrench:
+- class: [`Symplify\CodingStandard\Fixer\Naming\ClassNameSuffixByParentFixer`](src/Fixer/Naming/ClassNameSuffixByParentFixer.php)
+
+```diff
+-class Some extends Command
++class SomeCommand extends Command
+ {
+ }
+```
+
+This checker check few names by default. But if you need, you can **configure it**:
+
+```yaml
+# easy-coding-standard.neon
+checkers:
+    Symplify\CodingStandard\Fixer\Naming\ClassNameSuffixByParentFixer:
+        parent_types_to_suffixes:
+            # defaults
+            '*Command': 'Command',
+            '*Controller': 'Controller',
+            '*Repository': 'Repository',
+            '*Presenter': 'Presenter',
+            '*Request': 'Request',
+            '*EventSubscriber': 'EventSubscriber',
+```
+
+It also covers `Interface` suffix as well, e.g `EventSubscriber` checks for `EventSubscriberInterface` as well.
 
 ### Exception should have suffix "Exception"
 
