@@ -32,10 +32,12 @@ final class ClassNameSuffixByParentFixer implements DefinedFixerInterface, Confi
         '*Repository' => 'Repository',
         '*Presenter' => 'Presenter',
         '*Request' => 'Request',
+        '*Response' => 'Response',
         '*EventSubscriber' => 'EventSubscriber',
         '*FixerInterface' => 'Fixer',
         '*Sniff' => 'Sniff',
         '*Exception' => 'Exception',
+        '*Handler' => 'Handler',
     ];
 
     /**
@@ -158,7 +160,7 @@ CODE
         $classToSuffixMap = $this->configuration[self::PARENT_TYPES_TO_SUFFIXES_OPTION];
 
         foreach ($classToSuffixMap as $classMatch => $suffix) {
-            if (! fnmatch($classMatch, $parentType)) {
+            if (! fnmatch($classMatch, $parentType) && ! fnmatch($classMatch . 'Interface', $parentType)) {
                 continue;
             }
 
