@@ -472,6 +472,8 @@ checkers:
             '*EventSubscriber': 'EventSubscriber',
 ```
 
+It also covers `Interface` suffix as well, e.g `EventSubscriber` checks for `EventSubscriberInterface` as well.
+
 ### Exception should have suffix "Exception"
 
 - class: [`Symplify\CodingStandard\Fixer\Naming\ExceptionNameSniff`](src/Fixer/Naming/ExceptionNameFixer.php)
