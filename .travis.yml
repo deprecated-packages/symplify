@@ -7,7 +7,7 @@ matrix:
     - php: 7.1
       env: CODING_STANDARD=true
     - php: 7.2
-      env: PHPSTAN=true SPLIT=true
+      env: PHPSTAN=true MONOREPO_SPLIT=true
     - php: 7.2
       env: PSALM=true
 
@@ -36,7 +36,7 @@ after_script:
       php coveralls.phar --verbose;
     fi
   # split monorepo to packages (done via Travis Cron Job)
-  - if [[ $TRAVIS_EVENT_TYPE = "cron" && $SPLIT != "" ]]; then packages/Monorepo/bin/monorepo split; fi
+  - if [[ $TRAVIS_EVENT_TYPE = "cron" AND $MONOREPO_SPLIT != "" ]]; then packages/Monorepo/bin/monorepo split; fi
 
 notifications:
   email: never
