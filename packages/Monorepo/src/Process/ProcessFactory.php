@@ -30,12 +30,13 @@ final class ProcessFactory
 
     public function createSubsplitInit(): Process
     {
-        return new Process([realpath(BashFiles::SUBSPLIT), 'init', '.git'], $this->cwd);
+        $commandLine = [realpath(BashFiles::SUBSPLIT), 'init', '.git'];
+        return $this->createProcessFromCommandLine($commandLine);
     }
 
     public function createSubsplitPublish(
         string $theMostRecentTag,
-        string $localSubdirectory,
+        string $directory,
         string $remoteRepository
     ): Process {
         $this->repositoryGuard->ensureIsRepository($remoteRepository);
@@ -45,9 +46,17 @@ final class ProcessFactory
             'publish',
             '--heads=master',
             $theMostRecentTag ? sprintf('--tags=%s', $theMostRecentTag) : '',
-            $localSubdirectory . ':' . $remoteRepository,
+            $directory . ':' . $remoteRepository,
         ];
 
+        return $this->createProcessFromCommandLine($commandLine);
+    }
+
+    /**
+     * @param mixed[] $commandLine
+     */
+    private function createProcessFromCommandLine(array $commandLine): Process
+    {
         return new Process($commandLine, $this->cwd, null, null, null);
     }
 }
