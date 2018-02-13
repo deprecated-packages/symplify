@@ -23,7 +23,18 @@ abstract class AbstractVariableWrapper
     /**
      * @var string[]
      */
-    private $simpleTypes = ['string', 'int', 'bool', 'null', 'array', 'iterable', 'integer', 'boolean', 'resource'];
+    private $simpleTypes = [
+        'string',
+        'int',
+        'bool',
+        'null',
+        'array',
+        'iterable',
+        'integer',
+        'boolean',
+        'resource',
+        'mixed',
+    ];
 
     protected function __construct(Tokens $tokens, int $index)
     {
