@@ -2,6 +2,7 @@
 
 namespace Symplify\Monorepo;
 
+use Nette\Utils\Strings;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Process\Process;
 use Symplify\Monorepo\Exception\Worker\PackageToRepositorySplitException;
@@ -106,10 +107,16 @@ final class PackageToRepositorySplitter
                 throw new PackageToRepositorySplitException($process->getErrorOutput());
             }
 
+            $output = $process->getOutput();
+            if (Strings::contains($output, 'ERROR')) {
+                throw new PackageToRepositorySplitException($output);
+            }
+
             $this->symfonyStyle->success(sprintf(
-                'Push of "%s" directory to "%s" repository was successful',
+                'Push of "%s" directory to "%s" repository was successful: %s',
                 $processInfo->getLocalDirectory(),
-                $processInfo->getRemoteRepository()
+                $processInfo->getRemoteRepository(),
+                $output
             ));
         }
     }
