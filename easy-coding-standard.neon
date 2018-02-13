@@ -65,6 +65,8 @@ parameters:
             # class might not exist
             - *packages/EasyCodingStandard/packages/Configuration/*/MutualCheckerExcluder*.php
             - *packages/EasyCodingStandard/packages/Configuration/*/ConflictingCheckerGuard*.php
+            # "ERROR" is string
+            - packages/Monorepo/src/PackageToRepositorySplitter.php
 
         Symplify\CodingStandard\Sniffs\DependencyInjection\NoClassInstantiationSniff:
             - packages/TokenRunner/src/Wrapper/FixerWrapper/DocBlockWrapper.php
