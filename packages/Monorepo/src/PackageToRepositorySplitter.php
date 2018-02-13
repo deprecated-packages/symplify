@@ -2,12 +2,12 @@
 
 namespace Symplify\Monorepo;
 
+use Nette\Utils\Strings;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Process\Process;
-use Symplify\Monorepo\Configuration\BashFiles;
-use Symplify\Monorepo\Configuration\RepositoryGuard;
 use Symplify\Monorepo\Exception\Worker\PackageToRepositorySplitException;
 use Symplify\Monorepo\Filesystem\FileSystemGuard;
+use Symplify\Monorepo\Process\ProcessFactory;
 use Symplify\Monorepo\Process\SplitProcessInfo;
 
 final class PackageToRepositorySplitter
@@ -16,11 +16,6 @@ final class PackageToRepositorySplitter
      * @var SymfonyStyle
      */
     private $symfonyStyle;
-
-    /**
-     * @var RepositoryGuard
-     */
-    private $repositoryGuard;
 
     /**
      * @var Process[]
@@ -37,14 +32,19 @@ final class PackageToRepositorySplitter
      */
     private $fileSystemGuard;
 
+    /**
+     * @var ProcessFactory
+     */
+    private $processFactory;
+
     public function __construct(
         SymfonyStyle $symfonyStyle,
-        RepositoryGuard $repositoryGuard,
-        FileSystemGuard $fileSystemGuard
+        FileSystemGuard $fileSystemGuard,
+        ProcessFactory $processFactory
     ) {
         $this->symfonyStyle = $symfonyStyle;
-        $this->repositoryGuard = $repositoryGuard;
         $this->fileSystemGuard = $fileSystemGuard;
+        $this->processFactory = $processFactory;
     }
 
     /**
@@ -57,11 +57,10 @@ final class PackageToRepositorySplitter
         foreach ($splitConfig as $localSubdirectory => $remoteRepository) {
             $this->fileSystemGuard->ensureDirectoryExists($localSubdirectory);
 
-            $process = $this->createSubsplitPublishProcess(
+            $process = $this->processFactory->createSubsplitPublish(
                 $theMostRecentTag,
                 $localSubdirectory,
-                $remoteRepository,
-                $cwd
+                $remoteRepository
             );
             $this->symfonyStyle->note('Running: ' . $process->getCommandLine());
             $process->start();
@@ -100,25 +99,6 @@ final class PackageToRepositorySplitter
         return (string) array_pop($tagList);
     }
 
-    private function createSubsplitPublishProcess(
-        string $theMostRecentTag,
-        string $localSubdirectory,
-        string $remoteRepository,
-        string $cwd
-    ): Process {
-        $this->repositoryGuard->ensureIsRepository($remoteRepository);
-
-        $commandLine = sprintf(
-            '%s publish --heads=master %s %s:%s',
-            realpath(BashFiles::SUBSPLIT),
-            $theMostRecentTag ? sprintf('--tags=%s', $theMostRecentTag) : '',
-            $localSubdirectory,
-            $remoteRepository
-        );
-
-        return new Process($commandLine, $cwd, null, null, null);
-    }
-
     private function reportFinishedProcesses(): void
     {
         foreach ($this->processInfos as $processInfo) {
@@ -127,10 +107,16 @@ final class PackageToRepositorySplitter
                 throw new PackageToRepositorySplitException($process->getErrorOutput());
             }
 
+            $output = $process->getOutput();
+            if (Strings::contains($output, 'ERROR')) {
+                throw new PackageToRepositorySplitException($output);
+            }
+
             $this->symfonyStyle->success(sprintf(
-                'Push of "%s" directory to "%s" repository was successful',
+                'Push of "%s" directory to "%s" repository was successful: %s',
                 $processInfo->getLocalDirectory(),
-                $processInfo->getRemoteRepository()
+                $processInfo->getRemoteRepository(),
+                $output
             ));
         }
     }
