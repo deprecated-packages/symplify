@@ -24,7 +24,8 @@
         "symfony/yaml": "^4.0",
 
         "cpliakas/git-wrapper": "^2.0",
-        "symplify/package-builder": "^3.2"
+        "symplify/package-builder": "^3.2",
+        "jean85/pretty-package-versions": "^1.0"
     },
     "require-dev": {
         "phpunit/phpunit": "^6.5"

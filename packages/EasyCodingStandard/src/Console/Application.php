@@ -2,12 +2,20 @@
 
 namespace Symplify\EasyCodingStandard\Console;
 
+use Jean85\PrettyVersions;
 use Symfony\Component\Console\Application as SymfonyApplication;
 use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputOption;
 
 final class Application extends SymfonyApplication
 {
+    public function __construct()
+    {
+        $version = PrettyVersions::getVersion('symplify/easy-coding-standard');
+
+        parent::__construct('EasyCodingStandard', $version->getPrettyVersion());
+    }
+
     protected function getDefaultInputDefinition(): InputDefinition
     {
         $inputDefinition = parent::getDefaultInputDefinition();

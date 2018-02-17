@@ -7,6 +7,7 @@
         "cpliakas/git-wrapper": "^2.0",
         "erusev/parsedown-extra": "^0.7",
         "friendsofphp/php-cs-fixer": "2.10",
+        "jean85/pretty-package-versions": "^1.0",
         "latte/latte": "^2.4",
         "nette/caching": "^2.5",
         "nette/di": "^2.4",
@@ -33,6 +34,10 @@
         "symfony/expression-language": "^4.0",
         "tracy/tracy": "^2.4",
         "vimeo/psalm": "0.3.87"
+    },
+    "replace": {
+        "symplify/statie": "self.version",
+        "symplify/easy-coding-standard": "self.version"
     },
     "autoload": {
         "psr-4": {
