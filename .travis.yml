@@ -36,7 +36,7 @@ after_script:
       php coveralls.phar --verbose;
     fi
   # split monorepo to packages (done via Travis Cron Job)
-  - if [[ $TRAVIS_EVENT_TYPE = "cron" && $MONOREPO_SPLIT != "" ]]; then packages/Monorepo/bin/monorepo split; fi
+  - if [[ $TRAVIS_EVENT_TYPE = "cron" && $MONOREPO_SPLIT != "" ]]; then bin/subtree-split-master-and-last-tag.sh; fi
 
 notifications:
   email: never
