@@ -84,7 +84,7 @@
         "check-cs": "packages/EasyCodingStandard/bin/ecs check packages",
         "fix-cs": [
             "packages/EasyCodingStandard/bin/ecs check packages --fix",
-            "build/clear_readmes.sh"
+            "bin/clear_readmes.sh"
         ],
         "static": [
             "vendor/bin/phpstan analyse packages --level max --configuration phpstan.neon",
