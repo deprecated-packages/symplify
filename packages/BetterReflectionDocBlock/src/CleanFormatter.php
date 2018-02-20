@@ -128,7 +128,7 @@ final class CleanFormatter implements Formatter
     {
         $exactRowPattern = sprintf(
             '#@%s[\s]+([a-zA-Z\\\\]+\|)*(?<pre_slash>\\\\)%s#',
-            $tag->getName(),
+            preg_quote($tag->getName(), '#'), // for "@Assert/Blank" names
             preg_quote(ltrim($singleType, '\\'), '#')
         );
 
