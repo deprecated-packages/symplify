@@ -2,6 +2,7 @@
 
 namespace Symplify\Statie\Renderable;
 
+use Nette\Utils\Strings;
 use Symplify\Statie\Configuration\Configuration;
 use Symplify\Statie\Contract\Renderable\FileDecoratorInterface;
 use Symplify\Statie\Generator\Configuration\GeneratorElement;
@@ -69,8 +70,7 @@ final class RouteFileDecorator implements FileDecoratorInterface
             return;
         }
 
-        // index file
-        if ($file->getBaseName() === 'index') {
+        if ($this->isRootIndex($file)) {
             $file->setOutputPath('index.html');
             $file->setRelativeUrl('/');
             return;
@@ -92,7 +92,12 @@ final class RouteFileDecorator implements FileDecoratorInterface
         // fallback
         $relativeDirectory = $this->getRelativeDirectory($file);
         $relativeOutputDirectory = $relativeDirectory . DIRECTORY_SEPARATOR . $file->getBaseName();
-        $outputPath = $relativeOutputDirectory . DIRECTORY_SEPARATOR . 'index.html';
+
+        if ($file->getBaseName() === 'index') { // index.* file
+            $outputPath = $relativeOutputDirectory . '.html';
+        } else {
+            $outputPath = $relativeOutputDirectory . DIRECTORY_SEPARATOR . 'index.html';
+        }
 
         $file->setOutputPath($outputPath);
         $file->setRelativeUrl($relativeDirectory . DIRECTORY_SEPARATOR . $file->getBaseName());
@@ -122,5 +127,13 @@ final class RouteFileDecorator implements FileDecoratorInterface
         $outputPath = preg_replace('#:day#', $file->getDateInFormat('d'), $outputPath);
 
         return $outputPath;
+    }
+
+    private function isRootIndex(AbstractFile $file): bool
+    {
+        return Strings::contains(
+            $file->getFilePath(),
+            $this->configuration->getSourceDirectory() . DIRECTORY_SEPARATOR . 'index'
+        );
     }
 }
