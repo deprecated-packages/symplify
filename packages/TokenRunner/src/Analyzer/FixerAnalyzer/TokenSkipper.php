@@ -31,20 +31,15 @@ final class TokenSkipper
         $token = $tokens[$i];
 
         if ($token->isGivenKind(CT::T_ARRAY_SQUARE_BRACE_CLOSE)) {
-            $blockStart = self::findBlockStart($tokens, Tokens::BLOCK_TYPE_ARRAY_SQUARE_BRACE, $i);
+            $blockStart = $tokens->findBlockStart(Tokens::BLOCK_TYPE_ARRAY_SQUARE_BRACE, $i);
             $tokenCountToSkip = $i - $blockStart;
         }
 
         if ($token->equals(')')) {
-            $blockStart = self::findBlockStart($tokens, Tokens::BLOCK_TYPE_PARENTHESIS_BRACE, $i);
+            $blockStart = $tokens->findBlockStart(Tokens::BLOCK_TYPE_PARENTHESIS_BRACE, $i);
             $tokenCountToSkip = $i - $blockStart;
         }
 
         return $i - $tokenCountToSkip;
-    }
-
-    private static function findBlockStart(Tokens $tokens, int $type, int $i): int
-    {
-        return $tokens->findBlockEnd($type, $i, false);
     }
 }
