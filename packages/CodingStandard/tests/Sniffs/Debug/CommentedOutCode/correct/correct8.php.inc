@@ -8,8 +8,7 @@ class SomeClass
     public function provide(): array
     {
         return [
-            // use in *.latte like this:
-            // {var $relatedPosts = ($post|relatedPosts)}
+            // use in *.latte like this: {var $relatedPosts = ($post|relatedPosts)}
             'relatedPosts' => function (PostFile $post) {
                 return $this->relatedPostsResolver->resolveForPost($post);
             },
