@@ -20,6 +20,16 @@ The best and easiest way to start coding standard with. Combined both [PHP-CS-Fi
 
 **Used by [Shopsys](https://github.com/shopsys/coding-standards), [Nette](https://github.com/nette/coding-standard) and [Sylius](https://github.com/SyliusLabs/CodingStandard).**
 
+## [Statie](https://github.com/Symplify/Statie) - [www.statie.org](https://www.statie.org)
+
+[![Build Status](https://img.shields.io/travis/Symplify/Statie/master.svg?style=flat-square)](https://travis-ci.org/Symplify/Statie)
+[![Downloads](https://img.shields.io/packagist/dt/Symplify/statie.svg?style=flat-square)](https://packagist.org/packages/Symplify/statie)
+
+Statie helps you to host and develop your blog on Github.
+A static site generator with aim on community websites.
+
+[Pehapkari.cz](https://pehapkari.cz/) ([Github repo](https://github.com/pehapkari/pehapkari.cz)) and [TomasVotruba.cz](https://www.tomasvotruba.cz/) ([Github repo](https://github.com/tomasvotruba/tomasvotruba.cz)).
+
 ## [TokenRunner](https://github.com/Symplify/TokenRunner)
 
 [![Build Status](https://img.shields.io/travis/Symplify/TokenRunner/master.svg?style=flat-square)](https://travis-ci.org/Symplify/TokenRunner)
@@ -33,16 +43,6 @@ Building own Sniffs and Fixers made easy. It helps you with:
 - Property and argument types
 - And much more...
 
-## [Statie](https://github.com/Symplify/Statie) - [www.statie.org](https://www.statie.org)
-
-[![Build Status](https://img.shields.io/travis/Symplify/Statie/master.svg?style=flat-square)](https://travis-ci.org/Symplify/Statie)
-[![Downloads](https://img.shields.io/packagist/dt/Symplify/statie.svg?style=flat-square)](https://packagist.org/packages/Symplify/statie)
-
-Statie helps you to host and develop your blog on Github.
-A static site generator with aim on community websites.
-
-[Pehapkari.cz](https://pehapkari.cz/) ([Github repo](https://github.com/pehapkari/pehapkari.cz)) and [TomasVotruba.cz](https://www.tomasvotruba.cz/) ([Github repo](https://github.com/tomasvotruba/tomasvotruba.cz)).
-
 ## Install
 
 Fork, clone your repository and install dependencies:
@@ -55,23 +55,18 @@ composer install
 
 ## Contributing
 
-This is a [monolithic repository](https://www.tomasvotruba.cz/blog/2017/01/31/how-monolithic-repository-in-open-source-saved-my-laziness/) for Symplify packages. Put all your [PRs](https://github.com/Symplify/Symplify/pulls) and [ISSUEs](https://github.com/Symplify/Symplify/issues) here.
+This is a [monolithic repository](https://gomonorepo.org/) for Symplify packages. Put all your [PRs](https://github.com/Symplify/Symplify/pulls) and [ISSUEs](https://github.com/Symplify/Symplify/issues) here.
 
-### How to Contribute
-
-Just follow 3 rules:
+### 3 Steps to Contribute
 
 - **1 feature per pull-request**
 - **New feature needs tests**
 - Tests and static analysis **must pass**:
-
+ 
     ```bash
     composer complete-check
-    ```
 
-    Often you don't need to fix coding standard manually, just run:
-
-    ```bash
+    # coding standard issues? fix with
     composer fix-cs
     ```
 
