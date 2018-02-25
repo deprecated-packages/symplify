@@ -19,7 +19,7 @@
    ```
 
 - [#583] **[EasyCodingStandard]** Add `exclude_files` option to config
-- [#612] **[PackageBuilder]* Add `CommandNaming` to get command name from the class name
+- [#612] **[PackageBuilder]** Add `CommandNaming` to get command name from the class name
 - [#589] **[Statie], [EasyCodingStandard]** Add version printing on `-V` option in CLI, thanks to [@ostrolucky]
 - [#585] **[TokenRunner]** Add `MethodCallWrapper` helper class to count line lengths of method calls
 
