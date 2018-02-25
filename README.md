@@ -62,7 +62,7 @@ This is a [monolithic repository](https://gomonorepo.org/) for Symplify packages
 - **1 feature per pull-request**
 - **New feature needs tests**
 - Tests and static analysis **must pass**:
- 
+
     ```bash
     composer complete-check
 
