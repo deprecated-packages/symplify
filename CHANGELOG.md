@@ -27,17 +27,17 @@
 
 - [#599] **[BetterReflectionDocBlock]** Fix respecting spaces of inner tag
 - [#603] **[BetterReflectionDocBlock]** Fix union-types pre-slash clean + some more for `RemoveUselessDocBlockFixer`
-- [1fcc927258710b0a03a806fa1661ed0179a5aaf7] **[BetterReflectionDocBlock]** Fix variadic detection
-- [caf08e93b2627e1e981493349957f4e49d55cd6a] **[BetterReflectionDocBlock]** Fix escaping and variadic param resolver
+- [1fcc92] **[BetterReflectionDocBlock]** Fix variadic detection
+- [caf08e] **[BetterReflectionDocBlock]** Fix escaping and variadic param resolver
 - [#606] **[CodingStandard]** Fix few `RemoveUselessDocBlockFixer` cases
 - [#598] **[CodingStandard]** Fix `PropertyNameMatchingTypeFixer` for self cases, fixes [#597]
 - [#640] **[EasyCodingStandard]** Fix pre-mature adding file to cache, fixes [#637]
 - [#595] **[Statie]** Fix race condition for element sorting with configuration
-- [59bdfc3c0d4945f946d17f127e6a329384d5bab8] **[Statie]** Fix non-root `index.html` route, fixes [#638]
+- [59bdfc] **[Statie]** Fix non-root `index.html` route, fixes [#638]
 
 ### Deprecated
 
-- [257e5bc68b9341f8fbe1e306d08f736038d6d626] **[CodingStandard]** Deprecated `LastPropertyAndFirstMethodSeparationFixer`, see [#594], use `PhpCsFixer\Fixer\ClassNotation\ClassAttributesSeparationFixer` instead
+- [257e5b] **[CodingStandard]** Deprecated `LastPropertyAndFirstMethodSeparationFixer`, see [#594], use `PhpCsFixer\Fixer\ClassNotation\ClassAttributesSeparationFixer` instead
 
 ## [v3.2.0] - 2018-01-13
 
@@ -781,3 +781,24 @@ For more deprecation details see https://www.tomasvotruba.cz/blog/2017/05/29/sym
 [@muglug]: https://github.com/muglug
 [#583]: https://github.com/Symplify/Symplify/pull/583
 [#578]: https://github.com/Symplify/Symplify/pull/578
+[caf08e]: https://github.com/Symplify/Symplify/commit/caf08e93b2627e1e981493349957f4e49d55cd6a
+[59bdfc]: https://github.com/Symplify/Symplify/commit/59bdfc3c0d4945f946d17f127e6a329384d5bab8
+[257e5b]: https://github.com/Symplify/Symplify/commit/257e5bc68b9341f8fbe1e306d08f736038d6d626
+[1fcc92]: https://github.com/Symplify/Symplify/commit/1fcc927258710b0a03a806fa1661ed0179a5aaf7
+[#640]: https://github.com/Symplify/Symplify/pull/640
+[#638]: https://github.com/Symplify/Symplify/issues/638
+[#637]: https://github.com/Symplify/Symplify/issues/637
+[#633]: https://github.com/Symplify/Symplify/pull/633
+[#612]: https://github.com/Symplify/Symplify/pull/612
+[#607]: https://github.com/Symplify/Symplify/issues/607
+[#606]: https://github.com/Symplify/Symplify/pull/606
+[#603]: https://github.com/Symplify/Symplify/pull/603
+[#599]: https://github.com/Symplify/Symplify/pull/599
+[#598]: https://github.com/Symplify/Symplify/pull/598
+[#597]: https://github.com/Symplify/Symplify/issues/597
+[#595]: https://github.com/Symplify/Symplify/pull/595
+[#594]: https://github.com/Symplify/Symplify/issues/594
+[#591]: https://github.com/Symplify/Symplify/pull/591
+[#589]: https://github.com/Symplify/Symplify/pull/589
+[#585]: https://github.com/Symplify/Symplify/pull/585
+[#584]: https://github.com/Symplify/Symplify/pull/584
