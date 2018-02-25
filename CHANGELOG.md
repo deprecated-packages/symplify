@@ -4,14 +4,47 @@
 
 ### Added
 
+- [#633] **[CodingStandard]** Add `ClassNameSuffixByParentFixer`, closes [#607]
+- [#591] **[CodingStandard]** Add `BreakArrayListFixer` to break/inline array items over/under 120 chars
+- [#585] **[CodingStandard]** Add `BreakMethodCallsFixer` to break/inline method calls over/under 120 chars
+- [#584] **[EasyCodingStandard]** Add `fnmatch` check to `exclude_files`:
+
+   ```yml
+   parameters:
+       exclude_files:
+           - lib/PhpParser/Parser/Php5.php
+           - lib/PhpParser/Parser/Php7.php
+           # new
+           - */lib/PhpParser/Parser/Php*.php
+   ```
+
 - [#583] **[EasyCodingStandard]** Add `exclude_files` option to config
+- [#612] **[PackageBuilder]* Add `CommandNaming` to get command name from the class name
+- [#589] **[Statie], [EasyCodingStandard]** Add version printing on `-V` option in CLI, thanks to [@ostrolucky]
+- [#585] **[TokenRunner]** Add `MethodCallWrapper` helper class to count line lengths of method calls
+
+### Fixed
+
+- [#599] **[BetterReflectionDocBlock]** Fix respecting spaces of inner tag
+- [#603] **[BetterReflectionDocBlock]** Fix union-types pre-slash clean + some more for `RemoveUselessDocBlockFixer`
+- [1fcc927258710b0a03a806fa1661ed0179a5aaf7] **[BetterReflectionDocBlock]** Fix variadic detection
+- [caf08e93b2627e1e981493349957f4e49d55cd6a] **[BetterReflectionDocBlock]** Fix escaping and variadic param resolver
+- [#606] **[CodingStandard]** Fix few `RemoveUselessDocBlockFixer` cases
+- [#598] **[CodingStandard]** Fix `PropertyNameMatchingTypeFixer` for self cases, fixes [#597]
+- [#640] **[EasyCodingStandard]** Fix pre-mature adding file to cache, fixes [#637]
+- [#595] **[Statie]** Fix race condition for element sorting with configuration
+- [59bdfc3c0d4945f946d17f127e6a329384d5bab8] **[Statie]** Fix non-root `index.html` route, fixes [#638]
+
+### Deprecated
+
+- [257e5bc68b9341f8fbe1e306d08f736038d6d626] **[CodingStandard]** Deprecated `LastPropertyAndFirstMethodSeparationFixer`, see [#594], use `PhpCsFixer\Fixer\ClassNotation\ClassAttributesSeparationFixer` instead
 
 ## [v3.2.0] - 2018-01-13
 
 ### Added
 
 - [#570] **[EasyCodingStandard]** Add reporting for duplicated checkers
-- [#577] **[Statie]** Add customizable `ObjectSorter` for [Generators](https://www.statie.org/docs/generators/) as `object_sorter` option in Generator configuration 
+- [#577] **[Statie]** Add customizable `ObjectSorter` for [Generators](https://www.statie.org/docs/generators/) as `object_sorter` option in Generator configuration
 
     ```yaml
     arameters:
@@ -20,12 +53,12 @@
                 # ...
 
                 # Symplify\Statie\Generator\FileNameObjectSorter is used by default,
-                # it sorts files newer to older posts work by default 
+                # it sorts files newer to older posts work by default
                 object_sorter: 'Website\Statie\Generator\DateObjectSorter'
     ```
-    
+
     The sorter needs to implement `Symplify\Statie\Generator\Contract\ObjectSorterInterface` and be [loaded by composer](https://stackoverflow.com/a/25960097/1348344).
-    
+
     It returns sorting function. For inspiration see [`Symplify\Statie\Generator\FileNameObjectSorter`](/packages/Statie/packages/Generator/src/FileNameObjectSorter.php) for inspiration.
 
 - [#573] Add Psalm, thanks to [@muglug]
@@ -58,12 +91,12 @@
     checkers:
         Symplify\CodingStandard\Fixer\Commenting\RemoveUselessDocBlockFixer:
             useless_types: ['mixed']
-            # "[]" is default 
+            # "[]" is default
     ```
 
 ### Added
 
-- [#505] Added `CHANGELOG.md` 
+- [#505] Added `CHANGELOG.md`
 
 ## [v3.0.1] - 2017-12-10
 
@@ -73,18 +106,18 @@
 
 ### Removed
 
-## [v3.0.0] - 2017-12-09 
+## [v3.0.0] - 2017-12-09
 
-## [v3.0.0-RC5] - 2017-12-09 
+## [v3.0.0-RC5] - 2017-12-09
 
-### Added 
+### Added
 
 - [#480] **[CodingStandard]** add `RemoveSuperfluousDocBlockWhitespaceFixer`, which removes 2 spaces in a row in doc blocks
 - [#481] **[EasyCodingStandard]** add warning as error support, to make useful already existing Sniffs, closes [#477]
 
 ### Changed
 
-- [#484] **[Statie]** add *dry-run* optiont to `StatieApplication` and `BeforeRenderEvent` to improve extendability, closes [#483] 
+- [#484] **[Statie]** add *dry-run* optiont to `StatieApplication` and `BeforeRenderEvent` to improve extendability, closes [#483]
 - [9a9c0e] **[Statie]** use `statie.yml` config based on Symfony DI over "fake" `statie.neon` to prevent confusion, closes [#487]
 
     **Before**
@@ -129,19 +162,19 @@
 parameters:
     generators:
         # key name, it's nice to have for more informative error reports
-        posts: 
+        posts:
             # name of variable inside single such item
             variable: post
             # name of variable that contains all items
             varbiale_global: posts
             # directory, where to look for them
-            path: '_posts' 
+            path: '_posts'
             # which layout to use
-            layout: '_layouts/@post.latte' 
+            layout: '_layouts/@post.latte'
             # and url prefix, e.g. /blog/some-post.md
-            route_prefix: 'blog' 
+            route_prefix: 'blog'
             # an object that will wrap it's logic, you can add helper methods into it and use it in templates
-            object: 'Symplify\Statie\Renderable\File\PostFile' 
+            object: 'Symplify\Statie\Renderable\File\PostFile'
 ```
 
 - [9b154d] **[Statie]** added `-vvv` CLI option for debug output
@@ -190,7 +223,7 @@ parameters:
 
 ### Added
 
-- [0ab538] **[CodingStandard]** Added `BlankLineAfterStrictTypesFixer` 
+- [0ab538] **[CodingStandard]** Added `BlankLineAfterStrictTypesFixer`
 
 - [#443] **[EasyCodingStandard]** Added smaller common configs for better `--level` usage
 - [#447] **[EasyCodingStandard]** Allow `-vvv` for ProgressBar + **27 % speed improvement**
@@ -219,10 +252,9 @@ parameters:
 - [#421] **[CodingStandard]** Added `ImportNamespacedNameFixer`
 - [#427] **[CodingStandard]** Added `RemoveUselessDocBlockFixer`
 
-
 - [#388] **[EasyCodingStandard]** Added support for ignoring particular sniff codes
-- [#406] **[EasyCodingStandard]** Added support for ignoring particular codes and files, Thanks to [@ostrolucky] 
-- [#397] **[EasyCodingStandard]** Added validation to `exclude_checkers` option, Thanks to [@mzstic] 
+- [#406] **[EasyCodingStandard]** Added support for ignoring particular codes and files, Thanks to [@ostrolucky]
+- [#397] **[EasyCodingStandard]** Added validation to `exclude_checkers` option, Thanks to [@mzstic]
 
 - [#431] **[PackageBuilder]** Added `--level` shortcut helper builder
 
@@ -246,7 +278,7 @@ parameters:
 
 ### Added
 
-- [#374] **[CodingStandard]** Added customg matching with `fnmatch()` to PropertyNameMatchingTypeFixer 
+- [#374] **[CodingStandard]** Added customg matching with `fnmatch()` to PropertyNameMatchingTypeFixer
 
 ### Changed
 
@@ -256,10 +288,10 @@ parameters:
 
 - [#370] **[CodingStandard]** Fixed PropertyAndConstantSeparation for multiple classes
 - [#372] **[CodingStandard]** Fixed incorrect namespace resolving in NoClassInstantiationSniff
-- [#376] **[CodingStandard]** Fixed nested array in ArrayPropertyDefaultValueFixer 
+- [#376] **[CodingStandard]** Fixed nested array in ArrayPropertyDefaultValueFixer
 - [#381] **[CodingStandard]** Fixed DynamicProperySniff miss
 
-- [#379] **[Statie]** Fixed source path bug, Thanks to [@chemix] 
+- [#379] **[Statie]** Fixed source path bug, Thanks to [@chemix]
 
 ### Removed
 
@@ -270,14 +302,14 @@ parameters:
 ### Added
 
 - [#360] **[CodingStandard]** Added `--no-progress-bar` option, added `--no-error-table` option
-- [#358] **[CodingStandard]** Added `AnnotateMagicContainerGetterFixer` 
+- [#358] **[CodingStandard]** Added `AnnotateMagicContainerGetterFixer`
 - [#356] **[CodingStandard]** Added `PropertyNameMatchingTypeFixer`
 - [#346] **[CodingStandard]** Added `LastPropertyAndFirstMethodSeparationFixer`
 
 - [#354] **[EasyCodingStandard]** Added [clean-code set](https://www.tomasvotruba.cz/blog/2017/09/18/4-simple-checkers-for-coding-standard-haters-but-clean-code-lovers/)
 - [430fc5] **[EasyCodingStandard]** ConflictingGuard feature added, see [#333]
 - [33f28a] **[EasyCodingStandard]** Add new rules to `symfony-checkers`
-- [#342] **[EasyCodingStandard]** Add parser error reporting, Thanks [@webrouse] 
+- [#342] **[EasyCodingStandard]** Add parser error reporting, Thanks [@webrouse]
 - [#359] **[Statie]** Added Markdown support in `perex` in post
 
 ### Changed
@@ -309,7 +341,7 @@ parameters:
 
 ### Changed
 
-- [#334] **[CodingStandard]** `ArrayPropertyDefaultValueFixer` now allows single line comments, Thanks to [@vlastavesely] 
+- [#334] **[CodingStandard]** `ArrayPropertyDefaultValueFixer` now allows single line comments, Thanks to [@vlastavesely]
 - [#314] **[CodingStandard]** Make `ClassStringToClassConstantFixer` configurable
 
 - [#337] **[EasyCodingStandard]** Fail table is less agressive
@@ -317,13 +349,13 @@ parameters:
 
 - [#295] **[Statie]** Rework similar posts concept from semi-AI magic to manual option `related_posts` in post file
 
-### Fixed 
+### Fixed
 
 - [#331] **[CodingStandard]** Fix `StandaloneLineInMultilieArray` with comments
 
 - [#289] **[EasyCodingStandard]** Fix skipper for `fnmatch`
 
-- [#328] **[Statie]** Removed hardcoded path from github filter, Thanks to [@crazko] 
+- [#328] **[Statie]** Removed hardcoded path from github filter, Thanks to [@crazko]
 - [#327] **[Statie]** Fixed ability to set layout for posts
 - [#325] **[Statie]** Disable decoration when AMP disabled
 
@@ -343,11 +375,11 @@ parameters:
     Use in CLI:
 
     ```bash
-    vendor/bin/ecs check src --config  vendor/symplify/easy-coding-standard/config/psr2-checkers.neon 
+    vendor/bin/ecs check src --config  vendor/symplify/easy-coding-standard/config/psr2-checkers.neon
     ```
 
     or `easy-coding-standard.neon`
-    
+
     ```yaml
     includes:
         - vendor/symplify/easy-coding-standard/config/php70-checkers.neon
@@ -355,7 +387,7 @@ parameters:
         - vendor/symplify/easy-coding-standard/config/psr2-checkers.neon
     ```
 
-- [#267] **[EasyCodingStandard]** Added option to `show` command, to show fixers from specific set from PHP-CS-Fixer: 
+- [#267] **[EasyCodingStandard]** Added option to `show` command, to show fixers from specific set from PHP-CS-Fixer:
 
     ```bash
     vendor/bin/ecs show --fixer-set Symfony
@@ -366,21 +398,20 @@ parameters:
     ```bash
     vendor/bin/ecs show --fixer-set Symfony --with-config
     ```
-       
 
 - [#281] **[EasyCodingStandard]** Added info about no checkers loaded + allow checker merging in configuration
 
 - [#276] **[PackageBuilder]** Added support for absolute path in `--config`, Thanks [@dg]
-- [#225] **[PackageBuilder]** Added `ParameterProvider` for Nette 
+- [#225] **[PackageBuilder]** Added `ParameterProvider` for Nette
 
 - [#243], [#258], [#275] **[Statie]** Added cache for AMP + various fixes
-- [#252], [#256] **[Statie]** Added support for Latte code in highlight in posts, Thanks [@enumag] 
+- [#252], [#256] **[Statie]** Added support for Latte code in highlight in posts, Thanks [@enumag]
 
 ### Changed
 
 - [#278] **[CodingStandard]** **[EasyCodingStandard]** Bumped to **PHP-CS-Fixer 2.4** + applied many related fixes
 
-- [#232] **[EasyCodingStandard]** Improved report after all is fixed 
+- [#232] **[EasyCodingStandard]** Improved report after all is fixed
 - [#255] **[EasyCodingStandard]** Fixers are sorted by priority
 - [#239] **[EasyCodingStandard]** `PHP_EOL` is now default line-ending for PHP-CS-Fixer, Thanks [@dg]
 
@@ -388,7 +419,7 @@ parameters:
 
 - [#230] **[EasyCodingStandard]** Fixed Configuration BC break by PHP-CS-Fixer 2.3
 - [#238] **[EasyCodingStandard]** Fixed caching invalidation for config including other configs
-- [#257] **[EasyCodingStandard]** Error is propagated to exit code, Thanks [@dg] 
+- [#257] **[EasyCodingStandard]** Error is propagated to exit code, Thanks [@dg]
 
 - [#245] **[Statie]** Fixed Configuration in ParametersProvider
 
@@ -440,7 +471,6 @@ parameters:
 
 - [#222] added Code of Conduct based on Github's recommendation
 
-
 ### Changed
 
 - [#188] **[CodingStandard]** add all rules to `README.md`
@@ -452,7 +482,7 @@ parameters:
 - [#212] **[PackageBuilder]** add exception for missing file
 
 - [#224] **[Statie]** use local `statie.neon` config file over global loading + use `underscore_case` (due to Symfony) - **BC BREAK!**
-- [#196] **[Statie]** improved message for Latte parser exception 
+- [#196] **[Statie]** improved message for Latte parser exception
 - [#195] **[Statie]** improved NEON parser error exception, closes [#99]
 
 ### Fixed
@@ -494,7 +524,7 @@ Based on discussion with friends and maintainers, I've found there are better ma
 ### Fixed
 
 - [#157] **[CodingStandard]** fix property docblock sniff for multiple annotations
-- [#164] **[SymbioticController]** fixed typo in nette application request event name, Thanks [@Lexinek] 
+- [#164] **[SymbioticController]** fixed typo in nette application request event name, Thanks [@Lexinek]
 
 ### Removed
 
@@ -540,7 +570,7 @@ For more deprecation details see https://www.tomasvotruba.cz/blog/2017/05/29/sym
 - [#152] **[CodingStandard]** removed unused sniff `Symplify\CodingStandard\Sniffs\Commenting\ComponentFactoryCommentSniff`
 - [#153] **[SymfonySecurityVoters]** package deprecated, for no practical use
 
-## [v2.0.0-RC1] - 2017-04-15  
+## [v2.0.0-RC1] - 2017-04-15
 
 ### Changed
 
