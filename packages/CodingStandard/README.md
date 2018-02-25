@@ -464,12 +464,12 @@ checkers:
     Symplify\CodingStandard\Fixer\Naming\ClassNameSuffixByParentFixer:
         parent_types_to_suffixes:
             # defaults
-            '*Command': 'Command',
-            '*Controller': 'Controller',
-            '*Repository': 'Repository',
-            '*Presenter': 'Presenter',
-            '*Request': 'Request',
-            '*EventSubscriber': 'EventSubscriber',
+            '*Command': 'Command'
+            '*Controller': 'Controller'
+            '*Repository': 'Repository'
+            '*Presenter': 'Presenter'
+            '*Request': 'Request'
+            '*EventSubscriber': 'EventSubscriber'
 ```
 
 It also covers `Interface` suffix as well, e.g `EventSubscriber` checks for `EventSubscriberInterface` as well.
