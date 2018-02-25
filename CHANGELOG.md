@@ -82,6 +82,10 @@
 
 ## [v3.1.0] - 2018-01-02
 
+### Added
+
+- [#505] Added `CHANGELOG.md`
+
 ### Changed
 
 - [#508] `RemoveUselessDocBlockFixer` is now configurable to accept types to remove with your own preferences
@@ -94,17 +98,7 @@
             # "[]" is default
     ```
 
-### Added
-
-- [#505] Added `CHANGELOG.md`
-
-## [v3.0.1] - 2017-12-10
-
-### Changed
-
 - [3fce4e] **[EasyCodingStandard]** drop `LineLimitSebastianBergmanDiffer` over `PhpCsFixer\Differ\UnifiedDiffer`
-
-### Removed
 
 ## [v3.0.0] - 2017-12-09
 
