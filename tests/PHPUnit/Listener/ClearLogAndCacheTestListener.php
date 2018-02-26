@@ -5,12 +5,15 @@ namespace Symplify\Tests\PHPUnit\Listener;
 use Nette\Utils\FileSystem;
 use Nette\Utils\Finder;
 use Nette\Utils\Strings;
-use PHPUnit\Framework\BaseTestListener;
+use PHPUnit\Framework\TestListener;
+use PHPUnit\Framework\TestListenerDefaultImplementation;
 use PHPUnit\Framework\TestSuite;
 use SplFileInfo;
 
-final class ClearLogAndCacheTestListener extends BaseTestListener
+final class ClearLogAndCacheTestListener implements TestListener
 {
+    use TestListenerDefaultImplementation;
+
     public function endTestSuite(TestSuite $testSuite): void
     {
         if ($testSuite->getName()) { // skip for tests, run only for whole Test Suite
