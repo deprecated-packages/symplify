@@ -8,7 +8,7 @@ final class ContainerFactory
 {
     public function create(): Container
     {
-        $appKernel = new AppKernel();
+        $appKernel = new StatieKernel();
         $appKernel->boot();
 
         return $appKernel->getContainer();
@@ -16,7 +16,7 @@ final class ContainerFactory
 
     public function createWithConfig(string $config): Container
     {
-        $appKernel = new AppKernel($config);
+        $appKernel = new StatieKernel($config);
         $appKernel->boot();
 
         return $appKernel->getContainer();
