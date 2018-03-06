@@ -5,6 +5,3 @@ services:
     Symplify\Statie\FlatWhite\:
         resource: ../
         public: true # for tests
-
-    Latte\ILoader:
-        alias: Symplify\Statie\FlatWhite\Latte\DynamicStringLoader
