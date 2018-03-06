@@ -20,6 +20,8 @@
         <!-- level 3 issues - slightly lazy code writing, but provably low false-negatives -->
         <DeprecatedMethod errorLevel="info" />
 
+        <MissingParamType errorLevel="info" />
+        <MoreSpecificImplementedParamType  errorLevel="info" />
         <MissingPropertyType errorLevel="info" />
         <InvalidDocblock errorLevel="info" />
         <MisplacedRequiredParam errorLevel="info" />
@@ -40,10 +42,18 @@
         <PossiblyNullPropertyAssignmentValue errorLevel="info" />
         <PossiblyFalsePropertyAssignmentValue errorLevel="info" />
 
+        <MissingClosureParamType>
+            <errorLevel type="info">
+                <file name="packages/EasyCodingStandard/src/Console/Command/ShowCommand.php" />
+            </errorLevel>
+        </MissingClosureParamType>
+
         <MoreSpecificImplementedParamType>
             <errorLevel type="info">
                 <file name="packages/EasyCodingStandard/src/DependencyInjection/EasyCodingStandardKernel.php" />
                 <file name="packages/PackageBuilder/src/Neon/Loader/NeonLoader.php" />
+                <file name="packages/EasyCodingStandard/src/Console/Style/EasyCodingStandardStyle.php" />
+                <file name="packages/EasyCodingStandard/src/DependencyInjection/Extension/CheckersExtension.php" />
             </errorLevel>
         </MoreSpecificImplementedParamType>
 

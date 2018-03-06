@@ -55,11 +55,9 @@ final class FinderSanitizer
             return;
         }
 
-        $sourceType = is_object($finder) ? get_class($finder) : (is_array($finder) ? gettype($finder) : $finder);
-
         throw new InvalidSourceTypeException(sprintf(
             '%s is not valid source type, probably in your %s class in "find()" method. Return "%s" or "%s".',
-            $sourceType,
+            $this->resolveSourceType($finder),
             CustomSourceProviderInterface::class,
             NetteFinder::class,
             SymfonyFinder::class
@@ -120,5 +118,22 @@ final class FinderSanitizer
 
         // dump fallback
         return $fileInfo->getFilename();
+    }
+
+    /**
+     * @param mixed $finder
+     * @return mixed
+     */
+    private function resolveSourceType($finder)
+    {
+        if (is_object($finder)) {
+            return get_class($finder);
+        }
+
+        if (is_array($finder)) {
+            return gettype($finder);
+        }
+
+        return $finder;
     }
 }
