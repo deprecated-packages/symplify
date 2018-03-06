@@ -6,6 +6,7 @@
         "php": "^7.1",
         "phpdocumentor/reflection-docblock": "4.2|4.3",
         "symplify/package-builder": "^3.2",
+        "symplify/token-runner": "^3.2",
         "friendsofphp/php-cs-fixer": "~2.10.2"
     },
     "require-dev": {

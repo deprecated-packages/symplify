@@ -25,5 +25,10 @@
             "Symplify\\TokenRunner\\Tests\\": "tests"
         }
     },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "3.3-dev"
+        }
+    },
     "minimum-stability": "dev"
 }
