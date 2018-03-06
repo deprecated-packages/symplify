@@ -16,7 +16,8 @@ final class AutowireSinglyImplementedCompilerPass implements CompilerPassInterfa
         $singlyImplemented = $this->collectSinglyImplementedInterfaces($containerBuilder);
 
         foreach ($singlyImplemented as $interface => $class) {
-            $containerBuilder->setAlias($interface, $class);
+            $alias = $containerBuilder->setAlias($interface, $class);
+            $alias->setPublic(true);
         }
     }
 
