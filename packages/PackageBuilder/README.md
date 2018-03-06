@@ -233,6 +233,46 @@ $autolaodFile = Symplify\PackageBuilder\Composer\AutoloadFinder::findNearDirecto
 ]);
 
 var_dump($autolaodFile); # contains: __DIR__ . '/vendor`
-````
+```
+
+### 9. Autowire Singly-Implemented Interfaces
+
+Just like [this PR to Symfony](https://github.com/symfony/symfony/pull/25282), but also covering cases like:
+
+```yaml
+services:
+    OnlyImplementationOfFooInterface: ~
+
+    # is this really needed?
+    FooInterface:
+        alias: OnlyImplementationOfFooInterface
+```
+
+Just register `Symplify\PackageBuilder\DependencyInjection\CompilerPass\AutowireSinglyImplementedCompilerPass` in your `Kernel` instance:
+
+```php
+namespace App;
+
+use Symfony\Component\HttpKernel\Kernel;
+use Symplify\PackageBuilder\DependencyInjection\CompilerPass\AutowireSinglyImplementedCompilerPass;
+
+final class AppKernel extends Kernel
+{
+    protected function build(ContainerBuilder $containerBuilder): void
+    {
+        $containerBuilder->addCompilerPass(new AutowireSinglyImplementedCompilerPass());
+    }
+}
+```
+
+And then cleanup your configs:
+
+```diff
+ services:
+     OnlyImplementationOfFooInterface: ~
+
+-    FooInterface:
+-        alias: OnlyImplementationOfFooInterface
+```
 
 That's all :)
