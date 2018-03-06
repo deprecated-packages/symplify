@@ -30,18 +30,12 @@ A static site generator with aim on community websites.
 
 [Pehapkari.cz](https://pehapkari.cz/) ([Github repo](https://github.com/pehapkari/pehapkari.cz)) and [TomasVotruba.cz](https://www.tomasvotruba.cz/) ([Github repo](https://github.com/tomasvotruba/tomasvotruba.cz)).
 
-## [TokenRunner](https://github.com/Symplify/TokenRunner)
+### Other Utils Packages
 
-[![Build Status](https://img.shields.io/travis/Symplify/TokenRunner/master.svg?style=flat-square)](https://travis-ci.org/Symplify/TokenRunner)
-[![Downloads](https://img.shields.io/packagist/dt/Symplify/token-runner.svg?style=flat-square)](https://packagist.org/packages/Symplify/token-runner)
-
-Building own Sniffs and Fixers made easy. It helps you with:
-
-- Space counts
-- Testing
-- (Fully qualified) names
-- Property and argument types
-- And much more...
+- [BetterReflectionDocBlock](https://github.com/Symplify/BetterReflectionDocBlock) - Slim wrapper around phpdocumentor/reflection-docblock with better DX and simpler API
+- [ChangelogLinker](https://github.com/Symplify/ChangelogLinker) - Make CHANGELOG.md useful with links
+- [PackageBuilder](https://github.com/Symplify/PackageBuilder) - Speed up your package DI Containers integration and Console apps to Symfony
+- [TokenRunner](https://github.com/Symplify/TokenRunner) - Building own Sniffs and Fixers made easy
 
 ## Install
 
