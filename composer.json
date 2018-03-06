@@ -31,8 +31,7 @@
         "phpunit/phpunit": "^6.5",
         "slam/php-cs-fixer-extensions": "^1.13",
         "symfony/expression-language": "^4.0",
-        "tracy/tracy": "^2.4",
-        "vimeo/psalm": "0.3.87"
+        "tracy/tracy": "^2.4"
     },
     "replace": {
         "symplify/statie": "self.version",
@@ -86,8 +85,7 @@
             "bin/clear_readmes.sh"
         ],
         "static": [
-            "vendor/bin/phpstan analyse packages --level max --configuration phpstan.neon",
-            "vendor/bin/psalm --show-info=false"
+            "vendor/bin/phpstan analyse packages --level max --configuration phpstan.neon"
         ]
     },
     "config": {
