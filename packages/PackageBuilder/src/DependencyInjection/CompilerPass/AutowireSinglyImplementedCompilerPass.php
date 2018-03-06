@@ -7,7 +7,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 /**
  * Inspired by https://github.com/symfony/symfony/pull/25282/files
- * but not only for PSR-4, but also other manual registration
+ * not only for PSR-4, but also covering other manual registration
  */
 final class AutowireSinglyImplementedCompilerPass implements CompilerPassInterface
 {

@@ -270,7 +270,7 @@ And then cleanup your configs:
 ```diff
  services:
      OnlyImplementationOfFooInterface: ~
-
+-
 -    FooInterface:
 -        alias: OnlyImplementationOfFooInterface
 ```
