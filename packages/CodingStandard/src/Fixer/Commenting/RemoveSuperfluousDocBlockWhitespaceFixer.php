@@ -4,7 +4,6 @@ namespace Symplify\CodingStandard\Fixer\Commenting;
 
 use Nette\Utils\Strings;
 use PhpCsFixer\Fixer\FixerInterface;
-
 use PhpCsFixer\FixerDefinition\CodeSample;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;

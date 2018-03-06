@@ -3,7 +3,6 @@
 namespace Symplify\CodingStandard\Fixer\Strict;
 
 use PhpCsFixer\Fixer\FixerInterface;
-
 use PhpCsFixer\Fixer\WhitespacesAwareFixerInterface;
 use PhpCsFixer\FixerDefinition\CodeSample;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
