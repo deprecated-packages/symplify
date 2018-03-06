@@ -29,6 +29,9 @@ final class AutowireSinglyImplementedCompilerPass implements CompilerPassInterfa
 
         foreach ($containerBuilder->getDefinitions() as $definition) {
             $class = $definition->getClass();
+            if (! is_string($class)) {
+                continue;
+            }
 
             foreach (class_implements($class, false) as $interface) {
                 $singlyImplemented[$interface] = isset($singlyImplemented[$interface]) ? false : $class;
