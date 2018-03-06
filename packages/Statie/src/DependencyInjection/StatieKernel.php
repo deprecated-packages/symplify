@@ -2,14 +2,12 @@
 
 namespace Symplify\Statie\DependencyInjection;
 
-use Nette\Utils\Strings;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 use Symfony\Component\HttpKernel\Kernel;
 use Symplify\PackageBuilder\DependencyInjection\CompilerPass\AutowireSinglyImplementedCompilerPass;
 use Symplify\Statie\DependencyInjection\CompilerPass\CollectorCompilerPass;
-use Symplify\Statie\Exception\Configuration\DeprecatedConfigException;
 
 final class StatieKernel extends Kernel
 {
@@ -31,7 +29,6 @@ final class StatieKernel extends Kernel
         $loader->load(__DIR__ . '/../config/config.yml');
 
         if ($this->configFile) {
-            $this->informAboutOldConfigSuffix($this->configFile);
             $loader->load($this->configFile);
         }
     }
@@ -53,24 +50,5 @@ final class StatieKernel extends Kernel
     {
         $containerBuilder->addCompilerPass(new CollectorCompilerPass());
         $containerBuilder->addCompilerPass(new AutowireSinglyImplementedCompilerPass());
-    }
-
-    /**
-     * Deprecation info about .neon => .yml suffix switch
-     *
-     * @deprecated
-     */
-    private function informAboutOldConfigSuffix(string $configFile): void
-    {
-        if (Strings::endsWith($configFile, 'yml')) {
-            return;
-        }
-
-        throw new DeprecatedConfigException(sprintf(
-            'Statie now uses "*.yml" files and Symfony DI. "%s" given.%sJust rename it to "%s":',
-            $this->configFile,
-            PHP_EOL,
-            pathinfo($this->configFile)['filename'] . '.yml'
-        ));
     }
 }

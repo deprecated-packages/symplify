@@ -12,5 +12,3 @@ services:
     Symfony\Component\Console\Output\ConsoleOutput: ~
 
     Symfony\Component\EventDispatcher\EventDispatcher: ~
-
-    GitWrapper\GitWrapper: ~

@@ -2,9 +2,7 @@
 
 namespace Symplify\Statie\Configuration;
 
-use Nette\Utils\Strings;
 use Symplify\PackageBuilder\Parameter\ParameterProvider;
-use Symplify\Statie\Exception\Configuration\InvalidGithubRepositorySourceDirectoryException;
 use Symplify\Statie\Exception\Configuration\MissingGithubRepositorySlugException;
 use Symplify\Statie\FileSystem\FileSystemGuard;
 
@@ -19,12 +17,6 @@ final class Configuration
      * @var string
      */
     private const OPTION_GITHUB_REPOSITORY_SOURCE_DIRECTORY = 'github_repository_source_directory';
-
-    /**
-     * @var string
-     * @deprecated use self::OPTION_GITHUB_REPOSITORY_SOURCE_DIRECTORY instead
-     */
-    private const OPTION_GITHUB_REPOSITORY_SLUG = 'github_repository_slug';
 
     /**
      * @var array
@@ -85,13 +77,6 @@ final class Configuration
 
     public function getGithubRepositorySourceDirectory(): string
     {
-        // BC compatibility
-        if (isset($this->options[self::OPTION_GITHUB_REPOSITORY_SLUG])) {
-            $githubRepositorySlug = $this->options[self::OPTION_GITHUB_REPOSITORY_SLUG];
-            $this->ensureStartsWithGithub($githubRepositorySlug);
-            return $githubRepositorySlug;
-        }
-
         if (isset($this->options[self::OPTION_GITHUB_REPOSITORY_SOURCE_DIRECTORY])) {
             return $this->options[self::OPTION_GITHUB_REPOSITORY_SOURCE_DIRECTORY];
         }
@@ -148,21 +133,5 @@ final class Configuration
     public function isDryRun(): bool
     {
         return $this->isDryRun;
-    }
-
-    private function ensureStartsWithGithub(string $githubRepositorySlug): void
-    {
-        if (Strings::startsWith($githubRepositorySlug, 'https://github.com/')) {
-            return;
-        }
-
-        throw new InvalidGithubRepositorySourceDirectoryException(sprintf(
-            'Option "parameters > %s" should be in "%s" format, where <source> is directory '
-                . 'where Statie content is.%s"%s" was given.',
-            self::OPTION_GITHUB_REPOSITORY_SLUG,
-            'https://github.com/<user>/<repository>/tree/master/<source>',
-            PHP_EOL . PHP_EOL,
-            $githubRepositorySlug
-        ));
     }
 }
