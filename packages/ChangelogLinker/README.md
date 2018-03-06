@@ -9,7 +9,7 @@ Turn your `CHANGELOG.md` from a machine readable text to a **rich text that make
 ## Install
 
 ```bash
-composer require symplify/changelog-linker
+composer require symplify/changelog-linker --dev
 ```
 
 ## Usage

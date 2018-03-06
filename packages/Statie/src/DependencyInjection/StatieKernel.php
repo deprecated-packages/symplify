@@ -7,10 +7,11 @@ use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 use Symfony\Component\HttpKernel\Kernel;
+use Symplify\PackageBuilder\DependencyInjection\CompilerPass\AutowireSinglyImplementedCompilerPass;
 use Symplify\Statie\DependencyInjection\CompilerPass\CollectorCompilerPass;
 use Symplify\Statie\Exception\Configuration\DeprecatedConfigException;
 
-final class AppKernel extends Kernel
+final class StatieKernel extends Kernel
 {
     /**
      * @var null|string
@@ -51,6 +52,7 @@ final class AppKernel extends Kernel
     protected function build(ContainerBuilder $containerBuilder): void
     {
         $containerBuilder->addCompilerPass(new CollectorCompilerPass());
+        $containerBuilder->addCompilerPass(new AutowireSinglyImplementedCompilerPass());
     }
 
     /**
