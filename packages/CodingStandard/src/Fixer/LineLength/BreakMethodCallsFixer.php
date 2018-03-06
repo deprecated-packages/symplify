@@ -2,7 +2,7 @@
 
 namespace Symplify\CodingStandard\Fixer\LineLength;
 
-use PhpCsFixer\Fixer\DefinedFixerInterface;
+use PhpCsFixer\Fixer\FixerInterface;
 use PhpCsFixer\Fixer\WhitespacesAwareFixerInterface;
 use PhpCsFixer\FixerDefinition\CodeSample;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
@@ -15,7 +15,7 @@ use Symplify\TokenRunner\Analyzer\FixerAnalyzer\IndentDetector;
 use Symplify\TokenRunner\Analyzer\FixerAnalyzer\TokenSkipper;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\MethodCallWrapper;
 
-final class BreakMethodCallsFixer implements DefinedFixerInterface, WhitespacesAwareFixerInterface
+final class BreakMethodCallsFixer implements FixerInterface, WhitespacesAwareFixerInterface
 {
     /**
      * @var int

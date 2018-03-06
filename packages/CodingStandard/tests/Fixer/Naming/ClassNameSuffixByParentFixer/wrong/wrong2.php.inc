@@ -1,5 +1,5 @@
 <?php
 
-class Some implements DefinedFixerInterface
+class Some implements FixerInterface
 {
 }

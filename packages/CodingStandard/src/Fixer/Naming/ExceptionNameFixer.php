@@ -4,7 +4,7 @@ namespace Symplify\CodingStandard\Fixer\Naming;
 
 use Nette\Utils\Strings;
 use PhpCsFixer\Fixer\Basic\Psr4Fixer;
-use PhpCsFixer\Fixer\DefinedFixerInterface;
+use PhpCsFixer\Fixer\FixerInterface;
 use PhpCsFixer\FixerDefinition\CodeSample;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
@@ -12,7 +12,7 @@ use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
 
-final class ExceptionNameFixer implements DefinedFixerInterface
+final class ExceptionNameFixer implements FixerInterface
 {
     public function getName(): string
     {

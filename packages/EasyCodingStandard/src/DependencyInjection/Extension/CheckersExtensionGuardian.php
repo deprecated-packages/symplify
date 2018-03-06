@@ -3,7 +3,7 @@
 namespace Symplify\EasyCodingStandard\DependencyInjection\Extension;
 
 use Nette\Utils\ObjectMixin;
-use PhpCsFixer\Fixer\ConfigurationDefinitionFixerInterface;
+use PhpCsFixer\Fixer\ConfigurableFixerInterface;
 use Symplify\EasyCodingStandard\Exception\DependencyInjection\Extension\FixerIsNotConfigurableException;
 use Symplify\EasyCodingStandard\Exception\DependencyInjection\Extension\InvalidSniffPropertyException;
 
@@ -14,7 +14,7 @@ final class CheckersExtensionGuardian
      */
     public function ensureFixerIsConfigurable(string $fixerClass, array $configuration): void
     {
-        if (is_a($fixerClass, ConfigurationDefinitionFixerInterface::class, true)) {
+        if (is_a($fixerClass, ConfigurableFixerInterface::class, true)) {
             return;
         }
 

@@ -2,7 +2,7 @@
 
 namespace Symplify\CodingStandard\Fixer\ArrayNotation;
 
-use PhpCsFixer\Fixer\DefinedFixerInterface;
+use PhpCsFixer\Fixer\FixerInterface;
 use PhpCsFixer\Fixer\WhitespacesAwareFixerInterface;
 use PhpCsFixer\FixerDefinition\CodeSample;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
@@ -16,7 +16,7 @@ use Symplify\TokenRunner\Analyzer\FixerAnalyzer\IndentDetector;
 use Symplify\TokenRunner\Analyzer\FixerAnalyzer\TokenSkipper;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\ArrayWrapper;
 
-final class StandaloneLineInMultilineArrayFixer implements DefinedFixerInterface, WhitespacesAwareFixerInterface
+final class StandaloneLineInMultilineArrayFixer implements FixerInterface, WhitespacesAwareFixerInterface
 {
     /**
      * @var int[]

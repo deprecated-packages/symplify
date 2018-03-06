@@ -2,7 +2,7 @@
 
 namespace Symplify\CodingStandard\Fixer\Property;
 
-use PhpCsFixer\Fixer\DefinedFixerInterface;
+use PhpCsFixer\Fixer\FixerInterface;
 use PhpCsFixer\FixerDefinition\CodeSample;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
@@ -14,7 +14,7 @@ use Symplify\TokenRunner\Analyzer\FixerAnalyzer\DocBlockFinder;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\ClassWrapper;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\DocBlockWrapper;
 
-final class ArrayPropertyDefaultValueFixer implements DefinedFixerInterface
+final class ArrayPropertyDefaultValueFixer implements FixerInterface
 {
     public function getDefinition(): FixerDefinitionInterface
     {

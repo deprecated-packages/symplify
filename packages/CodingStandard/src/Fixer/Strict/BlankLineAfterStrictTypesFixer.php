@@ -2,8 +2,8 @@
 
 namespace Symplify\CodingStandard\Fixer\Strict;
 
-use PhpCsFixer\Fixer\DefinedFixerInterface;
 use PhpCsFixer\Fixer\FixerInterface;
+
 use PhpCsFixer\Fixer\WhitespacesAwareFixerInterface;
 use PhpCsFixer\FixerDefinition\CodeSample;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
@@ -18,7 +18,7 @@ use Symplify\CodingStandard\Fixer\TokenBuilder;
  *
  * @thanks Aidan Woods
  */
-final class BlankLineAfterStrictTypesFixer implements FixerInterface, DefinedFixerInterface, WhitespacesAwareFixerInterface
+final class BlankLineAfterStrictTypesFixer implements FixerInterface, WhitespacesAwareFixerInterface
 {
     /**
      * @var WhitespacesFixerConfig

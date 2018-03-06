@@ -2,8 +2,8 @@
 
 namespace Symplify\CodingStandard\Fixer\Import;
 
-use PhpCsFixer\Fixer\ConfigurationDefinitionFixerInterface;
-use PhpCsFixer\Fixer\DefinedFixerInterface;
+use PhpCsFixer\Fixer\ConfigurableFixerInterface;
+use PhpCsFixer\Fixer\FixerInterface;
 use PhpCsFixer\Fixer\WhitespacesAwareFixerInterface;
 use PhpCsFixer\FixerConfiguration\FixerConfigurationResolver;
 use PhpCsFixer\FixerConfiguration\FixerConfigurationResolverInterface;
@@ -40,7 +40,7 @@ use Symplify\TokenRunner\Wrapper\FixerWrapper\DocBlockWrapper;
  * - 2) namespace with conflicts \First\SomeClass + \Second\SomeClass
  * - 3) partial namespaces \Namespace\Partial + Partial\Class
  */
-final class ImportNamespacedNameFixer implements DefinedFixerInterface, ConfigurationDefinitionFixerInterface, WhitespacesAwareFixerInterface
+final class ImportNamespacedNameFixer implements FixerInterface, ConfigurableFixerInterface, WhitespacesAwareFixerInterface
 {
     /**
      * @var string

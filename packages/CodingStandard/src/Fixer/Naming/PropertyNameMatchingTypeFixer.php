@@ -3,8 +3,8 @@
 namespace Symplify\CodingStandard\Fixer\Naming;
 
 use Nette\Utils\Strings;
-use PhpCsFixer\Fixer\ConfigurationDefinitionFixerInterface;
-use PhpCsFixer\Fixer\DefinedFixerInterface;
+use PhpCsFixer\Fixer\ConfigurableFixerInterface;
+use PhpCsFixer\Fixer\FixerInterface;
 use PhpCsFixer\FixerConfiguration\FixerConfigurationResolver;
 use PhpCsFixer\FixerConfiguration\FixerConfigurationResolverInterface;
 use PhpCsFixer\FixerConfiguration\FixerOptionBuilder;
@@ -18,7 +18,7 @@ use Symplify\TokenRunner\Wrapper\FixerWrapper\ArgumentWrapper;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\ClassWrapper;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\PropertyWrapper;
 
-final class PropertyNameMatchingTypeFixer implements DefinedFixerInterface, ConfigurationDefinitionFixerInterface
+final class PropertyNameMatchingTypeFixer implements FixerInterface, ConfigurableFixerInterface
 {
     /**
      * @var string

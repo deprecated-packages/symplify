@@ -3,7 +3,7 @@
 namespace Symplify\CodingStandard\Fixer\ControlStructure;
 
 use Nette\Utils\Strings;
-use PhpCsFixer\Fixer\DefinedFixerInterface;
+use PhpCsFixer\Fixer\FixerInterface;
 use PhpCsFixer\Fixer\Operator\ConcatSpaceFixer;
 use PhpCsFixer\FixerDefinition\CodeSample;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
@@ -12,7 +12,7 @@ use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
 
-final class RequireFollowedByAbsolutePathFixer implements DefinedFixerInterface
+final class RequireFollowedByAbsolutePathFixer implements FixerInterface
 {
     /**
      * @var int[]
