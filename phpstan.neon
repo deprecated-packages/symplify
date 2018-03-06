@@ -48,9 +48,6 @@ parameters:
         # 3rd party errors
         - '#Parameter \#1 \$container of class Symfony\\Component\\DependencyInjection\\Loader\\YamlFileLoader constructor expects Symfony\\Component\\DependencyInjection\\ContainerBuilder, Symfony\\Component\\DependencyInjection\\ContainerInterface given#'
 
-        # needed method args override
-        - '#Parameter \#2 \$type of method Symfony\\Component\\Config\\Loader\\LoaderInterface::load\(\) expects string\|null, array<int, string> given#'
-
         # intersect/union buggy
         - '#Parameter \#(2|3) \$items of method PhpCsFixer\\Tokenizer\\Tokens::(insertAt|overrideRange)\(\) expects (\()?iterable<PhpCsFixer\\Tokenizer\\Token>&PhpCsFixer\\Tokenizer\\Tokens(\))?(\|PhpCsFixer\\Tokenizer\\Token)?, array<(int, )?PhpCsFixer\\Tokenizer\\Token> given#'
         - '#Method Symplify\\TokenRunner\\Tests\\DocBlock\\ParamAndReturnTagAnalyzerTest::provideDocTypeDocDescriptionParamTypeAndResult\(\) should return array<array<bool|string\>\> but returns array<int, array<int,bool\|string\|null\>\>#'
