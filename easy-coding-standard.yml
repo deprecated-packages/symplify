@@ -7,7 +7,7 @@ imports:
 
 checkers:
     # class should be Abstact or Final
-    - SlamCsFixer\FinalInternalClassFixer
+    SlamCsFixer\FinalInternalClassFixer: ~
 
     Symplify\CodingStandard\Fixer\Import\ImportNamespacedNameFixer:
         include_doc_blocks: true
@@ -43,7 +43,7 @@ parameters:
             - packages/CodingStandard/src/Fixer/Commenting/RemoveUselessDocBlockFixer.php
 
         SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff:
-            - *packages/CodingStandard/src/Sniffs/*/*Sniff.php
+            - '*packages/CodingStandard/src/Sniffs/*/*Sniff.php'
             - packages/EasyCodingStandard/packages/SniffRunner/src/File/File.php
             - packages/Statie/packages/FlatWhite/src/Latte/DynamicStringLoader.php
             - packages/Statie/src/Configuration/Configuration.php
@@ -62,8 +62,8 @@ parameters:
             - packages/CodingStandard/src/Fixer/Naming/ExceptionNameFixer.php
             - packages/CodingStandard/src/Fixer/Naming/ClassNameSuffixByParentFixer.php
             # class might not exist
-            - *packages/EasyCodingStandard/packages/Configuration/*/MutualCheckerExcluder*.php
-            - *packages/EasyCodingStandard/packages/Configuration/*/ConflictingCheckerGuard*.php
+            - '*packages/EasyCodingStandard/packages/Configuration/*/MutualCheckerExcluder*.php'
+            - '*packages/EasyCodingStandard/packages/Configuration/*/ConflictingCheckerGuard*.php'
 
         Symplify\CodingStandard\Sniffs\DependencyInjection\NoClassInstantiationSniff:
             - packages/TokenRunner/src/Wrapper/FixerWrapper/DocBlockWrapper.php
