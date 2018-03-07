@@ -1,10 +1,10 @@
-includes:
-    - packages/EasyCodingStandard/config/psr2.neon
-    - packages/EasyCodingStandard/config/php71.neon
+imports:
+    - { resource: 'packages/EasyCodingStandard/config/psr2.neon' }
+    - { resource: 'packages/EasyCodingStandard/config/php71.neon' }
 
-    - packages/EasyCodingStandard/config/clean-code.neon
-    - packages/EasyCodingStandard/config/symplify.neon
-    - packages/EasyCodingStandard/config/common.neon
+    - { resource: 'packages/EasyCodingStandard/config/clean-code.neon' }
+    - { resource: 'packages/EasyCodingStandard/config/symplify.neon' }
+    - { resource: 'packages/EasyCodingStandard/config/common.neon' }
 
 checkers:
     # class should be Abstact or Final
@@ -83,4 +83,3 @@ parameters:
         SlevomatCodingStandard\Sniffs\Exceptions\ReferenceThrowableOnlySniff.ReferencedGeneralException:
             # intentionally "Exception" value
             - packages/CodingStandard/src/Sniffs/Architecture/ExplicitExceptionSniff.php
-
