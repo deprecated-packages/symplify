@@ -2,4 +2,3 @@ imports:
     - { resource: '../../packages/**/src/config/services.yml' }
     - { resource: 'services.yml' }
     - { resource: 'external-services.yml' }
-
