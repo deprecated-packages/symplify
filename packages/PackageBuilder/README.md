@@ -187,7 +187,7 @@ $configFile = (new LevelConfigShortcutFinder)->resolveLevel(new ArgvInput, __DIR
 // 2. try --config
 if ($configFile === null) {
     ConfigFilePathHelper::detectFromInput('ecs', new ArgvInput);
-    $configFile = ConfigFilePathHelper::provide('ecs', 'easy-coding-standard.neon');
+    $configFile = ConfigFilePathHelper::provide('ecs', 'easy-coding-standard.yml');
 }
 
 // 3. Build DI container

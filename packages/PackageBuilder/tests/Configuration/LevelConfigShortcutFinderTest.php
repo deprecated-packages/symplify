@@ -43,7 +43,7 @@ final class LevelConfigShortcutFinderTest extends TestCase
     {
         return [
             ['someConfig', $this->sourceDirectory . '/someConfig.yml'],
-            ['anotherConfig', $this->sourceDirectory . '/anotherConfig.neon'],
+            ['anotherConfig', $this->sourceDirectory . '/anotherConfig.yml'],
         ];
     }
 }
