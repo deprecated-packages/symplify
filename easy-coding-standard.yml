@@ -75,6 +75,9 @@ parameters:
             - 'packages/CodingStandard/src/Fixer/Commenting/RemoveUselessDocBlockFixer.php'
 
     skip_codes:
+        SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff.UselessDocComment:
+            - '*packages*'
+
         SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff.MissingParameterTypeHint:
             # respect param typehint
             - 'packages/TokenRunner/src/ReflectionDocBlock/Tag/TolerantParam.php'
