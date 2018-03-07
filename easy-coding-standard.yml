@@ -1,7 +1,6 @@
 imports:
     - { resource: 'packages/EasyCodingStandard/config/psr2.neon' }
     - { resource: 'packages/EasyCodingStandard/config/php71.neon' }
-
     - { resource: 'packages/EasyCodingStandard/config/clean-code.neon' }
     - { resource: 'packages/EasyCodingStandard/config/symplify.neon' }
     - { resource: 'packages/EasyCodingStandard/config/common.neon' }
