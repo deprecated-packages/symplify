@@ -167,25 +167,7 @@ try {
 }
 ```
 
-### 6. Load `*.neon` config files in Kernel
-
-You can load `*.yaml` files in Kernel by default. Now `*.neon` as well:
-
-```php
-namespace Symplify\PackageBuilder\Neon\NeonLoaderAwareKernelTrait;
-
-final class SuperKernel extends Kernel
-{
-    use NeonLoaderAwareKernelTrait;
-
-    public function registerContainerConfiguration(LoaderInterface $loader): void
-    {
-        $loader->load(__DIR__ . '/config/services.neon');
-    }
-}
-````
-
-### 7. Load config via `--level` option in your Console Application
+### 6. Load config via `--level` option in your Console Application
 
 In you `bin/your-app` you can use `--level` option as shortcut to load config from `/config` directory.
 
@@ -223,7 +205,7 @@ And use like:
 vendor/bin/your-app --level the-config
 ```
 
-### 8. Find `vendor/autoload.php` in specific directory for BetterReflection
+### 7. Find `vendor/autoload.php` in specific directory for BetterReflection
 
 When you use [BetterReflection](https://github.com/Roave/BetterReflection/) and [`ComposerSourceLocator`](https://github.com/Roave/BetterReflection/blob/master/UPGRADE.md#source-locators-now-require-additional-dependencies), you need to locate non-locator `/vendor/autoload.php`.
 
@@ -235,7 +217,7 @@ $autolaodFile = Symplify\PackageBuilder\Composer\AutoloadFinder::findNearDirecto
 var_dump($autolaodFile); # contains: __DIR__ . '/vendor`
 ```
 
-### 9. Autowire Singly-Implemented Interfaces
+### 8. Autowire Singly-Implemented Interfaces
 
 Just like [this PR to Symfony](https://github.com/symfony/symfony/pull/25282), but also covering cases like:
 
