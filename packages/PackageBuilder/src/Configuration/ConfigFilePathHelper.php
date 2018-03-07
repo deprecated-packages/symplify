@@ -41,7 +41,7 @@ final class ConfigFilePathHelper
             return self::$configFilePaths[$name];
         }
 
-        $rootConfigPath = getcwd() . '/' . $configName;
+        $rootConfigPath = getcwd() . DIRECTORY_SEPARATOR . $configName;
         if (is_file($rootConfigPath)) {
             return self::$configFilePaths[$name] = $rootConfigPath;
         }
@@ -58,6 +58,6 @@ final class ConfigFilePathHelper
     {
         return preg_match('#/|\\\\|[a-z]:#iA', $relativeFilePath)
             ? $relativeFilePath
-            : getcwd() . '/' . $relativeFilePath;
+            : getcwd() . DIRECTORY_SEPARATOR . $relativeFilePath;
     }
 }
