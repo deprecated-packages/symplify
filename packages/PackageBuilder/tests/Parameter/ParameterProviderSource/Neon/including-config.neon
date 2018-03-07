@@ -1,5 +1,0 @@
-includes:
-    - included-config.neon
-
-parameters:
-    two: 2

@@ -6,13 +6,10 @@ use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 use Symfony\Component\HttpKernel\Kernel;
-use Symplify\PackageBuilder\Neon\NeonLoaderAwareKernelTrait;
 use Symplify\PackageBuilder\Parameter\ParameterProvider;
 
 final class AppKernel extends Kernel
 {
-    use NeonLoaderAwareKernelTrait;
-
     /**
      * @var string
      */
