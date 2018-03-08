@@ -1,6 +1,9 @@
 /vendor
 composer.lock
 
+# Easy Coding Standard cache
+.ecs_cache
+
 # Statie dev
 /output
 /source
