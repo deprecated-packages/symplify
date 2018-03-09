@@ -2,7 +2,7 @@
 
 namespace Symplify\Statie\Tests\Renderable\Configuration;
 
-use Symplify\Statie\Exception\Yaml\InvalidYamlSyntaxException;
+use Symfony\Component\Yaml\Exception\ParseException;
 use Symplify\Statie\Renderable\ConfigurationDecorator;
 use Symplify\Statie\Renderable\File\FileFactory;
 use Symplify\Statie\Tests\AbstractContainerAwareTestCase;
@@ -49,9 +49,9 @@ final class ConfigurationDecoratorTest extends AbstractContainerAwareTestCase
         $fileInfo = SymfonyFileInfoFactory::createFromFilePath($brokenYamlFilePath);
         $file = $this->fileFactory->createFromFileInfo($fileInfo);
 
-        $this->expectException(InvalidYamlSyntaxException::class);
+        $this->expectException(ParseException::class);
         $this->expectExceptionMessage(sprintf(
-            'Invalid YAML syntax found in "%s" file: '
+            'Invalid YAML syntax found in "%s": '
             . 'A colon cannot be used in an unquoted mapping value at line 2 (near "  another_key: value").',
             $brokenYamlFilePath
         ));

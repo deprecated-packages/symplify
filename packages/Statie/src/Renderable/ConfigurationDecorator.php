@@ -3,10 +3,8 @@
 namespace Symplify\Statie\Renderable;
 
 use Nette\Utils\Strings;
-use Symfony\Component\Yaml\Exception\ParseException;
 use Symplify\Statie\Configuration\Parser\YamlParser;
 use Symplify\Statie\Contract\Renderable\FileDecoratorInterface;
-use Symplify\Statie\Exception\Yaml\InvalidYamlSyntaxException;
 use Symplify\Statie\Generator\Configuration\GeneratorElement;
 use Symplify\Statie\Renderable\File\AbstractFile;
 
@@ -70,16 +68,7 @@ final class ConfigurationDecorator implements FileDecoratorInterface
 
     private function setConfigurationToFileIfFoundAny(string $content, AbstractFile $file): void
     {
-        try {
-            $configuration = $this->yamlParser->decode($content);
-        } catch (ParseException $parseException) {
-            throw new InvalidYamlSyntaxException(sprintf(
-                'Invalid YAML syntax found in "%s" file: %s',
-                $file->getFilePath(),
-                $parseException->getMessage()
-            ));
-        }
-
+        $configuration = $this->yamlParser->decodeInSource($content, $file->getFilePath());
         $file->addConfiguration($configuration);
     }
 }

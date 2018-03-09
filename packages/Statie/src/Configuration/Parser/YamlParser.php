@@ -2,6 +2,7 @@
 
 namespace Symplify\Statie\Configuration\Parser;
 
+use Symfony\Component\Yaml\Exception\ParseException;
 use Symfony\Component\Yaml\Parser;
 
 final class YamlParser
@@ -22,6 +23,22 @@ final class YamlParser
     public function decodeFile(string $filePath): array
     {
         return $this->parser->parseFile($filePath);
+    }
+
+    /**
+     * @return mixed[]
+     */
+    public function decodeInSource(string $content, string $source): array
+    {
+        try {
+            return $this->parser->parse($content);
+        } catch (ParseException $parseException) {
+            throw new ParseException(sprintf(
+                'Invalid YAML syntax found in "%s": %s',
+                $source,
+                $parseException->getMessage()
+            ));
+        }
     }
 
     /**

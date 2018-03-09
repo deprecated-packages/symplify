@@ -4,6 +4,7 @@ namespace Symplify\Statie\Tests\Configuration\Parser;
 
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Yaml\Exception\ParseException;
+use Symfony\Component\Yaml\Parser;
 use Symplify\Statie\Configuration\Parser\YamlParser;
 
 final class YamlParserTest extends TestCase
@@ -15,7 +16,7 @@ final class YamlParserTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->yamlParser = new YamlParser();
+        $this->yamlParser = new YamlParser(new Parser());
     }
 
     public function testDecode(): void
