@@ -2,7 +2,7 @@
 
 namespace Symplify\Statie\Configuration\Parser;
 
-use Exception;
+use Symfony\Component\Yaml\Exception\ParseException;
 use Symfony\Component\Yaml\Yaml;
 use Symplify\Statie\Exception\Yaml\InvalidYamlSyntaxException;
 
@@ -17,11 +17,11 @@ final class YamlParser
 
         try {
             return $this->decode($fileContent);
-        } catch (Exception $exception) {
+        } catch (ParseException $parseException) {
             throw new InvalidYamlSyntaxException(sprintf(
                 'Invalid YAML syntax found in "%s" file: %s',
                 $filePath,
-                $exception->getMessage()
+                $parseException->getMessage()
             ));
         }
     }

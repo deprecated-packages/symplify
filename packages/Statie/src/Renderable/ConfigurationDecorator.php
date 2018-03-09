@@ -3,7 +3,6 @@
 namespace Symplify\Statie\Renderable;
 
 use Nette\Utils\Strings;
-use PHPStan\PhpDocParser\Parser\ParserException;
 use Symfony\Component\Yaml\Exception\ParseException;
 use Symplify\Statie\Configuration\Parser\YamlParser;
 use Symplify\Statie\Contract\Renderable\FileDecoratorInterface;
