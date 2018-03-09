@@ -15,7 +15,6 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
 - [#591] **[CodingStandard]** Add `BreakArrayListFixer` to break/inline array items over/under 120 chars
 - [#585] **[CodingStandard]** Add `BreakMethodCallsFixer` to break/inline method calls over/under 120 chars
 - [#584] **[EasyCodingStandard]** Add `fnmatch` check to `exclude_files`:
-
    ```yml
    parameters:
        exclude_files:
@@ -24,7 +23,6 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
            # new
            - */lib/PhpParser/Parser/Php*.php
    ```
-
 - [#583] **[EasyCodingStandard]** Add `exclude_files` option to config
 - [#612] **[PackageBuilder]** Add `CommandNaming` to get command name from the class name
 - [#589] **[Statie], [EasyCodingStandard]** Add version printing on `-V` option in CLI, thanks to [@ostrolucky]
@@ -45,11 +43,8 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
 ### Removed
 
 - [#647] **[Statie]** Removed deprecated `vendor/bin/statie push-to-github` command, use [Github pages on Travis](https://www.statie.org/docs/github-pages/#allow-travis-to-make-changes) instead
-
 - [#647] **[CodingStandard]** Removed deprecated `LastPropertyAndFirstMethodSeparationFixer`, see [#594], use [`PhpCsFixer\Fixer\ClassNotation\ClassAttributesSeparationFixer`](https://github.com/FriendsOfPHP/PHP-CS-Fixer/blob/b7cc8727c7faa8ebe7cc4220daaaabe29751bc5c/src/Fixer/ClassNotation/ClassAttributesSeparationFixer.php) instead; extends it if you need different space count
-
 - [#647] **[CodingStandard]** Removed deprecated `Symplify\CodingStandard\Fixer\Strict\InArrayStrictFixer`, use [`PhpCsFixer\Fixer\Strict\StrictParamFixer`](https://github.com/FriendsOfPHP/PHP-CS-Fixer/blob/b7cc8727c7faa8ebe7cc4220daaaabe29751bc5c/src/Fixer/Strict/StrictParamFixer.php) instead, that does the same job
-
 - [#647] **[Statie]** Removed deprecated `parameters > github_repository_slug` option, use `github_repository_source_directory` instead
 
     #### Before
@@ -69,7 +64,6 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
     ```
 
 - [#647] **[Statie]** Removed deprecated `statie.neon` note, use `statie.yml` instead
-
 - [#647] **[EasyCodingStandard]** Removed deprecated bin files: `vendor/bin/easy-coding-standard` and `vendor/bin/easy-coding-standard.php`; use `vendor/bin/ecs` instead
 
 ## [v3.2.0] - 2018-01-13
@@ -829,3 +823,6 @@ For more deprecation details see https://www.tomasvotruba.cz/blog/2017/05/29/sym
 [#589]: https://github.com/Symplify/Symplify/pull/589
 [#585]: https://github.com/Symplify/Symplify/pull/585
 [#584]: https://github.com/Symplify/Symplify/pull/584
+[v4.0.0]: https://github.com/Symplify/Symplify/compare/v3.2.0...v4.0.0
+[#647]: https://github.com/Symplify/Symplify/pull/647
+[#645]: https://github.com/Symplify/Symplify/pull/645
