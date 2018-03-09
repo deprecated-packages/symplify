@@ -1,12 +1,16 @@
 # Changelog
 
-Note: due to rather agile development of packages and big amount of release all changes are bunched in nearest minor version, e.g. changes from 3.1.0-3.1.15 => 3.2.0. That makes changelog more clear and readable. 
+Note: due to rather agile development of packages and big amount of releases all changes are bunched in nearest minor version, e.g. changes from 3.1.0-3.1.15 => 3.2.0. That makes changelog more clear and readable, rather then having 15 lines with one change per version, and also helps to actually maintain this file.
 
 ## [v4.0.0][Unreleased]
 
+Biggest change of this release is moving from mixture of Yaml and Neon format in `*.neon` files to Yaml format in `*.yaml` files. That will make Symplify packages more world-friendly and standard rather than Czech-only Neon format. See [#651](https://github.com/Symplify/Symplify/pull/651) about more reasoning behind this.
+
+This change was finished in [Statie](https://github.com/Symplify/Statie) and [EasyCodingStandard](https://github.com/Symplify/EasyCodingStandard), where mostly requested.
+
 ### Added
 
-- [#645] **[PackageBuilder]** Add `AutowireSinglyImplementedCompilerPass` to prevent redundant singly-interface binding 
+- [#645] **[PackageBuilder]** Add `AutowireSinglyImplementedCompilerPass` to prevent redundant singly-interface binding
 - [#633] **[CodingStandard]** Add `ClassNameSuffixByParentFixer`, closes [#607]
 - [#591] **[CodingStandard]** Add `BreakArrayListFixer` to break/inline array items over/under 120 chars
 - [#585] **[CodingStandard]** Add `BreakMethodCallsFixer` to break/inline method calls over/under 120 chars
@@ -53,18 +57,18 @@ Note: due to rather agile development of packages and big amount of release all 
     ```yml
     parameters:
         # <user>/<repository>
-        github_repository_slug: "pehapkari/pehapkari.cz" 
-    ```    
-    
+        github_repository_slug: "pehapkari/pehapkari.cz"
+    ```
+
     #### After
-    
+
     ```yml
     parameters:
         # https://github.com/<user>/<repository>/tree/master/<source>, where <source> is name of directory with Statie content
-        github_repository_source_directory: "https://github.com/pehapkari/pehapkari.cz/tree/master/source" 
+        github_repository_source_directory: "https://github.com/pehapkari/pehapkari.cz/tree/master/source"
     ```
-    
-- [#647] **[Statie]** Removed deprecated `statie.neon` note, use `statie.yml` instead 
+
+- [#647] **[Statie]** Removed deprecated `statie.neon` note, use `statie.yml` instead
 
 - [#647] **[EasyCodingStandard]** Removed deprecated bin files: `vendor/bin/easy-coding-standard` and `vendor/bin/easy-coding-standard.php`; use `vendor/bin/ecs` instead
 
