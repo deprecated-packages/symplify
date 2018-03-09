@@ -51,7 +51,8 @@ final class ConfigurationDecoratorTest extends AbstractContainerAwareTestCase
 
         $this->expectException(InvalidYamlSyntaxException::class);
         $this->expectExceptionMessage(sprintf(
-            'Invalid YAML syntax found in "%s" file: A colon cannot be used in an unquoted mapping value at line 2 (near "  another_key: value").',
+            'Invalid YAML syntax found in "%s" file: '
+            . 'A colon cannot be used in an unquoted mapping value at line 2 (near "  another_key: value").',
             $brokenYamlFilePath
         ));
 
