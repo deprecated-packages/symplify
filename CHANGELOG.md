@@ -16,12 +16,13 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
 - [#585] **[CodingStandard]** Add `BreakMethodCallsFixer` to break/inline method calls over/under 120 chars
 - [#584] **[EasyCodingStandard]** Add `fnmatch` check to `exclude_files`:
    ```yml
+   # easy-coding-standard.yml
    parameters:
        exclude_files:
-           - lib/PhpParser/Parser/Php5.php
-           - lib/PhpParser/Parser/Php7.php
+           - 'lib/PhpParser/Parser/Php5.php'
+           - 'lib/PhpParser/Parser/Php7.php'
            # new
-           - */lib/PhpParser/Parser/Php*.php
+           - '*/lib/PhpParser/Parser/Php*.php'
    ```
 - [#583] **[EasyCodingStandard]** Add `exclude_files` option to config
 - [#612] **[PackageBuilder]** Add `CommandNaming` to get command name from the class name
@@ -37,7 +38,7 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
     ```diff
     -   includes:
     +   imports:
-    -        - packages/EasyCodingStandard/config/psr2.neon
+    -       - packages/EasyCodingStandard/config/psr2.neon
     +       - { resource: 'packages/EasyCodingStandard/config/psr2.yml' }
 
     -       - common/array.neon
@@ -53,7 +54,7 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
         parameters:
             skip:
                 SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff:
-    -                - *packages/CodingStandard/src/Sniffs/*/*Sniff.php
+    -               - *packages/CodingStandard/src/Sniffs/*/*Sniff.php
     +               - '*packages/CodingStandard/src/Sniffs/*/*Sniff.php'
 
             skip_codes:
@@ -62,7 +63,7 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
     +               - '*src*'
     ```
 
-- [#654] **Statie** Move from Yaml + Neon mixture to Yaml, similar to [#651]
+- [#654] **[Statie]** Move from Yaml + Neon mixture to Yaml, similar to [#651]
 
     ```diff
     -multiline:  """
@@ -96,6 +97,7 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
     #### Before
 
     ```yml
+    # statie.yml
     parameters:
         # <user>/<repository>
         github_repository_slug: "pehapkari/pehapkari.cz"
@@ -104,6 +106,7 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
     #### After
 
     ```yml
+    # statie.yml
     parameters:
         # https://github.com/<user>/<repository>/tree/master/<source>, where <source> is name of directory with Statie content
         github_repository_source_directory: "https://github.com/pehapkari/pehapkari.cz/tree/master/source"
@@ -122,7 +125,8 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
 - [#577] **[Statie]** Add customizable `ObjectSorter` for [Generators](https://www.statie.org/docs/generators/) as `object_sorter` option in Generator configuration
 
     ```yaml
-    arameters:
+    # statie.yml
+    parameters:
         generators:
             posts:
                 # ...
@@ -145,7 +149,7 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
 - [#560] **[EasyCodingStandard]** Added `PhpdocVarWithoutNameFixer` to `docblock.neon` level, thanks to [@carusogabriel]
 - [#578] Use `@doesNotPerformAssertions` in tests, thanks to [@carusogabriel]
 
-## Fixed
+### Fixed
 
 - [#574] **[Statie]** Fix path in `FileFinder` for Windows, thanks to [@tomasfejfar]
 - [#562] **[Statie]** Fix `preg_quote()` escaping, thanks to [@tomasfejfar]
