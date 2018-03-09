@@ -10,6 +10,12 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
 
 ### Added
 
+- [#656] **[EasyCodingStandard]** Add configurable cache directory for changed files, closes [#650], thanks to [@marmichalski]
+    ```yml
+    # easy-coding-standard.yml
+    parameters:
+        cache_directory: .ecs_cache # defaults to sys_get_temp_dir() . '/_easy_coding_standard'
+    ```
 - [#645] **[PackageBuilder]** Add `AutowireSinglyImplementedCompilerPass` to prevent redundant singly-interface binding
 - [#633] **[CodingStandard]** Add `ClassNameSuffixByParentFixer`, closes [#607]
 - [#591] **[CodingStandard]** Add `BreakArrayListFixer` to break/inline array items over/under 120 chars
@@ -879,3 +885,6 @@ For more deprecation details see https://www.tomasvotruba.cz/blog/2017/05/29/sym
 [#645]: https://github.com/Symplify/Symplify/pull/645
 [#654]: https://github.com/Symplify/Symplify/pull/654
 [#651]: https://github.com/Symplify/Symplify/pull/651
+[#650]: https://github.com/Symplify/Symplify/issues/650
+[#656]: https://github.com/Symplify/Symplify/pull/656
+[@marmichalski]: https://github.com/marmichalski
