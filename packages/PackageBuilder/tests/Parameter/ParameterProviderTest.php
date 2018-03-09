@@ -15,7 +15,7 @@ final class ParameterProviderTest extends TestCase
         );
 
         $parameterProvider = $container->get(ParameterProvider::class);
-        $this->assertSame([
+        $this->assertContains([
             'key' => 'value',
             'camelCase' => 'Lion',
             'pascal_case' => 'Celsius',
@@ -35,9 +35,12 @@ final class ParameterProviderTest extends TestCase
 
         $parameterProvider = $container->get(ParameterProvider::class);
 
-        $this->assertSame([
+        $this->assertContains([
             'one' => 1,
             'two' => 2,
         ], $parameterProvider->provide());
+
+
+        $this->assertArrayHasKey('kernel.root_dir', $parameterProvider->provide());
     }
 }
