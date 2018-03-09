@@ -3,6 +3,7 @@
 namespace Symplify\Statie\Tests\Configuration\Parser;
 
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\Yaml\Exception\ParseException;
 use Symplify\Statie\Configuration\Parser\YamlParser;
 use Symplify\Statie\Exception\Yaml\InvalidYamlSyntaxException;
 
@@ -24,7 +25,7 @@ final class YamlParserTest extends TestCase
         $this->assertContains('one', $decodedYaml['multiline']);
         $this->assertContains('two', $decodedYaml['multiline']);
 
-        $decodedYamlFromFile = $this->yamlParser->decodeFromFile(__DIR__ . '/YamlParserSource/config.yml');
+        $decodedYamlFromFile = $this->yamlParser->decodeFile(__DIR__ . '/YamlParserSource/config.yml');
         $this->assertSame($decodedYamlFromFile, $decodedYaml);
     }
 
@@ -32,13 +33,12 @@ final class YamlParserTest extends TestCase
     {
         $brokenYamlFilePath = __DIR__ . '/YamlParserSource/broken-config.yml';
 
-        $this->expectException(InvalidYamlSyntaxException::class);
+        $this->expectException(ParseException::class);
         $this->expectExceptionMessage(sprintf(
-            'Invalid YAML syntax found in "%s" file: '
-            . 'A colon cannot be used in an unquoted mapping value at line 2 (near " another_key: value").',
+            'A colon cannot be used in an unquoted mapping value in "%s" at line 2 (near " another_key: value").',
             $brokenYamlFilePath
         ));
 
-        $this->yamlParser->decodeFromFile(__DIR__ . '/YamlParserSource/broken-config.yml');
+        $this->yamlParser->decodeFile(__DIR__ . '/YamlParserSource/broken-config.yml');
     }
 }
