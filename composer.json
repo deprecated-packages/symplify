@@ -10,7 +10,6 @@
         "latte/latte": "^2.4",
         "nette/caching": "^2.5",
         "nette/finder": "^2.4",
-        "nette/neon": "^2.4",
         "nette/robot-loader": "^2.4|^3.0.1",
         "nette/utils": "^2.4",
         "phpdocumentor/reflection-docblock": "^4.2",

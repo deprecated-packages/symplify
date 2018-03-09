@@ -2,7 +2,7 @@
 
 namespace Symplify\Statie\Tests\Renderable\Configuration;
 
-use Symplify\Statie\Exception\Neon\InvalidNeonSyntaxException;
+use Symplify\Statie\Exception\Yaml\InvalidYamlSyntaxException;
 use Symplify\Statie\Renderable\ConfigurationDecorator;
 use Symplify\Statie\Renderable\File\FileFactory;
 use Symplify\Statie\Tests\AbstractContainerAwareTestCase;
@@ -43,16 +43,16 @@ final class ConfigurationDecoratorTest extends AbstractContainerAwareTestCase
         $this->assertSame($expectedConfiguration, $file->getConfiguration());
     }
 
-    public function testInvalidNeonSyntax(): void
+    public function testInvalidYamlSyntax(): void
     {
-        $brokenNeonFilePath = __DIR__ . '/ConfigurationDecoratorSource/someFileWithBrokenConfigurationSyntax.latte';
-        $fileInfo = SymfonyFileInfoFactory::createFromFilePath($brokenNeonFilePath);
+        $brokenYamlFilePath = __DIR__ . '/ConfigurationDecoratorSource/someFileWithBrokenConfigurationSyntax.latte';
+        $fileInfo = SymfonyFileInfoFactory::createFromFilePath($brokenYamlFilePath);
         $file = $this->fileFactory->createFromFileInfo($fileInfo);
 
-        $this->expectException(InvalidNeonSyntaxException::class);
+        $this->expectException(InvalidYamlSyntaxException::class);
         $this->expectExceptionMessage(sprintf(
-            'Invalid NEON syntax found in "%s" file: Bad indentation on line 2, column 3.',
-            $brokenNeonFilePath
+            'Invalid YAML syntax found in "%s" file: A colon cannot be used in an unquoted mapping value at line 2 (near "  another_key: value").',
+            $brokenYamlFilePath
         ));
 
         $this->configurationDecorator->decorateFiles([$file]);

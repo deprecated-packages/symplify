@@ -2,11 +2,12 @@
 
 namespace Symplify\Statie\Renderable;
 
-use Nette\Neon\Exception;
 use Nette\Utils\Strings;
-use Symplify\Statie\Configuration\Parser\NeonParser;
+use PHPStan\PhpDocParser\Parser\ParserException;
+use Symfony\Component\Yaml\Exception\ParseException;
+use Symplify\Statie\Configuration\Parser\YamlParser;
 use Symplify\Statie\Contract\Renderable\FileDecoratorInterface;
-use Symplify\Statie\Exception\Neon\InvalidNeonSyntaxException;
+use Symplify\Statie\Exception\Yaml\InvalidYamlSyntaxException;
 use Symplify\Statie\Generator\Configuration\GeneratorElement;
 use Symplify\Statie\Renderable\File\AbstractFile;
 
@@ -26,13 +27,13 @@ final class ConfigurationDecorator implements FileDecoratorInterface
     private const SLASHES_WITH_SPACES_PATTERN = '(?:---[\s]*[\r\n]+)';
 
     /**
-     * @var NeonParser
+     * @var YamlParser
      */
-    private $neonParser;
+    private $yamlParser;
 
-    public function __construct(NeonParser $neonParser)
+    public function __construct(YamlParser $yamlParser)
     {
-        $this->neonParser = $neonParser;
+        $this->yamlParser = $yamlParser;
     }
 
     /**
@@ -71,12 +72,12 @@ final class ConfigurationDecorator implements FileDecoratorInterface
     private function setConfigurationToFileIfFoundAny(string $content, AbstractFile $file): void
     {
         try {
-            $configuration = $this->neonParser->decode($content);
-        } catch (Exception $neonException) {
-            throw new InvalidNeonSyntaxException(sprintf(
-                'Invalid NEON syntax found in "%s" file: %s',
+            $configuration = $this->yamlParser->decode($content);
+        } catch (ParseException $parseException) {
+            throw new InvalidYamlSyntaxException(sprintf(
+                'Invalid YAML syntax found in "%s" file: %s',
                 $file->getFilePath(),
-                $neonException->getMessage()
+                $parseException->getMessage()
             ));
         }
 

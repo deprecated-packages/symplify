@@ -2,11 +2,11 @@
 
 namespace Symplify\Statie\Configuration\Parser;
 
-use Nette\Neon\Exception;
-use Nette\Neon\Neon;
-use Symplify\Statie\Exception\Neon\InvalidNeonSyntaxException;
+use Exception;
+use Symfony\Component\Yaml\Yaml;
+use Symplify\Statie\Exception\Yaml\InvalidYamlSyntaxException;
 
-final class NeonParser
+final class YamlParser
 {
     /**
      * @return mixed[]
@@ -17,11 +17,11 @@ final class NeonParser
 
         try {
             return $this->decode($fileContent);
-        } catch (Exception $neonException) {
-            throw new InvalidNeonSyntaxException(sprintf(
-                'Invalid NEON syntax found in "%s" file: %s',
+        } catch (Exception $exception) {
+            throw new InvalidYamlSyntaxException(sprintf(
+                'Invalid YAML syntax found in "%s" file: %s',
                 $filePath,
-                $neonException->getMessage()
+                $exception->getMessage()
             ));
         }
     }
@@ -31,6 +31,6 @@ final class NeonParser
      */
     public function decode(string $content): array
     {
-        return Neon::decode($content);
+        return Yaml::parse($content);
     }
 }
