@@ -1,0 +1,6 @@
+imports:
+    - { resource: included-set.3.yml }
+
+checkers:
+    SomeValue: []
+    SomeOtherChecker: []

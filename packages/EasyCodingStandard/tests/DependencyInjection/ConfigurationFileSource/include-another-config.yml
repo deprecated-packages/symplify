@@ -1,0 +1,5 @@
+imports:
+    - { resource: 'simple-config.yml' }
+
+checkers:
+    - PhpCsFixer\Fixer\ClassNotation\ClassDefinitionFixer

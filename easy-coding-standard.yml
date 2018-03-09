@@ -1,0 +1,87 @@
+imports:
+    - { resource: 'packages/EasyCodingStandard/config/psr2.yml' }
+    - { resource: 'packages/EasyCodingStandard/config/php71.yml' }
+    - { resource: 'packages/EasyCodingStandard/config/clean-code.yml' }
+    - { resource: 'packages/EasyCodingStandard/config/symplify.yml' }
+    - { resource: 'packages/EasyCodingStandard/config/common.yml' }
+
+checkers:
+    # class should be Abstact or Final
+    SlamCsFixer\FinalInternalClassFixer: ~
+
+    Symplify\CodingStandard\Fixer\Import\ImportNamespacedNameFixer:
+        include_doc_blocks: true
+
+    # code complexity
+    PHP_CodeSniffer\Standards\Generic\Sniffs\Files\LineLengthSniff:
+        absoluteLineLimit: 120
+    PHP_CodeSniffer\Standards\Generic\Sniffs\Metrics\CyclomaticComplexitySniff:
+        absoluteComplexity: 10
+    PHP_CodeSniffer\Standards\Generic\Sniffs\Metrics\NestingLevelSniff:
+        absoluteNestingLevel: 4
+
+    Symplify\CodingStandard\Sniffs\DependencyInjection\NoClassInstantiationSniff:
+        extraAllowedClasses:
+            - 'Symplify\EasyCodingStandard\Error\Error'
+            - 'Symplify\CodingStandard\FixerTokenWrapper\Naming\Name'
+            - 'Symplify\TokenRunner\*'
+            - 'Symplify\PackageBuilder\Reflection\*'
+            - 'phpDocumentor\Reflection\Fqsen'
+            - 'Symplify\BetterReflectionDocBlock\*'
+
+parameters:
+    exclude_checkers:
+        # broken in php-cs-fixer 2.10, being fixed in master: https://github.com/FriendsOfPHP/PHP-CS-Fixer/pull/3438
+        - 'PhpCsFixer\Fixer\PhpUnit\PhpUnitTestAnnotationFixer'
+
+    skip:
+        PHP_CodeSniffer\Standards\Generic\Sniffs\Files\LineLengthSniff:
+            # many implemented interfaces
+            - 'packages/CodingStandard/src/Fixer/ClassNotation/LastPropertyAndFirstMethodSeparationFixer.php'
+            - 'packages/CodingStandard/src/Fixer/Import/ImportNamespacedNameFixer.php'
+            - 'packages/CodingStandard/src/Fixer/Strict/BlankLineAfterStrictTypesFixer.php'
+            - 'packages/CodingStandard/src/Fixer/Commenting/RemoveUselessDocBlockFixer.php'
+
+        SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff:
+            - '*packages/CodingStandard/src/Sniffs/*/*Sniff.php'
+            - 'packages/EasyCodingStandard/packages/SniffRunner/src/File/File.php'
+            - 'packages/Statie/packages/FlatWhite/src/Latte/DynamicStringLoader.php'
+            - 'packages/Statie/src/Configuration/Configuration.php'
+            # parent class without typehints
+            - 'packages/TokenRunner/src/Testing/AbstractSimpleFixerTestCase.php'
+            - 'packages/EasyCodingStandard/tests/AbstractDualRunTestCase.php'
+            - 'packages/FixerRunner/src/Differ/LineLimitSebastianBergmannDiffer.php'
+
+        PhpCsFixer\Fixer\PhpUnit\PhpUnitStrictFixer:
+            - 'packages/EasyCodingStandard/tests/Indentation/IndentationTest.php'
+
+        Symplify\CodingStandard\Fixer\Php\ClassStringToClassConstantFixer:
+            # name parts, not classes
+            - 'packages/CodingStandard/src/Sniffs/DependencyInjection/NoClassInstantiationSniff.php'
+            # "Exception" is string part of the name
+            - 'packages/CodingStandard/src/Fixer/Naming/ExceptionNameFixer.php'
+            - 'packages/CodingStandard/src/Fixer/Naming/ClassNameSuffixByParentFixer.php'
+            # class might not exist
+            - '*packages/EasyCodingStandard/packages/Configuration/*/MutualCheckerExcluder*.php'
+            - '*packages/EasyCodingStandard/packages/Configuration/*/ConflictingCheckerGuard*.php'
+
+        Symplify\CodingStandard\Sniffs\DependencyInjection\NoClassInstantiationSniff:
+            - 'packages/TokenRunner/src/Wrapper/FixerWrapper/DocBlockWrapper.php'
+            # allowed default static value
+            - 'packages/Statie/packages/Generator/src/Configuration/GeneratorElement.php'
+
+        Symplify\CodingStandard\Fixer\LineLength\BreakMethodCallsFixer:
+            # false positive
+            - 'packages/CodingStandard/src/Fixer/Commenting/RemoveUselessDocBlockFixer.php'
+
+    skip_codes:
+        SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff.UselessDocComment:
+            - '*packages*'
+
+        SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff.MissingParameterTypeHint:
+            # respect param typehint
+            - 'packages/TokenRunner/src/ReflectionDocBlock/Tag/TolerantParam.php'
+
+        SlevomatCodingStandard\Sniffs\Exceptions\ReferenceThrowableOnlySniff.ReferencedGeneralException:
+            # intentionally "Exception" value
+            - 'packages/CodingStandard/src/Sniffs/Architecture/ExplicitExceptionSniff.php'

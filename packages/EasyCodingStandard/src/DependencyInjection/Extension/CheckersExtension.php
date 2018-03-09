@@ -11,6 +11,7 @@ use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
+use Symplify\EasyCodingStandard\Configuration\ArrayMerger;
 use Symplify\EasyCodingStandard\Configuration\CheckerConfigurationNormalizer;
 use Symplify\EasyCodingStandard\Configuration\ConflictingCheckerGuard;
 use Symplify\EasyCodingStandard\Configuration\MutualCheckerExcluder;
@@ -22,11 +23,6 @@ final class CheckersExtension extends Extension
      * @var string
      */
     private const EXCLUDE_CHECKERS_OPTION = 'exclude_checkers';
-
-    /**
-     * @var string
-     */
-    private const NAME = 'checkers';
 
     /**
      * @var CheckerConfigurationNormalizer
@@ -67,17 +63,19 @@ final class CheckersExtension extends Extension
      */
     public function load(array $configs, ContainerBuilder $containerBuilder): void
     {
-        $parameterBag = $containerBuilder->getParameterBag();
-        if (! $parameterBag->has(self::NAME)) {
+        // remove empty sections
+        $configs = array_filter($configs);
+
+        if (! count($configs)) {
             return;
         }
 
-        $checkersConfiguration = $parameterBag->has(self::NAME) ? (array) $parameterBag->get(self::NAME) : [];
+        $checkersConfiguration = ArrayMerger::mergeRecursively($configs);
         $checkers = $this->checkerConfigurationNormalizer->normalize($checkersConfiguration);
 
         $this->checkerTypeValidator->validate(array_keys($checkers), 'parameters > checkers');
 
-        $checkers = $this->removeExcludedCheckers($checkers, $parameterBag);
+        $checkers = $this->removeExcludedCheckers($checkers, $containerBuilder->getParameterBag());
 
         $checkers = $this->mutualCheckerExcluder->processCheckers($checkers);
 
@@ -115,6 +113,12 @@ final class CheckersExtension extends Extension
         }
 
         if (is_a($checkerClass, FixerInterface::class, true)) {
+            // clean merge null values leftover, e.g. when parent checkers has `~`, but later has `[]`
+            // skip empty configs
+            if (empty($configuration)) {
+                return;
+            }
+
             $this->checkersExtensionGuardian->ensureFixerIsConfigurable($checkerClass, $configuration);
             $checkerDefinition->addMethodCall('configure', [$configuration]);
         }

@@ -40,18 +40,4 @@ final class ParameterProviderTest extends TestCase
             'two' => 2,
         ], $parameterProvider->provide());
     }
-
-    public function testIncludingNeon(): void
-    {
-        $container = (new ContainerFactory())->createWithConfig(
-            __DIR__ . '/ParameterProviderSource/Neon/including-config.neon'
-        );
-
-        $parameterProvider = $container->get(ParameterProvider::class);
-
-        $this->assertSame([
-            'one' => 1,
-            'two' => 2,
-        ], $parameterProvider->provide());
-    }
 }

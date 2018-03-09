@@ -4,8 +4,8 @@ services:
         public: true # for tests
 
     Symplify\Statie\:
-        resource: ../../src
-        exclude: ../../src/{Exception,Renderable/File/File.php,Renderable/File/PostFile.php,Event}
+        resource: '../../src'
+        exclude: '../../src/{Exception,Renderable/File/File.php,Renderable/File/PostFile.php,Event}'
 
     Symplify\Statie\Renderable\RenderableFilesProcessor:
         # order is important, since determined order of calls in code

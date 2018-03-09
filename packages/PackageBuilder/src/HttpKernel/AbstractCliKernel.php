@@ -4,12 +4,9 @@ namespace Symplify\PackageBuilder\HttpKernel;
 
 use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 use Symfony\Component\HttpKernel\Kernel;
-use Symplify\PackageBuilder\Neon\NeonLoaderAwareKernelTrait;
 
 abstract class AbstractCliKernel extends Kernel
 {
-    use NeonLoaderAwareKernelTrait;
-
     public function __construct()
     {
         // random_int is used to prevent container name duplication during tests

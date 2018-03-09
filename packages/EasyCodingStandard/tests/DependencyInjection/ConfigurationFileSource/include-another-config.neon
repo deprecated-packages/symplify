@@ -1,5 +1,0 @@
-includes:
-    - simple-config.neon
-
-checkers:
-    - PhpCsFixer\Fixer\ClassNotation\ClassDefinitionFixer

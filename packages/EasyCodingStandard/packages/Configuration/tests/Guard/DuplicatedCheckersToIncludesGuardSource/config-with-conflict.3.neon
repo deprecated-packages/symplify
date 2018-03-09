@@ -1,6 +1,0 @@
-includes:
-    - included-set.3.neon
-
-checkers:
-    SomeValue: []
-    SomeOtherChecker: []

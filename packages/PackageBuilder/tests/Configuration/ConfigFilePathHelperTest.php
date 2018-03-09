@@ -32,12 +32,12 @@ final class ConfigFilePathHelperTest extends TestCase
         $this->expectException(FileNotFoundException::class);
         $this->expectExceptionMessage(sprintf(
             'File "%s" not found in "%s"',
-            getcwd() . '/someFile.neon',
-            'someFile.neon'
+            getcwd() . '/someFile.yml',
+            'someFile.yml'
         ));
 
         ConfigFilePathHelper::detectFromInput('name', new ArrayInput([
-            '--config' => 'someFile.neon',
+            '--config' => 'someFile.yml',
         ]));
     }
 }
