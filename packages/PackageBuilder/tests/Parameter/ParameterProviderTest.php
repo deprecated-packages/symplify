@@ -40,7 +40,6 @@ final class ParameterProviderTest extends TestCase
             'two' => 2,
         ], $parameterProvider->provide());
 
-
         $this->assertArrayHasKey('kernel.root_dir', $parameterProvider->provide());
     }
 }
