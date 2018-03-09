@@ -1,9 +1,12 @@
 # Changelog
 
-## [Unreleased]
+Note: due to rather agile development of packages and big amount of release all changes are bunched in nearest minor version, e.g. changes from 3.1.0-3.1.15 => 3.2.0. That makes changelog more clear and readable. 
+
+## [v4.0.0][Unreleased]
 
 ### Added
 
+- [#645] **[PackageBuilder]** Add `AutowireSinglyImplementedCompilerPass` to prevent redundant singly-interface binding 
 - [#633] **[CodingStandard]** Add `ClassNameSuffixByParentFixer`, closes [#607]
 - [#591] **[CodingStandard]** Add `BreakArrayListFixer` to break/inline array items over/under 120 chars
 - [#585] **[CodingStandard]** Add `BreakMethodCallsFixer` to break/inline method calls over/under 120 chars
@@ -35,9 +38,35 @@
 - [#595] **[Statie]** Fix race condition for element sorting with configuration
 - [59bdfc] **[Statie]** Fix non-root `index.html` route, fixes [#638]
 
-### Deprecated
+### Removed
 
-- [257e5b] **[CodingStandard]** Deprecated `LastPropertyAndFirstMethodSeparationFixer`, see [#594], use `PhpCsFixer\Fixer\ClassNotation\ClassAttributesSeparationFixer` instead
+- [#647] **[Statie]** Removed deprecated `vendor/bin/statie push-to-github` command, use [Github pages on Travis](https://www.statie.org/docs/github-pages/#allow-travis-to-make-changes) instead
+
+- [#647] **[CodingStandard]** Removed deprecated `LastPropertyAndFirstMethodSeparationFixer`, see [#594], use [`PhpCsFixer\Fixer\ClassNotation\ClassAttributesSeparationFixer`](https://github.com/FriendsOfPHP/PHP-CS-Fixer/blob/b7cc8727c7faa8ebe7cc4220daaaabe29751bc5c/src/Fixer/ClassNotation/ClassAttributesSeparationFixer.php) instead; extends it if you need different space count
+
+- [#647] **[CodingStandard]** Removed deprecated `Symplify\CodingStandard\Fixer\Strict\InArrayStrictFixer`, use [`PhpCsFixer\Fixer\Strict\StrictParamFixer`](https://github.com/FriendsOfPHP/PHP-CS-Fixer/blob/b7cc8727c7faa8ebe7cc4220daaaabe29751bc5c/src/Fixer/Strict/StrictParamFixer.php) instead, that does the same job
+
+- [#647] **[Statie]** Removed deprecated `parameters > github_repository_slug` option, use `github_repository_source_directory` instead
+
+    #### Before
+
+    ```yml
+    parameters:
+        # <user>/<repository>
+        github_repository_slug: "pehapkari/pehapkari.cz" 
+    ```    
+    
+    #### After
+    
+    ```yml
+    parameters:
+        # https://github.com/<user>/<repository>/tree/master/<source>, where <source> is name of directory with Statie content
+        github_repository_source_directory: "https://github.com/pehapkari/pehapkari.cz/tree/master/source" 
+    ```
+    
+- [#647] **[Statie]** Removed deprecated `statie.neon` note, use `statie.yml` instead 
+
+- [#647] **[EasyCodingStandard]** Removed deprecated bin files: `vendor/bin/easy-coding-standard` and `vendor/bin/easy-coding-standard.php`; use `vendor/bin/ecs` instead
 
 ## [v3.2.0] - 2018-01-13
 
