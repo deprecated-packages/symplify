@@ -2,7 +2,7 @@
 
 Note: due to rather agile development of packages and big amount of releases all changes are bunched in nearest minor version, e.g. changes from 3.1.0-3.1.15 => 3.2.0. That makes changelog more clear and readable, rather then having 15 lines with one change per version, and also helps to actually maintain this file.
 
-## [v4.0.0][Unreleased]
+## [v4.0.0alpha1][Unreleased]
 
 Biggest change of this release is moving from mixture of Yaml and Neon format in `*.neon` files to Yaml format in `*.yaml` files. That will make Symplify packages more world-friendly and standard rather than Czech-only Neon format. See [#651](https://github.com/Symplify/Symplify/pull/651) about more reasoning behind this.
 
@@ -27,6 +27,40 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
 - [#612] **[PackageBuilder]** Add `CommandNaming` to get command name from the class name
 - [#589] **[Statie], [EasyCodingStandard]** Add version printing on `-V` option in CLI, thanks to [@ostrolucky]
 - [#585] **[TokenRunner]** Add `MethodCallWrapper` helper class to count line lengths of method calls
+
+### Changed
+
+- [#651] **EasyCodingStandard** Move from mixture custom neon + Symfony service DI to Yaml;
+
+    How to migrate from '*.neon' to '*.yml'? First, replace tabs with spaces and:
+
+    ```diff
+-   includes:
++   imports:
+-        - packages/EasyCodingStandard/config/psr2.neon
++       - { resource: 'packages/EasyCodingStandard/config/psr2.yml' }
+
+-       - common/array.neon
+-       - common/control-structures.neon
+-       - common/docblock.neon
++       - { resource: 'common/*.yml' }
+
+    checkers:
+        # class should be Abstact or Final
+-       - SlamCsFixer\FinalInternalClassFixer
++       SlamCsFixer\FinalInternalClassFixer: ~
+
+    parameters:
+        skip:
+            SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff:
+-                - *packages/CodingStandard/src/Sniffs/*/*Sniff.php
++               - '*packages/CodingStandard/src/Sniffs/*/*Sniff.php'
+
+        skip_codes:
+-           - SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff.UselessDocComment
++           SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff.UselessDocComment:
++               - '*src*'
+    ```
 
 ### Fixed
 
@@ -65,6 +99,8 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
 
 - [#647] **[Statie]** Removed deprecated `statie.neon` note, use `statie.yml` instead
 - [#647] **[EasyCodingStandard]** Removed deprecated bin files: `vendor/bin/easy-coding-standard` and `vendor/bin/easy-coding-standard.php`; use `vendor/bin/ecs` instead
+
+- [#651] **[PackagesBuilder]** Removed `Symplify\PackageBuilder\Neon\Loader\NeonLoader` and `Symplify\PackageBuilder\Neon\NeonLoaderAwareKernelTrait`, that attempted to put Neon into Symfony Kernel, very poorly though
 
 ## [v3.2.0] - 2018-01-13
 
