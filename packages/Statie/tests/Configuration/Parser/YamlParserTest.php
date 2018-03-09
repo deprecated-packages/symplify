@@ -5,7 +5,6 @@ namespace Symplify\Statie\Tests\Configuration\Parser;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Yaml\Exception\ParseException;
 use Symplify\Statie\Configuration\Parser\YamlParser;
-use Symplify\Statie\Exception\Yaml\InvalidYamlSyntaxException;
 
 final class YamlParserTest extends TestCase
 {

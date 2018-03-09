@@ -2,16 +2,18 @@
 
 namespace Symplify\Statie\Configuration\Parser;
 
-use Symfony\Component\Yaml\Exception\ParseException;
 use Symfony\Component\Yaml\Parser;
-use Symfony\Component\Yaml\Yaml;
-use Symplify\Statie\Exception\Yaml\InvalidYamlSyntaxException;
 
 final class YamlParser
 {
-    public function __construct()
+    /**
+     * @var Parser
+     */
+    private $parser;
+
+    public function __construct(Parser $parser)
     {
-        $this->parser = new Parser();
+        $this->parser = $parser;
     }
 
     /**
