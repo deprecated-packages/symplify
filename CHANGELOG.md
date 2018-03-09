@@ -1,14 +1,20 @@
 # Changelog
 
-## [Unreleased]
+Note: due to rather agile development of packages and big amount of releases all changes are bunched in nearest minor version, e.g. changes from 3.1.0-3.1.15 => 3.2.0. That makes changelog more clear and readable, rather then having 15 lines with one change per version, and also helps to actually maintain this file.
+
+## [v4.0.0alpha1][Unreleased]
+
+Biggest change of this release is moving from mixture of Yaml and Neon format in `*.neon` files to Yaml format in `*.yaml` files. That will make Symplify packages more world-friendly and standard rather than Czech-only Neon format. See [#651](https://github.com/Symplify/Symplify/pull/651) about more reasoning behind this.
+
+This change was finished in [Statie](https://github.com/Symplify/Statie) and [EasyCodingStandard](https://github.com/Symplify/EasyCodingStandard), where mostly requested.
 
 ### Added
 
+- [#645] **[PackageBuilder]** Add `AutowireSinglyImplementedCompilerPass` to prevent redundant singly-interface binding
 - [#633] **[CodingStandard]** Add `ClassNameSuffixByParentFixer`, closes [#607]
 - [#591] **[CodingStandard]** Add `BreakArrayListFixer` to break/inline array items over/under 120 chars
 - [#585] **[CodingStandard]** Add `BreakMethodCallsFixer` to break/inline method calls over/under 120 chars
 - [#584] **[EasyCodingStandard]** Add `fnmatch` check to `exclude_files`:
-
    ```yml
    parameters:
        exclude_files:
@@ -17,11 +23,56 @@
            # new
            - */lib/PhpParser/Parser/Php*.php
    ```
-
 - [#583] **[EasyCodingStandard]** Add `exclude_files` option to config
 - [#612] **[PackageBuilder]** Add `CommandNaming` to get command name from the class name
 - [#589] **[Statie], [EasyCodingStandard]** Add version printing on `-V` option in CLI, thanks to [@ostrolucky]
 - [#585] **[TokenRunner]** Add `MethodCallWrapper` helper class to count line lengths of method calls
+
+### Changed
+
+- [#651] **EasyCodingStandard** Move from mixture custom neon + Symfony service DI to Yaml;
+
+    How to migrate from '*.neon' to '*.yml'? First, replace tabs with spaces and:
+
+    ```diff
+    -   includes:
+    +   imports:
+    -        - packages/EasyCodingStandard/config/psr2.neon
+    +       - { resource: 'packages/EasyCodingStandard/config/psr2.yml' }
+
+    -       - common/array.neon
+    -       - common/control-structures.neon
+    -       - common/docblock.neon
+    +       - { resource: 'common/*.yml' }
+
+        checkers:
+            # class should be Abstact or Final
+    -       - SlamCsFixer\FinalInternalClassFixer
+    +       SlamCsFixer\FinalInternalClassFixer: ~
+
+        parameters:
+            skip:
+                SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff:
+    -                - *packages/CodingStandard/src/Sniffs/*/*Sniff.php
+    +               - '*packages/CodingStandard/src/Sniffs/*/*Sniff.php'
+
+            skip_codes:
+    -           - SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff.UselessDocComment
+    +           SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff.UselessDocComment:
+    +               - '*src*'
+    ```
+
+- [#654] **Statie** Move from Yaml + Neon mixture to Yaml, similar to [#651]
+
+    ```diff
+    -multiline:  """
+    -    one
+    -    two
+    -"""
+    +multiline: >
+    +    one
+    +    two
+    ```
 
 ### Fixed
 
@@ -35,9 +86,33 @@
 - [#595] **[Statie]** Fix race condition for element sorting with configuration
 - [59bdfc] **[Statie]** Fix non-root `index.html` route, fixes [#638]
 
-### Deprecated
+### Removed
 
-- [257e5b] **[CodingStandard]** Deprecated `LastPropertyAndFirstMethodSeparationFixer`, see [#594], use `PhpCsFixer\Fixer\ClassNotation\ClassAttributesSeparationFixer` instead
+- [#647] **[Statie]** Removed deprecated `vendor/bin/statie push-to-github` command, use [Github pages on Travis](https://www.statie.org/docs/github-pages/#allow-travis-to-make-changes) instead
+- [#647] **[CodingStandard]** Removed deprecated `LastPropertyAndFirstMethodSeparationFixer`, see [#594], use [`PhpCsFixer\Fixer\ClassNotation\ClassAttributesSeparationFixer`](https://github.com/FriendsOfPHP/PHP-CS-Fixer/blob/b7cc8727c7faa8ebe7cc4220daaaabe29751bc5c/src/Fixer/ClassNotation/ClassAttributesSeparationFixer.php) instead; extends it if you need different space count
+- [#647] **[CodingStandard]** Removed deprecated `Symplify\CodingStandard\Fixer\Strict\InArrayStrictFixer`, use [`PhpCsFixer\Fixer\Strict\StrictParamFixer`](https://github.com/FriendsOfPHP/PHP-CS-Fixer/blob/b7cc8727c7faa8ebe7cc4220daaaabe29751bc5c/src/Fixer/Strict/StrictParamFixer.php) instead, that does the same job
+- [#647] **[Statie]** Removed deprecated `parameters > github_repository_slug` option, use `github_repository_source_directory` instead
+
+    #### Before
+
+    ```yml
+    parameters:
+        # <user>/<repository>
+        github_repository_slug: "pehapkari/pehapkari.cz"
+    ```
+
+    #### After
+
+    ```yml
+    parameters:
+        # https://github.com/<user>/<repository>/tree/master/<source>, where <source> is name of directory with Statie content
+        github_repository_source_directory: "https://github.com/pehapkari/pehapkari.cz/tree/master/source"
+    ```
+
+- [#647] **[Statie]** Removed deprecated `statie.neon` note, use `statie.yml` instead
+- [#647] **[EasyCodingStandard]** Removed deprecated bin files: `vendor/bin/easy-coding-standard` and `vendor/bin/easy-coding-standard.php`; use `vendor/bin/ecs` instead
+
+- [#651] **[PackagesBuilder]** Removed `Symplify\PackageBuilder\Neon\Loader\NeonLoader` and `Symplify\PackageBuilder\Neon\NeonLoaderAwareKernelTrait`, that attempted to put Neon into Symfony Kernel, very poorly though
 
 ## [v3.2.0] - 2018-01-13
 
@@ -796,3 +871,7 @@ For more deprecation details see https://www.tomasvotruba.cz/blog/2017/05/29/sym
 [#589]: https://github.com/Symplify/Symplify/pull/589
 [#585]: https://github.com/Symplify/Symplify/pull/585
 [#584]: https://github.com/Symplify/Symplify/pull/584
+[#647]: https://github.com/Symplify/Symplify/pull/647
+[#645]: https://github.com/Symplify/Symplify/pull/645
+[#654]: https://github.com/Symplify/Symplify/pull/654
+[#651]: https://github.com/Symplify/Symplify/pull/651
