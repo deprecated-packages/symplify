@@ -124,10 +124,10 @@ or
 blog/Year/Month/Day/FileSlug
 ```
 
-This **can be changed by configuration**. Create `config.neon` and override default values:
+This **can be changed by configuration**. Create `config.yml` and override default values:
 
 ```yaml
-<!-- source/_config/config.neon -->
+<!-- source/_config/config.yml -->
 
 configuration:
 post_route: blog/:year/:month/:day/:title
@@ -159,7 +159,7 @@ In one of the next posts, I will show you some cool `PostFile` object features.
 
 - **That all posts are placed in `/source/_posts` directory and in `$posts` variable**.
 - That post has to be in **named as `YYYY-MM-DD-title.md` format**
-- That you can change the post generated url in `source/config/_config.neon` in `post_route`.
+- That you can change the post generated url in `source/config/_config.yml` in `post_route`.
 
 
 Happy coding!

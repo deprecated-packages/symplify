@@ -128,7 +128,7 @@ When you start using static site generator, you'll **appreciate its power in sca
 - Second is mostly copy-pasting previous settings and changing only layout and content.
 - And third? Way too easy and well paid job.
 
-To allow this flow, I recommend **keeping all IDs** that change from site to site - Google Analytics, Facebook Pixel, Disqus ID... - in `_config/config.neon` file. When you create a new website, **all you have to do is change one file** to make it customized.
+To allow this flow, I recommend **keeping all IDs** that change from site to site - Google Analytics, Facebook Pixel, Disqus ID... - in `_config/config.yml` file. When you create a new website, **all you have to do is change one file** to make it customized.
 
 ### How To Do It
 

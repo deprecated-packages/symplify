@@ -15,3 +15,5 @@ services:
         alias: Symfony\Component\Console\Output\ConsoleOutput
 
     Symfony\Component\EventDispatcher\EventDispatcher: ~
+
+    Symfony\Component\Yaml\Parser: ~
