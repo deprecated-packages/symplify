@@ -2,7 +2,6 @@
 
 namespace Symplify\PackageBuilder\Parameter;
 
-use Nette\Utils\Strings;
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -18,10 +17,8 @@ final class ParameterProvider
      */
     public function __construct(ContainerInterface $container)
     {
-        $parameters = $container->getParameterBag()
+        $this->parameters = $container->getParameterBag()
             ->all();
-
-        $this->parameters = $this->unsetSymfonyParameters($parameters);
     }
 
     /**
@@ -46,20 +43,5 @@ final class ParameterProvider
     public function provide(): array
     {
         return $this->parameters;
-    }
-
-    /**
-     * @param mixed[] $parameters
-     * @return mixed[]
-     */
-    private function unsetSymfonyParameters(array $parameters): array
-    {
-        foreach ($parameters as $name => $value) {
-            if (Strings::match($name, '#^(container|kernel).#')) {
-                unset($parameters[$name]);
-            }
-        }
-
-        return $parameters;
     }
 }

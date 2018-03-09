@@ -28,6 +28,8 @@ checkers:
             - 'Symplify\PackageBuilder\Reflection\*'
             - 'phpDocumentor\Reflection\Fqsen'
             - 'Symplify\BetterReflectionDocBlock\*'
+            - 'Symfony\Component\DependencyInjection\ContainerBuilder'
+            - 'Symplify\EasyCodingStandard\DependencyInjection\Extension\CheckersExtension'
 
 parameters:
     exclude_checkers:
