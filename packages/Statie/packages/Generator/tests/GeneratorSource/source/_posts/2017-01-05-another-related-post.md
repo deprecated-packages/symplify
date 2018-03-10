@@ -3,11 +3,10 @@
 id: 3
 layout: post
 title: "Statie 3: How to Add Reusable Parts of Code"
-perex: '''
-You already know <a href="/blog/2017/02/20/statie-how-to-run-it-locally">how to run Statie with layout</a> and <a href="/blog/2017/03/06/statie-2-how-to-add-contact-page-with-data">how to add data structures</a>.
-<br><br>
-Today I will show you: how to use <strong>decouple big templates to smaller and reusable snippets</strong>. Like Google Analytics code.
-'''
+perex: |
+    You already know <a href="/blog/2017/02/20/statie-how-to-run-it-locally">how to run Statie with layout</a> and <a href="/blog/2017/03/06/statie-2-how-to-add-contact-page-with-data">how to add data structures</a>.
+    <br><br>
+    Today I will show you: how to use <strong>decouple big templates to smaller and reusable snippets</strong>. Like Google Analytics code.
 lang: en
 related_items: [2, 4]
 ---
