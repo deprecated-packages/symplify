@@ -8,11 +8,15 @@ matrix:
       env: CODING_STANDARD=true
     - php: 7.2
       env: PHPSTAN=true MONOREPO_SPLIT=true
+    - php: 7.2
+      env: STANDALONE=true
 
 install:
   - composer install
 
 before_script:
+  # to make multiline scripts report fails
+  - set -e
   # disable xdebug if not coverage
   - if [[ $PHPUNIT_FLAGS = "" ]]; then phpenv config-rm xdebug.ini; fi
 
@@ -24,6 +28,16 @@ script:
   # static analysis
   - if [[ $CODING_STANDARD != "" ]]; then packages/EasyCodingStandard/bin/ecs check packages; fi
   - if [[ $PHPSTAN != "" ]]; then vendor/bin/phpstan analyse packages --level max --configuration phpstan.neon; fi
+  - |
+    if [[ $STANDALONE != "" ]]; then
+      vendor/bin/phpunit packages/BetterReflectionDocBlock;
+      vendor/bin/phpunit packages/ChangelogLinker;
+      vendor/bin/phpunit packages/CodingStandard;
+      vendor/bin/phpunit packages/EasyCodingStandard
+      vendor/bin/phpunit packages/PackageBuilder;
+      vendor/bin/phpunit packages/Statie;
+      vendor/bin/phpunit packages/TokenRunner;
+    fi
 
 after_script:
   # upload coverage.xml to Coveralls
