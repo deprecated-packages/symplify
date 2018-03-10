@@ -3,7 +3,7 @@ checkers:
     PhpCsFixer\Fixer\Strict\StrictComparisonFixer: ~
 
     # is_null($value);   =>   null === $value;
-    - PhpCsFixer\Fixer\LanguageConstruct\IsNullFixer
+    PhpCsFixer\Fixer\LanguageConstruct\IsNullFixer: ~
 
     # null === $value;   =>   $value === null;
     PhpCsFixer\Fixer\ControlStructure\YodaStyleFixer:
