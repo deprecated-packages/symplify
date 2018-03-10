@@ -30,6 +30,7 @@ script:
     if [[ $STANDALONE != "" ]]; then
       vendor/bin/phpunit packages/BetterReflectionDocBlock;
       vendor/bin/phpunit packages/ChangelogLinker;
+      vendor/bin/phpunit packages/CodingStandard;
       vendor/bin/phpunit packages/EasyCodingStandard
       vendor/bin/phpunit packages/PackageBuilder;
       vendor/bin/phpunit packages/Statie;
