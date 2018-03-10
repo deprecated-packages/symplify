@@ -4,7 +4,7 @@ namespace Symplify\Statie\Renderable\File;
 
 use ArrayAccess;
 use DateTimeInterface;
-use Nette\Utils\ObjectMixin;
+use Nette\Utils\ObjectHelpers;
 use SplFileInfo;
 use Symplify\Statie\Exception\Renderable\File\AccessKeyNotAvailableException;
 use Symplify\Statie\Exception\Renderable\File\UnsupportedMethodException;
@@ -88,7 +88,7 @@ final class PostFile extends AbstractFile implements ArrayAccess
         }
 
         $availableKeys = array_keys($this->configuration);
-        $suggestion = ObjectMixin::getSuggestion($availableKeys, $offset);
+        $suggestion = ObjectHelpers::getSuggestion($availableKeys, $offset);
 
         if ($suggestion) {
             $help = sprintf('Did you mean "%s"?', $suggestion);
