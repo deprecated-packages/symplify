@@ -25,6 +25,7 @@ final class StatieKernel extends Kernel
     public function bootWithConfig(string $configFile): void
     {
         $this->configFile = $configFile;
+        $this->boot();
     }
 
     public function registerContainerConfiguration(LoaderInterface $loader): void
