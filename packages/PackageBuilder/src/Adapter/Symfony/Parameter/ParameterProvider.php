@@ -39,7 +39,7 @@ final class ParameterProvider
     private function unsetKernelParameters(array $parameters): array
     {
         foreach ($parameters as $name => $value) {
-            if (Strings::startsWith($name, 'kernel')) {
+            if (Strings::match($name, '#^(kernel|container)#')) {
                 unset($parameters[$name]);
             }
         }
