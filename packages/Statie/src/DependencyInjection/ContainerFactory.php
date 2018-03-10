@@ -16,8 +16,8 @@ final class ContainerFactory
 
     public function createWithConfig(string $config): Container
     {
-        $appKernel = new StatieKernel($config);
-        $appKernel->boot();
+        $appKernel = new StatieKernel();
+        $appKernel->bootWithConfig($config);
 
         return $appKernel->getContainer();
     }

@@ -16,12 +16,15 @@ final class StatieKernel extends Kernel
      */
     private $configFile;
 
-    public function __construct(?string $configConfig = '')
+    public function __construct()
     {
-        $this->configFile = $configConfig;
-
         // random_int is used to prevent container name duplication during tests
         parent::__construct((string) random_int(1, 1000000), false);
+    }
+
+    public function bootWithConfig(string $configFile): void
+    {
+        $this->configFile = $configFile;
     }
 
     public function registerContainerConfiguration(LoaderInterface $loader): void
@@ -36,6 +39,11 @@ final class StatieKernel extends Kernel
     public function getCacheDir(): string
     {
         return sys_get_temp_dir() . '/_statie_kernel';
+    }
+
+    public function getLogDir(): string
+    {
+        return sys_get_temp_dir() . '/_statie_kernel_log';
     }
 
     /**
