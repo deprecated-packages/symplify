@@ -65,7 +65,7 @@ parameters:
             - 'packages/CodingStandard/src/Fixer/Naming/ClassNameSuffixByParentFixer.php'
             # class might not exist
             - '*packages/EasyCodingStandard/packages/Configuration/*/MutualCheckerExcluder*.php'
-            - '*packages/EasyCodingStandard/packages/Configuration/*/ConflictingCheckerGuard*.php'
+            - '*packages/EasyCodingStandard/src/DependencyInjection/CompilerPass/*CompilerPass.php'
 
         Symplify\CodingStandard\Sniffs\DependencyInjection\NoClassInstantiationSniff:
             - 'packages/TokenRunner/src/Wrapper/FixerWrapper/DocBlockWrapper.php'
