@@ -5,7 +5,7 @@ imports:
     - { resource: 'packages/EasyCodingStandard/config/symplify.yml' }
     - { resource: 'packages/EasyCodingStandard/config/common.yml' }
 
-checkers:
+services:
     # class should be Abstact or Final
     SlamCsFixer\FinalInternalClassFixer: ~
 

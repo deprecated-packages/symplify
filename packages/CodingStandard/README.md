@@ -81,7 +81,7 @@ This checker keeps 'mixed' and 'object' and other types by default. But if you n
 
 ```yaml
 # easy-coding-standard.yml
-checkers:
+services:
     Symplify\CodingStandard\Fixer\Commenting\RemoveUselessDocBlockFixer:
         useless_types: ['mixed', 'object'] # [] by default
 ```
@@ -135,7 +135,7 @@ This checker imports single name classes like `\Twig_Extension` or `\SplFileInfo
 
 ```yaml
 # easy-coding-standard.yml
-checkers:
+services:
     Symplify\CodingStandard\Fixer\Import\ImportNamespacedNameFixer:
         allow_single_names: true # false by default
 ```
@@ -144,7 +144,7 @@ You can also configure to check `/** @var Namespaced\DocBlocks */` as well:
 
 ```yaml
 # easy-coding-standard.yml
-checkers:
+services:
     Symplify\CodingStandard\Fixer\Import\ImportNamespacedNameFixer:
         include_doc_blocks: true # false by default
 ```
@@ -225,7 +225,7 @@ This checker ignores few **system classes like `std*` or `Spl*` by default**. In
 
 ```yaml
 # easy-coding-standard.yml
-checkers:
+services:
     Symplify\CodingStandard\Fixer\Naming\PropertyNameMatchingTypeFixer:
         extra_skipped_classes:
             - 'MyApp*' # accepts anything like fnmatch
@@ -245,7 +245,7 @@ This checker takes **only existing classes by default**. In case want to check a
 
 ```yaml
 # easy-coding-standard.yml
-checkers:
+services:
     Symplify\CodingStandard\Fixer\Php\ClassStringToClassConstantFixer:
         class_must_exist: false # true by default
 ```
@@ -300,7 +300,7 @@ In case want check this only for specific interfaces, you can **configure them**
 
 ```yaml
 # easy-coding-standard.yml
-checkers:
+services:
     Symplify\CodingStandard\Fixer\Solid\FinalInterfaceFixer:
         onlyInterfaces:
             - 'Symfony\Component\EventDispatcher\EventSubscriberInterface'
@@ -418,7 +418,7 @@ In case want to exclude more classes, you can **configure it** with class or pat
 
 ```yaml
 # easy-coding-standard.yml
-checkers:
+services:
     Symplify\CodingStandard\Fixer\DependencyInjection\NoClassInstantiationSniff:
         extraAllowedClasses:
             - 'PhpParser\Node\*'
@@ -428,7 +428,7 @@ Doctrine entities are skipped as well. You can disable that by:
 
 ```yaml
 # easy-coding-standard.yml
-checkers:
+services:
     Symplify\CodingStandard\Fixer\DependencyInjection\NoClassInstantiationSniff:
         includeEntities: true
 ```
@@ -460,7 +460,7 @@ This checker check few names by default. But if you need, you can **configure it
 
 ```yaml
 # easy-coding-standard.yml
-checkers:
+services:
     Symplify\CodingStandard\Fixer\Naming\ClassNameSuffixByParentFixer:
         parent_types_to_suffixes:
             # defaults
