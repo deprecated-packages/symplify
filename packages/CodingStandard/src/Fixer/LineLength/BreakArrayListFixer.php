@@ -2,7 +2,7 @@
 
 namespace Symplify\CodingStandard\Fixer\LineLength;
 
-use PhpCsFixer\Fixer\DefinedFixerInterface;
+use PhpCsFixer\Fixer\FixerInterface;
 use PhpCsFixer\Fixer\WhitespacesAwareFixerInterface;
 use PhpCsFixer\FixerDefinition\CodeSample;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
@@ -14,7 +14,7 @@ use SplFileInfo;
 use Symplify\TokenRunner\Analyzer\FixerAnalyzer\IndentDetector;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\ArrayWrapper;
 
-final class BreakArrayListFixer implements DefinedFixerInterface, WhitespacesAwareFixerInterface
+final class BreakArrayListFixer implements FixerInterface, WhitespacesAwareFixerInterface
 {
     /**
      * @var int

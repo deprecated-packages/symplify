@@ -5,8 +5,9 @@ checkers:
 
     # new methods
     PhpCsFixer\Fixer\Alias\RandomApiMigrationFixer:
-        mt_rand: random_int
-        rand: random_int
+        replacements:
+            mt_rand: random_int
+            rand: random_int
 
     # ?? operator
     PhpCsFixer\Fixer\Operator\TernaryToNullCoalescingFixer: ~
