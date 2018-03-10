@@ -91,6 +91,7 @@ final class NoClassInstantiationSniff implements Sniff
         // Symfony DI bootstrap
         '*Bundle',
         '*Kernel',
+        '*CompilerPass',
     ];
 
     /**

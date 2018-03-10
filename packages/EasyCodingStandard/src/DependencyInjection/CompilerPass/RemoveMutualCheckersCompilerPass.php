@@ -1,8 +1,11 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\EasyCodingStandard\Configuration;
+namespace Symplify\EasyCodingStandard\DependencyInjection\CompilerPass;
 
-final class MutualCheckerExcluder
+use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+
+final class RemoveMutualCheckersCompilerPass implements CompilerPassInterface
 {
     /**
      * List of checkers with the same functionality.
@@ -144,12 +147,26 @@ final class MutualCheckerExcluder
         ],
     ];
 
-    /**
-     * @param mixed[] $checkers
-     * @return mixed[]
-     */
-    public function processCheckers(array $checkers): array
+    public function process(ContainerBuilder $containerBuilder): void
     {
+        $checkersToRemove = $this->resolveCheckersToRemove($containerBuilder->getServiceIds());
+
+        foreach ($containerBuilder->getDefinitions() as $id => $definition) {
+            if (in_array($definition->getClass(), $checkersToRemove, true)) {
+                $containerBuilder->removeDefinition($id);
+            }
+        }
+    }
+
+    /**
+     * @param string[] $checkers
+     * @return string[]
+     */
+    private function resolveCheckersToRemove(array $checkers): array
+    {
+        $checkers = (array) array_flip($checkers);
+
+        $checkersToRemove = [];
         foreach (self::$duplicatedCheckerGroups as $matchingCheckerGroup) {
             if (! $this->isMatch($checkers, $matchingCheckerGroup)) {
                 continue;
@@ -157,11 +174,11 @@ final class MutualCheckerExcluder
 
             array_shift($matchingCheckerGroup);
             foreach ($matchingCheckerGroup as $checkerToRemove) {
-                unset($checkers[$checkerToRemove]);
+                $checkersToRemove[] = $checkerToRemove;
             }
         }
 
-        return $checkers;
+        return $checkersToRemove;
     }
 
     /**

@@ -4,26 +4,15 @@ namespace Symplify\EasyCodingStandard\DependencyInjection\Extension;
 
 use PHP_CodeSniffer\Sniffs\Sniff;
 use PhpCsFixer\Fixer\FixerInterface;
-use PhpCsFixer\Fixer\WhitespacesAwareFixerInterface;
-use PhpCsFixer\WhitespacesFixerConfig;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
-use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symplify\EasyCodingStandard\Configuration\ArrayMerger;
 use Symplify\EasyCodingStandard\Configuration\CheckerConfigurationNormalizer;
-use Symplify\EasyCodingStandard\Configuration\ConflictingCheckerGuard;
-use Symplify\EasyCodingStandard\Configuration\MutualCheckerExcluder;
 use Symplify\EasyCodingStandard\Validator\CheckerTypeValidator;
 
 final class CheckersExtension extends Extension
 {
-    /**
-     * @var string
-     */
-    private const EXCLUDE_CHECKERS_OPTION = 'exclude_checkers';
-
     /**
      * @var CheckerConfigurationNormalizer
      */
@@ -39,23 +28,11 @@ final class CheckersExtension extends Extension
      */
     private $checkersExtensionGuardian;
 
-    /**
-     * @var MutualCheckerExcluder
-     */
-    private $mutualCheckerExcluder;
-
-    /**
-     * @var ConflictingCheckerGuard
-     */
-    private $conflictingCheckerGuard;
-
     public function __construct()
     {
         $this->checkerConfigurationNormalizer = new CheckerConfigurationNormalizer();
         $this->checkerTypeValidator = new CheckerTypeValidator();
         $this->checkersExtensionGuardian = new CheckersExtensionGuardian();
-        $this->mutualCheckerExcluder = new MutualCheckerExcluder();
-        $this->conflictingCheckerGuard = new ConflictingCheckerGuard();
     }
 
     /**
@@ -73,13 +50,7 @@ final class CheckersExtension extends Extension
         $checkersConfiguration = ArrayMerger::mergeRecursively($configs);
         $checkers = $this->checkerConfigurationNormalizer->normalize($checkersConfiguration);
 
-        $this->checkerTypeValidator->validate(array_keys($checkers), 'parameters > checkers');
-
-        $checkers = $this->removeExcludedCheckers($checkers, $containerBuilder->getParameterBag());
-
-        $checkers = $this->mutualCheckerExcluder->processCheckers($checkers);
-
-        $this->conflictingCheckerGuard->processCheckers($checkers);
+        $this->checkerTypeValidator->validate(array_keys($checkers), 'checkers');
 
         $this->registerCheckersAsServices($containerBuilder, $checkers);
     }
@@ -93,7 +64,6 @@ final class CheckersExtension extends Extension
             $checkerDefinition = new Definition($checkerClass);
             $checkerDefinition->setPublic(true);
             $this->setupCheckerConfiguration($checkerDefinition, $configuration);
-            $this->setupCheckerWithIndentation($checkerDefinition);
             $containerBuilder->setDefinition($checkerClass, $checkerDefinition);
         }
     }
@@ -121,6 +91,7 @@ final class CheckersExtension extends Extension
 
             $this->checkersExtensionGuardian->ensureFixerIsConfigurable($checkerClass, $configuration);
             $checkerDefinition->addMethodCall('configure', [$configuration]);
+            return;
         }
 
         if (is_a($checkerClass, Sniff::class, true)) {
@@ -129,49 +100,5 @@ final class CheckersExtension extends Extension
                 $checkerDefinition->setProperty($property, $value);
             }
         }
-    }
-
-    private function setupCheckerWithIndentation(Definition $definition): void
-    {
-        $checkerClass = $definition->getClass();
-        if (! is_a($checkerClass, WhitespacesAwareFixerInterface::class, true)) {
-            return;
-        }
-
-        $definition->addMethodCall('setWhitespacesConfig', [new Reference(WhitespacesFixerConfig::class)]);
-    }
-
-    /**
-     * @param mixed[] $checkers
-     * @return mixed[]
-     */
-    private function removeExcludedCheckers(array $checkers, ParameterBagInterface $parameterBag): array
-    {
-        $excludedCheckers = $this->resolveExcludedCheckersOption($parameterBag);
-
-        $this->checkerTypeValidator->validate($excludedCheckers, 'parameters > exclude_checkers');
-
-        foreach ($excludedCheckers as $excludedChecker) {
-            unset($checkers[$excludedChecker]);
-        }
-
-        return $checkers;
-    }
-
-    /**
-     * @return string[]
-     */
-    private function resolveExcludedCheckersOption(ParameterBagInterface $parameterBag): array
-    {
-        if ($parameterBag->has(self::EXCLUDE_CHECKERS_OPTION)) {
-            return $parameterBag->get(self::EXCLUDE_CHECKERS_OPTION);
-        }
-
-        // typo proof
-        if ($parameterBag->has('excluded_checkers')) {
-            return $parameterBag->get('excluded_checkers');
-        }
-
-        return [];
     }
 }

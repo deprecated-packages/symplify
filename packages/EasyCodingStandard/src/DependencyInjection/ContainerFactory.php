@@ -24,8 +24,8 @@ final class ContainerFactory
      */
     public function createWithConfig(string $config): ContainerInterface
     {
-        $kernel = new EasyCodingStandardKernel($config);
-        $kernel->boot();
+        $kernel = new EasyCodingStandardKernel();
+        $kernel->bootWithConfig($config);
 
         return $kernel->getContainer();
     }

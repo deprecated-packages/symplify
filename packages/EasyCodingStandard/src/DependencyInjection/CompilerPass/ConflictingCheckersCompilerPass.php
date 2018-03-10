@@ -1,10 +1,12 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\EasyCodingStandard\Configuration;
+namespace Symplify\EasyCodingStandard\DependencyInjection\CompilerPass;
 
+use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symplify\EasyCodingStandard\Configuration\Exception\ConflictingCheckersLoadedException;
 
-final class ConflictingCheckerGuard
+final class ConflictingCheckersCompilerPass implements CompilerPassInterface
 {
     /**
      * These groups do the opposite of each other, e.g. Yoda vs NoYoda.
@@ -30,11 +32,13 @@ final class ConflictingCheckerGuard
         ],
     ];
 
-    /**
-     * @param mixed[] $checkers
-     */
-    public function processCheckers(array $checkers): void
+    public function process(ContainerBuilder $containerBuilder): void
     {
+        $checkers = $containerBuilder->getServiceIds();
+        if (! count($checkers)) {
+            return;
+        }
+
         foreach (self::$conflictingCheckerGroups as $viceVersaMatchingCheckerGroup) {
             if (! $this->isMatch($checkers, $viceVersaMatchingCheckerGroup)) {
                 continue;
@@ -54,8 +58,9 @@ final class ConflictingCheckerGuard
      */
     private function isMatch(array $checkers, array $matchingCheckerGroup): bool
     {
-        $matchingCheckerGroupKeys = array_flip($matchingCheckerGroup);
+        $checkers = (array) array_flip($checkers);
+        $matchingCheckerGroup = (array) array_flip($matchingCheckerGroup);
 
-        return count(array_intersect_key($matchingCheckerGroupKeys, $checkers)) === count($matchingCheckerGroup);
+        return count(array_intersect_key($matchingCheckerGroup, $checkers)) === count($matchingCheckerGroup);
     }
 }
