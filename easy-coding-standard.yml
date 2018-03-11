@@ -75,7 +75,6 @@ parameters:
             # false positive
             - 'packages/CodingStandard/src/Fixer/Commenting/RemoveUselessDocBlockFixer.php'
 
-    skip_codes:
         SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff.UselessDocComment:
             - '*packages*'
 
