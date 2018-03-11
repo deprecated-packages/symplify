@@ -50,10 +50,7 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
     -        - SlamCsFixer\FinalInternalClassFixer:
     +        SlamCsFixer\FinalInternalClassFixer: ~
     ```
-- [#651] **EasyCodingStandard** Move from mixture custom neon + Symfony service DI to Yaml;
 - [#651] **[EasyCodingStandard]** Move from mixture custom neon + Symfony service DI to Yaml;
->>>>>>> update docs and add to changelog
-
     How to migrate from '*.neon' to '*.yml'? First, replace tabs with spaces and:
     ```diff
     # easy-coding-standard.yml
