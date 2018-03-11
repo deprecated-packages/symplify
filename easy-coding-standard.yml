@@ -5,7 +5,7 @@ imports:
     - { resource: 'packages/EasyCodingStandard/config/symplify.yml' }
     - { resource: 'packages/EasyCodingStandard/config/common.yml' }
 
-checkers:
+services:
     # class should be Abstact or Final
     SlamCsFixer\FinalInternalClassFixer: ~
 
@@ -23,13 +23,12 @@ checkers:
     Symplify\CodingStandard\Sniffs\DependencyInjection\NoClassInstantiationSniff:
         extraAllowedClasses:
             - 'Symplify\EasyCodingStandard\Error\Error'
-            - 'Symplify\CodingStandard\FixerTokenWrapper\Naming\Name'
             - 'Symplify\TokenRunner\*'
             - 'Symplify\PackageBuilder\Reflection\*'
             - 'phpDocumentor\Reflection\Fqsen'
             - 'Symplify\BetterReflectionDocBlock\*'
             - 'Symfony\Component\DependencyInjection\ContainerBuilder'
-            - 'Symplify\EasyCodingStandard\DependencyInjection\Extension\CheckersExtension'
+            - 'Symplify\EasyCodingStandard\Yaml\*'
 
 parameters:
     exclude_checkers:
@@ -83,6 +82,7 @@ parameters:
         SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff.MissingParameterTypeHint:
             # respect param typehint
             - 'packages/TokenRunner/src/ReflectionDocBlock/Tag/TolerantParam.php'
+            - 'packages/EasyCodingStandard/src/Yaml/CheckerTolerantYamlFileLoader.php'
 
         SlevomatCodingStandard\Sniffs\Exceptions\ReferenceThrowableOnlySniff.ReferencedGeneralException:
             # intentionally "Exception" value

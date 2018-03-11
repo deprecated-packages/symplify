@@ -2,52 +2,94 @@
 
 namespace Symplify\EasyCodingStandard\Yaml;
 
+use Nette\Utils\Strings;
 use Symfony\Component\Config\FileLocatorInterface;
-use Symfony\Component\Config\Loader\LoaderResolverInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Loader\FileLoader;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 
-final class CheckerTolerantYamlFileLoader extends FileLoader
+/**
+ * The need: https://github.com/symfony/symfony/pull/21313#issuecomment-372037445
+ */
+final class CheckerTolerantYamlFileLoader extends YamlFileLoader
 {
     /**
-     * @var YamlFileLoader
+     * @var CheckerConfigurationGuardian
      */
-    private $yamlFileLoader;
+    private $checkerConfigurationGuardian;
 
     public function __construct(ContainerBuilder $containerBuilder, FileLocatorInterface $fileLocator)
     {
-        $this->yamlFileLoader = new YamlFileLoader($containerBuilder, $fileLocator);
+        $this->checkerConfigurationGuardian = new CheckerConfigurationGuardian();
 
         parent::__construct($containerBuilder, $fileLocator);
     }
 
     /**
-     * @param mixed $resource
-     * @param string|null $type
+     * @param string $file
+     * @return array|mixed|mixed[]
      */
-    public function load($resource, $type = null): void
+    protected function loadFile($file)
     {
-        // @todo magic happens here
-        $this->yamlFileLoader->load($resource, $type);
+        $decodedYaml = parent::loadFile($file);
+
+        if (isset($decodedYaml['services'])) {
+            return $this->moveArgumentsToPropertiesOrMethodCalls($decodedYaml);
+        }
+
+        return $decodedYaml;
     }
 
     /**
-     * @param mixed $resource
-     * @param string|null $type
+     * @param mixed[] $yaml
+     * @return mixed[]
      */
-    public function supports($resource, $type = null): bool
+    private function moveArgumentsToPropertiesOrMethodCalls(array $yaml): array
     {
-        return $this->yamlFileLoader->supports($resource, $type);
+        foreach ($yaml['services'] as $checker => $serviceDefinition) {
+            if (empty($serviceDefinition)) {
+                continue;
+            }
+
+            // is checker service?
+            if (! Strings::endsWith($checker, 'Fixer') && ! Strings::endsWith($checker, 'Sniff')) {
+                continue;
+            }
+
+            if (Strings::endsWith($checker, 'Fixer')) {
+                $this->checkerConfigurationGuardian->ensureFixerIsConfigurable($checker, $serviceDefinition);
+                // move parameters to "configure()" call
+                $yaml['services'][$checker]['calls'] = [
+                    ['configure', [$serviceDefinition]],
+                ];
+            }
+
+            if (Strings::endsWith($checker, 'Sniff')) {
+                // move parameters to property setters
+                foreach ($serviceDefinition as $key => $value) {
+                    $this->checkerConfigurationGuardian->ensurePropertyExists($checker, $key);
+                    $yaml['services'][$checker]['properties'][$key] = $this->escapeValue($value);
+                }
+            }
+
+            // cleanup parameters
+            foreach ($serviceDefinition as $key => $value) {
+                unset($yaml['services'][$checker][$key]);
+            }
+        }
+
+        return $yaml;
     }
 
-    public function getResolver(): LoaderResolverInterface
+    /**
+     * @param mixed $value
+     * @return mixed
+     */
+    private function escapeValue($value)
     {
-        return $this->yamlFileLoader->getResolver();
-    }
+        if (is_numeric($value)) {
+            return $value;
+        }
 
-    public function setResolver(LoaderResolverInterface $loaderResolver): void
-    {
-        $this->yamlFileLoader->setResolver($loaderResolver);
+        return Strings::replace($value, '#@#', '@@');
     }
 }

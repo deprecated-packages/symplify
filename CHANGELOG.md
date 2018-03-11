@@ -37,11 +37,23 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
 
 ### Changed
 
+- [#660] **EasyCodingStandard** Move from `checkers` to `services`, follow up to [#651]
+    ```diff
+    # easy-coding-standard.yml
+    -    checkers:
+    +    services:
+             Symplify\CodingStandard\Fixer\Import\ImportNamespacedNameFixer:
+                 include_doc_blocks: true
+
+    # this is needed to respect yaml format
+    -        - SlamCsFixer\FinalInternalClassFixer:
+    +        SlamCsFixer\FinalInternalClassFixer: ~
+    ```
 - [#651] **EasyCodingStandard** Move from mixture custom neon + Symfony service DI to Yaml;
 
     How to migrate from '*.neon' to '*.yml'? First, replace tabs with spaces and:
-
     ```diff
+    # easy-coding-standard.yml
     -   includes:
     +   imports:
     -       - packages/EasyCodingStandard/config/psr2.neon
@@ -68,9 +80,7 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
     +           SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff.UselessDocComment:
     +               - '*src*'
     ```
-
 - [#654] **[Statie]** Move from Yaml + Neon mixture to Yaml, similar to [#651]
-
     ```diff
     -multiline:  """
     -    one
