@@ -2,31 +2,89 @@
 
 namespace Symplify\EasyCodingStandard\Tests\Yaml;
 
+use PHP_CodeSniffer\Standards\Generic\Sniffs\Files\LineLengthSniff;
+use PhpCsFixer\Fixer\ArrayNotation\ArraySyntaxFixer;
 use PHPUnit\Framework\TestCase;
-use Symplify\EasyCodingStandard\DependencyInjection\ContainerFactory;
-use Symplify\EasyCodingStandard\FixerRunner\Application\FixerFileProcessor;
+use Symfony\Component\Config\FileLocator;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Definition;
+use Symplify\EasyCodingStandard\Yaml\CheckerTolerantYamlFileLoader;
 
 final class CheckerTolerantYamlFileLoaderTest extends TestCase
 {
-    public function test(): void
+    /**
+     * @dataProvider provideConfigToConfiguredMethodAndPropertyDefinition()
+     * @param mixed[] $expectedMethodCall
+     * @param mixed[] $expectedProperties
+     */
+    public function test(string $config, string $checker, array $expectedMethodCall, array $expectedProperties): void
     {
-        $container = (new ContainerFactory())->createWithConfig(
-            __DIR__ . '/CheckerTolerantYamlFileLoaderSource/config.yml'
-        );
+        $containerBuilder = $this->createAndLoadContainerBuilderFromConfig($config);
+        $this->assertTrue($containerBuilder->has($checker));
 
-        /** @var FixerFileProcessor $fixerFileProcessor */
-        $fixerFileProcessor = $container->get(FixerFileProcessor::class);
-        $this->assertCount(1, $fixerFileProcessor->getCheckers());
+        $checkerDefinition = $containerBuilder->getDefinition($checker);
+
+        if (count($expectedMethodCall)) {
+            $this->checkDefinitionForMethodCall($checkerDefinition, $expectedMethodCall);
+        }
+
+        if (count($expectedProperties)) {
+            $this->assertSame($expectedProperties, $checkerDefinition->getProperties());
+        }
     }
 
-    public function testImports(): void
+    /**
+     * @return mixed[][]
+     */
+    public function provideConfigToConfiguredMethodAndPropertyDefinition(): array
     {
-        $container = (new ContainerFactory())->createWithConfig(
-            __DIR__ . '/CheckerTolerantYamlFileLoaderSource/config-with-imports.yml'
-        );
+        return [
+            [
+                # config
+                __DIR__ . '/CheckerTolerantYamlFileLoaderSource/config.yml',
+                # checkers
+                ArraySyntaxFixer::class,
+                # expected method call
+                ['configure', [['syntax' => 'short']]],
+                # expected set properties
+                [],
+            ],
+            [
+                __DIR__ . '/CheckerTolerantYamlFileLoaderSource/config-with-imports.yml',
+                ArraySyntaxFixer::class,
+                ['configure', [['syntax' => 'short']]],
+                [],
+            ],
+            # "@" escaping
+            [
+                __DIR__ . '/CheckerTolerantYamlFileLoaderSource/config-with-at.yml',
+                LineLengthSniff::class,
+                [],
+                ['absoluteLineLimit' => '@author'],
+            ],
+        ];
+    }
 
-        /** @var FixerFileProcessor $fixerFileProcessor */
-        $fixerFileProcessor = $container->get(FixerFileProcessor::class);
-        $this->assertCount(1, $fixerFileProcessor->getCheckers());
+    private function createAndLoadContainerBuilderFromConfig(string $config): ContainerBuilder
+    {
+        $containerBuilder = new ContainerBuilder();
+
+        $yamlFileLoader = new CheckerTolerantYamlFileLoader($containerBuilder, new FileLocator(dirname($config)));
+        $yamlFileLoader->load($config);
+
+        return $containerBuilder;
+    }
+
+    /**
+     * @param mixed[] $methodCall
+     */
+    private function checkDefinitionForMethodCall(Definition $definition, array $methodCall): void
+    {
+        $methodCalls = $definition->getMethodCalls();
+
+        $this->assertCount(1, $methodCalls);
+        $this->assertContains(key($methodCall), $methodCalls[0]);
+
+        $this->assertSame($methodCall, $methodCalls[0]);
     }
 }
