@@ -37,6 +37,7 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
 
 ### Changed
 
+- [xy] **[EasyCodingStandard]** Merge `parameters > skip_codes` to `parameters > skip` section
 - [#660] **EasyCodingStandard** Move from `checkers` to `services`, follow up to [#651]
     ```diff
     # easy-coding-standard.yml
@@ -50,6 +51,8 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
     +        SlamCsFixer\FinalInternalClassFixer: ~
     ```
 - [#651] **EasyCodingStandard** Move from mixture custom neon + Symfony service DI to Yaml;
+- [#651] **[EasyCodingStandard]** Move from mixture custom neon + Symfony service DI to Yaml;
+>>>>>>> update docs and add to changelog
 
     How to migrate from '*.neon' to '*.yml'? First, replace tabs with spaces and:
     ```diff
