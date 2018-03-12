@@ -209,12 +209,48 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
 
 ## [v3.0.0] - 2017-12-09
 
-## [v3.0.0-RC5] - 2017-12-09
-
 ### Added
 
 - [#480] **CodingStandard** add `RemoveSuperfluousDocBlockWhitespaceFixer`, which removes 2 spaces in a row in doc blocks
 - [#481] **EasyCodingStandard** add warning as error support, to make useful already existing Sniffs, closes [#477]
+- [#475] **Statie** added support for generators
+    ```yaml
+    parameters:
+        generators:
+            # key name, it's nice to have for more informative error reports
+            posts:
+                # name of variable inside single such item
+                variable: post
+                # name of variable that contains all items
+                varbiale_global: posts
+                # directory, where to look for them
+                path: '_posts'
+                # which layout to use
+                layout: '_layouts/@post.latte'
+                # and url prefix, e.g. /blog/some-post.md
+                route_prefix: 'blog'
+                # an object that will wrap it's logic, you can add helper methods into it and use it in templates
+                object: 'Symplify\Statie\Renderable\File\PostFile'
+    ```
+- [9b154d] **Statie** added `-vvv` CLI option for debug output
+- [#473] bump to Symfony 4
+- [#466] **CodingStandard** added `Symplify\CodingStandard\Sniffs\DeadCode\UnusedPublicMethodSniff`
+- [#471] **EasyCodingStandard** various performance improvements
+- [#473] **EasyCodingStandard** added `LineLimitSebastianBergmannDiffer` for nicer and compact diff outputs
+- [#437] **TokenRunner** improved `AbstractSimpleFixerTestCase` with clearly named methods
+- [#452] **CodingStandard** `ClassStringToClassConstantFixer` now covers classes with double slashes: `SomeNamespace\\SomeClass`
+- [0ab538] **CodingStandard** Added `BlankLineAfterStrictTypesFixer`
+- [#443] **EasyCodingStandard** Added smaller common configs for better `--level` usage
+- [#447] **EasyCodingStandard** Allow `-vvv` for ProgressBar + **27 % speed improvement**
+- [#442] **PackageBuilder** Added `AutoloadFinder` to find nearest `/vendor/autoload.php`
+- [#442] **PackageBuilder** Added `provideParameter()` and `changeParameter()` methods to `ParameterProvider`
+- [#385] **CodingStandard** Added `RequireFollowedByAbsolutePathFixer`
+- [#421] **CodingStandard** Added `ImportNamespacedNameFixer`
+- [#427] **CodingStandard** Added `RemoveUselessDocBlockFixer`
+- [#388] **EasyCodingStandard** Added support for ignoring particular sniff codes
+- [#406] **EasyCodingStandard** Added support for ignoring particular codes and files, Thanks to [@ostrolucky]
+- [#397] **EasyCodingStandard** Added validation to `exclude_checkers` option, Thanks to [@mzstic]
+- [#431] **PackageBuilder** Added `--level` shortcut helper builder
 
 ### Changed
 
@@ -249,48 +285,6 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
         App\TranslationProvider: ~
     ```
 
-### Removed
-
-- [#488] **CodingStandard** drop `PropertyAndConstantSeparationFixer`, use `PhpCsFixer\Fixer\ClassNotation\ClassAttributesSeparationFixer` instead
-
-## [v3.0.0-RC4] - 2017-12-06
-
-### Added
-
-- [#475] **Statie** added support for generators
-
-```yaml
-parameters:
-    generators:
-        # key name, it's nice to have for more informative error reports
-        posts:
-            # name of variable inside single such item
-            variable: post
-            # name of variable that contains all items
-            varbiale_global: posts
-            # directory, where to look for them
-            path: '_posts'
-            # which layout to use
-            layout: '_layouts/@post.latte'
-            # and url prefix, e.g. /blog/some-post.md
-            route_prefix: 'blog'
-            # an object that will wrap it's logic, you can add helper methods into it and use it in templates
-            object: 'Symplify\Statie\Renderable\File\PostFile'
-```
-
-- [9b154d] **Statie** added `-vvv` CLI option for debug output
-
-- [#473] bump to Symfony 4
-
-- [#466] **CodingStandard** added `Symplify\CodingStandard\Sniffs\DeadCode\UnusedPublicMethodSniff`
-
-- [#471] **EasyCodingStandard** various performance improvements
-- [#473] **EasyCodingStandard** added `LineLimitSebastianBergmannDiffer` for nicer and compact diff outputs
-
-- [#437] **TokenRunner** improved `AbstractSimpleFixerTestCase` with clearly named methods
-
-### Changed
-
 - [#475] **Statie** renamed `related_posts` filter to `related_items` with general usage (not only posts, but any other own generator element)
 
     **Before**
@@ -307,72 +301,21 @@ parameters:
 
 - [#474] **EasyCodingStandard** prefer diff report for changes over table report
 - [#472] **EasyCodingStandard** improve `FileProcessorInterface`, improve performance via `CachedFileLoader`
-
-### Removed
-
-- [#475] **Statie** removed `postRoute`, only `prefix` is now available per item in generator
-
-- [#476] **CodingStandard** dropped `NoInterfaceOnAbstractClassFixer`, not useful in practise
-
-## [v3.0.0-RC3] - 2017-11-18
-
-### Added
-
-- [#452] **CodingStandard** `ClassStringToClassConstantFixer` now covers classes with double slashes: `SomeNamespace\\SomeClass`
-
-## [v3.0.0-RC2] - 2017-11-17
-
-### Added
-
-- [0ab538] **CodingStandard** Added `BlankLineAfterStrictTypesFixer`
-
-- [#443] **EasyCodingStandard** Added smaller common configs for better `--level` usage
-- [#447] **EasyCodingStandard** Allow `-vvv` for ProgressBar + **27 % speed improvement**
-
-- [#442] **PackageBuilder** Added `AutoloadFinder` to find nearest `/vendor/autoload.php`
-- [#442] **PackageBuilder** Added `provideParameter()` and `changeParameter()` methods to `ParameterProvider`
-
-### Changed
-
 - [881577] **EasyCodingStandard** Removed `-checkers` suffix to make file naming consistent
-
-### Fixed
-
-- [#422] **EasyCodingStandard** Fix `skip_codes` option for `--fix` run
-
-### Removed
-
-- [#443] **CodingStandard** Dropped `FinalTestCase`, use `SlamCsFixer\FinalInternalClassFixer` instead
-- [bc0cb0] **EasyCodingStandard** `php54.neon` set removed
-
-## [v3.0.0-RC1] - 2017-11-12
-
-### Added
-
-- [#385] **CodingStandard** Added `RequireFollowedByAbsolutePathFixer`
-- [#421] **CodingStandard** Added `ImportNamespacedNameFixer`
-- [#427] **CodingStandard** Added `RemoveUselessDocBlockFixer`
-
-- [#388] **EasyCodingStandard** Added support for ignoring particular sniff codes
-- [#406] **EasyCodingStandard** Added support for ignoring particular codes and files, Thanks to [@ostrolucky]
-- [#397] **EasyCodingStandard** Added validation to `exclude_checkers` option, Thanks to [@mzstic]
-
-- [#431] **PackageBuilder** Added `--level` shortcut helper builder
-
-### Changed
-
 - [#399] **Statie** Filter `similarPosts` renamed to `relatedPosts`, closes [#386]
 
 ### Removed
 
+- [#488] **CodingStandard** drop `PropertyAndConstantSeparationFixer`, use `PhpCsFixer\Fixer\ClassNotation\ClassAttributesSeparationFixer` instead
+- [#475] **Statie** removed `postRoute`, only `prefix` is now available per item in generator
+- [#476] **CodingStandard** dropped `NoInterfaceOnAbstractClassFixer`, not useful in practise
+- [#443] **CodingStandard** Dropped `FinalTestCase`, use `SlamCsFixer\FinalInternalClassFixer` instead
+- [bc0cb0] **EasyCodingStandard** `php54.neon` set removed
 - [#417] **CodingStandard** Dropped `InjectToConstructorInjectionFixer`, use [@RectorPHP] instead
 - [#419] **CodingStandard** Dropped `ControllerRenderMethodLimitSniff` and `InvokableControllerSniff`, as related to SymbioticController
 - [#432] **CodingStandard** Dropped `NewClassSniff`, use `NewWithBracesFixer` instead
-
 - [#430] **EasyCodingStandard** Dropped ` --fixer-set` and `--checker-set` options for `show` command
-
 - [#412] **PackageBuilder** Removed Nette related-features, make package mostly internall for Symplify
-
 - [#404] **[SymbioticController]** package deprecated, closes [#402]
 
 ## [v2.5.0] - 2017-10-08
