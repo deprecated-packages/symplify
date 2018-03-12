@@ -5,8 +5,8 @@
     "require": {
         "php": "^7.1",
         "phpdocumentor/reflection-docblock": "4.2|4.3",
-        "symplify/package-builder": "^3.2",
-        "symplify/token-runner": "^3.2",
+        "symplify/package-builder": "^4.0",
+        "symplify/token-runner": "^4.0",
         "friendsofphp/php-cs-fixer": "~2.10.3"
     },
     "require-dev": {
@@ -24,8 +24,9 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "3.3-dev"
+            "dev-master": "4.0-dev"
         }
     },
-    "minimum-stability": "dev"
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }
