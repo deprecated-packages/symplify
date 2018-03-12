@@ -76,9 +76,12 @@ private $property;
         return self::class;
     }
 
+    /**
+     * Must run before @see \PhpCsFixer\Fixer\Phpdoc\PhpdocVarWithoutNameFixer
+     */
     public function getPriority(): int
     {
-        return 0;
+        return 1;
     }
 
     public function supports(SplFileInfo $file): bool
