@@ -143,7 +143,7 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
 - [#647] **Statie** Removed deprecated `statie.neon` note, use `statie.yml` instead
 - [#647] **EasyCodingStandard** Removed deprecated bin files: `vendor/bin/easy-coding-standard` and `vendor/bin/easy-coding-standard.php`; use `vendor/bin/ecs` instead
 
-- [#651] **[PackagesBuilder]** Removed `Symplify\PackageBuilder\Neon\Loader\NeonLoader` and `Symplify\PackageBuilder\Neon\NeonLoaderAwareKernelTrait`, that attempted to put Neon into Symfony Kernel, very poorly though
+- [#651] **PackageBuilder** Removed `Symplify\PackageBuilder\Neon\Loader\NeonLoader` and `Symplify\PackageBuilder\Neon\NeonLoaderAwareKernelTrait`, that attempted to put Neon into Symfony Kernel, very poorly though
 
 ## [v3.2.0] - 2018-01-13
 
