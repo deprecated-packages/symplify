@@ -105,10 +105,10 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
 
 ### Fixed
 
-- [#599] **[BetterReflectionDocBlock]** Fix respecting spaces of inner tag
-- [#603] **[BetterReflectionDocBlock]** Fix union-types pre-slash clean + some more for `RemoveUselessDocBlockFixer`
-- [1fcc92] **[BetterReflectionDocBlock]** Fix variadic detection
-- [caf08e] **[BetterReflectionDocBlock]** Fix escaping and variadic param resolver
+- [#599] **BetterReflectionDocBlock** Fix respecting spaces of inner tag
+- [#603] **BetterReflectionDocBlock** Fix union-types pre-slash clean + some more for `RemoveUselessDocBlockFixer`
+- [1fcc92] **BetterReflectionDocBlock** Fix variadic detection
+- [caf08e] **BetterReflectionDocBlock** Fix escaping and variadic param resolver
 - [#606] **CodingStandard** Fix few `RemoveUselessDocBlockFixer` cases
 - [#598] **CodingStandard** Fix `PropertyNameMatchingTypeFixer` for self cases, fixes [#597]
 - [#640] **EasyCodingStandard** Fix pre-mature adding file to cache, fixes [#637]
