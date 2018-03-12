@@ -10,17 +10,17 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
 
 ### Added
 
-- [#656] **[EasyCodingStandard]** Add configurable cache directory for changed files, closes [#650], thanks to [@marmichalski]
+- [#656] **EasyCodingStandard** Add configurable cache directory for changed files, closes [#650], thanks to [@marmichalski]
     ```yml
     # easy-coding-standard.yml
     parameters:
         cache_directory: .ecs_cache # defaults to sys_get_temp_dir() . '/_easy_coding_standard'
     ```
-- [#645] **[PackageBuilder]** Add `AutowireSinglyImplementedCompilerPass` to prevent redundant singly-interface binding
-- [#633] **[CodingStandard]** Add `ClassNameSuffixByParentFixer`, closes [#607]
-- [#591] **[CodingStandard]** Add `BreakArrayListFixer` to break/inline array items over/under 120 chars
-- [#585] **[CodingStandard]** Add `BreakMethodCallsFixer` to break/inline method calls over/under 120 chars
-- [#584] **[EasyCodingStandard]** Add `fnmatch` check to `exclude_files`:
+- [#645] **PackageBuilder** Add `AutowireSinglyImplementedCompilerPass` to prevent redundant singly-interface binding
+- [#633] **CodingStandard** Add `ClassNameSuffixByParentFixer`, closes [#607]
+- [#591] **CodingStandard** Add `BreakArrayListFixer` to break/inline array items over/under 120 chars
+- [#585] **CodingStandard** Add `BreakMethodCallsFixer` to break/inline method calls over/under 120 chars
+- [#584] **EasyCodingStandard** Add `fnmatch` check to `exclude_files`:
    ```yml
    # easy-coding-standard.yml
    parameters:
@@ -30,10 +30,10 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
            # new
            - '*/lib/PhpParser/Parser/Php*.php'
    ```
-- [#583] **[EasyCodingStandard]** Add `exclude_files` option to config
-- [#612] **[PackageBuilder]** Add `CommandNaming` to get command name from the class name
-- [#589] **[Statie], [EasyCodingStandard]** Add version printing on `-V` option in CLI, thanks to [@ostrolucky]
-- [#585] **[TokenRunner]** Add `MethodCallWrapper` helper class to count line lengths of method calls
+- [#583] **EasyCodingStandard** Add `exclude_files` option to config
+- [#612] **PackageBuilder** Add `CommandNaming` to get command name from the class name
+- [#589] **Statie, EasyCodingStandard** Add version printing on `-V` option in CLI, thanks to [@ostrolucky]
+- [#585] **TokenRunner** Add `MethodCallWrapper` helper class to count line lengths of method calls
 
 ### Changed
 
@@ -50,7 +50,7 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
     +        SlamCsFixer\FinalInternalClassFixer: ~
     ```
 
-- [#661] **[EasyCodingStandard]** Merge `parameters > skip_codes` to `parameters > skip` section
+- [#661] **EasyCodingStandard** Merge `parameters > skip_codes` to `parameters > skip` section
     ```diff
      # easy-coding-standard.yml
      parameters:
@@ -62,7 +62,7 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
              SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff.UselessDocComment:
                  - '*packages*'
     ```
-- [#651] **[EasyCodingStandard]** Move from mixture custom neon + Symfony service DI to Yaml;
+- [#651] **EasyCodingStandard** Move from mixture custom neon + Symfony service DI to Yaml;
     #### How to migrate from `*.neon` to `*.yml`? First, replace tabs with spaces and:
     ```diff
     # easy-coding-standard.yml
@@ -92,7 +92,7 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
     +           SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff.UselessDocComment:
     +               - '*src*'
     ```
-- [#654] **[Statie]** Move from Yaml + Neon mixture to Yaml, similar to [#651]
+- [#654] **Statie** Move from Yaml + Neon mixture to Yaml, similar to [#651]
     ```diff
     -multiline:  """
     -    one
@@ -109,18 +109,18 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
 - [#603] **[BetterReflectionDocBlock]** Fix union-types pre-slash clean + some more for `RemoveUselessDocBlockFixer`
 - [1fcc92] **[BetterReflectionDocBlock]** Fix variadic detection
 - [caf08e] **[BetterReflectionDocBlock]** Fix escaping and variadic param resolver
-- [#606] **[CodingStandard]** Fix few `RemoveUselessDocBlockFixer` cases
-- [#598] **[CodingStandard]** Fix `PropertyNameMatchingTypeFixer` for self cases, fixes [#597]
-- [#640] **[EasyCodingStandard]** Fix pre-mature adding file to cache, fixes [#637]
-- [#595] **[Statie]** Fix race condition for element sorting with configuration
-- [59bdfc] **[Statie]** Fix non-root `index.html` route, fixes [#638]
+- [#606] **CodingStandard** Fix few `RemoveUselessDocBlockFixer` cases
+- [#598] **CodingStandard** Fix `PropertyNameMatchingTypeFixer` for self cases, fixes [#597]
+- [#640] **EasyCodingStandard** Fix pre-mature adding file to cache, fixes [#637]
+- [#595] **Statie** Fix race condition for element sorting with configuration
+- [59bdfc] **Statie** Fix non-root `index.html` route, fixes [#638]
 
 ### Removed
 
-- [#647] **[Statie]** Removed deprecated `vendor/bin/statie push-to-github` command, use [Github pages on Travis](https://www.statie.org/docs/github-pages/#allow-travis-to-make-changes) instead
-- [#647] **[CodingStandard]** Removed deprecated `LastPropertyAndFirstMethodSeparationFixer`, see [#594], use [`PhpCsFixer\Fixer\ClassNotation\ClassAttributesSeparationFixer`](https://github.com/FriendsOfPHP/PHP-CS-Fixer/blob/b7cc8727c7faa8ebe7cc4220daaaabe29751bc5c/src/Fixer/ClassNotation/ClassAttributesSeparationFixer.php) instead; extends it if you need different space count
-- [#647] **[CodingStandard]** Removed deprecated `Symplify\CodingStandard\Fixer\Strict\InArrayStrictFixer`, use [`PhpCsFixer\Fixer\Strict\StrictParamFixer`](https://github.com/FriendsOfPHP/PHP-CS-Fixer/blob/b7cc8727c7faa8ebe7cc4220daaaabe29751bc5c/src/Fixer/Strict/StrictParamFixer.php) instead, that does the same job
-- [#647] **[Statie]** Removed deprecated `parameters > github_repository_slug` option, use `github_repository_source_directory` instead
+- [#647] **Statie** Removed deprecated `vendor/bin/statie push-to-github` command, use [Github pages on Travis](https://www.statie.org/docs/github-pages/#allow-travis-to-make-changes) instead
+- [#647] **CodingStandard** Removed deprecated `LastPropertyAndFirstMethodSeparationFixer`, see [#594], use [`PhpCsFixer\Fixer\ClassNotation\ClassAttributesSeparationFixer`](https://github.com/FriendsOfPHP/PHP-CS-Fixer/blob/b7cc8727c7faa8ebe7cc4220daaaabe29751bc5c/src/Fixer/ClassNotation/ClassAttributesSeparationFixer.php) instead; extends it if you need different space count
+- [#647] **CodingStandard** Removed deprecated `Symplify\CodingStandard\Fixer\Strict\InArrayStrictFixer`, use [`PhpCsFixer\Fixer\Strict\StrictParamFixer`](https://github.com/FriendsOfPHP/PHP-CS-Fixer/blob/b7cc8727c7faa8ebe7cc4220daaaabe29751bc5c/src/Fixer/Strict/StrictParamFixer.php) instead, that does the same job
+- [#647] **Statie** Removed deprecated `parameters > github_repository_slug` option, use `github_repository_source_directory` instead
 
     #### Before
 
@@ -140,8 +140,8 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
         github_repository_source_directory: "https://github.com/pehapkari/pehapkari.cz/tree/master/source"
     ```
 
-- [#647] **[Statie]** Removed deprecated `statie.neon` note, use `statie.yml` instead
-- [#647] **[EasyCodingStandard]** Removed deprecated bin files: `vendor/bin/easy-coding-standard` and `vendor/bin/easy-coding-standard.php`; use `vendor/bin/ecs` instead
+- [#647] **Statie** Removed deprecated `statie.neon` note, use `statie.yml` instead
+- [#647] **EasyCodingStandard** Removed deprecated bin files: `vendor/bin/easy-coding-standard` and `vendor/bin/easy-coding-standard.php`; use `vendor/bin/ecs` instead
 
 - [#651] **[PackagesBuilder]** Removed `Symplify\PackageBuilder\Neon\Loader\NeonLoader` and `Symplify\PackageBuilder\Neon\NeonLoaderAwareKernelTrait`, that attempted to put Neon into Symfony Kernel, very poorly though
 
@@ -149,8 +149,8 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
 
 ### Added
 
-- [#570] **[EasyCodingStandard]** Add reporting for duplicated checkers
-- [#577] **[Statie]** Add customizable `ObjectSorter` for [Generators](https://www.statie.org/docs/generators/) as `object_sorter` option in Generator configuration
+- [#570] **EasyCodingStandard** Add reporting for duplicated checkers
+- [#577] **Statie** Add customizable `ObjectSorter` for [Generators](https://www.statie.org/docs/generators/) as `object_sorter` option in Generator configuration
 
     ```yaml
     # statie.yml
@@ -173,19 +173,19 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
 ### Changed
 
 - [#576] Bump to PHP CS Fixer 2.10 + minor lock to prevent BC breaks that happen for last 4 minor versions
-- [#560] **[EasyCodingStandard]** Added `UnnecessaryStringConcatSniff` to `clean-code.neon` level, thanks to [@carusogabriel]
-- [#560] **[EasyCodingStandard]** Added `PhpdocVarWithoutNameFixer` to `docblock.neon` level, thanks to [@carusogabriel]
+- [#560] **EasyCodingStandard** Added `UnnecessaryStringConcatSniff` to `clean-code.neon` level, thanks to [@carusogabriel]
+- [#560] **EasyCodingStandard** Added `PhpdocVarWithoutNameFixer` to `docblock.neon` level, thanks to [@carusogabriel]
 - [#578] Use `@doesNotPerformAssertions` in tests, thanks to [@carusogabriel]
 
 ### Fixed
 
-- [#574] **[Statie]** Fix path in `FileFinder` for Windows, thanks to [@tomasfejfar]
-- [#562] **[Statie]** Fix `preg_quote()` escaping, thanks to [@tomasfejfar]
+- [#574] **Statie** Fix path in `FileFinder` for Windows, thanks to [@tomasfejfar]
+- [#562] **Statie** Fix `preg_quote()` escaping, thanks to [@tomasfejfar]
 
 ### Deprecated
 
-- [#559] **[Statie]** Deprecated `push-to-github` command; use [Github Deploy](https://www.statie.org/docs/github-pages/) instead
-- [#558] **[CodingStandard]** Deprecated `Symplify\CodingStandard\Fixer\Strict\InArrayStrictFixer`; use `PhpCsFixer\Fixer\Strict\StrictParamFixer` instead; thanks to [@carusogabriel]
+- [#559] **Statie** Deprecated `push-to-github` command; use [Github Deploy](https://www.statie.org/docs/github-pages/) instead
+- [#558] **CodingStandard** Deprecated `Symplify\CodingStandard\Fixer\Strict\InArrayStrictFixer`; use `PhpCsFixer\Fixer\Strict\StrictParamFixer` instead; thanks to [@carusogabriel]
 
 ## [v3.1.0] - 2018-01-02
 
@@ -205,7 +205,7 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
             # "[]" is default
     ```
 
-- [3fce4e] **[EasyCodingStandard]** drop `LineLimitSebastianBergmanDiffer` over `PhpCsFixer\Differ\UnifiedDiffer`
+- [3fce4e] **EasyCodingStandard** drop `LineLimitSebastianBergmanDiffer` over `PhpCsFixer\Differ\UnifiedDiffer`
 
 ## [v3.0.0] - 2017-12-09
 
@@ -213,13 +213,13 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
 
 ### Added
 
-- [#480] **[CodingStandard]** add `RemoveSuperfluousDocBlockWhitespaceFixer`, which removes 2 spaces in a row in doc blocks
-- [#481] **[EasyCodingStandard]** add warning as error support, to make useful already existing Sniffs, closes [#477]
+- [#480] **CodingStandard** add `RemoveSuperfluousDocBlockWhitespaceFixer`, which removes 2 spaces in a row in doc blocks
+- [#481] **EasyCodingStandard** add warning as error support, to make useful already existing Sniffs, closes [#477]
 
 ### Changed
 
-- [#484] **[Statie]** add *dry-run* optiont to `StatieApplication` and `BeforeRenderEvent` to improve extendability, closes [#483]
-- [9a9c0e] **[Statie]** use `statie.yml` config based on Symfony DI over "fake" `statie.neon` to prevent confusion, closes [#487]
+- [#484] **Statie** add *dry-run* optiont to `StatieApplication` and `BeforeRenderEvent` to improve extendability, closes [#483]
+- [9a9c0e] **Statie** use `statie.yml` config based on Symfony DI over "fake" `statie.neon` to prevent confusion, closes [#487]
 
     **Before**
 
@@ -251,13 +251,13 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
 
 ### Removed
 
-- [#488] **[CodingStandard]** drop `PropertyAndConstantSeparationFixer`, use `PhpCsFixer\Fixer\ClassNotation\ClassAttributesSeparationFixer` instead
+- [#488] **CodingStandard** drop `PropertyAndConstantSeparationFixer`, use `PhpCsFixer\Fixer\ClassNotation\ClassAttributesSeparationFixer` instead
 
 ## [v3.0.0-RC4] - 2017-12-06
 
 ### Added
 
-- [#475] **[Statie]** added support for generators
+- [#475] **Statie** added support for generators
 
 ```yaml
 parameters:
@@ -278,20 +278,20 @@ parameters:
             object: 'Symplify\Statie\Renderable\File\PostFile'
 ```
 
-- [9b154d] **[Statie]** added `-vvv` CLI option for debug output
+- [9b154d] **Statie** added `-vvv` CLI option for debug output
 
 - [#473] bump to Symfony 4
 
-- [#466] **[CodingStandard]** added `Symplify\CodingStandard\Sniffs\DeadCode\UnusedPublicMethodSniff`
+- [#466] **CodingStandard** added `Symplify\CodingStandard\Sniffs\DeadCode\UnusedPublicMethodSniff`
 
-- [#471] **[EasyCodingStandard]** various performance improvements
-- [#473] **[EasyCodingStandard]** added `LineLimitSebastianBergmannDiffer` for nicer and compact diff outputs
+- [#471] **EasyCodingStandard** various performance improvements
+- [#473] **EasyCodingStandard** added `LineLimitSebastianBergmannDiffer` for nicer and compact diff outputs
 
-- [#437] **[TokenRunner]** improved `AbstractSimpleFixerTestCase` with clearly named methods
+- [#437] **TokenRunner** improved `AbstractSimpleFixerTestCase` with clearly named methods
 
 ### Changed
 
-- [#475] **[Statie]** renamed `related_posts` filter to `related_items` with general usage (not only posts, but any other own generator element)
+- [#475] **Statie** renamed `related_posts` filter to `related_items` with general usage (not only posts, but any other own generator element)
 
     **Before**
     ```twig
@@ -303,75 +303,75 @@ parameters:
     {var $relatedPosts = ($post|relatedItems)}
     ```
 
-- [#473] **[CodingStandard]** use [ReflectionDocBlock](https://github.com/phpDocumentor/ReflectionDocBlock) for docblock analysis and modification
+- [#473] **CodingStandard** use [ReflectionDocBlock](https://github.com/phpDocumentor/ReflectionDocBlock) for docblock analysis and modification
 
-- [#474] **[EasyCodingStandard]** prefer diff report for changes over table report
-- [#472] **[EasyCodingStandard]** improve `FileProcessorInterface`, improve performance via `CachedFileLoader`
+- [#474] **EasyCodingStandard** prefer diff report for changes over table report
+- [#472] **EasyCodingStandard** improve `FileProcessorInterface`, improve performance via `CachedFileLoader`
 
 ### Removed
 
-- [#475] **[Statie]** removed `postRoute`, only `prefix` is now available per item in generator
+- [#475] **Statie** removed `postRoute`, only `prefix` is now available per item in generator
 
-- [#476] **[CodingStandard]** dropped `NoInterfaceOnAbstractClassFixer`, not useful in practise
+- [#476] **CodingStandard** dropped `NoInterfaceOnAbstractClassFixer`, not useful in practise
 
 ## [v3.0.0-RC3] - 2017-11-18
 
 ### Added
 
-- [#452] **[CodingStandard]** `ClassStringToClassConstantFixer` now covers classes with double slashes: `SomeNamespace\\SomeClass`
+- [#452] **CodingStandard** `ClassStringToClassConstantFixer` now covers classes with double slashes: `SomeNamespace\\SomeClass`
 
 ## [v3.0.0-RC2] - 2017-11-17
 
 ### Added
 
-- [0ab538] **[CodingStandard]** Added `BlankLineAfterStrictTypesFixer`
+- [0ab538] **CodingStandard** Added `BlankLineAfterStrictTypesFixer`
 
-- [#443] **[EasyCodingStandard]** Added smaller common configs for better `--level` usage
-- [#447] **[EasyCodingStandard]** Allow `-vvv` for ProgressBar + **27 % speed improvement**
+- [#443] **EasyCodingStandard** Added smaller common configs for better `--level` usage
+- [#447] **EasyCodingStandard** Allow `-vvv` for ProgressBar + **27 % speed improvement**
 
-- [#442] **[PackageBuilder]** Added `AutoloadFinder` to find nearest `/vendor/autoload.php`
-- [#442] **[PackageBuilder]** Added `provideParameter()` and `changeParameter()` methods to `ParameterProvider`
+- [#442] **PackageBuilder** Added `AutoloadFinder` to find nearest `/vendor/autoload.php`
+- [#442] **PackageBuilder** Added `provideParameter()` and `changeParameter()` methods to `ParameterProvider`
 
 ### Changed
 
-- [881577] **[EasyCodingStandard]** Removed `-checkers` suffix to make file naming consistent
+- [881577] **EasyCodingStandard** Removed `-checkers` suffix to make file naming consistent
 
 ### Fixed
 
-- [#422] **[EasyCodingStandard]** Fix `skip_codes` option for `--fix` run
+- [#422] **EasyCodingStandard** Fix `skip_codes` option for `--fix` run
 
 ### Removed
 
-- [#443] **[CodingStandard]** Dropped `FinalTestCase`, use `SlamCsFixer\FinalInternalClassFixer` instead
-- [bc0cb0] **[EasyCodingStandard]** `php54.neon` set removed
+- [#443] **CodingStandard** Dropped `FinalTestCase`, use `SlamCsFixer\FinalInternalClassFixer` instead
+- [bc0cb0] **EasyCodingStandard** `php54.neon` set removed
 
 ## [v3.0.0-RC1] - 2017-11-12
 
 ### Added
 
-- [#385] **[CodingStandard]** Added `RequireFollowedByAbsolutePathFixer`
-- [#421] **[CodingStandard]** Added `ImportNamespacedNameFixer`
-- [#427] **[CodingStandard]** Added `RemoveUselessDocBlockFixer`
+- [#385] **CodingStandard** Added `RequireFollowedByAbsolutePathFixer`
+- [#421] **CodingStandard** Added `ImportNamespacedNameFixer`
+- [#427] **CodingStandard** Added `RemoveUselessDocBlockFixer`
 
-- [#388] **[EasyCodingStandard]** Added support for ignoring particular sniff codes
-- [#406] **[EasyCodingStandard]** Added support for ignoring particular codes and files, Thanks to [@ostrolucky]
-- [#397] **[EasyCodingStandard]** Added validation to `exclude_checkers` option, Thanks to [@mzstic]
+- [#388] **EasyCodingStandard** Added support for ignoring particular sniff codes
+- [#406] **EasyCodingStandard** Added support for ignoring particular codes and files, Thanks to [@ostrolucky]
+- [#397] **EasyCodingStandard** Added validation to `exclude_checkers` option, Thanks to [@mzstic]
 
-- [#431] **[PackageBuilder]** Added `--level` shortcut helper builder
+- [#431] **PackageBuilder** Added `--level` shortcut helper builder
 
 ### Changed
 
-- [#399] **[Statie]** Filter `similarPosts` renamed to `relatedPosts`, closes [#386]
+- [#399] **Statie** Filter `similarPosts` renamed to `relatedPosts`, closes [#386]
 
 ### Removed
 
-- [#417] **[CodingStandard]** Dropped `InjectToConstructorInjectionFixer`, use [@RectorPHP] instead
-- [#419] **[CodingStandard]** Dropped `ControllerRenderMethodLimitSniff` and `InvokableControllerSniff`, as related to SymbioticController
-- [#432] **[CodingStandard]** Dropped `NewClassSniff`, use `NewWithBracesFixer` instead
+- [#417] **CodingStandard** Dropped `InjectToConstructorInjectionFixer`, use [@RectorPHP] instead
+- [#419] **CodingStandard** Dropped `ControllerRenderMethodLimitSniff` and `InvokableControllerSniff`, as related to SymbioticController
+- [#432] **CodingStandard** Dropped `NewClassSniff`, use `NewWithBracesFixer` instead
 
-- [#430] **[EasyCodingStandard]** Dropped ` --fixer-set` and `--checker-set` options for `show` command
+- [#430] **EasyCodingStandard** Dropped ` --fixer-set` and `--checker-set` options for `show` command
 
-- [#412] **[PackageBuilder]** Removed Nette related-features, make package mostly internall for Symplify
+- [#412] **PackageBuilder** Removed Nette related-features, make package mostly internall for Symplify
 
 - [#404] **[SymbioticController]** package deprecated, closes [#402]
 
@@ -379,39 +379,39 @@ parameters:
 
 ### Added
 
-- [#374] **[CodingStandard]** Added customg matching with `fnmatch()` to PropertyNameMatchingTypeFixer
+- [#374] **CodingStandard** Added customg matching with `fnmatch()` to PropertyNameMatchingTypeFixer
 
 ### Changed
 
-- [#365] **[CodingStandard]** Bumped to PHP_CodeSniffer 3.1
+- [#365] **CodingStandard** Bumped to PHP_CodeSniffer 3.1
 
 ### Fixed
 
-- [#370] **[CodingStandard]** Fixed PropertyAndConstantSeparation for multiple classes
-- [#372] **[CodingStandard]** Fixed incorrect namespace resolving in NoClassInstantiationSniff
-- [#376] **[CodingStandard]** Fixed nested array in ArrayPropertyDefaultValueFixer
-- [#381] **[CodingStandard]** Fixed DynamicProperySniff miss
+- [#370] **CodingStandard** Fixed PropertyAndConstantSeparation for multiple classes
+- [#372] **CodingStandard** Fixed incorrect namespace resolving in NoClassInstantiationSniff
+- [#376] **CodingStandard** Fixed nested array in ArrayPropertyDefaultValueFixer
+- [#381] **CodingStandard** Fixed DynamicProperySniff miss
 
-- [#379] **[Statie]** Fixed source path bug, Thanks to [@chemix]
+- [#379] **Statie** Fixed source path bug, Thanks to [@chemix]
 
 ### Removed
 
-- [#382] **[Statie]** Dropped broken and poor AMP support
+- [#382] **Statie** Dropped broken and poor AMP support
 
 ## [v2.4.0] - 2017-09-20
 
 ### Added
 
-- [#360] **[CodingStandard]** Added `--no-progress-bar` option, added `--no-error-table` option
-- [#358] **[CodingStandard]** Added `AnnotateMagicContainerGetterFixer`
-- [#356] **[CodingStandard]** Added `PropertyNameMatchingTypeFixer`
-- [#346] **[CodingStandard]** Added `LastPropertyAndFirstMethodSeparationFixer`
+- [#360] **CodingStandard** Added `--no-progress-bar` option, added `--no-error-table` option
+- [#358] **CodingStandard** Added `AnnotateMagicContainerGetterFixer`
+- [#356] **CodingStandard** Added `PropertyNameMatchingTypeFixer`
+- [#346] **CodingStandard** Added `LastPropertyAndFirstMethodSeparationFixer`
 
-- [#354] **[EasyCodingStandard]** Added [clean-code set](https://www.tomasvotruba.cz/blog/2017/09/18/4-simple-checkers-for-coding-standard-haters-but-clean-code-lovers/)
-- [430fc5] **[EasyCodingStandard]** ConflictingGuard feature added, see [#333]
-- [33f28a] **[EasyCodingStandard]** Add new rules to `symfony-checkers`
-- [#342] **[EasyCodingStandard]** Add parser error reporting, Thanks [@webrouse]
-- [#359] **[Statie]** Added Markdown support in `perex` in post
+- [#354] **EasyCodingStandard** Added [clean-code set](https://www.tomasvotruba.cz/blog/2017/09/18/4-simple-checkers-for-coding-standard-haters-but-clean-code-lovers/)
+- [430fc5] **EasyCodingStandard** ConflictingGuard feature added, see [#333]
+- [33f28a] **EasyCodingStandard** Add new rules to `symfony-checkers`
+- [#342] **EasyCodingStandard** Add parser error reporting, Thanks [@webrouse]
+- [#359] **Statie** Added Markdown support in `perex` in post
 
 ### Changed
 
@@ -420,45 +420,45 @@ parameters:
 
 ### Fixed
 
-- [#347] **[CodingStandard]** Fix comment behind constant in `PropertyAndConstantSeparationFixer`
-- [#355] **[EasyCodingStandard]** Fix `fnmatch` support both for relative and absolute paths
+- [#347] **CodingStandard** Fix comment behind constant in `PropertyAndConstantSeparationFixer`
+- [#355] **EasyCodingStandard** Fix `fnmatch` support both for relative and absolute paths
 
 ## [v2.3.0] - 2017-09-06
 
 ### Added
 
-- [#360] **[CodingStandard]** Added `--no-progress-bar` option, added `--no-error-table` option
-- [#338] **[CodingStandard]** Added `PropertyAndConstantSeparationFixer`
-- [#332] **[CodingStandard]** Added `DynamicPropertySniff`
-- [#320] **[CodingStandard]** Added `NoClassInstantiationSniff`
-- [#311] **[CodingStandard]** Added `StandaloneLineInMultilineArrayFixer`
-- [#283] **[CodingStandard]** Added `ExceptionNameFixer`
+- [#360] **CodingStandard** Added `--no-progress-bar` option, added `--no-error-table` option
+- [#338] **CodingStandard** Added `PropertyAndConstantSeparationFixer`
+- [#332] **CodingStandard** Added `DynamicPropertySniff`
+- [#320] **CodingStandard** Added `NoClassInstantiationSniff`
+- [#311] **CodingStandard** Added `StandaloneLineInMultilineArrayFixer`
+- [#283] **CodingStandard** Added `ExceptionNameFixer`
 
-- [#330] **[EasyCodingStandard]** Added performance overview per checker via `--show-performance` options
-- [#305] **[EasyCodingStandard]** Added MutualCheckerExcluder
-- [#301] **[EasyCodingStandard]** Added `exclude_checkers` option to config, that allows to exclude specific checkers, e.g. inherited from configs
-- [#290] **[EasyCodingStandard]** Added prepared sets with checkers
-- [#285] **[EasyCodingStandard]** Added sniff set support to `show` command via `--sniff-set` option
+- [#330] **EasyCodingStandard** Added performance overview per checker via `--show-performance` options
+- [#305] **EasyCodingStandard** Added MutualCheckerExcluder
+- [#301] **EasyCodingStandard** Added `exclude_checkers` option to config, that allows to exclude specific checkers, e.g. inherited from configs
+- [#290] **EasyCodingStandard** Added prepared sets with checkers
+- [#285] **EasyCodingStandard** Added sniff set support to `show` command via `--sniff-set` option
 
 ### Changed
 
-- [#334] **[CodingStandard]** `ArrayPropertyDefaultValueFixer` now allows single line comments, Thanks to [@vlastavesely]
-- [#314] **[CodingStandard]** Make `ClassStringToClassConstantFixer` configurable
+- [#334] **CodingStandard** `ArrayPropertyDefaultValueFixer` now allows single line comments, Thanks to [@vlastavesely]
+- [#314] **CodingStandard** Make `ClassStringToClassConstantFixer` configurable
 
-- [#337] **[EasyCodingStandard]** Fail table is less agressive
-- [#287] **[EasyCodingStandard]** Allow SourceFinder to return Nette or Symfony Finder without any extra work
+- [#337] **EasyCodingStandard** Fail table is less agressive
+- [#287] **EasyCodingStandard** Allow SourceFinder to return Nette or Symfony Finder without any extra work
 
-- [#295] **[Statie]** Rework similar posts concept from semi-AI magic to manual option `related_posts` in post file
+- [#295] **Statie** Rework similar posts concept from semi-AI magic to manual option `related_posts` in post file
 
 ### Fixed
 
-- [#331] **[CodingStandard]** Fix `StandaloneLineInMultilieArray` with comments
+- [#331] **CodingStandard** Fix `StandaloneLineInMultilieArray` with comments
 
-- [#289] **[EasyCodingStandard]** Fix skipper for `fnmatch`
+- [#289] **EasyCodingStandard** Fix skipper for `fnmatch`
 
-- [#328] **[Statie]** Removed hardcoded path from github filter, Thanks to [@crazko]
-- [#327] **[Statie]** Fixed ability to set layout for posts
-- [#325] **[Statie]** Disable decoration when AMP disabled
+- [#328] **Statie** Removed hardcoded path from github filter, Thanks to [@crazko]
+- [#327] **Statie** Fixed ability to set layout for posts
+- [#325] **Statie** Disable decoration when AMP disabled
 
 ## [v2.2.0] - 2017-07-26
 
@@ -466,12 +466,12 @@ parameters:
 
 ### Added
 
-- [#262] **[CodingStandard]** Added `ClassStringToClassConstantFixer`, convert `"SomeClass"` to `SomeClass::class`
-- [#279] **[CodingStandard]** Added `MagicMethodsNamingFixer`, converts `__CONSTUCT()` to `__construct()`, Thanks [@SpacePossum]
+- [#262] **CodingStandard** Added `ClassStringToClassConstantFixer`, convert `"SomeClass"` to `SomeClass::class`
+- [#279] **CodingStandard** Added `MagicMethodsNamingFixer`, converts `__CONSTUCT()` to `__construct()`, Thanks [@SpacePossum]
 
-- [#234] **[EasyCodingStandard]** Added support for custom spaces/tabs indentation in PHP-CS-Fixer
-- [#266], [#272] **[EasyCodingStandard]** Added support for custom SourceProvider
-- [#267] **[EasyCodingStandard]** Added ready to go configs with group of PHP-CS-Fixer fixers, `psr2`, `symfony`, `php70`, `php71` etc.
+- [#234] **EasyCodingStandard** Added support for custom spaces/tabs indentation in PHP-CS-Fixer
+- [#266], [#272] **EasyCodingStandard** Added support for custom SourceProvider
+- [#267] **EasyCodingStandard** Added ready to go configs with group of PHP-CS-Fixer fixers, `psr2`, `symfony`, `php70`, `php71` etc.
 
     Use in CLI:
 
@@ -488,7 +488,7 @@ parameters:
         - vendor/symplify/easy-coding-standard/config/psr2-checkers.neon
     ```
 
-- [#267] **[EasyCodingStandard]** Added option to `show` command, to show fixers from specific set from PHP-CS-Fixer:
+- [#267] **EasyCodingStandard** Added option to `show` command, to show fixers from specific set from PHP-CS-Fixer:
 
     ```bash
     vendor/bin/ecs show --fixer-set Symfony
@@ -500,41 +500,41 @@ parameters:
     vendor/bin/ecs show --fixer-set Symfony --with-config
     ```
 
-- [#281] **[EasyCodingStandard]** Added info about no checkers loaded + allow checker merging in configuration
+- [#281] **EasyCodingStandard** Added info about no checkers loaded + allow checker merging in configuration
 
-- [#276] **[PackageBuilder]** Added support for absolute path in `--config`, Thanks [@dg]
-- [#225] **[PackageBuilder]** Added `ParameterProvider` for Nette
+- [#276] **PackageBuilder** Added support for absolute path in `--config`, Thanks [@dg]
+- [#225] **PackageBuilder** Added `ParameterProvider` for Nette
 
-- [#243], [#258], [#275] **[Statie]** Added cache for AMP + various fixes
-- [#252], [#256] **[Statie]** Added support for Latte code in highlight in posts, Thanks [@enumag]
+- [#243], [#258], [#275] **Statie** Added cache for AMP + various fixes
+- [#252], [#256] **Statie** Added support for Latte code in highlight in posts, Thanks [@enumag]
 
 ### Changed
 
-- [#278] **[CodingStandard]** **[EasyCodingStandard]** Bumped to **PHP-CS-Fixer 2.4** + applied many related fixes
+- [#278] **CodingStandard** **EasyCodingStandard** Bumped to **PHP-CS-Fixer 2.4** + applied many related fixes
 
-- [#232] **[EasyCodingStandard]** Improved report after all is fixed
-- [#255] **[EasyCodingStandard]** Fixers are sorted by priority
-- [#239] **[EasyCodingStandard]** `PHP_EOL` is now default line-ending for PHP-CS-Fixer, Thanks [@dg]
+- [#232] **EasyCodingStandard** Improved report after all is fixed
+- [#255] **EasyCodingStandard** Fixers are sorted by priority
+- [#239] **EasyCodingStandard** `PHP_EOL` is now default line-ending for PHP-CS-Fixer, Thanks [@dg]
 
 ### Fixed
 
-- [#230] **[EasyCodingStandard]** Fixed Configuration BC break by PHP-CS-Fixer 2.3
-- [#238] **[EasyCodingStandard]** Fixed caching invalidation for config including other configs
-- [#257] **[EasyCodingStandard]** Error is propagated to exit code, Thanks [@dg]
+- [#230] **EasyCodingStandard** Fixed Configuration BC break by PHP-CS-Fixer 2.3
+- [#238] **EasyCodingStandard** Fixed caching invalidation for config including other configs
+- [#257] **EasyCodingStandard** Error is propagated to exit code, Thanks [@dg]
 
-- [#245] **[Statie]** Fixed Configuration in ParametersProvider
+- [#245] **Statie** Fixed Configuration in ParametersProvider
 
 ### Deprecated
 
-- [#240] **[CodingStandard]** Deprecated `VarPropertyCommentSniff`, use `SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff` instead
-- [#264] **[CodingStandard]** Deprecated `ClassNamesWithoutPreSlashSniff`, use `\SlevomatCodingStandard\Sniffs\Namespaces\ReferenceUsedNamesOnlySniff` instead
-- [#282] **[CodingStandard]** Deprecated `ForbiddenTraitSniff`, was too strict
+- [#240] **CodingStandard** Deprecated `VarPropertyCommentSniff`, use `SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff` instead
+- [#264] **CodingStandard** Deprecated `ClassNamesWithoutPreSlashSniff`, use `\SlevomatCodingStandard\Sniffs\Namespaces\ReferenceUsedNamesOnlySniff` instead
+- [#282] **CodingStandard** Deprecated `ForbiddenTraitSniff`, was too strict
 
 ## [v2.1.0] - 2017-07-04
 
 ### Added
 
-- [#165] **[CodingStandard]** added `ArrayPropertyDefaultValueFixer`; require default values for array property types
+- [#165] **CodingStandard** added `ArrayPropertyDefaultValueFixer`; require default values for array property types
 
     ```php
     class SomeClass
@@ -548,11 +548,11 @@ parameters:
 
     Thanks [@keradus] and [@SpacePossum]
 
-- [#190] **[EasyCodingStandard]** add show command to display all loaded checkers
-- [#194] **[EasyCodingStandard]** added shorter CLI alternative: `vendor/bin/ecs`
-- [#198] **[EasyCodingStandard]** allow local config with `--config` option
-- [#217] **[EasyCodingStandard]** added "Did you mean" feature for sniff configuration typos
-- [#215] **[EasyCodingStandard]** allow checker with empty configuration; this is possible now:
+- [#190] **EasyCodingStandard** add show command to display all loaded checkers
+- [#194] **EasyCodingStandard** added shorter CLI alternative: `vendor/bin/ecs`
+- [#198] **EasyCodingStandard** allow local config with `--config` option
+- [#217] **EasyCodingStandard** added "Did you mean" feature for sniff configuration typos
+- [#215] **EasyCodingStandard** allow checker with empty configuration; this is possible now:
 
     ```yml
     checkers:
@@ -562,47 +562,47 @@ parameters:
 
     Thanks [@dg]
 
-- [#197] **[PackageBuilder]** added `AbstractCliKernel` for CLI apps bootstrapping
-- [#199] **[PackageBuilder]** added `ConfigFilePathHelper` for CLI and local config detection
-- [#223] **[PackageBuilder]** NeonLoader - validate allowed sections feature added
-- [#211] **[PackageBuilder]** improve configs - allow including for `*.neon` and `*.yml`, add `NeonLoaderAwareKernelTrait` for `*.neon` support in `Kernel`
+- [#197] **PackageBuilder** added `AbstractCliKernel` for CLI apps bootstrapping
+- [#199] **PackageBuilder** added `ConfigFilePathHelper` for CLI and local config detection
+- [#223] **PackageBuilder** NeonLoader - validate allowed sections feature added
+- [#211] **PackageBuilder** improve configs - allow including for `*.neon` and `*.yml`, add `NeonLoaderAwareKernelTrait` for `*.neon` support in `Kernel`
 
-- [#197] **[Statie]** add configuration via `statie.neon`
-- [#201] **[Statie]** AMP support added
+- [#197] **Statie** add configuration via `statie.neon`
+- [#201] **Statie** AMP support added
 
 - [#222] added Code of Conduct based on Github's recommendation
 
 ### Changed
 
-- [#188] **[CodingStandard]** add all rules to `README.md`
+- [#188] **CodingStandard** add all rules to `README.md`
 
-- [#221] **[EasyCodingStandard]** throw nicer exception on Container build fail
-- [#214] **[EasyCodingStandard]** migrate RunCommand to more flexible Configuration service
+- [#221] **EasyCodingStandard** throw nicer exception on Container build fail
+- [#214] **EasyCodingStandard** migrate RunCommand to more flexible Configuration service
 
-- [#190] **[PackageBuilder]** `DefinitionCollector::loadCollectorWithType()` now allows multiple `$collectors`
-- [#212] **[PackageBuilder]** add exception for missing file
+- [#190] **PackageBuilder** `DefinitionCollector::loadCollectorWithType()` now allows multiple `$collectors`
+- [#212] **PackageBuilder** add exception for missing file
 
-- [#224] **[Statie]** use local `statie.neon` config file over global loading + use `underscore_case` (due to Symfony) - **BC BREAK!**
-- [#196] **[Statie]** improved message for Latte parser exception
-- [#195] **[Statie]** improved NEON parser error exception, closes [#99]
+- [#224] **Statie** use local `statie.neon` config file over global loading + use `underscore_case` (due to Symfony) - **BC BREAK!**
+- [#196] **Statie** improved message for Latte parser exception
+- [#195] **Statie** improved NEON parser error exception, closes [#99]
 
 ### Fixed
 
-- [b45335] **[EasyCodingStandard]** fix missing `nette\robot-loader` dependency
-- [b02535] **[EasyCodingStandard]** fix ChangedFilesDetector for missing config file
+- [b45335] **EasyCodingStandard** fix missing `nette\robot-loader` dependency
+- [b02535] **EasyCodingStandard** fix ChangedFilesDetector for missing config file
 
 ## [v2.0.0] - 2017-06-16
 
 ### Added
 
-- [#179] **[EasyCodingStandard]** check for unused skipped errors and report them (inspired by [@phpstan])
+- [#179] **EasyCodingStandard** check for unused skipped errors and report them (inspired by [@phpstan])
 
 ### Changed
 
-- [#183] **[EasyCodingStandard]** **[CodingStandard]** use squizlabs/PHP_CodeSniffer 3.0.1
-- [#179] **[EasyCodingStandard]** use Symfony\DependencyInjection instead of Nette\DI, due to [new Symfony 3.3 features](https://www.tomasvotruba.cz/blog/2017/05/07/how-to-refactor-to-new-dependency-injection-features-in-symfony-3-3/)
+- [#183] **EasyCodingStandard** **CodingStandard** use squizlabs/PHP_CodeSniffer 3.0.1
+- [#179] **EasyCodingStandard** use Symfony\DependencyInjection instead of Nette\DI, due to [new Symfony 3.3 features](https://www.tomasvotruba.cz/blog/2017/05/07/how-to-refactor-to-new-dependency-injection-features-in-symfony-3-3/)
 
-- [#184] **[Statie]** use Symfony\DependencyInjection instead of Nette\DI
+- [#184] **Statie** use Symfony\DependencyInjection instead of Nette\DI
 
 - [#173] use Coveralls over Scrutinizerfor code coverage
 
@@ -614,7 +614,7 @@ Based on discussion with friends and maintainers, I've found there are better ma
 - [#162] **[DefaultAutowire]** package deprecated in favor of Symfony 3.3 `_defaults` section
 - [#186] **[ModularLatteFilter]** package deprecated in favor of https://github.com/contributte/latte
 - [#182] **[ModularRouting]** package deprecated based poor usage and discussion in [#181]
-- [#184] **[Statie]** dropped translation support, not very extensive and shown unable in practise, implement own simple filter instead
+- [#184] **Statie** dropped translation support, not very extensive and shown unable in practise, implement own simple filter instead
 
 ## [v2.0.0-RC3] - 2017-05-05
 
@@ -624,7 +624,7 @@ Based on discussion with friends and maintainers, I've found there are better ma
 
 ### Fixed
 
-- [#157] **[CodingStandard]** fix property docblock sniff for multiple annotations
+- [#157] **CodingStandard** fix property docblock sniff for multiple annotations
 - [#164] **[SymbioticController]** fixed typo in nette application request event name, Thanks [@Lexinek]
 
 ### Removed
@@ -643,21 +643,21 @@ For more deprecation details see https://www.tomasvotruba.cz/blog/2017/05/29/sym
 
 ### Added
 
-- [#144] **[CodingStandard]** added new sniffs
+- [#144] **CodingStandard** added new sniffs
     - `Symplify\CodingStandard\Sniffs\Architecture\ForbiddenTraitSniff`
     - `Symplify\CodingStandard\Sniffs\Commenting\VarConstantCommentSniff`
     - `Symplify\CodingStandard\Sniffs\Controller\ControllerRenderMethodLimitSniff`
     - `Symplify\CodingStandard\Sniffs\Controller\InvokableControllerSniff`
 
-- [#149] **[CodingStandard]** added `Symplify\CodingStandard\Sniffs\Classes\EqualInterfaceImplementationSniff`
-- [#149] **[CodingStandard]** added `Symplify\CodingStandard\Sniffs\Debug\CommentedOutCodeSniff`
-- [#152] **[CodingStandard]** check for duplicated checker added - https://github.com/Symplify/Symplify/pull/152/files#diff-9c8034d27d44f02880909bfad4a7f853
+- [#149] **CodingStandard** added `Symplify\CodingStandard\Sniffs\Classes\EqualInterfaceImplementationSniff`
+- [#149] **CodingStandard** added `Symplify\CodingStandard\Sniffs\Debug\CommentedOutCodeSniff`
+- [#152] **CodingStandard** check for duplicated checker added - https://github.com/Symplify/Symplify/pull/152/files#diff-9c8034d27d44f02880909bfad4a7f853
 
-- [#150] **[Statie]** decouple Latte related files to FlatWhite sub-package
+- [#150] **Statie** decouple Latte related files to FlatWhite sub-package
 
 ### Changed
 
-- [#151] **[EasyCodingStandard]** Nette\DI conControllerRenderMethodLimitSnifffig loading style added, parameters are now in Container and sniffs/fixers are registered as services
+- [#151] **EasyCodingStandard** Nette\DI conControllerRenderMethodLimitSnifffig loading style added, parameters are now in Container and sniffs/fixers are registered as services
 
 ### Fixed
 
@@ -665,10 +665,10 @@ For more deprecation details see https://www.tomasvotruba.cz/blog/2017/05/29/sym
 
 ### Removed
 
-- [#144] **[CodingStandard]** drop sniffs duplicated in 3rd party packages
+- [#144] **CodingStandard** drop sniffs duplicated in 3rd party packages
     - `Symplify\CodingStandard\Sniffs\Commenting\MethodCommentSniff`, replaced by `SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff`
     - `Symplify\CodingStandard\Sniffs\Commenting\MethodReturnTypeSniff`, replaced by `SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff`
-- [#152] **[CodingStandard]** removed unused sniff `Symplify\CodingStandard\Sniffs\Commenting\ComponentFactoryCommentSniff`
+- [#152] **CodingStandard** removed unused sniff `Symplify\CodingStandard\Sniffs\Commenting\ComponentFactoryCommentSniff`
 - [#153] **[SymfonySecurityVoters]** package deprecated, for no practical use
 
 ## [v2.0.0-RC1] - 2017-04-15
