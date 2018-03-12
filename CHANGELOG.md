@@ -63,7 +63,7 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
                  - '*packages*'
     ```
 - [#651] **[EasyCodingStandard]** Move from mixture custom neon + Symfony service DI to Yaml;
-    How to migrate from '*.neon' to '*.yml'? First, replace tabs with spaces and:
+    #### How to migrate from `*.neon` to `*.yml`? First, replace tabs with spaces and:
     ```diff
     # easy-coding-standard.yml
     -   includes:
@@ -910,3 +910,5 @@ For more deprecation details see https://www.tomasvotruba.cz/blog/2017/05/29/sym
 [#650]: https://github.com/Symplify/Symplify/issues/650
 [#656]: https://github.com/Symplify/Symplify/pull/656
 [@marmichalski]: https://github.com/marmichalski
+[#661]: https://github.com/Symplify/Symplify/pull/661
+[#660]: https://github.com/Symplify/Symplify/pull/660
