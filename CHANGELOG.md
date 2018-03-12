@@ -316,7 +316,7 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
 - [#432] **CodingStandard** Dropped `NewClassSniff`, use `NewWithBracesFixer` instead
 - [#430] **EasyCodingStandard** Dropped ` --fixer-set` and `--checker-set` options for `show` command
 - [#412] **PackageBuilder** Removed Nette related-features, make package mostly internall for Symplify
-- [#404] **[SymbioticController]** package deprecated, closes [#402]
+- [#404] **SymbioticController** package deprecated, closes [#402]
 
 ## [v2.5.0] - 2017-10-08
 
@@ -561,30 +561,30 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
 ### Fixed
 
 - [#157] **CodingStandard** fix property docblock sniff for multiple annotations
-- [#164] **[SymbioticController]** fixed typo in nette application request event name, Thanks [@Lexinek]
-- [#142] **[ControllerAutowire]** prevent duplicated controller registraction
+- [#164] **SymbioticController** fixed typo in nette application request event name, Thanks [@Lexinek]
+- [#142] **ControllerAutowire** prevent duplicated controller registraction
 
 ### Removed
 
 Based on discussion with friends and maintainers, I've found there are better managed and actively used packages, that provide similar features as few Simplify packages.
 
-- [#170] **[EventDispatcher]** package deprecated in favor of [contributte/event-dispatcher]
-- [#162] **[DefaultAutowire]** package deprecated in favor of Symfony 3.3 `_defaults` section
-- [#186] **[ModularLatteFilter]** package deprecated in favor of https://github.com/contributte/latte
-- [#182] **[ModularRouting]** package deprecated based poor usage and discussion in [#181]
+- [#170] **EventDispatcher** package deprecated in favor of [contributte/event-dispatcher]
+- [#162] **DefaultAutowire** package deprecated in favor of Symfony 3.3 `_defaults` section
+- [#186] **ModularLatteFilter** package deprecated in favor of https://github.com/contributte/latte
+- [#182] **ModularRouting** package deprecated based poor usage and discussion in [#181]
 - [#184] **Statie** dropped translation support, not very extensive and shown unable in practise, implement own simple filter instead
-- [#155] **[AutoServiceRegistration]** package deprecated
+- [#155] **AutoServiceRegistration** package deprecated
     - Use [@Symfony] 3.3 PSR-4 service autodiscovery: symfony/symfony#21289
-- [#155] **[ControllerAutowire]** package deprecated
+- [#155] **ControllerAutowire** package deprecated
     - Use [@Symfony] 3.3 `AbstractController` symfony/symfony#22157
     - Use [@Symfony] 3.3 service PSR-4 autodiscovery: symfony/symfony#21289
-- [#155] **[ServiceDefinitionDecorator]** package deprecated
+- [#155] **ServiceDefinitionDecorator** package deprecated
     - Use `_instanceof` [@Symfony] 3.3: https://symfony.com/blog/new-in-symfony-3-3-simpler-service-configuration#interface-based-service-configuration
 - [#144] **CodingStandard** drop sniffs duplicated in 3rd party packages
     - `Symplify\CodingStandard\Sniffs\Commenting\MethodCommentSniff`, replaced by `SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff`
     - `Symplify\CodingStandard\Sniffs\Commenting\MethodReturnTypeSniff`, replaced by `SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff`
 - [#152] **CodingStandard** removed unused sniff `Symplify\CodingStandard\Sniffs\Commenting\ComponentFactoryCommentSniff`
-- [#153] **[SymfonySecurityVoters]** package deprecated, for no practical use
+- [#153] **SymfonySecurityVoters** package deprecated, for no practical use
 
 For more deprecation details see [Symplify packages deprecations brought by Symfony 3.3](https://www.tomasvotruba.cz/blog/2017/05/29/symplify-packages-deprecations-brought-by-symfony-33/)
 
