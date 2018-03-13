@@ -115,6 +115,9 @@ class SomeClass
     private function fixMethod(int $position, Tokens $tokens): void
     {
         $methodWrapper = MethodWrapper::createFromTokensAndPosition($tokens, $position);
+        if (! $methodWrapper->getArguments()) {
+            return;
+        }
 
         if ($methodWrapper->getFirstLineLength() > self::LINE_LENGTH) {
             $this->breakMethodArguments($methodWrapper, $tokens, $position);
