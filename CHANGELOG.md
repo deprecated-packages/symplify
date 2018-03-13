@@ -63,35 +63,7 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
                  - '*packages*'
     ```
 - [#651] **EasyCodingStandard** Move from mixture custom neon + Symfony service DI to Yaml;
-    #### How to migrate from `*.neon` to `*.yml`? First, replace tabs with spaces and:
-    ```diff
-    # easy-coding-standard.yml
-    -   includes:
-    +   imports:
-    -       - packages/EasyCodingStandard/config/psr2.neon
-    +       - { resource: 'packages/EasyCodingStandard/config/psr2.yml' }
-
-    -       - common/array.neon
-    -       - common/control-structures.neon
-    -       - common/docblock.neon
-    +       - { resource: 'common/*.yml' }
-
-        checkers:
-            # class should be Abstact or Final
-    -       - SlamCsFixer\FinalInternalClassFixer
-    +       SlamCsFixer\FinalInternalClassFixer: ~
-
-        parameters:
-            skip:
-                SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff:
-    -               - *packages/CodingStandard/src/Sniffs/*/*Sniff.php
-    +               - '*packages/CodingStandard/src/Sniffs/*/*Sniff.php'
-
-            skip_codes:
-    -           - SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff.UselessDocComment
-    +           SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff.UselessDocComment:
-    +               - '*src*'
-    ```
+    [How to migrate from `*.neon` to `*.yml`](https://www.tomasvotruba.cz/blog/2018/03/12/neon-vs-yaml-and-how-to-migrate-between-them/)?
 - [#654] **Statie** Move from Yaml + Neon mixture to Yaml, similar to [#651]
     ```diff
     -multiline:  """
