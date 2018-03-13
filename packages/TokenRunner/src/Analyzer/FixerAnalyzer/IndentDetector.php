@@ -22,9 +22,9 @@ final class IndentDetector
         return new self($whitespacesFixerConfig);
     }
 
-    public function detectOnPosition(Tokens $tokens, int $arrayStartIndex): int
+    public function detectOnPosition(Tokens $tokens, int $startIndex): int
     {
-        for ($i = $arrayStartIndex; $i > 0; --$i) {
+        for ($i = $startIndex; $i > 0; --$i) {
             $token = $tokens[$i];
 
             if ($token->isWhitespace() && $token->getContent() !== ' ') {
