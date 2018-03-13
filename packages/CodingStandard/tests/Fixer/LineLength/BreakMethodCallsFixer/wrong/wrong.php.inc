@@ -6,7 +6,7 @@ class SomeClass
     {
         $this->someFunctionCall($someLoooooooooooooongArgument, $anotherLoooooooooooooooooooooooooooooooooooongArgumentTo);
 
-        $this->someFunctionCall(
+        $this->someOtherFunctionCall(
             $superShort,
             $anotherShort
         );

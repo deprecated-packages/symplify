@@ -9,6 +9,6 @@ class SomeClass
             $anotherLoooooooooooooooooooooooooooooooooooongArgumentTo
         );
 
-        $this->someFunctionCall($superShort, $anotherShort);
+        $this->someOtherFunctionCall($superShort, $anotherShort);
     }
 }

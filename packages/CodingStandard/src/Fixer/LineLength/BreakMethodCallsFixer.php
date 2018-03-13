@@ -14,6 +14,7 @@ use SplFileInfo;
 use Symplify\TokenRunner\Analyzer\FixerAnalyzer\IndentDetector;
 use Symplify\TokenRunner\Analyzer\FixerAnalyzer\TokenSkipper;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\MethodCallWrapper;
+use Throwable;
 
 final class BreakMethodCallsFixer implements DefinedFixerInterface, WhitespacesAwareFixerInterface
 {
@@ -72,11 +73,12 @@ final class BreakMethodCallsFixer implements DefinedFixerInterface, WhitespacesA
         $reversedTokens = array_reverse($tokens->toArray(), true);
 
         foreach ($reversedTokens as $position => $token) {
-            if (! $this->isMethodOrFunctionCall($tokens, $token, $position)) {
+            $methodNamePosition = $this->matchNamePositionForEndOfFunctionCall($tokens, $token, $position);
+            if ($methodNamePosition === null) {
                 continue;
             }
 
-            $this->fixMethodCall($position, $tokens);
+            $this->fixMethodCall($methodNamePosition, $tokens);
         }
     }
 
@@ -120,9 +122,9 @@ final class BreakMethodCallsFixer implements DefinedFixerInterface, WhitespacesA
         }
     }
 
-    private function prepareIndentWhitespaces(Tokens $tokens, int $arrayStartIndex): void
+    private function prepareIndentWhitespaces(Tokens $tokens, int $startIndex): void
     {
-        $indentLevel = $this->indentDetector->detectOnPosition($tokens, $arrayStartIndex);
+        $indentLevel = $this->indentDetector->detectOnPosition($tokens, $startIndex);
         $indentWhitespace = $this->whitespacesFixerConfig->getIndent();
         $lineEnding = $this->whitespacesFixerConfig->getLineEnding();
 
@@ -149,6 +151,7 @@ final class BreakMethodCallsFixer implements DefinedFixerInterface, WhitespacesA
 
         for ($i = $start; $i < $end; ++$i) {
             $currentToken = $tokens[$i];
+
             $i = TokenSkipper::skipBlocks($tokens, $i);
 
             // 3. new line after each comma ",", instead of just space
@@ -185,43 +188,42 @@ final class BreakMethodCallsFixer implements DefinedFixerInterface, WhitespacesA
         }
     }
 
-    private function isMethodOrFunctionCall(Tokens $tokens, Token $token, int $position): bool
+    /**
+     * We go throught tokens from down to up,
+     * so we need to find ")" and then the start of function
+     */
+    private function matchNamePositionForEndOfFunctionCall(Tokens $tokens, Token $token, int $position): ?int
     {
-        if (! $token->isGivenKind(T_STRING)) {
-            return false;
+        if ($token->getContent() !== ')') {
+            return null;
+        }
+
+        try {
+            $blockStart = $tokens->findBlockStart(Tokens::BLOCK_TYPE_PARENTHESIS_BRACE, $position);
+        } catch (Throwable $throwable) {
+            // not a block start
+            return null;
+        }
+
+        $previousTokenPosition = $blockStart - 1;
+        $possibleMethodNameToken = $tokens[$previousTokenPosition];
+
+        // not a "methodCall()"
+        if (! $possibleMethodNameToken->isGivenKind(T_STRING)) {
+            return null;
         }
 
         // starts with small letter?
-        $methodOrFunctionName = $token->getContent();
+        $methodOrFunctionName = $possibleMethodNameToken->getContent();
         if (! ctype_lower($methodOrFunctionName[0])) {
-            return false;
+            return null;
         }
 
-        // is "someCall("?
-        $next = $tokens->getNextMeaningfulToken($position);
-        if (! $tokens[$next]->equals('(')) {
-            return false;
+        // is "someCall()"? we don't care, there are no arguments
+        if ($tokens[$blockStart + 1]->equals(')')) {
+            return null;
         }
 
-        // is "someCall()"?
-        if ($tokens[$next + 1]->equals(')')) {
-            return false;
-        }
-
-        // is " someFunction(...)" call
-        if ($tokens[$position - 1]->isWhitespace()) {
-            return true;
-        }
-
-        // is "(->|::|()someCall"?
-        $functionNamePrefixPosition = $tokens->getPrevMeaningfulToken($position);
-        $functionNamePrefixToken = $tokens[$functionNamePrefixPosition];
-
-        // nested call
-        if ($functionNamePrefixToken->getContent() === '(') {
-            return true;
-        }
-
-        return $tokens[$functionNamePrefixPosition]->isGivenKind([T_DOUBLE_COLON, T_OBJECT_OPERATOR, T_WHITESPACE]);
+        return $previousTokenPosition;
     }
 }
