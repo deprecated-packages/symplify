@@ -73,11 +73,10 @@ final class BreakMethodCallsFixer implements DefinedFixerInterface, WhitespacesA
         $reversedTokens = array_reverse($tokens->toArray(), true);
 
         foreach ($reversedTokens as $position => $token) {
-            if (! $this->isEndOfMethodOrFunctionCall($tokens, $token, $position)) {
+            $methodNamePosition = $this->matchNamePositionForEndOfFunctionCall($tokens, $token, $position);
+            if ($methodNamePosition === null) {
                 continue;
             }
-
-            $methodNamePosition = $this->getNamePositionFromEndMethodFunctionCall($tokens, $position);
 
             $this->fixMethodCall($methodNamePosition, $tokens);
         }
@@ -193,17 +192,17 @@ final class BreakMethodCallsFixer implements DefinedFixerInterface, WhitespacesA
      * We go throught tokens from down to up,
      * so we need to find ")" and then the start of function
      */
-    private function isEndOfMethodOrFunctionCall(Tokens $tokens, Token $token, int $position): bool
+    private function matchNamePositionForEndOfFunctionCall(Tokens $tokens, Token $token, int $position): ?int
     {
         if ($token->getContent() !== ')') {
-            return false;
+            return null;
         }
 
         try {
             $blockStart = $tokens->findBlockStart(Tokens::BLOCK_TYPE_PARENTHESIS_BRACE, $position);
         } catch (Throwable $throwable) {
             // not a block start
-            return false;
+            return null;
         }
 
         $previousTokenPosition = $blockStart - 1;
@@ -211,27 +210,20 @@ final class BreakMethodCallsFixer implements DefinedFixerInterface, WhitespacesA
 
         // not a "methodCall()"
         if (! $possibleMethodNameToken->isGivenKind(T_STRING)) {
-            return false;
+            return null;
         }
 
         // starts with small letter?
         $methodOrFunctionName = $possibleMethodNameToken->getContent();
         if (! ctype_lower($methodOrFunctionName[0])) {
-            return false;
+            return null;
         }
 
         // is "someCall()"? we don't care, there are no arguments
         if ($tokens[$blockStart + 1]->equals(')')) {
-            return false;
+            return null;
         }
 
-        return true;
-    }
-
-    private function getNamePositionFromEndMethodFunctionCall(Tokens $tokens, int $position): int
-    {
-        $blockStart = $tokens->findBlockStart(Tokens::BLOCK_TYPE_PARENTHESIS_BRACE, $position);
-
-        return $tokens->getPrevMeaningfulToken($blockStart);
+        return $previousTokenPosition;
     }
 }
