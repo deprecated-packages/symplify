@@ -138,8 +138,7 @@ final class BreakMethodCallsFixer implements DefinedFixerInterface, WhitespacesA
         MethodCallWrapper $methodCallWrapper,
         Tokens $tokens,
         int $position
-    ): void
-    {
+    ): void {
         $this->prepareIndentWhitespaces($tokens, $position);
 
         $start = $methodCallWrapper->getArgumentsBracketStart();
@@ -167,8 +166,7 @@ final class BreakMethodCallsFixer implements DefinedFixerInterface, WhitespacesA
         MethodCallWrapper $methodCallWrapper,
         Tokens $tokens,
         int $position
-    ): void
-    {
+    ): void {
         $endPosition = $methodCallWrapper->getArgumentsBracketEnd();
 
         // replace PHP_EOL with " "
@@ -176,7 +174,7 @@ final class BreakMethodCallsFixer implements DefinedFixerInterface, WhitespacesA
             $currentToken = $tokens[$i];
 
             $i = TokenSkipper::skipBlocks($tokens, $i);
-            if (!$currentToken->isGivenKind(T_WHITESPACE)) {
+            if (! $currentToken->isGivenKind(T_WHITESPACE)) {
                 continue;
             }
 
@@ -236,5 +234,4 @@ final class BreakMethodCallsFixer implements DefinedFixerInterface, WhitespacesA
 
         return $tokens->getPrevMeaningfulToken($blockStart);
     }
-
 }
