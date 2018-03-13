@@ -46,7 +46,7 @@ Fork, clone your repository and install dependencies:
 ```bash
 git clone git@github.com:<your-name>/Symplify.git
 cd Symplify
-composer install
+composer update
 ```
 
 ## Contributing
