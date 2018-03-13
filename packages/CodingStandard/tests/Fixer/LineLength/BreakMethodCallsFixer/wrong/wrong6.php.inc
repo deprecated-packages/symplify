@@ -4,12 +4,6 @@ class SomeClass
 {
     public function someFunction()
     {
-        return $this->assertSame(
-            $parameterProvider->provide(),
-            [
-                'one' => 1,
-                'two' => 2,
-            ]
-        );
+        yield \Namespace1\Namespace2\Namespace3\Namespace4\Namespace5\Namespace6\MyClass::someLongStaticMethod(self::getArgument($parameter), self::getArgument($parameter));
     }
 }
