@@ -3,6 +3,7 @@
 namespace Symplify\TokenRunner\Wrapper\FixerWrapper;
 
 use Nette\Utils\Strings;
+use PhpCsFixer\Tokenizer\CT;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use Symplify\TokenRunner\Analyzer\FixerAnalyzer\DocBlockFinder;
@@ -206,9 +207,9 @@ final class MethodWrapper
         // -1 = do not count PHP_EOL as character
         $lineLength += strlen($currentToken->getContent()) - 2;
 
-        // compute from here to end of line
+        // compute from here to end of line or till the start " use (...) "
         $currentPosition = $this->index + 1;
-        while (! Strings::startsWith($this->tokens[$currentPosition]->getContent(), PHP_EOL)) {
+        while (! $this->isEndOFArgumentsLine($currentPosition)) {
             $lineLength += strlen($this->tokens[$currentPosition]->getContent());
             ++$currentPosition;
         }
@@ -261,5 +262,14 @@ final class MethodWrapper
         }
 
         return $lineLength;
+    }
+
+    private function isEndOFArgumentsLine(int $currentPosition): bool
+    {
+        if (Strings::startsWith($this->tokens[$currentPosition]->getContent(), PHP_EOL)) {
+            return true;
+        }
+
+        return $this->tokens[$currentPosition]->isGivenKind(CT::T_USE_LAMBDA);
     }
 }

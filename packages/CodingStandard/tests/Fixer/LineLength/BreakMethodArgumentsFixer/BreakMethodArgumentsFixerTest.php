@@ -10,6 +10,24 @@ use Symplify\TokenRunner\Testing\AbstractSimpleFixerTestCase;
 final class BreakMethodArgumentsFixerTest extends AbstractSimpleFixerTestCase
 {
     /**
+     * @dataProvider provideCorrectCases()
+     */
+    public function testCorrectCases(string $file): void
+    {
+        $this->doTestCorrectFile($file);
+    }
+
+    /**
+     * @return string[][]
+     */
+    public function provideCorrectCases(): array
+    {
+        return [
+            [__DIR__ . '/correct/correct.php.inc'],
+        ];
+    }
+
+    /**
      * @dataProvider wrongToFixedCases()
      */
     public function test(string $wrongFile, string $fixedFile): void

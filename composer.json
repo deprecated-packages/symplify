@@ -74,7 +74,7 @@
         "complete-check": [
             "phpunit",
             "@fix-cs",
-            "@static"
+            "@phpstan"
         ],
         "check-cs": "packages/EasyCodingStandard/bin/ecs check packages",
         "fix-cs": [
