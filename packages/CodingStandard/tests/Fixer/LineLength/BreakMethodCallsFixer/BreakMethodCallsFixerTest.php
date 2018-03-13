@@ -25,7 +25,6 @@ final class BreakMethodCallsFixerTest extends AbstractSimpleFixerTestCase
         return [
             [__DIR__ . '/correct/correct.php.inc'],
             [__DIR__ . '/correct/correct2.php.inc'],
-            [__DIR__ . '/correct/correct3.php.inc'],
         ];
     }
 
@@ -48,6 +47,7 @@ final class BreakMethodCallsFixerTest extends AbstractSimpleFixerTestCase
             [__DIR__ . '/wrong/wrong3.php.inc', __DIR__ . '/fixed/fixed3.php.inc'],
             [__DIR__ . '/wrong/wrong4.php.inc', __DIR__ . '/fixed/fixed4.php.inc'],
             [__DIR__ . '/wrong/wrong5.php.inc', __DIR__ . '/fixed/fixed5.php.inc'],
+            [__DIR__ . '/wrong/wrong6.php.inc', __DIR__ . '/fixed/fixed6.php.inc'],
         ];
     }
 
