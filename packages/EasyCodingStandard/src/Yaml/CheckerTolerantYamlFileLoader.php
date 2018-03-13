@@ -3,6 +3,7 @@
 namespace Symplify\EasyCodingStandard\Yaml;
 
 use Nette\Utils\Strings;
+use ReflectionClass;
 use Symfony\Component\Config\FileLocatorInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
@@ -13,9 +14,29 @@ use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 final class CheckerTolerantYamlFileLoader extends YamlFileLoader
 {
     /**
+     * @var string
+     */
+    private const SERVICES_KEY = 'services';
+
+    /**
+     * @var string
+     */
+    private const CALLS_KEY = 'calls';
+
+    /**
+     * @var string
+     */
+    private const PROPERTIES_KEY = 'properties';
+
+    /**
      * @var CheckerConfigurationGuardian
      */
     private $checkerConfigurationGuardian;
+
+    /**
+     * @var string[]
+     */
+    private $serviceKeywords = [];
 
     public function __construct(ContainerBuilder $containerBuilder, FileLocatorInterface $fileLocator)
     {
@@ -32,7 +53,7 @@ final class CheckerTolerantYamlFileLoader extends YamlFileLoader
     {
         $decodedYaml = parent::loadFile($file);
 
-        if (isset($decodedYaml['services'])) {
+        if (isset($decodedYaml[self::SERVICES_KEY])) {
             return $this->moveArgumentsToPropertiesOrMethodCalls($decodedYaml);
         }
 
@@ -45,36 +66,74 @@ final class CheckerTolerantYamlFileLoader extends YamlFileLoader
      */
     private function moveArgumentsToPropertiesOrMethodCalls(array $yaml): array
     {
-        foreach ($yaml['services'] as $checker => $serviceDefinition) {
-            if (empty($serviceDefinition)) {
-                continue;
-            }
-
-            // is checker service?
-            if (! Strings::endsWith($checker, 'Fixer') && ! Strings::endsWith($checker, 'Sniff')) {
+        foreach ($yaml[self::SERVICES_KEY] as $checker => $serviceDefinition) {
+            if (! $this->isCheckersClass($checker) || empty($serviceDefinition)) {
                 continue;
             }
 
             if (Strings::endsWith($checker, 'Fixer')) {
-                $this->checkerConfigurationGuardian->ensureFixerIsConfigurable($checker, $serviceDefinition);
-                // move parameters to "configure()" call
-                $yaml['services'][$checker]['calls'] = [
-                    ['configure', [$serviceDefinition]],
-                ];
+                $yaml = $this->processFixer($yaml, $checker, $serviceDefinition);
             }
 
             if (Strings::endsWith($checker, 'Sniff')) {
-                // move parameters to property setters
-                foreach ($serviceDefinition as $key => $value) {
-                    $this->checkerConfigurationGuardian->ensurePropertyExists($checker, $key);
-                    $yaml['services'][$checker]['properties'][$key] = $this->escapeValue($value);
-                }
+                $yaml = $this->processSniff($yaml, $checker, $serviceDefinition);
             }
 
             // cleanup parameters
             foreach ($serviceDefinition as $key => $value) {
-                unset($yaml['services'][$checker][$key]);
+                if ($this->isReservedKey($key)) {
+                    continue;
+                }
+
+                unset($yaml[self::SERVICES_KEY][$checker][$key]);
             }
+        }
+
+        return $yaml;
+    }
+
+    private function isCheckersClass($checker): bool
+    {
+        return Strings::endsWith($checker, 'Fixer') || Strings::endsWith($checker, 'Sniff');
+    }
+
+    /**
+     * @param mixed[] $yaml
+     * @param mixed[] $serviceDefinition
+     * @return mixed[]
+     */
+    private function processFixer(array $yaml, string $checker, array $serviceDefinition): array
+    {
+        $this->checkerConfigurationGuardian->ensureFixerIsConfigurable($checker, $serviceDefinition);
+
+        foreach ($serviceDefinition as $key => $value) {
+            if ($this->isReservedKey($key)) {
+                continue;
+            }
+
+            $yaml[self::SERVICES_KEY][$checker][self::CALLS_KEY] = [
+                ['configure', [$serviceDefinition]],
+            ];
+        }
+
+        return $yaml;
+    }
+
+    /**
+     * @param mixed[] $yaml
+     * @param mixed[] $serviceDefinition
+     * @return mixed[]
+     */
+    private function processSniff(array $yaml, string $checker, array $serviceDefinition): array
+    {
+        // move parameters to property setters
+        foreach ($serviceDefinition as $key => $value) {
+            if ($this->isReservedKey($key)) {
+                continue;
+            }
+
+            $this->checkerConfigurationGuardian->ensurePropertyExists($checker, $key);
+            $yaml[self::SERVICES_KEY][$checker][self::PROPERTIES_KEY][$key] = $this->escapeValue($value);
         }
 
         return $yaml;
@@ -91,5 +150,24 @@ final class CheckerTolerantYamlFileLoader extends YamlFileLoader
         }
 
         return Strings::replace($value, '#@#', '@@');
+    }
+
+    private function isReservedKey(string $key): bool
+    {
+        return in_array($key, $this->getServiceKeywords(), true);
+    }
+
+    /**
+     * @return string[]
+     */
+    private function getServiceKeywords(): array
+    {
+        if ($this->serviceKeywords) {
+            return $this->serviceKeywords;
+        }
+
+        $reflectionClass = new ReflectionClass(YamlFileLoader::class);
+
+        return $this->serviceKeywords = $reflectionClass->getStaticProperties()['serviceKeywords'];
     }
 }
