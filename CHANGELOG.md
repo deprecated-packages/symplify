@@ -560,7 +560,6 @@ Based on discussion with friends and maintainers, I've found there are better ma
 
 For more deprecation details see [Symplify packages deprecations brought by Symfony 3.3](https://www.tomasvotruba.cz/blog/2017/05/29/symplify-packages-deprecations-brought-by-symfony-33/)
 
-
 [comment]: # (links to issues, PRs and release diffs)
 
 [#505]: https://github.com/Symplify/Symplify/pull/505
