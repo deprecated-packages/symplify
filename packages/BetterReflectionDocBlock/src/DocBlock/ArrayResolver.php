@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\TokenRunner\DocBlock;
+namespace Symplify\BetterReflectionDocBlock\DocBlock;
 
 use Nette\Utils\Strings;
 use phpDocumentor\Reflection\Types\Array_;
