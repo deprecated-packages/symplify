@@ -6,8 +6,6 @@ services:
     Symplify\BetterReflectionDocBlock\:
         resource: '../'
         exclude: '../{CleanFormatter.php,DependencyInjection,Tag/*}'
-<<<<<<< HEAD
-=======
 
     phpDocumentor\Reflection\FqsenResolver: ~
 
@@ -15,4 +13,3 @@ services:
     PHPStan\PhpDocParser\Parser\TypeParser: ~
     PHPStan\PhpDocParser\Parser\ConstExprParser: ~
     PHPStan\PhpDocParser\Parser\PhpDocParser: ~
->>>>>>> [BetterReflectionDocBlock] add DI container
