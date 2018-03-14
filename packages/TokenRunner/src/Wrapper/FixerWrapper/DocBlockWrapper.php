@@ -15,10 +15,10 @@ use phpDocumentor\Reflection\DocBlock\Tags\Var_;
 use phpDocumentor\Reflection\Types\Array_;
 use phpDocumentor\Reflection\Types\Compound;
 use Symplify\BetterReflectionDocBlock\CleanDocBlockFactory;
+use Symplify\BetterReflectionDocBlock\DocBlock\ArrayResolver;
 use Symplify\BetterReflectionDocBlock\DocBlockSerializerFactory;
 use Symplify\BetterReflectionDocBlock\Tag\TolerantParam;
 use Symplify\BetterReflectionDocBlock\Tag\TolerantReturn;
-use Symplify\TokenRunner\DocBlock\ArrayResolver;
 use Symplify\TokenRunner\Exception\Wrapper\FixerWrapper\MissingWhitespacesFixerConfigException;
 use Symplify\TokenRunner\Guard\TokenTypeGuard;
 
@@ -320,9 +320,13 @@ final class DocBlockWrapper
 
         $this->ensureWhitespacesFixerConfigIsSet();
 
+        $indentSize = $this->whitespacesFixerConfig->getIndent() === '    ' ? 1 : 4;
+        $indentCharacter = $this->whitespacesFixerConfig->getIndent();
+
         return $this->docBlockSerializer = DocBlockSerializerFactory::createFromWhitespaceFixerConfigAndContent(
-            $this->whitespacesFixerConfig,
-            $this->originalContent
+            $this->originalContent,
+            $indentSize,
+            $indentCharacter
         );
     }
 
