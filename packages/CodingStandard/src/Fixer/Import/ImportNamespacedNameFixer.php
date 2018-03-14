@@ -17,12 +17,12 @@ use PhpCsFixer\WhitespacesFixerConfig;
 use phpDocumentor\Reflection\DocBlock\Tag;
 use phpDocumentor\Reflection\DocBlock\Tags\Param;
 use phpDocumentor\Reflection\DocBlock\Tags\Return_;
-use phpDocumentor\Reflection\DocBlock\Tags\Var_;
 use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Types\Object_;
 use SplFileInfo;
 use Symplify\BetterReflectionDocBlock\Tag\TolerantParam;
 use Symplify\BetterReflectionDocBlock\Tag\TolerantReturn;
+use Symplify\BetterReflectionDocBlock\Tag\TolerantVar;
 use Symplify\PackageBuilder\Reflection\PrivatesSetter;
 use Symplify\TokenRunner\Analyzer\FixerAnalyzer\ClassNameFinder;
 use Symplify\TokenRunner\Naming\Name\Name;
@@ -297,7 +297,7 @@ final class ImportNamespacedNameFixer implements DefinedFixerInterface, Configur
     }
 
     /**
-     * @param Param|TolerantReturn|TolerantParam|Return_|Var_ $tag
+     * @param Param|TolerantReturn|TolerantParam|Return_|TolerantVar $tag
      */
     private function shortenNameAndReturnFullName(Tag $tag): ?string
     {

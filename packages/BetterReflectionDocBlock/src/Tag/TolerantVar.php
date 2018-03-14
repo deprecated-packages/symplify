@@ -7,6 +7,7 @@ use phpDocumentor\Reflection\DocBlock\DescriptionFactory;
 use phpDocumentor\Reflection\DocBlock\Tags\BaseTag;
 use phpDocumentor\Reflection\Type;
 use phpDocumentor\Reflection\TypeResolver;
+use phpDocumentor\Reflection\Types\Context;
 use Webmozart\Assert\Assert;
 
 /**
@@ -56,7 +57,7 @@ final class TolerantVar extends BaseTag
         string $body,
         ?TypeResolver $typeResolver = null,
         ?DescriptionFactory $descriptionFactory = null,
-        ?TypeContext $typeContext = null
+        ?Context $context = null
     ): self {
         Assert::stringNotEmpty($body);
         Assert::allNotNull([$typeResolver, $descriptionFactory]);
@@ -67,7 +68,7 @@ final class TolerantVar extends BaseTag
 
         // if the first item that is encountered is not a variable; it is a type
         if (isset($parts[0]) && (strlen($parts[0]) > 0) && ($parts[0][0] !== '$')) {
-            $type = $typeResolver->resolve(array_shift($parts), $typeContext);
+            $type = $typeResolver->resolve(array_shift($parts), $context);
             array_shift($parts);
         }
 
@@ -81,7 +82,7 @@ final class TolerantVar extends BaseTag
             }
         }
 
-        $description = $descriptionFactory->create(implode('', $parts), $typeContext);
+        $description = $descriptionFactory->create(implode('', $parts), $context);
 
         return new static($variableName, $type, $description);
     }
