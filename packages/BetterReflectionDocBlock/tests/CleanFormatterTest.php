@@ -3,14 +3,13 @@
 namespace Symplify\BetterReflectionDocBlock\Tests;
 
 use PhpCsFixer\WhitespacesFixerConfig;
-use PHPUnit\Framework\TestCase;
 use Symplify\BetterReflectionDocBlock\CleanDocBlockFactory;
 use Symplify\BetterReflectionDocBlock\DocBlockSerializerFactory;
 
 /**
  * @covers \Symplify\BetterReflectionDocBlock\CleanFormatter
  */
-final class CleanFormatterTest extends TestCase
+final class CleanFormatterTest extends AbstractContainerAwareTestCase
 {
     /**
      * @var CleanDocBlockFactory
@@ -24,8 +23,8 @@ final class CleanFormatterTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->cleanDocBlockFactory = new CleanDocBlockFactory();
-        $this->docBlockSerializerFactory = new DocBlockSerializerFactory();
+        $this->cleanDocBlockFactory = $this->container->get(CleanDocBlockFactory::class);
+        $this->docBlockSerializerFactory = $this->container->get(DocBlockSerializerFactory::class);
     }
 
     public function test(): void
