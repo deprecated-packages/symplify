@@ -7,8 +7,6 @@ use phpDocumentor\Reflection\DocBlock\DescriptionFactory;
 use phpDocumentor\Reflection\DocBlock\Tags\BaseTag;
 use phpDocumentor\Reflection\Type;
 use phpDocumentor\Reflection\TypeResolver;
-use phpDocumentor\Reflection\Types\Context;
-use Throwable;
 use Webmozart\Assert\Assert;
 
 /**
@@ -19,14 +17,20 @@ use Webmozart\Assert\Assert;
  */
 final class TolerantVar extends BaseTag
 {
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $name = 'var';
 
-    /** @var Type|null */
-    private $type;
-
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $variableName = '';
+
+    /**
+     * @var Type|null
+     */
+    private $type;
 
     public function __construct(string $variableName, ?Type $type = null, ?Description $description = null)
     {
@@ -36,13 +40,23 @@ final class TolerantVar extends BaseTag
     }
 
     /**
+     * Returns a string representation for this tag.
+     */
+    public function __toString(): string
+    {
+        return ($this->type ? $this->type . ' ' : '')
+            . (empty($this->variableName) ? null : ('$' . $this->variableName))
+            . ($this->description ? ' ' . $this->description : '');
+    }
+
+    /**
      * {@inheritdoc}
      */
     public static function create(
         string $body,
         ?TypeResolver $typeResolver = null,
         ?DescriptionFactory $descriptionFactory = null,
-        ?TypeContext $context = null
+        ?TypeContext $typeContext = null
     ): self {
         Assert::stringNotEmpty($body);
         Assert::allNotNull([$typeResolver, $descriptionFactory]);
@@ -53,7 +67,7 @@ final class TolerantVar extends BaseTag
 
         // if the first item that is encountered is not a variable; it is a type
         if (isset($parts[0]) && (strlen($parts[0]) > 0) && ($parts[0][0] !== '$')) {
-            $type = $typeResolver->resolve(array_shift($parts), $context);
+            $type = $typeResolver->resolve(array_shift($parts), $typeContext);
             array_shift($parts);
         }
 
@@ -67,7 +81,7 @@ final class TolerantVar extends BaseTag
             }
         }
 
-        $description = $descriptionFactory->create(implode('', $parts), $context);
+        $description = $descriptionFactory->create(implode('', $parts), $typeContext);
 
         return new static($variableName, $type, $description);
     }
@@ -91,18 +105,8 @@ final class TolerantVar extends BaseTag
     /**
      * Added
      */
-    public function changeType(Type $type)
+    public function changeType(Type $type): void
     {
         $this->type = $type;
-    }
-
-    /**
-     * Returns a string representation for this tag.
-     */
-    public function __toString(): string
-    {
-        return ($this->type ? $this->type . ' ' : '')
-            . (empty($this->variableName) ? null : ('$' . $this->variableName))
-            . ($this->description ? ' ' . $this->description : '');
     }
 }
