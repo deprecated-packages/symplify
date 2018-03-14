@@ -8,11 +8,6 @@ use Symfony\Component\HttpKernel\Kernel;
 
 final class BetterReflectionDocBlockKernel extends Kernel
 {
-    /**
-     * @var null|string
-     */
-    private $configFile;
-
     public function registerContainerConfiguration(LoaderInterface $loader): void
     {
         $loader->load(__DIR__ . '/../config/services.yml');
