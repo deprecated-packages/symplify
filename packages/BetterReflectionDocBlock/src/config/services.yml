@@ -6,8 +6,3 @@ services:
     Symplify\BetterReflectionDocBlock\:
         resource: '../'
         exclude: '../{CleanFormatter.php,DependencyInjection,Tag/*}'
-
-    PHPStan\PhpDocParser\Lexer\Lexer: ~
-    PHPStan\PhpDocParser\Parser\TypeParser: ~
-    PHPStan\PhpDocParser\Parser\ConstExprParser: ~
-    PHPStan\PhpDocParser\Parser\PhpDocParser: ~
