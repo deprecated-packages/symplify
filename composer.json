@@ -12,7 +12,7 @@
         "nette/finder": "^2.4",
         "nette/robot-loader": "^3.0",
         "nette/utils": "^2.5",
-        "phpdocumentor/reflection-docblock": "^4.3",
+        "phpdocumentor/reflection-docblock": "5.0.0-alpha1 as 4.3",
         "slevomat/coding-standard": "^4.5",
         "squizlabs/php_codesniffer": "^3.2",
         "symfony/config": "^4.0",
