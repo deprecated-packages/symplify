@@ -70,7 +70,7 @@ final class TolerantParam extends BaseTag
      * {@inheritdoc}
      */
     public static function create(
-        $body,
+        string $body,
         ?TypeResolver $typeResolver = null,
         ?DescriptionFactory $descriptionFactory = null,
         ?Context $context = null
