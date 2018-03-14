@@ -13,7 +13,7 @@ parameters:
         - '#Property Symplify\\TokenRunner\\Wrapper\\FixerWrapper\\ClassWrapper::\$startBracketIndex \(int\) does not accept int\|null#'
         - '#Parameter \#2 \$position of static method Symplify\\TokenRunner\\Wrapper\\SnifferWrapper\\ClassWrapper::createFromFileAndPosition\(\) expects int, int\|true given#'
         - '#Method Symplify\\EasyCodingStandard\\Finder\\FinderSanitizer::turnInfoSymfonyFileInfos\(\) should return array<Symfony\\Component\\Finder\\SplFileInfo> but returns array<SplFileInfo>#'
-        - '#Parameter \#2 \$arrayType of static method Symplify\\TokenRunner\\DocBlock\\ArrayResolver::resolveArrayType\(\) expects phpDocumentor\\Reflection\\Types\\Array_, phpDocumentor\\Reflection\\Type(\|null)? given#'
+        - '#Parameter \#2 \$arrayType of static method Symplify\\BetterReflectionDocBlock\\DocBlock\\ArrayResolver::resolveArrayType\(\) expects phpDocumentor\\Reflection\\Types\\Array_, phpDocumentor\\Reflection\\Type(\|null)? given#'
         - '#Parameter \#1 \$sniffClass of method Symplify\\EasyCodingStandard\\SniffRunner\\File\\File::isSniffClassWarningAllowed\(\) expects string, (string\|null) given#'
         - '#Property Symplify\\TokenRunner\\Wrapper\\FixerWrapper\\MethodWrapper::\$argumentsBracketStart \(int\) does not accept int\|null#'
         - '#Calling method getNameParts\(\) on possibly null value of type Symplify\\TokenRunner\\Naming\\UseImport\\UseImport\|null#'
