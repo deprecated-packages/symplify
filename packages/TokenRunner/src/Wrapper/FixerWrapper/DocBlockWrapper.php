@@ -11,6 +11,7 @@ use phpDocumentor\Reflection\DocBlock as PhpDocumentorDocBlock;
 use phpDocumentor\Reflection\DocBlock\Serializer;
 use phpDocumentor\Reflection\DocBlock\Tags\Param;
 use phpDocumentor\Reflection\DocBlock\Tags\Return_;
+use phpDocumentor\Reflection\FqsenResolver;
 use phpDocumentor\Reflection\Types\Array_;
 use phpDocumentor\Reflection\Types\Compound;
 use Symplify\BetterReflectionDocBlock\CleanDocBlockFactory;
@@ -59,7 +60,7 @@ final class DocBlockWrapper
         $this->tokens = $tokens;
         $this->position = $position;
 
-        $this->phpDocumentorDocBlock = (new CleanDocBlockFactory())->create($content);
+        $this->phpDocumentorDocBlock = (new CleanDocBlockFactory(new FqsenResolver()))->create($content);
         $this->originalContent = $content;
     }
 

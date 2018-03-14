@@ -23,9 +23,8 @@ final class CleanDocBlockFactory
      */
     private $phpDocumentorDocBlockFactory;
 
-    public function __construct()
+    public function __construct(FqsenResolver $fqsenResolver)
     {
-        $fqsenResolver = new FqsenResolver();
         $tagFactory = new StandardTagFactory($fqsenResolver, [
             'param' => TolerantParam::class,
             'return' => TolerantReturn::class,

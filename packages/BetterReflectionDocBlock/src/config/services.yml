@@ -9,6 +9,8 @@ services:
 <<<<<<< HEAD
 =======
 
+    phpDocumentor\Reflection\FqsenResolver: ~
+
     PHPStan\PhpDocParser\Lexer\Lexer: ~
     PHPStan\PhpDocParser\Parser\TypeParser: ~
     PHPStan\PhpDocParser\Parser\ConstExprParser: ~
