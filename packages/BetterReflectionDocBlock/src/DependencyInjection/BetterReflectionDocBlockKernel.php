@@ -8,6 +8,14 @@ use Symfony\Component\HttpKernel\Kernel;
 
 final class BetterReflectionDocBlockKernel extends Kernel
 {
+<<<<<<< HEAD
+=======
+    /**
+     * @var null|string
+     */
+    private $configFile;
+
+>>>>>>> [BetterReflectionDocBlock] add DI container
     public function registerContainerConfiguration(LoaderInterface $loader): void
     {
         $loader->load(__DIR__ . '/../config/services.yml');
