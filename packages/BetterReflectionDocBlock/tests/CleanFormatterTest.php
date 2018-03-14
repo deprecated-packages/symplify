@@ -2,12 +2,12 @@
 
 namespace Symplify\BetterReflectionDocBlock\Tests;
 
-use PhpCsFixer\WhitespacesFixerConfig;
 use Symplify\BetterReflectionDocBlock\CleanDocBlockFactory;
 use Symplify\BetterReflectionDocBlock\DocBlockSerializerFactory;
 
 /**
  * @covers \Symplify\BetterReflectionDocBlock\CleanFormatter
+ * @covers \Symplify\BetterReflectionDocBlock\DocBlockSerializerFactory
  */
 final class CleanFormatterTest extends AbstractContainerAwareTestCase
 {
@@ -16,15 +16,9 @@ final class CleanFormatterTest extends AbstractContainerAwareTestCase
      */
     private $cleanDocBlockFactory;
 
-    /**
-     * @var DocBlockSerializerFactory
-     */
-    private $docBlockSerializerFactory;
-
     protected function setUp(): void
     {
         $this->cleanDocBlockFactory = $this->container->get(CleanDocBlockFactory::class);
-        $this->docBlockSerializerFactory = $this->container->get(DocBlockSerializerFactory::class);
     }
 
     public function test(): void
@@ -32,9 +26,10 @@ final class CleanFormatterTest extends AbstractContainerAwareTestCase
         $originalDocBlockContent = file_get_contents(__DIR__ . '/CleanFormatterSource/originalDocBlock.txt');
 
         $docBlock = $this->cleanDocBlockFactory->create($originalDocBlockContent);
-        $docBlockSerializer = $this->docBlockSerializerFactory->createFromWhitespaceFixerConfigAndContent(
-            new WhitespacesFixerConfig(),
-            $originalDocBlockContent
+        $docBlockSerializer = DocBlockSerializerFactory::createFromWhitespaceFixerConfigAndContent(
+            $originalDocBlockContent,
+            4,
+            ' '
         );
 
         $resultDocBlock = $docBlockSerializer->getDocComment($docBlock);

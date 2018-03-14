@@ -320,9 +320,13 @@ final class DocBlockWrapper
 
         $this->ensureWhitespacesFixerConfigIsSet();
 
+        $indentSize = $this->whitespacesFixerConfig->getIndent() === '    ' ? 1 : 4;
+        $indentCharacter = $this->whitespacesFixerConfig->getIndent();
+
         return $this->docBlockSerializer = DocBlockSerializerFactory::createFromWhitespaceFixerConfigAndContent(
-            $this->whitespacesFixerConfig,
-            $this->originalContent
+            $this->originalContent,
+            $indentSize,
+            $indentCharacter
         );
     }
 
