@@ -15,7 +15,7 @@
         "nette/application": "^2.4",
         "symplify/easy-coding-standard": "^4.0",
         "symplify/package-builder": "^4.0",
-        "phpunit/phpunit": "^6.5"
+        "phpunit/phpunit": "^7.0"
     },
     "autoload": {
         "psr-4": {
