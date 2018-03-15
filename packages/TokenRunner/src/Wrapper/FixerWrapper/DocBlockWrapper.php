@@ -12,6 +12,7 @@ use phpDocumentor\Reflection\DocBlock\Serializer;
 use phpDocumentor\Reflection\DocBlock\Tags\Param;
 use phpDocumentor\Reflection\DocBlock\Tags\Return_;
 use phpDocumentor\Reflection\FqsenResolver;
+use phpDocumentor\Reflection\DocBlock\Tags\Var_;
 use phpDocumentor\Reflection\Types\Array_;
 use phpDocumentor\Reflection\Types\Compound;
 use Symplify\BetterReflectionDocBlock\CleanDocBlockFactory;
@@ -19,7 +20,6 @@ use Symplify\BetterReflectionDocBlock\DocBlock\ArrayResolver;
 use Symplify\BetterReflectionDocBlock\DocBlockSerializerFactory;
 use Symplify\BetterReflectionDocBlock\Tag\TolerantParam;
 use Symplify\BetterReflectionDocBlock\Tag\TolerantReturn;
-use Symplify\BetterReflectionDocBlock\Tag\TolerantVar;
 use Symplify\TokenRunner\Exception\Wrapper\FixerWrapper\MissingWhitespacesFixerConfigException;
 use Symplify\TokenRunner\Guard\TokenTypeGuard;
 
@@ -175,7 +175,7 @@ final class DocBlockWrapper
         return $this->phpDocumentorDocBlock->getTagsByName('param');
     }
 
-    public function getVarTag(): ?TolerantVar
+    public function getVarTag(): ?Var_
     {
         return $this->phpDocumentorDocBlock->getTagsByName('var') ?
             $this->phpDocumentorDocBlock->getTagsByName('var')[0]
@@ -250,7 +250,7 @@ final class DocBlockWrapper
             return false;
         }
 
-        /** @var TolerantVar $varTag */
+        /** @var Var_ $varTag */
         $varTag = $varTags[0];
 
         $types = explode('|', trim((string) $varTag->getType()));
