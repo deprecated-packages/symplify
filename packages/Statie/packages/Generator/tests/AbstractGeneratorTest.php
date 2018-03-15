@@ -4,7 +4,7 @@ namespace Symplify\Statie\Generator\Tests;
 
 use Nette\Utils\FileSystem;
 use PHPUnit\Framework\TestCase;
-use Symfony\Component\DependencyInjection\Container;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symplify\Statie\Configuration\Configuration;
 use Symplify\Statie\DependencyInjection\ContainerFactory;
 use Symplify\Statie\FileSystem\FileSystemWriter;
@@ -29,7 +29,7 @@ abstract class AbstractGeneratorTest extends TestCase
     protected $generator;
 
     /**
-     * @var Container
+     * @var ContainerInterface
      */
     protected $container;
 

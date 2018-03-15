@@ -3,10 +3,8 @@
 namespace Symplify\CodingStandard\Tests\Fixer\Commenting\RemoveUselessDocBlockFixer;
 
 use PhpCsFixer\Fixer\FixerInterface;
-use PhpCsFixer\WhitespacesFixerConfig;
 use Symplify\CodingStandard\Fixer\Commenting\RemoveUselessDocBlockFixer;
 use Symplify\CodingStandard\Tests\AbstractContainerAwareCheckerTestCase;
-use Symplify\TokenRunner\Testing\AbstractSimpleFixerTestCase;
 
 final class ConfiguredTest extends AbstractContainerAwareCheckerTestCase
 {
