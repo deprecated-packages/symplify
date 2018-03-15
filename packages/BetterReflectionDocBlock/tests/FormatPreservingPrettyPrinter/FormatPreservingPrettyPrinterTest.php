@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\BetterReflectionDocBlock\Tests\FormatPersistingPrettyPrinter;
+namespace Symplify\BetterReflectionDocBlock\Tests\FormatPreservingPrettyPrinter;
 
 use Iterator;
 use Symplify\BetterReflectionDocBlock\PhpDocParser\PhpDocInfoFactory;
@@ -9,7 +9,7 @@ use Symplify\BetterReflectionDocBlock\Tests\AbstractContainerAwareTestCase;
 /**
  * @cover \Symplify\BetterReflectionDocBlock\PhpDocParser\PhpDocParser
  */
-final class FormatPersistingPrettyPrinterTest extends AbstractContainerAwareTestCase
+final class FormatPreservingPrettyPrinterTest extends AbstractContainerAwareTestCase
 {
     /**
      * @var PhpDocInfoFactory
