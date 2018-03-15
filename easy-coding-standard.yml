@@ -66,6 +66,9 @@ parameters:
             # allowed default static value
             - 'packages/Statie/packages/Generator/src/Configuration/GeneratorElement.php'
 
+            # temporary, remove with checkers autowire
+            - 'packages/BetterReflectionDocBlock/src/FixedSerializer.php'
+
         Symplify\CodingStandard\Fixer\LineLength\BreakMethodCallsFixer:
             # false positive
             - 'packages/CodingStandard/src/Fixer/Commenting/RemoveUselessDocBlockFixer.php'
