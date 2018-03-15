@@ -47,6 +47,7 @@ parameters:
 
         # 3rd party errors
         - '#Parameter \#1 \$container of class Symfony\\Component\\DependencyInjection\\Loader\\YamlFileLoader constructor expects Symfony\\Component\\DependencyInjection\\ContainerBuilder, Symfony\\Component\\DependencyInjection\\ContainerInterface given#'
+        - '#Method Symplify\\TokenRunner\\Wrapper\\FixerWrapper\\DocBlockWrapper::getVarTag\(\) should return Symplify\\BetterReflectionDocBlock\\Tag\\TolerantVar|null but returns phpDocumentor\\Reflection\\DocBlock\\Tag|null#'
 
         # intersect/union buggy
         - '#Parameter \#(2|3) \$items of method PhpCsFixer\\Tokenizer\\Tokens::(insertAt|overrideRange)\(\) expects (\()?iterable<PhpCsFixer\\Tokenizer\\Token>&PhpCsFixer\\Tokenizer\\Tokens(\))?(\|PhpCsFixer\\Tokenizer\\Token)?, array<(int, )?PhpCsFixer\\Tokenizer\\Token> given#'
@@ -62,6 +63,7 @@ parameters:
         # messy 3rd party code
         - packages/BetterReflectionDocBlock/src/Tag/TolerantParam.php
         - packages/BetterReflectionDocBlock/src/Tag/TolerantReturn.php
+        - packages/BetterReflectionDocBlock/src/Tag/TolerantVar.php
 
     autoload_files:
         - %currentWorkingDirectory%/vendor/squizlabs/php_codesniffer/autoload.php
