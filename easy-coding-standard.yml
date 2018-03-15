@@ -72,10 +72,6 @@ parameters:
             # temporary, remove with checkers autowire
             - 'packages/BetterReflectionDocBlock/src/FixedSerializer.php'
 
-        Symplify\CodingStandard\Fixer\LineLength\BreakMethodCallsFixer:
-            # false positive
-            - 'packages/CodingStandard/src/Fixer/Commenting/RemoveUselessDocBlockFixer.php'
-
         SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff.UselessDocComment:
             - '*packages*'
 

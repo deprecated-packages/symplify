@@ -111,6 +111,7 @@ final class BreakMethodCallsFixer implements DefinedFixerInterface, WhitespacesA
     private function fixMethodCall(int $position, Tokens $tokens): void
     {
         $methodCallWrapper = MethodCallWrapper::createFromTokensAndPosition($tokens, $position);
+
         if ($methodCallWrapper->getFirstLineLength() > self::LINE_LENGTH) {
             $this->breakMethodCallParameters($methodCallWrapper, $tokens, $position);
             return;
