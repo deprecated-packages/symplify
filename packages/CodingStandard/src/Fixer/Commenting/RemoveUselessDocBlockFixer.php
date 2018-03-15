@@ -18,7 +18,6 @@ use PhpCsFixer\WhitespacesFixerConfig;
 use SplFileInfo;
 use Symplify\TokenRunner\DocBlock\DescriptionAnalyzer;
 use Symplify\TokenRunner\DocBlock\ParamAndReturnTagAnalyzer;
-use Symplify\TokenRunner\Wrapper\FixerWrapper\ClassWrapper;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\DocBlockWrapper;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\MethodWrapper;
 
@@ -81,23 +80,22 @@ public function getCount(): int
         for ($index = count($tokens) - 1; $index > 1; --$index) {
             $token = $tokens[$index];
 
-            if (! $token->isGivenKind(T_CLASS)) {
+            if (! $token->isGivenKind(T_FUNCTION)) {
                 continue;
             }
 
-            $classWrapper = ClassWrapper::createFromTokensArrayStartPosition($tokens, $index);
-            foreach ($classWrapper->getMethodWrappers() as $methodWrapper) {
-                $docBlockWrapper = $methodWrapper->getDocBlockWrapper();
-                if ($docBlockWrapper === null) {
-                    continue;
-                }
+            $methodWrapper = MethodWrapper::createFromTokensAndPosition($tokens, $index);
 
-                $docBlockWrapper->setWhitespacesFixerConfig($this->whitespacesFixerConfig);
-
-                $this->processReturnTag($methodWrapper, $docBlockWrapper);
-                $this->processParamTag($methodWrapper, $docBlockWrapper);
-                $this->removeTagForMissingParameters($methodWrapper, $docBlockWrapper);
+            $docBlockWrapper = $methodWrapper->getDocBlockWrapper();
+            if ($docBlockWrapper === null) {
+                continue;
             }
+
+            $docBlockWrapper->setWhitespacesFixerConfig($this->whitespacesFixerConfig);
+
+            $this->processReturnTag($methodWrapper, $docBlockWrapper);
+            $this->processParamTag($methodWrapper, $docBlockWrapper);
+            $this->removeTagForMissingParameters($methodWrapper, $docBlockWrapper);
         }
     }
 
