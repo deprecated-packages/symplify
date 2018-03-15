@@ -4,7 +4,7 @@ namespace Symplify\CodingStandard\Tests\Fixer\Commenting\RemoveUselessDocBlockFi
 
 use PhpCsFixer\Fixer\FixerInterface;
 use Symplify\CodingStandard\Fixer\Commenting\RemoveUselessDocBlockFixer;
-use Symplify\CodingStandard\Tests\AbstractContainerAwareCheckerTestCase;
+use Symplify\EasyCodingStandard\Testing\AbstractContainerAwareCheckerTestCase;
 
 final class ConfiguredTest extends AbstractContainerAwareCheckerTestCase
 {
