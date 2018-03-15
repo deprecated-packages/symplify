@@ -1,7 +1,6 @@
 services:
     _defaults:
         autowire: true
-        public: true # for tests
 
     # 3rd party services
     Symfony\Component\Console\Terminal: ~
@@ -12,7 +11,12 @@ services:
     Symfony\Component\Console\Output\ConsoleOutput: ~
     Symfony\Component\Console\Output\OutputInterface:
         alias: Symfony\Component\Console\Output\ConsoleOutput
+        public: true
 
     Symfony\Component\Console\Style\SymfonyStyle: ~
 
     Symplify\PackageBuilder\Parameter\ParameterProvider: ~
+
+    # for autowired checkers
+    Symplify\TokenRunner\DocBlock\DescriptionAnalyzer:
+    Symplify\TokenRunner\DocBlock\ParamAndReturnTagAnalyzer: ~

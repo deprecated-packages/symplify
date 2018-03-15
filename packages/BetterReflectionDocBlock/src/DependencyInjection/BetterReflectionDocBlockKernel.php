@@ -3,8 +3,10 @@
 namespace Symplify\BetterReflectionDocBlock\DependencyInjection;
 
 use Symfony\Component\Config\Loader\LoaderInterface;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 use Symfony\Component\HttpKernel\Kernel;
+use Symplify\PackageBuilder\DependencyInjection\CompilerPass\PublicForTestsCompilerPass;
 
 final class BetterReflectionDocBlockKernel extends Kernel
 {
@@ -29,5 +31,10 @@ final class BetterReflectionDocBlockKernel extends Kernel
     public function registerBundles(): array
     {
         return [];
+    }
+
+    protected function build(ContainerBuilder $containerBuilder): void
+    {
+        $containerBuilder->addCompilerPass(new PublicForTestsCompilerPass());
     }
 }

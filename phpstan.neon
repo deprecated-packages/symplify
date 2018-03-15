@@ -26,7 +26,7 @@ parameters:
         - '#Property Symplify\\TokenRunner\\Wrapper\\FixerWrapper\\MethodCallWrapper::\$argumentsBracketStart \(int\) does not accept int\|null#'
 
         # intentional stricter phpDocumentor\Reflection\Types\This
-        - '#Method Symplify\\[A-Za-z\\]+\\ContainerFactory::(create|createWithConfig)\(\) should return Symfony\\Component\\DependencyInjection\\Container but returns Symfony\\Component\\DependencyInjection\\ContainerInterface#'
+        - '#Method Symplify\\[A-Za-z\\]+\\ContainerFactory::(create|createWithConfigs)\(\) should return Symfony\\Component\\DependencyInjection\\Container but returns Symfony\\Component\\DependencyInjection\\ContainerInterface#'
         - '#Symplify\\TokenRunner\\Wrapper\\FixerWrapper\\DocBlockWrapper::getParamTags\(\) should return array<phpDocumentor\\Reflection\\DocBlock\\Tags\\Param> but returns array<phpDocumentor\\Reflection\\DocBlock\\Tag>#'
 
         # Token Runner
@@ -38,9 +38,12 @@ parameters:
         # buggy
         - '#Call to an undefined method PHP_CodeSniffer\\Sniffs\\Sniff|Symplify\\EasyCodingStandard\\Contract\\Application\\DualRunInterface::increaseRun\(\)#'
         - '#Symplify\\EasyCodingStandard\\Contract\\Application\\DualRunInterface#'
+        - '#Access to an undefined property PHPStan\\PhpDocParser\\Ast\\PhpDoc\\PhpDocChildNode::\$value#'
+
         # object
         - '#does not accept object#'
         - '#Call to an undefined method object#'
+        - '#createFixer\(\) should return PhpCsFixer\\Fixer\\FixerInterface but returns object#'
 
         # part of test
         - '#Parameter \#1 \$finder of method Symplify\\EasyCodingStandard\\Finder\\FinderSanitizer::sanitize\(\) expects Nette\\Utils\\Finder|Symfony\\Component\\Finder\\Finder, SplFileInfo\[\] given#'
@@ -52,6 +55,7 @@ parameters:
         - '#Parameter \#(2|3) \$items of method PhpCsFixer\\Tokenizer\\Tokens::(insertAt|overrideRange)\(\) expects (\()?iterable<PhpCsFixer\\Tokenizer\\Token>&PhpCsFixer\\Tokenizer\\Tokens(\))?(\|PhpCsFixer\\Tokenizer\\Token)?, array<(int, )?PhpCsFixer\\Tokenizer\\Token> given#'
         - '#Method Symplify\\TokenRunner\\Tests\\DocBlock\\ParamAndReturnTagAnalyzerTest::provideDocTypeDocDescriptionParamTypeAndResult\(\) should return array<array<bool|string\>\> but returns array<int, array<int,bool\|string\|null\>\>#'
         - '#expects Symfony\\Component\\DependencyInjection\\ContainerBuilder, Symfony\\Component\\DependencyInjection\\ContainerInterface given#'
+        - '#should return Symfony\\Component\\DependencyInjection\\ContainerBuilder but returns Symfony\\Component\\DependencyInjection\\ContainerInterface#'
 
     excludes_analyse:
         - *packages/CodingStandard/tests/**/correct*

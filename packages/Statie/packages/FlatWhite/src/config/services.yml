@@ -4,4 +4,3 @@ services:
 
     Symplify\Statie\FlatWhite\:
         resource: ../
-        public: true # for tests

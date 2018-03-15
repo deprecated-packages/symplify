@@ -3,13 +3,22 @@
 namespace Symplify\BetterReflectionDocBlock\Tests;
 
 use phpDocumentor\Reflection\DocBlock;
-use PHPUnit\Framework\TestCase;
 use Symplify\BetterReflectionDocBlock\CleanDocBlockFactory;
 use Symplify\BetterReflectionDocBlock\CleanFormatter;
 use Symplify\BetterReflectionDocBlock\FixedSerializer;
 
-final class FixedSerializerTest extends TestCase
+final class FixedSerializerTest extends AbstractContainerAwareTestCase
 {
+    /**
+     * @var CleanDocBlockFactory
+     */
+    private $cleanDocBlockFactory;
+
+    protected function setUp(): void
+    {
+        $this->cleanDocBlockFactory = $this->container->get(CleanDocBlockFactory::class);
+    }
+
     public function testNoSpaceOnEmptyLine(): void
     {
         $docBlockSerializer = new FixedSerializer(4, ' ', false, null, new CleanFormatter('someContent'));
@@ -25,7 +34,7 @@ final class FixedSerializerTest extends TestCase
     public function testKeepSpaceBetweentTagsAsBefore(): void
     {
         $docBlockContent = file_get_contents(__DIR__ . '/FixedSerializerSource/originalDocBlock.txt');
-        $docBlock = (new CleanDocBlockFactory())->create($docBlockContent);
+        $docBlock = $this->cleanDocBlockFactory->create($docBlockContent);
 
         $cleanFormatter = new CleanFormatter($docBlockContent);
         $docBlockSerializer = new FixedSerializer(4, ' ', false, null, $cleanFormatter);

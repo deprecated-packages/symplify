@@ -58,7 +58,6 @@ final class NoClassInstantiationSniff implements Sniff
 
         // Symfony misc
         'Symfony\Component\Process\Process',
-        'Symfony\Component\Finder\SplFileInfo',
 
         // php-cs-fixer
         'PhpCsFixer\*',
@@ -75,6 +74,9 @@ final class NoClassInstantiationSniff implements Sniff
         '*Iterator',
         '*Reference', // Symfony DI Reference class
         '*ContainerFactory',
+        // value objects or build elements, like SplFileInfo
+        '*Info',
+        '*Node',
     ];
 
     /**

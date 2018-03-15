@@ -26,7 +26,6 @@ services:
             - 'Symplify\TokenRunner\*'
             - 'Symplify\PackageBuilder\Reflection\*'
             - 'phpDocumentor\Reflection\Fqsen'
-            - 'Symplify\BetterReflectionDocBlock\*'
             - 'Symfony\Component\DependencyInjection\ContainerBuilder'
             - 'Symplify\EasyCodingStandard\Yaml\*'
 
@@ -34,10 +33,6 @@ services:
         enableObjectTypeHint: false
 
 parameters:
-    exclude_checkers:
-        # broken in php-cs-fixer 2.10, being fixed in master: https://github.com/FriendsOfPHP/PHP-CS-Fixer/pull/3438
-        - 'PhpCsFixer\Fixer\PhpUnit\PhpUnitTestAnnotationFixer'
-
     skip:
         PHP_CodeSniffer\Standards\Generic\Sniffs\Files\LineLengthSniff:
             # many implemented interfaces
@@ -73,6 +68,9 @@ parameters:
             - 'packages/TokenRunner/src/Wrapper/FixerWrapper/DocBlockWrapper.php'
             # allowed default static value
             - 'packages/Statie/packages/Generator/src/Configuration/GeneratorElement.php'
+
+            # temporary, remove with checkers autowire
+            - 'packages/BetterReflectionDocBlock/src/FixedSerializer.php'
 
         Symplify\CodingStandard\Fixer\LineLength\BreakMethodCallsFixer:
             # false positive

@@ -14,7 +14,7 @@ use Symplify\BetterReflectionDocBlock\Tag\TolerantParam;
 use Symplify\BetterReflectionDocBlock\Tag\TolerantReturn;
 
 /**
- * Same as DocBlockFactory::instance(), but uses only tags that are needed
+ * Same as @see DocBlockFactory::createInstance(), but uses only tags that are needed
  */
 final class CleanDocBlockFactory
 {
@@ -23,9 +23,8 @@ final class CleanDocBlockFactory
      */
     private $phpDocumentorDocBlockFactory;
 
-    public function __construct()
+    public function __construct(FqsenResolver $fqsenResolver)
     {
-        $fqsenResolver = new FqsenResolver();
         $tagFactory = new StandardTagFactory($fqsenResolver, [
             'param' => TolerantParam::class,
             'return' => TolerantReturn::class,

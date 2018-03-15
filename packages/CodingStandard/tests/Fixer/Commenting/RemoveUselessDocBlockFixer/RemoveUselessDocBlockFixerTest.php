@@ -3,11 +3,10 @@
 namespace Symplify\CodingStandard\Tests\Fixer\Commenting\RemoveUselessDocBlockFixer;
 
 use PhpCsFixer\Fixer\FixerInterface;
-use PhpCsFixer\WhitespacesFixerConfig;
 use Symplify\CodingStandard\Fixer\Commenting\RemoveUselessDocBlockFixer;
-use Symplify\TokenRunner\Testing\AbstractSimpleFixerTestCase;
+use Symplify\EasyCodingStandard\Testing\AbstractContainerAwareCheckerTestCase;
 
-final class RemoveUselessDocBlockFixerTest extends AbstractSimpleFixerTestCase
+final class RemoveUselessDocBlockFixerTest extends AbstractContainerAwareCheckerTestCase
 {
     /**
      * @dataProvider provideCorrectCases()
@@ -74,9 +73,11 @@ final class RemoveUselessDocBlockFixerTest extends AbstractSimpleFixerTestCase
 
     protected function createFixer(): FixerInterface
     {
-        $fixer = new RemoveUselessDocBlockFixer();
-        $fixer->setWhitespacesConfig(new WhitespacesFixerConfig());
+        return $this->container->get(RemoveUselessDocBlockFixer::class);
+    }
 
-        return $fixer;
+    protected function provideConfig(): string
+    {
+        return __DIR__ . '/config.yml';
     }
 }
