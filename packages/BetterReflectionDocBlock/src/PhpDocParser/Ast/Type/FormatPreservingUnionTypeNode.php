@@ -2,23 +2,10 @@
 
 namespace Symplify\BetterReflectionDocBlock\PhpDocParser\Ast\Type;
 
-use PHPStan\PhpDocParser\Ast\Type\TypeNode;
+use PHPStan\PhpDocParser\Ast\Type\UnionTypeNode;
 
-final class FormatPreservingUnionTypeNode implements TypeNode
+final class FormatPreservingUnionTypeNode extends UnionTypeNode
 {
-    /**
-     * @var TypeNode[]
-     */
-    public $types = [];
-
-    /**
-     * @param TypeNode[] $types
-     */
-    public function __construct(array $types)
-    {
-        $this->types = $types;
-    }
-
     public function __toString(): string
     {
         return implode('|', $this->types);
