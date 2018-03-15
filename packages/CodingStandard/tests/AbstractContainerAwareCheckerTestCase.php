@@ -5,6 +5,7 @@ namespace Symplify\CodingStandard\Tests;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symplify\EasyCodingStandard\DependencyInjection\CompilerPass\AutowireCheckersCompilerPass;
+use Symplify\EasyCodingStandard\DependencyInjection\CompilerPass\FixerWhitespaceConfigCompilerPass;
 use Symplify\PackageBuilder\DependencyInjection\GenericContainerFactory;
 use Symplify\PackageBuilder\FileSystem\FileGuard;
 use Symplify\TokenRunner\Testing\AbstractSimpleFixerTestCase;
@@ -49,6 +50,7 @@ abstract class AbstractContainerAwareCheckerTestCase extends AbstractSimpleFixer
     {
         return [
             new AutowireCheckersCompilerPass(),
+            new FixerWhitespaceConfigCompilerPass(),
         ];
     }
 }

@@ -2,11 +2,17 @@
 
 namespace Symplify\PackageBuilder\DependencyInjection;
 
+use Symfony\Component\Config\Loader\DelegatingLoader;
 use Symfony\Component\Config\Loader\LoaderInterface;
+use Symfony\Component\Config\Loader\LoaderResolver;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\DependencyInjection\Loader\GlobFileLoader;
 use Symfony\Component\HttpKernel\Bundle\BundleInterface;
+use Symfony\Component\HttpKernel\Config\FileLocator;
 use Symfony\Component\HttpKernel\Kernel;
+use Symplify\EasyCodingStandard\Yaml\CheckerTolerantYamlFileLoader;
 use Symplify\PackageBuilder\DependencyInjection\CompilerPass\PublicForTestsCompilerPass;
 
 final class GenericConfigAwareKernel extends Kernel
@@ -71,5 +77,18 @@ final class GenericConfigAwareKernel extends Kernel
         foreach ($this->compilerPasses as $compilerPass) {
             $containerBuilder->addCompilerPass($compilerPass);
         }
+    }
+
+    /**
+     * @param ContainerInterface|ContainerBuilder $container
+     */
+    protected function getContainerLoader(ContainerInterface $container): DelegatingLoader
+    {
+        $fileLocator = new FileLocator($this);
+
+        return new DelegatingLoader(new LoaderResolver([
+            new GlobFileLoader($container, $fileLocator),
+            new CheckerTolerantYamlFileLoader($container, $fileLocator),
+        ]));
     }
 }

@@ -2,3 +2,7 @@
 services:
     Symplify\TokenRunner\DocBlock\DescriptionAnalyzer: ~
     Symplify\TokenRunner\DocBlock\ParamAndReturnTagAnalyzer: ~
+
+    Symplify\EasyCodingStandard\FixerRunner\WhitespacesFixerConfigFactory: ~
+    PhpCsFixer\WhitespacesFixerConfig:
+        factory: ['@Symplify\EasyCodingStandard\FixerRunner\WhitespacesFixerConfigFactory', 'create']
