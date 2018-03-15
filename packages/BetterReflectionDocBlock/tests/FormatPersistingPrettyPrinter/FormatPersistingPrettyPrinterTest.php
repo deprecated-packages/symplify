@@ -25,17 +25,21 @@ final class FormatPersistingPrettyPrinterTest extends AbstractContainerAwareTest
         $this->phpDocInfoFactory = $this->container->get(PhpDocInfoFactory::class);
     }
 
-    public function test(): void
+    /**
+     * @dataProvider providePhpDocs()
+     */
+    public function test(string $description, string $content): void
     {
-        $content = '/** @var Type */';
-
         $phpDocInfo = $this->phpDocInfoFactory->createFrom($content);
 
-        $this->assertSame($content, (string) $phpDocInfo, 'Rendered parser doc block is the same as original');
+        $this->assertSame($content, (string) $phpDocInfo, $description);
     }
 
-    private function isSingleLineDoc(string $content): bool
+    public function providePhpDocs(): \Iterator
     {
-        return substr_count($content, PHP_EOL) <= 1;
+        yield [
+            'single line with type',
+            '/** @var Type */'
+        ];
     }
 }
