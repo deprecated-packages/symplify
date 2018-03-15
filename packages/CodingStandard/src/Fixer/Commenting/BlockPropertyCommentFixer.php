@@ -3,7 +3,6 @@
 namespace Symplify\CodingStandard\Fixer\Commenting;
 
 use PhpCsFixer\Fixer\DefinedFixerInterface;
-use PhpCsFixer\Fixer\FixerInterface;
 use PhpCsFixer\Fixer\WhitespacesAwareFixerInterface;
 use PhpCsFixer\FixerDefinition\CodeSample;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
@@ -14,7 +13,7 @@ use PhpCsFixer\WhitespacesFixerConfig;
 use SplFileInfo;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\ClassWrapper;
 
-final class BlockPropertyCommentFixer implements FixerInterface, DefinedFixerInterface, WhitespacesAwareFixerInterface
+final class BlockPropertyCommentFixer implements DefinedFixerInterface, WhitespacesAwareFixerInterface
 {
     /**
      * @var WhitespacesFixerConfig

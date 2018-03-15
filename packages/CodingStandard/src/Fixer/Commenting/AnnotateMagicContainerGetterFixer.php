@@ -4,7 +4,6 @@ namespace Symplify\CodingStandard\Fixer\Commenting;
 
 use Nette\Utils\Strings;
 use PhpCsFixer\Fixer\DefinedFixerInterface;
-use PhpCsFixer\Fixer\FixerInterface;
 use PhpCsFixer\FixerDefinition\CodeSample;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
@@ -15,7 +14,7 @@ use SplFileInfo;
 use Symplify\TokenRunner\Analyzer\FixerAnalyzer\DocBlockFinder;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\DocBlockWrapper;
 
-final class AnnotateMagicContainerGetterFixer implements FixerInterface, DefinedFixerInterface
+final class AnnotateMagicContainerGetterFixer implements DefinedFixerInterface
 {
     public function getDefinition(): FixerDefinitionInterface
     {
