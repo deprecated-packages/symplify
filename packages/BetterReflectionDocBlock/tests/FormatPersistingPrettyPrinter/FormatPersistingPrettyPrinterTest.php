@@ -2,18 +2,15 @@
 
 namespace Symplify\BetterReflectionDocBlock\Tests\FormatPersistingPrettyPrinter;
 
-use PHPStan\PhpDocParser\Ast\PhpDoc\VarTagValueNode;
+use Iterator;
 use Symplify\BetterReflectionDocBlock\PhpDocParser\PhpDocInfoFactory;
-use Symplify\BetterReflectionDocBlock\PhpDocParser\PhpDocParser;
 use Symplify\BetterReflectionDocBlock\Tests\AbstractContainerAwareTestCase;
 
+/**
+ * @cover \Symplify\BetterReflectionDocBlock\PhpDocParser\PhpDocParser
+ */
 final class FormatPersistingPrettyPrinterTest extends AbstractContainerAwareTestCase
 {
-    /**
-     * @var PhpDocParser
-     */
-    private $phpDocParser;
-
     /**
      * @var PhpDocInfoFactory
      */
@@ -21,7 +18,6 @@ final class FormatPersistingPrettyPrinterTest extends AbstractContainerAwareTest
 
     protected function setUp(): void
     {
-        $this->phpDocParser = $this->container->get(PhpDocParser::class);
         $this->phpDocInfoFactory = $this->container->get(PhpDocInfoFactory::class);
     }
 
@@ -35,11 +31,16 @@ final class FormatPersistingPrettyPrinterTest extends AbstractContainerAwareTest
         $this->assertSame($content, (string) $phpDocInfo, $description);
     }
 
-    public function providePhpDocs(): \Iterator
+    public function providePhpDocs(): Iterator
     {
         yield [
             'single line with type',
-            '/** @var Type */'
+            '/** @var Type */',
+        ];
+
+        yield [
+            'fixed serializer test case',
+            file_get_contents(__DIR__ . '/../FixedSerializerSource/originalDocBlock.txt')
         ];
     }
 }

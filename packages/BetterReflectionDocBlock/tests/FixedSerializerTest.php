@@ -3,7 +3,6 @@
 namespace Symplify\BetterReflectionDocBlock\Tests;
 
 use phpDocumentor\Reflection\DocBlock;
-use PHPUnit\Framework\TestCase;
 use Symplify\BetterReflectionDocBlock\CleanDocBlockFactory;
 use Symplify\BetterReflectionDocBlock\CleanFormatter;
 use Symplify\BetterReflectionDocBlock\FixedSerializer;
@@ -19,7 +18,6 @@ final class FixedSerializerTest extends AbstractContainerAwareTestCase
     {
         $this->cleanDocBlockFactory = $this->container->get(CleanDocBlockFactory::class);
     }
-
 
     public function testNoSpaceOnEmptyLine(): void
     {

@@ -13,6 +13,7 @@ final class PhpDocParser
      * @var PhpStanPhpDocParser
      */
     private $phpStanPhpDocParser;
+
     /**
      * @var Lexer
      */

@@ -3,6 +3,7 @@
 namespace Symplify\BetterReflectionDocBlock\PhpDocParser;
 
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocNode;
+use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTextNode;
 
 final class PhpDocInfo
 {
@@ -38,6 +39,18 @@ final class PhpDocInfo
             return sprintf('/** %s */', implode(' ', $this->phpDocNode->children));
         }
 
-        return (string) $this->phpDocNode;
+        $start = '/**' . PHP_EOL;
+        $end = ' */' . PHP_EOL;
+
+        $middle = '';
+        foreach ($this->phpDocNode->children as $childNode) {
+            if ($childNode instanceof PhpDocTextNode && $childNode->text === '') {
+                $middle .= ' *'. PHP_EOL;
+            } else {
+                $middle .= ' * ' . (string) $childNode . PHP_EOL;
+            }
+        }
+
+        return $start . $middle . $end;
     }
 }
