@@ -53,20 +53,13 @@ final class ClassWrapper
         $this->classToken = $this->tokens[$position];
     }
 
-    public static function createFromFileAndPosition(File $file, int $position): self
-    {
-        // consider static cache factory
-        return new self($file, $position);
-    }
-
     public static function createFromFirstClassInFile(File $file): ?self
     {
         $possibleClassPosition = $file->findNext(T_CLASS, 0);
         if ($possibleClassPosition === false) {
             return null;
         }
-
-        return self::createFromFileAndPosition($file, $possibleClassPosition);
+        return new self($file, $possibleClassPosition);
     }
 
     public function getClassName(): string
