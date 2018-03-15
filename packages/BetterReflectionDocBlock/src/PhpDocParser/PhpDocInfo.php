@@ -23,16 +23,6 @@ final class PhpDocInfo
         $this->isSingleLineDoc = $isSingleLineDoc;
     }
 
-    public function getPhpDocNode(): PhpDocNode
-    {
-        return $this->phpDocNode;
-    }
-
-    public function isSingleLineDoc(): bool
-    {
-        return $this->isSingleLineDoc;
-    }
-
     public function __toString(): string
     {
         if ($this->isSingleLineDoc) {
@@ -45,12 +35,22 @@ final class PhpDocInfo
         $middle = '';
         foreach ($this->phpDocNode->children as $childNode) {
             if ($childNode instanceof PhpDocTextNode && $childNode->text === '') {
-                $middle .= ' *'. PHP_EOL;
+                $middle .= ' *' . PHP_EOL;
             } else {
                 $middle .= ' * ' . (string) $childNode . PHP_EOL;
             }
         }
 
         return $start . $middle . $end;
+    }
+
+    public function getPhpDocNode(): PhpDocNode
+    {
+        return $this->phpDocNode;
+    }
+
+    public function isSingleLineDoc(): bool
+    {
+        return $this->isSingleLineDoc;
     }
 }

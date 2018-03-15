@@ -40,7 +40,7 @@ final class FormatPersistingPrettyPrinterTest extends AbstractContainerAwareTest
 
         yield [
             'fixed serializer test case',
-            file_get_contents(__DIR__ . '/../FixedSerializerSource/originalDocBlock.txt')
+            file_get_contents(__DIR__ . '/../FixedSerializerSource/originalDocBlock.txt'),
         ];
     }
 }
