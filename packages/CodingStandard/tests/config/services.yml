@@ -1,0 +1,4 @@
+# services available in ECS run
+services:
+    Symplify\TokenRunner\DocBlock\DescriptionAnalyzer: ~
+    Symplify\TokenRunner\DocBlock\ParamAndReturnTagAnalyzer: ~
