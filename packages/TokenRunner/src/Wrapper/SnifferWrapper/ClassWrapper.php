@@ -32,11 +32,6 @@ final class ClassWrapper
      */
     private $tokens = [];
 
-    /**
-     * @var string[]
-     */
-    private $propertyNames = [];
-
     private function __construct(File $file, int $position)
     {
         TokenTypeGuard::ensureIsTokenType($file->getTokens()[$position], [T_CLASS, T_TRAIT, T_INTERFACE], __METHOD__);
@@ -71,28 +66,6 @@ final class ClassWrapper
     public function extends(): bool
     {
         return (bool) $this->file->findNext(T_EXTENDS, $this->position, $this->position + 5);
-    }
-
-    /**
-     * Inspired by @see TokensAnalyzer.
-     *
-     * @return string[]
-     */
-    public function getPropertyNames(): array
-    {
-        if ($this->propertyNames) {
-            return $this->propertyNames;
-        }
-
-        $classOpenerPosition = $this->classToken['scope_opener'] + 1;
-        $classCloserPosition = $this->classToken['scope_closer'] - 1;
-
-        $propertyTokens = $this->findClassLevelTokensType($classOpenerPosition, $classCloserPosition, T_VARIABLE);
-
-        $this->propertyNames = $this->extractPropertyNamesFromPropertyTokens($propertyTokens);
-        $this->propertyNames = array_merge($this->propertyNames, $this->getParentClassPropertyNames());
-
-        return $this->propertyNames;
     }
 
     public function getParentClassName(): ?string
