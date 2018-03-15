@@ -114,8 +114,11 @@ final class ArrayWrapper
         $currentToken = $this->tokens[$currentPosition];
 
         // includes indent in the beginning
-        // -1 = do not count PHP_EOL as character
-        $lineLength += strlen($currentToken->getContent()) - 1;
+        $lineLength += strlen($currentToken->getContent());
+
+        // minus end of lines, do not count PHP_EOL as characters
+        $endOfLineCount = substr_count($currentToken->getContent(), PHP_EOL);
+        $lineLength -= $endOfLineCount;
 
         // compute from here to end of line
         $currentPosition = $this->startIndex + 1;
