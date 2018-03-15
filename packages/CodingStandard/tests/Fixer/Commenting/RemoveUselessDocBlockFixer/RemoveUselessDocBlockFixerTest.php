@@ -36,6 +36,7 @@ final class RemoveUselessDocBlockFixerTest extends AbstractContainerAwareChecker
             [__DIR__ . '/correct/correct12.php.inc'],
             [__DIR__ . '/correct/correct13.php.inc'],
             [__DIR__ . '/correct/correct14.php.inc'],
+            [__DIR__ . '/correct/correct15.php.inc'],
         ];
     }
 

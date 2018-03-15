@@ -146,7 +146,8 @@ final class MethodWrapper
 
     public function getReturnType(): ?string
     {
-        for ($i = $this->index; $i < count($this->tokens); ++$i) {
+        $tokenCount = count($this->tokens);
+        for ($i = $this->index; $i < $tokenCount; ++$i) {
             $token = $this->tokens[$i];
             if ($token->getContent() === '{') {
                 return null;
