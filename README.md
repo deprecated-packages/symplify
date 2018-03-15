@@ -20,7 +20,7 @@ The best and easiest way to start coding standard with. Combined both [PHP-CS-Fi
 
 **Used by [Shopsys](https://github.com/shopsys/coding-standards), [Nette](https://github.com/nette/coding-standard) and [Sylius](https://github.com/SyliusLabs/CodingStandard).**
 
-![ECS-Run](packages/EasyCodingStandard/docs/run-and-fix-smaller.gif)
+![ECS-Run](packages/EasyCodingStandard/docs/run-and-fix.gif)
 
 ## [Statie](https://github.com/Symplify/Statie) - [www.statie.org](https://www.statie.org)
 
