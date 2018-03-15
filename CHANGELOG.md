@@ -2,7 +2,7 @@
 
 Note: due to rather agile development of packages and big amount of releases all changes are bunched in nearest minor version, e.g. changes from 3.1.0-3.1.15 => 3.2.0. That makes changelog more clear and readable, rather then having 15 lines with one change per version, and also helps to actually maintain this file.
 
-## [v4.0.0alpha1][Unreleased]
+## [v4.0.0alpha1]
 
 Biggest change of this release is moving from mixture of Yaml and Neon format in `*.neon` files to Yaml format in `*.yaml` files. That will make Symplify packages more world-friendly and standard rather than Czech-only Neon format. See [#651](https://github.com/Symplify/Symplify/pull/651) about more reasoning behind this.
 
@@ -10,6 +10,7 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
 
 ### Added
 
+- [#690] **CodingStandard** Make `RemoveUselessDocBlockFixer` cover functions as well
 - [#656] **EasyCodingStandard** Add configurable cache directory for changed files, closes [#650], thanks to [@marmichalski]
     ```yml
     # easy-coding-standard.yml
@@ -785,3 +786,6 @@ For more deprecation details see [Symplify packages deprecations brought by Symf
 [@marmichalski]: https://github.com/marmichalski
 [#661]: https://github.com/Symplify/Symplify/pull/661
 [#660]: https://github.com/Symplify/Symplify/pull/660
+[v4.0.0alpha1]: https://github.com/Symplify/Symplify/compare/v3.2.0...v4.0.0alpha1
+[#690]: https://github.com/Symplify/Symplify/pull/690
+[#688]: https://github.com/Symplify/Symplify/pull/688
