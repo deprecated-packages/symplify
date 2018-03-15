@@ -2,6 +2,10 @@
 
 namespace Symplify\BetterReflectionDocBlock\PhpDocParser;
 
+use PHPStan\PhpDocParser\Lexer\Lexer;
+use PHPStan\PhpDocParser\Parser\PhpDocParser;
+use PHPStan\PhpDocParser\Parser\TokenIterator;
+
 final class PhpDocInfoFactory
 {
     /**
@@ -9,17 +13,25 @@ final class PhpDocInfoFactory
      */
     private $phpDocParser;
 
-    public function __construct(PhpDocParser $phpDocParser)
+    /**
+     * @var Lexer
+     */
+    private $lexer;
+
+    public function __construct(PhpDocParser $phpDocParser, Lexer $lexer)
     {
         $this->phpDocParser = $phpDocParser;
+        $this->lexer = $lexer;
     }
 
     public function createFrom(string $content): PhpDocInfo
     {
-        $phpDocNode = $this->phpDocParser->parse($content);
+        $tokenIterator = new TokenIterator($this->lexer->tokenize($content));
+        $phpDocNode = $this->phpDocParser->parse($tokenIterator);
+
         $isSingleLine = $this->isSingleLine($content);
 
-        return new PhpDocInfo($phpDocNode, $isSingleLine);
+        return new PhpDocInfo($phpDocNode, $isSingleLine, $tokenIterator);
     }
 
     private function isSingleLine(string $content): bool

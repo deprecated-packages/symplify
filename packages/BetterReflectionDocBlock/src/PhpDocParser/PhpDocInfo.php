@@ -8,6 +8,7 @@ use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTagNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTextNode;
 use PHPStan\PhpDocParser\Ast\Type\UnionTypeNode;
+use PHPStan\PhpDocParser\Parser\TokenIterator;
 use Symplify\BetterReflectionDocBlock\PhpDocParser\Ast\Type\FormatPreservingUnionTypeNode;
 
 final class PhpDocInfo
@@ -22,9 +23,15 @@ final class PhpDocInfo
      */
     private $isSingleLineDoc;
 
-    public function __construct(PhpDocNode $phpDocNode, bool $isSingleLineDoc)
+    /**
+     * @var TokenIterator
+     */
+    private $tokenIterator;
+
+    public function __construct(PhpDocNode $phpDocNode, bool $isSingleLineDoc, TokenIterator $tokenIterator)
     {
         $this->phpDocNode = $phpDocNode;
+        $this->tokenIterator = $tokenIterator;
         $this->isSingleLineDoc = $isSingleLineDoc;
     }
 
