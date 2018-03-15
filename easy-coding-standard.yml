@@ -30,6 +30,9 @@ services:
             - 'Symfony\Component\DependencyInjection\ContainerBuilder'
             - 'Symplify\EasyCodingStandard\Yaml\*'
 
+    SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff:
+        enableObjectTypeHint: false
+
 parameters:
     exclude_checkers:
         # broken in php-cs-fixer 2.10, being fixed in master: https://github.com/FriendsOfPHP/PHP-CS-Fixer/pull/3438
