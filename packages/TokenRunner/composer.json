@@ -13,7 +13,7 @@
         "phpdocumentor/reflection-docblock": "4.2|4.3"
     },
     "require-dev": {
-        "phpunit/phpunit": "^6.5"
+        "phpunit/phpunit": "^7.0"
     },
     "autoload": {
         "psr-4": {
