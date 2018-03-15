@@ -14,7 +14,7 @@ use Symplify\BetterReflectionDocBlock\Tag\TolerantReturn;
 use Symplify\BetterReflectionDocBlock\Tag\TolerantVar;
 
 /**
- * Same as DocBlockFactory::instance(), but uses only tags that are needed
+ * Same as @see DocBlockFactory::createInstance(), but uses only tags that are needed
  */
 final class CleanDocBlockFactory
 {

@@ -60,6 +60,7 @@ final class DocBlockWrapper
         $this->tokens = $tokens;
         $this->position = $position;
 
+        // @todo remove static, move to factory
         $this->phpDocumentorDocBlock = (new CleanDocBlockFactory(new FqsenResolver()))->create($content);
         $this->originalContent = $content;
     }

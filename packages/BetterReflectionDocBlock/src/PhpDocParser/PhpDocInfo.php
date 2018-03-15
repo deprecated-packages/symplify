@@ -48,6 +48,7 @@ final class PhpDocInfo
                     /** @var ParamTagValueNode $childNodeValue */
                     $childNodeValueType = $childNodeValue->type;
                     /** @var UnionTypeNode $childNodeValueType */
+                    // @todo: here it requires to check format of original node, as in PHPParser
                     $childNodeValue->type = new FormatPreservingUnionTypeNode($childNodeValueType->types);
                 }
 
