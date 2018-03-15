@@ -59,6 +59,7 @@ final class ClassWrapper
         if ($possibleClassPosition === false) {
             return null;
         }
+
         return new self($file, $possibleClassPosition);
     }
 
