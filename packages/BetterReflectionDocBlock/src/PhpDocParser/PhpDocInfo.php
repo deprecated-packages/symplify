@@ -2,8 +2,13 @@
 
 namespace Symplify\BetterReflectionDocBlock\PhpDocParser;
 
+use PHPStan\PhpDocParser\Ast\PhpDoc\ParamTagValueNode;
+use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocChildNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocNode;
+use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTagNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTextNode;
+use PHPStan\PhpDocParser\Ast\Type\UnionTypeNode;
+use Symplify\BetterReflectionDocBlock\PhpDocParser\Ast\Type\FormatPreservingUnionTypeNode;
 
 final class PhpDocInfo
 {
@@ -37,6 +42,15 @@ final class PhpDocInfo
             if ($childNode instanceof PhpDocTextNode && $childNode->text === '') {
                 $middle .= ' *' . PHP_EOL;
             } else {
+                if ($this->hasUnionType($childNode)) {
+                    /** @var PhpDocTagNode $childNode */
+                    $childNodeValue = $childNode->value;
+                    /** @var ParamTagValueNode $childNodeValue */
+                    $childNodeValueType = $childNodeValue->type;
+                    /** @var UnionTypeNode $childNodeValueType */
+                    $childNodeValue->type = new FormatPreservingUnionTypeNode($childNodeValueType->types);
+                }
+
                 $middle .= ' * ' . (string) $childNode . PHP_EOL;
             }
         }
@@ -52,5 +66,18 @@ final class PhpDocInfo
     public function isSingleLineDoc(): bool
     {
         return $this->isSingleLineDoc;
+    }
+
+    private function hasUnionType(PhpDocChildNode $phpDocChildNode): bool
+    {
+        if (! $phpDocChildNode instanceof PhpDocTagNode) {
+            return false;
+        }
+
+        if (! $phpDocChildNode->value instanceof ParamTagValueNode) {
+            return false;
+        }
+
+        return $phpDocChildNode->value->type instanceof UnionTypeNode;
     }
 }

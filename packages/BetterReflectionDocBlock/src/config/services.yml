@@ -5,7 +5,7 @@ services:
 
     Symplify\BetterReflectionDocBlock\:
         resource: '../'
-        exclude: '../{CleanFormatter.php,DependencyInjection,PhpDocParser/PhpDocInfo.php,Tag/*}'
+        exclude: '../{CleanFormatter.php,DependencyInjection,PhpDocParser/PhpDocInfo.php,Tag/*,PhpDocParser/Ast/Type/*}'
 
     phpDocumentor\Reflection\FqsenResolver: ~
 

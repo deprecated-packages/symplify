@@ -38,6 +38,8 @@ parameters:
         # buggy
         - '#Call to an undefined method PHP_CodeSniffer\\Sniffs\\Sniff|Symplify\\EasyCodingStandard\\Contract\\Application\\DualRunInterface::increaseRun\(\)#'
         - '#Symplify\\EasyCodingStandard\\Contract\\Application\\DualRunInterface#'
+        - '#Access to an undefined property PHPStan\\PhpDocParser\\Ast\\PhpDoc\\PhpDocChildNode::\$value#'
+
         # object
         - '#does not accept object#'
         - '#Call to an undefined method object#'
