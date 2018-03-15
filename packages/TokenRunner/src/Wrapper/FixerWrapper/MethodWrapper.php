@@ -205,8 +205,11 @@ final class MethodWrapper
         $currentToken = $this->tokens[$currentPosition];
 
         // includes indent in the beginning
-        // -1 = do not count PHP_EOL as character
-        $lineLength += strlen($currentToken->getContent()) - 2;
+        $lineLength += strlen($currentToken->getContent());
+
+        // minus end of lines, do not count PHP_EOL as characters
+        $endOfLineCount = substr_count($currentToken->getContent(), PHP_EOL);
+        $lineLength -= $endOfLineCount;
 
         // compute from here to end of line or till the start " use (...) "
         $currentPosition = $this->index + 1;
