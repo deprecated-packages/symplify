@@ -33,11 +33,6 @@ final class ClassWrapper
     private $tokens = [];
 
     /**
-     * @var MethodWrapper[]
-     */
-    private $methods = [];
-
-    /**
      * @var string[]
      */
     private $propertyNames = [];
@@ -56,7 +51,7 @@ final class ClassWrapper
     public static function createFromFirstClassInFile(File $file): ?self
     {
         $possibleClassPosition = $file->findNext(T_CLASS, 0);
-        if ($possibleClassPosition === false) {
+        if (! is_int($possibleClassPosition)) {
             return null;
         }
 
@@ -98,36 +93,6 @@ final class ClassWrapper
         $this->propertyNames = array_merge($this->propertyNames, $this->getParentClassPropertyNames());
 
         return $this->propertyNames;
-    }
-
-    /**
-     * @return MethodWrapper[]
-     */
-    public function getMethods(): array
-    {
-        if (count($this->methods)) {
-            return $this->methods;
-        }
-
-        $methods = [];
-        $methodTokenPointer = $this->file->findNext(
-            T_FUNCTION,
-            $this->classToken['scope_opener'] + 1,
-            $this->classToken['scope_closer']
-        );
-
-        while ($methodTokenPointer !== false) {
-            $method = MethodWrapper::createFromFileAndPosition($this->file, $methodTokenPointer);
-            $methods[$method->getName()] = $method;
-
-            $methodTokenPointer = $this->file->findNext(
-                T_FUNCTION,
-                $methodTokenPointer + 1,
-                $this->classToken['scope_closer']
-            );
-        }
-
-        return $this->methods = $methods;
     }
 
     public function getParentClassName(): ?string
