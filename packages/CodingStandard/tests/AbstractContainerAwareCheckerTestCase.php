@@ -45,8 +45,10 @@ abstract class AbstractContainerAwareCheckerTestCase extends AbstractSimpleFixer
     /**
      * @return CompilerPassInterface[]
      */
-    protected function prepareCompilerPasses(): array
+    private function prepareCompilerPasses(): array
     {
-        return [new AutowireCheckersCompilerPass()];
+        return [
+            new AutowireCheckersCompilerPass(),
+        ];
     }
 }

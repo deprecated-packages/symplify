@@ -44,8 +44,10 @@ final class RemoveUselessDocBlockFixer implements FixerInterface, DefinedFixerIn
      */
     private $paramAndReturnTagAnalyzer;
 
-    public function __construct(DescriptionAnalyzer $descriptionAnalyzer, ParamAndReturnTagAnalyzer $paramAndReturnTagAnalyzer)
-    {
+    public function __construct(
+        DescriptionAnalyzer $descriptionAnalyzer,
+        ParamAndReturnTagAnalyzer $paramAndReturnTagAnalyzer
+    ) {
         $this->descriptionAnalyzer = $descriptionAnalyzer;
         $this->paramAndReturnTagAnalyzer = $paramAndReturnTagAnalyzer;
 

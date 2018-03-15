@@ -39,7 +39,7 @@ final class GenericConfigAwareKernel extends Kernel
         parent::__construct('prod', true);
     }
 
-    public function registerContainerConfiguration(LoaderInterface $loader)
+    public function registerContainerConfiguration(LoaderInterface $loader): void
     {
         foreach ($this->configs as $config) {
             $loader->load($config);
@@ -56,7 +56,7 @@ final class GenericConfigAwareKernel extends Kernel
 
     public function getCacheDir(): string
     {
-        return sys_get_temp_dir() . '/_generic_kernel' .  $this->uniqueHash;
+        return sys_get_temp_dir() . '/_generic_kernel' . $this->uniqueHash;
     }
 
     public function getLogDir(): string
