@@ -112,46 +112,9 @@ final class ClassWrapper
     /**
      * @return mixed[]
      */
-    public function getPropertiesAndConstants(): array
-    {
-        return $this->filterClassyTokens($this->getClassyElements(), ['property', 'const']);
-    }
-
-    public function getClassEnd(): int
-    {
-        return $this->endBracketIndex;
-    }
-
-    /**
-     * @return mixed[]
-     */
     public function getProperties(): array
     {
         return $this->filterClassyTokens($this->getClassyElements(), ['property']);
-    }
-
-    public function getLastPropertyPosition(): ?int
-    {
-        $properties = $this->getProperties();
-        if ($properties === []) {
-            return null;
-        }
-
-        end($properties);
-
-        return key($properties);
-    }
-
-    public function getFirstMethodPosition(): ?int
-    {
-        $methods = $this->getMethods();
-        if ($methods === []) {
-            return null;
-        }
-
-        end($methods);
-
-        return key($methods);
     }
 
     /**

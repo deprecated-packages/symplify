@@ -507,40 +507,6 @@ It also covers `Interface` suffix as well, e.g `EventSubscriber` checks for `Eve
  }
 ```
 
-### Properties should be used instead of dynamically defined properties
-
-- class: [`Symplify\CodingStandard\Sniffs\Property\DynamicPropertySniff`](src/Sniffs/Property/DynamicPropertySniff.php)
-
-:x:
-
-```php
-class SomeClass
-{
-    public function __construct()
-    {
-        $this->someProperty = 5;
-    }
-}
-
-```
-
-:+1:
-
-```php
-class SomeClass
-{
-    /**
-     * @var int
-     */
-    public $someProperty;
-
-    public function __construct()
-    {
-        $this->someProperty = 5;
-    }
-}
-```
-
 ## Brave Checkers
 
 ### Possible Unused Public Method

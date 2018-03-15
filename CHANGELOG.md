@@ -89,6 +89,7 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
 
 ### Removed
 
+- [#688] **CodingStandard** Removed `DynamicPropertySniff`, use `PHPStan\Rules\Properties\AccessPropertiesRule`  PHPStan with [`--level 0`](https://github.com/phpstan/phpstan/blob/3485d8ce8c64a6becf6cc60f268d051af6ff7ceb/conf/config.level0.neon#L28) instead
 - [#647] **Statie** Removed deprecated `vendor/bin/statie push-to-github` command, use [Github pages on Travis](https://www.statie.org/docs/github-pages/#allow-travis-to-make-changes) instead
 - [#647] **CodingStandard** Removed deprecated `LastPropertyAndFirstMethodSeparationFixer`, see [#594], use [`PhpCsFixer\Fixer\ClassNotation\ClassAttributesSeparationFixer`](https://github.com/FriendsOfPHP/PHP-CS-Fixer/blob/b7cc8727c7faa8ebe7cc4220daaaabe29751bc5c/src/Fixer/ClassNotation/ClassAttributesSeparationFixer.php) instead; extends it if you need different space count
 - [#647] **CodingStandard** Removed deprecated `Symplify\CodingStandard\Fixer\Strict\InArrayStrictFixer`, use [`PhpCsFixer\Fixer\Strict\StrictParamFixer`](https://github.com/FriendsOfPHP/PHP-CS-Fixer/blob/b7cc8727c7faa8ebe7cc4220daaaabe29751bc5c/src/Fixer/Strict/StrictParamFixer.php) instead, that does the same job
