@@ -5,7 +5,6 @@ namespace Symplify\CodingStandard\Fixer\Commenting;
 use Nette\Utils\Strings;
 use PhpCsFixer\Fixer\ConfigurationDefinitionFixerInterface;
 use PhpCsFixer\Fixer\DefinedFixerInterface;
-use PhpCsFixer\Fixer\FixerInterface;
 use PhpCsFixer\Fixer\WhitespacesAwareFixerInterface;
 use PhpCsFixer\FixerConfiguration\FixerConfigurationResolver;
 use PhpCsFixer\FixerConfiguration\FixerConfigurationResolverInterface;
@@ -13,16 +12,16 @@ use PhpCsFixer\FixerConfiguration\FixerOptionBuilder;
 use PhpCsFixer\FixerDefinition\CodeSample;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
+use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use PhpCsFixer\WhitespacesFixerConfig;
 use SplFileInfo;
 use Symplify\TokenRunner\DocBlock\DescriptionAnalyzer;
 use Symplify\TokenRunner\DocBlock\ParamAndReturnTagAnalyzer;
-use Symplify\TokenRunner\Wrapper\FixerWrapper\ClassWrapper;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\DocBlockWrapper;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\MethodWrapper;
 
-final class RemoveUselessDocBlockFixer implements FixerInterface, DefinedFixerInterface, WhitespacesAwareFixerInterface, ConfigurationDefinitionFixerInterface
+final class RemoveUselessDocBlockFixer implements DefinedFixerInterface, WhitespacesAwareFixerInterface, ConfigurationDefinitionFixerInterface
 {
     /**
      * @var string
@@ -80,24 +79,22 @@ public function getCount(): int
     {
         for ($index = count($tokens) - 1; $index > 1; --$index) {
             $token = $tokens[$index];
-
-            if (! $token->isGivenKind(T_CLASS)) {
+            if (! $this->isNamedFunctionToken($tokens, $token, $index)) {
                 continue;
             }
 
-            $classWrapper = ClassWrapper::createFromTokensArrayStartPosition($tokens, $index);
-            foreach ($classWrapper->getMethodWrappers() as $methodWrapper) {
-                $docBlockWrapper = $methodWrapper->getDocBlockWrapper();
-                if ($docBlockWrapper === null) {
-                    continue;
-                }
+            $methodWrapper = MethodWrapper::createFromTokensAndPosition($tokens, $index);
 
-                $docBlockWrapper->setWhitespacesFixerConfig($this->whitespacesFixerConfig);
-
-                $this->processReturnTag($methodWrapper, $docBlockWrapper);
-                $this->processParamTag($methodWrapper, $docBlockWrapper);
-                $this->removeTagForMissingParameters($methodWrapper, $docBlockWrapper);
+            $docBlockWrapper = $methodWrapper->getDocBlockWrapper();
+            if ($docBlockWrapper === null) {
+                continue;
             }
+
+            $docBlockWrapper->setWhitespacesFixerConfig($this->whitespacesFixerConfig);
+
+            $this->processReturnTag($methodWrapper, $docBlockWrapper);
+            $this->processParamTag($methodWrapper, $docBlockWrapper);
+            $this->removeTagForMissingParameters($methodWrapper, $docBlockWrapper);
         }
     }
 
@@ -244,5 +241,17 @@ public function getCount(): int
 
             $docBlockWrapper->removeParamType($paramTag->getVariableName());
         }
+    }
+
+    private function isNamedFunctionToken(Tokens $tokens, Token $token, int $index): bool
+    {
+        if (! $token->isGivenKind(T_FUNCTION)) {
+            return false;
+        }
+
+        $possibleNamePosition = $tokens->getNextMeaningfulToken($index);
+        $possibleNameToken = $tokens[$possibleNamePosition];
+
+        return $possibleNameToken->isGivenKind(T_STRING);
     }
 }
