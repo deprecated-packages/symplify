@@ -2,7 +2,6 @@
 
 namespace Symplify\TokenRunner\Wrapper\FixerWrapper;
 
-use Nette\Utils\Strings;
 use PhpCsFixer\Tokenizer\Tokens;
 use Symplify\BetterReflectionDocBlock\CleanDocBlockFactory;
 

@@ -11,22 +11,17 @@ final class ClassWrapperFactory
      * @var PropertyWrapperFactory
      */
     private $propertyWrapperFactory;
-    /**
-     * @var DocBlockWrapperFactory
-     */
-    private $docBlockWrapperFactory;
+
     /**
      * @var MethodWrapperFactory
      */
     private $methodWrapperFactory;
 
     public function __construct(
-        DocBlockWrapperFactory $docBlockWrapperFactory,
         PropertyWrapperFactory $propertyWrapperFactory,
         MethodWrapperFactory $methodWrapperFactory
     ) {
         $this->propertyWrapperFactory = $propertyWrapperFactory;
-        $this->docBlockWrapperFactory = $docBlockWrapperFactory;
         $this->methodWrapperFactory = $methodWrapperFactory;
     }
 

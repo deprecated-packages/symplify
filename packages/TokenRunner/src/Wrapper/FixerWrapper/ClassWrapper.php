@@ -51,6 +51,11 @@ final class ClassWrapper
      */
     private $propertyWrapperFactory;
 
+    /**
+     * @var MethodWrapperFactory
+     */
+    private $methodWrapperFactory;
+
     public function __construct(
         Tokens $tokens,
         int $startIndex,
@@ -65,6 +70,7 @@ final class ClassWrapper
         $this->tokensAnalyzer = new TokensAnalyzer($tokens);
         $this->startIndex = $startIndex;
         $this->propertyWrapperFactory = $propertyWrapperFactory;
+        $this->methodWrapperFactory = $methodWrapperFactory;
     }
 
     public function getName(): ?string
@@ -156,7 +162,10 @@ final class ClassWrapper
         $propertyWrappers = [];
 
         foreach ($this->getProperties() as $propertyPosition => $propertyToken) {
-            $propertyWrappers[] = $this->propertyWrapperFactory->createFromTokensAndPosition($this->tokens, $propertyPosition);
+            $propertyWrappers[] = $this->propertyWrapperFactory->createFromTokensAndPosition(
+                $this->tokens,
+                $propertyPosition
+            );
         }
 
         return $propertyWrappers;
@@ -170,7 +179,10 @@ final class ClassWrapper
         $methodWrappers = [];
 
         foreach ($this->getMethods() as $methodPosition => $methodToken) {
-            $methodWrappers[] = MethodWrapper::createFromTokensAndPosition($this->tokens, $methodPosition);
+            $methodWrappers[] = $this->methodWrapperFactory->createFromTokensAndPosition(
+                $this->tokens,
+                $methodPosition
+            );
         }
 
         return $methodWrappers;

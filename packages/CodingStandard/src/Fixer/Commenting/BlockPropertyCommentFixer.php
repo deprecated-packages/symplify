@@ -11,7 +11,6 @@ use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use PhpCsFixer\WhitespacesFixerConfig;
 use SplFileInfo;
-use Symplify\TokenRunner\Wrapper\FixerWrapper\ClassWrapper;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\ClassWrapperFactory;
 
 final class BlockPropertyCommentFixer implements DefinedFixerInterface, WhitespacesAwareFixerInterface
@@ -21,15 +20,15 @@ final class BlockPropertyCommentFixer implements DefinedFixerInterface, Whitespa
      */
     private $classWrapperFactory;
 
-    public function __construct(ClassWrapperFactory $classWrapperFactory)
-    {
-        $this->classWrapperFactory = $classWrapperFactory;
-    }
-
     /**
      * @var WhitespacesFixerConfig
      */
     private $whitespacesFixerConfig;
+
+    public function __construct(ClassWrapperFactory $classWrapperFactory)
+    {
+        $this->classWrapperFactory = $classWrapperFactory;
+    }
 
     public function getDefinition(): FixerDefinitionInterface
     {

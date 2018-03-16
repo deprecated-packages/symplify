@@ -13,6 +13,7 @@ use PhpCsFixer\WhitespacesFixerConfig;
 use SplFileInfo;
 use Symplify\TokenRunner\Analyzer\FixerAnalyzer\IndentDetector;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\MethodWrapper;
+use Symplify\TokenRunner\Wrapper\FixerWrapper\MethodWrapperFactory;
 
 final class BreakMethodArgumentsFixer implements DefinedFixerInterface, WhitespacesAwareFixerInterface
 {
@@ -45,6 +46,16 @@ final class BreakMethodArgumentsFixer implements DefinedFixerInterface, Whitespa
      * @var string
      */
     private $closingBracketNewlineIndentWhitespace;
+
+    /**
+     * @var MethodWrapperFactory
+     */
+    private $methodWrapperFactory;
+
+    public function __construct(MethodWrapperFactory $methodWrapperFactory)
+    {
+        $this->methodWrapperFactory = $methodWrapperFactory;
+    }
 
     public function getDefinition(): FixerDefinitionInterface
     {
@@ -114,7 +125,7 @@ class SomeClass
 
     private function fixMethod(int $position, Tokens $tokens): void
     {
-        $methodWrapper = MethodWrapper::createFromTokensAndPosition($tokens, $position);
+        $methodWrapper = $this->methodWrapperFactory->createFromTokensAndPosition($tokens, $position);
         if (! $methodWrapper->getArguments()) {
             return;
         }

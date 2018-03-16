@@ -11,13 +11,34 @@ use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
 use Symplify\CodingStandard\Fixer\TokenBuilder;
 use Symplify\TokenRunner\Analyzer\FixerAnalyzer\DocBlockFinder;
-use Symplify\TokenRunner\Wrapper\FixerWrapper\ClassWrapper;
-use Symplify\TokenRunner\Wrapper\FixerWrapper\DocBlockWrapper;
+use Symplify\TokenRunner\Wrapper\FixerWrapper\ClassWrapperFactory;
+use Symplify\TokenRunner\Wrapper\FixerWrapper\DocBlockWrapperFactory;
 
 final class ArrayPropertyDefaultValueFixer implements DefinedFixerInterface
 {
-    public function __construct()
-    {
+    /**
+     * @var ClassWrapperFactory
+     */
+    private $classWrapperFactory;
+
+    /**
+     * @var DocBlockWrapperFactory
+     */
+    private $docBlockWrapperFactory;
+
+    /**
+     * @var DocBlockFinder
+     */
+    private $docBlockFinder;
+
+    public function __construct(
+        ClassWrapperFactory $classWrapperFactory,
+        DocBlockWrapperFactory $docBlockWrapperFactory,
+        DocBlockFinder $docBlockFinder
+    ) {
+        $this->classWrapperFactory = $classWrapperFactory;
+        $this->docBlockWrapperFactory = $docBlockWrapperFactory;
+        $this->docBlockFinder = $docBlockFinder;
     }
 
     public function getDefinition(): FixerDefinitionInterface
@@ -56,7 +77,7 @@ public $property;'
                 continue;
             }
 
-            $classTokensAnalyzer = ClassWrapper::createFromTokensArrayStartPosition($tokens, $index);
+            $classTokensAnalyzer = $this->classWrapperFactory->createFromTokensArrayStartPosition($tokens, $index);
 
             $this->fixProperties($tokens, $classTokensAnalyzer->getProperties());
         }
@@ -85,12 +106,17 @@ public $property;'
         $properties = array_reverse($properties, true);
 
         foreach ($properties as $index => ['token' => $propertyToken]) {
-            $docBlockTokenPosition = DocBlockFinder::findPreviousPosition($tokens, $index);
+            $docBlockTokenPosition = $this->docBlockFinder->findPreviousPosition($tokens, $index);
             if ($docBlockTokenPosition === null) {
                 continue;
             }
 
-            $docBlockWrapper = DocBlockWrapper::createFromTokensAndPosition($tokens, $docBlockTokenPosition);
+            $docBlockWrapper = $this->docBlockWrapperFactory->create(
+                $tokens,
+                $docBlockTokenPosition,
+                $tokens[$docBlockTokenPosition]->getContent()
+            );
+
             if (! $docBlockWrapper->isArrayProperty()) {
                 continue;
             }

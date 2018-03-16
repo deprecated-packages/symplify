@@ -43,6 +43,7 @@ final class RemoveUselessDocBlockFixer implements DefinedFixerInterface, Whitesp
      * @var ParamAndReturnTagAnalyzer
      */
     private $paramAndReturnTagAnalyzer;
+
     /**
      * @var MethodWrapperFactory
      */

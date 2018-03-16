@@ -16,6 +16,7 @@ use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\ArgumentWrapper;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\ClassWrapper;
+use Symplify\TokenRunner\Wrapper\FixerWrapper\ClassWrapperFactory;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\PropertyWrapper;
 
 final class PropertyNameMatchingTypeFixer implements DefinedFixerInterface, ConfigurationDefinitionFixerInterface
@@ -49,6 +50,16 @@ final class PropertyNameMatchingTypeFixer implements DefinedFixerInterface, Conf
      */
     private $configuration = [];
 
+    /**
+     * @var ClassWrapperFactory
+     */
+    private $classWrapperFactory;
+
+    public function __construct(ClassWrapperFactory $classWrapperFactory)
+    {
+        $this->classWrapperFactory = $classWrapperFactory;
+    }
+
     public function getDefinition(): FixerDefinitionInterface
     {
         return new FixerDefinition('Property and argument name should match its type, if possible.', [
@@ -80,7 +91,7 @@ class SomeClass
                 continue;
             }
 
-            $classTokensAnalyzer = ClassWrapper::createFromTokensArrayStartPosition($tokens, $index);
+            $classTokensAnalyzer = $this->classWrapperFactory->createFromTokensArrayStartPosition($tokens, $index);
 
             if ($classTokensAnalyzer->isGivenKind([T_CLASS, T_TRAIT])) {
                 $this->fixClassProperties($classTokensAnalyzer);

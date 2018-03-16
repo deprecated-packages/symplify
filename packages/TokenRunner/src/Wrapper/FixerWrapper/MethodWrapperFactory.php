@@ -11,6 +11,7 @@ final class MethodWrapperFactory
      * @var DocBlockWrapperFactory
      */
     private $docBlockWrapperFactory;
+
     /**
      * @var DocBlockFinder
      */
@@ -27,7 +28,11 @@ final class MethodWrapperFactory
         $docBlockWrapper = null;
         $docBlockPosition = $this->docBlockFinder->findPreviousPosition($tokens, $position);
         if ($docBlockPosition) {
-            $docBlockWrapper = $this->docBlockWrapperFactory->create($tokens, $docBlockPosition, $tokens[$docBlockPosition]->getContent());
+            $docBlockWrapper = $this->docBlockWrapperFactory->create(
+                $tokens,
+                $docBlockPosition,
+                $tokens[$docBlockPosition]->getContent()
+            );
         }
 
         return new MethodWrapper($tokens, $position, $docBlockWrapper);

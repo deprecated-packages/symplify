@@ -4,8 +4,6 @@ namespace Symplify\TokenRunner\Wrapper\FixerWrapper;
 
 use PhpCsFixer\Tokenizer\Tokens;
 use Symplify\TokenRunner\Analyzer\FixerAnalyzer\DocBlockFinder;
-use Symplify\TokenRunner\Guard\TokenTypeGuard;
-use Symplify\TokenRunner\Naming\Name\NameFactory;
 
 final class PropertyWrapperFactory
 {
@@ -13,6 +11,7 @@ final class PropertyWrapperFactory
      * @var DocBlockWrapperFactory
      */
     private $docBlockWrapperFactory;
+
     /**
      * @var DocBlockFinder
      */

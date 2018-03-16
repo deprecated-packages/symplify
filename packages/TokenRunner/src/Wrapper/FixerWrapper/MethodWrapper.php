@@ -6,7 +6,6 @@ use Nette\Utils\Strings;
 use PhpCsFixer\Tokenizer\CT;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
-use Symplify\TokenRunner\Analyzer\FixerAnalyzer\DocBlockFinder;
 use Symplify\TokenRunner\Guard\TokenTypeGuard;
 use Symplify\TokenRunner\Naming\Name\NameFactory;
 

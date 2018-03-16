@@ -3,10 +3,8 @@
 namespace Symplify\CodingStandard\Tests\Fixer\Commenting\BlockPropertyCommentFixer;
 
 use PhpCsFixer\Fixer\FixerInterface;
-use PhpCsFixer\WhitespacesFixerConfig;
 use Symplify\CodingStandard\Fixer\Commenting\BlockPropertyCommentFixer;
 use Symplify\EasyCodingStandard\Testing\AbstractContainerAwareCheckerTestCase;
-use Symplify\TokenRunner\Testing\AbstractSimpleFixerTestCase;
 
 final class BlockPropertyCommentFixerTest extends AbstractContainerAwareCheckerTestCase
 {
@@ -32,10 +30,6 @@ final class BlockPropertyCommentFixerTest extends AbstractContainerAwareCheckerT
     protected function createFixer(): FixerInterface
     {
         return $this->container->get(BlockPropertyCommentFixer::class);
-//        $fixer = new BlockPropertyCommentFixer();
-//        $fixer->setWhitespacesConfig(new WhitespacesFixerConfig('    ', PHP_EOL));
-//
-//        return $fixer;
     }
 
     protected function provideConfig(): string

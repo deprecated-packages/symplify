@@ -32,6 +32,7 @@ use Symplify\TokenRunner\Naming\UseImport\UseImport;
 use Symplify\TokenRunner\Naming\UseImport\UseImportsFactory;
 use Symplify\TokenRunner\Transformer\FixerTransformer\UseImportsTransformer;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\DocBlockWrapper;
+use Symplify\TokenRunner\Wrapper\FixerWrapper\DocBlockWrapperFactory;
 
 /**
  * Possible cases:
@@ -72,8 +73,15 @@ final class ImportNamespacedNameFixer implements DefinedFixerInterface, Configur
      */
     private $newUseStatementNames = [];
 
-    public function __construct()
+    /**
+     * @var DocBlockWrapperFactory
+     */
+    private $docBlockWrapperFactory;
+
+    public function __construct(DocBlockWrapperFactory $docBlockWrapperFactory)
     {
+        $this->docBlockWrapperFactory = $docBlockWrapperFactory;
+
         // set defaults
         $this->configuration = $this->getConfigurationDefinition()
             ->resolve([]);
@@ -236,7 +244,7 @@ final class ImportNamespacedNameFixer implements DefinedFixerInterface, Configur
 
     private function processDocCommentToken(int $index, Tokens $tokens): void
     {
-        $docBlockWrapper = DocBlockWrapper::createFromTokensAndPosition($tokens, $index);
+        $docBlockWrapper = $this->docBlockWrapperFactory->create($tokens, $index, $tokens[$index]->getContent());
         // require for doc block changes
         $docBlockWrapper->setWhitespacesFixerConfig($this->whitespacesFixerConfig);
 
