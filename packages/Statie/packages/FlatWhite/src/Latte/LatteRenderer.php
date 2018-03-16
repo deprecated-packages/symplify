@@ -8,11 +8,6 @@ use Nette\Utils\Strings;
 final class LatteRenderer
 {
     /**
-     * @var int
-     */
-    private $lattePlaceholderId = 0;
-
-    /**
      * @var string
      */
     private const CODE_BLOCKS_HTML_PATTERN = '#(?<code><code(?: class=\"[a-z-]+\")?>*(?:(?!<\/code>).)+<\/code>)#ms';
@@ -26,6 +21,11 @@ final class LatteRenderer
      * @var string
      */
     private const PLACEHOLDER_PREFIX = '___replace_block___';
+
+    /**
+     * @var int
+     */
+    private $lattePlaceholderId = 0;
 
     /**
      * @var Engine
