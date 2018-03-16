@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Sniffs\Commenting\ForbiddenReferenceSniff;
+namespace Symplify\CodingStandard\Tests\Sniffs\CleanCode\ForbiddenReferenceSniff;
 
 use PHP_CodeSniffer\Sniffs\Sniff;
 use Symplify\CodingStandard\Sniffs\CleanCode\ForbiddenReferenceSniff;
