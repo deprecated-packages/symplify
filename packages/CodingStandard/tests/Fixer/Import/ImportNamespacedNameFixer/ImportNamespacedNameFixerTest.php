@@ -5,9 +5,10 @@ namespace Symplify\CodingStandard\Tests\Fixer\Import\ImportNamespacedNameFixer;
 use PhpCsFixer\Fixer\FixerInterface;
 use PhpCsFixer\WhitespacesFixerConfig;
 use Symplify\CodingStandard\Fixer\Import\ImportNamespacedNameFixer;
+use Symplify\EasyCodingStandard\Testing\AbstractContainerAwareCheckerTestCase;
 use Symplify\TokenRunner\Testing\AbstractSimpleFixerTestCase;
 
-final class ImportNamespacedNameFixerTest extends AbstractSimpleFixerTestCase
+final class ImportNamespacedNameFixerTest extends AbstractContainerAwareCheckerTestCase
 {
     /**
      * @dataProvider provideCorrectCases()
@@ -58,9 +59,11 @@ final class ImportNamespacedNameFixerTest extends AbstractSimpleFixerTestCase
 
     protected function createFixer(): FixerInterface
     {
-        $fixer = new ImportNamespacedNameFixer();
-        $fixer->setWhitespacesConfig(new WhitespacesFixerConfig());
+        return $this->container->get(ImportNamespacedNameFixer::class);
+    }
 
-        return $fixer;
+    protected function provideConfig(): string
+    {
+        return __DIR__ . '/config.yml';
     }
 }
