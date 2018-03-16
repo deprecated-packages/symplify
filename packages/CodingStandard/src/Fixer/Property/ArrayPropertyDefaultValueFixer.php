@@ -16,6 +16,10 @@ use Symplify\TokenRunner\Wrapper\FixerWrapper\DocBlockWrapper;
 
 final class ArrayPropertyDefaultValueFixer implements DefinedFixerInterface
 {
+    public function __construct()
+    {
+    }
+
     public function getDefinition(): FixerDefinitionInterface
     {
         return new FixerDefinition(

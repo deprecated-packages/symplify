@@ -6,7 +6,7 @@ use PhpCsFixer\Tokenizer\Tokens;
 
 final class DocBlockFinder
 {
-    public static function findPreviousPosition(Tokens $tokens, int $index): ?int
+    public function findPreviousPosition(Tokens $tokens, int $index): ?int
     {
         for ($i = $index; $i > 0; --$i) {
             $token = $tokens[$i];

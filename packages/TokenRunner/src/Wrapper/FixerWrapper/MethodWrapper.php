@@ -51,17 +51,12 @@ final class MethodWrapper
      */
     private $docBlockWrapper;
 
-    private function __construct(Tokens $tokens, int $index)
+    public function __construct(Tokens $tokens, int $index, ?DocBlockWrapper $docBlockWrapper)
     {
         TokenTypeGuard::ensureIsTokenType($tokens[$index], [T_FUNCTION], __METHOD__);
 
         $this->tokens = $tokens;
         $this->index = $index;
-
-        $docBlockPosition = DocBlockFinder::findPreviousPosition($this->tokens, $this->index);
-        if ($docBlockPosition) {
-            $this->docBlockWrapper = DocBlockWrapper::createFromTokensAndPosition($this->tokens, $docBlockPosition);
-        }
 
         $this->bodyStart = $this->tokens->getNextTokenOfKind($this->index, ['{']);
         if ($this->bodyStart) {
@@ -73,11 +68,6 @@ final class MethodWrapper
             Tokens::BLOCK_TYPE_PARENTHESIS_BRACE,
             $this->argumentsBracketStart
         );
-    }
-
-    public static function createFromTokensAndPosition(Tokens $tokens, int $position): self
-    {
-        return new self($tokens, $position);
     }
 
     /**

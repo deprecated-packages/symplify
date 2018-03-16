@@ -8,6 +8,7 @@ use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use PhpCsFixer\WhitespacesFixerConfig;
 use phpDocumentor\Reflection\DocBlock as PhpDocumentorDocBlock;
+use phpDocumentor\Reflection\DocBlock;
 use phpDocumentor\Reflection\DocBlock\Serializer;
 use phpDocumentor\Reflection\DocBlock\Tags\Param;
 use phpDocumentor\Reflection\DocBlock\Tags\Return_;
@@ -55,22 +56,20 @@ final class DocBlockWrapper
      */
     private $originalContent;
 
-    private function __construct(Tokens $tokens, int $position, string $content)
+    public function __construct(Tokens $tokens, int $position, string $content, ?DocBlock $docBlock = null)
     {
         $this->tokens = $tokens;
         $this->position = $position;
-
-        // @todo remove static, move to factory
-        $this->phpDocumentorDocBlock = (new CleanDocBlockFactory(new FqsenResolver()))->create($content);
         $this->originalContent = $content;
+        $this->phpDocumentorDocBlock = $docBlock;
     }
 
-    public static function createFromTokensAndPosition(Tokens $tokens, int $index): self
-    {
-        TokenTypeGuard::ensureIsTokenType($tokens[$index], [T_COMMENT, T_DOC_COMMENT], __METHOD__);
-
-        return new self($tokens, $index, $tokens[$index]->getContent());
-    }
+//    public static function createFromTokensAndPosition(Tokens $tokens, int $index): self
+//    {
+//        TokenTypeGuard::ensureIsTokenType($tokens[$index], [T_COMMENT, T_DOC_COMMENT], __METHOD__);
+//
+//        return new self($tokens, $index, $tokens[$index]->getContent());
+//    }
 
     public function getTokenPosition(): int
     {

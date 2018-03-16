@@ -5,9 +5,10 @@ namespace Symplify\CodingStandard\Tests\Fixer\Commenting\BlockPropertyCommentFix
 use PhpCsFixer\Fixer\FixerInterface;
 use PhpCsFixer\WhitespacesFixerConfig;
 use Symplify\CodingStandard\Fixer\Commenting\BlockPropertyCommentFixer;
+use Symplify\EasyCodingStandard\Testing\AbstractContainerAwareCheckerTestCase;
 use Symplify\TokenRunner\Testing\AbstractSimpleFixerTestCase;
 
-final class BlockPropertyCommentFixerTest extends AbstractSimpleFixerTestCase
+final class BlockPropertyCommentFixerTest extends AbstractContainerAwareCheckerTestCase
 {
     /**
      * @dataProvider provideWrongToFixedCases()
@@ -30,9 +31,15 @@ final class BlockPropertyCommentFixerTest extends AbstractSimpleFixerTestCase
 
     protected function createFixer(): FixerInterface
     {
-        $fixer = new BlockPropertyCommentFixer();
-        $fixer->setWhitespacesConfig(new WhitespacesFixerConfig('    ', PHP_EOL));
+        return $this->container->get(BlockPropertyCommentFixer::class);
+//        $fixer = new BlockPropertyCommentFixer();
+//        $fixer->setWhitespacesConfig(new WhitespacesFixerConfig('    ', PHP_EOL));
+//
+//        return $fixer;
+    }
 
-        return $fixer;
+    protected function provideConfig(): string
+    {
+        return __DIR__ . '/config.yml';
     }
 }

@@ -36,7 +36,7 @@ abstract class AbstractVariableWrapper
         'mixed',
     ];
 
-    protected function __construct(Tokens $tokens, int $index)
+    public function __construct(Tokens $tokens, int $index)
     {
         $this->tokens = $tokens;
         $this->index = $index;

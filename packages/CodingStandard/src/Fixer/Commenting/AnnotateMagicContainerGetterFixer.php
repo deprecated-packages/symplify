@@ -13,9 +13,20 @@ use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
 use Symplify\TokenRunner\Analyzer\FixerAnalyzer\DocBlockFinder;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\DocBlockWrapper;
+use Symplify\TokenRunner\Wrapper\FixerWrapper\DocBlockWrapperFactory;
 
 final class AnnotateMagicContainerGetterFixer implements DefinedFixerInterface
 {
+    /**
+     * @var DocBlockWrapperFactory
+     */
+    private $docBlockWrapperFactory;
+
+    public function __construct(DocBlockWrapperFactory $docBlockWrapperFactory)
+    {
+        $this->docBlockWrapperFactory = $docBlockWrapperFactory;
+    }
+
     public function getDefinition(): FixerDefinitionInterface
     {
         return new FixerDefinition(
@@ -52,7 +63,12 @@ $someService->unknownMethod();
             // has variable a @var annotation?
             $docBlockPosition = DocBlockFinder::findPreviousPosition($tokens, $index);
             if ($docBlockPosition) {
-                $docBlockWrapper = DocBlockWrapper::createFromTokensAndPosition($tokens, $docBlockPosition);
+                $docBlockWrapper = $this->docBlockWrapperFactory->create(
+                    $tokens,
+                    $docBlockPosition,
+                    $tokens[$docBlockPosition]->getContent()
+                );
+
                 if ($docBlockWrapper->getVarType()) {
                     continue;
                 }

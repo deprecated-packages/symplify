@@ -20,6 +20,7 @@ use Symplify\TokenRunner\DocBlock\DescriptionAnalyzer;
 use Symplify\TokenRunner\DocBlock\ParamAndReturnTagAnalyzer;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\DocBlockWrapper;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\MethodWrapper;
+use Symplify\TokenRunner\Wrapper\FixerWrapper\MethodWrapperFactory;
 
 final class RemoveUselessDocBlockFixer implements DefinedFixerInterface, WhitespacesAwareFixerInterface, ConfigurationDefinitionFixerInterface
 {
@@ -42,15 +43,21 @@ final class RemoveUselessDocBlockFixer implements DefinedFixerInterface, Whitesp
      * @var ParamAndReturnTagAnalyzer
      */
     private $paramAndReturnTagAnalyzer;
+    /**
+     * @var MethodWrapperFactory
+     */
+    private $methodWrapperFactory;
 
     public function __construct(
         DescriptionAnalyzer $descriptionAnalyzer,
-        ParamAndReturnTagAnalyzer $paramAndReturnTagAnalyzer
+        ParamAndReturnTagAnalyzer $paramAndReturnTagAnalyzer,
+        MethodWrapperFactory $methodWrapperFactory
     ) {
         $this->descriptionAnalyzer = $descriptionAnalyzer;
         $this->paramAndReturnTagAnalyzer = $paramAndReturnTagAnalyzer;
 
         $this->configure([]);
+        $this->methodWrapperFactory = $methodWrapperFactory;
     }
 
     public function getDefinition(): FixerDefinitionInterface
@@ -83,7 +90,7 @@ public function getCount(): int
                 continue;
             }
 
-            $methodWrapper = MethodWrapper::createFromTokensAndPosition($tokens, $index);
+            $methodWrapper = $this->methodWrapperFactory->createFromTokensAndPosition($tokens, $index);
 
             $docBlockWrapper = $methodWrapper->getDocBlockWrapper();
             if ($docBlockWrapper === null) {

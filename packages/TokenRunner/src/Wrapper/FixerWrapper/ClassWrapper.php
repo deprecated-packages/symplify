@@ -7,7 +7,6 @@ use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use PhpCsFixer\Tokenizer\TokensAnalyzer;
 use Symplify\TokenRunner\Analyzer\FixerAnalyzer\DocBlockFinder;
-use Symplify\TokenRunner\Guard\TokenTypeGuard;
 use Symplify\TokenRunner\Naming\Name\NameFactory;
 
 final class ClassWrapper
@@ -47,8 +46,17 @@ final class ClassWrapper
      */
     private $classyElements = [];
 
-    private function __construct(Tokens $tokens, int $startIndex)
-    {
+    /**
+     * @var PropertyWrapperFactory
+     */
+    private $propertyWrapperFactory;
+
+    public function __construct(
+        Tokens $tokens,
+        int $startIndex,
+        PropertyWrapperFactory $propertyWrapperFactory,
+        MethodWrapperFactory $methodWrapperFactory
+    ) {
         $this->classToken = $tokens[$startIndex];
         $this->startBracketIndex = $tokens->getNextTokenOfKind($startIndex, ['{']);
         $this->endBracketIndex = $tokens->findBlockEnd(Tokens::BLOCK_TYPE_CURLY_BRACE, $this->startBracketIndex);
@@ -56,13 +64,7 @@ final class ClassWrapper
         $this->tokens = $tokens;
         $this->tokensAnalyzer = new TokensAnalyzer($tokens);
         $this->startIndex = $startIndex;
-    }
-
-    public static function createFromTokensArrayStartPosition(Tokens $tokens, int $startIndex): self
-    {
-        TokenTypeGuard::ensureIsTokenType($tokens[$startIndex], [T_CLASS, T_INTERFACE, T_TRAIT], self::class);
-
-        return new self($tokens, $startIndex);
+        $this->propertyWrapperFactory = $propertyWrapperFactory;
     }
 
     public function getName(): ?string
@@ -154,7 +156,7 @@ final class ClassWrapper
         $propertyWrappers = [];
 
         foreach ($this->getProperties() as $propertyPosition => $propertyToken) {
-            $propertyWrappers[] = PropertyWrapper::createFromTokensAndPosition($this->tokens, $propertyPosition);
+            $propertyWrappers[] = $this->propertyWrapperFactory->createFromTokensAndPosition($this->tokens, $propertyPosition);
         }
 
         return $propertyWrappers;

@@ -12,9 +12,20 @@ use PhpCsFixer\Tokenizer\Tokens;
 use PhpCsFixer\WhitespacesFixerConfig;
 use SplFileInfo;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\ClassWrapper;
+use Symplify\TokenRunner\Wrapper\FixerWrapper\ClassWrapperFactory;
 
 final class BlockPropertyCommentFixer implements DefinedFixerInterface, WhitespacesAwareFixerInterface
 {
+    /**
+     * @var ClassWrapperFactory
+     */
+    private $classWrapperFactory;
+
+    public function __construct(ClassWrapperFactory $classWrapperFactory)
+    {
+        $this->classWrapperFactory = $classWrapperFactory;
+    }
+
     /**
      * @var WhitespacesFixerConfig
      */
@@ -49,7 +60,7 @@ private $property;
                 continue;
             }
 
-            $classWrapper = ClassWrapper::createFromTokensArrayStartPosition($tokens, $index);
+            $classWrapper = $this->classWrapperFactory->createFromTokensArrayStartPosition($tokens, $index);
             foreach ($classWrapper->getPropertyWrappers() as $propertyWrapper) {
                 $docBlockWrapper = $propertyWrapper->getDocBlockWrapper();
                 if ($docBlockWrapper === null || ! $docBlockWrapper->isSingleLine()) {
