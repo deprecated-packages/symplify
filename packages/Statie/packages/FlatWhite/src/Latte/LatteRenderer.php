@@ -8,6 +8,11 @@ use Nette\Utils\Strings;
 final class LatteRenderer
 {
     /**
+     * @var int
+     */
+    private $lattePlaceholderId = 0;
+
+    /**
      * @var string
      */
     private const CODE_BLOCKS_HTML_PATTERN = '#(?<code><code(?: class=\"[a-z-]+\")?>*(?:(?!<\/code>).)+<\/code>)#ms';
@@ -32,6 +37,11 @@ final class LatteRenderer
      */
     private $dynamicStringLoader;
 
+    /**
+     * @var string[]
+     */
+    private $highlightedCodeBlocks = [];
+
     public function __construct(LatteFactory $latteFactory, DynamicStringLoader $dynamicStringLoader)
     {
         $this->engine = $latteFactory->create();
@@ -43,8 +53,8 @@ final class LatteRenderer
      */
     public function renderExcludingHighlightBlocks(string $content, array $parameters): string
     {
-        $i = 0;
-        $highlightedCodeBlocks = [];
+        $this->lattePlaceholderId = 0;
+        $this->highlightedCodeBlocks = [];
 
         // due to StringLoader
         // make sure we have content and not file name
@@ -55,9 +65,9 @@ final class LatteRenderer
         $contentWithPlaceholders = Strings::replace(
             $content,
             self::CODE_BLOCKS_HTML_PATTERN,
-            function (array $match) use (&$i, &$highlightedCodeBlocks): string {
-                $placeholder = self::PLACEHOLDER_PREFIX . ++$i;
-                $highlightedCodeBlocks[$placeholder] = $match['code'];
+            function (array $match): string {
+                $placeholder = self::PLACEHOLDER_PREFIX . ++$this->lattePlaceholderId;
+                $this->highlightedCodeBlocks[$placeholder] = $match['code'];
 
                 return $placeholder;
             }
@@ -71,8 +81,8 @@ final class LatteRenderer
         return Strings::replace(
             $renderedContentWithPlaceholders,
             self::PLACEHOLDER_PATTERN,
-            function (array $match) use ($highlightedCodeBlocks): string {
-                return $highlightedCodeBlocks[$match['placeholder']];
+            function (array $match): string {
+                return $this->highlightedCodeBlocks[$match['placeholder']];
             }
         );
     }
