@@ -338,6 +338,28 @@ throw new RuntimeException('...');
 throw new FileNotFoundException('...');
 ```
 
+### Use explicit return values over magic "&$variable" reference
+
+- class: [`Symplify\CodingStandard\Sniffs\CleanCode\ForbiddenReferenceSniff`](src/Sniffs/CleanCode/ForbiddenReferenceSniff.php)
+
+:x:
+
+```php
+function someFunction(&$var)
+{
+    $var + 1;
+}
+```
+
+:+1:
+
+```php
+function someFunction($var)
+{
+    return $var + 1;
+}
+```
+
 ### Constant should have docblock comment
 
 - class: [`Symplify\CodingStandard\Sniffs\Commenting\VarConstantCommentSniff`](src/Sniffs/Commenting/VarConstantCommentSniff.php)
