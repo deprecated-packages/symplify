@@ -4,9 +4,10 @@ namespace Symplify\CodingStandard\Tests\Fixer\Naming\PropertyNameMatchingTypeFix
 
 use PhpCsFixer\Fixer\FixerInterface;
 use Symplify\CodingStandard\Fixer\Naming\PropertyNameMatchingTypeFixer;
+use Symplify\EasyCodingStandard\Testing\AbstractContainerAwareCheckerTestCase;
 use Symplify\TokenRunner\Testing\AbstractSimpleFixerTestCase;
 
-final class PropertyNameMatchingTypeFixerTest extends AbstractSimpleFixerTestCase
+final class PropertyNameMatchingTypeFixerTest extends AbstractContainerAwareCheckerTestCase
 {
     /**
      * @dataProvider provideCorrectCases()
@@ -54,6 +55,11 @@ final class PropertyNameMatchingTypeFixerTest extends AbstractSimpleFixerTestCas
 
     protected function createFixer(): FixerInterface
     {
-        return new PropertyNameMatchingTypeFixer();
+        return $this->container->get(PropertyNameMatchingTypeFixer::class);
+    }
+
+    protected function provideConfig(): string
+    {
+        return __DIR__ . '/config.yml';
     }
 }
