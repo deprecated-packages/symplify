@@ -4,9 +4,10 @@ namespace Symplify\CodingStandard\Tests\Fixer\Solid\FinalInterfaceFixer;
 
 use PhpCsFixer\Fixer\FixerInterface;
 use Symplify\CodingStandard\Fixer\Solid\FinalInterfaceFixer;
+use Symplify\EasyCodingStandard\Testing\AbstractContainerAwareCheckerTestCase;
 use Symplify\TokenRunner\Testing\AbstractSimpleFixerTestCase;
 
-final class ConfiguredTest extends AbstractSimpleFixerTestCase
+final class ConfiguredTest extends AbstractContainerAwareCheckerTestCase
 {
     /**
      * @dataProvider provideWrongToFixedCases()
@@ -28,12 +29,11 @@ final class ConfiguredTest extends AbstractSimpleFixerTestCase
 
     protected function createFixer(): FixerInterface
     {
-        $fixer = new FinalInterfaceFixer();
+        return $this->container->get(FinalInterfaceFixer::class);
+    }
 
-        $fixer->configure([
-            FinalInterfaceFixer::ONLY_INTERFACES_OPTION => ['SomeInterface'],
-        ]);
-
-        return $fixer;
+    protected function provideConfig(): string
+    {
+        return __DIR__ . '/config-configured.yml';
     }
 }
