@@ -2,34 +2,11 @@
 
 namespace Symplify\TokenRunner\Testing;
 
-use PhpCsFixer\Tests\Test\AbstractFixerTestCase;
+use PhpCsFixer\Tokenizer\Tokens;
+use PHPUnit\Framework\TestCase;
 use SplFileInfo;
 use Symplify\TokenRunner\Exception\Testing\UndesiredMethodException;
 
-abstract class AbstractSimpleFixerTestCase extends AbstractFixerTestCase
+abstract class AbstractSimpleFixerTestCase extends TestCase
 {
-    /**
-     * File should contain 0 errors
-     */
-    protected function doTestCorrectFile(string $correctFile): void
-    {
-        parent::doTest(file_get_contents($correctFile), null, null);
-    }
-
-    protected function doTestWrongToFixedFile(string $wrongFile, string $fixedFile): void
-    {
-        parent::doTest(file_get_contents($fixedFile), file_get_contents($wrongFile), null);
-    }
-
-    /**
-     * @param string $expected
-     * @param string|null $input
-     */
-    protected function doTest($expected, $input = null, ?SplFileInfo $file = null): void
-    {
-        throw new UndesiredMethodException(sprintf(
-            'Do not use wide-range "%s()". Prefer specific "doTestCorrectFile()" or "doTestWrongToFixedFile() method".',
-            __METHOD__
-        ));
-    }
 }
