@@ -148,20 +148,20 @@ final class DocBlockWrapper
                 return ArrayResolver::resolveArrayType($this->originalContent, $paramTagType, 'param', $name);
             }
 
-            if ($paramTagType instanceof Compound) {
-                $types = [];
-                foreach ($paramTagType->getIterator() as $singleTag) {
-                    if ($singleTag instanceof Array_) {
-                        $types[] = ArrayResolver::resolveArrayType($this->originalContent, $singleTag, 'param', $name);
-                    } else {
-                        $types[] = (string) $singleTag;
-                    }
-                }
-
-                return implode('|', $types);
+            if (! ($paramTagType instanceof Compound)) {
+                return $this->clean((string) $paramTagType);
             }
 
-            return $this->clean((string) $paramTagType);
+            $types = [];
+            foreach ($paramTagType->getIterator() as $singleTag) {
+                if ($singleTag instanceof Array_) {
+                    $types[] = ArrayResolver::resolveArrayType($this->originalContent, $singleTag, 'param', $name);
+                } else {
+                    $types[] = (string) $singleTag;
+                }
+            }
+
+            return implode('|', $types);
         }
 
         return null;

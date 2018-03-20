@@ -95,11 +95,9 @@ final class CleanFormatter implements Formatter
                 $compoundTypes = $tag->getType();
                 foreach ($compoundTypes as $type) {
                     $typeWithPreslash = (string) $type;
-                    if ($this->shouldAddPreslashToSingleType($tag, $typeWithPreslash)) {
-                        $types[] = $typeWithPreslash;
-                    } else {
-                        $types[] = ltrim($typeWithPreslash, '\\');
-                    }
+
+                    $types[] = $this->shouldAddPreslashToSingleType($tag, $typeWithPreslash)
+                        ? $typeWithPreslash : ltrim($typeWithPreslash, '\\');
                 }
 
                 $types = implode('|', $types);
