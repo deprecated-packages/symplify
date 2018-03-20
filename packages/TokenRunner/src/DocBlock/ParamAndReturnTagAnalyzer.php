@@ -21,31 +21,17 @@ final class ParamAndReturnTagAnalyzer
             return true;
         }
 
-        if ($this->isLongSimpleType($docType, $codeType)) {
-            return false;
-        }
-
-        if ($docType === null) {
-            return true;
-        }
-
-        if (Strings::contains($docType, '[]') || Strings::contains($docType, '|')) {
-            return true;
-        }
-
-        if (count($this->uselessTypes)) {
-            if (in_array($docType, $this->uselessTypes, true)) {
-                return false;
-            }
-        }
-
         // not code type and no type in typehint
         if ($codeType === null && ! $docType) {
             return false;
         }
 
-        if ($docType && $codeType && ($docType !== $codeType)) {
-            return true;
+        if (in_array($docType, $this->uselessTypes, true)) {
+            return false;
+        }
+
+        if ($this->isLongSimpleType($docType, $codeType)) {
+            return false;
         }
 
         return true;
