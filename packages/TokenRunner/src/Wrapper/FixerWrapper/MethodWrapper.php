@@ -157,21 +157,21 @@ final class MethodWrapper
                 $nextTokenPosition = $this->tokens->getNextMeaningfulToken($i);
                 $nextToken = $this->tokens[$nextTokenPosition];
 
-                if (! $nextToken->isGivenKind([T_NS_SEPARATOR, T_STRING])) {
-                    // nullable
-                    if ($nextToken->getContent() === '?') {
-                        $nextTokenPosition = $this->tokens->getNextMeaningfulToken($nextTokenPosition);
-                        $nextToken = $this->tokens[$nextTokenPosition];
+                if ($nextToken->isGivenKind([T_NS_SEPARATOR, T_STRING])) {
+                    $name = NameFactory::createFromTokensAndStart($this->tokens, $nextTokenPosition);
 
-                        return 'null|' . $nextToken->getContent();
-                    }
-
-                    return $nextToken->getContent();
+                    return $name->getName();
                 }
 
-                $name = NameFactory::createFromTokensAndStart($this->tokens, $nextTokenPosition);
+                // nullable
+                if ($nextToken->getContent() === '?') {
+                    $nextTokenPosition = $this->tokens->getNextMeaningfulToken($nextTokenPosition);
+                    $nextToken = $this->tokens[$nextTokenPosition];
 
-                return $name->getName();
+                    return 'null|' . $nextToken->getContent();
+                }
+
+                return $nextToken->getContent();
             }
         }
 
