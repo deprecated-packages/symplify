@@ -14,21 +14,29 @@ use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\ClassWrapper;
+use Symplify\TokenRunner\Wrapper\FixerWrapper\ClassWrapperFactory;
 
 final class FinalInterfaceFixer implements DefinedFixerInterface, ConfigurationDefinitionFixerInterface
 {
     /**
      * @var string
      */
-    public const ONLY_INTERFACES_OPTION = 'only_interfaces';
+    private const ONLY_INTERFACES_OPTION = 'only_interfaces';
 
     /**
      * @var mixed[]
      */
     private $configuration = [];
 
-    public function __construct()
+    /**
+     * @var ClassWrapperFactory
+     */
+    private $classWrapperFactory;
+
+    public function __construct(ClassWrapperFactory $classWrapperFactory)
     {
+        $this->classWrapperFactory = $classWrapperFactory;
+
         // set defaults
         $this->configuration = $this->getConfigurationDefinition()
             ->resolve([]);
@@ -62,7 +70,7 @@ class SomeClass implements SomeInterface {};'),
                 continue;
             }
 
-            $classWrapper = ClassWrapper::createFromTokensArrayStartPosition($tokens, $index);
+            $classWrapper = $this->classWrapperFactory->createFromTokensArrayStartPosition($tokens, $index);
             if ($this->shouldBeSkipped($classWrapper)) {
                 continue;
             }

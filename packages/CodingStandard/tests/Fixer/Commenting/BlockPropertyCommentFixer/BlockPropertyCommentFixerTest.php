@@ -2,12 +2,12 @@
 
 namespace Symplify\CodingStandard\Tests\Fixer\Commenting\BlockPropertyCommentFixer;
 
-use PhpCsFixer\Fixer\FixerInterface;
-use PhpCsFixer\WhitespacesFixerConfig;
-use Symplify\CodingStandard\Fixer\Commenting\BlockPropertyCommentFixer;
-use Symplify\TokenRunner\Testing\AbstractSimpleFixerTestCase;
+use Symplify\EasyCodingStandard\Testing\AbstractContainerAwareCheckerTestCase;
 
-final class BlockPropertyCommentFixerTest extends AbstractSimpleFixerTestCase
+/**
+ * @covers \Symplify\CodingStandard\Fixer\Commenting\BlockPropertyCommentFixer
+ */
+final class BlockPropertyCommentFixerTest extends AbstractContainerAwareCheckerTestCase
 {
     /**
      * @dataProvider provideWrongToFixedCases()
@@ -28,11 +28,8 @@ final class BlockPropertyCommentFixerTest extends AbstractSimpleFixerTestCase
         ];
     }
 
-    protected function createFixer(): FixerInterface
+    protected function provideConfig(): string
     {
-        $fixer = new BlockPropertyCommentFixer();
-        $fixer->setWhitespacesConfig(new WhitespacesFixerConfig('    ', PHP_EOL));
-
-        return $fixer;
+        return __DIR__ . '/config.yml';
     }
 }

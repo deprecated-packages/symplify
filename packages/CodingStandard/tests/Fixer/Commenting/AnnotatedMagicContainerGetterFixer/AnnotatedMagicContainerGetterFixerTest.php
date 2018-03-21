@@ -2,11 +2,12 @@
 
 namespace Symplify\CodingStandard\Tests\Fixer\Commenting\AnnotatedMagicContainerGetterFixer;
 
-use PhpCsFixer\Fixer\FixerInterface;
-use Symplify\CodingStandard\Fixer\Commenting\AnnotateMagicContainerGetterFixer;
-use Symplify\TokenRunner\Testing\AbstractSimpleFixerTestCase;
+use Symplify\EasyCodingStandard\Testing\AbstractContainerAwareCheckerTestCase;
 
-final class AnnotatedMagicContainerGetterFixerTest extends AbstractSimpleFixerTestCase
+/**
+ * @covers \Symplify\CodingStandard\Fixer\Commenting\AnnotateMagicContainerGetterFixer
+ */
+final class AnnotatedMagicContainerGetterFixerTest extends AbstractContainerAwareCheckerTestCase
 {
     /**
      * @dataProvider provideWrongToFixedCases()
@@ -28,8 +29,8 @@ final class AnnotatedMagicContainerGetterFixerTest extends AbstractSimpleFixerTe
         ];
     }
 
-    protected function createFixer(): FixerInterface
+    protected function provideConfig(): string
     {
-        return new AnnotateMagicContainerGetterFixer();
+        return __DIR__ . '/config.yml';
     }
 }

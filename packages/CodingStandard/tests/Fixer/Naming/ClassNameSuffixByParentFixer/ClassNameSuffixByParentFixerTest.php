@@ -2,11 +2,12 @@
 
 namespace Symplify\CodingStandard\Tests\Fixer\Naming\ClassNameSuffixByParentFixer;
 
-use PhpCsFixer\Fixer\FixerInterface;
-use Symplify\CodingStandard\Fixer\Naming\ClassNameSuffixByParentFixer;
-use Symplify\TokenRunner\Testing\AbstractSimpleFixerTestCase;
+use Symplify\EasyCodingStandard\Testing\AbstractContainerAwareCheckerTestCase;
 
-final class ClassNameSuffixByParentFixerTest extends AbstractSimpleFixerTestCase
+/**
+ * @covers \Symplify\CodingStandard\Fixer\Naming\ClassNameSuffixByParentFixer
+ */
+final class ClassNameSuffixByParentFixerTest extends AbstractContainerAwareCheckerTestCase
 {
     /**
      * @dataProvider provideWrongToFixedCases()
@@ -29,8 +30,8 @@ final class ClassNameSuffixByParentFixerTest extends AbstractSimpleFixerTestCase
         ];
     }
 
-    protected function createFixer(): FixerInterface
+    protected function provideConfig(): string
     {
-        return new ClassNameSuffixByParentFixer();
+        return __DIR__ . '/config.yml';
     }
 }

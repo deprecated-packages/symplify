@@ -69,7 +69,7 @@ final class UnusedPublicMethodSniff implements Sniff, DualRunInterface
      */
     public function register(): array
     {
-        return [T_FUNCTION, T_OBJECT_OPERATOR, T_CONSTANT_ENCAPSED_STRING];
+        return [T_FUNCTION, T_OBJECT_OPERATOR, T_CONSTANT_ENCAPSED_STRING, T_STRING, T_DOUBLE_COLON];
     }
 
     /**
@@ -144,6 +144,16 @@ final class UnusedPublicMethodSniff implements Sniff, DualRunInterface
             return;
         }
 
+        // SomeClass::somemMethod
+        if ($token['code'] === T_DOUBLE_COLON) {
+            $nextToken = $this->tokens[$this->position + 1];
+            if ($nextToken['code'] !== T_STRING) {
+                return;
+            }
+
+            $this->calledMethodNames[] = $nextToken['content'];
+        }
+
         if ($token['code'] === T_STRING) {
             $this->publicMethodNames[] = $token['content'];
         }
@@ -176,8 +186,15 @@ final class UnusedPublicMethodSniff implements Sniff, DualRunInterface
             return false;
         }
 
-        // not a public function
-        if ($this->tokens[$this->position - 2]['code'] !== T_PUBLIC) {
+        $previousToken = $this->tokens[$this->position - 2];
+        if ($previousToken['code'] === T_STATIC) {
+            $prePreviousToken = $this->tokens[$this->position - 4];
+            // not a public static function
+            if ($prePreviousToken['code'] !== T_PUBLIC) {
+                return false;
+            }
+        } elseif ($previousToken['code'] !== T_PUBLIC) {
+            // not a public function
             return false;
         }
 

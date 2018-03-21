@@ -6,7 +6,6 @@ use Nette\Utils\Strings;
 use PhpCsFixer\Tokenizer\CT;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
-use Symplify\TokenRunner\Analyzer\FixerAnalyzer\DocBlockFinder;
 use Symplify\TokenRunner\Guard\TokenTypeGuard;
 use Symplify\TokenRunner\Naming\Name\NameFactory;
 
@@ -51,17 +50,12 @@ final class MethodWrapper
      */
     private $docBlockWrapper;
 
-    private function __construct(Tokens $tokens, int $index)
+    public function __construct(Tokens $tokens, int $index, ?DocBlockWrapper $docBlockWrapper)
     {
         TokenTypeGuard::ensureIsTokenType($tokens[$index], [T_FUNCTION], __METHOD__);
 
         $this->tokens = $tokens;
         $this->index = $index;
-
-        $docBlockPosition = DocBlockFinder::findPreviousPosition($this->tokens, $this->index);
-        if ($docBlockPosition) {
-            $this->docBlockWrapper = DocBlockWrapper::createFromTokensAndPosition($this->tokens, $docBlockPosition);
-        }
 
         $this->bodyStart = $this->tokens->getNextTokenOfKind($this->index, ['{']);
         if ($this->bodyStart) {
@@ -73,11 +67,8 @@ final class MethodWrapper
             Tokens::BLOCK_TYPE_PARENTHESIS_BRACE,
             $this->argumentsBracketStart
         );
-    }
 
-    public static function createFromTokensAndPosition(Tokens $tokens, int $position): self
-    {
-        return new self($tokens, $position);
+        $this->docBlockWrapper = $docBlockWrapper;
     }
 
     /**

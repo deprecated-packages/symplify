@@ -2,11 +2,12 @@
 
 namespace Symplify\CodingStandard\Tests\Fixer\Naming\ExceptionNameFixer;
 
-use PhpCsFixer\Fixer\FixerInterface;
-use Symplify\CodingStandard\Fixer\Naming\ExceptionNameFixer;
-use Symplify\TokenRunner\Testing\AbstractSimpleFixerTestCase;
+use Symplify\EasyCodingStandard\Testing\AbstractContainerAwareCheckerTestCase;
 
-final class ExceptionNameFixerTest extends AbstractSimpleFixerTestCase
+/**
+ * @covers \Symplify\CodingStandard\Fixer\Naming\ExceptionNameFixer
+ */
+final class ExceptionNameFixerTest extends AbstractContainerAwareCheckerTestCase
 {
     /**
      * @dataProvider provideWrongToFixedCases()
@@ -26,8 +27,8 @@ final class ExceptionNameFixerTest extends AbstractSimpleFixerTestCase
         ];
     }
 
-    protected function createFixer(): FixerInterface
+    protected function provideConfig(): string
     {
-        return new ExceptionNameFixer();
+        return __DIR__ . '/config.yml';
     }
 }

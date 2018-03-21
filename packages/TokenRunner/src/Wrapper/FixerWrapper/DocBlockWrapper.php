@@ -7,21 +7,19 @@ use PhpCsFixer\Fixer\WhitespacesAwareFixerInterface;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use PhpCsFixer\WhitespacesFixerConfig;
+use phpDocumentor\Reflection\DocBlock;
 use phpDocumentor\Reflection\DocBlock as PhpDocumentorDocBlock;
 use phpDocumentor\Reflection\DocBlock\Serializer;
 use phpDocumentor\Reflection\DocBlock\Tags\Param;
 use phpDocumentor\Reflection\DocBlock\Tags\Return_;
 use phpDocumentor\Reflection\DocBlock\Tags\Var_;
-use phpDocumentor\Reflection\FqsenResolver;
 use phpDocumentor\Reflection\Types\Array_;
 use phpDocumentor\Reflection\Types\Compound;
-use Symplify\BetterReflectionDocBlock\CleanDocBlockFactory;
 use Symplify\BetterReflectionDocBlock\DocBlock\ArrayResolver;
 use Symplify\BetterReflectionDocBlock\DocBlockSerializerFactory;
 use Symplify\BetterReflectionDocBlock\Tag\TolerantParam;
 use Symplify\BetterReflectionDocBlock\Tag\TolerantReturn;
 use Symplify\TokenRunner\Exception\Wrapper\FixerWrapper\MissingWhitespacesFixerConfigException;
-use Symplify\TokenRunner\Guard\TokenTypeGuard;
 
 final class DocBlockWrapper
 {
@@ -55,21 +53,12 @@ final class DocBlockWrapper
      */
     private $originalContent;
 
-    private function __construct(Tokens $tokens, int $position, string $content)
+    public function __construct(Tokens $tokens, int $position, string $content, ?DocBlock $docBlock = null)
     {
         $this->tokens = $tokens;
         $this->position = $position;
-
-        // @todo remove static, move to factory
-        $this->phpDocumentorDocBlock = (new CleanDocBlockFactory(new FqsenResolver()))->create($content);
         $this->originalContent = $content;
-    }
-
-    public static function createFromTokensAndPosition(Tokens $tokens, int $index): self
-    {
-        TokenTypeGuard::ensureIsTokenType($tokens[$index], [T_COMMENT, T_DOC_COMMENT], __METHOD__);
-
-        return new self($tokens, $index, $tokens[$index]->getContent());
+        $this->phpDocumentorDocBlock = $docBlock;
     }
 
     public function getTokenPosition(): int

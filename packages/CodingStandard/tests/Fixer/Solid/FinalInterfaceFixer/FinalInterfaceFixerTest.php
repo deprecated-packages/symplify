@@ -2,11 +2,12 @@
 
 namespace Symplify\CodingStandard\Tests\Fixer\Solid\FinalInterfaceFixer;
 
-use PhpCsFixer\Fixer\FixerInterface;
-use Symplify\CodingStandard\Fixer\Solid\FinalInterfaceFixer;
-use Symplify\TokenRunner\Testing\AbstractSimpleFixerTestCase;
+use Symplify\EasyCodingStandard\Testing\AbstractContainerAwareCheckerTestCase;
 
-final class FinalInterfaceFixerTest extends AbstractSimpleFixerTestCase
+/**
+ * @covers \Symplify\CodingStandard\Fixer\Solid\FinalInterfaceFixer
+ */
+final class FinalInterfaceFixerTest extends AbstractContainerAwareCheckerTestCase
 {
     /**
      * @dataProvider provideCorrectCases()
@@ -49,8 +50,8 @@ final class FinalInterfaceFixerTest extends AbstractSimpleFixerTestCase
         ];
     }
 
-    protected function createFixer(): FixerInterface
+    protected function provideConfig(): string
     {
-        return new FinalInterfaceFixer();
+        return __DIR__ . '/config.yml';
     }
 }

@@ -2,12 +2,12 @@
 
 namespace Symplify\CodingStandard\Tests\Fixer\Import\ImportNamespacedNameFixer;
 
-use PhpCsFixer\Fixer\FixerInterface;
-use PhpCsFixer\WhitespacesFixerConfig;
-use Symplify\CodingStandard\Fixer\Import\ImportNamespacedNameFixer;
-use Symplify\TokenRunner\Testing\AbstractSimpleFixerTestCase;
+use Symplify\EasyCodingStandard\Testing\AbstractContainerAwareCheckerTestCase;
 
-final class ImportNamespacedNameFixerTest extends AbstractSimpleFixerTestCase
+/**
+ * @covers \Symplify\CodingStandard\Fixer\Import\ImportNamespacedNameFixer
+ */
+final class ImportNamespacedNameFixerTest extends AbstractContainerAwareCheckerTestCase
 {
     /**
      * @dataProvider provideCorrectCases()
@@ -43,6 +43,7 @@ final class ImportNamespacedNameFixerTest extends AbstractSimpleFixerTestCase
     public function provideWrongToFixedCases(): array
     {
         return [
+
             [__DIR__ . '/wrong/wrong.php.inc', __DIR__ . '/fixed/fixed.php.inc'],
             [__DIR__ . '/wrong/wrong2.php.inc', __DIR__ . '/fixed/fixed2.php.inc'],
             [__DIR__ . '/wrong/wrong3.php.inc', __DIR__ . '/fixed/fixed3.php.inc'],
@@ -56,11 +57,8 @@ final class ImportNamespacedNameFixerTest extends AbstractSimpleFixerTestCase
         ];
     }
 
-    protected function createFixer(): FixerInterface
+    protected function provideConfig(): string
     {
-        $fixer = new ImportNamespacedNameFixer();
-        $fixer->setWhitespacesConfig(new WhitespacesFixerConfig());
-
-        return $fixer;
+        return __DIR__ . '/config.yml';
     }
 }

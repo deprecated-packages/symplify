@@ -2,12 +2,12 @@
 
 namespace Symplify\CodingStandard\Tests\Fixer\ArrayNotation\StandaloneLineInMultilineArrayFixer;
 
-use PhpCsFixer\Fixer\FixerInterface;
-use PhpCsFixer\WhitespacesFixerConfig;
-use Symplify\CodingStandard\Fixer\ArrayNotation\StandaloneLineInMultilineArrayFixer;
-use Symplify\TokenRunner\Testing\AbstractSimpleFixerTestCase;
+use Symplify\EasyCodingStandard\Testing\AbstractContainerAwareCheckerTestCase;
 
-final class ArrayNotationTest extends AbstractSimpleFixerTestCase
+/**
+ * @covers \Symplify\CodingStandard\Fixer\ArrayNotation\StandaloneLineInMultilineArrayFixer
+ */
+final class ArrayNotationTest extends AbstractContainerAwareCheckerTestCase
 {
     /**
      * @dataProvider provideCorrectCases()
@@ -53,11 +53,8 @@ final class ArrayNotationTest extends AbstractSimpleFixerTestCase
         ];
     }
 
-    protected function createFixer(): FixerInterface
+    protected function provideConfig(): string
     {
-        $fixer = new StandaloneLineInMultilineArrayFixer();
-        $fixer->setWhitespacesConfig(new WhitespacesFixerConfig('    ', PHP_EOL));
-
-        return $fixer;
+        return __DIR__ . '/config.yml';
     }
 }

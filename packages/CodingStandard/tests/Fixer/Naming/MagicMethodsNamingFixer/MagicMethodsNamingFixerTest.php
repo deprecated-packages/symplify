@@ -2,11 +2,12 @@
 
 namespace Symplify\CodingStandard\Tests\Fixer\Naming\MagicMethodsNamingFixer;
 
-use PhpCsFixer\Fixer\FixerInterface;
-use Symplify\CodingStandard\Fixer\Naming\MagicMethodsNamingFixer;
-use Symplify\TokenRunner\Testing\AbstractSimpleFixerTestCase;
+use Symplify\EasyCodingStandard\Testing\AbstractContainerAwareCheckerTestCase;
 
-final class MagicMethodsNamingFixerTest extends AbstractSimpleFixerTestCase
+/**
+ * @covers \Symplify\CodingStandard\Fixer\Naming\MagicMethodsNamingFixer
+ */
+final class MagicMethodsNamingFixerTest extends AbstractContainerAwareCheckerTestCase
 {
     /**
      * @dataProvider provideWrongToFixedCases()
@@ -28,8 +29,8 @@ final class MagicMethodsNamingFixerTest extends AbstractSimpleFixerTestCase
         ];
     }
 
-    protected function createFixer(): FixerInterface
+    protected function provideConfig(): string
     {
-        return new MagicMethodsNamingFixer();
+        return __DIR__ . '/config.yml';
     }
 }

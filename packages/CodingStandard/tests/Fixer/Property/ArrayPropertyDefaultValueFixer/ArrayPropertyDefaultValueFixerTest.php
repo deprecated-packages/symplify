@@ -2,11 +2,12 @@
 
 namespace Symplify\CodingStandard\Tests\Fixer\Property\ArrayPropertyDefaultValueFixer;
 
-use PhpCsFixer\Fixer\FixerInterface;
-use Symplify\CodingStandard\Fixer\Property\ArrayPropertyDefaultValueFixer;
-use Symplify\TokenRunner\Testing\AbstractSimpleFixerTestCase;
+use Symplify\EasyCodingStandard\Testing\AbstractContainerAwareCheckerTestCase;
 
-final class ArrayPropertyDefaultValueFixerTest extends AbstractSimpleFixerTestCase
+/**
+ * @covers \Symplify\CodingStandard\Fixer\Property\ArrayPropertyDefaultValueFixer
+ */
+final class ArrayPropertyDefaultValueFixerTest extends AbstractContainerAwareCheckerTestCase
 {
     /**
      * @dataProvider provideCorrectCases()
@@ -47,8 +48,8 @@ final class ArrayPropertyDefaultValueFixerTest extends AbstractSimpleFixerTestCa
         ];
     }
 
-    protected function createFixer(): FixerInterface
+    protected function provideConfig(): string
     {
-        return new ArrayPropertyDefaultValueFixer();
+        return __DIR__ . '/config.yml';
     }
 }

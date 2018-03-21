@@ -2,12 +2,12 @@
 
 namespace Symplify\CodingStandard\Tests\Fixer\Strict\BlankLineAfterStrictTypesFixer;
 
-use PhpCsFixer\Fixer\FixerInterface;
-use PhpCsFixer\WhitespacesFixerConfig;
-use Symplify\CodingStandard\Fixer\Strict\BlankLineAfterStrictTypesFixer;
-use Symplify\TokenRunner\Testing\AbstractSimpleFixerTestCase;
+use Symplify\EasyCodingStandard\Testing\AbstractContainerAwareCheckerTestCase;
 
-final class BlankLineAfterStrictTypesFixerTest extends AbstractSimpleFixerTestCase
+/**
+ * @covers \Symplify\CodingStandard\Fixer\Strict\BlankLineAfterStrictTypesFixer
+ */
+final class BlankLineAfterStrictTypesFixerTest extends AbstractContainerAwareCheckerTestCase
 {
     /**
      * @dataProvider provideCorrectCases()
@@ -46,10 +46,8 @@ final class BlankLineAfterStrictTypesFixerTest extends AbstractSimpleFixerTestCa
         ];
     }
 
-    protected function createFixer(): FixerInterface
+    protected function provideConfig(): string
     {
-        $fixer = new BlankLineAfterStrictTypesFixer();
-        $fixer->setWhitespacesConfig(new WhitespacesFixerConfig('    ', PHP_EOL));
-        return $fixer;
+        return __DIR__ . '/config.yml';
     }
 }

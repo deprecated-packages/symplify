@@ -2,12 +2,12 @@
 
 namespace Symplify\CodingStandard\Tests\Fixer\LineLength\BreakMethodArgumentsFixer;
 
-use PhpCsFixer\Fixer\FixerInterface;
-use PhpCsFixer\WhitespacesFixerConfig;
-use Symplify\CodingStandard\Fixer\LineLength\BreakMethodArgumentsFixer;
-use Symplify\TokenRunner\Testing\AbstractSimpleFixerTestCase;
+use Symplify\EasyCodingStandard\Testing\AbstractContainerAwareCheckerTestCase;
 
-final class BreakMethodArgumentsFixerTest extends AbstractSimpleFixerTestCase
+/**
+ * @covers \Symplify\CodingStandard\Fixer\LineLength\BreakMethodArgumentsFixer
+ */
+final class BreakMethodArgumentsFixerTest extends AbstractContainerAwareCheckerTestCase
 {
     /**
      * @dataProvider provideCorrectCases()
@@ -46,11 +46,8 @@ final class BreakMethodArgumentsFixerTest extends AbstractSimpleFixerTestCase
         ];
     }
 
-    protected function createFixer(): FixerInterface
+    protected function provideConfig(): string
     {
-        $fixer = new BreakMethodArgumentsFixer();
-        $fixer->setWhitespacesConfig(new WhitespacesFixerConfig());
-
-        return $fixer;
+        return __DIR__ . '/config.yml';
     }
 }

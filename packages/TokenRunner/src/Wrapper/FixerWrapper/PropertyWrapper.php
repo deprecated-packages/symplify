@@ -3,7 +3,6 @@
 namespace Symplify\TokenRunner\Wrapper\FixerWrapper;
 
 use PhpCsFixer\Tokenizer\Tokens;
-use Symplify\TokenRunner\Analyzer\FixerAnalyzer\DocBlockFinder;
 use Symplify\TokenRunner\Guard\TokenTypeGuard;
 use Symplify\TokenRunner\Naming\Name\NameFactory;
 
@@ -14,21 +13,13 @@ final class PropertyWrapper extends AbstractVariableWrapper
      */
     private $docBlockWrapper;
 
-    protected function __construct(Tokens $tokens, int $index)
+    public function __construct(Tokens $tokens, int $index, ?DocBlockWrapper $docBlockWrapper)
     {
         TokenTypeGuard::ensureIsTokenType($tokens[$index], [T_VARIABLE], __METHOD__);
 
         parent::__construct($tokens, $index);
 
-        $docBlockPosition = DocBlockFinder::findPreviousPosition($tokens, $index);
-        if ($docBlockPosition) {
-            $this->docBlockWrapper = DocBlockWrapper::createFromTokensAndPosition($this->tokens, $docBlockPosition);
-        }
-    }
-
-    public static function createFromTokensAndPosition(Tokens $tokens, int $position): self
-    {
-        return new self($tokens, $position);
+        $this->docBlockWrapper = $docBlockWrapper;
     }
 
     public function getName(): string
