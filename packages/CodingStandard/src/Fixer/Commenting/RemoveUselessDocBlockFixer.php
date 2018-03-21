@@ -94,6 +94,7 @@ public function getCount(): int
             $methodWrapper = $this->methodWrapperFactory->createFromTokensAndPosition($tokens, $index);
 
             $docBlockWrapper = $methodWrapper->getDocBlockWrapper();
+
             if ($docBlockWrapper === null) {
                 continue;
             }
@@ -258,6 +259,7 @@ public function getCount(): int
         }
 
         $possibleNamePosition = $tokens->getNextMeaningfulToken($index);
+
         $possibleNameToken = $tokens[$possibleNamePosition];
 
         return $possibleNameToken->isGivenKind(T_STRING);

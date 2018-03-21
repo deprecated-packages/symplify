@@ -67,6 +67,8 @@ final class MethodWrapper
             Tokens::BLOCK_TYPE_PARENTHESIS_BRACE,
             $this->argumentsBracketStart
         );
+
+        $this->docBlockWrapper = $docBlockWrapper;
     }
 
     /**

@@ -5,18 +5,10 @@ namespace Symplify\CodingStandard\Tests\Fixer\Commenting\RemoveUselessDocBlockFi
 use Symplify\EasyCodingStandard\Testing\AbstractContainerAwareCheckerTestCase;
 
 /**
- * @requires PHP 7.3
  * @covers \Symplify\CodingStandard\Fixer\Commenting\RemoveUselessDocBlockFixer
  */
 final class RemoveUselessDocBlockFixerTest extends AbstractContainerAwareCheckerTestCase
 {
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->markTestSkipped('Requires deeper refactoring');
-    }
-
     /**
      * @dataProvider provideCorrectCases()
      */
