@@ -35,9 +35,9 @@ final class MagicMethodsNamingFixer extends AbstractFixer
      * @var string[]
      */
     private $pascalCaseMagicMethods = [
-         '__callStatic',
-         '__toString',
-         '__debugInfo',
+        '__callStatic',
+        '__toString',
+        '__debugInfo',
     ];
 
     public function getDefinition(): FixerDefinitionInterface

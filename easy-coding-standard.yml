@@ -32,6 +32,11 @@ services:
     SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff:
         enableObjectTypeHint: false
 
+    # php
+    PhpCsFixer\Fixer\LanguageConstruct\FunctionToConstantFixer: ~
+    # testing
+    PhpCsFixer\Fixer\PhpUnit\PhpUnitSetUpTearDownVisibilityFixer: ~
+
 parameters:
     skip:
         PHP_CodeSniffer\Standards\Generic\Sniffs\Files\LineLengthSniff:
