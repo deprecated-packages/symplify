@@ -2,27 +2,29 @@
 
 namespace Symplify\TokenRunner\Transformer\FixerTransformer;
 
+use PhpCsFixer\Tokenizer\Analyzer\NamespaceUsesAnalyzer;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use Symplify\TokenRunner\Analyzer\FixerAnalyzer\NamespaceFinder;
 use Symplify\TokenRunner\Naming\Name\Name;
-use Symplify\TokenRunner\Naming\UseImport\UseImportsFactory;
 
 final class UseImportsTransformer
 {
     /**
+     * @todo service
      * @param Name[] $names
      */
     public static function addNamesToTokens(array $names, Tokens $tokens): void
     {
-        $useImports = (new UseImportsFactory())->createForTokens($tokens);
+        // @todo service
+        $namespaceUseAnalyses = (new NamespaceUsesAnalyzer())->getDeclarationsFromTokens($tokens);
 
         $useTokens = [];
         $names = self::namesUnique($names);
         foreach ($names as $name) {
             // skip already existing use imports
-            foreach ($useImports as $useImport) {
-                if ($name->getName() === $useImport->getFullName()) {
+            foreach ($namespaceUseAnalyses as $namespaceUseAnalysis) {
+                if ($name->getName() === $namespaceUseAnalysis->getFullName()) {
                     continue 2;
                 }
             }
@@ -44,7 +46,7 @@ final class UseImportsTransformer
             new Token([T_WHITESPACE, ' ']),
         ];
 
-        if ($name->getRelatedUseImport()) {
+        if ($name->getRelatedNamespaceUseAnalysis()) {
             $tokens = self::addRelateUseImport($name, $tokens);
         }
 
@@ -66,7 +68,8 @@ final class UseImportsTransformer
      */
     private static function addRelateUseImport(Name $name, array $tokens): array
     {
-        foreach ($name->getRelatedUseImport()->getNameParts() as $useDeclarationPart) {
+        $nameParts = explode('\\', $name->getRelatedNamespaceUseAnalysis()->getFullName());
+        foreach ($nameParts as $useDeclarationPart) {
             if ($useDeclarationPart === $name->getFirstName()) {
                 break;
             }
