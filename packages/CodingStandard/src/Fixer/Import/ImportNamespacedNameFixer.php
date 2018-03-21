@@ -11,6 +11,8 @@ use PhpCsFixer\FixerConfiguration\FixerOptionBuilder;
 use PhpCsFixer\FixerDefinition\CodeSample;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
+use PhpCsFixer\Tokenizer\Analyzer\Analysis\NamespaceUseAnalysis;
+use PhpCsFixer\Tokenizer\Analyzer\NamespaceUsesAnalyzer;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use PhpCsFixer\WhitespacesFixerConfig;
@@ -28,8 +30,6 @@ use Symplify\TokenRunner\Analyzer\FixerAnalyzer\ClassNameFinder;
 use Symplify\TokenRunner\Naming\Name\Name;
 use Symplify\TokenRunner\Naming\Name\NameAnalyzer;
 use Symplify\TokenRunner\Naming\Name\NameFactory;
-use Symplify\TokenRunner\Naming\UseImport\UseImport;
-use Symplify\TokenRunner\Naming\UseImport\UseImportsFactory;
 use Symplify\TokenRunner\Transformer\FixerTransformer\UseImportsTransformer;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\DocBlockWrapper;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\DocBlockWrapperFactory;
@@ -54,9 +54,9 @@ final class ImportNamespacedNameFixer implements DefinedFixerInterface, Configur
     public const INCLUDE_DOC_BLOCKS_OPTION = 'include_doc_blocks';
 
     /**
-     * @var UseImport[]
+     * @var NamespaceUseAnalysis[]
      */
-    private $useImports = [];
+    private $namespaceUseAnalyses = [];
 
     /**
      * @var mixed[]
@@ -104,7 +104,7 @@ final class ImportNamespacedNameFixer implements DefinedFixerInterface, Configur
 
     public function fix(SplFileInfo $file, Tokens $tokens): void
     {
-        $this->useImports = (new UseImportsFactory())->createForTokens($tokens);
+        $this->namespaceUseAnalyses = (new NamespaceUsesAnalyzer())->getDeclarationsFromTokens($tokens);
         $this->newUseStatementNames = [];
 
         for ($index = $tokens->getSize() - 1; $index > 0; --$index) {
@@ -203,8 +203,8 @@ final class ImportNamespacedNameFixer implements DefinedFixerInterface, Configur
      */
     private function uniquateLastPart(Name $name): Name
     {
-        foreach ($this->useImports as $useImport) {
-            if ($useImport->getShortName() === $name->getLastName() && $useImport->getFullName() !== $name->getName()) {
+        foreach ($this->namespaceUseAnalyses as $namespaceUseAnalysis) {
+            if ($namespaceUseAnalysis->getShortName() === $name->getLastName() && $namespaceUseAnalysis->getFullName() !== $name->getName()) {
                 $uniquePrefix = $name->getFirstName();
                 $name->addAlias($uniquePrefix . $name->getLastName());
                 return $name;
