@@ -6,6 +6,9 @@ use PhpCsFixer\Fixer\FixerInterface;
 use Symplify\CodingStandard\Fixer\Property\ArrayPropertyDefaultValueFixer;
 use Symplify\EasyCodingStandard\Testing\AbstractContainerAwareCheckerTestCase;
 
+/**
+ * @covers \Symplify\CodingStandard\Fixer\Property\ArrayPropertyDefaultValueFixer
+ */
 final class ArrayPropertyDefaultValueFixerTest extends AbstractContainerAwareCheckerTestCase
 {
     /**
@@ -45,11 +48,6 @@ final class ArrayPropertyDefaultValueFixerTest extends AbstractContainerAwareChe
             [__DIR__ . '/wrong/wrong3.php.inc', __DIR__ . '/fixed/fixed3.php.inc'],
             [__DIR__ . '/wrong/wrong4.php.inc', __DIR__ . '/fixed/fixed4.php.inc'],
         ];
-    }
-
-    protected function createFixer(): FixerInterface
-    {
-        return $this->container->get(ArrayPropertyDefaultValueFixer::class);
     }
 
     protected function provideConfig(): string

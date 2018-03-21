@@ -6,6 +6,9 @@ use PhpCsFixer\Fixer\FixerInterface;
 use Symplify\CodingStandard\Fixer\Commenting\RemoveSuperfluousDocBlockWhitespaceFixer;
 use Symplify\EasyCodingStandard\Testing\AbstractContainerAwareCheckerTestCase;
 
+/**
+ * @covers \Symplify\CodingStandard\Fixer\Commenting\RemoveSuperfluousDocBlockWhitespaceFixer
+ */
 final class RemoveSuperfluousDocBlockWhitespaceFixerTest extends AbstractContainerAwareCheckerTestCase
 {
     /**
@@ -24,11 +27,6 @@ final class RemoveSuperfluousDocBlockWhitespaceFixerTest extends AbstractContain
         return [
             [__DIR__ . '/wrong/wrong.php.inc', __DIR__ . '/fixed/fixed.php.inc'],
         ];
-    }
-
-    protected function createFixer(): FixerInterface
-    {
-        return $this->container->get(RemoveSuperfluousDocBlockWhitespaceFixer::class);
     }
 
     protected function provideConfig(): string

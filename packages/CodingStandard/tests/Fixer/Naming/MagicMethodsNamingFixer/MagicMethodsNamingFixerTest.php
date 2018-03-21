@@ -6,6 +6,9 @@ use PhpCsFixer\Fixer\FixerInterface;
 use Symplify\CodingStandard\Fixer\Naming\MagicMethodsNamingFixer;
 use Symplify\EasyCodingStandard\Testing\AbstractContainerAwareCheckerTestCase;
 
+/**
+ * @covers \Symplify\CodingStandard\Fixer\Naming\MagicMethodsNamingFixer
+ */
 final class MagicMethodsNamingFixerTest extends AbstractContainerAwareCheckerTestCase
 {
     /**
@@ -26,11 +29,6 @@ final class MagicMethodsNamingFixerTest extends AbstractContainerAwareCheckerTes
             [__DIR__ . '/wrong/wrong2.php.inc', __DIR__ . '/fixed/fixed2.php.inc'],
             [__DIR__ . '/wrong/wrong3.php.inc', __DIR__ . '/fixed/fixed3.php.inc'],
         ];
-    }
-
-    protected function createFixer(): FixerInterface
-    {
-        return $this->container->get(MagicMethodsNamingFixer::class);
     }
 
     protected function provideConfig(): string

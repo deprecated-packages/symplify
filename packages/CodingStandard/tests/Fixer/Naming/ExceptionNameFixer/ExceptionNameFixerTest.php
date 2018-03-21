@@ -6,6 +6,9 @@ use PhpCsFixer\Fixer\FixerInterface;
 use Symplify\CodingStandard\Fixer\Naming\ExceptionNameFixer;
 use Symplify\EasyCodingStandard\Testing\AbstractContainerAwareCheckerTestCase;
 
+/**
+ * @covers \Symplify\CodingStandard\Fixer\Naming\ExceptionNameFixer
+ */
 final class ExceptionNameFixerTest extends AbstractContainerAwareCheckerTestCase
 {
     /**
@@ -24,11 +27,6 @@ final class ExceptionNameFixerTest extends AbstractContainerAwareCheckerTestCase
         return [
             [__DIR__ . '/wrong/wrong.php.inc', __DIR__ . '/fixed/fixed.php.inc'],
         ];
-    }
-
-    protected function createFixer(): FixerInterface
-    {
-        return $this->container->get(ExceptionNameFixer::class);
     }
 
     protected function provideConfig(): string

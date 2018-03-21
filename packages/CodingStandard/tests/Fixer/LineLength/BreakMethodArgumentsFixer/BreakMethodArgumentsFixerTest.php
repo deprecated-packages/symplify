@@ -6,6 +6,9 @@ use PhpCsFixer\Fixer\FixerInterface;
 use Symplify\CodingStandard\Fixer\LineLength\BreakMethodArgumentsFixer;
 use Symplify\EasyCodingStandard\Testing\AbstractContainerAwareCheckerTestCase;
 
+/**
+ * @covers \Symplify\CodingStandard\Fixer\LineLength\BreakMethodArgumentsFixer
+ */
 final class BreakMethodArgumentsFixerTest extends AbstractContainerAwareCheckerTestCase
 {
     /**
@@ -43,11 +46,6 @@ final class BreakMethodArgumentsFixerTest extends AbstractContainerAwareCheckerT
             [__DIR__ . '/wrong/wrong.php.inc', __DIR__ . '/fixed/fixed.php.inc'],
             [__DIR__ . '/wrong/wrong2.php.inc', __DIR__ . '/fixed/fixed2.php.inc'],
         ];
-    }
-
-    protected function createFixer(): FixerInterface
-    {
-        return $this->container->get(BreakMethodArgumentsFixer::class);
     }
 
     protected function provideConfig(): string

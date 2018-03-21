@@ -6,6 +6,9 @@ use PhpCsFixer\Fixer\FixerInterface;
 use Symplify\CodingStandard\Fixer\Strict\BlankLineAfterStrictTypesFixer;
 use Symplify\EasyCodingStandard\Testing\AbstractContainerAwareCheckerTestCase;
 
+/**
+ * @covers \Symplify\CodingStandard\Fixer\Strict\BlankLineAfterStrictTypesFixer
+ */
 final class BlankLineAfterStrictTypesFixerTest extends AbstractContainerAwareCheckerTestCase
 {
     /**
@@ -43,11 +46,6 @@ final class BlankLineAfterStrictTypesFixerTest extends AbstractContainerAwareChe
             [__DIR__ . '/wrong/wrong.php.inc', __DIR__ . '/fixed/fixed.php.inc'],
             [__DIR__ . '/wrong/wrong2.php.inc', __DIR__ . '/fixed/fixed.php.inc'],
         ];
-    }
-
-    protected function createFixer(): FixerInterface
-    {
-        return $this->container->get(BlankLineAfterStrictTypesFixer::class);
     }
 
     protected function provideConfig(): string

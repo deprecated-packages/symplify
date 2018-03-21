@@ -6,6 +6,9 @@ use PhpCsFixer\Fixer\FixerInterface;
 use Symplify\CodingStandard\Fixer\Naming\ClassNameSuffixByParentFixer;
 use Symplify\EasyCodingStandard\Testing\AbstractContainerAwareCheckerTestCase;
 
+/**
+ * @covers \Symplify\CodingStandard\Fixer\Naming\ClassNameSuffixByParentFixer
+ */
 final class ClassNameSuffixByParentFixerTest extends AbstractContainerAwareCheckerTestCase
 {
     /**
@@ -27,11 +30,6 @@ final class ClassNameSuffixByParentFixerTest extends AbstractContainerAwareCheck
             [__DIR__ . '/wrong/wrong3.php.inc', __DIR__ . '/fixed/fixed3.php.inc'],
             [__DIR__ . '/wrong/wrong4.php.inc', __DIR__ . '/fixed/fixed4.php.inc'],
         ];
-    }
-
-    protected function createFixer(): FixerInterface
-    {
-        return $this->container->get(ClassNameSuffixByParentFixer::class);
     }
 
     protected function provideConfig(): string

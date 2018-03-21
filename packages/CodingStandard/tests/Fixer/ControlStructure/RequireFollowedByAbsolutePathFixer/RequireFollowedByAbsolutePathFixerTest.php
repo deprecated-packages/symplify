@@ -2,10 +2,11 @@
 
 namespace Symplify\CodingStandard\Tests\Fixer\ControlStructure\RequireFollowedByAbsolutePathFixer;
 
-use PhpCsFixer\Fixer\FixerInterface;
-use Symplify\CodingStandard\Fixer\ControlStructure\RequireFollowedByAbsolutePathFixer;
 use Symplify\EasyCodingStandard\Testing\AbstractContainerAwareCheckerTestCase;
 
+/**
+ * @covers \Symplify\CodingStandard\Fixer\ControlStructure\RequireFollowedByAbsolutePathFixer
+ */
 final class RequireFollowedByAbsolutePathFixerTest extends AbstractContainerAwareCheckerTestCase
 {
     /**
@@ -25,11 +26,6 @@ final class RequireFollowedByAbsolutePathFixerTest extends AbstractContainerAwar
             [__DIR__ . '/wrong/wrong.php.inc', __DIR__ . '/fixed/fixed.php.inc'],
             [__DIR__ . '/wrong/wrong2.php.inc', __DIR__ . '/fixed/fixed2.php.inc'],
         ];
-    }
-
-    protected function createFixer(): FixerInterface
-    {
-        return $this->container->get(RequireFollowedByAbsolutePathFixer::class);
     }
 
     protected function provideConfig(): string

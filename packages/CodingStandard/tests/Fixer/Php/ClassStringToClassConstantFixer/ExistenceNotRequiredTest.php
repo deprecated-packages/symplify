@@ -6,6 +6,9 @@ use PhpCsFixer\Fixer\FixerInterface;
 use Symplify\CodingStandard\Fixer\Php\ClassStringToClassConstantFixer;
 use Symplify\EasyCodingStandard\Testing\AbstractContainerAwareCheckerTestCase;
 
+/**
+ * @covers \Symplify\CodingStandard\Fixer\Php\ClassStringToClassConstantFixer
+ */
 final class ExistenceNotRequiredTest extends AbstractContainerAwareCheckerTestCase
 {
     /**
@@ -25,11 +28,6 @@ final class ExistenceNotRequiredTest extends AbstractContainerAwareCheckerTestCa
             [__DIR__ . '/wrong/wrong4.php.inc', __DIR__ . '/fixed/fixed4.php.inc'],
             [__DIR__ . '/wrong/wrong5.php.inc', __DIR__ . '/fixed/fixed5.php.inc'],
         ];
-    }
-
-    protected function createFixer(): FixerInterface
-    {
-        return $this->container->get(ClassStringToClassConstantFixer::class);
     }
 
     protected function provideConfig(): string

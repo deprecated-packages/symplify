@@ -6,6 +6,9 @@ use PhpCsFixer\Fixer\FixerInterface;
 use Symplify\CodingStandard\Fixer\Naming\PropertyNameMatchingTypeFixer;
 use Symplify\EasyCodingStandard\Testing\AbstractContainerAwareCheckerTestCase;
 
+/**
+ * @covers \Symplify\CodingStandard\Fixer\Naming\PropertyNameMatchingTypeFixer
+ */
 final class PropertyNameMatchingTypeFixerTest extends AbstractContainerAwareCheckerTestCase
 {
     /**
@@ -50,11 +53,6 @@ final class PropertyNameMatchingTypeFixerTest extends AbstractContainerAwareChec
             [__DIR__ . '/wrong/wrong4.php.inc', __DIR__ . '/fixed/fixed4.php.inc'],
             [__DIR__ . '/wrong/wrong5.php.inc', __DIR__ . '/fixed/fixed5.php.inc'],
         ];
-    }
-
-    protected function createFixer(): FixerInterface
-    {
-        return $this->container->get(PropertyNameMatchingTypeFixer::class);
     }
 
     protected function provideConfig(): string

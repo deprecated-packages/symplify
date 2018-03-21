@@ -6,6 +6,9 @@ use PhpCsFixer\Fixer\FixerInterface;
 use Symplify\CodingStandard\Fixer\Solid\FinalInterfaceFixer;
 use Symplify\EasyCodingStandard\Testing\AbstractContainerAwareCheckerTestCase;
 
+/**
+ * @covers \Symplify\CodingStandard\Fixer\Solid\FinalInterfaceFixer
+ */
 final class ConfiguredTest extends AbstractContainerAwareCheckerTestCase
 {
     /**
@@ -24,11 +27,6 @@ final class ConfiguredTest extends AbstractContainerAwareCheckerTestCase
         return [
             [__DIR__ . '/wrong/wrong3.php.inc', __DIR__ . '/fixed/fixed3.php.inc'],
         ];
-    }
-
-    protected function createFixer(): FixerInterface
-    {
-        return $this->container->get(FinalInterfaceFixer::class);
     }
 
     protected function provideConfig(): string

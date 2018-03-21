@@ -6,6 +6,9 @@ use PhpCsFixer\Fixer\FixerInterface;
 use Symplify\CodingStandard\Fixer\Import\ImportNamespacedNameFixer;
 use Symplify\EasyCodingStandard\Testing\AbstractContainerAwareCheckerTestCase;
 
+/**
+ * @covers \Symplify\CodingStandard\Fixer\Import\ImportNamespacedNameFixer
+ */
 final class ConfiguredImportNamespacedNameFixerTest extends AbstractContainerAwareCheckerTestCase
 {
     /**
@@ -25,11 +28,6 @@ final class ConfiguredImportNamespacedNameFixerTest extends AbstractContainerAwa
             [__DIR__ . '/wrong/wrong11.php.inc', __DIR__ . '/fixed/fixed11.php.inc'],
             [__DIR__ . '/wrong/wrong12.php.inc', __DIR__ . '/fixed/fixed12.php.inc'],
         ];
-    }
-
-    protected function createFixer(): FixerInterface
-    {
-        return $this->container->get(ImportNamespacedNameFixer::class);
     }
 
     protected function provideConfig(): string

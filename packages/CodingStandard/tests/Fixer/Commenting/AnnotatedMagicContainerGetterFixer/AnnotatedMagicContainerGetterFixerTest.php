@@ -2,10 +2,11 @@
 
 namespace Symplify\CodingStandard\Tests\Fixer\Commenting\AnnotatedMagicContainerGetterFixer;
 
-use PhpCsFixer\Fixer\FixerInterface;
-use Symplify\CodingStandard\Fixer\Commenting\AnnotateMagicContainerGetterFixer;
 use Symplify\EasyCodingStandard\Testing\AbstractContainerAwareCheckerTestCase;
 
+/**
+ * @covers \Symplify\CodingStandard\Fixer\Commenting\AnnotateMagicContainerGetterFixer
+ */
 final class AnnotatedMagicContainerGetterFixerTest extends AbstractContainerAwareCheckerTestCase
 {
     /**
@@ -26,11 +27,6 @@ final class AnnotatedMagicContainerGetterFixerTest extends AbstractContainerAwar
             [__DIR__ . '/wrong/wrong2.php.inc', __DIR__ . '/fixed/fixed2.php.inc'],
             [__DIR__ . '/wrong/wrong3.php.inc', __DIR__ . '/fixed/fixed3.php.inc'],
         ];
-    }
-
-    protected function createFixer(): FixerInterface
-    {
-        return $this->container->get(AnnotateMagicContainerGetterFixer::class);
     }
 
     protected function provideConfig(): string
