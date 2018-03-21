@@ -2,8 +2,6 @@
 
 namespace Symplify\CodingStandard\Tests\Fixer\Naming\ExceptionNameFixer;
 
-use PhpCsFixer\Fixer\FixerInterface;
-use Symplify\CodingStandard\Fixer\Naming\ExceptionNameFixer;
 use Symplify\EasyCodingStandard\Testing\AbstractContainerAwareCheckerTestCase;
 
 /**

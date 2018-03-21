@@ -2,8 +2,6 @@
 
 namespace Symplify\CodingStandard\Tests\Fixer\Naming\ClassNameSuffixByParentFixer;
 
-use PhpCsFixer\Fixer\FixerInterface;
-use Symplify\CodingStandard\Fixer\Naming\ClassNameSuffixByParentFixer;
 use Symplify\EasyCodingStandard\Testing\AbstractContainerAwareCheckerTestCase;
 
 /**

@@ -2,8 +2,6 @@
 
 namespace Symplify\CodingStandard\Tests\Fixer\LineLength\BreakArrayListFixer;
 
-use PhpCsFixer\Fixer\FixerInterface;
-use Symplify\CodingStandard\Fixer\LineLength\BreakArrayListFixer;
 use Symplify\EasyCodingStandard\Testing\AbstractContainerAwareCheckerTestCase;
 
 /**
