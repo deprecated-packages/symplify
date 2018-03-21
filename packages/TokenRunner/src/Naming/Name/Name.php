@@ -2,10 +2,11 @@
 
 namespace Symplify\TokenRunner\Naming\Name;
 
+use Nette\Utils\Strings;
+use PhpCsFixer\Tokenizer\Analyzer\Analysis\NamespaceUseAnalysis;
+use PhpCsFixer\Tokenizer\Analyzer\NamespaceUsesAnalyzer;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
-use Symplify\TokenRunner\Naming\UseImport\UseImport;
-use Symplify\TokenRunner\Naming\UseImport\UseImportsFactory;
 
 final class Name
 {
@@ -40,9 +41,9 @@ final class Name
     private $alias;
 
     /**
-     * @var UseImport|null
+     * @var NamespaceUseAnalysis|null
      */
-    private $relatedUseImport;
+    private $relatedNamespaceUseAnalysis;
 
     /**
      * @var Tokens
@@ -62,11 +63,11 @@ final class Name
         $this->lastName = $this->nameTokens[count($this->nameTokens) - 1]->getContent();
         $this->tokens = $tokens;
 
-        $useImports = (new UseImportsFactory())->createForTokens($this->tokens);
-        foreach ($useImports as $useImport) {
-            if ($useImport->startsWith($this->name)) {
-                $this->relatedUseImport = $useImport;
-                $this->name = self::composePartialNamespaceAndName($useImport->getFullName(), $this->name);
+        $namespaceUseAnalyses = (new NamespaceUsesAnalyzer())->getDeclarationsFromTokens($this->tokens);
+        foreach ($namespaceUseAnalyses as $namespaceUseAnalysis) {
+            if (Strings::startsWith($this->name, $namespaceUseAnalysis->getShortName())) {
+                $this->relatedNamespaceUseAnalysis = $namespaceUseAnalysis;
+                $this->name = self::composePartialNamespaceAndName($namespaceUseAnalysis->getFullName(), $this->name);
             }
         }
     }
@@ -128,9 +129,9 @@ final class Name
         return count($this->nameTokens) === 1;
     }
 
-    public function getRelatedUseImport(): ?UseImport
+    public function getRelatedNamespaceUseAnalysis(): ?NamespaceUseAnalysis
     {
-        return $this->relatedUseImport;
+        return $this->relatedNamespaceUseAnalysis;
     }
 
     private static function composePartialNamespaceAndName(string $namespace, string $name): string

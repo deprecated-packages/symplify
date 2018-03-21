@@ -2,9 +2,9 @@
 
 namespace Symplify\TokenRunner\Naming\Name;
 
+use PhpCsFixer\Tokenizer\Analyzer\NamespaceUsesAnalyzer;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
-use Symplify\TokenRunner\Naming\UseImport\UseImportsFactory;
 
 final class NameFactory
 {
@@ -104,10 +104,10 @@ final class NameFactory
             return $className;
         }
 
-        $useImports = (new UseImportsFactory())->createForTokens($tokens);
-        foreach ($useImports as $useImport) {
-            if ($className === $useImport->getShortName()) {
-                return $useImport->getFullName();
+        $namespaceUseAnalyses = (new NamespaceUsesAnalyzer())->getDeclarationsFromTokens($tokens);
+        foreach ($namespaceUseAnalyses as $namespaceUseAnalysis) {
+            if ($className === $namespaceUseAnalysis->getShortName()) {
+                return $namespaceUseAnalysis->getFullName();
             }
         }
 
