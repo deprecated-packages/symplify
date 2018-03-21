@@ -5,7 +5,7 @@ namespace Symplify\CodingStandard\Tests\Fixer\Commenting\RemoveEmptyDocBlockFixe
 use Symplify\EasyCodingStandard\Testing\AbstractContainerAwareCheckerTestCase;
 
 /**
- * @covers \Symplify\CodingStandard\Fixer\Commenting\RemoveEmptyDocBlockFixer
+ * @see \Symplify\CodingStandard\Fixer\Commenting\RemoveEmptyDocBlockFixer
  */
 final class RemoveEmptyDocBlockFixerTest extends AbstractContainerAwareCheckerTestCase
 {

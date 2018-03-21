@@ -5,7 +5,7 @@ namespace Symplify\CodingStandard\Tests\Fixer\ArrayNotation\StandaloneLineInMult
 use Symplify\EasyCodingStandard\Testing\AbstractContainerAwareCheckerTestCase;
 
 /**
- * @covers \Symplify\CodingStandard\Fixer\ArrayNotation\StandaloneLineInMultilineArrayFixer
+ * @see \Symplify\CodingStandard\Fixer\ArrayNotation\StandaloneLineInMultilineArrayFixer
  */
 final class ArrayNotationTest extends AbstractContainerAwareCheckerTestCase
 {

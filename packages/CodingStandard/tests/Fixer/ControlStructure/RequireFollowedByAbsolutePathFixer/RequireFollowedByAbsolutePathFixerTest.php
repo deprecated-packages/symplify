@@ -5,7 +5,7 @@ namespace Symplify\CodingStandard\Tests\Fixer\ControlStructure\RequireFollowedBy
 use Symplify\EasyCodingStandard\Testing\AbstractContainerAwareCheckerTestCase;
 
 /**
- * @covers \Symplify\CodingStandard\Fixer\ControlStructure\RequireFollowedByAbsolutePathFixer
+ * @see \Symplify\CodingStandard\Fixer\ControlStructure\RequireFollowedByAbsolutePathFixer
  */
 final class RequireFollowedByAbsolutePathFixerTest extends AbstractContainerAwareCheckerTestCase
 {

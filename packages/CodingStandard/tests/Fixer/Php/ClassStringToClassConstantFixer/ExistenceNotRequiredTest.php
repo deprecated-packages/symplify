@@ -5,7 +5,7 @@ namespace Symplify\CodingStandard\Tests\Fixer\Php\ClassStringToClassConstantFixe
 use Symplify\EasyCodingStandard\Testing\AbstractContainerAwareCheckerTestCase;
 
 /**
- * @covers \Symplify\CodingStandard\Fixer\Php\ClassStringToClassConstantFixer
+ * @see \Symplify\CodingStandard\Fixer\Php\ClassStringToClassConstantFixer
  */
 final class ExistenceNotRequiredTest extends AbstractContainerAwareCheckerTestCase
 {

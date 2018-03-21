@@ -5,7 +5,7 @@ namespace Symplify\CodingStandard\Tests\Fixer\Naming\ExceptionNameFixer;
 use Symplify\EasyCodingStandard\Testing\AbstractContainerAwareCheckerTestCase;
 
 /**
- * @covers \Symplify\CodingStandard\Fixer\Naming\ExceptionNameFixer
+ * @see \Symplify\CodingStandard\Fixer\Naming\ExceptionNameFixer
  */
 final class ExceptionNameFixerTest extends AbstractContainerAwareCheckerTestCase
 {

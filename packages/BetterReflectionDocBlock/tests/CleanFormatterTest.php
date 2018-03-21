@@ -6,8 +6,8 @@ use Symplify\BetterReflectionDocBlock\CleanDocBlockFactory;
 use Symplify\BetterReflectionDocBlock\DocBlockSerializerFactory;
 
 /**
- * @covers \Symplify\BetterReflectionDocBlock\CleanFormatter
- * @covers \Symplify\BetterReflectionDocBlock\DocBlockSerializerFactory
+ * @see \Symplify\BetterReflectionDocBlock\CleanFormatter
+ * @see \Symplify\BetterReflectionDocBlock\DocBlockSerializerFactory
  */
 final class CleanFormatterTest extends AbstractContainerAwareTestCase
 {

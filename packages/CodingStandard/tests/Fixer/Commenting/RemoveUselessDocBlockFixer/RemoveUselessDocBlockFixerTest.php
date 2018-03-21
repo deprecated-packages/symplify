@@ -5,7 +5,7 @@ namespace Symplify\CodingStandard\Tests\Fixer\Commenting\RemoveUselessDocBlockFi
 use Symplify\EasyCodingStandard\Testing\AbstractContainerAwareCheckerTestCase;
 
 /**
- * @covers \Symplify\CodingStandard\Fixer\Commenting\RemoveUselessDocBlockFixer
+ * @see \Symplify\CodingStandard\Fixer\Commenting\RemoveUselessDocBlockFixer
  */
 final class RemoveUselessDocBlockFixerTest extends AbstractContainerAwareCheckerTestCase
 {

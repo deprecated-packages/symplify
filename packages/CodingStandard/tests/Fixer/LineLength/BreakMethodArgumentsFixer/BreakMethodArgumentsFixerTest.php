@@ -5,7 +5,7 @@ namespace Symplify\CodingStandard\Tests\Fixer\LineLength\BreakMethodArgumentsFix
 use Symplify\EasyCodingStandard\Testing\AbstractContainerAwareCheckerTestCase;
 
 /**
- * @covers \Symplify\CodingStandard\Fixer\LineLength\BreakMethodArgumentsFixer
+ * @see \Symplify\CodingStandard\Fixer\LineLength\BreakMethodArgumentsFixer
  */
 final class BreakMethodArgumentsFixerTest extends AbstractContainerAwareCheckerTestCase
 {

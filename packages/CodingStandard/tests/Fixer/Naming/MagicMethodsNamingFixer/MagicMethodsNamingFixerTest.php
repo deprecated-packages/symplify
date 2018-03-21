@@ -5,7 +5,7 @@ namespace Symplify\CodingStandard\Tests\Fixer\Naming\MagicMethodsNamingFixer;
 use Symplify\EasyCodingStandard\Testing\AbstractContainerAwareCheckerTestCase;
 
 /**
- * @covers \Symplify\CodingStandard\Fixer\Naming\MagicMethodsNamingFixer
+ * @see \Symplify\CodingStandard\Fixer\Naming\MagicMethodsNamingFixer
  */
 final class MagicMethodsNamingFixerTest extends AbstractContainerAwareCheckerTestCase
 {

@@ -5,7 +5,7 @@ namespace Symplify\CodingStandard\Tests\Fixer\LineLength\BreakArrayListFixer;
 use Symplify\EasyCodingStandard\Testing\AbstractContainerAwareCheckerTestCase;
 
 /**
- * @covers \Symplify\CodingStandard\Fixer\LineLength\BreakArrayListFixer
+ * @see \Symplify\CodingStandard\Fixer\LineLength\BreakArrayListFixer
  */
 final class BreakArrayListFixerTest extends AbstractContainerAwareCheckerTestCase
 {
