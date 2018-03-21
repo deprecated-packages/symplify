@@ -60,7 +60,7 @@ $someService->unknownMethod();
             }
 
             // has variable a @var annotation?
-            $docBlockPosition = DocBlockFinder::findPreviousPosition($tokens, $index);
+            $docBlockPosition = (new DocBlockFinder)->findPreviousPosition($tokens, $index);
             if ($docBlockPosition) {
                 $docBlockWrapper = $this->docBlockWrapperFactory->create(
                     $tokens,

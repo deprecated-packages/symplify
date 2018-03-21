@@ -25,7 +25,9 @@ final class PropertyWrapperFactory
 
     public function createFromTokensAndPosition(Tokens $tokens, int $position): PropertyWrapper
     {
+        $docBlockWrapper = null;
         $docBlockPosition = $this->docBlockFinder->findPreviousPosition($tokens, $position);
+
         if ($docBlockPosition) {
             $docBlockWrapper = $this->docBlockWrapperFactory->create(
                 $tokens,

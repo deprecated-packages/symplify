@@ -213,7 +213,7 @@ final class ClassWrapper
 
     public function isDoctrineEntity(): bool
     {
-        $docCommentPosition = DocBlockFinder::findPreviousPosition($this->tokens, $this->startIndex);
+        $docCommentPosition = (new DocBlockFinder)->findPreviousPosition($this->tokens, $this->startIndex);
         if (! $docCommentPosition) {
             return false;
         }
