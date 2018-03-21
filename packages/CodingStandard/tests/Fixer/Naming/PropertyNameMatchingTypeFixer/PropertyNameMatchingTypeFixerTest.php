@@ -5,7 +5,7 @@ namespace Symplify\CodingStandard\Tests\Fixer\Naming\PropertyNameMatchingTypeFix
 use Symplify\EasyCodingStandard\Testing\AbstractContainerAwareCheckerTestCase;
 
 /**
- * @covers \Symplify\CodingStandard\Fixer\Naming\PropertyNameMatchingTypeFixer
+ * @see \Symplify\CodingStandard\Fixer\Naming\PropertyNameMatchingTypeFixer
  */
 final class PropertyNameMatchingTypeFixerTest extends AbstractContainerAwareCheckerTestCase
 {

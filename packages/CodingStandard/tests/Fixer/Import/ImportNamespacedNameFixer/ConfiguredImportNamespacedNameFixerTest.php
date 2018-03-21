@@ -5,7 +5,7 @@ namespace Symplify\CodingStandard\Tests\Fixer\Import\ImportNamespacedNameFixer;
 use Symplify\EasyCodingStandard\Testing\AbstractContainerAwareCheckerTestCase;
 
 /**
- * @covers \Symplify\CodingStandard\Fixer\Import\ImportNamespacedNameFixer
+ * @see \Symplify\CodingStandard\Fixer\Import\ImportNamespacedNameFixer
  */
 final class ConfiguredImportNamespacedNameFixerTest extends AbstractContainerAwareCheckerTestCase
 {

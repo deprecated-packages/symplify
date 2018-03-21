@@ -5,7 +5,7 @@ namespace Symplify\CodingStandard\Tests\Fixer\Solid\FinalInterfaceFixer;
 use Symplify\EasyCodingStandard\Testing\AbstractContainerAwareCheckerTestCase;
 
 /**
- * @covers \Symplify\CodingStandard\Fixer\Solid\FinalInterfaceFixer
+ * @see \Symplify\CodingStandard\Fixer\Solid\FinalInterfaceFixer
  */
 final class ConfiguredTest extends AbstractContainerAwareCheckerTestCase
 {

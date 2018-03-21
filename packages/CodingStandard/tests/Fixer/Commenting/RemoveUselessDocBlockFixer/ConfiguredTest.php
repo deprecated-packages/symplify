@@ -6,7 +6,7 @@ use Iterator;
 use Symplify\EasyCodingStandard\Testing\AbstractContainerAwareCheckerTestCase;
 
 /**
- * @covers \Symplify\CodingStandard\Fixer\Commenting\RemoveUselessDocBlockFixer
+ * @see \Symplify\CodingStandard\Fixer\Commenting\RemoveUselessDocBlockFixer
  */
 final class ConfiguredTest extends AbstractContainerAwareCheckerTestCase
 {

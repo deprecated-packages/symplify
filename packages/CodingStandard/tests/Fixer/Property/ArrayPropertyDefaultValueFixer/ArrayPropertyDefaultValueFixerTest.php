@@ -5,7 +5,7 @@ namespace Symplify\CodingStandard\Tests\Fixer\Property\ArrayPropertyDefaultValue
 use Symplify\EasyCodingStandard\Testing\AbstractContainerAwareCheckerTestCase;
 
 /**
- * @covers \Symplify\CodingStandard\Fixer\Property\ArrayPropertyDefaultValueFixer
+ * @see \Symplify\CodingStandard\Fixer\Property\ArrayPropertyDefaultValueFixer
  */
 final class ArrayPropertyDefaultValueFixerTest extends AbstractContainerAwareCheckerTestCase
 {

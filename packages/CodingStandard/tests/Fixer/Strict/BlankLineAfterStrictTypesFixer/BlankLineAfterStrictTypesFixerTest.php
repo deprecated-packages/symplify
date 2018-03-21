@@ -5,7 +5,7 @@ namespace Symplify\CodingStandard\Tests\Fixer\Strict\BlankLineAfterStrictTypesFi
 use Symplify\EasyCodingStandard\Testing\AbstractContainerAwareCheckerTestCase;
 
 /**
- * @covers \Symplify\CodingStandard\Fixer\Strict\BlankLineAfterStrictTypesFixer
+ * @see \Symplify\CodingStandard\Fixer\Strict\BlankLineAfterStrictTypesFixer
  */
 final class BlankLineAfterStrictTypesFixerTest extends AbstractContainerAwareCheckerTestCase
 {

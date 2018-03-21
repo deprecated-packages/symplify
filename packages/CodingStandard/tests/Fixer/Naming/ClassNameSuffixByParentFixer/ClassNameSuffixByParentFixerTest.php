@@ -5,7 +5,7 @@ namespace Symplify\CodingStandard\Tests\Fixer\Naming\ClassNameSuffixByParentFixe
 use Symplify\EasyCodingStandard\Testing\AbstractContainerAwareCheckerTestCase;
 
 /**
- * @covers \Symplify\CodingStandard\Fixer\Naming\ClassNameSuffixByParentFixer
+ * @see \Symplify\CodingStandard\Fixer\Naming\ClassNameSuffixByParentFixer
  */
 final class ClassNameSuffixByParentFixerTest extends AbstractContainerAwareCheckerTestCase
 {

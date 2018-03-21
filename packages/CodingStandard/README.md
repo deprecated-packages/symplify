@@ -30,22 +30,6 @@ composer require symplify/coding-standard --dev
 +];
 ```
 
-### Variables created with `$container->get(SomeService::class)` should have annotation, so every IDE supports autocomplete without any plugins
-
-- class: [`Symplify\CodingStandard\Fixer\Commenting\AnnotateMagicContainerGetterFixer`](src/Fixer/Commenting/AnnotateMagicContainerGetterFixer.php)
-
-```diff
- class SomeTest extends ContainerAwareTestCase
- {
-     protected function setUp(): void
-     {
-+        /** @var SomeType $someService */
-         $someService = $this->container->get(SomeType::class);
-         $someService->unknownMethod();
-     }
- }
-```
-
 ### There should not be empty PHPDoc blocks
 
 Just like `PhpCsFixer\Fixer\Phpdoc\NoEmptyPhpdocFixer`, but this one removes all doc block lines.

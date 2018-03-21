@@ -5,7 +5,7 @@ namespace Symplify\CodingStandard\Tests\Fixer\Commenting\BlockPropertyCommentFix
 use Symplify\EasyCodingStandard\Testing\AbstractContainerAwareCheckerTestCase;
 
 /**
- * @covers \Symplify\CodingStandard\Fixer\Commenting\BlockPropertyCommentFixer
+ * @see \Symplify\CodingStandard\Fixer\Commenting\BlockPropertyCommentFixer
  */
 final class BlockPropertyCommentFixerTest extends AbstractContainerAwareCheckerTestCase
 {
