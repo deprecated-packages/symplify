@@ -5,7 +5,7 @@
     "require": {
         "php": "^7.1",
         "erusev/parsedown-extra": "^0.7",
-        "friendsofphp/php-cs-fixer": "~2.11",
+        "friendsofphp/php-cs-fixer": "~2.10.4",
         "jean85/pretty-package-versions": "^1.1",
         "latte/latte": "^2.4",
         "nette/caching": "^2.5",
