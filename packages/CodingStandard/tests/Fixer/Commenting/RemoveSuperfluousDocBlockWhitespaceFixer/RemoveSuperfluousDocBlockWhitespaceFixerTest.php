@@ -4,9 +4,10 @@ namespace Symplify\CodingStandard\Tests\Fixer\Commenting\RemoveSuperfluousDocBlo
 
 use PhpCsFixer\Fixer\FixerInterface;
 use Symplify\CodingStandard\Fixer\Commenting\RemoveSuperfluousDocBlockWhitespaceFixer;
+use Symplify\EasyCodingStandard\Testing\AbstractContainerAwareCheckerTestCase;
 use Symplify\TokenRunner\Testing\AbstractSimpleFixerTestCase;
 
-final class RemoveSuperfluousDocBlockWhitespaceFixerTest extends AbstractSimpleFixerTestCase
+final class RemoveSuperfluousDocBlockWhitespaceFixerTest extends AbstractContainerAwareCheckerTestCase
 {
     /**
      * @dataProvider provideWrongToFixedCases()
@@ -28,6 +29,11 @@ final class RemoveSuperfluousDocBlockWhitespaceFixerTest extends AbstractSimpleF
 
     protected function createFixer(): FixerInterface
     {
-        return new RemoveSuperfluousDocBlockWhitespaceFixer();
+        return $this->container->get(RemoveSuperfluousDocBlockWhitespaceFixer::class);
+    }
+
+    protected function provideConfig(): string
+    {
+        return __DIR__ . '/config.yml';
     }
 }

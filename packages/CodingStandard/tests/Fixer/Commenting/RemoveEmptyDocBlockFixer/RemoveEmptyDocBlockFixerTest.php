@@ -4,9 +4,10 @@ namespace Symplify\CodingStandard\Tests\Fixer\Commenting\RemoveEmptyDocBlockFixe
 
 use PhpCsFixer\Fixer\FixerInterface;
 use Symplify\CodingStandard\Fixer\Commenting\RemoveEmptyDocBlockFixer;
+use Symplify\EasyCodingStandard\Testing\AbstractContainerAwareCheckerTestCase;
 use Symplify\TokenRunner\Testing\AbstractSimpleFixerTestCase;
 
-final class RemoveEmptyDocBlockFixerTest extends AbstractSimpleFixerTestCase
+final class RemoveEmptyDocBlockFixerTest extends AbstractContainerAwareCheckerTestCase
 {
     /**
      * @dataProvider provideWrongToFixedCases()
@@ -30,6 +31,11 @@ final class RemoveEmptyDocBlockFixerTest extends AbstractSimpleFixerTestCase
 
     protected function createFixer(): FixerInterface
     {
-        return new RemoveEmptyDocBlockFixer();
+        return $this->container->get(RemoveEmptyDocBlockFixer::class);
+    }
+
+    protected function provideConfig(): string
+    {
+        return __DIR__ . '/config.yml';
     }
 }
