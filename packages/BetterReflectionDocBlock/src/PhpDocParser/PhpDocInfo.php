@@ -76,6 +76,11 @@ final class PhpDocInfo
         return $this->isSingleLineDoc;
     }
 
+    public function getTokenIterator(): TokenIterator
+    {
+        return $this->tokenIterator;
+    }
+
     private function hasUnionType(PhpDocChildNode $phpDocChildNode): bool
     {
         if (! $phpDocChildNode instanceof PhpDocTagNode) {
