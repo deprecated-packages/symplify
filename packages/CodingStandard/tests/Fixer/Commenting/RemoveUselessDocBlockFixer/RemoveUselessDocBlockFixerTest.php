@@ -2,12 +2,11 @@
 
 namespace Symplify\CodingStandard\Tests\Fixer\Commenting\RemoveUselessDocBlockFixer;
 
-use PhpCsFixer\Fixer\FixerInterface;
-use Symplify\CodingStandard\Fixer\Commenting\RemoveUselessDocBlockFixer;
 use Symplify\EasyCodingStandard\Testing\AbstractContainerAwareCheckerTestCase;
 
 /**
  * @requires PHP 7.3
+ * @covers \Symplify\CodingStandard\Fixer\Commenting\RemoveUselessDocBlockFixer
  */
 final class RemoveUselessDocBlockFixerTest extends AbstractContainerAwareCheckerTestCase
 {
@@ -81,11 +80,6 @@ final class RemoveUselessDocBlockFixerTest extends AbstractContainerAwareChecker
             [__DIR__ . '/wrong/wrong17.php.inc', __DIR__ . '/fixed/fixed17.php.inc'],
             [__DIR__ . '/wrong/wrong18.php.inc', __DIR__ . '/fixed/fixed18.php.inc'],
         ];
-    }
-
-    protected function createFixer(): FixerInterface
-    {
-        return $this->container->get(RemoveUselessDocBlockFixer::class);
     }
 
     protected function provideConfig(): string

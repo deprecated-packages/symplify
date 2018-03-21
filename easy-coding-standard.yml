@@ -48,7 +48,6 @@ parameters:
             - 'packages/Statie/src/Configuration/Configuration.php'
             # parent class without typehints
             - 'packages/TokenRunner/src/Testing/AbstractSimpleFixerTestCase.php'
-            - 'packages/EasyCodingStandard/tests/AbstractDualRunTestCase.php'
             - 'packages/FixerRunner/src/Differ/LineLimitSebastianBergmannDiffer.php'
 
         PhpCsFixer\Fixer\PhpUnit\PhpUnitStrictFixer:
