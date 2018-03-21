@@ -68,6 +68,10 @@ final class UseImportsTransformer
      */
     private static function addRelateUseImport(Name $name, array $tokens): array
     {
+        if ($name->getRelatedNamespaceUseAnalysis() === null) {
+            return [];
+        }
+
         $nameParts = explode('\\', $name->getRelatedNamespaceUseAnalysis()->getFullName());
         foreach ($nameParts as $useDeclarationPart) {
             if ($useDeclarationPart === $name->getFirstName()) {
