@@ -5,9 +5,10 @@ namespace Symplify\CodingStandard\Tests\Fixer\Strict\BlankLineAfterStrictTypesFi
 use PhpCsFixer\Fixer\FixerInterface;
 use PhpCsFixer\WhitespacesFixerConfig;
 use Symplify\CodingStandard\Fixer\Strict\BlankLineAfterStrictTypesFixer;
+use Symplify\EasyCodingStandard\Testing\AbstractContainerAwareCheckerTestCase;
 use Symplify\TokenRunner\Testing\AbstractSimpleFixerTestCase;
 
-final class BlankLineAfterStrictTypesFixerTest extends AbstractSimpleFixerTestCase
+final class BlankLineAfterStrictTypesFixerTest extends AbstractContainerAwareCheckerTestCase
 {
     /**
      * @dataProvider provideCorrectCases()
@@ -48,8 +49,11 @@ final class BlankLineAfterStrictTypesFixerTest extends AbstractSimpleFixerTestCa
 
     protected function createFixer(): FixerInterface
     {
-        $fixer = new BlankLineAfterStrictTypesFixer();
-        $fixer->setWhitespacesConfig(new WhitespacesFixerConfig('    ', PHP_EOL));
-        return $fixer;
+        return $this->container->get(BlankLineAfterStrictTypesFixer::class);
+    }
+
+    protected function provideConfig(): string
+    {
+        return __DIR__ . '/config.yml';
     }
 }

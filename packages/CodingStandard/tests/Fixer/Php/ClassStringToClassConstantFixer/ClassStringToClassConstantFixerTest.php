@@ -4,9 +4,10 @@ namespace Symplify\CodingStandard\Tests\Fixer\Php\ClassStringToClassConstantFixe
 
 use PhpCsFixer\Fixer\FixerInterface;
 use Symplify\CodingStandard\Fixer\Php\ClassStringToClassConstantFixer;
+use Symplify\EasyCodingStandard\Testing\AbstractContainerAwareCheckerTestCase;
 use Symplify\TokenRunner\Testing\AbstractSimpleFixerTestCase;
 
-final class ClassStringToClassConstantFixerTest extends AbstractSimpleFixerTestCase
+final class ClassStringToClassConstantFixerTest extends AbstractContainerAwareCheckerTestCase
 {
     /**
      * @dataProvider provideCorrectCases()
@@ -48,6 +49,11 @@ final class ClassStringToClassConstantFixerTest extends AbstractSimpleFixerTestC
 
     protected function createFixer(): FixerInterface
     {
-        return new ClassStringToClassConstantFixer();
+        return $this->container->get(ClassStringToClassConstantFixer::class);
+    }
+
+    protected function provideConfig(): string
+    {
+        return __DIR__ . '/config.yml';
     }
 }

@@ -4,9 +4,10 @@ namespace Symplify\CodingStandard\Tests\Fixer\Php\ClassStringToClassConstantFixe
 
 use PhpCsFixer\Fixer\FixerInterface;
 use Symplify\CodingStandard\Fixer\Php\ClassStringToClassConstantFixer;
+use Symplify\EasyCodingStandard\Testing\AbstractContainerAwareCheckerTestCase;
 use Symplify\TokenRunner\Testing\AbstractSimpleFixerTestCase;
 
-final class ExistenceNotRequiredTest extends AbstractSimpleFixerTestCase
+final class ExistenceNotRequiredTest extends AbstractContainerAwareCheckerTestCase
 {
     /**
      * @dataProvider provideWrongToFixedCases()
@@ -29,11 +30,11 @@ final class ExistenceNotRequiredTest extends AbstractSimpleFixerTestCase
 
     protected function createFixer(): FixerInterface
     {
-        $fixer = new ClassStringToClassConstantFixer();
-        $fixer->configure([
-            ClassStringToClassConstantFixer::CLASS_MUST_EXIST_OPTION => false,
-        ]);
+        return $this->container->get(ClassStringToClassConstantFixer::class);
+    }
 
-        return $fixer;
+    protected function provideConfig(): string
+    {
+        return __DIR__ . '/config-with-non-existance.yml';
     }
 }
