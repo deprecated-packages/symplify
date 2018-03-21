@@ -3,10 +3,8 @@
 namespace Symplify\CodingStandard\Tests\Fixer\LineLength\BreakArrayListFixer;
 
 use PhpCsFixer\Fixer\FixerInterface;
-use PhpCsFixer\WhitespacesFixerConfig;
 use Symplify\CodingStandard\Fixer\LineLength\BreakArrayListFixer;
 use Symplify\EasyCodingStandard\Testing\AbstractContainerAwareCheckerTestCase;
-use Symplify\TokenRunner\Testing\AbstractSimpleFixerTestCase;
 
 final class BreakArrayListFixerTest extends AbstractContainerAwareCheckerTestCase
 {
@@ -55,6 +53,6 @@ final class BreakArrayListFixerTest extends AbstractContainerAwareCheckerTestCas
 
     protected function provideConfig(): string
     {
-       return __DIR__ . '/config.yml';
+        return __DIR__ . '/config.yml';
     }
 }

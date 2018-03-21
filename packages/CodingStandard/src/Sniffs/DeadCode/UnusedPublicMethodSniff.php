@@ -150,6 +150,7 @@ final class UnusedPublicMethodSniff implements Sniff, DualRunInterface
             if ($nextToken['code'] !== T_STRING) {
                 return;
             }
+
             $this->calledMethodNames[] = $nextToken['content'];
         }
 

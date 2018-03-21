@@ -3,10 +3,8 @@
 namespace Symplify\CodingStandard\Tests\Fixer\Import\ImportNamespacedNameFixer;
 
 use PhpCsFixer\Fixer\FixerInterface;
-use PhpCsFixer\WhitespacesFixerConfig;
 use Symplify\CodingStandard\Fixer\Import\ImportNamespacedNameFixer;
 use Symplify\EasyCodingStandard\Testing\AbstractContainerAwareCheckerTestCase;
-use Symplify\TokenRunner\Testing\AbstractSimpleFixerTestCase;
 
 final class ImportNamespacedNameFixerTest extends AbstractContainerAwareCheckerTestCase
 {

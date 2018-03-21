@@ -27,6 +27,7 @@ final class FinalInterfaceFixer implements DefinedFixerInterface, ConfigurationD
      * @var mixed[]
      */
     private $configuration = [];
+
     /**
      * @var ClassWrapperFactory
      */

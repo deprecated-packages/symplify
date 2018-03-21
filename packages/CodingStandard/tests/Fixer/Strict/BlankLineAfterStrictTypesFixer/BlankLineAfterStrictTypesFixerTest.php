@@ -3,10 +3,8 @@
 namespace Symplify\CodingStandard\Tests\Fixer\Strict\BlankLineAfterStrictTypesFixer;
 
 use PhpCsFixer\Fixer\FixerInterface;
-use PhpCsFixer\WhitespacesFixerConfig;
 use Symplify\CodingStandard\Fixer\Strict\BlankLineAfterStrictTypesFixer;
 use Symplify\EasyCodingStandard\Testing\AbstractContainerAwareCheckerTestCase;
-use Symplify\TokenRunner\Testing\AbstractSimpleFixerTestCase;
 
 final class BlankLineAfterStrictTypesFixerTest extends AbstractContainerAwareCheckerTestCase
 {

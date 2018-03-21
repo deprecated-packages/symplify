@@ -3,10 +3,8 @@
 namespace Symplify\CodingStandard\Tests\Fixer\LineLength\BreakMethodCallsFixer;
 
 use PhpCsFixer\Fixer\FixerInterface;
-use PhpCsFixer\WhitespacesFixerConfig;
 use Symplify\CodingStandard\Fixer\LineLength\BreakMethodCallsFixer;
 use Symplify\EasyCodingStandard\Testing\AbstractContainerAwareCheckerTestCase;
-use Symplify\TokenRunner\Testing\AbstractSimpleFixerTestCase;
 
 final class BreakMethodCallsFixerTest extends AbstractContainerAwareCheckerTestCase
 {

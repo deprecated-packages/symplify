@@ -5,7 +5,6 @@ namespace Symplify\CodingStandard\Tests\Fixer\Property\ArrayPropertyDefaultValue
 use PhpCsFixer\Fixer\FixerInterface;
 use Symplify\CodingStandard\Fixer\Property\ArrayPropertyDefaultValueFixer;
 use Symplify\EasyCodingStandard\Testing\AbstractContainerAwareCheckerTestCase;
-use Symplify\TokenRunner\Testing\AbstractSimpleFixerTestCase;
 
 final class ArrayPropertyDefaultValueFixerTest extends AbstractContainerAwareCheckerTestCase
 {

@@ -5,7 +5,6 @@ namespace Symplify\CodingStandard\Tests\Fixer\ControlStructure\RequireFollowedBy
 use PhpCsFixer\Fixer\FixerInterface;
 use Symplify\CodingStandard\Fixer\ControlStructure\RequireFollowedByAbsolutePathFixer;
 use Symplify\EasyCodingStandard\Testing\AbstractContainerAwareCheckerTestCase;
-use Symplify\TokenRunner\Testing\AbstractSimpleFixerTestCase;
 
 final class RequireFollowedByAbsolutePathFixerTest extends AbstractContainerAwareCheckerTestCase
 {

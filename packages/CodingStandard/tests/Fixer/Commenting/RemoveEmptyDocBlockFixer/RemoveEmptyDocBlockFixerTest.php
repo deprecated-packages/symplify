@@ -5,7 +5,6 @@ namespace Symplify\CodingStandard\Tests\Fixer\Commenting\RemoveEmptyDocBlockFixe
 use PhpCsFixer\Fixer\FixerInterface;
 use Symplify\CodingStandard\Fixer\Commenting\RemoveEmptyDocBlockFixer;
 use Symplify\EasyCodingStandard\Testing\AbstractContainerAwareCheckerTestCase;
-use Symplify\TokenRunner\Testing\AbstractSimpleFixerTestCase;
 
 final class RemoveEmptyDocBlockFixerTest extends AbstractContainerAwareCheckerTestCase
 {
