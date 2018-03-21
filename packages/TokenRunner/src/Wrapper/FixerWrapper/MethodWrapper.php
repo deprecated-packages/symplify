@@ -238,7 +238,7 @@ final class MethodWrapper
         while ($currentPosition < $this->argumentsBracketEnd) {
             $currentToken = $this->tokens[$currentPosition];
             if ($currentToken->isGivenKind(T_WHITESPACE)) {
-                $lineLength += 1;
+                ++$lineLength;
                 ++$currentPosition;
                 continue;
             }
