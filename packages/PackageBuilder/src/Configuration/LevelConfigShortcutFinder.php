@@ -27,8 +27,9 @@ final class LevelConfigShortcutFinder
             return null;
         }
 
-        $levelName = $input->getParameterOption(self::LEVEL_OPTION_NAME) ?: $input->getParameterOption(
-            self::LEVEL_OPTION_SHORTCUT
+        $levelName = $input->getParameterOption(
+            self::LEVEL_OPTION_NAME,
+            $input->getParameterOption(self::LEVEL_OPTION_SHORTCUT)
         );
 
         $finder = Finder::create()
