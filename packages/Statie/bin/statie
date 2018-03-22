@@ -20,7 +20,8 @@ try {
 
     // 2. Build DI container
     $containerFactory = new ContainerFactory();
-    $configFile = ConfigFilePathHelper::provide('statie', 'statie.yml');
+    $configFile = ConfigFilePathHelper::provide('statie', 'statie.yml') ?:
+        ConfigFilePathHelper::provide('statie', 'statie.yaml');
 
     if ($configFile) {
         $container = $containerFactory->createWithConfig($configFile);
