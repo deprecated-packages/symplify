@@ -7,20 +7,14 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Finder\Finder;
 use Symplify\PackageBuilder\Exception\Configuration\LevelNotFoundException;
 
-final class LevelConfigShortcutFinder
+final class LevelFileFinder
 {
-    /**
-     * @var string
-     */
-    private const LEVEL_OPTION_NAME = '--level';
-
-    public function resolveLevel(InputInterface $input, string $configDirectory): ?string
+    public function detectFromInputAndDirectory(InputInterface $input, string $configDirectory): ?string
     {
-        if (! $input->hasParameterOption(self::LEVEL_OPTION_NAME)) {
+        $levelName = ConfigFileFinder::getOptionValue($input, ['--level', '-l']);
+        if ($levelName === null) {
             return null;
         }
-
-        $levelName = $input->getParameterOption(self::LEVEL_OPTION_NAME);
 
         $finder = Finder::create()
             ->files()
@@ -28,17 +22,11 @@ final class LevelConfigShortcutFinder
             ->in($configDirectory);
 
         $firstFile = $this->getFirstFileFromFinder($finder);
-        if (! $firstFile) {
-            $allLevels = $this->findAllLevelsInDirectory($configDirectory);
-
-            throw new LevelNotFoundException(sprintf(
-                'Level "%s" was not found. Pick one of: "%s"',
-                $levelName,
-                implode('", "', $allLevels)
-            ));
+        if ($firstFile) {
+            return $firstFile->getRealPath();
         }
 
-        return $firstFile->getRealPath();
+        $this->reportLevelNotFound($configDirectory, $levelName);
     }
 
     private function getFirstFileFromFinder(Finder $finder): ?SplFileInfo
@@ -66,5 +54,16 @@ final class LevelConfigShortcutFinder
         sort($levels);
 
         return array_unique($levels);
+    }
+
+    private function reportLevelNotFound(string $configDirectory, string $levelName): void
+    {
+        $allLevels = $this->findAllLevelsInDirectory($configDirectory);
+
+        throw new LevelNotFoundException(sprintf(
+            'Level "%s" was not found. Pick one of: "%s"',
+            $levelName,
+            implode('", "', $allLevels)
+        ));
     }
 }

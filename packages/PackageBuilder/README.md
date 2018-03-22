@@ -75,7 +75,7 @@ Register:
 # app/config/services.yml
 
 parameters:
-    source: src
+    source: "src"
 
 services:
     _defaults:
@@ -103,7 +103,7 @@ final class StatieConfiguration
 
     public function getSource(): string
     {
-        return $parameterProvider->provide()['source']; // returns "src"
+        return $parameterProvider->provideParameter('source'); // returns "src"
     }
 }
 ```
@@ -123,7 +123,7 @@ Use in CLI entry file `bin/<app-name>`, e.g. `bin/statie` or `bin/apigen`.
 
 use Symfony\Component\Console\Input\ArgvInput;
 
-Symplify\PackageBuilder\Configuration\ConfigFilePathHelper::detectFromInput('statie', new ArgvInput);
+Symplify\PackageBuilder\Configuration\ConfigFileFinder::detectFromInput('statie', new ArgvInput);
 # throws "Symplify\PackageBuilder\Exception\Configuration\FileNotFoundException"
 # exception if no file is found
 ```
@@ -139,7 +139,7 @@ bin/statie --config config/statie.yml
 Then get the config just run:
 
 ```php
-$config = Symplify\PackageBuilder\Configuration\ConfigFilePathHelper::provide('statie');
+$config = Symplify\PackageBuilder\Configuration\ConfigFileFinder::provide('statie');
 dump($config); // returns absolute path to "config/statie.yml"
 // or NULL if none was found before
 ```
@@ -147,7 +147,8 @@ dump($config); // returns absolute path to "config/statie.yml"
 You can also provide fallback to file in [current working directory](http://php.net/manual/en/function.getcwd.php):
 
 ```php
-$config = Symplify\PackageBuilder\Configuration\ConfigFilePathHelper::provide('statie', 'statie.yml');
+$config = Symplify\PackageBuilder\Configuration\ConfigFileFinder::provide('statie', ['statie.yml']);
+$config = Symplify\PackageBuilder\Configuration\ConfigFileFinder::provide('statie', ['statie.yml', 'statie.yaml']);
 ```
 
 This is common practise in CLI applications, e.g. [PHPUnit](https://phpunit.de/) looks for `phpunit.xml`.
@@ -178,16 +179,16 @@ vendor/bin/your-app --config vendor/organization-name/package-name/config/subdir
 ```
 
 ```php
-use Symplify\PackageBuilder\Configuration\ConfigFilePathHelper;
-use Symplify\PackageBuilder\Configuration\LevelConfigShortcutFinder;
+use Symplify\PackageBuilder\Configuration\ConfigFileFinder;
+use Symplify\PackageBuilder\Configuration\LevelFileFinder;
 
 // 1. Try --level
-$configFile = (new LevelConfigShortcutFinder)->resolveLevel(new ArgvInput, __DIR__ . '/../config/');
+$configFile = (new LevelFileFinder)->detectFromInputAndDirectory(new ArgvInput, __DIR__ . '/../config/');
 
 // 2. try --config
 if ($configFile === null) {
-    ConfigFilePathHelper::detectFromInput('ecs', new ArgvInput);
-    $configFile = ConfigFilePathHelper::provide('ecs', 'easy-coding-standard.yml');
+    ConfigFileFinder::detectFromInput('ecs', new ArgvInput);
+    $configFile = ConfigFileFinder::provide('ecs', ['easy-coding-standard.yml']);
 }
 
 // 3. Build DI container

@@ -4,7 +4,7 @@
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symplify\PackageBuilder\Configuration\ConfigFilePathHelper;
+use Symplify\PackageBuilder\Configuration\ConfigFileFinder;
 use Symplify\PackageBuilder\Console\Style\SymfonyStyleFactory;
 use Symplify\Statie\Console\Application;
 use Symplify\Statie\DependencyInjection\ContainerFactory;
@@ -16,12 +16,11 @@ require_once __DIR__ . '/statie-bootstrap.php';
 
 try {
     // 1. Detect configuration
-    ConfigFilePathHelper::detectFromInput('statie', new ArgvInput());
+    ConfigFileFinder::detectFromInput('statie', new ArgvInput());
 
     // 2. Build DI container
     $containerFactory = new ContainerFactory();
-    $configFile = ConfigFilePathHelper::provide('statie', 'statie.yml') ?:
-        ConfigFilePathHelper::provide('statie', 'statie.yaml');
+    $configFile = ConfigFileFinder::provide('statie', ['statie.yml', 'statie.yaml']);
 
     if ($configFile) {
         $container = $containerFactory->createWithConfig($configFile);

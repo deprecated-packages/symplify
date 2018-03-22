@@ -2,21 +2,20 @@
 
 use Symfony\Component\Console\Input\ArgvInput;
 use Symplify\EasyCodingStandard\DependencyInjection\ContainerFactory;
-use Symplify\PackageBuilder\Configuration\ConfigFilePathHelper;
-use Symplify\PackageBuilder\Configuration\LevelConfigShortcutFinder;
+use Symplify\PackageBuilder\Configuration\ConfigFileFinder;
+use Symplify\PackageBuilder\Configuration\LevelFileFinder;
 
 require_once __DIR__ . '/easy-coding-standard-bootstrap.php';
 
-// 1. Detect configuration from --level
-$configFile = (new LevelConfigShortcutFinder())->resolveLevel(new ArgvInput(), __DIR__ . '/../config/');
+// 1. Detect configuration from level option
+$configFile = (new LevelFileFinder())->detectFromInputAndDirectory(new ArgvInput(), __DIR__ . '/../config/');
 
-// 2. Detect configuration
+// 2. Detect configuration from config option
 if ($configFile === null) {
-    ConfigFilePathHelper::detectFromInput('ecs', new ArgvInput());
-    $configFile = ConfigFilePathHelper::provide('ecs', 'easy-coding-standard.yml') ?:
-        ConfigFilePathHelper::provide('ecs', 'easy-coding-standard.yaml');
+    ConfigFileFinder::detectFromInput('ecs', new ArgvInput());
+    $configFile = ConfigFileFinder::provide('ecs', ['easy-coding-standard.yml', 'easy-coding-standard.yaml']);
 } else {
-    ConfigFilePathHelper::set('ecs', $configFile);
+    ConfigFileFinder::set('ecs', $configFile);
 }
 
 // 3. Build DI container
