@@ -3,8 +3,6 @@
 namespace Symplify\CodingStandard\Tests\Sniffs\Commenting\VarConstantComment;
 
 use Iterator;
-use PHP_CodeSniffer\Sniffs\Sniff;
-use Symplify\CodingStandard\Sniffs\Commenting\VarConstantCommentSniff;
 use Symplify\EasyCodingStandard\Testing\AbstractCheckerTestCase;
 
 /**
@@ -39,11 +37,6 @@ final class VarConstantCommentSniffTest extends AbstractCheckerTestCase
     {
         yield [__DIR__ . '/correct/correct.php.inc'];
         yield [__DIR__ . '/correct/correct2.php.inc'];
-    }
-
-    protected function createSniff(): Sniff
-    {
-        return new VarConstantCommentSniff();
     }
 
     protected function provideConfig(): string
