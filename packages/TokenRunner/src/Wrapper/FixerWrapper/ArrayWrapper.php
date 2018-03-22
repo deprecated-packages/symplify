@@ -3,11 +3,9 @@
 namespace Symplify\TokenRunner\Wrapper\FixerWrapper;
 
 use Nette\Utils\Strings;
-use PhpCsFixer\Tokenizer\CT;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use Symplify\TokenRunner\Analyzer\FixerAnalyzer\TokenSkipper;
-use Symplify\TokenRunner\Guard\TokenTypeGuard;
 
 final class ArrayWrapper
 {
@@ -31,18 +29,11 @@ final class ArrayWrapper
      */
     private $endIndex;
 
-    private function __construct(Tokens $tokens, int $startIndex)
+    public function __construct(Tokens $tokens, int $startIndex)
     {
         $this->tokens = $tokens;
         $this->startIndex = $startIndex;
         $this->startToken = $tokens[$startIndex];
-    }
-
-    public static function createFromTokensArrayStartPosition(Tokens $tokens, int $startIndex): self
-    {
-        TokenTypeGuard::ensureIsTokenType($tokens[$startIndex], [T_ARRAY, CT::T_ARRAY_SQUARE_BRACE_OPEN], __METHOD__);
-
-        return new self($tokens, $startIndex);
     }
 
     public function getStartIndex(): int
