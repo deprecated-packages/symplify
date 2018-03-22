@@ -3,11 +3,9 @@
 namespace Symplify\CodingStandard\Tests\Sniffs\DeadCode\UnusedPublicMethodSniff;
 
 use Iterator;
-use PHP_CodeSniffer\Sniffs\Sniff;
-use Symplify\CodingStandard\Sniffs\DeadCode\UnusedPublicMethodSniff;
-use Symplify\CodingStandard\Tests\Sniffs\AbstractSniffTestCase;
+use Symplify\EasyCodingStandard\Testing\AbstractContainerAwareCheckerTestCase;
 
-final class UnusedPublicMethodSniffTest extends AbstractSniffTestCase
+final class UnusedPublicMethodSniffTest extends AbstractContainerAwareCheckerTestCase
 {
     public function testCorrect(): void
     {
@@ -28,8 +26,8 @@ final class UnusedPublicMethodSniffTest extends AbstractSniffTestCase
         yield [__DIR__ . '/wrong/wrong2.php.inc'];
     }
 
-    protected function createSniff(): Sniff
+    protected function provideConfig(): string
     {
-        return new UnusedPublicMethodSniff();
+        return __DIR__ . '/config.yml';
     }
 }
