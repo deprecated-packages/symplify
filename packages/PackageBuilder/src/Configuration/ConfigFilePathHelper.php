@@ -13,26 +13,33 @@ final class ConfigFilePathHelper
     private const CONFIG_OPTION_NAME = '--config';
 
     /**
+     * @var string
+     */
+    private const SHORT_CONFIG_OPTION_NAME = '-c';
+
+    /**
      * @var string[]
      */
     private static $configFilePaths = [];
 
     public static function detectFromInput(string $name, InputInterface $input): void
     {
-        if ($input->hasParameterOption(self::CONFIG_OPTION_NAME)) {
-            $relativeFilePath = $input->getParameterOption(self::CONFIG_OPTION_NAME);
-            $filePath = self::makeAbsolutePath($relativeFilePath);
-
-            if (! file_exists($filePath)) {
-                throw new FileNotFoundException(sprintf(
-                    'File "%s" not found in "%s".',
-                    $filePath,
-                    $relativeFilePath
-                ));
-            }
-
-            self::$configFilePaths[$name] = $filePath;
+        $configValue = self::getConfigValue($input);
+        if ($configValue === null) {
+            return;
         }
+
+        $filePath = self::makeAbsolutePath($configValue);
+
+        if (! file_exists($filePath)) {
+            throw new FileNotFoundException(sprintf(
+                'File "%s" not found in "%s".',
+                $filePath,
+                $configValue
+            ));
+        }
+
+        self::$configFilePaths[$name] = $filePath;
     }
 
     public static function provide(string $name, ?string $configName = null): ?string
@@ -59,5 +66,18 @@ final class ConfigFilePathHelper
         return preg_match('#/|\\\\|[a-z]:#iA', $relativeFilePath)
             ? $relativeFilePath
             : getcwd() . DIRECTORY_SEPARATOR . $relativeFilePath;
+    }
+
+    private static function getConfigValue(InputInterface $input): ?string
+    {
+        if ($input->hasParameterOption(self::CONFIG_OPTION_NAME)) {
+            return $input->getParameterOption(self::CONFIG_OPTION_NAME);
+        }
+
+        if ($input->hasParameterOption(self::SHORT_CONFIG_OPTION_NAME)) {
+            return $input->getParameterOption(self::SHORT_CONFIG_OPTION_NAME);
+        }
+
+        return null;
     }
 }
