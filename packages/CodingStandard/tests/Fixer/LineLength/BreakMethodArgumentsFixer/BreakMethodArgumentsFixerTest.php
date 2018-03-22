@@ -2,12 +2,12 @@
 
 namespace Symplify\CodingStandard\Tests\Fixer\LineLength\BreakMethodArgumentsFixer;
 
-use Symplify\EasyCodingStandard\Testing\AbstractContainerAwareCheckerTestCase;
+use Symplify\EasyCodingStandard\Testing\AbstractCheckerTestCase;
 
 /**
  * @see \Symplify\CodingStandard\Fixer\LineLength\BreakMethodArgumentsFixer
  */
-final class BreakMethodArgumentsFixerTest extends AbstractContainerAwareCheckerTestCase
+final class BreakMethodArgumentsFixerTest extends AbstractCheckerTestCase
 {
     /**
      * @dataProvider provideCorrectCases()

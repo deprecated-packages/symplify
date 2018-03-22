@@ -2,12 +2,12 @@
 
 namespace Symplify\CodingStandard\Tests\Fixer\Naming\ClassNameSuffixByParentFixer;
 
-use Symplify\EasyCodingStandard\Testing\AbstractContainerAwareCheckerTestCase;
+use Symplify\EasyCodingStandard\Testing\AbstractCheckerTestCase;
 
 /**
  * @see \Symplify\CodingStandard\Fixer\Naming\ClassNameSuffixByParentFixer
  */
-final class ClassNameSuffixByParentFixerTest extends AbstractContainerAwareCheckerTestCase
+final class ClassNameSuffixByParentFixerTest extends AbstractCheckerTestCase
 {
     /**
      * @dataProvider provideWrongToFixedCases()

@@ -2,12 +2,12 @@
 
 namespace Symplify\CodingStandard\Tests\Fixer\ControlStructure\RequireFollowedByAbsolutePathFixer;
 
-use Symplify\EasyCodingStandard\Testing\AbstractContainerAwareCheckerTestCase;
+use Symplify\EasyCodingStandard\Testing\AbstractCheckerTestCase;
 
 /**
  * @see \Symplify\CodingStandard\Fixer\ControlStructure\RequireFollowedByAbsolutePathFixer
  */
-final class RequireFollowedByAbsolutePathFixerTest extends AbstractContainerAwareCheckerTestCase
+final class RequireFollowedByAbsolutePathFixerTest extends AbstractCheckerTestCase
 {
     /**
      * @dataProvider provideWrongToFixedCases()

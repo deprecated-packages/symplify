@@ -3,9 +3,9 @@
 namespace Symplify\CodingStandard\Tests\Sniffs\DeadCode\UnusedPublicMethodSniff;
 
 use Iterator;
-use Symplify\EasyCodingStandard\Testing\AbstractContainerAwareCheckerTestCase;
+use Symplify\EasyCodingStandard\Testing\AbstractCheckerTestCase;
 
-final class UnusedPublicMethodSniffTest extends AbstractContainerAwareCheckerTestCase
+final class UnusedPublicMethodSniffTest extends AbstractCheckerTestCase
 {
     public function testCorrect(): void
     {

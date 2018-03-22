@@ -2,12 +2,12 @@
 
 namespace Symplify\CodingStandard\Tests\Fixer\ArrayNotation\StandaloneLineInMultilineArrayFixer;
 
-use Symplify\EasyCodingStandard\Testing\AbstractContainerAwareCheckerTestCase;
+use Symplify\EasyCodingStandard\Testing\AbstractCheckerTestCase;
 
 /**
  * @see \Symplify\CodingStandard\Fixer\ArrayNotation\StandaloneLineInMultilineArrayFixer
  */
-final class ArrayNotationTest extends AbstractContainerAwareCheckerTestCase
+final class ArrayNotationTest extends AbstractCheckerTestCase
 {
     /**
      * @dataProvider provideCorrectCases()
