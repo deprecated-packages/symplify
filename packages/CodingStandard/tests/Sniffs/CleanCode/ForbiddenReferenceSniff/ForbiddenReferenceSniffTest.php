@@ -2,6 +2,7 @@
 
 namespace Symplify\CodingStandard\Tests\Sniffs\CleanCode\ForbiddenReferenceSniff;
 
+use Iterator;
 use Symplify\EasyCodingStandard\Testing\AbstractCheckerTestCase;
 
 /**
@@ -17,7 +18,7 @@ final class ForbiddenReferenceSniffTest extends AbstractCheckerTestCase
         $this->doTestWrongFile($file);
     }
 
-    public function provideWrongCases(): iterable
+    public function provideWrongCases(): Iterator
     {
         yield [__DIR__ . '/wrong/wrong.php.inc'];
     }

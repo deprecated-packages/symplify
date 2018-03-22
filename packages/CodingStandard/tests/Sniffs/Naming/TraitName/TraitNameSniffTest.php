@@ -2,9 +2,7 @@
 
 namespace Symplify\CodingStandard\Tests\Sniffs\Naming\TraitName;
 
-use PHP_CodeSniffer\Sniffs\Sniff;
-use Symplify\CodingStandard\Sniffs\Naming\TraitNameSniff;
-use Symplify\CodingStandard\Tests\Sniffs\AbstractSniffTestCase;
+use Iterator;
 use Symplify\EasyCodingStandard\Testing\AbstractCheckerTestCase;
 
 /**
@@ -25,10 +23,7 @@ final class TraitNameSniffTest extends AbstractCheckerTestCase
         $this->doTestCorrectFile($file);
     }
 
-    /**
-     * @return string[][]
-     */
-    public function provideCorrectCases(): \Iterator
+    public function provideCorrectCases(): Iterator
     {
         yield [__DIR__ . '/correct/correct.php.inc'];
         yield [__DIR__ . '/correct/correct2.php.inc'];
