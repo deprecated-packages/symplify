@@ -2,6 +2,7 @@
 
 namespace Symplify\PackageBuilder\Tests\Configuration;
 
+use Iterator;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symplify\PackageBuilder\Configuration\LevelConfigShortcutFinder;
@@ -25,25 +26,20 @@ final class LevelConfigShortcutFinderTest extends TestCase
 
     /**
      * @dataProvider provideLevelAndConfig()
+     * @param string[] $options
      */
-    public function testResolve(string $level, string $expectedConfig): void
+    public function testResolve(array $options, string $expectedConfig): void
     {
-        $input = new ArrayInput([
-            '--level' => $level,
-        ]);
+        $input = new ArrayInput($options);
 
         $config = $this->levelConfigShortcutFinder->resolveLevel($input, $this->sourceDirectory);
+
         $this->assertSame($expectedConfig, $config);
     }
 
-    /**
-     * @return string[][]
-     */
-    public function provideLevelAndConfig(): array
+    public function provideLevelAndConfig(): Iterator
     {
-        return [
-            ['someConfig', $this->sourceDirectory . '/someConfig.yml'],
-            ['anotherConfig', $this->sourceDirectory . '/anotherConfig.yml'],
-        ];
+        yield [['--level' => 'someConfig'], $this->sourceDirectory . '/someConfig.yml'];
+        yield [['--level' => 'anotherConfig'], $this->sourceDirectory . '/anotherConfig.yml'];
     }
 }
