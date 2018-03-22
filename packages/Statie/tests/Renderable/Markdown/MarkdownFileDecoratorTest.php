@@ -45,13 +45,21 @@ final class MarkdownFileDecoratorTest extends AbstractContainerAwareTestCase
 
         $this->markdownFileDecorator->decorateFiles([$file]);
 
-        $this->assertContains($expectedContent, $file->getContent(),  $message);
+        $this->assertContains($expectedContent, $file->getContent(), $message);
     }
 
     public function provideFilesToHtml(): Iterator
     {
-        yield [__DIR__ . '/MarkdownFileDecoratorSource/someFile.latte', '# Content...', 'No conversion due to invalid suffix'];
-        yield [__DIR__ . '/MarkdownFileDecoratorSource/someFile.md', '<h1>Content...</h1>', 'Conversion thanks to ".md" suffix'];
+        yield [
+            __DIR__ . '/MarkdownFileDecoratorSource/someFile.latte',
+            '# Content...',
+            'No conversion with ".latte" suffix',
+        ];
+        yield [
+            __DIR__ . '/MarkdownFileDecoratorSource/someFile.md',
+            '<h1>Content...</h1>',
+            'Conversion thanks to ".md" suffix',
+        ];
     }
 
     public function testMarkdownPerex(): void
