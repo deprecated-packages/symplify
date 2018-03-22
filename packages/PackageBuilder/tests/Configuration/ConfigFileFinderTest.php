@@ -11,7 +11,7 @@ use Symplify\PackageBuilder\Exception\Configuration\FileNotFoundException;
 final class ConfigFileFinderTest extends TestCase
 {
     /**
-     * @dataProvider provideOptionToValueWithExpectedPath()
+     * @dataProvider provideOptionsAndExpectedConfig()
      * @param mixed[] $options
      */
     public function testDetectFromInputAndProvideWithAbsolutePath(
@@ -25,7 +25,7 @@ final class ConfigFileFinderTest extends TestCase
         $this->assertSame($expectedConfig, ConfigFileFinder::provide($name), $message);
     }
 
-    public function provideOptionToValueWithExpectedPath(): Iterator
+    public function provideOptionsAndExpectedConfig(): Iterator
     {
         yield [['--config' => '.travis.yml'], getcwd() . '/.travis.yml', 'Full option with relative path'];
         yield [['-c' => '.travis.yml'], getcwd() . '/.travis.yml', 'Short option with relative path'];
