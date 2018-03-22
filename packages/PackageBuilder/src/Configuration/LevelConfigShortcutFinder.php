@@ -14,13 +14,23 @@ final class LevelConfigShortcutFinder
      */
     private const LEVEL_OPTION_NAME = '--level';
 
+    /**
+     * @var string
+     */
+    private const LEVEL_OPTION_SHORTCUT = '-l';
+
     public function resolveLevel(InputInterface $input, string $configDirectory): ?string
     {
-        if (! $input->hasParameterOption(self::LEVEL_OPTION_NAME)) {
+        if (! $input->hasParameterOption(self::LEVEL_OPTION_NAME) && ! $input->hasParameterOption(
+            self::LEVEL_OPTION_SHORTCUT
+        )) {
             return null;
         }
 
-        $levelName = $input->getParameterOption(self::LEVEL_OPTION_NAME);
+        $levelName = $input->getParameterOption(
+            self::LEVEL_OPTION_NAME,
+            $input->getParameterOption(self::LEVEL_OPTION_SHORTCUT)
+        );
 
         $finder = Finder::create()
             ->files()
