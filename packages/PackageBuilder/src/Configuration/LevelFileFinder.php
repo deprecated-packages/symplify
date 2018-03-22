@@ -11,7 +11,7 @@ final class LevelFileFinder
 {
     public function resolveLevel(InputInterface $input, string $configDirectory): ?string
     {
-        $levelName = $this->getOptionValue($input, ['--level', '-l']);
+        $levelName = ConfigFilePathHelper::getOptionValue($input, ['--level', '-l']);
         if ($levelName === null) {
             return null;
         }
@@ -60,19 +60,5 @@ final class LevelFileFinder
         sort($levels);
 
         return array_unique($levels);
-    }
-
-    /**
-     * @param string[] $optionNames
-     */
-    private function getOptionValue(InputInterface $input, array $optionNames): ?string
-    {
-        foreach ($optionNames as $optionName) {
-            if ($input->hasParameterOption($optionName)) {
-                return $input->getParameterOption($optionName);
-            }
-        }
-
-        return null;
     }
 }

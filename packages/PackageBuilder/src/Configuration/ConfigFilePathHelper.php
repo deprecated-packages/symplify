@@ -59,7 +59,10 @@ final class ConfigFilePathHelper
             : getcwd() . DIRECTORY_SEPARATOR . $relativeFilePath;
     }
 
-    private static function getOptionValue(InputInterface $input, array $optionNames): ?string
+    /**
+     * @param string[] $optionNames
+     */
+    public static function getOptionValue(InputInterface $input, array $optionNames): ?string
     {
         foreach ($optionNames as $optionName) {
             if ($input->hasParameterOption($optionName)) {
