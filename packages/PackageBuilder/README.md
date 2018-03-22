@@ -180,10 +180,10 @@ vendor/bin/your-app --config vendor/organization-name/package-name/config/subdir
 
 ```php
 use Symplify\PackageBuilder\Configuration\ConfigFilePathHelper;
-use Symplify\PackageBuilder\Configuration\LevelConfigShortcutFinder;
+use Symplify\PackageBuilder\Configuration\LevelFileFinder;
 
 // 1. Try --level
-$configFile = (new LevelConfigShortcutFinder)->resolveLevel(new ArgvInput, __DIR__ . '/../config/');
+$configFile = (new LevelFileFinder)->resolveLevel(new ArgvInput, __DIR__ . '/../config/');
 
 // 2. try --config
 if ($configFile === null) {
