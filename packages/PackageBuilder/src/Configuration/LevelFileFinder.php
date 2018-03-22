@@ -9,7 +9,7 @@ use Symplify\PackageBuilder\Exception\Configuration\LevelNotFoundException;
 
 final class LevelFileFinder
 {
-    public function resolveLevel(InputInterface $input, string $configDirectory): ?string
+    public function detectFromInputAndDirectory(InputInterface $input, string $configDirectory): ?string
     {
         $levelName = ConfigFileFinder::getOptionValue($input, ['--level', '-l']);
         if ($levelName === null) {

@@ -25,19 +25,17 @@ final class LevelFileFinderTest extends TestCase
     }
 
     /**
-     * @dataProvider provideLevelAndConfig()
+     * @dataProvider provideOptionsAndExpectedConfig()
      * @param string[] $options
      */
-    public function testResolve(array $options, string $expectedConfig): void
+    public function test(array $options, string $expectedConfig): void
     {
-        $input = new ArrayInput($options);
-
-        $config = $this->levelFileFinder->resolveLevel($input, $this->sourceDirectory);
+        $config = $this->levelFileFinder->detectFromInputAndDirectory(new ArrayInput($options), $this->sourceDirectory);
 
         $this->assertSame($expectedConfig, $config);
     }
 
-    public function provideLevelAndConfig(): Iterator
+    public function provideOptionsAndExpectedConfig(): Iterator
     {
         yield [['-l' => 'someConfig'], $this->sourceDirectory . '/someConfig.yml'];
         yield [['--level' => 'someConfig'], $this->sourceDirectory . '/someConfig.yml'];

@@ -183,7 +183,7 @@ use Symplify\PackageBuilder\Configuration\ConfigFileFinder;
 use Symplify\PackageBuilder\Configuration\LevelFileFinder;
 
 // 1. Try --level
-$configFile = (new LevelFileFinder)->resolveLevel(new ArgvInput, __DIR__ . '/../config/');
+$configFile = (new LevelFileFinder)->detectFromInputAndDirectory(new ArgvInput, __DIR__ . '/../config/');
 
 // 2. try --config
 if ($configFile === null) {
