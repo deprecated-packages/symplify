@@ -14,11 +14,9 @@ final class ConfigFilePathHelperTest extends TestCase
      * @dataProvider provideOptionToValueWithExpectedPath()
      * @param mixed[] $options
      */
-    public function testDetectFromInputAndProvideWithAbsolutePath(
-        string $name,
-        array $options,
-        string $expectedConfig
-    ): void {
+    public function testDetectFromInputAndProvideWithAbsolutePath(array $options, string $expectedConfig): void
+    {
+        $name = md5(serialize($options));
         ConfigFilePathHelper::detectFromInput($name, new ArrayInput($options));
 
         $this->assertSame($expectedConfig, ConfigFilePathHelper::provide($name));
@@ -27,12 +25,12 @@ final class ConfigFilePathHelperTest extends TestCase
     public function provideOptionToValueWithExpectedPath(): Iterator
     {
         # relative path
-        yield ['name-1', ['--config' => '.travis.yml'], getcwd() . '/.travis.yml'];
-        yield ['name-2', ['-c' => '.travis.yml'], getcwd() . '/.travis.yml'];
+        yield [['--config' => '.travis.yml'], getcwd() . '/.travis.yml'];
+        yield [['-c' => '.travis.yml'], getcwd() . '/.travis.yml'];
 
         # absolute path
-        yield ['name-3', ['--config' => getcwd() . '/.travis.yml'], getcwd() . '/.travis.yml'];
-        yield ['name-4', ['-c' => getcwd() . '/.travis.yml'], getcwd() . '/.travis.yml'];
+        yield [['--config' => getcwd() . '/.travis.yml'], getcwd() . '/.travis.yml'];
+        yield [['-c' => getcwd() . '/.travis.yml'], getcwd() . '/.travis.yml'];
     }
 
     public function testMissingFileInInput(): void
