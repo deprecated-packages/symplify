@@ -5,8 +5,12 @@ namespace Symplify\CodingStandard\Tests\Sniffs\Naming\TraitName;
 use PHP_CodeSniffer\Sniffs\Sniff;
 use Symplify\CodingStandard\Sniffs\Naming\TraitNameSniff;
 use Symplify\CodingStandard\Tests\Sniffs\AbstractSniffTestCase;
+use Symplify\EasyCodingStandard\Testing\AbstractCheckerTestCase;
 
-final class TraitNameSniffTest extends AbstractSniffTestCase
+/**
+ * @see \Symplify\CodingStandard\Sniffs\Naming\TraitNameSniff
+ */
+final class TraitNameSniffTest extends AbstractCheckerTestCase
 {
     public function testWrongToFixed(): void
     {
@@ -24,16 +28,14 @@ final class TraitNameSniffTest extends AbstractSniffTestCase
     /**
      * @return string[][]
      */
-    public function provideCorrectCases(): array
+    public function provideCorrectCases(): \Iterator
     {
-        return [
-            [__DIR__ . '/correct/correct.php.inc'],
-            [__DIR__ . '/correct/correct2.php.inc'],
-        ];
+        yield [__DIR__ . '/correct/correct.php.inc'];
+        yield [__DIR__ . '/correct/correct2.php.inc'];
     }
 
-    protected function createSniff(): Sniff
+    protected function provideConfig(): string
     {
-        return new TraitNameSniff();
+        return __DIR__ . '/config.yml';
     }
 }
