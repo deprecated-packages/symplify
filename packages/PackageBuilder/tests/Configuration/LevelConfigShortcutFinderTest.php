@@ -24,7 +24,7 @@ final class LevelConfigShortcutFinderTest extends TestCase
     }
 
     /**
-     * @dataProvider provideLevelAndConfig
+     * @dataProvider provideLevelAndConfig()
      */
     public function testResolve(string $level, string $expectedConfig): void
     {

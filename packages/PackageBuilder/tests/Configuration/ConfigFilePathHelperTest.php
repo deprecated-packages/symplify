@@ -33,6 +33,12 @@ final class ConfigFilePathHelperTest extends TestCase
         yield [['-c' => getcwd() . '/.travis.yml'], getcwd() . '/.travis.yml', 'Short option with relative path'];
     }
 
+    public function testProvide(): void
+    {
+        $config = ConfigFilePathHelper::provide('some-value', '.travis.yml');
+        $this->assertSame(getcwd() . '/.travis.yml', $config);
+    }
+
     public function testMissingFileInInput(): void
     {
         $this->expectException(FileNotFoundException::class);
