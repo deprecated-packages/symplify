@@ -7,6 +7,7 @@ use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Sniffs\Sniff;
 use Symplify\EasyCodingStandard\Contract\Application\DualRunInterface;
 use Symplify\TokenRunner\Wrapper\SnifferWrapper\ClassWrapper;
+use Symplify\TokenRunner\Wrapper\SnifferWrapper\ClassWrapperFactory;
 
 /**
  * @experimental
@@ -63,6 +64,15 @@ final class UnusedPublicMethodSniff implements Sniff, DualRunInterface
         'provide*',
         'offset*',
     ];
+    /**
+     * @var ClassWrapperFactory
+     */
+    private $classWrapperFactory;
+
+    public function __construct(ClassWrapperFactory $classWrapperFactory)
+    {
+        $this->classWrapperFactory = $classWrapperFactory;
+    }
 
     /**
      * @return int[]
@@ -218,7 +228,7 @@ final class UnusedPublicMethodSniff implements Sniff, DualRunInterface
             return true;
         }
 
-        $classWrapper = ClassWrapper::createFromFirstClassInFile($file);
+        $classWrapper = $this->classWrapperFactory->createFromFirstClassInFile($file);
         if ($classWrapper === null) {
             return true;
         }
