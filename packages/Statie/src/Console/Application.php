@@ -39,7 +39,7 @@ final class Application extends SymfonyApplication
             null,
             InputOption::VALUE_REQUIRED,
             'Path to config file.',
-            getcwd() . '/statie.yml'
+            'statie.(yml|yaml)'
         ));
     }
 }
