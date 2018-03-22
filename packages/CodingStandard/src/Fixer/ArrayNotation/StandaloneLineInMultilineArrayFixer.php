@@ -53,6 +53,7 @@ final class StandaloneLineInMultilineArrayFixer implements DefinedFixerInterface
      * @var string
      */
     private $closingBracketNewlineIndentWhitespace;
+
     /**
      * @var ArrayWrapperFactory
      */
