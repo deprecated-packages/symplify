@@ -10,16 +10,11 @@ final class ConfigFilePathHelper
     /**
      * @var string[]
      */
-    private static $optionNames = ['--config', '-c'];
-
-    /**
-     * @var string[]
-     */
     private static $configFilePaths = [];
 
     public static function detectFromInput(string $name, InputInterface $input): void
     {
-        $configValue = self::getOptionValue($input);
+        $configValue = self::getOptionValue($input, ['--config', '-c']);
         if ($configValue === null) {
             return;
         }
@@ -64,9 +59,9 @@ final class ConfigFilePathHelper
             : getcwd() . DIRECTORY_SEPARATOR . $relativeFilePath;
     }
 
-    private static function getOptionValue(InputInterface $input): ?string
+    private static function getOptionValue(InputInterface $input, array $optionNames): ?string
     {
-        foreach (self::$optionNames as $optionName) {
+        foreach ($optionNames as $optionName) {
             if ($input->hasParameterOption($optionName)) {
                 return $input->getParameterOption($optionName);
             }

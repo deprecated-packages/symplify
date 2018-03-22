@@ -9,14 +9,9 @@ use Symplify\PackageBuilder\Exception\Configuration\LevelNotFoundException;
 
 final class LevelFileFinder
 {
-    /**
-     * @var string[]
-     */
-    private $optionNames = ['--level', '-l'];
-
     public function resolveLevel(InputInterface $input, string $configDirectory): ?string
     {
-        $levelName = $this->getOptionValue($input);
+        $levelName = $this->getOptionValue($input, ['--level', '-l']);
         if ($levelName === null) {
             return null;
         }
@@ -27,17 +22,17 @@ final class LevelFileFinder
             ->in($configDirectory);
 
         $firstFile = $this->getFirstFileFromFinder($finder);
-        if (! $firstFile) {
-            $allLevels = $this->findAllLevelsInDirectory($configDirectory);
-
-            throw new LevelNotFoundException(sprintf(
-                'Level "%s" was not found. Pick one of: "%s"',
-                $levelName,
-                implode('", "', $allLevels)
-            ));
+        if ($firstFile) {
+            return $firstFile->getRealPath();
         }
 
-        return $firstFile->getRealPath();
+        $allLevels = $this->findAllLevelsInDirectory($configDirectory);
+
+        throw new LevelNotFoundException(sprintf(
+            'Level "%s" was not found. Pick one of: "%s"',
+            $levelName,
+            implode('", "', $allLevels)
+        ));
     }
 
     private function getFirstFileFromFinder(Finder $finder): ?SplFileInfo
@@ -67,9 +62,12 @@ final class LevelFileFinder
         return array_unique($levels);
     }
 
-    private function getOptionValue(InputInterface $input): ?string
+    /**
+     * @param string[] $optionNames
+     */
+    private function getOptionValue(InputInterface $input, array $optionNames): ?string
     {
-        foreach ($this->optionNames as $optionName) {
+        foreach ($optionNames as $optionName) {
             if ($input->hasParameterOption($optionName)) {
                 return $input->getParameterOption($optionName);
             }
