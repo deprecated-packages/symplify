@@ -10,6 +10,11 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
 
 ### Added
 
+- [#707], [#709] **CodingStandard** Upgrade to [PHP CS Fixer 2.11](https://github.com/FriendsOfPHP/PHP-CS-Fixer/tree/v2.11.0)
+- [#705] **EasyCodingStandard** Add `-c` shortcut for `--config` CLI option, thanks to [@OndraM]
+- [#698] **EasyCodingStandard** Autodiscover `*.yaml` suffix as well
+- [#692] **CodingStandard** Add `ForbiddenReferenceSniff` to check all `&$var` references
+- [#680](https://github.com/Symplify/Symplify/pull/680/files#diff-412c71ea9d7b9fa9322e1cf23e39a1e7) **PackageBuilder** Add `PublicForTestsCompilerPass` to remove `public: true` in configs and still allow `get()` use in tests
 - [#690] **CodingStandard** Make `RemoveUselessDocBlockFixer` cover functions as well
 - [#656] **EasyCodingStandard** Add configurable cache directory for changed files, closes [#650], thanks to [@marmichalski]
     ```yml
@@ -38,6 +43,12 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
 
 ### Changed
 
+- [#693] **CodingStandard** Move checkers from static to services, follow up to [#680]
+- [#703] Remove dead PHPStan rules, thanks to [@carusogabriel]
+- [#704] Reduce function cyclomatic complexity, thanks to [@carusogabriel]
+- [#700] **EasyCodingStandard** Rename deprecated Fixers to their new equivalents, thanks [@OndraM]
+- [#680] **BetterReflectionDocBlock** First steps to migration from [phpDocumentor/ReflectionDocBlock](https://github.com/phpDocumentor/ReflectionDocBlock) to [phpstan/phpdoc-parser](https://github.com/phpstan/phpdoc-parser)
+- [#680] **EasyCodingStandard** Move from statics in checkers to autowired DI
 - [#660] **EasyCodingStandard** Move from `checkers` to `services`, follow up to [#651]
     ```diff
     # easy-coding-standard.yml
@@ -63,21 +74,15 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
              SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff.UselessDocComment:
                  - '*packages*'
     ```
-- [#651] **EasyCodingStandard** Move from mixture custom neon + Symfony service DI to Yaml;
-    [How to migrate from `*.neon` to `*.yml`](https://www.tomasvotruba.cz/blog/2018/03/12/neon-vs-yaml-and-how-to-migrate-between-them/)?
+- [#651] **EasyCodingStandard** Move from mixture custom neon + Symfony service DI to Yaml
+    - [How to migrate from `*.neon` to `*.yml`](https://www.tomasvotruba.cz/blog/2018/03/12/neon-vs-yaml-and-how-to-migrate-between-them/)?
 - [#654] **Statie** Move from Yaml + Neon mixture to Yaml, similar to [#651]
-    ```diff
-    -multiline:  """
-    -    one
-    -    two
-    -"""
-    +multiline: >
-    +    one
-    +    two
-    ```
+    - [How to migrate from `*.neon` to `*.yml`](https://www.tomasvotruba.cz/blog/2018/03/12/neon-vs-yaml-and-how-to-migrate-between-them/)?
 
 ### Fixed
 
+- [#693] **CodingStandard** Fix `UnusedPublicMethodSniff` for static methods
+- [#691] **CodingStandard** Fix `BreakMethodCallsFixer` incorrect line length count
 - [#599] **BetterReflectionDocBlock** Fix respecting spaces of inner tag
 - [#603] **BetterReflectionDocBlock** Fix union-types pre-slash clean + some more for `RemoveUselessDocBlockFixer`
 - [1fcc92] **BetterReflectionDocBlock** Fix variadic detection
@@ -90,6 +95,8 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
 
 ### Removed
 
+- [#708] Removed `AnnotateMagicContainerGetterFixer`, use awesome [Symfony Plugin](https://plugins.jetbrains.com/plugin/7219-symfony-plugin) instead
+- [#693] Removed `AbstractSimpleFixerTestCase` in favor of more general and advanced `AbstractContainerAwareCheckerTestCase`
 - [#688] **CodingStandard** Removed `DynamicPropertySniff`, use `PHPStan\Rules\Properties\AccessPropertiesRule`  PHPStan with [`--level 0`](https://github.com/phpstan/phpstan/blob/3485d8ce8c64a6becf6cc60f268d051af6ff7ceb/conf/config.level0.neon#L28) instead
 - [#647] **Statie** Removed deprecated `vendor/bin/statie push-to-github` command, use [Github pages on Travis](https://www.statie.org/docs/github-pages/#allow-travis-to-make-changes) instead
 - [#647] **CodingStandard** Removed deprecated `LastPropertyAndFirstMethodSeparationFixer`, see [#594], use [`PhpCsFixer\Fixer\ClassNotation\ClassAttributesSeparationFixer`](https://github.com/FriendsOfPHP/PHP-CS-Fixer/blob/b7cc8727c7faa8ebe7cc4220daaaabe29751bc5c/src/Fixer/ClassNotation/ClassAttributesSeparationFixer.php) instead; extends it if you need different space count
