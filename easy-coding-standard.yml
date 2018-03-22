@@ -23,7 +23,6 @@ services:
     Symplify\CodingStandard\Sniffs\DependencyInjection\NoClassInstantiationSniff:
         extraAllowedClasses:
             - 'Symplify\EasyCodingStandard\Error\Error'
-            - 'Symplify\TokenRunner\*'
             - 'Symplify\PackageBuilder\Reflection\*'
             - 'phpDocumentor\Reflection\Fqsen'
             - 'Symfony\Component\DependencyInjection\ContainerBuilder'
