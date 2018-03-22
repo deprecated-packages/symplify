@@ -6,7 +6,6 @@ use Nette\Utils\Strings;
 use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Sniffs\Sniff;
 use Symplify\EasyCodingStandard\Contract\Application\DualRunInterface;
-use Symplify\TokenRunner\Wrapper\SnifferWrapper\ClassWrapper;
 use Symplify\TokenRunner\Wrapper\SnifferWrapper\ClassWrapperFactory;
 
 /**
@@ -64,6 +63,7 @@ final class UnusedPublicMethodSniff implements Sniff, DualRunInterface
         'provide*',
         'offset*',
     ];
+
     /**
      * @var ClassWrapperFactory
      */

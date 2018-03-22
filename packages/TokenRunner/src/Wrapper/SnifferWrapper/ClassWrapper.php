@@ -5,7 +5,6 @@ namespace Symplify\TokenRunner\Wrapper\SnifferWrapper;
 use PHP_CodeSniffer\Files\File;
 use SlevomatCodingStandard\Helpers\TokenHelper;
 use Symplify\TokenRunner\Analyzer\SnifferAnalyzer\Naming;
-use Symplify\TokenRunner\Guard\TokenTypeGuard;
 
 final class ClassWrapper
 {

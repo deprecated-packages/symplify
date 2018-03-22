@@ -14,7 +14,11 @@ final class ClassWrapperFactory
             return null;
         }
 
-        TokenTypeGuard::ensureIsTokenType($file->getTokens()[$possibleClassPosition], [T_CLASS, T_TRAIT, T_INTERFACE], __METHOD__);
+        TokenTypeGuard::ensureIsTokenType($file->getTokens()[$possibleClassPosition], [
+            T_CLASS,
+            T_TRAIT,
+            T_INTERFACE,
+        ], __METHOD__);
 
         return new ClassWrapper($file, $possibleClassPosition);
     }
