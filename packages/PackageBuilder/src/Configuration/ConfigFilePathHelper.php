@@ -27,11 +27,7 @@ final class ConfigFilePathHelper
         $filePath = self::makeAbsolutePath($configValue);
 
         if (! file_exists($filePath)) {
-            throw new FileNotFoundException(sprintf(
-                'File "%s" not found in "%s".',
-                $filePath,
-                $configValue
-            ));
+            throw new FileNotFoundException(sprintf('File "%s" not found in "%s".', $filePath, $configValue));
         }
 
         self::$configFilePaths[$name] = $filePath;

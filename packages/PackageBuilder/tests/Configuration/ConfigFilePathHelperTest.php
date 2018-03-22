@@ -14,8 +14,11 @@ final class ConfigFilePathHelperTest extends TestCase
      * @dataProvider provideOptionToValueWithExpectedPath()
      * @param mixed[] $options
      */
-    public function testDetectFromInputAndProvideWithAbsolutePath(string $name, array $options, string $expectedConfig): void
-    {
+    public function testDetectFromInputAndProvideWithAbsolutePath(
+        string $name,
+        array $options,
+        string $expectedConfig
+    ): void {
         ConfigFilePathHelper::detectFromInput($name, new ArrayInput($options));
 
         $this->assertSame($expectedConfig, ConfigFilePathHelper::provide($name));
