@@ -40,9 +40,7 @@ parameters:
     skip:
         PHP_CodeSniffer\Standards\Generic\Sniffs\Files\LineLengthSniff:
             # many implemented interfaces
-            - 'packages/CodingStandard/src/Fixer/ClassNotation/LastPropertyAndFirstMethodSeparationFixer.php'
             - 'packages/CodingStandard/src/Fixer/Import/ImportNamespacedNameFixer.php'
-            - 'packages/CodingStandard/src/Fixer/Strict/BlankLineAfterStrictTypesFixer.php'
             - 'packages/CodingStandard/src/Fixer/Commenting/RemoveUselessDocBlockFixer.php'
 
         SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff:
@@ -50,9 +48,6 @@ parameters:
             - 'packages/EasyCodingStandard/packages/SniffRunner/src/File/File.php'
             - 'packages/Statie/packages/FlatWhite/src/Latte/DynamicStringLoader.php'
             - 'packages/Statie/src/Configuration/Configuration.php'
-            # parent class without typehints
-            - 'packages/TokenRunner/src/Testing/AbstractSimpleFixerTestCase.php'
-            - 'packages/FixerRunner/src/Differ/LineLimitSebastianBergmannDiffer.php'
 
         PhpCsFixer\Fixer\PhpUnit\PhpUnitStrictFixer:
             - 'packages/EasyCodingStandard/tests/Indentation/IndentationTest.php'
@@ -64,7 +59,6 @@ parameters:
             - 'packages/CodingStandard/src/Fixer/Naming/ExceptionNameFixer.php'
             - 'packages/CodingStandard/src/Fixer/Naming/ClassNameSuffixByParentFixer.php'
             # class might not exist
-            - '*packages/EasyCodingStandard/packages/Configuration/*/MutualCheckerExcluder*.php'
             - '*packages/EasyCodingStandard/src/DependencyInjection/CompilerPass/*CompilerPass.php'
 
         Symplify\CodingStandard\Sniffs\DependencyInjection\NoClassInstantiationSniff:
@@ -74,6 +68,7 @@ parameters:
 
             # temporary, remove with checkers autowire
             - 'packages/BetterReflectionDocBlock/src/FixedSerializer.php'
+            - 'packages/CodingStandard/src/Fixer/Solid/FinalInterfaceFixer.php'
 
         SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff.UselessDocComment: ~
 
