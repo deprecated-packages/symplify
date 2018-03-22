@@ -19,22 +19,10 @@ final class ClassWrapper
      */
     private $position;
 
-    private function __construct(File $file, int $position)
+    public function __construct(File $file, int $position)
     {
-        TokenTypeGuard::ensureIsTokenType($file->getTokens()[$position], [T_CLASS, T_TRAIT, T_INTERFACE], __METHOD__);
-
         $this->file = $file;
         $this->position = $position;
-    }
-
-    public static function createFromFirstClassInFile(File $file): ?self
-    {
-        $possibleClassPosition = $file->findNext(T_CLASS, 0);
-        if (! is_int($possibleClassPosition)) {
-            return null;
-        }
-
-        return new self($file, $possibleClassPosition);
     }
 
     public function getClassName(): string
