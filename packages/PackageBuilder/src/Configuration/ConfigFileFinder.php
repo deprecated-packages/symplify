@@ -5,7 +5,7 @@ namespace Symplify\PackageBuilder\Configuration;
 use Symfony\Component\Console\Input\InputInterface;
 use Symplify\PackageBuilder\Exception\Configuration\FileNotFoundException;
 
-final class ConfigFilePathHelper
+final class ConfigFileFinder
 {
     /**
      * @var string[]

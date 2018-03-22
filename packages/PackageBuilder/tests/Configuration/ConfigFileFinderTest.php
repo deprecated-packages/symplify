@@ -5,10 +5,10 @@ namespace Symplify\PackageBuilder\Tests\Configuration;
 use Iterator;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Input\ArrayInput;
-use Symplify\PackageBuilder\Configuration\ConfigFilePathHelper;
+use Symplify\PackageBuilder\Configuration\ConfigFileFinder;
 use Symplify\PackageBuilder\Exception\Configuration\FileNotFoundException;
 
-final class ConfigFilePathHelperTest extends TestCase
+final class ConfigFileFinderTest extends TestCase
 {
     /**
      * @dataProvider provideOptionToValueWithExpectedPath()
@@ -20,9 +20,9 @@ final class ConfigFilePathHelperTest extends TestCase
         string $message
     ): void {
         $name = md5(serialize($options));
-        ConfigFilePathHelper::detectFromInput($name, new ArrayInput($options));
+        ConfigFileFinder::detectFromInput($name, new ArrayInput($options));
 
-        $this->assertSame($expectedConfig, ConfigFilePathHelper::provide($name), $message);
+        $this->assertSame($expectedConfig, ConfigFileFinder::provide($name), $message);
     }
 
     public function provideOptionToValueWithExpectedPath(): Iterator
@@ -35,7 +35,7 @@ final class ConfigFilePathHelperTest extends TestCase
 
     public function testProvide(): void
     {
-        $config = ConfigFilePathHelper::provide('some-value', ['.travis.yml']);
+        $config = ConfigFileFinder::provide('some-value', ['.travis.yml']);
         $this->assertSame(getcwd() . '/.travis.yml', $config);
     }
 
@@ -48,7 +48,7 @@ final class ConfigFilePathHelperTest extends TestCase
             'someFile.yml'
         ));
 
-        ConfigFilePathHelper::detectFromInput('name', new ArrayInput([
+        ConfigFileFinder::detectFromInput('name', new ArrayInput([
             '--config' => 'someFile.yml',
         ]));
     }

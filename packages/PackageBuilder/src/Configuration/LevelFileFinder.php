@@ -11,7 +11,7 @@ final class LevelFileFinder
 {
     public function resolveLevel(InputInterface $input, string $configDirectory): ?string
     {
-        $levelName = ConfigFilePathHelper::getOptionValue($input, ['--level', '-l']);
+        $levelName = ConfigFileFinder::getOptionValue($input, ['--level', '-l']);
         if ($levelName === null) {
             return null;
         }
