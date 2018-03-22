@@ -5,23 +5,23 @@ namespace Symplify\PackageBuilder\Tests\Configuration;
 use Iterator;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Input\ArrayInput;
-use Symplify\PackageBuilder\Configuration\LevelConfigShortcutFinder;
+use Symplify\PackageBuilder\Configuration\LevelFileFinder;
 
-final class LevelConfigShortcutFinderTest extends TestCase
+final class LevelFileFinderTest extends TestCase
 {
     /**
      * @var string
      */
-    private $sourceDirectory = __DIR__ . '/LevelConfigShortcutFinderSource/nested';
+    private $sourceDirectory = __DIR__ . '/LevelFileFinderSource/nested';
 
     /**
-     * @var LevelConfigShortcutFinder
+     * @var LevelFileFinder
      */
-    private $levelConfigShortcutFinder;
+    private $levelFileFinder;
 
     protected function setUp(): void
     {
-        $this->levelConfigShortcutFinder = new LevelConfigShortcutFinder();
+        $this->levelFileFinder = new LevelFileFinder();
     }
 
     /**
@@ -32,7 +32,7 @@ final class LevelConfigShortcutFinderTest extends TestCase
     {
         $input = new ArrayInput($options);
 
-        $config = $this->levelConfigShortcutFinder->resolveLevel($input, $this->sourceDirectory);
+        $config = $this->levelFileFinder->resolveLevel($input, $this->sourceDirectory);
 
         $this->assertSame($expectedConfig, $config);
     }

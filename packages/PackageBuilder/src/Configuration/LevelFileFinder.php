@@ -7,7 +7,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Finder\Finder;
 use Symplify\PackageBuilder\Exception\Configuration\LevelNotFoundException;
 
-final class LevelConfigShortcutFinder
+final class LevelFileFinder
 {
     /**
      * @var string
