@@ -2,6 +2,7 @@
 
 namespace Symplify\PackageBuilder\Tests\Configuration;
 
+use Iterator;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symplify\PackageBuilder\Configuration\ConfigFilePathHelper;
@@ -9,28 +10,26 @@ use Symplify\PackageBuilder\Exception\Configuration\FileNotFoundException;
 
 final class ConfigFilePathHelperTest extends TestCase
 {
-    public function testDetectFromInputAndProvide(): void
+    /**
+     * @dataProvider provideOptionToValueWithExpectedPath()
+     * @param mixed[] $options
+     */
+    public function testDetectFromInputAndProvideWithAbsolutePath(string $name, array $options, string $expectedConfig): void
     {
-        ConfigFilePathHelper::detectFromInput('another-name', new ArrayInput([
-            '--config' => '.travis.yml',
-        ]));
+        ConfigFilePathHelper::detectFromInput($name, new ArrayInput($options));
 
-        $this->assertSame(getcwd() . '/.travis.yml', ConfigFilePathHelper::provide('another-name'));
-
-        ConfigFilePathHelper::detectFromInput('yet-another-name', new ArrayInput([
-            '-c' => '.travis.yml',
-        ]));
-
-        $this->assertSame(getcwd() . '/.travis.yml', ConfigFilePathHelper::provide('yet-another-name'));
+        $this->assertSame($expectedConfig, ConfigFilePathHelper::provide($name));
     }
 
-    public function testDetectFromInputAndProvideWithAbsolutePath(): void
+    public function provideOptionToValueWithExpectedPath(): Iterator
     {
-        ConfigFilePathHelper::detectFromInput('another-name', new ArrayInput([
-            '--config' => getcwd() . '/.travis.yml',
-        ]));
+        # relative path
+        yield ['name-1', ['--config' => '.travis.yml'], getcwd() . '/.travis.yml'];
+        yield ['name-2', ['-c' => '.travis.yml'], getcwd() . '/.travis.yml'];
 
-        $this->assertSame(getcwd() . '/.travis.yml', ConfigFilePathHelper::provide('another-name'));
+        # absolute path
+        yield ['name-3', ['--config' => getcwd() . '/.travis.yml'], getcwd() . '/.travis.yml'];
+        yield ['name-4', ['-c' => getcwd() . '/.travis.yml'], getcwd() . '/.travis.yml'];
     }
 
     public function testMissingFileInInput(): void
