@@ -33,15 +33,20 @@ final class ConfigFilePathHelper
         self::$configFilePaths[$name] = $filePath;
     }
 
-    public static function provide(string $name, ?string $configName = null): ?string
+    /**
+     * @param string[] $configNames
+     */
+    public static function provide(string $name, array $configNames = []): ?string
     {
         if (isset(self::$configFilePaths[$name])) {
             return self::$configFilePaths[$name];
         }
 
-        $rootConfigPath = getcwd() . DIRECTORY_SEPARATOR . $configName;
-        if (is_file($rootConfigPath)) {
-            return self::$configFilePaths[$name] = $rootConfigPath;
+        foreach ($configNames as $configName) {
+            $rootConfigPath = getcwd() . DIRECTORY_SEPARATOR . $configName;
+            if (is_file($rootConfigPath)) {
+                return self::$configFilePaths[$name] = $rootConfigPath;
+            }
         }
 
         return null;

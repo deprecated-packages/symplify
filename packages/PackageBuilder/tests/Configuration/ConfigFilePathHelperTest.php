@@ -35,7 +35,7 @@ final class ConfigFilePathHelperTest extends TestCase
 
     public function testProvide(): void
     {
-        $config = ConfigFilePathHelper::provide('some-value', '.travis.yml');
+        $config = ConfigFilePathHelper::provide('some-value', ['.travis.yml']);
         $this->assertSame(getcwd() . '/.travis.yml', $config);
     }
 
