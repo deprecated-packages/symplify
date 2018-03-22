@@ -796,3 +796,16 @@ For more deprecation details see [Symplify packages deprecations brought by Symf
 [v4.0.0alpha1]: https://github.com/Symplify/Symplify/compare/v3.2.0...v4.0.0alpha1
 [#690]: https://github.com/Symplify/Symplify/pull/690
 [#688]: https://github.com/Symplify/Symplify/pull/688
+[#709]: https://github.com/Symplify/Symplify/pull/709
+[#708]: https://github.com/Symplify/Symplify/pull/708
+[#707]: https://github.com/Symplify/Symplify/pull/707
+[#705]: https://github.com/Symplify/Symplify/pull/705
+[#704]: https://github.com/Symplify/Symplify/pull/704
+[#703]: https://github.com/Symplify/Symplify/pull/703
+[#700]: https://github.com/Symplify/Symplify/pull/700
+[#698]: https://github.com/Symplify/Symplify/pull/698
+[#693]: https://github.com/Symplify/Symplify/pull/693
+[#692]: https://github.com/Symplify/Symplify/pull/692
+[#691]: https://github.com/Symplify/Symplify/pull/691
+[#680]: https://github.com/Symplify/Symplify/pull/680
+[@OndraM]: https://github.com/OndraM
