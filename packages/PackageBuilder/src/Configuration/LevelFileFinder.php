@@ -26,13 +26,7 @@ final class LevelFileFinder
             return $firstFile->getRealPath();
         }
 
-        $allLevels = $this->findAllLevelsInDirectory($configDirectory);
-
-        throw new LevelNotFoundException(sprintf(
-            'Level "%s" was not found. Pick one of: "%s"',
-            $levelName,
-            implode('", "', $allLevels)
-        ));
+        $this->reportLevelNotFound($configDirectory, $levelName);
     }
 
     private function getFirstFileFromFinder(Finder $finder): ?SplFileInfo
@@ -60,5 +54,16 @@ final class LevelFileFinder
         sort($levels);
 
         return array_unique($levels);
+    }
+
+    private function reportLevelNotFound(string $configDirectory, string $levelName): void
+    {
+        $allLevels = $this->findAllLevelsInDirectory($configDirectory);
+
+        throw new LevelNotFoundException(sprintf(
+            'Level "%s" was not found. Pick one of: "%s"',
+            $levelName,
+            implode('", "', $allLevels)
+        ));
     }
 }

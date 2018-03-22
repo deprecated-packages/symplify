@@ -37,6 +37,9 @@ final class ConfigFileFinderTest extends TestCase
     {
         $config = ConfigFileFinder::provide('some-value', ['.travis.yml']);
         $this->assertSame(getcwd() . '/.travis.yml', $config);
+
+        $config = ConfigFileFinder::provide('some-value', ['.travis.yaml', '.travis.yml']);
+        $this->assertSame(getcwd() . '/.travis.yml', $config);
     }
 
     public function testMissingFileInInput(): void
