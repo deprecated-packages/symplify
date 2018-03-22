@@ -2,6 +2,7 @@
 
 namespace Symplify\Statie\Tests\Renderable\Markdown;
 
+use Iterator;
 use Symplify\Statie\Configuration\Configuration;
 use Symplify\Statie\Renderable\File\FileFactory;
 use Symplify\Statie\Renderable\MarkdownFileDecorator;
@@ -35,26 +36,22 @@ final class MarkdownFileDecoratorTest extends AbstractContainerAwareTestCase
     }
 
     /**
-     * @todo data providers
+     * @dataProvider provideFilesToHtml()
      */
-    public function testNotMarkdown(): void
+    public function testNotMarkdown(string $file, string $expectedContent, string $message): void
     {
-        $fileInfo = SymfonyFileInfoFactory::createFromFilePath(__DIR__ . '/MarkdownFileDecoratorSource/someFile.latte');
+        $fileInfo = SymfonyFileInfoFactory::createFromFilePath($file);
         $file = $this->fileFactory->createFromFileInfo($fileInfo);
 
         $this->markdownFileDecorator->decorateFiles([$file]);
 
-        $this->assertContains('# Content...', $file->getContent());
+        $this->assertContains($expectedContent, $file->getContent(),  $message);
     }
 
-    public function testMarkdownContent(): void
+    public function provideFilesToHtml(): Iterator
     {
-        $fileInfo = SymfonyFileInfoFactory::createFromFilePath(__DIR__ . '/MarkdownFileDecoratorSource/someFile.md');
-        $file = $this->fileFactory->createFromFileInfo($fileInfo);
-
-        $this->markdownFileDecorator->decorateFiles([$file]);
-
-        $this->assertContains('<h1>Content...</h1>', $file->getContent());
+        yield [__DIR__ . '/MarkdownFileDecoratorSource/someFile.latte', '# Content...', 'No conversion due to invalid suffix'];
+        yield [__DIR__ . '/MarkdownFileDecoratorSource/someFile.md', '<h1>Content...</h1>', 'Conversion thanks to ".md" suffix'];
     }
 
     public function testMarkdownPerex(): void
