@@ -2,11 +2,13 @@
 
 namespace Symplify\CodingStandard\Tests\Sniffs\CleanCode\ForbiddenReferenceSniff;
 
-use PHP_CodeSniffer\Sniffs\Sniff;
-use Symplify\CodingStandard\Sniffs\CleanCode\ForbiddenReferenceSniff;
-use Symplify\CodingStandard\Tests\Sniffs\AbstractSniffTestCase;
+use Iterator;
+use Symplify\EasyCodingStandard\Testing\AbstractCheckerTestCase;
 
-final class ForbiddenReferenceSniffTest extends AbstractSniffTestCase
+/**
+ * @see \Symplify\CodingStandard\Sniffs\CleanCode\ForbiddenReferenceSniff
+ */
+final class ForbiddenReferenceSniffTest extends AbstractCheckerTestCase
 {
     /**
      * @dataProvider provideWrongCases()
@@ -16,16 +18,13 @@ final class ForbiddenReferenceSniffTest extends AbstractSniffTestCase
         $this->doTestWrongFile($file);
     }
 
-    /**
-     * @return string[][]
-     */
-    public function provideWrongCases(): iterable
+    public function provideWrongCases(): Iterator
     {
         yield [__DIR__ . '/wrong/wrong.php.inc'];
     }
 
-    protected function createSniff(): Sniff
+    protected function provideConfig(): string
     {
-        return new ForbiddenReferenceSniff();
+        return __DIR__ . '/config.yml';
     }
 }

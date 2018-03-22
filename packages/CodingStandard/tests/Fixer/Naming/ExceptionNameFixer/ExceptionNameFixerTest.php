@@ -2,12 +2,12 @@
 
 namespace Symplify\CodingStandard\Tests\Fixer\Naming\ExceptionNameFixer;
 
-use Symplify\EasyCodingStandard\Testing\AbstractContainerAwareCheckerTestCase;
+use Symplify\EasyCodingStandard\Testing\AbstractCheckerTestCase;
 
 /**
  * @see \Symplify\CodingStandard\Fixer\Naming\ExceptionNameFixer
  */
-final class ExceptionNameFixerTest extends AbstractContainerAwareCheckerTestCase
+final class ExceptionNameFixerTest extends AbstractCheckerTestCase
 {
     /**
      * @dataProvider provideWrongToFixedCases()

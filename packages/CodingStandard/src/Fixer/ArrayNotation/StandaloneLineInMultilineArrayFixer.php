@@ -15,6 +15,7 @@ use SplFileInfo;
 use Symplify\TokenRunner\Analyzer\FixerAnalyzer\IndentDetector;
 use Symplify\TokenRunner\Analyzer\FixerAnalyzer\TokenSkipper;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\ArrayWrapper;
+use Symplify\TokenRunner\Wrapper\FixerWrapper\ArrayWrapperFactory;
 
 final class StandaloneLineInMultilineArrayFixer implements DefinedFixerInterface, WhitespacesAwareFixerInterface
 {
@@ -53,6 +54,16 @@ final class StandaloneLineInMultilineArrayFixer implements DefinedFixerInterface
      */
     private $closingBracketNewlineIndentWhitespace;
 
+    /**
+     * @var ArrayWrapperFactory
+     */
+    private $arrayWrapperFactory;
+
+    public function __construct(ArrayWrapperFactory $arrayWrapperFactory)
+    {
+        $this->arrayWrapperFactory = $arrayWrapperFactory;
+    }
+
     public function getDefinition(): FixerDefinitionInterface
     {
         return new FixerDefinition(
@@ -79,14 +90,14 @@ $values = [1 => \'hey\', 2 => \'hello\'];'
                 continue;
             }
 
-            $arrayTokensAnalyzer = ArrayWrapper::createFromTokensArrayStartPosition($tokens, $index);
-            $this->isOldArray = $arrayTokensAnalyzer->isOldArray();
+            $arrayWrapper = $this->arrayWrapperFactory->createFromTokensArrayStartPosition($tokens, $index);
+            $this->isOldArray = $arrayWrapper->isOldArray();
 
-            if (! $arrayTokensAnalyzer->isAssociativeArray()) {
+            if (! $arrayWrapper->isAssociativeArray()) {
                 continue;
             }
 
-            $this->fixArray($tokens, $arrayTokensAnalyzer);
+            $this->fixArray($tokens, $arrayWrapper);
         }
     }
 

@@ -7,6 +7,7 @@ parameters:
         - '#Parameter \#1 \$id of class Symfony\\Component\\DependencyInjection\\Reference constructor expects string, string\|null given#'
 
         # is valid code, known values
+        - '#Variable \$processedFileContent might not be defined#'
         - '#Parameter \#2 \$searchIndex of method PhpCsFixer\\Tokenizer\\Tokens::findBlockEnd\(\) expects int, int\|null given#'
         - '#Property Symplify\\TokenRunner\\Wrapper\\FixerWrapper\\ClassWrapper::\$startBracketIndex \(int\) does not accept int\|null#'
         - '#Method Symplify\\EasyCodingStandard\\Finder\\FinderSanitizer::turnInfoSymfonyFileInfos\(\) should return array<Symfony\\Component\\Finder\\SplFileInfo> but returns array<SplFileInfo>#'

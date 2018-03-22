@@ -2,12 +2,12 @@
 
 namespace Symplify\CodingStandard\Tests\Fixer\Php\ClassStringToClassConstantFixer;
 
-use Symplify\EasyCodingStandard\Testing\AbstractContainerAwareCheckerTestCase;
+use Symplify\EasyCodingStandard\Testing\AbstractCheckerTestCase;
 
 /**
  * @see \Symplify\CodingStandard\Fixer\Php\ClassStringToClassConstantFixer
  */
-final class ClassStringToClassConstantFixerTest extends AbstractContainerAwareCheckerTestCase
+final class ClassStringToClassConstantFixerTest extends AbstractCheckerTestCase
 {
     /**
      * @dataProvider provideCorrectCases()

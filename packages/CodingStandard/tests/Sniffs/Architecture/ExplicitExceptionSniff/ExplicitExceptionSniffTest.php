@@ -2,11 +2,13 @@
 
 namespace Symplify\CodingStandard\Tests\Sniffs\Architecture\ExplicitExceptionSniff;
 
-use PHP_CodeSniffer\Sniffs\Sniff;
-use Symplify\CodingStandard\Sniffs\Architecture\ExplicitExceptionSniff;
-use Symplify\CodingStandard\Tests\Sniffs\AbstractSniffTestCase;
+use Iterator;
+use Symplify\EasyCodingStandard\Testing\AbstractCheckerTestCase;
 
-final class ExplicitExceptionSniffTest extends AbstractSniffTestCase
+/**
+ * @see \Symplify\CodingStandard\Sniffs\Architecture\ExplicitExceptionSniff
+ */
+final class ExplicitExceptionSniffTest extends AbstractCheckerTestCase
 {
     /**
      * @dataProvider provideWrongCases()
@@ -16,15 +18,10 @@ final class ExplicitExceptionSniffTest extends AbstractSniffTestCase
         $this->doTestWrongFile($file);
     }
 
-    /**
-     * @return string[][]
-     */
-    public function provideWrongCases(): array
+    public function provideWrongCases(): Iterator
     {
-        return [
-            [__DIR__ . '/wrong/wrong.php.inc'],
-            [__DIR__ . '/wrong/wrong2.php.inc'],
-        ];
+        yield [__DIR__ . '/wrong/wrong.php.inc'];
+        yield [__DIR__ . '/wrong/wrong2.php.inc'];
     }
 
     /**
@@ -35,18 +32,13 @@ final class ExplicitExceptionSniffTest extends AbstractSniffTestCase
         $this->doTestCorrectFile($file);
     }
 
-    /**
-     * @return string[][]
-     */
-    public function provideCorrectCases(): array
+    public function provideCorrectCases(): Iterator
     {
-        return [
-            [__DIR__ . '/correct/correct.php.inc'],
-        ];
+        yield [__DIR__ . '/correct/correct.php.inc'];
     }
 
-    protected function createSniff(): Sniff
+    protected function provideConfig(): string
     {
-        return new ExplicitExceptionSniff();
+        return __DIR__ . '/config.yml';
     }
 }

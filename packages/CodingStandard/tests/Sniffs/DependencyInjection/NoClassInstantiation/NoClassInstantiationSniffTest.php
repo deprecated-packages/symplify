@@ -2,11 +2,13 @@
 
 namespace Symplify\CodingStandard\Tests\Sniffs\DependencyInjection\NoClassInstantiation;
 
-use PHP_CodeSniffer\Sniffs\Sniff;
-use Symplify\CodingStandard\Sniffs\DependencyInjection\NoClassInstantiationSniff;
-use Symplify\CodingStandard\Tests\Sniffs\AbstractSniffTestCase;
+use Iterator;
+use Symplify\EasyCodingStandard\Testing\AbstractCheckerTestCase;
 
-final class NoClassInstantiationSniffTest extends AbstractSniffTestCase
+/**
+ * @see \Symplify\CodingStandard\Sniffs\DependencyInjection\NoClassInstantiationSniff
+ */
+final class NoClassInstantiationSniffTest extends AbstractCheckerTestCase
 {
     public function testWrong(): void
     {
@@ -21,25 +23,20 @@ final class NoClassInstantiationSniffTest extends AbstractSniffTestCase
         $this->doTestCorrectFile($file);
     }
 
-    /**
-     * @return string[][]
-     */
-    public function provideCorrectCases(): array
+    public function provideCorrectCases(): Iterator
     {
-        return [
-            [__DIR__ . '/correct/correct.php.inc'],
-            [__DIR__ . '/correct/correct2.php.inc'],
-            [__DIR__ . '/correct/correct3.php.inc'],
-            [__DIR__ . '/correct/correct4.php.inc'],
-            [__DIR__ . '/correct/correct5.php.inc'],
-            [__DIR__ . '/correct/correct6.php.inc'],
-            [__DIR__ . '/correct/correct7.php.inc'],
-            [__DIR__ . '/correct/correct8.php.inc'],
-        ];
+        yield [__DIR__ . '/correct/correct.php.inc'];
+        yield [__DIR__ . '/correct/correct2.php.inc'];
+        yield [__DIR__ . '/correct/correct3.php.inc'];
+        yield [__DIR__ . '/correct/correct4.php.inc'];
+        yield [__DIR__ . '/correct/correct5.php.inc'];
+        yield [__DIR__ . '/correct/correct6.php.inc'];
+        yield [__DIR__ . '/correct/correct7.php.inc'];
+        yield [__DIR__ . '/correct/correct8.php.inc'];
     }
 
-    protected function createSniff(): Sniff
+    protected function provideConfig(): string
     {
-        return new NoClassInstantiationSniff();
+        return __DIR__ . '/config.yml';
     }
 }

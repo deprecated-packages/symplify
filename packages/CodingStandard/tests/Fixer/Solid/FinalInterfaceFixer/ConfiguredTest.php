@@ -2,12 +2,12 @@
 
 namespace Symplify\CodingStandard\Tests\Fixer\Solid\FinalInterfaceFixer;
 
-use Symplify\EasyCodingStandard\Testing\AbstractContainerAwareCheckerTestCase;
+use Symplify\EasyCodingStandard\Testing\AbstractCheckerTestCase;
 
 /**
  * @see \Symplify\CodingStandard\Fixer\Solid\FinalInterfaceFixer
  */
-final class ConfiguredTest extends AbstractContainerAwareCheckerTestCase
+final class ConfiguredTest extends AbstractCheckerTestCase
 {
     /**
      * @dataProvider provideWrongToFixedCases()

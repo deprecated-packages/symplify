@@ -2,12 +2,12 @@
 
 namespace Symplify\CodingStandard\Tests\Fixer\Strict\BlankLineAfterStrictTypesFixer;
 
-use Symplify\EasyCodingStandard\Testing\AbstractContainerAwareCheckerTestCase;
+use Symplify\EasyCodingStandard\Testing\AbstractCheckerTestCase;
 
 /**
  * @see \Symplify\CodingStandard\Fixer\Strict\BlankLineAfterStrictTypesFixer
  */
-final class BlankLineAfterStrictTypesFixerTest extends AbstractContainerAwareCheckerTestCase
+final class BlankLineAfterStrictTypesFixerTest extends AbstractCheckerTestCase
 {
     /**
      * @dataProvider provideCorrectCases()

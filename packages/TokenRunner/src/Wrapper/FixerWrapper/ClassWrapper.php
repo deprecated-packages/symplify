@@ -56,11 +56,17 @@ final class ClassWrapper
      */
     private $methodWrapperFactory;
 
+    /**
+     * @var DocBlockFinder
+     */
+    private $docBlockFinder;
+
     public function __construct(
         Tokens $tokens,
         int $startIndex,
         PropertyWrapperFactory $propertyWrapperFactory,
-        MethodWrapperFactory $methodWrapperFactory
+        MethodWrapperFactory $methodWrapperFactory,
+        DocBlockFinder $docBlockFinder
     ) {
         $this->classToken = $tokens[$startIndex];
         $this->startBracketIndex = $tokens->getNextTokenOfKind($startIndex, ['{']);
@@ -71,6 +77,7 @@ final class ClassWrapper
         $this->startIndex = $startIndex;
         $this->propertyWrapperFactory = $propertyWrapperFactory;
         $this->methodWrapperFactory = $methodWrapperFactory;
+        $this->docBlockFinder = $docBlockFinder;
     }
 
     public function getName(): ?string
@@ -213,7 +220,7 @@ final class ClassWrapper
 
     public function isDoctrineEntity(): bool
     {
-        $docCommentPosition = (new DocBlockFinder())->findPreviousPosition($this->tokens, $this->startIndex);
+        $docCommentPosition = $this->docBlockFinder->findPreviousPosition($this->tokens, $this->startIndex);
         if (! $docCommentPosition) {
             return false;
         }

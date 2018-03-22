@@ -2,11 +2,12 @@
 
 namespace Symplify\CodingStandard\Tests\Sniffs\Debug\DebugFunctionCall;
 
-use PHP_CodeSniffer\Sniffs\Sniff;
-use Symplify\CodingStandard\Sniffs\Debug\DebugFunctionCallSniff;
-use Symplify\CodingStandard\Tests\Sniffs\AbstractSniffTestCase;
+use Symplify\EasyCodingStandard\Testing\AbstractCheckerTestCase;
 
-final class DebugFunctionCallSniffTest extends AbstractSniffTestCase
+/**
+ * @see \Symplify\CodingStandard\Sniffs\Debug\DebugFunctionCallSniff
+ */
+final class DebugFunctionCallSniffTest extends AbstractCheckerTestCase
 {
     public function testWrong(): void
     {
@@ -18,8 +19,8 @@ final class DebugFunctionCallSniffTest extends AbstractSniffTestCase
         $this->doTestCorrectFile(__DIR__ . '/correct/correct.php.inc');
     }
 
-    protected function createSniff(): Sniff
+    protected function provideConfig(): string
     {
-        return new DebugFunctionCallSniff();
+        return __DIR__ . '/config.yml';
     }
 }

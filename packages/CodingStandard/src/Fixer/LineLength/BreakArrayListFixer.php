@@ -13,6 +13,7 @@ use PhpCsFixer\WhitespacesFixerConfig;
 use SplFileInfo;
 use Symplify\TokenRunner\Analyzer\FixerAnalyzer\IndentDetector;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\ArrayWrapper;
+use Symplify\TokenRunner\Wrapper\FixerWrapper\ArrayWrapperFactory;
 
 final class BreakArrayListFixer implements DefinedFixerInterface, WhitespacesAwareFixerInterface
 {
@@ -51,6 +52,16 @@ final class BreakArrayListFixer implements DefinedFixerInterface, WhitespacesAwa
      */
     private $closingBracketNewlineIndentWhitespace;
 
+    /**
+     * @var ArrayWrapperFactory
+     */
+    private $arrayWrapperFactory;
+
+    public function __construct(ArrayWrapperFactory $arrayWrapperFactory)
+    {
+        $this->arrayWrapperFactory = $arrayWrapperFactory;
+    }
+
     public function getDefinition(): FixerDefinitionInterface
     {
         return new FixerDefinition('Array items should be on same/standalone line to fit line length.', [
@@ -74,12 +85,12 @@ $array = ["loooooooooooooooooooooooooooooooongArraaaaaaaaaaay", "loooooooooooooo
                 continue;
             }
 
-            $arrayTokensAnalyzer = ArrayWrapper::createFromTokensArrayStartPosition($tokens, $position);
-            if ($arrayTokensAnalyzer->isAssociativeArray()) {
+            $arrayWrapper = $this->arrayWrapperFactory->createFromTokensArrayStartPosition($tokens, $position);
+            if ($arrayWrapper->isAssociativeArray()) {
                 continue;
             }
 
-            $this->fixArray($position, $tokens, $arrayTokensAnalyzer);
+            $this->fixArray($position, $tokens, $arrayWrapper);
         }
     }
 
