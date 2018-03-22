@@ -39,6 +39,7 @@ final class LevelFileFinderTest extends TestCase
 
     public function provideLevelAndConfig(): Iterator
     {
+        yield [['-l' => 'someConfig'], $this->sourceDirectory . '/someConfig.yml'];
         yield [['--level' => 'someConfig'], $this->sourceDirectory . '/someConfig.yml'];
         yield [['--level' => 'anotherConfig'], $this->sourceDirectory . '/anotherConfig.yml'];
     }

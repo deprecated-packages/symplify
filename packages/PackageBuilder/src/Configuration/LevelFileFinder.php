@@ -10,17 +10,16 @@ use Symplify\PackageBuilder\Exception\Configuration\LevelNotFoundException;
 final class LevelFileFinder
 {
     /**
-     * @var string
+     * @var string[]
      */
-    private const LEVEL_OPTION_NAME = '--level';
+    private $optionNames = ['--level', '-l'];
 
     public function resolveLevel(InputInterface $input, string $configDirectory): ?string
     {
-        if (! $input->hasParameterOption(self::LEVEL_OPTION_NAME)) {
+        $levelName = $this->getOptionValue($input);
+        if ($levelName === null) {
             return null;
         }
-
-        $levelName = $input->getParameterOption(self::LEVEL_OPTION_NAME);
 
         $finder = Finder::create()
             ->files()
@@ -66,5 +65,16 @@ final class LevelFileFinder
         sort($levels);
 
         return array_unique($levels);
+    }
+
+    private function getOptionValue(InputInterface $input): ?string
+    {
+        foreach ($this->optionNames as $optionName) {
+            if ($input->hasParameterOption($optionName)) {
+                return $input->getParameterOption($optionName);
+            }
+        }
+
+        return null;
     }
 }

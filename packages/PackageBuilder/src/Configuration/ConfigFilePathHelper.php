@@ -19,7 +19,7 @@ final class ConfigFilePathHelper
 
     public static function detectFromInput(string $name, InputInterface $input): void
     {
-        $configValue = self::getConfigValue($input);
+        $configValue = self::getOptionValue($input);
         if ($configValue === null) {
             return;
         }
@@ -64,7 +64,7 @@ final class ConfigFilePathHelper
             : getcwd() . DIRECTORY_SEPARATOR . $relativeFilePath;
     }
 
-    private static function getConfigValue(InputInterface $input): ?string
+    private static function getOptionValue(InputInterface $input): ?string
     {
         foreach (self::$optionNames as $optionName) {
             if ($input->hasParameterOption($optionName)) {
