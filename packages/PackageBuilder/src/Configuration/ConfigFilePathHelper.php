@@ -8,14 +8,9 @@ use Symplify\PackageBuilder\Exception\Configuration\FileNotFoundException;
 final class ConfigFilePathHelper
 {
     /**
-     * @var string
+     * @var string[]
      */
-    private const CONFIG_OPTION_NAME = '--config';
-
-    /**
-     * @var string
-     */
-    private const SHORT_CONFIG_OPTION_NAME = '-c';
+    private static $optionNames = ['--config', '-c'];
 
     /**
      * @var string[]
@@ -70,12 +65,10 @@ final class ConfigFilePathHelper
 
     private static function getConfigValue(InputInterface $input): ?string
     {
-        if ($input->hasParameterOption(self::CONFIG_OPTION_NAME)) {
-            return $input->getParameterOption(self::CONFIG_OPTION_NAME);
-        }
-
-        if ($input->hasParameterOption(self::SHORT_CONFIG_OPTION_NAME)) {
-            return $input->getParameterOption(self::SHORT_CONFIG_OPTION_NAME);
+        foreach (self::$optionNames as $optionName) {
+            if ($input->hasParameterOption($optionName)) {
+                return $input->getParameterOption($optionName);
+            }
         }
 
         return null;
