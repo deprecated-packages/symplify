@@ -119,7 +119,7 @@ final class ClassWrapper
             return null;
         }
 
-        $parentClassNameToken = array_pop($stringTokens);
+        $parentClassNameToken = array_shift($stringTokens);
 
         return $parentClassNameToken->getContent();
     }

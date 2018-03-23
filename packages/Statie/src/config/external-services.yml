@@ -7,12 +7,14 @@ services:
 
     Symplify\PackageBuilder\Parameter\ParameterProvider: ~
 
-    Symfony\Component\Console\Input\ArgvInput: ~
-    Symfony\Component\Console\Output\ConsoleOutput: ~
+    Symfony\Component\Console\Input\ArgvInput:
+        public: true
+
+    Symfony\Component\Console\Output\ConsoleOutput:
+        public: true
 
     Symfony\Component\Console\Output\OutputInterface:
         alias: Symfony\Component\Console\Output\ConsoleOutput
-        public: true
 
     Symfony\Component\EventDispatcher\EventDispatcher: ~
 
