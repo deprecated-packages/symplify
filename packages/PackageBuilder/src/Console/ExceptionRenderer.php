@@ -15,7 +15,7 @@ final class ExceptionRenderer
     private $verbosityOptionToLevel = [
         '-v' => OutputInterface::VERBOSITY_VERBOSE,
         '-vv' => OutputInterface::VERBOSITY_VERY_VERBOSE,
-        '-vvv' => OutputInterface::VERBOSITY_DEBUG
+        '-vvv' => OutputInterface::VERBOSITY_DEBUG,
     ];
 
     /**

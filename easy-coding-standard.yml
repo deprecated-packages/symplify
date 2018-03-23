@@ -65,6 +65,9 @@ parameters:
             # allowed default static value
             - 'packages/Statie/packages/Generator/src/Configuration/GeneratorElement.php'
 
+            # static helper
+            - 'packages/PackageBuilder/src/Console/ExceptionRenderer.php'
+
             # temporary, remove with checkers autowire
             - 'packages/BetterReflectionDocBlock/src/FixedSerializer.php'
 
@@ -78,3 +81,5 @@ parameters:
         SlevomatCodingStandard\Sniffs\Exceptions\ReferenceThrowableOnlySniff.ReferencedGeneralException:
             # intentionally "Exception" value
             - 'packages/CodingStandard/src/Sniffs/Architecture/ExplicitExceptionSniff.php'
+            # intentionally "Exception" value - 3rd party outdated typehint
+            - 'packages/PackageBuilder/src/Console/ExceptionRenderer.php'
