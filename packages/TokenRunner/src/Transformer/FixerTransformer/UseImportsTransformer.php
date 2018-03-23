@@ -15,9 +15,15 @@ final class UseImportsTransformer
      */
     private $namespaceUsesAnalyzer;
 
-    public function __construct(NamespaceUsesAnalyzer $namespaceUsesAnalyzer)
+    /**
+     * @var NamespacesAnalyzer
+     */
+    private $namespacesAnalyzer;
+
+    public function __construct(NamespaceUsesAnalyzer $namespaceUsesAnalyzer, NamespacesAnalyzer $namespacesAnalyzer)
     {
         $this->namespaceUsesAnalyzer = $namespaceUsesAnalyzer;
+        $this->namespacesAnalyzer = $namespacesAnalyzer;
     }
 
     /**

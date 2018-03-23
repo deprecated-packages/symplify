@@ -46,12 +46,12 @@ final class ImportNamespacedNameFixer implements DefinedFixerInterface, Configur
     /**
      * @var string
      */
-    public const ALLOW_SINGLE_NAMES_OPTION = 'allow_single_names';
+    private const ALLOW_SINGLE_NAMES_OPTION = 'allow_single_names';
 
     /**
      * @var string
      */
-    public const INCLUDE_DOC_BLOCKS_OPTION = 'include_doc_blocks';
+    private const INCLUDE_DOC_BLOCKS_OPTION = 'include_doc_blocks';
 
     /**
      * @var NamespaceUseAnalysis[]
