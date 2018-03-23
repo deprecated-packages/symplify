@@ -28,7 +28,7 @@ final class Application extends SymfonyApplication
     private function removeUnusedOptions(InputDefinition $inputDefinition): void
     {
         $options = $inputDefinition->getOptions();
-        unset($options['quiet'], $options['version'], $options['no-interaction']);
+        unset($options['no-interaction']);
         $inputDefinition->setOptions($options);
     }
 
@@ -36,7 +36,7 @@ final class Application extends SymfonyApplication
     {
         $inputDefinition->addOption(new InputOption(
             'config',
-            null,
+            'c',
             InputOption::VALUE_REQUIRED,
             'Path to config file.',
             'statie.(yml|yaml)'
