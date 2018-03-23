@@ -286,4 +286,37 @@ try {
 }
 ```
 
+### 10. Make services public for tests only
+
+Do you use `$container->get(SomeType::class)` in tests and would you like to avoid this:
+
+```yaml
+# app/config/services.yml
+services:
+    _defaults:
+        public: true
+    
+    # ...
+```
+
+Just add `PublicForTestsCompilerPass` to your Kernel, that will **make services public only for the tests**.
+
+```php
+# app/AppKernel.php
+namespace App;
+
+use Symfony\Component\HttpKernel\Kernel;
+use Symplify\PackageBuilder\DependencyInjection\CompilerPass\PublicForTestsCompilerPass;
+
+final class AppKernel extends Kernel; 
+{
+    // ...
+    
+    protected function build(ContainerBuilder $containerBuilder): void
+    {
+        $containerBuilder->addCompilerPass(new PublicForTestsCompilerPass());
+    }
+}
+```
+
 That's all :)
