@@ -4,7 +4,8 @@
     "license": "MIT",
     "bin": [
         "bin/statie",
-        "bin/statie-bootstrap.php"
+        "bin/statie-autoload.php",
+        "bin/statie-container.php"
     ],
     "require": {
         "php": "^7.1",
