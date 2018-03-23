@@ -133,15 +133,18 @@ final class UseImportsTransformer
 
     private function useStatementLocation(Tokens $tokens): int
     {
-        $declarations = (new NamespacesAnalyzer())->getDeclarations($tokens);
-        if (count($declarations)) {
-            $firstDeclaration = array_shift($declarations);
-            return $firstDeclaration->getEndIndex() + 2;
+        $namespaceAnalyses = $this->namespacesAnalyzer->getDeclarations($tokens);
+        if (count($namespaceAnalyses)) {
+            $firstNamespaceAnalysis = array_shift($namespaceAnalyses);
+
+            return $firstNamespaceAnalysis->getEndIndex() + 2;
         }
 
-        $usePosition = $tokens->getNextTokenOfKind(0, [T_USE]);
-        if ($usePosition) {
-            return $usePosition;
+        $namespaceUseAnalyses = $this->namespaceUsesAnalyzer->getDeclarationsFromTokens($tokens);
+        if (count($namespaceUseAnalyses)) {
+            $firstNamespaceUseAnalysis = array_shift($namespaceUseAnalyses);
+
+            return $firstNamespaceUseAnalysis->getStartIndex();
         }
 
         $classPosition = $tokens->getNextTokenOfKind(0, [T_CLASS]);
