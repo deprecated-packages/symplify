@@ -10,7 +10,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 final class ExceptionRenderer
 {
     /**
-     * @var string[]
+     * @var int[]
      */
     private $verbosityOptionToLevel = [
         '-v' => OutputInterface::VERBOSITY_VERBOSE,
