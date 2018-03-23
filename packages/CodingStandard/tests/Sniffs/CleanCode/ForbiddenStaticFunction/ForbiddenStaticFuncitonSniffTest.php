@@ -8,7 +8,7 @@ use Symplify\EasyCodingStandard\Testing\AbstractCheckerTestCase;
 /**
  * @see \Symplify\CodingStandard\Sniffs\CleanCode\ForbiddenStaticFunction
  */
-final class ForbiddenStaticFunctionTest extends AbstractCheckerTestCase
+final class ForbiddenStaticFuncitonSniffTest extends AbstractCheckerTestCase
 {
     /**
      * @dataProvider provideWrongCases()

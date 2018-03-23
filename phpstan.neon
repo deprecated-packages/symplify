@@ -7,6 +7,7 @@ parameters:
         - '#Parameter \#1 \$id of class Symfony\\Component\\DependencyInjection\\Reference constructor expects string, string\|null given#'
 
         # is valid code, known values
+        - '#Parameter \#2 \$start of method PHP_CodeSniffer\\Files\\File::findNext\(\) expects int, int\|true given#'
         - '#Variable \$processedFileContent might not be defined#'
         - '#Parameter \#2 \$searchIndex of method PhpCsFixer\\Tokenizer\\Tokens::findBlockEnd\(\) expects int, int\|null given#'
         - '#Property Symplify\\TokenRunner\\Wrapper\\FixerWrapper\\ClassWrapper::\$startBracketIndex \(int\) does not accept int\|null#'
