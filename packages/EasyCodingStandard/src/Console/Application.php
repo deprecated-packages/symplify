@@ -5,31 +5,41 @@ namespace Symplify\EasyCodingStandard\Console;
 use Jean85\PrettyVersions;
 use Symfony\Component\Console\Application as SymfonyApplication;
 use Symfony\Component\Console\Input\InputDefinition;
+use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Output\OutputInterface;
 
 final class Application extends SymfonyApplication
 {
-    public function __construct()
-    {
-        $version = PrettyVersions::getVersion('symplify/easy-coding-standard');
+    /**
+     * @var InputInterface
+     */
+    private $input;
 
-        parent::__construct('EasyCodingStandard', $version->getPrettyVersion());
+    /**
+     * @var OutputInterface
+     */
+    private $output;
+
+    public function __construct(InputInterface $input, OutputInterface $output)
+    {
+        $this->input = $input;
+        $this->output = $output;
+
+        parent::__construct('EasyCodingStandard', $this->getPrettyVersion());
+    }
+
+    public function run(?InputInterface $input = null, ?OutputInterface $output = null): int
+    {
+        return parent::run($input ?: $this->input, $output ?: $this->output);
     }
 
     protected function getDefaultInputDefinition(): InputDefinition
     {
         $inputDefinition = parent::getDefaultInputDefinition();
-        $this->removeUnusedOptions($inputDefinition);
         $this->addExtraOptions($inputDefinition);
 
         return $inputDefinition;
-    }
-
-    private function removeUnusedOptions(InputDefinition $inputDefinition): void
-    {
-        $options = $inputDefinition->getOptions();
-        unset($options['quiet'], $options['version'], $options['no-interaction']);
-        $inputDefinition->setOptions($options);
     }
 
     private function addExtraOptions(InputDefinition $inputDefinition): void
@@ -48,5 +58,12 @@ final class Application extends SymfonyApplication
             InputOption::VALUE_REQUIRED,
             'Finds config by shortcut name.'
         ));
+    }
+
+    private function getPrettyVersion(): string
+    {
+        $version = PrettyVersions::getVersion('symplify/easy-coding-standard');
+
+        return $version->getPrettyVersion();
     }
 }
