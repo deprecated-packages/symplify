@@ -245,7 +245,7 @@ final class DocBlockWrapper
         $types = explode('|', trim((string) $varTag->getType()));
 
         foreach ($types as $type) {
-            if (! self::isIterableType($type)) {
+            if (! $this->isIterableType($type)) {
                 return false;
             }
         }
@@ -271,7 +271,7 @@ final class DocBlockWrapper
         return $content;
     }
 
-    private static function isIterableType(string $type): bool
+    private function isIterableType(string $type): bool
     {
         if (Strings::endsWith($type, '[]')) {
             return true;

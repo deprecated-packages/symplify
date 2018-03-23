@@ -7,7 +7,7 @@ use Symplify\TokenRunner\Guard\TokenTypeGuard;
 
 final class ClassWrapperFactory
 {
-    public static function createFromFirstClassInFile(File $file): ?ClassWrapper
+    public function createFromFirstClassInFile(File $file): ?ClassWrapper
     {
         $possibleClassPosition = $file->findNext(T_CLASS, 0);
         if (! is_int($possibleClassPosition)) {

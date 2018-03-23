@@ -78,9 +78,17 @@ final class ImportNamespacedNameFixer implements DefinedFixerInterface, Configur
      */
     private $docBlockWrapperFactory;
 
-    public function __construct(DocBlockWrapperFactory $docBlockWrapperFactory)
-    {
+    /**
+     * @var UseImportsTransformer
+     */
+    private $useImportsTransformer;
+
+    public function __construct(
+        DocBlockWrapperFactory $docBlockWrapperFactory,
+        UseImportsTransformer $useImportsTransformer
+    ) {
         $this->docBlockWrapperFactory = $docBlockWrapperFactory;
+        $this->useImportsTransformer = $useImportsTransformer;
 
         // set defaults
         $this->configuration = $this->getConfigurationDefinition()
@@ -130,7 +138,7 @@ final class ImportNamespacedNameFixer implements DefinedFixerInterface, Configur
             }
         }
 
-        UseImportsTransformer::addNamesToTokens($this->newUseStatementNames, $tokens);
+        $this->useImportsTransformer->addNamesToTokens($this->newUseStatementNames, $tokens);
     }
 
     /**

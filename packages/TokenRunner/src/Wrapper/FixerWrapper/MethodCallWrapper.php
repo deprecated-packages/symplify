@@ -31,7 +31,7 @@ final class MethodCallWrapper
      */
     private $argumentsBracketEnd;
 
-    private function __construct(Tokens $tokens, int $index)
+    public function __construct(Tokens $tokens, int $index)
     {
         TokenTypeGuard::ensureIsTokenType($tokens[$index], [T_STRING], __METHOD__);
 
@@ -45,7 +45,7 @@ final class MethodCallWrapper
         );
     }
 
-    public static function createFromTokensAndPosition(Tokens $tokens, int $position): self
+    public function createFromTokensAndPosition(Tokens $tokens, int $position): self
     {
         return new self($tokens, $position);
     }
