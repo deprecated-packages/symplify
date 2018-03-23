@@ -281,7 +281,7 @@ Do you use `$container->get(SomeType::class)` in tests and would you like to avo
 services:
     _defaults:
         public: true
-    
+
     # ...
 ```
 
@@ -294,10 +294,10 @@ namespace App;
 use Symfony\Component\HttpKernel\Kernel;
 use Symplify\PackageBuilder\DependencyInjection\CompilerPass\PublicForTestsCompilerPass;
 
-final class AppKernel extends Kernel; 
+final class AppKernel extends Kernel;
 {
     // ...
-    
+
     protected function build(ContainerBuilder $containerBuilder): void
     {
         $containerBuilder->addCompilerPass(new PublicForTestsCompilerPass());

@@ -15,6 +15,7 @@ final class Application extends SymfonyApplication
      * @var InputInterface
      */
     private $input;
+
     /**
      * @var OutputInterface
      */
@@ -28,9 +29,9 @@ final class Application extends SymfonyApplication
         parent::__construct('Statie', $this->getPrettyVersion());
     }
 
-    public function run(InputInterface $input = null, OutputInterface $output = null): int
+    public function run(?InputInterface $input = null, ?OutputInterface $output = null): int
     {
-        return parent::run($input ?: $this->input , $output ?: $this->output);
+        return parent::run($input ?: $this->input, $output ?: $this->output);
     }
 
     protected function getDefaultInputDefinition(): InputDefinition
