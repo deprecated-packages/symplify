@@ -2,10 +2,10 @@
 
 namespace Symplify\TokenRunner\Transformer\FixerTransformer;
 
+use PhpCsFixer\Tokenizer\Analyzer\NamespacesAnalyzer;
 use PhpCsFixer\Tokenizer\Analyzer\NamespaceUsesAnalyzer;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
-use Symplify\TokenRunner\Analyzer\FixerAnalyzer\NamespaceFinder;
 use Symplify\TokenRunner\Naming\Name\Name;
 
 final class UseImportsTransformer
@@ -127,9 +127,10 @@ final class UseImportsTransformer
 
     private function useStatementLocation(Tokens $tokens): int
     {
-        $namespacePosition = NamespaceFinder::findInTokens($tokens);
-        if ($namespacePosition) {
-            return $tokens->getNextTokenOfKind($namespacePosition, [';']) + 2;
+        $declarations = (new NamespacesAnalyzer())->getDeclarations($tokens);
+        if (count($declarations)) {
+            $firstDeclaration = array_shift($declarations);
+            return $firstDeclaration->getEndIndex() + 2;
         }
 
         $usePosition = $tokens->getNextTokenOfKind(0, [T_USE]);

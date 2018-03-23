@@ -83,12 +83,19 @@ final class ImportNamespacedNameFixer implements DefinedFixerInterface, Configur
      */
     private $useImportsTransformer;
 
+    /**
+     * @var ClassNameFinder
+     */
+    private $classNameFinder;
+
     public function __construct(
         DocBlockWrapperFactory $docBlockWrapperFactory,
-        UseImportsTransformer $useImportsTransformer
+        UseImportsTransformer $useImportsTransformer,
+        ClassNameFinder $classNameFinder
     ) {
         $this->docBlockWrapperFactory = $docBlockWrapperFactory;
         $this->useImportsTransformer = $useImportsTransformer;
+        $this->classNameFinder = $classNameFinder;
 
         // set defaults
         $this->configuration = $this->getConfigurationDefinition()
@@ -119,7 +126,7 @@ final class ImportNamespacedNameFixer implements DefinedFixerInterface, Configur
             $token = $tokens[$index];
 
             // class name is same as token that could be imported, skip
-            if ($token->getContent() === ClassNameFinder::findInTokens($tokens)) {
+            if ($token->getContent() === $this->classNameFinder->findInTokens($tokens)) {
                 continue;
             }
 
