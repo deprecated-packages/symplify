@@ -147,9 +147,10 @@ final class UseImportsTransformer
             return $firstNamespaceUseAnalysis->getStartIndex();
         }
 
-        $classPosition = $tokens->getNextTokenOfKind(0, [T_CLASS]);
-        if ($classPosition) {
-            return $classPosition - 3;
+        $classTokens = $tokens->findGivenKind([T_CLASS], 0);
+        if (count($classTokens)) {
+            $classToken = array_shift($classTokens);
+            return key($classToken);
         }
 
         return 0;
