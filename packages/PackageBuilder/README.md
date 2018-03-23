@@ -161,8 +161,8 @@ E.g in `bin/<app-name>` when ContainerFactory fails.
 Use `Symplify\PackageBuilder\Console\ExceptionRenderer`:
 
 ```php
+use Symfony\Component\Console\Application;
 use Symfony\Component\DependencyInjection\Container;
-use Symplify\EasyCodingStandard\Console\Application;
 use Symplify\PackageBuilder\Console\ExceptionRenderer;
 
 require_once __DIR__ . '/ecs-autoload.php';
