@@ -258,4 +258,32 @@ And then cleanup your configs:
 -        alias: OnlyImplementationOfFooInterface
 ```
 
+### 9. Render Exception to CLI like Application does
+
+Do you get exception before getting into Symfony\Console Application, but still want to render it like the Application would do?
+
+Use `Symplify\PackageBuilder\Console\ExceptionRenderer`:
+
+```php
+use Symfony\Component\DependencyInjection\Container;
+use Symplify\EasyCodingStandard\Console\Application;
+use Symplify\PackageBuilder\Console\ExceptionRenderer;
+
+require_once __DIR__ . '/ecs-autoload.php';
+
+// performance boost
+gc_disable();
+
+try {
+    /** @var Container $container */
+    $container = require __DIR__ . '/ecs-container.php';
+
+    $application = $container->get(Application::class);
+    exit($application->run());
+} catch (Throwable $throwable) {
+    (new ExceptionRenderer())->render($throwable);
+    exit(1);
+}
+```
+
 That's all :)
