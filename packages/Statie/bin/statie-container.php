@@ -4,8 +4,6 @@ use Symfony\Component\Console\Input\ArgvInput;
 use Symplify\PackageBuilder\Configuration\ConfigFileFinder;
 use Symplify\Statie\DependencyInjection\ContainerFactory;
 
-require_once __DIR__ . '/statie-autoload.php';
-
 // 1. Detect configuration from input
 ConfigFileFinder::detectFromInput('statie', new ArgvInput());
 
