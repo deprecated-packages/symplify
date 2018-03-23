@@ -153,18 +153,32 @@ $config = Symplify\PackageBuilder\Configuration\ConfigFileFinder::provide('stati
 
 This is common practise in CLI applications, e.g. [PHPUnit](https://phpunit.de/) looks for `phpunit.xml`.
 
-### 5. Use SymfonyStyle for Console Output Anywhere You Need
+### 5. Render Exception to CLI like Application does Anywhere You Need
 
-Another use case for `bin/<app-name>`, when you need to output before building Dependency Injection Container. E.g. when ContainerFactory fails on exception that you need to report nicely.
+Do you get exception before getting into Symfony\Console Application, but still want to render it like the Application would do?
+E.g in `bin/<app-name>` when ContainerFactory fails.
+
+Use `Symplify\PackageBuilder\Console\ExceptionRenderer`:
 
 ```php
-# bin/statie
+use Symfony\Component\DependencyInjection\Container;
+use Symplify\EasyCodingStandard\Console\Application;
+use Symplify\PackageBuilder\Console\ExceptionRenderer;
 
-$symfonyStyle = Symplify\PackageBuilder\Console\Style\SymfonyStyleFactory::create();
+require_once __DIR__ . '/ecs-autoload.php';
+
+// performance boost
+gc_disable();
+
 try {
-    $containerFactory->create();
+    /** @var Container $container */
+    $container = require __DIR__ . '/ecs-container.php';
+
+    $application = $container->get(Application::class);
+    exit($application->run());
 } catch (Throwable $throwable) {
-    $symfonyStyle->error($throwable->getMessage());
+    (new ExceptionRenderer())->render($throwable);
+    exit(1);
 }
 ```
 
@@ -258,35 +272,7 @@ And then cleanup your configs:
 -        alias: OnlyImplementationOfFooInterface
 ```
 
-### 9. Render Exception to CLI like Application does
-
-Do you get exception before getting into Symfony\Console Application, but still want to render it like the Application would do?
-
-Use `Symplify\PackageBuilder\Console\ExceptionRenderer`:
-
-```php
-use Symfony\Component\DependencyInjection\Container;
-use Symplify\EasyCodingStandard\Console\Application;
-use Symplify\PackageBuilder\Console\ExceptionRenderer;
-
-require_once __DIR__ . '/ecs-autoload.php';
-
-// performance boost
-gc_disable();
-
-try {
-    /** @var Container $container */
-    $container = require __DIR__ . '/ecs-container.php';
-
-    $application = $container->get(Application::class);
-    exit($application->run());
-} catch (Throwable $throwable) {
-    (new ExceptionRenderer())->render($throwable);
-    exit(1);
-}
-```
-
-### 10. Make services public for tests only
+### 9. Make services public for tests only
 
 Do you use `$container->get(SomeType::class)` in tests and would you like to avoid this:
 
