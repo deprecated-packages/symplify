@@ -13,7 +13,7 @@
     },
     "require-dev": {
         "nette/application": "^2.4",
-        "symplify/easy-coding-standard": "^4.0",
+        "symplify/easy-coding-standard-tester": "^4.0",
         "symplify/package-builder": "^4.0",
         "phpunit/phpunit": "^7.0"
     },
