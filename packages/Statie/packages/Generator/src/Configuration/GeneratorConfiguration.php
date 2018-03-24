@@ -28,10 +28,26 @@ final class GeneratorConfiguration
      */
     private $generatorElements = [];
 
-    public function __construct(ParameterProvider $parameterProvider, Configuration $configuration)
-    {
+    /**
+     * @var GeneratorElementGuard
+     */
+    private $generatorElementGuard;
+
+    /**
+     * @var GeneratorElementFactory
+     */
+    private $generatorElementFactory;
+
+    public function __construct(
+        ParameterProvider $parameterProvider,
+        Configuration $configuration,
+        GeneratorElementFactory $generatorElementFactory,
+        GeneratorElementGuard $generatorElementGuard
+    ) {
         $this->parameterProvider = $parameterProvider;
         $this->configuration = $configuration;
+        $this->generatorElementFactory = $generatorElementFactory;
+        $this->generatorElementGuard = $generatorElementGuard;
     }
 
     /**
@@ -49,26 +65,13 @@ final class GeneratorConfiguration
         $generatorElements = [];
 
         foreach ($generators as $key => $generatorConfiguration) {
-            GeneratorElementGuard::ensureInputIsValid($key, $generatorConfiguration);
-            // make path absolute
-            $generatorConfiguration = $this->makePathAbsolute($generatorConfiguration);
-            $generatorElements[] = GeneratorElement::createFromConfiguration($generatorConfiguration);
+            $generatorElements[] = $this->generatorElementFactory->createFromConfiguration(
+                $key,
+                $generatorConfiguration
+            );
         }
 
         return $this->generatorElements = $generatorElements;
-    }
-
-    /**
-     * @param mixed[] $generatorConfiguration
-     * @return mixed[]
-     */
-    private function makePathAbsolute(array $generatorConfiguration): array
-    {
-        $generatorConfiguration['path'] = realpath($this->configuration->getSourceDirectory()) .
-            DIRECTORY_SEPARATOR .
-            $generatorConfiguration['path'];
-
-        return $generatorConfiguration;
     }
 
     /**

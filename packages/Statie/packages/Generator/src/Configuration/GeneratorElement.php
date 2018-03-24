@@ -3,9 +3,7 @@
 namespace Symplify\Statie\Generator\Configuration;
 
 use Symplify\Statie\Generator\Contract\ObjectSorterInterface;
-use Symplify\Statie\Generator\FileNameObjectSorter;
 use Symplify\Statie\Renderable\File\AbstractFile;
-use Symplify\Statie\Renderable\File\File;
 
 final class GeneratorElement
 {
@@ -49,7 +47,7 @@ final class GeneratorElement
      */
     private $objectSorter;
 
-    private function __construct(
+    public function __construct(
         string $variable,
         string $variableGlobal,
         string $path,
@@ -65,22 +63,6 @@ final class GeneratorElement
         $this->routePrefix = $routePrefix;
         $this->object = $object;
         $this->objectSorter = $objectSorter;
-    }
-
-    /**
-     * @param mixed[]|mixed $configuration
-     */
-    public static function createFromConfiguration($configuration): self
-    {
-        return new self(
-            $configuration['variable'],
-            $configuration['variable_global'],
-            $configuration['path'],
-            $configuration['layout'],
-            $configuration['route_prefix'],
-            $configuration['object'] ?? File::class,
-            isset($configuration['object_sorter']) ? new $configuration['object_sorter']() : new FileNameObjectSorter()
-        );
     }
 
     public function getVariable(): string

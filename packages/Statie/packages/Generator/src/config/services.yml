@@ -3,5 +3,5 @@ services:
         autowire: true
 
     Symplify\Statie\Generator\:
-        resource: ../
-        exclude: ../{Configuration/GeneratorElement.php,Configuration/GeneratorElementGuard.php}
+        resource: '../'
+        exclude: '../{Configuration/GeneratorElement.php}'

@@ -11,13 +11,13 @@ final class GeneratorElementGuard
     /**
      * @var string[]
      */
-    private static $requiredKeys = ['variable', 'variable_global', 'path', 'layout', 'route_prefix'];
+    private $requiredKeys = ['variable', 'variable_global', 'path', 'layout', 'route_prefix'];
 
     /**
      * @param string|int $key
      * @param string|mixed $data
      */
-    public static function ensureInputIsValid($key, $data): void
+    public function ensureInputIsValid($key, $data): void
     {
         if (! is_array($data)) {
             throw new InvalidGeneratorElementDefinitionException(sprintf(
@@ -27,7 +27,7 @@ final class GeneratorElementGuard
             ));
         }
 
-        foreach (self::$requiredKeys as $requiredKey) {
+        foreach ($this->requiredKeys as $requiredKey) {
             if (isset($data[$requiredKey])) {
                 continue;
             }
@@ -40,20 +40,25 @@ final class GeneratorElementGuard
         }
 
         if (isset($data['object'])) {
-            self::ensureObjectExists($key, $data['object']);
-            self::ensureObjectIsInstanceOf($key, 'object', $data['object'], AbstractFile::class);
+            $this->ensureObjectExists($key, $data['object']);
+            $this->ensureObjectIsInstanceOf($key, 'object', $data['object'], AbstractFile::class);
         }
 
         if (isset($data['object_sorter'])) {
-            self::ensureObjectExists($key, $data['object_sorter']);
-            self::ensureObjectIsInstanceOf($key, 'object_sorter', $data['object_sorter'], ObjectSorterInterface::class);
+            $this->ensureObjectExists($key, $data['object_sorter']);
+            $this->ensureObjectIsInstanceOf(
+                $key,
+                'object_sorter',
+                $data['object_sorter'],
+                ObjectSorterInterface::class
+            );
         }
     }
 
     /**
      * @param int|string $key
      */
-    private static function ensureObjectExists($key, string $object): void
+    private function ensureObjectExists($key, string $object): void
     {
         if (class_exists($object)) {
             return;
@@ -69,7 +74,7 @@ final class GeneratorElementGuard
     /**
      * @param int|string $key
      */
-    private static function ensureObjectIsInstanceOf(
+    private function ensureObjectIsInstanceOf(
         $key,
         string $optionName,
         string $object,
