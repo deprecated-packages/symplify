@@ -42,37 +42,11 @@ final class MethodWrapperFactory
             );
         }
 
-        $argumentWrappers = $this->getArgumentsFromTokensAndStartPosition($tokens, $position);
-
-        return new MethodWrapper($tokens, $position, $docBlockWrapper, $argumentWrappers);
-    }
-
-    /**
-     * @return ArgumentWrapper[]
-     */
-    public function getArgumentsFromTokensAndStartPosition(Tokens $tokens, int $startPosition): array
-    {
-        $argumentsBracketStart = $tokens->getNextTokenOfKind($startPosition, ['(']);
-        $argumentsBracketEnd = $tokens->findBlockEnd(
-            Tokens::BLOCK_TYPE_PARENTHESIS_BRACE,
-            $argumentsBracketStart
+        return new MethodWrapper(
+            $tokens,
+            $position,
+            $docBlockWrapper,
+            $this->argumentWrapperFactory->createArgumentsFromTokensAndFunctionPosition($tokens, $position)
         );
-
-        if ($argumentsBracketStart === ($argumentsBracketEnd + 1)) {
-            return [];
-        }
-
-        $arguments = [];
-        for ($i = $argumentsBracketStart + 1; $i < $argumentsBracketEnd; ++$i) {
-            $token = $tokens[$i];
-
-            if ($token->isGivenKind(T_VARIABLE) === false) {
-                continue;
-            }
-
-            $arguments[] = $this->argumentWrapperFactory->createFromTokensAndPosition($tokens, $i);
-        }
-
-        return $arguments;
     }
 }
