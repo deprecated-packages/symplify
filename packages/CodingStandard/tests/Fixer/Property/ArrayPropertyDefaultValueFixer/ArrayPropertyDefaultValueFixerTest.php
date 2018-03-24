@@ -2,7 +2,7 @@
 
 namespace Symplify\CodingStandard\Tests\Fixer\Property\ArrayPropertyDefaultValueFixer;
 
-use Symplify\EasyCodingStandard\Testing\AbstractCheckerTestCase;
+use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;
 
 /**
  * @see \Symplify\CodingStandard\Fixer\Property\ArrayPropertyDefaultValueFixer

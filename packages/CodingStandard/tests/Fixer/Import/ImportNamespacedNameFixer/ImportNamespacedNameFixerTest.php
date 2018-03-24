@@ -3,7 +3,7 @@
 namespace Symplify\CodingStandard\Tests\Fixer\Import\ImportNamespacedNameFixer;
 
 use Iterator;
-use Symplify\EasyCodingStandard\Testing\AbstractCheckerTestCase;
+use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;
 
 /**
  * @see \Symplify\CodingStandard\Fixer\Import\ImportNamespacedNameFixer

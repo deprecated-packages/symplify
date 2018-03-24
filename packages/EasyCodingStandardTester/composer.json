@@ -1,0 +1,23 @@
+{
+    "name": "symplify/easy-coding-standard-tester",
+    "description": "# The Best Way to Test Sniffs and Fixers",
+    "license": "MIT",
+    "require": {
+        "php": "^7.1",
+        "phpunit/phpunit": "^7.0",
+        "symplify/easy-coding-standard": "^4.0",
+        "symplify/package-builder": "^4.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Symplify\\EasyCodingStandardTester\\": "src"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "4.0-dev"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}

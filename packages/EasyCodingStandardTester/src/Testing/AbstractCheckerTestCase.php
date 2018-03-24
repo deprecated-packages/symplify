@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\EasyCodingStandard\Testing;
+namespace Symplify\EasyCodingStandardTester\Testing;
 
 use PHPUnit\Framework\TestCase;
 use Symplify\EasyCodingStandard\Configuration\Exception\NoCheckersLoadedException;

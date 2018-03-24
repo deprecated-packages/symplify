@@ -2,7 +2,7 @@
 
 namespace Symplify\CodingStandard\Tests\Fixer\ArrayNotation\StandaloneLineInMultilineArrayFixer;
 
-use Symplify\EasyCodingStandard\Testing\AbstractCheckerTestCase;
+use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;
 
 /**
  * @see \Symplify\CodingStandard\Fixer\ArrayNotation\StandaloneLineInMultilineArrayFixer

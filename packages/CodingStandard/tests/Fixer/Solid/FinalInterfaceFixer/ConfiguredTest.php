@@ -2,7 +2,7 @@
 
 namespace Symplify\CodingStandard\Tests\Fixer\Solid\FinalInterfaceFixer;
 
-use Symplify\EasyCodingStandard\Testing\AbstractCheckerTestCase;
+use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;
 
 /**
  * @see \Symplify\CodingStandard\Fixer\Solid\FinalInterfaceFixer

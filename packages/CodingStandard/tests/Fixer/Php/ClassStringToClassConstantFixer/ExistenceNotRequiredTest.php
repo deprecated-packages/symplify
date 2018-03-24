@@ -2,7 +2,7 @@
 
 namespace Symplify\CodingStandard\Tests\Fixer\Php\ClassStringToClassConstantFixer;
 
-use Symplify\EasyCodingStandard\Testing\AbstractCheckerTestCase;
+use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;
 
 /**
  * @see \Symplify\CodingStandard\Fixer\Php\ClassStringToClassConstantFixer
