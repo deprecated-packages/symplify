@@ -3,7 +3,6 @@
 namespace Symplify\Statie\Generator\Configuration;
 
 use Symplify\PackageBuilder\Parameter\ParameterProvider;
-use Symplify\Statie\Configuration\Configuration;
 use Symplify\Statie\Renderable\File\PostFile;
 
 final class GeneratorConfiguration
@@ -19,11 +18,6 @@ final class GeneratorConfiguration
     private $parameterProvider;
 
     /**
-     * @var Configuration
-     */
-    private $configuration;
-
-    /**
      * @var GeneratorElement[]
      */
     private $generatorElements = [];
@@ -35,11 +29,9 @@ final class GeneratorConfiguration
 
     public function __construct(
         ParameterProvider $parameterProvider,
-        Configuration $configuration,
         GeneratorElementFactory $generatorElementFactory
     ) {
         $this->parameterProvider = $parameterProvider;
-        $this->configuration = $configuration;
         $this->generatorElementFactory = $generatorElementFactory;
     }
 
