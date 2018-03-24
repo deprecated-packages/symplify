@@ -65,6 +65,10 @@ final class ClassWrapper
      * @var PropertyAccessWrapperFactory
      */
     private $propertyAccessWrapperFactory;
+    /**
+     * @var NameFactory
+     */
+    private $nameFactory;
 
     public function __construct(
         Tokens $tokens,
@@ -72,7 +76,8 @@ final class ClassWrapper
         PropertyWrapperFactory $propertyWrapperFactory,
         MethodWrapperFactory $methodWrapperFactory,
         DocBlockFinder $docBlockFinder,
-        PropertyAccessWrapperFactory $propertyAccessWrapperFactory
+        PropertyAccessWrapperFactory $propertyAccessWrapperFactory,
+        NameFactory $nameFactory
     ) {
         $this->classToken = $tokens[$startIndex];
         $this->startBracketIndex = $tokens->getNextTokenOfKind($startIndex, ['{']);
@@ -85,6 +90,7 @@ final class ClassWrapper
         $this->methodWrapperFactory = $methodWrapperFactory;
         $this->docBlockFinder = $docBlockFinder;
         $this->propertyAccessWrapperFactory = $propertyAccessWrapperFactory;
+        $this->nameFactory = $nameFactory;
     }
 
     public function getName(): ?string
@@ -261,7 +267,7 @@ final class ClassWrapper
 
         $interfaceNames = [];
         foreach ($interfacePartialNameTokens as $position => $interfacePartialNameToken) {
-            $interfaceNames[] = NameFactory::createFromTokensAndStart($this->tokens, $position)->getName();
+            $interfaceNames[] = $this->nameFactory->createFromTokensAndStart($this->tokens, $position)->getName();
         }
 
         return $interfaceNames;
