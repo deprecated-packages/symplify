@@ -2,7 +2,7 @@
 
 Note: due to rather agile development of packages and big amount of releases all changes are bunched in nearest minor version, e.g. changes from 3.1.0-3.1.15 => 3.2.0. That makes changelog more clear and readable, rather then having 15 lines with one change per version, and also helps to actually maintain this file.
 
-## [v4.0.0alpha1]
+## [v4.0.0alpha3]
 
 Biggest change of this release is moving from mixture of Yaml and Neon format in `*.neon` files to Yaml format in `*.yaml` files. That will make Symplify packages more world-friendly and standard rather than Czech-only Neon format. See [#651](https://github.com/Symplify/Symplify/pull/651) about more reasoning behind this.
 
@@ -10,6 +10,9 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
 
 ### Added
 
+- [#720] **PackageBuilder** Add `Symplify\PackageBuilder\Console\ExceptionRenderer` to render exception nicely like Symonfy\Console `Application` but anywhere outside it; follow up to [#715] and [#702]
+- [#713] **PackageBuilder** Add shortcut support for config `-c` in `ConfigFileFinder` and for level `-l` in `LevelFileFinder`
+- [#722] **CodingStandard** Add `ForbiddenStaticFunctionSniff`
 - [#707], [#709] **CodingStandard** Upgrade to [PHP CS Fixer 2.11](https://github.com/FriendsOfPHP/PHP-CS-Fixer/tree/v2.11.0)
 - [#705] **EasyCodingStandard** Add `-c` shortcut for `--config` CLI option, thanks to [@OndraM]
 - [#698] **EasyCodingStandard** Autodiscover `*.yaml` suffix as well
@@ -43,6 +46,14 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
 
 ### Changed
 
+- [#721] Prefer `Input` and `Output` instances injected via constuctor in used Symfony\Console `Application`
+- [#717] **EasyCodingStandard** Make error report more verbose, closes [#701]
+- [#713] **PackageBuilder** Renamed class `Symplify\PackageBuilder\Configuration\ConfigFilePathHelper` to `Symplify\PackageBuilder\Configuration\LevelConfigShortcutFinder`
+- [#713] **PackageBuilder** Renamed class `Symplify\PackageBuilder\Configuration\ConfigFileFinder` to `Symplify\PackageBuilder\Configuration\LevelFileFinder`
+- [#713] **PackageBuilder** Renamed method `Symplify\PackageBuilder\Configuration\LevelFileFinder::resolveLevel()` to `Symplify\PackageBuilder\Configuration\LevelFileFinder::detectFromInputAndDirectory()`
+
+- [#722] **TokenRunner** Move form `static` to service and constructor injection
+- [#712] **EasyCodingStandard** Move from `Symplify\EasyCodingStandard\Testing\AbstractContainerAwareCheckerTestCase` to new `Symplify\EasyCodingStandard\Testing\AbstractCheckerTestCase`
 - [#693] **CodingStandard** Move checkers from static to services, follow up to [#680]
 - [#703] Remove dead PHPStan rules, thanks to [@carusogabriel]
 - [#704] Reduce function cyclomatic complexity, thanks to [@carusogabriel]
@@ -95,6 +106,8 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
 
 ### Removed
 
+- [#720] **PackageBuilder** Removed `Symplify\PackageBuilder\Console\Style\SymfonyStyleFactory`, that was only for exception rendering; use `Symplify\PackageBuilder\Console\ExceptionRenderer` instead
+- [#712] **EasyCodingStandard** Removed `Symplify\EasyCodingStandard\Testing\AbstractContainerAwareCheckerTestCase`, use Symplify\EasyCodingStandard\Testing\AbstractCheckerTestCase` instead
 - [#708] Removed `AnnotateMagicContainerGetterFixer`, use awesome [Symfony Plugin](https://plugins.jetbrains.com/plugin/7219-symfony-plugin) instead
 - [#693] Removed `AbstractSimpleFixerTestCase` in favor of more general and advanced `AbstractContainerAwareCheckerTestCase`
 - [#688] **CodingStandard** Removed `DynamicPropertySniff`, use `PHPStan\Rules\Properties\AccessPropertiesRule`  PHPStan with [`--level 0`](https://github.com/phpstan/phpstan/blob/3485d8ce8c64a6becf6cc60f268d051af6ff7ceb/conf/config.level0.neon#L28) instead
@@ -809,3 +822,13 @@ For more deprecation details see [Symplify packages deprecations brought by Symf
 [#691]: https://github.com/Symplify/Symplify/pull/691
 [#680]: https://github.com/Symplify/Symplify/pull/680
 [@OndraM]: https://github.com/OndraM
+[v4.0.0alpha3]: https://github.com/Symplify/Symplify/compare/v3.2.0...v4.0.0alpha3
+[#722]: https://github.com/Symplify/Symplify/pull/722
+[#721]: https://github.com/Symplify/Symplify/pull/721
+[#720]: https://github.com/Symplify/Symplify/pull/720
+[#717]: https://github.com/Symplify/Symplify/pull/717
+[#715]: https://github.com/Symplify/Symplify/pull/715
+[#713]: https://github.com/Symplify/Symplify/pull/713
+[#712]: https://github.com/Symplify/Symplify/pull/712
+[#702]: https://github.com/Symplify/Symplify/issues/702
+[#701]: https://github.com/Symplify/Symplify/issues/701
