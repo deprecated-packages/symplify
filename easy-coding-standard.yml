@@ -86,6 +86,3 @@ parameters:
             - 'packages/Statie/tests/SymfonyFileInfoFactory.php'
             - 'packages/PackageBuilder/src/Console/Command/CommandNaming.php'
             - 'packages/PackageBuilder/src/Configuration/ConfigFileFinder.php'
-            # todo: not really needed
-            - 'packages/PackageBuilder/src/DependencyInjection/DefinitionFinder.php'
-            - 'packages/PackageBuilder/src/DependencyInjection/DefinitionCollector.php'
