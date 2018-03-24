@@ -90,3 +90,6 @@ parameters:
             - 'packages/PackageBuilder/src/Composer/AutoloadFinder.php'
             - 'packages/EasyCodingStandard/src/Error/FileDiff.php'
             - 'packages/EasyCodingStandard/src/Error/Error.php'
+            # dependency on 3rd party code
+            - 'packages/BetterReflectionDocBlock/src/Tag/TolerantParam.php'
+            - 'packages/BetterReflectionDocBlock/src/Tag/TolerantReturn.php'

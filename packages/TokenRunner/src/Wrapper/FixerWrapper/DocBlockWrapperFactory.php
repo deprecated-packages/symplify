@@ -29,11 +29,11 @@ final class DocBlockWrapperFactory
     public function create(Tokens $tokens, int $position, string $content): DocBlockWrapper
     {
         return new DocBlockWrapper(
-        $tokens,
+            $tokens,
             $position,
             $content,
             $this->cleanDocBlockFactory->create($content),
             $this->docBlockSerializerFactory
-            );
+        );
     }
 }
