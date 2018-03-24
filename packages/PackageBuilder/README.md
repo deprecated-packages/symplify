@@ -28,7 +28,9 @@ final class CollectorCompilerPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $containerBuilder): void
     {
-        (new DefinitionCollector())->loadCollectorWithType(
+        $definitionCollector = new DefinitionCollector(new DefinitionFinder);
+
+        $definitionCollector->loadCollectorWithType(
             $containerBuilder,
             EventDispatcher::class,
             EventSubscriberInterface::class,

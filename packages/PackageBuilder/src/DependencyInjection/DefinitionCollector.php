@@ -12,9 +12,9 @@ final class DefinitionCollector
      */
     private $definitionFinder;
 
-    public function __construct()
+    public function __construct(DefinitionFinder $definitionFinder)
     {
-        $this->definitionFinder = new DefinitionFinder();
+        $this->definitionFinder = $definitionFinder;
     }
 
     public function loadCollectorWithType(

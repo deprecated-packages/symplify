@@ -6,6 +6,7 @@ use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 use Symplify\PackageBuilder\DependencyInjection\DefinitionCollector;
+use Symplify\PackageBuilder\DependencyInjection\DefinitionFinder;
 use Symplify\PackageBuilder\Tests\DependencyInjectionSource\Collected;
 use Symplify\PackageBuilder\Tests\DependencyInjectionSource\CollectedInterface;
 use Symplify\PackageBuilder\Tests\DependencyInjectionSource\Collector;
@@ -26,7 +27,7 @@ final class DefinitionCollectorTest extends TestCase
     protected function setUp(): void
     {
         $this->containerBuilder = new ContainerBuilder();
-        $this->definitionCollector = new DefinitionCollector();
+        $this->definitionCollector = new DefinitionCollector(new DefinitionFinder());
     }
 
     public function testLoadCollectorWithType(): void

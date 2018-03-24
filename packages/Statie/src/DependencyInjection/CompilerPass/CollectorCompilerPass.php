@@ -9,6 +9,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symplify\PackageBuilder\DependencyInjection\DefinitionCollector;
+use Symplify\PackageBuilder\DependencyInjection\DefinitionFinder;
 use Symplify\Statie\Contract\Templating\FilterProviderInterface;
 use Symplify\Statie\FlatWhite\Latte\LatteFactory;
 
@@ -21,7 +22,7 @@ final class CollectorCompilerPass implements CompilerPassInterface
 
     public function __construct()
     {
-        $this->definitionCollector = new DefinitionCollector();
+        $this->definitionCollector = new DefinitionCollector(new DefinitionFinder());
     }
 
     public function process(ContainerBuilder $containerBuilder): void
