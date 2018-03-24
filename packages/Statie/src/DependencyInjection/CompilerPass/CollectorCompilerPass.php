@@ -14,6 +14,16 @@ use Symplify\Statie\FlatWhite\Latte\LatteFactory;
 
 final class CollectorCompilerPass implements CompilerPassInterface
 {
+    /**
+     * @var DefinitionCollector
+     */
+    private $definitionCollector;
+
+    public function __construct()
+    {
+        $this->definitionCollector = new DefinitionCollector();
+    }
+
     public function process(ContainerBuilder $containerBuilder): void
     {
         $this->collectEventSubscribersEventDispatcher($containerBuilder);
@@ -23,7 +33,7 @@ final class CollectorCompilerPass implements CompilerPassInterface
 
     private function collectCommandsToConsoleApplication(ContainerBuilder $containerBuilder): void
     {
-        DefinitionCollector::loadCollectorWithType(
+        $this->definitionCollector->loadCollectorWithType(
             $containerBuilder,
             ConsoleApplication::class,
             Command::class,
@@ -33,7 +43,7 @@ final class CollectorCompilerPass implements CompilerPassInterface
 
     private function loadFilterProvidersToLatteFactory(ContainerBuilder $containerBuilder): void
     {
-        DefinitionCollector::loadCollectorWithType(
+        $this->definitionCollector->loadCollectorWithType(
             $containerBuilder,
             LatteFactory::class,
             FilterProviderInterface::class,
@@ -43,7 +53,7 @@ final class CollectorCompilerPass implements CompilerPassInterface
 
     private function collectEventSubscribersEventDispatcher(ContainerBuilder $containerBuilder): void
     {
-        DefinitionCollector::loadCollectorWithType(
+        $this->definitionCollector->loadCollectorWithType(
             $containerBuilder,
             EventDispatcherInterface::class,
             EventSubscriberInterface::class,
