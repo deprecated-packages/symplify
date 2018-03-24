@@ -12,7 +12,7 @@ final class TokenBuilder
      *
      * @return Token[]
      */
-    public static function createDefaultArrayTokens(): array
+    public function createDefaultArrayTokens(): array
     {
         return [
             new Token([T_WHITESPACE, ' ']),
@@ -28,7 +28,7 @@ final class TokenBuilder
      *
      * @return Token[]
      */
-    public static function getDeclareStrictTypeSequence(): array
+    public function getDeclareStrictTypeSequence(): array
     {
         static $tokens = null;
 

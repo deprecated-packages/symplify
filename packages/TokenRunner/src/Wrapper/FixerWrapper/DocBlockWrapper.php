@@ -53,12 +53,23 @@ final class DocBlockWrapper
      */
     private $originalContent;
 
-    public function __construct(Tokens $tokens, int $position, string $content, ?DocBlock $docBlock = null)
-    {
+    /**
+     * @var DocBlockSerializerFactory
+     */
+    private $docBlockSerializerFactory;
+
+    public function __construct(
+        Tokens $tokens,
+        int $position,
+        string $content,
+        ?DocBlock $docBlock = null,
+        DocBlockSerializerFactory $docBlockSerializerFactory
+    ) {
         $this->tokens = $tokens;
         $this->position = $position;
         $this->originalContent = $content;
         $this->phpDocumentorDocBlock = $docBlock;
+        $this->docBlockSerializerFactory = $docBlockSerializerFactory;
     }
 
     public function getTokenPosition(): int
@@ -314,7 +325,7 @@ final class DocBlockWrapper
         $indentSize = $this->whitespacesFixerConfig->getIndent() === '    ' ? 1 : 4;
         $indentCharacter = $this->whitespacesFixerConfig->getIndent();
 
-        return $this->docBlockSerializer = DocBlockSerializerFactory::createFromWhitespaceFixerConfigAndContent(
+        return $this->docBlockSerializer = $this->docBlockSerializerFactory->createFromWhitespaceFixerConfigAndContent(
             $this->originalContent,
             $indentSize,
             $indentCharacter
