@@ -105,6 +105,15 @@ final class NoClassInstantiationSniff implements Sniff
      * @var File
      */
     private $file;
+    /**
+     * @var Naming
+     */
+    private $naming;
+
+    public function __construct(Naming $naming)
+    {
+        $this->naming = $naming;
+    }
 
     /**
      * @return int[]
@@ -127,7 +136,7 @@ final class NoClassInstantiationSniff implements Sniff
             return;
         }
 
-        $className = Naming::getClassName($this->file, $classNameTokenPosition);
+        $className = $this->naming->getClassName($this->file, $classNameTokenPosition);
         if ($this->isClassInstantiationAllowed($className, $classNameTokenPosition)) {
             return;
         }
@@ -150,7 +159,7 @@ final class NoClassInstantiationSniff implements Sniff
 
     private function isEntityClass(string $class, int $classTokenPosition): bool
     {
-        $className = Naming::getClassName($this->file, $classTokenPosition);
+        $className = $this->naming->getClassName($this->file, $classTokenPosition);
 
         if (class_exists($className)) {
             $classReflection = new ReflectionClass($class);

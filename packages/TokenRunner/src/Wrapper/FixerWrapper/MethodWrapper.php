@@ -60,8 +60,6 @@ final class MethodWrapper
      */
     public function __construct(Tokens $tokens, int $index, ?DocBlockWrapper $docBlockWrapper, array $argumentWrappers)
     {
-        TokenTypeGuard::ensureIsTokenType($tokens[$index], [T_FUNCTION], __METHOD__);
-
         $this->tokens = $tokens;
         $this->index = $index;
 

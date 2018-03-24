@@ -5,7 +5,7 @@ namespace Symplify\TokenRunner\Wrapper\FixerWrapper;
 use PhpCsFixer\Tokenizer\Tokens;
 use Symplify\TokenRunner\Guard\TokenTypeGuard;
 
-final class PropertyAccessWrapperFactory
+final class MethodCallWrapperFactory
 {
     /**
      * @var TokenTypeGuard
@@ -17,10 +17,10 @@ final class PropertyAccessWrapperFactory
         $this->tokenTypeGuard = $tokenTypeGuard;
     }
 
-    public function createFromTokensAndPosition(Tokens $tokens, int $position): PropertyAccessWrapper
+    public function createFromTokensAndPosition(Tokens $tokens, int $position): MethodCallWrapper
     {
-        $this->tokenTypeGuard->ensureIsTokenType($tokens[$position], [T_VARIABLE], __METHOD__);
+        $this->tokenTypeGuard->ensureIsTokenType($tokens[$position], [T_STRING], __METHOD__);
 
-        return new PropertyAccessWrapper($tokens, $position);
+        return new MethodCallWrapper($tokens, $position);
     }
 }

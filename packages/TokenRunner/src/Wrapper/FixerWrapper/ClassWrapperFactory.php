@@ -33,24 +33,30 @@ final class ClassWrapperFactory
      * @var NameFactory
      */
     private $nameFactory;
+    /**
+     * @var TokenTypeGuard
+     */
+    private $tokenTypeGuard;
 
     public function __construct(
         PropertyWrapperFactory $propertyWrapperFactory,
         MethodWrapperFactory $methodWrapperFactory,
         DocBlockFinder $docBlockFinder,
         PropertyAccessWrapperFactory $propertyAccessWrapperFactory,
-        NameFactory $nameFactory
+        NameFactory $nameFactory,
+        TokenTypeGuard $tokenTypeGuard
     ) {
         $this->propertyWrapperFactory = $propertyWrapperFactory;
         $this->methodWrapperFactory = $methodWrapperFactory;
         $this->docBlockFinder = $docBlockFinder;
         $this->propertyAccessWrapperFactory = $propertyAccessWrapperFactory;
         $this->nameFactory = $nameFactory;
+        $this->tokenTypeGuard = $tokenTypeGuard;
     }
 
     public function createFromTokensArrayStartPosition(Tokens $tokens, int $startIndex): ClassWrapper
     {
-        TokenTypeGuard::ensureIsTokenType($tokens[$startIndex], [T_CLASS, T_INTERFACE, T_TRAIT], self::class);
+        $this->tokenTypeGuard->ensureIsTokenType($tokens[$startIndex], [T_CLASS, T_INTERFACE, T_TRAIT], self::class);
 
         return new ClassWrapper(
             $tokens,

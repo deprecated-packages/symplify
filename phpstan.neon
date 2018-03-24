@@ -22,6 +22,7 @@ parameters:
         - '#Parameter \#1 \$indexStart of method PhpCsFixer\\Tokenizer\\Tokens::overrideRange\(\) expects int, int\|null given#'
         - '#Parameter \#2 \$indexEnd of method PhpCsFixer\\Tokenizer\\Tokens::overrideRange\(\) expects int, int\|null given#'
         - '#Property Symplify\\TokenRunner\\Wrapper\\FixerWrapper\\MethodCallWrapper::\$argumentsBracketStart \(int\) does not accept int\|null#'
+        - '#Method Symplify\\Statie\\Renderable\\File\\FileFactory::createFromFileInfo\(\) should return Symplify\\Statie\\Renderable\\File\\File but returns Symplify\\Statie\\Renderable\\File\\AbstractFile#'
 
         # intentional stricter phpDocumentor\Reflection\Types\This
         - '#Symplify\\TokenRunner\\Wrapper\\FixerWrapper\\DocBlockWrapper::getParamTags\(\) should return array<phpDocumentor\\Reflection\\DocBlock\\Tags\\Param> but returns array<phpDocumentor\\Reflection\\DocBlock\\Tag>#'

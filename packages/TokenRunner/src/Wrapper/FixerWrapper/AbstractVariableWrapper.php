@@ -88,6 +88,9 @@ abstract class AbstractVariableWrapper
     public function getFqnType(): ?string
     {
         $previousTokenPosition = $this->tokens->getPrevMeaningfulToken($this->index);
+        if ($previousTokenPosition === null) {
+            return null;
+        }
 
         $name = (new NameFactory())->createFromTokensAndEnd($this->tokens, $previousTokenPosition);
 

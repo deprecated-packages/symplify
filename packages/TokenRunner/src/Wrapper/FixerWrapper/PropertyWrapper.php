@@ -20,8 +20,6 @@ final class PropertyWrapper extends AbstractVariableWrapper
 
     public function __construct(Tokens $tokens, int $index, ?DocBlockWrapper $docBlockWrapper, NameFactory $nameFactory)
     {
-        TokenTypeGuard::ensureIsTokenType($tokens[$index], [T_VARIABLE], __METHOD__);
-
         parent::__construct($tokens, $index);
 
         $this->docBlockWrapper = $docBlockWrapper;

@@ -25,7 +25,7 @@ final class GeneratorElementFactory
     }
 
     /**
-     * @param mixed[]|mixed $configuration
+     * @param mixed[] $configuration
      */
     public function createFromConfiguration(string $name, array $configuration): GeneratorElement
     {

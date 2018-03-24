@@ -14,6 +14,7 @@ use SplFileInfo;
 use Symplify\TokenRunner\Analyzer\FixerAnalyzer\IndentDetector;
 use Symplify\TokenRunner\Analyzer\FixerAnalyzer\TokenSkipper;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\MethodCallWrapper;
+use Symplify\TokenRunner\Wrapper\FixerWrapper\MethodCallWrapperFactory;
 use Throwable;
 
 final class BreakMethodCallsFixer implements DefinedFixerInterface, WhitespacesAwareFixerInterface
@@ -52,11 +53,16 @@ final class BreakMethodCallsFixer implements DefinedFixerInterface, WhitespacesA
      * @var TokenSkipper
      */
     private $tokenSkipper;
+    /**
+     * @var MethodCallWrapperFactory
+     */
+    private $methodCallWrapperFactory;
 
-    public function __construct(TokenSkipper $tokenSkipper, IndentDetector $indentDetector)
+    public function __construct(TokenSkipper $tokenSkipper, IndentDetector $indentDetector, MethodCallWrapperFactory $methodCallWrapperFactory)
     {
         $this->tokenSkipper = $tokenSkipper;
         $this->indentDetector = $indentDetector;
+        $this->methodCallWrapperFactory = $methodCallWrapperFactory;
     }
 
     public function getDefinition(): FixerDefinitionInterface
@@ -120,7 +126,7 @@ final class BreakMethodCallsFixer implements DefinedFixerInterface, WhitespacesA
 
     private function fixMethodCall(int $position, Tokens $tokens): void
     {
-        $methodCallWrapper = MethodCallWrapper::createFromTokensAndPosition($tokens, $position);
+        $methodCallWrapper = $this->methodCallWrapperFactory->createFromTokensAndPosition($tokens, $position);
 
         if ($methodCallWrapper->getFirstLineLength() > self::LINE_LENGTH) {
             $this->breakMethodCallParameters($methodCallWrapper, $tokens, $position);

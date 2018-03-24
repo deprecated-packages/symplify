@@ -46,10 +46,7 @@ final class FileFactory
         return $objects;
     }
 
-    /**
-     * @return File
-     */
-    public function createFromFileInfo(SplFileInfo $fileInfo): AbstractFile
+    public function createFromFileInfo(SplFileInfo $fileInfo): File
     {
         return $this->createFromClassNameAndFileInfo(File::class, $fileInfo);
     }

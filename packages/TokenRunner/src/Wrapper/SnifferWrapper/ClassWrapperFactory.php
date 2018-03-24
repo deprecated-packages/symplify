@@ -12,10 +12,15 @@ final class ClassWrapperFactory
      * @var Naming
      */
     private $naming;
+    /**
+     * @var TokenTypeGuard
+     */
+    private $tokenTypeGuard;
 
-    public function __construct(Naming $naming)
+    public function __construct(Naming $naming, TokenTypeGuard $tokenTypeGuard)
     {
         $this->naming = $naming;
+        $this->tokenTypeGuard = $tokenTypeGuard;
     }
 
     public function createFromFirstClassInFile(File $file): ?ClassWrapper
@@ -25,7 +30,7 @@ final class ClassWrapperFactory
             return null;
         }
 
-        TokenTypeGuard::ensureIsTokenType($file->getTokens()[$possibleClassPosition], [
+        $this->tokenTypeGuard->ensureIsTokenType($file->getTokens()[$possibleClassPosition], [
             T_CLASS,
             T_TRAIT,
             T_INTERFACE,

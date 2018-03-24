@@ -8,11 +8,21 @@ use Symplify\TokenRunner\Guard\TokenTypeGuard;
 final class ArgumentWrapperFactory
 {
     /**
+     * @var TokenTypeGuard
+     */
+    private $tokenTypeGuard;
+
+    public function __construct(TokenTypeGuard $tokenTypeGuard)
+    {
+        $this->tokenTypeGuard = $tokenTypeGuard;
+    }
+
+    /**
      * @return ArgumentWrapper[]
      */
     public function createArgumentsFromTokensAndFunctionPosition(Tokens $tokens, int $position): array
     {
-        TokenTypeGuard::ensureIsTokenType($tokens[$position], [T_FUNCTION], __METHOD__);
+        $this->tokenTypeGuard->ensureIsTokenType($tokens[$position], [T_FUNCTION], __METHOD__);
 
         $argumentsBracketStart = $tokens->getNextTokenOfKind($position, ['(']);
         $argumentsBracketEnd = $tokens->findBlockEnd(
