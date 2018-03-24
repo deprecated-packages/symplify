@@ -64,8 +64,11 @@ final class StandaloneLineInMultilineArrayFixer implements DefinedFixerInterface
      */
     private $tokenSkipper;
 
-    public function __construct(ArrayWrapperFactory $arrayWrapperFactory, TokenSkipper $tokenSkipper, IndentDetector $indentDetector)
-    {
+    public function __construct(
+        ArrayWrapperFactory $arrayWrapperFactory,
+        TokenSkipper $tokenSkipper,
+        IndentDetector $indentDetector
+    ) {
         $this->arrayWrapperFactory = $arrayWrapperFactory;
         $this->tokenSkipper = $tokenSkipper;
         $this->indentDetector = $indentDetector;
@@ -186,7 +189,11 @@ $values = [1 => \'hey\', 2 => \'hello\'];'
 
     private function prepareIndentWhitespaces(Tokens $tokens, int $arrayStartIndex): void
     {
-        $indentLevel = $this->indentDetector->detectOnPosition($tokens, $arrayStartIndex, $this->whitespacesFixerConfig);
+        $indentLevel = $this->indentDetector->detectOnPosition(
+            $tokens,
+            $arrayStartIndex,
+            $this->whitespacesFixerConfig
+        );
         $indentWhitespace = $this->whitespacesFixerConfig->getIndent();
         $lineEnding = $this->whitespacesFixerConfig->getLineEnding();
 

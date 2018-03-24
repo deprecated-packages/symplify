@@ -7,8 +7,11 @@ use PhpCsFixer\WhitespacesFixerConfig;
 
 final class IndentDetector
 {
-    public function detectOnPosition(Tokens $tokens, int $startIndex, WhitespacesFixerConfig $whitespacesFixerConfig ): int
-    {
+    public function detectOnPosition(
+        Tokens $tokens,
+        int $startIndex,
+        WhitespacesFixerConfig $whitespacesFixerConfig
+    ): int {
         for ($i = $startIndex; $i > 0; --$i) {
             $token = $tokens[$i];
 

@@ -143,7 +143,11 @@ class SomeClass
 
     private function prepareIndentWhitespaces(Tokens $tokens, int $arrayStartIndex): void
     {
-        $indentLevel = $this->indentDetector->detectOnPosition($tokens, $arrayStartIndex, $this->whitespacesFixerConfig);
+        $indentLevel = $this->indentDetector->detectOnPosition(
+            $tokens,
+            $arrayStartIndex,
+            $this->whitespacesFixerConfig
+        );
         $indentWhitespace = $this->whitespacesFixerConfig->getIndent();
         $lineEnding = $this->whitespacesFixerConfig->getLineEnding();
 
