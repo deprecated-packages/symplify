@@ -4,6 +4,7 @@ namespace Symplify\TokenRunner\Wrapper\FixerWrapper;
 
 use PhpCsFixer\Tokenizer\Tokens;
 use Symplify\TokenRunner\Analyzer\FixerAnalyzer\DocBlockFinder;
+use Symplify\TokenRunner\Naming\Name\NameFactory;
 
 final class PropertyWrapperFactory
 {
@@ -16,11 +17,19 @@ final class PropertyWrapperFactory
      * @var DocBlockFinder
      */
     private $docBlockFinder;
+    /**
+     * @var NameFactory
+     */
+    private $nameFactory;
 
-    public function __construct(DocBlockWrapperFactory $docBlockWrapperFactory, DocBlockFinder $docBlockFinder)
-    {
+    public function __construct(
+        DocBlockWrapperFactory $docBlockWrapperFactory,
+        DocBlockFinder $docBlockFinder,
+        NameFactory $nameFactory
+    ) {
         $this->docBlockWrapperFactory = $docBlockWrapperFactory;
         $this->docBlockFinder = $docBlockFinder;
+        $this->nameFactory = $nameFactory;
     }
 
     public function createFromTokensAndPosition(Tokens $tokens, int $position): PropertyWrapper
@@ -36,6 +45,6 @@ final class PropertyWrapperFactory
             );
         }
 
-        return new PropertyWrapper($tokens, $position, $docBlockWrapper);
+        return new PropertyWrapper($tokens, $position, $docBlockWrapper, $this->nameFactory);
     }
 }

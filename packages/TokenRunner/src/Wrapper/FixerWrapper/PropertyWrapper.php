@@ -12,14 +12,19 @@ final class PropertyWrapper extends AbstractVariableWrapper
      * @var DocBlockWrapper|null
      */
     private $docBlockWrapper;
+    /**
+     * @var NameFactory
+     */
+    private $nameFactory;
 
-    public function __construct(Tokens $tokens, int $index, ?DocBlockWrapper $docBlockWrapper)
+    public function __construct(Tokens $tokens, int $index, ?DocBlockWrapper $docBlockWrapper, NameFactory $nameFactory)
     {
         TokenTypeGuard::ensureIsTokenType($tokens[$index], [T_VARIABLE], __METHOD__);
 
         parent::__construct($tokens, $index);
 
         $this->docBlockWrapper = $docBlockWrapper;
+        $this->nameFactory = $nameFactory;
     }
 
     public function getName(): string
@@ -35,7 +40,7 @@ final class PropertyWrapper extends AbstractVariableWrapper
             return null;
         }
 
-        return (new NameFactory())->resolveForName($this->tokens, $this->getType());
+        return $this->nameFactory->resolveForName($this->tokens, $this->getType());
     }
 
     public function getType(): ?string
