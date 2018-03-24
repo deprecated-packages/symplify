@@ -29,11 +29,6 @@ final class GeneratorConfiguration
     private $generatorElements = [];
 
     /**
-     * @var GeneratorElementGuard
-     */
-    private $generatorElementGuard;
-
-    /**
      * @var GeneratorElementFactory
      */
     private $generatorElementFactory;
@@ -41,13 +36,11 @@ final class GeneratorConfiguration
     public function __construct(
         ParameterProvider $parameterProvider,
         Configuration $configuration,
-        GeneratorElementFactory $generatorElementFactory,
-        GeneratorElementGuard $generatorElementGuard
+        GeneratorElementFactory $generatorElementFactory
     ) {
         $this->parameterProvider = $parameterProvider;
         $this->configuration = $configuration;
         $this->generatorElementFactory = $generatorElementFactory;
-        $this->generatorElementGuard = $generatorElementGuard;
     }
 
     /**

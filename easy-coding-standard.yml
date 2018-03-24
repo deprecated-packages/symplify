@@ -62,9 +62,6 @@ parameters:
             - '*packages/EasyCodingStandard/src/DependencyInjection/CompilerPass/*CompilerPass.php'
 
         Symplify\CodingStandard\Sniffs\DependencyInjection\NoClassInstantiationSniff:
-            # allowed default static value
-            - 'packages/Statie/packages/Generator/src/Configuration/GeneratorElement.php'
-
             # static helper
             - 'packages/PackageBuilder/src/Console/ExceptionRenderer.php'
 
