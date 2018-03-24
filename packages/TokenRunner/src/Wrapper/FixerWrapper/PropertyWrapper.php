@@ -12,6 +12,7 @@ final class PropertyWrapper extends AbstractVariableWrapper
      * @var DocBlockWrapper|null
      */
     private $docBlockWrapper;
+
     /**
      * @var NameFactory
      */

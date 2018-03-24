@@ -17,6 +17,7 @@ final class PropertyWrapperFactory
      * @var DocBlockFinder
      */
     private $docBlockFinder;
+
     /**
      * @var NameFactory
      */
