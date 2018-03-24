@@ -3,9 +3,20 @@
 namespace Symplify\Statie\Renderable\File;
 
 use Symfony\Component\Finder\SplFileInfo;
+use Symplify\Statie\Utils\PathAnalyzer;
 
 final class FileFactory
 {
+    /**
+     * @var PathAnalyzer
+     */
+    private $pathAnalyzer;
+
+    public function __construct(PathAnalyzer $pathAnalyzer)
+    {
+        $this->pathAnalyzer = $pathAnalyzer;
+    }
+
     /**
      * @param SplFileInfo[] $fileInfos
      * @return AbstractFile[]
@@ -29,7 +40,11 @@ final class FileFactory
         $objects = [];
 
         foreach ($fileInfos as $fileInfo) {
-            $objects[] = new $class($fileInfo, $fileInfo->getRelativePathname(), $fileInfo->getPathname());
+            $objects[] = new $class(
+                $fileInfo,
+                $fileInfo->getRelativePathname(),
+                $fileInfo->getPathname()
+            );
         }
 
         return $objects;
@@ -40,6 +55,19 @@ final class FileFactory
      */
     public function createFromFileInfo(SplFileInfo $fileInfo): AbstractFile
     {
-        return new File($fileInfo, $fileInfo->getRelativePathname(), $fileInfo->getPathname());
+        $dateTime = $this->pathAnalyzer->detectDate($fileInfo);
+        if ($dateTime) {
+            $filenameWithoutDate = $this->pathAnalyzer->detectFilenameWithoutDate($fileInfo);
+        } else {
+            $filenameWithoutDate = $fileInfo->getBasename('.' . $fileInfo->getExtension());
+        }
+
+        return new File(
+            $fileInfo,
+            $fileInfo->getRelativePathname(),
+            $fileInfo->getPathname(),
+            $filenameWithoutDate,
+            $dateTime
+        );
     }
 }
