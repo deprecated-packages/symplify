@@ -53,9 +53,10 @@ final class BreakMethodCallsFixer implements DefinedFixerInterface, WhitespacesA
      */
     private $tokenSkipper;
 
-    public function __construct(TokenSkipper $tokenSkipper)
+    public function __construct(TokenSkipper $tokenSkipper, IndentDetector $indentDetector)
     {
         $this->tokenSkipper = $tokenSkipper;
+        $this->indentDetector = $indentDetector;
     }
 
     public function getDefinition(): FixerDefinitionInterface
@@ -115,7 +116,6 @@ final class BreakMethodCallsFixer implements DefinedFixerInterface, WhitespacesA
     public function setWhitespacesConfig(WhitespacesFixerConfig $whitespacesFixerConfig): void
     {
         $this->whitespacesFixerConfig = $whitespacesFixerConfig;
-        $this->indentDetector = IndentDetector::createFromWhitespacesFixerConfig($whitespacesFixerConfig);
     }
 
     private function fixMethodCall(int $position, Tokens $tokens): void
@@ -135,7 +135,7 @@ final class BreakMethodCallsFixer implements DefinedFixerInterface, WhitespacesA
 
     private function prepareIndentWhitespaces(Tokens $tokens, int $startIndex): void
     {
-        $indentLevel = $this->indentDetector->detectOnPosition($tokens, $startIndex);
+        $indentLevel = $this->indentDetector->detectOnPosition($tokens, $startIndex, $this->whitespacesFixerConfig);
         $indentWhitespace = $this->whitespacesFixerConfig->getIndent();
         $lineEnding = $this->whitespacesFixerConfig->getLineEnding();
 

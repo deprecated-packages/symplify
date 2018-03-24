@@ -57,9 +57,10 @@ final class BreakArrayListFixer implements DefinedFixerInterface, WhitespacesAwa
      */
     private $arrayWrapperFactory;
 
-    public function __construct(ArrayWrapperFactory $arrayWrapperFactory)
+    public function __construct(ArrayWrapperFactory $arrayWrapperFactory, IndentDetector $indentDetector)
     {
         $this->arrayWrapperFactory = $arrayWrapperFactory;
+        $this->indentDetector = $indentDetector;
     }
 
     public function getDefinition(): FixerDefinitionInterface
@@ -117,7 +118,6 @@ $array = ["loooooooooooooooooooooooooooooooongArraaaaaaaaaaay", "loooooooooooooo
     public function setWhitespacesConfig(WhitespacesFixerConfig $whitespacesFixerConfig): void
     {
         $this->whitespacesFixerConfig = $whitespacesFixerConfig;
-        $this->indentDetector = IndentDetector::createFromWhitespacesFixerConfig($whitespacesFixerConfig);
     }
 
     private function fixArray(int $position, Tokens $tokens, ArrayWrapper $arrayWrapper): void
@@ -130,7 +130,7 @@ $array = ["loooooooooooooooooooooooooooooooongArraaaaaaaaaaay", "loooooooooooooo
 
     private function prepareIndentWhitespaces(Tokens $tokens, int $arrayStartIndex): void
     {
-        $indentLevel = $this->indentDetector->detectOnPosition($tokens, $arrayStartIndex);
+        $indentLevel = $this->indentDetector->detectOnPosition($tokens, $arrayStartIndex, $this->whitespacesFixerConfig);
         $indentWhitespace = $this->whitespacesFixerConfig->getIndent();
         $lineEnding = $this->whitespacesFixerConfig->getLineEnding();
 
