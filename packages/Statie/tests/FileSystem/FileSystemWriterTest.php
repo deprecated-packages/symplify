@@ -3,11 +3,11 @@
 namespace Symplify\Statie\Tests\FileSystem;
 
 use Nette\Utils\FileSystem;
+use Symplify\PackageBuilder\Finder\SymfonyFileInfoFactory;
 use Symplify\Statie\Configuration\Configuration;
 use Symplify\Statie\FileSystem\FileSystemWriter;
 use Symplify\Statie\Renderable\File\FileFactory;
 use Symplify\Statie\Tests\AbstractContainerAwareTestCase;
-use Symplify\PackageBuilder\Finder\SymfonyFileInfoFactory;
 
 final class FileSystemWriterTest extends AbstractContainerAwareTestCase
 {

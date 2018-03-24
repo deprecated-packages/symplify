@@ -3,10 +3,10 @@
 namespace Symplify\Statie\Tests\Renderable\Configuration;
 
 use Symfony\Component\Yaml\Exception\ParseException;
+use Symplify\PackageBuilder\Finder\SymfonyFileInfoFactory;
 use Symplify\Statie\Renderable\ConfigurationDecorator;
 use Symplify\Statie\Renderable\File\FileFactory;
 use Symplify\Statie\Tests\AbstractContainerAwareTestCase;
-use Symplify\PackageBuilder\Finder\SymfonyFileInfoFactory;
 
 final class ConfigurationDecoratorTest extends AbstractContainerAwareTestCase
 {

@@ -2,11 +2,11 @@
 
 namespace Symplify\Statie\Tests\Renderable\Routing;
 
+use Symplify\PackageBuilder\Finder\SymfonyFileInfoFactory;
 use Symplify\Statie\Configuration\Configuration;
 use Symplify\Statie\Renderable\File\FileFactory;
 use Symplify\Statie\Renderable\RouteFileDecorator;
 use Symplify\Statie\Tests\AbstractContainerAwareTestCase;
-use Symplify\PackageBuilder\Finder\SymfonyFileInfoFactory;
 
 final class RouteFileDecoratorTest extends AbstractContainerAwareTestCase
 {

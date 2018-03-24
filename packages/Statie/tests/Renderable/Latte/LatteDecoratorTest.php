@@ -2,13 +2,13 @@
 
 namespace Symplify\Statie\Tests\Renderable\Latte;
 
+use Symplify\PackageBuilder\Finder\SymfonyFileInfoFactory;
 use Symplify\Statie\Exception\Latte\InvalidLatteSyntaxException;
 use Symplify\Statie\FlatWhite\Latte\DynamicStringLoader;
 use Symplify\Statie\Renderable\File\File;
 use Symplify\Statie\Renderable\File\FileFactory;
 use Symplify\Statie\Renderable\LatteFileDecorator;
 use Symplify\Statie\Tests\AbstractContainerAwareTestCase;
-use Symplify\PackageBuilder\Finder\SymfonyFileInfoFactory;
 
 final class LatteDecoratorTest extends AbstractContainerAwareTestCase
 {
