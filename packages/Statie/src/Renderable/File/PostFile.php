@@ -5,7 +5,6 @@ namespace Symplify\Statie\Renderable\File;
 use ArrayAccess;
 use DateTimeInterface;
 use Nette\Utils\ObjectHelpers;
-use SplFileInfo;
 use Symplify\Statie\Exception\Renderable\File\AccessKeyNotAvailableException;
 use Symplify\Statie\Exception\Renderable\File\UnsupportedMethodException;
 
