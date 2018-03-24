@@ -28,6 +28,7 @@ final class ClassWrapperFactory
      * @var PropertyAccessWrapperFactory
      */
     private $propertyAccessWrapperFactory;
+
     /**
      * @var NameFactory
      */

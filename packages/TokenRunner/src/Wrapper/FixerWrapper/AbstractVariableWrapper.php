@@ -89,7 +89,7 @@ abstract class AbstractVariableWrapper
     {
         $previousTokenPosition = $this->tokens->getPrevMeaningfulToken($this->index);
 
-        $name = (new NameFactory)->createFromTokensAndEnd($this->tokens, $previousTokenPosition);
+        $name = (new NameFactory())->createFromTokensAndEnd($this->tokens, $previousTokenPosition);
 
         return $name->getName();
     }

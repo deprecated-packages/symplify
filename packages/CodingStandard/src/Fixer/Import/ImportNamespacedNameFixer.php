@@ -92,6 +92,7 @@ final class ImportNamespacedNameFixer implements DefinedFixerInterface, Configur
      * @var NameAnalyzer
      */
     private $nameAnalyzer;
+
     /**
      * @var NameFactory
      */

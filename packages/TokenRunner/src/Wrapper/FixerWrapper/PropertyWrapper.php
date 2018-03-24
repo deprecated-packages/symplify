@@ -35,7 +35,7 @@ final class PropertyWrapper extends AbstractVariableWrapper
             return null;
         }
 
-        return (new NameFactory)->resolveForName($this->tokens, $this->getType());
+        return (new NameFactory())->resolveForName($this->tokens, $this->getType());
     }
 
     public function getType(): ?string
