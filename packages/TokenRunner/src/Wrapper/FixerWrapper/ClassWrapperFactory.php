@@ -23,14 +23,21 @@ final class ClassWrapperFactory
      */
     private $docBlockFinder;
 
+    /**
+     * @var PropertyAccessWrapperFactory
+     */
+    private $propertyAccessWrapperFactory;
+
     public function __construct(
         PropertyWrapperFactory $propertyWrapperFactory,
         MethodWrapperFactory $methodWrapperFactory,
-        DocBlockFinder $docBlockFinder
+        DocBlockFinder $docBlockFinder,
+        PropertyAccessWrapperFactory $propertyAccessWrapperFactory
     ) {
         $this->propertyWrapperFactory = $propertyWrapperFactory;
         $this->methodWrapperFactory = $methodWrapperFactory;
         $this->docBlockFinder = $docBlockFinder;
+        $this->propertyAccessWrapperFactory = $propertyAccessWrapperFactory;
     }
 
     public function createFromTokensArrayStartPosition(Tokens $tokens, int $startIndex): ClassWrapper
@@ -42,7 +49,8 @@ final class ClassWrapperFactory
             $startIndex,
             $this->propertyWrapperFactory,
             $this->methodWrapperFactory,
-            $this->docBlockFinder
+            $this->docBlockFinder,
+            $this->propertyAccessWrapperFactory
         );
     }
 }

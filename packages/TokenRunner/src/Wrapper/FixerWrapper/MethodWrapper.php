@@ -55,6 +55,9 @@ final class MethodWrapper
      */
     private $argumentWrappers = [];
 
+    /**
+     * @param ArgumentWrapper[] $argumentWrappers
+     */
     public function __construct(Tokens $tokens, int $index, ?DocBlockWrapper $docBlockWrapper, array $argumentWrappers)
     {
         TokenTypeGuard::ensureIsTokenType($tokens[$index], [T_FUNCTION], __METHOD__);

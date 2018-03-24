@@ -61,12 +61,18 @@ final class ClassWrapper
      */
     private $docBlockFinder;
 
+    /**
+     * @var PropertyAccessWrapperFactory
+     */
+    private $propertyAccessWrapperFactory;
+
     public function __construct(
         Tokens $tokens,
         int $startIndex,
         PropertyWrapperFactory $propertyWrapperFactory,
         MethodWrapperFactory $methodWrapperFactory,
-        DocBlockFinder $docBlockFinder
+        DocBlockFinder $docBlockFinder,
+        PropertyAccessWrapperFactory $propertyAccessWrapperFactory
     ) {
         $this->classToken = $tokens[$startIndex];
         $this->startBracketIndex = $tokens->getNextTokenOfKind($startIndex, ['{']);
@@ -78,6 +84,7 @@ final class ClassWrapper
         $this->propertyWrapperFactory = $propertyWrapperFactory;
         $this->methodWrapperFactory = $methodWrapperFactory;
         $this->docBlockFinder = $docBlockFinder;
+        $this->propertyAccessWrapperFactory = $propertyAccessWrapperFactory;
     }
 
     public function getName(): ?string
@@ -153,7 +160,10 @@ final class ClassWrapper
                 continue;
             }
 
-            $propertyAccessWrapper = PropertyAccessWrapper::createFromTokensAndPosition($this->tokens, $i);
+            $propertyAccessWrapper = $this->propertyAccessWrapperFactory->createFromTokensAndPosition(
+                $this->tokens,
+                $i
+            );
 
             if ($propertyAccessWrapper->getName() === $oldName) {
                 $propertyAccessWrapper->changeName($newName);

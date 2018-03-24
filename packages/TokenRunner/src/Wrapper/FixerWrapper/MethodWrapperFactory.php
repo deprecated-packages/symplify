@@ -22,8 +22,11 @@ final class MethodWrapperFactory
      */
     private $argumentWrapperFactory;
 
-    public function __construct(DocBlockWrapperFactory $docBlockWrapperFactory, DocBlockFinder $docBlockFinder, ArgumentWrapperFactory $argumentWrapperFactory)
-    {
+    public function __construct(
+        DocBlockWrapperFactory $docBlockWrapperFactory,
+        DocBlockFinder $docBlockFinder,
+        ArgumentWrapperFactory $argumentWrapperFactory
+    ) {
         $this->docBlockWrapperFactory = $docBlockWrapperFactory;
         $this->docBlockFinder = $docBlockFinder;
         $this->argumentWrapperFactory = $argumentWrapperFactory;

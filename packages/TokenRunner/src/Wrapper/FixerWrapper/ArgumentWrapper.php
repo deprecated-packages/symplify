@@ -2,9 +2,6 @@
 
 namespace Symplify\TokenRunner\Wrapper\FixerWrapper;
 
-use PhpCsFixer\Tokenizer\Tokens;
-use Symplify\TokenRunner\Guard\TokenTypeGuard;
-
 final class ArgumentWrapper extends AbstractVariableWrapper
 {
     public function changeName(string $newName): void
