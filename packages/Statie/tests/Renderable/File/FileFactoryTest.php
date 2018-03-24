@@ -7,7 +7,7 @@ use Symplify\Statie\Renderable\File\File;
 use Symplify\Statie\Renderable\File\FileFactory;
 use Symplify\Statie\Renderable\File\PostFile;
 use Symplify\Statie\Tests\AbstractContainerAwareTestCase;
-use Symplify\Statie\Tests\SymfonyFileInfoFactory;
+use Symplify\PackageBuilder\Finder\SymfonyFileInfoFactory;
 
 final class FileFactoryTest extends AbstractContainerAwareTestCase
 {

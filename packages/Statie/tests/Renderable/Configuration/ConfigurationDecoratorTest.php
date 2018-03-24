@@ -6,7 +6,7 @@ use Symfony\Component\Yaml\Exception\ParseException;
 use Symplify\Statie\Renderable\ConfigurationDecorator;
 use Symplify\Statie\Renderable\File\FileFactory;
 use Symplify\Statie\Tests\AbstractContainerAwareTestCase;
-use Symplify\Statie\Tests\SymfonyFileInfoFactory;
+use Symplify\PackageBuilder\Finder\SymfonyFileInfoFactory;
 
 final class ConfigurationDecoratorTest extends AbstractContainerAwareTestCase
 {

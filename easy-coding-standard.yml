@@ -83,7 +83,7 @@ parameters:
             - 'packages/PackageBuilder/src/Console/ExceptionRenderer.php'
 
         Symplify\CodingStandard\Sniffs\CleanCode\ForbiddenStaticFunctionSniff:
-            - 'packages/Statie/tests/SymfonyFileInfoFactory.php' # @todo test and cover relative path againts getcwd()
+            - 'packages/PackageBuilder/src/Finder/SymfonyFileInfoFactory.php' # @todo test and cover relative path againts getcwd()
             - 'packages/PackageBuilder/src/Console/Command/CommandNaming.php'
             - 'packages/PackageBuilder/src/Configuration/ConfigFileFinder.php'
             - 'packages/PackageBuilder/src/Composer/VendorDirProvider.php'

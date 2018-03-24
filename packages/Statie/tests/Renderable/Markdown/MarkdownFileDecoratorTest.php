@@ -7,7 +7,7 @@ use Symplify\Statie\Configuration\Configuration;
 use Symplify\Statie\Renderable\File\FileFactory;
 use Symplify\Statie\Renderable\MarkdownFileDecorator;
 use Symplify\Statie\Tests\AbstractContainerAwareTestCase;
-use Symplify\Statie\Tests\SymfonyFileInfoFactory;
+use Symplify\PackageBuilder\Finder\SymfonyFileInfoFactory;
 
 final class MarkdownFileDecoratorTest extends AbstractContainerAwareTestCase
 {

@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\Statie\Tests;
+namespace Symplify\PackageBuilder\Finder;
 
 use Symfony\Component\Finder\SplFileInfo;
 
