@@ -29,7 +29,7 @@ class SomeClass
      * @param array[] $tokens
      * @return mixed[]|null
      */
-    public function __construct(string $path, array $tokens): array
+    public function anotherMethod(string $path, array $tokens): array
     {
     }
 }
