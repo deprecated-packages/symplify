@@ -11,7 +11,7 @@ final class DefinitionFinder
     /**
      * @return Definition[]
      */
-    public static function findAllByType(ContainerBuilder $containerBuilder, string $type): array
+    public function findAllByType(ContainerBuilder $containerBuilder, string $type): array
     {
         $definitions = [];
         foreach ($containerBuilder->getDefinitions() as $name => $definition) {
@@ -24,7 +24,7 @@ final class DefinitionFinder
         return $definitions;
     }
 
-    public static function getByType(ContainerBuilder $containerBuilder, string $type): Definition
+    public function getByType(ContainerBuilder $containerBuilder, string $type): Definition
     {
         $definition = self::getByTypeIfExists($containerBuilder, $type);
         if ($definition !== null) {
@@ -36,7 +36,7 @@ final class DefinitionFinder
         );
     }
 
-    public static function getByTypeIfExists(ContainerBuilder $containerBuilder, string $type): ?Definition
+    public function getByTypeIfExists(ContainerBuilder $containerBuilder, string $type): ?Definition
     {
         foreach ($containerBuilder->getDefinitions() as $name => $definition) {
             $class = $definition->getClass() ?: $name;
