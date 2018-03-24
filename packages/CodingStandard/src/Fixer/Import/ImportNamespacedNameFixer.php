@@ -92,17 +92,23 @@ final class ImportNamespacedNameFixer implements DefinedFixerInterface, Configur
      * @var NameAnalyzer
      */
     private $nameAnalyzer;
+    /**
+     * @var NameFactory
+     */
+    private $nameFactory;
 
     public function __construct(
         DocBlockWrapperFactory $docBlockWrapperFactory,
         UseImportsTransformer $useImportsTransformer,
         ClassNameFinder $classNameFinder,
-        NameAnalyzer $nameAnalyzer
+        NameAnalyzer $nameAnalyzer,
+        NameFactory $nameFactory
     ) {
         $this->docBlockWrapperFactory = $docBlockWrapperFactory;
         $this->useImportsTransformer = $useImportsTransformer;
         $this->classNameFinder = $classNameFinder;
         $this->nameAnalyzer = $nameAnalyzer;
+        $this->nameFactory = $nameFactory;
 
         // set defaults
         $this->configuration = $this->getConfigurationDefinition()
@@ -251,7 +257,7 @@ final class ImportNamespacedNameFixer implements DefinedFixerInterface, Configur
             return;
         }
 
-        $name = NameFactory::createFromTokensAndEnd($tokens, $index);
+        $name = $this->nameFactory->createFromTokensAndEnd($tokens, $index);
         if ($this->configuration[self::ALLOW_SINGLE_NAMES_OPTION] && $name->isSingleName()) {
             return;
         }
@@ -296,7 +302,7 @@ final class ImportNamespacedNameFixer implements DefinedFixerInterface, Configur
             return;
         }
 
-        $this->newUseStatementNames[] = NameFactory::createFromStringAndTokens($fullName, $tokens);
+        $this->newUseStatementNames[] = $this->nameFactory->createFromStringAndTokens($fullName, $tokens);
     }
 
     private function processParamsTags(DocBlockWrapper $docBlockWrapper, Tokens $tokens): void
@@ -307,7 +313,7 @@ final class ImportNamespacedNameFixer implements DefinedFixerInterface, Configur
                 return;
             }
 
-            $this->newUseStatementNames[] = NameFactory::createFromStringAndTokens($fullName, $tokens);
+            $this->newUseStatementNames[] = $this->nameFactory->createFromStringAndTokens($fullName, $tokens);
         }
     }
 
@@ -323,7 +329,7 @@ final class ImportNamespacedNameFixer implements DefinedFixerInterface, Configur
             return;
         }
 
-        $this->newUseStatementNames[] = NameFactory::createFromStringAndTokens($fullName, $tokens);
+        $this->newUseStatementNames[] = $this->nameFactory->createFromStringAndTokens($fullName, $tokens);
     }
 
     /**
