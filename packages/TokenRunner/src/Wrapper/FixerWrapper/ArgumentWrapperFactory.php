@@ -12,7 +12,7 @@ final class ArgumentWrapperFactory
      */
     public function createArgumentsFromTokensAndFunctionPosition(Tokens $tokens, int $position): array
     {
-        TokenTypeGuard::ensureIsTokenType($tokens[$position], [T_VARIABLE], __METHOD__);
+        TokenTypeGuard::ensureIsTokenType($tokens[$position], [T_FUNCTION], __METHOD__);
 
         $argumentsBracketStart = $tokens->getNextTokenOfKind($position, ['(']);
         $argumentsBracketEnd = $tokens->findBlockEnd(
@@ -20,6 +20,7 @@ final class ArgumentWrapperFactory
             $argumentsBracketStart
         );
 
+        // no arguments, return
         if ($argumentsBracketStart === ($argumentsBracketEnd + 1)) {
             return [];
         }
