@@ -40,10 +40,19 @@ final class FileFactory
         $objects = [];
 
         foreach ($fileInfos as $fileInfo) {
+            $dateTime = $this->pathAnalyzer->detectDate($fileInfo);
+            if ($dateTime) {
+                $filenameWithoutDate = $this->pathAnalyzer->detectFilenameWithoutDate($fileInfo);
+            } else {
+                $filenameWithoutDate = $fileInfo->getBasename('.' . $fileInfo->getExtension());
+            }
+
             $objects[] = new $class(
                 $fileInfo,
                 $fileInfo->getRelativePathname(),
-                $fileInfo->getPathname()
+                $fileInfo->getPathname(),
+                $filenameWithoutDate,
+                $dateTime
             );
         }
 

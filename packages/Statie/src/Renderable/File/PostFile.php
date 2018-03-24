@@ -16,22 +16,12 @@ final class PostFile extends AbstractFile implements ArrayAccess
      */
     private const READ_WORDS_PER_MINUTE = 260;
 
-    /**
-     * @var int
-     */
-    private $wordCount;
-
-    public function __construct(SplFileInfo $fileInfo, string $relativeSource, string $filePath)
-    {
-        parent::__construct($fileInfo, $relativeSource, $filePath);
-
-        $rawContent = file_get_contents($fileInfo->getRealPath());
-        $this->wordCount = substr_count($rawContent, ' ') + 1;
-    }
-
     public function getReadingTimeInMinutes(): int
     {
-        return (int) ceil($this->wordCount / self::READ_WORDS_PER_MINUTE);
+        $rawContent = file_get_contents($this->fileInfo->getRealPath());
+        $wordCount = substr_count($rawContent, ' ') + 1;
+
+        return (int) ceil($wordCount / self::READ_WORDS_PER_MINUTE);
     }
 
     /**
