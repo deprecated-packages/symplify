@@ -86,3 +86,7 @@ parameters:
             - 'packages/Statie/tests/SymfonyFileInfoFactory.php'
             - 'packages/PackageBuilder/src/Console/Command/CommandNaming.php'
             - 'packages/PackageBuilder/src/Configuration/ConfigFileFinder.php'
+            - 'packages/PackageBuilder/src/Composer/VendorDirProvider.php'
+            - 'packages/PackageBuilder/src/Composer/AutoloadFinder.php'
+            - 'packages/EasyCodingStandard/src/Error/FileDiff.php'
+            - 'packages/EasyCodingStandard/src/Error/Error.php'

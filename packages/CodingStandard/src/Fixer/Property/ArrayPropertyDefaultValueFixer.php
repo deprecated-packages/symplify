@@ -31,14 +31,21 @@ final class ArrayPropertyDefaultValueFixer implements DefinedFixerInterface
      */
     private $docBlockFinder;
 
+    /**
+     * @var TokenBuilder
+     */
+    private $tokenBuilder;
+
     public function __construct(
         ClassWrapperFactory $classWrapperFactory,
         DocBlockWrapperFactory $docBlockWrapperFactory,
-        DocBlockFinder $docBlockFinder
+        DocBlockFinder $docBlockFinder,
+        TokenBuilder $tokenBuilder
     ) {
         $this->classWrapperFactory = $classWrapperFactory;
         $this->docBlockWrapperFactory = $docBlockWrapperFactory;
         $this->docBlockFinder = $docBlockFinder;
+        $this->tokenBuilder = $tokenBuilder;
     }
 
     public function getDefinition(): FixerDefinitionInterface
@@ -128,7 +135,7 @@ public $property;'
                 continue;
             }
 
-            $tokens->insertAt($semicolonTokenPosition, TokenBuilder::createDefaultArrayTokens());
+            $tokens->insertAt($semicolonTokenPosition, $this->tokenBuilder->createDefaultArrayTokens());
         }
     }
 
