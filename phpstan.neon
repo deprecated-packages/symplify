@@ -15,7 +15,6 @@ parameters:
         - '#Parameter \#2 \$arrayType of static method Symplify\\BetterReflectionDocBlock\\DocBlock\\ArrayResolver::resolveArrayType\(\) expects phpDocumentor\\Reflection\\Types\\Array_, phpDocumentor\\Reflection\\Type(\|null)? given#'
         - '#Parameter \#1 \$sniffClass of method Symplify\\EasyCodingStandard\\SniffRunner\\File\\File::isSniffClassWarningAllowed\(\) expects string, (string\|null) given#'
         - '#Property Symplify\\TokenRunner\\Wrapper\\FixerWrapper\\MethodWrapper::\$argumentsBracketStart \(int\) does not accept int\|null#'
-        - '#Calling method getNameParts\(\) on possibly null value of type Symplify\\TokenRunner\\Naming\\UseImport\\UseImport\|null#'
         - '#Calling method (getLineEnding|getIndent)\(\) on possibly null value of type PhpCsFixer\\WhitespacesFixerConfig\|null#'
         - '#Method Symplify\\TokenRunner\\Wrapper\\FixerWrapper\\DocBlockWrapper::getVarTag\(\) should return phpDocumentor\\Reflection\\DocBlock\\Tags\\Var_\|null but returns phpDocumentor\\Reflection\\DocBlock\\Tag\|null#'
         - '#Method Symplify\\TokenRunner\\Wrapper\\FixerWrapper\\DocBlockWrapper::getReturnTag\(\) should return Symplify\\BetterReflectionDocBlock\\Tag\\TolerantReturn\|null but returns phpDocumentor\\Reflection\\DocBlock\\Tag\|null#'
@@ -30,7 +29,6 @@ parameters:
         # Token Runner
         - '#Parameter \#1 \$index of method PhpCsFixer\\Tokenizer\\Tokens::(getPrevMeaningfulToken|getNextMeaningfulToken)\(\) expects int, int\|null given#'
         - '#Call to an undefined method Symfony\\Component\\DependencyInjection\\ContainerInterface::getParameterBag()#'
-        - '#Parameter \#2 \$(start|end) of static method Symplify\\TokenRunner\\Naming\\Name\\NameFactory::createFromTokensAnd(Start|End)\(\) expects int, int\|null given#'
 
         # buggy
         - '#Symplify\\EasyCodingStandard\\Contract\\Application\\DualRunInterface#'
@@ -39,7 +37,6 @@ parameters:
         # object
         - '#does not accept object#'
         - '#Call to an undefined method object#'
-        - '#createFixer\(\) should return PhpCsFixer\\Fixer\\FixerInterface but returns object#'
 
         # part of test
         - '#Parameter \#1 \$finder of method Symplify\\EasyCodingStandard\\Finder\\FinderSanitizer::sanitize\(\) expects Nette\\Utils\\Finder|Symfony\\Component\\Finder\\Finder, SplFileInfo\[\] given#'

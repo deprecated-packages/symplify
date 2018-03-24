@@ -29,7 +29,7 @@ final class ArrayWrapperFactory
     {
         $this->tokenTypeGuard->ensureIsTokenType($tokens[$startIndex], [
             T_ARRAY,
-            CT::T_ARRAY_SQUARE_BRACE_OPEN
+            CT::T_ARRAY_SQUARE_BRACE_OPEN,
         ], __METHOD__);
 
         return new ArrayWrapper($tokens, $startIndex, $this->tokenSkipper);
