@@ -1,0 +1,15 @@
+language: php
+
+php:
+  - 7.1
+  - 7.2
+
+install:
+  - composer install --prefer-source
+
+script:
+  - bin/ecs
+  - vendor/bin/phpunit
+
+notifications:
+  email: never

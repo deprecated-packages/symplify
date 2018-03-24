@@ -53,7 +53,7 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
 - [#713] **PackageBuilder** Renamed method `Symplify\PackageBuilder\Configuration\LevelFileFinder::resolveLevel()` to `Symplify\PackageBuilder\Configuration\LevelFileFinder::detectFromInputAndDirectory()`
 
 - [#722] **TokenRunner** Move form `static` to service and constructor injection
-- [#712] **EasyCodingStandard** Move from `Symplify\EasyCodingStandard\Testing\AbstractContainerAwareCheckerTestCase` to new `Symplify\EasyCodingStandard\Testing\AbstractCheckerTestCase`
+- [#712] **EasyCodingStandard** Move from `Symplify\EasyCodingStandard\Testing\AbstractContainerAwareCheckerTestCase` to new `Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase`
 - [#693] **CodingStandard** Move checkers from static to services, follow up to [#680]
 - [#703] Remove dead PHPStan rules, thanks to [@carusogabriel]
 - [#704] Reduce function cyclomatic complexity, thanks to [@carusogabriel]
@@ -107,7 +107,7 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
 ### Removed
 
 - [#720] **PackageBuilder** Removed `Symplify\PackageBuilder\Console\Style\SymfonyStyleFactory`, that was only for exception rendering; use `Symplify\PackageBuilder\Console\ExceptionRenderer` instead
-- [#712] **EasyCodingStandard** Removed `Symplify\EasyCodingStandard\Testing\AbstractContainerAwareCheckerTestCase`, use Symplify\EasyCodingStandard\Testing\AbstractCheckerTestCase` instead
+- [#712] **EasyCodingStandard** Removed `Symplify\EasyCodingStandard\Testing\AbstractContainerAwareCheckerTestCase`, use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase` instead
 - [#708] Removed `AnnotateMagicContainerGetterFixer`, use awesome [Symfony Plugin](https://plugins.jetbrains.com/plugin/7219-symfony-plugin) instead
 - [#693] Removed `AbstractSimpleFixerTestCase` in favor of more general and advanced `AbstractContainerAwareCheckerTestCase`
 - [#688] **CodingStandard** Removed `DynamicPropertySniff`, use `PHPStan\Rules\Properties\AccessPropertiesRule`  PHPStan with [`--level 0`](https://github.com/phpstan/phpstan/blob/3485d8ce8c64a6becf6cc60f268d051af6ff7ceb/conf/config.level0.neon#L28) instead

@@ -3,7 +3,7 @@
 namespace Symplify\CodingStandard\Tests\Sniffs\Naming\TraitName;
 
 use Iterator;
-use Symplify\EasyCodingStandard\Testing\AbstractCheckerTestCase;
+use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;
 
 /**
  * @see \Symplify\CodingStandard\Sniffs\Naming\TraitNameSniff

@@ -3,7 +3,7 @@
 namespace Symplify\CodingStandard\Tests\Sniffs\Commenting\VarConstantComment;
 
 use Iterator;
-use Symplify\EasyCodingStandard\Testing\AbstractCheckerTestCase;
+use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;
 
 /**
  * @see \Symplify\CodingStandard\Sniffs\Commenting\VarConstantCommentSniff

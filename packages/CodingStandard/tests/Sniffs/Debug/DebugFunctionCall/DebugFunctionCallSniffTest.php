@@ -2,7 +2,7 @@
 
 namespace Symplify\CodingStandard\Tests\Sniffs\Debug\DebugFunctionCall;
 
-use Symplify\EasyCodingStandard\Testing\AbstractCheckerTestCase;
+use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;
 
 /**
  * @see \Symplify\CodingStandard\Sniffs\Debug\DebugFunctionCallSniff
