@@ -7,7 +7,6 @@ use PhpCsFixer\Tokenizer\Analyzer\FunctionsAnalyzer;
 use PhpCsFixer\Tokenizer\CT;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
-use Symplify\TokenRunner\Guard\TokenTypeGuard;
 
 final class MethodWrapper
 {

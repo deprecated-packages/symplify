@@ -13,6 +13,7 @@ final class ArrayWrapperFactory
      * @var TokenSkipper
      */
     private $tokenSkipper;
+
     /**
      * @var TokenTypeGuard
      */
@@ -26,7 +27,10 @@ final class ArrayWrapperFactory
 
     public function createFromTokensArrayStartPosition(Tokens $tokens, int $startIndex): ArrayWrapper
     {
-        $this->tokenTypeGuard->ensureIsTokenType($tokens[$startIndex], [T_ARRAY, CT::T_ARRAY_SQUARE_BRACE_OPEN], __METHOD__);
+        $this->tokenTypeGuard->ensureIsTokenType($tokens[$startIndex], [
+            T_ARRAY,
+            CT::T_ARRAY_SQUARE_BRACE_OPEN
+        ], __METHOD__);
 
         return new ArrayWrapper($tokens, $startIndex, $this->tokenSkipper);
     }

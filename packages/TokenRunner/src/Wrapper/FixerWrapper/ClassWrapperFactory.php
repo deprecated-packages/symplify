@@ -33,6 +33,7 @@ final class ClassWrapperFactory
      * @var NameFactory
      */
     private $nameFactory;
+
     /**
      * @var TokenTypeGuard
      */

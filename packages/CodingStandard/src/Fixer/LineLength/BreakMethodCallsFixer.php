@@ -53,13 +53,17 @@ final class BreakMethodCallsFixer implements DefinedFixerInterface, WhitespacesA
      * @var TokenSkipper
      */
     private $tokenSkipper;
+
     /**
      * @var MethodCallWrapperFactory
      */
     private $methodCallWrapperFactory;
 
-    public function __construct(TokenSkipper $tokenSkipper, IndentDetector $indentDetector, MethodCallWrapperFactory $methodCallWrapperFactory)
-    {
+    public function __construct(
+        TokenSkipper $tokenSkipper,
+        IndentDetector $indentDetector,
+        MethodCallWrapperFactory $methodCallWrapperFactory
+    ) {
         $this->tokenSkipper = $tokenSkipper;
         $this->indentDetector = $indentDetector;
         $this->methodCallWrapperFactory = $methodCallWrapperFactory;

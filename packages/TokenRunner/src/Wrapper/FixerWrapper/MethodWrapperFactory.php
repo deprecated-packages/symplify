@@ -22,6 +22,7 @@ final class MethodWrapperFactory
      * @var ArgumentWrapperFactory
      */
     private $argumentWrapperFactory;
+
     /**
      * @var TokenTypeGuard
      */

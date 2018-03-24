@@ -3,7 +3,6 @@
 namespace Symplify\TokenRunner\Wrapper\FixerWrapper;
 
 use PhpCsFixer\Tokenizer\Tokens;
-use Symplify\TokenRunner\Guard\TokenTypeGuard;
 use Symplify\TokenRunner\Naming\Name\NameFactory;
 
 final class PropertyWrapper extends AbstractVariableWrapper

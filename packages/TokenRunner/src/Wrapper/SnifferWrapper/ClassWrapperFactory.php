@@ -12,6 +12,7 @@ final class ClassWrapperFactory
      * @var Naming
      */
     private $naming;
+
     /**
      * @var TokenTypeGuard
      */

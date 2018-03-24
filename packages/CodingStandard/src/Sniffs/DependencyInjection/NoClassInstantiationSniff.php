@@ -105,6 +105,7 @@ final class NoClassInstantiationSniff implements Sniff
      * @var File
      */
     private $file;
+
     /**
      * @var Naming
      */

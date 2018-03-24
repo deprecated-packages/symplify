@@ -23,6 +23,7 @@ final class PropertyWrapperFactory
      * @var NameFactory
      */
     private $nameFactory;
+
     /**
      * @var TokenTypeGuard
      */
