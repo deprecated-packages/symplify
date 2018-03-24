@@ -88,14 +88,21 @@ final class ImportNamespacedNameFixer implements DefinedFixerInterface, Configur
      */
     private $classNameFinder;
 
+    /**
+     * @var NameAnalyzer
+     */
+    private $nameAnalyzer;
+
     public function __construct(
         DocBlockWrapperFactory $docBlockWrapperFactory,
         UseImportsTransformer $useImportsTransformer,
-        ClassNameFinder $classNameFinder
+        ClassNameFinder $classNameFinder,
+        NameAnalyzer $nameAnalyzer
     ) {
         $this->docBlockWrapperFactory = $docBlockWrapperFactory;
         $this->useImportsTransformer = $useImportsTransformer;
         $this->classNameFinder = $classNameFinder;
+        $this->nameAnalyzer = $nameAnalyzer;
 
         // set defaults
         $this->configuration = $this->getConfigurationDefinition()
@@ -240,7 +247,7 @@ final class ImportNamespacedNameFixer implements DefinedFixerInterface, Configur
     private function processStringToken(Token $token, int $index, Tokens $tokens): void
     {
         // Case 1.
-        if (! NameAnalyzer::isImportableNameToken($tokens, $token, $index)) {
+        if (! $this->nameAnalyzer->isImportableNameToken($tokens, $token, $index)) {
             return;
         }
 

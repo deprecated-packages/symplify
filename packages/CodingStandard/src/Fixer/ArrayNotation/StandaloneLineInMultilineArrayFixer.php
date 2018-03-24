@@ -59,9 +59,15 @@ final class StandaloneLineInMultilineArrayFixer implements DefinedFixerInterface
      */
     private $arrayWrapperFactory;
 
-    public function __construct(ArrayWrapperFactory $arrayWrapperFactory)
+    /**
+     * @var TokenSkipper
+     */
+    private $tokenSkipper;
+
+    public function __construct(ArrayWrapperFactory $arrayWrapperFactory, TokenSkipper $tokenSkipper)
     {
         $this->arrayWrapperFactory = $arrayWrapperFactory;
+        $this->tokenSkipper = $tokenSkipper;
     }
 
     public function getDefinition(): FixerDefinitionInterface
@@ -137,7 +143,7 @@ $values = [1 => \'hey\', 2 => \'hello\'];'
         $this->prepareIndentWhitespaces($tokens, $arrayWrapper->getStartIndex());
 
         for ($i = $arrayWrapper->getEndIndex() - 1; $i >= $arrayWrapper->getStartIndex(); --$i) {
-            $i = TokenSkipper::skipBlocksReversed($tokens, $i);
+            $i = $this->tokenSkipper->skipBlocksReversed($tokens, $i);
 
             $token = $tokens[$i];
 

@@ -7,7 +7,7 @@ use PhpCsFixer\Tokenizer\Tokens;
 
 final class TokenSkipper
 {
-    public static function skipBlocks(Tokens $tokens, int $i): int
+    public function skipBlocks(Tokens $tokens, int $i): int
     {
         $tokenCountToSkip = 0;
         $token = $tokens[$i];
@@ -25,7 +25,7 @@ final class TokenSkipper
         return $i + $tokenCountToSkip;
     }
 
-    public static function skipBlocksReversed(Tokens $tokens, int $i): int
+    public function skipBlocksReversed(Tokens $tokens, int $i): int
     {
         $tokenCountToSkip = 0;
         $token = $tokens[$i];

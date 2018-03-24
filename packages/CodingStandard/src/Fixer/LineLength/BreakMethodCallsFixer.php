@@ -48,6 +48,16 @@ final class BreakMethodCallsFixer implements DefinedFixerInterface, WhitespacesA
      */
     private $closingBracketNewlineIndentWhitespace;
 
+    /**
+     * @var TokenSkipper
+     */
+    private $tokenSkipper;
+
+    public function __construct(TokenSkipper $tokenSkipper)
+    {
+        $this->tokenSkipper = $tokenSkipper;
+    }
+
     public function getDefinition(): FixerDefinitionInterface
     {
         return new FixerDefinition(
@@ -153,7 +163,7 @@ final class BreakMethodCallsFixer implements DefinedFixerInterface, WhitespacesA
         for ($i = $start; $i < $end; ++$i) {
             $currentToken = $tokens[$i];
 
-            $i = TokenSkipper::skipBlocks($tokens, $i);
+            $i = $this->tokenSkipper->skipBlocks($tokens, $i);
 
             // 3. new line after each comma ",", instead of just space
             if ($currentToken->getContent() === ',') {
@@ -173,7 +183,7 @@ final class BreakMethodCallsFixer implements DefinedFixerInterface, WhitespacesA
         for ($i = $position; $i < $endPosition; ++$i) {
             $currentToken = $tokens[$i];
 
-            $i = TokenSkipper::skipBlocks($tokens, $i);
+            $i = $this->tokenSkipper->skipBlocks($tokens, $i);
             if (! $currentToken->isGivenKind(T_WHITESPACE)) {
                 continue;
             }
