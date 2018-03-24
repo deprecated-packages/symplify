@@ -5,29 +5,3 @@ services:
     Symplify\TokenRunner\:
         resource: '../{Analyzer,DocBlock,Guard,Transformer,Wrapper/*Wrapper/*Factory.php,Naming}'
         exclude: '../{Naming/Name/Name.php}'
-
-#    Symplify\TokenRunner\Analyzer\FixerAnalyzer\IndentDetector: ~
-#    Symplify\TokenRunner\Guard\TokenTypeGuard: ~
-#
-#    # for autowired checkers
-#    Symplify\TokenRunner\DocBlock\DescriptionAnalyzer:
-#    Symplify\TokenRunner\DocBlock\ParamAndReturnTagAnalyzer: ~
-#    Symplify\TokenRunner\Analyzer\FixerAnalyzer\DocBlockFinder: ~
-#    Symplify\TokenRunner\Analyzer\FixerAnalyzer\TokenSkipper: ~
-#
-#    # conditional PSR-4 from vendor? or import?
-#    Symplify\TokenRunner\Wrapper\FixerWrapper\DocBlockWrapperFactory: ~
-#    Symplify\TokenRunner\Wrapper\FixerWrapper\ClassWrapperFactory: ~
-#    Symplify\TokenRunner\Wrapper\FixerWrapper\PropertyWrapperFactory: ~
-#    Symplify\TokenRunner\Wrapper\FixerWrapper\PropertyAccessWrapperFactory: ~
-#    Symplify\TokenRunner\Wrapper\FixerWrapper\MethodWrapperFactory: ~
-#    Symplify\TokenRunner\Wrapper\FixerWrapper\ArrayWrapperFactory: ~
-#    Symplify\TokenRunner\Wrapper\FixerWrapper\ArgumentWrapperFactory: ~
-#    Symplify\TokenRunner\Wrapper\FixerWrapper\MethodCallWrapperFactory: ~
-#    Symplify\TokenRunner\Wrapper\SnifferWrapper\ClassWrapperFactory: ~
-#    Symplify\TokenRunner\Transformer\FixerTransformer\UseImportsTransformer: ~
-#
-#    Symplify\TokenRunner\Analyzer\SnifferAnalyzer\Naming: ~
-#    Symplify\TokenRunner\Naming\Name\NameFactory: ~
-#    Symplify\TokenRunner\Analyzer\FixerAnalyzer\ClassNameFinder: ~
-#    Symplify\TokenRunner\Naming\Name\NameAnalyzer: ~
