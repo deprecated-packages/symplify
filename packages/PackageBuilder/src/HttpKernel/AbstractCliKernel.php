@@ -10,7 +10,7 @@ abstract class AbstractCliKernel extends Kernel
     public function __construct()
     {
         // random_int is used to prevent container name duplication during tests
-        parent::__construct((string) random_int(1, 1000000), false);
+        parent::__construct((string) random_int(1, 100000000), false);
     }
 
     /**
