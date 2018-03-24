@@ -7,7 +7,7 @@ use PhpCsFixer\Tokenizer\Tokens;
 
 final class ClassNameFinder
 {
-    public static function findInTokens(Tokens $tokens): string
+    public function findInTokens(Tokens $tokens): string
     {
         $classPosition = $tokens->getNextTokenOfKind(0, [new Token([T_CLASS, 'class'])]);
         $classNamePosition = $tokens->getNextMeaningfulToken($classPosition);

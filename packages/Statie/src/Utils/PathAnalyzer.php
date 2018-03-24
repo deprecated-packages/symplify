@@ -18,7 +18,7 @@ final class PathAnalyzer
      */
     private const NAME_PATTERN = '(?<name>[a-zA-Z0-9-_]*)';
 
-    public static function detectDate(SplFileInfo $fileInfo): ?DateTimeInterface
+    public function detectDate(SplFileInfo $fileInfo): ?DateTimeInterface
     {
         preg_match('#' . self::DATE_PATTERN . '#', $fileInfo->getFilename(), $matches);
 
@@ -31,7 +31,7 @@ final class PathAnalyzer
         return new DateTime($date);
     }
 
-    public static function detectFilenameWithoutDate(SplFileInfo $fileInfo): string
+    public function detectFilenameWithoutDate(SplFileInfo $fileInfo): string
     {
         preg_match('#' . self::DATE_PATTERN . '-' . self::NAME_PATTERN . '#', $fileInfo->getFilename(), $matches);
 

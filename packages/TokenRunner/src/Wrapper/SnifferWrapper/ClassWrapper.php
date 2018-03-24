@@ -18,15 +18,21 @@ final class ClassWrapper
      */
     private $position;
 
-    public function __construct(File $file, int $position)
+    /**
+     * @var Naming
+     */
+    private $naming;
+
+    public function __construct(File $file, int $position, Naming $naming)
     {
         $this->file = $file;
         $this->position = $position;
+        $this->naming = $naming;
     }
 
     public function getClassName(): string
     {
-        return Naming::getClassName($this->file, $this->position + 2);
+        return $this->naming->getClassName($this->file, $this->position + 2);
     }
 
     public function implementsInterface(): bool
@@ -48,6 +54,6 @@ final class ClassWrapper
 
         $parentClassPosition = (int) TokenHelper::findNext($this->file, T_STRING, $extendsTokenPosition);
 
-        return Naming::getClassName($this->file, $parentClassPosition);
+        return $this->naming->getClassName($this->file, $parentClassPosition);
     }
 }

@@ -3,7 +3,6 @@
 namespace Symplify\TokenRunner\Wrapper\FixerWrapper;
 
 use PhpCsFixer\Tokenizer\Tokens;
-use Symplify\TokenRunner\Guard\TokenTypeGuard;
 use Symplify\TokenRunner\Naming\Name\NameFactory;
 
 final class PropertyWrapper extends AbstractVariableWrapper
@@ -13,13 +12,17 @@ final class PropertyWrapper extends AbstractVariableWrapper
      */
     private $docBlockWrapper;
 
-    public function __construct(Tokens $tokens, int $index, ?DocBlockWrapper $docBlockWrapper)
-    {
-        TokenTypeGuard::ensureIsTokenType($tokens[$index], [T_VARIABLE], __METHOD__);
+    /**
+     * @var NameFactory
+     */
+    private $nameFactory;
 
+    public function __construct(Tokens $tokens, int $index, ?DocBlockWrapper $docBlockWrapper, NameFactory $nameFactory)
+    {
         parent::__construct($tokens, $index);
 
         $this->docBlockWrapper = $docBlockWrapper;
+        $this->nameFactory = $nameFactory;
     }
 
     public function getName(): string
@@ -35,7 +38,7 @@ final class PropertyWrapper extends AbstractVariableWrapper
             return null;
         }
 
-        return NameFactory::resolveForName($this->tokens, $this->getType());
+        return $this->nameFactory->resolveForName($this->tokens, $this->getType());
     }
 
     public function getType(): ?string

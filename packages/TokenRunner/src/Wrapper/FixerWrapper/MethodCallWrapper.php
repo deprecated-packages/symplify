@@ -4,7 +4,6 @@ namespace Symplify\TokenRunner\Wrapper\FixerWrapper;
 
 use Nette\Utils\Strings;
 use PhpCsFixer\Tokenizer\Tokens;
-use Symplify\TokenRunner\Guard\TokenTypeGuard;
 
 /**
  * Wrapper around "$this->_someCall_()" token
@@ -31,10 +30,8 @@ final class MethodCallWrapper
      */
     private $argumentsBracketEnd;
 
-    private function __construct(Tokens $tokens, int $index)
+    public function __construct(Tokens $tokens, int $index)
     {
-        TokenTypeGuard::ensureIsTokenType($tokens[$index], [T_STRING], __METHOD__);
-
         $this->tokens = $tokens;
         $this->index = $index;
 
@@ -43,11 +40,6 @@ final class MethodCallWrapper
             Tokens::BLOCK_TYPE_PARENTHESIS_BRACE,
             $this->argumentsBracketStart
         );
-    }
-
-    public static function createFromTokensAndPosition(Tokens $tokens, int $position): self
-    {
-        return new self($tokens, $position);
     }
 
     public function getFirstLineLength(): int

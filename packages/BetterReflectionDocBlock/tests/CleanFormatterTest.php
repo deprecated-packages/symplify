@@ -16,9 +16,15 @@ final class CleanFormatterTest extends AbstractContainerAwareTestCase
      */
     private $cleanDocBlockFactory;
 
+    /**
+     * @var DocBlockSerializerFactory
+     */
+    private $docBlockSerializerFactory;
+
     protected function setUp(): void
     {
         $this->cleanDocBlockFactory = $this->container->get(CleanDocBlockFactory::class);
+        $this->docBlockSerializerFactory = $this->container->get(DocBlockSerializerFactory::class);
     }
 
     public function test(): void
@@ -26,7 +32,7 @@ final class CleanFormatterTest extends AbstractContainerAwareTestCase
         $originalDocBlockContent = file_get_contents(__DIR__ . '/CleanFormatterSource/originalDocBlock.txt');
 
         $docBlock = $this->cleanDocBlockFactory->create($originalDocBlockContent);
-        $docBlockSerializer = DocBlockSerializerFactory::createFromWhitespaceFixerConfigAndContent(
+        $docBlockSerializer = $this->docBlockSerializerFactory->createFromWhitespaceFixerConfigAndContent(
             $originalDocBlockContent,
             4,
             ' '

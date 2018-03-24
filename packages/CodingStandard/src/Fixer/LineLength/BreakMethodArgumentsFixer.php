@@ -52,9 +52,10 @@ final class BreakMethodArgumentsFixer implements DefinedFixerInterface, Whitespa
      */
     private $methodWrapperFactory;
 
-    public function __construct(MethodWrapperFactory $methodWrapperFactory)
+    public function __construct(MethodWrapperFactory $methodWrapperFactory, IndentDetector $indentDetector)
     {
         $this->methodWrapperFactory = $methodWrapperFactory;
+        $this->indentDetector = $indentDetector;
     }
 
     public function getDefinition(): FixerDefinitionInterface
@@ -120,7 +121,6 @@ class SomeClass
     public function setWhitespacesConfig(WhitespacesFixerConfig $whitespacesFixerConfig): void
     {
         $this->whitespacesFixerConfig = $whitespacesFixerConfig;
-        $this->indentDetector = IndentDetector::createFromWhitespacesFixerConfig($whitespacesFixerConfig);
     }
 
     private function fixMethod(int $position, Tokens $tokens): void
@@ -143,7 +143,11 @@ class SomeClass
 
     private function prepareIndentWhitespaces(Tokens $tokens, int $arrayStartIndex): void
     {
-        $indentLevel = $this->indentDetector->detectOnPosition($tokens, $arrayStartIndex);
+        $indentLevel = $this->indentDetector->detectOnPosition(
+            $tokens,
+            $arrayStartIndex,
+            $this->whitespacesFixerConfig
+        );
         $indentWhitespace = $this->whitespacesFixerConfig->getIndent();
         $lineEnding = $this->whitespacesFixerConfig->getLineEnding();
 

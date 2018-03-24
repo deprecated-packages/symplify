@@ -24,6 +24,16 @@ final class BlankLineAfterStrictTypesFixer implements DefinedFixerInterface, Whi
      */
     private $whitespacesFixerConfig;
 
+    /**
+     * @var TokenBuilder
+     */
+    private $tokenBuilder;
+
+    public function __construct(TokenBuilder $tokenBuilder)
+    {
+        $this->tokenBuilder = $tokenBuilder;
+    }
+
     public function getDefinition(): FixerDefinitionInterface
     {
         return new FixerDefinition(
@@ -43,7 +53,7 @@ namespace SomeNamespace;'),
 
     public function fix(SplFileInfo $file, Tokens $tokens): void
     {
-        $sequenceLocation = $tokens->findSequence(TokenBuilder::getDeclareStrictTypeSequence(), 1, 15);
+        $sequenceLocation = $tokens->findSequence($this->tokenBuilder->getDeclareStrictTypeSequence(), 1, 15);
         if ($sequenceLocation === null) {
             return;
         }

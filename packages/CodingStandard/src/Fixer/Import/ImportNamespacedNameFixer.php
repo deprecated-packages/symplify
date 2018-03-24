@@ -46,12 +46,12 @@ final class ImportNamespacedNameFixer implements DefinedFixerInterface, Configur
     /**
      * @var string
      */
-    public const ALLOW_SINGLE_NAMES_OPTION = 'allow_single_names';
+    private const ALLOW_SINGLE_NAMES_OPTION = 'allow_single_names';
 
     /**
      * @var string
      */
-    public const INCLUDE_DOC_BLOCKS_OPTION = 'include_doc_blocks';
+    private const INCLUDE_DOC_BLOCKS_OPTION = 'include_doc_blocks';
 
     /**
      * @var NamespaceUseAnalysis[]
@@ -78,9 +78,38 @@ final class ImportNamespacedNameFixer implements DefinedFixerInterface, Configur
      */
     private $docBlockWrapperFactory;
 
-    public function __construct(DocBlockWrapperFactory $docBlockWrapperFactory)
-    {
+    /**
+     * @var UseImportsTransformer
+     */
+    private $useImportsTransformer;
+
+    /**
+     * @var ClassNameFinder
+     */
+    private $classNameFinder;
+
+    /**
+     * @var NameAnalyzer
+     */
+    private $nameAnalyzer;
+
+    /**
+     * @var NameFactory
+     */
+    private $nameFactory;
+
+    public function __construct(
+        DocBlockWrapperFactory $docBlockWrapperFactory,
+        UseImportsTransformer $useImportsTransformer,
+        ClassNameFinder $classNameFinder,
+        NameAnalyzer $nameAnalyzer,
+        NameFactory $nameFactory
+    ) {
         $this->docBlockWrapperFactory = $docBlockWrapperFactory;
+        $this->useImportsTransformer = $useImportsTransformer;
+        $this->classNameFinder = $classNameFinder;
+        $this->nameAnalyzer = $nameAnalyzer;
+        $this->nameFactory = $nameFactory;
 
         // set defaults
         $this->configuration = $this->getConfigurationDefinition()
@@ -111,7 +140,7 @@ final class ImportNamespacedNameFixer implements DefinedFixerInterface, Configur
             $token = $tokens[$index];
 
             // class name is same as token that could be imported, skip
-            if ($token->getContent() === ClassNameFinder::findInTokens($tokens)) {
+            if ($token->getContent() === $this->classNameFinder->findInTokens($tokens)) {
                 continue;
             }
 
@@ -130,7 +159,7 @@ final class ImportNamespacedNameFixer implements DefinedFixerInterface, Configur
             }
         }
 
-        UseImportsTransformer::addNamesToTokens($this->newUseStatementNames, $tokens);
+        $this->useImportsTransformer->addNamesToTokens($this->newUseStatementNames, $tokens);
     }
 
     /**
@@ -225,11 +254,11 @@ final class ImportNamespacedNameFixer implements DefinedFixerInterface, Configur
     private function processStringToken(Token $token, int $index, Tokens $tokens): void
     {
         // Case 1.
-        if (! NameAnalyzer::isImportableNameToken($tokens, $token, $index)) {
+        if (! $this->nameAnalyzer->isImportableNameToken($tokens, $token, $index)) {
             return;
         }
 
-        $name = NameFactory::createFromTokensAndEnd($tokens, $index);
+        $name = $this->nameFactory->createFromTokensAndEnd($tokens, $index);
         if ($this->configuration[self::ALLOW_SINGLE_NAMES_OPTION] && $name->isSingleName()) {
             return;
         }
@@ -274,7 +303,7 @@ final class ImportNamespacedNameFixer implements DefinedFixerInterface, Configur
             return;
         }
 
-        $this->newUseStatementNames[] = NameFactory::createFromStringAndTokens($fullName, $tokens);
+        $this->newUseStatementNames[] = $this->nameFactory->createFromStringAndTokens($fullName, $tokens);
     }
 
     private function processParamsTags(DocBlockWrapper $docBlockWrapper, Tokens $tokens): void
@@ -285,7 +314,7 @@ final class ImportNamespacedNameFixer implements DefinedFixerInterface, Configur
                 return;
             }
 
-            $this->newUseStatementNames[] = NameFactory::createFromStringAndTokens($fullName, $tokens);
+            $this->newUseStatementNames[] = $this->nameFactory->createFromStringAndTokens($fullName, $tokens);
         }
     }
 
@@ -301,7 +330,7 @@ final class ImportNamespacedNameFixer implements DefinedFixerInterface, Configur
             return;
         }
 
-        $this->newUseStatementNames[] = NameFactory::createFromStringAndTokens($fullName, $tokens);
+        $this->newUseStatementNames[] = $this->nameFactory->createFromStringAndTokens($fullName, $tokens);
     }
 
     /**

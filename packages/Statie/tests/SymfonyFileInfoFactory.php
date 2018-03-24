@@ -5,7 +5,7 @@ namespace Symplify\Statie\Tests;
 use Symfony\Component\Finder\SplFileInfo;
 
 /**
- * Helper class for emulating result of Symfony Finder
+ * Dump helper class for emulating result of Symfony Finder
  */
 final class SymfonyFileInfoFactory
 {

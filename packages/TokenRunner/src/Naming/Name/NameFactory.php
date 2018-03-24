@@ -8,11 +8,11 @@ use PhpCsFixer\Tokenizer\Tokens;
 
 final class NameFactory
 {
-    public static function createFromTokensAndEnd(Tokens $tokens, int $end): Name
+    public function createFromTokensAndEnd(Tokens $tokens, int $end): Name
     {
         $previousTokenPointer = $end;
 
-        [$nameTokens, $previousTokenPointer] = self::collectNameTokens($tokens, $previousTokenPointer);
+        [$nameTokens, $previousTokenPointer] = $this->collectNameTokens($tokens, $previousTokenPointer);
 
         /** @var Token[] $nameTokens */
         $nameTokens = array_reverse($nameTokens);
@@ -35,12 +35,12 @@ final class NameFactory
         }
 
         // resolve fully qualified name - as argument?
-        $name = self::resolveForName($tokens, $name);
+        $name = $this->resolveForName($tokens, $name);
 
         return new Name($previousTokenPointer, $end, $name, $nameTokens, $tokens);
     }
 
-    public static function createFromStringAndTokens(string $name, Tokens $tokens): Name
+    public function createFromStringAndTokens(string $name, Tokens $tokens): Name
     {
         $nameTokens = [];
         $name = ltrim($name, '\\');
@@ -59,13 +59,13 @@ final class NameFactory
     /**
      * Inverse direction to @see createFromTokensAndEnd()
      */
-    public static function createFromTokensAndStart(Tokens $tokens, int $start): Name
+    public function createFromTokensAndStart(Tokens $tokens, int $start): Name
     {
         $nameTokens = [];
 
         $nextTokenPointer = $start;
 
-        $prependNamespace = self::shouldPrependNamespace($tokens, $nextTokenPointer);
+        $prependNamespace = $this->shouldPrependNamespace($tokens, $nextTokenPointer);
 
         while ($tokens[$nextTokenPointer]->isGivenKind([T_NS_SEPARATOR, T_STRING])) {
             $nameTokens[] = $tokens[$nextTokenPointer];
@@ -92,12 +92,12 @@ final class NameFactory
         }
 
         // resolve fully qualified name - as argument?
-        $name = self::resolveForName($tokens, $name, $prependNamespace);
+        $name = $this->resolveForName($tokens, $name, $prependNamespace);
 
         return new Name($nextTokenPointer, $start, $name, $nameTokens, $tokens);
     }
 
-    public static function resolveForName(Tokens $tokens, string $className, ?bool $prependNamespace = false): string
+    public function resolveForName(Tokens $tokens, string $className, ?bool $prependNamespace = false): string
     {
         // probably not a class name, skip
         if (ctype_lower($className[0])) {
@@ -124,7 +124,7 @@ final class NameFactory
         reset($namespaceToken);
         $namespacePosition = key($namespaceToken);
 
-        [$nameTokens, $previousTokenPointer] = self::collectNameTokens($tokens, $namespacePosition + 2);
+        [$nameTokens, ] = $this->collectNameTokens($tokens, $namespacePosition + 2);
 
         $namespaceName = '';
 
@@ -139,7 +139,7 @@ final class NameFactory
     /**
      * @return mixed[][]|mixed[]
      */
-    private static function collectNameTokens(Tokens $tokens, int $position): array
+    private function collectNameTokens(Tokens $tokens, int $position): array
     {
         $nameTokens = [];
 
@@ -151,7 +151,7 @@ final class NameFactory
         return [$nameTokens, $position];
     }
 
-    private static function shouldPrependNamespace(Tokens $tokens, int $position): bool
+    private function shouldPrependNamespace(Tokens $tokens, int $position): bool
     {
         if ($tokens[$position - 1]->isGivenKind(T_NS_SEPARATOR)) {
             return false;

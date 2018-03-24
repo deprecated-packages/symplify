@@ -14,6 +14,7 @@ use SplFileInfo;
 use Symplify\TokenRunner\Analyzer\FixerAnalyzer\IndentDetector;
 use Symplify\TokenRunner\Analyzer\FixerAnalyzer\TokenSkipper;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\MethodCallWrapper;
+use Symplify\TokenRunner\Wrapper\FixerWrapper\MethodCallWrapperFactory;
 use Throwable;
 
 final class BreakMethodCallsFixer implements DefinedFixerInterface, WhitespacesAwareFixerInterface
@@ -47,6 +48,26 @@ final class BreakMethodCallsFixer implements DefinedFixerInterface, WhitespacesA
      * @var string
      */
     private $closingBracketNewlineIndentWhitespace;
+
+    /**
+     * @var TokenSkipper
+     */
+    private $tokenSkipper;
+
+    /**
+     * @var MethodCallWrapperFactory
+     */
+    private $methodCallWrapperFactory;
+
+    public function __construct(
+        TokenSkipper $tokenSkipper,
+        IndentDetector $indentDetector,
+        MethodCallWrapperFactory $methodCallWrapperFactory
+    ) {
+        $this->tokenSkipper = $tokenSkipper;
+        $this->indentDetector = $indentDetector;
+        $this->methodCallWrapperFactory = $methodCallWrapperFactory;
+    }
 
     public function getDefinition(): FixerDefinitionInterface
     {
@@ -105,12 +126,11 @@ final class BreakMethodCallsFixer implements DefinedFixerInterface, WhitespacesA
     public function setWhitespacesConfig(WhitespacesFixerConfig $whitespacesFixerConfig): void
     {
         $this->whitespacesFixerConfig = $whitespacesFixerConfig;
-        $this->indentDetector = IndentDetector::createFromWhitespacesFixerConfig($whitespacesFixerConfig);
     }
 
     private function fixMethodCall(int $position, Tokens $tokens): void
     {
-        $methodCallWrapper = MethodCallWrapper::createFromTokensAndPosition($tokens, $position);
+        $methodCallWrapper = $this->methodCallWrapperFactory->createFromTokensAndPosition($tokens, $position);
 
         if ($methodCallWrapper->getFirstLineLength() > self::LINE_LENGTH) {
             $this->breakMethodCallParameters($methodCallWrapper, $tokens, $position);
@@ -125,7 +145,7 @@ final class BreakMethodCallsFixer implements DefinedFixerInterface, WhitespacesA
 
     private function prepareIndentWhitespaces(Tokens $tokens, int $startIndex): void
     {
-        $indentLevel = $this->indentDetector->detectOnPosition($tokens, $startIndex);
+        $indentLevel = $this->indentDetector->detectOnPosition($tokens, $startIndex, $this->whitespacesFixerConfig);
         $indentWhitespace = $this->whitespacesFixerConfig->getIndent();
         $lineEnding = $this->whitespacesFixerConfig->getLineEnding();
 
@@ -153,7 +173,7 @@ final class BreakMethodCallsFixer implements DefinedFixerInterface, WhitespacesA
         for ($i = $start; $i < $end; ++$i) {
             $currentToken = $tokens[$i];
 
-            $i = TokenSkipper::skipBlocks($tokens, $i);
+            $i = $this->tokenSkipper->skipBlocks($tokens, $i);
 
             // 3. new line after each comma ",", instead of just space
             if ($currentToken->getContent() === ',') {
@@ -173,7 +193,7 @@ final class BreakMethodCallsFixer implements DefinedFixerInterface, WhitespacesA
         for ($i = $position; $i < $endPosition; ++$i) {
             $currentToken = $tokens[$i];
 
-            $i = TokenSkipper::skipBlocks($tokens, $i);
+            $i = $this->tokenSkipper->skipBlocks($tokens, $i);
             if (! $currentToken->isGivenKind(T_WHITESPACE)) {
                 continue;
             }

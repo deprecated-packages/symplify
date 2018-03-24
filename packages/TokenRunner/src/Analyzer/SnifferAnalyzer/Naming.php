@@ -14,7 +14,7 @@ final class Naming
      */
     private const NAMESPACE_SEPARATOR = '\\';
 
-    public static function getClassName(File $file, int $classNameStartPosition): string
+    public function getClassName(File $file, int $classNameStartPosition): string
     {
         $tokens = $file->getTokens();
 
@@ -38,7 +38,7 @@ final class Naming
         return $completeClassName;
     }
 
-    private static function getFqnClassName(File $file, string $className, int $classTokenPosition): string
+    private function getFqnClassName(File $file, string $className, int $classTokenPosition): string
     {
         $useStatements = UseStatementHelper::getUseStatements($file, 0);
         $referencedNames = ReferencedNameHelper::getAllReferencedNames($file, 0);

@@ -2,25 +2,39 @@
 
 namespace Symplify\TokenRunner\Transformer\FixerTransformer;
 
+use PhpCsFixer\Tokenizer\Analyzer\NamespacesAnalyzer;
 use PhpCsFixer\Tokenizer\Analyzer\NamespaceUsesAnalyzer;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
-use Symplify\TokenRunner\Analyzer\FixerAnalyzer\NamespaceFinder;
 use Symplify\TokenRunner\Naming\Name\Name;
 
 final class UseImportsTransformer
 {
     /**
-     * @todo service
+     * @var NamespaceUsesAnalyzer
+     */
+    private $namespaceUsesAnalyzer;
+
+    /**
+     * @var NamespacesAnalyzer
+     */
+    private $namespacesAnalyzer;
+
+    public function __construct(NamespaceUsesAnalyzer $namespaceUsesAnalyzer, NamespacesAnalyzer $namespacesAnalyzer)
+    {
+        $this->namespaceUsesAnalyzer = $namespaceUsesAnalyzer;
+        $this->namespacesAnalyzer = $namespacesAnalyzer;
+    }
+
+    /**
      * @param Name[] $names
      */
-    public static function addNamesToTokens(array $names, Tokens $tokens): void
+    public function addNamesToTokens(array $names, Tokens $tokens): void
     {
-        // @todo service
-        $namespaceUseAnalyses = (new NamespaceUsesAnalyzer())->getDeclarationsFromTokens($tokens);
+        $namespaceUseAnalyses = $this->namespaceUsesAnalyzer->getDeclarationsFromTokens($tokens);
 
         $useTokens = [];
-        $names = self::namesUnique($names);
+        $names = $this->namesUnique($names);
         foreach ($names as $name) {
             // skip already existing use imports
             foreach ($namespaceUseAnalyses as $namespaceUseAnalysis) {
@@ -30,16 +44,16 @@ final class UseImportsTransformer
             }
 
             // turn names into use import tokens
-            $useTokens = array_merge($useTokens, self::buildUseTokensFromName($name));
+            $useTokens = array_merge($useTokens, $this->buildUseTokensFromName($name));
         }
 
-        $tokens->insertAt(self::useStatementLocation($tokens), $useTokens);
+        $tokens->insertAt($this->useStatementLocation($tokens), $useTokens);
     }
 
     /**
      * @return Token[]
      */
-    private static function buildUseTokensFromName(Name $name): array
+    private function buildUseTokensFromName(Name $name): array
     {
         $tokens = [
             new Token([T_USE, 'use']),
@@ -47,13 +61,13 @@ final class UseImportsTransformer
         ];
 
         if ($name->getRelatedNamespaceUseAnalysis()) {
-            $tokens = self::addRelateUseImport($name, $tokens);
+            $tokens = $this->addRelateUseImport($name, $tokens);
         }
 
         $tokens = array_merge($tokens, $name->getNameTokens());
 
         if ($name->getAlias()) {
-            $tokens = self::addAlias($name, $tokens);
+            $tokens = $this->addAlias($name, $tokens);
         }
 
         $tokens[] = new Token(';');
@@ -66,7 +80,7 @@ final class UseImportsTransformer
      * @param Token[] $tokens
      * @return Token[]
      */
-    private static function addRelateUseImport(Name $name, array $tokens): array
+    private function addRelateUseImport(Name $name, array $tokens): array
     {
         if ($name->getRelatedNamespaceUseAnalysis() === null) {
             return [];
@@ -89,7 +103,7 @@ final class UseImportsTransformer
      * @param Token[] $tokens
      * @return Token[]
      */
-    private static function addAlias(Name $name, array $tokens): array
+    private function addAlias(Name $name, array $tokens): array
     {
         $tokens[] = new Token([T_WHITESPACE, ' ']);
         $tokens[] = new Token([T_AS, 'as']);
@@ -103,7 +117,7 @@ final class UseImportsTransformer
      * @param Name[] $names
      * @return Name[]
      */
-    private static function namesUnique(array $names): array
+    private function namesUnique(array $names): array
     {
         $uniqueNames = [];
         foreach ($names as $name) {
@@ -117,21 +131,26 @@ final class UseImportsTransformer
         return $uniqueNames;
     }
 
-    private static function useStatementLocation(Tokens $tokens): int
+    private function useStatementLocation(Tokens $tokens): int
     {
-        $namespacePosition = NamespaceFinder::findInTokens($tokens);
-        if ($namespacePosition) {
-            return $tokens->getNextTokenOfKind($namespacePosition, [';']) + 2;
+        $namespaceAnalyses = $this->namespacesAnalyzer->getDeclarations($tokens);
+        if (count($namespaceAnalyses)) {
+            $firstNamespaceAnalysis = array_shift($namespaceAnalyses);
+
+            return $firstNamespaceAnalysis->getEndIndex() + 2;
         }
 
-        $usePosition = $tokens->getNextTokenOfKind(0, [T_USE]);
-        if ($usePosition) {
-            return $usePosition;
+        $namespaceUseAnalyses = $this->namespaceUsesAnalyzer->getDeclarationsFromTokens($tokens);
+        if (count($namespaceUseAnalyses)) {
+            $firstNamespaceUseAnalysis = array_shift($namespaceUseAnalyses);
+
+            return $firstNamespaceUseAnalysis->getStartIndex();
         }
 
-        $classPosition = $tokens->getNextTokenOfKind(0, [T_CLASS]);
-        if ($classPosition) {
-            return $classPosition - 3;
+        $classTokens = $tokens->findGivenKind([T_CLASS], 0);
+        if (count($classTokens)) {
+            $classToken = array_shift($classTokens);
+            return key($classToken);
         }
 
         return 0;

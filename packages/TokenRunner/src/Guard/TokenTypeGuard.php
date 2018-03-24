@@ -11,7 +11,7 @@ final class TokenTypeGuard
      * @param Token|mixed[] $token
      * @param int[] $types
      */
-    public static function ensureIsTokenType($token, array $types, string $location): void
+    public function ensureIsTokenType($token, array $types, string $location): void
     {
         if ($token instanceof Token && $token->isGivenKind($types)) {
             return;

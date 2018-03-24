@@ -7,14 +7,24 @@ use Symfony\Component\DependencyInjection\Reference;
 
 final class DefinitionCollector
 {
-    public static function loadCollectorWithType(
+    /**
+     * @var DefinitionFinder
+     */
+    private $definitionFinder;
+
+    public function __construct(DefinitionFinder $definitionFinder)
+    {
+        $this->definitionFinder = $definitionFinder;
+    }
+
+    public function loadCollectorWithType(
         ContainerBuilder $containerBuilder,
         string $collectorType,
         string $collectedType,
         string $setterMethod
     ): void {
-        $collectorDefinitions = DefinitionFinder::findAllByType($containerBuilder, $collectorType);
-        $collectedDefinitions = DefinitionFinder::findAllByType($containerBuilder, $collectedType);
+        $collectorDefinitions = $this->definitionFinder->findAllByType($containerBuilder, $collectorType);
+        $collectedDefinitions = $this->definitionFinder->findAllByType($containerBuilder, $collectedType);
 
         foreach ($collectorDefinitions as $collectorDefinition) {
             foreach ($collectedDefinitions as $name => $collectedDefinition) {

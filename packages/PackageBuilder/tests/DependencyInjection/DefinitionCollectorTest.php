@@ -6,6 +6,7 @@ use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 use Symplify\PackageBuilder\DependencyInjection\DefinitionCollector;
+use Symplify\PackageBuilder\DependencyInjection\DefinitionFinder;
 use Symplify\PackageBuilder\Tests\DependencyInjectionSource\Collected;
 use Symplify\PackageBuilder\Tests\DependencyInjectionSource\CollectedInterface;
 use Symplify\PackageBuilder\Tests\DependencyInjectionSource\Collector;
@@ -18,9 +19,15 @@ final class DefinitionCollectorTest extends TestCase
      */
     private $containerBuilder;
 
+    /**
+     * @var DefinitionCollector
+     */
+    private $definitionCollector;
+
     protected function setUp(): void
     {
         $this->containerBuilder = new ContainerBuilder();
+        $this->definitionCollector = new DefinitionCollector(new DefinitionFinder());
     }
 
     public function testLoadCollectorWithType(): void
@@ -30,7 +37,7 @@ final class DefinitionCollectorTest extends TestCase
 
         $secondCollector = $this->containerBuilder->autowire('second_collector', Collector::class);
 
-        DefinitionCollector::loadCollectorWithType(
+        $this->definitionCollector->loadCollectorWithType(
             $this->containerBuilder,
             CollectorInterface::class,
             CollectedInterface::class,

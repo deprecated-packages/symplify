@@ -3,11 +3,10 @@
 namespace Symplify\TokenRunner\Wrapper\FixerWrapper;
 
 use Nette\Utils\Strings;
+use PhpCsFixer\Tokenizer\Analyzer\FunctionsAnalyzer;
 use PhpCsFixer\Tokenizer\CT;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
-use Symplify\TokenRunner\Guard\TokenTypeGuard;
-use Symplify\TokenRunner\Naming\Name\NameFactory;
 
 final class MethodWrapper
 {
@@ -50,10 +49,16 @@ final class MethodWrapper
      */
     private $docBlockWrapper;
 
-    public function __construct(Tokens $tokens, int $index, ?DocBlockWrapper $docBlockWrapper)
-    {
-        TokenTypeGuard::ensureIsTokenType($tokens[$index], [T_FUNCTION], __METHOD__);
+    /**
+     * @var ArgumentWrapper[]
+     */
+    private $argumentWrappers = [];
 
+    /**
+     * @param ArgumentWrapper[] $argumentWrappers
+     */
+    public function __construct(Tokens $tokens, int $index, ?DocBlockWrapper $docBlockWrapper, array $argumentWrappers)
+    {
         $this->tokens = $tokens;
         $this->index = $index;
 
@@ -69,6 +74,7 @@ final class MethodWrapper
         );
 
         $this->docBlockWrapper = $docBlockWrapper;
+        $this->argumentWrappers = $argumentWrappers;
     }
 
     /**
@@ -76,28 +82,7 @@ final class MethodWrapper
      */
     public function getArguments(): array
     {
-        $argumentsBracketStart = $this->tokens->getNextTokenOfKind($this->index, ['(']);
-        $argumentsBracketEnd = $this->tokens->findBlockEnd(
-            Tokens::BLOCK_TYPE_PARENTHESIS_BRACE,
-            $argumentsBracketStart
-        );
-
-        if ($argumentsBracketStart === ($argumentsBracketEnd + 1)) {
-            return [];
-        }
-
-        $arguments = [];
-        for ($i = $argumentsBracketStart + 1; $i < $argumentsBracketEnd; ++$i) {
-            $token = $this->tokens[$i];
-
-            if ($token->isGivenKind(T_VARIABLE) === false) {
-                continue;
-            }
-
-            $arguments[] = ArgumentWrapper::createFromTokensAndPosition($this->tokens, $i);
-        }
-
-        return $arguments;
+        return $this->argumentWrappers;
     }
 
     public function renameEveryVariableOccurrence(string $oldName, string $newName): void
@@ -137,33 +122,12 @@ final class MethodWrapper
 
     public function getReturnType(): ?string
     {
-        $tokenCount = count($this->tokens);
-        for ($i = $this->index; $i < $tokenCount; ++$i) {
-            $token = $this->tokens[$i];
-            if ($token->getContent() === '{') {
-                return null;
-            }
+        $returnTypeAnalysis = ((new FunctionsAnalyzer())->getFunctionReturnType($this->tokens, $this->index));
 
-            if ($token->getContent() === ':') {
-                $nextTokenPosition = $this->tokens->getNextMeaningfulToken($i);
-                $nextToken = $this->tokens[$nextTokenPosition];
-
-                if ($nextToken->isGivenKind([T_NS_SEPARATOR, T_STRING])) {
-                    $name = NameFactory::createFromTokensAndStart($this->tokens, $nextTokenPosition);
-
-                    return $name->getName();
-                }
-
-                // nullable
-                if ($nextToken->getContent() === '?') {
-                    $nextTokenPosition = $this->tokens->getNextMeaningfulToken($nextTokenPosition);
-                    $nextToken = $this->tokens[$nextTokenPosition];
-
-                    return 'null|' . $nextToken->getContent();
-                }
-
-                return $nextToken->getContent();
-            }
+        if ($returnTypeAnalysis) {
+            $returnTypeInString = $returnTypeAnalysis->getName();
+            // for docblocks render: "?Type" => "null|Type"
+            return str_replace('?', 'null|', $returnTypeInString);
         }
 
         return null;

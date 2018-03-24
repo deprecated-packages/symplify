@@ -1,3 +1,4 @@
+
 # Package Builder
 
 [![Build Status](https://img.shields.io/travis/Symplify/PackageBuilder/master.svg?style=flat-square)](https://travis-ci.org/Symplify/PackageBuilder)
@@ -27,7 +28,9 @@ final class CollectorCompilerPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $containerBuilder): void
     {
-        DefinitionCollector::loadCollectorWithType(
+        $definitionCollector = new DefinitionCollector(new DefinitionFinder);
+
+        $definitionCollector->loadCollectorWithType(
             $containerBuilder,
             EventDispatcher::class,
             EventSubscriberInterface::class,
@@ -47,7 +50,9 @@ final class CustomSourceProviderDefinitionCompilerPass implements CompilerPassIn
 {
     public function process(ContainerBuilder $containerBuilder): void
     {
-        $customSourceProviderDefinition = DefinitionFinder::getByTypeIfExists(
+        $definitionFinder = new DefinitionFinder();
+
+        $customSourceProviderDefinition = $definitionFinder->getByTypeIfExists(
             $containerBuilder,
             CustomSourceProviderInterface::class
         );
@@ -56,7 +61,7 @@ final class CustomSourceProviderDefinitionCompilerPass implements CompilerPassIn
             return;
         }
 
-        $sourceFinderDefinition = DefinitionFinder::getByType($containerBuilder, SourceFinder::class);
+        $sourceFinderDefinition = $definitionFinder->getByType($containerBuilder, SourceFinder::class);
         $sourceFinderDefinition->addMethodCall(
             'setCustomSourceProvider',
             [new Reference($customSourceProviderDefinition->getClass())]

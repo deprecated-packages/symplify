@@ -4,7 +4,6 @@ namespace Symplify\Statie\Renderable\File;
 
 use DateTimeInterface;
 use SplFileInfo;
-use Symplify\Statie\Utils\PathAnalyzer;
 
 abstract class AbstractFile
 {
@@ -48,20 +47,21 @@ abstract class AbstractFile
      */
     private $filenameWithoutDate;
 
-    public function __construct(SplFileInfo $fileInfo, string $relativeSource, string $filePath)
-    {
+    public function __construct(
+        SplFileInfo $fileInfo,
+        string $relativeSource,
+        string $filePath,
+        string $filenameWithoutDate,
+        ?DateTimeInterface $dateTime
+    ) {
         $this->relativeSource = $relativeSource;
         $this->fileInfo = $fileInfo;
         $this->filePath = $filePath;
         $this->content = file_get_contents($fileInfo->getRealPath());
 
         // optional values
-        $this->dateTime = PathAnalyzer::detectDate($fileInfo);
-        if ($this->dateTime) {
-            $this->filenameWithoutDate = PathAnalyzer::detectFilenameWithoutDate($fileInfo);
-        } else {
-            $this->filenameWithoutDate = $fileInfo->getBasename('.' . $fileInfo->getExtension());
-        }
+        $this->dateTime = $dateTime;
+        $this->filenameWithoutDate = $filenameWithoutDate;
     }
 
     public function getFilePath(): string

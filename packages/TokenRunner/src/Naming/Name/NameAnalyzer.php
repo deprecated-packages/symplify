@@ -7,7 +7,7 @@ use PhpCsFixer\Tokenizer\Tokens;
 
 final class NameAnalyzer
 {
-    public static function isImportableNameToken(Tokens $tokens, Token $token, int $index): bool
+    public function isImportableNameToken(Tokens $tokens, Token $token, int $index): bool
     {
         if (! $token->isGivenKind(T_STRING)) {
             return false;

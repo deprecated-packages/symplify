@@ -59,9 +59,19 @@ final class StandaloneLineInMultilineArrayFixer implements DefinedFixerInterface
      */
     private $arrayWrapperFactory;
 
-    public function __construct(ArrayWrapperFactory $arrayWrapperFactory)
-    {
+    /**
+     * @var TokenSkipper
+     */
+    private $tokenSkipper;
+
+    public function __construct(
+        ArrayWrapperFactory $arrayWrapperFactory,
+        TokenSkipper $tokenSkipper,
+        IndentDetector $indentDetector
+    ) {
         $this->arrayWrapperFactory = $arrayWrapperFactory;
+        $this->tokenSkipper = $tokenSkipper;
+        $this->indentDetector = $indentDetector;
     }
 
     public function getDefinition(): FixerDefinitionInterface
@@ -124,7 +134,6 @@ $values = [1 => \'hey\', 2 => \'hello\'];'
     public function setWhitespacesConfig(WhitespacesFixerConfig $whitespacesFixerConfig): void
     {
         $this->whitespacesFixerConfig = $whitespacesFixerConfig;
-        $this->indentDetector = IndentDetector::createFromWhitespacesFixerConfig($whitespacesFixerConfig);
     }
 
     private function fixArray(Tokens $tokens, ArrayWrapper $arrayWrapper): void
@@ -137,7 +146,7 @@ $values = [1 => \'hey\', 2 => \'hello\'];'
         $this->prepareIndentWhitespaces($tokens, $arrayWrapper->getStartIndex());
 
         for ($i = $arrayWrapper->getEndIndex() - 1; $i >= $arrayWrapper->getStartIndex(); --$i) {
-            $i = TokenSkipper::skipBlocksReversed($tokens, $i);
+            $i = $this->tokenSkipper->skipBlocksReversed($tokens, $i);
 
             $token = $tokens[$i];
 
@@ -180,7 +189,11 @@ $values = [1 => \'hey\', 2 => \'hello\'];'
 
     private function prepareIndentWhitespaces(Tokens $tokens, int $arrayStartIndex): void
     {
-        $indentLevel = $this->indentDetector->detectOnPosition($tokens, $arrayStartIndex);
+        $indentLevel = $this->indentDetector->detectOnPosition(
+            $tokens,
+            $arrayStartIndex,
+            $this->whitespacesFixerConfig
+        );
         $indentWhitespace = $this->whitespacesFixerConfig->getIndent();
         $lineEnding = $this->whitespacesFixerConfig->getLineEnding();
 

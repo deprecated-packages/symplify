@@ -12,7 +12,7 @@ use phpDocumentor\Reflection\DocBlock\Serializer;
  */
 final class DocBlockSerializerFactory
 {
-    public static function createFromWhitespaceFixerConfigAndContent(
+    public function createFromWhitespaceFixerConfigAndContent(
         string $originalContent,
         int $indentSize,
         string $indentCharacter

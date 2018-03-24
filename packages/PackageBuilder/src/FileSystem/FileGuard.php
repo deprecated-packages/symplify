@@ -6,7 +6,7 @@ use Symplify\PackageBuilder\Exception\Configuration\FileNotFoundException;
 
 final class FileGuard
 {
-    public static function ensureFileExists(string $file, string $location): void
+    public function ensureFileExists(string $file, string $location): void
     {
         if (file_exists($file)) {
             return;

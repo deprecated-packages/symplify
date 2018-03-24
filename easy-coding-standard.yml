@@ -62,14 +62,12 @@ parameters:
             - '*packages/EasyCodingStandard/src/DependencyInjection/CompilerPass/*CompilerPass.php'
 
         Symplify\CodingStandard\Sniffs\DependencyInjection\NoClassInstantiationSniff:
-            # allowed default static value
-            - 'packages/Statie/packages/Generator/src/Configuration/GeneratorElement.php'
-
             # static helper
             - 'packages/PackageBuilder/src/Console/ExceptionRenderer.php'
-
             # temporary, remove with checkers autowire
             - 'packages/BetterReflectionDocBlock/src/FixedSerializer.php'
+            # todo: decouple later
+            - 'packages/TokenRunner/src/Wrapper/FixerWrapper/AbstractVariableWrapper.php'
 
         SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff.UselessDocComment: ~
 
@@ -83,3 +81,17 @@ parameters:
             - 'packages/CodingStandard/src/Sniffs/Architecture/ExplicitExceptionSniff.php'
             # intentionally "Exception" value - 3rd party outdated typehint
             - 'packages/PackageBuilder/src/Console/ExceptionRenderer.php'
+
+        Symplify\CodingStandard\Sniffs\CleanCode\ForbiddenStaticFunctionSniff:
+            - 'packages/Statie/tests/SymfonyFileInfoFactory.php' # @todo test and cover relative path againts getcwd()
+            - 'packages/PackageBuilder/src/Console/Command/CommandNaming.php'
+            - 'packages/PackageBuilder/src/Configuration/ConfigFileFinder.php'
+            - 'packages/PackageBuilder/src/Composer/VendorDirProvider.php'
+            - 'packages/PackageBuilder/src/Composer/AutoloadFinder.php'
+            - 'packages/EasyCodingStandard/src/Error/FileDiff.php'
+            - 'packages/EasyCodingStandard/src/Error/Error.php'
+            # dependency on 3rd party code
+            - 'packages/BetterReflectionDocBlock/src/Tag/TolerantParam.php'
+            - 'packages/BetterReflectionDocBlock/src/Tag/TolerantReturn.php'
+            # @todo resolve later with PHPDocParser replacement
+            - 'packages/BetterReflectionDocBlock/src/DocBlock/ArrayResolver.php'

@@ -1,35 +1,28 @@
+imports:
+    # A. in monorepo
+    - { resource: '../../../TokenRunner/src/config/services.yml', ignore_errors: true }
+    # B. as dependnecy
+    - { resource: '../../../token-runner/src/config/services.yml', ignore_errors: true }
+
 services:
     _defaults:
         autowire: true
 
-    # 3rd party services
-    Symfony\Component\Console\Terminal: ~
-
     # Console
-    Symfony\Component\Console\Input\ArgvInput:
-        public: true
-
-    Symfony\Component\Console\Output\ConsoleOutput:
-        public: true
-
+    Symfony\Component\Console\Terminal: ~
+    Symfony\Component\Console\Input\ArgvInput: ~
+    Symfony\Component\Console\Output\ConsoleOutput: ~
     Symfony\Component\Console\Output\OutputInterface:
         alias: Symfony\Component\Console\Output\ConsoleOutput
 
-    Symfony\Component\Console\Style\SymfonyStyle: ~
-
     Symplify\PackageBuilder\Parameter\ParameterProvider: ~
 
-    # for autowired checkers
-    Symplify\TokenRunner\DocBlock\DescriptionAnalyzer:
-    Symplify\TokenRunner\DocBlock\ParamAndReturnTagAnalyzer: ~
-    Symplify\TokenRunner\Analyzer\FixerAnalyzer\DocBlockFinder: ~
+    Symplify\CodingStandard\Fixer\TokenBuilder: ~
 
-    Symplify\TokenRunner\Wrapper\FixerWrapper\DocBlockWrapperFactory: ~
-    Symplify\TokenRunner\Wrapper\FixerWrapper\ClassWrapperFactory: ~
-    Symplify\TokenRunner\Wrapper\FixerWrapper\PropertyWrapperFactory: ~
-    Symplify\TokenRunner\Wrapper\FixerWrapper\MethodWrapperFactory: ~
-    Symplify\TokenRunner\Wrapper\FixerWrapper\ArrayWrapperFactory: ~
-    Symplify\TokenRunner\Wrapper\SnifferWrapper\ClassWrapperFactory: ~
-
+    Symplify\BetterReflectionDocBlock\DocBlockSerializerFactory: ~
     Symplify\BetterReflectionDocBlock\CleanDocBlockFactory: ~
+
+    PhpCsFixer\Tokenizer\Analyzer\NamespaceUsesAnalyzer: ~
+    PhpCsFixer\Tokenizer\Analyzer\NamespacesAnalyzer: ~
+
     phpDocumentor\Reflection\FqsenResolver: ~

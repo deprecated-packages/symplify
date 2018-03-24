@@ -67,7 +67,7 @@ final class Name
         foreach ($namespaceUseAnalyses as $namespaceUseAnalysis) {
             if (Strings::startsWith($this->name, $namespaceUseAnalysis->getShortName())) {
                 $this->relatedNamespaceUseAnalysis = $namespaceUseAnalysis;
-                $this->name = self::composePartialNamespaceAndName($namespaceUseAnalysis->getFullName(), $this->name);
+                $this->name = $this->composePartialNamespaceAndName($namespaceUseAnalysis->getFullName(), $this->name);
             }
         }
     }
@@ -134,7 +134,7 @@ final class Name
         return $this->relatedNamespaceUseAnalysis;
     }
 
-    private static function composePartialNamespaceAndName(string $namespace, string $name): string
+    private function composePartialNamespaceAndName(string $namespace, string $name): string
     {
         if ($namespace === $name) {
             return $name;
