@@ -64,9 +64,10 @@ parameters:
         Symplify\CodingStandard\Sniffs\DependencyInjection\NoClassInstantiationSniff:
             # static helper
             - 'packages/PackageBuilder/src/Console/ExceptionRenderer.php'
-
             # temporary, remove with checkers autowire
             - 'packages/BetterReflectionDocBlock/src/FixedSerializer.php'
+            # todo: decouple later
+            - 'packages/TokenRunner/src/Wrapper/FixerWrapper/AbstractVariableWrapper.php'
 
         SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff.UselessDocComment: ~
 
@@ -80,3 +81,11 @@ parameters:
             - 'packages/CodingStandard/src/Sniffs/Architecture/ExplicitExceptionSniff.php'
             # intentionally "Exception" value - 3rd party outdated typehint
             - 'packages/PackageBuilder/src/Console/ExceptionRenderer.php'
+
+        Symplify\CodingStandard\Sniffs\CleanCode\ForbiddenStaticFunctionSniff:
+            - 'packages/Statie/tests/SymfonyFileInfoFactory.php'
+            - 'packages/PackageBuilder/src/Console/Command/CommandNaming.php'
+            - 'packages/PackageBuilder/src/Configuration/ConfigFileFinder.php'
+            # todo: not really needed
+            - 'packages/PackageBuilder/src/DependencyInjection/DefinitionFinder.php'
+            - 'packages/PackageBuilder/src/DependencyInjection/DefinitionCollector.php'
