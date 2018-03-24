@@ -40,20 +40,7 @@ final class FileFactory
         $objects = [];
 
         foreach ($fileInfos as $fileInfo) {
-            $dateTime = $this->pathAnalyzer->detectDate($fileInfo);
-            if ($dateTime) {
-                $filenameWithoutDate = $this->pathAnalyzer->detectFilenameWithoutDate($fileInfo);
-            } else {
-                $filenameWithoutDate = $fileInfo->getBasename('.' . $fileInfo->getExtension());
-            }
-
-            $objects[] = new $class(
-                $fileInfo,
-                $fileInfo->getRelativePathname(),
-                $fileInfo->getPathname(),
-                $filenameWithoutDate,
-                $dateTime
-            );
+            $objects[] = $this->createFromClassNameAndFileInfo($class, $fileInfo);
         }
 
         return $objects;
@@ -64,6 +51,11 @@ final class FileFactory
      */
     public function createFromFileInfo(SplFileInfo $fileInfo): AbstractFile
     {
+        return $this->createFromClassNameAndFileInfo(File::class, $fileInfo);
+    }
+
+    private function createFromClassNameAndFileInfo(string $className, SplFileInfo $fileInfo): AbstractFile
+    {
         $dateTime = $this->pathAnalyzer->detectDate($fileInfo);
         if ($dateTime) {
             $filenameWithoutDate = $this->pathAnalyzer->detectFilenameWithoutDate($fileInfo);
@@ -71,7 +63,7 @@ final class FileFactory
             $filenameWithoutDate = $fileInfo->getBasename('.' . $fileInfo->getExtension());
         }
 
-        return new File(
+        return new $className(
             $fileInfo,
             $fileInfo->getRelativePathname(),
             $fileInfo->getPathname(),
