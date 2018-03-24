@@ -13,6 +13,11 @@
             "Symplify\\EasyCodingStandardTester\\": "src"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Symplify\\EasyCodingStandardTester\\Tests\\": "tests"
+        }
+    },
     "extra": {
         "branch-alias": {
             "dev-master": "4.0-dev"
