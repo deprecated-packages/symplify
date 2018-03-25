@@ -27,9 +27,7 @@ services:
             - 'phpDocumentor\Reflection\Fqsen'
             - 'Symfony\Component\DependencyInjection\ContainerBuilder'
             - 'Symplify\EasyCodingStandard\Yaml\*'
-
-    SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff:
-        enableObjectTypeHint: false
+            - 'Symfony\Component\DependencyInjection\ParameterBag\ParameterBag'
 
     # php
     PhpCsFixer\Fixer\LanguageConstruct\FunctionToConstantFixer: ~
@@ -69,8 +67,6 @@ parameters:
             # todo: decouple later
             - 'packages/TokenRunner/src/Wrapper/FixerWrapper/AbstractVariableWrapper.php'
 
-        SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff.UselessDocComment: ~
-
         SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff.MissingParameterTypeHint:
             # respect param typehint
             - 'packages/TokenRunner/src/ReflectionDocBlock/Tag/TolerantParam.php'
@@ -93,3 +89,7 @@ parameters:
             - 'packages/BetterReflectionDocBlock/src/Tag/TolerantReturn.php'
             # @todo resolve later with PHPDocParser replacement
             - 'packages/BetterReflectionDocBlock/src/DocBlock/ArrayResolver.php'
+
+        PHP_CodeSniffer\Standards\Generic\Sniffs\Metrics\NestingLevelSniff.MaxExceeded:
+            # 3rd party code copy-pasted; kept as is for easier comparison to original
+            - 'packages/EasyCodingStandard/src/Yaml/CheckerTolerantYamlFileLoader.php'
