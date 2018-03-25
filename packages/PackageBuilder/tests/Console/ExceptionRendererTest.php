@@ -3,6 +3,7 @@
 namespace Symplify\PackageBuilder\Tests\Console;
 
 use Exception;
+use Iterator;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\StreamOutput;
@@ -41,9 +42,12 @@ final class ExceptionRendererTest extends TestCase
         );
     }
 
-    public function testExceptionWithVerbosity(): void
+    /**
+     * @dataProvider provideVerbosityLevels
+     */
+    public function testExceptionWithVerbosity(string $verbosityOption): void
     {
-        $arrayInput = new ArrayInput(['v' => true]);
+        $arrayInput = new ArrayInput([$verbosityOption => true]);
         $exceptionRenderer = new ExceptionRenderer($this->createStreamOutput(), $arrayInput);
 
         $exceptionRenderer->render(new Exception('Random message'));
@@ -52,6 +56,13 @@ final class ExceptionRendererTest extends TestCase
             '%wIn ExceptionRendererTest.php line %d:%w[Exception]%wRandom message%wException trace:%a',
             $this->getTestErrorOutput()
         );
+    }
+
+    public function provideVerbosityLevels(): Iterator
+    {
+        yield ['-v'];
+        yield ['-vv'];
+        yield ['-vvv'];
     }
 
     /**
