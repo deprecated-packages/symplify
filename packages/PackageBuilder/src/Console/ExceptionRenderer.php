@@ -24,30 +24,28 @@ final class ExceptionRenderer
     private $application;
 
     /**
-     * @var ConsoleOutput
+     * @var OutputInterface
      */
-    private $consoleOutput;
+    private $output;
 
-    public function __construct()
+    public function __construct(?OutputInterface $output = null)
     {
         $this->application = new Application();
-        $this->consoleOutput = $this->createConsoleOutput();
+        $this->output = $output ?: new ConsoleOutput();
+        $this->decorateOutput($this->output);
     }
 
     public function render(Exception $exception): void
     {
-        $this->application->renderException($exception, $this->consoleOutput);
+        $this->application->renderException($exception, $this->output);
     }
 
-    private function createConsoleOutput(): ConsoleOutput
+    private function decorateOutput(OutputInterface $output): void
     {
-        $consoleOutput = new ConsoleOutput();
         foreach ($this->verbosityOptionToLevel as $option => $level) {
             if (in_array($option, $_SERVER['argv'], true)) {
-                $consoleOutput->setVerbosity($level);
+                $output->setVerbosity($level);
             }
         }
-
-        return $consoleOutput;
     }
 }
