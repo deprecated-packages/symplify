@@ -35,7 +35,6 @@ final class ExceptionRendererTest extends TestCase
     /**
      * @see http://alexandre-salome.fr/blog/Test-your-commands-in-Symfony2
      */
-
     private function getTestErrorOutput(): string
     {
         fseek($this->tempFile, 0);
