@@ -24,16 +24,22 @@ final class ExceptionRendererTest extends TestCase
         $this->exceptionRenderer = new ExceptionRenderer($this->createStreamOutput());
     }
 
+    /**
+     * @see https://phpunit.readthedocs.io/en/latest/assertions.html#assertstringmatchesformat
+     */
     public function test(): void
     {
         $exception = new Exception('Random message');
         $this->exceptionRenderer->render($exception);
 
-        $this->assertContains('In ExceptionRendererTest.php line', $this->getTestErrorOutput());
+        $this->assertStringMatchesFormat(
+            '%wIn ExceptionRendererTest.php line %d:%wRandom message%w',
+            $this->getTestErrorOutput()
+        );
     }
 
     /**
-     * @see http://alexandre-salome.fr/blog/Test-your-commands-in-Symfony2
+     * Inspired by http://alexandre-salome.fr/blog/Test-your-commands-in-Symfony2
      */
     private function getTestErrorOutput(): string
     {
@@ -44,10 +50,6 @@ final class ExceptionRendererTest extends TestCase
         return $output;
     }
 
-    /**
-     * Inspired by https://stackoverflow.com/questions/18237519/symfony2-console-output-without-outputinterface
-     * and http://alexandre-salome.fr/blog/Test-your-commands-in-Symfony2
-     */
     private function createStreamOutput(): StreamOutput
     {
         $this->tempFile = tmpfile();
