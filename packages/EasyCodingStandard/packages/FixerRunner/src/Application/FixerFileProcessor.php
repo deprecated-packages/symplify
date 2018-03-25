@@ -7,7 +7,6 @@ use PhpCsFixer\Fixer\FixerInterface;
 use PhpCsFixer\Tokenizer\Tokens;
 use Symfony\Component\Finder\SplFileInfo;
 use Symplify\EasyCodingStandard\Configuration\Configuration;
-use Symplify\EasyCodingStandard\Contract\Application\DualRunInterface;
 use Symplify\EasyCodingStandard\Contract\Application\FileProcessorInterface;
 use Symplify\EasyCodingStandard\Error\ErrorAndDiffCollector;
 use Symplify\EasyCodingStandard\FileSystem\CachedFileLoader;
@@ -20,7 +19,7 @@ use Throwable;
 final class FixerFileProcessor implements FileProcessorInterface
 {
     /**
-     * @var FixerInterface[]|DualRunInterface[]
+     * @var FixerInterface[]
      */
     private $fixers = [];
 
@@ -48,11 +47,6 @@ final class FixerFileProcessor implements FileProcessorInterface
      * @var bool
      */
     private $areFixersSorted = false;
-
-    /**
-     * @var bool
-     */
-    private $isSecondRunPrepared = false;
 
     /**
      * @var FileToTokensParser
@@ -93,7 +87,7 @@ final class FixerFileProcessor implements FileProcessorInterface
     }
 
     /**
-     * @return FixerInterface[]|DualRunInterface[]
+     * @return FixerInterface[]
      */
     public function getCheckers(): array
     {
@@ -144,7 +138,6 @@ final class FixerFileProcessor implements FileProcessorInterface
         }
 
         if (! $appliedFixers) {
-            $this->fileToTokensParser->clearCache();
             return $oldContent;
         }
 
@@ -154,6 +147,7 @@ final class FixerFileProcessor implements FileProcessorInterface
             return $oldContent;
         }
 
+        // file has changed
         $relativeFilePath = $fileInfo->getPath() . DIRECTORY_SEPARATOR . $fileInfo->getFilename();
 
         $this->errorAndDiffCollector->addDiffForFile($relativeFilePath, $diff, $appliedFixers);
@@ -165,23 +159,6 @@ final class FixerFileProcessor implements FileProcessorInterface
         Tokens::clearCache();
 
         return $tokens->generateCode();
-    }
-
-    public function processFileSecondRun(SplFileInfo $file): string
-    {
-        $this->prepareSecondRun();
-
-        return $this->processFile($file);
-    }
-
-    /**
-     * @return DualRunInterface[]|FixerInterface[]
-     */
-    public function getDualRunCheckers(): array
-    {
-        return array_filter($this->fixers, function (FixerInterface $fixer): bool {
-            return $fixer instanceof DualRunInterface;
-        });
     }
 
     private function shouldSkip(SplFileInfo $file, FixerInterface $fixer, Tokens $tokens): bool
@@ -200,19 +177,5 @@ final class FixerFileProcessor implements FileProcessorInterface
         });
 
         $this->areFixersSorted = true;
-    }
-
-    private function prepareSecondRun(): void
-    {
-        if ($this->isSecondRunPrepared) {
-            return;
-        }
-
-        $this->fixers = $this->getDualRunCheckers();
-        foreach ($this->fixers as $fixer) {
-            $fixer->increaseRun();
-        }
-
-        $this->isSecondRunPrepared = true;
     }
 }

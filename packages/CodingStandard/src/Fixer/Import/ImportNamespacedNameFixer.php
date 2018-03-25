@@ -98,18 +98,25 @@ final class ImportNamespacedNameFixer implements DefinedFixerInterface, Configur
      */
     private $nameFactory;
 
+    /**
+     * @var NamespaceUsesAnalyzer
+     */
+    private $namespaceUsesAnalyzer;
+
     public function __construct(
         DocBlockWrapperFactory $docBlockWrapperFactory,
         UseImportsTransformer $useImportsTransformer,
         ClassNameFinder $classNameFinder,
         NameAnalyzer $nameAnalyzer,
-        NameFactory $nameFactory
+        NameFactory $nameFactory,
+        NamespaceUsesAnalyzer $namespaceUsesAnalyzer
     ) {
         $this->docBlockWrapperFactory = $docBlockWrapperFactory;
         $this->useImportsTransformer = $useImportsTransformer;
         $this->classNameFinder = $classNameFinder;
         $this->nameAnalyzer = $nameAnalyzer;
         $this->nameFactory = $nameFactory;
+        $this->namespaceUsesAnalyzer = $namespaceUsesAnalyzer;
 
         // set defaults
         $this->configuration = $this->getConfigurationDefinition()
@@ -133,14 +140,16 @@ final class ImportNamespacedNameFixer implements DefinedFixerInterface, Configur
 
     public function fix(SplFileInfo $file, Tokens $tokens): void
     {
-        $this->namespaceUseAnalyses = (new NamespaceUsesAnalyzer())->getDeclarationsFromTokens($tokens);
+        $this->namespaceUseAnalyses = $this->namespaceUsesAnalyzer->getDeclarationsFromTokens($tokens);
         $this->newUseStatementNames = [];
+
+        $currentClassName = $this->classNameFinder->findInTokens($tokens);
 
         for ($index = $tokens->getSize() - 1; $index > 0; --$index) {
             $token = $tokens[$index];
 
             // class name is same as token that could be imported, skip
-            if ($token->getContent() === $this->classNameFinder->findInTokens($tokens)) {
+            if ($token->getContent() === $currentClassName) {
                 continue;
             }
 
@@ -159,7 +168,9 @@ final class ImportNamespacedNameFixer implements DefinedFixerInterface, Configur
             }
         }
 
-        $this->useImportsTransformer->addNamesToTokens($this->newUseStatementNames, $tokens);
+        if ($this->newUseStatementNames) {
+            $this->useImportsTransformer->addNamesToTokens($this->newUseStatementNames, $tokens);
+        }
     }
 
     /**

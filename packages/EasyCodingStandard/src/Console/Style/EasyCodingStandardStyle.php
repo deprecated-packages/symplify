@@ -27,10 +27,23 @@ final class EasyCodingStandardStyle extends SymfonyStyle
      */
     private $terminal;
 
+    /**
+     * @var Table
+     */
+    private $genericTable;
+
     public function __construct(InputInterface $input, OutputInterface $output, Terminal $terminal)
     {
         parent::__construct($input, $output);
         $this->terminal = $terminal;
+
+        $table = new Table($this);
+        $style = Table::getStyleDefinition('symfony-style-guide');
+        /** make headlines green manually as in parent @see SymfonyStyle::table() */
+        $style->setCellHeaderFormat('<info>%s</info>');
+        $table->setStyle($style);
+
+        $this->genericTable = $table;
     }
 
     /**
@@ -38,10 +51,28 @@ final class EasyCodingStandardStyle extends SymfonyStyle
      */
     public function printErrors(array $errors): void
     {
-        /** @var Error[] $errors */
+        /** @var Error[][] $errors */
         foreach ($errors as $file => $fileErrors) {
-            $this->table(['Line', $file], $this->buildFileTableRowsFromErrors($fileErrors));
+            $headers = ['Line', $file];
+            $rows = $this->buildFileTableRowsFromErrors($fileErrors);
+            $this->tableWithColumnWidths($headers, $rows, [
+                self::LINE_COLUMN_WIDTH, $this->countMessageColumnWidth(self::LINE_COLUMN_WIDTH),
+            ]);
         }
+    }
+
+    /**
+     * @param mixed[] $metrics
+     */
+    public function printMetrics(array $metrics): void
+    {
+        $rows = [];
+        foreach ($metrics as $checkerClass => $duration) {
+            $rows[] = [$checkerClass, $duration . ' ms'];
+        }
+
+        $headers = ['Checker', 'Total duration'];
+        $this->tableWithColumnWidths($headers, $rows, [$this->countMessageColumnWidth(15), 15]);
     }
 
     /**
@@ -63,25 +94,6 @@ final class EasyCodingStandardStyle extends SymfonyStyle
     }
 
     /**
-     * @param string[] $headers
-     * @param mixed[] $rows
-     */
-    public function table(array $headers, array $rows): void
-    {
-        $style = clone Table::getStyleDefinition('symfony-style-guide');
-        $style->setCellHeaderFormat('%s');
-
-        $table = new Table($this);
-        $table->setColumnWidths([self::LINE_COLUMN_WIDTH, $this->countMessageColumnWidth()]);
-        $table->setHeaders($headers);
-        $table->setRows($rows);
-        $table->setStyle($style);
-
-        $table->render();
-        $this->newLine();
-    }
-
-    /**
      * @param string[] $elements
      */
     public function listing(array $elements): void
@@ -90,6 +102,22 @@ final class EasyCodingStandardStyle extends SymfonyStyle
             return sprintf(' - %s', $element);
         }, $elements);
         $this->writeln($elements);
+        $this->newLine();
+    }
+
+    /**
+     * @param string[] $headers
+     * @param mixed[] $rows
+     * @param int[] $columnWidths
+     */
+    private function tableWithColumnWidths(array $headers, array $rows, array $columnWidths): void
+    {
+        $this->genericTable->setHeaders($headers);
+        $this->genericTable->setRows($rows);
+
+        $this->genericTable->setColumnWidths($columnWidths);
+        $this->genericTable->render();
+
         $this->newLine();
     }
 
@@ -106,12 +134,12 @@ final class EasyCodingStandardStyle extends SymfonyStyle
 
     private function wrapMessageSoItFitsTheColumnWidth(string $message): string
     {
-        return wordwrap($message, $this->countMessageColumnWidth(), PHP_EOL);
+        return wordwrap($message, $this->countMessageColumnWidth(self::LINE_COLUMN_WIDTH), PHP_EOL);
     }
 
-    private function countMessageColumnWidth(): int
+    private function countMessageColumnWidth(int $otherColumnWidth): int
     {
-        return $this->terminal->getWidth() - self::LINE_COLUMN_WIDTH - self::BULGARIAN_CONSTANT;
+        return $this->terminal->getWidth() - $otherColumnWidth - self::BULGARIAN_CONSTANT;
     }
 
     /**
