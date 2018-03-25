@@ -4,39 +4,59 @@ namespace Symplify\PackageBuilder\Tests\Console;
 
 use Exception;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\StreamOutput;
 use Symplify\PackageBuilder\Console\ExceptionRenderer;
 
 final class ExceptionRendererTest extends TestCase
 {
     /**
-     * @var ExceptionRenderer
-     */
-    private $exceptionRenderer;
-
-    /**
      * @var resource
      */
     private $tempFile;
-
-    protected function setUp(): void
-    {
-        $this->exceptionRenderer = new ExceptionRenderer($this->createStreamOutput());
-    }
 
     /**
      * @see https://phpunit.readthedocs.io/en/latest/assertions.html#assertstringmatchesformat
      */
     public function test(): void
     {
+        $exceptionRenderer = new ExceptionRenderer($this->createStreamOutput());
         $exception = new Exception('Random message');
-        $this->exceptionRenderer->render($exception);
+        $exceptionRenderer->render($exception);
 
         $this->assertStringMatchesFormat(
             '%wIn ExceptionRendererTest.php line %d:%wRandom message%w',
             $this->getTestErrorOutput()
         );
     }
+
+    public function testNestedException(): void
+    {
+        $exceptionRenderer = new ExceptionRenderer($this->createStreamOutput());
+        $exception = new Exception('Random message', 404, new Exception('Parent message'));
+        $exceptionRenderer->render($exception);
+
+        $this->assertStringMatchesFormat(
+            '%wIn ExceptionRendererTest.php line %d:%wRandom message%w' .
+            'In ExceptionRendererTest.php line %d:%wParent message%w',
+            $this->getTestErrorOutput()
+        );
+    }
+
+    public function testExceptionWithVerbosity(): void
+    {
+        $arrayInput = new ArrayInput(['v' => true]);
+        $exceptionRenderer = new ExceptionRenderer($this->createStreamOutput(), $arrayInput);
+
+        $exception = new Exception('Random message');
+        $exceptionRenderer->render($exception);
+
+        $this->assertStringMatchesFormat(
+            '%wIn ExceptionRendererTest.php line %d:%w[Exception]%wRandom message%wException trace:%a',
+            $this->getTestErrorOutput()
+        );
+    }
+
 
     /**
      * Inspired by http://alexandre-salome.fr/blog/Test-your-commands-in-Symfony2

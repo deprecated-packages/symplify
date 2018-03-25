@@ -4,6 +4,8 @@ namespace Symplify\PackageBuilder\Console;
 
 use Exception;
 use Symfony\Component\Console\Application;
+use Symfony\Component\Console\Input\ArgvInput;
+use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -28,10 +30,17 @@ final class ExceptionRenderer
      */
     private $output;
 
-    public function __construct(?OutputInterface $output = null)
+    /**
+     * @var ArgvInput
+     */
+    private $input;
+
+    public function __construct(?OutputInterface $output = null, ?InputInterface $input = null)
     {
         $this->application = new Application();
         $this->output = $output ?: new ConsoleOutput();
+        $this->input = $input ?: new ArgvInput();
+
         $this->decorateOutput($this->output);
     }
 
@@ -43,8 +52,11 @@ final class ExceptionRenderer
     private function decorateOutput(OutputInterface $output): void
     {
         foreach ($this->verbosityOptionToLevel as $option => $level) {
-            if (in_array($option, $_SERVER['argv'], true)) {
-                $output->setVerbosity($level);
+            if ($this->input->hasParameterOption('v')) {
+                $output->setVerbosity(OutputInterface::VERBOSITY_VERY_VERBOSE);
+//            }
+//            if (in_array($option, $_SERVER['argv'], true)) {
+//                $output->setVerbosity($level);
             }
         }
     }
