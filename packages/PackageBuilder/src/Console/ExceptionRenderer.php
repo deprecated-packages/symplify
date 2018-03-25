@@ -27,7 +27,7 @@ final class ExceptionRenderer
     private $input;
 
     /**
-     * @var string[]
+     * @var int[]
      */
     private $verbosityOptionToLevel = [
         '-v' => OutputInterface::VERBOSITY_VERBOSE,
