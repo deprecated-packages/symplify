@@ -57,7 +57,6 @@ final class ExceptionRendererTest extends TestCase
         );
     }
 
-
     /**
      * Inspired by http://alexandre-salome.fr/blog/Test-your-commands-in-Symfony2
      */
