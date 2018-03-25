@@ -22,15 +22,15 @@ final class ExceptionRenderer
     private $output;
 
     /**
-     * @var ArgvInput
+     * @var InputInterface
      */
-    private $argvInput;
+    private $input;
 
     public function __construct(?OutputInterface $output = null, ?InputInterface $input = null)
     {
         $this->application = new Application();
         $this->output = $output ?: new ConsoleOutput();
-        $this->argvInput = $input ?: new ArgvInput();
+        $this->input = $input ?: new ArgvInput();
 
         $this->decorateOutput($this->output);
     }
@@ -42,7 +42,7 @@ final class ExceptionRenderer
 
     private function decorateOutput(OutputInterface $output): void
     {
-        if ($this->argvInput->hasParameterOption('v')) {
+        if ($this->input->hasParameterOption('v')) {
             $output->setVerbosity(OutputInterface::VERBOSITY_VERY_VERBOSE);
         }
     }
