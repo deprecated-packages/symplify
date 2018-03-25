@@ -28,9 +28,6 @@ services:
             - 'Symfony\Component\DependencyInjection\ContainerBuilder'
             - 'Symplify\EasyCodingStandard\Yaml\*'
 
-    SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff:
-        enableObjectTypeHint: false
-
     # php
     PhpCsFixer\Fixer\LanguageConstruct\FunctionToConstantFixer: ~
     # testing
