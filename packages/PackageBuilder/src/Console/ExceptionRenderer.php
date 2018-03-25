@@ -12,15 +12,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 final class ExceptionRenderer
 {
     /**
-     * @var int[]
-     */
-    private $verbosityOptionToLevel = [
-        '-v' => OutputInterface::VERBOSITY_VERBOSE,
-        '-vv' => OutputInterface::VERBOSITY_VERY_VERBOSE,
-        '-vvv' => OutputInterface::VERBOSITY_DEBUG,
-    ];
-
-    /**
      * @var Application
      */
     private $application;
@@ -51,13 +42,8 @@ final class ExceptionRenderer
 
     private function decorateOutput(OutputInterface $output): void
     {
-        foreach ($this->verbosityOptionToLevel as $option => $level) {
-            if ($this->input->hasParameterOption('v')) {
-                $output->setVerbosity(OutputInterface::VERBOSITY_VERY_VERBOSE);
-//            }
-//            if (in_array($option, $_SERVER['argv'], true)) {
-//                $output->setVerbosity($level);
-            }
+        if ($this->input->hasParameterOption('v')) {
+            $output->setVerbosity(OutputInterface::VERBOSITY_VERY_VERBOSE);
         }
     }
 }
