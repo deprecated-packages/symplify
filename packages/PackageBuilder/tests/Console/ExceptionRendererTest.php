@@ -21,8 +21,7 @@ final class ExceptionRendererTest extends TestCase
     public function test(): void
     {
         $exceptionRenderer = new ExceptionRenderer($this->createStreamOutput());
-        $exception = new Exception('Random message');
-        $exceptionRenderer->render($exception);
+        $exceptionRenderer->render(new Exception('Random message'));
 
         $this->assertStringMatchesFormat(
             '%wIn ExceptionRendererTest.php line %d:%wRandom message%w',
@@ -33,8 +32,7 @@ final class ExceptionRendererTest extends TestCase
     public function testNestedException(): void
     {
         $exceptionRenderer = new ExceptionRenderer($this->createStreamOutput());
-        $exception = new Exception('Random message', 404, new Exception('Parent message'));
-        $exceptionRenderer->render($exception);
+        $exceptionRenderer->render(new Exception('Random message', 404, new Exception('Parent message')));
 
         $this->assertStringMatchesFormat(
             '%wIn ExceptionRendererTest.php line %d:%wRandom message%w' .
@@ -48,8 +46,7 @@ final class ExceptionRendererTest extends TestCase
         $arrayInput = new ArrayInput(['v' => true]);
         $exceptionRenderer = new ExceptionRenderer($this->createStreamOutput(), $arrayInput);
 
-        $exception = new Exception('Random message');
-        $exceptionRenderer->render($exception);
+        $exceptionRenderer->render(new Exception('Random message'));
 
         $this->assertStringMatchesFormat(
             '%wIn ExceptionRendererTest.php line %d:%w[Exception]%wRandom message%wException trace:%a',
