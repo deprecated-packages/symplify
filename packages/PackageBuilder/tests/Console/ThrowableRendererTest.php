@@ -9,6 +9,7 @@ use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\StreamOutput;
 use Symplify\PackageBuilder\Console\ThrowableRenderer;
+use Throwable;
 
 final class ThrowableRendererTest extends TestCase
 {
@@ -34,13 +35,28 @@ final class ThrowableRendererTest extends TestCase
     public function provideVerbosityLevelsThrowableClassAndExpectedMessage(): Iterator
     {
         yield [null, Error::class, '%wIn ThrowableRendererTest.php line %d:%wRandom message%w'];
-        yield ['-v', Error::class, '%wIn ThrowableRendererTest.php line %d:%w[ErrorException]%wRandom message%wException trace:%a'];
-        yield ['-vv', Error::class, '%wIn ThrowableRendererTest.php line %d:%w[ErrorException]%wRandom message%wException trace:%a'];
-        yield ['-vvv', Error::class, '%wIn ThrowableRendererTest.php line %d:%w[ErrorException]%wRandom message%wException trace:%a'];
-        yield [null, Exception::class, '%wIn ThrowableRendererTest.php line %d:%wRandom message%w'];
-        yield ['-vvv', Exception::class, '%wIn ThrowableRendererTest.php line %d:%w[Exception]%wRandom message%wException trace:%a'];
+        yield [
+            '-v',
+            Error::class,
+            '%wIn ThrowableRendererTest.php line %d:%w[ErrorException]%wRandom message%wException trace:%a',
+        ];
+        yield [
+            '-vv',
+            Error::class,
+            '%wIn ThrowableRendererTest.php line %d:%w[ErrorException]%wRandom message%wException trace:%a',
+        ];
+        yield [
+            '-vvv',
+            Error::class,
+            '%wIn ThrowableRendererTest.php line %d:%w[ErrorException]%wRandom message%wException trace:%a',
+        ];
+        yield [null, Throwable::class, '%wIn ThrowableRendererTest.php line %d:%wRandom message%w'];
+        yield [
+            '-vvv',
+            Throwable::class,
+            '%wIn ThrowableRendererTest.php line %d:%w[Exception]%wRandom message%wException trace:%a',
+        ];
     }
-
 
     public function testNestedException(): void
     {
