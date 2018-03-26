@@ -278,16 +278,21 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
 
 - [#473] bump to Symfony 4
 
-
 - [#437] **TokenRunner** improved `AbstractSimpleFixerTestCase` with clearly named methods
 
-#### Easy Coding Standard
+#### EasyCodingStandard
 
 - [#473] Added `LineLimitSebastianBergmannDiffer` for nicer and compact diff outputs
 
 - [#443] Added smaller common configs for better `--level` usage
 
 - [#447] Allow `-vvv` for ProgressBar + **27 % speed improvement**
+
+- [#388] Added support for ignoring particular sniff codes
+
+- [#406] Added support for ignoring particular codes and files, Thanks to [@ostrolucky]
+
+- [#397] Added validation to `exclude_checkers` option, Thanks to [@mzstic]
 
 #### Coding Standard
 
@@ -303,14 +308,6 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
 
 - [#427] Added `RemoveUselessDocBlockFixer`
 
-#### EasyCodingStandard
-
-- [#388] Added support for ignoring particular sniff codes
-
-- [#406] Added support for ignoring particular codes and files, Thanks to [@ostrolucky]
-
-- [#397] Added validation to `exclude_checkers` option, Thanks to [@mzstic]
-
 #### PackageBuilder
 
 - [#442] Added `AutoloadFinder` to find nearest `/vendor/autoload.php`
@@ -321,6 +318,8 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
 
 ### Changed
 
+- [#473] **CodingStandard** use [ReflectionDocBlock](https://github.com/phpDocumentor/ReflectionDocBlock) for docblock analysis and modification
+
 #### Statie
 
 - [#484] Add *dry-run* option to `StatieApplication` and `BeforeRenderEvent` to improve extendability, closes [#483]
@@ -328,8 +327,6 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
 - [9a9c0e] Use `statie.yml` config based on Symfony DI over "fake" `statie.neon` to prevent confusion, closes [#487]
 
     ```diff
-    -# statie.neon
-    +# statie.yml
     -includes:
     +imports:
     -     - source/data/config.neon
@@ -337,7 +334,7 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
     ```
 
     And simple services:
-    
+
     ```diff
      services:
     -    -
@@ -348,11 +345,11 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
 - [#475] Renamed `relatedPosts` filter to `relatedItems` with general usage (not only posts, but any other own generator element)
 
     ```diff
-    +{var $relatedPosts = ($post|relatedPosts)}
-    -{var $relatedPosts = ($post|relatedItems)}
+    -{var $relatedPosts = ($post|relatedPosts)}
+    +{var $relatedPosts = ($post|relatedItems)}
     ```
 
-- [#473] **CodingStandard** use [ReflectionDocBlock](https://github.com/phpDocumentor/ReflectionDocBlock) for docblock analysis and modification
+- [#399] Filter `similarPosts` renamed to `relatedPosts`, closes [#386]
 
 #### EasyCodingStandard
 
@@ -361,8 +358,6 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
 - [#472] Improve `FileProcessorInterface`, improve performance via `CachedFileLoader`
 
 - [881577] Removed `-checkers` suffix to make file naming consistent
-
-- [#399] **Statie** Filter `similarPosts` renamed to `relatedPosts`, closes [#386]
 
 ### Removed
 
@@ -402,10 +397,12 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
 
 ### Fixed
 
-- [#370] **CodingStandard** Fixed PropertyAndConstantSeparation for multiple classes
-- [#372] **CodingStandard** Fixed incorrect namespace resolving in NoClassInstantiationSniff
-- [#376] **CodingStandard** Fixed nested array in ArrayPropertyDefaultValueFixer
-- [#381] **CodingStandard** Fixed DynamicProperySniff miss
+#### CodingStandard
+
+- [#370] Fixed `PropertyAndConstantSeparation` for multiple classes
+- [#372] Fixed incorrect namespace resolving in `NoClassInstantiationSniff`
+- [#376] Fixed nested array in `ArrayPropertyDefaultValueFixer`
+- [#381] Fixed `DynamicProperySniff` miss
 
 - [#379] **Statie** Fixed source path bug, Thanks to [@chemix]
 
@@ -590,7 +587,7 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
 
     Thanks [@keradus] and [@SpacePossum] for patient feedback and help with my first Fixer ever
 
-#### EasyCodingStandard 
+#### EasyCodingStandard
 
 - [#190] Added `show` command to display all loaded checkers
 
