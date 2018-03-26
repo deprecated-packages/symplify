@@ -44,36 +44,24 @@ final class ThrowableRendererTest extends TestCase
     }
 
     /**
-     * @dataProvider provideVerbosityLevels()
+     * @dataProvider provideVerbosityLevelsThrowableClassAndExpectedMessage()
      */
-    public function testExceptionWithVerbosity(string $verbosityOption): void
+    public function testAll(?string $verbosityOption, string $throwableClass, string $expectedOutput): void
     {
-        $arrayInput = new ArrayInput([$verbosityOption => true]);
+        $arrayInput = new ArrayInput($verbosityOption ? [$verbosityOption => true] : []);
+
         $throwableRenderer = new ThrowableRenderer($this->createStreamOutput(), $arrayInput);
-        $throwableRenderer->render(new Exception('Random message'));
+        $throwableRenderer->render(new $throwableClass('Random message'));
 
-        $this->assertStringMatchesFormat(
-            '%wIn ThrowableRendererTest.php line %d:%w[Exception]%wRandom message%wException trace:%a',
-            $this->getTestErrorOutput()
-        );
+        $this->assertStringMatchesFormat($expectedOutput, $this->getTestErrorOutput());
     }
 
-    public function provideVerbosityLevels(): Iterator
+    public function provideVerbosityLevelsThrowableClassAndExpectedMessage(): Iterator
     {
-        yield ['-v'];
-        yield ['-vv'];
-        yield ['-vvv'];
-    }
-
-    public function testError(): void
-    {
-        $throwableRenderer = new ThrowableRenderer($this->createStreamOutput());
-        $throwableRenderer->render(new Error('Random message'));
-
-        $this->assertStringMatchesFormat(
-            '%wIn ThrowableRendererTest.php line %d:%wRandom message%w',
-            $this->getTestErrorOutput()
-        );
+        yield [null, Error::class, '%wIn ThrowableRendererTest.php line %d:%wRandom message%w'];
+        yield ['-v', Error::class, '%wIn ThrowableRendererTest.php line %d:%w[ErrorException]%wRandom message%wException trace:%a'];
+        yield ['-vv', Error::class, '%wIn ThrowableRendererTest.php line %d:%w[ErrorException]%wRandom message%wException trace:%a'];
+        yield ['-vvv', Error::class, '%wIn ThrowableRendererTest.php line %d:%w[ErrorException]%wRandom message%wException trace:%a'];
     }
 
     /**
