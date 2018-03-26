@@ -18,8 +18,11 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
 #### PackageBuilder
 
 - [#720] Add `Symplify\PackageBuilder\Console\ExceptionRenderer` to render exception nicely like Symonfy\Console `Application` but anywhere outside it; follow up to [#715] and [#702]
+
 - [#713] Add shortcut support for config `-c` in `ConfigFileFinder` and for level `-l` in `LevelFileFinder`
+
 - [#645] Add `AutowireSinglyImplementedCompilerPass` to prevent redundant singly-interface binding
+
 - [#612] Add `CommandNaming` to get command name from the class name
 
 #### CodingStandard
