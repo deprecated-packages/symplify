@@ -23,7 +23,7 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
 
 #### PackageBuilder
 
-- [#720] Add `Symplify\PackageBuilder\Console\ExceptionRenderer` to render exception nicely like Symonfy\Console `Application` but anywhere outside it; follow up to [#715] and [#702]
+- [#720] Add `Symplify\PackageBuilder\Console\ExceptionRenderer` to render exception nicely Console Applications but anywhere outside it; follow up to [#715] and [#702]
 
 - [#713] Add shortcut support for config `-c` in `ConfigFileFinder` and for level `-l` in `LevelFileFinder`
 
@@ -83,7 +83,7 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
 - [#654] **Statie** Move from Yaml + Neon mixture to Yaml, similar to [#651]
     - [How to migrate from `*.neon` to `*.yml`](https://www.tomasvotruba.cz/blog/2018/03/12/neon-vs-yaml-and-how-to-migrate-between-them/)?
 
-- [#721] Prefer `Input` and `Output` instances injected via constuctor in used Symfony\Console `Application`
+- [#721] Prefer `Input` and `Output` instances injected via constructor in used Console Applications
 
 #### PackageBuilder
 
