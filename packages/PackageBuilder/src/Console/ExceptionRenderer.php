@@ -4,11 +4,28 @@ namespace Symplify\PackageBuilder\Console;
 
 use Exception;
 use Symfony\Component\Console\Application;
+use Symfony\Component\Console\Input\ArgvInput;
+use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\Console\Output\OutputInterface;
 
 final class ExceptionRenderer
 {
+    /**
+     * @var Application
+     */
+    private $application;
+
+    /**
+     * @var OutputInterface
+     */
+    private $output;
+
+    /**
+     * @var InputInterface
+     */
+    private $input;
+
     /**
      * @var int[]
      */
@@ -18,36 +35,26 @@ final class ExceptionRenderer
         '-vvv' => OutputInterface::VERBOSITY_DEBUG,
     ];
 
-    /**
-     * @var Application
-     */
-    private $application;
-
-    /**
-     * @var ConsoleOutput
-     */
-    private $consoleOutput;
-
-    public function __construct()
+    public function __construct(?OutputInterface $output = null, ?InputInterface $input = null)
     {
         $this->application = new Application();
-        $this->consoleOutput = $this->createConsoleOutput();
+        $this->output = $output ?: new ConsoleOutput();
+        $this->input = $input ?: new ArgvInput();
+
+        $this->decorateOutput($this->output);
     }
 
     public function render(Exception $exception): void
     {
-        $this->application->renderException($exception, $this->consoleOutput);
+        $this->application->renderException($exception, $this->output);
     }
 
-    private function createConsoleOutput(): ConsoleOutput
+    private function decorateOutput(OutputInterface $output): void
     {
-        $consoleOutput = new ConsoleOutput();
         foreach ($this->verbosityOptionToLevel as $option => $level) {
-            if (in_array($option, $_SERVER['argv'], true)) {
-                $consoleOutput->setVerbosity($level);
+            if ($this->input->hasParameterOption($option)) {
+                $output->setVerbosity($level);
             }
         }
-
-        return $consoleOutput;
     }
 }
