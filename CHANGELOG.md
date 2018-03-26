@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 *Note: due to rather agile development all changes are bunched in the nearest minor version, e.g. changes from 3.1.1-3.1.15 => 3.2.0. That makes changelog more clear and readable, rather then having 15 lines with one change per version, and also keeps joy to maintain this file.*
 
+PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLinker](https://github.com/Symplify/ChangelogLinker).
+
 ## [v4.0.0alpha3]
 
 Biggest change of this release is moving from mixture of Yaml and Neon format in `*.neon` files to Yaml format in `*.yaml` files. That will make Symplify packages more world-friendly and standard rather than Czech-only Neon format. See [#651](https://github.com/Symplify/Symplify/pull/651) about more reasoning behind this.
@@ -397,14 +399,17 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
 
 ### Fixed
 
+- [#379] **Statie** Fixed source path bug, Thanks to [@chemix]
+
 #### CodingStandard
 
 - [#370] Fixed `PropertyAndConstantSeparation` for multiple classes
-- [#372] Fixed incorrect namespace resolving in `NoClassInstantiationSniff`
-- [#376] Fixed nested array in `ArrayPropertyDefaultValueFixer`
-- [#381] Fixed `DynamicProperySniff` miss
 
-- [#379] **Statie** Fixed source path bug, Thanks to [@chemix]
+- [#372] Fixed incorrect namespace resolving in `NoClassInstantiationSniff`
+
+- [#376] Fixed nested array in `ArrayPropertyDefaultValueFixer`
+
+- [#381] Fixed `DynamicProperySniff` miss
 
 ### Removed
 
@@ -414,16 +419,27 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
 
 ### Added
 
-- [#360] **CodingStandard** Added `--no-progress-bar` option, added `--no-error-table` option
-- [#358] **CodingStandard** Added `AnnotateMagicContainerGetterFixer`
-- [#356] **CodingStandard** Added `PropertyNameMatchingTypeFixer`
-- [#346] **CodingStandard** Added `LastPropertyAndFirstMethodSeparationFixer`
-
-- [#354] **EasyCodingStandard** Added [clean-code set](https://www.tomasvotruba.cz/blog/2017/09/18/4-simple-checkers-for-coding-standard-haters-but-clean-code-lovers/)
-- [430fc5] **EasyCodingStandard** ConflictingGuard feature added, see [#333]
-- [33f28a] **EasyCodingStandard** Add new rules to `symfony-checkers`
-- [#342] **EasyCodingStandard** Add parser error reporting, Thanks [@webrouse]
 - [#359] **Statie** Added Markdown support in `perex` in post
+
+#### CodingStandard
+
+- [#360] Added `--no-progress-bar` option, added `--no-error-table` option
+
+- [#358] Added `AnnotateMagicContainerGetterFixer`
+
+- [#356] Added `PropertyNameMatchingTypeFixer`
+
+- [#346] Added `LastPropertyAndFirstMethodSeparationFixer`
+
+#### EasyCodingStandard
+
+- [#354] Added [clean-code set](https://www.tomasvotruba.cz/blog/2017/09/18/4-simple-checkers-for-coding-standard-haters-but-clean-code-lovers/)
+
+- [430fc5] ConflictingGuard feature added, see [#333]
+
+- [33f28a] Add new rules to `symfony-checkers`
+
+- [#342] Add parser error reporting, Thanks [@webrouse]
 
 ### Changed
 
@@ -442,33 +458,44 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
 #### CodingStandard
 
 - [#360] Added `--no-progress-bar` option, added `--no-error-table` option
+
 - [#338] Added `PropertyAndConstantSeparationFixer`
+
 - [#332] Added `DynamicPropertySniff`
+
 - [#320] Added `NoClassInstantiationSniff`
+
 - [#311] Added `StandaloneLineInMultilineArrayFixer`
+
 - [#283] Added `ExceptionNameFixer`
 
 #### EasyCodingStandard
 
 - [#330] Added performance overview per checker via `--show-performance` options
+
 - [#305] Added `MutualCheckerExcluder`
+
 - [#301] Added `exclude_checkers` option to config, that allows to exclude specific checkers, e.g. inherited from configs
+
 - [#290] Added prepared sets with checkers
+
 - [#285] Added sniff set support to `show` command via `--sniff-set` option
 
 ### Changed
 
+- [#295] **Statie** Rework similar posts concept from semi-AI magic to manual option `related_posts` in post file
+
 #### CodingStandard
 
 - [#334] `ArrayPropertyDefaultValueFixer` now allows single line comments, Thanks to [@vlastavesely]
+
 - [#314] Make `ClassStringToClassConstantFixer` configurable
 
 #### EasyCodingStandard
 
 - [#337] Fail table is less agressive
-- [#287] Allow SourceFinder to return Nette or Symfony Finder without any extra work
 
-- [#295] **Statie** Rework similar posts concept from semi-AI magic to manual option `related_posts` in post file
+- [#287] Allow SourceFinder to return Nette or Symfony Finder without any extra work
 
 ### Fixed
 
@@ -479,7 +506,9 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
 #### Statie
 
 - [#328] Removed hardcoded path from github filter, Thanks to [@crazko]
+
 - [#327] Fixed ability to set layout for posts
+
 - [#325] Disable decoration when AMP disabled
 
 ## [v2.2.0] - 2017-07-26
@@ -534,11 +563,13 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
 #### PackageBuilder
 
 - [#276] Added support for absolute path in `--config`, Thanks [@dg]
+
 - [#225] Added `ParameterProvider` for Nette
 
 #### Statie
 
 - [#243], [#258], [#275] Added cache for AMP + various fixes
+
 - [#252], [#256] Added support for Latte code in highlight in posts, Thanks [@enumag]
 
 ### Changed
@@ -553,20 +584,24 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
 
 ### Fixed
 
+- [#245] **Statie** Fixed Configuration in ParametersProvider
+
 #### EasyCodingStandard
 
 - [#230] Fixed Configuration BC break by PHP-CS-Fixer 2.3
-- [#238] Fixed caching invalidation for config including other configs
-- [#257] Error is propagated to exit code, Thanks [@dg]
 
-- [#245] **Statie** Fixed Configuration in ParametersProvider
+- [#238] Fixed caching invalidation for config including other configs
+
+- [#257] Error is propagated to exit code, Thanks [@dg]
 
 ### Deprecated
 
 #### CodingStandard
 
 - [#240] Deprecated `VarPropertyCommentSniff`, use `SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff` instead
+
 - [#264] Deprecated `ClassNamesWithoutPreSlashSniff`, use `\SlevomatCodingStandard\Sniffs\Namespaces\ReferenceUsedNamesOnlySniff` instead
+
 - [#282] Deprecated `ForbiddenTraitSniff`, was too strict
 
 ## [v2.1.0] - 2017-07-04
@@ -610,13 +645,17 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
 #### PackageBuilder
 
 - [#197] Added `AbstractCliKernel` for CLI apps bootstrapping
+
 - [#199] Added `ConfigFilePathHelper` for CLI and local config detection
+
 - [#223] `NeonLoader` - validate allowed sections feature added
+
 - [#211] Improve configs - allow including for `*.neon` and `*.yml`, add `NeonLoaderAwareKernelTrait` for `*.neon` support in `Kernel`
 
 #### Statie
 
 - [#197] Add configuration via `statie.neon`
+
 - [#201] AMP support added
 
 ### Changed
@@ -626,11 +665,13 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
 #### EasyCodingStandard
 
 - [#221] throw nicer exception on Container build fail
+
 - [#214] migrate RunCommand to more flexible Configuration service
 
 #### PackageBuilder
 
 - [#190] `DefinitionCollector::loadCollectorWithType()` now allows multiple `$collectors`
+
 - [#212] Add exception for missing file
 
 #### Statie
