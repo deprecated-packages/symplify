@@ -55,8 +55,6 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
 - [#722] **TokenRunner** Move form `static` to service and constructor injection
 - [#712] **EasyCodingStandard** Move from `Symplify\EasyCodingStandard\Testing\AbstractContainerAwareCheckerTestCase` to new `Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase`
 - [#693] **CodingStandard** Move checkers from static to services, follow up to [#680]
-- [#703] Remove dead PHPStan rules, thanks to [@carusogabriel]
-- [#704] Reduce function cyclomatic complexity, thanks to [@carusogabriel]
 - [#700] **EasyCodingStandard** Rename deprecated Fixers to their new equivalents, thanks [@OndraM]
 - [#680] **BetterReflectionDocBlock** First steps to migration from [phpDocumentor/ReflectionDocBlock](https://github.com/phpDocumentor/ReflectionDocBlock) to [phpstan/phpdoc-parser](https://github.com/phpstan/phpdoc-parser)
 - [#680] **EasyCodingStandard** Move from statics in checkers to autowired DI
