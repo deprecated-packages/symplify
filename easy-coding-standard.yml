@@ -75,6 +75,8 @@ parameters:
         SlevomatCodingStandard\Sniffs\Exceptions\ReferenceThrowableOnlySniff.ReferencedGeneralException:
             # intentionally "Exception" value
             - 'packages/CodingStandard/src/Sniffs/Architecture/ExplicitExceptionSniff.php'
+            # intentionally "Exception" value
+            - 'packages/PackageBuilder/tests/Console/ThrowableRendererTest.php'
 
         Symplify\CodingStandard\Sniffs\CleanCode\ForbiddenStaticFunctionSniff:
             - 'packages/PackageBuilder/src/Finder/SymfonyFileInfoFactory.php' # @todo test and cover relative path againts getcwd()

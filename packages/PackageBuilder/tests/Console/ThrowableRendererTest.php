@@ -9,7 +9,6 @@ use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\StreamOutput;
 use Symplify\PackageBuilder\Console\ThrowableRenderer;
-use Throwable;
 
 final class ThrowableRendererTest extends TestCase
 {
@@ -50,10 +49,10 @@ final class ThrowableRendererTest extends TestCase
             Error::class,
             '%wIn ThrowableRendererTest.php line %d:%w[ErrorException]%wRandom message%wException trace:%a',
         ];
-        yield [null, Throwable::class, '%wIn ThrowableRendererTest.php line %d:%wRandom message%w'];
+        yield [null, Exception::class, '%wIn ThrowableRendererTest.php line %d:%wRandom message%w'];
         yield [
             '-vvv',
-            Throwable::class,
+            Exception::class,
             '%wIn ThrowableRendererTest.php line %d:%w[Exception]%wRandom message%wException trace:%a',
         ];
     }
