@@ -34,21 +34,13 @@ final class ThrowableRendererTest extends TestCase
     public function provideVerbosityLevelsThrowableClassAndExpectedMessage(): Iterator
     {
         yield [null, Error::class, '%wIn ThrowableRendererTest.php line %d:%wRandom message%w'];
-        yield [
-            '-v',
-            Error::class,
-            '%wIn ThrowableRendererTest.php line %d:%w[ErrorException]%wRandom message%wException trace:%a',
-        ];
-        yield [
-            '-vv',
-            Error::class,
-            '%wIn ThrowableRendererTest.php line %d:%w[ErrorException]%wRandom message%wException trace:%a',
-        ];
-        yield [
-            '-vvv',
-            Error::class,
-            '%wIn ThrowableRendererTest.php line %d:%w[ErrorException]%wRandom message%wException trace:%a',
-        ];
+
+        $verboseErrorMessage = '%wIn ThrowableRendererTest.php line %d:%w' .
+            '[Symfony\Component\Debug\Exception\FatalThrowableError]%wRandom message%wException trace:%a';
+        yield ['-v', Error::class, $verboseErrorMessage];
+        yield ['-vv', Error::class, $verboseErrorMessage];
+        yield ['-vvv', Error::class, $verboseErrorMessage];
+
         yield [null, Exception::class, '%wIn ThrowableRendererTest.php line %d:%wRandom message%w'];
         yield [
             '-vvv',
