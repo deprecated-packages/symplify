@@ -61,7 +61,7 @@ parameters:
 
         Symplify\CodingStandard\Sniffs\DependencyInjection\NoClassInstantiationSniff:
             # static helper
-            - 'packages/PackageBuilder/src/Console/ExceptionRenderer.php'
+            - 'packages/PackageBuilder/src/Console/ThrowableRenderer.php'
             # temporary, remove with checkers autowire
             - 'packages/BetterReflectionDocBlock/src/FixedSerializer.php'
             # todo: decouple later
@@ -75,8 +75,6 @@ parameters:
         SlevomatCodingStandard\Sniffs\Exceptions\ReferenceThrowableOnlySniff.ReferencedGeneralException:
             # intentionally "Exception" value
             - 'packages/CodingStandard/src/Sniffs/Architecture/ExplicitExceptionSniff.php'
-            # intentionally "Exception" value - 3rd party outdated typehint
-            - 'packages/PackageBuilder/src/Console/ExceptionRenderer.php'
 
         Symplify\CodingStandard\Sniffs\CleanCode\ForbiddenStaticFunctionSniff:
             - 'packages/PackageBuilder/src/Finder/SymfonyFileInfoFactory.php' # @todo test and cover relative path againts getcwd()

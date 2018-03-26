@@ -2,14 +2,14 @@
 
 namespace Symplify\PackageBuilder\Console;
 
-use Exception;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\Console\Output\OutputInterface;
+use Throwable;
 
-final class ExceptionRenderer
+final class ThrowableRenderer
 {
     /**
      * @var Application
@@ -44,9 +44,9 @@ final class ExceptionRenderer
         $this->decorateOutput($this->output);
     }
 
-    public function render(Exception $exception): void
+    public function render(Throwable $throwable): void
     {
-        $this->application->renderException($exception, $this->output);
+        $this->application->renderException($throwable, $this->output);
     }
 
     private function decorateOutput(OutputInterface $output): void
