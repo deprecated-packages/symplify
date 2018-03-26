@@ -1,5 +1,8 @@
 parameters:
     ignoreErrors:
+        # temporary
+        - '#Parameter \#1 \$e of method Symfony\\Component\\Console\\Application::renderException\(\) expects Exception, Throwable given#'
+
         - '#Symplify\\EasyCodingStandard\\SniffRunner\\File\\File::__construct\(\) does not call parent constructor from PHP_CodeSniffer\\Files\\File#'
 
         # lvl 7

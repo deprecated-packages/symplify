@@ -163,12 +163,12 @@ This is common practise in CLI applications, e.g. [PHPUnit](https://phpunit.de/)
 Do you get exception before getting into Symfony\Console Application, but still want to render it like the Application would do?
 E.g in `bin/<app-name>` when ContainerFactory fails.
 
-Use `Symplify\PackageBuilder\Console\ExceptionRenderer`:
+Use `Symplify\PackageBuilder\Console\ThrowableRenderer`:
 
 ```php
 use Symfony\Component\Console\Application;
 use Symfony\Component\DependencyInjection\Container;
-use Symplify\PackageBuilder\Console\ExceptionRenderer;
+use Symplify\PackageBuilder\Console\ThrowableRenderer;
 
 require_once __DIR__ . '/ecs-autoload.php';
 
@@ -182,7 +182,7 @@ try {
     $application = $container->get(Application::class);
     exit($application->run());
 } catch (Throwable $throwable) {
-    (new ExceptionRenderer())->render($throwable);
+    (new ThrowableRenderer())->render($throwable);
     exit(1);
 }
 ```

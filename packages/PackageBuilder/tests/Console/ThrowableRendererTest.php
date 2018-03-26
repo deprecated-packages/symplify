@@ -7,9 +7,9 @@ use Iterator;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\StreamOutput;
-use Symplify\PackageBuilder\Console\ExceptionRenderer;
+use Symplify\PackageBuilder\Console\ThrowableRenderer;
 
-final class ExceptionRendererTest extends TestCase
+final class ThrowableRendererTest extends TestCase
 {
     /**
      * @var resource
@@ -21,23 +21,23 @@ final class ExceptionRendererTest extends TestCase
      */
     public function test(): void
     {
-        $exceptionRenderer = new ExceptionRenderer($this->createStreamOutput());
+        $exceptionRenderer = new ThrowableRenderer($this->createStreamOutput());
         $exceptionRenderer->render(new Exception('Random message'));
 
         $this->assertStringMatchesFormat(
-            '%wIn ExceptionRendererTest.php line %d:%wRandom message%w',
+            '%wIn ThrowableRendererTest.php line %d:%wRandom message%w',
             $this->getTestErrorOutput()
         );
     }
 
     public function testNestedException(): void
     {
-        $exceptionRenderer = new ExceptionRenderer($this->createStreamOutput());
+        $exceptionRenderer = new ThrowableRenderer($this->createStreamOutput());
         $exceptionRenderer->render(new Exception('Random message', 404, new Exception('Parent message')));
 
         $this->assertStringMatchesFormat(
-            '%wIn ExceptionRendererTest.php line %d:%wRandom message%w' .
-            'In ExceptionRendererTest.php line %d:%wParent message%w',
+            '%wIn ThrowableRendererTest.php line %d:%wRandom message%w' .
+            'In ThrowableRendererTest.php line %d:%wParent message%w',
             $this->getTestErrorOutput()
         );
     }
@@ -48,12 +48,12 @@ final class ExceptionRendererTest extends TestCase
     public function testExceptionWithVerbosity(string $verbosityOption): void
     {
         $arrayInput = new ArrayInput([$verbosityOption => true]);
-        $exceptionRenderer = new ExceptionRenderer($this->createStreamOutput(), $arrayInput);
+        $exceptionRenderer = new ThrowableRenderer($this->createStreamOutput(), $arrayInput);
 
         $exceptionRenderer->render(new Exception('Random message'));
 
         $this->assertStringMatchesFormat(
-            '%wIn ExceptionRendererTest.php line %d:%w[Exception]%wRandom message%wException trace:%a',
+            '%wIn ThrowableRendererTest.php line %d:%w[Exception]%wRandom message%wException trace:%a',
             $this->getTestErrorOutput()
         );
     }
