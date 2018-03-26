@@ -2,6 +2,7 @@
 
 namespace Symplify\PackageBuilder\Tests\Console;
 
+use Error;
 use Exception;
 use Iterator;
 use PHPUnit\Framework\TestCase;
@@ -21,8 +22,8 @@ final class ThrowableRendererTest extends TestCase
      */
     public function test(): void
     {
-        $exceptionRenderer = new ThrowableRenderer($this->createStreamOutput());
-        $exceptionRenderer->render(new Exception('Random message'));
+        $throwableRenderer = new ThrowableRenderer($this->createStreamOutput());
+        $throwableRenderer->render(new Exception('Random message'));
 
         $this->assertStringMatchesFormat(
             '%wIn ThrowableRendererTest.php line %d:%wRandom message%w',
@@ -32,8 +33,8 @@ final class ThrowableRendererTest extends TestCase
 
     public function testNestedException(): void
     {
-        $exceptionRenderer = new ThrowableRenderer($this->createStreamOutput());
-        $exceptionRenderer->render(new Exception('Random message', 404, new Exception('Parent message')));
+        $throwableRenderer = new ThrowableRenderer($this->createStreamOutput());
+        $throwableRenderer->render(new Exception('Random message', 404, new Exception('Parent message')));
 
         $this->assertStringMatchesFormat(
             '%wIn ThrowableRendererTest.php line %d:%wRandom message%w' .
@@ -43,14 +44,13 @@ final class ThrowableRendererTest extends TestCase
     }
 
     /**
-     * @dataProvider provideVerbosityLevels
+     * @dataProvider provideVerbosityLevels()
      */
     public function testExceptionWithVerbosity(string $verbosityOption): void
     {
         $arrayInput = new ArrayInput([$verbosityOption => true]);
-        $exceptionRenderer = new ThrowableRenderer($this->createStreamOutput(), $arrayInput);
-
-        $exceptionRenderer->render(new Exception('Random message'));
+        $throwableRenderer = new ThrowableRenderer($this->createStreamOutput(), $arrayInput);
+        $throwableRenderer->render(new Exception('Random message'));
 
         $this->assertStringMatchesFormat(
             '%wIn ThrowableRendererTest.php line %d:%w[Exception]%wRandom message%wException trace:%a',
@@ -63,6 +63,17 @@ final class ThrowableRendererTest extends TestCase
         yield ['-v'];
         yield ['-vv'];
         yield ['-vvv'];
+    }
+
+    public function testError(): void
+    {
+        $throwableRenderer = new ThrowableRenderer($this->createStreamOutput());
+        $throwableRenderer->render(new Error('Random message'));
+
+        $this->assertStringMatchesFormat(
+            '%wIn ThrowableRendererTest.php line %d:%wRandom message%w',
+            $this->getTestErrorOutput()
+        );
     }
 
     /**
