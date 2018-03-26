@@ -151,22 +151,13 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
 
 - [#647] Removed deprecated `parameters > github_repository_slug` option, use `github_repository_source_directory` instead
 
-    ##### Before
-
-    ```yml
-    # statie.yml
-    parameters:
-        # <user>/<repository>
-        github_repository_slug: "pehapkari/pehapkari.cz"
-    ```
-
-    ##### After
-
-    ```yml
-    # statie.yml
-    parameters:
-        # https://github.com/<user>/<repository>/tree/master/<source>, where <source> is name of directory with Statie content
-        github_repository_source_directory: "https://github.com/pehapkari/pehapkari.cz/tree/master/source"
+    ```diff
+     # statie.yml
+     parameters:
+    -    # <user>/<repository>
+    -    github_repository_slug: "pehapkari/pehapkari.cz"
+    +    # https://github.com/<user>/<repository>/tree/master/<source>, where <source> is name of directory with Statie content
+    +    github_repository_source_directory: "https://github.com/pehapkari/pehapkari.cz/tree/master/source"
     ```
 
 - [#647] Removed deprecated `statie.neon` note, use `statie.yml` instead
@@ -336,32 +327,22 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
 
 - [9a9c0e] Use `statie.yml` config based on Symfony DI over "fake" `statie.neon` to prevent confusion, closes [#487]
 
-    **Before**
-
-    ```yml
-    # statie.neon
-    includes:
-         - source/data/config.neon
+    ```diff
+    -# statie.neon
+    +# statie.yml
+    -includes:
+    +imports:
+    -     - source/data/config.neon
+    +     - { resource: 'source/data/config.yml' }
     ```
 
-    **After**
-    ```yml
-    # statie.yml
-    imports:
-        - { resource: 'source/data/config.yml' }
-    ```
-
-    **Before**
-    ```yml
-    services:
-        -
-            class: App\TranslationProvider
-    ```
-
-    **After**
-    ```yml
-    services:
-        App\TranslationProvider: ~
+    And simple services:
+    
+    ```diff
+     services:
+    -    -
+    -        class: App\TranslationProvider
+    +    App\TranslationProvider: ~
     ```
 
 - [#475] Renamed `relatedPosts` filter to `relatedItems` with general usage (not only posts, but any other own generator element)
