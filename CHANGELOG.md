@@ -10,26 +10,35 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
 
 ### Added
 
-- [#720] **PackageBuilder** Add `Symplify\PackageBuilder\Console\ExceptionRenderer` to render exception nicely like Symonfy\Console `Application` but anywhere outside it; follow up to [#715] and [#702]
-- [#713] **PackageBuilder** Add shortcut support for config `-c` in `ConfigFileFinder` and for level `-l` in `LevelFileFinder`
-- [#722] **CodingStandard** Add `ForbiddenStaticFunctionSniff`
-- [#707], [#709] **CodingStandard** Upgrade to [PHP CS Fixer 2.11](https://github.com/FriendsOfPHP/PHP-CS-Fixer/tree/v2.11.0)
-- [#705] **EasyCodingStandard** Add `-c` shortcut for `--config` CLI option, thanks to [@OndraM]
-- [#698] **EasyCodingStandard** Autodiscover `*.yaml` suffix as well
-- [#692] **CodingStandard** Add `ForbiddenReferenceSniff` to check all `&$var` references
+#### PackageBuilder
+
+- [#720] Add `Symplify\PackageBuilder\Console\ExceptionRenderer` to render exception nicely like Symonfy\Console `Application` but anywhere outside it; follow up to [#715] and [#702]
+- [#713] Add shortcut support for config `-c` in `ConfigFileFinder` and for level `-l` in `LevelFileFinder`
+- [#645] Add `AutowireSinglyImplementedCompilerPass` to prevent redundant singly-interface binding
+- [#612] Add `CommandNaming` to get command name from the class name
+
+#### CodingStandard
+
+- [#722] Add `ForbiddenStaticFunctionSniff`
+- [#707], [#709] Upgrade to [PHP CS Fixer 2.11](https://github.com/FriendsOfPHP/PHP-CS-Fixer/tree/v2.11.0)
+- [#692] Add `ForbiddenReferenceSniff` to check all `&$var` references
 - [#680](https://github.com/Symplify/Symplify/pull/680/files#diff-412c71ea9d7b9fa9322e1cf23e39a1e7) **PackageBuilder** Add `PublicForTestsCompilerPass` to remove `public: true` in configs and still allow `get()` use in tests
-- [#690] **CodingStandard** Make `RemoveUselessDocBlockFixer` cover functions as well
-- [#656] **EasyCodingStandard** Add configurable cache directory for changed files, closes [#650], thanks to [@marmichalski]
+- [#690] Make `RemoveUselessDocBlockFixer` cover functions as well
+- [#633] Add `ClassNameSuffixByParentFixer`, closes [#607]
+- [#591] Add `BreakArrayListFixer` to break/inline array items over/under 120 chars
+- [#585] Add `BreakMethodCallsFixer` to break/inline method calls over/under 120 chars
+
+#### EasyCodingStandard
+
+- [#705] Add `-c` shortcut for `--config` CLI option, thanks to [@OndraM]
+- [#698] Autodiscover `*.yaml` suffix as well
+- [#656] Add configurable cache directory for changed files, closes [#650], thanks to [@marmichalski]
     ```yml
     # easy-coding-standard.yml
     parameters:
         cache_directory: .ecs_cache # defaults to sys_get_temp_dir() . '/_easy_coding_standard'
     ```
-- [#645] **PackageBuilder** Add `AutowireSinglyImplementedCompilerPass` to prevent redundant singly-interface binding
-- [#633] **CodingStandard** Add `ClassNameSuffixByParentFixer`, closes [#607]
-- [#591] **CodingStandard** Add `BreakArrayListFixer` to break/inline array items over/under 120 chars
-- [#585] **CodingStandard** Add `BreakMethodCallsFixer` to break/inline method calls over/under 120 chars
-- [#584] **EasyCodingStandard** Add `fnmatch` check to `exclude_files`:
+- [#584] Add `fnmatch` check to `exclude_files`:
    ```yml
    # easy-coding-standard.yml
    parameters:
@@ -39,9 +48,10 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
            # new
            - '*/lib/PhpParser/Parser/Php*.php'
    ```
-- [#583] **EasyCodingStandard** Add `exclude_files` option to config
-- [#612] **PackageBuilder** Add `CommandNaming` to get command name from the class name
+- [#583] Add `exclude_files` option to config
+
 - [#589] **Statie, EasyCodingStandard** Add version printing on `-V` option in CLI, thanks to [@ostrolucky]
+
 - [#585] **TokenRunner** Add `MethodCallWrapper` helper class to count line lengths of method calls
 
 ### Changed
