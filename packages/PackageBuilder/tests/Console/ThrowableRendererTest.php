@@ -2,6 +2,7 @@
 
 namespace Symplify\PackageBuilder\Tests\Console;
 
+use Error;
 use Exception;
 use Iterator;
 use PHPUnit\Framework\TestCase;
@@ -63,6 +64,17 @@ final class ThrowableRendererTest extends TestCase
         yield ['-v'];
         yield ['-vv'];
         yield ['-vvv'];
+    }
+
+    public function testError(): void
+    {
+        $throwableRenderer = new ThrowableRenderer($this->createStreamOutput());
+        $throwableRenderer->render(new Error('Random message'));
+
+        $this->assertStringMatchesFormat(
+            '%wIn ThrowableRendererTest.php line %d:%wRandom message%w',
+            $this->getTestErrorOutput()
+        );
     }
 
     /**
