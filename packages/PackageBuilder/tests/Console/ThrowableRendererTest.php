@@ -44,7 +44,7 @@ final class ThrowableRendererTest extends TestCase
     }
 
     /**
-     * @dataProvider provideVerbosityLevels
+     * @dataProvider provideVerbosityLevels()
      */
     public function testExceptionWithVerbosity(string $verbosityOption): void
     {
