@@ -1,6 +1,11 @@
 # Changelog
 
-Note: due to rather agile development of packages and big amount of releases all changes are bunched in nearest minor version, e.g. changes from 3.1.0-3.1.15 => 3.2.0. That makes changelog more clear and readable, rather then having 15 lines with one change per version, and also helps to actually maintain this file.
+All notable changes to this project will be documented in this file.
+
+The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
+and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
+
+*Note: due to rather agile development all changes are bunched in the nearest minor version, e.g. changes from 3.1.1-3.1.15 => 3.2.0. That makes changelog more clear and readable, rather then having 15 lines with one change per version, and also keeps joy to maintain this file.*
 
 ## [v4.0.0alpha3]
 
