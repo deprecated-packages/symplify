@@ -3,12 +3,12 @@
 namespace Symplify\PackageBuilder\Console;
 
 use Error;
-use ErrorException;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Debug\Exception\FatalThrowableError;
 use Throwable;
 
 final class ThrowableRenderer
@@ -52,7 +52,7 @@ final class ThrowableRenderer
     public function render(Throwable $throwable): void
     {
         if ($throwable instanceof Error) {
-            $throwable = $this->wrapErrorToErrorException($throwable);
+            $throwable = new FatalThrowableError($throwable);
         }
 
         $this->application->renderException($throwable, $this->output);
@@ -65,16 +65,5 @@ final class ThrowableRenderer
                 $output->setVerbosity($level);
             }
         }
-    }
-
-    private function wrapErrorToErrorException(Error $error): ErrorException
-    {
-        return new ErrorException(
-            $error->getMessage(),
-            $error->getCode(),
-            E_ERROR,
-            $error->getFile(),
-            $error->getLine()
-        );
     }
 }
