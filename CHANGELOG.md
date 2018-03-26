@@ -449,6 +449,7 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
 ### Fixed
 
 - [#347] **CodingStandard** Fix comment behind constant in `PropertyAndConstantSeparationFixer`
+
 - [#355] **EasyCodingStandard** Fix `fnmatch` support both for relative and absolute paths
 
 ## [v2.3.0] - 2017-09-06
@@ -579,7 +580,9 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
 #### EasyCodingStandard
 
 - [#232] Improved report after all is fixed
+
 - [#255] Fixers are sorted by priority
+
 - [#239] `PHP_EOL` is now default line-ending for PHP-CS-Fixer, Thanks [@dg]
 
 ### Fixed
@@ -693,6 +696,8 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
 
 - [#179] **EasyCodingStandard** check for unused skipped errors and report them (inspired by [@phpstan])
 
+- [#150] **Statie** decouple Latte related files to FlatWhite sub-package
+
 #### CodingStandard
 
 - [#144] Added new sniffs
@@ -707,48 +712,58 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
 
 - [#152] Check for duplicated checker added - https://github.com/Symplify/Symplify/pull/152/files#diff-9c8034d27d44f02880909bfad4a7f853
 
-- [#150] **Statie** decouple Latte related files to FlatWhite sub-package
-
 ### Changed
 
 - [#155] bump min version to Symfony 3.3
 
+- [#184] **Statie** use `Symfony\DependencyInjection` instead of `Nette\DI`
+
 #### EasyCodingStandard
 
 - [#179] use `Symfony\DependencyInjection` instead of `Nette\DI`, due to [new Symfony 3.3 features](https://www.tomasvotruba.cz/blog/2017/05/07/how-to-refactor-to-new-dependency-injection-features-in-symfony-3-3/)
-- [#151] `Nette\DI` config loading style added, parameters are now in Container and sniffs/fixers are registered as services
 
-- [#184] **Statie** use `Symfony\DependencyInjection` instead of `Nette\DI`
+- [#151] `Nette\DI` config loading style added, parameters are now in Container and sniffs/fixers are registered as services
 
 ### Fixed
 
 - [#157] **CodingStandard** fix property docblock sniff for multiple annotations
+
 - [#164] **SymbioticController** fixed typo in nette application request event name, Thanks [@Lexinek]
+
 - [#142] **ControllerAutowire** prevent duplicated controller registraction
 
 ### Removed
 
-Based on discussion with friends and maintainers, I've found there are better managed and actively used packages, that provide similar features as few Simplify packages.
-
-- [#170] **EventDispatcher** package deprecated in favor of [contributte/event-dispatcher]
-- [#162] **DefaultAutowire** package deprecated in favor of Symfony 3.3 `_defaults` section
-- [#186] **ModularLatteFilter** package deprecated in favor of https://github.com/contributte/latte
-- [#182] **ModularRouting** package deprecated based poor usage and discussion in [#181]
 - [#184] **Statie** dropped translation support, not very extensive and shown unable in practise, implement own simple filter instead
-- [#155] **AutoServiceRegistration** package deprecated
-    - Use [@Symfony] 3.3 PSR-4 service autodiscovery: symfony/symfony#21289
-- [#155] **ControllerAutowire** package deprecated
-    - Use [@Symfony] 3.3 `AbstractController` symfony/symfony#22157
-    - Use [@Symfony] 3.3 service PSR-4 autodiscovery: symfony/symfony#21289
-- [#155] **ServiceDefinitionDecorator** package deprecated
-    - Use `_instanceof` [@Symfony] 3.3: https://symfony.com/blog/new-in-symfony-3-3-simpler-service-configuration#interface-based-service-configuration
-- [#144] **CodingStandard** drop sniffs duplicated in 3rd party packages
+
+#### CodingStandard
+
+- [#144] Drop sniffs duplicated in 3rd party packages
     - `Symplify\CodingStandard\Sniffs\Commenting\MethodCommentSniff`, replaced by `SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff`
     - `Symplify\CodingStandard\Sniffs\Commenting\MethodReturnTypeSniff`, replaced by `SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff`
-- [#152] **CodingStandard** removed unused sniff `Symplify\CodingStandard\Sniffs\Commenting\ComponentFactoryCommentSniff`
-- [#153] **SymfonySecurityVoters** package deprecated, for no practical use
+- [#152] Removed unused sniff `Symplify\CodingStandard\Sniffs\Commenting\ComponentFactoryCommentSniff`
 
-For more deprecation details see [Symplify packages deprecations brought by Symfony 3.3](https://www.tomasvotruba.cz/blog/2017/05/29/symplify-packages-deprecations-brought-by-symfony-33/)
+[Based on discussion with friends and maintainers](https://www.tomasvotruba.cz/blog/2017/05/29/symplify-packages-deprecations-brought-by-symfony-33/), I've found there are better managed and actively used packages, that provide similar features as few Simplify packages. So **these packages were deprecated**:
+
+- [#170] **EventDispatcher** package deprecated in favor of [contributte/event-dispatcher]
+
+- [#162] **DefaultAutowire** package deprecated in favor of Symfony 3.3 `_defaults` section
+
+- [#186] **ModularLatteFilter** package deprecated in favor of https://github.com/contributte/latte
+
+- [#182] **ModularRouting** package deprecated based poor usage and discussion in [#181]
+
+- [#155] **AutoServiceRegistration** package deprecated
+    - Use [@Symfony] 3.3 PSR-4 service autodiscovery
+
+- [#155] **ControllerAutowire** package deprecated
+    - Use [@Symfony] 3.3 `AbstractController`
+    - Use [@Symfony] 3.3 service PSR-4 autodiscovery
+
+- [#155] **ServiceDefinitionDecorator** package deprecated
+    - Use `_instanceof` [@Symfony] 3.3: https://symfony.com/blog/new-in-symfony-3-3-simpler-service-configuration#interface-based-service-configuration
+
+- [#153] **SymfonySecurityVoters** package deprecated, for no practical use
 
 [comment]: # (links to issues, PRs and release diffs)
 
