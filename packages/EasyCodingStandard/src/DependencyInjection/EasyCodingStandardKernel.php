@@ -8,6 +8,7 @@ use Symfony\Component\Config\Loader\LoaderResolver;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\Loader\GlobFileLoader;
+use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
 use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 use Symfony\Component\HttpKernel\Config\FileLocator;
 use Symplify\EasyCodingStandard\DependencyInjection\CompilerPass\AutowireCheckersCompilerPass;
@@ -102,6 +103,7 @@ final class EasyCodingStandardKernel extends AbstractCliKernel
         return new DelegatingLoader(new LoaderResolver([
             new GlobFileLoader($container, $fileLocator),
             new CheckerTolerantYamlFileLoader($container, $fileLocator),
+            new PhpFileLoader($container, $fileLocator),
         ]));
     }
 }
