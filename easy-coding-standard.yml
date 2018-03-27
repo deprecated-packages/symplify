@@ -96,3 +96,7 @@ parameters:
         PHP_CodeSniffer\Standards\Generic\Sniffs\Metrics\NestingLevelSniff.MaxExceeded:
             # 3rd party code copy-pasted; kept as is for easier comparison to original
             - 'packages/EasyCodingStandard/src/Yaml/ParametersMerger.php'
+
+        Symplify\CodingStandard\Sniffs\Debug\CommentedOutCodeSniff.Found:
+            # notes
+            - 'packages/EasyCodingStandard/src/Yaml/CheckerTolerantYamlFileLoader.php'
