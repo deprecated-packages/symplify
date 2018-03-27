@@ -2,12 +2,11 @@
 
 namespace Symplify\EasyCodingStandard\Yaml;
 
-use Nette\Utils\Strings;
-use ReflectionClass;
 use Symfony\Component\Config\FileLocatorInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBag;
+use Symplify\EasyCodingStandard\Exception\Yaml\InvalidParametersValueException;
+use Symplify\PackageBuilder\Reflection\PrivatesCaller;
 
 /**
  * The need: https://github.com/symfony/symfony/pull/21313#issuecomment-372037445
@@ -22,43 +21,34 @@ final class CheckerTolerantYamlFileLoader extends YamlFileLoader
     /**
      * @var string
      */
-    private const CALLS_KEY = 'calls';
-
-    /**
-     * @var string
-     */
-    private const PROPERTIES_KEY = 'properties';
-
-    /**
-     * @var string
-     */
     private const PARAMETERS_KEY = 'parameters';
 
     /**
-     * @var CheckerConfigurationGuardian
+     * @var CheckerServiceParametersShifter
      */
-    private $checkerConfigurationGuardian;
+    private $checkerServiceParametersShifter;
 
     /**
-     * @var string[]
+     * @var ParametersMerger
      */
-    private $serviceKeywords = [];
+    private $parametersMerger;
 
     /**
-     * @var ParameterBag
+     * @var PrivatesCaller
      */
-    private $mergeAwareParameterBag;
+    private $privatesCaller;
 
     public function __construct(ContainerBuilder $containerBuilder, FileLocatorInterface $fileLocator)
     {
-        $this->checkerConfigurationGuardian = new CheckerConfigurationGuardian();
-        $this->mergeAwareParameterBag = new ParameterBag();
+        $this->checkerServiceParametersShifter = new CheckerServiceParametersShifter();
+        $this->parametersMerger = new ParametersMerger();
+        $this->privatesCaller = new PrivatesCaller();
 
         parent::__construct($containerBuilder, $fileLocator);
     }
 
     /**
-     * This method override is needed, so imported parameter values are not overrided by child ones
+     * Same as parent, just merging parameters instead overriding them
      *
      * @see https://github.com/Symplify/Symplify/pull/697
      *
@@ -67,46 +57,68 @@ final class CheckerTolerantYamlFileLoader extends YamlFileLoader
      */
     public function load($resource, $type = null): void
     {
-        parent::load($resource, $type);
+        $path = $this->locator->locate($resource);
 
-        // load overriden parematers from parent method parameters born by correct merge
-        $this->container->getParameterBag()->add($this->mergeAwareParameterBag->all());
-    }
+        $content = $this->loadFile($path);
 
-    /**
-     * Merges configurations. Left has higher priority than right one.
-     *
-     * @autor David Grudl (https://davidgrudl.com)
-     * @source https://github.com/nette/di/blob/8eb90721a131262f17663e50aee0032a62d0ef08/src/DI/Config/Helpers.php#L31
-     *
-     * @param mixed $left
-     * @param mixed $right
-     * @return mixed[]|string
-     */
-    public function merge($left, $right)
-    {
-        if (is_array($left) && is_array($right)) {
-            foreach ($left as $key => $val) {
-                if (is_int($key)) {
-                    $right[] = $val;
-                } else {
-                    if (isset($right[$key])) {
-                        $val = $this->merge($val, $right[$key]);
-                    }
+        $this->container->fileExists($path);
 
-                    $right[$key] = $val;
-                }
-            }
-
-            return $right;
-        } elseif ($left === null && is_array($right)) {
-            return $right;
+        // empty file
+        if ($content === null) {
+            return;
         }
 
-        return $left;
+        // imports
+        // $this->parseImports($content, $path);
+        $this->privatesCaller->callPrivateMethod($this, 'parseImports', $content, $path);
+
+        // parameters
+        if (isset($content[self::PARAMETERS_KEY])) {
+            $this->ensureParametersIsArray($content, $path);
+
+            foreach ($content[self::PARAMETERS_KEY] as $key => $value) {
+                // $this->resolveServices($value, $path, true),
+                $resolvedValue = $this->privatesCaller->callPrivateMethod(
+                    $this,
+                    'resolveServices',
+                    $value,
+                    $path,
+                    true
+                );
+
+                // only this section is different
+                if ($this->container->hasParameter($key)) {
+                    $newValue = $this->parametersMerger->merge(
+                        $resolvedValue,
+                        $this->container->getParameter($key)
+                    );
+
+                    $this->container->setParameter($key, $newValue);
+                } else {
+                    $this->container->setParameter($key, $resolvedValue);
+                }
+            }
+        }
+
+        // extensions
+        // $this->loadFromExtensions($content);
+        $this->privatesCaller->callPrivateMethod($this, 'loadFromExtensions', $content);
+
+        // services - not accessible, private parent properties, luckily not needed
+        // $this->anonymousServicesCount = 0;
+        // $this->anonymousServicesSuffix = ContainerBuilder::hash($path);
+        $this->setCurrentDir(dirname($path));
+        try {
+            // $this->parseDefinitions($content, $path);
+            $this->privatesCaller->callPrivateMethod($this, 'parseDefinitions', $content, $path);
+        } finally {
+            $this->instanceof = [];
+        }
     }
 
     /**
+     * Handles checker parameters
+     *
      * @param string $file
      * @return array|mixed|mixed[]
      */
@@ -114,160 +126,29 @@ final class CheckerTolerantYamlFileLoader extends YamlFileLoader
     {
         $decodedYaml = parent::loadFile($file);
 
-        if (isset($decodedYaml[self::PARAMETERS_KEY])) {
-            $this->loadParameters((array) $decodedYaml[self::PARAMETERS_KEY], $file);
+        if (! isset($decodedYaml[self::SERVICES_KEY])) {
+            return $decodedYaml;
         }
 
-        if (isset($decodedYaml[self::SERVICES_KEY])) {
-            return $this->moveArgumentsToPropertiesOrMethodCalls($decodedYaml);
-        }
+        $decodedYaml[self::SERVICES_KEY] = $this->checkerServiceParametersShifter->processServices(
+            $decodedYaml[self::SERVICES_KEY]
+        );
 
         return $decodedYaml;
     }
 
     /**
-     * @param mixed[] $yaml
-     * @return mixed[]
+     * @param mixed[] $content
      */
-    private function moveArgumentsToPropertiesOrMethodCalls(array $yaml): array
+    private function ensureParametersIsArray(array $content, string $path): void
     {
-        foreach ($yaml[self::SERVICES_KEY] as $checker => $serviceDefinition) {
-            if (! $this->isCheckersClass($checker) || empty($serviceDefinition)) {
-                continue;
-            }
-
-            if (Strings::endsWith($checker, 'Fixer')) {
-                $yaml = $this->processFixer($yaml, $checker, $serviceDefinition);
-            }
-
-            if (Strings::endsWith($checker, 'Sniff')) {
-                $yaml = $this->processSniff($yaml, $checker, $serviceDefinition);
-            }
-
-            // cleanup parameters
-            foreach ($serviceDefinition as $key => $value) {
-                if ($this->isReservedKey($key)) {
-                    continue;
-                }
-
-                unset($yaml[self::SERVICES_KEY][$checker][$key]);
-            }
+        if (is_array($content[self::PARAMETERS_KEY])) {
+            return;
         }
 
-        return $yaml;
-    }
-
-    private function isCheckersClass($checker): bool
-    {
-        return Strings::endsWith($checker, 'Fixer') || Strings::endsWith($checker, 'Sniff');
-    }
-
-    /**
-     * @param mixed[] $yaml
-     * @param mixed[] $serviceDefinition
-     * @return mixed[]
-     */
-    private function processFixer(array $yaml, string $checker, array $serviceDefinition): array
-    {
-        $this->checkerConfigurationGuardian->ensureFixerIsConfigurable($checker, $serviceDefinition);
-
-        foreach ($serviceDefinition as $key => $value) {
-            if ($this->isReservedKey($key)) {
-                continue;
-            }
-
-            $yaml[self::SERVICES_KEY][$checker][self::CALLS_KEY] = [
-                ['configure', [$serviceDefinition]],
-            ];
-        }
-
-        return $yaml;
-    }
-
-    /**
-     * @param mixed[] $yaml
-     * @param mixed[] $serviceDefinition
-     * @return mixed[]
-     */
-    private function processSniff(array $yaml, string $checker, array $serviceDefinition): array
-    {
-        // move parameters to property setters
-        foreach ($serviceDefinition as $key => $value) {
-            if ($this->isReservedKey($key)) {
-                continue;
-            }
-
-            $this->checkerConfigurationGuardian->ensurePropertyExists($checker, $key);
-            $yaml[self::SERVICES_KEY][$checker][self::PROPERTIES_KEY][$key] = $this->escapeValue($value);
-        }
-
-        return $yaml;
-    }
-
-    /**
-     * @param mixed $value
-     * @return mixed
-     */
-    private function escapeValue($value)
-    {
-        if (is_bool($value) || is_numeric($value)) {
-            return $value;
-        }
-
-        if (is_array($value)) {
-            foreach ($value as $key => $nestedValue) {
-                $value[$key] = $this->escapeValue($nestedValue);
-            }
-
-            return $value;
-        }
-
-        return Strings::replace($value, '#@#', '@@');
-    }
-
-    /**
-     * @param string|int|bool $key
-     */
-    private function isReservedKey($key): bool
-    {
-        if (! is_string($key)) {
-            return false;
-        }
-
-        return in_array($key, $this->getServiceKeywords(), true);
-    }
-
-    /**
-     * @return string[]
-     */
-    private function getServiceKeywords(): array
-    {
-        if ($this->serviceKeywords) {
-            return $this->serviceKeywords;
-        }
-
-        $reflectionClass = new ReflectionClass(YamlFileLoader::class);
-
-        return $this->serviceKeywords = $reflectionClass->getStaticProperties()['serviceKeywords'];
-    }
-
-    /**
-     * Used from @see YamlFileLoader::load()
-     * @param mixed[] $parameters
-     */
-    private function loadParameters(array $parameters, string $file): void
-    {
-        foreach ($parameters as $key => $value) {
-            if (! $this->mergeAwareParameterBag->has($key)) {
-                $this->mergeAwareParameterBag->set($key, $value);
-                continue;
-            }
-
-            // already has such parameters => merge it nicely
-            $oldValue = $this->mergeAwareParameterBag->get($key);
-
-            $newValue = $this->merge($oldValue, $value);
-            $this->mergeAwareParameterBag->set($key, $newValue);
-        }
+        throw new InvalidParametersValueException(sprintf(
+            'The "parameters" key should contain an array in "%s". Check your YAML syntax.',
+            $path
+        ));
     }
 }

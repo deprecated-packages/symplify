@@ -6,10 +6,12 @@ use PHP_CodeSniffer\Standards\Generic\Sniffs\Files\LineLengthSniff;
 use PhpCsFixer\Fixer\ArrayNotation\ArraySyntaxFixer;
 use PHPUnit\Framework\TestCase;
 use SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff;
-use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
-use Symplify\EasyCodingStandard\Yaml\CheckerTolerantYamlFileLoader;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBag;
+use Symplify\CodingStandard\Sniffs\DependencyInjection\NoClassInstantiationSniff;
+use Symplify\EasyCodingStandard\DependencyInjection\DelegatingLoaderFactory;
+use Symplify\EasyCodingStandard\Error\Error;
 
 final class DefinitionsTest extends TestCase
 {
@@ -82,6 +84,31 @@ final class DefinitionsTest extends TestCase
                 [],
                 ['enableObjectTypeHint' => false],
             ],
+            [
+                __DIR__ . '/DefinitionsSource/checkers.yml',
+                TypeHintDeclarationSniff::class,
+                [],
+                [
+                    'enableVoidTypeHint' => true,
+                    'enableNullableTypeHints' => true,
+                    'enableObjectTypeHint' => false,
+                ],
+            ],
+            [
+                __DIR__ . '/DefinitionsSource/checkers.yml',
+                NoClassInstantiationSniff::class,
+                [],
+                [
+                    'extraAllowedClasses' => [
+                        Error::class,
+                        'Symplify\PackageBuilder\Reflection\*',
+                        'phpDocumentor\Reflection\Fqsen',
+                        ContainerBuilder::class,
+                        'Symplify\EasyCodingStandard\Yaml\*',
+                        ParameterBag::class,
+                    ],
+                ],
+            ],
         ];
     }
 
@@ -89,8 +116,11 @@ final class DefinitionsTest extends TestCase
     {
         $containerBuilder = new ContainerBuilder();
 
-        $yamlFileLoader = new CheckerTolerantYamlFileLoader($containerBuilder, new FileLocator(dirname($config)));
-        $yamlFileLoader->load($config);
+        $delegatingLoader = (new DelegatingLoaderFactory())->createContainerBuilderAndConfig(
+            $containerBuilder,
+            $config
+        );
+        $delegatingLoader->load($config);
 
         return $containerBuilder;
     }

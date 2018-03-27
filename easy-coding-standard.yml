@@ -66,6 +66,9 @@ parameters:
             - 'packages/BetterReflectionDocBlock/src/FixedSerializer.php'
             # todo: decouple later
             - 'packages/TokenRunner/src/Wrapper/FixerWrapper/AbstractVariableWrapper.php'
+            # poor constructor injection for non-container approach
+            - 'packages/EasyCodingStandard/src/Yaml/CheckerTolerantYamlFileLoader.php'
+            - 'packages/EasyCodingStandard/src/Yaml/CheckerServiceParametersShifter.php'
 
         SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff.MissingParameterTypeHint:
             # respect param typehint
@@ -92,4 +95,8 @@ parameters:
 
         PHP_CodeSniffer\Standards\Generic\Sniffs\Metrics\NestingLevelSniff.MaxExceeded:
             # 3rd party code copy-pasted; kept as is for easier comparison to original
+            - 'packages/EasyCodingStandard/src/Yaml/ParametersMerger.php'
+
+        Symplify\CodingStandard\Sniffs\Debug\CommentedOutCodeSniff.Found:
+            # notes
             - 'packages/EasyCodingStandard/src/Yaml/CheckerTolerantYamlFileLoader.php'
