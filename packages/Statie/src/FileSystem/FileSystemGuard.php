@@ -12,8 +12,6 @@ final class FileSystemGuard
             return;
         }
 
-        throw new MissingDirectoryException(
-            sprintf('Directory "%s" was not found.', $directory)
-        );
+        throw new MissingDirectoryException(sprintf('Directory "%s" was not found.', $directory));
     }
 }
