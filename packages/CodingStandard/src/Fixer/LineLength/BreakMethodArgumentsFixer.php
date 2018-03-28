@@ -12,16 +12,12 @@ use PhpCsFixer\Tokenizer\Tokens;
 use PhpCsFixer\WhitespacesFixerConfig;
 use SplFileInfo;
 use Symplify\TokenRunner\Analyzer\FixerAnalyzer\IndentDetector;
+use Symplify\TokenRunner\Configuration\Configuration;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\MethodWrapper;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\MethodWrapperFactory;
 
-final class BreakMethodArgumentsFixer implements DefinedFixerInterface, WhitespacesAwareFixerInterface
+final class BreakMethodArgumentsFixer implements DefinedFixerInterface
 {
-    /**
-     * @var int
-     */
-    private const LINE_LENGTH = 120;
-
     /**
      * @var WhitespacesFixerConfig
      */
@@ -51,11 +47,17 @@ final class BreakMethodArgumentsFixer implements DefinedFixerInterface, Whitespa
      * @var MethodWrapperFactory
      */
     private $methodWrapperFactory;
+    /**
+     * @var Configuration
+     */
+    private $configuration;
 
-    public function __construct(MethodWrapperFactory $methodWrapperFactory, IndentDetector $indentDetector)
+    public function __construct(Configuration $configuration, WhitespacesFixerConfig $whitespacesFixerConfig, MethodWrapperFactory $methodWrapperFactory, IndentDetector $indentDetector)
     {
         $this->methodWrapperFactory = $methodWrapperFactory;
         $this->indentDetector = $indentDetector;
+        $this->configuration = $configuration;
+        $this->whitespacesFixerConfig = $whitespacesFixerConfig;
     }
 
     public function getDefinition(): FixerDefinitionInterface
@@ -130,12 +132,12 @@ class SomeClass
             return;
         }
 
-        if ($methodWrapper->getFirstLineLength() > self::LINE_LENGTH) {
+        if ($methodWrapper->getFirstLineLength() > $this->configuration->getMaxLineLength()) {
             $this->breakMethodArguments($methodWrapper, $tokens, $position);
             return;
         }
 
-        if ($methodWrapper->getLineLengthToEndOfArguments() <= self::LINE_LENGTH) {
+        if ($methodWrapper->getLineLengthToEndOfArguments() <= $this->configuration->getMaxLineLength()) {
             $this->inlineMethodArguments($methodWrapper, $tokens, $position);
             return;
         }

@@ -13,11 +13,12 @@ use PhpCsFixer\WhitespacesFixerConfig;
 use SplFileInfo;
 use Symplify\TokenRunner\Analyzer\FixerAnalyzer\IndentDetector;
 use Symplify\TokenRunner\Analyzer\FixerAnalyzer\TokenSkipper;
+use Symplify\TokenRunner\Configuration\Configuration;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\MethodCallWrapper;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\MethodCallWrapperFactory;
 use Throwable;
 
-final class BreakMethodCallsFixer implements DefinedFixerInterface, WhitespacesAwareFixerInterface
+final class BreakMethodCallsFixer implements DefinedFixerInterface
 {
     /**
      * @var int
@@ -58,8 +59,14 @@ final class BreakMethodCallsFixer implements DefinedFixerInterface, WhitespacesA
      * @var MethodCallWrapperFactory
      */
     private $methodCallWrapperFactory;
+    /**
+     * @var Configuration
+     */
+    private $configuration;
 
     public function __construct(
+        Configuration $configuration,
+        WhitespacesFixerConfig $whitespacesFixerConfig,
         TokenSkipper $tokenSkipper,
         IndentDetector $indentDetector,
         MethodCallWrapperFactory $methodCallWrapperFactory
@@ -67,6 +74,8 @@ final class BreakMethodCallsFixer implements DefinedFixerInterface, WhitespacesA
         $this->tokenSkipper = $tokenSkipper;
         $this->indentDetector = $indentDetector;
         $this->methodCallWrapperFactory = $methodCallWrapperFactory;
+        $this->configuration = $configuration;
+        $this->whitespacesFixerConfig = $whitespacesFixerConfig;
     }
 
     public function getDefinition(): FixerDefinitionInterface
@@ -123,21 +132,21 @@ final class BreakMethodCallsFixer implements DefinedFixerInterface, WhitespacesA
         return true;
     }
 
-    public function setWhitespacesConfig(WhitespacesFixerConfig $whitespacesFixerConfig): void
-    {
-        $this->whitespacesFixerConfig = $whitespacesFixerConfig;
-    }
+//    public function setWhitespacesConfig(WhitespacesFixerConfig $whitespacesFixerConfig): void
+//    {
+//        $this->whitespacesFixerConfig = $whitespacesFixerConfig;
+//    }
 
     private function fixMethodCall(int $position, Tokens $tokens): void
     {
         $methodCallWrapper = $this->methodCallWrapperFactory->createFromTokensAndPosition($tokens, $position);
 
-        if ($methodCallWrapper->getFirstLineLength() > self::LINE_LENGTH) {
+        if ($methodCallWrapper->getFirstLineLength() > $this->configuration->getMaxLineLength()) {
             $this->breakMethodCallParameters($methodCallWrapper, $tokens, $position);
             return;
         }
 
-        if ($methodCallWrapper->getLineLengthToEndOfArguments() <= self::LINE_LENGTH) {
+        if ($methodCallWrapper->getLineLengthToEndOfArguments() <= $this->configuration->getMaxLineLength()) {
             $this->inlineMethodCallParameters($methodCallWrapper, $tokens, $position);
             return;
         }

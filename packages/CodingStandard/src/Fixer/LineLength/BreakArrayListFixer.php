@@ -12,16 +12,12 @@ use PhpCsFixer\Tokenizer\Tokens;
 use PhpCsFixer\WhitespacesFixerConfig;
 use SplFileInfo;
 use Symplify\TokenRunner\Analyzer\FixerAnalyzer\IndentDetector;
+use Symplify\TokenRunner\Configuration\Configuration;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\ArrayWrapper;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\ArrayWrapperFactory;
 
 final class BreakArrayListFixer implements DefinedFixerInterface, WhitespacesAwareFixerInterface
 {
-    /**
-     * @var int
-     */
-    private const LINE_LENGTH = 120;
-
     /**
      * @var int[]
      */
@@ -56,11 +52,16 @@ final class BreakArrayListFixer implements DefinedFixerInterface, WhitespacesAwa
      * @var ArrayWrapperFactory
      */
     private $arrayWrapperFactory;
+    /**
+     * @var Configuration
+     */
+    private $configuration;
 
-    public function __construct(ArrayWrapperFactory $arrayWrapperFactory, IndentDetector $indentDetector)
+    public function __construct(Configuration $configuration, ArrayWrapperFactory $arrayWrapperFactory, IndentDetector $indentDetector)
     {
         $this->arrayWrapperFactory = $arrayWrapperFactory;
         $this->indentDetector = $indentDetector;
+        $this->configuration = $configuration;
     }
 
     public function getDefinition(): FixerDefinitionInterface
@@ -122,7 +123,7 @@ $array = ["loooooooooooooooooooooooooooooooongArraaaaaaaaaaay", "loooooooooooooo
 
     private function fixArray(int $position, Tokens $tokens, ArrayWrapper $arrayWrapper): void
     {
-        if ($arrayWrapper->getFirstLineLength() > self::LINE_LENGTH) {
+        if ($arrayWrapper->getFirstLineLength() > $this->configuration->getMaxLineLength()) {
             $this->breakArrayListItems($arrayWrapper, $tokens, $position);
             return;
         }

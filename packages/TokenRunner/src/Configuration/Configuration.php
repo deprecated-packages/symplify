@@ -14,7 +14,7 @@ final class Configuration
         $this->maxLineLength = $maxLineLength;
     }
 
-    public function getMaxLineLenght(): int
+    public function getMaxLineLength(): int
     {
         return $this->maxLineLength;
     }

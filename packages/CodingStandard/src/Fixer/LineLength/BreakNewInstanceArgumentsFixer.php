@@ -133,13 +133,13 @@ $someObject = new SomeClass($superLongArguments, $anotherLongArguments, $andLitt
         $this->prepareIndentWhitespaces($tokens, $startPosition);
 
         $firstLineLength = $this->getFirstLineLength($startPosition, $tokens);
-        if ($firstLineLength > $this->configuration->getMaxLineLenght()) {
+        if ($firstLineLength > $this->configuration->getMaxLineLength()) {
             $this->breakItems($startPosition, $endPosition, $tokens);
             return;
         }
 
         $fullLineLength = $this->getLengthFromStartEnd($startPosition, $endPosition, $tokens);
-        if ($fullLineLength <= $this->configuration->getMaxLineLenght()) {
+        if ($fullLineLength <= $this->configuration->getMaxLineLength()) {
             $this->inlineItems($startPosition, $endPosition, $tokens, $currentPosition);
             return;
         }
