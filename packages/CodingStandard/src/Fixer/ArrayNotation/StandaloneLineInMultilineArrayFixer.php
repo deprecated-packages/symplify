@@ -80,10 +80,8 @@ final class StandaloneLineInMultilineArrayFixer implements DefinedFixerInterface
         return new FixerDefinition(
             'Indexed PHP arrays with 2 and more items should have 1 item per line.',
             [
-                new CodeSample(
-                    '<?php
-$values = [1 => \'hey\', 2 => \'hello\'];'
-                ),
+                new CodeSample('<?php
+$values = [1 => \'hey\', 2 => \'hello\'];'),
             ]
         );
     }
