@@ -9,10 +9,9 @@ use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Tokenizer\CT;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
+use Symplify\TokenRunner\Analyzer\FixerAnalyzer\BlockStartAndEndFinder;
 use Symplify\TokenRunner\Configuration\Configuration;
 use Symplify\TokenRunner\Transformer\FixerTransformer\LineLengthTransformer;
-use Symplify\TokenRunner\Wrapper\FixerWrapper\ArrayWrapper;
-use Symplify\TokenRunner\Wrapper\FixerWrapper\ArrayWrapperFactory;
 
 final class BreakArrayListFixer implements DefinedFixerInterface
 {
@@ -20,11 +19,6 @@ final class BreakArrayListFixer implements DefinedFixerInterface
      * @var int[]
      */
     private const ARRAY_OPEN_TOKENS = [T_ARRAY, CT::T_ARRAY_SQUARE_BRACE_OPEN];
-
-    /**
-     * @var ArrayWrapperFactory
-     */
-    private $arrayWrapperFactory;
 
     /**
      * @var Configuration
@@ -36,14 +30,19 @@ final class BreakArrayListFixer implements DefinedFixerInterface
      */
     private $lineLengthTransformer;
 
+    /**
+     * @var BlockStartAndEndFinder
+     */
+    private $blockStartAndEndFinder;
+
     public function __construct(
         Configuration $configuration,
-        ArrayWrapperFactory $arrayWrapperFactory,
-        LineLengthTransformer $lineLengthTransformer
+        LineLengthTransformer $lineLengthTransformer,
+        BlockStartAndEndFinder $blockStartAndEndFinder
     ) {
-        $this->arrayWrapperFactory = $arrayWrapperFactory;
         $this->configuration = $configuration;
         $this->lineLengthTransformer = $lineLengthTransformer;
+        $this->blockStartAndEndFinder = $blockStartAndEndFinder;
     }
 
     public function getDefinition(): FixerDefinitionInterface
@@ -69,14 +68,12 @@ $array = ["loooooooooooooooooooooooooooooooongArraaaaaaaaaaay", "loooooooooooooo
                 continue;
             }
 
-            $arrayWrapper = $this->arrayWrapperFactory->createFromTokensArrayStartPosition($tokens, $position);
+            [$blockStart, $blockEnd] = $this->blockStartAndEndFinder->findInTokensByBlockStart($tokens, $position);
 
-            $start = $arrayWrapper->getStartIndex();
-            $end = $arrayWrapper->getEndIndex();
-
-            if ($arrayWrapper->getFirstLineLength() > $this->configuration->getMaxLineLength()) {
+            $firstLineLength = $this->lineLengthTransformer->getFirstLineLength($blockStart, $tokens);
+            if ($firstLineLength > $this->configuration->getMaxLineLength()) {
                 $this->lineLengthTransformer->prepareIndentWhitespaces($tokens, $position);
-                $this->lineLengthTransformer->breakItems($start, $end, $tokens);
+                $this->lineLengthTransformer->breakItems($blockStart, $blockEnd, $tokens);
             }
         }
     }
