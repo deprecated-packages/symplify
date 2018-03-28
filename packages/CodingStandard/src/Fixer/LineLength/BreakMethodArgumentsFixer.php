@@ -12,6 +12,7 @@ use PhpCsFixer\WhitespacesFixerConfig;
 use SplFileInfo;
 use Symplify\TokenRunner\Analyzer\FixerAnalyzer\IndentDetector;
 use Symplify\TokenRunner\Configuration\Configuration;
+use Symplify\TokenRunner\Transformer\FixerTransformer\LineLengthTransformer;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\MethodWrapper;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\MethodWrapperFactory;
 
@@ -51,17 +52,23 @@ final class BreakMethodArgumentsFixer implements DefinedFixerInterface
      * @var Configuration
      */
     private $configuration;
+    /**
+     * @var LineLengthTransformer
+     */
+    private $lineLengthTransformer;
 
     public function __construct(
         Configuration $configuration,
         WhitespacesFixerConfig $whitespacesFixerConfig,
         MethodWrapperFactory $methodWrapperFactory,
-        IndentDetector $indentDetector
+        IndentDetector $indentDetector,
+        LineLengthTransformer $lineLengthTransformer
     ) {
         $this->methodWrapperFactory = $methodWrapperFactory;
         $this->indentDetector = $indentDetector;
         $this->configuration = $configuration;
         $this->whitespacesFixerConfig = $whitespacesFixerConfig;
+        $this->lineLengthTransformer = $lineLengthTransformer;
     }
 
     public function getDefinition(): FixerDefinitionInterface
@@ -131,13 +138,16 @@ class SomeClass
             return;
         }
 
+        $blockStart =  $methodWrapper->getArgumentsBracketStart();
+        $blockEnd = $methodWrapper->getArgumentsBracketEnd();
+
         if ($methodWrapper->getFirstLineLength() > $this->configuration->getMaxLineLength()) {
-            $this->breakMethodArguments($methodWrapper, $tokens, $position);
+            $this->breakMethodArguments($blockStart, $blockEnd, $tokens, $position);
             return;
         }
 
         if ($methodWrapper->getLineLengthToEndOfArguments() <= $this->configuration->getMaxLineLength()) {
-            $this->inlineMethodArguments($methodWrapper, $tokens, $position);
+            $this->inlineMethodArguments($blockEnd, $tokens, $position);
             return;
         }
     }
@@ -157,12 +167,9 @@ class SomeClass
         $this->newlineIndentWhitespace = $lineEnding . $this->indentWhitespace;
     }
 
-    private function breakMethodArguments(MethodWrapper $methodWrapper, Tokens $tokens, int $position): void
+    private function breakMethodArguments(int $start, int $end, Tokens $tokens, int $position): void
     {
         $this->prepareIndentWhitespaces($tokens, $position);
-
-        $start = $methodWrapper->getArgumentsBracketStart();
-        $end = $methodWrapper->getArgumentsBracketEnd();
 
         // 1. break after arguments opening
         $tokens->ensureWhitespaceAtIndex($start + 1, 0, $this->newlineIndentWhitespace);
@@ -180,10 +187,8 @@ class SomeClass
         }
     }
 
-    private function inlineMethodArguments(MethodWrapper $methodWrapper, Tokens $tokens, int $position): void
+    private function inlineMethodArguments(int $endPosition, Tokens $tokens, int $position): void
     {
-        $endPosition = $methodWrapper->getArgumentsBracketEnd();
-
         // replace PHP_EOL with " "
         for ($i = $position; $i < $endPosition; ++$i) {
             $currentToken = $tokens[$i];
