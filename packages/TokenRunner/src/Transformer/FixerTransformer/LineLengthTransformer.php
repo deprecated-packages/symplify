@@ -74,7 +74,7 @@ final class LineLengthTransformer
         }
     }
 
-    public function prepareIndentWhitespaces(Tokens $tokens, int $arrayStartIndex): void
+    private function prepareIndentWhitespaces(Tokens $tokens, int $arrayStartIndex): void
     {
         $indentLevel = $this->indentDetector->detectOnPosition($tokens, $arrayStartIndex, $this->configuration);
 
@@ -86,7 +86,7 @@ final class LineLengthTransformer
         $this->newlineIndentWhitespace = $this->configuration->getLineEnding() . $this->indentWhitespace;
     }
 
-    public function getFirstLineLength(int $startPosition, Tokens $tokens): int
+    private function getFirstLineLength(int $startPosition, Tokens $tokens): int
     {
         $lineLength = 0;
 
@@ -117,7 +117,7 @@ final class LineLengthTransformer
         return $lineLength;
     }
 
-    public function breakItems(int $startPosition, int $endPosition, Tokens $tokens): void
+    private function breakItems(int $startPosition, int $endPosition, Tokens $tokens): void
     {
         // 1. break after arguments opening
         $tokens->ensureWhitespaceAtIndex($startPosition + 1, 0, $this->newlineIndentWhitespace);
@@ -137,7 +137,31 @@ final class LineLengthTransformer
         }
     }
 
-    public function getLengthFromStartEnd(int $startPosition, int $endPosition, Tokens $tokens): int
+    private function inlineItems(int $endPosition, Tokens $tokens, int $currentPosition): void
+    {
+        // replace PHP_EOL with " "
+        for ($i = $currentPosition; $i < $endPosition; ++$i) {
+            $currentToken = $tokens[$i];
+
+            $i = $this->tokenSkipper->skipBlocks($tokens, $i);
+            if (! $currentToken->isGivenKind(T_WHITESPACE)) {
+                continue;
+            }
+
+            $previousToken = $tokens[$i - 1];
+            $nextToken = $tokens[$i + 1];
+
+            // @todo make dynamic by type? what about arrays?
+            if ($previousToken->getContent() === '(' || $nextToken->getContent() === ')') {
+                $tokens->clearAt($i);
+                continue;
+            }
+
+            $tokens[$i] = new Token([T_WHITESPACE, ' ']);
+        }
+    }
+
+    private function getLengthFromStartEnd(int $startPosition, int $endPosition, Tokens $tokens): int
     {
         $lineLength = 0;
 
@@ -175,30 +199,6 @@ final class LineLengthTransformer
         }
 
         return $lineLength;
-    }
-
-    public function inlineItems(int $endPosition, Tokens $tokens, int $currentPosition): void
-    {
-        // replace PHP_EOL with " "
-        for ($i = $currentPosition; $i < $endPosition; ++$i) {
-            $currentToken = $tokens[$i];
-
-            $i = $this->tokenSkipper->skipBlocks($tokens, $i);
-            if (! $currentToken->isGivenKind(T_WHITESPACE)) {
-                continue;
-            }
-
-            $previousToken = $tokens[$i - 1];
-            $nextToken = $tokens[$i + 1];
-
-            // @todo make dynamic by type? what about arrays?
-            if ($previousToken->getContent() === '(' || $nextToken->getContent() === ')') {
-                $tokens->clearAt($i);
-                continue;
-            }
-
-            $tokens[$i] = new Token([T_WHITESPACE, ' ']);
-        }
     }
 
     private function isEndOFArgumentsLine(Tokens $tokens, int $position): bool
