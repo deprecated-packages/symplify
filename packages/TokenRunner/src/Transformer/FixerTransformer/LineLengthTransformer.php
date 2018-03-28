@@ -212,7 +212,7 @@ final class LineLengthTransformer
         }
     }
 
-        private function isEndOFArgumentsLine(Tokens $tokens, int $position): bool
+    private function isEndOFArgumentsLine(Tokens $tokens, int $position): bool
     {
         if (Strings::startsWith($tokens[$position]->getContent(), PHP_EOL)) {
             return true;

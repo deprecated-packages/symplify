@@ -10,22 +10,10 @@ use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
 use Symplify\TokenRunner\Analyzer\FixerAnalyzer\BlockStartAndEndFinder;
-use Symplify\TokenRunner\Configuration\Configuration;
 use Symplify\TokenRunner\Transformer\FixerTransformer\LineLengthTransformer;
-use Symplify\TokenRunner\Wrapper\FixerWrapper\MethodWrapperFactory;
 
 final class BreakMethodArgumentsFixer implements DefinedFixerInterface
 {
-    /**
-     * @var MethodWrapperFactory
-     */
-    private $methodWrapperFactory;
-
-    /**
-     * @var Configuration
-     */
-    private $configuration;
-
     /**
      * @var LineLengthTransformer
      */
@@ -37,13 +25,9 @@ final class BreakMethodArgumentsFixer implements DefinedFixerInterface
     private $blockStartAndEndFinder;
 
     public function __construct(
-        Configuration $configuration,
-        MethodWrapperFactory $methodWrapperFactory,
         LineLengthTransformer $lineLengthTransformer,
         BlockStartAndEndFinder $blockStartAndEndFinder
     ) {
-        $this->methodWrapperFactory = $methodWrapperFactory;
-        $this->configuration = $configuration;
         $this->lineLengthTransformer = $lineLengthTransformer;
         $this->blockStartAndEndFinder = $blockStartAndEndFinder;
     }
@@ -91,7 +75,7 @@ class SomeClass
                 '('
             );
 
-            $this->fixMethod($position, $tokens, $blockStart, $blockEnd);
+            $this->lineLengthTransformer->fixStartPositionToEndPosition($blockStart, $blockEnd, $tokens, $position);
         }
     }
 
@@ -113,25 +97,5 @@ class SomeClass
     public function supports(SplFileInfo $file): bool
     {
         return true;
-    }
-
-    private function fixMethod(int $position, Tokens $tokens, int $blockStart, int $blockEnd): void
-    {
-        $methodWrapper = $this->methodWrapperFactory->createFromTokensAndPosition($tokens, $position);
-        if (! $methodWrapper->getArguments()) {
-            return;
-        }
-
-        $firstLineLenght = $this->lineLengthTransformer->getFirstLineLength($blockStart, $tokens);
-        if ($firstLineLenght > $this->configuration->getMaxLineLength()) {
-            $this->lineLengthTransformer->prepareIndentWhitespaces($tokens, $blockStart);
-            $this->lineLengthTransformer->breakItems($blockStart, $blockEnd, $tokens);
-            return;
-        }
-
-        $lengthFromStartEnd = $this->lineLengthTransformer->getLengthFromStartEnd($blockStart, $blockEnd, $tokens);
-        if ($lengthFromStartEnd <= $this->configuration->getMaxLineLength()) {
-            $this->lineLengthTransformer->inlineItems($blockEnd, $tokens, $position);
-        }
     }
 }
