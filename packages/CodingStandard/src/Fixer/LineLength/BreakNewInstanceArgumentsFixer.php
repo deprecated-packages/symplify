@@ -110,9 +110,12 @@ $someObject = new SomeClass($superLongArguments, $anotherLongArguments, $andLitt
         return self::class;
     }
 
+    /**
+     * Execute before \PhpCsFixer\Fixer\ArrayNotation\TrimArraySpacesFixer (with priority 0)
+     */
     public function getPriority(): int
     {
-        return 0;
+        return 5;
     }
 
     public function supports(SplFileInfo $file): bool
