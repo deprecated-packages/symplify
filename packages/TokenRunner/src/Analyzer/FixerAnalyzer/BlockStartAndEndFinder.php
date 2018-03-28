@@ -22,9 +22,6 @@ final class BlockStartAndEndFinder
         $token = $tokens[$blockStart];
 
         $blockType = $this->getBlockTypeByContent($token->getContent());
-        if ($blockType === null) {
-            return null;
-        }
 
         return [$blockStart, $tokens->findBlockEnd($blockType, $blockStart)];
     }
