@@ -10,6 +10,7 @@ use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
+use Symplify\TokenRunner\Analyzer\FixerAnalyzer\StartAndEndFinder;
 use Symplify\TokenRunner\Transformer\FixerTransformer\LineLengthTransformer;
 
 final class BreakNewInstanceArgumentsFixer implements DefinedFixerInterface
@@ -18,10 +19,15 @@ final class BreakNewInstanceArgumentsFixer implements DefinedFixerInterface
      * @var LineLengthTransformer
      */
     private $lineLengthTransformer;
+    /**
+     * @var StartAndEndFinder
+     */
+    private $startAndEndFinder;
 
-    public function __construct(LineLengthTransformer $lineLengthTransformer)
+    public function __construct(LineLengthTransformer $lineLengthTransformer, StartAndEndFinder $startAndEndFinder)
     {
         $this->lineLengthTransformer = $lineLengthTransformer;
+        $this->startAndEndFinder = $startAndEndFinder;
     }
 
     public function getDefinition(): FixerDefinitionInterface
@@ -54,14 +60,12 @@ final class BreakNewInstanceArgumentsFixer implements DefinedFixerInterface
                 continue;
             }
 
-            $startBracketPosition = $tokens->getNextTokenOfKind($position, ['(']);
-            if ($startBracketPosition === null) {
+            $startAndEndPositions = $this->startAndEndFinder->findInTokensByPositionAndContent($tokens, $position, '(');
+            if ($startAndEndPositions === null) {
                 continue;
             }
 
-            // @todo: decouple som smart BlockStartEndFinder, where there is no need to seek
-            // the type Tokens::BLOCK_TYPE_PARENTHESIS_BRACE manually, I never get it from the name
-            $endBracketPosition = $tokens->findBlockEnd(Tokens::BLOCK_TYPE_PARENTHESIS_BRACE, $startBracketPosition);
+            [$startBracketPosition, $endBracketPosition] = $startAndEndPositions;
 
             if ($this->shouldSkip($tokens, $startBracketPosition, $endBracketPosition)) {
                 continue;
