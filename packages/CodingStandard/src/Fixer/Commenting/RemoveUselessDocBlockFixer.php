@@ -5,7 +5,6 @@ namespace Symplify\CodingStandard\Fixer\Commenting;
 use Nette\Utils\Strings;
 use PhpCsFixer\Fixer\ConfigurationDefinitionFixerInterface;
 use PhpCsFixer\Fixer\DefinedFixerInterface;
-use PhpCsFixer\Fixer\WhitespacesAwareFixerInterface;
 use PhpCsFixer\FixerConfiguration\FixerConfigurationResolver;
 use PhpCsFixer\FixerConfiguration\FixerConfigurationResolverInterface;
 use PhpCsFixer\FixerConfiguration\FixerOptionBuilder;
@@ -22,7 +21,7 @@ use Symplify\TokenRunner\Wrapper\FixerWrapper\DocBlockWrapper;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\MethodWrapper;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\MethodWrapperFactory;
 
-final class RemoveUselessDocBlockFixer implements DefinedFixerInterface, WhitespacesAwareFixerInterface, ConfigurationDefinitionFixerInterface
+final class RemoveUselessDocBlockFixer implements DefinedFixerInterface, ConfigurationDefinitionFixerInterface
 {
     /**
      * @var string
@@ -52,13 +51,15 @@ final class RemoveUselessDocBlockFixer implements DefinedFixerInterface, Whitesp
     public function __construct(
         DescriptionAnalyzer $descriptionAnalyzer,
         ParamAndReturnTagAnalyzer $paramAndReturnTagAnalyzer,
-        MethodWrapperFactory $methodWrapperFactory
+        MethodWrapperFactory $methodWrapperFactory,
+        WhitespacesFixerConfig $whitespacesFixerConfig
     ) {
         $this->descriptionAnalyzer = $descriptionAnalyzer;
         $this->paramAndReturnTagAnalyzer = $paramAndReturnTagAnalyzer;
 
         $this->configure([]);
         $this->methodWrapperFactory = $methodWrapperFactory;
+        $this->whitespacesFixerConfig = $whitespacesFixerConfig;
     }
 
     public function getDefinition(): FixerDefinitionInterface
@@ -130,11 +131,6 @@ public function getCount(): int
     public function supports(SplFileInfo $file): bool
     {
         return true;
-    }
-
-    public function setWhitespacesConfig(WhitespacesFixerConfig $whitespacesFixerConfig): void
-    {
-        $this->whitespacesFixerConfig = $whitespacesFixerConfig;
     }
 
     /**

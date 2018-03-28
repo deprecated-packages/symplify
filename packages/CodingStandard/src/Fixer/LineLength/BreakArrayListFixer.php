@@ -3,7 +3,6 @@
 namespace Symplify\CodingStandard\Fixer\LineLength;
 
 use PhpCsFixer\Fixer\DefinedFixerInterface;
-use PhpCsFixer\Fixer\WhitespacesAwareFixerInterface;
 use PhpCsFixer\FixerDefinition\CodeSample;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
@@ -16,7 +15,7 @@ use Symplify\TokenRunner\Configuration\Configuration;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\ArrayWrapper;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\ArrayWrapperFactory;
 
-final class BreakArrayListFixer implements DefinedFixerInterface, WhitespacesAwareFixerInterface
+final class BreakArrayListFixer implements DefinedFixerInterface
 {
     /**
      * @var int[]
@@ -61,11 +60,13 @@ final class BreakArrayListFixer implements DefinedFixerInterface, WhitespacesAwa
     public function __construct(
         Configuration $configuration,
         ArrayWrapperFactory $arrayWrapperFactory,
-        IndentDetector $indentDetector
+        IndentDetector $indentDetector,
+        WhitespacesFixerConfig $whitespacesFixerConfig
     ) {
         $this->arrayWrapperFactory = $arrayWrapperFactory;
         $this->indentDetector = $indentDetector;
         $this->configuration = $configuration;
+        $this->whitespacesFixerConfig = $whitespacesFixerConfig;
     }
 
     public function getDefinition(): FixerDefinitionInterface
@@ -118,11 +119,6 @@ $array = ["loooooooooooooooooooooooooooooooongArraaaaaaaaaaay", "loooooooooooooo
     public function supports(SplFileInfo $file): bool
     {
         return true;
-    }
-
-    public function setWhitespacesConfig(WhitespacesFixerConfig $whitespacesFixerConfig): void
-    {
-        $this->whitespacesFixerConfig = $whitespacesFixerConfig;
     }
 
     private function fixArray(int $position, Tokens $tokens, ArrayWrapper $arrayWrapper): void

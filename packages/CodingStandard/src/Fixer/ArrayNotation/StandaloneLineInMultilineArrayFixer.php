@@ -3,7 +3,6 @@
 namespace Symplify\CodingStandard\Fixer\ArrayNotation;
 
 use PhpCsFixer\Fixer\DefinedFixerInterface;
-use PhpCsFixer\Fixer\WhitespacesAwareFixerInterface;
 use PhpCsFixer\FixerDefinition\CodeSample;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
@@ -17,7 +16,7 @@ use Symplify\TokenRunner\Analyzer\FixerAnalyzer\TokenSkipper;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\ArrayWrapper;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\ArrayWrapperFactory;
 
-final class StandaloneLineInMultilineArrayFixer implements DefinedFixerInterface, WhitespacesAwareFixerInterface
+final class StandaloneLineInMultilineArrayFixer implements DefinedFixerInterface
 {
     /**
      * @var int[]
@@ -67,11 +66,13 @@ final class StandaloneLineInMultilineArrayFixer implements DefinedFixerInterface
     public function __construct(
         ArrayWrapperFactory $arrayWrapperFactory,
         TokenSkipper $tokenSkipper,
-        IndentDetector $indentDetector
+        IndentDetector $indentDetector,
+        WhitespacesFixerConfig $whitespacesFixerConfig
     ) {
         $this->arrayWrapperFactory = $arrayWrapperFactory;
         $this->tokenSkipper = $tokenSkipper;
         $this->indentDetector = $indentDetector;
+        $this->whitespacesFixerConfig = $whitespacesFixerConfig;
     }
 
     public function getDefinition(): FixerDefinitionInterface
@@ -129,11 +130,6 @@ $values = [1 => \'hey\', 2 => \'hello\'];'
     public function supports(SplFileInfo $file): bool
     {
         return true;
-    }
-
-    public function setWhitespacesConfig(WhitespacesFixerConfig $whitespacesFixerConfig): void
-    {
-        $this->whitespacesFixerConfig = $whitespacesFixerConfig;
     }
 
     private function fixArray(Tokens $tokens, ArrayWrapper $arrayWrapper): void

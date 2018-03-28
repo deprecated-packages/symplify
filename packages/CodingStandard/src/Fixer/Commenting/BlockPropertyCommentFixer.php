@@ -3,7 +3,6 @@
 namespace Symplify\CodingStandard\Fixer\Commenting;
 
 use PhpCsFixer\Fixer\DefinedFixerInterface;
-use PhpCsFixer\Fixer\WhitespacesAwareFixerInterface;
 use PhpCsFixer\FixerDefinition\CodeSample;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
@@ -13,7 +12,7 @@ use PhpCsFixer\WhitespacesFixerConfig;
 use SplFileInfo;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\ClassWrapperFactory;
 
-final class BlockPropertyCommentFixer implements DefinedFixerInterface, WhitespacesAwareFixerInterface
+final class BlockPropertyCommentFixer implements DefinedFixerInterface
 {
     /**
      * @var ClassWrapperFactory
@@ -25,9 +24,12 @@ final class BlockPropertyCommentFixer implements DefinedFixerInterface, Whitespa
      */
     private $whitespacesFixerConfig;
 
-    public function __construct(ClassWrapperFactory $classWrapperFactory)
-    {
+    public function __construct(
+        ClassWrapperFactory $classWrapperFactory,
+        WhitespacesFixerConfig $whitespacesFixerConfig
+    ) {
         $this->classWrapperFactory = $classWrapperFactory;
+        $this->whitespacesFixerConfig = $whitespacesFixerConfig;
     }
 
     public function getDefinition(): FixerDefinitionInterface
@@ -96,10 +98,5 @@ private $property;
     public function supports(SplFileInfo $file): bool
     {
         return true;
-    }
-
-    public function setWhitespacesConfig(WhitespacesFixerConfig $whitespacesFixerConfig): void
-    {
-        $this->whitespacesFixerConfig = $whitespacesFixerConfig;
     }
 }

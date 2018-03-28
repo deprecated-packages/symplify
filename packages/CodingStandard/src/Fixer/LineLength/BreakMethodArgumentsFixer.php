@@ -124,11 +124,6 @@ class SomeClass
         return true;
     }
 
-    public function setWhitespacesConfig(WhitespacesFixerConfig $whitespacesFixerConfig): void
-    {
-        $this->whitespacesFixerConfig = $whitespacesFixerConfig;
-    }
-
     private function fixMethod(int $position, Tokens $tokens): void
     {
         $methodWrapper = $this->methodWrapperFactory->createFromTokensAndPosition($tokens, $position);
