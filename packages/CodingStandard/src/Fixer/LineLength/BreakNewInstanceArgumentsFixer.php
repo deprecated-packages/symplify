@@ -4,7 +4,6 @@ namespace Symplify\CodingStandard\Fixer\LineLength;
 
 use Nette\Utils\Strings;
 use PhpCsFixer\Fixer\DefinedFixerInterface;
-use PhpCsFixer\Fixer\WhitespacesAwareFixerInterface;
 use PhpCsFixer\FixerDefinition\CodeSample;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
@@ -13,10 +12,6 @@ use PhpCsFixer\Tokenizer\Tokens;
 use PhpCsFixer\WhitespacesFixerConfig;
 use SplFileInfo;
 use Symplify\TokenRunner\Analyzer\FixerAnalyzer\IndentDetector;
-use Symplify\TokenRunner\Wrapper\FixerWrapper\MethodWrapperFactory;
-
-//use Symplify\TokenRunner\Wrapper\FixerWrapper\MethodWrapper;
-//use Symplify\TokenRunner\Wrapper\FixerWrapper\MethodWrapperFactory;
 
 final class BreakNewInstanceArgumentsFixer implements DefinedFixerInterface
 {
@@ -125,10 +120,14 @@ $someObject = new SomeClass($superLongArguments, $anotherLongArguments, $andLitt
     /**
      * First steps to general fixer
      */
-    private function fixStartPositionToEndPosition(int $startPosition, int $endPosition, Tokens $tokens, int $currentPosition): void
-    {
+    private function fixStartPositionToEndPosition(
+        int $startPosition,
+        int $endPosition,
+        Tokens $tokens,
+        int $currentPosition
+    ): void {
         // @todo automate in some way
-        $this->prepareIndentWhitespaces($tokens,$startPosition);
+        $this->prepareIndentWhitespaces($tokens, $startPosition);
 
         $firstLineLength = $this->getFirstLineLength($startPosition, $tokens);
         if ($firstLineLength > self::LINE_LENGTH) {
@@ -212,7 +211,7 @@ $someObject = new SomeClass($superLongArguments, $anotherLongArguments, $andLitt
         }
     }
 
-    private function getLengthFromStartEnd(int $startPosition, int $endPosition, Tokens $tokens)
+    private function getLengthFromStartEnd(int $startPosition, int $endPosition, Tokens $tokens): int
     {
         $lineLength = 0;
 
@@ -252,7 +251,7 @@ $someObject = new SomeClass($superLongArguments, $anotherLongArguments, $andLitt
         return $lineLength;
     }
 
-    private function inlineItems(int $startPosition, int $endPosition, Tokens $tokens, int $currentPosition)
+    private function inlineItems(int $startPosition, int $endPosition, Tokens $tokens, int $currentPosition): void
     {
         // replace PHP_EOL with " "
         for ($i = $currentPosition; $i < $endPosition; ++$i) {
