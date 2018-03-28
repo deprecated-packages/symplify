@@ -8,40 +8,13 @@ use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
-use PhpCsFixer\WhitespacesFixerConfig;
 use SplFileInfo;
-use Symplify\TokenRunner\Analyzer\FixerAnalyzer\IndentDetector;
 use Symplify\TokenRunner\Configuration\Configuration;
 use Symplify\TokenRunner\Transformer\FixerTransformer\LineLengthTransformer;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\MethodWrapperFactory;
 
 final class BreakMethodArgumentsFixer implements DefinedFixerInterface
 {
-    /**
-     * @var WhitespacesFixerConfig
-     */
-    private $whitespacesFixerConfig;
-
-    /**
-     * @var IndentDetector
-     */
-    private $indentDetector;
-
-    /**
-     * @var string
-     */
-    private $indentWhitespace;
-
-    /**
-     * @var string
-     */
-    private $newlineIndentWhitespace;
-
-    /**
-     * @var string
-     */
-    private $closingBracketNewlineIndentWhitespace;
-
     /**
      * @var MethodWrapperFactory
      */
@@ -51,6 +24,7 @@ final class BreakMethodArgumentsFixer implements DefinedFixerInterface
      * @var Configuration
      */
     private $configuration;
+
     /**
      * @var LineLengthTransformer
      */
@@ -58,15 +32,11 @@ final class BreakMethodArgumentsFixer implements DefinedFixerInterface
 
     public function __construct(
         Configuration $configuration,
-        WhitespacesFixerConfig $whitespacesFixerConfig,
         MethodWrapperFactory $methodWrapperFactory,
-        IndentDetector $indentDetector,
         LineLengthTransformer $lineLengthTransformer
     ) {
         $this->methodWrapperFactory = $methodWrapperFactory;
-        $this->indentDetector = $indentDetector;
         $this->configuration = $configuration;
-        $this->whitespacesFixerConfig = $whitespacesFixerConfig;
         $this->lineLengthTransformer = $lineLengthTransformer;
     }
 
@@ -138,7 +108,7 @@ class SomeClass
             return;
         }
 
-        $blockStart =  $methodWrapper->getArgumentsBracketStart();
+        $blockStart = $methodWrapper->getArgumentsBracketStart();
         $blockEnd = $methodWrapper->getArgumentsBracketEnd();
 
         if ($methodWrapper->getFirstLineLength() > $this->configuration->getMaxLineLength()) {

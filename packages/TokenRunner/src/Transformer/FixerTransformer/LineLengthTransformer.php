@@ -88,10 +88,7 @@ final class LineLengthTransformer
         $this->newlineIndentWhitespace = $lineEnding . $this->indentWhitespace;
     }
 
-    /**
-     * @abstractable
-     */
-    private function getFirstLineLength(int $startPosition, Tokens $tokens): int
+    public function getFirstLineLength(int $startPosition, Tokens $tokens): int
     {
         $lineLength = 0;
 
@@ -139,7 +136,7 @@ final class LineLengthTransformer
         }
     }
 
-    private function getLengthFromStartEnd(int $startPosition, int $endPosition, Tokens $tokens): int
+    public function getLengthFromStartEnd(int $startPosition, int $endPosition, Tokens $tokens): int
     {
         $lineLength = 0;
 
