@@ -13,7 +13,6 @@ use SplFileInfo;
 use Symplify\TokenRunner\Analyzer\FixerAnalyzer\IndentDetector;
 use Symplify\TokenRunner\Configuration\Configuration;
 use Symplify\TokenRunner\Transformer\FixerTransformer\LineLengthTransformer;
-use Symplify\TokenRunner\Wrapper\FixerWrapper\MethodWrapper;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\MethodWrapperFactory;
 
 final class BreakMethodArgumentsFixer implements DefinedFixerInterface
@@ -94,7 +93,8 @@ class SomeClass
 
     public function isCandidate(Tokens $tokens): bool
     {
-        return $tokens->isAllTokenKindsFound([T_FUNCTION, ',']);
+        return $tokens->isAllTokenKindsFound([T_FUNCTION, ',', '(', ')'])
+            && $tokens->isAnyTokenKindsFound([T_STRING, T_VARIABLE]);
     }
 
     public function fix(SplFileInfo $file, Tokens $tokens): void
@@ -142,69 +142,14 @@ class SomeClass
         $blockEnd = $methodWrapper->getArgumentsBracketEnd();
 
         if ($methodWrapper->getFirstLineLength() > $this->configuration->getMaxLineLength()) {
-            $this->breakMethodArguments($blockStart, $blockEnd, $tokens, $position);
+            $this->lineLengthTransformer->prepareIndentWhitespaces($tokens, $blockStart);
+            $this->lineLengthTransformer->breakItems($blockStart, $blockEnd, $tokens);
             return;
         }
 
         if ($methodWrapper->getLineLengthToEndOfArguments() <= $this->configuration->getMaxLineLength()) {
-            $this->inlineMethodArguments($blockEnd, $tokens, $position);
+            $this->lineLengthTransformer->inlineItems($blockEnd, $tokens, $position);
             return;
-        }
-    }
-
-    private function prepareIndentWhitespaces(Tokens $tokens, int $arrayStartIndex): void
-    {
-        $indentLevel = $this->indentDetector->detectOnPosition(
-            $tokens,
-            $arrayStartIndex,
-            $this->whitespacesFixerConfig
-        );
-        $indentWhitespace = $this->whitespacesFixerConfig->getIndent();
-        $lineEnding = $this->whitespacesFixerConfig->getLineEnding();
-
-        $this->indentWhitespace = str_repeat($indentWhitespace, $indentLevel + 1);
-        $this->closingBracketNewlineIndentWhitespace = $lineEnding . str_repeat($indentWhitespace, $indentLevel);
-        $this->newlineIndentWhitespace = $lineEnding . $this->indentWhitespace;
-    }
-
-    private function breakMethodArguments(int $start, int $end, Tokens $tokens, int $position): void
-    {
-        $this->prepareIndentWhitespaces($tokens, $position);
-
-        // 1. break after arguments opening
-        $tokens->ensureWhitespaceAtIndex($start + 1, 0, $this->newlineIndentWhitespace);
-
-        // 2. break before arguments closing
-        $tokens->ensureWhitespaceAtIndex($end + 1, 0, $this->closingBracketNewlineIndentWhitespace);
-
-        for ($i = $start; $i < $end; ++$i) {
-            $currentToken = $tokens[$i];
-
-            // 3. new line after each comma ",", instead of just space
-            if ($currentToken->getContent() === ',') {
-                $tokens->ensureWhitespaceAtIndex($i + 1, 0, $this->newlineIndentWhitespace);
-            }
-        }
-    }
-
-    private function inlineMethodArguments(int $endPosition, Tokens $tokens, int $position): void
-    {
-        // replace PHP_EOL with " "
-        for ($i = $position; $i < $endPosition; ++$i) {
-            $currentToken = $tokens[$i];
-
-            if (! $currentToken->isGivenKind(T_WHITESPACE)) {
-                continue;
-            }
-
-            $previousToken = $tokens[$i - 1];
-            $nextToken = $tokens[$i + 1];
-            if ($previousToken->getContent() === '(' || $nextToken->getContent() === ')') {
-                $tokens->clearAt($i);
-                continue;
-            }
-
-            $tokens[$i] = new Token([T_WHITESPACE, ' ']);
         }
     }
 }

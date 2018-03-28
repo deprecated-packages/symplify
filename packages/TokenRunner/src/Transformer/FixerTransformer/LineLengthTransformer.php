@@ -68,12 +68,12 @@ final class LineLengthTransformer
 
         $fullLineLength = $this->getLengthFromStartEnd($startPosition, $endPosition, $tokens);
         if ($fullLineLength <= $this->configuration->getMaxLineLength()) {
-            $this->inlineItems($startPosition, $endPosition, $tokens, $currentPosition);
+            $this->inlineItems($endPosition, $tokens, $currentPosition);
             return;
         }
     }
 
-    private function prepareIndentWhitespaces(Tokens $tokens, int $arrayStartIndex): void
+    public function prepareIndentWhitespaces(Tokens $tokens, int $arrayStartIndex): void
     {
         $indentLevel = $this->indentDetector->detectOnPosition(
             $tokens,
@@ -121,10 +121,7 @@ final class LineLengthTransformer
         return $lineLength;
     }
 
-    /**
-     * @abstractable
-     */
-    private function breakItems(int $startPosition, int $endPosition, Tokens $tokens): void
+    public function breakItems(int $startPosition, int $endPosition, Tokens $tokens): void
     {
         // 1. break after arguments opening
         $tokens->ensureWhitespaceAtIndex($startPosition + 1, 0, $this->newlineIndentWhitespace);
@@ -182,7 +179,7 @@ final class LineLengthTransformer
         return $lineLength;
     }
 
-    private function inlineItems(int $startPosition, int $endPosition, Tokens $tokens, int $currentPosition): void
+    public function inlineItems(int $endPosition, Tokens $tokens, int $currentPosition): void
     {
         // replace PHP_EOL with " "
         for ($i = $currentPosition; $i < $endPosition; ++$i) {
