@@ -8,48 +8,14 @@ use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
-use PhpCsFixer\WhitespacesFixerConfig;
 use SplFileInfo;
-use Symplify\TokenRunner\Analyzer\FixerAnalyzer\IndentDetector;
-use Symplify\TokenRunner\Analyzer\FixerAnalyzer\TokenSkipper;
 use Symplify\TokenRunner\Configuration\Configuration;
 use Symplify\TokenRunner\Transformer\FixerTransformer\LineLengthTransformer;
-use Symplify\TokenRunner\Wrapper\FixerWrapper\MethodCallWrapper;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\MethodCallWrapperFactory;
 use Throwable;
 
 final class BreakMethodCallsFixer implements DefinedFixerInterface
 {
-    /**
-     * @var WhitespacesFixerConfig
-     */
-    private $whitespacesFixerConfig;
-
-    /**
-     * @var IndentDetector
-     */
-    private $indentDetector;
-
-    /**
-     * @var string
-     */
-    private $indentWhitespace;
-
-    /**
-     * @var string
-     */
-    private $newlineIndentWhitespace;
-
-    /**
-     * @var string
-     */
-    private $closingBracketNewlineIndentWhitespace;
-
-    /**
-     * @var TokenSkipper
-     */
-    private $tokenSkipper;
-
     /**
      * @var MethodCallWrapperFactory
      */
@@ -67,17 +33,11 @@ final class BreakMethodCallsFixer implements DefinedFixerInterface
 
     public function __construct(
         Configuration $configuration,
-        WhitespacesFixerConfig $whitespacesFixerConfig,
-        TokenSkipper $tokenSkipper,
-        IndentDetector $indentDetector,
         MethodCallWrapperFactory $methodCallWrapperFactory,
         LineLengthTransformer $lineLengthTransformer
     ) {
-        $this->tokenSkipper = $tokenSkipper;
-        $this->indentDetector = $indentDetector;
         $this->methodCallWrapperFactory = $methodCallWrapperFactory;
         $this->configuration = $configuration;
-        $this->whitespacesFixerConfig = $whitespacesFixerConfig;
         $this->lineLengthTransformer = $lineLengthTransformer;
     }
 
@@ -140,51 +100,17 @@ final class BreakMethodCallsFixer implements DefinedFixerInterface
         $methodCallWrapper = $this->methodCallWrapperFactory->createFromTokensAndPosition($tokens, $position);
 
         if ($methodCallWrapper->getFirstLineLength() > $this->configuration->getMaxLineLength()) {
-            $this->breakMethodCallParameters($methodCallWrapper, $tokens, $position);
+            $this->lineLengthTransformer->prepareIndentWhitespaces($tokens, $position);
+
+            $start = $methodCallWrapper->getArgumentsBracketStart();
+            $end = $methodCallWrapper->getArgumentsBracketEnd();
+
+            $this->lineLengthTransformer->breakItems($start, $end, $tokens);
             return;
         }
 
         if ($methodCallWrapper->getLineLengthToEndOfArguments() <= $this->configuration->getMaxLineLength()) {
             $this->lineLengthTransformer->inlineItems($methodCallWrapper->getArgumentsBracketEnd(), $tokens, $position);
-        }
-    }
-
-    private function prepareIndentWhitespaces(Tokens $tokens, int $startIndex): void
-    {
-        $indentLevel = $this->indentDetector->detectOnPosition($tokens, $startIndex, $this->whitespacesFixerConfig);
-        $indentWhitespace = $this->whitespacesFixerConfig->getIndent();
-        $lineEnding = $this->whitespacesFixerConfig->getLineEnding();
-
-        $this->indentWhitespace = str_repeat($indentWhitespace, $indentLevel + 1);
-        $this->closingBracketNewlineIndentWhitespace = $lineEnding . str_repeat($indentWhitespace, $indentLevel);
-        $this->newlineIndentWhitespace = $lineEnding . $this->indentWhitespace;
-    }
-
-    private function breakMethodCallParameters(
-        MethodCallWrapper $methodCallWrapper,
-        Tokens $tokens,
-        int $position
-    ): void {
-        $this->prepareIndentWhitespaces($tokens, $position);
-
-        $start = $methodCallWrapper->getArgumentsBracketStart();
-        $end = $methodCallWrapper->getArgumentsBracketEnd();
-
-        // 1. break after arguments opening
-        $tokens->ensureWhitespaceAtIndex($start + 1, 0, $this->newlineIndentWhitespace);
-
-        // 2. break before arguments closing
-        $tokens->ensureWhitespaceAtIndex($end + 1, 0, $this->closingBracketNewlineIndentWhitespace);
-
-        for ($i = $start; $i < $end; ++$i) {
-            $currentToken = $tokens[$i];
-
-            $i = $this->tokenSkipper->skipBlocks($tokens, $i);
-
-            // 3. new line after each comma ",", instead of just space
-            if ($currentToken->getContent() === ',') {
-                $tokens->ensureWhitespaceAtIndex($i + 1, 0, $this->newlineIndentWhitespace);
-            }
         }
     }
 

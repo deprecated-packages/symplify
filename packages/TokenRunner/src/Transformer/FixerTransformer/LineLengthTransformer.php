@@ -137,6 +137,8 @@ final class LineLengthTransformer
         for ($i = $startPosition; $i < $endPosition; ++$i) {
             $currentToken = $tokens[$i];
 
+            $i = $this->tokenSkipper->skipBlocks($tokens, $i);
+
             // 3. new line after each comma ",", instead of just space
             if ($currentToken->getContent() === ',') {
                 $tokens->ensureWhitespaceAtIndex($i + 1, 0, $this->newlineIndentWhitespace);
