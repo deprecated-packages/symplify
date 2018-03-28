@@ -1,37 +1,38 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\PackageBuilder\Tests\Yaml;
+namespace Symplify\PackageBuilder\Tests\Yaml\ParameterInImportResolverSource;
 
-use PHPUnit\Framework\TestCase;
+use Symfony\Component\Config\FileLocatorInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symplify\EasyCodingStandard\DependencyInjection\DelegatingLoaderFactory;
+use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symplify\PackageBuilder\Yaml\ParameterInImportResolver;
 
-/**
- * @see ParameterInImportResolver
- */
-final class ParameterInImportResolverTest extends TestCase
+final class ImportParameterAwareYamlFileLoader extends YamlFileLoader
 {
-    public function test(): void
+    /**
+     * @var ParameterInImportResolver
+     */
+    private $parameterInImportResolver;
+
+    public function __construct(ContainerBuilder $containerBuilder, FileLocatorInterface $fileLocator)
     {
-        $containerBuilder = new ContainerBuilder();
+        $this->parameterInImportResolver = new ParameterInImportResolver();
 
-        $delegatingLoader = (new DelegatingLoaderFactory())->createFromContainerBuilderAndDirectory(
-            $containerBuilder,
-            __DIR__ . '/CheckerTolerantYamlFileLoader'
-        );
-
-        $delegatingLoader->load($this->provideConfig());
-
-        $this->assertTrue($containerBuilder->getParameter('it_works'));
+        parent::__construct($containerBuilder, $fileLocator);
     }
 
-    private function provideConfig(): string
+    /**
+     * @param string $file
+     * @return mixed|mixed[]
+     */
+    protected function loadFile($file)
     {
-        if (defined('SYMPLIFY_MONOREPO')) {
-            return __DIR__ . '/ParameterInImportResolverSource/config-with-import-param-monorepo.yml';
+        $decodedYaml = parent::loadFile($file);
+
+        if (! isset($decodedYaml['imports'])) {
+            return $decodedYaml;
         }
 
-        return __DIR__ . '/ParameterInImportResolverSource/config-with-import-param-split.yml';
+        return $this->parameterInImportResolver->process($decodedYaml);
     }
 }

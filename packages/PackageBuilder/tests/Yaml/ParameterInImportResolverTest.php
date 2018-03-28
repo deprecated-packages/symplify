@@ -3,8 +3,9 @@
 namespace Symplify\PackageBuilder\Tests\Yaml;
 
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symplify\EasyCodingStandard\DependencyInjection\DelegatingLoaderFactory;
+use Symplify\PackageBuilder\Tests\Yaml\ParameterInImportResolverSource\ImportParameterAwareYamlFileLoader;
 use Symplify\PackageBuilder\Yaml\ParameterInImportResolver;
 
 /**
@@ -15,12 +16,12 @@ final class ParameterInImportResolverTest extends TestCase
     public function test(): void
     {
         $containerBuilder = new ContainerBuilder();
-        $delegatingLoader = (new DelegatingLoaderFactory())->createFromContainerBuilderAndDirectory(
+        $importParameterAwareYamlFileLoader = new ImportParameterAwareYamlFileLoader(
             $containerBuilder,
-            __DIR__ . '/CheckerTolerantYamlFileLoader'
+            new FileLocator(__DIR__ . '/CheckerTolerantYamlFileLoader')
         );
 
-        $delegatingLoader->load($this->provideConfig());
+        $importParameterAwareYamlFileLoader->load($this->provideConfig());
 
         $this->assertTrue($containerBuilder->getParameter('it_works'));
     }

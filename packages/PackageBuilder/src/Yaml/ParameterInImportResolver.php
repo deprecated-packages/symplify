@@ -22,13 +22,18 @@ final class ParameterInImportResolver
     private const IMPORTS_KEY = 'imports';
 
     /**
+     * @var string
+     */
+    private const RESOURCE_KEY = 'resource';
+
+    /**
      * @var ParameterBag
      */
-    private $decoratingParameterBag;
+    private $parameterBag;
 
     public function __construct()
     {
-        $this->decoratingParameterBag = new ParameterBag([
+        $this->parameterBag = new ParameterBag([
             'current_working_dir' => getcwd(),
             'vendor_dir' => VendorDirProvider::provide(),
             # aliases for simple use
@@ -48,8 +53,9 @@ final class ParameterInImportResolver
         }
 
         foreach ($content[self::IMPORTS_KEY] as $key => $import) {
-            $import['resource'] = $this->decoratingParameterBag->resolveValue($import['resource']);
-            $content[self::IMPORTS_KEY][$key] = $import;
+            $content[self::IMPORTS_KEY][$key][self::RESOURCE_KEY] = $this->parameterBag->resolveValue(
+                $import[self::RESOURCE_KEY]
+            );
         }
 
         return $content;
