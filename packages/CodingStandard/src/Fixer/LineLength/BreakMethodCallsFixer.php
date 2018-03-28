@@ -9,28 +9,28 @@ use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
+use Symplify\TokenRunner\Analyzer\FixerAnalyzer\BlockStartAndEndFinder;
 use Symplify\TokenRunner\Transformer\FixerTransformer\LineLengthTransformer;
-use Symplify\TokenRunner\Wrapper\FixerWrapper\MethodCallWrapperFactory;
 use Throwable;
 
 final class BreakMethodCallsFixer implements DefinedFixerInterface
 {
     /**
-     * @var MethodCallWrapperFactory
-     */
-    private $methodCallWrapperFactory;
-
-    /**
      * @var LineLengthTransformer
      */
     private $lineLengthTransformer;
 
+    /**
+     * @var BlockStartAndEndFinder
+     */
+    private $blockStartAndEndFinder;
+
     public function __construct(
-        MethodCallWrapperFactory $methodCallWrapperFactory,
-        LineLengthTransformer $lineLengthTransformer
+        LineLengthTransformer $lineLengthTransformer,
+        BlockStartAndEndFinder $blockStartAndEndFinder
     ) {
-        $this->methodCallWrapperFactory = $methodCallWrapperFactory;
         $this->lineLengthTransformer = $lineLengthTransformer;
+        $this->blockStartAndEndFinder = $blockStartAndEndFinder;
     }
 
     public function getDefinition(): FixerDefinitionInterface
@@ -63,14 +63,11 @@ final class BreakMethodCallsFixer implements DefinedFixerInterface
                 continue;
             }
 
-            $methodCallWrapper = $this->methodCallWrapperFactory->createFromTokensAndPosition(
+            [$start, $end] = $this->blockStartAndEndFinder->findInTokensByPositionAndContent(
                 $tokens,
-                $methodNamePosition
+                $methodNamePosition,
+                '('
             );
-
-            $start = $methodCallWrapper->getArgumentsBracketStart();
-            $end = $methodCallWrapper->getArgumentsBracketEnd();
-
             $this->lineLengthTransformer->fixStartPositionToEndPosition($start, $end, $tokens, $methodNamePosition);
         }
     }
