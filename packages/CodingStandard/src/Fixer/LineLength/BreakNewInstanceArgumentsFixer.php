@@ -96,6 +96,13 @@ $someObject = new SomeClass($superLongArguments, $anotherLongArguments, $andLitt
                 continue;
             }
 
+            // nowdoc => skip
+            $nextTokenPosition = $tokens->getNextMeaningfulToken($startBracketPosition);
+            $nextToken = $tokens[$nextTokenPosition];
+            if (Strings::startsWith($nextToken->getContent(), '<<<')) {
+                continue;
+            }
+
             $this->fixStartPositionToEndPosition($startBracketPosition, $endBracketPosition, $tokens, $position);
         }
     }
