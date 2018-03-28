@@ -10,7 +10,7 @@ use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
-use Symplify\TokenRunner\Analyzer\FixerAnalyzer\StartAndEndFinder;
+use Symplify\TokenRunner\Analyzer\FixerAnalyzer\BlockStartAndEndFinder;
 use Symplify\TokenRunner\Transformer\FixerTransformer\LineLengthTransformer;
 
 final class BreakNewInstanceArgumentsFixer implements DefinedFixerInterface
@@ -19,15 +19,18 @@ final class BreakNewInstanceArgumentsFixer implements DefinedFixerInterface
      * @var LineLengthTransformer
      */
     private $lineLengthTransformer;
-    /**
-     * @var StartAndEndFinder
-     */
-    private $startAndEndFinder;
 
-    public function __construct(LineLengthTransformer $lineLengthTransformer, StartAndEndFinder $startAndEndFinder)
-    {
+    /**
+     * @var BlockStartAndEndFinder
+     */
+    private $blockStartAndEndFinder;
+
+    public function __construct(
+        LineLengthTransformer $lineLengthTransformer,
+        BlockStartAndEndFinder $blockStartAndEndFinder
+    ) {
         $this->lineLengthTransformer = $lineLengthTransformer;
-        $this->startAndEndFinder = $startAndEndFinder;
+        $this->blockStartAndEndFinder = $blockStartAndEndFinder;
     }
 
     public function getDefinition(): FixerDefinitionInterface
@@ -60,7 +63,11 @@ final class BreakNewInstanceArgumentsFixer implements DefinedFixerInterface
                 continue;
             }
 
-            $startAndEndPositions = $this->startAndEndFinder->findInTokensByPositionAndContent($tokens, $position, '(');
+            $startAndEndPositions = $this->blockStartAndEndFinder->findInTokensByPositionAndContent(
+                $tokens,
+                $position,
+                '('
+            );
             if ($startAndEndPositions === null) {
                 continue;
             }

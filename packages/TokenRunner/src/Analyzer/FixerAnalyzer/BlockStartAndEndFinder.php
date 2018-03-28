@@ -4,13 +4,13 @@ namespace Symplify\TokenRunner\Analyzer\FixerAnalyzer;
 
 use PhpCsFixer\Tokenizer\Tokens;
 
-final class StartAndEndFinder
+final class BlockStartAndEndFinder
 {
     /**
      * @var int[]
      */
     private $contentToBlockType = [
-        '(' => Tokens::BLOCK_TYPE_PARENTHESIS_BRACE
+        '(' => Tokens::BLOCK_TYPE_PARENTHESIS_BRACE,
     ];
 
     /**
