@@ -43,21 +43,21 @@ final class ParameterInImportResolver
     }
 
     /**
-     * @param mixed[] $content
+     * @param mixed[] $configuration
      * @return mixed[]
      */
-    public function process(array $content): array
+    public function process(array $configuration): array
     {
-        if (! isset($content[self::IMPORTS_KEY])) {
-            return $content;
+        if (! isset($configuration[self::IMPORTS_KEY])) {
+            return $configuration;
         }
 
-        foreach ($content[self::IMPORTS_KEY] as $key => $import) {
-            $content[self::IMPORTS_KEY][$key][self::RESOURCE_KEY] = $this->parameterBag->resolveValue(
+        foreach ($configuration[self::IMPORTS_KEY] as $key => $import) {
+            $configuration[self::IMPORTS_KEY][$key][self::RESOURCE_KEY] = $this->parameterBag->resolveValue(
                 $import[self::RESOURCE_KEY]
             );
         }
 
-        return $content;
+        return $configuration;
     }
 }

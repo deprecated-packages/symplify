@@ -27,12 +27,8 @@ final class ImportParameterAwareYamlFileLoader extends YamlFileLoader
      */
     protected function loadFile($file)
     {
-        $decodedYaml = parent::loadFile($file);
+        $configuration = parent::loadFile($file);
 
-        if (! isset($decodedYaml['imports'])) {
-            return $decodedYaml;
-        }
-
-        return $this->parameterInImportResolver->process($decodedYaml);
+        return $this->parameterInImportResolver->process($configuration);
     }
 }
