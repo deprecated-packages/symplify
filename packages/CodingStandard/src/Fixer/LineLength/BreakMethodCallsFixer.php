@@ -9,7 +9,6 @@ use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
-use Symplify\TokenRunner\Configuration\Configuration;
 use Symplify\TokenRunner\Transformer\FixerTransformer\LineLengthTransformer;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\MethodCallWrapperFactory;
 use Throwable;
@@ -22,22 +21,15 @@ final class BreakMethodCallsFixer implements DefinedFixerInterface
     private $methodCallWrapperFactory;
 
     /**
-     * @var Configuration
-     */
-    private $configuration;
-
-    /**
      * @var LineLengthTransformer
      */
     private $lineLengthTransformer;
 
     public function __construct(
-        Configuration $configuration,
         MethodCallWrapperFactory $methodCallWrapperFactory,
         LineLengthTransformer $lineLengthTransformer
     ) {
         $this->methodCallWrapperFactory = $methodCallWrapperFactory;
-        $this->configuration = $configuration;
         $this->lineLengthTransformer = $lineLengthTransformer;
     }
 
@@ -71,7 +63,15 @@ final class BreakMethodCallsFixer implements DefinedFixerInterface
                 continue;
             }
 
-            $this->fixMethodCall($methodNamePosition, $tokens);
+            $methodCallWrapper = $this->methodCallWrapperFactory->createFromTokensAndPosition(
+                $tokens,
+                $methodNamePosition
+            );
+
+            $start = $methodCallWrapper->getArgumentsBracketStart();
+            $end = $methodCallWrapper->getArgumentsBracketEnd();
+
+            $this->lineLengthTransformer->fixStartPositionToEndPosition($start, $end, $tokens, $methodNamePosition);
         }
     }
 
@@ -93,26 +93,6 @@ final class BreakMethodCallsFixer implements DefinedFixerInterface
     public function supports(SplFileInfo $file): bool
     {
         return true;
-    }
-
-    private function fixMethodCall(int $position, Tokens $tokens): void
-    {
-        $methodCallWrapper = $this->methodCallWrapperFactory->createFromTokensAndPosition($tokens, $position);
-
-        $start = $methodCallWrapper->getArgumentsBracketStart();
-        $end = $methodCallWrapper->getArgumentsBracketEnd();
-
-        if ($methodCallWrapper->getFirstLineLength() > $this->configuration->getMaxLineLength()) {
-            $this->lineLengthTransformer->prepareIndentWhitespaces($tokens, $position);
-
-            $this->lineLengthTransformer->breakItems($start, $end, $tokens);
-            return;
-        }
-
-        $lengthFromStartEnd = $this->lineLengthTransformer->getLengthFromStartEnd($start, $end, $tokens);
-        if ($lengthFromStartEnd <= $this->configuration->getMaxLineLength()) {
-            $this->lineLengthTransformer->inlineItems($methodCallWrapper->getArgumentsBracketEnd(), $tokens, $position);
-        }
     }
 
     /**
