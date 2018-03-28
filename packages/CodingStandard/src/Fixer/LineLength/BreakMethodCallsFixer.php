@@ -99,17 +99,18 @@ final class BreakMethodCallsFixer implements DefinedFixerInterface
     {
         $methodCallWrapper = $this->methodCallWrapperFactory->createFromTokensAndPosition($tokens, $position);
 
+        $start = $methodCallWrapper->getArgumentsBracketStart();
+        $end = $methodCallWrapper->getArgumentsBracketEnd();
+
         if ($methodCallWrapper->getFirstLineLength() > $this->configuration->getMaxLineLength()) {
             $this->lineLengthTransformer->prepareIndentWhitespaces($tokens, $position);
-
-            $start = $methodCallWrapper->getArgumentsBracketStart();
-            $end = $methodCallWrapper->getArgumentsBracketEnd();
 
             $this->lineLengthTransformer->breakItems($start, $end, $tokens);
             return;
         }
 
-        if ($methodCallWrapper->getLineLengthToEndOfArguments() <= $this->configuration->getMaxLineLength()) {
+        $lengthFromStartEnd = $this->lineLengthTransformer->getLengthFromStartEnd($start, $end, $tokens);
+        if ($lengthFromStartEnd <= $this->configuration->getMaxLineLength()) {
             $this->lineLengthTransformer->inlineItems($methodCallWrapper->getArgumentsBracketEnd(), $tokens, $position);
         }
     }
