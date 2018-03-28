@@ -1,7 +1,9 @@
 services:
     _defaults:
         autowire: true
+        bind:
+            $maxLineLength: '%max_line_length%'
 
     Symplify\TokenRunner\:
-        resource: '../{Analyzer,DocBlock,Guard,Transformer,Wrapper/*Wrapper/*Factory.php,Naming}'
+        resource: '../{Analyzer,Configuration,DocBlock,Guard,Transformer,Wrapper/*Wrapper/*Factory.php,Naming}'
         exclude: '../{Naming/Name/Name.php}'
