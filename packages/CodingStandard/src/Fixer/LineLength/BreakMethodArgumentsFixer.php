@@ -111,15 +111,16 @@ class SomeClass
         $blockStart = $methodWrapper->getArgumentsBracketStart();
         $blockEnd = $methodWrapper->getArgumentsBracketEnd();
 
+//        $firstLineLenght = $this->lineLengthTransformer->getFirstLineLength($blockStart, $tokens);
         if ($methodWrapper->getFirstLineLength() > $this->configuration->getMaxLineLength()) {
             $this->lineLengthTransformer->prepareIndentWhitespaces($tokens, $blockStart);
             $this->lineLengthTransformer->breakItems($blockStart, $blockEnd, $tokens);
             return;
         }
 
-        if ($methodWrapper->getLineLengthToEndOfArguments() <= $this->configuration->getMaxLineLength()) {
+        $lengthFromStartEnd = $this->lineLengthTransformer->getLengthFromStartEnd($blockStart, $blockEnd, $tokens);
+        if ($lengthFromStartEnd <= $this->configuration->getMaxLineLength()) {
             $this->lineLengthTransformer->inlineItems($blockEnd, $tokens, $position);
-            return;
         }
     }
 }
