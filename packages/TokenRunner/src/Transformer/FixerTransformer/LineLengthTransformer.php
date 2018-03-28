@@ -6,18 +6,12 @@ use Nette\Utils\Strings;
 use PhpCsFixer\Tokenizer\CT;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
-use PhpCsFixer\WhitespacesFixerConfig;
 use Symplify\TokenRunner\Analyzer\FixerAnalyzer\IndentDetector;
 use Symplify\TokenRunner\Analyzer\FixerAnalyzer\TokenSkipper;
 use Symplify\TokenRunner\Configuration\Configuration;
 
 final class LineLengthTransformer
 {
-    /**
-     * @var WhitespacesFixerConfig
-     */
-    private $whitespacesFixerConfig;
-
     /**
      * @var IndentDetector
      */
@@ -50,11 +44,9 @@ final class LineLengthTransformer
 
     public function __construct(
         Configuration $configuration,
-        WhitespacesFixerConfig $whitespacesFixerConfig,
         IndentDetector $indentDetector,
         TokenSkipper $tokenSkipper
     ) {
-        $this->whitespacesFixerConfig = $whitespacesFixerConfig;
         $this->indentDetector = $indentDetector;
         $this->configuration = $configuration;
         $this->tokenSkipper = $tokenSkipper;
@@ -84,17 +76,14 @@ final class LineLengthTransformer
 
     public function prepareIndentWhitespaces(Tokens $tokens, int $arrayStartIndex): void
     {
-        $indentLevel = $this->indentDetector->detectOnPosition(
-            $tokens,
-            $arrayStartIndex,
-            $this->whitespacesFixerConfig
-        );
-        $indentWhitespace = $this->whitespacesFixerConfig->getIndent();
-        $lineEnding = $this->whitespacesFixerConfig->getLineEnding();
+        $indentLevel = $this->indentDetector->detectOnPosition($tokens, $arrayStartIndex, $this->configuration);
 
-        $this->indentWhitespace = str_repeat($indentWhitespace, $indentLevel + 1);
-        $this->closingBracketNewlineIndentWhitespace = $lineEnding . str_repeat($indentWhitespace, $indentLevel);
-        $this->newlineIndentWhitespace = $lineEnding . $this->indentWhitespace;
+        $this->indentWhitespace = str_repeat($this->configuration->getIndent(), $indentLevel + 1);
+        $this->closingBracketNewlineIndentWhitespace = $this->configuration->getLineEnding() . str_repeat(
+            $this->configuration->getIndent(),
+            $indentLevel
+        );
+        $this->newlineIndentWhitespace = $this->configuration->getLineEnding() . $this->indentWhitespace;
     }
 
     public function getFirstLineLength(int $startPosition, Tokens $tokens): int

@@ -2,9 +2,8 @@
 
 namespace Symplify\TokenRunner\Configuration;
 
-/**
- * @todo here could be added break: true, inline: true options asked by @enumag
- */
+use PhpCsFixer\WhitespacesFixerConfig;
+
 final class Configuration
 {
     /**
@@ -12,13 +11,29 @@ final class Configuration
      */
     private $maxLineLength;
 
-    public function __construct(int $maxLineLength)
+    /**
+     * @var WhitespacesFixerConfig
+     */
+    private $whitespacesFixerConfig;
+
+    public function __construct(int $maxLineLength, WhitespacesFixerConfig $whitespacesFixerConfig)
     {
         $this->maxLineLength = $maxLineLength;
+        $this->whitespacesFixerConfig = $whitespacesFixerConfig;
     }
 
     public function getMaxLineLength(): int
     {
         return $this->maxLineLength;
+    }
+
+    public function getIndent(): string
+    {
+        return $this->whitespacesFixerConfig->getIndent();
+    }
+
+    public function getLineEnding(): string
+    {
+        return $this->whitespacesFixerConfig->getLineEnding();
     }
 }

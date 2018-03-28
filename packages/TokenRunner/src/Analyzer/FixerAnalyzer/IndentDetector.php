@@ -3,20 +3,17 @@
 namespace Symplify\TokenRunner\Analyzer\FixerAnalyzer;
 
 use PhpCsFixer\Tokenizer\Tokens;
-use PhpCsFixer\WhitespacesFixerConfig;
+use Symplify\TokenRunner\Configuration\Configuration;
 
 final class IndentDetector
 {
-    public function detectOnPosition(
-        Tokens $tokens,
-        int $startIndex,
-        WhitespacesFixerConfig $whitespacesFixerConfig
-    ): int {
+    public function detectOnPosition(Tokens $tokens, int $startIndex, Configuration $configuration): int
+    {
         for ($i = $startIndex; $i > 0; --$i) {
             $token = $tokens[$i];
 
             if ($token->isWhitespace() && $token->getContent() !== ' ') {
-                return substr_count($token->getContent(), $whitespacesFixerConfig->getIndent());
+                return substr_count($token->getContent(), $configuration->getIndent());
             }
         }
 
