@@ -52,13 +52,17 @@ final class BreakArrayListFixer implements DefinedFixerInterface, WhitespacesAwa
      * @var ArrayWrapperFactory
      */
     private $arrayWrapperFactory;
+
     /**
      * @var Configuration
      */
     private $configuration;
 
-    public function __construct(Configuration $configuration, ArrayWrapperFactory $arrayWrapperFactory, IndentDetector $indentDetector)
-    {
+    public function __construct(
+        Configuration $configuration,
+        ArrayWrapperFactory $arrayWrapperFactory,
+        IndentDetector $indentDetector
+    ) {
         $this->arrayWrapperFactory = $arrayWrapperFactory;
         $this->indentDetector = $indentDetector;
         $this->configuration = $configuration;

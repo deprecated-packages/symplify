@@ -3,7 +3,6 @@
 namespace Symplify\CodingStandard\Fixer\LineLength;
 
 use PhpCsFixer\Fixer\DefinedFixerInterface;
-use PhpCsFixer\Fixer\WhitespacesAwareFixerInterface;
 use PhpCsFixer\FixerDefinition\CodeSample;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
@@ -20,11 +19,6 @@ use Throwable;
 
 final class BreakMethodCallsFixer implements DefinedFixerInterface
 {
-    /**
-     * @var int
-     */
-    private const LINE_LENGTH = 120;
-
     /**
      * @var WhitespacesFixerConfig
      */
@@ -59,6 +53,7 @@ final class BreakMethodCallsFixer implements DefinedFixerInterface
      * @var MethodCallWrapperFactory
      */
     private $methodCallWrapperFactory;
+
     /**
      * @var Configuration
      */
@@ -131,11 +126,6 @@ final class BreakMethodCallsFixer implements DefinedFixerInterface
     {
         return true;
     }
-
-//    public function setWhitespacesConfig(WhitespacesFixerConfig $whitespacesFixerConfig): void
-//    {
-//        $this->whitespacesFixerConfig = $whitespacesFixerConfig;
-//    }
 
     private function fixMethodCall(int $position, Tokens $tokens): void
     {

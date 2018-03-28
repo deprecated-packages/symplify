@@ -3,7 +3,6 @@
 namespace Symplify\CodingStandard\Fixer\LineLength;
 
 use PhpCsFixer\Fixer\DefinedFixerInterface;
-use PhpCsFixer\Fixer\WhitespacesAwareFixerInterface;
 use PhpCsFixer\FixerDefinition\CodeSample;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
@@ -47,13 +46,18 @@ final class BreakMethodArgumentsFixer implements DefinedFixerInterface
      * @var MethodWrapperFactory
      */
     private $methodWrapperFactory;
+
     /**
      * @var Configuration
      */
     private $configuration;
 
-    public function __construct(Configuration $configuration, WhitespacesFixerConfig $whitespacesFixerConfig, MethodWrapperFactory $methodWrapperFactory, IndentDetector $indentDetector)
-    {
+    public function __construct(
+        Configuration $configuration,
+        WhitespacesFixerConfig $whitespacesFixerConfig,
+        MethodWrapperFactory $methodWrapperFactory,
+        IndentDetector $indentDetector
+    ) {
         $this->methodWrapperFactory = $methodWrapperFactory;
         $this->indentDetector = $indentDetector;
         $this->configuration = $configuration;
