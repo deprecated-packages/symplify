@@ -28,9 +28,15 @@ abstract class AbstractCheckerTestCase extends TestCase
      */
     private $errorAndDiffCollector;
 
+    /**
+     * @var FileGuard
+     */
+    private $fileGuard;
+
     protected function setUp(): void
     {
-        (new FileGuard())->ensureFileExists($this->provideConfig(), get_called_class());
+        $this->fileGuard = new FileGuard();
+        $this->fileGuard->ensureFileExists($this->provideConfig(), get_called_class());
 
         $container = (new ContainerFactory())->createWithConfig($this->provideConfig());
 
@@ -50,6 +56,7 @@ abstract class AbstractCheckerTestCase extends TestCase
     protected function doTestCorrectFile(string $correctFile): void
     {
         $this->ensureSomeCheckersAreRegistered();
+        $this->fileGuard->ensureFileExists($correctFile, __METHOD__);
 
         $symfonyFileInfo = SymfonyFileInfoFactory::createFromFilePath($correctFile);
 
@@ -73,6 +80,8 @@ abstract class AbstractCheckerTestCase extends TestCase
     protected function doTestWrongToFixedFile(string $wrongFile, string $fixedFile): void
     {
         $this->ensureSomeCheckersAreRegistered();
+        $this->fileGuard->ensureFileExists($wrongFile, __METHOD__);
+        $this->fileGuard->ensureFileExists($fixedFile, __METHOD__);
 
         $symfonyFileInfo = SymfonyFileInfoFactory::createFromFilePath($wrongFile);
 
