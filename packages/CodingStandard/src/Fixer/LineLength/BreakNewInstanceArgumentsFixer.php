@@ -12,16 +12,10 @@ use PhpCsFixer\Tokenizer\Tokens;
 use PhpCsFixer\WhitespacesFixerConfig;
 use SplFileInfo;
 use Symplify\TokenRunner\Analyzer\FixerAnalyzer\IndentDetector;
+use Symplify\TokenRunner\Configuration\Configuration;
 
 final class BreakNewInstanceArgumentsFixer implements DefinedFixerInterface
 {
-    /**
-     * @todo add as param binding?
-     * @todo possibly wrap to a configuration service
-     * @var int
-     */
-    private const LINE_LENGTH = 120;
-
     /**
      * @var WhitespacesFixerConfig
      */
@@ -47,10 +41,19 @@ final class BreakNewInstanceArgumentsFixer implements DefinedFixerInterface
      */
     private $closingBracketNewlineIndentWhitespace;
 
-    public function __construct(IndentDetector $indentDetector, WhitespacesFixerConfig $whitespacesFixerConfig)
-    {
+    /**
+     * @var Configuration
+     */
+    private $configuration;
+
+    public function __construct(
+        Configuration $configuration,
+        IndentDetector $indentDetector,
+        WhitespacesFixerConfig $whitespacesFixerConfig
+    ) {
         $this->indentDetector = $indentDetector;
         $this->whitespacesFixerConfig = $whitespacesFixerConfig;
+        $this->configuration = $configuration;
     }
 
     public function getDefinition(): FixerDefinitionInterface
@@ -130,13 +133,13 @@ $someObject = new SomeClass($superLongArguments, $anotherLongArguments, $andLitt
         $this->prepareIndentWhitespaces($tokens, $startPosition);
 
         $firstLineLength = $this->getFirstLineLength($startPosition, $tokens);
-        if ($firstLineLength > self::LINE_LENGTH) {
+        if ($firstLineLength > $this->configuration->getMaxLineLenght()) {
             $this->breakItems($startPosition, $endPosition, $tokens);
             return;
         }
 
         $fullLineLength = $this->getLengthFromStartEnd($startPosition, $endPosition, $tokens);
-        if ($fullLineLength <= self::LINE_LENGTH) {
+        if ($fullLineLength <= $this->configuration->getMaxLineLenght()) {
             $this->inlineItems($startPosition, $endPosition, $tokens, $currentPosition);
             return;
         }
