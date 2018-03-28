@@ -28,9 +28,13 @@ final class BreakNewInstanceArgumentsFixer implements DefinedFixerInterface
     {
         return new FixerDefinition('New instance arguments should be on the same/standalone line to fit line length.', [
             new CodeSample(
-                '<?php
-$someObject = new SomeClass($superLongArguments, $anotherLongArguments, $andLittleMore);
-'
+                '<?php $someObject = new SomeClass($superLongArguments, $anotherLongArguments, $andLittleMore);'
+            ),
+            new CodeSample(
+                '<?php $someObject = new SomeClass(
+                    $short,
+                    $args
+                );'
             ),
         ]);
     }
