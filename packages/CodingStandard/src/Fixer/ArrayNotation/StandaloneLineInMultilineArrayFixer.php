@@ -10,12 +10,17 @@ use PhpCsFixer\Tokenizer\CT;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
+use Symplify\CodingStandard\Fixer\LineLength\BreakArrayListFixer;
 use Symplify\TokenRunner\Analyzer\FixerAnalyzer\IndentDetector;
 use Symplify\TokenRunner\Analyzer\FixerAnalyzer\TokenSkipper;
 use Symplify\TokenRunner\Configuration\Configuration;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\ArrayWrapper;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\ArrayWrapperFactory;
 
+/**
+ * @todo consider to make part of
+ * @see BreakArrayListFixer
+ */
 final class StandaloneLineInMultilineArrayFixer implements DefinedFixerInterface
 {
     /**
