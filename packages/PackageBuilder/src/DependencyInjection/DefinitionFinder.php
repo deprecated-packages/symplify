@@ -31,9 +31,7 @@ final class DefinitionFinder
             return $definition;
         }
 
-        throw new DefinitionForTypeNotFoundException(
-            sprintf('Definition for type "%s" was not found.', $type)
-        );
+        throw new DefinitionForTypeNotFoundException(sprintf('Definition for type "%s" was not found.', $type));
     }
 
     public function getByTypeIfExists(ContainerBuilder $containerBuilder, string $type): ?Definition

@@ -51,8 +51,6 @@ final class ConfigFileFinderTest extends TestCase
             'someFile.yml'
         ));
 
-        ConfigFileFinder::detectFromInput('name', new ArrayInput([
-            '--config' => 'someFile.yml',
-        ]));
+        ConfigFileFinder::detectFromInput('name', new ArrayInput(['--config' => 'someFile.yml', ]));
     }
 }
