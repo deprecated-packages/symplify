@@ -9,6 +9,7 @@ use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
+use Symplify\TokenRunner\Analyzer\FixerAnalyzer\BlockStartAndEndFinder;
 use Symplify\TokenRunner\Configuration\Configuration;
 use Symplify\TokenRunner\Transformer\FixerTransformer\LineLengthTransformer;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\MethodWrapperFactory;
@@ -30,14 +31,21 @@ final class BreakMethodArgumentsFixer implements DefinedFixerInterface
      */
     private $lineLengthTransformer;
 
+    /**
+     * @var BlockStartAndEndFinder
+     */
+    private $blockStartAndEndFinder;
+
     public function __construct(
         Configuration $configuration,
         MethodWrapperFactory $methodWrapperFactory,
-        LineLengthTransformer $lineLengthTransformer
+        LineLengthTransformer $lineLengthTransformer,
+        BlockStartAndEndFinder $blockStartAndEndFinder
     ) {
         $this->methodWrapperFactory = $methodWrapperFactory;
         $this->configuration = $configuration;
         $this->lineLengthTransformer = $lineLengthTransformer;
+        $this->blockStartAndEndFinder = $blockStartAndEndFinder;
     }
 
     public function getDefinition(): FixerDefinitionInterface
@@ -77,7 +85,13 @@ class SomeClass
                 continue;
             }
 
-            $this->fixMethod($position, $tokens);
+            [$blockStart, $blockEnd] = $this->blockStartAndEndFinder->findInTokensByPositionAndContent(
+                $tokens,
+                $position,
+                '('
+            );
+
+            $this->fixMethod($position, $tokens, $blockStart, $blockEnd);
         }
     }
 
@@ -101,18 +115,15 @@ class SomeClass
         return true;
     }
 
-    private function fixMethod(int $position, Tokens $tokens): void
+    private function fixMethod(int $position, Tokens $tokens, int $blockStart, int $blockEnd): void
     {
         $methodWrapper = $this->methodWrapperFactory->createFromTokensAndPosition($tokens, $position);
         if (! $methodWrapper->getArguments()) {
             return;
         }
 
-        $blockStart = $methodWrapper->getArgumentsBracketStart();
-        $blockEnd = $methodWrapper->getArgumentsBracketEnd();
-
-//        $firstLineLenght = $this->lineLengthTransformer->getFirstLineLength($blockStart, $tokens);
-        if ($methodWrapper->getFirstLineLength() > $this->configuration->getMaxLineLength()) {
+        $firstLineLenght = $this->lineLengthTransformer->getFirstLineLength($blockStart, $tokens);
+        if ($firstLineLenght > $this->configuration->getMaxLineLength()) {
             $this->lineLengthTransformer->prepareIndentWhitespaces($tokens, $blockStart);
             $this->lineLengthTransformer->breakItems($blockStart, $blockEnd, $tokens);
             return;

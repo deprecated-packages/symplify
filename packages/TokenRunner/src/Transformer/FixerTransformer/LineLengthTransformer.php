@@ -3,6 +3,7 @@
 namespace Symplify\TokenRunner\Transformer\FixerTransformer;
 
 use Nette\Utils\Strings;
+use PhpCsFixer\Tokenizer\CT;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use PhpCsFixer\WhitespacesFixerConfig;
@@ -118,7 +119,8 @@ final class LineLengthTransformer
 
         // compute from here to end of line
         $currentPosition = $startPosition + 1;
-        while (! Strings::startsWith($tokens[$currentPosition]->getContent(), PHP_EOL)) {
+
+        while (! $this->isEndOFArgumentsLine($tokens, $currentPosition)) {
             $lineLength += strlen($tokens[$currentPosition]->getContent());
             ++$currentPosition;
         }
@@ -200,7 +202,7 @@ final class LineLengthTransformer
             $previousToken = $tokens[$i - 1];
             $nextToken = $tokens[$i + 1];
 
-            // @todo make dynamic by type
+            // @todo make dynamic by type? what about arrays?
             if ($previousToken->getContent() === '(' || $nextToken->getContent() === ')') {
                 $tokens->clearAt($i);
                 continue;
@@ -208,5 +210,14 @@ final class LineLengthTransformer
 
             $tokens[$i] = new Token([T_WHITESPACE, ' ']);
         }
+    }
+
+        private function isEndOFArgumentsLine(Tokens $tokens, int $position): bool
+    {
+        if (Strings::startsWith($tokens[$position]->getContent(), PHP_EOL)) {
+            return true;
+        }
+
+        return $tokens[$position]->isGivenKind(CT::T_USE_LAMBDA);
     }
 }

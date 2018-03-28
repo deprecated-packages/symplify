@@ -4,7 +4,6 @@ namespace Symplify\TokenRunner\Wrapper\FixerWrapper;
 
 use Nette\Utils\Strings;
 use PhpCsFixer\Tokenizer\Analyzer\FunctionsAnalyzer;
-use PhpCsFixer\Tokenizer\CT;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 
@@ -146,36 +145,6 @@ final class MethodWrapper
         return $argumentNames;
     }
 
-    public function getFirstLineLength(): int
-    {
-        $lineLength = 0;
-
-        // compute from here to start of line
-        $currentPosition = $this->index;
-        while (! Strings::startsWith($this->tokens[$currentPosition]->getContent(), PHP_EOL)) {
-            $lineLength += strlen($this->tokens[$currentPosition]->getContent());
-            --$currentPosition;
-        }
-
-        $currentToken = $this->tokens[$currentPosition];
-
-        // includes indent in the beginning
-        $lineLength += strlen($currentToken->getContent());
-
-        // minus end of lines, do not count PHP_EOL as characters
-        $endOfLineCount = substr_count($currentToken->getContent(), PHP_EOL);
-        $lineLength -= $endOfLineCount;
-
-        // compute from here to end of line or till the start " use (...) "
-        $currentPosition = $this->index + 1;
-        while (! $this->isEndOFArgumentsLine($currentPosition)) {
-            $lineLength += strlen($this->tokens[$currentPosition]->getContent());
-            ++$currentPosition;
-        }
-
-        return $lineLength;
-    }
-
     public function getArgumentsBracketStart(): int
     {
         return $this->argumentsBracketStart;
@@ -184,14 +153,5 @@ final class MethodWrapper
     public function getArgumentsBracketEnd(): int
     {
         return $this->argumentsBracketEnd;
-    }
-
-    private function isEndOFArgumentsLine(int $currentPosition): bool
-    {
-        if (Strings::startsWith($this->tokens[$currentPosition]->getContent(), PHP_EOL)) {
-            return true;
-        }
-
-        return $this->tokens[$currentPosition]->isGivenKind(CT::T_USE_LAMBDA);
     }
 }
