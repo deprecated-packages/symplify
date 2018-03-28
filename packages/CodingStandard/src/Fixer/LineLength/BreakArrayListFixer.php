@@ -10,7 +10,6 @@ use PhpCsFixer\Tokenizer\CT;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
 use Symplify\TokenRunner\Analyzer\FixerAnalyzer\BlockStartAndEndFinder;
-use Symplify\TokenRunner\Configuration\Configuration;
 use Symplify\TokenRunner\Transformer\FixerTransformer\LineLengthTransformer;
 
 final class BreakArrayListFixer implements DefinedFixerInterface
@@ -19,11 +18,6 @@ final class BreakArrayListFixer implements DefinedFixerInterface
      * @var int[]
      */
     private const ARRAY_OPEN_TOKENS = [T_ARRAY, CT::T_ARRAY_SQUARE_BRACE_OPEN];
-
-    /**
-     * @var Configuration
-     */
-    private $configuration;
 
     /**
      * @var LineLengthTransformer
@@ -36,11 +30,9 @@ final class BreakArrayListFixer implements DefinedFixerInterface
     private $blockStartAndEndFinder;
 
     public function __construct(
-        Configuration $configuration,
         LineLengthTransformer $lineLengthTransformer,
         BlockStartAndEndFinder $blockStartAndEndFinder
     ) {
-        $this->configuration = $configuration;
         $this->lineLengthTransformer = $lineLengthTransformer;
         $this->blockStartAndEndFinder = $blockStartAndEndFinder;
     }
@@ -70,11 +62,7 @@ $array = ["loooooooooooooooooooooooooooooooongArraaaaaaaaaaay", "loooooooooooooo
 
             [$blockStart, $blockEnd] = $this->blockStartAndEndFinder->findInTokensByBlockStart($tokens, $position);
 
-            $firstLineLength = $this->lineLengthTransformer->getFirstLineLength($blockStart, $tokens);
-            if ($firstLineLength > $this->configuration->getMaxLineLength()) {
-                $this->lineLengthTransformer->prepareIndentWhitespaces($tokens, $position);
-                $this->lineLengthTransformer->breakItems($blockStart, $blockEnd, $tokens);
-            }
+            $this->lineLengthTransformer->fixStartPositionToEndPosition($blockStart, $blockEnd, $tokens, $position);
         }
     }
 
