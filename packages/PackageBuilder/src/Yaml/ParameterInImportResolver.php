@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\EasyCodingStandard\Yaml;
+namespace Symplify\PackageBuilder\Yaml;
 
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBag;
 use Symplify\PackageBuilder\Composer\VendorDirProvider;
@@ -10,7 +10,7 @@ use Symplify\PackageBuilder\Composer\VendorDirProvider;
  *
  * # config.yml
  * imports:
- *      - { resource: '%vendorDirectory%/symplify/easy-coding-standard/psr2.yml' }
+ *      - { resource: '%vendor_dir%/symplify/easy-coding-standard/psr2.yml' }
  *
  * to their absolute path. That way you can load always from the same file independent on relative location.
  */
@@ -22,13 +22,18 @@ final class ParameterInImportResolver
     private const IMPORTS_KEY = 'imports';
 
     /**
+     * @var string
+     */
+    private const RESOURCE_KEY = 'resource';
+
+    /**
      * @var ParameterBag
      */
-    private $decoratingParameterBag;
+    private $parameterBag;
 
     public function __construct()
     {
-        $this->decoratingParameterBag = new ParameterBag([
+        $this->parameterBag = new ParameterBag([
             'current_working_dir' => getcwd(),
             'vendor_dir' => VendorDirProvider::provide(),
             # aliases for simple use
@@ -38,20 +43,21 @@ final class ParameterInImportResolver
     }
 
     /**
-     * @param mixed[] $content
+     * @param mixed[] $configuration
      * @return mixed[]
      */
-    public function process(array $content): array
+    public function process(array $configuration): array
     {
-        if (! isset($content[self::IMPORTS_KEY])) {
-            return $content;
+        if (! isset($configuration[self::IMPORTS_KEY])) {
+            return $configuration;
         }
 
-        foreach ($content[self::IMPORTS_KEY] as $key => $import) {
-            $import['resource'] = $this->decoratingParameterBag->resolveValue($import['resource']);
-            $content[self::IMPORTS_KEY][$key] = $import;
+        foreach ($configuration[self::IMPORTS_KEY] as $key => $import) {
+            $configuration[self::IMPORTS_KEY][$key][self::RESOURCE_KEY] = $this->parameterBag->resolveValue(
+                $import[self::RESOURCE_KEY]
+            );
         }
 
-        return $content;
+        return $configuration;
     }
 }

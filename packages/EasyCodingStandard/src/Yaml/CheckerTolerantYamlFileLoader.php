@@ -5,19 +5,15 @@ namespace Symplify\EasyCodingStandard\Yaml;
 use Symfony\Component\Config\FileLocatorInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
-use Symplify\EasyCodingStandard\Exception\Yaml\InvalidParametersValueException;
+use Symplify\PackageBuilder\Exception\Yaml\InvalidParametersValueException;
 use Symplify\PackageBuilder\Reflection\PrivatesCaller;
+use Symplify\PackageBuilder\Yaml\ParameterInImportResolver;
 
 /**
  * The need: https://github.com/symfony/symfony/pull/21313#issuecomment-372037445
  */
 final class CheckerTolerantYamlFileLoader extends YamlFileLoader
 {
-    /**
-     * @var string
-     */
-    private const SERVICES_KEY = 'services';
-
     /**
      * @var string
      */
@@ -64,17 +60,13 @@ final class CheckerTolerantYamlFileLoader extends YamlFileLoader
     public function load($resource, $type = null): void
     {
         $path = $this->locator->locate($resource);
-
         $content = $this->loadFile($path);
-
         $this->container->fileExists($path);
 
         // empty file
         if ($content === null) {
             return;
         }
-
-        $content = $this->parameterInImportResolver->process($content);
 
         // imports
         // $this->parseImports($content, $path);
@@ -132,17 +124,11 @@ final class CheckerTolerantYamlFileLoader extends YamlFileLoader
      */
     protected function loadFile($file)
     {
-        $decodedYaml = parent::loadFile($file);
+        $configuration = parent::loadFile($file);
 
-        if (! isset($decodedYaml[self::SERVICES_KEY])) {
-            return $decodedYaml;
-        }
+        $configuration = $this->checkerServiceParametersShifter->process($configuration);
 
-        $decodedYaml[self::SERVICES_KEY] = $this->checkerServiceParametersShifter->processServices(
-            $decodedYaml[self::SERVICES_KEY]
-        );
-
-        return $decodedYaml;
+        return $this->parameterInImportResolver->process($configuration);
     }
 
     /**
