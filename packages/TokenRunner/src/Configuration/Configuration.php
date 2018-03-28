@@ -2,6 +2,9 @@
 
 namespace Symplify\TokenRunner\Configuration;
 
+/**
+ * @todo here could be added break: true, inline: true options asked by @enumag
+ */
 final class Configuration
 {
     /**
