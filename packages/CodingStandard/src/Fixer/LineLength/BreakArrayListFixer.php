@@ -70,11 +70,14 @@ $array = ["loooooooooooooooooooooooooooooooongArraaaaaaaaaaay", "loooooooooooooo
             }
 
             $arrayWrapper = $this->arrayWrapperFactory->createFromTokensArrayStartPosition($tokens, $position);
-            if ($arrayWrapper->isAssociativeArray()) {
-                continue;
-            }
 
-            $this->fixArray($position, $tokens, $arrayWrapper);
+            $start = $arrayWrapper->getStartIndex();
+            $end = $arrayWrapper->getEndIndex();
+
+            if ($arrayWrapper->getFirstLineLength() > $this->configuration->getMaxLineLength()) {
+                $this->lineLengthTransformer->prepareIndentWhitespaces($tokens, $position);
+                $this->lineLengthTransformer->breakItems($start, $end, $tokens);
+            }
         }
     }
 
@@ -96,17 +99,5 @@ $array = ["loooooooooooooooooooooooooooooooongArraaaaaaaaaaay", "loooooooooooooo
     public function supports(SplFileInfo $file): bool
     {
         return true;
-    }
-
-    private function fixArray(int $position, Tokens $tokens, ArrayWrapper $arrayWrapper): void
-    {
-        if ($arrayWrapper->getFirstLineLength() > $this->configuration->getMaxLineLength()) {
-            $this->lineLengthTransformer->prepareIndentWhitespaces($tokens, $position);
-            $this->lineLengthTransformer->breakItems(
-                $arrayWrapper->getStartIndex(),
-                $arrayWrapper->getEndIndex(),
-                $tokens
-            );
-        }
     }
 }

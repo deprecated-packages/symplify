@@ -120,7 +120,6 @@ final class BreakNewInstanceArgumentsFixer implements DefinedFixerInterface
         // nowdoc => skip
         $nextTokenPosition = $tokens->getNextMeaningfulToken($startBracketPosition);
         $nextToken = $tokens[$nextTokenPosition];
-
         return Strings::startsWith($nextToken->getContent(), '<<<');
     }
 }
