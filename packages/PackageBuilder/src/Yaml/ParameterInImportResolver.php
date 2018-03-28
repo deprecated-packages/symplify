@@ -10,7 +10,7 @@ use Symplify\PackageBuilder\Composer\VendorDirProvider;
  *
  * # config.yml
  * imports:
- *      - { resource: '%vendorDirectory%/symplify/easy-coding-standard/psr2.yml' }
+ *      - { resource: '%vendor_dir%/symplify/easy-coding-standard/psr2.yml' }
  *
  * to their absolute path. That way you can load always from the same file independent on relative location.
  */
