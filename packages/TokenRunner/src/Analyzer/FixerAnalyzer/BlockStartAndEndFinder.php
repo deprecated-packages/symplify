@@ -11,10 +11,26 @@ final class BlockStartAndEndFinder
      */
     private $contentToBlockType = [
         '(' => Tokens::BLOCK_TYPE_PARENTHESIS_BRACE,
+        '[' => Tokens::BLOCK_TYPE_ARRAY_SQUARE_BRACE,
     ];
 
     /**
      * @return int[]
+     */
+    public function findInTokensByBlockStart(Tokens $tokens, int $blockStart): array
+    {
+        $token = $tokens[$blockStart];
+
+        $blockType = $this->getBlockTypeByContent($token->getContent());
+        if ($blockType === null) {
+            return null;
+        }
+
+        return [$blockStart, $tokens->findBlockEnd($blockType, $blockStart)];
+    }
+
+    /**
+     * @return int[]|null
      */
     public function findInTokensByPositionAndContent(Tokens $tokens, int $position, string $content): ?array
     {
