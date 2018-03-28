@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\EasyCodingStandard\Yaml;
+namespace Symplify\PackageBuilder\Yaml;
 
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBag;
 use Symplify\PackageBuilder\Composer\VendorDirProvider;

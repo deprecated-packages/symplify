@@ -1,11 +1,11 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\EasyCodingStandard\Tests\Yaml;
+namespace Symplify\PackageBuilder\Tests\Yaml;
 
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symplify\EasyCodingStandard\DependencyInjection\DelegatingLoaderFactory;
-use Symplify\EasyCodingStandard\Yaml\ParameterInImportResolver;
+use Symplify\PackageBuilder\Yaml\ParameterInImportResolver;
 
 /**
  * @see ParameterInImportResolver
