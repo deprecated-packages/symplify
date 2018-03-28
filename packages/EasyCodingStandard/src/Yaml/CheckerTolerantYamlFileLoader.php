@@ -38,11 +38,17 @@ final class CheckerTolerantYamlFileLoader extends YamlFileLoader
      */
     private $privatesCaller;
 
+    /**
+     * @var ParameterInImportResolver
+     */
+    private $parameterInImportResolver;
+
     public function __construct(ContainerBuilder $containerBuilder, FileLocatorInterface $fileLocator)
     {
         $this->checkerServiceParametersShifter = new CheckerServiceParametersShifter();
         $this->parametersMerger = new ParametersMerger();
         $this->privatesCaller = new PrivatesCaller();
+        $this->parameterInImportResolver = new ParameterInImportResolver();
 
         parent::__construct($containerBuilder, $fileLocator);
     }
@@ -67,6 +73,8 @@ final class CheckerTolerantYamlFileLoader extends YamlFileLoader
         if ($content === null) {
             return;
         }
+
+        $content = $this->parameterInImportResolver->process($content);
 
         // imports
         // $this->parseImports($content, $path);

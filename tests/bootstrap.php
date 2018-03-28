@@ -11,3 +11,8 @@ if (! defined('PHP_CODESNIFFER_VERBOSITY')) {
     // initialize custom T_* token constants used by PHP_CodeSniffer parser
     new Tokens();
 }
+
+// absolute paths differ in monorepo and split packages
+// e.g. /packagse/EasyCodingStandard/src (monorepo) => src (after split)
+// use this to find out where you are
+define('SYMPLIFY_MONOREPO', true);

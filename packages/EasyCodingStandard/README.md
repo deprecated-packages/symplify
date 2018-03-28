@@ -4,7 +4,7 @@
 [![Downloads total](https://img.shields.io/packagist/dt/symplify/easy-coding-standard.svg?style=flat-square)](https://packagist.org/packages/symplify/easy-coding-standard)
 [![Subscribe](https://img.shields.io/badge/subscribe-to--releases-green.svg?style=flat-square)](https://libraries.io/packagist/symplify%2Feasy-coding-standard)
 
-**Used by [Shopsys](https://github.com/shopsys/coding-standards), [Nette](https://github.com/nette/coding-standard) and [Sylius](https://github.com/SyliusLabs/CodingStandard).**
+**Used by [Shopsys](https://github.com/shopsys/coding-standards), [Nette](https://github.com/nette/coding-standard), [Sylius](https://github.com/SyliusLabs/CodingStandard), [LMC](https://github.com/lmc-eu/php-coding-standard) and [Sunfox](https://github.com/sunfoxcz/coding-standard).**
 
 ![ECS-Run](docs/run-and-fix.gif)
 
@@ -81,6 +81,18 @@ imports:
     - { resource: 'vendor/symplify/easy-coding-standard/config/clean-code.yml' }
     - { resource: 'vendor/symplify/easy-coding-standard/config/psr2.yml' }
 ```
+
+In case of [custom coding standard and include](https://github.com/lmc-eu/php-coding-standard/pull/6/files#diff-a8b950982764fcffe4b7b3acd261cf91) e.g. `psr2.yml` form this package, you might want to use `%vendor_dir%` or `%current_working_dir%` for:
+
+```yaml
+# lmc-coding-standard.yml
+imports:
+    - { resource: '%vendor_dir%/symplify/easy-coding-standard/config/psr2.yml' }
+    # or
+    - { resource: '%current_working_dir%/vendor/symplify/easy-coding-standard/config/psr2.yml' }
+```
+
+That would load file always from vendor dir, no matter where you are.
 
 ### Exclude Checkers
 
