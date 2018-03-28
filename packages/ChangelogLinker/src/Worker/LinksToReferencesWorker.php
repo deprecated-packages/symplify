@@ -80,12 +80,7 @@ final class LinksToReferencesWorker implements WorkerInterface
 
         $matches = Strings::matchAll($content, '# \[' . RegexPattern::COMMIT . '\] #');
         foreach ($matches as $match) {
-            $markdownLink = sprintf(
-                '[%s]: %s/commit/%s',
-                $match['commit'],
-                $repositoryLink,
-                $match['commit']
-            );
+            $markdownLink = sprintf('[%s]: %s/commit/%s', $match['commit'], $repositoryLink, $match['commit']);
 
             $linksToAppend[$match['commit']] = $markdownLink;
         }

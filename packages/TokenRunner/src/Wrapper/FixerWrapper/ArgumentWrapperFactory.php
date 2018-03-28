@@ -25,10 +25,7 @@ final class ArgumentWrapperFactory
         $this->tokenTypeGuard->ensureIsTokenType($tokens[$position], [T_FUNCTION], __METHOD__);
 
         $argumentsBracketStart = $tokens->getNextTokenOfKind($position, ['(']);
-        $argumentsBracketEnd = $tokens->findBlockEnd(
-            Tokens::BLOCK_TYPE_PARENTHESIS_BRACE,
-            $argumentsBracketStart
-        );
+        $argumentsBracketEnd = $tokens->findBlockEnd(Tokens::BLOCK_TYPE_PARENTHESIS_BRACE, $argumentsBracketStart);
 
         // no arguments, return
         if ($argumentsBracketStart === ($argumentsBracketEnd + 1)) {
