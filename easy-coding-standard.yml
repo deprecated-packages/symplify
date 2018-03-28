@@ -23,11 +23,11 @@ services:
     Symplify\CodingStandard\Sniffs\DependencyInjection\NoClassInstantiationSniff:
         extraAllowedClasses:
             - 'Symplify\EasyCodingStandard\Error\Error'
-            - 'Symplify\PackageBuilder\Reflection\*'
+            - 'Symplify\PackageBuilder\*'
             - 'phpDocumentor\Reflection\Fqsen'
             - 'Symfony\Component\DependencyInjection\ContainerBuilder'
-            - 'Symplify\EasyCodingStandard\Yaml\*'
             - 'Symfony\Component\DependencyInjection\ParameterBag\ParameterBag'
+            - 'Symplify\EasyCodingStandard\Yaml\*'
 
     # php
     PhpCsFixer\Fixer\LanguageConstruct\FunctionToConstantFixer: ~
