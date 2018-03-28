@@ -7,6 +7,7 @@ use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use PhpCsFixer\WhitespacesFixerConfig;
 use Symplify\TokenRunner\Analyzer\FixerAnalyzer\IndentDetector;
+use Symplify\TokenRunner\Analyzer\FixerAnalyzer\TokenSkipper;
 use Symplify\TokenRunner\Configuration\Configuration;
 
 final class LineLengthTransformer
@@ -41,14 +42,21 @@ final class LineLengthTransformer
      */
     private $closingBracketNewlineIndentWhitespace;
 
+    /**
+     * @var TokenSkipper
+     */
+    private $tokenSkipper;
+
     public function __construct(
         Configuration $configuration,
         WhitespacesFixerConfig $whitespacesFixerConfig,
-        IndentDetector $indentDetector
+        IndentDetector $indentDetector,
+        TokenSkipper $tokenSkipper
     ) {
         $this->whitespacesFixerConfig = $whitespacesFixerConfig;
         $this->indentDetector = $indentDetector;
         $this->configuration = $configuration;
+        $this->tokenSkipper = $tokenSkipper;
     }
 
     public function fixStartPositionToEndPosition(
@@ -182,6 +190,7 @@ final class LineLengthTransformer
         for ($i = $currentPosition; $i < $endPosition; ++$i) {
             $currentToken = $tokens[$i];
 
+            $i = $this->tokenSkipper->skipBlocks($tokens, $i);
             if (! $currentToken->isGivenKind(T_WHITESPACE)) {
                 continue;
             }

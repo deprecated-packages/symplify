@@ -13,6 +13,7 @@ use SplFileInfo;
 use Symplify\TokenRunner\Analyzer\FixerAnalyzer\IndentDetector;
 use Symplify\TokenRunner\Analyzer\FixerAnalyzer\TokenSkipper;
 use Symplify\TokenRunner\Configuration\Configuration;
+use Symplify\TokenRunner\Transformer\FixerTransformer\LineLengthTransformer;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\MethodCallWrapper;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\MethodCallWrapperFactory;
 use Throwable;
@@ -59,18 +60,25 @@ final class BreakMethodCallsFixer implements DefinedFixerInterface
      */
     private $configuration;
 
+    /**
+     * @var LineLengthTransformer
+     */
+    private $lineLengthTransformer;
+
     public function __construct(
         Configuration $configuration,
         WhitespacesFixerConfig $whitespacesFixerConfig,
         TokenSkipper $tokenSkipper,
         IndentDetector $indentDetector,
-        MethodCallWrapperFactory $methodCallWrapperFactory
+        MethodCallWrapperFactory $methodCallWrapperFactory,
+        LineLengthTransformer $lineLengthTransformer
     ) {
         $this->tokenSkipper = $tokenSkipper;
         $this->indentDetector = $indentDetector;
         $this->methodCallWrapperFactory = $methodCallWrapperFactory;
         $this->configuration = $configuration;
         $this->whitespacesFixerConfig = $whitespacesFixerConfig;
+        $this->lineLengthTransformer = $lineLengthTransformer;
     }
 
     public function getDefinition(): FixerDefinitionInterface
@@ -89,7 +97,7 @@ final class BreakMethodCallsFixer implements DefinedFixerInterface
 
     public function isCandidate(Tokens $tokens): bool
     {
-        return $tokens->isAllTokenKindsFound([T_STRING, ',', ')', '(']);
+        return $tokens->isAllTokenKindsFound([T_STRING, ',', '(', ')']);
     }
 
     public function fix(SplFileInfo $file, Tokens $tokens): void
@@ -137,8 +145,7 @@ final class BreakMethodCallsFixer implements DefinedFixerInterface
         }
 
         if ($methodCallWrapper->getLineLengthToEndOfArguments() <= $this->configuration->getMaxLineLength()) {
-            $this->inlineMethodCallParameters($methodCallWrapper, $tokens, $position);
-            return;
+            $this->lineLengthTransformer->inlineItems($methodCallWrapper->getArgumentsBracketEnd(), $tokens, $position);
         }
     }
 
@@ -178,33 +185,6 @@ final class BreakMethodCallsFixer implements DefinedFixerInterface
             if ($currentToken->getContent() === ',') {
                 $tokens->ensureWhitespaceAtIndex($i + 1, 0, $this->newlineIndentWhitespace);
             }
-        }
-    }
-
-    private function inlineMethodCallParameters(
-        MethodCallWrapper $methodCallWrapper,
-        Tokens $tokens,
-        int $position
-    ): void {
-        $endPosition = $methodCallWrapper->getArgumentsBracketEnd();
-
-        // replace PHP_EOL with " "
-        for ($i = $position; $i < $endPosition; ++$i) {
-            $currentToken = $tokens[$i];
-
-            $i = $this->tokenSkipper->skipBlocks($tokens, $i);
-            if (! $currentToken->isGivenKind(T_WHITESPACE)) {
-                continue;
-            }
-
-            $previousToken = $tokens[$i - 1];
-            $nextToken = $tokens[$i + 1];
-            if ($previousToken->getContent() === '(' || $nextToken->getContent() === ')') {
-                $tokens->clearAt($i);
-                continue;
-            }
-
-            $tokens[$i] = new Token([T_WHITESPACE, ' ']);
         }
     }
 
