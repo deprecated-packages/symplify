@@ -8,7 +8,7 @@
         "nette/finder": "^2.4",
         "symplify/package-builder": "^4.0",
         "symplify/better-reflection-docblock": "^4.0",
-        "friendsofphp/php-cs-fixer": "~2.11",
+        "friendsofphp/php-cs-fixer": "^2.11",
         "squizlabs/php_codesniffer": "^3.2",
         "phpdocumentor/reflection-docblock": "4.2|4.3"
     },
