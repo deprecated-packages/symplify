@@ -105,7 +105,10 @@ final class StandaloneLineInMultilineArrayFixer implements DefinedFixerInterface
 
     public function fix(SplFileInfo $file, Tokens $tokens): void
     {
-        foreach ($tokens as $index => $token) {
+        /** @var Token[] $reversedTokens */
+        $reversedTokens = array_reverse($tokens->toArray(), true);
+
+        foreach ($reversedTokens as $index => $token) {
             if (! $token->isGivenKind(self::ARRAY_OPEN_TOKENS)) {
                 continue;
             }
@@ -185,7 +188,6 @@ final class StandaloneLineInMultilineArrayFixer implements DefinedFixerInterface
     {
         if ($tokens[$arrayEndIndex - 1]->isGivenKind(T_WHITESPACE)) {
             $tokens->ensureWhitespaceAtIndex($arrayEndIndex - 1, 0, $this->closingBracketNewlineIndentWhitespace);
-
         } else {
             $tokens->ensureWhitespaceAtIndex($arrayEndIndex, 0, $this->closingBracketNewlineIndentWhitespace);
         }
