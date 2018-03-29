@@ -83,19 +83,24 @@ final class LineLengthTransformer
         $this->insertNewlineBeforeClosingIfNeeded($tokens, $blockStartAndEndInfo->getEnd());
 
         // again, from bottom top
-        for ($i = $blockStartAndEndInfo->getEnd(); $i > $blockStartAndEndInfo->getStart(); --$i) {
+        for ($i = $blockStartAndEndInfo->getEnd() - 1; $i > $blockStartAndEndInfo->getStart(); --$i) {
             $currentToken = $tokens[$i];
 
-            $i = $this->tokenSkipper->skipBlocks($tokens, $i);
+            $i = $this->tokenSkipper->skipBlocksReversed($tokens, $i);
 
             // 2. new line after each comma ",", instead of just space
             if ($currentToken->getContent() === ',') {
-                // has already newline? usually the last line => skip to prevent double spacing
-                if (Strings::contains($tokens[$i + 1]->getContent(), $this->configuration->getLineEnding())) {
+                if ($this->isLastItem($tokens, $i)) {
                     continue;
                 }
 
-                $tokens->ensureWhitespaceAtIndex($i + 1, 0, $this->newlineIndentWhitespace);
+                $nextToken = $tokens[$i + 1];
+                $nextNextToken = $tokens[$i + 2];
+
+                // if next token is just space, turn it to newline
+                if ($nextToken->isWhitespace(' ') && ! $nextNextToken->isComment()) {
+                    $tokens->ensureWhitespaceAtIndex($i + 1, 0, $this->newlineIndentWhitespace);
+                }
             }
         }
 
@@ -234,5 +239,13 @@ final class LineLengthTransformer
     private function insertNewlineBeforeClosingIfNeeded(Tokens $tokens, int $arrayEndIndex): void
     {
         $tokens->ensureWhitespaceAtIndex($arrayEndIndex - 1, 1, $this->closingBracketNewlineIndentWhitespace);
+    }
+
+    /**
+     * Has already newline? usually the last line => skip to prevent double spacing
+     */
+    private function isLastItem(Tokens $tokens, $i): bool
+    {
+        return Strings::contains($tokens[$i + 1]->getContent(), $this->configuration->getLineEnding());
     }
 }
