@@ -72,7 +72,10 @@ final class StandaloneLineInMultilineArrayFixer implements DefinedFixerInterface
 
             $blockStartAndEndInfo = $this->blockStartAndEndFinder->findInTokensByBlockStart($tokens, $index);
 
-            $arrayWrapper = $this->arrayWrapperFactory->createFromTokensAndBlockStartAndEndInfo($tokens, $blockStartAndEndInfo);
+            $arrayWrapper = $this->arrayWrapperFactory->createFromTokensAndBlockStartAndEndInfo(
+                $tokens,
+                $blockStartAndEndInfo
+            );
             if ($this->shouldSkip($arrayWrapper)) {
                 continue;
             }

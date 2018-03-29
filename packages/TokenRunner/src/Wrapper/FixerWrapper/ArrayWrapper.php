@@ -3,7 +3,6 @@
 namespace Symplify\TokenRunner\Wrapper\FixerWrapper;
 
 use Nette\Utils\Strings;
-use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use Symplify\TokenRunner\Analyzer\FixerAnalyzer\TokenSkipper;
 
@@ -20,11 +19,6 @@ final class ArrayWrapper
     private $startIndex;
 
     /**
-     * @var Token
-     */
-    private $startToken;
-
-    /**
      * @var int
      */
     private $endIndex;
@@ -39,7 +33,6 @@ final class ArrayWrapper
         $this->tokens = $tokens;
         $this->startIndex = $startIndex;
         $this->endIndex = $endIndex;
-        $this->startToken = $tokens[$startIndex];
         $this->tokenSkipper = $tokenSkipper;
     }
 
