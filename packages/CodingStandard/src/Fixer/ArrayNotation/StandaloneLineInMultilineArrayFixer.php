@@ -11,9 +11,12 @@ use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
 use Symplify\CodingStandard\Fixer\LineLength\BreakArrayListFixer;
+use Symplify\TokenRunner\Analyzer\FixerAnalyzer\BlockStartAndEndFinder;
+use Symplify\TokenRunner\Analyzer\FixerAnalyzer\BlockStartAndEndInfo;
 use Symplify\TokenRunner\Analyzer\FixerAnalyzer\IndentDetector;
 use Symplify\TokenRunner\Analyzer\FixerAnalyzer\TokenSkipper;
 use Symplify\TokenRunner\Configuration\Configuration;
+use Symplify\TokenRunner\Transformer\FixerTransformer\LineLengthTransformer;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\ArrayWrapper;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\ArrayWrapperFactory;
 
@@ -68,16 +71,30 @@ final class StandaloneLineInMultilineArrayFixer implements DefinedFixerInterface
      */
     private $configuration;
 
+    /**
+     * @var LineLengthTransformer
+     */
+    private $lineLengthTransformer;
+
+    /**
+     * @var BlockStartAndEndFinder
+     */
+    private $blockStartAndEndFinder;
+
     public function __construct(
         ArrayWrapperFactory $arrayWrapperFactory,
         TokenSkipper $tokenSkipper,
         IndentDetector $indentDetector,
-        Configuration $configuration
+        Configuration $configuration,
+        LineLengthTransformer $lineLengthTransformer,
+        BlockStartAndEndFinder $blockStartAndEndFinder
     ) {
         $this->arrayWrapperFactory = $arrayWrapperFactory;
         $this->tokenSkipper = $tokenSkipper;
         $this->indentDetector = $indentDetector;
         $this->configuration = $configuration;
+        $this->lineLengthTransformer = $lineLengthTransformer;
+        $this->blockStartAndEndFinder = $blockStartAndEndFinder;
     }
 
     public function getDefinition(): FixerDefinitionInterface
@@ -103,6 +120,8 @@ final class StandaloneLineInMultilineArrayFixer implements DefinedFixerInterface
                 continue;
             }
 
+            $blockStartAndEndInfo = $this->blockStartAndEndFinder->findInTokensByBlockStart($tokens, $index);
+
             $arrayWrapper = $this->arrayWrapperFactory->createFromTokensArrayStartPosition($tokens, $index);
             $this->isOldArray = $arrayWrapper->isOldArray();
 
@@ -110,7 +129,7 @@ final class StandaloneLineInMultilineArrayFixer implements DefinedFixerInterface
                 continue;
             }
 
-            $this->fixArray($tokens, $arrayWrapper);
+            $this->fixArray($tokens, $arrayWrapper, $blockStartAndEndInfo);
         }
     }
 
@@ -134,16 +153,23 @@ final class StandaloneLineInMultilineArrayFixer implements DefinedFixerInterface
         return true;
     }
 
-    private function fixArray(Tokens $tokens, ArrayWrapper $arrayWrapper): void
-    {
+    private function fixArray(
+        Tokens $tokens,
+        ArrayWrapper $arrayWrapper,
+        BlockStartAndEndInfo $blockStartAndEndInfo
+    ): void {
         $itemCount = $arrayWrapper->getItemCount();
         if ($itemCount <= 1) {
             return;
         }
 
+        $this->lineLengthTransformer->prepareIndentWhitespaces($tokens, $arrayWrapper->getStartIndex());
         $this->prepareIndentWhitespaces($tokens, $arrayWrapper->getStartIndex());
 
-        for ($i = $arrayWrapper->getEndIndex() - 1; $i >= $arrayWrapper->getStartIndex(); --$i) {
+        $arrayStart = $blockStartAndEndInfo->getStart();
+        $arrayEnd = $blockStartAndEndInfo->getEnd();
+
+        for ($i = $arrayEnd - 1; $i >= $arrayStart; --$i) {
             $i = $this->tokenSkipper->skipBlocksReversed($tokens, $i);
 
             $token = $tokens[$i];
