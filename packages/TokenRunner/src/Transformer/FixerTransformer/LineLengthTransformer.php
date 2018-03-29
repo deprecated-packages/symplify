@@ -110,7 +110,6 @@ final class LineLengthTransformer
     {
         $indentLevel = $this->indentDetector->detectOnPosition($tokens, $arrayStartIndex, $this->configuration);
 
-
         $this->indentWhitespace = str_repeat($this->configuration->getIndent(), $indentLevel + 1);
         $this->closingBracketNewlineIndentWhitespace = $this->configuration->getLineEnding() . str_repeat(
             $this->configuration->getIndent(),
@@ -242,7 +241,7 @@ final class LineLengthTransformer
     /**
      * Has already newline? usually the last line => skip to prevent double spacing
      */
-    private function isLastItem(Tokens $tokens, $i): bool
+    private function isLastItem(Tokens $tokens, int $i): bool
     {
         return Strings::contains($tokens[$i + 1]->getContent(), $this->configuration->getLineEnding());
     }
