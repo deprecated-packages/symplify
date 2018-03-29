@@ -4,11 +4,11 @@ namespace Symplify\TokenRunner\Analyzer\FixerAnalyzer;
 
 final class BlockStartAndEndInfo
 {
-
     /**
      * @var int
      */
     private $blockStart;
+
     /**
      * @var int
      */

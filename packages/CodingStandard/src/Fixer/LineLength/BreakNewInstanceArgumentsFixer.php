@@ -77,11 +77,7 @@ final class BreakNewInstanceArgumentsFixer implements DefinedFixerInterface
                 continue;
             }
 
-            $this->lineLengthTransformer->fixStartPositionToEndPosition(
-                $blockStartAndEndInfo,
-                $tokens,
-                $position
-            );
+            $this->lineLengthTransformer->fixStartPositionToEndPosition($blockStartAndEndInfo, $tokens, $position);
         }
     }
 

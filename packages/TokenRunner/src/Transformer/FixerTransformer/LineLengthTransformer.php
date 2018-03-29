@@ -66,7 +66,11 @@ final class LineLengthTransformer
             return;
         }
 
-        $fullLineLength = $this->getLengthFromStartEnd($blockStartAndEndInfo->getBlockStart(), $blockStartAndEndInfo->getBlockEnd(), $tokens);
+        $fullLineLength = $this->getLengthFromStartEnd(
+            $blockStartAndEndInfo->getBlockStart(),
+            $blockStartAndEndInfo->getBlockEnd(),
+            $tokens
+        );
         if ($fullLineLength <= $this->configuration->getMaxLineLength()) {
             $this->inlineItems($blockStartAndEndInfo->getBlockEnd(), $tokens, $currentPosition);
             return;

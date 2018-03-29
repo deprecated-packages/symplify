@@ -29,7 +29,6 @@ final class NoClassInstantiationSniff implements Sniff
         // PHP internal classes
         DateTime::class,
         DateTimeImmutable::class,
-        SplFileInfo::class,
         stdClass::class,
         SplObjectStorage::class,
         'Reflection*',

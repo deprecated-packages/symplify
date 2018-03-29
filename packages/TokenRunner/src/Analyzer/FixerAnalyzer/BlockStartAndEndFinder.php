@@ -29,8 +29,11 @@ final class BlockStartAndEndFinder
     /**
      * @return int[]|null
      */
-    public function findInTokensByPositionAndContent(Tokens $tokens, int $position, string $content): ?BlockStartAndEndInfo
-    {
+    public function findInTokensByPositionAndContent(
+        Tokens $tokens,
+        int $position,
+        string $content
+    ): ?BlockStartAndEndInfo {
         $blockStart = $tokens->getNextTokenOfKind($position, [$content]);
         if ($blockStart === null) {
             return null;
