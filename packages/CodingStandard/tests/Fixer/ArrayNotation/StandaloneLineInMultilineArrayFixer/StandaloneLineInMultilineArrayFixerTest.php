@@ -7,7 +7,7 @@ use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;
 /**
  * @see \Symplify\CodingStandard\Fixer\ArrayNotation\StandaloneLineInMultilineArrayFixer
  */
-final class ArrayNotationTest extends AbstractCheckerTestCase
+final class StandaloneLineInMultilineArrayFixerTest extends AbstractCheckerTestCase
 {
     /**
      * @dataProvider provideCorrectCases()
