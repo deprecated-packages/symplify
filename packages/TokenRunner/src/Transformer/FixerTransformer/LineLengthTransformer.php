@@ -227,6 +227,6 @@ final class LineLengthTransformer
             return;
         }
 
-        $tokens->ensureWhitespaceAtIndex($arrayEndIndex + 1, 0, $this->closingBracketNewlineIndentWhitespace);
+        $tokens->ensureWhitespaceAtIndex($arrayEndIndex, 1, $this->closingBracketNewlineIndentWhitespace);
     }
 }

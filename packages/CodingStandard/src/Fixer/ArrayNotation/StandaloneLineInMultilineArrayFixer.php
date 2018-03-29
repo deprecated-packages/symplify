@@ -12,9 +12,6 @@ use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
 use Symplify\TokenRunner\Analyzer\FixerAnalyzer\BlockStartAndEndFinder;
 use Symplify\TokenRunner\Analyzer\FixerAnalyzer\BlockStartAndEndInfo;
-use Symplify\TokenRunner\Analyzer\FixerAnalyzer\IndentDetector;
-use Symplify\TokenRunner\Analyzer\FixerAnalyzer\TokenSkipper;
-use Symplify\TokenRunner\Configuration\Configuration;
 use Symplify\TokenRunner\Transformer\FixerTransformer\LineLengthTransformer;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\ArrayWrapper;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\ArrayWrapperFactory;
@@ -27,34 +24,9 @@ final class StandaloneLineInMultilineArrayFixer implements DefinedFixerInterface
     private const ARRAY_OPEN_TOKENS = [T_ARRAY, CT::T_ARRAY_SQUARE_BRACE_OPEN];
 
     /**
-     * @var string
-     */
-    private $indentWhitespace;
-
-    /**
-     * @var string
-     */
-    private $newlineIndentWhitespace;
-
-    /**
-     * @var IndentDetector
-     */
-    private $indentDetector;
-
-    /**
      * @var ArrayWrapperFactory
      */
     private $arrayWrapperFactory;
-
-    /**
-     * @var TokenSkipper
-     */
-    private $tokenSkipper;
-
-    /**
-     * @var Configuration
-     */
-    private $configuration;
 
     /**
      * @var LineLengthTransformer
@@ -68,16 +40,10 @@ final class StandaloneLineInMultilineArrayFixer implements DefinedFixerInterface
 
     public function __construct(
         ArrayWrapperFactory $arrayWrapperFactory,
-        TokenSkipper $tokenSkipper,
-        IndentDetector $indentDetector,
-        Configuration $configuration,
         LineLengthTransformer $lineLengthTransformer,
         BlockStartAndEndFinder $blockStartAndEndFinder
     ) {
         $this->arrayWrapperFactory = $arrayWrapperFactory;
-        $this->tokenSkipper = $tokenSkipper;
-        $this->indentDetector = $indentDetector;
-        $this->configuration = $configuration;
         $this->lineLengthTransformer = $lineLengthTransformer;
         $this->blockStartAndEndFinder = $blockStartAndEndFinder;
     }
@@ -142,33 +108,11 @@ final class StandaloneLineInMultilineArrayFixer implements DefinedFixerInterface
     private function fixArray(Tokens $tokens, BlockStartAndEndInfo $blockStartAndEndInfo): void
     {
         $arrayStart = $blockStartAndEndInfo->getStart();
-        $arrayEnd = $blockStartAndEndInfo->getEnd();
+
+        $blockStartAndEndInfo = new BlockStartAndEndInfo($arrayStart, $blockStartAndEndInfo->getEnd() - 1);
 
         $this->lineLengthTransformer->prepareIndentWhitespaces($tokens, $arrayStart);
-
-        $this->prepareIndentWhitespaces($tokens, $arrayStart);
-
-        for ($i = $arrayEnd - 1; $i >= $arrayStart; --$i) {
-            $i = $this->tokenSkipper->skipBlocksReversed($tokens, $i);
-
-            $token = $tokens[$i];
-
-            if (! $token->equals(',')) { // item separator behind it
-                continue;
-            }
-
-            $nextToken = $tokens[$i + 1];
-
-            $nextNextToken = $tokens[$i + 2];
-            // if next token is just space, turn it to newline
-            if ($nextToken->isWhitespace(' ') && ! $nextNextToken->isComment()) {
-                $tokens->ensureWhitespaceAtIndex($i + 1, 0, $this->newlineIndentWhitespace);
-                ++$i;
-            }
-        }
-
-        $this->lineLengthTransformer->insertNewlineBeforeClosingIfNeeded($tokens, $arrayEnd - 1);
-        $this->lineLengthTransformer->insertNewlineAfterOpeningIfNeeded($tokens, $arrayStart);
+        $this->lineLengthTransformer->breakItems($blockStartAndEndInfo, $tokens);
     }
 
     private function shouldSkip(ArrayWrapper $arrayWrapper): bool
@@ -178,13 +122,5 @@ final class StandaloneLineInMultilineArrayFixer implements DefinedFixerInterface
         }
 
         return $arrayWrapper->getItemCount() <= 1;
-    }
-
-    private function prepareIndentWhitespaces(Tokens $tokens, int $arrayStartIndex): void
-    {
-        $indentLevel = $this->indentDetector->detectOnPosition($tokens, $arrayStartIndex, $this->configuration);
-
-        $this->indentWhitespace = str_repeat($this->configuration->getIndent(), $indentLevel + 1);
-        $this->newlineIndentWhitespace = $this->configuration->getLineEnding() . $this->indentWhitespace;
     }
 }
