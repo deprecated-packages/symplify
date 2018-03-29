@@ -62,15 +62,11 @@ final class LineLengthTransformer
 
         $firstLineLength = $this->getFirstLineLength($blockStartAndEndInfo->getStart(), $tokens);
         if ($firstLineLength > $this->configuration->getMaxLineLength()) {
-            $this->breakItems($blockStartAndEndInfo->getStart(), $blockStartAndEndInfo->getEnd(), $tokens);
+            $this->breakItems($blockStartAndEndInfo, $tokens);
             return;
         }
 
-        $fullLineLength = $this->getLengthFromStartEnd(
-            $blockStartAndEndInfo->getStart(),
-            $blockStartAndEndInfo->getEnd(),
-            $tokens
-        );
+        $fullLineLength = $this->getLengthFromStartEnd($blockStartAndEndInfo, $tokens);
 
         if ($fullLineLength <= $this->configuration->getMaxLineLength()) {
             $this->inlineItems($blockStartAndEndInfo->getEnd(), $tokens, $currentPosition);
@@ -121,15 +117,19 @@ final class LineLengthTransformer
         return $lineLength;
     }
 
-    public function breakItems(int $startPosition, int $endPosition, Tokens $tokens): void
+    public function breakItems(BlockStartAndEndInfo $blockStartAndEndInfo, Tokens $tokens): void
     {
         // 1. break after arguments opening
-        $tokens->ensureWhitespaceAtIndex($startPosition + 1, 0, $this->newlineIndentWhitespace);
+        $tokens->ensureWhitespaceAtIndex($blockStartAndEndInfo->getStart() + 1, 0, $this->newlineIndentWhitespace);
 
         // 2. break before arguments closing
-        $tokens->ensureWhitespaceAtIndex($endPosition + 1, 0, $this->closingBracketNewlineIndentWhitespace);
+        $tokens->ensureWhitespaceAtIndex(
+            $blockStartAndEndInfo->getEnd() + 1,
+            0,
+            $this->closingBracketNewlineIndentWhitespace
+        );
 
-        for ($i = $startPosition; $i < $endPosition; ++$i) {
+        for ($i = $blockStartAndEndInfo->getStart(); $i < $blockStartAndEndInfo->getEnd(); ++$i) {
             $currentToken = $tokens[$i];
 
             $i = $this->tokenSkipper->skipBlocks($tokens, $i);
@@ -165,12 +165,12 @@ final class LineLengthTransformer
         }
     }
 
-    public function getLengthFromStartEnd(int $startPosition, int $endPosition, Tokens $tokens): int
+    public function getLengthFromStartEnd(BlockStartAndEndInfo $blockStartAndEndInfo, Tokens $tokens): int
     {
         $lineLength = 0;
 
         // compute from function to start of line
-        $currentPosition = $startPosition;
+        $currentPosition = $blockStartAndEndInfo->getStart();
         while (! Strings::startsWith($tokens[$currentPosition]->getContent(), PHP_EOL)) {
             $lineLength += strlen($tokens[$currentPosition]->getContent());
             --$currentPosition;
@@ -180,8 +180,8 @@ final class LineLengthTransformer
         $lineLength += strlen($tokens[$currentPosition]->getContent());
 
         // get length from start of function till end of arguments - with spaces as one
-        $currentPosition = $startPosition;
-        while ($currentPosition < $endPosition) {
+        $currentPosition = $blockStartAndEndInfo->getStart();
+        while ($currentPosition < $blockStartAndEndInfo->getEnd()) {
             $currentToken = $tokens[$currentPosition];
             if ($currentToken->isGivenKind(T_WHITESPACE)) {
                 ++$lineLength;
@@ -194,7 +194,7 @@ final class LineLengthTransformer
         }
 
         // get length from end or arguments to first line break
-        $currentPosition = $endPosition;
+        $currentPosition = $blockStartAndEndInfo->getEnd();
         while (! Strings::startsWith($tokens[$currentPosition]->getContent(), PHP_EOL)) {
             $currentToken = $tokens[$currentPosition];
 

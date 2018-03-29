@@ -10,7 +10,6 @@ use PhpCsFixer\Tokenizer\CT;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
-use Symplify\CodingStandard\Fixer\LineLength\BreakArrayListFixer;
 use Symplify\TokenRunner\Analyzer\FixerAnalyzer\BlockStartAndEndFinder;
 use Symplify\TokenRunner\Analyzer\FixerAnalyzer\BlockStartAndEndInfo;
 use Symplify\TokenRunner\Analyzer\FixerAnalyzer\IndentDetector;
@@ -20,21 +19,12 @@ use Symplify\TokenRunner\Transformer\FixerTransformer\LineLengthTransformer;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\ArrayWrapper;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\ArrayWrapperFactory;
 
-/**
- * @todo consider to make part of
- * @see BreakArrayListFixer
- */
 final class StandaloneLineInMultilineArrayFixer implements DefinedFixerInterface
 {
     /**
      * @var int[]
      */
     private const ARRAY_OPEN_TOKENS = [T_ARRAY, CT::T_ARRAY_SQUARE_BRACE_OPEN];
-
-    /**
-     * @var bool
-     */
-    private $isOldArray = false;
 
     /**
      * @var string
@@ -102,7 +92,7 @@ final class StandaloneLineInMultilineArrayFixer implements DefinedFixerInterface
         return new FixerDefinition(
             'Indexed PHP arrays with 2 and more items should have 1 item per line.',
             [
-                new CodeSample('<?php $values = [1 => \'hey\', 2 => \'hello\'];'),
+                new CodeSample('<?php [1 => \'hey\', 2 => \'hello\'];'),
             ]
         );
     }
@@ -121,15 +111,13 @@ final class StandaloneLineInMultilineArrayFixer implements DefinedFixerInterface
             }
 
             $blockStartAndEndInfo = $this->blockStartAndEndFinder->findInTokensByBlockStart($tokens, $index);
-
             $arrayWrapper = $this->arrayWrapperFactory->createFromTokensArrayStartPosition($tokens, $index);
-            $this->isOldArray = $arrayWrapper->isOldArray();
 
-            if (! $arrayWrapper->isAssociativeArray()) {
+            if ($this->shouldSkip($arrayWrapper)) {
                 continue;
             }
 
-            $this->fixArray($tokens, $arrayWrapper, $blockStartAndEndInfo);
+            $this->fixArray($tokens, $blockStartAndEndInfo);
         }
     }
 
@@ -153,21 +141,13 @@ final class StandaloneLineInMultilineArrayFixer implements DefinedFixerInterface
         return true;
     }
 
-    private function fixArray(
-        Tokens $tokens,
-        ArrayWrapper $arrayWrapper,
-        BlockStartAndEndInfo $blockStartAndEndInfo
-    ): void {
-        $itemCount = $arrayWrapper->getItemCount();
-        if ($itemCount <= 1) {
-            return;
-        }
-
-        $this->lineLengthTransformer->prepareIndentWhitespaces($tokens, $arrayWrapper->getStartIndex());
-        $this->prepareIndentWhitespaces($tokens, $arrayWrapper->getStartIndex());
-
+    private function fixArray(Tokens $tokens, BlockStartAndEndInfo $blockStartAndEndInfo): void
+    {
         $arrayStart = $blockStartAndEndInfo->getStart();
         $arrayEnd = $blockStartAndEndInfo->getEnd();
+
+        $this->lineLengthTransformer->prepareIndentWhitespaces($tokens, $arrayStart);
+        $this->prepareIndentWhitespaces($tokens, $arrayStart);
 
         for ($i = $arrayEnd - 1; $i >= $arrayStart; --$i) {
             $i = $this->tokenSkipper->skipBlocksReversed($tokens, $i);
@@ -188,18 +168,17 @@ final class StandaloneLineInMultilineArrayFixer implements DefinedFixerInterface
             }
         }
 
-        $this->insertNewlineBeforeClosingIfNeeded($tokens, $arrayWrapper->getEndIndex());
-        $this->insertNewlineAfterOpeningIfNeeded($tokens, $arrayWrapper->getStartIndex());
+        $this->insertNewlineBeforeClosingIfNeeded($tokens, $arrayEnd);
+        $this->insertNewlineAfterOpeningIfNeeded($tokens, $arrayStart);
     }
 
     private function insertNewlineAfterOpeningIfNeeded(Tokens $tokens, int $arrayStartIndex): void
     {
-        $offset = $this->isOldArray ? 1 : 0;
-        if ($tokens[$arrayStartIndex + $offset + 1]->isGivenKind(T_WHITESPACE)) {
+        if ($tokens[$arrayStartIndex + 1]->isGivenKind(T_WHITESPACE)) {
             return;
         }
 
-        $tokens->ensureWhitespaceAtIndex($arrayStartIndex + $offset, 1, $this->newlineIndentWhitespace);
+        $tokens->ensureWhitespaceAtIndex($arrayStartIndex, 1, $this->newlineIndentWhitespace);
     }
 
     private function insertNewlineBeforeClosingIfNeeded(Tokens $tokens, int $arrayEndIndex): void
@@ -221,5 +200,16 @@ final class StandaloneLineInMultilineArrayFixer implements DefinedFixerInterface
             $indentLevel
         );
         $this->newlineIndentWhitespace = $this->configuration->getLineEnding() . $this->indentWhitespace;
+    }
+
+    private function shouldSkip(ArrayWrapper $arrayWrapper): bool
+    {
+        if (! $arrayWrapper->isAssociativeArray()) {
+            return true;
+        }
+
+        $itemCount = $arrayWrapper->getItemCount();
+
+        return $itemCount <= 1;
     }
 }
