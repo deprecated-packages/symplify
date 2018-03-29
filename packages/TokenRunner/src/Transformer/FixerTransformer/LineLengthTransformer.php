@@ -62,23 +62,23 @@ final class LineLengthTransformer
 
         $firstLineLength = $this->getFirstLineLength($blockStartAndEndInfo->getStart(), $tokens);
         if ($firstLineLength > $this->configuration->getMaxLineLength()) {
-            $this->breakItems($blockStartAndEndInfo->getStart(), $blockStartAndEndInfo->geEnd(), $tokens);
+            $this->breakItems($blockStartAndEndInfo->getStart(), $blockStartAndEndInfo->getEnd(), $tokens);
             return;
         }
 
         $fullLineLength = $this->getLengthFromStartEnd(
             $blockStartAndEndInfo->getStart(),
-            $blockStartAndEndInfo->geEnd(),
+            $blockStartAndEndInfo->getEnd(),
             $tokens
         );
 
         if ($fullLineLength <= $this->configuration->getMaxLineLength()) {
-            $this->inlineItems($blockStartAndEndInfo->geEnd(), $tokens, $currentPosition);
+            $this->inlineItems($blockStartAndEndInfo->getEnd(), $tokens, $currentPosition);
             return;
         }
     }
 
-    private function prepareIndentWhitespaces(Tokens $tokens, int $arrayStartIndex): void
+    public function prepareIndentWhitespaces(Tokens $tokens, int $arrayStartIndex): void
     {
         $indentLevel = $this->indentDetector->detectOnPosition($tokens, $arrayStartIndex, $this->configuration);
 
@@ -90,7 +90,7 @@ final class LineLengthTransformer
         $this->newlineIndentWhitespace = $this->configuration->getLineEnding() . $this->indentWhitespace;
     }
 
-    private function getFirstLineLength(int $startPosition, Tokens $tokens): int
+    public function getFirstLineLength(int $startPosition, Tokens $tokens): int
     {
         $lineLength = 0;
 
@@ -121,7 +121,7 @@ final class LineLengthTransformer
         return $lineLength;
     }
 
-    private function breakItems(int $startPosition, int $endPosition, Tokens $tokens): void
+    public function breakItems(int $startPosition, int $endPosition, Tokens $tokens): void
     {
         // 1. break after arguments opening
         $tokens->ensureWhitespaceAtIndex($startPosition + 1, 0, $this->newlineIndentWhitespace);
@@ -141,7 +141,7 @@ final class LineLengthTransformer
         }
     }
 
-    private function inlineItems(int $endPosition, Tokens $tokens, int $currentPosition): void
+    public function inlineItems(int $endPosition, Tokens $tokens, int $currentPosition): void
     {
         // replace PHP_EOL with " "
         for ($i = $currentPosition; $i < $endPosition; ++$i) {
@@ -165,7 +165,7 @@ final class LineLengthTransformer
         }
     }
 
-    private function getLengthFromStartEnd(int $startPosition, int $endPosition, Tokens $tokens): int
+    public function getLengthFromStartEnd(int $startPosition, int $endPosition, Tokens $tokens): int
     {
         $lineLength = 0;
 
@@ -205,7 +205,7 @@ final class LineLengthTransformer
         return $lineLength;
     }
 
-    private function isEndOFArgumentsLine(Tokens $tokens, int $position): bool
+    public function isEndOFArgumentsLine(Tokens $tokens, int $position): bool
     {
         if (Strings::startsWith($tokens[$position]->getContent(), PHP_EOL)) {
             return true;
