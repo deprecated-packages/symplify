@@ -42,11 +42,6 @@ final class StandaloneLineInMultilineArrayFixer implements DefinedFixerInterface
     private $indentDetector;
 
     /**
-     * @var string
-     */
-    private $closingBracketNewlineIndentWhitespace;
-
-    /**
      * @var ArrayWrapperFactory
      */
     private $arrayWrapperFactory;
@@ -150,6 +145,7 @@ final class StandaloneLineInMultilineArrayFixer implements DefinedFixerInterface
         $arrayEnd = $blockStartAndEndInfo->getEnd();
 
         $this->lineLengthTransformer->prepareIndentWhitespaces($tokens, $arrayStart);
+
         $this->prepareIndentWhitespaces($tokens, $arrayStart);
 
         for ($i = $arrayEnd - 1; $i >= $arrayStart; --$i) {
@@ -171,26 +167,8 @@ final class StandaloneLineInMultilineArrayFixer implements DefinedFixerInterface
             }
         }
 
-        $this->insertNewlineBeforeClosingIfNeeded($tokens, $arrayEnd);
-        $this->insertNewlineAfterOpeningIfNeeded($tokens, $arrayStart);
-    }
-
-    private function insertNewlineAfterOpeningIfNeeded(Tokens $tokens, int $arrayStartIndex): void
-    {
-        if ($tokens[$arrayStartIndex + 1]->isGivenKind(T_WHITESPACE)) {
-            return;
-        }
-
-        $tokens->ensureWhitespaceAtIndex($arrayStartIndex, 1, $this->newlineIndentWhitespace);
-    }
-
-    private function insertNewlineBeforeClosingIfNeeded(Tokens $tokens, int $arrayEndIndex): void
-    {
-        if ($tokens[$arrayEndIndex - 1]->isGivenKind(T_WHITESPACE)) {
-            $tokens->ensureWhitespaceAtIndex($arrayEndIndex - 1, 0, $this->closingBracketNewlineIndentWhitespace);
-        } else {
-            $tokens->ensureWhitespaceAtIndex($arrayEndIndex, 0, $this->closingBracketNewlineIndentWhitespace);
-        }
+        $this->lineLengthTransformer->insertNewlineBeforeClosingIfNeeded($tokens, $arrayEnd - 1);
+        $this->lineLengthTransformer->insertNewlineAfterOpeningIfNeeded($tokens, $arrayStart);
     }
 
     private function prepareIndentWhitespaces(Tokens $tokens, int $arrayStartIndex): void
@@ -198,10 +176,6 @@ final class StandaloneLineInMultilineArrayFixer implements DefinedFixerInterface
         $indentLevel = $this->indentDetector->detectOnPosition($tokens, $arrayStartIndex, $this->configuration);
 
         $this->indentWhitespace = str_repeat($this->configuration->getIndent(), $indentLevel + 1);
-        $this->closingBracketNewlineIndentWhitespace = $this->configuration->getLineEnding() . str_repeat(
-            $this->configuration->getIndent(),
-            $indentLevel
-        );
         $this->newlineIndentWhitespace = $this->configuration->getLineEnding() . $this->indentWhitespace;
     }
 

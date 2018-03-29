@@ -120,14 +120,10 @@ final class LineLengthTransformer
     public function breakItems(BlockStartAndEndInfo $blockStartAndEndInfo, Tokens $tokens): void
     {
         // 1. break after arguments opening
-        $tokens->ensureWhitespaceAtIndex($blockStartAndEndInfo->getStart() + 1, 0, $this->newlineIndentWhitespace);
+        $this->insertNewlineAfterOpeningIfNeeded($tokens, $blockStartAndEndInfo->getStart());
 
         // 2. break before arguments closing
-        $tokens->ensureWhitespaceAtIndex(
-            $blockStartAndEndInfo->getEnd() + 1,
-            0,
-            $this->closingBracketNewlineIndentWhitespace
-        );
+        $this->insertNewlineBeforeClosingIfNeeded($tokens, $blockStartAndEndInfo->getEnd());
 
         for ($i = $blockStartAndEndInfo->getStart(); $i < $blockStartAndEndInfo->getEnd(); ++$i) {
             $currentToken = $tokens[$i];
@@ -212,5 +208,25 @@ final class LineLengthTransformer
         }
 
         return $tokens[$position]->isGivenKind(CT::T_USE_LAMBDA);
+    }
+
+    public function insertNewlineAfterOpeningIfNeeded(Tokens $tokens, int $arrayStartIndex): void
+    {
+        if ($tokens[$arrayStartIndex + 1]->isGivenKind(T_WHITESPACE)) {
+            $tokens->ensureWhitespaceAtIndex($arrayStartIndex + 1, 0, $this->newlineIndentWhitespace);
+            return;
+        }
+
+        $tokens->ensureWhitespaceAtIndex($arrayStartIndex, 1, $this->newlineIndentWhitespace);
+    }
+
+    public function insertNewlineBeforeClosingIfNeeded(Tokens $tokens, int $arrayEndIndex): void
+    {
+        if ($tokens[$arrayEndIndex]->isGivenKind(T_WHITESPACE)) {
+            $tokens->ensureWhitespaceAtIndex($arrayEndIndex, 0, $this->closingBracketNewlineIndentWhitespace);
+            return;
+        }
+
+        $tokens->ensureWhitespaceAtIndex($arrayEndIndex + 1, 0, $this->closingBracketNewlineIndentWhitespace);
     }
 }
