@@ -71,6 +71,7 @@ final class LineLengthTransformer
             $blockStartAndEndInfo->geEnd(),
             $tokens
         );
+
         if ($fullLineLength <= $this->configuration->getMaxLineLength()) {
             $this->inlineItems($blockStartAndEndInfo->geEnd(), $tokens, $currentPosition);
             return;

@@ -14,9 +14,6 @@ final class BlockStartAndEndFinder
         '[' => Tokens::BLOCK_TYPE_ARRAY_SQUARE_BRACE,
     ];
 
-    /**
-     * @return int[]
-     */
     public function findInTokensByBlockStart(Tokens $tokens, int $blockStart): BlockStartAndEndInfo
     {
         $token = $tokens[$blockStart];
@@ -26,9 +23,6 @@ final class BlockStartAndEndFinder
         return new BlockStartAndEndInfo($blockStart, $tokens->findBlockEnd($blockType, $blockStart));
     }
 
-    /**
-     * @return int[]|null
-     */
     public function findInTokensByPositionAndContent(
         Tokens $tokens,
         int $position,

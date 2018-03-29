@@ -75,6 +75,10 @@ class SomeClass
                 '('
             );
 
+            if ($blockStartAndEndInfo === null) {
+                continue;
+            }
+
             $this->lineLengthTransformer->fixStartPositionToEndPosition($blockStartAndEndInfo, $tokens, $position);
         }
     }

@@ -68,6 +68,11 @@ final class BreakMethodCallsFixer implements DefinedFixerInterface
                 $methodNamePosition,
                 '('
             );
+
+            if ($blockStartAndEndInfo === null) {
+                continue;
+            }
+
             $this->lineLengthTransformer->fixStartPositionToEndPosition(
                 $blockStartAndEndInfo,
                 $tokens,
