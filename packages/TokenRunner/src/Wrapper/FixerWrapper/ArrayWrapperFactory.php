@@ -4,6 +4,7 @@ namespace Symplify\TokenRunner\Wrapper\FixerWrapper;
 
 use PhpCsFixer\Tokenizer\CT;
 use PhpCsFixer\Tokenizer\Tokens;
+use Symplify\TokenRunner\Analyzer\FixerAnalyzer\BlockStartAndEndInfo;
 use Symplify\TokenRunner\Analyzer\FixerAnalyzer\TokenSkipper;
 use Symplify\TokenRunner\Guard\TokenTypeGuard;
 
@@ -25,13 +26,13 @@ final class ArrayWrapperFactory
         $this->tokenTypeGuard = $tokenTypeGuard;
     }
 
-    public function createFromTokensArrayStartPosition(Tokens $tokens, int $startIndex): ArrayWrapper
+    public function createFromTokensAndBlockStartAndEndInfo(Tokens $tokens, BlockStartAndEndInfo $blockStartAndEndInfo): ArrayWrapper
     {
-        $this->tokenTypeGuard->ensureIsTokenType($tokens[$startIndex], [
+        $this->tokenTypeGuard->ensureIsTokenType($tokens[$blockStartAndEndInfo->getStart()], [
             T_ARRAY,
             CT::T_ARRAY_SQUARE_BRACE_OPEN,
         ], __METHOD__);
 
-        return new ArrayWrapper($tokens, $startIndex, $this->tokenSkipper);
+        return new ArrayWrapper($tokens, $blockStartAndEndInfo->getStart(), $blockStartAndEndInfo->getEnd(), $this->tokenSkipper);
     }
 }

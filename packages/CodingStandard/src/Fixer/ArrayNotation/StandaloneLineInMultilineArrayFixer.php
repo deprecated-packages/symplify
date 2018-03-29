@@ -70,13 +70,14 @@ final class StandaloneLineInMultilineArrayFixer implements DefinedFixerInterface
                 continue;
             }
 
-            $arrayWrapper = $this->arrayWrapperFactory->createFromTokensArrayStartPosition($tokens, $index);
+            $blockStartAndEndInfo = $this->blockStartAndEndFinder->findInTokensByBlockStart($tokens, $index);
+
+            $arrayWrapper = $this->arrayWrapperFactory->createFromTokensAndBlockStartAndEndInfo($tokens, $blockStartAndEndInfo);
             if ($this->shouldSkip($arrayWrapper)) {
                 continue;
             }
 
-            // @todo use in array factory, also with old/new?
-            $blockStartAndEndInfo = $this->blockStartAndEndFinder->findInTokensByBlockStart($tokens, $index);
+//            $blockStartAndEndInfo = $this->blockStartAndEndFinder->findInTokensByBlockStart($tokens, $index);
             $this->lineLengthTransformer->breakItems($blockStartAndEndInfo, $tokens);
         }
     }

@@ -34,10 +34,11 @@ final class ArrayWrapper
      */
     private $tokenSkipper;
 
-    public function __construct(Tokens $tokens, int $startIndex, TokenSkipper $tokenSkipper)
+    public function __construct(Tokens $tokens, int $startIndex, int $endIndex, TokenSkipper $tokenSkipper)
     {
         $this->tokens = $tokens;
         $this->startIndex = $startIndex;
+        $this->endIndex = $endIndex;
         $this->startToken = $tokens[$startIndex];
         $this->tokenSkipper = $tokenSkipper;
     }
@@ -47,29 +48,9 @@ final class ArrayWrapper
         return $this->startIndex;
     }
 
-    public function getEndIndex(): int
-    {
-        if ($this->endIndex) {
-            return $this->endIndex;
-        }
-
-        if ($this->isOldArray()) {
-            $this->endIndex = $this->tokens->findBlockEnd(Tokens::BLOCK_TYPE_PARENTHESIS_BRACE, $this->startIndex + 1);
-        } else {
-            $this->endIndex = $this->tokens->findBlockEnd(Tokens::BLOCK_TYPE_ARRAY_SQUARE_BRACE, $this->startIndex);
-        }
-
-        return $this->endIndex;
-    }
-
-    public function isOldArray(): bool
-    {
-        return $this->startToken->isGivenKind(T_ARRAY);
-    }
-
     public function isAssociativeArray(): bool
     {
-        for ($i = $this->startIndex + 1; $i <= $this->getEndIndex() - 1; ++$i) {
+        for ($i = $this->startIndex + 1; $i <= $this->endIndex - 1; ++$i) {
             $i = $this->tokenSkipper->skipBlocks($this->tokens, $i);
 
             $token = $this->tokens[$i];
@@ -85,7 +66,7 @@ final class ArrayWrapper
     public function getItemCount(): int
     {
         $itemCount = 0;
-        for ($i = $this->getEndIndex() - 1; $i >= $this->startIndex; --$i) {
+        for ($i = $this->endIndex - 1; $i >= $this->startIndex; --$i) {
             $i = $this->tokenSkipper->skipBlocksReversed($this->tokens, $i);
 
             $token = $this->tokens[$i];
