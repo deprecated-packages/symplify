@@ -75,13 +75,16 @@ final class StandaloneLineInMultilineArrayFixer implements DefinedFixerInterface
             }
 
             $blockStartAndEndInfo = $this->blockStartAndEndFinder->findInTokensByBlockStart($tokens, $index);
-            $arrayWrapper = $this->arrayWrapperFactory->createFromTokensArrayStartPosition($tokens, $index);
 
+            $arrayWrapper = $this->arrayWrapperFactory->createFromTokensArrayStartPosition($tokens, $index);
             if ($this->shouldSkip($arrayWrapper)) {
                 continue;
             }
 
-            $this->fixArray($tokens, $blockStartAndEndInfo);
+            $arrayStart = $blockStartAndEndInfo->getStart();
+
+            $blockStartAndEndInfo = new BlockStartAndEndInfo($arrayStart, $blockStartAndEndInfo->getEnd() - 1);
+            $this->lineLengthTransformer->breakItems($blockStartAndEndInfo, $tokens);
         }
     }
 
@@ -103,16 +106,6 @@ final class StandaloneLineInMultilineArrayFixer implements DefinedFixerInterface
     public function supports(SplFileInfo $file): bool
     {
         return true;
-    }
-
-    private function fixArray(Tokens $tokens, BlockStartAndEndInfo $blockStartAndEndInfo): void
-    {
-        $arrayStart = $blockStartAndEndInfo->getStart();
-
-        $blockStartAndEndInfo = new BlockStartAndEndInfo($arrayStart, $blockStartAndEndInfo->getEnd() - 1);
-
-        $this->lineLengthTransformer->prepareIndentWhitespaces($tokens, $arrayStart);
-        $this->lineLengthTransformer->breakItems($blockStartAndEndInfo, $tokens);
     }
 
     private function shouldSkip(ArrayWrapper $arrayWrapper): bool

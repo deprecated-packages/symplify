@@ -58,8 +58,6 @@ final class LineLengthTransformer
         Tokens $tokens,
         int $currentPosition
     ): void {
-        $this->prepareIndentWhitespaces($tokens, $blockStartAndEndInfo->getStart());
-
         $firstLineLength = $this->getFirstLineLength($blockStartAndEndInfo->getStart(), $tokens);
         if ($firstLineLength > $this->configuration->getMaxLineLength()) {
             $this->breakItems($blockStartAndEndInfo, $tokens);
@@ -74,7 +72,29 @@ final class LineLengthTransformer
         }
     }
 
-    public function prepareIndentWhitespaces(Tokens $tokens, int $arrayStartIndex): void
+    public function breakItems(BlockStartAndEndInfo $blockStartAndEndInfo, Tokens $tokens): void
+    {
+        $this->prepareIndentWhitespaces($tokens, $blockStartAndEndInfo->getStart());
+
+        // 1. break after arguments opening
+        $this->insertNewlineAfterOpeningIfNeeded($tokens, $blockStartAndEndInfo->getStart());
+
+        // 2. break before arguments closing
+        $this->insertNewlineBeforeClosingIfNeeded($tokens, $blockStartAndEndInfo->getEnd());
+
+        for ($i = $blockStartAndEndInfo->getStart(); $i < $blockStartAndEndInfo->getEnd(); ++$i) {
+            $currentToken = $tokens[$i];
+
+            $i = $this->tokenSkipper->skipBlocks($tokens, $i);
+
+            // 3. new line after each comma ",", instead of just space
+            if ($currentToken->getContent() === ',') {
+                $tokens->ensureWhitespaceAtIndex($i + 1, 0, $this->newlineIndentWhitespace);
+            }
+        }
+    }
+
+    private function prepareIndentWhitespaces(Tokens $tokens, int $arrayStartIndex): void
     {
         $indentLevel = $this->indentDetector->detectOnPosition($tokens, $arrayStartIndex, $this->configuration);
 
@@ -86,7 +106,7 @@ final class LineLengthTransformer
         $this->newlineIndentWhitespace = $this->configuration->getLineEnding() . $this->indentWhitespace;
     }
 
-    public function getFirstLineLength(int $startPosition, Tokens $tokens): int
+    private function getFirstLineLength(int $startPosition, Tokens $tokens): int
     {
         $lineLength = 0;
 
@@ -117,27 +137,7 @@ final class LineLengthTransformer
         return $lineLength;
     }
 
-    public function breakItems(BlockStartAndEndInfo $blockStartAndEndInfo, Tokens $tokens): void
-    {
-        // 1. break after arguments opening
-        $this->insertNewlineAfterOpeningIfNeeded($tokens, $blockStartAndEndInfo->getStart());
-
-        // 2. break before arguments closing
-        $this->insertNewlineBeforeClosingIfNeeded($tokens, $blockStartAndEndInfo->getEnd());
-
-        for ($i = $blockStartAndEndInfo->getStart(); $i < $blockStartAndEndInfo->getEnd(); ++$i) {
-            $currentToken = $tokens[$i];
-
-            $i = $this->tokenSkipper->skipBlocks($tokens, $i);
-
-            // 3. new line after each comma ",", instead of just space
-            if ($currentToken->getContent() === ',') {
-                $tokens->ensureWhitespaceAtIndex($i + 1, 0, $this->newlineIndentWhitespace);
-            }
-        }
-    }
-
-    public function inlineItems(int $endPosition, Tokens $tokens, int $currentPosition): void
+    private function inlineItems(int $endPosition, Tokens $tokens, int $currentPosition): void
     {
         // replace PHP_EOL with " "
         for ($i = $currentPosition; $i < $endPosition; ++$i) {
@@ -161,7 +161,7 @@ final class LineLengthTransformer
         }
     }
 
-    public function getLengthFromStartEnd(BlockStartAndEndInfo $blockStartAndEndInfo, Tokens $tokens): int
+    private function getLengthFromStartEnd(BlockStartAndEndInfo $blockStartAndEndInfo, Tokens $tokens): int
     {
         $lineLength = 0;
 
@@ -201,7 +201,7 @@ final class LineLengthTransformer
         return $lineLength;
     }
 
-    public function isEndOFArgumentsLine(Tokens $tokens, int $position): bool
+    private function isEndOFArgumentsLine(Tokens $tokens, int $position): bool
     {
         if (Strings::startsWith($tokens[$position]->getContent(), PHP_EOL)) {
             return true;
@@ -210,7 +210,7 @@ final class LineLengthTransformer
         return $tokens[$position]->isGivenKind(CT::T_USE_LAMBDA);
     }
 
-    public function insertNewlineAfterOpeningIfNeeded(Tokens $tokens, int $arrayStartIndex): void
+    private function insertNewlineAfterOpeningIfNeeded(Tokens $tokens, int $arrayStartIndex): void
     {
         if ($tokens[$arrayStartIndex + 1]->isGivenKind(T_WHITESPACE)) {
             $tokens->ensureWhitespaceAtIndex($arrayStartIndex + 1, 0, $this->newlineIndentWhitespace);
@@ -220,7 +220,7 @@ final class LineLengthTransformer
         $tokens->ensureWhitespaceAtIndex($arrayStartIndex, 1, $this->newlineIndentWhitespace);
     }
 
-    public function insertNewlineBeforeClosingIfNeeded(Tokens $tokens, int $arrayEndIndex): void
+    private function insertNewlineBeforeClosingIfNeeded(Tokens $tokens, int $arrayEndIndex): void
     {
         if ($tokens[$arrayEndIndex]->isGivenKind(T_WHITESPACE)) {
             $tokens->ensureWhitespaceAtIndex($arrayEndIndex, 0, $this->closingBracketNewlineIndentWhitespace);
