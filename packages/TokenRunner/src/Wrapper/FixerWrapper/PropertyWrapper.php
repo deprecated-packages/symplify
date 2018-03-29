@@ -62,11 +62,7 @@ final class PropertyWrapper extends AbstractVariableWrapper
 
     protected function getNamePosition(): int
     {
-        $nextVariableTokens = $this->tokens->findGivenKind(
-            [T_VARIABLE],
-            $this->index,
-            $this->index + 5
-        );
+        $nextVariableTokens = $this->tokens->findGivenKind([T_VARIABLE], $this->index, $this->index + 5);
 
         $nextVariableToken = array_pop($nextVariableTokens);
 

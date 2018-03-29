@@ -52,10 +52,7 @@ final class LatteDecoratorTest extends AbstractContainerAwareTestCase
 
         $this->latteFileDecorator->decorateFiles([$file]);
 
-        $this->assertStringEqualsFile(
-            __DIR__ . '/LatteDecoratorSource/expectedContact.html',
-            $file->getContent()
-        );
+        $this->assertStringEqualsFile(__DIR__ . '/LatteDecoratorSource/expectedContact.html', $file->getContent());
     }
 
     public function testDecorateFileWithFileVariable(): void

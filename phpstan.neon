@@ -10,6 +10,7 @@ parameters:
         - '#Parameter \#1 \$id of class Symfony\\Component\\DependencyInjection\\Reference constructor expects string, string\|null given#'
 
         # is valid code, known values
+        - '#Parameter \#1 \$type of method PhpCsFixer\\Tokenizer\\Tokens::findBlockEnd\(\) expects int, int\|null given#'
         - '#Parameter \#2 \$start of method PHP_CodeSniffer\\Files\\File::findNext\(\) expects int, int\|true given#'
         - '#Variable \$processedFileContent might not be defined#'
         - '#Parameter \#2 \$searchIndex of method PhpCsFixer\\Tokenizer\\Tokens::findBlockEnd\(\) expects int, int\|null given#'
@@ -23,7 +24,6 @@ parameters:
         - '#Method Symplify\\TokenRunner\\Wrapper\\FixerWrapper\\DocBlockWrapper::getReturnTag\(\) should return Symplify\\BetterReflectionDocBlock\\Tag\\TolerantReturn\|null but returns phpDocumentor\\Reflection\\DocBlock\\Tag\|null#'
         - '#Parameter \#1 \$indexStart of method PhpCsFixer\\Tokenizer\\Tokens::overrideRange\(\) expects int, int\|null given#'
         - '#Parameter \#2 \$indexEnd of method PhpCsFixer\\Tokenizer\\Tokens::overrideRange\(\) expects int, int\|null given#'
-        - '#Property Symplify\\TokenRunner\\Wrapper\\FixerWrapper\\MethodCallWrapper::\$argumentsBracketStart \(int\) does not accept int\|null#'
         - '#Method Symplify\\Statie\\Renderable\\File\\FileFactory::createFromFileInfo\(\) should return Symplify\\Statie\\Renderable\\File\\File but returns Symplify\\Statie\\Renderable\\File\\AbstractFile#'
 
         # intentional stricter phpDocumentor\Reflection\Types\This

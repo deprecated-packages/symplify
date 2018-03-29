@@ -152,9 +152,13 @@ class SomeClass
 }
 ```
 
-### Arguments should be on the same/standalone line to fit line length
+### Parameters, arguments and array items should be on the same/standalone line to fit line length
 
-- class: [`Symplify\CodingStandard\Fixer\LineLength\BreakMethodArgumentsFixer`](src/Fixer/LineLength/BreakMethodArgumentsFixer.php)
+- :wrench:
+- class: [`Symplify\CodingStandard\Fixer\LineLength\BreakArrayListFixer`](src/Fixer/LineLength/BreakArrayListFixer.php)
+- class: [`Symplify\CodingStandard\Fixer\LineLength\BreakMethodCallsFixer`](src/Fixer/LineLength/BreakMethodCallsFixer.php)
+- class: [`Symplify\CodingStandard\Fixer\LineLength\BreakMethodCallsFixer`](src/Fixer/LineLength/BreakMethodCallsFixer.php)
+- class: [`Symplify\CodingStandard\Fixer\LineLength\BreakNewInstanceArgumentsFixer`](src/Fixer/LineLength/BreakNewInstanceArgumentsFixer.php)
 
 ```diff
  class SomeClass
@@ -175,6 +179,14 @@ class SomeClass
 +    public function someOtherMethod(ShortArgument $shortArgument, $oneMore) {
      }
  }
+```
+
+Is 120 characters too long for you? **Change it**:
+
+```yaml
+# easy-coding-standard.yml
+parameters:
+    max_line_length: 100
 ```
 
 ### Magic PHP methods (`__*()`) should respect their casing form

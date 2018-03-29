@@ -53,10 +53,7 @@ final class FileSystemWriterTest extends AbstractContainerAwareTestCase
         $file = SymfonyFileInfoFactory::createFromFilePath($this->sourceDirectory . '/index.html');
         $this->fileSystemWriter->copyStaticFiles([$file]);
 
-        $this->assertFileEquals(
-            $this->sourceDirectory . '/index.html',
-            $this->outputDirectory . '/index.html'
-        );
+        $this->assertFileEquals($this->sourceDirectory . '/index.html', $this->outputDirectory . '/index.html');
     }
 
     public function testCopyRenderableFiles(): void

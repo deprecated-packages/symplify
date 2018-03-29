@@ -9,57 +9,42 @@ use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
-use PhpCsFixer\WhitespacesFixerConfig;
 use SplFileInfo;
-use Symplify\TokenRunner\Analyzer\FixerAnalyzer\IndentDetector;
+use Symplify\TokenRunner\Analyzer\FixerAnalyzer\BlockStartAndEndFinder;
+use Symplify\TokenRunner\Analyzer\FixerAnalyzer\BlockStartAndEndInfo;
+use Symplify\TokenRunner\Transformer\FixerTransformer\LineLengthTransformer;
 
 final class BreakNewInstanceArgumentsFixer implements DefinedFixerInterface
 {
     /**
-     * @todo add as param binding?
-     * @todo possibly wrap to a configuration service
-     * @var int
+     * @var LineLengthTransformer
      */
-    private const LINE_LENGTH = 120;
+    private $lineLengthTransformer;
 
     /**
-     * @var WhitespacesFixerConfig
+     * @var BlockStartAndEndFinder
      */
-    private $whitespacesFixerConfig;
+    private $blockStartAndEndFinder;
 
-    /**
-     * @var IndentDetector
-     */
-    private $indentDetector;
-
-    /**
-     * @var string
-     */
-    private $indentWhitespace;
-
-    /**
-     * @var string
-     */
-    private $newlineIndentWhitespace;
-
-    /**
-     * @var string
-     */
-    private $closingBracketNewlineIndentWhitespace;
-
-    public function __construct(IndentDetector $indentDetector, WhitespacesFixerConfig $whitespacesFixerConfig)
-    {
-        $this->indentDetector = $indentDetector;
-        $this->whitespacesFixerConfig = $whitespacesFixerConfig;
+    public function __construct(
+        LineLengthTransformer $lineLengthTransformer,
+        BlockStartAndEndFinder $blockStartAndEndFinder
+    ) {
+        $this->lineLengthTransformer = $lineLengthTransformer;
+        $this->blockStartAndEndFinder = $blockStartAndEndFinder;
     }
 
     public function getDefinition(): FixerDefinitionInterface
     {
         return new FixerDefinition('New instance arguments should be on the same/standalone line to fit line length.', [
             new CodeSample(
-                '<?php
-$someObject = new SomeClass($superLongArguments, $anotherLongArguments, $andLittleMore);
-'
+                '<?php $someObject = new SomeClass($superLongArguments, $anotherLongArguments, $andLittleMore);'
+            ),
+            new CodeSample(
+                '<?php $someObject = new SomeClass(
+                    $short,
+                    $args
+                );'
             ),
         ]);
     }
@@ -79,21 +64,20 @@ $someObject = new SomeClass($superLongArguments, $anotherLongArguments, $andLitt
                 continue;
             }
 
-            $startBracketPosition = $tokens->getNextTokenOfKind($position, ['(']);
-            if ($startBracketPosition === null) {
+            $blockStartAndEndInfo = $this->blockStartAndEndFinder->findInTokensByPositionAndContent(
+                $tokens,
+                $position,
+                '('
+            );
+            if ($blockStartAndEndInfo === null) {
                 continue;
             }
 
-            // @todo: decouple som smart BlockStartEndFinder, where there is no need to seek
-            // the type Tokens::BLOCK_TYPE_PARENTHESIS_BRACE manually, I never get it from the name
-            $endBracketPosition = $tokens->findBlockEnd(Tokens::BLOCK_TYPE_PARENTHESIS_BRACE, $startBracketPosition);
-
-            // no arguments => skip
-            if (($endBracketPosition - $startBracketPosition) <= 1) {
+            if ($this->shouldSkip($tokens, $blockStartAndEndInfo)) {
                 continue;
             }
 
-            $this->fixStartPositionToEndPosition($startBracketPosition, $endBracketPosition, $tokens, $position);
+            $this->lineLengthTransformer->fixStartPositionToEndPosition($blockStartAndEndInfo, $tokens, $position);
         }
     }
 
@@ -107,9 +91,12 @@ $someObject = new SomeClass($superLongArguments, $anotherLongArguments, $andLitt
         return self::class;
     }
 
+    /**
+     * Execute before \PhpCsFixer\Fixer\ArrayNotation\TrimArraySpacesFixer (with priority 0)
+     */
     public function getPriority(): int
     {
-        return 0;
+        return 5;
     }
 
     public function supports(SplFileInfo $file): bool
@@ -117,160 +104,16 @@ $someObject = new SomeClass($superLongArguments, $anotherLongArguments, $andLitt
         return true;
     }
 
-    /**
-     * First steps to general fixer
-     */
-    private function fixStartPositionToEndPosition(
-        int $startPosition,
-        int $endPosition,
-        Tokens $tokens,
-        int $currentPosition
-    ): void {
-        // @todo automate in some way
-        $this->prepareIndentWhitespaces($tokens, $startPosition);
-
-        $firstLineLength = $this->getFirstLineLength($startPosition, $tokens);
-        if ($firstLineLength > self::LINE_LENGTH) {
-            $this->breakItems($startPosition, $endPosition, $tokens);
-            return;
-        }
-
-        $fullLineLength = $this->getLengthFromStartEnd($startPosition, $endPosition, $tokens);
-        if ($fullLineLength <= self::LINE_LENGTH) {
-            $this->inlineItems($startPosition, $endPosition, $tokens, $currentPosition);
-            return;
-        }
-    }
-
-    private function prepareIndentWhitespaces(Tokens $tokens, int $arrayStartIndex): void
+    private function shouldSkip(Tokens $tokens, BlockStartAndEndInfo $blockStartAndEndInfo): bool
     {
-        $indentLevel = $this->indentDetector->detectOnPosition(
-            $tokens,
-            $arrayStartIndex,
-            $this->whitespacesFixerConfig
-        );
-        $indentWhitespace = $this->whitespacesFixerConfig->getIndent();
-        $lineEnding = $this->whitespacesFixerConfig->getLineEnding();
-
-        $this->indentWhitespace = str_repeat($indentWhitespace, $indentLevel + 1);
-        $this->closingBracketNewlineIndentWhitespace = $lineEnding . str_repeat($indentWhitespace, $indentLevel);
-        $this->newlineIndentWhitespace = $lineEnding . $this->indentWhitespace;
-    }
-
-    /**
-     * @abstractable
-     */
-    private function getFirstLineLength(int $startPosition, Tokens $tokens): int
-    {
-        $lineLength = 0;
-
-        // compute from here to start of line
-        $currentPosition = $startPosition;
-        while (! Strings::startsWith($tokens[$currentPosition]->getContent(), PHP_EOL)) {
-            $lineLength += strlen($tokens[$currentPosition]->getContent());
-            --$currentPosition;
+        // no arguments => skip
+        if (($blockStartAndEndInfo->geEnd() - $blockStartAndEndInfo->getStart()) <= 1) {
+            return true;
         }
 
-        $currentToken = $tokens[$currentPosition];
-
-        // includes indent in the beginning
-        $lineLength += strlen($currentToken->getContent());
-
-        // minus end of lines, do not count PHP_EOL as characters
-        $endOfLineCount = substr_count($currentToken->getContent(), PHP_EOL);
-        $lineLength -= $endOfLineCount;
-
-        // compute from here to end of line
-        $currentPosition = $startPosition + 1;
-        while (! Strings::startsWith($tokens[$currentPosition]->getContent(), PHP_EOL)) {
-            $lineLength += strlen($tokens[$currentPosition]->getContent());
-            ++$currentPosition;
-        }
-
-        return $lineLength;
-    }
-
-    /**
-     * @abstractable
-     */
-    private function breakItems(int $startPosition, int $endPosition, Tokens $tokens): void
-    {
-        // 1. break after arguments opening
-        $tokens->ensureWhitespaceAtIndex($startPosition + 1, 0, $this->newlineIndentWhitespace);
-
-        // 2. break before arguments closing
-        $tokens->ensureWhitespaceAtIndex($endPosition + 1, 0, $this->closingBracketNewlineIndentWhitespace);
-
-        for ($i = $startPosition; $i < $endPosition; ++$i) {
-            $currentToken = $tokens[$i];
-
-            // 3. new line after each comma ",", instead of just space
-            if ($currentToken->getContent() === ',') {
-                $tokens->ensureWhitespaceAtIndex($i + 1, 0, $this->newlineIndentWhitespace);
-            }
-        }
-    }
-
-    private function getLengthFromStartEnd(int $startPosition, int $endPosition, Tokens $tokens): int
-    {
-        $lineLength = 0;
-
-        // compute from function to start of line
-        $currentPosition = $startPosition;
-        while (! Strings::startsWith($tokens[$currentPosition]->getContent(), PHP_EOL)) {
-            $lineLength += strlen($tokens[$currentPosition]->getContent());
-            --$currentPosition;
-        }
-
-        // get spaces to first line
-        $lineLength += strlen($tokens[$currentPosition]->getContent());
-
-        // get length from start of function till end of arguments - with spaces as one
-        $currentPosition = $startPosition;
-        while ($currentPosition < $endPosition) {
-            $currentToken = $tokens[$currentPosition];
-            if ($currentToken->isGivenKind(T_WHITESPACE)) {
-                ++$lineLength;
-                ++$currentPosition;
-                continue;
-            }
-
-            $lineLength += strlen($tokens[$currentPosition]->getContent());
-            ++$currentPosition;
-        }
-
-        // get length from end or arguments to first line break
-        $currentPosition = $endPosition;
-        while (! Strings::startsWith($tokens[$currentPosition]->getContent(), PHP_EOL)) {
-            $currentToken = $tokens[$currentPosition];
-
-            $lineLength += strlen($currentToken->getContent());
-            ++$currentPosition;
-        }
-
-        return $lineLength;
-    }
-
-    private function inlineItems(int $startPosition, int $endPosition, Tokens $tokens, int $currentPosition): void
-    {
-        // replace PHP_EOL with " "
-        for ($i = $currentPosition; $i < $endPosition; ++$i) {
-            $currentToken = $tokens[$i];
-
-            if (! $currentToken->isGivenKind(T_WHITESPACE)) {
-                continue;
-            }
-
-            $previousToken = $tokens[$i - 1];
-            $nextToken = $tokens[$i + 1];
-
-            // @todo make dynamic by type
-            if ($previousToken->getContent() === '(' || $nextToken->getContent() === ')') {
-                $tokens->clearAt($i);
-                continue;
-            }
-
-            $tokens[$i] = new Token([T_WHITESPACE, ' ']);
-        }
+        // nowdoc => skip
+        $nextTokenPosition = $tokens->getNextMeaningfulToken($blockStartAndEndInfo->getStart());
+        $nextToken = $tokens[$nextTokenPosition];
+        return Strings::startsWith($nextToken->getContent(), '<<<');
     }
 }

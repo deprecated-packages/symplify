@@ -11,6 +11,19 @@ use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;
 final class BreakNewInstanceArgumentsFixerTest extends AbstractCheckerTestCase
 {
     /**
+     * @dataProvider provideCorrectCases()
+     */
+    public function testCorrectCases(string $file): void
+    {
+        $this->doTestCorrectFile($file);
+    }
+
+    public function provideCorrectCases(): Iterator
+    {
+        yield [__DIR__ . '/correct/correct.php.inc'];
+    }
+
+    /**
      * @dataProvider wrongToFixedCases()
      */
     public function test(string $wrongFile, string $fixedFile): void

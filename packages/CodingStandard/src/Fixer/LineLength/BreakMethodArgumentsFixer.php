@@ -3,59 +3,33 @@
 namespace Symplify\CodingStandard\Fixer\LineLength;
 
 use PhpCsFixer\Fixer\DefinedFixerInterface;
-use PhpCsFixer\Fixer\WhitespacesAwareFixerInterface;
 use PhpCsFixer\FixerDefinition\CodeSample;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
-use PhpCsFixer\WhitespacesFixerConfig;
 use SplFileInfo;
-use Symplify\TokenRunner\Analyzer\FixerAnalyzer\IndentDetector;
-use Symplify\TokenRunner\Wrapper\FixerWrapper\MethodWrapper;
-use Symplify\TokenRunner\Wrapper\FixerWrapper\MethodWrapperFactory;
+use Symplify\TokenRunner\Analyzer\FixerAnalyzer\BlockStartAndEndFinder;
+use Symplify\TokenRunner\Transformer\FixerTransformer\LineLengthTransformer;
 
-final class BreakMethodArgumentsFixer implements DefinedFixerInterface, WhitespacesAwareFixerInterface
+final class BreakMethodArgumentsFixer implements DefinedFixerInterface
 {
     /**
-     * @var int
+     * @var LineLengthTransformer
      */
-    private const LINE_LENGTH = 120;
+    private $lineLengthTransformer;
 
     /**
-     * @var WhitespacesFixerConfig
+     * @var BlockStartAndEndFinder
      */
-    private $whitespacesFixerConfig;
+    private $blockStartAndEndFinder;
 
-    /**
-     * @var IndentDetector
-     */
-    private $indentDetector;
-
-    /**
-     * @var string
-     */
-    private $indentWhitespace;
-
-    /**
-     * @var string
-     */
-    private $newlineIndentWhitespace;
-
-    /**
-     * @var string
-     */
-    private $closingBracketNewlineIndentWhitespace;
-
-    /**
-     * @var MethodWrapperFactory
-     */
-    private $methodWrapperFactory;
-
-    public function __construct(MethodWrapperFactory $methodWrapperFactory, IndentDetector $indentDetector)
-    {
-        $this->methodWrapperFactory = $methodWrapperFactory;
-        $this->indentDetector = $indentDetector;
+    public function __construct(
+        LineLengthTransformer $lineLengthTransformer,
+        BlockStartAndEndFinder $blockStartAndEndFinder
+    ) {
+        $this->lineLengthTransformer = $lineLengthTransformer;
+        $this->blockStartAndEndFinder = $blockStartAndEndFinder;
     }
 
     public function getDefinition(): FixerDefinitionInterface
@@ -81,7 +55,8 @@ class SomeClass
 
     public function isCandidate(Tokens $tokens): bool
     {
-        return $tokens->isAllTokenKindsFound([T_FUNCTION, ',']);
+        return $tokens->isAllTokenKindsFound([T_FUNCTION, ',', '(', ')'])
+            && $tokens->isAnyTokenKindsFound([T_STRING, T_VARIABLE]);
     }
 
     public function fix(SplFileInfo $file, Tokens $tokens): void
@@ -94,7 +69,17 @@ class SomeClass
                 continue;
             }
 
-            $this->fixMethod($position, $tokens);
+            $blockStartAndEndInfo = $this->blockStartAndEndFinder->findInTokensByPositionAndContent(
+                $tokens,
+                $position,
+                '('
+            );
+
+            if ($blockStartAndEndInfo === null) {
+                continue;
+            }
+
+            $this->lineLengthTransformer->fixStartPositionToEndPosition($blockStartAndEndInfo, $tokens, $position);
         }
     }
 
@@ -116,89 +101,5 @@ class SomeClass
     public function supports(SplFileInfo $file): bool
     {
         return true;
-    }
-
-    public function setWhitespacesConfig(WhitespacesFixerConfig $whitespacesFixerConfig): void
-    {
-        $this->whitespacesFixerConfig = $whitespacesFixerConfig;
-    }
-
-    private function fixMethod(int $position, Tokens $tokens): void
-    {
-        $methodWrapper = $this->methodWrapperFactory->createFromTokensAndPosition($tokens, $position);
-        if (! $methodWrapper->getArguments()) {
-            return;
-        }
-
-        if ($methodWrapper->getFirstLineLength() > self::LINE_LENGTH) {
-            $this->breakMethodArguments($methodWrapper, $tokens, $position);
-            return;
-        }
-
-        if ($methodWrapper->getLineLengthToEndOfArguments() <= self::LINE_LENGTH) {
-            $this->inlineMethodArguments($methodWrapper, $tokens, $position);
-            return;
-        }
-    }
-
-    private function prepareIndentWhitespaces(Tokens $tokens, int $arrayStartIndex): void
-    {
-        $indentLevel = $this->indentDetector->detectOnPosition(
-            $tokens,
-            $arrayStartIndex,
-            $this->whitespacesFixerConfig
-        );
-        $indentWhitespace = $this->whitespacesFixerConfig->getIndent();
-        $lineEnding = $this->whitespacesFixerConfig->getLineEnding();
-
-        $this->indentWhitespace = str_repeat($indentWhitespace, $indentLevel + 1);
-        $this->closingBracketNewlineIndentWhitespace = $lineEnding . str_repeat($indentWhitespace, $indentLevel);
-        $this->newlineIndentWhitespace = $lineEnding . $this->indentWhitespace;
-    }
-
-    private function breakMethodArguments(MethodWrapper $methodWrapper, Tokens $tokens, int $position): void
-    {
-        $this->prepareIndentWhitespaces($tokens, $position);
-
-        $start = $methodWrapper->getArgumentsBracketStart();
-        $end = $methodWrapper->getArgumentsBracketEnd();
-
-        // 1. break after arguments opening
-        $tokens->ensureWhitespaceAtIndex($start + 1, 0, $this->newlineIndentWhitespace);
-
-        // 2. break before arguments closing
-        $tokens->ensureWhitespaceAtIndex($end + 1, 0, $this->closingBracketNewlineIndentWhitespace);
-
-        for ($i = $start; $i < $end; ++$i) {
-            $currentToken = $tokens[$i];
-
-            // 3. new line after each comma ",", instead of just space
-            if ($currentToken->getContent() === ',') {
-                $tokens->ensureWhitespaceAtIndex($i + 1, 0, $this->newlineIndentWhitespace);
-            }
-        }
-    }
-
-    private function inlineMethodArguments(MethodWrapper $methodWrapper, Tokens $tokens, int $position): void
-    {
-        $endPosition = $methodWrapper->getArgumentsBracketEnd();
-
-        // replace PHP_EOL with " "
-        for ($i = $position; $i < $endPosition; ++$i) {
-            $currentToken = $tokens[$i];
-
-            if (! $currentToken->isGivenKind(T_WHITESPACE)) {
-                continue;
-            }
-
-            $previousToken = $tokens[$i - 1];
-            $nextToken = $tokens[$i + 1];
-            if ($previousToken->getContent() === '(' || $nextToken->getContent() === ')') {
-                $tokens->clearAt($i);
-                continue;
-            }
-
-            $tokens[$i] = new Token([T_WHITESPACE, ' ']);
-        }
     }
 }

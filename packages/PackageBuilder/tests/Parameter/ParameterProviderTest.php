@@ -10,9 +10,7 @@ final class ParameterProviderTest extends TestCase
 {
     public function test(): void
     {
-        $container = (new ContainerFactory())->createWithConfig(
-            __DIR__ . '/ParameterProviderSource/config.yml'
-        );
+        $container = (new ContainerFactory())->createWithConfig(__DIR__ . '/ParameterProviderSource/config.yml');
 
         $parameterProvider = $container->get(ParameterProvider::class);
         $this->assertContains([

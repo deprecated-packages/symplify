@@ -24,9 +24,6 @@ final class LatteRendererTest extends AbstractContainerAwareTestCase
             'hi' => 'Welcome',
         ]);
 
-        $this->assertStringEqualsFile(
-            __DIR__ . '/LatteRendererSource/expectedCode.latte',
-            $rendered
-        );
+        $this->assertStringEqualsFile(__DIR__ . '/LatteRendererSource/expectedCode.latte', $rendered);
     }
 }

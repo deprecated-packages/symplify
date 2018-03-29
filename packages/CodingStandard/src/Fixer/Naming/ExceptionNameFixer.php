@@ -22,12 +22,10 @@ final class ExceptionNameFixer implements DefinedFixerInterface
     public function getDefinition(): FixerDefinitionInterface
     {
         return new FixerDefinition('Exception classes should have suffix "Exception".', [
-            new CodeSample(
-                '<?php
+            new CodeSample('<?php
 class SomeClass extends Exception
 {
-}'
-            ),
+}'),
         ]);
     }
 

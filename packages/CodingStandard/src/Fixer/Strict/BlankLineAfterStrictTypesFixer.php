@@ -3,7 +3,6 @@
 namespace Symplify\CodingStandard\Fixer\Strict;
 
 use PhpCsFixer\Fixer\DefinedFixerInterface;
-use PhpCsFixer\Fixer\WhitespacesAwareFixerInterface;
 use PhpCsFixer\FixerDefinition\CodeSample;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
@@ -17,7 +16,7 @@ use Symplify\CodingStandard\Fixer\TokenBuilder;
  *
  * @thanks Aidan Woods
  */
-final class BlankLineAfterStrictTypesFixer implements DefinedFixerInterface, WhitespacesAwareFixerInterface
+final class BlankLineAfterStrictTypesFixer implements DefinedFixerInterface
 {
     /**
      * @var WhitespacesFixerConfig
@@ -29,9 +28,10 @@ final class BlankLineAfterStrictTypesFixer implements DefinedFixerInterface, Whi
      */
     private $tokenBuilder;
 
-    public function __construct(TokenBuilder $tokenBuilder)
+    public function __construct(TokenBuilder $tokenBuilder, WhitespacesFixerConfig $whitespacesFixerConfig)
     {
         $this->tokenBuilder = $tokenBuilder;
+        $this->whitespacesFixerConfig = $whitespacesFixerConfig;
     }
 
     public function getDefinition(): FixerDefinitionInterface
@@ -92,10 +92,5 @@ namespace SomeNamespace;'),
     public function isRisky(): bool
     {
         return false;
-    }
-
-    public function setWhitespacesConfig(WhitespacesFixerConfig $whitespacesFixerConfig): void
-    {
-        $this->whitespacesFixerConfig = $whitespacesFixerConfig;
     }
 }

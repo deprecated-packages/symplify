@@ -3,64 +3,38 @@
 namespace Symplify\CodingStandard\Fixer\LineLength;
 
 use PhpCsFixer\Fixer\DefinedFixerInterface;
-use PhpCsFixer\Fixer\WhitespacesAwareFixerInterface;
 use PhpCsFixer\FixerDefinition\CodeSample;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Tokenizer\CT;
 use PhpCsFixer\Tokenizer\Tokens;
-use PhpCsFixer\WhitespacesFixerConfig;
 use SplFileInfo;
-use Symplify\TokenRunner\Analyzer\FixerAnalyzer\IndentDetector;
-use Symplify\TokenRunner\Wrapper\FixerWrapper\ArrayWrapper;
-use Symplify\TokenRunner\Wrapper\FixerWrapper\ArrayWrapperFactory;
+use Symplify\TokenRunner\Analyzer\FixerAnalyzer\BlockStartAndEndFinder;
+use Symplify\TokenRunner\Transformer\FixerTransformer\LineLengthTransformer;
 
-final class BreakArrayListFixer implements DefinedFixerInterface, WhitespacesAwareFixerInterface
+final class BreakArrayListFixer implements DefinedFixerInterface
 {
-    /**
-     * @var int
-     */
-    private const LINE_LENGTH = 120;
-
     /**
      * @var int[]
      */
     private const ARRAY_OPEN_TOKENS = [T_ARRAY, CT::T_ARRAY_SQUARE_BRACE_OPEN];
 
     /**
-     * @var WhitespacesFixerConfig
+     * @var LineLengthTransformer
      */
-    private $whitespacesFixerConfig;
+    private $lineLengthTransformer;
 
     /**
-     * @var IndentDetector
+     * @var BlockStartAndEndFinder
      */
-    private $indentDetector;
+    private $blockStartAndEndFinder;
 
-    /**
-     * @var string
-     */
-    private $indentWhitespace;
-
-    /**
-     * @var string
-     */
-    private $newlineIndentWhitespace;
-
-    /**
-     * @var string
-     */
-    private $closingBracketNewlineIndentWhitespace;
-
-    /**
-     * @var ArrayWrapperFactory
-     */
-    private $arrayWrapperFactory;
-
-    public function __construct(ArrayWrapperFactory $arrayWrapperFactory, IndentDetector $indentDetector)
-    {
-        $this->arrayWrapperFactory = $arrayWrapperFactory;
-        $this->indentDetector = $indentDetector;
+    public function __construct(
+        LineLengthTransformer $lineLengthTransformer,
+        BlockStartAndEndFinder $blockStartAndEndFinder
+    ) {
+        $this->lineLengthTransformer = $lineLengthTransformer;
+        $this->blockStartAndEndFinder = $blockStartAndEndFinder;
     }
 
     public function getDefinition(): FixerDefinitionInterface
@@ -86,12 +60,9 @@ $array = ["loooooooooooooooooooooooooooooooongArraaaaaaaaaaay", "loooooooooooooo
                 continue;
             }
 
-            $arrayWrapper = $this->arrayWrapperFactory->createFromTokensArrayStartPosition($tokens, $position);
-            if ($arrayWrapper->isAssociativeArray()) {
-                continue;
-            }
+            $blockStartAndEndInfo = $this->blockStartAndEndFinder->findInTokensByBlockStart($tokens, $position);
 
-            $this->fixArray($position, $tokens, $arrayWrapper);
+            $this->lineLengthTransformer->fixStartPositionToEndPosition($blockStartAndEndInfo, $tokens, $position);
         }
     }
 
@@ -113,56 +84,5 @@ $array = ["loooooooooooooooooooooooooooooooongArraaaaaaaaaaay", "loooooooooooooo
     public function supports(SplFileInfo $file): bool
     {
         return true;
-    }
-
-    public function setWhitespacesConfig(WhitespacesFixerConfig $whitespacesFixerConfig): void
-    {
-        $this->whitespacesFixerConfig = $whitespacesFixerConfig;
-    }
-
-    private function fixArray(int $position, Tokens $tokens, ArrayWrapper $arrayWrapper): void
-    {
-        if ($arrayWrapper->getFirstLineLength() > self::LINE_LENGTH) {
-            $this->breakArrayListItems($arrayWrapper, $tokens, $position);
-            return;
-        }
-    }
-
-    private function prepareIndentWhitespaces(Tokens $tokens, int $arrayStartIndex): void
-    {
-        $indentLevel = $this->indentDetector->detectOnPosition(
-            $tokens,
-            $arrayStartIndex,
-            $this->whitespacesFixerConfig
-        );
-        $indentWhitespace = $this->whitespacesFixerConfig->getIndent();
-        $lineEnding = $this->whitespacesFixerConfig->getLineEnding();
-
-        $this->indentWhitespace = str_repeat($indentWhitespace, $indentLevel + 1);
-        $this->closingBracketNewlineIndentWhitespace = $lineEnding . str_repeat($indentWhitespace, $indentLevel);
-        $this->newlineIndentWhitespace = $lineEnding . $this->indentWhitespace;
-    }
-
-    private function breakArrayListItems(ArrayWrapper $arrayWrapper, Tokens $tokens, int $position): void
-    {
-        $this->prepareIndentWhitespaces($tokens, $position);
-
-        $start = $arrayWrapper->getStartIndex();
-        $end = $arrayWrapper->getEndIndex();
-
-        // 1. break after arguments opening
-        $tokens->ensureWhitespaceAtIndex($start + 1, 0, $this->newlineIndentWhitespace);
-
-        // 2. break before arguments closing
-        $tokens->ensureWhitespaceAtIndex($end + 1, 0, $this->closingBracketNewlineIndentWhitespace);
-
-        for ($i = $start; $i < $end; ++$i) {
-            $currentToken = $tokens[$i];
-
-            // 3. new line after each comma ",", instead of just space
-            if ($currentToken->getContent() === ',') {
-                $tokens->ensureWhitespaceAtIndex($i + 1, 0, $this->newlineIndentWhitespace);
-            }
-        }
     }
 }

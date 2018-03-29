@@ -3,7 +3,6 @@
 namespace Symplify\CodingStandard\Sniffs\DependencyInjection;
 
 use DateTime;
-use DateTimeImmutable;
 use Nette\Utils\Strings;
 use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Sniffs\Sniff;
@@ -11,8 +10,6 @@ use ReflectionClass;
 use SlevomatCodingStandard\Helpers\ClassHelper;
 use SlevomatCodingStandard\Helpers\TokenHelper;
 use SplFileInfo;
-use SplObjectStorage;
-use stdClass;
 use Symplify\TokenRunner\Analyzer\SnifferAnalyzer\Naming;
 
 final class NoClassInstantiationSniff implements Sniff
@@ -27,16 +24,16 @@ final class NoClassInstantiationSniff implements Sniff
      */
     public $allowedClasses = [
         // PHP internal classes
-        DateTime::class,
-        DateTimeImmutable::class,
-        SplFileInfo::class,
-        stdClass::class,
-        SplObjectStorage::class,
+        'DateTime*',
+        'std*',
+        'Spl*',
         'Reflection*',
 
-        // Nette misc
+        // Nette
         'Nette\Utils\Html',
         'Nette\Loaders\RobotLoader',
+        'Nette\Configurator',
+        'Nette\DI\Config\Loader',
 
         // Symfony Console
         'Symfony\Component\Console\Input\InputArgument',
@@ -44,17 +41,11 @@ final class NoClassInstantiationSniff implements Sniff
         'Symfony\Component\Console\Input\InputOption',
         'Symfony\Component\Console\Helper\Table',
         'Symfony\Component\Console\Input\ArgvInput',
-
-        // Symfony Validator
-        '*Constraint',
-
-        // Nette DI
-        'Nette\Configurator',
-        'Nette\DI\Config\Loader',
-
         // Symfony DependencyInjection
         'Symfony\Component\DependencyInjection\Loader\YamlFileLoader',
         'Symfony\Component\Config\FileLocator',
+        // Symfony Validator
+        '*Constraint',
 
         // Symfony misc
         'Symfony\Component\Process\Process',

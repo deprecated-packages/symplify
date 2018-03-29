@@ -13,8 +13,6 @@ services:
         include_doc_blocks: true
 
     # code complexity
-    PHP_CodeSniffer\Standards\Generic\Sniffs\Files\LineLengthSniff:
-        absoluteLineLimit: 120
     PHP_CodeSniffer\Standards\Generic\Sniffs\Metrics\CyclomaticComplexitySniff:
         absoluteComplexity: 8
     PHP_CodeSniffer\Standards\Generic\Sniffs\Metrics\NestingLevelSniff:
@@ -36,11 +34,6 @@ services:
 
 parameters:
     skip:
-        PHP_CodeSniffer\Standards\Generic\Sniffs\Files\LineLengthSniff:
-            # many implemented interfaces
-            - 'packages/CodingStandard/src/Fixer/Import/ImportNamespacedNameFixer.php'
-            - 'packages/CodingStandard/src/Fixer/Commenting/RemoveUselessDocBlockFixer.php'
-
         SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff:
             - '*packages/CodingStandard/src/Sniffs/*/*Sniff.php'
             - 'packages/EasyCodingStandard/packages/SniffRunner/src/File/File.php'

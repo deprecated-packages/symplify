@@ -4,7 +4,6 @@ namespace Symplify\CodingStandard\Fixer\Import;
 
 use PhpCsFixer\Fixer\ConfigurationDefinitionFixerInterface;
 use PhpCsFixer\Fixer\DefinedFixerInterface;
-use PhpCsFixer\Fixer\WhitespacesAwareFixerInterface;
 use PhpCsFixer\FixerConfiguration\FixerConfigurationResolver;
 use PhpCsFixer\FixerConfiguration\FixerConfigurationResolverInterface;
 use PhpCsFixer\FixerConfiguration\FixerOptionBuilder;
@@ -41,7 +40,7 @@ use Symplify\TokenRunner\Wrapper\FixerWrapper\DocBlockWrapperFactory;
  * - 2) namespace with conflicts \First\SomeClass + \Second\SomeClass
  * - 3) partial namespaces \Namespace\Partial + Partial\Class
  */
-final class ImportNamespacedNameFixer implements DefinedFixerInterface, ConfigurationDefinitionFixerInterface, WhitespacesAwareFixerInterface
+final class ImportNamespacedNameFixer implements DefinedFixerInterface, ConfigurationDefinitionFixerInterface
 {
     /**
      * @var string
@@ -105,6 +104,7 @@ final class ImportNamespacedNameFixer implements DefinedFixerInterface, Configur
 
     public function __construct(
         DocBlockWrapperFactory $docBlockWrapperFactory,
+        WhitespacesFixerConfig $whitespacesFixerConfig,
         UseImportsTransformer $useImportsTransformer,
         ClassNameFinder $classNameFinder,
         NameAnalyzer $nameAnalyzer,
@@ -121,6 +121,7 @@ final class ImportNamespacedNameFixer implements DefinedFixerInterface, Configur
         // set defaults
         $this->configuration = $this->getConfigurationDefinition()
             ->resolve([]);
+        $this->whitespacesFixerConfig = $whitespacesFixerConfig;
     }
 
     public function getDefinition(): FixerDefinitionInterface
@@ -231,11 +232,6 @@ final class ImportNamespacedNameFixer implements DefinedFixerInterface, Configur
     public function getName(): string
     {
         return self::class;
-    }
-
-    public function setWhitespacesConfig(WhitespacesFixerConfig $whitespacesFixerConfig): void
-    {
-        $this->whitespacesFixerConfig = $whitespacesFixerConfig;
     }
 
     /**
