@@ -11,7 +11,6 @@ use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
 use Symplify\TokenRunner\Analyzer\FixerAnalyzer\BlockStartAndEndFinder;
-use Symplify\TokenRunner\Analyzer\FixerAnalyzer\BlockStartAndEndInfo;
 use Symplify\TokenRunner\Transformer\FixerTransformer\LineLengthTransformer;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\ArrayWrapper;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\ArrayWrapperFactory;
@@ -50,12 +49,9 @@ final class StandaloneLineInMultilineArrayFixer implements DefinedFixerInterface
 
     public function getDefinition(): FixerDefinitionInterface
     {
-        return new FixerDefinition(
-            'Indexed PHP arrays with 2 and more items should have 1 item per line.',
-            [
-                new CodeSample('<?php [1 => \'hey\', 2 => \'hello\'];'),
-            ]
-        );
+        return new FixerDefinition('Indexed PHP arrays with 2 and more items should have 1 item per line.', [
+            new CodeSample('<?php [1 => \'hey\', 2 => \'hello\'];'),
+        ]);
     }
 
     public function isCandidate(Tokens $tokens): bool
