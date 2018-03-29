@@ -184,7 +184,8 @@ final class StandaloneLineInMultilineArrayFixer implements DefinedFixerInterface
     private function insertNewlineBeforeClosingIfNeeded(Tokens $tokens, int $arrayEndIndex): void
     {
         if ($tokens[$arrayEndIndex - 1]->isGivenKind(T_WHITESPACE)) {
-            $tokens[$arrayEndIndex - 1] = new Token([T_WHITESPACE, $this->closingBracketNewlineIndentWhitespace]);
+            $tokens->ensureWhitespaceAtIndex($arrayEndIndex - 1, 0, $this->closingBracketNewlineIndentWhitespace);
+
         } else {
             $tokens->ensureWhitespaceAtIndex($arrayEndIndex, 0, $this->closingBracketNewlineIndentWhitespace);
         }
@@ -208,8 +209,6 @@ final class StandaloneLineInMultilineArrayFixer implements DefinedFixerInterface
             return true;
         }
 
-        $itemCount = $arrayWrapper->getItemCount();
-
-        return $itemCount <= 1;
+        return $arrayWrapper->getItemCount() <= 1;
     }
 }
