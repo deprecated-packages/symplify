@@ -76,33 +76,44 @@ final class LineLengthTransformer
     {
         $this->prepareIndentWhitespaces($tokens, $blockStartAndEndInfo->getStart());
 
-        // 1. break after arguments opening
-        $this->insertNewlineAfterOpeningIfNeeded($tokens, $blockStartAndEndInfo->getStart());
+        // from bottom top, to prevent skipping ids
+        //  e.g when token is added in the middle, the end index does now point to earlier element!
 
-        // 2. break before arguments closing
+        // 1. break before arguments closing
         $this->insertNewlineBeforeClosingIfNeeded($tokens, $blockStartAndEndInfo->getEnd());
 
-        for ($i = $blockStartAndEndInfo->getStart(); $i < $blockStartAndEndInfo->getEnd(); ++$i) {
+        // again, from bottom top
+        for ($i = $blockStartAndEndInfo->getEnd(); $i > $blockStartAndEndInfo->getStart(); --$i) {
             $currentToken = $tokens[$i];
 
             $i = $this->tokenSkipper->skipBlocks($tokens, $i);
 
-            // 3. new line after each comma ",", instead of just space
+            // 2. new line after each comma ",", instead of just space
             if ($currentToken->getContent() === ',') {
+                // has already newline? usually the last line => skip to prevent double spacing
+                if (Strings::contains($tokens[$i + 1]->getContent(), $this->configuration->getLineEnding())) {
+                    continue;
+                }
+
                 $tokens->ensureWhitespaceAtIndex($i + 1, 0, $this->newlineIndentWhitespace);
             }
         }
+
+        // 3. break after arguments opening
+        $this->insertNewlineAfterOpeningIfNeeded($tokens, $blockStartAndEndInfo->getStart());
     }
 
     private function prepareIndentWhitespaces(Tokens $tokens, int $arrayStartIndex): void
     {
         $indentLevel = $this->indentDetector->detectOnPosition($tokens, $arrayStartIndex, $this->configuration);
 
+
         $this->indentWhitespace = str_repeat($this->configuration->getIndent(), $indentLevel + 1);
         $this->closingBracketNewlineIndentWhitespace = $this->configuration->getLineEnding() . str_repeat(
             $this->configuration->getIndent(),
             $indentLevel
         );
+
         $this->newlineIndentWhitespace = $this->configuration->getLineEnding() . $this->indentWhitespace;
     }
 
@@ -222,11 +233,6 @@ final class LineLengthTransformer
 
     private function insertNewlineBeforeClosingIfNeeded(Tokens $tokens, int $arrayEndIndex): void
     {
-        if ($tokens[$arrayEndIndex]->isGivenKind(T_WHITESPACE)) {
-            $tokens->ensureWhitespaceAtIndex($arrayEndIndex, 0, $this->closingBracketNewlineIndentWhitespace);
-            return;
-        }
-
-        $tokens->ensureWhitespaceAtIndex($arrayEndIndex, 1, $this->closingBracketNewlineIndentWhitespace);
+        $tokens->ensureWhitespaceAtIndex($arrayEndIndex - 1, 1, $this->closingBracketNewlineIndentWhitespace);
     }
 }
