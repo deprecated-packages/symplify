@@ -58,24 +58,52 @@ final class LineLengthTransformer
         Tokens $tokens,
         int $currentPosition
     ): void {
-        $this->prepareIndentWhitespaces($tokens, $blockStartAndEndInfo->getStart());
-
         $firstLineLength = $this->getFirstLineLength($blockStartAndEndInfo->getStart(), $tokens);
         if ($firstLineLength > $this->configuration->getMaxLineLength()) {
-            $this->breakItems($blockStartAndEndInfo->getStart(), $blockStartAndEndInfo->geEnd(), $tokens);
+            $this->breakItems($blockStartAndEndInfo, $tokens);
             return;
         }
 
-        $fullLineLength = $this->getLengthFromStartEnd(
-            $blockStartAndEndInfo->getStart(),
-            $blockStartAndEndInfo->geEnd(),
-            $tokens
-        );
+        $fullLineLength = $this->getLengthFromStartEnd($blockStartAndEndInfo, $tokens);
 
         if ($fullLineLength <= $this->configuration->getMaxLineLength()) {
-            $this->inlineItems($blockStartAndEndInfo->geEnd(), $tokens, $currentPosition);
+            $this->inlineItems($blockStartAndEndInfo->getEnd(), $tokens, $currentPosition);
             return;
         }
+    }
+
+    public function breakItems(BlockStartAndEndInfo $blockStartAndEndInfo, Tokens $tokens): void
+    {
+        $this->prepareIndentWhitespaces($tokens, $blockStartAndEndInfo->getStart());
+
+        // from bottom top, to prevent skipping ids
+        //  e.g when token is added in the middle, the end index does now point to earlier element!
+
+        // 1. break before arguments closing
+        $this->insertNewlineBeforeClosingIfNeeded($tokens, $blockStartAndEndInfo->getEnd());
+
+        // again, from bottom top
+        for ($i = $blockStartAndEndInfo->getEnd() - 1; $i > $blockStartAndEndInfo->getStart(); --$i) {
+            $currentToken = $tokens[$i];
+
+            $i = $this->tokenSkipper->skipBlocksReversed($tokens, $i);
+
+            // 2. new line after each comma ",", instead of just space
+            if ($currentToken->getContent() === ',') {
+                if ($this->isLastItem($tokens, $i)) {
+                    continue;
+                }
+
+                if ($this->isFollowedByComment($tokens, $i)) {
+                    continue;
+                }
+
+                $tokens->ensureWhitespaceAtIndex($i + 1, 0, $this->newlineIndentWhitespace);
+            }
+        }
+
+        // 3. break after arguments opening
+        $this->insertNewlineAfterOpeningIfNeeded($tokens, $blockStartAndEndInfo->getStart());
     }
 
     private function prepareIndentWhitespaces(Tokens $tokens, int $arrayStartIndex): void
@@ -87,6 +115,7 @@ final class LineLengthTransformer
             $this->configuration->getIndent(),
             $indentLevel
         );
+
         $this->newlineIndentWhitespace = $this->configuration->getLineEnding() . $this->indentWhitespace;
     }
 
@@ -121,26 +150,6 @@ final class LineLengthTransformer
         return $lineLength;
     }
 
-    private function breakItems(int $startPosition, int $endPosition, Tokens $tokens): void
-    {
-        // 1. break after arguments opening
-        $tokens->ensureWhitespaceAtIndex($startPosition + 1, 0, $this->newlineIndentWhitespace);
-
-        // 2. break before arguments closing
-        $tokens->ensureWhitespaceAtIndex($endPosition + 1, 0, $this->closingBracketNewlineIndentWhitespace);
-
-        for ($i = $startPosition; $i < $endPosition; ++$i) {
-            $currentToken = $tokens[$i];
-
-            $i = $this->tokenSkipper->skipBlocks($tokens, $i);
-
-            // 3. new line after each comma ",", instead of just space
-            if ($currentToken->getContent() === ',') {
-                $tokens->ensureWhitespaceAtIndex($i + 1, 0, $this->newlineIndentWhitespace);
-            }
-        }
-    }
-
     private function inlineItems(int $endPosition, Tokens $tokens, int $currentPosition): void
     {
         // replace PHP_EOL with " "
@@ -165,12 +174,12 @@ final class LineLengthTransformer
         }
     }
 
-    private function getLengthFromStartEnd(int $startPosition, int $endPosition, Tokens $tokens): int
+    private function getLengthFromStartEnd(BlockStartAndEndInfo $blockStartAndEndInfo, Tokens $tokens): int
     {
         $lineLength = 0;
 
         // compute from function to start of line
-        $currentPosition = $startPosition;
+        $currentPosition = $blockStartAndEndInfo->getStart();
         while (! Strings::startsWith($tokens[$currentPosition]->getContent(), PHP_EOL)) {
             $lineLength += strlen($tokens[$currentPosition]->getContent());
             --$currentPosition;
@@ -180,8 +189,8 @@ final class LineLengthTransformer
         $lineLength += strlen($tokens[$currentPosition]->getContent());
 
         // get length from start of function till end of arguments - with spaces as one
-        $currentPosition = $startPosition;
-        while ($currentPosition < $endPosition) {
+        $currentPosition = $blockStartAndEndInfo->getStart();
+        while ($currentPosition < $blockStartAndEndInfo->getEnd()) {
             $currentToken = $tokens[$currentPosition];
             if ($currentToken->isGivenKind(T_WHITESPACE)) {
                 ++$lineLength;
@@ -194,7 +203,7 @@ final class LineLengthTransformer
         }
 
         // get length from end or arguments to first line break
-        $currentPosition = $endPosition;
+        $currentPosition = $blockStartAndEndInfo->getEnd();
         while (! Strings::startsWith($tokens[$currentPosition]->getContent(), PHP_EOL)) {
             $currentToken = $tokens[$currentPosition];
 
@@ -212,5 +221,45 @@ final class LineLengthTransformer
         }
 
         return $tokens[$position]->isGivenKind(CT::T_USE_LAMBDA);
+    }
+
+    private function insertNewlineAfterOpeningIfNeeded(Tokens $tokens, int $arrayStartIndex): void
+    {
+        if ($tokens[$arrayStartIndex + 1]->isGivenKind(T_WHITESPACE)) {
+            $tokens->ensureWhitespaceAtIndex($arrayStartIndex + 1, 0, $this->newlineIndentWhitespace);
+            return;
+        }
+
+        $tokens->ensureWhitespaceAtIndex($arrayStartIndex, 1, $this->newlineIndentWhitespace);
+    }
+
+    private function insertNewlineBeforeClosingIfNeeded(Tokens $tokens, int $arrayEndIndex): void
+    {
+        $tokens->ensureWhitespaceAtIndex($arrayEndIndex - 1, 1, $this->closingBracketNewlineIndentWhitespace);
+    }
+
+    /**
+     * Has already newline? usually the last line => skip to prevent double spacing
+     */
+    private function isLastItem(Tokens $tokens, int $i): bool
+    {
+        return Strings::contains($tokens[$i + 1]->getContent(), $this->configuration->getLineEnding());
+    }
+
+    private function isFollowedByComment(Tokens $tokens, int $i): bool
+    {
+        $nextToken = $tokens[$i + 1];
+        $nextNextToken = $tokens[$i + 2];
+
+        if ($nextNextToken->isComment()) {
+            return true;
+        }
+
+        // if next token is just space, turn it to newline
+        if ($nextToken->isWhitespace(' ') && $nextNextToken->isComment()) {
+            return true;
+        }
+
+        return false;
     }
 }

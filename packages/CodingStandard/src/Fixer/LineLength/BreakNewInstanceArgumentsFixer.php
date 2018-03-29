@@ -107,7 +107,7 @@ final class BreakNewInstanceArgumentsFixer implements DefinedFixerInterface
     private function shouldSkip(Tokens $tokens, BlockStartAndEndInfo $blockStartAndEndInfo): bool
     {
         // no arguments => skip
-        if (($blockStartAndEndInfo->geEnd() - $blockStartAndEndInfo->getStart()) <= 1) {
+        if (($blockStartAndEndInfo->getEnd() - $blockStartAndEndInfo->getStart()) <= 1) {
             return true;
         }
 

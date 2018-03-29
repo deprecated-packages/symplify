@@ -5,7 +5,8 @@ class SomeClass
     public function someFunction()
     {
         $result = [
-            'loooooooooooooooooooooooooooooooongArraaaaaaaaaaay', 'loooooooooooooooooooooongArraaaaaaaaaaaaaaay'
+            'loooooooooooooooooooooooooooooooongArraaaaaaaaaaay',
+            'loooooooooooooooooooooongArraaaaaaaaaaaaaaay'
         ];
     }
 }

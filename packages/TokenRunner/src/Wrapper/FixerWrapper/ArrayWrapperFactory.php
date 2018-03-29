@@ -2,10 +2,9 @@
 
 namespace Symplify\TokenRunner\Wrapper\FixerWrapper;
 
-use PhpCsFixer\Tokenizer\CT;
 use PhpCsFixer\Tokenizer\Tokens;
+use Symplify\TokenRunner\Analyzer\FixerAnalyzer\BlockStartAndEndInfo;
 use Symplify\TokenRunner\Analyzer\FixerAnalyzer\TokenSkipper;
-use Symplify\TokenRunner\Guard\TokenTypeGuard;
 
 final class ArrayWrapperFactory
 {
@@ -14,24 +13,20 @@ final class ArrayWrapperFactory
      */
     private $tokenSkipper;
 
-    /**
-     * @var TokenTypeGuard
-     */
-    private $tokenTypeGuard;
-
-    public function __construct(TokenSkipper $tokenSkipper, TokenTypeGuard $tokenTypeGuard)
+    public function __construct(TokenSkipper $tokenSkipper)
     {
         $this->tokenSkipper = $tokenSkipper;
-        $this->tokenTypeGuard = $tokenTypeGuard;
     }
 
-    public function createFromTokensArrayStartPosition(Tokens $tokens, int $startIndex): ArrayWrapper
-    {
-        $this->tokenTypeGuard->ensureIsTokenType($tokens[$startIndex], [
-            T_ARRAY,
-            CT::T_ARRAY_SQUARE_BRACE_OPEN,
-        ], __METHOD__);
-
-        return new ArrayWrapper($tokens, $startIndex, $this->tokenSkipper);
+    public function createFromTokensAndBlockStartAndEndInfo(
+        Tokens $tokens,
+        BlockStartAndEndInfo $blockStartAndEndInfo
+    ): ArrayWrapper {
+        return new ArrayWrapper(
+            $tokens,
+            $blockStartAndEndInfo->getStart(),
+            $blockStartAndEndInfo->getEnd(),
+            $this->tokenSkipper
+        );
     }
 }
