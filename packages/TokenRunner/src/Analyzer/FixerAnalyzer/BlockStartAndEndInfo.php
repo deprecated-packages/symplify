@@ -25,7 +25,7 @@ final class BlockStartAndEndInfo
         return $this->start;
     }
 
-    public function geEnd(): int
+    public function getEnd(): int
     {
         return $this->end;
     }

@@ -18,6 +18,12 @@ final class BlockStartAndEndFinder
     {
         $token = $tokens[$blockStart];
 
+        // shift "array" to "("
+        if ($token->getContent() === 'array') {
+            $blockStart = $tokens->getNextMeaningfulToken($blockStart);
+            $token = $tokens[$blockStart];
+        }
+
         $blockType = $this->getBlockTypeByContent($token->getContent());
 
         return new BlockStartAndEndInfo($blockStart, $tokens->findBlockEnd($blockType, $blockStart));
