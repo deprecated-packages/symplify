@@ -3,6 +3,7 @@
 namespace Symplify\TokenRunner\Analyzer\FixerAnalyzer;
 
 use PhpCsFixer\Tokenizer\Tokens;
+use Symplify\TokenRunner\Exception\MissingImplementationException;
 
 final class BlockStartAndEndFinder
 {
@@ -40,15 +41,21 @@ final class BlockStartAndEndFinder
         }
 
         $blockType = $this->getBlockTypeByContent($content);
-        if ($blockType === null) {
-            return null;
-        }
 
         return new BlockStartAndEndInfo($blockStart, $tokens->findBlockEnd($blockType, $blockStart));
     }
 
-    private function getBlockTypeByContent(string $content): ?int
+    private function getBlockTypeByContent(string $content): int
     {
-        return $this->contentToBlockType[$content] ?? null;
+        if (isset($this->contentToBlockType[$content])) {
+            return $this->contentToBlockType[$content];
+        }
+
+        throw new MissingImplementationException(sprintf(
+            'Implementation is missing for "%s" in "%s". Just add it to "%s" property with proper bock type',
+            $content,
+            __METHOD__,
+            '$contentToBlockType'
+        ));
     }
 }
