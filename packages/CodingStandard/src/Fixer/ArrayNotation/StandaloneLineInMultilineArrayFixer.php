@@ -171,14 +171,6 @@ final class StandaloneLineInMultilineArrayFixer implements DefinedFixerInterface
         $this->lineLengthTransformer->insertNewlineAfterOpeningIfNeeded($tokens, $arrayStart);
     }
 
-    private function prepareIndentWhitespaces(Tokens $tokens, int $arrayStartIndex): void
-    {
-        $indentLevel = $this->indentDetector->detectOnPosition($tokens, $arrayStartIndex, $this->configuration);
-
-        $this->indentWhitespace = str_repeat($this->configuration->getIndent(), $indentLevel + 1);
-        $this->newlineIndentWhitespace = $this->configuration->getLineEnding() . $this->indentWhitespace;
-    }
-
     private function shouldSkip(ArrayWrapper $arrayWrapper): bool
     {
         if (! $arrayWrapper->isAssociativeArray()) {
@@ -186,5 +178,13 @@ final class StandaloneLineInMultilineArrayFixer implements DefinedFixerInterface
         }
 
         return $arrayWrapper->getItemCount() <= 1;
+    }
+
+    private function prepareIndentWhitespaces(Tokens $tokens, int $arrayStartIndex): void
+    {
+        $indentLevel = $this->indentDetector->detectOnPosition($tokens, $arrayStartIndex, $this->configuration);
+
+        $this->indentWhitespace = str_repeat($this->configuration->getIndent(), $indentLevel + 1);
+        $this->newlineIndentWhitespace = $this->configuration->getLineEnding() . $this->indentWhitespace;
     }
 }
