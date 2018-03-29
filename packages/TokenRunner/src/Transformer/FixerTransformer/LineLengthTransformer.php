@@ -94,13 +94,11 @@ final class LineLengthTransformer
                     continue;
                 }
 
-                $nextToken = $tokens[$i + 1];
-                $nextNextToken = $tokens[$i + 2];
-
-                // if next token is just space, turn it to newline
-                if ($nextToken->isWhitespace(' ') && ! $nextNextToken->isComment()) {
-                    $tokens->ensureWhitespaceAtIndex($i + 1, 0, $this->newlineIndentWhitespace);
+                if ($this->isFollowedByComment($tokens, $i)) {
+                    continue;
                 }
+
+                $tokens->ensureWhitespaceAtIndex($i + 1, 0, $this->newlineIndentWhitespace);
             }
         }
 
@@ -247,5 +245,22 @@ final class LineLengthTransformer
     private function isLastItem(Tokens $tokens, $i): bool
     {
         return Strings::contains($tokens[$i + 1]->getContent(), $this->configuration->getLineEnding());
+    }
+
+    private function isFollowedByComment(Tokens $tokens, int $i): bool
+    {
+        $nextToken = $tokens[$i + 1];
+        $nextNextToken = $tokens[$i + 2];
+
+        if ($nextNextToken->isComment()) {
+            return true;
+        }
+
+        // if next token is just space, turn it to newline
+        if ($nextToken->isWhitespace(' ') && $nextNextToken->isComment()) {
+            return true;
+        }
+
+        return false;
     }
 }
