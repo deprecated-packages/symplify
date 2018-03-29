@@ -7,26 +7,26 @@ final class BlockStartAndEndInfo
     /**
      * @var int
      */
-    private $blockStart;
+    private $start;
 
     /**
      * @var int
      */
-    private $blockEnd;
+    private $end;
 
-    public function __construct(int $blockStart, int $blockEnd)
+    public function __construct(int $start, int $end)
     {
-        $this->blockStart = $blockStart;
-        $this->blockEnd = $blockEnd;
+        $this->start = $start;
+        $this->end = $end;
     }
 
-    public function getBlockStart(): int
+    public function getStart(): int
     {
-        return $this->blockStart;
+        return $this->start;
     }
 
-    public function getBlockEnd(): int
+    public function geEnd(): int
     {
-        return $this->blockEnd;
+        return $this->end;
     }
 }

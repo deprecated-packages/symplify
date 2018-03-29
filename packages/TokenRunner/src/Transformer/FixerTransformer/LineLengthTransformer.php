@@ -58,21 +58,21 @@ final class LineLengthTransformer
         Tokens $tokens,
         int $currentPosition
     ): void {
-        $this->prepareIndentWhitespaces($tokens, $blockStartAndEndInfo->getBlockStart());
+        $this->prepareIndentWhitespaces($tokens, $blockStartAndEndInfo->getStart());
 
-        $firstLineLength = $this->getFirstLineLength($blockStartAndEndInfo->getBlockStart(), $tokens);
+        $firstLineLength = $this->getFirstLineLength($blockStartAndEndInfo->getStart(), $tokens);
         if ($firstLineLength > $this->configuration->getMaxLineLength()) {
-            $this->breakItems($blockStartAndEndInfo->getBlockStart(), $blockStartAndEndInfo->getBlockEnd(), $tokens);
+            $this->breakItems($blockStartAndEndInfo->getStart(), $blockStartAndEndInfo->geEnd(), $tokens);
             return;
         }
 
         $fullLineLength = $this->getLengthFromStartEnd(
-            $blockStartAndEndInfo->getBlockStart(),
-            $blockStartAndEndInfo->getBlockEnd(),
+            $blockStartAndEndInfo->getStart(),
+            $blockStartAndEndInfo->geEnd(),
             $tokens
         );
         if ($fullLineLength <= $this->configuration->getMaxLineLength()) {
-            $this->inlineItems($blockStartAndEndInfo->getBlockEnd(), $tokens, $currentPosition);
+            $this->inlineItems($blockStartAndEndInfo->geEnd(), $tokens, $currentPosition);
             return;
         }
     }
