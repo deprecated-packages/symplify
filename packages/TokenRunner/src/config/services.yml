@@ -6,4 +6,4 @@ services:
 
     Symplify\TokenRunner\:
         resource: '../{Analyzer,Configuration,DocBlock,Guard,Transformer,Wrapper/*Wrapper/*Factory.php,Naming}'
-        exclude: '../{Naming/Name/Name.php}'
+        exclude: '../{Naming/Name/Name.php,Analyzer/FixerAnalyzer/BlockStartAndEndInfo.php}'

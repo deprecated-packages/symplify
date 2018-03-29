@@ -69,13 +69,13 @@ class SomeClass
                 continue;
             }
 
-            [$blockStart, $blockEnd] = $this->blockStartAndEndFinder->findInTokensByPositionAndContent(
+            $blockStartAndEndInfo = $this->blockStartAndEndFinder->findInTokensByPositionAndContent(
                 $tokens,
                 $position,
                 '('
             );
 
-            $this->lineLengthTransformer->fixStartPositionToEndPosition($blockStart, $blockEnd, $tokens, $position);
+            $this->lineLengthTransformer->fixStartPositionToEndPosition($blockStartAndEndInfo, $tokens, $position);
         }
     }
 

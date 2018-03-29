@@ -17,19 +17,19 @@ final class BlockStartAndEndFinder
     /**
      * @return int[]
      */
-    public function findInTokensByBlockStart(Tokens $tokens, int $blockStart): array
+    public function findInTokensByBlockStart(Tokens $tokens, int $blockStart): BlockStartAndEndInfo
     {
         $token = $tokens[$blockStart];
 
         $blockType = $this->getBlockTypeByContent($token->getContent());
 
-        return [$blockStart, $tokens->findBlockEnd($blockType, $blockStart)];
+        return new BlockStartAndEndInfo($blockStart, $tokens->findBlockEnd($blockType, $blockStart));
     }
 
     /**
      * @return int[]|null
      */
-    public function findInTokensByPositionAndContent(Tokens $tokens, int $position, string $content): ?array
+    public function findInTokensByPositionAndContent(Tokens $tokens, int $position, string $content): ?BlockStartAndEndInfo
     {
         $blockStart = $tokens->getNextTokenOfKind($position, [$content]);
         if ($blockStart === null) {
@@ -41,7 +41,7 @@ final class BlockStartAndEndFinder
             return null;
         }
 
-        return [$blockStart, $tokens->findBlockEnd($blockType, $blockStart)];
+        return new BlockStartAndEndInfo($blockStart, $tokens->findBlockEnd($blockType, $blockStart));
     }
 
     private function getBlockTypeByContent(string $content): ?int

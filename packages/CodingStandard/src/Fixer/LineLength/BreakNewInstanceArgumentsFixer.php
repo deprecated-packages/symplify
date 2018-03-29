@@ -11,6 +11,7 @@ use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
 use Symplify\TokenRunner\Analyzer\FixerAnalyzer\BlockStartAndEndFinder;
+use Symplify\TokenRunner\Analyzer\FixerAnalyzer\BlockStartAndEndInfo;
 use Symplify\TokenRunner\Transformer\FixerTransformer\LineLengthTransformer;
 
 final class BreakNewInstanceArgumentsFixer implements DefinedFixerInterface
@@ -63,24 +64,21 @@ final class BreakNewInstanceArgumentsFixer implements DefinedFixerInterface
                 continue;
             }
 
-            $startAndEndPositions = $this->blockStartAndEndFinder->findInTokensByPositionAndContent(
+            $blockStartAndEndInfo = $this->blockStartAndEndFinder->findInTokensByPositionAndContent(
                 $tokens,
                 $position,
                 '('
             );
-            if ($startAndEndPositions === null) {
+            if ($blockStartAndEndInfo === null) {
                 continue;
             }
 
-            [$startBracketPosition, $endBracketPosition] = $startAndEndPositions;
-
-            if ($this->shouldSkip($tokens, $startBracketPosition, $endBracketPosition)) {
+            if ($this->shouldSkip($tokens, $blockStartAndEndInfo)) {
                 continue;
             }
 
             $this->lineLengthTransformer->fixStartPositionToEndPosition(
-                $startBracketPosition,
-                $endBracketPosition,
+                $blockStartAndEndInfo,
                 $tokens,
                 $position
             );
@@ -110,15 +108,15 @@ final class BreakNewInstanceArgumentsFixer implements DefinedFixerInterface
         return true;
     }
 
-    private function shouldSkip(Tokens $tokens, int $startBracketPosition, int $endBracketPosition): bool
+    private function shouldSkip(Tokens $tokens, BlockStartAndEndInfo $blockStartAndEndInfo): bool
     {
         // no arguments => skip
-        if (($endBracketPosition - $startBracketPosition) <= 1) {
+        if (($blockStartAndEndInfo->getBlockEnd() - $blockStartAndEndInfo->getBlockStart()) <= 1) {
             return true;
         }
 
         // nowdoc => skip
-        $nextTokenPosition = $tokens->getNextMeaningfulToken($startBracketPosition);
+        $nextTokenPosition = $tokens->getNextMeaningfulToken($blockStartAndEndInfo->getBlockStart());
         $nextToken = $tokens[$nextTokenPosition];
         return Strings::startsWith($nextToken->getContent(), '<<<');
     }

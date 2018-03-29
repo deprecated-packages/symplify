@@ -6,6 +6,7 @@ use Nette\Utils\Strings;
 use PhpCsFixer\Tokenizer\CT;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
+use Symplify\TokenRunner\Analyzer\FixerAnalyzer\BlockStartAndEndInfo;
 use Symplify\TokenRunner\Analyzer\FixerAnalyzer\IndentDetector;
 use Symplify\TokenRunner\Analyzer\FixerAnalyzer\TokenSkipper;
 use Symplify\TokenRunner\Configuration\Configuration;
@@ -53,23 +54,21 @@ final class LineLengthTransformer
     }
 
     public function fixStartPositionToEndPosition(
-        int $startPosition,
-        int $endPosition,
+        BlockStartAndEndInfo $blockStartAndEndInfo,
         Tokens $tokens,
         int $currentPosition
     ): void {
-        // @todo automate in some way
-        $this->prepareIndentWhitespaces($tokens, $startPosition);
+        $this->prepareIndentWhitespaces($tokens, $blockStartAndEndInfo->getBlockStart());
 
-        $firstLineLength = $this->getFirstLineLength($startPosition, $tokens);
+        $firstLineLength = $this->getFirstLineLength($blockStartAndEndInfo->getBlockStart(), $tokens);
         if ($firstLineLength > $this->configuration->getMaxLineLength()) {
-            $this->breakItems($startPosition, $endPosition, $tokens);
+            $this->breakItems($blockStartAndEndInfo->getBlockStart(), $blockStartAndEndInfo->getBlockEnd(), $tokens);
             return;
         }
 
-        $fullLineLength = $this->getLengthFromStartEnd($startPosition, $endPosition, $tokens);
+        $fullLineLength = $this->getLengthFromStartEnd($blockStartAndEndInfo->getBlockStart(), $blockStartAndEndInfo->getBlockEnd(), $tokens);
         if ($fullLineLength <= $this->configuration->getMaxLineLength()) {
-            $this->inlineItems($endPosition, $tokens, $currentPosition);
+            $this->inlineItems($blockStartAndEndInfo->getBlockEnd(), $tokens, $currentPosition);
             return;
         }
     }
