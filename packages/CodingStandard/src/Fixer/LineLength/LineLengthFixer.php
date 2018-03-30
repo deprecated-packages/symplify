@@ -38,23 +38,30 @@ final class LineLengthFixer implements DefinedFixerInterface
     public function getDefinition(): FixerDefinitionInterface
     {
         return new FixerDefinition(
-            'Array items, method arguments and new arguments should be on same/standalone line to fit line length.', [
-            new CodeSample(
-                '<?php
+            'Array items, method arguments and new arguments should be on same/standalone line to fit line length.',
+            [
+                new CodeSample(
+                    '<?php
 $array = ["loooooooooooooooooooooooooooooooongArraaaaaaaaaaay", "looooooooooooooooooooooooooooooooongArraaaaaaaaaaay"];'
-            ),
-        ]);
+                ),
+            ]
+        );
     }
 
     public function isCandidate(Tokens $tokens): bool
     {
         return $tokens->isAnyTokenKindsFound([
-            T_ARRAY, // "["
-            CT::T_ARRAY_SQUARE_BRACE_OPEN, // "array"();
+            // "["
+            T_ARRAY,
+            // "array"();
+            CT::T_ARRAY_SQUARE_BRACE_OPEN,
             '(',
-            T_FUNCTION, // "function"
-            CT::T_USE_LAMBDA, // "use" (...)
-            T_NEW // "new"
+            // "function"
+            T_FUNCTION,
+            // "use" (...)
+            CT::T_USE_LAMBDA,
+            // "new"
+            T_NEW,
         ]);
     }
 
@@ -105,7 +112,7 @@ $array = ["loooooooooooooooooooooooooooooooongArraaaaaaaaaaay", "loooooooooooooo
             $tokens,
             $position,
             '('
-            );
+        );
 
         if ($blockStartAndEndInfo === null) {
             return;

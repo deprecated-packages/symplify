@@ -272,12 +272,12 @@ final class LineLengthTransformer
         return false;
     }
 
-    private function isNewLineOrOpenTag(Tokens $tokens, $currentPosition): bool
+    private function isNewLineOrOpenTag(Tokens $tokens, int $position): bool
     {
-        if (Strings::startsWith($tokens[$currentPosition]->getContent(), PHP_EOL)) {
+        if (Strings::startsWith($tokens[$position]->getContent(), PHP_EOL)) {
             return true;
         }
 
-        return $tokens[$currentPosition]->isGivenKind(T_OPEN_TAG);
+        return $tokens[$position]->isGivenKind(T_OPEN_TAG);
     }
 }
