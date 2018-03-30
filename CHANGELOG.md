@@ -106,7 +106,7 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
 - [#680] **BetterReflectionDocBlock** First steps to migration from [phpDocumentor/ReflectionDocBlock](https://github.com/phpDocumentor/ReflectionDocBlock) to [phpstan/phpdoc-parser](https://github.com/phpstan/phpdoc-parser)
 
 - [#654] **Statie** Move from Yaml + Neon mixture to Yaml, similar to [#651]
-    - [How to migrate from `*.neon` to `*.yml`](https://www.tomasvotruba.cz/blog/2018/03/12/neon-vs-yaml-and-how-to-migrate-between-them/)?
+    - [How to migrate from `*.neon` to `*.yml`](https://www.tomasvotruba.cz/blog/2018/03/12/neon-vs-yaml-and-how-to-migrate-between-them/#how-to-migrate-from-neon-to-yaml)?
 
 - [#721] Prefer `Input` and `Output` instances injected via constructor in used Console Applications
 
@@ -159,7 +159,7 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
     ```
 
 - [#651] Move from mixture custom neon + Symfony service DI to Yaml
-    - [How to migrate from `*.neon` to `*.yml`](https://www.tomasvotruba.cz/blog/2018/03/12/neon-vs-yaml-and-how-to-migrate-between-them/)?
+    - [How to migrate from `*.neon` to `*.yml`](https://www.tomasvotruba.cz/blog/2018/03/12/neon-vs-yaml-and-how-to-migrate-between-them/#how-to-migrate-from-neon-to-yaml)?
 
 ### Fixed
 
