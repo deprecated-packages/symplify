@@ -20,13 +20,13 @@ final class ConfiguredBreakArrayListFixerTest extends AbstractCheckerTestCase
     /**
      * @return string[][]
      */
-
     public function provideCorrectCases(): array
     {
         return [
             [__DIR__ . '/correct/correct2.php.inc'],
         ];
     }
+
     protected function provideConfig(): string
     {
         return __DIR__ . '/configured-config.yml';

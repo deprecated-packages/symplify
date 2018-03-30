@@ -26,8 +26,12 @@ final class Configuration
      */
     private $inlineShortLines = false;
 
-    public function __construct(int $maxLineLength, bool $breakLongLines, bool $inlineShortLines, WhitespacesFixerConfig $whitespacesFixerConfig)
-    {
+    public function __construct(
+        int $maxLineLength,
+        bool $breakLongLines,
+        bool $inlineShortLines,
+        WhitespacesFixerConfig $whitespacesFixerConfig
+    ) {
         $this->maxLineLength = $maxLineLength;
         $this->whitespacesFixerConfig = $whitespacesFixerConfig;
         $this->breakLongLines = $breakLongLines;
