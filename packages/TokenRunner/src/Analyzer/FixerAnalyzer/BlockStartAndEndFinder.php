@@ -25,6 +25,7 @@ final class BlockStartAndEndFinder
             $token = $tokens[$blockStart];
         }
 
+        // @todo: shift "function" to its "("?
         $blockType = $this->getBlockTypeByContent($token->getContent());
 
         return new BlockStartAndEndInfo($blockStart, $tokens->findBlockEnd($blockType, $blockStart));

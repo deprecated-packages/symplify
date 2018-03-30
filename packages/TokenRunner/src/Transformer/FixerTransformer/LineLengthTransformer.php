@@ -129,7 +129,8 @@ final class LineLengthTransformer
 
         // compute from here to start of line
         $currentPosition = $startPosition;
-        while (! Strings::startsWith($tokens[$currentPosition]->getContent(), PHP_EOL)) {
+
+        while (! $this->isNewLineOrOpenTag($tokens, $currentPosition)) {
             $lineLength += strlen($tokens[$currentPosition]->getContent());
             --$currentPosition;
         }
@@ -188,7 +189,7 @@ final class LineLengthTransformer
 
         // compute from function to start of line
         $currentPosition = $blockStartAndEndInfo->getStart();
-        while (! Strings::startsWith($tokens[$currentPosition]->getContent(), PHP_EOL)) {
+        while (! $this->isNewLineOrOpenTag($tokens, $currentPosition)) {
             $lineLength += strlen($tokens[$currentPosition]->getContent());
             --$currentPosition;
         }
@@ -269,5 +270,14 @@ final class LineLengthTransformer
         }
 
         return false;
+    }
+
+    private function isNewLineOrOpenTag(Tokens $tokens, $currentPosition): bool
+    {
+        if (Strings::startsWith($tokens[$currentPosition]->getContent(), PHP_EOL)) {
+            return true;
+        }
+
+        return $tokens[$currentPosition]->isGivenKind(T_OPEN_TAG);
     }
 }
