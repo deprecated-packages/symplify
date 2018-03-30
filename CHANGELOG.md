@@ -185,6 +185,10 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
 
 - [#691] Fix `BreakMethodCallsFixer` incorrect line length count
 
+- [#606] Fix few `RemoveUselessDocBlockFixer` cases
+
+- [#598] Fix `PropertyNameMatchingTypeFixer` for self cases, fixes [#597]
+
 #### BetterReflectionDocBlock
 
 - [#599] Fix respecting spaces of inner tag
@@ -194,12 +198,6 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
 - [1fcc92] Fix variadic detection
 
 - [caf08e] Fix escaping and variadic param resolver
-
-#### CodingStandard
-
-- [#606] Fix few `RemoveUselessDocBlockFixer` cases
-
-- [#598] Fix `PropertyNameMatchingTypeFixer` for self cases, fixes [#597]
 
 ### Removed
 
