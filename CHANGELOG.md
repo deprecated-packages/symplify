@@ -17,7 +17,7 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
 
 ### Added
 
-- [#747] [ECS] [CodingStandard] Make lines breaks/inlines configurable:
+- [#747] **EasyCodingStandard** **CodingStandard** Make lines breaks/inlines configurable:
 
     ```yaml
     # easy-coding-standard.yml
@@ -39,6 +39,8 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
 
 - [#713] Add shortcut support for config `-c` in `ConfigFileFinder` and for level `-l` in `LevelFileFinder`
 
+- [#680](https://github.com/Symplify/Symplify/pull/680/files#diff-412c71ea9d7b9fa9322e1cf23e39a1e7) Add `PublicForTestsCompilerPass` to remove `public: true` in configs and still allow `get()` use in tests
+
 - [#645] Add `AutowireSinglyImplementedCompilerPass` to prevent redundant singly-interface binding
 
 - [#612] Add `CommandNaming` to get command name from the class name
@@ -52,7 +54,6 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
 - [#707], [#709] Upgrade to [PHP CS Fixer 2.11](https://github.com/FriendsOfPHP/PHP-CS-Fixer/tree/v2.11.0)
 
 - [#692] Add `ForbiddenReferenceSniff` to check all `&$var` references
-- [#680](https://github.com/Symplify/Symplify/pull/680/files#diff-412c71ea9d7b9fa9322e1cf23e39a1e7) **PackageBuilder** Add `PublicForTestsCompilerPass` to remove `public: true` in configs and still allow `get()` use in tests
 
 - [#690] Make `RemoveUselessDocBlockFixer` cover functions as well
 
