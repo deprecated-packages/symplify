@@ -57,8 +57,6 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
 
 - [#591] Add `BreakArrayListFixer` to break/inline array items over/under 120 chars
 
-- [#585] Add `BreakMethodCallsFixer` to break/inline method calls over/under 120 chars
-
 #### EasyCodingStandard
 
 - [#741] Add support for `%vendor_dir%`, `%current_working_dir%` variables in `imports` section of configs to allow simpler loading [lmc-eu/php-coding-standard#6](https://github.com/lmc-eu/php-coding-standard/pull/6)
@@ -178,8 +176,6 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
 #### CodingStandard
 
 - [#693] Fix `UnusedPublicMethodSniff` for static methods
-
-- [#691] Fix `BreakMethodCallsFixer` incorrect line length count
 
 - [#606] Fix few `RemoveUselessDocBlockFixer` cases
 
