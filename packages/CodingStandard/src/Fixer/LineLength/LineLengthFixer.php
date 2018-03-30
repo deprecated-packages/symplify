@@ -92,9 +92,12 @@ $array = ["loooooooooooooooooooooooooooooooongArraaaaaaaaaaay", "loooooooooooooo
         return self::class;
     }
 
+    /**
+     * Execute before @see \PhpCsFixer\Fixer\ArrayNotation\TrimArraySpacesFixer::getPriority()
+     */
     public function getPriority(): int
     {
-        return 0;
+        return 5;
     }
 
     public function supports(SplFileInfo $file): bool
