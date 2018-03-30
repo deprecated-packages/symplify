@@ -18,14 +18,6 @@ use Symplify\TokenRunner\Transformer\FixerTransformer\LineLengthTransformer;
 final class LineLengthFixer implements DefinedFixerInterface
 {
     /**
-     * @var int[]|string[]
-     */
-    private const BLOCK_START_TOKENS = [
-        T_ARRAY, // "["
-        CT::T_ARRAY_SQUARE_BRACE_OPEN, // "array"(
-    ];
-
-    /**
      * @var LineLengthTransformer
      */
     private $lineLengthTransformer;
@@ -59,7 +51,10 @@ $array = ["loooooooooooooooooooooooooooooooongArraaaaaaaaaaay", "loooooooooooooo
         return $tokens->isAnyTokenKindsFound([
             T_ARRAY, // "["
             CT::T_ARRAY_SQUARE_BRACE_OPEN, // "array"();
-            '('
+            '(',
+            T_FUNCTION, // "function"
+            CT::T_USE_LAMBDA, // "use" (...)
+            T_NEW // "new"
         ]);
     }
 
@@ -69,16 +64,15 @@ $array = ["loooooooooooooooooooooooooooooooongArraaaaaaaaaaay", "loooooooooooooo
         $reversedTokens = array_reverse($tokens->toArray(), true);
 
         foreach ($reversedTokens as $position => $token) {
-            if (! $token->isGivenKind(self::BLOCK_START_TOKENS) && $token->getContent() !== '(') {
+            if ($token->isGivenKind([T_FUNCTION, CT::T_USE_LAMBDA, T_NEW])) {
+                $this->processFunction($tokens, $position);
                 continue;
             }
 
-            $blockStartAndEndInfo = $this->blockStartAndEndFinder->findInTokensByBlockStart($tokens, $position);
-            if ($this->shouldSkip($tokens, $blockStartAndEndInfo)) {
+            if ($token->isGivenKind([T_ARRAY, CT::T_ARRAY_SQUARE_BRACE_OPEN])) {
+                $this->processArray($tokens, $position);
                 continue;
             }
-
-            $this->lineLengthTransformer->fixStartPositionToEndPosition($blockStartAndEndInfo, $tokens, $position);
         }
     }
 
@@ -105,6 +99,35 @@ $array = ["loooooooooooooooooooooooooooooooongArraaaaaaaaaaay", "loooooooooooooo
         return true;
     }
 
+    private function processFunction(Tokens $tokens, int $position): void
+    {
+        $blockStartAndEndInfo = $this->blockStartAndEndFinder->findInTokensByPositionAndContent(
+            $tokens,
+            $position,
+            '('
+            );
+
+        if ($blockStartAndEndInfo === null) {
+            return;
+        }
+
+        if ($this->shouldSkip($tokens, $blockStartAndEndInfo)) {
+            return;
+        }
+
+        $this->lineLengthTransformer->fixStartPositionToEndPosition($blockStartAndEndInfo, $tokens, $position);
+    }
+
+    private function processArray(Tokens $tokens, int $position): void
+    {
+        $blockStartAndEndInfo = $this->blockStartAndEndFinder->findInTokensByBlockStart($tokens, $position);
+        if ($this->shouldSkip($tokens, $blockStartAndEndInfo)) {
+            return;
+        }
+
+        $this->lineLengthTransformer->fixStartPositionToEndPosition($blockStartAndEndInfo, $tokens, $position);
+    }
+
     private function shouldSkip(Tokens $tokens, BlockStartAndEndInfo $blockStartAndEndInfo): bool
     {
         // no arguments => skip
@@ -115,6 +138,7 @@ $array = ["loooooooooooooooooooooooooooooooongArraaaaaaaaaaay", "loooooooooooooo
         // nowdoc => skip
         $nextTokenPosition = $tokens->getNextMeaningfulToken($blockStartAndEndInfo->getStart());
         $nextToken = $tokens[$nextTokenPosition];
+
         return Strings::startsWith($nextToken->getContent(), '<<<');
     }
 }
