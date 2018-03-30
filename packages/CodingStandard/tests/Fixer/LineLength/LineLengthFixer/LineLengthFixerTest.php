@@ -1,14 +1,14 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Fixer\LineLength\BreakMethodArgumentsFixer;
+namespace Symplify\CodingStandard\Tests\Fixer\LineLength\LineLengthFixer;
 
 use Iterator;
 use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;
 
 /**
- * @see \Symplify\CodingStandard\Fixer\LineLength\BreakMethodArgumentsFixer
+ * @see \Symplify\CodingStandard\Fixer\LineLength\LineLengthFixer
  */
-final class BreakMethodArgumentsFixerTest extends AbstractCheckerTestCase
+final class LineLengthFixerTest extends AbstractCheckerTestCase
 {
     /**
      * @dataProvider wrongToFixedCases()
