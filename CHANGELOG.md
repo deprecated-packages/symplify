@@ -45,8 +45,6 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
 
 #### CodingStandard
 
-- [#743] Add `BreakNewInstanceArgumentsFixer`
-
 - [#722] Add `ForbiddenStaticFunctionSniff`
 
 - [#707], [#709] Upgrade to [PHP CS Fixer 2.11](https://github.com/FriendsOfPHP/PHP-CS-Fixer/tree/v2.11.0)
@@ -58,8 +56,6 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
 - [#633] Add `ClassNameSuffixByParentFixer`, closes [#607]
 
 - [#591] Add `BreakArrayListFixer` to break/inline array items over/under 120 chars
-
-- [#585] Add `BreakMethodCallsFixer` to break/inline method calls over/under 120 chars
 
 #### EasyCodingStandard
 
@@ -180,8 +176,6 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
 #### CodingStandard
 
 - [#693] Fix `UnusedPublicMethodSniff` for static methods
-
-- [#691] Fix `BreakMethodCallsFixer` incorrect line length count
 
 - [#606] Fix few `RemoveUselessDocBlockFixer` cases
 
