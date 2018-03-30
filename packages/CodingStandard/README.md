@@ -157,8 +157,7 @@ class SomeClass
 - :wrench:
 - class: [`Symplify\CodingStandard\Fixer\LineLength\BreakArrayListFixer`](src/Fixer/LineLength/BreakArrayListFixer.php)
 - class: [`Symplify\CodingStandard\Fixer\LineLength\BreakMethodCallsFixer`](src/Fixer/LineLength/BreakMethodCallsFixer.php)
-- class: [`Symplify\CodingStandard\Fixer\LineLength\BreakMethodCallsFixer`](src/Fixer/LineLength/BreakMethodCallsFixer.php)
-- class: [`Symplify\CodingStandard\Fixer\LineLength\BreakNewInstanceArgumentsFixer`](src/Fixer/LineLength/BreakNewInstanceArgumentsFixer.php)
+- class: [`Symplify\CodingStandard\Fixer\LineLength\LineLengthFixer`](src/Fixer/LineLength/LineLengthFixer.php)
 
 ```diff
  class SomeClass

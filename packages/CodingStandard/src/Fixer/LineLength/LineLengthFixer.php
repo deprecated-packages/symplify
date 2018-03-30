@@ -2,6 +2,7 @@
 
 namespace Symplify\CodingStandard\Fixer\LineLength;
 
+use Nette\Utils\Strings;
 use PhpCsFixer\Fixer\DefinedFixerInterface;
 use PhpCsFixer\FixerDefinition\CodeSample;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
@@ -11,6 +12,7 @@ use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
 use Symplify\TokenRunner\Analyzer\FixerAnalyzer\BlockStartAndEndFinder;
+use Symplify\TokenRunner\Analyzer\FixerAnalyzer\BlockStartAndEndInfo;
 use Symplify\TokenRunner\Transformer\FixerTransformer\LineLengthTransformer;
 
 final class LineLengthFixer implements DefinedFixerInterface
@@ -73,6 +75,10 @@ $array = ["loooooooooooooooooooooooooooooooongArraaaaaaaaaaay", "loooooooooooooo
                 continue;
             }
 
+            if ($this->shouldSkip($tokens, $blockStartAndEndInfo)) {
+                continue;
+            }
+
             $this->lineLengthTransformer->fixStartPositionToEndPosition($blockStartAndEndInfo, $tokens, $position);
         }
     }
@@ -95,5 +101,18 @@ $array = ["loooooooooooooooooooooooooooooooongArraaaaaaaaaaay", "loooooooooooooo
     public function supports(SplFileInfo $file): bool
     {
         return true;
+    }
+
+    private function shouldSkip(Tokens $tokens, BlockStartAndEndInfo $blockStartAndEndInfo): bool
+    {
+        // no arguments => skip
+        if (($blockStartAndEndInfo->getEnd() - $blockStartAndEndInfo->getStart()) <= 1) {
+            return true;
+        }
+
+        // nowdoc => skip
+        $nextTokenPosition = $tokens->getNextMeaningfulToken($blockStartAndEndInfo->getStart());
+        $nextToken = $tokens[$nextTokenPosition];
+        return Strings::startsWith($nextToken->getContent(), '<<<');
     }
 }
