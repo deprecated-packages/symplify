@@ -17,11 +17,23 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
 
 ### Added
 
+- [#747] [ECS] [CodingStandard] Make lines breaks/inlines configurable:
+
+    ```yaml
+    # easy-coding-standard.yml
+    parameters:
+        max_line_length: 100 # default: 120
+        break_long_lines: true # default: true
+        inline_short_lines: false # default: true
+    ```
+
 - [#589] Add version printing on `-V` option in Console Applications, thanks to [@ostrolucky]
 
 - [#585] **TokenRunner** Add `MethodCallWrapper` helper class to count line lengths of method calls
 
 #### PackageBuilder
+
+- [#732] Add support for `Error` rendering to `Symplify\PackageBuilder\Console\ThrowableRenderer` (former `ExceptionRenderer`)
 
 - [#720] Add `Symplify\PackageBuilder\Console\ExceptionRenderer` to render exception nicely Console Applications but anywhere outside it; follow up to [#715] and [#702]
 
@@ -32,6 +44,8 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
 - [#612] Add `CommandNaming` to get command name from the class name
 
 #### CodingStandard
+
+- [#743] Add `BreakNewInstanceArgumentsFixer`
 
 - [#722] Add `ForbiddenStaticFunctionSniff`
 
@@ -49,6 +63,16 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
 - [#585] Add `BreakMethodCallsFixer` to break/inline method calls over/under 120 chars
 
 #### EasyCodingStandard
+
+- [#741] Add support for `%vendor_dir%`, `%current_working_dir%` variables in `imports` section of configs to allow simpler loading [lmc-eu/php-coding-standard#6](https://github.com/lmc-eu/php-coding-standard/pull/6)
+
+    ```yaml
+    # lmc-coding-standard.yml
+    imports:
+        - { resource: '%vendor_dir%/symplify/easy-coding-standard/config/psr2.yml' }
+        # or
+        - { resource: '%current_working_dir%/vendor/symplify/easy-coding-standard/config/psr2.yml' }
+    ```
 
 - [#705] Add `-c` shortcut for `--config` CLI option, thanks to [@OndraM]
 
@@ -74,6 +98,8 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
 
 ### Changed
 
+- [#744] **CodingStandard**, **TokenRunner** Abstract line length logic from all fixers to `LineLengthTransformer`
+
 - [#722] **TokenRunner** Move form `static` to service and constructor injection
 
 - [#693] **CodingStandard** Move checkers from static to services, follow up to [#680]
@@ -86,6 +112,10 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
 - [#721] Prefer `Input` and `Output` instances injected via constructor in used Console Applications
 
 #### PackageBuilder
+
+- [#742] Decouple `Symplify\PackageBuilder\Yaml\ParameterInImportResolver` class for standalone use
+
+- [#730] Renamed class `Symplify\PackageBuilder\Console\ExceptoinRenderer` to `Symplify\PackageBuilder\Console\ThrowableRenderer`
 
 - [#713] Renamed class `Symplify\PackageBuilder\Configuration\ConfigFilePathHelper` to `Symplify\PackageBuilder\Configuration\LevelConfigShortcutFinder`
 
@@ -134,7 +164,13 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
 
 ### Fixed
 
-- [#640] **EasyCodingStandard** Fix pre-mature adding file to cache, fixes [#637]
+#### EasyCodingStandard
+
+- [#727][#740] Fix merging of `parameters` from imported configs, ref [symfony/symfony/#26713](https://github.com/symfony/symfony/issues/26713)
+
+- [#729] Detect changes properly also in `*.yaml` files, thanks [@OndraM]
+
+- [#640] Fix pre-mature adding file to cache, fixes [#637]
 
 #### Statie
 
@@ -1047,3 +1083,12 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
 [#712]: https://github.com/Symplify/Symplify/pull/712
 [#702]: https://github.com/Symplify/Symplify/issues/702
 [#701]: https://github.com/Symplify/Symplify/issues/701
+[#747]: https://github.com/Symplify/Symplify/pull/747
+[#744]: https://github.com/Symplify/Symplify/pull/744
+[#743]: https://github.com/Symplify/Symplify/pull/743
+[#742]: https://github.com/Symplify/Symplify/pull/742
+[#741]: https://github.com/Symplify/Symplify/pull/741
+[#740]: https://github.com/Symplify/Symplify/pull/740
+[#732]: https://github.com/Symplify/Symplify/pull/732
+[#730]: https://github.com/Symplify/Symplify/pull/730
+[#729]: https://github.com/Symplify/Symplify/pull/729
