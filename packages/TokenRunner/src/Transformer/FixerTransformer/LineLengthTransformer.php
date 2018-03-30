@@ -74,6 +74,10 @@ final class LineLengthTransformer
 
     public function breakItems(BlockStartAndEndInfo $blockStartAndEndInfo, Tokens $tokens): void
     {
+        if ($this->configuration->shouldBreakLongLines() === false) {
+            return;
+        }
+
         $this->prepareIndentWhitespaces($tokens, $blockStartAndEndInfo->getStart());
 
         // from bottom top, to prevent skipping ids
@@ -152,6 +156,10 @@ final class LineLengthTransformer
 
     private function inlineItems(int $endPosition, Tokens $tokens, int $currentPosition): void
     {
+        if ($this->configuration->shouldInlineShortLines() === false) {
+            return;
+        }
+
         // replace PHP_EOL with " "
         for ($i = $currentPosition; $i < $endPosition; ++$i) {
             $currentToken = $tokens[$i];
