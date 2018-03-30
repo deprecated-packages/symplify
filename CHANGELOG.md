@@ -29,8 +29,6 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
 
 - [#589] Add version printing on `-V` option in Console Applications, thanks to [@ostrolucky]
 
-- [#585] **TokenRunner** Add `MethodCallWrapper` helper class to count line lengths of method calls
-
 #### PackageBuilder
 
 - [#732] Add support for `Error` rendering to `Symplify\PackageBuilder\Console\ThrowableRenderer` (former `ExceptionRenderer`)
