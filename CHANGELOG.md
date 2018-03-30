@@ -45,8 +45,6 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
 
 #### CodingStandard
 
-- [#743] Add `BreakNewInstanceArgumentsFixer`
-
 - [#722] Add `ForbiddenStaticFunctionSniff`
 
 - [#707], [#709] Upgrade to [PHP CS Fixer 2.11](https://github.com/FriendsOfPHP/PHP-CS-Fixer/tree/v2.11.0)

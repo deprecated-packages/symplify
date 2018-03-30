@@ -23,7 +23,6 @@ final class LineLengthFixer implements DefinedFixerInterface
     private const BLOCK_START_TOKENS = [
         T_ARRAY, // "["
         CT::T_ARRAY_SQUARE_BRACE_OPEN, // "array"(
-        '('
     ];
 
     /**
@@ -57,7 +56,11 @@ $array = ["loooooooooooooooooooooooooooooooongArraaaaaaaaaaay", "loooooooooooooo
 
     public function isCandidate(Tokens $tokens): bool
     {
-        return $tokens->isAnyTokenKindsFound(self::BLOCK_START_TOKENS);
+        return $tokens->isAnyTokenKindsFound([
+            T_ARRAY, // "["
+            CT::T_ARRAY_SQUARE_BRACE_OPEN, // "array"();
+            '('
+        ]);
     }
 
     public function fix(SplFileInfo $file, Tokens $tokens): void
@@ -71,10 +74,6 @@ $array = ["loooooooooooooooooooooooooooooooongArraaaaaaaaaaay", "loooooooooooooo
             }
 
             $blockStartAndEndInfo = $this->blockStartAndEndFinder->findInTokensByBlockStart($tokens, $position);
-            if ($blockStartAndEndInfo === null) {
-                continue;
-            }
-
             if ($this->shouldSkip($tokens, $blockStartAndEndInfo)) {
                 continue;
             }
