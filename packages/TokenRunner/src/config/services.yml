@@ -3,7 +3,9 @@ services:
         autowire: true
         bind:
             $maxLineLength: '%max_line_length%'
+            $breakLongLines: '%break_long_lines%'
+            $inlineShortLines: '%inline_short_lines%'
 
     Symplify\TokenRunner\:
-        resource: '../{Analyzer,Configuration,DocBlock,Guard,Transformer,Wrapper/*Wrapper/*Factory.php,Naming}'
-        exclude: '../{Naming/Name/Name.php,Analyzer/FixerAnalyzer/BlockStartAndEndInfo.php}'
+        resource: '..'
+        exclude: '../{Naming/Name/Name.php,Analyzer/FixerAnalyzer/BlockStartAndEndInfo.php,Wrapper/*Wrapper/*Wrapper.php}'

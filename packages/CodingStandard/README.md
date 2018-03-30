@@ -181,12 +181,17 @@ class SomeClass
  }
 ```
 
-Is 120 characters too long for you? **Change it**:
+- Is 120 characters too long for you?
+- Do you want to break longs lines but not inline short lines or vice versa?
+
+**Change it**:
 
 ```yaml
 # easy-coding-standard.yml
 parameters:
-    max_line_length: 100
+    max_line_length: 100 # default: 120
+    break_long_lines: true # default: true
+    inline_short_lines: false # default: true
 ```
 
 ### Magic PHP methods (`__*()`) should respect their casing form

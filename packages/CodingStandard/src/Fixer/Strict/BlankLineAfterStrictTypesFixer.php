@@ -9,7 +9,7 @@ use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Tokenizer\Tokens;
 use PhpCsFixer\WhitespacesFixerConfig;
 use SplFileInfo;
-use Symplify\CodingStandard\Fixer\TokenBuilder;
+use Symplify\TokenRunner\Builder\FixerBuilder\TokenBuilder;
 
 /**
  * Inspired at https://github.com/aidantwoods/PHP-CS-Fixer/tree/feature/DeclareStrictTypesFixer-split

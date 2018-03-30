@@ -9,8 +9,8 @@ use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
-use Symplify\CodingStandard\Fixer\TokenBuilder;
 use Symplify\TokenRunner\Analyzer\FixerAnalyzer\DocBlockFinder;
+use Symplify\TokenRunner\Builder\FixerBuilder\TokenBuilder;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\ClassWrapperFactory;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\DocBlockWrapperFactory;
 

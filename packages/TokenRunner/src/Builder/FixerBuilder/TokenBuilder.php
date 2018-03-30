@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Fixer;
+namespace Symplify\TokenRunner\Builder\FixerBuilder;
 
 use PhpCsFixer\Tokenizer\CT;
 use PhpCsFixer\Tokenizer\Token;
