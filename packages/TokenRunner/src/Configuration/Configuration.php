@@ -16,10 +16,32 @@ final class Configuration
      */
     private $whitespacesFixerConfig;
 
-    public function __construct(int $maxLineLength, WhitespacesFixerConfig $whitespacesFixerConfig)
+    /**
+     * @var bool
+     */
+    private $breakLongLines = false;
+
+    /**
+     * @var bool
+     */
+    private $inlineShortLines = false;
+
+    public function __construct(int $maxLineLength, bool $breakLongLines, bool $inlineShortLines, WhitespacesFixerConfig $whitespacesFixerConfig)
     {
         $this->maxLineLength = $maxLineLength;
         $this->whitespacesFixerConfig = $whitespacesFixerConfig;
+        $this->breakLongLines = $breakLongLines;
+        $this->inlineShortLines = $inlineShortLines;
+    }
+
+    public function shouldBreakLongLines(): bool
+    {
+        return $this->breakLongLines;
+    }
+
+    public function shouldInlineShortLines(): bool
+    {
+        return $this->inlineShortLines;
     }
 
     public function getMaxLineLength(): int
