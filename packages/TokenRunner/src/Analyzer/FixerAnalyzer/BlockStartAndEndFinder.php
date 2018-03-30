@@ -13,6 +13,7 @@ final class BlockStartAndEndFinder
     private $contentToBlockType = [
         '(' => Tokens::BLOCK_TYPE_PARENTHESIS_BRACE,
         '[' => Tokens::BLOCK_TYPE_ARRAY_SQUARE_BRACE,
+        ']' => Tokens::BLOCK_TYPE_ARRAY_SQUARE_BRACE,
     ];
 
     public function findInTokensByBlockStart(Tokens $tokens, int $blockStart): BlockStartAndEndInfo
@@ -29,6 +30,16 @@ final class BlockStartAndEndFinder
         $blockType = $this->getBlockTypeByContent($token->getContent());
 
         return new BlockStartAndEndInfo($blockStart, $tokens->findBlockEnd($blockType, $blockStart));
+    }
+
+    public function findInTokensByBlockEnd(Tokens $tokens, int $blockEnd): BlockStartAndEndInfo
+    {
+        $token = $tokens[$blockEnd];
+
+        // @todo: shift "function" to its "("?
+        $blockType = $this->getBlockTypeByContent($token->getContent());
+
+        return new BlockStartAndEndInfo($tokens->findBlockStart($blockType, $blockEnd), $blockEnd);
     }
 
     public function findInTokensByPositionAndContent(
@@ -53,7 +64,7 @@ final class BlockStartAndEndFinder
         }
 
         throw new MissingImplementationException(sprintf(
-            'Implementation is missing for "%s" in "%s". Just add it to "%s" property with proper bock type',
+            'Implementation is missing for "%s" in "%s". Just add it to "%s" property with proper block type',
             $content,
             __METHOD__,
             '$contentToBlockType'

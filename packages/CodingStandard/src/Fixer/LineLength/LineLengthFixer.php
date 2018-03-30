@@ -14,6 +14,7 @@ use SplFileInfo;
 use Symplify\TokenRunner\Analyzer\FixerAnalyzer\BlockStartAndEndFinder;
 use Symplify\TokenRunner\Analyzer\FixerAnalyzer\BlockStartAndEndInfo;
 use Symplify\TokenRunner\Transformer\FixerTransformer\LineLengthTransformer;
+use Throwable;
 
 final class LineLengthFixer implements DefinedFixerInterface
 {
@@ -56,6 +57,7 @@ $array = ["loooooooooooooooooooooooooooooooongArraaaaaaaaaaay", "loooooooooooooo
             // "array"();
             CT::T_ARRAY_SQUARE_BRACE_OPEN,
             '(',
+            ')',
             // "function"
             T_FUNCTION,
             // "use" (...)
@@ -71,12 +73,22 @@ $array = ["loooooooooooooooooooooooooooooooongArraaaaaaaaaaay", "loooooooooooooo
         $reversedTokens = array_reverse($tokens->toArray(), true);
 
         foreach ($reversedTokens as $position => $token) {
+            if ($token->getContent() === ')') {
+                $this->processMethodCall($tokens, $position);
+                continue;
+            }
+
             if ($token->isGivenKind([T_FUNCTION, CT::T_USE_LAMBDA, T_NEW])) {
                 $this->processFunction($tokens, $position);
                 continue;
             }
+        }
 
-            if ($token->isGivenKind([T_ARRAY, CT::T_ARRAY_SQUARE_BRACE_OPEN])) {
+        /** @var Token[] $reversedTokens */
+        $reversedTokens = array_reverse($tokens->toArray(), true);
+
+        foreach ($reversedTokens as $position => $token) {
+            if ($token->isGivenKind([CT::T_ARRAY_SQUARE_BRACE_CLOSE])) {
                 $this->processArray($tokens, $position);
                 continue;
             }
@@ -127,7 +139,8 @@ $array = ["loooooooooooooooooooooooooooooooongArraaaaaaaaaaay", "loooooooooooooo
 
     private function processArray(Tokens $tokens, int $position): void
     {
-        $blockStartAndEndInfo = $this->blockStartAndEndFinder->findInTokensByBlockStart($tokens, $position);
+        // @todo make start/end smart
+        $blockStartAndEndInfo = $this->blockStartAndEndFinder->findInTokensByBlockEnd($tokens, $position);
         if ($this->shouldSkip($tokens, $blockStartAndEndInfo)) {
             return;
         }
@@ -147,5 +160,66 @@ $array = ["loooooooooooooooooooooooooooooooongArraaaaaaaaaaay", "loooooooooooooo
         $nextToken = $tokens[$nextTokenPosition];
 
         return Strings::startsWith($nextToken->getContent(), '<<<');
+    }
+
+    /**
+     * We go throught tokens from down to up,
+     * so we need to find ")" and then the start of function
+     */
+    private function matchNamePositionForEndOfFunctionCall(Tokens $tokens, Token $token, int $position): ?int
+    {
+        try {
+            $blockStart = $tokens->findBlockStart(Tokens::BLOCK_TYPE_PARENTHESIS_BRACE, $position);
+        } catch (Throwable $throwable) {
+            // not a block start
+            return null;
+        }
+
+        $previousTokenPosition = $blockStart - 1;
+        $possibleMethodNameToken = $tokens[$previousTokenPosition];
+
+        // not a "methodCall()"
+        if (! $possibleMethodNameToken->isGivenKind(T_STRING)) {
+            return null;
+        }
+
+        // starts with small letter?
+        $methodOrFunctionName = $possibleMethodNameToken->getContent();
+        if (! ctype_lower($methodOrFunctionName[0])) {
+            return null;
+        }
+
+        // is "someCall()"? we don't care, there are no arguments
+        if ($tokens[$blockStart + 1]->equals(')')) {
+            return null;
+        }
+
+        return $previousTokenPosition;
+    }
+
+    private function processMethodCall(Tokens $tokens, int $position): void
+    {
+        $token = $tokens[$position];
+
+        $methodNamePosition = $this->matchNamePositionForEndOfFunctionCall($tokens, $token, $position);
+        if ($methodNamePosition === null) {
+            return;
+        }
+
+        $blockStartAndEndInfo = $this->blockStartAndEndFinder->findInTokensByPositionAndContent(
+            $tokens,
+            $methodNamePosition,
+            '('
+        );
+
+        if ($blockStartAndEndInfo === null) {
+            return;
+        }
+
+        $this->lineLengthTransformer->fixStartPositionToEndPosition(
+            $blockStartAndEndInfo,
+            $tokens,
+            $methodNamePosition
+        );
     }
 }

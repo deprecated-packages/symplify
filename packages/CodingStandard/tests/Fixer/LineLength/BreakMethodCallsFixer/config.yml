@@ -1,2 +1,2 @@
 services:
-    Symplify\CodingStandard\Fixer\LineLength\BreakMethodCallsFixer: ~
+    Symplify\CodingStandard\Fixer\LineLength\LineLengthFixer: ~

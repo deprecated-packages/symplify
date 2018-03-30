@@ -12,8 +12,6 @@ final class FixedSerializer extends Serializer
     public function getDocComment(DocBlock $docBlock): string
     {
         // tags
-        $comment = (new OriginalSpacingCompleter())->completeTagSpaces(
-            $comment, $this->originalContent
-        );
+        $comment = (new OriginalSpacingCompleter())->completeTagSpaces($comment, $this->originalContent);
     }
 }
