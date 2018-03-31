@@ -34,16 +34,6 @@ final class MethodWrapper
     private $bodyEnd;
 
     /**
-     * @var int
-     */
-    private $argumentsBracketStart;
-
-    /**
-     * @var int
-     */
-    private $argumentsBracketEnd;
-
-    /**
      * @var DocBlockWrapper|null
      */
     private $docBlockWrapper;
