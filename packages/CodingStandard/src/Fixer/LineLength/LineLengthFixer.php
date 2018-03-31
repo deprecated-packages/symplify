@@ -179,7 +179,12 @@ $array = ["loooooooooooooooooooooooooooooooongArraaaaaaaaaaay", "loooooooooooooo
             return;
         }
 
-        $this->lineLengthTransformer->fixStartPositionToEndPosition($blockInfo, $tokens, $position, $this->configuration[self::LINE_LENGHT_OPTION]);
+        $this->lineLengthTransformer->fixStartPositionToEndPosition(
+            $blockInfo,
+            $tokens,
+            $position,
+            $this->configuration[self::LINE_LENGHT_OPTION]
+        );
     }
 
     private function shouldSkip(Tokens $tokens, BlockInfo $blockInfo): bool
@@ -246,6 +251,11 @@ $array = ["loooooooooooooooooooooooooooooooongArraaaaaaaaaaay", "loooooooooooooo
             return;
         }
 
-        $this->lineLengthTransformer->fixStartPositionToEndPosition($blockInfo, $tokens, $methodNamePosition, $this->configuration[self::LINE_LENGHT_OPTION]);
+        $this->lineLengthTransformer->fixStartPositionToEndPosition(
+            $blockInfo,
+            $tokens,
+            $methodNamePosition,
+            $this->configuration[self::LINE_LENGHT_OPTION]
+        );
     }
 }
