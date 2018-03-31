@@ -4,6 +4,7 @@ $array = [
     1 => 'looooooooooooooooooooooooooongArraaaaaaaaaaay',
     2 => 'looooooooooooooooooooooooooooongArraaaaaaaaaaay'
 ];
+
 $array = [
     'toooShort',
     'tooShort'
