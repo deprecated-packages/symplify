@@ -183,7 +183,9 @@ $array = ["loooooooooooooooooooooooooooooooongArraaaaaaaaaaay", "loooooooooooooo
             $blockInfo,
             $tokens,
             $position,
-            $this->configuration[self::LINE_LENGHT_OPTION]
+            $this->configuration[self::LINE_LENGHT_OPTION],
+            $this->configuration[self::BREAK_LONG_LINES_OPTION],
+            $this->configuration[self::INLINE_SHORT_LINES_OPTION]
         );
     }
 
@@ -255,7 +257,9 @@ $array = ["loooooooooooooooooooooooooooooooongArraaaaaaaaaaay", "loooooooooooooo
             $blockInfo,
             $tokens,
             $methodNamePosition,
-            $this->configuration[self::LINE_LENGHT_OPTION]
+            $this->configuration[self::LINE_LENGHT_OPTION],
+            $this->configuration[self::BREAK_LONG_LINES_OPTION],
+            $this->configuration[self::INLINE_SHORT_LINES_OPTION]
         );
     }
 }

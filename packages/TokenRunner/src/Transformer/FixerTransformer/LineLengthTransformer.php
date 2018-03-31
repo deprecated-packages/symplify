@@ -6,10 +6,10 @@ use Nette\Utils\Strings;
 use PhpCsFixer\Tokenizer\CT;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
+use PhpCsFixer\WhitespacesFixerConfig;
 use Symplify\TokenRunner\Analyzer\FixerAnalyzer\BlockInfo;
 use Symplify\TokenRunner\Analyzer\FixerAnalyzer\IndentDetector;
 use Symplify\TokenRunner\Analyzer\FixerAnalyzer\TokenSkipper;
-use Symplify\TokenRunner\Configuration\Configuration;
 
 final class LineLengthTransformer
 {
@@ -17,11 +17,6 @@ final class LineLengthTransformer
      * @var IndentDetector
      */
     private $indentDetector;
-
-    /**
-     * @var Configuration
-     */
-    private $configuration;
 
     /**
      * @var string
@@ -42,32 +37,37 @@ final class LineLengthTransformer
      * @var TokenSkipper
      */
     private $tokenSkipper;
+    /**
+     * @var WhitespacesFixerConfig
+     */
+    private $whitespacesFixerConfig;
 
     public function __construct(
-        Configuration $configuration,
         IndentDetector $indentDetector,
-        TokenSkipper $tokenSkipper
+        TokenSkipper $tokenSkipper,
+        WhitespacesFixerConfig $whitespacesFixerConfig
     ) {
         $this->indentDetector = $indentDetector;
-        $this->configuration = $configuration;
         $this->tokenSkipper = $tokenSkipper;
+        $this->whitespacesFixerConfig = $whitespacesFixerConfig;
     }
 
     public function fixStartPositionToEndPosition(
         BlockInfo $blockInfo,
         Tokens $tokens,
         int $currentPosition,
-        int $lineLength
+        int $lineLength,
+        bool $breakLongLines,
+        bool $inlineShortLine
     ): void {
         $firstLineLength = $this->getFirstLineLength($blockInfo->getStart(), $tokens);
-        if ($firstLineLength > $lineLength) {
+        if ($firstLineLength > $lineLength && $breakLongLines) {
             $this->breakItems($blockInfo, $tokens);
             return;
         }
 
         $fullLineLength = $this->getLengthFromStartEnd($blockInfo, $tokens);
-
-        if ($fullLineLength <= $lineLength) {
+        if ($fullLineLength <= $lineLength && $inlineShortLine) {
             $this->inlineItems($blockInfo->getEnd(), $tokens, $currentPosition);
             return;
         }
@@ -75,10 +75,6 @@ final class LineLengthTransformer
 
     public function breakItems(BlockInfo $blockInfo, Tokens $tokens): void
     {
-        if ($this->configuration->shouldBreakLongLines() === false) {
-            return;
-        }
-
         $this->prepareIndentWhitespaces($tokens, $blockInfo->getStart());
 
         // from bottom top, to prevent skipping ids
@@ -113,15 +109,15 @@ final class LineLengthTransformer
 
     private function prepareIndentWhitespaces(Tokens $tokens, int $arrayStartIndex): void
     {
-        $indentLevel = $this->indentDetector->detectOnPosition($tokens, $arrayStartIndex, $this->configuration);
+        $indentLevel = $this->indentDetector->detectOnPosition($tokens, $arrayStartIndex);
 
-        $this->indentWhitespace = str_repeat($this->configuration->getIndent(), $indentLevel + 1);
-        $this->closingBracketNewlineIndentWhitespace = $this->configuration->getLineEnding() . str_repeat(
-            $this->configuration->getIndent(),
+        $this->indentWhitespace = str_repeat($this->whitespacesFixerConfig->getIndent(), $indentLevel + 1);
+        $this->closingBracketNewlineIndentWhitespace = $this->whitespacesFixerConfig->getLineEnding() . str_repeat(
+            $this->whitespacesFixerConfig->getIndent(),
             $indentLevel
         );
 
-        $this->newlineIndentWhitespace = $this->configuration->getLineEnding() . $this->indentWhitespace;
+        $this->newlineIndentWhitespace = $this->whitespacesFixerConfig->getLineEnding() . $this->indentWhitespace;
     }
 
     private function getFirstLineLength(int $startPosition, Tokens $tokens): int
@@ -158,10 +154,6 @@ final class LineLengthTransformer
 
     private function inlineItems(int $endPosition, Tokens $tokens, int $currentPosition): void
     {
-        if ($this->configuration->shouldInlineShortLines() === false) {
-            return;
-        }
-
         // replace PHP_EOL with " "
         for ($i = $currentPosition; $i < $endPosition; ++$i) {
             $currentToken = $tokens[$i];
@@ -253,7 +245,7 @@ final class LineLengthTransformer
      */
     private function isLastItem(Tokens $tokens, int $i): bool
     {
-        return Strings::contains($tokens[$i + 1]->getContent(), $this->configuration->getLineEnding());
+        return Strings::contains($tokens[$i + 1]->getContent(), $this->whitespacesFixerConfig->getLineEnding());
     }
 
     private function isFollowedByComment(Tokens $tokens, int $i): bool
