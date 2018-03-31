@@ -69,6 +69,11 @@ final class UnusedPublicMethodSniff implements Sniff, DualRunInterface
      */
     private $classWrapperFactory;
 
+    /**
+     * @var string[]
+     */
+    private $unusedMethodNames = [];
+
     public function __construct(ClassWrapperFactory $classWrapperFactory)
     {
         $this->classWrapperFactory = $classWrapperFactory;
@@ -92,20 +97,33 @@ final class UnusedPublicMethodSniff implements Sniff, DualRunInterface
         $this->position = $position;
 
         if ($this->runNumber === 1) {
+            // already collected from this file => skip it
+            if (count($this->publicMethodNames)) {
+                return;
+            }
+
             $this->collectPublicMethodNames($file);
             $this->collectMethodCalls();
+            return;
         }
 
         if ($this->runNumber === 2) {
+            // prepare unused method names if not ready
+            if ($this->unusedMethodNames === []) {
+                $this->publicMethodNames = array_unique($this->publicMethodNames);
+                $this->unusedMethodNames = array_diff($this->publicMethodNames, $this->calledMethodNames);
+            }
+
             if ($this->shouldSkipFile($file)) {
                 return;
             }
 
-            $this->publicMethodNames = array_unique($this->publicMethodNames);
+            // every method name was used, nothing to check
+            if ($this->unusedMethodNames === []) {
+                return;
+            }
 
-            $unusedMethodNames = array_diff($this->publicMethodNames, $this->calledMethodNames);
-
-            $this->checkUnusedPublicMethods($unusedMethodNames);
+            $this->checkUnusedPublicMethods();
         }
     }
 
@@ -116,12 +134,12 @@ final class UnusedPublicMethodSniff implements Sniff, DualRunInterface
 
     private function collectPublicMethodNames(File $file): void
     {
+        // @todo: is this useful here?
         if ($this->shouldSkipFile($file)) {
             return;
         }
 
         $token = $this->tokens[$this->position];
-
         if (! $this->isPublicMethodToken($token)) {
             return;
         }
@@ -165,14 +183,16 @@ final class UnusedPublicMethodSniff implements Sniff, DualRunInterface
         }
 
         if ($token['code'] === T_STRING) {
+            // starts with uppercase name, is not a method name
+            if (ctype_upper($token['content'][0])) {
+                return;
+            }
+
             $this->publicMethodNames[] = $token['content'];
         }
     }
 
-    /**
-     * @param string[] $unusedMethodNames
-     */
-    private function checkUnusedPublicMethods(array $unusedMethodNames): void
+    private function checkUnusedPublicMethods(): void
     {
         $token = $this->tokens[$this->position];
 
@@ -183,7 +203,7 @@ final class UnusedPublicMethodSniff implements Sniff, DualRunInterface
         $methodNameToken = $this->tokens[$this->position + 2];
         $methodName = $methodNameToken['content'];
 
-        if (! in_array($methodName, $unusedMethodNames, true)) {
+        if (! in_array($methodName, $this->unusedMethodNames, true)) {
             return;
         }
 
@@ -196,22 +216,7 @@ final class UnusedPublicMethodSniff implements Sniff, DualRunInterface
             return false;
         }
 
-        $previousToken = $this->tokens[$this->position - 2];
-        if ($previousToken['code'] === T_STATIC) {
-            $prePreviousToken = $this->tokens[$this->position - 4];
-            // not a public static function
-            if ($prePreviousToken['code'] !== T_PUBLIC) {
-                return false;
-            }
-        } elseif ($previousToken['code'] !== T_PUBLIC) {
-            // not a public function
-            return false;
-        }
-
-        $nextToken = $this->tokens[$this->position + 2];
-
-        // is function with name
-        return $nextToken['code'] === T_STRING;
+        return (bool) $this->file->findPrevious(T_PUBLIC, $this->position, $this->position - 5);
     }
 
     /**
