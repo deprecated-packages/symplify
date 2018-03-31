@@ -144,14 +144,4 @@ final class MethodWrapper
 
         return $argumentNames;
     }
-
-    public function getArgumentsBracketStart(): int
-    {
-        return $this->argumentsBracketStart;
-    }
-
-    public function getArgumentsBracketEnd(): int
-    {
-        return $this->argumentsBracketEnd;
-    }
 }
