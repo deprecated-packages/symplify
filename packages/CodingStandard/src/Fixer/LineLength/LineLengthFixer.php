@@ -69,27 +69,26 @@ $array = ["loooooooooooooooooooooooooooooooongArraaaaaaaaaaay", "loooooooooooooo
 
     public function fix(SplFileInfo $file, Tokens $tokens): void
     {
-        /** @var Token[] $reversedTokens */
-        $reversedTokens = array_reverse($tokens->toArray(), true);
+        // function arguments, function call parameters, lambda use()
+        for ($position = count($tokens) - 1; $position >= 0; --$position) {
+            $token = $tokens[$position];
 
-        foreach ($reversedTokens as $position => $token) {
-            if ($token->getContent() === ')') {
+            if ($token->equals(')')) {
                 $this->processMethodCall($tokens, $position);
                 continue;
             }
 
             if ($token->isGivenKind([T_FUNCTION, CT::T_USE_LAMBDA, T_NEW])) {
-                $this->processFunction($tokens, $position);
+                $this->processFunctionOrArray($tokens, $position);
                 continue;
             }
         }
 
-        /** @var Token[] $reversedTokens */
-        $reversedTokens = array_reverse($tokens->toArray(), true);
-
-        foreach ($reversedTokens as $position => $token) {
-            if ($token->isGivenKind([CT::T_ARRAY_SQUARE_BRACE_CLOSE])) {
-                $this->processArray($tokens, $position);
+        // arrays
+        for ($position = count($tokens) - 1; $position >= 0; --$position) {
+            $token = $tokens[$position];
+            if ($token->isGivenKind(CT::T_ARRAY_SQUARE_BRACE_CLOSE) || ($token->equals(')') && $token->isArray())) {
+                $this->processFunctionOrArray($tokens, $position);
                 continue;
             }
         }
@@ -118,29 +117,9 @@ $array = ["loooooooooooooooooooooooooooooooongArraaaaaaaaaaay", "loooooooooooooo
         return true;
     }
 
-    private function processFunction(Tokens $tokens, int $position): void
+    private function processFunctionOrArray(Tokens $tokens, int $position): void
     {
-        $blockStartAndEndInfo = $this->blockStartAndEndFinder->findInTokensByPositionAndContent(
-            $tokens,
-            $position,
-            '('
-        );
-
-        if ($blockStartAndEndInfo === null) {
-            return;
-        }
-
-        if ($this->shouldSkip($tokens, $blockStartAndEndInfo)) {
-            return;
-        }
-
-        $this->lineLengthTransformer->fixStartPositionToEndPosition($blockStartAndEndInfo, $tokens, $position);
-    }
-
-    private function processArray(Tokens $tokens, int $position): void
-    {
-        // @todo make start/end smart
-        $blockStartAndEndInfo = $this->blockStartAndEndFinder->findInTokensByBlockEnd($tokens, $position);
+        $blockStartAndEndInfo = $this->blockStartAndEndFinder->findInTokensByEdge($tokens, $position);
         if ($this->shouldSkip($tokens, $blockStartAndEndInfo)) {
             return;
         }
@@ -150,7 +129,7 @@ $array = ["loooooooooooooooooooooooooooooooongArraaaaaaaaaaay", "loooooooooooooo
 
     private function shouldSkip(Tokens $tokens, BlockStartAndEndInfo $blockStartAndEndInfo): bool
     {
-        // no arguments => skip
+        // no items inside => skip
         if (($blockStartAndEndInfo->getEnd() - $blockStartAndEndInfo->getStart()) <= 1) {
             return true;
         }

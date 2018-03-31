@@ -2,6 +2,8 @@
 
 namespace Symplify\TokenRunner\Analyzer\FixerAnalyzer;
 
+use PhpCsFixer\Tokenizer\CT;
+use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use Symplify\TokenRunner\Exception\MissingImplementationException;
 
@@ -12,34 +14,48 @@ final class BlockStartAndEndFinder
      */
     private $contentToBlockType = [
         '(' => Tokens::BLOCK_TYPE_PARENTHESIS_BRACE,
+        ')' => Tokens::BLOCK_TYPE_PARENTHESIS_BRACE,
         '[' => Tokens::BLOCK_TYPE_ARRAY_SQUARE_BRACE,
         ']' => Tokens::BLOCK_TYPE_ARRAY_SQUARE_BRACE,
+        '{' => Tokens::BLOCK_TYPE_CURLY_BRACE,
+        '}' => Tokens::BLOCK_TYPE_CURLY_BRACE,
     ];
 
-    public function findInTokensByBlockStart(Tokens $tokens, int $blockStart): BlockStartAndEndInfo
-    {
-        $token = $tokens[$blockStart];
+    /**
+     * @var string[]
+     */
+    private $startEdges = ['(', '[', '{'];
 
-        // shift "array" to "("
+    /**
+     * Accepts position to both start and end token, e.g. (, ), [, ], {, }
+     * also to: "array"(, "function" ...(, "use"(, "new" ...(
+     */
+    public function findInTokensByEdge(Tokens $tokens, int $position): BlockStartAndEndInfo
+    {
+        $token = $tokens[$position];
+
+        // shift "array" to "(", event its position
         if ($token->isGivenKind(T_ARRAY)) {
-            $blockStart = $tokens->getNextMeaningfulToken($blockStart);
-            $token = $tokens[$blockStart];
+            $position = $tokens->getNextMeaningfulToken($position);
+            $token = $tokens[$position];
         }
 
-        // @todo: shift "function" to its "("?
-        $blockType = $this->getBlockTypeByContent($token->getContent());
+        if ($token->isGivenKind([T_FUNCTION, CT::T_USE_LAMBDA, T_NEW])) {
+            $position = $tokens->getNextTokenOfKind($position, ['(']);
+            $token = $tokens[$position];
+        }
 
-        return new BlockStartAndEndInfo($blockStart, $tokens->findBlockEnd($blockType, $blockStart));
-    }
+        $blockType = $this->getBlockTypeByToken($token);
 
-    public function findInTokensByBlockEnd(Tokens $tokens, int $blockEnd): BlockStartAndEndInfo
-    {
-        $token = $tokens[$blockEnd];
+        if (in_array($token->getContent(), $this->startEdges, true)) {
+            $blockStart = $position;
+            $blockEnd = $tokens->findBlockEnd($blockType, $blockStart);
+        } else {
+            $blockEnd = $position;
+            $blockStart = $tokens->findBlockStart($blockType, $blockEnd);
+        }
 
-        // @todo: shift "function" to its "("?
-        $blockType = $this->getBlockTypeByContent($token->getContent());
-
-        return new BlockStartAndEndInfo($tokens->findBlockStart($blockType, $blockEnd), $blockEnd);
+        return new BlockStartAndEndInfo($blockStart, $blockEnd);
     }
 
     public function findInTokensByPositionAndContent(
@@ -69,5 +85,17 @@ final class BlockStartAndEndFinder
             __METHOD__,
             '$contentToBlockType'
         ));
+    }
+
+    private function getBlockTypeByToken(Token $token): int
+    {
+        if ($token->isArray()) {
+            if (in_array($token->getContent(), ['[', ']'], true)) {
+                return Tokens::BLOCK_TYPE_ARRAY_SQUARE_BRACE;
+            }
+            return Tokens::BLOCK_TYPE_ARRAY_INDEX_CURLY_BRACE;
+        }
+
+        return $this->getBlockTypeByContent($token->getContent());
     }
 }

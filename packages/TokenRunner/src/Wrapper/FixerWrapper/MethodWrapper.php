@@ -34,16 +34,6 @@ final class MethodWrapper
     private $bodyEnd;
 
     /**
-     * @var int
-     */
-    private $argumentsBracketStart;
-
-    /**
-     * @var int
-     */
-    private $argumentsBracketEnd;
-
-    /**
      * @var DocBlockWrapper|null
      */
     private $docBlockWrapper;
@@ -65,12 +55,6 @@ final class MethodWrapper
         if ($this->bodyStart) {
             $this->bodyEnd = $this->tokens->findBlockEnd(Tokens::BLOCK_TYPE_CURLY_BRACE, $this->bodyStart);
         }
-
-        $this->argumentsBracketStart = $this->tokens->getNextTokenOfKind($this->index, ['(']);
-        $this->argumentsBracketEnd = $this->tokens->findBlockEnd(
-            Tokens::BLOCK_TYPE_PARENTHESIS_BRACE,
-            $this->argumentsBracketStart
-        );
 
         $this->docBlockWrapper = $docBlockWrapper;
         $this->argumentWrappers = $argumentWrappers;
@@ -143,15 +127,5 @@ final class MethodWrapper
         }
 
         return $argumentNames;
-    }
-
-    public function getArgumentsBracketStart(): int
-    {
-        return $this->argumentsBracketStart;
-    }
-
-    public function getArgumentsBracketEnd(): int
-    {
-        return $this->argumentsBracketEnd;
     }
 }

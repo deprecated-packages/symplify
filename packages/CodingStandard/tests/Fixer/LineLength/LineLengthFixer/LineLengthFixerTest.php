@@ -25,6 +25,8 @@ final class LineLengthFixerTest extends AbstractCheckerTestCase
         yield [__DIR__ . '/correct/correct3.php.inc'];
         yield [__DIR__ . '/correct/correct4.php.inc'];
         yield [__DIR__ . '/correct/correct5.php.inc'];
+        yield [__DIR__ . '/correct/correct6.php.inc'];
+        yield [__DIR__ . '/correct/correct7.php.inc'];
     }
 
     /**
@@ -50,6 +52,9 @@ final class LineLengthFixerTest extends AbstractCheckerTestCase
         yield [__DIR__ . '/wrong/wrong11.php.inc', __DIR__ . '/fixed/fixed11.php.inc'];
         yield [__DIR__ . '/wrong/wrong12.php.inc', __DIR__ . '/fixed/fixed12.php.inc'];
         yield [__DIR__ . '/wrong/wrong13.php.inc', __DIR__ . '/fixed/fixed13.php.inc'];
+        yield [__DIR__ . '/wrong/wrong14.php.inc', __DIR__ . '/fixed/fixed14.php.inc'];
+        yield [__DIR__ . '/wrong/wrong15.php.inc', __DIR__ . '/fixed/fixed15.php.inc'];
+        yield [__DIR__ . '/wrong/wrong16.php.inc', __DIR__ . '/fixed/fixed16.php.inc'];
     }
 
     protected function provideConfig(): string

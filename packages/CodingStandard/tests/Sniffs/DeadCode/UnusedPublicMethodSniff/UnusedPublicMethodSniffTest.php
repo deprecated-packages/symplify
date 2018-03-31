@@ -10,6 +10,14 @@ use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;
  */
 final class UnusedPublicMethodSniffTest extends AbstractCheckerTestCase
 {
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        // to reset the cache inside the Sniff
+        unset(parent::$cachedContainers[md5_file($this->provideConfig())]);
+    }
+
     public function testCorrect(): void
     {
         $this->doTestCorrectFile(__DIR__ . '/correct/correct.php.inc');

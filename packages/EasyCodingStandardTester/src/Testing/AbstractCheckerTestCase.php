@@ -3,6 +3,7 @@
 namespace Symplify\EasyCodingStandardTester\Testing;
 
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symplify\EasyCodingStandard\Configuration\Exception\NoCheckersLoadedException;
 use Symplify\EasyCodingStandard\DependencyInjection\ContainerFactory;
 use Symplify\EasyCodingStandard\Error\ErrorAndDiffCollector;
@@ -13,6 +14,11 @@ use Symplify\PackageBuilder\Finder\SymfonyFileInfoFactory;
 
 abstract class AbstractCheckerTestCase extends TestCase
 {
+    /**
+     * @var ContainerInterface[]
+     */
+    protected static $cachedContainers = [];
+
     /**
      * @var FixerFileProcessor
      */
@@ -38,11 +44,14 @@ abstract class AbstractCheckerTestCase extends TestCase
         $this->fileGuard = new FileGuard();
         $this->fileGuard->ensureFileExists($this->provideConfig(), get_called_class());
 
-        $container = (new ContainerFactory())->createWithConfig($this->provideConfig());
+        $container = $this->getContainer();
 
         $this->fixerFileProcessor = $container->get(FixerFileProcessor::class);
         $this->sniffFileProcessor = $container->get(SniffFileProcessor::class);
         $this->errorAndDiffCollector = $container->get(ErrorAndDiffCollector::class);
+
+        // reset error count from previous possibly container cached run
+        $this->errorAndDiffCollector->resetCounters();
 
         parent::setUp();
     }
@@ -128,5 +137,15 @@ abstract class AbstractCheckerTestCase extends TestCase
                 . 'section, load them via "--config <file>.yml" or "--level <level> option.'
             );
         }
+    }
+
+    private function getContainer(): ContainerInterface
+    {
+        $fileHash = md5_file($this->provideConfig());
+        if (isset(self::$cachedContainers[$fileHash])) {
+            return self::$cachedContainers[$fileHash];
+        }
+
+        return self::$cachedContainers[$fileHash] = (new ContainerFactory())->createWithConfig($this->provideConfig());
     }
 }
