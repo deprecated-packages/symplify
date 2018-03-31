@@ -11,16 +11,16 @@ use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;
 final class ConfiguredLineLengthFixerTest extends AbstractCheckerTestCase
 {
     /**
-     * @dataProvider provideCorrectCases()
+     * @dataProvider wrongToFixedCases()
      */
-    public function testCorrectCases(string $file): void
+    public function test(string $wrongFile, string $fixedFile): void
     {
-        $this->doTestCorrectFile($file);
+        $this->doTestWrongToFixedFile($wrongFile, $fixedFile);
     }
 
-    public function provideCorrectCases(): Iterator
+    public function wrongToFixedCases(): Iterator
     {
-        yield [__DIR__ . '/correct/configured-correct.php.inc'];
+        yield [__DIR__ . '/wrong/configured-wrong.php.inc', __DIR__ . '/fixed/configured-fixed.php.inc'];
     }
 
     protected function provideConfig(): string
