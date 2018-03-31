@@ -119,16 +119,7 @@ $array = ["loooooooooooooooooooooooooooooooongArraaaaaaaaaaay", "loooooooooooooo
 
     private function processFunction(Tokens $tokens, int $position): void
     {
-        $blockStartAndEndInfo = $this->blockStartAndEndFinder->findInTokensByPositionAndContent(
-            $tokens,
-            $position,
-            '('
-        );
-
-        if ($blockStartAndEndInfo === null) {
-            return;
-        }
-
+        $blockStartAndEndInfo = $this->blockStartAndEndFinder->findInTokensByEdge($tokens, $position);
         if ($this->shouldSkip($tokens, $blockStartAndEndInfo)) {
             return;
         }

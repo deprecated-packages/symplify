@@ -2,6 +2,7 @@
 
 namespace Symplify\TokenRunner\Analyzer\FixerAnalyzer;
 
+use PhpCsFixer\Tokenizer\CT;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use Symplify\TokenRunner\Exception\MissingImplementationException;
@@ -25,6 +26,10 @@ final class BlockStartAndEndFinder
      */
     private $startEdges = ['(', '[', '{'];
 
+    /**
+     * Accepts position to both start and end token, e.g. (, ), [, ], {, }
+     * also to: "array"(, "function" ...(, "use"(, "new" ...(
+     */
     public function findInTokensByEdge(Tokens $tokens, int $position): BlockStartAndEndInfo
     {
         $token = $tokens[$position];
@@ -32,6 +37,11 @@ final class BlockStartAndEndFinder
         // shift "array" to "(", event its position
         if ($token->isGivenKind(T_ARRAY)) {
             $position = $tokens->getNextMeaningfulToken($position);
+            $token = $tokens[$position];
+        }
+
+        if ($token->isGivenKind([T_FUNCTION, CT::T_USE_LAMBDA, T_NEW])) {
+            $position = $tokens->getNextTokenOfKind($position, ['(']);
             $token = $tokens[$position];
         }
 
