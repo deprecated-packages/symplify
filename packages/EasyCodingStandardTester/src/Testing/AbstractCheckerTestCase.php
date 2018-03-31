@@ -17,7 +17,7 @@ abstract class AbstractCheckerTestCase extends TestCase
     /**
      * @var ContainerInterface[]
      */
-    private static $cachedContainers = [];
+    protected static $cachedContainers = [];
 
     /**
      * @var FixerFileProcessor
@@ -141,7 +141,7 @@ abstract class AbstractCheckerTestCase extends TestCase
 
     private function getContainer(): ContainerInterface
     {
-        $fileHash = md5($this->provideConfig());
+        $fileHash = md5_file($this->provideConfig());
         if (isset(self::$cachedContainers[$fileHash])) {
             return self::$cachedContainers[$fileHash];
         }

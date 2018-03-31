@@ -249,7 +249,7 @@ final class UnusedPublicMethodSniff implements Sniff, DualRunInterface
     }
 
     /**
-     * @return mixed|null
+     * @return mixed[]|null
      */
     private function findNextStringToken(int $position): ?array
     {
