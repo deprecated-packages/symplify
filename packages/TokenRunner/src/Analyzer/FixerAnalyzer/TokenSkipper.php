@@ -7,40 +7,33 @@ use PhpCsFixer\Tokenizer\Tokens;
 
 final class TokenSkipper
 {
-    public function skipBlocks(Tokens $tokens, int $i): int
+    /**
+     * @var BlockFinder
+     */
+    private $blockFinder;
+
+    public function __construct(BlockFinder $blockFinder)
     {
-        $tokenCountToSkip = 0;
-        $token = $tokens[$i];
-
-        if ($token->isGivenKind(CT::T_ARRAY_SQUARE_BRACE_OPEN)) {
-            $blockEnd = $tokens->findBlockEnd(Tokens::BLOCK_TYPE_ARRAY_SQUARE_BRACE, $i);
-            $tokenCountToSkip = $blockEnd - $i;
-        }
-
-        if ($token->isGivenKind(T_ARRAY) && $token->equals('(')) {
-            $blockEnd = $tokens->findBlockEnd(Tokens::BLOCK_TYPE_PARENTHESIS_BRACE, $i);
-            $tokenCountToSkip = $blockEnd - $i;
-        }
-
-        return $i + $tokenCountToSkip;
+        $this->blockFinder = $blockFinder;
     }
 
-    public function skipBlocksReversed(Tokens $tokens, int $i): int
+    public function skipBlocks(Tokens $tokens, int $position): int
     {
-        $tokenCountToSkip = 0;
-        $token = $tokens[$i];
-
-        // @todo use BlockFinder
-        if ($token->isGivenKind(CT::T_ARRAY_SQUARE_BRACE_CLOSE)) {
-            $blockStart = $tokens->findBlockStart(Tokens::BLOCK_TYPE_ARRAY_SQUARE_BRACE, $i);
-            $tokenCountToSkip = $i - $blockStart;
+        $token = $tokens[$position];
+        if (! $token->isGivenKind([CT::T_ARRAY_SQUARE_BRACE_OPEN, T_ARRAY])) {
+            return $position;
         }
 
-        if ($token->equals(')')) {
-            $blockStart = $tokens->findBlockStart(Tokens::BLOCK_TYPE_PARENTHESIS_BRACE, $i);
-            $tokenCountToSkip = $i - $blockStart;
+        return $this->blockFinder->findInTokensByEdge($tokens, $position)->getEnd();
+    }
+
+    public function skipBlocksReversed(Tokens $tokens, int $position): int
+    {
+        $token = $tokens[$position];
+        if (! $token->isGivenKind(CT::T_ARRAY_SQUARE_BRACE_CLOSE) && ! $token->equals(')')) {
+            return $position;
         }
 
-        return $i - $tokenCountToSkip;
+        return $this->blockFinder->findInTokensByEdge($tokens, $position)->getStart();
     }
 }

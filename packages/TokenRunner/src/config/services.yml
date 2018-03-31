@@ -8,4 +8,4 @@ services:
 
     Symplify\TokenRunner\:
         resource: '..'
-        exclude: '../{Naming/Name/Name.php,Analyzer/FixerAnalyzer/BlockStartAndEndInfo.php,Wrapper/*Wrapper/*Wrapper.php}'
+        exclude: '../{Naming/Name/Name.php,Analyzer/FixerAnalyzer/BlockInfo.php,Wrapper/*Wrapper/*Wrapper.php}'
