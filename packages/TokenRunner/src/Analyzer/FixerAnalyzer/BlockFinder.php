@@ -30,7 +30,7 @@ final class BlockFinder
      * Accepts position to both start and end token, e.g. (, ), [, ], {, }
      * also to: "array"(, "function" ...(, "use"(, "new" ...(
      */
-    public function findInTokensByEdge(Tokens $tokens, int $position): BlockInfo
+    public function findInTokensByEdge(Tokens $tokens, int $position): ?BlockInfo
     {
         $token = $tokens[$position];
 
@@ -41,8 +41,13 @@ final class BlockFinder
         }
 
         if ($token->isGivenKind([T_FUNCTION, CT::T_USE_LAMBDA, T_NEW])) {
-            $position = $tokens->getNextTokenOfKind($position, ['(']);
+            $position = $tokens->getNextTokenOfKind($position, ['(', ';']);
             $token = $tokens[$position];
+
+            // end of line was sooner => has no block
+            if ($token->equals(';')) {
+                return null;
+            }
         }
 
         $blockType = $this->getBlockTypeByToken($token);

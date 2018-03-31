@@ -175,6 +175,10 @@ $array = ["loooooooooooooooooooooooooooooooongArraaaaaaaaaaay", "loooooooooooooo
     private function processFunctionOrArray(Tokens $tokens, int $position): void
     {
         $blockInfo = $this->blockFinder->findInTokensByEdge($tokens, $position);
+        if ($blockInfo === null) {
+            return;
+        }
+
         if ($this->shouldSkip($tokens, $blockInfo)) {
             return;
         }
