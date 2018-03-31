@@ -20,7 +20,7 @@ final class UnusedPublicMethodSniff implements Sniff, DualRunInterface
     /**
      * @var string
      */
-    private const MESSAGE = 'Public method "%s()" is probably unused.';
+    private const MESSAGE = 'Public method "%s()" is possibly unused.';
 
     /**
      * @var int
