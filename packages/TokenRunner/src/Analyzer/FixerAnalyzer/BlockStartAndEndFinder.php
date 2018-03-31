@@ -5,7 +5,6 @@ namespace Symplify\TokenRunner\Analyzer\FixerAnalyzer;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use Symplify\TokenRunner\Exception\MissingImplementationException;
-use Throwable;
 
 final class BlockStartAndEndFinder
 {
@@ -83,9 +82,8 @@ final class BlockStartAndEndFinder
         if ($token->isArray()) {
             if (in_array($token->getContent(), ['[', ']'], true)) {
                 return Tokens::BLOCK_TYPE_ARRAY_SQUARE_BRACE;
-            } else {
-                return Tokens::BLOCK_TYPE_ARRAY_INDEX_CURLY_BRACE;
             }
+            return Tokens::BLOCK_TYPE_ARRAY_INDEX_CURLY_BRACE;
         }
 
         return $this->getBlockTypeByContent($token->getContent());
