@@ -7,11 +7,6 @@ use PhpCsFixer\WhitespacesFixerConfig;
 final class Configuration
 {
     /**
-     * @var int
-     */
-    private $maxLineLength;
-
-    /**
      * @var WhitespacesFixerConfig
      */
     private $whitespacesFixerConfig;
@@ -27,12 +22,10 @@ final class Configuration
     private $inlineShortLines = false;
 
     public function __construct(
-        int $maxLineLength,
         bool $breakLongLines,
         bool $inlineShortLines,
         WhitespacesFixerConfig $whitespacesFixerConfig
     ) {
-        $this->maxLineLength = $maxLineLength;
         $this->whitespacesFixerConfig = $whitespacesFixerConfig;
         $this->breakLongLines = $breakLongLines;
         $this->inlineShortLines = $inlineShortLines;
@@ -46,11 +39,6 @@ final class Configuration
     public function shouldInlineShortLines(): bool
     {
         return $this->inlineShortLines;
-    }
-
-    public function getMaxLineLength(): int
-    {
-        return $this->maxLineLength;
     }
 
     public function getIndent(): string

@@ -54,6 +54,9 @@ final class LineLengthFixer implements DefinedFixerInterface, ConfigurationDefin
 
     public function __construct(LineLengthTransformer $lineLengthTransformer, BlockFinder $blockFinder)
     {
+        // defaults
+        $this->configure([]);
+
         $this->lineLengthTransformer = $lineLengthTransformer;
         $this->blockFinder = $blockFinder;
     }
@@ -61,7 +64,7 @@ final class LineLengthFixer implements DefinedFixerInterface, ConfigurationDefin
     public function getDefinition(): FixerDefinitionInterface
     {
         return new FixerDefinition(
-            'Array items, method arguments and new arguments should be on same/standalone line to fit line length.',
+            'Array items, method, call and new arguments should be on same/standalone line to fit line length.',
             [
                 new CodeSample(
                     '<?php
@@ -104,11 +107,7 @@ $array = ["loooooooooooooooooooooooooooooooongArraaaaaaaaaaay", "loooooooooooooo
                 $this->processFunctionOrArray($tokens, $position);
                 continue;
             }
-        }
 
-        // arrays
-        for ($position = count($tokens) - 1; $position >= 0; --$position) {
-            $token = $tokens[$position];
             if ($token->isGivenKind(CT::T_ARRAY_SQUARE_BRACE_CLOSE) || ($token->equals(')') && $token->isArray())) {
                 $this->processFunctionOrArray($tokens, $position);
                 continue;
@@ -180,7 +179,7 @@ $array = ["loooooooooooooooooooooooooooooooongArraaaaaaaaaaay", "loooooooooooooo
             return;
         }
 
-        $this->lineLengthTransformer->fixStartPositionToEndPosition($blockInfo, $tokens, $position);
+        $this->lineLengthTransformer->fixStartPositionToEndPosition($blockInfo, $tokens, $position, $this->configuration[self::LINE_LENGHT_OPTION]);
     }
 
     private function shouldSkip(Tokens $tokens, BlockInfo $blockInfo): bool
@@ -247,6 +246,6 @@ $array = ["loooooooooooooooooooooooooooooooongArraaaaaaaaaaay", "loooooooooooooo
             return;
         }
 
-        $this->lineLengthTransformer->fixStartPositionToEndPosition($blockInfo, $tokens, $methodNamePosition);
+        $this->lineLengthTransformer->fixStartPositionToEndPosition($blockInfo, $tokens, $methodNamePosition, $this->configuration[self::LINE_LENGHT_OPTION]);
     }
 }

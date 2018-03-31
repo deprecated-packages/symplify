@@ -56,17 +56,18 @@ final class LineLengthTransformer
     public function fixStartPositionToEndPosition(
         BlockInfo $blockInfo,
         Tokens $tokens,
-        int $currentPosition
+        int $currentPosition,
+        int $lineLength
     ): void {
         $firstLineLength = $this->getFirstLineLength($blockInfo->getStart(), $tokens);
-        if ($firstLineLength > $this->configuration->getMaxLineLength()) {
+        if ($firstLineLength > $lineLength) {
             $this->breakItems($blockInfo, $tokens);
             return;
         }
 
         $fullLineLength = $this->getLengthFromStartEnd($blockInfo, $tokens);
 
-        if ($fullLineLength <= $this->configuration->getMaxLineLength()) {
+        if ($fullLineLength <= $lineLength) {
             $this->inlineItems($blockInfo->getEnd(), $tokens, $currentPosition);
             return;
         }

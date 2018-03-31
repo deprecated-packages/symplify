@@ -2,7 +2,6 @@ services:
     _defaults:
         autowire: true
         bind:
-            $maxLineLength: '%max_line_length%'
             $breakLongLines: '%break_long_lines%'
             $inlineShortLines: '%inline_short_lines%'
 
