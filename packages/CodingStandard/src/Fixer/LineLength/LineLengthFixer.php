@@ -138,8 +138,7 @@ $array = ["loooooooooooooooooooooooooooooooongArraaaaaaaaaaay", "loooooooooooooo
 
     private function processArray(Tokens $tokens, int $position): void
     {
-        // @todo make start/end smart
-        $blockStartAndEndInfo = $this->blockStartAndEndFinder->findInTokensByBlockEnd($tokens, $position);
+        $blockStartAndEndInfo = $this->blockStartAndEndFinder->findInTokensByEdge($tokens, $position);
         if ($blockStartAndEndInfo === null) {
             return;
         }
