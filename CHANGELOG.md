@@ -55,8 +55,6 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
 
 - [#633] Add `ClassNameSuffixByParentFixer`, closes [#607]
 
-- [#591] Add `BreakArrayListFixer` to break/inline array items over/under 120 chars
-
 #### EasyCodingStandard
 
 - [#741] Add support for `%vendor_dir%`, `%current_working_dir%` variables in `imports` section of configs to allow simpler loading [lmc-eu/php-coding-standard#6](https://github.com/lmc-eu/php-coding-standard/pull/6)

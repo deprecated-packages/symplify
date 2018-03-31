@@ -155,7 +155,6 @@ class SomeClass
 ### Parameters, arguments and array items should be on the same/standalone line to fit line length
 
 - :wrench:
-- class: [`Symplify\CodingStandard\Fixer\LineLength\BreakArrayListFixer`](src/Fixer/LineLength/BreakArrayListFixer.php)
 - class: [`Symplify\CodingStandard\Fixer\LineLength\LineLengthFixer`](src/Fixer/LineLength/LineLengthFixer.php)
 
 ```diff
