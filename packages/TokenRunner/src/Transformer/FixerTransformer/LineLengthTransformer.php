@@ -37,6 +37,7 @@ final class LineLengthTransformer
      * @var TokenSkipper
      */
     private $tokenSkipper;
+
     /**
      * @var WhitespacesFixerConfig
      */
