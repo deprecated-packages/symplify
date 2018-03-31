@@ -185,10 +185,11 @@ class SomeClass
 
 ```yaml
 # easy-coding-standard.yml
-parameters:
-    max_line_length: 100 # default: 120
-    break_long_lines: true # default: true
-    inline_short_lines: false # default: true
+services:
+    Symplify\CodingStandard\Fixer\LineLength\LineLengthFixer:
+        max_line_length: 100 # default: 120
+        break_long_lines: true # default: true
+        inline_short_lines: false # default: true
 ```
 
 ### Magic PHP methods (`__*()`) should respect their casing form
