@@ -10,6 +10,9 @@ parameters:
         - '#Parameter \#1 \$id of class Symfony\\Component\\DependencyInjection\\Reference constructor expects string, string\|null given#'
 
         # is valid code, known values
+        - '#Calling method getEnd\(\) on possibly null value of type Symplify\\TokenRunner\\Analyzer\\FixerAnalyzer\\BlockInfo\|null#'
+        - '#Calling method getStart\(\) on possibly null value of type Symplify\\TokenRunner\\Analyzer\\FixerAnalyzer\\BlockInfo\|null#'
+
         - '#Parameter \#1 \$index of method PhpCsFixer\\Tokenizer\\Tokens::getNextTokenOfKind\(\) expects int, int\\|null given#'
         - '#Parameter \#2 \$start of method PHP_CodeSniffer\\Files\\File::findNext\(\) expects int, int\|true given#'
         - '#Variable \$processedFileContent might not be defined#'
