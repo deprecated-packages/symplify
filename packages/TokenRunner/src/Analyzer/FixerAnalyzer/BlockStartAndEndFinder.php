@@ -2,8 +2,11 @@
 
 namespace Symplify\TokenRunner\Analyzer\FixerAnalyzer;
 
+use PhpCsFixer\Tokenizer\CT;
+use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use Symplify\TokenRunner\Exception\MissingImplementationException;
+use Throwable;
 
 final class BlockStartAndEndFinder
 {
@@ -12,6 +15,7 @@ final class BlockStartAndEndFinder
      */
     private $contentToBlockType = [
         '(' => Tokens::BLOCK_TYPE_PARENTHESIS_BRACE,
+        ')' => Tokens::BLOCK_TYPE_PARENTHESIS_BRACE,
         '[' => Tokens::BLOCK_TYPE_ARRAY_SQUARE_BRACE,
         ']' => Tokens::BLOCK_TYPE_ARRAY_SQUARE_BRACE,
     ];
@@ -32,14 +36,20 @@ final class BlockStartAndEndFinder
         return new BlockStartAndEndInfo($blockStart, $tokens->findBlockEnd($blockType, $blockStart));
     }
 
-    public function findInTokensByBlockEnd(Tokens $tokens, int $blockEnd): BlockStartAndEndInfo
+    public function findInTokensByBlockEnd(Tokens $tokens, int $blockEnd): ?BlockStartAndEndInfo
     {
         $token = $tokens[$blockEnd];
 
-        // @todo: shift "function" to its "("?
-        $blockType = $this->getBlockTypeByContent($token->getContent());
+        $blockType = $this->getBlockTypeByToken($token);
 
-        return new BlockStartAndEndInfo($tokens->findBlockStart($blockType, $blockEnd), $blockEnd);
+        try {
+            $blockStart = $tokens->findBlockStart($blockType, $blockEnd);
+        } catch (Throwable $throwable) {
+            // not a block start
+            return null;
+        }
+
+        return new BlockStartAndEndInfo($blockStart, $blockEnd);
     }
 
     public function findInTokensByPositionAndContent(
@@ -69,5 +79,14 @@ final class BlockStartAndEndFinder
             __METHOD__,
             '$contentToBlockType'
         ));
+    }
+
+    private function getBlockTypeByToken(Token $token): int
+    {
+        if ($token->isArray() && $token->equals(')', false)) {
+            return Tokens::BLOCK_TYPE_ARRAY_INDEX_CURLY_BRACE;
+        }
+
+        return $this->getBlockTypeByContent($token->getContent());
     }
 }
