@@ -9,9 +9,6 @@ services:
     # class should be Abstact or Final
     SlamCsFixer\FinalInternalClassFixer: ~
 
-    Symplify\CodingStandard\Fixer\Import\ImportNamespacedNameFixer:
-        include_doc_blocks: true
-
     # code complexity
     PHP_CodeSniffer\Standards\Generic\Sniffs\Metrics\CyclomaticComplexitySniff:
         absoluteComplexity: 8
