@@ -17,35 +17,33 @@ final class BlockStartAndEndFinder
         ')' => Tokens::BLOCK_TYPE_PARENTHESIS_BRACE,
         '[' => Tokens::BLOCK_TYPE_ARRAY_SQUARE_BRACE,
         ']' => Tokens::BLOCK_TYPE_ARRAY_SQUARE_BRACE,
+        '{' => Tokens::BLOCK_TYPE_CURLY_BRACE,
+        '}' => Tokens::BLOCK_TYPE_CURLY_BRACE,
     ];
 
-    public function findInTokensByBlockStart(Tokens $tokens, int $blockStart): BlockStartAndEndInfo
+    /**
+     * @var string[]
+     */
+    private $startEdges = ['(', '[', '{'];
+
+    public function findInTokensByEdge(Tokens $tokens, int $position): BlockStartAndEndInfo
     {
-        $token = $tokens[$blockStart];
+        $token = $tokens[$position];
 
         // shift "array" to "("
         if ($token->isGivenKind(T_ARRAY)) {
-            $blockStart = $tokens->getNextMeaningfulToken($blockStart);
-            $token = $tokens[$blockStart];
+            $position = $tokens->getNextMeaningfulToken($position);
+            $token = $tokens[$position];
         }
-
-        // @todo: shift "function" to its "("?
-        $blockType = $this->getBlockTypeByContent($token->getContent());
-
-        return new BlockStartAndEndInfo($blockStart, $tokens->findBlockEnd($blockType, $blockStart));
-    }
-
-    public function findInTokensByBlockEnd(Tokens $tokens, int $blockEnd): ?BlockStartAndEndInfo
-    {
-        $token = $tokens[$blockEnd];
 
         $blockType = $this->getBlockTypeByToken($token);
 
-        try {
+        if (in_array($token->getContent(), $this->startEdges, true)) {
+            $blockStart = $position;
+            $blockEnd = $tokens->findBlockEnd($blockType, $blockStart);
+        } else {
+            $blockEnd = $position;
             $blockStart = $tokens->findBlockStart($blockType, $blockEnd);
-        } catch (Throwable $throwable) {
-            // not a block start
-            return null;
         }
 
         return new BlockStartAndEndInfo($blockStart, $blockEnd);
@@ -82,8 +80,12 @@ final class BlockStartAndEndFinder
 
     private function getBlockTypeByToken(Token $token): int
     {
-        if ($token->isArray() && $token->equals(')', false)) {
-            return Tokens::BLOCK_TYPE_ARRAY_INDEX_CURLY_BRACE;
+        if ($token->isArray()) {
+            if (in_array($token->getContent(), ['[', ']'], true)) {
+                return Tokens::BLOCK_TYPE_ARRAY_SQUARE_BRACE;
+            } else {
+                return Tokens::BLOCK_TYPE_ARRAY_INDEX_CURLY_BRACE;
+            }
         }
 
         return $this->getBlockTypeByContent($token->getContent());
