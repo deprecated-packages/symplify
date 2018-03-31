@@ -10,7 +10,7 @@ use PhpCsFixer\Tokenizer\CT;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
-use Symplify\TokenRunner\Analyzer\FixerAnalyzer\BlockStartAndEndFinder;
+use Symplify\TokenRunner\Analyzer\FixerAnalyzer\BlockFinder;
 use Symplify\TokenRunner\Transformer\FixerTransformer\LineLengthTransformer;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\ArrayWrapper;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\ArrayWrapperFactory;
@@ -33,18 +33,18 @@ final class StandaloneLineInMultilineArrayFixer implements DefinedFixerInterface
     private $lineLengthTransformer;
 
     /**
-     * @var BlockStartAndEndFinder
+     * @var BlockFinder
      */
-    private $blockStartAndEndFinder;
+    private $blockFinder;
 
     public function __construct(
         ArrayWrapperFactory $arrayWrapperFactory,
         LineLengthTransformer $lineLengthTransformer,
-        BlockStartAndEndFinder $blockStartAndEndFinder
+        BlockFinder $blockFinder
     ) {
         $this->arrayWrapperFactory = $arrayWrapperFactory;
         $this->lineLengthTransformer = $lineLengthTransformer;
-        $this->blockStartAndEndFinder = $blockStartAndEndFinder;
+        $this->blockFinder = $blockFinder;
     }
 
     public function getDefinition(): FixerDefinitionInterface
@@ -70,18 +70,15 @@ final class StandaloneLineInMultilineArrayFixer implements DefinedFixerInterface
                 continue;
             }
 
-            $blockStartAndEndInfo = $this->blockStartAndEndFinder->findInTokensByEdge($tokens, $index);
+            $blockInfo = $this->blockFinder->findInTokensByEdge($tokens, $index);
 
-            $arrayWrapper = $this->arrayWrapperFactory->createFromTokensAndBlockStartAndEndInfo(
-                $tokens,
-                $blockStartAndEndInfo
-            );
+            $arrayWrapper = $this->arrayWrapperFactory->createFromTokensAndBlockInfo($tokens, $blockInfo);
 
             if ($this->shouldSkip($arrayWrapper)) {
                 continue;
             }
 
-            $this->lineLengthTransformer->breakItems($blockStartAndEndInfo, $tokens);
+            $this->lineLengthTransformer->breakItems($blockInfo, $tokens);
         }
     }
 

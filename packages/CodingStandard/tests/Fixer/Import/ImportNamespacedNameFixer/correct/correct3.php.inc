@@ -2,11 +2,13 @@
 
 namespace SomeNamespace;
 
+use SomeNode\SomeOtherClass;
+
 class SomeClass
 {
     public function someMethod()
     {
-        /** @var SomeNode\SomeClass $value */
+        /** @var SomeOtherClass $value */
         $value = 5;
     }
 }

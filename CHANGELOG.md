@@ -17,16 +17,6 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
 
 ### Added
 
-- [#747] **EasyCodingStandard** **CodingStandard** Make lines breaks/inlines configurable:
-
-    ```yaml
-    # easy-coding-standard.yml
-    parameters:
-        max_line_length: 100 # default: 120
-        break_long_lines: true # default: true
-        inline_short_lines: false # default: true
-    ```
-
 - [#589] Add version printing on `-V` option in Console Applications, thanks to [@ostrolucky]
 
 #### PackageBuilder
@@ -44,6 +34,17 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
 - [#612] Add `CommandNaming` to get command name from the class name
 
 #### CodingStandard
+
+- [#749] Add `Symplify\CodingStandard\Fixer\LineLength\LineLengthFixer`, based on previous PRs: [#747], [#743], [#585], [#591], with configuration:
+
+    ```yaml
+    # easy-coding-standard.yml
+    services:
+        Symplify\CodingStandard\Fixer\LineLength\LineLengthFixer:
+            max_line_length: 100 # default: 120
+            break_long_lines: true # default: true
+            inline_short_lines: false # default: true
+    ```
 
 - [#722] Add `ForbiddenStaticFunctionSniff`
 
@@ -1081,3 +1082,4 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
 [#732]: https://github.com/Symplify/Symplify/pull/732
 [#730]: https://github.com/Symplify/Symplify/pull/730
 [#729]: https://github.com/Symplify/Symplify/pull/729
+[#749]: https://github.com/Symplify/Symplify/pull/749

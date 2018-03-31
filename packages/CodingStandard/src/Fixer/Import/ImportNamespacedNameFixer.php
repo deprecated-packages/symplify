@@ -210,7 +210,7 @@ final class ImportNamespacedNameFixer implements DefinedFixerInterface, Configur
             self::INCLUDE_DOC_BLOCKS_OPTION,
             'Whether to include importing from doc blocks.'
         ))->setAllowedValues([true, false])
-            ->setDefault(false)
+            ->setDefault(true)
             ->getOption();
 
         return new FixerConfigurationResolver([$allowSingleNamesOption, $includeDocBlocksOption]);
