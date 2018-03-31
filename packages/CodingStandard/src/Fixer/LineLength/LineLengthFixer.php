@@ -70,7 +70,7 @@ $array = ["loooooooooooooooooooooooooooooooongArraaaaaaaaaaay", "loooooooooooooo
     public function fix(SplFileInfo $file, Tokens $tokens): void
     {
         // function arguments, function call parameters, lambda use()
-        for ($position = count($tokens) - 1; 0 <= $position; --$position) {
+        for ($position = count($tokens) - 1; $position >= 0; --$position) {
             $token = $tokens[$position];
 
             if ($token->equals(')')) {
@@ -85,8 +85,8 @@ $array = ["loooooooooooooooooooooooooooooooongArraaaaaaaaaaay", "loooooooooooooo
         }
 
         // arrays
-        for ($position = count($tokens) - 1; 0 <= $position; --$position) {
-            $token = $tokens[ $position];
+        for ($position = count($tokens) - 1; $position >= 0; --$position) {
+            $token = $tokens[$position];
             if ($token->isGivenKind(CT::T_ARRAY_SQUARE_BRACE_CLOSE) || ($token->equals(')') && $token->isArray())) {
                 $this->processArray($tokens, $position);
                 continue;
