@@ -24,11 +24,6 @@ services:
             - 'Symfony\Component\DependencyInjection\ParameterBag\ParameterBag'
             - 'Symplify\EasyCodingStandard\Yaml\*'
 
-    # php
-    PhpCsFixer\Fixer\LanguageConstruct\FunctionToConstantFixer: ~
-    # testing
-    PhpCsFixer\Fixer\PhpUnit\PhpUnitSetUpTearDownVisibilityFixer: ~
-
 parameters:
     skip:
         SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff:
