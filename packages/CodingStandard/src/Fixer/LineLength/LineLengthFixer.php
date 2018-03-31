@@ -79,7 +79,7 @@ $array = ["loooooooooooooooooooooooooooooooongArraaaaaaaaaaay", "loooooooooooooo
             }
 
             if ($token->isGivenKind([T_FUNCTION, CT::T_USE_LAMBDA, T_NEW])) {
-                $this->processFunction($tokens, $position);
+                $this->processFunctionOrArray($tokens, $position);
                 continue;
             }
         }
@@ -88,7 +88,7 @@ $array = ["loooooooooooooooooooooooooooooooongArraaaaaaaaaaay", "loooooooooooooo
         for ($position = count($tokens) - 1; $position >= 0; --$position) {
             $token = $tokens[$position];
             if ($token->isGivenKind(CT::T_ARRAY_SQUARE_BRACE_CLOSE) || ($token->equals(')') && $token->isArray())) {
-                $this->processArray($tokens, $position);
+                $this->processFunctionOrArray($tokens, $position);
                 continue;
             }
         }
@@ -117,17 +117,7 @@ $array = ["loooooooooooooooooooooooooooooooongArraaaaaaaaaaay", "loooooooooooooo
         return true;
     }
 
-    private function processFunction(Tokens $tokens, int $position): void
-    {
-        $blockStartAndEndInfo = $this->blockStartAndEndFinder->findInTokensByEdge($tokens, $position);
-        if ($this->shouldSkip($tokens, $blockStartAndEndInfo)) {
-            return;
-        }
-
-        $this->lineLengthTransformer->fixStartPositionToEndPosition($blockStartAndEndInfo, $tokens, $position);
-    }
-
-    private function processArray(Tokens $tokens, int $position): void
+    private function processFunctionOrArray(Tokens $tokens, int $position): void
     {
         $blockStartAndEndInfo = $this->blockStartAndEndFinder->findInTokensByEdge($tokens, $position);
         if ($this->shouldSkip($tokens, $blockStartAndEndInfo)) {
