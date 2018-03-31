@@ -97,12 +97,7 @@ final class UnusedPublicMethodSniff implements Sniff, DualRunInterface
         $this->position = $position;
 
         if ($this->runNumber === 1) {
-            // already collected from this file => skip it
-            if (count($this->publicMethodNames)) {
-                return;
-            }
-
-            $this->collectPublicMethodNames($file);
+            $this->collectPublicMethodNames($position);
             $this->collectMethodCalls();
             return;
         }
@@ -110,16 +105,13 @@ final class UnusedPublicMethodSniff implements Sniff, DualRunInterface
         if ($this->runNumber === 2) {
             // prepare unused method names if not ready
             if ($this->unusedMethodNames === []) {
-                $this->publicMethodNames = array_unique($this->publicMethodNames);
-                $this->unusedMethodNames = array_diff($this->publicMethodNames, $this->calledMethodNames);
+                $this->unusedMethodNames = array_diff(
+                    array_unique($this->publicMethodNames),
+                    $this->calledMethodNames
+                );
             }
 
             if ($this->shouldSkipFile($file)) {
-                return;
-            }
-
-            // every method name was used, nothing to check
-            if ($this->unusedMethodNames === []) {
                 return;
             }
 
@@ -132,34 +124,34 @@ final class UnusedPublicMethodSniff implements Sniff, DualRunInterface
         ++$this->runNumber;
     }
 
-    private function collectPublicMethodNames(File $file): void
+    private function collectPublicMethodNames(int $position): void
     {
-        // @todo: is this useful here?
-        if ($this->shouldSkipFile($file)) {
-            return;
-        }
-
-        $token = $this->tokens[$this->position];
+        $token = $this->tokens[$position];
         if (! $this->isPublicMethodToken($token)) {
             return;
         }
 
-        $methodNameToken = $this->tokens[$this->position + 2];
-        $methodName = $methodNameToken['content'];
+        $possibleMethodNameToken = $this->findNextStringToken($position);
+        if ($possibleMethodNameToken === null) {
+            return;
+        }
 
+        $methodName = $possibleMethodNameToken['content'];
         if (Strings::match($methodName, sprintf('#^(%s)#', implode('|', $this->methodsToIgnore)))) {
             return;
         }
 
-        $this->publicMethodNames[] = $methodNameToken['content'];
+        $this->publicMethodNames[] = $methodName;
     }
 
     private function collectMethodCalls(): void
     {
         $token = $this->tokens[$this->position];
 
+        // "->"
         if ($token['code'] === T_OBJECT_OPERATOR) {
-            $this->processObjectOperatorToken($token);
+            $this->processObjectOperatorToken();
+            return;
         }
 
         // possible method call in string
@@ -172,7 +164,7 @@ final class UnusedPublicMethodSniff implements Sniff, DualRunInterface
             return;
         }
 
-        // SomeClass::somemMethod
+        // SomeClass::"someMethod"
         if ($token['code'] === T_DOUBLE_COLON) {
             $nextToken = $this->tokens[$this->position + 1];
             if ($nextToken['code'] !== T_STRING) {
@@ -180,6 +172,7 @@ final class UnusedPublicMethodSniff implements Sniff, DualRunInterface
             }
 
             $this->calledMethodNames[] = $nextToken['content'];
+            return;
         }
 
         if ($token['code'] === T_STRING) {
@@ -195,14 +188,12 @@ final class UnusedPublicMethodSniff implements Sniff, DualRunInterface
     private function checkUnusedPublicMethods(): void
     {
         $token = $this->tokens[$this->position];
-
         if (! $this->isPublicMethodToken($token)) {
             return;
         }
 
         $methodNameToken = $this->tokens[$this->position + 2];
         $methodName = $methodNameToken['content'];
-
         if (! in_array($methodName, $this->unusedMethodNames, true)) {
             return;
         }
@@ -216,7 +207,7 @@ final class UnusedPublicMethodSniff implements Sniff, DualRunInterface
             return false;
         }
 
-        return (bool) $this->file->findPrevious(T_PUBLIC, $this->position, $this->position - 5);
+        return (bool) $this->file->findPrevious(T_PUBLIC, $this->position, $this->position - 6);
     }
 
     /**
@@ -241,7 +232,7 @@ final class UnusedPublicMethodSniff implements Sniff, DualRunInterface
         return $classWrapper->implementsInterface() || $classWrapper->extends();
     }
 
-    private function processObjectOperatorToken($token): void
+    private function processObjectOperatorToken(): void
     {
         $openBracketToken = $this->tokens[$this->position + 2];
         if ($openBracketToken['content'] !== '(') {
@@ -255,5 +246,18 @@ final class UnusedPublicMethodSniff implements Sniff, DualRunInterface
         }
 
         $this->calledMethodNames[] = $methodNameToken['content'];
+    }
+
+    /**
+     * @return mixed|null
+     */
+    private function findNextStringToken(int $position): ?array
+    {
+        $possibleNextStringPosition = $this->file->findNext(T_STRING, $position + 1, $position + 3);
+        if ($possibleNextStringPosition === false) {
+            return null;
+        }
+
+        return $this->tokens[$possibleNextStringPosition];
     }
 }
