@@ -30,7 +30,7 @@ final class BlockStartAndEndFinder
     {
         $token = $tokens[$position];
 
-        // shift "array" to "("
+        // shift "array" to "(", event its position
         if ($token->isGivenKind(T_ARRAY)) {
             $position = $tokens->getNextMeaningfulToken($position);
             $token = $tokens[$position];
