@@ -3,7 +3,13 @@
 namespace Symplify\CodingStandard\Fixer\LineLength;
 
 use Nette\Utils\Strings;
+use PhpCsFixer\ConfigurationException\InvalidFixerConfigurationException;
+use PhpCsFixer\Fixer\ConfigurableFixerInterface;
+use PhpCsFixer\Fixer\ConfigurationDefinitionFixerInterface;
 use PhpCsFixer\Fixer\DefinedFixerInterface;
+use PhpCsFixer\FixerConfiguration\FixerConfigurationResolver;
+use PhpCsFixer\FixerConfiguration\FixerConfigurationResolverInterface;
+use PhpCsFixer\FixerConfiguration\FixerOptionBuilder;
 use PhpCsFixer\FixerDefinition\CodeSample;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
@@ -11,29 +17,49 @@ use PhpCsFixer\Tokenizer\CT;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
-use Symplify\TokenRunner\Analyzer\FixerAnalyzer\BlockStartAndEndFinder;
-use Symplify\TokenRunner\Analyzer\FixerAnalyzer\BlockStartAndEndInfo;
+use Symplify\TokenRunner\Analyzer\FixerAnalyzer\BlockFinder;
+use Symplify\TokenRunner\Analyzer\FixerAnalyzer\BlockInfo;
 use Symplify\TokenRunner\Transformer\FixerTransformer\LineLengthTransformer;
 use Throwable;
 
-final class LineLengthFixer implements DefinedFixerInterface
+final class LineLengthFixer implements DefinedFixerInterface, ConfigurationDefinitionFixerInterface
 {
+    /**
+     * @var string
+     */
+    private const LINE_LENGHT_OPTION = 'line_length';
+
+    /**
+     * @var string
+     */
+    private const BREAK_LONG_LINES_OPTION = 'break_long_lines';
+
+    /**
+     * @var string
+     */
+    private const INLINE_SHORT_LINES_OPTION = 'inline_short_lines';
+
     /**
      * @var LineLengthTransformer
      */
     private $lineLengthTransformer;
 
     /**
-     * @var BlockStartAndEndFinder
+     * @var BlockFinder
      */
-    private $blockStartAndEndFinder;
+    private $blockFinder;
+
+    /**
+     * @var mixed[]
+     */
+    private $configuration = [];
 
     public function __construct(
         LineLengthTransformer $lineLengthTransformer,
-        BlockStartAndEndFinder $blockStartAndEndFinder
+        BlockFinder $blockFinder
     ) {
         $this->lineLengthTransformer = $lineLengthTransformer;
-        $this->blockStartAndEndFinder = $blockStartAndEndFinder;
+        $this->blockFinder = $blockFinder;
     }
 
     public function getDefinition(): FixerDefinitionInterface
@@ -69,6 +95,9 @@ $array = ["loooooooooooooooooooooooooooooooongArraaaaaaaaaaay", "loooooooooooooo
 
     public function fix(SplFileInfo $file, Tokens $tokens): void
     {
+        dump($this->configuration);
+        die;
+
         // function arguments, function call parameters, lambda use()
         for ($position = count($tokens) - 1; $position >= 0; --$position) {
             $token = $tokens[$position];
@@ -119,23 +148,23 @@ $array = ["loooooooooooooooooooooooooooooooongArraaaaaaaaaaay", "loooooooooooooo
 
     private function processFunctionOrArray(Tokens $tokens, int $position): void
     {
-        $blockStartAndEndInfo = $this->blockStartAndEndFinder->findInTokensByEdge($tokens, $position);
-        if ($this->shouldSkip($tokens, $blockStartAndEndInfo)) {
+        $blockInfo = $this->blockFinder->findInTokensByEdge($tokens, $position);
+        if ($this->shouldSkip($tokens, $blockInfo)) {
             return;
         }
 
-        $this->lineLengthTransformer->fixStartPositionToEndPosition($blockStartAndEndInfo, $tokens, $position);
+        $this->lineLengthTransformer->fixStartPositionToEndPosition($blockInfo, $tokens, $position);
     }
 
-    private function shouldSkip(Tokens $tokens, BlockStartAndEndInfo $blockStartAndEndInfo): bool
+    private function shouldSkip(Tokens $tokens, BlockInfo $blockInfo): bool
     {
         // no items inside => skip
-        if (($blockStartAndEndInfo->getEnd() - $blockStartAndEndInfo->getStart()) <= 1) {
+        if (($blockInfo->getEnd() - $blockInfo->getStart()) <= 1) {
             return true;
         }
 
         // nowdoc => skip
-        $nextTokenPosition = $tokens->getNextMeaningfulToken($blockStartAndEndInfo->getStart());
+        $nextTokenPosition = $tokens->getNextMeaningfulToken($blockInfo->getStart());
         $nextToken = $tokens[$nextTokenPosition];
 
         return Strings::startsWith($nextToken->getContent(), '<<<');
@@ -185,20 +214,55 @@ $array = ["loooooooooooooooooooooooooooooooongArraaaaaaaaaaay", "loooooooooooooo
             return;
         }
 
-        $blockStartAndEndInfo = $this->blockStartAndEndFinder->findInTokensByPositionAndContent(
+        $blockInfo = $this->blockFinder->findInTokensByPositionAndContent(
             $tokens,
             $methodNamePosition,
             '('
         );
 
-        if ($blockStartAndEndInfo === null) {
+        if ($blockInfo === null) {
             return;
         }
 
         $this->lineLengthTransformer->fixStartPositionToEndPosition(
-            $blockStartAndEndInfo,
+            $blockInfo,
             $tokens,
             $methodNamePosition
         );
+    }
+
+    /**
+     * @param mixed[]|null $configuration
+     */
+    public function configure(?array $configuration = null): void
+    {
+        if ($configuration === null) {
+            return;
+        }
+
+        $this->configuration = $this->getConfigurationDefinition()
+            ->resolve($configuration);
+    }
+
+    public function getConfigurationDefinition(): FixerConfigurationResolverInterface
+    {
+        $options = [];
+        $options[] = (new FixerOptionBuilder( self::LINE_LENGHT_OPTION, 'Limit of line length.'))
+            ->setAllowedTypes(['int'])
+            ->setDefault(120)
+            ->getOption();
+
+        $options[] = (new FixerOptionBuilder( self::BREAK_LONG_LINES_OPTION, ' Should break long lines.'))
+            ->setAllowedValues([true, false])
+            ->setDefault(true)
+            ->getOption();
+
+        $options[] = (new FixerOptionBuilder( self::INLINE_SHORT_LINES_OPTION, ' Should inline short lines.'))
+            ->setAllowedValues([true, false])
+            ->setDefault(true)
+            ->getOption();
+
+
+        return new FixerConfigurationResolver($options);
     }
 }
