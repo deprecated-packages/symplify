@@ -1,6 +1,0 @@
-parameters:
-    break_long_lines: false
-    inline_short_lines: false
-
-services:
-    Symplify\CodingStandard\Fixer\LineLength\BreakArrayListFixer: ~
