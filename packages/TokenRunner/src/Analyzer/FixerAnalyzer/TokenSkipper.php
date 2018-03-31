@@ -30,6 +30,7 @@ final class TokenSkipper
         $tokenCountToSkip = 0;
         $token = $tokens[$i];
 
+        // @todo use BlockFinder
         if ($token->isGivenKind(CT::T_ARRAY_SQUARE_BRACE_CLOSE)) {
             $blockStart = $tokens->findBlockStart(Tokens::BLOCK_TYPE_ARRAY_SQUARE_BRACE, $i);
             $tokenCountToSkip = $i - $blockStart;

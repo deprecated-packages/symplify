@@ -2,7 +2,7 @@
 
 namespace Symplify\TokenRunner\Analyzer\FixerAnalyzer;
 
-final class BlockStartAndEndInfo
+final class BlockInfo
 {
     /**
      * @var int

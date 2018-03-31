@@ -3,7 +3,7 @@
 namespace Symplify\TokenRunner\Wrapper\FixerWrapper;
 
 use PhpCsFixer\Tokenizer\Tokens;
-use Symplify\TokenRunner\Analyzer\FixerAnalyzer\BlockStartAndEndInfo;
+use Symplify\TokenRunner\Analyzer\FixerAnalyzer\BlockInfo;
 use Symplify\TokenRunner\Analyzer\FixerAnalyzer\TokenSkipper;
 
 final class ArrayWrapperFactory
@@ -18,14 +18,14 @@ final class ArrayWrapperFactory
         $this->tokenSkipper = $tokenSkipper;
     }
 
-    public function createFromTokensAndBlockStartAndEndInfo(
+    public function createFromTokensAndBlockInfo(
         Tokens $tokens,
-        BlockStartAndEndInfo $blockStartAndEndInfo
+        BlockInfo $blockInfo
     ): ArrayWrapper {
         return new ArrayWrapper(
             $tokens,
-            $blockStartAndEndInfo->getStart(),
-            $blockStartAndEndInfo->getEnd(),
+            $blockInfo->getStart(),
+            $blockInfo->getEnd(),
             $this->tokenSkipper
         );
     }

@@ -7,7 +7,7 @@ use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use Symplify\TokenRunner\Exception\MissingImplementationException;
 
-final class BlockStartAndEndFinder
+final class BlockFinder
 {
     /**
      * @var int[]
@@ -30,7 +30,7 @@ final class BlockStartAndEndFinder
      * Accepts position to both start and end token, e.g. (, ), [, ], {, }
      * also to: "array"(, "function" ...(, "use"(, "new" ...(
      */
-    public function findInTokensByEdge(Tokens $tokens, int $position): BlockStartAndEndInfo
+    public function findInTokensByEdge(Tokens $tokens, int $position): BlockInfo
     {
         $token = $tokens[$position];
 
@@ -55,14 +55,14 @@ final class BlockStartAndEndFinder
             $blockStart = $tokens->findBlockStart($blockType, $blockEnd);
         }
 
-        return new BlockStartAndEndInfo($blockStart, $blockEnd);
+        return new BlockInfo($blockStart, $blockEnd);
     }
 
     public function findInTokensByPositionAndContent(
         Tokens $tokens,
         int $position,
         string $content
-    ): ?BlockStartAndEndInfo {
+    ): ?BlockInfo {
         $blockStart = $tokens->getNextTokenOfKind($position, [$content]);
         if ($blockStart === null) {
             return null;
@@ -70,7 +70,7 @@ final class BlockStartAndEndFinder
 
         $blockType = $this->getBlockTypeByContent($content);
 
-        return new BlockStartAndEndInfo($blockStart, $tokens->findBlockEnd($blockType, $blockStart));
+        return new BlockInfo($blockStart, $tokens->findBlockEnd($blockType, $blockStart));
     }
 
     private function getBlockTypeByContent(string $content): int
