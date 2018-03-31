@@ -3,8 +3,6 @@
 namespace Symplify\CodingStandard\Fixer\LineLength;
 
 use Nette\Utils\Strings;
-use PhpCsFixer\ConfigurationException\InvalidFixerConfigurationException;
-use PhpCsFixer\Fixer\ConfigurableFixerInterface;
 use PhpCsFixer\Fixer\ConfigurationDefinitionFixerInterface;
 use PhpCsFixer\Fixer\DefinedFixerInterface;
 use PhpCsFixer\FixerConfiguration\FixerConfigurationResolver;
@@ -54,10 +52,8 @@ final class LineLengthFixer implements DefinedFixerInterface, ConfigurationDefin
      */
     private $configuration = [];
 
-    public function __construct(
-        LineLengthTransformer $lineLengthTransformer,
-        BlockFinder $blockFinder
-    ) {
+    public function __construct(LineLengthTransformer $lineLengthTransformer, BlockFinder $blockFinder)
+    {
         $this->lineLengthTransformer = $lineLengthTransformer;
         $this->blockFinder = $blockFinder;
     }
@@ -95,9 +91,6 @@ $array = ["loooooooooooooooooooooooooooooooongArraaaaaaaaaaay", "loooooooooooooo
 
     public function fix(SplFileInfo $file, Tokens $tokens): void
     {
-        dump($this->configuration);
-        die;
-
         // function arguments, function call parameters, lambda use()
         for ($position = count($tokens) - 1; $position >= 0; --$position) {
             $token = $tokens[$position];
@@ -144,6 +137,40 @@ $array = ["loooooooooooooooooooooooooooooooongArraaaaaaaaaaay", "loooooooooooooo
     public function supports(SplFileInfo $file): bool
     {
         return true;
+    }
+
+    /**
+     * @param mixed[]|null $configuration
+     */
+    public function configure(?array $configuration = null): void
+    {
+        if ($configuration === null) {
+            return;
+        }
+
+        $this->configuration = $this->getConfigurationDefinition()
+            ->resolve($configuration);
+    }
+
+    public function getConfigurationDefinition(): FixerConfigurationResolverInterface
+    {
+        $options = [];
+        $options[] = (new FixerOptionBuilder(self::LINE_LENGHT_OPTION, 'Limit of line length.'))
+            ->setAllowedTypes(['int'])
+            ->setDefault(120)
+            ->getOption();
+
+        $options[] = (new FixerOptionBuilder(self::BREAK_LONG_LINES_OPTION, ' Should break long lines.'))
+            ->setAllowedValues([true, false])
+            ->setDefault(true)
+            ->getOption();
+
+        $options[] = (new FixerOptionBuilder(self::INLINE_SHORT_LINES_OPTION, ' Should inline short lines.'))
+            ->setAllowedValues([true, false])
+            ->setDefault(true)
+            ->getOption();
+
+        return new FixerConfigurationResolver($options);
     }
 
     private function processFunctionOrArray(Tokens $tokens, int $position): void
@@ -214,55 +241,12 @@ $array = ["loooooooooooooooooooooooooooooooongArraaaaaaaaaaay", "loooooooooooooo
             return;
         }
 
-        $blockInfo = $this->blockFinder->findInTokensByPositionAndContent(
-            $tokens,
-            $methodNamePosition,
-            '('
-        );
+        $blockInfo = $this->blockFinder->findInTokensByPositionAndContent($tokens, $methodNamePosition, '(');
 
         if ($blockInfo === null) {
             return;
         }
 
-        $this->lineLengthTransformer->fixStartPositionToEndPosition(
-            $blockInfo,
-            $tokens,
-            $methodNamePosition
-        );
-    }
-
-    /**
-     * @param mixed[]|null $configuration
-     */
-    public function configure(?array $configuration = null): void
-    {
-        if ($configuration === null) {
-            return;
-        }
-
-        $this->configuration = $this->getConfigurationDefinition()
-            ->resolve($configuration);
-    }
-
-    public function getConfigurationDefinition(): FixerConfigurationResolverInterface
-    {
-        $options = [];
-        $options[] = (new FixerOptionBuilder( self::LINE_LENGHT_OPTION, 'Limit of line length.'))
-            ->setAllowedTypes(['int'])
-            ->setDefault(120)
-            ->getOption();
-
-        $options[] = (new FixerOptionBuilder( self::BREAK_LONG_LINES_OPTION, ' Should break long lines.'))
-            ->setAllowedValues([true, false])
-            ->setDefault(true)
-            ->getOption();
-
-        $options[] = (new FixerOptionBuilder( self::INLINE_SHORT_LINES_OPTION, ' Should inline short lines.'))
-            ->setAllowedValues([true, false])
-            ->setDefault(true)
-            ->getOption();
-
-
-        return new FixerConfigurationResolver($options);
+        $this->lineLengthTransformer->fixStartPositionToEndPosition($blockInfo, $tokens, $methodNamePosition);
     }
 }

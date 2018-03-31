@@ -18,15 +18,8 @@ final class ArrayWrapperFactory
         $this->tokenSkipper = $tokenSkipper;
     }
 
-    public function createFromTokensAndBlockInfo(
-        Tokens $tokens,
-        BlockInfo $blockInfo
-    ): ArrayWrapper {
-        return new ArrayWrapper(
-            $tokens,
-            $blockInfo->getStart(),
-            $blockInfo->getEnd(),
-            $this->tokenSkipper
-        );
+    public function createFromTokensAndBlockInfo(Tokens $tokens, BlockInfo $blockInfo): ArrayWrapper
+    {
+        return new ArrayWrapper($tokens, $blockInfo->getStart(), $blockInfo->getEnd(), $this->tokenSkipper);
     }
 }

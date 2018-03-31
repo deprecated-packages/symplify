@@ -58,11 +58,8 @@ final class BlockFinder
         return new BlockInfo($blockStart, $blockEnd);
     }
 
-    public function findInTokensByPositionAndContent(
-        Tokens $tokens,
-        int $position,
-        string $content
-    ): ?BlockInfo {
+    public function findInTokensByPositionAndContent(Tokens $tokens, int $position, string $content): ?BlockInfo
+    {
         $blockStart = $tokens->getNextTokenOfKind($position, [$content]);
         if ($blockStart === null) {
             return null;
