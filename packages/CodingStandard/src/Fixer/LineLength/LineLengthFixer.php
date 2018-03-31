@@ -69,11 +69,11 @@ $array = ["loooooooooooooooooooooooooooooooongArraaaaaaaaaaay", "loooooooooooooo
 
     public function fix(SplFileInfo $file, Tokens $tokens): void
     {
-        /** @var Token[] $reversedTokens */
-        $reversedTokens = array_reverse($tokens->toArray(), true);
+        // function arguments, function call parameters, lambda use()
+        for ($position = count($tokens) - 1; 0 <= $position; --$position) {
+            $token = $tokens[$position];
 
-        foreach ($reversedTokens as $position => $token) {
-            if ($token->getContent() === ')') {
+            if ($token->equals(')')) {
                 $this->processMethodCall($tokens, $position);
                 continue;
             }
@@ -84,11 +84,10 @@ $array = ["loooooooooooooooooooooooooooooooongArraaaaaaaaaaay", "loooooooooooooo
             }
         }
 
-        /** @var Token[] $reversedTokens */
-        $reversedTokens = array_reverse($tokens->toArray(), true);
-
-        foreach ($reversedTokens as $position => $token) {
-            if ($token->isGivenKind([CT::T_ARRAY_SQUARE_BRACE_CLOSE])) {
+        // arrays
+        for ($position = count($tokens) - 1; 0 <= $position; --$position) {
+            $token = $tokens[ $position];
+            if ($token->isGivenKind(CT::T_ARRAY_SQUARE_BRACE_CLOSE) || ($token->equals(')') && $token->isArray())) {
                 $this->processArray($tokens, $position);
                 continue;
             }
@@ -141,6 +140,10 @@ $array = ["loooooooooooooooooooooooooooooooongArraaaaaaaaaaay", "loooooooooooooo
     {
         // @todo make start/end smart
         $blockStartAndEndInfo = $this->blockStartAndEndFinder->findInTokensByBlockEnd($tokens, $position);
+        if ($blockStartAndEndInfo === null) {
+            return;
+        }
+
         if ($this->shouldSkip($tokens, $blockStartAndEndInfo)) {
             return;
         }
@@ -150,7 +153,7 @@ $array = ["loooooooooooooooooooooooooooooooongArraaaaaaaaaaay", "loooooooooooooo
 
     private function shouldSkip(Tokens $tokens, BlockStartAndEndInfo $blockStartAndEndInfo): bool
     {
-        // no arguments => skip
+        // no items inside => skip
         if (($blockStartAndEndInfo->getEnd() - $blockStartAndEndInfo->getStart()) <= 1) {
             return true;
         }
