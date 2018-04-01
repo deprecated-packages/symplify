@@ -310,4 +310,36 @@ final class AppKernel extends Kernel;
 }
 ```
 
+### 10. Do you need to merge parameters in `.yaml` files instead of override?
+
+Native Symfony approach is *the last wins*, which is bad if you want to decouple your parameters. For more see [the issue](https://github.com/symfony/symfony/issues/26713). 
+
+This will be produce with help of `Symplify\PackageBuilder\Yaml\AbstractParameterMergingYamlFileLoader`:
+
+```yaml
+# first.yml
+parameters:
+    another_key:
+       - skip_this
+```
+
+```yaml
+# second.yml
+imports:
+    - { resource: 'first.yml' }
+
+parameters:
+    another_key:
+       - skip_that_too
+```
+
+The final result will look like this:
+
+```yaml
+parameters:
+    another_key:
+       - skip_this # this one is normally missed
+       - skip_that_too
+```
+
 That's all :)
