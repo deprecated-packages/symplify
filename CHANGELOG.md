@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLinker](https://github.com/Symplify/ChangelogLinker).
 
-## [v4.0.0alpha3]
+## [v4.0.0beta1]
 
 Biggest change of this release is moving from mixture of Yaml and Neon format in `*.neon` files to Yaml format in `*.yaml` files. That will make Symplify packages more world-friendly and standard rather than Czech-only Neon format. See [#651](https://github.com/Symplify/Symplify/pull/651) about more reasoning behind this.
 
@@ -57,6 +57,8 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
 - [#633] Add `ClassNameSuffixByParentFixer`, closes [#607]
 
 #### EasyCodingStandard
+
+- [706] Add [PSR-12 set](https://github.com/php-fig/fig-standards/blob/master/proposed/extended-coding-style-guide.md), use in CLI `--level psr12` or import `psr12.yml`
 
 - [#741] Add support for `%vendor_dir%`, `%current_working_dir%` variables in `imports` section of configs to allow simpler loading [lmc-eu/php-coding-standard#6](https://github.com/lmc-eu/php-coding-standard/pull/6)
 

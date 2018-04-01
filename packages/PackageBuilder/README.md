@@ -312,7 +312,7 @@ final class AppKernel extends Kernel;
 
 ### 10. Do you need to merge parameters in `.yaml` files instead of override?
 
-Native Symfony approach is *the last wins*, which is bad if you want to decouple your parameters. For more see [the issue](https://github.com/symfony/symfony/issues/26713). 
+Native Symfony approach is *the last wins*, which is bad if you want to decouple your parameters. For more see [the issue](https://github.com/symfony/symfony/issues/26713).
 
 This will be produce with help of `Symplify\PackageBuilder\Yaml\AbstractParameterMergingYamlFileLoader`:
 
@@ -344,7 +344,6 @@ parameters:
 
 How to use it?
 
-
 ```php
 // AppKernel.php
 
@@ -362,7 +361,7 @@ use Symplify\PackageBuilder\Yaml\AbstractParameterMergingYamlFileLoader;
 final class AppKernel extends Kernel
 {
     // ...
-    
+
     /**
      * @param ContainerInterface|ContainerBuilder $container
      */
@@ -372,7 +371,7 @@ final class AppKernel extends Kernel
 
         $loaderResolver = new LoaderResolver([
             new GlobFileLoader($container, $kernelFileLocator),
-            // you can 1. create custom YamlFileLoader for other custom tweaks or 2. use abstract class like this 
+            // you can 1. create custom YamlFileLoader for other custom tweaks or 2. use abstract class like this
             new class($container, $kernelFileLocator) extends AbstractParameterMergingYamlFileLoader {
             },
         ]);
