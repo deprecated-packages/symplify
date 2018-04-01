@@ -4,10 +4,8 @@ namespace Symplify\EasyCodingStandard\Tests;
 
 use PhpCsFixer\Fixer\Strict\DeclareStrictTypesFixer;
 use PHPUnit\Framework\TestCase;
-use Symfony\Component\DependencyInjection\Container;
 use Symplify\CodingStandard\Fixer\Solid\FinalInterfaceFixer;
 use Symplify\EasyCodingStandard\Skipper;
-use Symplify\PackageBuilder\Parameter\ParameterProvider;
 
 final class SkipperTest extends TestCase
 {
@@ -18,7 +16,7 @@ final class SkipperTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->skipper = new Skipper($this->createParameterProvider());
+        $this->skipper = new Skipper($this->createSkipParameter(), []);
     }
 
     public function testNotSkipped(): void
@@ -72,10 +70,12 @@ final class SkipperTest extends TestCase
         ], $this->skipper->getUnusedSkipped());
     }
 
-    private function createParameterProvider(): ParameterProvider
+    /**
+     * @return mixed[]
+     */
+    private function createSkipParameter(): array
     {
-        $container = new Container();
-        $container->setParameter('skip', [
+        return [
             DeclareStrictTypesFixer::class => [
                 'someFile',
                 '*/someDirectory/*',
@@ -84,8 +84,6 @@ final class SkipperTest extends TestCase
             'someSniff.someOtherCode' => [
                 '*/someDirectory/*',
             ],
-        ]);
-
-        return new ParameterProvider($container);
+        ];
     }
 }

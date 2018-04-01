@@ -6,8 +6,6 @@ use Nette\Utils\Strings;
 use PHP_CodeSniffer\Sniffs\Sniff;
 use PhpCsFixer\Fixer\FixerInterface;
 use Symfony\Component\Finder\SplFileInfo;
-use Symplify\EasyCodingStandard\Configuration\Option;
-use Symplify\PackageBuilder\Parameter\ParameterProvider;
 
 final class Skipper
 {
@@ -31,14 +29,15 @@ final class Skipper
      */
     private $excludedFiles = [];
 
-    public function __construct(ParameterProvider $parameterProvider)
+    /**
+     * @param mixed[] $skip
+     * @param mixed[] $excludeFiles
+     */
+    public function __construct(array $skip, array $excludeFiles)
     {
-        $skipped = $parameterProvider->provide()[Option::SKIP] ?? [];
-        $this->filterToSkippedAndSkippedCodes($skipped);
-
+        $this->filterToSkippedAndSkippedCodes($skip);
         $this->unusedSkipped = $this->skipped;
-
-        $this->excludedFiles = $this->resolveExcludedFiles($parameterProvider);
+        $this->excludedFiles = $excludeFiles;
     }
 
     public function shouldSkipCodeAndFile(string $code, string $absoluteFilePath): bool
@@ -149,23 +148,6 @@ final class Skipper
         if ($this->unusedSkipped[$skippedChecker] === []) {
             unset($this->unusedSkipped[$skippedChecker]);
         }
-    }
-
-    /**
-     * @return string[]
-     */
-    private function resolveExcludedFiles(ParameterProvider $parameterProvider): array
-    {
-        if ($parameterProvider->provideParameter(Option::EXCLUDE_FILES)) {
-            return $parameterProvider->provideParameter(Option::EXCLUDE_FILES);
-        }
-
-        // typo proof
-        if ($parameterProvider->provideParameter('excluded_files')) {
-            return $parameterProvider->provideParameter('excluded_files');
-        }
-
-        return [];
     }
 
     /**
