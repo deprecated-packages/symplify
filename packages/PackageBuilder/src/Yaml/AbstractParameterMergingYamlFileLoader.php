@@ -5,7 +5,6 @@ namespace Symplify\PackageBuilder\Yaml;
 use Symfony\Component\Config\FileLocatorInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
-use Symplify\EasyCodingStandard\Yaml\ParametersMerger;
 use Symplify\PackageBuilder\Exception\Yaml\InvalidParametersValueException;
 use Symplify\PackageBuilder\Reflection\PrivatesCaller;
 
