@@ -2,59 +2,25 @@
 
 namespace Symplify\Statie\Tests\Application;
 
-use Nette\Utils\FileSystem;
 use PHPUnit\Framework\TestCase;
-use Symplify\Statie\Application\StatieApplication;
+use Symplify\PackageBuilder\Parameter\ParameterProvider;
 use Symplify\Statie\DependencyInjection\ContainerFactory;
-use Symplify\Statie\Exception\Utils\MissingDirectoryException;
-use Symplify\Statie\FlatWhite\Latte\DynamicStringLoader;
 
 final class ParameterMergeTest extends TestCase
 {
     /**
-     * @var StatieApplication
+     * @var ParameterProvider
      */
-    private $statieApplication;
-
-    /**
-     * @var DynamicStringLoader
-     */
-    private $dynamicStringLoader;
+    private $parameterProvider;
 
     protected function setUp(): void
     {
-        $container = (new ContainerFactory())->createWithConfig(__DIR__ . '/StatieApplicationSource/statie.yml');
-        $this->statieApplication = $container->get(StatieApplication::class);
-        $this->dynamicStringLoader = $container->get(DynamicStringLoader::class);
+        $container = (new ContainerFactory())->createWithConfig(__DIR__ . '/StatieApplicationSource/parameter-merge.yml');
+        $this->parameterProvider = $container->get(ParameterProvider::class);
     }
 
-    protected function tearDown(): void
+    public function test()
     {
-        FileSystem::delete(__DIR__ . '/StatieApplicationSource/output');
-    }
-
-    public function testRun(): void
-    {
-        $this->statieApplication->run(
-            __DIR__ . '/StatieApplicationSource/source',
-            __DIR__ . '/StatieApplicationSource/output'
-        );
-
-        $this->assertFileExists(__DIR__ . '/StatieApplicationSource/output/index.html');
-        $this->assertFileEquals(
-            __DIR__ . '/StatieApplicationSource/expected-index.html',
-            __DIR__ . '/StatieApplicationSource/output/index.html'
-        );
-
-        $this->assertFileExists(__DIR__ . '/StatieApplicationSource/output/feed.xml');
-        $this->assertFileExists(__DIR__ . '/StatieApplicationSource/output/atom.rss');
-
-        $this->assertNotEmpty($this->dynamicStringLoader->getContent('default'));
-    }
-
-    public function testRunForMissingSource(): void
-    {
-        $this->expectException(MissingDirectoryException::class);
-        $this->statieApplication->run('missing', 'random');
+        $this->assertCount(2, $this->parameterProvider->provideParameter('framework'));
     }
 }

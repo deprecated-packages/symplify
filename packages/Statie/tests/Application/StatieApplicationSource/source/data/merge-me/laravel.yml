@@ -1,0 +1,11 @@
+parameters:
+    framework:
+        laravel:
+            -
+                type: controller
+                code: |
+                    <?php
+
+                    class LaravelController
+                    {
+                    }
