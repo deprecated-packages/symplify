@@ -15,11 +15,13 @@ final class ParameterMergeTest extends TestCase
 
     protected function setUp(): void
     {
-        $container = (new ContainerFactory())->createWithConfig(__DIR__ . '/StatieApplicationSource/parameter-merge.yml');
+        $container = (new ContainerFactory())->createWithConfig(
+            __DIR__ . '/StatieApplicationSource/parameter-merge.yml'
+        );
         $this->parameterProvider = $container->get(ParameterProvider::class);
     }
 
-    public function test()
+    public function test(): void
     {
         $this->assertCount(2, $this->parameterProvider->provideParameter('framework'));
     }

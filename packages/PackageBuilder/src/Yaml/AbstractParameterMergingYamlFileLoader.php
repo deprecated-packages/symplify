@@ -58,8 +58,7 @@ abstract class AbstractParameterMergingYamlFileLoader extends YamlFileLoader
             return;
         }
 
-        // imports
-        // $this->parseImports($content, $path);
+        // imports: $this->parseImports($content, $path);
         $this->privatesCaller->callPrivateMethod($this, 'parseImports', $content, $path);
 
         // parameters
@@ -90,13 +89,14 @@ abstract class AbstractParameterMergingYamlFileLoader extends YamlFileLoader
             }
         }
 
-        // extensions
-        // $this->loadFromExtensions($content);
+        // extensions: $this->loadFromExtensions($content);
         $this->privatesCaller->callPrivateMethod($this, 'loadFromExtensions', $content);
 
-        // services - not accessible, private parent properties, luckily not needed
-        // $this->anonymousServicesCount = 0;
-        // $this->anonymousServicesSuffix = ContainerBuilder::hash($path);
+        /**
+         * services - not accessible, private parent properties, luckily not needed
+         * - $this->anonymousServicesCount = 0;
+         * - $this->anonymousServicesSuffix = ContainerBuilder::hash($path);
+         */
         $this->setCurrentDir(dirname($path));
         try {
             // $this->parseDefinitions($content, $path);

@@ -9,6 +9,9 @@ parameters:
         - '#Parameter \#2 \$config of class PHP_CodeSniffer\\Tokenizers\\PHP constructor expects PHP_CodeSniffer\\Config\|null, PHP_CodeSniffer\\Config\|stdClass given#'
         - '#Parameter \#1 \$id of class Symfony\\Component\\DependencyInjection\\Reference constructor expects string, string\|null given#'
 
+        # wrong doc type of 3rd party method
+        - '#Strict comparison using === between array and null will always evaluate to false#'
+
         # is valid code, known values
         - '#Calling method getEnd\(\) on possibly null value of type Symplify\\TokenRunner\\Analyzer\\FixerAnalyzer\\BlockInfo\|null#'
         - '#Calling method getStart\(\) on possibly null value of type Symplify\\TokenRunner\\Analyzer\\FixerAnalyzer\\BlockInfo\|null#'

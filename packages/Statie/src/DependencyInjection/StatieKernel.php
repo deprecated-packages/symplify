@@ -78,7 +78,8 @@ final class StatieKernel extends Kernel
 
         $loaderResolver = new LoaderResolver([
             new GlobFileLoader($container, $kernelFileLocator),
-            new class($container, $kernelFileLocator) extends AbstractParameterMergingYamlFileLoader {}
+            new class($container, $kernelFileLocator) extends AbstractParameterMergingYamlFileLoader {
+            },
         ]);
 
         return new DelegatingLoader($loaderResolver);
