@@ -1,5 +1,2 @@
 imports:
     - { resource: 'source/data/config.yml' }
-
-parameters:
-    title: Hi guys
