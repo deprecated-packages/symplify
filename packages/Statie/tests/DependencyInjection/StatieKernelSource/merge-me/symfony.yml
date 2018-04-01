@@ -1,0 +1,11 @@
+parameters:
+    framework:
+        symfony:
+            -
+                type: controller
+                code: |
+                    <?php
+
+                    class SymfonyController
+                    {
+                    }
