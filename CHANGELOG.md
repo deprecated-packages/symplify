@@ -21,6 +21,8 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
 
 #### PackageBuilder
 
+- [#755] Add `Symplify\PackageBuilder\Yaml\AbstractParameterMergingYamlFileLoader` for standalone use
+
 - [#732] Add support for `Error` rendering to `Symplify\PackageBuilder\Console\ThrowableRenderer` (former `ExceptionRenderer`)
 
 - [#720] Add `Symplify\PackageBuilder\Console\ExceptionRenderer` to render exception nicely Console Applications but anywhere outside it; follow up to [#715] and [#702]
