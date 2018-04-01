@@ -1,5 +1,7 @@
+imports:
+    - { resource: 'import-me/*.yml' }
+
 parameters:
     title: Hi guys
     socials:
         Twitter: url
-        Facebook: url

@@ -1,0 +1,2 @@
+imports:
+    - { resource: 'source/data/config.yml' }
