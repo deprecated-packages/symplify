@@ -342,4 +342,44 @@ parameters:
        - skip_that_too
 ```
 
+How to use it?
+
+
+```php
+// AppKernel.php
+
+namespace App;
+
+use Symfony\Component\Config\Loader\DelegatingLoader;
+use Symfony\Component\Config\Loader\LoaderResolver;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\DependencyInjection\Loader\GlobFileLoader;
+use Symfony\Component\HttpKernel\Config\FileLocator;
+use Symfony\Component\HttpKernel\Kernel;
+use Symplify\PackageBuilder\Yaml\AbstractParameterMergingYamlFileLoader;
+
+final class AppKernel extends Kernel
+{
+    // ...
+    
+    /**
+     * @param ContainerInterface|ContainerBuilder $container
+     */
+    protected function getContainerLoader(ContainerInterface $container): DelegatingLoader
+    {
+        $kernelFileLocator = new FileLocator($this);
+
+        $loaderResolver = new LoaderResolver([
+            new GlobFileLoader($container, $kernelFileLocator),
+            // you can 1. create custom YamlFileLoader for other custom tweaks or 2. use abstract class like this 
+            new class($container, $kernelFileLocator) extends AbstractParameterMergingYamlFileLoader {
+            },
+        ]);
+
+        return new DelegatingLoader($loaderResolver);
+    }
+}
+```
+
 That's all :)
