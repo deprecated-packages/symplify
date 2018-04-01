@@ -2,12 +2,18 @@
 
 namespace Symplify\Statie\DependencyInjection;
 
+use Symfony\Component\Config\Loader\DelegatingLoader;
 use Symfony\Component\Config\Loader\LoaderInterface;
+use Symfony\Component\Config\Loader\LoaderResolver;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\DependencyInjection\Loader\GlobFileLoader;
 use Symfony\Component\HttpKernel\Bundle\BundleInterface;
+use Symfony\Component\HttpKernel\Config\FileLocator;
 use Symfony\Component\HttpKernel\Kernel;
 use Symplify\PackageBuilder\DependencyInjection\CompilerPass\AutowireSinglyImplementedCompilerPass;
 use Symplify\PackageBuilder\DependencyInjection\CompilerPass\PublicForTestsCompilerPass;
+use Symplify\PackageBuilder\Yaml\AbstractParameterMergingYamlFileLoader;
 use Symplify\Statie\DependencyInjection\CompilerPass\CollectorCompilerPass;
 
 final class StatieKernel extends Kernel
@@ -61,5 +67,20 @@ final class StatieKernel extends Kernel
         $containerBuilder->addCompilerPass(new CollectorCompilerPass());
         $containerBuilder->addCompilerPass(new PublicForTestsCompilerPass());
         $containerBuilder->addCompilerPass(new AutowireSinglyImplementedCompilerPass());
+    }
+
+    /**
+     * @param ContainerInterface|ContainerBuilder $container
+     */
+    protected function getContainerLoader(ContainerInterface $container): DelegatingLoader
+    {
+        $kernelFileLocator = new FileLocator($this);
+
+        $loaderResolver = new LoaderResolver([
+            new GlobFileLoader($container, $kernelFileLocator),
+            new class($container, $kernelFileLocator) extends AbstractParameterMergingYamlFileLoader {}
+        ]);
+
+        return new DelegatingLoader($loaderResolver);
     }
 }
