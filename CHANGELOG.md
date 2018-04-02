@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLinker](https://github.com/Symplify/ChangelogLinker).
 
-## [v4.0.0beta1]
+## [v4.0.0] - 2018-04-02
 
 Biggest change of this release is moving from mixture of Yaml and Neon format in `*.neon` files to Yaml format in `*.yaml` files. That will make Symplify packages more world-friendly and standard rather than Czech-only Neon format. See [#651](https://github.com/Symplify/Symplify/pull/651) about more reasoning behind this.
 
@@ -1051,7 +1051,6 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
 [@marmichalski]: https://github.com/marmichalski
 [#661]: https://github.com/Symplify/Symplify/pull/661
 [#660]: https://github.com/Symplify/Symplify/pull/660
-[v4.0.0alpha1]: https://github.com/Symplify/Symplify/compare/v3.2.0...v4.0.0alpha1
 [#690]: https://github.com/Symplify/Symplify/pull/690
 [#688]: https://github.com/Symplify/Symplify/pull/688
 [#709]: https://github.com/Symplify/Symplify/pull/709
@@ -1087,3 +1086,5 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
 [#730]: https://github.com/Symplify/Symplify/pull/730
 [#729]: https://github.com/Symplify/Symplify/pull/729
 [#749]: https://github.com/Symplify/Symplify/pull/749
+[v4.0.0]: https://github.com/Symplify/Symplify/compare/v3.2.0...v4.0.0
+[#755]: https://github.com/Symplify/Symplify/pull/755
