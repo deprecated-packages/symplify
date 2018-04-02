@@ -60,7 +60,7 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
 
 #### EasyCodingStandard
 
-- [706] Add [PSR-12 set](https://github.com/php-fig/fig-standards/blob/master/proposed/extended-coding-style-guide.md), use in CLI `--level psr12` or import `psr12.yml`
+- [#706] Add [PSR-12 set](https://github.com/php-fig/fig-standards/blob/master/proposed/extended-coding-style-guide.md), use in CLI `--level psr12` or import `psr12.yml`
 
 - [#741] Add support for `%vendor_dir%`, `%current_working_dir%` variables in `imports` section of configs to allow simpler loading [lmc-eu/php-coding-standard#6](https://github.com/lmc-eu/php-coding-standard/pull/6)
 
@@ -1088,3 +1088,4 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
 [#749]: https://github.com/Symplify/Symplify/pull/749
 [v4.0.0]: https://github.com/Symplify/Symplify/compare/v3.2.0...v4.0.0
 [#755]: https://github.com/Symplify/Symplify/pull/755
+[#706]: https://github.com/Symplify/Symplify/pull/706
