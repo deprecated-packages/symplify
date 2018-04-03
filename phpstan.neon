@@ -9,9 +9,6 @@ parameters:
         - '#Parameter \#2 \$config of class PHP_CodeSniffer\\Tokenizers\\PHP constructor expects PHP_CodeSniffer\\Config\|null, PHP_CodeSniffer\\Config\|stdClass given#'
         - '#Parameter \#1 \$id of class Symfony\\Component\\DependencyInjection\\Reference constructor expects string, string\|null given#'
 
-        # wrong doc type of 3rd party method
-        - '#Strict comparison using === between array and null will always evaluate to false#'
-
         # is valid code, known values
         - '#Calling method getEnd\(\) on possibly null value of type Symplify\\TokenRunner\\Analyzer\\FixerAnalyzer\\BlockInfo\|null#'
         - '#Calling method getStart\(\) on possibly null value of type Symplify\\TokenRunner\\Analyzer\\FixerAnalyzer\\BlockInfo\|null#'
@@ -22,8 +19,7 @@ parameters:
         - '#Property Symplify\\TokenRunner\\Wrapper\\FixerWrapper\\ClassWrapper::\$startBracketIndex \(int\) does not accept int\|null#'
         - '#Method Symplify\\EasyCodingStandard\\Finder\\FinderSanitizer::turnInfoSymfonyFileInfos\(\) should return array<Symfony\\Component\\Finder\\SplFileInfo> but returns array<SplFileInfo>#'
         - '#Calling method (getLineEnding|getIndent)\(\) on possibly null value of type PhpCsFixer\\WhitespacesFixerConfig\|null#'
-        - '#Method Symplify\\TokenRunner\\Wrapper\\FixerWrapper\\DocBlockWrapper::getVarTag\(\) should return phpDocumentor\\Reflection\\DocBlock\\Tags\\Var_\|null but returns phpDocumentor\\Reflection\\DocBlock\\Tag\|null#'
-        - '#Method Symplify\\TokenRunner\\Wrapper\\FixerWrapper\\DocBlockWrapper::getReturnTag\(\) should return Symplify\\BetterReflectionDocBlock\\Tag\\TolerantReturn\|null but returns phpDocumentor\\Reflection\\DocBlock\\Tag\|null#'
+        - '#Method Symplify\\TokenRunner\\Wrapper\\FixerWrapper\\DocBlockWrapper::getVarTag\(\) should return Symplify\\BetterReflectionDocBlock\\Tag\\TolerantVar\|null but returns phpDocumentor\\Reflection\\DocBlock\\Tag|null#'
         - '#Method Symplify\\Statie\\Renderable\\File\\FileFactory::createFromFileInfo\(\) should return Symplify\\Statie\\Renderable\\File\\File but returns Symplify\\Statie\\Renderable\\File\\AbstractFile#'
 
         # intentional stricter phpDocumentor\Reflection\Types\This
@@ -45,10 +41,7 @@ parameters:
 
         # intersect/union buggy
         - '#Parameter \#(2|3) \$items of method PhpCsFixer\\Tokenizer\\Tokens::(insertAt|overrideRange)\(\) expects (\()?iterable<PhpCsFixer\\Tokenizer\\Token>&PhpCsFixer\\Tokenizer\\Tokens(\))?(\|PhpCsFixer\\Tokenizer\\Token)?, array<(int, )?PhpCsFixer\\Tokenizer\\Token> given#'
-        - '#Method Symplify\\TokenRunner\\Tests\\DocBlock\\ParamAndReturnTagAnalyzerTest::provideDocTypeDocDescriptionParamTypeAndResult\(\) should return array<array<bool|string\>\> but returns array<int, array<int,bool\|string\|null\>\>#'
         - '#expects Symfony\\Component\\DependencyInjection\\ContainerBuilder, Symfony\\Component\\DependencyInjection\\ContainerInterface given#'
-        # temporary, will be removed
-        - '#Property Symplify\\TokenRunner\\Wrapper\\FixerWrapper\\DocBlockWrapper::\$phpDocumentorDocBlock \(phpDocumentor\\Reflection\\DocBlock\) does not accept phpDocumentor\\Reflection\\DocBlock\|null#'
 
     excludes_analyse:
         - *packages/CodingStandard/tests/**/correct*
