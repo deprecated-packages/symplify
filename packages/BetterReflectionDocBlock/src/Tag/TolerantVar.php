@@ -5,9 +5,9 @@ namespace Symplify\BetterReflectionDocBlock\Tag;
 use phpDocumentor\Reflection\DocBlock\DescriptionFactory;
 use phpDocumentor\Reflection\DocBlock\Tags\Var_;
 use phpDocumentor\Reflection\TypeResolver;
+use phpDocumentor\Reflection\Types\Context as TypeContext;
 use Throwable;
 use Webmozart\Assert\Assert;
-use phpDocumentor\Reflection\Types\Context as TypeContext;
 
 /**
  * Same as @see \phpDocumentor\Reflection\DocBlock\Tags\Var,
@@ -20,9 +20,9 @@ final class TolerantVar extends Var_
      */
     public static function create(
         $body,
-        TypeResolver $typeResolver = null,
-        DescriptionFactory $descriptionFactory = null,
-        TypeContext $context = null
+        ?TypeResolver $typeResolver = null,
+        ?DescriptionFactory $descriptionFactory = null,
+        ?TypeContext $typeContext = null
     ) {
         Assert::stringNotEmpty($body);
         Assert::allNotNull([$typeResolver, $descriptionFactory]);
@@ -34,7 +34,7 @@ final class TolerantVar extends Var_
         // if the first item that is encountered is not a variable; it is a type
         if (isset($parts[0]) && (strlen($parts[0]) > 0) && ($parts[0][0] !== '$')) {
             try {
-                $type = $typeResolver->resolve(array_shift($parts), $context);
+                $type = $typeResolver->resolve(array_shift($parts), $typeContext);
             } catch (Throwable $throwable) {
                 $type = null;
             }
@@ -52,7 +52,7 @@ final class TolerantVar extends Var_
             }
         }
 
-        $description = $descriptionFactory->create(implode('', $parts), $context);
+        $description = $descriptionFactory->create(implode('', $parts), $typeContext);
 
         return new static($variableName, $type, $description);
     }
