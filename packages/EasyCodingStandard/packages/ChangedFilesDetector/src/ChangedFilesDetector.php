@@ -2,7 +2,7 @@
 
 namespace Symplify\EasyCodingStandard\ChangedFilesDetector;
 
-use Nette\Caching\Cache;
+use Symfony\Component\Cache\Adapter\TagAwareAdapterInterface;
 use Symplify\PackageBuilder\Configuration\ConfigFileFinder;
 use Symplify\PackageBuilder\FileSystem\FileGuard;
 
@@ -19,11 +19,6 @@ final class ChangedFilesDetector
     private const CONFIGURATION_HASH_KEY = 'configuration_hash';
 
     /**
-     * @var Cache
-     */
-    private $cache;
-
-    /**
      * @var FileHashComputer
      */
     private $fileHashComputer;
@@ -33,11 +28,19 @@ final class ChangedFilesDetector
      */
     private $fileGuard;
 
-    public function __construct(Cache $cache, FileHashComputer $fileHashComputer, FileGuard $fileGuard)
-    {
-        $this->cache = $cache;
+    /**
+     * @var TagAwareAdapterInterface
+     */
+    private $tagAwareAdapter;
+
+    public function __construct(
+        FileHashComputer $fileHashComputer,
+        FileGuard $fileGuard,
+        TagAwareAdapterInterface $tagAwareAdapter
+    ) {
         $this->fileHashComputer = $fileHashComputer;
         $this->fileGuard = $fileGuard;
+        $this->tagAwareAdapter = $tagAwareAdapter;
 
         $configurationFile = ConfigFileFinder::provide('ecs');
         if ($configurationFile !== null && is_file($configurationFile)) {
@@ -54,17 +57,17 @@ final class ChangedFilesDetector
     {
         $this->fileGuard->ensureIsAbsolutePath($filePath, __METHOD__);
 
-        $hash = $this->fileHashComputer->compute($filePath);
-        $this->cache->save($filePath, $hash, [
-            Cache::TAGS => self::CHANGED_FILES_CACHE_TAG,
-        ]);
+        $item = $this->tagAwareAdapter->getItem($this->filePathToKey($filePath));
+        $item->set($this->fileHashComputer->compute($filePath));
+        $item->tag(self::CHANGED_FILES_CACHE_TAG);
+        $this->tagAwareAdapter->save($item);
     }
 
     public function invalidateFile(string $filePath): void
     {
         $this->fileGuard->ensureIsAbsolutePath($filePath, __METHOD__);
 
-        $this->cache->remove($filePath);
+        $this->tagAwareAdapter->deleteItem($this->filePathToKey($filePath));
     }
 
     public function hasFileChanged(string $filePath): bool
@@ -72,7 +75,9 @@ final class ChangedFilesDetector
         $this->fileGuard->ensureIsAbsolutePath($filePath, __METHOD__);
 
         $newFileHash = $this->fileHashComputer->compute($filePath);
-        $oldFileHash = $this->cache->load($filePath);
+
+        $cacheItem = $this->tagAwareAdapter->getItem($this->filePathToKey($filePath));
+        $oldFileHash = $cacheItem->get();
 
         if ($newFileHash !== $oldFileHash) {
             return true;
@@ -84,22 +89,29 @@ final class ChangedFilesDetector
     public function clearCache(): void
     {
         // clear cache only for changed files group
-        $this->cache->clean([Cache::TAGS => self::CHANGED_FILES_CACHE_TAG]);
+        $this->tagAwareAdapter->invalidateTags([self::CHANGED_FILES_CACHE_TAG]);
     }
 
     private function storeConfigurationDataHash(string $configurationHash): void
     {
         $this->invalidateCacheIfConfigurationChanged($configurationHash);
-        $this->cache->save(self::CONFIGURATION_HASH_KEY, $configurationHash, [
-            Cache::TAGS => self::CHANGED_FILES_CACHE_TAG,
-        ]);
+
+        $cacheItem = $this->tagAwareAdapter->getItem(self::CONFIGURATION_HASH_KEY);
+        $cacheItem->set($configurationHash);
+        $this->tagAwareAdapter->save($cacheItem);
     }
 
     private function invalidateCacheIfConfigurationChanged(string $configurationHash): void
     {
-        $oldConfigurationHash = $this->cache->load(self::CONFIGURATION_HASH_KEY);
+        $cacheItem = $this->tagAwareAdapter->getItem(self::CONFIGURATION_HASH_KEY);
+        $oldConfigurationHash = $cacheItem->get();
         if ($configurationHash !== $oldConfigurationHash) {
             $this->clearCache();
         }
+    }
+
+    private function filePathToKey(string $filePath): string
+    {
+        return sha1($filePath);
     }
 }

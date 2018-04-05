@@ -1,11 +1,14 @@
 services:
     _defaults:
         autowire: true
-        bind:
-            $cacheDirectory: '%cache_directory%'
 
     Symplify\EasyCodingStandard\ChangedFilesDetector\:
         resource: '..'
 
-    Nette\Caching\Cache:
-        factory: ['@Symplify\EasyCodingStandard\ChangedFilesDetector\Cache\CacheFactory', 'create']
+    Symfony\Component\Cache\Simple\FilesystemCache:
+        $directory: '%cache_directory%'
+
+    Symfony\Component\Cache\Adapter\SimpleCacheAdapter:
+    Symfony\Component\Cache\Adapter\TagAwareAdapter:
+        $itemsPool: '@Symfony\Component\Cache\Adapter\SimpleCacheAdapter'
+        $tagsPool: '@Symfony\Component\Cache\Adapter\SimpleCacheAdapter'
