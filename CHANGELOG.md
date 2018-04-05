@@ -9,6 +9,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLinker](https://github.com/Symplify/ChangelogLinker).
 
+## [v4.0.1] - 2018-04-05
+
+### Fixed
+
+#### EasyCodingStandard
+
+- [#759] Fix cache invalidation for files with error or change, closes [#759]
+- [#758] Fix missed unreported skips, closes [#750]
+- [#757] Fix `@var` invalid types by adding `TolerantVar`
+
 ## [v4.0.0] - 2018-04-02
 
 Biggest change of this release is moving from mixture of Yaml and Neon format in `*.neon` files to Yaml format in `*.yaml` files. That will make Symplify packages more world-friendly and standard rather than Czech-only Neon format. See [#651](https://github.com/Symplify/Symplify/pull/651) about more reasoning behind this.
@@ -1089,3 +1099,8 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
 [v4.0.0]: https://github.com/Symplify/Symplify/compare/v3.2.0...v4.0.0
 [#755]: https://github.com/Symplify/Symplify/pull/755
 [#706]: https://github.com/Symplify/Symplify/pull/706
+[v4.0.1]: https://github.com/Symplify/Symplify/compare/v4.0.0...v4.0.1
+[#759]: https://github.com/Symplify/Symplify/pull/759
+[#758]: https://github.com/Symplify/Symplify/pull/758
+[#757]: https://github.com/Symplify/Symplify/pull/757
+[#750]: https://github.com/Symplify/Symplify/issues/750
