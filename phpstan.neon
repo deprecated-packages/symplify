@@ -13,6 +13,9 @@ parameters:
         - '#Calling method getEnd\(\) on possibly null value of type Symplify\\TokenRunner\\Analyzer\\FixerAnalyzer\\BlockInfo\|null#'
         - '#Calling method getStart\(\) on possibly null value of type Symplify\\TokenRunner\\Analyzer\\FixerAnalyzer\\BlockInfo\|null#'
 
+        # invalid 3rd party-code
+        - '#Call to an undefined method Psr\\Cache\\CacheItemInterface::tag\(\)#'
+
         - '#Parameter \#1 \$index of method PhpCsFixer\\Tokenizer\\Tokens::getNextTokenOfKind\(\) expects int, int\\|null given#'
         - '#Parameter \#2 \$start of method PHP_CodeSniffer\\Files\\File::findNext\(\) expects int, int\|true given#'
         - '#Variable \$processedFileContent might not be defined#'
