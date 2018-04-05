@@ -8,7 +8,6 @@
         "friendsofphp/php-cs-fixer": "^2.11",
         "jean85/pretty-package-versions": "^1.1",
         "latte/latte": "^2.4",
-        "nette/caching": "^2.5",
         "nette/finder": "^2.4",
         "nette/robot-loader": "^3.0",
         "nette/utils": "^2.5",
