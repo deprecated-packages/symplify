@@ -5,9 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-*Note: due to rather agile development all changes are bunched in the nearest minor version, e.g. changes from 3.1.1-3.1.15 => 3.2.0. That makes changelog more clear and readable, rather then having 15 lines with one change per version, and also keeps joy to maintain this file.*
-
 PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLinker](https://github.com/Symplify/ChangelogLinker).
+
+## Unreleased
+
+### Changed
+
+#### EasyCodingStandard
+
+- [#764] Remove `sqlite` hidden dependency by using `symfony/cache`
+
+### Fixed
+
+#### EasyCodingStandard
+
+- [#763] Fix `CheckerServiceParametersShifter` for `null` value
 
 ## [v4.0.1] - 2018-04-05
 
@@ -1104,3 +1116,5 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
 [#758]: https://github.com/Symplify/Symplify/pull/758
 [#757]: https://github.com/Symplify/Symplify/pull/757
 [#750]: https://github.com/Symplify/Symplify/issues/750
+[#764]: https://github.com/Symplify/Symplify/pull/764
+[#763]: https://github.com/Symplify/Symplify/pull/763
