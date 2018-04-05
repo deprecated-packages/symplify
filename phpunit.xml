@@ -15,4 +15,8 @@
     <listeners>
         <listener class="Symplify\Tests\PHPUnit\Listener\ClearLogAndCacheTestListener" />
     </listeners>
+
+    <php>
+        <env name="TEST_SUFFIX" value="_tests"/>
+    </php>
 </phpunit>
