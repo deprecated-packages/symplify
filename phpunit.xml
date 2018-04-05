@@ -15,7 +15,7 @@
     <listeners>
         <listener class="Symplify\Tests\PHPUnit\Listener\ClearLogAndCacheTestListener" />
     </listeners>
-
+    <!-- to differentiate cache directory of EasyCodingStandards in tests -->
     <php>
         <env name="TEST_SUFFIX" value="_tests"/>
     </php>
