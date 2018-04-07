@@ -15,6 +15,7 @@ parameters:
 
         # invalid 3rd party-code
         - '#Call to an undefined method Psr\\Cache\\CacheItemInterface::tag\(\)#'
+        - '#Parameter \#1 \$types of method PHP_CodeSniffer\\Files\\File::findNext\(\) expects array\|int, string given#'
 
         - '#Parameter \#1 \$index of method PhpCsFixer\\Tokenizer\\Tokens::getNextTokenOfKind\(\) expects int, int\\|null given#'
         - '#Parameter \#2 \$start of method PHP_CodeSniffer\\Files\\File::findNext\(\) expects int, int\|true given#'

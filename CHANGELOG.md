@@ -9,6 +9,10 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 ## Unreleased
 
+#### Added
+
+- [#768] Add `Symplify\CodingStandard\Sniffs\ControlStructure\SprintfOverContactSniff`
+
 ### Changed
 
 #### CodingStandard
@@ -16,7 +20,7 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 - [#766] Make class-renaming checkers inform only
     - `Symplify\CodingStandard\Sniffs\Naming\AbstractClassNameSniff`
     - `Symplify\CodingStandard\Sniffs\Naming\InterfaceNameSniff`
-    - `Symplify\CodingStandard\Sniffs\Naming\TraitNameSniff` 
+    - `Symplify\CodingStandard\Sniffs\Naming\TraitNameSniff`
 
 #### EasyCodingStandard
 

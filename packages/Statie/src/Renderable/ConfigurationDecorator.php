@@ -13,14 +13,6 @@ final class ConfigurationDecorator implements FileDecoratorInterface
     /**
      * @var string
      */
-    private const CONFIG_AND_CONTENT_PATTERN =
-        '/^\s*' .
-        self::SLASHES_WITH_SPACES_PATTERN . '(?<config>.*?)' . self::SLASHES_WITH_SPACES_PATTERN .
-        '(?<content>.*?)$/s';
-
-    /**
-     * @var string
-     */
     private const SLASHES_WITH_SPACES_PATTERN = '(?:---[\s]*[\r\n]+)';
 
     /**
@@ -57,7 +49,8 @@ final class ConfigurationDecorator implements FileDecoratorInterface
 
     private function decorateFile(AbstractFile $file): void
     {
-        $matches = Strings::match($file->getContent(), self::CONFIG_AND_CONTENT_PATTERN);
+        $matches = Strings::match($file->getContent(), $this->getConfigAndContentPattern());
+
         if ($matches) {
             $file->changeContent($matches['content']);
             if ($matches['config']) {
@@ -70,5 +63,14 @@ final class ConfigurationDecorator implements FileDecoratorInterface
     {
         $configuration = $this->yamlParser->decodeInSource($content, $file->getFilePath());
         $file->addConfiguration($configuration);
+    }
+
+    private function getConfigAndContentPattern(): string
+    {
+        return sprintf(
+            '/^\s*%s(?<config>.*?)%s(?<content>.*?)$/s',
+            self::SLASHES_WITH_SPACES_PATTERN,
+            self::SLASHES_WITH_SPACES_PATTERN
+        );
     }
 }

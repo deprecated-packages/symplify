@@ -28,12 +28,6 @@ final class ClassStringToClassConstantFixer implements DefinedFixerInterface, Co
     private const CLASS_PART_PATTERN = '[A-Z]\w*[a-z]\w*';
 
     /**
-     * @var string
-     */
-    private const CLASS_INTERFACE_OR_TRAIT_PATTERN =
-        '#^' . self::CLASS_PART_PATTERN . '(\\\\' . self::CLASS_PART_PATTERN . ')+\z#';
-
-    /**
      * @var mixed[]
      */
     private $configuration = [];
@@ -159,7 +153,7 @@ final class ClassStringToClassConstantFixer implements DefinedFixerInterface, Co
             || trait_exists($potentialClassInterfaceOrTrait);
 
         if ($this->configuration[self::CLASS_MUST_EXIST_OPTION] === false) {
-            $accepted = (bool) preg_match(self::CLASS_INTERFACE_OR_TRAIT_PATTERN, $potentialClassInterfaceOrTrait);
+            $accepted = (bool) preg_match($this->getClassyPattern(), $potentialClassInterfaceOrTrait);
         }
 
         return $accepted;
@@ -182,5 +176,10 @@ final class ClassStringToClassConstantFixer implements DefinedFixerInterface, Co
         $tokens[] = new Token([CT::T_CLASS_CONSTANT, 'class']);
 
         return $tokens;
+    }
+
+    private function getClassyPattern(): string
+    {
+        return sprintf('#^%s(\\\\%s)+\z#', self::CLASS_PART_PATTERN, self::CLASS_PART_PATTERN);
     }
 }

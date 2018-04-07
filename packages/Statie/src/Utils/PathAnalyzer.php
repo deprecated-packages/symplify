@@ -33,7 +33,9 @@ final class PathAnalyzer
 
     public function detectFilenameWithoutDate(SplFileInfo $fileInfo): string
     {
-        preg_match('#' . self::DATE_PATTERN . '-' . self::NAME_PATTERN . '#', $fileInfo->getFilename(), $matches);
+        $dateAndNamePattern = sprintf('#%s-%s#', self::DATE_PATTERN, self::NAME_PATTERN);
+
+        preg_match($dateAndNamePattern, $fileInfo->getFilename(), $matches);
 
         return $matches['name'];
     }
