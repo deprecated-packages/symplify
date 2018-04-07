@@ -408,7 +408,6 @@ class SomeClass
 }
 ```
 
-
 ### Prefer `sprintf()` over multiple concats ( . ).
 
 - :wrench:
@@ -423,7 +422,7 @@ return 'Class ' . $oldClass . ' was removed from ' . $file . '. Use ' . self::cl
 :+1:
 
 ```php
-return sprintf('Class "%s" was removed from "%s". Use "%s" instead', $oldClass, $file, self::class); 
+return sprintf('Class "%s" was removed from "%s". Use "%s" instead', $oldClass, $file, self::class);
 ```
 
 Is 2 `.` too strict? Just configure it:
@@ -432,7 +431,7 @@ Is 2 `.` too strict? Just configure it:
 # easy-coding-standard.yml
 services:
     Symplify\CodingStandard\Sniffs\ControlStructure\SprintfOverContactSniff:
-        maxConcatCount: 4 # "2" by default
+        maxConcatCount: 4 # "3" by default
 ```
 
 ### There should not be comments with valid code

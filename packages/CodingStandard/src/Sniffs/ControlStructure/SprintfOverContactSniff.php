@@ -10,7 +10,7 @@ final class SprintfOverContactSniff implements Sniff
     /**
      * @var int
      */
-    public $maxConcatCount = 4;
+    public $maxConcatCount = 3;
 
     private $reportedFileLines = [];
 
