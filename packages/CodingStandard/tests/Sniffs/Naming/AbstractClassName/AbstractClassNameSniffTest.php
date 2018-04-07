@@ -10,9 +10,9 @@ use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;
  */
 final class AbstractClassNameSniffTest extends AbstractCheckerTestCase
 {
-    public function testWrongToFixed(): void
+    public function testWrong(): void
     {
-        $this->doTestWrongToFixedFile(__DIR__ . '/wrong/wrong.php.inc', __DIR__ . '/fixed/fixed.php.inc');
+        $this->doTestWrongFile(__DIR__ . '/wrong/wrong.php.inc');
     }
 
     /**

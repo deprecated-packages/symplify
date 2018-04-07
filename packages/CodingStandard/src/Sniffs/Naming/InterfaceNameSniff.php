@@ -43,36 +43,11 @@ final class InterfaceNameSniff implements Sniff
             return;
         }
 
-        if ($file->addFixableError(self::ERROR_MESSAGE, $position, self::class)) {
-            $this->fix();
-        }
+        $file->addError(self::ERROR_MESSAGE, $position, self::class);
     }
 
     private function getInterfaceName(): string
     {
         return (string) $this->file->getDeclarationName($this->position);
-    }
-
-    private function getInterfaceNamePosition(): int
-    {
-        return (int) $this->file->findNext(T_STRING, $this->position);
-    }
-
-    private function fix(): void
-    {
-        $interfaceNamePosition = $this->getInterfaceNamePosition();
-
-        $name = $this->file->fixer->getTokenContent($interfaceNamePosition);
-
-        if ($this->isIPrefixedName($name)) {
-            $name = substr($name, 1);
-        }
-
-        $this->file->fixer->replaceToken($interfaceNamePosition, $name . 'Interface');
-    }
-
-    private function isIPrefixedName(string $name): bool
-    {
-        return strlen($name) >= 3 && $name[0] === 'I' && ctype_upper($name[1]) && ctype_lower($name[2]);
     }
 }

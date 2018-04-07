@@ -10,9 +10,19 @@ use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;
  */
 final class TraitNameSniffTest extends AbstractCheckerTestCase
 {
-    public function testWrongToFixed(): void
+    /**
+     * @dataProvider provideWrongCases()
+     */
+    public function testWrongToFixed(string $file): void
     {
-        $this->doTestWrongToFixedFile(__DIR__ . '/wrong/wrong.php.inc', __DIR__ . '/fixed/fixed.php.inc');
+        $this->doTestWrongFile($file);
+    }
+
+    public function provideWrongCases(): Iterator
+    {
+        yield [__DIR__ . '/wrong/wrong.php.inc'];
+        yield [__DIR__ . '/wrong/wrong2.php.inc'];
+        yield [__DIR__ . '/wrong/wrong3.php.inc'];
     }
 
     /**

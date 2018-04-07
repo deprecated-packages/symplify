@@ -43,23 +43,11 @@ final class TraitNameSniff implements Sniff
             return;
         }
 
-        if ($file->addFixableError(self::ERROR_MESSAGE, $position, self::class)) {
-            $this->fix();
-        }
+        $file->addError(self::ERROR_MESSAGE, $position, self::class);
     }
 
     private function getTraitName(): string
     {
         return (string) $this->file->getDeclarationName($this->position);
-    }
-
-    private function getTraitNamePosition(): int
-    {
-        return (int) $this->file->findNext(T_STRING, $this->position);
-    }
-
-    private function fix(): void
-    {
-        $this->file->fixer->addContent($this->getTraitNamePosition(), 'Trait');
     }
 }

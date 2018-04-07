@@ -484,11 +484,20 @@ services:
 
 - class: [`Symplify\CodingStandard\Sniffs\Naming\AbstractClassNameSniff`](src/Sniffs/Naming/AbstractClassNameSniff.php)
 
-```diff
--abstract class SomeClass
-+abstract class AbstractSomeClass
- {
- }
+:x:
+
+```php
+abstract class SomeClass
+{
+}
+```
+
+:+1:
+
+```php
+abstract class AbstractSomeClass
+{
+}
 ```
 
 ### Class should have suffix by parent class/interface
@@ -536,22 +545,40 @@ It also covers `Interface` suffix as well, e.g `EventSubscriber` checks for `Eve
 
 - class: [`Symplify\CodingStandard\Sniffs\Naming\InterfaceNameSniff`](src/Sniffs/Naming/InterfaceNameSniff.php)
 
-```diff
--interface Some
-+interface SomeInterface
- {
- }
+:x:
+
+```php
+interface Some
+{
+}
+```
+
+:+1:
+
+```php
+interface SomeInterface
+{
+}
 ```
 
 ### Trait should have suffix "Trait"
 
 - class: [`Symplify\CodingStandard\Sniffs\Naming\TraitNameSniff`](src/Sniffs/Naming/TraitNameSniff.php)
 
-```diff
--trait Some
-+trait SomeTrait
- {
- }
+:x:
+
+```php
+trait Some
+{
+}
+```
+
+:+1:
+
+```php
+trait SomeTrait
+{
+}
 ```
 
 ## Brave Checkers

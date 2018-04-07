@@ -43,9 +43,7 @@ final class AbstractClassNameSniff implements Sniff
             return;
         }
 
-        if ($file->addFixableError(self::ERROR_MESSAGE, $position, self::class)) {
-            $this->fix();
-        }
+        $file->addError(self::ERROR_MESSAGE, $position, self::class);
     }
 
     private function shouldBeSkipped(): bool
@@ -71,10 +69,5 @@ final class AbstractClassNameSniff implements Sniff
     private function getClassName(): ?string
     {
         return $this->file->getDeclarationName($this->position);
-    }
-
-    private function fix(): void
-    {
-        $this->file->fixer->addContent($this->position + 1, 'Abstract');
     }
 }
