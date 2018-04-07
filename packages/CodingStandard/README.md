@@ -530,17 +530,6 @@ services:
 
 It also covers `Interface` suffix as well, e.g `EventSubscriber` checks for `EventSubscriberInterface` as well.
 
-### Exception should have suffix "Exception"
-
-- class: [`Symplify\CodingStandard\Fixer\Naming\ExceptionNameSniff`](src/Fixer/Naming/ExceptionNameFixer.php)
-
-```diff
--class SomeClass extends Exception
-+class SomeClassException extends Exception
- {
- }
-```
-
 ### Interface should have suffix "Interface"
 
 - class: [`Symplify\CodingStandard\Sniffs\Naming\InterfaceNameSniff`](src/Sniffs/Naming/InterfaceNameSniff.php)
