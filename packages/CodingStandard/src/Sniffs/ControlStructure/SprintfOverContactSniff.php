@@ -15,7 +15,7 @@ final class SprintfOverContactSniff implements Sniff
     private $reportedFileLines = [];
 
     /**
-     * @return int[]
+     * @return string[]
      */
     public function register(): array
     {
