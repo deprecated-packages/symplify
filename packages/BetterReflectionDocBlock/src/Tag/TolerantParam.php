@@ -59,11 +59,14 @@ final class TolerantParam extends BaseTag
 
     public function __toString(): string
     {
-        return ($this->type ? $this->type . ' ' : '')
-            . ($this->isReference() ? '&' : '')
-            . ($this->isVariadic() ? '...' : '')
-            . '$' . $this->variableName
-            . ($this->description ? ' ' . $this->description : '');
+        return sprintf(
+            '%s%s$%s%s%s',
+            $this->type ? $this->type . ' ' : '',
+            $this->isReference() ? '&' : '',
+            $this->isVariadic() ? '...' : '',
+            $this->variableName,
+            $this->description ? ' ' . $this->description : ''
+        );
     }
 
     /**

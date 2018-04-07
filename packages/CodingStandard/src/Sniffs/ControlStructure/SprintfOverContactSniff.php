@@ -10,9 +10,10 @@ final class SprintfOverContactSniff implements Sniff
     /**
      * @var int
      */
-    public $maxConcatCount = 2;
+    public $maxConcatCount = 4;
 
     private $reportedFileLines = [];
+
     /**
      * @return int[]
      */
@@ -33,7 +34,7 @@ final class SprintfOverContactSniff implements Sniff
         }
 
         $concatCount = $this->getConcatCountTillEndOfExpression($file, $position);
-        if ($concatCount < $this->maxConcatCount) {
+        if ($concatCount <= $this->maxConcatCount) {
             return;
         }
 
@@ -48,7 +49,7 @@ final class SprintfOverContactSniff implements Sniff
 
     private function getConcatCountTillEndOfExpression(File $file, int $position): int
     {
-        $endOfExpression = $file->findNext([T_SEMICOLON], $position);
+        $endOfExpression = $file->findNext([T_COMMA, T_CLOSE_SQUARE_BRACKET, T_SEMICOLON], $position);
 
         $concatCount = 1;
 
