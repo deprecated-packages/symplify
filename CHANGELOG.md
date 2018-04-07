@@ -28,6 +28,12 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 - [#763] Fix `CheckerServiceParametersShifter` for `null` value
 
+### Deprecated
+
+#### CodingStandard
+
+- [#767] Deprecate `Symplify\CodingStandard\Fixer\Naming\ExceptionNameFixer` in favor of `Symplify\CodingStandard\Fixer\Naming\ClassNameSuffixByParentFixer` that does the same job and is extra configurable
+
 ## [v4.0.1] - 2018-04-05
 
 ### Fixed
