@@ -14,6 +14,16 @@ use SplFileInfo;
 
 final class ExceptionNameFixer implements DefinedFixerInterface
 {
+    public function __construct()
+    {
+        trigger_error(sprintf(
+            '"%s" was deprecated and will be removed in Symplify\CodingStandard 5.0. Use "%s" instead."',
+            self::class,
+            ClassNameSuffixByParentFixer::class
+        ), E_USER_DEPRECATED);
+        sleep(3); // inspired at "deprecated interface" Tweet
+    }
+
     public function getName(): string
     {
         return self::class;
