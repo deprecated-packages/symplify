@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLinker](https://github.com/Symplify/ChangelogLinker).
 
-## Unreleased
+## [v4.0.2] - 2018-04-09
 
 #### Added
 
@@ -27,6 +27,10 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 - [#764] Remove `sqlite` hidden dependency by using `symfony/cache`
 
 ### Fixed
+
+#### BetterReflectionDocBlock
+
+- [#769] Fix `TolerantVar` consistency
 
 #### EasyCodingStandard
 
@@ -1135,3 +1139,8 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
 [#750]: https://github.com/Symplify/Symplify/issues/750
 [#764]: https://github.com/Symplify/Symplify/pull/764
 [#763]: https://github.com/Symplify/Symplify/pull/763
+[v4.0.2]: https://github.com/Symplify/Symplify/compare/v4.0.1...v4.0.2
+[#769]: https://github.com/Symplify/Symplify/pull/769
+[#768]: https://github.com/Symplify/Symplify/pull/768
+[#767]: https://github.com/Symplify/Symplify/pull/767
+[#766]: https://github.com/Symplify/Symplify/pull/766
