@@ -2,8 +2,10 @@
 
 namespace Symplify\BetterReflectionDocBlock\Tag;
 
+use phpDocumentor\Reflection\DocBlock\Description;
 use phpDocumentor\Reflection\DocBlock\DescriptionFactory;
-use phpDocumentor\Reflection\DocBlock\Tags\Var_;
+use phpDocumentor\Reflection\DocBlock\Tags\BaseTag;
+use phpDocumentor\Reflection\Type;
 use phpDocumentor\Reflection\TypeResolver;
 use phpDocumentor\Reflection\Types\Context as TypeContext;
 use Throwable;
@@ -13,8 +15,42 @@ use Webmozart\Assert\Assert;
  * Same as @see \phpDocumentor\Reflection\DocBlock\Tags\Var,
  * just more tolerant to input. Allows invalid type.
  */
-final class TolerantVar extends Var_
+final class TolerantVar extends BaseTag
 {
+    /**
+     * @var string
+     */
+    protected $name = 'var';
+
+    /**
+     * @var string
+     * */
+    protected $variableName = '';
+
+    /**
+     * @var string
+     */
+    protected $type;
+
+    public function __construct(string $variableName, ?Type $type = null, ?Description $description = null)
+    {
+        Assert::string($variableName);
+
+        $this->variableName = $variableName;
+        $this->type = $type;
+        $this->description = $description;
+    }
+
+    public function __toString(): string
+    {
+        return sprintf(
+            '%s%s%s',
+            $this->type ? $this->type . ' ' : '',
+            $this->variableName ? '$' . $this->variableName : '',
+            $this->description ? ' ' . $this->description : ''
+        );
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -24,9 +60,6 @@ final class TolerantVar extends Var_
         ?DescriptionFactory $descriptionFactory = null,
         ?TypeContext $typeContext = null
     ) {
-        Assert::stringNotEmpty($body);
-        Assert::allNotNull([$typeResolver, $descriptionFactory]);
-
         $parts = preg_split('/(\s+)/Su', $body, 3, PREG_SPLIT_DELIM_CAPTURE);
         $type = null;
         $variableName = '';
@@ -55,5 +88,15 @@ final class TolerantVar extends Var_
         $description = $descriptionFactory->create(implode('', $parts), $typeContext);
 
         return new static($variableName, $type, $description);
+    }
+
+    public function getVariableName(): string
+    {
+        return $this->variableName;
+    }
+
+    public function getType(): ?Type
+    {
+        return $this->type;
     }
 }
