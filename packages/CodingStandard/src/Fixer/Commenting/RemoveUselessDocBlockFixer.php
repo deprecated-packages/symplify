@@ -56,7 +56,6 @@ final class RemoveUselessDocBlockFixer implements DefinedFixerInterface, Configu
     ) {
         $this->descriptionAnalyzer = $descriptionAnalyzer;
         $this->paramAndReturnTagAnalyzer = $paramAndReturnTagAnalyzer;
-
         $this->configure([]);
         $this->methodWrapperFactory = $methodWrapperFactory;
         $this->whitespacesFixerConfig = $whitespacesFixerConfig;
@@ -95,7 +94,6 @@ public function getCount(): int
             $methodWrapper = $this->methodWrapperFactory->createFromTokensAndPosition($tokens, $index);
 
             $docBlockWrapper = $methodWrapper->getDocBlockWrapper();
-
             if ($docBlockWrapper === null) {
                 continue;
             }
@@ -168,9 +166,21 @@ public function getCount(): int
             return;
         }
 
-        if (! $this->paramAndReturnTagAnalyzer->isTagUseful($docType, $docDescription, $typehintType)) {
-            $docBlockWrapper->removeReturnType();
+        if ($this->paramAndReturnTagAnalyzer->isTagUseful($docType, $docDescription, $typehintType)) {
+            return;
         }
+
+        $isDescriptionUseful = $this->descriptionAnalyzer->isDescriptionUseful(
+            (string) $docDescription,
+            $docType,
+            null
+        );
+
+        if ($isDescriptionUseful) {
+            return;
+        }
+
+        $docBlockWrapper->removeReturnType();
     }
 
     private function processParamTag(MethodWrapper $methodWrapper, DocBlockWrapper $docBlockWrapper): void
