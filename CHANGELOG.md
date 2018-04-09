@@ -7,9 +7,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLinker](https://github.com/Symplify/ChangelogLinker).
 
+## [v4.0.3] - 2018-04-09
+
+### Fixed
+
+- [#771] **ECS** Fix false report of unused errors while using `parameters > skip: > Sniff.Code: ~`
+- [#770] **CodingStandard** Fix `RemoveUselessDocBlockFixer` for useful `@return` tag description
+
 ## [v4.0.2] - 2018-04-09
 
-#### Added
+### Added
 
 - [#768] Add `Symplify\CodingStandard\Sniffs\ControlStructure\SprintfOverContactSniff`
 
