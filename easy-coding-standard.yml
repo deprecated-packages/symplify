@@ -1,5 +1,6 @@
 imports:
     - { resource: 'packages/EasyCodingStandard/config/psr2.yml' }
+    - { resource: 'packages/EasyCodingStandard/config/psr12.yml' }
     - { resource: 'packages/EasyCodingStandard/config/php71.yml' }
     - { resource: 'packages/EasyCodingStandard/config/clean-code.yml' }
     - { resource: 'packages/EasyCodingStandard/config/symplify.yml' }
@@ -25,6 +26,11 @@ services:
             - 'Symplify\EasyCodingStandard\Yaml\*'
 
 parameters:
+    exclude_checkers:
+        # exclude from psr12.yml
+        - 'PhpCsFixer\Fixer\PhpTag\BlankLineAfterOpeningTagFixer'
+        - 'PhpCsFixer\Fixer\Operator\UnaryOperatorSpacesFixer'
+
     skip:
         SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff:
             - '*packages/CodingStandard/src/Sniffs/*/*Sniff.php'
