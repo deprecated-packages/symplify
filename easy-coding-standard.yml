@@ -4,6 +4,7 @@ imports:
     - { resource: 'packages/EasyCodingStandard/config/clean-code.yml' }
     - { resource: 'packages/EasyCodingStandard/config/symplify.yml' }
     - { resource: 'packages/EasyCodingStandard/config/common.yml' }
+    - { resource: 'packages/EasyCodingStandard/config/psr12.yml' }
 
 services:
     # class should be Abstact or Final
@@ -25,6 +26,11 @@ services:
             - 'Symplify\EasyCodingStandard\Yaml\*'
 
 parameters:
+    exclude_checkers:
+        # exclude from psr12.yml
+        - 'PhpCsFixer\Fixer\PhpTag\BlankLineAfterOpeningTagFixer'
+        - 'PhpCsFixer\Fixer\Operator\UnaryOperatorSpacesFixer'
+
     skip:
         SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff:
             - '*packages/CodingStandard/src/Sniffs/*/*Sniff.php'
