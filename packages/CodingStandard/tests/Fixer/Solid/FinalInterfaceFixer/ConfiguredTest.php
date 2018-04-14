@@ -2,6 +2,7 @@
 
 namespace Symplify\CodingStandard\Tests\Fixer\Solid\FinalInterfaceFixer;
 
+use Iterator;
 use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;
 
 /**
@@ -17,14 +18,9 @@ final class ConfiguredTest extends AbstractCheckerTestCase
         $this->doTestWrongToFixedFile($wrongFile, $fixedFile);
     }
 
-    /**
-     * @return string[][]
-     */
-    public function provideWrongToFixedCases(): array
+    public function provideWrongToFixedCases(): Iterator
     {
-        return [
-            [__DIR__ . '/wrong/wrong3.php.inc', __DIR__ . '/fixed/fixed3.php.inc'],
-        ];
+        yield [__DIR__ . '/wrong/wrong3.php.inc', __DIR__ . '/fixed/fixed3.php.inc'];
     }
 
     protected function provideConfig(): string

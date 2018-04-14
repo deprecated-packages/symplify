@@ -2,6 +2,7 @@
 
 namespace Symplify\BetterReflectionDocBlock\Tests\Renderer;
 
+use Iterator;
 use PHPUnit\Framework\TestCase;
 use Symplify\BetterReflectionDocBlock\Renderer\OriginalSpacingCompleter;
 
@@ -29,20 +30,15 @@ final class OriginalSpacingCompleterTest extends TestCase
         $this->assertSame($original, trim($fixed));
     }
 
-    /**
-     * @return string[][]
-     */
-    public function provideNewAndOriginalContents(): array
+    public function provideNewAndOriginalContents(): Iterator
     {
-        return [
-            [
-                __DIR__ . '/OriginalSpacingCompleterSource/original/original1.txt',
-                __DIR__ . '/OriginalSpacingCompleterSource/messed/messed1.txt',
-            ],
-            [
-                __DIR__ . '/OriginalSpacingCompleterSource/original/original2.txt',
-                __DIR__ . '/OriginalSpacingCompleterSource/messed/messed2.txt',
-            ],
+        yield [
+            __DIR__ . '/OriginalSpacingCompleterSource/original/original1.txt',
+            __DIR__ . '/OriginalSpacingCompleterSource/messed/messed1.txt',
+        ];
+        yield [
+            __DIR__ . '/OriginalSpacingCompleterSource/original/original2.txt',
+            __DIR__ . '/OriginalSpacingCompleterSource/messed/messed2.txt',
         ];
     }
 }

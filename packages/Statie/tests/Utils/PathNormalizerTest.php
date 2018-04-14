@@ -2,6 +2,7 @@
 
 namespace Symplify\Statie\Tests\Utils;
 
+use Iterator;
 use PHPUnit\Framework\TestCase;
 use Symplify\Statie\Utils\PathNormalizer;
 
@@ -17,14 +18,9 @@ final class PathNormalizerTest extends TestCase
         $this->assertSame($normalizedPath, $pathNormalizer->normalize($path));
     }
 
-    /**
-     * @return string[][]
-     */
-    public function provideDataForNormalize(): array
+    public function provideDataForNormalize(): Iterator
     {
-        return [
-            ['dir-one' . DIRECTORY_SEPARATOR . 'dir-two', 'dir-one\dir-two'],
-            ['dir-one' . DIRECTORY_SEPARATOR . 'dir-two', 'dir-one/dir-two'],
-        ];
+        yield ['dir-one' . DIRECTORY_SEPARATOR . 'dir-two', 'dir-one\dir-two'];
+        yield ['dir-one' . DIRECTORY_SEPARATOR . 'dir-two', 'dir-one/dir-two'];
     }
 }
