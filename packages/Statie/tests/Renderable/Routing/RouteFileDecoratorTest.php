@@ -2,6 +2,7 @@
 
 namespace Symplify\Statie\Tests\Renderable\Routing;
 
+use Iterator;
 use Symplify\PackageBuilder\Finder\SymfonyFileInfoFactory;
 use Symplify\Statie\Configuration\Configuration;
 use Symplify\Statie\Renderable\File\FileFactory;
@@ -43,15 +44,10 @@ final class RouteFileDecoratorTest extends AbstractContainerAwareTestCase
         $this->assertSame($outputPath, $file->getOutputPath());
     }
 
-    /**
-     * @return string[][]
-     */
-    public function provideFileAndOutputAndRelativePath(): array
+    public function provideFileAndOutputAndRelativePath(): Iterator
     {
-        return [
-            [__DIR__ . '/RouteFileDecoratorSource/someFile.latte', '/someFile', '/someFile/index.html'],
-            [__DIR__ . '/RouteFileDecoratorSource/index.html', '/', 'index.html'],
-            [__DIR__ . '/RouteFileDecoratorSource/index.latte', '/', 'index.html'],
-        ];
+        yield [__DIR__ . '/RouteFileDecoratorSource/someFile.latte', '/someFile', '/someFile/index.html'];
+        yield [__DIR__ . '/RouteFileDecoratorSource/index.html', '/', 'index.html'];
+        yield [__DIR__ . '/RouteFileDecoratorSource/index.latte', '/', 'index.html'];
     }
 }

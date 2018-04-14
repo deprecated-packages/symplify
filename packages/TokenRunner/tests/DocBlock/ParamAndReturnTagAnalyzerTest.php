@@ -2,6 +2,7 @@
 
 namespace Symplify\TokenRunner\Tests\DocBlock;
 
+use Iterator;
 use PHPUnit\Framework\TestCase;
 use Symplify\TokenRunner\DocBlock\ParamAndReturnTagAnalyzer;
 
@@ -27,17 +28,12 @@ final class ParamAndReturnTagAnalyzerTest extends TestCase
         $this->assertSame($expectedIsUseful, $isUseful);
     }
 
-    /**
-     * @return string[][]|bool[][]
-     */
-    public function provideDocTypeDocDescriptionParamTypeAndResult(): array
+    public function provideDocTypeDocDescriptionParamTypeAndResult(): Iterator
     {
-        return [
-            # useful
-            ['boolean', 'some description', 'bool', true],
-            # not useful
-            ['boolean', null, 'bool', false],
-            ['integer', null, 'int', false],
-        ];
+        # useful
+        yield ['boolean', 'some description', 'bool', true];
+        # not useful
+        yield ['boolean', null, 'bool', false];
+        yield ['integer', null, 'int', false];
     }
 }

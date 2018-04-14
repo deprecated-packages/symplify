@@ -2,6 +2,7 @@
 
 namespace Symplify\CodingStandard\Tests\Fixer\Php\ClassStringToClassConstantFixer;
 
+use Iterator;
 use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;
 
 /**
@@ -17,14 +18,9 @@ final class ClassStringToClassConstantFixerTest extends AbstractCheckerTestCase
         $this->doTestCorrectFile($file);
     }
 
-    /**
-     * @return string[][]
-     */
-    public function provideCorrectCases(): array
+    public function provideCorrectCases(): Iterator
     {
-        return [
-            [__DIR__ . '/correct/correct.php.inc'],
-        ];
+        yield [__DIR__ . '/correct/correct.php.inc'];
     }
 
     /**
@@ -35,16 +31,11 @@ final class ClassStringToClassConstantFixerTest extends AbstractCheckerTestCase
         $this->doTestWrongToFixedFile($wrongFile, $fixedFile);
     }
 
-    /**
-     * @return string[][]
-     */
-    public function provideWrongToFixedCases(): array
+    public function provideWrongToFixedCases(): Iterator
     {
-        return [
-            [__DIR__ . '/wrong/wrong.php.inc', __DIR__ . '/fixed/fixed.php.inc'],
-            [__DIR__ . '/wrong/wrong2.php.inc', __DIR__ . '/fixed/fixed2.php.inc'],
-            [__DIR__ . '/wrong/wrong3.php.inc', __DIR__ . '/fixed/fixed3.php.inc'],
-        ];
+        yield [__DIR__ . '/wrong/wrong.php.inc', __DIR__ . '/fixed/fixed.php.inc'];
+        yield [__DIR__ . '/wrong/wrong2.php.inc', __DIR__ . '/fixed/fixed2.php.inc'];
+        yield [__DIR__ . '/wrong/wrong3.php.inc', __DIR__ . '/fixed/fixed3.php.inc'];
     }
 
     protected function provideConfig(): string

@@ -2,6 +2,7 @@
 
 namespace Symplify\Statie\Tests\Renderable\Configuration;
 
+use Iterator;
 use Symfony\Component\Yaml\Exception\ParseException;
 use Symplify\PackageBuilder\Finder\SymfonyFileInfoFactory;
 use Symplify\Statie\Renderable\ConfigurationDecorator;
@@ -59,17 +60,12 @@ final class ConfigurationDecoratorTest extends AbstractContainerAwareTestCase
         $this->configurationDecorator->decorateFiles([$file]);
     }
 
-    /**
-     * @return mixed[][]
-     */
-    public function provideDataForDecorateFile(): array
+    public function provideDataForDecorateFile(): Iterator
     {
-        return [
-            [__DIR__ . '/ConfigurationDecoratorSource/someFile.latte', 'Content...', [
-                'key' => 'value',
-            ]],
-            [__DIR__ . '/ConfigurationDecoratorSource/someFileWithEmptyConfig.latte', 'Content...', []],
-            [__DIR__ . '/ConfigurationDecoratorSource/someFileWithNoConfig.latte', 'Content...', []],
-        ];
+        yield [__DIR__ . '/ConfigurationDecoratorSource/someFile.latte', 'Content...', [
+            'key' => 'value',
+        ]];
+        yield [__DIR__ . '/ConfigurationDecoratorSource/someFileWithEmptyConfig.latte', 'Content...', []];
+        yield [__DIR__ . '/ConfigurationDecoratorSource/someFileWithNoConfig.latte', 'Content...', []];
     }
 }

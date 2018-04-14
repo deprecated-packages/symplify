@@ -2,6 +2,7 @@
 
 namespace Symplify\CodingStandard\Tests\Fixer\Commenting\BlockPropertyCommentFixer;
 
+use Iterator;
 use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;
 
 /**
@@ -17,15 +18,10 @@ final class BlockPropertyCommentFixerTest extends AbstractCheckerTestCase
         $this->doTestWrongToFixedFile($wrongFile, $correctFile);
     }
 
-    /**
-     * @return string[][]
-     */
-    public function provideWrongToFixedCases(): array
+    public function provideWrongToFixedCases(): Iterator
     {
-        return [
-            [__DIR__ . '/wrong/wrong.php.inc', __DIR__ . '/fixed/fixed.php.inc'],
-            [__DIR__ . '/wrong/wrong2.php.inc', __DIR__ . '/fixed/fixed2.php.inc'],
-        ];
+        yield [__DIR__ . '/wrong/wrong.php.inc', __DIR__ . '/fixed/fixed.php.inc'];
+        yield [__DIR__ . '/wrong/wrong2.php.inc', __DIR__ . '/fixed/fixed2.php.inc'];
     }
 
     protected function provideConfig(): string
