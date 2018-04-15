@@ -26,16 +26,10 @@ final class PhpDocInfoFactory
 
     public function createFrom(string $content): PhpDocInfo
     {
-        $tokenIterator = new TokenIterator($this->lexer->tokenize($content));
+        $tokens = $this->lexer->tokenize($content);
+        $tokenIterator = new TokenIterator($tokens);
         $phpDocNode = $this->phpDocParser->parse($tokenIterator);
 
-        $isSingleLine = $this->isSingleLine($content);
-
-        return new PhpDocInfo($phpDocNode, $isSingleLine, $tokenIterator);
-    }
-
-    private function isSingleLine(string $content): bool
-    {
-        return substr_count($content, PHP_EOL) <= 1;
+        return new PhpDocInfo($phpDocNode, $tokenIterator, $tokens);
     }
 }

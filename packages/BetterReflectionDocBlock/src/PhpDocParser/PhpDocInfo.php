@@ -17,10 +17,19 @@ final class PhpDocInfo
      */
     private $tokenIterator;
 
-    public function __construct(PhpDocNode $phpDocNode, TokenIterator $tokenIterator)
+    /**
+     * @var mixed[]
+     */
+    private $tokens = [];
+
+    /**
+     * @param mixed[] $tokens
+     */
+    public function __construct(PhpDocNode $phpDocNode, TokenIterator $tokenIterator, array $tokens)
     {
         $this->phpDocNode = $phpDocNode;
         $this->tokenIterator = $tokenIterator;
+        $this->tokens = $tokens;
     }
 
     public function getPhpDocNode(): PhpDocNode
@@ -31,5 +40,13 @@ final class PhpDocInfo
     public function getTokenIterator(): TokenIterator
     {
         return $this->tokenIterator;
+    }
+
+    /**
+     * @return mixed[]
+     */
+    public function getTokens(): array
+    {
+        return $this->tokens;
     }
 }

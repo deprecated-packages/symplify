@@ -2,12 +2,12 @@
 
 namespace Symplify\BetterReflectionDocBlock\PhpDocParser;
 
-use PhpParser\Lexer;
 use PHPStan\PhpDocParser\Ast\PhpDoc\ParamTagValueNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocChildNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTagNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTextNode;
 use PHPStan\PhpDocParser\Ast\Type\UnionTypeNode;
+use PHPStan\PhpDocParser\Lexer\Lexer as PHPStanLexer;
 use Symplify\BetterReflectionDocBlock\PhpDocParser\Ast\Type\FormatPreservingUnionTypeNode;
 use Symplify\BetterReflectionDocBlock\PhpDocParser\Storage\NodeWithPositionsObjectStorage;
 use Symplify\PackageBuilder\Reflection\PrivatesGetter;
@@ -30,22 +30,6 @@ final class PhpDocInfoPrinter
         $this->nodeWithPositionsObjectStorage = $nodeWithPositionsObjectStorage;
     }
 
-    public function print(PhpDocInfo $phpDocInfo): string
-    {
-        return $this->printFormatPreserving($phpDocInfo);
-//
-//
-//        $phpDocNode = $phpDocInfo->getPhpDocNode();
-//
-//        // this should be gone with pretty printer
-//        if ($phpDocInfo->isSingleLineDoc()) {
-//            return sprintf('/** %s */', implode(' ', $phpDocNode->children));
-//        }
-//
-//        $start = '/**' . PHP_EOL;
-//        $end = ' */';
-//
-//        $middle = '';
 //        foreach ($phpDocNode->children as $childNode) {
 //            if ($childNode instanceof PhpDocTextNode && $childNode->text === '') {
 //                $middle .= ' *' . PHP_EOL;
@@ -63,9 +47,6 @@ final class PhpDocInfoPrinter
 //                $middle .= ' * ' . (string) $childNode . PHP_EOL;
 //            }
 //        }
-//
-//        return $start . $middle . $end;
-    }
 
     /**
      * As in php-parser
@@ -79,13 +60,12 @@ final class PhpDocInfoPrinter
      */
     public function printFormatPreserving(PhpDocInfo $phpDocInfo): string
     {
-        $newNode = $phpDocInfo->getPhpDocNode();
-
-        $tokens = $this->privatesGetter->getPrivateProperty($phpDocInfo->getTokenIterator(), 'tokens');
+        $phpDocNode = $phpDocInfo->getPhpDocNode();
+        $tokens = $phpDocInfo->getTokens();
 
         $tokenPosition = 0;
         $output = '';
-        foreach ($newNode->children as $child) {
+        foreach ($phpDocNode->children as $child) {
             // tokens before
             if (isset($this->nodeWithPositionsObjectStorage[$child])) {
                 $nodePositions = $this->nodeWithPositionsObjectStorage[$child];
@@ -102,7 +82,7 @@ final class PhpDocInfoPrinter
 
         // tokens after - only for the last Node
         $offset = 1;
-        if ($tokens[$tokenPosition][1] === \PHPStan\PhpDocParser\Lexer\Lexer::TOKEN_PHPDOC_EOL) {
+        if ($tokens[$tokenPosition][1] === PHPStanLexer::TOKEN_PHPDOC_EOL) {
             $offset = 0;
         }
         for ($i = $tokenPosition - $offset; $i < count($tokens); ++$i) {
