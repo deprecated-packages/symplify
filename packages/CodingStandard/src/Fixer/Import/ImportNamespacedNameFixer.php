@@ -14,12 +14,6 @@ use PhpCsFixer\Tokenizer\Analyzer\Analysis\NamespaceUseAnalysis;
 use PhpCsFixer\Tokenizer\Analyzer\NamespaceUsesAnalyzer;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
-use PhpCsFixer\WhitespacesFixerConfig;
-use phpDocumentor\Reflection\DocBlock\Tag;
-use phpDocumentor\Reflection\DocBlock\Tags\Param;
-use phpDocumentor\Reflection\DocBlock\Tags\Return_;
-use phpDocumentor\Reflection\Fqsen;
-use phpDocumentor\Reflection\Types\Object_;
 use PHPStan\PhpDocParser\Ast\PhpDoc\ParamTagValueNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTagValueNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\ReturnTagValueNode;
@@ -27,16 +21,11 @@ use PHPStan\PhpDocParser\Ast\PhpDoc\VarTagValueNode;
 use PHPStan\PhpDocParser\Ast\Type\IdentifierTypeNode;
 use SplFileInfo;
 use Symplify\BetterReflectionDocBlock\PhpDocParser\PhpDocInfoPrinter;
-use Symplify\BetterReflectionDocBlock\Tag\TolerantParam;
-use Symplify\BetterReflectionDocBlock\Tag\TolerantReturn;
-use Symplify\BetterReflectionDocBlock\Tag\TolerantVar;
-use Symplify\PackageBuilder\Reflection\PrivatesAccessor;
 use Symplify\TokenRunner\Analyzer\FixerAnalyzer\ClassNameFinder;
 use Symplify\TokenRunner\Naming\Name\Name;
 use Symplify\TokenRunner\Naming\Name\NameAnalyzer;
 use Symplify\TokenRunner\Naming\Name\NameFactory;
 use Symplify\TokenRunner\Transformer\FixerTransformer\UseImportsTransformer;
-use Symplify\TokenRunner\Wrapper\FixerWrapper\DocBlockWrapper;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\DocBlockWrapperFactory;
 
 /**
@@ -67,11 +56,6 @@ final class ImportNamespacedNameFixer implements DefinedFixerInterface, Configur
      * @var mixed[]
      */
     private $configuration = [];
-
-    /**
-     * @var WhitespacesFixerConfig
-     */
-    private $whitespacesFixerConfig;
 
     /**
      * @var Name[]
@@ -114,7 +98,6 @@ final class ImportNamespacedNameFixer implements DefinedFixerInterface, Configur
 
     public function __construct(
         DocBlockWrapperFactory $docBlockWrapperFactory,
-        WhitespacesFixerConfig $whitespacesFixerConfig,
         UseImportsTransformer $useImportsTransformer,
         ClassNameFinder $classNameFinder,
         NameAnalyzer $nameAnalyzer,
@@ -132,7 +115,6 @@ final class ImportNamespacedNameFixer implements DefinedFixerInterface, Configur
         // set defaults
         $this->configuration = $this->getConfigurationDefinition()
             ->resolve([]);
-        $this->whitespacesFixerConfig = $whitespacesFixerConfig;
         $this->phpDocInfoPrinter = $phpDocInfoPrinter;
     }
 
@@ -294,58 +276,17 @@ final class ImportNamespacedNameFixer implements DefinedFixerInterface, Configur
     {
         $docBlockWrapper = $this->docBlockWrapperFactory->create($tokens, $index, $tokens[$index]->getContent());
 
-        // require for doc block changes
-        $docBlockWrapper->setWhitespacesFixerConfig($this->whitespacesFixerConfig);
+        $phpDocNode = $docBlockWrapper->getPhpDocInfo()->getPhpDocNode();
 
-        $this->processParamsTags($docBlockWrapper, $tokens);
-        $this->processReturnTag($docBlockWrapper, $tokens);
-        $this->processVarTag($docBlockWrapper, $tokens);
+        // require for doc block changes
+        $this->processPhpDocTagValueNode($phpDocNode->getReturnTagValues(), $tokens);
+        $this->processPhpDocTagValueNode($phpDocNode->getParamTagValues(), $tokens);
+        $this->processPhpDocTagValueNode($phpDocNode->getVarTagValues(), $tokens);
 
         $phpDocContent = $this->phpDocInfoPrinter->printFormatPreserving($docBlockWrapper->getPhpDocInfo());
 
         // save doc comment
         $tokens[$index] = new Token([T_DOC_COMMENT, $phpDocContent]);
-    }
-
-    private function processReturnTag(DocBlockWrapper $docBlockWrapper, Tokens $tokens): void
-    {
-        $returnTagValues = $docBlockWrapper->getPhpDocInfo()->getPhpDocNode()->getReturnTagValues();
-        if (! $returnTagValues) {
-            return;
-        }
-
-        $fullName = $this->shortenNameAndReturnFullNameNew($returnTagValues[0]);
-        if (! $fullName) {
-            return;
-        }
-
-        $this->newUseStatementNames[] = $this->nameFactory->createFromStringAndTokens($fullName, $tokens);
-    }
-
-    private function processParamsTags(DocBlockWrapper $docBlockWrapper, Tokens $tokens): void
-    {
-        $paramTagValues = $docBlockWrapper->getPhpDocInfo()->getPhpDocNode()->getParamTagValues();
-        if (! $paramTagValues) {
-            return;
-        }
-
-        foreach ($paramTagValues as $key => $paramTagValue) {
-            $fullName = $this->shortenNameAndReturnFullNameNew($paramTagValue);
-            if (! $fullName) {
-                return;
-            }
-
-            $this->newUseStatementNames[] = $this->nameFactory->createFromStringAndTokens($fullName, $tokens);
-        }
-    }
-
-    /**
-     * @todo same as other two, apart input type; merge 3 to 1
-     */
-    private function processVarTag(DocBlockWrapper $docBlockWrapper, Tokens $tokens): void
-    {
-        $varTagValues = $docBlockWrapper->getPhpDocInfo()->getPhpDocNode()->getVarTagValues();
-        $this->processPhpDocTagValueNode($varTagValues, $tokens);
     }
 
     private function processPhpDocTagValueNode(array $tagValues, Tokens $tokens): void
@@ -354,12 +295,14 @@ final class ImportNamespacedNameFixer implements DefinedFixerInterface, Configur
             return;
         }
 
-        $fullName = $this->shortenNameAndReturnFullNameNew($tagValues[0]);
-        if (! $fullName) {
-            return;
-        }
+        foreach ($tagValues as $tagValue) {
+            $fullName = $this->shortenNameAndReturnFullNameNew($tagValue);
+            if (! $fullName) {
+                continue;
+            }
 
-        $this->newUseStatementNames[] = $this->nameFactory->createFromStringAndTokens($fullName, $tokens);
+            $this->newUseStatementNames[] = $this->nameFactory->createFromStringAndTokens($fullName, $tokens);
+        }
     }
 
     /**
