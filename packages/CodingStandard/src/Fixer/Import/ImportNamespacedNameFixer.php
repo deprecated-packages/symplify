@@ -24,7 +24,7 @@ use SplFileInfo;
 use Symplify\BetterReflectionDocBlock\Tag\TolerantParam;
 use Symplify\BetterReflectionDocBlock\Tag\TolerantReturn;
 use Symplify\BetterReflectionDocBlock\Tag\TolerantVar;
-use Symplify\PackageBuilder\Reflection\PrivatesSetter;
+use Symplify\PackageBuilder\Reflection\PrivatesAccessor;
 use Symplify\TokenRunner\Analyzer\FixerAnalyzer\ClassNameFinder;
 use Symplify\TokenRunner\Naming\Name\Name;
 use Symplify\TokenRunner\Naming\Name\NameAnalyzer;
@@ -363,7 +363,7 @@ final class ImportNamespacedNameFixer implements DefinedFixerInterface, Configur
         }
 
         // set new short name
-        (new PrivatesSetter())->setPrivateProperty($objectType, 'fqsen', new Fqsen('\\' . $lastName));
+        (new PrivatesAccessor())->setPrivateProperty($objectType, 'fqsen', new Fqsen('\\' . $lastName));
 
         return $usedName;
     }

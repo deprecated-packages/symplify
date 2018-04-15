@@ -10,7 +10,7 @@ use PHPStan\PhpDocParser\Ast\Type\UnionTypeNode;
 use PHPStan\PhpDocParser\Lexer\Lexer as PHPStanLexer;
 use Symplify\BetterReflectionDocBlock\PhpDocParser\Ast\Type\FormatPreservingUnionTypeNode;
 use Symplify\BetterReflectionDocBlock\PhpDocParser\Storage\NodeWithPositionsObjectStorage;
-use Symplify\PackageBuilder\Reflection\PrivatesGetter;
+use Symplify\PackageBuilder\Reflection\PrivatesAccessor;
 
 final class PhpDocInfoPrinter
 {
@@ -20,13 +20,13 @@ final class PhpDocInfoPrinter
     private $nodeWithPositionsObjectStorage;
 
     /**
-     * @var PrivatesGetter
+     * @var PrivatesAccessor
      */
-    private $privatesGetter;
+    private $privatesAccessor;
 
     public function __construct(NodeWithPositionsObjectStorage $nodeWithPositionsObjectStorage)
     {
-        $this->privatesGetter = new PrivatesGetter();
+        $this->privatesAccessor = new PrivatesAccessor();
         $this->nodeWithPositionsObjectStorage = $nodeWithPositionsObjectStorage;
     }
 

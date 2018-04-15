@@ -10,8 +10,8 @@ use PHPStan\PhpDocParser\Parser\PhpDocParser;
 use PHPStan\PhpDocParser\Parser\TokenIterator;
 use PHPStan\PhpDocParser\Parser\TypeParser;
 use Symplify\BetterReflectionDocBlock\PhpDocParser\Storage\NodeWithPositionsObjectStorage;
+use Symplify\PackageBuilder\Reflection\PrivatesAccessor;
 use Symplify\PackageBuilder\Reflection\PrivatesCaller;
-use Symplify\PackageBuilder\Reflection\PrivatesGetter;
 
 final class PositionAwarePhpDocParser extends PhpDocParser
 {
@@ -26,9 +26,9 @@ final class PositionAwarePhpDocParser extends PhpDocParser
     private $nodeWithPositionsObjectStorage;
 
     /**
-     * @var PrivatesGetter
+     * @var PrivatesAccessor
      */
-    private $privatesGetter;
+    private $privatesAccessor;
 
     public function __construct(
         TypeParser $typeParser,
@@ -36,7 +36,7 @@ final class PositionAwarePhpDocParser extends PhpDocParser
         NodeWithPositionsObjectStorage $nodeWithPositionsObjectStorage
     ) {
         $this->privatesCaller = new PrivatesCaller();
-        $this->privatesGetter = new PrivatesGetter();
+        $this->privatesAccessor = new PrivatesAccessor();
         $this->nodeWithPositionsObjectStorage = $nodeWithPositionsObjectStorage;
 
         parent::__construct($typeParser, $constExprParser);
@@ -65,11 +65,11 @@ final class PositionAwarePhpDocParser extends PhpDocParser
 
     private function parseChildAndStoreItsPositions(TokenIterator $tokenIterator): Node
     {
-        $tokenStart = $this->privatesGetter->getPrivateProperty($tokenIterator, 'index');
+        $tokenStart = $this->privatesAccessor->getPrivateProperty($tokenIterator, 'index');
 
         $node = $this->privatesCaller->callPrivateMethod($this, 'parseChild', $tokenIterator);
 
-        $tokenEnd = $this->privatesGetter->getPrivateProperty($tokenIterator, 'index');
+        $tokenEnd = $this->privatesAccessor->getPrivateProperty($tokenIterator, 'index');
 
         $this->nodeWithPositionsObjectStorage[$node] = [
             'tokenStart' => $tokenStart,

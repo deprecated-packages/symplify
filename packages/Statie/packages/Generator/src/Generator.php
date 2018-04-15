@@ -79,7 +79,7 @@ final class Generator
 
         $processedObjects = [];
         foreach ($this->generatorConfiguration->getGeneratorElements() as $generatorElement) {
-            // run them through decorator and print content to string
+            // run them through decorator and render content to string
             $newObjects = $this->renderableFilesProcessor->processGeneratorElementObjects(
                 $generatorElement->getObjects(),
                 $generatorElement
