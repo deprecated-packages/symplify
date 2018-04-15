@@ -2,14 +2,8 @@
 
 namespace Symplify\BetterReflectionDocBlock\PhpDocParser;
 
-use PHPStan\PhpDocParser\Ast\PhpDoc\ParamTagValueNode;
-use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocChildNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocNode;
-use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTagNode;
-use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTextNode;
-use PHPStan\PhpDocParser\Ast\Type\UnionTypeNode;
 use PHPStan\PhpDocParser\Parser\TokenIterator;
-use Symplify\BetterReflectionDocBlock\PhpDocParser\Ast\Type\FormatPreservingUnionTypeNode;
 
 final class PhpDocInfo
 {
@@ -28,42 +22,22 @@ final class PhpDocInfo
      */
     private $tokenIterator;
 
+    /**
+     * @var PhpDocNode
+     */
+    private $oldPhpDocNode;
+
     public function __construct(PhpDocNode $phpDocNode, bool $isSingleLineDoc, TokenIterator $tokenIterator)
     {
         $this->phpDocNode = $phpDocNode;
+        $this->oldPhpDocNode = clone $phpDocNode;
         $this->tokenIterator = $tokenIterator;
         $this->isSingleLineDoc = $isSingleLineDoc;
     }
 
-    public function __toString(): string
+    public function getOldPhpDocNode(): PhpDocNode
     {
-        if ($this->isSingleLineDoc) {
-            return sprintf('/** %s */', implode(' ', $this->phpDocNode->children));
-        }
-
-        $start = '/**' . PHP_EOL;
-        $end = ' */' . PHP_EOL;
-
-        $middle = '';
-        foreach ($this->phpDocNode->children as $childNode) {
-            if ($childNode instanceof PhpDocTextNode && $childNode->text === '') {
-                $middle .= ' *' . PHP_EOL;
-            } else {
-                if ($this->hasUnionType($childNode)) {
-                    /** @var PhpDocTagNode $childNode */
-                    $childNodeValue = $childNode->value;
-                    /** @var ParamTagValueNode $childNodeValue */
-                    $childNodeValueType = $childNodeValue->type;
-                    /** @var UnionTypeNode $childNodeValueType */
-                    // @todo: here it requires to check format of original node, as in PHPParser
-                    $childNodeValue->type = new FormatPreservingUnionTypeNode($childNodeValueType->types);
-                }
-
-                $middle .= ' * ' . (string) $childNode . PHP_EOL;
-            }
-        }
-
-        return $start . $middle . $end;
+        return $this->oldPhpDocNode;
     }
 
     public function getPhpDocNode(): PhpDocNode
@@ -79,18 +53,5 @@ final class PhpDocInfo
     public function getTokenIterator(): TokenIterator
     {
         return $this->tokenIterator;
-    }
-
-    private function hasUnionType(PhpDocChildNode $phpDocChildNode): bool
-    {
-        if (! $phpDocChildNode instanceof PhpDocTagNode) {
-            return false;
-        }
-
-        if (! $phpDocChildNode->value instanceof ParamTagValueNode) {
-            return false;
-        }
-
-        return $phpDocChildNode->value->type instanceof UnionTypeNode;
     }
 }
