@@ -34,7 +34,6 @@ parameters:
 
         # buggy
         - '#Symplify\\EasyCodingStandard\\Contract\\Application\\DualRunInterface#'
-        - '#Access to an undefined property PHPStan\\PhpDocParser\\Ast\\PhpDoc\\PhpDocChildNode::\$value#'
 
         # object
         - '#does not accept object#'

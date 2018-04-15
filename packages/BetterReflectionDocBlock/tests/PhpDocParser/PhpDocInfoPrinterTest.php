@@ -31,6 +31,7 @@ final class PhpDocInfoPrinterTest extends AbstractContainerAwareTestCase
     public function testPrintFormatPreserving(string $docComment): void
     {
         $phpDocInfo = $this->phpDocInfoFactory->createFrom($docComment);
+
         $this->assertSame($docComment, $this->phpDocInfoPrinter->printFormatPreserving($phpDocInfo));
     }
 
@@ -42,5 +43,6 @@ final class PhpDocInfoPrinterTest extends AbstractContainerAwareTestCase
         yield [file_get_contents(__DIR__ . '/PhpDocInfoPrinterSource/doc.txt')];
         yield [file_get_contents(__DIR__ . '/PhpDocInfoPrinterSource/doc2.txt')];
         yield [file_get_contents(__DIR__ . '/PhpDocInfoPrinterSource/doc3.txt')];
+        yield [file_get_contents(__DIR__ . '/PhpDocInfoPrinterSource/doc4.txt')];
     }
 }

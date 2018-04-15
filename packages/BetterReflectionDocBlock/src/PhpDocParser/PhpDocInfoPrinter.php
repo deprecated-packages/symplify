@@ -73,15 +73,14 @@ final class PhpDocInfoPrinter
         }
 
         for ($i = $this->currentTokenPosition - $offset; $i < $this->tokenCount; ++$i) {
-            $output .= $this->tokens[$i][0];
+            if (isset($this->tokens[$i])) {
+                $output .= $this->tokens[$i][0];
+            }
         }
 
         return $output;
     }
 
-    /**
-     * @return mixed[]
-     */
     private function printNode(Node $node): string
     {
         $output = '';

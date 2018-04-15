@@ -8,6 +8,8 @@ use Symplify\BetterReflectionDocBlock\DocBlockSerializerFactory;
 /**
  * @see \Symplify\BetterReflectionDocBlock\CleanFormatter
  * @see \Symplify\BetterReflectionDocBlock\DocBlockSerializerFactory
+ *
+ * @todo replace by @see \Symplify\BetterReflectionDocBlock\PhpDocParser\PhpDocInfoPrinter, already covered
  */
 final class CleanFormatterTest extends AbstractContainerAwareTestCase
 {
