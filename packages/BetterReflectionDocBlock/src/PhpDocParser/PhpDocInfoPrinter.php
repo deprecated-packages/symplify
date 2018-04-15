@@ -8,17 +8,30 @@ use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTagNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTextNode;
 use PHPStan\PhpDocParser\Ast\Type\UnionTypeNode;
 use Symplify\BetterReflectionDocBlock\PhpDocParser\Ast\Type\FormatPreservingUnionTypeNode;
+use Symplify\BetterReflectionDocBlock\PhpDocParser\Storage\NodeWithPositionsObjectStorage;
+use Symplify\PackageBuilder\Reflection\PrivatesGetter;
 
 final class PhpDocInfoPrinter
 {
+    /**
+     * @var NodeWithPositionsObjectStorage
+     */
+    private $nodeWithPositionsObjectStorage;
+
+    /**
+     * @var PrivatesGetter
+     */
+    private $privatesGetter;
+
+    public function __construct(NodeWithPositionsObjectStorage $nodeWithPositionsObjectStorage)
+    {
+        $this->privatesGetter = new PrivatesGetter();
+        $this->nodeWithPositionsObjectStorage = $nodeWithPositionsObjectStorage;
+    }
+
     public function print(PhpDocInfo $phpDocInfo): string
     {
         $phpDocNode = $phpDocInfo->getPhpDocNode();
-
-        // no changes
-        $tokenIterator = $phpDocInfo->getTokenIterator();
-
-        // https://github.com/nikic/PHP-Parser/issues/487#issuecomment-375986259
 
         if ($phpDocInfo->isSingleLineDoc()) {
             return sprintf('/** %s */', implode(' ', $phpDocNode->children));
@@ -61,12 +74,33 @@ final class PhpDocInfoPrinter
      */
     public function printFormatPreserving(PhpDocInfo $phpDocInfo): string
     {
-        // each node has to include token start and end position
         $newNode = $phpDocInfo->getPhpDocNode();
-        $oldNode = $phpDocInfo->getOldPhpDocNode();
-        $oldTokens = $phpDocInfo->getTokenIterator();
 
-        return '';
+        $tokens = $this->privatesGetter->getPrivateProperty($phpDocInfo->getTokenIterator(), 'tokens');
+
+        $tokenPosition = 0;
+        $output = '';
+        foreach ($newNode->children as $child) {
+            // tokens before
+            if (isset($this->nodeWithPositionsObjectStorage[$child])) {
+                $nodePositions = $this->nodeWithPositionsObjectStorage[$child];
+                for ($i = $tokenPosition; $i < $nodePositions['tokenStart']; ++$i) {
+                    $output .= $tokens[$i][0];
+                }
+
+                $tokenPosition = $nodePositions['tokenEnd'];
+            }
+
+            // @todo recurse
+            $output .= (string) $child;
+        }
+
+        // tokens after - only for the last Node
+        for ($i = $tokenPosition - 1; $i < count($tokens); ++$i) {
+            $output .= $tokens[$i][0];
+        }
+
+        return $output;
     }
 
     private function hasUnionType(PhpDocChildNode $phpDocChildNode): bool

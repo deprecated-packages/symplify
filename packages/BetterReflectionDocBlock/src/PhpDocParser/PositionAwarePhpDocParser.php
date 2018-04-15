@@ -9,8 +9,9 @@ use PHPStan\PhpDocParser\Parser\ConstExprParser;
 use PHPStan\PhpDocParser\Parser\PhpDocParser;
 use PHPStan\PhpDocParser\Parser\TokenIterator;
 use PHPStan\PhpDocParser\Parser\TypeParser;
-use SplObjectStorage;
+use Symplify\BetterReflectionDocBlock\PhpDocParser\Storage\NodeWithPositionsObjectStorage;
 use Symplify\PackageBuilder\Reflection\PrivatesCaller;
+use Symplify\PackageBuilder\Reflection\PrivatesGetter;
 
 final class PositionAwarePhpDocParser extends PhpDocParser
 {
@@ -20,48 +21,57 @@ final class PositionAwarePhpDocParser extends PhpDocParser
     private $privatesCaller;
 
     /**
-     * @var mixed[]
+     * @var NodeWithPositionsObjectStorage
      */
-    private $childrenWithPositions = [];
+    private $nodeWithPositionsObjectStorage;
 
-    public function __construct(TypeParser $typeParser, ConstExprParser $constantExprParser)
-    {
+    /**
+     * @var PrivatesGetter
+     */
+    private $privatesGetter;
+
+    public function __construct(
+        TypeParser $typeParser,
+        ConstExprParser $constExprParser,
+        NodeWithPositionsObjectStorage $nodeWithPositionsObjectStorage
+    ) {
         $this->privatesCaller = new PrivatesCaller();
-        $this->childrenWithPositions = new SplObjectStorage();
+        $this->privatesGetter = new PrivatesGetter();
+        $this->nodeWithPositionsObjectStorage = $nodeWithPositionsObjectStorage;
 
-        parent::__construct($typeParser, $constantExprParser);
+        parent::__construct($typeParser, $constExprParser);
     }
 
-    public function parse(TokenIterator $tokens): PhpDocNode
+    public function parse(TokenIterator $tokenIterator): PhpDocNode
     {
-        $tokens->consumeTokenType(Lexer::TOKEN_OPEN_PHPDOC);
-        $tokens->tryConsumeTokenType(Lexer::TOKEN_PHPDOC_EOL);
+        $tokenIterator->consumeTokenType(Lexer::TOKEN_OPEN_PHPDOC);
+        $tokenIterator->tryConsumeTokenType(Lexer::TOKEN_PHPDOC_EOL);
 
         $children = [];
 
-        if (!$tokens->isCurrentTokenType(Lexer::TOKEN_CLOSE_PHPDOC)) {
-            $children[] = $this->parseChildAndStoreItsPositions($tokens);
-            while ($tokens->tryConsumeTokenType(Lexer::TOKEN_PHPDOC_EOL) && !$tokens->isCurrentTokenType(Lexer::TOKEN_CLOSE_PHPDOC)) {
-                $children[] = $this->parseChildAndStoreItsPositions($tokens);;
+        if (! $tokenIterator->isCurrentTokenType(Lexer::TOKEN_CLOSE_PHPDOC)) {
+            $children[] = $this->parseChildAndStoreItsPositions($tokenIterator);
+            while ($tokenIterator->tryConsumeTokenType(Lexer::TOKEN_PHPDOC_EOL) && ! $tokenIterator->isCurrentTokenType(
+                Lexer::TOKEN_CLOSE_PHPDOC
+            )) {
+                $children[] = $this->parseChildAndStoreItsPositions($tokenIterator);
             }
-
-            // @todo store position metadata here for each $child here
         }
 
-        $tokens->consumeTokenType(Lexer::TOKEN_CLOSE_PHPDOC);
+        $tokenIterator->consumeTokenType(Lexer::TOKEN_CLOSE_PHPDOC);
 
         return new PhpDocNode(array_values($children));
     }
 
-    private function parseChildAndStoreItsPositions(TokenIterator $tokens): Node
+    private function parseChildAndStoreItsPositions(TokenIterator $tokenIterator): Node
     {
-        $tokenStart = $tokens->currentTokenOffset();
+        $tokenStart = $this->privatesGetter->getPrivateProperty($tokenIterator, 'index');
 
-        $node = $this->privatesCaller->callPrivateMethod($this, 'parseChild', $tokens);
+        $node = $this->privatesCaller->callPrivateMethod($this, 'parseChild', $tokenIterator);
 
-        $tokenEnd = $tokens->currentTokenOffset();
+        $tokenEnd = $this->privatesGetter->getPrivateProperty($tokenIterator, 'index');
 
-        $this->childrenWithPositions[$node] = [
+        $this->nodeWithPositionsObjectStorage[$node] = [
             'tokenStart' => $tokenStart,
             'tokenEnd' => $tokenEnd,
         ];
