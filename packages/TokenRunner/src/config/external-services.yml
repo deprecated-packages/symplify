@@ -1,0 +1,7 @@
+imports:
+    - { resource: '../../../BetterReflectionDocBlock/src/config/services.yml' }
+
+services:
+    _defaults:
+        autowire: true
+
