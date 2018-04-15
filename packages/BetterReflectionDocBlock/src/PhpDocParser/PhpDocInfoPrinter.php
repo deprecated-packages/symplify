@@ -4,15 +4,12 @@ namespace Symplify\BetterReflectionDocBlock\PhpDocParser;
 
 use PHPStan\PhpDocParser\Ast\Node;
 use PHPStan\PhpDocParser\Ast\PhpDoc\ParamTagValueNode;
-use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocChildNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTagNode;
-use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTextNode;
 use PHPStan\PhpDocParser\Ast\Type\UnionTypeNode;
 use PHPStan\PhpDocParser\Lexer\Lexer as PHPStanLexer;
 use Symplify\BetterReflectionDocBlock\PhpDocParser\Ast\Type\FormatPreservingUnionTypeNode;
 use Symplify\BetterReflectionDocBlock\PhpDocParser\Storage\NodeWithPositionsObjectStorage;
-use Symplify\PackageBuilder\Reflection\PrivatesAccessor;
 
 final class PhpDocInfoPrinter
 {
@@ -20,11 +17,6 @@ final class PhpDocInfoPrinter
      * @var NodeWithPositionsObjectStorage
      */
     private $nodeWithPositionsObjectStorage;
-
-    /**
-     * @var PrivatesAccessor
-     */
-    private $privatesAccessor;
 
     /**
      * @var mixed[]
@@ -36,29 +28,15 @@ final class PhpDocInfoPrinter
      */
     private $tokenCount;
 
+    /**
+     * @var int
+     */
+    private $currentTokenPosition;
+
     public function __construct(NodeWithPositionsObjectStorage $nodeWithPositionsObjectStorage)
     {
-        $this->privatesAccessor = new PrivatesAccessor();
         $this->nodeWithPositionsObjectStorage = $nodeWithPositionsObjectStorage;
     }
-
-//        foreach ($phpDocNode->children as $childNode) {
-//            if ($childNode instanceof PhpDocTextNode && $childNode->text === '') {
-//                $middle .= ' *' . PHP_EOL;
-//            } else {
-//                if ($this->hasUnionType($childNode)) {
-//                    /** @var PhpDocTagNode $childNode */
-//                    $childNodeValue = $childNode->value;
-//                    /** @var ParamTagValueNode $childNodeValue */
-//                    $childNodeValueType = $childNodeValue->type;
-//                    /** @var UnionTypeNode $childNodeValueType */
-//                    // @todo: here it requires to check format of original node, as in PHPParser
-//                    $childNodeValue->type = new FormatPreservingUnionTypeNode($childNodeValueType->types);
-//                }
-//
-//                $middle .= ' * ' . (string) $childNode . PHP_EOL;
-//            }
-//        }
 
     /**
      * As in php-parser
@@ -76,44 +54,25 @@ final class PhpDocInfoPrinter
         $this->tokens = $phpDocInfo->getTokens();
         $this->tokenCount = count($phpDocInfo->getTokens());
 
-        $output = $this->printPhpDocNode($phpDocNode);
-
-        return $output;
+        return $this->printPhpDocNode($phpDocNode);
     }
 
-    private function hasUnionType(PhpDocChildNode $phpDocChildNode): bool
-    {
-        if (! $phpDocChildNode instanceof PhpDocTagNode) {
-            return false;
-        }
-
-        if (! $phpDocChildNode->value instanceof ParamTagValueNode) {
-            return false;
-        }
-
-        return $phpDocChildNode->value->type instanceof UnionTypeNode;
-    }
-
-    /**
-     * @param mixed[] $tokens
-     */
     private function printPhpDocNode(PhpDocNode $phpDocNode): string
     {
-        $tokenPosition = 0;
+        $this->currentTokenPosition = 0;
         $output = '';
         foreach ($phpDocNode->children as $child) {
-            [$tokenPosition, $newOutput] = $this->printNode($child, $tokenPosition);
-            $output .= $newOutput;
+            $output .= $this->printNode($child);
         }
 
         // tokens after - only for the last Node
         $offset = 1;
 
-        if ($this->tokens[$tokenPosition][1] === PHPStanLexer::TOKEN_PHPDOC_EOL) {
+        if ($this->tokens[$this->currentTokenPosition][1] === PHPStanLexer::TOKEN_PHPDOC_EOL) {
             $offset = 0;
         }
 
-        for ($i = $tokenPosition - $offset; $i < $this->tokenCount; ++$i) {
+        for ($i = $this->currentTokenPosition - $offset; $i < $this->tokenCount; ++$i) {
             $output .= $this->tokens[$i][0];
         }
 
@@ -123,22 +82,36 @@ final class PhpDocInfoPrinter
     /**
      * @return mixed[]
      */
-    private function printNode(Node $node, int $tokenPosition): array
+    private function printNode(Node $node): string
     {
         $output = '';
         // tokens before
         if (isset($this->nodeWithPositionsObjectStorage[$node])) {
             $nodePositions = $this->nodeWithPositionsObjectStorage[$node];
-            for ($i = $tokenPosition; $i < $nodePositions['tokenStart']; ++$i) {
+            for ($i = $this->currentTokenPosition; $i < $nodePositions['tokenStart']; ++$i) {
                 $output .= $this->tokens[$i][0];
             }
 
-            $tokenPosition = $nodePositions['tokenEnd'];
+            $this->currentTokenPosition = $nodePositions['tokenEnd'];
         }
 
         // @todo recurse
-        $output .= (string) $node;
+        if ($node instanceof PhpDocTagNode) {
+            $output .= $node->name;
+            $output .= ' '; // @todo not manually
 
-        return [$tokenPosition, $output];
+            if ($node->value instanceof ParamTagValueNode) {
+                if ($node->value->type instanceof UnionTypeNode) {
+                    // @todo temp workaround
+                    $nodeValueType = $node->value->type;
+                    /** @var UnionTypeNode $nodeValueType */
+                    $node->value->type = new FormatPreservingUnionTypeNode($nodeValueType->types);
+                }
+            }
+
+            return $output . $this->printNode($node->value);
+        }
+
+        return $output . (string) $node;
     }
 }
