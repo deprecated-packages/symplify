@@ -26,6 +26,16 @@ final class PhpDocInfoPrinter
      */
     private $privatesAccessor;
 
+    /**
+     * @var mixed[]
+     */
+    private $tokens = [];
+
+    /**
+     * @var int
+     */
+    private $tokenCount;
+
     public function __construct(NodeWithPositionsObjectStorage $nodeWithPositionsObjectStorage)
     {
         $this->privatesAccessor = new PrivatesAccessor();
@@ -63,9 +73,10 @@ final class PhpDocInfoPrinter
     public function printFormatPreserving(PhpDocInfo $phpDocInfo): string
     {
         $phpDocNode = $phpDocInfo->getPhpDocNode();
-        $tokens = $phpDocInfo->getTokens();
+        $this->tokens = $phpDocInfo->getTokens();
+        $this->tokenCount = count($phpDocInfo->getTokens());
 
-        $output = $this->printPhpDocNode($phpDocNode, $tokens);
+        $output = $this->printPhpDocNode($phpDocNode);
 
         return $output;
     }
@@ -86,33 +97,48 @@ final class PhpDocInfoPrinter
     /**
      * @param mixed[] $tokens
      */
-    private function printPhpDocNode(PhpDocNode $phpDocNode, array $tokens): string
+    private function printPhpDocNode(PhpDocNode $phpDocNode): string
     {
         $tokenPosition = 0;
         $output = '';
         foreach ($phpDocNode->children as $child) {
-            // tokens before
-            if (isset($this->nodeWithPositionsObjectStorage[$child])) {
-                $nodePositions = $this->nodeWithPositionsObjectStorage[$child];
-                for ($i = $tokenPosition; $i < $nodePositions['tokenStart']; ++$i) {
-                    $output .= $tokens[$i][0];
-                }
-
-                $tokenPosition = $nodePositions['tokenEnd'];
-            }
-
-            // @todo recurse
-            $output .= (string)$child;
+            [$tokenPosition, $newOutput] = $this->printNode($child, $tokenPosition);
+            $output .= $newOutput;
         }
 
         // tokens after - only for the last Node
         $offset = 1;
-        if ($tokens[$tokenPosition][1] === PHPStanLexer::TOKEN_PHPDOC_EOL) {
+
+        if ($this->tokens[$tokenPosition][1] === PHPStanLexer::TOKEN_PHPDOC_EOL) {
             $offset = 0;
         }
-        for ($i = $tokenPosition - $offset; $i < count($tokens); ++$i) {
-            $output .= $tokens[$i][0];
+
+        for ($i = $tokenPosition - $offset; $i < $this->tokenCount; ++$i) {
+            $output .= $this->tokens[$i][0];
         }
+
         return $output;
+    }
+
+    /**
+     * @return mixed[]
+     */
+    private function printNode(Node $node, int $tokenPosition): array
+    {
+        $output = '';
+        // tokens before
+        if (isset($this->nodeWithPositionsObjectStorage[$node])) {
+            $nodePositions = $this->nodeWithPositionsObjectStorage[$node];
+            for ($i = $tokenPosition; $i < $nodePositions['tokenStart']; ++$i) {
+                $output .= $this->tokens[$i][0];
+            }
+
+            $tokenPosition = $nodePositions['tokenEnd'];
+        }
+
+        // @todo recurse
+        $output .= (string) $node;
+
+        return [$tokenPosition, $output];
     }
 }
