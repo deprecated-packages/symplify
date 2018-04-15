@@ -2,8 +2,10 @@
 
 namespace Symplify\BetterReflectionDocBlock\PhpDocParser;
 
+use PHPStan\PhpDocParser\Ast\Node;
 use PHPStan\PhpDocParser\Ast\PhpDoc\ParamTagValueNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocChildNode;
+use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTagNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTextNode;
 use PHPStan\PhpDocParser\Ast\Type\UnionTypeNode;
@@ -63,31 +65,7 @@ final class PhpDocInfoPrinter
         $phpDocNode = $phpDocInfo->getPhpDocNode();
         $tokens = $phpDocInfo->getTokens();
 
-        $tokenPosition = 0;
-        $output = '';
-        foreach ($phpDocNode->children as $child) {
-            // tokens before
-            if (isset($this->nodeWithPositionsObjectStorage[$child])) {
-                $nodePositions = $this->nodeWithPositionsObjectStorage[$child];
-                for ($i = $tokenPosition; $i < $nodePositions['tokenStart']; ++$i) {
-                    $output .= $tokens[$i][0];
-                }
-
-                $tokenPosition = $nodePositions['tokenEnd'];
-            }
-
-            // @todo recurse
-            $output .= (string) $child;
-        }
-
-        // tokens after - only for the last Node
-        $offset = 1;
-        if ($tokens[$tokenPosition][1] === PHPStanLexer::TOKEN_PHPDOC_EOL) {
-            $offset = 0;
-        }
-        for ($i = $tokenPosition - $offset; $i < count($tokens); ++$i) {
-            $output .= $tokens[$i][0];
-        }
+        $output = $this->printPhpDocNode($phpDocNode, $tokens);
 
         return $output;
     }
@@ -103,5 +81,38 @@ final class PhpDocInfoPrinter
         }
 
         return $phpDocChildNode->value->type instanceof UnionTypeNode;
+    }
+
+    /**
+     * @param mixed[] $tokens
+     */
+    private function printPhpDocNode(PhpDocNode $phpDocNode, array $tokens): string
+    {
+        $tokenPosition = 0;
+        $output = '';
+        foreach ($phpDocNode->children as $child) {
+            // tokens before
+            if (isset($this->nodeWithPositionsObjectStorage[$child])) {
+                $nodePositions = $this->nodeWithPositionsObjectStorage[$child];
+                for ($i = $tokenPosition; $i < $nodePositions['tokenStart']; ++$i) {
+                    $output .= $tokens[$i][0];
+                }
+
+                $tokenPosition = $nodePositions['tokenEnd'];
+            }
+
+            // @todo recurse
+            $output .= (string)$child;
+        }
+
+        // tokens after - only for the last Node
+        $offset = 1;
+        if ($tokens[$tokenPosition][1] === PHPStanLexer::TOKEN_PHPDOC_EOL) {
+            $offset = 0;
+        }
+        for ($i = $tokenPosition - $offset; $i < count($tokens); ++$i) {
+            $output .= $tokens[$i][0];
+        }
+        return $output;
     }
 }
