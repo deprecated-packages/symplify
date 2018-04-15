@@ -345,11 +345,16 @@ final class ImportNamespacedNameFixer implements DefinedFixerInterface, Configur
     private function processVarTag(DocBlockWrapper $docBlockWrapper, Tokens $tokens): void
     {
         $varTagValues = $docBlockWrapper->getPhpDocInfo()->getPhpDocNode()->getVarTagValues();
-        if (! $varTagValues) {
+        $this->processPhpDocTagValueNode($varTagValues, $tokens);
+    }
+
+    private function processPhpDocTagValueNode(array $tagValues, Tokens $tokens): void
+    {
+        if (! $tagValues) {
             return;
         }
 
-        $fullName = $this->shortenNameAndReturnFullNameNew($varTagValues[0]);
+        $fullName = $this->shortenNameAndReturnFullNameNew($tagValues[0]);
         if (! $fullName) {
             return;
         }
