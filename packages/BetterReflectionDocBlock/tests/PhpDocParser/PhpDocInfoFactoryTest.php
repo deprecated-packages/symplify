@@ -38,7 +38,8 @@ final class PhpDocInfoFactoryTest extends AbstractContainerAwareTestCase
 
     public function provideDocFiles(): Iterator
     {
-        yield [__DIR__ . '/PhpDocInfoFactorySource/doc.txt'];
-        yield [__DIR__ . '/PhpDocInfoFactorySource/doc2.txt'];
+//        yield [__DIR__ . '/PhpDocInfoFactorySource/doc.txt'];
+//        yield [__DIR__ . '/PhpDocInfoFactorySource/doc2.txt'];
+        yield [__DIR__ . '/PhpDocInfoFactorySource/doc3.txt'];
     }
 }
