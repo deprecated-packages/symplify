@@ -13,7 +13,7 @@ services:
     Symplify\Statie\Renderable\RenderableFilesProcessor:
         # order is important, since determined order of calls in code
         calls:
-            # has to run before Markdown; so it can render perex and content is set
+            # has to run before Markdown; so it can print perex and content is set
             - ['addFileDecorator', ['@Symplify\Statie\Renderable\ConfigurationDecorator']]
             # has to run before Latte; it fails the other way.
             - ['addFileDecorator', ['@Symplify\Statie\Renderable\MarkdownFileDecorator']]

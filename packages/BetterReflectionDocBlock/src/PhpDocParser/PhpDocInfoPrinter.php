@@ -9,9 +9,9 @@ use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTextNode;
 use PHPStan\PhpDocParser\Ast\Type\UnionTypeNode;
 use Symplify\BetterReflectionDocBlock\PhpDocParser\Ast\Type\FormatPreservingUnionTypeNode;
 
-final class PhpDocInfoRenderer
+final class PhpDocInfoPrinter
 {
-    public function render(PhpDocInfo $phpDocInfo): string
+    public function print(PhpDocInfo $phpDocInfo): string
     {
         $phpDocNode = $phpDocInfo->getPhpDocNode();
 
@@ -47,6 +47,20 @@ final class PhpDocInfoRenderer
         }
 
         return $start . $middle . $end;
+    }
+
+    /**
+     * As in php-parser
+     */
+    public function printFormatPreserving(PhpDocInfo $phpDocInfo): void
+    {
+        $newNode = $phpDocInfo->getPhpDocNode();
+        $oldNode = $phpDocInfo->getOldPhpDocNode();
+        $oldTokens = $phpDocInfo->getTokenIterator();
+
+        // ...
+        dump($newNode, $oldNode, $oldTokens);
+        die;
     }
 
     private function hasUnionType(PhpDocChildNode $phpDocChildNode): bool

@@ -109,7 +109,7 @@ final class MethodWrapper
 
         if ($returnTypeAnalysis) {
             $returnTypeInString = $returnTypeAnalysis->getName();
-            // for docblocks render: "?Type" => "null|Type"
+            // for docblocks print: "?Type" => "null|Type"
             return str_replace('?', 'null|', $returnTypeInString);
         }
 
