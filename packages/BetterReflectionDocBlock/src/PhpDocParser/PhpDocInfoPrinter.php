@@ -2,15 +2,16 @@
 
 namespace Symplify\BetterReflectionDocBlock\PhpDocParser;
 
+use Nette\Utils\Strings;
 use PHPStan\PhpDocParser\Ast\Node;
 use PHPStan\PhpDocParser\Ast\PhpDoc\ParamTagValueNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTagNode;
 use PHPStan\PhpDocParser\Ast\Type\UnionTypeNode;
+use PHPStan\PhpDocParser\Lexer\Lexer;
 use PHPStan\PhpDocParser\Lexer\Lexer as PHPStanLexer;
 use Symplify\BetterReflectionDocBlock\PhpDocParser\Ast\Type\FormatPreservingUnionTypeNode;
 use Symplify\BetterReflectionDocBlock\PhpDocParser\Storage\NodeWithPositionsObjectStorage;
-use Symplify\BetterReflectionDocBlock\Renderer\OriginalSpacingCompleter;
 
 final class PhpDocInfoPrinter
 {
@@ -34,22 +35,9 @@ final class PhpDocInfoPrinter
      */
     private $currentTokenPosition;
 
-    /**
-     * @var PhpDocInfo
-     */
-    private $currentPhpDocInfo;
-
-    /**
-     * @var OriginalSpacingCompleter
-     */
-    private $originalSpacingCompleter;
-
-    public function __construct(
-        NodeWithPositionsObjectStorage $nodeWithPositionsObjectStorage,
-        OriginalSpacingCompleter $originalSpacingCompleter
-    ) {
+    public function __construct(NodeWithPositionsObjectStorage $nodeWithPositionsObjectStorage)
+    {
         $this->nodeWithPositionsObjectStorage = $nodeWithPositionsObjectStorage;
-        $this->originalSpacingCompleter = $originalSpacingCompleter;
     }
 
     /**
@@ -67,7 +55,6 @@ final class PhpDocInfoPrinter
         $phpDocNode = $phpDocInfo->getPhpDocNode();
         $this->tokens = $phpDocInfo->getTokens();
         $this->tokenCount = count($phpDocInfo->getTokens());
-        $this->currentPhpDocInfo = $phpDocInfo;
 
         return $this->printPhpDocNode($phpDocNode);
     }
@@ -96,7 +83,10 @@ final class PhpDocInfoPrinter
         return $output;
     }
 
-    private function printNode(Node $node): string
+    /**
+     * @param int[] $nodePositions
+     */
+    private function printNode(Node $node, array $nodePositions = []): string
     {
         $output = '';
         // tokens before
@@ -111,36 +101,56 @@ final class PhpDocInfoPrinter
 
         // @todo recurse
         if ($node instanceof PhpDocTagNode) {
-            $output .= $node->name;
-            $output .= ' '; // @todo not manually
-
-            if ($node->value instanceof ParamTagValueNode) {
-                if ($node->value->type instanceof UnionTypeNode) {
-                    // @todo temp workaround
-                    $nodeValueType = $node->value->type;
-                    /** @var UnionTypeNode $nodeValueType */
-                    $node->value->type = new FormatPreservingUnionTypeNode($nodeValueType->types);
-                }
-            }
-
-            return $output . $this->printNode($node->value);
+            return $this->printPhpDocTagNode($node, $nodePositions, $output);
         }
 
         if ($node instanceof ParamTagValueNode) {
-            dump($node);
-            die;
+            $output = ((string) $node);
 
             // @todo keep original spacing between name and value
-//            dump($node);
-//            dump((string) $node);
-            return $this->originalSpacingCompleter->completeTagSpaces(
-                (string) $node,
-                $this->currentPhpDocInfo->getOriginalContent()
-            );
-//            dump($this->currentPhpDocInfo->getOriginalContent());
-//            die;
+            // get old whitespaces
+            $oldWhitespaces = [];
+            for ($i = $nodePositions['tokenStart']; $i < $nodePositions['tokenEnd']; ++$i) {
+                if ($this->tokens[$i][1] === Lexer::TOKEN_HORIZONTAL_WS) {
+                    $oldWhitespaces[] = $this->tokens[$i][0];
+                }
+            }
+
+            // no original whitespaces, return
+            if (! $oldWhitespaces) {
+                return $output;
+            }
+
+            // first space is not covered by this
+            array_shift($oldWhitespaces);
+
+            // get all old whitespaces
+            $newWhitespaces = Strings::match($output, '#\s+#');
+
+            // replace system whitespace by old ones
+            return str_replace($newWhitespaces, $oldWhitespaces, $output);
         }
 
         return $output . (string) $node;
+    }
+
+    /**
+     * @param mixed[] $nodePositions
+     */
+    private function printPhpDocTagNode(PhpDocTagNode $phpDocTagNode, array $nodePositions, string $output): string
+    {
+        $output .= $phpDocTagNode->name;
+        $output .= ' '; // @todo not manually
+
+        if ($phpDocTagNode->value instanceof ParamTagValueNode) {
+            if ($phpDocTagNode->value->type instanceof UnionTypeNode) {
+                // @todo temp workaround
+                $nodeValueType = $phpDocTagNode->value->type;
+                /** @var UnionTypeNode $nodeValueType */
+                $phpDocTagNode->value->type = new FormatPreservingUnionTypeNode($nodeValueType->types);
+            }
+        }
+
+        return $output . $this->printNode($phpDocTagNode->value, $nodePositions);
     }
 }
