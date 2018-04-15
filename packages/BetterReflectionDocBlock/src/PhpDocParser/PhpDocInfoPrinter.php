@@ -2,6 +2,7 @@
 
 namespace Symplify\BetterReflectionDocBlock\PhpDocParser;
 
+use PhpParser\Lexer;
 use PHPStan\PhpDocParser\Ast\PhpDoc\ParamTagValueNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocChildNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTagNode;
@@ -31,35 +32,39 @@ final class PhpDocInfoPrinter
 
     public function print(PhpDocInfo $phpDocInfo): string
     {
-        $phpDocNode = $phpDocInfo->getPhpDocNode();
-
-        if ($phpDocInfo->isSingleLineDoc()) {
-            return sprintf('/** %s */', implode(' ', $phpDocNode->children));
-        }
-
-        $start = '/**' . PHP_EOL;
-        $end = ' */';
-
-        $middle = '';
-        foreach ($phpDocNode->children as $childNode) {
-            if ($childNode instanceof PhpDocTextNode && $childNode->text === '') {
-                $middle .= ' *' . PHP_EOL;
-            } else {
-                if ($this->hasUnionType($childNode)) {
-                    /** @var PhpDocTagNode $childNode */
-                    $childNodeValue = $childNode->value;
-                    /** @var ParamTagValueNode $childNodeValue */
-                    $childNodeValueType = $childNodeValue->type;
-                    /** @var UnionTypeNode $childNodeValueType */
-                    // @todo: here it requires to check format of original node, as in PHPParser
-                    $childNodeValue->type = new FormatPreservingUnionTypeNode($childNodeValueType->types);
-                }
-
-                $middle .= ' * ' . (string) $childNode . PHP_EOL;
-            }
-        }
-
-        return $start . $middle . $end;
+        return $this->printFormatPreserving($phpDocInfo);
+//
+//
+//        $phpDocNode = $phpDocInfo->getPhpDocNode();
+//
+//        // this should be gone with pretty printer
+//        if ($phpDocInfo->isSingleLineDoc()) {
+//            return sprintf('/** %s */', implode(' ', $phpDocNode->children));
+//        }
+//
+//        $start = '/**' . PHP_EOL;
+//        $end = ' */';
+//
+//        $middle = '';
+//        foreach ($phpDocNode->children as $childNode) {
+//            if ($childNode instanceof PhpDocTextNode && $childNode->text === '') {
+//                $middle .= ' *' . PHP_EOL;
+//            } else {
+//                if ($this->hasUnionType($childNode)) {
+//                    /** @var PhpDocTagNode $childNode */
+//                    $childNodeValue = $childNode->value;
+//                    /** @var ParamTagValueNode $childNodeValue */
+//                    $childNodeValueType = $childNodeValue->type;
+//                    /** @var UnionTypeNode $childNodeValueType */
+//                    // @todo: here it requires to check format of original node, as in PHPParser
+//                    $childNodeValue->type = new FormatPreservingUnionTypeNode($childNodeValueType->types);
+//                }
+//
+//                $middle .= ' * ' . (string) $childNode . PHP_EOL;
+//            }
+//        }
+//
+//        return $start . $middle . $end;
     }
 
     /**
@@ -96,7 +101,11 @@ final class PhpDocInfoPrinter
         }
 
         // tokens after - only for the last Node
-        for ($i = $tokenPosition - 1; $i < count($tokens); ++$i) {
+        $offset = 1;
+        if ($tokens[$tokenPosition][1] === \PHPStan\PhpDocParser\Lexer\Lexer::TOKEN_PHPDOC_EOL) {
+            $offset = 0;
+        }
+        for ($i = $tokenPosition - $offset; $i < count($tokens); ++$i) {
             $output .= $tokens[$i][0];
         }
 

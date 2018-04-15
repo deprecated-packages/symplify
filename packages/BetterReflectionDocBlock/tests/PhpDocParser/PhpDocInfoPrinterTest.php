@@ -28,33 +28,16 @@ final class PhpDocInfoPrinterTest extends AbstractContainerAwareTestCase
     /**
      * @dataProvider provideDocFilesForPrint()
      */
-    public function testPrint(string $docFile): void
+    public function testPrintFormatPreserving(string $docComment): void
     {
-        $docComment = file_get_contents($docFile);
-
-        $phpDocInfo = $this->phpDocInfoFactory->createFrom($docComment);
-        $this->assertSame($docComment, $this->phpDocInfoPrinter->print($phpDocInfo));
-    }
-
-    public function provideDocFilesForPrint(): Iterator
-    {
-        yield [__DIR__ . '/PhpDocInfoPrinterSource/doc.txt'];
-        yield [__DIR__ . '/PhpDocInfoPrinterSource/doc2.txt'];
-    }
-
-    /**
-     * @dataProvider provideDocFilesForPrintFormatPreserving()
-     */
-    public function testPrintFormatPreserving(string $docFile): void
-    {
-        $docComment = file_get_contents($docFile);
-
         $phpDocInfo = $this->phpDocInfoFactory->createFrom($docComment);
         $this->assertSame($docComment, $this->phpDocInfoPrinter->printFormatPreserving($phpDocInfo));
     }
 
-    public function provideDocFilesForPrintFormatPreserving(): Iterator
+    public function provideDocFilesForPrint(): Iterator
     {
-        yield [__DIR__ . '/PhpDocInfoPrinterSource/doc3.txt'];
+        yield ['/** @var Type */'];
+        yield [file_get_contents(__DIR__ . '/PhpDocInfoPrinterSource/doc.txt')];
+        yield [file_get_contents(__DIR__ . '/PhpDocInfoPrinterSource/doc2.txt')];
     }
 }
