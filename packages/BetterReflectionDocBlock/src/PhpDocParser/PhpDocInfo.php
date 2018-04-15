@@ -23,13 +23,19 @@ final class PhpDocInfo
     private $tokens = [];
 
     /**
+     * @var string
+     */
+    private $originalContent;
+
+    /**
      * @param mixed[] $tokens
      */
-    public function __construct(PhpDocNode $phpDocNode, TokenIterator $tokenIterator, array $tokens)
+    public function __construct(PhpDocNode $phpDocNode, TokenIterator $tokenIterator, array $tokens, string $originalContent)
     {
         $this->phpDocNode = $phpDocNode;
         $this->tokenIterator = $tokenIterator;
         $this->tokens = $tokens;
+        $this->originalContent = $originalContent;
     }
 
     public function getPhpDocNode(): PhpDocNode
@@ -48,5 +54,10 @@ final class PhpDocInfo
     public function getTokens(): array
     {
         return $this->tokens;
+    }
+
+    public function getOriginalContent(): string
+    {
+        return $this->originalContent;
     }
 }

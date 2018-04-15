@@ -10,6 +10,7 @@ use PHPStan\PhpDocParser\Ast\Type\UnionTypeNode;
 use PHPStan\PhpDocParser\Lexer\Lexer as PHPStanLexer;
 use Symplify\BetterReflectionDocBlock\PhpDocParser\Ast\Type\FormatPreservingUnionTypeNode;
 use Symplify\BetterReflectionDocBlock\PhpDocParser\Storage\NodeWithPositionsObjectStorage;
+use Symplify\BetterReflectionDocBlock\Renderer\OriginalSpacingCompleter;
 
 final class PhpDocInfoPrinter
 {
@@ -33,9 +34,19 @@ final class PhpDocInfoPrinter
      */
     private $currentTokenPosition;
 
-    public function __construct(NodeWithPositionsObjectStorage $nodeWithPositionsObjectStorage)
+    /**
+     * @var PhpDocInfo
+     */
+    private $currentPhpDocInfo;
+    /**
+     * @var OriginalSpacingCompleter
+     */
+    private $originalSpacingCompleter;
+
+    public function __construct(NodeWithPositionsObjectStorage $nodeWithPositionsObjectStorage, OriginalSpacingCompleter $originalSpacingCompleter)
     {
         $this->nodeWithPositionsObjectStorage = $nodeWithPositionsObjectStorage;
+        $this->originalSpacingCompleter = $originalSpacingCompleter;
     }
 
     /**
@@ -53,6 +64,7 @@ final class PhpDocInfoPrinter
         $phpDocNode = $phpDocInfo->getPhpDocNode();
         $this->tokens = $phpDocInfo->getTokens();
         $this->tokenCount = count($phpDocInfo->getTokens());
+        $this->currentPhpDocInfo = $phpDocInfo;
 
         return $this->printPhpDocNode($phpDocNode);
     }
@@ -110,6 +122,20 @@ final class PhpDocInfoPrinter
 
             return $output . $this->printNode($node->value);
         }
+
+        if ($node instanceof ParamTagValueNode) {
+
+            dump($node);
+            die;
+
+            // @todo keep original spacing between name and value
+//            dump($node);
+//            dump((string) $node);
+            return $this->originalSpacingCompleter->completeTagSpaces((string) $node, $this->currentPhpDocInfo->getOriginalContent());
+//            dump($this->currentPhpDocInfo->getOriginalContent());
+//            die;
+        }
+
 
         return $output . (string) $node;
     }
