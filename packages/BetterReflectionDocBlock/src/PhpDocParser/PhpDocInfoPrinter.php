@@ -51,16 +51,22 @@ final class PhpDocInfoPrinter
 
     /**
      * As in php-parser
+     *
+     * ref: https://github.com/nikic/PHP-Parser/issues/487#issuecomment-375986259
+     * - Tokens[node.startPos .. subnode1.startPos]
+     * - Print(subnode1)
+     * - Tokens[subnode1.endPos .. subnode2.startPos]
+     * - Print(subnode2)
+     * - Tokens[subnode2.endPos .. node.endPos]
      */
-    public function printFormatPreserving(PhpDocInfo $phpDocInfo): void
+    public function printFormatPreserving(PhpDocInfo $phpDocInfo): string
     {
+        // each node has to include token start and end position
         $newNode = $phpDocInfo->getPhpDocNode();
         $oldNode = $phpDocInfo->getOldPhpDocNode();
         $oldTokens = $phpDocInfo->getTokenIterator();
 
-        // ...
-        dump($newNode, $oldNode, $oldTokens);
-        die;
+        return '';
     }
 
     private function hasUnionType(PhpDocChildNode $phpDocChildNode): bool

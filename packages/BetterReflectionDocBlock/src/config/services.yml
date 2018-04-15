@@ -11,4 +11,7 @@ services:
     PHPStan\PhpDocParser\Lexer\Lexer: ~
     PHPStan\PhpDocParser\Parser\TypeParser: ~
     PHPStan\PhpDocParser\Parser\ConstExprParser: ~
-    PHPStan\PhpDocParser\Parser\PhpDocParser: ~
+#    PHPStan\PhpDocParser\Parser\PhpDocParser: ~
+
+    PHPStan\PhpDocParser\Parser\PhpDocParser:
+        alias: 'Symplify\BetterReflectionDocBlock\PhpDocParser\PositionAwarePhpDocParser'

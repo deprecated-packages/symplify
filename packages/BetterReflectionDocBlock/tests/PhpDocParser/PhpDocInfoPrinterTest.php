@@ -28,7 +28,7 @@ final class PhpDocInfoPrinterTest extends AbstractContainerAwareTestCase
     /**
      * @dataProvider provideDocFilesForPrint()
      */
-    public function testSingleLine(string $docFile): void
+    public function testPrint(string $docFile): void
     {
         $docComment = file_get_contents($docFile);
 
@@ -50,7 +50,7 @@ final class PhpDocInfoPrinterTest extends AbstractContainerAwareTestCase
         $docComment = file_get_contents($docFile);
 
         $phpDocInfo = $this->phpDocInfoFactory->createFrom($docComment);
-        $this->assertSame($docComment, $this->phpDocInfoPrinter->print($phpDocInfo));
+        $this->assertSame($docComment, $this->phpDocInfoPrinter->printFormatPreserving($phpDocInfo));
     }
 
     public function provideDocFilesForPrintFormatPreserving(): Iterator
