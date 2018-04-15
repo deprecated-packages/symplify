@@ -30,8 +30,12 @@ final class PhpDocInfo
     /**
      * @param mixed[] $tokens
      */
-    public function __construct(PhpDocNode $phpDocNode, TokenIterator $tokenIterator, array $tokens, string $originalContent)
-    {
+    public function __construct(
+        PhpDocNode $phpDocNode,
+        TokenIterator $tokenIterator,
+        array $tokens,
+        string $originalContent
+    ) {
         $this->phpDocNode = $phpDocNode;
         $this->tokenIterator = $tokenIterator;
         $this->tokens = $tokens;

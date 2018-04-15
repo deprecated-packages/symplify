@@ -38,13 +38,16 @@ final class PhpDocInfoPrinter
      * @var PhpDocInfo
      */
     private $currentPhpDocInfo;
+
     /**
      * @var OriginalSpacingCompleter
      */
     private $originalSpacingCompleter;
 
-    public function __construct(NodeWithPositionsObjectStorage $nodeWithPositionsObjectStorage, OriginalSpacingCompleter $originalSpacingCompleter)
-    {
+    public function __construct(
+        NodeWithPositionsObjectStorage $nodeWithPositionsObjectStorage,
+        OriginalSpacingCompleter $originalSpacingCompleter
+    ) {
         $this->nodeWithPositionsObjectStorage = $nodeWithPositionsObjectStorage;
         $this->originalSpacingCompleter = $originalSpacingCompleter;
     }
@@ -124,18 +127,19 @@ final class PhpDocInfoPrinter
         }
 
         if ($node instanceof ParamTagValueNode) {
-
             dump($node);
             die;
 
             // @todo keep original spacing between name and value
 //            dump($node);
 //            dump((string) $node);
-            return $this->originalSpacingCompleter->completeTagSpaces((string) $node, $this->currentPhpDocInfo->getOriginalContent());
+            return $this->originalSpacingCompleter->completeTagSpaces(
+                (string) $node,
+                $this->currentPhpDocInfo->getOriginalContent()
+            );
 //            dump($this->currentPhpDocInfo->getOriginalContent());
 //            die;
         }
-
 
         return $output . (string) $node;
     }

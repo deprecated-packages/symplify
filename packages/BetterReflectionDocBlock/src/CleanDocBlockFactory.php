@@ -15,6 +15,8 @@ use Symplify\BetterReflectionDocBlock\Tag\TolerantVar;
 
 /**
  * Same as @see DocBlockFactory::createInstance(), but uses only tags that are needed
+ *
+ * @todo replace by @see \Symplify\BetterReflectionDocBlock\PhpDocParser\PhpDocInfoPrinter, already covered
  */
 final class CleanDocBlockFactory
 {
