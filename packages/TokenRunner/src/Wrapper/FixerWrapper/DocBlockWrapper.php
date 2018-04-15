@@ -28,7 +28,6 @@ final class DocBlockWrapper
      * @var Tokens
      */
     private $tokens;
-
     /**
      * @var int
      */
@@ -58,11 +57,11 @@ final class DocBlockWrapper
      * @var DocBlockSerializerFactory
      */
     private $docBlockSerializerFactory;
+
     /**
      * @var null|PhpDocInfo
      */
     private $phpDocInfo;
-
     public function __construct(
         Tokens $tokens,
         int $position,
@@ -100,6 +99,11 @@ final class DocBlockWrapper
             $newLineIndent . '/**',
             $newLineIndent . ' */',
         ], $this->originalContent);
+    }
+
+    public function getPhpDocInfo(): ?PhpDocInfo
+    {
+        return $this->phpDocInfo;
     }
 
     public function getReturnType(): ?string

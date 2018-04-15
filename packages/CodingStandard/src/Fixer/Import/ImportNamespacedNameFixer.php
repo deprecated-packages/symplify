@@ -20,7 +20,13 @@ use phpDocumentor\Reflection\DocBlock\Tags\Param;
 use phpDocumentor\Reflection\DocBlock\Tags\Return_;
 use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Types\Object_;
+use PHPStan\PhpDocParser\Ast\PhpDoc\ParamTagValueNode;
+use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTagValueNode;
+use PHPStan\PhpDocParser\Ast\PhpDoc\ReturnTagValueNode;
+use PHPStan\PhpDocParser\Ast\PhpDoc\VarTagValueNode;
+use PHPStan\PhpDocParser\Ast\Type\IdentifierTypeNode;
 use SplFileInfo;
+use Symplify\BetterReflectionDocBlock\PhpDocParser\PhpDocInfoPrinter;
 use Symplify\BetterReflectionDocBlock\Tag\TolerantParam;
 use Symplify\BetterReflectionDocBlock\Tag\TolerantReturn;
 use Symplify\BetterReflectionDocBlock\Tag\TolerantVar;
@@ -101,6 +107,10 @@ final class ImportNamespacedNameFixer implements DefinedFixerInterface, Configur
      * @var NamespaceUsesAnalyzer
      */
     private $namespaceUsesAnalyzer;
+    /**
+     * @var PhpDocInfoPrinter
+     */
+    private $phpDocInfoPrinter;
 
     public function __construct(
         DocBlockWrapperFactory $docBlockWrapperFactory,
@@ -109,7 +119,8 @@ final class ImportNamespacedNameFixer implements DefinedFixerInterface, Configur
         ClassNameFinder $classNameFinder,
         NameAnalyzer $nameAnalyzer,
         NameFactory $nameFactory,
-        NamespaceUsesAnalyzer $namespaceUsesAnalyzer
+        NamespaceUsesAnalyzer $namespaceUsesAnalyzer,
+        PhpDocInfoPrinter $phpDocInfoPrinter
     ) {
         $this->docBlockWrapperFactory = $docBlockWrapperFactory;
         $this->useImportsTransformer = $useImportsTransformer;
@@ -122,6 +133,7 @@ final class ImportNamespacedNameFixer implements DefinedFixerInterface, Configur
         $this->configuration = $this->getConfigurationDefinition()
             ->resolve([]);
         $this->whitespacesFixerConfig = $whitespacesFixerConfig;
+        $this->phpDocInfoPrinter = $phpDocInfoPrinter;
     }
 
     public function getDefinition(): FixerDefinitionInterface
@@ -281,31 +293,28 @@ final class ImportNamespacedNameFixer implements DefinedFixerInterface, Configur
     private function processDocCommentToken(int $index, Tokens $tokens): void
     {
         $docBlockWrapper = $this->docBlockWrapperFactory->create($tokens, $index, $tokens[$index]->getContent());
+
         // require for doc block changes
         $docBlockWrapper->setWhitespacesFixerConfig($this->whitespacesFixerConfig);
-
-        $oldDocBlockContent = $docBlockWrapper->getContent();
 
         $this->processParamsTags($docBlockWrapper, $tokens);
         $this->processReturnTag($docBlockWrapper, $tokens);
         $this->processVarTag($docBlockWrapper, $tokens);
 
-        if ($oldDocBlockContent === $docBlockWrapper->getContent()) {
-            return;
-        }
+        $phpDocContent = $this->phpDocInfoPrinter->printFormatPreserving($docBlockWrapper->getPhpDocInfo());
 
         // save doc comment
-        $tokens[$index] = new Token([T_DOC_COMMENT, $docBlockWrapper->getContent()]);
+        $tokens[$index] = new Token([T_DOC_COMMENT, $phpDocContent]);
     }
 
     private function processReturnTag(DocBlockWrapper $docBlockWrapper, Tokens $tokens): void
     {
-        $returnTag = $docBlockWrapper->getReturnTag();
-        if (! $returnTag) {
+        $returnTagValues = $docBlockWrapper->getPhpDocInfo()->getPhpDocNode()->getReturnTagValues();
+        if (! $returnTagValues) {
             return;
         }
 
-        $fullName = $this->shortenNameAndReturnFullName($returnTag);
+        $fullName = $this->shortenNameAndReturnFullNameNew($returnTagValues[0]);
         if (! $fullName) {
             return;
         }
@@ -315,8 +324,13 @@ final class ImportNamespacedNameFixer implements DefinedFixerInterface, Configur
 
     private function processParamsTags(DocBlockWrapper $docBlockWrapper, Tokens $tokens): void
     {
-        foreach ($docBlockWrapper->getParamTags() as $paramTag) {
-            $fullName = $this->shortenNameAndReturnFullName($paramTag);
+        $paramTagValues = $docBlockWrapper->getPhpDocInfo()->getPhpDocNode()->getParamTagValues();
+        if (! $paramTagValues) {
+            return;
+        }
+
+        foreach ($paramTagValues as $key => $paramTagValue) {
+            $fullName = $this->shortenNameAndReturnFullNameNew($paramTagValue);
             if (! $fullName) {
                 return;
             }
@@ -325,14 +339,17 @@ final class ImportNamespacedNameFixer implements DefinedFixerInterface, Configur
         }
     }
 
+    /**
+     * @todo same as other two, apart input type; merge 3 to 1
+     */
     private function processVarTag(DocBlockWrapper $docBlockWrapper, Tokens $tokens): void
     {
-        $returnTag = $docBlockWrapper->getVarTag();
-        if (! $returnTag) {
+        $varTagValues = $docBlockWrapper->getPhpDocInfo()->getPhpDocNode()->getVarTagValues();
+        if (! $varTagValues) {
             return;
         }
 
-        $fullName = $this->shortenNameAndReturnFullName($returnTag);
+        $fullName = $this->shortenNameAndReturnFullNameNew($varTagValues[0]);
         if (! $fullName) {
             return;
         }
@@ -341,29 +358,23 @@ final class ImportNamespacedNameFixer implements DefinedFixerInterface, Configur
     }
 
     /**
-     * @param Param|TolerantReturn|TolerantParam|Return_|TolerantVar $tag
+     * @param ParamTagValueNode|ReturnTagValueNode|VarTagValueNode $phpDocTagValueNode
      */
-    private function shortenNameAndReturnFullName(Tag $tag): ?string
+    private function shortenNameAndReturnFullNameNew(PhpDocTagValueNode $phpDocTagValueNode): ?string
     {
-        $objectType = $tag->getType();
-        if (! $objectType instanceof Object_) {
+        if (! $phpDocTagValueNode->type instanceof IdentifierTypeNode) {
             return null;
         }
 
-        $fqsen = $objectType->getFqsen();
-        if (! $fqsen instanceof Fqsen) {
+        $usedName = $phpDocTagValueNode->type->name;
+        $nameParts = explode('\\', $phpDocTagValueNode->type->name);
+        $lastName = array_pop($nameParts);
+
+        if ($lastName === ltrim($phpDocTagValueNode->type->name, '\\')) {
             return null;
         }
 
-        $usedName = (string) $fqsen;
-        $lastName = $fqsen->getName();
-
-        if ($lastName === ltrim($usedName, '\\')) {
-            return null;
-        }
-
-        // set new short name
-        (new PrivatesAccessor())->setPrivateProperty($objectType, 'fqsen', new Fqsen('\\' . $lastName));
+        $phpDocTagValueNode->type->name = $lastName;
 
         return $usedName;
     }
