@@ -28,7 +28,7 @@ final class PhpDocInfoFactoryTest extends AbstractContainerAwareTestCase
     /**
      * @dataProvider provideDocFiles()
      */
-    public function testSingleLine(string $docFile)
+    public function testSingleLine(string $docFile): void
     {
         $docComment = file_get_contents($docFile);
 

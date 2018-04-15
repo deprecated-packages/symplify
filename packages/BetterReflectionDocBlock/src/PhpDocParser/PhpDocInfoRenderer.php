@@ -6,11 +6,12 @@ final class PhpDocInfoRenderer
 {
     public function render(PhpDocInfo $phpDocInfo): string
     {
-        // @todo add format preserving renderer
+        $phpDocNode = $phpDocInfo->getPhpDocNode();
+
         if ($phpDocInfo->isSingleLineDoc()) {
-            return '/** ' . implode(" ", $phpDocInfo->getPhpDocNode()->children) . ' */';
+            return '/** ' . $phpDocNode->children[0] . ' */';
         }
 
-        return "/**\n * " . implode("\n * ", $phpDocInfo->getPhpDocNode()->children) . "\n */";
+        return "/**\n * " . implode("\n * ", $phpDocNode->children) . "\n */";
     }
 }
