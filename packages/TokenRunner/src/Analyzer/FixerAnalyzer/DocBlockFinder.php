@@ -15,6 +15,11 @@ final class DocBlockFinder
                 return null;
             }
 
+            // another block starts -> skip
+            if ($token->getContent() === '}') {
+                return null;
+            }
+
             if ($token->isComment()) {
                 return $i;
             }
