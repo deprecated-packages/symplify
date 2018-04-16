@@ -57,7 +57,6 @@ final class YourFixerTest extends AbstractCheckerTestCase
         $this->doTestWrongToFixedFile(__DIR__ . '/wrong/wrong.php.inc', __DIR__ . '/fixed/fixed.php.inc');
     }
 
-    // method required by abstract class, to provide path to the config with 1 or more fixers/sniffs
     protected function provideConfig(): string
     {
         return __DIR__ . '/config.yml';
@@ -82,7 +81,6 @@ final class YourSniffTest extends AbstractCheckerTestCase
 {
     // ...
     
-    // this one is extra for sniff, that only detects errors
     public function testWrongCases(): void
     {
         $this->doTestWrongFile(__DIR__ . '/wrong/wrong.php.inc');
