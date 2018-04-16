@@ -71,6 +71,7 @@ final class PositionAwarePhpDocParser extends PhpDocParser
 
         $tokenEnd = $this->privatesAccessor->getPrivateProperty($tokenIterator, 'index');
 
+        // @todo: use value object?
         $this->nodeWithPositionsObjectStorage[$node] = [
             'tokenStart' => $tokenStart,
             'tokenEnd' => $tokenEnd,
