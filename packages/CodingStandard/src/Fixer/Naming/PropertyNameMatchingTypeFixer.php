@@ -253,7 +253,7 @@ class SomeClass
             return true;
         }
 
-        $expectedName = $this->getExpectedNameFromType($typeWrapper->getType());
+        $expectedName = $this->getExpectedNameFromType((string) $typeWrapper->getType());
         if ($oldName === $expectedName) {
             return true;
         }
@@ -277,6 +277,10 @@ class SomeClass
             $oldName = $typeWrapper->getName();
 
             $expectedName = $this->getExpectedNameFromType((string) $typeWrapper->getType());
+
+            if ($expectedName === '') {
+                continue;
+            }
 
             $typeWrapper->changeName($expectedName);
 
