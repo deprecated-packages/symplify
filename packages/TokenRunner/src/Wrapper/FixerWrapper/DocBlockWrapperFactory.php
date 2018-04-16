@@ -18,6 +18,7 @@ final class DocBlockWrapperFactory
      * @var DocBlockSerializerFactory
      */
     private $docBlockSerializerFactory;
+
     /**
      * @var PhpDocInfoFactory
      */
