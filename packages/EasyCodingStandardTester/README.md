@@ -6,7 +6,7 @@
 
 Do you write your own fixer and sniffs? Would you like to test them without having to learn a lot about their internals?
 
-This package make testing them with 1 single class super easy.
+**This package make fixer and sniff testing with 1 single approach super easy**.
 
 ## Install
 
@@ -16,9 +16,7 @@ composer require symplify/easy-coding-standard-tester --dev
 
 ## Usage
 
-### Testing a Fixer from PHP CS Fixer or Sniff from PHP_CodeSniffer
-
-#### 1. Create a config with registered fixer:
+1. Create a config with checker(s) you want to test
 
 ```yaml
 # /tests/Fixer/YourFixer/config.yml
@@ -31,11 +29,11 @@ services:
     # or even more, if you want to test whole sets (like PSR-12)
 ```
 
-#### 2. Create your test case extending `Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase` class
+2. Create a test case extending `Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase` class
 
-#### 3. Provide the config in `provideConfig()` method
+3. Provide path to the config above in `provideConfig()` method
 
-#### 4. Make use of testing methods
+4. Make use of testing methods in your test case
 
 - `doTestCorrectFile($correctFile)` - the file should not be affected by this checker
 - `doTestWrongToFixedFile($wrongFile, $fixedFile)` - classic before/after testing
@@ -66,6 +64,8 @@ final class YourFixerTest extends AbstractCheckerTestCase
     }
 }
 ```
+
+### Non-Fixing Sniff?
 
 There is one extra method for sniff that doesn't fix the error, but only finds it:
 
