@@ -289,6 +289,9 @@ final class ImportNamespacedNameFixer implements DefinedFixerInterface, Configur
         $tokens[$index] = new Token([T_DOC_COMMENT, $phpDocContent]);
     }
 
+    /**
+     * @param PhpDocTagValueNode[] $tagValues
+     */
     private function processPhpDocTagValueNode(array $tagValues, Tokens $tokens): void
     {
         if (! $tagValues) {
