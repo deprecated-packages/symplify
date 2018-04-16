@@ -16,7 +16,7 @@ composer require symplify/easy-coding-standard-tester --dev
 
 ## Usage
 
-### A. Testing a Fixer from PHP CS Fixer
+### Testing a Fixer from PHP CS Fixer or Sniff from PHP_CodeSniffer
 
 #### 1. Create a config with registered fixer:
 
@@ -24,6 +24,11 @@ composer require symplify/easy-coding-standard-tester --dev
 # /tests/Fixer/YourFixer/config.yml
 services:
     Your\CondingStandard\Fixer\YourFixer: ~
+
+    # or
+    Your\CondingStandard\Sniff\YourSniff: ~
+
+    # or even more, if you want to test whole sets (like PSR-12)
 ```
 
 #### 2. Create your test case extending `Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase` class
@@ -62,19 +67,9 @@ final class YourFixerTest extends AbstractCheckerTestCase
 }
 ```
 
-### B. Testing a Sniff from PHP_CodeSniffer
+There is one extra method for sniff that doesn't fix the error, but only finds it:
 
-I got surprise for you - everything is the same.
-
-```yaml
-# /tests/Fixer/YourFixer/config.yml
-services:
-    Your\CondingStandard\Sniff\YourSniff: ~
-```
-
-There is just one extra method:
-
-- `doTestWrongFile($wrongFile)` - when sniff doesn't fix the error, but only finds it
+- `doTestWrongFile($wrongFile)` 
 
 ```php
 <?php declare(strict_types=1);
@@ -85,27 +80,12 @@ use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;
 
 final class YourSniffTest extends AbstractCheckerTestCase
 {
-    // this is the same
-    public function testCorrectCases(): void
-    {
-        $this->doTestCorrectFile(__DIR__ . '/correct/correct.php.inc');
-    }
-
-    // this is the same, in case of fixing sniff
-    public function testWrongToFixedCases(): void
-    {
-        $this->doTestWrongToFixedFile(__DIR__ . '/wrong/wrong.php.inc', __DIR__ . '/fixed/fixed.php.inc');
-    }
-
+    // ...
+    
     // this one is extra for sniff, that only detects errors
     public function testWrongCases(): void
     {
         $this->doTestWrongFile(__DIR__ . '/wrong/wrong.php.inc');
-    }
-
-    protected function provideConfig(): string
-    {
-        return __DIR__ . '/config.yml';
     }
 }
 ```
