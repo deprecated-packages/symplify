@@ -68,7 +68,7 @@ final class YourFixerTest extends AbstractCheckerTestCase
 
 There is one extra method for sniff that doesn't fix the error, but only finds it:
 
-- `doTestWrongFile($wrongFile)` 
+- `doTestWrongFile($wrongFile)`
 
 ```php
 <?php declare(strict_types=1);
@@ -80,7 +80,7 @@ use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;
 final class YourSniffTest extends AbstractCheckerTestCase
 {
     // ...
-    
+
     public function testWrongCases(): void
     {
         $this->doTestWrongFile(__DIR__ . '/wrong/wrong.php.inc');
