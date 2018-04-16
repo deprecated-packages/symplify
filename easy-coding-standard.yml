@@ -30,6 +30,9 @@ parameters:
         # exclude from psr12.yml
         - 'PhpCsFixer\Fixer\PhpTag\BlankLineAfterOpeningTagFixer'
         - 'PhpCsFixer\Fixer\Operator\UnaryOperatorSpacesFixer'
+    exclude_files:
+        # files
+        - 'packages/CodingStandard/tests/Sniffs/DependencyInjection/NoClassInstantiation/Source/EntityClass.php'
 
     skip:
         SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff:

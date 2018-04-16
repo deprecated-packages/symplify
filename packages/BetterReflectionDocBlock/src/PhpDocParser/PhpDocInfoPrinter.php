@@ -7,6 +7,8 @@ use PHPStan\PhpDocParser\Ast\Node;
 use PHPStan\PhpDocParser\Ast\PhpDoc\ParamTagValueNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTagNode;
+use PHPStan\PhpDocParser\Ast\PhpDoc\ReturnTagValueNode;
+use PHPStan\PhpDocParser\Ast\PhpDoc\VarTagValueNode;
 use PHPStan\PhpDocParser\Ast\Type\UnionTypeNode;
 use PHPStan\PhpDocParser\Lexer\Lexer;
 use PHPStan\PhpDocParser\Lexer\Lexer as PHPStanLexer;
@@ -142,7 +144,7 @@ final class PhpDocInfoPrinter
         $output .= $phpDocTagNode->name;
         $output .= ' '; // @todo not manually
 
-        if ($phpDocTagNode->value instanceof ParamTagValueNode) {
+        if ($phpDocTagNode->value instanceof ParamTagValueNode || $phpDocTagNode->value instanceof ReturnTagValueNode || $phpDocTagNode->value instanceof VarTagValueNode) {
             if ($phpDocTagNode->value->type instanceof UnionTypeNode) {
                 // @todo temp workaround
                 $nodeValueType = $phpDocTagNode->value->type;
