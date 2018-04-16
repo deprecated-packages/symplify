@@ -20,13 +20,13 @@ use PHPStan\PhpDocParser\Ast\PhpDoc\ReturnTagValueNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\VarTagValueNode;
 use PHPStan\PhpDocParser\Ast\Type\IdentifierTypeNode;
 use SplFileInfo;
+use Symplify\BetterReflectionDocBlock\PhpDocParser\PhpDocInfoFactory;
 use Symplify\BetterReflectionDocBlock\PhpDocParser\PhpDocInfoPrinter;
 use Symplify\TokenRunner\Analyzer\FixerAnalyzer\ClassNameFinder;
 use Symplify\TokenRunner\Naming\Name\Name;
 use Symplify\TokenRunner\Naming\Name\NameAnalyzer;
 use Symplify\TokenRunner\Naming\Name\NameFactory;
 use Symplify\TokenRunner\Transformer\FixerTransformer\UseImportsTransformer;
-use Symplify\TokenRunner\Wrapper\FixerWrapper\DocBlockWrapperFactory;
 
 /**
  * Possible cases:
@@ -63,11 +63,6 @@ final class ImportNamespacedNameFixer implements DefinedFixerInterface, Configur
     private $newUseStatementNames = [];
 
     /**
-     * @var DocBlockWrapperFactory
-     */
-    private $docBlockWrapperFactory;
-
-    /**
      * @var UseImportsTransformer
      */
     private $useImportsTransformer;
@@ -91,21 +86,26 @@ final class ImportNamespacedNameFixer implements DefinedFixerInterface, Configur
      * @var NamespaceUsesAnalyzer
      */
     private $namespaceUsesAnalyzer;
+
     /**
      * @var PhpDocInfoPrinter
      */
     private $phpDocInfoPrinter;
 
+    /**
+     * @var PhpDocInfoFactory
+     */
+    private $phpDocInfoFactory;
+
     public function __construct(
-        DocBlockWrapperFactory $docBlockWrapperFactory,
         UseImportsTransformer $useImportsTransformer,
         ClassNameFinder $classNameFinder,
         NameAnalyzer $nameAnalyzer,
         NameFactory $nameFactory,
         NamespaceUsesAnalyzer $namespaceUsesAnalyzer,
-        PhpDocInfoPrinter $phpDocInfoPrinter
+        PhpDocInfoPrinter $phpDocInfoPrinter,
+        PhpDocInfoFactory $phpDocInfoFactory
     ) {
-        $this->docBlockWrapperFactory = $docBlockWrapperFactory;
         $this->useImportsTransformer = $useImportsTransformer;
         $this->classNameFinder = $classNameFinder;
         $this->nameAnalyzer = $nameAnalyzer;
@@ -116,6 +116,7 @@ final class ImportNamespacedNameFixer implements DefinedFixerInterface, Configur
         $this->configuration = $this->getConfigurationDefinition()
             ->resolve([]);
         $this->phpDocInfoPrinter = $phpDocInfoPrinter;
+        $this->phpDocInfoFactory = $phpDocInfoFactory;
     }
 
     public function getDefinition(): FixerDefinitionInterface
@@ -274,16 +275,15 @@ final class ImportNamespacedNameFixer implements DefinedFixerInterface, Configur
 
     private function processDocCommentToken(int $index, Tokens $tokens): void
     {
-        $docBlockWrapper = $this->docBlockWrapperFactory->create($tokens, $index, $tokens[$index]->getContent());
-
-        $phpDocNode = $docBlockWrapper->getPhpDocInfo()->getPhpDocNode();
+        $phpDocInfo = $this->phpDocInfoFactory->createFrom($tokens[$index]->getContent());
+        $phpDocNode = $phpDocInfo->getPhpDocNode();
 
         // require for doc block changes
         $this->processPhpDocTagValueNode($phpDocNode->getReturnTagValues(), $tokens);
         $this->processPhpDocTagValueNode($phpDocNode->getParamTagValues(), $tokens);
         $this->processPhpDocTagValueNode($phpDocNode->getVarTagValues(), $tokens);
 
-        $phpDocContent = $this->phpDocInfoPrinter->printFormatPreserving($docBlockWrapper->getPhpDocInfo());
+        $phpDocContent = $this->phpDocInfoPrinter->printFormatPreserving($phpDocInfo);
 
         // save doc comment
         $tokens[$index] = new Token([T_DOC_COMMENT, $phpDocContent]);

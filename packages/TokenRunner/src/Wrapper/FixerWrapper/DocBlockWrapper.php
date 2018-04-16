@@ -28,6 +28,7 @@ final class DocBlockWrapper
      * @var Tokens
      */
     private $tokens;
+
     /**
      * @var int
      */
@@ -62,6 +63,7 @@ final class DocBlockWrapper
      * @var null|PhpDocInfo
      */
     private $phpDocInfo;
+
     public function __construct(
         Tokens $tokens,
         int $position,
