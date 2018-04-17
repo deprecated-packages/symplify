@@ -103,7 +103,7 @@ final class DocBlockWrapper
         ], $this->originalContent);
     }
 
-    public function getPhpDocInfo(): ?PhpDocInfo
+    public function getPhpDocInfo(): PhpDocInfo
     {
         return $this->phpDocInfo;
     }
@@ -208,14 +208,14 @@ final class DocBlockWrapper
         return ltrim($varTagType, '\\');
     }
 
-    public function getArgumentTypeDescription(string $name): ?string
+    public function getArgumentTypeDescription(string $name): string
     {
-        $paramTag = $this->findParamTagByName($name);
-        if ($paramTag) {
-            return $this->clean((string) $paramTag->getDescription());
+        $paramTagValue = $this->phpDocInfo->getParamTagValueByName($name);
+        if ($paramTagValue) {
+            return $paramTagValue->description;
         }
 
-        return null;
+        return '';
     }
 
     public function getReturnTag(): ?TolerantReturn

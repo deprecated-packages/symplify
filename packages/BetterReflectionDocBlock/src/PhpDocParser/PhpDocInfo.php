@@ -2,6 +2,7 @@
 
 namespace Symplify\BetterReflectionDocBlock\PhpDocParser;
 
+use PHPStan\PhpDocParser\Ast\PhpDoc\ParamTagValueNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocNode;
 use PHPStan\PhpDocParser\Parser\TokenIterator;
 
@@ -63,5 +64,22 @@ final class PhpDocInfo
     public function getOriginalContent(): string
     {
         return $this->originalContent;
+    }
+
+    public function getParamTagValueByName(string $name): ?ParamTagValueNode
+    {
+        $phpDocNode = $this->getPhpDocNode();
+
+        foreach ($phpDocNode->getParamTagValues() as $paramTagValue) {
+            if ($paramTagValue->parameterName === $name) {
+                return $paramTagValue;
+            }
+
+            if ($paramTagValue->parameterName === '$' . $name) {
+                return $paramTagValue;
+            }
+        }
+
+        return null;
     }
 }
