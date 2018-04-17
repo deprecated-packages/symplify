@@ -4,8 +4,20 @@ namespace Symplify\PackageBuilder\Reflection;
 
 use ReflectionProperty;
 
-final class PrivatesSetter
+final class PrivatesAccessor
 {
+    /**
+     * @param object $object
+     * @return mixed
+     */
+    public function getPrivateProperty($object, string $propertyName)
+    {
+        $propertyReflection = new ReflectionProperty(get_class($object), $propertyName);
+        $propertyReflection->setAccessible(true);
+
+        return $propertyReflection->getValue($object);
+    }
+
     /**
      * @param object $object
      * @param mixed $value

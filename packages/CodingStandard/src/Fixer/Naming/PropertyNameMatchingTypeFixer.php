@@ -278,6 +278,10 @@ class SomeClass
 
             $expectedName = $this->getExpectedNameFromType((string) $typeWrapper->getType());
 
+            if ($expectedName === '') {
+                continue;
+            }
+
             $typeWrapper->changeName($expectedName);
 
             $changedNames[$oldName] = $expectedName;

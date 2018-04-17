@@ -99,6 +99,10 @@ final class NameFactory
 
     public function resolveForName(Tokens $tokens, string $className, ?bool $prependNamespace = false): string
     {
+        if ($className === '') {
+            return '';
+        }
+
         // probably not a class name, skip
         if (ctype_lower($className[0])) {
             return $className;

@@ -5,8 +5,9 @@ namespace Symplify\BetterReflectionDocBlock\Renderer;
 use Nette\Utils\Strings;
 
 /**
- * When original content had an empty line before @return tag,
- * this service will return them.
+ * When original content had an empty line before @return tag, this service will return them.
+ *
+ * @todo replace by @see \Symplify\BetterReflectionDocBlock\PhpDocParser\PhpDocInfoPrinter, already covered
  */
 final class OriginalSpacingCompleter
 {

@@ -16,6 +16,7 @@ use phpDocumentor\Reflection\Types\Array_;
 use phpDocumentor\Reflection\Types\Compound;
 use Symplify\BetterReflectionDocBlock\DocBlock\ArrayResolver;
 use Symplify\BetterReflectionDocBlock\DocBlockSerializerFactory;
+use Symplify\BetterReflectionDocBlock\PhpDocParser\PhpDocInfo;
 use Symplify\BetterReflectionDocBlock\Tag\TolerantParam;
 use Symplify\BetterReflectionDocBlock\Tag\TolerantReturn;
 use Symplify\BetterReflectionDocBlock\Tag\TolerantVar;
@@ -58,18 +59,25 @@ final class DocBlockWrapper
      */
     private $docBlockSerializerFactory;
 
+    /**
+     * @var null|PhpDocInfo
+     */
+    private $phpDocInfo;
+
     public function __construct(
         Tokens $tokens,
         int $position,
         string $content,
         ?DocBlock $docBlock = null,
-        DocBlockSerializerFactory $docBlockSerializerFactory
+        DocBlockSerializerFactory $docBlockSerializerFactory,
+        ?PhpDocInfo $phpDocInfo = null
     ) {
         $this->tokens = $tokens;
         $this->position = $position;
         $this->originalContent = $content;
         $this->phpDocumentorDocBlock = $docBlock;
         $this->docBlockSerializerFactory = $docBlockSerializerFactory;
+        $this->phpDocInfo = $phpDocInfo;
     }
 
     public function getTokenPosition(): int
@@ -93,6 +101,11 @@ final class DocBlockWrapper
             $newLineIndent . '/**',
             $newLineIndent . ' */',
         ], $this->originalContent);
+    }
+
+    public function getPhpDocInfo(): ?PhpDocInfo
+    {
+        return $this->phpDocInfo;
     }
 
     public function getReturnType(): ?string

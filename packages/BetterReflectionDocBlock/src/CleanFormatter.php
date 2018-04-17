@@ -14,6 +14,8 @@ use Symplify\BetterReflectionDocBlock\Tag\TolerantReturn;
 
 /**
  * Keeps mixed[] as mixed[], not array
+ *
+ * @todo replace by @see \Symplify\BetterReflectionDocBlock\PhpDocParser\PhpDocInfoPrinter, already covered
  */
 final class CleanFormatter implements Formatter
 {

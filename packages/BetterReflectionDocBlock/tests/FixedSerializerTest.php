@@ -7,6 +7,9 @@ use Symplify\BetterReflectionDocBlock\CleanDocBlockFactory;
 use Symplify\BetterReflectionDocBlock\CleanFormatter;
 use Symplify\BetterReflectionDocBlock\FixedSerializer;
 
+/**
+ * @todo replace by @see \Symplify\BetterReflectionDocBlock\PhpDocParser\PhpDocInfoPrinter, already covered
+ */
 final class FixedSerializerTest extends AbstractContainerAwareTestCase
 {
     /**
