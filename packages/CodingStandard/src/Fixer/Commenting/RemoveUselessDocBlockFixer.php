@@ -191,7 +191,7 @@ public function getCount(): int
             $docDescription = $docBlockWrapper->getArgumentTypeDescription($argumentWrapper->getName());
 
             $isDescriptionUseful = $this->descriptionAnalyzer->isDescriptionUseful(
-                (string) $docDescription,
+                $docDescription,
                 $docType,
                 $argumentWrapper->getName()
             );
