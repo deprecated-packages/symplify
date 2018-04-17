@@ -61,7 +61,7 @@ final class PhpDocInfoPrinter
     public function printFormatPreserving(PhpDocInfo $phpDocInfo): string
     {
         $phpDocNode = $phpDocInfo->getPhpDocNode();
-        $this->originalPhpDocNode = clone $phpDocInfo->getPhpDocNode();
+        $this->originalPhpDocNode = $phpDocInfo->getOriginalPhpDocNode();
         $this->tokens = $phpDocInfo->getTokens();
         $this->tokenCount = count($phpDocInfo->getTokens());
 
@@ -71,8 +71,8 @@ final class PhpDocInfoPrinter
     private function printPhpDocNode(PhpDocNode $phpDocNode): string
     {
         $this->currentTokenPosition = 0;
-        $output = '';
 
+        $output = '';
         foreach ($phpDocNode->children as $child) {
             $output .= $this->printNode($child);
         }
@@ -116,7 +116,7 @@ final class PhpDocInfoPrinter
         // tokens before
         if (isset($this->nodeWithPositionsObjectStorage[$node])) {
             $nodePositions = $this->nodeWithPositionsObjectStorage[$node];
-            for ($i = $this->currentTokenPosition; $i < $nodePositions['tokenStart']; ++$i) {
+            for ($i = 0; $i < $this->getFirstNodeStartPosition(); ++$i) {
                 $output .= $this->tokens[$i][0];
             }
 
@@ -201,7 +201,7 @@ final class PhpDocInfoPrinter
             return $this->currentTokenPosition;
         }
 
-        return $this->nodeWithPositionsObjectStorage[$lastOriginalChildrenNode]['tokenEnd'] + 1;
+        return $this->nodeWithPositionsObjectStorage[$lastOriginalChildrenNode]['tokenEnd'];
     }
 
     private function getFirstNodeStartPosition(): int
@@ -220,6 +220,6 @@ final class PhpDocInfoPrinter
             return $this->currentTokenPosition;
         }
 
-        return $this->nodeWithPositionsObjectStorage[$firstOriginalChildrenNode]['tokenStart'] - 2;
+        return $this->nodeWithPositionsObjectStorage[$firstOriginalChildrenNode]['tokenStart'];
     }
 }

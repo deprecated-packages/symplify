@@ -31,6 +31,11 @@ final class PhpDocInfo
     private $originalContent;
 
     /**
+     * @var PhpDocNode
+     */
+    private $originalPhpDocNode;
+
+    /**
      * @param mixed[] $tokens
      */
     public function __construct(
@@ -43,6 +48,7 @@ final class PhpDocInfo
         $this->tokenIterator = $tokenIterator;
         $this->tokens = $tokens;
         $this->originalContent = $originalContent;
+        $this->originalPhpDocNode = clone $phpDocNode;
     }
 
     public function getPhpDocNode(): PhpDocNode
@@ -53,6 +59,11 @@ final class PhpDocInfo
     public function getTokenIterator(): TokenIterator
     {
         return $this->tokenIterator;
+    }
+
+    public function getOriginalPhpDocNode(): PhpDocNode
+    {
+        return $this->originalPhpDocNode;
     }
 
     /**
