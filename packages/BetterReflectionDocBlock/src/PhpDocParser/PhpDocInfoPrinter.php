@@ -88,10 +88,11 @@ final class PhpDocInfoPrinter
     private function printNode(Node $node, array $nodePositions = []): string
     {
         $output = '';
+
         // tokens before
         if (isset($this->nodeWithPositionsObjectStorage[$node])) {
             $nodePositions = $this->nodeWithPositionsObjectStorage[$node];
-            for ($i = 0; $i < $this->getFirstNodeStartPosition(); ++$i) {
+            for ($i = $this->currentTokenPosition; $i < $nodePositions['tokenStart']; ++$i) {
                 $output .= $this->tokens[$i][0];
             }
 
@@ -204,7 +205,7 @@ final class PhpDocInfoPrinter
             return $output;
         }
 
-        return $this->addTokensFromTo($output, 0,  $this->getFirstNodeStartPosition());
+        return $this->addTokensFromTo($output, 0, $this->getFirstNodeStartPosition());
     }
 
     private function printEnd(string $output): string
@@ -214,10 +215,15 @@ final class PhpDocInfoPrinter
 
     private function addTokensFromTo(string $output, int $from, int $to): string
     {
-        // @todO: will require some tuning, $from/$to, 0:1, 0:-1
-        $offset = $this->tokens[$from][1] === PHPStanLexer::TOKEN_PHPDOC_EOL ? 0 : 1;
+        if ($this->tokens[$from][1] !== PHPStanLexer::TOKEN_PHPDOC_EOL) {
+            --$from;
+        }
 
-        for ($i = $from - $offset; $i < $to; ++$i) {
+        if (isset($this->tokens[$to]) && $this->tokens[$to][1] !== PHPStanLexer::TOKEN_PHPDOC_EOL) {
+            ++$to;
+        }
+
+        for ($i = $from; $i < $to; ++$i) {
             if (isset($this->tokens[$i])) {
                 $output .= $this->tokens[$i][0];
             }
