@@ -14,6 +14,7 @@ use phpDocumentor\Reflection\DocBlock\Tags\Param;
 use phpDocumentor\Reflection\DocBlock\Tags\Return_;
 use phpDocumentor\Reflection\Types\Array_;
 use phpDocumentor\Reflection\Types\Compound;
+use PHPStan\PhpDocParser\Ast\PhpDoc\InvalidTagValueNode;
 use Symplify\BetterReflectionDocBlock\DocBlock\ArrayResolver;
 use Symplify\BetterReflectionDocBlock\DocBlockSerializerFactory;
 use Symplify\BetterReflectionDocBlock\PhpDocParser\PhpDocInfo;
@@ -246,6 +247,14 @@ final class DocBlockWrapper
         foreach ($phpDocNode->children as $key => $phpDocChildNode) {
             if (! property_exists($phpDocChildNode, 'value')) {
                 continue;
+            }
+
+            // process invalid tag values
+            if ($phpDocChildNode->value instanceof InvalidTagValueNode) {
+                if ($phpDocChildNode->value->value === '$' . $name) {
+                    unset($phpDocNode->children[$key]);
+                    continue;
+                }
             }
 
             if ($phpDocChildNode->value === $paramTagValue) {
