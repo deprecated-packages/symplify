@@ -204,30 +204,21 @@ final class PhpDocInfoPrinter
             return $output;
         }
 
-        // no nodes => empty output? we need to render start
-        $offset = -1;
-        if ($this->tokens[$this->getFirstNodeStartPosition()][1] === PHPStanLexer::TOKEN_PHPDOC_EOL) {
-            $offset = 0;
-        }
+        return $this->addTokensFromTo($output, 0,  $this->getFirstNodeStartPosition());
 
-        for ($i = 0; $i < $this->getFirstNodeStartPosition() - $offset; ++$i) {
-            if (isset($this->tokens[$i])) {
-                $output .= $this->tokens[$i][0];
-            }
-        }
-
-        return $output;
     }
 
     private function printEnd(string $output): string
     {
-        $offset = 1;
+        return $this->addTokensFromTo($output, $this->getLastNodeTokenEndPosition(), $this->tokenCount);
+    }
 
-        if ($this->tokens[$this->currentTokenPosition][1] === PHPStanLexer::TOKEN_PHPDOC_EOL) {
-            $offset = 0;
-        }
+    private function addTokensFromTo(string $output, int $from, int $to): string
+    {
+        // @todO: will require some tuning, $from/$to, 0:1, 0:-1
+        $offset = $this->tokens[$from][1] === PHPStanLexer::TOKEN_PHPDOC_EOL ? 0 : 1;
 
-        for ($i = $this->getLastNodeTokenEndPosition() - $offset; $i < $this->tokenCount; ++$i) {
+        for ($i = $from - $offset; $i < $to; ++$i) {
             if (isset($this->tokens[$i])) {
                 $output .= $this->tokens[$i][0];
             }
