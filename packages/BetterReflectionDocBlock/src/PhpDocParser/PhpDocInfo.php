@@ -4,6 +4,7 @@ namespace Symplify\BetterReflectionDocBlock\PhpDocParser;
 
 use PHPStan\PhpDocParser\Ast\PhpDoc\ParamTagValueNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocNode;
+use PHPStan\PhpDocParser\Ast\PhpDoc\ReturnTagValueNode;
 use PHPStan\PhpDocParser\Parser\TokenIterator;
 
 final class PhpDocInfo
@@ -81,5 +82,15 @@ final class PhpDocInfo
         }
 
         return null;
+    }
+
+    public function getReturnTagValue(): ?ReturnTagValueNode
+    {
+        $returnTagValues = $this->getPhpDocNode()->getReturnTagValues();
+        if (! count($returnTagValues)) {
+            return null;
+        }
+
+        return $returnTagValues[0];
     }
 }

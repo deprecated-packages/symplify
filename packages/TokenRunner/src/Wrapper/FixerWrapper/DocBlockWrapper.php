@@ -147,13 +147,12 @@ final class DocBlockWrapper
 
     public function getReturnTypeDescription(): ?string
     {
-        /** @var Return_[] $returnTags */
-        $returnTags = $this->phpDocumentorDocBlock->getTagsByName('return');
-        if (! $returnTags) {
+        $returnTag = $this->phpDocInfo->getReturnTagValue();
+        if ($returnTag === null) {
             return null;
         }
 
-        return (string) $returnTags[0]->getDescription();
+        return $returnTag->description;
     }
 
     public function getArgumentType(string $name): ?string
