@@ -2,6 +2,7 @@
 
 namespace Symplify\BetterReflectionDocBlock\PhpDocParser;
 
+use Nette\Utils\Strings;
 use PHPStan\PhpDocParser\Ast\PhpDoc\ParamTagValueNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\ReturnTagValueNode;
@@ -72,11 +73,7 @@ final class PhpDocInfo
         $phpDocNode = $this->getPhpDocNode();
 
         foreach ($phpDocNode->getParamTagValues() as $paramTagValue) {
-            if ($paramTagValue->parameterName === $name) {
-                return $paramTagValue;
-            }
-
-            if ($paramTagValue->parameterName === '$' . $name) {
+            if (Strings::match($paramTagValue->parameterName, '#^(\$)?' . $name . '$#')) {
                 return $paramTagValue;
             }
         }
@@ -92,5 +89,13 @@ final class PhpDocInfo
         }
 
         return $returnTagValues[0];
+    }
+
+    /**
+     * @return ParamTagValueNode[]
+     */
+    public function getParamTagValues(): array
+    {
+        return $this->getPhpDocNode()->getParamTagValues();
     }
 }
