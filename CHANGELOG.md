@@ -287,7 +287,7 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
 
 - [#647] Removed deprecated `Symplify\CodingStandard\Fixer\Strict\InArrayStrictFixer`, use [`PhpCsFixer\Fixer\Strict\StrictParamFixer`](https://github.com/FriendsOfPHP/PHP-CS-Fixer/blob/b7cc8727c7faa8ebe7cc4220daaaabe29751bc5c/src/Fixer/Strict/StrictParamFixer.php) instead, that does the same job
 
-- [#749] Removed `BreakMethodArgumentsFixer`, `BreakArrayListFixer`, use ``Symplify\CodingStandard\Fixer\LineLength\LineLengthFixer` instead
+- [#749] Removed `BreakMethodArgumentsFixer`, `BreakArrayListFixer`, use `Symplify\CodingStandard\Fixer\LineLength\LineLengthFixer` instead
 
 ## [v3.2.0] - 2018-01-13
 
