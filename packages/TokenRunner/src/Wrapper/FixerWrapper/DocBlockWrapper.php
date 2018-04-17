@@ -14,6 +14,8 @@ use phpDocumentor\Reflection\DocBlock\Tags\Param;
 use phpDocumentor\Reflection\DocBlock\Tags\Return_;
 use phpDocumentor\Reflection\Types\Array_;
 use phpDocumentor\Reflection\Types\Compound;
+use PHPStan\PhpDocParser\Ast\PhpDoc\ParamTagValueNode;
+use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTagValueNode;
 use Symplify\BetterReflectionDocBlock\DocBlock\ArrayResolver;
 use Symplify\BetterReflectionDocBlock\DocBlockSerializerFactory;
 use Symplify\BetterReflectionDocBlock\PhpDocParser\PhpDocInfo;
@@ -240,14 +242,22 @@ final class DocBlockWrapper
 
     public function removeParamType(string $name): void
     {
-        $paramTag = $this->findParamTagByName($name);
-        if (! $paramTag) {
-            return;
+        $phpDocNode = $this->phpDocInfo->getPhpDocNode();
+        $paramTagValue = $this->phpDocInfo->getParamTagValueByName($name);
+
+        foreach ($phpDocNode->children as $key => $phpDocChildNode) {
+            if (! property_exists($phpDocChildNode, 'value')) {
+                continue;
+            }
+
+            if ($phpDocChildNode->value === $paramTagValue) {
+                unset($phpDocNode->children[$key]);
+            }
         }
 
-        $this->phpDocumentorDocBlock->removeTag($paramTag);
-
-        $this->updateDocBlockTokenContent();
+        // create and save new doc comment
+        $newDocCommentContent = $this->phpDocInfoPrinter->printFormatPreserving($this->phpDocInfo);
+        $this->tokens[$this->position] = new Token([T_DOC_COMMENT, $newDocCommentContent]);
     }
 
     public function setWhitespacesFixerConfig(WhitespacesFixerConfig $whitespacesFixerConfig): void
