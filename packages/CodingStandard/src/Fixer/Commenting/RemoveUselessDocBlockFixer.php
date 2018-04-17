@@ -249,12 +249,12 @@ public function getCount(): int
     {
         $argumentNames = $methodWrapper->getArgumentNames();
 
-        foreach ($docBlockWrapper->getParamTags() as $paramTag) {
-            if (in_array($paramTag->getVariableName(), $argumentNames, true)) {
+        foreach ($docBlockWrapper->getPhpDocInfo()->getParamTagValues() as $paramTagValue) {
+            if (in_array(ltrim($paramTagValue->parameterName, '$'), $argumentNames, true)) {
                 continue;
             }
 
-            $docBlockWrapper->removeParamType($paramTag->getVariableName());
+            $docBlockWrapper->removeParamType($paramTagValue->parameterName);
         }
     }
 
