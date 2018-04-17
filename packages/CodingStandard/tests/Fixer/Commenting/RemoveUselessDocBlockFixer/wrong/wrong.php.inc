@@ -5,10 +5,10 @@ namespace SomeNamespace;
 class SomeClass
 {
     /**
-     * @return int
+     * @param int $value
+     * @param $anotherValue
      */
-    public function getCount(): int
+    public function setCount(int $value, $anotherValue)
     {
-
     }
 }
