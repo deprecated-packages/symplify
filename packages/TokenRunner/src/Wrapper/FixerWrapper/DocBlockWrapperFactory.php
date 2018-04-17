@@ -6,6 +6,7 @@ use PhpCsFixer\Tokenizer\Tokens;
 use Symplify\BetterReflectionDocBlock\CleanDocBlockFactory;
 use Symplify\BetterReflectionDocBlock\DocBlockSerializerFactory;
 use Symplify\BetterReflectionDocBlock\PhpDocParser\PhpDocInfoFactory;
+use Symplify\BetterReflectionDocBlock\PhpDocParser\PhpDocInfoPrinter;
 
 final class DocBlockWrapperFactory
 {
@@ -24,14 +25,21 @@ final class DocBlockWrapperFactory
      */
     private $phpDocInfoFactory;
 
+    /**
+     * @var PhpDocInfoPrinter
+     */
+    private $phpDocInfoPrinter;
+
     public function __construct(
         CleanDocBlockFactory $cleanDocBlockFactory,
         DocBlockSerializerFactory $docBlockSerializerFactory,
-        PhpDocInfoFactory $phpDocInfoFactory
+        PhpDocInfoFactory $phpDocInfoFactory,
+        PhpDocInfoPrinter $phpDocInfoPrinter
     ) {
         $this->cleanDocBlockFactory = $cleanDocBlockFactory;
         $this->docBlockSerializerFactory = $docBlockSerializerFactory;
         $this->phpDocInfoFactory = $phpDocInfoFactory;
+        $this->phpDocInfoPrinter = $phpDocInfoPrinter;
     }
 
     public function create(Tokens $tokens, int $position, string $content): DocBlockWrapper
@@ -42,7 +50,8 @@ final class DocBlockWrapperFactory
             $content,
             $this->cleanDocBlockFactory->create($content),
             $this->docBlockSerializerFactory,
-            $this->phpDocInfoFactory->createFrom($content)
+            $this->phpDocInfoFactory->createFrom($content),
+            $this->phpDocInfoPrinter
         );
     }
 }

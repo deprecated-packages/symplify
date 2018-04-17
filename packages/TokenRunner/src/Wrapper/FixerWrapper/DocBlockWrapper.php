@@ -17,8 +17,8 @@ use phpDocumentor\Reflection\Types\Compound;
 use Symplify\BetterReflectionDocBlock\DocBlock\ArrayResolver;
 use Symplify\BetterReflectionDocBlock\DocBlockSerializerFactory;
 use Symplify\BetterReflectionDocBlock\PhpDocParser\PhpDocInfo;
+use Symplify\BetterReflectionDocBlock\PhpDocParser\PhpDocInfoPrinter;
 use Symplify\BetterReflectionDocBlock\Tag\TolerantParam;
-use Symplify\BetterReflectionDocBlock\Tag\TolerantReturn;
 use Symplify\BetterReflectionDocBlock\Tag\TolerantVar;
 use Symplify\TokenRunner\Exception\Wrapper\FixerWrapper\MissingWhitespacesFixerConfigException;
 
@@ -64,13 +64,19 @@ final class DocBlockWrapper
      */
     private $phpDocInfo;
 
+    /**
+     * @var PhpDocInfoPrinter
+     */
+    private $phpDocInfoPrinter;
+
     public function __construct(
         Tokens $tokens,
         int $position,
         string $content,
         ?DocBlock $docBlock = null,
         DocBlockSerializerFactory $docBlockSerializerFactory,
-        ?PhpDocInfo $phpDocInfo = null
+        ?PhpDocInfo $phpDocInfo = null,
+        PhpDocInfoPrinter $phpDocInfoPrinter
     ) {
         $this->tokens = $tokens;
         $this->position = $position;
@@ -78,6 +84,7 @@ final class DocBlockWrapper
         $this->phpDocumentorDocBlock = $docBlock;
         $this->docBlockSerializerFactory = $docBlockSerializerFactory;
         $this->phpDocInfo = $phpDocInfo;
+        $this->phpDocInfoPrinter = $phpDocInfoPrinter;
     }
 
     public function getTokenPosition(): int
@@ -218,13 +225,6 @@ final class DocBlockWrapper
         return '';
     }
 
-    public function getReturnTag(): ?TolerantReturn
-    {
-        return $this->phpDocumentorDocBlock->getTagsByName('return') ?
-            $this->phpDocumentorDocBlock->getTagsByName('return')[0]
-            : null;
-    }
-
     public function removeReturnType(): void
     {
         $returnTags = $this->phpDocumentorDocBlock->getTagsByName('return');
@@ -286,6 +286,9 @@ final class DocBlockWrapper
     {
         $content = $this->getDocBlockSerializer()
             ->getDocComment($this->phpDocumentorDocBlock);
+
+        // wip
+        $newContent = $this->phpDocInfoPrinter->printFormatPreserving($this->phpDocInfo);
 
         if ($this->isSingleLine()) {
             $content = Strings::replace($content, '#\s+#', ' ');
