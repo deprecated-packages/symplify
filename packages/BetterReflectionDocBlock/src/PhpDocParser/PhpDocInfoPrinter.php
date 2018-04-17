@@ -4,6 +4,7 @@ namespace Symplify\BetterReflectionDocBlock\PhpDocParser;
 
 use Nette\Utils\Strings;
 use PHPStan\PhpDocParser\Ast\Node;
+use PHPStan\PhpDocParser\Ast\PhpDoc\InvalidTagValueNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\ParamTagValueNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTagNode;
@@ -37,6 +38,11 @@ final class PhpDocInfoPrinter
      */
     private $currentTokenPosition;
 
+    /**
+     * @var PhpDocNode
+     */
+    private $originalPhpDocNode;
+
     public function __construct(NodeWithPositionsObjectStorage $nodeWithPositionsObjectStorage)
     {
         $this->nodeWithPositionsObjectStorage = $nodeWithPositionsObjectStorage;
@@ -55,6 +61,7 @@ final class PhpDocInfoPrinter
     public function printFormatPreserving(PhpDocInfo $phpDocInfo): string
     {
         $phpDocNode = $phpDocInfo->getPhpDocNode();
+        $this->originalPhpDocNode = clone $phpDocInfo->getPhpDocNode();
         $this->tokens = $phpDocInfo->getTokens();
         $this->tokenCount = count($phpDocInfo->getTokens());
 
@@ -65,8 +72,23 @@ final class PhpDocInfoPrinter
     {
         $this->currentTokenPosition = 0;
         $output = '';
+
         foreach ($phpDocNode->children as $child) {
             $output .= $this->printNode($child);
+        }
+
+        // no nodes => empty output? we need to render start
+        if ($output === '') {
+            $offset = -1;
+            if ($this->tokens[$this->getFirstNodeStartPosition()][1] === PHPStanLexer::TOKEN_PHPDOC_EOL) {
+                $offset = 0;
+            }
+
+            for ($i = 0; $i < $this->getFirstNodeStartPosition() - $offset; ++$i) {
+                if (isset($this->tokens[$i])) {
+                    $output .= $this->tokens[$i][0];
+                }
+            }
         }
 
         // tokens after - only for the last Node
@@ -76,7 +98,7 @@ final class PhpDocInfoPrinter
             $offset = 0;
         }
 
-        for ($i = $this->currentTokenPosition - $offset; $i < $this->tokenCount; ++$i) {
+        for ($i = $this->getLastNodeTokenEndPosition() - $offset; $i < $this->tokenCount; ++$i) {
             if (isset($this->tokens[$i])) {
                 $output .= $this->tokens[$i][0];
             }
@@ -107,30 +129,7 @@ final class PhpDocInfoPrinter
         }
 
         if ($node instanceof ParamTagValueNode) {
-            $output = ((string) $node);
-
-            // @todo keep original spacing between name and value
-            // get old whitespaces
-            $oldWhitespaces = [];
-            for ($i = $nodePositions['tokenStart']; $i < $nodePositions['tokenEnd']; ++$i) {
-                if ($this->tokens[$i][1] === Lexer::TOKEN_HORIZONTAL_WS) {
-                    $oldWhitespaces[] = $this->tokens[$i][0];
-                }
-            }
-
-            // no original whitespaces, return
-            if (! $oldWhitespaces) {
-                return $output;
-            }
-
-            // first space is not covered by this
-            array_shift($oldWhitespaces);
-
-            // get all old whitespaces
-            $newWhitespaces = Strings::match($output, '#\s+#');
-
-            // replace system whitespace by old ones
-            return str_replace($newWhitespaces, $oldWhitespaces, $output);
+            return $this->keepLineOriginalSpaces($nodePositions, (string) $node);
         }
 
         return $output . (string) $node;
@@ -154,5 +153,73 @@ final class PhpDocInfoPrinter
         }
 
         return $output . $this->printNode($phpDocTagNode->value, $nodePositions);
+    }
+
+    /**
+     * @param string[] $nodePositions
+     */
+    private function keepLineOriginalSpaces(array $nodePositions, string $nodeOutput): string
+    {
+        $oldWhitespaces = [];
+        for ($i = $nodePositions['tokenStart']; $i < $nodePositions['tokenEnd']; ++$i) {
+            if ($this->tokens[$i][1] === Lexer::TOKEN_HORIZONTAL_WS) {
+                $oldWhitespaces[] = $this->tokens[$i][0];
+            }
+        }
+
+        // no original whitespaces, return
+        if (! $oldWhitespaces) {
+            return $nodeOutput;
+        }
+
+        // first space is not covered by this
+        array_shift($oldWhitespaces);
+
+        // get all old whitespaces
+        $newWhitespaces = Strings::match($nodeOutput, '#\s+#');
+
+        // replace system whitespace by old ones
+        return (string) str_replace($newWhitespaces, $oldWhitespaces, $nodeOutput);
+    }
+
+    /**
+     * @todo consider some position storage
+     */
+    private function getLastNodeTokenEndPosition(): int
+    {
+        $originalChildren = $this->originalPhpDocNode->children;
+        if (! $originalChildren) {
+            return $this->currentTokenPosition;
+        }
+
+        $lastOriginalChildrenNode = array_pop($originalChildren);
+        if (! $lastOriginalChildrenNode) {
+            return $this->currentTokenPosition;
+        }
+
+        if (! isset($this->nodeWithPositionsObjectStorage[$lastOriginalChildrenNode])) {
+            return $this->currentTokenPosition;
+        }
+
+        return $this->nodeWithPositionsObjectStorage[$lastOriginalChildrenNode]['tokenEnd'] + 1;
+    }
+
+    private function getFirstNodeStartPosition(): int
+    {
+        $originalChildren = $this->originalPhpDocNode->children;
+        if (! $originalChildren) {
+            return $this->currentTokenPosition;
+        }
+
+        $firstOriginalChildrenNode = array_shift($originalChildren);
+        if (! $firstOriginalChildrenNode) {
+            return $this->currentTokenPosition;
+        }
+
+        if (! isset($this->nodeWithPositionsObjectStorage[$firstOriginalChildrenNode])) {
+            return $this->currentTokenPosition;
+        }
+
+        return $this->nodeWithPositionsObjectStorage[$firstOriginalChildrenNode]['tokenStart'] - 2;
     }
 }
