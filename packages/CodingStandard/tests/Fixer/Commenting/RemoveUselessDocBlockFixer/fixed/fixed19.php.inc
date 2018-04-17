@@ -6,7 +6,8 @@ class SomeClass
 {
     /**
      */
-    public function setCount(int $value, $anotherValue)
+    public function getCount(): int
     {
+
     }
 }
