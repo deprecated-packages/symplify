@@ -4,7 +4,6 @@ namespace Symplify\BetterReflectionDocBlock\PhpDocParser;
 
 use Nette\Utils\Strings;
 use PHPStan\PhpDocParser\Ast\Node;
-use PHPStan\PhpDocParser\Ast\PhpDoc\InvalidTagValueNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\ParamTagValueNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTagNode;
@@ -77,32 +76,8 @@ final class PhpDocInfoPrinter
             $output .= $this->printNode($child);
         }
 
-        // no nodes => empty output? we need to render start
-        if ($output === '') {
-            $offset = -1;
-            if ($this->tokens[$this->getFirstNodeStartPosition()][1] === PHPStanLexer::TOKEN_PHPDOC_EOL) {
-                $offset = 0;
-            }
-
-            for ($i = 0; $i < $this->getFirstNodeStartPosition() - $offset; ++$i) {
-                if (isset($this->tokens[$i])) {
-                    $output .= $this->tokens[$i][0];
-                }
-            }
-        }
-
-        // tokens after - only for the last Node
-        $offset = 1;
-
-        if ($this->tokens[$this->currentTokenPosition][1] === PHPStanLexer::TOKEN_PHPDOC_EOL) {
-            $offset = 0;
-        }
-
-        for ($i = $this->getLastNodeTokenEndPosition() - $offset; $i < $this->tokenCount; ++$i) {
-            if (isset($this->tokens[$i])) {
-                $output .= $this->tokens[$i][0];
-            }
-        }
+        $output = $this->printStart($output);
+        $output = $this->printEnd($output);
 
         return $output;
     }
@@ -221,5 +196,43 @@ final class PhpDocInfoPrinter
         }
 
         return $this->nodeWithPositionsObjectStorage[$firstOriginalChildrenNode]['tokenStart'];
+    }
+
+    private function printStart(string $output): string
+    {
+        if ($output) {
+            return $output;
+        }
+
+        // no nodes => empty output? we need to render start
+        $offset = -1;
+        if ($this->tokens[$this->getFirstNodeStartPosition()][1] === PHPStanLexer::TOKEN_PHPDOC_EOL) {
+            $offset = 0;
+        }
+
+        for ($i = 0; $i < $this->getFirstNodeStartPosition() - $offset; ++$i) {
+            if (isset($this->tokens[$i])) {
+                $output .= $this->tokens[$i][0];
+            }
+        }
+
+        return $output;
+    }
+
+    private function printEnd(string $output): string
+    {
+        $offset = 1;
+
+        if ($this->tokens[$this->currentTokenPosition][1] === PHPStanLexer::TOKEN_PHPDOC_EOL) {
+            $offset = 0;
+        }
+
+        for ($i = $this->getLastNodeTokenEndPosition() - $offset; $i < $this->tokenCount; ++$i) {
+            if (isset($this->tokens[$i])) {
+                $output .= $this->tokens[$i][0];
+            }
+        }
+
+        return $output;
     }
 }
