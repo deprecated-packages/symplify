@@ -205,7 +205,6 @@ final class PhpDocInfoPrinter
         }
 
         return $this->addTokensFromTo($output, 0,  $this->getFirstNodeStartPosition());
-
     }
 
     private function printEnd(string $output): string

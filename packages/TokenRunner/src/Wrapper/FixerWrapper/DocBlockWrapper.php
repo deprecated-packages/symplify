@@ -14,8 +14,6 @@ use phpDocumentor\Reflection\DocBlock\Tags\Param;
 use phpDocumentor\Reflection\DocBlock\Tags\Return_;
 use phpDocumentor\Reflection\Types\Array_;
 use phpDocumentor\Reflection\Types\Compound;
-use PHPStan\PhpDocParser\Ast\PhpDoc\ParamTagValueNode;
-use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTagValueNode;
 use Symplify\BetterReflectionDocBlock\DocBlock\ArrayResolver;
 use Symplify\BetterReflectionDocBlock\DocBlockSerializerFactory;
 use Symplify\BetterReflectionDocBlock\PhpDocParser\PhpDocInfo;
