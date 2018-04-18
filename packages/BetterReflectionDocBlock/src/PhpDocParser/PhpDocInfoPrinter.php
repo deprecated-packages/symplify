@@ -81,7 +81,6 @@ final class PhpDocInfoPrinter
             return '';
         }
 
-//        $output = $this->printStart($output);
         $output = $this->printEnd($output);
 
         return $output;
@@ -97,8 +96,8 @@ final class PhpDocInfoPrinter
         // tokens before
         if (isset($this->nodeWithPositionsObjectStorage[$node])) {
             $nodePositions = $this->nodeWithPositionsObjectStorage[$node];
-            $this->addTokensFromTo($output, $this->currentTokenPosition, $nodePositions['tokenStart']);
 
+            $output = $this->addTokensFromTo($output, $this->currentTokenPosition, $nodePositions['tokenStart']);
             $this->currentTokenPosition = $nodePositions['tokenEnd'];
         }
 
@@ -210,7 +209,7 @@ final class PhpDocInfoPrinter
     private function addTokensFromTo(string $output, int $from, int $to): string
     {
         for ($i = $from; $i < $to; ++$i) {
-            $output = $this->tokens[$i][0] ?? '';
+            $output .= $this->tokens[$i][0] ?? '';
         }
 
         return $output;

@@ -103,6 +103,8 @@ public function getCount(): int
             $this->processReturnTag($methodWrapper, $docBlockWrapper);
             $this->processParamTag($methodWrapper, $docBlockWrapper);
             $this->removeTagForMissingParameters($methodWrapper, $docBlockWrapper);
+
+            $docBlockWrapper->saveNewPhpDocInfo();
         }
     }
 

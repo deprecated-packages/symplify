@@ -261,16 +261,6 @@ final class DocBlockWrapper
                 unset($phpDocNode->children[$key]);
             }
         }
-
-        $newDocCommentContent = $this->phpDocInfoPrinter->printFormatPreserving($this->phpDocInfo);
-        if ($newDocCommentContent) {
-            // create and save new doc comment
-            $this->tokens[$this->position] = new Token([T_DOC_COMMENT, $newDocCommentContent]);
-        } else {
-            // remove empty doc
-            $this->tokens->clearAt($this->position);
-            $this->tokens->ensureWhitespaceAtIndex($this->position - 1, 0, '');
-        }
     }
 
     public function setWhitespacesFixerConfig(WhitespacesFixerConfig $whitespacesFixerConfig): void
@@ -383,5 +373,21 @@ final class DocBlockWrapper
             self::class,
             WhitespacesAwareFixerInterface::class
         ));
+    }
+
+    public function saveNewPhpDocInfo(): void
+    {
+        $newDocCommentContent = $this->phpDocInfoPrinter->printFormatPreserving($this->phpDocInfo);
+        if ($newDocCommentContent) {
+            // create and save new doc comment
+            $this->tokens[$this->position] = new Token([T_DOC_COMMENT, $newDocCommentContent]);
+            return;
+        }
+
+        // remove empty doc
+        $this->tokens->clearAt($this->position);
+        if ($this->tokens[$this->position - 1]->isWhitespace()) {
+            $this->tokens->ensureWhitespaceAtIndex($this->position - 1, 0, '');
+        }
     }
 }
