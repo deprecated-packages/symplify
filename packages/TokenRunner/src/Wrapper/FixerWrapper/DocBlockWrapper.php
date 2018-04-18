@@ -9,16 +9,13 @@ use PhpCsFixer\Tokenizer\Tokens;
 use PhpCsFixer\WhitespacesFixerConfig;
 use phpDocumentor\Reflection\DocBlock;
 use phpDocumentor\Reflection\DocBlock as PhpDocumentorDocBlock;
-use phpDocumentor\Reflection\DocBlock\Serializer;
 use phpDocumentor\Reflection\DocBlock\Tags\Param;
-use phpDocumentor\Reflection\DocBlock\Tags\Return_;
 use phpDocumentor\Reflection\Types\Array_;
 use phpDocumentor\Reflection\Types\Compound;
 use PHPStan\PhpDocParser\Ast\PhpDoc\InvalidTagValueNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTagNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\ReturnTagValueNode;
 use Symplify\BetterReflectionDocBlock\DocBlock\ArrayResolver;
-use Symplify\BetterReflectionDocBlock\DocBlockSerializerFactory;
 use Symplify\BetterReflectionDocBlock\PhpDocParser\PhpDocInfo;
 use Symplify\BetterReflectionDocBlock\PhpDocParser\PhpDocInfoPrinter;
 use Symplify\BetterReflectionDocBlock\Tag\TolerantParam;
@@ -57,11 +54,6 @@ final class DocBlockWrapper
      */
     private $originalContent;
 
-//    /**
-//     * @var DocBlockSerializerFactory
-//     */
-//    private $docBlockSerializerFactory;
-
     /**
      * @var null|PhpDocInfo
      */
@@ -77,7 +69,6 @@ final class DocBlockWrapper
         int $position,
         string $content,
         ?DocBlock $docBlock = null,
-//        DocBlockSerializerFactory $docBlockSerializerFactory,
         ?PhpDocInfo $phpDocInfo = null,
         PhpDocInfoPrinter $phpDocInfoPrinter
     ) {
@@ -85,7 +76,6 @@ final class DocBlockWrapper
         $this->position = $position;
         $this->originalContent = $content;
         $this->phpDocumentorDocBlock = $docBlock;
-//        $this->docBlockSerializerFactory = $docBlockSerializerFactory;
         $this->phpDocInfo = $phpDocInfo;
         $this->phpDocInfoPrinter = $phpDocInfoPrinter;
     }
@@ -289,24 +279,6 @@ final class DocBlockWrapper
 
         return null;
     }
-
-//    private function getDocBlockSerializer(): Serializer
-//    {
-//        if ($this->docBlockSerializer) {
-//            return $this->docBlockSerializer;
-//        }
-//
-//        $this->ensureWhitespacesFixerConfigIsSet();
-//
-//        $indentSize = $this->whitespacesFixerConfig->getIndent() === '    ' ? 1 : 4;
-//        $indentCharacter = $this->whitespacesFixerConfig->getIndent();
-//
-//        return $this->docBlockSerializer = $this->docBlockSerializerFactory->createFromWhitespaceFixerConfigAndContent(
-//            $this->originalContent,
-//            $indentSize,
-//            $indentCharacter
-//        );
-//    }
 
     private function ensureWhitespacesFixerConfigIsSet(): void
     {
