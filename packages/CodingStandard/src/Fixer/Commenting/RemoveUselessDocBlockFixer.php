@@ -18,6 +18,7 @@ use PHPStan\PhpDocParser\Ast\Type\ArrayTypeNode;
 use PHPStan\PhpDocParser\Ast\Type\IdentifierTypeNode;
 use PHPStan\PhpDocParser\Ast\Type\TypeNode;
 use SplFileInfo;
+use Symplify\CodingStandard\Exception\NotImplementedYetException;
 use Symplify\TokenRunner\DocBlock\DescriptionAnalyzer;
 use Symplify\TokenRunner\DocBlock\ParamAndReturnTagAnalyzer;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\DocBlockWrapper;
@@ -174,7 +175,7 @@ public function getCount(): int
         $returnTagDescription = $returnTagValue->description;
 
         if (Strings::contains($typehintType, '|') && Strings::contains($docType, '|')) {
-            $this->processReturnTagMultiTypes((string) $typehintType, (string) $docType, $docBlockWrapper, $returnTagDescription);
+            $this->processReturnTagMultiTypes($typehintType, $docType, $docBlockWrapper, $returnTagDescription);
             return;
         }
 
@@ -183,7 +184,7 @@ public function getCount(): int
         }
 
         $isDescriptionUseful = $this->descriptionAnalyzer->isDescriptionUseful(
-            (string) $returnTagDescription,
+            $returnTagDescription,
             $docType,
             null
         );
@@ -294,10 +295,10 @@ public function getCount(): int
             return $typeNode->name;
         }
 
-        return $this->resolveDocType($typeNode->type);
-
-        // not implemented yet
-        dump($typeNode);
-        die;
+        throw new NotImplementedYetException(sprintf(
+            'Add new "%s" type format to "%s" method',
+            get_class($typeNode),
+            __METHOD__
+        ));
     }
 }
