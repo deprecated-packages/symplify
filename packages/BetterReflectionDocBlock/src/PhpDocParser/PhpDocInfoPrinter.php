@@ -81,7 +81,7 @@ final class PhpDocInfoPrinter
             return '';
         }
 
-        $output = $this->printStart($output);
+//        $output = $this->printStart($output);
         $output = $this->printEnd($output);
 
         return $output;
@@ -97,9 +97,7 @@ final class PhpDocInfoPrinter
         // tokens before
         if (isset($this->nodeWithPositionsObjectStorage[$node])) {
             $nodePositions = $this->nodeWithPositionsObjectStorage[$node];
-            for ($i = $this->currentTokenPosition; $i < $nodePositions['tokenStart']; ++$i) {
-                $output .= $this->tokens[$i][0];
-            }
+            $this->addTokensFromTo($output, $this->currentTokenPosition, $nodePositions['tokenStart']);
 
             $this->currentTokenPosition = $nodePositions['tokenEnd'];
         }
@@ -202,15 +200,6 @@ final class PhpDocInfoPrinter
         }
 
         return $this->nodeWithPositionsObjectStorage[$firstOriginalChildrenNode]['tokenStart'];
-    }
-
-    private function printStart(string $output): string
-    {
-        if ($output) {
-            return $output;
-        }
-
-        return $this->addTokensFromTo($output, 0, $this->getFirstNodeStartPosition());
     }
 
     private function printEnd(string $output): string
