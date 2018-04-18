@@ -106,6 +106,7 @@ final class PhpDocInfoPrinter
         // tokens before
         if (isset($this->nodeWithPositionsObjectStorage[$node])) {
             $nodePositions = $this->nodeWithPositionsObjectStorage[$node];
+
             $output = $this->addTokensFromTo($output, $this->currentTokenPosition, $nodePositions['tokenStart']);
             $this->currentTokenPosition = $nodePositions['tokenEnd'];
         }
@@ -248,7 +249,16 @@ final class PhpDocInfoPrinter
         $removedNodesPositions = [];
         foreach ($removedNodes as $removedNode) {
             if (isset($this->nodeWithPositionsObjectStorage[$removedNode])) {
-                $removedNodesPositions[] = $this->nodeWithPositionsObjectStorage[$removedNode];
+                $removedNodePositions = $this->nodeWithPositionsObjectStorage[$removedNode];
+                // change start position to start of the line, so the whole line is removed
+                $seekPosition = $removedNodePositions['tokenStart'];
+                while ($this->tokens[$seekPosition][1] !== Lexer::TOKEN_HORIZONTAL_WS) {
+                    --$seekPosition;
+                }
+
+                $removedNodePositions['tokenStart'] = $seekPosition - 1;
+
+                $removedNodesPositions[] = $removedNodePositions;
             }
         }
 
