@@ -8,6 +8,7 @@ use PHPStan\PhpDocParser\Ast\PhpDoc\ParamTagValueNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocChildNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTagNode;
+use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTextNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\ReturnTagValueNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\VarTagValueNode;
 use PHPStan\PhpDocParser\Ast\Type\UnionTypeNode;
@@ -80,7 +81,7 @@ final class PhpDocInfoPrinter
     private function printPhpDocNode(PhpDocNode $phpDocNode): string
     {
         // no nodes were, so empty doc
-        if (! count($phpDocNode->children)) {
+        if ($this->isPhpDocNodeEmpty($phpDocNode)) {
             return '';
         }
 
@@ -263,5 +264,22 @@ final class PhpDocInfoPrinter
         }
 
         return $this->removedNodePositions = $removedNodesPositions;
+    }
+
+    private function isPhpDocNodeEmpty(PhpDocNode $phpDocNode)
+    {
+        if (count($phpDocNode->children) === 0) {
+            return true;
+        }
+
+        foreach ($phpDocNode->children as $phpDocChildNode) {
+            if ($phpDocChildNode instanceof PhpDocTextNode) {
+                if ($phpDocChildNode->text) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
     }
 }
