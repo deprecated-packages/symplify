@@ -335,7 +335,24 @@ final class DocBlockWrapper
         // remove empty doc
         $this->tokens->clearAt($this->position);
         if ($this->tokens[$this->position - 1]->isWhitespace()) {
-            $this->tokens->ensureWhitespaceAtIndex($this->position - 1, 0, '');
+            // used from RemoveEmptyDocBlockFixer
+            $this->removeExtraWhitespaceAfterRemovedDocBlock();
+        }
+    }
+
+    private function removeExtraWhitespaceAfterRemovedDocBlock(): void
+    {
+        $previousToken = $this->tokens[$this->position - 1];
+        if ($previousToken->isWhitespace()) {
+            $previousWhitespaceContent = $previousToken->getContent();
+
+            $lastLineBreak = strrpos($previousWhitespaceContent, PHP_EOL);
+            $newWhitespaceContent = substr($previousWhitespaceContent, 0, $lastLineBreak);
+            if ($newWhitespaceContent) {
+                $this->tokens[$this->position - 1] = new Token([T_WHITESPACE, $newWhitespaceContent]);
+            } else {
+                $this->tokens->clearAt($this->position - 1);
+            }
         }
     }
 }
