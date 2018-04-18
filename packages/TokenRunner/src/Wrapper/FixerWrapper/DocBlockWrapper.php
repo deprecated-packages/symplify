@@ -15,6 +15,8 @@ use phpDocumentor\Reflection\DocBlock\Tags\Return_;
 use phpDocumentor\Reflection\Types\Array_;
 use phpDocumentor\Reflection\Types\Compound;
 use PHPStan\PhpDocParser\Ast\PhpDoc\InvalidTagValueNode;
+use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTagNode;
+use PHPStan\PhpDocParser\Ast\PhpDoc\ReturnTagValueNode;
 use Symplify\BetterReflectionDocBlock\DocBlock\ArrayResolver;
 use Symplify\BetterReflectionDocBlock\DocBlockSerializerFactory;
 use Symplify\BetterReflectionDocBlock\PhpDocParser\PhpDocInfo;
@@ -116,46 +118,6 @@ final class DocBlockWrapper
         return $this->phpDocInfo;
     }
 
-    public function getReturnType(): ?string
-    {
-        /** @var Return_[] $returnTags */
-        $returnTags = $this->phpDocumentorDocBlock->getTagsByName('return');
-        if (! $returnTags) {
-            return null;
-        }
-
-        $returnTagType = $returnTags[0]->getType();
-
-        if ($returnTagType instanceof Array_) {
-            return ArrayResolver::resolveArrayType($this->originalContent, $returnTagType, 'return');
-        }
-
-        if ($returnTagType instanceof Compound) {
-            $types = [];
-            foreach ($returnTagType->getIterator() as $singleTag) {
-                if ($singleTag instanceof Array_) {
-                    $types[] = ArrayResolver::resolveArrayType($this->originalContent, $singleTag, 'return');
-                } else {
-                    $types[] = ltrim((string) $singleTag, '\\');
-                }
-            }
-
-            return implode('|', $types);
-        }
-
-        return $this->clean((string) $returnTags[0]);
-    }
-
-    public function getReturnTypeDescription(): ?string
-    {
-        $returnTag = $this->phpDocInfo->getReturnTagValue();
-        if ($returnTag === null) {
-            return null;
-        }
-
-        return $returnTag->description;
-    }
-
     public function getArgumentType(string $name): ?string
     {
         $paramTag = $this->findParamTagByName($name);
@@ -227,16 +189,13 @@ final class DocBlockWrapper
 
     public function removeReturnType(): void
     {
-        $returnTags = $this->phpDocumentorDocBlock->getTagsByName('return');
-        if (! $returnTags) {
-            return;
-        }
+        $phpDocNode = $this->phpDocInfo->getPhpDocNode();
 
-        foreach ($returnTags as $returnTag) {
-            $this->phpDocumentorDocBlock->removeTag($returnTag);
+        foreach ($phpDocNode->children as $i => $phpDocChildNode) {
+            if ($phpDocChildNode instanceof PhpDocTagNode && $phpDocChildNode->value instanceof ReturnTagValueNode) {
+                unset($phpDocNode->children[$i]);
+            }
         }
-
-        $this->updateDocBlockTokenContent();
     }
 
     public function removeParamType(string $name): void
@@ -296,18 +255,7 @@ final class DocBlockWrapper
 
     public function getContent(): string
     {
-        $content = $this->getDocBlockSerializer()
-            ->getDocComment($this->phpDocumentorDocBlock);
-
-        // wip
-        $newContent = $this->phpDocInfoPrinter->printFormatPreserving($this->phpDocInfo);
-
-        if ($this->isSingleLine()) {
-            $content = Strings::replace($content, '#\s+#', ' ');
-            return Strings::replace($content, '#/\*\* #', '/*');
-        }
-
-        return $content;
+        return $this->phpDocInfoPrinter->printFormatPreserving($this->phpDocInfo);
     }
 
     private function isIterableType(string $type): bool

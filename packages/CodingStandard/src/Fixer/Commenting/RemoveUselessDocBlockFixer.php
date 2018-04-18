@@ -14,6 +14,9 @@ use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use PhpCsFixer\WhitespacesFixerConfig;
+use PHPStan\PhpDocParser\Ast\Type\ArrayTypeNode;
+use PHPStan\PhpDocParser\Ast\Type\IdentifierTypeNode;
+use PHPStan\PhpDocParser\Ast\Type\TypeNode;
 use SplFileInfo;
 use Symplify\TokenRunner\DocBlock\DescriptionAnalyzer;
 use Symplify\TokenRunner\DocBlock\ParamAndReturnTagAnalyzer;
@@ -160,20 +163,24 @@ public function getCount(): int
     private function processReturnTag(MethodWrapper $methodWrapper, DocBlockWrapper $docBlockWrapper): void
     {
         $typehintType = $methodWrapper->getReturnType();
-        $docType = $docBlockWrapper->getReturnType();
-        $docDescription = $docBlockWrapper->getReturnTypeDescription();
+
+        $returnTagValue = $docBlockWrapper->getPhpDocInfo()->getReturnTagValue();
+
+        $docType = $this->resolveDocType($returnTagValue->type);
+
+        $returnTagDescription = $returnTagValue->description;
 
         if (Strings::contains($typehintType, '|') && Strings::contains($docType, '|')) {
-            $this->processReturnTagMultiTypes((string) $typehintType, (string) $docType, $docBlockWrapper);
+            $this->processReturnTagMultiTypes((string) $typehintType, (string) $docType, $docBlockWrapper, $returnTagDescription);
             return;
         }
 
-        if ($this->paramAndReturnTagAnalyzer->isTagUseful($docType, $docDescription, $typehintType)) {
+        if ($this->paramAndReturnTagAnalyzer->isTagUseful($docType, $returnTagDescription, $typehintType)) {
             return;
         }
 
         $isDescriptionUseful = $this->descriptionAnalyzer->isDescriptionUseful(
-            (string) $docDescription,
+            (string) $returnTagDescription,
             $docType,
             null
         );
@@ -211,12 +218,13 @@ public function getCount(): int
     private function processReturnTagMultiTypes(
         string $docBlockType,
         string $typehintType,
-        DocBlockWrapper $docBlockWrapper
+        DocBlockWrapper $docBlockWrapper,
+        string $returnTagDescription
     ): void {
         $typehintTypes = explode('|', $typehintType);
         $docBlockTypes = explode('|', $docBlockType);
 
-        if ($docBlockWrapper->getReturnTypeDescription()) {
+        if ($returnTagDescription) {
             return;
         }
 
@@ -271,5 +279,22 @@ public function getCount(): int
         $possibleNameToken = $tokens[$possibleNamePosition];
 
         return $possibleNameToken->isGivenKind(T_STRING);
+    }
+
+    private function resolveDocType(TypeNode $typeNode): string
+    {
+        if ($typeNode instanceof ArrayTypeNode)  {
+            return $this->resolveDocType($typeNode->type) . '[]';
+        }
+
+        if ($typeNode instanceof IdentifierTypeNode) {
+            return $typeNode->name;
+        }
+
+        return $this->resolveDocType($typeNode->type);
+
+        // not implemented yet
+        dump($typeNode);
+        die;
     }
 }
