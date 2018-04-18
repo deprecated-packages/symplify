@@ -5,13 +5,13 @@ namespace Symplify\BetterReflectionDocBlock\PhpDocParser;
 use Nette\Utils\Strings;
 use PHPStan\PhpDocParser\Ast\Node;
 use PHPStan\PhpDocParser\Ast\PhpDoc\ParamTagValueNode;
+use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocChildNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTagNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\ReturnTagValueNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\VarTagValueNode;
 use PHPStan\PhpDocParser\Ast\Type\UnionTypeNode;
 use PHPStan\PhpDocParser\Lexer\Lexer;
-use PHPStan\PhpDocParser\Lexer\Lexer as PHPStanLexer;
 use Symplify\BetterReflectionDocBlock\PhpDocParser\Ast\Type\FormatPreservingUnionTypeNode;
 use Symplify\BetterReflectionDocBlock\PhpDocParser\Storage\NodeWithPositionsObjectStorage;
 
@@ -40,7 +40,17 @@ final class PhpDocInfoPrinter
     /**
      * @var PhpDocNode
      */
+    private $phpDocNode;
+
+    /**
+     * @var PhpDocNode
+     */
     private $originalPhpDocNode;
+
+    /**
+     * @var int[][]
+     */
+    private $removedNodePositions = [];
 
     public function __construct(NodeWithPositionsObjectStorage $nodeWithPositionsObjectStorage)
     {
@@ -59,31 +69,31 @@ final class PhpDocInfoPrinter
      */
     public function printFormatPreserving(PhpDocInfo $phpDocInfo): string
     {
-        $phpDocNode = $phpDocInfo->getPhpDocNode();
+        $this->phpDocNode = $phpDocInfo->getPhpDocNode();
         $this->originalPhpDocNode = $phpDocInfo->getOriginalPhpDocNode();
         $this->tokens = $phpDocInfo->getTokens();
         $this->tokenCount = count($phpDocInfo->getTokens());
 
-        return $this->printPhpDocNode($phpDocNode);
+        return $this->printPhpDocNode($this->phpDocNode);
     }
 
     private function printPhpDocNode(PhpDocNode $phpDocNode): string
     {
+        // no nodes were, so empty doc
+        if (! count($phpDocNode->children)) {
+            return '';
+        }
+
         $this->currentTokenPosition = 0;
 
         $output = '';
+
+        // node output
         foreach ($phpDocNode->children as $child) {
             $output .= $this->printNode($child);
         }
 
-        // no nodes were, so empty doc
-        if ($output === '') {
-            return '';
-        }
-
-        $output = $this->printEnd($output);
-
-        return $output;
+        return $this->printEnd($output);
     }
 
     /**
@@ -96,7 +106,6 @@ final class PhpDocInfoPrinter
         // tokens before
         if (isset($this->nodeWithPositionsObjectStorage[$node])) {
             $nodePositions = $this->nodeWithPositionsObjectStorage[$node];
-
             $output = $this->addTokensFromTo($output, $this->currentTokenPosition, $nodePositions['tokenStart']);
             $this->currentTokenPosition = $nodePositions['tokenEnd'];
         }
@@ -208,10 +217,41 @@ final class PhpDocInfoPrinter
 
     private function addTokensFromTo(string $output, int $from, int $to): string
     {
+        // jump over the removed nodes
+        $positionJumpSet = [];
+        foreach ($this->getRemovedNodesPositions() as $removedTokensPosition) {
+            $positionJumpSet[$removedTokensPosition['tokenStart']] = $removedTokensPosition['tokenEnd'];
+        }
+
         for ($i = $from; $i < $to; ++$i) {
+            if (isset($positionJumpSet[$i])) {
+                $i = $positionJumpSet[$i];
+            }
+
             $output .= $this->tokens[$i][0] ?? '';
         }
 
         return $output;
+    }
+
+    /**
+     * @return int[][]
+     */
+    private function getRemovedNodesPositions(): array
+    {
+        if ($this->removedNodePositions) {
+            return $this->removedNodePositions;
+        }
+
+        $removedNodes = array_diff($this->originalPhpDocNode->children, $this->phpDocNode->children);
+
+        $removedNodesPositions = [];
+        foreach ($removedNodes as $removedNode) {
+            if (isset($this->nodeWithPositionsObjectStorage[$removedNode])) {
+                $removedNodesPositions[] = $this->nodeWithPositionsObjectStorage[$removedNode];
+            }
+        }
+
+        return $this->removedNodePositions = $removedNodesPositions;
     }
 }

@@ -47,20 +47,20 @@ final class DocBlockWrapper
      */
     private $phpDocumentorDocBlock;
 
-    /**
-     * @var Serializer|null
-     */
-    private $docBlockSerializer;
+//    /**
+//     * @var Serializer|null
+//     */
+//    private $docBlockSerializer;
 
     /**
      * @var string
      */
     private $originalContent;
 
-    /**
-     * @var DocBlockSerializerFactory
-     */
-    private $docBlockSerializerFactory;
+//    /**
+//     * @var DocBlockSerializerFactory
+//     */
+//    private $docBlockSerializerFactory;
 
     /**
      * @var null|PhpDocInfo
@@ -77,7 +77,7 @@ final class DocBlockWrapper
         int $position,
         string $content,
         ?DocBlock $docBlock = null,
-        DocBlockSerializerFactory $docBlockSerializerFactory,
+//        DocBlockSerializerFactory $docBlockSerializerFactory,
         ?PhpDocInfo $phpDocInfo = null,
         PhpDocInfoPrinter $phpDocInfoPrinter
     ) {
@@ -85,7 +85,7 @@ final class DocBlockWrapper
         $this->position = $position;
         $this->originalContent = $content;
         $this->phpDocumentorDocBlock = $docBlock;
-        $this->docBlockSerializerFactory = $docBlockSerializerFactory;
+//        $this->docBlockSerializerFactory = $docBlockSerializerFactory;
         $this->phpDocInfo = $phpDocInfo;
         $this->phpDocInfoPrinter = $phpDocInfoPrinter;
     }
@@ -290,23 +290,23 @@ final class DocBlockWrapper
         return null;
     }
 
-    private function getDocBlockSerializer(): Serializer
-    {
-        if ($this->docBlockSerializer) {
-            return $this->docBlockSerializer;
-        }
-
-        $this->ensureWhitespacesFixerConfigIsSet();
-
-        $indentSize = $this->whitespacesFixerConfig->getIndent() === '    ' ? 1 : 4;
-        $indentCharacter = $this->whitespacesFixerConfig->getIndent();
-
-        return $this->docBlockSerializer = $this->docBlockSerializerFactory->createFromWhitespaceFixerConfigAndContent(
-            $this->originalContent,
-            $indentSize,
-            $indentCharacter
-        );
-    }
+//    private function getDocBlockSerializer(): Serializer
+//    {
+//        if ($this->docBlockSerializer) {
+//            return $this->docBlockSerializer;
+//        }
+//
+//        $this->ensureWhitespacesFixerConfigIsSet();
+//
+//        $indentSize = $this->whitespacesFixerConfig->getIndent() === '    ' ? 1 : 4;
+//        $indentCharacter = $this->whitespacesFixerConfig->getIndent();
+//
+//        return $this->docBlockSerializer = $this->docBlockSerializerFactory->createFromWhitespaceFixerConfigAndContent(
+//            $this->originalContent,
+//            $indentSize,
+//            $indentCharacter
+//        );
+//    }
 
     private function ensureWhitespacesFixerConfigIsSet(): void
     {

@@ -15,10 +15,10 @@ final class DocBlockWrapperFactory
      */
     private $cleanDocBlockFactory;
 
-    /**
-     * @var DocBlockSerializerFactory
-     */
-    private $docBlockSerializerFactory;
+//    /**
+//     * @var DocBlockSerializerFactory
+//     */
+//    private $docBlockSerializerFactory;
 
     /**
      * @var PhpDocInfoFactory
@@ -32,12 +32,12 @@ final class DocBlockWrapperFactory
 
     public function __construct(
         CleanDocBlockFactory $cleanDocBlockFactory,
-        DocBlockSerializerFactory $docBlockSerializerFactory,
+//        DocBlockSerializerFactory $docBlockSerializerFactory,
         PhpDocInfoFactory $phpDocInfoFactory,
         PhpDocInfoPrinter $phpDocInfoPrinter
     ) {
         $this->cleanDocBlockFactory = $cleanDocBlockFactory;
-        $this->docBlockSerializerFactory = $docBlockSerializerFactory;
+//        $this->docBlockSerializerFactory = $docBlockSerializerFactory;
         $this->phpDocInfoFactory = $phpDocInfoFactory;
         $this->phpDocInfoPrinter = $phpDocInfoPrinter;
     }
@@ -49,7 +49,7 @@ final class DocBlockWrapperFactory
             $position,
             $content,
             $this->cleanDocBlockFactory->create($content),
-            $this->docBlockSerializerFactory,
+//            $this->docBlockSerializerFactory,
             $this->phpDocInfoFactory->createFrom($content),
             $this->phpDocInfoPrinter
         );
