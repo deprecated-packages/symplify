@@ -76,6 +76,11 @@ final class PhpDocInfoPrinter
             $output .= $this->printNode($child);
         }
 
+        // no nodes were, so empty doc
+        if ($output === '') {
+            return '';
+        }
+
         $output = $this->printStart($output);
         $output = $this->printEnd($output);
 
@@ -215,18 +220,8 @@ final class PhpDocInfoPrinter
 
     private function addTokensFromTo(string $output, int $from, int $to): string
     {
-        if ($this->tokens[$from][1] !== PHPStanLexer::TOKEN_PHPDOC_EOL) {
-            --$from;
-        }
-
-        if (isset($this->tokens[$to]) && $this->tokens[$to][1] !== PHPStanLexer::TOKEN_PHPDOC_EOL) {
-            ++$to;
-        }
-
         for ($i = $from; $i < $to; ++$i) {
-            if (isset($this->tokens[$i])) {
-                $output .= $this->tokens[$i][0];
-            }
+            $output = $this->tokens[$i][0] ?? '';
         }
 
         return $output;

@@ -262,9 +262,15 @@ final class DocBlockWrapper
             }
         }
 
-        // create and save new doc comment
         $newDocCommentContent = $this->phpDocInfoPrinter->printFormatPreserving($this->phpDocInfo);
-        $this->tokens[$this->position] = new Token([T_DOC_COMMENT, $newDocCommentContent]);
+        if ($newDocCommentContent) {
+            // create and save new doc comment
+            $this->tokens[$this->position] = new Token([T_DOC_COMMENT, $newDocCommentContent]);
+        } else {
+            // remove empty doc
+            $this->tokens->clearAt($this->position);
+            $this->tokens->ensureWhitespaceAtIndex($this->position - 1, 0, '');
+        }
     }
 
     public function setWhitespacesFixerConfig(WhitespacesFixerConfig $whitespacesFixerConfig): void
