@@ -5,7 +5,6 @@ namespace Symplify\BetterReflectionDocBlock\PhpDocParser;
 use Nette\Utils\Strings;
 use PHPStan\PhpDocParser\Ast\Node;
 use PHPStan\PhpDocParser\Ast\PhpDoc\ParamTagValueNode;
-use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocChildNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTagNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTextNode;
@@ -74,6 +73,9 @@ final class PhpDocInfoPrinter
         $this->originalPhpDocNode = $phpDocInfo->getOriginalPhpDocNode();
         $this->tokens = $phpDocInfo->getTokens();
         $this->tokenCount = count($phpDocInfo->getTokens());
+
+        $this->currentTokenPosition = 0;
+        $this->removedNodePositions = [];
 
         return $this->printPhpDocNode($this->phpDocNode);
     }
