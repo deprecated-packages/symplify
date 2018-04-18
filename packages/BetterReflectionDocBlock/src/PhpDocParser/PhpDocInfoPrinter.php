@@ -277,6 +277,8 @@ final class PhpDocInfoPrinter
                 if ($phpDocChildNode->text) {
                     return false;
                 }
+            } else {
+                return false;
             }
         }
 
