@@ -227,8 +227,14 @@ final class PhpDocInfoPrinter
             $positionJumpSet[$removedTokensPosition['tokenStart']] = $removedTokensPosition['tokenEnd'];
         }
 
+        // include also space before, in case of inlined docs
         if (isset($this->tokens[$from - 1]) && $this->tokens[$from - 1][1] === Lexer::TOKEN_HORIZONTAL_WS) {
             $from -= 1;
+        }
+
+        // skip extra empty lines above if this is the last one
+        if (Strings::contains($this->tokens[$from][0], PHP_EOL) && Strings::contains($this->tokens[$from + 1][0], PHP_EOL)) {
+            ++$from;
         }
 
         for ($i = $from; $i < $to; ++$i) {
