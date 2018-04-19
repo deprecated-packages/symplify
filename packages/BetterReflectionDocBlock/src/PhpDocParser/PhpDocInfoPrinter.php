@@ -221,7 +221,7 @@ final class PhpDocInfoPrinter
 
     private function addTokensFromTo(string $output, int $from, int $to): string
     {
-        // jump over the removed nodes
+        // skip removed nodes
         $positionJumpSet = [];
         foreach ($this->getRemovedNodesPositions() as $removedTokensPosition) {
             $positionJumpSet[$removedTokensPosition['tokenStart']] = $removedTokensPosition['tokenEnd'];
@@ -232,7 +232,7 @@ final class PhpDocInfoPrinter
         }
 
         for ($i = $from; $i < $to; ++$i) {
-            if (isset($positionJumpSet[$i])) {
+            while (isset($positionJumpSet[$i])) {
                 $i = $positionJumpSet[$i];
             }
 
