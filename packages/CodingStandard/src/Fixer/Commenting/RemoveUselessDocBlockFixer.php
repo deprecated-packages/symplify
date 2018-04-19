@@ -17,6 +17,7 @@ use PhpCsFixer\WhitespacesFixerConfig;
 use PHPStan\PhpDocParser\Ast\Type\ArrayTypeNode;
 use PHPStan\PhpDocParser\Ast\Type\IdentifierTypeNode;
 use PHPStan\PhpDocParser\Ast\Type\TypeNode;
+use PHPStan\PhpDocParser\Ast\Type\UnionTypeNode;
 use SplFileInfo;
 use Symplify\CodingStandard\Exception\NotImplementedYetException;
 use Symplify\TokenRunner\DocBlock\DescriptionAnalyzer;
@@ -293,6 +294,14 @@ public function getCount(): int
 
         if ($typeNode instanceof IdentifierTypeNode) {
             return $typeNode->name;
+        }
+
+        if ($typeNode instanceof UnionTypeNode) {
+            $resolvedDocTypes = [];
+            foreach ($typeNode->types as $subTypeNode) {
+                $resolvedDocTypes[] = $this->resolveDocType($subTypeNode);
+            }
+            return implode('|', $resolvedDocTypes);
         }
 
         throw new NotImplementedYetException(sprintf(
