@@ -227,6 +227,10 @@ final class PhpDocInfoPrinter
             $positionJumpSet[$removedTokensPosition['tokenStart']] = $removedTokensPosition['tokenEnd'];
         }
 
+        if (isset($this->tokens[$from - 1]) && $this->tokens[$from - 1][1] === Lexer::TOKEN_HORIZONTAL_WS) {
+            $from -= 1;
+        }
+
         for ($i = $from; $i < $to; ++$i) {
             if (isset($positionJumpSet[$i])) {
                 $i = $positionJumpSet[$i];
