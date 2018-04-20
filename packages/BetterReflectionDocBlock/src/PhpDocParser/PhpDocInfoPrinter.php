@@ -92,8 +92,9 @@ final class PhpDocInfoPrinter
         $output = '';
 
         // node output
-        foreach ($phpDocNode->children as $child) {
-            $output .= $this->printNode($child);
+        $nodeCount = count($phpDocNode->children);
+        foreach ($phpDocNode->children as $i => $child) {
+            $output .= $this->printNode($child, [], $i + 1, $nodeCount);
         }
 
         return $this->printEnd($output);
@@ -102,7 +103,7 @@ final class PhpDocInfoPrinter
     /**
      * @param int[] $nodePositions
      */
-    private function printNode(Node $node, array $nodePositions = []): string
+    private function printNode(Node $node, array $nodePositions = [], int $i = 0, int $nodeCount = 0): string
     {
         $output = '';
 
@@ -110,7 +111,8 @@ final class PhpDocInfoPrinter
         if (isset($this->nodeWithPositionsObjectStorage[$node])) {
             $nodePositions = $this->nodeWithPositionsObjectStorage[$node];
 
-            $output = $this->addTokensFromTo($output, $this->currentTokenPosition, $nodePositions['tokenStart']);
+            $isLastToken = $nodeCount === $i;
+            $output = $this->addTokensFromTo($output, $this->currentTokenPosition, $nodePositions['tokenStart'], $isLastToken);
             $this->currentTokenPosition = $nodePositions['tokenEnd'];
         }
 

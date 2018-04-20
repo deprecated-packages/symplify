@@ -293,8 +293,8 @@ public function getCount(): int
             return $this->resolveDocType($typeNode->type) . '[]';
         }
 
-        if ($typeNode instanceof IdentifierTypeNode) {
-            return $typeNode->name;
+        if ($typeNode instanceof IdentifierTypeNode || $typeNode instanceof ThisTypeNode) {
+            return (string) $typeNode;
         }
 
         if ($typeNode instanceof UnionTypeNode) {
@@ -303,10 +303,6 @@ public function getCount(): int
                 $resolvedDocTypes[] = $this->resolveDocType($subTypeNode);
             }
             return implode('|', $resolvedDocTypes);
-        }
-
-        if ($typeNode instanceof ThisTypeNode) {
-            return 'this';
         }
 
         throw new NotImplementedYetException(sprintf(
