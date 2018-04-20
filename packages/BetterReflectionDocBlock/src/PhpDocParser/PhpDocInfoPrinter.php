@@ -164,18 +164,17 @@ final class PhpDocInfoPrinter
             return $nodeOutput;
         }
 
-        // first space is not covered by this
-        array_shift($oldWhitespaces);
-
         $newNodeOutput = '';
         $i = 0;
+
+        // replace system whitespace by old ones
         foreach (Strings::split($nodeOutput, '#\s+#') as $nodeOutputPart) {
-            $newNodeOutput .= $nodeOutputPart . ($oldWhitespaces[$i] ?? '');
+            $newNodeOutput .= ($oldWhitespaces[$i] ?? '') . $nodeOutputPart;
             ++$i;
         }
 
-        // replace system whitespace by old ones
-        return $newNodeOutput;
+        // remove first space, added by the printer above
+        return substr($newNodeOutput, 1);
     }
 
     /**
@@ -202,10 +201,10 @@ final class PhpDocInfoPrinter
 
     private function printEnd(string $output): string
     {
-        return $this->addTokensFromTo($output, $this->getLastNodeTokenEndPosition(), $this->tokenCount);
+        return $this->addTokensFromTo($output, $this->getLastNodeTokenEndPosition(), $this->tokenCount, true);
     }
 
-    private function addTokensFromTo(string $output, int $from, int $to): string
+    private function addTokensFromTo(string $output, int $from, int $to, bool $shouldSkipEmptyLinesAbove = false): string
     {
         // skip removed nodes
         $positionJumpSet = [];
@@ -218,9 +217,11 @@ final class PhpDocInfoPrinter
             $from -= 1;
         }
 
-        // skip extra empty lines above if this is the last one
-        if (Strings::contains($this->tokens[$from][0], PHP_EOL) && Strings::contains($this->tokens[$from + 1][0], PHP_EOL)) {
-            ++$from;
+        if ($shouldSkipEmptyLinesAbove) {
+            // skip extra empty lines above if this is the last one
+            if (Strings::contains($this->tokens[$from][0], PHP_EOL) && Strings::contains($this->tokens[$from + 1][0], PHP_EOL)) {
+                ++$from;
+            }
         }
 
         for ($i = $from; $i < $to; ++$i) {
