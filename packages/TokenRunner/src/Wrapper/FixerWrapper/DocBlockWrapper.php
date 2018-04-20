@@ -13,7 +13,9 @@ use phpDocumentor\Reflection\DocBlock\Tags\Param;
 use phpDocumentor\Reflection\Types\Array_;
 use phpDocumentor\Reflection\Types\Compound;
 use PHPStan\PhpDocParser\Ast\PhpDoc\InvalidTagValueNode;
+use PHPStan\PhpDocParser\Ast\PhpDoc\ParamTagValueNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTagNode;
+use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTagValueNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\ReturnTagValueNode;
 use Symplify\BetterReflectionDocBlock\DocBlock\ArrayResolver;
 use Symplify\BetterReflectionDocBlock\PhpDocParser\PhpDocInfo;
@@ -184,6 +186,20 @@ final class DocBlockWrapper
         foreach ($phpDocNode->children as $i => $phpDocChildNode) {
             if ($phpDocChildNode instanceof PhpDocTagNode && $phpDocChildNode->value instanceof ReturnTagValueNode) {
                 unset($phpDocNode->children[$i]);
+            }
+        }
+    }
+
+    public function removePhpDocTagValueNode(PhpDocTagValueNode $phpDocTagValueNode): void
+    {
+        $phpDocNode = $this->phpDocInfo->getPhpDocNode();
+        foreach ($phpDocNode->children as $key => $phpDocChildNode) {
+            if (! $phpDocChildNode instanceof PhpDocTagNode) {
+                continue;
+            }
+
+            if ($phpDocChildNode->value = $phpDocTagValueNode) {
+                unset($phpDocNode->children[$key]);
             }
         }
     }
