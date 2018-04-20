@@ -16,6 +16,7 @@ use PhpCsFixer\Tokenizer\Tokens;
 use PhpCsFixer\WhitespacesFixerConfig;
 use PHPStan\PhpDocParser\Ast\Type\ArrayTypeNode;
 use PHPStan\PhpDocParser\Ast\Type\IdentifierTypeNode;
+use PHPStan\PhpDocParser\Ast\Type\ThisTypeNode;
 use PHPStan\PhpDocParser\Ast\Type\TypeNode;
 use PHPStan\PhpDocParser\Ast\Type\UnionTypeNode;
 use SplFileInfo;
@@ -302,6 +303,10 @@ public function getCount(): int
                 $resolvedDocTypes[] = $this->resolveDocType($subTypeNode);
             }
             return implode('|', $resolvedDocTypes);
+        }
+
+        if ($typeNode instanceof ThisTypeNode) {
+            return 'this';
         }
 
         throw new NotImplementedYetException(sprintf(
