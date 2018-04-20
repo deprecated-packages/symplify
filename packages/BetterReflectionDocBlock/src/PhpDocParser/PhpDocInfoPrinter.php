@@ -119,6 +119,7 @@ final class PhpDocInfoPrinter
             return $this->printPhpDocTagNode($node, $nodePositions, $output);
         }
 
+        // @todo for the rest of nodes as well
         if ($node instanceof ParamTagValueNode) {
             return $this->keepLineOriginalSpaces($nodePositions, (string) $node);
         }
@@ -166,11 +167,15 @@ final class PhpDocInfoPrinter
         // first space is not covered by this
         array_shift($oldWhitespaces);
 
-        // get all old whitespaces
-        $newWhitespaces = Strings::match($nodeOutput, '#\s+#');
+        $newNodeOutput = '';
+        $i = 0;
+        foreach (Strings::split($nodeOutput, '#\s+#') as $nodeOutputPart) {
+            $newNodeOutput .= $nodeOutputPart . ($oldWhitespaces[$i] ?? '');
+            ++$i;
+        }
 
         // replace system whitespace by old ones
-        return (string) str_replace($newWhitespaces, $oldWhitespaces, $nodeOutput);
+        return $newNodeOutput;
     }
 
     /**
