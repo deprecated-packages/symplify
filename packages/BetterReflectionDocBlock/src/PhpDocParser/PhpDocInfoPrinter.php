@@ -195,25 +195,6 @@ final class PhpDocInfoPrinter
         return $this->nodeWithPositionsObjectStorage[$lastOriginalChildrenNode]['tokenEnd'];
     }
 
-    private function getFirstNodeStartPosition(): int
-    {
-        $originalChildren = $this->originalPhpDocNode->children;
-        if (! $originalChildren) {
-            return $this->currentTokenPosition;
-        }
-
-        $firstOriginalChildrenNode = array_shift($originalChildren);
-        if (! $firstOriginalChildrenNode) {
-            return $this->currentTokenPosition;
-        }
-
-        if (! isset($this->nodeWithPositionsObjectStorage[$firstOriginalChildrenNode])) {
-            return $this->currentTokenPosition;
-        }
-
-        return $this->nodeWithPositionsObjectStorage[$firstOriginalChildrenNode]['tokenStart'];
-    }
-
     private function printEnd(string $output): string
     {
         return $this->addTokensFromTo($output, $this->getLastNodeTokenEndPosition(), $this->tokenCount);
