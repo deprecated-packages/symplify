@@ -46,11 +46,6 @@ final class DocBlockWrapper
      */
     private $phpDocumentorDocBlock;
 
-//    /**
-//     * @var Serializer|null
-//     */
-//    private $docBlockSerializer;
-
     /**
      * @var string
      */
@@ -198,7 +193,7 @@ final class DocBlockWrapper
                 continue;
             }
 
-            if ($phpDocChildNode->value = $phpDocTagValueNode) {
+            if ($phpDocChildNode->value === $phpDocTagValueNode) {
                 unset($phpDocNode->children[$key]);
             }
         }

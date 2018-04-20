@@ -264,7 +264,7 @@ final class PhpDocInfoPrinter
         return $this->removedNodePositions = $removedNodesPositions;
     }
 
-    private function isPhpDocNodeEmpty(PhpDocNode $phpDocNode)
+    private function isPhpDocNodeEmpty(PhpDocNode $phpDocNode): bool
     {
         if (count($phpDocNode->children) === 0) {
             return true;
