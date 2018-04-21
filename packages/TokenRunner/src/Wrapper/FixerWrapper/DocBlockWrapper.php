@@ -12,12 +12,11 @@ use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTagValueNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\ReturnTagValueNode;
 use PHPStan\PhpDocParser\Ast\Type\ArrayTypeNode;
 use PHPStan\PhpDocParser\Ast\Type\IdentifierTypeNode;
-use PHPStan\PhpDocParser\Ast\Type\ThisTypeNode;
 use PHPStan\PhpDocParser\Ast\Type\TypeNode;
 use PHPStan\PhpDocParser\Ast\Type\UnionTypeNode;
 use Symplify\BetterReflectionDocBlock\PhpDocParser\PhpDocInfo;
 use Symplify\BetterReflectionDocBlock\PhpDocParser\PhpDocInfoPrinter;
-use Symplify\CodingStandard\Exception\NotImplementedYetException;
+use Symplify\BetterReflectionDocBlock\PhpDocParser\TypeResolver;
 use Symplify\TokenRunner\Exception\Wrapper\FixerWrapper\MissingWhitespacesFixerConfigException;
 
 final class DocBlockWrapper
@@ -52,18 +51,25 @@ final class DocBlockWrapper
      */
     private $phpDocInfoPrinter;
 
+    /**
+     * @var TypeResolver
+     */
+    private $typeResolver;
+
     public function __construct(
         Tokens $tokens,
         int $position,
         string $content,
         PhpDocInfo $phpDocInfo,
-        PhpDocInfoPrinter $phpDocInfoPrinter
+        PhpDocInfoPrinter $phpDocInfoPrinter,
+        TypeResolver $typeResolver
     ) {
         $this->tokens = $tokens;
         $this->position = $position;
         $this->originalContent = $content;
         $this->phpDocInfo = $phpDocInfo;
         $this->phpDocInfoPrinter = $phpDocInfoPrinter;
+        $this->typeResolver = $typeResolver;
     }
 
     public function getTokenPosition(): int
@@ -101,7 +107,7 @@ final class DocBlockWrapper
             return '';
         }
 
-        return $this->resolveDocType($paramTagValue->type);
+        return $this->typeResolver->resolveDocType($paramTagValue->type);
     }
 
     public function getVarType(): ?string
@@ -111,7 +117,7 @@ final class DocBlockWrapper
             return null;
         }
 
-        return $this->resolveDocType($varTagValue->type);
+        return $this->typeResolver->resolveDocType($varTagValue->type);
     }
 
     public function getArgumentTypeDescription(string $name): string
@@ -239,31 +245,6 @@ final class DocBlockWrapper
                 $this->tokens->clearAt($this->position - 1);
             }
         }
-    }
-
-    public function resolveDocType(TypeNode $typeNode): string
-    {
-        if ($typeNode instanceof ArrayTypeNode) {
-            return $this->resolveDocType($typeNode->type) . '[]';
-        }
-
-        if ($typeNode instanceof IdentifierTypeNode || $typeNode instanceof ThisTypeNode) {
-            return (string) $typeNode;
-        }
-
-        if ($typeNode instanceof UnionTypeNode) {
-            $resolvedDocTypes = [];
-            foreach ($typeNode->types as $subTypeNode) {
-                $resolvedDocTypes[] = $this->resolveDocType($subTypeNode);
-            }
-            return implode('|', $resolvedDocTypes);
-        }
-
-        throw new NotImplementedYetException(sprintf(
-            'Add new "%s" type format to "%s" method',
-            get_class($typeNode),
-            __METHOD__
-        ));
     }
 
     private function isIterableType(TypeNode $typeNode): bool
