@@ -43,7 +43,7 @@ final class DocBlockWrapper
     private $originalContent;
 
     /**
-     * @var null|PhpDocInfo
+     * @var PhpDocInfo
      */
     private $phpDocInfo;
 
@@ -56,7 +56,7 @@ final class DocBlockWrapper
         Tokens $tokens,
         int $position,
         string $content,
-        ?PhpDocInfo $phpDocInfo = null,
+        PhpDocInfo $phpDocInfo,
         PhpDocInfoPrinter $phpDocInfoPrinter
     ) {
         $this->tokens = $tokens;
