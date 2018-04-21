@@ -112,7 +112,12 @@ final class PhpDocInfoPrinter
             $nodePositions = $this->nodeWithPositionsObjectStorage[$node];
 
             $isLastToken = $nodeCount === $i;
-            $output = $this->addTokensFromTo($output, $this->currentTokenPosition, $nodePositions['tokenStart'], $isLastToken);
+            $output = $this->addTokensFromTo(
+                $output,
+                $this->currentTokenPosition,
+                $nodePositions['tokenStart'],
+                $isLastToken
+            );
             $this->currentTokenPosition = $nodePositions['tokenEnd'];
         }
 
@@ -206,8 +211,12 @@ final class PhpDocInfoPrinter
         return $this->addTokensFromTo($output, $this->getLastNodeTokenEndPosition(), $this->tokenCount, true);
     }
 
-    private function addTokensFromTo(string $output, int $from, int $to, bool $shouldSkipEmptyLinesAbove = false): string
-    {
+    private function addTokensFromTo(
+        string $output,
+        int $from,
+        int $to,
+        bool $shouldSkipEmptyLinesAbove = false
+    ): string {
         // skip removed nodes
         $positionJumpSet = [];
         foreach ($this->getRemovedNodesPositions() as $removedTokensPosition) {
@@ -216,12 +225,15 @@ final class PhpDocInfoPrinter
 
         // include also space before, in case of inlined docs
         if (isset($this->tokens[$from - 1]) && $this->tokens[$from - 1][1] === Lexer::TOKEN_HORIZONTAL_WS) {
-            $from -= 1;
+            --$from;
         }
 
         if ($shouldSkipEmptyLinesAbove) {
             // skip extra empty lines above if this is the last one
-            if (Strings::contains($this->tokens[$from][0], PHP_EOL) && Strings::contains($this->tokens[$from + 1][0], PHP_EOL)) {
+            if (Strings::contains($this->tokens[$from][0], PHP_EOL) && Strings::contains(
+                $this->tokens[$from + 1][0],
+                PHP_EOL
+            )) {
                 ++$from;
             }
         }

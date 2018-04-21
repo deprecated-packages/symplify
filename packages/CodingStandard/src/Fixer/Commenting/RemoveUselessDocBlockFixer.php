@@ -289,7 +289,7 @@ public function getCount(): int
 
     private function resolveDocType(TypeNode $typeNode): string
     {
-        if ($typeNode instanceof ArrayTypeNode)  {
+        if ($typeNode instanceof ArrayTypeNode) {
             return $this->resolveDocType($typeNode->type) . '[]';
         }
 
