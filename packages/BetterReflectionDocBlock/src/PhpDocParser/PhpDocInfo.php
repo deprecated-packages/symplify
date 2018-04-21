@@ -2,7 +2,10 @@
 
 namespace Symplify\BetterReflectionDocBlock\PhpDocParser;
 
+use Nette\Utils\Strings;
+use PHPStan\PhpDocParser\Ast\PhpDoc\ParamTagValueNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocNode;
+use PHPStan\PhpDocParser\Ast\PhpDoc\ReturnTagValueNode;
 use PHPStan\PhpDocParser\Parser\TokenIterator;
 
 final class PhpDocInfo
@@ -28,6 +31,11 @@ final class PhpDocInfo
     private $originalContent;
 
     /**
+     * @var PhpDocNode
+     */
+    private $originalPhpDocNode;
+
+    /**
      * @param mixed[] $tokens
      */
     public function __construct(
@@ -40,6 +48,7 @@ final class PhpDocInfo
         $this->tokenIterator = $tokenIterator;
         $this->tokens = $tokens;
         $this->originalContent = $originalContent;
+        $this->originalPhpDocNode = clone $phpDocNode;
     }
 
     public function getPhpDocNode(): PhpDocNode
@@ -50,6 +59,11 @@ final class PhpDocInfo
     public function getTokenIterator(): TokenIterator
     {
         return $this->tokenIterator;
+    }
+
+    public function getOriginalPhpDocNode(): PhpDocNode
+    {
+        return $this->originalPhpDocNode;
     }
 
     /**
@@ -63,5 +77,36 @@ final class PhpDocInfo
     public function getOriginalContent(): string
     {
         return $this->originalContent;
+    }
+
+    public function getParamTagValueByName(string $name): ?ParamTagValueNode
+    {
+        $phpDocNode = $this->getPhpDocNode();
+
+        foreach ($phpDocNode->getParamTagValues() as $paramTagValue) {
+            if (Strings::match($paramTagValue->parameterName, '#^(\$)?' . $name . '$#')) {
+                return $paramTagValue;
+            }
+        }
+
+        return null;
+    }
+
+    public function getReturnTagValue(): ?ReturnTagValueNode
+    {
+        $returnTagValues = $this->getPhpDocNode()->getReturnTagValues();
+        if (! count($returnTagValues)) {
+            return null;
+        }
+
+        return $returnTagValues[0];
+    }
+
+    /**
+     * @return ParamTagValueNode[]
+     */
+    public function getParamTagValues(): array
+    {
+        return $this->getPhpDocNode()->getParamTagValues();
     }
 }

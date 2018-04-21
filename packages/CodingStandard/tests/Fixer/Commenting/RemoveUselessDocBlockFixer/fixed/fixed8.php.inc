@@ -9,8 +9,6 @@ class SomeClass
     {
     }
 
-    /**
-     */
     protected function getClientMock(): \Github\Client
     {
         return new \Github\Client($this->getHttpMethodsMock());

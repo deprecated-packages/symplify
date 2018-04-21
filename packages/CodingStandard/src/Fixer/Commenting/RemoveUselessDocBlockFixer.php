@@ -14,7 +14,13 @@ use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use PhpCsFixer\WhitespacesFixerConfig;
+use PHPStan\PhpDocParser\Ast\Type\ArrayTypeNode;
+use PHPStan\PhpDocParser\Ast\Type\IdentifierTypeNode;
+use PHPStan\PhpDocParser\Ast\Type\ThisTypeNode;
+use PHPStan\PhpDocParser\Ast\Type\TypeNode;
+use PHPStan\PhpDocParser\Ast\Type\UnionTypeNode;
 use SplFileInfo;
+use Symplify\CodingStandard\Exception\NotImplementedYetException;
 use Symplify\TokenRunner\DocBlock\DescriptionAnalyzer;
 use Symplify\TokenRunner\DocBlock\ParamAndReturnTagAnalyzer;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\DocBlockWrapper;
@@ -103,6 +109,8 @@ public function getCount(): int
             $this->processReturnTag($methodWrapper, $docBlockWrapper);
             $this->processParamTag($methodWrapper, $docBlockWrapper);
             $this->removeTagForMissingParameters($methodWrapper, $docBlockWrapper);
+
+            $docBlockWrapper->saveNewPhpDocInfo();
         }
     }
 
@@ -158,20 +166,27 @@ public function getCount(): int
     private function processReturnTag(MethodWrapper $methodWrapper, DocBlockWrapper $docBlockWrapper): void
     {
         $typehintType = $methodWrapper->getReturnType();
-        $docType = $docBlockWrapper->getReturnType();
-        $docDescription = $docBlockWrapper->getReturnTypeDescription();
 
-        if (Strings::contains($typehintType, '|') && Strings::contains($docType, '|')) {
-            $this->processReturnTagMultiTypes((string) $typehintType, (string) $docType, $docBlockWrapper);
+        $returnTagValue = $docBlockWrapper->getPhpDocInfo()->getReturnTagValue();
+        if ($returnTagValue === null) {
             return;
         }
 
-        if ($this->paramAndReturnTagAnalyzer->isTagUseful($docType, $docDescription, $typehintType)) {
+        $docType = $this->resolveDocType($returnTagValue->type);
+
+        $returnTagDescription = $returnTagValue->description;
+
+        if (Strings::contains($typehintType, '|') && Strings::contains($docType, '|')) {
+            $this->processReturnTagMultiTypes($typehintType, $docType, $docBlockWrapper, $returnTagDescription);
+            return;
+        }
+
+        if ($this->paramAndReturnTagAnalyzer->isTagUseful($docType, $returnTagDescription, $typehintType)) {
             return;
         }
 
         $isDescriptionUseful = $this->descriptionAnalyzer->isDescriptionUseful(
-            (string) $docDescription,
+            $returnTagDescription,
             $docType,
             null
         );
@@ -191,7 +206,7 @@ public function getCount(): int
             $docDescription = $docBlockWrapper->getArgumentTypeDescription($argumentWrapper->getName());
 
             $isDescriptionUseful = $this->descriptionAnalyzer->isDescriptionUseful(
-                (string) $docDescription,
+                $docDescription,
                 $docType,
                 $argumentWrapper->getName()
             );
@@ -209,12 +224,13 @@ public function getCount(): int
     private function processReturnTagMultiTypes(
         string $docBlockType,
         string $typehintType,
-        DocBlockWrapper $docBlockWrapper
+        DocBlockWrapper $docBlockWrapper,
+        string $returnTagDescription
     ): void {
         $typehintTypes = explode('|', $typehintType);
         $docBlockTypes = explode('|', $docBlockType);
 
-        if ($docBlockWrapper->getReturnTypeDescription()) {
+        if ($returnTagDescription) {
             return;
         }
 
@@ -249,12 +265,12 @@ public function getCount(): int
     {
         $argumentNames = $methodWrapper->getArgumentNames();
 
-        foreach ($docBlockWrapper->getParamTags() as $paramTag) {
-            if (in_array($paramTag->getVariableName(), $argumentNames, true)) {
+        foreach ($docBlockWrapper->getPhpDocInfo()->getParamTagValues() as $paramTagValue) {
+            if (in_array(ltrim($paramTagValue->parameterName, '$'), $argumentNames, true)) {
                 continue;
             }
 
-            $docBlockWrapper->removeParamType($paramTag->getVariableName());
+            $docBlockWrapper->removePhpDocTagValueNode($paramTagValue);
         }
     }
 
@@ -269,5 +285,30 @@ public function getCount(): int
         $possibleNameToken = $tokens[$possibleNamePosition];
 
         return $possibleNameToken->isGivenKind(T_STRING);
+    }
+
+    private function resolveDocType(TypeNode $typeNode): string
+    {
+        if ($typeNode instanceof ArrayTypeNode) {
+            return $this->resolveDocType($typeNode->type) . '[]';
+        }
+
+        if ($typeNode instanceof IdentifierTypeNode || $typeNode instanceof ThisTypeNode) {
+            return (string) $typeNode;
+        }
+
+        if ($typeNode instanceof UnionTypeNode) {
+            $resolvedDocTypes = [];
+            foreach ($typeNode->types as $subTypeNode) {
+                $resolvedDocTypes[] = $this->resolveDocType($subTypeNode);
+            }
+            return implode('|', $resolvedDocTypes);
+        }
+
+        throw new NotImplementedYetException(sprintf(
+            'Add new "%s" type format to "%s" method',
+            get_class($typeNode),
+            __METHOD__
+        ));
     }
 }

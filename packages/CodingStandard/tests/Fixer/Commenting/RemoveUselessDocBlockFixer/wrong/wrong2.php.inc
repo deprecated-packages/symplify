@@ -11,13 +11,4 @@ class SomeClass
     {
 
     }
-
-    /**
-     * @param mixed[] $arrayDiff
-     * @return array
-     */
-    private function addMoreLineNumbers(array $arrayDiff): array
-    {
-
-    }
 }

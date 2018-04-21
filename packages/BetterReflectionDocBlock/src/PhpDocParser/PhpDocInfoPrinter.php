@@ -7,11 +7,11 @@ use PHPStan\PhpDocParser\Ast\Node;
 use PHPStan\PhpDocParser\Ast\PhpDoc\ParamTagValueNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTagNode;
+use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTextNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\ReturnTagValueNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\VarTagValueNode;
 use PHPStan\PhpDocParser\Ast\Type\UnionTypeNode;
 use PHPStan\PhpDocParser\Lexer\Lexer;
-use PHPStan\PhpDocParser\Lexer\Lexer as PHPStanLexer;
 use Symplify\BetterReflectionDocBlock\PhpDocParser\Ast\Type\FormatPreservingUnionTypeNode;
 use Symplify\BetterReflectionDocBlock\PhpDocParser\Storage\NodeWithPositionsObjectStorage;
 
@@ -37,6 +37,21 @@ final class PhpDocInfoPrinter
      */
     private $currentTokenPosition;
 
+    /**
+     * @var PhpDocNode
+     */
+    private $phpDocNode;
+
+    /**
+     * @var PhpDocNode
+     */
+    private $originalPhpDocNode;
+
+    /**
+     * @var int[][]
+     */
+    private $removedNodePositions = [];
+
     public function __construct(NodeWithPositionsObjectStorage $nodeWithPositionsObjectStorage)
     {
         $this->nodeWithPositionsObjectStorage = $nodeWithPositionsObjectStorage;
@@ -54,50 +69,55 @@ final class PhpDocInfoPrinter
      */
     public function printFormatPreserving(PhpDocInfo $phpDocInfo): string
     {
-        $phpDocNode = $phpDocInfo->getPhpDocNode();
+        $this->phpDocNode = $phpDocInfo->getPhpDocNode();
+        $this->originalPhpDocNode = $phpDocInfo->getOriginalPhpDocNode();
         $this->tokens = $phpDocInfo->getTokens();
         $this->tokenCount = count($phpDocInfo->getTokens());
 
-        return $this->printPhpDocNode($phpDocNode);
+        $this->currentTokenPosition = 0;
+        $this->removedNodePositions = [];
+
+        return $this->printPhpDocNode($this->phpDocNode);
     }
 
     private function printPhpDocNode(PhpDocNode $phpDocNode): string
     {
+        // no nodes were, so empty doc
+        if ($this->isPhpDocNodeEmpty($phpDocNode)) {
+            return '';
+        }
+
         $this->currentTokenPosition = 0;
+
         $output = '';
-        foreach ($phpDocNode->children as $child) {
-            $output .= $this->printNode($child);
+
+        // node output
+        $nodeCount = count($phpDocNode->children);
+        foreach ($phpDocNode->children as $i => $child) {
+            $output .= $this->printNode($child, [], $i + 1, $nodeCount);
         }
 
-        // tokens after - only for the last Node
-        $offset = 1;
-
-        if ($this->tokens[$this->currentTokenPosition][1] === PHPStanLexer::TOKEN_PHPDOC_EOL) {
-            $offset = 0;
-        }
-
-        for ($i = $this->currentTokenPosition - $offset; $i < $this->tokenCount; ++$i) {
-            if (isset($this->tokens[$i])) {
-                $output .= $this->tokens[$i][0];
-            }
-        }
-
-        return $output;
+        return $this->printEnd($output);
     }
 
     /**
      * @param int[] $nodePositions
      */
-    private function printNode(Node $node, array $nodePositions = []): string
+    private function printNode(Node $node, array $nodePositions = [], int $i = 0, int $nodeCount = 0): string
     {
         $output = '';
+
         // tokens before
         if (isset($this->nodeWithPositionsObjectStorage[$node])) {
             $nodePositions = $this->nodeWithPositionsObjectStorage[$node];
-            for ($i = $this->currentTokenPosition; $i < $nodePositions['tokenStart']; ++$i) {
-                $output .= $this->tokens[$i][0];
-            }
 
+            $isLastToken = $nodeCount === $i;
+            $output = $this->addTokensFromTo(
+                $output,
+                $this->currentTokenPosition,
+                $nodePositions['tokenStart'],
+                $isLastToken
+            );
             $this->currentTokenPosition = $nodePositions['tokenEnd'];
         }
 
@@ -106,31 +126,9 @@ final class PhpDocInfoPrinter
             return $this->printPhpDocTagNode($node, $nodePositions, $output);
         }
 
+        // @todo for the rest of nodes as well
         if ($node instanceof ParamTagValueNode) {
-            $output = ((string) $node);
-
-            // @todo keep original spacing between name and value
-            // get old whitespaces
-            $oldWhitespaces = [];
-            for ($i = $nodePositions['tokenStart']; $i < $nodePositions['tokenEnd']; ++$i) {
-                if ($this->tokens[$i][1] === Lexer::TOKEN_HORIZONTAL_WS) {
-                    $oldWhitespaces[] = $this->tokens[$i][0];
-                }
-            }
-
-            // no original whitespaces, return
-            if (! $oldWhitespaces) {
-                return $output;
-            }
-
-            // first space is not covered by this
-            array_shift($oldWhitespaces);
-
-            // get all old whitespaces
-            $newWhitespaces = Strings::match($output, '#\s+#');
-
-            // replace system whitespace by old ones
-            return str_replace($newWhitespaces, $oldWhitespaces, $output);
+            return $this->keepLineOriginalSpaces($nodePositions, (string) $node);
         }
 
         return $output . (string) $node;
@@ -154,5 +152,149 @@ final class PhpDocInfoPrinter
         }
 
         return $output . $this->printNode($phpDocTagNode->value, $nodePositions);
+    }
+
+    /**
+     * @param string[] $nodePositions
+     */
+    private function keepLineOriginalSpaces(array $nodePositions, string $nodeOutput): string
+    {
+        $oldWhitespaces = [];
+        for ($i = $nodePositions['tokenStart']; $i < $nodePositions['tokenEnd']; ++$i) {
+            if ($this->tokens[$i][1] === Lexer::TOKEN_HORIZONTAL_WS) {
+                $oldWhitespaces[] = $this->tokens[$i][0];
+            }
+        }
+
+        // no original whitespaces, return
+        if (! $oldWhitespaces) {
+            return $nodeOutput;
+        }
+
+        $newNodeOutput = '';
+        $i = 0;
+
+        // replace system whitespace by old ones
+        foreach (Strings::split($nodeOutput, '#\s+#') as $nodeOutputPart) {
+            $newNodeOutput .= ($oldWhitespaces[$i] ?? '') . $nodeOutputPart;
+            ++$i;
+        }
+
+        // remove first space, added by the printer above
+        return substr($newNodeOutput, 1);
+    }
+
+    /**
+     * @todo consider some position storage
+     */
+    private function getLastNodeTokenEndPosition(): int
+    {
+        $originalChildren = $this->originalPhpDocNode->children;
+        if (! $originalChildren) {
+            return $this->currentTokenPosition;
+        }
+
+        $lastOriginalChildrenNode = array_pop($originalChildren);
+        if (! $lastOriginalChildrenNode) {
+            return $this->currentTokenPosition;
+        }
+
+        if (! isset($this->nodeWithPositionsObjectStorage[$lastOriginalChildrenNode])) {
+            return $this->currentTokenPosition;
+        }
+
+        return $this->nodeWithPositionsObjectStorage[$lastOriginalChildrenNode]['tokenEnd'];
+    }
+
+    private function printEnd(string $output): string
+    {
+        return $this->addTokensFromTo($output, $this->getLastNodeTokenEndPosition(), $this->tokenCount, true);
+    }
+
+    private function addTokensFromTo(
+        string $output,
+        int $from,
+        int $to,
+        bool $shouldSkipEmptyLinesAbove = false
+    ): string {
+        // skip removed nodes
+        $positionJumpSet = [];
+        foreach ($this->getRemovedNodesPositions() as $removedTokensPosition) {
+            $positionJumpSet[$removedTokensPosition['tokenStart']] = $removedTokensPosition['tokenEnd'];
+        }
+
+        // include also space before, in case of inlined docs
+        if (isset($this->tokens[$from - 1]) && $this->tokens[$from - 1][1] === Lexer::TOKEN_HORIZONTAL_WS) {
+            --$from;
+        }
+
+        if ($shouldSkipEmptyLinesAbove) {
+            // skip extra empty lines above if this is the last one
+            if (Strings::contains($this->tokens[$from][0], PHP_EOL) && Strings::contains(
+                $this->tokens[$from + 1][0],
+                PHP_EOL
+            )) {
+                ++$from;
+            }
+        }
+
+        for ($i = $from; $i < $to; ++$i) {
+            while (isset($positionJumpSet[$i])) {
+                $i = $positionJumpSet[$i];
+            }
+
+            $output .= $this->tokens[$i][0] ?? '';
+        }
+
+        return $output;
+    }
+
+    /**
+     * @return int[][]
+     */
+    private function getRemovedNodesPositions(): array
+    {
+        if ($this->removedNodePositions) {
+            return $this->removedNodePositions;
+        }
+
+        $removedNodes = array_diff($this->originalPhpDocNode->children, $this->phpDocNode->children);
+
+        $removedNodesPositions = [];
+        foreach ($removedNodes as $removedNode) {
+            if (isset($this->nodeWithPositionsObjectStorage[$removedNode])) {
+                $removedNodePositions = $this->nodeWithPositionsObjectStorage[$removedNode];
+                // change start position to start of the line, so the whole line is removed
+                $seekPosition = $removedNodePositions['tokenStart'];
+                while ($this->tokens[$seekPosition][1] !== Lexer::TOKEN_HORIZONTAL_WS) {
+                    --$seekPosition;
+                }
+
+                $removedNodePositions['tokenStart'] = $seekPosition - 1;
+
+                $removedNodesPositions[] = $removedNodePositions;
+            }
+        }
+
+        return $this->removedNodePositions = $removedNodesPositions;
+    }
+
+    private function isPhpDocNodeEmpty(PhpDocNode $phpDocNode): bool
+    {
+        if (count($phpDocNode->children) === 0) {
+            return true;
+        }
+
+        foreach ($phpDocNode->children as $phpDocChildNode) {
+            if ($phpDocChildNode instanceof PhpDocTextNode) {
+                if ($phpDocChildNode->text) {
+                    return false;
+                }
+            } else {
+                return false;
+            }
+        }
+
+        return true;
     }
 }

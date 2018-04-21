@@ -9,16 +9,17 @@ use PhpCsFixer\Tokenizer\Tokens;
 use PhpCsFixer\WhitespacesFixerConfig;
 use phpDocumentor\Reflection\DocBlock;
 use phpDocumentor\Reflection\DocBlock as PhpDocumentorDocBlock;
-use phpDocumentor\Reflection\DocBlock\Serializer;
 use phpDocumentor\Reflection\DocBlock\Tags\Param;
-use phpDocumentor\Reflection\DocBlock\Tags\Return_;
 use phpDocumentor\Reflection\Types\Array_;
 use phpDocumentor\Reflection\Types\Compound;
+use PHPStan\PhpDocParser\Ast\PhpDoc\InvalidTagValueNode;
+use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTagNode;
+use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTagValueNode;
+use PHPStan\PhpDocParser\Ast\PhpDoc\ReturnTagValueNode;
 use Symplify\BetterReflectionDocBlock\DocBlock\ArrayResolver;
-use Symplify\BetterReflectionDocBlock\DocBlockSerializerFactory;
 use Symplify\BetterReflectionDocBlock\PhpDocParser\PhpDocInfo;
+use Symplify\BetterReflectionDocBlock\PhpDocParser\PhpDocInfoPrinter;
 use Symplify\BetterReflectionDocBlock\Tag\TolerantParam;
-use Symplify\BetterReflectionDocBlock\Tag\TolerantReturn;
 use Symplify\BetterReflectionDocBlock\Tag\TolerantVar;
 use Symplify\TokenRunner\Exception\Wrapper\FixerWrapper\MissingWhitespacesFixerConfigException;
 
@@ -45,39 +46,34 @@ final class DocBlockWrapper
     private $phpDocumentorDocBlock;
 
     /**
-     * @var Serializer|null
-     */
-    private $docBlockSerializer;
-
-    /**
      * @var string
      */
     private $originalContent;
-
-    /**
-     * @var DocBlockSerializerFactory
-     */
-    private $docBlockSerializerFactory;
 
     /**
      * @var null|PhpDocInfo
      */
     private $phpDocInfo;
 
+    /**
+     * @var PhpDocInfoPrinter
+     */
+    private $phpDocInfoPrinter;
+
     public function __construct(
         Tokens $tokens,
         int $position,
         string $content,
         ?DocBlock $docBlock = null,
-        DocBlockSerializerFactory $docBlockSerializerFactory,
-        ?PhpDocInfo $phpDocInfo = null
+        ?PhpDocInfo $phpDocInfo = null,
+        PhpDocInfoPrinter $phpDocInfoPrinter
     ) {
         $this->tokens = $tokens;
         $this->position = $position;
         $this->originalContent = $content;
         $this->phpDocumentorDocBlock = $docBlock;
-        $this->docBlockSerializerFactory = $docBlockSerializerFactory;
         $this->phpDocInfo = $phpDocInfo;
+        $this->phpDocInfoPrinter = $phpDocInfoPrinter;
     }
 
     public function getTokenPosition(): int
@@ -103,50 +99,9 @@ final class DocBlockWrapper
         ], $this->originalContent);
     }
 
-    public function getPhpDocInfo(): ?PhpDocInfo
+    public function getPhpDocInfo(): PhpDocInfo
     {
         return $this->phpDocInfo;
-    }
-
-    public function getReturnType(): ?string
-    {
-        /** @var Return_[] $returnTags */
-        $returnTags = $this->phpDocumentorDocBlock->getTagsByName('return');
-        if (! $returnTags) {
-            return null;
-        }
-
-        $returnTagType = $returnTags[0]->getType();
-
-        if ($returnTagType instanceof Array_) {
-            return ArrayResolver::resolveArrayType($this->originalContent, $returnTagType, 'return');
-        }
-
-        if ($returnTagType instanceof Compound) {
-            $types = [];
-            foreach ($returnTagType->getIterator() as $singleTag) {
-                if ($singleTag instanceof Array_) {
-                    $types[] = ArrayResolver::resolveArrayType($this->originalContent, $singleTag, 'return');
-                } else {
-                    $types[] = ltrim((string) $singleTag, '\\');
-                }
-            }
-
-            return implode('|', $types);
-        }
-
-        return $this->clean((string) $returnTags[0]);
-    }
-
-    public function getReturnTypeDescription(): ?string
-    {
-        /** @var Return_[] $returnTags */
-        $returnTags = $this->phpDocumentorDocBlock->getTagsByName('return');
-        if (! $returnTags) {
-            return null;
-        }
-
-        return (string) $returnTags[0]->getDescription();
     }
 
     public function getArgumentType(string $name): ?string
@@ -208,47 +163,63 @@ final class DocBlockWrapper
         return ltrim($varTagType, '\\');
     }
 
-    public function getArgumentTypeDescription(string $name): ?string
+    public function getArgumentTypeDescription(string $name): string
     {
-        $paramTag = $this->findParamTagByName($name);
-        if ($paramTag) {
-            return $this->clean((string) $paramTag->getDescription());
+        $paramTagValue = $this->phpDocInfo->getParamTagValueByName($name);
+        if ($paramTagValue) {
+            return $paramTagValue->description;
         }
 
-        return null;
-    }
-
-    public function getReturnTag(): ?TolerantReturn
-    {
-        return $this->phpDocumentorDocBlock->getTagsByName('return') ?
-            $this->phpDocumentorDocBlock->getTagsByName('return')[0]
-            : null;
+        return '';
     }
 
     public function removeReturnType(): void
     {
-        $returnTags = $this->phpDocumentorDocBlock->getTagsByName('return');
-        if (! $returnTags) {
-            return;
-        }
+        $phpDocNode = $this->phpDocInfo->getPhpDocNode();
 
-        foreach ($returnTags as $returnTag) {
-            $this->phpDocumentorDocBlock->removeTag($returnTag);
+        foreach ($phpDocNode->children as $i => $phpDocChildNode) {
+            if ($phpDocChildNode instanceof PhpDocTagNode && $phpDocChildNode->value instanceof ReturnTagValueNode) {
+                unset($phpDocNode->children[$i]);
+            }
         }
+    }
 
-        $this->updateDocBlockTokenContent();
+    public function removePhpDocTagValueNode(PhpDocTagValueNode $phpDocTagValueNode): void
+    {
+        $phpDocNode = $this->phpDocInfo->getPhpDocNode();
+        foreach ($phpDocNode->children as $key => $phpDocChildNode) {
+            if (! $phpDocChildNode instanceof PhpDocTagNode) {
+                continue;
+            }
+
+            if ($phpDocChildNode->value === $phpDocTagValueNode) {
+                unset($phpDocNode->children[$key]);
+            }
+        }
     }
 
     public function removeParamType(string $name): void
     {
-        $paramTag = $this->findParamTagByName($name);
-        if (! $paramTag) {
-            return;
+        $phpDocNode = $this->phpDocInfo->getPhpDocNode();
+        $paramTagValue = $this->phpDocInfo->getParamTagValueByName($name);
+
+        foreach ($phpDocNode->children as $key => $phpDocChildNode) {
+            if (! property_exists($phpDocChildNode, 'value')) {
+                continue;
+            }
+
+            // process invalid tag values
+            if ($phpDocChildNode->value instanceof InvalidTagValueNode) {
+                if ($phpDocChildNode->value->value === '$' . $name) {
+                    unset($phpDocNode->children[$key]);
+                    continue;
+                }
+            }
+
+            if ($phpDocChildNode->value === $paramTagValue) {
+                unset($phpDocNode->children[$key]);
+            }
         }
-
-        $this->phpDocumentorDocBlock->removeTag($paramTag);
-
-        $this->updateDocBlockTokenContent();
     }
 
     public function setWhitespacesFixerConfig(WhitespacesFixerConfig $whitespacesFixerConfig): void
@@ -284,15 +255,7 @@ final class DocBlockWrapper
 
     public function getContent(): string
     {
-        $content = $this->getDocBlockSerializer()
-            ->getDocComment($this->phpDocumentorDocBlock);
-
-        if ($this->isSingleLine()) {
-            $content = Strings::replace($content, '#\s+#', ' ');
-            return Strings::replace($content, '#/\*\* #', '/*');
-        }
-
-        return $content;
+        return $this->phpDocInfoPrinter->printFormatPreserving($this->phpDocInfo);
     }
 
     private function isIterableType(string $type): bool
@@ -327,24 +290,6 @@ final class DocBlockWrapper
         return null;
     }
 
-    private function getDocBlockSerializer(): Serializer
-    {
-        if ($this->docBlockSerializer) {
-            return $this->docBlockSerializer;
-        }
-
-        $this->ensureWhitespacesFixerConfigIsSet();
-
-        $indentSize = $this->whitespacesFixerConfig->getIndent() === '    ' ? 1 : 4;
-        $indentCharacter = $this->whitespacesFixerConfig->getIndent();
-
-        return $this->docBlockSerializer = $this->docBlockSerializerFactory->createFromWhitespaceFixerConfigAndContent(
-            $this->originalContent,
-            $indentSize,
-            $indentCharacter
-        );
-    }
-
     private function ensureWhitespacesFixerConfigIsSet(): void
     {
         if ($this->whitespacesFixerConfig) {
@@ -358,5 +303,38 @@ final class DocBlockWrapper
             self::class,
             WhitespacesAwareFixerInterface::class
         ));
+    }
+
+    public function saveNewPhpDocInfo(): void
+    {
+        $newDocCommentContent = $this->phpDocInfoPrinter->printFormatPreserving($this->phpDocInfo);
+        if ($newDocCommentContent) {
+            // create and save new doc comment
+            $this->tokens[$this->position] = new Token([T_DOC_COMMENT, $newDocCommentContent]);
+            return;
+        }
+
+        // remove empty doc
+        $this->tokens->clearAt($this->position);
+        if ($this->tokens[$this->position - 1]->isWhitespace()) {
+            // used from RemoveEmptyDocBlockFixer
+            $this->removeExtraWhitespaceAfterRemovedDocBlock();
+        }
+    }
+
+    private function removeExtraWhitespaceAfterRemovedDocBlock(): void
+    {
+        $previousToken = $this->tokens[$this->position - 1];
+        if ($previousToken->isWhitespace()) {
+            $previousWhitespaceContent = $previousToken->getContent();
+
+            $lastLineBreak = strrpos($previousWhitespaceContent, PHP_EOL);
+            $newWhitespaceContent = substr($previousWhitespaceContent, 0, $lastLineBreak);
+            if ($newWhitespaceContent) {
+                $this->tokens[$this->position - 1] = new Token([T_WHITESPACE, $newWhitespaceContent]);
+            } else {
+                $this->tokens->clearAt($this->position - 1);
+            }
+        }
     }
 }
