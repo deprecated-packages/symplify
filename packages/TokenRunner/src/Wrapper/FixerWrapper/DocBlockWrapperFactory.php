@@ -39,7 +39,6 @@ final class DocBlockWrapperFactory
         return new DocBlockWrapper(
             $tokens,
             $position,
-            $content,
             $this->phpDocInfoFactory->createFrom($content),
             $this->phpDocInfoPrinter,
             $this->typeResolver

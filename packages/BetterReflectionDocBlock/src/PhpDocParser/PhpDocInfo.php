@@ -26,13 +26,24 @@ final class PhpDocInfo
     private $originalPhpDocNode;
 
     /**
+     * @var string
+     */
+    private $originalContent;
+
+    /**
      * @param mixed[] $tokens
      */
-    public function __construct(PhpDocNode $phpDocNode, array $tokens)
+    public function __construct(PhpDocNode $phpDocNode, array $tokens, string $originalContent)
     {
         $this->phpDocNode = $phpDocNode;
         $this->tokens = $tokens;
         $this->originalPhpDocNode = clone $phpDocNode;
+        $this->originalContent = $originalContent;
+    }
+
+    public function getOriginalContent(): string
+    {
+        return $this->originalContent;
     }
 
     public function getPhpDocNode(): PhpDocNode

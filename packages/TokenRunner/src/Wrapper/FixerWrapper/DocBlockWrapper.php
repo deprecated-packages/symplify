@@ -28,11 +28,6 @@ final class DocBlockWrapper
     private $position;
 
     /**
-     * @var string
-     */
-    private $originalContent;
-
-    /**
      * @var PhpDocInfo
      */
     private $phpDocInfo;
@@ -50,14 +45,12 @@ final class DocBlockWrapper
     public function __construct(
         Tokens $tokens,
         int $position,
-        string $content,
         PhpDocInfo $phpDocInfo,
         PhpDocInfoPrinter $phpDocInfoPrinter,
         TypeResolver $typeResolver
     ) {
         $this->tokens = $tokens;
         $this->position = $position;
-        $this->originalContent = $content;
         $this->phpDocInfo = $phpDocInfo;
         $this->phpDocInfoPrinter = $phpDocInfoPrinter;
         $this->typeResolver = $typeResolver;
@@ -70,7 +63,7 @@ final class DocBlockWrapper
 
     public function isSingleLine(): bool
     {
-        return substr_count($this->originalContent, PHP_EOL) < 1;
+        return substr_count($this->phpDocInfo->getOriginalContent(), PHP_EOL) < 1;
     }
 
     public function getPhpDocInfo(): PhpDocInfo
