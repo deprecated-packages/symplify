@@ -56,8 +56,6 @@ parameters:
         Symplify\CodingStandard\Sniffs\DependencyInjection\NoClassInstantiationSniff:
             # static helper
             - 'packages/PackageBuilder/src/Console/ThrowableRenderer.php'
-            # temporary, remove with checkers autowire
-            - 'packages/BetterReflectionDocBlock/src/FixedSerializer.php'
             # todo: decouple later
             - 'packages/TokenRunner/src/Wrapper/FixerWrapper/AbstractVariableWrapper.php'
             # poor constructor injection for non-container approach
