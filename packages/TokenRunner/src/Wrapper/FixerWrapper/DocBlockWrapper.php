@@ -6,9 +6,6 @@ use PhpCsFixer\Fixer\WhitespacesAwareFixerInterface;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use PhpCsFixer\WhitespacesFixerConfig;
-use phpDocumentor\Reflection\DocBlock;
-use phpDocumentor\Reflection\DocBlock as PhpDocumentorDocBlock;
-use phpDocumentor\Reflection\DocBlock\Tags\Param;
 use PHPStan\PhpDocParser\Ast\PhpDoc\InvalidTagValueNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTagNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTagValueNode;
@@ -41,11 +38,6 @@ final class DocBlockWrapper
     private $whitespacesFixerConfig;
 
     /**
-     * @var PhpDocumentorDocBlock
-     */
-    private $phpDocumentorDocBlock;
-
-    /**
      * @var string
      */
     private $originalContent;
@@ -64,14 +56,12 @@ final class DocBlockWrapper
         Tokens $tokens,
         int $position,
         string $content,
-        ?DocBlock $docBlock = null,
         ?PhpDocInfo $phpDocInfo = null,
         PhpDocInfoPrinter $phpDocInfoPrinter
     ) {
         $this->tokens = $tokens;
         $this->position = $position;
         $this->originalContent = $content;
-        $this->phpDocumentorDocBlock = $docBlock;
         $this->phpDocInfo = $phpDocInfo;
         $this->phpDocInfoPrinter = $phpDocInfoPrinter;
     }
@@ -112,14 +102,6 @@ final class DocBlockWrapper
         }
 
         return $this->resolveDocType($paramTagValue->type);
-    }
-
-    /**
-     * @return Param[]
-     */
-    public function getParamTags(): array
-    {
-        return $this->phpDocumentorDocBlock->getTagsByName('param');
     }
 
     public function getVarType(): ?string
