@@ -13,7 +13,6 @@ use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
-use PhpCsFixer\WhitespacesFixerConfig;
 use SplFileInfo;
 use Symplify\BetterReflectionDocBlock\PhpDocParser\TypeResolver;
 use Symplify\TokenRunner\DocBlock\DescriptionAnalyzer;
@@ -28,11 +27,6 @@ final class RemoveUselessDocBlockFixer implements DefinedFixerInterface, Configu
      * @var string
      */
     public const USELESS_TYPES_OPTION = 'useless_types';
-
-    /**
-     * @var WhitespacesFixerConfig
-     */
-    private $whitespacesFixerConfig;
 
     /**
      * @var DescriptionAnalyzer
@@ -58,14 +52,12 @@ final class RemoveUselessDocBlockFixer implements DefinedFixerInterface, Configu
         DescriptionAnalyzer $descriptionAnalyzer,
         ParamAndReturnTagAnalyzer $paramAndReturnTagAnalyzer,
         MethodWrapperFactory $methodWrapperFactory,
-        WhitespacesFixerConfig $whitespacesFixerConfig,
         TypeResolver $typeResolver
     ) {
         $this->descriptionAnalyzer = $descriptionAnalyzer;
         $this->paramAndReturnTagAnalyzer = $paramAndReturnTagAnalyzer;
         $this->configure([]);
         $this->methodWrapperFactory = $methodWrapperFactory;
-        $this->whitespacesFixerConfig = $whitespacesFixerConfig;
         $this->typeResolver = $typeResolver;
     }
 
@@ -105,8 +97,6 @@ public function getCount(): int
             if ($docBlockWrapper === null) {
                 continue;
             }
-
-            $docBlockWrapper->setWhitespacesFixerConfig($this->whitespacesFixerConfig);
 
             $this->processReturnTag($methodWrapper, $docBlockWrapper);
             $this->processParamTag($methodWrapper, $docBlockWrapper);
