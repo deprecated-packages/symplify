@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLinker](https://github.com/Symplify/ChangelogLinker).
 
+
+## [Unreleased]
+
+### Changed
+
+#### BetterReflectionDocBlock
+
+- [#783], [#786], [#788], [#789] Migrate from `phpdocumentor/reflection-docblock` to `phpstan/phpdoc-parser` with more advanced API, keeping format preserving printer
+
 ## [v4.0.3] - 2018-04-09
 
 ### Fixed
