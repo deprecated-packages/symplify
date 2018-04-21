@@ -2,7 +2,6 @@
 
 namespace Symplify\TokenRunner\Wrapper\FixerWrapper;
 
-use Nette\Utils\Strings;
 use PhpCsFixer\Fixer\WhitespacesAwareFixerInterface;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
@@ -14,7 +13,6 @@ use PHPStan\PhpDocParser\Ast\PhpDoc\InvalidTagValueNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTagNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTagValueNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\ReturnTagValueNode;
-use PHPStan\PhpDocParser\Ast\PhpDoc\VarTagValueNode;
 use PHPStan\PhpDocParser\Ast\Type\ArrayTypeNode;
 use PHPStan\PhpDocParser\Ast\Type\IdentifierTypeNode;
 use PHPStan\PhpDocParser\Ast\Type\ThisTypeNode;
@@ -22,7 +20,6 @@ use PHPStan\PhpDocParser\Ast\Type\TypeNode;
 use PHPStan\PhpDocParser\Ast\Type\UnionTypeNode;
 use Symplify\BetterReflectionDocBlock\PhpDocParser\PhpDocInfo;
 use Symplify\BetterReflectionDocBlock\PhpDocParser\PhpDocInfoPrinter;
-use Symplify\BetterReflectionDocBlock\Tag\TolerantVar;
 use Symplify\CodingStandard\Exception\NotImplementedYetException;
 use Symplify\TokenRunner\Exception\Wrapper\FixerWrapper\MissingWhitespacesFixerConfigException;
 
@@ -201,23 +198,12 @@ final class DocBlockWrapper
 
     public function isArrayProperty(): bool
     {
-        $varTags = $this->phpDocumentorDocBlock->getTagsByName('var');
-        if (! count($varTags)) {
+        $varTagValue = $this->phpDocInfo->getVarTagValue();
+        if ($varTagValue === null) {
             return false;
         }
 
-        /** @var TolerantVar $varTag */
-        $varTag = $varTags[0];
-
-        $types = explode('|', trim((string) $varTag->getType()));
-
-        foreach ($types as $type) {
-            if (! $this->isIterableType($type)) {
-                return false;
-            }
-        }
-
-        return true;
+        return $this->isIterableType($varTagValue->type);
     }
 
     public function updateDocBlockTokenContent(): void
@@ -228,19 +214,6 @@ final class DocBlockWrapper
     public function getContent(): string
     {
         return $this->phpDocInfoPrinter->printFormatPreserving($this->phpDocInfo);
-    }
-
-    private function isIterableType(string $type): bool
-    {
-        if (Strings::endsWith($type, '[]')) {
-            return true;
-        }
-
-        if ($type === 'array') {
-            return true;
-        }
-
-        return false;
     }
 
     private function ensureWhitespacesFixerConfigIsSet(): void
@@ -314,5 +287,32 @@ final class DocBlockWrapper
             get_class($typeNode),
             __METHOD__
         ));
+    }
+
+    private function isIterableType(TypeNode $typeNode): bool
+    {
+        if ($typeNode instanceof UnionTypeNode) {
+            foreach ($typeNode->types as $subType) {
+                if (! $this->isIterableType($subType)) {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        if ($typeNode instanceof IdentifierTypeNode) {
+            if ($typeNode->name === 'array') {
+                return true;
+            }
+
+            return false;
+        }
+
+        if ($typeNode instanceof ArrayTypeNode) {
+            return true;
+        }
+
+        return false;
     }
 }
