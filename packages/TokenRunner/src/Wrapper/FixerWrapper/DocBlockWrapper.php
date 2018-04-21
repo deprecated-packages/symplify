@@ -188,11 +188,6 @@ final class DocBlockWrapper
         return $this->isIterableType($varTagValue->type);
     }
 
-    public function updateDocBlockTokenContent(): void
-    {
-        $this->tokens[$this->position] = new Token([T_DOC_COMMENT, $this->getContent()]);
-    }
-
     public function getContent(): string
     {
         return $this->phpDocInfoPrinter->printFormatPreserving($this->phpDocInfo);

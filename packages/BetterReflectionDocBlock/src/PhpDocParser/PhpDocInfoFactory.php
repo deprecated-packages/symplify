@@ -30,6 +30,6 @@ final class PhpDocInfoFactory
         $tokenIterator = new TokenIterator($tokens);
         $phpDocNode = $this->phpDocParser->parse($tokenIterator);
 
-        return new PhpDocInfo($phpDocNode, $tokenIterator, $tokens, $content);
+        return new PhpDocInfo($phpDocNode, $tokens);
     }
 }

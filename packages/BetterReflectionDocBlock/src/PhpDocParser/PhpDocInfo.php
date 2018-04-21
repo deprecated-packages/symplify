@@ -7,7 +7,6 @@ use PHPStan\PhpDocParser\Ast\PhpDoc\ParamTagValueNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\ReturnTagValueNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\VarTagValueNode;
-use PHPStan\PhpDocParser\Parser\TokenIterator;
 
 final class PhpDocInfo
 {
@@ -17,19 +16,9 @@ final class PhpDocInfo
     private $phpDocNode;
 
     /**
-     * @var TokenIterator
-     */
-    private $tokenIterator;
-
-    /**
      * @var mixed[]
      */
     private $tokens = [];
-
-    /**
-     * @var string
-     */
-    private $originalContent;
 
     /**
      * @var PhpDocNode
@@ -39,27 +28,16 @@ final class PhpDocInfo
     /**
      * @param mixed[] $tokens
      */
-    public function __construct(
-        PhpDocNode $phpDocNode,
-        TokenIterator $tokenIterator,
-        array $tokens,
-        string $originalContent
-    ) {
+    public function __construct(PhpDocNode $phpDocNode, array $tokens)
+    {
         $this->phpDocNode = $phpDocNode;
-        $this->tokenIterator = $tokenIterator;
         $this->tokens = $tokens;
-        $this->originalContent = $originalContent;
         $this->originalPhpDocNode = clone $phpDocNode;
     }
 
     public function getPhpDocNode(): PhpDocNode
     {
         return $this->phpDocNode;
-    }
-
-    public function getTokenIterator(): TokenIterator
-    {
-        return $this->tokenIterator;
     }
 
     public function getOriginalPhpDocNode(): PhpDocNode
@@ -73,11 +51,6 @@ final class PhpDocInfo
     public function getTokens(): array
     {
         return $this->tokens;
-    }
-
-    public function getOriginalContent(): string
-    {
-        return $this->originalContent;
     }
 
     public function getParamTagValueByName(string $name): ?ParamTagValueNode
