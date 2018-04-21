@@ -108,8 +108,6 @@ final class DocBlockWrapper
 
     public function getArgumentType(string $name): ?string
     {
-//        $paramTag = $this->findParamTagByName($name);
-
         $paramTagValue = $this->getPhpDocInfo()->getParamTagValueByName($name);
         if ($paramTagValue === null) {
             return '';
