@@ -206,7 +206,7 @@ public function getCount(): int
             $typehintType = $argumentWrapper->getType();
             $docType = $docBlockWrapper->getArgumentType($argumentWrapper->getName());
 
-            $docDescription = $docBlockWrapper->getArgumentTypeDescription($argumentWrapper->getName());
+            $docDescription = $docBlockWrapper->getParamTagDescription($argumentWrapper->getName());
 
             $isDescriptionUseful = $this->descriptionAnalyzer->isDescriptionUseful(
                 $docDescription,

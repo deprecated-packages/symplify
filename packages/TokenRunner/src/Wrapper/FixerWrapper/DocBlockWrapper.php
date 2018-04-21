@@ -2,14 +2,11 @@
 
 namespace Symplify\TokenRunner\Wrapper\FixerWrapper;
 
-use PhpCsFixer\Fixer\WhitespacesAwareFixerInterface;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
-use PhpCsFixer\WhitespacesFixerConfig;
 use PHPStan\PhpDocParser\Ast\PhpDoc\InvalidTagValueNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTagNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTagValueNode;
-use PHPStan\PhpDocParser\Ast\PhpDoc\ReturnTagValueNode;
 use PHPStan\PhpDocParser\Ast\Type\ArrayTypeNode;
 use PHPStan\PhpDocParser\Ast\Type\IdentifierTypeNode;
 use PHPStan\PhpDocParser\Ast\Type\TypeNode;
@@ -17,7 +14,6 @@ use PHPStan\PhpDocParser\Ast\Type\UnionTypeNode;
 use Symplify\BetterReflectionDocBlock\PhpDocParser\PhpDocInfo;
 use Symplify\BetterReflectionDocBlock\PhpDocParser\PhpDocInfoPrinter;
 use Symplify\BetterReflectionDocBlock\PhpDocParser\TypeResolver;
-use Symplify\TokenRunner\Exception\Wrapper\FixerWrapper\MissingWhitespacesFixerConfigException;
 
 final class DocBlockWrapper
 {
@@ -30,11 +26,6 @@ final class DocBlockWrapper
      * @var int
      */
     private $position;
-
-    /**
-     * @var WhitespacesFixerConfig|null
-     */
-    private $whitespacesFixerConfig;
 
     /**
      * @var string
@@ -82,19 +73,6 @@ final class DocBlockWrapper
         return substr_count($this->originalContent, PHP_EOL) < 1;
     }
 
-    public function getMultiLineVersion(): string
-    {
-        $this->ensureWhitespacesFixerConfigIsSet();
-
-        $newLineIndent = $this->whitespacesFixerConfig->getLineEnding() . $this->whitespacesFixerConfig->getIndent();
-
-        return str_replace([' @', '/** ', ' */'], [
-            $newLineIndent . ' * @',
-            $newLineIndent . '/**',
-            $newLineIndent . ' */',
-        ], $this->originalContent);
-    }
-
     public function getPhpDocInfo(): PhpDocInfo
     {
         return $this->phpDocInfo;
@@ -120,7 +98,7 @@ final class DocBlockWrapper
         return $this->typeResolver->resolveDocType($varTagValue->type);
     }
 
-    public function getArgumentTypeDescription(string $name): string
+    public function getParamTagDescription(string $name): string
     {
         $paramTagValue = $this->phpDocInfo->getParamTagValueByName($name);
         if ($paramTagValue) {
@@ -132,12 +110,8 @@ final class DocBlockWrapper
 
     public function removeReturnType(): void
     {
-        $phpDocNode = $this->phpDocInfo->getPhpDocNode();
-
-        foreach ($phpDocNode->children as $i => $phpDocChildNode) {
-            if ($phpDocChildNode instanceof PhpDocTagNode && $phpDocChildNode->value instanceof ReturnTagValueNode) {
-                unset($phpDocNode->children[$i]);
-            }
+        if ($this->phpDocInfo->getReturnTagValue()) {
+            $this->removePhpDocTagValueNode($this->phpDocInfo->getReturnTagValue());
         }
     }
 
@@ -179,11 +153,6 @@ final class DocBlockWrapper
         }
     }
 
-    public function setWhitespacesFixerConfig(WhitespacesFixerConfig $whitespacesFixerConfig): void
-    {
-        $this->whitespacesFixerConfig = $whitespacesFixerConfig;
-    }
-
     public function isArrayProperty(): bool
     {
         $varTagValue = $this->phpDocInfo->getVarTagValue();
@@ -197,21 +166,6 @@ final class DocBlockWrapper
     public function getContent(): string
     {
         return $this->phpDocInfoPrinter->printFormatPreserving($this->phpDocInfo);
-    }
-
-    private function ensureWhitespacesFixerConfigIsSet(): void
-    {
-        if ($this->whitespacesFixerConfig) {
-            return;
-        }
-
-        throw new MissingWhitespacesFixerConfigException(sprintf(
-            '"%s% is not set to "%s". Use %s interface on your Fixer '
-            . 'and pass it via `$docBlockWrapper->setWhitespacesFixerConfig()`',
-            WhitespacesFixerConfig::class,
-            self::class,
-            WhitespacesAwareFixerInterface::class
-        ));
     }
 
     public function saveNewPhpDocInfo(): void
