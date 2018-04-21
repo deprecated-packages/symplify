@@ -10,17 +10,19 @@ use PhpCsFixer\WhitespacesFixerConfig;
 use phpDocumentor\Reflection\DocBlock;
 use phpDocumentor\Reflection\DocBlock as PhpDocumentorDocBlock;
 use phpDocumentor\Reflection\DocBlock\Tags\Param;
-use phpDocumentor\Reflection\Types\Array_;
-use phpDocumentor\Reflection\Types\Compound;
 use PHPStan\PhpDocParser\Ast\PhpDoc\InvalidTagValueNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTagNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTagValueNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\ReturnTagValueNode;
-use Symplify\BetterReflectionDocBlock\DocBlock\ArrayResolver;
+use PHPStan\PhpDocParser\Ast\Type\ArrayTypeNode;
+use PHPStan\PhpDocParser\Ast\Type\IdentifierTypeNode;
+use PHPStan\PhpDocParser\Ast\Type\ThisTypeNode;
+use PHPStan\PhpDocParser\Ast\Type\TypeNode;
+use PHPStan\PhpDocParser\Ast\Type\UnionTypeNode;
 use Symplify\BetterReflectionDocBlock\PhpDocParser\PhpDocInfo;
 use Symplify\BetterReflectionDocBlock\PhpDocParser\PhpDocInfoPrinter;
-use Symplify\BetterReflectionDocBlock\Tag\TolerantParam;
 use Symplify\BetterReflectionDocBlock\Tag\TolerantVar;
+use Symplify\CodingStandard\Exception\NotImplementedYetException;
 use Symplify\TokenRunner\Exception\Wrapper\FixerWrapper\MissingWhitespacesFixerConfigException;
 
 final class DocBlockWrapper
@@ -106,33 +108,14 @@ final class DocBlockWrapper
 
     public function getArgumentType(string $name): ?string
     {
-        $paramTag = $this->findParamTagByName($name);
-        if ($paramTag) {
-            $paramTagType = $paramTag->getType();
+//        $paramTag = $this->findParamTagByName($name);
 
-            // distinguish array vs mixed[]
-            // false value resolve, @see https://github.com/phpDocumentor/TypeResolver/pull/48
-            if ($paramTagType instanceof Array_) {
-                return ArrayResolver::resolveArrayType($this->originalContent, $paramTagType, 'param', $name);
-            }
-
-            if (! ($paramTagType instanceof Compound)) {
-                return $this->clean((string) $paramTagType);
-            }
-
-            $types = [];
-            foreach ($paramTagType->getIterator() as $singleTag) {
-                if ($singleTag instanceof Array_) {
-                    $types[] = ArrayResolver::resolveArrayType($this->originalContent, $singleTag, 'param', $name);
-                } else {
-                    $types[] = (string) $singleTag;
-                }
-            }
-
-            return implode('|', $types);
+        $paramTagValue = $this->getPhpDocInfo()->getParamTagValueByName($name);
+        if ($paramTagValue === null) {
+            return '';
         }
 
-        return null;
+        return $this->resolveDocType($paramTagValue->type);
     }
 
     /**
@@ -271,25 +254,6 @@ final class DocBlockWrapper
         return false;
     }
 
-    private function clean(string $content): string
-    {
-        return ltrim(trim($content), '\\');
-    }
-
-    private function findParamTagByName(string $name): ?TolerantParam
-    {
-        $paramTags = $this->phpDocumentorDocBlock->getTagsByName('param');
-
-        /** @var TolerantParam $paramTag */
-        foreach ($paramTags as $paramTag) {
-            if ($paramTag->getVariableName() === $name) {
-                return $paramTag;
-            }
-        }
-
-        return null;
-    }
-
     private function ensureWhitespacesFixerConfigIsSet(): void
     {
         if ($this->whitespacesFixerConfig) {
@@ -336,5 +300,30 @@ final class DocBlockWrapper
                 $this->tokens->clearAt($this->position - 1);
             }
         }
+    }
+
+    public function resolveDocType(TypeNode $typeNode): string
+    {
+        if ($typeNode instanceof ArrayTypeNode) {
+            return $this->resolveDocType($typeNode->type) . '[]';
+        }
+
+        if ($typeNode instanceof IdentifierTypeNode || $typeNode instanceof ThisTypeNode) {
+            return (string) $typeNode;
+        }
+
+        if ($typeNode instanceof UnionTypeNode) {
+            $resolvedDocTypes = [];
+            foreach ($typeNode->types as $subTypeNode) {
+                $resolvedDocTypes[] = $this->resolveDocType($subTypeNode);
+            }
+            return implode('|', $resolvedDocTypes);
+        }
+
+        throw new NotImplementedYetException(sprintf(
+            'Add new "%s" type format to "%s" method',
+            get_class($typeNode),
+            __METHOD__
+        ));
     }
 }
