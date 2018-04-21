@@ -26,9 +26,6 @@ parameters:
         - '#Method Symplify\\TokenRunner\\Wrapper\\FixerWrapper\\DocBlockWrapper::getVarTag\(\) should return Symplify\\BetterReflectionDocBlock\\Tag\\TolerantVar\|null but returns phpDocumentor\\Reflection\\DocBlock\\Tag|null#'
         - '#Method Symplify\\Statie\\Renderable\\File\\FileFactory::createFromFileInfo\(\) should return Symplify\\Statie\\Renderable\\File\\File but returns Symplify\\Statie\\Renderable\\File\\AbstractFile#'
 
-        # intentional stricter phpDocumentor\Reflection\Types\This
-        - '#Symplify\\TokenRunner\\Wrapper\\FixerWrapper\\DocBlockWrapper::getParamTags\(\) should return array<phpDocumentor\\Reflection\\DocBlock\\Tags\\Param> but returns array<phpDocumentor\\Reflection\\DocBlock\\Tag>#'
-
         # Token Runner
         - '#Call to an undefined method Symfony\\Component\\DependencyInjection\\ContainerInterface::getParameterBag()#'
 
@@ -52,9 +49,6 @@ parameters:
         - *packages/CodingStandard/tests/**/wrong*
         # tests
         - packages/EasyCodingStandard/tests/Finder/FinderSanitizerSource/NestedDirectory/FileWithClass.php
-        # messy 3rd party code
-        - packages/BetterReflectionDocBlock/src/Tag/TolerantParam.php
-        - packages/BetterReflectionDocBlock/src/Tag/TolerantReturn.php
 
     autoload_files:
         - %currentWorkingDirectory%/tests/bootstrap.php
