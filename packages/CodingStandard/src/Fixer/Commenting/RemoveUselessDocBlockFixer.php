@@ -13,8 +13,8 @@ use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
-use PhpCsFixer\WhitespacesFixerConfig;
 use SplFileInfo;
+use Symplify\BetterReflectionDocBlock\PhpDocParser\TypeResolver;
 use Symplify\TokenRunner\DocBlock\DescriptionAnalyzer;
 use Symplify\TokenRunner\DocBlock\ParamAndReturnTagAnalyzer;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\DocBlockWrapper;
@@ -27,11 +27,6 @@ final class RemoveUselessDocBlockFixer implements DefinedFixerInterface, Configu
      * @var string
      */
     public const USELESS_TYPES_OPTION = 'useless_types';
-
-    /**
-     * @var WhitespacesFixerConfig
-     */
-    private $whitespacesFixerConfig;
 
     /**
      * @var DescriptionAnalyzer
@@ -48,17 +43,22 @@ final class RemoveUselessDocBlockFixer implements DefinedFixerInterface, Configu
      */
     private $methodWrapperFactory;
 
+    /**
+     * @var TypeResolver
+     */
+    private $typeResolver;
+
     public function __construct(
         DescriptionAnalyzer $descriptionAnalyzer,
         ParamAndReturnTagAnalyzer $paramAndReturnTagAnalyzer,
         MethodWrapperFactory $methodWrapperFactory,
-        WhitespacesFixerConfig $whitespacesFixerConfig
+        TypeResolver $typeResolver
     ) {
         $this->descriptionAnalyzer = $descriptionAnalyzer;
         $this->paramAndReturnTagAnalyzer = $paramAndReturnTagAnalyzer;
         $this->configure([]);
         $this->methodWrapperFactory = $methodWrapperFactory;
-        $this->whitespacesFixerConfig = $whitespacesFixerConfig;
+        $this->typeResolver = $typeResolver;
     }
 
     public function getDefinition(): FixerDefinitionInterface
@@ -97,8 +97,6 @@ public function getCount(): int
             if ($docBlockWrapper === null) {
                 continue;
             }
-
-            $docBlockWrapper->setWhitespacesFixerConfig($this->whitespacesFixerConfig);
 
             $this->processReturnTag($methodWrapper, $docBlockWrapper);
             $this->processParamTag($methodWrapper, $docBlockWrapper);
@@ -166,7 +164,7 @@ public function getCount(): int
             return;
         }
 
-        $docType = $docBlockWrapper->resolveDocType($returnTagValue->type);
+        $docType = $this->typeResolver->resolveDocType($returnTagValue->type);
 
         $returnTagDescription = $returnTagValue->description;
 
@@ -198,7 +196,7 @@ public function getCount(): int
             $typehintType = $argumentWrapper->getType();
             $docType = $docBlockWrapper->getArgumentType($argumentWrapper->getName());
 
-            $docDescription = $docBlockWrapper->getArgumentTypeDescription($argumentWrapper->getName());
+            $docDescription = $docBlockWrapper->getParamTagDescription($argumentWrapper->getName());
 
             $isDescriptionUseful = $this->descriptionAnalyzer->isDescriptionUseful(
                 $docDescription,

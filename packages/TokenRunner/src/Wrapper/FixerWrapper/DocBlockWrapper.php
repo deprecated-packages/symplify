@@ -2,23 +2,18 @@
 
 namespace Symplify\TokenRunner\Wrapper\FixerWrapper;
 
-use PhpCsFixer\Fixer\WhitespacesAwareFixerInterface;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
-use PhpCsFixer\WhitespacesFixerConfig;
 use PHPStan\PhpDocParser\Ast\PhpDoc\InvalidTagValueNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTagNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTagValueNode;
-use PHPStan\PhpDocParser\Ast\PhpDoc\ReturnTagValueNode;
 use PHPStan\PhpDocParser\Ast\Type\ArrayTypeNode;
 use PHPStan\PhpDocParser\Ast\Type\IdentifierTypeNode;
-use PHPStan\PhpDocParser\Ast\Type\ThisTypeNode;
 use PHPStan\PhpDocParser\Ast\Type\TypeNode;
 use PHPStan\PhpDocParser\Ast\Type\UnionTypeNode;
 use Symplify\BetterReflectionDocBlock\PhpDocParser\PhpDocInfo;
 use Symplify\BetterReflectionDocBlock\PhpDocParser\PhpDocInfoPrinter;
-use Symplify\CodingStandard\Exception\NotImplementedYetException;
-use Symplify\TokenRunner\Exception\Wrapper\FixerWrapper\MissingWhitespacesFixerConfigException;
+use Symplify\BetterReflectionDocBlock\PhpDocParser\TypeResolver;
 
 final class DocBlockWrapper
 {
@@ -33,17 +28,7 @@ final class DocBlockWrapper
     private $position;
 
     /**
-     * @var WhitespacesFixerConfig|null
-     */
-    private $whitespacesFixerConfig;
-
-    /**
-     * @var string
-     */
-    private $originalContent;
-
-    /**
-     * @var null|PhpDocInfo
+     * @var PhpDocInfo
      */
     private $phpDocInfo;
 
@@ -52,18 +37,23 @@ final class DocBlockWrapper
      */
     private $phpDocInfoPrinter;
 
+    /**
+     * @var TypeResolver
+     */
+    private $typeResolver;
+
     public function __construct(
         Tokens $tokens,
         int $position,
-        string $content,
-        ?PhpDocInfo $phpDocInfo = null,
-        PhpDocInfoPrinter $phpDocInfoPrinter
+        PhpDocInfo $phpDocInfo,
+        PhpDocInfoPrinter $phpDocInfoPrinter,
+        TypeResolver $typeResolver
     ) {
         $this->tokens = $tokens;
         $this->position = $position;
-        $this->originalContent = $content;
         $this->phpDocInfo = $phpDocInfo;
         $this->phpDocInfoPrinter = $phpDocInfoPrinter;
+        $this->typeResolver = $typeResolver;
     }
 
     public function getTokenPosition(): int
@@ -73,20 +63,7 @@ final class DocBlockWrapper
 
     public function isSingleLine(): bool
     {
-        return substr_count($this->originalContent, PHP_EOL) < 1;
-    }
-
-    public function getMultiLineVersion(): string
-    {
-        $this->ensureWhitespacesFixerConfigIsSet();
-
-        $newLineIndent = $this->whitespacesFixerConfig->getLineEnding() . $this->whitespacesFixerConfig->getIndent();
-
-        return str_replace([' @', '/** ', ' */'], [
-            $newLineIndent . ' * @',
-            $newLineIndent . '/**',
-            $newLineIndent . ' */',
-        ], $this->originalContent);
+        return substr_count($this->phpDocInfo->getOriginalContent(), PHP_EOL) < 1;
     }
 
     public function getPhpDocInfo(): PhpDocInfo
@@ -101,7 +78,7 @@ final class DocBlockWrapper
             return '';
         }
 
-        return $this->resolveDocType($paramTagValue->type);
+        return $this->typeResolver->resolveDocType($paramTagValue->type);
     }
 
     public function getVarType(): ?string
@@ -111,10 +88,10 @@ final class DocBlockWrapper
             return null;
         }
 
-        return $this->resolveDocType($varTagValue->type);
+        return $this->typeResolver->resolveDocType($varTagValue->type);
     }
 
-    public function getArgumentTypeDescription(string $name): string
+    public function getParamTagDescription(string $name): string
     {
         $paramTagValue = $this->phpDocInfo->getParamTagValueByName($name);
         if ($paramTagValue) {
@@ -126,12 +103,8 @@ final class DocBlockWrapper
 
     public function removeReturnType(): void
     {
-        $phpDocNode = $this->phpDocInfo->getPhpDocNode();
-
-        foreach ($phpDocNode->children as $i => $phpDocChildNode) {
-            if ($phpDocChildNode instanceof PhpDocTagNode && $phpDocChildNode->value instanceof ReturnTagValueNode) {
-                unset($phpDocNode->children[$i]);
-            }
+        if ($this->phpDocInfo->getReturnTagValue()) {
+            $this->removePhpDocTagValueNode($this->phpDocInfo->getReturnTagValue());
         }
     }
 
@@ -173,11 +146,6 @@ final class DocBlockWrapper
         }
     }
 
-    public function setWhitespacesFixerConfig(WhitespacesFixerConfig $whitespacesFixerConfig): void
-    {
-        $this->whitespacesFixerConfig = $whitespacesFixerConfig;
-    }
-
     public function isArrayProperty(): bool
     {
         $varTagValue = $this->phpDocInfo->getVarTagValue();
@@ -188,29 +156,9 @@ final class DocBlockWrapper
         return $this->isIterableType($varTagValue->type);
     }
 
-    public function updateDocBlockTokenContent(): void
-    {
-        $this->tokens[$this->position] = new Token([T_DOC_COMMENT, $this->getContent()]);
-    }
-
     public function getContent(): string
     {
         return $this->phpDocInfoPrinter->printFormatPreserving($this->phpDocInfo);
-    }
-
-    private function ensureWhitespacesFixerConfigIsSet(): void
-    {
-        if ($this->whitespacesFixerConfig) {
-            return;
-        }
-
-        throw new MissingWhitespacesFixerConfigException(sprintf(
-            '"%s% is not set to "%s". Use %s interface on your Fixer '
-            . 'and pass it via `$docBlockWrapper->setWhitespacesFixerConfig()`',
-            WhitespacesFixerConfig::class,
-            self::class,
-            WhitespacesAwareFixerInterface::class
-        ));
     }
 
     public function saveNewPhpDocInfo(): void
@@ -244,31 +192,6 @@ final class DocBlockWrapper
                 $this->tokens->clearAt($this->position - 1);
             }
         }
-    }
-
-    public function resolveDocType(TypeNode $typeNode): string
-    {
-        if ($typeNode instanceof ArrayTypeNode) {
-            return $this->resolveDocType($typeNode->type) . '[]';
-        }
-
-        if ($typeNode instanceof IdentifierTypeNode || $typeNode instanceof ThisTypeNode) {
-            return (string) $typeNode;
-        }
-
-        if ($typeNode instanceof UnionTypeNode) {
-            $resolvedDocTypes = [];
-            foreach ($typeNode->types as $subTypeNode) {
-                $resolvedDocTypes[] = $this->resolveDocType($subTypeNode);
-            }
-            return implode('|', $resolvedDocTypes);
-        }
-
-        throw new NotImplementedYetException(sprintf(
-            'Add new "%s" type format to "%s" method',
-            get_class($typeNode),
-            __METHOD__
-        ));
     }
 
     private function isIterableType(TypeNode $typeNode): bool

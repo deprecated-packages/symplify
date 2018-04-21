@@ -68,10 +68,8 @@ private $property;
                     continue;
                 }
 
-                $docBlockWrapper->setWhitespacesFixerConfig($this->whitespacesFixerConfig);
-
                 $tokens[$docBlockWrapper->getTokenPosition()] = new Token(
-                    [T_DOC_COMMENT, $docBlockWrapper->getMultiLineVersion()]
+                    [T_DOC_COMMENT, $this->convertDocBlockToMultiline($docBlockWrapper->getContent())]
                 );
             }
         }
@@ -98,5 +96,16 @@ private $property;
     public function supports(SplFileInfo $file): bool
     {
         return true;
+    }
+
+    private function convertDocBlockToMultiline(string $docBlock): string
+    {
+        $newLineIndent = $this->whitespacesFixerConfig->getLineEnding() . $this->whitespacesFixerConfig->getIndent();
+
+        return str_replace([' @', '/** ', ' */'], [
+            $newLineIndent . ' * @',
+            $newLineIndent . '/**',
+            $newLineIndent . ' */',
+        ], $docBlock);
     }
 }

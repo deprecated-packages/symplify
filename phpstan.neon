@@ -12,18 +12,18 @@ parameters:
         # is valid code, known values
         - '#Calling method getEnd\(\) on possibly null value of type Symplify\\TokenRunner\\Analyzer\\FixerAnalyzer\\BlockInfo\|null#'
         - '#Calling method getStart\(\) on possibly null value of type Symplify\\TokenRunner\\Analyzer\\FixerAnalyzer\\BlockInfo\|null#'
+        - '#Parameter \#3 \$end of method PHP_CodeSniffer\\Files\\File::findNext\(\) expects int\|null, bool\|int given#'
 
         # invalid 3rd party-code
         - '#Call to an undefined method Psr\\Cache\\CacheItemInterface::tag\(\)#'
         - '#Parameter \#1 \$types of method PHP_CodeSniffer\\Files\\File::findNext\(\) expects array\|int, string given#'
+        - '#Strict comparison using === between array and null will always evaluate to false#'
 
         - '#Parameter \#1 \$index of method PhpCsFixer\\Tokenizer\\Tokens::getNextTokenOfKind\(\) expects int, int\\|null given#'
         - '#Parameter \#2 \$start of method PHP_CodeSniffer\\Files\\File::findNext\(\) expects int, int\|true given#'
         - '#Variable \$processedFileContent might not be defined#'
         - '#Property Symplify\\TokenRunner\\Wrapper\\FixerWrapper\\ClassWrapper::\$startBracketIndex \(int\) does not accept int\|null#'
         - '#Method Symplify\\EasyCodingStandard\\Finder\\FinderSanitizer::turnInfoSymfonyFileInfos\(\) should return array<Symfony\\Component\\Finder\\SplFileInfo> but returns array<SplFileInfo>#'
-        - '#Calling method (getLineEnding|getIndent)\(\) on possibly null value of type PhpCsFixer\\WhitespacesFixerConfig\|null#'
-        - '#Method Symplify\\TokenRunner\\Wrapper\\FixerWrapper\\DocBlockWrapper::getVarTag\(\) should return Symplify\\BetterReflectionDocBlock\\Tag\\TolerantVar\|null but returns phpDocumentor\\Reflection\\DocBlock\\Tag|null#'
         - '#Method Symplify\\Statie\\Renderable\\File\\FileFactory::createFromFileInfo\(\) should return Symplify\\Statie\\Renderable\\File\\File but returns Symplify\\Statie\\Renderable\\File\\AbstractFile#'
 
         # Token Runner
