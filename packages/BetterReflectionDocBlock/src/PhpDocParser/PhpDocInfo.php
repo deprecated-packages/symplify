@@ -6,6 +6,7 @@ use Nette\Utils\Strings;
 use PHPStan\PhpDocParser\Ast\PhpDoc\ParamTagValueNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\ReturnTagValueNode;
+use PHPStan\PhpDocParser\Ast\PhpDoc\VarTagValueNode;
 use PHPStan\PhpDocParser\Parser\TokenIterator;
 
 final class PhpDocInfo
@@ -92,14 +93,14 @@ final class PhpDocInfo
         return null;
     }
 
+    public function getVarTagValue(): ?VarTagValueNode
+    {
+        return $this->getPhpDocNode()->getVarTagValues()[0] ?? null;
+    }
+
     public function getReturnTagValue(): ?ReturnTagValueNode
     {
-        $returnTagValues = $this->getPhpDocNode()->getReturnTagValues();
-        if (! count($returnTagValues)) {
-            return null;
-        }
-
-        return $returnTagValues[0];
+        return $this->getPhpDocNode()->getReturnTagValues()[0] ?? null;
     }
 
     /**

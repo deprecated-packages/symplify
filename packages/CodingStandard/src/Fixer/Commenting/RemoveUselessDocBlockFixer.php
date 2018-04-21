@@ -14,13 +14,7 @@ use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use PhpCsFixer\WhitespacesFixerConfig;
-use PHPStan\PhpDocParser\Ast\Type\ArrayTypeNode;
-use PHPStan\PhpDocParser\Ast\Type\IdentifierTypeNode;
-use PHPStan\PhpDocParser\Ast\Type\ThisTypeNode;
-use PHPStan\PhpDocParser\Ast\Type\TypeNode;
-use PHPStan\PhpDocParser\Ast\Type\UnionTypeNode;
 use SplFileInfo;
-use Symplify\CodingStandard\Exception\NotImplementedYetException;
 use Symplify\TokenRunner\DocBlock\DescriptionAnalyzer;
 use Symplify\TokenRunner\DocBlock\ParamAndReturnTagAnalyzer;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\DocBlockWrapper;
@@ -172,7 +166,7 @@ public function getCount(): int
             return;
         }
 
-        $docType = $this->resolveDocType($returnTagValue->type);
+        $docType = $docBlockWrapper->resolveDocType($returnTagValue->type);
 
         $returnTagDescription = $returnTagValue->description;
 
@@ -203,6 +197,7 @@ public function getCount(): int
         foreach ($methodWrapper->getArguments() as $argumentWrapper) {
             $typehintType = $argumentWrapper->getType();
             $docType = $docBlockWrapper->getArgumentType($argumentWrapper->getName());
+
             $docDescription = $docBlockWrapper->getArgumentTypeDescription($argumentWrapper->getName());
 
             $isDescriptionUseful = $this->descriptionAnalyzer->isDescriptionUseful(
@@ -285,30 +280,5 @@ public function getCount(): int
         $possibleNameToken = $tokens[$possibleNamePosition];
 
         return $possibleNameToken->isGivenKind(T_STRING);
-    }
-
-    private function resolveDocType(TypeNode $typeNode): string
-    {
-        if ($typeNode instanceof ArrayTypeNode) {
-            return $this->resolveDocType($typeNode->type) . '[]';
-        }
-
-        if ($typeNode instanceof IdentifierTypeNode || $typeNode instanceof ThisTypeNode) {
-            return (string) $typeNode;
-        }
-
-        if ($typeNode instanceof UnionTypeNode) {
-            $resolvedDocTypes = [];
-            foreach ($typeNode->types as $subTypeNode) {
-                $resolvedDocTypes[] = $this->resolveDocType($subTypeNode);
-            }
-            return implode('|', $resolvedDocTypes);
-        }
-
-        throw new NotImplementedYetException(sprintf(
-            'Add new "%s" type format to "%s" method',
-            get_class($typeNode),
-            __METHOD__
-        ));
     }
 }

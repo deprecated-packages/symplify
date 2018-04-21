@@ -2,25 +2,22 @@
 
 namespace Symplify\TokenRunner\Wrapper\FixerWrapper;
 
-use Nette\Utils\Strings;
 use PhpCsFixer\Fixer\WhitespacesAwareFixerInterface;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use PhpCsFixer\WhitespacesFixerConfig;
-use phpDocumentor\Reflection\DocBlock;
-use phpDocumentor\Reflection\DocBlock as PhpDocumentorDocBlock;
-use phpDocumentor\Reflection\DocBlock\Tags\Param;
-use phpDocumentor\Reflection\Types\Array_;
-use phpDocumentor\Reflection\Types\Compound;
 use PHPStan\PhpDocParser\Ast\PhpDoc\InvalidTagValueNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTagNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTagValueNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\ReturnTagValueNode;
-use Symplify\BetterReflectionDocBlock\DocBlock\ArrayResolver;
+use PHPStan\PhpDocParser\Ast\Type\ArrayTypeNode;
+use PHPStan\PhpDocParser\Ast\Type\IdentifierTypeNode;
+use PHPStan\PhpDocParser\Ast\Type\ThisTypeNode;
+use PHPStan\PhpDocParser\Ast\Type\TypeNode;
+use PHPStan\PhpDocParser\Ast\Type\UnionTypeNode;
 use Symplify\BetterReflectionDocBlock\PhpDocParser\PhpDocInfo;
 use Symplify\BetterReflectionDocBlock\PhpDocParser\PhpDocInfoPrinter;
-use Symplify\BetterReflectionDocBlock\Tag\TolerantParam;
-use Symplify\BetterReflectionDocBlock\Tag\TolerantVar;
+use Symplify\CodingStandard\Exception\NotImplementedYetException;
 use Symplify\TokenRunner\Exception\Wrapper\FixerWrapper\MissingWhitespacesFixerConfigException;
 
 final class DocBlockWrapper
@@ -41,11 +38,6 @@ final class DocBlockWrapper
     private $whitespacesFixerConfig;
 
     /**
-     * @var PhpDocumentorDocBlock
-     */
-    private $phpDocumentorDocBlock;
-
-    /**
      * @var string
      */
     private $originalContent;
@@ -64,14 +56,12 @@ final class DocBlockWrapper
         Tokens $tokens,
         int $position,
         string $content,
-        ?DocBlock $docBlock = null,
         ?PhpDocInfo $phpDocInfo = null,
         PhpDocInfoPrinter $phpDocInfoPrinter
     ) {
         $this->tokens = $tokens;
         $this->position = $position;
         $this->originalContent = $content;
-        $this->phpDocumentorDocBlock = $docBlock;
         $this->phpDocInfo = $phpDocInfo;
         $this->phpDocInfoPrinter = $phpDocInfoPrinter;
     }
@@ -106,61 +96,22 @@ final class DocBlockWrapper
 
     public function getArgumentType(string $name): ?string
     {
-        $paramTag = $this->findParamTagByName($name);
-        if ($paramTag) {
-            $paramTagType = $paramTag->getType();
-
-            // distinguish array vs mixed[]
-            // false value resolve, @see https://github.com/phpDocumentor/TypeResolver/pull/48
-            if ($paramTagType instanceof Array_) {
-                return ArrayResolver::resolveArrayType($this->originalContent, $paramTagType, 'param', $name);
-            }
-
-            if (! ($paramTagType instanceof Compound)) {
-                return $this->clean((string) $paramTagType);
-            }
-
-            $types = [];
-            foreach ($paramTagType->getIterator() as $singleTag) {
-                if ($singleTag instanceof Array_) {
-                    $types[] = ArrayResolver::resolveArrayType($this->originalContent, $singleTag, 'param', $name);
-                } else {
-                    $types[] = (string) $singleTag;
-                }
-            }
-
-            return implode('|', $types);
+        $paramTagValue = $this->getPhpDocInfo()->getParamTagValueByName($name);
+        if ($paramTagValue === null) {
+            return '';
         }
 
-        return null;
-    }
-
-    /**
-     * @return Param[]
-     */
-    public function getParamTags(): array
-    {
-        return $this->phpDocumentorDocBlock->getTagsByName('param');
-    }
-
-    public function getVarTag(): ?TolerantVar
-    {
-        return $this->phpDocumentorDocBlock->getTagsByName('var') ?
-            $this->phpDocumentorDocBlock->getTagsByName('var')[0]
-            : null;
+        return $this->resolveDocType($paramTagValue->type);
     }
 
     public function getVarType(): ?string
     {
-        $varTag = $this->getVarTag();
-        if (! $varTag) {
+        $varTagValue = $this->phpDocInfo->getVarTagValue();
+        if ($varTagValue === null) {
             return null;
         }
 
-        $varTagType = (string) $varTag->getType();
-        $varTagType = trim($varTagType);
-
-        return ltrim($varTagType, '\\');
+        return $this->resolveDocType($varTagValue->type);
     }
 
     public function getArgumentTypeDescription(string $name): string
@@ -229,23 +180,12 @@ final class DocBlockWrapper
 
     public function isArrayProperty(): bool
     {
-        $varTags = $this->phpDocumentorDocBlock->getTagsByName('var');
-        if (! count($varTags)) {
+        $varTagValue = $this->phpDocInfo->getVarTagValue();
+        if ($varTagValue === null) {
             return false;
         }
 
-        /** @var TolerantVar $varTag */
-        $varTag = $varTags[0];
-
-        $types = explode('|', trim((string) $varTag->getType()));
-
-        foreach ($types as $type) {
-            if (! $this->isIterableType($type)) {
-                return false;
-            }
-        }
-
-        return true;
+        return $this->isIterableType($varTagValue->type);
     }
 
     public function updateDocBlockTokenContent(): void
@@ -256,38 +196,6 @@ final class DocBlockWrapper
     public function getContent(): string
     {
         return $this->phpDocInfoPrinter->printFormatPreserving($this->phpDocInfo);
-    }
-
-    private function isIterableType(string $type): bool
-    {
-        if (Strings::endsWith($type, '[]')) {
-            return true;
-        }
-
-        if ($type === 'array') {
-            return true;
-        }
-
-        return false;
-    }
-
-    private function clean(string $content): string
-    {
-        return ltrim(trim($content), '\\');
-    }
-
-    private function findParamTagByName(string $name): ?TolerantParam
-    {
-        $paramTags = $this->phpDocumentorDocBlock->getTagsByName('param');
-
-        /** @var TolerantParam $paramTag */
-        foreach ($paramTags as $paramTag) {
-            if ($paramTag->getVariableName() === $name) {
-                return $paramTag;
-            }
-        }
-
-        return null;
     }
 
     private function ensureWhitespacesFixerConfigIsSet(): void
@@ -336,5 +244,57 @@ final class DocBlockWrapper
                 $this->tokens->clearAt($this->position - 1);
             }
         }
+    }
+
+    public function resolveDocType(TypeNode $typeNode): string
+    {
+        if ($typeNode instanceof ArrayTypeNode) {
+            return $this->resolveDocType($typeNode->type) . '[]';
+        }
+
+        if ($typeNode instanceof IdentifierTypeNode || $typeNode instanceof ThisTypeNode) {
+            return (string) $typeNode;
+        }
+
+        if ($typeNode instanceof UnionTypeNode) {
+            $resolvedDocTypes = [];
+            foreach ($typeNode->types as $subTypeNode) {
+                $resolvedDocTypes[] = $this->resolveDocType($subTypeNode);
+            }
+            return implode('|', $resolvedDocTypes);
+        }
+
+        throw new NotImplementedYetException(sprintf(
+            'Add new "%s" type format to "%s" method',
+            get_class($typeNode),
+            __METHOD__
+        ));
+    }
+
+    private function isIterableType(TypeNode $typeNode): bool
+    {
+        if ($typeNode instanceof UnionTypeNode) {
+            foreach ($typeNode->types as $subType) {
+                if (! $this->isIterableType($subType)) {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        if ($typeNode instanceof IdentifierTypeNode) {
+            if ($typeNode->name === 'array') {
+                return true;
+            }
+
+            return false;
+        }
+
+        if ($typeNode instanceof ArrayTypeNode) {
+            return true;
+        }
+
+        return false;
     }
 }

@@ -56,8 +56,6 @@ parameters:
         Symplify\CodingStandard\Sniffs\DependencyInjection\NoClassInstantiationSniff:
             # static helper
             - 'packages/PackageBuilder/src/Console/ThrowableRenderer.php'
-            # temporary, remove with checkers autowire
-            - 'packages/BetterReflectionDocBlock/src/FixedSerializer.php'
             # todo: decouple later
             - 'packages/TokenRunner/src/Wrapper/FixerWrapper/AbstractVariableWrapper.php'
             # poor constructor injection for non-container approach
@@ -81,10 +79,6 @@ parameters:
             - 'packages/PackageBuilder/src/Configuration/ConfigFileFinder.php'
             - 'packages/PackageBuilder/src/Composer/VendorDirProvider.php'
             - 'packages/PackageBuilder/src/Composer/AutoloadFinder.php'
-            # dependency on 3rd party code
-            - '*packages/BetterReflectionDocBlock/src/Tag/Tolerant*.php'
-            # @todo resolve later with PHPDocParser replacement
-            - 'packages/BetterReflectionDocBlock/src/DocBlock/ArrayResolver.php'
 
         PHP_CodeSniffer\Standards\Generic\Sniffs\Metrics\NestingLevelSniff.MaxExceeded:
             # 3rd party code copy-pasted; kept as is for easier comparison to original
