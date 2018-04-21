@@ -14,6 +14,7 @@ use PHPStan\PhpDocParser\Ast\PhpDoc\InvalidTagValueNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTagNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTagValueNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\ReturnTagValueNode;
+use PHPStan\PhpDocParser\Ast\PhpDoc\VarTagValueNode;
 use PHPStan\PhpDocParser\Ast\Type\ArrayTypeNode;
 use PHPStan\PhpDocParser\Ast\Type\IdentifierTypeNode;
 use PHPStan\PhpDocParser\Ast\Type\ThisTypeNode;
@@ -124,24 +125,14 @@ final class DocBlockWrapper
         return $this->phpDocumentorDocBlock->getTagsByName('param');
     }
 
-    public function getVarTag(): ?TolerantVar
-    {
-        return $this->phpDocumentorDocBlock->getTagsByName('var') ?
-            $this->phpDocumentorDocBlock->getTagsByName('var')[0]
-            : null;
-    }
-
     public function getVarType(): ?string
     {
-        $varTag = $this->getVarTag();
-        if (! $varTag) {
+        $varTagValue = $this->phpDocInfo->getVarTagValue();
+        if ($varTagValue === null) {
             return null;
         }
 
-        $varTagType = (string) $varTag->getType();
-        $varTagType = trim($varTagType);
-
-        return ltrim($varTagType, '\\');
+        return $this->resolveDocType($varTagValue->type);
     }
 
     public function getArgumentTypeDescription(string $name): string
