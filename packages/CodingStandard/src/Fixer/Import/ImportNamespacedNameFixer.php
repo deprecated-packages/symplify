@@ -123,9 +123,7 @@ final class ImportNamespacedNameFixer implements DefinedFixerInterface, Configur
     {
         return new FixerDefinition(
             'Types should not be referenced via a fully/partially qualified name, but via a use statement.',
-            [
-                new CodeSample('<?php $value = \SomeNamespace\SomeClass'),
-            ]
+            [new CodeSample('<?php $value = \SomeNamespace\SomeClass')]
         );
     }
 

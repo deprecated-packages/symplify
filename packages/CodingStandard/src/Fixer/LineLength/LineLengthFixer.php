@@ -64,7 +64,7 @@ final class LineLengthFixer implements DefinedFixerInterface, ConfigurationDefin
     public function getDefinition(): FixerDefinitionInterface
     {
         return new FixerDefinition(
-            'Array items, method, call and new arguments should be on same/standalone line to fit line length.',
+            'Array items, method parameters, method call arguments, new arguments should be on same/standalone line to fit line length.',
             [
                 new CodeSample(
                     '<?php
@@ -186,7 +186,6 @@ $array = ["loooooooooooooooooooooooooooooooongArraaaaaaaaaaay", "loooooooooooooo
         $this->lineLengthTransformer->fixStartPositionToEndPosition(
             $blockInfo,
             $tokens,
-            $position,
             $this->configuration[self::LINE_LENGHT_OPTION],
             $this->configuration[self::BREAK_LONG_LINES_OPTION],
             $this->configuration[self::INLINE_SHORT_LINES_OPTION]
@@ -204,7 +203,15 @@ $array = ["loooooooooooooooooooooooooooooooongArraaaaaaaaaaay", "loooooooooooooo
         $nextTokenPosition = $tokens->getNextMeaningfulToken($blockInfo->getStart());
         $nextToken = $tokens[$nextTokenPosition];
 
-        return Strings::startsWith($nextToken->getContent(), '<<<');
+        if (Strings::startsWith($nextToken->getContent(), '<<<')) {
+            return true;
+        }
+
+        // is array with indexed values "=>"
+        $indexedArrayTokens = [new Token([T_DOUBLE_ARROW, '=>'])];
+        $hasArrowToken = $tokens->findSequence($indexedArrayTokens, $blockInfo->getStart(), $blockInfo->getEnd());
+
+        return (bool) $hasArrowToken;
     }
 
     /**
@@ -260,7 +267,6 @@ $array = ["loooooooooooooooooooooooooooooooongArraaaaaaaaaaay", "loooooooooooooo
         $this->lineLengthTransformer->fixStartPositionToEndPosition(
             $blockInfo,
             $tokens,
-            $methodNamePosition,
             $this->configuration[self::LINE_LENGHT_OPTION],
             $this->configuration[self::BREAK_LONG_LINES_OPTION],
             $this->configuration[self::INLINE_SHORT_LINES_OPTION]

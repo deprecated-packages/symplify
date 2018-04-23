@@ -2,6 +2,7 @@
 
 namespace Symplify\ChangelogLinker\Tests\Worker\ShortenReferencesWorker;
 
+use Iterator;
 use PHPUnit\Framework\TestCase;
 use Symplify\ChangelogLinker\ChangelogApplication;
 use Symplify\ChangelogLinker\Worker\ShortenReferencesWorker;
@@ -20,20 +21,15 @@ final class ShortenReferencesWorkerTest extends TestCase
     }
 
     /**
-     * @dataProvider dataProvider
+     * @dataProvider provideInputAndExpectedOutputFiles()
      */
     public function testProcess(string $originalFile, string $processedFile): void
     {
         $this->assertStringEqualsFile($processedFile, $this->changelogApplication->processFile($originalFile));
     }
 
-    /**
-     * @return mixed[][]
-     */
-    public function dataProvider(): array
+    public function provideInputAndExpectedOutputFiles(): Iterator
     {
-        return [
-            [__DIR__ . '/Source/before/01.md', __DIR__ . '/Source/after/01.md'],
-        ];
+        yield [__DIR__ . '/Source/before/01.md', __DIR__ . '/Source/after/01.md'];
     }
 }

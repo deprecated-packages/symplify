@@ -56,7 +56,6 @@ final class LineLengthTransformer
     public function fixStartPositionToEndPosition(
         BlockInfo $blockInfo,
         Tokens $tokens,
-        int $currentPosition,
         int $lineLength,
         bool $breakLongLines,
         bool $inlineShortLine
@@ -69,7 +68,7 @@ final class LineLengthTransformer
 
         $fullLineLength = $this->getLengthFromStartEnd($blockInfo, $tokens);
         if ($fullLineLength <= $lineLength && $inlineShortLine) {
-            $this->inlineItems($blockInfo->getEnd(), $tokens, $currentPosition);
+            $this->inlineItems($blockInfo, $tokens);
             return;
         }
     }
@@ -153,10 +152,10 @@ final class LineLengthTransformer
         return $lineLength;
     }
 
-    private function inlineItems(int $endPosition, Tokens $tokens, int $currentPosition): void
+    private function inlineItems(BlockInfo $blockInfo, Tokens $tokens): void
     {
         // replace PHP_EOL with " "
-        for ($i = $currentPosition; $i < $endPosition; ++$i) {
+        for ($i = $blockInfo->getStart() + 1; $i < $blockInfo->getEnd(); ++$i) {
             $currentToken = $tokens[$i];
 
             $i = $this->tokenSkipper->skipBlocks($tokens, $i);
@@ -167,8 +166,8 @@ final class LineLengthTransformer
             $previousToken = $tokens[$i - 1];
             $nextToken = $tokens[$i + 1];
 
-            // @todo make dynamic by type? what about arrays?
-            if ($previousToken->getContent() === '(' || $nextToken->getContent() === ')') {
+            // clear space after opening and before closing bracket
+            if ($this->isBlockStartOrEnd($previousToken, $nextToken)) {
                 $tokens->clearAt($i);
                 continue;
             }
@@ -273,5 +272,14 @@ final class LineLengthTransformer
         }
 
         return $tokens[$position]->isGivenKind(T_OPEN_TAG);
+    }
+
+    private function isBlockStartOrEnd(Token $previousToken, Token $nextToken): bool
+    {
+        if (in_array($previousToken->getContent(), ['(', '['], true)) {
+            return true;
+        }
+
+        return in_array($nextToken->getContent(), [')', ']'], true);
     }
 }

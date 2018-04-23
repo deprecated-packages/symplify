@@ -46,11 +46,9 @@ final class FinalInterfaceFixer implements DefinedFixerInterface, ConfigurationD
     {
         return new FixerDefinition(
             'Non-abstract class that implements interface should be final.',
-            [
-                new CodeSample('
+            [new CodeSample('
 <?php
-class SomeClass implements SomeInterface {};'),
-            ]
+class SomeClass implements SomeInterface {};')]
         );
     }
 
@@ -127,10 +125,7 @@ class SomeClass implements SomeInterface {};'),
 
     private function fixClass(Tokens $tokens, int $position): void
     {
-        $tokens->insertAt($position, [
-            new Token([T_FINAL, 'final']),
-            new Token([T_WHITESPACE, ' ']),
-        ]);
+        $tokens->insertAt($position, [new Token([T_FINAL, 'final']), new Token([T_WHITESPACE, ' '])]);
     }
 
     private function shouldBeSkipped(ClassWrapper $classWrapper): bool

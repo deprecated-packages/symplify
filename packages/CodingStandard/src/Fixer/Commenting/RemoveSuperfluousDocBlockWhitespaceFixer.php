@@ -22,8 +22,7 @@ final class RemoveSuperfluousDocBlockWhitespaceFixer implements DefinedFixerInte
     {
         return new FixerDefinition(
             'Block comment should not have 2 empty lines in a row.',
-            [
-                new CodeSample('<?php
+            [new CodeSample('<?php
 /**
  * Description
  *
@@ -33,8 +32,7 @@ final class RemoveSuperfluousDocBlockWhitespaceFixer implements DefinedFixerInte
 public function getCount()
 {
 }
-'),
-            ]
+')]
         );
     }
 

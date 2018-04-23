@@ -23,9 +23,7 @@ final class RequireFollowedByAbsolutePathFixer implements DefinedFixerInterface
     {
         return new FixerDefinition(
             'Include/Require should be followed by absolute path.',
-            [
-                new CodeSample('require "vendor/autoload.php"'),
-            ]
+            [new CodeSample('require "vendor/autoload.php"')]
         );
     }
 
@@ -103,10 +101,7 @@ final class RequireFollowedByAbsolutePathFixer implements DefinedFixerInterface
 
     private function fixToken(Tokens $tokens, Token $token, int $tokenPosition): void
     {
-        $tokensToAdd = [
-            new Token([T_DIR, '__DIR__']),
-            new Token('.'),
-        ];
+        $tokensToAdd = [new Token([T_DIR, '__DIR__']), new Token('.')];
 
         if ($this->startsWithSlash($token)) {
             $tokensToAdd[] = $token;

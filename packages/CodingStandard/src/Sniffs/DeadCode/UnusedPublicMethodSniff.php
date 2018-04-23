@@ -57,12 +57,7 @@ final class UnusedPublicMethodSniff implements Sniff, DualRunInterface
      *
      * @var string[]
      */
-    private $methodsToIgnore = [
-        '__*',
-        'test*',
-        'provide*',
-        'offset*',
-    ];
+    private $methodsToIgnore = ['__*', 'test*', 'provide*', 'offset*'];
 
     /**
      * @var ClassWrapperFactory

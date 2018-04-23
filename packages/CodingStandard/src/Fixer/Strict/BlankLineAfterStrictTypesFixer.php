@@ -38,11 +38,9 @@ final class BlankLineAfterStrictTypesFixer implements DefinedFixerInterface
     {
         return new FixerDefinition(
             'Strict type declaration has to be followed by empty line',
-            [
-                new CodeSample('
+            [new CodeSample('
 <?php declare(strict_types=1);
-namespace SomeNamespace;'),
-            ]
+namespace SomeNamespace;')]
         );
     }
 
