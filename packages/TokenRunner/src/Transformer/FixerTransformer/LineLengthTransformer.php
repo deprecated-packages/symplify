@@ -56,7 +56,6 @@ final class LineLengthTransformer
     public function fixStartPositionToEndPosition(
         BlockInfo $blockInfo,
         Tokens $tokens,
-        int $currentPosition,
         int $lineLength,
         bool $breakLongLines,
         bool $inlineShortLine
