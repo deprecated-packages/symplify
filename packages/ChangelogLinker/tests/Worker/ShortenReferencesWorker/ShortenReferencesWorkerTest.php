@@ -21,14 +21,14 @@ final class ShortenReferencesWorkerTest extends TestCase
     }
 
     /**
-     * @dataProvider dataProvider
+     * @dataProvider provideInputAndExpectedOutputFiles()
      */
     public function testProcess(string $originalFile, string $processedFile): void
     {
         $this->assertStringEqualsFile($processedFile, $this->changelogApplication->processFile($originalFile));
     }
 
-    public function dataProvider(): Iterator
+    public function provideInputAndExpectedOutputFiles(): Iterator
     {
         yield [__DIR__ . '/Source/before/01.md', __DIR__ . '/Source/after/01.md'];
     }
