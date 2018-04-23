@@ -65,16 +65,14 @@ final class RemoveUselessDocBlockFixer implements DefinedFixerInterface, Configu
     {
         return new FixerDefinition(
             'Block comment should only contain useful information about types.',
-            [
-                new CodeSample('<?php
+            [new CodeSample('<?php
 /**
  * @return int 
  */
 public function getCount(): int
 {
 }
-'),
-            ]
+')]
         );
     }
 

@@ -36,12 +36,10 @@ final class BlockPropertyCommentFixer implements DefinedFixerInterface
     {
         return new FixerDefinition(
             'Block comment should be used instead of one liner.',
-            [
-                new CodeSample('<?php
+            [new CodeSample('<?php
 /** @var SomeType */
 private $property;
-'),
-            ]
+')]
         );
     }
 

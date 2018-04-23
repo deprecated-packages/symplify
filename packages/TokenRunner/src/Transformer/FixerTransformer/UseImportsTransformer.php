@@ -55,10 +55,7 @@ final class UseImportsTransformer
      */
     private function buildUseTokensFromName(Name $name): array
     {
-        $tokens = [
-            new Token([T_USE, 'use']),
-            new Token([T_WHITESPACE, ' ']),
-        ];
+        $tokens = [new Token([T_USE, 'use']), new Token([T_WHITESPACE, ' '])];
 
         if ($name->getRelatedNamespaceUseAnalysis()) {
             $tokens = $this->addRelateUseImport($name, $tokens);

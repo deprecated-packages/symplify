@@ -52,13 +52,11 @@ final class ArrayPropertyDefaultValueFixer implements DefinedFixerInterface
     {
         return new FixerDefinition(
             'Array property should have default value, to prevent undefined array issues.',
-            [
-                new CodeSample('<?php
+            [new CodeSample('<?php
 /**
  * @var string[]
  */
-public $property;'),
-            ]
+public $property;')]
         );
     }
 
