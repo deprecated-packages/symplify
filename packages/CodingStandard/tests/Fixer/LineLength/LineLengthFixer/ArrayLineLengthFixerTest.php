@@ -8,7 +8,7 @@ use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;
 /**
  * @see \Symplify\CodingStandard\Fixer\LineLength\LineLengthFixer
  */
-final class YieldLineLengthFixerTest extends AbstractCheckerTestCase
+final class ArrayLineLengthFixerTest extends AbstractCheckerTestCase
 {
     /**
      * @dataProvider wrongToFixedCases()
