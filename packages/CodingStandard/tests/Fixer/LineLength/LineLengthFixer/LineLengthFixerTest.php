@@ -10,25 +10,25 @@ use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;
  */
 final class LineLengthFixerTest extends AbstractCheckerTestCase
 {
-//    /**
-//     * @dataProvider provideCorrectCases()
-//     */
-//    public function testCorrectCases(string $file): void
-//    {
-//        $this->doTestCorrectFile($file);
-//    }
-//
-//    public function provideCorrectCases(): Iterator
-//    {
-//        yield [__DIR__ . '/correct/correct.php.inc'];
-//        yield [__DIR__ . '/correct/correct2.php.inc'];
-//        yield [__DIR__ . '/correct/correct3.php.inc'];
-//        yield [__DIR__ . '/correct/correct4.php.inc'];
-//        yield [__DIR__ . '/correct/correct5.php.inc'];
-//        yield [__DIR__ . '/correct/correct6.php.inc'];
-//        yield [__DIR__ . '/correct/correct7.php.inc'];
-//        yield [__DIR__ . '/correct/correct8.php.inc'];
-//    }
+    /**
+     * @dataProvider provideCorrectCases()
+     */
+    public function testCorrectCases(string $file): void
+    {
+        $this->doTestCorrectFile($file);
+    }
+
+    public function provideCorrectCases(): Iterator
+    {
+        yield [__DIR__ . '/correct/correct.php.inc'];
+        yield [__DIR__ . '/correct/correct2.php.inc'];
+        yield [__DIR__ . '/correct/correct3.php.inc'];
+        yield [__DIR__ . '/correct/correct4.php.inc'];
+        yield [__DIR__ . '/correct/correct5.php.inc'];
+        yield [__DIR__ . '/correct/correct6.php.inc'];
+        yield [__DIR__ . '/correct/correct7.php.inc'];
+        yield [__DIR__ . '/correct/correct8.php.inc'];
+    }
 
     /**
      * @dataProvider wrongToFixedCases()
@@ -56,7 +56,6 @@ final class LineLengthFixerTest extends AbstractCheckerTestCase
         yield [__DIR__ . '/wrong/wrong14.php.inc', __DIR__ . '/fixed/fixed14.php.inc'];
         yield [__DIR__ . '/wrong/wrong15.php.inc', __DIR__ . '/fixed/fixed15.php.inc'];
         yield [__DIR__ . '/wrong/wrong16.php.inc', __DIR__ . '/fixed/fixed16.php.inc'];
-        yield [__DIR__ . '/wrong/wrong17.php.inc', __DIR__ . '/fixed/fixed17.php.inc'];
     }
 
     protected function provideConfig(): string

@@ -68,9 +68,7 @@ final class LineLengthTransformer
 
         $fullLineLength = $this->getLengthFromStartEnd($blockInfo, $tokens);
         if ($fullLineLength <= $lineLength && $inlineShortLine) {
-            $currentPosition = $blockInfo->getStart();
-
-            $this->inlineItems($blockInfo->getEnd(), $tokens, $currentPosition + 1);
+            $this->inlineItems($blockInfo->getEnd(), $tokens, $blockInfo->getStart());
             return;
         }
     }
