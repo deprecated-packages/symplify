@@ -7,6 +7,7 @@ use PhpCsFixer\Tokenizer\CT;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use PhpCsFixer\WhitespacesFixerConfig;
+use function Symfony\Component\DependencyInjection\Loader\Configurator\ref;
 use Symplify\TokenRunner\Analyzer\FixerAnalyzer\BlockInfo;
 use Symplify\TokenRunner\Analyzer\FixerAnalyzer\IndentDetector;
 use Symplify\TokenRunner\Analyzer\FixerAnalyzer\TokenSkipper;
@@ -155,7 +156,7 @@ final class LineLengthTransformer
     private function inlineItems(BlockInfo $blockInfo, Tokens $tokens): void
     {
         // replace PHP_EOL with " "
-        for ($i = $blockInfo->getStart(); $i < $blockInfo->getEnd(); ++$i) {
+        for ($i = $blockInfo->getStart() + 1; $i < $blockInfo->getEnd(); ++$i) {
             $currentToken = $tokens[$i];
 
             $i = $this->tokenSkipper->skipBlocks($tokens, $i);
@@ -166,9 +167,8 @@ final class LineLengthTransformer
             $previousToken = $tokens[$i - 1];
             $nextToken = $tokens[$i + 1];
 
-            // @todo make dynamic by type? what about arrays?
             // clear space after opening and before closing bracket
-            if ($previousToken->getContent() === '(' || $nextToken->getContent() === ')') {
+            if ($this->isBlockStartOrEnd($previousToken, $nextToken)) {
                 $tokens->clearAt($i);
                 continue;
             }
@@ -273,5 +273,14 @@ final class LineLengthTransformer
         }
 
         return $tokens[$position]->isGivenKind(T_OPEN_TAG);
+    }
+
+    private function isBlockStartOrEnd(Token $previousToken, Token $nextToken): bool
+    {
+        if (in_array($previousToken->getContent(), ['(', '['], true)) {
+            return true;
+        }
+
+        return in_array($nextToken->getContent(), [')', ']'], true);
     }
 }

@@ -203,7 +203,15 @@ $array = ["loooooooooooooooooooooooooooooooongArraaaaaaaaaaay", "loooooooooooooo
         $nextTokenPosition = $tokens->getNextMeaningfulToken($blockInfo->getStart());
         $nextToken = $tokens[$nextTokenPosition];
 
-        return Strings::startsWith($nextToken->getContent(), '<<<');
+        if (Strings::startsWith($nextToken->getContent(), '<<<')) {
+            return true;
+        }
+
+        // is array with indexed values "=>"
+        $indexedArrayTokens = [new Token([T_DOUBLE_ARROW, '=>'])];
+        $hasArrowToken = $tokens->findSequence($indexedArrayTokens, $blockInfo->getStart(), $blockInfo->getEnd());
+
+        return (bool) $hasArrowToken;
     }
 
     /**
