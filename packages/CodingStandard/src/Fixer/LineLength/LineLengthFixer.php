@@ -64,7 +64,7 @@ final class LineLengthFixer implements DefinedFixerInterface, ConfigurationDefin
     public function getDefinition(): FixerDefinitionInterface
     {
         return new FixerDefinition(
-            'Array items, method, call and new arguments should be on same/standalone line to fit line length.',
+            'Array items, method parameters, method call arguments, new arguments should be on same/standalone line to fit line length.',
             [
                 new CodeSample(
                     '<?php

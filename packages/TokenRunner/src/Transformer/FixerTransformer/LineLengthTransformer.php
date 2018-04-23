@@ -68,7 +68,7 @@ final class LineLengthTransformer
 
         $fullLineLength = $this->getLengthFromStartEnd($blockInfo, $tokens);
         if ($fullLineLength <= $lineLength && $inlineShortLine) {
-            $this->inlineItems($blockInfo->getEnd(), $tokens, $blockInfo->getStart());
+            $this->inlineItems($blockInfo, $tokens);
             return;
         }
     }
@@ -152,10 +152,10 @@ final class LineLengthTransformer
         return $lineLength;
     }
 
-    private function inlineItems(int $endPosition, Tokens $tokens, int $currentPosition): void
+    private function inlineItems(BlockInfo $blockInfo, Tokens $tokens): void
     {
         // replace PHP_EOL with " "
-        for ($i = $currentPosition; $i < $endPosition; ++$i) {
+        for ($i = $blockInfo->getStart(); $i < $blockInfo->getEnd(); ++$i) {
             $currentToken = $tokens[$i];
 
             $i = $this->tokenSkipper->skipBlocks($tokens, $i);
@@ -167,6 +167,7 @@ final class LineLengthTransformer
             $nextToken = $tokens[$i + 1];
 
             // @todo make dynamic by type? what about arrays?
+            // clear space after opening and before closing bracket
             if ($previousToken->getContent() === '(' || $nextToken->getContent() === ')') {
                 $tokens->clearAt($i);
                 continue;
