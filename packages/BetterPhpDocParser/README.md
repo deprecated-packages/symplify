@@ -5,6 +5,12 @@
 
 Wrapper around [phpstan/phpdoc-parser](https://github.com/phpstan/phpdoc-parser) that adds **format preserving printer**.
 
+## When do We Need Format Preserving Printer?
+
+[Symplify\CodingStandard](https://github.com/symplify/codingstandard) and [Rector](github.com/rectorphp/rector) need to modify docblock and put it back in correct format. Packages on open-source market often put own spacing, or formats of specific tags. **Goal of this package is preserve origin docblock format**.
+
+Thanks for [inspiration in *Format Preserving Printer* feature in `nikic/php-parser`](https://github.com/nikic/PHP-Parser/issues/487).
+
 ## Install
 
 ```bash
@@ -22,13 +28,6 @@ imports:
 ```
 
 or register the needed services from `services.yml` in config of your other framework.
-And require services in the constructor.
-
-### Why do we need Format Preserving Printer?
-
-[Symplify\CodingStandard](https://github.com/symplify/codingstandard) and [Rector](github.com/rectorphp/rector) need to modify docblock and put it back in correct format. Packages on open-source market often put own spacing, or formats of specific tags. **Goal of this package is preserve origin docblock format**.
-
-Thanks for [inspiration in *Format Preserving Printer* feature in `nikic/php-parser`](https://github.com/nikic/PHP-Parser/issues/487).
 
 ```php
 use Symplify\BetterPhpDocParser\PhpDocParser\PhpDocInfoFactory;
@@ -44,7 +43,7 @@ class SomeClass
 
     public function changeDocBlockAndPrintItBack(): string
     {
-        $docComment = '/**    @var Type $variable    */
+        $docComment = '/**    @var Type $variable    */';
 
         $phpDocInfo = $this->phpDocInfoFactory->createFrom($docComment);
 
