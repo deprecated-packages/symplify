@@ -21,6 +21,8 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 #### CodingStandard
 
+- [#790] Add inline support to `LineLenghtFixer` for arrays to be consistent with other structures - function, method arguments, new arguments etc. already do
+
 - [#766] Make class-renaming checkers inform only
     - `Symplify\CodingStandard\Sniffs\Naming\AbstractClassNameSniff`
     - `Symplify\CodingStandard\Sniffs\Naming\InterfaceNameSniff`
@@ -30,16 +32,24 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 - [#764] Remove `sqlite` hidden dependency by using `symfony/cache`
 
+- [#776] Print fixable messages as warnings, thanks [@OndraM]
+
 ### Fixed
 
 - [#770] **CodingStandard** Fix `RemoveUselessDocBlockFixer` for useful `@return` tag description
 
 #### EasyCodingStandard
 
+- [#785] Fix skipper - remove global code skip from unused
+
 - [#759] Fix cache invalidation for files with error or change, closes [#759]
+
 - [#758] Fix missed unreported skips, closes [#750]
+
 - [#757] Fix `@var` invalid types by adding `TolerantVar`
+
 - [#771] Fix false report of unused errors while using `parameters > skip: > Sniff.Code: ~`
+
 - [#763] Fix `CheckerServiceParametersShifter` for `null` value
 
 #### BetterReflectionDocBlock
@@ -51,6 +61,10 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 #### CodingStandard
 
 - [#767] Deprecate `Symplify\CodingStandard\Fixer\Naming\ExceptionNameFixer` in favor of `Symplify\CodingStandard\Fixer\Naming\ClassNameSuffixByParentFixer` that does the same job and is extra configurable
+
+#### BetterReflectionDocBlock
+
+- Deprecate after migration to [phpstan/phpdoc-parser](https://github.com/phpstan/phpdoc-parser) in [#783], [#786], [#788], [#789]
 
 ## [v4.0.0] - 2018-04-02
 
