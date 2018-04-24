@@ -1,10 +1,10 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\BetterReflectionDocBlock;
+namespace Symplify\BetterPhpDocParser;
 
 use phpDocumentor\Reflection\DocBlock;
 use phpDocumentor\Reflection\DocBlock\Serializer;
-use Symplify\BetterReflectionDocBlock\Renderer\OriginalSpacingCompleter;
+use Symplify\BetterPhpDocParser\Renderer\OriginalSpacingCompleter;
 use Symplify\PackageBuilder\Reflection\PrivatesCaller;
 
 final class FixedSerializer extends Serializer
