@@ -11,6 +11,7 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 ### Added
 
+- [#791] Add **BetterPhpDocParser** package, born from **BetterReflectionDocBlock** package deprecation
 - [#768] Add `Symplify\CodingStandard\Sniffs\ControlStructure\SprintfOverContactSniff`
 
 ### Changed
@@ -64,7 +65,7 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 #### BetterReflectionDocBlock
 
-- Deprecate after migration to [phpstan/phpdoc-parser](https://github.com/phpstan/phpdoc-parser) in [#783], [#786], [#788], [#789]
+- Deprecate after migration to [phpstan/phpdoc-parser](https://github.com/phpstan/phpdoc-parser) in [#783], [#786], [#788], [#789], use **BetterPhpDocParser** package instead
 
 ## [v4.0.0] - 2018-04-02
 
