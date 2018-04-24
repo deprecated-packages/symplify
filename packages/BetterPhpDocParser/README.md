@@ -1,4 +1,4 @@
-# Better Reflection DocBlock
+# Better PhpDoc Parser
 
 [![Build Status](https://img.shields.io/travis/Symplify/BetterPhpDocParser/master.svg?style=flat-square)](https://travis-ci.org/Symplify/BetterPhpDocParser)
 [![Subscribe](https://img.shields.io/badge/subscribe-to--releases-green.svg?style=flat-square)](https://libraries.io/packagist/symplify%2Fbetter-phpdoc-parser)
