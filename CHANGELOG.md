@@ -7,28 +7,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLinker](https://github.com/Symplify/ChangelogLinker).
 
-## [Unreleased]
-
-### Changed
-
-#### BetterReflectionDocBlock
-
-- [#783], [#786], [#788], [#789] Migrate from `phpdocumentor/reflection-docblock` to `phpstan/phpdoc-parser` with more advanced API, keeping format preserving printer
-
-## [v4.0.3] - 2018-04-09
-
-### Fixed
-
-- [#771] **ECS** Fix false report of unused errors while using `parameters > skip: > Sniff.Code: ~`
-- [#770] **CodingStandard** Fix `RemoveUselessDocBlockFixer` for useful `@return` tag description
-
-## [v4.0.2] - 2018-04-09
+## [v4.1.0] - 2018-04-24
 
 ### Added
 
 - [#768] Add `Symplify\CodingStandard\Sniffs\ControlStructure\SprintfOverContactSniff`
 
 ### Changed
+
+#### BetterReflectionDocBlock
+
+- [#783], [#786], [#788], [#789] Migrate from `phpdocumentor/reflection-docblock` to `phpstan/phpdoc-parser` with more advanced API, keeping format preserving printer
 
 #### CodingStandard
 
@@ -43,29 +32,25 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 ### Fixed
 
-#### BetterReflectionDocBlock
-
-- [#769] Fix `TolerantVar` consistency
-
-#### EasyCodingStandard
-
-- [#763] Fix `CheckerServiceParametersShifter` for `null` value
-
-### Deprecated
-
-#### CodingStandard
-
-- [#767] Deprecate `Symplify\CodingStandard\Fixer\Naming\ExceptionNameFixer` in favor of `Symplify\CodingStandard\Fixer\Naming\ClassNameSuffixByParentFixer` that does the same job and is extra configurable
-
-## [v4.0.1] - 2018-04-05
-
-### Fixed
+- [#770] **CodingStandard** Fix `RemoveUselessDocBlockFixer` for useful `@return` tag description
 
 #### EasyCodingStandard
 
 - [#759] Fix cache invalidation for files with error or change, closes [#759]
 - [#758] Fix missed unreported skips, closes [#750]
 - [#757] Fix `@var` invalid types by adding `TolerantVar`
+- [#771] Fix false report of unused errors while using `parameters > skip: > Sniff.Code: ~`
+- [#763] Fix `CheckerServiceParametersShifter` for `null` value
+
+#### BetterReflectionDocBlock
+
+- [#769] Fix `TolerantVar` consistency
+
+### Deprecated
+
+#### CodingStandard
+
+- [#767] Deprecate `Symplify\CodingStandard\Fixer\Naming\ExceptionNameFixer` in favor of `Symplify\CodingStandard\Fixer\Naming\ClassNameSuffixByParentFixer` that does the same job and is extra configurable
 
 ## [v4.0.0] - 2018-04-02
 
