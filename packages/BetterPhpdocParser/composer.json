@@ -1,5 +1,5 @@
 {
-    "name": "symplify/better-reflection-docblock",
+    "name": "symplify/better-phpdoc-parser",
     "description": "Slim wrapper around phpstan/phpdoc-parser with format preserving printer",
     "license": "MIT",
     "require": {

@@ -34,7 +34,7 @@ A static site generator with aim on community websites.
 
 ### Other Utils Packages
 
-- [BetterReflectionDocBlock](https://github.com/Symplify/BetterReflectionDocBlock) - Slim wrapper around phpdocumentor/reflection-docblock with better DX and simpler API
+- [BetterPhpDocParser](https://github.com/Symplify/BetterPhpDocParser) - Slim wrapper around [phpstan/phpdoc-parser](https://github.com/phpstan/phpdoc-parser) with format preserving printer
 - [ChangelogLinker](https://github.com/Symplify/ChangelogLinker) - Make CHANGELOG.md useful with links
 - [PackageBuilder](https://github.com/Symplify/PackageBuilder) - Speed up your package DI Containers integration and Console apps to Symfony
 - [TokenRunner](https://github.com/Symplify/TokenRunner) - Building own Sniffs and Fixers made easy
