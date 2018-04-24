@@ -7,7 +7,7 @@ Wrapper around [phpstan/phpdoc-parser](https://github.com/phpstan/phpdoc-parser)
 
 ## When do We Need Format Preserving Printer?
 
-[Symplify\CodingStandard](https://github.com/symplify/codingstandard) and [Rector](github.com/rectorphp/rector) need to modify docblock and put it back in correct format. Packages on open-source market often put own spacing, or formats of specific tags. **Goal of this package is preserve origin docblock format**.
+[Symplify\CodingStandard](https://github.com/symplify/codingstandard) and [Rector](https://github.com/rectorphp/rector) need to modify docblock and put it back in correct format. Packages on open-source market often put own spacing, or formats of specific tags. **Goal of this package is preserve origin docblock format**.
 
 Thanks for [inspiration in *Format Preserving Printer* feature in `nikic/php-parser`](https://github.com/nikic/PHP-Parser/issues/487).
 
