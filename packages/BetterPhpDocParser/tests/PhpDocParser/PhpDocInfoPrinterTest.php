@@ -1,11 +1,11 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\BetterReflectionDocBlock\Tests\PhpDocParser;
+namespace Symplify\BetterPhpDocParser\Tests\PhpDocParser;
 
 use Iterator;
-use Symplify\BetterReflectionDocBlock\PhpDocParser\PhpDocInfoFactory;
-use Symplify\BetterReflectionDocBlock\PhpDocParser\PhpDocInfoPrinter;
-use Symplify\BetterReflectionDocBlock\Tests\AbstractContainerAwareTestCase;
+use Symplify\BetterPhpDocParser\PhpDocParser\PhpDocInfoFactory;
+use Symplify\BetterPhpDocParser\PhpDocParser\PhpDocInfoPrinter;
+use Symplify\BetterPhpDocParser\Tests\AbstractContainerAwareTestCase;
 
 final class PhpDocInfoPrinterTest extends AbstractContainerAwareTestCase
 {

@@ -37,7 +37,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Symplify\\BetterReflectionDocBlock\\": "packages/BetterReflectionDocBlock/src",
+            "Symplify\\BetterPhpDocParser\\": "packages/BetterPhpDocParser/src",
             "Symplify\\CodingStandard\\": "packages/CodingStandard/src",
             "Symplify\\ChangelogLinker\\": "packages/ChangelogLinker/src",
             "Symplify\\EasyCodingStandard\\": "packages/EasyCodingStandard/src",
@@ -56,7 +56,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Symplify\\BetterReflectionDocBlock\\Tests\\": "packages/BetterReflectionDocBlock/tests",
+            "Symplify\\BetterPhpDocParser\\Tests\\": "packages/BetterPhpDocParser/tests",
             "Symplify\\CodingStandard\\Tests\\": "packages/CodingStandard/tests",
             "Symplify\\ChangelogLinker\\Tests\\": "packages/ChangelogLinker/tests",
             "Symplify\\EasyCodingStandard\\Tests\\": "packages/EasyCodingStandard/tests",

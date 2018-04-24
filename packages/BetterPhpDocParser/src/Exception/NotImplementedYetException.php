@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\BetterReflectionDocBlock\Exception;
+namespace Symplify\BetterPhpDocParser\Exception;
 
 use Exception;
 

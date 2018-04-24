@@ -1,5 +1,5 @@
 {
-    "name": "symplify/better-reflection-docblock",
+    "name": "symplify/better-phpdoc-parser",
     "description": "Slim wrapper around phpstan/phpdoc-parser with format preserving printer",
     "license": "MIT",
     "require": {
@@ -12,17 +12,17 @@
     },
     "autoload": {
         "psr-4": {
-            "Symplify\\BetterReflectionDocBlock\\": "src"
+            "Symplify\\BetterPhpDocParser\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Symplify\\BetterReflectionDocBlock\\Tests\\": "tests"
+            "Symplify\\BetterPhpDocParser\\Tests\\": "tests"
         }
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "4.1-dev"
+            "dev-master": "4.2-dev"
         }
     },
     "minimum-stability": "dev",

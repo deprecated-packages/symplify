@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\BetterReflectionDocBlock\DependencyInjection;
+namespace Symplify\BetterPhpDocParser\DependencyInjection;
 
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -8,7 +8,7 @@ use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 use Symfony\Component\HttpKernel\Kernel;
 use Symplify\PackageBuilder\DependencyInjection\CompilerPass\PublicForTestsCompilerPass;
 
-final class BetterReflectionDocBlockKernel extends Kernel
+final class BetterPhpDocParserKernel extends Kernel
 {
     public function registerContainerConfiguration(LoaderInterface $loader): void
     {

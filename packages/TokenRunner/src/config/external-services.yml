@@ -1,5 +1,5 @@
 imports:
-    - { resource: '../../../BetterReflectionDocBlock/src/config/services.yml' }
+    - { resource: '../../../BetterPhpDocParser/src/config/services.yml' }
 
 services:
     _defaults:

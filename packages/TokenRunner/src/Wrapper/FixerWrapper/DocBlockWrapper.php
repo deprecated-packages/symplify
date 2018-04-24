@@ -11,9 +11,9 @@ use PHPStan\PhpDocParser\Ast\Type\ArrayTypeNode;
 use PHPStan\PhpDocParser\Ast\Type\IdentifierTypeNode;
 use PHPStan\PhpDocParser\Ast\Type\TypeNode;
 use PHPStan\PhpDocParser\Ast\Type\UnionTypeNode;
-use Symplify\BetterReflectionDocBlock\PhpDocParser\PhpDocInfo;
-use Symplify\BetterReflectionDocBlock\PhpDocParser\PhpDocInfoPrinter;
-use Symplify\BetterReflectionDocBlock\PhpDocParser\TypeResolver;
+use Symplify\BetterPhpDocParser\PhpDocParser\PhpDocInfo;
+use Symplify\BetterPhpDocParser\PhpDocParser\PhpDocInfoPrinter;
+use Symplify\BetterPhpDocParser\PhpDocParser\TypeResolver;
 
 final class DocBlockWrapper
 {
