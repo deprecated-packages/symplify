@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\BetterReflectionDocBlock\DependencyInjection;
+namespace Symplify\BetterPhpDocParser\DependencyInjection;
 
 use Psr\Container\ContainerInterface;
 use Symfony\Component\DependencyInjection\Container;
@@ -13,7 +13,7 @@ final class ContainerFactory
      */
     public function create(): ContainerInterface
     {
-        $appKernel = new BetterReflectionDocBlockKernel('dev', true);
+        $appKernel = new BetterPhpDocParserKernel('dev', true);
         $appKernel->boot();
 
         return $appKernel->getContainer();

@@ -1,10 +1,10 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\BetterReflectionDocBlock\Tests;
+namespace Symplify\BetterPhpDocParser\Tests;
 
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
-use Symplify\BetterReflectionDocBlock\DependencyInjection\ContainerFactory;
+use Symplify\BetterPhpDocParser\DependencyInjection\ContainerFactory;
 
 abstract class AbstractContainerAwareTestCase extends TestCase
 {

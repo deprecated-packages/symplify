@@ -12,12 +12,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Symplify\\BetterReflectionDocBlock\\": "src"
+            "Symplify\\BetterPhpDocParser\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Symplify\\BetterReflectionDocBlock\\Tests\\": "tests"
+            "Symplify\\BetterPhpDocParser\\Tests\\": "tests"
         }
     },
     "extra": {

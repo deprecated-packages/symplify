@@ -2,7 +2,7 @@ services:
     _defaults:
         autowire: true
 
-    Symplify\BetterReflectionDocBlock\:
+    Symplify\BetterPhpDocParser\:
         resource: '../'
         exclude: '../{DependencyInjection,PhpDocParser/PhpDocInfo.php,Tag/*,PhpDocParser/Ast/Type/*}'
 
@@ -11,4 +11,4 @@ services:
     PHPStan\PhpDocParser\Parser\ConstExprParser: ~
 
     PHPStan\PhpDocParser\Parser\PhpDocParser:
-        alias: 'Symplify\BetterReflectionDocBlock\PhpDocParser\PositionAwarePhpDocParser'
+        alias: 'Symplify\BetterPhpDocParser\PhpDocParser\PositionAwarePhpDocParser'

@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\BetterReflectionDocBlock\PhpDocParser\Storage;
+namespace Symplify\BetterPhpDocParser\PhpDocParser\Storage;
 
 use SplObjectStorage;
 

@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\BetterReflectionDocBlock\PhpDocParser\Ast\Type;
+namespace Symplify\BetterPhpDocParser\PhpDocParser\Ast\Type;
 
 use PHPStan\PhpDocParser\Ast\Type\UnionTypeNode;
 
