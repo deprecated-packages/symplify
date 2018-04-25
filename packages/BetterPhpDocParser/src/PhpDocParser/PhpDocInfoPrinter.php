@@ -155,9 +155,6 @@ final class PhpDocInfoPrinter
         PhpDocNodeInfo $phpDocNodeInfo,
         string $output
     ): string {
-        $output .= $phpDocTagNode->name;
-        $output .= ' '; // @todo not manually
-
         if ($phpDocTagNode->value instanceof ParamTagValueNode || $phpDocTagNode->value instanceof ReturnTagValueNode || $phpDocTagNode->value instanceof VarTagValueNode) {
             if ($phpDocTagNode->value->type instanceof UnionTypeNode) {
                 // @todo temp workaround
@@ -167,7 +164,16 @@ final class PhpDocInfoPrinter
             }
         }
 
-        return $output . $this->printNode($phpDocTagNode->value, $phpDocNodeInfo);
+        $output .= $phpDocTagNode->name;
+
+        $nodeOutput = $this->printNode($phpDocTagNode->value, $phpDocNodeInfo);
+
+        // fix for "@Long\Annotation"
+        if (! Strings::startsWith($nodeOutput, '\\')) {
+            $output .= ' '; // @todo not manually
+        }
+
+        return $output . $nodeOutput;
     }
 
     /**
