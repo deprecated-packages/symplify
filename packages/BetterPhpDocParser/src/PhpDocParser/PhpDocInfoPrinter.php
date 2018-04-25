@@ -101,8 +101,12 @@ final class PhpDocInfoPrinter
         return $this->printEnd($output);
     }
 
-    private function printNode(Node $node, PhpDocNodeInfo $phpDocNodeInfo = null, int $i = 0, int $nodeCount = 0): string
-    {
+    private function printNode(
+        Node $node,
+        ?PhpDocNodeInfo $phpDocNodeInfo = null,
+        int $i = 0,
+        int $nodeCount = 0
+    ): string {
         $output = '';
 
         // tokens before
@@ -132,8 +136,11 @@ final class PhpDocInfoPrinter
         return $output . (string) $node;
     }
 
-    private function printPhpDocTagNode(PhpDocTagNode $phpDocTagNode, PhpDocNodeInfo $phpDocNodeInfo, string $output): string
-    {
+    private function printPhpDocTagNode(
+        PhpDocTagNode $phpDocTagNode,
+        PhpDocNodeInfo $phpDocNodeInfo,
+        string $output
+    ): string {
         $output .= $phpDocTagNode->name;
         $output .= ' '; // @todo not manually
 
