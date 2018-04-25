@@ -169,7 +169,7 @@ final class PhpDocInfoPrinter
         $nodeOutput = $this->printNode($phpDocTagNode->value, $phpDocNodeInfo);
 
         // fix for "@Long\Annotation"
-        if (! Strings::startsWith($nodeOutput, '\\')) {
+        if (! ctype_upper($phpDocTagNode->name[1]) || ! Strings::startsWith($nodeOutput, '\\')) {
             $output .= ' '; // @todo not manually
         }
 
