@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLinker](https://github.com/Symplify/ChangelogLinker).
 
+## [v4.1.1] - 2018-04-25
+
+### Fixed
+
+#### BetterPhpDocParser
+
+- [#796] Fix few edges cases
+
 ## [v4.1.0] - 2018-04-24
 
 ### Added
@@ -1161,3 +1169,17 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
 [#768]: https://github.com/Symplify/Symplify/pull/768
 [#767]: https://github.com/Symplify/Symplify/pull/767
 [#766]: https://github.com/Symplify/Symplify/pull/766
+
+[v4.1.0]: https://github.com/Symplify/Symplify/compare/v4.0.0...v4.1.0
+[#791]: https://github.com/Symplify/Symplify/issues/791
+[#790]: https://github.com/Symplify/Symplify/pull/790
+[#789]: https://github.com/Symplify/Symplify/pull/789
+[#788]: https://github.com/Symplify/Symplify/pull/788
+[#786]: https://github.com/Symplify/Symplify/pull/786
+[#785]: https://github.com/Symplify/Symplify/pull/785
+[#783]: https://github.com/Symplify/Symplify/pull/783
+[#776]: https://github.com/Symplify/Symplify/pull/776
+[#771]: https://github.com/Symplify/Symplify/pull/771
+[#770]: https://github.com/Symplify/Symplify/pull/770
+[v4.1.1]: https://github.com/Symplify/Symplify/compare/v4.1.0...v4.1.1
+[#796]: https://github.com/Symplify/Symplify/pull/796
