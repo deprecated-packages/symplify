@@ -50,7 +50,7 @@ final class PhpDocInfoPrinter
     private $originalPhpDocNode;
 
     /**
-     * @var int[][]
+     * @var PhpDocNodeInfo[]
      */
     private $removedNodePositions = [];
 
@@ -220,7 +220,7 @@ final class PhpDocInfoPrinter
         // skip removed nodes
         $positionJumpSet = [];
         foreach ($this->getRemovedNodesPositions() as $removedTokensPosition) {
-            $positionJumpSet[$removedTokensPosition['tokenStart']] = $removedTokensPosition['tokenEnd'];
+            $positionJumpSet[$removedTokensPosition->getStart()] = $removedTokensPosition->getEnd();
         }
 
         // include also space before, in case of inlined docs
@@ -250,7 +250,7 @@ final class PhpDocInfoPrinter
     }
 
     /**
-     * @return int[][]
+     * @return PhpDocNodeInfo[]
      */
     private function getRemovedNodesPositions(): array
     {
@@ -263,16 +263,15 @@ final class PhpDocInfoPrinter
         $removedNodesPositions = [];
         foreach ($removedNodes as $removedNode) {
             if (isset($this->nodeWithPositionsObjectStorage[$removedNode])) {
-                $removedNodePositions = $this->nodeWithPositionsObjectStorage[$removedNode];
+                $removedPhpDocNodeInfo = $this->nodeWithPositionsObjectStorage[$removedNode];
+
                 // change start position to start of the line, so the whole line is removed
-                $seekPosition = $removedNodePositions['tokenStart'];
+                $seekPosition = $removedPhpDocNodeInfo->getStart();
                 while ($this->tokens[$seekPosition][1] !== Lexer::TOKEN_HORIZONTAL_WS) {
                     --$seekPosition;
                 }
 
-                $removedNodePositions['tokenStart'] = $seekPosition - 1;
-
-                $removedNodesPositions[] = $removedNodePositions;
+                $removedNodesPositions[] = new PhpDocNodeInfo($seekPosition - 1, $removedPhpDocNodeInfo->getEnd());
             }
         }
 
