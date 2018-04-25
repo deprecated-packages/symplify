@@ -4,7 +4,7 @@ namespace Symplify\BetterPhpDocParser\Tests\PhpDocParser;
 
 use Iterator;
 use Symplify\BetterPhpDocParser\PhpDocParser\PhpDocInfoFactory;
-use Symplify\BetterPhpDocParser\PhpDocParser\PhpDocInfoPrinter;
+use Symplify\BetterPhpDocParser\Printer\PhpDocInfoPrinter;
 use Symplify\BetterPhpDocParser\Tests\AbstractContainerAwareTestCase;
 
 final class PhpDocInfoPrinterTest extends AbstractContainerAwareTestCase

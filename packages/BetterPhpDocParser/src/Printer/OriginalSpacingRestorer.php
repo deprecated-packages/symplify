@@ -8,8 +8,14 @@ use Symplify\BetterPhpDocParser\PhpDocNodeInfo;
 
 final class OriginalSpacingRestorer
 {
-    public function restoreInOutputWithTokensAndPhpDocNodeInfo(string $nodeOutput, array $tokens, PhpDocNodeInfo $phpDocNodeInfo): string
-    {
+    /**
+     * @param mixed[] $tokens
+     */
+    public function restoreInOutputWithTokensAndPhpDocNodeInfo(
+        string $nodeOutput,
+        array $tokens,
+        PhpDocNodeInfo $phpDocNodeInfo
+    ): string {
         $oldWhitespaces = [];
         for ($i = $phpDocNodeInfo->getStart(); $i < $phpDocNodeInfo->getEnd(); ++$i) {
             if ($tokens[$i][1] === Lexer::TOKEN_HORIZONTAL_WS) {

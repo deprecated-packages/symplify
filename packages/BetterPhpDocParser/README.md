@@ -31,7 +31,7 @@ or register the needed services from `services.yml` in config of your other fram
 
 ```php
 use Symplify\BetterPhpDocParser\PhpDocParser\PhpDocInfoFactory;
-use Symplify\BetterPhpDocParser\PhpDocParser\PhpDocInfoPrinter;
+use Symplify\BetterPhpDocParser\Printer\PhpDocInfoPrinter;
 
 class SomeClass
 {

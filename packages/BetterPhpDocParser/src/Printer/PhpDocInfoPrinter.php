@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\BetterPhpDocParser\PhpDocParser;
+namespace Symplify\BetterPhpDocParser\Printer;
 
 use Nette\Utils\Strings;
 use PHPStan\PhpDocParser\Ast\Node;
@@ -15,8 +15,8 @@ use PHPStan\PhpDocParser\Ast\Type\UnionTypeNode;
 use PHPStan\PhpDocParser\Lexer\Lexer;
 use Symplify\BetterPhpDocParser\PhpDocNodeInfo;
 use Symplify\BetterPhpDocParser\PhpDocParser\Ast\Type\FormatPreservingUnionTypeNode;
+use Symplify\BetterPhpDocParser\PhpDocParser\PhpDocInfo;
 use Symplify\BetterPhpDocParser\PhpDocParser\Storage\NodeWithPositionsObjectStorage;
-use Symplify\BetterPhpDocParser\Printer\OriginalSpacingRestorer;
 
 final class PhpDocInfoPrinter
 {
