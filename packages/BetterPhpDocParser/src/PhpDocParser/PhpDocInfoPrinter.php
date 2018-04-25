@@ -8,6 +8,7 @@ use PHPStan\PhpDocParser\Ast\PhpDoc\ParamTagValueNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTagNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTextNode;
+use PHPStan\PhpDocParser\Ast\PhpDoc\PropertyTagValueNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\ReturnTagValueNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\VarTagValueNode;
 use PHPStan\PhpDocParser\Ast\Type\UnionTypeNode;
@@ -129,7 +130,7 @@ final class PhpDocInfoPrinter
         }
 
         // @todo for the rest of nodes as well
-        if ($node instanceof ParamTagValueNode) {
+        if ($node instanceof ParamTagValueNode || $node instanceof PropertyTagValueNode) {
             return $this->keepLineOriginalSpaces($phpDocNodeInfo, (string) $node);
         }
 
