@@ -4,7 +4,7 @@ namespace Symplify\BetterPhpDocParser\Tests\PhpDocParser;
 
 use Iterator;
 use Symplify\BetterPhpDocParser\PhpDocParser\PhpDocInfoFactory;
-use Symplify\BetterPhpDocParser\PhpDocParser\PhpDocInfoPrinter;
+use Symplify\BetterPhpDocParser\Printer\PhpDocInfoPrinter;
 use Symplify\BetterPhpDocParser\Tests\AbstractContainerAwareTestCase;
 
 final class PhpDocInfoPrinterTest extends AbstractContainerAwareTestCase
@@ -45,6 +45,9 @@ final class PhpDocInfoPrinterTest extends AbstractContainerAwareTestCase
         yield [file_get_contents(__DIR__ . '/PhpDocInfoPrinterSource/doc3.txt')];
         yield [file_get_contents(__DIR__ . '/PhpDocInfoPrinterSource/doc4.txt')];
         yield [file_get_contents(__DIR__ . '/PhpDocInfoPrinterSource/doc5.txt')];
+        yield [file_get_contents(__DIR__ . '/PhpDocInfoPrinterSource/doc6.txt')];
+        yield [file_get_contents(__DIR__ . '/PhpDocInfoPrinterSource/doc7.txt')];
+        yield [file_get_contents(__DIR__ . '/PhpDocInfoPrinterSource/doc8.txt')];
     }
 
     /**
@@ -54,7 +57,7 @@ final class PhpDocInfoPrinterTest extends AbstractContainerAwareTestCase
     {
         $phpDocInfo = $this->phpDocInfoFactory->createFrom($docComment);
 
-        $this->assertSame('', $this->phpDocInfoPrinter->printFormatPreserving($phpDocInfo));
+        $this->assertEmpty($this->phpDocInfoPrinter->printFormatPreserving($phpDocInfo));
     }
 
     public function provideDocFilesToEmpty(): Iterator

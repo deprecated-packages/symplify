@@ -6,9 +6,11 @@ use PHPStan\PhpDocParser\Ast\Node;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocNode;
 use PHPStan\PhpDocParser\Lexer\Lexer;
 use PHPStan\PhpDocParser\Parser\ConstExprParser;
+use PHPStan\PhpDocParser\Parser\ParserException;
 use PHPStan\PhpDocParser\Parser\PhpDocParser;
 use PHPStan\PhpDocParser\Parser\TokenIterator;
 use PHPStan\PhpDocParser\Parser\TypeParser;
+use Symplify\BetterPhpDocParser\PhpDocNodeInfo;
 use Symplify\BetterPhpDocParser\PhpDocParser\Storage\NodeWithPositionsObjectStorage;
 use Symplify\PackageBuilder\Reflection\PrivatesAccessor;
 use Symplify\PackageBuilder\Reflection\PrivatesCaller;
@@ -30,6 +32,11 @@ final class PositionAwarePhpDocParser extends PhpDocParser
      */
     private $privatesAccessor;
 
+    /**
+     * @var bool
+     */
+    private $isComment = false;
+
     public function __construct(
         TypeParser $typeParser,
         ConstExprParser $constExprParser,
@@ -44,7 +51,16 @@ final class PositionAwarePhpDocParser extends PhpDocParser
 
     public function parse(TokenIterator $tokenIterator): PhpDocNode
     {
-        $tokenIterator->consumeTokenType(Lexer::TOKEN_OPEN_PHPDOC);
+        $this->isComment = false;
+
+        try {
+            $tokenIterator->consumeTokenType(Lexer::TOKEN_OPEN_PHPDOC);
+        } catch (ParserException $parserException) {
+            // probably "//" start
+            $this->isComment = true;
+            $tokenIterator->consumeTokenType(Lexer::TOKEN_OTHER);
+        }
+
         $tokenIterator->tryConsumeTokenType(Lexer::TOKEN_PHPDOC_EOL);
 
         $children = [];
@@ -58,7 +74,9 @@ final class PositionAwarePhpDocParser extends PhpDocParser
             }
         }
 
-        $tokenIterator->consumeTokenType(Lexer::TOKEN_CLOSE_PHPDOC);
+        if (! $this->isComment) {
+            $tokenIterator->consumeTokenType(Lexer::TOKEN_CLOSE_PHPDOC);
+        }
 
         return new PhpDocNode(array_values($children));
     }
@@ -71,11 +89,7 @@ final class PositionAwarePhpDocParser extends PhpDocParser
 
         $tokenEnd = $this->privatesAccessor->getPrivateProperty($tokenIterator, 'index');
 
-        // @todo: use value object?
-        $this->nodeWithPositionsObjectStorage[$node] = [
-            'tokenStart' => $tokenStart,
-            'tokenEnd' => $tokenEnd,
-        ];
+        $this->nodeWithPositionsObjectStorage[$node] = new PhpDocNodeInfo($tokenStart, $tokenEnd);
 
         return $node;
     }

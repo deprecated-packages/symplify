@@ -4,8 +4,8 @@ namespace Symplify\TokenRunner\Wrapper\FixerWrapper;
 
 use PhpCsFixer\Tokenizer\Tokens;
 use Symplify\BetterPhpDocParser\PhpDocParser\PhpDocInfoFactory;
-use Symplify\BetterPhpDocParser\PhpDocParser\PhpDocInfoPrinter;
 use Symplify\BetterPhpDocParser\PhpDocParser\TypeResolver;
+use Symplify\BetterPhpDocParser\Printer\PhpDocInfoPrinter;
 
 final class DocBlockWrapperFactory
 {
