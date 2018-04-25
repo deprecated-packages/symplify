@@ -16,6 +16,7 @@ use PHPStan\PhpDocParser\Lexer\Lexer;
 use Symplify\BetterPhpDocParser\PhpDocNodeInfo;
 use Symplify\BetterPhpDocParser\PhpDocParser\Ast\Type\FormatPreservingUnionTypeNode;
 use Symplify\BetterPhpDocParser\PhpDocParser\Storage\NodeWithPositionsObjectStorage;
+use Symplify\BetterPhpDocParser\Printer\OriginalSpacingRestorer;
 
 final class PhpDocInfoPrinter
 {
@@ -54,9 +55,17 @@ final class PhpDocInfoPrinter
      */
     private $removedNodePositions = [];
 
-    public function __construct(NodeWithPositionsObjectStorage $nodeWithPositionsObjectStorage)
-    {
+    /**
+     * @var OriginalSpacingRestorer
+     */
+    private $originalSpacingRestorer;
+
+    public function __construct(
+        NodeWithPositionsObjectStorage $nodeWithPositionsObjectStorage,
+        OriginalSpacingRestorer $originalSpacingRestorer
+    ) {
         $this->nodeWithPositionsObjectStorage = $nodeWithPositionsObjectStorage;
+        $this->originalSpacingRestorer = $originalSpacingRestorer;
     }
 
     /**
@@ -131,7 +140,11 @@ final class PhpDocInfoPrinter
 
         // @todo for the rest of nodes as well
         if ($node instanceof ParamTagValueNode || $node instanceof PropertyTagValueNode) {
-            return $this->keepLineOriginalSpaces($phpDocNodeInfo, (string) $node);
+            return $this->originalSpacingRestorer->restoreInOutputWithTokensAndPhpDocNodeInfo(
+                (string) $node,
+                $this->tokens,
+                $phpDocNodeInfo
+            );
         }
 
         return $output . (string) $node;
@@ -155,33 +168,6 @@ final class PhpDocInfoPrinter
         }
 
         return $output . $this->printNode($phpDocTagNode->value, $phpDocNodeInfo);
-    }
-
-    private function keepLineOriginalSpaces(PhpDocNodeInfo $phpDocNodeInfo, string $nodeOutput): string
-    {
-        $oldWhitespaces = [];
-        for ($i = $phpDocNodeInfo->getStart(); $i < $phpDocNodeInfo->getEnd(); ++$i) {
-            if ($this->tokens[$i][1] === Lexer::TOKEN_HORIZONTAL_WS) {
-                $oldWhitespaces[] = $this->tokens[$i][0];
-            }
-        }
-
-        // no original whitespaces, return
-        if (! $oldWhitespaces) {
-            return $nodeOutput;
-        }
-
-        $newNodeOutput = '';
-        $i = 0;
-
-        // replace system whitespace by old ones
-        foreach (Strings::split($nodeOutput, '#\s+#') as $nodeOutputPart) {
-            $newNodeOutput .= ($oldWhitespaces[$i] ?? '') . $nodeOutputPart;
-            ++$i;
-        }
-
-        // remove first space, added by the printer above
-        return substr($newNodeOutput, 1);
     }
 
     /**
