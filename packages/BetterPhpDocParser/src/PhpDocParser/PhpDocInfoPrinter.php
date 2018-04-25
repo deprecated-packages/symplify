@@ -12,13 +12,14 @@ use PHPStan\PhpDocParser\Ast\PhpDoc\ReturnTagValueNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\VarTagValueNode;
 use PHPStan\PhpDocParser\Ast\Type\UnionTypeNode;
 use PHPStan\PhpDocParser\Lexer\Lexer;
+use Symplify\BetterPhpDocParser\PhpDocNodeInfo;
 use Symplify\BetterPhpDocParser\PhpDocParser\Ast\Type\FormatPreservingUnionTypeNode;
 use Symplify\BetterPhpDocParser\PhpDocParser\Storage\NodeWithPositionsObjectStorage;
 
 final class PhpDocInfoPrinter
 {
     /**
-     * @var NodeWithPositionsObjectStorage
+     * @var NodeWithPositionsObjectStorage|PhpDocNodeInfo[]
      */
     private $nodeWithPositionsObjectStorage;
 
@@ -94,50 +95,44 @@ final class PhpDocInfoPrinter
         // node output
         $nodeCount = count($phpDocNode->children);
         foreach ($phpDocNode->children as $i => $child) {
-            $output .= $this->printNode($child, [], $i + 1, $nodeCount);
+            $output .= $this->printNode($child, null, $i + 1, $nodeCount);
         }
 
         return $this->printEnd($output);
     }
 
-    /**
-     * @param int[] $nodePositions
-     */
-    private function printNode(Node $node, array $nodePositions = [], int $i = 0, int $nodeCount = 0): string
+    private function printNode(Node $node, PhpDocNodeInfo $phpDocNodeInfo = null, int $i = 0, int $nodeCount = 0): string
     {
         $output = '';
 
         // tokens before
         if (isset($this->nodeWithPositionsObjectStorage[$node])) {
-            $nodePositions = $this->nodeWithPositionsObjectStorage[$node];
+            $phpDocNodeInfo = $this->nodeWithPositionsObjectStorage[$node];
 
             $isLastToken = $nodeCount === $i;
             $output = $this->addTokensFromTo(
                 $output,
                 $this->currentTokenPosition,
-                $nodePositions['tokenStart'],
+                $phpDocNodeInfo->getStart(),
                 $isLastToken
             );
-            $this->currentTokenPosition = $nodePositions['tokenEnd'];
+            $this->currentTokenPosition = $phpDocNodeInfo->getEnd();
         }
 
         // @todo recurse
         if ($node instanceof PhpDocTagNode) {
-            return $this->printPhpDocTagNode($node, $nodePositions, $output);
+            return $this->printPhpDocTagNode($node, $phpDocNodeInfo, $output);
         }
 
         // @todo for the rest of nodes as well
         if ($node instanceof ParamTagValueNode) {
-            return $this->keepLineOriginalSpaces($nodePositions, (string) $node);
+            return $this->keepLineOriginalSpaces($phpDocNodeInfo, (string) $node);
         }
 
         return $output . (string) $node;
     }
 
-    /**
-     * @param mixed[] $nodePositions
-     */
-    private function printPhpDocTagNode(PhpDocTagNode $phpDocTagNode, array $nodePositions, string $output): string
+    private function printPhpDocTagNode(PhpDocTagNode $phpDocTagNode, PhpDocNodeInfo $phpDocNodeInfo, string $output): string
     {
         $output .= $phpDocTagNode->name;
         $output .= ' '; // @todo not manually
@@ -151,16 +146,13 @@ final class PhpDocInfoPrinter
             }
         }
 
-        return $output . $this->printNode($phpDocTagNode->value, $nodePositions);
+        return $output . $this->printNode($phpDocTagNode->value, $phpDocNodeInfo);
     }
 
-    /**
-     * @param string[] $nodePositions
-     */
-    private function keepLineOriginalSpaces(array $nodePositions, string $nodeOutput): string
+    private function keepLineOriginalSpaces(PhpDocNodeInfo $phpDocNodeInfo, string $nodeOutput): string
     {
         $oldWhitespaces = [];
-        for ($i = $nodePositions['tokenStart']; $i < $nodePositions['tokenEnd']; ++$i) {
+        for ($i = $phpDocNodeInfo->getStart(); $i < $phpDocNodeInfo->getEnd(); ++$i) {
             if ($this->tokens[$i][1] === Lexer::TOKEN_HORIZONTAL_WS) {
                 $oldWhitespaces[] = $this->tokens[$i][0];
             }
@@ -203,7 +195,7 @@ final class PhpDocInfoPrinter
             return $this->currentTokenPosition;
         }
 
-        return $this->nodeWithPositionsObjectStorage[$lastOriginalChildrenNode]['tokenEnd'];
+        return $this->nodeWithPositionsObjectStorage[$lastOriginalChildrenNode]->getEnd();
     }
 
     private function printEnd(string $output): string

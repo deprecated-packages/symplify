@@ -9,6 +9,7 @@ use PHPStan\PhpDocParser\Parser\ConstExprParser;
 use PHPStan\PhpDocParser\Parser\PhpDocParser;
 use PHPStan\PhpDocParser\Parser\TokenIterator;
 use PHPStan\PhpDocParser\Parser\TypeParser;
+use Symplify\BetterPhpDocParser\PhpDocNodeInfo;
 use Symplify\BetterPhpDocParser\PhpDocParser\Storage\NodeWithPositionsObjectStorage;
 use Symplify\PackageBuilder\Reflection\PrivatesAccessor;
 use Symplify\PackageBuilder\Reflection\PrivatesCaller;
@@ -71,11 +72,7 @@ final class PositionAwarePhpDocParser extends PhpDocParser
 
         $tokenEnd = $this->privatesAccessor->getPrivateProperty($tokenIterator, 'index');
 
-        // @todo: use value object?
-        $this->nodeWithPositionsObjectStorage[$node] = [
-            'tokenStart' => $tokenStart,
-            'tokenEnd' => $tokenEnd,
-        ];
+        $this->nodeWithPositionsObjectStorage[$node] = new PhpDocNodeInfo($tokenStart, $tokenEnd);
 
         return $node;
     }
