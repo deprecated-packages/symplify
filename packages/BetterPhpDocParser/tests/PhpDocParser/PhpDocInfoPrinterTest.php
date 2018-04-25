@@ -47,6 +47,7 @@ final class PhpDocInfoPrinterTest extends AbstractContainerAwareTestCase
         yield [file_get_contents(__DIR__ . '/PhpDocInfoPrinterSource/doc5.txt')];
         yield [file_get_contents(__DIR__ . '/PhpDocInfoPrinterSource/doc6.txt')];
         yield [file_get_contents(__DIR__ . '/PhpDocInfoPrinterSource/doc7.txt')];
+        yield [file_get_contents(__DIR__ . '/PhpDocInfoPrinterSource/doc8.txt')];
     }
 
     /**
