@@ -71,6 +71,9 @@ final class DocBlockWrapper
         return $this->phpDocInfo;
     }
 
+    /**
+     * @todo move to PhpDocInfo
+     */
     public function getArgumentType(string $name): ?string
     {
         $paramTagValue = $this->getPhpDocInfo()->getParamTagValueByName($name);
@@ -81,6 +84,9 @@ final class DocBlockWrapper
         return $this->typeResolver->resolveDocType($paramTagValue->type);
     }
 
+    /**
+     * @todo move to PhpDocInfo
+     */
     public function getVarType(): ?string
     {
         $varTagValue = $this->phpDocInfo->getVarTagValue();
@@ -91,6 +97,9 @@ final class DocBlockWrapper
         return $this->typeResolver->resolveDocType($varTagValue->type);
     }
 
+    /**
+     * @todo move to PhpDocInfo
+     */
     public function getParamTagDescription(string $name): string
     {
         $paramTagValue = $this->phpDocInfo->getParamTagValueByName($name);
@@ -101,6 +110,9 @@ final class DocBlockWrapper
         return '';
     }
 
+    /**
+     * @todo move to PhpDocInfo
+     */
     public function removeReturnType(): void
     {
         if ($this->phpDocInfo->getReturnTagValue()) {
@@ -108,6 +120,9 @@ final class DocBlockWrapper
         }
     }
 
+    /**
+     * @todo move to PhpDocInfo
+     */
     public function removePhpDocTagValueNode(PhpDocTagValueNode $phpDocTagValueNode): void
     {
         $phpDocNode = $this->phpDocInfo->getPhpDocNode();
@@ -122,6 +137,9 @@ final class DocBlockWrapper
         }
     }
 
+    /**
+     * @todo move to PhpDocInfo
+     */
     public function removeParamType(string $name): void
     {
         $phpDocNode = $this->phpDocInfo->getPhpDocNode();
@@ -194,6 +212,9 @@ final class DocBlockWrapper
         }
     }
 
+    /**
+     * @todo move to some Analyzer
+     */
     private function isIterableType(TypeNode $typeNode): bool
     {
         if ($typeNode instanceof UnionTypeNode) {
