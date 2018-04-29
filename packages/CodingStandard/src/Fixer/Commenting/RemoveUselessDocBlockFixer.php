@@ -262,7 +262,6 @@ public function getCount(): int
             }
 
             $docBlockWrapper->removeParamType($paramTagValue->parameterName);
-//            $docBlockWrapper->removePhpDocTagValueNode($paramTagValue);
         }
     }
 

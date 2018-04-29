@@ -122,4 +122,9 @@ final class PhpDocInfo
             $this->phpDocModifier->removeTagFromPhpDocNode($this->phpDocNode, $returnTagValue);
         }
     }
+
+    public function removeParamTagByParameter(string $name): void
+    {
+        $this->phpDocModifier->removeParamTagByParameter($this, $name);
+    }
 }

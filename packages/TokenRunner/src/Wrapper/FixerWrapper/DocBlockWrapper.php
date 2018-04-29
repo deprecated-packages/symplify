@@ -40,25 +40,18 @@ final class DocBlockWrapper
      */
     private $typeResolver;
 
-    /**
-     * @var PhpDocModifier
-     */
-    private $phpDocModifier;
-
     public function __construct(
         Tokens $tokens,
         int $position,
         PhpDocInfo $phpDocInfo,
         PhpDocInfoPrinter $phpDocInfoPrinter,
-        TypeResolver $typeResolver,
-        PhpDocModifier $phpDocModifier
+        TypeResolver $typeResolver
     ) {
         $this->tokens = $tokens;
         $this->position = $position;
         $this->phpDocInfo = $phpDocInfo;
         $this->phpDocInfoPrinter = $phpDocInfoPrinter;
         $this->typeResolver = $typeResolver;
-        $this->phpDocModifier = $phpDocModifier;
     }
 
     public function getTokenPosition(): int
@@ -114,7 +107,7 @@ final class DocBlockWrapper
 
     public function removeParamType(string $name): void
     {
-        $this->phpDocModifier->removeParamTagByParameter($this->phpDocInfo, $name);
+        $this->phpDocInfo->removeParamTagByParameter($name);
     }
 
     public function isArrayProperty(): bool
