@@ -66,6 +66,19 @@ final class PhpDocModifierTest extends AbstractContainerAwareTestCase
 
     public function provideDataForRemoveTagByNameAndContent(): Iterator
     {
-        yield [file_get_contents(__DIR__ . '/PhpDocModifierSource/before2.txt'), '', 'method', 'getThis()'];
+//        yield [file_get_contents(__DIR__ . '/PhpDocModifierSource/before2.txt'), '', 'method', 'getThis()'];
+        yield [
+            file_get_contents(__DIR__ . '/PhpDocModifierSource/before3.txt'),
+            file_get_contents(__DIR__ . '/PhpDocModifierSource/after3.txt'),
+            'param',
+            'paramName',
+        ];
+
+        yield [
+            file_get_contents(__DIR__ . '/PhpDocModifierSource/before3.txt'),
+            file_get_contents(__DIR__ . '/PhpDocModifierSource/after3.txt'),
+            'param',
+            '$paramName',
+        ];
     }
 }
