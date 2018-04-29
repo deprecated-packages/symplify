@@ -69,12 +69,27 @@ final class PhpDocModifier
         }
     }
 
-    private function removeTagFromPhpDocNode(PhpDocNode $phpDocNode, PhpDocTagNode $phpDocTagNode): void
+    /**
+     * @param PhpDocTagNode|PhpDocTagValueNode $phpDocTagOrPhpDocTagValueNode
+     */
+    public function removeTagFromPhpDocNode(PhpDocNode $phpDocNode, $phpDocTagOrPhpDocTagValueNode): void
     {
+        // remove specific tag
         foreach ($phpDocNode->children as $key => $phpDocChildNode) {
-            if ($phpDocChildNode === $phpDocTagNode) {
+            if ($phpDocChildNode === $phpDocTagOrPhpDocTagValueNode) {
                 unset($phpDocNode->children[$key]);
                 return;
+            }
+        }
+
+        // or by type
+        foreach ($phpDocNode->children as $key => $phpDocChildNode) {
+            if (! $phpDocChildNode instanceof PhpDocTagNode) {
+                continue;
+            }
+
+            if ($phpDocChildNode->value === $phpDocTagOrPhpDocTagValueNode) {
+                unset($phpDocNode->children[$key]);
             }
         }
     }

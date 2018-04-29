@@ -5,10 +5,9 @@ namespace Symplify\BetterPhpDocParser\PhpDocParser;
 use Nette\Utils\Strings;
 use PHPStan\PhpDocParser\Ast\PhpDoc\ParamTagValueNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocNode;
-use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTagNode;
-use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTagValueNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\ReturnTagValueNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\VarTagValueNode;
+use Symplify\BetterPhpDocParser\PhpDocModifier;
 
 final class PhpDocInfo
 {
@@ -33,14 +32,24 @@ final class PhpDocInfo
     private $originalContent;
 
     /**
+     * @var PhpDocModifier
+     */
+    private $phpDocModifier;
+
+    /**
      * @param mixed[] $tokens
      */
-    public function __construct(PhpDocNode $phpDocNode, array $tokens, string $originalContent)
-    {
+    public function __construct(
+        PhpDocNode $phpDocNode,
+        array $tokens,
+        string $originalContent,
+        PhpDocModifier $phpDocModifier
+    ) {
         $this->phpDocNode = $phpDocNode;
         $this->tokens = $tokens;
         $this->originalPhpDocNode = clone $phpDocNode;
         $this->originalContent = $originalContent;
+        $this->phpDocModifier = $phpDocModifier;
     }
 
     public function getOriginalContent(): string
@@ -110,20 +119,7 @@ final class PhpDocInfo
     public function removeReturnTag(): void
     {
         foreach ($this->phpDocNode->getReturnTagValues() as $returnTagValue) {
-            $this->removePhpDocTagValueNode($returnTagValue);
-        }
-    }
-
-    private function removePhpDocTagValueNode(PhpDocTagValueNode $phpDocTagValueNode): void
-    {
-        foreach ($this->phpDocNode->children as $key => $phpDocChildNode) {
-            if (! $phpDocChildNode instanceof PhpDocTagNode) {
-                continue;
-            }
-
-            if ($phpDocChildNode->value === $phpDocTagValueNode) {
-                unset($this->phpDocNode->children[$key]);
-            }
+            $this->phpDocModifier->removeTagFromPhpDocNode($this->phpDocNode, $returnTagValue);
         }
     }
 }

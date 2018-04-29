@@ -5,6 +5,7 @@ namespace Symplify\BetterPhpDocParser\PhpDocParser;
 use PHPStan\PhpDocParser\Lexer\Lexer;
 use PHPStan\PhpDocParser\Parser\PhpDocParser;
 use PHPStan\PhpDocParser\Parser\TokenIterator;
+use Symplify\BetterPhpDocParser\PhpDocModifier;
 
 final class PhpDocInfoFactory
 {
@@ -18,10 +19,16 @@ final class PhpDocInfoFactory
      */
     private $lexer;
 
-    public function __construct(PhpDocParser $phpDocParser, Lexer $lexer)
+    /**
+     * @var PhpDocModifier
+     */
+    private $phpDocModifier;
+
+    public function __construct(PhpDocParser $phpDocParser, Lexer $lexer, PhpDocModifier $phpDocModifier)
     {
         $this->phpDocParser = $phpDocParser;
         $this->lexer = $lexer;
+        $this->phpDocModifier = $phpDocModifier;
     }
 
     public function createFrom(string $content): PhpDocInfo
@@ -30,6 +37,6 @@ final class PhpDocInfoFactory
         $tokenIterator = new TokenIterator($tokens);
         $phpDocNode = $this->phpDocParser->parse($tokenIterator);
 
-        return new PhpDocInfo($phpDocNode, $tokens, $content);
+        return new PhpDocInfo($phpDocNode, $tokens, $content, $this->phpDocModifier);
     }
 }
