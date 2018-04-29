@@ -4,9 +4,6 @@ namespace Symplify\TokenRunner\Wrapper\FixerWrapper;
 
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
-use PHPStan\PhpDocParser\Ast\PhpDoc\InvalidTagValueNode;
-use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTagNode;
-use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTagValueNode;
 use PHPStan\PhpDocParser\Ast\Type\ArrayTypeNode;
 use PHPStan\PhpDocParser\Ast\Type\IdentifierTypeNode;
 use PHPStan\PhpDocParser\Ast\Type\TypeNode;
@@ -42,6 +39,7 @@ final class DocBlockWrapper
      * @var TypeResolver
      */
     private $typeResolver;
+
     /**
      * @var PhpDocModifier
      */
@@ -109,65 +107,14 @@ final class DocBlockWrapper
         return $this->phpDocInfo->getParamTagDescriptionByName($name);
     }
 
-    /**
-     * @todo move to PhpDocInfo
-     */
     public function removeReturnType(): void
     {
         $this->phpDocInfo->removeReturnTag();
-//        if ($this->phpDocInfo->getReturnTagValue()) {
-//            $this->removePhpDocTagValueNode($this->phpDocInfo->getReturnTagValue());
-//        }
     }
 
-//    /**
-//     * @todo move to PhpDocInfo
-//     */
-//    public function removePhpDocTagValueNode(PhpDocTagValueNode $phpDocTagValueNode): void
-//    {
-//        $phpDocNode = $this->phpDocInfo->getPhpDocNode();
-//        foreach ($phpDocNode->children as $key => $phpDocChildNode) {
-//            if (! $phpDocChildNode instanceof PhpDocTagNode) {
-//                continue;
-//            }
-//
-//            if ($phpDocChildNode->value === $phpDocTagValueNode) {
-//                unset($phpDocNode->children[$key]);
-//            }
-//        }
-//    }
-
-    /**
-     * @todo move to PhpDocInfo
-     */
     public function removeParamType(string $name): void
     {
         $this->phpDocModifier->removeParamTagByParameter($this->phpDocInfo, $name);
-        return;
-
-        dump($name);
-        die;
-
-        $phpDocNode = $this->phpDocInfo->getPhpDocNode();
-        $paramTagValue = $this->phpDocInfo->getParamTagValueByName($name);
-
-        foreach ($phpDocNode->children as $key => $phpDocChildNode) {
-            if (! property_exists($phpDocChildNode, 'value')) {
-                continue;
-            }
-
-            // process invalid tag values
-            if ($phpDocChildNode->value instanceof InvalidTagValueNode) {
-                if ($phpDocChildNode->value->value === '$' . $name) {
-                    unset($phpDocNode->children[$key]);
-                    continue;
-                }
-            }
-
-            if ($phpDocChildNode->value === $paramTagValue) {
-                unset($phpDocNode->children[$key]);
-            }
-        }
     }
 
     public function isArrayProperty(): bool

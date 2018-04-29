@@ -24,6 +24,7 @@ final class DocBlockWrapperFactory
      * @var TypeResolver
      */
     private $typeResolver;
+
     /**
      * @var PhpDocModifier
      */

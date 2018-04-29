@@ -62,7 +62,7 @@ final class PhpDocModifier
                 if ($paramTagValueNode->value === $parameterName) {
                     $this->removeTagFromPhpDocNode($phpDocNode, $phpDocTagNode);
                 }
-            // process normal tag
+                // process normal tag
             } elseif ($paramTagValueNode->parameterName === $parameterName) {
                 $this->removeTagFromPhpDocNode($phpDocNode, $phpDocTagNode);
             }
