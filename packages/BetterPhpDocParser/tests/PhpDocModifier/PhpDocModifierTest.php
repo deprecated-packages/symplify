@@ -33,7 +33,8 @@ final class PhpDocModifierTest extends AbstractContainerAwareTestCase
 
     public function test()
     {
-        $phpDocInfo = $this->phpDocInfoFactory->createFrom(__DIR__ . '/PhpDocModifierSource/before.txt');
+        $phpDocInfo = $this->phpDocInfoFactory->createFrom(file_get_contents(__DIR__ . '/PhpDocModifierSource/before.txt'));
+
         $this->phpDocModifier->removeTagByName($phpDocInfo, 'var');
 
         $this->assertSame(
