@@ -3,7 +3,6 @@
 namespace Symplify\BetterPhpDocParser\Tests\PhpDocModifier;
 
 use Iterator;
-use Symplify\BetterPhpDocParser\PhpDocModifier;
 use Symplify\BetterPhpDocParser\PhpDocParser\PhpDocInfoFactory;
 use Symplify\BetterPhpDocParser\Printer\PhpDocInfoPrinter;
 use Symplify\BetterPhpDocParser\Tests\AbstractContainerAwareTestCase;
@@ -20,16 +19,10 @@ final class PhpDocModifierTest extends AbstractContainerAwareTestCase
      */
     private $phpDocInfoPrinter;
 
-    /**
-     * @var PhpDocModifier
-     */
-    private $phpDocModifier;
-
     protected function setUp(): void
     {
         $this->phpDocInfoFactory = $this->container->get(PhpDocInfoFactory::class);
         $this->phpDocInfoPrinter = $this->container->get(PhpDocInfoPrinter::class);
-        $this->phpDocModifier = $this->container->get(PhpDocModifier::class);
     }
 
     /**
@@ -38,7 +31,9 @@ final class PhpDocModifierTest extends AbstractContainerAwareTestCase
     public function testRemoveTagByName(string $phpDocBefore, string $phpDocAfter, string $tagName): void
     {
         $phpDocInfo = $this->phpDocInfoFactory->createFrom($phpDocBefore);
-        $this->phpDocModifier->removeTagByName($phpDocInfo, $tagName);
+
+        $phpDocInfo->removeTagByName($tagName);
+
         $this->assertSame($phpDocAfter, $this->phpDocInfoPrinter->printFormatPreserving($phpDocInfo));
     }
 
@@ -59,7 +54,7 @@ final class PhpDocModifierTest extends AbstractContainerAwareTestCase
     ): void {
         $phpDocInfo = $this->phpDocInfoFactory->createFrom($phpDocBefore);
 
-        $this->phpDocModifier->removeTagByNameAndContent($phpDocInfo, $tagName, $tagContent);
+        $phpDocInfo->removeTagByNameAndContent($tagName, $tagContent);
 
         $this->assertSame($phpDocAfter, $this->phpDocInfoPrinter->printFormatPreserving($phpDocInfo));
     }
@@ -78,7 +73,9 @@ final class PhpDocModifierTest extends AbstractContainerAwareTestCase
         string $parameterName
     ): void {
         $phpDocInfo = $this->phpDocInfoFactory->createFrom($phpDocBefore);
-        $this->phpDocModifier->removeParamTagByParameter($phpDocInfo, $parameterName);
+
+        $phpDocInfo->removeParamTagByParameter($parameterName);
+
         $this->assertSame($phpDocAfter, $this->phpDocInfoPrinter->printFormatPreserving($phpDocInfo));
     }
 

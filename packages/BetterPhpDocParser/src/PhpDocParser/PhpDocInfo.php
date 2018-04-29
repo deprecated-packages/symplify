@@ -127,4 +127,14 @@ final class PhpDocInfo
     {
         $this->phpDocModifier->removeParamTagByParameter($this, $name);
     }
+
+    public function removeTagByName(string $tagName): void
+    {
+        $this->phpDocModifier->removeTagByName($this, $tagName);
+    }
+
+    public function removeTagByNameAndContent(string $tagName, string $tagContent): void
+    {
+        $this->phpDocModifier->removeTagByNameAndContent($this, $tagName, $tagContent);
+    }
 }
