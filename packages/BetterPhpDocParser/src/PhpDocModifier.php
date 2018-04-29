@@ -15,7 +15,7 @@ final class PhpDocModifier
     {
         $phpDocNode = $phpDocInfo->getPhpDocNode();
 
-        $tagsByName = $phpDocNode->getTagsByName('@' . $tagName);
+        $tagsByName = $phpDocNode->getTagsByName('@' . ltrim($tagName, '@'));
 
         foreach ($tagsByName as $tagByName) {
             $this->removeTagFromPhpDocNode($phpDocNode, $tagByName);

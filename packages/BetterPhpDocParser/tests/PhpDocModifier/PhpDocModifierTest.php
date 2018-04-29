@@ -35,20 +35,18 @@ final class PhpDocModifierTest extends AbstractContainerAwareTestCase
     /**
      * @dataProvider provideDataForRemoveTagByName()
      */
-    public function testRemoveTagByName(string $docFileBefore, string $docFileAfter, string $tagName)
+    public function testRemoveTagByName(string $phpDocBefore, string $phpDocAfter, string $tagName)
     {
-        $phpDocInfo = $this->phpDocInfoFactory->createFrom(file_get_contents($docFileBefore));
+        $phpDocInfo = $this->phpDocInfoFactory->createFrom($phpDocBefore);
 
         $this->phpDocModifier->removeTagByName($phpDocInfo, $tagName);
 
-        $this->assertSame(
-            file_get_contents($docFileAfter),
-            $this->phpDocInfoPrinter->printFormatPreserving($phpDocInfo)
-        );
+        $this->assertSame($phpDocAfter, $this->phpDocInfoPrinter->printFormatPreserving($phpDocInfo));
     }
 
     public function provideDataForRemoveTagByName(): Iterator
     {
-        yield [__DIR__ . '/PhpDocModifierSource/before.txt', __DIR__ . '/PhpDocModifierSource/after.txt', 'var'];
+        yield [file_get_contents(__DIR__ . '/PhpDocModifierSource/before.txt'), '', 'var'];
+        yield [file_get_contents(__DIR__ . '/PhpDocModifierSource/before.txt'), '', '@var'];
     }
 }
