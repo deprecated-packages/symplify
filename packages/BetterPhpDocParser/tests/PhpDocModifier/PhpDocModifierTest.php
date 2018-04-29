@@ -87,13 +87,13 @@ final class PhpDocModifierTest extends AbstractContainerAwareTestCase
         yield [
             file_get_contents(__DIR__ . '/PhpDocModifierSource/before3.txt'),
             file_get_contents(__DIR__ . '/PhpDocModifierSource/after3.txt'),
-            'paramName'
+            'paramName',
         ];
 
         yield [
             file_get_contents(__DIR__ . '/PhpDocModifierSource/before3.txt'),
             file_get_contents(__DIR__ . '/PhpDocModifierSource/after3.txt'),
-            '$paramName'
+            '$paramName',
         ];
     }
 }
