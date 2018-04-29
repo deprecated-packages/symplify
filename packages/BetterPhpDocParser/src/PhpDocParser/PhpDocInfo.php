@@ -5,6 +5,8 @@ namespace Symplify\BetterPhpDocParser\PhpDocParser;
 use Nette\Utils\Strings;
 use PHPStan\PhpDocParser\Ast\PhpDoc\ParamTagValueNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocNode;
+use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTagNode;
+use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTagValueNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\ReturnTagValueNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\VarTagValueNode;
 
@@ -77,6 +79,16 @@ final class PhpDocInfo
         return null;
     }
 
+    public function getParamTagDescriptionByName(string $name): string
+    {
+        $paramTagValue = $this->getParamTagValueByName($name);
+        if ($paramTagValue) {
+            return $paramTagValue->description;
+        }
+
+        return '';
+    }
+
     public function getVarTagValue(): ?VarTagValueNode
     {
         return $this->getPhpDocNode()->getVarTagValues()[0] ?? null;
@@ -93,5 +105,25 @@ final class PhpDocInfo
     public function getParamTagValues(): array
     {
         return $this->getPhpDocNode()->getParamTagValues();
+    }
+
+    public function removeReturnTag(): void
+    {
+        foreach ($this->phpDocNode->getReturnTagValues() as $returnTagValue) {
+            $this->removePhpDocTagValueNode($returnTagValue);
+        }
+    }
+
+    private function removePhpDocTagValueNode(PhpDocTagValueNode $phpDocTagValueNode): void
+    {
+        foreach ($this->phpDocNode->children as $key => $phpDocChildNode) {
+            if (! $phpDocChildNode instanceof PhpDocTagNode) {
+                continue;
+            }
+
+            if ($phpDocChildNode->value === $phpDocTagValueNode) {
+                unset($this->phpDocNode->children[$key]);
+            }
+        }
     }
 }

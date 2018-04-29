@@ -2,6 +2,7 @@
 
 namespace Symplify\BetterPhpDocParser;
 
+use PHPStan\PhpDocParser\Ast\PhpDoc\InvalidTagValueNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\ParamTagValueNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTagNode;
@@ -51,10 +52,18 @@ final class PhpDocModifier
         $phpDocTagNodes = $phpDocNode->getTagsByName('@param');
 
         foreach ($phpDocTagNodes as $phpDocTagNode) {
-            /** @var ParamTagValueNode $paramTagValueNode */
+            /** @var ParamTagValueNode|InvalidTagValueNode $paramTagValueNode */
             $paramTagValueNode = $phpDocTagNode->value;
 
-            if ($paramTagValueNode->parameterName === '$' . ltrim($parameterName, '$')) {
+            $parameterName = '$' . ltrim($parameterName, '$');
+
+            // process invalid tag values
+            if ($paramTagValueNode instanceof InvalidTagValueNode) {
+                if ($paramTagValueNode->value === $parameterName) {
+                    $this->removeTagFromPhpDocNode($phpDocNode, $phpDocTagNode);
+                }
+            // process normal tag
+            } elseif ($paramTagValueNode->parameterName === $parameterName) {
                 $this->removeTagFromPhpDocNode($phpDocNode, $phpDocTagNode);
             }
         }
