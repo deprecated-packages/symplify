@@ -35,12 +35,10 @@ final class PhpDocModifierTest extends AbstractContainerAwareTestCase
     /**
      * @dataProvider provideDataForRemoveTagByName()
      */
-    public function testRemoveTagByName(string $phpDocBefore, string $phpDocAfter, string $tagName)
+    public function testRemoveTagByName(string $phpDocBefore, string $phpDocAfter, string $tagName): void
     {
         $phpDocInfo = $this->phpDocInfoFactory->createFrom($phpDocBefore);
-
         $this->phpDocModifier->removeTagByName($phpDocInfo, $tagName);
-
         $this->assertSame($phpDocAfter, $this->phpDocInfoPrinter->printFormatPreserving($phpDocInfo));
     }
 
@@ -48,5 +46,26 @@ final class PhpDocModifierTest extends AbstractContainerAwareTestCase
     {
         yield [file_get_contents(__DIR__ . '/PhpDocModifierSource/before.txt'), '', 'var'];
         yield [file_get_contents(__DIR__ . '/PhpDocModifierSource/before.txt'), '', '@var'];
+    }
+
+    /**
+     * @dataProvider provideDataForRemoveTagByNameAndContent()
+     */
+    public function testRemoveTagByNameAndContent(
+        string $phpDocBefore,
+        string $phpDocAfter,
+        string $tagName,
+        string $tagContent
+    ): void {
+        $phpDocInfo = $this->phpDocInfoFactory->createFrom($phpDocBefore);
+
+        $this->phpDocModifier->removeTagByNameAndContent($phpDocInfo, $tagName, $tagContent);
+
+        $this->assertSame($phpDocAfter, $this->phpDocInfoPrinter->printFormatPreserving($phpDocInfo));
+    }
+
+    public function provideDataForRemoveTagByNameAndContent(): Iterator
+    {
+        yield [file_get_contents(__DIR__ . '/PhpDocModifierSource/before2.txt'), '', 'method', 'getThis()'];
     }
 }
