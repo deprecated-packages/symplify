@@ -66,19 +66,34 @@ final class PhpDocModifierTest extends AbstractContainerAwareTestCase
 
     public function provideDataForRemoveTagByNameAndContent(): Iterator
     {
-//        yield [file_get_contents(__DIR__ . '/PhpDocModifierSource/before2.txt'), '', 'method', 'getThis()'];
+        yield [file_get_contents(__DIR__ . '/PhpDocModifierSource/before2.txt'), '', 'method', 'getThis()'];
+    }
+
+    /**
+     * @dataProvider provideDataForRemoveParamTagByParameter()
+     */
+    public function testRemoveParamTagByParameter(
+        string $phpDocBefore,
+        string $phpDocAfter,
+        string $parameterName
+    ): void {
+        $phpDocInfo = $this->phpDocInfoFactory->createFrom($phpDocBefore);
+        $this->phpDocModifier->removeParamTagByParameter($phpDocInfo, $parameterName);
+        $this->assertSame($phpDocAfter, $this->phpDocInfoPrinter->printFormatPreserving($phpDocInfo));
+    }
+
+    public function provideDataForRemoveParamTagByParameter(): Iterator
+    {
         yield [
             file_get_contents(__DIR__ . '/PhpDocModifierSource/before3.txt'),
             file_get_contents(__DIR__ . '/PhpDocModifierSource/after3.txt'),
-            'param',
-            'paramName',
+            'paramName'
         ];
 
         yield [
             file_get_contents(__DIR__ . '/PhpDocModifierSource/before3.txt'),
             file_get_contents(__DIR__ . '/PhpDocModifierSource/after3.txt'),
-            'param',
-            '$paramName',
+            '$paramName'
         ];
     }
 }

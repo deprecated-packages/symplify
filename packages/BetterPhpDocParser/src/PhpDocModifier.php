@@ -36,15 +36,25 @@ final class PhpDocModifier
                 continue;
             }
 
-            // @param $paramToRemove
-            if ($phpDocTagNode->value instanceof ParamTagValueNode) {
-                if ($phpDocTagNode->value->parameterName === '$' . ltrim($tagContent, '$')) {
-                    $this->removeTagFromPhpDocNode($phpDocNode, $phpDocTagNode);
-                }
-            }
-
             // @method someMethod()
             if ((string) $phpDocTagNode->value === $tagContent) {
+                $this->removeTagFromPhpDocNode($phpDocNode, $phpDocTagNode);
+            }
+        }
+    }
+
+    public function removeParamTagByParameter(PhpDocInfo $phpDocInfo, string $parameterName): void
+    {
+        $phpDocNode = $phpDocInfo->getPhpDocNode();
+
+        /** @var PhpDocTagNode[] $phpDocTagNodes */
+        $phpDocTagNodes = $phpDocNode->getTagsByName('@param');
+
+        foreach ($phpDocTagNodes as $phpDocTagNode) {
+            /** @var ParamTagValueNode $paramTagValueNode */
+            $paramTagValueNode = $phpDocTagNode->value;
+
+            if ($paramTagValueNode->parameterName === '$' . ltrim($parameterName, '$')) {
                 $this->removeTagFromPhpDocNode($phpDocNode, $phpDocTagNode);
             }
         }
