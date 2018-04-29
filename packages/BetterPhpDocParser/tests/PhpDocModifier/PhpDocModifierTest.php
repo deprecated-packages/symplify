@@ -2,6 +2,7 @@
 
 namespace Symplify\BetterPhpDocParser\Tests\PhpDocModifier;
 
+use Iterator;
 use Symplify\BetterPhpDocParser\PhpDocModifier;
 use Symplify\BetterPhpDocParser\PhpDocParser\PhpDocInfoFactory;
 use Symplify\BetterPhpDocParser\Printer\PhpDocInfoPrinter;
@@ -31,15 +32,23 @@ final class PhpDocModifierTest extends AbstractContainerAwareTestCase
         $this->phpDocModifier = $this->container->get(PhpDocModifier::class);
     }
 
-    public function test()
+    /**
+     * @dataProvider provideDataForRemoveTagByName()
+     */
+    public function testRemoveTagByName(string $docFileBefore, string $docFileAfter, string $tagName)
     {
-        $phpDocInfo = $this->phpDocInfoFactory->createFrom(file_get_contents(__DIR__ . '/PhpDocModifierSource/before.txt'));
+        $phpDocInfo = $this->phpDocInfoFactory->createFrom(file_get_contents($docFileBefore));
 
-        $this->phpDocModifier->removeTagByName($phpDocInfo, 'var');
+        $this->phpDocModifier->removeTagByName($phpDocInfo, $tagName);
 
         $this->assertSame(
-            file_get_contents(__DIR__ . '/PhpDocModifierSource/after.txt'),
+            file_get_contents($docFileAfter),
             $this->phpDocInfoPrinter->printFormatPreserving($phpDocInfo)
         );
+    }
+
+    public function provideDataForRemoveTagByName(): Iterator
+    {
+        yield [__DIR__ . '/PhpDocModifierSource/before.txt', __DIR__ . '/PhpDocModifierSource/after.txt', 'var'];
     }
 }
