@@ -2,7 +2,6 @@
 
 namespace Symplify\BetterPhpDocParser;
 
-use PHPStan\PhpDoc\Tag\ParamTag;
 use PHPStan\PhpDocParser\Ast\PhpDoc\ParamTagValueNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTagNode;
@@ -39,7 +38,7 @@ final class PhpDocModifier
 
             // @param $paramToRemove
             if ($phpDocTagNode->value instanceof ParamTagValueNode) {
-                if ((string) $phpDocTagNode->value->parameterName === '$' . ltrim($tagContent, '$')) {
+                if ($phpDocTagNode->value->parameterName === '$' . ltrim($tagContent, '$')) {
                     $this->removeTagFromPhpDocNode($phpDocNode, $phpDocTagNode);
                 }
             }
