@@ -13,10 +13,10 @@ final class PhpDocModifier
     {
         $phpDocNode = $phpDocInfo->getPhpDocNode();
 
-        $tagsByName = $phpDocNode->getTagsByName('@' . ltrim($tagName, '@'));
+        $phpDocTagNodes = $phpDocNode->getTagsByName('@' . ltrim($tagName, '@'));
 
-        foreach ($tagsByName as $tagByName) {
-            $this->removeTagFromPhpDocNode($phpDocNode, $tagByName);
+        foreach ($phpDocTagNodes as $phpDocTagNode) {
+            $this->removeTagFromPhpDocNode($phpDocNode, $phpDocTagNode);
         }
     }
 
@@ -24,18 +24,19 @@ final class PhpDocModifier
     {
         $phpDocNode = $phpDocInfo->getPhpDocNode();
 
-        $tagsByName = $phpDocNode->getTagsByName('@' . ltrim($tagName, '@'));
+        $phpDocTagNodes = $phpDocNode->getTagsByName('@' . ltrim($tagName, '@'));
 
-        foreach ($tagsByName as $phpDocTagNode) {
+        foreach ($phpDocTagNodes as $phpDocTagNode) {
             if (! $phpDocTagNode instanceof PhpDocTagNode) {
                 continue;
             }
 
-            if ($phpDocTagNode->value instanceof PhpDocTagValueNode) {
-                $valueContent = (string) $phpDocTagNode->value;
-                if ($valueContent === $tagContent) {
-                    $this->removeTagFromPhpDocNode($phpDocNode, $phpDocTagNode);
-                }
+            if (! $phpDocTagNode->value instanceof PhpDocTagValueNode) {
+                continue;
+            }
+
+            if ((string) $phpDocTagNode->value === $tagContent) {
+                $this->removeTagFromPhpDocNode($phpDocNode, $phpDocTagNode);
             }
         }
     }
