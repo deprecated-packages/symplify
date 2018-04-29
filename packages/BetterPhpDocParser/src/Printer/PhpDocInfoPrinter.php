@@ -168,8 +168,8 @@ final class PhpDocInfoPrinter
 
         $nodeOutput = $this->printNode($phpDocTagNode->value, $phpDocNodeInfo);
 
-        // fix for "@Long\Annotation"
-        if (! ctype_upper($phpDocTagNode->name[1]) || ! Strings::startsWith($nodeOutput, '\\')) {
+        // fix for: "@Long\Annotation", "@Route("/", name="homepage")"
+        if (! ctype_upper($phpDocTagNode->name[1]) || ! Strings::match($nodeOutput, '#^\\\\|\(#')) {
             $output .= ' '; // @todo not manually
         }
 

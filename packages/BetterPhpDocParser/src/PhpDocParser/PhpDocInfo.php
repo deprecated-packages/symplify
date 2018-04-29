@@ -7,6 +7,7 @@ use PHPStan\PhpDocParser\Ast\PhpDoc\ParamTagValueNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\ReturnTagValueNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\VarTagValueNode;
+use Symplify\BetterPhpDocParser\PhpDocModifier;
 
 final class PhpDocInfo
 {
@@ -31,14 +32,24 @@ final class PhpDocInfo
     private $originalContent;
 
     /**
+     * @var PhpDocModifier
+     */
+    private $phpDocModifier;
+
+    /**
      * @param mixed[] $tokens
      */
-    public function __construct(PhpDocNode $phpDocNode, array $tokens, string $originalContent)
-    {
+    public function __construct(
+        PhpDocNode $phpDocNode,
+        array $tokens,
+        string $originalContent,
+        PhpDocModifier $phpDocModifier
+    ) {
         $this->phpDocNode = $phpDocNode;
         $this->tokens = $tokens;
         $this->originalPhpDocNode = clone $phpDocNode;
         $this->originalContent = $originalContent;
+        $this->phpDocModifier = $phpDocModifier;
     }
 
     public function getOriginalContent(): string
@@ -77,6 +88,16 @@ final class PhpDocInfo
         return null;
     }
 
+    public function getParamTagDescriptionByName(string $name): string
+    {
+        $paramTagValue = $this->getParamTagValueByName($name);
+        if ($paramTagValue) {
+            return $paramTagValue->description;
+        }
+
+        return '';
+    }
+
     public function getVarTagValue(): ?VarTagValueNode
     {
         return $this->getPhpDocNode()->getVarTagValues()[0] ?? null;
@@ -93,5 +114,27 @@ final class PhpDocInfo
     public function getParamTagValues(): array
     {
         return $this->getPhpDocNode()->getParamTagValues();
+    }
+
+    public function removeReturnTag(): void
+    {
+        foreach ($this->phpDocNode->getReturnTagValues() as $returnTagValue) {
+            $this->phpDocModifier->removeTagFromPhpDocNode($this->phpDocNode, $returnTagValue);
+        }
+    }
+
+    public function removeParamTagByParameter(string $name): void
+    {
+        $this->phpDocModifier->removeParamTagByParameter($this, $name);
+    }
+
+    public function removeTagByName(string $tagName): void
+    {
+        $this->phpDocModifier->removeTagByName($this, $tagName);
+    }
+
+    public function removeTagByNameAndContent(string $tagName, string $tagContent): void
+    {
+        $this->phpDocModifier->removeTagByNameAndContent($this, $tagName, $tagContent);
     }
 }

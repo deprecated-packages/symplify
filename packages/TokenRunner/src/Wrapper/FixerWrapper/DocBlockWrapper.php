@@ -4,9 +4,6 @@ namespace Symplify\TokenRunner\Wrapper\FixerWrapper;
 
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
-use PHPStan\PhpDocParser\Ast\PhpDoc\InvalidTagValueNode;
-use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTagNode;
-use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTagValueNode;
 use PHPStan\PhpDocParser\Ast\Type\ArrayTypeNode;
 use PHPStan\PhpDocParser\Ast\Type\IdentifierTypeNode;
 use PHPStan\PhpDocParser\Ast\Type\TypeNode;
@@ -71,6 +68,9 @@ final class DocBlockWrapper
         return $this->phpDocInfo;
     }
 
+    /**
+     * @todo move to PhpDocInfo
+     */
     public function getArgumentType(string $name): ?string
     {
         $paramTagValue = $this->getPhpDocInfo()->getParamTagValueByName($name);
@@ -81,6 +81,9 @@ final class DocBlockWrapper
         return $this->typeResolver->resolveDocType($paramTagValue->type);
     }
 
+    /**
+     * @todo move to PhpDocInfo
+     */
     public function getVarType(): ?string
     {
         $varTagValue = $this->phpDocInfo->getVarTagValue();
@@ -93,57 +96,17 @@ final class DocBlockWrapper
 
     public function getParamTagDescription(string $name): string
     {
-        $paramTagValue = $this->phpDocInfo->getParamTagValueByName($name);
-        if ($paramTagValue) {
-            return $paramTagValue->description;
-        }
-
-        return '';
+        return $this->phpDocInfo->getParamTagDescriptionByName($name);
     }
 
     public function removeReturnType(): void
     {
-        if ($this->phpDocInfo->getReturnTagValue()) {
-            $this->removePhpDocTagValueNode($this->phpDocInfo->getReturnTagValue());
-        }
-    }
-
-    public function removePhpDocTagValueNode(PhpDocTagValueNode $phpDocTagValueNode): void
-    {
-        $phpDocNode = $this->phpDocInfo->getPhpDocNode();
-        foreach ($phpDocNode->children as $key => $phpDocChildNode) {
-            if (! $phpDocChildNode instanceof PhpDocTagNode) {
-                continue;
-            }
-
-            if ($phpDocChildNode->value === $phpDocTagValueNode) {
-                unset($phpDocNode->children[$key]);
-            }
-        }
+        $this->phpDocInfo->removeReturnTag();
     }
 
     public function removeParamType(string $name): void
     {
-        $phpDocNode = $this->phpDocInfo->getPhpDocNode();
-        $paramTagValue = $this->phpDocInfo->getParamTagValueByName($name);
-
-        foreach ($phpDocNode->children as $key => $phpDocChildNode) {
-            if (! property_exists($phpDocChildNode, 'value')) {
-                continue;
-            }
-
-            // process invalid tag values
-            if ($phpDocChildNode->value instanceof InvalidTagValueNode) {
-                if ($phpDocChildNode->value->value === '$' . $name) {
-                    unset($phpDocNode->children[$key]);
-                    continue;
-                }
-            }
-
-            if ($phpDocChildNode->value === $paramTagValue) {
-                unset($phpDocNode->children[$key]);
-            }
-        }
+        $this->phpDocInfo->removeParamTagByParameter($name);
     }
 
     public function isArrayProperty(): bool
@@ -194,6 +157,9 @@ final class DocBlockWrapper
         }
     }
 
+    /**
+     * @todo move to some Analyzer
+     */
     private function isIterableType(TypeNode $typeNode): bool
     {
         if ($typeNode instanceof UnionTypeNode) {
