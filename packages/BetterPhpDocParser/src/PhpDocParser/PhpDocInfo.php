@@ -8,6 +8,7 @@ use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTagNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\ReturnTagValueNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\VarTagValueNode;
+use PHPStan\PhpDocParser\Ast\Type\TypeNode;
 use Symplify\BetterPhpDocParser\PhpDocModifier;
 
 final class PhpDocInfo
@@ -130,6 +131,24 @@ final class PhpDocInfo
         $name = '@' . ltrim($name, '@');
 
         return $this->phpDocNode->getTagsByName($name);
+    }
+
+    public function getParamTypeNode(string $paramName): ?TypeNode
+    {
+        $paramName = '$' . ltrim($paramName, '$');
+
+        foreach ($this->phpDocNode->getParamTagValues() as $paramTagsValue) {
+            if ($paramTagsValue->parameterName === $paramName) {
+                return $paramTagsValue->type;
+            }
+        }
+
+        return null;
+    }
+
+    public function getVarTypeNode(): ?TypeNode
+    {
+        return $this->getVarTagValue() ? $this->getVarTagValue()->type : null;
     }
 
     public function removeReturnTag(): void

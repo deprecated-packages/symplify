@@ -1,4 +1,5 @@
 /**
+ * @var SomeType
  * @return SomeType
  * @param SomeType|NoSlash|\Preslashed|null|\string $value
  * @param \DOMElement        &$node       Element to parse that represents a Route

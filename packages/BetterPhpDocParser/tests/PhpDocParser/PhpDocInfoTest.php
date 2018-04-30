@@ -2,6 +2,7 @@
 
 namespace Symplify\BetterPhpDocParser\Tests\PhpDocParser;
 
+use PHPStan\PhpDocParser\Ast\Type\TypeNode;
 use Symplify\BetterPhpDocParser\PhpDocParser\PhpDocInfo;
 use Symplify\BetterPhpDocParser\PhpDocParser\PhpDocInfoFactory;
 use Symplify\BetterPhpDocParser\Tests\AbstractContainerAwareTestCase;
@@ -33,5 +34,19 @@ final class PhpDocInfoTest extends AbstractContainerAwareTestCase
     {
         $paramTags = $this->phpDocInfo->getTagsByName('param');
         $this->assertCount(2, $paramTags);
+    }
+
+    public function testGetParamTypeNode(): void
+    {
+        $typeNode = $this->phpDocInfo->getParamTypeNode('value');
+
+        $this->assertInstanceOf(TypeNode::class, $typeNode);
+    }
+
+    public function testGetVarTypeNode(): void
+    {
+        $typeNode = $this->phpDocInfo->getVarTypeNode();
+
+        $this->assertInstanceOf(TypeNode::class, $typeNode);
     }
 }
