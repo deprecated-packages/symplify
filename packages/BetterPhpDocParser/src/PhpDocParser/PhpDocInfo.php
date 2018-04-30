@@ -9,7 +9,10 @@ use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTagNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\ReturnTagValueNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\VarTagValueNode;
+use PHPStan\PhpDocParser\Ast\Type\ArrayTypeNode;
+use PHPStan\PhpDocParser\Ast\Type\IdentifierTypeNode;
 use PHPStan\PhpDocParser\Ast\Type\TypeNode;
+use PHPStan\PhpDocParser\Ast\Type\UnionTypeNode;
 use Symplify\BetterPhpDocParser\PhpDocModifier;
 
 final class PhpDocInfo
@@ -147,6 +150,9 @@ final class PhpDocInfo
         return null;
     }
 
+    /**
+     * @return IdentifierTypeNode|UnionTypeNode|ArrayTypeNode
+     */
     public function getVarTypeNode(): ?TypeNode
     {
         return $this->getVarTagValue() ? $this->getVarTagValue()->type : null;
@@ -159,7 +165,7 @@ final class PhpDocInfo
         $this->phpDocModifier->replaceTagByAnother($this->phpDocNode, $oldTag, $newTag);
     }
 
-    public function replacePhpDocType(string $oldType, string $newType): void
+    public function replacePhpDocTypeByAnother(string $oldType, string $newType): void
     {
         dump($this->phpDocNode);
 
