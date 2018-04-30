@@ -154,7 +154,7 @@ final class PhpDocInfo
 
     // replace section
 
-    public function replaceTagByAnother(string $oldTag, string $newTag)
+    public function replaceTagByAnother(string $oldTag, string $newTag): void
     {
         $oldTag = '@' . ltrim($oldTag, '@');
         $newTag = '@' . ltrim($newTag, '@');
