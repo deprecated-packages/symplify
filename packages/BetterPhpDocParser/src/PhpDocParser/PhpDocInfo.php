@@ -156,18 +156,40 @@ final class PhpDocInfo
 
     public function replaceTagByAnother(string $oldTag, string $newTag): void
     {
-        $oldTag = '@' . ltrim($oldTag, '@');
-        $newTag = '@' . ltrim($newTag, '@');
+        $this->phpDocModifier->replaceTagByAnother($this->phpDocNode, $oldTag, $newTag);
+    }
 
-        foreach ($this->phpDocNode->children as $key => $phpDocChildNode) {
-            if (! $phpDocChildNode instanceof PhpDocTagNode) {
-                continue;
+    public function replacePhpDocType(string $oldType, string $newType): void
+    {
+        dump($this->phpDocNode);
+
+        // @todo just everywhere :)
+
+//        PhpDocTagValueNode $phpDocTagValueNode,
+//        $phpDocTagValueNode->type = $this->replaceTypeNode($phpDocTagValueNode->type, $oldType, $newType);
+    }
+
+    /**
+     * @todo move to PhpDocManipulator
+     */
+    private function replaceTypeNode(TypeNode $typeNode, string $oldType, string $newType): TypeNode
+    {
+        if ($typeNode instanceof UnionTypeNode) {
+            foreach ($typeNode->types as $key => $subTypeNode) {
+                $typeNode->types[$key] = $this->replaceTypeNode($subTypeNode, $oldType, $newType);
             }
 
-            if ($phpDocChildNode->name === $oldTag) {
-                $this->phpDocNode->children[$key] = new PhpDocTagNode($newTag, new GenericTagValueNode(''));
+            return $typeNode;
+        }
+
+        if ($typeNode instanceof IdentifierTypeNode) {
+            $fqnType = $this->namespaceAnalyzer->resolveTypeToFullyQualified($typeNode->name, $this->node);
+            if (is_a($fqnType, $oldType, true)) {
+                return new IdentifierTypeNode($newType);
             }
         }
+
+        return $typeNode;
     }
 
     // remove section

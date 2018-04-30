@@ -2,6 +2,7 @@
 
 namespace Symplify\BetterPhpDocParser;
 
+use PHPStan\PhpDocParser\Ast\PhpDoc\GenericTagValueNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\InvalidTagValueNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\ParamTagValueNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocNode;
@@ -90,6 +91,22 @@ final class PhpDocModifier
 
             if ($phpDocChildNode->value === $phpDocTagOrPhpDocTagValueNode) {
                 unset($phpDocNode->children[$key]);
+            }
+        }
+    }
+
+    public function replaceTagByAnother(PhpDocNode $phpDocNode, string $oldTag, string $newTag)
+    {
+        $oldTag = '@' . ltrim($oldTag, '@');
+        $newTag = '@' . ltrim($newTag, '@');
+
+        foreach ($phpDocNode->children as $key => $phpDocChildNode) {
+            if (! $phpDocChildNode instanceof PhpDocTagNode) {
+                continue;
+            }
+
+            if ($phpDocChildNode->name === $oldTag) {
+                $phpDocNode->children[$key] = new PhpDocTagNode($newTag, new GenericTagValueNode(''));
             }
         }
     }
