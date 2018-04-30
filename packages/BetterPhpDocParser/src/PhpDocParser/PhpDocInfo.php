@@ -146,6 +146,16 @@ final class PhpDocInfo
         return null;
     }
 
+    public function getVarTypeNode(): ?TypeNode
+    {
+        $varTagValue = $this->getVarTagValue();
+        if ($varTagValue === null) {
+            return null;
+        }
+
+        return $varTagValue->type;
+    }
+
     public function removeReturnTag(): void
     {
         foreach ($this->phpDocNode->getReturnTagValues() as $returnTagValue) {

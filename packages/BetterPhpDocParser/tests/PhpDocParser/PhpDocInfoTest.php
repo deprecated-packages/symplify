@@ -42,4 +42,11 @@ final class PhpDocInfoTest extends AbstractContainerAwareTestCase
 
         $this->assertInstanceOf(TypeNode::class, $typeNode);
     }
+
+    public function testGetVarTypeNode(): void
+    {
+        $typeNode = $this->phpDocInfo->getVarTypeNode();
+
+        $this->assertInstanceOf(TypeNode::class, $typeNode);
+    }
 }
