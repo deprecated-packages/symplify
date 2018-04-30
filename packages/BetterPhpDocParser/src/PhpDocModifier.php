@@ -43,7 +43,7 @@ final class PhpDocModifier
                 continue;
             }
 
-            // @method someMethod()
+            // e.g. @method someMethod()
             if ((string) $phpDocTagNode->value === $tagContent) {
                 $this->removeTagFromPhpDocNode($phpDocNode, $phpDocTagNode);
             }
