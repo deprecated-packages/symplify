@@ -5,6 +5,7 @@ namespace Symplify\BetterPhpDocParser\PhpDocParser;
 use Nette\Utils\Strings;
 use PHPStan\PhpDocParser\Ast\PhpDoc\ParamTagValueNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocNode;
+use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTagNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\ReturnTagValueNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\VarTagValueNode;
 use Symplify\BetterPhpDocParser\PhpDocModifier;
@@ -121,7 +122,10 @@ final class PhpDocInfo
         return (bool) $this->getTagsByName($name);
     }
 
-    public function getTagsByName(string $name)
+    /**
+     * @return PhpDocTagNode[]
+     */
+    public function getTagsByName(string $name): array
     {
         $name = '@' . ltrim($name, '@');
 
