@@ -22,6 +22,8 @@ final class PhpDocInfoTest extends AbstractContainerAwareTestCase
         $phpDocInfo = $this->phpDocInfoFactory->createFrom(file_get_contents(__DIR__ . '/PhpDocInfoSource/doc.txt'));
 
         $this->assertTrue($phpDocInfo->hasTag('param'));
+        $this->assertTrue($phpDocInfo->hasTag('@throw'));
+
         $this->assertFalse($phpDocInfo->hasTag('random'));
     }
 }
