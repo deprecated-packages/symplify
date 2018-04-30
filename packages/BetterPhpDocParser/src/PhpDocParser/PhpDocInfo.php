@@ -133,7 +133,7 @@ final class PhpDocInfo
         return $this->phpDocNode->getTagsByName($name);
     }
 
-    public function getParamTypeNodeByName(string $paramName): ?TypeNode
+    public function getParamTypeNode(string $paramName): ?TypeNode
     {
         $paramName = '$' . ltrim($paramName, '$');
 

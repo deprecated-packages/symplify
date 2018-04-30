@@ -36,9 +36,9 @@ final class PhpDocInfoTest extends AbstractContainerAwareTestCase
         $this->assertCount(2, $paramTags);
     }
 
-    public function testGetParamTypeNodeByName(): void
+    public function testGetParamTypeNode(): void
     {
-        $typeNode = $this->phpDocInfo->getParamTypeNodeByName('value');
+        $typeNode = $this->phpDocInfo->getParamTypeNode('value');
 
         $this->assertInstanceOf(TypeNode::class, $typeNode);
     }
