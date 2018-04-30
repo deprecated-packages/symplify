@@ -24,6 +24,11 @@ final class PhpDocInfoFactory
      */
     private $phpDocModifier;
 
+    /**
+     * @var PhpDocInfo[]
+     */
+    private $phpDocInfosByContentHash = [];
+
     public function __construct(PhpDocParser $phpDocParser, Lexer $lexer, PhpDocModifier $phpDocModifier)
     {
         $this->phpDocParser = $phpDocParser;
@@ -33,10 +38,17 @@ final class PhpDocInfoFactory
 
     public function createFrom(string $content): PhpDocInfo
     {
+        $contentHash = sha1($content);
+        if (isset($this->phpDocInfosByContentHash[$contentHash])) {
+            return $this->phpDocInfosByContentHash[$contentHash];
+        }
+
         $tokens = $this->lexer->tokenize($content);
         $tokenIterator = new TokenIterator($tokens);
         $phpDocNode = $this->phpDocParser->parse($tokenIterator);
 
-        return new PhpDocInfo($phpDocNode, $tokens, $content, $this->phpDocModifier);
+        $phpDocInfo = new PhpDocInfo($phpDocNode, $tokens, $content, $this->phpDocModifier);
+
+        return $this->phpDocInfosByContentHash[$contentHash] = $phpDocInfo;
     }
 }
