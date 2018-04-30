@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-git subsplit init git@github.com:symplify/symplify.git
+git subsplit init .git
 
 LAST_TAG="$(git tag -l  --sort=committerdate | tail -n1)"
 HEADS="$(git branch | grep \* | cut -d ' ' -f2)"
