@@ -3,7 +3,6 @@
 namespace Symplify\BetterPhpDocParser\PhpDocParser;
 
 use Nette\Utils\Strings;
-use PHPStan\PhpDocParser\Ast\PhpDoc\GenericTagValueNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\ParamTagValueNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTagNode;
@@ -167,35 +166,7 @@ final class PhpDocInfo
 
     public function replacePhpDocTypeByAnother(string $oldType, string $newType): void
     {
-        dump($this->phpDocNode);
-
-        // @todo just everywhere :)
-
-//        PhpDocTagValueNode $phpDocTagValueNode,
-//        $phpDocTagValueNode->type = $this->replaceTypeNode($phpDocTagValueNode->type, $oldType, $newType);
-    }
-
-    /**
-     * @todo move to PhpDocManipulator
-     */
-    private function replaceTypeNode(TypeNode $typeNode, string $oldType, string $newType): TypeNode
-    {
-        if ($typeNode instanceof UnionTypeNode) {
-            foreach ($typeNode->types as $key => $subTypeNode) {
-                $typeNode->types[$key] = $this->replaceTypeNode($subTypeNode, $oldType, $newType);
-            }
-
-            return $typeNode;
-        }
-
-        if ($typeNode instanceof IdentifierTypeNode) {
-            $fqnType = $this->namespaceAnalyzer->resolveTypeToFullyQualified($typeNode->name, $this->node);
-            if (is_a($fqnType, $oldType, true)) {
-                return new IdentifierTypeNode($newType);
-            }
-        }
-
-        return $typeNode;
+        $this->phpDocModifier->replacePhpDocTypeByAnother($this->phpDocNode, $oldType, $newType);
     }
 
     // remove section

@@ -8,6 +8,11 @@ use PHPStan\PhpDocParser\Ast\PhpDoc\ParamTagValueNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTagNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTagValueNode;
+use PHPStan\PhpDocParser\Ast\PhpDoc\ReturnTagValueNode;
+use PHPStan\PhpDocParser\Ast\PhpDoc\VarTagValueNode;
+use PHPStan\PhpDocParser\Ast\Type\IdentifierTypeNode;
+use PHPStan\PhpDocParser\Ast\Type\TypeNode;
+use PHPStan\PhpDocParser\Ast\Type\UnionTypeNode;
 use Symplify\BetterPhpDocParser\PhpDocParser\PhpDocInfo;
 
 final class PhpDocModifier
@@ -109,5 +114,48 @@ final class PhpDocModifier
                 $phpDocNode->children[$key] = new PhpDocTagNode($newTag, new GenericTagValueNode(''));
             }
         }
+    }
+
+    public function replacePhpDocTypeByAnother(PhpDocNode $phpDocNode, string $oldType, string $newType): void
+    {
+        foreach ($phpDocNode->children as $phpDocChildNode) {
+            if (! $phpDocChildNode instanceof PhpDocTagNode) {
+                continue;
+            }
+
+            if (! $this->isTagValueNodeWithType($phpDocChildNode)) {
+                continue;
+            }
+
+            $phpDocChildNode->value->type = $this->replaceTypeNode($phpDocChildNode->value->type, $oldType, $newType);
+        }
+    }
+
+    private function isTagValueNodeWithType($phpDocChildNode): bool
+    {
+        return $phpDocChildNode->value instanceof ParamTagValueNode ||
+            $phpDocChildNode->value instanceof VarTagValueNode ||
+            $phpDocChildNode->value instanceof ReturnTagValueNode;
+    }
+
+    private function replaceTypeNode(TypeNode $typeNode, string $oldType, string $newType): TypeNode
+    {
+        if ($typeNode instanceof UnionTypeNode) {
+            foreach ($typeNode->types as $key => $subTypeNode) {
+                $typeNode->types[$key] = $this->replaceTypeNode($subTypeNode, $oldType, $newType);
+            }
+
+            return $typeNode;
+        }
+
+        if ($typeNode instanceof IdentifierTypeNode) {
+            // namespace analyzer, wwat?
+            $fqnType = $this->namespaceAnalyzer->resolveTypeToFullyQualified($typeNode->name, $this->node);
+            if (is_a($fqnType, $oldType, true)) {
+                return new IdentifierTypeNode($newType);
+            }
+        }
+
+        return $typeNode;
     }
 }
