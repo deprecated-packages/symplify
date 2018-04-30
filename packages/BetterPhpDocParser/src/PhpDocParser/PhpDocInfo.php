@@ -3,6 +3,7 @@
 namespace Symplify\BetterPhpDocParser\PhpDocParser;
 
 use Nette\Utils\Strings;
+use PHPStan\PhpDocParser\Ast\PhpDoc\GenericTagValueNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\ParamTagValueNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTagNode;
@@ -150,6 +151,26 @@ final class PhpDocInfo
     {
         return $this->getVarTagValue() ? $this->getVarTagValue()->type : null;
     }
+
+    // replace section
+
+    public function replaceTagByAnother(string $oldTag, string $newTag)
+    {
+        $oldTag = '@' . ltrim($oldTag, '@');
+        $newTag = '@' . ltrim($newTag, '@');
+
+        foreach ($this->phpDocNode->children as $key => $phpDocChildNode) {
+            if (! $phpDocChildNode instanceof PhpDocTagNode) {
+                continue;
+            }
+
+            if ($phpDocChildNode->name === $oldTag) {
+                $this->phpDocNode->children[$key] = new PhpDocTagNode($newTag, new GenericTagValueNode(''));
+            }
+        }
+    }
+
+    // remove section
 
     public function removeReturnTag(): void
     {
