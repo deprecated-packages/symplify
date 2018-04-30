@@ -67,6 +67,6 @@ final class PhpDocInfoTest extends AbstractContainerAwareTestCase
 
         $this->phpDocInfo->replacePhpDocTypeByAnother('SomeType', 'AnotherType');
 
-        $this->assertSame('AnotherSomeType', $this->phpDocInfo->getVarTypeNode()->name);
+        $this->assertSame('AnotherType', $this->phpDocInfo->getVarTypeNode()->name);
     }
 }

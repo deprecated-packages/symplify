@@ -149,9 +149,7 @@ final class PhpDocModifier
         }
 
         if ($typeNode instanceof IdentifierTypeNode) {
-            // namespace analyzer, wwat?
-            $fqnType = $this->namespaceAnalyzer->resolveTypeToFullyQualified($typeNode->name, $this->node);
-            if (is_a($fqnType, $oldType, true)) {
+            if (is_a((string) $typeNode->name, $oldType, true) || (string) $typeNode->name === $oldType) {
                 return new IdentifierTypeNode($newType);
             }
         }

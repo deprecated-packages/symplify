@@ -49,6 +49,9 @@ final class PhpDocInfoFactory
 
         $phpDocInfo = new PhpDocInfo($phpDocNode, $tokens, $content, $this->phpDocModifier);
 
+        // @todo
+        // all nodes should have FQN names, @or not? should be optional with a method... createFromWithFqn(...)
+
         return $this->phpDocInfosByContentHash[$contentHash] = $phpDocInfo;
     }
 }
