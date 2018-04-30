@@ -118,9 +118,14 @@ final class PhpDocInfo
 
     public function hasTag(string $name): bool
     {
+        return (bool) $this->getTagsByName($name);
+    }
+
+    public function getTagsByName(string $name)
+    {
         $name = '@' . ltrim($name, '@');
 
-        return (bool) $this->phpDocNode->getTagsByName($name);
+        return $this->phpDocNode->getTagsByName($name);
     }
 
     public function removeReturnTag(): void
