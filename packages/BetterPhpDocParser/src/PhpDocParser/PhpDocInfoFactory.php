@@ -5,6 +5,7 @@ namespace Symplify\BetterPhpDocParser\PhpDocParser;
 use PHPStan\PhpDocParser\Lexer\Lexer;
 use PHPStan\PhpDocParser\Parser\PhpDocParser;
 use PHPStan\PhpDocParser\Parser\TokenIterator;
+use Symplify\BetterPhpDocParser\Contract\PhpDocInfoDecoratorInterface;
 use Symplify\BetterPhpDocParser\PhpDocModifier;
 
 final class PhpDocInfoFactory
@@ -29,11 +30,21 @@ final class PhpDocInfoFactory
      */
     private $phpDocInfosByContentHash = [];
 
+    /**
+     * @var PhpDocInfoDecoratorInterface[]
+     */
+    private $phpDocInfoDecorators = [];
+
     public function __construct(PhpDocParser $phpDocParser, Lexer $lexer, PhpDocModifier $phpDocModifier)
     {
         $this->phpDocParser = $phpDocParser;
         $this->lexer = $lexer;
         $this->phpDocModifier = $phpDocModifier;
+    }
+
+    public function addPhpDocInfoDecorator(PhpDocInfoDecoratorInterface $phpDocInfoDecorator): void
+    {
+        $this->phpDocInfoDecorators[] = $phpDocInfoDecorator;
     }
 
     public function createFrom(string $content): PhpDocInfo
@@ -49,8 +60,9 @@ final class PhpDocInfoFactory
 
         $phpDocInfo = new PhpDocInfo($phpDocNode, $tokens, $content, $this->phpDocModifier);
 
-        // @todo
-        // all nodes should have FQN names, @or not? should be optional with a method... createFromWithFqn(...)
+        foreach ($this->phpDocInfoDecorators as $phpDocInfoDecorator) {
+            $phpDocInfoDecorator->decorate($phpDocInfo);
+        }
 
         return $this->phpDocInfosByContentHash[$contentHash] = $phpDocInfo;
     }
