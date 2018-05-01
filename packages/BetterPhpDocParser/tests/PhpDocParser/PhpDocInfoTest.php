@@ -5,6 +5,7 @@ namespace Symplify\BetterPhpDocParser\Tests\PhpDocParser;
 use PHPStan\PhpDocParser\Ast\Type\TypeNode;
 use Symplify\BetterPhpDocParser\PhpDocParser\PhpDocInfo;
 use Symplify\BetterPhpDocParser\PhpDocParser\PhpDocInfoFactory;
+use Symplify\BetterPhpDocParser\Printer\PhpDocInfoPrinter;
 use Symplify\BetterPhpDocParser\Tests\AbstractContainerAwareTestCase;
 
 final class PhpDocInfoTest extends AbstractContainerAwareTestCase
@@ -14,12 +15,26 @@ final class PhpDocInfoTest extends AbstractContainerAwareTestCase
      */
     private $phpDocInfo;
 
+    /**
+     * @var PhpDocInfoPrinter
+     */
+    private $phpDocInfoPrinter;
+
+    /**
+     * @var PhpDocInfoFactory
+     */
+    private $phpDocInfoFactory;
+
     protected function setUp(): void
     {
         /** @var PhpDocInfoFactory $phpDocInfoFactory */
         $phpDocInfoFactory = $this->container->get(PhpDocInfoFactory::class);
 
         $this->phpDocInfo = $phpDocInfoFactory->createFrom(file_get_contents(__DIR__ . '/PhpDocInfoSource/doc.txt'));
+
+        $this->phpDocInfoFactory = $phpDocInfoFactory;
+
+        $this->phpDocInfoPrinter = $this->container->get(PhpDocInfoPrinter::class);
     }
 
     public function testHasTag(): void
@@ -52,13 +67,22 @@ final class PhpDocInfoTest extends AbstractContainerAwareTestCase
 
     public function testReplaceTagByAnother(): void
     {
-        $this->assertFalse($this->phpDocInfo->hasTag('flow'));
-        $this->assertTrue($this->phpDocInfo->hasTag('throw'));
+        $phpDocInfo = $this->phpDocInfoFactory->createFrom(
+            file_get_contents(__DIR__ . '/PhpDocInfoSource/test-tag.txt')
+        );
 
-        $this->phpDocInfo->replaceTagByAnother('throw', 'flow');
+        $this->assertFalse($phpDocInfo->hasTag('flow'));
+        $this->assertTrue($phpDocInfo->hasTag('test'));
 
-        $this->assertFalse($this->phpDocInfo->hasTag('throw'));
-        $this->assertTrue($this->phpDocInfo->hasTag('flow'));
+        $phpDocInfo->replaceTagByAnother('test', 'flow');
+
+        $this->assertFalse($phpDocInfo->hasTag('test'));
+        $this->assertTrue($phpDocInfo->hasTag('flow'));
+
+        $this->assertStringEqualsFile(
+            __DIR__ . '/PhpDocInfoSource/expected-replaced-tag.txt',
+            $this->phpDocInfoPrinter->printFormatPreserving($phpDocInfo)
+        );
     }
 
     public function testReplacePhpDocTypeByAnother(): void
@@ -68,5 +92,10 @@ final class PhpDocInfoTest extends AbstractContainerAwareTestCase
         $this->phpDocInfo->replacePhpDocTypeByAnother('SomeType', 'AnotherType');
 
         $this->assertSame('AnotherType', $this->phpDocInfo->getVarTypeNode()->name);
+
+        $this->assertStringEqualsFile(
+            __DIR__ . '/PhpDocInfoSource/expected-with-replaced-type.txt',
+            $this->phpDocInfoPrinter->printFormatPreserving($this->phpDocInfo)
+        );
     }
 }

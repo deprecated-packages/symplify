@@ -4,11 +4,11 @@ namespace Symplify\BetterPhpDocParser\Printer;
 
 use Nette\Utils\Strings;
 use PHPStan\PhpDocParser\Ast\Node;
+use PHPStan\PhpDocParser\Ast\PhpDoc\GenericTagValueNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\ParamTagValueNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTagNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTextNode;
-use PHPStan\PhpDocParser\Ast\PhpDoc\PropertyTagValueNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\ReturnTagValueNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\VarTagValueNode;
 use PHPStan\PhpDocParser\Ast\Type\UnionTypeNode;
@@ -123,23 +123,23 @@ final class PhpDocInfoPrinter
         if (isset($this->nodeWithPositionsObjectStorage[$node])) {
             $phpDocNodeInfo = $this->nodeWithPositionsObjectStorage[$node];
 
-            $isLastToken = $nodeCount === $i;
+            $isLastToken = ($nodeCount === $i);
+
             $output = $this->addTokensFromTo(
                 $output,
                 $this->currentTokenPosition,
                 $phpDocNodeInfo->getStart(),
                 $isLastToken
             );
+
             $this->currentTokenPosition = $phpDocNodeInfo->getEnd();
         }
 
-        // @todo recurse
         if ($node instanceof PhpDocTagNode) {
             return $this->printPhpDocTagNode($node, $phpDocNodeInfo, $output);
         }
 
-        // @todo for the rest of nodes as well
-        if ($node instanceof ParamTagValueNode || $node instanceof PropertyTagValueNode) {
+        if (! $node instanceof PhpDocTextNode && ! $node instanceof GenericTagValueNode) {
             return $this->originalSpacingRestorer->restoreInOutputWithTokensAndPhpDocNodeInfo(
                 (string) $node,
                 $this->tokens,
@@ -169,7 +169,7 @@ final class PhpDocInfoPrinter
         $nodeOutput = $this->printNode($phpDocTagNode->value, $phpDocNodeInfo);
 
         // fix for: "@Long\Annotation", "@Route("/", name="homepage")"
-        if (! ctype_upper($phpDocTagNode->name[1]) || ! Strings::match($nodeOutput, '#^\\\\|\(#')) {
+        if ((! ctype_upper($phpDocTagNode->name[1]) || ! Strings::match($nodeOutput, '#^\\\\|\(#')) && $nodeOutput) {
             $output .= ' '; // @todo not manually
         }
 
