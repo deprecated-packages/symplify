@@ -30,13 +30,13 @@ script:
   - if [[ $PHPSTAN != "" ]]; then vendor/bin/phpstan analyse packages --level max --configuration phpstan.neon; fi
   - |
     if [[ $STANDALONE != "" ]]; then
-      vendor/bin/phpunit packages/BetterPhpDocParser;
-      vendor/bin/phpunit packages/ChangelogLinker;
-      vendor/bin/phpunit packages/CodingStandard;
+      vendor/bin/phpunit packages/BetterPhpDocParser
+      vendor/bin/phpunit packages/ChangelogLinker
+      vendor/bin/phpunit packages/CodingStandard
       vendor/bin/phpunit packages/EasyCodingStandard
-      vendor/bin/phpunit packages/PackageBuilder;
-      vendor/bin/phpunit packages/Statie;
-      vendor/bin/phpunit packages/TokenRunner;
+      vendor/bin/phpunit packages/PackageBuilder
+      vendor/bin/phpunit packages/Statie
+      vendor/bin/phpunit packages/TokenRunner
     fi
 
 after_script:
