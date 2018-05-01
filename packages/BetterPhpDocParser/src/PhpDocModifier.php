@@ -156,7 +156,7 @@ final class PhpDocModifier
         }
 
         if ($typeNode instanceof IdentifierTypeNode) {
-            if (is_a((string) $typeNode->name, $oldType, true) || (string) $typeNode->name === $oldType) {
+            if (is_a($typeNode->name, $oldType, true) || $typeNode->name === $oldType) {
                 return new IdentifierTypeNode($newType);
             }
         }

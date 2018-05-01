@@ -10,6 +10,9 @@ parameters:
         - '#Parameter \#1 \$id of class Symfony\\Component\\DependencyInjection\\Reference constructor expects string, string\|null given#'
 
         # is valid code, known values
+        - '#Access to an undefined property PHPStan\\PhpDocParser\\Ast\\Type\\TypeNode::\$name#'
+        - '#Accessing property \$name on possibly null value of type PHPStan\\PhpDocParser\\Ast\\Type\\TypeNode\|null#'
+        - '#Access to an undefined property PHPStan\\PhpDocParser\\Ast\\PhpDoc\\PhpDocTagValueNode::\$type#'
         - '#Calling method getEnd\(\) on possibly null value of type Symplify\\TokenRunner\\Analyzer\\FixerAnalyzer\\BlockInfo\|null#'
         - '#Calling method getStart\(\) on possibly null value of type Symplify\\TokenRunner\\Analyzer\\FixerAnalyzer\\BlockInfo\|null#'
         - '#Parameter \#3 \$end of method PHP_CodeSniffer\\Files\\File::findNext\(\) expects int\|null, bool\|int given#'
