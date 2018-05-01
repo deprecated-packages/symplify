@@ -140,11 +140,15 @@ final class PhpDocInfoPrinter
         }
 
         if (! $node instanceof PhpDocTextNode && ! $node instanceof GenericTagValueNode) {
+
+
             return $this->originalSpacingRestorer->restoreInOutputWithTokensAndPhpDocNodeInfo(
                 (string) $node,
                 $this->tokens,
                 $phpDocNodeInfo
             );
+        } else {
+            dump($node);
         }
 
         return $output . (string) $node;

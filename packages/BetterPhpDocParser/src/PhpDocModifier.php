@@ -129,9 +129,7 @@ final class PhpDocModifier
             }
 
             if ($phpDocChildNode->name === $oldTag) {
-                $phpDocNode->children[$key] = $newTagNode = new PhpDocTagNode($newTag, new GenericTagValueNode(''));
-
-                $this->nodeWithPositionsObjectStorage[$newTagNode] = $this->nodeWithPositionsObjectStorage[$phpDocChildNode];
+                $phpDocChildNode->name = $newTag;
             }
         }
     }
