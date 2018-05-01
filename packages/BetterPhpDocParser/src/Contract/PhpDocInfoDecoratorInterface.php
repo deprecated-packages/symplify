@@ -6,5 +6,5 @@ use Symplify\BetterPhpDocParser\PhpDocParser\PhpDocInfo;
 
 interface PhpDocInfoDecoratorInterface
 {
-    public function decorate(PhpDocInfo $phpDocInfo);
+    public function decorate(PhpDocInfo $phpDocInfo): void;
 }
