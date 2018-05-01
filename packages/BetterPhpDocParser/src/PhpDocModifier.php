@@ -107,7 +107,7 @@ final class PhpDocModifier
         }
     }
 
-    public function replaceTagByAnother(PhpDocNode $phpDocNode, string $oldTag, string $newTag)
+    public function replaceTagByAnother(PhpDocNode $phpDocNode, string $oldTag, string $newTag): void
     {
         $oldTag = '@' . ltrim($oldTag, '@');
         $newTag = '@' . ltrim($newTag, '@');
@@ -138,11 +138,11 @@ final class PhpDocModifier
         }
     }
 
-    private function isTagValueNodeWithType($phpDocChildNode): bool
+    private function isTagValueNodeWithType(PhpDocTagNode $phpDocTagNode): bool
     {
-        return $phpDocChildNode->value instanceof ParamTagValueNode ||
-            $phpDocChildNode->value instanceof VarTagValueNode ||
-            $phpDocChildNode->value instanceof ReturnTagValueNode;
+        return $phpDocTagNode->value instanceof ParamTagValueNode ||
+            $phpDocTagNode->value instanceof VarTagValueNode ||
+            $phpDocTagNode->value instanceof ReturnTagValueNode;
     }
 
     private function replaceTypeNode(TypeNode $typeNode, string $oldType, string $newType): TypeNode
