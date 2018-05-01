@@ -2,11 +2,17 @@
 
 namespace Symplify\BetterPhpDocParser;
 
+use PHPStan\PhpDocParser\Ast\PhpDoc\GenericTagValueNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\InvalidTagValueNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\ParamTagValueNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTagNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTagValueNode;
+use PHPStan\PhpDocParser\Ast\PhpDoc\ReturnTagValueNode;
+use PHPStan\PhpDocParser\Ast\PhpDoc\VarTagValueNode;
+use PHPStan\PhpDocParser\Ast\Type\IdentifierTypeNode;
+use PHPStan\PhpDocParser\Ast\Type\TypeNode;
+use PHPStan\PhpDocParser\Ast\Type\UnionTypeNode;
 use Symplify\BetterPhpDocParser\PhpDocParser\PhpDocInfo;
 
 final class PhpDocModifier
@@ -37,7 +43,7 @@ final class PhpDocModifier
                 continue;
             }
 
-            // @method someMethod()
+            // e.g. @method someMethod()
             if ((string) $phpDocTagNode->value === $tagContent) {
                 $this->removeTagFromPhpDocNode($phpDocNode, $phpDocTagNode);
             }
@@ -69,6 +75,13 @@ final class PhpDocModifier
         }
     }
 
+    public function removeReturnTagFromPhpDocNode(PhpDocNode $phpDocNode): void
+    {
+        foreach ($phpDocNode->getReturnTagValues() as $returnTagValue) {
+            $this->removeTagFromPhpDocNode($phpDocNode, $returnTagValue);
+        }
+    }
+
     /**
      * @param PhpDocTagNode|PhpDocTagValueNode $phpDocTagOrPhpDocTagValueNode
      */
@@ -92,5 +105,62 @@ final class PhpDocModifier
                 unset($phpDocNode->children[$key]);
             }
         }
+    }
+
+    public function replaceTagByAnother(PhpDocNode $phpDocNode, string $oldTag, string $newTag): void
+    {
+        $oldTag = '@' . ltrim($oldTag, '@');
+        $newTag = '@' . ltrim($newTag, '@');
+
+        foreach ($phpDocNode->children as $key => $phpDocChildNode) {
+            if (! $phpDocChildNode instanceof PhpDocTagNode) {
+                continue;
+            }
+
+            if ($phpDocChildNode->name === $oldTag) {
+                $phpDocNode->children[$key] = new PhpDocTagNode($newTag, new GenericTagValueNode(''));
+            }
+        }
+    }
+
+    public function replacePhpDocTypeByAnother(PhpDocNode $phpDocNode, string $oldType, string $newType): void
+    {
+        foreach ($phpDocNode->children as $phpDocChildNode) {
+            if (! $phpDocChildNode instanceof PhpDocTagNode) {
+                continue;
+            }
+
+            if (! $this->isTagValueNodeWithType($phpDocChildNode)) {
+                continue;
+            }
+
+            $phpDocChildNode->value->type = $this->replaceTypeNode($phpDocChildNode->value->type, $oldType, $newType);
+        }
+    }
+
+    private function isTagValueNodeWithType(PhpDocTagNode $phpDocTagNode): bool
+    {
+        return $phpDocTagNode->value instanceof ParamTagValueNode ||
+            $phpDocTagNode->value instanceof VarTagValueNode ||
+            $phpDocTagNode->value instanceof ReturnTagValueNode;
+    }
+
+    private function replaceTypeNode(TypeNode $typeNode, string $oldType, string $newType): TypeNode
+    {
+        if ($typeNode instanceof UnionTypeNode) {
+            foreach ($typeNode->types as $key => $subTypeNode) {
+                $typeNode->types[$key] = $this->replaceTypeNode($subTypeNode, $oldType, $newType);
+            }
+
+            return $typeNode;
+        }
+
+        if ($typeNode instanceof IdentifierTypeNode) {
+            if (is_a($typeNode->name, $oldType, true) || $typeNode->name === $oldType) {
+                return new IdentifierTypeNode($newType);
+            }
+        }
+
+        return $typeNode;
     }
 }

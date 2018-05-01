@@ -49,4 +49,24 @@ final class PhpDocInfoTest extends AbstractContainerAwareTestCase
 
         $this->assertInstanceOf(TypeNode::class, $typeNode);
     }
+
+    public function testReplaceTagByAnother(): void
+    {
+        $this->assertFalse($this->phpDocInfo->hasTag('flow'));
+        $this->assertTrue($this->phpDocInfo->hasTag('throw'));
+
+        $this->phpDocInfo->replaceTagByAnother('throw', 'flow');
+
+        $this->assertFalse($this->phpDocInfo->hasTag('throw'));
+        $this->assertTrue($this->phpDocInfo->hasTag('flow'));
+    }
+
+    public function testReplacePhpDocTypeByAnother(): void
+    {
+        $this->assertSame('SomeType', $this->phpDocInfo->getVarTypeNode()->name);
+
+        $this->phpDocInfo->replacePhpDocTypeByAnother('SomeType', 'AnotherType');
+
+        $this->assertSame('AnotherType', $this->phpDocInfo->getVarTypeNode()->name);
+    }
 }
