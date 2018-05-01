@@ -5,6 +5,7 @@ namespace Symplify\BetterPhpDocParser\Tests\PhpDocParser;
 use PHPStan\PhpDocParser\Ast\Type\TypeNode;
 use Symplify\BetterPhpDocParser\PhpDocParser\PhpDocInfo;
 use Symplify\BetterPhpDocParser\PhpDocParser\PhpDocInfoFactory;
+use Symplify\BetterPhpDocParser\Printer\PhpDocInfoPrinter;
 use Symplify\BetterPhpDocParser\Tests\AbstractContainerAwareTestCase;
 
 final class PhpDocInfoTest extends AbstractContainerAwareTestCase
@@ -14,12 +15,18 @@ final class PhpDocInfoTest extends AbstractContainerAwareTestCase
      */
     private $phpDocInfo;
 
+    /**
+     * @var PhpDocInfoPrinter
+     */
+    private $phpDocInfoPrinter;
+
     protected function setUp(): void
     {
         /** @var PhpDocInfoFactory $phpDocInfoFactory */
         $phpDocInfoFactory = $this->container->get(PhpDocInfoFactory::class);
 
         $this->phpDocInfo = $phpDocInfoFactory->createFrom(file_get_contents(__DIR__ . '/PhpDocInfoSource/doc.txt'));
+        $this->phpDocInfoPrinter = $this->container->get(PhpDocInfoPrinter::class);
     }
 
     public function testHasTag(): void
@@ -68,5 +75,10 @@ final class PhpDocInfoTest extends AbstractContainerAwareTestCase
         $this->phpDocInfo->replacePhpDocTypeByAnother('SomeType', 'AnotherType');
 
         $this->assertSame('AnotherType', $this->phpDocInfo->getVarTypeNode()->name);
+
+        $this->assertStringEqualsFile(
+            __DIR__ . '/PhpDocInfoSource/expected-with-replaced-type.txt',
+            $this->phpDocInfoPrinter->printFormatPreserving($this->phpDocInfo)
+        );
     }
 }
