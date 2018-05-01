@@ -2,7 +2,6 @@
 
 namespace Symplify\BetterPhpDocParser;
 
-use PHPStan\PhpDocParser\Ast\PhpDoc\GenericTagValueNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\InvalidTagValueNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\ParamTagValueNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocNode;
@@ -14,20 +13,9 @@ use PHPStan\PhpDocParser\Ast\Type\IdentifierTypeNode;
 use PHPStan\PhpDocParser\Ast\Type\TypeNode;
 use PHPStan\PhpDocParser\Ast\Type\UnionTypeNode;
 use Symplify\BetterPhpDocParser\PhpDocParser\PhpDocInfo;
-use Symplify\BetterPhpDocParser\PhpDocParser\Storage\NodeWithPositionsObjectStorage;
 
 final class PhpDocModifier
 {
-    /**
-     * @var NodeWithPositionsObjectStorage
-     */
-    private $nodeWithPositionsObjectStorage;
-
-    public function __construct(NodeWithPositionsObjectStorage $nodeWithPositionsObjectStorage)
-    {
-        $this->nodeWithPositionsObjectStorage = $nodeWithPositionsObjectStorage;
-    }
-
     public function removeTagByName(PhpDocInfo $phpDocInfo, string $tagName): void
     {
         $phpDocNode = $phpDocInfo->getPhpDocNode();

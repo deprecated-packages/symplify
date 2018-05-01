@@ -37,45 +37,47 @@ final class PhpDocInfoTest extends AbstractContainerAwareTestCase
         $this->phpDocInfoPrinter = $this->container->get(PhpDocInfoPrinter::class);
     }
 
-//    public function testHasTag(): void
-//    {
-//        $this->assertTrue($this->phpDocInfo->hasTag('param'));
-//        $this->assertTrue($this->phpDocInfo->hasTag('@throw'));
-//
-//        $this->assertFalse($this->phpDocInfo->hasTag('random'));
-//    }
-//
-//    public function testGetTagsByName(): void
-//    {
-//        $paramTags = $this->phpDocInfo->getTagsByName('param');
-//        $this->assertCount(2, $paramTags);
-//    }
-//
-//    public function testGetParamTypeNode(): void
-//    {
-//        $typeNode = $this->phpDocInfo->getParamTypeNode('value');
-//
-//        $this->assertInstanceOf(TypeNode::class, $typeNode);
-//    }
-//
-//    public function testGetVarTypeNode(): void
-//    {
-//        $typeNode = $this->phpDocInfo->getVarTypeNode();
-//
-//        $this->assertInstanceOf(TypeNode::class, $typeNode);
-//    }
+    public function testHasTag(): void
+    {
+        $this->assertTrue($this->phpDocInfo->hasTag('param'));
+        $this->assertTrue($this->phpDocInfo->hasTag('@throw'));
+
+        $this->assertFalse($this->phpDocInfo->hasTag('random'));
+    }
+
+    public function testGetTagsByName(): void
+    {
+        $paramTags = $this->phpDocInfo->getTagsByName('param');
+        $this->assertCount(2, $paramTags);
+    }
+
+    public function testGetParamTypeNode(): void
+    {
+        $typeNode = $this->phpDocInfo->getParamTypeNode('value');
+
+        $this->assertInstanceOf(TypeNode::class, $typeNode);
+    }
+
+    public function testGetVarTypeNode(): void
+    {
+        $typeNode = $this->phpDocInfo->getVarTypeNode();
+
+        $this->assertInstanceOf(TypeNode::class, $typeNode);
+    }
 
     public function testReplaceTagByAnother(): void
     {
-        $phpDocInfo = $this->phpDocInfoFactory->createFrom(file_get_contents(__DIR__ . '/PhpDocInfoSource/test-tag.txt'));
+        $phpDocInfo = $this->phpDocInfoFactory->createFrom(
+            file_get_contents(__DIR__ . '/PhpDocInfoSource/test-tag.txt')
+        );
 
-//        $this->assertFalse($phpDocInfo->hasTag('flow'));
-//        $this->assertTrue($phpDocInfo->hasTag('test'));
+        $this->assertFalse($phpDocInfo->hasTag('flow'));
+        $this->assertTrue($phpDocInfo->hasTag('test'));
 
         $phpDocInfo->replaceTagByAnother('test', 'flow');
 
-//        $this->assertFalse($phpDocInfo->hasTag('test'));
-//        $this->assertTrue($phpDocInfo->hasTag('flow'));
+        $this->assertFalse($phpDocInfo->hasTag('test'));
+        $this->assertTrue($phpDocInfo->hasTag('flow'));
 
         $this->assertStringEqualsFile(
             __DIR__ . '/PhpDocInfoSource/expected-replaced-tag.txt',
@@ -83,17 +85,17 @@ final class PhpDocInfoTest extends AbstractContainerAwareTestCase
         );
     }
 
-//    public function testReplacePhpDocTypeByAnother(): void
-//    {
-//        $this->assertSame('SomeType', $this->phpDocInfo->getVarTypeNode()->name);
-//
-//        $this->phpDocInfo->replacePhpDocTypeByAnother('SomeType', 'AnotherType');
-//
-//        $this->assertSame('AnotherType', $this->phpDocInfo->getVarTypeNode()->name);
-//
-//        $this->assertStringEqualsFile(
-//            __DIR__ . '/PhpDocInfoSource/expected-with-replaced-type.txt',
-//            $this->phpDocInfoPrinter->printFormatPreserving($this->phpDocInfo)
-//        );
-//    }
+    public function testReplacePhpDocTypeByAnother(): void
+    {
+        $this->assertSame('SomeType', $this->phpDocInfo->getVarTypeNode()->name);
+
+        $this->phpDocInfo->replacePhpDocTypeByAnother('SomeType', 'AnotherType');
+
+        $this->assertSame('AnotherType', $this->phpDocInfo->getVarTypeNode()->name);
+
+        $this->assertStringEqualsFile(
+            __DIR__ . '/PhpDocInfoSource/expected-with-replaced-type.txt',
+            $this->phpDocInfoPrinter->printFormatPreserving($this->phpDocInfo)
+        );
+    }
 }
