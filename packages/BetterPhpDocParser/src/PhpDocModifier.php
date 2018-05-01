@@ -14,9 +14,20 @@ use PHPStan\PhpDocParser\Ast\Type\IdentifierTypeNode;
 use PHPStan\PhpDocParser\Ast\Type\TypeNode;
 use PHPStan\PhpDocParser\Ast\Type\UnionTypeNode;
 use Symplify\BetterPhpDocParser\PhpDocParser\PhpDocInfo;
+use Symplify\BetterPhpDocParser\PhpDocParser\Storage\NodeWithPositionsObjectStorage;
 
 final class PhpDocModifier
 {
+    /**
+     * @var NodeWithPositionsObjectStorage
+     */
+    private $nodeWithPositionsObjectStorage;
+
+    public function __construct(NodeWithPositionsObjectStorage $nodeWithPositionsObjectStorage)
+    {
+        $this->nodeWithPositionsObjectStorage = $nodeWithPositionsObjectStorage;
+    }
+
     public function removeTagByName(PhpDocInfo $phpDocInfo, string $tagName): void
     {
         $phpDocNode = $phpDocInfo->getPhpDocNode();
@@ -118,7 +129,9 @@ final class PhpDocModifier
             }
 
             if ($phpDocChildNode->name === $oldTag) {
-                $phpDocNode->children[$key] = new PhpDocTagNode($newTag, new GenericTagValueNode(''));
+                $phpDocNode->children[$key] = $newTagNode = new PhpDocTagNode($newTag, new GenericTagValueNode(''));
+
+                $this->nodeWithPositionsObjectStorage[$newTagNode] = $this->nodeWithPositionsObjectStorage[$phpDocChildNode];
             }
         }
     }

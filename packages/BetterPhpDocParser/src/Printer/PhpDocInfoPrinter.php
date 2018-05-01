@@ -133,7 +133,6 @@ final class PhpDocInfoPrinter
             $this->currentTokenPosition = $phpDocNodeInfo->getEnd();
         }
 
-        // @todo recurse
         if ($node instanceof PhpDocTagNode) {
             return $this->printPhpDocTagNode($node, $phpDocNodeInfo, $output);
         }

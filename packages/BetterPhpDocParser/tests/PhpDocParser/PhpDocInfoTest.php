@@ -66,6 +66,11 @@ final class PhpDocInfoTest extends AbstractContainerAwareTestCase
 
         $this->assertFalse($this->phpDocInfo->hasTag('throw'));
         $this->assertTrue($this->phpDocInfo->hasTag('flow'));
+
+        $this->assertStringEqualsFile(
+            __DIR__ . '/PhpDocInfoSource/expected-with-replaced-tag.txt',
+            $this->phpDocInfoPrinter->printFormatPreserving($this->phpDocInfo)
+        );
     }
 
     public function testReplacePhpDocTypeByAnother(): void
