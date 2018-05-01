@@ -173,9 +173,7 @@ final class PhpDocInfo
 
     public function removeReturnTag(): void
     {
-        foreach ($this->phpDocNode->getReturnTagValues() as $returnTagValue) {
-            $this->phpDocModifier->removeTagFromPhpDocNode($this->phpDocNode, $returnTagValue);
-        }
+        $this->phpDocModifier->removeReturnTagFromPhpDocNode($this->phpDocNode);
     }
 
     public function removeParamTagByParameter(string $name): void
