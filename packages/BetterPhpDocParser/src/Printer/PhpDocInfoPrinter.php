@@ -4,6 +4,7 @@ namespace Symplify\BetterPhpDocParser\Printer;
 
 use Nette\Utils\Strings;
 use PHPStan\PhpDocParser\Ast\Node;
+use PHPStan\PhpDocParser\Ast\PhpDoc\GenericTagValueNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\ParamTagValueNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTagNode;
@@ -123,13 +124,15 @@ final class PhpDocInfoPrinter
         if (isset($this->nodeWithPositionsObjectStorage[$node])) {
             $phpDocNodeInfo = $this->nodeWithPositionsObjectStorage[$node];
 
-            $isLastToken = $nodeCount === $i;
+            $isLastToken = ($nodeCount === $i);
+
             $output = $this->addTokensFromTo(
                 $output,
                 $this->currentTokenPosition,
                 $phpDocNodeInfo->getStart(),
                 $isLastToken
             );
+
             $this->currentTokenPosition = $phpDocNodeInfo->getEnd();
         }
 
@@ -137,8 +140,7 @@ final class PhpDocInfoPrinter
             return $this->printPhpDocTagNode($node, $phpDocNodeInfo, $output);
         }
 
-        // @todo for the rest of nodes as well
-        if ($node instanceof ParamTagValueNode || $node instanceof PropertyTagValueNode) {
+        if (! $node instanceof PhpDocTextNode && ! $node instanceof GenericTagValueNode) {
             return $this->originalSpacingRestorer->restoreInOutputWithTokensAndPhpDocNodeInfo(
                 (string) $node,
                 $this->tokens,
