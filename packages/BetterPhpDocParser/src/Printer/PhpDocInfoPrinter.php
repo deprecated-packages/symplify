@@ -140,15 +140,11 @@ final class PhpDocInfoPrinter
         }
 
         if (! $node instanceof PhpDocTextNode && ! $node instanceof GenericTagValueNode) {
-
-
             return $this->originalSpacingRestorer->restoreInOutputWithTokensAndPhpDocNodeInfo(
                 (string) $node,
                 $this->tokens,
                 $phpDocNodeInfo
             );
-        } else {
-            dump($node);
         }
 
         return $output . (string) $node;
@@ -173,7 +169,7 @@ final class PhpDocInfoPrinter
         $nodeOutput = $this->printNode($phpDocTagNode->value, $phpDocNodeInfo);
 
         // fix for: "@Long\Annotation", "@Route("/", name="homepage")"
-        if (! ctype_upper($phpDocTagNode->name[1]) || ! Strings::match($nodeOutput, '#^\\\\|\(#')) {
+        if ((! ctype_upper($phpDocTagNode->name[1]) || ! Strings::match($nodeOutput, '#^\\\\|\(#')) && $nodeOutput) {
             $output .= ' '; // @todo not manually
         }
 
