@@ -48,7 +48,7 @@ final class RemoveUselessDocBlockFixer implements DefinedFixerInterface, Configu
     /**
      * @var TypeNodeToStringsConvertor
      */
-    private $typeResolver;
+    private $typeNodeToStringsConvertor;
     /**
      * @var TypeNodeAnalyzer
      */
@@ -58,14 +58,14 @@ final class RemoveUselessDocBlockFixer implements DefinedFixerInterface, Configu
         DescriptionAnalyzer $descriptionAnalyzer,
         ParamAndReturnTagAnalyzer $paramAndReturnTagAnalyzer,
         MethodWrapperFactory $methodWrapperFactory,
-        TypeNodeToStringsConvertor $typeResolver,
+        TypeNodeToStringsConvertor $typeNodeToStringsConvertor,
         TypeNodeAnalyzer $typeNodeAnalyzer
     ) {
+        $this->configure([]);
         $this->descriptionAnalyzer = $descriptionAnalyzer;
         $this->paramAndReturnTagAnalyzer = $paramAndReturnTagAnalyzer;
-        $this->configure([]);
         $this->methodWrapperFactory = $methodWrapperFactory;
-        $this->typeResolver = $typeResolver;
+        $this->typeNodeToStringsConvertor = $typeNodeToStringsConvertor;
         $this->typeNodeAnalyzer = $typeNodeAnalyzer;
     }
 
@@ -170,7 +170,7 @@ public function getCount(): int
             return;
         }
 
-        $docType = $this->typeResolver->convert($returnTagValue->type);
+        $docType = $this->typeNodeToStringsConvertor->convert($returnTagValue->type);
 
         $returnTagDescription = $returnTagValue->description;
 
