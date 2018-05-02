@@ -12,7 +12,7 @@ use PHPStan\PhpDocParser\Ast\PhpDoc\VarTagValueNode;
 use PHPStan\PhpDocParser\Ast\Type\IdentifierTypeNode;
 use PHPStan\PhpDocParser\Ast\Type\TypeNode;
 use PHPStan\PhpDocParser\Ast\Type\UnionTypeNode;
-use Symplify\BetterPhpDocParser\PhpDocParser\PhpDocInfo;
+use Symplify\BetterPhpDocParser\PhpDocInfo\PhpDocInfo;
 
 final class PhpDocModifier
 {
