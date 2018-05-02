@@ -79,6 +79,14 @@ final class DocBlockWrapper
     /**
      * @return string[]
      */
+    public function getArgumentTypeNode(string $name): ?TypeNode
+    {
+        return $this->phpDocInfo->getParamTypeNode($name);
+    }
+
+    /**
+     * @return string[]
+     */
     public function getVarTypes(): array
     {
         return $this->phpDocInfo->getVarTypes();

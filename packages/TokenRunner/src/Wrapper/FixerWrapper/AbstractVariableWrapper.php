@@ -69,7 +69,10 @@ abstract class AbstractVariableWrapper
         return true;
     }
 
-    public function getTypes(): ?string
+    /**
+     * @return string[]
+     */
+    public function getTypes(): array
     {
         $previousTokenPosition = $this->tokens->getPrevMeaningfulToken($this->index);
         $previousToken = $this->tokens[$previousTokenPosition];
@@ -80,11 +83,11 @@ abstract class AbstractVariableWrapper
         }
 
         if (! $previousToken->isGivenKind([T_STRING, CT::T_ARRAY_TYPEHINT])) {
-            return null;
+            return [];
         }
 
         // probably not a class type
-        return $previousToken->getContent();
+        return [$previousToken->getContent()];
     }
 
     public function getFqnType(): ?string

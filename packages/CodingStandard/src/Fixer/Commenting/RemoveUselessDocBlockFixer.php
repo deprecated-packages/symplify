@@ -13,7 +13,9 @@ use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
+use PHPStan\PhpDocParser\Ast\Type\TypeNode;
 use SplFileInfo;
+use Symplify\BetterPhpDocParser\PhpDocParser\TypeNodeAnalyzer;
 use Symplify\BetterPhpDocParser\PhpDocParser\TypeNodeToStringsConvertor;
 use Symplify\TokenRunner\DocBlock\DescriptionAnalyzer;
 use Symplify\TokenRunner\DocBlock\ParamAndReturnTagAnalyzer;
@@ -47,18 +49,24 @@ final class RemoveUselessDocBlockFixer implements DefinedFixerInterface, Configu
      * @var TypeNodeToStringsConvertor
      */
     private $typeResolver;
+    /**
+     * @var TypeNodeAnalyzer
+     */
+    private $typeNodeAnalyzer;
 
     public function __construct(
         DescriptionAnalyzer $descriptionAnalyzer,
         ParamAndReturnTagAnalyzer $paramAndReturnTagAnalyzer,
         MethodWrapperFactory $methodWrapperFactory,
-        TypeNodeToStringsConvertor $typeResolver
+        TypeNodeToStringsConvertor $typeResolver,
+        TypeNodeAnalyzer $typeNodeAnalyzer
     ) {
         $this->descriptionAnalyzer = $descriptionAnalyzer;
         $this->paramAndReturnTagAnalyzer = $paramAndReturnTagAnalyzer;
         $this->configure([]);
         $this->methodWrapperFactory = $methodWrapperFactory;
         $this->typeResolver = $typeResolver;
+        $this->typeNodeAnalyzer = $typeNodeAnalyzer;
     }
 
     public function getDefinition(): FixerDefinitionInterface
@@ -192,21 +200,21 @@ public function getCount(): int
     {
         foreach ($methodWrapper->getArguments() as $argumentWrapper) {
             $typehintType = $argumentWrapper->getTypes();
-            $docType = $docBlockWrapper->getArgumentType($argumentWrapper->getName());
+            $docTypeNodes = $docBlockWrapper->getArgumentTypeNode($argumentWrapper->getName());
 
             $docDescription = $docBlockWrapper->getParamTagDescription($argumentWrapper->getName());
 
             $isDescriptionUseful = $this->descriptionAnalyzer->isDescriptionUseful(
                 $docDescription,
-                $docType,
+                $docTypeNodes,
                 $argumentWrapper->getName()
             );
 
-            if ($isDescriptionUseful === true || $this->shouldSkip($docType, $docDescription)) {
+            if ($isDescriptionUseful === true || $this->shouldSkip($docTypeNodes, $docDescription)) {
                 continue;
             }
 
-            if (! $this->paramAndReturnTagAnalyzer->isTagUseful($docType, $docDescription, $typehintType)) {
+            if (! $this->paramAndReturnTagAnalyzer->isTagUseful($docTypeNodes, $docDescription, $typehintType)) {
                 $docBlockWrapper->removeParamType($argumentWrapper->getName());
             }
         }
@@ -233,19 +241,20 @@ public function getCount(): int
         }
     }
 
-    private function shouldSkip(?string $docBlockType, ?string $argumentDescription): bool
+    /**
+     * @param string[] $typeNode
+     */
+    private function shouldSkip(?TypeNode $typeNode, ?string $argumentDescription): bool
     {
-        if ($argumentDescription === null || $docBlockType === null) {
+        if ($argumentDescription === null || $typeNode === null) {
             return true;
         }
 
-        // is array specification - keep it
-        if (Strings::contains($docBlockType, '[]')) {
+        if ($this->typeNodeAnalyzer->containsArrayType($typeNode)) {
             return true;
         }
 
-        // is intersect type specification, but not nullable - keep it
-        if (Strings::contains($docBlockType, '|') && ! Strings::contains($docBlockType, 'null')) {
+        if ($this->typeNodeAnalyzer->isIntersectionAndNotNullable($typeNode)) {
             return true;
         }
 
