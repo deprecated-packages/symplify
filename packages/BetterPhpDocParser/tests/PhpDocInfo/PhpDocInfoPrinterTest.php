@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\BetterPhpDocParser\Tests\PhpDocParser;
+namespace Symplify\BetterPhpDocParser\Tests\PhpDocInfo;
 
 use Iterator;
 use Symplify\BetterPhpDocParser\PhpDocInfo\PhpDocInfoFactory;

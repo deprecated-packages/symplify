@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\BetterPhpDocParser\Tests\PhpDocParser;
+namespace Symplify\BetterPhpDocParser\Tests\PhpDocInfo;
 
 use PHPStan\PhpDocParser\Ast\Type\TypeNode;
 use Symplify\BetterPhpDocParser\PhpDocInfo\PhpDocInfo;
@@ -63,6 +63,15 @@ final class PhpDocInfoTest extends AbstractContainerAwareTestCase
         $typeNode = $this->phpDocInfo->getVarTypeNode();
 
         $this->assertInstanceOf(TypeNode::class, $typeNode);
+    }
+
+    public function testGetVarTypes(): void
+    {
+        $varTypes = $this->phpDocInfo->getVarTypes();
+
+        $this->assertSame([
+            'SomeType'
+        ], $varTypes);
     }
 
     public function testReplaceTagByAnother(): void
