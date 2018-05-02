@@ -9,24 +9,28 @@ use PHPStan\PhpDocParser\Ast\Type\TypeNode;
 use PHPStan\PhpDocParser\Ast\Type\UnionTypeNode;
 use Symplify\BetterPhpDocParser\Exception\NotImplementedYetException;
 
-final class TypeResolver
+final class TypeNodeToStringsConvertor
 {
-    public function resolveDocType(TypeNode $typeNode): string
+    /**
+     * @return string[]
+     */
+    public function convert(TypeNode $typeNode): array
     {
         if ($typeNode instanceof ArrayTypeNode) {
-            return $this->resolveDocType($typeNode->type) . '[]';
+            return [$this->convert($typeNode->type) . '[]'];
         }
 
         if ($typeNode instanceof IdentifierTypeNode || $typeNode instanceof ThisTypeNode) {
-            return (string) $typeNode;
+            return [(string) $typeNode];
         }
 
         if ($typeNode instanceof UnionTypeNode) {
             $resolvedDocTypes = [];
             foreach ($typeNode->types as $subTypeNode) {
-                $resolvedDocTypes[] = $this->resolveDocType($subTypeNode);
+                $resolvedDocTypes[] = $this->convert($subTypeNode);
             }
-            return implode('|', $resolvedDocTypes);
+
+            return $resolvedDocTypes;
         }
 
         throw new NotImplementedYetException(sprintf(

@@ -51,15 +51,17 @@ abstract class AbstractVariableWrapper
 
     public function isClassType(): bool
     {
-        $type = $this->getType();
-        if ($type === null) {
+        $type = $this->getTypes();
+        if ($type === []) {
             return false;
         }
 
+        // @todo array intersect
         if (in_array($type, $this->simpleTypes, true)) {
             return false;
         }
 
+        // @todo foreach
         if (Strings::contains($type, '[]')) {
             return false;
         }
@@ -67,7 +69,7 @@ abstract class AbstractVariableWrapper
         return true;
     }
 
-    public function getType(): ?string
+    public function getTypes(): ?string
     {
         $previousTokenPosition = $this->tokens->getPrevMeaningfulToken($this->index);
         $previousToken = $this->tokens[$previousTokenPosition];

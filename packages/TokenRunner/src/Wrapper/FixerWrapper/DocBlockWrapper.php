@@ -9,7 +9,7 @@ use PHPStan\PhpDocParser\Ast\Type\IdentifierTypeNode;
 use PHPStan\PhpDocParser\Ast\Type\TypeNode;
 use PHPStan\PhpDocParser\Ast\Type\UnionTypeNode;
 use Symplify\BetterPhpDocParser\PhpDocInfo\PhpDocInfo;
-use Symplify\BetterPhpDocParser\PhpDocParser\TypeResolver;
+use Symplify\BetterPhpDocParser\PhpDocParser\TypeNodeToStringsConvertor;
 use Symplify\BetterPhpDocParser\Printer\PhpDocInfoPrinter;
 
 final class DocBlockWrapper
@@ -35,7 +35,7 @@ final class DocBlockWrapper
     private $phpDocInfoPrinter;
 
     /**
-     * @var TypeResolver
+     * @var TypeNodeToStringsConvertor
      */
     private $typeResolver;
 
@@ -44,7 +44,7 @@ final class DocBlockWrapper
         int $position,
         PhpDocInfo $phpDocInfo,
         PhpDocInfoPrinter $phpDocInfoPrinter,
-        TypeResolver $typeResolver
+        TypeNodeToStringsConvertor $typeResolver
     ) {
         $this->tokens = $tokens;
         $this->position = $position;
@@ -69,29 +69,19 @@ final class DocBlockWrapper
     }
 
     /**
-     * @todo move to PhpDocInfo
+     * @return string[]
      */
-    public function getArgumentType(string $name): ?string
+    public function getArgumentType(string $name): array
     {
-        $paramTagValue = $this->getPhpDocInfo()->getParamTagValueByName($name);
-        if ($paramTagValue === null) {
-            return '';
-        }
-
-        return $this->typeResolver->resolveDocType($paramTagValue->type);
+        return $this->phpDocInfo->getParamTypes($name);
     }
 
     /**
-     * @todo move to PhpDocInfo
+     * @return string[]
      */
-    public function getVarType(): ?string
+    public function getVarTypes(): array
     {
-        $varTagValue = $this->phpDocInfo->getVarTagValue();
-        if ($varTagValue === null) {
-            return null;
-        }
-
-        return $this->typeResolver->resolveDocType($varTagValue->type);
+        return $this->phpDocInfo->getVarTypes();
     }
 
     public function getParamTagDescription(string $name): string

@@ -14,7 +14,7 @@ use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
-use Symplify\BetterPhpDocParser\PhpDocParser\TypeResolver;
+use Symplify\BetterPhpDocParser\PhpDocParser\TypeNodeToStringsConvertor;
 use Symplify\TokenRunner\DocBlock\DescriptionAnalyzer;
 use Symplify\TokenRunner\DocBlock\ParamAndReturnTagAnalyzer;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\DocBlockWrapper;
@@ -44,7 +44,7 @@ final class RemoveUselessDocBlockFixer implements DefinedFixerInterface, Configu
     private $methodWrapperFactory;
 
     /**
-     * @var TypeResolver
+     * @var TypeNodeToStringsConvertor
      */
     private $typeResolver;
 
@@ -52,7 +52,7 @@ final class RemoveUselessDocBlockFixer implements DefinedFixerInterface, Configu
         DescriptionAnalyzer $descriptionAnalyzer,
         ParamAndReturnTagAnalyzer $paramAndReturnTagAnalyzer,
         MethodWrapperFactory $methodWrapperFactory,
-        TypeResolver $typeResolver
+        TypeNodeToStringsConvertor $typeResolver
     ) {
         $this->descriptionAnalyzer = $descriptionAnalyzer;
         $this->paramAndReturnTagAnalyzer = $paramAndReturnTagAnalyzer;
@@ -162,7 +162,7 @@ public function getCount(): int
             return;
         }
 
-        $docType = $this->typeResolver->resolveDocType($returnTagValue->type);
+        $docType = $this->typeResolver->convert($returnTagValue->type);
 
         $returnTagDescription = $returnTagValue->description;
 
@@ -191,7 +191,7 @@ public function getCount(): int
     private function processParamTag(MethodWrapper $methodWrapper, DocBlockWrapper $docBlockWrapper): void
     {
         foreach ($methodWrapper->getArguments() as $argumentWrapper) {
-            $typehintType = $argumentWrapper->getType();
+            $typehintType = $argumentWrapper->getTypes();
             $docType = $docBlockWrapper->getArgumentType($argumentWrapper->getName());
 
             $docDescription = $docBlockWrapper->getParamTagDescription($argumentWrapper->getName());
