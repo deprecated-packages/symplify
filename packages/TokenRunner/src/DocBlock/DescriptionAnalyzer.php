@@ -5,6 +5,7 @@ namespace Symplify\TokenRunner\DocBlock;
 use Nette\Utils\Strings;
 use PHPStan\PhpDocParser\Ast\Type\TypeNode;
 use Symplify\BetterPhpDocParser\PhpDocParser\TypeNodeAnalyzer;
+use Symplify\BetterPhpDocParser\PhpDocParser\TypeNodeToStringsConvertor;
 
 final class DescriptionAnalyzer
 {
@@ -12,19 +13,23 @@ final class DescriptionAnalyzer
      * @var string
      */
     private const COMMENTED_PATTERN = '#^((A|An|The|the)( )?)?(\\\\)?%s(Interface)?( instance)?$#i';
+
     /**
      * @var TypeNodeAnalyzer
      */
     private $typeNodeAnalyzer;
 
-    public function __construct(TypeNodeAnalyzer $typeNodeAnalyzer)
+    /**
+     * @var TypeNodeToStringsConvertor
+     */
+    private $typeNodeToStringsConvertor;
+
+    public function __construct(TypeNodeAnalyzer $typeNodeAnalyzer, TypeNodeToStringsConvertor $typeNodeToStringsConvertor)
     {
         $this->typeNodeAnalyzer = $typeNodeAnalyzer;
+        $this->typeNodeToStringsConvertor = $typeNodeToStringsConvertor;
     }
 
-    /**
-     * @param string[] $typeNode
-     */
     public function isDescriptionUseful(string $description, ?TypeNode $typeNode, ?string $name): bool
     {
         if (! $description || $typeNode === null) {
@@ -38,7 +43,9 @@ final class DescriptionAnalyzer
 
         $isDescriptionUseful = true;
 
-        foreach ($typeNode as $type) {
+        $types = $this->typeNodeToStringsConvertor->convert($typeNode);
+
+        foreach ($types as $type) {
             $isDescriptionUseful = true;
 
             if (Strings::endsWith($type, 'Interface')) {

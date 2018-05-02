@@ -14,8 +14,6 @@ final class ParamAndReturnTagAnalyzer
     private $uselessTypes = [];
 
     /**
-     * @param $typeNode
-     * @param null|string $docDescription
      * @param string[] $codeTypes
      */
     public function isTagUseful(?TypeNode $typeNode, ?string $docDescription, array $codeTypes): bool
