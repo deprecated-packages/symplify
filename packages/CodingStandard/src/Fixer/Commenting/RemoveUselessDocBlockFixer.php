@@ -166,6 +166,10 @@ public function getCount(): int
         $typehintType = $methodWrapper->getReturnType();
 
         $returnTagValue = $docBlockWrapper->getPhpDocInfo()->getReturnTagValue();
+
+        dump($returnTagValue);
+        die;
+
         if ($returnTagValue === null) {
             return;
         }
