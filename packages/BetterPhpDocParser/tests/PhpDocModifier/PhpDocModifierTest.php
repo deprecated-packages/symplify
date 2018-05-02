@@ -64,6 +64,21 @@ final class PhpDocModifierTest extends AbstractContainerAwareTestCase
         yield [file_get_contents(__DIR__ . '/PhpDocModifierSource/before2.txt'), '', 'method', 'getThis()'];
     }
 
+    public function testRemoveTagByNameAndContentComplex(): void
+    {
+        $phpDocInfo = $this->phpDocInfoFactory->createFrom(file_get_contents(__DIR__ . '/PhpDocModifierSource/before4.txt'));
+
+        $phpDocInfo->removeTagByNameAndContent('method', 'setName');
+        $phpDocInfo->removeTagByNameAndContent('method', 'addItem');
+        $phpDocInfo->removeTagByNameAndContent('method', 'setItems');
+        $phpDocInfo->removeTagByNameAndContent('method', 'setEnabled');
+
+        $this->assertStringEqualsFile(
+            __DIR__ . '/PhpDocModifierSource/after4.txt',
+            $this->phpDocInfoPrinter->printFormatPreserving($phpDocInfo)
+        );
+    }
+
     /**
      * @dataProvider provideDataForRemoveParamTagByParameter()
      */
