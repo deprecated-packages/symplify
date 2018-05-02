@@ -183,10 +183,6 @@ public function getCount(): int
             return;
         }
 
-//        dump($returnTagValue->type);
-//        dump($returnTypes);
-//        die;
-
         $isDescriptionUseful = $this->descriptionAnalyzer->isDescriptionUseful(
             $returnTagDescription,
             $returnTagValue->type,
@@ -204,21 +200,21 @@ public function getCount(): int
     {
         foreach ($methodWrapper->getArguments() as $argumentWrapper) {
             $typehintType = $argumentWrapper->getTypes();
-            $docTypeNodes = $docBlockWrapper->getArgumentTypeNode($argumentWrapper->getName());
+            $typeNode = $docBlockWrapper->getArgumentTypeNode($argumentWrapper->getName());
 
             $docDescription = $docBlockWrapper->getParamTagDescription($argumentWrapper->getName());
 
             $isDescriptionUseful = $this->descriptionAnalyzer->isDescriptionUseful(
                 $docDescription,
-                $docTypeNodes,
+                $typeNode,
                 $argumentWrapper->getName()
             );
 
-            if ($isDescriptionUseful === true || $this->shouldSkip($docTypeNodes, $docDescription)) {
+            if ($isDescriptionUseful === true || $this->shouldSkip($typeNode, $docDescription)) {
                 continue;
             }
 
-            if (! $this->paramAndReturnTagAnalyzer->isTagUseful($docTypeNodes, $docDescription, $typehintType)) {
+            if (! $this->paramAndReturnTagAnalyzer->isTagUseful($typeNode, $docDescription, $typehintType)) {
                 $docBlockWrapper->removeParamType($argumentWrapper->getName());
             }
         }

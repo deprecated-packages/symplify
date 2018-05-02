@@ -33,8 +33,10 @@ final class ParamAndReturnTagAnalyzer
             return false;
         }
 
-        if (in_array($typeNode, $this->uselessTypes, true)) {
-            return false;
+        if ($typeNode instanceof IdentifierTypeNode) {
+            if (in_array($typeNode->name, $this->uselessTypes, true)) {
+                return false;
+            }
         }
 
         if ($this->isLongSimpleType($typeNode, $codeTypes)) {
