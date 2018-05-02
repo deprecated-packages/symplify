@@ -16,21 +16,27 @@ final class TypeNodeToStringsConvertor
      */
     public function convert(TypeNode $typeNode): array
     {
+        $types = $this->resolveTypeNodeToString($typeNode);
+
+        return explode('|', $types);
+    }
+
+    public function resolveTypeNodeToString(TypeNode $typeNode): string
+    {
         if ($typeNode instanceof ArrayTypeNode) {
-            return [$this->convert($typeNode->type) . '[]'];
+            return $this->resolveTypeNodeToString($typeNode->type) . '[]';
         }
 
         if ($typeNode instanceof IdentifierTypeNode || $typeNode instanceof ThisTypeNode) {
-            return [(string) $typeNode];
+            return (string) $typeNode;
         }
 
         if ($typeNode instanceof UnionTypeNode) {
             $resolvedDocTypes = [];
             foreach ($typeNode->types as $subTypeNode) {
-                $resolvedDocTypes[] = $this->convert($subTypeNode);
+                $resolvedDocTypes[] = $this->resolveTypeNodeToString($subTypeNode);
             }
-
-            return $resolvedDocTypes;
+            return implode('|', $resolvedDocTypes);
         }
 
         throw new NotImplementedYetException(sprintf(

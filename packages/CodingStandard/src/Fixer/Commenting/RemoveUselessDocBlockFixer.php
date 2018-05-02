@@ -61,12 +61,13 @@ final class RemoveUselessDocBlockFixer implements DefinedFixerInterface, Configu
         TypeNodeToStringsConvertor $typeNodeToStringsConvertor,
         TypeNodeAnalyzer $typeNodeAnalyzer
     ) {
-        $this->configure([]);
         $this->descriptionAnalyzer = $descriptionAnalyzer;
         $this->paramAndReturnTagAnalyzer = $paramAndReturnTagAnalyzer;
         $this->methodWrapperFactory = $methodWrapperFactory;
         $this->typeNodeToStringsConvertor = $typeNodeToStringsConvertor;
         $this->typeNodeAnalyzer = $typeNodeAnalyzer;
+
+        $this->configure([]);
     }
 
     public function getDefinition(): FixerDefinitionInterface
@@ -163,33 +164,32 @@ public function getCount(): int
 
     private function processReturnTag(MethodWrapper $methodWrapper, DocBlockWrapper $docBlockWrapper): void
     {
-        $typehintType = $methodWrapper->getReturnType();
-
         $returnTagValue = $docBlockWrapper->getPhpDocInfo()->getReturnTagValue();
-
-        dump($returnTagValue);
-        die;
-
         if ($returnTagValue === null) {
             return;
         }
 
-        $docType = $this->typeNodeToStringsConvertor->convert($returnTagValue->type);
+        $typehintType = $methodWrapper->getReturnType();
+        $returnTypes = $docBlockWrapper->getPhpDocInfo()->getReturnTypes();
 
         $returnTagDescription = $returnTagValue->description;
 
-        if (Strings::contains($typehintType, '|') && Strings::contains($docType, '|')) {
-            $this->processReturnTagMultiTypes($typehintType, $docType, $docBlockWrapper, $returnTagDescription);
+//        if (Strings::contains($typehintType, '|') && Strings::contains($docType, '|')) {
+//            $this->processReturnTagMultiTypes($typehintType, $returnTypes, $docBlockWrapper, $returnTagDescription);
+//            return;
+//        }
+
+        if ($this->paramAndReturnTagAnalyzer->isTagUseful($returnTagValue->type, $returnTagDescription, [$typehintType])) {
             return;
         }
 
-        if ($this->paramAndReturnTagAnalyzer->isTagUseful($docType, $returnTagDescription, $typehintType)) {
-            return;
-        }
+//        dump($returnTagValue->type);
+//        dump($returnTypes);
+//        die;
 
         $isDescriptionUseful = $this->descriptionAnalyzer->isDescriptionUseful(
             $returnTagDescription,
-            $docType,
+            $returnTagValue->type,
             null
         );
 

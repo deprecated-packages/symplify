@@ -192,6 +192,19 @@ final class PhpDocInfo
         return $this->typeNodeToStringsConvertor->convert($varTypeNode);
     }
 
+    /**
+     * @return string[]
+     */
+    public function getReturnTypes(): array
+    {
+        $returnTypeValueNode = $this->getReturnTagValue();
+        if ($returnTypeValueNode === null) {
+            return [];
+        }
+
+        return $this->typeNodeToStringsConvertor->convert($returnTypeValueNode->type);
+    }
+
     // replace section
 
     public function replaceTagByAnother(string $oldTag, string $newTag): void
