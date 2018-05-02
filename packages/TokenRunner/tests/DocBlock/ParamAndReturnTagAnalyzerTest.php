@@ -3,6 +3,8 @@
 namespace Symplify\TokenRunner\Tests\DocBlock;
 
 use Iterator;
+use PHPStan\PhpDocParser\Ast\Type\IdentifierTypeNode;
+use PHPStan\PhpDocParser\Ast\Type\TypeNode;
 use PHPUnit\Framework\TestCase;
 use Symplify\TokenRunner\DocBlock\ParamAndReturnTagAnalyzer;
 
@@ -20,10 +22,11 @@ final class ParamAndReturnTagAnalyzerTest extends TestCase
 
     /**
      * @dataProvider provideDocTypeDocDescriptionParamTypeAndResult()
+     * @param string[] $paramTypes
      */
-    public function test(?string $docType, ?string $docDescription, string $paramType, bool $expectedIsUseful): void
+    public function test(TypeNode $typeNode, ?string $docDescription, array $paramTypes, bool $expectedIsUseful): void
     {
-        $isUseful = $this->paramAndReturnTagAnalyzer->isTagUseful($docType, $docDescription, $paramType);
+        $isUseful = $this->paramAndReturnTagAnalyzer->isTagUseful($typeNode, $docDescription, $paramTypes);
 
         $this->assertSame($expectedIsUseful, $isUseful);
     }
@@ -31,9 +34,9 @@ final class ParamAndReturnTagAnalyzerTest extends TestCase
     public function provideDocTypeDocDescriptionParamTypeAndResult(): Iterator
     {
         # useful
-        yield ['boolean', 'some description', 'bool', true];
+        yield [new IdentifierTypeNode('boolean'), 'some description', ['bool'], true];
         # not useful
-        yield ['boolean', null, 'bool', false];
-        yield ['integer', null, 'int', false];
+        yield [new IdentifierTypeNode('boolean'), null, ['bool'], false];
+        yield [new IdentifierTypeNode('integer'), null, ['int'], false];
     }
 }

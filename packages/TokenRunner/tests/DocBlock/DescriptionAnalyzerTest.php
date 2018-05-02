@@ -3,7 +3,10 @@
 namespace Symplify\TokenRunner\Tests\DocBlock;
 
 use Iterator;
+use PHPStan\PhpDocParser\Ast\Type\IdentifierTypeNode;
+use PHPStan\PhpDocParser\Ast\Type\TypeNode;
 use PHPUnit\Framework\TestCase;
+use Symplify\BetterPhpDocParser\PhpDocParser\TypeNodeAnalyzer;
 use Symplify\TokenRunner\DocBlock\DescriptionAnalyzer;
 
 final class DescriptionAnalyzerTest extends TestCase
@@ -15,15 +18,15 @@ final class DescriptionAnalyzerTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->descriptionAnalyzer = new DescriptionAnalyzer();
+        $this->descriptionAnalyzer = new DescriptionAnalyzer(new TypeNodeAnalyzer());
     }
 
     /**
      * @dataProvider provideDescriptionTypeNameAndResult()
      */
-    public function test(string $description, string $type, string $name, bool $expectedIsUseful): void
+    public function test(string $description, TypeNode $typeNode, string $name, bool $expectedIsUseful): void
     {
-        $isUseful = $this->descriptionAnalyzer->isDescriptionUseful($description, $type, $name);
+        $isUseful = $this->descriptionAnalyzer->isDescriptionUseful($description, $typeNode, $name);
 
         $this->assertSame($expectedIsUseful, $isUseful);
     }
@@ -31,18 +34,18 @@ final class DescriptionAnalyzerTest extends TestCase
     public function provideDescriptionTypeNameAndResult(): Iterator
     {
         # useful
-        yield ['this is description', 'type', 'name', true];
+        yield ['this is description', new IdentifierTypeNode('type'), 'name', true];
         # not useful
-        yield ['a Type instance', 'Type', 'name', false];
-        yield ['an Type instance', 'Type', 'name', false];
-        yield ['an \Type instance', 'Type', 'name', false];
-        yield ['an TypeInterface instance', 'Type', 'name', false];
-        yield ['the TypeInterface instance', 'Type', 'name', false];
-        yield ['the \TypeInterface instance', 'Type', 'name', false];
-        yield ['the \Namespaced\TypeInterface instance', 'Namespaced\TypeInterface', 'name', false];
-        yield ['a \Namespaced\TypeInterface', 'Namespaced\TypeInterface', 'name', false];
-        yield ['\Namespaced\TypeInterface', 'Namespaced\TypeInterface', 'name', false];
-        yield ['name', 'Namespaced\TypeInterface', 'name', false];
-        yield ['a name', 'Namespaced\TypeInterface', 'name', false];
+        yield ['a Type instance', new IdentifierTypeNode('Type'), 'name', false];
+        yield ['an Type instance', new IdentifierTypeNode('Type'), 'name', false];
+        yield ['an \Type instance', new IdentifierTypeNode('Type'), 'name', false];
+        yield ['an TypeInterface instance', new IdentifierTypeNode('Type'), 'name', false];
+        yield ['the TypeInterface instance', new IdentifierTypeNode('Type'), 'name', false];
+        yield ['the \TypeInterface instance', new IdentifierTypeNode('Type'), 'name', false];
+        yield ['the \Namespaced\TypeInterface instance', new IdentifierTypeNode('Namespaced\TypeInterface'), 'name', false];
+        yield ['a \Namespaced\TypeInterface', new IdentifierTypeNode('Namespaced\TypeInterface'), 'name', false];
+        yield ['\Namespaced\TypeInterface', new IdentifierTypeNode('Namespaced\TypeInterface'), 'name', false];
+        yield ['name', new IdentifierTypeNode('Namespaced\TypeInterface'), 'name', false];
+        yield ['a name', new IdentifierTypeNode('Namespaced\TypeInterface'), 'name', false];
     }
 }
