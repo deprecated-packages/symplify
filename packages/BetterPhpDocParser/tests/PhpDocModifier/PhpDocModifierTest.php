@@ -66,7 +66,9 @@ final class PhpDocModifierTest extends AbstractContainerAwareTestCase
 
     public function testRemoveTagByNameAndContentComplex(): void
     {
-        $phpDocInfo = $this->phpDocInfoFactory->createFrom(file_get_contents(__DIR__ . '/PhpDocModifierSource/before4.txt'));
+        $phpDocInfo = $this->phpDocInfoFactory->createFrom(
+            file_get_contents(__DIR__ . '/PhpDocModifierSource/before4.txt')
+        );
 
         $phpDocInfo->removeTagByNameAndContent('method', 'setName');
         $phpDocInfo->removeTagByNameAndContent('method', 'addItem');

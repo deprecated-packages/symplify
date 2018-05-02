@@ -206,7 +206,7 @@ services:
  }
 ```
 
-### Property name should match its type, if possible
+### Property name should match its types, if possible
 
 - :wrench:
 - class: [`Symplify\CodingStandard\Fixer\Naming\PropertyNameMatchingTypeFixer`](src/Fixer/Naming/PropertyNameMatchingTypeFixer.php)
@@ -271,7 +271,7 @@ services:
  }
 ```
 
-### Strict type declaration has to be followed by empty line
+### Strict types declaration has to be followed by empty line
 
 - class: [`Symplify\CodingStandard\Fixer\Strict\BlankLineAfterStrictTypesFixer`](src/Fixer/Strict/BlankLineAfterStrictTypesFixer.php)
 

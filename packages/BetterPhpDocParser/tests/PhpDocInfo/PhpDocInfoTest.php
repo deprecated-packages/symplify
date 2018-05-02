@@ -69,9 +69,7 @@ final class PhpDocInfoTest extends AbstractContainerAwareTestCase
     {
         $varTypes = $this->phpDocInfo->getVarTypes();
 
-        $this->assertSame([
-            'SomeType'
-        ], $varTypes);
+        $this->assertSame(['SomeType'], $varTypes);
     }
 
     public function testReplaceTagByAnother(): void

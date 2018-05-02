@@ -34,11 +34,14 @@ final class PropertyWrapper extends AbstractVariableWrapper
 
     public function getFqnType(): ?string
     {
-        if ($this->getTypes() === null) {
+        if ($this->getTypes() === []) {
             return null;
         }
 
-        return $this->nameFactory->resolveForName($this->tokens, $this->getTypes());
+        $types = $this->getTypes();
+        $type = array_pop($types);
+
+        return $this->nameFactory->resolveForName($this->tokens, $type);
     }
 
     /**

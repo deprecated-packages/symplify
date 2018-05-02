@@ -21,6 +21,7 @@ abstract class AbstractVariableWrapper
     protected $index;
 
     /**
+     * @todo make use of TypeAnalyzer
      * @var string[]
      */
     private $simpleTypes = [
@@ -51,19 +52,20 @@ abstract class AbstractVariableWrapper
 
     public function isClassType(): bool
     {
-        $type = $this->getTypes();
-        if ($type === []) {
+        $types = $this->getTypes();
+        if ($types === []) {
             return false;
         }
 
-        // @todo array intersect
-        if (in_array($type, $this->simpleTypes, true)) {
-            return false;
+        if (array_intersect($types, $this->simpleTypes)) {
+            return true;
         }
 
-        // @todo foreach
-        if (Strings::contains($type, '[]')) {
-            return false;
+        // @todo make use of TypeAnalyzer
+        foreach ($types as $type) {
+            if (Strings::contains($type, '[]')) {
+                return false;
+            }
         }
 
         return true;
