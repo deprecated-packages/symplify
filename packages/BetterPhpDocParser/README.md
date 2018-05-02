@@ -30,7 +30,7 @@ imports:
 or register the needed services from `services.yml` in config of your other framework.
 
 ```php
-use Symplify\BetterPhpDocParser\PhpDocParser\PhpDocInfoFactory;
+use Symplify\BetterPhpDocParser\PhpDocInfo\PhpDocInfoFactory;
 use Symplify\BetterPhpDocParser\Printer\PhpDocInfoPrinter;
 
 class SomeClass

@@ -3,8 +3,8 @@
 namespace Symplify\BetterPhpDocParser\Tests\PhpDocParser;
 
 use PHPStan\PhpDocParser\Ast\Type\TypeNode;
-use Symplify\BetterPhpDocParser\PhpDocParser\PhpDocInfo;
-use Symplify\BetterPhpDocParser\PhpDocParser\PhpDocInfoFactory;
+use Symplify\BetterPhpDocParser\PhpDocInfo\PhpDocInfo;
+use Symplify\BetterPhpDocParser\PhpDocInfo\PhpDocInfoFactory;
 use Symplify\BetterPhpDocParser\Printer\PhpDocInfoPrinter;
 use Symplify\BetterPhpDocParser\Tests\AbstractContainerAwareTestCase;
 

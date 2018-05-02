@@ -2,7 +2,7 @@
 
 namespace Symplify\BetterPhpDocParser\Contract;
 
-use Symplify\BetterPhpDocParser\PhpDocParser\PhpDocInfo;
+use Symplify\BetterPhpDocParser\PhpDocInfo\PhpDocInfo;
 
 interface PhpDocInfoDecoratorInterface
 {
