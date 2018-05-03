@@ -57,8 +57,9 @@ abstract class AbstractVariableWrapper
             return false;
         }
 
+        // just a simple type
         if (array_intersect($types, $this->simpleTypes)) {
-            return true;
+            return false;
         }
 
         // @todo make use of TypeAnalyzer
