@@ -6,6 +6,7 @@ use PhpParser\Node\NullableType;
 use PHPStan\PhpDocParser\Ast\Type\ArrayTypeNode;
 use PHPStan\PhpDocParser\Ast\Type\IdentifierTypeNode;
 use PHPStan\PhpDocParser\Ast\Type\IntersectionTypeNode;
+use PHPStan\PhpDocParser\Ast\Type\NullableTypeNode;
 use PHPStan\PhpDocParser\Ast\Type\TypeNode;
 use PHPStan\PhpDocParser\Ast\Type\UnionTypeNode;
 
@@ -36,7 +37,7 @@ final class TypeNodeAnalyzer
     {
         if ($typeNode instanceof IntersectionTypeNode) {
             foreach ($typeNode->types as $subType) {
-                if ($subType instanceof NullableType) {
+                if ($subType instanceof NullableTypeNode) {
                     return false;
                 }
             }
