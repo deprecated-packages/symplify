@@ -21,7 +21,7 @@ final class TypeNodeToStringsConvertor
         return explode('|', $types);
     }
 
-    public function resolveTypeNodeToString(TypeNode $typeNode): string
+    private function resolveTypeNodeToString(TypeNode $typeNode): string
     {
         if ($typeNode instanceof ArrayTypeNode) {
             return $this->resolveTypeNodeToString($typeNode->type) . '[]';
