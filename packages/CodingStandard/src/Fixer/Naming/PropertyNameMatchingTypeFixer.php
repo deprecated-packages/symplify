@@ -14,7 +14,7 @@ use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
-use Symplify\BetterPhpDocParser\Php\TypeAnalyzer;
+use Symplify\PackageBuilder\Php\TypeAnalyzer;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\ArgumentWrapper;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\ClassWrapper;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\ClassWrapperFactory;

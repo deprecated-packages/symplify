@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\BetterPhpDocParser\Php;
+namespace Symplify\PackageBuilder\Php;
 
 use Nette\Utils\Strings;
 
