@@ -103,17 +103,27 @@ final class MethodWrapper
         return $this->docBlockWrapper;
     }
 
-    public function getReturnType(): ?string
+    /**
+     * @return string[]
+     */
+    public function getReturnTypes(): array
     {
         $returnTypeAnalysis = ((new FunctionsAnalyzer())->getFunctionReturnType($this->tokens, $this->index));
 
-        if ($returnTypeAnalysis) {
-            $returnTypeInString = $returnTypeAnalysis->getName();
-            // for docblocks render: "?Type" => "null|Type"
-            return str_replace('?', 'null|', $returnTypeInString);
+        if ($returnTypeAnalysis === null) {
+            return [];
         }
 
-        return null;
+        $returnTypes = [];
+
+        if (Strings::startsWith($returnTypeAnalysis->getName(), '?')) {
+            // nullable type
+            $returnTypes[] = 'null';
+            $returnTypes[] = ltrim($returnTypeAnalysis->getName(), '?');
+            return $returnTypes;
+        }
+
+        return [$returnTypeAnalysis->getName()];
     }
 
     /**

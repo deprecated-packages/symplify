@@ -9,12 +9,22 @@ use PHPStan\PhpDocParser\Ast\Type\TypeNode;
 use PHPStan\PhpDocParser\Ast\Type\UnionTypeNode;
 use Symplify\BetterPhpDocParser\Exception\NotImplementedYetException;
 
-final class TypeResolver
+final class TypeNodeToStringsConvertor
 {
-    public function resolveDocType(TypeNode $typeNode): string
+    /**
+     * @return string[]
+     */
+    public function convert(TypeNode $typeNode): array
+    {
+        $types = $this->resolveTypeNodeToString($typeNode);
+
+        return explode('|', $types);
+    }
+
+    private function resolveTypeNodeToString(TypeNode $typeNode): string
     {
         if ($typeNode instanceof ArrayTypeNode) {
-            return $this->resolveDocType($typeNode->type) . '[]';
+            return $this->resolveTypeNodeToString($typeNode->type) . '[]';
         }
 
         if ($typeNode instanceof IdentifierTypeNode || $typeNode instanceof ThisTypeNode) {
@@ -24,7 +34,7 @@ final class TypeResolver
         if ($typeNode instanceof UnionTypeNode) {
             $resolvedDocTypes = [];
             foreach ($typeNode->types as $subTypeNode) {
-                $resolvedDocTypes[] = $this->resolveDocType($subTypeNode);
+                $resolvedDocTypes[] = $this->resolveTypeNodeToString($subTypeNode);
             }
             return implode('|', $resolvedDocTypes);
         }

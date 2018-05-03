@@ -14,6 +14,7 @@ use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
+use Symplify\PackageBuilder\Php\TypeAnalyzer;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\ArgumentWrapper;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\ClassWrapper;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\ClassWrapperFactory;
@@ -55,9 +56,15 @@ final class PropertyNameMatchingTypeFixer implements DefinedFixerInterface, Conf
      */
     private $classWrapperFactory;
 
-    public function __construct(ClassWrapperFactory $classWrapperFactory)
+    /**
+     * @var TypeAnalyzer
+     */
+    private $typeAnalyzer;
+
+    public function __construct(ClassWrapperFactory $classWrapperFactory, TypeAnalyzer $typeAnalyzer)
     {
         $this->classWrapperFactory = $classWrapperFactory;
+        $this->typeAnalyzer = $typeAnalyzer;
     }
 
     public function getDefinition(): FixerDefinitionInterface
@@ -170,7 +177,7 @@ class SomeClass
         }
     }
 
-    private function getExpectedNameFromType(string $type): string
+    private function getExpectedNameFromTypes(string $type): string
     {
         $rawName = $type;
 
@@ -227,14 +234,28 @@ class SomeClass
         return false;
     }
 
-    private function isAllowedNameOrType(string $name, string $type, string $fqnType): bool
+    /**
+     * @param string[] $types
+     */
+    private function isAllowedNameOrType(string $name, array $types, string $fqnType): bool
     {
         if ($this->shouldSkipClass($fqnType)) {
             return true;
         }
 
+        // unable to determine correctly
+        if (count($types) > 1) {
+            return true;
+        }
+
+        $type = array_pop($types);
+
+        if ($this->typeAnalyzer->isPhpReservedType($type)) {
+            return true;
+        }
+
         // starts with adjective, e.g. (Post $firstPost, Post $secondPost)
-        $expectedName = $this->getExpectedNameFromType($type);
+        $expectedName = $this->getExpectedNameFromTypes($type);
 
         return Strings::contains($name, ucfirst($expectedName)) && Strings::endsWith($name, ucfirst($expectedName));
     }
@@ -244,18 +265,21 @@ class SomeClass
      */
     private function shouldSkipWrapper($typeWrapper): bool
     {
-        if ($typeWrapper->getType() === null || ! $typeWrapper->isClassType()) {
+        if ($typeWrapper->getTypes() === [] || $typeWrapper->isClassType() === false) {
             return true;
         }
 
         $oldName = $typeWrapper->getName();
-        if ($this->isAllowedNameOrType($oldName, $typeWrapper->getType(), (string) $typeWrapper->getFqnType())) {
+
+        if ($this->isAllowedNameOrType($oldName, $typeWrapper->getTypes(), (string) $typeWrapper->getFqnType())) {
             return true;
         }
 
-        $expectedName = $this->getExpectedNameFromType($typeWrapper->getType());
-        if ($oldName === $expectedName) {
-            return true;
+        foreach ($typeWrapper->getTypes() as $type) {
+            $expectedName = $this->getExpectedNameFromTypes($type);
+            if ($oldName === $expectedName) {
+                return true;
+            }
         }
 
         return false;
@@ -276,8 +300,15 @@ class SomeClass
 
             $oldName = $typeWrapper->getName();
 
-            $expectedName = $this->getExpectedNameFromType((string) $typeWrapper->getType());
+            $types = $typeWrapper->getTypes();
 
+            // unable to resolve correctly
+            if (count($types) > 1) {
+                continue;
+            }
+
+            $type = array_pop($types);
+            $expectedName = $this->getExpectedNameFromTypes($type);
             if ($expectedName === '') {
                 continue;
             }

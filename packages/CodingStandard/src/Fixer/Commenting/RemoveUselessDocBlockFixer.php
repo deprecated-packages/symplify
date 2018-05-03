@@ -2,7 +2,6 @@
 
 namespace Symplify\CodingStandard\Fixer\Commenting;
 
-use Nette\Utils\Strings;
 use PhpCsFixer\Fixer\ConfigurationDefinitionFixerInterface;
 use PhpCsFixer\Fixer\DefinedFixerInterface;
 use PhpCsFixer\FixerConfiguration\FixerConfigurationResolver;
@@ -13,8 +12,9 @@ use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
+use PHPStan\PhpDocParser\Ast\Type\TypeNode;
 use SplFileInfo;
-use Symplify\BetterPhpDocParser\PhpDocParser\TypeResolver;
+use Symplify\BetterPhpDocParser\PhpDocParser\TypeNodeAnalyzer;
 use Symplify\TokenRunner\DocBlock\DescriptionAnalyzer;
 use Symplify\TokenRunner\DocBlock\ParamAndReturnTagAnalyzer;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\DocBlockWrapper;
@@ -44,21 +44,22 @@ final class RemoveUselessDocBlockFixer implements DefinedFixerInterface, Configu
     private $methodWrapperFactory;
 
     /**
-     * @var TypeResolver
+     * @var TypeNodeAnalyzer
      */
-    private $typeResolver;
+    private $typeNodeAnalyzer;
 
     public function __construct(
         DescriptionAnalyzer $descriptionAnalyzer,
         ParamAndReturnTagAnalyzer $paramAndReturnTagAnalyzer,
         MethodWrapperFactory $methodWrapperFactory,
-        TypeResolver $typeResolver
+        TypeNodeAnalyzer $typeNodeAnalyzer
     ) {
         $this->descriptionAnalyzer = $descriptionAnalyzer;
         $this->paramAndReturnTagAnalyzer = $paramAndReturnTagAnalyzer;
-        $this->configure([]);
         $this->methodWrapperFactory = $methodWrapperFactory;
-        $this->typeResolver = $typeResolver;
+        $this->typeNodeAnalyzer = $typeNodeAnalyzer;
+
+        $this->configure([]);
     }
 
     public function getDefinition(): FixerDefinitionInterface
@@ -155,31 +156,33 @@ public function getCount(): int
 
     private function processReturnTag(MethodWrapper $methodWrapper, DocBlockWrapper $docBlockWrapper): void
     {
-        $typehintType = $methodWrapper->getReturnType();
-
         $returnTagValue = $docBlockWrapper->getPhpDocInfo()->getReturnTagValue();
         if ($returnTagValue === null) {
             return;
         }
 
-        $docType = $this->typeResolver->resolveDocType($returnTagValue->type);
+        $typehintTypes = $methodWrapper->getReturnTypes();
+        $returnTypes = $docBlockWrapper->getPhpDocInfo()->getReturnTypes();
 
         $returnTagDescription = $returnTagValue->description;
-
-        if (Strings::contains($typehintType, '|') && Strings::contains($docType, '|')) {
-            $this->processReturnTagMultiTypes($typehintType, $docType, $docBlockWrapper, $returnTagDescription);
-            return;
-        }
-
-        if ($this->paramAndReturnTagAnalyzer->isTagUseful($docType, $returnTagDescription, $typehintType)) {
-            return;
-        }
-
         $isDescriptionUseful = $this->descriptionAnalyzer->isDescriptionUseful(
             $returnTagDescription,
-            $docType,
+            $returnTagValue->type,
             null
         );
+
+        if ($this->isUselessNullableTypehint($typehintTypes, $returnTypes) && $isDescriptionUseful === false) {
+            $docBlockWrapper->removeReturnType();
+            return;
+        }
+
+        if ($this->paramAndReturnTagAnalyzer->isTagUseful(
+            $returnTagValue->type,
+            $returnTagDescription,
+            $typehintTypes
+        )) {
+            return;
+        }
 
         if ($isDescriptionUseful) {
             return;
@@ -191,61 +194,48 @@ public function getCount(): int
     private function processParamTag(MethodWrapper $methodWrapper, DocBlockWrapper $docBlockWrapper): void
     {
         foreach ($methodWrapper->getArguments() as $argumentWrapper) {
-            $typehintType = $argumentWrapper->getType();
-            $docType = $docBlockWrapper->getArgumentType($argumentWrapper->getName());
+            $typehintType = $argumentWrapper->getTypes();
+            $typeNode = $docBlockWrapper->getArgumentTypeNode($argumentWrapper->getName());
 
             $docDescription = $docBlockWrapper->getParamTagDescription($argumentWrapper->getName());
 
             $isDescriptionUseful = $this->descriptionAnalyzer->isDescriptionUseful(
                 $docDescription,
-                $docType,
+                $typeNode,
                 $argumentWrapper->getName()
             );
 
-            if ($isDescriptionUseful === true || $this->shouldSkip($docType, $docDescription)) {
+            if ($isDescriptionUseful === true) {
                 continue;
             }
 
-            if (! $this->paramAndReturnTagAnalyzer->isTagUseful($docType, $docDescription, $typehintType)) {
+            // no description, no typehint, just property name
+            if ($typeNode === null) {
+                $docBlockWrapper->removeParamType($argumentWrapper->getName());
+                continue;
+            }
+
+            if ($this->shouldSkip($typeNode, $docDescription)) {
+                continue;
+            }
+
+            if (! $this->paramAndReturnTagAnalyzer->isTagUseful($typeNode, $docDescription, $typehintType)) {
                 $docBlockWrapper->removeParamType($argumentWrapper->getName());
             }
         }
     }
 
-    private function processReturnTagMultiTypes(
-        string $docBlockType,
-        string $typehintType,
-        DocBlockWrapper $docBlockWrapper,
-        string $returnTagDescription
-    ): void {
-        $typehintTypes = explode('|', $typehintType);
-        $docBlockTypes = explode('|', $docBlockType);
-
-        if ($returnTagDescription) {
-            return;
-        }
-
-        sort($typehintTypes);
-        sort($docBlockTypes);
-
-        if ($typehintTypes === $docBlockTypes) {
-            $docBlockWrapper->removeReturnType();
-        }
-    }
-
-    private function shouldSkip(?string $docBlockType, ?string $argumentDescription): bool
+    private function shouldSkip(?TypeNode $typeNode, ?string $argumentDescription): bool
     {
-        if ($argumentDescription === null || $docBlockType === null) {
+        if ($argumentDescription === null || $typeNode === null) {
             return true;
         }
 
-        // is array specification - keep it
-        if (Strings::contains($docBlockType, '[]')) {
+        if ($this->typeNodeAnalyzer->containsArrayType($typeNode)) {
             return true;
         }
 
-        // is intersect type specification, but not nullable - keep it
-        if (Strings::contains($docBlockType, '|') && ! Strings::contains($docBlockType, 'null')) {
+        if ($this->typeNodeAnalyzer->isIntersectionAndNotNullable($typeNode)) {
             return true;
         }
 
@@ -276,5 +266,18 @@ public function getCount(): int
         $possibleNameToken = $tokens[$possibleNamePosition];
 
         return $possibleNameToken->isGivenKind(T_STRING);
+    }
+
+    /**
+     * @param string[] $returnTypehintTypes
+     * @param string[] $returnDocTypes
+     */
+    private function isUselessNullableTypehint(array $returnTypehintTypes, array $returnDocTypes): bool
+    {
+        if (count($returnTypehintTypes) !== count($returnDocTypes)) {
+            return false;
+        }
+
+        return count(array_intersect($returnDocTypes, $returnTypehintTypes)) === count($returnTypehintTypes);
     }
 }

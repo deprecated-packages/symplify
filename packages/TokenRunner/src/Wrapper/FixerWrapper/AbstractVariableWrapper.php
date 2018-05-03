@@ -21,6 +21,7 @@ abstract class AbstractVariableWrapper
     protected $index;
 
     /**
+     * @todo make use of TypeAnalyzer
      * @var string[]
      */
     private $simpleTypes = [
@@ -51,23 +52,30 @@ abstract class AbstractVariableWrapper
 
     public function isClassType(): bool
     {
-        $type = $this->getType();
-        if ($type === null) {
+        $types = $this->getTypes();
+        if ($types === []) {
             return false;
         }
 
-        if (in_array($type, $this->simpleTypes, true)) {
+        // just a simple type
+        if (array_intersect($types, $this->simpleTypes)) {
             return false;
         }
 
-        if (Strings::contains($type, '[]')) {
-            return false;
+        // @todo make use of TypeAnalyzer
+        foreach ($types as $type) {
+            if (Strings::contains($type, '[]')) {
+                return false;
+            }
         }
 
         return true;
     }
 
-    public function getType(): ?string
+    /**
+     * @return string[]
+     */
+    public function getTypes(): array
     {
         $previousTokenPosition = $this->tokens->getPrevMeaningfulToken($this->index);
         $previousToken = $this->tokens[$previousTokenPosition];
@@ -78,11 +86,11 @@ abstract class AbstractVariableWrapper
         }
 
         if (! $previousToken->isGivenKind([T_STRING, CT::T_ARRAY_TYPEHINT])) {
-            return null;
+            return [];
         }
 
         // probably not a class type
-        return $previousToken->getContent();
+        return [$previousToken->getContent()];
     }
 
     public function getFqnType(): ?string

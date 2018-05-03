@@ -2,6 +2,7 @@
 
 namespace Symplify\BetterPhpDocParser;
 
+use Nette\Utils\Strings;
 use PHPStan\PhpDocParser\Ast\PhpDoc\InvalidTagValueNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\ParamTagValueNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocNode;
@@ -42,8 +43,8 @@ final class PhpDocModifier
                 continue;
             }
 
-            // e.g. @method someMethod()
-            if ((string) $phpDocTagNode->value === $tagContent) {
+            // e.g. @method someMethod(), only matching content is enough, due to real case usability
+            if (Strings::contains((string) $phpDocTagNode->value, $tagContent)) {
                 $this->removeTagFromPhpDocNode($phpDocNode, $phpDocTagNode);
             }
         }

@@ -271,7 +271,7 @@ services:
  }
 ```
 
-### Strict type declaration has to be followed by empty line
+### Strict types declaration has to be followed by empty line
 
 - class: [`Symplify\CodingStandard\Fixer\Strict\BlankLineAfterStrictTypesFixer`](src/Fixer/Strict/BlankLineAfterStrictTypesFixer.php)
 

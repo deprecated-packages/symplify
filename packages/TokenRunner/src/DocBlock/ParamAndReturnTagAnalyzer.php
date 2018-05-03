@@ -3,6 +3,8 @@
 namespace Symplify\TokenRunner\DocBlock;
 
 use Nette\Utils\Strings;
+use PHPStan\PhpDocParser\Ast\Type\IdentifierTypeNode;
+use PHPStan\PhpDocParser\Ast\Type\TypeNode;
 
 final class ParamAndReturnTagAnalyzer
 {
@@ -11,9 +13,12 @@ final class ParamAndReturnTagAnalyzer
      */
     private $uselessTypes = [];
 
-    public function isTagUseful(?string $docType, ?string $docDescription, ?string $codeType): bool
+    /**
+     * @param string[] $codeTypes
+     */
+    public function isTagUseful(?TypeNode $typeNode, ?string $docDescription, array $codeTypes): bool
     {
-        if ($this->isMatch($docType, $codeType)) {
+        if ($this->isMatch($typeNode, $codeTypes)) {
             return false;
         }
 
@@ -21,16 +26,18 @@ final class ParamAndReturnTagAnalyzer
             return true;
         }
 
-        // not code type and no type in typehint
-        if ($codeType === null && ! $docType) {
+        // not code type nor type in typehint is known
+        if ($codeTypes === [] && $typeNode === null) {
             return false;
         }
 
-        if (in_array($docType, $this->uselessTypes, true)) {
-            return false;
+        if ($typeNode instanceof IdentifierTypeNode) {
+            if (in_array($typeNode->name, $this->uselessTypes, true)) {
+                return false;
+            }
         }
 
-        if ($this->isLongSimpleType($docType, $codeType)) {
+        if ($this->isLongSimpleType($typeNode, $codeTypes)) {
             return false;
         }
 
@@ -45,18 +52,28 @@ final class ParamAndReturnTagAnalyzer
         $this->uselessTypes = $uselessTypes;
     }
 
-    private function isMatch(?string $docType, ?string $codeType): bool
+    /**
+     * @param string[] $codeTypes
+     */
+    private function isMatch(?TypeNode $typeNode, array $codeTypes): bool
     {
-        if ($docType === $codeType) {
+        if ($typeNode === null && $codeTypes === []) {
             return true;
         }
 
-        if ($docType) {
-            if (Strings::endsWith($docType, '\\' . $codeType)) {
+        if ((string) $typeNode === implode('|', $codeTypes)) {
+            return true;
+        }
+
+        if ($typeNode) {
+            $typeNodeAsString = (string) $typeNode;
+            $codeTypesAsString = implode('|', $codeTypes);
+
+            if (Strings::endsWith($typeNodeAsString, '\\' . $codeTypesAsString)) {
                 return true;
             }
 
-            if (Strings::endsWith($codeType, '\\' . $docType)) {
+            if (Strings::endsWith($codeTypesAsString, '\\' . $typeNodeAsString)) {
                 return true;
             }
         }
@@ -64,13 +81,22 @@ final class ParamAndReturnTagAnalyzer
         return false;
     }
 
-    private function isLongSimpleType(?string $docType, ?string $paramType): bool
+    /**
+     * @param string[] $codeTypes
+     */
+    private function isLongSimpleType(TypeNode $typeNode, array $codeTypes): bool
     {
-        if ($docType === 'boolean' && $paramType === 'bool') {
+        if (! $typeNode instanceof IdentifierTypeNode) {
+            return false;
+        }
+
+        $codeType = array_pop($codeTypes);
+
+        if ($typeNode->name === 'boolean' && $codeType === 'bool') {
             return true;
         }
 
-        if ($docType === 'integer' && $paramType === 'int') {
+        if ($typeNode->name === 'integer' && $codeType === 'int') {
             return true;
         }
 

@@ -65,6 +65,8 @@ final class RemoveUselessDocBlockFixerTest extends AbstractCheckerTestCase
         yield [__DIR__ . '/wrong/wrong16.php.inc', __DIR__ . '/fixed/fixed16.php.inc'];
         yield [__DIR__ . '/wrong/wrong17.php.inc', __DIR__ . '/fixed/fixed17.php.inc'];
         yield [__DIR__ . '/wrong/wrong18.php.inc', __DIR__ . '/fixed/fixed18.php.inc'];
+        yield [__DIR__ . '/wrong/wrong19.php.inc', __DIR__ . '/fixed/fixed19.php.inc'];
+        yield [__DIR__ . '/wrong/wrong20.php.inc', __DIR__ . '/fixed/fixed20.php.inc'];
     }
 
     protected function provideConfig(): string

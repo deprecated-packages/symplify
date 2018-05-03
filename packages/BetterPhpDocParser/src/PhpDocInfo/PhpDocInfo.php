@@ -13,6 +13,7 @@ use PHPStan\PhpDocParser\Ast\Type\IdentifierTypeNode;
 use PHPStan\PhpDocParser\Ast\Type\TypeNode;
 use PHPStan\PhpDocParser\Ast\Type\UnionTypeNode;
 use Symplify\BetterPhpDocParser\PhpDocModifier;
+use Symplify\BetterPhpDocParser\PhpDocParser\TypeNodeToStringsConvertor;
 
 final class PhpDocInfo
 {
@@ -42,19 +43,26 @@ final class PhpDocInfo
     private $phpDocModifier;
 
     /**
+     * @var TypeNodeToStringsConvertor
+     */
+    private $typeNodeToStringsConvertor;
+
+    /**
      * @param mixed[] $tokens
      */
     public function __construct(
         PhpDocNode $phpDocNode,
         array $tokens,
         string $originalContent,
-        PhpDocModifier $phpDocModifier
+        PhpDocModifier $phpDocModifier,
+        TypeNodeToStringsConvertor $typeNodeToStringsConvertor
     ) {
         $this->phpDocNode = $phpDocNode;
         $this->tokens = $tokens;
         $this->originalPhpDocNode = clone $phpDocNode;
         $this->originalContent = $originalContent;
         $this->phpDocModifier = $phpDocModifier;
+        $this->typeNodeToStringsConvertor = $typeNodeToStringsConvertor;
     }
 
     public function getOriginalContent(): string
@@ -155,6 +163,47 @@ final class PhpDocInfo
     public function getVarTypeNode(): ?TypeNode
     {
         return $this->getVarTagValue() ? $this->getVarTagValue()->type : null;
+    }
+
+    // types
+
+    /**
+     * @return string[]
+     */
+    public function getParamTypes(string $name): array
+    {
+        $paramTagValue = $this->getParamTagValueByName($name);
+        if ($paramTagValue === null) {
+            return [];
+        }
+
+        return $this->typeNodeToStringsConvertor->convert($paramTagValue->type);
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getVarTypes(): array
+    {
+        $varTypeNode = $this->getVarTypeNode();
+        if ($varTypeNode === null) {
+            return [];
+        }
+
+        return $this->typeNodeToStringsConvertor->convert($varTypeNode);
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getReturnTypes(): array
+    {
+        $returnTypeValueNode = $this->getReturnTagValue();
+        if ($returnTypeValueNode === null) {
+            return [];
+        }
+
+        return $this->typeNodeToStringsConvertor->convert($returnTypeValueNode->type);
     }
 
     // replace section
