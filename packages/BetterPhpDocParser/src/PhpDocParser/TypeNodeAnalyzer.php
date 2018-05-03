@@ -2,7 +2,6 @@
 
 namespace Symplify\BetterPhpDocParser\PhpDocParser;
 
-use PhpParser\Node\NullableType;
 use PHPStan\PhpDocParser\Ast\Type\ArrayTypeNode;
 use PHPStan\PhpDocParser\Ast\Type\IdentifierTypeNode;
 use PHPStan\PhpDocParser\Ast\Type\IntersectionTypeNode;

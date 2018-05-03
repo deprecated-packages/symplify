@@ -7,7 +7,6 @@ use PHPStan\PhpDocParser\Ast\Type\IdentifierTypeNode;
 use PHPStan\PhpDocParser\Ast\Type\IntersectionTypeNode;
 use PHPStan\PhpDocParser\Ast\Type\NullableTypeNode;
 use PHPStan\PhpDocParser\Ast\Type\UnionTypeNode;
-use PHPStan\Type\IntersectionType;
 use Symplify\BetterPhpDocParser\PhpDocParser\TypeNodeAnalyzer;
 use Symplify\BetterPhpDocParser\Tests\AbstractContainerAwareTestCase;
 
