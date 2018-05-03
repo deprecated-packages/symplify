@@ -21,7 +21,7 @@ final class ConfiguredTest extends AbstractCheckerTestCase
     public function provideWrongToFixedCases(): Iterator
     {
         yield [__DIR__ . '/wrong/wrong13.php.inc', __DIR__ . '/fixed/fixed13.php.inc'];
-//        yield [__DIR__ . '/wrong/wrong14.php.inc', __DIR__ . '/fixed/fixed14.php.inc'];
+        yield [__DIR__ . '/wrong/wrong14.php.inc', __DIR__ . '/fixed/fixed14.php.inc'];
     }
 
     protected function provideConfig(): string
