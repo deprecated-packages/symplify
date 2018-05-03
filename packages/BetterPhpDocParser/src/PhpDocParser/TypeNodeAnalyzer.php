@@ -12,9 +12,6 @@ use PHPStan\Type\IntersectionType;
 
 final class TypeNodeAnalyzer
 {
-    /**
-     * @param string[] $typeNode
-     */
     public function containsArrayType(TypeNode $typeNode): bool
     {
         if ($typeNode instanceof IdentifierTypeNode) {
@@ -25,7 +22,7 @@ final class TypeNodeAnalyzer
             return true;
         }
 
-        if ($typeNode instanceof IntersectionType || $typeNode instanceof UnionTypeNode) {
+        if ($typeNode instanceof UnionTypeNode) {
             foreach ($typeNode->types as $subType) {
                 if ($this->containsArrayType($subType)) {
                     return true;

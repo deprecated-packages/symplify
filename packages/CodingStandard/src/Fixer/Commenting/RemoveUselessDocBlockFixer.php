@@ -179,7 +179,7 @@ public function getCount(): int
 //            return;
 //        }
 
-        if ($this->paramAndReturnTagAnalyzer->isTagUseful($returnTagValue->type, $returnTagDescription, [$typehintType])) {
+        if ($this->paramAndReturnTagAnalyzer->isTagUseful($returnTagValue->type, $returnTagDescription, [(string) $typehintType])) {
             return;
         }
 
@@ -241,9 +241,6 @@ public function getCount(): int
         }
     }
 
-    /**
-     * @param string[] $typeNode
-     */
     private function shouldSkip(?TypeNode $typeNode, ?string $argumentDescription): bool
     {
         if ($argumentDescription === null || $typeNode === null) {
