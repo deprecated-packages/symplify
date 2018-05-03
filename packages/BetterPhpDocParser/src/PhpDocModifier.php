@@ -3,7 +3,6 @@
 namespace Symplify\BetterPhpDocParser;
 
 use Nette\Utils\Strings;
-use PhpParser\Node\Scalar\String_;
 use PHPStan\PhpDocParser\Ast\PhpDoc\InvalidTagValueNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\ParamTagValueNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocNode;

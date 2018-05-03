@@ -2,7 +2,6 @@
 
 namespace Symplify\CodingStandard\Fixer\Commenting;
 
-use Nette\Utils\Strings;
 use PhpCsFixer\Fixer\ConfigurationDefinitionFixerInterface;
 use PhpCsFixer\Fixer\DefinedFixerInterface;
 use PhpCsFixer\FixerConfiguration\FixerConfigurationResolver;
@@ -49,6 +48,7 @@ final class RemoveUselessDocBlockFixer implements DefinedFixerInterface, Configu
      * @var TypeNodeToStringsConvertor
      */
     private $typeNodeToStringsConvertor;
+
     /**
      * @var TypeNodeAnalyzer
      */
@@ -174,11 +174,6 @@ public function getCount(): int
 
         $returnTagDescription = $returnTagValue->description;
 
-//        if (Strings::contains($typehintType, '|') && Strings::contains($docType, '|')) {
-//            $this->processReturnTagMultiTypes($typehintType, $returnTypes, $docBlockWrapper, $returnTagDescription);
-//            return;
-//        }
-
         if ($this->paramAndReturnTagAnalyzer->isTagUseful($returnTagValue->type, $returnTagDescription, [(string) $typehintType])) {
             return;
         }
@@ -217,27 +212,6 @@ public function getCount(): int
             if (! $this->paramAndReturnTagAnalyzer->isTagUseful($typeNode, $docDescription, $typehintType)) {
                 $docBlockWrapper->removeParamType($argumentWrapper->getName());
             }
-        }
-    }
-
-    private function processReturnTagMultiTypes(
-        string $docBlockType,
-        string $typehintType,
-        DocBlockWrapper $docBlockWrapper,
-        string $returnTagDescription
-    ): void {
-        $typehintTypes = explode('|', $typehintType);
-        $docBlockTypes = explode('|', $docBlockType);
-
-        if ($returnTagDescription) {
-            return;
-        }
-
-        sort($typehintTypes);
-        sort($docBlockTypes);
-
-        if ($typehintTypes === $docBlockTypes) {
-            $docBlockWrapper->removeReturnType();
         }
     }
 
