@@ -188,7 +188,6 @@ public function getCount(): int
             return;
         }
 
-
         if ($isDescriptionUseful) {
             return;
         }
@@ -210,7 +209,17 @@ public function getCount(): int
                 $argumentWrapper->getName()
             );
 
-            if ($isDescriptionUseful === true || $this->shouldSkip($typeNode, $docDescription)) {
+            if ($isDescriptionUseful === true) {
+                continue;
+            }
+
+            // no description, no typehint, just property name
+            if ($typeNode === null) {
+                $docBlockWrapper->removeParamType($argumentWrapper->getName());
+                continue;
+            }
+
+            if ($this->shouldSkip($typeNode, $docDescription)) {
                 continue;
             }
 
