@@ -41,6 +41,7 @@ final class PhpDocInfo
      * @var PhpDocModifier
      */
     private $phpDocModifier;
+
     /**
      * @var TypeNodeToStringsConvertor
      */

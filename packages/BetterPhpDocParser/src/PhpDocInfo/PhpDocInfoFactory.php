@@ -35,13 +35,18 @@ final class PhpDocInfoFactory
      * @var PhpDocInfoDecoratorInterface[]
      */
     private $phpDocInfoDecorators = [];
+
     /**
      * @var TypeNodeToStringsConvertor
      */
     private $typeNodeToStringsConvertor;
 
-    public function __construct(PhpDocParser $phpDocParser, Lexer $lexer, PhpDocModifier $phpDocModifier, TypeNodeToStringsConvertor $typeNodeToStringsConvertor)
-    {
+    public function __construct(
+        PhpDocParser $phpDocParser,
+        Lexer $lexer,
+        PhpDocModifier $phpDocModifier,
+        TypeNodeToStringsConvertor $typeNodeToStringsConvertor
+    ) {
         $this->phpDocParser = $phpDocParser;
         $this->lexer = $lexer;
         $this->phpDocModifier = $phpDocModifier;
@@ -64,7 +69,13 @@ final class PhpDocInfoFactory
         $tokenIterator = new TokenIterator($tokens);
         $phpDocNode = $this->phpDocParser->parse($tokenIterator);
 
-        $phpDocInfo = new PhpDocInfo($phpDocNode, $tokens, $content, $this->phpDocModifier, $this->typeNodeToStringsConvertor);
+        $phpDocInfo = new PhpDocInfo(
+            $phpDocNode,
+            $tokens,
+            $content,
+            $this->phpDocModifier,
+            $this->typeNodeToStringsConvertor
+        );
 
         foreach ($this->phpDocInfoDecorators as $phpDocInfoDecorator) {
             $phpDocInfoDecorator->decorate($phpDocInfo);
