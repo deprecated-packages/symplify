@@ -169,20 +169,25 @@ public function getCount(): int
             return;
         }
 
-        $typehintType = $methodWrapper->getReturnType();
+        $typehintTypes = $methodWrapper->getReturnTypes();
         $returnTypes = $docBlockWrapper->getPhpDocInfo()->getReturnTypes();
 
         $returnTagDescription = $returnTagValue->description;
-
-        if ($this->paramAndReturnTagAnalyzer->isTagUseful($returnTagValue->type, $returnTagDescription, [(string) $typehintType])) {
-            return;
-        }
-
         $isDescriptionUseful = $this->descriptionAnalyzer->isDescriptionUseful(
             $returnTagDescription,
             $returnTagValue->type,
             null
         );
+
+        if ($this->isUselessNullableTypehint($typehintTypes, $returnTypes) && $isDescriptionUseful === false) {
+            $docBlockWrapper->removeReturnType();
+            return;
+        }
+
+        if ($this->paramAndReturnTagAnalyzer->isTagUseful($returnTagValue->type, $returnTagDescription, $typehintTypes)) {
+            return;
+        }
+
 
         if ($isDescriptionUseful) {
             return;
@@ -256,5 +261,14 @@ public function getCount(): int
         $possibleNameToken = $tokens[$possibleNamePosition];
 
         return $possibleNameToken->isGivenKind(T_STRING);
+    }
+
+    private function isUselessNullableTypehint(array $returnTypehintTypes, array $returnDocTypes): bool
+    {
+        if (count($returnTypehintTypes) !== count($returnDocTypes)) {
+            return false;
+        }
+
+        return count(array_intersect($returnDocTypes, $returnTypehintTypes)) === count($returnTypehintTypes);
     }
 }

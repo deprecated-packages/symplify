@@ -26,6 +26,9 @@ final class PropertyNameMatchingTypeFixerTest extends AbstractCheckerTestCase
         yield [__DIR__ . '/correct/correct4.php.inc'];
         yield [__DIR__ . '/correct/correct5.php.inc'];
         yield [__DIR__ . '/correct/correct6.php.inc'];
+
+        // failing in Symplify
+        yield [__DIR__ . '/correct/correct7.php.inc'];
     }
 
     /**
