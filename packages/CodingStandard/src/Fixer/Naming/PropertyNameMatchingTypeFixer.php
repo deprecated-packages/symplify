@@ -13,7 +13,6 @@ use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
-use phpDocumentor\Reflection\TypeResolver;
 use SplFileInfo;
 use Symplify\BetterPhpDocParser\Php\TypeAnalyzer;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\ArgumentWrapper;
@@ -266,11 +265,12 @@ class SomeClass
      */
     private function shouldSkipWrapper($typeWrapper): bool
     {
-        if ($typeWrapper->getTypes() === [] || ! $typeWrapper->isClassType()) {
+        if ($typeWrapper->getTypes() === [] || $typeWrapper->isClassType() === false) {
             return true;
         }
 
         $oldName = $typeWrapper->getName();
+
         if ($this->isAllowedNameOrType($oldName, $typeWrapper->getTypes(), (string) $typeWrapper->getFqnType())) {
             return true;
         }

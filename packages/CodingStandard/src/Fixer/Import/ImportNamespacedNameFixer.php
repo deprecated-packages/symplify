@@ -259,6 +259,7 @@ final class ImportNamespacedNameFixer implements DefinedFixerInterface, Configur
         }
 
         $name = $this->nameFactory->createFromTokensAndEnd($tokens, $index);
+
         if ($this->configuration[self::ALLOW_SINGLE_NAMES_OPTION] && $name->isSingleName()) {
             return;
         }
