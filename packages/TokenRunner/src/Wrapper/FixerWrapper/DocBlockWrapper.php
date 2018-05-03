@@ -9,7 +9,6 @@ use PHPStan\PhpDocParser\Ast\Type\IdentifierTypeNode;
 use PHPStan\PhpDocParser\Ast\Type\TypeNode;
 use PHPStan\PhpDocParser\Ast\Type\UnionTypeNode;
 use Symplify\BetterPhpDocParser\PhpDocInfo\PhpDocInfo;
-use Symplify\BetterPhpDocParser\PhpDocParser\TypeNodeToStringsConvertor;
 use Symplify\BetterPhpDocParser\Printer\PhpDocInfoPrinter;
 
 final class DocBlockWrapper
@@ -34,23 +33,16 @@ final class DocBlockWrapper
      */
     private $phpDocInfoPrinter;
 
-    /**
-     * @var TypeNodeToStringsConvertor
-     */
-    private $typeResolver;
-
     public function __construct(
         Tokens $tokens,
         int $position,
         PhpDocInfo $phpDocInfo,
-        PhpDocInfoPrinter $phpDocInfoPrinter,
-        TypeNodeToStringsConvertor $typeResolver
+        PhpDocInfoPrinter $phpDocInfoPrinter
     ) {
         $this->tokens = $tokens;
         $this->position = $position;
         $this->phpDocInfo = $phpDocInfo;
         $this->phpDocInfoPrinter = $phpDocInfoPrinter;
-        $this->typeResolver = $typeResolver;
     }
 
     public function getTokenPosition(): int

@@ -55,6 +55,7 @@ final class PropertyNameMatchingTypeFixer implements DefinedFixerInterface, Conf
      * @var ClassWrapperFactory
      */
     private $classWrapperFactory;
+
     /**
      * @var TypeAnalyzer
      */
@@ -255,7 +256,6 @@ class SomeClass
 
         // starts with adjective, e.g. (Post $firstPost, Post $secondPost)
         $expectedName = $this->getExpectedNameFromTypes($type);
-
 
         return Strings::contains($name, ucfirst($expectedName)) && Strings::endsWith($name, ucfirst($expectedName));
     }

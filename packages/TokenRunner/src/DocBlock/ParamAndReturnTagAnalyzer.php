@@ -81,6 +81,9 @@ final class ParamAndReturnTagAnalyzer
         return false;
     }
 
+    /**
+     * @param string[] $codeTypes
+     */
     private function isLongSimpleType(TypeNode $typeNode, array $codeTypes): bool
     {
         if (! $typeNode instanceof IdentifierTypeNode) {

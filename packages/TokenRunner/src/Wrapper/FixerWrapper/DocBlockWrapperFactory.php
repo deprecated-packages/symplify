@@ -22,16 +22,16 @@ final class DocBlockWrapperFactory
     /**
      * @var TypeNodeToStringsConvertor
      */
-    private $typeResolver;
+    private $typeNodeToStringsConvertor;
 
     public function __construct(
         PhpDocInfoFactory $phpDocInfoFactory,
         PhpDocInfoPrinter $phpDocInfoPrinter,
-        TypeNodeToStringsConvertor $typeResolver
+        TypeNodeToStringsConvertor $typeNodeToStringsConvertor
     ) {
         $this->phpDocInfoFactory = $phpDocInfoFactory;
         $this->phpDocInfoPrinter = $phpDocInfoPrinter;
-        $this->typeResolver = $typeResolver;
+        $this->typeNodeToStringsConvertor = $typeNodeToStringsConvertor;
     }
 
     public function create(Tokens $tokens, int $position, string $content): DocBlockWrapper
@@ -41,7 +41,7 @@ final class DocBlockWrapperFactory
             $position,
             $this->phpDocInfoFactory->createFrom($content),
             $this->phpDocInfoPrinter,
-            $this->typeResolver
+            $this->typeNodeToStringsConvertor
         );
     }
 }

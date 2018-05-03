@@ -43,7 +43,12 @@ final class DescriptionAnalyzerTest extends TestCase
         yield ['an TypeInterface instance', new IdentifierTypeNode('Type'), 'name', false];
         yield ['the TypeInterface instance', new IdentifierTypeNode('Type'), 'name', false];
         yield ['the \TypeInterface instance', new IdentifierTypeNode('Type'), 'name', false];
-        yield ['the \Namespaced\TypeInterface instance', new IdentifierTypeNode('Namespaced\TypeInterface'), 'name', false];
+        yield [
+            'the \Namespaced\TypeInterface instance',
+            new IdentifierTypeNode('Namespaced\TypeInterface'),
+            'name',
+            false,
+        ];
         yield ['a \Namespaced\TypeInterface', new IdentifierTypeNode('Namespaced\TypeInterface'), 'name', false];
         yield ['\Namespaced\TypeInterface', new IdentifierTypeNode('Namespaced\TypeInterface'), 'name', false];
         yield ['name', new IdentifierTypeNode('Namespaced\TypeInterface'), 'name', false];

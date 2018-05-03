@@ -24,8 +24,10 @@ final class DescriptionAnalyzer
      */
     private $typeNodeToStringsConvertor;
 
-    public function __construct(TypeNodeAnalyzer $typeNodeAnalyzer, TypeNodeToStringsConvertor $typeNodeToStringsConvertor)
-    {
+    public function __construct(
+        TypeNodeAnalyzer $typeNodeAnalyzer,
+        TypeNodeToStringsConvertor $typeNodeToStringsConvertor
+    ) {
         $this->typeNodeAnalyzer = $typeNodeAnalyzer;
         $this->typeNodeToStringsConvertor = $typeNodeToStringsConvertor;
     }

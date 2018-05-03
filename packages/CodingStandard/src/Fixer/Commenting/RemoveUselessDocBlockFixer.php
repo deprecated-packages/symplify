@@ -15,7 +15,6 @@ use PhpCsFixer\Tokenizer\Tokens;
 use PHPStan\PhpDocParser\Ast\Type\TypeNode;
 use SplFileInfo;
 use Symplify\BetterPhpDocParser\PhpDocParser\TypeNodeAnalyzer;
-use Symplify\BetterPhpDocParser\PhpDocParser\TypeNodeToStringsConvertor;
 use Symplify\TokenRunner\DocBlock\DescriptionAnalyzer;
 use Symplify\TokenRunner\DocBlock\ParamAndReturnTagAnalyzer;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\DocBlockWrapper;
@@ -45,11 +44,6 @@ final class RemoveUselessDocBlockFixer implements DefinedFixerInterface, Configu
     private $methodWrapperFactory;
 
     /**
-     * @var TypeNodeToStringsConvertor
-     */
-    private $typeNodeToStringsConvertor;
-
-    /**
      * @var TypeNodeAnalyzer
      */
     private $typeNodeAnalyzer;
@@ -58,13 +52,11 @@ final class RemoveUselessDocBlockFixer implements DefinedFixerInterface, Configu
         DescriptionAnalyzer $descriptionAnalyzer,
         ParamAndReturnTagAnalyzer $paramAndReturnTagAnalyzer,
         MethodWrapperFactory $methodWrapperFactory,
-        TypeNodeToStringsConvertor $typeNodeToStringsConvertor,
         TypeNodeAnalyzer $typeNodeAnalyzer
     ) {
         $this->descriptionAnalyzer = $descriptionAnalyzer;
         $this->paramAndReturnTagAnalyzer = $paramAndReturnTagAnalyzer;
         $this->methodWrapperFactory = $methodWrapperFactory;
-        $this->typeNodeToStringsConvertor = $typeNodeToStringsConvertor;
         $this->typeNodeAnalyzer = $typeNodeAnalyzer;
 
         $this->configure([]);
@@ -184,7 +176,11 @@ public function getCount(): int
             return;
         }
 
-        if ($this->paramAndReturnTagAnalyzer->isTagUseful($returnTagValue->type, $returnTagDescription, $typehintTypes)) {
+        if ($this->paramAndReturnTagAnalyzer->isTagUseful(
+            $returnTagValue->type,
+            $returnTagDescription,
+            $typehintTypes
+        )) {
             return;
         }
 
@@ -272,6 +268,10 @@ public function getCount(): int
         return $possibleNameToken->isGivenKind(T_STRING);
     }
 
+    /**
+     * @param string[] $returnTypehintTypes
+     * @param string[] $returnDocTypes
+     */
     private function isUselessNullableTypehint(array $returnTypehintTypes, array $returnDocTypes): bool
     {
         if (count($returnTypehintTypes) !== count($returnDocTypes)) {
