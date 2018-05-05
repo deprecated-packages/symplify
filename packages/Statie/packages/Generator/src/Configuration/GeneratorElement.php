@@ -3,7 +3,7 @@
 namespace Symplify\Statie\Generator\Configuration;
 
 use Symplify\Statie\Generator\Contract\ObjectSorterInterface;
-use Symplify\Statie\Renderable\File\AbstractFile;
+use Symplify\Statie\Renderable\File\AbstractGeneratorFile;
 
 final class GeneratorElement
 {
@@ -38,7 +38,7 @@ final class GeneratorElement
     private $object;
 
     /**
-     * @var AbstractFile[]
+     * @var AbstractGeneratorFile[]
      */
     private $objects = [];
 
@@ -96,7 +96,7 @@ final class GeneratorElement
     }
 
     /**
-     * @param AbstractFile[] $objects
+     * @param AbstractGeneratorFile[] $objects
      */
     public function setObjects(array $objects): void
     {
@@ -104,7 +104,7 @@ final class GeneratorElement
     }
 
     /**
-     * @return AbstractFile[]
+     * @return AbstractGeneratorFile[]
      */
     public function getObjects(): array
     {
