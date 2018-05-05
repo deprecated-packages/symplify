@@ -16,7 +16,7 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 - [#811] Add multi-types method support
 - [#810] Add `AbstractPhpDocInfoDecorator`
 - [#809] Allow `PhpDocInfoFactory` extension without modification
-- [#807, [#808]] Add `replaceTagByAnother()`
+- [#807], [#808] Add `replaceTagByAnother()`
 - [#806] Add `getParamTypeNodeByName()`
 - [#804] Add `hasTag()` to `PhpDocInfo` and other improvements
 - [#801] Add `PhpDocModifier` class
