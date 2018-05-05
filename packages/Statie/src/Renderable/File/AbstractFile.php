@@ -188,9 +188,4 @@ abstract class AbstractFile
     {
         return $this->getOption('related_items') ?? [];
     }
-
-    public function getId(): ?int
-    {
-        return $this->getOption('id');
-    }
 }

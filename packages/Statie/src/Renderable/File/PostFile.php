@@ -8,7 +8,7 @@ use Nette\Utils\ObjectHelpers;
 use Symplify\Statie\Exception\Renderable\File\AccessKeyNotAvailableException;
 use Symplify\Statie\Exception\Renderable\File\UnsupportedMethodException;
 
-final class PostFile extends AbstractFile implements ArrayAccess
+final class PostFile extends AbstractGeneratorFile implements ArrayAccess
 {
     /**
      * @var int
