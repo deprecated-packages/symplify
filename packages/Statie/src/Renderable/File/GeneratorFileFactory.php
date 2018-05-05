@@ -14,6 +14,11 @@ final class GeneratorFileFactory
      */
     private $pathAnalyzer;
 
+    /**
+     * @var int[][]
+     */
+    private $idsByAbstractGeneratorFileClass = [];
+
     public function __construct(PathAnalyzer $pathAnalyzer)
     {
         $this->pathAnalyzer = $pathAnalyzer;
@@ -31,8 +36,6 @@ final class GeneratorFileFactory
 
         foreach ($fileInfos as $fileInfo) {
             $generatorFile = $this->createFromClassNameAndFileInfo($class, $fileInfo);
-
-            // @todo make sure is unique
             $objects[$generatorFile->getId()] = $generatorFile;
         }
 
@@ -53,11 +56,14 @@ final class GeneratorFileFactory
         if (! isset($match['id'])) {
             throw new GeneratorException(sprintf(
                 'File "%s" must have "id: [0-9]+" in the header in --- blocks.',
-            $fileInfo->getRealPath()
-                ));
+                $fileInfo->getRealPath()
+            ));
         }
 
         $id = (int) $match['id'];
+
+        $this->ensureIdIsUnique($id, $className, $fileInfo);
+        $this->idsByAbstractGeneratorFileClass[$className][] = $id;
 
         return new $className(
             $id,
@@ -75,10 +81,24 @@ final class GeneratorFileFactory
             return;
         }
 
+        throw new GeneratorException(sprintf('"%s" must inherit from "%s"', $class, AbstractGeneratorFile::class));
+    }
+
+    private function ensureIdIsUnique(int $id, string $className, SplFileInfo $fileInfo): void
+    {
+        if (! isset($this->idsByAbstractGeneratorFileClass[$className])) {
+            return;
+        }
+
+        if (! in_array($id, $this->idsByAbstractGeneratorFileClass[$className], true)) {
+            return;
+        }
+
         throw new GeneratorException(sprintf(
-             '"%s" must inherit from "%s"',
-             $class,
-             AbstractGeneratorFile::class
-         ));
+            'Id "%d" was already set for "%s" class. Pick an another one for "%s" file.',
+            $id,
+            $className,
+            $fileInfo->getRealPath()
+        ));
     }
 }
