@@ -3,6 +3,7 @@
 namespace Symplify\Statie\Renderable\File;
 
 use Symfony\Component\Finder\SplFileInfo;
+use Symplify\Statie\Exception\Configuration\GeneratorException;
 use Symplify\Statie\Utils\PathAnalyzer;
 
 final class GeneratorFileFactory
@@ -25,7 +26,7 @@ final class GeneratorFileFactory
     {
         $objects = [];
 
-        // @todo validate: is_a($class, AbstractGeneratorFile::class, true)
+        $this->ensureIsAbstractGeneratorFile($class);
 
         foreach ($fileInfos as $fileInfo) {
             $generatorFile = $this->createFromClassNameAndFileInfo($class, $fileInfo);
@@ -57,5 +58,18 @@ final class GeneratorFileFactory
             $filenameWithoutDate,
             $dateTime
         );
+    }
+
+    private function ensureIsAbstractGeneratorFile(string $class): void
+    {
+         if (is_a($class, AbstractGeneratorFile::class, true)) {
+             return;
+         }
+
+         throw new GeneratorException(sprintf(
+            '"%s" must inherit from "%s"',
+            $class,
+             AbstractGeneratorFile::class
+         ));
     }
 }
