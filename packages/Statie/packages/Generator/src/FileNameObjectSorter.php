@@ -8,16 +8,16 @@ use Symplify\Statie\Renderable\File\AbstractGeneratorFile;
 final class FileNameObjectSorter implements ObjectSorterInterface
 {
     /**
-     * @param AbstractGeneratorFile[] $files
+     * @param AbstractGeneratorFile[] $generatorFiles
      * @return AbstractGeneratorFile[]
      */
-    public function sort(array $files): array
+    public function sort(array $generatorFiles): array
     {
-        usort($files, function (AbstractGeneratorFile $firstFile, AbstractGeneratorFile $secondFile): int {
+        usort($generatorFiles, function (AbstractGeneratorFile $firstFile, AbstractGeneratorFile $secondFile): int {
             // from newest to oldest, Z to A
             return strcmp($secondFile->getFilePath(), $firstFile->getFilePath());
         });
 
-        return $files;
+        return $generatorFiles;
     }
 }

@@ -6,6 +6,7 @@ use Symplify\Statie\Configuration\Configuration;
 use Symplify\Statie\FileSystem\FileFinder;
 use Symplify\Statie\Generator\Configuration\GeneratorConfiguration;
 use Symplify\Statie\Renderable\File\AbstractFile;
+use Symplify\Statie\Renderable\File\AbstractGeneratorFile;
 use Symplify\Statie\Renderable\File\FileFactory;
 use Symplify\Statie\Renderable\RenderableFilesProcessor;
 
@@ -68,6 +69,7 @@ final class Generator
             }
 
             // process to objects
+            /** @var AbstractGeneratorFile[] $objects */
             $objects = $this->fileFactory->createFromFileInfosAndClass($fileInfos, $generatorElement->getObject());
 
             // save them to property (for "related_items" option)

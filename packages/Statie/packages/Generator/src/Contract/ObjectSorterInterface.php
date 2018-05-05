@@ -7,8 +7,8 @@ use Symplify\Statie\Renderable\File\AbstractGeneratorFile;
 interface ObjectSorterInterface
 {
     /**
-     * @param AbstractGeneratorFile[] $files
+     * @param AbstractGeneratorFile[] $generatorFiles
      * @return AbstractGeneratorFile[]
      */
-    public function sort(array $files): array;
+    public function sort(array $generatorFiles): array;
 }

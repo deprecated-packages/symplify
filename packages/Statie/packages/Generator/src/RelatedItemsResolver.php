@@ -35,14 +35,14 @@ final class RelatedItemsResolver
             return [];
         }
 
-        $relatedPosts = [];
+        $relatedGeneratorFiles = [];
         foreach ($this->getItemsByFile($generatorFile) as $item) {
             if (in_array($item->getId(), $generatorFile->getRelatedItemsIds(), true)) {
-                $relatedPosts[] = $item;
+                $relatedGeneratorFiles[] = $item;
             }
         }
 
-        return $relatedPosts;
+        return $relatedGeneratorFiles;
     }
 
     /**

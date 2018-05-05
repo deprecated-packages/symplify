@@ -4,18 +4,19 @@ namespace Symplify\Statie\Contract\Renderable;
 
 use Symplify\Statie\Generator\Configuration\GeneratorElement;
 use Symplify\Statie\Renderable\File\AbstractFile;
+use Symplify\Statie\Renderable\File\AbstractGeneratorFile;
 
 interface FileDecoratorInterface
 {
     /**
-     * @param AbstractFile[] $files
-     * @return AbstractFile[]
+     * @param AbstractFile[]|AbstractGeneratorFile[] $files
+     * @return AbstractFile[]|AbstractGeneratorFile[]
      */
     public function decorateFiles(array $files): array;
 
     /**
-     * @param AbstractFile[] $files
-     * @return AbstractFile[]
+     * @param AbstractFile[]|AbstractGeneratorFile[] $files
+     * @return AbstractFile[]|AbstractGeneratorFile[]
      */
     public function decorateFilesWithGeneratorElement(array $files, GeneratorElement $generatorElement): array;
 }

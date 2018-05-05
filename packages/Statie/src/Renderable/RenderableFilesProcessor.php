@@ -7,6 +7,7 @@ use Symplify\Statie\Configuration\Configuration;
 use Symplify\Statie\Contract\Renderable\FileDecoratorInterface;
 use Symplify\Statie\Generator\Configuration\GeneratorElement;
 use Symplify\Statie\Renderable\File\AbstractFile;
+use Symplify\Statie\Renderable\File\AbstractGeneratorFile;
 use Symplify\Statie\Renderable\File\FileFactory;
 
 final class RenderableFilesProcessor
@@ -57,8 +58,8 @@ final class RenderableFilesProcessor
     }
 
     /**
-     * @param AbstractFile[] $objects
-     * @return AbstractFile[]
+     * @param AbstractGeneratorFile[] $objects
+     * @return AbstractGeneratorFile[]
      */
     public function processGeneratorElementObjects(array $objects, GeneratorElement $generatorElement): array
     {
