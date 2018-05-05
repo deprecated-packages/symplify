@@ -5,7 +5,7 @@ namespace Symplify\Statie\Renderable\File;
 use Symfony\Component\Finder\SplFileInfo;
 use Symplify\Statie\Utils\PathAnalyzer;
 
-final class FileFactory
+final class GeneratorFileFactory
 {
     /**
      * @var PathAnalyzer
@@ -19,19 +19,25 @@ final class FileFactory
 
     /**
      * @param SplFileInfo[] $fileInfos
-     * @return AbstractFile[]
+     * @return AbstractGeneratorFile[]
      */
-    public function createFromFileInfos(array $fileInfos): array
+    public function createFromFileInfosAndClass(array $fileInfos, string $class): array
     {
-        $files = [];
-        foreach ($fileInfos as $id => $fileInfo) {
-            $files[$id] = $this->createFromFileInfo($fileInfo);
+        $objects = [];
+
+        // @todo validate: is_a($class, AbstractGeneratorFile::class, true)
+
+        foreach ($fileInfos as $fileInfo) {
+            $generatorFile = $this->createFromClassNameAndFileInfo($class, $fileInfo);
+
+            // @todo make sure is unique
+            $objects[$generatorFile->getId()] = $generatorFile;
         }
 
-        return $files;
+        return $objects;
     }
 
-    public function createFromFileInfo(SplFileInfo $fileInfo): AbstractFile
+    private function createFromClassNameAndFileInfo(string $className, SplFileInfo $fileInfo): AbstractGeneratorFile
     {
         $dateTime = $this->pathAnalyzer->detectDate($fileInfo);
         if ($dateTime) {
@@ -40,7 +46,11 @@ final class FileFactory
             $filenameWithoutDate = $fileInfo->getBasename('.' . $fileInfo->getExtension());
         }
 
-        return new File(
+        // @todo get ID from the content,
+        // Guard
+        // throw exception otherwise
+
+        return new $className(
             $fileInfo,
             $fileInfo->getRelativePathname(),
             $fileInfo->getPathname(),

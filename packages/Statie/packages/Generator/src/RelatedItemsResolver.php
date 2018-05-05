@@ -4,9 +4,7 @@ namespace Symplify\Statie\Generator;
 
 use Symplify\Statie\Configuration\Configuration;
 use Symplify\Statie\Generator\Configuration\GeneratorConfiguration;
-use Symplify\Statie\Renderable\File\AbstractFile;
 use Symplify\Statie\Renderable\File\AbstractGeneratorFile;
-use Symplify\Statie\Renderable\File\PostFile;
 
 final class RelatedItemsResolver
 {

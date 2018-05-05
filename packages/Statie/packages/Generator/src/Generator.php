@@ -7,7 +7,7 @@ use Symplify\Statie\FileSystem\FileFinder;
 use Symplify\Statie\Generator\Configuration\GeneratorConfiguration;
 use Symplify\Statie\Renderable\File\AbstractFile;
 use Symplify\Statie\Renderable\File\AbstractGeneratorFile;
-use Symplify\Statie\Renderable\File\FileFactory;
+use Symplify\Statie\Renderable\File\GeneratorFileFactory;
 use Symplify\Statie\Renderable\RenderableFilesProcessor;
 
 final class Generator
@@ -33,22 +33,22 @@ final class Generator
     private $renderableFilesProcessor;
 
     /**
-     * @var FileFactory
+     * @var GeneratorFileFactory
      */
-    private $fileFactory;
+    private $generatorFileFactory;
 
     public function __construct(
         GeneratorConfiguration $generatorConfiguration,
         FileFinder $fileFinder,
         Configuration $configuration,
         RenderableFilesProcessor $renderableFilesProcessor,
-        FileFactory $fileFactory
+        GeneratorFileFactory $generatorFileFactory
     ) {
         $this->generatorConfiguration = $generatorConfiguration;
         $this->fileFinder = $fileFinder;
         $this->configuration = $configuration;
         $this->renderableFilesProcessor = $renderableFilesProcessor;
-        $this->fileFactory = $fileFactory;
+        $this->generatorFileFactory = $generatorFileFactory;
     }
 
     /**
@@ -70,7 +70,10 @@ final class Generator
 
             // process to objects
             /** @var AbstractGeneratorFile[] $objects */
-            $objects = $this->fileFactory->createFromFileInfosAndClass($fileInfos, $generatorElement->getObject());
+            $objects = $this->generatorFileFactory->createFromFileInfosAndClass(
+                $fileInfos,
+                $generatorElement->getObject()
+            );
 
             // save them to property (for "related_items" option)
             $this->configuration->addOption($generatorElement->getVariableGlobal(), $objects);
