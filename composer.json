@@ -27,8 +27,7 @@
     "require-dev": {
         "phpstan/phpstan": "^0.9",
         "phpunit/phpunit": "^7.0",
-        "slam/php-cs-fixer-extensions": "^1.14",
-        "symfony/expression-language": "^4.0",
+        "slam/php-cs-fixer-extensions": "^1.15",
         "tracy/tracy": "^2.4"
     },
     "replace": {
