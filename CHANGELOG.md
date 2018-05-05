@@ -7,9 +7,29 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLinker](https://github.com/Symplify/ChangelogLinker).
 
-## [v4.1.1] - 2018-04-25
+## [v4.2.0] - 2018-05-05
+
+### Added
+
+#### BetterPhpDocParser
+
+- [#811] Add multi-types method support
+- [#810] Add `AbstractPhpDocInfoDecorator`
+- [#809] Allow `PhpDocInfoFactory` extension without modification
+- [#807, [#808]] Add `replaceTagByAnother()`
+- [#806] Add `getParamTypeNodeByName()`
+- [#804] Add `hasTag()` to `PhpDocInfo` and other improvements
+- [#801] Add `PhpDocModifier` class
 
 ### Fixed
+
+#### EasyCodingStandard
+
+- [#802] Fix inconsistencies in symfony and symfony-risky rules, thanks to [@ostrolucky]
+
+#### Statie
+
+- [#799] - Fix 'posts' parameter override in Generator
 
 #### BetterPhpDocParser
 
@@ -1183,3 +1203,12 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
 [#770]: https://github.com/Symplify/Symplify/pull/770
 [v4.1.1]: https://github.com/Symplify/Symplify/compare/v4.1.0...v4.1.1
 [#796]: https://github.com/Symplify/Symplify/pull/796
+[v4.2.0]: https://github.com/Symplify/Symplify/compare/v4.1.0...v4.2.0
+[#811]: https://github.com/Symplify/Symplify/pull/811
+[#810]: https://github.com/Symplify/Symplify/pull/810
+[#809]: https://github.com/Symplify/Symplify/pull/809
+[#806]: https://github.com/Symplify/Symplify/pull/806
+[#804]: https://github.com/Symplify/Symplify/pull/804
+[#802]: https://github.com/Symplify/Symplify/pull/802
+[#801]: https://github.com/Symplify/Symplify/pull/801
+[#799]: https://github.com/Symplify/Symplify/pull/799
