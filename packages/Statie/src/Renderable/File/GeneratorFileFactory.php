@@ -2,6 +2,7 @@
 
 namespace Symplify\Statie\Renderable\File;
 
+use Nette\Utils\Strings;
 use Symfony\Component\Finder\SplFileInfo;
 use Symplify\Statie\Exception\Configuration\GeneratorException;
 use Symplify\Statie\Utils\PathAnalyzer;
@@ -40,6 +41,7 @@ final class GeneratorFileFactory
 
     private function createFromClassNameAndFileInfo(string $className, SplFileInfo $fileInfo): AbstractGeneratorFile
     {
+        // @todo decouple to Filesystem tools
         $dateTime = $this->pathAnalyzer->detectDate($fileInfo);
         if ($dateTime) {
             $filenameWithoutDate = $this->pathAnalyzer->detectFilenameWithoutDate($fileInfo);
@@ -47,11 +49,18 @@ final class GeneratorFileFactory
             $filenameWithoutDate = $fileInfo->getBasename('.' . $fileInfo->getExtension());
         }
 
-        // @todo get ID from the content,
-        // Guard
-        // throw exception otherwise
+        $match = Strings::match($fileInfo->getContents(), '#id: (?<id>[0-9]+)#');
+        if (! isset($match['id'])) {
+            throw new GeneratorException(sprintf(
+                'File "%s" must have "id: [0-9]+" in the header in --- blocks.',
+            $fileInfo->getRealPath()
+                ));
+        }
+
+        $id = (int) $match['id'];
 
         return new $className(
+            $id,
             $fileInfo,
             $fileInfo->getRelativePathname(),
             $fileInfo->getPathname(),
@@ -62,13 +71,13 @@ final class GeneratorFileFactory
 
     private function ensureIsAbstractGeneratorFile(string $class): void
     {
-         if (is_a($class, AbstractGeneratorFile::class, true)) {
-             return;
-         }
+        if (is_a($class, AbstractGeneratorFile::class, true)) {
+            return;
+        }
 
-         throw new GeneratorException(sprintf(
-            '"%s" must inherit from "%s"',
-            $class,
+        throw new GeneratorException(sprintf(
+             '"%s" must inherit from "%s"',
+             $class,
              AbstractGeneratorFile::class
          ));
     }

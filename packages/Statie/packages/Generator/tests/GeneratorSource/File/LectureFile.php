@@ -2,9 +2,9 @@
 
 namespace Symplify\Statie\Generator\Tests\GeneratorSource\File;
 
-use Symplify\Statie\Renderable\File\AbstractFile;
+use Symplify\Statie\Renderable\File\AbstractGeneratorFile;
 
-final class LectureFile extends AbstractFile
+final class LectureFile extends AbstractGeneratorFile
 {
     public function getTitle(): ?string
     {
