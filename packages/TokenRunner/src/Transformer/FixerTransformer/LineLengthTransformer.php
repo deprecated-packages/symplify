@@ -157,7 +157,6 @@ final class LineLengthTransformer
         // replace PHP_EOL with " "
         for ($i = $blockInfo->getStart() + 1; $i < $blockInfo->getEnd(); ++$i) {
             $currentToken = $tokens[$i];
-
             $i = $this->tokenSkipper->skipBlocks($tokens, $i);
             if (! $currentToken->isGivenKind(T_WHITESPACE)) {
                 continue;

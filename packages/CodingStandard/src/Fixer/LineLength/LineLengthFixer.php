@@ -215,7 +215,7 @@ $array = ["loooooooooooooooooooooooooooooooongArraaaaaaaaaaay", "loooooooooooooo
     }
 
     /**
-     * We go throught tokens from down to up,
+     * We go through tokens from down to up,
      * so we need to find ")" and then the start of function
      */
     private function matchNamePositionForEndOfFunctionCall(Tokens $tokens, Token $token, int $position): ?int
