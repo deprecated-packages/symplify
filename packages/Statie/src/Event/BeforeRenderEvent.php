@@ -3,6 +3,7 @@
 namespace Symplify\Statie\Event;
 
 use Symfony\Component\EventDispatcher\Event;
+use Symplify\Statie\Generator\Renderable\File\AbstractGeneratorFile;
 use Symplify\Statie\Renderable\File\AbstractFile;
 
 final class BeforeRenderEvent extends Event
@@ -10,21 +11,36 @@ final class BeforeRenderEvent extends Event
     /**
      * @var AbstractFile[]
      */
-    private $objectsToRender = [];
+    private $files = [];
 
     /**
-     * @param AbstractFile[] $objectsToRender
+     * @var AbstractGeneratorFile[]
      */
-    public function __construct(array $objectsToRender)
+    private $generatorFilesByType = [];
+
+    /**
+     * @param AbstractFile[] $files
+     * @param AbstractGeneratorFile[][] $generatorFilesByType
+     */
+    public function __construct(array $files, array $generatorFilesByType)
     {
-        $this->objectsToRender = $objectsToRender;
+        $this->files = $files;
+        $this->generatorFilesByType = $generatorFilesByType;
     }
 
     /**
      * @return AbstractFile[]
      */
-    public function getObjectsToRender(): array
+    public function getFiles(): array
     {
-        return $this->objectsToRender;
+        return $this->files;
+    }
+
+    /**
+     * @return AbstractGeneratorFile[][]
+     */
+    public function getGeneratorFilesByType(): array
+    {
+        return $this->generatorFilesByType;
     }
 }

@@ -3,24 +3,30 @@
 namespace Symplify\Statie\Generator\Tests;
 
 use DateTimeInterface;
+use Symplify\Statie\Generator\Tests\GeneratorSource\File\LectureFile;
+use Symplify\Statie\Renderable\File\PostFile;
 
 final class GeneratorTest extends AbstractGeneratorTest
 {
     public function testIdsAreKeys(): void
     {
-        $objects = $this->generator->run();
+        $generatorFilesByType = $this->generator->run();
 
-        foreach ($objects as $key => $object) {
-            $this->assertSame($key, $object->getId());
+        foreach ($generatorFilesByType as $generatorFiles) {
+            foreach ($generatorFiles as $key => $generatorFile) {
+                $this->assertSame($key, $generatorFile->getId());
+            }
         }
     }
 
     public function testPosts(): void
     {
-        $objects = $this->generator->run();
-        $this->assertCount(7, $objects);
+        $generatorFilesByType = $this->generator->run();
+        $postFiles = $generatorFilesByType[PostFile::class];
 
-        $this->fileSystemWriter->copyRenderableFiles($objects);
+        $this->assertCount(6, $postFiles);
+
+        $this->fileSystemWriter->copyRenderableFiles($postFiles);
 
         // posts
         $this->assertFileExists($this->outputDirectory . '/blog/2016/10/10/title/index.html');
@@ -36,6 +42,16 @@ final class GeneratorTest extends AbstractGeneratorTest
             __DIR__ . '/GeneratorSource/expected/post-with-latte-blocks-expected.html',
             $this->outputDirectory . '/blog/2016/01/02/second-title/index.html'
         );
+    }
+
+    public function testLectures(): void
+    {
+        $generatorFilesByType = $this->generator->run();
+        $lectureFiles = $generatorFilesByType[LectureFile::class];
+
+        $this->assertCount(1, $lectureFiles);
+
+        $this->fileSystemWriter->copyRenderableFiles($lectureFiles);
 
         // lectures
         $this->assertFileExists($this->outputDirectory . '/lecture/open-source-lecture/index.html');

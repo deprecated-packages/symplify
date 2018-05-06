@@ -51,7 +51,7 @@ final class Generator
     }
 
     /**
-     * @return AbstractGeneratorFile[]
+     * @return AbstractGeneratorFile[][]
      */
     public function run(): array
     {
@@ -79,17 +79,15 @@ final class Generator
             $generatorElement->setObjects($objects);
         }
 
-        $processedObjects = [];
+        $generatorFilesByType = [];
         foreach ($this->generatorConfiguration->getGeneratorElements() as $generatorElement) {
             // run them through decorator and render content to string
-            $newObjects = $this->renderableFilesProcessor->processGeneratorElementObjects(
+            $generatorFilesByType[$generatorElement->getObject()] = $this->renderableFilesProcessor->processGeneratorElementObjects(
                 $generatorElement->getObjects(),
                 $generatorElement
             );
-
-            $processedObjects += $newObjects;
         }
 
-        return $processedObjects;
+        return $generatorFilesByType;
     }
 }
