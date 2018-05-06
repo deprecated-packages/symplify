@@ -31,41 +31,14 @@ final class FileFactory
         return $files;
     }
 
-    /**
-     * @param SplFileInfo[] $fileInfos
-     * @return AbstractFile[]
-     */
-    public function createFromFileInfosAndClass(array $fileInfos, string $class): array
+    public function createFromFileInfo(SplFileInfo $fileInfo): AbstractFile
     {
-        $objects = [];
-
-        foreach ($fileInfos as $fileInfo) {
-            $objects[] = $this->createFromClassNameAndFileInfo($class, $fileInfo);
-        }
-
-        return $objects;
-    }
-
-    public function createFromFileInfo(SplFileInfo $fileInfo): File
-    {
-        return $this->createFromClassNameAndFileInfo(File::class, $fileInfo);
-    }
-
-    private function createFromClassNameAndFileInfo(string $className, SplFileInfo $fileInfo): AbstractFile
-    {
-        $dateTime = $this->pathAnalyzer->detectDate($fileInfo);
-        if ($dateTime) {
-            $filenameWithoutDate = $this->pathAnalyzer->detectFilenameWithoutDate($fileInfo);
-        } else {
-            $filenameWithoutDate = $fileInfo->getBasename('.' . $fileInfo->getExtension());
-        }
-
-        return new $className(
+        return new File(
             $fileInfo,
             $fileInfo->getRelativePathname(),
             $fileInfo->getPathname(),
-            $filenameWithoutDate,
-            $dateTime
+            $this->pathAnalyzer->detectFilenameWithoutDate($fileInfo),
+            $this->pathAnalyzer->detectDate($fileInfo)
         );
     }
 }

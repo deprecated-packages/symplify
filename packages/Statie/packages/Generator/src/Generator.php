@@ -5,8 +5,8 @@ namespace Symplify\Statie\Generator;
 use Symplify\Statie\Configuration\Configuration;
 use Symplify\Statie\FileSystem\FileFinder;
 use Symplify\Statie\Generator\Configuration\GeneratorConfiguration;
-use Symplify\Statie\Renderable\File\AbstractFile;
-use Symplify\Statie\Renderable\File\FileFactory;
+use Symplify\Statie\Generator\Renderable\File\AbstractGeneratorFile;
+use Symplify\Statie\Generator\Renderable\File\GeneratorFileFactory;
 use Symplify\Statie\Renderable\RenderableFilesProcessor;
 
 final class Generator
@@ -32,26 +32,26 @@ final class Generator
     private $renderableFilesProcessor;
 
     /**
-     * @var FileFactory
+     * @var GeneratorFileFactory
      */
-    private $fileFactory;
+    private $generatorFileFactory;
 
     public function __construct(
         GeneratorConfiguration $generatorConfiguration,
         FileFinder $fileFinder,
         Configuration $configuration,
         RenderableFilesProcessor $renderableFilesProcessor,
-        FileFactory $fileFactory
+        GeneratorFileFactory $generatorFileFactory
     ) {
         $this->generatorConfiguration = $generatorConfiguration;
         $this->fileFinder = $fileFinder;
         $this->configuration = $configuration;
         $this->renderableFilesProcessor = $renderableFilesProcessor;
-        $this->fileFactory = $fileFactory;
+        $this->generatorFileFactory = $generatorFileFactory;
     }
 
     /**
-     * @return AbstractFile[]
+     * @return AbstractGeneratorFile[][]
      */
     public function run(): array
     {
@@ -63,13 +63,15 @@ final class Generator
 
             // find files in ...
             $fileInfos = $this->fileFinder->findInDirectoryForGenerator($generatorElement->getPath());
-
             if (! count($fileInfos)) {
                 continue;
             }
 
             // process to objects
-            $objects = $this->fileFactory->createFromFileInfosAndClass($fileInfos, $generatorElement->getObject());
+            $objects = $this->generatorFileFactory->createFromFileInfosAndClass(
+                $fileInfos,
+                $generatorElement->getObject()
+            );
 
             // save them to property (for "related_items" option)
             $this->configuration->addOption($generatorElement->getVariableGlobal(), $objects);
@@ -77,17 +79,15 @@ final class Generator
             $generatorElement->setObjects($objects);
         }
 
-        $processedObjects = [];
+        $generatorFilesByType = [];
         foreach ($this->generatorConfiguration->getGeneratorElements() as $generatorElement) {
             // run them through decorator and render content to string
-            $newObjects = $this->renderableFilesProcessor->processGeneratorElementObjects(
+            $generatorFilesByType[$generatorElement->getObject()] = $this->renderableFilesProcessor->processGeneratorElementObjects(
                 $generatorElement->getObjects(),
                 $generatorElement
             );
-
-            $processedObjects = array_merge($processedObjects, $newObjects);
         }
 
-        return $processedObjects;
+        return $generatorFilesByType;
     }
 }

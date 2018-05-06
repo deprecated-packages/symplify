@@ -78,20 +78,28 @@ final class StatieApplication
         $this->loadLayoutsToLatteLoader($layoutAndSnippetFiles);
 
         // process generator items
-        $objectsToRender = $this->generator->run();
+        $generatorFilesByType = $this->generator->run();
 
         // process rest of files (config call is due to absolute path)
         $fileInfos = $this->fileFinder->findRestOfRenderableFiles($this->configuration->getSourceDirectory());
-        $objectsToRender = array_merge($objectsToRender, $this->renderableFilesProcessor->processFileInfos($fileInfos));
+        $files = $this->renderableFilesProcessor->processFileInfos($fileInfos);
+//        $objectsToRender = array_merge($objectsToRender, $this->renderableFilesProcessor->processFileInfos($fileInfos));
 
-        $this->eventDispatcher->dispatch(BeforeRenderEvent::class, new BeforeRenderEvent($objectsToRender));
+        $this->eventDispatcher->dispatch(
+            BeforeRenderEvent::class,
+            new BeforeRenderEvent($files, $generatorFilesByType)
+        );
 
         if ($dryRun === false) {
             // process static files
             $staticFiles = $this->fileFinder->findStaticFiles($source);
             $this->fileSystemWriter->copyStaticFiles($staticFiles);
 
-            $this->fileSystemWriter->copyRenderableFiles($objectsToRender);
+            $this->fileSystemWriter->copyRenderableFiles($files);
+
+            foreach ($generatorFilesByType as $generatorFiles) {
+                $this->fileSystemWriter->copyRenderableFiles($generatorFiles);
+            }
         }
     }
 

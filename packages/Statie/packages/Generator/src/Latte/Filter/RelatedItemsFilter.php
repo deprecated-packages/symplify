@@ -4,7 +4,7 @@ namespace Symplify\Statie\Generator\Latte\Filter;
 
 use Symplify\Statie\Contract\Templating\FilterProviderInterface;
 use Symplify\Statie\Generator\RelatedItemsResolver;
-use Symplify\Statie\Renderable\File\AbstractFile;
+use Symplify\Statie\Generator\Renderable\File\AbstractGeneratorFile;
 
 final class RelatedItemsFilter implements FilterProviderInterface
 {
@@ -25,8 +25,8 @@ final class RelatedItemsFilter implements FilterProviderInterface
     {
         return [
             // use in *.latte: {var $relatedPosts = ($post|relatedItems)}
-            'relatedItems' => function (AbstractFile $file): array {
-                return $this->relatedItemsResolver->resolveForFile($file);
+            'relatedItems' => function (AbstractGeneratorFile $generatorFile): array {
+                return $this->relatedItemsResolver->resolveForFile($generatorFile);
             },
         ];
     }

@@ -4,8 +4,7 @@ namespace Symplify\Statie\Generator;
 
 use Symplify\Statie\Configuration\Configuration;
 use Symplify\Statie\Generator\Configuration\GeneratorConfiguration;
-use Symplify\Statie\Renderable\File\AbstractFile;
-use Symplify\Statie\Renderable\File\PostFile;
+use Symplify\Statie\Generator\Renderable\File\AbstractGeneratorFile;
 
 final class RelatedItemsResolver
 {
@@ -26,31 +25,31 @@ final class RelatedItemsResolver
     }
 
     /**
-     * @return PostFile[]
+     * @return AbstractGeneratorFile[]
      */
-    public function resolveForFile(AbstractFile $file): array
+    public function resolveForFile(AbstractGeneratorFile $generatorFile): array
     {
-        if (! $file->getRelatedItemsIds()) {
+        if (! $generatorFile->getRelatedItemsIds()) {
             return [];
         }
 
-        $relatedPosts = [];
-        foreach ($this->getItemsByFile($file) as $item) {
-            if (in_array($item->getId(), $file->getRelatedItemsIds(), true)) {
-                $relatedPosts[] = $item;
+        $relatedGeneratorFiles = [];
+        foreach ($this->getItemsByFile($generatorFile) as $item) {
+            if (in_array($item->getId(), $generatorFile->getRelatedItemsIds(), true)) {
+                $relatedGeneratorFiles[] = $item;
             }
         }
 
-        return $relatedPosts;
+        return $relatedGeneratorFiles;
     }
 
     /**
-     * @return AbstractFile[]
+     * @return AbstractGeneratorFile[]
      */
-    private function getItemsByFile(AbstractFile $file): array
+    private function getItemsByFile(AbstractGeneratorFile $generatorFile): array
     {
         foreach ($this->generatorConfiguration->getGeneratorElements() as $generatorElement) {
-            if (! is_a($file, $generatorElement->getObject(), true)) {
+            if (! is_a($generatorFile, $generatorElement->getObject(), true)) {
                 continue;
             }
 
