@@ -4,7 +4,6 @@ namespace Symplify\Statie\Generator\Renderable\File;
 
 use Nette\Utils\Strings;
 use Symfony\Component\Finder\SplFileInfo;
-use Symplify\Statie\Generator\Exception\Configuration\GeneratorException;
 use Symplify\Statie\Utils\PathAnalyzer;
 
 final class GeneratorFileFactory
@@ -15,13 +14,14 @@ final class GeneratorFileFactory
     private $pathAnalyzer;
 
     /**
-     * @var int[][]
+     * @var GeneratorFileGuard
      */
-    private $idsByAbstractGeneratorFileClass = [];
+    private $generatorFileGuard;
 
-    public function __construct(PathAnalyzer $pathAnalyzer)
+    public function __construct(PathAnalyzer $pathAnalyzer, GeneratorFileGuard $generatorFileGuard)
     {
         $this->pathAnalyzer = $pathAnalyzer;
+        $this->generatorFileGuard = $generatorFileGuard;
     }
 
     /**
@@ -32,7 +32,7 @@ final class GeneratorFileFactory
     {
         $objects = [];
 
-        $this->ensureIsAbstractGeneratorFile($class);
+        $this->generatorFileGuard->ensureIsAbstractGeneratorFile($class);
 
         foreach ($fileInfos as $fileInfo) {
             $generatorFile = $this->createFromClassNameAndFileInfo($class, $fileInfo);
@@ -53,12 +53,11 @@ final class GeneratorFileFactory
         }
 
         $match = Strings::match($fileInfo->getContents(), '#id: (?<id>[0-9]+)#');
-        $this->ensureIdIsSet($fileInfo, $match);
+        $this->generatorFileGuard->ensureIdIsSet($fileInfo, $match);
 
         $id = (int) $match['id'];
 
-        $this->ensureIdIsUnique($id, $className, $fileInfo);
-        $this->idsByAbstractGeneratorFileClass[$className][] = $id;
+        $this->generatorFileGuard->ensureIdIsUnique($id, $className, $fileInfo);
 
         return new $className(
             $id,
@@ -68,47 +67,5 @@ final class GeneratorFileFactory
             $filenameWithoutDate,
             $dateTime
         );
-    }
-
-    private function ensureIsAbstractGeneratorFile(string $class): void
-    {
-        if (is_a($class, AbstractGeneratorFile::class, true)) {
-            return;
-        }
-
-        throw new GeneratorException(sprintf('"%s" must inherit from "%s"', $class, AbstractGeneratorFile::class));
-    }
-
-    private function ensureIdIsUnique(int $id, string $className, SplFileInfo $fileInfo): void
-    {
-        if (! isset($this->idsByAbstractGeneratorFileClass[$className])) {
-            return;
-        }
-
-        if (! in_array($id, $this->idsByAbstractGeneratorFileClass[$className], true)) {
-            return;
-        }
-
-        throw new GeneratorException(sprintf(
-            'Id "%d" was already set for "%s" class. Pick an another one for "%s" file.',
-            $id,
-            $className,
-            $fileInfo->getRealPath()
-        ));
-    }
-
-    /**
-     * @param mixed[] $match
-     */
-    private function ensureIdIsSet(SplFileInfo $fileInfo, array $match): void
-    {
-        if (isset($match['id'])) {
-            return;
-        }
-
-        throw new GeneratorException(sprintf(
-            'File "%s" must have "id: [0-9]+" in the header in --- blocks.',
-            $fileInfo->getRealPath()
-        ));
     }
 }
