@@ -13,7 +13,7 @@ final class FileNameObjectSorter implements ObjectSorterInterface
      */
     public function sort(array $generatorFiles): array
     {
-        usort($generatorFiles, function (AbstractGeneratorFile $firstFile, AbstractGeneratorFile $secondFile): int {
+        uasort($generatorFiles, function (AbstractGeneratorFile $firstFile, AbstractGeneratorFile $secondFile): int {
             // from newest to oldest, Z to A
             return strcmp($secondFile->getFilePath(), $firstFile->getFilePath());
         });

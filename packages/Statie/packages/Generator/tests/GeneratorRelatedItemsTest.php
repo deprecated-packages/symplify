@@ -22,7 +22,7 @@ final class GeneratorRelatedItemsTest extends AbstractGeneratorTest
     {
         $this->generator->run();
         $posts = $this->configuration->getOption('posts');
-        $postWithRelatedItems = $posts[3];
+        $postWithRelatedItems = $posts[1];
 
         $relatedItems = $this->relatedItemsResolver->resolveForFile($postWithRelatedItems);
 

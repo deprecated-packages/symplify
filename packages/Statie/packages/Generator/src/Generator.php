@@ -5,8 +5,8 @@ namespace Symplify\Statie\Generator;
 use Symplify\Statie\Configuration\Configuration;
 use Symplify\Statie\FileSystem\FileFinder;
 use Symplify\Statie\Generator\Configuration\GeneratorConfiguration;
+use Symplify\Statie\Generator\Renderable\File\AbstractGeneratorFile;
 use Symplify\Statie\Generator\Renderable\File\GeneratorFileFactory;
-use Symplify\Statie\Renderable\File\AbstractFile;
 use Symplify\Statie\Renderable\RenderableFilesProcessor;
 
 final class Generator
@@ -51,7 +51,7 @@ final class Generator
     }
 
     /**
-     * @return AbstractFile[]
+     * @return AbstractGeneratorFile[]
      */
     public function run(): array
     {
@@ -87,7 +87,7 @@ final class Generator
                 $generatorElement
             );
 
-            $processedObjects = array_merge($processedObjects, $newObjects);
+            $processedObjects += $newObjects;
         }
 
         return $processedObjects;

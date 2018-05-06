@@ -6,6 +6,15 @@ use DateTimeInterface;
 
 final class GeneratorTest extends AbstractGeneratorTest
 {
+    public function testIdsAreKeys(): void
+    {
+        $objects = $this->generator->run();
+
+        foreach ($objects as $key => $object) {
+            $this->assertSame($key, $object->getId());
+        }
+    }
+
     public function testPosts(): void
     {
         $objects = $this->generator->run();
@@ -49,7 +58,7 @@ final class GeneratorTest extends AbstractGeneratorTest
         $this->assertCount(1, $lectures);
 
         // detect date correctly from name
-        $firstPost = $posts[0];
+        $firstPost = array_pop($posts);
         $this->assertInstanceOf(DateTimeInterface::class, $firstPost['date']);
     }
 
