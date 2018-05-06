@@ -7,6 +7,7 @@ use DateTimeInterface;
 use Nette\Utils\ObjectHelpers;
 use Symplify\Statie\Exception\Renderable\File\AccessKeyNotAvailableException;
 use Symplify\Statie\Exception\Renderable\File\UnsupportedMethodException;
+use Symplify\Statie\Generator\Renderable\File\AbstractGeneratorFile;
 
 final class PostFile extends AbstractGeneratorFile implements ArrayAccess
 {

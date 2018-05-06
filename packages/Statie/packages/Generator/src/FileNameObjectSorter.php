@@ -3,7 +3,7 @@
 namespace Symplify\Statie\Generator;
 
 use Symplify\Statie\Generator\Contract\ObjectSorterInterface;
-use Symplify\Statie\Renderable\File\AbstractGeneratorFile;
+use Symplify\Statie\Generator\Renderable\File\AbstractGeneratorFile;
 
 final class FileNameObjectSorter implements ObjectSorterInterface
 {

@@ -5,9 +5,8 @@ namespace Symplify\Statie\Generator;
 use Symplify\Statie\Configuration\Configuration;
 use Symplify\Statie\FileSystem\FileFinder;
 use Symplify\Statie\Generator\Configuration\GeneratorConfiguration;
+use Symplify\Statie\Generator\Renderable\File\GeneratorFileFactory;
 use Symplify\Statie\Renderable\File\AbstractFile;
-use Symplify\Statie\Renderable\File\AbstractGeneratorFile;
-use Symplify\Statie\Renderable\File\GeneratorFileFactory;
 use Symplify\Statie\Renderable\RenderableFilesProcessor;
 
 final class Generator
@@ -69,7 +68,6 @@ final class Generator
             }
 
             // process to objects
-            /** @var AbstractGeneratorFile[] $objects */
             $objects = $this->generatorFileFactory->createFromFileInfosAndClass(
                 $fileInfos,
                 $generatorElement->getObject()

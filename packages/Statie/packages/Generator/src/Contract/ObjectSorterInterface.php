@@ -2,7 +2,7 @@
 
 namespace Symplify\Statie\Generator\Contract;
 
-use Symplify\Statie\Renderable\File\AbstractGeneratorFile;
+use Symplify\Statie\Generator\Renderable\File\AbstractGeneratorFile;
 
 interface ObjectSorterInterface
 {

@@ -2,7 +2,7 @@
 
 namespace Symplify\Statie\Generator\Tests\GeneratorSource\File;
 
-use Symplify\Statie\Renderable\File\AbstractGeneratorFile;
+use Symplify\Statie\Generator\Renderable\File\AbstractGeneratorFile;
 
 final class LectureFile extends AbstractGeneratorFile
 {

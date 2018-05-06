@@ -1,9 +1,10 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\Statie\Renderable\File;
+namespace Symplify\Statie\Generator\Renderable\File;
 
 use DateTimeInterface;
 use Symfony\Component\Finder\SplFileInfo;
+use Symplify\Statie\Renderable\File\AbstractFile;
 
 abstract class AbstractGeneratorFile extends AbstractFile
 {

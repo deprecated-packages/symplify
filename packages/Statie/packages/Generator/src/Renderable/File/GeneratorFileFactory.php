@@ -1,10 +1,10 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\Statie\Renderable\File;
+namespace Symplify\Statie\Generator\Renderable\File;
 
 use Nette\Utils\Strings;
 use Symfony\Component\Finder\SplFileInfo;
-use Symplify\Statie\Exception\Configuration\GeneratorException;
+use Symplify\Statie\Generator\Exception\Configuration\GeneratorException;
 use Symplify\Statie\Utils\PathAnalyzer;
 
 final class GeneratorFileFactory
@@ -53,12 +53,7 @@ final class GeneratorFileFactory
         }
 
         $match = Strings::match($fileInfo->getContents(), '#id: (?<id>[0-9]+)#');
-        if (! isset($match['id'])) {
-            throw new GeneratorException(sprintf(
-                'File "%s" must have "id: [0-9]+" in the header in --- blocks.',
-                $fileInfo->getRealPath()
-            ));
-        }
+        $this->ensureIdIsSet($fileInfo, $match);
 
         $id = (int) $match['id'];
 
@@ -98,6 +93,21 @@ final class GeneratorFileFactory
             'Id "%d" was already set for "%s" class. Pick an another one for "%s" file.',
             $id,
             $className,
+            $fileInfo->getRealPath()
+        ));
+    }
+
+    /**
+     * @param mixed[] $match
+     */
+    private function ensureIdIsSet(SplFileInfo $fileInfo, array $match): void
+    {
+        if (isset($match['id'])) {
+            return;
+        }
+
+        throw new GeneratorException(sprintf(
+            'File "%s" must have "id: [0-9]+" in the header in --- blocks.',
             $fileInfo->getRealPath()
         ));
     }

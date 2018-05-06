@@ -3,7 +3,7 @@
 namespace Symplify\Statie\Generator\Configuration;
 
 use Symplify\Statie\Generator\Contract\ObjectSorterInterface;
-use Symplify\Statie\Renderable\File\AbstractGeneratorFile;
+use Symplify\Statie\Generator\Renderable\File\AbstractGeneratorFile;
 
 final class GeneratorElement
 {

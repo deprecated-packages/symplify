@@ -4,7 +4,7 @@ namespace Symplify\Statie\Generator\Latte\Filter;
 
 use Symplify\Statie\Contract\Templating\FilterProviderInterface;
 use Symplify\Statie\Generator\RelatedItemsResolver;
-use Symplify\Statie\Renderable\File\AbstractGeneratorFile;
+use Symplify\Statie\Generator\Renderable\File\AbstractGeneratorFile;
 
 final class RelatedItemsFilter implements FilterProviderInterface
 {

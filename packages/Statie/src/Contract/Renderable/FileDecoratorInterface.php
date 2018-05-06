@@ -3,8 +3,8 @@
 namespace Symplify\Statie\Contract\Renderable;
 
 use Symplify\Statie\Generator\Configuration\GeneratorElement;
+use Symplify\Statie\Generator\Renderable\File\AbstractGeneratorFile;
 use Symplify\Statie\Renderable\File\AbstractFile;
-use Symplify\Statie\Renderable\File\AbstractGeneratorFile;
 
 interface FileDecoratorInterface
 {

@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\Statie\Exception\Configuration;
+namespace Symplify\Statie\Generator\Exception\Configuration;
 
 use Exception;
 
