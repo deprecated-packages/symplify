@@ -42,9 +42,9 @@ final class GeneratorFileGuard
     }
 
     /**
-     * @param mixed[] $match
+     * @param mixed[]|null $match
      */
-    public function ensureIdIsSet(SplFileInfo $fileInfo, array $match): void
+    public function ensureIdIsSet(SplFileInfo $fileInfo, ?array $match): void
     {
         if (isset($match['id'])) {
             return;

@@ -33,19 +33,12 @@ final class FileFactory
 
     public function createFromFileInfo(SplFileInfo $fileInfo): AbstractFile
     {
-        $dateTime = $this->pathAnalyzer->detectDate($fileInfo);
-        if ($dateTime) {
-            $filenameWithoutDate = $this->pathAnalyzer->detectFilenameWithoutDate($fileInfo);
-        } else {
-            $filenameWithoutDate = $fileInfo->getBasename('.' . $fileInfo->getExtension());
-        }
-
         return new File(
             $fileInfo,
             $fileInfo->getRelativePathname(),
             $fileInfo->getPathname(),
-            $filenameWithoutDate,
-            $dateTime
+            $this->pathAnalyzer->detectFilenameWithoutDate($fileInfo),
+            $this->pathAnalyzer->detectDate($fileInfo)
         );
     }
 }

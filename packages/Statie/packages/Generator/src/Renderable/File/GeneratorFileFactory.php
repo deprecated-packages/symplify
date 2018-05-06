@@ -9,6 +9,12 @@ use Symplify\Statie\Utils\PathAnalyzer;
 final class GeneratorFileFactory
 {
     /**
+     * Matches "id: <25>"
+     * @var string
+     */
+    private const ID_PATTERN = '#^id:[\s]*(?<id>[0-9]+)#m';
+
+    /**
      * @var PathAnalyzer
      */
     private $pathAnalyzer;
@@ -44,28 +50,26 @@ final class GeneratorFileFactory
 
     private function createFromClassNameAndFileInfo(string $className, SplFileInfo $fileInfo): AbstractGeneratorFile
     {
-        // @todo decouple to Filesystem tools
-        $dateTime = $this->pathAnalyzer->detectDate($fileInfo);
-        if ($dateTime) {
-            $filenameWithoutDate = $this->pathAnalyzer->detectFilenameWithoutDate($fileInfo);
-        } else {
-            $filenameWithoutDate = $fileInfo->getBasename('.' . $fileInfo->getExtension());
-        }
-
-        $match = Strings::match($fileInfo->getContents(), '#id: (?<id>[0-9]+)#');
-        $this->generatorFileGuard->ensureIdIsSet($fileInfo, $match);
-
-        $id = (int) $match['id'];
-
-        $this->generatorFileGuard->ensureIdIsUnique($id, $className, $fileInfo);
+        $id = $this->findAndGetValidId($fileInfo, $className);
 
         return new $className(
             $id,
             $fileInfo,
             $fileInfo->getRelativePathname(),
             $fileInfo->getPathname(),
-            $filenameWithoutDate,
-            $dateTime
+            $this->pathAnalyzer->detectFilenameWithoutDate($fileInfo),
+            $this->pathAnalyzer->detectDate($fileInfo)
         );
+    }
+
+    private function findAndGetValidId(SplFileInfo $fileInfo, string $className): int
+    {
+        $match = Strings::match($fileInfo->getContents(), self::ID_PATTERN);
+        $this->generatorFileGuard->ensureIdIsSet($fileInfo, $match);
+
+        $id = (int) $match['id'];
+        $this->generatorFileGuard->ensureIdIsUnique($id, $className, $fileInfo);
+
+        return $id;
     }
 }
