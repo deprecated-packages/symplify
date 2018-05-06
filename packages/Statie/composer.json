@@ -21,7 +21,7 @@
         "symfony/console": "^4.0",
         "symfony/finder": "^4.0",
         "symfony/yaml": "^4.0",
-        "symplify/package-builder": "^4.1",
+        "symplify/package-builder": "^4.2",
         "jean85/pretty-package-versions": "^1.0"
     },
     "require-dev": {
