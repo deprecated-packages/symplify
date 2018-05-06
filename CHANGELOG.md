@@ -24,6 +24,7 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 ### Changed
 
 - [#813] Unique parameter `id:` is now required for Generator elements, `PostFile` mostly; add "id: x" to your `_posts/<post-name>.md`
+- [#813] `Symplify\Statie\Event\BeforeRenderEvent` - changed `getObjectsToRender()` to `getFiles()` + `getGeneratorFilesByType()` for GeneratorFiles added
 
 ### Fixed
 

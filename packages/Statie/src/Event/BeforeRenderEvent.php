@@ -14,7 +14,7 @@ final class BeforeRenderEvent extends Event
     private $files = [];
 
     /**
-     * @var AbstractGeneratorFile[]
+     * @var AbstractGeneratorFile[][]
      */
     private $generatorFilesByType = [];
 
