@@ -21,6 +21,10 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 - [#804] Add `hasTag()` to `PhpDocInfo` and other improvements
 - [#801] Add `PhpDocModifier` class
 
+### Changed
+
+- [#813] Unique parameter `id:` is now required for Generator elements, `PostFile` mostly; add "id: x" to your `_posts/<post-name>.md`
+
 ### Fixed
 
 #### EasyCodingStandard
@@ -29,7 +33,7 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 #### Statie
 
-- [#799] - Fix 'posts' parameter override in Generator
+- [#799] Fix 'posts' parameter override in Generator
 
 #### BetterPhpDocParser
 
