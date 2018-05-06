@@ -20,11 +20,16 @@ final class TokenSkipper
     public function skipBlocks(Tokens $tokens, int $position): int
     {
         $token = $tokens[$position];
-        if (! $token->isGivenKind([CT::T_ARRAY_SQUARE_BRACE_OPEN, T_ARRAY])) {
-            return $position;
+
+        if ($token->getContent() === '{') {
+            return $this->blockFinder->findInTokensByEdge($tokens, $position)->getEnd();
         }
 
-        return $this->blockFinder->findInTokensByEdge($tokens, $position)->getEnd();
+        if ($token->isGivenKind([CT::T_ARRAY_SQUARE_BRACE_OPEN, T_ARRAY])) {
+            return $this->blockFinder->findInTokensByEdge($tokens, $position)->getEnd();
+        }
+
+        return $position;
     }
 
     public function skipBlocksReversed(Tokens $tokens, int $position): int
