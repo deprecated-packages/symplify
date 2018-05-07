@@ -19,6 +19,10 @@ final class PublicForTestsCompilerPass implements CompilerPassInterface
         foreach ($containerBuilder->getDefinitions() as $definition) {
             $definition->setPublic(true);
         }
+
+        foreach ($containerBuilder->getAliases() as $definition) {
+            $definition->setPublic(true);
+        }
     }
 
     private function isPHPUnit(): bool
