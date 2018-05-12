@@ -6,13 +6,15 @@ matrix:
       env: PHPUNIT_FLAGS="--coverage-clover coverage.xml"
     - php: 7.1
       env: CODING_STANDARD=true
+    - php: 7.1
+      env: COMPOSER_FLAGS="--prefer-lowest"
     - php: 7.2
       env: PHPSTAN=true MONOREPO_SPLIT=true
     - php: 7.2
       env: STANDALONE=true
 
 install:
-  - composer install
+  - composer update $COMPOSER_FLAGS
 
 before_script:
   # to make multiline scripts report fails
