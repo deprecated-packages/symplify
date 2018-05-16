@@ -34,19 +34,19 @@ final class CognitiveComplexitySniff implements Sniff
 
         // Detect start and end of this function definition
         $start = $tokens[$position]['scope_opener'];
-        $end   = $tokens[$position]['scope_closer'];
+        $end = $tokens[$position]['scope_closer'];
 
         // Predicate nodes for PHP.
         $find = [
-            T_CASE    => true,
+            T_CASE => true,
             T_DEFAULT => true,
-            T_CATCH   => true,
-            T_IF      => true,
-            T_FOR     => true,
+            T_CATCH => true,
+            T_IF => true,
+            T_FOR => true,
             T_FOREACH => true,
-            T_WHILE   => true,
-            T_DO      => true,
-            T_ELSEIF  => true,
+            T_WHILE => true,
+            T_DO => true,
+            T_ELSEIF => true,
         ];
 
         $complexity = 1;
