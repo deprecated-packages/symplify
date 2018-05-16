@@ -5,8 +5,36 @@ namespace Symplify\CodingStandard\Sniffs\CleanCode;
 use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Sniffs\Sniff;
 
+/**
+ * Inspired by https://www.sonarsource.com/docs/CognitiveComplexity.pdf
+ */
 final class CognitiveComplexitySniff implements Sniff
 {
+    /**
+     * @var int[]
+     */
+    private $increasingTokens = [
+        T_SWITCH,
+        T_CATCH,
+
+        T_IF,
+        T_FOR,
+        T_FOREACH,
+        T_WHILE,
+        T_DO,
+
+        T_BITWISE_AND,
+        T_BITWISE_OR,
+        T_BITWISE_XOR,
+        T_CONTINUE,
+
+        T_IS_EQUAL, // ==
+        T_IS_NOT_EQUAL, // !=
+        T_IS_GREATER_OR_EQUAL, // >=
+        T_IS_IDENTICAL, // ===
+        T_IS_NOT_IDENTICAL, // !==
+    ];
+
     /**
      * @var int
      */
@@ -27,47 +55,32 @@ final class CognitiveComplexitySniff implements Sniff
     {
         $tokens = $file->getTokens();
 
-        // Ignore abstract methods, why?
-//        if (isset($tokens[$position]['scope_opener']) === false) {
-//            return;
-//        }
-
         // Detect start and end of this function definition
-        $start = $tokens[$position]['scope_opener'];
-        $end = $tokens[$position]['scope_closer'];
+        $functionStartPosition = $tokens[$position]['scope_opener'];
+        $functionEndPosition = $tokens[$position]['scope_closer'];
 
-        // Predicate nodes for PHP.
-        $find = [
-            T_CASE => true,
-            T_DEFAULT => true,
-            T_CATCH => true,
-            T_IF => true,
-            T_FOR => true,
-            T_FOREACH => true,
-            T_WHILE => true,
-            T_DO => true,
-            T_ELSEIF => true,
-        ];
+        $complexity = 0;
+        for ($i = $functionStartPosition + 1; $i < $functionEndPosition; ++$i) {
+            if (in_array($tokens[$i]['code'], $this->increasingTokens, true)) {
+                ++$complexity;
 
-        $complexity = 1;
-
-        // Iterate from start to end and count predicate nodes.
-        for ($i = ($start + 1); $i < $end; $i++) {
-            if (isset($find[$tokens[$i]['code']]) === true) {
-                $complexity++;
+                // increase for nesting level higher than 1 the function
+                if ($tokens[$i]['level'] > 2) {
+                    // @todo: if in T_TRY, decrease for one
+                    ++$complexity;
+                }
             }
         }
 
+        dump($complexity);
         if ($complexity <= $this->maxComplexity) {
             return;
         }
 
-        $message = sprintf(
-            'Cyclomatic complexity of %d have to be less than %d.',
-            $complexity,
-            $this->maxComplexity
+        $file->addError(
+            sprintf('Cyclomatic complexity of %d have to be less than %d.', $complexity, $this->maxComplexity),
+            $position,
+            self::class
         );
-
-        $file->addError($message, $position, self::class);
     }
 }

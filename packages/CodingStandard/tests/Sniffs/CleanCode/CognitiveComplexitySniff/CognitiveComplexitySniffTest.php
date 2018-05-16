@@ -20,7 +20,8 @@ final class CognitiveComplexitySniffTest extends AbstractCheckerTestCase
 
     public function provideWrongCases(): Iterator
     {
-        yield [__DIR__ . '/wrong/wrong.php.inc'];
+//        yield [__DIR__ . '/wrong/wrong.php.inc']; // #3
+        yield [__DIR__ . '/wrong/wrong2.php.inc']; // #9
     }
 
     protected function provideConfig(): string
