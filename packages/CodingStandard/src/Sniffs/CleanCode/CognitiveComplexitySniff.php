@@ -105,15 +105,7 @@ final class CognitiveComplexitySniff implements Sniff
         for ($i = $functionStartPosition + 1; $i < $functionEndPosition; ++$i) {
             $currentToken = $tokens[$i];
 
-            // code entered "try { }"
-            if ($currentToken['code'] === T_TRY) {
-                $this->isInTryConstruction = true;
-            }
-
-            // code left "try { }"
-            if ($this->isInTryConstruction && $currentToken['code'] === T_CATCH) {
-                $this->isInTryConstruction = false;
-            }
+            $this->resolveTryControlStructure($currentToken);
 
             if (! in_array($tokens[$i]['code'], $this->increasingTokens, true)) {
                 continue;
@@ -148,5 +140,22 @@ final class CognitiveComplexitySniff implements Sniff
             $position,
             self::class
         );
+    }
+
+    /**
+     * @param mixed[] $token
+     */
+    private function resolveTryControlStructure(array $token): void
+    {
+        // code entered "try { }"
+        if ($this->isInTryConstruction === false && $token['code'] === T_TRY) {
+            $this->isInTryConstruction = true;
+            return;
+        }
+
+        // code left "try { }"
+        if ($this->isInTryConstruction && $token['code'] === T_CATCH) {
+            $this->isInTryConstruction = false;
+        }
     }
 }
