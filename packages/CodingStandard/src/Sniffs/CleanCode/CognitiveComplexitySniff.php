@@ -25,6 +25,9 @@ use PHP_CodeSniffer\Sniffs\Sniff;
  */
 final class CognitiveComplexitySniff implements Sniff
 {
+    /**
+     * @var int
+     */
     private $functionNestingLevel;
 
     /**
