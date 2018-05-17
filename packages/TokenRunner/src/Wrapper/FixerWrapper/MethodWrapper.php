@@ -79,16 +79,7 @@ final class MethodWrapper
 
         for ($i = $this->bodyEnd - 1; $i > $this->bodyStart; --$i) {
             $token = $this->tokens[$i];
-
-            if ($token->isGivenKind(T_VARIABLE) === false) {
-                continue;
-            }
-
-            if ($token->getContent() === '$this') {
-                continue;
-            }
-
-            if ($token->getContent() !== '$' . $oldName) {
+            if ($this->shouldSKip($oldName, $token)) {
                 continue;
             }
 
@@ -137,5 +128,22 @@ final class MethodWrapper
         }
 
         return $argumentNames;
+    }
+
+    private function shouldSKip(string $oldName, Token $token): bool
+    {
+        if ($token->isGivenKind(T_VARIABLE) === false) {
+            return true;
+        }
+
+        if ($token->getContent() === '$this') {
+            return true;
+        }
+
+        if ($token->getContent() !== '$' . $oldName) {
+            return true;
+        }
+
+        return false;
     }
 }
