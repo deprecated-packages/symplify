@@ -19,3 +19,5 @@ class SomeClass
         }
     }
 }
+
+// should be total of 9
