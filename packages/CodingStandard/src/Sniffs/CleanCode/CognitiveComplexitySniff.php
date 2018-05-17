@@ -7,6 +7,21 @@ use PHP_CodeSniffer\Sniffs\Sniff;
 
 /**
  * Inspired by https://www.sonarsource.com/docs/CognitiveComplexity.pdf
+ *
+ * A Cognitive Complexity score is assessed according to 3 basic rules:
+ *  1. Ignore structures that allow multiple statements to be readably shorthanded into one
+ *  2. Increment (add one) for each break in the linear flow of the code
+ *  3. Increment when flow-breaking structures are nested
+ *
+ * Additionally, a complexity score is made up of four different types of increments:
+ *  A. Nesting - assessed for nesting control flow structures inside each other
+ *  B. Structural - assessed on control flow structures that are subject to a nesting increment, and that increase the nesting count
+ *  C. Fundamental - assessed on statements not subject to a nesting increment
+ *  D. Hybrid - assessed on control flow structures that are not subject to a nesting increment, but which do increase the nesting count
+ *
+ * While the type of an increment makes no difference in the math - each increment adds one to the final score -
+ * making a distinction among the categories of features being counted makes it easier to understand where nesting
+ * increments do and do not apply. These rules and the principles behind them are further detailed in the following sections.
  */
 final class CognitiveComplexitySniff implements Sniff
 {
