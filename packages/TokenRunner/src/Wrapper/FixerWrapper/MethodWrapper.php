@@ -79,7 +79,7 @@ final class MethodWrapper
 
         for ($i = $this->bodyEnd - 1; $i > $this->bodyStart; --$i) {
             $token = $this->tokens[$i];
-            if ($this->shouldSKip($oldName, $token)) {
+            if ($this->shouldSkip($oldName, $token)) {
                 continue;
             }
 
@@ -130,7 +130,7 @@ final class MethodWrapper
         return $argumentNames;
     }
 
-    private function shouldSKip(string $oldName, Token $token): bool
+    private function shouldSkip(string $oldName, Token $token): bool
     {
         if ($token->isGivenKind(T_VARIABLE) === false) {
             return true;
