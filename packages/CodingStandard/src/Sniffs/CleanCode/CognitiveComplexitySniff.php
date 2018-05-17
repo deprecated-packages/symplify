@@ -26,6 +26,7 @@ use PHP_CodeSniffer\Sniffs\Sniff;
 final class CognitiveComplexitySniff implements Sniff
 {
     private $functionNestingLevel;
+
     /**
      * @var int
      */
@@ -136,7 +137,11 @@ final class CognitiveComplexitySniff implements Sniff
         }
 
         $file->addError(
-            sprintf('Cognitive complexity %d have to be less than %d.', $this->cognitiveComplexity, $this->maxCognitiveComplexity),
+            sprintf(
+                'Cognitive complexity %d have to be less than %d.',
+                $this->cognitiveComplexity,
+                $this->maxCognitiveComplexity
+            ),
             $position,
             self::class
         );
