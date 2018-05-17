@@ -26,7 +26,7 @@ use PHP_CodeSniffer\Sniffs\Sniff;
 final class CognitiveComplexitySniff implements Sniff
 {
     /**
-     * @var int[]
+     * @var int[]|string[]
      */
     private $increasingTokens = [
         T_SWITCH,
@@ -53,7 +53,7 @@ final class CognitiveComplexitySniff implements Sniff
     /**
      * @var int
      */
-    public $maxComplexity = 2;
+    public $maxComplexity = 8;
 
     /**
      * @return int[]
@@ -70,16 +70,19 @@ final class CognitiveComplexitySniff implements Sniff
     {
         $tokens = $file->getTokens();
 
+        if (! isset($tokens[$position]['scope_opener'])) {
+            return;
+        }
+
         // Detect start and end of this function definition
         $functionStartPosition = $tokens[$position]['scope_opener'];
         $functionEndPosition = $tokens[$position]['scope_closer'];
 
-
         $functionNestingLevel = $tokens[$position]['level'];
 
-        $complexity = 0;
-
+        $cognitiveComplexity = 0;
         $inTryConstruction = false;
+        $previousMeasuredNestingLevel = 0;
 
         for ($i = $functionStartPosition + 1; $i < $functionEndPosition; ++$i) {
             $currentToken = $tokens[$i];
@@ -94,28 +97,32 @@ final class CognitiveComplexitySniff implements Sniff
                 $inTryConstruction = false;
             }
 
-            if (in_array($tokens[$i]['code'], $this->increasingTokens, true)) {
-                ++$complexity;
-
-                $measuredNestingLevel = $functionNestingLevel - $tokens[$i]['level'];
-                if ($inTryConstruction) {
-                    --$measuredNestingLevel;
-                }
-
-                // increase for nesting level higher than 1 the function
-                if ($measuredNestingLevel > 1) {
-                    ++$complexity;
-                }
+            if (! in_array($tokens[$i]['code'], $this->increasingTokens, true)) {
+                continue;
             }
+
+            ++$cognitiveComplexity;
+
+            $measuredNestingLevel = $tokens[$i]['level'] - $functionNestingLevel;
+            if ($inTryConstruction) {
+                --$measuredNestingLevel;
+            }
+
+            // increase for nesting level higher than 1 the function
+            if ($measuredNestingLevel > 1 && $previousMeasuredNestingLevel < $measuredNestingLevel) {
+                // only going deeper, not on the same levle
+                ++$cognitiveComplexity;
+            }
+
+            $previousMeasuredNestingLevel = $measuredNestingLevel;
         }
 
-        dump($complexity);
-        if ($complexity <= $this->maxComplexity) {
+        if ($cognitiveComplexity <= $this->maxComplexity) {
             return;
         }
 
         $file->addError(
-            sprintf('Cyclomatic complexity of %d have to be less than %d.', $complexity, $this->maxComplexity),
+            sprintf('Cognitive complexity %d have to be less than %d.', $cognitiveComplexity, $this->maxComplexity),
             $position,
             self::class
         );
