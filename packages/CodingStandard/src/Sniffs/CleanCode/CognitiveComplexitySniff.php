@@ -59,14 +59,36 @@ final class CognitiveComplexitySniff implements Sniff
         $functionStartPosition = $tokens[$position]['scope_opener'];
         $functionEndPosition = $tokens[$position]['scope_closer'];
 
+
+        $functionNestingLevel = $tokens[$position]['level'];
+
         $complexity = 0;
+
+        $inTryConstruction = false;
+
         for ($i = $functionStartPosition + 1; $i < $functionEndPosition; ++$i) {
+            $currentToken = $tokens[$i];
+
+            // code entered "try { }"
+            if ($currentToken['code'] === T_TRY) {
+                $inTryConstruction = true;
+            }
+
+            // code left "try { }"
+            if ($inTryConstruction && $currentToken['code'] === T_CATCH) {
+                $inTryConstruction = false;
+            }
+
             if (in_array($tokens[$i]['code'], $this->increasingTokens, true)) {
                 ++$complexity;
 
+                $measuredNestingLevel = $functionNestingLevel - $tokens[$i]['level'];
+                if ($inTryConstruction) {
+                    --$measuredNestingLevel;
+                }
+
                 // increase for nesting level higher than 1 the function
-                if ($tokens[$i]['level'] > 2) {
-                    // @todo: if in T_TRY, decrease for one
+                if ($measuredNestingLevel > 1) {
                     ++$complexity;
                 }
             }
