@@ -25,6 +25,22 @@ use PHP_CodeSniffer\Sniffs\Sniff;
  */
 final class CognitiveComplexitySniff implements Sniff
 {
+    private $functionNestingLevel;
+    /**
+     * @var int
+     */
+    private $previousMeasuredNestingLevel = 0;
+
+    /**
+     * @var int
+     */
+    private $cognitiveComplexity = 0;
+
+    /**
+     * @var bool
+     */
+    private $isInTryConstruction = false;
+
     /**
      * @var int[]|string[]
      */
@@ -53,7 +69,7 @@ final class CognitiveComplexitySniff implements Sniff
     /**
      * @var int
      */
-    public $maxComplexity = 8;
+    public $maxCognitiveComplexity = 15;
 
     /**
      * @return int[]
@@ -78,51 +94,49 @@ final class CognitiveComplexitySniff implements Sniff
         $functionStartPosition = $tokens[$position]['scope_opener'];
         $functionEndPosition = $tokens[$position]['scope_closer'];
 
-        $functionNestingLevel = $tokens[$position]['level'];
-
-        $cognitiveComplexity = 0;
-        $inTryConstruction = false;
-        $previousMeasuredNestingLevel = 0;
+        $this->functionNestingLevel = $tokens[$position]['level'];
+        $this->isInTryConstruction = false;
+        $this->cognitiveComplexity = 0;
 
         for ($i = $functionStartPosition + 1; $i < $functionEndPosition; ++$i) {
             $currentToken = $tokens[$i];
 
             // code entered "try { }"
             if ($currentToken['code'] === T_TRY) {
-                $inTryConstruction = true;
+                $this->isInTryConstruction = true;
             }
 
             // code left "try { }"
-            if ($inTryConstruction && $currentToken['code'] === T_CATCH) {
-                $inTryConstruction = false;
+            if ($this->isInTryConstruction && $currentToken['code'] === T_CATCH) {
+                $this->isInTryConstruction = false;
             }
 
             if (! in_array($tokens[$i]['code'], $this->increasingTokens, true)) {
                 continue;
             }
 
-            ++$cognitiveComplexity;
+            ++$this->cognitiveComplexity;
 
-            $measuredNestingLevel = $tokens[$i]['level'] - $functionNestingLevel;
-            if ($inTryConstruction) {
+            $measuredNestingLevel = $tokens[$i]['level'] - $this->functionNestingLevel;
+            if ($this->isInTryConstruction) {
                 --$measuredNestingLevel;
             }
 
             // increase for nesting level higher than 1 the function
-            if ($measuredNestingLevel > 1 && $previousMeasuredNestingLevel < $measuredNestingLevel) {
-                // only going deeper, not on the same levle
-                ++$cognitiveComplexity;
+            if ($measuredNestingLevel > 1 && $this->previousMeasuredNestingLevel < $measuredNestingLevel) {
+                // only going deeper, not on the same level
+                ++$this->cognitiveComplexity;
             }
 
-            $previousMeasuredNestingLevel = $measuredNestingLevel;
+            $this->previousMeasuredNestingLevel = $measuredNestingLevel;
         }
 
-        if ($cognitiveComplexity <= $this->maxComplexity) {
+        if ($this->cognitiveComplexity <= $this->maxCognitiveComplexity) {
             return;
         }
 
         $file->addError(
-            sprintf('Cognitive complexity %d have to be less than %d.', $cognitiveComplexity, $this->maxComplexity),
+            sprintf('Cognitive complexity %d have to be less than %d.', $this->cognitiveComplexity, $this->maxCognitiveComplexity),
             $position,
             self::class
         );
