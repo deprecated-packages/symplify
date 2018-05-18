@@ -36,11 +36,6 @@ final class CognitiveComplexitySniff implements Sniff
     private $previousMeasuredNestingLevel = 0;
 
     /**
-     * @var int
-     */
-    private $cognitiveComplexity = 0;
-
-    /**
      * @var bool
      */
     private $isInTryConstruction = false;
@@ -94,47 +89,15 @@ final class CognitiveComplexitySniff implements Sniff
             return;
         }
 
-        // Detect start and end of this function definition
-        $functionStartPosition = $tokens[$position]['scope_opener'];
-        $functionEndPosition = $tokens[$position]['scope_closer'];
-
-        $this->functionNestingLevel = $tokens[$position]['level'];
-        $this->isInTryConstruction = false;
-        $this->cognitiveComplexity = 0;
-
-        for ($i = $functionStartPosition + 1; $i < $functionEndPosition; ++$i) {
-            $currentToken = $tokens[$i];
-
-            $this->resolveTryControlStructure($currentToken);
-
-            if (! in_array($tokens[$i]['code'], $this->increasingTokens, true)) {
-                continue;
-            }
-
-            ++$this->cognitiveComplexity;
-
-            $measuredNestingLevel = $tokens[$i]['level'] - $this->functionNestingLevel;
-            if ($this->isInTryConstruction) {
-                --$measuredNestingLevel;
-            }
-
-            // increase for nesting level higher than 1 the function
-            if ($measuredNestingLevel > 1 && $this->previousMeasuredNestingLevel < $measuredNestingLevel) {
-                // only going deeper, not on the same level
-                ++$this->cognitiveComplexity;
-            }
-
-            $this->previousMeasuredNestingLevel = $measuredNestingLevel;
-        }
-
-        if ($this->cognitiveComplexity <= $this->maxCognitiveComplexity) {
+        $cognitiveComplexity = $this->computeCognitiveComplexityForFunctionFromTokensAndPosition($tokens, $position);
+        if ($cognitiveComplexity <= $this->maxCognitiveComplexity) {
             return;
         }
 
         $file->addError(
             sprintf(
                 'Cognitive complexity %d have to be less than %d.',
-                $this->cognitiveComplexity,
+                $cognitiveComplexity,
                 $this->maxCognitiveComplexity
             ),
             $position,
@@ -157,5 +120,46 @@ final class CognitiveComplexitySniff implements Sniff
         if ($this->isInTryConstruction && $token['code'] === T_CATCH) {
             $this->isInTryConstruction = false;
         }
+    }
+
+    /**
+     * @param mixed[] $tokens
+     */
+    private function computeCognitiveComplexityForFunctionFromTokensAndPosition(array $tokens, int $position): int
+    {
+        // Detect start and end of this function definition
+        $functionStartPosition = $tokens[$position]['scope_opener'];
+        $functionEndPosition = $tokens[$position]['scope_closer'];
+
+        $this->functionNestingLevel = $tokens[$position]['level'];
+        $this->isInTryConstruction = false;
+        $cognitiveComplexity = 0;
+
+        for ($i = $functionStartPosition + 1; $i < $functionEndPosition; ++$i) {
+            $currentToken = $tokens[$i];
+
+            $this->resolveTryControlStructure($currentToken);
+
+            if (! in_array($tokens[$i]['code'], $this->increasingTokens, true)) {
+                continue;
+            }
+
+            ++$cognitiveComplexity;
+
+            $measuredNestingLevel = $tokens[$i]['level'] - $this->functionNestingLevel;
+            if ($this->isInTryConstruction) {
+                --$measuredNestingLevel;
+            }
+
+            // increase for nesting level higher than 1 the function
+            if ($measuredNestingLevel > 1 && $this->previousMeasuredNestingLevel < $measuredNestingLevel) {
+                // only going deeper, not on the same level
+                ++$cognitiveComplexity;
+            }
+
+            $this->previousMeasuredNestingLevel = $measuredNestingLevel;
+        }
+
+        return $cognitiveComplexity;
     }
 }
