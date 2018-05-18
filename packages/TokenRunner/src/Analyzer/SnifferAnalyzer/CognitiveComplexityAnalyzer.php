@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\TokenRunner\Analyzer\SnifferAnalyzer\CognitiveComplexity;
+namespace Symplify\TokenRunner\Analyzer\SnifferAnalyzer;
 
 /**
  * Inspired by https://www.sonarsource.com/docs/CognitiveComplexity.pdf
