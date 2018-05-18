@@ -38,10 +38,6 @@ final class CognitiveComplexitySniff implements Sniff
     {
         $tokens = $file->getTokens();
 
-        if (! isset($tokens[$position]['scope_opener'])) {
-            return;
-        }
-
         $cognitiveComplexity = $this->cognitiveComplexityAnalyzer->computeForFunctionFromTokensAndPosition(
             $tokens,
             $position

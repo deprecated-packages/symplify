@@ -119,5 +119,4 @@ final class CognitiveComplexityAnalyzer
             $this->isInTryConstruction = false;
         }
     }
-
 }
