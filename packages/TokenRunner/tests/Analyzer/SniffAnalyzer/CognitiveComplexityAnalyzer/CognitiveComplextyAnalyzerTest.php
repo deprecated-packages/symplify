@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\TokenRunner\Tests\DocBlock;
+namespace Symplify\TokenRunner\Tests\Analyzer\SniffAnalyzer\CognitiveComplexityAnalyzer;
 
 use Iterator;
 use PHP_CodeSniffer\Config;
