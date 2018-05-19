@@ -292,11 +292,10 @@ final class ImportNamespacedNameFixer implements DefinedFixerInterface, Configur
     }
 
     /**
-     * @param PhpDocTagValueNode[] $tagValues
+     * @param ParamTagValueNode[]|ReturnTagValueNode[]|VarTagValueNode[] $tagValues
      */
     private function processPhpDocTagValueNode(array $tagValues, Tokens $tokens): void
     {
-        /** @var ParamTagValueNode|ReturnTagValueNode|VarTagValueNode $tagValue */
         foreach ($tagValues as $tagValue) {
             $this->traverseTypeNode($tagValue->type, $tokens);
         }
