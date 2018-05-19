@@ -13,4 +13,4 @@ function someFunction($var)
     }
 }
 
-// should be total of 9
+// Cognitive Complexity 9

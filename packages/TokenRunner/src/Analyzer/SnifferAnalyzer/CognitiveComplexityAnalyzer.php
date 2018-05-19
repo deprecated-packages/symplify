@@ -41,6 +41,12 @@ final class CognitiveComplexityAnalyzer
      * @var int[]|string[]
      */
     private $increasingTokens = [
+        // B1. Increments
+        // B2. Nesting level
+        // B3. Nesting increments
+        // @todo use groups from paper
+
+
         T_SWITCH,
         T_CATCH,
 
@@ -53,7 +59,9 @@ final class CognitiveComplexityAnalyzer
         T_BITWISE_AND,
         T_BITWISE_OR,
         T_BITWISE_XOR,
-        T_CONTINUE,
+//        T_CONTINUE,
+
+        T_MODULUS, // %
 
         T_IS_EQUAL, // ==
         T_IS_NOT_EQUAL, // !=
