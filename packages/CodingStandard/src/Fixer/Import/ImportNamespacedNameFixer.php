@@ -148,10 +148,6 @@ final class ImportNamespacedNameFixer implements DefinedFixerInterface, Configur
             }
 
             if ($token->isGivenKind(T_DOC_COMMENT)) {
-                if (! $this->configuration[self::INCLUDE_DOC_BLOCKS_OPTION]) {
-                    continue;
-                }
-
                 $this->processDocCommentToken($index, $tokens);
                 continue;
             }
@@ -274,6 +270,10 @@ final class ImportNamespacedNameFixer implements DefinedFixerInterface, Configur
 
     private function processDocCommentToken(int $index, Tokens $tokens): void
     {
+        if (! $this->configuration[self::INCLUDE_DOC_BLOCKS_OPTION]) {
+            return;
+        }
+
         $phpDocInfo = $this->phpDocInfoFactory->createFrom($tokens[$index]->getContent());
         $phpDocNode = $phpDocInfo->getPhpDocNode();
 

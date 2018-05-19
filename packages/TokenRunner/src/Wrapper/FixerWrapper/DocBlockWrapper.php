@@ -160,17 +160,9 @@ final class DocBlockWrapper
         }
 
         if ($typeNode instanceof IdentifierTypeNode) {
-            if ($typeNode->name === 'array') {
-                return true;
-            }
-
-            return false;
+            return $typeNode->name === 'array';
         }
 
-        if ($typeNode instanceof ArrayTypeNode) {
-            return true;
-        }
-
-        return false;
+        return $typeNode instanceof ArrayTypeNode;
     }
 }
