@@ -18,7 +18,10 @@ use PHPStan\PhpDocParser\Ast\PhpDoc\ParamTagValueNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTagValueNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\ReturnTagValueNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\VarTagValueNode;
+use PHPStan\PhpDocParser\Ast\Type\ArrayTypeNode;
 use PHPStan\PhpDocParser\Ast\Type\IdentifierTypeNode;
+use PHPStan\PhpDocParser\Ast\Type\TypeNode;
+use PHPStan\PhpDocParser\Ast\Type\UnionTypeNode;
 use SplFileInfo;
 use Symplify\BetterPhpDocParser\PhpDocInfo\PhpDocInfoFactory;
 use Symplify\BetterPhpDocParser\Printer\PhpDocInfoPrinter;
@@ -293,40 +296,10 @@ final class ImportNamespacedNameFixer implements DefinedFixerInterface, Configur
      */
     private function processPhpDocTagValueNode(array $tagValues, Tokens $tokens): void
     {
-        if (! $tagValues) {
-            return;
-        }
-
+        /** @var ParamTagValueNode|ReturnTagValueNode|VarTagValueNode $tagValue */
         foreach ($tagValues as $tagValue) {
-            $fullName = $this->shortenNameAndReturnFullNameNew($tagValue);
-            if (! $fullName) {
-                continue;
-            }
-
-            $this->newUseStatementNames[] = $this->nameFactory->createFromStringAndTokens($fullName, $tokens);
+            $this->traverseTypeNode($tagValue->type, $tokens);
         }
-    }
-
-    /**
-     * @param ParamTagValueNode|ReturnTagValueNode|VarTagValueNode $phpDocTagValueNode
-     */
-    private function shortenNameAndReturnFullNameNew(PhpDocTagValueNode $phpDocTagValueNode): ?string
-    {
-        if (! $phpDocTagValueNode->type instanceof IdentifierTypeNode) {
-            return null;
-        }
-
-        $usedName = $phpDocTagValueNode->type->name;
-        $nameParts = explode('\\', $phpDocTagValueNode->type->name);
-        $lastName = array_pop($nameParts);
-
-        if ($lastName === ltrim($phpDocTagValueNode->type->name, '\\')) {
-            return null;
-        }
-
-        $phpDocTagValueNode->type->name = $lastName;
-
-        return $usedName;
     }
 
     private function shouldBeUniquated(Name $newUseStatementName, Name $name): bool
@@ -340,5 +313,39 @@ final class ImportNamespacedNameFixer implements DefinedFixerInterface, Configur
         }
 
         return true;
+    }
+
+    private function traverseTypeNode(TypeNode $typeNode, Tokens $tokens): TypeNode
+    {
+        if ($typeNode instanceof ArrayTypeNode) {
+            $typeNode->type = $this->traverseTypeNode($typeNode->type, $tokens);
+        }
+
+        if ($typeNode instanceof UnionTypeNode) {
+            foreach ($typeNode->types as $key => $subTypeNode) {
+                $typeNode->types[$key] = $this->traverseTypeNode($subTypeNode, $tokens);
+            }
+        }
+
+        if ($typeNode instanceof IdentifierTypeNode) {
+            $this->processIdentifierTypeNode($typeNode, $tokens);
+        }
+
+        return $typeNode;
+    }
+
+    private function processIdentifierTypeNode(IdentifierTypeNode $identifierTypeNode, Tokens $tokens): void
+    {
+        $usedName = $identifierTypeNode->name;
+        $nameParts = explode('\\', $identifierTypeNode->name);
+        $lastName = array_pop($nameParts);
+
+        if ($lastName === ltrim($identifierTypeNode->name, '\\')) {
+            return;
+        }
+
+        $identifierTypeNode->name = $lastName;
+
+        $this->newUseStatementNames[] = $this->nameFactory->createFromStringAndTokens($usedName, $tokens);
     }
 }

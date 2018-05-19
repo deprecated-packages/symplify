@@ -39,7 +39,7 @@ parameters:
 
         # buggy
         - '#Symplify\\EasyCodingStandard\\Contract\\Application\\DualRunInterface#'
-        - '#Parameter \#1 \$phpDocTagValueNode of method Symplify\\CodingStandard\\Fixer\\Import\\ImportNamespacedNameFixer::shortenNameAndReturnFullNameNew\(\) expects PHPStan\\PhpDocParser\\Ast\\PhpDoc\\ParamTagValueNode\|PHPStan\\PhpDocParser\\Ast\\PhpDoc\\ReturnTagValueNode\|PHPStan\\PhpDocParser\\Ast\\PhpDoc\\VarTagValueNode, PHPStan\\PhpDocParser\\Ast\\PhpDoc\\PhpDocTagValueNode given#'
+        - '#Parameter \#1 \$phpDocTagValueNode of method Symplify\\CodingStandard\\Fixer\\Import\\ImportNamespacedNameFixer::shortenNameAndAddUseStatment\(\) expects PHPStan\\PhpDocParser\\Ast\\PhpDoc\\ParamTagValueNode\|PHPStan\\PhpDocParser\\Ast\\PhpDoc\\ReturnTagValueNode\|PHPStan\\PhpDocParser\\Ast\\PhpDoc\\VarTagValueNode, PHPStan\\PhpDocParser\\Ast\\PhpDoc\\PhpDocTagValueNode given#'
 
         # object
         - '#does not accept object#'
