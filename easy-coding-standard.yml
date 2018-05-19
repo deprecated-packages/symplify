@@ -10,12 +10,6 @@ services:
     # class should be Abstact or Final
     SlamCsFixer\FinalInternalClassFixer: ~
 
-    # code complexity
-    PHP_CodeSniffer\Standards\Generic\Sniffs\Metrics\CyclomaticComplexitySniff:
-        absoluteComplexity: 8
-    PHP_CodeSniffer\Standards\Generic\Sniffs\Metrics\NestingLevelSniff:
-        absoluteNestingLevel: 3
-
     Symplify\CodingStandard\Sniffs\DependencyInjection\NoClassInstantiationSniff:
         extraAllowedClasses:
             - 'Symplify\EasyCodingStandard\Error\Error'
@@ -79,10 +73,6 @@ parameters:
             - 'packages/PackageBuilder/src/Configuration/ConfigFileFinder.php'
             - 'packages/PackageBuilder/src/Composer/VendorDirProvider.php'
             - 'packages/PackageBuilder/src/Composer/AutoloadFinder.php'
-
-        PHP_CodeSniffer\Standards\Generic\Sniffs\Metrics\NestingLevelSniff.MaxExceeded:
-            # 3rd party code copy-pasted; kept as is for easier comparison to original
-            - 'packages/PackageBuilder/src/Yaml/ParametersMerger.php'
 
         Symplify\CodingStandard\Sniffs\CleanCode\CognitiveComplexitySniff:
             # 3rd party code copy-pasted; kept as is for easier comparison to original
