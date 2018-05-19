@@ -65,6 +65,11 @@ final class CognitiveComplexityAnalyzer
      */
     public function computeForFunctionFromTokensAndPosition(array $tokens, int $position): int
     {
+        // function without body, e.g. in interface
+        if (! isset($tokens[$position]['scope_opener'])) {
+            return 0;
+        }
+
         // Detect start and end of this function definition
         $functionStartPosition = $tokens[$position]['scope_opener'];
         $functionEndPosition = $tokens[$position]['scope_closer'];
