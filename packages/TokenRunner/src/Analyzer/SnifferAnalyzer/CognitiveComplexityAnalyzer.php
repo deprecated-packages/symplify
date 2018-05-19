@@ -46,28 +46,18 @@ final class CognitiveComplexityAnalyzer
         // B3. Nesting increments
         // @todo use groups from paper
 
-
         T_SWITCH,
         T_CATCH,
 
         T_IF,
+        T_ELSEIF,
         T_FOR,
         T_FOREACH,
         T_WHILE,
         T_DO,
 
-        T_BITWISE_AND,
-        T_BITWISE_OR,
-        T_BITWISE_XOR,
-//        T_CONTINUE,
-
-        T_MODULUS, // %
-
-        T_IS_EQUAL, // ==
-        T_IS_NOT_EQUAL, // !=
-        T_IS_GREATER_OR_EQUAL, // >=
-        T_IS_IDENTICAL, // ===
-        T_IS_NOT_IDENTICAL, // !==
+        T_BOOLEAN_AND, // &&
+        T_CONTINUE,
     ];
 
     /**
@@ -88,21 +78,26 @@ final class CognitiveComplexityAnalyzer
 
             $this->resolveTryControlStructure($currentToken);
 
-            if (! in_array($tokens[$i]['code'], $this->increasingTokens, true)) {
+            if (! in_array($currentToken['code'], $this->increasingTokens, true)) {
                 continue;
             }
 
             ++$cognitiveComplexity;
 
-            $measuredNestingLevel = $tokens[$i]['level'] - $this->functionNestingLevel;
+            $measuredNestingLevel = $currentToken['level'] - $this->functionNestingLevel;
             if ($this->isInTryConstruction) {
                 --$measuredNestingLevel;
             }
 
             // increase for nesting level higher than 1 the function
+            if ($currentToken['code'] === T_CONTINUE) {
+                $this->previousMeasuredNestingLevel = $measuredNestingLevel;
+                continue;
+            }
+
             if ($measuredNestingLevel > 1 && $this->previousMeasuredNestingLevel < $measuredNestingLevel) {
                 // only going deeper, not on the same level
-                ++$cognitiveComplexity;
+                $cognitiveComplexity += $measuredNestingLevel - 1;
             }
 
             $this->previousMeasuredNestingLevel = $measuredNestingLevel;

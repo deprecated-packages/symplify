@@ -14,7 +14,7 @@ function overriddenSymbolFrom(ClassJavaType $classType) {
             && !$overrideSymbol->isStatic()) { // +1
 
             if (canOverride($methodJavaSymbol)) { // +3 (nesting = 2)
-                $overriding = checkOverridingParameters(methodJavaSymbol, classType);
+                $overriding = checkOverridingParameters($methodJavaSymbol, $classType);
 
                 if ($overriding === null) { // +4 (nesting = 3)
                     if (!$unknownFound) { // +5 (nesting = 4)
@@ -34,7 +34,4 @@ function overriddenSymbolFrom(ClassJavaType $classType) {
  	return null;
 }
 
-// total complexity = 19
-
-
-// Cognitive Complexity 2
+// Cognitive Complexity 19

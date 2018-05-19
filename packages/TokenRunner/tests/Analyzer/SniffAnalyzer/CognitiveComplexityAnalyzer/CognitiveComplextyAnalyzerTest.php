@@ -48,11 +48,11 @@ final class CognitiveComplextyAnalyzerTest extends TestCase
      */
     public function provideTokensAndExpectedCognitiveComplexity(): Iterator
     {
-//        yield [file_get_contents(__DIR__ . '/Source/function.php.inc'), 9];
-//        yield [file_get_contents(__DIR__ . '/Source/function2.php.inc'), 7];
-//        yield [file_get_contents(__DIR__ . '/Source/function3.php.inc'), 1];
-//        yield [file_get_contents(__DIR__ . '/Source/function4.php.inc'), 2];
-        yield [file_get_contents(__DIR__ . '/Source/function5.php.inc'), 2];
+        yield [file_get_contents(__DIR__ . '/Source/function.php.inc'), 9];
+        yield [file_get_contents(__DIR__ . '/Source/function2.php.inc'), 7];
+        yield [file_get_contents(__DIR__ . '/Source/function3.php.inc'), 1];
+        yield [file_get_contents(__DIR__ . '/Source/function4.php.inc'), 2];
+        yield [file_get_contents(__DIR__ . '/Source/function5.php.inc'), 19];
     }
 
     /**
