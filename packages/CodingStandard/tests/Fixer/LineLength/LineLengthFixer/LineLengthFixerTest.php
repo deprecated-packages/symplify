@@ -30,6 +30,7 @@ final class LineLengthFixerTest extends AbstractCheckerTestCase
         yield [__DIR__ . '/correct/correct8.php.inc'];
         yield [__DIR__ . '/correct/correct9.php.inc'];
         yield [__DIR__ . '/correct/correct10.php.inc'];
+        yield [__DIR__ . '/correct/correct11.php.inc'];
     }
 
     /**

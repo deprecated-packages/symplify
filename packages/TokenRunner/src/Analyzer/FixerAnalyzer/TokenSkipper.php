@@ -22,11 +22,21 @@ final class TokenSkipper
         $token = $tokens[$position];
 
         if ($token->getContent() === '{') {
-            return $this->blockFinder->findInTokensByEdge($tokens, $position)->getEnd();
+            $blockInfo = $this->blockFinder->findInTokensByEdge($tokens, $position);
+            if ($blockInfo === null) {
+                return $position;
+            }
+
+            return $blockInfo->getEnd();
         }
 
         if ($token->isGivenKind([CT::T_ARRAY_SQUARE_BRACE_OPEN, T_ARRAY])) {
-            return $this->blockFinder->findInTokensByEdge($tokens, $position)->getEnd();
+            $blockInfo = $this->blockFinder->findInTokensByEdge($tokens, $position);
+            if ($blockInfo === null) {
+                return $position;
+            }
+
+            return $blockInfo->getEnd();
         }
 
         return $position;
