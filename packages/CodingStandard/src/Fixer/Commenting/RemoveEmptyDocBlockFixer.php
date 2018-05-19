@@ -48,16 +48,7 @@ final class RemoveEmptyDocBlockFixer extends AbstractFixer
     protected function applyFix(SplFileInfo $file, Tokens $tokens): void
     {
         for ($index = count($tokens); $index > 0; --$index) {
-            if (! isset($tokens[$index])) {
-                continue;
-            }
-
-            $token = $tokens[$index];
-            if (! $token->isGivenKind(T_DOC_COMMENT)) {
-                continue;
-            }
-
-            if (! preg_match('#^/\*\*[\s\*]*\*/$#', $token->getContent())) {
+            if ($this->shouldSkip($tokens, $index)) {
                 continue;
             }
 
@@ -76,5 +67,19 @@ final class RemoveEmptyDocBlockFixer extends AbstractFixer
                 }
             }
         }
+    }
+
+    private function shouldSkip(Tokens $tokens, int $index): bool
+    {
+        if (! isset($tokens[$index])) {
+            return true;
+        }
+
+        $token = $tokens[$index];
+        if (! $token->isGivenKind(T_DOC_COMMENT)) {
+            return true;
+        }
+
+        return (bool) ! preg_match('#^/\*\*[\s\*]*\*/$#', $token->getContent());
     }
 }
