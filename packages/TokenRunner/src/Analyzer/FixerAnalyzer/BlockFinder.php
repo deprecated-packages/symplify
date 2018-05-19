@@ -6,6 +6,7 @@ use PhpCsFixer\Tokenizer\CT;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use Symplify\TokenRunner\Exception\MissingImplementationException;
+use Throwable;
 
 final class BlockFinder
 {
@@ -60,7 +61,7 @@ final class BlockFinder
                 $blockEnd = $position;
                 $blockStart = $tokens->findBlockStart($blockType, $blockEnd);
             }
-        } catch (\Throwable $throwable) {
+        } catch (Throwable $throwable) {
             return null;
         }
 
