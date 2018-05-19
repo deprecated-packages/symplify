@@ -11,7 +11,7 @@ final class CognitiveComplexitySniff implements Sniff
     /**
      * @var int
      */
-    public $maxCognitiveComplexity = 15;
+    public $maxCognitiveComplexity = 12;
 
     /**
      * @var CognitiveComplexityAnalyzer

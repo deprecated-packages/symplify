@@ -84,6 +84,10 @@ parameters:
             # 3rd party code copy-pasted; kept as is for easier comparison to original
             - 'packages/PackageBuilder/src/Yaml/ParametersMerger.php'
 
+        Symplify\CodingStandard\Sniffs\CleanCode\CognitiveComplexitySniff:
+            # 3rd party code copy-pasted; kept as is for easier comparison to original
+            - 'packages/PackageBuilder/src/Yaml/ParametersMerger.php'
+
         PHP_CodeSniffer\Standards\Generic\Sniffs\CodeAnalysis\AssignmentInConditionSniff.Found:
             # while assign
             - 'packages/CodingStandard/src/Sniffs/ControlStructure/SprintfOverContactSniff.php'
