@@ -80,6 +80,6 @@ final class RemoveEmptyDocBlockFixer extends AbstractFixer
             return true;
         }
 
-        return (bool) ! preg_match('#^/\*\*[\s\*]*\*/$#', $token->getContent());
+        return ! preg_match('#^/\*\*[\s\*]*\*/$#', $token->getContent());
     }
 }

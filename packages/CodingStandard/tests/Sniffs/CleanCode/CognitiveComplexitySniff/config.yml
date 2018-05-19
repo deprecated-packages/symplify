@@ -1,3 +1,2 @@
 services:
-    Symplify\CodingStandard\Sniffs\CleanCode\CognitiveComplexitySniff:
-        maxCognitiveComplexity: 8
+    Symplify\CodingStandard\Sniffs\CleanCode\CognitiveComplexitySniff: ~
