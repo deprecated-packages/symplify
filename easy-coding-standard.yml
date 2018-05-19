@@ -87,6 +87,12 @@ parameters:
         Symplify\CodingStandard\Sniffs\CleanCode\CognitiveComplexitySniff:
             # 3rd party code copy-pasted; kept as is for easier comparison to original
             - 'packages/PackageBuilder/src/Yaml/ParametersMerger.php'
+            # todo: resolve later
+            - 'packages/BetterPhpDocParser/src/Printer/PhpDocInfoPrinter.php'
+            - 'packages/CodingStandard/src/Sniffs/DeadCode/UnusedPublicMethodSniff.php'
+            - 'packages/EasyCodingStandard/src/Yaml/CheckerServiceParametersShifter.php'
+            - 'packages/TokenRunner/src/DocBlock/DescriptionAnalyzer.php'
+            - 'packages/TokenRunner/src/Naming/Name/NameAnalyzer.php'
 
         PHP_CodeSniffer\Standards\Generic\Sniffs\CodeAnalysis\AssignmentInConditionSniff.Found:
             # while assign
