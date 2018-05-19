@@ -15,7 +15,6 @@ use PhpCsFixer\Tokenizer\Analyzer\NamespaceUsesAnalyzer;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use PHPStan\PhpDocParser\Ast\PhpDoc\ParamTagValueNode;
-use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTagValueNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\ReturnTagValueNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\VarTagValueNode;
 use PHPStan\PhpDocParser\Ast\Type\ArrayTypeNode;
@@ -343,8 +342,11 @@ final class ImportNamespacedNameFixer implements DefinedFixerInterface, Configur
             return;
         }
 
-        $identifierTypeNode->name = $lastName;
+        $name = $this->nameFactory->createFromStringAndTokens($usedName, $tokens);
+        $this->uniquateLastPart($name);
 
-        $this->newUseStatementNames[] = $this->nameFactory->createFromStringAndTokens($usedName, $tokens);
+        $identifierTypeNode->name = $name->getLastName();
+
+        $this->newUseStatementNames[] = $name;
     }
 }

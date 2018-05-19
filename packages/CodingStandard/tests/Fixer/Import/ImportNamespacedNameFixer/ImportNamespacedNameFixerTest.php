@@ -51,6 +51,7 @@ final class ImportNamespacedNameFixerTest extends AbstractCheckerTestCase
         yield [__DIR__ . '/wrong/wrong14.php.inc', __DIR__ . '/fixed/fixed14.php.inc'];
         yield [__DIR__ . '/wrong/wrong16.php.inc', __DIR__ . '/fixed/fixed16.php.inc'];
         yield [__DIR__ . '/wrong/wrong17.php.inc', __DIR__ . '/fixed/fixed17.php.inc'];
+        yield [__DIR__ . '/wrong/wrong18.php.inc', __DIR__ . '/fixed/fixed18.php.inc'];
     }
 
     protected function provideConfig(): string
