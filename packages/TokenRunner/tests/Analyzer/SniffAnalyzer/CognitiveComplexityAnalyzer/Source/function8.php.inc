@@ -5,7 +5,7 @@ function sumOfPrimes(int $max): int {
     for ($i = 1; $i <= $max; ++$i) { // +1
         for ($j = 2; $j < $i; ++$j) { // +2
             if ($i % $j == 0) { // +3
-                continue;
+                continue 2; // +1
             }
         }
         $total += $i;
@@ -14,4 +14,4 @@ function sumOfPrimes(int $max): int {
     return $total;
 }
 
-// Cognitive Complexity 6
+// Cognitive Complexity 7
