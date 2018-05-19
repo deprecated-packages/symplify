@@ -6,6 +6,7 @@ use PhpCsFixer\Tokenizer\CT;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use Symplify\TokenRunner\Exception\MissingImplementationException;
+use Throwable;
 
 final class BlockFinder
 {
@@ -52,12 +53,16 @@ final class BlockFinder
 
         $blockType = $this->getBlockTypeByToken($token);
 
-        if (in_array($token->getContent(), $this->startEdges, true)) {
-            $blockStart = $position;
-            $blockEnd = $tokens->findBlockEnd($blockType, $blockStart);
-        } else {
-            $blockEnd = $position;
-            $blockStart = $tokens->findBlockStart($blockType, $blockEnd);
+        try {
+            if (in_array($token->getContent(), $this->startEdges, true)) {
+                $blockStart = $position;
+                $blockEnd = $tokens->findBlockEnd($blockType, $blockStart);
+            } else {
+                $blockEnd = $position;
+                $blockStart = $tokens->findBlockStart($blockType, $blockEnd);
+            }
+        } catch (Throwable $throwable) {
+            return null;
         }
 
         return new BlockInfo($blockStart, $blockEnd);
