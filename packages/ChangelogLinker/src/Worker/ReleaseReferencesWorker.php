@@ -5,6 +5,7 @@ namespace Symplify\ChangelogLinker\Worker;
 use Nette\Utils\DateTime;
 use Nette\Utils\Strings;
 use Symplify\ChangelogLinker\Contract\Worker\WorkerInterface;
+use Symplify\ChangelogLinker\Regex\RegexPattern;
 
 final class ReleaseReferencesWorker implements WorkerInterface
 {
@@ -28,7 +29,13 @@ final class ReleaseReferencesWorker implements WorkerInterface
             return $content;
         }
 
-        // @todo, maybe this release is still WIP, so check if $lastTag already exists in the Content
+        $lastTagInContentMatch = Strings::match($content, '#\#\# \[' . RegexPattern::VERSION . '\]#');
+        if ($lastTagInContentMatch) {
+            // current tag version was already published
+            if (version_compare($lastTag, $lastTagInContentMatch['version']) === -1) {
+                return $content;
+            }
+        }
 
         // get tagged version date
         $lastTagDate = exec('git log -1 --format=%ai ' . $lastTag);

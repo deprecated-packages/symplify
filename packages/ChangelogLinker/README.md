@@ -110,9 +110,7 @@ Credit is much more valuable with link to follow
 [@SpacePossum]: https://github.com/SpacePossum
 ```
 
-
 ### 5. Turn "Unreleased" to The Last Release
-
 
 :x:
 
@@ -131,5 +129,5 @@ Credit is much more valuable with link to follow
 
 ### Added
 
-... 
+...
 ```
