@@ -112,12 +112,12 @@ Credit is much more valuable with link to follow
 
 ### 5. Turn "Unreleased" to The Last Release
 
+Includes the version and the date. Executes on every new tag, that is not already added in `CHANGELOG.md`.
+
 :x:
 
 ```markdown
 ## Unreleased
-
-Includes the version and the date. Executes on every new tag, that is not already added in `CHANGELOG.md`.
 
 ### Added
 
