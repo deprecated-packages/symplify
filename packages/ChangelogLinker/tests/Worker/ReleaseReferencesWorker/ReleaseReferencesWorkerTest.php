@@ -1,13 +1,13 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\ChangelogLinker\Tests\Worker\DiffLinksToVersionsWorker;
+namespace Symplify\ChangelogLinker\Tests\Worker\ReleaseReferencesWorker;
 
 use Iterator;
 use PHPUnit\Framework\TestCase;
 use Symplify\ChangelogLinker\ChangelogApplication;
-use Symplify\ChangelogLinker\Worker\DiffLinksToVersionsWorker;
+use Symplify\ChangelogLinker\Worker\ReleaseReferencesWorker;
 
-final class DiffLinksToVersionsWorkerTest extends TestCase
+final class ReleaseReferencesWorkerTest extends TestCase
 {
     /**
      * @var ChangelogApplication
@@ -17,7 +17,7 @@ final class DiffLinksToVersionsWorkerTest extends TestCase
     protected function setUp(): void
     {
         $this->changelogApplication = new ChangelogApplication('https://github.com/Symplify/Symplify');
-        $this->changelogApplication->addWorker(new DiffLinksToVersionsWorker());
+        $this->changelogApplication->addWorker(new ReleaseReferencesWorker());
     }
 
     /**
@@ -25,11 +25,12 @@ final class DiffLinksToVersionsWorkerTest extends TestCase
      */
     public function testProcess(string $originalFile, string $expectedFile): void
     {
-        $this->assertStringEqualsFile($expectedFile, $this->changelogApplication->processFile($originalFile));
+        $this->assertStringMatchesFormatFile($expectedFile, $this->changelogApplication->processFile($originalFile));
     }
 
     public function provideInputAndExpectedOutputFiles(): Iterator
     {
         yield [__DIR__ . '/Source/before/01.md', __DIR__ . '/Source/after/01.md'];
+        yield [__DIR__ . '/Source/before/02.md', __DIR__ . '/Source/after/02.md'];
     }
 }
