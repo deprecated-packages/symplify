@@ -14,7 +14,7 @@ final class ReleaseReferencesWorker implements WorkerInterface
      */
     private const UNRELEASED_PATTERN = '#\#\#\s+Unreleased#';
 
-    public function processContent(string $content, string $repositoryLink): string
+    public function processContent(string $content): string
     {
         $unreleasedMatch = Strings::match($content, self::UNRELEASED_PATTERN);
 

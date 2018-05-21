@@ -18,17 +18,23 @@ final class LinksToReferencesWorker implements WorkerInterface
      */
     private $curl;
 
-    public function __construct()
+    /**
+     * @var string
+     */
+    private $repositoryLink;
+
+    public function __construct(string $repositoryLink)
     {
         $this->curl = $this->createCurl();
+        $this->repositoryLink = $repositoryLink;
     }
 
-    public function processContent(string $content, string $repositoryLink): string
+    public function processContent(string $content): string
     {
         $this->resolveLinkedElements($content);
 
-        $linksToAppend = $this->processPullRequestAndIssueReferences($content, $repositoryLink);
-        $linksToAppend = array_merge($linksToAppend, $this->processCommitReferences($content, $repositoryLink));
+        $linksToAppend = $this->processPullRequestAndIssueReferences($content);
+        $linksToAppend = array_merge($linksToAppend, $this->processCommitReferences($content));
 
         if (! count($linksToAppend)) {
             return $content;
@@ -43,7 +49,7 @@ final class LinksToReferencesWorker implements WorkerInterface
     /**
      * @return string[]
      */
-    private function processPullRequestAndIssueReferences(string $content, string $repositoryLink): array
+    private function processPullRequestAndIssueReferences(string $content): array
     {
         $linksToAppend = [];
 
@@ -54,8 +60,8 @@ final class LinksToReferencesWorker implements WorkerInterface
             }
 
             $possibleUrls = [
-                $repositoryLink . '/pull/' . $match['id'],
-                $repositoryLink . '/issues/' . $match['id'],
+                $this->repositoryLink . '/pull/' . $match['id'],
+                $this->repositoryLink . '/issues/' . $match['id'],
             ];
 
             foreach ($possibleUrls as $possibleUrl) {
@@ -74,13 +80,13 @@ final class LinksToReferencesWorker implements WorkerInterface
     /**
      * @return string[]
      */
-    private function processCommitReferences(string $content, string $repositoryLink): array
+    private function processCommitReferences(string $content): array
     {
         $linksToAppend = [];
 
         $matches = Strings::matchAll($content, '# \[' . RegexPattern::COMMIT . '\] #');
         foreach ($matches as $match) {
-            $markdownLink = sprintf('[%s]: %s/commit/%s', $match['commit'], $repositoryLink, $match['commit']);
+            $markdownLink = sprintf('[%s]: %s/commit/%s', $match['commit'], $this->repositoryLink, $match['commit']);
 
             $linksToAppend[$match['commit']] = $markdownLink;
         }

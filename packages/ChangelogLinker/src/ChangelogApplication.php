@@ -7,20 +7,9 @@ use Symplify\ChangelogLinker\Contract\Worker\WorkerInterface;
 final class ChangelogApplication
 {
     /**
-     * @var string
-     */
-    private $repositoryLink;
-
-    /**
      * @var WorkerInterface[]
      */
     private $workers = [];
-
-    public function __construct(string $repositoryLink)
-    {
-        // @todo automate get repository link from current repo and Github remote
-        $this->repositoryLink = $repositoryLink;
-    }
 
     /**
      * @todo with some order?
@@ -41,7 +30,7 @@ final class ChangelogApplication
         $content = file_get_contents($filePath);
 
         foreach ($this->workers as $worker) {
-            $content = $worker->processContent($content, $this->repositoryLink);
+            $content = $worker->processContent($content);
         }
 
         return $content;
@@ -56,7 +45,7 @@ final class ChangelogApplication
                 continue;
             }
 
-            return $worker->processContent($content, $this->repositoryLink);
+            return $worker->processContent($content);
         }
 
         return $content;

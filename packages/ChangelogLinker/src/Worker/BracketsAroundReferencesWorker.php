@@ -11,7 +11,7 @@ use Symplify\ChangelogLinker\Regex\RegexPattern;
  */
 final class BracketsAroundReferencesWorker implements WorkerInterface
 {
-    public function processContent(string $content, string $repositoryLink): string
+    public function processContent(string $content): string
     {
         // issue or PR references
         $content = Strings::replace($content, '# ' . RegexPattern::PR_OR_ISSUE . '#', function (array $match): string {

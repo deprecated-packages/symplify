@@ -8,7 +8,7 @@ use Symplify\ChangelogLinker\Regex\RegexPattern;
 
 final class ShortenReferencesWorker implements WorkerInterface
 {
-    public function processContent(string $content, string $repositoryLink): string
+    public function processContent(string $content): string
     {
         $content = Strings::replace($content, '#\[' . RegexPattern::COMMIT . '\]#', function (array $match): string {
             return sprintf('[%s]', substr($match['commit'], 0, 6));

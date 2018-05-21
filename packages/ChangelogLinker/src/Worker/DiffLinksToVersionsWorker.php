@@ -18,7 +18,17 @@ final class DiffLinksToVersionsWorker implements WorkerInterface
      */
     private $versions = [];
 
-    public function processContent(string $content, string $repositoryLink): string
+    /**
+     * @var string
+     */
+    private $repositoryLink;
+
+    public function __construct(string $repositoryLink)
+    {
+        $this->repositoryLink = $repositoryLink;
+    }
+
+    public function processContent(string $content): string
     {
         $this->collectLinkedVersions($content);
         $this->collectVersions($content);
@@ -32,7 +42,7 @@ final class DiffLinksToVersionsWorker implements WorkerInterface
             $linksToAppend[] = sprintf(
                 '[%s]: %s/compare/%s...%s',
                 $version,
-                $repositoryLink,
+                $this->repositoryLink,
                 $this->versions[$index + 1],
                 $version
             );

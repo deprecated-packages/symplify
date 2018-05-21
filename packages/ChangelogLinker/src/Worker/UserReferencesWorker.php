@@ -21,7 +21,7 @@ final class UserReferencesWorker implements WorkerInterface
      */
     private $linkedUsers = [];
 
-    public function processContent(string $content, string $repositoryLink): string
+    public function processContent(string $content): string
     {
         $this->collectLinkedUsers($content);
 
