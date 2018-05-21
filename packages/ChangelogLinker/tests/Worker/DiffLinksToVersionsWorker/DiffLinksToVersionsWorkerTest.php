@@ -13,7 +13,10 @@ final class DiffLinksToVersionsWorkerTest extends AbstractWorkerTestCase
      */
     public function test(string $originalFile, string $expectedFile): void
     {
-        $this->doProcess($originalFile, $expectedFile, DiffLinksToVersionsWorker::class);
+        $this->assertStringEqualsFile(
+            $expectedFile,
+            $this->doProcess($originalFile, DiffLinksToVersionsWorker::class)
+        );
     }
 
     public function dataProvider(): Iterator

@@ -16,14 +16,12 @@ abstract class AbstractWorkerTestCase extends AbstractContainerAwareTestCase
         $this->changelogApplication = $this->container->get(ChangelogApplication::class);
     }
 
-    protected function doProcess(string $originalFile, string $expectedFile, string $workerClass): void
+    protected function doProcess(string $originalFile, string $workerClass): string
     {
-        $processedFile = $this->changelogApplication->processFileWithSingleWorker(
+        return $this->changelogApplication->processFileWithSingleWorker(
             $originalFile,
             'https://github.com/Symplify/Symplify',
             $workerClass
         );
-
-        $this->assertStringEqualsFile($expectedFile, $processedFile);
     }
 }

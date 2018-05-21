@@ -11,9 +11,12 @@ final class ReleaseReferencesWorkerTest extends AbstractWorkerTestCase
     /**
      * @dataProvider dataProvider()
      */
-    public function testProcess(string $originalFile, string $expectedFile): void
+    public function test(string $originalFile, string $expectedFile): void
     {
-        $this->doProcess($originalFile, $expectedFile, ReleaseReferencesWorker::class);
+        $this->assertStringMatchesFormatFile(
+            $expectedFile,
+            $this->doProcess($originalFile, ReleaseReferencesWorker::class)
+        );
     }
 
     public function dataProvider(): Iterator

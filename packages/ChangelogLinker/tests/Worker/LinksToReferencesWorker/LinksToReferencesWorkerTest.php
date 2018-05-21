@@ -13,7 +13,10 @@ final class LinksToReferencesWorkerTest extends AbstractWorkerTestCase
      */
     public function test(string $originalFile, string $expectedFile): void
     {
-        $this->doProcess($originalFile, $expectedFile, LinksToReferencesWorker::class);
+        $this->assertStringEqualsFile(
+            $expectedFile,
+            $this->doProcess($originalFile, LinksToReferencesWorker::class)
+        );
     }
 
     public function dataProvider(): Iterator

@@ -11,9 +11,12 @@ final class ShortenReferencesWorkerTest extends AbstractWorkerTestCase
     /**
      * @dataProvider dataProvider()
      */
-    public function testProcess(string $originalFile, string $expectedFile): void
+    public function test(string $originalFile, string $expectedFile): void
     {
-        $this->doProcess($originalFile, $expectedFile, ShortenReferencesWorker::class);
+        $this->assertStringEqualsFile(
+            $expectedFile,
+            $this->doProcess($originalFile, ShortenReferencesWorker::class)
+        );
     }
 
     public function dataProvider(): Iterator

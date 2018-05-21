@@ -13,7 +13,10 @@ final class BracketsAroundReferencesWorkerTest extends AbstractWorkerTestCase
      */
     public function test(string $originalFile, string $expectedFile): void
     {
-        $this->doProcess($originalFile, $expectedFile, BracketsAroundReferencesWorker::class);
+        $this->assertStringEqualsFile(
+           $expectedFile,
+            $this->doProcess($originalFile, BracketsAroundReferencesWorker::class)
+        );
     }
 
     public function dataProvider(): Iterator

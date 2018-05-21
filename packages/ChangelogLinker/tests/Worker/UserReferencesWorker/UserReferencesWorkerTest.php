@@ -13,7 +13,10 @@ final class UserReferencesWorkerTest extends AbstractWorkerTestCase
      */
     public function test(string $originalFile, string $expectedFile): void
     {
-        $this->doProcess($originalFile, $expectedFile, UserReferencesWorker::class);
+        $this->assertStringEqualsFile(
+            $expectedFile,
+            $this->doProcess($originalFile, UserReferencesWorker::class)
+        );
     }
 
     public function dataProvider(): Iterator
