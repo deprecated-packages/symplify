@@ -22,9 +22,9 @@ final class LinksToReferencesWorkerTest extends TestCase
     /**
      * @dataProvider dataProvider
      */
-    public function testProcess(string $originalFile, string $processedFile): void
+    public function testProcess(string $originalFile, string $expectedFile): void
     {
-        $this->assertStringEqualsFile($processedFile, $this->changelogApplication->processFile($originalFile));
+        $this->assertStringEqualsFile($expectedFile, $this->changelogApplication->processFile($originalFile));
     }
 
     /**
