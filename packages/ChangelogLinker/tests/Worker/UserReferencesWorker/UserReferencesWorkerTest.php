@@ -3,32 +3,17 @@
 namespace Symplify\ChangelogLinker\Tests\Worker\UserReferencesWorker;
 
 use Iterator;
-use Symplify\ChangelogLinker\ChangelogApplication;
-use Symplify\ChangelogLinker\Tests\AbstractContainerAwareTestCase;
+use Symplify\ChangelogLinker\Tests\AbstractWorkerTestCase;
 use Symplify\ChangelogLinker\Worker\UserReferencesWorker;
 
-final class UserReferencesWorkerTest extends AbstractContainerAwareTestCase
+final class UserReferencesWorkerTest extends AbstractWorkerTestCase
 {
     /**
-     * @var ChangelogApplication
+     * @dataProvider dataProvider()
      */
-    private $changelogApplication;
-
-    protected function setUp(): void
+    public function test(string $originalFile, string $expectedFile): void
     {
-        $this->changelogApplication = $this->container->get(ChangelogApplication::class);
-    }
-
-    /**
-     * @dataProvider dataProvider
-     */
-    public function testProcess(string $originalFile, string $expectedFile): void
-    {
-        $processedFile = $this->changelogApplication->processFileWithSingleWorker(
-            $originalFile,
-            UserReferencesWorker::class
-        );
-        $this->assertStringEqualsFile($expectedFile, $processedFile);
+        $this->doProcess($originalFile, $expectedFile, UserReferencesWorker::class);
     }
 
     public function dataProvider(): Iterator

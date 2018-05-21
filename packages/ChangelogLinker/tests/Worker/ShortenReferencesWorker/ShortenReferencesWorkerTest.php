@@ -3,35 +3,20 @@
 namespace Symplify\ChangelogLinker\Tests\Worker\ShortenReferencesWorker;
 
 use Iterator;
-use Symplify\ChangelogLinker\ChangelogApplication;
-use Symplify\ChangelogLinker\Tests\AbstractContainerAwareTestCase;
+use Symplify\ChangelogLinker\Tests\AbstractWorkerTestCase;
 use Symplify\ChangelogLinker\Worker\ShortenReferencesWorker;
 
-final class ShortenReferencesWorkerTest extends AbstractContainerAwareTestCase
+final class ShortenReferencesWorkerTest extends AbstractWorkerTestCase
 {
     /**
-     * @var ChangelogApplication
-     */
-    private $changelogApplication;
-
-    protected function setUp(): void
-    {
-        $this->changelogApplication = $this->container->get(ChangelogApplication::class);
-    }
-
-    /**
-     * @dataProvider provideInputAndExpectedOutputFiles()
+     * @dataProvider dataProvider()
      */
     public function testProcess(string $originalFile, string $expectedFile): void
     {
-        $processedFile = $this->changelogApplication->processFileWithSingleWorker(
-            $originalFile,
-            ShortenReferencesWorker::class
-        );
-        $this->assertStringEqualsFile($expectedFile, $processedFile);
+        $this->doProcess($originalFile, $expectedFile, ShortenReferencesWorker::class);
     }
 
-    public function provideInputAndExpectedOutputFiles(): Iterator
+    public function dataProvider(): Iterator
     {
         yield [__DIR__ . '/Source/before/01.md', __DIR__ . '/Source/after/01.md'];
     }
