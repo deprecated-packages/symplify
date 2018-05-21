@@ -2,11 +2,11 @@
 
 namespace Symplify\ChangelogLinker\Tests\Worker\BracketsAroundReferencesWorker;
 
-use PHPUnit\Framework\TestCase;
 use Symplify\ChangelogLinker\ChangelogApplication;
+use Symplify\ChangelogLinker\Tests\AbstractContainerAwareTestCase;
 use Symplify\ChangelogLinker\Worker\BracketsAroundReferencesWorker;
 
-final class BracketsAroundReferencesWorkerTest extends TestCase
+final class BracketsAroundReferencesWorkerTest extends AbstractContainerAwareTestCase
 {
     /**
      * @var ChangelogApplication
@@ -15,8 +15,7 @@ final class BracketsAroundReferencesWorkerTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->changelogApplication = new ChangelogApplication('https://github.com/Symplify/Symplify');
-        $this->changelogApplication->addWorker(new BracketsAroundReferencesWorker());
+        $this->changelogApplication = $this->container->get(ChangelogApplication::class);
     }
 
     /**
@@ -24,7 +23,9 @@ final class BracketsAroundReferencesWorkerTest extends TestCase
      */
     public function testProcess(string $originalFile, string $expectedFile): void
     {
-        $this->assertStringEqualsFile($expectedFile, $this->changelogApplication->processFile($originalFile));
+        $processedFile = $this->changelogApplication->processFileWithSingleWorker($originalFile, BracketsAroundReferencesWorker::class);
+
+        $this->assertStringEqualsFile($expectedFile, $processedFile);
     }
 
     /**
