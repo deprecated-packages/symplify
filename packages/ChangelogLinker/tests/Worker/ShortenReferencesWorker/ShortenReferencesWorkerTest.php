@@ -3,12 +3,13 @@
 namespace Symplify\ChangelogLinker\Tests\Worker\ShortenReferencesWorker;
 
 use Iterator;
-use PHPUnit\Framework\TestCase;
 use Symplify\ChangelogLinker\ChangelogApplication;
+use Symplify\ChangelogLinker\Tests\AbstractContainerAwareTestCase;
 use Symplify\ChangelogLinker\Worker\ShortenReferencesWorker;
 
-final class ShortenReferencesWorkerTest extends TestCase
+final class ShortenReferencesWorkerTest extends AbstractContainerAwareTestCase
 {
+    private $processedFile;
     /**
      * @var ChangelogApplication
      */
@@ -16,8 +17,7 @@ final class ShortenReferencesWorkerTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->changelogApplication = new ChangelogApplication('https://github.com/Symplify/Symplify');
-        $this->changelogApplication->addWorker(new ShortenReferencesWorker());
+        $this->changelogApplication = $this->container->get(ChangelogApplication::class);
     }
 
     /**
@@ -25,7 +25,8 @@ final class ShortenReferencesWorkerTest extends TestCase
      */
     public function testProcess(string $originalFile, string $expectedFile): void
     {
-        $this->assertStringEqualsFile($expectedFile, $this->changelogApplication->processFile($originalFile));
+        $processedFile = $this->changelogApplication->processFileWithSingleWorker($originalFile, ShortenReferencesWorker::class);
+        $this->assertStringEqualsFile($expectedFile, $processedFile);
     }
 
     public function provideInputAndExpectedOutputFiles(): Iterator

@@ -2,11 +2,12 @@
 
 namespace Symplify\ChangelogLinker\Tests\Worker\UserReferencesWorker;
 
-use PHPUnit\Framework\TestCase;
+use Iterator;
 use Symplify\ChangelogLinker\ChangelogApplication;
+use Symplify\ChangelogLinker\Tests\AbstractContainerAwareTestCase;
 use Symplify\ChangelogLinker\Worker\UserReferencesWorker;
 
-final class UserReferencesWorkerTest extends TestCase
+final class UserReferencesWorkerTest extends AbstractContainerAwareTestCase
 {
     /**
      * @var ChangelogApplication
@@ -15,8 +16,7 @@ final class UserReferencesWorkerTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->changelogApplication = new ChangelogApplication('https://github.com/Symplify/Symplify');
-        $this->changelogApplication->addWorker(new UserReferencesWorker());
+        $this->changelogApplication = $this->container->get(ChangelogApplication::class);
     }
 
     /**
@@ -24,17 +24,13 @@ final class UserReferencesWorkerTest extends TestCase
      */
     public function testProcess(string $originalFile, string $expectedFile): void
     {
-        $this->assertStringEqualsFile($expectedFile, $this->changelogApplication->processFile($originalFile));
+        $processedFile = $this->changelogApplication->processFileWithSingleWorker($originalFile, UserReferencesWorker::class);
+        $this->assertStringEqualsFile($expectedFile, $processedFile);
     }
 
-    /**
-     * @return mixed[][]
-     */
-    public function dataProvider(): array
+    public function dataProvider(): Iterator
     {
-        return [
-            [__DIR__ . '/Source/before/01.md', __DIR__ . '/Source/after/01.md'],
-            [__DIR__ . '/Source/before/02.md', __DIR__ . '/Source/after/02.md'],
-        ];
+        yield [__DIR__ . '/Source/before/01.md', __DIR__ . '/Source/after/01.md'];
+        yield [__DIR__ . '/Source/before/02.md', __DIR__ . '/Source/after/02.md'];
     }
 }

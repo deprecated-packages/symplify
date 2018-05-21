@@ -3,12 +3,13 @@
 namespace Symplify\ChangelogLinker\Tests\Worker\ReleaseReferencesWorker;
 
 use Iterator;
-use PHPUnit\Framework\TestCase;
 use Symplify\ChangelogLinker\ChangelogApplication;
+use Symplify\ChangelogLinker\Tests\AbstractContainerAwareTestCase;
 use Symplify\ChangelogLinker\Worker\ReleaseReferencesWorker;
 
-final class ReleaseReferencesWorkerTest extends TestCase
+final class ReleaseReferencesWorkerTest extends AbstractContainerAwareTestCase
 {
+    private $processedFile;
     /**
      * @var ChangelogApplication
      */
@@ -16,8 +17,7 @@ final class ReleaseReferencesWorkerTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->changelogApplication = new ChangelogApplication('https://github.com/Symplify/Symplify');
-        $this->changelogApplication->addWorker(new ReleaseReferencesWorker());
+        $this->changelogApplication = $this->container->get(ChangelogApplication::class);
     }
 
     /**
@@ -25,7 +25,8 @@ final class ReleaseReferencesWorkerTest extends TestCase
      */
     public function testProcess(string $originalFile, string $expectedFile): void
     {
-        $this->assertStringMatchesFormatFile($expectedFile, $this->changelogApplication->processFile($originalFile));
+        $processedFile = $this->changelogApplication->processFileWithSingleWorker($originalFile, ReleaseReferencesWorker::class);
+        $this->assertStringMatchesFormatFile($expectedFile, $processedFile);
     }
 
     public function provideInputAndExpectedOutputFiles(): Iterator

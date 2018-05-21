@@ -2,6 +2,7 @@
 
 namespace Symplify\ChangelogLinker\Tests\Worker\BracketsAroundReferencesWorker;
 
+use Iterator;
 use Symplify\ChangelogLinker\ChangelogApplication;
 use Symplify\ChangelogLinker\Tests\AbstractContainerAwareTestCase;
 use Symplify\ChangelogLinker\Worker\BracketsAroundReferencesWorker;
@@ -23,21 +24,19 @@ final class BracketsAroundReferencesWorkerTest extends AbstractContainerAwareTes
      */
     public function testProcess(string $originalFile, string $expectedFile): void
     {
-        $processedFile = $this->changelogApplication->processFileWithSingleWorker($originalFile, BracketsAroundReferencesWorker::class);
+        $processedFile = $this->changelogApplication->processFileWithSingleWorker(
+            $originalFile,
+            BracketsAroundReferencesWorker::class
+        );
 
         $this->assertStringEqualsFile($expectedFile, $processedFile);
     }
 
-    /**
-     * @return mixed[][]
-     */
-    public function dataProvider(): array
+    public function dataProvider(): Iterator
     {
-        return [
-            [__DIR__ . '/Source/before/01.md', __DIR__ . '/Source/after/01.md'],
-            [__DIR__ . '/Source/before/02.md', __DIR__ . '/Source/after/02.md'],
-            [__DIR__ . '/Source/before/03.md', __DIR__ . '/Source/after/03.md'],
-            [__DIR__ . '/Source/before/04.md', __DIR__ . '/Source/after/04.md'],
-        ];
+        yield [__DIR__ . '/Source/before/01.md', __DIR__ . '/Source/after/01.md'];
+        yield [__DIR__ . '/Source/before/02.md', __DIR__ . '/Source/after/02.md'];
+        yield [__DIR__ . '/Source/before/03.md', __DIR__ . '/Source/after/03.md'];
+        yield [__DIR__ . '/Source/before/04.md', __DIR__ . '/Source/after/04.md'];
     }
 }

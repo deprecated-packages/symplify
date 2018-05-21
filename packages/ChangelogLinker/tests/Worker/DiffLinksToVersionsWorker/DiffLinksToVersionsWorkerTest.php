@@ -3,11 +3,11 @@
 namespace Symplify\ChangelogLinker\Tests\Worker\DiffLinksToVersionsWorker;
 
 use Iterator;
-use PHPUnit\Framework\TestCase;
 use Symplify\ChangelogLinker\ChangelogApplication;
+use Symplify\ChangelogLinker\Tests\AbstractContainerAwareTestCase;
 use Symplify\ChangelogLinker\Worker\DiffLinksToVersionsWorker;
 
-final class DiffLinksToVersionsWorkerTest extends TestCase
+final class DiffLinksToVersionsWorkerTest extends AbstractContainerAwareTestCase
 {
     /**
      * @var ChangelogApplication
@@ -16,8 +16,7 @@ final class DiffLinksToVersionsWorkerTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->changelogApplication = new ChangelogApplication('https://github.com/Symplify/Symplify');
-        $this->changelogApplication->addWorker(new DiffLinksToVersionsWorker());
+        $this->changelogApplication = $this->container->get(ChangelogApplication::class);
     }
 
     /**
@@ -25,7 +24,8 @@ final class DiffLinksToVersionsWorkerTest extends TestCase
      */
     public function testProcess(string $originalFile, string $expectedFile): void
     {
-        $this->assertStringEqualsFile($expectedFile, $this->changelogApplication->processFile($originalFile));
+        $processedFile = $this->changelogApplication->processFileWithSingleWorker($originalFile, DiffLinksToVersionsWorker::class);
+        $this->assertStringEqualsFile($expectedFile, $processedFile);
     }
 
     public function provideInputAndExpectedOutputFiles(): Iterator
