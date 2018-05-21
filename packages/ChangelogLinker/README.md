@@ -20,7 +20,7 @@ Pass the file as argument and the repository as base for links via `--repository
 vendor/bin/changelog-linker CHANGELOG.md --repository https://github.com/symplify/symplify
 ```
 
-## 4 Cool Features
+## All The Cool Features
 
 ### 1. Link issues and PRs
 
@@ -108,4 +108,28 @@ Credit is much more valuable with link to follow
 - ... thanks [@SpacePossum] for help
 
 [@SpacePossum]: https://github.com/SpacePossum
+```
+
+
+### 5. Turn "Unreleased" to The Last Release
+
+
+:x:
+
+```markdown
+## Unreleased
+
+### Added
+
+...
+```
+
+:+1:
+
+```markdown
+## v2.0.0 - 2017-12-31
+
+### Added
+
+... 
 ```
