@@ -14,7 +14,7 @@ final class BracketsAroundReferencesWorkerTest extends AbstractWorkerTestCase
     public function test(string $originalFile, string $expectedFile): void
     {
         $this->assertStringEqualsFile(
-           $expectedFile,
+            $expectedFile,
             $this->doProcess($originalFile, BracketsAroundReferencesWorker::class)
         );
     }
