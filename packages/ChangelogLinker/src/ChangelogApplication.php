@@ -41,11 +41,9 @@ final class ChangelogApplication
         $content = file_get_contents($filePath);
 
         foreach ($this->workers as $worker) {
-            if (! $worker instanceof $workerClass) {
-                continue;
+            if ($worker instanceof $workerClass) {
+                return $worker->processContent($content);
             }
-
-            return $worker->processContent($content);
         }
 
         return $content;
