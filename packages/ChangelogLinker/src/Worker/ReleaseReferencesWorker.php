@@ -31,7 +31,8 @@ final class ReleaseReferencesWorker implements WorkerInterface
 
         $lastTagInContentMatch = Strings::match($content, '#\#\# \[' . RegexPattern::VERSION . '\]#');
         if ($lastTagInContentMatch) {
-            // current tag version was already published
+            // current tag version was already published =>
+            // "Unreleased" should be kept as it is, since it's not yet tagged
             if (version_compare($lastTag, $lastTagInContentMatch['version']) === -1) {
                 return $content;
             }
