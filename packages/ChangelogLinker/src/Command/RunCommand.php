@@ -9,9 +9,20 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symplify\ChangelogLinker\ChangelogApplication;
 use Symplify\ChangelogLinker\Exception\FileNotFoundException;
+use Symplify\PackageBuilder\Console\Command\CommandNaming;
 
 final class RunCommand extends Command
 {
+    /**
+     * @var string
+     */
+    private const REPOSITORY_OPTION = 'repository';
+
+    /**
+     * @var string
+     */
+    private const CHANGELOG_FILE_OPTION = 'changelog-file';
+
     /**
      * @var ChangelogApplication
      */
@@ -26,10 +37,10 @@ final class RunCommand extends Command
 
     protected function configure(): void
     {
-        $this->setName('run');
-        $this->addArgument('changelog-file', InputArgument::OPTIONAL, 'CHANGELOG.md file', 'CHANGELOG.md');
+        $this->setName(CommandNaming::classToName(self::class));
+        $this->addArgument(self::CHANGELOG_FILE_OPTION, InputArgument::OPTIONAL, 'CHANGELOG.md file', 'CHANGELOG.md');
         $this->addOption(
-            'repository',
+            self::REPOSITORY_OPTION,
             'r',
             InputOption::VALUE_REQUIRED,
             'Add Github repository url, e.g. "https://github.com/Symplify/Symplify"',
@@ -39,12 +50,14 @@ final class RunCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $changelogFile = $input->getArgument('changelog-file');
+        $changelogFile = $input->getArgument(self::CHANGELOG_FILE_OPTION);
         if (! file_exists($changelogFile)) {
             throw new FileNotFoundException(sprintf('Changelog file "%s" was not found' . PHP_EOL, $changelogFile));
         }
 
-        $processedChangelogFile = $this->changelogApplication->processFile($changelogFile);
+        $repositoryUrl = $input->getOption(self::REPOSITORY_OPTION);
+
+        $processedChangelogFile = $this->changelogApplication->processFile($changelogFile, $repositoryUrl);
 
         // save
         file_put_contents($changelogFile, $processedChangelogFile);
