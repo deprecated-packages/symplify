@@ -14,7 +14,7 @@ final class ChangelogLinkerConfiguration
         return $this->repositoryLink;
     }
 
-    public function setRepositoryLink(string $repositoryLink)
+    public function setRepositoryLink(string $repositoryLink): void
     {
         $this->repositoryLink = $repositoryLink;
     }
