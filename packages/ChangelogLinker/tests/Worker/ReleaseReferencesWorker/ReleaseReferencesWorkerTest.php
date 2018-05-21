@@ -9,7 +9,6 @@ use Symplify\ChangelogLinker\Worker\ReleaseReferencesWorker;
 
 final class ReleaseReferencesWorkerTest extends AbstractContainerAwareTestCase
 {
-    private $processedFile;
     /**
      * @var ChangelogApplication
      */
@@ -25,7 +24,10 @@ final class ReleaseReferencesWorkerTest extends AbstractContainerAwareTestCase
      */
     public function testProcess(string $originalFile, string $expectedFile): void
     {
-        $processedFile = $this->changelogApplication->processFileWithSingleWorker($originalFile, ReleaseReferencesWorker::class);
+        $processedFile = $this->changelogApplication->processFileWithSingleWorker(
+            $originalFile,
+            ReleaseReferencesWorker::class
+        );
         $this->assertStringMatchesFormatFile($expectedFile, $processedFile);
     }
 

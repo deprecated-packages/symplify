@@ -5,10 +5,10 @@ namespace Symplify\ChangelogLinker\Tests\Worker\LinksToReferencesWorker;
 use Iterator;
 use Symplify\ChangelogLinker\ChangelogApplication;
 use Symplify\ChangelogLinker\Tests\AbstractContainerAwareTestCase;
+use Symplify\ChangelogLinker\Worker\LinksToReferencesWorker;
 
 final class LinksToReferencesWorkerTest extends AbstractContainerAwareTestCase
 {
-    private $processedFile;
     /**
      * @var ChangelogApplication
      */
@@ -24,7 +24,10 @@ final class LinksToReferencesWorkerTest extends AbstractContainerAwareTestCase
      */
     public function testProcess(string $originalFile, string $expectedFile): void
     {
-        $processedFile = $this->changelogApplication->processFile($originalFile);
+        $processedFile = $this->changelogApplication->processFileWithSingleWorker(
+            $originalFile,
+            LinksToReferencesWorker::class
+        );
         $this->assertStringEqualsFile($expectedFile, $processedFile);
     }
 

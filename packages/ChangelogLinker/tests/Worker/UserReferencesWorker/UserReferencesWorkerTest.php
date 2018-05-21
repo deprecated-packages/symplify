@@ -24,7 +24,10 @@ final class UserReferencesWorkerTest extends AbstractContainerAwareTestCase
      */
     public function testProcess(string $originalFile, string $expectedFile): void
     {
-        $processedFile = $this->changelogApplication->processFileWithSingleWorker($originalFile, UserReferencesWorker::class);
+        $processedFile = $this->changelogApplication->processFileWithSingleWorker(
+            $originalFile,
+            UserReferencesWorker::class
+        );
         $this->assertStringEqualsFile($expectedFile, $processedFile);
     }
 

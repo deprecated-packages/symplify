@@ -9,7 +9,6 @@ use Symplify\ChangelogLinker\Worker\ShortenReferencesWorker;
 
 final class ShortenReferencesWorkerTest extends AbstractContainerAwareTestCase
 {
-    private $processedFile;
     /**
      * @var ChangelogApplication
      */
@@ -25,7 +24,10 @@ final class ShortenReferencesWorkerTest extends AbstractContainerAwareTestCase
      */
     public function testProcess(string $originalFile, string $expectedFile): void
     {
-        $processedFile = $this->changelogApplication->processFileWithSingleWorker($originalFile, ShortenReferencesWorker::class);
+        $processedFile = $this->changelogApplication->processFileWithSingleWorker(
+            $originalFile,
+            ShortenReferencesWorker::class
+        );
         $this->assertStringEqualsFile($expectedFile, $processedFile);
     }
 

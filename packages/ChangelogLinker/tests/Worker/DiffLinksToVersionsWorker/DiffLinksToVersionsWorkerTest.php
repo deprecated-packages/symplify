@@ -24,7 +24,10 @@ final class DiffLinksToVersionsWorkerTest extends AbstractContainerAwareTestCase
      */
     public function testProcess(string $originalFile, string $expectedFile): void
     {
-        $processedFile = $this->changelogApplication->processFileWithSingleWorker($originalFile, DiffLinksToVersionsWorker::class);
+        $processedFile = $this->changelogApplication->processFileWithSingleWorker(
+            $originalFile,
+            DiffLinksToVersionsWorker::class
+        );
         $this->assertStringEqualsFile($expectedFile, $processedFile);
     }
 
