@@ -46,4 +46,19 @@ final class ChangelogApplication
 
         return $content;
     }
+
+    public function processFileWithSingleWorker(string $filePath, string $workerClass): string
+    {
+        $content = file_get_contents($filePath);
+
+        foreach ($this->workers as $worker) {
+            if (! $worker instanceof $workerClass) {
+                continue;
+            }
+
+            return $worker->processContent($content, $this->repositoryLink);
+        }
+
+        return $content;
+    }
 }
