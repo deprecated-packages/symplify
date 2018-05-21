@@ -5,7 +5,7 @@ namespace Symplify\ChangelogLinker\DependencyInjection;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\BundleInterface;
-use Symplify\EasyCodingStandard\DependencyInjection\CompilerPass\CollectorCompilerPass;
+use Symplify\ChangelogLinker\DependencyInjection\CompilerPass\CollectorCompilerPass;
 use Symplify\PackageBuilder\DependencyInjection\CompilerPass\PublicForTestsCompilerPass;
 use Symplify\PackageBuilder\HttpKernel\AbstractCliKernel;
 
