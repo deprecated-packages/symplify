@@ -7,3 +7,6 @@ services:
     Symplify\ChangelogLinker\:
         resource: '..'
         exclude: '../{Contract}'
+
+    Symfony\Component\Console\Application:
+        public: true # for bin file
