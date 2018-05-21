@@ -18,6 +18,7 @@ final class ChangelogApplication
 
     public function __construct(string $repositoryLink)
     {
+        // @todo automate get repository link from current repo and Github remote
         $this->repositoryLink = $repositoryLink;
     }
 
