@@ -24,11 +24,17 @@ final class RunCommand extends Command
         parent::__construct();
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('run');
         $this->addArgument('changelog-file', InputArgument::OPTIONAL, 'CHANGELOG.md file', 'CHANGELOG.md');
-        $this->addOption('repository', 'r', InputOption::VALUE_REQUIRED, 'Add Github repository url, e.g. "https://github.com/Symplify/Symplify"', 'https://github.com/Symplify/Symplify');
+        $this->addOption(
+            'repository',
+            'r',
+            InputOption::VALUE_REQUIRED,
+            'Add Github repository url, e.g. "https://github.com/Symplify/Symplify"',
+            'https://github.com/Symplify/Symplify'
+        );
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
