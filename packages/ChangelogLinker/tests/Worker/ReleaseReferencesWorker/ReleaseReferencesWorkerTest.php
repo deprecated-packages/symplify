@@ -23,9 +23,9 @@ final class ReleaseReferencesWorkerTest extends TestCase
     /**
      * @dataProvider provideInputAndExpectedOutputFiles()
      */
-    public function testProcess(string $originalFile, string $processedFile): void
+    public function testProcess(string $originalFile, string $expectedFile): void
     {
-        $this->assertStringEqualsFile($processedFile, $this->changelogApplication->processFile($originalFile));
+        $this->assertStringMatchesFormatFile($expectedFile, $this->changelogApplication->processFile($originalFile));
     }
 
     public function provideInputAndExpectedOutputFiles(): Iterator

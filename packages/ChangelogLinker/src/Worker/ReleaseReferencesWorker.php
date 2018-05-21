@@ -22,11 +22,13 @@ final class ReleaseReferencesWorker implements WorkerInterface
         }
 
         // get last tagged version
-        $lastTag = exec('git describe --tags');
+        $lastTag = exec('git describe --abbrev=0 --tags');
         // no tag
         if (empty($lastTag)) {
             return $content;
         }
+
+        // @todo, maybe this release is still WIP, so check if $lastTag already exists in the Content
 
         // get tagged version date
         $lastTagDate = exec('git log -1 --format=%ai ' . $lastTag);
