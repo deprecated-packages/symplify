@@ -46,12 +46,5 @@ final class ChangelogLinkerKernel extends AbstractCliKernel
     {
         $containerBuilder->addCompilerPass(new PublicForTestsCompilerPass());
         $containerBuilder->addCompilerPass(new CollectorCompilerPass());
-
-        $this->definitionCollector->loadCollectorWithType(
-            $containerBuilder,
-            Application::class,
-            Command::class,
-            'add'
-        );
     }
 }
