@@ -11,11 +11,6 @@ use Symplify\PackageBuilder\HttpKernel\AbstractCliKernel;
 
 final class ChangelogLinkerKernel extends AbstractCliKernel
 {
-    /**
-     * @var null|string
-     */
-    private $configFile;
-
     public function registerContainerConfiguration(LoaderInterface $loader): void
     {
         $loader->load(__DIR__ . '/../config/config.yml');
