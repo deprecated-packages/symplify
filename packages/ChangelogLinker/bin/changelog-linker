@@ -8,6 +8,7 @@ use Symplify\ChangelogLinker\ChangelogApplication;
 use Symplify\ChangelogLinker\Worker\BracketsAroundReferencesWorker;
 use Symplify\ChangelogLinker\Worker\DiffLinksToVersionsWorker;
 use Symplify\ChangelogLinker\Worker\LinksToReferencesWorker;
+use Symplify\ChangelogLinker\Worker\ReleaseReferencesWorker;
 use Symplify\ChangelogLinker\Worker\ShortenReferencesWorker;
 use Symplify\ChangelogLinker\Worker\UserReferencesWorker;
 
@@ -32,6 +33,7 @@ $changelogApplication = new ChangelogApplication($repository);
 
 // order matters, as later depend on former
 $changelogApplication->addWorker(new BracketsAroundReferencesWorker());
+$changelogApplication->addWorker(new ReleaseReferencesWorker());
 $changelogApplication->addWorker(new DiffLinksToVersionsWorker());
 $changelogApplication->addWorker(new LinksToReferencesWorker());
 $changelogApplication->addWorker(new ShortenReferencesWorker());
