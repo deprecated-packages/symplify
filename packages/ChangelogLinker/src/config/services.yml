@@ -1,8 +1,6 @@
 services:
     _defaults:
         autowire: true
-        bind:
-            $repositoryLink: "%repository_link%"
 
     Symplify\ChangelogLinker\:
         resource: '..'
