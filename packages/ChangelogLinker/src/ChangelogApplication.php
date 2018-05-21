@@ -22,6 +22,9 @@ final class ChangelogApplication
         $this->repositoryLink = $repositoryLink;
     }
 
+    /**
+     * @todo with some order?
+     */
     public function addWorker(WorkerInterface $worker): void
     {
         $this->workers[] = $worker;
