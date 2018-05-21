@@ -19,12 +19,6 @@ final class ChangelogApplication
         $this->workers[] = $worker;
     }
 
-    public function processFileAndSave(string $filePath): void
-    {
-        $content = $this->processFile($filePath);
-        file_put_contents($filePath, $content);
-    }
-
     public function processFile(string $filePath): string
     {
         $content = file_get_contents($filePath);
