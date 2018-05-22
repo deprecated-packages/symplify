@@ -2,21 +2,10 @@
 
 namespace Symplify\ChangelogLinker;
 
-use Symplify\ChangelogLinker\Configuration\ChangelogLinkerConfiguration;
 use Symplify\ChangelogLinker\Contract\Worker\WorkerInterface;
 
 final class ChangelogApplication
 {
-    /**
-     * @var ChangelogLinkerConfiguration
-     */
-    private $changelogLinkerConfiguration;
-
-    public function __construct(ChangelogLinkerConfiguration $changelogLinkerConfiguration)
-    {
-        $this->changelogLinkerConfiguration = $changelogLinkerConfiguration;
-    }
-
     /**
      * @var WorkerInterface[]
      */
@@ -27,10 +16,8 @@ final class ChangelogApplication
         $this->workers[] = $worker;
     }
 
-    public function processFile(string $filePath, string $repositoryUrl): string
+    public function processFile(string $filePath): string
     {
-        $this->changelogLinkerConfiguration->setRepositoryLink($repositoryUrl);
-
         $content = file_get_contents($filePath);
 
         foreach ($this->getSortedWorkers() as $worker) {
@@ -40,10 +27,8 @@ final class ChangelogApplication
         return $content;
     }
 
-    public function processFileWithSingleWorker(string $filePath, string $repositoryUrl, string $workerClass): string
+    public function processFileWithSingleWorker(string $filePath, string $workerClass): string
     {
-        $this->changelogLinkerConfiguration->setRepositoryLink($repositoryUrl);
-
         $content = file_get_contents($filePath);
 
         foreach ($this->getSortedWorkers() as $worker) {
