@@ -3,8 +3,10 @@
 
 require_once __DIR__ . '/changelog-linker-bootstrap.php';
 
+use Symplify\ChangelogLinker\Command\RunCommand;
 use Symplify\ChangelogLinker\Console\Application;
 use Symplify\ChangelogLinker\DependencyInjection\ContainerFactory;
+use Symplify\PackageBuilder\Console\Command\CommandNaming;
 use Symplify\PackageBuilder\Console\ThrowableRenderer;
 
 try {
@@ -21,7 +23,7 @@ try {
     }
 
     $application = $container->get(Application::class);
-    $application->setDefaultCommand('run', true);
+    $application->setDefaultCommand(CommandNaming::classToName(RunCommand::class), true);
     $application->run();
 } catch (Throwable $throwable) {
     (new ThrowableRenderer())->render($throwable);
