@@ -10,9 +10,18 @@ use Symplify\PackageBuilder\HttpKernel\AbstractCliKernel;
 
 final class ChangelogLinkerKernel extends AbstractCliKernel
 {
+    /**
+     * @var null|string
+     */
+    private $configFile;
+
     public function registerContainerConfiguration(LoaderInterface $loader): void
     {
         $loader->load(__DIR__ . '/../config/config.yml');
+
+        if ($this->configFile) {
+            $loader->load($this->configFile);
+        }
     }
 
     public function getCacheDir(): string
@@ -23,6 +32,12 @@ final class ChangelogLinkerKernel extends AbstractCliKernel
     public function getLogDir(): string
     {
         return sys_get_temp_dir() . '/_changelog_linker_logs';
+    }
+
+    public function bootWithConfig(string $config): void
+    {
+        $this->configFile = $config;
+        $this->boot();
     }
 
     /**
