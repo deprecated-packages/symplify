@@ -21,12 +21,12 @@ final class LinksToReferencesWorker implements WorkerInterface
     /**
      * @var string
      */
-    private $repositoryLink;
+    private $repositoryUrl;
 
-    public function __construct(string $repositoryLink)
+    public function __construct(string $repositoryUrl)
     {
         $this->curl = $this->createCurl();
-        $this->repositoryLink = $repositoryLink;
+        $this->repositoryUrl = $repositoryUrl;
     }
 
     public function processContent(string $content): string
@@ -65,8 +65,8 @@ final class LinksToReferencesWorker implements WorkerInterface
             }
 
             $possibleUrls = [
-                $this->repositoryLink . '/pull/' . $match['id'],
-                $this->repositoryLink . '/issues/' . $match['id'],
+                $this->repositoryUrl . '/pull/' . $match['id'],
+                $this->repositoryUrl . '/issues/' . $match['id'],
             ];
 
             foreach ($possibleUrls as $possibleUrl) {
@@ -91,7 +91,7 @@ final class LinksToReferencesWorker implements WorkerInterface
 
         $matches = Strings::matchAll($content, '# \[' . RegexPattern::COMMIT . '\] #');
         foreach ($matches as $match) {
-            $markdownLink = sprintf('[%s]: %s/commit/%s', $match['commit'], $this->repositoryLink, $match['commit']);
+            $markdownLink = sprintf('[%s]: %s/commit/%s', $match['commit'], $this->repositoryUrl, $match['commit']);
 
             $linksToAppend[$match['commit']] = $markdownLink;
         }
