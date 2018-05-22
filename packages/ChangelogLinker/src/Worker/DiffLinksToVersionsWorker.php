@@ -3,6 +3,7 @@
 namespace Symplify\ChangelogLinker\Worker;
 
 use Nette\Utils\Strings;
+use Symplify\ChangelogLinker\Configuration\ChangelogLinkerConfiguration;
 use Symplify\ChangelogLinker\Contract\Worker\WorkerInterface;
 use Symplify\ChangelogLinker\Regex\RegexPattern;
 
@@ -18,7 +19,17 @@ final class DiffLinksToVersionsWorker implements WorkerInterface
      */
     private $versions = [];
 
-    public function processContent(string $content, string $repositoryLink): string
+    /**
+     * @var ChangelogLinkerConfiguration
+     */
+    private $changelogLinkerConfiguration;
+
+    public function __construct(ChangelogLinkerConfiguration $changelogLinkerConfiguration)
+    {
+        $this->changelogLinkerConfiguration = $changelogLinkerConfiguration;
+    }
+
+    public function processContent(string $content): string
     {
         $this->collectLinkedVersions($content);
         $this->collectVersions($content);
@@ -32,7 +43,7 @@ final class DiffLinksToVersionsWorker implements WorkerInterface
             $linksToAppend[] = sprintf(
                 '[%s]: %s/compare/%s...%s',
                 $version,
-                $repositoryLink,
+                $this->changelogLinkerConfiguration->getRepositoryLink(),
                 $this->versions[$index + 1],
                 $version
             );
@@ -46,6 +57,11 @@ final class DiffLinksToVersionsWorker implements WorkerInterface
 
         // append new links to the file
         return $content . PHP_EOL . implode(PHP_EOL, $linksToAppend);
+    }
+
+    public function getPriority(): int
+    {
+        return 800;
     }
 
     private function collectLinkedVersions(string $content): void

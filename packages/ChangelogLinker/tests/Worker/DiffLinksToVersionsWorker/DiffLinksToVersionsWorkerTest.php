@@ -3,32 +3,23 @@
 namespace Symplify\ChangelogLinker\Tests\Worker\DiffLinksToVersionsWorker;
 
 use Iterator;
-use PHPUnit\Framework\TestCase;
-use Symplify\ChangelogLinker\ChangelogApplication;
+use Symplify\ChangelogLinker\Tests\AbstractWorkerTestCase;
 use Symplify\ChangelogLinker\Worker\DiffLinksToVersionsWorker;
 
-final class DiffLinksToVersionsWorkerTest extends TestCase
+final class DiffLinksToVersionsWorkerTest extends AbstractWorkerTestCase
 {
     /**
-     * @var ChangelogApplication
+     * @dataProvider dataProvider()
      */
-    private $changelogApplication;
-
-    protected function setUp(): void
+    public function test(string $originalFile, string $expectedFile): void
     {
-        $this->changelogApplication = new ChangelogApplication('https://github.com/Symplify/Symplify');
-        $this->changelogApplication->addWorker(new DiffLinksToVersionsWorker());
+        $this->assertStringEqualsFile(
+            $expectedFile,
+            $this->doProcess($originalFile, DiffLinksToVersionsWorker::class)
+        );
     }
 
-    /**
-     * @dataProvider provideInputAndExpectedOutputFiles()
-     */
-    public function testProcess(string $originalFile, string $expectedFile): void
-    {
-        $this->assertStringEqualsFile($expectedFile, $this->changelogApplication->processFile($originalFile));
-    }
-
-    public function provideInputAndExpectedOutputFiles(): Iterator
+    public function dataProvider(): Iterator
     {
         yield [__DIR__ . '/Source/before/01.md', __DIR__ . '/Source/after/01.md'];
     }

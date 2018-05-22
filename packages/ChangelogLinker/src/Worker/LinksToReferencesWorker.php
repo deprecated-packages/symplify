@@ -3,6 +3,7 @@
 namespace Symplify\ChangelogLinker\Worker;
 
 use Nette\Utils\Strings;
+use Symplify\ChangelogLinker\Configuration\ChangelogLinkerConfiguration;
 use Symplify\ChangelogLinker\Contract\Worker\WorkerInterface;
 use Symplify\ChangelogLinker\Regex\RegexPattern;
 
@@ -18,17 +19,23 @@ final class LinksToReferencesWorker implements WorkerInterface
      */
     private $curl;
 
-    public function __construct()
+    /**
+     * @var ChangelogLinkerConfiguration
+     */
+    private $changelogLinkerConfiguration;
+
+    public function __construct(ChangelogLinkerConfiguration $changelogLinkerConfiguration)
     {
         $this->curl = $this->createCurl();
+        $this->changelogLinkerConfiguration = $changelogLinkerConfiguration;
     }
 
-    public function processContent(string $content, string $repositoryLink): string
+    public function processContent(string $content): string
     {
         $this->resolveLinkedElements($content);
 
-        $linksToAppend = $this->processPullRequestAndIssueReferences($content, $repositoryLink);
-        $linksToAppend = array_merge($linksToAppend, $this->processCommitReferences($content, $repositoryLink));
+        $linksToAppend = $this->processPullRequestAndIssueReferences($content);
+        $linksToAppend = array_merge($linksToAppend, $this->processCommitReferences($content));
 
         if (! count($linksToAppend)) {
             return $content;
@@ -40,10 +47,15 @@ final class LinksToReferencesWorker implements WorkerInterface
         return $content . PHP_EOL . implode(PHP_EOL, $linksToAppend);
     }
 
+    public function getPriority(): int
+    {
+        return 700;
+    }
+
     /**
      * @return string[]
      */
-    private function processPullRequestAndIssueReferences(string $content, string $repositoryLink): array
+    private function processPullRequestAndIssueReferences(string $content): array
     {
         $linksToAppend = [];
 
@@ -54,8 +66,8 @@ final class LinksToReferencesWorker implements WorkerInterface
             }
 
             $possibleUrls = [
-                $repositoryLink . '/pull/' . $match['id'],
-                $repositoryLink . '/issues/' . $match['id'],
+                $this->changelogLinkerConfiguration->getRepositoryLink() . '/pull/' . $match['id'],
+                $this->changelogLinkerConfiguration->getRepositoryLink() . '/issues/' . $match['id'],
             ];
 
             foreach ($possibleUrls as $possibleUrl) {
@@ -74,13 +86,18 @@ final class LinksToReferencesWorker implements WorkerInterface
     /**
      * @return string[]
      */
-    private function processCommitReferences(string $content, string $repositoryLink): array
+    private function processCommitReferences(string $content): array
     {
         $linksToAppend = [];
 
         $matches = Strings::matchAll($content, '# \[' . RegexPattern::COMMIT . '\] #');
         foreach ($matches as $match) {
-            $markdownLink = sprintf('[%s]: %s/commit/%s', $match['commit'], $repositoryLink, $match['commit']);
+            $markdownLink = sprintf(
+                '[%s]: %s/commit/%s',
+                $match['commit'],
+                $this->changelogLinkerConfiguration->getRepositoryLink(),
+                $match['commit']
+            );
 
             $linksToAppend[$match['commit']] = $markdownLink;
         }

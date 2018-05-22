@@ -21,7 +21,7 @@ final class UserReferencesWorker implements WorkerInterface
      */
     private $linkedUsers = [];
 
-    public function processContent(string $content, string $repositoryLink): string
+    public function processContent(string $content): string
     {
         $this->collectLinkedUsers($content);
 
@@ -46,6 +46,11 @@ final class UserReferencesWorker implements WorkerInterface
 
         // append new links to the file
         return $content . PHP_EOL . implode(PHP_EOL, $linksToAppend);
+    }
+
+    public function getPriority(): int
+    {
+        return 500;
     }
 
     private function collectLinkedUsers(string $content): void

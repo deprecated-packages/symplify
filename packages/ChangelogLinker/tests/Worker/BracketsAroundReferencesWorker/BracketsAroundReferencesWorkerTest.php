@@ -2,41 +2,28 @@
 
 namespace Symplify\ChangelogLinker\Tests\Worker\BracketsAroundReferencesWorker;
 
-use PHPUnit\Framework\TestCase;
-use Symplify\ChangelogLinker\ChangelogApplication;
+use Iterator;
+use Symplify\ChangelogLinker\Tests\AbstractWorkerTestCase;
 use Symplify\ChangelogLinker\Worker\BracketsAroundReferencesWorker;
 
-final class BracketsAroundReferencesWorkerTest extends TestCase
+final class BracketsAroundReferencesWorkerTest extends AbstractWorkerTestCase
 {
     /**
-     * @var ChangelogApplication
+     * @dataProvider dataProvider()
      */
-    private $changelogApplication;
-
-    protected function setUp(): void
+    public function test(string $originalFile, string $expectedFile): void
     {
-        $this->changelogApplication = new ChangelogApplication('https://github.com/Symplify/Symplify');
-        $this->changelogApplication->addWorker(new BracketsAroundReferencesWorker());
+        $this->assertStringEqualsFile(
+            $expectedFile,
+            $this->doProcess($originalFile, BracketsAroundReferencesWorker::class)
+        );
     }
 
-    /**
-     * @dataProvider dataProvider
-     */
-    public function testProcess(string $originalFile, string $expectedFile): void
+    public function dataProvider(): Iterator
     {
-        $this->assertStringEqualsFile($expectedFile, $this->changelogApplication->processFile($originalFile));
-    }
-
-    /**
-     * @return mixed[][]
-     */
-    public function dataProvider(): array
-    {
-        return [
-            [__DIR__ . '/Source/before/01.md', __DIR__ . '/Source/after/01.md'],
-            [__DIR__ . '/Source/before/02.md', __DIR__ . '/Source/after/02.md'],
-            [__DIR__ . '/Source/before/03.md', __DIR__ . '/Source/after/03.md'],
-            [__DIR__ . '/Source/before/04.md', __DIR__ . '/Source/after/04.md'],
-        ];
+        yield [__DIR__ . '/Source/before/01.md', __DIR__ . '/Source/after/01.md'];
+        yield [__DIR__ . '/Source/before/02.md', __DIR__ . '/Source/after/02.md'];
+        yield [__DIR__ . '/Source/before/03.md', __DIR__ . '/Source/after/03.md'];
+        yield [__DIR__ . '/Source/before/04.md', __DIR__ . '/Source/after/04.md'];
     }
 }

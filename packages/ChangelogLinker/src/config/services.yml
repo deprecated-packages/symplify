@@ -1,0 +1,10 @@
+services:
+    _defaults:
+        autowire: true
+
+    Symplify\ChangelogLinker\:
+        resource: '..'
+        exclude: '../{Contract,Exception}'
+
+    Symfony\Component\Console\Application:
+        public: true # for bin file
