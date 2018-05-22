@@ -47,6 +47,11 @@ final class LinksToReferencesWorker implements WorkerInterface
         return $content . PHP_EOL . implode(PHP_EOL, $linksToAppend);
     }
 
+    public function getPriority(): int
+    {
+        return 700;
+    }
+
     /**
      * @return string[]
      */

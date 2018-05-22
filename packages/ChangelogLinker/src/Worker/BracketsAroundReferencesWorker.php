@@ -39,4 +39,9 @@ final class BracketsAroundReferencesWorker implements WorkerInterface
 
         return $content;
     }
+
+    public function getPriority(): int
+    {
+        return 1000;
+    }
 }

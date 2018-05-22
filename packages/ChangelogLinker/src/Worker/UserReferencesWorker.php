@@ -48,6 +48,11 @@ final class UserReferencesWorker implements WorkerInterface
         return $content . PHP_EOL . implode(PHP_EOL, $linksToAppend);
     }
 
+    public function getPriority(): int
+    {
+        return 500;
+    }
+
     private function collectLinkedUsers(string $content): void
     {
         $matches = Strings::matchAll($content, '#\[' . RegexPattern::USER . '\]: #');

@@ -4,7 +4,6 @@
 require_once __DIR__ . '/changelog-linker-bootstrap.php';
 
 use Symfony\Component\Console\Application;
-use Symfony\Component\Console\Input\ArgvInput;
 use Symplify\ChangelogLinker\DependencyInjection\ContainerFactory;
 use Symplify\PackageBuilder\Console\ThrowableRenderer;
 
@@ -16,11 +15,3 @@ try {
 } catch (Throwable $throwable) {
     (new ThrowableRenderer())->render($throwable);
 }
-
-// order matters, as later depend on former
-//$changelogApplication->addWorker(new BracketsAroundReferencesWorker());
-//$changelogApplication->addWorker(new ReleaseReferencesWorker());
-//$changelogApplication->addWorker(new DiffLinksToVersionsWorker());
-//$changelogApplication->addWorker(new LinksToReferencesWorker());
-//$changelogApplication->addWorker(new ShortenReferencesWorker());
-//$changelogApplication->addWorker(new UserReferencesWorker());

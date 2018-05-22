@@ -16,4 +16,9 @@ final class ShortenReferencesWorker implements WorkerInterface
 
         return $content;
     }
+
+    public function getPriority(): int
+    {
+        return 600;
+    }
 }

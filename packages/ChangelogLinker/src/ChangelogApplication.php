@@ -36,7 +36,7 @@ final class ChangelogApplication
 
         $content = file_get_contents($filePath);
 
-        foreach ($this->workers as $worker) {
+        foreach ($this->getSortedWorkers() as $worker) {
             $content = $worker->processContent($content);
         }
 
@@ -49,12 +49,24 @@ final class ChangelogApplication
 
         $content = file_get_contents($filePath);
 
-        foreach ($this->workers as $worker) {
+        foreach ($this->getSortedWorkers() as $worker) {
             if ($worker instanceof $workerClass) {
                 return $worker->processContent($content);
             }
         }
 
         return $content;
+    }
+
+    /**
+     * @return WorkerInterface[]
+     */
+    private function getSortedWorkers(): array
+    {
+        usort($this->workers, function (WorkerInterface $firstWorker, WorkerInterface $secondWorker): bool {
+            return $firstWorker->getPriority() < $secondWorker->getPriority();
+        });
+
+        return $this->workers;
     }
 }

@@ -59,6 +59,11 @@ final class DiffLinksToVersionsWorker implements WorkerInterface
         return $content . PHP_EOL . implode(PHP_EOL, $linksToAppend);
     }
 
+    public function getPriority(): int
+    {
+        return 800;
+    }
+
     private function collectLinkedVersions(string $content): void
     {
         $matches = Strings::matchAll($content, '#\[' . RegexPattern::VERSION . '\]: #');

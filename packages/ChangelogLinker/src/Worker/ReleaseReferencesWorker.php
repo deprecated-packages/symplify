@@ -49,4 +49,9 @@ final class ReleaseReferencesWorker implements WorkerInterface
             return '## ' . $lastTag . ' - ' . $lastTagDateTime->format('Y-m-d');
         });
     }
+
+    public function getPriority(): int
+    {
+        return 900;
+    }
 }
