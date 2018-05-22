@@ -3,28 +3,19 @@
 
 require_once __DIR__ . '/changelog-linker-bootstrap.php';
 
+use Psr\Container\ContainerInterface;
 use Symplify\ChangelogLinker\Command\RunCommand;
 use Symplify\ChangelogLinker\Console\Application;
-use Symplify\ChangelogLinker\DependencyInjection\ContainerFactory;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
 use Symplify\PackageBuilder\Console\ThrowableRenderer;
 
 try {
-    $config = null;
-    $argvInput = new Symfony\Component\Console\Input\ArgvInput;
-    if ($argvInput->hasParameterOption('--config')) {
-        $config = $argvInput->getParameterOption('--config');
-    }
-
-    if ($config) {
-        $container = (new ContainerFactory)->createWithConfig($config);
-    } else {
-        $container = (new ContainerFactory)->create();
-    }
+    /** @var ContainerInterface $container */
+    $container = require_once __DIR__ . '/changelog-linker-container.php';
 
     $application = $container->get(Application::class);
     $application->setDefaultCommand(CommandNaming::classToName(RunCommand::class), true);
-    $application->run();
+    exit($application->run());
 } catch (Throwable $throwable) {
     (new ThrowableRenderer())->render($throwable);
 }
