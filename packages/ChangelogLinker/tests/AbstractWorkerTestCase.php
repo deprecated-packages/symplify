@@ -18,10 +18,6 @@ abstract class AbstractWorkerTestCase extends AbstractContainerAwareTestCase
 
     protected function doProcess(string $originalFile, string $workerClass): string
     {
-        return $this->changelogApplication->processFileWithSingleWorker(
-            $originalFile,
-            'https://github.com/Symplify/Symplify',
-            $workerClass
-        );
+        return $this->changelogApplication->processFileWithSingleWorker($originalFile, $workerClass);
     }
 }
