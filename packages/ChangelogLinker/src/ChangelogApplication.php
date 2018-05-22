@@ -22,9 +22,6 @@ final class ChangelogApplication
      */
     private $workers = [];
 
-    /**
-     * @todo with some order?
-     */
     public function addWorker(WorkerInterface $worker): void
     {
         $this->workers[] = $worker;
