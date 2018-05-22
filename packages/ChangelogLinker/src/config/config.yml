@@ -2,4 +2,4 @@ imports:
     - { resource: "services.yml" }
 
 parameters:
-    repository_link: "https://github.com/Symplify/Symplify"
+    repository_url: "https://github.com/Symplify/Symplify"
