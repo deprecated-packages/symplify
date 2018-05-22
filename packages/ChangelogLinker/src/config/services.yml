@@ -1,10 +1,12 @@
 services:
     _defaults:
         autowire: true
+        bind:
+            $repositoryUrl: "%repository_url%"
 
     Symplify\ChangelogLinker\:
-        resource: '..'
-        exclude: '../{Contract,Exception}'
+        resource: ".."
+        exclude: "../{Contract,Exception}"
 
-    Symfony\Component\Console\Application:
+    Symplify\ChangelogLinker\Console\Application:
         public: true # for bin file

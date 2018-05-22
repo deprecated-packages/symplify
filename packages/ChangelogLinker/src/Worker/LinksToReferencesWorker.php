@@ -3,7 +3,6 @@
 namespace Symplify\ChangelogLinker\Worker;
 
 use Nette\Utils\Strings;
-use Symplify\ChangelogLinker\Configuration\ChangelogLinkerConfiguration;
 use Symplify\ChangelogLinker\Contract\Worker\WorkerInterface;
 use Symplify\ChangelogLinker\Regex\RegexPattern;
 
@@ -20,14 +19,14 @@ final class LinksToReferencesWorker implements WorkerInterface
     private $curl;
 
     /**
-     * @var ChangelogLinkerConfiguration
+     * @var string
      */
-    private $changelogLinkerConfiguration;
+    private $repositoryUrl;
 
-    public function __construct(ChangelogLinkerConfiguration $changelogLinkerConfiguration)
+    public function __construct(string $repositoryUrl)
     {
         $this->curl = $this->createCurl();
-        $this->changelogLinkerConfiguration = $changelogLinkerConfiguration;
+        $this->repositoryUrl = $repositoryUrl;
     }
 
     public function processContent(string $content): string
@@ -66,8 +65,8 @@ final class LinksToReferencesWorker implements WorkerInterface
             }
 
             $possibleUrls = [
-                $this->changelogLinkerConfiguration->getRepositoryLink() . '/pull/' . $match['id'],
-                $this->changelogLinkerConfiguration->getRepositoryLink() . '/issues/' . $match['id'],
+                $this->repositoryUrl . '/pull/' . $match['id'],
+                $this->repositoryUrl . '/issues/' . $match['id'],
             ];
 
             foreach ($possibleUrls as $possibleUrl) {
@@ -92,12 +91,7 @@ final class LinksToReferencesWorker implements WorkerInterface
 
         $matches = Strings::matchAll($content, '# \[' . RegexPattern::COMMIT . '\] #');
         foreach ($matches as $match) {
-            $markdownLink = sprintf(
-                '[%s]: %s/commit/%s',
-                $match['commit'],
-                $this->changelogLinkerConfiguration->getRepositoryLink(),
-                $match['commit']
-            );
+            $markdownLink = sprintf('[%s]: %s/commit/%s', $match['commit'], $this->repositoryUrl, $match['commit']);
 
             $linksToAppend[$match['commit']] = $markdownLink;
         }

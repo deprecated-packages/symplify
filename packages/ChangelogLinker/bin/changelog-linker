@@ -3,15 +3,19 @@
 
 require_once __DIR__ . '/changelog-linker-bootstrap.php';
 
-use Symfony\Component\Console\Application;
-use Symplify\ChangelogLinker\DependencyInjection\ContainerFactory;
+use Psr\Container\ContainerInterface;
+use Symplify\ChangelogLinker\Command\RunCommand;
+use Symplify\ChangelogLinker\Console\Application;
+use Symplify\PackageBuilder\Console\Command\CommandNaming;
 use Symplify\PackageBuilder\Console\ThrowableRenderer;
 
 try {
-    $container = (new ContainerFactory())->create();
+    /** @var ContainerInterface $container */
+    $container = require_once __DIR__ . '/changelog-linker-container.php';
+
     $application = $container->get(Application::class);
-    $application->setDefaultCommand('run', true);
-    $application->run();
+    $application->setDefaultCommand(CommandNaming::classToName(RunCommand::class), true);
+    exit($application->run());
 } catch (Throwable $throwable) {
     (new ThrowableRenderer())->render($throwable);
 }

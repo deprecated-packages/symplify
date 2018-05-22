@@ -3,7 +3,6 @@
 namespace Symplify\ChangelogLinker\Worker;
 
 use Nette\Utils\Strings;
-use Symplify\ChangelogLinker\Configuration\ChangelogLinkerConfiguration;
 use Symplify\ChangelogLinker\Contract\Worker\WorkerInterface;
 use Symplify\ChangelogLinker\Regex\RegexPattern;
 
@@ -20,13 +19,13 @@ final class DiffLinksToVersionsWorker implements WorkerInterface
     private $versions = [];
 
     /**
-     * @var ChangelogLinkerConfiguration
+     * @var string
      */
-    private $changelogLinkerConfiguration;
+    private $repositoryUrl;
 
-    public function __construct(ChangelogLinkerConfiguration $changelogLinkerConfiguration)
+    public function __construct(string $repositoryUrl)
     {
-        $this->changelogLinkerConfiguration = $changelogLinkerConfiguration;
+        $this->repositoryUrl = $repositoryUrl;
     }
 
     public function processContent(string $content): string
@@ -43,7 +42,7 @@ final class DiffLinksToVersionsWorker implements WorkerInterface
             $linksToAppend[] = sprintf(
                 '[%s]: %s/compare/%s...%s',
                 $version,
-                $this->changelogLinkerConfiguration->getRepositoryLink(),
+                $this->repositoryUrl,
                 $this->versions[$index + 1],
                 $version
             );

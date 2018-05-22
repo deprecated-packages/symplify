@@ -14,10 +14,24 @@ composer require symplify/changelog-linker --dev
 
 ## Usage
 
-Pass the file as argument and the repository as base for links via `--repository` option:
+Create `changelog-linker.yml` with configuration:
+
+```yaml
+# changelog-linker.yml:
+parameters:
+    repository_url: "https://github.com/symplify/symplify"
+```
+
+Run it:
 
 ```bash
-vendor/bin/changelog-linker CHANGELOG.md --repository https://github.com/symplify/symplify
+vendor/bin/changelog-linker
+```
+
+The default argument is `CHANGELOG.md`. What if file is in another non-standard location?
+
+```bash
+vendor/bin/changelog-linker docs/CHANGELOG.md
 ```
 
 ## All The Cool Features
