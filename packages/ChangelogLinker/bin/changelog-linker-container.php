@@ -3,7 +3,7 @@
 use Symplify\ChangelogLinker\DependencyInjection\ContainerFactory;
 
 $config = null;
-$argvInput = new Symfony\Component\Console\Input\ArgvInput;
+$argvInput = new Symfony\Component\Console\Input\ArgvInput();
 if ($argvInput->hasParameterOption('--config')) {
     $config = $argvInput->getParameterOption('--config');
 }
