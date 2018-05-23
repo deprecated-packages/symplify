@@ -23,4 +23,11 @@ final class RegexPattern
      * @var string
      */
     public const PR_OR_ISSUE = '(?<reference>\#(?<id>[0-9]+))';
+
+    /**
+     * @var string
+     * @see https://regex101.com/r/yNOAul/1
+     * @see http://www.rexegg.com/regex-best-trick.html
+     */
+    public const PR_OR_ISSUE_NOT_IN_BRACKETS = '\[(.*)\#[0-9]+(.*)\]|(?<reference>\#(?<id>[0-9]+))';
 }
