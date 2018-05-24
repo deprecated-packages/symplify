@@ -47,9 +47,12 @@ final class CognitiveComplexitySniff implements Sniff
             return;
         }
 
+        $method = $tokens[$position + 2]['content'];
+
         $file->addError(
             sprintf(
-                'Cognitive complexity %d have to be less than %d.',
+                'Cognitive complexity for method "%s" is %d but has to be less than or equal to %d.',
+                $method,
                 $cognitiveComplexity,
                 $this->maxCognitiveComplexity
             ),
