@@ -5,9 +5,10 @@ namespace Symplify\ChangelogLinker\Regex;
 final class RegexPattern
 {
     /**
+     * Use names, but not "@var" annotation etc.
      * @var string
      */
-    public const USER = '(?<reference>@(?<name>[A-Za-z0-9-]+))';
+    public const USER = '(?<reference>@(?<name>(?!(var))[A-Za-z0-9-]+))';
 
     /**
      * @var string
