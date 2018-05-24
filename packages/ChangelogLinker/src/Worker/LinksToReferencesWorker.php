@@ -3,30 +3,30 @@
 namespace Symplify\ChangelogLinker\Worker;
 
 use Nette\Utils\Strings;
+use Symplify\ChangelogLinker\Analyzer\LinkedIdsAnalyzer;
 use Symplify\ChangelogLinker\Contract\Worker\WorkerInterface;
 use Symplify\ChangelogLinker\Regex\RegexPattern;
 
 final class LinksToReferencesWorker implements WorkerInterface
 {
     /**
-     * @var string[]
-     */
-    private $linkedIds = [];
-
-    /**
      * @var string
      */
     private $repositoryUrl;
 
-    public function __construct(string $repositoryUrl)
+    /**
+     * @var LinkedIdsAnalyzer
+     */
+    private $linkedIdsAnalyzer;
+
+    public function __construct(string $repositoryUrl, LinkedIdsAnalyzer $linkedIdsAnalyzer)
     {
         $this->repositoryUrl = $repositoryUrl;
+        $this->linkedIdsAnalyzer = $linkedIdsAnalyzer;
     }
 
     public function processContent(string $content): string
     {
-        $this->resolveLinkedElements($content);
-
         $linksToAppend = $this->processPullRequestAndIssueReferences($content);
         $linksToAppend = array_merge($linksToAppend, $this->processCommitReferences($content));
 
@@ -82,14 +82,6 @@ final class LinksToReferencesWorker implements WorkerInterface
         return $linksToAppend;
     }
 
-    private function resolveLinkedElements(string $content): void
-    {
-        $matches = Strings::matchAll($content, '#\[' . RegexPattern::PR_OR_ISSUE . '\]:\s+#');
-        foreach ($matches as $match) {
-            $this->linkedIds[] = $match['id'];
-        }
-    }
-
     /**
      * @param string[] $match
      * @param string[] $linksToAppend
@@ -100,10 +92,6 @@ final class LinksToReferencesWorker implements WorkerInterface
             return true;
         }
 
-        if (in_array($match['id'], $this->linkedIds, true)) {
-            return true;
-        }
-
-        return false;
+        return $this->linkedIdsAnalyzer->hasLinkedId($match['id']);
     }
 }
