@@ -11,6 +11,7 @@ final class ChangelogApplication
      * @var WorkerInterface[]
      */
     private $workers = [];
+
     /**
      * @var LinkedVersionsAnalyzer
      */

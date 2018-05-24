@@ -26,12 +26,4 @@ final class LinkedVersionsAnalyzer
     {
         return in_array($version, $this->linkedVersions, true);
     }
-
-    /**
-     * @return string[]
-     */
-    public function getLinkedVersions(): array
-    {
-        return $this->linkedVersions;
-    }
 }
