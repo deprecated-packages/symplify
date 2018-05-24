@@ -47,13 +47,15 @@ final class LinksToReferencesWorker implements WorkerInterface
 
     private function processPullRequestAndIssueReferences(string $content): void
     {
-        $matches = Strings::matchAll($content, '#\[' . RegexPattern::PR_OR_ISSUE . '\][\s,]#');
+        $matches = Strings::matchAll($content, '#\[' . RegexPattern::PR_OR_ISSUE . '\]#');
+
         foreach ($matches as $match) {
             if ($this->shouldSkipPullRequestOrIssueReference($match)) {
                 continue;
             }
 
             $markdownLink = sprintf('[#%d]: %s/pull/%d', $match['id'], $this->repositoryUrl, $match['id']);
+
             $this->linkAppender->add($match['id'], $markdownLink);
         }
     }

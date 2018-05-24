@@ -3,7 +3,6 @@
 namespace Symplify\ChangelogLinker\Analyzer;
 
 use Nette\Utils\Strings;
-use Symplify\ChangelogLinker\Regex\RegexPattern;
 
 final class LinksAnalyzer
 {
@@ -16,11 +15,9 @@ final class LinksAnalyzer
     {
         $this->linkedIds = [];
 
-        $pattern = sprintf('#\[%s|%s\]:\s+#', RegexPattern::PR_OR_ISSUE, RegexPattern::VERSION);
-        $matches = Strings::matchAll($content, $pattern);
-
+        $matches = Strings::matchAll($content, ' #\[\#?(?<reference>.*)\]:\s+#');
         foreach ($matches as $match) {
-            $this->linkedIds[] = $match['id'] ?? $match['version'];
+            $this->linkedIds[] = $match['reference'];
         }
     }
 
