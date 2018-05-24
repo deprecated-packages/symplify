@@ -3,16 +3,12 @@
 namespace Symplify\ChangelogLinker\Worker;
 
 use Nette\Utils\Strings;
+use Symplify\ChangelogLinker\Analyzer\LinkedVersionsAnalyzer;
 use Symplify\ChangelogLinker\Contract\Worker\WorkerInterface;
 use Symplify\ChangelogLinker\Regex\RegexPattern;
 
 final class DiffLinksToVersionsWorker implements WorkerInterface
 {
-    /**
-     * @var string[]
-     */
-    private $linkedVersions = [];
-
     /**
      * @var string[]
      */
@@ -23,14 +19,19 @@ final class DiffLinksToVersionsWorker implements WorkerInterface
      */
     private $repositoryUrl;
 
-    public function __construct(string $repositoryUrl)
+    /**
+     * @var LinkedVersionsAnalyzer
+     */
+    private $linkedVersionsAnalyzer;
+
+    public function __construct(string $repositoryUrl, LinkedVersionsAnalyzer $linkedVersionsAnalyzer)
     {
         $this->repositoryUrl = $repositoryUrl;
+        $this->linkedVersionsAnalyzer = $linkedVersionsAnalyzer;
     }
 
     public function processContent(string $content): string
     {
-        $this->collectLinkedVersions($content);
         $this->collectVersions($content);
 
         $linksToAppend = [];
@@ -63,17 +64,6 @@ final class DiffLinksToVersionsWorker implements WorkerInterface
         return 800;
     }
 
-    private function collectLinkedVersions(string $content): void
-    {
-        // @todo reset for now, should be service later
-        $this->linkedVersions = [];
-
-        $matches = Strings::matchAll($content, '#\[' . RegexPattern::VERSION . '\]: #');
-        foreach ($matches as $match) {
-            $this->linkedVersions[] = $match['version'];
-        }
-    }
-
     private function collectVersions(string $content): void
     {
         // @todo reset for now, should be service later
@@ -87,7 +77,7 @@ final class DiffLinksToVersionsWorker implements WorkerInterface
 
     private function shouldSkip(string $version, int $index): bool
     {
-        if (in_array($version, $this->linkedVersions, true)) {
+        if ($this->linkedVersionsAnalyzer->hasLinkedVersion($version)) {
             return true;
         }
 

@@ -2,6 +2,7 @@
 
 namespace Symplify\ChangelogLinker;
 
+use Symplify\ChangelogLinker\Analyzer\LinkedVersionsAnalyzer;
 use Symplify\ChangelogLinker\Contract\Worker\WorkerInterface;
 
 final class ChangelogApplication
@@ -10,6 +11,15 @@ final class ChangelogApplication
      * @var WorkerInterface[]
      */
     private $workers = [];
+    /**
+     * @var LinkedVersionsAnalyzer
+     */
+    private $linkedVersionsAnalyzer;
+
+    public function __construct(LinkedVersionsAnalyzer $linkedVersionsAnalyzer)
+    {
+        $this->linkedVersionsAnalyzer = $linkedVersionsAnalyzer;
+    }
 
     public function addWorker(WorkerInterface $worker): void
     {
@@ -19,6 +29,7 @@ final class ChangelogApplication
     public function processFile(string $filePath): string
     {
         $content = file_get_contents($filePath);
+        $this->linkedVersionsAnalyzer->analyzeContent($content);
 
         foreach ($this->getSortedWorkers() as $worker) {
             $content = $worker->processContent($content);
@@ -30,6 +41,7 @@ final class ChangelogApplication
     public function processFileWithSingleWorker(string $filePath, string $workerClass): string
     {
         $content = file_get_contents($filePath);
+        $this->linkedVersionsAnalyzer->analyzeContent($content);
 
         foreach ($this->getSortedWorkers() as $worker) {
             if ($worker instanceof $workerClass) {
