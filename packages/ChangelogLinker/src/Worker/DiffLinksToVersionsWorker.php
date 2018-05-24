@@ -2,7 +2,7 @@
 
 namespace Symplify\ChangelogLinker\Worker;
 
-use Symplify\ChangelogLinker\Analyzer\LinkedVersionsAnalyzer;
+use Symplify\ChangelogLinker\Analyzer\LinksAnalyzer;
 use Symplify\ChangelogLinker\Analyzer\VersionsAnalyzer;
 use Symplify\ChangelogLinker\Contract\Worker\WorkerInterface;
 use Symplify\ChangelogLinker\LinkAppender;
@@ -15,11 +15,6 @@ final class DiffLinksToVersionsWorker implements WorkerInterface
     private $repositoryUrl;
 
     /**
-     * @var LinkedVersionsAnalyzer
-     */
-    private $linkedVersionsAnalyzer;
-
-    /**
      * @var LinkAppender
      */
     private $linkAppender;
@@ -29,22 +24,27 @@ final class DiffLinksToVersionsWorker implements WorkerInterface
      */
     private $versionsAnalyzer;
 
+    /**
+     * @var LinksAnalyzer
+     */
+    private $linksAnalyzer;
+
     public function __construct(
         string $repositoryUrl,
-        LinkedVersionsAnalyzer $linkedVersionsAnalyzer,
         LinkAppender $linkAppender,
-        VersionsAnalyzer $versionsAnalyzer
+        VersionsAnalyzer $versionsAnalyzer,
+        LinksAnalyzer $linksAnalyzer
     ) {
         $this->repositoryUrl = $repositoryUrl;
-        $this->linkedVersionsAnalyzer = $linkedVersionsAnalyzer;
         $this->linkAppender = $linkAppender;
         $this->versionsAnalyzer = $versionsAnalyzer;
+        $this->linksAnalyzer = $linksAnalyzer;
     }
 
     public function processContent(string $content): string
     {
         foreach ($this->versionsAnalyzer->getVersions() as $index => $version) {
-            if ($this->shouldSkip($version, $index)) {
+            if ($this->shouldSkip($version)) {
                 continue;
             }
 
@@ -68,9 +68,9 @@ final class DiffLinksToVersionsWorker implements WorkerInterface
         return 800;
     }
 
-    private function shouldSkip(string $version, int $index): bool
+    private function shouldSkip(string $version): bool
     {
-        if ($this->linkedVersionsAnalyzer->hasLinkedVersion($version)) {
+        if ($this->linksAnalyzer->hasLinkedId($version)) {
             return true;
         }
 

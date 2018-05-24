@@ -3,6 +3,7 @@
 namespace Symplify\ChangelogLinker;
 
 use Symplify\ChangelogLinker\Analyzer\LinkedVersionsAnalyzer;
+use Symplify\ChangelogLinker\Analyzer\LinksAnalyzer;
 use Symplify\ChangelogLinker\Analyzer\VersionsAnalyzer;
 use Symplify\ChangelogLinker\Contract\Worker\WorkerInterface;
 
@@ -14,9 +15,9 @@ final class ChangelogApplication
     private $workers = [];
 
     /**
-     * @var LinkedVersionsAnalyzer
+     * @var LinksAnalyzer
      */
-    private $linkedVersionsAnalyzer;
+    private $linksAnalyzer;
 
     /**
      * @var LinkAppender
@@ -29,11 +30,11 @@ final class ChangelogApplication
     private $versionsAnalyzer;
 
     public function __construct(
-        LinkedVersionsAnalyzer $linkedVersionsAnalyzer,
+        LinksAnalyzer $linksAnalyzer,
         LinkAppender $linkAppender,
         VersionsAnalyzer $versionsAnalyzer
     ) {
-        $this->linkedVersionsAnalyzer = $linkedVersionsAnalyzer;
+        $this->linksAnalyzer = $linksAnalyzer;
         $this->linkAppender = $linkAppender;
         $this->versionsAnalyzer = $versionsAnalyzer;
     }
@@ -47,7 +48,7 @@ final class ChangelogApplication
     {
         $content = file_get_contents($filePath);
         $this->versionsAnalyzer->analyzeContent($content);
-        $this->linkedVersionsAnalyzer->analyzeContent($content);
+        $this->linksAnalyzer->analyzeContent($content);
 
         foreach ($this->getSortedWorkers() as $worker) {
             $content = $worker->processContent($content);
@@ -60,7 +61,7 @@ final class ChangelogApplication
     {
         $content = file_get_contents($filePath);
         $this->versionsAnalyzer->analyzeContent($content);
-        $this->linkedVersionsAnalyzer->analyzeContent($content);
+        $this->linksAnalyzer->analyzeContent($content);
 
         foreach ($this->getSortedWorkers() as $worker) {
             if ($worker instanceof $workerClass) {

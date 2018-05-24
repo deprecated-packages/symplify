@@ -3,7 +3,7 @@
 namespace Symplify\ChangelogLinker\Worker;
 
 use Nette\Utils\Strings;
-use Symplify\ChangelogLinker\Analyzer\LinkedIdsAnalyzer;
+use Symplify\ChangelogLinker\Analyzer\LinksAnalyzer;
 use Symplify\ChangelogLinker\Contract\Worker\WorkerInterface;
 use Symplify\ChangelogLinker\LinkAppender;
 use Symplify\ChangelogLinker\Regex\RegexPattern;
@@ -16,19 +16,19 @@ final class LinksToReferencesWorker implements WorkerInterface
     private $repositoryUrl;
 
     /**
-     * @var LinkedIdsAnalyzer
+     * @var LinksAnalyzer
      */
-    private $linkedIdsAnalyzer;
+    private $linksAnalyzer;
 
     /**
      * @var LinkAppender
      */
     private $linkAppender;
 
-    public function __construct(string $repositoryUrl, LinkedIdsAnalyzer $linkedIdsAnalyzer, LinkAppender $linkAppender)
+    public function __construct(string $repositoryUrl, LinksAnalyzer $linksAnalyzer, LinkAppender $linkAppender)
     {
         $this->repositoryUrl = $repositoryUrl;
-        $this->linkedIdsAnalyzer = $linkedIdsAnalyzer;
+        $this->linksAnalyzer = $linksAnalyzer;
         $this->linkAppender = $linkAppender;
     }
 
@@ -76,6 +76,6 @@ final class LinksToReferencesWorker implements WorkerInterface
             return true;
         }
 
-        return $this->linkedIdsAnalyzer->hasLinkedId($match['id']);
+        return $this->linksAnalyzer->hasLinkedId($match['id']);
     }
 }
