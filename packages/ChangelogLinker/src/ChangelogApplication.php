@@ -45,22 +45,18 @@ final class ChangelogApplication
 
     public function processFile(string $filePath): string
     {
-        $content = file_get_contents($filePath);
-        $this->versionsAnalyzer->analyzeContent($content);
-        $this->linksAnalyzer->analyzeContent($content);
+        $content = $this->getContentAndAnalyze($filePath);
 
         foreach ($this->getSortedWorkers() as $worker) {
             $content = $worker->processContent($content);
         }
 
-        return $content . PHP_EOL . implode(PHP_EOL, $this->linkAppender->getLinksToAppend());
+        return $this->appendLinksToContentIfAny($content);
     }
 
     public function processFileWithSingleWorker(string $filePath, string $workerClass): string
     {
-        $content = file_get_contents($filePath);
-        $this->versionsAnalyzer->analyzeContent($content);
-        $this->linksAnalyzer->analyzeContent($content);
+        $content = $this->getContentAndAnalyze($filePath);
 
         foreach ($this->getSortedWorkers() as $worker) {
             if ($worker instanceof $workerClass) {
@@ -68,11 +64,7 @@ final class ChangelogApplication
             }
         }
 
-        if ($this->linkAppender->getLinksToAppend()) {
-            return $content . PHP_EOL . implode(PHP_EOL, $this->linkAppender->getLinksToAppend());
-        }
-
-        return $content;
+        return $this->appendLinksToContentIfAny($content);
     }
 
     /**
@@ -85,5 +77,23 @@ final class ChangelogApplication
         });
 
         return $this->workers;
+    }
+
+    private function getContentAndAnalyze(string $filePath): string
+    {
+        $content = file_get_contents($filePath);
+        $this->versionsAnalyzer->analyzeContent($content);
+        $this->linksAnalyzer->analyzeContent($content);
+
+        return $content;
+    }
+
+    private function appendLinksToContentIfAny(string $content): string
+    {
+        if ($this->linkAppender->getLinksToAppend()) {
+            return $content . PHP_EOL . implode(PHP_EOL, $this->linkAppender->getLinksToAppend());
+        }
+
+        return $content;
     }
 }
