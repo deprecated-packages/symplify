@@ -14,9 +14,18 @@ final class BracketsAroundReferencesWorker implements WorkerInterface
     public function processContent(string $content): string
     {
         // issue or PR references
-        $content = Strings::replace($content, '# ' . RegexPattern::PR_OR_ISSUE . '#', function (array $match): string {
-            return sprintf(' [%s]', $match['reference']);
-        });
+        $content = Strings::replace(
+            $content,
+            '#' . RegexPattern::PR_OR_ISSUE_NOT_IN_BRACKETS . '#',
+            function (array $match) {
+                if (isset($match['reference'])) {
+                    return sprintf('[%s]', $match['reference']);
+                }
+
+                // skip "[#321]" and "[see PHP bug #321]"
+                return $match[0];
+            }
+        );
 
         // version references
         $content = Strings::replace($content, '#\#\# ' . RegexPattern::VERSION . '#', function (array $match): string {
