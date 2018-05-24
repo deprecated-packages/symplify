@@ -67,6 +67,6 @@ final class UserReferencesWorker implements WorkerInterface
             return true;
         }
 
-        return isset($this->linksToPrepend[$match['name']]);
+        return $this->linkAppender->hasId($match['name']);
     }
 }

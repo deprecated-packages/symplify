@@ -10,11 +10,6 @@ use Symplify\ChangelogLinker\LinkAppender;
 final class DiffLinksToVersionsWorker implements WorkerInterface
 {
     /**
-     * @var string[]
-     */
-    private $versions = [];
-
-    /**
      * @var string
      */
     private $repositoryUrl;
@@ -28,13 +23,18 @@ final class DiffLinksToVersionsWorker implements WorkerInterface
      * @var LinkAppender
      */
     private $linkAppender;
+
     /**
      * @var VersionsAnalyzer
      */
     private $versionsAnalyzer;
 
-    public function __construct(string $repositoryUrl, LinkedVersionsAnalyzer $linkedVersionsAnalyzer, LinkAppender $linkAppender, VersionsAnalyzer $versionsAnalyzer)
-    {
+    public function __construct(
+        string $repositoryUrl,
+        LinkedVersionsAnalyzer $linkedVersionsAnalyzer,
+        LinkAppender $linkAppender,
+        VersionsAnalyzer $versionsAnalyzer
+    ) {
         $this->repositoryUrl = $repositoryUrl;
         $this->linkedVersionsAnalyzer = $linkedVersionsAnalyzer;
         $this->linkAppender = $linkAppender;

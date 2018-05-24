@@ -37,6 +37,6 @@ final class VersionsAnalyzer
 
     public function isLastVersion(string $version): bool
     {
-        return array_search($version, $this->versions) === 0;
+        return array_search($version, $this->versions, true) === 0;
     }
 }

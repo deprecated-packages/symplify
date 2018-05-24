@@ -19,6 +19,7 @@ final class LinksToReferencesWorker implements WorkerInterface
      * @var LinkedIdsAnalyzer
      */
     private $linkedIdsAnalyzer;
+
     /**
      * @var LinkAppender
      */
@@ -44,9 +45,6 @@ final class LinksToReferencesWorker implements WorkerInterface
         return 700;
     }
 
-    /**
-     * @return string[]
-     */
     private function processPullRequestAndIssueReferences(string $content): void
     {
         $matches = Strings::matchAll($content, '#\[' . RegexPattern::PR_OR_ISSUE . '\][\s,]#');
@@ -60,9 +58,6 @@ final class LinksToReferencesWorker implements WorkerInterface
         }
     }
 
-    /**
-     * @return string[]
-     */
     private function processCommitReferences(string $content): void
     {
         $matches = Strings::matchAll($content, '# \[' . RegexPattern::COMMIT . '\] #');

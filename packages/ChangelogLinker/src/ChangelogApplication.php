@@ -17,17 +17,22 @@ final class ChangelogApplication
      * @var LinkedVersionsAnalyzer
      */
     private $linkedVersionsAnalyzer;
+
     /**
      * @var LinkAppender
      */
     private $linkAppender;
+
     /**
      * @var VersionsAnalyzer
      */
     private $versionsAnalyzer;
 
-    public function __construct(LinkedVersionsAnalyzer $linkedVersionsAnalyzer, LinkAppender $linkAppender, VersionsAnalyzer $versionsAnalyzer)
-    {
+    public function __construct(
+        LinkedVersionsAnalyzer $linkedVersionsAnalyzer,
+        LinkAppender $linkAppender,
+        VersionsAnalyzer $versionsAnalyzer
+    ) {
         $this->linkedVersionsAnalyzer = $linkedVersionsAnalyzer;
         $this->linkAppender = $linkAppender;
         $this->versionsAnalyzer = $versionsAnalyzer;
