@@ -14,18 +14,12 @@ final class LinksToReferencesWorker implements WorkerInterface
     private $linkedIds = [];
 
     /**
-     * @var resource
-     */
-    private $curl;
-
-    /**
      * @var string
      */
     private $repositoryUrl;
 
     public function __construct(string $repositoryUrl)
     {
-        $this->curl = $this->createCurl();
         $this->repositoryUrl = $repositoryUrl;
     }
 
@@ -64,19 +58,8 @@ final class LinksToReferencesWorker implements WorkerInterface
                 continue;
             }
 
-            $possibleUrls = [
-                $this->repositoryUrl . '/pull/' . $match['id'],
-                $this->repositoryUrl . '/issues/' . $match['id'],
-            ];
-
-            foreach ($possibleUrls as $possibleUrl) {
-                if ($this->doesUrlExist($possibleUrl)) {
-                    $markdownLink = sprintf('[#%d]: %s', $match['id'], $possibleUrl);
-
-                    $linksToAppend[$match['id']] = $markdownLink;
-                    break;
-                }
-            }
+            $markdownLink = sprintf('[#%d]: %s/pull/%d', $match['id'], $this->repositoryUrl, $match['id']);
+            $linksToAppend[$match['id']] = $markdownLink;
         }
 
         return $linksToAppend;
@@ -99,36 +82,12 @@ final class LinksToReferencesWorker implements WorkerInterface
         return $linksToAppend;
     }
 
-    private function doesUrlExist(string $url): bool
-    {
-        curl_setopt($this->curl, CURLOPT_URL, $url);
-        curl_exec($this->curl);
-
-        return curl_getinfo($this->curl, CURLINFO_HTTP_CODE) === 200;
-    }
-
     private function resolveLinkedElements(string $content): void
     {
         $matches = Strings::matchAll($content, '#\[' . RegexPattern::PR_OR_ISSUE . '\]:\s+#');
         foreach ($matches as $match) {
             $this->linkedIds[] = $match['id'];
         }
-    }
-
-    /**
-     * @return resource
-     */
-    private function createCurl()
-    {
-        $curl = curl_init();
-
-        // set to HEAD request
-        curl_setopt($curl, CURLOPT_NOBODY, true);
-        curl_setopt($curl, CURLOPT_FAILONERROR, true);
-        // don't output the response
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-
-        return $curl;
     }
 
     /**
