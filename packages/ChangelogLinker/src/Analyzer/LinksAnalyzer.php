@@ -15,7 +15,8 @@ final class LinksAnalyzer
     {
         $this->linkedIds = [];
 
-        $matches = Strings::matchAll($content, ' #\[\#?(?<reference>.*)\]:\s+#');
+        // matches any links: "[<...>]: http://"
+        $matches = Strings::matchAll($content, '#\[\#?(?<reference>.*)\]:\s+#');
         foreach ($matches as $match) {
             $this->linkedIds[] = $match['reference'];
         }
