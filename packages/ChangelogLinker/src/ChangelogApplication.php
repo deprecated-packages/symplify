@@ -3,6 +3,7 @@
 namespace Symplify\ChangelogLinker;
 
 use Symplify\ChangelogLinker\Analyzer\LinkedVersionsAnalyzer;
+use Symplify\ChangelogLinker\Analyzer\VersionsAnalyzer;
 use Symplify\ChangelogLinker\Contract\Worker\WorkerInterface;
 
 final class ChangelogApplication
@@ -16,10 +17,20 @@ final class ChangelogApplication
      * @var LinkedVersionsAnalyzer
      */
     private $linkedVersionsAnalyzer;
+    /**
+     * @var LinkAppender
+     */
+    private $linkAppender;
+    /**
+     * @var VersionsAnalyzer
+     */
+    private $versionsAnalyzer;
 
-    public function __construct(LinkedVersionsAnalyzer $linkedVersionsAnalyzer)
+    public function __construct(LinkedVersionsAnalyzer $linkedVersionsAnalyzer, LinkAppender $linkAppender, VersionsAnalyzer $versionsAnalyzer)
     {
         $this->linkedVersionsAnalyzer = $linkedVersionsAnalyzer;
+        $this->linkAppender = $linkAppender;
+        $this->versionsAnalyzer = $versionsAnalyzer;
     }
 
     public function addWorker(WorkerInterface $worker): void
@@ -30,24 +41,30 @@ final class ChangelogApplication
     public function processFile(string $filePath): string
     {
         $content = file_get_contents($filePath);
+        $this->versionsAnalyzer->analyzeContent($content);
         $this->linkedVersionsAnalyzer->analyzeContent($content);
 
         foreach ($this->getSortedWorkers() as $worker) {
             $content = $worker->processContent($content);
         }
 
-        return $content;
+        return $content . PHP_EOL . implode(PHP_EOL, $this->linkAppender->getLinksToAppend());
     }
 
     public function processFileWithSingleWorker(string $filePath, string $workerClass): string
     {
         $content = file_get_contents($filePath);
+        $this->versionsAnalyzer->analyzeContent($content);
         $this->linkedVersionsAnalyzer->analyzeContent($content);
 
         foreach ($this->getSortedWorkers() as $worker) {
             if ($worker instanceof $workerClass) {
-                return $worker->processContent($content);
+                $content = $worker->processContent($content);
             }
+        }
+
+        if ($this->linkAppender->getLinksToAppend()) {
+            return $content . PHP_EOL . implode(PHP_EOL, $this->linkAppender->getLinksToAppend());
         }
 
         return $content;

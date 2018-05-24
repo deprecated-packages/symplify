@@ -2,10 +2,10 @@
 
 namespace Symplify\ChangelogLinker\Worker;
 
-use Nette\Utils\Strings;
 use Symplify\ChangelogLinker\Analyzer\LinkedVersionsAnalyzer;
+use Symplify\ChangelogLinker\Analyzer\VersionsAnalyzer;
 use Symplify\ChangelogLinker\Contract\Worker\WorkerInterface;
-use Symplify\ChangelogLinker\Regex\RegexPattern;
+use Symplify\ChangelogLinker\LinkAppender;
 
 final class DiffLinksToVersionsWorker implements WorkerInterface
 {
@@ -24,55 +24,48 @@ final class DiffLinksToVersionsWorker implements WorkerInterface
      */
     private $linkedVersionsAnalyzer;
 
-    public function __construct(string $repositoryUrl, LinkedVersionsAnalyzer $linkedVersionsAnalyzer)
+    /**
+     * @var LinkAppender
+     */
+    private $linkAppender;
+    /**
+     * @var VersionsAnalyzer
+     */
+    private $versionsAnalyzer;
+
+    public function __construct(string $repositoryUrl, LinkedVersionsAnalyzer $linkedVersionsAnalyzer, LinkAppender $linkAppender, VersionsAnalyzer $versionsAnalyzer)
     {
         $this->repositoryUrl = $repositoryUrl;
         $this->linkedVersionsAnalyzer = $linkedVersionsAnalyzer;
+        $this->linkAppender = $linkAppender;
+        $this->versionsAnalyzer = $versionsAnalyzer;
     }
 
     public function processContent(string $content): string
     {
-        $this->collectVersions($content);
-
-        $linksToAppend = [];
-        foreach ($this->versions as $index => $version) {
+        foreach ($this->versionsAnalyzer->getVersions() as $index => $version) {
             if ($this->shouldSkip($version, $index)) {
                 continue;
             }
 
-            $linksToAppend[] = sprintf(
+            $link = sprintf(
                 '[%s]: %s/compare/%s...%s',
                 $version,
                 $this->repositoryUrl,
-                $this->versions[$index + 1],
+                $this->versionsAnalyzer->getVersions()[$index + 1],
                 $version
             );
-        }
 
-        if (! count($linksToAppend)) {
-            return $content;
+            $this->linkAppender->add($version, $link);
         }
-
-        rsort($linksToAppend);
 
         // append new links to the file
-        return $content . PHP_EOL . implode(PHP_EOL, $linksToAppend);
+        return $content;
     }
 
     public function getPriority(): int
     {
         return 800;
-    }
-
-    private function collectVersions(string $content): void
-    {
-        // @todo reset for now, should be service later
-        $this->versions = [];
-
-        $matches = Strings::matchAll($content, '#\#\# \[' . RegexPattern::VERSION . '\]#');
-        foreach ($matches as $match) {
-            $this->versions[] = $match['version'];
-        }
     }
 
     private function shouldSkip(string $version, int $index): bool
@@ -81,7 +74,6 @@ final class DiffLinksToVersionsWorker implements WorkerInterface
             return true;
         }
 
-        // last version, no previous one
-        return ! isset($this->versions[$index + 1]);
+        return ! $this->versionsAnalyzer->isLastVersion($version);
     }
 }

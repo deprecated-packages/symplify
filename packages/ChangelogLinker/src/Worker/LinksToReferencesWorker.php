@@ -5,6 +5,7 @@ namespace Symplify\ChangelogLinker\Worker;
 use Nette\Utils\Strings;
 use Symplify\ChangelogLinker\Analyzer\LinkedIdsAnalyzer;
 use Symplify\ChangelogLinker\Contract\Worker\WorkerInterface;
+use Symplify\ChangelogLinker\LinkAppender;
 use Symplify\ChangelogLinker\Regex\RegexPattern;
 
 final class LinksToReferencesWorker implements WorkerInterface
@@ -18,26 +19,24 @@ final class LinksToReferencesWorker implements WorkerInterface
      * @var LinkedIdsAnalyzer
      */
     private $linkedIdsAnalyzer;
+    /**
+     * @var LinkAppender
+     */
+    private $linkAppender;
 
-    public function __construct(string $repositoryUrl, LinkedIdsAnalyzer $linkedIdsAnalyzer)
+    public function __construct(string $repositoryUrl, LinkedIdsAnalyzer $linkedIdsAnalyzer, LinkAppender $linkAppender)
     {
         $this->repositoryUrl = $repositoryUrl;
         $this->linkedIdsAnalyzer = $linkedIdsAnalyzer;
+        $this->linkAppender = $linkAppender;
     }
 
     public function processContent(string $content): string
     {
-        $linksToAppend = $this->processPullRequestAndIssueReferences($content);
-        $linksToAppend = array_merge($linksToAppend, $this->processCommitReferences($content));
+        $this->processPullRequestAndIssueReferences($content);
+        $this->processCommitReferences($content);
 
-        if (! count($linksToAppend)) {
-            return $content;
-        }
-
-        rsort($linksToAppend);
-
-        // append new links to the file
-        return $content . PHP_EOL . implode(PHP_EOL, $linksToAppend);
+        return $content;
     }
 
     public function getPriority(): int
@@ -48,47 +47,37 @@ final class LinksToReferencesWorker implements WorkerInterface
     /**
      * @return string[]
      */
-    private function processPullRequestAndIssueReferences(string $content): array
+    private function processPullRequestAndIssueReferences(string $content): void
     {
-        $linksToAppend = [];
-
         $matches = Strings::matchAll($content, '#\[' . RegexPattern::PR_OR_ISSUE . '\][\s,]#');
         foreach ($matches as $match) {
-            if ($this->shouldSkipPullRequestOrIssueReference($match, $linksToAppend)) {
+            if ($this->shouldSkipPullRequestOrIssueReference($match)) {
                 continue;
             }
 
             $markdownLink = sprintf('[#%d]: %s/pull/%d', $match['id'], $this->repositoryUrl, $match['id']);
-            $linksToAppend[$match['id']] = $markdownLink;
+            $this->linkAppender->add($match['id'], $markdownLink);
         }
-
-        return $linksToAppend;
     }
 
     /**
      * @return string[]
      */
-    private function processCommitReferences(string $content): array
+    private function processCommitReferences(string $content): void
     {
-        $linksToAppend = [];
-
         $matches = Strings::matchAll($content, '# \[' . RegexPattern::COMMIT . '\] #');
         foreach ($matches as $match) {
             $markdownLink = sprintf('[%s]: %s/commit/%s', $match['commit'], $this->repositoryUrl, $match['commit']);
-
-            $linksToAppend[$match['commit']] = $markdownLink;
+            $this->linkAppender->add($match['commit'], $markdownLink);
         }
-
-        return $linksToAppend;
     }
 
     /**
      * @param string[] $match
-     * @param string[] $linksToAppend
      */
-    private function shouldSkipPullRequestOrIssueReference(array $match, array $linksToAppend): bool
+    private function shouldSkipPullRequestOrIssueReference(array $match): bool
     {
-        if (array_key_exists($match['id'], $linksToAppend)) {
+        if ($this->linkAppender->hasId($match['id'])) {
             return true;
         }
 

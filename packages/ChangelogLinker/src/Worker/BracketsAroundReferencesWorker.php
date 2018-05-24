@@ -28,16 +28,19 @@ final class BracketsAroundReferencesWorker implements WorkerInterface
         );
 
         // version references
+        // @todo shorten " [$1]"
         $content = Strings::replace($content, '#\#\# ' . RegexPattern::VERSION . '#', function (array $match): string {
             return sprintf('## [%s]', $match['version']);
         });
 
         // commit references
+        // @todo shorten " [$1]"
         $content = Strings::replace($content, '# ' . RegexPattern::COMMIT . '#', function (array $match): string {
             return sprintf(' [%s]', $match['commit']);
         });
 
         // user references
+        // @todo shorten " [$1]"
         $content = Strings::replace($content, '# ' . RegexPattern::USER . '#', function (array $match): string {
             if ($match['name'] === 'var') { // exclude @var annotation
                 return sprintf(' %s', $match['reference']);
