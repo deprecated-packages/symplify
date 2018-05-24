@@ -30,4 +30,10 @@ final class RegexPattern
      * @see http://www.rexegg.com/regex-best-trick.html
      */
     public const PR_OR_ISSUE_NOT_IN_BRACKETS = '\[(.*)\#[0-9]+(.*)\]|(?<reference>\#(?<id>[0-9]+))';
+
+    /**
+     * links: "[<...>]: http://"
+     * @var string
+     */
+    public const LINK_REFERENCE = '#\[\#?(?<reference>.*)\]:\s+#';
 }
