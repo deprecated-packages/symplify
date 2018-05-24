@@ -65,6 +65,9 @@ final class DiffLinksToVersionsWorker implements WorkerInterface
 
     private function collectLinkedVersions(string $content): void
     {
+        // @todo reset for now, should be service later
+        $this->linkedVersions = [];
+
         $matches = Strings::matchAll($content, '#\[' . RegexPattern::VERSION . '\]: #');
         foreach ($matches as $match) {
             $this->linkedVersions[] = $match['version'];
@@ -73,6 +76,9 @@ final class DiffLinksToVersionsWorker implements WorkerInterface
 
     private function collectVersions(string $content): void
     {
+        // @todo reset for now, should be service later
+        $this->versions = [];
+
         $matches = Strings::matchAll($content, '#\#\# \[' . RegexPattern::VERSION . '\]#');
         foreach ($matches as $match) {
             $this->versions[] = $match['version'];
