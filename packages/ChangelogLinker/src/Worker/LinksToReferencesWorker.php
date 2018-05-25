@@ -49,7 +49,7 @@ final class LinksToReferencesWorker implements WorkerInterface
 
     private function processIssues(string $content): void
     {
-        $matches = Strings::matchAll($content, '#fixes \[' . RegexPattern::PR_OR_ISSUE . '\]#');
+        $matches = Strings::matchAll($content, '#(fixes|resolves) \[' . RegexPattern::PR_OR_ISSUE . '\]#');
 
         foreach ($matches as $match) {
             if ($this->shouldSkipPullRequestOrIssueReference($match)) {
