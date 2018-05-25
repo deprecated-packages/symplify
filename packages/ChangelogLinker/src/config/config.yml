@@ -3,3 +3,4 @@ imports:
 
 parameters:
     repository_url: "https://github.com/Symplify/Symplify"
+    linkify: []
