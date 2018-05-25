@@ -47,18 +47,18 @@ final class LinksToReferencesWorker implements WorkerInterface
         return 700;
     }
 
-    private function processCommitReferences(string $content): void
-    {
-        $matches = Strings::matchAll($content, '# \[' . RegexPattern::COMMIT . '\] #');
-        foreach ($matches as $match) {
-            $link = sprintf('[%s]: %s/commit/%s', $match['commit'], $this->repositoryUrl, $match['commit']);
-            $this->linkAppender->add($match['commit'], $link);
-        }
-    }
-
     private function processIssues(string $content): void
     {
-        // ...
+        $matches = Strings::matchAll($content, '#fixes \[' . RegexPattern::PR_OR_ISSUE . '\]#');
+
+        foreach ($matches as $match) {
+            if ($this->shouldSkipPullRequestOrIssueReference($match)) {
+                continue;
+            }
+
+            $link = sprintf('[#%d]: %s/issues/%d', $match['id'], $this->repositoryUrl, $match['id']);
+            $this->linkAppender->add($match['id'], $link);
+        }
     }
 
     private function processPullRequests(string $content): void
@@ -72,6 +72,15 @@ final class LinksToReferencesWorker implements WorkerInterface
 
             $link = sprintf('[#%d]: %s/pull/%d', $match['id'], $this->repositoryUrl, $match['id']);
             $this->linkAppender->add($match['id'], $link);
+        }
+    }
+
+    private function processCommitReferences(string $content): void
+    {
+        $matches = Strings::matchAll($content, '# \[' . RegexPattern::COMMIT . '\] #');
+        foreach ($matches as $match) {
+            $link = sprintf('[%s]: %s/commit/%s', $match['commit'], $this->repositoryUrl, $match['commit']);
+            $this->linkAppender->add($match['commit'], $link);
         }
     }
 
