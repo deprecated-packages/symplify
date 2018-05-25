@@ -34,7 +34,9 @@ final class LinksToReferencesWorker implements WorkerInterface
 
     public function processContent(string $content): string
     {
-        $this->processPullRequestAndIssueReferences($content);
+        // order matters, issues first
+        $this->processIssues($content);
+        $this->processPullRequests($content);
         $this->processCommitReferences($content);
 
         return $content;
@@ -45,7 +47,21 @@ final class LinksToReferencesWorker implements WorkerInterface
         return 700;
     }
 
-    private function processPullRequestAndIssueReferences(string $content): void
+    private function processIssues(string $content): void
+    {
+        $matches = Strings::matchAll($content, '#(fixes|resolves) \[' . RegexPattern::PR_OR_ISSUE . '\]#');
+
+        foreach ($matches as $match) {
+            if ($this->shouldSkipPullRequestOrIssueReference($match)) {
+                continue;
+            }
+
+            $link = sprintf('[#%d]: %s/issues/%d', $match['id'], $this->repositoryUrl, $match['id']);
+            $this->linkAppender->add($match['id'], $link);
+        }
+    }
+
+    private function processPullRequests(string $content): void
     {
         $matches = Strings::matchAll($content, '#\[' . RegexPattern::PR_OR_ISSUE . '\]#');
 
@@ -54,9 +70,8 @@ final class LinksToReferencesWorker implements WorkerInterface
                 continue;
             }
 
-            $markdownLink = sprintf('[#%d]: %s/pull/%d', $match['id'], $this->repositoryUrl, $match['id']);
-
-            $this->linkAppender->add($match['id'], $markdownLink);
+            $link = sprintf('[#%d]: %s/pull/%d', $match['id'], $this->repositoryUrl, $match['id']);
+            $this->linkAppender->add($match['id'], $link);
         }
     }
 
@@ -64,8 +79,8 @@ final class LinksToReferencesWorker implements WorkerInterface
     {
         $matches = Strings::matchAll($content, '# \[' . RegexPattern::COMMIT . '\] #');
         foreach ($matches as $match) {
-            $markdownLink = sprintf('[%s]: %s/commit/%s', $match['commit'], $this->repositoryUrl, $match['commit']);
-            $this->linkAppender->add($match['commit'], $markdownLink);
+            $link = sprintf('[%s]: %s/commit/%s', $match['commit'], $this->repositoryUrl, $match['commit']);
+            $this->linkAppender->add($match['commit'], $link);
         }
     }
 
