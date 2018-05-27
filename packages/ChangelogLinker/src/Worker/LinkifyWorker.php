@@ -2,6 +2,7 @@
 
 namespace Symplify\ChangelogLinker\Worker;
 
+use Nette\Utils\Strings;
 use Symplify\ChangelogLinker\Contract\Worker\WorkerInterface;
 use Symplify\ChangelogLinker\LinkAppender;
 
@@ -29,7 +30,10 @@ final class LinkifyWorker implements WorkerInterface
     public function processContent(string $content): string
     {
         foreach ($this->nameToUrls as $name => $url) {
-            $this->linkAppender->add($name, $url);
+            $content = Strings::replace($content, sprintf('#(%s)#', $name), '[$1]');
+
+            $link = sprintf('[%s]: %s', $name, $url);
+            $this->linkAppender->add($name, $link);
         }
 
         return $content;
