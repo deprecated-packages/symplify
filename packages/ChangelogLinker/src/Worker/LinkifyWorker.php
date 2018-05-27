@@ -2,7 +2,6 @@
 
 namespace Symplify\ChangelogLinker\Worker;
 
-use Nette\Utils\Strings;
 use Symplify\ChangelogLinker\Contract\Worker\WorkerInterface;
 use Symplify\ChangelogLinker\LinkAppender;
 
@@ -18,6 +17,9 @@ final class LinkifyWorker implements WorkerInterface
      */
     private $linkAppender;
 
+    /**
+     * @param string[] $nameToUrls
+     */
     public function __construct(array $nameToUrls, LinkAppender $linkAppender)
     {
         $this->nameToUrls = $nameToUrls;
@@ -27,8 +29,6 @@ final class LinkifyWorker implements WorkerInterface
     public function processContent(string $content): string
     {
         foreach ($this->nameToUrls as $name => $url) {
-            // @todo
-            // Strings::match($name) // ... match name, wrap it and add url
             $this->linkAppender->add($name, $url);
         }
 

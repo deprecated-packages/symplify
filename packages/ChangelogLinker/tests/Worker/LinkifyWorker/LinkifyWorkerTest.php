@@ -17,9 +17,7 @@ final class LinkifyWorkerTest extends TestCase
 
     protected function setUp(): void
     {
-        $container = (new ContainerFactory())->createWithConfig(
-            __DIR__ . '/Source/config.yml'
-        );
+        $container = (new ContainerFactory())->createWithConfig(__DIR__ . '/Source/config.yml');
 
         $this->changelogApplication = $container->get(ChangelogApplication::class);
     }
