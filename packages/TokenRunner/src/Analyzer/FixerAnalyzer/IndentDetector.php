@@ -19,11 +19,15 @@ final class IndentDetector
 
     public function detectOnPosition(Tokens $tokens, int $startIndex): int
     {
+        $indent = $this->whitespacesFixerConfig->getIndent();
+
         for ($i = $startIndex; $i > 0; --$i) {
             $token = $tokens[$i];
 
-            if ($token->isWhitespace() && $token->getContent() !== ' ') {
-                return substr_count($token->getContent(), $this->whitespacesFixerConfig->getIndent());
+            $lastNewlinePos = strrpos($token->getContent(), "\n");
+
+            if ($token->isWhitespace() && $token->getContent() !== ' ' || $lastNewlinePos !== false) {
+                return substr_count($token->getContent(), $indent, (int) $lastNewlinePos);
             }
         }
 
