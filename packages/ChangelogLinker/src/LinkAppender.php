@@ -2,12 +2,24 @@
 
 namespace Symplify\ChangelogLinker;
 
+use Symplify\ChangelogLinker\Analyzer\LinksAnalyzer;
+
 final class LinkAppender
 {
     /**
      * @var string[]
      */
     private $linksToAppend = [];
+
+    /**
+     * @var LinksAnalyzer
+     */
+    private $linksAnalyzer;
+
+    public function __construct(LinksAnalyzer $linksAnalyzer)
+    {
+        $this->linksAnalyzer = $linksAnalyzer;
+    }
 
     public function hasId(string $id): bool
     {
@@ -24,8 +36,20 @@ final class LinkAppender
      */
     public function getLinksToAppend(): array
     {
-        rsort($this->linksToAppend);
+        krsort($this->linksToAppend);
+
+        // filter out already existing links
+        $this->removeAlreadyExistingLinks();
 
         return $this->linksToAppend;
+    }
+
+    private function removeAlreadyExistingLinks(): void
+    {
+        foreach ($this->linksToAppend as $id => $link) {
+            if ($this->linksAnalyzer->hasLinkedId((string) $id)) {
+                unset($this->linksToAppend[$id]);
+            }
+        }
     }
 }
