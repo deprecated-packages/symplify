@@ -147,3 +147,39 @@ Includes the version and the date. Executes on every new tag, that is not alread
 
 ...
 ```
+
+### 6. Add Links to Specific Words
+
+In Symplify, I need that every `EasyCodingStandard` word leads to `https://github.com/Symplify/EasyCodingStandard/`.
+
+```yaml
+parameters:
+    linkify:
+        EasyCodingStandard: "https://github.com/Symplify/EasyCodingStandard/"
+```
+
+:x:
+
+```markdown
+## Unreleased
+
+### Added
+
+#### EasyCodingStandard
+
+...
+```
+
+:+1:
+
+```markdown
+## Unreleased
+
+### Added
+
+#### [EasyCodingStandard]
+
+...
+
+[EasyCodingStandard]: https://github.com/Symplify/EasyCodingStandard/
+```
