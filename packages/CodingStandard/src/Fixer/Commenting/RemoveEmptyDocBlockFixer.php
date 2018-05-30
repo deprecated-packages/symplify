@@ -27,22 +27,9 @@ final class RemoveEmptyDocBlockFixer extends AbstractFixer
         );
     }
 
-    /**
-     * Runs before:
-     * - @see \PhpCsFixer\Fixer\Phpdoc\PhpdocIndentFixer (20).
-     *
-     * Runs after:
-     * - @see \Symplify\CodingStandard\Fixer\Commenting\RemoveUselessDocBlockFixer (30).
-     */
-    public function getPriority(): int
-    {
-        return 25;
-    }
-
     public function isCandidate(Tokens $tokens): bool
     {
-        return $tokens->isTokenKindFound(T_DOC_COMMENT)
-            && $tokens->isAnyTokenKindsFound([T_VARIABLE, T_FUNCTION]);
+        return $tokens->isTokenKindFound(T_DOC_COMMENT);
     }
 
     protected function applyFix(SplFileInfo $file, Tokens $tokens): void
