@@ -127,9 +127,18 @@ final class LineLengthTransformer
         // compute from here to start of line
         $currentPosition = $startPosition;
 
+        // collect length of tokens on current line which precede token at $currentPosition
         while (! $this->isNewLineOrOpenTag($tokens, $currentPosition)) {
-            $lineLength += strlen($tokens[$currentPosition]->getContent());
+            // in case of multiline string, we are interested in length of the part on current line only
+            $explode = explode("\n", $tokens[$currentPosition]->getContent());
+            // string precedes current token, so we are interested in end part only
+            $lineLength += strlen(end($explode));
+
             --$currentPosition;
+
+            if (count($explode) > 1) {
+                break; // no longer need to continue searching for newline
+            }
         }
 
         $currentToken = $tokens[$currentPosition];
@@ -144,9 +153,18 @@ final class LineLengthTransformer
         // compute from here to end of line
         $currentPosition = $startPosition + 1;
 
+        // collect length of tokens on current line which follow token at $currentPosition
         while (! $this->isEndOFArgumentsLine($tokens, $currentPosition)) {
-            $lineLength += strlen($tokens[$currentPosition]->getContent());
+            // in case of multiline string, we are interested in length of the part on current line only
+            $explode = explode("\n", $tokens[$currentPosition]->getContent(), 2);
+            // string follows current token, so we are interested in beginning only
+            $lineLength += strlen($explode[0]);
+
             ++$currentPosition;
+
+            if (count($explode) > 1) {
+                break; // no longer need to continue searching for end of arguments
+            }
         }
 
         return $lineLength;
