@@ -76,8 +76,6 @@ final class ThrowableRendererTest extends TestCase
     private function createStreamOutput(): StreamOutput
     {
         $this->tempFile = tmpfile();
-        $streamOutput = new StreamOutput($this->tempFile);
-
-        return $streamOutput;
+        return new StreamOutput($this->tempFile);
     }
 }

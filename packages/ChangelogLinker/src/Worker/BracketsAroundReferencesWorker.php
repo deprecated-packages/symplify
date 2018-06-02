@@ -34,9 +34,7 @@ final class BracketsAroundReferencesWorker implements WorkerInterface
         $content = Strings::replace($content, '# ' . RegexPattern::COMMIT . '#', ' [$1]');
 
         // user references
-        $content = Strings::replace($content, '# ' . RegexPattern::USER . '#', ' [$1]');
-
-        return $content;
+        return Strings::replace($content, '# ' . RegexPattern::USER . '#', ' [$1]');
     }
 
     public function getPriority(): int
