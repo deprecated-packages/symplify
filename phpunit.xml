@@ -3,7 +3,7 @@
     colors="true"
     verbose="true"
 >
-    <testsuite>
+    <testsuite name="all">
         <directory>packages/**/tests</directory>
     </testsuite>
     <filter>
