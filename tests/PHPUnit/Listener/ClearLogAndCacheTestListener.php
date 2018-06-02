@@ -16,7 +16,7 @@ final class ClearLogAndCacheTestListener implements TestListener
 
     public function endTestSuite(TestSuite $testSuite): void
     {
-        if ($testSuite->getName()) { // skip for tests, run only for whole Test Suite
+        if ($testSuite->getName() !== 'all') { // skip for tests, run only for whole Test Suite
             return;
         }
 
