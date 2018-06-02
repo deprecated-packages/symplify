@@ -3,9 +3,9 @@
 namespace SomeNamespace;
 
 /**
- * @another OutputInterface       $output
- * @return OutputInterface $output
+ * @param OutputInterface $missingType
+ * @param OtherInterface  $anoterMissingType
  */
-function mustRun(OutputInterface $output)
+function mustRun(OutputInterface $output, $missingType, $anoterMissingType)
 {
 }

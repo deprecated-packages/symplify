@@ -3,10 +3,10 @@
 namespace SomeNamespace;
 
 /**
- * @another OutputInterface       $output
+ * @param OutputInterface         $missingType
  * @package OutputInterfaceLonger $output
- * @return  OutputInterface       $output
+ * @param OtherInterface          $anoterMissingType
  */
-function mustRun(OutputInterface $output)
+function mustRun(OutputInterface $output, $missingType, $anoterMissingType)
 {
 }
