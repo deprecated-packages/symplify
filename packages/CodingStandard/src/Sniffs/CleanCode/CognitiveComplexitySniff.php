@@ -18,17 +18,17 @@ final class CognitiveComplexitySniff implements Sniff
      */
     private $cognitiveComplexityAnalyzer;
 
+    public function __construct(CognitiveComplexityAnalyzer $cognitiveComplexityAnalyzer)
+    {
+        $this->cognitiveComplexityAnalyzer = $cognitiveComplexityAnalyzer;
+    }
+
     /**
      * @return int[]
      */
     public function register(): array
     {
         return [T_FUNCTION];
-    }
-
-    public function __construct(CognitiveComplexityAnalyzer $cognitiveComplexityAnalyzer)
-    {
-        $this->cognitiveComplexityAnalyzer = $cognitiveComplexityAnalyzer;
     }
 
     /**
