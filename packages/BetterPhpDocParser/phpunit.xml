@@ -2,8 +2,7 @@
     bootstrap="vendor/autoload.php"
     verbose="true"
 >
-    <!-- where tests are located -->
-    <testsuite>
+    <testsuite name="all">
         <directory>tests</directory>
     </testsuite>
 </phpunit>
