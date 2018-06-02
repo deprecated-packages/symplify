@@ -2,7 +2,6 @@
 
 namespace Symplify\CodingStandard\Sniffs\DependencyInjection;
 
-use DateTime;
 use Nette\Utils\Strings;
 use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Sniffs\Sniff;
