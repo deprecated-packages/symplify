@@ -30,7 +30,11 @@ final class FileProcessorTest extends TestCase
 
     public function test(): void
     {
-        $fileInfo = new SplFileInfo($this->getFileLocation(), '', '');
+        $fileInfo = new SplFileInfo(
+            $this->getFileLocation(),
+            'FileProcessorSource',
+            'FileProcessorSource/SomeFile.php.inc'
+        );
 
         $fixedContent = $this->sniffFileProcessor->processFile($fileInfo);
         $this->assertNotSame($this->initialFileContent, $fixedContent);

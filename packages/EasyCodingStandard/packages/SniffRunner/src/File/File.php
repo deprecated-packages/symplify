@@ -5,8 +5,8 @@ namespace Symplify\EasyCodingStandard\SniffRunner\File;
 use PHP_CodeSniffer\Files\File as BaseFile;
 use PHP_CodeSniffer\Standards\Generic\Sniffs\CodeAnalysis\AssignmentInConditionSniff;
 use PHP_CodeSniffer\Standards\Squiz\Sniffs\PHP\CommentedOutCodeSniff;
-use SplFileInfo;
 use Symplify\EasyCodingStandard\Application\AppliedCheckersCollector;
+use Symplify\EasyCodingStandard\Application\CurrentFileProvider;
 use Symplify\EasyCodingStandard\Error\ErrorAndDiffCollector;
 use Symplify\EasyCodingStandard\Skipper;
 use Symplify\EasyCodingStandard\SniffRunner\Application\CurrentSniffProvider;
@@ -53,6 +53,11 @@ final class File extends BaseFile
     private $reportWarningsSniffs = [CommentedOutCodeSniff::class, AssignmentInConditionSniff::class];
 
     /**
+     * @var CurrentFileProvider
+     */
+    private $currentFileProvider;
+
+    /**
      * @param array[] $tokens
      */
     public function __construct(
@@ -62,7 +67,8 @@ final class File extends BaseFile
         ErrorAndDiffCollector $errorAndDiffCollector,
         CurrentSniffProvider $currentSniffProvider,
         Skipper $skipper,
-        AppliedCheckersCollector $appliedCheckersCollector
+        AppliedCheckersCollector $appliedCheckersCollector,
+        CurrentFileProvider $currentFileProvider
     ) {
         $this->path = $path;
         $this->tokens = $tokens;
@@ -75,6 +81,7 @@ final class File extends BaseFile
         $this->currentSniffProvider = $currentSniffProvider;
         $this->skipper = $skipper;
         $this->appliedCheckersCollector = $appliedCheckersCollector;
+        $this->currentFileProvider = $currentFileProvider;
     }
 
     public function parse(): void
@@ -118,11 +125,14 @@ final class File extends BaseFile
      */
     public function addFixableError($error, $stackPtr, $code, $data = [], $severity = 0): bool
     {
-        $this->appliedCheckersCollector->addFileAndChecker($this->path, $this->resolveFullyQualifiedCode($code));
+        $fileInfo = $this->currentFileProvider->getFileInfo();
 
-        $absolutePath = (new SplFileInfo($this->path))->getRealPath();
+        $this->appliedCheckersCollector->addFileInfoAndChecker($fileInfo, $this->resolveFullyQualifiedCode($code));
 
-        return ! $this->skipper->shouldSkipCodeAndFile($this->resolveFullyQualifiedCode($code), $absolutePath);
+        return ! $this->skipper->shouldSkipCodeAndFile(
+            $this->resolveFullyQualifiedCode($code),
+            $fileInfo->getRealPath()
+        );
     }
 
     /**
@@ -130,9 +140,9 @@ final class File extends BaseFile
      */
     public function addError($error, $stackPtr, $code, $data = [], $severity = 0, $fixable = false): bool
     {
-        $absolutePath = (new SplFileInfo($this->path))->getRealPath();
+        $fileInfo = $this->currentFileProvider->getFileInfo();
 
-        if ($this->skipper->shouldSkipCodeAndFile($this->resolveFullyQualifiedCode($code), $absolutePath)) {
+        if ($this->skipper->shouldSkipCodeAndFile($this->resolveFullyQualifiedCode($code), $fileInfo->getRealPath())) {
             return false;
         }
 

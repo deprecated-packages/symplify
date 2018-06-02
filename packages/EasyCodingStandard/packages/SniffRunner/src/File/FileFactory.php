@@ -2,8 +2,9 @@
 
 namespace Symplify\EasyCodingStandard\SniffRunner\File;
 
-use SplFileInfo;
+use Symfony\Component\Finder\SplFileInfo;
 use Symplify\EasyCodingStandard\Application\AppliedCheckersCollector;
+use Symplify\EasyCodingStandard\Application\CurrentFileProvider;
 use Symplify\EasyCodingStandard\Error\ErrorAndDiffCollector;
 use Symplify\EasyCodingStandard\Skipper;
 use Symplify\EasyCodingStandard\SniffRunner\Application\CurrentSniffProvider;
@@ -42,13 +43,19 @@ final class FileFactory
      */
     private $appliedCheckersCollector;
 
+    /**
+     * @var CurrentFileProvider
+     */
+    private $currentFileProvider;
+
     public function __construct(
         Fixer $fixer,
         ErrorAndDiffCollector $errorAndDiffCollector,
         FileToTokensParser $fileToTokensParser,
         CurrentSniffProvider $currentSniffProvider,
         Skipper $skipper,
-        AppliedCheckersCollector $appliedCheckersCollector
+        AppliedCheckersCollector $appliedCheckersCollector,
+        CurrentFileProvider $currentFileProvider
     ) {
         $this->fixer = $fixer;
         $this->errorAndDiffCollector = $errorAndDiffCollector;
@@ -56,26 +63,26 @@ final class FileFactory
         $this->currentSniffProvider = $currentSniffProvider;
         $this->skipper = $skipper;
         $this->appliedCheckersCollector = $appliedCheckersCollector;
+        $this->currentFileProvider = $currentFileProvider;
     }
 
     public function createFromFileInfo(SplFileInfo $fileInfo): File
     {
-        $filePathName = $fileInfo->getPathname();
-
-        $fileTokens = $this->fileToTokensParser->parseFromFilePath($filePathName);
+        $fileTokens = $this->fileToTokensParser->parseFromFileInfo($fileInfo);
 
         $file = new File(
-            $filePathName,
+            $fileInfo->getPathname(),
             $fileTokens,
             $this->fixer,
             $this->errorAndDiffCollector,
             $this->currentSniffProvider,
             $this->skipper,
-            $this->appliedCheckersCollector
+            $this->appliedCheckersCollector,
+            $this->currentFileProvider
         );
 
         // BC layer
-        $file->tokenizer = $this->fileToTokensParser->createTokenizerFromFilePath($filePathName);
+        $file->tokenizer = $this->fileToTokensParser->createTokenizerFromFileInfo($fileInfo);
 
         return $file;
     }

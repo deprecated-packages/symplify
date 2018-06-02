@@ -70,7 +70,7 @@ final class SingleFileProcessor implements FileProcessorCollectorInterface
         }
 
         try {
-            $this->changedFilesDetector->addFile($fileInfo->getRealPath());
+            $this->changedFilesDetector->addFileInfo($fileInfo);
             foreach ($this->fileProcessors as $fileProcessor) {
                 if (! $fileProcessor->getCheckers()) {
                     continue;
@@ -83,7 +83,7 @@ final class SingleFileProcessor implements FileProcessorCollectorInterface
                 $fileProcessor->processFile($fileInfo);
             }
         } catch (ParseError $parseError) {
-            $this->changedFilesDetector->invalidateFile($fileInfo->getRealPath());
+            $this->changedFilesDetector->invalidateFileInfo($fileInfo);
             $this->errorAndDiffCollector->addErrorMessage(
                 $relativePath,
                 $parseError->getLine(),
