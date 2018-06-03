@@ -14,23 +14,74 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 #### BetterPhpDocParser
 
 - [#811] Add multi-types method support
+
 - [#810] Add `AbstractPhpDocInfoDecorator`
+
 - [#809] Allow `PhpDocInfoFactory` extension without modification
+
 - [#807], [#808] Add `replaceTagByAnother()`
+
 - [#806] Add `getParamTypeNodeByName()`
+
 - [#804] Add `hasTag()` to `PhpDocInfo` and other improvements
+
 - [#801] Add `PhpDocModifier` class
+
+#### CodingStandard
+
+- [#851] Add _ support to PropertyNameMatchingTypeFixer
+
+- [#845] Extended RemoveEmptyDocBlockFixer fix
+
+- [#836] Improve cognitive complexity error, Thanks to @enumag
+
+- [#823] Add Cognitive complexity sniff
+
+#### EasyCodingStandard
+
+- [#852] Add support for `line_ending` configuration
+
+- [#849] Add CurrentFileProvider to standardize file format used over PHP CS Fixer and PHP_CodeSniffer
+
+- [#832] Allow short `ecs.yml` config
+
+#### ChangelogLinker
+
+- [#840] Add LinkifyWorker
+
+- [#839] Match issues by regex
+
+- [#831] Allow --config
+
+- [#829] From static to DI
+
+- [#828] Add Unreleased to last tagged version feature
 
 ### Changed
 
+- [#847] Bump to PHP CS Fixer 2.12
+
+- [#818] Allow to install Symfony 3.4
+
 - [#813] Unique parameter `id:` is now required for Generator elements, `PostFile` mostly; add "id: x" to your `_posts/<post-name>.md`
+
 - [#813] `Symplify\Statie\Event\BeforeRenderEvent` - changed `getObjectsToRender()` to `getFiles()` + `getGeneratorFilesByType()` for GeneratorFiles added
 
 ### Fixed
 
+#### CodingStandard
+
+- [#843] Fix priorities in RemoveEmptyDocBlockFixer (closes #838), Thanks to @ostrolucky
+
+- [#842] LineLengthSniff: Initial support for tokens with newlines, Thanks to @ostrolucky
+
+- [#827] ImportNamespacedNameFixer: add support for union and array types + uniquate doc types
+
 #### EasyCodingStandard
 
 - [#802] Fix inconsistencies in symfony and symfony-risky rules, thanks to [@ostrolucky]
+
+- [#848] Fix single file processing
 
 #### Statie
 
@@ -89,6 +140,11 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 #### BetterReflectionDocBlock
 
 - [#769] Fix `TolerantVar` consistency
+
+### CodingStandard
+
+- [#825] Fix LineLenghtFixer in-string
+- [#815] Fix LineLenghtFixer in functions body
 
 ### Deprecated
 
