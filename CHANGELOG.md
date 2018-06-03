@@ -33,7 +33,7 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 - [#845] Extended RemoveEmptyDocBlockFixer fix
 
-- [#836] Improve cognitive complexity error, Thanks to @enumag
+- [#836] Improve cognitive complexity error, Thanks to [@enumag]
 
 - [#823] Add Cognitive complexity sniff
 
@@ -71,9 +71,9 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 #### CodingStandard
 
-- [#843] Fix priorities in RemoveEmptyDocBlockFixer (closes #838), Thanks to @ostrolucky
+- [#843] Fix priorities in RemoveEmptyDocBlockFixer (closes [#838]), Thanks to [@ostrolucky]
 
-- [#842] LineLengthSniff: Initial support for tokens with newlines, Thanks to @ostrolucky
+- [#842] LineLengthSniff: Initial support for tokens with newlines, Thanks to [@ostrolucky]
 
 - [#827] ImportNamespacedNameFixer: add support for union and array types + uniquate doc types
 
@@ -1276,3 +1276,23 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
 [#813]: https://github.com/Symplify/Symplify/pull/813
 [#808]: https://github.com/Symplify/Symplify/pull/808
 [#807]: https://github.com/Symplify/Symplify/pull/807
+[#852]: https://github.com/Symplify/Symplify/pull/852
+[#851]: https://github.com/Symplify/Symplify/pull/851
+[#849]: https://github.com/Symplify/Symplify/pull/849
+[#848]: https://github.com/Symplify/Symplify/pull/848
+[#847]: https://github.com/Symplify/Symplify/pull/847
+[#845]: https://github.com/Symplify/Symplify/pull/845
+[#842]: https://github.com/Symplify/Symplify/pull/842
+[#840]: https://github.com/Symplify/Symplify/pull/840
+[#839]: https://github.com/Symplify/Symplify/pull/839
+[#838]: https://github.com/Symplify/Symplify/pull/838
+[#836]: https://github.com/Symplify/Symplify/pull/836
+[#832]: https://github.com/Symplify/Symplify/pull/832
+[#831]: https://github.com/Symplify/Symplify/pull/831
+[#829]: https://github.com/Symplify/Symplify/pull/829
+[#828]: https://github.com/Symplify/Symplify/pull/828
+[#827]: https://github.com/Symplify/Symplify/pull/827
+[#825]: https://github.com/Symplify/Symplify/pull/825
+[#823]: https://github.com/Symplify/Symplify/pull/823
+[#818]: https://github.com/Symplify/Symplify/pull/818
+[#815]: https://github.com/Symplify/Symplify/pull/815
