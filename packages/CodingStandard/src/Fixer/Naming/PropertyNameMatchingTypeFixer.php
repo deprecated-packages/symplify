@@ -207,6 +207,9 @@ class SomeClass
             $rawName = strtolower($rawName);
         }
 
+        // remove "_"
+        $rawName = Strings::replace($rawName, '#_#', '');
+
         return lcfirst($rawName);
     }
 
