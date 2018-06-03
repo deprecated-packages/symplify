@@ -21,11 +21,13 @@ final class TypeNodeAnalyzer
             return true;
         }
 
-        if ($typeNode instanceof UnionTypeNode) {
-            foreach ($typeNode->types as $subType) {
-                if ($this->containsArrayType($subType)) {
-                    return true;
-                }
+        if (! $typeNode instanceof UnionTypeNode) {
+            return false;
+        }
+
+        foreach ($typeNode->types as $subType) {
+            if ($this->containsArrayType($subType)) {
+                return true;
             }
         }
 

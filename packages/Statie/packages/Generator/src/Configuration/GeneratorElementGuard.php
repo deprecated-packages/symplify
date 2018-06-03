@@ -19,25 +19,8 @@ final class GeneratorElementGuard
      */
     public function ensureInputIsValid($key, $data): void
     {
-        if (! is_array($data)) {
-            throw new InvalidGeneratorElementDefinitionException(sprintf(
-                'Element in "parameters > generators > %s" must be array. "%s" given.',
-                $key,
-                is_object($data) ? get_class($data) : $data
-            ));
-        }
-
-        foreach ($this->requiredKeys as $requiredKey) {
-            if (isset($data[$requiredKey])) {
-                continue;
-            }
-
-            throw new InvalidGeneratorElementDefinitionException(sprintf(
-                'Key "%s" is missing. In "parameters > generators > %s".',
-                $requiredKey,
-                $key
-            ));
-        }
+        $this->ensureIsArray($key, $data);
+        $this->ensureRequiredKeysAreSet($key, $data);
 
         if (isset($data['object'])) {
             $this->ensureObjectExists($key, $data['object']);
@@ -91,5 +74,41 @@ final class GeneratorElementGuard
             $object,
             $key
         ));
+    }
+
+    /**
+     * @param string|int $key
+     * @param string|mixed $data
+     */
+    private function ensureIsArray($key, $data): void
+    {
+        if (is_array($data)) {
+            return;
+        }
+
+        throw new InvalidGeneratorElementDefinitionException(sprintf(
+            'Element in "parameters > generators > %s" must be array. "%s" given.',
+            $key,
+            is_object($data) ? get_class($data) : $data
+        ));
+    }
+
+    /**
+     * @param int|string $key
+     * @param mixed[] $data
+     */
+    private function ensureRequiredKeysAreSet($key, array $data): void
+    {
+        foreach ($this->requiredKeys as $requiredKey) {
+            if (isset($data[$requiredKey])) {
+                continue;
+            }
+
+            throw new InvalidGeneratorElementDefinitionException(sprintf(
+                'Key "%s" is missing. In "parameters > generators > %s".',
+                $requiredKey,
+                $key
+            ));
+        }
     }
 }
