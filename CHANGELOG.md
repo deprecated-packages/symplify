@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLinker](https://github.com/Symplify/ChangelogLinker).
 
-## [Unreleased]
+## [v4.4.0] - 2018-06-03
 
 ### Added
 
@@ -1296,3 +1296,4 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
 [#823]: https://github.com/Symplify/Symplify/pull/823
 [#818]: https://github.com/Symplify/Symplify/pull/818
 [#815]: https://github.com/Symplify/Symplify/pull/815
+[v4.4.0]: https://github.com/Symplify/Symplify/compare/v4.3.0...v4.4.0
