@@ -14,7 +14,6 @@ try {
     $container = require_once __DIR__ . '/changelog-linker-container.php';
 
     $application = $container->get(Application::class);
-    $application->setDefaultCommand(CommandNaming::classToName(RunCommand::class), true);
     exit($application->run());
 } catch (Throwable $throwable) {
     (new ThrowableRenderer())->render($throwable);
