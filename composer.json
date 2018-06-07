@@ -15,7 +15,7 @@
         "nette/utils": "^2.5",
         "phpstan/phpdoc-parser": "^0.2",
         "slevomat/coding-standard": "^4.5",
-        "squizlabs/php_codesniffer": "^3.2",
+        "squizlabs/php_codesniffer": "^3.3",
         "symfony/cache": "^3.4|^4.0",
         "symfony/config": "^3.4|^4.0",
         "symfony/console": "^3.4|^4.0",
