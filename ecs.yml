@@ -85,7 +85,3 @@ parameters:
             - 'packages/TokenRunner/src/Naming/Name/NameAnalyzer.php'
 
         PHP_CodeSniffer\Standards\Generic\Sniffs\CodeAnalysis\AssignmentInConditionSniff.FoundInWhileCondition: ~
-
-        PHP_CodeSniffer\Standards\PSR12\Sniffs\Classes\ClassInstantiationSniff.MissingParenthesis:
-            # bugged: https://github.com/squizlabs/PHP_CodeSniffer/issues/2047
-            - 'src/Configuration/GeneratorElementFactory.php'
