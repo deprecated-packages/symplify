@@ -1,0 +1,106 @@
+#!/usr/bin/env php
+<?php declare(strict_types=1);
+
+use Nette\Utils\Json;
+use Symfony\Component\Finder\Finder;
+
+require_once __DIR__ . '/../../../vendor/autoload.php';
+
+$composerPackageFiles = Finder::create()
+    ->files()
+    ->in(__DIR__ . '/../../../packages')
+    ->name('composer.json');
+
+// root compsre.json
+
+$sectionsToMerge = ['require', 'require-dev'];
+
+$collected = [];
+
+/** @var \Symfony\Component\Finder\SplFileInfo $packageFile */
+foreach ($composerPackageFiles as $packageFile) {
+    $packageComposerJsonContent = file_get_contents($packageFile->getRealPath());
+
+    // @todo or use JsonManipulator - https://github.com/composer/composer/blob/3e1b0c88d7397cdd32c4ac151a8175c188ce9318/src/Composer/Json/JsonManipulator.php
+    $packageComposerJson = Json::decode($packageComposerJsonContent, Json::FORCE_ARRAY);
+
+    foreach ($sectionsToMerge as $sectionToMerge) {
+        if (! isset($packageComposerJson[$sectionToMerge])) {
+            continue;
+        }
+
+        $collected[$sectionToMerge] = array_merge($collected[$sectionToMerge] ?? [], $packageComposerJson[$sectionToMerge]);
+    }
+}
+
+dump($collected);
+// sort
+
+$rootComposerJsonContent = file_get_contents(getcwd() . '/composer.json');
+$rootComposerJson = Json::decode($rootComposerJsonContent, Json::FORCE_ARRAY);
+
+foreach ($sectionsToMerge as $sectionToMerge) {
+    // nothing collected to merge
+    if (! isset($collected[$sectionToMerge])) {
+        continue;
+    }
+
+    // section in root composer.json is empty, just set and go
+    if (! isset($rootComposerJson[$sectionToMerge])) {
+        $rootComposerJson[$sectionToMerge] = $collected[$sectionToMerge];
+        break;
+    }
+
+    // sort - look to composer how they do it
+    sortPackages($collected[$sectionToMerge]);
+
+    dump($collected[$sectionToMerge]);
+    die;
+}
+
+
+dump($rootComposerJson);
+die;
+
+
+
+    /**
+     * @source https://github.com/composer/composer/blob/3e1b0c88d7397cdd32c4ac151a8175c188ce9318/src/Composer/Json/JsonManipulator.php#L110
+     *
+     * Sorts packages by importance (platform packages first, then PHP dependencies) and alphabetically.
+     *
+     * @link https://getcomposer.org/doc/02-libraries.md#platform-packages
+     *
+     * @param array $packages
+     */
+    function sortPackages(array &$packages = array())
+    {
+        // https://github.com/composer/composer/blob/3e1b0c88d7397cdd32c4ac151a8175c188ce9318/src/Composer/Repository/PlatformRepository.php#L27
+        $PLATFORM_PACKAGE_REGEX = '{^(?:php(?:-64bit|-ipv6|-zts|-debug)?|hhvm|(?:ext|lib)-[^/]+)$}i';
+
+        $prefix = function ($requirement) use ($PLATFORM_PACKAGE_REGEX) {
+            if (preg_match($PLATFORM_PACKAGE_REGEX, $requirement)) {
+                return preg_replace(
+                    array(
+                        '/^php/',
+                        '/^hhvm/',
+                        '/^ext/',
+                        '/^lib/',
+                        '/^\D/',
+                    ),
+                    array(
+                        '0-$0',
+                        '1-$0',
+                        '2-$0',
+                        '3-$0',
+                        '4-$0',
+                    ),
+                    $requirement
+                );
+            }
+            return '5-'.$requirement;
+        };
+        uksort($packages, function ($a, $b) use ($prefix) {
+            return strnatcmp($prefix($a), $prefix($b));
+        });
+    }
