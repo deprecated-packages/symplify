@@ -84,6 +84,4 @@ parameters:
             - 'packages/TokenRunner/src/DocBlock/DescriptionAnalyzer.php'
             - 'packages/TokenRunner/src/Naming/Name/NameAnalyzer.php'
 
-        PHP_CodeSniffer\Standards\Generic\Sniffs\CodeAnalysis\AssignmentInConditionSniff.Found:
-            # while assign
-            - 'packages/CodingStandard/src/Sniffs/ControlStructure/SprintfOverContactSniff.php'
+        PHP_CodeSniffer\Standards\Generic\Sniffs\CodeAnalysis\AssignmentInConditionSniff.FoundInWhileCondition: ~
