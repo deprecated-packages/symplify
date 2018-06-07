@@ -74,6 +74,7 @@ final class CognitiveComplextyAnalyzerTest extends TestCase
         $config = new stdClass();
         $config->tabWidth = 4;
         $config->annotations = false;
+        $config->encoding = 'UTF-8';
 
         return $config;
     }
