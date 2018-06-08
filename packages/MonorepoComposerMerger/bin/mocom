@@ -46,9 +46,6 @@ foreach ($composerPackageFiles as $packageFile) {
     }
 }
 
-dump($collected);
-// sort
-
 $rootComposerJsonContent = file_get_contents(getcwd() . '/composer.json');
 $rootComposerJson = Json::decode($rootComposerJsonContent, Json::FORCE_ARRAY);
 
@@ -82,7 +79,7 @@ foreach ($sectionsToMerge as $sectionToMerge) {
     }
 
     if (isset($rootComposerJson['config']['sort-packages']) && in_array($sectionToMerge, ['require', 'require-dev'])) {
-        sortPackages($collected[$sectionToMerge]);
+        $collected[$sectionToMerge] = sortPackages($collected[$sectionToMerge]);
     }
 
     $rootComposerJson[$sectionToMerge] = $collected[$sectionToMerge];
@@ -91,9 +88,9 @@ foreach ($sectionsToMerge as $sectionToMerge) {
 
 file_put_contents('composer.json', Json::encode($rootComposerJson, Json::PRETTY));
 
-function sortPackages(array $packages = [])
+function sortPackages(array $packages)
 {
-    return (new PrivatesCaller)->callPrivateMethod(new JsonManipulator('...'), 'sortPackages', $packages);
+    return (new PrivatesCaller)->callPrivateMethodWithReference(new JsonManipulator('{}'), 'sortPackages', $packages);
 }
 
 function filterOut(array $packages)

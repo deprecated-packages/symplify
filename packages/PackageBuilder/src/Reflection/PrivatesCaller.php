@@ -12,9 +12,33 @@ final class PrivatesCaller
      */
     public function callPrivateMethod($object, string $methodName, ...$arguments)
     {
+        $methodReflection = $this->createAccessibleMethodReflection($object, $methodName);
+
+        return $methodReflection->invoke($object, ...$arguments);
+    }
+
+    /**
+     * @param object $object
+     * @param mixed $argument
+     * @return mixed
+     */
+    public function callPrivateMethodWithReference($object, string $methodName, $argument)
+    {
+        $methodReflection = $this->createAccessibleMethodReflection($object, $methodName);
+
+        $methodReflection->invokeArgs($object, [&$argument]);
+
+        return $argument;
+    }
+
+    /**
+     * @param object $object
+     */
+    private function createAccessibleMethodReflection($object, string $methodName): ReflectionMethod
+    {
         $methodReflection = new ReflectionMethod(get_class($object), $methodName);
         $methodReflection->setAccessible(true);
 
-        return $methodReflection->invoke($object, ...$arguments);
+        return $methodReflection;
     }
 }
