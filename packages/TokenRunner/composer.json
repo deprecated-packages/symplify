@@ -4,7 +4,7 @@
     "license": "MIT",
     "require": {
         "php": "^7.1",
-        "nette/utils": "^2.4",
+        "nette/utils": "^2.5",
         "nette/finder": "^2.4",
         "symplify/package-builder": "^4.4",
         "symplify/better-phpdoc-parser": "^4.4",

@@ -9,7 +9,7 @@
     ],
     "require": {
         "php": "^7.1",
-        "nette/utils": "^2.4",
+        "nette/utils": "^2.5",
         "symfony/console": "^3.4|^4.0",
         "symplify/package-builder": "^4.4"
     },
