@@ -178,7 +178,7 @@ class SomeClass
  }
 ```
 
-- Is 120 characters too long for you?
+- Are 120 characters too long for you?
 - Do you want to break longs lines but not inline short lines or vice versa?
 
 **Change it**:
