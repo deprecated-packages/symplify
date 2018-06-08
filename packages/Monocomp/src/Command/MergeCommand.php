@@ -3,11 +3,13 @@
 namespace Symplify\Monocomp\Command;
 
 use Composer\Json\JsonManipulator;
+use Iterator;
 use Nette\Utils\Json;
 use Nette\Utils\Strings;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
@@ -15,6 +17,18 @@ use Symplify\PackageBuilder\Reflection\PrivatesCaller;
 
 final class MergeCommand extends Command
 {
+    /**
+     * @var SymfonyStyle
+     */
+    private $symfonyStyle;
+
+    public function __construct(SymfonyStyle $symfonyStyle)
+    {
+        $this->symfonyStyle = $symfonyStyle;
+
+        parent::__construct();
+    }
+
     protected function configure(): void
     {
         $this->setName(CommandNaming::classToName(self::class));
@@ -22,10 +36,7 @@ final class MergeCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $composerPackageFiles = Finder::create()
-            ->files()
-            ->in(getcwd() . '/packages')
-            ->name('composer.json');
+        $composerPackageFiles = $this->getPackageComposerFiles();
 
         $sectionsToMerge = ['require', 'require-dev'];
 
@@ -39,12 +50,8 @@ final class MergeCommand extends Command
 
         $removeItemsPerSection['require'] = ['phpunit/phpunit', 'tracy/tracy'];
 
-        /** @var SplFileInfo $packageFile */
         foreach ($composerPackageFiles as $packageFile) {
-            $packageComposerJsonContent = file_get_contents($packageFile->getRealPath());
-
-            // @todo or use JsonManipulator - https://github.com/composer/composer/blob/3e1b0c88d7397cdd32c4ac151a8175c188ce9318/src/Composer/Json/JsonManipulator.php
-            $packageComposerJson = Json::decode($packageComposerJsonContent, Json::FORCE_ARRAY);
+            $packageComposerJson = Json::decode($packageFile->getContents(), Json::FORCE_ARRAY);
 
             foreach ($sectionsToMerge as $sectionToMerge) {
                 if (! isset($packageComposerJson[$sectionToMerge])) {
@@ -102,6 +109,8 @@ final class MergeCommand extends Command
 
         file_put_contents('composer.json', Json::encode($rootComposerJson, Json::PRETTY) . PHP_EOL);
 
+        $this->symfonyStyle->success('Main composer.json was regenerated.');
+
         // success
         return 0;
     }
@@ -132,5 +141,17 @@ final class MergeCommand extends Command
         }
 
         return $packages;
+    }
+
+    /**
+     * @return SplFileInfo[]
+     */
+    protected function getPackageComposerFiles(): Iterator
+    {
+        return Finder::create()
+            ->files()
+            ->in(getcwd() . '/packages')
+            ->name('composer.json')
+            ->getIterator();
     }
 }
