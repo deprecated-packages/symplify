@@ -90,7 +90,7 @@ file_put_contents('composer.json', Json::encode($rootComposerJson, Json::PRETTY)
 
 function sortPackages(array $packages)
 {
-    return (new PrivatesCaller)->callPrivateMethodWithReference(new JsonManipulator('{}'), 'sortPackages', $packages);
+    return (new PrivatesCaller)->callPrivateMethodWithReference(JsonManipulator::class, 'sortPackages', $packages);
 }
 
 function filterOut(array $packages)
