@@ -17,5 +17,11 @@
     },
     "require-dev": {
         "phpunit/phpunit": "^7.0"
+    },
+    "autoload": {
+        "Symplify\\MonorepoBuilder\\": "src"
+    },
+    "autoload-dev": {
+        "Symplify\\MonorepoBuilder\\Tests\\": "tests"
     }
 }

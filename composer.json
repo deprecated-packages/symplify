@@ -73,7 +73,8 @@
             "Symplify\\Statie\\FlatWhite\\Tests\\": "packages/Statie/packages/FlatWhite/tests",
             "Symplify\\Statie\\Generator\\Tests\\": "packages/Statie/packages/Generator/tests",
             "Symplify\\TokenRunner\\Tests\\": "packages/TokenRunner/tests",
-            "Symplify\\Tests\\": "tests"
+            "Symplify\\Tests\\": "tests",
+            "Symplify\\MonorepoBuilder\\Tests\\": "packages/MonorepoBuilder/tests"
         }
     },
     "scripts": {

@@ -23,7 +23,7 @@ final class PackageComposerJsonMerger
                     continue;
                 }
 
-                $merged[$section] = array_merge($collected[$section] ?? [], $packageComposerJson[$section]);
+                $merged[$section] = array_merge($merged[$section] ?? [], $packageComposerJson[$section]);
             }
         }
 

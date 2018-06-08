@@ -18,7 +18,7 @@ final class RequireRemoveComposerJsonDecorator implements ComposerJsonDecoratorI
             }
 
             foreach ($values as $package => $version) {
-                if (in_array($package, ['phpunit/phpunit', 'tracy/tracy'], true)) {
+                if (! in_array($package, ['phpunit/phpunit', 'tracy/tracy'], true)) {
                     continue;
                 }
 

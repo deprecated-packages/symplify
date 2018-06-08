@@ -57,20 +57,16 @@ final class MergeCommand extends Command
             return 1;
         }
 
+        // @todo in config
         $sectionsToMerge = ['require', 'require-dev'];
+
+        $rootComposerJson = Json::decode(file_get_contents(getcwd() . '/composer.json'), Json::FORCE_ARRAY);
 
         $merged = $this->packageComposerJsonMerger->mergeFileInfos($composerPackageFiles, $sectionsToMerge);
 
-        $rootComposerJsonContent = file_get_contents(getcwd() . '/composer.json');
-        $rootComposerJson = Json::decode($rootComposerJsonContent, Json::FORCE_ARRAY);
-
-        foreach ($this->composerJsonDecorators as $composerJsonDecorator) {
-            $rootComposerJson = $composerJsonDecorator->decorate($rootComposerJson);
-        }
-
         foreach ($sectionsToMerge as $sectionToMerge) {
             // nothing collected to merge
-            if (! isset($merged[$sectionToMerge])) {
+            if (! isset($merged[$sectionToMerge]) || empty($merged[$sectionToMerge])) {
                 continue;
             }
 
@@ -81,6 +77,10 @@ final class MergeCommand extends Command
             }
 
             $rootComposerJson[$sectionToMerge] = $merged[$sectionToMerge];
+        }
+
+        foreach ($this->composerJsonDecorators as $composerJsonDecorator) {
+            $rootComposerJson = $composerJsonDecorator->decorate($rootComposerJson);
         }
 
         file_put_contents('composer.json', Json::encode($rootComposerJson, Json::PRETTY) . PHP_EOL);
