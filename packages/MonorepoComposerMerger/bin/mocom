@@ -1,9 +1,11 @@
 #!/usr/bin/env php
 <?php declare(strict_types=1);
 
+use Composer\Json\JsonManipulator;
 use Nette\Utils\Json;
 use Nette\Utils\Strings;
 use Symfony\Component\Finder\Finder;
+use Symplify\PackageBuilder\Reflection\PrivatesCaller;
 
 require_once __DIR__ . '/../../../vendor/autoload.php';
 
@@ -79,55 +81,20 @@ foreach ($sectionsToMerge as $sectionToMerge) {
         }
     }
 
-    // sort - look to composer how they do it
-    sortPackages($collected[$sectionToMerge]);
+    if (isset($rootComposerJson['config']['sort-packages']) && in_array($sectionToMerge, ['require', 'require-dev'])) {
+        sortPackages($collected[$sectionToMerge]);
+    }
 
     $rootComposerJson[$sectionToMerge] = $collected[$sectionToMerge];
 }
 
+
 file_put_contents('composer.json', Json::encode($rootComposerJson, Json::PRETTY));
 
-    /**
-     * @source https://github.com/composer/composer/blob/3e1b0c88d7397cdd32c4ac151a8175c188ce9318/src/Composer/Json/JsonManipulator.php#L110
-     *
-     * Sorts packages by importance (platform packages first, then PHP dependencies) and alphabetically.
-     *
-     * @link https://getcomposer.org/doc/02-libraries.md#platform-packages
-     *
-     * @param array $packages
-     */
-    function sortPackages(array &$packages = array())
-    {
-        // https://github.com/composer/composer/blob/3e1b0c88d7397cdd32c4ac151a8175c188ce9318/src/Composer/Repository/PlatformRepository.php#L27
-        $PLATFORM_PACKAGE_REGEX = '{^(?:php(?:-64bit|-ipv6|-zts|-debug)?|hhvm|(?:ext|lib)-[^/]+)$}i';
-
-        $prefix = function ($requirement) use ($PLATFORM_PACKAGE_REGEX) {
-            if (preg_match($PLATFORM_PACKAGE_REGEX, $requirement)) {
-                return preg_replace(
-                    array(
-                        '/^php/',
-                        '/^hhvm/',
-                        '/^ext/',
-                        '/^lib/',
-                        '/^\D/',
-                    ),
-                    array(
-                        '0-$0',
-                        '1-$0',
-                        '2-$0',
-                        '3-$0',
-                        '4-$0',
-                    ),
-                    $requirement
-                );
-            }
-            return '5-'.$requirement;
-        };
-        uksort($packages, function ($a, $b) use ($prefix) {
-            return strnatcmp($prefix($a), $prefix($b));
-        });
-    }
-
+function sortPackages(array $packages = [])
+{
+    return (new PrivatesCaller)->callPrivateMethod(new JsonManipulator('...'), 'sortPackages', $packages);
+}
 
 function filterOut(array $packages)
 {
