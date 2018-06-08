@@ -1,8 +1,5 @@
 parameters:
     ignoreErrors:
-        # bugged
-        - '#PHPDoc tag \@return with type array<Symfony\\Component\\Finder\\SplFileInfo> is incompatible with native type Iterator#'
-
         # temporary
         - '#Parameter \#1 \$e of method Symfony\\Component\\Console\\Application::renderException\(\) expects Exception, Throwable given#'
 

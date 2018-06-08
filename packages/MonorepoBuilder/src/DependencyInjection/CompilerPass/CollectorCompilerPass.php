@@ -8,8 +8,6 @@ use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symplify\MonorepoBuilder\Command\MergeCommand;
 use Symplify\MonorepoBuilder\Contract\ComposerJsonDecoratorInterface;
-use Symplify\MonorepoBuilder\Contract\WorkerInterface;
-use Symplify\MonorepoBuilder\MonorepoBuilderApplication;
 use Symplify\PackageBuilder\DependencyInjection\DefinitionCollector;
 use Symplify\PackageBuilder\DependencyInjection\DefinitionFinder;
 
