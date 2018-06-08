@@ -1,6 +1,6 @@
 {
     "name": "symplify/monorepo-builder",
-    "description": "Not only Composer tools to build a Monopoer.",
+    "description": "Not only Composer tools to build a Monorepo.",
     "license": "MIT",
     "bin": [
         "bin/monorepo-builder",

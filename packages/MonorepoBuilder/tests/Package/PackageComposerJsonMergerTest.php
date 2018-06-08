@@ -31,33 +31,8 @@ final class PackageComposerJsonMergerTest extends TestCase
         $this->assertSame([
             'require' => [
                 'symplify/symplify' => '^2.0',
-                'rector/rector' => '^2.0'
-            ]
+                'rector/rector' => '^2.0',
+            ],
         ], $merged);
     }
-
-
-//    /**
-//     * @param mixed[] $composerPackageFileInfos
-//     * @param string[] $sections
-//     * @return string[]
-//     */
-//    public function mergeFileInfos(array $composerPackageFileInfos, array $sections): array
-//    {
-//        $merged = [];
-//
-//        foreach ($composerPackageFileInfos as $packageFile) {
-//            $packageComposerJson = Json::decode($packageFile->getContents(), Json::FORCE_ARRAY);
-//
-//            foreach ($sections as $section) {
-//                if (! isset($packageComposerJson[$section])) {
-//                    continue;
-//                }
-//
-//                $merged[$section] = array_merge($collected[$section] ?? [], $packageComposerJson[$section]);
-//            }
-//        }
-//
-//        return $merged;
-//    }
 }
