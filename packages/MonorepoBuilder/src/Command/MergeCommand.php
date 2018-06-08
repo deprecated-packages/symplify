@@ -30,10 +30,22 @@ final class MergeCommand extends Command
      */
     private $packageComposerJsonMerger;
 
-    public function __construct(SymfonyStyle $symfonyStyle, PackageComposerJsonMerger $packageComposerJsonMerger)
-    {
+    /**
+     * @var string[]
+     */
+    private $mergeSections = [];
+
+    /**
+     * @param string[] $mergeSections
+     */
+    public function __construct(
+        array $mergeSections,
+        SymfonyStyle $symfonyStyle,
+        PackageComposerJsonMerger $packageComposerJsonMerger
+    ) {
         $this->symfonyStyle = $symfonyStyle;
         $this->packageComposerJsonMerger = $packageComposerJsonMerger;
+        $this->mergeSections = $mergeSections;
 
         parent::__construct();
     }
@@ -57,14 +69,10 @@ final class MergeCommand extends Command
             return 1;
         }
 
-        // @todo in config
-        $sectionsToMerge = ['require', 'require-dev'];
-
         $rootComposerJson = Json::decode(file_get_contents(getcwd() . '/composer.json'), Json::FORCE_ARRAY);
+        $merged = $this->packageComposerJsonMerger->mergeFileInfos($composerPackageFiles, $this->mergeSections);
 
-        $merged = $this->packageComposerJsonMerger->mergeFileInfos($composerPackageFiles, $sectionsToMerge);
-
-        foreach ($sectionsToMerge as $sectionToMerge) {
+        foreach ($this->mergeSections as $sectionToMerge) {
             // nothing collected to merge
             if (! isset($merged[$sectionToMerge]) || empty($merged[$sectionToMerge])) {
                 continue;
