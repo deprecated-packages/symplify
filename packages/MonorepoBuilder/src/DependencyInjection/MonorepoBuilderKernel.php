@@ -1,13 +1,13 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\Monocomp\DependencyInjection;
+namespace Symplify\MonorepoBuilder\DependencyInjection;
 
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symplify\Monocomp\DependencyInjection\CompilerPass\CollectorCompilerPass;
+use Symplify\MonorepoBuilder\DependencyInjection\CompilerPass\CollectorCompilerPass;
 use Symplify\PackageBuilder\HttpKernel\AbstractCliKernel;
 
-final class MonocompKernel extends AbstractCliKernel
+final class MonorepoBuilderKernel extends AbstractCliKernel
 {
     public function registerContainerConfiguration(LoaderInterface $loader): void
     {
@@ -16,12 +16,12 @@ final class MonocompKernel extends AbstractCliKernel
 
     public function getCacheDir(): string
     {
-        return sys_get_temp_dir() . '/_monocomp_linker';
+        return sys_get_temp_dir() . '/_MonorepoBuilder_linker';
     }
 
     public function getLogDir(): string
     {
-        return sys_get_temp_dir() . '/_monocomp_linker_logs';
+        return sys_get_temp_dir() . '/_MonorepoBuilder_linker_logs';
     }
 
     protected function build(ContainerBuilder $containerBuilder): void

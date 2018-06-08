@@ -6,7 +6,7 @@ services:
     _defaults:
         autowire: true
 
-    Symplify\Monocomp\:
+    Symplify\MonorepoBuilder\:
         resource: '..'
 
     Symfony\Component\Console\Application:

@@ -1,10 +1,10 @@
 {
-    "name": "symplify/monocomp",
-    "description": "Monorepo Composer tools.",
+    "name": "symplify/monorepo-builder",
+    "description": "Not only Composer tools to build a Monopoer.",
     "license": "MIT",
     "bin": [
-        "bin/monocomp",
-        "bin/monocomp-bootstrap.php"
+        "bin/monorepo-builder",
+        "bin/monorepo-builder-bootstrap.php"
     ],
     "require": {
         "php": "^7.1",
