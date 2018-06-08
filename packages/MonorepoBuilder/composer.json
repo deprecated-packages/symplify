@@ -23,5 +23,12 @@
     },
     "autoload-dev": {
         "Symplify\\MonorepoBuilder\\Tests\\": "tests"
-    }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "4.5-dev"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }
