@@ -2,6 +2,7 @@
 <?php declare(strict_types=1);
 
 use Nette\Utils\Json;
+use Nette\Utils\Strings;
 use Symfony\Component\Finder\Finder;
 
 require_once __DIR__ . '/../../../vendor/autoload.php';
@@ -16,6 +17,16 @@ $composerPackageFiles = Finder::create()
 $sectionsToMerge = ['require', 'require-dev'];
 
 $collected = [];
+
+$extraItemsPerSection['require-dev'] = [
+    'phpstan/phpstan' => '^0.9',
+    'tracy/tracy' => '^2.4',
+    'slam/php-cs-fixer-extensions' => '^1.15'
+];
+
+$removeItemsPerSection['require'] = [
+    'phpunit/phpunit', 'tracy/tracy'
+];
 
 /** @var \Symfony\Component\Finder\SplFileInfo $packageFile */
 foreach ($composerPackageFiles as $packageFile) {
@@ -51,18 +62,30 @@ foreach ($sectionsToMerge as $sectionToMerge) {
         break;
     }
 
+    $collected[$sectionToMerge] = filterOut($collected[$sectionToMerge]);
+
+
+    if (isset($extraItemsPerSection[$sectionToMerge])) {
+        $collected[$sectionToMerge] += $extraItemsPerSection[$sectionToMerge];
+    }
+
+    if (isset($removeItemsPerSection[$sectionToMerge])) {
+        foreach ($removeItemsPerSection[$sectionToMerge] as $itemToRemove) {
+            foreach ($collected[$sectionToMerge] as $item => $value) {
+                if ($item === $itemToRemove) {
+                    unset($collected[$sectionToMerge][$item]);
+                }
+            }
+        }
+    }
+
     // sort - look to composer how they do it
     sortPackages($collected[$sectionToMerge]);
 
-    dump($collected[$sectionToMerge]);
-    die;
+    $rootComposerJson[$sectionToMerge] = $collected[$sectionToMerge];
 }
 
-
-dump($rootComposerJson);
-die;
-
-
+file_put_contents('composer.json', Json::encode($rootComposerJson, Json::PRETTY));
 
     /**
      * @source https://github.com/composer/composer/blob/3e1b0c88d7397cdd32c4ac151a8175c188ce9318/src/Composer/Json/JsonManipulator.php#L110
@@ -104,3 +127,15 @@ die;
             return strnatcmp($prefix($a), $prefix($b));
         });
     }
+
+
+function filterOut(array $packages)
+{
+    foreach ($packages as $name => $version) {
+        if (Strings::startsWith($name, 'symplify')) {
+            unset($packages[$name]);
+        }
+    }
+
+    return $packages;
+}
