@@ -1,0 +1,16 @@
+#!/usr/bin/env php
+<?php declare(strict_types=1);
+
+require_once __DIR__ . '/monocomp-bootstrap.php';
+
+use Symfony\Component\Console\Application;
+use Symplify\Monocomp\DependencyInjection\ContainerFactory;
+use Symplify\PackageBuilder\Console\ThrowableRenderer;
+
+try {
+    $container = (new ContainerFactory())->create();
+    $application = $container->get(Application::class);
+    $application->run();
+} catch (Throwable $throwable) {
+    (new ThrowableRenderer())->render($throwable);
+}

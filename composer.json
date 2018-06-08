@@ -54,7 +54,8 @@
             "Symplify\\Statie\\": "packages/Statie/src",
             "Symplify\\Statie\\FlatWhite\\": "packages/Statie/packages/FlatWhite/src",
             "Symplify\\Statie\\Generator\\": "packages/Statie/packages/Generator/src",
-            "Symplify\\TokenRunner\\": "packages/TokenRunner/src"
+            "Symplify\\TokenRunner\\": "packages/TokenRunner/src",
+            "Symplify\\Monocomp\\": "packages/Monocomp/src"
         }
     },
     "autoload-dev": {

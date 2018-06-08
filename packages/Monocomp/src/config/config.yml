@@ -1,0 +1,13 @@
+parameters:
+    package_composer_locations:
+        - '*/packages/*/composer.json'
+
+services:
+    _defaults:
+        autowire: true
+
+    Symplify\Monocomp\:
+        resource: '..'
+
+    Symfony\Component\Console\Application:
+        public: true # for bin file
