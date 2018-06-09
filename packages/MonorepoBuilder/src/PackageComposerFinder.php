@@ -29,6 +29,7 @@ final class PackageComposerFinder
             ->files()
             ->in($this->packageDirectories)
             ->name('composer.json')
+            ->notPath('#tests#')
             ->getIterator();
 
         return iterator_to_array($iterator);
