@@ -13,7 +13,7 @@
         "symfony/console": "^3.4|^4.0",
         "nette/utils": "^2.5",
         "composer/composer": "^1.6",
-        "symplify/package-builder": "^4.4",
+        "symplify/package-builder": "^4.4.1",
         "phar-io/version": "^1.0.1"
     },
     "require-dev": {
