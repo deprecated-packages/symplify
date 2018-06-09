@@ -36,15 +36,15 @@ final class AutoloadRelativePathComposerJsonDecorator implements ComposerJsonDec
                 if ($autoloadType !== 'psr-4') {
                     continue;
                 }
-            }
 
-            $composerJson = $this->processAutoloadPaths(
-                $composerJson,
-                $autoloadPaths,
-                $packageComposerFiles,
-                $key,
-                $autoloadType
-            );
+                $composerJson = $this->processAutoloadPaths(
+                    $composerJson,
+                    $autoloadPaths,
+                    $packageComposerFiles,
+                    $key,
+                    $autoloadType
+                );
+            }
         }
 
         return $composerJson;
