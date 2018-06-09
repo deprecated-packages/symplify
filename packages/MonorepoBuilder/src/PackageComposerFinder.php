@@ -14,7 +14,7 @@ final class PackageComposerFinder
     {
         $iterator = Finder::create()
             ->files()
-            ->in(getcwd() . '/packages')
+            ->in(getcwd() . '/packages') // @todo make configurable
             ->name('composer.json')
             ->getIterator();
 

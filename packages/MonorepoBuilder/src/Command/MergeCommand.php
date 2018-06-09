@@ -2,12 +2,12 @@
 
 namespace Symplify\MonorepoBuilder\Command;
 
-use Nette\Utils\Json;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symplify\MonorepoBuilder\Contract\ComposerJsonDecoratorInterface;
+use Symplify\MonorepoBuilder\FileSystem\JsonFileManager;
 use Symplify\MonorepoBuilder\Package\PackageComposerJsonMerger;
 use Symplify\MonorepoBuilder\PackageComposerFinder;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
@@ -40,18 +40,25 @@ final class MergeCommand extends Command
     private $packageComposerFinder;
 
     /**
+     * @var JsonFileManager
+     */
+    private $jsonFileManager;
+
+    /**
      * @param string[] $mergeSections
      */
     public function __construct(
         array $mergeSections,
         SymfonyStyle $symfonyStyle,
         PackageComposerJsonMerger $packageComposerJsonMerger,
-        PackageComposerFinder $packageComposerFinder
+        PackageComposerFinder $packageComposerFinder,
+        JsonFileManager $jsonFileManager
     ) {
         $this->symfonyStyle = $symfonyStyle;
         $this->packageComposerJsonMerger = $packageComposerJsonMerger;
         $this->mergeSections = $mergeSections;
         $this->packageComposerFinder = $packageComposerFinder;
+        $this->jsonFileManager = $jsonFileManager;
 
         parent::__construct();
     }
@@ -75,7 +82,7 @@ final class MergeCommand extends Command
             return 1;
         }
 
-        $rootComposerJson = Json::decode(file_get_contents(getcwd() . '/composer.json'), Json::FORCE_ARRAY);
+        $rootComposerJson = $this->jsonFileManager->loadFromFilePath(getcwd() . DIRECTORY_SEPARATOR . 'composer.json');
         $merged = $this->packageComposerJsonMerger->mergeFileInfos($composerPackageFiles, $this->mergeSections);
 
         foreach ($this->mergeSections as $sectionToMerge) {
@@ -97,7 +104,10 @@ final class MergeCommand extends Command
             $rootComposerJson = $composerJsonDecorator->decorate($rootComposerJson);
         }
 
-        file_put_contents('composer.json', Json::encode($rootComposerJson, Json::PRETTY) . PHP_EOL);
+        $this->jsonFileManager->saveJsonWithFilePath(
+            $rootComposerJson,
+            getcwd() . DIRECTORY_SEPARATOR . 'composer.json'
+        );
 
         $this->symfonyStyle->success('Main "composer.json" was updated.');
 

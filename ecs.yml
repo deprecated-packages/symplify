@@ -18,6 +18,7 @@ services:
             - 'Symfony\Component\DependencyInjection\ContainerBuilder'
             - 'Symfony\Component\DependencyInjection\ParameterBag\ParameterBag'
             - 'Symplify\EasyCodingStandard\Yaml\*'
+            - 'PharIo\Version\Version'
 
 parameters:
     exclude_checkers:
