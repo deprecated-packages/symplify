@@ -2,12 +2,12 @@
 
 namespace Symplify\MonorepoBuilder\Command;
 
-use Nette\Utils\Json;
 use PharIo\Version\Version;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symplify\MonorepoBuilder\FileSystem\JsonFileManager;
 use Symplify\MonorepoBuilder\PackageComposerFinder;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
 
@@ -23,10 +23,19 @@ final class PackageAliasCommand extends Command
      */
     private $packageComposerFinder;
 
-    public function __construct(SymfonyStyle $symfonyStyle, PackageComposerFinder $packageComposerFinder)
-    {
+    /**
+     * @var JsonFileManager
+     */
+    private $jsonFileManager;
+
+    public function __construct(
+        SymfonyStyle $symfonyStyle,
+        PackageComposerFinder $packageComposerFinder,
+        JsonFileManager $jsonFileManager
+    ) {
         $this->symfonyStyle = $symfonyStyle;
         $this->packageComposerFinder = $packageComposerFinder;
+        $this->jsonFileManager = $jsonFileManager;
 
         parent::__construct();
     }
@@ -46,7 +55,7 @@ final class PackageAliasCommand extends Command
         }
 
         foreach ($composerPackageFiles as $composerPackageFile) {
-            $composerJson = Json::decode($composerPackageFile->getContents(), Json::FORCE_ARRAY);
+            $composerJson = $this->jsonFileManager->loadFromFileInfo($composerPackageFile);
 
             // update only when already present
             if (! isset($composerJson['extra']['branch-alias']['dev-master'])) {
@@ -71,7 +80,7 @@ final class PackageAliasCommand extends Command
 
             $composerJson['extra']['branch-alias']['dev-master'] = $expectedAlias;
 
-            file_put_contents($composerPackageFile->getRealPath(), Json::encode($composerJson, Json::PRETTY) . PHP_EOL);
+            $this->jsonFileManager->saveJsonWithFileInfo($composerJson, $composerPackageFile);
 
             $this->symfonyStyle->success(sprintf(
                 'Alias "dev-master" was updated to "%s" in "%s".',

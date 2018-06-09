@@ -2,12 +2,12 @@
 
 namespace Symplify\MonorepoBuilder\Command;
 
-use Nette\Utils\Json;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Finder\SplFileInfo;
+use Symplify\MonorepoBuilder\FileSystem\JsonFileManager;
 use Symplify\MonorepoBuilder\PackageComposerFinder;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
 
@@ -38,10 +38,19 @@ final class ValidateVersionsCommand extends Command
      */
     private $requiredPackages = [];
 
-    public function __construct(SymfonyStyle $symfonyStyle, PackageComposerFinder $packageComposerFinder)
-    {
+    /**
+     * @var JsonFileManager
+     */
+    private $jsonFileManager;
+
+    public function __construct(
+        SymfonyStyle $symfonyStyle,
+        PackageComposerFinder $packageComposerFinder,
+        JsonFileManager $jsonFileManager
+    ) {
         $this->symfonyStyle = $symfonyStyle;
         $this->packageComposerFinder = $packageComposerFinder;
+        $this->jsonFileManager = $jsonFileManager;
 
         parent::__construct();
     }
@@ -61,11 +70,7 @@ final class ValidateVersionsCommand extends Command
         }
 
         foreach ($composerPackageFiles as $composerPackageFile) {
-            $composerJson = Json::decode($composerPackageFile->getContents(), Json::FORCE_ARRAY);
-
-            if (! isset($composerJson['require'], $composerJson['require-dev'])) {
-                continue;
-            }
+            $composerJson = $this->jsonFileManager->loadFromFileInfo($composerPackageFile);
 
             foreach ($this->requiredPackages as $packageName => $packageVersion) {
                 $this->processSection(
