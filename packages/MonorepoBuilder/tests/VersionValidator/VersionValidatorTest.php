@@ -22,10 +22,7 @@ final class VersionValidatorTest extends TestCase
 
     public function test(): void
     {
-        $fileInfos = iterator_to_array(Finder::create()
-            ->name('*.json')
-            ->in(__DIR__ . '/Source')
-            ->getIterator());
+        $fileInfos = iterator_to_array(Finder::create() ->name('*.json') ->in(__DIR__ . '/Source') ->getIterator());
 
         $this->expectException(AmbiguousVersionException::class);
         $this->versionValidator->validateFileInfos($fileInfos);

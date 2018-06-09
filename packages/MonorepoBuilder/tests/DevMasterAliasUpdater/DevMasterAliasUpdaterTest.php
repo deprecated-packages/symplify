@@ -3,7 +3,6 @@
 namespace Symplify\MonorepoBuilder\Tests\DevMasterAliasUpdater;
 
 use PHPUnit\Framework\TestCase;
-use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
 use Symplify\MonorepoBuilder\DevMasterAliasUpdater;
 use Symplify\MonorepoBuilder\FileSystem\JsonFileManager;
@@ -30,7 +29,7 @@ final class DevMasterAliasUpdaterTest extends TestCase
         );
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         copy(__DIR__ . '/Source/backup-first.json', __DIR__ . '/Source/first.json');
     }
