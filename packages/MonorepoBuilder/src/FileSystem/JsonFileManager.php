@@ -28,7 +28,7 @@ final class JsonFileManager
      */
     public function saveJsonWithFileInfo(array $json, SplFileInfo $fileInfo): void
     {
-        file_put_contents($fileInfo->getPath(), $this->encodeJsonToFileContent($json));
+        file_put_contents($fileInfo->getPathname(), $this->encodeJsonToFileContent($json));
     }
 
     /**

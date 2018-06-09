@@ -8,14 +8,23 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Symplify\MonorepoBuilder\Contract\ComposerJsonDecoratorInterface;
+use Symplify\MonorepoBuilder\Composer\Section;
 use Symplify\MonorepoBuilder\FileSystem\JsonFileManager;
-use Symplify\MonorepoBuilder\Package\PackageComposerJsonMerger;
 use Symplify\MonorepoBuilder\PackageComposerFinder;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
 
 final class BumpInterdependencyCommand extends Command
 {
+    /**
+     * @var string
+     */
+    private const VERSION_ARGUMENT = 'version';
+
+    /**
+     * @var bool
+     */
+    private $wasFileUpdated = false;
+
     /**
      * @var SymfonyStyle
      */
@@ -47,7 +56,11 @@ final class BumpInterdependencyCommand extends Command
     {
         $this->setName(CommandNaming::classToName(self::class));
         $this->setDescription('Bump dependency of split packages on each other');
-        $this->addArgument('version', InputArgument::REQUIRED, 'New version of interdependencies, e.g. "^4.4.2"');
+        $this->addArgument(
+            self::VERSION_ARGUMENT,
+            InputArgument::REQUIRED,
+            'New version of inter-dependencies, e.g. "^4.4.2"'
+        );
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -67,43 +80,27 @@ final class BumpInterdependencyCommand extends Command
 
         [$vendorName,] = explode('/', $rootComposerJson['name']);
 
-        $targetVersion = $input->getArgument('version');
+        $targetVersion = $input->getArgument(self::VERSION_ARGUMENT);
+
+        $this->wasFileUpdated = false;
 
         foreach ($this->packageComposerFinder->getPackageComposerFiles() as $packageComposerFileInfo) {
             $packageComposerJson = $this->jsonFileManager->loadFromFileInfo($packageComposerFileInfo);
 
-            $wasFileUpdated = false;
-            if (isset($packageComposerJson['require'])) {
-                foreach ($packageComposerJson['require'] as $packageName => $packageVersion) {
-                    if (! Strings::startsWith($packageName, $vendorName)) {
-                        continue;
-                    }
+            $packageComposerJson = $this->processSection(
+                $packageComposerJson,
+                $vendorName,
+                $targetVersion,
+                Section::REQUIRE
+            );
+            $packageComposerJson = $this->processSection(
+                $packageComposerJson,
+                $vendorName,
+                $targetVersion,
+                Section::REQUIRE_DEV
+            );
 
-                    if ($packageVersion === $targetVersion) {
-                        continue;
-                    }
-
-                    $packageComposerJson['require'][$packageName] = $targetVersion;
-                    $wasFileUpdated = true;
-                }
-            }
-
-            if (isset($packageComposerJson['require-dev'])) {
-                foreach ($packageComposerJson['require-dev'] as $packageName => $packageVersion) {
-                    if (! Strings::startsWith($packageName, $vendorName)) {
-                        continue;
-                    }
-
-                    if ($packageVersion === $targetVersion) {
-                        continue;
-                    }
-
-                    $packageComposerJson['require'][$packageName] = $targetVersion;
-                    $wasFileUpdated = true;
-                }
-            }
-
-            if ($wasFileUpdated) {
+            if ($this->wasFileUpdated) {
                 $this->jsonFileManager->saveJsonWithFileInfo($packageComposerJson, $packageComposerFileInfo);
                 $this->symfonyStyle->success(sprintf('"%s" was updated.', $packageComposerFileInfo->getPathname()));
             }
@@ -111,5 +108,36 @@ final class BumpInterdependencyCommand extends Command
 
         // success
         return 0;
+    }
+
+    /**
+     * @param mixed[] $packageComposerJson
+     * @return mixed[]
+     */
+    private function processSection(
+        array $packageComposerJson,
+        string $vendorName,
+        string $targetVersion,
+        string $section
+    ): array {
+        if (! isset($packageComposerJson[$section])) {
+            return $packageComposerJson;
+        }
+
+        foreach ($packageComposerJson[$section] as $packageName => $packageVersion) {
+            if (! Strings::startsWith($packageName, $vendorName)) {
+                continue;
+            }
+
+            if ($packageVersion === $targetVersion) {
+                continue;
+            }
+
+            $packageComposerJson[$section][$packageName] = $targetVersion;
+
+            $this->wasFileUpdated = true;
+        }
+
+        return $packageComposerJson;
     }
 }

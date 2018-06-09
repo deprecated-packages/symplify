@@ -7,22 +7,13 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Finder\SplFileInfo;
+use Symplify\MonorepoBuilder\Composer\Section;
 use Symplify\MonorepoBuilder\FileSystem\JsonFileManager;
 use Symplify\MonorepoBuilder\PackageComposerFinder;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
 
 final class ValidateVersionsCommand extends Command
 {
-    /**
-     * @var string
-     */
-    private const REQUIRE_SECTION = 'require';
-
-    /**
-     * @var string
-     */
-    private const REQUIRE_DEV_SECTION = 'require-dev';
-
     /**
      * @var SymfonyStyle
      */
@@ -78,19 +69,19 @@ final class ValidateVersionsCommand extends Command
                     $packageName,
                     $packageVersion,
                     $composerPackageFile,
-                    self::REQUIRE_SECTION
+                    Section::REQUIRE
                 );
                 $this->processSection(
                     $composerJson,
                     $packageName,
                     $packageVersion,
                     $composerPackageFile,
-                    self::REQUIRE_DEV_SECTION
+                    Section::REQUIRE_DEV
                 );
             }
 
-            $this->requiredPackages += $composerJson[self::REQUIRE_SECTION] ?? [];
-            $this->requiredPackages += $composerJson[self::REQUIRE_DEV_SECTION] ?? [];
+            $this->requiredPackages += $composerJson[Section::REQUIRE] ?? [];
+            $this->requiredPackages += $composerJson[Section::REQUIRE_DEV] ?? [];
         }
 
         $this->symfonyStyle->success('All packages "composer.json" files use same package versions.');
