@@ -80,7 +80,6 @@ parameters:
             - 'packages/PackageBuilder/src/Yaml/ParametersMerger.php'
             # todo: resolve later
             - 'packages/BetterPhpDocParser/src/Printer/PhpDocInfoPrinter.php'
-            - 'packages/CodingStandard/src/Sniffs/DeadCode/UnusedPublicMethodSniff.php'
 
         PHP_CodeSniffer\Standards\Generic\Sniffs\CodeAnalysis\AssignmentInConditionSniff.FoundInWhileCondition: ~
 

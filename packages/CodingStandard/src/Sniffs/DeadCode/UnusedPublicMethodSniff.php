@@ -149,26 +149,7 @@ final class UnusedPublicMethodSniff implements Sniff, DualRunInterface
             return;
         }
 
-        // possible method call in string
-        if ($token['code'] === T_CONSTANT_ENCAPSED_STRING) {
-            // match method name
-            if (Strings::match($token['content'], '#^\'[a-z]{1}[a-zA-Z]+\'$#')) {
-                $this->calledMethodNames[] = trim($token['content'], '\'');
-            }
-
-            return;
-        }
-
-        // SomeClass::"someMethod"
-        if ($token['code'] === T_DOUBLE_COLON) {
-            $nextToken = $this->tokens[$this->position + 1];
-            if ($nextToken['code'] !== T_STRING) {
-                return;
-            }
-
-            $this->calledMethodNames[] = $nextToken['content'];
-            return;
-        }
+        $this->collectMethodNames($token);
 
         if ($token['code'] === T_STRING) {
             // starts with uppercase name, is not a method name
@@ -254,5 +235,29 @@ final class UnusedPublicMethodSniff implements Sniff, DualRunInterface
         }
 
         return $this->tokens[$possibleNextStringPosition];
+    }
+
+    /**
+     * @param mixed[] $token
+     */
+    private function collectMethodNames(array $token): void
+    {
+        // possible method call in string
+        if ($token['code'] === T_CONSTANT_ENCAPSED_STRING) {
+            // match method name
+            if (Strings::match($token['content'], '#^\'[a-z]{1}[a-zA-Z]+\'$#')) {
+                $this->calledMethodNames[] = trim($token['content'], '\'');
+            }
+        }
+
+        // SomeClass::"someMethod"
+        if ($token['code'] === T_DOUBLE_COLON) {
+            $nextToken = $this->tokens[$this->position + 1];
+            if ($nextToken['code'] !== T_STRING) {
+                return;
+            }
+
+            $this->calledMethodNames[] = $nextToken['content'];
+        }
     }
 }
