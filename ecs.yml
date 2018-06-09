@@ -82,7 +82,6 @@ parameters:
             - 'packages/BetterPhpDocParser/src/Printer/PhpDocInfoPrinter.php'
             - 'packages/CodingStandard/src/Sniffs/DeadCode/UnusedPublicMethodSniff.php'
             - 'packages/EasyCodingStandard/src/Yaml/CheckerServiceParametersShifter.php'
-            - 'packages/TokenRunner/src/DocBlock/DescriptionAnalyzer.php'
 
         PHP_CodeSniffer\Standards\Generic\Sniffs\CodeAnalysis\AssignmentInConditionSniff.FoundInWhileCondition: ~
 
