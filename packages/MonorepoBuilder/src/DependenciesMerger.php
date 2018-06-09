@@ -41,6 +41,8 @@ final class DependenciesMerger
      */
     public function mergeJsonToRootFilePath(array $jsonToMerge, string $rootFilePath): void
     {
+        $rootComposerJson = $this->jsonFileManager->loadFromFilePath($rootFilePath);
+
         foreach ($this->mergeSections as $sectionToMerge) {
             // nothing collected to merge
             if (! isset($jsonToMerge[$sectionToMerge]) || empty($jsonToMerge[$sectionToMerge])) {
