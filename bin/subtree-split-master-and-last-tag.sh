@@ -11,6 +11,7 @@ git subsplit publish --heads=$HEADS --tags=$LAST_TAG packages/EasyCodingStandard
 git subsplit publish --heads=$HEADS --tags=$LAST_TAG packages/CodingStandard:git@github.com:Symplify/CodingStandard.git
 git subsplit publish --heads=$HEADS --tags=$LAST_TAG packages/Statie:git@github.com:Symplify/Statie.git
 git subsplit publish --heads=$HEADS --tags=$LAST_TAG packages/ChangelogLinker:git@github.com:Symplify/ChangelogLinker.git
+git subsplit publish --heads=$HEADS --tags=$LAST_TAG packages/MonorepoBuilder:git@github.com:Symplify/MonorepoBuilder.git
 
 rm -rf .subsplit
 
