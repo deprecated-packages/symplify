@@ -7,10 +7,9 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Symfony\Component\Finder\Finder;
-use Symfony\Component\Finder\SplFileInfo;
 use Symplify\MonorepoBuilder\Contract\ComposerJsonDecoratorInterface;
 use Symplify\MonorepoBuilder\Package\PackageComposerJsonMerger;
+use Symplify\MonorepoBuilder\PackageComposerFinder;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
 
 final class MergeCommand extends Command
@@ -36,16 +35,23 @@ final class MergeCommand extends Command
     private $mergeSections = [];
 
     /**
+     * @var PackageComposerFinder
+     */
+    private $packageComposerFinder;
+
+    /**
      * @param string[] $mergeSections
      */
     public function __construct(
         array $mergeSections,
         SymfonyStyle $symfonyStyle,
-        PackageComposerJsonMerger $packageComposerJsonMerger
+        PackageComposerJsonMerger $packageComposerJsonMerger,
+        PackageComposerFinder $packageComposerFinder
     ) {
         $this->symfonyStyle = $symfonyStyle;
         $this->packageComposerJsonMerger = $packageComposerJsonMerger;
         $this->mergeSections = $mergeSections;
+        $this->packageComposerFinder = $packageComposerFinder;
 
         parent::__construct();
     }
@@ -63,7 +69,7 @@ final class MergeCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $composerPackageFiles = $this->getPackageComposerFiles();
+        $composerPackageFiles = $this->packageComposerFinder->getPackageComposerFiles();
         if (! count($composerPackageFiles)) {
             $this->symfonyStyle->error('No "composer.json" were found in packages.');
             return 1;
@@ -97,19 +103,5 @@ final class MergeCommand extends Command
 
         // success
         return 0;
-    }
-
-    /**
-     * @return SplFileInfo[]
-     */
-    private function getPackageComposerFiles(): array
-    {
-        $iterator = Finder::create()
-            ->files()
-            ->in(getcwd() . '/packages')
-            ->name('composer.json')
-            ->getIterator();
-
-        return iterator_to_array($iterator);
     }
 }

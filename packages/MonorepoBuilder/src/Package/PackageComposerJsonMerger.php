@@ -3,6 +3,7 @@
 namespace Symplify\MonorepoBuilder\Package;
 
 use Nette\Utils\Json;
+use Symfony\Component\Finder\SplFileInfo;
 use Symplify\PackageBuilder\Yaml\ParametersMerger;
 
 final class PackageComposerJsonMerger
@@ -18,7 +19,7 @@ final class PackageComposerJsonMerger
     }
 
     /**
-     * @param mixed[] $composerPackageFileInfos
+     * @param SplFileInfo[] $composerPackageFileInfos
      * @param string[] $sections
      * @return string[]
      */
