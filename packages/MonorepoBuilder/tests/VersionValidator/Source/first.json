@@ -1,0 +1,5 @@
+{
+    "require": {
+        "some/package": "^1.0"
+    }
+}

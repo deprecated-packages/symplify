@@ -1,14 +1,18 @@
 parameters:
     merge_sections: ['require', 'require-dev', 'autoload', 'autoload-dev']
+    package_directories:
+        - 'packages'
 
 services:
     _defaults:
         autowire: true
         bind:
             $mergeSections: '%merge_sections%'
+            $packageDirectories: '%package_directories%'
 
     Symplify\MonorepoBuilder\:
         resource: '..'
+        exclude: '../{Contract,Exception}'
 
     Symplify\PackageBuilder\Yaml\ParametersMerger: ~
 

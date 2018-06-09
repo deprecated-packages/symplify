@@ -1,0 +1,7 @@
+{
+    "extra": {
+        "branch-alias": {
+            "dev-master": "4.5-dev"
+        }
+    }
+}

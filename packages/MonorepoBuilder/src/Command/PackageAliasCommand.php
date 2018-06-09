@@ -7,7 +7,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Symplify\MonorepoBuilder\FileSystem\JsonFileManager;
+use Symplify\MonorepoBuilder\DevMasterAliasUpdater;
 use Symplify\MonorepoBuilder\PackageComposerFinder;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
 
@@ -24,18 +24,18 @@ final class PackageAliasCommand extends Command
     private $packageComposerFinder;
 
     /**
-     * @var JsonFileManager
+     * @var DevMasterAliasUpdater
      */
-    private $jsonFileManager;
+    private $devMasterAliasUpdater;
 
     public function __construct(
         SymfonyStyle $symfonyStyle,
         PackageComposerFinder $packageComposerFinder,
-        JsonFileManager $jsonFileManager
+        DevMasterAliasUpdater $devMasterAliasUpdater
     ) {
         $this->symfonyStyle = $symfonyStyle;
         $this->packageComposerFinder = $packageComposerFinder;
-        $this->jsonFileManager = $jsonFileManager;
+        $this->devMasterAliasUpdater = $devMasterAliasUpdater;
 
         parent::__construct();
     }
@@ -54,31 +54,10 @@ final class PackageAliasCommand extends Command
             return 1;
         }
 
-        foreach ($composerPackageFiles as $composerPackageFile) {
-            $composerJson = $this->jsonFileManager->loadFromFileInfo($composerPackageFile);
+        $alias = $this->getExpectedAlias();
 
-            // update only when already present
-            if (! isset($composerJson['extra']['branch-alias']['dev-master'])) {
-                continue;
-            }
-
-            $expectedAlias = $this->getExpectedAlias();
-
-            $currentAlias = $composerJson['extra']['branch-alias']['dev-master'];
-            if ($currentAlias === $expectedAlias) {
-                continue;
-            }
-
-            $composerJson['extra']['branch-alias']['dev-master'] = $expectedAlias;
-
-            $this->jsonFileManager->saveJsonWithFileInfo($composerJson, $composerPackageFile);
-
-            $this->symfonyStyle->success(sprintf(
-                'Alias "dev-master" was updated to "%s" in "%s".',
-                $expectedAlias,
-                $composerPackageFile->getPathname()
-            ));
-        }
+        $this->devMasterAliasUpdater->updateFileInfosWithAlias($composerPackageFiles, $alias);
+        $this->symfonyStyle->success(sprintf('Alias "dev-master" was updated to "%s" in all packages.', $alias));
 
         // success
         return 0;

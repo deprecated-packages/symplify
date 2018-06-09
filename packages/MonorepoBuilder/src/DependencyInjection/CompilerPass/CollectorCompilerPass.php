@@ -6,8 +6,8 @@ use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symplify\MonorepoBuilder\Command\MergeCommand;
 use Symplify\MonorepoBuilder\Contract\ComposerJsonDecoratorInterface;
+use Symplify\MonorepoBuilder\DependenciesMerger;
 use Symplify\PackageBuilder\DependencyInjection\DefinitionCollector;
 use Symplify\PackageBuilder\DependencyInjection\DefinitionFinder;
 
@@ -43,7 +43,7 @@ final class CollectorCompilerPass implements CompilerPassInterface
     {
         $this->definitionCollector->loadCollectorWithType(
             $containerBuilder,
-            MergeCommand::class,
+            DependenciesMerger::class,
             ComposerJsonDecoratorInterface::class,
             'addComposerJsonDecorator'
         );
