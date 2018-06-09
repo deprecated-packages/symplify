@@ -22,22 +22,30 @@ final class DevMasterAliasUpdater
      */
     public function updateFileInfosWithAlias(array $fileInfos, string $alias): void
     {
-        foreach ($composerPackageFiles as $composerPackageFile) {
-            $composerJson = $this->jsonFileManager->loadFromFileInfo($composerPackageFile);
-
-            // update only when already present
-            if (! isset($composerJson['extra']['branch-alias']['dev-master'])) {
+        foreach ($fileInfos as $fileInfo) {
+            $json = $this->jsonFileManager->loadFromFileInfo($fileInfo);
+            if ($this->shouldSkip($json, $alias)) {
                 continue;
             }
 
-            $currentAlias = $composerJson['extra']['branch-alias']['dev-master'];
-            if ($currentAlias === $alias) {
-                continue;
-            }
+            $json['extra']['branch-alias']['dev-master'] = $alias;
 
-            $composerJson['extra']['branch-alias']['dev-master'] = $alias;
-
-            $this->jsonFileManager->saveJsonWithFileInfo($composerJson, $composerPackageFile);
+            $this->jsonFileManager->saveJsonWithFileInfo($json, $fileInfo);
         }
+    }
+
+    /**
+     * @param mixed[] $json
+     */
+    private function shouldSkip(array $json, string $alias): bool
+    {
+        // update only when already present
+        if (! isset($json['extra']['branch-alias']['dev-master'])) {
+            return true;
+        }
+
+        $currentAlias = $json['extra']['branch-alias']['dev-master'];
+
+        return $currentAlias === $alias;
     }
 }
