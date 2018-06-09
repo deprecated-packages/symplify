@@ -25,7 +25,7 @@ Merges following sections to the root `composer.json`, so you can only edit `com
 - 'autoload'
 - 'autoload-dev'
 
-```php
+```bash
 vendor/bin/monorepo-builder merge
 ```
 
