@@ -230,15 +230,7 @@ final class PhpDocInfoPrinter
             }
         }
 
-        for ($i = $from; $i < $to; ++$i) {
-            while (isset($positionJumpSet[$i])) {
-                $i = $positionJumpSet[$i];
-            }
-
-            $output .= $this->tokens[$i][0] ?? '';
-        }
-
-        return $output;
+        return $this->appendToOutput($output, $from, $to, $positionJumpSet);
     }
 
     /**
@@ -287,5 +279,21 @@ final class PhpDocInfoPrinter
         }
 
         return true;
+    }
+
+    /**
+     * @param int[] $positionJumpSet
+     */
+    private function appendToOutput(string $output, int $from, int $to, array $positionJumpSet): string
+    {
+        for ($i = $from; $i < $to; ++$i) {
+            while (isset($positionJumpSet[$i])) {
+                $i = $positionJumpSet[$i];
+            }
+
+            $output .= $this->tokens[$i][0] ?? '';
+        }
+
+        return $output;
     }
 }
