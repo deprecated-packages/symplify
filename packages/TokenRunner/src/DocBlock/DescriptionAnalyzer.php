@@ -90,7 +90,10 @@ final class DescriptionAnalyzer
      */
     private function isDummyDescription(string $description, string $typeUselessPattern, string $type): bool
     {
-        return (bool) Strings::match($description, $typeUselessPattern) ||
-            ((strlen($description) < (strlen($type) + 10)) && levenshtein($type, $description) < 3);
+        if (Strings::match($description, $typeUselessPattern)) {
+            return true;
+        }
+
+        return (strlen($description) < (strlen($type) + 10)) && levenshtein($type, $description) < 3;
     }
 }
