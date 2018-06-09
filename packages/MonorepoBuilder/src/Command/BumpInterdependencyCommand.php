@@ -88,6 +88,7 @@ final class BumpInterdependencyCommand extends Command
 
         $this->symfonyStyle->success('Inter-dependencies of packages were updated.');
 
+        // success
         return 0;
     }
 }
