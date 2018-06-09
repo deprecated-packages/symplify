@@ -81,7 +81,6 @@ parameters:
             # todo: resolve later
             - 'packages/BetterPhpDocParser/src/Printer/PhpDocInfoPrinter.php'
             - 'packages/CodingStandard/src/Sniffs/DeadCode/UnusedPublicMethodSniff.php'
-            - 'packages/EasyCodingStandard/src/Yaml/CheckerServiceParametersShifter.php'
 
         PHP_CodeSniffer\Standards\Generic\Sniffs\CodeAnalysis\AssignmentInConditionSniff.FoundInWhileCondition: ~
 
