@@ -62,16 +62,7 @@ final class PackageAliasCommand extends Command
                 continue;
             }
 
-            $lastTag = exec('git describe --abbrev=0 --tags');
-
-            // @todo add this dependency to composer.json
-            $lastTagVersion = new Version($lastTag);
-
-            $expectedAlias = sprintf(
-                '%d.%d-dev',
-                $lastTagVersion->getMajor()->getValue(),
-                $lastTagVersion->getMinor()->getValue() + 1
-            );
+            $expectedAlias = $this->getExpectedAlias();
 
             $currentAlias = $composerJson['extra']['branch-alias']['dev-master'];
             if ($currentAlias === $expectedAlias) {
@@ -91,5 +82,18 @@ final class PackageAliasCommand extends Command
 
         // success
         return 0;
+    }
+
+    private function getExpectedAlias(): string
+    {
+        $lastTag = exec('git describe --abbrev=0 --tags');
+
+        $lastTagVersion = new Version($lastTag);
+
+        return sprintf(
+            '%d.%d-dev',
+            $lastTagVersion->getMajor()->getValue(),
+            $lastTagVersion->getMinor()->getValue() + 1
+        );
     }
 }
