@@ -7,6 +7,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\Finder\SplFileInfo;
 use Symplify\MonorepoBuilder\PackageComposerFinder;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
 
@@ -66,36 +67,21 @@ final class ValidateVersionsCommand extends Command
                 continue;
             }
 
-//            $this->symfonyStyle->note(sprintf('Scanning "%s"', $composerPackageFile->getPathname()));
-
             foreach ($this->requiredPackages as $packageName => $packageVersion) {
-                if (isset($composerJson[self::REQUIRE_SECTION][$packageName])) {
-                    if ($composerJson[self::REQUIRE_SECTION][$packageName] === $packageVersion) {
-                        continue;
-                    }
-
-                    $this->symfonyStyle->error(sprintf(
-                        'Version "%s" for package "%s" is different than previously found "%s" in "%s" file',
-                        $composerJson[self::REQUIRE_SECTION][$packageName],
-                        $packageName,
-                        $packageVersion,
-                        $composerPackageFile->getPathname()
-                    ));
-                }
-
-                if (isset($composerJson[self::REQUIRE_DEV_SECTION][$packageName])) {
-                    if ($composerJson[self::REQUIRE_DEV_SECTION][$packageName] === $packageVersion) {
-                        continue;
-                    }
-
-                    $this->symfonyStyle->error(sprintf(
-                        'Version "%s" for package "%s" is different than previously found "%s" in "%s" file',
-                        $composerJson[self::REQUIRE_DEV_SECTION][$packageName],
-                        $packageName,
-                        $packageVersion,
-                        $composerPackageFile->getPathname()
-                    ));
-                }
+                $this->processSection(
+                    $composerJson,
+                    $packageName,
+                    $packageVersion,
+                    $composerPackageFile,
+                    self::REQUIRE_SECTION
+                );
+                $this->processSection(
+                    $composerJson,
+                    $packageName,
+                    $packageVersion,
+                    $composerPackageFile,
+                    self::REQUIRE_DEV_SECTION
+                );
             }
 
             $this->requiredPackages += $composerJson[self::REQUIRE_SECTION] ?? [];
@@ -106,5 +92,32 @@ final class ValidateVersionsCommand extends Command
 
         // success
         return 0;
+    }
+
+    /**
+     * @param mixed[] $composerJson
+     */
+    private function processSection(
+        array $composerJson,
+        string $packageName,
+        string $packageVersion,
+        SplFileInfo $composerPackageFile,
+        string $section
+    ): void {
+        if (! isset($composerJson[$section][$packageName])) {
+            return;
+        }
+
+        if ($composerJson[$section][$packageName] === $packageVersion) {
+            return;
+        }
+
+        $this->symfonyStyle->error(sprintf(
+            'Version "%s" for package "%s" is different than previously found "%s" in "%s" file',
+            $composerJson[$section][$packageName],
+            $packageName,
+            $packageVersion,
+            $composerPackageFile->getPathname()
+        ));
     }
 }
