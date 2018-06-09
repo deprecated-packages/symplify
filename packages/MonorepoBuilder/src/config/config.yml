@@ -9,6 +9,7 @@ services:
 
     Symplify\MonorepoBuilder\:
         resource: '..'
+        exclude: '../{Contract,Exception}'
 
     Symplify\PackageBuilder\Yaml\ParametersMerger: ~
 
