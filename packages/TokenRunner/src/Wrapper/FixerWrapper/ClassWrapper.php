@@ -107,11 +107,14 @@ final class ClassWrapper
 
     public function getNamePosition(): ?int
     {
+        if ((new TokensAnalyzer($this->tokens))->isAnonymousClass($this->startIndex)) {
+            return null;
+        }
+
         $stringTokens = $this->tokens->findGivenKind(T_STRING, $this->startIndex);
         if (! count($stringTokens)) {
             return null;
         }
-
         reset($stringTokens);
 
         return key($stringTokens);
