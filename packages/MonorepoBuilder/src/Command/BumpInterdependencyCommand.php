@@ -73,24 +73,21 @@ final class BumpInterdependencyCommand extends Command
         }
 
         $rootComposerJson = $this->jsonFileManager->loadFromFilePath(getcwd() . DIRECTORY_SEPARATOR . 'composer.json');
-
         if (! isset($rootComposerJson['name'])) {
             $this->symfonyStyle->error('No "name" found in root "composer.json".');
             return 1;
         }
 
-        [$vendorName,] = explode('/', $rootComposerJson['name']);
+        [$vendor,] = explode('/', $rootComposerJson['name']);
 
-        $targetVersion = $input->getArgument(self::VERSION_ARGUMENT);
-
-        $this->interdependencyUpdater->processFileInfosWithVendorNameAndVersion(
+        $this->interdependencyUpdater->updateFileInfosWithVendorAndVersion(
             $composerPackageFiles,
-            $vendorName,
-            $targetVersion
+            $vendor,
+            $input->getArgument(self::VERSION_ARGUMENT)
         );
-        $this->symfonyStyle->success('Interdependency of packages was updated.');
 
-        // success
+        $this->symfonyStyle->success('Inter-dependencies of packages were updated.');
+
         return 0;
     }
 }
