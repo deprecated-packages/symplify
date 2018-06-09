@@ -30,22 +30,27 @@ final class NameAnalyzer
         }
 
         // is part of use/namespace statement
+        return ! $this->isPartOfUseOrNamespaceStatement($tokens, $index);
+    }
+
+    private function isPartOfUseOrNamespaceStatement(Tokens $tokens, int $index): bool
+    {
         $currentIndex = $index;
+
         while ($tokens[$currentIndex]->isGivenKind([T_NS_SEPARATOR, T_STRING])) {
             if ($tokens[$currentIndex - 2]->isGivenKind([T_USE, T_NAMESPACE])) {
                 // use "SomeName" or namespace "SomeName"
-                return false;
+                return true;
             }
 
+            // use function
             if ($tokens[$currentIndex - 2]->getContent() === 'function') {
-                return false;
+                return true;
             }
 
             --$currentIndex;
         }
 
-        // is "use function" statement
-
-        return true;
+        return false;
     }
 }
