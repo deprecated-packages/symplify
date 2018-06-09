@@ -4,15 +4,16 @@
     "license": "MIT",
     "require": {
         "php": "^7.1",
-        "erusev/parsedown-extra": "^0.7.1",
+        "composer/composer": "^1.6",
         "erusev/parsedown": "^1.7",
+        "erusev/parsedown-extra": "^0.7.1",
         "friendsofphp/php-cs-fixer": "^2.12",
         "jean85/pretty-package-versions": "^1.1",
-        "ocramius/package-versions": "^1.3",
         "latte/latte": "^2.4",
         "nette/finder": "^2.4",
         "nette/robot-loader": "^3.0.3",
         "nette/utils": "^2.5",
+        "ocramius/package-versions": "^1.3",
         "phpstan/phpdoc-parser": "^0.2",
         "slevomat/coding-standard": "^4.5",
         "squizlabs/php_codesniffer": "^3.3",
@@ -27,6 +28,7 @@
         "symfony/yaml": "^3.4|^4.0"
     },
     "require-dev": {
+        "nette/application": "^2.4",
         "phpstan/phpstan": "^0.9",
         "phpunit/phpunit": "^7.0",
         "slam/php-cs-fixer-extensions": "^1.15",
@@ -39,15 +41,16 @@
     "autoload": {
         "psr-4": {
             "Symplify\\BetterPhpDocParser\\": "packages/BetterPhpDocParser/src",
-            "Symplify\\CodingStandard\\": "packages/CodingStandard/src",
             "Symplify\\ChangelogLinker\\": "packages/ChangelogLinker/src",
+            "Symplify\\CodingStandard\\": "packages/CodingStandard/src",
+            "Symplify\\EasyCodingStandardTester\\": "packages/EasyCodingStandardTester/src",
             "Symplify\\EasyCodingStandard\\": "packages/EasyCodingStandard/src",
-            "Symplify\\EasyCodingStandard\\SniffRunner\\": "packages/EasyCodingStandard/packages/SniffRunner/src",
             "Symplify\\EasyCodingStandard\\ChangedFilesDetector\\": "packages/EasyCodingStandard/packages/ChangedFilesDetector/src",
             "Symplify\\EasyCodingStandard\\Configuration\\": "packages/EasyCodingStandard/packages/Configuration/src",
             "Symplify\\EasyCodingStandard\\FixerRunner\\": "packages/EasyCodingStandard/packages/FixerRunner/src",
             "Symplify\\EasyCodingStandard\\Performance\\": "packages/EasyCodingStandard/packages/Performance/src",
-            "Symplify\\EasyCodingStandardTester\\": "packages/EasyCodingStandardTester/src",
+            "Symplify\\EasyCodingStandard\\SniffRunner\\": "packages/EasyCodingStandard/packages/SniffRunner/src",
+            "Symplify\\MonorepoBuilder\\": "packages/MonorepoBuilder/src",
             "Symplify\\PackageBuilder\\": "packages/PackageBuilder/src",
             "Symplify\\Statie\\": "packages/Statie/src",
             "Symplify\\Statie\\FlatWhite\\": "packages/Statie/packages/FlatWhite/src",
@@ -58,19 +61,20 @@
     "autoload-dev": {
         "psr-4": {
             "Symplify\\BetterPhpDocParser\\Tests\\": "packages/BetterPhpDocParser/tests",
-            "Symplify\\CodingStandard\\Tests\\": "packages/CodingStandard/tests",
             "Symplify\\ChangelogLinker\\Tests\\": "packages/ChangelogLinker/tests",
-            "Symplify\\EasyCodingStandard\\Tests\\": "packages/EasyCodingStandard/tests",
-            "Symplify\\EasyCodingStandard\\SniffRunner\\Tests\\": "packages/EasyCodingStandard/packages/SniffRunner/tests",
+            "Symplify\\CodingStandard\\Tests\\": "packages/CodingStandard/tests",
+            "Symplify\\EasyCodingStandardTester\\Tests\\": "packages/EasyCodingStandardTester/tests",
             "Symplify\\EasyCodingStandard\\ChangedFilesDetector\\Tests\\": "packages/EasyCodingStandard/packages/ChangedFilesDetector/tests",
             "Symplify\\EasyCodingStandard\\FixerRunner\\Tests\\": "packages/EasyCodingStandard/packages/FixerRunner/tests",
-            "Symplify\\EasyCodingStandardTester\\Tests\\": "packages/EasyCodingStandardTester/tests",
+            "Symplify\\EasyCodingStandard\\SniffRunner\\Tests\\": "packages/EasyCodingStandard/packages/SniffRunner/tests",
+            "Symplify\\EasyCodingStandard\\Tests\\": "packages/EasyCodingStandard/tests",
+            "Symplify\\MonorepoBuilder\\Tests\\": "packages/MonorepoBuilder/tests",
             "Symplify\\PackageBuilder\\Tests\\": "packages/PackageBuilder/tests",
-            "Symplify\\Statie\\Tests\\": "packages/Statie/tests",
             "Symplify\\Statie\\FlatWhite\\Tests\\": "packages/Statie/packages/FlatWhite/tests",
             "Symplify\\Statie\\Generator\\Tests\\": "packages/Statie/packages/Generator/tests",
-            "Symplify\\TokenRunner\\Tests\\": "packages/TokenRunner/tests",
-            "Symplify\\Tests\\": "tests"
+            "Symplify\\Statie\\Tests\\": "packages/Statie/tests",
+            "Symplify\\Tests\\": "tests",
+            "Symplify\\TokenRunner\\Tests\\": "packages/TokenRunner/tests"
         }
     },
     "scripts": {

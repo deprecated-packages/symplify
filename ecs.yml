@@ -85,3 +85,13 @@ parameters:
             - 'packages/TokenRunner/src/Naming/Name/NameAnalyzer.php'
 
         PHP_CodeSniffer\Standards\Generic\Sniffs\CodeAnalysis\AssignmentInConditionSniff.FoundInWhileCondition: ~
+
+        Symplify\CodingStandard\Sniffs\CleanCode\ForbiddenReferenceSniff:
+            # reference for reflection of method with reference
+            - 'packages/PackageBuilder/src/Reflection/PrivatesCaller.php'
+            # tests
+            - 'packages/PackageBuilder/tests/Reflection/Source/SomeClassWithPrivateMethods.php'
+
+        SlevomatCodingStandard\Sniffs\Classes\UnusedPrivateElementsSniff.UnusedMethod:
+            # tests
+            - 'packages/PackageBuilder/tests/Reflection/Source/SomeClassWithPrivateMethods.php'

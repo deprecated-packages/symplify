@@ -1,16 +1,18 @@
 {
-    "name": "symplify/changelog-linker",
-    "description": "Add links to issues, PRs, versions, commits and users in your CHANGELOG.md",
+    "name": "symplify/monorepo-builder",
+    "description": "Not only Composer tools to build a Monorepo.",
     "license": "MIT",
     "bin": [
-        "bin/changelog-linker",
-        "bin/changelog-linker-bootstrap.php",
-        "bin/changelog-linker-container.php"
+        "bin/monorepo-builder",
+        "bin/monorepo-builder-bootstrap.php"
     ],
     "require": {
         "php": "^7.1",
-        "nette/utils": "^2.5",
+        "symfony/finder": "^3.4|^4.0",
+        "symfony/dependency-injection": "^3.4|^4.0",
         "symfony/console": "^3.4|^4.0",
+        "nette/utils": "^2.5",
+        "composer/composer": "^1.6",
         "symplify/package-builder": "^4.4"
     },
     "require-dev": {
@@ -18,12 +20,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Symplify\\ChangelogLinker\\": "src"
+            "Symplify\\MonorepoBuilder\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Symplify\\ChangelogLinker\\Tests\\": "tests"
+            "Symplify\\MonorepoBuilder\\Tests\\": "tests"
         }
     },
     "extra": {

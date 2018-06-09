@@ -1,0 +1,23 @@
+parameters:
+    merge_sections: ['require', 'require-dev', 'autoload', 'autoload-dev']
+
+services:
+    _defaults:
+        autowire: true
+        bind:
+            $mergeSections: '%merge_sections%'
+
+    Symplify\MonorepoBuilder\:
+        resource: '..'
+
+    Symplify\PackageBuilder\Yaml\ParametersMerger: ~
+
+    Symfony\Component\Console\Application:
+        public: true # for bin file
+
+    Symfony\Component\Console\Input\ArgvInput: ~
+    Symfony\Component\Console\Output\ConsoleOutput: ~
+    Symfony\Component\Console\Output\OutputInterface:
+        alias: 'Symfony\Component\Console\Output\ConsoleOutput'
+
+    Symfony\Component\Console\Style\SymfonyStyle: ~
