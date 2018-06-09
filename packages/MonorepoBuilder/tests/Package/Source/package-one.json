@@ -4,5 +4,10 @@
     },
     "require-dev": {
         "phpunit/phpunit": "^2.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Symplify\\MonorepoBuilder\\": "src"
+        }
     }
 }

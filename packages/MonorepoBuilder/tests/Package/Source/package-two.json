@@ -1,5 +1,10 @@
 {
     "require": {
         "rector/rector": "^2.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Symplify\\Statie\\": "src"
+        }
     }
 }

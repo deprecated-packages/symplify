@@ -3,9 +3,20 @@
 namespace Symplify\MonorepoBuilder\Package;
 
 use Nette\Utils\Json;
+use Symplify\PackageBuilder\Yaml\ParametersMerger;
 
 final class PackageComposerJsonMerger
 {
+    /**
+     * @var ParametersMerger
+     */
+    private $parametersMerger;
+
+    public function __construct(ParametersMerger $parametersMerger)
+    {
+        $this->parametersMerger = $parametersMerger;
+    }
+
     /**
      * @param mixed[] $composerPackageFileInfos
      * @param string[] $sections
@@ -23,7 +34,10 @@ final class PackageComposerJsonMerger
                     continue;
                 }
 
-                $merged[$section] = array_merge($merged[$section] ?? [], $packageComposerJson[$section]);
+                $merged[$section] = $this->parametersMerger->merge(
+                    $merged[$section] ?? [],
+                    $packageComposerJson[$section]
+                );
             }
         }
 
