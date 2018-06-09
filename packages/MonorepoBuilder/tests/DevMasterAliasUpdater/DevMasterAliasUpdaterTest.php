@@ -21,7 +21,9 @@ final class DevMasterAliasUpdaterTest extends TestCase
 
     public function test(): void
     {
-        $this->devMasterAliasUpdater->updateFileInfosWithAlias($this->getFileInfos(), '4.5-dev');
+        $fileInfos = [new SplFileInfo(__DIR__ . '/Source/first.json', 'Source/first.json', 'Source')];
+
+        $this->devMasterAliasUpdater->updateFileInfosWithAlias($fileInfos, '4.5-dev');
 
         $this->assertSame(
             file_get_contents(__DIR__ . '/Source/expected-first.json'),
@@ -32,13 +34,5 @@ final class DevMasterAliasUpdaterTest extends TestCase
     protected function tearDown(): void
     {
         copy(__DIR__ . '/Source/backup-first.json', __DIR__ . '/Source/first.json');
-    }
-
-    /**
-     * @return SplFileInfo[]
-     */
-    private function getFileInfos(): array
-    {
-        return [new SplFileInfo(__DIR__ . '/Source/first.json', 'Source/first.json', 'Source')];
     }
 }
