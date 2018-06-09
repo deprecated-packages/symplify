@@ -83,7 +83,6 @@ parameters:
             - 'packages/CodingStandard/src/Sniffs/DeadCode/UnusedPublicMethodSniff.php'
             - 'packages/EasyCodingStandard/src/Yaml/CheckerServiceParametersShifter.php'
             - 'packages/TokenRunner/src/DocBlock/DescriptionAnalyzer.php'
-            - 'packages/TokenRunner/src/Naming/Name/NameAnalyzer.php'
 
         PHP_CodeSniffer\Standards\Generic\Sniffs\CodeAnalysis\AssignmentInConditionSniff.FoundInWhileCondition: ~
 
