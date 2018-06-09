@@ -28,9 +28,7 @@ final class JsonFileManager
      */
     public function saveJsonWithFileInfo(array $json, SplFileInfo $fileInfo): void
     {
-        $fileContent = Json::encode($json, Json::PRETTY) . PHP_EOL;
-
-        file_put_contents($fileInfo->getPath(), $fileContent);
+        file_put_contents($fileInfo->getPath(), $this->encodeJsonToFileContent($json));
     }
 
     /**
@@ -38,8 +36,14 @@ final class JsonFileManager
      */
     public function saveJsonWithFilePath(array $json, string $filePath): void
     {
-        $fileContent = Json::encode($json, Json::PRETTY) . PHP_EOL;
+        file_put_contents($filePath, $this->encodeJsonToFileContent($json));
+    }
 
-        file_put_contents($filePath, $fileContent);
+    /**
+     * @param mixed[] $json
+     */
+    private function encodeJsonToFileContent(array $json): string
+    {
+        return Json::encode($json, Json::PRETTY) . PHP_EOL;
     }
 }
