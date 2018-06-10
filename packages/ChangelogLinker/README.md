@@ -34,7 +34,7 @@ vendor/bin/changelog-linker dump-mergers
 
 This command finds the last #ID in the `CHANGELOG.md`, than looks on Github via API and dumps all the merged PRs since the last #ID in nice format.
 
-## B. Decorate `CHANGELOG.md`  
+## B. Decorate `CHANGELOG.md`
 
 ```bash
 vendor/bin/changelog-linker run
