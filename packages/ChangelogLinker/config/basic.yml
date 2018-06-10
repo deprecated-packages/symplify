@@ -1,0 +1,7 @@
+services:
+    Symplify\ChangelogLinker\Worker\BracketsAroundReferencesWorker:
+    Symplify\ChangelogLinker\Worker\DiffLinksToVersionsWorker:
+    Symplify\ChangelogLinker\Worker\LinkifyWorker:
+    Symplify\ChangelogLinker\Worker\ReleaseReferencesWorker:
+    Symplify\ChangelogLinker\Worker\ShortenReferencesWorker:
+    Symplify\ChangelogLinker\Worker\UserReferencesWorker:

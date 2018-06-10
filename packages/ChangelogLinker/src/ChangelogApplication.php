@@ -54,19 +54,6 @@ final class ChangelogApplication
         return $this->appendLinksToContentIfAny($content);
     }
 
-    public function processFileWithSingleWorker(string $filePath, string $workerClass): string
-    {
-        $content = $this->getContentAndAnalyze($filePath);
-
-        foreach ($this->getSortedWorkers() as $worker) {
-            if ($worker instanceof $workerClass) {
-                $content = $worker->processContent($content);
-            }
-        }
-
-        return $this->appendLinksToContentIfAny($content);
-    }
-
     /**
      * @return WorkerInterface[]
      */

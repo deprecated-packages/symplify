@@ -3,27 +3,19 @@
 namespace Symplify\ChangelogLinker\Tests\ChangelogApplicationTest;
 
 use Iterator;
-use Symplify\ChangelogLinker\ChangelogApplication;
-use Symplify\ChangelogLinker\Tests\AbstractContainerAwareTestCase;
+use Symplify\ChangelogLinker\Tests\AbstractWorkerTestCase;
 
-final class ChangelogApplicationTest extends AbstractContainerAwareTestCase
+/**
+ * @covers \Symplify\ChangelogLinker\ChangelogApplication
+ */
+final class ChangelogApplicationTest extends AbstractWorkerTestCase
 {
-    /**
-     * @var ChangelogApplication
-     */
-    private $changelogApplication;
-
-    protected function setUp(): void
-    {
-        $this->changelogApplication = $this->container->get(ChangelogApplication::class);
-    }
-
     /**
      * @dataProvider dataProvider()
      */
     public function test(string $originalFile, string $expectedFile): void
     {
-        $processedFile = $this->changelogApplication->processFile($originalFile);
+        $processedFile = $this->doProcess($originalFile);
 
         $this->assertStringEqualsFile($expectedFile, $processedFile);
     }
@@ -31,5 +23,10 @@ final class ChangelogApplicationTest extends AbstractContainerAwareTestCase
     public function dataProvider(): Iterator
     {
         yield [__DIR__ . '/Source/before/01.md', __DIR__ . '/Source/after/01.md'];
+    }
+
+    protected function provideConfig(): string
+    {
+        return __DIR__ . '/Source/config.yml';
     }
 }

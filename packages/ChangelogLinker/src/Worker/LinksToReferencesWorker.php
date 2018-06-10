@@ -3,6 +3,7 @@
 namespace Symplify\ChangelogLinker\Worker;
 
 use Nette\Utils\Strings;
+use Symplify\ChangelogLinker\Configuration\Configuration;
 use Symplify\ChangelogLinker\Contract\Worker\WorkerInterface;
 use Symplify\ChangelogLinker\LinkAppender;
 use Symplify\ChangelogLinker\Regex\RegexPattern;
@@ -10,19 +11,19 @@ use Symplify\ChangelogLinker\Regex\RegexPattern;
 final class LinksToReferencesWorker implements WorkerInterface
 {
     /**
-     * @var string
-     */
-    private $repositoryUrl;
-
-    /**
      * @var LinkAppender
      */
     private $linkAppender;
 
-    public function __construct(string $repositoryUrl, LinkAppender $linkAppender)
+    /**
+     * @var Configuration
+     */
+    private $configuration;
+
+    public function __construct(Configuration $configuration, LinkAppender $linkAppender)
     {
-        $this->repositoryUrl = $repositoryUrl;
         $this->linkAppender = $linkAppender;
+        $this->configuration = $configuration;
     }
 
     public function processContent(string $content): string
@@ -45,7 +46,12 @@ final class LinksToReferencesWorker implements WorkerInterface
         $matches = Strings::matchAll($content, '#(fixes|resolves) \[' . RegexPattern::PR_OR_ISSUE . '\]#');
 
         foreach ($matches as $match) {
-            $link = sprintf('[#%d]: %s/issues/%d', $match['id'], $this->repositoryUrl, $match['id']);
+            $link = sprintf(
+                '[#%d]: %s/issues/%d',
+                $match['id'],
+                $this->configuration->getRepositoryUrl(),
+                $match['id']
+            );
             $this->linkAppender->add($match['id'], $link);
         }
     }
@@ -58,7 +64,7 @@ final class LinksToReferencesWorker implements WorkerInterface
         $matches = Strings::matchAll($content, '#^((?!fixes|resolves).)*\[' . RegexPattern::PR_OR_ISSUE . '\]#m');
 
         foreach ($matches as $match) {
-            $link = sprintf('[#%d]: %s/pull/%d', $match['id'], $this->repositoryUrl, $match['id']);
+            $link = sprintf('[#%d]: %s/pull/%d', $match['id'], $this->configuration->getRepositoryUrl(), $match['id']);
             $this->linkAppender->add($match['id'], $link);
         }
     }
@@ -67,7 +73,12 @@ final class LinksToReferencesWorker implements WorkerInterface
     {
         $matches = Strings::matchAll($content, '# \[' . RegexPattern::COMMIT . '\] #');
         foreach ($matches as $match) {
-            $link = sprintf('[%s]: %s/commit/%s', $match['commit'], $this->repositoryUrl, $match['commit']);
+            $link = sprintf(
+                '[%s]: %s/commit/%s',
+                $match['commit'],
+                $this->configuration->getRepositoryUrl(),
+                $match['commit']
+            );
             $this->linkAppender->add($match['commit'], $link);
         }
     }

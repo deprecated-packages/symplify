@@ -4,16 +4,12 @@ namespace Symplify\ChangelogLinker\Worker;
 
 use Symplify\ChangelogLinker\Analyzer\LinksAnalyzer;
 use Symplify\ChangelogLinker\Analyzer\VersionsAnalyzer;
+use Symplify\ChangelogLinker\Configuration\Configuration;
 use Symplify\ChangelogLinker\Contract\Worker\WorkerInterface;
 use Symplify\ChangelogLinker\LinkAppender;
 
 final class DiffLinksToVersionsWorker implements WorkerInterface
 {
-    /**
-     * @var string
-     */
-    private $repositoryUrl;
-
     /**
      * @var LinkAppender
      */
@@ -29,16 +25,21 @@ final class DiffLinksToVersionsWorker implements WorkerInterface
      */
     private $linksAnalyzer;
 
+    /**
+     * @var Configuration
+     */
+    private $configuration;
+
     public function __construct(
-        string $repositoryUrl,
+        Configuration $configuration,
         LinkAppender $linkAppender,
         VersionsAnalyzer $versionsAnalyzer,
         LinksAnalyzer $linksAnalyzer
     ) {
-        $this->repositoryUrl = $repositoryUrl;
         $this->linkAppender = $linkAppender;
         $this->versionsAnalyzer = $versionsAnalyzer;
         $this->linksAnalyzer = $linksAnalyzer;
+        $this->configuration = $configuration;
     }
 
     public function processContent(string $content): string
@@ -51,7 +52,7 @@ final class DiffLinksToVersionsWorker implements WorkerInterface
             $link = sprintf(
                 '[%s]: %s/compare/%s...%s',
                 $version,
-                $this->repositoryUrl,
+                $this->configuration->getRepositoryUrl(),
                 $this->versionsAnalyzer->getVersions()[$index + 1],
                 $version
             );

@@ -4,8 +4,10 @@ namespace Symplify\ChangelogLinker\Tests\Worker\LinksToReferencesWorker;
 
 use Iterator;
 use Symplify\ChangelogLinker\Tests\AbstractWorkerTestCase;
-use Symplify\ChangelogLinker\Worker\LinksToReferencesWorker;
 
+/**
+ * @covers \Symplify\ChangelogLinker\Worker\LinksToReferencesWorker
+ */
 final class LinksToReferencesWorkerTest extends AbstractWorkerTestCase
 {
     /**
@@ -13,10 +15,7 @@ final class LinksToReferencesWorkerTest extends AbstractWorkerTestCase
      */
     public function test(string $originalFile, string $expectedFile): void
     {
-        $this->assertStringEqualsFile(
-            $expectedFile,
-            $this->doProcess($originalFile, LinksToReferencesWorker::class)
-        );
+        $this->assertStringEqualsFile($expectedFile, $this->doProcess($originalFile));
     }
 
     public function dataProvider(): Iterator
@@ -24,5 +23,10 @@ final class LinksToReferencesWorkerTest extends AbstractWorkerTestCase
         yield [__DIR__ . '/Source/before/01.md', __DIR__ . '/Source/after/01.md'];
         yield [__DIR__ . '/Source/before/02.md', __DIR__ . '/Source/after/02.md'];
         yield [__DIR__ . '/Source/before/03.md', __DIR__ . '/Source/after/03.md'];
+    }
+
+    protected function provideConfig(): string
+    {
+        return __DIR__ . '/Source/config.yml';
     }
 }

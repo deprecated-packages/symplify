@@ -1,3 +1,6 @@
 parameters:
     linkify:
         SomeThingToLink: "https://someUrl.com"
+
+services:
+    Symplify\ChangelogLinker\Worker\LinkifyWorker: ~

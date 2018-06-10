@@ -3,31 +3,19 @@
 namespace Symplify\ChangelogLinker\Tests\Worker\LinkifyWorker;
 
 use Iterator;
-use PHPUnit\Framework\TestCase;
-use Symplify\ChangelogLinker\ChangelogApplication;
-use Symplify\ChangelogLinker\DependencyInjection\ContainerFactory;
-use Symplify\ChangelogLinker\Worker\LinkifyWorker;
+use Symplify\ChangelogLinker\Tests\AbstractWorkerTestCase;
 
-final class LinkifyWorkerTest extends TestCase
+/**
+ * @covers \Symplify\ChangelogLinker\Worker\LinkifyWorker
+ */
+final class LinkifyWorkerTest extends AbstractWorkerTestCase
 {
-    /**
-     * @var ChangelogApplication
-     */
-    private $changelogApplication;
-
-    protected function setUp(): void
-    {
-        $container = (new ContainerFactory())->createWithConfig(__DIR__ . '/Source/config.yml');
-
-        $this->changelogApplication = $container->get(ChangelogApplication::class);
-    }
-
     /**
      * @dataProvider dataProvider()
      */
     public function test(string $originalFile, string $expectedFile): void
     {
-        $processedFile = $this->changelogApplication->processFileWithSingleWorker($originalFile, LinkifyWorker::class);
+        $processedFile = $this->doProcess($originalFile);
 
         $this->assertStringEqualsFile($expectedFile, $processedFile);
     }
@@ -35,5 +23,10 @@ final class LinkifyWorkerTest extends TestCase
     public function dataProvider(): Iterator
     {
         yield [__DIR__ . '/Source/before/01.md', __DIR__ . '/Source/after/01.md'];
+    }
+
+    protected function provideConfig(): string
+    {
+        return __DIR__ . '/Source/config.yml';
     }
 }

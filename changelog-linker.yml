@@ -1,3 +1,6 @@
+imports:
+    - { resource: 'packages/ChangelogLinker/config/basic.yml'}
+
 parameters:
     authors_to_ignore: ['TomasVotruba']
     repository_name: 'symplify/symplify'
