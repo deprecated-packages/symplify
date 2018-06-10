@@ -15,3 +15,7 @@ script:
 
 notifications:
   email: never
+
+branches:
+  only:
+    - master
