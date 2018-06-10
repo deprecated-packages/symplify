@@ -19,22 +19,26 @@ Create `changelog-linker.yml` with configuration:
 ```yaml
 # changelog-linker.yml:
 parameters:
+    authors_to_ignore: ["TomasVotruba"] # usually core maintainers; to make external contributors more credit
     repository_url: "https://github.com/symplify/symplify"
+    repository_name: "symplify/symplify"
 ```
 
-Run it:
+The config is autodiscovered in the root directory or by `--config` option.
+
+## A. Dump Merges
 
 ```bash
-vendor/bin/changelog-linker
+vendor/bin/changelog-linker dump-mergers
 ```
 
-The default argument is `CHANGELOG.md`. What if file is in another non-standard location?
+This command finds the last #ID in the `CHANGELOG.md`, than looks on Github via API and dumps all the merged PRs since the last #ID in nice format.
+
+## B. Decorate `CHANGELOG.md`
 
 ```bash
-vendor/bin/changelog-linker docs/CHANGELOG.md
+vendor/bin/changelog-linker run
 ```
-
-## All The Cool Features
 
 ### 1. Link issues and PRs
 

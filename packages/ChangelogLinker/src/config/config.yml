@@ -2,5 +2,7 @@ imports:
     - { resource: "services.yml" }
 
 parameters:
-    repository_url: "https://github.com/Symplify/Symplify"
+    authors_to_ignore: []
+    repository_url: "https://github.com/dummy/dummy"
+    repository_name: "dummy/dummy"
     linkify: []

@@ -2,7 +2,9 @@ services:
     _defaults:
         autowire: true
         bind:
+            $authorsToIgnore: "%authors_to_ignore%"
             $repositoryUrl: "%repository_url%"
+            $repositoryName: "%repository_name%"
             $nameToUrls: "%linkify%"
 
     Symplify\ChangelogLinker\:
@@ -11,3 +13,5 @@ services:
 
     Symplify\ChangelogLinker\Console\Application:
         public: true # for bin file
+
+    GuzzleHttp\Client: ~

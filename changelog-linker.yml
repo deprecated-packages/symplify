@@ -1,0 +1,4 @@
+parameters:
+    authors_to_ignore: ['TomasVotruba']
+    repository_name: 'symplify/symplify'
+    repository_url: 'https://github.com/Symplify/Symplify'
