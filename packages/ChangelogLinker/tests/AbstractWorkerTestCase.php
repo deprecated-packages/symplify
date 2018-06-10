@@ -2,9 +2,11 @@
 
 namespace Symplify\ChangelogLinker\Tests;
 
+use PHPUnit\Framework\TestCase;
 use Symplify\ChangelogLinker\ChangelogApplication;
+use Symplify\ChangelogLinker\DependencyInjection\ContainerFactory;
 
-abstract class AbstractWorkerTestCase extends AbstractContainerAwareTestCase
+abstract class AbstractWorkerTestCase extends TestCase
 {
     /**
      * @var ChangelogApplication
@@ -13,11 +15,15 @@ abstract class AbstractWorkerTestCase extends AbstractContainerAwareTestCase
 
     protected function setUp(): void
     {
-        $this->changelogApplication = $this->container->get(ChangelogApplication::class);
+        $container = (new ContainerFactory())->createWithConfig($this->provideConfig());
+
+        $this->changelogApplication = $container->get(ChangelogApplication::class);
     }
 
-    protected function doProcess(string $originalFile, string $workerClass): string
+    protected function doProcess(string $originalFile): string
     {
-        return $this->changelogApplication->processFileWithSingleWorker($originalFile, $workerClass);
+        return $this->changelogApplication->processFile($originalFile);
     }
+
+    abstract protected function provideConfig(): string;
 }

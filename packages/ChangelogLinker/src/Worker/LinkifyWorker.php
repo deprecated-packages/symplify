@@ -3,33 +3,31 @@
 namespace Symplify\ChangelogLinker\Worker;
 
 use Nette\Utils\Strings;
+use Symplify\ChangelogLinker\Configuration\Configuration;
 use Symplify\ChangelogLinker\Contract\Worker\WorkerInterface;
 use Symplify\ChangelogLinker\LinkAppender;
 
 final class LinkifyWorker implements WorkerInterface
 {
     /**
-     * @var string[]
-     */
-    private $nameToUrls = [];
-
-    /**
      * @var LinkAppender
      */
     private $linkAppender;
 
     /**
-     * @param string[] $nameToUrls
+     * @var Configuration
      */
-    public function __construct(array $nameToUrls, LinkAppender $linkAppender)
+    private $configuration;
+
+    public function __construct(LinkAppender $linkAppender, Configuration $configuration)
     {
-        $this->nameToUrls = $nameToUrls;
         $this->linkAppender = $linkAppender;
+        $this->configuration = $configuration;
     }
 
     public function processContent(string $content): string
     {
-        foreach ($this->nameToUrls as $name => $url) {
+        foreach ($this->configuration->getNameToUrls() as $name => $url) {
             $content = Strings::replace($content, sprintf('#(%s)#', $name), '[$1]');
 
             $link = sprintf('[%s]: %s', $name, $url);
