@@ -15,3 +15,4 @@ rm -rf .subsplit
 
 # inspired by laravel: https://github.com/laravel/framework/blob/5.4/build/illuminate-split-full.sh
 # they use SensioLabs now though: https://github.com/laravel/framework/pull/17048#issuecomment-269915319
+# runs on: https://github.com/dflydev/git-subsplit
