@@ -2,4 +2,7 @@ imports:
     - { resource: "services.yml" }
 
 parameters:
+    maintainer: "DummyMaintainer"
+    repository_url: "https://github.com/dummy/dummy"
+    repository_name: "dummy/dummy"
     linkify: []
