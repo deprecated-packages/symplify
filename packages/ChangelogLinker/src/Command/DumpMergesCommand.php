@@ -2,13 +2,11 @@
 
 namespace Symplify\ChangelogLinker\Command;
 
-use GuzzleHttp\Client;
-use GuzzleHttp\Psr7\Response;
-use Nette\Utils\Json;
 use Nette\Utils\Strings;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symplify\ChangelogLinker\Github\GithubApi;
 use Symplify\ChangelogLinker\Regex\RegexPattern;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
 
@@ -18,28 +16,22 @@ use Symplify\PackageBuilder\Console\Command\CommandNaming;
 final class DumpMergesCommand extends Command
 {
     /**
-     * @var string
-     */
-    private $repositoryName;
-
-    /**
-     * @var Client
-     */
-    private $client;
-
-    /**
      * @var string[]
      */
     private $authorsToIgnore = [];
 
     /**
+     * @var GithubApi
+     */
+    private $githubApi;
+
+    /**
      * @param string[] $authorsToIgnore
      */
-    public function __construct(string $repositoryName, array $authorsToIgnore, Client $client)
+    public function __construct(array $authorsToIgnore, GithubApi $githubApi)
     {
-        $this->repositoryName = $repositoryName;
         $this->authorsToIgnore = $authorsToIgnore;
-        $this->client = $client;
+        $this->githubApi = $githubApi;
 
         parent::__construct();
     }
@@ -56,23 +48,10 @@ final class DumpMergesCommand extends Command
     {
         $lastIdInChangelog = $this->getLastIdInChangelog();
 
-        $url = sprintf('https://api.github.com/repos/%s/pulls?state=all', $this->repositoryName);
-        $response = $this->client->request('GET', $url);
+        $pullRequests = $this->githubApi->getClosedPullRequestsSinceId($lastIdInChangelog);
 
-        if ($response->getStatusCode() !== 200) {
-            // error
-            return 1;
-        }
-
-        $result = $this->createJsonArrayFromResponse($response);
-
-        foreach ($result as $pullRequest) {
-            if ($pullRequest['number'] < $lastIdInChangelog) {
-                continue;
-            }
-
+        foreach ($pullRequests as $pullRequest) {
             $pullRequestMessage = sprintf('- [#%s] %s', $pullRequest['number'], $pullRequest['title']);
-
             $pullRequestAuthor = $pullRequest['user']['login'];
 
             // skip the main maintainer to prevent self-thanking floods
@@ -97,13 +76,5 @@ final class DumpMergesCommand extends Command
         }
 
         return 1;
-    }
-
-    /**
-     * @return mixed[]
-     */
-    private function createJsonArrayFromResponse(Response $response): array
-    {
-        return Json::decode((string) $response->getBody(), Json::FORCE_ARRAY);
     }
 }
