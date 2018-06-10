@@ -46,7 +46,12 @@ final class LinksToReferencesWorker implements WorkerInterface
         $matches = Strings::matchAll($content, '#(fixes|resolves) \[' . RegexPattern::PR_OR_ISSUE . '\]#');
 
         foreach ($matches as $match) {
-            $link = sprintf('[#%d]: %s/issues/%d', $match['id'], $this->configuration->getRepositoryUrl(), $match['id']);
+            $link = sprintf(
+                '[#%d]: %s/issues/%d',
+                $match['id'],
+                $this->configuration->getRepositoryUrl(),
+                $match['id']
+            );
             $this->linkAppender->add($match['id'], $link);
         }
     }
@@ -68,7 +73,12 @@ final class LinksToReferencesWorker implements WorkerInterface
     {
         $matches = Strings::matchAll($content, '# \[' . RegexPattern::COMMIT . '\] #');
         foreach ($matches as $match) {
-            $link = sprintf('[%s]: %s/commit/%s', $match['commit'], $this->configuration->getRepositoryUrl(), $match['commit']);
+            $link = sprintf(
+                '[%s]: %s/commit/%s',
+                $match['commit'],
+                $this->configuration->getRepositoryUrl(),
+                $match['commit']
+            );
             $this->linkAppender->add($match['commit'], $link);
         }
     }

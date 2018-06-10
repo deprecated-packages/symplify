@@ -4,8 +4,10 @@ namespace Symplify\ChangelogLinker\Tests\Worker\ReleaseReferencesWorker;
 
 use Iterator;
 use Symplify\ChangelogLinker\Tests\AbstractWorkerTestCase;
-use Symplify\ChangelogLinker\Worker\ReleaseReferencesWorker;
 
+/**
+ * @covers \Symplify\ChangelogLinker\Worker\ReleaseReferencesWorker
+ */
 final class ReleaseReferencesWorkerTest extends AbstractWorkerTestCase
 {
     /**
@@ -13,10 +15,7 @@ final class ReleaseReferencesWorkerTest extends AbstractWorkerTestCase
      */
     public function test(string $originalFile, string $expectedFile): void
     {
-        $this->assertStringMatchesFormatFile(
-            $expectedFile,
-            $this->doProcess($originalFile, ReleaseReferencesWorker::class)
-        );
+        $this->assertStringMatchesFormatFile($expectedFile, $this->doProcess($originalFile));
     }
 
     public function dataProvider(): Iterator

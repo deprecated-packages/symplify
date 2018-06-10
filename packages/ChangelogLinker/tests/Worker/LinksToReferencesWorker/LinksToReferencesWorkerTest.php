@@ -4,8 +4,10 @@ namespace Symplify\ChangelogLinker\Tests\Worker\LinksToReferencesWorker;
 
 use Iterator;
 use Symplify\ChangelogLinker\Tests\AbstractWorkerTestCase;
-use Symplify\ChangelogLinker\Worker\LinksToReferencesWorker;
 
+/**
+ * @covers \Symplify\ChangelogLinker\Worker\LinksToReferencesWorker
+ */
 final class LinksToReferencesWorkerTest extends AbstractWorkerTestCase
 {
     /**
@@ -13,10 +15,7 @@ final class LinksToReferencesWorkerTest extends AbstractWorkerTestCase
      */
     public function test(string $originalFile, string $expectedFile): void
     {
-        $this->assertStringEqualsFile(
-            $expectedFile,
-            $this->doProcess($originalFile, LinksToReferencesWorker::class)
-        );
+        $this->assertStringEqualsFile($expectedFile, $this->doProcess($originalFile));
     }
 
     public function dataProvider(): Iterator

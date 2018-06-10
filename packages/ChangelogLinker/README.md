@@ -40,7 +40,19 @@ This command finds the last #ID in the `CHANGELOG.md`, than looks on Github via 
 vendor/bin/changelog-linker run
 ```
 
-### 1. Link issues and PRs
+All these feature can be turned on by adding particular worker to `changelog-linker.yml`:
+
+```yaml
+# changelog-linker.yml
+services:
+    Symplify\ChangelogLinker\Worker\LinksToReferencesWorker:
+```
+
+Do you want them all? Just include `config/basic.yml` config.
+
+### 1. Link PR, Issues and Commits
+
+- `Symplify\ChangelogLinker\Worker\LinksToReferencesWorker`
 
 :x:
 
@@ -59,8 +71,6 @@ vendor/bin/changelog-linker run
 
 [#123]: https://github.com/Symplify/Symplify/pull/123
 ```
-
-### 2. Link to Commits
 
 Sometimes PR is too big and 1 commit is so important to mention. Make it likable!
 
@@ -82,7 +92,9 @@ Sometimes PR is too big and 1 commit is so important to mention. Make it likable
 [9b154d9]: https://github.com/Symplify/Symplify/commit/9b154d9b6e88075e14b6812613bce7c1a2a79daa
 ```
 
-### 3. Link Versions to Diffs
+### 2. Link Versions to Diffs
+
+- `Symplify\ChangelogLinker\Worker\DiffLinksToVersionsWorker`
 
 :x:
 
@@ -106,9 +118,11 @@ Sometimes PR is too big and 1 commit is so important to mention. Make it likable
 [v2.0.0]: https://github.com/Symplify/Symplify/compare/v1.5.0...v2.0.0
 ```
 
-### 4. Link Thanks to Users
+### 3. Link Thanks to Users
 
-Credit is much more valuable with link to follow
+- `Symplify\ChangelogLinker\Worker\UserReferencesWorker`
+
+Credit is much more valuable with link to follow:
 
 :x:
 
@@ -128,7 +142,9 @@ Credit is much more valuable with link to follow
 [@SpacePossum]: https://github.com/SpacePossum
 ```
 
-### 5. Turn "Unreleased" to The Last Release
+### 4. Turn "Unreleased" to The Last Release
+
+- `Symplify\ChangelogLinker\Worker\ReleaseReferencesWorker`
 
 Includes the version and the date. Executes on every new tag, that is not already added in `CHANGELOG.md`.
 
@@ -152,7 +168,9 @@ Includes the version and the date. Executes on every new tag, that is not alread
 ...
 ```
 
-### 6. Add Links to Specific Words
+### 5. Add Links to Specific Words
+
+- `Symplify\ChangelogLinker\Worker\LinkifyWorker`
 
 In Symplify, I need that every `EasyCodingStandard` word leads to `https://github.com/Symplify/EasyCodingStandard/`.
 
