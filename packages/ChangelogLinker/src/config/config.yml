@@ -2,7 +2,4 @@ imports:
     - { resource: "services.yml" }
 
 parameters:
-    author: 'TomasVotruba'
-    repository_name: 'Symplify/Symplify'
-    repository_url: 'https://github.com/Symplify/Symplify'
     linkify: []
