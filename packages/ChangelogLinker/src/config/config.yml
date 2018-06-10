@@ -2,7 +2,7 @@ imports:
     - { resource: "services.yml" }
 
 parameters:
-    maintainer: "DummyMaintainer"
+    authors_to_ignore: []
     repository_url: "https://github.com/dummy/dummy"
     repository_name: "dummy/dummy"
     linkify: []

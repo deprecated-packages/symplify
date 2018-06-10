@@ -23,19 +23,22 @@ final class DumpMergesCommand extends Command
     private $repositoryName;
 
     /**
-     * @var string
-     */
-    private $maintainer;
-
-    /**
      * @var Client
      */
     private $client;
 
-    public function __construct(string $repositoryName, string $maintainer, Client $client)
+    /**
+     * @var string[]
+     */
+    private $authorsToIgnore = [];
+
+    /**
+     * @param string[] $authorsToIgnore
+     */
+    public function __construct(string $repositoryName, array $authorsToIgnore, Client $client)
     {
         $this->repositoryName = $repositoryName;
-        $this->maintainer = $maintainer;
+        $this->authorsToIgnore = $authorsToIgnore;
         $this->client = $client;
 
         parent::__construct();
@@ -73,7 +76,7 @@ final class DumpMergesCommand extends Command
             $pullRequestAuthor = $pullRequest['user']['login'];
 
             // skip the main maintainer to prevent self-thanking floods
-            if ($pullRequestAuthor !== $this->maintainer) {
+            if (! in_array($pullRequestAuthor, $this->authorsToIgnore, true)) {
                 $pullRequestMessage .= ', Thanks to @' . $pullRequestAuthor;
             }
 
