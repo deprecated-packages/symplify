@@ -37,7 +37,7 @@ final class DumpMergesCommand extends Command
      * @var Configuration
      */
     private $configuration;
-    
+
     public function __construct(
         Configuration $configuration,
         GithubApi $githubApi,

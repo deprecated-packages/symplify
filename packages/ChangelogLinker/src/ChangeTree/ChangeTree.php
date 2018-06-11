@@ -5,17 +5,27 @@ namespace Symplify\ChangelogLinker\ChangeTree;
 final class ChangeTree
 {
     /**
-     * @var string[]
+     * @var Change[]
      */
     private $changes = [];
 
-    public function addChange(string $change): void
+    /**
+     * @var ChangeFactory
+     */
+    private $changeFactory;
+
+    public function __construct(ChangeFactory $changeFactory)
     {
-        $this->changes[] = $change;
+        $this->changeFactory = $changeFactory;
+    }
+
+    public function addChange(string $message): void
+    {
+        $this->changes[] = $this->changeFactory->createFromMessage($message);
     }
 
     /**
-     * @return string[]
+     * @return Change[]
      */
     public function getChanges(): array
     {
