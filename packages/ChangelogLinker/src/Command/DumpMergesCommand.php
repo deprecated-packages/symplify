@@ -301,6 +301,8 @@ final class DumpMergesCommand extends Command
             $this->symfonyStyle->writeln('### ' . $currentPrimary);
             $this->symfonyStyle->newLine(1);
             $spaceAlreadyAdded = true;
+
+            $previousSecondary = null;
         }
 
         if ($previousSecondary !== $currentSecondary) {
