@@ -35,7 +35,7 @@ final class DumpMergesReporterTest extends TestCase
             $this->bufferedOutput
         ));
 
-        $this->changes = [new Change('Message', 'Added', 'SomePackage')];
+        $this->changes = [new Change('[SomePackage] Message', 'Added', 'SomePackage', 'Message')];
     }
 
     public function testReportChanges(): void

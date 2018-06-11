@@ -7,6 +7,16 @@ final class Change
     /**
      * @var string
      */
+    public const UNKNOWN_PACKAGE = 'Unknown Package';
+
+    /**
+     * @var string
+     */
+    public const UNKNOWN_CATEGORY = 'Unknown Category';
+
+    /**
+     * @var string
+     */
     private $message;
 
     /**
@@ -19,11 +29,17 @@ final class Change
      */
     private $package;
 
-    public function __construct(string $message, string $category, string $package)
+    /**
+     * @var string
+     */
+    private $messageWithoutPackage;
+
+    public function __construct(string $message, string $category, string $package, string $messageWithoutPackage)
     {
         $this->message = $message;
         $this->category = $category;
         $this->package = $package;
+        $this->messageWithoutPackage = $messageWithoutPackage;
     }
 
     public function getMessage(): string
@@ -39,5 +55,10 @@ final class Change
     public function getPackage(): string
     {
         return $this->package;
+    }
+
+    public function getMessageWithoutPackage(): string
+    {
+        return $this->messageWithoutPackage;
     }
 }

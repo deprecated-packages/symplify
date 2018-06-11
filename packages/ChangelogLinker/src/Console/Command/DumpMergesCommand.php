@@ -132,6 +132,7 @@ final class DumpMergesCommand extends Command
         }
 
         $sortPriority = $this->getSortPriority($input);
+
         $sortedChanges = $this->changeSorter->sortByCategoryAndPackage($this->changeTree->getChanges(), $sortPriority);
 
         $this->dumpMergesReporter->reportChangesWithHeadlines(
@@ -168,6 +169,8 @@ final class DumpMergesCommand extends Command
             if ($name === 'in-packages') {
                 return 'packages';
             }
+
+            return 'categories';
         }
 
         return 'categories';

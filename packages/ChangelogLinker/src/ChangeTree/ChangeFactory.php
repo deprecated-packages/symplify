@@ -42,7 +42,9 @@ final class ChangeFactory
         $category = $this->resolveCategoryFromMessage($message);
         $package = $this->resolvePackageFromMessage($message);
 
-        return new Change($message, $category, $package);
+        $messageWithoutPackage = $this->resolveMessageWithoutPackage($message);
+
+        return new Change($message, $category, $package, $messageWithoutPackage);
     }
 
     private function resolveCategoryFromMessage(string $message): string
@@ -67,20 +69,31 @@ final class ChangeFactory
             return 'Removed';
         }
 
-        return 'Unknown Category';
+        return Change::UNKNOWN_CATEGORY;
     }
 
     /**
      * E.g. "[ChangelogLinker] Add feature XY" => "ChangelogLinker"
      */
-    private function resolvePackageFromMessage(string $change): ?string
+    private function resolvePackageFromMessage(string $message): ?string
     {
-        $match = Strings::match($change, '#\[(?<package>[A-Za-z]+)\]#');
+        $match = Strings::match($message, '#\[(?<package>[A-Za-z]+)\]#');
 
         if (! isset($match['package'])) {
-            return 'Unknown Package';
+            return Change::UNKNOWN_PACKAGE;
         }
 
         return $this->configuration->getPackageAliases()[$match['package']] ?? $match['package'];
+    }
+
+    private function resolveMessageWithoutPackage(string $message): string
+    {
+        $match = Strings::match($message, '#\[(?<package>[A-Za-z]+)\]#');
+
+        if (! isset($match['package'])) {
+            return $message;
+        }
+
+        return Strings::replace($message, '#\[' . $match['package'] . '\]\s+#');
     }
 }

@@ -5,3 +5,4 @@ services:
     Symplify\ChangelogLinker\Worker\ReleaseReferencesWorker:
     Symplify\ChangelogLinker\Worker\ShortenReferencesWorker:
     Symplify\ChangelogLinker\Worker\UserReferencesWorker:
+    Symplify\ChangelogLinker\Worker\LinksToReferencesWorker:
