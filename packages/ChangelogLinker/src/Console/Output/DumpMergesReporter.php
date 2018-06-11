@@ -69,6 +69,7 @@ final class DumpMergesReporter
                 $this->symfonyStyle->newLine(1);
             }
 
+            // @todo remove [Package] from message, maybe add getMessageWithoutPackage()
             $this->symfonyStyle->writeln($change->getMessage());
 
             $previousPackage = $change->getPackage();
@@ -118,6 +119,7 @@ final class DumpMergesReporter
 
             $this->printHeadline($previousPrimary, $currentPrimary, $previousSecondary, $currentSecondary);
 
+            // @todo remove [Package] from message, maybe add getMessageWithoutPackage()
             $this->symfonyStyle->writeln($change->getMessage());
 
             $previousPrimary = $currentPrimary;
