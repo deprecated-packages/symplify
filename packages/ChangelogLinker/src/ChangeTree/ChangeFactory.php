@@ -3,9 +3,20 @@
 namespace Symplify\ChangelogLinker\ChangeTree;
 
 use Nette\Utils\Strings;
+use Symplify\ChangelogLinker\Configuration\Configuration;
 
 final class ChangeFactory
 {
+    /**
+     * @var Configuration
+     */
+    private $configuration;
+
+    public function __construct(Configuration $configuration)
+    {
+        $this->configuration = $configuration;
+    }
+
     public function createFromMessage(string $message): Change
     {
         $category = $this->resolveCategoryFromMessage($message);
@@ -26,7 +37,7 @@ final class ChangeFactory
             return 'Fixed';
         }
 
-        $match = Strings::match($message, '#(Change|( now )|Bump|improve|allow)#');
+        $match = Strings::match($message, '#( change| improve|( now )|Bump|improve|allow)#');
         if ($match) {
             return 'Changed';
         }
@@ -34,10 +45,17 @@ final class ChangeFactory
         return 'Unknown Category';
     }
 
+    /**
+     * E.g. "[ChangelogLinker] Add feature XY" => "ChangelogLinker"
+     */
     private function resolvePackageFromMessage(string $change): ?string
     {
         $match = Strings::match($change, '#\[(?<package>[A-Za-z]+)\]#');
 
-        return $match['package'] ?? 'Unknown Package';
+        if (! isset($match['package'])) {
+            return 'Unknown Package';
+        }
+
+        return $this->configuration->getPackageAliases()[$match['package']] ?? $match['package'];
     }
 }
