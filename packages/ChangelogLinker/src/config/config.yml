@@ -6,3 +6,6 @@ parameters:
     repository_url: "https://github.com/dummy/dummy"
     repository_name: "dummy/dummy"
     linkify: []
+
+    package_aliases: []
+    # e.g. [CS] => [CodingStandard]

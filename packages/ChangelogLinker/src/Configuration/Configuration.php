@@ -25,19 +25,27 @@ final class Configuration
     private $nameToUrls = [];
 
     /**
+     * @var string[]
+     */
+    private $packageAliases = [];
+
+    /**
      * @param string[] $authorsToIgnore
      * @param string[] $nameToUrls
+     * @param string[] $packageAliases
      */
     public function __construct(
         array $authorsToIgnore,
         string $repositoryUrl,
         string  $repositoryName,
-        array $nameToUrls
+        array $nameToUrls,
+        array $packageAliases
     ) {
         $this->authorsToIgnore = $authorsToIgnore;
         $this->repositoryUrl = $repositoryUrl;
         $this->repositoryName = $repositoryName;
         $this->nameToUrls = $nameToUrls;
+        $this->packageAliases = $packageAliases;
     }
 
     /**
@@ -64,5 +72,13 @@ final class Configuration
     public function getNameToUrls(): array
     {
         return $this->nameToUrls;
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getPackageAliases(): array
+    {
+        return $this->packageAliases;
     }
 }

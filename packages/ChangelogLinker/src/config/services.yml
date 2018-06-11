@@ -6,12 +6,22 @@ services:
             $repositoryUrl: "%repository_url%"
             $repositoryName: "%repository_name%"
             $nameToUrls: "%linkify%"
+            $packageAliases: "%package_aliases%"
 
     Symplify\ChangelogLinker\:
         resource: ".."
-        exclude: "../{Contract,Exception,Worker}"
+        exclude: "../{Contract,Exception,Worker,ChangeTree/Change.php}"
 
     Symplify\ChangelogLinker\Console\Application:
         public: true # for bin file
 
     GuzzleHttp\Client: ~
+
+    # SymfonyStyle
+    Symfony\Component\Console\Input\ArgvInput: ~
+    Symfony\Component\Console\Input\InputInterface:
+        alias: 'Symfony\Component\Console\Input\ArgvInput'
+    Symfony\Component\Console\Output\ConsoleOutput: ~
+    Symfony\Component\Console\Output\OutputInterface:
+        alias: 'Symfony\Component\Console\Output\ConsoleOutput'
+    Symfony\Component\Console\Style\SymfonyStyle: ~

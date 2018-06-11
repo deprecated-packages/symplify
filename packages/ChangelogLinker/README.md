@@ -34,6 +34,75 @@ vendor/bin/changelog-linker dump-mergers
 
 This command finds the last #ID in the `CHANGELOG.md`, than looks on Github via API and dumps all the merged PRs since the last #ID in nice format.
 
+But that is a mash-up of everything. Not very nice:
+
+```
+- [#868] [ChangelogLinker] Add ChangeTree to manage merge messages
+- [#867] [ChangelogLinker] Change Worker registration from implicit to explicit
+- [#865] Improve Code Complexity
+- [#864] [MonorepoBuilder] improve coverage
+```
+
+What if we'd have *Added*, *Changed*... and all that standard categories?  
+
+```
+vendor/bin/changelog-linker dump:merges --in-categories
+```
+
+Nice, now everything is nicely grouped:
+
+```
+### Added
+
+- [#828] [ChangelogLinker] Add Unreleased to last tagged version feature
+- [#840] [ChangelogLinker] Add LinkifyWorker
+```
+
+*(Technical secret: it reacts to *add* and few other keywords.)*
+
+But what about monorepo packages - can we have list grouped by each of them?
+
+```php
+### CodingStandard
+
+- [#851] [CodingStandard] Add _ support to PropertyNameMatchingTypeFixer
+- [#860] [CS] Add test case for #855, Thanks to @OndraM
+```
+
+*(Technical secret: it reacts to *[Package]* in PR title.)*
+
+But that's kind of useless without combination, right? Let's join them together:
+
+```
+vendor/bin/changelog-linker dump:merges --in-packages --in-categories 
+```
+
+Finally what we needed:
+
+```
+### TokenRunner
+
+#### Changed
+
+- [#863] [TokenRunner] anonymous class now returns null on name [fixes #855]
+```
+
+Or do you prefer it the other way?
+
+```
+vendor/bin/changelog-linker dump:merges --in-packages --in-categories 
+```
+
+Yes you can:
+
+```
+### Fixed
+
+#### EasyCodingStandard
+
+- [#848] [ECS] Fix single file processing
+```
+
 ## B. Decorate `CHANGELOG.md`
 
 ```bash

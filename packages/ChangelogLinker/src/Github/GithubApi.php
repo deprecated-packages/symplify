@@ -38,11 +38,17 @@ final class GithubApi
      */
     public function getClosedPullRequestsSinceId(int $id): array
     {
+        if (file_exists('temp.txt')) {
+            return unserialize(file_get_contents('temp.txt'));
+        }
+
         $url = sprintf(self::URL_PULL_REQUESTS, $this->repositoryName);
 
         $response = $this->getResponseToUrl($url);
 
         $result = $this->createJsonArrayFromResponse($response);
+
+        file_put_contents('temp.txt', serialize($result));
 
         return $this->filterOutPullRequestsWithIdLesserThen($result, $id);
     }
@@ -77,7 +83,7 @@ final class GithubApi
     private function filterOutPullRequestsWithIdLesserThen(array $pullRequests, int $id): array
     {
         return array_filter($pullRequests, function (array $pullRequest) use ($id) {
-            return $pullRequest['number'] < $id;
+            return $pullRequest['number'] > $id;
         });
     }
 }
