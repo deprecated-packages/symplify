@@ -6,6 +6,9 @@ use Nette\Utils\Strings;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Style\SymfonyStyle;
+use Symplify\ChangelogLinker\ChangeTree\ChangeTree;
+use Symplify\ChangelogLinker\Configuration\Configuration;
 use Symplify\ChangelogLinker\Github\GithubApi;
 use Symplify\ChangelogLinker\Regex\RegexPattern;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
@@ -16,22 +19,35 @@ use Symplify\PackageBuilder\Console\Command\CommandNaming;
 final class DumpMergesCommand extends Command
 {
     /**
-     * @var string[]
-     */
-    private $authorsToIgnore = [];
-
-    /**
      * @var GithubApi
      */
     private $githubApi;
 
     /**
-     * @param string[] $authorsToIgnore
+     * @var ChangeTree
      */
-    public function __construct(array $authorsToIgnore, GithubApi $githubApi)
-    {
-        $this->authorsToIgnore = $authorsToIgnore;
+    private $changeTree;
+
+    /**
+     * @var SymfonyStyle
+     */
+    private $symfonyStyle;
+
+    /**
+     * @var Configuration
+     */
+    private $configuration;
+    
+    public function __construct(
+        Configuration $configuration,
+        GithubApi $githubApi,
+        ChangeTree $changeTree,
+        SymfonyStyle $symfonyStyle
+    ) {
         $this->githubApi = $githubApi;
+        $this->changeTree = $changeTree;
+        $this->symfonyStyle = $symfonyStyle;
+        $this->configuration = $configuration;
 
         parent::__construct();
     }
@@ -50,16 +66,29 @@ final class DumpMergesCommand extends Command
 
         $pullRequests = $this->githubApi->getClosedPullRequestsSinceId($lastIdInChangelog);
 
+        if (count($pullRequests) === 0) {
+            $this->symfonyStyle->note(
+                sprintf('There are no new pull requests to be added since ID "%d".', $lastIdInChangelog)
+            );
+
+            // success
+            return 0;
+        }
+
         foreach ($pullRequests as $pullRequest) {
             $pullRequestMessage = sprintf('- [#%s] %s', $pullRequest['number'], $pullRequest['title']);
             $pullRequestAuthor = $pullRequest['user']['login'];
 
             // skip the main maintainer to prevent self-thanking floods
-            if (! in_array($pullRequestAuthor, $this->authorsToIgnore, true)) {
+            if (! in_array($pullRequestAuthor, $this->configuration->getAuthorsToIgnore(), true)) {
                 $pullRequestMessage .= ', Thanks to @' . $pullRequestAuthor;
             }
 
-            $output->writeln($pullRequestMessage);
+            $this->changeTree->addChange($pullRequestMessage);
+        }
+
+        foreach ($this->changeTree->getChanges() as $change) {
+            $this->symfonyStyle->writeln($change);
         }
 
         // success

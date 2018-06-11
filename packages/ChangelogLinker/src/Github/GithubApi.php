@@ -77,7 +77,7 @@ final class GithubApi
     private function filterOutPullRequestsWithIdLesserThen(array $pullRequests, int $id): array
     {
         return array_filter($pullRequests, function (array $pullRequest) use ($id) {
-            return $pullRequest['number'] < $id;
+            return $pullRequest['number'] > $id;
         });
     }
 }
