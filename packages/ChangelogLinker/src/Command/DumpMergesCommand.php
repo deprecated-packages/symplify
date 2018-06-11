@@ -7,6 +7,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symplify\ChangelogLinker\ChangeTree\Change;
 use Symplify\ChangelogLinker\ChangeTree\ChangeTree;
 use Symplify\ChangelogLinker\Configuration\Configuration;
 use Symplify\ChangelogLinker\Github\GithubApi;
@@ -75,21 +76,8 @@ final class DumpMergesCommand extends Command
             return 0;
         }
 
-        foreach ($pullRequests as $pullRequest) {
-            $pullRequestMessage = sprintf('- [#%s] %s', $pullRequest['number'], $pullRequest['title']);
-            $pullRequestAuthor = $pullRequest['user']['login'];
-
-            // skip the main maintainer to prevent self-thanking floods
-            if (! in_array($pullRequestAuthor, $this->configuration->getAuthorsToIgnore(), true)) {
-                $pullRequestMessage .= ', Thanks to @' . $pullRequestAuthor;
-            }
-
-            $this->changeTree->addChange($pullRequestMessage);
-        }
-
-        foreach ($this->changeTree->getChanges() as $change) {
-            $this->symfonyStyle->writeln($change);
-        }
+        $this->loadPullRequestsToChangeTree($pullRequests);
+        $this->printChanges();
 
         // success
         return 0;
@@ -105,5 +93,58 @@ final class DumpMergesCommand extends Command
         }
 
         return 1;
+    }
+
+    /**
+     * @param mixed[] $pullRequests
+     */
+    private function loadPullRequestsToChangeTree(array $pullRequests): void
+    {
+        foreach ($pullRequests as $pullRequest) {
+            $pullRequestMessage = sprintf('- [#%s] %s', $pullRequest['number'], $pullRequest['title']);
+            $pullRequestAuthor = $pullRequest['user']['login'];
+
+            // skip the main maintainer to prevent self-thanking floods
+            if (! in_array($pullRequestAuthor, $this->configuration->getAuthorsToIgnore(), true)) {
+                $pullRequestMessage .= ', Thanks to @' . $pullRequestAuthor;
+            }
+
+            $this->changeTree->addChange($pullRequestMessage);
+        }
+    }
+
+    private function printChanges(): void
+    {
+        $this->printChangesWithCategories();
+        $this->printChangesWithoutCategories();
+    }
+
+    private function printChangesWithCategories(): void
+    {
+        foreach ($this->changeTree->getInCategories() as $category => $changes) {
+            $this->symfonyStyle->writeln('### ' . $category);
+            $this->symfonyStyle->newLine(1);
+
+            /** @var Change $change */
+            foreach ($changes as $change) {
+                $this->symfonyStyle->writeln($change->getMessage());
+            }
+
+            $this->symfonyStyle->newLine(1);
+        }
+    }
+
+    private function printChangesWithoutCategories(): void
+    {
+        if ($this->changeTree->getChangesWithoutCategory()) {
+            $this->symfonyStyle->writeln('### Unknown');
+            $this->symfonyStyle->newLine(1);
+
+            foreach ($this->changeTree->getChangesWithoutCategory() as $change) {
+                $this->symfonyStyle->writeln($change->getMessage());
+            }
+
+            $this->symfonyStyle->newLine(1);
+        }
     }
 }
