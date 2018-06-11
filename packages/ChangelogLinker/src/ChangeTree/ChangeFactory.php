@@ -8,6 +8,26 @@ use Symplify\ChangelogLinker\Configuration\Configuration;
 final class ChangeFactory
 {
     /**
+     * @var string
+     */
+    private const ADDED_PATTERN = '#(add|added|adds) #i';
+
+    /**
+     * @var string
+     */
+    private const FIXED_PATTERN = '#(fix(es|ed)?)#i';
+
+    /**
+     * @var string
+     */
+    private const CHANGED_PATTERN = '#( change| improve|( now )|bump|improve|allow)#i';
+
+    /**
+     * @var string
+     */
+    private const REMOVED_PATTERN = '#remove(d)?|delete(d)?#i';
+
+    /**
      * @var Configuration
      */
     private $configuration;
@@ -27,19 +47,24 @@ final class ChangeFactory
 
     private function resolveCategoryFromMessage(string $message): string
     {
-        $match = Strings::match($message, '#(Add)#');
+        $match = Strings::match($message, self::ADDED_PATTERN);
         if ($match) {
             return 'Added';
         }
 
-        $match = Strings::match($message, '#(Fix)#');
+        $match = Strings::match($message, self::FIXED_PATTERN);
         if ($match) {
             return 'Fixed';
         }
 
-        $match = Strings::match($message, '#( change| improve|( now )|Bump|improve|allow)#');
+        $match = Strings::match($message, self::CHANGED_PATTERN);
         if ($match) {
             return 'Changed';
+        }
+
+        $match = Strings::match($message, self::REMOVED_PATTERN);
+        if ($match) {
+            return 'Removed';
         }
 
         return 'Unknown Category';
