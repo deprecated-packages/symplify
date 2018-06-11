@@ -48,4 +48,12 @@ final class ChangeFactoryTest extends TestCase
         yield ['Remove this', 'Removed', 'Unknown Package'];
         yield ['All was deleted', 'Removed', 'Unknown Package'];
     }
+
+    public function testGetMessageWithoutPackage(): void
+    {
+        $change = $this->changeFactory->createFromMessage('[SomePackage] SomeMessage');
+
+        $this->assertSame('[SomePackage] SomeMessage', $change->getMessage());
+        $this->assertSame('SomeMessage', $change->getMessageWithoutPackage());
+    }
 }
