@@ -110,12 +110,10 @@ final class DumpMergesCommand extends Command
             return 0;
         }
 
-        $arePackagesFirst = $this->arePackagesFirst($input);
-
         $this->printChangesWithHeadlines(
             $input->getOption(self::OPTION_IN_CATEGORIES),
             $input->getOption(self::OPTION_IN_PACKAGES),
-            $arePackagesFirst
+            $this->arePackagesFirst($input)
         );
 
         // success
