@@ -25,8 +25,8 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 #### CodingStandard
 
 - [#851] [CodingStandard] Add _ support to PropertyNameMatchingTypeFixer
-- [#860] [CS] Add test case for #855, Thanks to @OndraM
-- [#836] Improve cognitive complexity error, Thanks to @enumag
+- [#860] [CS] Add test case for [#855], Thanks to [@OndraM]
+- [#836] Improve cognitive complexity error, Thanks to [@enumag]
 - [#845] Extended RemoveEmptyDocBlockFixer fix
 
 #### EasyCodingStandard
@@ -52,7 +52,7 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 ### Fixed
 
-- [#861] Fix typo, Thanks to @carusogabriel
+- [#861] Fix typo, Thanks to [@carusogabriel]
 
 #### ChangelogLinker
 
@@ -60,8 +60,8 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 #### CodingStandard
 
-- [#842] LineLengthSniff: Initial support for tokens with newlines, Thanks to @ostrolucky
-- [#843] Fix priorities in RemoveEmptyDocBlockFixer (closes #838), Thanks to @ostrolucky
+- [#842] LineLengthSniff: Initial support for tokens with newlines, Thanks to [@ostrolucky]
+- [#843] Fix priorities in RemoveEmptyDocBlockFixer (closes [#838]), Thanks to [@ostrolucky]
 
 #### EasyCodingStandard
 
