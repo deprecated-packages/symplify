@@ -12,7 +12,7 @@ final class Change
     /**
      * @var string
      */
-    public const UNKNOWN_CATEGORY= 'Unknown Category';
+    public const UNKNOWN_CATEGORY = 'Unknown Category';
 
     /**
      * @var string
@@ -28,6 +28,7 @@ final class Change
      * @var string
      */
     private $package;
+
     /**
      * @var string
      */

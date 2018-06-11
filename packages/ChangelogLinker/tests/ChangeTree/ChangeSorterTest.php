@@ -56,9 +56,9 @@ final class ChangeSorterTest extends TestCase
     private function createChanges(): array
     {
         return [
-            new Change('message', 'Changed', 'B'),
-            new Change('message', 'Added', 'B'),
-            new Change('message', 'Removed', 'A'),
+            new Change('[B] message', 'Changed', 'B', 'message'),
+            new Change('[B] message', 'Added', 'B', 'message'),
+            new Change('[A] message', 'Removed', 'A', 'message'),
         ];
     }
 }

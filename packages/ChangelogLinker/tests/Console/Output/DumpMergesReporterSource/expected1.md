@@ -1,3 +1,3 @@
 
-Message
+[SomePackage] Message
 

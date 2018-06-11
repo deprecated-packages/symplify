@@ -86,7 +86,7 @@ final class ChangeFactory
         return $this->configuration->getPackageAliases()[$match['package']] ?? $match['package'];
     }
 
-    private function resolveMessageWithoutPackage(string $message)
+    private function resolveMessageWithoutPackage(string $message): string
     {
         $match = Strings::match($message, '#\[(?<package>[A-Za-z]+)\]#');
 
