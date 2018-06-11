@@ -2,6 +2,8 @@
 
 namespace Symplify\ChangelogLinker\Command;
 
+use Nette\Utils\ArrayHash;
+use Nette\Utils\Arrays;
 use Nette\Utils\Strings;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -161,30 +163,28 @@ final class DumpMergesCommand extends Command
      *
      * Sorts packages by category then package
      *
-     * @param  Change[] $changes
+     * @param Change[] $changes
      * @return Change[]
      */
-    private function sortChangesByCategoryAndPackage(array $changes, ?bool $arePackagesFirst): array
+    private function sortChangesByCategoryAndPackage(array $changes, bool $arePackagesFirst): array
     {
-        $sort = [];
+        $categoryList = array_map(function (Change $change) {
+            return $change->getPackage();
+        }, $changes);
+
+        $packageList = array_map(function (Change $change) {
+            return $change->getCategory();
+        }, $changes);
 
         if ($arePackagesFirst) {
-            $primary = 'package';
-            $secondary = 'category';
+            $primaryList = $packageList;
+            $secondaryList = $categoryList;
         } else {
-            $primary = 'category';
-            $secondary = 'package';
+            $primaryList = $categoryList;
+            $secondaryList = $packageList;
         }
 
-        foreach ($changes as $key => $change) {
-            $sort[$primary][] = $change->getCategory();
-        }
-
-        foreach ($changes as $key => $change) {
-            $sort[$secondary][] = $change->getPackage();
-        }
-
-        array_multisort($sort[$primary], $sort[$secondary], $changes);
+        array_multisort($secondaryList, $primaryList, $changes);
 
         return $changes;
     }
@@ -204,6 +204,7 @@ final class DumpMergesCommand extends Command
             $this->printChangesByPackages($sortedChanges);
             return;
         }
+
         $this->printChangesByCategoriesAndPackages($sortedChanges, $arePackagesFirst);
     }
 
@@ -215,7 +216,7 @@ final class DumpMergesCommand extends Command
             return $name === 'in-packages';
         }
 
-        return null;
+        return false;
     }
 
     /**
