@@ -43,23 +43,23 @@ final class DumpMergesReporter
     ): void {
         // only categories
         if ($withCategories && ! $withPackages) {
-            $this->printChangesByCategories($changes);
+            $this->reportChangesByCategories($changes);
             return;
         }
 
         // only packages
         if ($withPackages && ! $withCategories) {
-            $this->printChangesByPackages($changes);
+            $this->reportChangesByPackages($changes);
             return;
         }
 
-        $this->printChangesByCategoriesAndPackages($changes, $priority);
+        $this->reportChangesByCategoriesAndPackages($changes, $priority);
     }
 
     /**
      * @param Change[] $changes
      */
-    private function printChangesByPackages(array $changes): void
+    private function reportChangesByPackages(array $changes): void
     {
         $previousPackage = '';
         foreach ($changes as $change) {
@@ -82,7 +82,7 @@ final class DumpMergesReporter
     /**
      * @param Change[] $changes
      */
-    private function printChangesByCategories(array $changes): void
+    private function reportChangesByCategories(array $changes): void
     {
         $previousCategory = '';
         foreach ($changes as $change) {
@@ -103,7 +103,7 @@ final class DumpMergesReporter
     /**
      * @param Change[] $changes
      */
-    private function printChangesByCategoriesAndPackages(array $changes, string $priority): void
+    private function reportChangesByCategoriesAndPackages(array $changes, string $priority): void
     {
         $previousPrimary = '';
         $previousSecondary = '';
@@ -117,7 +117,7 @@ final class DumpMergesReporter
                 $currentSecondary = $change->getPackage();
             }
 
-            $this->printHeadline($previousPrimary, $currentPrimary, $previousSecondary, $currentSecondary);
+            $this->reportHeadline($previousPrimary, $currentPrimary, $previousSecondary, $currentSecondary);
 
             // @todo remove [Package] from message, maybe add getMessageWithoutPackage()
             $this->symfonyStyle->writeln($change->getMessage());
@@ -129,7 +129,7 @@ final class DumpMergesReporter
         $this->symfonyStyle->newLine(1);
     }
 
-    private function printHeadline(
+    private function reportHeadline(
         string $previousPrimary,
         string $currentPrimary,
         string $previousSecondary,
