@@ -14,16 +14,6 @@ final class ChangeTree
      */
     private $changeFactory;
 
-    /**
-     * @var Change[][]
-     */
-    private $changesInCategories = [];
-
-    /**
-     * @var Change[]
-     */
-    private $changesWithoutCategories = [];
-
     public function __construct(ChangeFactory $changeFactory)
     {
         $this->changeFactory = $changeFactory;
@@ -40,37 +30,5 @@ final class ChangeTree
     public function getChanges(): array
     {
         return $this->changes;
-    }
-
-    /**
-     * @return Change[][]
-     */
-    public function getInCategories(): array
-    {
-        $this->filterChangesByCategory();
-
-        return $this->changesInCategories;
-    }
-
-    /**
-     * @return Change[]
-     */
-    public function getChangesWithoutCategory(): array
-    {
-        return $this->changesWithoutCategories;
-    }
-
-    private function filterChangesByCategory(): void
-    {
-        $this->changesInCategories = [];
-
-        // filter
-        foreach ($this->changes as $change) {
-            if ($change->getCategory()) {
-                $this->changesInCategories[$change->getCategory()][] = $change;
-            } else {
-                $this->changesWithoutCategories[] = $change;
-            }
-        }
     }
 }
