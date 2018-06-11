@@ -38,6 +38,7 @@ final class GithubApi
      */
     public function getClosedPullRequestsSinceId(int $id): array
     {
+        // for local testing
         if (file_exists('temp.txt')) {
             return unserialize(file_get_contents('temp.txt'));
         }
