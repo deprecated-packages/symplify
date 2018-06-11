@@ -16,13 +16,7 @@ final class ChangeTreeTest extends TestCase
 
     protected function setUp(): void
     {
-        $changeFactory = new ChangeFactory(new Configuration(
-            [],
-            '',
-            '',
-            [],
-            []
-        ));
+        $changeFactory = new ChangeFactory(new Configuration([], '', '', [], []));
 
         $this->changeTree = new ChangeTree($changeFactory);
     }
