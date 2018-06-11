@@ -10,17 +10,15 @@ final class IdsAnalyzerTest extends TestCase
     /**
      * @var IdsAnalyzer
      */
-    private $linksAnalyzer;
+    private $idsAnalyzer;
 
     protected function setUp(): void
     {
-        $this->linksAnalyzer = new IdsAnalyzer();
+        $this->idsAnalyzer = new IdsAnalyzer();
     }
 
     public function test(): void
     {
-        $this->assertSame(10,
-            $this->linksAnalyzer->getLastIdInChangelog(__DIR__ . '/Source/SomeFile.md')
-        );
+        $this->assertSame(10, $this->idsAnalyzer->getLastIdInChangelog(__DIR__ . '/Source/SomeFile.md'));
     }
 }
