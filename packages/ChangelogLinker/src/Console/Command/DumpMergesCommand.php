@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\ChangelogLinker\Command;
+namespace Symplify\ChangelogLinker\Console\Command;
 
 use Nette\Utils\Strings;
 use Symfony\Component\Console\Command\Command;
