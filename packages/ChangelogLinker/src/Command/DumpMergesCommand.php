@@ -10,10 +10,11 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symplify\ChangelogLinker\ChangeTree\Change;
 use Symplify\ChangelogLinker\ChangeTree\ChangeTree;
-use Symplify\ChangelogLinker\Configuration\Configuration;
 use Symplify\ChangelogLinker\Github\GithubApi;
+use Symplify\ChangelogLinker\Github\PullRequestMessageFactory;
 use Symplify\ChangelogLinker\Regex\RegexPattern;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
+use Symplify\PackageBuilder\Reflection\PrivatesAccessor;
 
 /**
  * @inspired by https://github.com/weierophinney/changelog_generator
@@ -46,20 +47,20 @@ final class DumpMergesCommand extends Command
     private $symfonyStyle;
 
     /**
-     * @var Configuration
+     * @var PullRequestMessageFactory
      */
-    private $configuration;
+    private $pullRequestMessageFactory;
 
     public function __construct(
-        Configuration $configuration,
         GithubApi $githubApi,
         ChangeTree $changeTree,
-        SymfonyStyle $symfonyStyle
+        SymfonyStyle $symfonyStyle,
+        PullRequestMessageFactory $pullRequestMessageFactory
     ) {
         $this->githubApi = $githubApi;
         $this->changeTree = $changeTree;
         $this->symfonyStyle = $symfonyStyle;
-        $this->configuration = $configuration;
+        $this->pullRequestMessageFactory = $pullRequestMessageFactory;
 
         parent::__construct();
     }
@@ -109,37 +110,13 @@ final class DumpMergesCommand extends Command
             return 0;
         }
 
-        if ($input->getOption(self::OPTION_IN_CATEGORIES)) {
-            $sortedChanges = $this->sortChangesByCategoryAndPackage($this->changeTree->getChanges());
+        $arePackagesFirst = $this->arePackagesFirst($input);
 
-            $previousCategory = '';
-            $previousPackage = '';
-            foreach ($sortedChanges as $change) {
-                if ($previousCategory !== $change->getCategory()) {
-                    $this->symfonyStyle->newLine(1);
-                    $this->symfonyStyle->writeln('### ' . $change->getCategory());
-
-                    if (! $input->getOption(self::OPTION_IN_PACKAGES)) {
-                        $this->symfonyStyle->newLine(1);
-                    }
-                }
-
-                if ($input->getOption(self::OPTION_IN_PACKAGES)) {
-                    if ($previousPackage !== $change->getPackage()) {
-                        $this->symfonyStyle->newLine(1);
-                        $this->symfonyStyle->writeln('#### ' . $change->getPackage());
-                        $this->symfonyStyle->newLine(1);
-                    }
-                }
-
-                $this->symfonyStyle->writeln($change->getMessage());
-
-                $previousCategory = $change->getCategory();
-                $previousPackage = $change->getPackage();
-            }
-
-            $this->symfonyStyle->newLine(1);
-        }
+        $this->printChangesWithHeadlines(
+            $input->getOption(self::OPTION_IN_CATEGORIES),
+            $input->getOption(self::OPTION_IN_PACKAGES),
+            $arePackagesFirst
+        );
 
         // success
         return 0;
@@ -163,14 +140,7 @@ final class DumpMergesCommand extends Command
     private function loadPullRequestsToChangeTree(array $pullRequests): void
     {
         foreach ($pullRequests as $pullRequest) {
-            $pullRequestMessage = sprintf('- [#%s] %s', $pullRequest['number'], $pullRequest['title']);
-            $pullRequestAuthor = $pullRequest['user']['login'];
-
-            // skip the main maintainer to prevent self-thanking floods
-            if (! in_array($pullRequestAuthor, $this->configuration->getAuthorsToIgnore(), true)) {
-                $pullRequestMessage .= ', Thanks to @' . $pullRequestAuthor;
-            }
-
+            $pullRequestMessage = $this->pullRequestMessageFactory->createMessageFromPullRequest($pullRequest);
             $this->changeTree->addPullRequestMessage($pullRequestMessage);
         }
     }
@@ -194,19 +164,131 @@ final class DumpMergesCommand extends Command
      * @param  Change[] $changes
      * @return Change[]
      */
-    private function sortChangesByCategoryAndPackage(array $changes): array
+    private function sortChangesByCategoryAndPackage(array $changes, ?bool $arePackagesFirst): array
     {
         $sort = [];
-        foreach ($changes as $key => $change) {
-            $sort['category'][] = $change->getCategory();
+
+        if ($arePackagesFirst) {
+            $primary = 'package';
+            $secondary = 'category';
+        } else {
+            $primary = 'category';
+            $secondary = 'package';
         }
 
         foreach ($changes as $key => $change) {
-            $sort['package'][] = $change->getPackage();
+            $sort[$primary][] = $change->getCategory();
         }
 
-        array_multisort($sort['category'], $sort['package'], $changes);
+        foreach ($changes as $key => $change) {
+            $sort[$secondary][] = $change->getPackage();
+        }
+
+        array_multisort($sort[$primary], $sort[$secondary], $changes);
 
         return $changes;
+    }
+
+    private function printChangesWithHeadlines(bool $withCategories, bool $withPackages, ?bool $arePackagesFirst): void
+    {
+        $sortedChanges = $this->sortChangesByCategoryAndPackage($this->changeTree->getChanges(), $arePackagesFirst);
+
+        // only categories
+        if ($withCategories && ! $withPackages) {
+            $this->printChangesByCategories($sortedChanges);
+            return;
+        }
+
+        // only packages
+        if ($withPackages && ! $withCategories) {
+            $this->printChangesByPackages($sortedChanges);
+            return;
+        }
+
+        // both
+        $previousPrimary = '';
+        $previousSecondary = '';
+        foreach ($sortedChanges as $change) {
+            if ($arePackagesFirst) {
+                $currentPrimary = $change->getPackage();
+                $currentSecondary = $change->getCategory();
+            } else {
+                $currentPrimary = $change->getCategory();
+                $currentSecondary = $change->getPackage();
+            }
+
+            if ($previousPrimary !== $currentPrimary) {
+                $this->symfonyStyle->newLine(1);
+                $this->symfonyStyle->writeln('### ' . $currentPrimary);
+                $this->symfonyStyle->newLine(1);
+            }
+
+            if ($previousSecondary !== $currentSecondary) {
+                $this->symfonyStyle->newLine(1);
+                $this->symfonyStyle->writeln('#### ' . $currentSecondary);
+                $this->symfonyStyle->newLine(1);
+            }
+
+            $this->symfonyStyle->writeln($change->getMessage());
+
+            $previousPrimary = $currentPrimary;
+            $previousSecondary = $currentSecondary;
+        }
+
+        $this->symfonyStyle->newLine(1);
+    }
+
+    private function arePackagesFirst(InputInterface $input): ?bool
+    {
+        $rawOptions = (new PrivatesAccessor())->getPrivateProperty($input, 'options');
+
+        foreach ($rawOptions as $name => $value) {
+            return $name === 'in-packages';
+        }
+
+        return null;
+    }
+
+    /**
+     * @param Change[] $changes
+     */
+    private function printChangesByPackages(array $changes): void
+    {
+        $previousPackage = '';
+        foreach ($changes as $change) {
+            if ($previousPackage !== $change->getPackage()) {
+                $this->symfonyStyle->newLine(1);
+                $this->symfonyStyle->writeln('### ' . $change->getPackage());
+                $this->symfonyStyle->newLine(1);
+            }
+
+            $this->symfonyStyle->writeln($change->getMessage());
+
+            $previousPackage = $change->getPackage();
+        }
+
+        $this->symfonyStyle->newLine(1);
+        return;
+    }
+
+    /**
+     * @param Change[] $changes
+     */
+    private function printChangesByCategories(array $changes): void
+    {
+        $previousCategory = '';
+        foreach ($changes as $change) {
+            if ($previousCategory !== $change->getCategory()) {
+                $this->symfonyStyle->newLine(1);
+                $this->symfonyStyle->writeln('### ' . $change->getCategory());
+                $this->symfonyStyle->newLine(1);
+            }
+
+            $this->symfonyStyle->writeln($change->getMessage());
+
+            $previousCategory = $change->getCategory();
+        }
+
+        $this->symfonyStyle->newLine(1);
     }
 }
