@@ -204,38 +204,7 @@ final class DumpMergesCommand extends Command
             $this->printChangesByPackages($sortedChanges);
             return;
         }
-
-        // both
-        $previousPrimary = '';
-        $previousSecondary = '';
-        foreach ($sortedChanges as $change) {
-            if ($arePackagesFirst) {
-                $currentPrimary = $change->getPackage();
-                $currentSecondary = $change->getCategory();
-            } else {
-                $currentPrimary = $change->getCategory();
-                $currentSecondary = $change->getPackage();
-            }
-
-            if ($previousPrimary !== $currentPrimary) {
-                $this->symfonyStyle->newLine(1);
-                $this->symfonyStyle->writeln('### ' . $currentPrimary);
-                $this->symfonyStyle->newLine(1);
-            }
-
-            if ($previousSecondary !== $currentSecondary) {
-                $this->symfonyStyle->newLine(1);
-                $this->symfonyStyle->writeln('#### ' . $currentSecondary);
-                $this->symfonyStyle->newLine(1);
-            }
-
-            $this->symfonyStyle->writeln($change->getMessage());
-
-            $previousPrimary = $currentPrimary;
-            $previousSecondary = $currentSecondary;
-        }
-
-        $this->symfonyStyle->newLine(1);
+        $this->printChangesByCategoriesAndPackages($sortedChanges, $arePackagesFirst);
     }
 
     private function arePackagesFirst(InputInterface $input): ?bool
@@ -287,6 +256,44 @@ final class DumpMergesCommand extends Command
             $this->symfonyStyle->writeln($change->getMessage());
 
             $previousCategory = $change->getCategory();
+        }
+
+        $this->symfonyStyle->newLine(1);
+    }
+
+    /**
+     * @param Change[] $changes
+     */
+    private function printChangesByCategoriesAndPackages(array $changes, bool $arePackagesFirst): void
+    {
+        $previousPrimary = '';
+        $previousSecondary = '';
+
+        foreach ($changes as $change) {
+            if ($arePackagesFirst) {
+                $currentPrimary = $change->getPackage();
+                $currentSecondary = $change->getCategory();
+            } else {
+                $currentPrimary = $change->getCategory();
+                $currentSecondary = $change->getPackage();
+            }
+
+            if ($previousPrimary !== $currentPrimary) {
+                $this->symfonyStyle->newLine(1);
+                $this->symfonyStyle->writeln('### ' . $currentPrimary);
+                $this->symfonyStyle->newLine(1);
+            }
+
+            if ($previousSecondary !== $currentSecondary) {
+                $this->symfonyStyle->newLine(1);
+                $this->symfonyStyle->writeln('#### ' . $currentSecondary);
+                $this->symfonyStyle->newLine(1);
+            }
+
+            $this->symfonyStyle->writeln($change->getMessage());
+
+            $previousPrimary = $currentPrimary;
+            $previousSecondary = $currentSecondary;
         }
 
         $this->symfonyStyle->newLine(1);
