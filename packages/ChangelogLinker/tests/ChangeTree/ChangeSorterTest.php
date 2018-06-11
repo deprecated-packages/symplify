@@ -22,7 +22,7 @@ final class ChangeSorterTest extends TestCase
     {
         $changes = $this->createChanges();
 
-        $sortedChanges = $this->changeSorter->sortByCategoryAndPackage($changes, false);
+        $sortedChanges = $this->changeSorter->sortByCategoryAndPackage($changes, ChangeSorter::PRIORITY_CATEGORIES);
         $this->assertNotSame($changes, $sortedChanges);
 
         $firstChange = array_shift($sortedChanges);
@@ -38,7 +38,7 @@ final class ChangeSorterTest extends TestCase
     {
         $changes = $this->createChanges();
 
-        $sortedChanges = $this->changeSorter->sortByCategoryAndPackage($changes, true);
+        $sortedChanges = $this->changeSorter->sortByCategoryAndPackage($changes, ChangeSorter::PRIORITY_PACKAGES);
         $this->assertNotSame($changes, $sortedChanges);
 
         $firstChange = array_shift($sortedChanges);
@@ -50,13 +50,15 @@ final class ChangeSorterTest extends TestCase
         $this->assertSame('Added', $secondChange->getCategory());
     }
 
+    /**
+     * @return Change[]
+     */
     private function createChanges(): array
     {
-        $changes = [
+        return [
             new Change('message', 'Changed', 'B'),
             new Change('message', 'Added', 'B'),
-            new Change('message', 'Removed', 'A')
+            new Change('message', 'Removed', 'A'),
         ];
-        return $changes;
     }
 }

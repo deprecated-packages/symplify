@@ -121,7 +121,7 @@ final class DumpMergesCommand extends Command
         $this->printChangesWithHeadlines(
             $input->getOption(self::OPTION_IN_CATEGORIES),
             $input->getOption(self::OPTION_IN_PACKAGES),
-            $this->arePackagesFirst($input)
+            $this->getSortingPriority($input)
         );
 
         // success
@@ -162,12 +162,9 @@ final class DumpMergesCommand extends Command
         $this->symfonyStyle->newLine(1);
     }
 
-    private function printChangesWithHeadlines(bool $withCategories, bool $withPackages, ?bool $arePackagesFirst): void
+    private function printChangesWithHeadlines(bool $withCategories, bool $withPackages, string $priority): void
     {
-        $sortedChanges = $this->changeSorter->sortByCategoryAndPackage(
-            $this->changeTree->getChanges(),
-            $arePackagesFirst
-        );
+        $sortedChanges = $this->changeSorter->sortByCategoryAndPackage($this->changeTree->getChanges(), $priority);
 
         // only categories
         if ($withCategories && ! $withPackages) {
@@ -181,18 +178,24 @@ final class DumpMergesCommand extends Command
             return;
         }
 
-        $this->printChangesByCategoriesAndPackages($sortedChanges, $arePackagesFirst);
+        $this->printChangesByCategoriesAndPackages($sortedChanges, $priority);
     }
 
-    private function arePackagesFirst(InputInterface $input): ?bool
+    /**
+     * Detects the order in which "--in-packages" and "--in-categories" are called.
+     * The first has a priority.
+     */
+    private function getSortingPriority(InputInterface $input): string
     {
         $rawOptions = (new PrivatesAccessor())->getPrivateProperty($input, 'options');
 
         foreach ($rawOptions as $name => $value) {
-            return $name === 'in-packages';
+            if ($name === 'in-packages') {
+                return 'packages';
+            }
         }
 
-        return false;
+        return 'categories';
     }
 
     /**
@@ -241,13 +244,13 @@ final class DumpMergesCommand extends Command
     /**
      * @param Change[] $changes
      */
-    private function printChangesByCategoriesAndPackages(array $changes, bool $arePackagesFirst): void
+    private function printChangesByCategoriesAndPackages(array $changes, string $priority): void
     {
         $previousPrimary = '';
         $previousSecondary = '';
 
         foreach ($changes as $change) {
-            if ($arePackagesFirst) {
+            if ($priority === ChangeSorter::PRIORITY_PACKAGES) {
                 $currentPrimary = $change->getPackage();
                 $currentSecondary = $change->getCategory();
             } else {

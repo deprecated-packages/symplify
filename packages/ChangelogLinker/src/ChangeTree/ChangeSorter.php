@@ -5,6 +5,16 @@ namespace Symplify\ChangelogLinker\ChangeTree;
 final class ChangeSorter
 {
     /**
+     * @var string
+     */
+    public const PRIORITY_PACKAGES = 'packages';
+
+    /**
+     * @var string
+     */
+    public const PRIORITY_CATEGORIES = 'categories';
+
+    /**
      * Inspiration: https://stackoverflow.com/questions/3232965/sort-multidimensional-array-by-multiple-keys
      *
      * Sorts packages, then category or vice versa, depends on 2nd parameter
@@ -12,7 +22,7 @@ final class ChangeSorter
      * @param Change[] $changes
      * @return Change[]
      */
-    public function sortByCategoryAndPackage(array $changes, bool $arePackagesFirst): array
+    public function sortByCategoryAndPackage(array $changes, string $priority): array
     {
         $categoryList = array_map(function (Change $change) {
             return $change->getPackage();
@@ -22,7 +32,7 @@ final class ChangeSorter
             return $change->getCategory();
         }, $changes);
 
-        if ($arePackagesFirst) {
+        if ($priority === self::PRIORITY_PACKAGES) {
             $primaryList = $packageList;
             $secondaryList = $categoryList;
         } else {
