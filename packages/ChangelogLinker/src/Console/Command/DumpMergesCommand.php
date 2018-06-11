@@ -9,6 +9,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symplify\ChangelogLinker\ChangeTree\Change;
+use Symplify\ChangelogLinker\ChangeTree\ChangeSorter;
 use Symplify\ChangelogLinker\ChangeTree\ChangeTree;
 use Symplify\ChangelogLinker\Github\GithubApi;
 use Symplify\ChangelogLinker\Github\PullRequestMessageFactory;
@@ -51,16 +52,23 @@ final class DumpMergesCommand extends Command
      */
     private $pullRequestMessageFactory;
 
+    /**
+     * @var ChangeSorter
+     */
+    private $changeSorter;
+
     public function __construct(
         GithubApi $githubApi,
         ChangeTree $changeTree,
         SymfonyStyle $symfonyStyle,
-        PullRequestMessageFactory $pullRequestMessageFactory
+        PullRequestMessageFactory $pullRequestMessageFactory,
+        ChangeSorter $changeSorter
     ) {
         $this->githubApi = $githubApi;
         $this->changeTree = $changeTree;
         $this->symfonyStyle = $symfonyStyle;
         $this->pullRequestMessageFactory = $pullRequestMessageFactory;
+        $this->changeSorter = $changeSorter;
 
         parent::__construct();
     }
@@ -154,40 +162,12 @@ final class DumpMergesCommand extends Command
         $this->symfonyStyle->newLine(1);
     }
 
-    /**
-     * Inspiration: https://stackoverflow.com/questions/3232965/sort-multidimensional-array-by-multiple-keys
-     *
-     * Sorts packages by category then package
-     *
-     * @param Change[] $changes
-     * @return Change[]
-     */
-    private function sortChangesByCategoryAndPackage(array $changes, bool $arePackagesFirst): array
-    {
-        $categoryList = array_map(function (Change $change) {
-            return $change->getPackage();
-        }, $changes);
-
-        $packageList = array_map(function (Change $change) {
-            return $change->getCategory();
-        }, $changes);
-
-        if ($arePackagesFirst) {
-            $primaryList = $packageList;
-            $secondaryList = $categoryList;
-        } else {
-            $primaryList = $categoryList;
-            $secondaryList = $packageList;
-        }
-
-        array_multisort($secondaryList, $primaryList, $changes);
-
-        return $changes;
-    }
-
     private function printChangesWithHeadlines(bool $withCategories, bool $withPackages, ?bool $arePackagesFirst): void
     {
-        $sortedChanges = $this->sortChangesByCategoryAndPackage($this->changeTree->getChanges(), $arePackagesFirst);
+        $sortedChanges = $this->changeSorter->sortByCategoryAndPackage(
+            $this->changeTree->getChanges(),
+            $arePackagesFirst
+        );
 
         // only categories
         if ($withCategories && ! $withPackages) {

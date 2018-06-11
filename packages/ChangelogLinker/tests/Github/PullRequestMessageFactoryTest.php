@@ -13,21 +13,21 @@ final class PullRequestMessageFactoryTest extends TestCase
      */
     private $pullRequestMessageFactory;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $configuration = new Configuration(['ego'], '', '', [], []);
 
         $this->pullRequestMessageFactory = new PullRequestMessageFactory($configuration);
     }
 
-    public function test()
+    public function test(): void
     {
         $pullRequest = [
             'number' => 10,
             'title' => 'Add cool feature',
             'user' => [
-                'login' => 'me'
-            ]
+                'login' => 'me',
+            ],
         ];
 
         $this->assertSame(
