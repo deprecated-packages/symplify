@@ -110,20 +110,32 @@ final class DumpMergesCommand extends Command
         }
 
         if ($input->getOption(self::OPTION_IN_CATEGORIES)) {
-            // @todo resolve priority
             $sortedChanges = $this->sortChangesByCategoryAndPackage($this->changeTree->getChanges());
 
-            $lastCategory = '';
+            $previousCategory = '';
+            $previousPackage = '';
             foreach ($sortedChanges as $change) {
-                if ($lastCategory !== $change->getCategory()) {
+                if ($previousCategory !== $change->getCategory()) {
                     $this->symfonyStyle->newLine(1);
                     $this->symfonyStyle->writeln('### ' . $change->getCategory());
-                    $this->symfonyStyle->newLine(1);
+
+                    if (! $input->getOption(self::OPTION_IN_PACKAGES)) {
+                        $this->symfonyStyle->newLine(1);
+                    }
+                }
+
+                if ($input->getOption(self::OPTION_IN_PACKAGES)) {
+                    if ($previousPackage !== $change->getPackage()) {
+                        $this->symfonyStyle->newLine(1);
+                        $this->symfonyStyle->writeln('#### ' . $change->getPackage());
+                        $this->symfonyStyle->newLine(1);
+                    }
                 }
 
                 $this->symfonyStyle->writeln($change->getMessage());
 
-                $lastCategory = $change->getCategory();
+                $previousCategory = $change->getCategory();
+                $previousPackage = $change->getPackage();
             }
 
             $this->symfonyStyle->newLine(1);
