@@ -110,8 +110,23 @@ final class DumpMergesCommand extends Command
         }
 
         if ($input->getOption(self::OPTION_IN_CATEGORIES)) {
-            $this->printChangesWithCategories();
-            $this->printChangesWithoutCategories();
+            // @todo resolve priority
+            $sortedChanges = $this->sortChangesByCategoryAndPackage($this->changeTree->getChanges());
+
+            $lastCategory = '';
+            foreach ($sortedChanges as $change) {
+                if ($lastCategory !== $change->getCategory()) {
+                    $this->symfonyStyle->newLine(1);
+                    $this->symfonyStyle->writeln('### ' . $change->getCategory());
+                    $this->symfonyStyle->newLine(1);
+                }
+
+                $this->symfonyStyle->writeln($change->getMessage());
+
+                $lastCategory = $change->getCategory();
+            }
+
+            $this->symfonyStyle->newLine(1);
         }
 
         // success
@@ -148,35 +163,6 @@ final class DumpMergesCommand extends Command
         }
     }
 
-    private function printChangesWithCategories(): void
-    {
-        foreach ($this->changeTree->getInCategories() as $category => $changes) {
-            $this->symfonyStyle->writeln('### ' . $category);
-            $this->symfonyStyle->newLine(1);
-
-            /** @var Change $change */
-            foreach ($changes as $change) {
-                $this->symfonyStyle->writeln($change->getMessage());
-            }
-
-            $this->symfonyStyle->newLine(1);
-        }
-    }
-
-    private function printChangesWithoutCategories(): void
-    {
-        if ($this->changeTree->getChangesWithoutCategory()) {
-            $this->symfonyStyle->writeln('### Unknown');
-            $this->symfonyStyle->newLine(1);
-
-            foreach ($this->changeTree->getChangesWithoutCategory() as $change) {
-                $this->symfonyStyle->writeln($change->getMessage());
-            }
-
-            $this->symfonyStyle->newLine(1);
-        }
-    }
-
     private function printAllChanges(): void
     {
         $this->symfonyStyle->newLine(1);
@@ -186,5 +172,25 @@ final class DumpMergesCommand extends Command
         }
 
         $this->symfonyStyle->newLine(1);
+    }
+
+    /**
+     * @param  Change[] $changes
+     * @return Change[]
+     */
+    private function sortChangesByCategoryAndPackage(array $changes): array
+    {
+        $sort = [];
+        foreach ($changes as $key => $change) {
+            $sort['category'][] = $change->getCategory() ?? 'Unknown Category';
+        }
+
+        foreach ($changes as $key => $change) {
+            $sort['package'][] = $change->getPackage() ?? 'Unknown Package';
+        }
+
+        array_multisort($sort['category'], $sort['package'], $changes);
+
+        return $changes;
     }
 }

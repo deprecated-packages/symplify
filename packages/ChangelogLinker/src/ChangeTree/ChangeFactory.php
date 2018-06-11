@@ -31,7 +31,7 @@ final class ChangeFactory
             return 'Changed';
         }
 
-        return null;
+        return 'Unknown Category';
     }
 
     private function resolvePackageFromMessage(string $change): ?string
