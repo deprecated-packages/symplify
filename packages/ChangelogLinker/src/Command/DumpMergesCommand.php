@@ -182,11 +182,11 @@ final class DumpMergesCommand extends Command
     {
         $sort = [];
         foreach ($changes as $key => $change) {
-            $sort['category'][] = $change->getCategory() ?? 'Unknown Category';
+            $sort['category'][] = $change->getCategory();
         }
 
         foreach ($changes as $key => $change) {
-            $sort['package'][] = $change->getPackage() ?? 'Unknown Package';
+            $sort['package'][] = $change->getPackage();
         }
 
         array_multisort($sort['category'], $sort['package'], $changes);

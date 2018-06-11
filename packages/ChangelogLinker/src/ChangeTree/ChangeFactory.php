@@ -14,7 +14,7 @@ final class ChangeFactory
         return new Change($message, $category, $package);
     }
 
-    private function resolveCategoryFromMessage(string $message): ?string
+    private function resolveCategoryFromMessage(string $message): string
     {
         $match = Strings::match($message, '#(Add)#');
         if ($match) {
@@ -38,6 +38,6 @@ final class ChangeFactory
     {
         $match = Strings::match($change, '#\[(?<package>[A-Za-z]+)\]#');
 
-        return $match['package'] ?? null;
+        return $match['package'] ?? 'Unknown Package';
     }
 }

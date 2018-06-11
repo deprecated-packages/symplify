@@ -10,16 +10,16 @@ final class Change
     private $message;
 
     /**
-     * @var null|string
+     * @var string
      */
     private $category;
 
     /**
-     * @var null|string
+     * @var string
      */
     private $package;
 
-    public function __construct(string $message, ?string $category, ?string $package)
+    public function __construct(string $message, string $category, string $package)
     {
         $this->message = $message;
         $this->category = $category;
@@ -31,12 +31,12 @@ final class Change
         return $this->message;
     }
 
-    public function getCategory(): ?string
+    public function getCategory(): string
     {
         return $this->category;
     }
 
-    public function getPackage(): ?string
+    public function getPackage(): string
     {
         return $this->package;
     }
