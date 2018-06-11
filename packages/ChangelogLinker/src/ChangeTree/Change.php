@@ -14,10 +14,16 @@ final class Change
      */
     private $category;
 
+    /**
+     * @var null|string
+     */
+    private $package;
+
     public function __construct(string $message, ?string $category, ?string $package)
     {
         $this->message = $message;
         $this->category = $category;
+        $this->package = $package;
     }
 
     public function getMessage(): string
@@ -28,5 +34,10 @@ final class Change
     public function getCategory(): ?string
     {
         return $this->category;
+    }
+
+    public function getPackage(): ?string
+    {
+        return $this->package;
     }
 }
