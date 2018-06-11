@@ -23,7 +23,12 @@ final class DumpMergesCommand extends Command
     /**
      * @var string
      */
-    private const OPITON_IN_CATEGORIES = 'in-categories';
+    private const OPTION_IN_CATEGORIES = 'in-categories';
+
+    /**
+     * @var string
+     */
+    private const OPTION_IN_PACKAGES = 'in-packages';
 
     /**
      * @var GithubApi
@@ -66,10 +71,17 @@ final class DumpMergesCommand extends Command
             'Scans repository merged PRs, that are not in the CHANGELOG.md yet, and dumps them in changelog format.'
         );
         $this->addOption(
-            self::OPITON_IN_CATEGORIES,
+            self::OPTION_IN_CATEGORIES,
             null,
             InputOption::VALUE_NONE,
-            'Print in Added/Changed/Fixed/Removed'
+            'Print in Added/Changed/Fixed/Removed - detected from "Add", "Fix", "Removed" etc. keywords in merge title.'
+        );
+
+        $this->addOption(
+            self::OPTION_IN_PACKAGES,
+            null,
+            InputOption::VALUE_NONE,
+            'Print in groups in package names - detected from "[PackageName]" in merge title.'
         );
     }
 
@@ -90,11 +102,16 @@ final class DumpMergesCommand extends Command
 
         $this->loadPullRequestsToChangeTree($pullRequests);
 
-        if ($input->getOption(self::OPITON_IN_CATEGORIES)) {
+        if (! $input->getOption(self::OPTION_IN_CATEGORIES) && ! $input->getOption(self::OPTION_IN_PACKAGES)) {
+            $this->printAllChanges();
+
+            // success
+            return 0;
+        }
+
+        if ($input->getOption(self::OPTION_IN_CATEGORIES)) {
             $this->printChangesWithCategories();
             $this->printChangesWithoutCategories();
-        } else {
-            $this->printAllChanges();
         }
 
         // success
@@ -127,7 +144,7 @@ final class DumpMergesCommand extends Command
                 $pullRequestMessage .= ', Thanks to @' . $pullRequestAuthor;
             }
 
-            $this->changeTree->addChange($pullRequestMessage);
+            $this->changeTree->addPullRequestMessage($pullRequestMessage);
         }
     }
 

@@ -29,7 +29,7 @@ final class ChangeTree
         $this->changeFactory = $changeFactory;
     }
 
-    public function addChange(string $message): void
+    public function addPullRequestMessage(string $message): void
     {
         $this->changes[] = $this->changeFactory->createFromMessage($message);
     }
