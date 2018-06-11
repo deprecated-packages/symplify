@@ -2,8 +2,6 @@
 
 namespace Symplify\ChangelogLinker\Command;
 
-use Nette\Utils\ArrayHash;
-use Nette\Utils\Arrays;
 use Nette\Utils\Strings;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -279,17 +277,7 @@ final class DumpMergesCommand extends Command
                 $currentSecondary = $change->getPackage();
             }
 
-            if ($previousPrimary !== $currentPrimary) {
-                $this->symfonyStyle->newLine(1);
-                $this->symfonyStyle->writeln('### ' . $currentPrimary);
-                $this->symfonyStyle->newLine(1);
-            }
-
-            if ($previousSecondary !== $currentSecondary) {
-                $this->symfonyStyle->newLine(1);
-                $this->symfonyStyle->writeln('#### ' . $currentSecondary);
-                $this->symfonyStyle->newLine(1);
-            }
+            $this->printHeadline($previousPrimary, $currentPrimary, $previousSecondary, $currentSecondary);
 
             $this->symfonyStyle->writeln($change->getMessage());
 
@@ -298,5 +286,30 @@ final class DumpMergesCommand extends Command
         }
 
         $this->symfonyStyle->newLine(1);
+    }
+
+    private function printHeadline(
+        string $previousPrimary,
+        string $currentPrimary,
+        string $previousSecondary,
+        string $currentSecondary
+    ): void {
+        $spaceAlreadyAdded = false;
+
+        if ($previousPrimary !== $currentPrimary) {
+            $this->symfonyStyle->newLine(1);
+            $this->symfonyStyle->writeln('### ' . $currentPrimary);
+            $this->symfonyStyle->newLine(1);
+            $spaceAlreadyAdded = true;
+        }
+
+        if ($previousSecondary !== $currentSecondary) {
+            if (! $spaceAlreadyAdded) {
+                $this->symfonyStyle->newLine(1);
+            }
+
+            $this->symfonyStyle->writeln('#### ' . $currentSecondary);
+            $this->symfonyStyle->newLine(1);
+        }
     }
 }
