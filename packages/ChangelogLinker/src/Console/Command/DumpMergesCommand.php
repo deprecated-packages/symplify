@@ -8,6 +8,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symplify\ChangelogLinker\Analyzer\IdsAnalyzer;
 use Symplify\ChangelogLinker\ChangeTree\Change;
 use Symplify\ChangelogLinker\ChangeTree\ChangeSorter;
 use Symplify\ChangelogLinker\ChangeTree\ChangeTree;
@@ -56,19 +57,25 @@ final class DumpMergesCommand extends Command
      * @var ChangeSorter
      */
     private $changeSorter;
+    /**
+     * @var IdsAnalyzer
+     */
+    private $idsAnalyzer;
 
     public function __construct(
         GithubApi $githubApi,
         ChangeTree $changeTree,
         SymfonyStyle $symfonyStyle,
         PullRequestMessageFactory $pullRequestMessageFactory,
-        ChangeSorter $changeSorter
+        ChangeSorter $changeSorter,
+        IdsAnalyzer $idsAnalyzer
     ) {
         $this->githubApi = $githubApi;
         $this->changeTree = $changeTree;
         $this->symfonyStyle = $symfonyStyle;
         $this->pullRequestMessageFactory = $pullRequestMessageFactory;
         $this->changeSorter = $changeSorter;
+        $this->idsAnalyzer = $idsAnalyzer;
 
         parent::__construct();
     }
@@ -96,7 +103,7 @@ final class DumpMergesCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $lastIdInChangelog = $this->getLastIdInChangelog();
+        $lastIdInChangelog = $this->idsAnalyzer->getLastIdInChangelog(getcwd() . '/CHANGELOG.md');
 
         $pullRequests = $this->githubApi->getClosedPullRequestsSinceId($lastIdInChangelog);
 
@@ -126,18 +133,6 @@ final class DumpMergesCommand extends Command
 
         // success
         return 0;
-    }
-
-    private function getLastIdInChangelog(): int
-    {
-        $changelogContent = file_get_contents(getcwd() . '/CHANGELOG.md');
-
-        $match = Strings::match($changelogContent, '#' . RegexPattern::PR_OR_ISSUE . '#');
-        if ($match) {
-            return (int) $match['id'];
-        }
-
-        return 1;
     }
 
     /**
