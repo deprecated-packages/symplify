@@ -187,6 +187,10 @@ final class DumpMergesCommand extends Command
     }
 
     /**
+     * Inspiration: https://stackoverflow.com/questions/3232965/sort-multidimensional-array-by-multiple-keys
+     *
+     * Sorts packages by category then package
+     *
      * @param  Change[] $changes
      * @return Change[]
      */
