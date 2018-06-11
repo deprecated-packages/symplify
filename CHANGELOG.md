@@ -1361,3 +1361,14 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
 [#818]: https://github.com/Symplify/Symplify/pull/818
 [#815]: https://github.com/Symplify/Symplify/pull/815
 [v4.4.0]: https://github.com/Symplify/Symplify/compare/v4.3.0...v4.4.0
+[#868]: https://github.com/Symplify/Symplify/pull/868
+[#867]: https://github.com/Symplify/Symplify/pull/867
+[#863]: https://github.com/Symplify/Symplify/pull/863
+[#862]: https://github.com/Symplify/Symplify/pull/862
+[#861]: https://github.com/Symplify/Symplify/pull/861
+[#858]: https://github.com/Symplify/Symplify/pull/858
+[#857]: https://github.com/Symplify/Symplify/pull/857
+[#855]: https://github.com/Symplify/Symplify/pull/855
+[#854]: https://github.com/Symplify/Symplify/pull/854
+[#837]: https://github.com/Symplify/Symplify/pull/837
+[#833]: https://github.com/Symplify/Symplify/pull/833
