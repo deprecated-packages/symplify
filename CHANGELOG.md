@@ -7,6 +7,70 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLinker](https://github.com/Symplify/ChangelogLinker).
 
+## [Unreleased]
+
+### Added
+
+#### MonorepoBuilder
+
+- [#858] [MonorepoBuilder] Init new package
+
+#### ChangelogLinker
+
+- [#840] [ChangelogLinker] Add LinkifyWorker
+- [#854] [ChangelogLinker] Add dump merges command
+- [#868] [ChangelogLinker] Add ChangeTree, --in-packages and --in-categories opiton to manage merge messages
+- [#831] [ChangelogLinker] Allow `--config`
+
+#### CodingStandard
+
+- [#851] [CodingStandard] Add _ support to PropertyNameMatchingTypeFixer
+- [#860] [CS] Add test case for #855, Thanks to @OndraM
+- [#836] Improve cognitive complexity error, Thanks to @enumag
+- [#845] Extended RemoveEmptyDocBlockFixer fix
+
+#### EasyCodingStandard
+
+- [#849] [ECS] Add CurrentFileProvider to standardize file format used over PHP CS Fixer and PHP_CodeSniffer
+- [#852] [EasyCodingStandard] Add support for line_ending configuration
+- [#832] [ECS] Allow short `ecs.yml` config [closes #819]
+
+#### MonorepoBuilder
+
+- [#862] [MonorepoBuilder] Add new commands
+
+### Changed
+
+- [#847] Bump to PHP CS Fixer 2.12
+- [#857] Bump to PHP_CodeSniffer 3.3 and related fixes
+
+#### ChangelogLinker
+
+- [#867] [ChangelogLinker] Change Worker registration from implicit to explicit
+- [#837] [ChangelogLinker] move curl dependency to pr/issue resolving
+- [#839] [ChangelogLinker] Match issues by regex
+
+### Fixed
+
+- [#861] Fix typo, Thanks to @carusogabriel
+
+#### ChangelogLinker
+
+- [#833] [ChangelogLinker] fixes
+
+#### CodingStandard
+
+- [#842] LineLengthSniff: Initial support for tokens with newlines, Thanks to @ostrolucky
+- [#843] Fix priorities in RemoveEmptyDocBlockFixer (closes #838), Thanks to @ostrolucky
+
+#### EasyCodingStandard
+
+- [#848] [ECS] Fix single file processing
+
+#### TokenRunner
+
+- [#863] [TokenRunner] anonymous class now returns null on name [fixes #855]
+
 ## [v4.4.0] - 2018-06-03
 
 ### Added
