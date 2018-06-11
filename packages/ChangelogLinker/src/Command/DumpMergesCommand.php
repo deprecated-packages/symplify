@@ -5,6 +5,7 @@ namespace Symplify\ChangelogLinker\Command;
 use Nette\Utils\Strings;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symplify\ChangelogLinker\ChangeTree\Change;
@@ -19,6 +20,11 @@ use Symplify\PackageBuilder\Console\Command\CommandNaming;
  */
 final class DumpMergesCommand extends Command
 {
+    /**
+     * @var string
+     */
+    private const OPITON_IN_CATEGORIES = 'in-categories';
+
     /**
      * @var GithubApi
      */
@@ -59,6 +65,12 @@ final class DumpMergesCommand extends Command
         $this->setDescription(
             'Scans repository merged PRs, that are not in the CHANGELOG.md yet, and dumps them in changelog format.'
         );
+        $this->addOption(
+            self::OPITON_IN_CATEGORIES,
+            null,
+            InputOption::VALUE_NONE,
+            'Print in Added/Changed/Fixed/Removed'
+        );
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -77,7 +89,13 @@ final class DumpMergesCommand extends Command
         }
 
         $this->loadPullRequestsToChangeTree($pullRequests);
-        $this->printChanges();
+
+        if ($input->getOption(self::OPITON_IN_CATEGORIES)) {
+            $this->printChangesWithCategories();
+            $this->printChangesWithoutCategories();
+        } else {
+            $this->printAllChanges();
+        }
 
         // success
         return 0;
@@ -113,12 +131,6 @@ final class DumpMergesCommand extends Command
         }
     }
 
-    private function printChanges(): void
-    {
-        $this->printChangesWithCategories();
-        $this->printChangesWithoutCategories();
-    }
-
     private function printChangesWithCategories(): void
     {
         foreach ($this->changeTree->getInCategories() as $category => $changes) {
@@ -146,5 +158,16 @@ final class DumpMergesCommand extends Command
 
             $this->symfonyStyle->newLine(1);
         }
+    }
+
+    private function printAllChanges(): void
+    {
+        $this->symfonyStyle->newLine(1);
+
+        foreach ($this->changeTree->getChanges() as $change) {
+            $this->symfonyStyle->writeln($change->getMessage());
+        }
+
+        $this->symfonyStyle->newLine(1);
     }
 }
