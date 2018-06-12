@@ -18,10 +18,6 @@ final class SortAutoloadComposerJsonDecorator implements ComposerJsonDecoratorIn
             }
 
             foreach ($values as $autoloadType => $autoloadPaths) {
-                if ($autoloadType !== 'psr-4') {
-                    continue;
-                }
-
                 ksort($autoloadPaths);
                 $composerJson[$key][$autoloadType] = $autoloadPaths;
             }
