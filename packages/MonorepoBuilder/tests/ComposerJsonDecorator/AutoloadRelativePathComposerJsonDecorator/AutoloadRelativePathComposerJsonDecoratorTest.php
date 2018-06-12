@@ -28,17 +28,17 @@ final class AutoloadRelativePathComposerJsonDecoratorTest extends TestCase
     private $expectedComposerJson = [
         'autoload' => [
             'psr-4' => [
-                'App\\' => 'packages/MonorepoBuilder/tests/ComposerJsonDecorator/AutoloadRelativePathComposerJsonDecorator/Source/src',
+                'App\\' => self::RELATIVE_SOURCE_PATH . '/src',
                 'Shopsys\\' => [
-                    'packages/MonorepoBuilder/tests/ComposerJsonDecorator/AutoloadRelativePathComposerJsonDecorator/Source/app/',
-                    'packages/MonorepoBuilder/tests/ComposerJsonDecorator/AutoloadRelativePathComposerJsonDecorator/Source/src/Shopsys/',
+                    self::RELATIVE_SOURCE_PATH . '/app/',
+                    self::RELATIVE_SOURCE_PATH . '/src/Shopsys/',
                 ],
             ],
             'files' => [
-                'packages/MonorepoBuilder/tests/ComposerJsonDecorator/AutoloadRelativePathComposerJsonDecorator/Source/src/SomeFile.php',
+                self::RELATIVE_SOURCE_PATH . '/src/SomeFile.php',
             ],
             'classmap' => [
-                'packages/MonorepoBuilder/tests/ComposerJsonDecorator/AutoloadRelativePathComposerJsonDecorator/Source/src/SomeClass.php',
+                self::RELATIVE_SOURCE_PATH . '/src/SomeClass.php',
             ],
         ],
     ];
@@ -47,6 +47,11 @@ final class AutoloadRelativePathComposerJsonDecoratorTest extends TestCase
      * @var AutoloadRelativePathComposerJsonDecorator
      */
     private $autoloadRelativePathComposerJsonDecorator;
+
+    /**
+     * @var string
+     */
+    private const RELATIVE_SOURCE_PATH = 'packages/MonorepoBuilder/tests/ComposerJsonDecorator/AutoloadRelativePathComposerJsonDecorator/Source';
 
     protected function setUp(): void
     {
