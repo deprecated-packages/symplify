@@ -96,7 +96,16 @@ final class AutoloadRelativePathComposerJsonDecorator implements ComposerJsonDec
                     continue;
                 }
 
-                $composerJson[$key][$autoloadType][$namespace] = $this->prefixPath($packageComposerFile, $path);
+                if (is_array($path)) {
+                    foreach ($path as $i => $subPath) {
+                        $composerJson[$key][$autoloadType][$namespace][$i] = $this->prefixPath(
+                            $packageComposerFile,
+                            $subPath
+                        );
+                    }
+                } else {
+                    $composerJson[$key][$autoloadType][$namespace] = $this->prefixPath($packageComposerFile, $path);
+                }
             }
         }
 

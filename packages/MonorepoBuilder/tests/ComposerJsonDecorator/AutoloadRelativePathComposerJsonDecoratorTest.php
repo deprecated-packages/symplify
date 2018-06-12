@@ -15,6 +15,7 @@ final class AutoloadRelativePathComposerJsonDecoratorTest extends TestCase
         'autoload' => [
             'psr-4' => [
                 'App\\' => 'src',
+                'Shopsys\\' => ['app/', 'src/Shopsys/'],
             ],
             'files' => ['src/SomeFile.php'],
             'classmap' => ['src/SomeClass.php'],
@@ -28,6 +29,10 @@ final class AutoloadRelativePathComposerJsonDecoratorTest extends TestCase
         'autoload' => [
             'psr-4' => [
                 'App\\' => 'packages/MonorepoBuilder/tests/ComposerJsonDecorator/AutoloadRelativePathComposerJsonDecoratorSource/src',
+                'Shopsys\\' => [
+                    'packages/MonorepoBuilder/tests/ComposerJsonDecorator/AutoloadRelativePathComposerJsonDecoratorSource/app/',
+                    'packages/MonorepoBuilder/tests/ComposerJsonDecorator/AutoloadRelativePathComposerJsonDecoratorSource/src/Shopsys/',
+                ],
             ],
             'files' => [
                 'packages/MonorepoBuilder/tests/ComposerJsonDecorator/AutoloadRelativePathComposerJsonDecoratorSource/src/SomeFile.php',
