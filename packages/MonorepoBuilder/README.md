@@ -24,6 +24,10 @@ Merges following sections to the root `composer.json`, so you can only edit `com
 - 'require-dev'
 - 'autoload'
 - 'autoload-dev'
+- 'repositories'
+- 'scripts'
+- 'extra'
+- ...
 
 ```bash
 vendor/bin/monorepo-builder merge
