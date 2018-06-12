@@ -9,9 +9,18 @@ use Symplify\PackageBuilder\HttpKernel\AbstractCliKernel;
 
 final class MonorepoBuilderKernel extends AbstractCliKernel
 {
+    /**
+     * @var string|null
+     */
+    private $configFile;
+
     public function registerContainerConfiguration(LoaderInterface $loader): void
     {
         $loader->load(__DIR__ . '/../config/config.yml');
+
+        if ($this->configFile) {
+            $loader->load($this->configFile);
+        }
     }
 
     public function getCacheDir(): string
@@ -22,6 +31,12 @@ final class MonorepoBuilderKernel extends AbstractCliKernel
     public function getLogDir(): string
     {
         return sys_get_temp_dir() . '/_MonorepoBuilder_linker_logs';
+    }
+
+    public function bootWithConfig(string $config): void
+    {
+        $this->configFile = $config;
+        $this->boot();
     }
 
     protected function build(ContainerBuilder $containerBuilder): void
