@@ -30,10 +30,44 @@ final class RemoverComposerJsonDecorator implements ComposerJsonDecoratorInterfa
                 continue;
             }
 
-            if (in_array($key, ['require', 'require-dev'], true)) {
-                // process require*
-                foreach ($this->dataToRemove[$key] as $package => $version) {
-                    unset($composerJson[$key][$package]);
+            $composerJson = $this->processRequires($composerJson, $key);
+            $composerJson = $this->processAutoloads($composerJson, $key);
+        }
+
+        return $composerJson;
+    }
+
+    /**
+     * @param mixed[] $composerJson
+     * @return mixed[]
+     */
+    private function processRequires(array $composerJson, string $key): array
+    {
+        if (in_array($key, ['require', 'require-dev'], true)) {
+            return $composerJson;
+        }
+
+        foreach ($this->dataToRemove[$key] as $package => $version) {
+            unset($composerJson[$key][$package]);
+        }
+
+        return $composerJson;
+    }
+
+    /**
+     * @param mixed[] $composerJson
+     * @return mixed[]
+     */
+    private function processAutoloads(array $composerJson, string $key): array
+    {
+        if (! in_array($key, ['autoload', 'autoload-dev'], true)) {
+            return $composerJson;
+        }
+
+        foreach ($this->dataToRemove[$key] as $type => $autoloadList) {
+            if (is_array($autoloadList)) {
+                foreach ($autoloadList as $namespace => $path) {
+                    unset($composerJson[$key][$type][$namespace]);
                 }
             }
         }

@@ -15,6 +15,12 @@ final class RemoverComposerJsonDecoratorTest extends TestCase
             'phpunit/phpunit' => 'v1.0.0',
             'rector/rector' => 'v1.0.0',
         ],
+        'autoload-dev' => [
+            'psr-4' => [
+                'Symplify\Tests\\' => 'tests',
+                'Symplify\SuperTests\\' => 'super-tests',
+            ],
+        ],
     ];
 
     /**
@@ -23,6 +29,11 @@ final class RemoverComposerJsonDecoratorTest extends TestCase
     private $expectedComposerJson = [
         'require' => [
             'rector/rector' => 'v1.0.0',
+        ],
+        'autoload-dev' => [
+            'psr-4' => [
+                'Symplify\SuperTests\\' => 'super-tests',
+            ],
         ],
     ];
 
@@ -35,7 +46,12 @@ final class RemoverComposerJsonDecoratorTest extends TestCase
     {
         $this->removerComposerJsonDecorator = new RemoverComposerJsonDecorator([
             'require' => [
-                'phpunit/phpunit' => 'v1.0.0',
+                'phpunit/phpunit' => '*',
+            ],
+            'autoload-dev' => [
+                'psr-4' => [
+                    'Symplify\Tests\\' => 'tests',
+                ],
             ],
         ]);
     }
