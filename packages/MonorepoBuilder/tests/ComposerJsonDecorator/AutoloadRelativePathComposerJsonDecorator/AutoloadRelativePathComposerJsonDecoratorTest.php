@@ -34,12 +34,8 @@ final class AutoloadRelativePathComposerJsonDecoratorTest extends TestCase
                     self::RELATIVE_SOURCE_PATH . '/src/Shopsys/',
                 ],
             ],
-            'files' => [
-                self::RELATIVE_SOURCE_PATH . '/src/SomeFile.php',
-            ],
-            'classmap' => [
-                self::RELATIVE_SOURCE_PATH . '/src/SomeClass.php',
-            ],
+            'files' => [self::RELATIVE_SOURCE_PATH . '/src/SomeFile.php'],
+            'classmap' => [self::RELATIVE_SOURCE_PATH . '/src/SomeClass.php'],
         ],
     ];
 

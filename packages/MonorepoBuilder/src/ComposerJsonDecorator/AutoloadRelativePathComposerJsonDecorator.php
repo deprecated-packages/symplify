@@ -96,16 +96,7 @@ final class AutoloadRelativePathComposerJsonDecorator implements ComposerJsonDec
                     continue;
                 }
 
-                if (is_array($path)) {
-                    foreach ($path as $i => $subPath) {
-                        $composerJson[$key][$autoloadType][$namespace][$i] = $this->prefixPath(
-                            $packageComposerFile,
-                            $subPath
-                        );
-                    }
-                } else {
-                    $composerJson[$key][$autoloadType][$namespace] = $this->prefixPath($packageComposerFile, $path);
-                }
+                $composerJson[$key][$autoloadType][$namespace] = $this->prefixPath($packageComposerFile, $path);
             }
         }
 
@@ -142,8 +133,20 @@ final class AutoloadRelativePathComposerJsonDecorator implements ComposerJsonDec
         return $composerJson;
     }
 
-    private function prefixPath(SplFileInfo $packageComposerFile, string $path): string
+    /**
+     * @param string[]|string $path
+     * @return string[]|string
+     */
+    private function prefixPath(SplFileInfo $packageComposerFile, $path)
     {
+        if (is_array($path)) {
+            foreach ($path as $i => $singlePath) {
+                $path[$i] = $this->prefixPath($packageComposerFile, $singlePath);
+            }
+
+            return $path;
+        }
+
         $composerDirectory = dirname($packageComposerFile->getRealPath());
         $relativeDirectory = substr($composerDirectory, strlen(getcwd()) + 1);
 
