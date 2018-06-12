@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\MonorepoBuilder\Command;
+namespace Symplify\MonorepoBuilder\Console\Command;
 
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -38,7 +38,11 @@ final class MergeCommand extends Command
      */
     private $dependenciesMerger;
 
+    /**
+     * @param string[] $mergeSections
+     */
     public function __construct(
+        array $mergeSections,
         SymfonyStyle $symfonyStyle,
         PackageComposerJsonMerger $packageComposerJsonMerger,
         PackageComposerFinder $packageComposerFinder,
@@ -48,6 +52,7 @@ final class MergeCommand extends Command
         $this->packageComposerJsonMerger = $packageComposerJsonMerger;
         $this->packageComposerFinder = $packageComposerFinder;
         $this->dependenciesMerger = $dependenciesMerger;
+        $this->mergeSections = $mergeSections;
 
         parent::__construct();
     }
