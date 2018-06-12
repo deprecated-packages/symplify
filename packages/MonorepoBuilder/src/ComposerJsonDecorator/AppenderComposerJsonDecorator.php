@@ -3,6 +3,7 @@
 namespace Symplify\MonorepoBuilder\ComposerJsonDecorator;
 
 use Symplify\MonorepoBuilder\Contract\ComposerJsonDecoratorInterface;
+use Symplify\PackageBuilder\Yaml\ParametersMerger;
 
 final class AppenderComposerJsonDecorator implements ComposerJsonDecoratorInterface
 {
@@ -12,11 +13,17 @@ final class AppenderComposerJsonDecorator implements ComposerJsonDecoratorInterf
     private $dataToAppend = [];
 
     /**
+     * @var ParametersMerger
+     */
+    private $parametersMerger;
+
+    /**
      * @param mixed[] $dataToAppend
      */
-    public function __construct(array $dataToAppend)
+    public function __construct(array $dataToAppend, ParametersMerger $parametersMerger)
     {
         $this->dataToAppend = $dataToAppend;
+        $this->parametersMerger = $parametersMerger;
     }
 
     /**
@@ -30,7 +37,7 @@ final class AppenderComposerJsonDecorator implements ComposerJsonDecoratorInterf
                 continue;
             }
 
-            $composerJson[$key] += $this->dataToAppend[$key];
+            $composerJson[$key] = $this->parametersMerger->merge($this->dataToAppend[$key], $composerJson[$key]);
         }
 
         return $composerJson;

@@ -4,6 +4,7 @@ namespace Symplify\MonorepoBuilder\Tests\ComposerJsonDecorator;
 
 use PHPUnit\Framework\TestCase;
 use Symplify\MonorepoBuilder\ComposerJsonDecorator\AppenderComposerJsonDecorator;
+use Symplify\PackageBuilder\Yaml\ParametersMerger;
 
 final class AppenderComposerJsonDecoratorTest extends TestCase
 {
@@ -34,6 +35,7 @@ final class AppenderComposerJsonDecoratorTest extends TestCase
         'autoload' => [
             'psr-4' => [
                 'App\\' => 'src',
+                'Symplify\Tests\\' => 'tests',
             ],
         ],
     ];
@@ -53,11 +55,10 @@ final class AppenderComposerJsonDecoratorTest extends TestCase
             ],
             'autoload' => [
                 'psr-4' => [
-                    'App\\' => 'src',
                     'Symplify\Tests\\' => 'tests',
                 ],
             ],
-        ]);
+        ], new ParametersMerger());
     }
 
     public function test(): void
