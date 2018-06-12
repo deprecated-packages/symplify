@@ -70,7 +70,7 @@ final class AutoloadRelativePathComposerJsonDecorator implements ComposerJsonDec
             );
         }
 
-        if ($autoloadType === 'files') {
+        if (in_array($autoloadType, ['files', 'classmap'], true)) {
             $composerJson = $this->processFiles(
                 $composerJson,
                 $packageComposerFiles,

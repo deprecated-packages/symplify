@@ -5,6 +5,9 @@
         },
         "files": [
             "src/SomeFile.php"
+        ],
+        "classmap": [
+            "src/SomeClass.php"
         ]
     }
 }
