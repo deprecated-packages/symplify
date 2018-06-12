@@ -12,8 +12,8 @@ final class Application extends SymfonyApplication
     {
         $inputDefinition = parent::getDefaultInputDefinition();
 
-        // adds "--config" option
-        $inputDefinition->addOption(new InputOption('config', null, InputOption::VALUE_REQUIRED, 'Config file.'));
+        // adds "--config" | "-c" option
+        $inputDefinition->addOption(new InputOption('config', 'c', InputOption::VALUE_REQUIRED, 'Config file.'));
 
         return $inputDefinition;
     }
