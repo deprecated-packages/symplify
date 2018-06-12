@@ -7,5 +7,9 @@
         "psr-4": {
             "Some\\": "some"
         }
+    },
+    "repositories": {
+        "type": "vcs",
+        "url": "https://github.com/molaux/PostgreSearchBundle.git"
     }
 }

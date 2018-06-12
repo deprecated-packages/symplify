@@ -1,5 +1,5 @@
 parameters:
-    merge_sections: ['require', 'require-dev', 'autoload', 'autoload-dev']
+    merge_sections: ['require', 'require-dev', 'autoload', 'autoload-dev', 'repositories']
     package_directories:
         - 'packages'
     data_to_append: []

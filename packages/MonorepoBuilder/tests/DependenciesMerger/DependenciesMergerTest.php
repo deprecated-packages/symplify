@@ -16,7 +16,10 @@ final class DependenciesMergerTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->dependenciesMerger = new DependenciesMerger([Section::REQUIRE], new JsonFileManager());
+        $this->dependenciesMerger = new DependenciesMerger([
+            Section::REQUIRE,
+            Section::REPOSITORIES,
+        ], new JsonFileManager());
     }
 
     public function test(): void
@@ -25,6 +28,10 @@ final class DependenciesMergerTest extends TestCase
             'require' => [
                 'php' => '^7.1',
                 'symfony/dependency-injection' => '^4.1',
+            ],
+            'repositories' => [
+                'type' => 'vcs',
+                'url' => 'https://github.com/molaux/PostgreSearchBundle.git',
             ],
         ], __DIR__ . '/Source/root.json');
 
