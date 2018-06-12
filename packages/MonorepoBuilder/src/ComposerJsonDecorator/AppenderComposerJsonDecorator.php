@@ -4,8 +4,21 @@ namespace Symplify\MonorepoBuilder\ComposerJsonDecorator;
 
 use Symplify\MonorepoBuilder\Contract\ComposerJsonDecoratorInterface;
 
-final class RequireAppendComposerJsonDecorator implements ComposerJsonDecoratorInterface
+final class AppenderComposerJsonDecorator implements ComposerJsonDecoratorInterface
 {
+    /**
+     * @var mixed[]
+     */
+    private $dataToAppend = [];
+
+    /**
+     * @param mixed[] $dataToAppend
+     */
+    public function __construct(array $dataToAppend)
+    {
+        $this->dataToAppend = $dataToAppend;
+    }
+
     /**
      * @param mixed[] $composerJson
      * @return mixed[]
@@ -13,15 +26,11 @@ final class RequireAppendComposerJsonDecorator implements ComposerJsonDecoratorI
     public function decorate(array $composerJson): array
     {
         foreach ($composerJson as $key => $values) {
-            if ($key !== 'require-dev') {
+            if (! isset($this->dataToAppend[$key])) {
                 continue;
             }
 
-            $composerJson[$key] += [
-                'phpstan/phpstan' => '^0.9',
-                'tracy/tracy' => '^2.4',
-                'slam/php-cs-fixer-extensions' => '^1.15',
-            ];
+            $composerJson[$key] += $this->dataToAppend[$key];
         }
 
         return $composerJson;
