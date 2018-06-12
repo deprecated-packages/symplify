@@ -1,12 +1,12 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\ChangelogLinker\Console;
+namespace Symplify\PackageBuilder\Console;
 
-use Symfony\Component\Console\Application as SymfonyApplication;
+use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputOption;
 
-final class Application extends SymfonyApplication
+final class ConfigAwareApplication extends Application
 {
     protected function getDefaultInputDefinition(): InputDefinition
     {
