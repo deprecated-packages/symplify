@@ -2,6 +2,7 @@
 
 namespace Symplify\MonorepoBuilder\ComposerJsonDecorator;
 
+use Symplify\MonorepoBuilder\Composer\Section;
 use Symplify\MonorepoBuilder\Contract\ComposerJsonDecoratorInterface;
 
 final class RemoverComposerJsonDecorator implements ComposerJsonDecoratorInterface
@@ -43,7 +44,7 @@ final class RemoverComposerJsonDecorator implements ComposerJsonDecoratorInterfa
      */
     private function processRequires(array $composerJson, string $key): array
     {
-        if (! in_array($key, ['require', 'require-dev'], true)) {
+        if (! in_array($key, [Section::REQUIRE, Section::REQUIRE_DEV], true)) {
             return $composerJson;
         }
 
@@ -60,7 +61,7 @@ final class RemoverComposerJsonDecorator implements ComposerJsonDecoratorInterfa
      */
     private function processAutoloads(array $composerJson, string $key): array
     {
-        if (! in_array($key, ['autoload', 'autoload-dev'], true)) {
+        if (! in_array($key, [Section::AUTOLOAD, Section::AUTOLOAD_DEV], true)) {
             return $composerJson;
         }
 

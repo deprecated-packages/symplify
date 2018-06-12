@@ -25,13 +25,21 @@ final class PackageComposerFinder
      */
     public function getPackageComposerFiles(): array
     {
-        $iterator = Finder::create()
+        $finder = Finder::create()
             ->files()
             ->in($this->packageDirectories)
-            ->name('composer.json')
-            ->notPath('#tests#')
-            ->getIterator();
+            ->name('composer.json');
 
-        return iterator_to_array($iterator);
+        if (! $this->isPHPUnit()) {
+            $finder->notPath('#tests#');
+        }
+
+        return iterator_to_array($finder->getIterator());
+    }
+
+    private function isPHPUnit(): bool
+    {
+        // defined by PHPUnit
+        return defined('PHPUNIT_COMPOSER_INSTALL') || defined('__PHPUNIT_PHAR__');
     }
 }
