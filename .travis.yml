@@ -51,6 +51,9 @@ after_script:
     fi
   # split monorepo to packages (done via Travis Cron Job)
   - if [[ $TRAVIS_EVENT_TYPE = "cron" && $MONOREPO_SPLIT != "" ]]; then bin/subtree-split-last-tag.sh; fi
+  - |
+    echo $TRAVIS_EVENT_TYPE
+    echo $MONOREPO_SPLIT
 
 notifications:
   email: never
