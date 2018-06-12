@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\MonorepoBuilder\Tests\ComposerJsonDecorator\AutoloadRelativePathComposerJsonDecoratorTest;
+namespace Symplify\MonorepoBuilder\Tests\ComposerJsonDecorator\AutoloadRelativePathComposerJsonDecorator;
 
 use PHPUnit\Framework\TestCase;
 use Symplify\MonorepoBuilder\ComposerJsonDecorator\AutoloadRelativePathComposerJsonDecorator;

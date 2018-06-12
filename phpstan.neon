@@ -10,6 +10,7 @@ parameters:
         - '#Parameter \#1 \$id of class Symfony\\Component\\DependencyInjection\\Reference constructor expects string, string\|null given#'
 
         # is valid code, known values
+        - '#Method Symplify\\MonorepoBuilder\\ComposerJsonDecorator\\AutoloadRelativePathComposerJsonDecorator::prefixPath\(\) should return array<string>\|string but returns array<array<string>\|string>#'
         - '#Access to an undefined property PHPStan\\PhpDocParser\\Ast\\(Type\\TypeNode::\$name|PhpDoc\\PhpDocTagValueNode::\$type)#'
         - '#Accessing property \$name on possibly null value of type|types PHPStan\\PhpDocParser\\Ast\\Type\\TypeNode\|null#'
 
