@@ -29,6 +29,25 @@ Merges following sections to the root `composer.json`, so you can only edit `com
 vendor/bin/monorepo-builder merge
 ```
 
+#### After Merge Options
+
+Do you need to add or remove some packages only to root `composer.json`?
+
+```php
+# monorepo-builder.yml
+parameters:
+    data_to_append:
+        autoload-dev:
+            psr-4:
+                'Symplify\Tests\': 'tests'
+        require-dev:
+            phpstan/phpstan: '^0.9'
+
+    data_to_remove:
+        require:
+            'phpunit/phpunit': '*'
+```
+
 ### 2. Bump Package Inter-dependencies
 
 Let's say you release `symplify/symplify` 4.0 and you need package to depend on version `^4.0` for each other.

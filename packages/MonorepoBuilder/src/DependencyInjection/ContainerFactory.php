@@ -13,4 +13,12 @@ final class ContainerFactory
 
         return $appKernel->getContainer();
     }
+
+    public function createWithConfig(string $config): ContainerInterface
+    {
+        $appKernel = new MonorepoBuilderKernel();
+        $appKernel->bootWithConfig($config);
+
+        return $appKernel->getContainer();
+    }
 }

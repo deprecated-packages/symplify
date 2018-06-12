@@ -3,6 +3,7 @@
 namespace Symplify\MonorepoBuilder\ComposerJsonDecorator;
 
 use Composer\Json\JsonManipulator;
+use Symplify\MonorepoBuilder\Composer\Section;
 use Symplify\MonorepoBuilder\Contract\ComposerJsonDecoratorInterface;
 use Symplify\PackageBuilder\Reflection\PrivatesCaller;
 
@@ -20,7 +21,7 @@ final class SortRequireComposerJsonDecorator implements ComposerJsonDecoratorInt
         }
 
         foreach ($composerJson as $key => $values) {
-            if (! in_array($key, ['require', 'require-dev'], true)) {
+            if (! in_array($key, [Section::REQUIRE, Section::REQUIRE_DEV], true)) {
                 continue;
             }
 

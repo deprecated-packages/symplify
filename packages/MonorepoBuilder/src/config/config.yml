@@ -1,7 +1,9 @@
 parameters:
-    merge_sections: ['require', 'require-dev', 'autoload', 'autoload-dev']
+    merge_sections: ['require', 'require-dev', 'autoload', 'autoload-dev', 'repositories']
     package_directories:
         - 'packages'
+    data_to_append: []
+    data_to_remove: []
 
 services:
     _defaults:
@@ -9,6 +11,8 @@ services:
         bind:
             $mergeSections: '%merge_sections%'
             $packageDirectories: '%package_directories%'
+            $dataToAppend: '%data_to_append%'
+            $dataToRemove: '%data_to_remove%'
 
     Symplify\MonorepoBuilder\:
         resource: '..'
@@ -16,7 +20,7 @@ services:
 
     Symplify\PackageBuilder\Yaml\ParametersMerger: ~
 
-    Symfony\Component\Console\Application:
+    Symplify\PackageBuilder\Console\ConfigAwareApplication:
         public: true # for bin file
 
     # SymfonyStyle

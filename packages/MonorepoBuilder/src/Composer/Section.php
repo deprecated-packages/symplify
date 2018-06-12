@@ -13,4 +13,19 @@ final class Section
      * @var string
      */
     public const REQUIRE_DEV = 'require-dev';
+
+    /**
+     * @var string
+     */
+    public const AUTOLOAD = 'autoload';
+
+    /**
+     * @var string
+     */
+    public const AUTOLOAD_DEV = 'autoload-dev';
+
+    /**
+     * @var string
+     */
+    public const REPOSITORIES = 'repositories';
 }

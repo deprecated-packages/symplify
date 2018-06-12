@@ -3,6 +3,7 @@
 namespace Symplify\MonorepoBuilder\ComposerJsonDecorator;
 
 use Nette\Utils\Strings;
+use Symplify\MonorepoBuilder\Composer\Section;
 use Symplify\MonorepoBuilder\Contract\ComposerJsonDecoratorInterface;
 
 /**
@@ -26,7 +27,7 @@ final class RootRemoveComposerJsonDecorator implements ComposerJsonDecoratorInte
         [$vendorName, ] = explode('/', $composerJson['name']);
 
         foreach ($composerJson as $key => $values) {
-            if (! in_array($key, ['require', 'require-dev'], true)) {
+            if (! in_array($key, [Section::REQUIRE, Section::REQUIRE_DEV], true)) {
                 continue;
             }
 

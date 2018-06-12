@@ -2,6 +2,7 @@
 
 namespace Symplify\MonorepoBuilder\ComposerJsonDecorator;
 
+use Symplify\MonorepoBuilder\Composer\Section;
 use Symplify\MonorepoBuilder\Contract\ComposerJsonDecoratorInterface;
 
 final class SortAutoloadComposerJsonDecorator implements ComposerJsonDecoratorInterface
@@ -13,15 +14,11 @@ final class SortAutoloadComposerJsonDecorator implements ComposerJsonDecoratorIn
     public function decorate(array $composerJson): array
     {
         foreach ($composerJson as $key => $values) {
-            if (! in_array($key, ['autoload', 'autoload-dev'], true)) {
+            if (! in_array($key, [Section::AUTOLOAD, Section::AUTOLOAD_DEV], true)) {
                 continue;
             }
 
             foreach ($values as $autoloadType => $autoloadPaths) {
-                if ($autoloadType !== 'psr-4') {
-                    continue;
-                }
-
                 ksort($autoloadPaths);
                 $composerJson[$key][$autoloadType] = $autoloadPaths;
             }

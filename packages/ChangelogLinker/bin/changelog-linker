@@ -4,14 +4,14 @@
 require_once __DIR__ . '/changelog-linker-bootstrap.php';
 
 use Psr\Container\ContainerInterface;
-use Symplify\ChangelogLinker\Console\Application;
+use Symplify\PackageBuilder\Console\ConfigAwareApplication;
 use Symplify\PackageBuilder\Console\ThrowableRenderer;
 
 try {
     /** @var ContainerInterface $container */
     $container = require_once __DIR__ . '/changelog-linker-container.php';
 
-    $application = $container->get(Application::class);
+    $application = $container->get(ConfigAwareApplication::class);
     exit($application->run());
 } catch (Throwable $throwable) {
     (new ThrowableRenderer())->render($throwable);

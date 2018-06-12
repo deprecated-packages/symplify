@@ -3,13 +3,15 @@
 
 require_once __DIR__ . '/monorepo-builder-bootstrap.php';
 
-use Symfony\Component\Console\Application;
-use Symplify\MonorepoBuilder\DependencyInjection\ContainerFactory;
+use Psr\Container\ContainerInterface;
+use Symplify\PackageBuilder\Console\ConfigAwareApplication;
 use Symplify\PackageBuilder\Console\ThrowableRenderer;
 
 try {
-    $container = (new ContainerFactory())->create();
-    $application = $container->get(Application::class);
+    /** @var ContainerInterface $container */
+    $container = require_once __DIR__ . '/monorepo-builder-container.php';
+
+    $application = $container->get(ConfigAwareApplication::class);
     $application->run();
 } catch (Throwable $throwable) {
     (new ThrowableRenderer())->render($throwable);

@@ -1,16 +1,17 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\MonorepoBuilder\Command;
+namespace Symplify\MonorepoBuilder\Console\Command;
 
+use PharIo\Version\Version;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symplify\MonorepoBuilder\DevMasterAliasUpdater;
 use Symplify\MonorepoBuilder\PackageComposerFinder;
-use Symplify\MonorepoBuilder\VersionValidator;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
 
-final class ValidateVersionsCommand extends Command
+final class PackageAliasCommand extends Command
 {
     /**
      * @var SymfonyStyle
@@ -23,18 +24,18 @@ final class ValidateVersionsCommand extends Command
     private $packageComposerFinder;
 
     /**
-     * @var VersionValidator
+     * @var DevMasterAliasUpdater
      */
-    private $versionValidator;
+    private $devMasterAliasUpdater;
 
     public function __construct(
         SymfonyStyle $symfonyStyle,
         PackageComposerFinder $packageComposerFinder,
-        VersionValidator $versionValidator
+        DevMasterAliasUpdater $devMasterAliasUpdater
     ) {
         $this->symfonyStyle = $symfonyStyle;
         $this->packageComposerFinder = $packageComposerFinder;
-        $this->versionValidator = $versionValidator;
+        $this->devMasterAliasUpdater = $devMasterAliasUpdater;
 
         parent::__construct();
     }
@@ -42,7 +43,7 @@ final class ValidateVersionsCommand extends Command
     protected function configure(): void
     {
         $this->setName(CommandNaming::classToName(self::class));
-        $this->setDescription('Validates synchronized versions in "composer.json" in all found packages.');
+        $this->setDescription('Updates branch alias in "composer.json" all found packages');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -53,11 +54,25 @@ final class ValidateVersionsCommand extends Command
             return 1;
         }
 
-        $this->versionValidator->validateFileInfos($composerPackageFiles);
+        $alias = $this->getExpectedAlias();
 
-        $this->symfonyStyle->success('All packages "composer.json" files use same package versions.');
+        $this->devMasterAliasUpdater->updateFileInfosWithAlias($composerPackageFiles, $alias);
+        $this->symfonyStyle->success(sprintf('Alias "dev-master" was updated to "%s" in all packages.', $alias));
 
         // success
         return 0;
+    }
+
+    private function getExpectedAlias(): string
+    {
+        $lastTag = exec('git describe --abbrev=0 --tags');
+
+        $lastTagVersion = new Version($lastTag);
+
+        return sprintf(
+            '%d.%d-dev',
+            $lastTagVersion->getMajor()->getValue(),
+            $lastTagVersion->getMinor()->getValue() + 1
+        );
     }
 }

@@ -1,19 +1,19 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\ChangelogLinker\Console;
+namespace Symplify\PackageBuilder\Console;
 
-use Symfony\Component\Console\Application as SymfonyApplication;
+use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputOption;
 
-final class Application extends SymfonyApplication
+final class ConfigAwareApplication extends Application
 {
     protected function getDefaultInputDefinition(): InputDefinition
     {
         $inputDefinition = parent::getDefaultInputDefinition();
 
-        // adds "--config" option
-        $inputDefinition->addOption(new InputOption('config', null, InputOption::VALUE_REQUIRED, 'Config file.'));
+        // adds "--config" | "-c" option
+        $inputDefinition->addOption(new InputOption('config', 'c', InputOption::VALUE_REQUIRED, 'Config file.'));
 
         return $inputDefinition;
     }

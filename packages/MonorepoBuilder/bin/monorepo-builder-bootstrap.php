@@ -1,12 +1,9 @@
 <?php declare(strict_types=1);
 
-/**
- * This allows to load "vendor/autoload.php" both from
- * "composer create-project ..." and "composer require" installation.
- */
 $possibleAutoloadPaths = [
-    __DIR__ . '/../../../autoload.php',
+    // dependency
     __DIR__ . '/../vendor/autoload.php',
+    // monorepo
     __DIR__ . '/../../../vendor/autoload.php',
 ];
 

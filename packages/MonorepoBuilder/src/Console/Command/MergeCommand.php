@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\MonorepoBuilder\Command;
+namespace Symplify\MonorepoBuilder\Console\Command;
 
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -38,7 +38,11 @@ final class MergeCommand extends Command
      */
     private $dependenciesMerger;
 
+    /**
+     * @param string[] $mergeSections
+     */
     public function __construct(
+        array $mergeSections,
         SymfonyStyle $symfonyStyle,
         PackageComposerJsonMerger $packageComposerJsonMerger,
         PackageComposerFinder $packageComposerFinder,
@@ -48,6 +52,7 @@ final class MergeCommand extends Command
         $this->packageComposerJsonMerger = $packageComposerJsonMerger;
         $this->packageComposerFinder = $packageComposerFinder;
         $this->dependenciesMerger = $dependenciesMerger;
+        $this->mergeSections = $mergeSections;
 
         parent::__construct();
     }
@@ -66,7 +71,21 @@ final class MergeCommand extends Command
             return 1;
         }
 
+        if ($this->mergeSections === []) {
+            $this->symfonyStyle->error(
+                'The "merge_sections:" parameter is empty, add "require", "require-dev", "autoload", "autoload-dev" and or "repositories" to your config'
+            );
+            return 1;
+        }
+
         $merged = $this->packageComposerJsonMerger->mergeFileInfos($composerPackageFiles, $this->mergeSections);
+
+        if ($merged === []) {
+            $this->symfonyStyle->note('Nothing to merge.');
+            // success
+            return 0;
+        }
+
         $this->dependenciesMerger->mergeJsonToRootFilePath($merged, getcwd() . DIRECTORY_SEPARATOR . 'composer.json');
 
         $this->symfonyStyle->success('Main "composer.json" was updated.');

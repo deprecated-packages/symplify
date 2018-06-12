@@ -4,7 +4,8 @@
     "license": "MIT",
     "bin": [
         "bin/monorepo-builder",
-        "bin/monorepo-builder-bootstrap.php"
+        "bin/monorepo-builder-bootstrap.php",
+        "bin/monorepo-builder-container.php"
     ],
     "require": {
         "php": "^7.1",

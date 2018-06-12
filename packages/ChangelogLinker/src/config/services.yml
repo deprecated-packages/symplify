@@ -12,8 +12,10 @@ services:
         resource: ".."
         exclude: "../{Contract,Exception,Worker,ChangeTree/Change.php}"
 
-    Symplify\ChangelogLinker\Console\Application:
+    Symplify\PackageBuilder\Console\ConfigAwareApplication:
         public: true # for bin file
+
+    Symplify\PackageBuilder\Yaml\ParametersMerger: ~
 
     GuzzleHttp\Client: ~
 

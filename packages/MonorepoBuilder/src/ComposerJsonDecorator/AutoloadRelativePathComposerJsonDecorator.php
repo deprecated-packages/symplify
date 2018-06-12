@@ -4,6 +4,7 @@ namespace Symplify\MonorepoBuilder\ComposerJsonDecorator;
 
 use Nette\Utils\Strings;
 use Symfony\Component\Finder\SplFileInfo;
+use Symplify\MonorepoBuilder\Composer\Section;
 use Symplify\MonorepoBuilder\Contract\ComposerJsonDecoratorInterface;
 use Symplify\MonorepoBuilder\PackageComposerFinder;
 
@@ -28,15 +29,11 @@ final class AutoloadRelativePathComposerJsonDecorator implements ComposerJsonDec
         $packageComposerFiles = $this->packageComposerFinder->getPackageComposerFiles();
 
         foreach ($composerJson as $key => $values) {
-            if (! in_array($key, ['autoload', 'autoload-dev'], true)) {
+            if (! in_array($key, [Section::AUTOLOAD, Section::AUTOLOAD_DEV], true)) {
                 continue;
             }
 
             foreach ($values as $autoloadType => $autoloadPaths) {
-                if ($autoloadType !== 'psr-4') {
-                    continue;
-                }
-
                 $composerJson = $this->processAutoloadPaths(
                     $composerJson,
                     $autoloadPaths,
@@ -63,19 +60,84 @@ final class AutoloadRelativePathComposerJsonDecorator implements ComposerJsonDec
         string $key,
         string $autoloadType
     ): array {
+        $composerJson = $this->processPsr4(
+            $composerJson,
+            $packageComposerFiles,
+            $key,
+            $autoloadType,
+            $autoloadPaths
+        );
+
+        return $this->processFiles($composerJson, $packageComposerFiles, $key, $autoloadType, $autoloadPaths);
+    }
+
+    /**
+     * @param mixed[] $composerJson
+     * @param mixed[] $packageComposerFiles
+     * @param mixed[] $autoloadPaths
+     * @return mixed[]
+     */
+    private function processPsr4(
+        array $composerJson,
+        array $packageComposerFiles,
+        string $key,
+        string $autoloadType,
+        array $autoloadPaths
+    ): array {
+        if (! in_array($autoloadType, ['psr-0', 'psr-4'], true)) {
+            return $composerJson;
+        }
+
         foreach ($autoloadPaths as $namespace => $path) {
             foreach ($packageComposerFiles as $packageComposerFile) {
                 $namespaceWithSlashes = addslashes($namespace);
+
                 if (! Strings::contains($packageComposerFile->getContents(), $namespaceWithSlashes)) {
                     continue;
                 }
 
-                $relativeDirectory = substr($packageComposerFile->getPath(), strlen(getcwd()) + 1);
-                $path = $relativeDirectory . DIRECTORY_SEPARATOR . $path;
-
-                $composerJson[$key][$autoloadType][$namespace] = $path;
+                $composerJson[$key][$autoloadType][$namespace] = $this->prefixPath($packageComposerFile, $path);
             }
         }
+
         return $composerJson;
+    }
+
+    /**
+     * @param mixed[] $composerJson
+     * @param mixed[] $packageComposerFiles
+     * @param string[] $files
+     * @return mixed[]
+     */
+    private function processFiles(
+        array $composerJson,
+        array $packageComposerFiles,
+        string $key,
+        string $autoloadType,
+        array $files
+    ): array {
+        if (! in_array($autoloadType, ['files', 'classmap'], true)) {
+            return $composerJson;
+        }
+
+        foreach ($files as $i => $file) {
+            foreach ($packageComposerFiles as $packageComposerFile) {
+                if (! Strings::contains($packageComposerFile->getContents(), $file)) {
+                    continue;
+                }
+
+                $composerJson[$key][$autoloadType][$i] = $this->prefixPath($packageComposerFile, $file);
+            }
+        }
+
+        return $composerJson;
+    }
+
+    private function prefixPath(SplFileInfo $packageComposerFile, string $path): string
+    {
+        $composerDirectory = dirname($packageComposerFile->getRealPath());
+        $relativeDirectory = substr($composerDirectory, strlen(getcwd()) + 1);
+
+        return $relativeDirectory . DIRECTORY_SEPARATOR . $path;
     }
 }

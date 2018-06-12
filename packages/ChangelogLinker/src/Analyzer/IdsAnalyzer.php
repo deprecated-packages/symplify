@@ -3,19 +3,29 @@
 namespace Symplify\ChangelogLinker\Analyzer;
 
 use Nette\Utils\Strings;
-use Symplify\ChangelogLinker\Regex\RegexPattern;
 
 final class IdsAnalyzer
 {
-    public function getLastIdInChangelog(string $filePath): int
+    /**
+     * @var string
+     *
+     * Covers cases like:
+     * - #5 Add this => 5
+     * - [#10] Change tha => 10
+     */
+    private const PR_REFERENCE_IN_LIST = '#- \[?(\#(?<id>[0-9]+))\]?#';
+
+    public function getHighestIdInChangelog(string $filePath): int
     {
         $changelogContent = file_get_contents($filePath);
 
-        $match = Strings::match($changelogContent, '#' . RegexPattern::PR_OR_ISSUE . '#');
-        if ($match) {
-            return (int) $match['id'];
+        $matches = Strings::matchAll($changelogContent, self::PR_REFERENCE_IN_LIST);
+        if (! $matches) {
+            return 1;
         }
 
-        return 1;
+        $ids = array_column($matches, 'id');
+
+        return (int) max(($ids));
     }
 }
