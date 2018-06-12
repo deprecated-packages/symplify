@@ -2,6 +2,7 @@ parameters:
     merge_sections: ['require', 'require-dev', 'autoload', 'autoload-dev']
     package_directories:
         - 'packages'
+    data_to_append: []
 
 services:
     _defaults:
@@ -9,6 +10,7 @@ services:
         bind:
             $mergeSections: '%merge_sections%'
             $packageDirectories: '%package_directories%'
+            $dataToAppend: '%data_to_append%'
 
     Symplify\MonorepoBuilder\:
         resource: '..'

@@ -16,9 +16,9 @@ final class AppenderComposerJsonDecoratorTest extends TestCase
         ],
         'autoload' => [
             'psr-4' => [
-                'App\\' => 'src'
-            ]
-        ]
+                'App\\' => 'src',
+            ],
+        ],
     ];
 
     /**
@@ -33,9 +33,9 @@ final class AppenderComposerJsonDecoratorTest extends TestCase
         ],
         'autoload' => [
             'psr-4' => [
-                'App\\' => 'src'
-            ]
-        ]
+                'App\\' => 'src',
+            ],
+        ],
     ];
 
     /**
@@ -54,9 +54,9 @@ final class AppenderComposerJsonDecoratorTest extends TestCase
             'autoload' => [
                 'psr-4' => [
                     'App\\' => 'src',
-                    'Symplify\Tests\\' => 'tests'
-                ]
-            ]
+                    'Symplify\Tests\\' => 'tests',
+                ],
+            ],
         ]);
     }
 
