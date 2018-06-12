@@ -109,13 +109,12 @@ final class DumpMergesCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $lastIdInChangelog = $this->idsAnalyzer->getLastIdInChangelog(getcwd() . '/CHANGELOG.md');
-
-        $pullRequests = $this->githubApi->getClosedPullRequestsSinceId($lastIdInChangelog);
+        $highestIdInChangelog = $this->idsAnalyzer->getHighestIdInChangelog(getcwd() . '/CHANGELOG.md');
+        $pullRequests = $this->githubApi->getClosedPullRequestsSinceId($highestIdInChangelog);
 
         if (count($pullRequests) === 0) {
             $this->symfonyStyle->note(
-                sprintf('There are no new pull requests to be added since ID "%d".', $lastIdInChangelog)
+                sprintf('There are no new pull requests to be added since ID "%d".', $highestIdInChangelog)
             );
 
             // success
