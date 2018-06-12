@@ -3,6 +3,7 @@ parameters:
     package_directories:
         - 'packages'
     data_to_append: []
+    data_to_remove: []
 
 services:
     _defaults:
@@ -11,6 +12,7 @@ services:
             $mergeSections: '%merge_sections%'
             $packageDirectories: '%package_directories%'
             $dataToAppend: '%data_to_append%'
+            $dataToRemove: '%data_to_remove%'
 
     Symplify\MonorepoBuilder\:
         resource: '..'

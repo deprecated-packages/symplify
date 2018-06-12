@@ -3,9 +3,9 @@
 namespace Symplify\MonorepoBuilder\Tests\ComposerJsonDecorator;
 
 use PHPUnit\Framework\TestCase;
-use Symplify\MonorepoBuilder\ComposerJsonDecorator\RequireRemoveComposerJsonDecorator;
+use Symplify\MonorepoBuilder\ComposerJsonDecorator\RemoverComposerJsonDecorator;
 
-final class RequireRemoveComposerJsonDecoratorTest extends TestCase
+final class RemoverComposerJsonDecoratorTest extends TestCase
 {
     /**
      * @var mixed[]
@@ -27,18 +27,22 @@ final class RequireRemoveComposerJsonDecoratorTest extends TestCase
     ];
 
     /**
-     * @var RequireRemoveComposerJsonDecorator
+     * @var RemoverComposerJsonDecorator
      */
-    private $requireRemoveComposerJsonDecorator;
+    private $removerComposerJsonDecorator;
 
     protected function setUp(): void
     {
-        $this->requireRemoveComposerJsonDecorator = new RequireRemoveComposerJsonDecorator();
+        $this->removerComposerJsonDecorator = new RemoverComposerJsonDecorator([
+            'require' => [
+                'phpunit/phpunit' => 'v1.0.0',
+            ],
+        ]);
     }
 
     public function test(): void
     {
-        $decorated = $this->requireRemoveComposerJsonDecorator->decorate($this->composerJson);
+        $decorated = $this->removerComposerJsonDecorator->decorate($this->composerJson);
 
         $this->assertSame($this->expectedComposerJson, $decorated);
     }
