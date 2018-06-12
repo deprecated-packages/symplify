@@ -1,7 +1,11 @@
 {
     "autoload": {
         "psr-4": {
-            "App\\": "src"
+            "App\\": "src",
+            "Shopsys\\": [
+                "app/",
+                "src/Shopsys/"
+            ]
         },
         "files": [
             "src/SomeFile.php"

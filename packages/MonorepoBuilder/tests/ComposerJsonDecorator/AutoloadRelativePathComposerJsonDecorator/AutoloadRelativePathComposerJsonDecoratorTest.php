@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\MonorepoBuilder\Tests\ComposerJsonDecorator;
+namespace Symplify\MonorepoBuilder\Tests\ComposerJsonDecorator\AutoloadRelativePathComposerJsonDecoratorTest;
 
 use PHPUnit\Framework\TestCase;
 use Symplify\MonorepoBuilder\ComposerJsonDecorator\AutoloadRelativePathComposerJsonDecorator;
@@ -15,6 +15,7 @@ final class AutoloadRelativePathComposerJsonDecoratorTest extends TestCase
         'autoload' => [
             'psr-4' => [
                 'App\\' => 'src',
+                'Shopsys\\' => ['app/', 'src/Shopsys/'],
             ],
             'files' => ['src/SomeFile.php'],
             'classmap' => ['src/SomeClass.php'],
@@ -27,14 +28,14 @@ final class AutoloadRelativePathComposerJsonDecoratorTest extends TestCase
     private $expectedComposerJson = [
         'autoload' => [
             'psr-4' => [
-                'App\\' => 'packages/MonorepoBuilder/tests/ComposerJsonDecorator/AutoloadRelativePathComposerJsonDecoratorSource/src',
+                'App\\' => self::RELATIVE_SOURCE_PATH . '/src',
+                'Shopsys\\' => [
+                    self::RELATIVE_SOURCE_PATH . '/app/',
+                    self::RELATIVE_SOURCE_PATH . '/src/Shopsys/',
+                ],
             ],
-            'files' => [
-                'packages/MonorepoBuilder/tests/ComposerJsonDecorator/AutoloadRelativePathComposerJsonDecoratorSource/src/SomeFile.php',
-            ],
-            'classmap' => [
-                'packages/MonorepoBuilder/tests/ComposerJsonDecorator/AutoloadRelativePathComposerJsonDecoratorSource/src/SomeClass.php',
-            ],
+            'files' => [self::RELATIVE_SOURCE_PATH . '/src/SomeFile.php'],
+            'classmap' => [self::RELATIVE_SOURCE_PATH . '/src/SomeClass.php'],
         ],
     ];
 
@@ -43,11 +44,14 @@ final class AutoloadRelativePathComposerJsonDecoratorTest extends TestCase
      */
     private $autoloadRelativePathComposerJsonDecorator;
 
+    /**
+     * @var string
+     */
+    private const RELATIVE_SOURCE_PATH = 'packages/MonorepoBuilder/tests/ComposerJsonDecorator/AutoloadRelativePathComposerJsonDecorator/Source';
+
     protected function setUp(): void
     {
-        $packageComposerFinder = new PackageComposerFinder([
-            __DIR__ . '/AutoloadRelativePathComposerJsonDecoratorSource',
-        ]);
+        $packageComposerFinder = new PackageComposerFinder([__DIR__ . '/Source']);
 
         $this->autoloadRelativePathComposerJsonDecorator = new AutoloadRelativePathComposerJsonDecorator(
             $packageComposerFinder
