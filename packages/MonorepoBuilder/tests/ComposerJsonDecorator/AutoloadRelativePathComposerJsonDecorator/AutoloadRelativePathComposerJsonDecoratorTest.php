@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\MonorepoBuilder\Tests\ComposerJsonDecorator;
+namespace Symplify\MonorepoBuilder\Tests\ComposerJsonDecorator\AutoloadRelativePathComposerJsonDecoratorTest;
 
 use PHPUnit\Framework\TestCase;
 use Symplify\MonorepoBuilder\ComposerJsonDecorator\AutoloadRelativePathComposerJsonDecorator;
@@ -28,17 +28,17 @@ final class AutoloadRelativePathComposerJsonDecoratorTest extends TestCase
     private $expectedComposerJson = [
         'autoload' => [
             'psr-4' => [
-                'App\\' => 'packages/MonorepoBuilder/tests/ComposerJsonDecorator/AutoloadRelativePathComposerJsonDecoratorSource/src',
+                'App\\' => 'packages/MonorepoBuilder/tests/ComposerJsonDecorator/AutoloadRelativePathComposerJsonDecorator/Source/src',
                 'Shopsys\\' => [
-                    'packages/MonorepoBuilder/tests/ComposerJsonDecorator/AutoloadRelativePathComposerJsonDecoratorSource/app/',
-                    'packages/MonorepoBuilder/tests/ComposerJsonDecorator/AutoloadRelativePathComposerJsonDecoratorSource/src/Shopsys/',
+                    'packages/MonorepoBuilder/tests/ComposerJsonDecorator/AutoloadRelativePathComposerJsonDecorator/Source/app/',
+                    'packages/MonorepoBuilder/tests/ComposerJsonDecorator/AutoloadRelativePathComposerJsonDecorator/Source/src/Shopsys/',
                 ],
             ],
             'files' => [
-                'packages/MonorepoBuilder/tests/ComposerJsonDecorator/AutoloadRelativePathComposerJsonDecoratorSource/src/SomeFile.php',
+                'packages/MonorepoBuilder/tests/ComposerJsonDecorator/AutoloadRelativePathComposerJsonDecorator/Source/src/SomeFile.php',
             ],
             'classmap' => [
-                'packages/MonorepoBuilder/tests/ComposerJsonDecorator/AutoloadRelativePathComposerJsonDecoratorSource/src/SomeClass.php',
+                'packages/MonorepoBuilder/tests/ComposerJsonDecorator/AutoloadRelativePathComposerJsonDecorator/Source/src/SomeClass.php',
             ],
         ],
     ];
@@ -50,9 +50,7 @@ final class AutoloadRelativePathComposerJsonDecoratorTest extends TestCase
 
     protected function setUp(): void
     {
-        $packageComposerFinder = new PackageComposerFinder([
-            __DIR__ . '/AutoloadRelativePathComposerJsonDecoratorSource',
-        ]);
+        $packageComposerFinder = new PackageComposerFinder([__DIR__ . '/Source']);
 
         $this->autoloadRelativePathComposerJsonDecorator = new AutoloadRelativePathComposerJsonDecorator(
             $packageComposerFinder
