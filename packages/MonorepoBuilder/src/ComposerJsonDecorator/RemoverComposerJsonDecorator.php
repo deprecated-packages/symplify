@@ -43,7 +43,7 @@ final class RemoverComposerJsonDecorator implements ComposerJsonDecoratorInterfa
      */
     private function processRequires(array $composerJson, string $key): array
     {
-        if (in_array($key, ['require', 'require-dev'], true)) {
+        if (! in_array($key, ['require', 'require-dev'], true)) {
             return $composerJson;
         }
 
@@ -65,6 +65,10 @@ final class RemoverComposerJsonDecorator implements ComposerJsonDecoratorInterfa
         }
 
         foreach ($this->dataToRemove[$key] as $type => $autoloadList) {
+            if (! isset($composerJson[$key][$type])) {
+                continue;
+            }
+
             if (is_array($autoloadList)) {
                 foreach ($autoloadList as $namespace => $path) {
                     unset($composerJson[$key][$type][$namespace]);
