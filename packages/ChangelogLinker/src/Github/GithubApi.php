@@ -49,7 +49,7 @@ final class GithubApi
 
         $result = $this->createJsonArrayFromResponse($response);
 
-        return $this->filterOutPullRequestsWithIdLesserThen($result, $id);
+        return $this->filterOutPullRequestsWithIdLesserThan($result, $id);
     }
 
     /**
@@ -79,7 +79,7 @@ final class GithubApi
      * @param mixed[] $pullRequests
      * @return mixed[]
      */
-    private function filterOutPullRequestsWithIdLesserThen(array $pullRequests, int $id): array
+    private function filterOutPullRequestsWithIdLesserThan(array $pullRequests, int $id): array
     {
         return array_filter($pullRequests, function (array $pullRequest) use ($id) {
             return $pullRequest['number'] > $id;
