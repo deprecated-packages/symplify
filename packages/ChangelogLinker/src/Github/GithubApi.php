@@ -25,9 +25,9 @@ final class GithubApi
     private $repositoryName;
 
     /**
-     * @var string
+     * @var mixed[]
      */
-    private $token;
+    private $options = [];
 
     /**
      * @todo guess from "composer.json" if not filled
@@ -62,12 +62,7 @@ final class GithubApi
 
     private function getResponseToUrl(string $url): ResponseInterface
     {
-        $options = [];
-        if ($this->token) {
-            $options['headers']['Authorization'] = 'token ' . $this->token;
-        }
-
-        $response = $this->client->request('GET', $url, $options);
+        $response = $this->client->request('GET', $url, $this->options);
 
         if ($response->getStatusCode() !== 200) {
             throw new GithubApiException(sprintf(
@@ -96,6 +91,6 @@ final class GithubApi
      */
     public function authorizeToken(string $token): void
     {
-        $this->token = $token;
+        $this->options['headers']['Authorization'] = 'token ' . $token;
     }
 }
