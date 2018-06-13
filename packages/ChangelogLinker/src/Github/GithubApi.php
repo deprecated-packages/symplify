@@ -25,6 +25,11 @@ final class GithubApi
     private $repositoryName;
 
     /**
+     * @var string
+     */
+    private $token;
+
+    /**
      * @todo guess from "composer.json" if not filled
      */
     public function __construct(Client $client, string $repositoryName)
@@ -57,7 +62,12 @@ final class GithubApi
 
     private function getResponseToUrl(string $url): ResponseInterface
     {
-        $response = $this->client->request('GET', $url);
+        $options = [];
+        if ($this->token) {
+            $options['headers']['Authorization'] = 'token ' . $this->token;
+        }
+
+        $response = $this->client->request('GET', $url, $options);
 
         if ($response->getStatusCode() !== 200) {
             throw new GithubApiException(sprintf(
@@ -79,5 +89,13 @@ final class GithubApi
         return array_filter($pullRequests, function (array $pullRequest) use ($id) {
             return $pullRequest['number'] > $id;
         });
+    }
+
+    /**
+     * Inspired by https://github.com/weierophinney/changelog_generator/blob/master/changelog_generator.php
+     */
+    public function authorizeToken(string $token): void
+    {
+        $this->token = $token;
     }
 }

@@ -105,11 +105,18 @@ final class DumpMergesCommand extends Command
             InputOption::VALUE_NONE,
             'Print in groups in package names - detected from "[PackageName]" in merge title.'
         );
+
+        $this->addOption('token', 't', InputOption::VALUE_REQUIRED, 'Github Token to overcome request limit.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $highestIdInChangelog = $this->idsAnalyzer->getHighestIdInChangelog(getcwd() . '/CHANGELOG.md');
+
+        if ($input->getOption('token')) {
+            $this->githubApi->authorizeToken($input->getOption('token'));
+        }
+
         $pullRequests = $this->githubApi->getClosedPullRequestsSinceId($highestIdInChangelog);
 
         if (count($pullRequests) === 0) {
