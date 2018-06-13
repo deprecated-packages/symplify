@@ -8,7 +8,7 @@ imports:
 
 services:
     Symplify\CodingStandard\Sniffs\CleanCode\CognitiveComplexitySniff:
-        maxCognitiveComplexity: 7
+        maxCognitiveComplexity: 8
 
     # class should be Abstact or Final
     SlamCsFixer\FinalInternalClassFixer: ~
