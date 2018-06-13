@@ -14,6 +14,7 @@ final class RootRemoveComposerJsonDecoratorTest extends TestCase
         'name' => 'symfony/symfony',
         'require' => [
             'symfony/console' => 'v1.0.0',
+            'symfony-friends/coding-standard' => 'v1.0.0',
             'rector/rector' => 'v1.0.0',
         ],
     ];
@@ -24,6 +25,7 @@ final class RootRemoveComposerJsonDecoratorTest extends TestCase
     private $expectedComposerJson = [
         'name' => 'symfony/symfony',
         'require' => [
+            'symfony-friends/coding-standard' => 'v1.0.0',
             'rector/rector' => 'v1.0.0',
         ],
     ];

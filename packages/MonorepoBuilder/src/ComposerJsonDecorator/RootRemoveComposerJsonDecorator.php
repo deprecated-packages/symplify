@@ -19,25 +19,50 @@ final class RootRemoveComposerJsonDecorator implements ComposerJsonDecoratorInte
      */
     public function decorate(array $composerJson): array
     {
-        // no name of monorepo package => nothing to remove
-        if (! isset($composerJson['name'])) {
+        $vendorName = $this->resolveVendorNameFromComposerJson($composerJson);
+        if ($vendorName === null) {
             return $composerJson;
         }
-
-        [$vendorName, ] = explode('/', $composerJson['name']);
 
         foreach ($composerJson as $key => $values) {
             if (! in_array($key, [Section::REQUIRE, Section::REQUIRE_DEV], true)) {
                 continue;
             }
 
-            foreach ($values as $package => $version) {
-                if (! Strings::startsWith($package, $vendorName)) {
-                    continue;
-                }
+            $composerJson = $this->processRequires($composerJson, $values, $vendorName, $key);
+        }
 
-                unset($composerJson[$key][$package]);
+        return $composerJson;
+    }
+
+    /**
+     * @param mixed[] $composerJson
+     */
+    private function resolveVendorNameFromComposerJson(array $composerJson): ?string
+    {
+        // no name of monorepo package => nothing to remove
+        if (! isset($composerJson['name'])) {
+            return null;
+        }
+
+        [$vendorName, ] = explode('/', $composerJson['name']);
+
+        return $vendorName;
+    }
+
+    /**
+     * @param mixed[] $composerJson
+     * @param string[] $requires
+     * @return mixed[]
+     */
+    private function processRequires(array $composerJson, array $requires, string $vendorName, string $key): array
+    {
+        foreach ($requires as $package => $version) {
+            if (! Strings::startsWith($package, $vendorName . '/')) {
+                continue;
             }
+
+            unset($composerJson[$key][$package]);
         }
 
         return $composerJson;
