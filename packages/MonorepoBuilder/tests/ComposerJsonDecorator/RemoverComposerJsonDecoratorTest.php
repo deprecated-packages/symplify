@@ -20,6 +20,7 @@ final class RemoverComposerJsonDecoratorTest extends TestCase
                 'Symplify\Tests\\' => 'tests',
                 'Symplify\SuperTests\\' => 'super-tests',
             ],
+            'files' => ['src/SomeFile.php', 'src/KeepFile.php'],
         ],
     ];
 
@@ -33,6 +34,9 @@ final class RemoverComposerJsonDecoratorTest extends TestCase
         'autoload-dev' => [
             'psr-4' => [
                 'Symplify\SuperTests\\' => 'super-tests',
+            ],
+            'files' => [
+                1 => 'src/KeepFile.php',
             ],
         ],
     ];
@@ -52,6 +56,7 @@ final class RemoverComposerJsonDecoratorTest extends TestCase
                 'psr-4' => [
                     'Symplify\Tests\\' => 'tests',
                 ],
+                'files' => ['src/SomeFile.php'],
             ],
         ]);
     }

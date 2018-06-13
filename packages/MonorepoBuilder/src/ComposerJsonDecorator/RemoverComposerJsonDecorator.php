@@ -66,10 +66,6 @@ final class RemoverComposerJsonDecorator implements ComposerJsonDecoratorInterfa
         }
 
         foreach ($this->dataToRemove[$key] as $type => $autoloadList) {
-            if (! isset($composerJson[$key][$type])) {
-                continue;
-            }
-
             if (is_array($autoloadList)) {
                 foreach ($autoloadList as $namespace => $path) {
                     unset($composerJson[$key][$type][$namespace]);

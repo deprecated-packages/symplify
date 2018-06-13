@@ -15,6 +15,11 @@ final class CognitiveComplexityAnalyzer
     /**
      * @var int
      */
+    private $cognitiveComplexity = 0;
+
+    /**
+     * @var int
+     */
     private $previousMeasuredNestingLevel = 0;
 
     /**
@@ -61,10 +66,8 @@ final class CognitiveComplexityAnalyzer
         $functionStartPosition = $tokens[$position]['scope_opener'];
         $functionEndPosition = $tokens[$position]['scope_closer'];
 
-        $functionNestingLevel = $tokens[$position]['level'];
         $this->isInTryConstruction = false;
-
-        $cognitiveComplexity = 0;
+        $this->cognitiveComplexity = 0;
 
         for ($i = $functionStartPosition + 1; $i < $functionEndPosition; ++$i) {
             $currentToken = $tokens[$i];
@@ -75,14 +78,11 @@ final class CognitiveComplexityAnalyzer
                 continue;
             }
 
-            ++$cognitiveComplexity;
+            ++$this->cognitiveComplexity;
 
-            $measuredNestingLevel = $currentToken['level'] - $functionNestingLevel;
-            if ($this->isInTryConstruction) {
-                --$measuredNestingLevel;
-            }
+            $measuredNestingLevel = $this->getMeasuredNestingLevel($currentToken, $tokens, $position);
 
-            // increase for nesting level higher than 1 the function
+            // increase for nesting level higher than 1 in the function
             if (in_array($currentToken['code'], $this->breakingTokens, true)) {
                 $this->previousMeasuredNestingLevel = $measuredNestingLevel;
                 continue;
@@ -91,13 +91,13 @@ final class CognitiveComplexityAnalyzer
             // B2. Nesting level
             if ($measuredNestingLevel > 1 && $this->previousMeasuredNestingLevel < $measuredNestingLevel) {
                 // only going deeper, not on the same level
-                $cognitiveComplexity += $measuredNestingLevel - 1;
+                $this->cognitiveComplexity += $measuredNestingLevel - 1;
             }
 
             $this->previousMeasuredNestingLevel = $measuredNestingLevel;
         }
 
-        return $cognitiveComplexity;
+        return $this->cognitiveComplexity;
     }
 
     /**
@@ -106,13 +106,13 @@ final class CognitiveComplexityAnalyzer
     private function resolveTryControlStructure(array $token): void
     {
         // code entered "try { }"
-        if ($this->isInTryConstruction === false && $token['code'] === T_TRY) {
+        if ($token['code'] === T_TRY) {
             $this->isInTryConstruction = true;
             return;
         }
 
         // code left "try { }"
-        if ($this->isInTryConstruction && $token['code'] === T_CATCH) {
+        if ($token['code'] === T_CATCH) {
             $this->isInTryConstruction = false;
         }
     }
@@ -141,5 +141,22 @@ final class CognitiveComplexityAnalyzer
         }
 
         return false;
+    }
+
+    /**
+     * @param mixed[] $currentToken
+     * @param mixed[] $tokens
+     */
+    private function getMeasuredNestingLevel(array $currentToken, array $tokens, int $functionTokenPosition): int
+    {
+        $functionNestingLevel = $tokens[$functionTokenPosition]['level'];
+
+        $measuredNestingLevel = $currentToken['level'] - $functionNestingLevel;
+
+        if ($this->isInTryConstruction) {
+            return --$measuredNestingLevel;
+        }
+
+        return $measuredNestingLevel;
     }
 }
