@@ -25,6 +25,11 @@ final class GithubApi
     private $repositoryName;
 
     /**
+     * @var mixed[]
+     */
+    private $options = [];
+
+    /**
      * @todo guess from "composer.json" if not filled
      */
     public function __construct(Client $client, string $repositoryName)
@@ -44,7 +49,7 @@ final class GithubApi
 
         $result = $this->createJsonArrayFromResponse($response);
 
-        return $this->filterOutPullRequestsWithIdLesserThen($result, $id);
+        return $this->filterOutPullRequestsWithIdLesserThan($result, $id);
     }
 
     /**
@@ -57,7 +62,7 @@ final class GithubApi
 
     private function getResponseToUrl(string $url): ResponseInterface
     {
-        $response = $this->client->request('GET', $url);
+        $response = $this->client->request('GET', $url, $this->options);
 
         if ($response->getStatusCode() !== 200) {
             throw new GithubApiException(sprintf(
@@ -74,10 +79,18 @@ final class GithubApi
      * @param mixed[] $pullRequests
      * @return mixed[]
      */
-    private function filterOutPullRequestsWithIdLesserThen(array $pullRequests, int $id): array
+    private function filterOutPullRequestsWithIdLesserThan(array $pullRequests, int $id): array
     {
         return array_filter($pullRequests, function (array $pullRequest) use ($id) {
             return $pullRequest['number'] > $id;
         });
+    }
+
+    /**
+     * Inspired by https://github.com/weierophinney/changelog_generator/blob/master/changelog_generator.php
+     */
+    public function authorizeToken(string $token): void
+    {
+        $this->options['headers']['Authorization'] = 'token ' . $token;
     }
 }

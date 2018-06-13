@@ -46,7 +46,7 @@ But that is a mash-up of everything. Not very nice:
 What if we'd have *Added*, *Changed*... and all that standard categories?
 
 ```
-vendor/bin/changelog-linker dump:merges --in-categories
+vendor/bin/changelog-linker dump-merges --in-categories
 ```
 
 Nice, now everything is nicely grouped:
@@ -74,7 +74,7 @@ But what about monorepo packages - can we have list grouped by each of them?
 But that's kind of useless without combination, right? Let's join them together:
 
 ```
-vendor/bin/changelog-linker dump:merges --in-packages --in-categories
+vendor/bin/changelog-linker dump-merges --in-packages --in-categories
 ```
 
 Finally what we needed:
@@ -90,7 +90,7 @@ Finally what we needed:
 Or do you prefer it the other way?
 
 ```
-vendor/bin/changelog-linker dump:merges --in-packages --in-categories
+vendor/bin/changelog-linker dump-merges --in-packages --in-categories
 ```
 
 Yes you can:
@@ -101,6 +101,12 @@ Yes you can:
 #### EasyCodingStandard
 
 - [#848] [ECS] Fix single file processing
+```
+
+In case you cross the API rate limit and get denied, create [new Github Token](https://github.com/settings/tokens) and pass it via `--token` option.
+
+```
+vendor/bin/changelog-linker dump-merges --token super-secret-token
 ```
 
 ## B. Decorate `CHANGELOG.md`
