@@ -50,6 +50,7 @@ final class GithubApi
         $response = $this->getResponseToUrl($url);
 
         $result = $this->createJsonArrayFromResponse($response);
+        $result = $this->filterOutUnmergedPullRequests($result);
 
         return $this->filterOutPullRequestsWithIdLesserThan($result, $id);
     }
@@ -95,6 +96,17 @@ final class GithubApi
     {
         return array_filter($pullRequests, function (array $pullRequest) use ($id) {
             return $pullRequest['number'] > $id;
+        });
+    }
+
+    /**
+     * @param mixed[] $pullRequests
+     * @return mixed[]
+     */
+    private function filterOutUnmergedPullRequests(array $pullRequests): array
+    {
+        return array_filter($pullRequests, function (array $pullRequest) {
+            return isset($pullRequest['merged_at']);
         });
     }
 

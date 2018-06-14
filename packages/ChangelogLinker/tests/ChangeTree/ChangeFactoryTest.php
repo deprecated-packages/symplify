@@ -6,6 +6,7 @@ use Iterator;
 use PHPUnit\Framework\TestCase;
 use Symplify\ChangelogLinker\ChangeTree\ChangeFactory;
 use Symplify\ChangelogLinker\Configuration\Configuration;
+use Symplify\ChangelogLinker\Git\DateToTagResolver;
 
 final class ChangeFactoryTest extends TestCase
 {
@@ -18,7 +19,7 @@ final class ChangeFactoryTest extends TestCase
     {
         $configuration = new Configuration(['ego'], '', '', [], ['A' => 'Aliased']);
 
-        $this->changeFactory = new ChangeFactory($configuration);
+        $this->changeFactory = new ChangeFactory($configuration, new DateToTagResolver());
     }
 
     /**
@@ -29,7 +30,9 @@ final class ChangeFactoryTest extends TestCase
         $pullRequest = [
             'number' => null,
             'title' => 'Add cool feature',
+            'merged_at' => '2018-03-10',
         ];
+
         $pullRequest['title'] = $message;
 
         $change = $this->changeFactory->createFromPullRequest($pullRequest);
@@ -59,6 +62,7 @@ final class ChangeFactoryTest extends TestCase
             'user' => [
                 'login' => 'me',
             ],
+            'merged_at' => '2018-03-10',
         ];
 
         $change = $this->changeFactory->createFromPullRequest($pullRequest);
@@ -70,6 +74,7 @@ final class ChangeFactoryTest extends TestCase
             'user' => [
                 'login' => 'ego',
             ],
+            'merged_at' => '2018-03-10',
         ];
 
         $change = $this->changeFactory->createFromPullRequest($pullRequest);
@@ -81,6 +86,7 @@ final class ChangeFactoryTest extends TestCase
         $pullRequest = [
             'number' => 10,
             'title' => '[SomePackage] SomeMessage',
+            'merged_at' => '2018-03-10',
         ];
 
         $change = $this->changeFactory->createFromPullRequest($pullRequest);
@@ -94,7 +100,7 @@ final class ChangeFactoryTest extends TestCase
         $pullRequest = [
             'number' => 10,
             'title' => '[SomePackage] SomeMessage',
-            'merged_at' => '2018-06-01',
+            'merged_at' => '2018-05-30',
         ];
 
         $change = $this->changeFactory->createFromPullRequest($pullRequest);

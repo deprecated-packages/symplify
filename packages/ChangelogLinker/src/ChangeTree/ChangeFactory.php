@@ -2,10 +2,9 @@
 
 namespace Symplify\ChangelogLinker\ChangeTree;
 
-use Nette\Utils\DateTime;
 use Nette\Utils\Strings;
-use Symfony\Component\Process\Process;
 use Symplify\ChangelogLinker\Configuration\Configuration;
+use Symplify\ChangelogLinker\Git\DateToTagResolver;
 
 final class ChangeFactory
 {
@@ -35,14 +34,14 @@ final class ChangeFactory
     private $configuration;
 
     /**
-     * @var DateTime[]
+     * @var DateToTagResolver
      */
-    private $tagsWithDateTimes = [];
+    private $dateToTagResolver;
 
-    public function __construct(Configuration $configuration)
+    public function __construct(Configuration $configuration, DateToTagResolver $dateToTagResolver)
     {
         $this->configuration = $configuration;
-        $this->tagsWithDateTimes = $this->getTagsWithDateTimes();
+        $this->dateToTagResolver = $dateToTagResolver;
     }
 
     /**
@@ -62,7 +61,7 @@ final class ChangeFactory
         $category = $this->resolveCategory($pullRequest['title']);
         $package = $this->resolvePackage($pullRequest['title']);
         $messageWithoutPackage = $this->resolveMessageWithoutPackage($message);
-        $pullRequestTag = $this->resolveTag($pullRequest);
+        $pullRequestTag = $this->dateToTagResolver->resolveDateToTag($pullRequest['merged_at']);
 
         return new Change($message, $category, $package, $messageWithoutPackage, $author, $pullRequestTag);
     }
@@ -115,50 +114,5 @@ final class ChangeFactory
         }
 
         return Strings::replace($message, '#\[' . $match['package'] . '\]\s+#');
-    }
-
-    /**
-     * @inspiration https://stackoverflow.com/a/42191640/1348344
-     * @return DateTime[]
-     */
-    private function getTagsWithDateTimes(): array
-    {
-        $tagsWithDatesProcess = new Process('git for-each-ref --format="%(refname:short) | %(creatordate)" refs/tags/');
-        $tagsWithDatesProcess->run();
-
-        $tagsWithDatesString = $tagsWithDatesProcess->getOutput();
-
-        $tagsWithDatesLines = explode(PHP_EOL, $tagsWithDatesString);
-
-        // remove empty values
-        $tagsWithDatesLines = array_filter($tagsWithDatesLines);
-
-        $tagsWithDateTimes = [];
-        foreach ($tagsWithDatesLines as $tagsWithDatesLine) {
-            [$tag, $date] = explode('|', $tagsWithDatesLine);
-            $tagsWithDateTimes[trim($tag)] = DateTime::from($date);
-        }
-
-        return $tagsWithDateTimes;
-    }
-
-    /**
-     * @param mixed[] $pullRequest
-     */
-    private function resolveTag(array $pullRequest): string
-    {
-        $pullRequestTag = 'Unreleased';
-
-        if (isset($pullRequest['merged_at'])) {
-            $mergeDateTime = DateTime::from($pullRequest['merged_at']);
-            foreach ($this->tagsWithDateTimes as $tag => $tagDatTime) {
-                // belongs to tag
-                if ($tagDatTime > $mergeDateTime) {
-                    $pullRequestTag = $tag;
-                    break;
-                }
-            }
-        }
-        return $pullRequestTag;
     }
 }
