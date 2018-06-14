@@ -37,14 +37,30 @@ final class ChangeFactory
         $this->configuration = $configuration;
     }
 
-    public function createFromMessage(string $message): Change
+    /**
+     * @param mixed[] $pullRequest
+     */
+    public function createFromPullRequest(array $pullRequest): Change
     {
+        $message = sprintf('- [#%s] %s', $pullRequest['number'], $pullRequest['title']);
+
+        $author = $pullRequest['user']['login'] ?? '';
+
+        // ['merged_at'] !!! combine with tags of the project
+        //        dump($pullRequest['merged_at']);
+        //        dump($pullRequest['base']);
+
+        // skip the main maintainer to prevent self-thanking floods
+        if ($author && ! in_array($author, $this->configuration->getAuthorsToIgnore(), true)) {
+            $message .= ', Thanks to @' . $author;
+        }
+
         $category = $this->resolveCategoryFromMessage($message);
         $package = $this->resolvePackageFromMessage($message);
 
         $messageWithoutPackage = $this->resolveMessageWithoutPackage($message);
 
-        return new Change($message, $category, $package, $messageWithoutPackage);
+        return new Change($message, $category, $package, $messageWithoutPackage, $author);
     }
 
     private function resolveCategoryFromMessage(string $message): string

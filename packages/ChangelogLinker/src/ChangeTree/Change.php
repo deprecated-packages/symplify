@@ -34,12 +34,23 @@ final class Change
      */
     private $messageWithoutPackage;
 
-    public function __construct(string $message, string $category, string $package, string $messageWithoutPackage)
-    {
+    /**
+     * @var string
+     */
+    private $author;
+
+    public function __construct(
+        string $message,
+        string $category,
+        string $package,
+        string $messageWithoutPackage,
+        string $author
+    ) {
         $this->message = $message;
         $this->category = $category;
         $this->package = $package;
         $this->messageWithoutPackage = $messageWithoutPackage;
+        $this->author = $author;
     }
 
     public function getMessage(): string
@@ -60,5 +71,10 @@ final class Change
     public function getMessageWithoutPackage(): string
     {
         return $this->messageWithoutPackage;
+    }
+
+    public function getAuthor(): string
+    {
+        return $this->author;
     }
 }

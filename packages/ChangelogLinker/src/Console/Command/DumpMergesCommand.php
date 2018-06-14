@@ -8,11 +8,11 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symplify\ChangelogLinker\Analyzer\IdsAnalyzer;
+use Symplify\ChangelogLinker\ChangeTree\Change;
+use Symplify\ChangelogLinker\ChangeTree\ChangeFactory;
 use Symplify\ChangelogLinker\ChangeTree\ChangeSorter;
-use Symplify\ChangelogLinker\ChangeTree\ChangeTree;
 use Symplify\ChangelogLinker\Console\Output\DumpMergesReporter;
 use Symplify\ChangelogLinker\Github\GithubApi;
-use Symplify\ChangelogLinker\Github\PullRequestMessageFactory;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
 use Symplify\PackageBuilder\Reflection\PrivatesAccessor;
 
@@ -37,19 +37,9 @@ final class DumpMergesCommand extends Command
     private $githubApi;
 
     /**
-     * @var ChangeTree
-     */
-    private $changeTree;
-
-    /**
      * @var SymfonyStyle
      */
     private $symfonyStyle;
-
-    /**
-     * @var PullRequestMessageFactory
-     */
-    private $pullRequestMessageFactory;
 
     /**
      * @var ChangeSorter
@@ -66,24 +56,32 @@ final class DumpMergesCommand extends Command
      */
     private $dumpMergesReporter;
 
+    /**
+     * @var ChangeFactory
+     */
+    private $changeFactory;
+
+    /**
+     * @var Change[]
+     */
+    private $changes = [];
+
     public function __construct(
         GithubApi $githubApi,
-        ChangeTree $changeTree,
         SymfonyStyle $symfonyStyle,
-        PullRequestMessageFactory $pullRequestMessageFactory,
         ChangeSorter $changeSorter,
         IdsAnalyzer $idsAnalyzer,
-        DumpMergesReporter $dumpMergesReporter
+        DumpMergesReporter $dumpMergesReporter,
+        ChangeFactory $changeFactory
     ) {
         $this->githubApi = $githubApi;
-        $this->changeTree = $changeTree;
         $this->symfonyStyle = $symfonyStyle;
-        $this->pullRequestMessageFactory = $pullRequestMessageFactory;
         $this->changeSorter = $changeSorter;
         $this->idsAnalyzer = $idsAnalyzer;
         $this->dumpMergesReporter = $dumpMergesReporter;
 
         parent::__construct();
+        $this->changeFactory = $changeFactory;
     }
 
     protected function configure(): void
@@ -128,10 +126,12 @@ final class DumpMergesCommand extends Command
             return 0;
         }
 
-        $this->loadPullRequestsToChangeTree($pullRequests);
+        foreach ($pullRequests as $pullRequest) {
+            $this->changes[] = $this->changeFactory->createFromPullRequest($pullRequest);
+        }
 
         if (! $input->getOption(self::OPTION_IN_CATEGORIES) && ! $input->getOption(self::OPTION_IN_PACKAGES)) {
-            $this->dumpMergesReporter->reportChanges($this->changeTree->getChanges());
+            $this->dumpMergesReporter->reportChanges($this->changes);
 
             // success
             return 0;
@@ -139,7 +139,7 @@ final class DumpMergesCommand extends Command
 
         $sortPriority = $this->getSortPriority($input);
 
-        $sortedChanges = $this->changeSorter->sortByCategoryAndPackage($this->changeTree->getChanges(), $sortPriority);
+        $sortedChanges = $this->changeSorter->sortByCategoryAndPackage($this->changes, $sortPriority);
 
         $this->dumpMergesReporter->reportChangesWithHeadlines(
             $sortedChanges,
@@ -150,17 +150,6 @@ final class DumpMergesCommand extends Command
 
         // success
         return 0;
-    }
-
-    /**
-     * @param mixed[] $pullRequests
-     */
-    private function loadPullRequestsToChangeTree(array $pullRequests): void
-    {
-        foreach ($pullRequests as $pullRequest) {
-            $pullRequestMessage = $this->pullRequestMessageFactory->createMessageFromPullRequest($pullRequest);
-            $this->changeTree->addPullRequestMessage($pullRequestMessage);
-        }
     }
 
     /**
