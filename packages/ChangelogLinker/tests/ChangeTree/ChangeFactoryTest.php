@@ -6,7 +6,7 @@ use Iterator;
 use PHPUnit\Framework\TestCase;
 use Symplify\ChangelogLinker\ChangeTree\ChangeFactory;
 use Symplify\ChangelogLinker\Configuration\Configuration;
-use Symplify\ChangelogLinker\Git\DateToTagResolver;
+use Symplify\ChangelogLinker\Git\GitCommitDateTagResolver;
 
 final class ChangeFactoryTest extends TestCase
 {
@@ -19,7 +19,7 @@ final class ChangeFactoryTest extends TestCase
     {
         $configuration = new Configuration(['ego'], '', '', [], ['A' => 'Aliased']);
 
-        $this->changeFactory = new ChangeFactory($configuration, new DateToTagResolver());
+        $this->changeFactory = new ChangeFactory($configuration, new GitCommitDateTagResolver());
     }
 
     /**

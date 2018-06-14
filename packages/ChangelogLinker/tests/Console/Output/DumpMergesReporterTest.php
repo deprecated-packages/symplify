@@ -9,6 +9,7 @@ use Symfony\Component\Console\Output\BufferedOutput;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symplify\ChangelogLinker\ChangeTree\Change;
 use Symplify\ChangelogLinker\Console\Output\DumpMergesReporter;
+use Symplify\ChangelogLinker\Git\GitCommitDateTagResolver;
 
 final class DumpMergesReporterTest extends TestCase
 {
@@ -33,7 +34,7 @@ final class DumpMergesReporterTest extends TestCase
         $this->dumpMergesReporter = new DumpMergesReporter(new SymfonyStyle(
             new ArrayInput([]),
             $this->bufferedOutput
-        ));
+        ), new GitCommitDateTagResolver());
 
         $this->changes = [new Change('[SomePackage] Message', 'Added', 'SomePackage', 'Message', 'me', 'Unreleased')];
     }

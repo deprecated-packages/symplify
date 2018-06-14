@@ -5,6 +5,7 @@ namespace Symplify\ChangelogLinker\Console\Output;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symplify\ChangelogLinker\ChangeTree\Change;
 use Symplify\ChangelogLinker\ChangeTree\ChangeSorter;
+use Symplify\ChangelogLinker\Git\GitCommitDateTagResolver;
 
 final class DumpMergesReporter
 {
@@ -13,9 +14,15 @@ final class DumpMergesReporter
      */
     private $symfonyStyle;
 
-    public function __construct(SymfonyStyle $symfonyStyle)
+    /**
+     * @var GitCommitDateTagResolver
+     */
+    private $gitCommitDateTagResolver;
+
+    public function __construct(SymfonyStyle $symfonyStyle, GitCommitDateTagResolver $gitCommitDateTagResolver)
     {
         $this->symfonyStyle = $symfonyStyle;
+        $this->gitCommitDateTagResolver = $gitCommitDateTagResolver;
     }
 
     /**
@@ -23,13 +30,16 @@ final class DumpMergesReporter
      */
     public function reportChanges(array $changes, bool $withTags): void
     {
-        $this->symfonyStyle->newLine(1);
+        if (! $withTags) {
+            $this->symfonyStyle->newLine(1);
+        }
 
         $previousTag = '';
         foreach ($changes as $change) {
             if ($withTags) {
                 if ($previousTag !== $change->getTag()) {
-                    $this->symfonyStyle->writeln('## ' . $change->getTag()); // include date!
+                    $this->symfonyStyle->newLine(1);
+                    $this->symfonyStyle->writeln('## ' . $this->createTagLine($change));
                     $this->symfonyStyle->newLine(1);
                 }
 
@@ -162,5 +172,17 @@ final class DumpMergesReporter
             $this->symfonyStyle->writeln('#### ' . $currentSecondary);
             $this->symfonyStyle->newLine(1);
         }
+    }
+
+    private function createTagLine(Change $change): string
+    {
+        $tagLine = $change->getTag();
+
+        $tagDate = $this->gitCommitDateTagResolver->resolveDateForTag($change->getTag());
+        if ($tagDate) {
+            $tagLine .= ' - ' . $tagDate;
+        }
+
+        return $tagLine;
     }
 }

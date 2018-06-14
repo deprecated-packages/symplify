@@ -4,7 +4,7 @@ namespace Symplify\ChangelogLinker\ChangeTree;
 
 use Nette\Utils\Strings;
 use Symplify\ChangelogLinker\Configuration\Configuration;
-use Symplify\ChangelogLinker\Git\DateToTagResolver;
+use Symplify\ChangelogLinker\Git\GitCommitDateTagResolver;
 
 final class ChangeFactory
 {
@@ -34,14 +34,14 @@ final class ChangeFactory
     private $configuration;
 
     /**
-     * @var DateToTagResolver
+     * @var GitCommitDateTagResolver
      */
-    private $dateToTagResolver;
+    private $gitCommitDateTagResolver;
 
-    public function __construct(Configuration $configuration, DateToTagResolver $dateToTagResolver)
+    public function __construct(Configuration $configuration, GitCommitDateTagResolver $gitCommitDateTagResolver)
     {
         $this->configuration = $configuration;
-        $this->dateToTagResolver = $dateToTagResolver;
+        $this->gitCommitDateTagResolver = $gitCommitDateTagResolver;
     }
 
     /**
@@ -63,7 +63,7 @@ final class ChangeFactory
         $messageWithoutPackage = $this->resolveMessageWithoutPackage($message);
 
         // @todo 'merge_commit_sha' || 'head'
-        $pullRequestTag = $this->dateToTagResolver->resolveCommitToTag($pullRequest['merge_commit_sha']);
+        $pullRequestTag = $this->gitCommitDateTagResolver->resolveCommitToTag($pullRequest['merge_commit_sha']);
 
         return new Change($message, $category, $package, $messageWithoutPackage, $author, $pullRequestTag);
     }
