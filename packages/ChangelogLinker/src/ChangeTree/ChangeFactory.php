@@ -61,7 +61,9 @@ final class ChangeFactory
         $category = $this->resolveCategory($pullRequest['title']);
         $package = $this->resolvePackage($pullRequest['title']);
         $messageWithoutPackage = $this->resolveMessageWithoutPackage($message);
-        $pullRequestTag = $this->dateToTagResolver->resolveDateToTag($pullRequest['merged_at']);
+
+        // @todo 'merge_commit_sha' || 'head'
+        $pullRequestTag = $this->dateToTagResolver->resolveCommitToTag($pullRequest['merge_commit_sha']);
 
         return new Change($message, $category, $package, $messageWithoutPackage, $author, $pullRequestTag);
     }

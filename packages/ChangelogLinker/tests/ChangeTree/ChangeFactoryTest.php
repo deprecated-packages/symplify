@@ -30,7 +30,7 @@ final class ChangeFactoryTest extends TestCase
         $pullRequest = [
             'number' => null,
             'title' => 'Add cool feature',
-            'merged_at' => '2018-03-10',
+            'merge_commit_sha' => 'random',
         ];
 
         $pullRequest['title'] = $message;
@@ -62,7 +62,7 @@ final class ChangeFactoryTest extends TestCase
             'user' => [
                 'login' => 'me',
             ],
-            'merged_at' => '2018-03-10',
+            'merge_commit_sha' => 'random',
         ];
 
         $change = $this->changeFactory->createFromPullRequest($pullRequest);
@@ -74,7 +74,7 @@ final class ChangeFactoryTest extends TestCase
             'user' => [
                 'login' => 'ego',
             ],
-            'merged_at' => '2018-03-10',
+            'merge_commit_sha' => 'random',
         ];
 
         $change = $this->changeFactory->createFromPullRequest($pullRequest);
@@ -86,7 +86,7 @@ final class ChangeFactoryTest extends TestCase
         $pullRequest = [
             'number' => 10,
             'title' => '[SomePackage] SomeMessage',
-            'merged_at' => '2018-03-10',
+            'merge_commit_sha' => 'random',
         ];
 
         $change = $this->changeFactory->createFromPullRequest($pullRequest);
@@ -100,11 +100,10 @@ final class ChangeFactoryTest extends TestCase
         $pullRequest = [
             'number' => 10,
             'title' => '[SomePackage] SomeMessage',
-            'merged_at' => '2018-05-30',
+            'merge_commit_sha' => '58f3eea3a043998e272e70079bccb46fac10e4ad',
         ];
-
         $change = $this->changeFactory->createFromPullRequest($pullRequest);
 
-        $this->assertSame('v4.4.0', $change->getTag());
+        $this->assertSame('v4.2.0', $change->getTag());
     }
 }

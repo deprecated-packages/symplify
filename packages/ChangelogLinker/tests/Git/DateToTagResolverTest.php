@@ -2,6 +2,7 @@
 
 namespace Symplify\ChangelogLinker\Tests\Git;
 
+use Iterator;
 use PHPUnit\Framework\TestCase;
 use Symplify\ChangelogLinker\Git\DateToTagResolver;
 
@@ -20,12 +21,18 @@ final class DateToTagResolverTest extends TestCase
         $this->dateToTagResolver = new DateToTagResolver();
     }
 
-    public function test(): void
+    /**
+     * @dataProvider provideData()
+     */
+    public function test(string $commitHash, string $expectedTag): void
     {
-        $this->assertSame('v2.5.9', $this->dateToTagResolver->resolveDateToTag('2017-10-26'));
-        $this->assertSame('v2.5.11', $this->dateToTagResolver->resolveDateToTag('2018-01-01'));
-        $this->assertSame('v3.2.9', $this->dateToTagResolver->resolveDateToTag('2018-01-23'));
-        $this->assertSame('v4.2.0', $this->dateToTagResolver->resolveDateToTag('2018-05-05'));
-        $this->assertSame('Unreleased', $this->dateToTagResolver->resolveDateToTag('2118-05-05'));
+        $this->assertSame($expectedTag, $this->dateToTagResolver->resolveCommitToTag($commitHash));
+    }
+
+    public function provideData(): Iterator
+    {
+        yield ['ef5e708', 'v4.1.1'];
+        yield ['940ec99', 'v3.2.26'];
+        yield ['too-new', 'Unreleased'];
     }
 }

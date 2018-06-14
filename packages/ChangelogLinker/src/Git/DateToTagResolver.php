@@ -2,75 +2,30 @@
 
 namespace Symplify\ChangelogLinker\Git;
 
-use DateTimeInterface;
-use Nette\Utils\DateTime;
+use Nette\Utils\Strings;
 use Symfony\Component\Process\Process;
 
 final class DateToTagResolver
 {
     /**
-     * @var DateTimeInterface[]
+     * @inspiration https://stackoverflow.com/a/7561599/1348344
      */
-    private $tagsWithDateTimes = [];
-
-    public function __construct()
+    public function resolveCommitToTag(string $commitHash): string
     {
-        $this->tagsWithDateTimes = $this->getTagsWithDateTimes();
-    }
+        $process = new Process('git describe --contains ' . $commitHash);
+        $process->run();
 
-    public function resolveDateToTag(string $dateTime): string
-    {
-        $mainDateTime = DateTime::from($dateTime);
+        $tag = trim($process->getOutput());
 
-        $previousTag = 'Unreleased';
-
-        // sort tags by version, e.g. v3.2 <= v3.22 <= v3.3
-        uksort($this->tagsWithDateTimes, 'version_compare');
-
-        // sort by date, to cover tags on secondary branches
-        uasort(
-            $this->tagsWithDateTimes,
-            function (DateTimeInterface $firstDateTime, DateTimeInterface $secondDateTime) {
-                return $firstDateTime > $secondDateTime;
-            }
-        );
-
-        foreach ($this->tagsWithDateTimes as $tag => $tagDateTime) {
-            // belongs to tag
-            if ($mainDateTime < $tagDateTime) {
-                return $tag;
-            }
+        if (empty($tag)) {
+            return 'Unreleased';
         }
 
-        return 'Unreleased';
-    }
-
-    /**
-     * @inspiration https://stackoverflow.com/a/42191640/1348344
-     * @return DateTimeInterface[]
-     */
-    private function getTagsWithDateTimes(): array
-    {
-        $tagsWithDatesString = $this->getTagsWithDatesAsString();
-        $tagsWithDatesLines = explode(PHP_EOL, $tagsWithDatesString);
-
-        // remove empty values
-        $tagsWithDatesLines = array_filter($tagsWithDatesLines);
-
-        $tagsWithDateTimes = [];
-        foreach ($tagsWithDatesLines as $tagsWithDatesLine) {
-            [$tag, $date] = explode('|', $tagsWithDatesLine);
-            $tagsWithDateTimes[trim($tag)] = DateTime::from($date);
+        // resolves formats like "v4.2.0~5^2"
+        if (Strings::contains($tag, '~')) {
+            return explode('~', $tag)[0];
         }
 
-        return $tagsWithDateTimes;
-    }
-
-    private function getTagsWithDatesAsString(): string
-    {
-        $tagsWithDatesProcess = new Process('git for-each-ref --format="%(refname:short) | %(creatordate)" refs/tags/');
-        $tagsWithDatesProcess->run();
-
-        return $tagsWithDatesProcess->getOutput();
+        return $tag;
     }
 }
