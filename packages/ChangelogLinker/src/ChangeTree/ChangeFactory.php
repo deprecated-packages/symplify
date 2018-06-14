@@ -4,6 +4,7 @@ namespace Symplify\ChangelogLinker\ChangeTree;
 
 use Nette\Utils\Strings;
 use Symplify\ChangelogLinker\Configuration\Configuration;
+use Symplify\ChangelogLinker\Git\GitCommitDateTagResolver;
 
 final class ChangeFactory
 {
@@ -32,22 +33,42 @@ final class ChangeFactory
      */
     private $configuration;
 
-    public function __construct(Configuration $configuration)
+    /**
+     * @var GitCommitDateTagResolver
+     */
+    private $gitCommitDateTagResolver;
+
+    public function __construct(Configuration $configuration, GitCommitDateTagResolver $gitCommitDateTagResolver)
     {
         $this->configuration = $configuration;
+        $this->gitCommitDateTagResolver = $gitCommitDateTagResolver;
     }
 
-    public function createFromMessage(string $message): Change
+    /**
+     * @param mixed[] $pullRequest
+     */
+    public function createFromPullRequest(array $pullRequest): Change
     {
-        $category = $this->resolveCategoryFromMessage($message);
-        $package = $this->resolvePackageFromMessage($message);
+        $message = sprintf('- [#%s] %s', $pullRequest['number'], $pullRequest['title']);
 
+        $author = $pullRequest['user']['login'] ?? '';
+
+        // skip the main maintainer to prevent self-thanking floods
+        if ($author && ! in_array($author, $this->configuration->getAuthorsToIgnore(), true)) {
+            $message .= ', Thanks to @' . $author;
+        }
+
+        $category = $this->resolveCategory($pullRequest['title']);
+        $package = $this->resolvePackage($pullRequest['title']);
         $messageWithoutPackage = $this->resolveMessageWithoutPackage($message);
 
-        return new Change($message, $category, $package, $messageWithoutPackage);
+        // @todo 'merge_commit_sha' || 'head'
+        $pullRequestTag = $this->gitCommitDateTagResolver->resolveCommitToTag($pullRequest['merge_commit_sha']);
+
+        return new Change($message, $category, $package, $messageWithoutPackage, $author, $pullRequestTag);
     }
 
-    private function resolveCategoryFromMessage(string $message): string
+    private function resolveCategory(string $message): string
     {
         $match = Strings::match($message, self::ADDED_PATTERN);
         if ($match) {
@@ -75,7 +96,7 @@ final class ChangeFactory
     /**
      * E.g. "[ChangelogLinker] Add feature XY" => "ChangelogLinker"
      */
-    private function resolvePackageFromMessage(string $message): ?string
+    private function resolvePackage(string $message): ?string
     {
         $match = Strings::match($message, '#\[(?<package>[A-Za-z]+)\]#');
 

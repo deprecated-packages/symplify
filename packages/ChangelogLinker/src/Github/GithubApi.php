@@ -3,7 +3,9 @@
 namespace Symplify\ChangelogLinker\Github;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\RequestException;
 use Nette\Utils\Json;
+use Nette\Utils\Strings;
 use Psr\Http\Message\ResponseInterface;
 use Symplify\ChangelogLinker\Exception\Github\GithubApiException;
 
@@ -48,6 +50,7 @@ final class GithubApi
         $response = $this->getResponseToUrl($url);
 
         $result = $this->createJsonArrayFromResponse($response);
+        $result = $this->filterOutUnmergedPullRequests($result);
 
         return $this->filterOutPullRequestsWithIdLesserThan($result, $id);
     }
@@ -62,7 +65,17 @@ final class GithubApi
 
     private function getResponseToUrl(string $url): ResponseInterface
     {
-        $response = $this->client->request('GET', $url, $this->options);
+        try {
+            $response = $this->client->request('GET', $url, $this->options);
+        } catch (RequestException $requestException) {
+            if (Strings::contains($requestException->getMessage(), 'API rate limit exceeded')) {
+                throw new GithubApiException(
+                    'Github API rate limit exceeded. Create a token at https://github.com/settings/tokens/new with only repository scope and use it in "--token TOKEN" option.'
+                );
+            }
+
+            throw $requestException;
+        }
 
         if ($response->getStatusCode() !== 200) {
             throw new GithubApiException(sprintf(
@@ -83,6 +96,17 @@ final class GithubApi
     {
         return array_filter($pullRequests, function (array $pullRequest) use ($id) {
             return $pullRequest['number'] > $id;
+        });
+    }
+
+    /**
+     * @param mixed[] $pullRequests
+     * @return mixed[]
+     */
+    private function filterOutUnmergedPullRequests(array $pullRequests): array
+    {
+        return array_filter($pullRequests, function (array $pullRequest) {
+            return isset($pullRequest['merged_at']);
         });
     }
 

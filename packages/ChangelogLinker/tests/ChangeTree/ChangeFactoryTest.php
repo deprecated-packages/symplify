@@ -6,6 +6,7 @@ use Iterator;
 use PHPUnit\Framework\TestCase;
 use Symplify\ChangelogLinker\ChangeTree\ChangeFactory;
 use Symplify\ChangelogLinker\Configuration\Configuration;
+use Symplify\ChangelogLinker\Git\GitCommitDateTagResolver;
 
 final class ChangeFactoryTest extends TestCase
 {
@@ -16,21 +17,25 @@ final class ChangeFactoryTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->changeFactory = new ChangeFactory(new Configuration(
-            [],
-            '',
-            '',
-            [],
-            ['A' => 'Aliased']
-        ));
+        $configuration = new Configuration(['ego'], '', '', [], ['A' => 'Aliased']);
+
+        $this->changeFactory = new ChangeFactory($configuration, new GitCommitDateTagResolver());
     }
 
     /**
      * @dataProvider provideData()
      */
-    public function test(string $message, string $expectedCategory, string $expectedPackage): void
+    public function testCategoriesAndPackages(string $message, string $expectedCategory, string $expectedPackage): void
     {
-        $change = $this->changeFactory->createFromMessage($message);
+        $pullRequest = [
+            'number' => null,
+            'title' => 'Add cool feature',
+            'merge_commit_sha' => 'random',
+        ];
+
+        $pullRequest['title'] = $message;
+
+        $change = $this->changeFactory->createFromPullRequest($pullRequest);
 
         $this->assertSame($expectedCategory, $change->getCategory());
         $this->assertSame($expectedPackage, $change->getPackage());
@@ -49,11 +54,56 @@ final class ChangeFactoryTest extends TestCase
         yield ['All was deleted', 'Removed', 'Unknown Package'];
     }
 
+    public function testEgoTag(): void
+    {
+        $pullRequest = [
+            'number' => 10,
+            'title' => 'Add cool feature',
+            'user' => [
+                'login' => 'me',
+            ],
+            'merge_commit_sha' => 'random',
+        ];
+
+        $change = $this->changeFactory->createFromPullRequest($pullRequest);
+        $this->assertSame('- [#10] Add cool feature, Thanks to @me', $change->getMessage());
+
+        $pullRequest = [
+            'number' => 10,
+            'title' => 'Add cool feature',
+            'user' => [
+                'login' => 'ego',
+            ],
+            'merge_commit_sha' => 'random',
+        ];
+
+        $change = $this->changeFactory->createFromPullRequest($pullRequest);
+        $this->assertSame('- [#10] Add cool feature', $change->getMessage());
+    }
+
     public function testGetMessageWithoutPackage(): void
     {
-        $change = $this->changeFactory->createFromMessage('[SomePackage] SomeMessage');
+        $pullRequest = [
+            'number' => 10,
+            'title' => '[SomePackage] SomeMessage',
+            'merge_commit_sha' => 'random',
+        ];
 
-        $this->assertSame('[SomePackage] SomeMessage', $change->getMessage());
-        $this->assertSame('SomeMessage', $change->getMessageWithoutPackage());
+        $change = $this->changeFactory->createFromPullRequest($pullRequest);
+
+        $this->assertSame('- [#10] [SomePackage] SomeMessage', $change->getMessage());
+        $this->assertSame('- [#10] SomeMessage', $change->getMessageWithoutPackage());
+    }
+
+    public function testTagDetection(): void
+    {
+        $pullRequest = [
+            'number' => 10,
+            'title' => '[SomePackage] SomeMessage',
+            'merge_commit_sha' => '58f3eea3a043998e272e70079bccb46fac10e4ad',
+        ];
+        $change = $this->changeFactory->createFromPullRequest($pullRequest);
+
+        $this->assertSame('v4.2.0', $change->getTag());
     }
 }

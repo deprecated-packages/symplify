@@ -9,6 +9,7 @@ use Symfony\Component\Console\Output\BufferedOutput;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symplify\ChangelogLinker\ChangeTree\Change;
 use Symplify\ChangelogLinker\Console\Output\DumpMergesReporter;
+use Symplify\ChangelogLinker\Git\GitCommitDateTagResolver;
 
 final class DumpMergesReporterTest extends TestCase
 {
@@ -33,17 +34,24 @@ final class DumpMergesReporterTest extends TestCase
         $this->dumpMergesReporter = new DumpMergesReporter(new SymfonyStyle(
             new ArrayInput([]),
             $this->bufferedOutput
-        ));
+        ), new GitCommitDateTagResolver());
 
-        $this->changes = [new Change('[SomePackage] Message', 'Added', 'SomePackage', 'Message')];
+        $this->changes = [new Change('[SomePackage] Message', 'Added', 'SomePackage', 'Message', 'me', 'Unreleased')];
     }
 
     public function testReportChanges(): void
     {
-        $this->dumpMergesReporter->reportChanges($this->changes);
+        $this->dumpMergesReporter->reportChanges($this->changes, false);
 
         $this->assertStringEqualsFile(
             __DIR__ . '/DumpMergesReporterSource/expected1.md',
+            $this->bufferedOutput->fetch()
+        );
+
+        $this->dumpMergesReporter->reportChanges($this->changes, true);
+
+        $this->assertStringEqualsFile(
+            __DIR__ . '/DumpMergesReporterSource/expected6.md',
             $this->bufferedOutput->fetch()
         );
     }
