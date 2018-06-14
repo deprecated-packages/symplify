@@ -21,11 +21,21 @@ final class DumpMergesReporter
     /**
      * @param Change[] $changes
      */
-    public function reportChanges(array $changes): void
+    public function reportChanges(array $changes, bool $withTags): void
     {
         $this->symfonyStyle->newLine(1);
 
+        $previousTag = '';
         foreach ($changes as $change) {
+            if ($withTags) {
+                if ($previousTag !== $change->getTag()) {
+                    $this->symfonyStyle->writeln('## ' . $change->getTag()); // include date!
+                    $this->symfonyStyle->newLine(1);
+                }
+
+                $previousTag = $change->getTag();
+            }
+
             $this->symfonyStyle->writeln($change->getMessage());
         }
 

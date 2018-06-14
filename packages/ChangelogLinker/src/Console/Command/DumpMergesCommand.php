@@ -32,6 +32,11 @@ final class DumpMergesCommand extends Command
     private const OPTION_IN_PACKAGES = 'in-packages';
 
     /**
+     * @var string
+     */
+    private const OPTION_IN_TAGS = 'in-tags';
+
+    /**
      * @var GithubApi
      */
     private $githubApi;
@@ -104,6 +109,13 @@ final class DumpMergesCommand extends Command
             'Print in groups in package names - detected from "[PackageName]" in merge title.'
         );
 
+        $this->addOption(
+            self::OPTION_IN_TAGS,
+            null,
+            InputOption::VALUE_NONE,
+            'Print withs tags - detected from date of merge .'
+        );
+
         $this->addOption('token', 't', InputOption::VALUE_REQUIRED, 'Github Token to overcome request limit.');
     }
 
@@ -131,7 +143,7 @@ final class DumpMergesCommand extends Command
         }
 
         if (! $input->getOption(self::OPTION_IN_CATEGORIES) && ! $input->getOption(self::OPTION_IN_PACKAGES)) {
-            $this->dumpMergesReporter->reportChanges($this->changes);
+            $this->dumpMergesReporter->reportChanges($this->changes, $input->getOption(self::OPTION_IN_TAGS));
 
             // success
             return 0;
