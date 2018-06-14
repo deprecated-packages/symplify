@@ -88,4 +88,17 @@ final class ChangeFactoryTest extends TestCase
         $this->assertSame('- [#10] [SomePackage] SomeMessage', $change->getMessage());
         $this->assertSame('- [#10] SomeMessage', $change->getMessageWithoutPackage());
     }
+
+    public function testTagDetection(): void
+    {
+        $pullRequest = [
+            'number' => 10,
+            'title' => '[SomePackage] SomeMessage',
+            'merged_at' => '2018-06-01',
+        ];
+
+        $change = $this->changeFactory->createFromPullRequest($pullRequest);
+
+        $this->assertSame('v4.4.0', $change->getTag());
+    }
 }

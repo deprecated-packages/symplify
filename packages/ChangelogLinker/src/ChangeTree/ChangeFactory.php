@@ -2,7 +2,9 @@
 
 namespace Symplify\ChangelogLinker\ChangeTree;
 
+use Nette\Utils\DateTime;
 use Nette\Utils\Strings;
+use Symfony\Component\Process\Process;
 use Symplify\ChangelogLinker\Configuration\Configuration;
 
 final class ChangeFactory
@@ -32,9 +34,15 @@ final class ChangeFactory
      */
     private $configuration;
 
+    /**
+     * @var DateTime[]
+     */
+    private $tagsWithDateTimes = [];
+
     public function __construct(Configuration $configuration)
     {
         $this->configuration = $configuration;
+        $this->tagsWithDateTimes = $this->getTagsWithDateTimes();
     }
 
     /**
@@ -46,24 +54,20 @@ final class ChangeFactory
 
         $author = $pullRequest['user']['login'] ?? '';
 
-        // ['merged_at'] !!! combine with tags of the project
-        //        dump($pullRequest['merged_at']);
-        //        dump($pullRequest['base']);
-
         // skip the main maintainer to prevent self-thanking floods
         if ($author && ! in_array($author, $this->configuration->getAuthorsToIgnore(), true)) {
             $message .= ', Thanks to @' . $author;
         }
 
-        $category = $this->resolveCategoryFromMessage($message);
-        $package = $this->resolvePackageFromMessage($message);
-
+        $category = $this->resolveCategory($pullRequest['title']);
+        $package = $this->resolvePackage($pullRequest['title']);
         $messageWithoutPackage = $this->resolveMessageWithoutPackage($message);
+        $pullRequestTag = $this->resolveTag($pullRequest);
 
-        return new Change($message, $category, $package, $messageWithoutPackage, $author);
+        return new Change($message, $category, $package, $messageWithoutPackage, $author, $pullRequestTag);
     }
 
-    private function resolveCategoryFromMessage(string $message): string
+    private function resolveCategory(string $message): string
     {
         $match = Strings::match($message, self::ADDED_PATTERN);
         if ($match) {
@@ -91,7 +95,7 @@ final class ChangeFactory
     /**
      * E.g. "[ChangelogLinker] Add feature XY" => "ChangelogLinker"
      */
-    private function resolvePackageFromMessage(string $message): ?string
+    private function resolvePackage(string $message): ?string
     {
         $match = Strings::match($message, '#\[(?<package>[A-Za-z]+)\]#');
 
@@ -111,5 +115,50 @@ final class ChangeFactory
         }
 
         return Strings::replace($message, '#\[' . $match['package'] . '\]\s+#');
+    }
+
+    /**
+     * @inspiration https://stackoverflow.com/a/42191640/1348344
+     * @return DateTime[]
+     */
+    private function getTagsWithDateTimes(): array
+    {
+        $tagsWithDatesProcess = new Process('git for-each-ref --format="%(refname:short) | %(creatordate)" refs/tags/');
+        $tagsWithDatesProcess->run();
+
+        $tagsWithDatesString = $tagsWithDatesProcess->getOutput();
+
+        $tagsWithDatesLines = explode(PHP_EOL, $tagsWithDatesString);
+
+        // remove empty values
+        $tagsWithDatesLines = array_filter($tagsWithDatesLines);
+
+        $tagsWithDateTimes = [];
+        foreach ($tagsWithDatesLines as $tagsWithDatesLine) {
+            [$tag, $date] = explode('|', $tagsWithDatesLine);
+            $tagsWithDateTimes[trim($tag)] = DateTime::from($date);
+        }
+
+        return $tagsWithDateTimes;
+    }
+
+    /**
+     * @param mixed[] $pullRequest
+     */
+    private function resolveTag(array $pullRequest): string
+    {
+        $pullRequestTag = 'Unreleased';
+
+        if (isset($pullRequest['merged_at'])) {
+            $mergeDateTime = DateTime::from($pullRequest['merged_at']);
+            foreach ($this->tagsWithDateTimes as $tag => $tagDatTime) {
+                // belongs to tag
+                if ($tagDatTime > $mergeDateTime) {
+                    $pullRequestTag = $tag;
+                    break;
+                }
+            }
+        }
+        return $pullRequestTag;
     }
 }

@@ -39,18 +39,25 @@ final class Change
      */
     private $author;
 
+    /**
+     * @var string
+     */
+    private $tag;
+
     public function __construct(
         string $message,
         string $category,
         string $package,
         string $messageWithoutPackage,
-        string $author
+        string $author,
+        string $tag
     ) {
         $this->message = $message;
         $this->category = $category;
         $this->package = $package;
         $this->messageWithoutPackage = $messageWithoutPackage;
         $this->author = $author;
+        $this->tag = $tag;
     }
 
     public function getMessage(): string
@@ -76,5 +83,10 @@ final class Change
     public function getAuthor(): string
     {
         return $this->author;
+    }
+
+    public function getTag(): string
+    {
+        return $this->tag;
     }
 }

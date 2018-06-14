@@ -55,10 +55,11 @@ final class ChangeSorterTest extends TestCase
      */
     private function createChanges(): array
     {
+        // @todo Yield
         return [
-            new Change('[B] message', 'Changed', 'B', 'message', 'me'),
-            new Change('[B] message', 'Added', 'B', 'message', 'me'),
-            new Change('[A] message', 'Removed', 'A', 'message', 'me'),
+            new Change('[B] message', 'Changed', 'B', 'message', 'me', 'Unreleased'),
+            new Change('[B] message', 'Added', 'B', 'message', 'me', 'Unreleased'),
+            new Change('[A] message', 'Removed', 'A', 'message', 'me', 'Unreleased'),
         ];
     }
 }
