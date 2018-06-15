@@ -11,7 +11,7 @@ use Symplify\ChangelogLinker\ChangeTree\Change;
 use Symplify\ChangelogLinker\Console\Output\DumpMergesReporter;
 use Symplify\ChangelogLinker\Git\GitCommitDateTagResolver;
 
-final class DumpMergesReporterTest extends TestCase
+final class WithTagsTest extends TestCase
 {
     /**
      * @var Change[]
@@ -36,15 +36,15 @@ final class DumpMergesReporterTest extends TestCase
             $this->bufferedOutput
         ), new GitCommitDateTagResolver());
 
-        $this->changes = [new Change('[SomePackage] Message', 'Added', 'SomePackage', 'Message', 'me', 'Unreleased')];
+        $this->changes = [new Change('[SomePackage] Message', 'Added', 'SomePackage', 'Message', 'me', 'v2.0.0')];
     }
 
     public function testReportChanges(): void
     {
-        $this->dumpMergesReporter->reportChanges($this->changes, false);
+        $this->dumpMergesReporter->reportChanges($this->changes, true);
 
         $this->assertStringEqualsFile(
-            __DIR__ . '/DumpMergesReporterSource/expected1.md',
+            __DIR__ . '/WithTagsSource/expected1.md',
             $this->bufferedOutput->fetch()
         );
     }
@@ -72,9 +72,7 @@ final class DumpMergesReporterTest extends TestCase
 
     public function provideDataForReportChangesWithHeadlines(): Iterator
     {
-        yield [true, false, false, 'categories', __DIR__ . '/DumpMergesReporterSource/expected2.md'];
-        yield [false, true, false, 'packages', __DIR__ . '/DumpMergesReporterSource/expected3.md'];
-        yield [true, true, false, 'packages', __DIR__ . '/DumpMergesReporterSource/expected4.md'];
-        yield [true, true, false, 'categories', __DIR__ . '/DumpMergesReporterSource/expected5.md'];
+        yield [true, false, true, 'categories', __DIR__ . '/WithTagsSource/expected2.md'];
+        yield [false, true, true, 'categories', __DIR__ . '/WithTagsSource/expected3.md'];
     }
 }
