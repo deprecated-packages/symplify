@@ -54,6 +54,11 @@ final class DumpMergesReporter
      */
     private $wasEmptyLineBefore = false;
 
+    /**
+     * @var string
+     */
+    private $priority;
+
     public function __construct(SymfonyStyle $symfonyStyle, GitCommitDateTagResolver $gitCommitDateTagResolver)
     {
         $this->symfonyStyle = $symfonyStyle;
@@ -97,6 +102,7 @@ final class DumpMergesReporter
         $this->withTags = $withTags;
         $this->withCategories = $withCategories;
         $this->withPackages = $withPackages;
+        $this->priority = $priority;
 
         // only categories or only packages
         if ($this->withCategories ^ $this->withPackages) {
@@ -104,7 +110,7 @@ final class DumpMergesReporter
             return;
         }
 
-        $this->reportChangesByCategoriesAndPackages($changes, $priority);
+        $this->reportChangesByCategoriesAndPackages($changes);
     }
 
     /**
@@ -143,13 +149,13 @@ final class DumpMergesReporter
     /**
      * @param Change[] $changes
      */
-    private function reportChangesByCategoriesAndPackages(array $changes, string $priority): void
+    private function reportChangesByCategoriesAndPackages(array $changes): void
     {
         $previousPrimary = '';
         $previousSecondary = '';
 
         foreach ($changes as $change) {
-            if ($priority === ChangeSorter::PRIORITY_PACKAGES) {
+            if ($this->priority === ChangeSorter::PRIORITY_PACKAGES) {
                 $currentPrimary = $change->getPackage();
                 $currentSecondary = $change->getCategory();
             } else {
@@ -177,14 +183,13 @@ final class DumpMergesReporter
         if ($previousPrimary !== $currentPrimary) {
             $this->symfonyStyle->newLine(1);
             $this->symfonyStyle->writeln('### ' . $currentPrimary);
-            $this->addEmptyLineIfNotYet();
 
             $previousSecondary = null;
         }
 
-        if ($previousSecondary !== $currentSecondary) {
-            $this->addEmptyLineIfNotYet();
+        $this->addEmptyLineIfNotYet();
 
+        if ($previousSecondary !== $currentSecondary) {
             $this->symfonyStyle->writeln('#### ' . $currentSecondary);
             $this->symfonyStyle->newLine(1);
         }
