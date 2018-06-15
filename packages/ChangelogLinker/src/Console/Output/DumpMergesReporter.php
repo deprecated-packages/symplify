@@ -49,6 +49,11 @@ final class DumpMergesReporter
      */
     private $withPackages = false;
 
+    /**
+     * @var bool
+     */
+    private $wasEmptyLineBefore = false;
+
     public function __construct(SymfonyStyle $symfonyStyle, GitCommitDateTagResolver $gitCommitDateTagResolver)
     {
         $this->symfonyStyle = $symfonyStyle;
@@ -116,7 +121,7 @@ final class DumpMergesReporter
                 if ($this->previousTag !== $change->getTag()) {
                     $this->symfonyStyle->newLine(1);
                     $this->symfonyStyle->writeln('## ' . $this->createTagLine($change));
-                    $this->symfonyStyle->newLine(1);
+                    $this->addEmptyLineIfNotYet();
                 }
 
                 $this->previousTag = $change->getTag();
@@ -124,9 +129,7 @@ final class DumpMergesReporter
 
             if ($this->withPackages) {
                 if ($this->previousPackage !== $change->getPackage()) {
-                    if (! $this->withTags) {
-                        $this->symfonyStyle->newLine(1);
-                    }
+                    $this->addEmptyLineIfNotYet();
 
                     $this->symfonyStyle->writeln('### ' . $change->getPackage());
                     $this->symfonyStyle->newLine(1);
@@ -137,15 +140,13 @@ final class DumpMergesReporter
 
             if ($this->withCategories) {
                 if ($this->previousCategory !== $change->getCategory()) {
-                    if (! $this->withTags) {
-                        $this->symfonyStyle->newLine(1);
-                    }
+                    $this->addEmptyLineIfNotYet();
 
                     $this->symfonyStyle->writeln('### ' . $change->getCategory());
                     $this->symfonyStyle->newLine(1);
-
-                    $this->previousCategory = $change->getCategory();
                 }
+
+                $this->previousCategory = $change->getCategory();
             }
 
             $message = $this->withPackages ? $change->getMessageWithoutPackage() : $change->getMessage();
@@ -190,21 +191,16 @@ final class DumpMergesReporter
         string $previousSecondary,
         string $currentSecondary
     ): void {
-        $spaceAlreadyAdded = false;
-
         if ($previousPrimary !== $currentPrimary) {
             $this->symfonyStyle->newLine(1);
             $this->symfonyStyle->writeln('### ' . $currentPrimary);
-            $this->symfonyStyle->newLine(1);
-            $spaceAlreadyAdded = true;
+            $this->addEmptyLineIfNotYet();
 
             $previousSecondary = null;
         }
 
         if ($previousSecondary !== $currentSecondary) {
-            if (! $spaceAlreadyAdded) {
-                $this->symfonyStyle->newLine(1);
-            }
+            $this->addEmptyLineIfNotYet();
 
             $this->symfonyStyle->writeln('#### ' . $currentSecondary);
             $this->symfonyStyle->newLine(1);
@@ -221,5 +217,15 @@ final class DumpMergesReporter
         }
 
         return $tagLine;
+    }
+
+    private function addEmptyLineIfNotYet(): void
+    {
+        if ($this->wasEmptyLineBefore) {
+            $this->wasEmptyLineBefore = false;
+        } else {
+            $this->symfonyStyle->newLine(1);
+            $this->wasEmptyLineBefore = true;
+        }
     }
 }
