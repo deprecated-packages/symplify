@@ -43,10 +43,7 @@ final class WithTagsTest extends TestCase
     {
         $this->dumpMergesReporter->reportChanges($this->changes, true);
 
-        $this->assertStringEqualsFile(
-            __DIR__ . '/WithTagsSource/expected1.md',
-            $this->bufferedOutput->fetch()
-        );
+        $this->assertStringEqualsFile(__DIR__ . '/WithTagsSource/expected1.md', $this->bufferedOutput->fetch());
     }
 
     /**
