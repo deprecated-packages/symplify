@@ -79,14 +79,13 @@ final class DumpMergesCommand extends Command
         DumpMergesReporter $dumpMergesReporter,
         ChangeFactory $changeFactory
     ) {
+        parent::__construct();
+        $this->changeFactory = $changeFactory;
         $this->githubApi = $githubApi;
         $this->symfonyStyle = $symfonyStyle;
         $this->changeSorter = $changeSorter;
         $this->idsAnalyzer = $idsAnalyzer;
         $this->dumpMergesReporter = $dumpMergesReporter;
-
-        parent::__construct();
-        $this->changeFactory = $changeFactory;
     }
 
     protected function configure(): void
@@ -123,6 +122,9 @@ final class DumpMergesCommand extends Command
     {
         $highestIdInChangelog = $this->idsAnalyzer->getHighestIdInChangelog(getcwd() . '/CHANGELOG.md');
 
+        // @todo temp
+        $highestIdInChangelog = 850;
+
         if ($input->getOption('token')) {
             $this->githubApi->authorizeToken($input->getOption('token'));
         }
@@ -152,11 +154,13 @@ final class DumpMergesCommand extends Command
         $sortPriority = $this->getSortPriority($input);
 
         $sortedChanges = $this->changeSorter->sortByCategoryAndPackage($this->changes, $sortPriority);
+        $sortedChanges = $this->changeSorter->sortByTags($sortedChanges);
 
         $this->dumpMergesReporter->reportChangesWithHeadlines(
             $sortedChanges,
             $input->getOption(self::OPTION_IN_CATEGORIES),
             $input->getOption(self::OPTION_IN_PACKAGES),
+            $input->getOption(self::OPTION_IN_TAGS),
             $sortPriority
         );
 
