@@ -72,14 +72,10 @@ final class DumpMergesReporter
         }
 
         foreach ($changes as $change) {
-            if ($this->withTags) {
-                if ($this->previousTag !== $change->getTag()) {
-                    $this->symfonyStyle->newLine(1);
-                    $this->symfonyStyle->writeln('## ' . $this->createTagLine($change));
-                    $this->symfonyStyle->newLine(1);
-                }
-
-                $this->previousTag = $change->getTag();
+            if ($this->withTags && $this->hasTagChanged($change)) {
+                $this->symfonyStyle->newLine(1);
+                $this->symfonyStyle->writeln('## ' . $this->createTagLine($change));
+                $this->symfonyStyle->newLine(1);
             }
 
             $this->symfonyStyle->writeln($change->getMessage());
@@ -103,7 +99,7 @@ final class DumpMergesReporter
         $this->withPackages = $withPackages;
 
         // only categories or only packages
-        if (($this->withCategories && ! $this->withPackages) || ($this->withPackages && ! $this->withCategories)) {
+        if ($this->withCategories ^ $this->withPackages) {
             $this->reportChangesByOneGroup($changes);
             return;
         }
@@ -117,36 +113,23 @@ final class DumpMergesReporter
     private function reportChangesByOneGroup(array $changes): void
     {
         foreach ($changes as $change) {
-            if ($this->withTags) {
-                if ($this->previousTag !== $change->getTag()) {
-                    $this->symfonyStyle->newLine(1);
-                    $this->symfonyStyle->writeln('## ' . $this->createTagLine($change));
-                    $this->addEmptyLineIfNotYet();
-                }
-
-                $this->previousTag = $change->getTag();
+            if ($this->withTags && $this->hasTagChanged($change)) {
+                $this->symfonyStyle->newLine(1);
+                $this->symfonyStyle->writeln('## ' . $this->createTagLine($change));
             }
 
-            if ($this->withPackages) {
-                if ($this->previousPackage !== $change->getPackage()) {
-                    $this->addEmptyLineIfNotYet();
+            $this->addEmptyLineIfNotYet();
 
-                    $this->symfonyStyle->writeln('### ' . $change->getPackage());
-                    $this->symfonyStyle->newLine(1);
-                }
-
-                $this->previousPackage = $change->getPackage();
+            if ($this->withPackages && $this->hasPackageChanged($change)) {
+                $this->symfonyStyle->writeln('### ' . $change->getPackage());
+                $this->symfonyStyle->newLine(1);
             }
 
-            if ($this->withCategories) {
-                if ($this->previousCategory !== $change->getCategory()) {
-                    $this->addEmptyLineIfNotYet();
+            $this->addEmptyLineIfNotYet();
 
-                    $this->symfonyStyle->writeln('### ' . $change->getCategory());
-                    $this->symfonyStyle->newLine(1);
-                }
-
-                $this->previousCategory = $change->getCategory();
+            if ($this->withCategories && $this->hasCategoryChanged($change)) {
+                $this->symfonyStyle->writeln('### ' . $change->getCategory());
+                $this->symfonyStyle->newLine(1);
             }
 
             $message = $this->withPackages ? $change->getMessageWithoutPackage() : $change->getMessage();
@@ -227,5 +210,32 @@ final class DumpMergesReporter
             $this->symfonyStyle->newLine(1);
             $this->wasEmptyLineBefore = true;
         }
+    }
+
+    private function hasTagChanged(Change $change): bool
+    {
+        $hasTagChanged = $this->previousTag !== $change->getTag();
+
+        $this->previousTag = $change->getTag();
+
+        return $hasTagChanged;
+    }
+
+    private function hasPackageChanged(Change $change): bool
+    {
+        $hasPackageChanged = $this->previousPackage !== $change->getPackage();
+
+        $this->previousPackage = $change->getPackage();
+
+        return $hasPackageChanged;
+    }
+
+    private function hasCategoryChanged(Change $change): bool
+    {
+        $hasCategoryChanged = $this->previousCategory !== $change->getCategory();
+
+        $this->previousCategory = $change->getCategory();
+
+        return $hasCategoryChanged;
     }
 }
