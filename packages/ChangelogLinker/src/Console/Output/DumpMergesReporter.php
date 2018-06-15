@@ -61,6 +61,7 @@ final class DumpMergesReporter
         array $changes,
         bool $withCategories,
         bool $withPackages,
+        bool $withTags,
         string $priority
     ): void {
         // only categories

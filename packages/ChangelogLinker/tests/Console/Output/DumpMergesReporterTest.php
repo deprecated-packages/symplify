@@ -62,6 +62,7 @@ final class DumpMergesReporterTest extends TestCase
     public function testReportBothWithCategoriesPriority(
         bool $withCategories,
         bool $withPackages,
+        bool $withTags,
         string $priority,
         string $expectedOutputFile
     ): void {
@@ -69,6 +70,7 @@ final class DumpMergesReporterTest extends TestCase
             $this->changes,
             $withCategories,
             $withPackages,
+            $withTags,
             $priority
         );
 
@@ -77,9 +79,9 @@ final class DumpMergesReporterTest extends TestCase
 
     public function provideDataForReportChangesWithHeadlines(): Iterator
     {
-        yield [true, false, 'categories', __DIR__ . '/DumpMergesReporterSource/expected2.md'];
-        yield [false, true, 'packages', __DIR__ . '/DumpMergesReporterSource/expected3.md'];
-        yield [true, true, 'packages', __DIR__ . '/DumpMergesReporterSource/expected4.md'];
-        yield [true, true, 'categories', __DIR__ . '/DumpMergesReporterSource/expected5.md'];
+        yield [true, false, false, 'categories', __DIR__ . '/DumpMergesReporterSource/expected2.md'];
+        yield [false, true, false, 'packages', __DIR__ . '/DumpMergesReporterSource/expected3.md'];
+        yield [true, true, false, 'packages', __DIR__ . '/DumpMergesReporterSource/expected4.md'];
+        yield [true, true, false, 'categories', __DIR__ . '/DumpMergesReporterSource/expected5.md'];
     }
 }
