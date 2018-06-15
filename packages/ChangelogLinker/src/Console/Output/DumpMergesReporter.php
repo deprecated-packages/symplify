@@ -19,6 +19,16 @@ final class DumpMergesReporter
      */
     private $gitCommitDateTagResolver;
 
+    /**
+     * @var bool
+     */
+    private $withTags = false;
+
+    /**
+     * @var string|null
+     */
+    private $previousTag = null;
+
     public function __construct(SymfonyStyle $symfonyStyle, GitCommitDateTagResolver $gitCommitDateTagResolver)
     {
         $this->symfonyStyle = $symfonyStyle;
@@ -30,22 +40,21 @@ final class DumpMergesReporter
      */
     public function reportChanges(array $changes, bool $withTags): void
     {
-        if (! $withTags) {
+        $this->withTags = $withTags;
+
+        if (! $this->withTags) {
             $this->symfonyStyle->newLine(1);
-        } else {
-            $changes = $this->sortChangesByTags($changes);
         }
 
-        $previousTag = '';
         foreach ($changes as $change) {
-            if ($withTags) {
-                if ($previousTag !== $change->getTag()) {
+            if ($this->withTags) {
+                if ($this->previousTag !== $change->getTag()) {
                     $this->symfonyStyle->newLine(1);
                     $this->symfonyStyle->writeln('## ' . $this->createTagLine($change));
                     $this->symfonyStyle->newLine(1);
                 }
 
-                $previousTag = $change->getTag();
+                $this->previousTag = $change->getTag();
             }
 
             $this->symfonyStyle->writeln($change->getMessage());
@@ -64,15 +73,17 @@ final class DumpMergesReporter
         bool $withTags,
         string $priority
     ): void {
+        $this->withTags = $withTags;
+
         // only categories
         if ($withCategories && ! $withPackages) {
-            $this->reportChangesByCategories($changes, $withTags);
+            $this->reportChangesByCategories($changes);
             return;
         }
 
         // only packages
         if ($withPackages && ! $withCategories) {
-            $this->reportChangesByPackages($changes, $withTags);
+            $this->reportChangesByPackages($changes);
             return;
         }
 
@@ -82,24 +93,22 @@ final class DumpMergesReporter
     /**
      * @param Change[] $changes
      */
-    private function reportChangesByPackages(array $changes, bool $withTags): void
+    private function reportChangesByPackages(array $changes): void
     {
         $previousPackage = '';
-        $previousTag = '';
-
         foreach ($changes as $change) {
-            if ($withTags) {
-                if ($previousTag !== $change->getTag()) {
+            if ($this->withTags) {
+                if ($this->previousTag !== $change->getTag()) {
                     $this->symfonyStyle->newLine(1);
                     $this->symfonyStyle->writeln('## ' . $this->createTagLine($change));
                     $this->symfonyStyle->newLine(1);
                 }
 
-                $previousTag = $change->getTag();
+                $this->previousTag = $change->getTag();
             }
 
             if ($previousPackage !== $change->getPackage()) {
-                if (! $withTags) {
+                if (! $this->withTags) {
                     $this->symfonyStyle->newLine(1);
                 }
 
@@ -119,24 +128,22 @@ final class DumpMergesReporter
     /**
      * @param Change[] $changes
      */
-    private function reportChangesByCategories(array $changes, bool $withTags): void
+    private function reportChangesByCategories(array $changes): void
     {
         $previousCategory = '';
-        $previousTag = '';
-
         foreach ($changes as $change) {
-            if ($withTags) {
-                if ($previousTag !== $change->getTag()) {
+            if ($this->withTags) {
+                if ($this->previousTag !== $change->getTag()) {
                     $this->symfonyStyle->newLine(1);
                     $this->symfonyStyle->writeln('## ' . $this->createTagLine($change));
                     $this->symfonyStyle->newLine(1);
                 }
 
-                $previousTag = $change->getTag();
+                $this->previousTag = $change->getTag();
             }
 
             if ($previousCategory !== $change->getCategory()) {
-                if (! $withTags) {
+                if (! $this->withTags) {
                     $this->symfonyStyle->newLine(1);
                 }
 
@@ -217,30 +224,5 @@ final class DumpMergesReporter
         }
 
         return $tagLine;
-    }
-
-    /**
-     * @inspiration https://stackoverflow.com/questions/25475196/sort-array-that-specific-values-will-be-first
-     *
-     * @param Change[] $changes
-     * @return Change[]
-     */
-    private function sortChangesByTags(array $changes): array
-    {
-        usort($changes, function (Change $firstChange, Change $secondChange) {
-            // make "Unreleased" first
-            if ($firstChange->getTag() === 'Unreleased') {
-                return -1;
-            }
-
-            if ($secondChange->getTag() === 'Unreleased') {
-                return 1;
-            }
-
-            // then sort by tags
-            return version_compare($secondChange->getTag(), $firstChange->getTag());
-        });
-
-        return $changes;
     }
 }

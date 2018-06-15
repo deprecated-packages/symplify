@@ -44,4 +44,29 @@ final class ChangeSorter
 
         return $changes;
     }
+
+    /**
+     * @inspiration https://stackoverflow.com/questions/25475196/sort-array-that-specific-values-will-be-first
+     *
+     * @param Change[] $changes
+     * @return Change[]
+     */
+    public function sortByTags(array $changes): array
+    {
+        usort($changes, function (Change $firstChange, Change $secondChange) {
+            // make "Unreleased" first
+            if ($firstChange->getTag() === 'Unreleased') {
+                return -1;
+            }
+
+            if ($secondChange->getTag() === 'Unreleased') {
+                return 1;
+            }
+
+            // then sort by tags
+            return version_compare($secondChange->getTag(), $firstChange->getTag());
+        });
+
+        return $changes;
+    }
 }
