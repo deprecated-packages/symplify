@@ -66,13 +66,13 @@ final class DumpMergesReporter
     ): void {
         // only categories
         if ($withCategories && ! $withPackages) {
-            $this->reportChangesByCategories($changes);
+            $this->reportChangesByCategories($changes, $withTags);
             return;
         }
 
         // only packages
         if ($withPackages && ! $withCategories) {
-            $this->reportChangesByPackages($changes);
+            $this->reportChangesByPackages($changes, $withTags);
             return;
         }
 
@@ -82,12 +82,27 @@ final class DumpMergesReporter
     /**
      * @param Change[] $changes
      */
-    private function reportChangesByPackages(array $changes): void
+    private function reportChangesByPackages(array $changes, bool $withTags): void
     {
         $previousPackage = '';
+        $previousTag = '';
+
         foreach ($changes as $change) {
+            if ($withTags) {
+                if ($previousTag !== $change->getTag()) {
+                    $this->symfonyStyle->newLine(1);
+                    $this->symfonyStyle->writeln('## ' . $this->createTagLine($change));
+                    $this->symfonyStyle->newLine(1);
+                }
+
+                $previousTag = $change->getTag();
+            }
+
             if ($previousPackage !== $change->getPackage()) {
-                $this->symfonyStyle->newLine(1);
+                if (! $withTags) {
+                    $this->symfonyStyle->newLine(1);
+                }
+
                 $this->symfonyStyle->writeln('### ' . $change->getPackage());
                 $this->symfonyStyle->newLine(1);
             }
@@ -104,12 +119,27 @@ final class DumpMergesReporter
     /**
      * @param Change[] $changes
      */
-    private function reportChangesByCategories(array $changes): void
+    private function reportChangesByCategories(array $changes, bool $withTags): void
     {
         $previousCategory = '';
+        $previousTag = '';
+
         foreach ($changes as $change) {
+            if ($withTags) {
+                if ($previousTag !== $change->getTag()) {
+                    $this->symfonyStyle->newLine(1);
+                    $this->symfonyStyle->writeln('## ' . $this->createTagLine($change));
+                    $this->symfonyStyle->newLine(1);
+                }
+
+                $previousTag = $change->getTag();
+            }
+
             if ($previousCategory !== $change->getCategory()) {
-                $this->symfonyStyle->newLine(1);
+                if (! $withTags) {
+                    $this->symfonyStyle->newLine(1);
+                }
+
                 $this->symfonyStyle->writeln('### ' . $change->getCategory());
                 $this->symfonyStyle->newLine(1);
             }
