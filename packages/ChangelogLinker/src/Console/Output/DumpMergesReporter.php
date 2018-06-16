@@ -62,23 +62,6 @@ final class DumpMergesReporter
     /**
      * @param Change[] $changes
      */
-    public function reportChanges(array $changes, bool $withTags): void
-    {
-        $this->withTags = $withTags;
-
-        $this->content .= PHP_EOL;
-
-        foreach ($changes as $change) {
-            $this->displayTagIfDesired($change);
-            $this->content .= $change->getMessage() . PHP_EOL;
-        }
-
-        $this->content .= PHP_EOL;
-    }
-
-    /**
-     * @param Change[] $changes
-     */
     public function reportChangesWithHeadlines(
         array $changes,
         bool $withCategories,
@@ -129,6 +112,8 @@ final class DumpMergesReporter
         $previousSecondary = '';
 
         foreach ($changes as $change) {
+            $this->displayTagIfDesired($change);
+
             if ($this->priority === ChangeSorter::PRIORITY_PACKAGES) {
                 $currentPrimary = $change->getPackage();
                 $currentSecondary = $change->getCategory();
@@ -137,9 +122,15 @@ final class DumpMergesReporter
                 $currentSecondary = $change->getPackage();
             }
 
-            $this->reportHeadline($previousPrimary, $currentPrimary, $previousSecondary, $currentSecondary);
+            if ($this->withPackages || $this->withPackages) {
+                $this->reportHeadline($previousPrimary, $currentPrimary, $previousSecondary, $currentSecondary);
+            }
 
-            $this->content .= $change->getMessageWithoutPackage() . PHP_EOL;
+            if ($this->withPackages) {
+                $this->content .= $change->getMessageWithoutPackage() . PHP_EOL;
+            } else {
+                $this->content .= $change->getMessage() . PHP_EOL;
+            }
 
             $previousPrimary = $currentPrimary;
             $previousSecondary = $currentSecondary;

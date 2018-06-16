@@ -29,7 +29,7 @@ final class DumpMergesReporterTest extends TestCase
 
     public function testReportChanges(): void
     {
-        $this->dumpMergesReporter->reportChanges($this->changes, false);
+        $this->dumpMergesReporter->reportChangesWithHeadlines($this->changes, false, false, false, 'packages');
 
         $this->assertStringEqualsFile(
             __DIR__ . '/DumpMergesReporterSource/expected1.md',
