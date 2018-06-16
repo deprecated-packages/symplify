@@ -54,6 +54,11 @@ final class DumpMergesReporter
      */
     private $content;
 
+    /**
+     * @var int
+     */
+    private $headlineLevel = 3;
+
     public function __construct(GitCommitDateTagResolver $gitCommitDateTagResolver)
     {
         $this->gitCommitDateTagResolver = $gitCommitDateTagResolver;
@@ -76,31 +81,7 @@ final class DumpMergesReporter
 
         $this->content .= PHP_EOL;
 
-        // only categories or only packages
-        if ($this->withCategories ^ $this->withPackages) {
-            $this->reportChangesByOneGroup($changes);
-            return;
-        }
-
         $this->reportChangesByCategoriesAndPackages($changes);
-    }
-
-    /**
-     * @param Change[] $changes
-     */
-    private function reportChangesByOneGroup(array $changes): void
-    {
-        foreach ($changes as $change) {
-            $this->displayTagIfDesired($change);
-            $this->displayPackageIfDesired($change);
-            $this->displayCategoryIfDesired($change);
-
-            $message = $this->withPackages ? $change->getMessageWithoutPackage() : $change->getMessage();
-            $this->content .= $message . PHP_EOL;
-        }
-
-        $this->content .= PHP_EOL;
-        return;
     }
 
     /**
@@ -108,54 +89,27 @@ final class DumpMergesReporter
      */
     private function reportChangesByCategoriesAndPackages(array $changes): void
     {
-        $previousPrimary = '';
-        $previousSecondary = '';
-
         foreach ($changes as $change) {
             $this->displayTagIfDesired($change);
 
             if ($this->priority === ChangeSorter::PRIORITY_PACKAGES) {
-                $currentPrimary = $change->getPackage();
-                $currentSecondary = $change->getCategory();
+                $this->displayPackageIfDesired($change);
+                $this->displayCategoryIfDesired($change);
             } else {
-                $currentPrimary = $change->getCategory();
-                $currentSecondary = $change->getPackage();
+                $this->displayCategoryIfDesired($change);
+                $this->displayPackageIfDesired($change);
             }
 
-            if ($this->withPackages || $this->withPackages) {
-                $this->reportHeadline($previousPrimary, $currentPrimary, $previousSecondary, $currentSecondary);
-            }
+            $this->headlineLevel = 3;
 
             if ($this->withPackages) {
                 $this->content .= $change->getMessageWithoutPackage() . PHP_EOL;
             } else {
                 $this->content .= $change->getMessage() . PHP_EOL;
             }
-
-            $previousPrimary = $currentPrimary;
-            $previousSecondary = $currentSecondary;
         }
 
         $this->content .= PHP_EOL;
-    }
-
-    private function reportHeadline(
-        string $previousPrimary,
-        string $currentPrimary,
-        string $previousSecondary,
-        string $currentSecondary
-    ): void {
-        if ($previousPrimary !== $currentPrimary) {
-            $this->content .= '### ' . $currentPrimary . PHP_EOL;
-            $this->content .= PHP_EOL;
-
-            $previousSecondary = null;
-        }
-
-        if ($previousSecondary !== $currentSecondary) {
-            $this->content .= '#### ' . $currentSecondary . PHP_EOL;
-            $this->content .= PHP_EOL;
-        }
     }
 
     private function createTagLine(Change $change): string
@@ -209,14 +163,22 @@ final class DumpMergesReporter
     private function displayCategoryIfDesired(Change $change): void
     {
         if ($this->withCategories && $this->hasCategoryChanged($change)) {
-            $this->content .= $this->wrapByEmptyLines('### ' . $change->getCategory());
+            $this->content .= $this->wrapByEmptyLines(
+                str_repeat('#', $this->headlineLevel) . ' ' . $change->getCategory()
+            );
+
+            $this->headlineLevel = 4;
         }
     }
 
     private function displayPackageIfDesired(Change $change): void
     {
         if ($this->withPackages && $this->hasPackageChanged($change)) {
-            $this->content .= $this->wrapByEmptyLines('### ' . $change->getPackage());
+            $this->content .= $this->wrapByEmptyLines(
+                str_repeat('#', $this->headlineLevel) . ' ' . $change->getPackage()
+            );
+
+            $this->headlineLevel = 4;
         }
     }
 

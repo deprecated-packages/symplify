@@ -144,14 +144,6 @@ final class DumpMergesCommand extends Command
             $this->changes[] = $this->changeFactory->createFromPullRequest($pullRequest);
         }
 
-        if (! $input->getOption(self::OPTION_IN_CATEGORIES) && ! $input->getOption(self::OPTION_IN_PACKAGES)) {
-            $this->dumpMergesReporter->reportChanges($this->changes, $input->getOption(self::OPTION_IN_TAGS));
-            $this->symfonyStyle->writeln($this->dumpMergesReporter->getContent());
-
-            // success
-            return 0;
-        }
-
         $sortPriority = $this->getSortPriority($input);
 
         $sortedChanges = $this->changeSorter->sortByCategoryAndPackage($this->changes, $sortPriority);
