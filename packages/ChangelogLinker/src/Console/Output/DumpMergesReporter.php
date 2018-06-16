@@ -165,34 +165,21 @@ final class DumpMergesReporter
     private function displayCategoryIfDesired(Change $change): void
     {
         if ($this->withCategories && $this->hasCategoryChanged($change)) {
-            $this->content .= $this->wrapByEmptyLines(
-                str_repeat('#', $this->headlineLevel) . ' ' . $change->getCategory()
-            );
+            $this->content .= str_repeat('#', $this->headlineLevel) . ' ' . $change->getCategory() . PHP_EOL;
         }
     }
 
     private function displayPackageIfDesired(Change $change): void
     {
         if ($this->withPackages && $this->hasPackageChanged($change)) {
-            $this->content .= $this->wrapByEmptyLines(
-                str_repeat('#', $this->headlineLevel) . ' ' . $change->getPackage()
-            );
+            $this->content .= str_repeat('#', $this->headlineLevel) . ' ' . $change->getPackage() . PHP_EOL;
         }
     }
 
     private function displayTagIfDesired(Change $change): void
     {
         if ($this->withTags && $this->hasTagChanged($change)) {
-            $this->content .= $this->wrapByEmptyLines('## ' . $this->createTagLine($change));
+            $this->content .= '## ' . $this->createTagLine($change) . PHP_EOL;
         }
-    }
-
-    private function wrapByEmptyLines(string $message): string
-    {
-        $content = PHP_EOL;
-        $content .= $message . PHP_EOL;
-        $content .= PHP_EOL;
-
-        return $content;
     }
 }
