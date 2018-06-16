@@ -4,9 +4,6 @@ namespace Symplify\ChangelogLinker\Tests\Console\Output;
 
 use Iterator;
 use PHPUnit\Framework\TestCase;
-use Symfony\Component\Console\Input\ArrayInput;
-use Symfony\Component\Console\Output\BufferedOutput;
-use Symfony\Component\Console\Style\SymfonyStyle;
 use Symplify\ChangelogLinker\ChangeTree\Change;
 use Symplify\ChangelogLinker\Console\Output\DumpMergesReporter;
 use Symplify\ChangelogLinker\Git\GitCommitDateTagResolver;
@@ -19,22 +16,13 @@ final class WithTagsTest extends TestCase
     private $changes = [];
 
     /**
-     * @var BufferedOutput
-     */
-    private $bufferedOutput;
-
-    /**
      * @var DumpMergesReporter
      */
     private $dumpMergesReporter;
 
     protected function setUp(): void
     {
-        $this->bufferedOutput = new BufferedOutput();
-        $this->dumpMergesReporter = new DumpMergesReporter(new SymfonyStyle(
-            new ArrayInput([]),
-            $this->bufferedOutput
-        ), new GitCommitDateTagResolver());
+        $this->dumpMergesReporter = new DumpMergesReporter(new GitCommitDateTagResolver());
 
         $this->changes = [new Change('[SomePackage] Message', 'Added', 'SomePackage', 'Message', 'me', 'v2.0.0')];
     }
@@ -48,7 +36,10 @@ final class WithTagsTest extends TestCase
 
         $this->dumpMergesReporter->reportChanges($this->changes, true);
 
-        $this->assertStringEqualsFile(__DIR__ . '/WithTagsSource/expected1.md', $this->bufferedOutput->fetch());
+        $this->assertStringEqualsFile(
+            __DIR__ . '/WithTagsSource/expected1.md',
+            $this->dumpMergesReporter->getContent()
+        );
     }
 
     /**
@@ -74,7 +65,7 @@ final class WithTagsTest extends TestCase
             $priority
         );
 
-        $this->assertStringEqualsFile($expectedOutputFile, $this->bufferedOutput->fetch());
+        $this->assertStringEqualsFile($expectedOutputFile, $this->dumpMergesReporter->getContent());
     }
 
     public function provideDataForReportChangesWithHeadlines(): Iterator

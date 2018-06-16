@@ -146,6 +146,7 @@ final class DumpMergesCommand extends Command
 
         if (! $input->getOption(self::OPTION_IN_CATEGORIES) && ! $input->getOption(self::OPTION_IN_PACKAGES)) {
             $this->dumpMergesReporter->reportChanges($this->changes, $input->getOption(self::OPTION_IN_TAGS));
+            $this->symfonyStyle->writeln($this->dumpMergesReporter->getContent());
 
             // success
             return 0;
@@ -163,6 +164,8 @@ final class DumpMergesCommand extends Command
             $input->getOption(self::OPTION_IN_TAGS),
             $sortPriority
         );
+
+        $this->symfonyStyle->writeln($this->dumpMergesReporter->getContent());
 
         // success
         return 0;

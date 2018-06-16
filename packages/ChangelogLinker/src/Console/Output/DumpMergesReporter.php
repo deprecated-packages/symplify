@@ -2,7 +2,7 @@
 
 namespace Symplify\ChangelogLinker\Console\Output;
 
-use Symfony\Component\Console\Style\SymfonyStyle;
+use Nette\Utils\Strings;
 use Symplify\ChangelogLinker\ChangeTree\Change;
 use Symplify\ChangelogLinker\ChangeTree\ChangeSorter;
 use Symplify\ChangelogLinker\Git\GitCommitDateTagResolver;
@@ -40,16 +40,6 @@ final class DumpMergesReporter
     private $withPackages = false;
 
     /**
-     * @var bool
-     */
-    private $wasEmptyLineBefore = false;
-
-    /**
-     * @var SymfonyStyle
-     */
-    private $symfonyStyle;
-
-    /**
      * @var GitCommitDateTagResolver
      */
     private $gitCommitDateTagResolver;
@@ -59,9 +49,13 @@ final class DumpMergesReporter
      */
     private $priority;
 
-    public function __construct(SymfonyStyle $symfonyStyle, GitCommitDateTagResolver $gitCommitDateTagResolver)
+    /**
+     * @var string
+     */
+    private $content;
+
+    public function __construct(GitCommitDateTagResolver $gitCommitDateTagResolver)
     {
-        $this->symfonyStyle = $symfonyStyle;
         $this->gitCommitDateTagResolver = $gitCommitDateTagResolver;
     }
 
@@ -72,21 +66,14 @@ final class DumpMergesReporter
     {
         $this->withTags = $withTags;
 
-        if (! $this->withTags) {
-            $this->symfonyStyle->newLine(1);
-        }
+        $this->content .= PHP_EOL;
 
         foreach ($changes as $change) {
-            if ($this->shouldDisplayTag($change)) {
-                $this->symfonyStyle->newLine(1);
-                $this->symfonyStyle->writeln('## ' . $this->createTagLine($change));
-                $this->symfonyStyle->newLine(1);
-            }
-
-            $this->symfonyStyle->writeln($change->getMessage());
+            $this->displayTagIfDesired($change);
+            $this->content .= $change->getMessage() . PHP_EOL;
         }
 
-        $this->symfonyStyle->newLine(1);
+        $this->content .= PHP_EOL;
     }
 
     /**
@@ -104,6 +91,8 @@ final class DumpMergesReporter
         $this->withPackages = $withPackages;
         $this->priority = $priority;
 
+        $this->content .= PHP_EOL;
+
         // only categories or only packages
         if ($this->withCategories ^ $this->withPackages) {
             $this->reportChangesByOneGroup($changes);
@@ -120,18 +109,14 @@ final class DumpMergesReporter
     {
         foreach ($changes as $change) {
             $this->displayTagIfDesired($change);
-            $this->addEmptyLineIfNotYet();
-
             $this->displayPackageIfDesired($change);
-            $this->addEmptyLineIfNotYet();
-
             $this->displayCategoryIfDesired($change);
 
             $message = $this->withPackages ? $change->getMessageWithoutPackage() : $change->getMessage();
-            $this->symfonyStyle->writeln($message);
+            $this->content .= $message . PHP_EOL;
         }
 
-        $this->symfonyStyle->newLine(1);
+        $this->content .= PHP_EOL;
         return;
     }
 
@@ -154,13 +139,13 @@ final class DumpMergesReporter
 
             $this->reportHeadline($previousPrimary, $currentPrimary, $previousSecondary, $currentSecondary);
 
-            $this->symfonyStyle->writeln($change->getMessageWithoutPackage());
+            $this->content .= $change->getMessageWithoutPackage() . PHP_EOL;
 
             $previousPrimary = $currentPrimary;
             $previousSecondary = $currentSecondary;
         }
 
-        $this->symfonyStyle->newLine(1);
+        $this->content .= PHP_EOL;
     }
 
     private function reportHeadline(
@@ -170,17 +155,15 @@ final class DumpMergesReporter
         string $currentSecondary
     ): void {
         if ($previousPrimary !== $currentPrimary) {
-            $this->symfonyStyle->newLine(1);
-            $this->symfonyStyle->writeln('### ' . $currentPrimary);
+            $this->content .= '### ' . $currentPrimary . PHP_EOL;
+            $this->content .= PHP_EOL;
 
             $previousSecondary = null;
         }
 
-        $this->addEmptyLineIfNotYet();
-
         if ($previousSecondary !== $currentSecondary) {
-            $this->symfonyStyle->writeln('#### ' . $currentSecondary);
-            $this->symfonyStyle->newLine(1);
+            $this->content .= '#### ' . $currentSecondary . PHP_EOL;
+            $this->content .= PHP_EOL;
         }
     }
 
@@ -196,14 +179,13 @@ final class DumpMergesReporter
         return $tagLine;
     }
 
-    private function addEmptyLineIfNotYet(): void
+    public function getContent(): string
     {
-        if ($this->wasEmptyLineBefore) {
-            $this->wasEmptyLineBefore = false;
-        } else {
-            $this->symfonyStyle->newLine(1);
-            $this->wasEmptyLineBefore = true;
-        }
+        // 2 lines from the start
+        $this->content = Strings::replace($this->content, '#^(\n){2,}#', PHP_EOL);
+
+        // 3 lines to 2
+        return Strings::replace($this->content, '#(\n){3,}#', PHP_EOL . PHP_EOL);
     }
 
     private function hasTagChanged(Change $change): bool
@@ -233,32 +215,33 @@ final class DumpMergesReporter
         return $hasCategoryChanged;
     }
 
-    private function shouldDisplayTag(Change $change): bool
-    {
-        return $this->withTags && $this->hasTagChanged($change);
-    }
-
     private function displayCategoryIfDesired(Change $change): void
     {
         if ($this->withCategories && $this->hasCategoryChanged($change)) {
-            $this->symfonyStyle->writeln('### ' . $change->getCategory());
-            $this->symfonyStyle->newLine(1);
+            $this->content .= $this->wrapByEmptyLines('### ' . $change->getCategory());
         }
     }
 
     private function displayPackageIfDesired(Change $change): void
     {
         if ($this->withPackages && $this->hasPackageChanged($change)) {
-            $this->symfonyStyle->writeln('### ' . $change->getPackage());
-            $this->symfonyStyle->newLine(1);
+            $this->content .= $this->wrapByEmptyLines('### ' . $change->getPackage());
         }
     }
 
     private function displayTagIfDesired(Change $change): void
     {
         if ($this->withTags && $this->hasTagChanged($change)) {
-            $this->symfonyStyle->newLine(1);
-            $this->symfonyStyle->writeln('## ' . $this->createTagLine($change));
+            $this->content .= $this->wrapByEmptyLines('## ' . $this->createTagLine($change));
         }
+    }
+
+    private function wrapByEmptyLines(string $message): string
+    {
+        $content = PHP_EOL;
+        $content .= $message . PHP_EOL;
+        $content .= PHP_EOL;
+
+        return $content;
     }
 }
