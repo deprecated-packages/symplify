@@ -70,11 +70,8 @@ final class DumpMergesReporter
                 $this->displayPackageIfDesired($change, $withPackages, $priority);
             }
 
-            if ($withPackages) {
-                $this->content .= $change->getMessageWithoutPackage() . PHP_EOL;
-            } else {
-                $this->content .= $change->getMessage() . PHP_EOL;
-            }
+            $message = $withPackages ? $change->getMessageWithoutPackage() : $change->getMessage();
+            $this->content .= $message . PHP_EOL;
         }
 
         $this->content .= PHP_EOL;
@@ -114,7 +111,6 @@ final class DumpMergesReporter
 
         $headlineLevel = $priority === ChangeSorter::PRIORITY_CATEGORIES ? 4 : 3;
         $this->content .= str_repeat('#', $headlineLevel) . ' ' . $change->getPackage() . PHP_EOL;
-
         $this->previousPackage = $change->getPackage();
     }
 
