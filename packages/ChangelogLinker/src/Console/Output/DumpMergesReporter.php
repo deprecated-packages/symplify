@@ -89,25 +89,24 @@ final class DumpMergesReporter
 
         $this->content .= PHP_EOL;
 
-        $this->reportChangesByCategoriesAndPackages($changes);
-    }
-
-    /**
-     * @param Change[] $changes
-     */
-    private function reportChangesByCategoriesAndPackages(array $changes): void
-    {
         foreach ($changes as $change) {
             $this->displayTagIfDesired($change);
 
             if ($this->priority === ChangeSorter::PRIORITY_PACKAGES) {
                 $this->displayPackageIfDesired($change);
+                if ($this->withCategories && $this->withPackages) {
+                    $this->headlineLevel = 4;
+                }
                 $this->displayCategoryIfDesired($change);
             } else {
                 $this->displayCategoryIfDesired($change);
+                if ($this->withCategories && $this->withPackages) {
+                    $this->headlineLevel = 4;
+                }
                 $this->displayPackageIfDesired($change);
-                $this->headlineLevel = 3;
             }
+
+            $this->headlineLevel = 3;
 
             if ($this->withPackages) {
                 $this->content .= $change->getMessageWithoutPackage() . PHP_EOL;
@@ -169,8 +168,6 @@ final class DumpMergesReporter
             $this->content .= $this->wrapByEmptyLines(
                 str_repeat('#', $this->headlineLevel) . ' ' . $change->getCategory()
             );
-
-            $this->headlineLevel = 4;
         }
     }
 
@@ -180,8 +177,6 @@ final class DumpMergesReporter
             $this->content .= $this->wrapByEmptyLines(
                 str_repeat('#', $this->headlineLevel) . ' ' . $change->getPackage()
             );
-
-            $this->headlineLevel = 4;
         }
     }
 
