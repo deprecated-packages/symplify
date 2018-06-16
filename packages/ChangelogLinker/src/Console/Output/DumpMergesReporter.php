@@ -2,9 +2,9 @@
 
 namespace Symplify\ChangelogLinker\Console\Output;
 
-use Nette\Utils\Strings;
 use Symplify\ChangelogLinker\ChangeTree\Change;
 use Symplify\ChangelogLinker\ChangeTree\ChangeSorter;
+use Symplify\ChangelogLinker\Console\Formatter\DumpMergesFormatter;
 use Symplify\ChangelogLinker\Git\GitCommitDateTagResolver;
 
 final class DumpMergesReporter
@@ -59,9 +59,17 @@ final class DumpMergesReporter
      */
     private $headlineLevel = 3;
 
-    public function __construct(GitCommitDateTagResolver $gitCommitDateTagResolver)
-    {
+    /**
+     * @var DumpMergesFormatter
+     */
+    private $dumpMergesFormatter;
+
+    public function __construct(
+        GitCommitDateTagResolver $gitCommitDateTagResolver,
+        DumpMergesFormatter $dumpMergesFormatter
+    ) {
         $this->gitCommitDateTagResolver = $gitCommitDateTagResolver;
+        $this->dumpMergesFormatter = $dumpMergesFormatter;
     }
 
     /**
@@ -98,9 +106,8 @@ final class DumpMergesReporter
             } else {
                 $this->displayCategoryIfDesired($change);
                 $this->displayPackageIfDesired($change);
+                $this->headlineLevel = 3;
             }
-
-            $this->headlineLevel = 3;
 
             if ($this->withPackages) {
                 $this->content .= $change->getMessageWithoutPackage() . PHP_EOL;
@@ -126,11 +133,7 @@ final class DumpMergesReporter
 
     public function getContent(): string
     {
-        // 2 lines from the start
-        $this->content = Strings::replace($this->content, '#^(\n){2,}#', PHP_EOL);
-
-        // 3 lines to 2
-        return Strings::replace($this->content, '#(\n){3,}#', PHP_EOL . PHP_EOL);
+        return $this->dumpMergesFormatter->format($this->content);
     }
 
     private function hasTagChanged(Change $change): bool

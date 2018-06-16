@@ -5,6 +5,7 @@ namespace Symplify\ChangelogLinker\Tests\Console\Output;
 use Iterator;
 use PHPUnit\Framework\TestCase;
 use Symplify\ChangelogLinker\ChangeTree\Change;
+use Symplify\ChangelogLinker\Console\Formatter\DumpMergesFormatter;
 use Symplify\ChangelogLinker\Console\Output\DumpMergesReporter;
 use Symplify\ChangelogLinker\Git\GitCommitDateTagResolver;
 
@@ -22,7 +23,7 @@ final class DumpMergesReporterTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->dumpMergesReporter = new DumpMergesReporter(new GitCommitDateTagResolver());
+        $this->dumpMergesReporter = new DumpMergesReporter(new GitCommitDateTagResolver(), new DumpMergesFormatter());
 
         $this->changes = [new Change('[SomePackage] Message', 'Added', 'SomePackage', 'Message', 'me', 'Unreleased')];
     }
