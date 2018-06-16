@@ -5,6 +5,7 @@ namespace Symplify\ChangelogLinker\Tests\Console\Output;
 use Iterator;
 use PHPUnit\Framework\TestCase;
 use Symplify\ChangelogLinker\ChangeTree\Change;
+use Symplify\ChangelogLinker\Console\Formatter\DumpMergesFormatter;
 use Symplify\ChangelogLinker\Console\Output\DumpMergesReporter;
 use Symplify\ChangelogLinker\Git\GitCommitDateTagResolver;
 
@@ -22,7 +23,7 @@ final class WithTagsTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->dumpMergesReporter = new DumpMergesReporter(new GitCommitDateTagResolver());
+        $this->dumpMergesReporter = new DumpMergesReporter(new GitCommitDateTagResolver(), new DumpMergesFormatter());
 
         $this->changes = [new Change('[SomePackage] Message', 'Added', 'SomePackage', 'Message', 'me', 'v2.0.0')];
     }
@@ -34,7 +35,7 @@ final class WithTagsTest extends TestCase
             $this->markTestSkipped('Travis makes shallow clones, so unable to test commits/tags.');
         }
 
-        $this->dumpMergesReporter->reportChanges($this->changes, true);
+        $this->dumpMergesReporter->reportChangesWithHeadlines($this->changes, false, false, true, 'categories');
 
         $this->assertStringEqualsFile(
             __DIR__ . '/WithTagsSource/expected1.md',
@@ -49,7 +50,7 @@ final class WithTagsTest extends TestCase
         bool $withCategories,
         bool $withPackages,
         bool $withTags,
-        string $priority,
+        ?string $priority,
         string $expectedOutputFile
     ): void {
         // @see https://docs.travis-ci.com/user/environment-variables/#Default-Environment-Variables
@@ -70,7 +71,7 @@ final class WithTagsTest extends TestCase
 
     public function provideDataForReportChangesWithHeadlines(): Iterator
     {
-        yield [true, false, true, 'categories', __DIR__ . '/WithTagsSource/expected2.md'];
-        yield [false, true, true, 'categories', __DIR__ . '/WithTagsSource/expected3.md'];
+        yield [true, false, true, null, __DIR__ . '/WithTagsSource/expected2.md'];
+        yield [false, true, true, null, __DIR__ . '/WithTagsSource/expected3.md'];
     }
 }

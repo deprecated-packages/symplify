@@ -36,7 +36,7 @@ This command finds the last #ID in the `CHANGELOG.md`, than looks on Github via 
 
 But that is a mash-up of everything. Not very nice:
 
-```
+```markdown
 - [#868] [ChangelogLinker] Add ChangeTree to manage merge messages
 - [#867] [ChangelogLinker] Change Worker registration from implicit to explicit
 - [#865] Improve Code Complexity
@@ -51,7 +51,7 @@ vendor/bin/changelog-linker dump-merges --in-categories
 
 Nice, now everything is nicely grouped:
 
-```
+```markdown
 ### Added
 
 - [#828] [ChangelogLinker] Add Unreleased to last tagged version feature
@@ -79,7 +79,7 @@ vendor/bin/changelog-linker dump-merges --in-packages --in-categories
 
 Finally what we needed:
 
-```
+```markdown
 ### TokenRunner
 
 #### Changed
@@ -95,7 +95,7 @@ vendor/bin/changelog-linker dump-merges --in-packages --in-categories
 
 Yes you can:
 
-```
+```markdown
 ### Fixed
 
 #### EasyCodingStandard
@@ -103,10 +103,44 @@ Yes you can:
 - [#848] [ECS] Fix single file processing
 ```
 
+### Github API Overload?
+
 In case you cross the API rate limit and get denied, create [new Github Token](https://github.com/settings/tokens) and pass it via `--token` option.
 
 ```
 vendor/bin/changelog-linker dump-merges --token super-secret-token
+```
+
+### Tags Included
+
+Tags are the most important when dealing with changelogs. Let's include them! 
+
+```
+vendor/bin/changelog-linker dump-merges --in-tags
+```
+
+```markdown
+## v4.4.1 - 2018-06-07
+
+- [#853] Add test case for #777
+```
+
+**Combination with `--in-packages` and `--in-categories`** is allowed and recommended:
+
+```
+vendor/bin/changelog-linker dump-merges --in-tags --in-categories --in-packages
+```
+
+Will result into this beautiful:
+
+```markdown
+## v4.4.0 - 2018-06-03
+
+### Added
+
+#### EasyCodingStandard
+
+- [#852] Add support for line_ending configuration
 ```
 
 ## B. Decorate `CHANGELOG.md`

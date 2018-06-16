@@ -2,9 +2,9 @@
 
 namespace Symplify\ChangelogLinker\Console\Output;
 
-use Nette\Utils\Strings;
 use Symplify\ChangelogLinker\ChangeTree\Change;
 use Symplify\ChangelogLinker\ChangeTree\ChangeSorter;
+use Symplify\ChangelogLinker\Console\Formatter\DumpMergesFormatter;
 use Symplify\ChangelogLinker\Git\GitCommitDateTagResolver;
 
 final class DumpMergesReporter
@@ -25,21 +25,6 @@ final class DumpMergesReporter
     private $previousTag;
 
     /**
-     * @var bool
-     */
-    private $withTags = false;
-
-    /**
-     * @var bool
-     */
-    private $withCategories = false;
-
-    /**
-     * @var bool
-     */
-    private $withPackages = false;
-
-    /**
      * @var GitCommitDateTagResolver
      */
     private $gitCommitDateTagResolver;
@@ -47,33 +32,19 @@ final class DumpMergesReporter
     /**
      * @var string
      */
-    private $priority;
-
-    /**
-     * @var string
-     */
     private $content;
 
-    public function __construct(GitCommitDateTagResolver $gitCommitDateTagResolver)
-    {
-        $this->gitCommitDateTagResolver = $gitCommitDateTagResolver;
-    }
-
     /**
-     * @param Change[] $changes
+     * @var DumpMergesFormatter
      */
-    public function reportChanges(array $changes, bool $withTags): void
-    {
-        $this->withTags = $withTags;
+    private $dumpMergesFormatter;
 
-        $this->content .= PHP_EOL;
-
-        foreach ($changes as $change) {
-            $this->displayTagIfDesired($change);
-            $this->content .= $change->getMessage() . PHP_EOL;
-        }
-
-        $this->content .= PHP_EOL;
+    public function __construct(
+        GitCommitDateTagResolver $gitCommitDateTagResolver,
+        DumpMergesFormatter $dumpMergesFormatter
+    ) {
+        $this->gitCommitDateTagResolver = $gitCommitDateTagResolver;
+        $this->dumpMergesFormatter = $dumpMergesFormatter;
     }
 
     /**
@@ -84,87 +55,63 @@ final class DumpMergesReporter
         bool $withCategories,
         bool $withPackages,
         bool $withTags,
-        string $priority
+        ?string $priority
     ): void {
-        $this->withTags = $withTags;
-        $this->withCategories = $withCategories;
-        $this->withPackages = $withPackages;
-        $this->priority = $priority;
-
         $this->content .= PHP_EOL;
 
-        // only categories or only packages
-        if ($this->withCategories ^ $this->withPackages) {
-            $this->reportChangesByOneGroup($changes);
-            return;
-        }
-
-        $this->reportChangesByCategoriesAndPackages($changes);
-    }
-
-    /**
-     * @param Change[] $changes
-     */
-    private function reportChangesByOneGroup(array $changes): void
-    {
         foreach ($changes as $change) {
-            $this->displayTagIfDesired($change);
-            $this->displayPackageIfDesired($change);
-            $this->displayCategoryIfDesired($change);
+            $this->displayTagIfDesired($change, $withTags);
 
-            $message = $this->withPackages ? $change->getMessageWithoutPackage() : $change->getMessage();
+            if ($priority === ChangeSorter::PRIORITY_PACKAGES) {
+                $this->displayPackageIfDesired($change, $withPackages, $priority);
+                $this->displayCategoryIfDesired($change, $withCategories, $priority);
+            } else {
+                $this->displayCategoryIfDesired($change, $withCategories, $priority);
+                $this->displayPackageIfDesired($change, $withPackages, $priority);
+            }
+
+            $message = $withPackages ? $change->getMessageWithoutPackage() : $change->getMessage();
             $this->content .= $message . PHP_EOL;
         }
 
         $this->content .= PHP_EOL;
-        return;
     }
 
-    /**
-     * @param Change[] $changes
-     */
-    private function reportChangesByCategoriesAndPackages(array $changes): void
+    public function getContent(): string
     {
-        $previousPrimary = '';
-        $previousSecondary = '';
-
-        foreach ($changes as $change) {
-            if ($this->priority === ChangeSorter::PRIORITY_PACKAGES) {
-                $currentPrimary = $change->getPackage();
-                $currentSecondary = $change->getCategory();
-            } else {
-                $currentPrimary = $change->getCategory();
-                $currentSecondary = $change->getPackage();
-            }
-
-            $this->reportHeadline($previousPrimary, $currentPrimary, $previousSecondary, $currentSecondary);
-
-            $this->content .= $change->getMessageWithoutPackage() . PHP_EOL;
-
-            $previousPrimary = $currentPrimary;
-            $previousSecondary = $currentSecondary;
-        }
-
-        $this->content .= PHP_EOL;
+        return $this->dumpMergesFormatter->format($this->content);
     }
 
-    private function reportHeadline(
-        string $previousPrimary,
-        string $currentPrimary,
-        string $previousSecondary,
-        string $currentSecondary
-    ): void {
-        if ($previousPrimary !== $currentPrimary) {
-            $this->content .= '### ' . $currentPrimary . PHP_EOL;
-            $this->content .= PHP_EOL;
-
-            $previousSecondary = null;
+    private function displayTagIfDesired(Change $change, bool $withTags): void
+    {
+        if ($withTags === false || $this->previousTag === $change->getTag()) {
+            return;
         }
 
-        if ($previousSecondary !== $currentSecondary) {
-            $this->content .= '#### ' . $currentSecondary . PHP_EOL;
-            $this->content .= PHP_EOL;
+        $this->content .= '## ' . $this->createTagLine($change) . PHP_EOL;
+        $this->previousTag = $change->getTag();
+    }
+
+    private function displayCategoryIfDesired(Change $change, bool $withCategories, ?string $priority): void
+    {
+        if ($withCategories === false || $this->previousCategory === $change->getCategory()) {
+            return;
         }
+
+        $headlineLevel = $priority === ChangeSorter::PRIORITY_PACKAGES ? 4 : 3;
+        $this->content .= str_repeat('#', $headlineLevel) . ' ' . $change->getCategory() . PHP_EOL;
+        $this->previousCategory = $change->getCategory();
+    }
+
+    private function displayPackageIfDesired(Change $change, bool $withPackages, ?string $priority): void
+    {
+        if ($withPackages === false || $this->previousPackage === $change->getPackage()) {
+            return;
+        }
+
+        $headlineLevel = $priority === ChangeSorter::PRIORITY_CATEGORIES ? 4 : 3;
+        $this->content .= str_repeat('#', $headlineLevel) . ' ' . $change->getPackage() . PHP_EOL;
+        $this->previousPackage = $change->getPackage();
     }
 
     private function createTagLine(Change $change): string
@@ -177,71 +124,5 @@ final class DumpMergesReporter
         }
 
         return $tagLine;
-    }
-
-    public function getContent(): string
-    {
-        // 2 lines from the start
-        $this->content = Strings::replace($this->content, '#^(\n){2,}#', PHP_EOL);
-
-        // 3 lines to 2
-        return Strings::replace($this->content, '#(\n){3,}#', PHP_EOL . PHP_EOL);
-    }
-
-    private function hasTagChanged(Change $change): bool
-    {
-        $hasTagChanged = $this->previousTag !== $change->getTag();
-
-        $this->previousTag = $change->getTag();
-
-        return $hasTagChanged;
-    }
-
-    private function hasPackageChanged(Change $change): bool
-    {
-        $hasPackageChanged = $this->previousPackage !== $change->getPackage();
-
-        $this->previousPackage = $change->getPackage();
-
-        return $hasPackageChanged;
-    }
-
-    private function hasCategoryChanged(Change $change): bool
-    {
-        $hasCategoryChanged = $this->previousCategory !== $change->getCategory();
-
-        $this->previousCategory = $change->getCategory();
-
-        return $hasCategoryChanged;
-    }
-
-    private function displayCategoryIfDesired(Change $change): void
-    {
-        if ($this->withCategories && $this->hasCategoryChanged($change)) {
-            $this->content .= $this->wrapByEmptyLines('### ' . $change->getCategory());
-        }
-    }
-
-    private function displayPackageIfDesired(Change $change): void
-    {
-        if ($this->withPackages && $this->hasPackageChanged($change)) {
-            $this->content .= $this->wrapByEmptyLines('### ' . $change->getPackage());
-        }
-    }
-
-    private function displayTagIfDesired(Change $change): void
-    {
-        if ($this->withTags && $this->hasTagChanged($change)) {
-            $this->content .= $this->wrapByEmptyLines('## ' . $this->createTagLine($change));
-        }
-    }
-
-    private function wrapByEmptyLines(string $message): string
-    {
-        $content = PHP_EOL;
-        $content .= $message . PHP_EOL;
-        $content .= PHP_EOL;
-
-        return $content;
     }
 }

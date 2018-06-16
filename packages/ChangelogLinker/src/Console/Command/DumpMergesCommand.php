@@ -144,14 +144,6 @@ final class DumpMergesCommand extends Command
             $this->changes[] = $this->changeFactory->createFromPullRequest($pullRequest);
         }
 
-        if (! $input->getOption(self::OPTION_IN_CATEGORIES) && ! $input->getOption(self::OPTION_IN_PACKAGES)) {
-            $this->dumpMergesReporter->reportChanges($this->changes, $input->getOption(self::OPTION_IN_TAGS));
-            $this->symfonyStyle->writeln($this->dumpMergesReporter->getContent());
-
-            // success
-            return 0;
-        }
-
         $sortPriority = $this->getSortPriority($input);
 
         $sortedChanges = $this->changeSorter->sortByCategoryAndPackage($this->changes, $sortPriority);
@@ -172,12 +164,18 @@ final class DumpMergesCommand extends Command
     }
 
     /**
-     * Detects the order in which "--in-packages" and "--in-categories" are called.
+     * Detects the order in which "--in-packages" and "--in-categories" are both called.
      * The first has a priority.
      */
-    private function getSortPriority(InputInterface $input): string
+    private function getSortPriority(InputInterface $input): ?string
     {
         $rawOptions = (new PrivatesAccessor())->getPrivateProperty($input, 'options');
+
+        $requiredOptions = ['in-packages', 'in-categories'];
+
+        if (count(array_intersect($requiredOptions, array_keys($rawOptions))) !== count($requiredOptions)) {
+            return null;
+        }
 
         foreach ($rawOptions as $name => $value) {
             if ($name === 'in-packages') {
@@ -187,6 +185,6 @@ final class DumpMergesCommand extends Command
             return 'categories';
         }
 
-        return 'categories';
+        return null;
     }
 }
