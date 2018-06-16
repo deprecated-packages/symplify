@@ -20,24 +20,14 @@ final class DumpMergesReporter
     private $previousPackage;
 
     /**
-     * @var SymfonyStyle
+     * @var string|null
      */
-    private $symfonyStyle;
-
-    /**
-     * @var GitCommitDateTagResolver
-     */
-    private $gitCommitDateTagResolver;
+    private $previousTag;
 
     /**
      * @var bool
      */
     private $withTags = false;
-
-    /**
-     * @var string|null
-     */
-    private $previousTag = null;
 
     /**
      * @var bool
@@ -53,6 +43,16 @@ final class DumpMergesReporter
      * @var bool
      */
     private $wasEmptyLineBefore = false;
+
+    /**
+     * @var SymfonyStyle
+     */
+    private $symfonyStyle;
+
+    /**
+     * @var GitCommitDateTagResolver
+     */
+    private $gitCommitDateTagResolver;
 
     /**
      * @var string
