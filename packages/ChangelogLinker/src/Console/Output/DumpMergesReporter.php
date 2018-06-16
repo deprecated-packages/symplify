@@ -77,7 +77,7 @@ final class DumpMergesReporter
         }
 
         foreach ($changes as $change) {
-            if ($this->withTags && $this->hasTagChanged($change)) {
+            if ($this->shouldDisplayTag($change)) {
                 $this->symfonyStyle->newLine(1);
                 $this->symfonyStyle->writeln('## ' . $this->createTagLine($change));
                 $this->symfonyStyle->newLine(1);
@@ -119,21 +119,21 @@ final class DumpMergesReporter
     private function reportChangesByOneGroup(array $changes): void
     {
         foreach ($changes as $change) {
-            if ($this->withTags && $this->hasTagChanged($change)) {
+            if ($this->shouldDisplayTag($change)) {
                 $this->symfonyStyle->newLine(1);
                 $this->symfonyStyle->writeln('## ' . $this->createTagLine($change));
             }
 
             $this->addEmptyLineIfNotYet();
 
-            if ($this->withPackages && $this->hasPackageChanged($change)) {
+            if ($this->shouldDisplayPackage($change)) {
                 $this->symfonyStyle->writeln('### ' . $change->getPackage());
                 $this->symfonyStyle->newLine(1);
             }
 
             $this->addEmptyLineIfNotYet();
 
-            if ($this->withCategories && $this->hasCategoryChanged($change)) {
+            if ($this->shouldDisplayCategory($change)) {
                 $this->symfonyStyle->writeln('### ' . $change->getCategory());
                 $this->symfonyStyle->newLine(1);
             }
@@ -242,5 +242,20 @@ final class DumpMergesReporter
         $this->previousCategory = $change->getCategory();
 
         return $hasCategoryChanged;
+    }
+
+    private function shouldDisplayCategory(Change $change): bool
+    {
+        return $this->withCategories && $this->hasCategoryChanged($change);
+    }
+
+    private function shouldDisplayPackage(Change $change): bool
+    {
+        return $this->withPackages && $this->hasPackageChanged($change);
+    }
+
+    private function shouldDisplayTag(Change $change): bool
+    {
+        return $this->withTags && $this->hasTagChanged($change);
     }
 }
