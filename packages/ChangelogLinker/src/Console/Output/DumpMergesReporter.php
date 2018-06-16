@@ -119,24 +119,13 @@ final class DumpMergesReporter
     private function reportChangesByOneGroup(array $changes): void
     {
         foreach ($changes as $change) {
-            if ($this->shouldDisplayTag($change)) {
-                $this->symfonyStyle->newLine(1);
-                $this->symfonyStyle->writeln('## ' . $this->createTagLine($change));
-            }
-
+            $this->displayTagIfDesired($change);
             $this->addEmptyLineIfNotYet();
 
-            if ($this->shouldDisplayPackage($change)) {
-                $this->symfonyStyle->writeln('### ' . $change->getPackage());
-                $this->symfonyStyle->newLine(1);
-            }
-
+            $this->displayPackageIfDesired($change);
             $this->addEmptyLineIfNotYet();
 
-            if ($this->shouldDisplayCategory($change)) {
-                $this->symfonyStyle->writeln('### ' . $change->getCategory());
-                $this->symfonyStyle->newLine(1);
-            }
+            $this->displayCategoryIfDesired($change);
 
             $message = $this->withPackages ? $change->getMessageWithoutPackage() : $change->getMessage();
             $this->symfonyStyle->writeln($message);
@@ -244,18 +233,32 @@ final class DumpMergesReporter
         return $hasCategoryChanged;
     }
 
-    private function shouldDisplayCategory(Change $change): bool
-    {
-        return $this->withCategories && $this->hasCategoryChanged($change);
-    }
-
-    private function shouldDisplayPackage(Change $change): bool
-    {
-        return $this->withPackages && $this->hasPackageChanged($change);
-    }
-
     private function shouldDisplayTag(Change $change): bool
     {
         return $this->withTags && $this->hasTagChanged($change);
+    }
+
+    private function displayCategoryIfDesired(Change $change): void
+    {
+        if ($this->withCategories && $this->hasCategoryChanged($change)) {
+            $this->symfonyStyle->writeln('### ' . $change->getCategory());
+            $this->symfonyStyle->newLine(1);
+        }
+    }
+
+    private function displayPackageIfDesired(Change $change): void
+    {
+        if ($this->withPackages && $this->hasPackageChanged($change)) {
+            $this->symfonyStyle->writeln('### ' . $change->getPackage());
+            $this->symfonyStyle->newLine(1);
+        }
+    }
+
+    private function displayTagIfDesired(Change $change): void
+    {
+        if ($this->withTags && $this->hasTagChanged($change)) {
+            $this->symfonyStyle->newLine(1);
+            $this->symfonyStyle->writeln('## ' . $this->createTagLine($change));
+        }
     }
 }
