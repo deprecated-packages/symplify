@@ -50,7 +50,7 @@ final class WithTagsTest extends TestCase
         bool $withCategories,
         bool $withPackages,
         bool $withTags,
-        string $priority,
+        ?string $priority,
         string $expectedOutputFile
     ): void {
         // @see https://docs.travis-ci.com/user/environment-variables/#Default-Environment-Variables
@@ -71,7 +71,7 @@ final class WithTagsTest extends TestCase
 
     public function provideDataForReportChangesWithHeadlines(): Iterator
     {
-        yield [true, false, true, 'categories', __DIR__ . '/WithTagsSource/expected2.md'];
-        yield [false, true, true, 'categories', __DIR__ . '/WithTagsSource/expected3.md'];
+        yield [true, false, true, null, __DIR__ . '/WithTagsSource/expected2.md'];
+        yield [false, true, true, null, __DIR__ . '/WithTagsSource/expected3.md'];
     }
 }
