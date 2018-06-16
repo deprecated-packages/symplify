@@ -251,33 +251,7 @@ Credit is much more valuable with link to follow:
 [@SpacePossum]: https://github.com/SpacePossum
 ```
 
-### 4. Turn "Unreleased" to The Last Release
-
-- `Symplify\ChangelogLinker\Worker\ReleaseReferencesWorker`
-
-Includes the version and the date. Executes on every new tag, that is not already added in `CHANGELOG.md`.
-
-:x:
-
-```markdown
-## Unreleased
-
-### Added
-
-...
-```
-
-:+1:
-
-```markdown
-## v2.0.0 - 2017-12-31
-
-### Added
-
-...
-```
-
-### 5. Add Links to Specific Words
+### 4. Add Links to Specific Words
 
 - `Symplify\ChangelogLinker\Worker\LinkifyWorker`
 
