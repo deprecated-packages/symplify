@@ -60,6 +60,11 @@ final class PhpDocInfoPrinter
      */
     private $originalSpacingRestorer;
 
+    /**
+     * @var PhpDocInfo
+     */
+    private $phpDocInfo;
+
     public function __construct(
         NodeWithPositionsObjectStorage $nodeWithPositionsObjectStorage,
         OriginalSpacingRestorer $originalSpacingRestorer
@@ -84,6 +89,7 @@ final class PhpDocInfoPrinter
         $this->originalPhpDocNode = $phpDocInfo->getOriginalPhpDocNode();
         $this->tokens = $phpDocInfo->getTokens();
         $this->tokenCount = count($phpDocInfo->getTokens());
+        $this->phpDocInfo = $phpDocInfo;
 
         $this->currentTokenPosition = 0;
         $this->removedNodePositions = [];
@@ -168,9 +174,8 @@ final class PhpDocInfoPrinter
 
         $nodeOutput = $this->printNode($phpDocTagNode->value, $phpDocNodeInfo);
 
-        // fix for: "@Long\Annotation", "@Route("/", name="homepage")"
-        if ((! ctype_upper($phpDocTagNode->name[1]) || ! Strings::match($nodeOutput, '#^\\\\|\(#')) && $nodeOutput) {
-            $output .= ' '; // @todo not manually
+        if ($nodeOutput && $this->isTagSeparatedBySpace($nodeOutput, $phpDocTagNode)) {
+            $output .= ' ';
         }
 
         return $output . $nodeOutput;
@@ -295,5 +300,25 @@ final class PhpDocInfoPrinter
         }
 
         return $output;
+    }
+
+    /**
+     * Covers:
+     * - "@Long\Annotation"
+     * - "@Route("/", name="homepage")",
+     * - "@customAnnotation(value)"
+     */
+    private function isTagSeparatedBySpace(string $nodeOutput, PhpDocTagNode $phpDocTagNode): bool
+    {
+        $contentWithoutSpace = $phpDocTagNode->name . $nodeOutput;
+        if (Strings::contains($this->phpDocInfo->getOriginalContent(), $contentWithoutSpace)) {
+            return false;
+        }
+
+        if (Strings::contains($this->phpDocInfo->getOriginalContent(), $phpDocTagNode->name . ' ')) {
+            return true;
+        }
+
+        return false;
     }
 }
