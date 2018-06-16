@@ -7,6 +7,7 @@ use Nette\Utils\Strings;
 final class DumpMergesFormatter
 {
     /**
+     * @see https://regex101.com/r/JmKFH1/1
      * @var string
      */
     private const HEADLINE_PATTERN = '#^(?<headline>[\#]{2,} [A-Za-z0-9.\- ]+)$#m';
@@ -16,7 +17,6 @@ final class DumpMergesFormatter
         $content = $this->wrapHeadlinesWithEmptyLines($content);
 
         return $this->removeSuperfluousSpaces($content);
-
     }
 
     /**
