@@ -25,29 +25,9 @@ final class DumpMergesReporter
     private $previousTag;
 
     /**
-     * @var bool
-     */
-    private $withTags = false;
-
-    /**
-     * @var bool
-     */
-    private $withCategories = false;
-
-    /**
-     * @var bool
-     */
-    private $withPackages = false;
-
-    /**
      * @var GitCommitDateTagResolver
      */
     private $gitCommitDateTagResolver;
-
-    /**
-     * @var string
-     */
-    private $priority;
 
     /**
      * @var string
@@ -82,33 +62,28 @@ final class DumpMergesReporter
         bool $withTags,
         string $priority
     ): void {
-        $this->withTags = $withTags;
-        $this->withCategories = $withCategories;
-        $this->withPackages = $withPackages;
-        $this->priority = $priority;
-
         $this->content .= PHP_EOL;
 
         foreach ($changes as $change) {
-            $this->displayTagIfDesired($change);
+            $this->displayTagIfDesired($change, $withTags);
 
-            if ($this->priority === ChangeSorter::PRIORITY_PACKAGES) {
-                $this->displayPackageIfDesired($change);
-                if ($this->withCategories && $this->withPackages) {
+            if ($priority === ChangeSorter::PRIORITY_PACKAGES) {
+                $this->displayPackageIfDesired($change, $withPackages);
+                if ($withCategories && $withPackages) {
                     $this->headlineLevel = 4;
                 }
-                $this->displayCategoryIfDesired($change);
+                $this->displayCategoryIfDesired($change, $withCategories);
             } else {
-                $this->displayCategoryIfDesired($change);
-                if ($this->withCategories && $this->withPackages) {
+                $this->displayCategoryIfDesired($change, $withCategories);
+                if ($withCategories && $withPackages) {
                     $this->headlineLevel = 4;
                 }
-                $this->displayPackageIfDesired($change);
+                $this->displayPackageIfDesired($change, $withPackages);
             }
 
             $this->headlineLevel = 3;
 
-            if ($this->withPackages) {
+            if ($withPackages) {
                 $this->content .= $change->getMessageWithoutPackage() . PHP_EOL;
             } else {
                 $this->content .= $change->getMessage() . PHP_EOL;
@@ -135,51 +110,47 @@ final class DumpMergesReporter
         return $this->dumpMergesFormatter->format($this->content);
     }
 
-    private function hasTagChanged(Change $change): bool
+    private function displayTagIfDesired(Change $change, bool $withTags): void
     {
-        $hasTagChanged = $this->previousTag !== $change->getTag();
+        if ($withTags === false) {
+            return;
+        }
 
+        if ($this->previousTag === $change->getTag()) {
+            return;
+        }
+
+        $this->content .= '## ' . $this->createTagLine($change) . PHP_EOL;
         $this->previousTag = $change->getTag();
-
-        return $hasTagChanged;
     }
 
-    private function hasPackageChanged(Change $change): bool
+    private function displayCategoryIfDesired(Change $change, bool $withCategories): void
     {
-        $hasPackageChanged = $this->previousPackage !== $change->getPackage();
+        if ($withCategories === false) {
+            return;
+        }
 
-        $this->previousPackage = $change->getPackage();
+        if ($this->previousCategory === $change->getCategory()) {
+            return;
+        }
 
-        return $hasPackageChanged;
-    }
-
-    private function hasCategoryChanged(Change $change): bool
-    {
-        $hasCategoryChanged = $this->previousCategory !== $change->getCategory();
+        $this->content .= str_repeat('#', $this->headlineLevel) . ' ' . $change->getCategory() . PHP_EOL;
 
         $this->previousCategory = $change->getCategory();
-
-        return $hasCategoryChanged;
     }
 
-    private function displayCategoryIfDesired(Change $change): void
+    private function displayPackageIfDesired(Change $change, bool $withPackages): void
     {
-        if ($this->withCategories && $this->hasCategoryChanged($change)) {
-            $this->content .= str_repeat('#', $this->headlineLevel) . ' ' . $change->getCategory() . PHP_EOL;
+        if ($withPackages === false) {
+            return;
         }
-    }
 
-    private function displayPackageIfDesired(Change $change): void
-    {
-        if ($this->withPackages && $this->hasPackageChanged($change)) {
-            $this->content .= str_repeat('#', $this->headlineLevel) . ' ' . $change->getPackage() . PHP_EOL;
+        if ($this->previousPackage === $change->getPackage()) {
+            return;
         }
-    }
 
-    private function displayTagIfDesired(Change $change): void
-    {
-        if ($this->withTags && $this->hasTagChanged($change)) {
-            $this->content .= '## ' . $this->createTagLine($change) . PHP_EOL;
-        }
+        $this->content .= str_repeat('#', $this->headlineLevel) . ' ' . $change->getPackage() . PHP_EOL;
+
+        $this->previousPackage = $change->getPackage();
     }
 }
