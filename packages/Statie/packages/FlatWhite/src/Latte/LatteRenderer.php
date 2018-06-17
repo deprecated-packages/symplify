@@ -59,10 +59,6 @@ final class LatteRenderer
         $this->lattePlaceholderId = 0;
         $this->highlightedCodeBlocks = [];
 
-        // due to StringLoader
-        // make sure we have content and not file name
-        $originalReference = $file->getFilePath();
-
         // replace code with placeholder
         $contentWithPlaceholders = Strings::replace(
             $file->getContent(),
@@ -77,7 +73,7 @@ final class LatteRenderer
 
         // due to StringLoader
         $this->arrayLoader->changeContent($file->getFilePath(), $contentWithPlaceholders);
-        $renderedContentWithPlaceholders = $this->engine->renderToString($originalReference, $parameters);
+        $renderedContentWithPlaceholders = $this->engine->renderToString($file->getFilePath(), $parameters);
 
         // replace placeholder back with code
         return Strings::replace(
