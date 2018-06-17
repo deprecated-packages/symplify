@@ -2,6 +2,7 @@
 
 namespace Symplify\Statie\Application;
 
+use Nette\Utils\Strings;
 use SplFileInfo;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symplify\Statie\Configuration\Configuration;
@@ -109,6 +110,10 @@ final class StatieApplication
     private function loadLayoutsToLatteLoader(array $layoutFiles): void
     {
         foreach ($layoutFiles as $layoutFile) {
+            if ($layoutFile->getExtension() !== 'latte') {
+                continue;
+            }
+
             $name = $layoutFile->getBasename('.' . $layoutFile->getExtension());
             $content = file_get_contents($layoutFile->getRealPath());
             $this->arrayLoader->changeContent($name, $content);

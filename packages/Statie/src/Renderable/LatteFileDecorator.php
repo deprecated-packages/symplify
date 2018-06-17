@@ -3,6 +3,7 @@
 namespace Symplify\Statie\Renderable;
 
 use Latte\CompileException;
+use Nette\Utils\Strings;
 use Symplify\Statie\Configuration\Configuration;
 use Symplify\Statie\Contract\Renderable\FileDecoratorInterface;
 use Symplify\Statie\Exception\Latte\InvalidLatteSyntaxException;
@@ -49,6 +50,10 @@ final class LatteFileDecorator implements FileDecoratorInterface
     public function decorateFilesWithGeneratorElement(array $files, GeneratorElement $generatorElement): array
     {
         foreach ($files as $file) {
+            if (! in_array($file->getExtension(), ['latte', 'md'], true)) {
+                continue;
+            }
+
             $this->decorateFileWithGeneratorElements($file, $generatorElement);
         }
 
