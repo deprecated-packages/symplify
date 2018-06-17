@@ -8,7 +8,7 @@ use Symplify\Statie\Configuration\Configuration;
 use Symplify\Statie\Event\BeforeRenderEvent;
 use Symplify\Statie\FileSystem\FileFinder;
 use Symplify\Statie\FileSystem\FileSystemWriter;
-use Symplify\Statie\FlatWhite\Latte\DynamicStringLoader;
+use Symplify\Statie\FlatWhite\Latte\ArrayLoader;
 use Symplify\Statie\Generator\Generator;
 use Symplify\Statie\Renderable\RenderableFilesProcessor;
 
@@ -30,9 +30,9 @@ final class StatieApplication
     private $renderableFilesProcessor;
 
     /**
-     * @var DynamicStringLoader
+     * @var ArrayLoader
      */
-    private $dynamicStringLoader;
+    private $arrayLoader;
 
     /**
      * @var Generator
@@ -53,7 +53,7 @@ final class StatieApplication
         Configuration $configuration,
         FileSystemWriter $fileSystemWriter,
         RenderableFilesProcessor $renderableFilesProcessor,
-        DynamicStringLoader $dynamicStringLoader,
+        ArrayLoader $arrayLoader,
         Generator $generator,
         FileFinder $fileFinder,
         EventDispatcherInterface $eventDispatcher
@@ -61,7 +61,7 @@ final class StatieApplication
         $this->configuration = $configuration;
         $this->fileSystemWriter = $fileSystemWriter;
         $this->renderableFilesProcessor = $renderableFilesProcessor;
-        $this->dynamicStringLoader = $dynamicStringLoader;
+        $this->arrayLoader = $arrayLoader;
         $this->generator = $generator;
         $this->fileFinder = $fileFinder;
         $this->eventDispatcher = $eventDispatcher;
@@ -109,9 +109,13 @@ final class StatieApplication
     private function loadLayoutsToLatteLoader(array $layoutFiles): void
     {
         foreach ($layoutFiles as $layoutFile) {
+            if ($layoutFile->getExtension() !== 'latte') {
+                continue;
+            }
+
             $name = $layoutFile->getBasename('.' . $layoutFile->getExtension());
             $content = file_get_contents($layoutFile->getRealPath());
-            $this->dynamicStringLoader->changeContent($name, $content);
+            $this->arrayLoader->changeContent($name, $content);
         }
     }
 }

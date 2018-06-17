@@ -4,6 +4,7 @@ namespace Symplify\Statie\FlatWhite\Latte;
 
 use Latte\Engine;
 use Nette\Utils\Strings;
+use Symplify\Statie\Renderable\File\AbstractFile;
 
 final class LatteRenderer
 {
@@ -33,37 +34,31 @@ final class LatteRenderer
     private $engine;
 
     /**
-     * @var DynamicStringLoader
+     * @var ArrayLoader
      */
-    private $dynamicStringLoader;
+    private $arrayLoader;
 
     /**
      * @var string[]
      */
     private $highlightedCodeBlocks = [];
 
-    public function __construct(LatteFactory $latteFactory, DynamicStringLoader $dynamicStringLoader)
+    public function __construct(LatteFactory $latteFactory, ArrayLoader $arrayLoader)
     {
         $this->engine = $latteFactory->create();
-        $this->dynamicStringLoader = $dynamicStringLoader;
+        $this->arrayLoader = $arrayLoader;
     }
 
     /**
      * @param mixed[] $parameters
      */
-    public function renderExcludingHighlightBlocks(string $content, array $parameters): string
+    public function renderExcludingHighlightBlocks(AbstractFile $file, array $parameters): string
     {
-        $this->lattePlaceholderId = 0;
-        $this->highlightedCodeBlocks = [];
-
-        // due to StringLoader
-        // make sure we have content and not file name
-        $originalReference = $content;
-        $content = $this->dynamicStringLoader->getContent($content);
+        $this->reset();
 
         // replace code with placeholder
         $contentWithPlaceholders = Strings::replace(
-            $content,
+            $file->getContent(),
             self::CODE_BLOCKS_HTML_PATTERN,
             function (array $match): string {
                 $placeholder = self::PLACEHOLDER_PREFIX . ++$this->lattePlaceholderId;
@@ -73,9 +68,9 @@ final class LatteRenderer
             }
         );
 
-        // due to StringLoader
-        $this->dynamicStringLoader->changeContent($originalReference, $contentWithPlaceholders);
-        $renderedContentWithPlaceholders = $this->engine->renderToString($originalReference, $parameters);
+        // co-dependency of Latte\Engine
+        $this->arrayLoader->changeContent($file->getFilePath(), $contentWithPlaceholders);
+        $renderedContentWithPlaceholders = $this->engine->renderToString($file->getFilePath(), $parameters);
 
         // replace placeholder back with code
         return Strings::replace(
@@ -85,5 +80,11 @@ final class LatteRenderer
                 return $this->highlightedCodeBlocks[$match['placeholder']];
             }
         );
+    }
+
+    private function reset(): void
+    {
+        $this->lattePlaceholderId = 0;
+        $this->highlightedCodeBlocks = [];
     }
 }

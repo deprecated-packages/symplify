@@ -8,7 +8,7 @@ use Symplify\Statie\FlatWhite\Exception\MissingLatteTemplateException;
 /**
  * Inspired by @see \Latte\Loaders\StringLoader.
  */
-final class DynamicStringLoader implements ILoader
+final class ArrayLoader implements ILoader
 {
     /**
      * @var string[]

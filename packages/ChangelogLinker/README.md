@@ -113,7 +113,7 @@ vendor/bin/changelog-linker dump-merges --token super-secret-token
 
 ### Tags Included
 
-Tags are the most important when dealing with changelogs. Let's include them! 
+Tags are the most important when dealing with changelogs. Let's include them!
 
 ```
 vendor/bin/changelog-linker dump-merges --in-tags
