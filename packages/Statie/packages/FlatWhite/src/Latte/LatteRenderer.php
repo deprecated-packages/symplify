@@ -54,10 +54,7 @@ final class LatteRenderer
      */
     public function renderExcludingHighlightBlocks(AbstractFile $file, array $parameters): string
     {
-        $this->arrayLoader->changeContent($file->getFilePath(), $file->getContent());
-
-        $this->lattePlaceholderId = 0;
-        $this->highlightedCodeBlocks = [];
+        $this->reset();
 
         // replace code with placeholder
         $contentWithPlaceholders = Strings::replace(
@@ -71,7 +68,7 @@ final class LatteRenderer
             }
         );
 
-        // due to StringLoader
+        // co-dependency of Latte\Engine
         $this->arrayLoader->changeContent($file->getFilePath(), $contentWithPlaceholders);
         $renderedContentWithPlaceholders = $this->engine->renderToString($file->getFilePath(), $parameters);
 
@@ -83,5 +80,11 @@ final class LatteRenderer
                 return $this->highlightedCodeBlocks[$match['placeholder']];
             }
         );
+    }
+
+    private function reset(): void
+    {
+        $this->lattePlaceholderId = 0;
+        $this->highlightedCodeBlocks = [];
     }
 }
