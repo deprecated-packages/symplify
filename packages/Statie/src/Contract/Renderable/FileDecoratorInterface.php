@@ -19,4 +19,9 @@ interface FileDecoratorInterface
      * @return AbstractFile[]|AbstractGeneratorFile[]
      */
     public function decorateFilesWithGeneratorElement(array $files, GeneratorElement $generatorElement): array;
+
+    /**
+     * Higher priorities are executed first.
+     */
+    public function getPriority(): int;
 }

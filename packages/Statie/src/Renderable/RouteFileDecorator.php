@@ -61,6 +61,11 @@ final class RouteFileDecorator implements FileDecoratorInterface
         return $files;
     }
 
+    public function getPriority(): int
+    {
+        return 900;
+    }
+
     private function decorateFile(AbstractFile $file): void
     {
         // manual config override has preference

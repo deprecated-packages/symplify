@@ -47,6 +47,14 @@ final class ConfigurationDecorator implements FileDecoratorInterface
         return $this->decorateFiles($files);
     }
 
+    /**
+     * Has to run before Markdown; so it can render perex and content is set.
+     */
+    public function getPriority(): int
+    {
+        return 1000;
+    }
+
     private function decorateFile(AbstractFile $file): void
     {
         $matches = Strings::match($file->getContent(), $this->getConfigAndContentPattern());
