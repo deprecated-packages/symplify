@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
 use Symplify\Statie\Application\StatieApplication;
 use Symplify\Statie\DependencyInjection\ContainerFactory;
 use Symplify\Statie\Exception\Utils\MissingDirectoryException;
-use Symplify\Statie\FlatWhite\Latte\DynamicStringLoader;
+use Symplify\Statie\FlatWhite\Latte\ArrayLoader;
 
 final class StatieApplicationTest extends TestCase
 {
@@ -17,7 +17,7 @@ final class StatieApplicationTest extends TestCase
     private $statieApplication;
 
     /**
-     * @var DynamicStringLoader
+     * @var ArrayLoader
      */
     private $dynamicStringLoader;
 
@@ -25,7 +25,7 @@ final class StatieApplicationTest extends TestCase
     {
         $container = (new ContainerFactory())->createWithConfig(__DIR__ . '/StatieApplicationSource/statie.yml');
         $this->statieApplication = $container->get(StatieApplication::class);
-        $this->dynamicStringLoader = $container->get(DynamicStringLoader::class);
+        $this->dynamicStringLoader = $container->get(ArrayLoader::class);
     }
 
     protected function tearDown(): void

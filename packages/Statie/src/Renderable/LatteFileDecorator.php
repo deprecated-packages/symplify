@@ -7,7 +7,7 @@ use Symplify\Statie\Configuration\Configuration;
 use Symplify\Statie\Contract\Renderable\FileDecoratorInterface;
 use Symplify\Statie\Exception\Latte\InvalidLatteSyntaxException;
 use Symplify\Statie\Exception\Renderable\File\AccessKeyNotAvailableException;
-use Symplify\Statie\FlatWhite\Latte\DynamicStringLoader;
+use Symplify\Statie\FlatWhite\Latte\ArrayLoader;
 use Symplify\Statie\FlatWhite\Latte\LatteRenderer;
 use Symplify\Statie\Generator\Configuration\GeneratorElement;
 use Symplify\Statie\Renderable\File\AbstractFile;
@@ -20,7 +20,7 @@ final class LatteFileDecorator implements FileDecoratorInterface
     private $configuration;
 
     /**
-     * @var DynamicStringLoader
+     * @var ArrayLoader
      */
     private $dynamicStringLoader;
 
@@ -31,7 +31,7 @@ final class LatteFileDecorator implements FileDecoratorInterface
 
     public function __construct(
         Configuration $configuration,
-        DynamicStringLoader $dynamicStringLoader,
+        ArrayLoader $dynamicStringLoader,
         LatteRenderer $latteRenderer
     ) {
         $this->configuration = $configuration;

@@ -8,7 +8,7 @@ use Symplify\Statie\Configuration\Configuration;
 use Symplify\Statie\Event\BeforeRenderEvent;
 use Symplify\Statie\FileSystem\FileFinder;
 use Symplify\Statie\FileSystem\FileSystemWriter;
-use Symplify\Statie\FlatWhite\Latte\DynamicStringLoader;
+use Symplify\Statie\FlatWhite\Latte\ArrayLoader;
 use Symplify\Statie\Generator\Generator;
 use Symplify\Statie\Renderable\RenderableFilesProcessor;
 
@@ -30,7 +30,7 @@ final class StatieApplication
     private $renderableFilesProcessor;
 
     /**
-     * @var DynamicStringLoader
+     * @var ArrayLoader
      */
     private $dynamicStringLoader;
 
@@ -53,7 +53,7 @@ final class StatieApplication
         Configuration $configuration,
         FileSystemWriter $fileSystemWriter,
         RenderableFilesProcessor $renderableFilesProcessor,
-        DynamicStringLoader $dynamicStringLoader,
+        ArrayLoader $dynamicStringLoader,
         Generator $generator,
         FileFinder $fileFinder,
         EventDispatcherInterface $eventDispatcher

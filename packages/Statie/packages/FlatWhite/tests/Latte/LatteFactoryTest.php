@@ -3,7 +3,7 @@
 namespace Symplify\Statie\FlatWhite\Tests\Latte;
 
 use Latte\Engine;
-use Symplify\Statie\FlatWhite\Latte\DynamicStringLoader;
+use Symplify\Statie\FlatWhite\Latte\ArrayLoader;
 use Symplify\Statie\FlatWhite\Latte\LatteFactory;
 use Symplify\Statie\Tests\AbstractContainerAwareTestCase;
 
@@ -23,7 +23,7 @@ final class LatteFactoryTest extends AbstractContainerAwareTestCase
     {
         $latte = $this->latteFactory->create();
         $this->assertInstanceOf(Engine::class, $latte);
-        $this->assertInstanceOf(DynamicStringLoader::class, $latte->getLoader());
+        $this->assertInstanceOf(ArrayLoader::class, $latte->getLoader());
         $this->assertGreaterThanOrEqual(36, $latte->getFilters());
     }
 }

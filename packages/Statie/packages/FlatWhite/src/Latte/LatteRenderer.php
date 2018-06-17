@@ -33,7 +33,7 @@ final class LatteRenderer
     private $engine;
 
     /**
-     * @var DynamicStringLoader
+     * @var ArrayLoader
      */
     private $dynamicStringLoader;
 
@@ -42,7 +42,7 @@ final class LatteRenderer
      */
     private $highlightedCodeBlocks = [];
 
-    public function __construct(LatteFactory $latteFactory, DynamicStringLoader $dynamicStringLoader)
+    public function __construct(LatteFactory $latteFactory, ArrayLoader $dynamicStringLoader)
     {
         $this->engine = $latteFactory->create();
         $this->dynamicStringLoader = $dynamicStringLoader;

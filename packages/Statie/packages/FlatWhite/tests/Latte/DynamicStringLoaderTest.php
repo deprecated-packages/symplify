@@ -3,13 +3,13 @@
 namespace Symplify\Statie\FlatWhite\Tests\Latte;
 
 use PHPUnit\Framework\TestCase;
-use Symplify\Statie\FlatWhite\Latte\DynamicStringLoader;
+use Symplify\Statie\FlatWhite\Latte\ArrayLoader;
 use Throwable;
 
 final class DynamicStringLoaderTest extends TestCase
 {
     /**
-     * @var DynamicStringLoader
+     * @var ArrayLoader
      */
     private $dynamicStringLoader;
 
@@ -29,9 +29,9 @@ final class DynamicStringLoaderTest extends TestCase
         $this->assertFalse($this->dynamicStringLoader->isExpired('missing', 123));
     }
 
-    private function createStringLoader(): DynamicStringLoader
+    private function createStringLoader(): ArrayLoader
     {
-        $loader = new DynamicStringLoader();
+        $loader = new ArrayLoader();
         $loader->changeContent('default', file_get_contents(__DIR__ . '/DynamicStringLoaderSource/default.latte'));
 
         return $loader;

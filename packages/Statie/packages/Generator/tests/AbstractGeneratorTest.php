@@ -8,7 +8,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symplify\Statie\Configuration\Configuration;
 use Symplify\Statie\DependencyInjection\ContainerFactory;
 use Symplify\Statie\FileSystem\FileSystemWriter;
-use Symplify\Statie\FlatWhite\Latte\DynamicStringLoader;
+use Symplify\Statie\FlatWhite\Latte\ArrayLoader;
 use Symplify\Statie\Generator\Generator;
 
 abstract class AbstractGeneratorTest extends TestCase
@@ -72,8 +72,8 @@ abstract class AbstractGeneratorTest extends TestCase
      */
     private function prepareLayouts(): void
     {
-        /** @var DynamicStringLoader $dynamicStringLoader */
-        $dynamicStringLoader = $this->container->get(DynamicStringLoader::class);
+        /** @var ArrayLoader $dynamicStringLoader */
+        $dynamicStringLoader = $this->container->get(ArrayLoader::class);
         $dynamicStringLoader->changeContent(
             'post',
             file_get_contents($this->sourceDirectory . '/_layouts/post.latte')
