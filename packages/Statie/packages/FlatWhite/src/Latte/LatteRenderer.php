@@ -4,6 +4,7 @@ namespace Symplify\Statie\FlatWhite\Latte;
 
 use Latte\Engine;
 use Nette\Utils\Strings;
+use Symplify\Statie\Renderable\File\AbstractFile;
 
 final class LatteRenderer
 {
@@ -35,35 +36,36 @@ final class LatteRenderer
     /**
      * @var ArrayLoader
      */
-    private $dynamicStringLoader;
+    private $arrayLoader;
 
     /**
      * @var string[]
      */
     private $highlightedCodeBlocks = [];
 
-    public function __construct(LatteFactory $latteFactory, ArrayLoader $dynamicStringLoader)
+    public function __construct(LatteFactory $latteFactory, ArrayLoader $arrayLoader)
     {
         $this->engine = $latteFactory->create();
-        $this->dynamicStringLoader = $dynamicStringLoader;
+        $this->arrayLoader = $arrayLoader;
     }
 
     /**
      * @param mixed[] $parameters
      */
-    public function renderExcludingHighlightBlocks(string $content, array $parameters): string
+    public function renderExcludingHighlightBlocks(AbstractFile $file, array $parameters): string
     {
+        $this->arrayLoader->changeContent($file->getFilePath(), $file->getContent());
+
         $this->lattePlaceholderId = 0;
         $this->highlightedCodeBlocks = [];
 
         // due to StringLoader
         // make sure we have content and not file name
-        $originalReference = $content;
-        $content = $this->dynamicStringLoader->getContent($content);
+        $originalReference = $file->getFilePath();
 
         // replace code with placeholder
         $contentWithPlaceholders = Strings::replace(
-            $content,
+            $file->getContent(),
             self::CODE_BLOCKS_HTML_PATTERN,
             function (array $match): string {
                 $placeholder = self::PLACEHOLDER_PREFIX . ++$this->lattePlaceholderId;
@@ -74,7 +76,7 @@ final class LatteRenderer
         );
 
         // due to StringLoader
-        $this->dynamicStringLoader->changeContent($originalReference, $contentWithPlaceholders);
+        $this->arrayLoader->changeContent($file->getFilePath(), $contentWithPlaceholders);
         $renderedContentWithPlaceholders = $this->engine->renderToString($originalReference, $parameters);
 
         // replace placeholder back with code

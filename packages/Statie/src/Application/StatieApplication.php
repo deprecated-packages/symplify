@@ -32,7 +32,7 @@ final class StatieApplication
     /**
      * @var ArrayLoader
      */
-    private $dynamicStringLoader;
+    private $arrayLoader;
 
     /**
      * @var Generator
@@ -53,7 +53,7 @@ final class StatieApplication
         Configuration $configuration,
         FileSystemWriter $fileSystemWriter,
         RenderableFilesProcessor $renderableFilesProcessor,
-        ArrayLoader $dynamicStringLoader,
+        ArrayLoader $arrayLoader,
         Generator $generator,
         FileFinder $fileFinder,
         EventDispatcherInterface $eventDispatcher
@@ -61,7 +61,7 @@ final class StatieApplication
         $this->configuration = $configuration;
         $this->fileSystemWriter = $fileSystemWriter;
         $this->renderableFilesProcessor = $renderableFilesProcessor;
-        $this->dynamicStringLoader = $dynamicStringLoader;
+        $this->arrayLoader = $arrayLoader;
         $this->generator = $generator;
         $this->fileFinder = $fileFinder;
         $this->eventDispatcher = $eventDispatcher;
@@ -111,7 +111,7 @@ final class StatieApplication
         foreach ($layoutFiles as $layoutFile) {
             $name = $layoutFile->getBasename('.' . $layoutFile->getExtension());
             $content = file_get_contents($layoutFile->getRealPath());
-            $this->dynamicStringLoader->changeContent($name, $content);
+            $this->arrayLoader->changeContent($name, $content);
         }
     }
 }

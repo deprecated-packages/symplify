@@ -19,13 +19,13 @@ final class StatieApplicationTest extends TestCase
     /**
      * @var ArrayLoader
      */
-    private $dynamicStringLoader;
+    private $arrayLoader;
 
     protected function setUp(): void
     {
         $container = (new ContainerFactory())->createWithConfig(__DIR__ . '/StatieApplicationSource/statie.yml');
         $this->statieApplication = $container->get(StatieApplication::class);
-        $this->dynamicStringLoader = $container->get(ArrayLoader::class);
+        $this->arrayLoader = $container->get(ArrayLoader::class);
     }
 
     protected function tearDown(): void
@@ -49,7 +49,7 @@ final class StatieApplicationTest extends TestCase
         $this->assertFileExists(__DIR__ . '/StatieApplicationSource/output/feed.xml');
         $this->assertFileExists(__DIR__ . '/StatieApplicationSource/output/atom.rss');
 
-        $this->assertNotEmpty($this->dynamicStringLoader->getContent('default'));
+        $this->assertNotEmpty($this->arrayLoader->getContent('default'));
     }
 
     public function testRunForMissingSource(): void

@@ -6,33 +6,33 @@ use PHPUnit\Framework\TestCase;
 use Symplify\Statie\FlatWhite\Latte\ArrayLoader;
 use Throwable;
 
-final class DynamicStringLoaderTest extends TestCase
+final class ArrayLoaderTest extends TestCase
 {
     /**
      * @var ArrayLoader
      */
-    private $dynamicStringLoader;
+    private $arrayLoader;
 
     protected function setUp(): void
     {
-        $this->dynamicStringLoader = $this->createStringLoader();
+        $this->arrayLoader = $this->createStringLoader();
     }
 
     public function testGetContentOnMissing(): void
     {
         $this->expectException(Throwable::class);
-        $this->dynamicStringLoader->getContent('missing');
+        $this->arrayLoader->getContent('missing');
     }
 
     public function testIsExpired(): void
     {
-        $this->assertFalse($this->dynamicStringLoader->isExpired('missing', 123));
+        $this->assertFalse($this->arrayLoader->isExpired('missing', 123));
     }
 
     private function createStringLoader(): ArrayLoader
     {
         $loader = new ArrayLoader();
-        $loader->changeContent('default', file_get_contents(__DIR__ . '/DynamicStringLoaderSource/default.latte'));
+        $loader->changeContent('default', file_get_contents(__DIR__ . '/ArrayLoaderSource/default.latte'));
 
         return $loader;
     }

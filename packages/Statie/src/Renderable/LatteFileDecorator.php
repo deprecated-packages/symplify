@@ -7,7 +7,6 @@ use Symplify\Statie\Configuration\Configuration;
 use Symplify\Statie\Contract\Renderable\FileDecoratorInterface;
 use Symplify\Statie\Exception\Latte\InvalidLatteSyntaxException;
 use Symplify\Statie\Exception\Renderable\File\AccessKeyNotAvailableException;
-use Symplify\Statie\FlatWhite\Latte\ArrayLoader;
 use Symplify\Statie\FlatWhite\Latte\LatteRenderer;
 use Symplify\Statie\Generator\Configuration\GeneratorElement;
 use Symplify\Statie\Renderable\File\AbstractFile;
@@ -20,22 +19,13 @@ final class LatteFileDecorator implements FileDecoratorInterface
     private $configuration;
 
     /**
-     * @var ArrayLoader
-     */
-    private $dynamicStringLoader;
-
-    /**
      * @var LatteRenderer
      */
     private $latteRenderer;
 
-    public function __construct(
-        Configuration $configuration,
-        ArrayLoader $dynamicStringLoader,
-        LatteRenderer $latteRenderer
-    ) {
+    public function __construct(Configuration $configuration, LatteRenderer $latteRenderer)
+    {
         $this->configuration = $configuration;
-        $this->dynamicStringLoader = $dynamicStringLoader;
         $this->latteRenderer = $latteRenderer;
     }
 
@@ -86,18 +76,11 @@ final class LatteFileDecorator implements FileDecoratorInterface
         // add layout
         $this->prependLayoutToFileContent($file, $generatorElement->getLayout());
 
-        $this->addTemplateToDynamicLatteStringLoader($file);
-
         $htmlContent = $this->renderToString($file, $parameters);
 
         // trim {layout %s} left over
         $htmlContent = preg_replace('/{layout "[a-z]+"}/', '', $htmlContent);
         $file->changeContent($htmlContent);
-    }
-
-    private function addTemplateToDynamicLatteStringLoader(AbstractFile $file): void
-    {
-        $this->dynamicStringLoader->changeContent($file->getBaseName(), $file->getContent());
     }
 
     private function prependLayoutToFileContent(AbstractFile $file, string $layout): void
@@ -114,8 +97,6 @@ final class LatteFileDecorator implements FileDecoratorInterface
             $this->prependLayoutToFileContent($file, $file->getLayout());
         }
 
-        $this->addTemplateToDynamicLatteStringLoader($file);
-
         return $this->renderToString($file, $parameters);
     }
 
@@ -125,7 +106,7 @@ final class LatteFileDecorator implements FileDecoratorInterface
     private function renderToString(AbstractFile $file, array $parameters): string
     {
         try {
-            return $this->latteRenderer->renderExcludingHighlightBlocks($file->getBaseName(), $parameters);
+            return $this->latteRenderer->renderExcludingHighlightBlocks($file, $parameters);
         } catch (CompileException | AccessKeyNotAvailableException $exception) {
             throw new InvalidLatteSyntaxException(sprintf(
                 'Invalid Latte syntax found or missing value in "%s" file: %s',
