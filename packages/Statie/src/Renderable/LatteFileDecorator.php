@@ -3,7 +3,6 @@
 namespace Symplify\Statie\Renderable;
 
 use Latte\CompileException;
-use Nette\Utils\Strings;
 use Symplify\Statie\Configuration\Configuration;
 use Symplify\Statie\Contract\Renderable\FileDecoratorInterface;
 use Symplify\Statie\Exception\Latte\InvalidLatteSyntaxException;

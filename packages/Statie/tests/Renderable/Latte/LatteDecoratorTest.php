@@ -27,12 +27,9 @@ final class LatteDecoratorTest extends AbstractContainerAwareTestCase
         $this->latteFileDecorator = $this->container->get(LatteFileDecorator::class);
         $this->fileFactory = $this->container->get(FileFactory::class);
 
-        /** @var ArrayLoader $dynamicStringLoader */
-        $dynamicStringLoader = $this->container->get(ArrayLoader::class);
-        $dynamicStringLoader->changeContent(
-            'default',
-            file_get_contents(__DIR__ . '/LatteDecoratorSource/default.latte')
-        );
+        /** @var ArrayLoader $arrayLoader */
+        $arrayLoader = $this->container->get(ArrayLoader::class);
+        $arrayLoader->changeContent('default', file_get_contents(__DIR__ . '/LatteDecoratorSource/default.latte'));
     }
 
     public function testDecorateFile(): void

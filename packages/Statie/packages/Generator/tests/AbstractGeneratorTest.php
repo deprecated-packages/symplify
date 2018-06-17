@@ -72,13 +72,10 @@ abstract class AbstractGeneratorTest extends TestCase
      */
     private function prepareLayouts(): void
     {
-        /** @var ArrayLoader $dynamicStringLoader */
-        $dynamicStringLoader = $this->container->get(ArrayLoader::class);
-        $dynamicStringLoader->changeContent(
-            'post',
-            file_get_contents($this->sourceDirectory . '/_layouts/post.latte')
-        );
-        $dynamicStringLoader->changeContent(
+        /** @var ArrayLoader $arrayLoader */
+        $arrayLoader = $this->container->get(ArrayLoader::class);
+        $arrayLoader->changeContent('post', file_get_contents($this->sourceDirectory . '/_layouts/post.latte'));
+        $arrayLoader->changeContent(
             'lecture',
             file_get_contents($this->sourceDirectory . '/_layouts/lecture.latte')
         );

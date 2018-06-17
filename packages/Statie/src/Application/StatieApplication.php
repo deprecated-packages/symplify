@@ -2,7 +2,6 @@
 
 namespace Symplify\Statie\Application;
 
-use Nette\Utils\Strings;
 use SplFileInfo;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symplify\Statie\Configuration\Configuration;
