@@ -10,8 +10,10 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symplify\PackageBuilder\DependencyInjection\DefinitionCollector;
 use Symplify\PackageBuilder\DependencyInjection\DefinitionFinder;
+use Symplify\Statie\Contract\Renderable\FileDecoratorInterface;
 use Symplify\Statie\Contract\Templating\FilterProviderInterface;
 use Symplify\Statie\FlatWhite\Latte\LatteFactory;
+use Symplify\Statie\Renderable\RenderableFilesProcessor;
 
 final class CollectorCompilerPass implements CompilerPassInterface
 {
@@ -30,6 +32,7 @@ final class CollectorCompilerPass implements CompilerPassInterface
         $this->collectEventSubscribersEventDispatcher($containerBuilder);
         $this->collectCommandsToConsoleApplication($containerBuilder);
         $this->loadFilterProvidersToLatteFactory($containerBuilder);
+        $this->loadFileDecoratorToRenderableFilesProcessor($containerBuilder);
     }
 
     private function collectCommandsToConsoleApplication(ContainerBuilder $containerBuilder): void
@@ -59,6 +62,16 @@ final class CollectorCompilerPass implements CompilerPassInterface
             EventDispatcherInterface::class,
             EventSubscriberInterface::class,
             'addSubscriber'
+        );
+    }
+
+    private function loadFileDecoratorToRenderableFilesProcessor(ContainerBuilder $containerBuilder): void
+    {
+        $this->definitionCollector->loadCollectorWithType(
+            $containerBuilder,
+            RenderableFilesProcessor::class,
+            FileDecoratorInterface::class,
+            'addFileDecorator'
         );
     }
 }

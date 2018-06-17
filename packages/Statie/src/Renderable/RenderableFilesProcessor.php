@@ -67,7 +67,7 @@ final class RenderableFilesProcessor
             return [];
         }
 
-        foreach ($this->fileDecorators as $fileDecorator) {
+        foreach ($this->getFileDecorators() as $fileDecorator) {
             $objects = $fileDecorator->decorateFilesWithGeneratorElement($objects, $generatorElement);
         }
 
@@ -77,5 +77,22 @@ final class RenderableFilesProcessor
         $this->configuration->addOption($generatorElement->getVariableGlobal(), $objects);
 
         return $objects;
+    }
+
+    /**
+     * @return FileDecoratorInterface[]
+     */
+    private function getFileDecorators(): array
+    {
+        $this->sortFileDecorators();
+
+        return $this->fileDecorators;
+    }
+
+    private function sortFileDecorators(): void
+    {
+        usort($this->fileDecorators, function (FileDecoratorInterface $first, FileDecoratorInterface $second) {
+            return $first->getPriority() < $second->getPriority();
+        });
     }
 }

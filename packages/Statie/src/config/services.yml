@@ -9,14 +9,3 @@ services:
     # bin file
     Symplify\Statie\Console\Application:
         public: true
-
-    Symplify\Statie\Renderable\RenderableFilesProcessor:
-        # order is important, since determined order of calls in code
-        calls:
-            # has to run before Markdown; so it can render perex and content is set
-            - ['addFileDecorator', ['@Symplify\Statie\Renderable\ConfigurationDecorator']]
-            # has to run before Latte; it fails the other way.
-            - ['addFileDecorator', ['@Symplify\Statie\Renderable\MarkdownFileDecorator']]
-            # has to run befefore Latte, because "relativePath" can be used in Latte rendering
-            - ['addFileDecorator', ['@Symplify\Statie\Renderable\RouteFileDecorator']]
-            - ['addFileDecorator', ['@Symplify\Statie\Renderable\LatteFileDecorator']]
