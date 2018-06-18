@@ -58,7 +58,7 @@ final class StatieApplication
         Configuration $configuration,
         FileSystemWriter $fileSystemWriter,
         RenderableFilesProcessor $renderableFilesProcessor,
-        LatteArrayLoader $arrayLoader,
+        LatteArrayLoader $latteArrayLoader,
         Generator $generator,
         FileFinder $fileFinder,
         EventDispatcherInterface $eventDispatcher,
@@ -67,7 +67,7 @@ final class StatieApplication
         $this->configuration = $configuration;
         $this->fileSystemWriter = $fileSystemWriter;
         $this->renderableFilesProcessor = $renderableFilesProcessor;
-        $this->latteArrayLoader = $arrayLoader;
+        $this->latteArrayLoader = $latteArrayLoader;
         $this->generator = $generator;
         $this->fileFinder = $fileFinder;
         $this->eventDispatcher = $eventDispatcher;
@@ -108,7 +108,7 @@ final class StatieApplication
         }
     }
 
-    private function loadLayoutsAndSnippetsFromSource(string $source)
+    private function loadLayoutsAndSnippetsFromSource(string $source): void
     {
         foreach ($this->fileFinder->findLayoutsAndSnippets($source) as $fileInfo) {
             if ($fileInfo->getExtension() === 'twig') {
