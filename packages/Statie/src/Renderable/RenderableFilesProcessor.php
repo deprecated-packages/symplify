@@ -2,9 +2,11 @@
 
 namespace Symplify\Statie\Renderable;
 
+use Statie\StatieTwig\TwigRenderer;
 use Symfony\Component\Finder\SplFileInfo;
 use Symplify\Statie\Configuration\Configuration;
 use Symplify\Statie\Contract\Renderable\FileDecoratorInterface;
+use Symplify\Statie\FlatWhite\Latte\LatteRenderer;
 use Symplify\Statie\Generator\Configuration\GeneratorElement;
 use Symplify\Statie\Generator\Renderable\File\AbstractGeneratorFile;
 use Symplify\Statie\Renderable\File\AbstractFile;
@@ -35,6 +37,15 @@ final class RenderableFilesProcessor
 
     public function addFileDecorator(FileDecoratorInterface $fileDecorator): void
     {
+        $templating = $this->configuration->getOption('templating');
+        if ($templating === 'twig' && $fileDecorator instanceof TwigRenderer) {
+            return;
+        }
+
+        if ($templating === 'latte' && $fileDecorator instanceof LatteRenderer) {
+            return;
+        }
+
         $this->fileDecorators[] = $fileDecorator;
     }
 

@@ -4,7 +4,7 @@
 [![Downloads](https://img.shields.io/packagist/dt/symplify/statie.svg?style=flat-square)](htptps://packagist.org/packages/symplify/statie)
 [![Subscribe](https://img.shields.io/badge/subscribe-to--releases-green.svg?style=flat-square)](https://libraries.io/packagist/symplify%2Fstatie)
 
-Statie takes HTML, Markdown and Latte files and generates static HTML page.
+Statie takes HTML, Markdown and Twig or Latte files and generates static HTML page.
 
 ## Install
 
@@ -95,6 +95,15 @@ services:
 ## Documentation
 
 See documentation at [www.statie.org](https://www.statie.org).
+
+### Pick a Templating You Like
+
+```yaml
+parameters:
+    templating: 'latte'
+    # or
+    templating: 'twig'
+```
 
 ## Who Runs on Statie?
 
