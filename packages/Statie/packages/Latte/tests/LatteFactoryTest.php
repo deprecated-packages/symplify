@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\Statie\Latte\Tests\Latte;
+namespace Symplify\Statie\Latte\Tests;
 
 use Latte\Engine;
 use Symplify\Statie\Latte\LatteFactory;

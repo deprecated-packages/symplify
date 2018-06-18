@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\Statie\Latte\Tests;
+namespace Symplify\Statie\Latte\Tests\Loader;
 
 use PHPUnit\Framework\TestCase;
 use Symplify\Statie\Latte\Loader\ArrayLoader;

@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\Statie\Tests\Latte\Filter;
+namespace Symplify\Statie\Latte\Tests\Filter;
 
 use Symplify\Statie\Latte\Filter\TimeFilterProvider;
 use Symplify\Statie\Tests\AbstractContainerAwareTestCase;

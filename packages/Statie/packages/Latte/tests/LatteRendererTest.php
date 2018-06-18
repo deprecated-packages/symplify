@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\Statie\Latte\Tests\Latte;
+namespace Symplify\Statie\Latte\Tests;
 
 use Symfony\Component\Finder\SplFileInfo;
 use Symplify\Statie\Latte\LatteRenderer;
