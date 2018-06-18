@@ -24,6 +24,7 @@ final class FileFinder
     {
         $finder = Finder::create()->files()
             ->in($directory)
+            # @todo turn to parameters
             ->path('#(_layouts|_snippets)#');
 
         return $this->getFilesFromFinder($finder);
@@ -71,6 +72,7 @@ final class FileFinder
             ->name('*.twig')
             ->name('*.rss')
             ->name('*.xml')
+            # @todo turn to parameters
             ->notPath('#(_layouts|_snippets)#')
             ->in($directory);
 
