@@ -15,27 +15,27 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 #### MonorepoBuilder
 
-- [#858] [MonorepoBuilder] Init new package
+- [#858] Init new package
 
 #### ChangelogLinker
 
-- [#840] [ChangelogLinker] Add LinkifyWorker
-- [#854] [ChangelogLinker] Add dump merges command
-- [#868] [ChangelogLinker] Add ChangeTree, --in-packages and --in-categories opiton to manage merge messages
-- [#831] [ChangelogLinker] Allow `--config`
+- [#840] Add LinkifyWorker
+- [#854] Add dump merges command
+- [#868] Add ChangeTree, --in-packages and --in-categories opiton to manage merge messages
+- [#831] Allow `--config`
 
 #### CodingStandard
 
-- [#851] [CodingStandard] Add _ support to PropertyNameMatchingTypeFixer
-- [#860] [CS] Add test case for [#855], Thanks to [@OndraM]
+- [#851] Add _ support to PropertyNameMatchingTypeFixer
+- [#860] Add test case for [#855], Thanks to [@OndraM]
 - [#836] Improve cognitive complexity error, Thanks to [@enumag]
 - [#845] Extended RemoveEmptyDocBlockFixer fix
 
 #### EasyCodingStandard
 
-- [#849] [ECS] Add CurrentFileProvider to standardize file format used over PHP CS Fixer and PHP_CodeSniffer
-- [#852] [EasyCodingStandard] Add support for line_ending configuration
-- [#832] [ECS] Allow short `ecs.yml` config [closes #819]
+- [#849] Add CurrentFileProvider to standardize file format used over PHP CS Fixer and PHP_CodeSniffer
+- [#852] Add support for line_ending configuration
+- [#832] Allow short `ecs.yml` config [closes #819]
 
 #### MonorepoBuilder
 
@@ -48,13 +48,9 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 #### ChangelogLinker
 
-- [#867] [ChangelogLinker] Change Worker registration from implicit to explicit
-- [#837] [ChangelogLinker] move curl dependency to pr/issue resolving
-- [#839] [ChangelogLinker] Match issues by regex
-
-### Fixed
-
-- [#861] Fix typo, Thanks to [@carusogabriel]
+- [#867] Change Worker registration from implicit to explicit
+- [#837] move curl dependency to pr/issue resolving
+- [#839] Match issues by regex
 
 #### ChangelogLinker
 
@@ -67,11 +63,11 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 #### EasyCodingStandard
 
-- [#848] [ECS] Fix single file processing
+- [#848] Fix single file processing
 
 #### TokenRunner
 
-- [#863] [TokenRunner] anonymous class now returns null on name [fixes #855]
+- [#863] anonymous class now returns null on name [fixes #855]
 
 ## [v4.4.0] - 2018-06-03
 
