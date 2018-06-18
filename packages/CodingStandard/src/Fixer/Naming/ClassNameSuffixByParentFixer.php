@@ -33,17 +33,17 @@ final class ClassNameSuffixByParentFixer implements DefinedFixerInterface, Confi
      * @var string[]
      */
     private $defaultParentClassToSuffixMap = [
-        '*Command',
-        '*Controller',
-        '*Repository',
-        '*Presenter',
-        '*Request',
-        '*Response',
-        '*EventSubscriber',
-        '*FixerInterface',
-        '*Sniff',
-        '*Exception',
-        '*Handler',
+        'Command',
+        'Controller',
+        'Repository',
+        'Presenter',
+        'Request',
+        'Response',
+        'EventSubscriber',
+        'FixerInterface',
+        'Sniff',
+        'Exception',
+        'Handler',
     ];
 
     /**
@@ -89,9 +89,7 @@ CODE
     public function fix(SplFileInfo $file, Tokens $tokens): void
     {
         for ($index = $tokens->count() - 1; $index >= 0; --$index) {
-            $token = $tokens[$index];
-
-            if (! $token->isClassy()) {
+            if (! $tokens[$index]->isClassy()) {
                 continue;
             }
 
@@ -164,7 +162,6 @@ CODE
         }
 
         $parentClassName = $classWrapper->getParentClassName();
-
         if ($parentClassName) {
             $this->processType($tokens, $classWrapper, $parentClassName, $className);
         }
@@ -221,6 +218,19 @@ CODE
             $typesToSuffixes[$type] = $suffix;
 
             unset($typesToSuffixes[$key]);
+        }
+
+        // turns "Type => Suffix" to "*Type => Suffix"
+        foreach ($typesToSuffixes as $type => $suffix) {
+            if (Strings::startsWith($type, '*')) {
+                continue;
+            }
+
+            $fnmatchAwareType = '*' . $type;
+
+            $typesToSuffixes[$fnmatchAwareType] = $suffix;
+
+            unset($typesToSuffixes[$type]);
         }
 
         return $typesToSuffixes;

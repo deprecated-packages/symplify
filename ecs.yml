@@ -15,7 +15,7 @@ services:
 
     Symplify\CodingStandard\Fixer\Naming\ClassNameSuffixByParentFixer:
         extra_parent_types_to_suffixes:
-            - '*FileDecorator'
+            - 'FileDecorator'
 
     Symplify\CodingStandard\Sniffs\DependencyInjection\NoClassInstantiationSniff:
         extraAllowedClasses:
