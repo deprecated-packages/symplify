@@ -54,12 +54,11 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 #### ChangelogLinker
 
-- [#833] [ChangelogLinker] fixes
+- [#833] Fixes
 
 #### CodingStandard
 
 - [#842] LineLengthSniff: Initial support for tokens with newlines, Thanks to [@ostrolucky]
-- [#843] Fix priorities in RemoveEmptyDocBlockFixer (closes [#838]), Thanks to [@ostrolucky]
 
 #### EasyCodingStandard
 
