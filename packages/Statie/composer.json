@@ -33,7 +33,7 @@
     "autoload": {
         "psr-4": {
             "Symplify\\Statie\\": "src",
-            "Symplify\\Statie\\FlatWhite\\": "packages/FlatWhite/src",
+            "Symplify\\Statie\\Latte\\": "packages/Latte/src",
             "Symplify\\Statie\\Generator\\": "packages/Generator/src",
             "Symplify\\Statie\\Twig\\": "packages/Twig/src"
         }
@@ -41,7 +41,7 @@
     "autoload-dev": {
         "psr-4": {
             "Symplify\\Statie\\Tests\\": "tests",
-            "Symplify\\Statie\\FlatWhite\\Tests\\": "packages/FlatWhite/tests",
+            "Symplify\\Statie\\Latte\\Tests\\": "packages/Latte/tests",
             "Symplify\\Statie\\Generator\\Tests\\": "packages/Generator/tests",
             "Symplify\\Statie\\Twig\\Tests\\": "packages/Twig/tests"
         }

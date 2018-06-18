@@ -12,7 +12,7 @@ use Symplify\PackageBuilder\DependencyInjection\DefinitionCollector;
 use Symplify\PackageBuilder\DependencyInjection\DefinitionFinder;
 use Symplify\Statie\Contract\Renderable\FileDecoratorInterface;
 use Symplify\Statie\Contract\Templating\FilterProviderInterface;
-use Symplify\Statie\FlatWhite\Latte\LatteFactory;
+use Symplify\Statie\Latte\LatteFactory;
 use Symplify\Statie\Renderable\RenderableFilesProcessor;
 
 final class CollectorCompilerPass implements CompilerPassInterface

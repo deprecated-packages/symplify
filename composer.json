@@ -56,8 +56,8 @@
             "Symplify\\MonorepoBuilder\\": "packages/MonorepoBuilder/src",
             "Symplify\\PackageBuilder\\": "packages/PackageBuilder/src",
             "Symplify\\Statie\\": "packages/Statie/src",
-            "Symplify\\Statie\\FlatWhite\\": "packages/Statie/packages/FlatWhite/src",
             "Symplify\\Statie\\Generator\\": "packages/Statie/packages/Generator/src",
+            "Symplify\\Statie\\Latte\\": "packages/Statie/packages/Latte/src",
             "Symplify\\Statie\\Twig\\": "packages/Statie/packages/Twig/src",
             "Symplify\\TokenRunner\\": "packages/TokenRunner/src"
         }
@@ -74,8 +74,8 @@
             "Symplify\\EasyCodingStandard\\Tests\\": "packages/EasyCodingStandard/tests",
             "Symplify\\MonorepoBuilder\\Tests\\": "packages/MonorepoBuilder/tests",
             "Symplify\\PackageBuilder\\Tests\\": "packages/PackageBuilder/tests",
-            "Symplify\\Statie\\FlatWhite\\Tests\\": "packages/Statie/packages/FlatWhite/tests",
             "Symplify\\Statie\\Generator\\Tests\\": "packages/Statie/packages/Generator/tests",
+            "Symplify\\Statie\\Latte\\Tests\\": "packages/Statie/packages/Latte/tests",
             "Symplify\\Statie\\Tests\\": "packages/Statie/tests",
             "Symplify\\Statie\\Twig\\Tests\\": "packages/Statie/packages/Twig/tests",
             "Symplify\\Tests\\": "tests",

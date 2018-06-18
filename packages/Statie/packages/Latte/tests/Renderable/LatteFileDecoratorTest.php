@@ -1,16 +1,16 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\Statie\Tests\Renderable\Latte;
+namespace Symplify\Statie\Latte\Tests\Renderable;
 
 use Symplify\PackageBuilder\Finder\SymfonyFileInfoFactory;
-use Symplify\Statie\Exception\Latte\InvalidLatteSyntaxException;
-use Symplify\Statie\FlatWhite\Latte\ArrayLoader;
+use Symplify\Statie\Latte\Exception\InvalidLatteSyntaxException;
+use Symplify\Statie\Latte\Loader\ArrayLoader;
+use Symplify\Statie\Latte\Renderable\LatteFileDecorator;
 use Symplify\Statie\Renderable\File\File;
 use Symplify\Statie\Renderable\File\FileFactory;
-use Symplify\Statie\Renderable\LatteFileDecorator;
 use Symplify\Statie\Tests\AbstractContainerAwareTestCase;
 
-final class LatteDecoratorTest extends AbstractContainerAwareTestCase
+final class LatteFileDecoratorTest extends AbstractContainerAwareTestCase
 {
     /**
      * @var LatteFileDecorator
@@ -29,12 +29,12 @@ final class LatteDecoratorTest extends AbstractContainerAwareTestCase
 
         /** @var ArrayLoader $arrayLoader */
         $arrayLoader = $this->container->get(ArrayLoader::class);
-        $arrayLoader->changeContent('default', file_get_contents(__DIR__ . '/LatteDecoratorSource/default.latte'));
+        $arrayLoader->changeContent('default', file_get_contents(__DIR__ . '/LatteFileDecoratorSource/default.latte'));
     }
 
     public function testDecorateFile(): void
     {
-        $file = $this->createFileFromFilePath(__DIR__ . '/LatteDecoratorSource/fileWithoutLayout.latte');
+        $file = $this->createFileFromFilePath(__DIR__ . '/LatteFileDecoratorSource/fileWithoutLayout.latte');
         $this->latteFileDecorator->decorateFiles([$file]);
 
         $this->assertContains('Contact me!', $file->getContent());
@@ -42,19 +42,19 @@ final class LatteDecoratorTest extends AbstractContainerAwareTestCase
 
     public function testDecorateFileWithLayout(): void
     {
-        $file = $this->createFileFromFilePath(__DIR__ . '/LatteDecoratorSource/contact.latte');
+        $file = $this->createFileFromFilePath(__DIR__ . '/LatteFileDecoratorSource/contact.latte');
         $file->addConfiguration([
             'layout' => 'default',
         ]);
 
         $this->latteFileDecorator->decorateFiles([$file]);
 
-        $this->assertStringEqualsFile(__DIR__ . '/LatteDecoratorSource/expectedContact.html', $file->getContent());
+        $this->assertStringEqualsFile(__DIR__ . '/LatteFileDecoratorSource/expectedContact.html', $file->getContent());
     }
 
     public function testDecorateFileWithFileVariable(): void
     {
-        $file = $this->createFileFromFilePath(__DIR__ . '/LatteDecoratorSource/fileWithFileVariable.latte');
+        $file = $this->createFileFromFilePath(__DIR__ . '/LatteFileDecoratorSource/fileWithFileVariable.latte');
         $this->latteFileDecorator->decorateFiles([$file]);
 
         $this->assertContains('fileWithFileVariable.latte', $file->getContent());
@@ -62,7 +62,7 @@ final class LatteDecoratorTest extends AbstractContainerAwareTestCase
 
     public function testDecorateFileWithInvalidLatteSyntax(): void
     {
-        $fileWithInvalidLatteSyntax = __DIR__ . '/LatteDecoratorSource/fileWithInvalidLatteSyntax.latte';
+        $fileWithInvalidLatteSyntax = __DIR__ . '/LatteFileDecoratorSource/fileWithInvalidLatteSyntax.latte';
         $file = $this->createFileFromFilePath($fileWithInvalidLatteSyntax);
 
         $this->expectException(InvalidLatteSyntaxException::class);
@@ -77,6 +77,7 @@ final class LatteDecoratorTest extends AbstractContainerAwareTestCase
     private function createFileFromFilePath(string $filePath): File
     {
         $fileInfo = SymfonyFileInfoFactory::createFromFilePath($filePath);
+
         return $this->fileFactory->createFromFileInfo($fileInfo);
     }
 }
