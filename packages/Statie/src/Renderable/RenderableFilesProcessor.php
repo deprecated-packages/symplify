@@ -2,7 +2,6 @@
 
 namespace Symplify\Statie\Renderable;
 
-use Statie\StatieTwig\Renderable\TwigFileDecorator;
 use Symfony\Component\Finder\SplFileInfo;
 use Symplify\Statie\Configuration\Configuration;
 use Symplify\Statie\Contract\Renderable\FileDecoratorInterface;
@@ -10,6 +9,7 @@ use Symplify\Statie\Generator\Configuration\GeneratorElement;
 use Symplify\Statie\Generator\Renderable\File\AbstractGeneratorFile;
 use Symplify\Statie\Renderable\File\AbstractFile;
 use Symplify\Statie\Renderable\File\FileFactory;
+use Symplify\Statie\Twig\Renderable\TwigFileDecorator;
 
 final class RenderableFilesProcessor
 {

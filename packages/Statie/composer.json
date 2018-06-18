@@ -42,7 +42,8 @@
         "psr-4": {
             "Symplify\\Statie\\Tests\\": "tests",
             "Symplify\\Statie\\FlatWhite\\Tests\\": "packages/FlatWhite/tests",
-            "Symplify\\Statie\\Generator\\Tests\\": "packages/Generator/tests"
+            "Symplify\\Statie\\Generator\\Tests\\": "packages/Generator/tests",
+            "Symplify\\Statie\\Twig\\Tests\\": "packages/Twig/tests"
         }
     },
     "extra": {

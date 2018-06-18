@@ -77,6 +77,7 @@
             "Symplify\\Statie\\FlatWhite\\Tests\\": "packages/Statie/packages/FlatWhite/tests",
             "Symplify\\Statie\\Generator\\Tests\\": "packages/Statie/packages/Generator/tests",
             "Symplify\\Statie\\Tests\\": "packages/Statie/tests",
+            "Symplify\\Statie\\Twig\\Tests\\": "packages/Statie/packages/Twig/tests",
             "Symplify\\Tests\\": "tests",
             "Symplify\\TokenRunner\\Tests\\": "packages/TokenRunner/tests"
         }

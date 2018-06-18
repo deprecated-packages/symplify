@@ -3,9 +3,9 @@
 namespace Symplify\Statie\Twig\Tests;
 
 use Symfony\Component\Finder\SplFileInfo;
-use Symplify\Statie\Twig\TwigRenderer;
 use Symplify\Statie\Renderable\File\FileFactory;
 use Symplify\Statie\Tests\AbstractContainerAwareTestCase;
+use Symplify\Statie\Twig\TwigRenderer;
 
 final class TwigRendererTest extends AbstractContainerAwareTestCase
 {
