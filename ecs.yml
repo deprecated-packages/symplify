@@ -93,3 +93,7 @@ parameters:
         SlevomatCodingStandard\Sniffs\Classes\UnusedPrivateElementsSniff.UnusedMethod:
             # tests
             - 'packages/PackageBuilder/tests/Reflection/Source/SomeClassWithPrivateMethods.php'
+
+        Symplify\CodingStandard\Fixer\LineLength\LineLengthFixer:
+            # bugged
+            - '*packages/Statie/packages/*/src/*Renderer.php'

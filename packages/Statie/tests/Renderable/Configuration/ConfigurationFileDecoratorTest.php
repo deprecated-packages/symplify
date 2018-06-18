@@ -5,16 +5,16 @@ namespace Symplify\Statie\Tests\Renderable\Configuration;
 use Iterator;
 use Symfony\Component\Yaml\Exception\ParseException;
 use Symplify\PackageBuilder\Finder\SymfonyFileInfoFactory;
-use Symplify\Statie\Renderable\ConfigurationDecorator;
+use Symplify\Statie\Renderable\ConfigurationFileDecorator;
 use Symplify\Statie\Renderable\File\FileFactory;
 use Symplify\Statie\Tests\AbstractContainerAwareTestCase;
 
-final class ConfigurationDecoratorTest extends AbstractContainerAwareTestCase
+final class ConfigurationFileDecoratorTest extends AbstractContainerAwareTestCase
 {
     /**
-     * @var ConfigurationDecorator
+     * @var ConfigurationFileDecorator
      */
-    private $configurationDecorator;
+    private $configurationFileDecorator;
 
     /**
      * @var FileFactory
@@ -23,7 +23,7 @@ final class ConfigurationDecoratorTest extends AbstractContainerAwareTestCase
 
     protected function setUp(): void
     {
-        $this->configurationDecorator = $this->container->get(ConfigurationDecorator::class);
+        $this->configurationFileDecorator = $this->container->get(ConfigurationFileDecorator::class);
         $this->fileFactory = $this->container->get(FileFactory::class);
     }
 
@@ -38,7 +38,7 @@ final class ConfigurationDecoratorTest extends AbstractContainerAwareTestCase
 
         $this->assertSame([], $file->getConfiguration());
 
-        $this->configurationDecorator->decorateFiles([$file]);
+        $this->configurationFileDecorator->decorateFiles([$file]);
 
         $this->assertSame($fileContent, $file->getContent());
         $this->assertSame($expectedConfiguration, $file->getConfiguration());
@@ -46,7 +46,7 @@ final class ConfigurationDecoratorTest extends AbstractContainerAwareTestCase
 
     public function testInvalidYamlSyntax(): void
     {
-        $brokenYamlFilePath = __DIR__ . '/ConfigurationDecoratorSource/someFileWithBrokenConfigurationSyntax.latte';
+        $brokenYamlFilePath = __DIR__ . '/ConfigurationFileDecoratorSource/someFileWithBrokenConfigurationSyntax.latte';
         $fileInfo = SymfonyFileInfoFactory::createFromFilePath($brokenYamlFilePath);
         $file = $this->fileFactory->createFromFileInfo($fileInfo);
 
@@ -57,15 +57,15 @@ final class ConfigurationDecoratorTest extends AbstractContainerAwareTestCase
             $brokenYamlFilePath
         ));
 
-        $this->configurationDecorator->decorateFiles([$file]);
+        $this->configurationFileDecorator->decorateFiles([$file]);
     }
 
     public function provideDataForDecorateFile(): Iterator
     {
-        yield [__DIR__ . '/ConfigurationDecoratorSource/someFile.latte', 'Content...', [
+        yield [__DIR__ . '/ConfigurationFileDecoratorSource/someFile.latte', 'Content...', [
             'key' => 'value',
         ]];
-        yield [__DIR__ . '/ConfigurationDecoratorSource/someFileWithEmptyConfig.latte', 'Content...', []];
-        yield [__DIR__ . '/ConfigurationDecoratorSource/someFileWithNoConfig.latte', 'Content...', []];
+        yield [__DIR__ . '/ConfigurationFileDecoratorSource/someFileWithEmptyConfig.latte', 'Content...', []];
+        yield [__DIR__ . '/ConfigurationFileDecoratorSource/someFileWithNoConfig.latte', 'Content...', []];
     }
 }
