@@ -28,9 +28,7 @@ final class LinksToReferencesWorker implements WorkerInterface
 
     public function processContent(string $content): string
     {
-        // order matters, issues first
-        $this->processIssues($content);
-        $this->processPullRequests($content);
+        $this->processPullRequestsAndIssues($content);
         $this->processCommitReferences($content);
 
         return $content;
@@ -57,12 +55,12 @@ final class LinksToReferencesWorker implements WorkerInterface
     }
 
     /**
+     * Github can redirects PRs to issues, so no need to trouble with their separatoin
      * @inspiration for Regex: https://stackoverflow.com/a/406408/1348344
      */
-    private function processPullRequests(string $content): void
+    private function processPullRequestsAndIssues(string $content): void
     {
-        $matches = Strings::matchAll($content, '#^((?!fixes|resolves).)*\[' . RegexPattern::PR_OR_ISSUE . '\]#m');
-
+        $matches = Strings::matchAll($content, '#\[' . RegexPattern::PR_OR_ISSUE . '\]#m');
         foreach ($matches as $match) {
             $link = sprintf('[#%d]: %s/pull/%d', $match['id'], $this->configuration->getRepositoryUrl(), $match['id']);
             $this->linkAppender->add($match['id'], $link);
