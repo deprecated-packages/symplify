@@ -2,6 +2,7 @@
 
 namespace Symplify\ChangelogLinker\Console\Command;
 
+use Nette\Utils\Strings;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -12,6 +13,7 @@ use Symplify\ChangelogLinker\ChangeTree\Change;
 use Symplify\ChangelogLinker\ChangeTree\ChangeFactory;
 use Symplify\ChangelogLinker\ChangeTree\ChangeSorter;
 use Symplify\ChangelogLinker\Console\Output\DumpMergesReporter;
+use Symplify\ChangelogLinker\Exception\MissingPlaceholderInChangelogException;
 use Symplify\ChangelogLinker\Github\GithubApi;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
 use Symplify\PackageBuilder\Reflection\PrivatesAccessor;
@@ -21,6 +23,11 @@ use Symplify\PackageBuilder\Reflection\PrivatesAccessor;
  */
 final class DumpMergesCommand extends Command
 {
+    /**
+     * @var string
+     */
+    private const CHANGELOG_PLACEHOLDER_TO_WRITE = '<!-- changelog-linker -->';
+
     /**
      * @var string
      */
@@ -134,9 +141,6 @@ final class DumpMergesCommand extends Command
     {
         $highestIdInChangelog = $this->idsAnalyzer->getHighestIdInChangelog(getcwd() . '/CHANGELOG.md');
 
-        // @todo temp
-        $highestIdInChangelog = 850;
-
         if ($input->getOption('token')) {
             $this->githubApi->authorizeToken($input->getOption('token'));
         }
@@ -169,7 +173,12 @@ final class DumpMergesCommand extends Command
             $sortPriority
         );
 
-        $this->symfonyStyle->writeln($content);
+        // @tod change to "--dry-run" vs none approach
+        if ($input->getOption(self::OPTION_WRITE)) {
+            $this->updateChangelogContent($content);
+        } else {
+            $this->symfonyStyle->writeln($content);
+        }
 
         // success
         return 0;
@@ -198,5 +207,43 @@ final class DumpMergesCommand extends Command
         }
 
         return null;
+    }
+
+    private function ensurePlaceholderIsPresent(string $changelogContent): void
+    {
+        if (Strings::contains($changelogContent, self::CHANGELOG_PLACEHOLDER_TO_WRITE)) {
+            return;
+        }
+
+        throw new MissingPlaceholderInChangelogException(sprintf(
+            'There is missing "%s" placeholder in CHANGELOG.md. Put it where you want to add dumped merges.',
+            self::CHANGELOG_PLACEHOLDER_TO_WRITE
+        ));
+    }
+
+    private function updateChangelogContent(string $newContent): void
+    {
+        $changelogContent = file_get_contents(getcwd() . '/CHANGELOG.md');
+
+        $this->ensurePlaceholderIsPresent($changelogContent);
+
+        $contentToWrite = sprintf(
+            '%s%s%s<!-- dumped content start -->%s%s<!-- dumped content end -->%s',
+            self::CHANGELOG_PLACEHOLDER_TO_WRITE,
+            PHP_EOL,
+            PHP_EOL,
+            PHP_EOL,
+            $newContent
+        );
+
+        $updatedChangelogContent = str_replace(
+            self::CHANGELOG_PLACEHOLDER_TO_WRITE,
+            $contentToWrite,
+            $changelogContent
+        );
+
+        file_put_contents(getcwd() . '/CHANGELOG.md', $updatedChangelogContent);
+
+        $this->symfonyStyle->success('The CHANGELOG.md was updated');
     }
 }
