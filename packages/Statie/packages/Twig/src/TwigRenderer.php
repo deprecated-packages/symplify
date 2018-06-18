@@ -32,6 +32,7 @@ final class TwigRenderer
     private const PLACEHOLDER_PATTERN = '#(?<placeholder>' . self::PLACEHOLDER_PREFIX . '[0-9]+)#m';
 
     /**
+     * @todo decopule this placeholder logic to own service
      * @var string
      */
     private const PLACEHOLDER_PREFIX = '___replace_block___';
