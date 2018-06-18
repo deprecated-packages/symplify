@@ -36,7 +36,7 @@ parameters:
         SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff:
             - '*packages/CodingStandard/src/Sniffs/*/*Sniff.php'
             - 'packages/EasyCodingStandard/packages/SniffRunner/src/File/File.php'
-            - 'packages/Statie/packages/Latte/src/Latte/ArrayLoader.php'
+            - 'packages/Statie/packages/Latte/src/Loader/ArrayLoader.php'
             - 'packages/Statie/src/Configuration/Configuration.php'
 
         PhpCsFixer\Fixer\PhpUnit\PhpUnitStrictFixer:

@@ -3,8 +3,8 @@
 namespace Symplify\Statie\Latte\Tests\Latte;
 
 use Latte\Engine;
-use Symplify\Statie\Latte\Loader\ArrayLoader;
 use Symplify\Statie\Latte\LatteFactory;
+use Symplify\Statie\Latte\Loader\ArrayLoader;
 use Symplify\Statie\Tests\AbstractContainerAwareTestCase;
 
 final class LatteFactoryTest extends AbstractContainerAwareTestCase
