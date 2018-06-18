@@ -38,7 +38,6 @@ First thing you need to know, it has a `--dry-run` option that only prints the r
 
 Without that, I looks for `<!-- changelog-linker -->` in the `CHANGELOG.md` to replace with the content.
 
-
 This command finds the last #ID in the `CHANGELOG.md`, than looks on Github via API and dumps all the merged PRs since the last #ID in nice format.
 
 But that is a mash-up of everything. Not very nice:
@@ -149,6 +148,8 @@ Will result into this beautiful:
 
 - [#852] Add support for line_ending configuration
 ```
+
+And with `--linkfy` option, you'll get all the nice things from B as well.
 
 ## B. Decorate `CHANGELOG.md`
 

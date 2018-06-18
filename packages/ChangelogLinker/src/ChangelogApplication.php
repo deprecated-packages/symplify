@@ -45,7 +45,15 @@ final class ChangelogApplication
 
     public function processFile(string $filePath): string
     {
-        $content = $this->getContentAndAnalyze($filePath);
+        $content = file_get_contents($filePath);
+
+        return $this->processContent($content);
+    }
+
+    public function processContent(string $content): string
+    {
+        $this->versionsAnalyzer->analyzeContent($content);
+        $this->linksAnalyzer->analyzeContent($content);
 
         foreach ($this->getSortedWorkers() as $worker) {
             $content = $worker->processContent($content);
@@ -64,15 +72,6 @@ final class ChangelogApplication
         });
 
         return $this->workers;
-    }
-
-    private function getContentAndAnalyze(string $filePath): string
-    {
-        $content = file_get_contents($filePath);
-        $this->versionsAnalyzer->analyzeContent($content);
-        $this->linksAnalyzer->analyzeContent($content);
-
-        return $content;
     }
 
     private function appendLinksToContentIfAny(string $content): string
