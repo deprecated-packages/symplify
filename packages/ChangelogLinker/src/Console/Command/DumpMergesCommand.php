@@ -46,7 +46,7 @@ final class DumpMergesCommand extends Command
     /**
      * @var string
      */
-    private const OPTION_WRITE = 'write';
+    private const OPTION_DRY_RUN = 'dry-run';
 
     /**
      * @var GithubApi
@@ -128,10 +128,10 @@ final class DumpMergesCommand extends Command
         );
 
         $this->addOption(
-            self::OPTION_WRITE,
+            self::OPTION_DRY_RUN,
             null,
             InputOption::VALUE_NONE,
-            'Instead of just print out to output, write directly into CHANGELOG.md.'
+            'Print out to the output instead of writing directly into CHANGELOG.md.'
         );
 
         $this->addOption('token', 't', InputOption::VALUE_REQUIRED, 'Github Token to overcome request limit.');
@@ -173,11 +173,10 @@ final class DumpMergesCommand extends Command
             $sortPriority
         );
 
-        // @tod change to "--dry-run" vs none approach
-        if ($input->getOption(self::OPTION_WRITE)) {
-            $this->updateChangelogContent($content);
-        } else {
+        if ($input->getOption(self::OPTION_DRY_RUN)) {
             $this->symfonyStyle->writeln($content);
+        } else {
+            $this->updateChangelogContent($content);
         }
 
         // success
