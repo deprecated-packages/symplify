@@ -2,7 +2,7 @@
 
 namespace Symplify\Statie\Twig;
 
-use Nette\Utils\Strings;
+use Symplify\Statie\Renderable\CodeBlocksProtector;
 use Symplify\Statie\Renderable\File\AbstractFile;
 use Symplify\Statie\Twig\Exception\InvalidTwigSyntaxException;
 use Throwable;
@@ -22,35 +22,18 @@ final class TwigRenderer
     private $twigArrayLoader;
 
     /**
-     * @var string
+     * @var CodeBlocksProtector
      */
-    private const CODE_BLOCKS_HTML_PATTERN = '#(?<code><code(?: class=\"[a-z-]+\")?>*(?:(?!<\/code>).)+<\/code>)#ms';
+    private $codeBlocksProtector;
 
-    /**
-     * @var string
-     */
-    private const PLACEHOLDER_PATTERN = '#(?<placeholder>' . self::PLACEHOLDER_PREFIX . '[0-9]+)#m';
-
-    /**
-     * @todo decopule this placeholder logic to own service
-     * @var string
-     */
-    private const PLACEHOLDER_PREFIX = '___replace_block___';
-
-    /**
-     * @var int
-     */
-    private $codePlaceholderId = 0;
-
-    /**
-     * @var string[]
-     */
-    private $highlightedCodeBlocks = [];
-
-    public function __construct(Environment $twigEnvironment, ArrayLoader $twigArrayLoader)
-    {
+    public function __construct(
+        Environment $twigEnvironment,
+        ArrayLoader $twigArrayLoader,
+        CodeBlocksProtector $codeBlocksProtector
+    ) {
         $this->twigEnvironment = $twigEnvironment;
         $this->twigArrayLoader = $twigArrayLoader;
+        $this->codeBlocksProtector = $codeBlocksProtector;
     }
 
     /**
@@ -58,32 +41,14 @@ final class TwigRenderer
      */
     public function renderExcludingHighlightBlocks(AbstractFile $file, array $parameters): string
     {
-        $this->reset();
+        return $this->codeBlocksProtector->protectContentFromCallback($file->getContent(), function (string  $content) use (
+    $file,
+            $parameters
+) {
+            $this->twigArrayLoader->setTemplate($file->getFilePath(), $content);
 
-        // replace code with placeholder
-        $contentWithPlaceholders = Strings::replace(
-            $file->getContent(),
-            self::CODE_BLOCKS_HTML_PATTERN,
-            function (array $match): string {
-                $placeholder = self::PLACEHOLDER_PREFIX . ++$this->codePlaceholderId;
-                $this->highlightedCodeBlocks[$placeholder] = $match['code'];
-
-                return $placeholder;
-            }
-        );
-
-        // co-dependency of Latte\Engine
-        $this->twigArrayLoader->setTemplate($file->getFilePath(), $contentWithPlaceholders);
-        $renderedContentWithPlaceholders = $this->render($file, $parameters);
-
-        // replace placeholder back with code
-        return Strings::replace(
-            $renderedContentWithPlaceholders,
-            self::PLACEHOLDER_PATTERN,
-            function (array $match): string {
-                return $this->highlightedCodeBlocks[$match['placeholder']];
-            }
-        );
+            return $this->render($file, $parameters);
+        });
     }
 
     /**
@@ -100,11 +65,5 @@ final class TwigRenderer
                 $throwable->getMessage()
             ));
         }
-    }
-
-    private function reset(): void
-    {
-        $this->codePlaceholderId = 0;
-        $this->highlightedCodeBlocks = [];
     }
 }
