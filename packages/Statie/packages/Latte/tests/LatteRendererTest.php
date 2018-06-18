@@ -1,9 +1,9 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\Statie\FlatWhite\Tests\Latte;
+namespace Symplify\Statie\Latte\Tests\Latte;
 
 use Symfony\Component\Finder\SplFileInfo;
-use Symplify\Statie\FlatWhite\Latte\LatteRenderer;
+use Symplify\Statie\Latte\LatteRenderer;
 use Symplify\Statie\Renderable\File\FileFactory;
 use Symplify\Statie\Tests\AbstractContainerAwareTestCase;
 

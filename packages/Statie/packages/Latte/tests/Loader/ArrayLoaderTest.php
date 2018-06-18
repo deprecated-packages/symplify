@@ -1,9 +1,9 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\Statie\FlatWhite\Tests\Latte;
+namespace Symplify\Statie\Latte\Tests;
 
 use PHPUnit\Framework\TestCase;
-use Symplify\Statie\FlatWhite\Latte\ArrayLoader;
+use Symplify\Statie\Latte\Loader\ArrayLoader;
 use Throwable;
 
 final class ArrayLoaderTest extends TestCase

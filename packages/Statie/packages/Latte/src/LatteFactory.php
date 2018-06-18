@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\Statie\FlatWhite\Latte;
+namespace Symplify\Statie\Latte;
 
 use Latte\Engine;
 use Latte\ILoader;

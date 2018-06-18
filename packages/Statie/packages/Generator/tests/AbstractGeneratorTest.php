@@ -8,8 +8,8 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symplify\Statie\Configuration\Configuration;
 use Symplify\Statie\DependencyInjection\ContainerFactory;
 use Symplify\Statie\FileSystem\FileSystemWriter;
-use Symplify\Statie\FlatWhite\Latte\ArrayLoader;
 use Symplify\Statie\Generator\Generator;
+use Symplify\Statie\Latte\Loader\ArrayLoader;
 
 abstract class AbstractGeneratorTest extends TestCase
 {

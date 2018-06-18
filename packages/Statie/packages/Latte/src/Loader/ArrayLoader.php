@@ -1,9 +1,9 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\Statie\FlatWhite\Latte;
+namespace Symplify\Statie\Latte\Loader;
 
 use Latte\ILoader;
-use Symplify\Statie\FlatWhite\Exception\MissingLatteTemplateException;
+use Symplify\Statie\Latte\Exception\MissingLatteTemplateException;
 
 /**
  * Inspired by @see \Latte\Loaders\StringLoader.

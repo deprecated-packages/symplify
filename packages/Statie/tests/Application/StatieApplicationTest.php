@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
 use Symplify\Statie\Application\StatieApplication;
 use Symplify\Statie\DependencyInjection\ContainerFactory;
 use Symplify\Statie\Exception\Utils\MissingDirectoryException;
-use Symplify\Statie\FlatWhite\Latte\ArrayLoader;
+use Symplify\Statie\Latte\Loader\ArrayLoader;
 
 final class StatieApplicationTest extends TestCase
 {

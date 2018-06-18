@@ -1,9 +1,10 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\Statie\FlatWhite\Latte;
+namespace Symplify\Statie\Latte;
 
 use Latte\Engine;
 use Nette\Utils\Strings;
+use Symplify\Statie\Latte\Loader\ArrayLoader;
 use Symplify\Statie\Renderable\File\AbstractFile;
 
 final class LatteRenderer

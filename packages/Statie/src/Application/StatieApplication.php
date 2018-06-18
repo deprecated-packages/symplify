@@ -7,8 +7,8 @@ use Symplify\Statie\Configuration\Configuration;
 use Symplify\Statie\Event\BeforeRenderEvent;
 use Symplify\Statie\FileSystem\FileFinder;
 use Symplify\Statie\FileSystem\FileSystemWriter;
-use Symplify\Statie\FlatWhite\Latte\ArrayLoader as LatteArrayLoader;
 use Symplify\Statie\Generator\Generator;
+use Symplify\Statie\Latte\Loader\ArrayLoader as LatteArrayLoader;
 use Symplify\Statie\Renderable\RenderableFilesProcessor;
 use Twig\Loader\ArrayLoader as TwigArrayLoader;
 

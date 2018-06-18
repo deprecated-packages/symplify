@@ -5,10 +5,10 @@ namespace Symplify\Statie\Renderable;
 use Latte\CompileException;
 use Symplify\Statie\Configuration\Configuration;
 use Symplify\Statie\Contract\Renderable\FileDecoratorInterface;
-use Symplify\Statie\Exception\Latte\InvalidLatteSyntaxException;
+use Symplify\Statie\Latte\Exception\InvalidLatteSyntaxException;
 use Symplify\Statie\Exception\Renderable\File\AccessKeyNotAvailableException;
-use Symplify\Statie\FlatWhite\Latte\LatteRenderer;
 use Symplify\Statie\Generator\Configuration\GeneratorElement;
+use Symplify\Statie\Latte\LatteRenderer;
 use Symplify\Statie\Renderable\File\AbstractFile;
 
 final class LatteFileDecorator implements FileDecoratorInterface
