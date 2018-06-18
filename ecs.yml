@@ -13,15 +13,6 @@ services:
     # class should be Abstact or Final
     SlamCsFixer\FinalInternalClassFixer: ~
 
-    Symplify\CodingStandard\Fixer\Naming\ClassNameSuffixByParentFixer:
-        parent_types_to_suffixes:
-            '*Command': 'Command'
-            '*EventSubscriber': 'EventSubscriber'
-            '*FixerInterface': 'Fixer'
-            '*Sniff': 'Sniff'
-            '*Exception': 'Exception'
-            '*FileDecorator': 'FileDecoratorInterface'
-
     Symplify\CodingStandard\Sniffs\DependencyInjection\NoClassInstantiationSniff:
         extraAllowedClasses:
             - 'Symplify\EasyCodingStandard\Error\Error'
@@ -102,3 +93,7 @@ parameters:
         SlevomatCodingStandard\Sniffs\Classes\UnusedPrivateElementsSniff.UnusedMethod:
             # tests
             - 'packages/PackageBuilder/tests/Reflection/Source/SomeClassWithPrivateMethods.php'
+
+        Symplify\CodingStandard\Fixer\LineLength\LineLengthFixer:
+            # bugged
+            - '*packages/Statie/packages/*/src/*Renderer.php'

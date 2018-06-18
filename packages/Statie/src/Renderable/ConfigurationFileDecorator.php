@@ -8,7 +8,7 @@ use Symplify\Statie\Contract\Renderable\FileDecoratorInterface;
 use Symplify\Statie\Generator\Configuration\GeneratorElement;
 use Symplify\Statie\Renderable\File\AbstractFile;
 
-final class ConfigurationDecorator implements FileDecoratorInterface
+final class ConfigurationFileDecorator implements FileDecoratorInterface
 {
     /**
      * @var string
