@@ -14,7 +14,7 @@ final class ConfigurationFileDecoratorTest extends AbstractContainerAwareTestCas
     /**
      * @var ConfigurationFileDecorator
      */
-    private $configurationDecorator;
+    private $configurationFileDecorator;
 
     /**
      * @var FileFactory
@@ -23,7 +23,7 @@ final class ConfigurationFileDecoratorTest extends AbstractContainerAwareTestCas
 
     protected function setUp(): void
     {
-        $this->configurationDecorator = $this->container->get(ConfigurationFileDecorator::class);
+        $this->configurationFileDecorator = $this->container->get(ConfigurationFileDecorator::class);
         $this->fileFactory = $this->container->get(FileFactory::class);
     }
 
@@ -38,7 +38,7 @@ final class ConfigurationFileDecoratorTest extends AbstractContainerAwareTestCas
 
         $this->assertSame([], $file->getConfiguration());
 
-        $this->configurationDecorator->decorateFiles([$file]);
+        $this->configurationFileDecorator->decorateFiles([$file]);
 
         $this->assertSame($fileContent, $file->getContent());
         $this->assertSame($expectedConfiguration, $file->getConfiguration());
@@ -57,7 +57,7 @@ final class ConfigurationFileDecoratorTest extends AbstractContainerAwareTestCas
             $brokenYamlFilePath
         ));
 
-        $this->configurationDecorator->decorateFiles([$file]);
+        $this->configurationFileDecorator->decorateFiles([$file]);
     }
 
     public function provideDataForDecorateFile(): Iterator

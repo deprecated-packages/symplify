@@ -40,7 +40,7 @@ final class LatteRenderer
     public function render(AbstractFile $file, array $parameters): string
     {
         return $this->codeBlocksProtector->protectContentFromCallback($file->getContent(), function (string  $content) use (
-    $file,
+            $file,
             $parameters
 ) {
             $this->arrayLoader->changeContent($file->getFilePath(), $content);
