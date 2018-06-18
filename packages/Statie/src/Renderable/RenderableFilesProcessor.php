@@ -9,6 +9,7 @@ use Symplify\Statie\Generator\Configuration\GeneratorElement;
 use Symplify\Statie\Generator\Renderable\File\AbstractGeneratorFile;
 use Symplify\Statie\Renderable\File\AbstractFile;
 use Symplify\Statie\Renderable\File\FileFactory;
+use Symplify\Statie\Twig\Renderable\TwigFileDecorator;
 
 final class RenderableFilesProcessor
 {
@@ -35,6 +36,15 @@ final class RenderableFilesProcessor
 
     public function addFileDecorator(FileDecoratorInterface $fileDecorator): void
     {
+        $templating = $this->configuration->getOption('templating');
+        if ($templating === 'latte' && $fileDecorator instanceof TwigFileDecorator) {
+            return;
+        }
+
+        if ($templating === 'twig' && $fileDecorator instanceof LatteFileDecorator) {
+            return;
+        }
+
         $this->fileDecorators[] = $fileDecorator;
     }
 
@@ -50,7 +60,7 @@ final class RenderableFilesProcessor
 
         $files = $this->fileFactory->createFromFileInfos($fileInfos);
 
-        foreach ($this->fileDecorators as $fileDecorator) {
+        foreach ($this->getFileDecorators() as $fileDecorator) {
             $files = $fileDecorator->decorateFiles($files);
         }
 

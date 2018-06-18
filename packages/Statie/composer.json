@@ -19,6 +19,7 @@
         "nette/finder": "^2.4",
         "nette/utils": "^2.5",
         "tracy/tracy": "^2.4",
+        "twig/twig": "^2.4",
         "symfony/console": "^3.4|^4.0",
         "symfony/finder": "^3.4|^4.0",
         "symfony/yaml": "^3.4|^4.0",
@@ -33,14 +34,16 @@
         "psr-4": {
             "Symplify\\Statie\\": "src",
             "Symplify\\Statie\\FlatWhite\\": "packages/FlatWhite/src",
-            "Symplify\\Statie\\Generator\\": "packages/Generator/src"
+            "Symplify\\Statie\\Generator\\": "packages/Generator/src",
+            "Symplify\\Statie\\Twig\\": "packages/Twig/src"
         }
     },
     "autoload-dev": {
         "psr-4": {
             "Symplify\\Statie\\Tests\\": "tests",
             "Symplify\\Statie\\FlatWhite\\Tests\\": "packages/FlatWhite/tests",
-            "Symplify\\Statie\\Generator\\Tests\\": "packages/Generator/tests"
+            "Symplify\\Statie\\Generator\\Tests\\": "packages/Generator/tests",
+            "Symplify\\Statie\\Twig\\Tests\\": "packages/Twig/tests"
         }
     },
     "extra": {

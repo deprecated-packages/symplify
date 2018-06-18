@@ -27,7 +27,8 @@
         "symfony/event-dispatcher": "^3.4|^4.0",
         "symfony/finder": "^3.4|^4.0",
         "symfony/http-kernel": "^3.4|^4.0",
-        "symfony/yaml": "^3.4|^4.0"
+        "symfony/yaml": "^3.4|^4.0",
+        "twig/twig": "^2.4"
     },
     "require-dev": {
         "nette/application": "^2.4",
@@ -57,6 +58,7 @@
             "Symplify\\Statie\\": "packages/Statie/src",
             "Symplify\\Statie\\FlatWhite\\": "packages/Statie/packages/FlatWhite/src",
             "Symplify\\Statie\\Generator\\": "packages/Statie/packages/Generator/src",
+            "Symplify\\Statie\\Twig\\": "packages/Statie/packages/Twig/src",
             "Symplify\\TokenRunner\\": "packages/TokenRunner/src"
         }
     },
@@ -75,6 +77,7 @@
             "Symplify\\Statie\\FlatWhite\\Tests\\": "packages/Statie/packages/FlatWhite/tests",
             "Symplify\\Statie\\Generator\\Tests\\": "packages/Statie/packages/Generator/tests",
             "Symplify\\Statie\\Tests\\": "packages/Statie/tests",
+            "Symplify\\Statie\\Twig\\Tests\\": "packages/Statie/packages/Twig/tests",
             "Symplify\\Tests\\": "tests",
             "Symplify\\TokenRunner\\Tests\\": "packages/TokenRunner/tests"
         }
