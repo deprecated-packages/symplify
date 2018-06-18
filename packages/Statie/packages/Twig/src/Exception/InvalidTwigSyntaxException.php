@@ -6,5 +6,4 @@ use Exception;
 
 final class InvalidTwigSyntaxException extends Exception
 {
-
 }

@@ -3,11 +3,11 @@
 namespace Symplify\Statie\Twig\Renderable;
 
 use Nette\Utils\Strings;
-use Symplify\Statie\Twig\TwigRenderer;
 use Symplify\Statie\Configuration\Configuration;
 use Symplify\Statie\Contract\Renderable\FileDecoratorInterface;
 use Symplify\Statie\Generator\Configuration\GeneratorElement;
 use Symplify\Statie\Renderable\File\AbstractFile;
+use Symplify\Statie\Twig\TwigRenderer;
 
 final class TwigFileDecorator implements FileDecoratorInterface
 {
@@ -21,10 +21,8 @@ final class TwigFileDecorator implements FileDecoratorInterface
      */
     private $twigRenderer;
 
-    public function __construct(
-        Configuration $configuration,
-        TwigRenderer $twigRenderer
-    ) {
+    public function __construct(Configuration $configuration, TwigRenderer $twigRenderer)
+    {
         $this->configuration = $configuration;
         $this->twigRenderer = $twigRenderer;
     }
@@ -82,14 +80,14 @@ final class TwigFileDecorator implements FileDecoratorInterface
     {
         // prepare parameters
         $parameters = $file->getConfiguration() + $this->configuration->getOptions() + [
-                $generatorElement->getVariable() => $file,
-                'layout' => $generatorElement->getLayout(),
-            ];
+            $generatorElement->getVariable() => $file,
+            'layout' => $generatorElement->getLayout(),
+        ];
 
         // add layout
         $this->prependLayoutToFileContent($file, $generatorElement->getLayout());
 
-        $htmlContent = $this->renderToString($file, $parameters);
+        $htmlContent = $this->twigRenderer->render($file, $parameters);
 
         // trim "{% extends %s %}" left over
         $htmlContent = Strings::replace($htmlContent, '#{% extends "[a-z]+" %}#');
@@ -108,21 +106,5 @@ final class TwigFileDecorator implements FileDecoratorInterface
         $layout = sprintf('{%% extends "%s" %%}', $layout);
 
         $file->changeContent($layout . PHP_EOL . $content);
-    }
-
-    /**
-     * @param mixed[] $parameters
-     */
-    private function renderToString(AbstractFile $file, array $parameters): string
-    {
-        try {
-            return $this->twigRenderer->render($file, $parameters);
-        } catch (\Throwable $throwable) {
-            throw new \Exception(sprintf(
-                'Invalid Twig syntax found or missing value in "%s" file: %s',
-                $file->getFilePath(),
-                $throwable->getMessage()
-            ));
-        }
     }
 }

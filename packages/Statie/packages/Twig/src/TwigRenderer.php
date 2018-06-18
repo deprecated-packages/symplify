@@ -3,6 +3,8 @@
 namespace Symplify\Statie\Twig;
 
 use Symplify\Statie\Renderable\File\AbstractFile;
+use Symplify\Statie\Twig\Exception\InvalidTwigSyntaxException;
+use Throwable;
 use Twig\Environment;
 use Twig\Loader\ArrayLoader;
 
@@ -31,6 +33,14 @@ final class TwigRenderer
     {
         $this->twigArrayLoader->setTemplate($file->getFilePath(), $file->getContent());
 
-        return $this->twigEnvironment->render($file->getFilePath(), $parameters);
+        try {
+            return $this->twigEnvironment->render($file->getFilePath(), $parameters);
+        } catch (Throwable $throwable) {
+            throw new InvalidTwigSyntaxException(sprintf(
+                'Invalid Twig syntax found or missing value in "%s" file: %s',
+                $file->getFilePath(),
+                $throwable->getMessage()
+            ));
+        }
     }
 }
