@@ -39,13 +39,12 @@ final class LatteRenderer
      */
     public function render(AbstractFile $file, array $parameters): string
     {
-        return $this->codeBlocksProtector->protectContentFromCallback($file->getContent(), function (string  $content) use (
-            $file,
-            $parameters
-) {
+        $renderCallback = function (string $content) use ($file, $parameters) {
             $this->arrayLoader->changeContent($file->getFilePath(), $content);
 
             return $this->engine->renderToString($file->getFilePath(), $parameters);
-        });
+        };
+
+        return $this->codeBlocksProtector->protectContentFromCallback($file->getContent(), $renderCallback);
     }
 }

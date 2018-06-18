@@ -41,14 +41,13 @@ final class TwigRenderer
      */
     public function renderExcludingHighlightBlocks(AbstractFile $file, array $parameters): string
     {
-        return $this->codeBlocksProtector->protectContentFromCallback($file->getContent(), function (string  $content) use (
-            $file,
-            $parameters
-) {
+        $renderCallback = function (string $content) use ($file, $parameters) {
             $this->twigArrayLoader->setTemplate($file->getFilePath(), $content);
 
             return $this->render($file, $parameters);
-        });
+        };
+
+        return $this->codeBlocksProtector->protectContentFromCallback($file->getContent(), $renderCallback);
     }
 
     /**
