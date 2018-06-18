@@ -202,37 +202,63 @@ CODE
 
         $typesToSuffixes = array_merge($parentTypesToSuffixes, $extraParentTypesToSuffixes);
 
-        // allow 1 option with numeric keys
-        foreach ($typesToSuffixes as $key => $type) {
+        $typesToSuffixes = $this->convertListValuesToKeysToSuffixes($typesToSuffixes);
+        return $this->prefixKeysWithAsteriks($typesToSuffixes);
+    }
+
+    /**
+     * From:
+     * - [0 => "*Type"]
+     * to:
+     * - ["*Type" => "Type"]
+     *
+     * @param string[] $values
+     * @return string[]
+     */
+    private function convertListValuesToKeysToSuffixes(array $values): array
+    {
+        foreach ($values as $key => $value) {
             if (! is_numeric($key)) {
                 continue;
             }
 
-            $suffix = ltrim($type, '*');
+            $suffix = ltrim($value, '*');
 
             // remove "Interface" suffix
             if (Strings::endsWith($suffix, 'Interface')) {
                 $suffix = substr($suffix, 0, -strlen('Interface'));
             }
 
-            $typesToSuffixes[$type] = $suffix;
+            $values[$value] = $suffix;
 
-            unset($typesToSuffixes[$key]);
+            unset($values[$key]);
         }
+        return $values;
+    }
 
-        // turns "Type => Suffix" to "*Type => Suffix"
-        foreach ($typesToSuffixes as $type => $suffix) {
-            if (Strings::startsWith($type, '*')) {
+    /**
+     * From:
+     * - ["Type" => "Suffix"]
+     * to:
+     * - ["*Type" => "Suffix"]
+     *
+     * @param string[] $values
+     * @return string[]
+     */
+    private function prefixKeysWithAsteriks(array $values): array
+    {
+        foreach ($values as $key => $value) {
+            if (Strings::startsWith($key, '*')) {
                 continue;
             }
 
-            $fnmatchAwareType = '*' . $type;
+            $newKey = '*' . $key;
 
-            $typesToSuffixes[$fnmatchAwareType] = $suffix;
+            $values[$newKey] = $value;
 
-            unset($typesToSuffixes[$type]);
+            unset($values[$key]);
         }
 
-        return $typesToSuffixes;
+        return $values;
     }
 }

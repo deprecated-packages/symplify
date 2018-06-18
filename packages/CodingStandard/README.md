@@ -206,7 +206,7 @@ services:
  }
 ```
 
-### Property name should match its type, if possible
+### Property name should match its key, if possible
 
 - :wrench:
 - class: [`Symplify\CodingStandard\Fixer\Naming\PropertyNameMatchingTypeFixer`](src/Fixer/Naming/PropertyNameMatchingTypeFixer.php)
