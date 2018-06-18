@@ -39,21 +39,6 @@ final class LinksToReferencesWorker implements WorkerInterface
         return 700;
     }
 
-    private function processIssues(string $content): void
-    {
-        $matches = Strings::matchAll($content, '#(fixes|resolves) \[' . RegexPattern::PR_OR_ISSUE . '\]#');
-
-        foreach ($matches as $match) {
-            $link = sprintf(
-                '[#%d]: %s/issues/%d',
-                $match['id'],
-                $this->configuration->getRepositoryUrl(),
-                $match['id']
-            );
-            $this->linkAppender->add($match['id'], $link);
-        }
-    }
-
     /**
      * Github can redirects PRs to issues, so no need to trouble with their separatoin
      * @inspiration for Regex: https://stackoverflow.com/a/406408/1348344

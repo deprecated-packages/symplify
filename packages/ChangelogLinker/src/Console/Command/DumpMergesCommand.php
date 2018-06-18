@@ -160,12 +160,7 @@ final class DumpMergesCommand extends Command
             'Github Token to overcome request limit.'
         );
 
-        $this->addOption(
-            self::OPTION_LINKIFY,
-            null,
-            InputOption::VALUE_NONE,
-            'Decorate content with links.'
-        );
+        $this->addOption(self::OPTION_LINKIFY, null, InputOption::VALUE_NONE, 'Decorate content with links.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
