@@ -118,7 +118,7 @@ final class LatteFileDecorator implements FileDecoratorInterface
     private function renderToString(AbstractFile $file, array $parameters): string
     {
         try {
-            return $this->latteRenderer->renderExcludingHighlightBlocks($file, $parameters);
+            return $this->latteRenderer->render($file, $parameters);
         } catch (CompileException | AccessKeyNotAvailableException $exception) {
             throw new InvalidLatteSyntaxException(sprintf(
                 'Invalid Latte syntax found or missing value in "%s" file: %s',
