@@ -20,11 +20,11 @@ final class RunCommand extends Command
     /**
      * @var ChangelogLinker
      */
-    private $changelogApplication;
+    private $changelogLinker;
 
-    public function __construct(ChangelogLinker $changelogApplication)
+    public function __construct(ChangelogLinker $changelogLinker)
     {
-        $this->changelogApplication = $changelogApplication;
+        $this->changelogLinker = $changelogLinker;
 
         parent::__construct();
     }
@@ -42,7 +42,7 @@ final class RunCommand extends Command
             throw new FileNotFoundException(sprintf('Changelog file "%s" was not found' . PHP_EOL, $changelogFile));
         }
 
-        $processedChangelogFile = $this->changelogApplication->processContent(file_get_contents($changelogFile));
+        $processedChangelogFile = $this->changelogLinker->processContent(file_get_contents($changelogFile));
 
         file_put_contents($changelogFile, $processedChangelogFile);
 

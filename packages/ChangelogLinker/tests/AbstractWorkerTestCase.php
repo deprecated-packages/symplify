@@ -11,18 +11,18 @@ abstract class AbstractWorkerTestCase extends TestCase
     /**
      * @var ChangelogLinker
      */
-    private $changelogApplication;
+    private $changelogLinker;
 
     protected function setUp(): void
     {
         $container = (new ContainerFactory())->createWithConfig($this->provideConfig());
 
-        $this->changelogApplication = $container->get(ChangelogLinker::class);
+        $this->changelogLinker = $container->get(ChangelogLinker::class);
     }
 
     protected function doProcess(string $originalFile): string
     {
-        return $this->changelogApplication->processContent(file_get_contents($originalFile));
+        return $this->changelogLinker->processContent(file_get_contents($originalFile));
     }
 
     abstract protected function provideConfig(): string;

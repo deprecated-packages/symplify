@@ -98,7 +98,7 @@ final class DumpMergesCommand extends Command
     /**
      * @var ChangelogLinker
      */
-    private $changelogApplication;
+    private $changelogLinker;
 
     public function __construct(
         GithubApi $githubApi,
@@ -107,7 +107,7 @@ final class DumpMergesCommand extends Command
         IdsAnalyzer $idsAnalyzer,
         DumpMergesReporter $dumpMergesReporter,
         ChangeFactory $changeFactory,
-        ChangelogLinker $changelogApplication
+        ChangelogLinker $changelogLinker
     ) {
         parent::__construct();
         $this->changeFactory = $changeFactory;
@@ -116,7 +116,7 @@ final class DumpMergesCommand extends Command
         $this->changeSorter = $changeSorter;
         $this->idsAnalyzer = $idsAnalyzer;
         $this->dumpMergesReporter = $dumpMergesReporter;
-        $this->changelogApplication = $changelogApplication;
+        $this->changelogLinker = $changelogLinker;
     }
 
     protected function configure(): void
@@ -197,7 +197,7 @@ final class DumpMergesCommand extends Command
         );
 
         if ($input->getOption(self::OPTION_LINKIFY)) {
-            $content = $this->changelogApplication->processContent($content);
+            $content = $this->changelogLinker->processContent($content);
         }
 
         if ($input->getOption(self::OPTION_DRY_RUN)) {
