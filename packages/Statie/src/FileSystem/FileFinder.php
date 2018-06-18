@@ -20,7 +20,7 @@ final class FileFinder
     /**
      * @return SplFileInfo[]
      */
-    public function findLatteLayoutsAndSnippets(string $directory): array
+    public function findLayoutsAndSnippets(string $directory): array
     {
         $finder = Finder::create()->files()
             ->in($directory)
@@ -68,6 +68,7 @@ final class FileFinder
         $finder = Finder::create()->files()
             ->name('*.html')
             ->name('*.latte')
+            ->name('*.twig')
             ->name('*.rss')
             ->name('*.xml')
             ->notPath('#(_layouts|_snippets)#')
