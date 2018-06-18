@@ -233,7 +233,8 @@ final class DumpMergesCommand extends Command
             PHP_EOL,
             PHP_EOL,
             PHP_EOL,
-            $newContent
+            $newContent,
+            PHP_EOL
         );
 
         $updatedChangelogContent = str_replace(
