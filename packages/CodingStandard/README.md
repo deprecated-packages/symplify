@@ -546,12 +546,12 @@ services:
     Symplify\CodingStandard\Fixer\Naming\ClassNameSuffixByParentFixer:
         parent_types_to_suffixes:
             # defaults
-            '*Command': 'Command'
-            '*Controller': 'Controller'
-            '*Repository': 'Repository'
-            '*Presenter': 'Presenter'
-            '*Request': 'Request'
-            '*EventSubscriber': 'EventSubscriber'
+            - '*Command'
+            - '*Controller'
+            - '*Repository'
+            - '*Presenter'
+            - '*Request'
+            - '*EventSubscriber'
 ```
 
 Or keep all defaults values by using `extra_parent_types_to_suffixes`:
@@ -561,7 +561,7 @@ Or keep all defaults values by using `extra_parent_types_to_suffixes`:
 services:
     Symplify\CodingStandard\Fixer\Naming\ClassNameSuffixByParentFixer:
         extra_parent_types_to_suffixes:
-            '*ProviderInterface': 'Provider'
+            - '*ProviderInterface'
 ```
 
 It also covers `Interface` suffix as well, e.g `EventSubscriber` checks for `EventSubscriberInterface` as well.

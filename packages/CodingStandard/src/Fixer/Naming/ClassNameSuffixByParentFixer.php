@@ -33,17 +33,17 @@ final class ClassNameSuffixByParentFixer implements DefinedFixerInterface, Confi
      * @var string[]
      */
     private $defaultParentClassToSuffixMap = [
-        '*Command' => 'Command',
-        '*Controller' => 'Controller',
-        '*Repository' => 'Repository',
-        '*Presenter' => 'Presenter',
-        '*Request' => 'Request',
-        '*Response' => 'Response',
-        '*EventSubscriber' => 'EventSubscriber',
-        '*FixerInterface' => 'Fixer',
-        '*Sniff' => 'Sniff',
-        '*Exception' => 'Exception',
-        '*Handler' => 'Handler',
+        '*Command',
+        '*Controller',
+        '*Repository',
+        '*Presenter',
+        '*Request',
+        '*Response',
+        '*EventSubscriber',
+        '*FixerInterface',
+        '*Sniff',
+        '*Exception',
+        '*Handler',
     ];
 
     /**
@@ -180,7 +180,7 @@ CODE
         string $parentType,
         string $className
     ): void {
-        $classToSuffixMap = $this->configuration[self::PARENT_TYPES_TO_SUFFIXES_OPTION];
+        $classToSuffixMap = $this->getClassToSuffixMap();
 
         foreach ($classToSuffixMap as $classMatch => $suffix) {
             if (! fnmatch($classMatch, $parentType) && ! fnmatch($classMatch . 'Interface', $parentType)) {
@@ -193,5 +193,36 @@ CODE
 
             $tokens[$classWrapper->getNamePosition()] = new Token([T_STRING, $className . $suffix]);
         }
+    }
+
+    /**
+     * @return string[]
+     */
+    private function getClassToSuffixMap(): array
+    {
+        $parentTypesToSuffixes = $this->configuration[self::PARENT_TYPES_TO_SUFFIXES_OPTION];
+        $extraParentTypesToSuffixes = $this->configuration[self::EXTRA_PARENT_TYPES_TO_SUFFIXES_OPTION];
+
+        $typesToSuffixes = array_merge($parentTypesToSuffixes, $extraParentTypesToSuffixes);
+
+        // allow 1 option with numeric keys
+        foreach ($typesToSuffixes as $key => $type) {
+            if (! is_numeric($key)) {
+                continue;
+            }
+
+            $suffix = ltrim($type, '*');
+
+            // remove "Interface" suffix
+            if (Strings::endsWith($suffix, 'Interface')) {
+                $suffix = substr($suffix, 0, -strlen('Interface'));
+            }
+
+            $typesToSuffixes[$type] = $suffix;
+
+            unset($typesToSuffixes[$key]);
+        }
+
+        return $typesToSuffixes;
     }
 }

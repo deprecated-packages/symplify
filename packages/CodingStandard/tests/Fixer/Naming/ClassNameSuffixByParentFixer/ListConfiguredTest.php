@@ -8,7 +8,7 @@ use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;
 /**
  * @see \Symplify\CodingStandard\Fixer\Naming\ClassNameSuffixByParentFixer
  */
-final class ConfiguredTest extends AbstractCheckerTestCase
+final class ListConfiguredTest extends AbstractCheckerTestCase
 {
     /**
      * @dataProvider provideWrongToFixedCases()
@@ -25,6 +25,6 @@ final class ConfiguredTest extends AbstractCheckerTestCase
 
     protected function provideConfig(): string
     {
-        return __DIR__ . '/configured-config.yml';
+        return __DIR__ . '/list-configured-config.yml';
     }
 }
