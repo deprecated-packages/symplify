@@ -13,6 +13,10 @@ services:
     # class should be Abstact or Final
     SlamCsFixer\FinalInternalClassFixer: ~
 
+    Symplify\CodingStandard\Fixer\Naming\ClassNameSuffixByParentFixer:
+        extra_parent_types_to_suffixes:
+            - 'FileDecorator'
+
     Symplify\CodingStandard\Sniffs\DependencyInjection\NoClassInstantiationSniff:
         extraAllowedClasses:
             - 'Symplify\EasyCodingStandard\Error\Error'

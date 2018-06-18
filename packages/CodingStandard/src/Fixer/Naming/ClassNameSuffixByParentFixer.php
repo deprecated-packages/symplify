@@ -25,20 +25,25 @@ final class ClassNameSuffixByParentFixer implements DefinedFixerInterface, Confi
     private const PARENT_TYPES_TO_SUFFIXES_OPTION = 'parent_types_to_suffixes';
 
     /**
+     * @var string
+     */
+    private const EXTRA_PARENT_TYPES_TO_SUFFIXES_OPTION = 'extra_parent_types_to_suffixes';
+
+    /**
      * @var string[]
      */
     private $defaultParentClassToSuffixMap = [
-        '*Command' => 'Command',
-        '*Controller' => 'Controller',
-        '*Repository' => 'Repository',
-        '*Presenter' => 'Presenter',
-        '*Request' => 'Request',
-        '*Response' => 'Response',
-        '*EventSubscriber' => 'EventSubscriber',
-        '*FixerInterface' => 'Fixer',
-        '*Sniff' => 'Sniff',
-        '*Exception' => 'Exception',
-        '*Handler' => 'Handler',
+        'Command',
+        'Controller',
+        'Repository',
+        'Presenter',
+        'Request',
+        'Response',
+        'EventSubscriber',
+        'FixerInterface',
+        'Sniff',
+        'Exception',
+        'Handler',
     ];
 
     /**
@@ -84,9 +89,7 @@ CODE
     public function fix(SplFileInfo $file, Tokens $tokens): void
     {
         for ($index = $tokens->count() - 1; $index >= 0; --$index) {
-            $token = $tokens[$index];
-
-            if (! $token->isClassy()) {
+            if (! $tokens[$index]->isClassy()) {
                 continue;
             }
 
@@ -139,7 +142,16 @@ CODE
             ->setDefault($this->defaultParentClassToSuffixMap)
             ->getOption();
 
-        return new FixerConfigurationResolver([$parentTypesToSuffixesOption]);
+        $fixerOptionBuilder = new FixerOptionBuilder(
+            self::EXTRA_PARENT_TYPES_TO_SUFFIXES_OPTION,
+            'Extra map of parent classes to suffixes, that their children should have'
+        );
+
+        $extraParentTypesToSuffixesOption = $fixerOptionBuilder->setAllowedTypes(['array'])
+            ->setDefault([])
+            ->getOption();
+
+        return new FixerConfigurationResolver([$parentTypesToSuffixesOption, $extraParentTypesToSuffixesOption]);
     }
 
     private function processClassWrapper(Tokens $tokens, ClassWrapper $classWrapper): void
@@ -150,7 +162,6 @@ CODE
         }
 
         $parentClassName = $classWrapper->getParentClassName();
-
         if ($parentClassName) {
             $this->processType($tokens, $classWrapper, $parentClassName, $className);
         }
@@ -166,7 +177,7 @@ CODE
         string $parentType,
         string $className
     ): void {
-        $classToSuffixMap = $this->configuration[self::PARENT_TYPES_TO_SUFFIXES_OPTION];
+        $classToSuffixMap = $this->getClassToSuffixMap();
 
         foreach ($classToSuffixMap as $classMatch => $suffix) {
             if (! fnmatch($classMatch, $parentType) && ! fnmatch($classMatch . 'Interface', $parentType)) {
@@ -179,5 +190,75 @@ CODE
 
             $tokens[$classWrapper->getNamePosition()] = new Token([T_STRING, $className . $suffix]);
         }
+    }
+
+    /**
+     * @return string[]
+     */
+    private function getClassToSuffixMap(): array
+    {
+        $parentTypesToSuffixes = $this->configuration[self::PARENT_TYPES_TO_SUFFIXES_OPTION];
+        $extraParentTypesToSuffixes = $this->configuration[self::EXTRA_PARENT_TYPES_TO_SUFFIXES_OPTION];
+
+        $typesToSuffixes = array_merge($parentTypesToSuffixes, $extraParentTypesToSuffixes);
+
+        $typesToSuffixes = $this->convertListValuesToKeysToSuffixes($typesToSuffixes);
+        return $this->prefixKeysWithAsteriks($typesToSuffixes);
+    }
+
+    /**
+     * From:
+     * - [0 => "*Type"]
+     * to:
+     * - ["*Type" => "Type"]
+     *
+     * @param string[] $values
+     * @return string[]
+     */
+    private function convertListValuesToKeysToSuffixes(array $values): array
+    {
+        foreach ($values as $key => $value) {
+            if (! is_numeric($key)) {
+                continue;
+            }
+
+            $suffix = ltrim($value, '*');
+
+            // remove "Interface" suffix
+            if (Strings::endsWith($suffix, 'Interface')) {
+                $suffix = substr($suffix, 0, -strlen('Interface'));
+            }
+
+            $values[$value] = $suffix;
+
+            unset($values[$key]);
+        }
+        return $values;
+    }
+
+    /**
+     * From:
+     * - ["Type" => "Suffix"]
+     * to:
+     * - ["*Type" => "Suffix"]
+     *
+     * @param string[] $values
+     * @return string[]
+     */
+    private function prefixKeysWithAsteriks(array $values): array
+    {
+        foreach ($values as $key => $value) {
+            if (Strings::startsWith($key, '*')) {
+                continue;
+            }
+
+            $newKey = '*' . $key;
+
+            $values[$newKey] = $value;
+
+            unset($values[$key]);
+        }
+
+        return $values;
     }
 }

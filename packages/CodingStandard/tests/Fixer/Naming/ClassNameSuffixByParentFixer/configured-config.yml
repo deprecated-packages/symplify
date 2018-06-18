@@ -1,0 +1,4 @@
+services:
+    Symplify\CodingStandard\Fixer\Naming\ClassNameSuffixByParentFixer:
+        extra_parent_types_to_suffixes:
+            '*RandomInterface': 'Random'
