@@ -25,6 +25,11 @@ final class ClassNameSuffixByParentFixer implements DefinedFixerInterface, Confi
     private const PARENT_TYPES_TO_SUFFIXES_OPTION = 'parent_types_to_suffixes';
 
     /**
+     * @var string
+     */
+    private const EXTRA_PARENT_TYPES_TO_SUFFIXES_OPTION = 'extra_parent_types_to_suffixes';
+
+    /**
      * @var string[]
      */
     private $defaultParentClassToSuffixMap = [
@@ -139,7 +144,16 @@ CODE
             ->setDefault($this->defaultParentClassToSuffixMap)
             ->getOption();
 
-        return new FixerConfigurationResolver([$parentTypesToSuffixesOption]);
+        $fixerOptionBuilder = new FixerOptionBuilder(
+            self::EXTRA_PARENT_TYPES_TO_SUFFIXES_OPTION,
+            'Extra map of parent classes to suffixes, that their children should have'
+        );
+
+        $extraParentTypesToSuffixesOption = $fixerOptionBuilder->setAllowedTypes(['array'])
+            ->setDefault([])
+            ->getOption();
+
+        return new FixerConfigurationResolver([$parentTypesToSuffixesOption, $extraParentTypesToSuffixesOption]);
     }
 
     private function processClassWrapper(Tokens $tokens, ClassWrapper $classWrapper): void

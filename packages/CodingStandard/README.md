@@ -554,6 +554,16 @@ services:
             '*EventSubscriber': 'EventSubscriber'
 ```
 
+Or keep all defaults values by using `extra_parent_types_to_suffixes`:
+
+```yaml
+# easy-coding-standard.yml
+services:
+    Symplify\CodingStandard\Fixer\Naming\ClassNameSuffixByParentFixer:
+        extra_parent_types_to_suffixes:
+            '*ProviderInterface': 'Provider'
+```
+
 It also covers `Interface` suffix as well, e.g `EventSubscriber` checks for `EventSubscriberInterface` as well.
 
 ### Interface should have suffix "Interface"
