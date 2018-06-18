@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\Statie\Renderable;
+namespace Symplify\Statie\Latte\Renderable;
 
 use Latte\CompileException;
 use Symplify\Statie\Configuration\Configuration;
