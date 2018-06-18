@@ -9,7 +9,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symplify\ChangelogLinker\Analyzer\IdsAnalyzer;
-use Symplify\ChangelogLinker\ChangelogApplication;
+use Symplify\ChangelogLinker\ChangelogLinker;
 use Symplify\ChangelogLinker\ChangeTree\Change;
 use Symplify\ChangelogLinker\ChangeTree\ChangeFactory;
 use Symplify\ChangelogLinker\ChangeTree\ChangeSorter;
@@ -96,7 +96,7 @@ final class DumpMergesCommand extends Command
     private $changes = [];
 
     /**
-     * @var ChangelogApplication
+     * @var ChangelogLinker
      */
     private $changelogApplication;
 
@@ -107,7 +107,7 @@ final class DumpMergesCommand extends Command
         IdsAnalyzer $idsAnalyzer,
         DumpMergesReporter $dumpMergesReporter,
         ChangeFactory $changeFactory,
-        ChangelogApplication $changelogApplication
+        ChangelogLinker $changelogApplication
     ) {
         parent::__construct();
         $this->changeFactory = $changeFactory;

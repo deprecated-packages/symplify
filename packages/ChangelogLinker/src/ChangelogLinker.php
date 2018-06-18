@@ -6,7 +6,7 @@ use Symplify\ChangelogLinker\Analyzer\LinksAnalyzer;
 use Symplify\ChangelogLinker\Analyzer\VersionsAnalyzer;
 use Symplify\ChangelogLinker\Contract\Worker\WorkerInterface;
 
-final class ChangelogApplication
+final class ChangelogLinker
 {
     /**
      * @var WorkerInterface[]
@@ -41,13 +41,6 @@ final class ChangelogApplication
     public function addWorker(WorkerInterface $worker): void
     {
         $this->workers[] = $worker;
-    }
-
-    public function processFile(string $filePath): string
-    {
-        $content = file_get_contents($filePath);
-
-        return $this->processContent($content);
     }
 
     public function processContent(string $content): string

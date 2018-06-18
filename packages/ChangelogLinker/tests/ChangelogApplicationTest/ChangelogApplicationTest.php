@@ -6,7 +6,7 @@ use Iterator;
 use Symplify\ChangelogLinker\Tests\AbstractWorkerTestCase;
 
 /**
- * @covers \Symplify\ChangelogLinker\ChangelogApplication
+ * @covers \Symplify\ChangelogLinker\ChangelogLinker
  */
 final class ChangelogApplicationTest extends AbstractWorkerTestCase
 {

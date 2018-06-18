@@ -149,7 +149,7 @@ Will result into this beautiful:
 - [#852] Add support for line_ending configuration
 ```
 
-And with `--linkfy` option, you'll get all the nice things from B as well.
+And with `--linkify` option, you'll get all the nice things from B as well.
 
 ## B. Decorate `CHANGELOG.md`
 
