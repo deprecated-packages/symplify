@@ -1,0 +1,13 @@
+services:
+    _defaults:
+        autowire: true
+
+    Symplify\Statie\Twig\:
+        resource: '..'
+
+    # twig setup
+    Twig\Loader\ArrayLoader:
+
+    Twig\Environment:
+        $options:
+            'cache': '%kernel.cache_dir%/twig'

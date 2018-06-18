@@ -63,7 +63,7 @@ final class TwigFileDecorator implements FileDecoratorInterface
             'file' => $file,
         ];
 
-        $htmlContent = $this->twigRenderer->render($file, $parameters);
+        $htmlContent = $this->twigRenderer->renderExcludingHighlightBlocks($file, $parameters);
 
         $file->changeContent($htmlContent);
     }
@@ -87,7 +87,7 @@ final class TwigFileDecorator implements FileDecoratorInterface
         // add layout
         $this->prependLayoutToFileContent($file, $generatorElement->getLayout());
 
-        $htmlContent = $this->twigRenderer->render($file, $parameters);
+        $htmlContent = $this->twigRenderer->renderExcludingHighlightBlocks($file, $parameters);
 
         // trim "{% extends %s %}" left over
         $htmlContent = Strings::replace($htmlContent, '#{% extends "[a-z]+" %}#');

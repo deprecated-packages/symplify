@@ -58,6 +58,7 @@
             "Symplify\\Statie\\": "packages/Statie/src",
             "Symplify\\Statie\\FlatWhite\\": "packages/Statie/packages/FlatWhite/src",
             "Symplify\\Statie\\Generator\\": "packages/Statie/packages/Generator/src",
+            "Symplify\\Statie\\Twig\\": "packages/Statie/packages/Twig/src",
             "Symplify\\TokenRunner\\": "packages/TokenRunner/src"
         }
     },
