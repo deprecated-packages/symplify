@@ -37,6 +37,11 @@ final class DumpMergesCommand extends Command
     private const OPTION_IN_TAGS = 'in-tags';
 
     /**
+     * @var string
+     */
+    private const OPTION_WRITE = 'write';
+
+    /**
      * @var GithubApi
      */
     private $githubApi;
@@ -112,7 +117,14 @@ final class DumpMergesCommand extends Command
             self::OPTION_IN_TAGS,
             null,
             InputOption::VALUE_NONE,
-            'Print withs tags - detected from date of merge .'
+            'Print withs tags - detected from date of merge.'
+        );
+
+        $this->addOption(
+            self::OPTION_WRITE,
+            null,
+            InputOption::VALUE_NONE,
+            'Instead of just print out to output, write directly into CHANGELOG.md.'
         );
 
         $this->addOption('token', 't', InputOption::VALUE_REQUIRED, 'Github Token to overcome request limit.');
@@ -149,7 +161,7 @@ final class DumpMergesCommand extends Command
         $sortedChanges = $this->changeSorter->sortByCategoryAndPackage($this->changes, $sortPriority);
         $sortedChanges = $this->changeSorter->sortByTags($sortedChanges);
 
-        $this->dumpMergesReporter->reportChangesWithHeadlines(
+        $content = $this->dumpMergesReporter->reportChangesWithHeadlines(
             $sortedChanges,
             $input->getOption(self::OPTION_IN_CATEGORIES),
             $input->getOption(self::OPTION_IN_PACKAGES),
@@ -157,7 +169,7 @@ final class DumpMergesCommand extends Command
             $sortPriority
         );
 
-        $this->symfonyStyle->writeln($this->dumpMergesReporter->getContent());
+        $this->symfonyStyle->writeln($content);
 
         // success
         return 0;

@@ -35,11 +35,11 @@ final class WithTagsTest extends TestCase
             $this->markTestSkipped('Travis makes shallow clones, so unable to test commits/tags.');
         }
 
-        $this->dumpMergesReporter->reportChangesWithHeadlines($this->changes, false, false, true, 'categories');
+        $content = $this->dumpMergesReporter->reportChangesWithHeadlines($this->changes, false, false, true, 'categories');
 
         $this->assertStringEqualsFile(
             __DIR__ . '/WithTagsSource/expected1.md',
-            $this->dumpMergesReporter->getContent()
+            $content
         );
     }
 
@@ -58,7 +58,7 @@ final class WithTagsTest extends TestCase
             $this->markTestSkipped('Travis makes shallow clones, so unable to test commits/tags.');
         }
 
-        $this->dumpMergesReporter->reportChangesWithHeadlines(
+        $content = $this->dumpMergesReporter->reportChangesWithHeadlines(
             $this->changes,
             $withCategories,
             $withPackages,
@@ -66,7 +66,7 @@ final class WithTagsTest extends TestCase
             $priority
         );
 
-        $this->assertStringEqualsFile($expectedOutputFile, $this->dumpMergesReporter->getContent());
+        $this->assertStringEqualsFile($expectedOutputFile, $content);
     }
 
     public function provideDataForReportChangesWithHeadlines(): Iterator

@@ -56,7 +56,7 @@ final class DumpMergesReporter
         bool $withPackages,
         bool $withTags,
         ?string $priority
-    ): void {
+    ): string {
         $this->content .= PHP_EOL;
 
         foreach ($changes as $change) {
@@ -75,10 +75,7 @@ final class DumpMergesReporter
         }
 
         $this->content .= PHP_EOL;
-    }
 
-    public function getContent(): string
-    {
         return $this->dumpMergesFormatter->format($this->content);
     }
 
