@@ -30,12 +30,15 @@ final class DumpMergesReporterTest extends TestCase
 
     public function testReportChanges(): void
     {
-        $this->dumpMergesReporter->reportChangesWithHeadlines($this->changes, false, false, false, 'packages');
-
-        $this->assertStringEqualsFile(
-            __DIR__ . '/DumpMergesReporterSource/expected1.md',
-            $this->dumpMergesReporter->getContent()
+        $content = $this->dumpMergesReporter->reportChangesWithHeadlines(
+            $this->changes,
+            false,
+            false,
+            false,
+            'packages'
         );
+
+        $this->assertStringEqualsFile(__DIR__ . '/DumpMergesReporterSource/expected1.md', $content);
     }
 
     /**
@@ -48,7 +51,7 @@ final class DumpMergesReporterTest extends TestCase
         string $priority,
         string $expectedOutputFile
     ): void {
-        $this->dumpMergesReporter->reportChangesWithHeadlines(
+        $content = $this->dumpMergesReporter->reportChangesWithHeadlines(
             $this->changes,
             $withCategories,
             $withPackages,
@@ -56,7 +59,7 @@ final class DumpMergesReporterTest extends TestCase
             $priority
         );
 
-        $this->assertStringEqualsFile($expectedOutputFile, $this->dumpMergesReporter->getContent());
+        $this->assertStringEqualsFile($expectedOutputFile, $content);
     }
 
     public function provideDataForReportChangesWithHeadlines(): Iterator

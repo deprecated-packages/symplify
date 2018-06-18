@@ -56,29 +56,18 @@ final class DumpMergesReporter
         bool $withPackages,
         bool $withTags,
         ?string $priority
-    ): void {
+    ): string {
         $this->content .= PHP_EOL;
 
         foreach ($changes as $change) {
-            $this->displayTagIfDesired($change, $withTags);
-
-            if ($priority === ChangeSorter::PRIORITY_PACKAGES) {
-                $this->displayPackageIfDesired($change, $withPackages, $priority);
-                $this->displayCategoryIfDesired($change, $withCategories, $priority);
-            } else {
-                $this->displayCategoryIfDesired($change, $withCategories, $priority);
-                $this->displayPackageIfDesired($change, $withPackages, $priority);
-            }
+            $this->displayHeadlines($withCategories, $withPackages, $withTags, $priority, $change);
 
             $message = $withPackages ? $change->getMessageWithoutPackage() : $change->getMessage();
             $this->content .= $message . PHP_EOL;
         }
 
         $this->content .= PHP_EOL;
-    }
 
-    public function getContent(): string
-    {
         return $this->dumpMergesFormatter->format($this->content);
     }
 
@@ -124,5 +113,23 @@ final class DumpMergesReporter
         }
 
         return $tagLine;
+    }
+
+    private function displayHeadlines(
+        bool $withCategories,
+        bool $withPackages,
+        bool $withTags,
+        ?string $priority,
+        Change $change
+    ): void {
+        $this->displayTagIfDesired($change, $withTags);
+
+        if ($priority === ChangeSorter::PRIORITY_PACKAGES) {
+            $this->displayPackageIfDesired($change, $withPackages, $priority);
+            $this->displayCategoryIfDesired($change, $withCategories, $priority);
+        } else {
+            $this->displayCategoryIfDesired($change, $withCategories, $priority);
+            $this->displayPackageIfDesired($change, $withPackages, $priority);
+        }
     }
 }

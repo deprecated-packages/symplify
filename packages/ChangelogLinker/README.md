@@ -32,6 +32,13 @@ The config is autodiscovered in the root directory or by `--config` option.
 vendor/bin/changelog-linker dump-mergers
 ```
 
+### Write or Dry-run?
+
+First thing you need to know, it has a `--dry-run` option that only prints the result to the output.
+
+Without that, I looks for `<!-- changelog-linker -->` in the `CHANGELOG.md` to replace with the content.
+
+
 This command finds the last #ID in the `CHANGELOG.md`, than looks on Github via API and dumps all the merged PRs since the last #ID in nice format.
 
 But that is a mash-up of everything. Not very nice:

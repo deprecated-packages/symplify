@@ -22,7 +22,7 @@ final class ChangeSorter
      * @param Change[] $changes
      * @return Change[]
      */
-    public function sortByCategoryAndPackage(array $changes, string $priority): array
+    public function sortByCategoryAndPackage(array $changes, ?string $priority): array
     {
         $categoryList = array_map(function (Change $change) {
             return $change->getPackage();
