@@ -30,12 +30,15 @@ final class DumpMergesReporterTest extends TestCase
 
     public function testReportChanges(): void
     {
-        $content = $this->dumpMergesReporter->reportChangesWithHeadlines($this->changes, false, false, false, 'packages');
-
-        $this->assertStringEqualsFile(
-            __DIR__ . '/DumpMergesReporterSource/expected1.md',
-            $content
+        $content = $this->dumpMergesReporter->reportChangesWithHeadlines(
+            $this->changes,
+            false,
+            false,
+            false,
+            'packages'
         );
+
+        $this->assertStringEqualsFile(__DIR__ . '/DumpMergesReporterSource/expected1.md', $content);
     }
 
     /**

@@ -35,12 +35,15 @@ final class WithTagsTest extends TestCase
             $this->markTestSkipped('Travis makes shallow clones, so unable to test commits/tags.');
         }
 
-        $content = $this->dumpMergesReporter->reportChangesWithHeadlines($this->changes, false, false, true, 'categories');
-
-        $this->assertStringEqualsFile(
-            __DIR__ . '/WithTagsSource/expected1.md',
-            $content
+        $content = $this->dumpMergesReporter->reportChangesWithHeadlines(
+            $this->changes,
+            false,
+            false,
+            true,
+            'categories'
         );
+
+        $this->assertStringEqualsFile(__DIR__ . '/WithTagsSource/expected1.md', $content);
     }
 
     /**
