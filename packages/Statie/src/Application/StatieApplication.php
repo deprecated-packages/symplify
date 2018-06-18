@@ -2,15 +2,15 @@
 
 namespace Symplify\Statie\Application;
 
-use SplFileInfo;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symplify\Statie\Configuration\Configuration;
 use Symplify\Statie\Event\BeforeRenderEvent;
 use Symplify\Statie\FileSystem\FileFinder;
 use Symplify\Statie\FileSystem\FileSystemWriter;
-use Symplify\Statie\FlatWhite\Latte\ArrayLoader;
+use Symplify\Statie\FlatWhite\Latte\ArrayLoader as LatteArrayLoader;
 use Symplify\Statie\Generator\Generator;
 use Symplify\Statie\Renderable\RenderableFilesProcessor;
+use Twig\Loader\ArrayLoader as TwigArrayLoader;
 
 final class StatieApplication
 {
@@ -30,9 +30,9 @@ final class StatieApplication
     private $renderableFilesProcessor;
 
     /**
-     * @var ArrayLoader
+     * @var LatteArrayLoader
      */
-    private $arrayLoader;
+    private $latteArrayLoader;
 
     /**
      * @var Generator
@@ -49,22 +49,29 @@ final class StatieApplication
      */
     private $eventDispatcher;
 
+    /**
+     * @var TwigArrayLoader
+     */
+    private $twigArrayLoader;
+
     public function __construct(
         Configuration $configuration,
         FileSystemWriter $fileSystemWriter,
         RenderableFilesProcessor $renderableFilesProcessor,
-        ArrayLoader $arrayLoader,
+        LatteArrayLoader $arrayLoader,
         Generator $generator,
         FileFinder $fileFinder,
-        EventDispatcherInterface $eventDispatcher
+        EventDispatcherInterface $eventDispatcher,
+        TwigArrayLoader $twigArrayLoader
     ) {
         $this->configuration = $configuration;
         $this->fileSystemWriter = $fileSystemWriter;
         $this->renderableFilesProcessor = $renderableFilesProcessor;
-        $this->arrayLoader = $arrayLoader;
+        $this->latteArrayLoader = $arrayLoader;
         $this->generator = $generator;
         $this->fileFinder = $fileFinder;
         $this->eventDispatcher = $eventDispatcher;
+        $this->twigArrayLoader = $twigArrayLoader;
     }
 
     public function run(string $source, string $destination, bool $dryRun = false): void
@@ -74,8 +81,7 @@ final class StatieApplication
         $this->configuration->setDryRun($dryRun);
 
         // load layouts and snippets
-        $layoutAndSnippetFiles = $this->fileFinder->findLatteLayoutsAndSnippets($source);
-        $this->loadLayoutsToLatteLoader($layoutAndSnippetFiles);
+        $this->loadLayoutsAndSnippetsFromSource($source);
 
         // process generator items
         $generatorFilesByType = $this->generator->run();
@@ -83,7 +89,6 @@ final class StatieApplication
         // process rest of files (config call is due to absolute path)
         $fileInfos = $this->fileFinder->findRestOfRenderableFiles($this->configuration->getSourceDirectory());
         $files = $this->renderableFilesProcessor->processFileInfos($fileInfos);
-//        $objectsToRender = array_merge($objectsToRender, $this->renderableFilesProcessor->processFileInfos($fileInfos));
 
         $this->eventDispatcher->dispatch(
             BeforeRenderEvent::class,
@@ -103,19 +108,18 @@ final class StatieApplication
         }
     }
 
-    /**
-     * @param SplFileInfo[] $layoutFiles
-     */
-    private function loadLayoutsToLatteLoader(array $layoutFiles): void
+    private function loadLayoutsAndSnippetsFromSource(string $source)
     {
-        foreach ($layoutFiles as $layoutFile) {
-            if ($layoutFile->getExtension() !== 'latte') {
-                continue;
+        foreach ($this->fileFinder->findLayoutsAndSnippets($source) as $fileInfo) {
+            if ($fileInfo->getExtension() === 'twig') {
+                $this->twigArrayLoader->setTemplate($fileInfo->getRelativePathname(), $fileInfo->getContents());
             }
 
-            $name = $layoutFile->getBasename('.' . $layoutFile->getExtension());
-            $content = file_get_contents($layoutFile->getRealPath());
-            $this->arrayLoader->changeContent($name, $content);
+            if ($fileInfo->getExtension() === 'latte') {
+                // @todo make base name to relative, BC break
+                $name = $fileInfo->getBasename('.' . $fileInfo->getExtension());
+                $this->latteArrayLoader->changeContent($name, $fileInfo->getContents());
+            }
         }
     }
 }
