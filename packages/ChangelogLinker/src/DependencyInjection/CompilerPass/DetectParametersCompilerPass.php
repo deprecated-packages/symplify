@@ -15,7 +15,6 @@ final class DetectParametersCompilerPass implements CompilerPassInterface
 
     public function process(ContainerBuilder $containerBuilder): void
     {
-        // repository_url - probably this one is enough?
         if (! $containerBuilder->hasParameter(self::OPTION_REPOSITORY_URL)) {
             $containerBuilder->setParameter(self::OPTION_REPOSITORY_URL, $this->detectRepositoryUrlFromGit());
         }
