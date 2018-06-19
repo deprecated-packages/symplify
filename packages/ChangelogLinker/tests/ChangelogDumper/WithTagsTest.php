@@ -1,12 +1,12 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\ChangelogLinker\Tests\Console\Output;
+namespace Symplify\ChangelogLinker\Tests\ChangelogDumper;
 
 use Iterator;
 use PHPUnit\Framework\TestCase;
+use Symplify\ChangelogLinker\ChangelogDumper;
+use Symplify\ChangelogLinker\ChangelogFormatter;
 use Symplify\ChangelogLinker\ChangeTree\Change;
-use Symplify\ChangelogLinker\Console\Formatter\DumpMergesFormatter;
-use Symplify\ChangelogLinker\Console\Output\DumpMergesReporter;
 use Symplify\ChangelogLinker\Git\GitCommitDateTagResolver;
 
 final class WithTagsTest extends TestCase
@@ -17,13 +17,13 @@ final class WithTagsTest extends TestCase
     private $changes = [];
 
     /**
-     * @var DumpMergesReporter
+     * @var ChangelogDumper
      */
-    private $dumpMergesReporter;
+    private $changelogDumper;
 
     protected function setUp(): void
     {
-        $this->dumpMergesReporter = new DumpMergesReporter(new GitCommitDateTagResolver(), new DumpMergesFormatter());
+        $this->changelogDumper = new ChangelogDumper(new GitCommitDateTagResolver(), new ChangelogFormatter());
 
         $this->changes = [new Change('[SomePackage] Message', 'Added', 'SomePackage', 'Message', 'me', 'v2.0.0')];
     }
@@ -35,7 +35,7 @@ final class WithTagsTest extends TestCase
             $this->markTestSkipped('Travis makes shallow clones, so unable to test commits/tags.');
         }
 
-        $content = $this->dumpMergesReporter->reportChangesWithHeadlines(
+        $content = $this->changelogDumper->reportChangesWithHeadlines(
             $this->changes,
             false,
             false,
@@ -61,7 +61,7 @@ final class WithTagsTest extends TestCase
             $this->markTestSkipped('Travis makes shallow clones, so unable to test commits/tags.');
         }
 
-        $content = $this->dumpMergesReporter->reportChangesWithHeadlines(
+        $content = $this->changelogDumper->reportChangesWithHeadlines(
             $this->changes,
             $withCategories,
             $withPackages,

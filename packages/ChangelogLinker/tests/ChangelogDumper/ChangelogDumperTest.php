@@ -1,15 +1,15 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\ChangelogLinker\Tests\Console\Output;
+namespace Symplify\ChangelogLinker\Tests\ChangelogDumper;
 
 use Iterator;
 use PHPUnit\Framework\TestCase;
+use Symplify\ChangelogLinker\ChangelogDumper;
+use Symplify\ChangelogLinker\ChangelogFormatter;
 use Symplify\ChangelogLinker\ChangeTree\Change;
-use Symplify\ChangelogLinker\Console\Formatter\DumpMergesFormatter;
-use Symplify\ChangelogLinker\Console\Output\DumpMergesReporter;
 use Symplify\ChangelogLinker\Git\GitCommitDateTagResolver;
 
-final class DumpMergesReporterTest extends TestCase
+final class ChangelogDumperTest extends TestCase
 {
     /**
      * @var Change[]
@@ -17,20 +17,20 @@ final class DumpMergesReporterTest extends TestCase
     private $changes = [];
 
     /**
-     * @var DumpMergesReporter
+     * @var ChangelogDumper
      */
-    private $dumpMergesReporter;
+    private $changelogDumper;
 
     protected function setUp(): void
     {
-        $this->dumpMergesReporter = new DumpMergesReporter(new GitCommitDateTagResolver(), new DumpMergesFormatter());
+        $this->changelogDumper = new ChangelogDumper(new GitCommitDateTagResolver(), new ChangelogFormatter());
 
         $this->changes = [new Change('[SomePackage] Message', 'Added', 'SomePackage', 'Message', 'me', 'Unreleased')];
     }
 
     public function testReportChanges(): void
     {
-        $content = $this->dumpMergesReporter->reportChangesWithHeadlines(
+        $content = $this->changelogDumper->reportChangesWithHeadlines(
             $this->changes,
             false,
             false,
@@ -38,7 +38,7 @@ final class DumpMergesReporterTest extends TestCase
             'packages'
         );
 
-        $this->assertStringEqualsFile(__DIR__ . '/DumpMergesReporterSource/expected1.md', $content);
+        $this->assertStringEqualsFile(__DIR__ . '/ChangelogDumperSource/expected1.md', $content);
     }
 
     /**
@@ -51,7 +51,7 @@ final class DumpMergesReporterTest extends TestCase
         string $priority,
         string $expectedOutputFile
     ): void {
-        $content = $this->dumpMergesReporter->reportChangesWithHeadlines(
+        $content = $this->changelogDumper->reportChangesWithHeadlines(
             $this->changes,
             $withCategories,
             $withPackages,
@@ -64,9 +64,9 @@ final class DumpMergesReporterTest extends TestCase
 
     public function provideDataForReportChangesWithHeadlines(): Iterator
     {
-        yield [true, false, false, 'categories', __DIR__ . '/DumpMergesReporterSource/expected2.md'];
-        yield [false, true, false, 'packages', __DIR__ . '/DumpMergesReporterSource/expected3.md'];
-        yield [true, true, false, 'packages', __DIR__ . '/DumpMergesReporterSource/expected4.md'];
-        yield [true, true, false, 'categories', __DIR__ . '/DumpMergesReporterSource/expected5.md'];
+        yield [true, false, false, 'categories', __DIR__ . '/ChangelogDumperSource/expected2.md'];
+        yield [false, true, false, 'packages', __DIR__ . '/ChangelogDumperSource/expected3.md'];
+        yield [true, true, false, 'packages', __DIR__ . '/ChangelogDumperSource/expected4.md'];
+        yield [true, true, false, 'categories', __DIR__ . '/ChangelogDumperSource/expected5.md'];
     }
 }
