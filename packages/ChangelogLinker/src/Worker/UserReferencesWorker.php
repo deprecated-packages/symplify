@@ -13,11 +13,6 @@ use Symplify\ChangelogLinker\Regex\RegexPattern;
 final class UserReferencesWorker implements WorkerInterface
 {
     /**
-     * @var string[]
-     */
-    private $linkedUsers = [];
-
-    /**
      * @var LinkAppender
      */
     private $linkAppender;
@@ -29,17 +24,15 @@ final class UserReferencesWorker implements WorkerInterface
 
     public function processContent(string $content): string
     {
-        $this->collectLinkedUsers($content);
-
         $matches = Strings::matchAll($content, '#\[' . RegexPattern::USER . '\]#');
         foreach ($matches as $match) {
             if ($this->shouldSkip($match)) {
                 continue;
             }
 
-            $markdownUserLink = sprintf('[@%s]: https://github.com/%s', $match['name'], $match['name']);
+            $markdownUserLink = sprintf('[%s]: https://github.com/%s', $match['reference'], $match['name']);
 
-            $this->linkAppender->add('@' . $match['name'], $markdownUserLink);
+            $this->linkAppender->add($match['reference'], $markdownUserLink);
         }
 
         return $content;
@@ -50,23 +43,11 @@ final class UserReferencesWorker implements WorkerInterface
         return 500;
     }
 
-    private function collectLinkedUsers(string $content): void
-    {
-        $matches = Strings::matchAll($content, '#\[' . RegexPattern::USER . '\]: #');
-        foreach ($matches as $match) {
-            $this->linkedUsers[] = $match['name'];
-        }
-    }
-
     /**
      * @param mixed[] $match
      */
     private function shouldSkip(array $match): bool
     {
-        if (in_array($match['name'], $this->linkedUsers, true)) {
-            return true;
-        }
-
-        return $this->linkAppender->hasId($match['name']);
+        return $this->linkAppender->hasId($match['reference']);
     }
 }
