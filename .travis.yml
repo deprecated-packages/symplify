@@ -50,7 +50,12 @@ after_script:
       php coveralls.phar --verbose;
     fi
   # split monorepo to packages (done via Travis Cron Job)
-  - if [[ $TRAVIS_EVENT_TYPE = "cron" && $MONOREPO_SPLIT != "" ]]; then bin/subtree-split-last-tag.sh; fi
+  - |
+    if [[ $TRAVIS_EVENT_TYPE = "cron" && $MONOREPO_SPLIT != "" ]]; then
+      git clone https://github.com/dflydev/git-subsplit.git;
+      cd git-subsplit && ./install.sh && cd ..;
+      bin/subtree-split-last-tag.sh;
+    fi
   - |
     echo $TRAVIS_EVENT_TYPE
     echo $MONOREPO_SPLIT
