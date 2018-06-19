@@ -13,10 +13,15 @@ final class RegexPatternTest extends TestCase
      * @dataProvider provideDataForLinkReference()
      * @param string[] $expectedMatches
      */
-    public function testLinkReference(string $content, string $matchName, array $expectedMatches): void
-    {
+    public function testLinkReference(
+        string $content,
+        string $regexPattern,
+        string $matchName,
+        array $expectedMatches
+    ): void {
         $matches = [];
-        foreach (Strings::matchAll($content, RegexPattern::LINK_REFERENCE) as $match) {
+
+        foreach (Strings::matchAll($content, $regexPattern) as $match) {
             $matches[] = $match[$matchName];
         }
 
@@ -25,6 +30,8 @@ final class RegexPatternTest extends TestCase
 
     public function provideDataForLinkReference(): Iterator
     {
-        yield ['[@Tomas]: http://', 'reference', ['@Tomas']];
+        yield ['[@Tomas]: http://', RegexPattern::LINK_REFERENCE, 'reference', ['@Tomas']];
+        yield ['Thanks to @Tomas', '#' . RegexPattern::USER . '#', 'reference', ['@Tomas']];
+        yield ['Thanks to @Tomas', '#' . RegexPattern::USER . '#', 'name', ['Tomas']];
     }
 }
