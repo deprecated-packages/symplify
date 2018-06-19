@@ -26,7 +26,7 @@ final class ChangeFactory
     /**
      * @var string
      */
-    private const REMOVED_PATTERN = '#remove(d)?|delete(d)?#i';
+    private const REMOVED_PATTERN = '#remove(d)?|delete(d)|drop|dropped?#i';
 
     /**
      * @var Configuration
