@@ -1,13 +1,12 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\ChangelogLinker\Console\Output;
+namespace Symplify\ChangelogLinker;
 
 use Symplify\ChangelogLinker\ChangeTree\Change;
 use Symplify\ChangelogLinker\ChangeTree\ChangeSorter;
-use Symplify\ChangelogLinker\Console\Formatter\DumpMergesFormatter;
 use Symplify\ChangelogLinker\Git\GitCommitDateTagResolver;
 
-final class DumpMergesReporter
+final class ChangelogDumper
 {
     /**
      * @var string|null
@@ -35,16 +34,16 @@ final class DumpMergesReporter
     private $content;
 
     /**
-     * @var DumpMergesFormatter
+     * @var ChangelogFormatter
      */
-    private $dumpMergesFormatter;
+    private $changelogFormatter;
 
     public function __construct(
         GitCommitDateTagResolver $gitCommitDateTagResolver,
-        DumpMergesFormatter $dumpMergesFormatter
+        ChangelogFormatter $changelogFormatter
     ) {
         $this->gitCommitDateTagResolver = $gitCommitDateTagResolver;
-        $this->dumpMergesFormatter = $dumpMergesFormatter;
+        $this->changelogFormatter = $changelogFormatter;
     }
 
     /**
@@ -68,7 +67,7 @@ final class DumpMergesReporter
 
         $this->content .= PHP_EOL;
 
-        return $this->dumpMergesFormatter->format($this->content);
+        return $this->changelogFormatter->format($this->content);
     }
 
     private function displayTagIfDesired(Change $change, bool $withTags): void

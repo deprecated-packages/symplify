@@ -8,11 +8,11 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symplify\ChangelogLinker\Analyzer\IdsAnalyzer;
+use Symplify\ChangelogLinker\ChangelogDumper;
 use Symplify\ChangelogLinker\ChangelogLinker;
 use Symplify\ChangelogLinker\ChangeTree\ChangeResolver;
 use Symplify\ChangelogLinker\Configuration\Option;
 use Symplify\ChangelogLinker\Console\Input\PriorityResolver;
-use Symplify\ChangelogLinker\Console\Output\DumpMergesReporter;
 use Symplify\ChangelogLinker\FileSystem\ChangelogFileSystem;
 use Symplify\ChangelogLinker\Github\GithubApi;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
@@ -44,9 +44,9 @@ final class DumpMergesCommand extends Command
     private $idsAnalyzer;
 
     /**
-     * @var DumpMergesReporter
+     * @var ChangelogDumper
      */
-    private $dumpMergesReporter;
+    private $changelogDumper;
 
     /**
      * @var ChangelogFileSystem
@@ -72,7 +72,7 @@ final class DumpMergesCommand extends Command
         GithubApi $githubApi,
         SymfonyStyle $symfonyStyle,
         IdsAnalyzer $idsAnalyzer,
-        DumpMergesReporter $dumpMergesReporter,
+        ChangelogDumper $changelogDumper,
         ChangelogLinker $changelogLinker,
         ChangelogFileSystem $changelogFileSystem,
         PriorityResolver $priorityResolver,
@@ -82,7 +82,7 @@ final class DumpMergesCommand extends Command
         $this->githubApi = $githubApi;
         $this->symfonyStyle = $symfonyStyle;
         $this->idsAnalyzer = $idsAnalyzer;
-        $this->dumpMergesReporter = $dumpMergesReporter;
+        $this->changelogDumper = $changelogDumper;
         $this->changelogLinker = $changelogLinker;
         $this->changelogFileSystem = $changelogFileSystem;
         $this->priorityResolver = $priorityResolver;
@@ -160,7 +160,7 @@ final class DumpMergesCommand extends Command
             $sortPriority
         );
 
-        $content = $this->dumpMergesReporter->reportChangesWithHeadlines(
+        $content = $this->changelogDumper->reportChangesWithHeadlines(
             $changes,
             $input->getOption(Option::IN_CATEGORIES),
             $input->getOption(Option::IN_PACKAGES),

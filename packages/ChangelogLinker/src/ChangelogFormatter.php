@@ -1,10 +1,10 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\ChangelogLinker\Console\Formatter;
+namespace Symplify\ChangelogLinker;
 
 use Nette\Utils\Strings;
 
-final class DumpMergesFormatter
+final class ChangelogFormatter
 {
     /**
      * @see https://regex101.com/r/JmKFH1/1
