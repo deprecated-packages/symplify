@@ -4,9 +4,20 @@ namespace Symplify\ChangelogLinker\FileSystem;
 
 use Nette\Utils\FileSystem;
 use Symplify\ChangelogLinker\Exception\FileNotFoundException;
+use Symplify\ChangelogLinker\LinkAppender;
 
 final class ChangelogFileSystem
 {
+    /**
+     * @var LinkAppender
+     */
+    private $linkAppender;
+
+    public function __construct(LinkAppender $linkAppender)
+    {
+        $this->linkAppender = $linkAppender;
+    }
+
     public function readChangelog(): string
     {
         $changelogFilePath = $this->getChangelogFilePath();
@@ -15,10 +26,18 @@ final class ChangelogFileSystem
         return FileSystem::read($changelogFilePath);
     }
 
-    // @todo resolve append links
     public function storeChangelog(string $content): void
     {
+        if ($this->linkAppender->getLinksToAppend()) {
+            $content .= PHP_EOL . $this->linkAppender->getLinksToAppend();
+        }
+
         FileSystem::write($this->getChangelogFilePath(), $content);
+    }
+
+    private function getChangelogFilePath(): string
+    {
+        return getcwd() . '/CHANGELOG.md';
     }
 
     private function ensureFileExists(string $changelogFilePath): void
@@ -27,11 +46,6 @@ final class ChangelogFileSystem
             return;
         }
 
-        throw new FileNotFoundException(sprintf('Changelog file "%s" was not found' . PHP_EOL, $changelogFilePath));
-    }
-
-    private function getChangelogFilePath(): string
-    {
-        return getcwd() . '/CHANGELOG.md';
+        throw new FileNotFoundException(sprintf('Changelog file "%s" was not found', $changelogFilePath));
     }
 }

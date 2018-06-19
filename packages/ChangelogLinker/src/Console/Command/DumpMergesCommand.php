@@ -13,6 +13,7 @@ use Symplify\ChangelogLinker\ChangelogLinker;
 use Symplify\ChangelogLinker\ChangeTree\Change;
 use Symplify\ChangelogLinker\ChangeTree\ChangeFactory;
 use Symplify\ChangelogLinker\ChangeTree\ChangeSorter;
+use Symplify\ChangelogLinker\Configuration\Option;
 use Symplify\ChangelogLinker\Console\Output\DumpMergesReporter;
 use Symplify\ChangelogLinker\Exception\MissingPlaceholderInChangelogException;
 use Symplify\ChangelogLinker\FileSystem\ChangelogFileSystem;
@@ -30,36 +31,6 @@ final class DumpMergesCommand extends Command
      * @var string
      */
     private const CHANGELOG_PLACEHOLDER_TO_WRITE = '<!-- changelog-linker -->';
-
-    /**
-     * @var string
-     */
-    private const OPTION_IN_CATEGORIES = 'in-categories';
-
-    /**
-     * @var string
-     */
-    private const OPTION_IN_PACKAGES = 'in-packages';
-
-    /**
-     * @var string
-     */
-    private const OPTION_TOKEN = 'token';
-
-    /**
-     * @var string
-     */
-    private const OPTION_IN_TAGS = 'in-tags';
-
-    /**
-     * @var string
-     */
-    private const OPTION_DRY_RUN = 'dry-run';
-
-    /**
-     * @var string
-     */
-    private const OPTION_LINKIFY = 'linkify';
 
     /**
      * @var GithubApi
@@ -134,41 +105,41 @@ final class DumpMergesCommand extends Command
             'Scans repository merged PRs, that are not in the CHANGELOG.md yet, and dumps them in changelog format.'
         );
         $this->addOption(
-            self::OPTION_IN_CATEGORIES,
+            Option::IN_CATEGORIES,
             null,
             InputOption::VALUE_NONE,
             'Print in Added/Changed/Fixed/Removed - detected from "Add", "Fix", "Removed" etc. keywords in merge title.'
         );
 
         $this->addOption(
-            self::OPTION_IN_PACKAGES,
+            Option::IN_PACKAGES,
             null,
             InputOption::VALUE_NONE,
             'Print in groups in package names - detected from "[PackageName]" in merge title.'
         );
 
         $this->addOption(
-            self::OPTION_IN_TAGS,
+            Option::IN_TAGS,
             null,
             InputOption::VALUE_NONE,
             'Print withs tags - detected from date of merge.'
         );
 
         $this->addOption(
-            self::OPTION_DRY_RUN,
+            Option::DRY_RUN,
             null,
             InputOption::VALUE_NONE,
             'Print out to the output instead of writing directly into CHANGELOG.md.'
         );
 
         $this->addOption(
-            self::OPTION_TOKEN,
+            Option::TOKEN,
             null,
             InputOption::VALUE_REQUIRED,
             'Github Token to overcome request limit.'
         );
 
-        $this->addOption(self::OPTION_LINKIFY, null, InputOption::VALUE_NONE, 'Decorate content with links.');
+        $this->addOption(Option::LINKIFY, null, InputOption::VALUE_NONE, 'Decorate content with links.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -177,8 +148,8 @@ final class DumpMergesCommand extends Command
 
         $highestIdInChangelog = $this->idsAnalyzer->getHighestIdInChangelog($content);
 
-        if ($input->getOption(self::OPTION_TOKEN)) {
-            $this->githubApi->authorizeWithToken($input->getOption(self::OPTION_TOKEN));
+        if ($input->getOption(Option::TOKEN)) {
+            $this->githubApi->authorizeWithToken($input->getOption(Option::TOKEN));
         }
 
         $pullRequests = $this->githubApi->getClosedPullRequestsSinceId($highestIdInChangelog);
@@ -202,17 +173,17 @@ final class DumpMergesCommand extends Command
 
         $content = $this->dumpMergesReporter->reportChangesWithHeadlines(
             $sortedChanges,
-            $input->getOption(self::OPTION_IN_CATEGORIES),
-            $input->getOption(self::OPTION_IN_PACKAGES),
-            $input->getOption(self::OPTION_IN_TAGS),
+            $input->getOption(Option::IN_CATEGORIES),
+            $input->getOption(Option::IN_PACKAGES),
+            $input->getOption(Option::IN_TAGS),
             $sortPriority
         );
 
-        if ($input->getOption(self::OPTION_LINKIFY)) {
+        if ($input->getOption(Option::LINKIFY)) {
             $content = $this->changelogLinker->processContent($content);
         }
 
-        if ($input->getOption(self::OPTION_DRY_RUN)) {
+        if ($input->getOption(Option::DRY_RUN)) {
             $this->symfonyStyle->writeln($content);
         } else {
             $this->updateChangelogContent($content);
