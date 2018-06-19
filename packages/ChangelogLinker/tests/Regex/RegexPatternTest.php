@@ -32,6 +32,5 @@ final class RegexPatternTest extends TestCase
     {
         yield ['[@Tomas]: http://', RegexPattern::LINK_REFERENCE, 'reference', ['@Tomas']];
         yield ['Thanks to @Tomas', '#' . RegexPattern::USER . '#', 'reference', ['@Tomas']];
-        yield ['Thanks to @Tomas', '#' . RegexPattern::USER . '#', 'name', ['Tomas']];
     }
 }
