@@ -44,6 +44,8 @@ final class ChangeSorter
             $secondaryList = $packageList;
         }
 
+        // note: possible $tags conflict with version_compare(), v4.9 > v4.10 > v4.1
+        // see https://stackoverflow.com/a/48974986/1348344
         array_multisort($tagList, $secondaryList, $primaryList, $changes);
 
         return $changes;
