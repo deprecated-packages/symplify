@@ -10,7 +10,6 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 use Symplify\ChangelogLinker\Analyzer\IdsAnalyzer;
 use Symplify\ChangelogLinker\ChangelogLinker;
 use Symplify\ChangelogLinker\ChangeTree\ChangeResolver;
-use Symplify\ChangelogLinker\Configuration\Configuration;
 use Symplify\ChangelogLinker\Configuration\Option;
 use Symplify\ChangelogLinker\Console\Input\PriorityResolver;
 use Symplify\ChangelogLinker\Console\Output\DumpMergesReporter;
@@ -23,6 +22,12 @@ use Symplify\PackageBuilder\Console\Command\CommandNaming;
  */
 final class DumpMergesCommand extends Command
 {
+    /**
+     * @inspiration markdown comment: https://gist.github.com/jonikarppinen/47dc8c1d7ab7e911f4c9#gistcomment-2109856
+     * @var string
+     */
+    private const CHANGELOG_PLACEHOLDER_TO_WRITE = '<!-- changelog-linker -->';
+
     /**
      * @var GithubApi
      */
@@ -163,19 +168,28 @@ final class DumpMergesCommand extends Command
             $sortPriority
         );
 
+        if ($input->getOption(Option::DRY_RUN)) {
+            if ($input->getOption(Option::LINKIFY)) {
+                $content = $this->changelogLinker->processContentWithLinkAppends($content);
+            }
+
+            $this->symfonyStyle->writeln($content);
+
+            // success
+            return 0;
+        }
+
         if ($input->getOption(Option::LINKIFY)) {
             $content = $this->changelogLinker->processContent($content);
         }
 
-        if ($input->getOption(Option::DRY_RUN)) {
-            $this->symfonyStyle->writeln($content);
-        } else {
-            $this->changelogFileSystem->addToChangelogOnPlaceholder(
-                $content,
-                Configuration::CHANGELOG_PLACEHOLDER_TO_WRITE
-            );
-            $this->symfonyStyle->success('The CHANGELOG.md was updated');
-        }
+        $this->changelogFileSystem->addToChangelogOnPlaceholder(
+            $content,
+
+            self::CHANGELOG_PLACEHOLDER_TO_WRITE
+        );
+
+        $this->symfonyStyle->success('The CHANGELOG.md was updated');
 
         // success
         return 0;
