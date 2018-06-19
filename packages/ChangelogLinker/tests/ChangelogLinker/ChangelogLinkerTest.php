@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\ChangelogLinker\Tests\ChangelogApplicationTest;
+namespace Symplify\ChangelogLinker\Tests\ChangelogLinker;
 
 use Iterator;
 use Symplify\ChangelogLinker\Tests\AbstractWorkerTestCase;
@@ -8,7 +8,7 @@ use Symplify\ChangelogLinker\Tests\AbstractWorkerTestCase;
 /**
  * @covers \Symplify\ChangelogLinker\ChangelogLinker
  */
-final class ChangelogApplicationTest extends AbstractWorkerTestCase
+final class ChangelogLinkerTest extends AbstractWorkerTestCase
 {
     /**
      * @dataProvider dataProvider()
