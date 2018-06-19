@@ -6,7 +6,7 @@ use Symplify\ChangelogLinker\Analyzer\LinksAnalyzer;
 use Symplify\ChangelogLinker\Analyzer\VersionsAnalyzer;
 use Symplify\ChangelogLinker\Contract\Worker\WorkerInterface;
 
-final class ChangelogApplication
+final class ChangelogLinker
 {
     /**
      * @var WorkerInterface[]
@@ -43,9 +43,10 @@ final class ChangelogApplication
         $this->workers[] = $worker;
     }
 
-    public function processFile(string $filePath): string
+    public function processContent(string $content): string
     {
-        $content = $this->getContentAndAnalyze($filePath);
+        $this->versionsAnalyzer->analyzeContent($content);
+        $this->linksAnalyzer->analyzeContent($content);
 
         foreach ($this->getSortedWorkers() as $worker) {
             $content = $worker->processContent($content);
@@ -64,15 +65,6 @@ final class ChangelogApplication
         });
 
         return $this->workers;
-    }
-
-    private function getContentAndAnalyze(string $filePath): string
-    {
-        $content = file_get_contents($filePath);
-        $this->versionsAnalyzer->analyzeContent($content);
-        $this->linksAnalyzer->analyzeContent($content);
-
-        return $content;
     }
 
     private function appendLinksToContentIfAny(string $content): string

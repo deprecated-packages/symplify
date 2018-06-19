@@ -9,6 +9,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symplify\ChangelogLinker\Analyzer\IdsAnalyzer;
+use Symplify\ChangelogLinker\ChangelogLinker;
 use Symplify\ChangelogLinker\ChangeTree\Change;
 use Symplify\ChangelogLinker\ChangeTree\ChangeFactory;
 use Symplify\ChangelogLinker\ChangeTree\ChangeSorter;
@@ -42,12 +43,22 @@ final class DumpMergesCommand extends Command
     /**
      * @var string
      */
+    private const OPTION_TOKEN = 'token';
+
+    /**
+     * @var string
+     */
     private const OPTION_IN_TAGS = 'in-tags';
 
     /**
      * @var string
      */
     private const OPTION_DRY_RUN = 'dry-run';
+
+    /**
+     * @var string
+     */
+    private const OPTION_LINKIFY = 'linkify';
 
     /**
      * @var GithubApi
@@ -84,13 +95,19 @@ final class DumpMergesCommand extends Command
      */
     private $changes = [];
 
+    /**
+     * @var ChangelogLinker
+     */
+    private $changelogLinker;
+
     public function __construct(
         GithubApi $githubApi,
         SymfonyStyle $symfonyStyle,
         ChangeSorter $changeSorter,
         IdsAnalyzer $idsAnalyzer,
         DumpMergesReporter $dumpMergesReporter,
-        ChangeFactory $changeFactory
+        ChangeFactory $changeFactory,
+        ChangelogLinker $changelogLinker
     ) {
         parent::__construct();
         $this->changeFactory = $changeFactory;
@@ -99,6 +116,7 @@ final class DumpMergesCommand extends Command
         $this->changeSorter = $changeSorter;
         $this->idsAnalyzer = $idsAnalyzer;
         $this->dumpMergesReporter = $dumpMergesReporter;
+        $this->changelogLinker = $changelogLinker;
     }
 
     protected function configure(): void
@@ -135,19 +153,25 @@ final class DumpMergesCommand extends Command
             'Print out to the output instead of writing directly into CHANGELOG.md.'
         );
 
-        $this->addOption('token', 't', InputOption::VALUE_REQUIRED, 'Github Token to overcome request limit.');
+        $this->addOption(
+            self::OPTION_TOKEN,
+            null,
+            InputOption::VALUE_REQUIRED,
+            'Github Token to overcome request limit.'
+        );
+
+        $this->addOption(self::OPTION_LINKIFY, null, InputOption::VALUE_NONE, 'Decorate content with links.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $highestIdInChangelog = $this->idsAnalyzer->getHighestIdInChangelog(getcwd() . '/CHANGELOG.md');
 
-        if ($input->getOption('token')) {
-            $this->githubApi->authorizeToken($input->getOption('token'));
+        if ($input->getOption(self::OPTION_TOKEN)) {
+            $this->githubApi->authorizeWithToken($input->getOption(self::OPTION_TOKEN));
         }
 
         $pullRequests = $this->githubApi->getClosedPullRequestsSinceId($highestIdInChangelog);
-
         if (count($pullRequests) === 0) {
             $this->symfonyStyle->note(
                 sprintf('There are no new pull requests to be added since ID "%d".', $highestIdInChangelog)
@@ -173,6 +197,10 @@ final class DumpMergesCommand extends Command
             $input->getOption(self::OPTION_IN_TAGS),
             $sortPriority
         );
+
+        if ($input->getOption(self::OPTION_LINKIFY)) {
+            $content = $this->changelogLinker->processContent($content);
+        }
 
         if ($input->getOption(self::OPTION_DRY_RUN)) {
             $this->symfonyStyle->writeln($content);

@@ -6,7 +6,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symplify\ChangelogLinker\ChangelogApplication;
+use Symplify\ChangelogLinker\ChangelogLinker;
 use Symplify\ChangelogLinker\Exception\FileNotFoundException;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
 
@@ -18,13 +18,13 @@ final class RunCommand extends Command
     private const CHANGELOG_FILE_OPTION = 'changelog-file';
 
     /**
-     * @var ChangelogApplication
+     * @var ChangelogLinker
      */
-    private $changelogApplication;
+    private $changelogLinker;
 
-    public function __construct(ChangelogApplication $changelogApplication)
+    public function __construct(ChangelogLinker $changelogLinker)
     {
-        $this->changelogApplication = $changelogApplication;
+        $this->changelogLinker = $changelogLinker;
 
         parent::__construct();
     }
@@ -42,9 +42,8 @@ final class RunCommand extends Command
             throw new FileNotFoundException(sprintf('Changelog file "%s" was not found' . PHP_EOL, $changelogFile));
         }
 
-        $processedChangelogFile = $this->changelogApplication->processFile($changelogFile);
+        $processedChangelogFile = $this->changelogLinker->processContent(file_get_contents($changelogFile));
 
-        // save
         file_put_contents($changelogFile, $processedChangelogFile);
 
         // success

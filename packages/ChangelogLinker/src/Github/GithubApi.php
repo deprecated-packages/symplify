@@ -113,7 +113,7 @@ final class GithubApi
     /**
      * Inspired by https://github.com/weierophinney/changelog_generator/blob/master/changelog_generator.php
      */
-    public function authorizeToken(string $token): void
+    public function authorizeWithToken(string $token): void
     {
         $this->options['headers']['Authorization'] = 'token ' . $token;
     }

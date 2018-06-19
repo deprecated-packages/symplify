@@ -3,26 +3,26 @@
 namespace Symplify\ChangelogLinker\Tests;
 
 use PHPUnit\Framework\TestCase;
-use Symplify\ChangelogLinker\ChangelogApplication;
+use Symplify\ChangelogLinker\ChangelogLinker;
 use Symplify\ChangelogLinker\DependencyInjection\ContainerFactory;
 
 abstract class AbstractWorkerTestCase extends TestCase
 {
     /**
-     * @var ChangelogApplication
+     * @var ChangelogLinker
      */
-    private $changelogApplication;
+    private $changelogLinker;
 
     protected function setUp(): void
     {
         $container = (new ContainerFactory())->createWithConfig($this->provideConfig());
 
-        $this->changelogApplication = $container->get(ChangelogApplication::class);
+        $this->changelogLinker = $container->get(ChangelogLinker::class);
     }
 
     protected function doProcess(string $originalFile): string
     {
-        return $this->changelogApplication->processFile($originalFile);
+        return $this->changelogLinker->processContent(file_get_contents($originalFile));
     }
 
     abstract protected function provideConfig(): string;
