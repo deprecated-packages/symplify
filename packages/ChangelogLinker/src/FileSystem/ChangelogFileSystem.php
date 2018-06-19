@@ -3,7 +3,6 @@
 namespace Symplify\ChangelogLinker\FileSystem;
 
 use Nette\Utils\FileSystem;
-use Symplify\ChangelogLinker\Exception\FileNotFoundException;
 use Symplify\ChangelogLinker\LinkAppender;
 
 final class ChangelogFileSystem
@@ -13,15 +12,21 @@ final class ChangelogFileSystem
      */
     private $linkAppender;
 
-    public function __construct(LinkAppender $linkAppender)
+    /**
+     * @var ChangelogFileSystemGuard
+     */
+    private $changelogFileSystemGuard;
+
+    public function __construct(LinkAppender $linkAppender, ChangelogFileSystemGuard $changelogFileSystemGuard)
     {
         $this->linkAppender = $linkAppender;
+        $this->changelogFileSystemGuard = $changelogFileSystemGuard;
     }
 
     public function readChangelog(): string
     {
         $changelogFilePath = $this->getChangelogFilePath();
-        $this->ensureFileExists($changelogFilePath);
+        $this->changelogFileSystemGuard->ensureFileExists($changelogFilePath);
 
         return FileSystem::read($changelogFilePath);
     }
@@ -40,12 +45,24 @@ final class ChangelogFileSystem
         return getcwd() . '/CHANGELOG.md';
     }
 
-    private function ensureFileExists(string $changelogFilePath): void
+    public function addToChangelogOnPlaceholder(string $newContent, string $placeholder): void
     {
-        if (file_exists($changelogFilePath)) {
-            return;
-        }
+        $changelogContent = $this->readChangelog();
 
-        throw new FileNotFoundException(sprintf('Changelog file "%s" was not found', $changelogFilePath));
+        $this->changelogFileSystemGuard->ensurePlaceholderIsPresent($changelogContent, $placeholder);
+
+        $contentToWrite = sprintf(
+            '%s%s%s<!-- dumped content start -->%s%s<!-- dumped content end -->%s',
+            $placeholder,
+            PHP_EOL,
+            PHP_EOL,
+            PHP_EOL,
+            $newContent,
+            PHP_EOL
+        );
+
+        $updatedChangelogContent = str_replace($placeholder, $contentToWrite, $changelogContent);
+
+        $this->storeChangelog($updatedChangelogContent);
     }
 }

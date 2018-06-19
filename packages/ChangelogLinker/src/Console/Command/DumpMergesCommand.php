@@ -2,7 +2,6 @@
 
 namespace Symplify\ChangelogLinker\Console\Command;
 
-use Nette\Utils\Strings;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -10,13 +9,12 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symplify\ChangelogLinker\Analyzer\IdsAnalyzer;
 use Symplify\ChangelogLinker\ChangelogLinker;
-use Symplify\ChangelogLinker\ChangeTree\Change;
 use Symplify\ChangelogLinker\ChangeTree\ChangeFactory;
 use Symplify\ChangelogLinker\ChangeTree\ChangeSorter;
+use Symplify\ChangelogLinker\Configuration\Configuration;
 use Symplify\ChangelogLinker\Configuration\Option;
 use Symplify\ChangelogLinker\Console\Input\PriorityResolver;
 use Symplify\ChangelogLinker\Console\Output\DumpMergesReporter;
-use Symplify\ChangelogLinker\Exception\MissingPlaceholderInChangelogException;
 use Symplify\ChangelogLinker\FileSystem\ChangelogFileSystem;
 use Symplify\ChangelogLinker\Github\GithubApi;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
@@ -26,12 +24,6 @@ use Symplify\PackageBuilder\Console\Command\CommandNaming;
  */
 final class DumpMergesCommand extends Command
 {
-    /**
-     * @inspiration markdown comment: https://gist.github.com/jonikarppinen/47dc8c1d7ab7e911f4c9#gistcomment-2109856
-     * @var string
-     */
-    private const CHANGELOG_PLACEHOLDER_TO_WRITE = '<!-- changelog-linker -->';
-
     /**
      * @var GithubApi
      */
@@ -61,11 +53,6 @@ final class DumpMergesCommand extends Command
      * @var ChangeFactory
      */
     private $changeFactory;
-
-    /**
-     * @var Change[]
-     */
-    private $changes = [];
 
     /**
      * @var ChangelogLinker
@@ -169,13 +156,14 @@ final class DumpMergesCommand extends Command
             return 0;
         }
 
+        $changes = [];
         foreach ($pullRequests as $pullRequest) {
-            $this->changes[] = $this->changeFactory->createFromPullRequest($pullRequest);
+            $changes[] = $this->changeFactory->createFromPullRequest($pullRequest);
         }
 
         $sortPriority = $this->priorityResolver->resolveFromInput($input);
 
-        $sortedChanges = $this->changeSorter->sortByCategoryAndPackage($this->changes, $sortPriority);
+        $sortedChanges = $this->changeSorter->sortByCategoryAndPackage($changes, $sortPriority);
         $sortedChanges = $this->changeSorter->sortByTags($sortedChanges);
 
         $content = $this->dumpMergesReporter->reportChangesWithHeadlines(
@@ -193,49 +181,14 @@ final class DumpMergesCommand extends Command
         if ($input->getOption(Option::DRY_RUN)) {
             $this->symfonyStyle->writeln($content);
         } else {
-            $this->updateChangelogContent($content);
+            $this->changelogFileSystem->addToChangelogOnPlaceholder(
+                $content,
+                Configuration::CHANGELOG_PLACEHOLDER_TO_WRITE
+            );
+            $this->symfonyStyle->success('The CHANGELOG.md was updated');
         }
 
         // success
         return 0;
-    }
-
-    private function ensurePlaceholderIsPresent(string $changelogContent): void
-    {
-        if (Strings::contains($changelogContent, self::CHANGELOG_PLACEHOLDER_TO_WRITE)) {
-            return;
-        }
-
-        throw new MissingPlaceholderInChangelogException(sprintf(
-            'There is missing "%s" placeholder in CHANGELOG.md. Put it where you want to add dumped merges.',
-            self::CHANGELOG_PLACEHOLDER_TO_WRITE
-        ));
-    }
-
-    private function updateChangelogContent(string $newContent): void
-    {
-        $changelogContent = file_get_contents(getcwd() . '/CHANGELOG.md');
-
-        $this->ensurePlaceholderIsPresent($changelogContent);
-
-        $contentToWrite = sprintf(
-            '%s%s%s<!-- dumped content start -->%s%s<!-- dumped content end -->%s',
-            self::CHANGELOG_PLACEHOLDER_TO_WRITE,
-            PHP_EOL,
-            PHP_EOL,
-            PHP_EOL,
-            $newContent,
-            PHP_EOL
-        );
-
-        $updatedChangelogContent = str_replace(
-            self::CHANGELOG_PLACEHOLDER_TO_WRITE,
-            $contentToWrite,
-            $changelogContent
-        );
-
-        $this->changelogFileSystem->storeChangelog($updatedChangelogContent);
-
-        $this->symfonyStyle->success('The CHANGELOG.md was updated');
     }
 }
