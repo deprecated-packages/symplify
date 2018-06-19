@@ -9,102 +9,7 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 <!-- changelog-linker -->
 
-<!-- dumped content start -->
-
 ## Unreleased
-
-### Added
-
-#### ChangelogLinker
-
-- [#879] Add --token option to increase Github API rate [closes #874]
-
-### Fixed
-
-- [#876] Fixes based on feedback
-
-### Unknown Category
-
-#### Statie
-
-- [#893] Rename FlatWhite to Latte and move Latte-related code there
-- [#888]  Return collector-based approach to FileDecorators, with priorities
-
-### Removed
-
-#### ChangelogLinker
-
-- [#905] Drop commit referencing to stprevent promoting my bad practise
-- [#885] Drop ReleaseReferencesWorker - replaced by dump-mer…
-
-### Fixed
-
-#### Unknown Package
-
-- [#875] Fixes monorepo splitting by travis cron job, Thanks to [@JanMikes]
-- [#870] RemoveUselessDocBlockFixer should not reformat custom annotations, Thanks to [@jankonas]
-
-#### CodingStandard
-
-- [#901]  Allow list option in ClassNameSuffixByParentFixer
-
-#### ChangelogLinker
-
-- [#878] Static fixes
-- [#877] Fixes based on feedback 2
-
-#### BetterPhpDocParser
-
-- [#886] Fix annotation spacing
-
-### Added
-
-#### ChangelogLinker
-
-- [#881] Simplify ChangeFactory creating + Add tags feature supports
-
-### Changed
-
-#### Unknown Package
-
-- [#880] Improve cognitive comlexity
-- [#872] Update CHANGELOG for news after 4.4
-
-#### Statie
-
-- [#887] Improve latte decoupling from the Statie
-
-#### ChangelogLinker
-
-- [#884] Change --in-tags option to cooperate with --in-packages and --in-categories
-- [#883] Improve --in-tags option
-- [#871] Improve test coverage
-
-### Added
-
-#### Statie
-
-- [#892] Add Twig
-
-#### CodingStandard
-
-- [#900] Add 'extra_parent_types_to_suffixes' option to ClassNameSuffixByParentFixer
-
-#### ChangelogLinker
-
-- [#903] Add --linkfy option to dump-merges command
-- [#902] Add --dry-run option to dump-merges command to dump to the output vs write into CHANGELOG.md
-
-### Unknown Category
-
-#### Statie
-
-- [#895] Decouple CodeBlocksProtector
-
-<!-- dumped content end -->
-
-
-## [Unreleased]
 
 ### Added
 
@@ -114,13 +19,18 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 #### ChangelogLinker
 
-- [#840] Add LinkifyWorker
-- [#854] Add dump merges command
-- [#868] Add ChangeTree, --in-packages and --in-categories opiton to manage merge messages
+- [#879] Add --token option to increase Github API rate [closes #874]
+- [#881] Simplify ChangeFactory creating + Add tags feature supports
+- [#902] Add --dry-run option to dump-merges command to dump to the output vs write into CHANGELOG.md
+- [#903] Add --linkfy option to dump-merges command
+- [#840] Add `LinkifyWorker`
+- [#854] Add `dump-merges` command
+- [#868] Add ChangeTree, `--in-packages` and `--in-categories` options to manage merge messages
 - [#831] Allow `--config`
 
 #### CodingStandard
 
+- [#900] Add `extra_parent_types_to_suffixes` option to `ClassNameSuffixByParentFixer`
 - [#851] Add _ support to PropertyNameMatchingTypeFixer
 - [#860] Add test case for [#855], Thanks to [@OndraM]
 - [#836] Improve cognitive complexity error, Thanks to [@enumag]
@@ -132,9 +42,13 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 - [#852] Add support for line_ending configuration
 - [#832] Allow short `ecs.yml` config [closes #819]
 
+#### Statie
+
+- [#892] Add Twig
+
 #### MonorepoBuilder
 
-- [#862] [MonorepoBuilder] Add new commands
+- [#862] Add new commands
 
 ### Changed
 
@@ -143,17 +57,35 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 #### ChangelogLinker
 
+- [#871] Improve test coverage
+- [#883] Improve --in-tags option
+- [#884] Change --in-tags option to cooperate with --in-packages and --in-categories
+- [#908] Change appending links on dump-merge in the end of file
 - [#867] Change Worker registration from implicit to explicit
 - [#837] move curl dependency to pr/issue resolving
 - [#839] Match issues by regex
 
-#### ChangelogLinker
+#### CodingStandard
 
-- [#833] Fixes
+- [#901] Allow list option in `ClassNameSuffixByParentFixer`
+
+#### Statie
+
+- [#887] Improve latte decoupling from the Statie
+- [#888] Return collector-based approach to FileDecorators, with priorities
+- [#893] Rename FlatWhite to Latte and move Latte-related code there
+- [#895] Decouple `CodeBlocksProtector`
+
+### Fixed
+
+#### BetterPhpDocParser
+
+- [#886] Fix annotation spacing
 
 #### CodingStandard
 
-- [#842] LineLengthSniff: Initial support for tokens with newlines, Thanks to [@ostrolucky]
+- [#870] `RemoveUselessDocBlockFixer` should not reformat custom annotations, Thanks to [@jankonas]
+- [#842] `LineLengthSniff` - Initial support for tokens with newlines, Thanks to [@ostrolucky]
 
 #### EasyCodingStandard
 
@@ -162,6 +94,15 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 #### TokenRunner
 
 - [#863] anonymous class now returns null on name [fixes #855]
+
+### Removed
+
+#### ChangelogLinker
+
+- [#885] Drop `ReleaseReferencesWorker` - replaced by `dump-merges`
+- [#905] Drop commit referencing to prevent promoting my bad practise
+
+---
 
 ## [v4.4.0] - 2018-06-03
 
@@ -1467,6 +1408,33 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
 [#860]: https://github.com/Symplify/Symplify/pull/860
 [#843]: https://github.com/Symplify/Symplify/pull/843
 [#727]: https://github.com/Symplify/Symplify/pull/727
+[#905]: https://github.com/Symplify/Symplify/pull/905
+[#903]: https://github.com/Symplify/Symplify/pull/903
+[#902]: https://github.com/Symplify/Symplify/pull/902
+[#901]: https://github.com/Symplify/Symplify/pull/901
+[#900]: https://github.com/Symplify/Symplify/pull/900
+[#895]: https://github.com/Symplify/Symplify/pull/895
+[#893]: https://github.com/Symplify/Symplify/pull/893
+[#892]: https://github.com/Symplify/Symplify/pull/892
+[#888]: https://github.com/Symplify/Symplify/pull/888
+[#887]: https://github.com/Symplify/Symplify/pull/887
+[#886]: https://github.com/Symplify/Symplify/pull/886
+[#885]: https://github.com/Symplify/Symplify/pull/885
+[#884]: https://github.com/Symplify/Symplify/pull/884
+[#883]: https://github.com/Symplify/Symplify/pull/883
+[#881]: https://github.com/Symplify/Symplify/pull/881
+[#880]: https://github.com/Symplify/Symplify/pull/880
+[#879]: https://github.com/Symplify/Symplify/pull/879
+[#878]: https://github.com/Symplify/Symplify/pull/878
+[#877]: https://github.com/Symplify/Symplify/pull/877
+[#876]: https://github.com/Symplify/Symplify/pull/876
+[#875]: https://github.com/Symplify/Symplify/pull/875
+[#872]: https://github.com/Symplify/Symplify/pull/872
+[#871]: https://github.com/Symplify/Symplify/pull/871
+[#870]: https://github.com/Symplify/Symplify/pull/870
+[@jankonas]: https://github.com/jankonas
+[@JanMikes]: https://github.com/JanMikes
+[#908]: https://github.com/Symplify/Symplify/pull/908
 [#905]: https://github.com/Symplify/Symplify/pull/905
 [#903]: https://github.com/Symplify/Symplify/pull/903
 [#902]: https://github.com/Symplify/Symplify/pull/902

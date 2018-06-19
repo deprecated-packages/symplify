@@ -29,12 +29,11 @@ final class ChangeResolver
         ?string $sortPriority
     ): array {
         $changes = [];
+
         foreach ($pullRequests as $pullRequest) {
             $changes[] = $this->changeFactory->createFromPullRequest($pullRequest);
         }
 
-        $sortedChanges = $this->changeSorter->sortByCategoryAndPackage($changes, $sortPriority);
-
-        return $this->changeSorter->sortByTags($sortedChanges);
+        return $this->changeSorter->sort($changes, $sortPriority);
     }
 }

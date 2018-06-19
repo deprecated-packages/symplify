@@ -52,13 +52,12 @@ final class ChangelogFileSystem
         $this->changelogFileSystemGuard->ensurePlaceholderIsPresent($changelogContent, $placeholder);
 
         $contentToWrite = sprintf(
-            '%s%s%s<!-- dumped content start -->%s%s<!-- dumped content end -->%s',
+            '%s%s%s<!-- dumped content start -->%s%s<!-- dumped content end -->',
             $placeholder,
             PHP_EOL,
             PHP_EOL,
             PHP_EOL,
-            $newContent,
-            PHP_EOL
+            $newContent
         );
 
         $updatedChangelogContent = str_replace($placeholder, $contentToWrite, $changelogContent);

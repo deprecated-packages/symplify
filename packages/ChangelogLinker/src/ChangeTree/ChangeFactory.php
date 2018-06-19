@@ -21,7 +21,7 @@ final class ChangeFactory
     /**
      * @var string
      */
-    private const CHANGED_PATTERN = '#( change| improve|( now )|bump|improve|allow)#i';
+    private const CHANGED_PATTERN = '#( change| improve|( now )|bump|improve|allow|return|rename|decouple)#i';
 
     /**
      * @var string
