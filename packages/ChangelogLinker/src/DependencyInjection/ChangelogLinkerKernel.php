@@ -2,10 +2,13 @@
 
 namespace Symplify\ChangelogLinker\DependencyInjection;
 
+use Nette\Utils\Json;
 use Symfony\Component\Config\Loader\LoaderInterface;
+use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symplify\ChangelogLinker\DependencyInjection\CompilerPass\AutowireWorkersCompilerPass;
 use Symplify\ChangelogLinker\DependencyInjection\CompilerPass\CollectorCompilerPass;
+use Symplify\ChangelogLinker\DependencyInjection\CompilerPass\DetectParametersCompilerPass;
 use Symplify\PackageBuilder\DependencyInjection\CompilerPass\PublicForTestsCompilerPass;
 use Symplify\PackageBuilder\HttpKernel\AbstractCliKernel;
 
@@ -49,5 +52,6 @@ final class ChangelogLinkerKernel extends AbstractCliKernel
         $containerBuilder->addCompilerPass(new PublicForTestsCompilerPass());
         $containerBuilder->addCompilerPass(new CollectorCompilerPass());
         $containerBuilder->addCompilerPass(new AutowireWorkersCompilerPass());
+        $containerBuilder->addCompilerPass(new DetectParametersCompilerPass());
     }
 }
