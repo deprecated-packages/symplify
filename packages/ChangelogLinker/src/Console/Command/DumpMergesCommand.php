@@ -15,6 +15,7 @@ use Symplify\ChangelogLinker\ChangeTree\ChangeFactory;
 use Symplify\ChangelogLinker\ChangeTree\ChangeSorter;
 use Symplify\ChangelogLinker\Console\Output\DumpMergesReporter;
 use Symplify\ChangelogLinker\Exception\MissingPlaceholderInChangelogException;
+use Symplify\ChangelogLinker\FileSystem\ChangelogFileSystem;
 use Symplify\ChangelogLinker\Github\GithubApi;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
 use Symplify\PackageBuilder\Reflection\PrivatesAccessor;
@@ -100,6 +101,11 @@ final class DumpMergesCommand extends Command
      */
     private $changelogLinker;
 
+    /**
+     * @var ChangelogFileSystem
+     */
+    private $changelogFileSystem;
+
     public function __construct(
         GithubApi $githubApi,
         SymfonyStyle $symfonyStyle,
@@ -107,7 +113,8 @@ final class DumpMergesCommand extends Command
         IdsAnalyzer $idsAnalyzer,
         DumpMergesReporter $dumpMergesReporter,
         ChangeFactory $changeFactory,
-        ChangelogLinker $changelogLinker
+        ChangelogLinker $changelogLinker,
+        ChangelogFileSystem $changelogFileSystem
     ) {
         parent::__construct();
         $this->changeFactory = $changeFactory;
@@ -117,6 +124,7 @@ final class DumpMergesCommand extends Command
         $this->idsAnalyzer = $idsAnalyzer;
         $this->dumpMergesReporter = $dumpMergesReporter;
         $this->changelogLinker = $changelogLinker;
+        $this->changelogFileSystem = $changelogFileSystem;
     }
 
     protected function configure(): void
@@ -165,7 +173,9 @@ final class DumpMergesCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $highestIdInChangelog = $this->idsAnalyzer->getHighestIdInChangelog(getcwd() . '/CHANGELOG.md');
+        $content = $this->changelogFileSystem->readChangelog();
+
+        $highestIdInChangelog = $this->idsAnalyzer->getHighestIdInChangelog($content);
 
         if ($input->getOption(self::OPTION_TOKEN)) {
             $this->githubApi->authorizeWithToken($input->getOption(self::OPTION_TOKEN));
@@ -271,7 +281,7 @@ final class DumpMergesCommand extends Command
             $changelogContent
         );
 
-        file_put_contents(getcwd() . '/CHANGELOG.md', $updatedChangelogContent);
+        $this->changelogFileSystem->storeChangelog($updatedChangelogContent);
 
         $this->symfonyStyle->success('The CHANGELOG.md was updated');
     }

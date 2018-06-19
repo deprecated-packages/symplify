@@ -19,7 +19,10 @@ final class IdsAnalyzerTest extends TestCase
 
     public function test(): void
     {
-        $this->assertSame(15, $this->idsAnalyzer->getHighestIdInChangelog(__DIR__ . '/Source/SomeFile.md'));
-        $this->assertSame(20, $this->idsAnalyzer->getHighestIdInChangelog(__DIR__ . '/Source/SomeFileWithLinks.md'));
+        $content = file_get_contents(__DIR__ . '/Source/SomeFile.md');
+        $this->assertSame(15, $this->idsAnalyzer->getHighestIdInChangelog($content));
+
+        $content = file_get_contents(__DIR__ . '/Source/SomeFileWithLinks.md');
+        $this->assertSame(20, $this->idsAnalyzer->getHighestIdInChangelog($content));
     }
 }

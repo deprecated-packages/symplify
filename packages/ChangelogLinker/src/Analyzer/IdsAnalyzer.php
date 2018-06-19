@@ -15,11 +15,9 @@ final class IdsAnalyzer
      */
     private const PR_REFERENCE_IN_LIST = '#- \[?(\#(?<id>[0-9]+))\]?#';
 
-    public function getHighestIdInChangelog(string $filePath): int
+    public function getHighestIdInChangelog(string $content): int
     {
-        $changelogContent = file_get_contents($filePath);
-
-        $matches = Strings::matchAll($changelogContent, self::PR_REFERENCE_IN_LIST);
+        $matches = Strings::matchAll($content, self::PR_REFERENCE_IN_LIST);
         if (! $matches) {
             return 1;
         }
