@@ -14,12 +14,12 @@ use Symplify\ChangelogLinker\ChangeTree\Change;
 use Symplify\ChangelogLinker\ChangeTree\ChangeFactory;
 use Symplify\ChangelogLinker\ChangeTree\ChangeSorter;
 use Symplify\ChangelogLinker\Configuration\Option;
+use Symplify\ChangelogLinker\Console\Input\PriorityResolver;
 use Symplify\ChangelogLinker\Console\Output\DumpMergesReporter;
 use Symplify\ChangelogLinker\Exception\MissingPlaceholderInChangelogException;
 use Symplify\ChangelogLinker\FileSystem\ChangelogFileSystem;
 use Symplify\ChangelogLinker\Github\GithubApi;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
-use Symplify\PackageBuilder\Reflection\PrivatesAccessor;
 
 /**
  * @inspired by https://github.com/weierophinney/changelog_generator
@@ -77,6 +77,11 @@ final class DumpMergesCommand extends Command
      */
     private $changelogFileSystem;
 
+    /**
+     * @var PriorityResolver
+     */
+    private $priorityResolver;
+
     public function __construct(
         GithubApi $githubApi,
         SymfonyStyle $symfonyStyle,
@@ -85,7 +90,8 @@ final class DumpMergesCommand extends Command
         DumpMergesReporter $dumpMergesReporter,
         ChangeFactory $changeFactory,
         ChangelogLinker $changelogLinker,
-        ChangelogFileSystem $changelogFileSystem
+        ChangelogFileSystem $changelogFileSystem,
+        PriorityResolver $priorityResolver
     ) {
         parent::__construct();
         $this->changeFactory = $changeFactory;
@@ -96,6 +102,7 @@ final class DumpMergesCommand extends Command
         $this->dumpMergesReporter = $dumpMergesReporter;
         $this->changelogLinker = $changelogLinker;
         $this->changelogFileSystem = $changelogFileSystem;
+        $this->priorityResolver = $priorityResolver;
     }
 
     protected function configure(): void
@@ -166,7 +173,7 @@ final class DumpMergesCommand extends Command
             $this->changes[] = $this->changeFactory->createFromPullRequest($pullRequest);
         }
 
-        $sortPriority = $this->getSortPriority($input);
+        $sortPriority = $this->priorityResolver->resolveFromInput($input);
 
         $sortedChanges = $this->changeSorter->sortByCategoryAndPackage($this->changes, $sortPriority);
         $sortedChanges = $this->changeSorter->sortByTags($sortedChanges);
@@ -191,31 +198,6 @@ final class DumpMergesCommand extends Command
 
         // success
         return 0;
-    }
-
-    /**
-     * Detects the order in which "--in-packages" and "--in-categories" are both called.
-     * The first has a priority.
-     */
-    private function getSortPriority(InputInterface $input): ?string
-    {
-        $rawOptions = (new PrivatesAccessor())->getPrivateProperty($input, 'options');
-
-        $requiredOptions = ['in-packages', 'in-categories'];
-
-        if (count(array_intersect($requiredOptions, array_keys($rawOptions))) !== count($requiredOptions)) {
-            return null;
-        }
-
-        foreach ($rawOptions as $name => $value) {
-            if ($name === 'in-packages') {
-                return 'packages';
-            }
-
-            return 'categories';
-        }
-
-        return null;
     }
 
     private function ensurePlaceholderIsPresent(string $changelogContent): void
