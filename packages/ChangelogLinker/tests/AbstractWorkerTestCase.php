@@ -22,7 +22,7 @@ abstract class AbstractWorkerTestCase extends TestCase
 
     protected function doProcess(string $originalFile): string
     {
-        return $this->changelogLinker->processContent(file_get_contents($originalFile));
+        return $this->changelogLinker->processContentWithLinkAppends(file_get_contents($originalFile));
     }
 
     abstract protected function provideConfig(): string;
