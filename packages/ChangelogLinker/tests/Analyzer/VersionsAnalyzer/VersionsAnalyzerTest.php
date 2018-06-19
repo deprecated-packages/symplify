@@ -2,6 +2,7 @@
 
 namespace Symplify\ChangelogLinker\Tests\Analyzer\VersionsAnalyzer;
 
+use Iterator;
 use PHPUnit\Framework\TestCase;
 use Symplify\ChangelogLinker\Analyzer\VersionsAnalyzer;
 
@@ -15,21 +16,37 @@ final class VersionsAnalyzerTest extends TestCase
     protected function setUp(): void
     {
         $this->versionsAnalyzer = new VersionsAnalyzer();
+        $this->versionsAnalyzer->analyzeContent(file_get_contents(__DIR__ . '/Source/SomeFile.md'));
     }
 
-    public function test(): void
+    /**
+     * @dataProvider provideDataHasLinkedVersion()
+     */
+    public function testHasLinkedVersion(string $version, bool $hasLinkedVersion): void
     {
-        $this->versionsAnalyzer->analyzeContent(file_get_contents(__DIR__ . '/Source/SomeFile.md'));
+        $this->assertSame($hasLinkedVersion, $this->versionsAnalyzer->hasLinkedVersion($version));
+    }
 
-        $this->assertCount(2, $this->versionsAnalyzer->getVersions());
-
-        $this->assertTrue($this->versionsAnalyzer->hasLinkedVersion('v4.0.0'));
-        $this->assertFalse($this->versionsAnalyzer->hasLinkedVersion('v10.0.0'));
+    public function provideDataHasLinkedVersion(): Iterator
+    {
+        yield ['v4.0.0', true];
+        yield ['v10.0.0', false];
 
         // has to be wrapped in []
-        $this->assertFalse($this->versionsAnalyzer->hasLinkedVersion('v3.0.0'));
+        yield ['v3.0.0', false];
+    }
 
-        $this->assertTrue($this->versionsAnalyzer->isLastVersion('v4.0.0'));
-        $this->assertFalse($this->versionsAnalyzer->isLastVersion('v3.5.0'));
+    /**
+     * @dataProvider provideDataIsLastVersion()
+     */
+    public function testIsLastVersion(string $version, bool $hasLinkedVersion): void
+    {
+        $this->assertSame($hasLinkedVersion, $this->versionsAnalyzer->isLastVersion($version));
+    }
+
+    public function provideDataIsLastVersion(): Iterator
+    {
+        yield ['v4.0.0', true];
+        yield ['v3.5.0', false];
     }
 }
