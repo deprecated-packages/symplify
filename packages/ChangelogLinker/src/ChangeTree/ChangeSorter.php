@@ -15,6 +15,19 @@ final class ChangeSorter
     public const PRIORITY_CATEGORIES = 'categories';
 
     /**
+     * One method to rule them all
+     *
+     * @param Change[] $changes
+     * @return Change[]
+     */
+    public function sort(array $changes, ?string $priority): array
+    {
+        $changes = $this->sortByCategoryAndPackage($changes, $priority);
+
+        return $this->sortByTags($changes);
+    }
+
+    /**
      * Inspiration: https://stackoverflow.com/questions/3232965/sort-multidimensional-array-by-multiple-keys
      *
      * Sorts packages, then category or vice versa, depends on 2nd parameter
