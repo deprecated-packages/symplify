@@ -3,8 +3,6 @@ imports:
 
 parameters:
     authors_to_ignore: ['TomasVotruba']
-    repository_name: 'symplify/symplify' # @todo get from composer.json
-    repository_url: 'https://github.com/Symplify/Symplify' # todo get from .git
 
     package_aliases:
         CS: 'CodingStandard'
