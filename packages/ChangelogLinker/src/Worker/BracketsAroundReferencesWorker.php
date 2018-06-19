@@ -30,9 +30,6 @@ final class BracketsAroundReferencesWorker implements WorkerInterface
         // version references
         $content = Strings::replace($content, '#\#\# ' . RegexPattern::VERSION . '#', '## [$1]');
 
-        // commit references
-        $content = Strings::replace($content, '# ' . RegexPattern::COMMIT . '#', ' [$1]');
-
         // user references
         return Strings::replace($content, '# ' . RegexPattern::USER . '#', ' [$1]');
     }
