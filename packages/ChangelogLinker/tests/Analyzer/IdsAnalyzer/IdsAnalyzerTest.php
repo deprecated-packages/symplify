@@ -2,6 +2,7 @@
 
 namespace Symplify\ChangelogLinker\Tests\Analyzer\IdsAnalyzer;
 
+use Iterator;
 use PHPUnit\Framework\TestCase;
 use Symplify\ChangelogLinker\Analyzer\IdsAnalyzer;
 
@@ -17,9 +18,18 @@ final class IdsAnalyzerTest extends TestCase
         $this->idsAnalyzer = new IdsAnalyzer();
     }
 
-    public function test(): void
+    /**
+     * @dataProvider provideData()
+     */
+    public function test(string $filePath, int $expectedId): void
     {
-        $this->assertSame(15, $this->idsAnalyzer->getHighestIdInChangelog(__DIR__ . '/Source/SomeFile.md'));
-        $this->assertSame(20, $this->idsAnalyzer->getHighestIdInChangelog(__DIR__ . '/Source/SomeFileWithLinks.md'));
+        $content = file_get_contents($filePath);
+        $this->assertSame($expectedId, $this->idsAnalyzer->getHighestIdInChangelog($content));
+    }
+
+    public function provideData(): Iterator
+    {
+        yield [__DIR__ . '/Source/SomeFile.md', 15];
+        yield [__DIR__ . '/Source/SomeFileWithLinks.md', 20];
     }
 }

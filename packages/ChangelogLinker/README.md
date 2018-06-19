@@ -19,9 +19,9 @@ Create `changelog-linker.yml` with configuration:
 ```yaml
 # changelog-linker.yml:
 parameters:
-    authors_to_ignore: ["TomasVotruba"] # usually core maintainers; to make external contributors more credit
-    repository_url: "https://github.com/symplify/symplify"
-    repository_name: "symplify/symplify"
+    authors_to_ignore: ['TomasVotruba'] # usually core maintainers; to make external contributors more credit
+    repository_url: 'https://github.com/symplify/symplify'
+    repository_name: 'symplify/symplify'
 ```
 
 The config is autodiscovered in the root directory or by `--config` option.
@@ -167,7 +167,7 @@ services:
 
 Do you want them all? Just include `config/basic.yml` config.
 
-### 1. Link PR, Issues and Commits
+### 1. Link PR and Issues
 
 - `Symplify\ChangelogLinker\Worker\LinksToReferencesWorker`
 
@@ -187,26 +187,6 @@ Do you want them all? Just include `config/basic.yml` config.
 - [#123] Cool new without detailed description wanting me to see PR
 
 [#123]: https://github.com/Symplify/Symplify/pull/123
-```
-
-Sometimes PR is too big and 1 commit is so important to mention. Make it likable!
-
-:x:
-
-```markdown
-### Added
-
-- 9b154d9b6e88075e14b6812613bce7c1a2a79daa this was great change
-```
-
-:+1:
-
-```markdown
-### Added
-
-- [9b154d] this was great change
-
-[9b154d9]: https://github.com/Symplify/Symplify/commit/9b154d9b6e88075e14b6812613bce7c1a2a79daa
 ```
 
 ### 2. Link Versions to Diffs

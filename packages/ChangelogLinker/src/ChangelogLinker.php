@@ -52,6 +52,13 @@ final class ChangelogLinker
             $content = $worker->processContent($content);
         }
 
+        return $content;
+    }
+
+    public function processContentWithLinkAppends(string $content): string
+    {
+        $content = $this->processContent($content);
+
         return $this->appendLinksToContentIfAny($content);
     }
 

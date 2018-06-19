@@ -2,7 +2,6 @@
 
 namespace Symplify\ChangelogLinker\Console\Command;
 
-use Nette\Utils\Strings;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -10,14 +9,13 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symplify\ChangelogLinker\Analyzer\IdsAnalyzer;
 use Symplify\ChangelogLinker\ChangelogLinker;
-use Symplify\ChangelogLinker\ChangeTree\Change;
-use Symplify\ChangelogLinker\ChangeTree\ChangeFactory;
-use Symplify\ChangelogLinker\ChangeTree\ChangeSorter;
+use Symplify\ChangelogLinker\ChangeTree\ChangeResolver;
+use Symplify\ChangelogLinker\Configuration\Option;
+use Symplify\ChangelogLinker\Console\Input\PriorityResolver;
 use Symplify\ChangelogLinker\Console\Output\DumpMergesReporter;
-use Symplify\ChangelogLinker\Exception\MissingPlaceholderInChangelogException;
+use Symplify\ChangelogLinker\FileSystem\ChangelogFileSystem;
 use Symplify\ChangelogLinker\Github\GithubApi;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
-use Symplify\PackageBuilder\Reflection\PrivatesAccessor;
 
 /**
  * @inspired by https://github.com/weierophinney/changelog_generator
@@ -31,36 +29,6 @@ final class DumpMergesCommand extends Command
     private const CHANGELOG_PLACEHOLDER_TO_WRITE = '<!-- changelog-linker -->';
 
     /**
-     * @var string
-     */
-    private const OPTION_IN_CATEGORIES = 'in-categories';
-
-    /**
-     * @var string
-     */
-    private const OPTION_IN_PACKAGES = 'in-packages';
-
-    /**
-     * @var string
-     */
-    private const OPTION_TOKEN = 'token';
-
-    /**
-     * @var string
-     */
-    private const OPTION_IN_TAGS = 'in-tags';
-
-    /**
-     * @var string
-     */
-    private const OPTION_DRY_RUN = 'dry-run';
-
-    /**
-     * @var string
-     */
-    private const OPTION_LINKIFY = 'linkify';
-
-    /**
      * @var GithubApi
      */
     private $githubApi;
@@ -69,11 +37,6 @@ final class DumpMergesCommand extends Command
      * @var SymfonyStyle
      */
     private $symfonyStyle;
-
-    /**
-     * @var ChangeSorter
-     */
-    private $changeSorter;
 
     /**
      * @var IdsAnalyzer
@@ -86,14 +49,19 @@ final class DumpMergesCommand extends Command
     private $dumpMergesReporter;
 
     /**
-     * @var ChangeFactory
+     * @var ChangelogFileSystem
      */
-    private $changeFactory;
+    private $changelogFileSystem;
 
     /**
-     * @var Change[]
+     * @var PriorityResolver
      */
-    private $changes = [];
+    private $priorityResolver;
+
+    /**
+     * @var ChangeResolver
+     */
+    private $changeResolver;
 
     /**
      * @var ChangelogLinker
@@ -103,20 +71,22 @@ final class DumpMergesCommand extends Command
     public function __construct(
         GithubApi $githubApi,
         SymfonyStyle $symfonyStyle,
-        ChangeSorter $changeSorter,
         IdsAnalyzer $idsAnalyzer,
         DumpMergesReporter $dumpMergesReporter,
-        ChangeFactory $changeFactory,
-        ChangelogLinker $changelogLinker
+        ChangelogLinker $changelogLinker,
+        ChangelogFileSystem $changelogFileSystem,
+        PriorityResolver $priorityResolver,
+        ChangeResolver $changeResolver
     ) {
         parent::__construct();
-        $this->changeFactory = $changeFactory;
         $this->githubApi = $githubApi;
         $this->symfonyStyle = $symfonyStyle;
-        $this->changeSorter = $changeSorter;
         $this->idsAnalyzer = $idsAnalyzer;
         $this->dumpMergesReporter = $dumpMergesReporter;
         $this->changelogLinker = $changelogLinker;
+        $this->changelogFileSystem = $changelogFileSystem;
+        $this->priorityResolver = $priorityResolver;
+        $this->changeResolver = $changeResolver;
     }
 
     protected function configure(): void
@@ -126,49 +96,51 @@ final class DumpMergesCommand extends Command
             'Scans repository merged PRs, that are not in the CHANGELOG.md yet, and dumps them in changelog format.'
         );
         $this->addOption(
-            self::OPTION_IN_CATEGORIES,
+            Option::IN_CATEGORIES,
             null,
             InputOption::VALUE_NONE,
             'Print in Added/Changed/Fixed/Removed - detected from "Add", "Fix", "Removed" etc. keywords in merge title.'
         );
 
         $this->addOption(
-            self::OPTION_IN_PACKAGES,
+            Option::IN_PACKAGES,
             null,
             InputOption::VALUE_NONE,
             'Print in groups in package names - detected from "[PackageName]" in merge title.'
         );
 
         $this->addOption(
-            self::OPTION_IN_TAGS,
+            Option::IN_TAGS,
             null,
             InputOption::VALUE_NONE,
             'Print withs tags - detected from date of merge.'
         );
 
         $this->addOption(
-            self::OPTION_DRY_RUN,
+            Option::DRY_RUN,
             null,
             InputOption::VALUE_NONE,
             'Print out to the output instead of writing directly into CHANGELOG.md.'
         );
 
         $this->addOption(
-            self::OPTION_TOKEN,
+            Option::TOKEN,
             null,
             InputOption::VALUE_REQUIRED,
             'Github Token to overcome request limit.'
         );
 
-        $this->addOption(self::OPTION_LINKIFY, null, InputOption::VALUE_NONE, 'Decorate content with links.');
+        $this->addOption(Option::LINKIFY, null, InputOption::VALUE_NONE, 'Decorate content with links.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $highestIdInChangelog = $this->idsAnalyzer->getHighestIdInChangelog(getcwd() . '/CHANGELOG.md');
+        $content = $this->changelogFileSystem->readChangelog();
 
-        if ($input->getOption(self::OPTION_TOKEN)) {
-            $this->githubApi->authorizeWithToken($input->getOption(self::OPTION_TOKEN));
+        $highestIdInChangelog = $this->idsAnalyzer->getHighestIdInChangelog($content);
+
+        if ($input->getOption(Option::TOKEN)) {
+            $this->githubApi->authorizeWithToken($input->getOption(Option::TOKEN));
         }
 
         $pullRequests = $this->githubApi->getClosedPullRequestsSinceId($highestIdInChangelog);
@@ -181,98 +153,41 @@ final class DumpMergesCommand extends Command
             return 0;
         }
 
-        foreach ($pullRequests as $pullRequest) {
-            $this->changes[] = $this->changeFactory->createFromPullRequest($pullRequest);
-        }
+        $sortPriority = $this->priorityResolver->resolveFromInput($input);
 
-        $sortPriority = $this->getSortPriority($input);
-
-        $sortedChanges = $this->changeSorter->sortByCategoryAndPackage($this->changes, $sortPriority);
-        $sortedChanges = $this->changeSorter->sortByTags($sortedChanges);
-
-        $content = $this->dumpMergesReporter->reportChangesWithHeadlines(
-            $sortedChanges,
-            $input->getOption(self::OPTION_IN_CATEGORIES),
-            $input->getOption(self::OPTION_IN_PACKAGES),
-            $input->getOption(self::OPTION_IN_TAGS),
+        $changes = $this->changeResolver->resolveSortedChangesFromPullRequestsWithSortPriority(
+            $pullRequests,
             $sortPriority
         );
 
-        if ($input->getOption(self::OPTION_LINKIFY)) {
+        $content = $this->dumpMergesReporter->reportChangesWithHeadlines(
+            $changes,
+            $input->getOption(Option::IN_CATEGORIES),
+            $input->getOption(Option::IN_PACKAGES),
+            $input->getOption(Option::IN_TAGS),
+            $sortPriority
+        );
+
+        if ($input->getOption(Option::DRY_RUN)) {
+            if ($input->getOption(Option::LINKIFY)) {
+                $content = $this->changelogLinker->processContentWithLinkAppends($content);
+            }
+
+            $this->symfonyStyle->writeln($content);
+
+            // success
+            return 0;
+        }
+
+        if ($input->getOption(Option::LINKIFY)) {
             $content = $this->changelogLinker->processContent($content);
         }
 
-        if ($input->getOption(self::OPTION_DRY_RUN)) {
-            $this->symfonyStyle->writeln($content);
-        } else {
-            $this->updateChangelogContent($content);
-        }
+        $this->changelogFileSystem->addToChangelogOnPlaceholder($content, self::CHANGELOG_PLACEHOLDER_TO_WRITE);
+
+        $this->symfonyStyle->success('The CHANGELOG.md was updated');
 
         // success
         return 0;
-    }
-
-    /**
-     * Detects the order in which "--in-packages" and "--in-categories" are both called.
-     * The first has a priority.
-     */
-    private function getSortPriority(InputInterface $input): ?string
-    {
-        $rawOptions = (new PrivatesAccessor())->getPrivateProperty($input, 'options');
-
-        $requiredOptions = ['in-packages', 'in-categories'];
-
-        if (count(array_intersect($requiredOptions, array_keys($rawOptions))) !== count($requiredOptions)) {
-            return null;
-        }
-
-        foreach ($rawOptions as $name => $value) {
-            if ($name === 'in-packages') {
-                return 'packages';
-            }
-
-            return 'categories';
-        }
-
-        return null;
-    }
-
-    private function ensurePlaceholderIsPresent(string $changelogContent): void
-    {
-        if (Strings::contains($changelogContent, self::CHANGELOG_PLACEHOLDER_TO_WRITE)) {
-            return;
-        }
-
-        throw new MissingPlaceholderInChangelogException(sprintf(
-            'There is missing "%s" placeholder in CHANGELOG.md. Put it where you want to add dumped merges.',
-            self::CHANGELOG_PLACEHOLDER_TO_WRITE
-        ));
-    }
-
-    private function updateChangelogContent(string $newContent): void
-    {
-        $changelogContent = file_get_contents(getcwd() . '/CHANGELOG.md');
-
-        $this->ensurePlaceholderIsPresent($changelogContent);
-
-        $contentToWrite = sprintf(
-            '%s%s%s<!-- dumped content start -->%s%s<!-- dumped content end -->%s',
-            self::CHANGELOG_PLACEHOLDER_TO_WRITE,
-            PHP_EOL,
-            PHP_EOL,
-            PHP_EOL,
-            $newContent,
-            PHP_EOL
-        );
-
-        $updatedChangelogContent = str_replace(
-            self::CHANGELOG_PLACEHOLDER_TO_WRITE,
-            $contentToWrite,
-            $changelogContent
-        );
-
-        file_put_contents(getcwd() . '/CHANGELOG.md', $updatedChangelogContent);
-
-        $this->symfonyStyle->success('The CHANGELOG.md was updated');
     }
 }
