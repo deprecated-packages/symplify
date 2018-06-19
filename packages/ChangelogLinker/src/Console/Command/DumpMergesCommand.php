@@ -9,8 +9,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symplify\ChangelogLinker\Analyzer\IdsAnalyzer;
 use Symplify\ChangelogLinker\ChangelogLinker;
-use Symplify\ChangelogLinker\ChangeTree\ChangeFactory;
-use Symplify\ChangelogLinker\ChangeTree\ChangeSorter;
+use Symplify\ChangelogLinker\ChangeTree\ChangeResolver;
 use Symplify\ChangelogLinker\Configuration\Configuration;
 use Symplify\ChangelogLinker\Configuration\Option;
 use Symplify\ChangelogLinker\Console\Input\PriorityResolver;
@@ -35,11 +34,6 @@ final class DumpMergesCommand extends Command
     private $symfonyStyle;
 
     /**
-     * @var ChangeSorter
-     */
-    private $changeSorter;
-
-    /**
      * @var IdsAnalyzer
      */
     private $idsAnalyzer;
@@ -48,16 +42,6 @@ final class DumpMergesCommand extends Command
      * @var DumpMergesReporter
      */
     private $dumpMergesReporter;
-
-    /**
-     * @var ChangeFactory
-     */
-    private $changeFactory;
-
-    /**
-     * @var ChangelogLinker
-     */
-    private $changelogLinker;
 
     /**
      * @var ChangelogFileSystem
@@ -69,27 +53,35 @@ final class DumpMergesCommand extends Command
      */
     private $priorityResolver;
 
+    /**
+     * @var ChangeResolver
+     */
+    private $changeResolver;
+
+    /**
+     * @var ChangelogLinker
+     */
+    private $changelogLinker;
+
     public function __construct(
         GithubApi $githubApi,
         SymfonyStyle $symfonyStyle,
-        ChangeSorter $changeSorter,
         IdsAnalyzer $idsAnalyzer,
         DumpMergesReporter $dumpMergesReporter,
-        ChangeFactory $changeFactory,
         ChangelogLinker $changelogLinker,
         ChangelogFileSystem $changelogFileSystem,
-        PriorityResolver $priorityResolver
+        PriorityResolver $priorityResolver,
+        ChangeResolver $changeResolver
     ) {
         parent::__construct();
-        $this->changeFactory = $changeFactory;
         $this->githubApi = $githubApi;
         $this->symfonyStyle = $symfonyStyle;
-        $this->changeSorter = $changeSorter;
         $this->idsAnalyzer = $idsAnalyzer;
         $this->dumpMergesReporter = $dumpMergesReporter;
         $this->changelogLinker = $changelogLinker;
         $this->changelogFileSystem = $changelogFileSystem;
         $this->priorityResolver = $priorityResolver;
+        $this->changeResolver = $changeResolver;
     }
 
     protected function configure(): void
@@ -156,18 +148,15 @@ final class DumpMergesCommand extends Command
             return 0;
         }
 
-        $changes = [];
-        foreach ($pullRequests as $pullRequest) {
-            $changes[] = $this->changeFactory->createFromPullRequest($pullRequest);
-        }
-
         $sortPriority = $this->priorityResolver->resolveFromInput($input);
 
-        $sortedChanges = $this->changeSorter->sortByCategoryAndPackage($changes, $sortPriority);
-        $sortedChanges = $this->changeSorter->sortByTags($sortedChanges);
+        $changes = $this->changeResolver->resolveSortedChangesFromPullRequestsWithSortPriority(
+            $pullRequests,
+            $sortPriority
+        );
 
         $content = $this->dumpMergesReporter->reportChangesWithHeadlines(
-            $sortedChanges,
+            $changes,
             $input->getOption(Option::IN_CATEGORIES),
             $input->getOption(Option::IN_PACKAGES),
             $input->getOption(Option::IN_TAGS),
