@@ -31,10 +31,20 @@ final class ChangeSorterTogetherTest extends TestCase
             }
         }
 
-        // first X changes should have "Added" category
-        for ($i = 0; $i < $changesWithAddedCount; ++$i) {
-            $this->assertSame('Added', $sortedChanges[$i]->getCategory());
-        }
+        $this->assertSame(6, $changesWithAddedCount);
+
+        // Unreleased
+        $this->assertSame('Added', $sortedChanges[0]->getCategory());
+        $this->assertSame('Added', $sortedChanges[1]->getCategory());
+        $this->assertSame('Added', $sortedChanges[2]->getCategory());
+        $this->assertSame('Added', $sortedChanges[3]->getCategory());
+        // ...
+
+        // v3.0.0
+        $this->assertSame('Added', $sortedChanges[20]->getCategory());
+        $this->assertSame('Added', $sortedChanges[21]->getCategory());
+        $this->assertSame('Changed', $sortedChanges[22]->getCategory());
+        $this->assertSame('Changed', $sortedChanges[23]->getCategory());
     }
 
     /**
@@ -51,7 +61,7 @@ final class ChangeSorterTogetherTest extends TestCase
                 'ChangelogLinker',
                 '- [#879] Add --token option to increase Github API rate [closes #874]',
                 'TomasVotruba',
-                'Unreleased'
+                'v3.0.0'
             ),
             new Change(
                 '- [#876] [ChangelogLinker] Fixes based on feedback',
@@ -147,7 +157,7 @@ final class ChangeSorterTogetherTest extends TestCase
                 'ChangelogLinker',
                 '- [#881] Simplify ChangeFactory creating + Add tags feature supports',
                 'TomasVotruba',
-                'Unreleased'
+                'v3.0.0'
             ),
             new Change(
                 '- [#880] Improve cognitive comlexity',
@@ -179,7 +189,7 @@ final class ChangeSorterTogetherTest extends TestCase
                 'ChangelogLinker',
                 '- [#884] Change --in-tags option to cooperate with --in-packages and --in-categories',
                 'TomasVotruba',
-                'Unreleased'
+                'v3.0.0'
             ),
             new Change(
                 '- [#883] [ChangelogLinker] Improve --in-tags option',
@@ -187,7 +197,7 @@ final class ChangeSorterTogetherTest extends TestCase
                 'ChangelogLinker',
                 '- [#883] Improve --in-tags option',
                 'TomasVotruba',
-                'Unreleased'
+                'v3.0.0'
             ),
             new Change(
                 '- [#871] [ChangelogLinker] Improve test coverage',
