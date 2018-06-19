@@ -7,7 +7,7 @@ use Nette\Utils\Strings;
 use PHPUnit\Framework\TestCase;
 use Symplify\ChangelogLinker\Regex\RegexPattern;
 
-final class RegexTest extends TestCase
+final class RegexPatternTest extends TestCase
 {
     /**
      * @dataProvider provideDataForLinkReference()
