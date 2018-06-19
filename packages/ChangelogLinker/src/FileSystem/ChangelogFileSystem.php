@@ -3,6 +3,7 @@
 namespace Symplify\ChangelogLinker\FileSystem;
 
 use Nette\Utils\FileSystem;
+use Symplify\ChangelogLinker\Analyzer\LinksAnalyzer;
 use Symplify\ChangelogLinker\LinkAppender;
 
 final class ChangelogFileSystem
@@ -17,10 +18,19 @@ final class ChangelogFileSystem
      */
     private $changelogFileSystemGuard;
 
-    public function __construct(LinkAppender $linkAppender, ChangelogFileSystemGuard $changelogFileSystemGuard)
-    {
+    /**
+     * @var LinksAnalyzer
+     */
+    private $linksAnalyzer;
+
+    public function __construct(
+        LinkAppender $linkAppender,
+        ChangelogFileSystemGuard $changelogFileSystemGuard,
+        LinksAnalyzer $linksAnalyzer
+    ) {
         $this->linkAppender = $linkAppender;
         $this->changelogFileSystemGuard = $changelogFileSystemGuard;
+        $this->linksAnalyzer = $linksAnalyzer;
     }
 
     public function readChangelog(): string
@@ -48,6 +58,8 @@ final class ChangelogFileSystem
     public function addToChangelogOnPlaceholder(string $newContent, string $placeholder): void
     {
         $changelogContent = $this->readChangelog();
+
+        $this->linksAnalyzer->analyzeContent($changelogContent);
 
         $this->changelogFileSystemGuard->ensurePlaceholderIsPresent($changelogContent, $placeholder);
 

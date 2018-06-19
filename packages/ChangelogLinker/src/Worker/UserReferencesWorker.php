@@ -39,7 +39,7 @@ final class UserReferencesWorker implements WorkerInterface
 
             $markdownUserLink = sprintf('[@%s]: https://github.com/%s', $match['name'], $match['name']);
 
-            $this->linkAppender->add($match['name'], $markdownUserLink);
+            $this->linkAppender->add('@' . $match['name'], $markdownUserLink);
         }
 
         return $content;
