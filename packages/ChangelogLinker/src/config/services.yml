@@ -4,7 +4,6 @@ services:
         bind:
             $authorsToIgnore: "%authors_to_ignore%"
             $repositoryUrl: "%repository_url%"
-            $repositoryName: "%repository_name%"
             $nameToUrls: "%linkify%"
             $packageAliases: "%package_aliases%"
 

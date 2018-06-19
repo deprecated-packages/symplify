@@ -17,7 +17,7 @@ final class ChangeFactoryTest extends TestCase
 
     protected function setUp(): void
     {
-        $configuration = new Configuration(['ego'], '', '', [], ['A' => 'Aliased']);
+        $configuration = new Configuration(['ego'], '', [], ['A' => 'Aliased']);
 
         $this->changeFactory = new ChangeFactory($configuration, new GitCommitDateTagResolver());
     }

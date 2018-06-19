@@ -15,11 +15,6 @@ final class Configuration
     private $repositoryUrl;
 
     /**
-     * @var string
-     */
-    private $repositoryName;
-
-    /**
      * @var array|string[]
      */
     private $nameToUrls = [];
@@ -37,13 +32,11 @@ final class Configuration
     public function __construct(
         array $authorsToIgnore,
         string $repositoryUrl,
-        string  $repositoryName,
         array $nameToUrls,
         array $packageAliases
     ) {
         $this->authorsToIgnore = $authorsToIgnore;
         $this->repositoryUrl = $repositoryUrl;
-        $this->repositoryName = $repositoryName;
         $this->nameToUrls = $nameToUrls;
         $this->packageAliases = $packageAliases;
     }
@@ -59,11 +52,6 @@ final class Configuration
     public function getRepositoryUrl(): string
     {
         return $this->repositoryUrl;
-    }
-
-    public function getRepositoryName(): string
-    {
-        return $this->repositoryName;
     }
 
     /**
