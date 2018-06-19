@@ -33,8 +33,8 @@ final class ChangelogFileSystem
 
     public function storeChangelog(string $content): void
     {
-        if ($this->linkAppender->getLinksToAppend()) {
-            $content .= PHP_EOL . $this->linkAppender->getLinksToAppend();
+        foreach ($this->linkAppender->getLinksToAppend() as $linkToAppend) {
+            $content .= PHP_EOL . $linkToAppend;
         }
 
         FileSystem::write($this->getChangelogFilePath(), $content);
