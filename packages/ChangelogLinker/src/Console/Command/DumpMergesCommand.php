@@ -183,11 +183,7 @@ final class DumpMergesCommand extends Command
             $content = $this->changelogLinker->processContent($content);
         }
 
-        $this->changelogFileSystem->addToChangelogOnPlaceholder(
-            $content,
-
-            self::CHANGELOG_PLACEHOLDER_TO_WRITE
-        );
+        $this->changelogFileSystem->addToChangelogOnPlaceholder($content, self::CHANGELOG_PLACEHOLDER_TO_WRITE);
 
         $this->symfonyStyle->success('The CHANGELOG.md was updated');
 
