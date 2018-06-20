@@ -94,7 +94,7 @@ final class ClassWrapper
         $this->nameFactory = $nameFactory;
     }
 
-    public function getName(): ?string
+    public function getClassName(): ?string
     {
         if (! $this->getNamePosition()) {
             return null;

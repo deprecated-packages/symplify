@@ -5,18 +5,14 @@ namespace Symplify\CodingStandard\Sniffs\Naming;
 use Nette\Utils\Strings;
 use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Sniffs\Sniff;
-use PhpCsFixer\Tokenizer\Token;
-use PhpCsFixer\Tokenizer\Tokens;
-use SplFileInfo;
-use Symplify\TokenRunner\Wrapper\FixerWrapper\ClassWrapper;
-use Symplify\TokenRunner\Wrapper\FixerWrapper\ClassWrapperFactory;
+use Symplify\TokenRunner\Wrapper\SnifferWrapper\ClassWrapperFactory;
 
 final class ClassNameSuffixByParentSniff implements Sniff
 {
     /**
      * @var string
      */
-    private const ERROR_MESSAGE = 'Class should have suffix by parent class/interface';
+    private const ERROR_MESSAGE = 'Class "%s" should have suffix "%s" by parent class/interface';
 
     /**
      * @var string[]
@@ -63,40 +59,25 @@ final class ClassNameSuffixByParentSniff implements Sniff
      */
     public function process(File $file, $position): void
     {
-        $this->file = $file;
-        $this->position = $position;
-
-        // @todo
-        $classWrapper = $this->classWrapperFactory->createFromTokensArrayStartPosition($tokens, $position);
-        $this->processClassWrapper($tokens, $classWrapper);
-    }
-
-    private function processClassWrapper(Tokens $tokens, ClassWrapper $classWrapper): void
-    {
-        $className = $classWrapper->getName();
+        $classWrapper = $this->classWrapperFactory->createFromFirstClassInFile($file);
+        $className = $classWrapper->getClassName();
         if ($className === null) {
             return;
         }
 
         $parentClassName = $classWrapper->getParentClassName();
         if ($parentClassName) {
-            $this->processType($tokens, $classWrapper, $parentClassName, $className);
+            $this->processType($file, $parentClassName, $className, $position);
         }
 
-        foreach ($classWrapper->getInterfaceNames() as $interfaceName) {
-            $this->processType($tokens, $classWrapper, $interfaceName, $className);
+        foreach ($classWrapper->getPartialInterfaceNames() as $interfaceName) {
+            $this->processType($file, $interfaceName, $className, $position);
         }
     }
 
-    private function processType(
-        Tokens $tokens,
-        ClassWrapper $classWrapper,
-        string $parentType,
-        string $className
-    ): void {
-        $classToSuffixMap = $this->getClassToSuffixMap();
-
-        foreach ($classToSuffixMap as $classMatch => $suffix) {
+    private function processType(File $file, string $parentType, string $className, int $position): void
+    {
+        foreach ($this->getClassToSuffixMap() as $classMatch => $suffix) {
             if (! fnmatch($classMatch, $parentType) && ! fnmatch($classMatch . 'Interface', $parentType)) {
                 continue;
             }
@@ -105,10 +86,7 @@ final class ClassNameSuffixByParentSniff implements Sniff
                 continue;
             }
 
-            // report error!
-            $file->addError(self::ERROR_MESSAGE, $classWrapper->getNamePosition(, self::class);
-
-//            $tokens[$classWrapper->getNamePosition()] = new Token([T_STRING, $className . $suffix]);
+            $file->addError(sprintf(self::ERROR_MESSAGE, $className, $suffix), $position, self::class);
         }
     }
 
@@ -117,7 +95,7 @@ final class ClassNameSuffixByParentSniff implements Sniff
      */
     private function getClassToSuffixMap(): array
     {
-        $classToSuffixMap = array_merge($this->defaultParentClassToSuffixMap, $this->extraParentTypesToSuffixes) ;
+        $classToSuffixMap = array_merge($this->defaultParentClassToSuffixMap, $this->extraParentTypesToSuffixes);
 
         $classToSuffixMap = $this->convertListValuesToKeysToSuffixes($classToSuffixMap);
 

@@ -1,8 +1,7 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Sniffs\Naming\ClassNameSuffixByParentSniff;
+namespace Symplify\CodingStandard\Tests\Sniffs\Naming\ClassNameSuffixByParent;
 
-use Iterator;
 use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;
 
 /**
@@ -10,17 +9,14 @@ use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;
  */
 final class ListConfiguredTest extends AbstractCheckerTestCase
 {
-    /**
-     * @dataProvider provideWrongToFixedCases()
-     */
-    public function testWrongToFixed(string $wrongFile, string $fixedFile): void
+    public function testWrong(): void
     {
-        $this->doTestWrongToFixedFile($wrongFile, $fixedFile);
+        $this->doTestWrongFile(__DIR__ . '/wrong/wrong5.php.inc');
     }
 
-    public function provideWrongToFixedCases(): Iterator
+    public function testCorrect(): void
     {
-        yield [__DIR__ . '/wrong/wrong5.php.inc', __DIR__ . '/fixed/fixed5.php.inc'];
+        $this->doTestCorrectFile(__DIR__ . '/correct/correct5.php.inc');
     }
 
     protected function provideConfig(): string

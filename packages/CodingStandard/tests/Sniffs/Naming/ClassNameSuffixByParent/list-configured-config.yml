@@ -1,4 +1,4 @@
 services:
-    Symplify\CodingStandard\Sniffs\Naming\ClassNameSuffixByParentSniffs:
-        $extraParentTypesToSuffixes:
+    Symplify\CodingStandard\Sniffs\Naming\ClassNameSuffixByParentSniff:
+        extraParentTypesToSuffixes:
             - 'Random'

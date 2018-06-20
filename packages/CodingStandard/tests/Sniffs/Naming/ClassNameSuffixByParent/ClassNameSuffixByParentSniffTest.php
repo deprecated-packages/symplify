@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Sniffs\Naming\ClassNameSuffixByParentSniff;
+namespace Symplify\CodingStandard\Tests\Sniffs\Naming\ClassNameSuffixByParent;
 
 use Iterator;
 use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;
@@ -31,7 +31,7 @@ final class ClassNameSuffixByParentSniffTest extends AbstractCheckerTestCase
      */
     public function testCorrectFiles(string $wrongFile): void
     {
-        $this->doTestWrongFile($wrongFile);
+        $this->doTestCorrectFile($wrongFile);
     }
 
     public function provideCorrectCases(): Iterator

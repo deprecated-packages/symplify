@@ -156,7 +156,7 @@ CODE
 
     private function processClassWrapper(Tokens $tokens, ClassWrapper $classWrapper): void
     {
-        $className = $classWrapper->getName();
+        $className = $classWrapper->getClassName();
         if ($className === null) {
             return;
         }
