@@ -5,7 +5,6 @@ namespace Symplify\ChangelogLinker\Tests\ChangeTree;
 use Iterator;
 use PHPUnit\Framework\TestCase;
 use Symplify\ChangelogLinker\ChangeTree\ChangeFactory;
-use Symplify\ChangelogLinker\Configuration\Configuration;
 use Symplify\ChangelogLinker\Git\GitCommitDateTagResolver;
 
 final class ChangeFactoryTest extends TestCase
@@ -17,9 +16,8 @@ final class ChangeFactoryTest extends TestCase
 
     protected function setUp(): void
     {
-        $configuration = new Configuration(['ego'], [], ['A' => 'Aliased']);
 
-        $this->changeFactory = new ChangeFactory($configuration, new GitCommitDateTagResolver());
+        $this->changeFactory = new ChangeFactory(new GitCommitDateTagResolver(), ['A' => 'Aliased'], ['ego']);
     }
 
     /**
