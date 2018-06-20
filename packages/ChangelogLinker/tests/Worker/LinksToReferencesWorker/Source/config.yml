@@ -1,2 +1,5 @@
+parameters:
+    repository_url: 'https://github.com/dummy/dummy'
+
 services:
     Symplify\ChangelogLinker\Worker\LinksToReferencesWorker: ~

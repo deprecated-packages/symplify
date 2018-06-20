@@ -31,9 +31,6 @@ final class GithubApi
      */
     private $options = [];
 
-    /**
-     * @todo guess from "composer.json" if not filled
-     */
     public function __construct(Client $client, string $repositoryName)
     {
         $this->client = $client;

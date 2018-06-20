@@ -21,7 +21,7 @@ Create `changelog-linker.yml` with configuration:
 parameters:
     authors_to_ignore: ['TomasVotruba'] # usually core maintainers; to make external contributors more credit
 
-    # this is detected from git, but if that fails, add it manually
+    # this is detected from "git origin", but you can change it
     repository_url: 'https://github.com/symplify/symplify'
 ```
 
