@@ -24,7 +24,7 @@ final class ClassNameSuffixByParentSniff implements Sniff
         'Presenter',
         'Request',
         'Response',
-        'EventSubscriber',
+        'EventSubscriberInterface',
         'FixerInterface',
         'Sniff',
         'Exception',
@@ -51,7 +51,7 @@ final class ClassNameSuffixByParentSniff implements Sniff
      */
     public function register(): array
     {
-        return [T_CLASS, T_INTERFACE];
+        return [T_CLASS];
     }
 
     /**
@@ -79,13 +79,15 @@ final class ClassNameSuffixByParentSniff implements Sniff
         }
     }
 
-    private function processType(File $file, string $parentType, string $className, int $position): void
+    private function processType(File $file, string $currentParentType, string $className, int $position): void
     {
-        foreach ($this->getClassToSuffixMap() as $classMatch => $suffix) {
-            if (! fnmatch($classMatch, $parentType) && ! fnmatch($classMatch . 'Interface', $parentType)) {
+        foreach ($this->getClassToSuffixMap() as $parentType) {
+            if (! fnmatch('*' . $parentType, $currentParentType)) {
                 continue;
             }
 
+            // the class that implements $currentParentType, should end with $suffix
+            $suffix = $this->resolveExpectedSuffix($parentType);
             if (Strings::endsWith($className, $suffix)) {
                 continue;
             }
@@ -99,66 +101,22 @@ final class ClassNameSuffixByParentSniff implements Sniff
      */
     private function getClassToSuffixMap(): array
     {
-        $classToSuffixMap = array_merge($this->defaultParentClassToSuffixMap, $this->extraParentTypesToSuffixes);
-
-        $classToSuffixMap = $this->convertListValuesToKeysToSuffixes($classToSuffixMap);
-
-        return $this->prefixKeysWithAsteriks($classToSuffixMap);
+        return array_merge($this->defaultParentClassToSuffixMap, $this->extraParentTypesToSuffixes);
     }
 
     /**
-     * From:
-     * - [0 => "*Type"]
-     * to:
-     * - ["*Type" => "Type"]
+     * For parent type:
+     * - SomeInterface
      *
-     * @param string[] $values
-     * @return string[]
+     * The expected suffix is:
+     * - Some
      */
-    private function convertListValuesToKeysToSuffixes(array $values): array
+    private function resolveExpectedSuffix(string $parentType): string
     {
-        foreach ($values as $key => $value) {
-            if (! is_numeric($key)) {
-                continue;
-            }
-
-            $suffix = ltrim($value, '*');
-
-            // remove "Interface" suffix
-            if (Strings::endsWith($suffix, 'Interface')) {
-                $suffix = substr($suffix, 0, -strlen('Interface'));
-            }
-
-            $values[$value] = $suffix;
-
-            unset($values[$key]);
-        }
-        return $values;
-    }
-
-    /**
-     * From:
-     * - ["Type" => "Suffix"]
-     * to:
-     * - ["*Type" => "Suffix"]
-     *
-     * @param string[] $values
-     * @return string[]
-     */
-    private function prefixKeysWithAsteriks(array $values): array
-    {
-        foreach ($values as $key => $value) {
-            if (Strings::startsWith($key, '*')) {
-                continue;
-            }
-
-            $newKey = '*' . $key;
-
-            $values[$newKey] = $value;
-
-            unset($values[$key]);
+        if (Strings::endsWith($parentType, 'Interface')) {
+            return substr($parentType, 0, -strlen('Interface'));
         }
 
-        return $values;
+        return $parentType;
     }
 }
