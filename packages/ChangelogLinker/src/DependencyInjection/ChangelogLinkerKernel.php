@@ -2,7 +2,9 @@
 
 namespace Symplify\ChangelogLinker\DependencyInjection;
 
+use Nette\Utils\Json;
 use Symfony\Component\Config\Loader\LoaderInterface;
+use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symplify\ChangelogLinker\DependencyInjection\CompilerPass\AutowireWorkersCompilerPass;
 use Symplify\ChangelogLinker\DependencyInjection\CompilerPass\CollectorCompilerPass;
