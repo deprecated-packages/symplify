@@ -31,12 +31,10 @@ final class Configuration
      */
     public function __construct(
         array $authorsToIgnore,
-        string $repositoryUrl,
         array $nameToUrls,
         array $packageAliases
     ) {
         $this->authorsToIgnore = $authorsToIgnore;
-        $this->repositoryUrl = $repositoryUrl;
         $this->nameToUrls = $nameToUrls;
         $this->packageAliases = $packageAliases;
     }
@@ -47,11 +45,6 @@ final class Configuration
     public function getAuthorsToIgnore(): array
     {
         return $this->authorsToIgnore;
-    }
-
-    public function getRepositoryUrl(): string
-    {
-        return $this->repositoryUrl;
     }
 
     /**

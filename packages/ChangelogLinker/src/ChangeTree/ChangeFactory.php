@@ -3,7 +3,6 @@
 namespace Symplify\ChangelogLinker\ChangeTree;
 
 use Nette\Utils\Strings;
-use Symplify\ChangelogLinker\Configuration\Configuration;
 use Symplify\ChangelogLinker\Git\GitCommitDateTagResolver;
 
 final class ChangeFactory
@@ -29,19 +28,28 @@ final class ChangeFactory
     private const REMOVED_PATTERN = '#remove(d)?|delete(d)|drop|dropped?#i';
 
     /**
-     * @var Configuration
-     */
-    private $configuration;
-
-    /**
      * @var GitCommitDateTagResolver
      */
     private $gitCommitDateTagResolver;
 
-    public function __construct(Configuration $configuration, GitCommitDateTagResolver $gitCommitDateTagResolver)
+    /**
+     * @var array|string[]
+     */
+    private $packageAliases;
+    /**
+     * @var array
+     */
+    private $authorsToIgnore;
+
+    /**
+     * @param string[] $packageAliases
+     * @param string[] $authorsToIgnore
+     */
+    public function __construct(GitCommitDateTagResolver $gitCommitDateTagResolver, array $packageAliases, array $authorsToIgnore)
     {
-        $this->configuration = $configuration;
         $this->gitCommitDateTagResolver = $gitCommitDateTagResolver;
+        $this->packageAliases = $packageAliases;
+        $this->authorsToIgnore = $authorsToIgnore;
     }
 
     /**
@@ -54,7 +62,7 @@ final class ChangeFactory
         $author = $pullRequest['user']['login'] ?? '';
 
         // skip the main maintainer to prevent self-thanking floods
-        if ($author && ! in_array($author, $this->configuration->getAuthorsToIgnore(), true)) {
+        if ($author && ! in_array($author, $this->authorsToIgnore, true)) {
             $message .= ', Thanks to @' . $author;
         }
 
@@ -104,7 +112,7 @@ final class ChangeFactory
             return Change::UNKNOWN_PACKAGE;
         }
 
-        return $this->configuration->getPackageAliases()[$match['package']] ?? $match['package'];
+        return $this->packageAliases[$match['package']] ?? $match['package'];
     }
 
     private function resolveMessageWithoutPackage(string $message): string
