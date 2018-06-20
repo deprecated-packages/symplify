@@ -20,8 +20,9 @@ Create `changelog-linker.yml` with configuration:
 # changelog-linker.yml:
 parameters:
     authors_to_ignore: ['TomasVotruba'] # usually core maintainers; to make external contributors more credit
+
+    # this is detected from "git origin", but you can change it
     repository_url: 'https://github.com/symplify/symplify'
-    repository_name: 'symplify/symplify'
 ```
 
 The config is autodiscovered in the root directory or by `--config` option.
