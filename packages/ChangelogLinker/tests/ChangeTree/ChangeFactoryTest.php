@@ -16,7 +16,6 @@ final class ChangeFactoryTest extends TestCase
 
     protected function setUp(): void
     {
-
         $this->changeFactory = new ChangeFactory(new GitCommitDateTagResolver(), ['A' => 'Aliased'], ['ego']);
     }
 
