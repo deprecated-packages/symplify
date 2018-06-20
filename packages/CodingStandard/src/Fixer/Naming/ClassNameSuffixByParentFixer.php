@@ -14,6 +14,7 @@ use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
+use Symplify\CodingStandard\Sniffs\Naming\ClassNameSuffixByParentSniff;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\ClassWrapper;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\ClassWrapperFactory;
 
@@ -58,6 +59,13 @@ final class ClassNameSuffixByParentFixer implements DefinedFixerInterface, Confi
 
     public function __construct(ClassWrapperFactory $classWrapperFactory)
     {
+        trigger_error(sprintf(
+            '"%s" was deprecated and will be removed in Symplify\CodingStandard 5.0. Use "%s" instead."',
+            self::class,
+            ClassNameSuffixByParentSniff::class
+        ), E_USER_DEPRECATED);
+        sleep(3); // inspired at "deprecated interface" Tweet
+
         $this->classWrapperFactory = $classWrapperFactory;
 
         // set defaults
@@ -156,7 +164,7 @@ CODE
 
     private function processClassWrapper(Tokens $tokens, ClassWrapper $classWrapper): void
     {
-        $className = $classWrapper->getName();
+        $className = $classWrapper->getClassName();
         if ($className === null) {
             return;
         }

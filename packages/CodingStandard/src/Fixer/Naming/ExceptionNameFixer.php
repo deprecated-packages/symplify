@@ -11,6 +11,7 @@ use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
+use Symplify\CodingStandard\Sniffs\Naming\ClassNameSuffixByParentSniff;
 
 final class ExceptionNameFixer implements DefinedFixerInterface
 {
@@ -19,7 +20,7 @@ final class ExceptionNameFixer implements DefinedFixerInterface
         trigger_error(sprintf(
             '"%s" was deprecated and will be removed in Symplify\CodingStandard 5.0. Use "%s" instead."',
             self::class,
-            ClassNameSuffixByParentFixer::class
+            ClassNameSuffixByParentSniff::class
         ), E_USER_DEPRECATED);
         sleep(3); // inspired at "deprecated interface" Tweet
     }

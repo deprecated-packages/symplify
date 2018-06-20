@@ -529,13 +529,22 @@ abstract class AbstractSomeClass
 ### Class should have suffix by parent class/interface
 
 - :wrench:
-- class: [`Symplify\CodingStandard\Fixer\Naming\ClassNameSuffixByParentFixer`](src/Fixer/Naming/ClassNameSuffixByParentFixer.php)
+- class: [`Symplify\CodingStandard\Sniffs\Naming\ClassNameSuffixByParentSniff`](src/Sniffs/Naming/ClassNameSuffixByParentSniff.php)
 
-```diff
--class Some extends Command
-+class SomeCommand extends Command
- {
- }
+:x:
+
+```php
+class Some extends Command
+{
+}
+```
+
+:+1:
+
+```php
+class SomeCommand extends Command
+{
+}
 ```
 
 This checker check few names by default. But if you need, you can **configure it**:
@@ -543,8 +552,8 @@ This checker check few names by default. But if you need, you can **configure it
 ```yaml
 # easy-coding-standard.yml
 services:
-    Symplify\CodingStandard\Fixer\Naming\ClassNameSuffixByParentFixer:
-        parent_types_to_suffixes:
+    Symplify\CodingStandard\Sniffs\Naming\ClassNameSuffixByParentSniff:
+        parentTypesToSuffixes:
             # defaults
             - 'Command'
             - 'Controller'
@@ -564,8 +573,8 @@ Or keep all defaults values by using `extra_parent_types_to_suffixes`:
 ```yaml
 # easy-coding-standard.yml
 services:
-    Symplify\CodingStandard\Fixer\Naming\ClassNameSuffixByParentFixer:
-        extra_parent_types_to_suffixes:
+    Symplify\CodingStandard\Sniffs\Naming\ClassNameSuffixByParentSniff:
+        extraParentTypesToSuffixes:
             - 'ProviderInterface'
 ```
 

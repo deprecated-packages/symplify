@@ -13,8 +13,8 @@ services:
     # class should be Abstact or Final
     SlamCsFixer\FinalInternalClassFixer: ~
 
-    Symplify\CodingStandard\Fixer\Naming\ClassNameSuffixByParentFixer:
-        extra_parent_types_to_suffixes:
+    Symplify\CodingStandard\Sniffs\Naming\ClassNameSuffixByParentSniff:
+        extraParentTypesToSuffixes:
             - 'FileDecorator'
 
     Symplify\CodingStandard\Sniffs\DependencyInjection\NoClassInstantiationSniff:
@@ -52,6 +52,7 @@ parameters:
             # "Exception" is string part of the name
             - 'packages/CodingStandard/src/Fixer/Naming/ExceptionNameFixer.php'
             - 'packages/CodingStandard/src/Fixer/Naming/ClassNameSuffixByParentFixer.php'
+            - 'packages/CodingStandard/src/Sniffs/Naming/ClassNameSuffixByParentSniff.php'
             # class might not exist
             - '*packages/EasyCodingStandard/src/DependencyInjection/CompilerPass/*CompilerPass.php'
 

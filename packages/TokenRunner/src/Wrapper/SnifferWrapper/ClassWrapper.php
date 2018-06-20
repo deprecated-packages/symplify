@@ -30,14 +30,39 @@ final class ClassWrapper
         $this->naming = $naming;
     }
 
-    public function getClassName(): string
+    public function getClassName(): ?string
     {
         return $this->naming->getClassName($this->file, $this->position + 2);
     }
 
+    /**
+     * @return string[]
+     */
+    public function getPartialInterfaceNames(): array
+    {
+        if (! $this->implementsInterface()) {
+            return [];
+        }
+
+        $implementPosition = $this->getImplementsPosition();
+        $openBracketPosition = $this->file->findNext(T_OPEN_CURLY_BRACKET, $this->position, $this->position + 15);
+
+        // anonymous class
+        if (! $openBracketPosition) {
+            return [];
+        }
+
+        $interfacePartialNamePosition = $this->file->findNext(T_STRING, $implementPosition, $openBracketPosition);
+
+        $partialInterfacesNames = [];
+        $partialInterfacesNames[] = $this->file->getTokens()[$interfacePartialNamePosition]['content'];
+
+        return $partialInterfacesNames;
+    }
+
     public function implementsInterface(): bool
     {
-        return (bool) $this->file->findNext(T_IMPLEMENTS, $this->position, $this->position + 15);
+        return (bool) $this->getImplementsPosition();
     }
 
     public function extends(): bool
@@ -55,5 +80,13 @@ final class ClassWrapper
         $parentClassPosition = (int) TokenHelper::findNext($this->file, T_STRING, $extendsTokenPosition);
 
         return $this->naming->getClassName($this->file, $parentClassPosition);
+    }
+
+    /**
+     * @return bool|int
+     */
+    private function getImplementsPosition()
+    {
+        return $this->file->findNext(T_IMPLEMENTS, $this->position, $this->position + 15);
     }
 }
