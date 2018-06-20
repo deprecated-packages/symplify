@@ -10,7 +10,10 @@ namespace Symplify\ChangelogLinker\DependencyInjection\Dummy;
  */
 final class ResolveAutowiringExceptionHelper
 {
-    public function __construct(string $repositoryName, string $repositoryUrl)
+    /**
+     * @param string[] $namesToUrls
+     */
+    public function __construct(string $repositoryName, string $repositoryUrl, array $namesToUrls)
     {
     }
 }

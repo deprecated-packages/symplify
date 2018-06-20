@@ -248,8 +248,8 @@ In Symplify, I need that every `EasyCodingStandard` word leads to `https://githu
 
 ```yaml
 parameters:
-    linkify:
-        EasyCodingStandard: "https://github.com/Symplify/EasyCodingStandard/"
+    names_to_urls:
+        EasyCodingStandard: 'https://github.com/Symplify/EasyCodingStandard/'
 ```
 
 :x:
