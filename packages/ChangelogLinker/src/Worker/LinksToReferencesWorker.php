@@ -3,7 +3,6 @@
 namespace Symplify\ChangelogLinker\Worker;
 
 use Nette\Utils\Strings;
-use Symplify\ChangelogLinker\Configuration\Configuration;
 use Symplify\ChangelogLinker\Contract\Worker\WorkerInterface;
 use Symplify\ChangelogLinker\LinkAppender;
 use Symplify\ChangelogLinker\Regex\RegexPattern;
@@ -16,14 +15,14 @@ final class LinksToReferencesWorker implements WorkerInterface
     private $linkAppender;
 
     /**
-     * @var Configuration
+     * @var string
      */
-    private $configuration;
+    private $repositoryUrl;
 
-    public function __construct(Configuration $configuration, LinkAppender $linkAppender)
+    public function __construct(string $repositoryUrl, LinkAppender $linkAppender)
     {
         $this->linkAppender = $linkAppender;
-        $this->configuration = $configuration;
+        $this->repositoryUrl = $repositoryUrl;
     }
 
     /**
@@ -34,7 +33,7 @@ final class LinksToReferencesWorker implements WorkerInterface
     {
         $matches = Strings::matchAll($content, '#\[' . RegexPattern::PR_OR_ISSUE . '\]#m');
         foreach ($matches as $match) {
-            $link = sprintf('[#%d]: %s/pull/%d', $match['id'], $this->configuration->getRepositoryUrl(), $match['id']);
+            $link = sprintf('[#%d]: %s/pull/%d', $match['id'], $this->repositoryUrl, $match['id']);
             $this->linkAppender->add($match['id'], $link);
         }
 

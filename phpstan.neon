@@ -57,6 +57,8 @@ parameters:
         - *packages/CodingStandard/tests/**/wrong*
         # tests
         - packages/EasyCodingStandard/tests/Finder/FinderSanitizerSource/NestedDirectory/FileWithClass.php
+        # Symfony workaround
+        - packages/ChangelogLinker/src/DependencyInjection/Dummy/ResolveAutowiringExceptionHelper.php
 
     autoload_files:
         - %currentWorkingDirectory%/tests/bootstrap.php

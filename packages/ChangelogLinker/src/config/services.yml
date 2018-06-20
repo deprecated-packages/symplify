@@ -5,7 +5,7 @@ services:
             $authorsToIgnore: "%authors_to_ignore%"
             $repositoryUrl: "%repository_url%"
             $repositoryName: "%repository_name%"
-            $nameToUrls: "%linkify%"
+            $namesToUrls: "%names_to_urls%"
             $packageAliases: "%package_aliases%"
 
     Symplify\ChangelogLinker\:

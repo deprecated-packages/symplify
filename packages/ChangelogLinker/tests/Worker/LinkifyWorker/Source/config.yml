@@ -1,6 +1,10 @@
 parameters:
-    linkify:
+    names_to_urls:
         SomeThingToLink: "https://someUrl.com"
 
 services:
+    _defaults:
+        bind:
+            $namesToUrls: '%names_to_urls%'
+
     Symplify\ChangelogLinker\Worker\LinkifyWorker: ~

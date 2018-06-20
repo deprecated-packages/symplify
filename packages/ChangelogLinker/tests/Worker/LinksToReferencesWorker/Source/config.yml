@@ -1,2 +1,9 @@
+parameters:
+    repository_url: 'https://github.com/dummy/dummy'
+
 services:
+    _defaults:
+        bind:
+            $repositoryUrl: '%repository_url%'
+
     Symplify\ChangelogLinker\Worker\LinksToReferencesWorker: ~
