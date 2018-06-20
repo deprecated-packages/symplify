@@ -1,7 +1,6 @@
 parameters:
     repository_url: 'https://github.com/dummy/dummy'
 
-
 services:
     _defaults:
         bind:
