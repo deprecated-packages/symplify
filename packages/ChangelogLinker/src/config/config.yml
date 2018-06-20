@@ -3,8 +3,6 @@ imports:
 
 parameters:
     authors_to_ignore: []
-    repository_url: "https://github.com/dummy/dummy"
-    repository_name: "dummy/dummy"
     linkify: []
 
     package_aliases: []
