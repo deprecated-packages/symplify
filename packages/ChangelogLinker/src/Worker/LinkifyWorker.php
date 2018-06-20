@@ -12,6 +12,7 @@ final class LinkifyWorker implements WorkerInterface
      * @var LinkAppender
      */
     private $linkAppender;
+
     /**
      * @var string[]
      */

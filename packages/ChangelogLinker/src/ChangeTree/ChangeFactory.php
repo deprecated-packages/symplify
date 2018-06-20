@@ -33,20 +33,24 @@ final class ChangeFactory
     private $gitCommitDateTagResolver;
 
     /**
-     * @var array|string[]
+     * @var string[]
      */
-    private $packageAliases;
+    private $packageAliases = [];
+
     /**
-     * @var array
+     * @var string[]
      */
-    private $authorsToIgnore;
+    private $authorsToIgnore = [];
 
     /**
      * @param string[] $packageAliases
      * @param string[] $authorsToIgnore
      */
-    public function __construct(GitCommitDateTagResolver $gitCommitDateTagResolver, array $packageAliases, array $authorsToIgnore)
-    {
+    public function __construct(
+        GitCommitDateTagResolver $gitCommitDateTagResolver,
+        array $packageAliases,
+        array $authorsToIgnore
+    ) {
         $this->gitCommitDateTagResolver = $gitCommitDateTagResolver;
         $this->packageAliases = $packageAliases;
         $this->authorsToIgnore = $authorsToIgnore;

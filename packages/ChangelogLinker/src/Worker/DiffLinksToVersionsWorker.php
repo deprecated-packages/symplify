@@ -4,7 +4,6 @@ namespace Symplify\ChangelogLinker\Worker;
 
 use Symplify\ChangelogLinker\Analyzer\LinksAnalyzer;
 use Symplify\ChangelogLinker\Analyzer\VersionsAnalyzer;
-use Symplify\ChangelogLinker\Configuration\Configuration;
 use Symplify\ChangelogLinker\Contract\Worker\WorkerInterface;
 use Symplify\ChangelogLinker\LinkAppender;
 
