@@ -1,5 +1,5 @@
 parameters:
-    repository_name: 'dummy/dummy'
+    repository_url: 'https://github.com/dummy/dummy'
 
 services:
     Symplify\ChangelogLinker\Worker\BracketsAroundReferencesWorker:
