@@ -5,6 +5,7 @@ namespace Symplify\Statie\Renderable\File;
 use ArrayAccess;
 use DateTimeInterface;
 use Nette\Utils\ObjectHelpers;
+use Nette\Utils\Strings;
 use Symplify\Statie\Exception\Renderable\File\AccessKeyNotAvailableException;
 use Symplify\Statie\Exception\Renderable\File\UnsupportedMethodException;
 use Symplify\Statie\Generator\Renderable\File\AbstractGeneratorFile;
@@ -41,6 +42,15 @@ final class PostFile extends AbstractGeneratorFile implements ArrayAccess
         $this->ensureAccessExistingKey($offset);
 
         return $this->configuration[$offset];
+    }
+
+    public function hasCode(): bool
+    {
+        $rawContent = file_get_contents($this->fileInfo->getRealPath());
+
+        $matches = Strings::matchAll($rawContent, '#\`\`\`#');
+
+        return count($matches) > 4;
     }
 
     /**
