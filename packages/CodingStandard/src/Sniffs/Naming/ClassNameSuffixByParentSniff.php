@@ -60,6 +60,10 @@ final class ClassNameSuffixByParentSniff implements Sniff
     public function process(File $file, $position): void
     {
         $classWrapper = $this->classWrapperFactory->createFromFirstClassInFile($file);
+        if ($classWrapper === null) {
+            return;
+        }
+
         $className = $classWrapper->getClassName();
         if ($className === null) {
             return;

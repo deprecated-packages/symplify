@@ -1,3 +1,3 @@
 services:
-    Symplify\CodingStandard\Fixer\Naming\ClassNameSuffixByParentFixer: ~
+    Symplify\CodingStandard\Sniffs\Naming\ClassNameSuffixByParentSniff: ~
 

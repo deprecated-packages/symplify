@@ -38,8 +38,6 @@ parameters:
         # known values
         - '#Parameter \#2 \$start of method PHP_CodeSniffer\\Files\\File::findNext\(\) expects int, bool\|int given#'
         - '#Parameter \#3 \$end of method PHP_CodeSniffer\\Files\\File::findNext\(\) expects int\|null, int\|true given#'
-        - '#Calling method getClassName\(\) on possibly null value of type Symplify\\TokenRunner\\Wrapper\\SnifferWrapper\\ClassWrapper\|null#'
-        - '#Calling method (getParentClassName|getPartialInterfaceNames)\(\) on possibly null value of type Symplify\\TokenRunner\\Wrapper\\SnifferWrapper\\ClassWrapper\|null#'
 
         # Token Runner
         - '#Call to an undefined method Symfony\\Component\\DependencyInjection\\ContainerInterface::getParameterBag()#'
