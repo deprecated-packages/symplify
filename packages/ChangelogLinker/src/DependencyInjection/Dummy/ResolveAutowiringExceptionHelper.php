@@ -12,8 +12,10 @@ final class ResolveAutowiringExceptionHelper
 {
     /**
      * @param string[] $namesToUrls
+     * @param string[] $authorsToIgnore
+     * @param string[] $packageAliases
      */
-    public function __construct(string $repositoryName, string $repositoryUrl, array $namesToUrls)
+    public function __construct(string $repositoryName, string $repositoryUrl, array $namesToUrls, array $authorsToIgnore, array $packageAliases)
     {
     }
 }
