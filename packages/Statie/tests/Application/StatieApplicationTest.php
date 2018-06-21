@@ -49,12 +49,23 @@ final class StatieApplicationTest extends TestCase
         $this->assertFileExists(__DIR__ . '/StatieApplicationSource/output/feed.xml');
         $this->assertFileExists(__DIR__ . '/StatieApplicationSource/output/atom.rss');
 
-        $this->assertNotEmpty($this->arrayLoader->getContent('default'));
+        $this->assertNotEmpty($this->arrayLoader->getContent('_layouts/default.latte'));
     }
 
     public function testRunForMissingSource(): void
     {
         $this->expectException(MissingDirectoryException::class);
         $this->statieApplication->run('missing', 'random');
+    }
+
+    public function testForSuggestedSource(): void
+    {
+        $this->statieApplication->run(
+            __DIR__ . '/StatieApplicationSource/source',
+            __DIR__ . '/StatieApplicationSource/output'
+        );
+
+        $this->expectExceptionMessageRegExp('#Did you mean "_layouts/default.latte"#');
+        $this->assertNotEmpty($this->arrayLoader->getContent('layoutdefault.latte'));
     }
 }
