@@ -3,6 +3,8 @@
 namespace Symplify\Statie\Latte\Loader;
 
 use Latte\ILoader;
+use Nette\Utils\ObjectHelpers;
+use Nette\Utils\Strings;
 use Symplify\Statie\Latte\Exception\MissingLatteTemplateException;
 
 /**
@@ -26,6 +28,7 @@ final class ArrayLoader implements ILoader
     public function getContent($name): string
     {
         if ($this->templates === []) {
+            // @todo this looks sloppy
             // is content itself, not a reference to file
             return $name;
         }
@@ -34,10 +37,23 @@ final class ArrayLoader implements ILoader
             return $this->templates[$name];
         }
 
-        throw new MissingLatteTemplateException(sprintf(
-            'Missing template "%s". Is it placed in "/_layouts" or "/_snippets" directory?',
+        $message = sprintf(
+            'Missing template "%s". It must be placed in "/_layouts" or "/_snippets" directory.',
             $name
-        ));
+        );
+
+        // add suggestsion
+        $suggestion = ObjectHelpers::getSuggestion($this->getLayoutAndSnippetNames(), $name);
+        if ($suggestion) {
+            $message .= sprintf(' Did you mean "%s"?', $suggestion);
+        } elseif ($this->getLayoutAndSnippetNames()) {
+            $message .= PHP_EOL . PHP_EOL . sprintf(
+                'Pick one of these: "%s"',
+                implode('", "', $this->getLayoutAndSnippetNames())
+            );
+        }
+
+        throw new MissingLatteTemplateException($message);
     }
 
     /**
@@ -67,5 +83,22 @@ final class ArrayLoader implements ILoader
     {
         // not needed
         return $this->getContent($name);
+    }
+
+    /**
+     * @return string[]
+     */
+    private function getLayoutAndSnippetNames(): array
+    {
+        $layoutAndSnippetNames = [];
+        foreach ($this->templates as $name => $content) {
+            if (! Strings::match($name, '#(_layouts|_snippets)#')) {
+                continue;
+            }
+
+            $layoutAndSnippetNames[] = $name;
+        }
+
+        return $layoutAndSnippetNames;
     }
 }
