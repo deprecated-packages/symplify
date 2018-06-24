@@ -40,7 +40,7 @@ final class TwigFactory implements FilterProvidersAwareInterface
     public function create(): Environment
     {
         $twigEnvironment = new Environment($this->arrayLoader, [
-            'cache' => $this->twigCacheDirectory
+            'cache' => $this->twigCacheDirectory,
         ]);
 
         foreach ($this->filterProviders as $filterProvider) {

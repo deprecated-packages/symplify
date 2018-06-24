@@ -1,9 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\Statie\Twig\Tests;
+namespace Symplify\Statie\Twig\Tests\TwigFactory;
 
 use Symplify\Statie\Tests\AbstractConfigAwareContainerTestCase;
-use Symplify\Statie\Tests\AbstractContainerAwareTestCase;
 use Symplify\Statie\Twig\TwigFactory;
 
 final class TwigFactoryTest extends AbstractConfigAwareContainerTestCase
@@ -13,26 +12,26 @@ final class TwigFactoryTest extends AbstractConfigAwareContainerTestCase
      */
     private $twigFactory;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->twigFactory = $this->container->get(TwigFactory::class);
     }
 
-    public function test()
+    public function test(): void
     {
         $twig = $this->twigFactory->create();
 
-        $template = $twig->createTemplate(file_get_contents(__DIR__ . '/TwigFactorySource/someFileToRender.twig'));
+        $template = $twig->createTemplate(file_get_contents(__DIR__ . '/Source/someFileToRender.twig'));
 
         $renderedTwig = $template->render([
-            'var' => 'value'
+            'var' => 'value',
         ]);
 
-        $this->assertStringEqualsFile(__DIR__ . '/TwigFactorySource/expected.html', $renderedTwig);
+        $this->assertStringEqualsFile(__DIR__ . '/Source/expected.html', $renderedTwig);
     }
 
     protected function provideConfig(): string
     {
-        return __DIR__ . '/TwigFactorySource/config.yml';
+        return __DIR__ . '/config.yml';
     }
 }
