@@ -51,10 +51,13 @@ final class TwigRendererTest extends AbstractContainerAwareTestCase
             new SplFileInfo(__DIR__ . '/TwigRendererSource/codeWithLayout.twig', '', '')
         );
 
-        $this->twigArrayLoader->setTemplate('_layouts/someLayout.latte', file_get_contents(__DIR__ . '/TwigRendererSource/expectedWithLayout.html'));
+        $this->twigArrayLoader->setTemplate(
+            '_layouts/someLayout.latte',
+            file_get_contents(__DIR__ . '/TwigRendererSource/expectedWithLayout.html')
+        );
         $file->addConfiguration(['layout' => '_layouts/someLayout.latte']);
 
-        $rendered = $this->twigRenderer->renderExcludingHighlightBlocks($file,  []);
+        $rendered = $this->twigRenderer->renderExcludingHighlightBlocks($file, []);
 
         $this->assertStringEqualsFile(__DIR__ . '/TwigRendererSource/expectedWithLayout.html', $rendered);
     }
