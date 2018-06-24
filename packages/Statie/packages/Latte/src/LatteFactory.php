@@ -5,8 +5,9 @@ namespace Symplify\Statie\Latte;
 use Latte\Engine;
 use Latte\ILoader;
 use Symplify\Statie\Contract\Templating\FilterProviderInterface;
+use Symplify\Statie\Contract\Templating\FilterProvidersAwareInterface;
 
-final class LatteFactory
+final class LatteFactory implements FilterProvidersAwareInterface
 {
     /**
      * @var ILoader
