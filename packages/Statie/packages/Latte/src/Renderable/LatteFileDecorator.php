@@ -91,7 +91,7 @@ final class LatteFileDecorator implements FileDecoratorInterface
         $htmlContent = $this->renderToString($file, $parameters);
 
         // trim {layout %s} left over
-        $htmlContent = preg_replace('#{layout "[_a-z.\/]+"}#', '', $htmlContent);
+        $htmlContent = preg_replace('#{layout [^}]+}#', '', $htmlContent);
         $file->changeContent($htmlContent);
     }
 
