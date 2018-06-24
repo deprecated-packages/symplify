@@ -46,7 +46,7 @@ final class TwigFactory implements FilterProvidersAwareInterface
 
         // add "webalize"
         $twigEnvironment->addFilter(
-            new Twig_Filter('webalize', function (string $content, ?string $chalist, ?bool $lower = true) {
+            new Twig_Filter('webalize', function (string $content, ?string $chalist = null, ?bool $lower = true) {
                 return Strings::webalize($content, $chalist, $lower);
             })
         );

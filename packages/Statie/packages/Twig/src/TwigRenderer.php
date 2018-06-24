@@ -56,6 +56,12 @@ final class TwigRenderer
     private function render(AbstractFile $file, array $parameters = []): string
     {
         try {
+            // add layout
+            if ($file->getLayout()) {
+                $content = sprintf('{%% extends "%s" %%}', $file->getLayout()) . PHP_EOL . $file->getContent();
+                $this->twigArrayLoader->setTemplate($file->getFilePath(), $content);
+            }
+
             return $this->twigEnvironment->render($file->getFilePath(), $parameters);
         } catch (Throwable $throwable) {
             throw new InvalidTwigSyntaxException(sprintf(
