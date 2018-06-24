@@ -74,9 +74,12 @@ abstract class AbstractGeneratorTest extends TestCase
     {
         /** @var ArrayLoader $arrayLoader */
         $arrayLoader = $this->container->get(ArrayLoader::class);
-        $arrayLoader->changeContent('post', file_get_contents($this->sourceDirectory . '/_layouts/post.latte'));
         $arrayLoader->changeContent(
-            'lecture',
+            '_layouts/post.latte',
+            file_get_contents($this->sourceDirectory . '/_layouts/post.latte')
+        );
+        $arrayLoader->changeContent(
+            '_layouts/lecture.latte',
             file_get_contents($this->sourceDirectory . '/_layouts/lecture.latte')
         );
     }

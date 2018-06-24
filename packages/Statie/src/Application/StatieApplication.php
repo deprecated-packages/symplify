@@ -116,9 +116,9 @@ final class StatieApplication
             }
 
             if ($fileInfo->getExtension() === 'latte') {
-                // @todo make base name to relative, BC break
-                $name = $fileInfo->getBasename('.' . $fileInfo->getExtension());
-                $this->latteArrayLoader->changeContent($name, $fileInfo->getContents());
+                // before: "post"
+                // now: "_layouts/post.latte"
+                $this->latteArrayLoader->changeContent($fileInfo->getRelativePathname(), $fileInfo->getContents());
             }
         }
     }

@@ -1,6 +1,11 @@
+parameters:
+    twig_cache_directory: '%kernel.cache_dir%/twig'
+
 services:
     _defaults:
         autowire: true
+        bind:
+            $twigCacheDirectory: '%twig_cache_directory%'
 
     Symplify\Statie\Twig\:
         resource: '..'
@@ -9,5 +14,4 @@ services:
     Twig\Loader\ArrayLoader:
 
     Twig\Environment:
-        $options:
-            'cache': '%kernel.cache_dir%/twig'
+        factory: ['@Symplify\Statie\Twig\TwigFactory', 'create']

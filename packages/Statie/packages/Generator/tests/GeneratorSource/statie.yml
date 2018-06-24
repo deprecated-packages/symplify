@@ -9,7 +9,7 @@ parameters:
             # directory, where to look for them
             path: '_lectures'
             # which layout to use - just key name
-            layout: 'lecture'
+            layout: '_layouts/lecture.latte'
             # and url prefix, e.g. /blog/some-post.md
             route_prefix: 'lecture'
             # object

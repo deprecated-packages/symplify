@@ -12,7 +12,7 @@ use Symplify\PackageBuilder\DependencyInjection\DefinitionCollector;
 use Symplify\PackageBuilder\DependencyInjection\DefinitionFinder;
 use Symplify\Statie\Contract\Renderable\FileDecoratorInterface;
 use Symplify\Statie\Contract\Templating\FilterProviderInterface;
-use Symplify\Statie\Latte\LatteFactory;
+use Symplify\Statie\Contract\Templating\FilterProvidersAwareInterface;
 use Symplify\Statie\Renderable\RenderableFilesProcessor;
 
 final class CollectorCompilerPass implements CompilerPassInterface
@@ -31,7 +31,7 @@ final class CollectorCompilerPass implements CompilerPassInterface
     {
         $this->collectEventSubscribersEventDispatcher($containerBuilder);
         $this->collectCommandsToConsoleApplication($containerBuilder);
-        $this->loadFilterProvidersToLatteFactory($containerBuilder);
+        $this->loadFilterProvidersToFilterProvidersAware($containerBuilder);
         $this->loadFileDecoratorToRenderableFilesProcessor($containerBuilder);
     }
 
@@ -45,11 +45,11 @@ final class CollectorCompilerPass implements CompilerPassInterface
         );
     }
 
-    private function loadFilterProvidersToLatteFactory(ContainerBuilder $containerBuilder): void
+    private function loadFilterProvidersToFilterProvidersAware(ContainerBuilder $containerBuilder): void
     {
         $this->definitionCollector->loadCollectorWithType(
             $containerBuilder,
-            LatteFactory::class,
+            FilterProvidersAwareInterface::class,
             FilterProviderInterface::class,
             'addFilterProvider'
         );

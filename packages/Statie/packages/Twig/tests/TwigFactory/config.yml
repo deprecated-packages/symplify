@@ -1,0 +1,2 @@
+services:
+    Symplify\Statie\Twig\Tests\TwigFactory\Source\SomeFilterProvider:
