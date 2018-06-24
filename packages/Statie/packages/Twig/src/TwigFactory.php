@@ -2,6 +2,7 @@
 
 namespace Symplify\Statie\Twig;
 
+use Nette\Utils\Strings;
 use Symplify\Statie\Contract\Templating\FilterProviderInterface;
 use Symplify\Statie\Contract\Templating\FilterProvidersAwareInterface;
 use Twig\Environment;
@@ -42,6 +43,13 @@ final class TwigFactory implements FilterProvidersAwareInterface
         $twigEnvironment = new Environment($this->arrayLoader, [
             'cache' => $this->twigCacheDirectory,
         ]);
+
+        // add "webalize"
+        $twigEnvironment->addFilter(
+            new Twig_Filter('webalize', function (string $content, ?string $chalist, ?bool $lower = true) {
+                return Strings::webalize($content, $chalist, $lower);
+            })
+        );
 
         foreach ($this->filterProviders as $filterProvider) {
             foreach ($filterProvider->provide() as $name => $filter) {
