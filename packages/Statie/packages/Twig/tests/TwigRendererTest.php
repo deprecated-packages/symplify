@@ -44,21 +44,4 @@ final class TwigRendererTest extends AbstractContainerAwareTestCase
 
         $this->assertStringEqualsFile(__DIR__ . '/TwigRendererSource/expectedCode.twig', $rendered);
     }
-
-    public function testLayout(): void
-    {
-        $file = $this->fileFactory->createFromFileInfo(
-            new SplFileInfo(__DIR__ . '/TwigRendererSource/codeWithLayout.twig', '', '')
-        );
-
-        $this->twigArrayLoader->setTemplate(
-            '_layouts/someLayout.latte',
-            file_get_contents(__DIR__ . '/TwigRendererSource/expectedWithLayout.html')
-        );
-        $file->addConfiguration(['layout' => '_layouts/someLayout.latte']);
-
-        $rendered = $this->twigRenderer->renderFileWithParameters($file, []);
-
-        $this->assertStringEqualsFile(__DIR__ . '/TwigRendererSource/expectedWithLayout.html', $rendered);
-    }
 }
