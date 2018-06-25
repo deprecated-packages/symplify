@@ -3,7 +3,7 @@
 namespace Symplify\Statie\Twig\Tests\Renderable;
 
 use Symplify\PackageBuilder\Finder\SymfonyFileInfoFactory;
-use Symplify\Statie\Renderable\File\File;
+use Symplify\Statie\Renderable\File\AbstractFile;
 use Symplify\Statie\Renderable\File\FileFactory;
 use Symplify\Statie\Tests\AbstractContainerAwareTestCase;
 use Symplify\Statie\Twig\Exception\InvalidTwigSyntaxException;
@@ -70,7 +70,7 @@ final class TwigFileDecoratorTest extends AbstractContainerAwareTestCase
         $this->twigFileDecorator->decorateFiles([$file]);
     }
 
-    private function createFileFromFilePath(string $filePath): File
+    private function createFileFromFilePath(string $filePath): AbstractFile
     {
         $fileInfo = SymfonyFileInfoFactory::createFromFilePath($filePath);
 
