@@ -31,7 +31,7 @@ final class LatteRendererTest extends AbstractContainerAwareTestCase
             new SplFileInfo(__DIR__ . '/LatteRendererSource/latteWithCodeToHighlight.latte', '', '')
         );
 
-        $rendered = $this->latteRenderer->render($file, [
+        $rendered = $this->latteRenderer->renderFileWithParameters($file, [
             'hi' => 'Welcome',
         ]);
 

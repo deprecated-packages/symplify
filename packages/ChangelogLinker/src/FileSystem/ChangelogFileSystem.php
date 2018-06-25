@@ -50,11 +50,6 @@ final class ChangelogFileSystem
         FileSystem::write($this->getChangelogFilePath(), $content);
     }
 
-    private function getChangelogFilePath(): string
-    {
-        return getcwd() . '/CHANGELOG.md';
-    }
-
     public function addToChangelogOnPlaceholder(string $newContent, string $placeholder): void
     {
         $changelogContent = $this->readChangelog();
@@ -75,5 +70,10 @@ final class ChangelogFileSystem
         $updatedChangelogContent = str_replace($placeholder, $contentToWrite, $changelogContent);
 
         $this->storeChangelog($updatedChangelogContent);
+    }
+
+    private function getChangelogFilePath(): string
+    {
+        return getcwd() . '/CHANGELOG.md';
     }
 }

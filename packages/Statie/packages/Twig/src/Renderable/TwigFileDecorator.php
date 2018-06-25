@@ -38,7 +38,17 @@ final class TwigFileDecorator implements FileDecoratorInterface
                 continue;
             }
 
-            $this->decorateFile($file);
+            $parameters = $file->getConfiguration() + $this->configuration->getOptions() + [
+                'file' => $file,
+            ];
+
+            if ($file->getLayout()) {
+                $this->prependLayoutToFileContent($file, $file->getLayout());
+            }
+
+            $content = $this->twigRenderer->renderFileWithParameters($file, $parameters);
+
+            $file->changeContent($content);
         }
 
         return $files;
@@ -51,21 +61,28 @@ final class TwigFileDecorator implements FileDecoratorInterface
     public function decorateFilesWithGeneratorElement(array $files, GeneratorElement $generatorElement): array
     {
         foreach ($files as $file) {
-            $this->decorateFileWithGeneratorElements($file, $generatorElement);
+            if (! in_array($file->getExtension(), ['twig', 'md'], true)) {
+                continue;
+            }
+
+            // prepare parameters
+            $parameters = $file->getConfiguration() + $this->configuration->getOptions() + [
+                $generatorElement->getVariable() => $file,
+                'layout' => $generatorElement->getLayout(),
+            ];
+
+            // add layout
+            $this->prependLayoutToFileContent($file, $generatorElement->getLayout());
+
+            $htmlContent = $this->twigRenderer->renderFileWithParameters($file, $parameters);
+
+            // trim "{% extends %s %}" left over
+            $htmlContent = Strings::replace($htmlContent, '#{% extends "[a-z]+" %}#');
+
+            $file->changeContent($htmlContent);
         }
 
         return $files;
-    }
-
-    private function decorateFile(AbstractFile $file): void
-    {
-        $parameters = $file->getConfiguration() + $this->configuration->getOptions() + [
-            'file' => $file,
-        ];
-
-        $htmlContent = $this->twigRenderer->renderExcludingHighlightBlocks($file, $parameters);
-
-        $file->changeContent($htmlContent);
     }
 
     /**
@@ -76,35 +93,23 @@ final class TwigFileDecorator implements FileDecoratorInterface
         return 700;
     }
 
-    private function decorateFileWithGeneratorElements(AbstractFile $file, GeneratorElement $generatorElement): void
-    {
-        // prepare parameters
-        $parameters = $file->getConfiguration() + $this->configuration->getOptions() + [
-            $generatorElement->getVariable() => $file,
-            'layout' => $generatorElement->getLayout(),
-        ];
-
-        // add layout
-        $this->prependLayoutToFileContent($file, $generatorElement->getLayout());
-
-        $htmlContent = $this->twigRenderer->renderExcludingHighlightBlocks($file, $parameters);
-
-        // trim "{% extends %s %}" left over
-        $htmlContent = Strings::replace($htmlContent, '#{% extends "[a-z]+" %}#');
-
-        $file->changeContent($htmlContent);
-    }
-
     /**
      * @inspiration https://github.com/sculpin/sculpin/blob/3264c087e31da2d49c9ec825fec38cae4d583d50/src/Sculpin/Bundle/TwigBundle/TwigFormatter.php#L113
      */
     private function prependLayoutToFileContent(AbstractFile $file, string $layout): void
     {
+        $content = $file->getContent();
+
         // wrap to block
-        $content = '{% block content %}' . $file->getContent() . '{% endblock %}';
+        if (! Strings::match($content, '#{% block content %}#')) {
+            $content = '{% block content %}' . $content . '{% endblock %}';
+        }
 
-        $layout = sprintf('{%% extends "%s" %%}', $layout);
+        // attach extends
+        if (! Strings::match($content, '#{% extends (.*?) %}#') && $layout) {
+            $content = sprintf('{%% extends "%s" %%}', $layout) . PHP_EOL . $content;
+        }
 
-        $file->changeContent($layout . PHP_EOL . $content);
+        $file->changeContent($content);
     }
 }

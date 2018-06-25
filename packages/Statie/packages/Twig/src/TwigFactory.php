@@ -2,6 +2,7 @@
 
 namespace Symplify\Statie\Twig;
 
+use Latte\Runtime\FilterExecutor;
 use Symplify\Statie\Contract\Templating\FilterProviderInterface;
 use Symplify\Statie\Contract\Templating\FilterProvidersAwareInterface;
 use Twig\Environment;
@@ -26,10 +27,16 @@ final class TwigFactory implements FilterProvidersAwareInterface
      */
     private $filterProviders = [];
 
-    public function __construct(ArrayLoader $arrayLoader, string $twigCacheDirectory)
+    /**
+     * @var FilterExecutor
+     */
+    private $filterExecutor;
+
+    public function __construct(ArrayLoader $arrayLoader, string $twigCacheDirectory, FilterExecutor $filterExecutor)
     {
         $this->arrayLoader = $arrayLoader;
         $this->twigCacheDirectory = $twigCacheDirectory;
+        $this->filterExecutor = $filterExecutor;
     }
 
     public function addFilterProvider(FilterProviderInterface $filterProvider): void
@@ -43,6 +50,8 @@ final class TwigFactory implements FilterProvidersAwareInterface
             'cache' => $this->twigCacheDirectory,
         ]);
 
+        $this->loadLatteFilters($twigEnvironment);
+
         foreach ($this->filterProviders as $filterProvider) {
             foreach ($filterProvider->provide() as $name => $filter) {
                 $twigEnvironment->addFilter(new Twig_Filter($name, $filter));
@@ -50,5 +59,15 @@ final class TwigFactory implements FilterProvidersAwareInterface
         }
 
         return $twigEnvironment;
+    }
+
+    /**
+     * @see https://github.com/nette/latte/blob/edcda892aee632c810697d9795c4fb065cd51506/src/Latte/Runtime/FilterExecutor.php
+     */
+    private function loadLatteFilters(Environment $twigEnvironment): void
+    {
+        foreach ($this->filterExecutor->getAll() as $name => $filter) {
+            $twigEnvironment->addFilter(new Twig_Filter($name, $this->filterExecutor->{$filter}));
+        }
     }
 }

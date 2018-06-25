@@ -15,3 +15,5 @@ services:
 
     Twig\Environment:
         factory: ['@Symplify\Statie\Twig\TwigFactory', 'create']
+
+    Latte\Runtime\FilterExecutor:

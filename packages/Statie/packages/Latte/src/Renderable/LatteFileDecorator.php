@@ -2,12 +2,9 @@
 
 namespace Symplify\Statie\Latte\Renderable;
 
-use Latte\CompileException;
 use Symplify\Statie\Configuration\Configuration;
 use Symplify\Statie\Contract\Renderable\FileDecoratorInterface;
-use Symplify\Statie\Exception\Renderable\File\AccessKeyNotAvailableException;
 use Symplify\Statie\Generator\Configuration\GeneratorElement;
-use Symplify\Statie\Latte\Exception\InvalidLatteSyntaxException;
 use Symplify\Statie\Latte\LatteRenderer;
 use Symplify\Statie\Renderable\File\AbstractFile;
 
@@ -36,7 +33,13 @@ final class LatteFileDecorator implements FileDecoratorInterface
     public function decorateFiles(array $files): array
     {
         foreach ($files as $file) {
-            $this->decorateFile($file);
+            if (! in_array($file->getExtension(), ['latte', 'md'], true)) {
+                continue;
+            }
+
+            $htmlContent = $this->renderOuterWithLayout($file, $this->createParameters($file, 'file'));
+
+            $file->changeContent($htmlContent);
         }
 
         return $files;
@@ -53,7 +56,13 @@ final class LatteFileDecorator implements FileDecoratorInterface
                 continue;
             }
 
-            $this->decorateFileWithGeneratorElements($file, $generatorElement);
+            $parameters = $this->createParameters($file, $generatorElement->getVariable());
+
+            $this->prependLayoutToFileContent($file, $generatorElement->getLayout());
+
+            $content = $this->latteRenderer->renderFileWithParameters($file, $parameters);
+            $content = $this->trimLayoutLeftover($content);
+            $file->changeContent($content);
         }
 
         return $files;
@@ -65,34 +74,6 @@ final class LatteFileDecorator implements FileDecoratorInterface
     public function getPriority(): int
     {
         return 700;
-    }
-
-    private function decorateFile(AbstractFile $file): void
-    {
-        $parameters = $file->getConfiguration() + $this->configuration->getOptions() + [
-            'file' => $file,
-        ];
-
-        $htmlContent = $this->renderOuterWithLayout($file, $parameters);
-        $file->changeContent($htmlContent);
-    }
-
-    private function decorateFileWithGeneratorElements(AbstractFile $file, GeneratorElement $generatorElement): void
-    {
-        // prepare parameters
-        $parameters = $file->getConfiguration() + $this->configuration->getOptions() + [
-            $generatorElement->getVariable() => $file,
-            'layout' => $generatorElement->getLayout(),
-        ];
-
-        // add layout
-        $this->prependLayoutToFileContent($file, $generatorElement->getLayout());
-
-        $htmlContent = $this->renderToString($file, $parameters);
-
-        // trim {layout %s} left over
-        $htmlContent = preg_replace('#{layout [^}]+}#', '', $htmlContent);
-        $file->changeContent($htmlContent);
     }
 
     private function prependLayoutToFileContent(AbstractFile $file, string $layout): void
@@ -109,22 +90,23 @@ final class LatteFileDecorator implements FileDecoratorInterface
             $this->prependLayoutToFileContent($file, $file->getLayout());
         }
 
-        return $this->renderToString($file, $parameters);
+        return $this->latteRenderer->renderFileWithParameters($file, $parameters);
+    }
+
+    private function trimLayoutLeftover(string $content): string
+    {
+        return preg_replace('#{layout [^}]+}#', '', $content);
     }
 
     /**
-     * @param mixed[] $parameters
+     * @return mixed[]
      */
-    private function renderToString(AbstractFile $file, array $parameters): string
+    private function createParameters(AbstractFile $file, string $fileKey): array
     {
-        try {
-            return $this->latteRenderer->render($file, $parameters);
-        } catch (CompileException | AccessKeyNotAvailableException $exception) {
-            throw new InvalidLatteSyntaxException(sprintf(
-                'Invalid Latte syntax found or missing value in "%s" file: %s',
-                $file->getFilePath(),
-                $exception->getMessage()
-            ));
-        }
+        $parameters = $file->getConfiguration();
+        $parameters += $this->configuration->getOptions();
+        $parameters[$fileKey] = $file;
+
+        return $parameters;
     }
 }

@@ -31,7 +31,7 @@ final class TwigRendererTest extends AbstractContainerAwareTestCase
             new SplFileInfo(__DIR__ . '/TwigRendererSource/codeToHighlight.twig', '', '')
         );
 
-        $rendered = $this->twigRenderer->renderExcludingHighlightBlocks($file, [
+        $rendered = $this->twigRenderer->renderFileWithParameters($file, [
             'hi' => 'Welcome',
         ]);
 
