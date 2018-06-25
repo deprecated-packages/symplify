@@ -45,12 +45,6 @@ final class TwigRenderer implements RendererInterface
         $renderCallback = function (string $content) use ($file, $parameters) {
             $this->twigArrayLoader->setTemplate($file->getFilePath(), $content);
 
-            // add layout
-            if ($file->getLayout()) {
-                $content = sprintf('{%% extends "%s" %%}', $file->getLayout()) . PHP_EOL . $file->getContent();
-                $this->twigArrayLoader->setTemplate($file->getFilePath(), $content);
-            }
-
             return $this->twigEnvironment->render($file->getFilePath(), $parameters);
         };
 

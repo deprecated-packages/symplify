@@ -38,7 +38,17 @@ final class TwigFileDecorator implements FileDecoratorInterface
                 continue;
             }
 
-            $this->decorateFile($file);
+            $parameters = $file->getConfiguration() + $this->configuration->getOptions() + [
+                'file' => $file,
+            ];
+
+            if ($file->getLayout()) {
+                $this->prependLayoutToFileContent($file, $file->getLayout());
+            }
+
+            $content = $this->twigRenderer->renderFileWithParameters($file, $parameters);
+
+            $file->changeContent($content);
         }
 
         return $files;
@@ -59,28 +69,6 @@ final class TwigFileDecorator implements FileDecoratorInterface
         }
 
         return $files;
-    }
-
-    private function decorateFile(AbstractFile $file): void
-    {
-        $parameters = $file->getConfiguration() + $this->configuration->getOptions() + [
-            'file' => $file,
-        ];
-
-        $htmlContent = $this->renderOuterWithLayout($file, $parameters);
-        $file->changeContent($htmlContent);
-    }
-
-    /**
-     * @param mixed[] $parameters
-     */
-    private function renderOuterWithLayout(AbstractFile $file, array $parameters): string
-    {
-        if ($file->getLayout()) {
-            $this->prependLayoutToFileContent($file, $file->getLayout());
-        }
-
-        return $this->twigRenderer->renderFileWithParameters($file, $parameters);
     }
 
     /**
@@ -122,6 +110,11 @@ final class TwigFileDecorator implements FileDecoratorInterface
             $content = '{% block content %}' . $content . '{% endblock %}';
         }
 
-        $file->changeContent(sprintf('{%% extends "%s" %%}', $layout) . PHP_EOL . $content);
+        // attach extends
+        if (! Strings::match($content, '#{% extends (.*?) %}#') && $layout) {
+            $content = sprintf('{%% extends "%s" %%}', $layout) . PHP_EOL . $content;
+        }
+
+        $file->changeContent($content);
     }
 }
