@@ -65,7 +65,21 @@ final class TwigFileDecorator implements FileDecoratorInterface
                 continue;
             }
 
-            $this->decorateFileWithGeneratorElements($file, $generatorElement);
+            // prepare parameters
+            $parameters = $file->getConfiguration() + $this->configuration->getOptions() + [
+                $generatorElement->getVariable() => $file,
+                'layout' => $generatorElement->getLayout(),
+            ];
+
+            // add layout
+            $this->prependLayoutToFileContent($file, $generatorElement->getLayout());
+
+            $htmlContent = $this->twigRenderer->renderFileWithParameters($file, $parameters);
+
+            // trim "{% extends %s %}" left over
+            $htmlContent = Strings::replace($htmlContent, '#{% extends "[a-z]+" %}#');
+
+            $file->changeContent($htmlContent);
         }
 
         return $files;
@@ -77,25 +91,6 @@ final class TwigFileDecorator implements FileDecoratorInterface
     public function getPriority(): int
     {
         return 700;
-    }
-
-    private function decorateFileWithGeneratorElements(AbstractFile $file, GeneratorElement $generatorElement): void
-    {
-        // prepare parameters
-        $parameters = $file->getConfiguration() + $this->configuration->getOptions() + [
-            $generatorElement->getVariable() => $file,
-            'layout' => $generatorElement->getLayout(),
-        ];
-
-        // add layout
-        $this->prependLayoutToFileContent($file, $generatorElement->getLayout());
-
-        $htmlContent = $this->twigRenderer->renderFileWithParameters($file, $parameters);
-
-        // trim "{% extends %s %}" left over
-        $htmlContent = Strings::replace($htmlContent, '#{% extends "[a-z]+" %}#');
-
-        $file->changeContent($htmlContent);
     }
 
     /**
