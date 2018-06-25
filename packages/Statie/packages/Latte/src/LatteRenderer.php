@@ -2,8 +2,11 @@
 
 namespace Symplify\Statie\Latte;
 
+use Latte\CompileException;
 use Latte\Engine;
 use Symplify\Statie\Contract\Templating\RendererInterface;
+use Symplify\Statie\Exception\Renderable\File\AccessKeyNotAvailableException;
+use Symplify\Statie\Latte\Exception\InvalidLatteSyntaxException;
 use Symplify\Statie\Latte\Loader\ArrayLoader;
 use Symplify\Statie\Renderable\CodeBlocksProtector;
 use Symplify\Statie\Renderable\File\AbstractFile;
@@ -46,6 +49,14 @@ final class LatteRenderer implements RendererInterface
             return $this->engine->renderToString($file->getFilePath(), $parameters);
         };
 
-        return $this->codeBlocksProtector->protectContentFromCallback($file->getContent(), $renderCallback);
+        try {
+            return $this->codeBlocksProtector->protectContentFromCallback($file->getContent(), $renderCallback);
+        } catch (CompileException | AccessKeyNotAvailableException $exception) {
+            throw new InvalidLatteSyntaxException(sprintf(
+                'Invalid Latte syntax found or missing value in "%s" file: %s',
+                $file->getFilePath(),
+                $exception->getMessage()
+            ));
+        }
     }
 }
