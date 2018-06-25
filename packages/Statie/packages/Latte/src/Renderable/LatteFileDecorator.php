@@ -36,7 +36,16 @@ final class LatteFileDecorator implements FileDecoratorInterface
     public function decorateFiles(array $files): array
     {
         foreach ($files as $file) {
-            $this->decorateFile($file);
+            if (! in_array($file->getExtension(), ['latte', 'md'], true)) {
+                continue;
+            }
+
+            $parameters = $file->getConfiguration() + $this->configuration->getOptions() + [
+                'file' => $file,
+            ];
+
+            $htmlContent = $this->renderOuterWithLayout($file, $parameters);
+            $file->changeContent($htmlContent);
         }
 
         return $files;
@@ -53,7 +62,15 @@ final class LatteFileDecorator implements FileDecoratorInterface
                 continue;
             }
 
-            $this->decorateFileWithGeneratorElements($file, $generatorElement);
+            $parameters = $file->getConfiguration() + $this->configuration->getOptions() + [
+                $generatorElement->getVariable() => $file,
+            ];
+
+            $this->prependLayoutToFileContent($file, $generatorElement->getLayout());
+
+            $content = $this->renderToString($file, $parameters);
+            $content = $this->trimLayoutLeftover($content);
+            $file->changeContent($content);
         }
 
         return $files;
@@ -65,34 +82,6 @@ final class LatteFileDecorator implements FileDecoratorInterface
     public function getPriority(): int
     {
         return 700;
-    }
-
-    private function decorateFile(AbstractFile $file): void
-    {
-        $parameters = $file->getConfiguration() + $this->configuration->getOptions() + [
-            'file' => $file,
-        ];
-
-        $htmlContent = $this->renderOuterWithLayout($file, $parameters);
-        $file->changeContent($htmlContent);
-    }
-
-    private function decorateFileWithGeneratorElements(AbstractFile $file, GeneratorElement $generatorElement): void
-    {
-        // prepare parameters
-        $parameters = $file->getConfiguration() + $this->configuration->getOptions() + [
-            $generatorElement->getVariable() => $file,
-            'layout' => $generatorElement->getLayout(),
-        ];
-
-        // add layout
-        $this->prependLayoutToFileContent($file, $generatorElement->getLayout());
-
-        $htmlContent = $this->renderToString($file, $parameters);
-
-        // trim {layout %s} left over
-        $htmlContent = preg_replace('#{layout [^}]+}#', '', $htmlContent);
-        $file->changeContent($htmlContent);
     }
 
     private function prependLayoutToFileContent(AbstractFile $file, string $layout): void
@@ -126,5 +115,10 @@ final class LatteFileDecorator implements FileDecoratorInterface
                 $exception->getMessage()
             ));
         }
+    }
+
+    private function trimLayoutLeftover(string $content): string
+    {
+        return preg_replace('#{layout [^}]+}#', '', $content);
     }
 }

@@ -51,6 +51,10 @@ final class TwigFileDecorator implements FileDecoratorInterface
     public function decorateFilesWithGeneratorElement(array $files, GeneratorElement $generatorElement): array
     {
         foreach ($files as $file) {
+            if (! in_array($file->getExtension(), ['twig', 'md'], true)) {
+                continue;
+            }
+
             $this->decorateFileWithGeneratorElements($file, $generatorElement);
         }
 
@@ -63,9 +67,20 @@ final class TwigFileDecorator implements FileDecoratorInterface
             'file' => $file,
         ];
 
-        $htmlContent = $this->twigRenderer->renderExcludingHighlightBlocks($file, $parameters);
-
+        $htmlContent = $this->renderOuterWithLayout($file, $parameters);
         $file->changeContent($htmlContent);
+    }
+
+    /**
+     * @param mixed[] $parameters
+     */
+    private function renderOuterWithLayout(AbstractFile $file, array $parameters): string
+    {
+        if ($file->getLayout()) {
+            $this->prependLayoutToFileContent($file, $file->getLayout());
+        }
+
+        return $this->twigRenderer->renderExcludingHighlightBlocks($file, $parameters);
     }
 
     /**
@@ -100,11 +115,13 @@ final class TwigFileDecorator implements FileDecoratorInterface
      */
     private function prependLayoutToFileContent(AbstractFile $file, string $layout): void
     {
+        $content = $file->getContent();
+
         // wrap to block
-        $content = '{% block content %}' . $file->getContent() . '{% endblock %}';
+        if (! Strings::match($content, '#{% block content %}#')) {
+            $content = '{% block content %}' . $content . '{% endblock %}';
+        }
 
-        $layout = sprintf('{%% extends "%s" %%}', $layout);
-
-        $file->changeContent($layout . PHP_EOL . $content);
+        $file->changeContent(sprintf('{%% extends "%s" %%}', $layout) . PHP_EOL . $content);
     }
 }
