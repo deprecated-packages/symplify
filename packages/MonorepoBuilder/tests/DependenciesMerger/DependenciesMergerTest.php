@@ -22,6 +22,11 @@ final class DependenciesMergerTest extends TestCase
         ], new JsonFileManager());
     }
 
+    protected function tearDown(): void
+    {
+        copy(__DIR__ . '/Source/backup-root.json', __DIR__ . '/Source/root.json');
+    }
+
     public function test(): void
     {
         $this->dependenciesMerger->mergeJsonToRootFilePath([
@@ -36,10 +41,5 @@ final class DependenciesMergerTest extends TestCase
         ], __DIR__ . '/Source/root.json');
 
         $this->assertFileEquals(__DIR__ . '/Source/expected-root.json', __DIR__ . '/Source/root.json');
-    }
-
-    protected function tearDown(): void
-    {
-        copy(__DIR__ . '/Source/backup-root.json', __DIR__ . '/Source/root.json');
     }
 }

@@ -19,6 +19,11 @@ final class InterdependencyUpdaterTest extends TestCase
         $this->interdependencyUpdater = new InterdependencyUpdater(new JsonFileManager());
     }
 
+    protected function tearDown(): void
+    {
+        copy(__DIR__ . '/Source/backup-first.json', __DIR__ . '/Source/first.json');
+    }
+
     public function test(): void
     {
         $this->interdependencyUpdater->updateFileInfosWithVendorAndVersion(
@@ -28,10 +33,5 @@ final class InterdependencyUpdaterTest extends TestCase
         );
 
         $this->assertFileEquals(__DIR__ . '/Source/expected-first.json', __DIR__ . '/Source/first.json');
-    }
-
-    protected function tearDown(): void
-    {
-        copy(__DIR__ . '/Source/backup-first.json', __DIR__ . '/Source/first.json');
     }
 }

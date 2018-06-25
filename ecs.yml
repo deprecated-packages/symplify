@@ -13,6 +13,8 @@ services:
     # class should be Abstact or Final
     SlamCsFixer\FinalInternalClassFixer: ~
 
+    PhpCsFixer\Fixer\ClassNotation\OrderedClassElementsFixer:
+
     Symplify\CodingStandard\Sniffs\Naming\ClassNameSuffixByParentSniff:
         extraParentTypesToSuffixes:
             - 'FileDecorator'

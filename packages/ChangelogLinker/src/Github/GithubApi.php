@@ -53,6 +53,14 @@ final class GithubApi
     }
 
     /**
+     * Inspired by https://github.com/weierophinney/changelog_generator/blob/master/changelog_generator.php
+     */
+    public function authorizeWithToken(string $token): void
+    {
+        $this->options['headers']['Authorization'] = 'token ' . $token;
+    }
+
+    /**
      * @return mixed[]
      */
     private function createJsonArrayFromResponse(ResponseInterface $response): array
@@ -105,13 +113,5 @@ final class GithubApi
         return array_filter($pullRequests, function (array $pullRequest) {
             return isset($pullRequest['merged_at']);
         });
-    }
-
-    /**
-     * Inspired by https://github.com/weierophinney/changelog_generator/blob/master/changelog_generator.php
-     */
-    public function authorizeWithToken(string $token): void
-    {
-        $this->options['headers']['Authorization'] = 'token ' . $token;
     }
 }

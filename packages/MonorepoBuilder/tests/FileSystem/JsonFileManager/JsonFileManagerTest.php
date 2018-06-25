@@ -18,6 +18,12 @@ final class JsonFileManagerTest extends TestCase
         $this->jsonFileManager = new JsonFileManager();
     }
 
+    protected function tearDown(): void
+    {
+        @unlink(__DIR__ . '/Source/second.json');
+        @unlink(__DIR__ . '/Source/third.json');
+    }
+
     public function testLoad(): void
     {
         $this->assertSame([
@@ -42,11 +48,5 @@ final class JsonFileManagerTest extends TestCase
             new SplFileInfo(__DIR__ . '/Source/third.json', '', '')
         );
         $this->assertFileEquals(__DIR__ . '/Source/expected-third.json', __DIR__ . '/Source/third.json');
-    }
-
-    protected function tearDown(): void
-    {
-        @unlink(__DIR__ . '/Source/second.json');
-        @unlink(__DIR__ . '/Source/third.json');
     }
 }

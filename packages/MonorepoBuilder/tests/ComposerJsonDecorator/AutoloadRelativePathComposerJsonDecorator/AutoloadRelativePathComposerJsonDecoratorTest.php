@@ -9,6 +9,11 @@ use Symplify\MonorepoBuilder\PackageComposerFinder;
 final class AutoloadRelativePathComposerJsonDecoratorTest extends TestCase
 {
     /**
+     * @var string
+     */
+    private const RELATIVE_SOURCE_PATH = 'packages/MonorepoBuilder/tests/ComposerJsonDecorator/AutoloadRelativePathComposerJsonDecorator/Source';
+
+    /**
      * @var mixed[]
      */
     private $composerJson = [
@@ -43,11 +48,6 @@ final class AutoloadRelativePathComposerJsonDecoratorTest extends TestCase
      * @var AutoloadRelativePathComposerJsonDecorator
      */
     private $autoloadRelativePathComposerJsonDecorator;
-
-    /**
-     * @var string
-     */
-    private const RELATIVE_SOURCE_PATH = 'packages/MonorepoBuilder/tests/ComposerJsonDecorator/AutoloadRelativePathComposerJsonDecorator/Source';
 
     protected function setUp(): void
     {

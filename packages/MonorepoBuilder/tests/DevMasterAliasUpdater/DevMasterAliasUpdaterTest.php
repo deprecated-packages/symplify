@@ -19,6 +19,11 @@ final class DevMasterAliasUpdaterTest extends TestCase
         $this->devMasterAliasUpdater = new DevMasterAliasUpdater(new JsonFileManager());
     }
 
+    protected function tearDown(): void
+    {
+        copy(__DIR__ . '/Source/backup-first.json', __DIR__ . '/Source/first.json');
+    }
+
     public function test(): void
     {
         $fileInfos = [new SplFileInfo(__DIR__ . '/Source/first.json', 'Source/first.json', 'Source')];
@@ -29,10 +34,5 @@ final class DevMasterAliasUpdaterTest extends TestCase
             file_get_contents(__DIR__ . '/Source/expected-first.json'),
             file_get_contents(__DIR__ . '/Source/first.json')
         );
-    }
-
-    protected function tearDown(): void
-    {
-        copy(__DIR__ . '/Source/backup-first.json', __DIR__ . '/Source/first.json');
     }
 }
