@@ -37,11 +37,8 @@ final class LatteFileDecorator implements FileDecoratorInterface
                 continue;
             }
 
-            $parameters = $file->getConfiguration() + $this->configuration->getOptions() + [
-                'file' => $file,
-            ];
+            $htmlContent = $this->renderOuterWithLayout($file, $this->createParameters($file, 'file'));
 
-            $htmlContent = $this->renderOuterWithLayout($file, $parameters);
             $file->changeContent($htmlContent);
         }
 
@@ -59,9 +56,7 @@ final class LatteFileDecorator implements FileDecoratorInterface
                 continue;
             }
 
-            $parameters = $file->getConfiguration() + $this->configuration->getOptions() + [
-                $generatorElement->getVariable() => $file,
-            ];
+            $parameters = $this->createParameters($file, $generatorElement->getVariable());
 
             $this->prependLayoutToFileContent($file, $generatorElement->getLayout());
 
@@ -101,5 +96,17 @@ final class LatteFileDecorator implements FileDecoratorInterface
     private function trimLayoutLeftover(string $content): string
     {
         return preg_replace('#{layout [^}]+}#', '', $content);
+    }
+
+    /**
+     * @return mixed[]
+     */
+    private function createParameters(AbstractFile $file, string $fileKey): array
+    {
+        $parameters = $file->getConfiguration();
+        $parameters += $this->configuration->getOptions();
+        $parameters[$fileKey] = $file;
+
+        return $parameters;
     }
 }
