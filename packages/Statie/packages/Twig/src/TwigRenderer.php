@@ -2,6 +2,7 @@
 
 namespace Symplify\Statie\Twig;
 
+use Symplify\Statie\Contract\Templating\RendererInterface;
 use Symplify\Statie\Renderable\CodeBlocksProtector;
 use Symplify\Statie\Renderable\File\AbstractFile;
 use Symplify\Statie\Twig\Exception\InvalidTwigSyntaxException;
@@ -9,7 +10,7 @@ use Throwable;
 use Twig\Environment;
 use Twig\Loader\ArrayLoader;
 
-final class TwigRenderer
+final class TwigRenderer implements RendererInterface
 {
     /**
      * @var Environment
@@ -37,25 +38,13 @@ final class TwigRenderer
     }
 
     /**
-     * @param mixed[] $parameters
+     * @param string[] $parameters
      */
-    public function renderExcludingHighlightBlocks(AbstractFile $file, array $parameters): string
+    public function renderFileWithParameters(AbstractFile $file, array $parameters): string
     {
         $renderCallback = function (string $content) use ($file, $parameters) {
             $this->twigArrayLoader->setTemplate($file->getFilePath(), $content);
 
-            return $this->render($file, $parameters);
-        };
-
-        return $this->codeBlocksProtector->protectContentFromCallback($file->getContent(), $renderCallback);
-    }
-
-    /**
-     * @param string[] $parameters
-     */
-    private function render(AbstractFile $file, array $parameters = []): string
-    {
-        try {
             // add layout
             if ($file->getLayout()) {
                 $content = sprintf('{%% extends "%s" %%}', $file->getLayout()) . PHP_EOL . $file->getContent();
@@ -63,6 +52,10 @@ final class TwigRenderer
             }
 
             return $this->twigEnvironment->render($file->getFilePath(), $parameters);
+        };
+
+        try {
+            return $this->codeBlocksProtector->protectContentFromCallback($file->getContent(), $renderCallback);
         } catch (Throwable $throwable) {
             throw new InvalidTwigSyntaxException(sprintf(
                 'Invalid Twig syntax found or missing value in "%s" file: %s',

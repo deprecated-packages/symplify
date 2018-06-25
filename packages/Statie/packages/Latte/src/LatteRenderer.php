@@ -3,11 +3,12 @@
 namespace Symplify\Statie\Latte;
 
 use Latte\Engine;
+use Symplify\Statie\Contract\Templating\RendererInterface;
 use Symplify\Statie\Latte\Loader\ArrayLoader;
 use Symplify\Statie\Renderable\CodeBlocksProtector;
 use Symplify\Statie\Renderable\File\AbstractFile;
 
-final class LatteRenderer
+final class LatteRenderer implements RendererInterface
 {
     /**
      * @var Engine
@@ -37,7 +38,7 @@ final class LatteRenderer
     /**
      * @param mixed[] $parameters
      */
-    public function render(AbstractFile $file, array $parameters): string
+    public function renderFileWithParameters(AbstractFile $file, array $parameters): string
     {
         $renderCallback = function (string $content) use ($file, $parameters) {
             $this->arrayLoader->changeContent($file->getFilePath(), $content);

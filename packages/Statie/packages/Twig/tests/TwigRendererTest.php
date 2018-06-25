@@ -38,7 +38,7 @@ final class TwigRendererTest extends AbstractContainerAwareTestCase
             new SplFileInfo(__DIR__ . '/TwigRendererSource/codeToHighlight.twig', '', '')
         );
 
-        $rendered = $this->twigRenderer->renderExcludingHighlightBlocks($file, [
+        $rendered = $this->twigRenderer->renderFileWithParameters($file, [
             'hi' => 'Welcome',
         ]);
 
@@ -57,7 +57,7 @@ final class TwigRendererTest extends AbstractContainerAwareTestCase
         );
         $file->addConfiguration(['layout' => '_layouts/someLayout.latte']);
 
-        $rendered = $this->twigRenderer->renderExcludingHighlightBlocks($file, []);
+        $rendered = $this->twigRenderer->renderFileWithParameters($file, []);
 
         $this->assertStringEqualsFile(__DIR__ . '/TwigRendererSource/expectedWithLayout.html', $rendered);
     }
