@@ -38,14 +38,11 @@ final class TwigFileDecorator implements FileDecoratorInterface
                 continue;
             }
 
-            $parameters = $file->getConfiguration() + $this->configuration->getOptions() + [
-                'file' => $file,
-            ];
-
             if ($file->getLayout()) {
                 $this->prependLayoutToFileContent($file, $file->getLayout());
             }
 
+            $parameters = $this->createParameters($file, 'file');
             $content = $this->twigRenderer->renderFileWithParameters($file, $parameters);
 
             $file->changeContent($content);
@@ -65,21 +62,14 @@ final class TwigFileDecorator implements FileDecoratorInterface
                 continue;
             }
 
-            // prepare parameters
-            $parameters = $file->getConfiguration() + $this->configuration->getOptions() + [
-                $generatorElement->getVariable() => $file,
-                'layout' => $generatorElement->getLayout(),
-            ];
-
-            // add layout
             $this->prependLayoutToFileContent($file, $generatorElement->getLayout());
 
-            $htmlContent = $this->twigRenderer->renderFileWithParameters($file, $parameters);
+            $parameters = $this->createParameters($file, $generatorElement->getVariable());
+            $content = $this->twigRenderer->renderFileWithParameters($file, $parameters);
 
-            // trim "{% extends %s %}" left over
-            $htmlContent = Strings::replace($htmlContent, '#{% extends "[a-z]+" %}#');
+            $content = $this->trimLayoutLeftover($content);
 
-            $file->changeContent($htmlContent);
+            $file->changeContent($content);
         }
 
         return $files;
@@ -101,15 +91,36 @@ final class TwigFileDecorator implements FileDecoratorInterface
         $content = $file->getContent();
 
         // wrap to block
-        if (! Strings::match($content, '#{% block content %}#')) {
-            $content = '{% block content %}' . $content . '{% endblock %}';
-        }
+        if ($layout) {
+            if (! Strings::match($content, '#{% block content %}#')) {
+                $content = '{% block content %}' . $content . '{% endblock %}';
+            }
 
-        // attach extends
-        if (! Strings::match($content, '#{% extends (.*?) %}#') && $layout) {
-            $content = sprintf('{%% extends "%s" %%}', $layout) . PHP_EOL . $content;
+            // attach extends
+            if (! Strings::match($content, '#{% extends (.*?) %}#')) {
+                $content = sprintf('{%% extends "%s" %%}', $layout) . PHP_EOL . $content;
+            }
         }
 
         $file->changeContent($content);
+    }
+
+    /**
+     * @return mixed[]
+     */
+    private function createParameters(AbstractFile $file, string $fileKey): array
+    {
+        $parameters = $file->getConfiguration();
+        $parameters += $this->configuration->getOptions();
+        $parameters[$fileKey] = $file;
+
+        return $parameters;
+    }
+
+    private function trimLayoutLeftover(string $content): string
+    {
+        $content = Strings::replace($content, '#{% block (.*?) %}(.*?){% endblock %}#s', '$2');
+
+        return Strings::replace($content, '#{% extends [^}]+%}#');
     }
 }
