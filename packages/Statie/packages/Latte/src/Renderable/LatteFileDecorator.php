@@ -2,6 +2,7 @@
 
 namespace Symplify\Statie\Latte\Renderable;
 
+use Nette\Utils\Strings;
 use Symplify\Statie\Configuration\Configuration;
 use Symplify\Statie\Contract\Renderable\FileDecoratorInterface;
 use Symplify\Statie\Generator\Configuration\GeneratorElement;
@@ -37,9 +38,14 @@ final class LatteFileDecorator implements FileDecoratorInterface
                 continue;
             }
 
-            $htmlContent = $this->renderOuterWithLayout($file, $this->createParameters($file, 'file'));
+            if ($file->getLayout()) {
+                $this->prependLayoutToFileContent($file, $file->getLayout());
+            }
 
-            $file->changeContent($htmlContent);
+            $parameters = $this->createParameters($file, 'file');
+            $content = $this->latteRenderer->renderFileWithParameters($file, $parameters);
+
+            $file->changeContent($content);
         }
 
         return $files;
@@ -56,12 +62,13 @@ final class LatteFileDecorator implements FileDecoratorInterface
                 continue;
             }
 
-            $parameters = $this->createParameters($file, $generatorElement->getVariable());
-
             $this->prependLayoutToFileContent($file, $generatorElement->getLayout());
+
+            $parameters = $this->createParameters($file, $generatorElement->getVariable());
 
             $content = $this->latteRenderer->renderFileWithParameters($file, $parameters);
             $content = $this->trimLayoutLeftover($content);
+
             $file->changeContent($content);
         }
 
@@ -82,23 +89,6 @@ final class LatteFileDecorator implements FileDecoratorInterface
     }
 
     /**
-     * @param mixed[] $parameters
-     */
-    private function renderOuterWithLayout(AbstractFile $file, array $parameters): string
-    {
-        if ($file->getLayout()) {
-            $this->prependLayoutToFileContent($file, $file->getLayout());
-        }
-
-        return $this->latteRenderer->renderFileWithParameters($file, $parameters);
-    }
-
-    private function trimLayoutLeftover(string $content): string
-    {
-        return preg_replace('#{layout [^}]+}#', '', $content);
-    }
-
-    /**
      * @return mixed[]
      */
     private function createParameters(AbstractFile $file, string $fileKey): array
@@ -108,5 +98,10 @@ final class LatteFileDecorator implements FileDecoratorInterface
         $parameters[$fileKey] = $file;
 
         return $parameters;
+    }
+
+    private function trimLayoutLeftover(string $content): string
+    {
+        return Strings::replace($content, '#{layout [^}]+}#');
     }
 }
