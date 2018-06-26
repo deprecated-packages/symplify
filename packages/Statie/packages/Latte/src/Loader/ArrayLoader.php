@@ -27,12 +27,6 @@ final class ArrayLoader implements ILoader
      */
     public function getContent($name): string
     {
-        if ($this->templates === []) {
-            // @todo this looks sloppy
-            // is content itself, not a reference to file
-            return $name;
-        }
-
         if (isset($this->templates[$name])) {
             return $this->templates[$name];
         }
