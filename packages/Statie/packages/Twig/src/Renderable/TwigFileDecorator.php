@@ -3,27 +3,21 @@
 namespace Symplify\Statie\Twig\Renderable;
 
 use Nette\Utils\Strings;
-use Symplify\Statie\Configuration\Configuration;
 use Symplify\Statie\Contract\Renderable\FileDecoratorInterface;
 use Symplify\Statie\Generator\Configuration\GeneratorElement;
 use Symplify\Statie\Renderable\File\AbstractFile;
+use Symplify\Statie\Templating\AbstractTemplatingFileDecorator;
 use Symplify\Statie\Twig\TwigRenderer;
 
-final class TwigFileDecorator implements FileDecoratorInterface
+final class TwigFileDecorator extends AbstractTemplatingFileDecorator implements FileDecoratorInterface
 {
-    /**
-     * @var Configuration
-     */
-    private $configuration;
-
     /**
      * @var TwigRenderer
      */
     private $twigRenderer;
 
-    public function __construct(Configuration $configuration, TwigRenderer $twigRenderer)
+    public function __construct(TwigRenderer $twigRenderer)
     {
-        $this->configuration = $configuration;
         $this->twigRenderer = $twigRenderer;
     }
 
@@ -103,18 +97,6 @@ final class TwigFileDecorator implements FileDecoratorInterface
         }
 
         $file->changeContent($content);
-    }
-
-    /**
-     * @return mixed[]
-     */
-    private function createParameters(AbstractFile $file, string $fileKey): array
-    {
-        $parameters = $file->getConfiguration();
-        $parameters += $this->configuration->getOptions();
-        $parameters[$fileKey] = $file;
-
-        return $parameters;
     }
 
     private function trimLayoutLeftover(string $content): string

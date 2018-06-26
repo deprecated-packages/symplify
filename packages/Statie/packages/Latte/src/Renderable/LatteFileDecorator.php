@@ -3,27 +3,21 @@
 namespace Symplify\Statie\Latte\Renderable;
 
 use Nette\Utils\Strings;
-use Symplify\Statie\Configuration\Configuration;
 use Symplify\Statie\Contract\Renderable\FileDecoratorInterface;
 use Symplify\Statie\Generator\Configuration\GeneratorElement;
 use Symplify\Statie\Latte\LatteRenderer;
 use Symplify\Statie\Renderable\File\AbstractFile;
+use Symplify\Statie\Templating\AbstractTemplatingFileDecorator;
 
-final class LatteFileDecorator implements FileDecoratorInterface
+final class LatteFileDecorator extends AbstractTemplatingFileDecorator implements FileDecoratorInterface
 {
-    /**
-     * @var Configuration
-     */
-    private $configuration;
-
     /**
      * @var LatteRenderer
      */
     private $latteRenderer;
 
-    public function __construct(Configuration $configuration, LatteRenderer $latteRenderer)
+    public function __construct(LatteRenderer $latteRenderer)
     {
-        $this->configuration = $configuration;
         $this->latteRenderer = $latteRenderer;
     }
 
@@ -86,18 +80,6 @@ final class LatteFileDecorator implements FileDecoratorInterface
     private function prependLayoutToFileContent(AbstractFile $file, string $layout): void
     {
         $file->changeContent(sprintf('{layout "%s"}', $layout) . PHP_EOL . $file->getContent());
-    }
-
-    /**
-     * @return mixed[]
-     */
-    private function createParameters(AbstractFile $file, string $fileKey): array
-    {
-        $parameters = $file->getConfiguration();
-        $parameters += $this->configuration->getOptions();
-        $parameters[$fileKey] = $file;
-
-        return $parameters;
     }
 
     private function trimLayoutLeftover(string $content): string
