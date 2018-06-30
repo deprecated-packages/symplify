@@ -1,0 +1,5 @@
+parameters:
+    directories_to_repositories: []
+
+imports:
+    - { resource: 'services.yml' }

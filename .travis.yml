@@ -52,9 +52,7 @@ after_script:
   # split monorepo to packages (done via Travis Cron Job)
   - |
     if [[ $TRAVIS_EVENT_TYPE = "cron" && $MONOREPO_SPLIT != "" ]]; then
-      git clone https://github.com/dflydev/git-subsplit.git;
-      cd git-subsplit && ./install.sh && cd ..;
-      bin/subtree-split-last-tag.sh;
+        packages/MonorepoBuilder/bin/monorepo-builder split
     fi
   - |
     echo $TRAVIS_EVENT_TYPE

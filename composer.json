@@ -27,6 +27,7 @@
         "symfony/event-dispatcher": "^3.4|^4.0",
         "symfony/finder": "^3.4|^4.0",
         "symfony/http-kernel": "^3.4|^4.0",
+        "symfony/process": "^3.4|^4.0",
         "symfony/yaml": "^3.4|^4.0",
         "twig/twig": "^2.4"
     },
@@ -53,6 +54,7 @@
             "Symplify\\EasyCodingStandard\\FixerRunner\\": "packages/EasyCodingStandard/packages/FixerRunner/src",
             "Symplify\\EasyCodingStandard\\SniffRunner\\": "packages/EasyCodingStandard/packages/SniffRunner/src",
             "Symplify\\MonorepoBuilder\\": "packages/MonorepoBuilder/src",
+            "Symplify\\MonorepoBuilder\\Split\\": "packages/MonorepoBuilder/packages/Split/src",
             "Symplify\\PackageBuilder\\": "packages/PackageBuilder/src",
             "Symplify\\Statie\\": "packages/Statie/src",
             "Symplify\\Statie\\Generator\\": "packages/Statie/packages/Generator/src",
@@ -71,6 +73,7 @@
             "Symplify\\EasyCodingStandard\\FixerRunner\\Tests\\": "packages/EasyCodingStandard/packages/FixerRunner/tests",
             "Symplify\\EasyCodingStandard\\SniffRunner\\Tests\\": "packages/EasyCodingStandard/packages/SniffRunner/tests",
             "Symplify\\EasyCodingStandard\\Tests\\": "packages/EasyCodingStandard/tests",
+            "Symplify\\MonorepoBuilder\\Split\\Tests\\": "packages/MonorepoBuilder/packages/Split/tests",
             "Symplify\\MonorepoBuilder\\Tests\\": "packages/MonorepoBuilder/tests",
             "Symplify\\PackageBuilder\\Tests\\": "packages/PackageBuilder/tests",
             "Symplify\\Statie\\Generator\\Tests\\": "packages/Statie/packages/Generator/tests",

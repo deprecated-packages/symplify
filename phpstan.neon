@@ -1,5 +1,8 @@
 parameters:
     ignoreErrors:
+        # false positive
+        - '#Class Error referenced with incorrect case: ERROR#'
+
         # temporary
         - '#Parameter \#1 \$e of method Symfony\\Component\\Console\\Application::renderException\(\) expects Exception, Throwable given#'
 

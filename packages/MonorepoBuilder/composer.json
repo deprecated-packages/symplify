@@ -22,12 +22,14 @@
     },
     "autoload": {
         "psr-4": {
-            "Symplify\\MonorepoBuilder\\": "src"
+            "Symplify\\MonorepoBuilder\\": "src",
+            "Symplify\\MonorepoBuilder\\Split\\": "packages/Split/src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Symplify\\MonorepoBuilder\\Tests\\": "tests"
+            "Symplify\\MonorepoBuilder\\Tests\\": "tests",
+            "Symplify\\MonorepoBuilder\\Split\\Tests\\": "packages/Split/tests"
         }
     },
     "extra": {

@@ -1,0 +1,12 @@
+services:
+    _defaults:
+        autowire: true
+        bind:
+            $directoriesToRepositories: '%directories_to_repositories%'
+            $rootDirectory: '%root_directory%'
+
+    Symplify\MonorepoBuilder\Split\:
+        resource: '..'
+        exclude: '../{Exception,Process/SplitProcessInfo.php}'
+
+    Symplify\PackageBuilder\FileSystem\FileSystemGuard: ~
