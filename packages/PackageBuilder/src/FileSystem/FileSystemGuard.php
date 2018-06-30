@@ -2,6 +2,8 @@
 
 namespace Symplify\PackageBuilder\FileSystem;
 
+use Symplify\PackageBuilder\Exception\FileSystem\DirectoryNotFoundException;
+
 final class FileSystemGuard
 {
     public function ensureDirectoryExists(string $directory): void

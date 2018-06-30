@@ -7,4 +7,6 @@ services:
 
     Symplify\MonorepoBuilder\Split\:
         resource: '..'
-        exclude: '../{Exception}'
+        exclude: '../{Exception,Process/SplitProcessInfo.php}'
+
+    Symplify\PackageBuilder\FileSystem\FileSystemGuard: ~

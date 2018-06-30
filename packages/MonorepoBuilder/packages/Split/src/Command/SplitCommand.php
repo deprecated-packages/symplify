@@ -8,6 +8,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symplify\MonorepoBuilder\Split\Configuration\RepositoryGuard;
+use Symplify\MonorepoBuilder\Split\PackageToRepositorySplitter;
 use Symplify\MonorepoBuilder\Split\Process\ProcessFactory;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
 
@@ -39,6 +40,11 @@ final class SplitCommand extends Command
     private $rootDirectory;
 
     /**
+     * @var PackageToRepositorySplitter
+     */
+    private $packageToRepositorySplitter;
+
+    /**
      * @param string[] $directoriesToRepositories
      */
     public function __construct(
@@ -46,7 +52,8 @@ final class SplitCommand extends Command
         RepositoryGuard $repositoryGuard,
         array $directoriesToRepositories,
         ProcessFactory $processFactory,
-        string $rootDirectory
+        string $rootDirectory,
+        PackageToRepositorySplitter $packageToRepositorySplitter
     ) {
         parent::__construct();
 
@@ -55,6 +62,7 @@ final class SplitCommand extends Command
         $this->directoriesToRepositories = $directoriesToRepositories;
         $this->processFactory = $processFactory;
         $this->rootDirectory = $rootDirectory;
+        $this->packageToRepositorySplitter = $packageToRepositorySplitter;
     }
 
     protected function configure(): void
@@ -64,13 +72,9 @@ final class SplitCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        dump($this->rootDirectory);
-        die;
-
         $this->repositoryGuard->ensureIsRepositoryDirectory($this->rootDirectory);
 
         $subsplitDirectory = $this->getSubsplitDirectory();
-
 
         // init subsbplit
         $process = $this->processFactory->createSubsplitInit();

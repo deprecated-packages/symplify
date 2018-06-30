@@ -6,6 +6,7 @@ use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symplify\MonorepoBuilder\DependencyInjection\CompilerPass\CollectorCompilerPass;
 use Symplify\MonorepoBuilder\Split\DependencyInjection\CompilerPass\DetectParametersCompilerPass;
+use Symplify\PackageBuilder\DependencyInjection\CompilerPass\PublicForTestsCompilerPass;
 use Symplify\PackageBuilder\HttpKernel\AbstractCliKernel;
 
 final class MonorepoBuilderKernel extends AbstractCliKernel
@@ -44,5 +45,6 @@ final class MonorepoBuilderKernel extends AbstractCliKernel
     {
         $containerBuilder->addCompilerPass(new CollectorCompilerPass());
         $containerBuilder->addCompilerPass(new DetectParametersCompilerPass());
+        $containerBuilder->addCompilerPass(new PublicForTestsCompilerPass());
     }
 }
