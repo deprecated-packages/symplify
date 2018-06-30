@@ -92,6 +92,26 @@ It's super easy to foger this, so this command does this for you:
 vendor/bin/monorepo-builder package-alias
 ```
 
+### 5. Split Directories to Git Repositories
+
+Classic use case for monorepo is to synchronize last tag and the `master` branch to allow testing of `@dev` version.
+
+```yaml
+# monorepo-builder.yml
+parameters:
+    directories_to_repositories:
+        packages/BetterPhpDocParser: 'git@github.com:Symplify/BetterPhpDocParser.git'
+        packages/PackageBuilder: 'git@github.com:Symplify/PackageBuilder.git'
+```
+
+And run by:
+
+```bash
+vendor/bin/monorepo-builder package-alias
+```
+
+To speed up the process about 50-60 %, all repositories are synchronized in parallel.
+
 ## Contributing
 
 Open an [issue](https://github.com/Symplify/Symplify/issues) or send a [pull-request](https://github.com/Symplify/Symplify/pulls) to main repository.
