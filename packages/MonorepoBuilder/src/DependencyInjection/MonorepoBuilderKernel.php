@@ -5,6 +5,7 @@ namespace Symplify\MonorepoBuilder\DependencyInjection;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symplify\MonorepoBuilder\DependencyInjection\CompilerPass\CollectorCompilerPass;
+use Symplify\MonorepoBuilder\Split\DependencyInjection\CompilerPass\DetectParametersCompilerPass;
 use Symplify\PackageBuilder\HttpKernel\AbstractCliKernel;
 
 final class MonorepoBuilderKernel extends AbstractCliKernel
@@ -25,12 +26,12 @@ final class MonorepoBuilderKernel extends AbstractCliKernel
 
     public function getCacheDir(): string
     {
-        return sys_get_temp_dir() . '/_MonorepoBuilder_linker';
+        return sys_get_temp_dir() . '/_monorepo_builder_linker';
     }
 
     public function getLogDir(): string
     {
-        return sys_get_temp_dir() . '/_MonorepoBuilder_linker_logs';
+        return sys_get_temp_dir() . '/_monorepo_builder_linker_logs';
     }
 
     public function bootWithConfig(string $config): void
@@ -42,5 +43,6 @@ final class MonorepoBuilderKernel extends AbstractCliKernel
     protected function build(ContainerBuilder $containerBuilder): void
     {
         $containerBuilder->addCompilerPass(new CollectorCompilerPass());
+        $containerBuilder->addCompilerPass(new DetectParametersCompilerPass());
     }
 }

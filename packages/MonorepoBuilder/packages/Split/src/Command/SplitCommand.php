@@ -64,9 +64,13 @@ final class SplitCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+        dump($this->rootDirectory);
+        die;
+
         $this->repositoryGuard->ensureIsRepositoryDirectory($this->rootDirectory);
 
         $subsplitDirectory = $this->getSubsplitDirectory();
+
 
         // init subsbplit
         $process = $this->processFactory->createSubsplitInit();
