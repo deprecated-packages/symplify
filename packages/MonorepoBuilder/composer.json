@@ -22,7 +22,8 @@
     },
     "autoload": {
         "psr-4": {
-            "Symplify\\MonorepoBuilder\\": "src"
+            "Symplify\\MonorepoBuilder\\": "src",
+            "Symplify\\MonorepoBuilder\\Split\\": "packages/Split/src"
         }
     },
     "autoload-dev": {

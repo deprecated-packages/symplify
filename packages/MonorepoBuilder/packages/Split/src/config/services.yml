@@ -1,0 +1,10 @@
+services:
+    _defaults:
+        autowire: true
+        bind:
+            $directoriesToRepositories: '%directories_to_repositories%'
+            $rootDirectory: '%kernel.project_dir%'
+
+    Symplify\MonorepoBuilder\Split\:
+        resource: '..'
+        exclude: '../{Exception}'

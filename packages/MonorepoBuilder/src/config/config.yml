@@ -1,3 +1,6 @@
+imports:
+    - { resource: '../../packages/**/src/config/config.yml' }
+
 parameters:
     merge_sections: ['require', 'require-dev', 'autoload', 'autoload-dev', 'repositories']
     package_directories:
