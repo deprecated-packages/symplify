@@ -13,7 +13,7 @@
         "nette/utils": "^2.5",
         "symfony/console": "^3.4|^4.0",
         "symfony/process": "^3.4|^4.0",
-        "symplify/package-builder": "^4.4.2"
+        "symplify/package-builder": "^4.5"
     },
     "require-dev": {
         "phpunit/phpunit": "^7.0"
