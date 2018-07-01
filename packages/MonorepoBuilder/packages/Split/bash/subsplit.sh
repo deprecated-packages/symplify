@@ -8,6 +8,15 @@
 # author: https://github.com/simensen
 # source: https://github.com/dflydev/git-subsplit/blob/master/git-subsplit.sh
 #
+# includes merge of PRs
+# - https://github.com/dflydev/git-subsplit/pull/30/files
+#
+# exit code:
+#   1 git add-remote/pull/fetch operation failed
+#   2 failed updating repo
+#   3 git push operation failed
+#   4 failed on git subtree command
+
 if [ $# -eq 0 ]; then
 	set -- -h
 fi
@@ -110,6 +119,16 @@ say()
 	fi
 }
 
+fatal()
+{
+	RC=${1:-1}
+	shift
+	say "${@:-## Error occurs}"
+	popd >/dev/null
+	exit $RC
+}
+
+
 subsplit_require_work_dir()
 {
 	if [ ! -e "$WORK_DIR" ]
@@ -188,7 +207,7 @@ subsplit_publish()
 
 		if ! git remote | grep "^${REMOTE_NAME}$" >/dev/null
 		then
-			git remote add "$REMOTE_NAME" "$REMOTE_URL"
+			git remote add "$REMOTE_NAME" "$REMOTE_URL" || fatal 1 "## Failed adding remote $REMOTE_NAME $REMOTE_URL"
 
 			if [ -n "$VERBOSE" ];
 			then
@@ -220,11 +239,11 @@ subsplit_publish()
 
 			say " - syncing branch '${HEAD}'"
 
-			git checkout master >/dev/null 2>&1
+			git checkout master >/dev/null 2>&1 || fatal 1 "## Failed while git checkout master"
 			git branch -D "$LOCAL_BRANCH" >/dev/null 2>&1
 			git branch -D "${LOCAL_BRANCH}-checkout" >/dev/null 2>&1
-			git checkout -b "${LOCAL_BRANCH}-checkout" "origin/${HEAD}" >/dev/null 2>&1
-			git subtree split -q --prefix="$SUBPATH" --branch="$LOCAL_BRANCH" "origin/${HEAD}" >/dev/null
+			git checkout -b "${LOCAL_BRANCH}-checkout" "origin/${HEAD}" >/dev/null 2>&1 || fatal 1 "## Failed while git checkout"
+			git subtree split -q --prefix="$SUBPATH" --branch="$LOCAL_BRANCH" "origin/${HEAD}" >/dev/null || fatal 4 "## Failed while git subtree split for HEADS"
 			RETURNCODE=$?
 
 			if [ -n "$VERBOSE" ];
@@ -250,7 +269,7 @@ subsplit_publish()
 					echo \# $PUSH_CMD
 					$PUSH_CMD
 				else
-					$PUSH_CMD
+					$PUSH_CMD || fatal 3 "## Failed pushing branchs to remote repo"
 				fi
 			fi
 		done
@@ -295,7 +314,7 @@ subsplit_publish()
 			fi
 
 			say " - subtree split for '${TAG}'"
-			git subtree split -q --annotate="${ANNOTATE}" --prefix="$SUBPATH" --branch="$LOCAL_TAG" "$TAG" >/dev/null
+			git subtree split -q --annotate="${ANNOTATE}" --prefix="$SUBPATH" --branch="$LOCAL_TAG" "$TAG" >/dev/null || fatal 4 "## Failed while git subtree split for TAGS"
 			RETURNCODE=$?
 
 			if [ -n "$VERBOSE" ];
@@ -318,7 +337,7 @@ subsplit_publish()
 					echo \# $PUSH_CMD
 					$PUSH_CMD
 				else
-					$PUSH_CMD
+					$PUSH_CMD || fatal 3 "## Failed pushing tags to remote repo"
 				fi
 			fi
 		done
@@ -333,9 +352,9 @@ subsplit_update()
 
 	say "Updating subsplit from origin"
 
-	git fetch -q -t origin
-	git checkout master
-	git reset --hard origin/master
+	git fetch -q -t origin || fatal 2 "## Failed updating repo"
+	git checkout master || fatal 2 "## Failed updating repo"
+	git reset --hard origin/master || fatal 2 "## Failed updating repo"
 
 	if [ -n "$VERBOSE" ];
 	then
