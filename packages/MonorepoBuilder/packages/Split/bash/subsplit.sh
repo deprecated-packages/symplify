@@ -24,7 +24,6 @@ git subsplit init url
 git subsplit publish splits --heads=<heads> --tags=<tags> --splits=<splits>
 --
 h,help        show the help
-q             quiet
 debug         show plenty of debug output
 n,dry-run     do everything except actually send the updates
 work-dir=     directory that contains the subsplit working directory
@@ -50,7 +49,6 @@ then
     die "Git subsplit needs git subtree; install git subtree or upgrade git to >=1.7.11"
 fi
 
-QUIET=
 COMMAND=
 SPLITS=
 REPO_URL=
@@ -68,7 +66,6 @@ subsplit_main()
         opt="$1"
         shift
         case "$opt" in
-            -q) QUIET=1 ;;
             --debug) VERBOSE=1 ;;
             --heads) HEADS="$1"; shift ;;
             --no-heads) NO_HEADS=1 ;;
@@ -101,12 +98,10 @@ subsplit_main()
         *) die "Unknown command '$COMMAND'" ;;
     esac
 }
+
 say()
 {
-    if [ -z "$QUIET" ];
-    then
-        echo "$@" >&2
-    fi
+    echo "$@" >&2
 }
 
 fatal()
