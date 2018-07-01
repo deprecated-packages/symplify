@@ -37,7 +37,6 @@ no-heads      do not publish any heads
 tags=         only publish for listed tags instead of all tags
 no-tags       do not publish any tags
 update        fetch updates from repository before publishing
-rebuild-tags  rebuild all tags (as opposed to skipping tags that are already synced)
 "
 eval "$(echo "$OPTS_SPEC" | git rev-parse --parseopt -- "$@" || echo exit $?)"
 
@@ -64,7 +63,6 @@ HEADS=
 NO_HEADS=
 TAGS=
 NO_TAGS=
-REBUILD_TAGS=
 DRY_RUN=
 VERBOSE=
 
@@ -84,7 +82,6 @@ subsplit_main()
             -n) DRY_RUN="--dry-run" ;;
             --dry-run) DRY_RUN="--dry-run" ;;
             --work-dir) WORK_DIR="$1"; shift ;;
-            --rebuild-tags) REBUILD_TAGS=1 ;;
             --) break ;;
             *) die "Unexpected option: $opt" ;;
         esac
@@ -294,7 +291,7 @@ subsplit_publish()
                 echo "${DEBUG} LOCAL_TAG="${LOCAL_TAG}""
             fi
 
-            if git branch | grep "${LOCAL_TAG}$" >/dev/null && [ -z "$REBUILD_TAGS" ]
+            if git branch | grep "${LOCAL_TAG}$" >/dev/null
             then
                 say " - skipping tag '${TAG}' (already synced)"
                 continue
@@ -302,7 +299,7 @@ subsplit_publish()
 
             if [ -n "$VERBOSE" ];
             then
-                echo "${DEBUG} git branch | grep \"${LOCAL_TAG}$\" >/dev/null && [ -z \"${REBUILD_TAGS}\" ]"
+                echo "${DEBUG} git branch | grep \"${LOCAL_TAG}$\" >/dev/null"
             fi
 
             say " - syncing tag '${TAG}'"
