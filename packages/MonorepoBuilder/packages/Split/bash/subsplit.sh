@@ -51,7 +51,7 @@ fi
 
 COMMAND=
 SPLITS=
-REPO_URL=
+REPO_URL=".git"
 WORK_DIR="${PWD}/.subsplit"
 HEADS=
 NO_HEADS=
@@ -78,24 +78,10 @@ subsplit_main()
         esac
     done
 
-    COMMAND="$1"
+    if [ $# -lt 1 ]; then die "publish command requires splits to be passed as first argument"; fi
+    SPLITS="$1"
     shift
-
-    case "$COMMAND" in
-        init)
-            if [ $# -lt 1 ]; then die "init command requires url to be passed as first argument"; fi
-            REPO_URL="$1"
-            shift
-            subsplit_init
-            ;;
-        publish)
-            if [ $# -lt 1 ]; then die "publish command requires splits to be passed as first argument"; fi
-            SPLITS="$1"
-            shift
-            subsplit_publish
-            ;;
-        *) die "Unknown command '$COMMAND'" ;;
-    esac
+    subsplit_publish
 }
 
 say()
@@ -108,24 +94,8 @@ fatal()
     RC=${1:-1}
     shift
     say "${@:-## Error occurs}"
-    popd >/dev/null
+#    popd >/dev/null
     exit $RC
-}
-
-
-subsplit_require_work_dir()
-{
-    if [ ! -e "$WORK_DIR" ]
-    then
-        die "Working directory not found at ${WORK_DIR}; please run init first"
-    fi
-
-    if [ -n "$VERBOSE" ];
-    then
-        echo "${DEBUG} pushd \"${WORK_DIR}\" >/dev/null"
-    fi
-
-    pushd "$WORK_DIR" >/dev/null
 }
 
 subsplit_init()
@@ -147,7 +117,7 @@ subsplit_init()
 
 subsplit_publish()
 {
-    subsplit_require_work_dir
+    subsplit_init
 
     if [ -z "$HEADS" ] && [ -z "$NO_HEADS" ]
     then
