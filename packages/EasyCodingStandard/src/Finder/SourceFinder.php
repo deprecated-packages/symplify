@@ -31,7 +31,7 @@ final class SourceFinder
 
     /**
      * @param string[] $source
-     * @return SplFileInfo[]
+     * @return SymfonySplFileInfo[]
      */
     public function find(array $source): array
     {
@@ -57,7 +57,7 @@ final class SourceFinder
 
     /**
      * @param SplFileInfo[] $files
-     * @return SplFileInfo[]
+     * @return SymfonySplFileInfo[]
      */
     private function processFile(array $files, string $file): array
     {
