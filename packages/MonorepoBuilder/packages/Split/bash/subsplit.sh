@@ -25,7 +25,7 @@ git subsplit publish splits --heads=<heads> --tags=<tags> --splits=<splits>
 --
 h,help        show the help
 debug         show plenty of debug output
-n,dry-run     do everything except actually send the updates
+dry-run       do everything except actually send the updates
 work-dir=     directory that contains the subsplit working directory
 
  options for 'publish'
@@ -71,7 +71,6 @@ subsplit_main()
             --no-heads) NO_HEADS=1 ;;
             --tags) TAGS="$1"; shift ;;
             --no-tags) NO_TAGS=1 ;;
-            -n) DRY_RUN="--dry-run" ;;
             --dry-run) DRY_RUN="--dry-run" ;;
             --work-dir) WORK_DIR="$1"; shift ;;
             --) break ;;
