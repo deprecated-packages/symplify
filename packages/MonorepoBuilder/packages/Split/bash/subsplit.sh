@@ -50,7 +50,6 @@ then
     die "Git subsplit needs git subtree; install git subtree or upgrade git to >=1.7.11"
 fi
 
-ANNOTATE=
 QUIET=
 COMMAND=
 SPLITS=
@@ -300,12 +299,12 @@ subsplit_publish()
             fi
 
             say " - subtree split for '${TAG}'"
-            git subtree split -q --annotate="${ANNOTATE}" --prefix="$SUBPATH" --branch="$LOCAL_TAG" "$TAG" >/dev/null || fatal 3 "## Failed while git subtree split for TAGS"
+            git subtree split -q --prefix="$SUBPATH" --branch="$LOCAL_TAG" "$TAG" >/dev/null || fatal 3 "## Failed while git subtree split for TAGS"
             RETURNCODE=$?
 
             if [ -n "$VERBOSE" ];
             then
-                echo "${DEBUG} git subtree split -q --annotate=\"${ANNOTATE}\" --prefix=\"$SUBPATH\" --branch=\"$LOCAL_TAG\" \"$TAG\" >/dev/null"
+                echo "${DEBUG} git subtree split -q --prefix=\"$SUBPATH\" --branch=\"$LOCAL_TAG\" \"$TAG\" >/dev/null"
             fi
 
             say " - subtree split for '${TAG}' [DONE]"
