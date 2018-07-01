@@ -31,7 +31,7 @@ final class SourceFinder
 
     /**
      * @param string[] $source
-     * @return SymfonySplFileInfo[]
+     * @return SplFileInfo[]
      */
     public function find(array $source): array
     {

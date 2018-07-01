@@ -21,7 +21,7 @@ use Symplify\BetterPhpDocParser\PhpDocParser\Storage\NodeWithPositionsObjectStor
 final class PhpDocInfoPrinter
 {
     /**
-     * @var NodeWithPositionsObjectStorage|PhpDocNodeInfo[]
+     * @var NodeWithPositionsObjectStorage
      */
     private $nodeWithPositionsObjectStorage;
 

@@ -15,9 +15,7 @@ parameters:
         # is valid code, known values
         - '#Method Symplify\\MonorepoBuilder\\ComposerJsonDecorator\\AutoloadRelativePathComposerJsonDecorator::prefixPath\(\) should return array<string>\|string but returns array<array<string>\|string>#'
         - '#Access to an undefined property PHPStan\\PhpDocParser\\Ast\\(Type\\TypeNode::\$name|PhpDoc\\PhpDocTagValueNode::\$type)#'
-        - '#Accessing property \$name on possibly null value of type|types PHPStan\\PhpDocParser\\Ast\\Type\\TypeNode\|null#'
 
-        - '#Calling method getEnd\(\) on possibly null value of types|type Symplify\\TokenRunner\\Analyzer\\FixerAnalyzer\\BlockInfo\|null#'
         - '#Parameter \#3 \$end of method PHP_CodeSniffer\\Files\\File::findNext\(\) expects int\|null, bool\|int given#'
         - '#Parameter \#1 \$generatorFiles of method Symplify\\Statie\\Generator\\Contract\\ObjectSorterInterface::sort\(\) expects array<Symplify\\Statie\\Generator\\Renderable\\File\\AbstractGeneratorFile>, array<Symplify\\Statie\\Renderable\\File\\AbstractFile> given#'
 
@@ -71,3 +69,5 @@ parameters:
         - %currentWorkingDirectory%/tests/bootstrap.php
         - packages/EasyCodingStandard/packages/ChangedFilesDetector/tests/ChangedFilesDetectorSource/OneClass.php
         - packages/EasyCodingStandard/tests/Finder/SourceFinderSource/Source/SomeClass.php
+
+    reportUnmatchedIgnoredErrors: false
