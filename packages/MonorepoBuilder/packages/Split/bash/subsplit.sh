@@ -13,9 +13,8 @@
 #
 # exit code:
 #   1 git add-remote/pull/fetch operation failed
-#   2 failed updating repo
-#   3 git push operation failed
-#   4 failed on git subtree command
+#   2 git push operation failed
+#   3 failed on git subtree command
 
 if [ $# -eq 0 ]; then
     set -- -h
@@ -23,7 +22,6 @@ fi
 OPTS_SPEC="\
 git subsplit init url
 git subsplit publish splits --heads=<heads> --tags=<tags> --splits=<splits>
-git subsplit update
 --
 h,help        show the help
 q             quiet
@@ -36,7 +34,6 @@ heads=        only publish for listed heads instead of all heads
 no-heads      do not publish any heads
 tags=         only publish for listed tags instead of all tags
 no-tags       do not publish any tags
-update        fetch updates from repository before publishing
 "
 eval "$(echo "$OPTS_SPEC" | git rev-parse --parseopt -- "$@" || echo exit $?)"
 
@@ -78,7 +75,6 @@ subsplit_main()
             --no-heads) NO_HEADS=1 ;;
             --tags) TAGS="$1"; shift ;;
             --no-tags) NO_TAGS=1 ;;
-            --update) UPDATE=1 ;;
             -n) DRY_RUN="--dry-run" ;;
             --dry-run) DRY_RUN="--dry-run" ;;
             --work-dir) WORK_DIR="$1"; shift ;;
@@ -102,9 +98,6 @@ subsplit_main()
             SPLITS="$1"
             shift
             subsplit_publish
-            ;;
-        update)
-            subsplit_update
             ;;
         *) die "Unknown command '$COMMAND'" ;;
     esac
@@ -162,11 +155,6 @@ subsplit_init()
 subsplit_publish()
 {
     subsplit_require_work_dir
-
-    if [ -n "$UPDATE" ];
-    then
-        subsplit_update
-    fi
 
     if [ -z "$HEADS" ] && [ -z "$NO_HEADS" ]
     then
@@ -241,7 +229,7 @@ subsplit_publish()
             git branch -D "$LOCAL_BRANCH" >/dev/null 2>&1
             git branch -D "${LOCAL_BRANCH}-checkout" >/dev/null 2>&1
             git checkout -b "${LOCAL_BRANCH}-checkout" "origin/${HEAD}" >/dev/null 2>&1 || fatal 1 "## Failed while git checkout"
-            git subtree split -q --prefix="$SUBPATH" --branch="$LOCAL_BRANCH" "origin/${HEAD}" >/dev/null || fatal 4 "## Failed while git subtree split for HEADS"
+            git subtree split -q --prefix="$SUBPATH" --branch="$LOCAL_BRANCH" "origin/${HEAD}" >/dev/null || fatal 3 "## Failed while git subtree split for HEADS"
             RETURNCODE=$?
 
             if [ -n "$VERBOSE" ];
@@ -267,7 +255,7 @@ subsplit_publish()
                     echo \# $PUSH_CMD
                     $PUSH_CMD
                 else
-                    $PUSH_CMD || fatal 3 "## Failed pushing branchs to remote repo"
+                    $PUSH_CMD || fatal 2 "## Failed pushing branchs to remote repo"
                 fi
             fi
         done
@@ -312,7 +300,7 @@ subsplit_publish()
             fi
 
             say " - subtree split for '${TAG}'"
-            git subtree split -q --annotate="${ANNOTATE}" --prefix="$SUBPATH" --branch="$LOCAL_TAG" "$TAG" >/dev/null || fatal 4 "## Failed while git subtree split for TAGS"
+            git subtree split -q --annotate="${ANNOTATE}" --prefix="$SUBPATH" --branch="$LOCAL_TAG" "$TAG" >/dev/null || fatal 3 "## Failed while git subtree split for TAGS"
             RETURNCODE=$?
 
             if [ -n "$VERBOSE" ];
@@ -335,31 +323,11 @@ subsplit_publish()
                     echo \# $PUSH_CMD
                     $PUSH_CMD
                 else
-                    $PUSH_CMD || fatal 3 "## Failed pushing tags to remote repo"
+                    $PUSH_CMD || fatal 2 "## Failed pushing tags to remote repo"
                 fi
             fi
         done
     done
-
-    popd >/dev/null
-}
-
-subsplit_update()
-{
-    subsplit_require_work_dir
-
-    say "Updating subsplit from origin"
-
-    git fetch -q -t origin || fatal 2 "## Failed updating repo"
-    git checkout master || fatal 2 "## Failed updating repo"
-    git reset --hard origin/master || fatal 2 "## Failed updating repo"
-
-    if [ -n "$VERBOSE" ];
-    then
-        echo "${DEBUG} git fetch -q -t origin"
-        echo "${DEBUG} git checkout master"
-        echo "${DEBUG} git reset --hard origin/master"
-    fi
 
     popd >/dev/null
 }
