@@ -23,6 +23,10 @@ final class ProcessFactoryTest extends AbstractContainerAwareTestCase
         $subsplitInitProcess = $this->processFactory->createSubsplitInit();
 
         $subsplitInitProcess->run();
+
+        $this->assertTrue($subsplitInitProcess->isSuccessful());
+        $this->assertSame(0, $subsplitInitProcess->getExitCode());
+
         $this->assertDirectoryExists(getcwd() . '/.subsplit');
     }
 
