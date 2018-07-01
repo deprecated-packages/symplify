@@ -83,6 +83,7 @@ subsplit_main()
             --update) UPDATE=1 ;;
             -n) DRY_RUN="--dry-run" ;;
             --dry-run) DRY_RUN="--dry-run" ;;
+            --work-dir) WORK_DIR="$1"; shift ;;
             --rebuild-tags) REBUILD_TAGS=1 ;;
             --) break ;;
             *) die "Unexpected option: $opt" ;;
