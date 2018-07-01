@@ -42,7 +42,7 @@ DEBUG="  :DEBUG >"
 
 PATH=$PATH:$(git --exec-path)
 
-. git-sh-setup
+# git-sh-setup
 
 if [ "$(hash git-subtree &>/dev/null && echo OK)" = "" ]
 then
