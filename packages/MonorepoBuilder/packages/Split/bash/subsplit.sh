@@ -29,7 +29,7 @@ h,help        show the help
 q             quiet
 debug         show plenty of debug output
 n,dry-run     do everything except actually send the updates
-work-dir      directory that contains the subsplit working directory
+work-dir=     directory that contains the subsplit working directory
 
  options for 'publish'
 heads=        only publish for listed heads instead of all heads
@@ -51,7 +51,7 @@ PATH=$PATH:$(git --exec-path)
 
 if [ "$(hash git-subtree &>/dev/null && echo OK)" = "" ]
 then
-    die "Git subplit needs git subtree; install git subtree or upgrade git to >=1.7.11"
+    die "Git subsplit needs git subtree; install git subtree or upgrade git to >=1.7.11"
 fi
 
 ANNOTATE=
