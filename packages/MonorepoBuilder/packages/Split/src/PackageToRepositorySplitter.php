@@ -60,7 +60,6 @@ final class PackageToRepositorySplitter
     public function splitDirectoriesToRepositories(
         array $splitConfig,
         string $rootDirectory,
-        string $subsplitDirectory,
         bool $isVerbose
     ): void {
         $theMostRecentTag = $this->getMostRecentTag($rootDirectory);
@@ -69,12 +68,12 @@ final class PackageToRepositorySplitter
             $this->fileSystemGuard->ensureDirectoryExists($localSubdirectory);
 
             $process = $this->processFactory->createSubsplit(
-                $subsplitDirectory,
                 $theMostRecentTag,
                 $localSubdirectory,
                 $remoteRepository,
                 $isVerbose
             );
+
             $this->symfonyStyle->note('Running: ' . $process->getCommandLine());
             $process->start();
 

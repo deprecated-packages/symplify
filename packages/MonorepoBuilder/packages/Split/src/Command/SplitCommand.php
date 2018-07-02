@@ -33,13 +33,19 @@ final class SplitCommand extends Command
     private $packageToRepositorySplitter;
 
     /**
+     * @var string
+     */
+    private $subsplitCacheDirectory;
+
+    /**
      * @param string[] $directoriesToRepositories
      */
     public function __construct(
         RepositoryGuard $repositoryGuard,
         array $directoriesToRepositories,
         string $rootDirectory,
-        PackageToRepositorySplitter $packageToRepositorySplitter
+        PackageToRepositorySplitter $packageToRepositorySplitter,
+        string $subsplitCacheDirectory
     ) {
         parent::__construct();
 
@@ -47,6 +53,7 @@ final class SplitCommand extends Command
         $this->directoriesToRepositories = $directoriesToRepositories;
         $this->rootDirectory = $rootDirectory;
         $this->packageToRepositorySplitter = $packageToRepositorySplitter;
+        $this->subsplitCacheDirectory = $subsplitCacheDirectory;
     }
 
     protected function configure(): void
@@ -60,14 +67,11 @@ final class SplitCommand extends Command
 
         $isVerbose = $output->getVerbosity() >= OutputInterface::VERBOSITY_VERBOSE;
 
-        // cleanup
-        FileSystem::delete($this->getSubsplitDirectory());
-        FileSystem::createDir($this->getSubsplitDirectory());
+        $this->prepareCacheDirectory();
 
         $this->packageToRepositorySplitter->splitDirectoriesToRepositories(
             $this->directoriesToRepositories,
             $this->rootDirectory,
-            $this->getSubsplitDirectory(),
             $isVerbose
         );
 
@@ -75,14 +79,9 @@ final class SplitCommand extends Command
         return 0;
     }
 
-    private function getSubsplitDirectory(): string
+    protected function prepareCacheDirectory(): void
     {
-        $tempDirectory = sys_get_temp_dir() . '/_subsplit';
-
-        // clean it
-        FileSystem::delete($tempDirectory);
-
-        # @todo: should be in config?
-        return $tempDirectory;
+        FileSystem::delete($this->subsplitCacheDirectory);
+        FileSystem::createDir($this->subsplitCacheDirectory);
     }
 }
