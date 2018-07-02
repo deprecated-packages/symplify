@@ -9,7 +9,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symplify\MonorepoBuilder\Split\Configuration\RepositoryGuard;
 use Symplify\MonorepoBuilder\Split\PackageToRepositorySplitter;
-use Symplify\MonorepoBuilder\Split\Process\ProcessFactory;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
 
 final class SplitCommand extends Command
@@ -30,11 +29,6 @@ final class SplitCommand extends Command
     private $directoriesToRepositories = [];
 
     /**
-     * @var ProcessFactory
-     */
-    private $processFactory;
-
-    /**
      * @var string
      */
     private $rootDirectory;
@@ -51,7 +45,6 @@ final class SplitCommand extends Command
         SymfonyStyle $symfonyStyle,
         RepositoryGuard $repositoryGuard,
         array $directoriesToRepositories,
-        ProcessFactory $processFactory,
         string $rootDirectory,
         PackageToRepositorySplitter $packageToRepositorySplitter
     ) {
@@ -60,7 +53,6 @@ final class SplitCommand extends Command
         $this->symfonyStyle = $symfonyStyle;
         $this->repositoryGuard = $repositoryGuard;
         $this->directoriesToRepositories = $directoriesToRepositories;
-        $this->processFactory = $processFactory;
         $this->rootDirectory = $rootDirectory;
         $this->packageToRepositorySplitter = $packageToRepositorySplitter;
     }
@@ -74,22 +66,16 @@ final class SplitCommand extends Command
     {
         $this->repositoryGuard->ensureIsRepositoryDirectory($this->rootDirectory);
 
-        $subsplitDirectory = $this->getSubsplitDirectory();
-
-        // init subsbplit
-        $process = $this->processFactory->createSubsplitInit();
-        $process->run();
-
-        $this->symfonyStyle->success(sprintf('Directory "%s" with local clone created', $subsplitDirectory));
+        $isVerbose = $output->getVerbosity() >= OutputInterface::VERBOSITY_VERBOSE;
 
         $this->packageToRepositorySplitter->splitDirectoriesToRepositories(
             $this->directoriesToRepositories,
-            $this->rootDirectory
+            $this->rootDirectory,
+            $isVerbose
         );
 
-        FileSystem::delete($subsplitDirectory);
-
-        $this->symfonyStyle->success(sprintf('Directory "%s" cleaned', $subsplitDirectory));
+        FileSystem::delete($this->getSubsplitDirectory());
+        $this->symfonyStyle->success(sprintf('Temporary directory "%s" cleaned', $this->getSubsplitDirectory()));
 
         // success
         return 0;

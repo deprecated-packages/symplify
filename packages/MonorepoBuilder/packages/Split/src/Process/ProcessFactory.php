@@ -28,25 +28,23 @@ final class ProcessFactory
         $this->rootDirectory = $rootDirectory;
     }
 
-    public function createSubsplitInit(): Process
-    {
-        $commandLine = [realpath(self::SUBSPLIT_BASH_FILE), 'init', '.git'];
-        return $this->createProcessFromCommandLine($commandLine);
-    }
-
     public function createSubsplitPublish(
         string $theMostRecentTag,
         string $directory,
-        string $remoteRepository
+        string $remoteRepository,
+        bool $isVerbose
     ): Process {
         $this->repositoryGuard->ensureIsRepository($remoteRepository);
+
         $commandLine = [
             realpath(self::SUBSPLIT_BASH_FILE),
             'publish',
             '--heads=master',
             $theMostRecentTag ? sprintf('--tags=%s', $theMostRecentTag) : '',
             $directory . ':' . $remoteRepository,
+            $isVerbose ? '--debug' : '',
         ];
+
         return $this->createProcessFromCommandLine($commandLine);
     }
 
