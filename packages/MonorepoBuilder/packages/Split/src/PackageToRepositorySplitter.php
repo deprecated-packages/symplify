@@ -66,7 +66,7 @@ final class PackageToRepositorySplitter
         foreach ($splitConfig as $localSubdirectory => $remoteRepository) {
             $this->fileSystemGuard->ensureDirectoryExists($localSubdirectory);
 
-            $process = $this->processFactory->createSubsplitPublish(
+            $process = $this->processFactory->createSubsplit(
                 $theMostRecentTag,
                 $localSubdirectory,
                 $remoteRepository,

@@ -28,7 +28,7 @@ final class ProcessFactory
         $this->rootDirectory = $rootDirectory;
     }
 
-    public function createSubsplitPublish(
+    public function createSubsplit(
         string $theMostRecentTag,
         string $directory,
         string $remoteRepository,
