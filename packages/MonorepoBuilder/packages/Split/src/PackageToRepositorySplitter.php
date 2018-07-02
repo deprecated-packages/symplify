@@ -115,14 +115,15 @@ final class PackageToRepositorySplitter
         foreach ($this->processInfos as $processInfo) {
             $process = $processInfo->getProcess();
             if (! $process->isSuccessful()) {
-                throw new PackageToRepositorySplitException($process->getErrorOutput());
+                $message = sprintf('Process failed with %d code: %s', $process->getExitCode(), $process->getErrorOutput());
+                throw new PackageToRepositorySplitException($message);
             }
 
             $this->symfonyStyle->success(sprintf(
                 'Push of "%s" directory to "%s" repository was successful: %s',
                 $processInfo->getLocalDirectory(),
                 $processInfo->getRemoteRepository(),
-                $output
+                $process->getOutput()
             ));
         }
     }
