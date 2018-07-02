@@ -1,4 +1,7 @@
 #!/usr/bin/env bash
+
+set -o xtrace
+
 # trailing whitespaces
 sed -i -E 's/\s+$//g' packages/*/README.md *.md
 

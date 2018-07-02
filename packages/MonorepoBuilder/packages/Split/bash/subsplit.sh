@@ -91,7 +91,7 @@ fatal()
     RC=${1:-1}
     shift
     say "${@:-## Error occurs}"
-    popd >/dev/null
+    # popd >/dev/null
     exit $RC
 }
 
