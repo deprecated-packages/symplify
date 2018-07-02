@@ -129,7 +129,7 @@ subsplit_publish()
 
             if [ $RETURNCODE -eq 0 ]
             then
-                "git push -q --force $REMOTE_NAME ${LOCAL_BRANCH}:${BRANCH}" || (echo "Failed pushing branchs to remote repo" && exit 1)
+                git push -q --force $REMOTE_NAME ${LOCAL_BRANCH}:${BRANCH} || (echo "Failed pushing branchs to remote repo" && exit 1)
             fi
         done
 
@@ -160,12 +160,10 @@ subsplit_publish()
             echo " - subtree split for '${TAG}' [DONE]"
             if [ $RETURNCODE -eq 0 ]
             then
-                "git push -q --force ${REMOTE_NAME} ${LOCAL_TAG}:refs/tags/${TAG}" || (echo "Failed pushing tags to remote repo" && exit 1)
+                git push -q --force ${REMOTE_NAME} ${LOCAL_TAG}:refs/tags/${TAG} || (echo "Failed pushing tags to remote repo" && exit 1)
             fi
         done
     done
-
-    #popd >/dev/null
 }
 
 subsplit_main "$@"
