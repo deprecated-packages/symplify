@@ -89,10 +89,10 @@ subsplit_init()
 
     if [ -e "$WORK_DIR" ]
     then
-        die "Working directory already found at ${WORK_DIR}; please remove or run update"
+        rm -rf "$WORK_DIR"
     fi
 
-    echo "Initializing subsplit from origin (${REPO_URL})"
+    echo "Initializing subsplit from '${REPO_URL}' to '${WORK_DIR}' directory"
 
     git clone -q "$REPO_URL" "$WORK_DIR" || die "Could not clone repository"
 }
@@ -109,7 +109,7 @@ subsplit_publish()
 
         if ! git remote | grep "^${REMOTE_NAME}$" >/dev/null
         then
-            git remote add "$REMOTE_NAME" "$REMOTE_URL" || echo "## Failed adding remote $REMOTE_NAME $REMOTE_URL" && exit 1
+            git remote add "$REMOTE_NAME" "$REMOTE_URL" || die "Failed adding remote $REMOTE_NAME $REMOTE_URL"
         fi
 
         echo "Syncing ${SUBPATH} -> ${REMOTE_URL}"
@@ -126,16 +126,16 @@ subsplit_publish()
 
             echo " - syncing branch '${BRANCH}'"
 
-            git checkout master >/dev/null 2>&1 || echo "## Failed while git checkout master" && exit 2
+            git checkout master >/dev/null 2>&1 || die "Failed while git checkout master"
             git branch -D "$LOCAL_BRANCH" >/dev/null 2>&1
             git branch -D "${LOCAL_BRANCH}-checkout" >/dev/null 2>&1
-            git checkout -b "${LOCAL_BRANCH}-checkout" "origin/${BRANCH}" >/dev/null 2>&1 || echo "## Failed while git checkout" && exit 2
-            git subtree split -q --prefix="$SUBPATH" --branch="$LOCAL_BRANCH" "origin/${BRANCH}" >/dev/null || echo "## Failed while git subtree split for BRANCHS" && exit 3
+            git checkout -b "${LOCAL_BRANCH}-checkout" "origin/${BRANCH}" >/dev/null 2>&1 || die "Failed while git checkout"
+            git subtree split -q --prefix="$SUBPATH" --branch="$LOCAL_BRANCH" "origin/${BRANCH}" >/dev/null || die "Failed while git subtree split for BRANCHS"
             RETURNCODE=$?
 
             if [ $RETURNCODE -eq 0 ]
             then
-                "git push -q --force $REMOTE_NAME ${LOCAL_BRANCH}:${BRANCH}" || echo "## Failed pushing branchs to remote repo" && echo 2
+                "git push -q --force $REMOTE_NAME ${LOCAL_BRANCH}:${BRANCH}" || die "## Failed pushing branchs to remote repo"
             fi
         done
 
@@ -160,13 +160,13 @@ subsplit_publish()
             git branch -D "$LOCAL_TAG" >/dev/null 2>&1
 
             echo " - subtree split for '${TAG}'"
-            git subtree split -q --prefix="$SUBPATH" --branch="$LOCAL_TAG" "$TAG" >/dev/null || echo "## Failed while git subtree split for TAGS" && exit 3
+            git subtree split -q --prefix="$SUBPATH" --branch="$LOCAL_TAG" "$TAG" >/dev/null || die "## Failed while git subtree split for TAGS"
             RETURNCODE=$?
 
             echo " - subtree split for '${TAG}' [DONE]"
             if [ $RETURNCODE -eq 0 ]
             then
-                "git push -q --force ${REMOTE_NAME} ${LOCAL_TAG}:refs/tags/${TAG}" || echo "## Failed pushing tags to remote repo" && exit 2
+                "git push -q --force ${REMOTE_NAME} ${LOCAL_TAG}:refs/tags/${TAG}" || die "## Failed pushing tags to remote repo"
             fi
         done
     done
