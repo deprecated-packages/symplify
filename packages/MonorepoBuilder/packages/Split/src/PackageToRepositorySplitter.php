@@ -2,8 +2,6 @@
 
 namespace Symplify\MonorepoBuilder\Split;
 
-use ERROR;
-use Nette\Utils\Strings;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Process\Process;
 use Symplify\MonorepoBuilder\Split\Exception\PackageToRepositorySplitException;
@@ -115,7 +113,11 @@ final class PackageToRepositorySplitter
         foreach ($this->processInfos as $processInfo) {
             $process = $processInfo->getProcess();
             if (! $process->isSuccessful()) {
-                $message = sprintf('Process failed with %d code: %s', $process->getExitCode(), $process->getErrorOutput());
+                $message = sprintf(
+                    'Process failed with %d code: %s',
+                    $process->getExitCode(),
+                    $process->getErrorOutput()
+                );
                 throw new PackageToRepositorySplitException($message);
             }
 
