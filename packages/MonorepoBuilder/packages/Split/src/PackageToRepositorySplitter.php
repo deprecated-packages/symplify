@@ -93,7 +93,9 @@ final class PackageToRepositorySplitter
                 if (! $runningProcess->isRunning()) {
                     unset($this->activeProcesses[$i]);
                 } else {
-                    $this->symfonyStyle->note($runningProcess->getIncrementalOutput());
+                    if ($runningProcess->getIncrementalOutput()) {
+                        $this->symfonyStyle->note($runningProcess->getIncrementalOutput());
+                    }
                 }
             }
 
@@ -118,12 +120,14 @@ final class PackageToRepositorySplitter
     {
         foreach ($this->processInfos as $processInfo) {
             $process = $processInfo->getProcess();
+
             if (! $process->isSuccessful()) {
                 $message = sprintf(
                     'Process failed with "%d" code: "%s"',
                     $process->getExitCode(),
                     $process->getErrorOutput()
                 );
+
                 throw new PackageToRepositorySplitException($message);
             }
 

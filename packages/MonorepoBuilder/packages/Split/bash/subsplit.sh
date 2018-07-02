@@ -88,7 +88,7 @@ subsplit_init()
 
     echo "Initializing subsplit from '${REPOSITORY}' to temp directory"
 
-    git clone -q "$REPOSITORY" || echo "Could not clone repository" && exit 1
+    git clone -q "$REPOSITORY" . || echo "Could not clone repository" && exit 1
 }
 
 subsplit_publish()
