@@ -22,14 +22,14 @@ if [ $# -eq 0 ]; then
 fi
 
 OPTS_SPEC="\
-git subsplit init url
-git subsplit publish splits --heads=<heads> --tags=<tags> --splits=<splits>
+subsplit.sh --splits=<splits> --branches=<branches> --tags=<tags>
 --
 h,help        show the help
 debug         show plenty of debug output
 dry-run       do everything except actually send the updates
 work-dir=     directory that contains the subsplit working directory
-heads=        publish for listed heads
+splits=       listed repositories <directory:repository>
+branches=     publish for listed branches
 tags=         publish for listed tags
 "
 eval "$(echo "$OPTS_SPEC" | git rev-parse --parseopt -- "$@" || echo exit $?)"
@@ -51,7 +51,7 @@ COMMAND=
 SPLITS=
 REPO_URL=".git"
 WORK_DIR="${PWD}/.subsplit"
-HEADS=
+BRANCHES=
 TAGS=
 DRY_RUN=
 VERBOSE=
@@ -63,7 +63,7 @@ subsplit_main()
         shift
         case "$opt" in
             --debug) VERBOSE=1 ;;
-            --heads) HEADS="$1"; shift ;;
+            --branches) BRANCHES="$1"; shift ;;
             --tags) TAGS="$1"; shift ;;
             --dry-run) DRY_RUN="--dry-run" ;;
             --work-dir) WORK_DIR="$1"; shift ;;
@@ -139,32 +139,32 @@ subsplit_publish()
         say "Syncing ${SUBPATH} -> ${REMOTE_URL}"
 
         # split for branches
-        for HEAD in $HEADS
+        for BRANCH in $BRANCHES
         do
             if [ -n "$VERBOSE" ];
             then
-                echo "${DEBUG} git show-ref --quiet --verify -- \"refs/remotes/origin/${HEAD}\""
+                echo "${DEBUG} git show-ref --quiet --verify -- \"refs/remotes/origin/${BRANCH}\""
             fi
 
-            if ! git show-ref --quiet --verify -- "refs/remotes/origin/${HEAD}"
+            if ! git show-ref --quiet --verify -- "refs/remotes/origin/${BRANCH}"
             then
-                say " - skipping head '${HEAD}' (does not exist)"
+                say " - skipping head '${BRANCH}' (does not exist)"
                 continue
             fi
-            LOCAL_BRANCH="${REMOTE_NAME}-branch-${HEAD}"
+            LOCAL_BRANCH="${REMOTE_NAME}-branch-${BRANCH}"
 
             if [ -n "$VERBOSE" ];
             then
                 echo "${DEBUG} LOCAL_BRANCH=\"${LOCAL_BRANCH}\""
             fi
 
-            say " - syncing branch '${HEAD}'"
+            say " - syncing branch '${BRANCH}'"
 
             git checkout master >/dev/null 2>&1 || fatal 1 "## Failed while git checkout master"
             git branch -D "$LOCAL_BRANCH" >/dev/null 2>&1
             git branch -D "${LOCAL_BRANCH}-checkout" >/dev/null 2>&1
-            git checkout -b "${LOCAL_BRANCH}-checkout" "origin/${HEAD}" >/dev/null 2>&1 || fatal 1 "## Failed while git checkout"
-            git subtree split -q --prefix="$SUBPATH" --branch="$LOCAL_BRANCH" "origin/${HEAD}" >/dev/null || fatal 3 "## Failed while git subtree split for HEADS"
+            git checkout -b "${LOCAL_BRANCH}-checkout" "origin/${BRANCH}" >/dev/null 2>&1 || fatal 1 "## Failed while git checkout"
+            git subtree split -q --prefix="$SUBPATH" --branch="$LOCAL_BRANCH" "origin/${BRANCH}" >/dev/null || fatal 3 "## Failed while git subtree split for BRANCHS"
             RETURNCODE=$?
 
             if [ -n "$VERBOSE" ];
@@ -172,13 +172,13 @@ subsplit_publish()
                 echo "${DEBUG} git checkout master >/dev/null 2>&1"
                 echo "${DEBUG} git branch -D \"$LOCAL_BRANCH\" >/dev/null 2>&1"
                 echo "${DEBUG} git branch -D \"${LOCAL_BRANCH}-checkout\" >/dev/null 2>&1"
-                echo "${DEBUG} git checkout -b \"${LOCAL_BRANCH}-checkout\" \"origin/${HEAD}\" >/dev/null 2>&1"
-                echo "${DEBUG} git subtree split -q --prefix=\"$SUBPATH\" --branch=\"$LOCAL_BRANCH\" \"origin/${HEAD}\" >/dev/null"
+                echo "${DEBUG} git checkout -b \"${LOCAL_BRANCH}-checkout\" \"origin/${BRANCH}\" >/dev/null 2>&1"
+                echo "${DEBUG} git subtree split -q --prefix=\"$SUBPATH\" --branch=\"$LOCAL_BRANCH\" \"origin/${BRANCH}\" >/dev/null"
             fi
 
             if [ $RETURNCODE -eq 0 ]
             then
-                PUSH_CMD="git push -q ${DRY_RUN} --force $REMOTE_NAME ${LOCAL_BRANCH}:${HEAD}"
+                PUSH_CMD="git push -q ${DRY_RUN} --force $REMOTE_NAME ${LOCAL_BRANCH}:${BRANCH}"
 
                 if [ -n "$VERBOSE" ];
                 then
