@@ -16,23 +16,24 @@
 #   2 git push operation failed
 #   3 failed on git subtree command
 
+OPTS_SPEC="\
+subsplit.sh <splits> --repository=<repository> --branch=<branch> --tag=<tag>
+
+For example:
+subsplit.sh packages/MonorepoBuilder:git@github.com:Symplify/MonorepoBuilder.git --branch=master --tag=v5.0
+--
+repository=   repository to split from, e.g. '--repository=.git' for current one
+branch=       publish branch, e.g '--branch=master'
+tag=          publish tag, e.g. '--tags=v5.0'
+debug         show debug output
+h,help        show the help
+"
+
 # show help if there are no params passed
 if [ $# -eq 0 ]; then
     set -- -h
 fi
 
-OPTS_SPEC="\
-subsplit.sh <splits> --branches=<branches> --tags=<tags>
-
-For example:
-subsplit.sh packages/MonorepoBuilder:git@github.com:Symplify/MonorepoBuilder.git --branches=master --tags=v5.0
---
-h,help        show the help
-debug         show debug output
-repository=   repository to split from
-branches=     publish for listed branches, e.g '--branches=master', '--branches=master dev',
-tags=         publish for listed tags, e.g. '--tags=v5.0', '--tags=v5.0 v5.5'
-"
 eval "$(echo "$OPTS_SPEC" | git rev-parse --parseopt -- "$@" || echo exit $?)"
 
 # We can run this from anywhere.
@@ -51,8 +52,8 @@ fi
 COMMAND=
 SPLITS=
 REPOSITORY=
-BRANCHES=
-TAGS=
+BRANCH=
+TAG=
 DRY_RUN=
 VERBOSE=
 
@@ -63,8 +64,8 @@ subsplit_main()
         shift
         case "$opt" in
             --debug) VERBOSE=1 ;;
-            --branches) BRANCHES="$1"; shift ;;
-            --tags) TAGS="$1"; shift ;;
+            --branch) BRANCH="$1"; shift ;;
+            --tag) TAG="$1"; shift ;;
             --repository) REPOSITORY="$1"; shift ;;
             --) break ;;
             *) die "Unexpected option: $opt" ;;
@@ -87,12 +88,12 @@ subsplit_init()
     fi
 
     # current directory is empty => clone the repository here
-    if [ "$(ls -A .)" ]
+    if [ ! "$(ls -A .)" ]
     then
         echo "Initializing subsplit from '${REPOSITORY}' to temp directory"
+        git clone -q "$REPOSITORY" . || (echo "Could not clone repository" && exit 1)
+        sleep 2
     fi
-
-    git clone -q "$REPOSITORY" . || (echo "Could not clone repository" && exit 1)
 }
 
 subsplit_publish()
@@ -112,9 +113,9 @@ subsplit_publish()
 
         echo "Syncing ${SUBPATH} -> ${REMOTE_URL}"
 
-        # split for branches
-        for BRANCH in $BRANCHES
-        do
+        # split for branch
+        if [ -n "$BRANCH" ]
+        then
             if ! git show-ref --quiet --verify -- "refs/remotes/origin/${BRANCH}"
             then
                 echo " - skipping head '${BRANCH}' (does not exist)"
@@ -128,18 +129,18 @@ subsplit_publish()
             git branch -D "$LOCAL_BRANCH" >/dev/null 2>&1
             git branch -D "${LOCAL_BRANCH}-checkout" >/dev/null 2>&1
             git checkout -b "${LOCAL_BRANCH}-checkout" "origin/${BRANCH}" >/dev/null 2>&1 || (echo "Failed while git checkout" && exit 1)
-            git subtree split -q --prefix="$SUBPATH" --branch="$LOCAL_BRANCH" "origin/${BRANCH}" >/dev/null || (echo "Failed while git subtree split for BRANCHES" && exit 1)
+            git subtree split -q --prefix="$SUBPATH" --branch="$LOCAL_BRANCH" "origin/${BRANCH}" >/dev/null || (echo "Failed while git subtree split for ${BRANCH}" && exit 1)
             RETURNCODE=$?
 
             if [ $RETURNCODE -eq 0 ]
             then
                 git push -q --force $REMOTE_NAME ${LOCAL_BRANCH}:${BRANCH} || (echo "Failed pushing branchs to remote repo" && exit 1)
             fi
-        done
+        fi
 
-        # split for tags
-        for TAG in $TAGS
-        do
+        # split for tag
+        if [ -n "$TAG" ]
+        then
             if ! git show-ref --quiet --verify -- "refs/tags/${TAG}"
             then
                 echo " - skipping tag '${TAG}' (does not exist)"
@@ -166,7 +167,7 @@ subsplit_publish()
             then
                 git push -q --force ${REMOTE_NAME} ${LOCAL_TAG}:refs/tags/${TAG} || (echo "Failed pushing tags to remote repo" && exit 1)
             fi
-        done
+        fi
     done
 }
 
