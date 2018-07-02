@@ -46,11 +46,12 @@ final class ProcessFactory
 
         $commandLine = [
             realpath(self::SUBSPLIT_BASH_FILE),
+            sprintf('--from-directory=%s', $directory),
+            sprintf('--to-repository=%s', $remoteRepository),
             '--branch=master',
             $theMostRecentTag ? sprintf('--tag=%s', $theMostRecentTag) : '',
-            $directory . ':' . $remoteRepository,
-            sprintf('--repository=%s', $this->repository),
             $isVerbose ? '--debug' : '',
+            sprintf('--repository=%s', $this->repository),
         ];
 
         return $this->createProcessFromCommandLine($commandLine, $directory);
