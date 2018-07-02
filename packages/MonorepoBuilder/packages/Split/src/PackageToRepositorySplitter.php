@@ -114,7 +114,7 @@ final class PackageToRepositorySplitter
             $process = $processInfo->getProcess();
             if (! $process->isSuccessful()) {
                 $message = sprintf(
-                    'Process failed with %d code: %s',
+                    'Process failed with "%d" code: "%s"',
                     $process->getExitCode(),
                     $process->getErrorOutput()
                 );
