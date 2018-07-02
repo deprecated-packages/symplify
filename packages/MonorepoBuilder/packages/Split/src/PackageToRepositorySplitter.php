@@ -121,10 +121,9 @@ final class PackageToRepositorySplitter
             }
 
             $this->symfonyStyle->success(sprintf(
-                'Push of "%s" directory to "%s" repository was successful: %s',
+                'Push of "%s" directory to "%s" repository was successful.',
                 $processInfo->getLocalDirectory(),
-                $processInfo->getRemoteRepository(),
-                $process->getOutput()
+                $processInfo->getRemoteRepository()
             ));
         }
     }
