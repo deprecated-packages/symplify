@@ -22,7 +22,7 @@ final class ProcessFactoryTest extends AbstractContainerAwareTestCase
         $splitProcess = $this->processFactory->createSubsplitPublish('', 'localDirectory', 'git@github.com:Symplify/Symplify.git', false);
 
         $subsplitRealpath = realpath(__DIR__ . '/../../bash/subsplit.sh');
-        $commandLine = "'" . $subsplitRealpath . "' 'publish' '--heads=master' '' 'localDirectory:git@github.com:Symplify/Symplify.git' ''";
+        $commandLine = "'" . $subsplitRealpath . "' '--heads=master' '' 'localDirectory:git@github.com:Symplify/Symplify.git' ''";
 
         $this->assertSame($commandLine, $splitProcess->getCommandLine());
     }
