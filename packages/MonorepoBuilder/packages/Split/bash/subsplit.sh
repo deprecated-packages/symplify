@@ -73,14 +73,16 @@ subsplit_main()
     done
 
     # report missing required options
-    if [ -n "$FROM_DIRECTORY" ]
+    if [ -z "$FROM_DIRECTORY" ]
     then
         echo "Command requires --from-repository option to be filled"
+        exit 1
     fi
 
-    if [ -n "$TO_REPOSITORY" ]
+    if [ -z "$TO_REPOSITORY" ]
     then
         echo "Command requires --to-repository option to be filled"
+        exit 1
     fi
 
     subsplit_init
