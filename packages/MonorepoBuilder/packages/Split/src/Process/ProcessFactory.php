@@ -38,7 +38,7 @@ final class ProcessFactory
 
         $commandLine = [
             realpath(self::SUBSPLIT_BASH_FILE),
-            '--heads=master',
+            '--branches=master',
             $theMostRecentTag ? sprintf('--tags=%s', $theMostRecentTag) : '',
             $directory . ':' . $remoteRepository,
             $isVerbose ? '--debug' : '',
