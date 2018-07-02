@@ -166,8 +166,6 @@ subsplit_publish()
     done
 
     popd >/dev/null
-
-    # @todo return to original directory
 }
 
 subsplit_main "$@"
