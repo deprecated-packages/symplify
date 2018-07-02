@@ -16,9 +16,11 @@
 #   2 git push operation failed
 #   3 failed on git subtree command
 
+# show help if there are no params passed
 if [ $# -eq 0 ]; then
     set -- -h
 fi
+
 OPTS_SPEC="\
 git subsplit init url
 git subsplit publish splits --heads=<heads> --tags=<tags> --splits=<splits>
@@ -27,12 +29,8 @@ h,help        show the help
 debug         show plenty of debug output
 dry-run       do everything except actually send the updates
 work-dir=     directory that contains the subsplit working directory
-
- options for 'publish'
-heads=        only publish for listed heads instead of all heads
-no-heads      do not publish any heads
-tags=         only publish for listed tags instead of all tags
-no-tags       do not publish any tags
+heads=        publish for listed heads
+tags=         publish for listed tags
 "
 eval "$(echo "$OPTS_SPEC" | git rev-parse --parseopt -- "$@" || echo exit $?)"
 
@@ -54,9 +52,7 @@ SPLITS=
 REPO_URL=".git"
 WORK_DIR="${PWD}/.subsplit"
 HEADS=
-NO_HEADS=
 TAGS=
-NO_TAGS=
 DRY_RUN=
 VERBOSE=
 
@@ -68,9 +64,7 @@ subsplit_main()
         case "$opt" in
             --debug) VERBOSE=1 ;;
             --heads) HEADS="$1"; shift ;;
-            --no-heads) NO_HEADS=1 ;;
             --tags) TAGS="$1"; shift ;;
-            --no-tags) NO_TAGS=1 ;;
             --dry-run) DRY_RUN="--dry-run" ;;
             --work-dir) WORK_DIR="$1"; shift ;;
             --) break ;;
@@ -94,7 +88,7 @@ fatal()
     RC=${1:-1}
     shift
     say "${@:-## Error occurs}"
-#    popd >/dev/null
+    popd >/dev/null
     exit $RC
 }
 
@@ -119,28 +113,6 @@ subsplit_publish()
 {
     subsplit_init
 
-    if [ -z "$HEADS" ] && [ -z "$NO_HEADS" ]
-    then
-        # If heads are not specified and we want heads, discover them.
-        HEADS="$(git ls-remote origin 2>/dev/null | grep "refs/heads/" | cut -f3- -d/)"
-
-        if [ -n "$VERBOSE" ];
-        then
-            echo "${DEBUG} HEADS=\"${HEADS}\""
-        fi
-    fi
-
-    if [ -z "$TAGS" ] && [ -z "$NO_TAGS" ]
-    then
-        # If tags are not specified and we want tags, discover them.
-        TAGS="$(git ls-remote origin 2>/dev/null | grep -v "\^{}" | grep "refs/tags/" | cut -f3 -d/)"
-
-        if [ -n "$VERBOSE" ];
-        then
-            echo "${DEBUG} TAGS=\"${TAGS}\""
-        fi
-    fi
-
     for SPLIT in $SPLITS
     do
         SUBPATH=$(echo "$SPLIT" | cut -f1 -d:)
@@ -164,9 +136,9 @@ subsplit_publish()
             fi
         fi
 
-
         say "Syncing ${SUBPATH} -> ${REMOTE_URL}"
 
+        # split for branches
         for HEAD in $HEADS
         do
             if [ -n "$VERBOSE" ];
@@ -223,6 +195,7 @@ subsplit_publish()
             fi
         done
 
+        # split for tags
         for TAG in $TAGS
         do
             if [ -n "$VERBOSE" ];
