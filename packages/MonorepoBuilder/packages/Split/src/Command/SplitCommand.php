@@ -60,6 +60,10 @@ final class SplitCommand extends Command
 
         $isVerbose = $output->getVerbosity() >= OutputInterface::VERBOSITY_VERBOSE;
 
+        // cleanup
+        FileSystem::delete($this->getSubsplitDirectory());
+        FileSystem::createDir($this->getSubsplitDirectory());
+
         $this->packageToRepositorySplitter->splitDirectoriesToRepositories(
             $this->directoriesToRepositories,
             $this->rootDirectory,

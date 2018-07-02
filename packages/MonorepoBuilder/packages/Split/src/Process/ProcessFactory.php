@@ -46,14 +46,14 @@ final class ProcessFactory
             $isVerbose ? '--debug' : '',
         ];
 
-        return $this->createProcessFromCommandLine($commandLine);
+        return $this->createProcessFromCommandLine($commandLine, $subsplitDirectory);
     }
 
     /**
      * @param mixed[] $commandLine
      */
-    private function createProcessFromCommandLine(array $commandLine): Process
+    private function createProcessFromCommandLine(array $commandLine, string $subsplitDirectory): Process
     {
-        return new Process($commandLine, $this->rootDirectory, null, null, null);
+        return new Process($commandLine, $subsplitDirectory, null, null, null);
     }
 }
