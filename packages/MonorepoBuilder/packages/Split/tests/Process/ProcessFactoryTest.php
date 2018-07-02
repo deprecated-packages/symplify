@@ -2,7 +2,6 @@
 
 namespace Symplify\MonorepoBuilder\Split\Tests\Process;
 
-use Nette\Utils\FileSystem;
 use Symplify\MonorepoBuilder\Split\Process\ProcessFactory;
 use Symplify\MonorepoBuilder\Split\Tests\AbstractContainerAwareTestCase;
 
@@ -20,18 +19,11 @@ final class ProcessFactoryTest extends AbstractContainerAwareTestCase
 
     public function test(): void
     {
-        $subsplitInitProcess = $this->processFactory->createSubsplitInit();
+        $splitProcess = $this->processFactory->createSubsplitPublish('', 'localDirectory', 'git@github.com:Symplify/Symplify.git', false);
 
-        $subsplitInitProcess->run();
+        $subsplitRealpath = realpath(__DIR__ . '/../../bash/subsplit.sh');
+        $commandLine = "'" . $subsplitRealpath . "' 'publish' '--heads=master' '' 'localDirectory:git@github.com:Symplify/Symplify.git' ''";
 
-        $this->assertTrue($subsplitInitProcess->isSuccessful());
-        $this->assertSame(0, $subsplitInitProcess->getExitCode());
-
-        $this->assertDirectoryExists(getcwd() . '/.subsplit');
-    }
-
-    protected function tearDown(): void
-    {
-        FileSystem::delete(getcwd() . '/.subsplit');
+        $this->assertSame($commandLine, $splitProcess->getCommandLine());
     }
 }
