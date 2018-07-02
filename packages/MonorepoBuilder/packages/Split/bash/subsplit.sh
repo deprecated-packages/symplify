@@ -90,6 +90,7 @@ subsplit_init()
     if [ -e "$WORK_DIR" ]
     then
         rm -rf "$WORK_DIR"
+        cd "$WORK_DIR"
     fi
 
     echo "Initializing subsplit from '${REPO_URL}' to '${WORK_DIR}' directory"
