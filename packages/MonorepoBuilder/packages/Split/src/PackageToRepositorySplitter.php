@@ -118,11 +118,6 @@ final class PackageToRepositorySplitter
                 throw new PackageToRepositorySplitException($process->getErrorOutput());
             }
 
-            $output = $process->getOutput();
-            if (Strings::contains($output, ERROR::class)) {
-                throw new PackageToRepositorySplitException($output);
-            }
-
             $this->symfonyStyle->success(sprintf(
                 'Push of "%s" directory to "%s" repository was successful: %s',
                 $processInfo->getLocalDirectory(),
