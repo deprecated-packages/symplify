@@ -77,8 +77,7 @@ final class SplitCommand extends Command
 
         // clean it
         FileSystem::delete($tempDirectory);
-        // convention used by split.sh script
-//        return $this->rootDirectory . '/.subsplit';
+
         # @todo: should be in config?
         return $tempDirectory;
     }
