@@ -20,8 +20,8 @@ subsplit.sh --from-directory=packages/MonorepoBuilder --to-repository=git@github
 from-directory=   directory with the package to split, e.g. '--from-directory=packages/MonorepoBuilder'
 to-repository=    repository to split into, e.g. '--to-repository=git@github.com:Symplify/MonorepoBuilder.git'
 repository=       repository to split from, e.g. '--repository=.git' for current one
-branch=           publish branch, e.g '--branch=master'
-tag=              publish tag, e.g. '--tags=v5.0'
+branch=           branch to publish, e.g '--branch=master'
+tag=              tag to publish, e.g. '--tag=v5.0'
 debug             show debug output
 h,help            show the help
 "
@@ -159,13 +159,13 @@ subsplit_publish()
         git branch -D "$LOCAL_TAG" >/dev/null 2>&1
 
         echo " - subtree split for '${TAG}'"
-        git subtree split -q --prefix="$FROM_DIRECTORY" --branch="$LOCAL_TAG" "$TAG" >/dev/null || (echo "Failed while git subtree split for TAGS" && exit 1)
+        git subtree split -q --prefix="$FROM_DIRECTORY" --branch="$LOCAL_TAG" "$TAG" >/dev/null || (echo "Failed while git subtree split for TAG" && exit 1)
         RETURNCODE=$?
 
         echo " - subtree split for '${TAG}' [DONE]"
         if [ $RETURNCODE -eq 0 ]
         then
-            git push -q --force ${REMOTE_NAME} ${LOCAL_TAG}:refs/tags/${TAG} || (echo "Failed pushing tags to remote repo" && exit 1)
+            git push -q --force ${REMOTE_NAME} ${LOCAL_TAG}:refs/tags/${TAG} || (echo "Failed pushing tag to remote repo" && exit 1)
         fi
     fi
 }
