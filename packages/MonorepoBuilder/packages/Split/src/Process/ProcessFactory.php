@@ -20,16 +20,21 @@ final class ProcessFactory
     /**
      * @var string
      */
-    private $rootDirectory;
+    private $subsplitCacheDirectory;
 
-    public function __construct(RepositoryGuard $repositoryGuard, string $rootDirectory)
+    /**
+     * @var string
+     */
+    private $repository;
+
+    public function __construct(RepositoryGuard $repositoryGuard, string $subsplitCacheDirectory, string $repository)
     {
         $this->repositoryGuard = $repositoryGuard;
-        $this->rootDirectory = $rootDirectory;
+        $this->subsplitCacheDirectory = $subsplitCacheDirectory;
+        $this->repository = $repository;
     }
 
     public function createSubsplit(
-        string $subsplitDirectory,
         string $theMostRecentTag,
         string $directory,
         string $remoteRepository,
@@ -39,10 +44,10 @@ final class ProcessFactory
 
         $commandLine = [
             realpath(self::SUBSPLIT_BASH_FILE),
-            sprintf('--work-dir=%s', $subsplitDirectory),
             '--branches=master',
             $theMostRecentTag ? sprintf('--tags=%s', $theMostRecentTag) : '',
             $directory . ':' . $remoteRepository,
+            sprintf('--repository=%s', $this->repository),
             $isVerbose ? '--debug' : '',
         ];
 
@@ -54,6 +59,6 @@ final class ProcessFactory
      */
     private function createProcessFromCommandLine(array $commandLine): Process
     {
-        return new Process($commandLine, $this->rootDirectory, null, null, null);
+        return new Process($commandLine, $this->subsplitCacheDirectory, null, null, null);
     }
 }

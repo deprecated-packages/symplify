@@ -4,6 +4,8 @@ services:
         bind:
             $directoriesToRepositories: '%directories_to_repositories%'
             $rootDirectory: '%root_directory%'
+            $repository: '%root_directory%/.git'
+            $subsplitCacheDirectory: '%subsplit_cache_directory%'
 
     Symplify\MonorepoBuilder\Split\:
         resource: '..'

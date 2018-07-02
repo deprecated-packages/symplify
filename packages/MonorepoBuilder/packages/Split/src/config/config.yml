@@ -1,5 +1,6 @@
 parameters:
     directories_to_repositories: []
+    subsplit_cache_directory: '%kernel.cache_dir%/_subsplit'
 
 imports:
     - { resource: 'services.yml' }

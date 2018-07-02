@@ -60,7 +60,6 @@ final class PackageToRepositorySplitter
     public function splitDirectoriesToRepositories(
         array $splitConfig,
         string $rootDirectory,
-        string $subsplitDirectory,
         bool $isVerbose
     ): void {
         $theMostRecentTag = $this->getMostRecentTag($rootDirectory);
@@ -69,12 +68,12 @@ final class PackageToRepositorySplitter
             $this->fileSystemGuard->ensureDirectoryExists($localSubdirectory);
 
             $process = $this->processFactory->createSubsplit(
-                $subsplitDirectory,
                 $theMostRecentTag,
                 $localSubdirectory,
                 $remoteRepository,
                 $isVerbose
             );
+
             $this->symfonyStyle->note('Running: ' . $process->getCommandLine());
             $process->start();
 
@@ -90,14 +89,7 @@ final class PackageToRepositorySplitter
         $this->symfonyStyle->success(sprintf('Running %d jobs asynchronously', count($this->activeProcesses)));
 
         while (count($this->activeProcesses)) {
-            foreach ($this->activeProcesses as $i => $runningProcess) {
-                if (! $runningProcess->isRunning()) {
-                    unset($this->activeProcesses[$i]);
-                }
-            }
-
-            // check every second
-            sleep(1);
+            $this->processActiveProcesses();
         }
 
         $this->reportFinishedProcesses();
@@ -117,21 +109,39 @@ final class PackageToRepositorySplitter
     {
         foreach ($this->processInfos as $processInfo) {
             $process = $processInfo->getProcess();
+
             if (! $process->isSuccessful()) {
                 $message = sprintf(
                     'Process failed with "%d" code: "%s"',
                     $process->getExitCode(),
                     $process->getErrorOutput()
                 );
+
                 throw new PackageToRepositorySplitException($message);
             }
 
             $this->symfonyStyle->success(sprintf(
-                'Push of "%s" directory to "%s" repository was successful: %s',
+                'Push of "%s" directory to "%s" repository was successful.',
                 $processInfo->getLocalDirectory(),
-                $processInfo->getRemoteRepository(),
-                $process->getOutput()
+                $processInfo->getRemoteRepository()
             ));
         }
+    }
+
+    private function processActiveProcesses(): void
+    {
+        foreach ($this->activeProcesses as $i => $runningProcess) {
+            if (! $runningProcess->isRunning()) {
+                unset($this->activeProcesses[$i]);
+            } else {
+                $incrementalOutput = trim($runningProcess->getIncrementalOutput());
+                if ($incrementalOutput) {
+                    $this->symfonyStyle->note($incrementalOutput);
+                }
+            }
+        }
+
+        // check every second
+        sleep(1);
     }
 }

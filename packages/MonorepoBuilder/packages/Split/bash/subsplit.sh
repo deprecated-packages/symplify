@@ -22,16 +22,14 @@ if [ $# -eq 0 ]; then
 fi
 
 OPTS_SPEC="\
-subsplit.sh --splits=<splits> --branches=<branches> --tags=<tags>
+subsplit.sh <splits> --branches=<branches> --tags=<tags>
 
 For example:
-subsplit.sh --splits=packages/MonorepoBuilder:git@github.com:Symplify/MonorepoBuilder.git --branches=master --tags=v5.0
+subsplit.sh packages/MonorepoBuilder:git@github.com:Symplify/MonorepoBuilder.git --branches=master --tags=v5.0
 --
 h,help        show the help
-debug         show plenty of debug output
-dry-run       do everything except actually send the updates
-work-dir=     directory that contains the subsplit working directory
-splits=       listed repositories <directory:repository>, e.g. '--splits=packages/MonorepoBuilder:git@github.com:Symplify/MonorepoBuilder.git'
+debug         show debug output
+repository=   repository to split from
 branches=     publish for listed branches, e.g '--branches=master', '--branches=master dev',
 tags=         publish for listed tags, e.g. '--tags=v5.0', '--tags=v5.0 v5.5'
 "
@@ -52,8 +50,7 @@ fi
 
 COMMAND=
 SPLITS=
-REPO_URL=".git"
-WORK_DIR="${PWD}/.subsplit"
+REPOSITORY=
 BRANCHES=
 TAGS=
 DRY_RUN=
@@ -68,8 +65,7 @@ subsplit_main()
             --debug) VERBOSE=1 ;;
             --branches) BRANCHES="$1"; shift ;;
             --tags) TAGS="$1"; shift ;;
-            --dry-run) DRY_RUN="--dry-run" ;;
-            --work-dir) WORK_DIR="$1"; shift ;;
+            --repository) REPOSITORY="$1"; shift ;;
             --) break ;;
             *) die "Unexpected option: $opt" ;;
         esac
@@ -81,20 +77,6 @@ subsplit_main()
     subsplit_publish
 }
 
-say()
-{
-    echo "$@" >&2
-}
-
-fatal()
-{
-    RC=${1:-1}
-    shift
-    say "${@:-## Error occurs}"
-    # popd >/dev/null
-    exit $RC
-}
-
 subsplit_init()
 {
     # ref https://stackoverflow.com/a/5750463/1348344
@@ -104,19 +86,9 @@ subsplit_init()
         set -o xtrace
     fi
 
-    if [ -e "$WORK_DIR" ]
-    then
-        die "Working directory already found at ${WORK_DIR}; please remove or run update"
-    fi
+    echo "Initializing subsplit from '${REPOSITORY}' to temp directory"
 
-    say "Initializing subsplit from origin (${REPO_URL})"
-
-    if [ -n "$VERBOSE" ];
-    then
-        echo "${DEBUG} git clone -q \"${REPO_URL}\" \"${WORK_DIR}\""
-    fi
-
-    git clone -q "$REPO_URL" "$WORK_DIR" || die "Could not clone repository"
+    git clone -q "$REPOSITORY" . || (echo "Could not clone repository" && exit 1)
 }
 
 subsplit_publish()
@@ -129,153 +101,69 @@ subsplit_publish()
         REMOTE_URL=$(echo "$SPLIT" | cut -f2- -d:)
         REMOTE_NAME=$(echo "$SPLIT" | git hash-object --stdin)
 
-        if [ -n "$VERBOSE" ];
-        then
-            echo "${DEBUG} SUBPATH=${SUBPATH}"
-            echo "${DEBUG} REMOTE_URL=${REMOTE_URL}"
-            echo "${DEBUG} REMOTE_NAME=${REMOTE_NAME}"
-        fi
-
         if ! git remote | grep "^${REMOTE_NAME}$" >/dev/null
         then
-            git remote add "$REMOTE_NAME" "$REMOTE_URL" || fatal 1 "## Failed adding remote $REMOTE_NAME $REMOTE_URL"
-
-            if [ -n "$VERBOSE" ];
-            then
-                echo "${DEBUG} git remote add \"${REMOTE_NAME}\" \"${REMOTE_URL}\""
-            fi
+            git remote add "$REMOTE_NAME" "$REMOTE_URL" || (echo "Failed adding remote $REMOTE_NAME $REMOTE_URL" && exit 1)
         fi
 
-        say "Syncing ${SUBPATH} -> ${REMOTE_URL}"
+        echo "Syncing ${SUBPATH} -> ${REMOTE_URL}"
 
         # split for branches
         for BRANCH in $BRANCHES
         do
-            if [ -n "$VERBOSE" ];
-            then
-                echo "${DEBUG} git show-ref --quiet --verify -- \"refs/remotes/origin/${BRANCH}\""
-            fi
-
             if ! git show-ref --quiet --verify -- "refs/remotes/origin/${BRANCH}"
             then
-                say " - skipping head '${BRANCH}' (does not exist)"
+                echo " - skipping head '${BRANCH}' (does not exist)"
                 continue
             fi
             LOCAL_BRANCH="${REMOTE_NAME}-branch-${BRANCH}"
 
-            if [ -n "$VERBOSE" ];
-            then
-                echo "${DEBUG} LOCAL_BRANCH=\"${LOCAL_BRANCH}\""
-            fi
+            echo " - syncing branch '${BRANCH}'"
 
-            say " - syncing branch '${BRANCH}'"
-
-            git checkout master >/dev/null 2>&1 || fatal 1 "## Failed while git checkout master"
+            git checkout master >/dev/null 2>&1 || (echo "Failed while git checkout master" && exit 1)
             git branch -D "$LOCAL_BRANCH" >/dev/null 2>&1
             git branch -D "${LOCAL_BRANCH}-checkout" >/dev/null 2>&1
-            git checkout -b "${LOCAL_BRANCH}-checkout" "origin/${BRANCH}" >/dev/null 2>&1 || fatal 1 "## Failed while git checkout"
-            git subtree split -q --prefix="$SUBPATH" --branch="$LOCAL_BRANCH" "origin/${BRANCH}" >/dev/null || fatal 3 "## Failed while git subtree split for BRANCHS"
+            git checkout -b "${LOCAL_BRANCH}-checkout" "origin/${BRANCH}" >/dev/null 2>&1 || (echo "Failed while git checkout" && exit 1)
+            git subtree split -q --prefix="$SUBPATH" --branch="$LOCAL_BRANCH" "origin/${BRANCH}" >/dev/null || (echo "Failed while git subtree split for BRANCHES" && exit 1)
             RETURNCODE=$?
-
-            if [ -n "$VERBOSE" ];
-            then
-                echo "${DEBUG} git checkout master >/dev/null 2>&1"
-                echo "${DEBUG} git branch -D \"$LOCAL_BRANCH\" >/dev/null 2>&1"
-                echo "${DEBUG} git branch -D \"${LOCAL_BRANCH}-checkout\" >/dev/null 2>&1"
-                echo "${DEBUG} git checkout -b \"${LOCAL_BRANCH}-checkout\" \"origin/${BRANCH}\" >/dev/null 2>&1"
-                echo "${DEBUG} git subtree split -q --prefix=\"$SUBPATH\" --branch=\"$LOCAL_BRANCH\" \"origin/${BRANCH}\" >/dev/null"
-            fi
 
             if [ $RETURNCODE -eq 0 ]
             then
-                PUSH_CMD="git push -q ${DRY_RUN} --force $REMOTE_NAME ${LOCAL_BRANCH}:${BRANCH}"
-
-                if [ -n "$VERBOSE" ];
-                then
-                    echo "${DEBUG} $PUSH_CMD"
-                fi
-
-                if [ -n "$DRY_RUN" ]
-                then
-                    echo \# $PUSH_CMD
-                    $PUSH_CMD
-                else
-                    $PUSH_CMD || fatal 2 "## Failed pushing branchs to remote repo"
-                fi
+                git push -q --force $REMOTE_NAME ${LOCAL_BRANCH}:${BRANCH} || (echo "Failed pushing branchs to remote repo" && exit 1)
             fi
         done
 
         # split for tags
         for TAG in $TAGS
         do
-            if [ -n "$VERBOSE" ];
-            then
-                echo "${DEBUG} git show-ref --quiet --verify -- \"refs/tags/${TAG}\""
-            fi
-
             if ! git show-ref --quiet --verify -- "refs/tags/${TAG}"
             then
-                say " - skipping tag '${TAG}' (does not exist)"
+                echo " - skipping tag '${TAG}' (does not exist)"
                 continue
             fi
             LOCAL_TAG="${REMOTE_NAME}-tag-${TAG}"
 
-            if [ -n "$VERBOSE" ];
-            then
-                echo "${DEBUG} LOCAL_TAG="${LOCAL_TAG}""
-            fi
-
             if git branch | grep "${LOCAL_TAG}$" >/dev/null
             then
-                say " - skipping tag '${TAG}' (already synced)"
+                echo " - skipping tag '${TAG}' (already synced)"
                 continue
             fi
 
-            if [ -n "$VERBOSE" ];
-            then
-                echo "${DEBUG} git branch | grep \"${LOCAL_TAG}$\" >/dev/null"
-            fi
-
-            say " - syncing tag '${TAG}'"
-            say " - deleting '${LOCAL_TAG}'"
+            echo " - syncing tag '${TAG}'"
+            echo " - deleting '${LOCAL_TAG}'"
             git branch -D "$LOCAL_TAG" >/dev/null 2>&1
 
-            if [ -n "$VERBOSE" ];
-            then
-                echo "${DEBUG} git branch -D \"${LOCAL_TAG}\" >/dev/null 2>&1"
-            fi
-
-            say " - subtree split for '${TAG}'"
-            git subtree split -q --prefix="$SUBPATH" --branch="$LOCAL_TAG" "$TAG" >/dev/null || fatal 3 "## Failed while git subtree split for TAGS"
+            echo " - subtree split for '${TAG}'"
+            git subtree split -q --prefix="$SUBPATH" --branch="$LOCAL_TAG" "$TAG" >/dev/null || (echo "Failed while git subtree split for TAGS" && exit 1)
             RETURNCODE=$?
 
-            if [ -n "$VERBOSE" ];
-            then
-                echo "${DEBUG} git subtree split -q --prefix=\"$SUBPATH\" --branch=\"$LOCAL_TAG\" \"$TAG\" >/dev/null"
-            fi
-
-            say " - subtree split for '${TAG}' [DONE]"
+            echo " - subtree split for '${TAG}' [DONE]"
             if [ $RETURNCODE -eq 0 ]
             then
-                PUSH_CMD="git push -q ${DRY_RUN} --force ${REMOTE_NAME} ${LOCAL_TAG}:refs/tags/${TAG}"
-
-                if [ -n "$VERBOSE" ];
-                then
-                    echo "${DEBUG} PUSH_CMD=\"${PUSH_CMD}\""
-                fi
-
-                if [ -n "$DRY_RUN" ]
-                then
-                    echo \# $PUSH_CMD
-                    $PUSH_CMD
-                else
-                    $PUSH_CMD || fatal 2 "## Failed pushing tags to remote repo"
-                fi
+                git push -q --force ${REMOTE_NAME} ${LOCAL_TAG}:refs/tags/${TAG} || (echo "Failed pushing tags to remote repo" && exit 1)
             fi
         done
     done
-
-    popd >/dev/null
 }
 
 subsplit_main "$@"
