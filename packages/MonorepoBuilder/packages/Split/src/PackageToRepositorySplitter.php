@@ -93,6 +93,8 @@ final class PackageToRepositorySplitter
             foreach ($this->activeProcesses as $i => $runningProcess) {
                 if (! $runningProcess->isRunning()) {
                     unset($this->activeProcesses[$i]);
+                } else {
+                    $this->symfonyStyle->note($runningProcess->getIncrementalOutput());
                 }
             }
 
