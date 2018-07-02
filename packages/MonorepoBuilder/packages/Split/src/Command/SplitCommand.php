@@ -6,18 +6,12 @@ use Nette\Utils\FileSystem;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Style\SymfonyStyle;
 use Symplify\MonorepoBuilder\Split\Configuration\RepositoryGuard;
 use Symplify\MonorepoBuilder\Split\PackageToRepositorySplitter;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
 
 final class SplitCommand extends Command
 {
-    /**
-     * @var SymfonyStyle
-     */
-    private $symfonyStyle;
-
     /**
      * @var RepositoryGuard
      */
@@ -42,7 +36,6 @@ final class SplitCommand extends Command
      * @param string[] $directoriesToRepositories
      */
     public function __construct(
-        SymfonyStyle $symfonyStyle,
         RepositoryGuard $repositoryGuard,
         array $directoriesToRepositories,
         string $rootDirectory,
@@ -50,7 +43,6 @@ final class SplitCommand extends Command
     ) {
         parent::__construct();
 
-        $this->symfonyStyle = $symfonyStyle;
         $this->repositoryGuard = $repositoryGuard;
         $this->directoriesToRepositories = $directoriesToRepositories;
         $this->rootDirectory = $rootDirectory;
