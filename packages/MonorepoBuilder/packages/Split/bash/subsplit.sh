@@ -10,11 +10,6 @@
 #
 # includes merge of PRs
 # - https://github.com/dflydev/git-subsplit/pull/30/files
-#
-# exit code:
-#   1 git add-remote/pull/fetch operation failed
-#   2 git push operation failed
-#   3 failed on git subtree command
 
 OPTS_SPEC="\
 subsplit.sh --from-directory=<from-directory> --to-repository=<to-repository> --repository=<repository> --branch=<branch> --tag=<tag>
