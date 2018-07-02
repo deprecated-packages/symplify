@@ -93,8 +93,9 @@ final class PackageToRepositorySplitter
                 if (! $runningProcess->isRunning()) {
                     unset($this->activeProcesses[$i]);
                 } else {
-                    if ($runningProcess->getIncrementalOutput()) {
-                        $this->symfonyStyle->note($runningProcess->getIncrementalOutput());
+                    $incrementalOutput = trim($runningProcess->getIncrementalOutput());
+                    if ($incrementalOutput) {
+                        $this->symfonyStyle->note($incrementalOutput);
                     }
                 }
             }
