@@ -87,11 +87,13 @@ subsplit_init()
         set -o xtrace
     fi
 
+    # if directory exists, clean it
     if [ -e "$WORK_DIR" ]
     then
         rm -rf "$WORK_DIR"
-        cd "$WORK_DIR"
     fi
+
+    cd "$WORK_DIR"
 
     echo "Initializing subsplit from '${REPO_URL}' to '${WORK_DIR}' directory"
 
