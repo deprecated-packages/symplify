@@ -32,19 +32,13 @@ final class SplitCommand extends Command
     private $packageToRepositorySplitter;
 
     /**
-     * @var string
-     */
-    private $subsplitCacheDirectory;
-
-    /**
      * @param string[] $directoriesToRepositories
      */
     public function __construct(
         RepositoryGuard $repositoryGuard,
         array $directoriesToRepositories,
         string $rootDirectory,
-        PackageToRepositorySplitter $packageToRepositorySplitter,
-        string $subsplitCacheDirectory
+        PackageToRepositorySplitter $packageToRepositorySplitter
     ) {
         parent::__construct();
 
@@ -52,7 +46,6 @@ final class SplitCommand extends Command
         $this->directoriesToRepositories = $directoriesToRepositories;
         $this->rootDirectory = $rootDirectory;
         $this->packageToRepositorySplitter = $packageToRepositorySplitter;
-        $this->subsplitCacheDirectory = $subsplitCacheDirectory;
     }
 
     protected function configure(): void
