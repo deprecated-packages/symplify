@@ -89,19 +89,7 @@ final class PackageToRepositorySplitter
         $this->symfonyStyle->success(sprintf('Running %d jobs asynchronously', count($this->activeProcesses)));
 
         while (count($this->activeProcesses)) {
-            foreach ($this->activeProcesses as $i => $runningProcess) {
-                if (! $runningProcess->isRunning()) {
-                    unset($this->activeProcesses[$i]);
-                } else {
-                    $incrementalOutput = trim($runningProcess->getIncrementalOutput());
-                    if ($incrementalOutput) {
-                        $this->symfonyStyle->note($incrementalOutput);
-                    }
-                }
-            }
-
-            // check every second
-            sleep(1);
+            $this->processActiveProcesses();
         }
 
         $this->reportFinishedProcesses();
@@ -139,5 +127,22 @@ final class PackageToRepositorySplitter
                 $process->getOutput()
             ));
         }
+    }
+
+    private function processActiveProcesses(): void
+    {
+        foreach ($this->activeProcesses as $i => $runningProcess) {
+            if (! $runningProcess->isRunning()) {
+                unset($this->activeProcesses[$i]);
+            } else {
+                $incrementalOutput = trim($runningProcess->getIncrementalOutput());
+                if ($incrementalOutput) {
+                    $this->symfonyStyle->note($incrementalOutput);
+                }
+            }
+        }
+
+        // check every second
+        sleep(1);
     }
 }
