@@ -38,7 +38,6 @@ final class ProcessFactory
 
         $commandLine = [
             realpath(self::SUBSPLIT_BASH_FILE),
-            sprintf('--work-dir=%s', $this->subsplitCacheDirectory),
             '--branches=master',
             $theMostRecentTag ? sprintf('--tags=%s', $theMostRecentTag) : '',
             $directory . ':' . $remoteRepository,

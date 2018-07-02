@@ -51,7 +51,6 @@ fi
 COMMAND=
 SPLITS=
 REPO_URL=".git"
-WORK_DIR="${PWD}/.subsplit"
 BRANCHES=
 TAGS=
 DRY_RUN=
@@ -66,7 +65,6 @@ subsplit_main()
             --debug) VERBOSE=1 ;;
             --branches) BRANCHES="$1"; shift ;;
             --tags) TAGS="$1"; shift ;;
-            --work-dir) WORK_DIR="$1"; shift ;;
             --) break ;;
             *) die "Unexpected option: $opt" ;;
         esac
@@ -87,17 +85,9 @@ subsplit_init()
         set -o xtrace
     fi
 
-    # if directory exists, clean it
-    if [ -e "$WORK_DIR" ]
-    then
-        rm -rf "$WORK_DIR"
-    fi
+    echo "Initializing subsplit from '${REPO_URL}' to temp directory"
 
-    cd "$WORK_DIR"
-
-    echo "Initializing subsplit from '${REPO_URL}' to '${WORK_DIR}' directory"
-
-    git clone -q "$REPO_URL" "$WORK_DIR" || die "Could not clone repository"
+    git clone -q "$REPO_URL" || die "Could not clone repository"
 }
 
 subsplit_publish()
