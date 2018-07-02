@@ -9,11 +9,6 @@ use Symplify\MonorepoBuilder\PackageComposerFinder;
 final class AutoloadRelativePathComposerJsonDecoratorTest extends TestCase
 {
     /**
-     * @var string
-     */
-    private const RELATIVE_SOURCE_PATH = 'packages/MonorepoBuilder/tests/ComposerJsonDecorator/AutoloadRelativePathComposerJsonDecorator/Source';
-
-    /**
      * @var mixed[]
      */
     private $composerJson = [
@@ -24,23 +19,6 @@ final class AutoloadRelativePathComposerJsonDecoratorTest extends TestCase
             ],
             'files' => ['src/SomeFile.php'],
             'classmap' => ['src/SomeClass.php'],
-        ],
-    ];
-
-    /**
-     * @var mixed[]
-     */
-    private $expectedComposerJson = [
-        'autoload' => [
-            'psr-4' => [
-                'App\\' => self::RELATIVE_SOURCE_PATH . '/src',
-                'Shopsys\\' => [
-                    self::RELATIVE_SOURCE_PATH . '/app/',
-                    self::RELATIVE_SOURCE_PATH . '/src/Shopsys/',
-                ],
-            ],
-            'files' => [self::RELATIVE_SOURCE_PATH . '/src/SomeFile.php'],
-            'classmap' => [self::RELATIVE_SOURCE_PATH . '/src/SomeClass.php'],
         ],
     ];
 
@@ -62,6 +40,33 @@ final class AutoloadRelativePathComposerJsonDecoratorTest extends TestCase
     {
         $decorated = $this->autoloadRelativePathComposerJsonDecorator->decorate($this->composerJson);
 
-        $this->assertSame($this->expectedComposerJson, $decorated);
+        $this->assertSame($this->getExpectedComposerJson(), $decorated);
+    }
+
+    /**
+     * @return mixed[]
+     */
+    private function getExpectedComposerJson(): array
+    {
+        return [
+            'autoload' => [
+                'psr-4' => [
+                    'App\\' => $this->getRelativeSourcePath() . '/src',
+                    'Shopsys\\' => [
+                        $this->getRelativeSourcePath() . '/app/',
+                        $this->getRelativeSourcePath() . '/src/Shopsys/',
+                    ],
+                ],
+                'files' => [$this->getRelativeSourcePath() . '/src/SomeFile.php'],
+                'classmap' => [$this->getRelativeSourcePath() . '/src/SomeClass.php'],
+            ],
+        ];
+    }
+
+    private function getRelativeSourcePath(): string
+    {
+        $prefix = defined('SYMPLIFY_MONOREPO') ? 'packages/MonorepoBuilder/' : '';
+
+        return $prefix . 'tests/ComposerJsonDecorator/AutoloadRelativePathComposerJsonDecorator/Source';
     }
 }
