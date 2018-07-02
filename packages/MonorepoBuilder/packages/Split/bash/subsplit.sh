@@ -97,6 +97,12 @@ fatal()
 
 subsplit_init()
 {
+    # make output verbose for git commands
+    if [ -n "$VERBOSE" ]
+    then
+        set -e
+    fi
+
     if [ -e "$WORK_DIR" ]
     then
         die "Working directory already found at ${WORK_DIR}; please remove or run update"
