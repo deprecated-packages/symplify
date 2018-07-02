@@ -97,10 +97,11 @@ fatal()
 
 subsplit_init()
 {
-    # make output verbose for git commands
+    # ref https://stackoverflow.com/a/5750463/1348344
+    # print every command before its run
     if [ -n "$VERBOSE" ]
     then
-        set -e
+        set -o xtrace
     fi
 
     if [ -e "$WORK_DIR" ]

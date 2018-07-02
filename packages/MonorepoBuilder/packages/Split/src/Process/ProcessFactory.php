@@ -29,6 +29,7 @@ final class ProcessFactory
     }
 
     public function createSubsplit(
+        string $subsplitDirectory,
         string $theMostRecentTag,
         string $directory,
         string $remoteRepository,
@@ -38,6 +39,7 @@ final class ProcessFactory
 
         $commandLine = [
             realpath(self::SUBSPLIT_BASH_FILE),
+            sprintf('--work-dir=%s', $subsplitDirectory),
             '--branches=master',
             $theMostRecentTag ? sprintf('--tags=%s', $theMostRecentTag) : '',
             $directory . ':' . $remoteRepository,

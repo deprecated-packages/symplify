@@ -71,11 +71,9 @@ final class SplitCommand extends Command
         $this->packageToRepositorySplitter->splitDirectoriesToRepositories(
             $this->directoriesToRepositories,
             $this->rootDirectory,
+            $this->getSubsplitDirectory(),
             $isVerbose
         );
-
-        FileSystem::delete($this->getSubsplitDirectory());
-        $this->symfonyStyle->success(sprintf('Temporary directory "%s" cleaned', $this->getSubsplitDirectory()));
 
         // success
         return 0;
@@ -83,7 +81,13 @@ final class SplitCommand extends Command
 
     private function getSubsplitDirectory(): string
     {
+        $tempDirectory = sys_get_temp_dir() . '/_subsplit';
+
+        // clean it
+        FileSystem::delete($tempDirectory);
         // convention used by split.sh script
-        return $this->rootDirectory . '/.subsplit';
+//        return $this->rootDirectory . '/.subsplit';
+        # @todo: should be in config?
+        return $tempDirectory;
     }
 }
