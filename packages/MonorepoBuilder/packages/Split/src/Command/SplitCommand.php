@@ -65,14 +65,12 @@ final class SplitCommand extends Command
     {
         $this->repositoryGuard->ensureIsRepositoryDirectory($this->rootDirectory);
 
-        $isVerbose = $output->getVerbosity() >= OutputInterface::VERBOSITY_VERBOSE;
-
         $this->prepareCacheDirectory();
 
         $this->packageToRepositorySplitter->splitDirectoriesToRepositories(
             $this->directoriesToRepositories,
             $this->rootDirectory,
-            $isVerbose
+            $output->isVerbose()
         );
 
         // success
