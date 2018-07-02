@@ -87,13 +87,8 @@ subsplit_init()
         set -o xtrace
     fi
 
-    # current directory is empty => clone the repository here
-    if [ ! "$(ls -A .)" ]
-    then
-        echo "Initializing subsplit from '${REPOSITORY}' to temp directory"
-        git clone -q "$REPOSITORY" . || (echo "Could not clone repository" && exit 1)
-        sleep 2
-    fi
+    echo "Initializing subsplit from '${REPOSITORY}' to temp directory"
+    git clone -q "$REPOSITORY" . || (echo "Could not clone repository" && exit 1)
 }
 
 subsplit_publish()

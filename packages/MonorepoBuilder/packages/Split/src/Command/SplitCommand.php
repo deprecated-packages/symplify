@@ -2,7 +2,6 @@
 
 namespace Symplify\MonorepoBuilder\Split\Command;
 
-use Nette\Utils\FileSystem;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -65,8 +64,6 @@ final class SplitCommand extends Command
     {
         $this->repositoryGuard->ensureIsRepositoryDirectory($this->rootDirectory);
 
-        $this->prepareCacheDirectory();
-
         $this->packageToRepositorySplitter->splitDirectoriesToRepositories(
             $this->directoriesToRepositories,
             $this->rootDirectory,
@@ -75,11 +72,5 @@ final class SplitCommand extends Command
 
         // success
         return 0;
-    }
-
-    protected function prepareCacheDirectory(): void
-    {
-        FileSystem::delete($this->subsplitCacheDirectory);
-        FileSystem::createDir($this->subsplitCacheDirectory);
     }
 }

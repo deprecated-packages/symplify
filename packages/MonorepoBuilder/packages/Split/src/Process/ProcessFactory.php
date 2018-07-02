@@ -2,6 +2,8 @@
 
 namespace Symplify\MonorepoBuilder\Split\Process;
 
+use Nette\Utils\FileSystem;
+use Nette\Utils\Strings;
 use Symfony\Component\Process\Process;
 use Symplify\MonorepoBuilder\Split\Configuration\RepositoryGuard;
 
@@ -44,21 +46,26 @@ final class ProcessFactory
 
         $commandLine = [
             realpath(self::SUBSPLIT_BASH_FILE),
-            '--branches=master',
-            $theMostRecentTag ? sprintf('--tags=%s', $theMostRecentTag) : '',
+            '--branch=master',
+            $theMostRecentTag ? sprintf('--tag=%s', $theMostRecentTag) : '',
             $directory . ':' . $remoteRepository,
             sprintf('--repository=%s', $this->repository),
             $isVerbose ? '--debug' : '',
         ];
 
-        return $this->createProcessFromCommandLine($commandLine);
+        return $this->createProcessFromCommandLine($commandLine, $directory);
     }
 
     /**
      * @param mixed[] $commandLine
      */
-    private function createProcessFromCommandLine(array $commandLine): Process
+    private function createProcessFromCommandLine(array $commandLine, string $directory): Process
     {
-        return new Process($commandLine, $this->subsplitCacheDirectory, null, null, null);
+        $directory = $this->subsplitCacheDirectory . DIRECTORY_SEPARATOR . Strings::webalize($directory);
+
+        FileSystem::delete($directory);
+        FileSystem::createDir($directory);
+
+        return new Process($commandLine, $directory, null, null, null);
     }
 }
