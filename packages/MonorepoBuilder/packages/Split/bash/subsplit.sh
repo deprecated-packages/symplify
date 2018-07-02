@@ -22,16 +22,15 @@ if [ $# -eq 0 ]; then
 fi
 
 OPTS_SPEC="\
-subsplit.sh --splits=<splits> --branches=<branches> --tags=<tags>
+subsplit.sh <splits> --branches=<branches> --tags=<tags>
 
 For example:
-subsplit.sh --splits=packages/MonorepoBuilder:git@github.com:Symplify/MonorepoBuilder.git --branches=master --tags=v5.0
+subsplit.sh packages/MonorepoBuilder:git@github.com:Symplify/MonorepoBuilder.git --branches=master --tags=v5.0
 --
 h,help        show the help
-debug         show plenty of debug output
+debug         show debug output
 dry-run       do everything except actually send the updates
 work-dir=     directory that contains the subsplit working directory
-splits=       listed repositories <directory:repository>, e.g. '--splits=packages/MonorepoBuilder:git@github.com:Symplify/MonorepoBuilder.git'
 branches=     publish for listed branches, e.g '--branches=master', '--branches=master dev',
 tags=         publish for listed tags, e.g. '--tags=v5.0', '--tags=v5.0 v5.5'
 "
