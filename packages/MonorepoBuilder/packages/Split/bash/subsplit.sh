@@ -18,7 +18,7 @@ For example:
 subsplit.sh --from-directory=packages/MonorepoBuilder --to-repository=git@github.com:Symplify/MonorepoBuilder.git --branch=master --tag=v5.0
 --
 from-directory=   directory with the package to split, e.g. '--from-directory=packages/MonorepoBuilder'
-to-repository=    repository to split into, e.g. '--to-repository=git@github.com:Symplify/MonorepoBuilder.git
+to-repository=    repository to split into, e.g. '--to-repository=git@github.com:Symplify/MonorepoBuilder.git'
 repository=       repository to split from, e.g. '--repository=.git' for current one
 branch=           publish branch, e.g '--branch=master'
 tag=              publish tag, e.g. '--tags=v5.0'
