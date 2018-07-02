@@ -51,13 +51,13 @@ after_script:
     fi
    split monorepo to packages (done via Travis Cron Job)
   - |
-    # if [[ $TRAVIS_EVENT_TYPE = "cron" && $MONOREPO_SPLIT != "" ]]; then
     if [[ $MONOREPO_SPLIT != "" ]]; then
         packages/MonorepoBuilder/bin/monorepo-builder split -v
     fi
   - |
     echo $TRAVIS_EVENT_TYPE
     echo $MONOREPO_SPLIT
+  # if [[ $TRAVIS_EVENT_TYPE = "cron" && $MONOREPO_SPLIT != "" ]]; then
 
 notifications:
   email: never
