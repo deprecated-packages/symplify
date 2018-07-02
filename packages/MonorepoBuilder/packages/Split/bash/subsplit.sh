@@ -29,7 +29,7 @@ subsplit.sh packages/MonorepoBuilder:git@github.com:Symplify/MonorepoBuilder.git
 --
 h,help        show the help
 debug         show debug output
-work-dir=     directory that contains the subsplit working directory
+repository=   repository to split from
 branches=     publish for listed branches, e.g '--branches=master', '--branches=master dev',
 tags=         publish for listed tags, e.g. '--tags=v5.0', '--tags=v5.0 v5.5'
 "
@@ -50,7 +50,7 @@ fi
 
 COMMAND=
 SPLITS=
-REPO_URL=".git"
+REPOSITORY=
 BRANCHES=
 TAGS=
 DRY_RUN=
@@ -65,6 +65,7 @@ subsplit_main()
             --debug) VERBOSE=1 ;;
             --branches) BRANCHES="$1"; shift ;;
             --tags) TAGS="$1"; shift ;;
+            --repository) REPOSITORY="$1"; shift ;;
             --) break ;;
             *) die "Unexpected option: $opt" ;;
         esac
@@ -85,9 +86,9 @@ subsplit_init()
         set -o xtrace
     fi
 
-    echo "Initializing subsplit from '${REPO_URL}' to temp directory"
+    echo "Initializing subsplit from '${REPOSITORY}' to temp directory"
 
-    git clone -q "$REPO_URL" || echo "Could not clone repository" && exit 1
+    git clone -q "$REPOSITORY" || echo "Could not clone repository" && exit 1
 }
 
 subsplit_publish()

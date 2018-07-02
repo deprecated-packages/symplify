@@ -22,10 +22,16 @@ final class ProcessFactory
      */
     private $subsplitCacheDirectory;
 
-    public function __construct(RepositoryGuard $repositoryGuard, string $subsplitCacheDirectory)
+    /**
+     * @var string
+     */
+    private $repository;
+
+    public function __construct(RepositoryGuard $repositoryGuard, string $subsplitCacheDirectory, string $repository)
     {
         $this->repositoryGuard = $repositoryGuard;
         $this->subsplitCacheDirectory = $subsplitCacheDirectory;
+        $this->repository = $repository;
     }
 
     public function createSubsplit(
@@ -41,6 +47,7 @@ final class ProcessFactory
             '--branches=master',
             $theMostRecentTag ? sprintf('--tags=%s', $theMostRecentTag) : '',
             $directory . ':' . $remoteRepository,
+            sprintf('--repository=%s', $this->repository),
             $isVerbose ? '--debug' : '',
         ];
 
