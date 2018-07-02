@@ -52,7 +52,7 @@ after_script:
   # split monorepo to packages (done via Travis Cron Job)
   - |
     if [[ $TRAVIS_EVENT_TYPE = "cron" && $MONOREPO_SPLIT != "" ]]; then
-        packages/MonorepoBuilder/bin/monorepo-builder split
+        packages/MonorepoBuilder/bin/monorepo-builder split -v
     fi
   - |
     echo $TRAVIS_EVENT_TYPE
