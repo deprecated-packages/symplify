@@ -1,5 +1,8 @@
 parameters:
     ignoreErrors:
+        # part of test / bugged
+        - '#Parameter \#1 \$finder of method Symplify\\EasyCodingStandard\\Finder\\FinderSanitizer::sanitize\(\) expects \(iterable<SplFileInfo>&Nette\\Utils\\Finder\)\|Symfony\\Component\\Finder\\Finder, (array<int, SplFileInfo>|array<Symfony\\Component\\Finder\\SplFileInfo>|(Nette\\Utils\\Finder\|Symfony\\Component\\Finder\\Finder)) given#'
+
         # temporary
         - '#Parameter \#1 \$e of method Symfony\\Component\\Console\\Application::renderException\(\) expects Exception, Throwable given#'
 
@@ -48,9 +51,6 @@ parameters:
         # object
         - '#does not accept object#'
         - '#Call to an undefined method object#'
-
-        # part of test
-        - '#Parameter \#1 \$finder of method Symplify\\EasyCodingStandard\\Finder\\FinderSanitizer::sanitize\(\) expects Nette\\Utils\\Finder|Symfony\\Component\\Finder\\Finder, SplFileInfo\[\] given#'
 
         # intersect/union buggy
         - '#Parameter \#(2|3) \$items of method PhpCsFixer\\Tokenizer\\Tokens::(insertAt|overrideRange)\(\) expects (\()?iterable<PhpCsFixer\\Tokenizer\\Token>&PhpCsFixer\\Tokenizer\\Tokens(\))?(\|PhpCsFixer\\Tokenizer\\Token)?, array<(int, )?PhpCsFixer\\Tokenizer\\Token> given#'
