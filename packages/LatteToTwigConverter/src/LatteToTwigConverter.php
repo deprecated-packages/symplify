@@ -13,7 +13,7 @@ final class LatteToTwigConverter
         // 4. block: {block content}...{/block} => {% block content %}...{% endblock %}
         $content = Strings::replace($content, '#{block (\w+)}(.*?){\/block}#s', '{% block $1 %}$2{% endblock %}');
 
-        // 1. variables: {$google_analytics_tracking_id} => {{ $google_analytics_tracking_id }}
+        // 1. variables: {$google_analytics_tracking_id} => {{ google_analytics_tracking_id }}
         $content = Strings::replace($content, '#{\$([A-Za-z_]+)}#', '{{ $1 }}');
 
         // 2. include: {include "_snippets/menu.latte"} => {% include "_snippets/menu.latte" %}
