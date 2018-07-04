@@ -22,10 +22,10 @@ final class LatteToTwigConverter
         // {$post['relativeUrl']} => {{ post.relativeUrl }}
         $content = Strings::replace($content, '#{\$([A-Za-z_-]+)\[\'([A-Za-z_-]+)\'\]}#', '{{ $1.$2 }}');
 
-        // 3. suffix: {include "_snippets/menu.latte", "data" => $data} => {% include "_snippets/menu.twig", "data" => $data %}
+        // suffix: "_snippets/menu.latte" => "_snippets/menu.twig"
         $content = Strings::replace($content, '#([A-Za-z_/"]+).latte#', '$1.twig');
 
-        // 7. include var: {% include "_snippets/menu.latte", "data" => $data %} => {% include "_snippets/menu.twig", { "data": data } %}
+        // include var: {% include "_snippets/menu.latte", "data" => $data %} => {% include "_snippets/menu.twig", { "data": data } %}
         // see https://twig.symfony.com/doc/2.x/functions/include.html
         // single lines
         // ref https://regex101.com/r/uDJaia/1
