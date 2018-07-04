@@ -19,7 +19,6 @@ final class LatteToTwigConverter
         // 2. include: {include "_snippets/menu.latte"} => {% include "_snippets/menu.latte" %}
         $content = Strings::replace($content, '#{include ([^}]+)}#', '{% include $1 %}');
 
-        // 3. suffix: {include "_snippets/menu.latte"} => {% include "_snippets/menu.twig" %}
         // 3. suffix: {include "_snippets/menu.latte", "data" => $data} => {% include "_snippets/menu.twig", "data" => $data %}
         $content = Strings::replace($content, '#([A-Za-z_/"]+).latte#', '$1.twig');
 
