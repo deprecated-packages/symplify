@@ -38,5 +38,15 @@ final class LatteToTwigConverterTest extends TestCase
             __DIR__ . '/LatteToTwigConverterSource/block-file.latte',
             __DIR__ . '/LatteToTwigConverterSource/expected-block-file.twig',
         ];
+
+        yield [
+            __DIR__ . '/LatteToTwigConverterSource/filter.latte',
+            __DIR__ . '/LatteToTwigConverterSource/expected-filter.twig',
+        ];
+
+        yield [
+            __DIR__ . '/LatteToTwigConverterSource/loops.latte',
+            __DIR__ . '/LatteToTwigConverterSource/expected-loops.twig',
+        ];
     }
 }

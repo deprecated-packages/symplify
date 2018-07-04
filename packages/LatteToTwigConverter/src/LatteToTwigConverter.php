@@ -54,7 +54,7 @@ final class LatteToTwigConverter
         });
 
         //  {$post['updated_message']|noescape} =>  {{ post.updated_message | noescape }}
-        $content = Strings::replace($content, '#{\$([A-Za-z_-]+)\[\'([A-Za-z_-]+)\'\]\|([^}]+)}#', '{{ $1.$2 | $3 }}');
+        $content = Strings::replace($content, '#{\$([A-Za-z_-]+)\[\'([A-Za-z_-]+)\'\]\|([^}]+)}#', '{{ $1.$2|$3 }}');
 
         // {sep}, {/sep} => {% if loop.last == false %}, {% endif %}
         $content = Strings::replace($content, '#{sep}([^{]+){\/sep}#', '{% if loop.last == false %}$1{% endif %}');
