@@ -10,20 +10,20 @@ final class LatteToTwigConverter
     {
         $content = file_get_contents($file);
 
-        // 4. block: {block content}...{/block} => {% block content %}...{% endblock %}
+        // block: {block content}...{/block} => {% block content %}...{% endblock %}
         $content = Strings::replace($content, '#{block (\w+)}(.*?){\/block}#s', '{% block $1 %}$2{% endblock %}');
 
-        // 1. variables: {$google_analytics_tracking_id} => {{ google_analytics_tracking_id }}
+        // variables: {$google_analytics_tracking_id} => {{ google_analytics_tracking_id }}
         $content = Strings::replace($content, '#{\$([A-Za-z_]+)}#', '{{ $1 }}');
 
-        // 2. include: {include "_snippets/menu.latte"} => {% include "_snippets/menu.latte" %}
+        // include: {include "_snippets/menu.latte"} => {% include "_snippets/menu.latte" %}
         $content = Strings::replace($content, '#{include ([^}]+)}#', '{% include $1 %}');
+
+        // {$post['relativeUrl']} => {{ post.relativeUrl }}
+        $content = Strings::replace($content, '#{\$([A-Za-z_-]+)\[\'([A-Za-z_-]+)\'\]}#', '{{ $1.$2 }}');
 
         // 3. suffix: {include "_snippets/menu.latte", "data" => $data} => {% include "_snippets/menu.twig", "data" => $data %}
         $content = Strings::replace($content, '#([A-Za-z_/"]+).latte#', '$1.twig');
-
-        // 6. {$post['relativeUrl']} => {{ post.relativeUrl }}
-        $content = Strings::replace($content, '#{\$([A-Za-z_-]+)\[\'([A-Za-z_-]+)\'\]}#', '{{ $1.$2 }}');
 
         // 7. include var: {% include "_snippets/menu.latte", "data" => $data %} => {% include "_snippets/menu.twig", { "data": data } %}
         // see https://twig.symfony.com/doc/2.x/functions/include.html
