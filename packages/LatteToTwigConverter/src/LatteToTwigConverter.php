@@ -10,7 +10,7 @@ final class LatteToTwigConverter
     {
         $content = file_get_contents($file);
 
-        // block/include
+        // block/include:
         // {block content}...{/block} =>
         // {% block content %}...{% endblock %}
         $content = Strings::replace($content, '#{block (\w+)}(.*?){\/block}#s', '{% block $1 %}$2{% endblock %}');
