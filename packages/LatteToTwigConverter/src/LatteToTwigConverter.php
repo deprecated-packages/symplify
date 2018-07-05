@@ -24,7 +24,9 @@ final class LatteToTwigConverter
         // variables:
         // {$google_analytics_tracking_id} =>
         // {{ google_analytics_tracking_id }}
-        $content = Strings::replace($content, '#{\$(\w+)(\|\w+)?}#', '{{ $1$2 }}');
+        // {$google_analytics_tracking_id|someFilter} =>
+        // {{ google_analytics_tracking_id|someFilter }}
+        $content = Strings::replace($content, '#{\$(\w+)(\|.*?)?}#', '{{ $1$2 }}');
         // {$post->getId()} =>
         // {{ post.getId() }}
         $content = Strings::replace($content, '#{\$([\w]+)->([\w()]+)}#', '{{ $1.$2 }}');
