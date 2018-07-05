@@ -17,11 +17,14 @@ final class LatteToTwigConverter
         // {include "_snippets/menu.latte"} =>
         // {% include "_snippets/menu.latte" %}
         $content = Strings::replace($content, '#{include ([^}]+)}#', '{% include $1 %}');
+        // {define sth}...{/define} =>
+        // {% block sth %}...{% endblock %}
+        $content = Strings::replace($content, '#{define (.*?)}(.*?){\/define}#s', '{% block $1 %}$2{% endblock %}');
 
         // variables:
         // {$google_analytics_tracking_id} =>
         // {{ google_analytics_tracking_id }}
-        $content = Strings::replace($content, '#{\$([A-Za-z_]+)}#', '{{ $1 }}');
+        $content = Strings::replace($content, '#{\$(\w+)(\|\w+)?}#', '{{ $1$2 }}');
         // {$post->getId()} =>
         // {{ post.getId() }}
         $content = Strings::replace($content, '#{\$([\w]+)->([\w()]+)}#', '{{ $1.$2 }}');
@@ -29,11 +32,12 @@ final class LatteToTwigConverter
         // {{ post.relativeUrl }}
         $content = Strings::replace($content, '#{\$([A-Za-z_-]+)\[\'([A-Za-z_-]+)\'\]}#', '{{ $1.$2 }}');
 
-
         // suffix: "_snippets/menu.latte" => "_snippets/menu.twig"
         $content = Strings::replace($content, '#([A-Za-z_/"]+).latte#', '$1.twig');
 
-        // include var: {% include "_snippets/menu.latte", "data" => $data %} => {% include "_snippets/menu.twig", { "data": data } %}
+        // include var:
+        // {% include "_snippets/menu.latte", "data" => $data %} =>
+        // {% include "_snippets/menu.twig", { "data": data } %}
         // see https://twig.symfony.com/doc/2.x/functions/include.html
         // single lines
         // ref https://regex101.com/r/uDJaia/1
@@ -61,31 +65,32 @@ final class LatteToTwigConverter
             return $match[1] . $twigDataInString . $match[3];
         });
 
-        //  {$post['updated_message']|noescape} =>  {{ post.updated_message | noescape }}
+        // filter:
+        // {$post['updated_message']|noescape} =>
+        // {{ post.updated_message|noescape }}
         $content = Strings::replace($content, '#{\$([A-Za-z_-]+)\[\'([A-Za-z_-]+)\'\]\|([^}]+)}#', '{{ $1.$2|$3 }}');
 
+        // loops:
         // {sep}, {/sep} => {% if loop.last == false %}, {% endif %}
         $content = Strings::replace($content, '#{sep}([^{]+){\/sep}#', '{% if loop.last == false %}$1{% endif %}');
 
+        // conditions:
         // https://regex101.com/r/XKKoUh/1/
-        // {if isset($post['variable'])}...{/if} => {% if $post['variable'] is defined %}...{% endif %}
+        // {if isset($post['variable'])}...{/if} =>
+        // {% if $post['variable'] is defined %}...{% endif %}
         $content = Strings::replace(
             $content,
             '#{if isset\(([^{]+)\)}(.*?){\/if}#s',
             '{% if $1 is defined %}$2{% endif %}'
         );
+        // {ifset $post}...{/ifset} =>
+        // {% if $post is defined %}..{% endif %}
+        $content = Strings::replace($content, '#{ifset (.*?)}(.*?){\/ifset}#s', '{% if $1 is defined %}$2{% endif %}');
 
-
-
-        // {define sth}...{/define} => {% block sth %}...{% endblock %}
-        $content = Strings::replace($content, '#{define (.*?)}(.*?){\/define}#s', '{% block $1 %}$2{% endblock %}');
-
-        // {% if $post['deprecated'] => {% if $post.deprecated
+        // {% if $post['deprecated'] =>
+        // {% if $post.deprecated
         // https://regex101.com/r/XKKoUh/2
         $content = Strings::replace($content, '#{% (\w+) \$([A-Za-z]+)\[\'([\A-Za-z]+)\'\]#', '{% $1 $2.$3');
-
-        // {ifset $post}...{/ifset} => {% if $post is defined %}..{% endif %}
-        $content = Strings::replace($content, '#{ifset (.*?)}(.*?){\/ifset}#s', '{% if $1 is defined %}$2{% endif %}');
 
         $content = Strings::replace($content, '#{else}#', '{% else %}');
 
