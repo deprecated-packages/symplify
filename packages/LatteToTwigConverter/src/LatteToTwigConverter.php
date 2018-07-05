@@ -67,6 +67,10 @@ final class LatteToTwigConverter
             '{% if $1 is defined %}$2{% endif %}'
         );
 
+
+
+
+
         // {$post->getId()} => {{ post.getId() }}
         $content = Strings::replace($content, '#{\$([\w]+)->([\w()]+)}#', '{{ $1.$2 }}');
 

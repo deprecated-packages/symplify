@@ -30,8 +30,8 @@ final class LatteToTwigConverterTest extends TestCase
     public function provideData(): Iterator
     {
         yield [
-            __DIR__ . '/LatteToTwigConverterSource/file.latte',
-            __DIR__ . '/LatteToTwigConverterSource/expected-file.twig',
+            __DIR__ . '/LatteToTwigConverterSource/variables.latte',
+            __DIR__ . '/LatteToTwigConverterSource/expected-variables.twig',
         ];
 
         yield [
