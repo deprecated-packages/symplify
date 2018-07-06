@@ -59,24 +59,12 @@ final class LatteToTwigConverter
             return $match[1] . $twigDataInString . $match[3];
         });
 
-//        // conditions:
-//        // {% if $post['deprecated'] =>
-//        // {% if $post.deprecated
-//        // https://regex101.com/r/XKKoUh/2
-//        $content = Strings::replace($content, '#{% (\w+) \$([A-Za-z]+)\[\'([\A-Za-z]+)\'\]#', '{% $1 $2.$3');
-//
-//        $content = Strings::replace($content, '#{else}#', '{% else %}');
-
-        // {var $var = $anotherVar} => {% set var = anotherVar %}
-        $content = Strings::replace($content, '#{var \$?(.*?) = (.*?)}#s', '{% set $1 = $2 %}');
-
-        // {capture $var}...{/capture} => {% set var %}...{% endset %}
-        $content = Strings::replace($content, '#{capture \$(\w+)}(.*?){\/capture}#s', '{% set $1 %}$2{% endset %}');
-
-//     {% if $post['rectify_post_id'] is defined %} => {% if post.rectify_post_id is defined %}
+        // {% if $post['rectify_post_id'] is defined %} =>
+        // {% if post.rectify_post_id is defined %}
         $content = Strings::replace($content, '#({% \w+) \$(\w+)\[\'(\w+)\'\]#', '$1 $2.$3');
 
-        // {% include "sth", = {% include "sth" with
+        // {% include "sth", =>
+        // {% include "sth" with
         $content = Strings::replace($content, '#({% include [^,{]+)(,)#', '$1 with');
 
         $content = Strings::replace($content, '#{% (.*?) count\(\$?(\w+)\)#', '{% $1 $2|length');
