@@ -14,7 +14,7 @@ final class ConditionCaseConverter implements CaseConverterInterface
         // {% if $post['variable'] is defined %}...{% endif %}
         $content = Strings::replace(
             $content,
-            '#{if isset\(([^{]+)\)}(.*?){\/if}#s',
+            '#{if isset\((.*?)\)}(.*?){\/if}#s',
             '{% if $1 is defined %}$2{% endif %}'
         );
         // {ifset $post}...{/ifset} =>
