@@ -84,9 +84,6 @@ final class LatteToTwigConverter
 
         $content = Strings::replace($content, '#{% (.*?) count\(\$?(\w+)\)#', '{% $1 $2|length');
 
-        // fixes "%)" => "%}"
-        $content = Strings::replace($content, '#%\)#', '%}');
-
         return Strings::replace($content, '#{% include \'?(\w+)\'? %}#', '{{ block(\'$1\') }}');
     }
 }
