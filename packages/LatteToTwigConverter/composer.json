@@ -3,8 +3,7 @@
     "description": "Latte to Twig converter converts Latte to Twig",
     "license": "MIT",
     "bin": [
-        "bin/latte-to-twig-converter",
-        "bin/latte-to-twig-converter-bootstrap.php"
+        "bin/latte-to-twig-converter"
     ],
     "require": {
         "php": "^7.1",
