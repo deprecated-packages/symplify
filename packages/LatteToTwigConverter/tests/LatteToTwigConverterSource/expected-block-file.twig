@@ -1,0 +1,15 @@
+{% block content %}
+
+    Content
+
+{% endblock %}
+
+{% include "_snippets/menu.twig" %}
+
+{% include "_snippets/menu.twig" with { "key": "var" } %}
+
+{% block someBlock %}
+
+    Hi
+
+{% endblock %}

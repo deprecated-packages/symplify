@@ -1,0 +1,19 @@
+#!/usr/bin/env php
+<?php declare(strict_types=1);
+
+require_once __DIR__ . '/latte-to-twig-converter-bootstrap.php';
+
+use Psr\Container\ContainerInterface;
+use Symfony\Component\Console\Application;
+use Symplify\LatteToTwigConverter\DependencyInjection\ContainerFactory;
+use Symplify\PackageBuilder\Console\ThrowableRenderer;
+
+try {
+    /** @var ContainerInterface $container */
+    $container = (new ContainerFactory())->create();
+
+    $application = $container->get(Application::class);
+    exit($application->run());
+} catch (Throwable $throwable) {
+    (new ThrowableRenderer())->render($throwable);
+}
