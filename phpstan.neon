@@ -72,7 +72,6 @@ parameters:
         - '#If condition is always true#'
         - '#Binary operation "\+" between int\|string\|false and 2 results in an error#'
         - '#Binary operation "\+" between int\|string\|false and 1 results in an error#'
-        - '#Parameter \#2 ...\$vars of function sprintf expects float\|int\|string\|null, Symfony\\Component\\Finder\\SplFileInfo given#'
         - '#Parameter \#1 \$code of static method PhpCsFixer\\Tokenizer\\Tokens::fromCode\(\) expects string, string\|false given#'
         - '#Cannot call method contains\(\) on array<array<string>>\|SplObjectStorage#'
         - '#Cannot call method attach\(\) on array<array<string>>\|SplObjectStorage#'
@@ -80,7 +79,6 @@ parameters:
         - "#Casting to array something that's already array#"
         - '#Parameter \#1 \$string of function strlen expects string, string\|false given#'
         - '#Method Symplify\\EasyCodingStandard\\Finder\\SourceFinder::find\(\) should return array<Symfony\\Component\\Finder\\SplFileInfo> but returns array<SplFileInfo>#'
-        - '#Parameter \#3 ...\$vars of function sprintf expects float\|int\|string\|null, string\|false given#'
         - '#Property Symplify\\EasyCodingStandard\\Yaml\\CheckerServiceParametersShifter::\$serviceKeywords \(array<string>\) does not accept ReflectionProperty#'
         - '#Negated boolean is always false#'
         - '#Method Symplify\\EasyCodingStandard\\Tests\\Indentation\\IndentationTest::getIndentationTypeFixerFromContainer\(\) should return PhpCsFixer\\Fixer\\Whitespace\\IndentationTypeFixer but returns PhpCsFixer\\Fixer\\FixerInterface\|null#'
