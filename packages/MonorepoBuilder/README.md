@@ -107,7 +107,7 @@ parameters:
 And run by:
 
 ```bash
-vendor/bin/monorepo-builder package-alias
+vendor/bin/monorepo-builder split
 ```
 
 To speed up the process about 50-60 %, all repositories are synchronized in parallel.
