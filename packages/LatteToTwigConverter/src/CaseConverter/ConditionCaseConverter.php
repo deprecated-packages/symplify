@@ -27,7 +27,8 @@ final class ConditionCaseConverter implements CaseConverterInterface
         $content = Strings::replace($content, '#{% (\w+) \$([A-Za-z]+)\[\'([\A-Za-z]+)\'\]#', '{% $1 $2.$3');
 
         // {if "sth"}..{/if} =>
-        // {% if "sth" %}..{% endif %} =>
+        // {% if "sth" %}..{% endif %}
+        // https://regex101.com/r/DrDSJf/1
         $content = Strings::replace($content, '#{if (.*?)}(.*?){\/if}#s', '{% if $1 %}$2{% endif %}');
 
         return Strings::replace($content, '#{else}#', '{% else %}');
