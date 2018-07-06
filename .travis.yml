@@ -52,12 +52,15 @@ after_script:
 
   # split monorepo to packages (done via Travis Cron Job)
   - |
-    if [[ $MONOREPO_SPLIT != "" ]]; then
+    if [[ $MONOREPO_SPLIT == true ]]; then
         packages/MonorepoBuilder/bin/monorepo-builder split -v
     fi
   - |
     echo $TRAVIS_EVENT_TYPE
     echo $MONOREPO_SPLIT
+
+  # test once monorepo split raw command
+  - mkdir random && cd random && /home/travis/build/Symplify/Symplify/packages/MonorepoBuilder/packages/Split/bash/subsplit.sh --from-directory=packages/MonorepoBuilder --to-repository=git@github.com:Symplify/MonorepoBuilder.git --branch=master --debug --repository=/home/travis/build/Symplify/Symplify/.git
 
   # if [[ $TRAVIS_EVENT_TYPE = "cron" && $MONOREPO_SPLIT != "" ]]; then
 
