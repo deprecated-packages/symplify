@@ -22,7 +22,6 @@ to-repository=    repository to split into, e.g. '--to-repository=git@github.com
 repository=       repository to split from, e.g. '--repository=.git' for current one
 branch=           branch to publish, e.g '--branch=master'
 tag=              tag to publish, e.g. '--tag=v5.0'
-debug             show debug output
 h,help            show the help
 "
 
@@ -35,16 +34,15 @@ eval "$(echo "$OPTS_SPEC" | git rev-parse --parseopt -- "$@" || echo exit $?)"
 
 # We can run this from anywhere.
 NONGIT_OK=1
-DEBUG="  :DEBUG >"
 
 PATH=$PATH:$(git --exec-path)
 
 # git-sh-setup
 
-if [ "$(hash git-subtree &>/dev/null && echo OK)" = "" ]
-then
-    die "Git subsplit needs git subtree; install git subtree or upgrade git to >=1.7.11"
-fi
+#if [ "$(hash git-subtree &>/dev/null && echo OK)" = "" ]
+#then
+#    die "Git subsplit needs git subtree; install git subtree or upgrade git to >=1.7.11"
+#fi
 
 COMMAND=
 FROM_DIRECTORY=
@@ -53,9 +51,30 @@ REPOSITORY=
 BRANCH=
 TAG=
 DRY_RUN=
-VERBOSE=
+GITHUB_TOKEN=
 
-subsplit_main()
+function main()
+{
+    processCommandLine "$@"
+
+    # report missing required options
+    if [ -z "$FROM_DIRECTORY" ]
+    then
+        die "Command requires --from-repository option to be filled"
+    fi
+
+    if [ -z "$TO_REPOSITORY" ]
+    then
+        die "Command requires --to-repository option to be filled"
+    fi
+
+    init
+    publish
+
+    exit $?
+}
+
+function processCommandLine()
 {
     while [ $# -gt 0 ]; do
         opt="$1"
@@ -66,87 +85,60 @@ subsplit_main()
             --repository) REPOSITORY="$1"; shift ;;
             --branch) BRANCH="$1"; shift ;;
             --tag) TAG="$1"; shift ;;
-            --debug) VERBOSE=1 ;;
             --) break ;;
-            *) die "Unexpected option: $opt" ;;
+            *) die "Unexpected option: '$opt'" ;;
         esac
     done
-
-    # report missing required options
-    if [ -z "$FROM_DIRECTORY" ]
-    then
-        echo "Command requires --from-repository option to be filled"
-        exit 1
-    fi
-
-    if [ -z "$TO_REPOSITORY" ]
-    then
-        echo "Command requires --to-repository option to be filled"
-        exit 1
-    fi
-
-    subsplit_init
-    subsplit_publish
 }
 
-subsplit_init()
+function init()
 {
     # ref https://stackoverflow.com/a/5750463/1348344
     # print every command before its run
-    if [ -n "$VERBOSE" ]
-    then
-        set -o xtrace
-    fi
+    set -o xtrace
 
-    echo "Initializing subsplit from '${REPOSITORY}' to temp directory"
-    git clone -q "$REPOSITORY" . || (echo "Could not clone repository" && exit 1)
+    echo "Initializing subsplit from '${REPOSITORY}' to '${PWD}' directory"
+
+    # clone with all branches
+    # see: https://stackoverflow.com/a/13575102/1348344
+    git clone --mirror "$REPOSITORY" .git || die "Could not clone repository"
+    git config --unset core.bare
+    git reset --hard
 }
 
-subsplit_publish()
+function publish()
 {
-    REMOTE_NAME=$(echo "$TO_REPOSITORY" | git hash-object --stdin)
+    git remote remove origin
+    git remote add origin "$TO_REPOSITORY" || die "Failed adding remote origin $TO_REPOSITORY"
 
-    if ! git remote | grep "^${REMOTE_NAME}$" >/dev/null
-    then
-        git remote add "$REMOTE_NAME" "$TO_REPOSITORY" || (echo "Failed adding remote $REMOTE_NAME $TO_REPOSITORY" && exit 1)
-    fi
+    echo "Syncing '${FROM_DIRECTORY}' to '${TO_REPOSITORY}'"
 
-    echo "Syncing ${FROM_DIRECTORY} -> ${TO_REPOSITORY}"
+    split_branch
+    split_tag
+}
 
-    # split for branch
+function split_branch()
+{
     if [ -n "$BRANCH" ]
     then
-        if ! git show-ref --quiet --verify -- "refs/remotes/origin/${BRANCH}"
-        then
-            echo " - skipping head '${BRANCH}' (does not exist)"
-            continue
-        fi
-        LOCAL_BRANCH="${REMOTE_NAME}-branch-${BRANCH}"
+        LOCAL_BRANCH="local-${BRANCH}"
 
         echo " - syncing branch '${BRANCH}'"
 
-        git checkout master >/dev/null 2>&1 || (echo "Failed while git checkout master" && exit 1)
-        git branch -D "$LOCAL_BRANCH" >/dev/null 2>&1
-        git branch -D "${LOCAL_BRANCH}-checkout" >/dev/null 2>&1
-        git checkout -b "${LOCAL_BRANCH}-checkout" "origin/${BRANCH}" >/dev/null 2>&1 || (echo "Failed while git checkout" && exit 1)
-        git subtree split -q --prefix="$FROM_DIRECTORY" --branch="$LOCAL_BRANCH" "origin/${BRANCH}" >/dev/null || (echo "Failed while git subtree split for ${BRANCH}" && exit 1)
-        RETURNCODE=$?
+        git checkout -b "${LOCAL_BRANCH}-checkout" "${BRANCH}" >/dev/null 2>&1 || die "Failed while git checkout ${BRANCH}"
+        git subtree split -q --prefix="$FROM_DIRECTORY" --branch="$LOCAL_BRANCH" "${BRANCH}" >/dev/null || die "Failed while git subtree split for ${BRANCH}"
 
-        if [ $RETURNCODE -eq 0 ]
-        then
-            git push -q --force $REMOTE_NAME ${LOCAL_BRANCH}:${BRANCH} || (echo "Failed pushing branchs to remote repo" && exit 1)
-        fi
+        git push -q --force origin ${LOCAL_BRANCH}:${BRANCH} || die "Failed pushing branch to remote repo"
+
+        echo " - subtree split for '${BRANCH}' [DONE]"
     fi
+}
 
-    # split for tag
+function split_tag()
+{
     if [ -n "$TAG" ]
     then
-        if ! git show-ref --quiet --verify -- "refs/tags/${TAG}"
-        then
-            echo " - skipping tag '${TAG}' (does not exist)"
-            continue
-        fi
-        LOCAL_TAG="${REMOTE_NAME}-tag-${TAG}"
+        LOCAL_TAG="tag-${TAG}"
 
         if git branch | grep "${LOCAL_TAG}$" >/dev/null
         then
@@ -155,19 +147,20 @@ subsplit_publish()
         fi
 
         echo " - syncing tag '${TAG}'"
-        echo " - deleting '${LOCAL_TAG}'"
-        git branch -D "$LOCAL_TAG" >/dev/null 2>&1
 
-        echo " - subtree split for '${TAG}'"
-        git subtree split -q --prefix="$FROM_DIRECTORY" --branch="$LOCAL_TAG" "$TAG" >/dev/null || (echo "Failed while git subtree split for TAG" && exit 1)
-        RETURNCODE=$?
+        git subtree split -q --prefix="$FROM_DIRECTORY" --branch="$LOCAL_TAG" "$TAG" >/dev/null || die "Failed while git subtree split for TAG"
+
+        git push -q --force origin ${LOCAL_TAG}:refs/tags/${TAG} || die "Failed pushing tag to remote repo"
 
         echo " - subtree split for '${TAG}' [DONE]"
-        if [ $RETURNCODE -eq 0 ]
-        then
-            git push -q --force ${REMOTE_NAME} ${LOCAL_TAG}:refs/tags/${TAG} || (echo "Failed pushing tag to remote repo" && exit 1)
-        fi
     fi
 }
 
-subsplit_main "$@"
+# report error and exit
+function die()
+{
+   echo ${1}
+   exit 1
+}
+
+main "$@"

@@ -6,13 +6,12 @@
 
 Do you want to turn your [Latte](https://latte.nette.org/en/) templates to [Twig](https://twig.symfony.com/)?
 
-
 **Before**
 
 ```html
 {foreach $values as $key => $value}
-    {$value->getName()} 
-    
+    {$value->getName()}
+
     {if isset($value['position'])}
         {$value['position']|noescape}
     {else}
@@ -26,7 +25,7 @@ Do you want to turn your [Latte](https://latte.nette.org/en/) templates to [Twig
 ```twig
 {% for key, value in values %}
     {{ value.getName() }}
-    
+
     {% if value.position is defined %}
         {{ value.position|raw }}
     {% else %}
@@ -49,7 +48,6 @@ composer require symplify/latte-to-twig-converter --dev
 
 It scan all the `*.twig` files and if it founds Latte syntax in it, it'll convert it to Twig.
 That way you can keep `*.latte` files you need.
-
 
 ```bash
 vendor/bin/latte-to-twig-converter convert /directory

@@ -12,7 +12,7 @@ final class RepositoryGuard
     /**
      * @var string
      */
-    private const GIT_REPOSITORY_PATTERN = '#((git|ssh|http(s)?)|(git@[\w\.]+))(:(//)?)([\w\.@\:/\-~]+)(\.git)(/)?#';
+    private const GIT_REPOSITORY_PATTERN = '#((git|ssh|http(s)?)|(git@[\w\.]+)|[\w]+)(:(//)?)([\w\.@\:/\-~]+)(\.git)(/)?#';
 
     public function ensureIsRepository(string $possibleRepository): void
     {

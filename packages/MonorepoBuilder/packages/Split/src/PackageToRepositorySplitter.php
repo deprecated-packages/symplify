@@ -5,9 +5,9 @@ namespace Symplify\MonorepoBuilder\Split;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Process\Process;
 use Symplify\MonorepoBuilder\Split\Exception\PackageToRepositorySplitException;
+use Symplify\MonorepoBuilder\Split\Git\GitManager;
 use Symplify\MonorepoBuilder\Split\Process\ProcessFactory;
 use Symplify\MonorepoBuilder\Split\Process\SplitProcessInfo;
-use Symplify\MonorepoBuilder\Split\Process\SplitProcessInfoFactory;
 use Symplify\PackageBuilder\FileSystem\FileSystemGuard;
 
 final class PackageToRepositorySplitter
@@ -38,52 +38,47 @@ final class PackageToRepositorySplitter
     private $processFactory;
 
     /**
-     * @var SplitProcessInfoFactory
+     * @var GitManager
      */
-    private $splitProcessInfoFactory;
+    private $gitManager;
 
     public function __construct(
         SymfonyStyle $symfonyStyle,
         FileSystemGuard $fileSystemGuard,
         ProcessFactory $processFactory,
-        SplitProcessInfoFactory $splitProcessInfoFactory
+        GitManager $gitAnalyzer
     ) {
         $this->symfonyStyle = $symfonyStyle;
         $this->fileSystemGuard = $fileSystemGuard;
         $this->processFactory = $processFactory;
-        $this->splitProcessInfoFactory = $splitProcessInfoFactory;
+        $this->gitManager = $gitAnalyzer;
     }
 
     /**
      * @param mixed[] $splitConfig
      */
-    public function splitDirectoriesToRepositories(
-        array $splitConfig,
-        string $rootDirectory,
-        bool $isVerbose
-    ): void {
-        $theMostRecentTag = $this->getMostRecentTag($rootDirectory);
+    public function splitDirectoriesToRepositories(array $splitConfig, string $rootDirectory): void
+    {
+        $theMostRecentTag = $this->gitManager->getMostRecentTag($rootDirectory);
 
-        foreach ($splitConfig as $localSubdirectory => $remoteRepository) {
-            $this->fileSystemGuard->ensureDirectoryExists($localSubdirectory);
+        foreach ($splitConfig as $localDirectory => $remoteRepository) {
+            $this->fileSystemGuard->ensureDirectoryExists($localDirectory);
+
+            $remoteRepositoryWithGithubKey = $this->gitManager->completeRemoteRepositoryWithGithubToken(
+                $remoteRepository
+            );
 
             $process = $this->processFactory->createSubsplit(
                 $theMostRecentTag,
-                $localSubdirectory,
-                $remoteRepository,
-                $isVerbose
+                $localDirectory,
+                $remoteRepositoryWithGithubKey
             );
 
             $this->symfonyStyle->note('Running: ' . $process->getCommandLine());
             $process->start();
 
             $this->activeProcesses[] = $process;
-
-            $this->processInfos[] = $this->splitProcessInfoFactory->createFromProcessLocalDirectoryAndRemoteRepository(
-                $process,
-                $localSubdirectory,
-                $remoteRepository
-            );
+            $this->processInfos[] = new SplitProcessInfo($process, $localDirectory, $remoteRepository);
         }
 
         $this->symfonyStyle->success(sprintf('Running %d jobs asynchronously', count($this->activeProcesses)));
@@ -93,16 +88,6 @@ final class PackageToRepositorySplitter
         }
 
         $this->reportFinishedProcesses();
-    }
-
-    private function getMostRecentTag(string $cwd): string
-    {
-        $process = new Process('git tag -l --sort=committerdate', $cwd);
-        $process->run();
-        $tags = $process->getOutput();
-        $tagList = explode(PHP_EOL, trim($tags));
-
-        return (string) array_pop($tagList);
     }
 
     private function reportFinishedProcesses(): void
@@ -121,9 +106,11 @@ final class PackageToRepositorySplitter
             }
 
             $this->symfonyStyle->success(sprintf(
-                'Push of "%s" directory to "%s" repository was successful.',
+                'Push of "%s" directory to "%s" repository was successful: %s "%s"',
                 $processInfo->getLocalDirectory(),
-                $processInfo->getRemoteRepository()
+                $processInfo->getRemoteRepository(),
+                PHP_EOL . PHP_EOL,
+                $process->getOutput()
             ));
         }
     }
@@ -133,11 +120,6 @@ final class PackageToRepositorySplitter
         foreach ($this->activeProcesses as $i => $runningProcess) {
             if (! $runningProcess->isRunning()) {
                 unset($this->activeProcesses[$i]);
-            } else {
-                $incrementalOutput = trim($runningProcess->getIncrementalOutput());
-                if ($incrementalOutput) {
-                    $this->symfonyStyle->note($incrementalOutput);
-                }
             }
         }
 

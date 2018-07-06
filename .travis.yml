@@ -1,68 +1,78 @@
 language: php
 
-matrix:
-  include:
-    - php: 7.1
-      env: PHPUNIT_FLAGS="--coverage-clover coverage.xml"
-    - php: 7.1
-      env: CODING_STANDARD=true
-    - php: 7.1
-      env: COMPOSER_FLAGS="--prefer-lowest"
-    - php: 7.2
-      env: PHPSTAN=true MONOREPO_SPLIT=true
-    - php: 7.2
-      env: STANDALONE=true
+php:
+  - 7.1
+
+#matrix:
+#  include:
+#    - php: 7.1
+#      env: PHPUNIT_FLAGS="--coverage-clover coverage.xml"
+#    - php: 7.1
+#      env: CODING_STANDARD=true
+#    - php: 7.1
+#      env: COMPOSER_FLAGS="--prefer-lowest"
+#    - php: 7.2
+#      env: PHPSTAN=true MONOREPO_SPLIT=true
+#    - php: 7.2
+#      env: STANDALONE=true
 
 install:
   - composer update $COMPOSER_FLAGS
 
 before_script:
-  # to make multiline scripts report fails
+  # make the script fail for any failed command
   - set -e
+
   # disable xdebug if not coverage
   - if [[ $PHPUNIT_FLAGS = "" ]]; then phpenv config-rm xdebug.ini; fi
 
 script:
-  - vendor/bin/phpunit $PHPUNIT_FLAGS
+  # test once monorepo split raw command
+  - mkdir random && cd random && /home/travis/build/Symplify/Symplify/packages/MonorepoBuilder/packages/Split/bash/subsplit.sh --from-directory=packages/MonorepoBuilder --to-repository=https://${GITHUB_TOKEN}@github.com/Symplify/MonorepoBuilder.git --branch=master --repository=/home/travis/build/Symplify/Symplify/.git
+
+#  - packages/MonorepoBuilder/bin/monorepo-builder split -v
+
+
+#  - vendor/bin/phpunit $PHPUNIT_FLAGS
   # disable xdebug
-  - phpenv config-rm xdebug.ini || return 0
+#  - phpenv config-rm xdebug.ini || return 0
 
   # static analysis
-  - if [[ $CODING_STANDARD != "" ]]; then packages/EasyCodingStandard/bin/ecs check packages; fi
-  - if [[ $PHPSTAN != "" ]]; then vendor/bin/phpstan analyse packages --level max --configuration phpstan.neon; fi
-  - |
-    if [[ $STANDALONE != "" ]]; then
-      vendor/bin/phpunit packages/BetterPhpDocParser
-      vendor/bin/phpunit packages/ChangelogLinker
-      vendor/bin/phpunit packages/CodingStandard
-      vendor/bin/phpunit packages/EasyCodingStandard
-      vendor/bin/phpunit packages/MonorepoBuilder
-      vendor/bin/phpunit packages/PackageBuilder
-      vendor/bin/phpunit packages/Statie
-      vendor/bin/phpunit packages/TokenRunner
-    fi
+#  - if [[ $CODING_STANDARD == true ]]; then packages/EasyCodingStandard/bin/ecs check packages; fi
+#  - if [[ $PHPSTAN == true ]]; then vendor/bin/phpstan analyse packages --level max --configuration phpstan.neon; fi
+#  - |
+#    if [[ $STANDALONE == "" ]]; then
+#      vendor/bin/phpunit packages/BetterPhpDocParser
+#      vendor/bin/phpunit packages/ChangelogLinker
+#      vendor/bin/phpunit packages/CodingStandard
+#      vendor/bin/phpunit packages/EasyCodingStandard
+#      vendor/bin/phpunit packages/EasyCodingStandardTester
+#      vendor/bin/phpunit packages/LatteToTwigConverter
+#      vendor/bin/phpunit packages/MonorepoBuilder
+#      vendor/bin/phpunit packages/PackageBuilder
+#      vendor/bin/phpunit packages/Statie
+#      vendor/bin/phpunit packages/TokenRunner
+#    fi
 
-after_script:
+#after_script:
   # upload coverage.xml to Coveralls
-  - |
-    if [[ $PHPUNIT_FLAGS != "" ]]; then
-      wget https://github.com/satooshi/php-coveralls/releases/download/v1.0.1/coveralls.phar;
-      php coveralls.phar --verbose;
-    fi
+#  - |
+#    if [[ $PHPUNIT_FLAGS == true ]]; then
+#      wget https://github.com/satooshi/php-coveralls/releases/download/v1.0.1/coveralls.phar;
+#      php coveralls.phar --verbose;
+#    fi
+#
+#  # split monorepo to packages (done via Travis Cron Job)
+#  - |
+#    - if [[ "$TRAVIS_PULL_REQUEST" = "false" && $TRAVIS_BRANCH=master ]];
+#    if [[ $MONOREPO_SPLIT == true ]]; then
+#        packages/MonorepoBuilder/bin/monorepo-builder split -v
+#    fi
+#  - |
+#    echo $TRAVIS_EVENT_TYPE
+#    echo $MONOREPO_SPLIT
 
-  # split monorepo to packages (done via Travis Cron Job)
-  - |
-    if [[ $MONOREPO_SPLIT == true ]]; then
-        packages/MonorepoBuilder/bin/monorepo-builder split -v
-    fi
-  - |
-    echo $TRAVIS_EVENT_TYPE
-    echo $MONOREPO_SPLIT
-
-  # test once monorepo split raw command
-  - mkdir random && cd random && /home/travis/build/Symplify/Symplify/packages/MonorepoBuilder/packages/Split/bash/subsplit.sh --from-directory=packages/MonorepoBuilder --to-repository=git@github.com:Symplify/MonorepoBuilder.git --branch=master --debug --repository=/home/travis/build/Symplify/Symplify/.git
-
-  # if [[ $TRAVIS_EVENT_TYPE = "cron" && $MONOREPO_SPLIT != "" ]]; then
+  # if [[ $TRAVIS_EVENT_TYPE = "cron" && $MONOREPO_SPLIT == true ]]; then
 
 notifications:
   email: never

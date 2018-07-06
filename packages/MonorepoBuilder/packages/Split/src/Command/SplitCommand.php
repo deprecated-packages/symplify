@@ -59,8 +59,7 @@ final class SplitCommand extends Command
 
         $this->packageToRepositorySplitter->splitDirectoriesToRepositories(
             $this->directoriesToRepositories,
-            $this->rootDirectory,
-            $output->isVerbose()
+            $this->rootDirectory
         );
 
         // success
