@@ -76,9 +76,6 @@ final class LatteToTwigConverter
 //     {% if $post['rectify_post_id'] is defined %} => {% if post.rectify_post_id is defined %}
         $content = Strings::replace($content, '#({% \w+) \$(\w+)\[\'(\w+)\'\]#', '$1 $2.$3');
 
-        // | noescape }=> | raw
-        $content = Strings::replace($content, '#\| noescape#', '| raw');
-
         // {% include "sth", = {% include "sth" with
         $content = Strings::replace($content, '#({% include [^,{]+)(,)#', '$1 with');
 
