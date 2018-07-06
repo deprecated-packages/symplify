@@ -3,7 +3,6 @@
 namespace Symplify\LatteToTwigConverter\Tests;
 
 use Iterator;
-use PHPUnit\Framework\TestCase;
 use Symplify\LatteToTwigConverter\LatteToTwigConverter;
 
 final class LatteToTwigConverterTest extends AbstractContainerAwareTestCase

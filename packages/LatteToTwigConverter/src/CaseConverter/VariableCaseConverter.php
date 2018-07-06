@@ -19,8 +19,6 @@ final class VariableCaseConverter implements CaseConverterInterface
         $content = Strings::replace($content, '#{\$([\w]+)->([\w()]+)}#', '{{ $1.$2 }}');
         // {$post['relativeUrl']} =>
         // {{ post.relativeUrl }}
-        $content = Strings::replace($content, '#{\$([A-Za-z_-]+)\[\'([A-Za-z_-]+)\'\]}#', '{{ $1.$2 }}');
-
-        return $content;
+        return Strings::replace($content, '#{\$([A-Za-z_-]+)\[\'([A-Za-z_-]+)\'\]}#', '{{ $1.$2 }}');
     }
 }

@@ -2,6 +2,7 @@
 
 namespace Symplify\LatteToTwigConverter;
 
+use Nette\Utils\FileSystem;
 use Nette\Utils\Strings;
 use Symplify\LatteToTwigConverter\Contract\CaseConverter\CaseConverterInterface;
 
@@ -19,7 +20,7 @@ final class LatteToTwigConverter
 
     public function convertFile(string $file): string
     {
-        $content = file_get_contents($file);
+        $content = FileSystem::read($file);
 
         foreach ($this->caseConverters as $caseConverter) {
             $content = $caseConverter->convertContent($content);

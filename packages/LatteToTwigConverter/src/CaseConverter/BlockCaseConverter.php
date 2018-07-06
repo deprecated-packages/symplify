@@ -18,8 +18,6 @@ final class BlockCaseConverter implements CaseConverterInterface
         $content = Strings::replace($content, '#{include ([^}]+)}#', '{% include $1 %}');
         // {define sth}...{/define} =>
         // {% block sth %}...{% endblock %}
-        $content = Strings::replace($content, '#{define (.*?)}(.*?){\/define}#s', '{% block $1 %}$2{% endblock %}');
-
-        return $content;
+        return Strings::replace($content, '#{define (.*?)}(.*?){\/define}#s', '{% block $1 %}$2{% endblock %}');
     }
 }
