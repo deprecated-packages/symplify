@@ -31,6 +31,8 @@ final class ConditionCaseConverter implements CaseConverterInterface
         // https://regex101.com/r/DrDSJf/1
         $content = Strings::replace($content, '#{if (.*?)}(.*?){\/if}#s', '{% if $1 %}$2{% endif %}');
 
-        return Strings::replace($content, '#{else}#', '{% else %}');
+        $content = Strings::replace($content, '#{else}#', '{% else %}');
+
+        return Strings::replace($content, '#{elseif (.*?)}#', '{% elseif $1 %}');
     }
 }
