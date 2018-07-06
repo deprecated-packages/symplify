@@ -59,34 +59,13 @@ final class LatteToTwigConverter
             return $match[1] . $twigDataInString . $match[3];
         });
 
-        // filter:
-        // {$post['updated_message']|noescape} =>
-        // {{ post.updated_message|noescape }}
-        $content = Strings::replace($content, '#{\$([A-Za-z_-]+)\[\'([A-Za-z_-]+)\'\]\|([^}]+)}#', '{{ $1.$2|$3 }}');
-
-        // loops:
-        // {sep}, {/sep} => {% if loop.last == false %}, {% endif %}
-        $content = Strings::replace($content, '#{sep}([^{]+){\/sep}#', '{% if loop.last == false %}$1{% endif %}');
-
-        // conditions:
-        // https://regex101.com/r/XKKoUh/1/
-        // {if isset($post['variable'])}...{/if} =>
-        // {% if $post['variable'] is defined %}...{% endif %}
-        $content = Strings::replace(
-            $content,
-            '#{if isset\(([^{]+)\)}(.*?){\/if}#s',
-            '{% if $1 is defined %}$2{% endif %}'
-        );
-        // {ifset $post}...{/ifset} =>
-        // {% if $post is defined %}..{% endif %}
-        $content = Strings::replace($content, '#{ifset (.*?)}(.*?){\/ifset}#s', '{% if $1 is defined %}$2{% endif %}');
-
-        // {% if $post['deprecated'] =>
-        // {% if $post.deprecated
-        // https://regex101.com/r/XKKoUh/2
-        $content = Strings::replace($content, '#{% (\w+) \$([A-Za-z]+)\[\'([\A-Za-z]+)\'\]#', '{% $1 $2.$3');
-
-        $content = Strings::replace($content, '#{else}#', '{% else %}');
+//        // conditions:
+//        // {% if $post['deprecated'] =>
+//        // {% if $post.deprecated
+//        // https://regex101.com/r/XKKoUh/2
+//        $content = Strings::replace($content, '#{% (\w+) \$([A-Za-z]+)\[\'([\A-Za-z]+)\'\]#', '{% $1 $2.$3');
+//
+//        $content = Strings::replace($content, '#{else}#', '{% else %}');
 
         // {var $var = $anotherVar} => {% set var = anotherVar %}
         $content = Strings::replace($content, '#{var \$?(.*?) = (.*?)}#s', '{% set $1 = $2 %}');
@@ -103,8 +82,6 @@ final class LatteToTwigConverter
         // {% include "sth", = {% include "sth" with
         $content = Strings::replace($content, '#({% include [^,{]+)(,)#', '$1 with');
 
-        // {if "sth"}..{/if} =>  {% if "sth" %}..{% endif %} =>
-        $content = Strings::replace($content, '#{if ([($)\w]+)}(.*?){\/if}#s', '{% if $1 %}$2{% endif %}');
         // {foreach $values as $key => $value}...{/foreach} => {% for key, value in values %}...{% endfor %}
         $content = Strings::replace(
             $content,
