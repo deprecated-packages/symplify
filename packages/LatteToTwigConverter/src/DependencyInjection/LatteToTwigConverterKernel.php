@@ -5,6 +5,7 @@ namespace Symplify\LatteToTwigConverter\DependencyInjection;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symplify\LatteToTwigConverter\DependencyInjection\CompilerPass\CollectorCompilerPass;
+use Symplify\PackageBuilder\DependencyInjection\CompilerPass\PublicForTestsCompilerPass;
 use Symplify\PackageBuilder\HttpKernel\AbstractCliKernel;
 
 final class LatteToTwigConverterKernel extends AbstractCliKernel
@@ -30,5 +31,6 @@ final class LatteToTwigConverterKernel extends AbstractCliKernel
     protected function build(ContainerBuilder $containerBuilder): void
     {
         $containerBuilder->addCompilerPass(new CollectorCompilerPass());
+        $containerBuilder->addCompilerPass(new PublicForTestsCompilerPass());
     }
 }

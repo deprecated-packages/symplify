@@ -21,16 +21,20 @@ final class LatteToTwigConverter
     {
         $content = file_get_contents($file);
 
-        // block/include:
-        // {block content}...{/block} =>
-        // {% block content %}...{% endblock %}
-        $content = Strings::replace($content, '#{block (\w+)}(.*?){\/block}#s', '{% block $1 %}$2{% endblock %}');
-        // {include "_snippets/menu.latte"} =>
-        // {% include "_snippets/menu.latte" %}
-        $content = Strings::replace($content, '#{include ([^}]+)}#', '{% include $1 %}');
-        // {define sth}...{/define} =>
-        // {% block sth %}...{% endblock %}
-        $content = Strings::replace($content, '#{define (.*?)}(.*?){\/define}#s', '{% block $1 %}$2{% endblock %}');
+        foreach ($this->caseConverters as $caseConverter) {
+            $content = $caseConverter->convertContent($content);
+        }
+
+//        // block/include:
+//        // {block content}...{/block} =>
+//        // {% block content %}...{% endblock %}
+//        $content = Strings::replace($content, '#{block (\w+)}(.*?){\/block}#s', '{% block $1 %}$2{% endblock %}');
+//        // {include "_snippets/menu.latte"} =>
+//        // {% include "_snippets/menu.latte" %}
+//        $content = Strings::replace($content, '#{include ([^}]+)}#', '{% include $1 %}');
+//        // {define sth}...{/define} =>
+//        // {% block sth %}...{% endblock %}
+//        $content = Strings::replace($content, '#{define (.*?)}(.*?){\/define}#s', '{% block $1 %}$2{% endblock %}');
 
         // variables:
         // {$google_analytics_tracking_id} =>

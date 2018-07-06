@@ -6,7 +6,7 @@ use Iterator;
 use PHPUnit\Framework\TestCase;
 use Symplify\LatteToTwigConverter\LatteToTwigConverter;
 
-final class LatteToTwigConverterTest extends TestCase
+final class LatteToTwigConverterTest extends AbstractContainerAwareTestCase
 {
     /**
      * @var LatteToTwigConverter
@@ -15,7 +15,7 @@ final class LatteToTwigConverterTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->latteToTwigConverter = new LatteToTwigConverter();
+        $this->latteToTwigConverter = $this->container->get(LatteToTwigConverter::class);
     }
 
     /**

@@ -4,4 +4,5 @@ namespace Symplify\LatteToTwigConverter\Contract\CaseConverter;
 
 interface CaseConverterInterface
 {
+    public function convertContent(string $content): string;
 }
