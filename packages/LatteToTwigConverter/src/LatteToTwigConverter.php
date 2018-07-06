@@ -3,9 +3,20 @@
 namespace Symplify\LatteToTwigConverter;
 
 use Nette\Utils\Strings;
+use Symplify\LatteToTwigConverter\Contract\CaseConverter\CaseConverterInterface;
 
 final class LatteToTwigConverter
 {
+    /**
+     * @var CaseConverterInterface[]
+     */
+    private $caseConverters = [];
+
+    public function addCaseConverter(CaseConverterInterface $caseConverter): void
+    {
+        $this->caseConverters[] = $caseConverter;
+    }
+
     public function convertFile(string $file): string
     {
         $content = file_get_contents($file);

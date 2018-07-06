@@ -2,6 +2,10 @@
     "name": "symplify/latte-to-twig-converter",
     "description": "Latte to Twig converter converts Latte to Twig",
     "license": "MIT",
+    "bin": [
+        "bin/latte-to-twig-converter",
+        "bin/latte-to-twig-converter-bootstrap.php"
+    ],
     "require": {
         "php": "^7.1",
         "nette/utils": "^2.5",
