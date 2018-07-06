@@ -52,5 +52,10 @@ final class LatteToTwigConverterTest extends AbstractContainerAwareTestCase
             __DIR__ . '/LatteToTwigConverterSource/conditions.latte',
             __DIR__ . '/LatteToTwigConverterSource/expected-conditions.twig',
         ];
+
+        yield [
+            __DIR__ . '/LatteToTwigConverterSource/comment.latte',
+            __DIR__ . '/LatteToTwigConverterSource/expected-comment.twig',
+        ];
     }
 }

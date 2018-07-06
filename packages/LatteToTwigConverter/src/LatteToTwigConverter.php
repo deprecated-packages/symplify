@@ -82,24 +82,11 @@ final class LatteToTwigConverter
         // {% include "sth", = {% include "sth" with
         $content = Strings::replace($content, '#({% include [^,{]+)(,)#', '$1 with');
 
-        // {foreach $values as $key => $value}...{/foreach} => {% for key, value in values %}...{% endfor %}
-        $content = Strings::replace(
-            $content,
-            '#{foreach \$([()\w ]+) as \$([()\w ]+) => \$(\w+)}#',
-            '{% for $2, $3 in $1 %}'
-        );
-        // {foreach $values as $value}...{/foreach} => {% for value in values %}...{% endfor %}
-        $content = Strings::replace($content, '#{foreach \$([()\w ]+) as \$([()\w ]+)}#', '{% for $2 in $1 %}');
-        $content = Strings::replace($content, '#{/foreach}#', '{% endfor %}');
-
-        // {foreach ...)...{/foreach} =>
         $content = Strings::replace($content, '#{% (.*?) count\(\$?(\w+)\)#', '{% $1 $2|length');
 
         // fixes "%)" => "%}"
         $content = Strings::replace($content, '#%\)#', '%}');
 
-        $content = Strings::replace($content, '#{% include \'?(\w+)\'? %}#', '{{ block(\'$1\') }}');
-
-        return Strings::replace($content, '#{\* (.*?) \*}#s', '{# $1 #}');
+        return Strings::replace($content, '#{% include \'?(\w+)\'? %}#', '{{ block(\'$1\') }}');
     }
 }
