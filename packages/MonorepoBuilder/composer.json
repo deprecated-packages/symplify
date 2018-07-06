@@ -3,9 +3,7 @@
     "description": "Not only Composer tools to build a Monorepo.",
     "license": "MIT",
     "bin": [
-        "bin/monorepo-builder",
-        "bin/monorepo-builder-bootstrap.php",
-        "bin/monorepo-builder-container.php"
+        "bin/monorepo-builder"
     ],
     "require": {
         "php": "^7.1",
@@ -34,7 +32,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "4.4-dev"
+            "dev-master": "4.5-dev"
         }
     },
     "minimum-stability": "dev",

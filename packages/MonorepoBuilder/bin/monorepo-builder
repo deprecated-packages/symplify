@@ -1,7 +1,7 @@
 #!/usr/bin/env php
 <?php declare(strict_types=1);
 
-require_once __DIR__ . '/monorepo-builder-bootstrap.php';
+require_once __DIR__ . '/bootstrap.php';
 
 use Psr\Container\ContainerInterface;
 use Symplify\PackageBuilder\Console\ConfigAwareApplication;
@@ -9,7 +9,7 @@ use Symplify\PackageBuilder\Console\ThrowableRenderer;
 
 try {
     /** @var ContainerInterface $container */
-    $container = require_once __DIR__ . '/monorepo-builder-container.php';
+    $container = require_once __DIR__ . '/container.php';
 
     $application = $container->get(ConfigAwareApplication::class);
     $application->run();

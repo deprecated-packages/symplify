@@ -3,9 +3,7 @@
     "description": "Add links to issues, PRs, versions, commits and users in your CHANGELOG.md",
     "license": "MIT",
     "bin": [
-        "bin/changelog-linker",
-        "bin/changelog-linker-bootstrap.php",
-        "bin/changelog-linker-container.php"
+        "bin/changelog-linker"
     ],
     "require": {
         "php": "^7.1",
