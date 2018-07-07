@@ -121,3 +121,5 @@ parameters:
         - %currentWorkingDirectory%/tests/bootstrap.php
         - packages/EasyCodingStandard/packages/ChangedFilesDetector/tests/ChangedFilesDetectorSource/OneClass.php
         - packages/EasyCodingStandard/tests/Finder/SourceFinderSource/Source/SomeClass.php
+
+    reportUnmatchedIgnoredErrors: false

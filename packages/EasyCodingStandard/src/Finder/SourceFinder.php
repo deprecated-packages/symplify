@@ -57,7 +57,7 @@ final class SourceFinder
 
     /**
      * @param SplFileInfo[] $files
-     * @return SplFileInfo[]
+     * @return SymfonySplFileInfo[]
      */
     private function processFile(array $files, string $file): array
     {

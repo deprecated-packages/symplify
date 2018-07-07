@@ -87,7 +87,7 @@ final class FixerFileProcessor implements FileProcessorInterface
     }
 
     /**
-     * @return FixerInterface[]
+     * @return mixed[] Fixers that implements FixerInterface
      */
     public function getCheckers(): array
     {

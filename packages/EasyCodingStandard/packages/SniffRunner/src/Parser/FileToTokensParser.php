@@ -47,7 +47,7 @@ final class FileToTokensParser
      */
     private function getLegacyConfig()
     {
-        if ($this->legacyConfig) {
+        if ($this->legacyConfig !== null) {
             return $this->legacyConfig;
         }
 

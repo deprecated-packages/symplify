@@ -160,7 +160,7 @@ final class ImportNamespacedNameFixer implements DefinedFixerInterface, Configur
             }
         }
 
-        if ($this->newUseStatementNames) {
+        if ($this->newUseStatementNames !== []) {
             $this->useImportsTransformer->addNamesToTokens($this->newUseStatementNames, $tokens);
         }
     }
