@@ -11,6 +11,11 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 ## Unreleased
 
+**2 new packages!**
+
+- [LatteToTwigConverter](http://github.com/symplify/lattetotwigconverter) to convert Latte templates to Twig, see [the intro post](https://www.tomasvotruba.cz/blog/2018/07/05/how-to-convert-latte-templates-to-twig-in-27-regular-expressions/)
+- and [MonorepoBuilder](https://github.com/symplify/monorepobuilder) that helps you with monorepo maintenance, from `composer.json` synchronization, version validation to Travis automated and parallel splits
+
 ### Added
 
 #### LatteToTwigConverter
@@ -99,7 +104,7 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 #### CodingStandard
 
-- [#919] Change ClassNameSuffixByParentFixer to ClassNameSuffixByParentSniff
+- [#919] Change `ClassNameSuffixByParentFixer` to `ClassNameSuffixByParentSniff`
 - [#870] `RemoveUselessDocBlockFixer` should not reformat custom annotations, Thanks to [@jankonas]
 - [#842] `LineLengthSniff` - Initial support for tokens with newlines, Thanks to [@ostrolucky]
 
