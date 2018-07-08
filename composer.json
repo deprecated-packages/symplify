@@ -97,7 +97,8 @@
             "packages/EasyCodingStandard/bin/ecs check packages --fix",
             "bin/clear_readmes.sh"
         ],
-        "phpstan": "vendor/bin/phpstan analyse packages --level max --configuration phpstan.neon"
+        "phpstan": "vendor/bin/phpstan analyse packages --level max --configuration phpstan.neon",
+        "changelog": "packages/ChangelogLinker/bin/changelog-linker dump-merges --in-categories --in-packages"
     },
     "config": {
         "sort-packages": true
