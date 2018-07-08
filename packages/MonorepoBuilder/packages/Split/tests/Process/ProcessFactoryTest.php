@@ -26,7 +26,7 @@ final class ProcessFactoryTest extends AbstractContainerAwareTestCase
         );
 
         $subsplitRealpath = realpath(__DIR__ . '/../../bash/subsplit.sh');
-        $commandLine = "'" . $subsplitRealpath . "' '--from-directory=localDirectory' '--to-repository=git@github.com:Symplify/Symplify.git' '--branch=master' '' '' '--repository=%s/.git'";
+        $commandLine = "'" . $subsplitRealpath . "' '--from-directory=localDirectory' '--to-repository=git@github.com:Symplify/Symplify.git' '--branch=master' '' '--repository=%s/.git'";
 
         $this->assertStringMatchesFormat($commandLine, $subsplitProcess->getCommandLine());
     }

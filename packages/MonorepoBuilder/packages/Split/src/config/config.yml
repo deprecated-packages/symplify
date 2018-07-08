@@ -7,7 +7,5 @@ parameters:
     env(GITHUB_TOKEN): null
     github_token: '%env(GITHUB_TOKEN)%'
 
-    github_user_name: null
-
 imports:
     - { resource: 'services.yml' }

@@ -81,13 +81,24 @@ final class PackageToRepositorySplitter
             $this->processInfos[] = new SplitProcessInfo($process, $localDirectory, $remoteRepository);
         }
 
-        $this->symfonyStyle->success(sprintf('Running %d jobs asynchronously', count($this->activeProcesses)));
+        $this->symfonyStyle->success(sprintf('Running %d jobs in parallel', count($this->activeProcesses)));
 
-        while (count($this->activeProcesses)) {
-            $this->processActiveProcesses();
-        }
-
+        $this->processActiveProcesses();
         $this->reportFinishedProcesses();
+    }
+
+    private function processActiveProcesses(): void
+    {
+        while (count($this->activeProcesses)) {
+            foreach ($this->activeProcesses as $i => $runningProcess) {
+                if (! $runningProcess->isRunning()) {
+                    unset($this->activeProcesses[$i]);
+                }
+            }
+
+            // check every second
+            sleep(1);
+        }
     }
 
     private function reportFinishedProcesses(): void
@@ -113,17 +124,5 @@ final class PackageToRepositorySplitter
                 $process->getOutput()
             ));
         }
-    }
-
-    private function processActiveProcesses(): void
-    {
-        foreach ($this->activeProcesses as $i => $runningProcess) {
-            if (! $runningProcess->isRunning()) {
-                unset($this->activeProcesses[$i]);
-            }
-        }
-
-        // check every second
-        sleep(1);
     }
 }

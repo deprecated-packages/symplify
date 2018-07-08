@@ -12,15 +12,9 @@ final class GitManager
      */
     private $githubToken;
 
-    /**
-     * @var null|string
-     */
-    private $githubUserName;
-
-    public function __construct(?string $githubToken, ?string $githubUserName)
+    public function __construct(?string $githubToken)
     {
         $this->githubToken = $githubToken;
-        $this->githubUserName = $githubUserName;
     }
 
     public function getMostRecentTag(string $gitDirectory): string
@@ -43,6 +37,7 @@ final class GitManager
      *
      * After:
      * https://GITHUB_USER_NAME:SECRET_TOKEN@github.com/vendor/package-name.git
+     * https://SECRET_TOKEN@github.com/vendor/package-name.git
      */
     public function completeRemoteRepositoryWithGithubToken(string $remoteRepository): string
     {
@@ -53,6 +48,6 @@ final class GitManager
         [, $partAfterAt] = explode('@', $remoteRepository, 2);
         $partAfterAt = Strings::replace($partAfterAt, '#:#', '/');
 
-        return sprintf('https://%s:%s@%s', $this->githubUserName, $this->githubToken, $partAfterAt);
+        return sprintf('https://%s@%s', $this->githubToken, $partAfterAt);
     }
 }

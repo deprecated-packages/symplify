@@ -7,7 +7,6 @@ services:
             $repository: '%root_directory%/.git'
             $subsplitCacheDirectory: '%subsplit_cache_directory%'
             $githubToken: '%github_token%'
-            $githubUserName: '%github_user_name%'
 
     Symplify\MonorepoBuilder\Split\:
         resource: '..'
