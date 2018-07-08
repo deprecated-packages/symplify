@@ -32,6 +32,7 @@ final class RepositoryGuardTest extends AbstractContainerAwareTestCase
     {
         yield ['.git'];
         yield ['git@github.com:Symplify/Symplify.git'];
+        yield ['secretToken@github.com:Symplify/Symplify.git'];
         yield ['https://github.com/Symplify/Symplify.git'];
     }
 
