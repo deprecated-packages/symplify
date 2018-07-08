@@ -129,8 +129,6 @@ final class DumpMergesCommand extends Command
             InputOption::VALUE_REQUIRED,
             'Github Token to overcome request limit.'
         );
-
-        $this->addOption(Option::LINKIFY, null, InputOption::VALUE_NONE, 'Decorate content with links.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -169,9 +167,7 @@ final class DumpMergesCommand extends Command
         );
 
         if ($input->getOption(Option::DRY_RUN)) {
-            if ($input->getOption(Option::LINKIFY)) {
-                $content = $this->changelogLinker->processContentWithLinkAppends($content);
-            }
+            $content = $this->changelogLinker->processContentWithLinkAppends($content);
 
             $this->symfonyStyle->writeln($content);
 
@@ -179,9 +175,7 @@ final class DumpMergesCommand extends Command
             return 0;
         }
 
-        if ($input->getOption(Option::LINKIFY)) {
-            $content = $this->changelogLinker->processContent($content);
-        }
+        $content = $this->changelogLinker->processContent($content);
 
         $this->changelogFileSystem->addToChangelogOnPlaceholder($content, self::CHANGELOG_PLACEHOLDER_TO_WRITE);
 

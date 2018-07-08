@@ -148,9 +148,11 @@ Will result into this beautiful:
 #### EasyCodingStandard
 
 - [#852] Add support for line_ending configuration
+
+[#852]: https://github.com/symplify/symplify/pull/852
 ```
 
-And with `--linkify` option, you'll get all the nice things from B as well.
+You'll get the output with links to PRs and "thanks" by default.
 
 ## B. Decorate `CHANGELOG.md`
 
