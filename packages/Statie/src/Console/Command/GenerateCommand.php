@@ -7,42 +7,64 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Style\SymfonyStyle;
+use Symplify\PackageBuilder\Console\Command\CommandNaming;
 use Symplify\Statie\Application\StatieApplication;
 
 final class GenerateCommand extends Command
 {
     /**
+     * @var string
+     */
+    private const OPTION_OUTPUT = 'output';
+
+    /**
+     * @var string
+     */
+    private const OPTION_SOURCE = 'source';
+
+    /**
      * @var StatieApplication
      */
     private $statieApplication;
 
-    public function __construct(StatieApplication $statieApplication)
+    /**
+     * @var SymfonyStyle
+     */
+    private $symfonyStyle;
+
+    public function __construct(StatieApplication $statieApplication, SymfonyStyle $symfonyStyle)
     {
         $this->statieApplication = $statieApplication;
 
         parent::__construct();
+        $this->symfonyStyle = $symfonyStyle;
     }
 
     protected function configure(): void
     {
-        $this->setName('generate');
+        $this->setName(CommandNaming::classToName(self::class));
         $this->setDescription('Generate a site from source.');
 
-        $this->addArgument('source', InputArgument::REQUIRED, 'Directory to load page FROM.');
+        $this->addArgument(self::OPTION_SOURCE, InputArgument::REQUIRED, 'Directory to load page FROM.');
         $this->addOption(
-            'output',
+            self::OPTION_OUTPUT,
             null,
             InputOption::VALUE_REQUIRED,
             'Directory to generate page TO.',
-            getcwd() . DIRECTORY_SEPARATOR . 'output'
+            getcwd() . DIRECTORY_SEPARATOR . self::OPTION_OUTPUT
         );
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $this->statieApplication->run($input->getArgument('source'), $input->getOption('output'));
+        $this->statieApplication->run($input->getArgument(self::OPTION_SOURCE), $input->getOption(self::OPTION_OUTPUT));
 
-        $output->writeln('<info>Website was successfully generated.</info>');
+        $this->symfonyStyle->success(sprintf(
+            'Web was generated from "%s" source to "%s" output',
+            $input->getArgument(self::OPTION_SOURCE),
+            $input->getOption(self::OPTION_OUTPUT)
+        ));
 
         return 0;
     }
