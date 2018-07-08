@@ -75,19 +75,4 @@ final class MarkdownFileDecoratorTest extends AbstractContainerAwareTestCase
 
         $this->assertSame('<strong>Hey</strong>', $file->getConfiguration()['perex']);
     }
-
-    public function testMarkdownWithAnchors(): void
-    {
-        $this->configuration->enableMarkdownHeadlineAnchors();
-
-        $fileInfo = SymfonyFileInfoFactory::createFromFilePath(__DIR__ . '/MarkdownFileDecoratorSource/someFile.md');
-        $file = $this->fileFactory->createFromFileInfo($fileInfo);
-        $this->markdownFileDecorator->decorateFiles([$file]);
-
-        $this->assertSame(
-            '<h1 id="content"><a class="anchor" href="#content" aria-hidden="true">' .
-            '<span class="anchor-icon">#</span></a>Content...</h1>',
-            $file->getContent()
-        );
-    }
 }
