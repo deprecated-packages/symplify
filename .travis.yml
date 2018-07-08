@@ -31,18 +31,14 @@ script:
   # static analysis
   - if [[ $CODING_STANDARD == true ]]; then packages/EasyCodingStandard/bin/ecs check packages; fi
   - if [[ $PHPSTAN == true ]]; then vendor/bin/phpstan analyse packages --level max --configuration phpstan.neon; fi
+
+  # each package standalone run https://stackoverflow.com/a/6787956/1348344
   - |
     if [[ $STANDALONE == true ]]; then
-      vendor/bin/phpunit packages/BetterPhpDocParser
-      vendor/bin/phpunit packages/ChangelogLinker
-      vendor/bin/phpunit packages/CodingStandard
-      vendor/bin/phpunit packages/EasyCodingStandard
-      vendor/bin/phpunit packages/EasyCodingStandardTester
-      vendor/bin/phpunit packages/LatteToTwigConverter
-      vendor/bin/phpunit packages/MonorepoBuilder
-      vendor/bin/phpunit packages/PackageBuilder
-      vendor/bin/phpunit packages/Statie
-      vendor/bin/phpunit packages/TokenRunner
+      for DIRECTORY in `find packages -mindepth 1 -maxdepth 1 -type d`;
+      do
+        vendor/bin/phpunit $DIRECTORY
+      done
     fi
 
 after_script:
@@ -55,13 +51,14 @@ after_script:
 
   # split monorepo to packages - only on merge to master
   - |
-    if [[ $TRAVIS_EVENT_TYPE == "push && $MONOREPO_SPLIT == true && $TRAVIS_BRANCH == "master" ]]; then
-        packages/MonorepoBuilder/bin/monorepo-builder split -v
+    if [[ $TRAVIS_EVENT_TYPE == "push" && $MONOREPO_SPLIT == true && $TRAVIS_BRANCH == "master" ]]; then
+      packages/MonorepoBuilder/bin/monorepo-builder split -v
     fi
 
   # debug
   - echo $TRAVIS_EVENT_TYPE
   - echo $TRAVIS_BRANCH
+  - git tag
 
 notifications:
   email: never
