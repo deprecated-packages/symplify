@@ -32,7 +32,7 @@ script:
   - if [[ $CODING_STANDARD == true ]]; then packages/EasyCodingStandard/bin/ecs check packages; fi
   - if [[ $PHPSTAN == true ]]; then vendor/bin/phpstan analyse packages --level max --configuration phpstan.neon; fi
   - |
-    if [[ $STANDALONE == "" ]]; then
+    if [[ $STANDALONE == true ]]; then
       vendor/bin/phpunit packages/BetterPhpDocParser
       vendor/bin/phpunit packages/ChangelogLinker
       vendor/bin/phpunit packages/CodingStandard
@@ -53,13 +53,15 @@ after_script:
       php coveralls.phar --verbose;
     fi
 
-  # split monorepo to packages (done via Travis Cron Job)
-  # @todo if [[ "$TRAVIS_PULL_REQUEST" = "false" && $TRAVIS_BRANCH=master ]];
+  # split monorepo to packages - only on merge to master
   - |
-    if [[ $MONOREPO_SPLIT == true ]]; then
+    if [[ $TRAVIS_EVENT_TYPE == "push && $MONOREPO_SPLIT == true && $TRAVIS_BRANCH == "master" ]]; then
         packages/MonorepoBuilder/bin/monorepo-builder split -v
     fi
+
+  # debug
   - echo $TRAVIS_EVENT_TYPE
+  - echo $TRAVIS_BRANCH
 
 notifications:
   email: never
