@@ -22,11 +22,6 @@ final class Option
     /**
      * @var string
      */
-    public const IN_TAGS = 'in-tags';
-
-    /**
-     * @var string
-     */
     public const DRY_RUN = 'dry-run';
 
     /**

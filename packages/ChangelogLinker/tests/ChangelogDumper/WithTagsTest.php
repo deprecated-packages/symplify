@@ -35,13 +35,7 @@ final class WithTagsTest extends TestCase
             $this->markTestSkipped('Travis makes shallow clones, so unable to test commits/tags.');
         }
 
-        $content = $this->changelogDumper->reportChangesWithHeadlines(
-            $this->changes,
-            false,
-            false,
-            true,
-            'categories'
-        );
+        $content = $this->changelogDumper->reportChangesWithHeadlines($this->changes, false, false, 'categories');
 
         $this->assertStringEqualsFile(__DIR__ . '/WithTagsSource/expected1.md', $content);
     }
@@ -52,7 +46,6 @@ final class WithTagsTest extends TestCase
     public function testReportBothWithCategoriesPriority(
         bool $withCategories,
         bool $withPackages,
-        bool $withTags,
         ?string $priority,
         string $expectedOutputFile
     ): void {
@@ -65,7 +58,6 @@ final class WithTagsTest extends TestCase
             $this->changes,
             $withCategories,
             $withPackages,
-            $withTags,
             $priority
         );
 
@@ -74,7 +66,7 @@ final class WithTagsTest extends TestCase
 
     public function provideDataForReportChangesWithHeadlines(): Iterator
     {
-        yield [true, false, true, null, __DIR__ . '/WithTagsSource/expected2.md'];
-        yield [false, true, true, null, __DIR__ . '/WithTagsSource/expected3.md'];
+        yield [true, false, null, __DIR__ . '/WithTagsSource/expected2.md'];
+        yield [false, true, null, __DIR__ . '/WithTagsSource/expected3.md'];
     }
 }

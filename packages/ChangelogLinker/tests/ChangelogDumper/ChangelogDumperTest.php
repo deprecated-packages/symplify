@@ -30,13 +30,7 @@ final class ChangelogDumperTest extends TestCase
 
     public function testReportChanges(): void
     {
-        $content = $this->changelogDumper->reportChangesWithHeadlines(
-            $this->changes,
-            false,
-            false,
-            false,
-            'packages'
-        );
+        $content = $this->changelogDumper->reportChangesWithHeadlines($this->changes, false, false, 'packages');
 
         $this->assertStringEqualsFile(__DIR__ . '/ChangelogDumperSource/expected1.md', $content);
     }
@@ -47,7 +41,6 @@ final class ChangelogDumperTest extends TestCase
     public function testReportBothWithCategoriesPriority(
         bool $withCategories,
         bool $withPackages,
-        bool $withTags,
         string $priority,
         string $expectedOutputFile
     ): void {
@@ -55,7 +48,6 @@ final class ChangelogDumperTest extends TestCase
             $this->changes,
             $withCategories,
             $withPackages,
-            $withTags,
             $priority
         );
 
@@ -64,9 +56,9 @@ final class ChangelogDumperTest extends TestCase
 
     public function provideDataForReportChangesWithHeadlines(): Iterator
     {
-        yield [true, false, false, 'categories', __DIR__ . '/ChangelogDumperSource/expected2.md'];
-        yield [false, true, false, 'packages', __DIR__ . '/ChangelogDumperSource/expected3.md'];
-        yield [true, true, false, 'packages', __DIR__ . '/ChangelogDumperSource/expected4.md'];
-        yield [true, true, false, 'categories', __DIR__ . '/ChangelogDumperSource/expected5.md'];
+        yield [true, false, 'categories', __DIR__ . '/ChangelogDumperSource/expected2.md'];
+        yield [false, true, 'packages', __DIR__ . '/ChangelogDumperSource/expected3.md'];
+        yield [true, true, 'packages', __DIR__ . '/ChangelogDumperSource/expected4.md'];
+        yield [true, true, 'categories', __DIR__ . '/ChangelogDumperSource/expected5.md'];
     }
 }

@@ -53,13 +53,12 @@ final class ChangelogDumper
         array $changes,
         bool $withCategories,
         bool $withPackages,
-        bool $withTags,
         ?string $priority
     ): string {
         $this->content .= PHP_EOL;
 
         foreach ($changes as $change) {
-            $this->displayHeadlines($withCategories, $withPackages, $withTags, $priority, $change);
+            $this->displayHeadlines($withCategories, $withPackages, $priority, $change);
 
             $message = $withPackages ? $change->getMessageWithoutPackage() : $change->getMessage();
             $this->content .= $message . PHP_EOL;
@@ -70,9 +69,9 @@ final class ChangelogDumper
         return $this->changelogFormatter->format($this->content);
     }
 
-    private function displayTagIfDesired(Change $change, bool $withTags): void
+    private function displayTag(Change $change): void
     {
-        if ($withTags === false || $this->previousTag === $change->getTag()) {
+        if ($this->previousTag === $change->getTag()) {
             return;
         }
 
@@ -117,11 +116,10 @@ final class ChangelogDumper
     private function displayHeadlines(
         bool $withCategories,
         bool $withPackages,
-        bool $withTags,
         ?string $priority,
         Change $change
     ): void {
-        $this->displayTagIfDesired($change, $withTags);
+        $this->displayTag($change);
 
         if ($priority === ChangeSorter::PRIORITY_PACKAGES) {
             $this->displayPackageIfDesired($change, $withPackages, $priority);

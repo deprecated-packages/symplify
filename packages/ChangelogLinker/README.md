@@ -44,6 +44,8 @@ This command finds the last #ID in the `CHANGELOG.md`, than looks on Github via 
 But that is a mash-up of everything. Not very nice:
 
 ```markdown
+## Unreleased
+
 - [#868] [ChangelogLinker] Add ChangeTree to manage merge messages
 - [#867] [ChangelogLinker] Change Worker registration from implicit to explicit
 - [#865] Improve Code Complexity
@@ -59,6 +61,8 @@ vendor/bin/changelog-linker dump-merges --in-categories
 Nice, now everything is nicely grouped:
 
 ```markdown
+## Unreleased
+
 ### Added
 
 - [#828] [ChangelogLinker] Add Unreleased to last tagged version feature
@@ -69,7 +73,9 @@ Nice, now everything is nicely grouped:
 
 But what about monorepo packages - can we have list grouped by each of them?
 
-```php
+```markdown
+## Unreleased
+
 ### CodingStandard
 
 - [#851] [CodingStandard] Add _ support to PropertyNameMatchingTypeFixer
@@ -87,6 +93,8 @@ vendor/bin/changelog-linker dump-merges --in-packages --in-categories
 Finally what we needed:
 
 ```markdown
+## Unreleased
+
 ### TokenRunner
 
 #### Changed
@@ -103,6 +111,8 @@ vendor/bin/changelog-linker dump-merges --in-packages --in-categories
 Yes you can:
 
 ```markdown
+## Unreleased
+
 ### Fixed
 
 #### EasyCodingStandard
@@ -116,14 +126,6 @@ In case you cross the API rate limit and get denied, create [new Github Token](h
 
 ```
 vendor/bin/changelog-linker dump-merges --token super-secret-token
-```
-
-### Tags Included
-
-Tags are the most important when dealing with changelogs. Let's include them!
-
-```
-vendor/bin/changelog-linker dump-merges --in-tags
 ```
 
 ```markdown
@@ -148,14 +150,16 @@ Will result into this beautiful:
 #### EasyCodingStandard
 
 - [#852] Add support for line_ending configuration
+
+[#852]: https://github.com/symplify/symplify/pull/852
 ```
 
-And with `--linkify` option, you'll get all the nice things from B as well.
+You'll get the output with links to PRs and "thanks" by default.
 
 ## B. Decorate `CHANGELOG.md`
 
 ```bash
-vendor/bin/changelog-linker run
+vendor/bin/changelog-linker linkify
 ```
 
 All these feature can be turned on by adding particular worker to `changelog-linker.yml`:

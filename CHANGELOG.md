@@ -11,14 +11,33 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 ## Unreleased
 
+**The Top News?**
+
+- [#892] Statie now supports Twig
+
+**2 New Packages!**
+
+- [LatteToTwigConverter](http://github.com/symplify/lattetotwigconverter) to convert Latte templates to Twig, see [the intro post](https://www.tomasvotruba.cz/blog/2018/07/05/how-to-convert-latte-templates-to-twig-in-27-regular-expressions/)
+- and [MonorepoBuilder](https://github.com/symplify/monorepobuilder) that helps you with monorepo maintenance, from `composer.json` synchronization, version validation to Travis automated and parallel splits
+
 ### Added
+
+#### LatteToTwigConverter
+
+- [#943] Prepare the package
+- [#941] Init new package
 
 #### MonorepoBuilder
 
+- [#946] Add Github Token split support
+- [#936] Make split command 1-process setup
+- [#932] Add split command from sh to php
+- [#916] Installs git subsplit before running split command, Thanks to [@JanMikes]
 - [#858] Init new package
 
 #### ChangelogLinker
 
+- [#911] Add ChangeSorter test to cover tags, categories and packages together
 - [#879] Add --token option to increase Github API rate [closes #874]
 - [#881] Simplify ChangeFactory creating + Add tags feature supports
 - [#902] Add --dry-run option to dump-merges command to dump to the output vs write into CHANGELOG.md
@@ -44,6 +63,7 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 #### Statie
 
+- [#931] Add AbstractTemplatingFileDecorator
 - [#892] Add Twig
 
 #### MonorepoBuilder
@@ -52,8 +72,15 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 ### Changed
 
+- [#945] Cleanup bin files
+- [#928] Bump phpstan/phpdoc-parser version, Thanks to [@marmichalski]
+- [#918] Improve autoconfiguration
 - [#847] Bump to PHP CS Fixer 2.12
 - [#857] Bump to PHP_CodeSniffer 3.3 and related fixes
+
+#### EasyCodingStandard
+
+- [#948] Make `fnmatch` skipping more user-friendly [closes #942]
 
 #### ChangelogLinker
 
@@ -71,6 +98,7 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 #### Statie
 
+- [#925] Normalize latte include paths from fil name to relative paths [BC break]
 - [#887] Improve latte decoupling from the Statie
 - [#888] Return collector-based approach to FileDecorators, with priorities
 - [#893] Rename FlatWhite to Latte and move Latte-related code there
@@ -84,16 +112,27 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 #### CodingStandard
 
+- [#919] Change `ClassNameSuffixByParentFixer` to `ClassNameSuffixByParentSniff`
 - [#870] `RemoveUselessDocBlockFixer` should not reformat custom annotations, Thanks to [@jankonas]
 - [#842] `LineLengthSniff` - Initial support for tokens with newlines, Thanks to [@ostrolucky]
 
 #### EasyCodingStandard
 
+- [#939] Fix custom source provider troubles
 - [#848] Fix single file processing
 
 #### TokenRunner
 
 - [#863] anonymous class now returns null on name [fixes #855]
+
+#### Statie
+
+- [#930] Latte & Twig File Decorators fixes
+- [#927] Twig support fixes
+
+#### ChangelogLinker
+
+- [#917] Fix duplicated user links
 
 ### Removed
 
@@ -101,6 +140,16 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 - [#885] Drop `ReleaseReferencesWorker` - replaced by `dump-merges`
 - [#905] Drop commit referencing to prevent promoting my bad practise
+
+#### EasyCodingStandard
+
+- [#924] Drop Performance overview per checker [reverts #330]
+
+### Deprecated
+
+#### Statie
+
+- [#947]  Deprecate enableMarkdownHeadlineAnchors() [closes #891]
 
 ---
 
@@ -1285,4 +1334,24 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
 [#871]: https://github.com/Symplify/Symplify/pull/871
 [#870]: https://github.com/Symplify/Symplify/pull/870
 [@jankonas]: https://github.com/jankonas
-[@JanMikes]: https://github.com/JanMikes
+
+[#948]: https://github.com/Symplify/Symplify/pull/948
+[#947]: https://github.com/Symplify/Symplify/pull/947
+[#946]: https://github.com/Symplify/Symplify/pull/946
+[#945]: https://github.com/Symplify/Symplify/pull/945
+[#943]: https://github.com/Symplify/Symplify/pull/943
+[#941]: https://github.com/Symplify/Symplify/pull/941
+[#939]: https://github.com/Symplify/Symplify/pull/939
+[#936]: https://github.com/Symplify/Symplify/pull/936
+[#932]: https://github.com/Symplify/Symplify/pull/932
+[#931]: https://github.com/Symplify/Symplify/pull/931
+[#930]: https://github.com/Symplify/Symplify/pull/930
+[#928]: https://github.com/Symplify/Symplify/pull/928
+[#927]: https://github.com/Symplify/Symplify/pull/927
+[#925]: https://github.com/Symplify/Symplify/pull/925
+[#924]: https://github.com/Symplify/Symplify/pull/924
+[#919]: https://github.com/Symplify/Symplify/pull/919
+[#918]: https://github.com/Symplify/Symplify/pull/918
+[#917]: https://github.com/Symplify/Symplify/pull/917
+[#916]: https://github.com/Symplify/Symplify/pull/916
+[#911]: https://github.com/Symplify/Symplify/pull/911
