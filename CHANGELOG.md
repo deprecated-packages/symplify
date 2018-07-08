@@ -11,7 +11,7 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 ## Unreleased
 
-**The Top News?
+**The Top News?**
 
 - [#892] Statie now supports Twig
 
