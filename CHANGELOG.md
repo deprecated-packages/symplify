@@ -74,6 +74,10 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 - [#847] Bump to PHP CS Fixer 2.12
 - [#857] Bump to PHP_CodeSniffer 3.3 and related fixes
 
+#### EasyCodingStandard
+
+- [#948] Make `fnmatch` skipping more user-friendly [closes #942]
+
 #### ChangelogLinker
 
 - [#871] Improve test coverage
@@ -136,6 +140,12 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 #### EasyCodingStandard
 
 - [#924] Drop Performance overview per checker [reverts #330]
+
+### Deprecated
+
+#### Statie
+
+- [#947]  Deprecate enableMarkdownHeadlineAnchors() [closes #891]
 
 ---
 
@@ -1320,3 +1330,24 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
 [#871]: https://github.com/Symplify/Symplify/pull/871
 [#870]: https://github.com/Symplify/Symplify/pull/870
 [@jankonas]: https://github.com/jankonas
+
+[#948]: https://github.com/Symplify/Symplify/pull/948
+[#947]: https://github.com/Symplify/Symplify/pull/947
+[#946]: https://github.com/Symplify/Symplify/pull/946
+[#945]: https://github.com/Symplify/Symplify/pull/945
+[#943]: https://github.com/Symplify/Symplify/pull/943
+[#941]: https://github.com/Symplify/Symplify/pull/941
+[#939]: https://github.com/Symplify/Symplify/pull/939
+[#936]: https://github.com/Symplify/Symplify/pull/936
+[#932]: https://github.com/Symplify/Symplify/pull/932
+[#931]: https://github.com/Symplify/Symplify/pull/931
+[#930]: https://github.com/Symplify/Symplify/pull/930
+[#928]: https://github.com/Symplify/Symplify/pull/928
+[#927]: https://github.com/Symplify/Symplify/pull/927
+[#925]: https://github.com/Symplify/Symplify/pull/925
+[#924]: https://github.com/Symplify/Symplify/pull/924
+[#919]: https://github.com/Symplify/Symplify/pull/919
+[#918]: https://github.com/Symplify/Symplify/pull/918
+[#917]: https://github.com/Symplify/Symplify/pull/917
+[#916]: https://github.com/Symplify/Symplify/pull/916
+[#911]: https://github.com/Symplify/Symplify/pull/911
