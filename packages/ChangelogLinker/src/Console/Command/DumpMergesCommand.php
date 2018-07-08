@@ -110,13 +110,6 @@ final class DumpMergesCommand extends Command
         );
 
         $this->addOption(
-            Option::IN_TAGS,
-            null,
-            InputOption::VALUE_NONE,
-            'Print withs tags - detected from date of merge.'
-        );
-
-        $this->addOption(
             Option::DRY_RUN,
             null,
             InputOption::VALUE_NONE,
@@ -162,7 +155,6 @@ final class DumpMergesCommand extends Command
             $changes,
             $input->getOption(Option::IN_CATEGORIES),
             $input->getOption(Option::IN_PACKAGES),
-            $input->getOption(Option::IN_TAGS),
             $sortPriority
         );
 
