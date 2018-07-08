@@ -23,18 +23,6 @@ final class ConfigurationTest extends TestCase
         );
     }
 
-    public function testMarkdownHeadlineAnchors(): void
-    {
-        $container = (new ContainerFactory())->create();
-        $configuration = $container->get(Configuration::class);
-
-        $configuration->enableMarkdownHeadlineAnchors();
-        $this->assertTrue($configuration->isMarkdownHeadlineAnchors());
-
-        $configuration->disableMarkdownHeadlineAnchors();
-        $this->assertFalse($configuration->isMarkdownHeadlineAnchors());
-    }
-
     public function testExceptionForEmptyGithubRepositorySlug(): void
     {
         $container = (new ContainerFactory())->createWithConfig(
