@@ -155,7 +155,7 @@ And with `--linkify` option, you'll get all the nice things from B as well.
 ## B. Decorate `CHANGELOG.md`
 
 ```bash
-vendor/bin/changelog-linker run
+vendor/bin/changelog-linker linkify
 ```
 
 All these feature can be turned on by adding particular worker to `changelog-linker.yml`:

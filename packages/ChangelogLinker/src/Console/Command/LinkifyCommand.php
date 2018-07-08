@@ -9,7 +9,7 @@ use Symplify\ChangelogLinker\ChangelogLinker;
 use Symplify\ChangelogLinker\FileSystem\ChangelogFileSystem;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
 
-final class RunCommand extends Command
+final class LinkifyCommand extends Command
 {
     /**
      * @var ChangelogLinker
