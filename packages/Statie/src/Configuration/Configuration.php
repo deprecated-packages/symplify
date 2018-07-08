@@ -104,6 +104,13 @@ final class Configuration
 
     public function enableMarkdownHeadlineAnchors(): void
     {
+        trigger_error(sprintf(
+            '"%s" was deprecated and will be removed in Symplify\Statie 5.0. Use own plugin instead, e.g. ."',
+            __METHOD__,
+            'https://github.com/TomasVotruba/tomasvotruba.cz/tree/master/src/PostHeadlineLinker'
+        ), E_USER_DEPRECATED);
+        sleep(3); // inspired at "deprecated interface" Tweet
+
         $this->options[self::OPTION_MARKDOWN_HEADLINE_ANCHORS] = true;
     }
 
