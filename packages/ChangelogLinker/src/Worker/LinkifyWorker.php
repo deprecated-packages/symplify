@@ -30,6 +30,10 @@ final class LinkifyWorker implements WorkerInterface
     public function processContent(string $content): string
     {
         foreach ($this->namesToUrls as $name => $url) {
+            if (! Strings::match($content, sprintf('#(%s)#', $name))) {
+                continue;
+            }
+
             $content = Strings::replace($content, sprintf('#(%s)#', $name), '[$1]');
 
             $link = sprintf('[%s]: %s', $name, $url);

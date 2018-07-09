@@ -10,7 +10,7 @@ services:
 
     Symplify\ChangelogLinker\:
         resource: ".."
-        exclude: "../{Contract,Exception,Worker,ChangeTree/Change.php}"
+        exclude: "../{Contract,Exception,ChangeTree/Change.php}"
 
     Symplify\PackageBuilder\Console\ConfigAwareApplication:
         public: true # for bin file

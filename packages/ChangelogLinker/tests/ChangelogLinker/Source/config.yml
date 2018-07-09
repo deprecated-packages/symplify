@@ -1,14 +1,5 @@
 parameters:
     repository_url: 'https://github.com/dummy/dummy'
 
-services:
-    _defaults:
-        bind:
-            $repositoryUrl: '%repository_url%'
-            $namesToUrls: '%names_to_urls%'
-
-    Symplify\ChangelogLinker\Worker\BracketsAroundReferencesWorker:
-    Symplify\ChangelogLinker\Worker\DiffLinksToVersionsWorker:
-    Symplify\ChangelogLinker\Worker\LinkifyWorker:
-    Symplify\ChangelogLinker\Worker\UserReferencesWorker:
-    Symplify\ChangelogLinker\Worker\LinksToReferencesWorker:
+    names_to_urls:
+        'SomeThingToLink': 'https://someUrl.com'

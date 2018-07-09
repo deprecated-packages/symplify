@@ -162,16 +162,6 @@ You'll get the output with links to PRs and "thanks" by default.
 vendor/bin/changelog-linker linkify
 ```
 
-All these feature can be turned on by adding particular worker to `changelog-linker.yml`:
-
-```yaml
-# changelog-linker.yml
-services:
-    Symplify\ChangelogLinker\Worker\LinksToReferencesWorker:
-```
-
-Do you want them all? Just include `config/basic.yml` config.
-
 ### 1. Link PR and Issues
 
 - `Symplify\ChangelogLinker\Worker\LinksToReferencesWorker`
@@ -195,8 +185,6 @@ Do you want them all? Just include `config/basic.yml` config.
 ```
 
 ### 2. Link Versions to Diffs
-
-- `Symplify\ChangelogLinker\Worker\DiffLinksToVersionsWorker`
 
 :x:
 
@@ -222,8 +210,6 @@ Do you want them all? Just include `config/basic.yml` config.
 
 ### 3. Link Thanks to Users
 
-- `Symplify\ChangelogLinker\Worker\UserReferencesWorker`
-
 Credit is much more valuable with link to follow:
 
 :x:
@@ -245,8 +231,6 @@ Credit is much more valuable with link to follow:
 ```
 
 ### 4. Add Links to Specific Words
-
-- `Symplify\ChangelogLinker\Worker\LinkifyWorker`
 
 In Symplify, I need that every `EasyCodingStandard` word leads to `https://github.com/Symplify/EasyCodingStandard/`.
 
