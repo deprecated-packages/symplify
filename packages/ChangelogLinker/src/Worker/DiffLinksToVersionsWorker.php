@@ -43,6 +43,11 @@ final class DiffLinksToVersionsWorker implements WorkerInterface
 
     public function processContent(string $content): string
     {
+        // we need more than 1 version to make A...B
+        if (count($this->versionsAnalyzer->getVersions()) <= 1) {
+            return $content;
+        }
+
         foreach ($this->versionsAnalyzer->getVersions() as $index => $version) {
             if ($this->shouldSkip($version)) {
                 continue;
