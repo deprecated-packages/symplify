@@ -93,7 +93,7 @@ final class RenderableFilesProcessor
     /**
      * @return FileDecoratorInterface[]
      */
-    private function getFileDecorators(): array
+    public function getFileDecorators(): array
     {
         $this->sortFileDecorators();
 

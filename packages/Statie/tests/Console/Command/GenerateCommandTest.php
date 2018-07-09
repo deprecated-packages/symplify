@@ -5,6 +5,8 @@ namespace Symplify\Statie\Tests\Console\Command;
 use Nette\Utils\FileSystem;
 use Symfony\Component\Console\Input\StringInput;
 use Symfony\Component\Console\Output\NullOutput;
+use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Style\SymfonyStyle;
 use Symplify\Statie\Console\Application;
 use Symplify\Statie\Tests\AbstractContainerAwareTestCase;
 
@@ -24,6 +26,10 @@ final class GenerateCommandTest extends AbstractContainerAwareTestCase
     {
         $this->application = $this->container->get(Application::class);
         $this->application->setAutoExit(false);
+
+        /** @var SymfonyStyle $symfonyStyle */
+        $symfonyStyle = $this->container->get(SymfonyStyle::class);
+        $symfonyStyle->setVerbosity(OutputInterface::VERBOSITY_QUIET);
     }
 
     protected function tearDown(): void
