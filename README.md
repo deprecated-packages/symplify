@@ -34,12 +34,15 @@ A static site generator with aim on community websites.
 
 ### Other Utils Packages
 
-- [BetterPhpDocParser](https://github.com/Symplify/BetterPhpDocParser) - Slim wrapper around [phpstan/phpdoc-parser](https://github.com/phpstan/phpdoc-parser) with format preserving printer
+You'll find them all in [`/packages`](/packages) directory:
+
+- [LatteToTwigConverter](https://github.com/Symplify/LatteToTwigConverter) - Converts Latte templates to Twig
+- [MonorepoBuilder](https://github.com/Symplify/MonorepoBuilder) - Not only Composer tools to build a Monorepo
 - [ChangelogLinker](https://github.com/Symplify/ChangelogLinker) - Make CHANGELOG.md useful with links
 - [PackageBuilder](https://github.com/Symplify/PackageBuilder) - Speed up your package DI Containers integration and Console apps to Symfony
-- [MonorepoBuilder](https://github.com/Symplify/MonorepoBuilder) - Not only Composer tools to build a Monorepo
+- [BetterPhpDocParser](https://github.com/Symplify/BetterPhpDocParser) - Slim wrapper around [phpstan/phpdoc-parser](https://github.com/phpstan/phpdoc-parser) with format preserving printer
 - [TokenRunner](https://github.com/Symplify/TokenRunner) - Building own Sniffs and Fixers made easy
-- ...and [few more](/packages).
+- [EasyCodingStandardTester](https://github.com/Symplify/EasyCodingStandardTester) - The Best Way to Test Sniffs and Fixers
 
 ## Install
 
