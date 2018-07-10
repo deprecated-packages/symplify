@@ -30,11 +30,6 @@ final class WithTagsTest extends TestCase
 
     public function testReportChanges(): void
     {
-        // @see https://docs.travis-ci.com/user/environment-variables/#Default-Environment-Variables
-        if (getenv('TRAVIS')) {
-            $this->markTestSkipped('Travis makes shallow clones, so unable to test commits/tags.');
-        }
-
         $content = $this->changelogDumper->reportChangesWithHeadlines($this->changes, false, false, 'categories');
 
         $this->assertStringEqualsFile(__DIR__ . '/WithTagsSource/expected1.md', $content);
@@ -49,11 +44,6 @@ final class WithTagsTest extends TestCase
         ?string $priority,
         string $expectedOutputFile
     ): void {
-        // @see https://docs.travis-ci.com/user/environment-variables/#Default-Environment-Variables
-        if (getenv('TRAVIS')) {
-            $this->markTestSkipped('Travis makes shallow clones, so unable to test commits/tags.');
-        }
-
         $content = $this->changelogDumper->reportChangesWithHeadlines(
             $this->changes,
             $withCategories,

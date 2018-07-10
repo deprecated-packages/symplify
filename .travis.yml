@@ -1,5 +1,10 @@
 language: php
 
+# required for "git tag" presence for MonorepoBuilder split and ChangelogLinker git tags resolver
+# see https://github.com/travis-ci/travis-ci/issues/7422
+git:
+  depth: false
+
 matrix:
   include:
     - php: 7.1
