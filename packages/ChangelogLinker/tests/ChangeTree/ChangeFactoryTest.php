@@ -94,11 +94,6 @@ final class ChangeFactoryTest extends TestCase
 
     public function testTagDetection(): void
     {
-        // @see https://docs.travis-ci.com/user/environment-variables/#Default-Environment-Variables
-        if (getenv('TRAVIS')) {
-            $this->markTestSkipped('Travis makes shallow clones, so unable to test commits/tags.');
-        }
-
         $pullRequest = [
             'number' => 10,
             'title' => '[SomePackage] SomeMessage',

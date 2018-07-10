@@ -15,11 +15,6 @@ final class GitCommitDateTagResolverTest extends TestCase
 
     protected function setUp(): void
     {
-        // @see https://docs.travis-ci.com/user/environment-variables/#Default-Environment-Variables
-        if (getenv('TRAVIS')) {
-            $this->markTestSkipped('Travis makes shallow clones, so unable to test commits/tags.');
-        }
-
         $this->gitCommitDateTagResolver = new GitCommitDateTagResolver();
     }
 
