@@ -120,8 +120,8 @@ function split_branch()
 
         echo " - syncing branch '${BRANCH}'"
 
-        git checkout -b "${LOCAL_BRANCH}-checkout" "${BRANCH}" >/dev/null 2>&1 || die "Failed while git checkout ${BRANCH}"
-        git subtree split -q --prefix="$FROM_DIRECTORY" --branch="$LOCAL_BRANCH" "${BRANCH}" >/dev/null || die "Failed while git subtree split for ${BRANCH}"
+        git checkout -b "${LOCAL_BRANCH}-checkout" "${BRANCH}" >/dev/null 2>&1 || die "Failed while git checkout branch '${BRANCH}'"
+        git subtree split -q --prefix="$FROM_DIRECTORY" --branch="$LOCAL_BRANCH" "${BRANCH}" >/dev/null || die "Failed while git subtree split for '${BRANCH}'"
 
         git push -q --force origin ${LOCAL_BRANCH}:${BRANCH} || die "Failed pushing branch to remote repo"
 
@@ -135,19 +135,21 @@ function split_tag()
     then
         LOCAL_TAG="tag-${TAG}"
 
-        if git branch | grep "${LOCAL_TAG}$" >/dev/null
-        then
-            echo " - skipping tag '${TAG}' (already synced)"
-            continue
-        fi
-
         echo " - syncing tag '${TAG}'"
 
-        git subtree split -q --prefix="$FROM_DIRECTORY" --branch="$LOCAL_TAG" "$TAG" >/dev/null || die "Failed while git subtree split for TAG"
+        git checkout -b "${LOCAL_TAG}-checkout" "tags/${TAG}" >/dev/null 2>&1 || die "Failed while git checkout tag '${TAG}'"
 
-        git push -q --force origin ${LOCAL_TAG}:refs/tags/${TAG} || die "Failed pushing tag to remote repo"
+        # make sure that directory exists in that tag
+        if [ ! -d "$FROM_DIRECTORY" ]
+        then
+            echo " - directory '${FROM_DIRECTORY}' is not yet present in tag '${TAG}' [SKIP]"
+            continue
+        else
+            git subtree split -q --prefix="$FROM_DIRECTORY" --branch="$LOCAL_TAG" "$TAG" >/dev/null || die "Failed while git subtree split for '${TAG}'"
+            git push -q --force origin ${LOCAL_TAG}:refs/tags/${TAG} || die "Failed pushing tag to remote repo"
 
-        echo " - subtree split for '${TAG}' [DONE]"
+            echo " - subtree split for '${TAG}' [DONE]"
+        fi
     fi
 }
 
