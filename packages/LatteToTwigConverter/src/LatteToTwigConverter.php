@@ -33,10 +33,6 @@ final class LatteToTwigConverter
         // {% if post.rectify_post_id is defined %}
         $content = Strings::replace($content, '#({% \w+) \$(\w+)\[\'(\w+)\'\]#', '$1 $2.$3');
 
-
-
-        $content = Strings::replace($content, '#{% (.*?) count\(\$?(\w+)\)#', '{% $1 $2|length');
-
         return Strings::replace($content, '#{% include \'?(\w+)\'? %}#', '{{ block(\'$1\') }}');
     }
 }

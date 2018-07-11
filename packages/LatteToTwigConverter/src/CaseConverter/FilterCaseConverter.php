@@ -15,6 +15,10 @@ final class FilterCaseConverter implements CaseConverterInterface
 
         // | noescape =>
         // | raw
-        return Strings::replace($content, '#\|(\s+)?noescape#', '|$1raw');
+        $content = Strings::replace($content, '#\|(\s+)?noescape#', '|$1raw');
+
+        // ... count(5) =>
+        // ... 5|length
+        return Strings::replace($content, '#{(.*?) count\(\$?(\w+)\)(.*?)}#', '{$1 $2|length$3}');
     }
 }
