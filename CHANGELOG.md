@@ -130,6 +130,7 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 #### CodingStandard
 
+<a name="change-link-1"></a>
 - [#919] Change `ClassNameSuffixByParentFixer` to `ClassNameSuffixByParentSniff`
     ##### Before
     ```yaml
