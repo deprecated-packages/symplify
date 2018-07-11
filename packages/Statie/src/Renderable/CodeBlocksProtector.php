@@ -14,12 +14,12 @@ final class CodeBlocksProtector
     /**
      * @var string
      */
-    private const CODE_BLOCKS_HTML_PATTERN = '#(?<code><code(?: class=\"[a-z-]+\")?>*(?:(?!<\/code>).)+<\/code>)#ms';
+    private const CODE_BLOCKS_HTML_PATTERN = '#(?<code><code(?: class=\"[\w-]+\")?>*(?:(?!<\/code>).)+<\/code>)#ms';
 
     /**
      * @var string
      */
-    private const PLACEHOLDER_PATTERN = '#(?<placeholder>' . self::PLACEHOLDER_PREFIX . '[0-9]+)#m';
+    private const PLACEHOLDER_PATTERN = '#(?<placeholder>' . self::PLACEHOLDER_PREFIX . '\d+)#m';
 
     /**
      * @var string

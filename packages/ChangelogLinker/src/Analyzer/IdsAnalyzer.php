@@ -13,7 +13,7 @@ final class IdsAnalyzer
      * - #5 Add this => 5
      * - [#10] Change tha => 10
      */
-    private const PR_REFERENCE_IN_LIST = '#- \[?(\#(?<id>[0-9]+))\]?#';
+    private const PR_REFERENCE_IN_LIST = '#- \[?(\#(?<id>\d+))\]?#';
 
     public function getHighestIdInChangelog(string $content): int
     {

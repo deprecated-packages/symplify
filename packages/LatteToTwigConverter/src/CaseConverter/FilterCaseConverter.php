@@ -11,10 +11,14 @@ final class FilterCaseConverter implements CaseConverterInterface
     {
         // {$post['updated_message']|noescape} =>
         // {{ post.updated_message|noescape }}
-        $content = Strings::replace($content, '#{\$([A-Za-z_-]+)\[\'([A-Za-z_-]+)\'\]\|([^}]+)}#', '{{ $1.$2|$3 }}');
+        $content = Strings::replace($content, '#{\$([\w-]+)\[\'([\w-]+)\'\]\|([^}]+)}#', '{{ $1.$2|$3 }}');
 
         // | noescape =>
         // | raw
-        return Strings::replace($content, '#\|(\s+)?noescape#', '|$1raw');
+        $content = Strings::replace($content, '#\|(\s+)?noescape#', '|$1raw');
+
+        // ... count(5) =>
+        // ... 5|length
+        return Strings::replace($content, '#{(.*?) count\(\$?(\w+)\)(.*?)}#', '{$1 $2|length$3}');
     }
 }

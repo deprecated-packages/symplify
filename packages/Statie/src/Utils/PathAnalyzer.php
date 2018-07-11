@@ -16,7 +16,7 @@ final class PathAnalyzer
     /**
      * @var string
      */
-    private const NAME_PATTERN = '(?<name>[a-zA-Z0-9-_]*)';
+    private const NAME_PATTERN = '(?<name>[\w\d-]*)';
 
     public function detectDate(SplFileInfo $fileInfo): ?DateTimeInterface
     {

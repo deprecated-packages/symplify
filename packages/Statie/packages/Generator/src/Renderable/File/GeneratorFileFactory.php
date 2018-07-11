@@ -12,7 +12,7 @@ final class GeneratorFileFactory
      * Matches "id: <25>"
      * @var string
      */
-    private const ID_PATTERN = '#^id:[\s]*(?<id>[0-9]+)#m';
+    private const ID_PATTERN = '#^id:[\s]*(?<id>\d+)#m';
 
     /**
      * @var PathAnalyzer

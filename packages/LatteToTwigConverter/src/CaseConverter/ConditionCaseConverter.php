@@ -21,11 +21,6 @@ final class ConditionCaseConverter implements CaseConverterInterface
         // {% if $post is defined %}..{% endif %}
         $content = Strings::replace($content, '#{ifset (.*?)}(.*?){\/ifset}#s', '{% if $1 is defined %}$2{% endif %}');
 
-        // {% if $post['deprecated'] =>
-        // {% if $post.deprecated
-        // https://regex101.com/r/XKKoUh/2
-        $content = Strings::replace($content, '#{% (\w+) \$([A-Za-z]+)\[\'([\A-Za-z]+)\'\]#', '{% $1 $2.$3');
-
         // {if "sth"}..{/if} =>
         // {% if "sth" %}..{% endif %}
         // https://regex101.com/r/DrDSJf/1

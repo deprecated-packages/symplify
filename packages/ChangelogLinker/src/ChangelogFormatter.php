@@ -10,7 +10,7 @@ final class ChangelogFormatter
      * @see https://regex101.com/r/JmKFH1/1
      * @var string
      */
-    private const HEADLINE_PATTERN = '#^(?<headline>[\#]{2,} [A-Za-z0-9.\- ]+)$#m';
+    private const HEADLINE_PATTERN = '#^(?<headline>[\#]{2,} [\w\d.\- ]+)$#m';
 
     public function format(string $content): string
     {
