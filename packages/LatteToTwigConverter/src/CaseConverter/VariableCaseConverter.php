@@ -14,11 +14,17 @@ final class VariableCaseConverter implements CaseConverterInterface
         // {$google_analytics_tracking_id|someFilter} =>
         // {{ google_analytics_tracking_id|someFilter }}
         $content = Strings::replace($content, '#{\$(\w+)(\|.*?)?}#', '{{ $1$2 }}');
+
         // {$post->getId()} =>
         // {{ post.getId() }}
-        $content = Strings::replace($content, '#{\$([\w]+)->([\w()]+)}#', '{{ $1.$2 }}');
+        $content = Strings::replace($content, '#{(.*?)\$([\w]+)->([\w()]+)(.*?)}#', '{$1$2.$3$4}');
+
         // {$post['relativeUrl']} =>
         // {{ post.relativeUrl }}
-        return Strings::replace($content, '#{\$([\w-]+)\[\'([\w-]+)\'\]}#', '{{ $1.$2 }}');
+        $content = Strings::replace($content, '#{(.*?)\$([\w-]+)\[\'([\w-]+)\'\](.*?)}#', '{$1$2.$3$4}');
+
+        // {... $variable ...}
+        // {... variable ...}
+        return Strings::replace($content, '#{(.*?)\$([\w-]+)(.*?)}#', '{$1$2$3}');
     }
 }
