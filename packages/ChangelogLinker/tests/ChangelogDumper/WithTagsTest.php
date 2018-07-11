@@ -32,7 +32,13 @@ final class WithTagsTest extends TestCase
     {
         $content = $this->changelogDumper->reportChangesWithHeadlines($this->changes, false, false, 'categories');
 
-        $this->assertStringEqualsFile(__DIR__ . '/WithTagsSource/expected1.md', $content);
+        if (defined('SYMPLIFY_MONOREPO')) {
+            $expectedFile = __DIR__ . '/WithTagsSource/expected1.md';
+        } else {
+            $expectedFile = __DIR__ . '/WithTagsSource/expected1-split.md';
+        }
+
+        $this->assertStringEqualsFile($expectedFile, $content);
     }
 
     /**
@@ -56,7 +62,12 @@ final class WithTagsTest extends TestCase
 
     public function provideDataForReportChangesWithHeadlines(): Iterator
     {
-        yield [true, false, null, __DIR__ . '/WithTagsSource/expected2.md'];
-        yield [false, true, null, __DIR__ . '/WithTagsSource/expected3.md'];
+        if (defined('SYMPLIFY_MONOREPO')) {
+            yield [true, false, null, __DIR__ . '/WithTagsSource/expected2.md'];
+            yield [false, true, null, __DIR__ . '/WithTagsSource/expected3.md'];
+        } else {
+            yield [true, false, null, __DIR__ . '/WithTagsSource/expected2-split.md'];
+            yield [false, true, null, __DIR__ . '/WithTagsSource/expected3-split.md'];
+        }
     }
 }
