@@ -98,7 +98,25 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 #### Statie
 
-- [#925] Normalize latte include paths from fil name to relative paths [BC break]
+- [#925] Normalize latte include paths from file name to relative paths [BC break]
+    ##### Before
+
+    ```html
+    layout: "default"
+    ---
+
+    {include "postMetadata"}
+    ```
+
+    ##### After
+
+    ```html
+    layout: "_layouts/default.latte"
+    ---
+
+    {include "_snippets/postMetadata.latte"}
+    ```
+
 - [#887] Improve latte decoupling from the Statie
 - [#888] Return collector-based approach to FileDecorators, with priorities
 - [#893] Rename FlatWhite to Latte and move Latte-related code there
