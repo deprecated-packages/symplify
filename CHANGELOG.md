@@ -38,7 +38,7 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 #### ChangelogLinker
 
 - [#911] Add `ChangeSorter` test to cover tags, categories and packages together
-- [#879] Add `--token` option to increase Github API rate [closes #874]
+- [#879] Add `--token` option to increase Github API rate [closes [#874]]
 - [#881] Simplify `ChangeFactory` creating + Add tags feature supports
 - [#902] Add `--dry-run` option to dump-merges command to dump to the output vs write into `CHANGELOG.md`
 - [#903] Add `--linkify` option to dump-merges command
@@ -59,7 +59,7 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 - [#849] Add `CurrentFileProvider` to standardize file format used over PHP CS Fixer and PHP_CodeSniffer
 - [#852] Add support for `line_ending` configuration
-- [#832] Allow short `ecs.yml` config [closes #819]
+- [#832] Allow short `ecs.yml` config [closes [#819]]
 
 #### Statie
 
@@ -80,7 +80,7 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 #### EasyCodingStandard
 
-- [#948] Make `fnmatch` skipping more user-friendly [closes #942]
+- [#948] Make `fnmatch` skipping more user-friendly [closes [#942]]
 
 #### ChangelogLinker
 
@@ -163,7 +163,7 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 #### TokenRunner
 
-- [#863] anonymous class now returns null on name [fixes #855]
+- [#863] anonymous class now returns null on name [fixes [#855]]
 
 #### Statie
 
@@ -189,7 +189,7 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 #### Statie
 
-- [#947]  Deprecate enableMarkdownHeadlineAnchors() [closes #891]
+- [#947]  Deprecate enableMarkdownHeadlineAnchors() [closes [#891]]
 
 ---
 
@@ -1395,3 +1395,7 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
 [#917]: https://github.com/Symplify/Symplify/pull/917
 [#916]: https://github.com/Symplify/Symplify/pull/916
 [#911]: https://github.com/Symplify/Symplify/pull/911
+[#942]: https://github.com/Symplify/Symplify/pull/942
+[#891]: https://github.com/Symplify/Symplify/pull/891
+[#874]: https://github.com/Symplify/Symplify/pull/874
+[#819]: https://github.com/Symplify/Symplify/pull/819
