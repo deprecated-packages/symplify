@@ -28,8 +28,15 @@ final class GitCommitDateTagResolverTest extends TestCase
 
     public function provideData(): Iterator
     {
-        yield ['ef5e708', 'v4.1.1'];
-        yield ['940ec99', 'v3.2.26'];
+        // different commit hashes after split
+        if (defined('SYMPLIFY_MONOREPO')) {
+            yield ['ef5e708', 'v4.1.1'];
+            yield ['940ec99', 'v3.2.26'];
+        } else {
+            yield ['314fbcd', 'v4.2.1'];
+            yield ['b9d71ff', 'v4.1.0'];
+        }
+
         yield ['too-new', 'Unreleased'];
     }
 
@@ -43,9 +50,17 @@ final class GitCommitDateTagResolverTest extends TestCase
 
     public function provideDataResolveDateForTag(): Iterator
     {
-        yield ['Unreleased', null];
         yield ['v4.4.0', '2018-06-03'];
-        yield ['v4.4.1', '2018-06-07'];
-        yield ['v4.4.2', '2018-06-10'];
+
+        // different dates on tags after split
+        if (defined('SYMPLIFY_MONOREPO')) {
+            yield ['v4.4.1', '2018-06-07'];
+            yield ['v4.4.2', '2018-06-10'];
+        } else {
+            yield ['v4.4.1', '2018-06-03'];
+            yield ['v4.4.2', '2018-06-09'];
+        }
+
+        yield ['Unreleased', null];
     }
 }

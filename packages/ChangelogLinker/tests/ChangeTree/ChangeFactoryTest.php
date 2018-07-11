@@ -94,6 +94,10 @@ final class ChangeFactoryTest extends TestCase
 
     public function testTagDetection(): void
     {
+        if (! defined('SYMPLIFY_MONOREPO')) {
+            $this->markTestSkipped('This can be tested only with merge commit in monorepo, not split.');
+        }
+
         $pullRequest = [
             'number' => 10,
             'title' => '[SomePackage] SomeMessage',
