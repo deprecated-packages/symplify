@@ -11,6 +11,21 @@ use Symplify\ChangelogLinker\Regex\RegexPattern;
  */
 final class BracketsAroundReferencesWorker implements WorkerInterface
 {
+    /**
+     * @var string[]
+     */
+    private $closesKeywords = [
+        'close',
+        'closes',
+        'closed',
+        'fix',
+        'fixes',
+        'fixed',
+        'resolve',
+        'resolves',
+        'resolved',
+    ];
+
     public function processContent(string $content): string
     {
         // issue or PR references
@@ -30,6 +45,8 @@ final class BracketsAroundReferencesWorker implements WorkerInterface
         // version references
         $content = Strings::replace($content, '#\#\# ' . RegexPattern::VERSION . '#', '## [$1]');
 
+        $content = $this->wrapClosesKeywordIds($content);
+
         // user references
         return Strings::replace($content, '# ' . RegexPattern::USER . '#', ' [$1]');
     }
@@ -37,5 +54,16 @@ final class BracketsAroundReferencesWorker implements WorkerInterface
     public function getPriority(): int
     {
         return 1000;
+    }
+
+    /**
+     * @see https://help.github.com/articles/closing-issues-using-keywords/
+     * closes references
+     */
+    private function wrapClosesKeywordIds(string $content): string
+    {
+        $closesKeywordsString = implode('|', $this->closesKeywords);
+
+        return Strings::replace($content, '#(' . $closesKeywordsString . ') \#' . RegexPattern::VERSION . '#', '$1 [#$2]');
     }
 }
