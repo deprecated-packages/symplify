@@ -105,5 +105,4 @@ parameters:
 
         Symplify\CodingStandard\Sniffs\Debug\CommentedOutCodeSniff.Found:
             # useful comments
-            - 'packages/LatteToTwigConverter/src/LatteToTwigConverter.php'
-            - '*packages/LatteToTwigConverter/src/CaseConverter/*CaseConverter.php'
+            - 'packages/LatteToTwigConverter/src/CaseConverter/*CaseConverter.php'
