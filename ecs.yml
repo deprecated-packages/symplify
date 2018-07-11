@@ -99,10 +99,6 @@ parameters:
             # tests
             - 'packages/PackageBuilder/tests/Reflection/Source/SomeClassWithPrivateMethods.php'
 
-        Symplify\CodingStandard\Fixer\LineLength\LineLengthFixer:
-            # bugged
-            - '*packages/Statie/packages/*/src/*Renderer.php'
-
         Symplify\CodingStandard\Sniffs\Debug\CommentedOutCodeSniff.Found:
             # useful comments
             - 'packages/LatteToTwigConverter/src/CaseConverter/*CaseConverter.php'
