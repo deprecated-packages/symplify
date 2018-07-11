@@ -37,33 +37,33 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 #### ChangelogLinker
 
-- [#911] Add ChangeSorter test to cover tags, categories and packages together
-- [#879] Add --token option to increase Github API rate [closes #874]
-- [#881] Simplify ChangeFactory creating + Add tags feature supports
-- [#902] Add --dry-run option to dump-merges command to dump to the output vs write into CHANGELOG.md
-- [#903] Add --linkfy option to dump-merges command
+- [#911] Add `ChangeSorter` test to cover tags, categories and packages together
+- [#879] Add `--token` option to increase Github API rate [closes #874]
+- [#881] Simplify `ChangeFactory` creating + Add tags feature supports
+- [#902] Add `--dry-run` option to dump-merges command to dump to the output vs write into `CHANGELOG.md`
+- [#903] Add `--linkify` option to dump-merges command
 - [#840] Add `LinkifyWorker`
 - [#854] Add `dump-merges` command
-- [#868] Add ChangeTree, `--in-packages` and `--in-categories` options to manage merge messages
+- [#868] Add `ChangeTree`, `--in-packages` and `--in-categories` options to manage merge messages
 - [#831] Allow `--config`
 
 #### CodingStandard
 
 - [#900] Add `extra_parent_types_to_suffixes` option to `ClassNameSuffixByParentFixer`
-- [#851] Add _ support to PropertyNameMatchingTypeFixer
+- [#851] Add _ support to `PropertyNameMatchingTypeFixer`
 - [#860] Add test case for [#855], Thanks to [@OndraM]
 - [#836] Improve cognitive complexity error, Thanks to [@enumag]
-- [#845] Extended RemoveEmptyDocBlockFixer fix
+- [#845] Extended `RemoveEmptyDocBlockFixer` fix
 
 #### EasyCodingStandard
 
-- [#849] Add CurrentFileProvider to standardize file format used over PHP CS Fixer and PHP_CodeSniffer
-- [#852] Add support for line_ending configuration
+- [#849] Add `CurrentFileProvider` to standardize file format used over PHP CS Fixer and PHP_CodeSniffer
+- [#852] Add support for `line_ending` configuration
 - [#832] Allow short `ecs.yml` config [closes #819]
 
 #### Statie
 
-- [#931] Add AbstractTemplatingFileDecorator
+- [#931] Add `AbstractTemplatingFileDecorator`
 - [#892] Add Twig
 
 #### MonorepoBuilder
@@ -73,7 +73,7 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 ### Changed
 
 - [#945] Cleanup bin files
-- [#928] Bump phpstan/phpdoc-parser version, Thanks to [@marmichalski]
+- [#928] Bump `phpstan/phpdoc-parser` version, Thanks to [@marmichalski]
 - [#918] Improve autoconfiguration
 - [#847] Bump to PHP CS Fixer 2.12
 - [#857] Bump to PHP_CodeSniffer 3.3 and related fixes
@@ -117,10 +117,10 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
     {include "_snippets/postMetadata.latte"}
     ```
 
-- [#887] Improve latte decoupling from the Statie
-- [#888] Return collector-based approach to FileDecorators, with priorities
-- [#893] Rename FlatWhite to Latte and move Latte-related code there
 - [#895] Decouple `CodeBlocksProtector`
+- [#893] Rename FlatWhite to Latte and move Latte-related code there
+- [#888] Return collector-based approach to FileDecorators, with priorities
+- [#887] Improve latte decoupling from the Statie
 
 ### Fixed
 
