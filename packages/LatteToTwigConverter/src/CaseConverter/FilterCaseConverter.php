@@ -11,7 +11,7 @@ final class FilterCaseConverter implements CaseConverterInterface
     {
         // {$post['updated_message']|noescape} =>
         // {{ post.updated_message|noescape }}
-        $content = Strings::replace($content, '#{\$([A-Za-z_-]+)\[\'([A-Za-z_-]+)\'\]\|([^}]+)}#', '{{ $1.$2|$3 }}');
+        $content = Strings::replace($content, '#{\$([\w-]+)\[\'([\w-]+)\'\]\|([^}]+)}#', '{{ $1.$2|$3 }}');
 
         // | noescape =>
         // | raw

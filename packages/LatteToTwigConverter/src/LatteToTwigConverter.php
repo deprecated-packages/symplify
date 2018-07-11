@@ -27,7 +27,7 @@ final class LatteToTwigConverter
         }
 
         // suffix: "_snippets/menu.latte" => "_snippets/menu.twig"
-        $content = Strings::replace($content, '#([A-Za-z_/"]+).latte#', '$1.twig');
+        $content = Strings::replace($content, '#([\w/"]+).latte#', '$1.twig');
 
         // {% if $post['rectify_post_id'] is defined %} =>
         // {% if post.rectify_post_id is defined %}

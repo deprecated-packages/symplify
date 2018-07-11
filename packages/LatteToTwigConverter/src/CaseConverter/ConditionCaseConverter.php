@@ -24,7 +24,7 @@ final class ConditionCaseConverter implements CaseConverterInterface
         // {% if $post['deprecated'] =>
         // {% if $post.deprecated
         // https://regex101.com/r/XKKoUh/2
-        $content = Strings::replace($content, '#{% (\w+) \$([A-Za-z]+)\[\'([\A-Za-z]+)\'\]#', '{% $1 $2.$3');
+        $content = Strings::replace($content, '#{% (\w+) \$(\w+)\[\'(\w+)\'\]#', '{% $1 $2.$3');
 
         // {if "sth"}..{/if} =>
         // {% if "sth" %}..{% endif %}

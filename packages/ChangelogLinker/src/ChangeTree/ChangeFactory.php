@@ -110,7 +110,7 @@ final class ChangeFactory
      */
     private function resolvePackage(string $message): ?string
     {
-        $match = Strings::match($message, '#\[(?<package>[A-Za-z]+)\]#');
+        $match = Strings::match($message, '#\[(?<package>\w+)\]#');
 
         if (! isset($match['package'])) {
             return Change::UNKNOWN_PACKAGE;
@@ -121,7 +121,7 @@ final class ChangeFactory
 
     private function resolveMessageWithoutPackage(string $message): string
     {
-        $match = Strings::match($message, '#\[(?<package>[A-Za-z]+)\]#');
+        $match = Strings::match($message, '#\[(?<package>\w+)\]#');
 
         if (! isset($match['package'])) {
             return $message;

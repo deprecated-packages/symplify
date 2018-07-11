@@ -20,10 +20,10 @@ final class GitCommitDateTagResolver
         $datesWithTags = explode(PHP_EOL, $this->getDatesWithTagsInString());
 
         foreach ($datesWithTags as $datesWithTag) {
-            $dateMatch = Strings::match($datesWithTag, '#(?<date>[0-9]{4}-[0-9]{2}-[0-9]{2})#');
+            $dateMatch = Strings::match($datesWithTag, '#(?<date>\d{4}-\d{2}-\d{2})#');
             $date = $dateMatch['date'];
 
-            $tagMatch = Strings::match($datesWithTag, '#\(?tag: (?<tag>[v.0-9]+)\)#');
+            $tagMatch = Strings::match($datesWithTag, '#\(?tag: (?<tag>[v.\d]+)\)#');
             $tag = $tagMatch['tag'];
 
             $this->tagsToDates[$tag] = $date;
