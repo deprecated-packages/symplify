@@ -131,6 +131,27 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 #### CodingStandard
 
 - [#919] Change `ClassNameSuffixByParentFixer` to `ClassNameSuffixByParentSniff`
+    ##### Before
+    ```yaml
+    services:
+        Symplify\CodingStandard\Fixer\Naming\ClassNameSuffixByParentFixer:
+            parent_types_to_suffixes:
+                '*Command': 'Command'
+                - '*Controller'
+            extra_parent_types_to_suffixes:
+                - '*FileDecorator'
+    ```
+    ##### After
+    ```yaml
+    services:
+        Symplify\CodingStandard\Sniffs\Naming\ClassNameSuffixByParentSniff:
+            parentTypesToSuffixes:
+                - 'Command'
+                - 'Controller'
+            extraParentTypesToSuffixes:
+                - 'FileDecorator'
+    ```
+
 - [#870] `RemoveUselessDocBlockFixer` should not reformat custom annotations, Thanks to [@jankonas]
 - [#842] `LineLengthSniff` - Initial support for tokens with newlines, Thanks to [@ostrolucky]
 
