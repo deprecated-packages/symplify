@@ -60,9 +60,11 @@ final class ClassNameSuffixByParentFixer implements DefinedFixerInterface, Confi
     public function __construct(ClassWrapperFactory $classWrapperFactory)
     {
         trigger_error(sprintf(
-            '"%s" was deprecated and will be removed in Symplify\CodingStandard 5.0. Use "%s" instead."',
+            '"%s" was deprecated and will be removed in Symplify\CodingStandard 5.0. Use "%s" instead. %sSee %s for more."',
             self::class,
-            ClassNameSuffixByParentSniff::class
+            ClassNameSuffixByParentSniff::class,
+            PHP_EOL,
+            'https://github.com/Symplify/Symplify/blob/master/CHANGELOG.md#change-link-1'
         ), E_USER_DEPRECATED);
         sleep(3); // inspired at "deprecated interface" Tweet
 
