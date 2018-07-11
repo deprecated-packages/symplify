@@ -62,8 +62,10 @@ final class BracketsAroundReferencesWorker implements WorkerInterface
      */
     private function wrapClosesKeywordIds(string $content): string
     {
-        $closesKeywordsString = implode('|', $this->closesKeywords);
-
-        return Strings::replace($content, '#(' . $closesKeywordsString . ') \#' . RegexPattern::VERSION . '#', '$1 [#$2]');
+        return Strings::replace(
+            $content,
+            sprintf('#(%s) \#%s#', implode('|', $this->closesKeywords), RegexPattern::VERSION . '#'),
+            '$1 [#$2]'
+        );
     }
 }
