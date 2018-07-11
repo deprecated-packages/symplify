@@ -166,68 +166,40 @@ vendor/bin/changelog-linker linkify
 
 - `Symplify\ChangelogLinker\Worker\LinksToReferencesWorker`
 
-:x:
+```diff
+ ### Added
 
-```markdown
-### Added
-
-- #123 Cool new without detailed description wanting me to see PR
-```
-
-:+1:
-
-```markdown
-### Added
-
-- [#123] Cool new without detailed description wanting me to see PR
-
-[#123]: https://github.com/Symplify/Symplify/pull/123
+-- #123 Cool new without detailed description wanting me to see PR, [closes #234]
++- [#123] Cool new without detailed description wanting me to see PR, [closes [#234]]
++
++[#123]: https://github.com/Symplify/Symplify/pull/123
++[#234]: https://github.com/Symplify/Symplify/pull/234
 ```
 
 ### 2. Link Versions to Diffs
 
-:x:
+```diff
+-## v2.0.0 - 2017-12-31
++## [v2.0.0] - 2017-12-31
 
-```markdown
-## v2.0.0 - 2017-12-31
+ - ...
 
-- ...
-
-## v1.5.0 - 2017-06-30
-```
-
-:+1:
-
-```markdown
-### [v2.0.0] - 2017-12-31
-
-- ...
-
-### v1.5.0 - 2017-06-30
-
-[v2.0.0]: https://github.com/Symplify/Symplify/compare/v1.5.0...v2.0.0
+ ## v1.5.0 - 2017-06-30
++
++[v2.0.0]: https://github.com/Symplify/Symplify/compare/v1.5.0...v2.0.0
 ```
 
 ### 3. Link Thanks to Users
 
 Credit is much more valuable with link to follow:
 
-:x:
+```diff
+ ### [v2.0.0] - 2017-12-31
 
-```markdown
-### [v2.0.0] - 2017-12-31
-
-- ... thanks @SpacePossum for help
-```
-
-:+1:
-
-```markdown
-### [v2.0.0] - 2017-12-31
-
-- ... thanks [@SpacePossum] for help
-
-[@SpacePossum]: https://github.com/SpacePossum
+-- ... thanks @SpacePossum for help
++- ... thanks [@SpacePossum] for help
++
++[@SpacePossum]: https://github.com/SpacePossum
 ```
 
 ### 4. Add Links to Specific Words
@@ -240,28 +212,13 @@ parameters:
         EasyCodingStandard: 'https://github.com/Symplify/EasyCodingStandard/'
 ```
 
-:x:
+```diff
+ ## Unreleased
 
-```markdown
-## Unreleased
+ ### Added
 
-### Added
-
-#### EasyCodingStandard
-
-...
-```
-
-:+1:
-
-```markdown
-## Unreleased
-
-### Added
-
-#### [EasyCodingStandard]
-
-...
-
-[EasyCodingStandard]: https://github.com/Symplify/EasyCodingStandard/
+-#### EasyCodingStandard
++#### [EasyCodingStandard]
++
++[EasyCodingStandard]: https://github.com/Symplify/EasyCodingStandard/
 ```
