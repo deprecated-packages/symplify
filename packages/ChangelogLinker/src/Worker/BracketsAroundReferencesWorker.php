@@ -64,7 +64,7 @@ final class BracketsAroundReferencesWorker implements WorkerInterface
     {
         return Strings::replace(
             $content,
-            sprintf('#(%s) \#%s#', implode('|', $this->closesKeywords), RegexPattern::VERSION . '#'),
+            sprintf('#(%s) \#%s#', implode('|', $this->closesKeywords), RegexPattern::VERSION),
             '$1 [#$2]'
         );
     }
