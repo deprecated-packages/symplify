@@ -4,4 +4,4 @@ services:
 
     Symplify\Statie\Generator\:
         resource: '../'
-        exclude: '../{Configuration/GeneratorElement.php}'
+        exclude: '../{Configuration/GeneratorElement.php,Renderable/File/GeneratorFile.php}'
