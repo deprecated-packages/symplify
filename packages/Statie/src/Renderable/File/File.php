@@ -2,6 +2,8 @@
 
 namespace Symplify\Statie\Renderable\File;
 
-final class File extends AbstractFile
+use Symplify\Statie\Generator\Renderable\File\AbstractGeneratorFile;
+
+final class File extends AbstractGeneratorFile
 {
 }
