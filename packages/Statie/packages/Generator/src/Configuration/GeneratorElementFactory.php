@@ -4,7 +4,7 @@ namespace Symplify\Statie\Generator\Configuration;
 
 use Symplify\Statie\Configuration\Configuration;
 use Symplify\Statie\Generator\FileNameObjectSorter;
-use Symplify\Statie\Renderable\File\File;
+use Symplify\Statie\Generator\Renderable\File\GeneratorFile;
 
 final class GeneratorElementFactory
 {
@@ -39,7 +39,7 @@ final class GeneratorElementFactory
             $configuration['path'],
             $configuration['layout'],
             $configuration['route_prefix'],
-            $configuration['object'] ?? File::class,
+            $configuration['object'] ?? GeneratorFile::class,
             isset($configuration['object_sorter']) ? new $configuration['object_sorter']() : new FileNameObjectSorter()
         );
     }
