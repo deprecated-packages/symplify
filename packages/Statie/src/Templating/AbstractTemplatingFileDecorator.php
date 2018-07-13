@@ -28,6 +28,7 @@ abstract class AbstractTemplatingFileDecorator
         $parameters = $file->getConfiguration();
         $parameters += $this->configuration->getOptions();
         $parameters[$fileKey] = $file;
+        $parameters['layout'] = $file->getLayout();
 
         return $parameters;
     }
