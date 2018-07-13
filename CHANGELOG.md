@@ -9,7 +9,7 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 <!-- changelog-linker -->
 
-## Unreleased
+## [v4.5.0] - 2018-07-13
 
 **The Top News?**
 
@@ -49,6 +49,7 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 #### CodingStandard
 
+- [#957] Interlink `ClassNameSuffixByParentFixer` deprecation to `CHANGELOG.md`
 - [#900] Add `extra_parent_types_to_suffixes` option to `ClassNameSuffixByParentFixer`
 - [#851] Add _ support to `PropertyNameMatchingTypeFixer`
 - [#860] Add test case for [#855], Thanks to [@OndraM]
@@ -57,18 +58,26 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 #### EasyCodingStandard
 
+- [#967] Add `Find` command to simplify sniff/fixer finding
+- [#965] Add `FilsystemCacheFactory` with per project unique namespace [closes [#964]]
+- [#956] Add test case for [#923]
 - [#849] Add `CurrentFileProvider` to standardize file format used over PHP CS Fixer and PHP_CodeSniffer
 - [#852] Add support for `line_ending` configuration
 - [#832] Allow short `ecs.yml` config [closes [#819]]
 
 #### Statie
 
+- [#950] Add `DumpFileDecoratorsCommand` [closes [#894]]
 - [#931] Add `AbstractTemplatingFileDecorator`
 - [#892] Add Twig
 
 #### MonorepoBuilder
 
 - [#862] Add new commands
+
+#### PackageBuilder
+
+- [#963] Add `FileSystem` with `separateFilesAndDirectories()` method
 
 ### Changed
 
@@ -84,10 +93,13 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 #### ChangelogLinker
 
-- [#871] Improve test coverage
-- [#883] Improve --in-tags option
-- [#884] Change --in-tags option to cooperate with --in-packages and --in-categories
+- [#961] Linkify "closes" issues as well
+- [#951] Enable all workers by default to make usage more pleasant
+- [#949] Make `--in-tags` and `--linkify` defaults in `DumpMergesCommand`
 - [#908] Change appending links on dump-merge in the end of file
+- [#871] Improve test coverage
+- [#883] Improve `--in-tags` option
+- [#884] Change `--in-tags` option to cooperate with `--in-packages` and `--in-categories`
 - [#867] Change Worker registration from implicit to explicit
 - [#837] move curl dependency to pr/issue resolving
 - [#839] Match issues by regex
@@ -124,6 +136,8 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 ### Fixed
 
+- [#952] [MonorepoBuilder] Fix Travis-related Tagging
+
 #### BetterPhpDocParser
 
 - [#886] Fix annotation spacing
@@ -153,11 +167,13 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
                 - 'FileDecorator'
     ```
 
+- [#955] Cover #896 [closes [#896]]
 - [#870] `RemoveUselessDocBlockFixer` should not reformat custom annotations, Thanks to [@jankonas]
 - [#842] `LineLengthSniff` - Initial support for tokens with newlines, Thanks to [@ostrolucky]
 
 #### EasyCodingStandard
 
+- [#958] Fix cache invalidation by checking only definitions and parameters
 - [#939] Fix custom source provider troubles
 - [#848] Fix single file processing
 
@@ -167,11 +183,13 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 #### Statie
 
+- [#969] Fix File not `GeneratorFile` exception in empty generator config
 - [#930] Latte & Twig File Decorators fixes
 - [#927] Twig support fixes
 
 #### ChangelogLinker
 
+- [#962] Fix split tests
 - [#917] Fix duplicated user links
 
 ### Removed
@@ -1399,3 +1417,24 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
 [#891]: https://github.com/Symplify/Symplify/pull/891
 [#874]: https://github.com/Symplify/Symplify/pull/874
 [#819]: https://github.com/Symplify/Symplify/pull/819
+[#969]: https://github.com/Symplify/Symplify/pull/969
+[#967]: https://github.com/Symplify/Symplify/pull/967
+[#965]: https://github.com/Symplify/Symplify/pull/965
+[#964]: https://github.com/Symplify/Symplify/pull/964
+[#963]: https://github.com/Symplify/Symplify/pull/963
+[#962]: https://github.com/Symplify/Symplify/pull/962
+[#961]: https://github.com/Symplify/Symplify/pull/961
+[#959]: https://github.com/Symplify/Symplify/pull/959
+[#958]: https://github.com/Symplify/Symplify/pull/958
+[#957]: https://github.com/Symplify/Symplify/pull/957
+[#956]: https://github.com/Symplify/Symplify/pull/956
+[#955]: https://github.com/Symplify/Symplify/pull/955
+[#954]: https://github.com/Symplify/Symplify/pull/954
+[#953]: https://github.com/Symplify/Symplify/pull/953
+[#952]: https://github.com/Symplify/Symplify/pull/952
+[#951]: https://github.com/Symplify/Symplify/pull/951
+[#950]: https://github.com/Symplify/Symplify/pull/950
+[#949]: https://github.com/Symplify/Symplify/pull/949
+[#923]: https://github.com/Symplify/Symplify/pull/923
+[#896]: https://github.com/Symplify/Symplify/pull/896
+[#894]: https://github.com/Symplify/Symplify/pull/894
