@@ -136,7 +136,7 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 ### Fixed
 
-- [#952] [MonorepoBuilder] Fix Travis-related Tagging
+- [#952] Fix Travis-related Tagging
 
 #### BetterPhpDocParser
 
