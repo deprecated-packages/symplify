@@ -1,5 +1,4 @@
 imports:
-    - { resource: 'packages/EasyCodingStandard/config/psr2.yml' }
     - { resource: 'packages/EasyCodingStandard/config/php71.yml' }
     - { resource: 'packages/EasyCodingStandard/config/clean-code.yml' }
     - { resource: 'packages/EasyCodingStandard/config/symplify.yml' }
