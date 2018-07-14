@@ -14,7 +14,12 @@ final class CodeBlocksProtector
     /**
      * @var string
      */
-    private const CODE_BLOCKS_HTML_PATTERN = '#(?<code><code(?: class=\"[\w-]+\")?>*(?:(?!<\/code>).)+<\/code>)#ms';
+    private const CODE_BLOCKS_HTML_PATTERN = '#(?<code><code(?: class=\"[\w-]+\")?>(.*?)<\/code>)#ms';
+
+    /**
+     * @var string
+     */
+    private const MARKDOWN_CODE_BLOCKPATTERN = '#(?<code>```(\w*)(.*?)```)#ms';
 
     /**
      * @var string
@@ -47,17 +52,18 @@ final class CodeBlocksProtector
         return $this->replacePlaceholdersByCodeBlocks($processedContentWithPlaceholders);
     }
 
-    private function reset(): void
+    public function replaceCodeBlocksByPlaceholders(string $content): string
     {
-        $this->codePlaceholderId = 0;
-        $this->highlightedCodeBlocks = [];
+        $content = $this->replaceHtmlCodeBlocksByPlaceholders($content);
+
+        return $this->replaceMarkdownCodeBlocksByPlaceholders($content);
     }
 
-    private function replaceCodeBlocksByPlaceholders(string $content): string
+    private function replaceMarkdownCodeBlocksByPlaceholders(string $content): string
     {
         return Strings::replace(
             $content,
-            self::CODE_BLOCKS_HTML_PATTERN,
+            self::MARKDOWN_CODE_BLOCKPATTERN,
             function (array $match): string {
                 $placeholder = self::PLACEHOLDER_PREFIX . ++$this->codePlaceholderId;
                 $this->highlightedCodeBlocks[$placeholder] = $match['code'];
@@ -67,6 +73,12 @@ final class CodeBlocksProtector
         );
     }
 
+    private function reset(): void
+    {
+        $this->codePlaceholderId = 0;
+        $this->highlightedCodeBlocks = [];
+    }
+
     private function replacePlaceholdersByCodeBlocks(string $content): string
     {
         return Strings::replace(
@@ -74,6 +86,20 @@ final class CodeBlocksProtector
             self::PLACEHOLDER_PATTERN,
             function (array $match): string {
                 return $this->highlightedCodeBlocks[$match['placeholder']];
+            }
+        );
+    }
+
+    private function replaceHtmlCodeBlocksByPlaceholders(string $content): string
+    {
+        return $content = Strings::replace(
+            $content,
+            self::CODE_BLOCKS_HTML_PATTERN,
+            function (array $match): string {
+                $placeholder = self::PLACEHOLDER_PREFIX . ++$this->codePlaceholderId;
+                $this->highlightedCodeBlocks[$placeholder] = $match['code'];
+
+                return $placeholder;
             }
         );
     }

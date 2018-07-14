@@ -93,8 +93,7 @@ final class TwigFileDecorator extends AbstractTemplatingFileDecorator implements
 
         // wrap to block
         if ($layout) {
-
-            $contentWithPlaceholders = $this->codeBlocksProtector->replaceMarkdownCodeBlocksByPlaceholders($content);
+            $contentWithPlaceholders = $this->codeBlocksProtector->replaceCodeBlocksByPlaceholders($content);
 
             if (! Strings::match($contentWithPlaceholders, '#{% block content %}#')) {
                 $content = '{% block content %}' . $content . '{% endblock %}';

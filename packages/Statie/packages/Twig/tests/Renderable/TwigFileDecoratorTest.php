@@ -84,7 +84,10 @@ final class TwigFileDecoratorTest extends AbstractContainerAwareTestCase
 
         $this->twigFileDecorator->decorateFiles([$file]);
 
-        $this->assertStringEqualsFile(__DIR__ . '/TwigFileDecoratorSource/expectedWithHighlightedCode.html', $file->getContent());
+        $this->assertStringEqualsFile(
+            __DIR__ . '/TwigFileDecoratorSource/expectedWithHighlightedCode.html',
+            $file->getContent()
+        );
     }
 
     private function createFileFromFilePath(string $filePath): AbstractFile
