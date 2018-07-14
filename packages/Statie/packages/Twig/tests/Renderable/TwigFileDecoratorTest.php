@@ -67,7 +67,24 @@ final class TwigFileDecoratorTest extends AbstractContainerAwareTestCase
 
         $this->expectException(InvalidTwigSyntaxException::class);
 
+        $file->addConfiguration([
+            'layout' => 'default',
+        ]);
+
         $this->twigFileDecorator->decorateFiles([$file]);
+    }
+
+    public function testDecorateFileWithHighlightedTwigCode(): void
+    {
+        $file = $this->createFileFromFilePath(__DIR__ . '/TwigFileDecoratorSource/fileWithHighlightedCode.twig');
+
+        $file->addConfiguration([
+            'layout' => 'default',
+        ]);
+
+        $this->twigFileDecorator->decorateFiles([$file]);
+
+        $this->assertStringEqualsFile(__DIR__ . '/TwigFileDecoratorSource/expectedWithHighlightedCode.html', $file->getContent());
     }
 
     private function createFileFromFilePath(string $filePath): AbstractFile
