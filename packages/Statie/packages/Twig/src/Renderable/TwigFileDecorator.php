@@ -89,20 +89,22 @@ final class TwigFileDecorator extends AbstractTemplatingFileDecorator implements
      */
     private function prependLayoutToFileContent(AbstractFile $file, string $layout): void
     {
+        if (! $layout) {
+            return;
+        }
+
         $content = $file->getContent();
 
         // wrap to block
-        if ($layout) {
-            $contentWithPlaceholders = $this->codeBlocksProtector->replaceCodeBlocksByPlaceholders($content);
+        $contentWithPlaceholders = $this->codeBlocksProtector->replaceCodeBlocksByPlaceholders($content);
 
-            if (! Strings::match($contentWithPlaceholders, '#{% block content %}#')) {
-                $content = '{% block content %}' . $content . '{% endblock %}';
-            }
+        if (! Strings::match($contentWithPlaceholders, '#{% block content %}#')) {
+            $content = '{% block content %}' . $content . '{% endblock %}';
+        }
 
-            // attach extends
-            if (! Strings::match($contentWithPlaceholders, '#{% extends (.*?) %}#')) {
-                $content = sprintf('{%% extends "%s" %%}', $layout) . PHP_EOL . $content;
-            }
+        // attach extends
+        if (! Strings::match($contentWithPlaceholders, '#{% extends (.*?) %}#')) {
+            $content = sprintf('{%% extends "%s" %%}', $layout) . PHP_EOL . $content;
         }
 
         $file->changeContent($content);

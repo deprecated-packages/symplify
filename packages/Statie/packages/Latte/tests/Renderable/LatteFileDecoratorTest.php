@@ -74,6 +74,22 @@ final class LatteFileDecoratorTest extends AbstractContainerAwareTestCase
         $this->latteFileDecorator->decorateFiles([$file]);
     }
 
+    public function testHighlightedCode(): void
+    {
+        $file = $this->createFileFromFilePath(__DIR__ . '/LatteFileDecoratorSource/fileWithHighlightedCode.latte');
+
+        $file->addConfiguration([
+            'layout' => 'default',
+        ]);
+
+        $this->latteFileDecorator->decorateFiles([$file]);
+
+        $this->assertStringEqualsFile(
+            __DIR__ . '/LatteFileDecoratorSource/expectedFileWithHighlightedCode.html',
+            $file->getContent()
+        );
+    }
+
     private function createFileFromFilePath(string $filePath): File
     {
         $fileInfo = SymfonyFileInfoFactory::createFromFilePath($filePath);
