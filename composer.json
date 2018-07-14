@@ -29,7 +29,7 @@
         "symfony/http-kernel": "^3.4|^4.0",
         "symfony/process": "^3.4|^4.0",
         "symfony/yaml": "^3.4|^4.0",
-        "twig/twig": "^2.4"
+        "twig/twig": "^2.5"
     },
     "require-dev": {
         "nette/application": "^2.4",
