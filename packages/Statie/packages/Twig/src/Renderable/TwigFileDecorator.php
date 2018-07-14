@@ -39,9 +39,7 @@ final class TwigFileDecorator extends AbstractTemplatingFileDecorator implements
                 continue;
             }
 
-            if ($file->getLayout()) {
-                $this->prependLayoutToFileContent($file, $file->getLayout());
-            }
+            $this->prependLayoutToFileContent($file, $file->getLayout());
 
             $parameters = $this->createParameters($file, 'file');
             $content = $this->twigRenderer->renderFileWithParameters($file, $parameters);
@@ -87,7 +85,7 @@ final class TwigFileDecorator extends AbstractTemplatingFileDecorator implements
     /**
      * @inspiration https://github.com/sculpin/sculpin/blob/3264c087e31da2d49c9ec825fec38cae4d583d50/src/Sculpin/Bundle/TwigBundle/TwigFormatter.php#L113
      */
-    private function prependLayoutToFileContent(AbstractFile $file, string $layout): void
+    private function prependLayoutToFileContent(AbstractFile $file, ?string $layout): void
     {
         if (! $layout) {
             return;

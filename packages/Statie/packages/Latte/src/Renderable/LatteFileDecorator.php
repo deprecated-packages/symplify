@@ -39,9 +39,7 @@ final class LatteFileDecorator extends AbstractTemplatingFileDecorator implement
                 continue;
             }
 
-            if ($file->getLayout()) {
-                $this->prependLayoutToFileContent($file, $file->getLayout());
-            }
+            $this->prependLayoutToFileContent($file, $file->getLayout());
 
             $parameters = $this->createParameters($file, 'file');
             $content = $this->latteRenderer->renderFileWithParameters($file, $parameters);
@@ -84,7 +82,7 @@ final class LatteFileDecorator extends AbstractTemplatingFileDecorator implement
         return 700;
     }
 
-    private function prependLayoutToFileContent(AbstractFile $file, string $layout): void
+    private function prependLayoutToFileContent(AbstractFile $file, ?string $layout): void
     {
         if (! $layout) {
             return;
@@ -96,13 +94,13 @@ final class LatteFileDecorator extends AbstractTemplatingFileDecorator implement
         $contentWithPlaceholders = $this->codeBlocksProtector->replaceCodeBlocksByPlaceholders($content);
 
         // wrap to block content if needed
-        if (! Strings::match($contentWithPlaceholders, '#{(block|define) content}#')) {
+        if (! Strings::match($contentWithPlaceholders, '#{block content}#')) {
             $content = '{block content}' . $content . '{/block}';
         }
 
-        // attach extends
+        // attach layout
         if (! Strings::match($contentWithPlaceholders, '#{layout (.*?)}#')) {
-            $content = sprintf('{layout  "%s"}', $layout) . PHP_EOL . $content;
+            $content = sprintf('{layout "%s"}', $layout) . PHP_EOL . $content;
         }
 
         $file->changeContent($content);
@@ -110,8 +108,8 @@ final class LatteFileDecorator extends AbstractTemplatingFileDecorator implement
 
     private function trimLayoutLeftover(string $content): string
     {
-        $content = Strings::replace($content, '#{block (.*?)}(.*?){/block}#s', '$2', 1);
+        $content = Strings::replace($content, '#{block content}(.*?){/block}#s', '$1');
 
-        return Strings::replace($content, '#{layout [^}]+}#', 1);
+        return Strings::replace($content, '#{layout (.*?)}#');
     }
 }
