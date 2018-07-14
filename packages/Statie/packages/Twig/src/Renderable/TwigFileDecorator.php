@@ -39,9 +39,7 @@ final class TwigFileDecorator extends AbstractTemplatingFileDecorator implements
                 continue;
             }
 
-            if ($file->getLayout()) {
-                $this->prependLayoutToFileContent($file, $file->getLayout());
-            }
+            $this->prependLayoutToFileContent($file, $file->getLayout());
 
             $parameters = $this->createParameters($file, 'file');
             $content = $this->twigRenderer->renderFileWithParameters($file, $parameters);
@@ -87,22 +85,24 @@ final class TwigFileDecorator extends AbstractTemplatingFileDecorator implements
     /**
      * @inspiration https://github.com/sculpin/sculpin/blob/3264c087e31da2d49c9ec825fec38cae4d583d50/src/Sculpin/Bundle/TwigBundle/TwigFormatter.php#L113
      */
-    private function prependLayoutToFileContent(AbstractFile $file, string $layout): void
+    private function prependLayoutToFileContent(AbstractFile $file, ?string $layout): void
     {
+        if (! $layout) {
+            return;
+        }
+
         $content = $file->getContent();
 
         // wrap to block
-        if ($layout) {
-            $contentWithPlaceholders = $this->codeBlocksProtector->replaceCodeBlocksByPlaceholders($content);
+        $contentWithPlaceholders = $this->codeBlocksProtector->replaceCodeBlocksByPlaceholders($content);
 
-            if (! Strings::match($contentWithPlaceholders, '#{% block content %}#')) {
-                $content = '{% block content %}' . $content . '{% endblock %}';
-            }
+        if (! Strings::match($contentWithPlaceholders, '#{% block content %}#')) {
+            $content = '{% block content %}' . $content . '{% endblock %}';
+        }
 
-            // attach extends
-            if (! Strings::match($contentWithPlaceholders, '#{% extends (.*?) %}#')) {
-                $content = sprintf('{%% extends "%s" %%}', $layout) . PHP_EOL . $content;
-            }
+        // attach extends
+        if (! Strings::match($contentWithPlaceholders, '#{% extends (.*?) %}#')) {
+            $content = sprintf('{%% extends "%s" %%}', $layout) . PHP_EOL . $content;
         }
 
         $file->changeContent($content);

@@ -24,7 +24,7 @@ final class CodeBlocksProtector
     /**
      * @var string
      */
-    private const PLACEHOLDER_PATTERN = '#(?<placeholder>' . self::PLACEHOLDER_PREFIX . '\d+)#m';
+    private const PLACEHOLDER_PATTERN = '#(?<placeholder>' . self::PLACEHOLDER_PREFIX . '\d+)#';
 
     /**
      * @var string
