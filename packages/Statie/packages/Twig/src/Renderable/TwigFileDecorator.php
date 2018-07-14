@@ -5,6 +5,7 @@ namespace Symplify\Statie\Twig\Renderable;
 use Nette\Utils\Strings;
 use Symplify\Statie\Contract\Renderable\FileDecoratorInterface;
 use Symplify\Statie\Generator\Configuration\GeneratorElement;
+use Symplify\Statie\Renderable\CodeBlocksProtector;
 use Symplify\Statie\Renderable\File\AbstractFile;
 use Symplify\Statie\Templating\AbstractTemplatingFileDecorator;
 use Symplify\Statie\Twig\TwigRenderer;
@@ -16,9 +17,15 @@ final class TwigFileDecorator extends AbstractTemplatingFileDecorator implements
      */
     private $twigRenderer;
 
-    public function __construct(TwigRenderer $twigRenderer)
+    /**
+     * @var CodeBlocksProtector
+     */
+    private $codeBlocksProtector;
+
+    public function __construct(TwigRenderer $twigRenderer, CodeBlocksProtector $codeBlocksProtector)
     {
         $this->twigRenderer = $twigRenderer;
+        $this->codeBlocksProtector = $codeBlocksProtector;
     }
 
     /**
@@ -86,12 +93,15 @@ final class TwigFileDecorator extends AbstractTemplatingFileDecorator implements
 
         // wrap to block
         if ($layout) {
-            if (! Strings::match($content, '#{% block content %}#')) {
+
+            $contentWithPlaceholders = $this->codeBlocksProtector->replaceMarkdownCodeBlocksByPlaceholders($content);
+
+            if (! Strings::match($contentWithPlaceholders, '#{% block content %}#')) {
                 $content = '{% block content %}' . $content . '{% endblock %}';
             }
 
             // attach extends
-            if (! Strings::match($content, '#{% extends (.*?) %}#')) {
+            if (! Strings::match($contentWithPlaceholders, '#{% extends (.*?) %}#')) {
                 $content = sprintf('{%% extends "%s" %%}', $layout) . PHP_EOL . $content;
             }
         }
@@ -101,8 +111,8 @@ final class TwigFileDecorator extends AbstractTemplatingFileDecorator implements
 
     private function trimLayoutLeftover(string $content): string
     {
-        $content = Strings::replace($content, '#{% block (.*?) %}(.*?){% endblock %}#s', '$2');
+        $content = Strings::replace($content, '#{% block (.*?) %}(.*?){% endblock %}#s', '$2', 1);
 
-        return Strings::replace($content, '#{% extends [^}]+%}#');
+        return Strings::replace($content, '#{% extends [^}]+%}#', 1);
     }
 }
