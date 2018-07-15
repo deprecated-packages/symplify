@@ -108,8 +108,8 @@ final class LatteFileDecorator extends AbstractTemplatingFileDecorator implement
 
     private function trimLayoutLeftover(string $content): string
     {
-        $content = Strings::replace($content, '#{block content}(.*?){/block}#s', '$1');
+        $content = Strings::replace($content, '#{block content}(.*){/block}#s', '$1', 1);
 
-        return Strings::replace($content, '#{layout (.*?)}#');
+        return Strings::replace($content, '#{layout (.*?)}#', 1);
     }
 }

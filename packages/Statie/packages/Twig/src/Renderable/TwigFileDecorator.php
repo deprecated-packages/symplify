@@ -110,8 +110,8 @@ final class TwigFileDecorator extends AbstractTemplatingFileDecorator implements
 
     private function trimLayoutLeftover(string $content): string
     {
-        $content = Strings::replace($content, '#{% block (.*?) %}(.*?){% endblock %}#s', '$2', 1);
+        $content = Strings::replace($content, '#{% block content %}(.*){% endblock %}#s', '$2', 1);
 
-        return Strings::replace($content, '#{% extends [^}]+%}#', 1);
+        return Strings::replace($content, '#{% extends (.*?) %}#', 1);
     }
 }
