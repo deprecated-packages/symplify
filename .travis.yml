@@ -46,6 +46,9 @@ script:
       done
     fi
 
+  # validate monorepo <=> packages composer dependencies
+  - packages/MonorepoBuilder/bin/monorepo-builder validate-versions
+
 after_script:
   # upload coverage.xml to Coveralls
   - |
