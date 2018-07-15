@@ -13,6 +13,16 @@ use Symplify\Statie\Twig\TwigRenderer;
 final class TwigFileDecorator extends AbstractTemplatingFileDecorator implements FileDecoratorInterface
 {
     /**
+     * @var string
+     */
+    private const EXTEND_PATTERN = '#{% extends (.*?) %}#';
+
+    /**
+     * @var string
+     */
+    private const BLOCK_CONTENT_PATTERN = '#{% block content %}(.*){% endblock %}#s';
+
+    /**
      * @var TwigRenderer
      */
     private $twigRenderer;
@@ -39,7 +49,7 @@ final class TwigFileDecorator extends AbstractTemplatingFileDecorator implements
                 continue;
             }
 
-            $this->prependLayoutToFileContent($file, $file->getLayout());
+            $this->attachExtendsAndBlockContentToFileContent($file, $file->getLayout());
 
             $parameters = $this->createParameters($file, 'file');
             $content = $this->twigRenderer->renderFileWithParameters($file, $parameters);
@@ -61,7 +71,7 @@ final class TwigFileDecorator extends AbstractTemplatingFileDecorator implements
                 continue;
             }
 
-            $this->prependLayoutToFileContent($file, $generatorElement->getLayout());
+            $this->attachExtendsAndBlockContentToFileContent($file, $generatorElement->getLayout());
 
             $parameters = $this->createParameters($file, $generatorElement->getVariable());
             $content = $this->twigRenderer->renderFileWithParameters($file, $parameters);
@@ -85,7 +95,7 @@ final class TwigFileDecorator extends AbstractTemplatingFileDecorator implements
     /**
      * @inspiration https://github.com/sculpin/sculpin/blob/3264c087e31da2d49c9ec825fec38cae4d583d50/src/Sculpin/Bundle/TwigBundle/TwigFormatter.php#L113
      */
-    private function prependLayoutToFileContent(AbstractFile $file, ?string $layout): void
+    private function attachExtendsAndBlockContentToFileContent(AbstractFile $file, ?string $layout): void
     {
         if (! $layout) {
             return;
@@ -94,32 +104,27 @@ final class TwigFileDecorator extends AbstractTemplatingFileDecorator implements
         $content = $this->codeBlocksProtector->protectContentFromCallback(
             $file->getContent(),
             function (string $content) use ($layout) {
-                return $this->attachExtendsAndBlockContent($content, $layout);
+                if (! Strings::match($content, self::BLOCK_CONTENT_PATTERN)) {
+                    $content = '{% block content %}' . $content . '{% endblock %}';
+                }
+
+                if (! Strings::match($content, self::EXTEND_PATTERN)) {
+                    $content = '{% extends "' . $layout . '" %}' . $content;
+                }
+
+                return $content;
             }
         );
 
         $file->changeContent($content);
     }
 
-    private function attachExtendsAndBlockContent(string $content, string $layout): string
-    {
-        if (! Strings::match($content, '#{% block content %}(.*){% endblock %}#s')) {
-            $content = '{% block content %}' . $content . '{% endblock %}';
-        }
-
-        if (! Strings::match($content, '#{% extends (.*?) %}#')) {
-            $content = sprintf('{%% extends "%s" %%}', $layout) . PHP_EOL . $content;
-        }
-
-        return $content;
-    }
-
     private function trimExtendsAndBlockContent(string $content): string
     {
         return $this->codeBlocksProtector->protectContentFromCallback($content, function (string $content) {
-            $content = Strings::replace($content, '#{% block content %}(.*){% endblock %}#s', '$2', 1);
+            $content = Strings::replace($content, self::BLOCK_CONTENT_PATTERN, '$1', 1);
 
-            return Strings::replace($content, '#{% extends (.*?) %}#', '', 1);
+            return Strings::replace($content, self::EXTEND_PATTERN, '', 1);
         });
     }
 }

@@ -13,6 +13,16 @@ use Symplify\Statie\Templating\AbstractTemplatingFileDecorator;
 final class LatteFileDecorator extends AbstractTemplatingFileDecorator implements FileDecoratorInterface
 {
     /**
+     * @var string
+     */
+    private const LAYOUT_PATTERN = '#{layout (.*?)}#';
+
+    /**
+     * @var string
+     */
+    private const BLOCK_CONTENT_PATTERN = '#{block content}(.*){/block}#s';
+
+    /**
      * @var LatteRenderer
      */
     private $latteRenderer;
@@ -39,7 +49,7 @@ final class LatteFileDecorator extends AbstractTemplatingFileDecorator implement
                 continue;
             }
 
-            $this->prependLayoutToFileContent($file, $file->getLayout());
+            $this->attachLayoutAndBlockContentToFileContent($file, $file->getLayout());
 
             $parameters = $this->createParameters($file, 'file');
             $content = $this->latteRenderer->renderFileWithParameters($file, $parameters);
@@ -61,7 +71,7 @@ final class LatteFileDecorator extends AbstractTemplatingFileDecorator implement
                 continue;
             }
 
-            $this->prependLayoutToFileContent($file, $generatorElement->getLayout());
+            $this->attachLayoutAndBlockContentToFileContent($file, $generatorElement->getLayout());
 
             $parameters = $this->createParameters($file, $generatorElement->getVariable());
 
@@ -82,7 +92,7 @@ final class LatteFileDecorator extends AbstractTemplatingFileDecorator implement
         return 700;
     }
 
-    private function prependLayoutToFileContent(AbstractFile $file, ?string $layout): void
+    private function attachLayoutAndBlockContentToFileContent(AbstractFile $file, ?string $layout): void
     {
         if (! $layout) {
             return;
@@ -91,7 +101,15 @@ final class LatteFileDecorator extends AbstractTemplatingFileDecorator implement
         $content = $this->codeBlocksProtector->protectContentFromCallback(
             $file->getContent(),
             function (string $content) use ($layout) {
-                return $this->wrapWithLayoutAndBlockContent($content, $layout);
+                if (! Strings::match($content, self::BLOCK_CONTENT_PATTERN)) {
+                    $content = '{block content}' . $content . '{/block}';
+                }
+
+                if (! Strings::match($content, self::LAYOUT_PATTERN)) {
+                    $content = '{layout "' . $layout . '"}' . $content;
+                }
+
+                return $content;
             }
         );
 
@@ -101,22 +119,9 @@ final class LatteFileDecorator extends AbstractTemplatingFileDecorator implement
     private function trimLayoutLeftover(string $content): string
     {
         return $this->codeBlocksProtector->protectContentFromCallback($content, function (string $content) {
-            $content = Strings::replace($content, '#{block content}(.*){/block}#s', '$1', 1);
+            $content = Strings::replace($content, self::BLOCK_CONTENT_PATTERN, '$1', 1);
 
-            return Strings::replace($content, '#{layout (.*?)}#', '', 1);
+            return Strings::replace($content, self::LAYOUT_PATTERN, '', 1);
         });
-    }
-
-    private function wrapWithLayoutAndBlockContent(string $content, string $layout): string
-    {
-        if (! Strings::match($content, '#{block content}(.*){/block}#s')) {
-            $content = '{block content}' . $content . '{/block}';
-        }
-
-        if (! Strings::match($content, '#{layout (.*?)}#')) {
-            $content = sprintf('{layout "%s"}', $layout) . PHP_EOL . $content;
-        }
-
-        return $content;
     }
 }
