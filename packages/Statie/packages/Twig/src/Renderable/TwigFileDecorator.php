@@ -66,7 +66,7 @@ final class TwigFileDecorator extends AbstractTemplatingFileDecorator implements
             $parameters = $this->createParameters($file, $generatorElement->getVariable());
             $content = $this->twigRenderer->renderFileWithParameters($file, $parameters);
 
-            $content = $this->trimLayoutLeftover($content);
+            $content = $this->trimExtendsAndBlockContent($content);
 
             $file->changeContent($content);
         }
@@ -91,27 +91,35 @@ final class TwigFileDecorator extends AbstractTemplatingFileDecorator implements
             return;
         }
 
-        $content = $file->getContent();
-
-        // wrap to block
-        $contentWithPlaceholders = $this->codeBlocksProtector->replaceCodeBlocksByPlaceholders($content);
-
-        if (! Strings::match($contentWithPlaceholders, '#{% block content %}#')) {
-            $content = '{% block content %}' . $content . '{% endblock %}';
-        }
-
-        // attach extends
-        if (! Strings::match($contentWithPlaceholders, '#{% extends (.*?) %}#')) {
-            $content = sprintf('{%% extends "%s" %%}', $layout) . PHP_EOL . $content;
-        }
+        $content = $this->codeBlocksProtector->protectContentFromCallback(
+            $file->getContent(),
+            function (string $content) use ($layout) {
+                return $this->attachExtendsAndBlockContent($content, $layout);
+            }
+        );
 
         $file->changeContent($content);
     }
 
-    private function trimLayoutLeftover(string $content): string
+    private function attachExtendsAndBlockContent(string $content, string $layout): string
     {
-        $content = Strings::replace($content, '#{% block content %}(.*){% endblock %}#s', '$2', 1);
+        if (! Strings::match($content, '#{% block content %}(.*){% endblock %}#s')) {
+            $content = '{% block content %}' . $content . '{% endblock %}';
+        }
 
-        return Strings::replace($content, '#{% extends (.*?) %}#', 1);
+        if (! Strings::match($content, '#{% extends (.*?) %}#')) {
+            $content = sprintf('{%% extends "%s" %%}', $layout) . PHP_EOL . $content;
+        }
+
+        return $content;
+    }
+
+    private function trimExtendsAndBlockContent(string $content): string
+    {
+        return $this->codeBlocksProtector->protectContentFromCallback($content, function (string $content) {
+            $content = Strings::replace($content, '#{% block content %}(.*){% endblock %}#s', '$2', 1);
+
+            return Strings::replace($content, '#{% extends (.*?) %}#', '', 1);
+        });
     }
 }

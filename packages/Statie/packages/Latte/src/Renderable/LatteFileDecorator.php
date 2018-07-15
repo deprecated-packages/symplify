@@ -88,28 +88,35 @@ final class LatteFileDecorator extends AbstractTemplatingFileDecorator implement
             return;
         }
 
-        $content = $file->getContent();
-
-        // wrap to block
-        $contentWithPlaceholders = $this->codeBlocksProtector->replaceCodeBlocksByPlaceholders($content);
-
-        // wrap to block content if needed
-        if (! Strings::match($contentWithPlaceholders, '#{block content}#')) {
-            $content = '{block content}' . $content . '{/block}';
-        }
-
-        // attach layout
-        if (! Strings::match($contentWithPlaceholders, '#{layout (.*?)}#')) {
-            $content = sprintf('{layout "%s"}', $layout) . PHP_EOL . $content;
-        }
+        $content = $this->codeBlocksProtector->protectContentFromCallback(
+            $file->getContent(),
+            function (string $content) use ($layout) {
+                return $this->wrapWithLayoutAndBlockContent($content, $layout);
+            }
+        );
 
         $file->changeContent($content);
     }
 
     private function trimLayoutLeftover(string $content): string
     {
-        $content = Strings::replace($content, '#{block content}(.*){/block}#s', '$1', 1);
+        return $this->codeBlocksProtector->protectContentFromCallback($content, function (string $content) {
+            $content = Strings::replace($content, '#{block content}(.*){/block}#s', '$1', 1);
 
-        return Strings::replace($content, '#{layout (.*?)}#', 1);
+            return Strings::replace($content, '#{layout (.*?)}#', '', 1);
+        });
+    }
+
+    private function wrapWithLayoutAndBlockContent(string $content, string $layout): string
+    {
+        if (! Strings::match($content, '#{block content}(.*){/block}#s')) {
+            $content = '{block content}' . $content . '{/block}';
+        }
+
+        if (! Strings::match($content, '#{layout (.*?)}#')) {
+            $content = sprintf('{layout "%s"}', $layout) . PHP_EOL . $content;
+        }
+
+        return $content;
     }
 }

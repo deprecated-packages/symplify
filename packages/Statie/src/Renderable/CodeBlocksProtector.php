@@ -14,7 +14,7 @@ final class CodeBlocksProtector
     /**
      * @var string
      */
-    private const CODE_BLOCKS_HTML_PATTERN = '#(?<code><code(?: class=\"[\w-]+\")?>(.*?)<\/code>)#ms';
+    private const HTML_CODE_BLOCK_PATTERN = '#(?<code><code(?: class=\"[\w-]+\")?>(.*?)<\/code>)#ms';
 
     /**
      * @var string
@@ -45,18 +45,12 @@ final class CodeBlocksProtector
     {
         $this->reset();
 
-        $contentWithPlaceholders = $this->replaceCodeBlocksByPlaceholders($content);
+        $contentWithPlaceholders = $this->replaceHtmlCodeBlocksByPlaceholders($content);
+        $contentWithPlaceholders = $this->replaceMarkdownCodeBlocksByPlaceholders($contentWithPlaceholders);
 
         $processedContentWithPlaceholders = $callable($contentWithPlaceholders);
 
         return $this->replacePlaceholdersByCodeBlocks($processedContentWithPlaceholders);
-    }
-
-    public function replaceCodeBlocksByPlaceholders(string $content): string
-    {
-        $content = $this->replaceHtmlCodeBlocksByPlaceholders($content);
-
-        return $this->replaceMarkdownCodeBlocksByPlaceholders($content);
     }
 
     private function replaceMarkdownCodeBlocksByPlaceholders(string $content): string
@@ -94,7 +88,7 @@ final class CodeBlocksProtector
     {
         return $content = Strings::replace(
             $content,
-            self::CODE_BLOCKS_HTML_PATTERN,
+            self::HTML_CODE_BLOCK_PATTERN,
             function (array $match): string {
                 $placeholder = self::PLACEHOLDER_PREFIX . ++$this->codePlaceholderId;
                 $this->highlightedCodeBlocks[$placeholder] = $match['code'];
