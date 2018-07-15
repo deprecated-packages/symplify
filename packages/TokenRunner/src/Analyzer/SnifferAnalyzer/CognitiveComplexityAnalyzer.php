@@ -32,7 +32,6 @@ final class CognitiveComplexityAnalyzer
      * @var int[]|string[]
      */
     private $increasingTokens = [
-        //
         T_IF,
         T_ELSE,
         T_ELSEIF,
