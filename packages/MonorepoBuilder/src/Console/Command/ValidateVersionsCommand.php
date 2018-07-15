@@ -6,6 +6,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\Finder\SplFileInfo;
 use Symplify\MonorepoBuilder\PackageComposerFinder;
 use Symplify\MonorepoBuilder\VersionValidator;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
@@ -52,6 +53,12 @@ final class ValidateVersionsCommand extends Command
             $this->symfonyStyle->error('No "composer.json" were found in packages.');
             return 1;
         }
+
+        $composerPackageFiles[] = new SplFileInfo(
+            getcwd() . DIRECTORY_SEPARATOR . 'composer.json',
+            'composer.json',
+            ''
+        );
 
         $this->versionValidator->validateFileInfos($composerPackageFiles);
 
