@@ -29,6 +29,10 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 ### Fixed
 
+#### ChangelogLinker
+
+- [#987] Fix autoload
+
 #### Statie
 
 - [#977] Fix twig code rendering in the post contents
@@ -1473,3 +1477,4 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
 [#977]: https://github.com/Symplify/Symplify/pull/977
 [#976]: https://github.com/Symplify/Symplify/pull/976
 [#974]: https://github.com/Symplify/Symplify/pull/974
+[#987]: https://github.com/Symplify/Symplify/pull/987
