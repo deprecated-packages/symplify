@@ -9,6 +9,32 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 <!-- changelog-linker -->
 
+## [v4.5.1] - 2018-07-17
+
+### Added
+
+#### MonorepoBuilder
+
+- [#983] Add root `composer.json` to `ValidateVersionsCommand` process
+
+### Changed
+
+- [#979] Update SlevomatCS and use new sniffs in pre-sets, Thanks to [@carusogabriel]
+- [#976] Weaken `phpdoc-parser` depencency to prevent forcing people to upgrade to phpstan 0.10
+
+#### Statie
+
+- [#974] Return missing layout to file params
+- [#982] Cleanup Twig and Latte FileDecorators, decouple constants
+
+### Fixed
+
+#### Statie
+
+- [#977] Fix twig code rendering in the post contents
+- [#978] Fix latte code rendering in the post contents
+- [#981] Fix incorrect block content wrapper removal
+
 ## [v4.5.0] - 2018-07-13
 
 **The Top News?**
@@ -1439,3 +1465,11 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
 [#896]: https://github.com/Symplify/Symplify/pull/896
 [#894]: https://github.com/Symplify/Symplify/pull/894
 [v4.5.0]: https://github.com/Symplify/Symplify/compare/v4.4.0...v4.5.0
+[#983]: https://github.com/Symplify/Symplify/pull/983
+[#982]: https://github.com/Symplify/Symplify/pull/982
+[#981]: https://github.com/Symplify/Symplify/pull/981
+[#979]: https://github.com/Symplify/Symplify/pull/979
+[#978]: https://github.com/Symplify/Symplify/pull/978
+[#977]: https://github.com/Symplify/Symplify/pull/977
+[#976]: https://github.com/Symplify/Symplify/pull/976
+[#974]: https://github.com/Symplify/Symplify/pull/974
