@@ -1,6 +1,8 @@
 <?php declare(strict_types=1);
 
 $possibleAutoloadPaths = [
+    // after split package
+    __DIR__ . '/../vendor/autoload.php',
     // dependency
     __DIR__ . '/../../../autoload.php',
     // monorepo
