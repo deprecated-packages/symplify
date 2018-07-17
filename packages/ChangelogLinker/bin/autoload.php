@@ -2,7 +2,7 @@
 
 $possibleAutoloadPaths = [
     // dependency
-    __DIR__ . '/../vendor/autoload.php',
+    __DIR__ . '/../../../autoload.php',
     // monorepo
     __DIR__ . '/../../../vendor/autoload.php',
 ];
