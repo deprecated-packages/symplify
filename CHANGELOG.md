@@ -190,7 +190,7 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
     ```yaml
     services:
         Symplify\CodingStandard\Sniffs\Naming\ClassNameSuffixByParentSniff:
-            parentTypesToSuffixes:
+            defaultParentClassToSuffixMap:
                 - 'Command'
                 - 'Controller'
             extraParentTypesToSuffixes:
