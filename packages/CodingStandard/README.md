@@ -452,7 +452,10 @@ services:
 :x:
 
 ```php
+d($value);
+dd($value);
 dump($value);
+var_dump($value);
 ```
 
 ### Use service and constructor injection rather than instantiation with new
