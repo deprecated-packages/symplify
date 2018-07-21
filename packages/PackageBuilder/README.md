@@ -381,4 +381,17 @@ final class AppKernel extends Kernel
 }
 ```
 
+#### Can I Use it Without Kernel?
+
+Do you need to load YAML files elsewhere? Instead of creating all the classes, you can use this helper class:
+
+```php
+$parametersMergingYamlLoader = new Symplify\PackageBuilder\Yaml\ParametersMergingYamlLoader;
+
+$parameterBag = $parametersMergingYamlLoader->loadParameterBagFromFile(__DIR__ . '/config.yml');
+
+dump($parameterBag); 
+// instance of "Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface"
+```
+
 That's all :)

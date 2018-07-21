@@ -61,6 +61,8 @@ parameters:
             - 'packages/PackageBuilder/src/Console/ThrowableRenderer.php'
             # todo: decouple later
             - 'packages/TokenRunner/src/Wrapper/FixerWrapper/AbstractVariableWrapper.php'
+            # cheap dependency injection
+            - 'packages/PackageBuilder/src/Yaml/ParametersMergingYamlLoader.php'
             # poor constructor injection for non-container approach
             - 'packages/EasyCodingStandard/src/Yaml/CheckerTolerantYamlFileLoader.php'
             - 'packages/EasyCodingStandard/src/Yaml/CheckerServiceParametersShifter.php'
