@@ -145,7 +145,7 @@ Then get the config just run:
 
 ```php
 $config = Symplify\PackageBuilder\Configuration\ConfigFileFinder::provide('statie');
-dump($config); // returns absolute path to "config/statie.yml"
+var_dump($config); // returns absolute path to "config/statie.yml"
 // or NULL if none was found before
 ```
 
@@ -371,7 +371,8 @@ final class AppKernel extends Kernel
 
         $loaderResolver = new LoaderResolver([
             new GlobFileLoader($container, $kernelFileLocator),
-            // you can 1. create custom YamlFileLoader for other custom tweaks or 2. use abstract class like this
+            // you can 1. create custom YamlFileLoader for other custom tweaks 
+            // or 2. use short anonymous class like this
             new class($container, $kernelFileLocator) extends AbstractParameterMergingYamlFileLoader {
             },
         ]);
@@ -379,6 +380,19 @@ final class AppKernel extends Kernel
         return new DelegatingLoader($loaderResolver);
     }
 }
+```
+
+#### Can I Use it Without Kernel?
+
+Do you need to load YAML files elsewhere? Instead of creating all the classes, you can use this helper class:
+
+```php
+$parametersMergingYamlLoader = new Symplify\PackageBuilder\Yaml\ParametersMergingYamlLoader;
+
+$parameterBag = $parametersMergingYamlLoader->loadParameterBagFromFile(__DIR__ . '/config.yml');
+
+var_dump($parameterBag); 
+// instance of "Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface"
 ```
 
 That's all :)

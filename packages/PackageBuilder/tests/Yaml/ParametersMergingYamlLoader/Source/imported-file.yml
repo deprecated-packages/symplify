@@ -1,0 +1,4 @@
+parameters:
+    festivals:
+        - one
+        - two
