@@ -15,11 +15,6 @@ final class Configuration
     /**
      * @var string
      */
-    private const OPTION_MARKDOWN_HEADLINE_ANCHORS = 'markdown_headline_anchors';
-
-    /**
-     * @var string
-     */
     private const OPTION_GITHUB_REPOSITORY_SOURCE_DIRECTORY = 'github_repository_source_directory';
 
     /**
@@ -93,11 +88,6 @@ final class Configuration
         ));
     }
 
-    public function isMarkdownHeadlineAnchors(): bool
-    {
-        return $this->options[self::OPTION_MARKDOWN_HEADLINE_ANCHORS] ?? false;
-    }
-
     /**
      * @return mixed[]
      */
@@ -106,29 +96,6 @@ final class Configuration
         return $this->options;
     }
 
-    public function enableMarkdownHeadlineAnchors(): void
-    {
-        trigger_error(
-            sprintf(
-                '"%s" was deprecated and will be removed in Symplify\Statie 5.0. Use own plugin instead, e.g. %s"',
-                __METHOD__,
-                'https://github.com/TomasVotruba/tomasvotruba.cz/tree/master/src/PostHeadlineLinker'
-            ),
-            E_USER_DEPRECATED
-        );
-        sleep(3); // inspired at "deprecated interface" Tweet
-
-        $this->options[self::OPTION_MARKDOWN_HEADLINE_ANCHORS] = true;
-    }
-
-    public function disableMarkdownHeadlineAnchors(): void
-    {
-        $this->options[self::OPTION_MARKDOWN_HEADLINE_ANCHORS] = false;
-    }
-
-    /**
-     * @param mixed $value
-     */
     public function addOption(string $name, $value): void
     {
         $this->options[$name] = $value;

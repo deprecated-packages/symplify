@@ -2,7 +2,6 @@
 
 namespace Symplify\Statie\Renderable;
 
-use Nette\Utils\Strings;
 use ParsedownExtra;
 use Symplify\Statie\Configuration\Configuration;
 use Symplify\Statie\Contract\Renderable\FileDecoratorInterface;
@@ -72,18 +71,6 @@ final class MarkdownFileDecorator implements FileDecoratorInterface
         $this->decorateContent($file);
     }
 
-    private function decorateHeadlinesWithTocAnchors(string $htmlContent): string
-    {
-        return Strings::replace($htmlContent, '#<h([1-6])>(.*?)<\/h[1-6]>#', function (array $result): string {
-            [, $headlineLevel, $headline] = $result;
-            $headlineId = Strings::webalize($headline);
-
-            return sprintf('<h%s id="%s"><a class="anchor" href="#%s" aria-hidden="true">'
-                    . '<span class="anchor-icon">#</span>'
-                    . '</a>%s</h%s>', $headlineLevel, $headlineId, $headlineId, $headline, $headlineLevel);
-        });
-    }
-
     private function decoratePerex(AbstractFile $file): void
     {
         $configuration = $file->getConfiguration();
@@ -103,10 +90,6 @@ final class MarkdownFileDecorator implements FileDecoratorInterface
     private function decorateContent(AbstractFile $file): void
     {
         $htmlContent = $this->parsedownExtra->text($file->getContent());
-
-        if ($this->configuration->isMarkdownHeadlineAnchors()) {
-            $htmlContent = $this->decorateHeadlinesWithTocAnchors($htmlContent);
-        }
 
         $file->changeContent($htmlContent);
     }

@@ -29,7 +29,6 @@ final class MarkdownFileDecoratorTest extends AbstractContainerAwareTestCase
     protected function setUp(): void
     {
         $this->configuration = $this->container->get(Configuration::class);
-        $this->configuration->disableMarkdownHeadlineAnchors();
         $this->markdownFileDecorator = $this->container->get(MarkdownFileDecorator::class);
 
         $this->fileFactory = $this->container->get(FileFactory::class);

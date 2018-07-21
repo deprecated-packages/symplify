@@ -1,5 +1,3 @@
 parameters:
-    amp: true
-    markdown_headline_anchors: true
     post_route: "blog/:year/:month/:day/:title"
     github_repository_source_directory: "https://github.com/TomasVotruba/tomasvotruba.cz/tree/master/source"
