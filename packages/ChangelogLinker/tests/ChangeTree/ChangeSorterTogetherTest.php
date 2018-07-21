@@ -153,7 +153,6 @@ final class ChangeSorterTogetherTest extends TestCase
                 'Added',
                 'ChangelogLinker',
                 '- [#879] Add --token option to increase Github API rate [closes #874]',
-                'TomasVotruba',
                 'v3.0.0'
             ),
             new Change(
@@ -161,7 +160,6 @@ final class ChangeSorterTogetherTest extends TestCase
                 'Fixed',
                 'ChangelogLinker',
                 '- [#876] Fixes based on feedback',
-                'TomasVotruba',
                 'Unreleased'
             ),
             new Change(
@@ -169,23 +167,20 @@ final class ChangeSorterTogetherTest extends TestCase
                 'Unknown Category',
                 'Statie',
                 '- [#893] Rename FlatWhite to Latte and move Latte-related code there',
-                'TomasVotruba',
-                'v2.0'
+                'Unreleased'
             ),
             new Change(
                 '- [#888]  [Statie] Return collector-based approach to FileDecorators, with priorities',
                 'Unknown Category',
                 'Statie',
                 '- [#888]  Return collector-based approach to FileDecorators, with priorities',
-                'TomasVotruba',
-                'v2.0'
+                'Unreleased'
             ),
             new Change(
                 '- [#905] [ChangelogLinker] Drop commit referencing to stprevent promoting my bad practise',
                 'Removed',
                 'ChangelogLinker',
                 '- [#905] Drop commit referencing to stprevent promoting my bad practise',
-                'TomasVotruba',
                 'Unreleased'
             ),
             new Change(
@@ -193,7 +188,6 @@ final class ChangeSorterTogetherTest extends TestCase
                 'Removed',
                 'ChangelogLinker',
                 '- [#885] Drop ReleaseReferencesWorker - replaced by dump-mer…',
-                'TomasVotruba',
                 'Unreleased'
             ),
             new Change(
@@ -201,7 +195,6 @@ final class ChangeSorterTogetherTest extends TestCase
                 'Fixed',
                 'Unknown Package',
                 '- [#875] Fixes monorepo splitting by travis cron job, Thanks to @JanMikes',
-                'JanMikes',
                 'Unreleased'
             ),
             new Change(
@@ -209,7 +202,6 @@ final class ChangeSorterTogetherTest extends TestCase
                 'Fixed',
                 'Unknown Package',
                 '- [#870] RemoveUselessDocBlockFixer should not reformat custom annotations, Thanks to @jankonas',
-                'jankonas',
                 'Unreleased'
             ),
             new Change(
@@ -217,7 +209,6 @@ final class ChangeSorterTogetherTest extends TestCase
                 'Fixed',
                 'CodingStandard',
                 '- [#901]  Allow list option in ClassNameSuffixByParentFixer',
-                'TomasVotruba',
                 'Unreleased'
             ),
             new Change(
@@ -225,7 +216,6 @@ final class ChangeSorterTogetherTest extends TestCase
                 'Fixed',
                 'ChangelogLinker',
                 '- [#878] Static fixes',
-                'TomasVotruba',
                 'Unreleased'
             ),
             new Change(
@@ -233,7 +223,6 @@ final class ChangeSorterTogetherTest extends TestCase
                 'Fixed',
                 'ChangelogLinker',
                 '- [#877] Fixes based on feedback 2',
-                'TomasVotruba',
                 'Unreleased'
             ),
             new Change(
@@ -241,7 +230,6 @@ final class ChangeSorterTogetherTest extends TestCase
                 'Fixed',
                 'BetterPhpDocParser',
                 '- [#886] Fix annotation spacing',
-                'TomasVotruba',
                 'Unreleased'
             ),
             new Change(
@@ -249,7 +237,6 @@ final class ChangeSorterTogetherTest extends TestCase
                 'Added',
                 'ChangelogLinker',
                 '- [#881] Simplify ChangeFactory creating + Add tags feature supports',
-                'TomasVotruba',
                 'v3.0.0-RC2'
             ),
             new Change(
@@ -257,7 +244,6 @@ final class ChangeSorterTogetherTest extends TestCase
                 'Changed',
                 'Unknown Package',
                 '- [#880] Improve cognitive comlexity',
-                'TomasVotruba',
                 'Unreleased'
             ),
             new Change(
@@ -265,7 +251,6 @@ final class ChangeSorterTogetherTest extends TestCase
                 'Changed',
                 'Unknown Package',
                 '- [#872] Update CHANGELOG for news after 4.4',
-                'TomasVotruba',
                 'Unreleased'
             ),
             new Change(
@@ -273,7 +258,6 @@ final class ChangeSorterTogetherTest extends TestCase
                 'Changed',
                 'Statie',
                 '- [#887] Improve latte decoupling from the Statie',
-                'TomasVotruba',
                 'Unreleased'
             ),
             new Change(
@@ -281,7 +265,6 @@ final class ChangeSorterTogetherTest extends TestCase
                 'Changed',
                 'ChangelogLinker',
                 '- [#884] Change --in-tags option to cooperate with --in-packages and --in-categories',
-                'TomasVotruba',
                 'v3.0.0-RC2'
             ),
             new Change(
@@ -289,7 +272,6 @@ final class ChangeSorterTogetherTest extends TestCase
                 'Changed',
                 'ChangelogLinker',
                 '- [#883] Improve --in-tags option',
-                'TomasVotruba',
                 'v3.0.0'
             ),
             new Change(
@@ -297,7 +279,6 @@ final class ChangeSorterTogetherTest extends TestCase
                 'Changed',
                 'ChangelogLinker',
                 '- [#871] Improve test coverage',
-                'TomasVotruba',
                 'Unreleased'
             ),
             new Change(
@@ -305,7 +286,6 @@ final class ChangeSorterTogetherTest extends TestCase
                 'Added',
                 'Statie',
                 '- [#892] Add Twig',
-                'TomasVotruba',
                 'Unreleased'
             ),
             new Change(
@@ -313,7 +293,6 @@ final class ChangeSorterTogetherTest extends TestCase
                 'Added',
                 'CodingStandard',
                 "- [#900] Add 'extra_parent_types_to_suffixes' option to ClassNameSuffixByParentFixer",
-                'TomasVotruba',
                 'Unreleased'
             ),
             new Change(
@@ -321,7 +300,6 @@ final class ChangeSorterTogetherTest extends TestCase
                 'Added',
                 'ChangelogLinker',
                 '- [#903] Add --linkfy option to dump-merges command',
-                'TomasVotruba',
                 'Unreleased'
             ),
             new Change(
@@ -329,7 +307,6 @@ final class ChangeSorterTogetherTest extends TestCase
                 'Added',
                 'ChangelogLinker',
                 '- [#902] Add --dry-run option to dump-merges command to dump to the output vs write into CHANGELOG.md',
-                'TomasVotruba',
                 'Unreleased'
             ),
             new Change(
@@ -337,7 +314,6 @@ final class ChangeSorterTogetherTest extends TestCase
                 'Unknown Category',
                 'Statie',
                 '- [#895] Decouple CodeBlocksProtector',
-                'TomasVotruba',
                 'Unreleased'
             ),
         ];

@@ -25,7 +25,7 @@ final class WithTagsTest extends TestCase
     {
         $this->changelogDumper = new ChangelogDumper(new GitCommitDateTagResolver(), new ChangelogFormatter());
 
-        $this->changes = [new Change('[SomePackage] Message', 'Added', 'SomePackage', 'Message', 'me', 'v4.0.0')];
+        $this->changes = [new Change('[SomePackage] Message', 'Added', 'SomePackage', 'Message', 'v4.0.0')];
     }
 
     public function testReportChanges(): void

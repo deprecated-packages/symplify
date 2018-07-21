@@ -77,7 +77,7 @@ final class ChangeFactory
         // @todo 'merge_commit_sha' || 'head'
         $pullRequestTag = $this->gitCommitDateTagResolver->resolveCommitToTag($pullRequest['merge_commit_sha']);
 
-        return new Change($message, $category, $package, $messageWithoutPackage, $author, $pullRequestTag);
+        return new Change($message, $category, $package, $messageWithoutPackage, $pullRequestTag);
     }
 
     private function resolveCategory(string $message): string
