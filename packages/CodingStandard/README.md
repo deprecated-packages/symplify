@@ -301,7 +301,7 @@ In case want check this only for specific interfaces, you can **configure them**
 # easy-coding-standard.yml
 services:
     Symplify\CodingStandard\Fixer\Solid\FinalInterfaceFixer:
-        onlyInterfaces:
+        only_interfaces:
             - 'Symfony\Component\EventDispatcher\EventSubscriberInterface'
             - 'Nette\Application\IPresenter'
 ```
