@@ -26,7 +26,7 @@ before_script:
   - set -e
 
   # disable xdebug if not coverage
-  - if [[ $PHPUNIT_FLAGS = "" ]]; then phpenv config-rm xdebug.ini; fi
+  - if [[ $PHPUNIT_FLAGS == "" ]]; then phpenv config-rm xdebug.ini; fi
 
 script:
   - vendor/bin/phpunit $PHPUNIT_FLAGS
@@ -52,9 +52,9 @@ script:
 after_script:
   # upload coverage.xml to Coveralls
   - |
-    if [[ $PHPUNIT_FLAGS == true ]]; then
-      wget https://github.com/satooshi/php-coveralls/releases/download/v1.0.1/coveralls.phar;
-      php coveralls.phar --verbose;
+    if [[ $PHPUNIT_FLAGS != "" ]]; then
+      wget https://github.com/php-coveralls/php-coveralls/releases/download/v2.1.0/php-coveralls.phar;
+      php php-coveralls.phar --verbose;
     fi
 
   # split monorepo to packages - only on merge to master
