@@ -416,7 +416,7 @@ class SomeClass
 :x:
 
 ```php
-return 'Class ' . $oldClass . ' was removed from ' . $file . '. Use ' . self::class . " instead';;
+return 'Class ' . $oldClass . ' was removed from ' . $file . '. Use ' . self::class . " instead';
 ```
 
 :+1:
