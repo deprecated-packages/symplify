@@ -10,7 +10,22 @@ final class TypeAnalyzer
     {
         return in_array(
             $type,
-            ['string', 'bool', 'mixed', 'object', 'iterable', 'array', 'float', 'int', 'boolean', 'integer', 'double'],
+            [
+                'string',
+                'bool',
+                'mixed',
+                'object',
+                'iterable',
+                'array',
+                'float',
+                'int',
+                'boolean',
+                'integer',
+                'double',
+                'null',
+                'false',
+                'true',
+            ],
             true
         );
     }

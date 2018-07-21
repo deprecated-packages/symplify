@@ -67,8 +67,6 @@ parameters:
             # name parts, not classes
             - 'packages/CodingStandard/src/Sniffs/DependencyInjection/NoClassInstantiationSniff.php'
             # "Exception" is string part of the name
-            - 'packages/CodingStandard/src/Fixer/Naming/ExceptionNameFixer.php'
-            - 'packages/CodingStandard/src/Fixer/Naming/ClassNameSuffixByParentFixer.php'
             - 'packages/CodingStandard/src/Sniffs/Naming/ClassNameSuffixByParentSniff.php'
             # class might not exist
             - '*packages/EasyCodingStandard/src/DependencyInjection/CompilerPass/*CompilerPass.php'
