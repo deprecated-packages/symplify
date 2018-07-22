@@ -371,7 +371,7 @@ final class AppKernel extends Kernel
 
         $loaderResolver = new LoaderResolver([
             new GlobFileLoader($container, $kernelFileLocator),
-            // you can 1. create custom YamlFileLoader for other custom tweaks 
+            // you can 1. create custom YamlFileLoader for other custom tweaks
             // or 2. use short anonymous class like this
             new class($container, $kernelFileLocator) extends AbstractParameterMergingYamlFileLoader {
             },
@@ -391,7 +391,7 @@ $parametersMergingYamlLoader = new Symplify\PackageBuilder\Yaml\ParametersMergin
 
 $parameterBag = $parametersMergingYamlLoader->loadParameterBagFromFile(__DIR__ . '/config.yml');
 
-var_dump($parameterBag); 
+var_dump($parameterBag);
 // instance of "Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface"
 ```
 

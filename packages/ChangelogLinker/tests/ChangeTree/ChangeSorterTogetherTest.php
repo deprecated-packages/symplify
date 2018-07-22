@@ -2,6 +2,7 @@
 
 namespace Symplify\ChangelogLinker\Tests\ChangeTree;
 
+use Iterator;
 use PHPUnit\Framework\TestCase;
 use Symplify\ChangelogLinker\ChangeTree\Change;
 use Symplify\ChangelogLinker\ChangeTree\ChangeSorter;
@@ -18,33 +19,125 @@ final class ChangeSorterTogetherTest extends TestCase
         $this->changeSorter = new ChangeSorter();
     }
 
+    /**
+     * Tags should keep the same order for whatever priority
+     * @dataProvider provideDataForTags()
+     */
+    public function testTags(?string $priority): void
+    {
+        $changes = $this->createChanges();
+        $sortedChanges = $this->changeSorter->sort($changes, $priority);
+
+        // unrelased are first
+        for ($i = 0; $i <= 17; ++$i) {
+            $this->assertSame('Unreleased', $sortedChanges[$i]->getTag());
+        }
+
+        $this->assertSame('v3.0.0', $sortedChanges[18]->getTag());
+        $this->assertSame('v3.0.0', $sortedChanges[19]->getTag());
+
+        // RC after stable
+        $this->assertSame('v3.0.0-RC2', $sortedChanges[20]->getTag());
+        $this->assertSame('v3.0.0-RC2', $sortedChanges[21]->getTag());
+
+        $this->assertSame('v2.0', $sortedChanges[22]->getTag());
+        $this->assertSame('v2.0', $sortedChanges[23]->getTag());
+    }
+
+    public function provideDataForTags(): Iterator
+    {
+        yield [ChangeSorter::PRIORITY_CATEGORIES];
+        yield [ChangeSorter::PRIORITY_PACKAGES];
+        yield [null];
+    }
+
     public function testSortWithCategoryPriority(): void
     {
         $changes = $this->createChanges();
 
         $sortedChanges = $this->changeSorter->sort($changes, ChangeSorter::PRIORITY_CATEGORIES);
 
-        $changesWithAddedCount = 0;
-        foreach ($sortedChanges as $change) {
-            if ($change->getCategory() === 'Added') {
-                ++$changesWithAddedCount;
-            }
+        $categoriesByTags = [];
+        foreach ($sortedChanges as $sortedChange) {
+            $categoriesByTags[$sortedChange->getTag()][] = $sortedChange->getCategory();
         }
 
-        $this->assertSame(6, $changesWithAddedCount);
+        // test categories order under the tag
+        $this->assertSame([
+            'Added', 'Added', 'Added', 'Added',
+            'Changed', 'Changed', 'Changed', 'Changed',
+            'Fixed', 'Fixed', 'Fixed', 'Fixed', 'Fixed', 'Fixed', 'Fixed',
+            'Removed', 'Removed',
+            'Unknown Category',
+        ], $categoriesByTags['Unreleased']);
 
-        // Unreleased
-        $this->assertSame('Added', $sortedChanges[0]->getCategory());
-        $this->assertSame('Added', $sortedChanges[1]->getCategory());
-        $this->assertSame('Added', $sortedChanges[2]->getCategory());
-        $this->assertSame('Added', $sortedChanges[3]->getCategory());
-        // ...
+        $this->assertSame(['Added', 'Changed'], $categoriesByTags['v3.0.0']);
+        $this->assertSame(['Added', 'Changed'], $categoriesByTags['v3.0.0-RC2']);
+        $this->assertSame(['Unknown Category', 'Unknown Category'], $categoriesByTags['v2.0']);
 
-        // v3.0.0
-        $this->assertSame('Added', $sortedChanges[20]->getCategory());
-        $this->assertSame('Added', $sortedChanges[21]->getCategory());
-        $this->assertSame('Changed', $sortedChanges[22]->getCategory());
-        $this->assertSame('Changed', $sortedChanges[23]->getCategory());
+        // test package order inside tag, inside categories
+        $unreleasedTagPackagesCategories = [];
+        foreach ($sortedChanges as $sortedChange) {
+            if ($sortedChange->getTag() !== 'Unreleased') {
+                continue;
+            }
+            $unreleasedTagPackagesCategories[$sortedChange->getCategory()][] = $sortedChange->getPackage();
+        }
+
+        $this->assertSame(
+            ['ChangelogLinker', 'ChangelogLinker', 'CodingStandard', 'Statie'],
+            $unreleasedTagPackagesCategories['Added']
+        );
+        $this->assertSame(
+            ['ChangelogLinker', 'Statie', 'Unknown Package', 'Unknown Package'],
+            $unreleasedTagPackagesCategories['Changed']
+        );
+        $this->assertSame(
+            [
+                'BetterPhpDocParser',
+                'ChangelogLinker',
+                'ChangelogLinker',
+                'ChangelogLinker',
+                'CodingStandard',
+                'Unknown Package',
+                'Unknown Package',
+            ],
+            $unreleasedTagPackagesCategories['Fixed']
+        );
+        $this->assertSame(['ChangelogLinker', 'ChangelogLinker'], $unreleasedTagPackagesCategories['Removed']);
+    }
+
+    public function testSortWithPackagePriority(): void
+    {
+        $changes = $this->createChanges();
+
+        $sortedChanges = $this->changeSorter->sort($changes, ChangeSorter::PRIORITY_PACKAGES);
+
+        $packagesByTags = [];
+        foreach ($sortedChanges as $sortedChange) {
+            $packagesByTags[$sortedChange->getTag()][] = $sortedChange->getPackage();
+        }
+
+        $this->assertSame([
+            'BetterPhpDocParser',
+            'ChangelogLinker',
+            'ChangelogLinker',
+            'ChangelogLinker',
+            'ChangelogLinker',
+            'ChangelogLinker',
+            'ChangelogLinker',
+            'ChangelogLinker',
+            'ChangelogLinker',
+            'CodingStandard',
+            'CodingStandard',
+            'Statie',
+            'Statie',
+            'Statie',
+            'Unknown Package',
+            'Unknown Package',
+            'Unknown Package',
+            'Unknown Package',
+        ], $packagesByTags['Unreleased']);
     }
 
     /**
@@ -77,7 +170,7 @@ final class ChangeSorterTogetherTest extends TestCase
                 'Statie',
                 '- [#893] Rename FlatWhite to Latte and move Latte-related code there',
                 'TomasVotruba',
-                'Unreleased'
+                'v2.0'
             ),
             new Change(
                 '- [#888]  [Statie] Return collector-based approach to FileDecorators, with priorities',
@@ -85,7 +178,7 @@ final class ChangeSorterTogetherTest extends TestCase
                 'Statie',
                 '- [#888]  Return collector-based approach to FileDecorators, with priorities',
                 'TomasVotruba',
-                'Unreleased'
+                'v2.0'
             ),
             new Change(
                 '- [#905] [ChangelogLinker] Drop commit referencing to stprevent promoting my bad practise',
@@ -157,7 +250,7 @@ final class ChangeSorterTogetherTest extends TestCase
                 'ChangelogLinker',
                 '- [#881] Simplify ChangeFactory creating + Add tags feature supports',
                 'TomasVotruba',
-                'v3.0.0'
+                'v3.0.0-RC2'
             ),
             new Change(
                 '- [#880] Improve cognitive comlexity',
@@ -189,7 +282,7 @@ final class ChangeSorterTogetherTest extends TestCase
                 'ChangelogLinker',
                 '- [#884] Change --in-tags option to cooperate with --in-packages and --in-categories',
                 'TomasVotruba',
-                'v3.0.0'
+                'v3.0.0-RC2'
             ),
             new Change(
                 '- [#883] [ChangelogLinker] Improve --in-tags option',
