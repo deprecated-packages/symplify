@@ -117,7 +117,7 @@ final class ClassWrapper
         }
         reset($stringTokens);
 
-        return key($stringTokens);
+        return (int) key($stringTokens);
     }
 
     public function getParentClassName(): ?string

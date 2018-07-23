@@ -68,6 +68,6 @@ final class PropertyWrapper extends AbstractVariableWrapper
 
         $nextVariableToken = array_pop($nextVariableTokens);
 
-        return key($nextVariableToken);
+        return (int) key($nextVariableToken);
     }
 }

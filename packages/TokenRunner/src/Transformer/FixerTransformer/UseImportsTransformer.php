@@ -147,7 +147,7 @@ final class UseImportsTransformer
         $classTokens = $tokens->findGivenKind([T_CLASS], 0);
         if (count($classTokens)) {
             $classToken = array_shift($classTokens);
-            return key($classToken);
+            return (int) key($classToken);
         }
 
         return 0;

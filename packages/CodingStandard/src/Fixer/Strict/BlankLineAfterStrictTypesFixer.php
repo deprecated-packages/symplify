@@ -57,7 +57,7 @@ namespace SomeNamespace;')]
         }
 
         end($sequenceLocation);
-        $semicolonPosition = key($sequenceLocation);
+        $semicolonPosition = (int) key($sequenceLocation);
 
         // empty file
         if (! isset($tokens[$semicolonPosition + 2])) {

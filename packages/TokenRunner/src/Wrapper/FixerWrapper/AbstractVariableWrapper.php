@@ -47,7 +47,7 @@ abstract class AbstractVariableWrapper
     {
         $nameToken = $this->tokens[$this->getNamePosition()];
 
-        return ltrim((string) $nameToken->getContent(), '$');
+        return ltrim($nameToken->getContent(), '$');
     }
 
     public function isClassType(): bool

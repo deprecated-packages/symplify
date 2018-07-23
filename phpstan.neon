@@ -1,5 +1,21 @@
 parameters:
     ignoreErrors:
+        # 0.10.2 false positives - all: (new SplFileInfo(...))->getRealPath()
+        - '#Parameter \#1 \$absoluteFilePath of method Symplify\\EasyCodingStandard\\Skipper::fileMatchesPattern\(\) expects string, string\|false given#' # 1
+        - '#Parameter \#1 \$file of method Symplify\\LatteToTwigConverter\\LatteToTwigConverter::convertFile\(\) expects string, string\|false given#' # 1
+        - '#Method Symplify\\PackageBuilder\\Configuration\\LevelFileFinder::detectFromInputAndDirectory\(\) should return string|null but returns string\|false#' # 1
+        - '#Parameter \#1 \$filename of function filesize expects string, string\|false given#'
+        - '#Parameter \#1 \$str of function substr expects string, string\|false given#'
+        - '#Parameter \#1 \$relativePath of method Symplify\\EasyCodingStandard\\Skipper::removeFileFromUnused\(\) expects string, string\|false given#'
+        - '#Parameter \#1 \$filename of function md5_file expects string, string\|false given#'
+        - '#Parameter \#1 \$(.*?) of function (substr|file_put_contents) expects string, string\|false given#'
+        - '#Parameter \#2 \$absoluteFilePath of method Symplify\\EasyCodingStandard\\Skipper::shouldSkipCodeAndFile\(\) expects string, string\|false given#'
+        - '#Parameter \#2 \$absoluteFilePath of method Symplify\\EasyCodingStandard\\Skipper::shouldSkipCheckerAndFile\(\) expects string, string\|false given#'
+        - '#Parameter \#1 \$filePath of method Symplify\\EasyCodingStandard\\FixerRunner\\Parser\\FileToTokensParser::parseFromFilePath\(\) expects string, string\|false given#'
+        - '#Parameter \#1 \$filePath of method Symplify\\EasyCodingStandard\\ChangedFilesDetector\\FileHashComputer::compute\(\) expects string, string\|false given#'
+        - '#Parameter \#1 \$str of function sha1 expects string, string\|false given#'
+        # end
+
         # part of test / bugged
         - '#Parameter \#1 \$finder of method Symplify\\EasyCodingStandard\\Finder\\FinderSanitizer::sanitize\(\) expects \(iterable<SplFileInfo>&Nette\\Utils\\Finder\)\|Symfony\\Component\\Finder\\Finder, (array<int, SplFileInfo>|array<Symfony\\Component\\Finder\\SplFileInfo>|(Nette\\Utils\\Finder\|Symfony\\Component\\Finder\\Finder)) given#'
 
@@ -70,8 +86,6 @@ parameters:
         - '#Parameter \#3 \$length of function substr expects int, int\|false given#'
         - '#If condition is always false#'
         - '#If condition is always true#'
-        - '#Binary operation "\+" between int\|string\|false and 2 results in an error#'
-        - '#Binary operation "\+" between int\|string\|false and 1 results in an error#'
         - '#Parameter \#1 \$code of static method PhpCsFixer\\Tokenizer\\Tokens::fromCode\(\) expects string, string\|false given#'
         - '#Cannot call method contains\(\) on array<array<string>>\|SplObjectStorage#'
         - '#Cannot call method attach\(\) on array<array<string>>\|SplObjectStorage#'
@@ -83,7 +97,6 @@ parameters:
         - '#Negated boolean is always false#'
         - '#Method Symplify\\EasyCodingStandard\\Tests\\Indentation\\IndentationTest::getIndentationTypeFixerFromContainer\(\) should return PhpCsFixer\\Fixer\\Whitespace\\IndentationTypeFixer but returns PhpCsFixer\\Fixer\\FixerInterface\|null#'
         - '#Method Symplify\\MonorepoBuilder\\Package\\PackageComposerJsonMerger::mergeFileInfos\(\) should return array<string> but returns array<string, array\|string>#'
-        - '#Method Symplify\\PackageBuilder\\Composer\\AutoloadFinder::findNearDirectories\(\) should return string\|null but returns string\|false#'
         - '#Parameter \#1 \$path of function dirname expects string, string\|false given#'
         - '#Method Symplify\\PackageBuilder\\Console\\Command\\CommandNaming::getShortClassName\(\) should return string but returns string\|null#'
         - '#Parameter \#1 \$object_or_string of function is_a expects object\|string, int\|string given#'
@@ -94,8 +107,6 @@ parameters:
         - '#Parameter \#2 \$template of method Twig_Loader_Array::setTemplate\(\) expects string, string\|false given#'
         - '#Parameter \#1 \$template of method Twig_Environment::createTemplate\(\) expects string, string\|false given#'
         - '#Property Symplify\\Statie\\Configuration\\Configuration::\$sourceDirectory \(string\) does not accept string\|false#'
-        - '#Property Symplify\\Statie\\Renderable\\File\\AbstractFile::\$content \(string\) does not accept string\|false#'
-        - '#Parameter \#1 \$haystack of function substr_count expects string, string\|false given#'
         - '#Parameter \#1 \$stack of function array_pop expects array, array<int, string>\|false given#'
         - '#Parameter \#1 \$content of method Symplify\\Statie\\Configuration\\Parser\\YamlParser::decode\(\) expects string, string\|false given#'
         - '#Cannot call method getContent\(\) on Symplify\\Statie\\Renderable\\File\\AbstractFile\|null#'
@@ -103,11 +114,7 @@ parameters:
         - '#Method Symplify\\TokenRunner\\Analyzer\\SnifferAnalyzer\\CognitiveComplexityAnalyzer::getMeasuredNestingLevel\(\) should return int but returns float\|int#'
         - '#Cannot call method getEndIndex\(\) on PhpCsFixer\\Tokenizer\\Analyzer\\Analysis\\NamespaceAnalysis\|null#'
         - '#Cannot call method getStartIndex\(\) on PhpCsFixer\\Tokenizer\\Analyzer\\Analysis\\NamespaceUseAnalysis\|null#'
-        - '#Method Symplify\\TokenRunner\\Transformer\\FixerTransformer\\UseImportsTransformer::useStatementLocation\(\) should return int but returns int\|string\|false#'
-        - '#Method Symplify\\TokenRunner\\Wrapper\\FixerWrapper\\ClassWrapper::getNamePosition\(\) should return int\|null but returns int\|string\|false#'
-        - '#Parameter \#2 \$start of method PhpCsFixer\\Tokenizer\\Tokens::findGivenKind\(\) expects int, int\|string\|false given#'
         - '#Cannot call method getContent\(\) on PhpCsFixer\\Tokenizer\\Token\|null#'
-        - '#Method Symplify\\TokenRunner\\Wrapper\\FixerWrapper\\PropertyWrapper::getNamePosition\(\) should return int but returns int\|string\|false#'
 
     excludes_analyse:
         - *packages/CodingStandard/tests/**/correct*

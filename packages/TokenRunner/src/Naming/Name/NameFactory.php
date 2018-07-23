@@ -126,7 +126,7 @@ final class NameFactory
 
         $namespaceToken = array_pop($namespaceTokens);
         reset($namespaceToken);
-        $namespacePosition = key($namespaceToken);
+        $namespacePosition = (int) key($namespaceToken);
 
         [$nameTokens, ] = $this->collectNameTokens($tokens, $namespacePosition + 2);
 

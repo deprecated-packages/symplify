@@ -3,6 +3,7 @@
 namespace Symplify\Statie\Renderable\File;
 
 use DateTimeInterface;
+use Nette\Utils\FileSystem;
 use SplFileInfo;
 
 abstract class AbstractFile
@@ -57,7 +58,7 @@ abstract class AbstractFile
         $this->relativeSource = $relativeSource;
         $this->fileInfo = $fileInfo;
         $this->filePath = $filePath;
-        $this->content = file_get_contents($fileInfo->getRealPath());
+        $this->content = FileSystem::read($fileInfo->getRealPath());
 
         // optional values
         $this->dateTime = $dateTime;

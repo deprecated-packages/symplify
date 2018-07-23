@@ -4,6 +4,7 @@ namespace Symplify\Statie\Renderable\File;
 
 use ArrayAccess;
 use DateTimeInterface;
+use Nette\Utils\FileSystem;
 use Nette\Utils\ObjectHelpers;
 use Nette\Utils\Strings;
 use Symplify\Statie\Exception\Renderable\File\AccessKeyNotAvailableException;
@@ -19,7 +20,7 @@ final class PostFile extends AbstractGeneratorFile implements ArrayAccess
 
     public function getReadingTimeInMinutes(): int
     {
-        $rawContent = file_get_contents($this->fileInfo->getRealPath());
+        $rawContent = FileSystem::read($this->fileInfo->getRealPath());
         $wordCount = substr_count($rawContent, ' ') + 1;
 
         return (int) ceil($wordCount / self::READ_WORDS_PER_MINUTE);
@@ -46,7 +47,7 @@ final class PostFile extends AbstractGeneratorFile implements ArrayAccess
 
     public function hasCode(): bool
     {
-        $rawContent = file_get_contents($this->fileInfo->getRealPath());
+        $rawContent = FileSystem::read($this->fileInfo->getRealPath());
 
         $matches = Strings::matchAll($rawContent, '#\`\`\`#');
 
