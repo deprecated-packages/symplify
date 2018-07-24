@@ -15,7 +15,7 @@ composer require symplify/package-builder
 
 ## Usage
 
-### 1.Usage in Symfony CompilerPass
+### 1. Usage in Symfony CompilerPass
 
 #### Collect Services of Certain Type Together
 
@@ -472,6 +472,41 @@ $parameterBag = $parametersMergingYamlLoader->loadParameterBagFromFile(__DIR__ .
 
 var_dump($parameterBag);
 // instance of "Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface"
+```
+
+### 12. Do You Use Default Autowiring Everywhere?
+
+Great job! Why to repeat it in every single config?
+
+```diff
+ services:
+-    _defaults:
+-        autowire: true
+
+     Symplify\Statie\:
+         resource: '../../src'
+```
+
+Just use `Symplify\PackageBuilder\DependencyInjection\CompilerPass\AutowireDefaultCompilerPass`:
+
+```php
+<?php declare(strict_types=1);
+
+namespace App;
+
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\HttpKernel\Kernel;
+use Symplify\PackageBuilder\DependencyInjection\CompilerPass\AutowireDefaultCompilerPass;
+
+final class AppKernel extends Kernel
+{
+    // ...
+
+    protected function build(ContainerBuilder $containerBuilder): void
+    {
+        $containerBuilder->addCompilerPass(new AutowireDefaultCompilerPass());
+    }
+}
 ```
 
 That's all :)
