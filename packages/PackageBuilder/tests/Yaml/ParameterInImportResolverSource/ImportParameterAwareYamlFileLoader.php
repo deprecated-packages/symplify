@@ -28,6 +28,9 @@ final class ImportParameterAwareYamlFileLoader extends YamlFileLoader
     protected function loadFile($file)
     {
         $configuration = parent::loadFile($file);
+        if ($configuration === null) {
+            return [];
+        }
 
         return $this->parameterInImportResolver->process($configuration);
     }
