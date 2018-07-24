@@ -1,16 +1,16 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\PackageBuilder\Tests\DependencyInjection;
+namespace Symplify\PackageBuilder\Tests\DependencyInjection\DefinitionCollector;
 
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 use Symplify\PackageBuilder\DependencyInjection\DefinitionCollector;
 use Symplify\PackageBuilder\DependencyInjection\DefinitionFinder;
-use Symplify\PackageBuilder\Tests\DependencyInjectionSource\Collected;
-use Symplify\PackageBuilder\Tests\DependencyInjectionSource\CollectedInterface;
-use Symplify\PackageBuilder\Tests\DependencyInjectionSource\Collector;
-use Symplify\PackageBuilder\Tests\DependencyInjectionSource\CollectorInterface;
+use Symplify\PackageBuilder\Tests\DependencyInjection\DefinitionCollector\Source\Collected;
+use Symplify\PackageBuilder\Tests\DependencyInjection\DefinitionCollector\Source\CollectedInterface;
+use Symplify\PackageBuilder\Tests\DependencyInjection\DefinitionCollector\Source\Collector;
+use Symplify\PackageBuilder\Tests\DependencyInjection\DefinitionCollector\Source\CollectorInterface;
 
 final class DefinitionCollectorTest extends TestCase
 {
