@@ -1,7 +1,4 @@
 services:
-    _defaults:
-        autowire: true
-
     Symplify\MonorepoBuilder\Split\:
         resource: '..'
         exclude: '../{Exception,Process/SplitProcessInfo.php}'

@@ -1,7 +1,4 @@
 services:
-    _defaults:
-        autowire: true
-
     Symplify\BetterPhpDocParser\:
         resource: '../'
         exclude: '../{DependencyInjection,PhpDocParser/Ast/Type/*,*/*Info.php,*Info.php}'
