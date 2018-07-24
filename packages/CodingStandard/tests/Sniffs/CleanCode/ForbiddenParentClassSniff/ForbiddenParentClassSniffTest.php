@@ -34,6 +34,7 @@ final class ForbiddenParentClassSniffTest extends AbstractCheckerTestCase
     public function provideCorrectCases(): Iterator
     {
         yield [__DIR__ . '/correct/correct.php.inc'];
+        yield [__DIR__ . '/correct/correct2.php.inc'];
     }
 
     protected function provideConfig(): string

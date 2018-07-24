@@ -54,6 +54,10 @@ final class ForbiddenParentClassSniff implements Sniff
         }
 
         $parentClassName = $classWrapper->getParentClassName();
+        // no parent class
+        if ($parentClassName === null) {
+            return;
+        }
 
         if ($this->shouldSkip($parentClassName)) {
             return;
