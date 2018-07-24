@@ -167,14 +167,14 @@ final class ChangeSorterTogetherTest extends TestCase
                 'Unknown Category',
                 'Statie',
                 '- [#893] Rename FlatWhite to Latte and move Latte-related code there',
-                'Unreleased'
+                'v2.0'
             ),
             new Change(
                 '- [#888]  [Statie] Return collector-based approach to FileDecorators, with priorities',
                 'Unknown Category',
                 'Statie',
                 '- [#888]  Return collector-based approach to FileDecorators, with priorities',
-                'Unreleased'
+                'v2.0'
             ),
             new Change(
                 '- [#905] [ChangelogLinker] Drop commit referencing to stprevent promoting my bad practise',
