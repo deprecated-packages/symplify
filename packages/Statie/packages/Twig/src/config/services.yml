@@ -4,8 +4,6 @@ parameters:
 services:
     _defaults:
         autowire: true
-        bind:
-            $twigCacheDirectory: '%twig_cache_directory%'
 
     Symplify\Statie\Twig\:
         resource: '..'
