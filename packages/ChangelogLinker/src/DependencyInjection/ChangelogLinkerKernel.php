@@ -8,6 +8,7 @@ use Symplify\ChangelogLinker\DependencyInjection\CompilerPass\AutowireWorkersCom
 use Symplify\ChangelogLinker\DependencyInjection\CompilerPass\CollectorCompilerPass;
 use Symplify\ChangelogLinker\DependencyInjection\CompilerPass\DetectParametersCompilerPass;
 use Symplify\PackageBuilder\DependencyInjection\CompilerPass\AutoBindParametersCompilerPass;
+use Symplify\PackageBuilder\DependencyInjection\CompilerPass\AutowireDefaultCompilerPass;
 use Symplify\PackageBuilder\DependencyInjection\CompilerPass\PublicForTestsCompilerPass;
 use Symplify\PackageBuilder\HttpKernel\AbstractCliKernel;
 
@@ -53,5 +54,6 @@ final class ChangelogLinkerKernel extends AbstractCliKernel
         $containerBuilder->addCompilerPass(new AutowireWorkersCompilerPass());
         $containerBuilder->addCompilerPass(new DetectParametersCompilerPass());
         $containerBuilder->addCompilerPass(new AutoBindParametersCompilerPass());
+        $containerBuilder->addCompilerPass(new AutowireDefaultCompilerPass());
     }
 }
