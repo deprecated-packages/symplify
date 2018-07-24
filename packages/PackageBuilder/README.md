@@ -20,7 +20,12 @@ composer require symplify/package-builder
 #### Collect Services of Certain Type Together
 
 ```php
+<?php declare(strict_types=1);
+
+namespace App\DependencyInjection\CompilerPass;
+
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symplify\PackageBuilder\DependencyInjection\DefinitionFinder;
 use Symplify\PackageBuilder\DependencyInjection\DefinitionCollector;
 
@@ -43,6 +48,10 @@ final class CollectorCompilerPass implements CompilerPassInterface
 #### Add Service if Found
 
 ```php
+<?php declare(strict_types=1);
+
+namespace App\DependencyInjection\CompilerPass;
+
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symplify\PackageBuilder\DependencyInjection\DefinitionFinder;
 
@@ -92,6 +101,10 @@ services:
 Then require in `__construct()` where needed:
 
 ```php
+<?php declare(strict_types=1);
+
+namespace App\Configuration;
+
 use Symplify\PackageBuilder\Parameter\ParameterProvider;
 
 final class StatieConfiguration
@@ -108,7 +121,7 @@ final class StatieConfiguration
 
     public function getSource(): string
     {
-        return $parameterProvider->provideParameter('source'); // returns "src"
+        return $this->parameterProvider->provideParameter('source'); // returns "src"
     }
 }
 ```
@@ -124,11 +137,14 @@ Symplify\PackageBuilder\Composer\VendorDirProvider::provide(); // return path to
 Use in CLI entry file `bin/<app-name>`, e.g. `bin/statie` or `bin/apigen`.
 
 ```php
+<?php declare(strict_types=1);
+
 # bin/statie
 
 use Symfony\Component\Console\Input\ArgvInput;
+use Symplify\PackageBuilder\Configuration\ConfigFileFinder;
 
-Symplify\PackageBuilder\Configuration\ConfigFileFinder::detectFromInput('statie', new ArgvInput);
+ConfigFileFinder::detectFromInput('statie', new ArgvInput);
 # throws "Symplify\PackageBuilder\Exception\Configuration\FileNotFoundException"
 # exception if no file is found
 ```
@@ -144,6 +160,8 @@ bin/statie --config config/statie.yml
 Then get the config just run:
 
 ```php
+<?php declare(strict_types=1);
+
 $config = Symplify\PackageBuilder\Configuration\ConfigFileFinder::provide('statie');
 var_dump($config); // returns absolute path to "config/statie.yml"
 // or NULL if none was found before
@@ -152,6 +170,8 @@ var_dump($config); // returns absolute path to "config/statie.yml"
 You can also provide fallback to file in [current working directory](http://php.net/manual/en/function.getcwd.php):
 
 ```php
+<?php declare(strict_types=1);
+
 $config = Symplify\PackageBuilder\Configuration\ConfigFileFinder::provide('statie', ['statie.yml']);
 $config = Symplify\PackageBuilder\Configuration\ConfigFileFinder::provide('statie', ['statie.yml', 'statie.yaml']);
 ```
@@ -166,18 +186,20 @@ E.g in `bin/<app-name>` when ContainerFactory fails.
 Use `Symplify\PackageBuilder\Console\ThrowableRenderer`:
 
 ```php
+<?php declare(strict_types=1);
+
 use Symfony\Component\Console\Application;
 use Symfony\Component\DependencyInjection\Container;
 use Symplify\PackageBuilder\Console\ThrowableRenderer;
 
-require_once __DIR__ . '/ecs-autoload.php';
+require_once __DIR__ . '/autoload.php';
 
 // performance boost
 gc_disable();
 
 try {
     /** @var Container $container */
-    $container = require __DIR__ . '/ecs-container.php';
+    $container = require __DIR__ . '/container.php';
 
     $application = $container->get(Application::class);
     exit($application->run());
@@ -198,6 +220,10 @@ vendor/bin/your-app --config vendor/organization-name/package-name/config/subdir
 ```
 
 ```php
+<?php declare(strict_types=1);
+
+use App\DependencyInjection\ContainerFactory;
+use Symfony\Component\Console\Input\ArgvInput;
 use Symplify\PackageBuilder\Configuration\ConfigFileFinder;
 use Symplify\PackageBuilder\Configuration\LevelFileFinder;
 
@@ -253,13 +279,18 @@ services:
 Just register `Symplify\PackageBuilder\DependencyInjection\CompilerPass\AutowireSinglyImplementedCompilerPass` in your `Kernel` instance:
 
 ```php
+<?php declare(strict_types=1);
+
 namespace App;
 
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Kernel;
 use Symplify\PackageBuilder\DependencyInjection\CompilerPass\AutowireSinglyImplementedCompilerPass;
 
 final class AppKernel extends Kernel
 {
+    // ...
+
     protected function build(ContainerBuilder $containerBuilder): void
     {
         $containerBuilder->addCompilerPass(new AutowireSinglyImplementedCompilerPass());
@@ -293,13 +324,14 @@ services:
 Just add `PublicForTestsCompilerPass` to your Kernel, that will **make services public only for the tests**.
 
 ```php
-# app/AppKernel.php
+<?php declare(strict_types=1);
+
 namespace App;
 
 use Symfony\Component\HttpKernel\Kernel;
 use Symplify\PackageBuilder\DependencyInjection\CompilerPass\PublicForTestsCompilerPass;
 
-final class AppKernel extends Kernel;
+final class AppKernel extends Kernel
 {
     // ...
 
@@ -345,7 +377,7 @@ parameters:
 How to use it?
 
 ```php
-// AppKernel.php
+<?php declare(strict_types=1);
 
 namespace App;
 
@@ -418,7 +450,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Kernel;
 use Symplify\PackageBuilder\DependencyInjection\CompilerPass\AutoBindParametersCompilerPass;
 
-final class AutoBindParametersKernel extends Kernel
+final class AppKernel extends Kernel
 {
     // ...
 
