@@ -65,6 +65,7 @@ after_script:
     fi
 
   # split monorepo to packages - only on merge to master
+  # see https://www.tomasvotruba.cz/blog/2018/07/19/how-to-make-github-and-travis-split-monorepo-to-multiple-git-repositories-for-you/
   - |
     if [[ $TRAVIS_EVENT_TYPE == "push" && $MONOREPO_SPLIT == true && $TRAVIS_BRANCH == "master" ]]; then
       packages/MonorepoBuilder/bin/monorepo-builder split -v
