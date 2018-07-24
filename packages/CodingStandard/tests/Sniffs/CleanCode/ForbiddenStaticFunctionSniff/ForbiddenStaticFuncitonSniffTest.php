@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Sniffs\CleanCode\ForbiddenStaticFunction;
+namespace Symplify\CodingStandard\Tests\Sniffs\CleanCode\ForbiddenStaticFunctionSniff;
 
 use Iterator;
 use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;
