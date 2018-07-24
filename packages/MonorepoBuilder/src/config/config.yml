@@ -9,9 +9,6 @@ parameters:
     data_to_remove: []
 
 services:
-    _defaults:
-        autowire: true
-
     Symplify\MonorepoBuilder\:
         resource: '..'
         exclude: '../{Contract,Exception}'

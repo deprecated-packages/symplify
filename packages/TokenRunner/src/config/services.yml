@@ -1,7 +1,4 @@
 services:
-    _defaults:
-        autowire: true
-
     Symplify\TokenRunner\:
         resource: '..'
         exclude: '../{Naming/Name/Name.php,Analyzer/FixerAnalyzer/BlockInfo.php,Wrapper/*Wrapper/*Wrapper.php}'

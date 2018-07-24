@@ -1,7 +1,4 @@
 services:
-    _defaults:
-        autowire: true
-
     Symplify\Statie\:
         resource: '../../src'
         exclude: '../../src/{Exception,Renderable/File/File.php,Renderable/File/PostFile.php,Event}'

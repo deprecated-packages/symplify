@@ -1,17 +1,20 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\ChangelogLinker\DependencyInjection\CompilerPass;
+namespace Symplify\PackageBuilder\DependencyInjection\CompilerPass;
 
+use Symfony\Component\DependencyInjection\ChildDefinition;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symplify\ChangelogLinker\Contract\Worker\WorkerInterface;
 
-final class AutowireWorkersCompilerPass implements CompilerPassInterface
+/**
+ * Autowire configs by default
+ */
+final class AutowireDefaultCompilerPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $containerBuilder): void
     {
         foreach ($containerBuilder->getDefinitions() as $definition) {
-            if (! is_a($definition->getClass(), WorkerInterface::class, true)) {
+            if ($definition instanceof ChildDefinition) {
                 continue;
             }
 

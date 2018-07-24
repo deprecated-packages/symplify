@@ -4,10 +4,10 @@ namespace Symplify\ChangelogLinker\DependencyInjection;
 
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symplify\ChangelogLinker\DependencyInjection\CompilerPass\AutowireWorkersCompilerPass;
 use Symplify\ChangelogLinker\DependencyInjection\CompilerPass\CollectorCompilerPass;
 use Symplify\ChangelogLinker\DependencyInjection\CompilerPass\DetectParametersCompilerPass;
 use Symplify\PackageBuilder\DependencyInjection\CompilerPass\AutoBindParametersCompilerPass;
+use Symplify\PackageBuilder\DependencyInjection\CompilerPass\AutowireDefaultCompilerPass;
 use Symplify\PackageBuilder\DependencyInjection\CompilerPass\PublicForTestsCompilerPass;
 use Symplify\PackageBuilder\HttpKernel\AbstractCliKernel;
 
@@ -50,8 +50,8 @@ final class ChangelogLinkerKernel extends AbstractCliKernel
     {
         $containerBuilder->addCompilerPass(new PublicForTestsCompilerPass());
         $containerBuilder->addCompilerPass(new CollectorCompilerPass());
-        $containerBuilder->addCompilerPass(new AutowireWorkersCompilerPass());
         $containerBuilder->addCompilerPass(new DetectParametersCompilerPass());
         $containerBuilder->addCompilerPass(new AutoBindParametersCompilerPass());
+        $containerBuilder->addCompilerPass(new AutowireDefaultCompilerPass());
     }
 }

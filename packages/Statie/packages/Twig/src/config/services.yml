@@ -2,9 +2,6 @@ parameters:
     twig_cache_directory: '%kernel.cache_dir%/twig'
 
 services:
-    _defaults:
-        autowire: true
-
     Symplify\Statie\Twig\:
         resource: '..'
 
