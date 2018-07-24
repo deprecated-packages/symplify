@@ -328,13 +328,62 @@ services:
 :x:
 
 ```php
+<?php
+
 throw new RuntimeException('...');
 ```
 
 :+1:
 
 ```php
+<?php
+
 throw new FileNotFoundException('...');
+```
+
+### Class "X" cannot be parent class. Use composition over inheritance instead.
+
+- class: [`Symplify\CodingStandard\Sniffs\CleanCode\ForbiddenParentClassSniff`](src/Sniffs/CleanCode/ForbiddenParentClassSniff.php)
+
+```yaml
+# easy-coding-standard.yml
+services:
+    Symplify\CodingStandard\Sniffs\CleanCode\ForbiddenParentClassSniff:
+        forbiddenParentClasses:
+            - 'Doctrine\ORM\EntityRepository'
+```
+
+:x:
+
+```php
+<?php
+
+use Doctrine\ORM\EntityRepository;
+
+final class ProductRepository extends EntityRepository
+{
+}
+```
+
+:+1:
+
+```php
+<?php
+
+use Doctrine\ORM\EntityRepository;
+
+final class ProductRepository
+{
+    /**
+     * @var EntityRepository
+     */
+    private $entityRepository;
+
+    public function __construct(EntityRepository $entityRepository)
+    {
+        $this->entityRepository = $entityRepository;
+    }
+}
 ```
 
 ### Use explicit return values over magic "&$variable" reference
@@ -344,6 +393,8 @@ throw new FileNotFoundException('...');
 :x:
 
 ```php
+<?php
+
 function someFunction(&$var)
 {
     $var + 1;
@@ -353,6 +404,8 @@ function someFunction(&$var)
 :+1:
 
 ```php
+<?php
+
 function someFunction($var)
 {
     return $var + 1;
@@ -366,6 +419,8 @@ function someFunction($var)
 :x:
 
 ```php
+<?php
+
 class SomeClass
 {
     public static function someFunction()
@@ -377,6 +432,8 @@ class SomeClass
 :+1:
 
 ```php
+<?php
+
 class SomeClass
 {
     public function someFunction()
@@ -399,6 +456,8 @@ class SomeClass
 :+1:
 
 ```php
+<?php
+
 class SomeClass
 {
     /**
@@ -416,12 +475,16 @@ class SomeClass
 :x:
 
 ```php
+<?php
+
 return 'Class ' . $oldClass . ' was removed from ' . $file . '. Use ' . self::class . " instead';
 ```
 
 :+1:
 
 ```php
+<?php
+
 return sprintf('Class "%s" was removed from "%s". Use "%s" instead', $oldClass, $file, self::class);
 ```
 
@@ -441,6 +504,8 @@ services:
 :x:
 
 ```php
+<?php
+
 // $file = new File;
 // $directory = new Diretory([$file]);
 ```
@@ -452,6 +517,8 @@ services:
 :x:
 
 ```php
+<?php
+
 d($value);
 dd($value);
 dump($value);
@@ -466,6 +533,8 @@ var_dump($value);
 :x:
 
 ```php
+<?php
+
 class SomeController
 {
    public function renderEdit(array $data)
@@ -479,6 +548,8 @@ class SomeController
 :+1:
 
 ```php
+<?php
+
 class SomeController
 {
    public function renderEdit(array $data)
@@ -516,6 +587,8 @@ services:
 :x:
 
 ```php
+<?php
+
 abstract class SomeClass
 {
 }
@@ -524,6 +597,8 @@ abstract class SomeClass
 :+1:
 
 ```php
+<?php
+
 abstract class AbstractSomeClass
 {
 }
@@ -537,6 +612,8 @@ abstract class AbstractSomeClass
 :x:
 
 ```php
+<?php
+
 class Some extends Command
 {
 }
@@ -545,6 +622,8 @@ class Some extends Command
 :+1:
 
 ```php
+<?php
+
 class SomeCommand extends Command
 {
 }
@@ -590,6 +669,8 @@ It also covers `Interface` suffix as well, e.g `EventSubscriber` checks for `Eve
 :x:
 
 ```php
+<?php
+
 interface Some
 {
 }
@@ -598,6 +679,8 @@ interface Some
 :+1:
 
 ```php
+<?php
+
 interface SomeInterface
 {
 }
@@ -610,6 +693,8 @@ interface SomeInterface
 :x:
 
 ```php
+<?php
+
 trait Some
 {
 }
@@ -618,6 +703,8 @@ trait Some
 :+1:
 
 ```php
+<?php
+
 trait SomeTrait
 {
 }
@@ -634,6 +721,8 @@ trait SomeTrait
 :x:
 
 ```php
+<?php
+
 class SomeClass
 {
     public function usedMethod()
@@ -652,6 +741,8 @@ $someObject->usedMethod();
 :+1:
 
 ```php
+<?php
+
 class SomeClass
 {
     public function usedMethod()
