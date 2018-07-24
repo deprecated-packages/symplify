@@ -351,6 +351,8 @@ services:
     Symplify\CodingStandard\Sniffs\CleanCode\ForbiddenParentClassSniff:
         forbiddenParentClasses:
             - 'Doctrine\ORM\EntityRepository'
+            # again, you can use fnmatch() pattern
+            - '*\AbstractController'
 ```
 
 :x:
