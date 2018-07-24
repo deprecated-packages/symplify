@@ -1,12 +1,6 @@
 services:
     _defaults:
         autowire: true
-        bind:
-            $authorsToIgnore: "%authors_to_ignore%"
-            $repositoryUrl: "%repository_url%"
-            $repositoryName: "%repository_name%"
-            $namesToUrls: "%names_to_urls%"
-            $packageAliases: "%package_aliases%"
 
     Symplify\ChangelogLinker\:
         resource: ".."

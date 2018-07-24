@@ -1,12 +1,6 @@
 services:
     _defaults:
         autowire: true
-        bind:
-            $directoriesToRepositories: '%directories_to_repositories%'
-            $rootDirectory: '%root_directory%'
-            $repository: '%root_directory%/.git'
-            $subsplitCacheDirectory: '%subsplit_cache_directory%'
-            $githubToken: '%github_token%'
 
     Symplify\MonorepoBuilder\Split\:
         resource: '..'
