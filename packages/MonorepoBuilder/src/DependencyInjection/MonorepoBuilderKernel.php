@@ -8,6 +8,7 @@ use Symplify\MonorepoBuilder\DependencyInjection\CompilerPass\CollectorCompilerP
 use Symplify\MonorepoBuilder\Split\DependencyInjection\CompilerPass\DetectParametersCompilerPass;
 use Symplify\PackageBuilder\DependencyInjection\CompilerPass\AutoBindParametersCompilerPass;
 use Symplify\PackageBuilder\DependencyInjection\CompilerPass\AutowireDefaultCompilerPass;
+use Symplify\PackageBuilder\DependencyInjection\CompilerPass\PublicDefaultCompilerPass;
 use Symplify\PackageBuilder\DependencyInjection\CompilerPass\PublicForTestsCompilerPass;
 use Symplify\PackageBuilder\HttpKernel\AbstractCliKernel;
 
@@ -50,7 +51,6 @@ final class MonorepoBuilderKernel extends AbstractCliKernel
         $containerBuilder->addCompilerPass(new PublicForTestsCompilerPass());
         $containerBuilder->addCompilerPass(new AutoBindParametersCompilerPass());
         $containerBuilder->addCompilerPass(new AutowireDefaultCompilerPass());
-
-        // autowire default all from local configs
+        $containerBuilder->addCompilerPass(new PublicDefaultCompilerPass());
     }
 }
