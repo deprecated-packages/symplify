@@ -281,13 +281,7 @@ final class ChangeSorterTogetherTest extends TestCase
                 '- [#871] Improve test coverage',
                 'Unreleased'
             ),
-            new Change(
-                '- [#892] [Statie] Add Twig',
-                'Added',
-                'Statie',
-                '- [#892] Add Twig',
-                'Unreleased'
-            ),
+            new Change('- [#892] [Statie] Add Twig', 'Added', 'Statie', '- [#892] Add Twig', 'Unreleased'),
             new Change(
                 "- [#900] [CodingStandard] Add 'extra_parent_types_to_suffixes' option to ClassNameSuffixByParentFixer",
                 'Added',
