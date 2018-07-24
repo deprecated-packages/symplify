@@ -2,4 +2,5 @@ parameters:
     someParameter: value
 
 services:
-    Symplify\PackageBuilder\Tests\DependencyInjection\CompilerPass\AutoBindParametersCompilerPass\Source\ServiceWithAutowiredParameter: ~
+    Symplify\PackageBuilder\Tests\DependencyInjection\CompilerPass\AutoBindParametersCompilerPass\Source\ServiceWithAutowiredParameter:
+        public: true
