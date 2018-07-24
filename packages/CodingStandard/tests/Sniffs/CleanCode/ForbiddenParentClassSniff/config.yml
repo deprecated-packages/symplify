@@ -1,0 +1,4 @@
+services:
+    Symplify\CodingStandard\Sniffs\CleanCode\ForbiddenParentClassSniff:
+        forbiddenParentClasses:
+            - '*\SomeForbiddenParentClass'
