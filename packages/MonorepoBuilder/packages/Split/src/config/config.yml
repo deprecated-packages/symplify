@@ -6,6 +6,7 @@ parameters:
     # use in cli like: "GITHUB_TOKEN=%s vendor/bin/monorepo-builder split ..."
     env(GITHUB_TOKEN): null
     github_token: '%env(GITHUB_TOKEN)%'
+    repository: '%root_directory%/.git'
 
 imports:
     - { resource: 'services.yml' }
