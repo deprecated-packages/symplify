@@ -509,4 +509,39 @@ final class AppKernel extends Kernel
 }
 ```
 
+### 13. Do You Use Public Services Only When Really Need?
+
+Great job! Why to repeat `public: true` in config everytime you need it?
+
+```diff
+ services:
+-    _defaults:
+-        public: true
+
+     Symplify\Statie\:
+         resource: '../../src'
+```
+
+Just use `Symplify\PackageBuilder\DependencyInjection\CompilerPass\PublicDefaultCompilerPass`:
+
+```php
+<?php declare(strict_types=1);
+
+namespace App;
+
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\HttpKernel\Kernel;
+use Symplify\PackageBuilder\DependencyInjection\CompilerPass\PublicDefaultCompilerPass;
+
+final class AppKernel extends Kernel
+{
+    // ...
+
+    protected function build(ContainerBuilder $containerBuilder): void
+    {
+        $containerBuilder->addCompilerPass(new PublicDefaultCompilerPass());
+    }
+}
+```
+
 That's all :)
