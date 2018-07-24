@@ -4,6 +4,7 @@ namespace Symplify\PackageBuilder\DependencyInjection\CompilerPass;
 
 use Nette\Utils\Strings;
 use Symfony\Component\DependencyInjection\Argument\BoundArgument;
+use Symfony\Component\DependencyInjection\ChildDefinition;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
@@ -20,6 +21,10 @@ final class AutoBindParametersCompilerPass implements CompilerPassInterface
         $boundArguments = $this->createBoundArgumentsFromParameterBag($containerBuilder->getParameterBag());
 
         foreach ($containerBuilder->getDefinitions() as $definition) {
+            if ($definition instanceof ChildDefinition) {
+                continue;
+            }
+
             // config binding has priority over default one
             $bindings = array_merge($definition->getBindings(), $boundArguments);
             $definition->setBindings($bindings);
