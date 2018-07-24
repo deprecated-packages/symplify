@@ -3,8 +3,7 @@ services:
         resource: ".."
         exclude: "../{Contract}"
 
-    Symfony\Component\Console\Application:
-        public: true
+    Symfony\Component\Console\Application: ~
 
     # SymfonyStyle
     Symfony\Component\Console\Input\ArgvInput: ~

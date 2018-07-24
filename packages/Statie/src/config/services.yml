@@ -4,5 +4,4 @@ services:
         exclude: '../../src/{Exception,Renderable/File/File.php,Renderable/File/PostFile.php,Event}'
 
     # bin file
-    Symplify\Statie\Console\Application:
-        public: true
+    Symplify\Statie\Console\Application: ~

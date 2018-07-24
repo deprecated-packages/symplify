@@ -50,7 +50,5 @@ final class MonorepoBuilderKernel extends AbstractCliKernel
         $containerBuilder->addCompilerPass(new PublicForTestsCompilerPass());
         $containerBuilder->addCompilerPass(new AutoBindParametersCompilerPass());
         $containerBuilder->addCompilerPass(new AutowireDefaultCompilerPass());
-
-        // autowire default all from local configs
     }
 }

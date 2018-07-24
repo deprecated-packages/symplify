@@ -15,8 +15,7 @@ services:
 
     Symplify\PackageBuilder\Yaml\ParametersMerger: ~
 
-    Symplify\PackageBuilder\Console\ConfigAwareApplication:
-        public: true # for bin file
+    Symplify\PackageBuilder\Console\ConfigAwareApplication: ~
 
     # SymfonyStyle
     Symfony\Component\Console\Input\ArgvInput: ~
