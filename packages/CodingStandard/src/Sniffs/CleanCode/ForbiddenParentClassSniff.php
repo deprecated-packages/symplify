@@ -73,6 +73,10 @@ final class ForbiddenParentClassSniff implements Sniff
     private function shouldSkip(string $parentClassName): bool
     {
         foreach ($this->forbiddenParentClasses as $forbiddenParentClass) {
+            if ($parentClassName === $forbiddenParentClass) {
+                return false;
+            }
+
             if (fnmatch($forbiddenParentClass, $parentClassName)) {
                 return false;
             }

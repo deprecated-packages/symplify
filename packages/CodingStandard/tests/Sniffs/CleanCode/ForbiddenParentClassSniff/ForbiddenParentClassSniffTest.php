@@ -21,6 +21,9 @@ final class ForbiddenParentClassSniffTest extends AbstractCheckerTestCase
     public function provideWrongCases(): Iterator
     {
         yield [__DIR__ . '/wrong/wrong.php.inc'];
+        yield [__DIR__ . '/wrong/wrong2.php.inc'];
+        yield [__DIR__ . '/wrong/wrong3.php.inc'];
+        yield [__DIR__ . '/wrong/wrong4.php.inc'];
     }
 
     /**
