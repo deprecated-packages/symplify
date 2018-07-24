@@ -382,6 +382,53 @@ final class AppKernel extends Kernel
 }
 ```
 
+### 11. Are you Tired from Binding Parameters Everywhere?
+
+In Symfony 3.4 [parameters binding](https://symfony.com/blog/new-in-symfony-3-4-local-service-binding) was added. It helps you to prevent writing manually parameters for each particular service. On the other hand, parameters:
+
+- have to be defined in the very same single config
+- are bound for that config only, no re-use
+- used or it will throw an exception, sorry lazy parameters
+
+**How to solve these obstacles and keep YAML definitions cleaner?**
+
+```diff
+ parameters:
+     entity_repository_class: 'Doctrine\ORM\EntityRepository'
+     entity_manager_class: 'Doctrine\ORM\EntityManager'
+
+ services:
+-    _defaults:
+-        bind:
+-            $entityRepositoryClass: '%entity_repository_class%'
+-            $entityManagerClass: '%entity_manager_class%'
+-
+     Rector\:
+         resource: ..
+```
+
+Add `Symplify\PackageBuilder\DependencyInjection\CompilerPass\AutoBindParametersCompilerPass` class to your `Kernel`:
+
+```php
+<?php declare(strict_types=1);
+
+namespace App;
+
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\HttpKernel\Kernel;
+use Symplify\PackageBuilder\DependencyInjection\CompilerPass\AutoBindParametersCompilerPass;
+
+final class AutoBindParametersKernel extends Kernel
+{
+    // ...
+
+    protected function build(ContainerBuilder $containerBuilder): void
+    {
+        $containerBuilder->addCompilerPass(new AutoBindParametersCompilerPass());
+    }
+}
+```
+
 #### Can I Use it Without Kernel?
 
 Do you need to load YAML files elsewhere? Instead of creating all the classes, you can use this helper class:
