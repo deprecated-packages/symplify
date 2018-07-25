@@ -92,7 +92,7 @@ final class AutoloadRelativePathComposerJsonDecorator implements ComposerJsonDec
             foreach ($packageComposerFiles as $packageComposerFile) {
                 $namespaceWithSlashes = addslashes($namespace);
 
-                if (! Strings::contains($packageComposerFile->getContents(), $namespaceWithSlashes)) {
+                if (! Strings::contains($packageComposerFile->getContents(), '"' . $namespaceWithSlashes . '"')) {
                     continue;
                 }
 
