@@ -414,6 +414,19 @@ final class AppKernel extends Kernel
 }
 ```
 
+#### Can I Use it Without Kernel?
+
+Do you need to load YAML files elsewhere? Instead of creating all the classes, you can use this helper class:
+
+```php
+$parametersMergingYamlLoader = new Symplify\PackageBuilder\Yaml\ParametersMergingYamlLoader;
+
+$parameterBag = $parametersMergingYamlLoader->loadParameterBagFromFile(__DIR__ . '/config.yml');
+
+var_dump($parameterBag);
+// instance of "Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface"
+```
+
 ### 11. Are you Tired from Binding Parameters Everywhere?
 
 In Symfony 3.4 [parameters binding](https://symfony.com/blog/new-in-symfony-3-4-local-service-binding) was added. It helps you to prevent writing manually parameters for each particular service. On the other hand, parameters:
@@ -459,19 +472,6 @@ final class AppKernel extends Kernel
         $containerBuilder->addCompilerPass(new AutoBindParametersCompilerPass());
     }
 }
-```
-
-#### Can I Use it Without Kernel?
-
-Do you need to load YAML files elsewhere? Instead of creating all the classes, you can use this helper class:
-
-```php
-$parametersMergingYamlLoader = new Symplify\PackageBuilder\Yaml\ParametersMergingYamlLoader;
-
-$parameterBag = $parametersMergingYamlLoader->loadParameterBagFromFile(__DIR__ . '/config.yml');
-
-var_dump($parameterBag);
-// instance of "Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface"
 ```
 
 ### 12. Do You Use Default Autowiring Everywhere?
