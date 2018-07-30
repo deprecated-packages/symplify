@@ -220,7 +220,7 @@ final class NoClassInstantiationSniff implements Sniff
 
     private function isBootstrapFile(): bool
     {
-        return Strings::endsWith($this->file->getFilename(), 'bootstra.php');
+        return Strings::endsWith($this->file->getFilename(), 'bootstrap.php');
     }
 
     private function isAllowedFileClass(): bool
