@@ -9,6 +9,43 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 <!-- changelog-linker -->
 
+## [v4.6.0] - 2018-08-03
+
+### Added
+
+#### CodingStandard
+
+- [#1002] Add `ForbiddenParentClassSniff` [closes [#993]]
+
+#### PackageBuilder
+
+- [#1001] Add `PublicDefaultCompilerPass`
+- [#1000] Add `AutowireDefaultCompilerPass`
+- [#998] Add `AutoBindParametersCompilerPass` [closes [#994]]
+- [#989] Add `ParametersMergingYamlLoader`
+
+### Fixed
+
+- [#988] CHANGELOG: Correct `ClassNameSuffixByParentSniff` migration instruction, Thanks to [@sustmi]
+
+#### ChangelogLinker
+
+- [#992] Fix `ChangeSorter` for tags
+
+#### CodingStandard
+
+- [#1003] Fix for `ForbiddenParentClassSniff` in case of missing parent
+- [#1004] Fix `ForbiddenParentClassSniff` for exact class skip
+
+#### EasyCodingStandard
+
+- [#984] Fix inconsistency between Symplify Fixer and `PHP_Codesniffer`, closes #975
+- [#995] Update common and psr12 sets and fix `CheckerTolerantYamlFileLoader` for empty config
+
+#### MonorepoBuilder
+
+- [#1005] Fix autoloading for overlapping namespaces, Thanks to [@mantiz]
+
 ## [v4.5.1] - 2018-07-17
 
 ### Added
@@ -1479,3 +1516,21 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
 [#974]: https://github.com/Symplify/Symplify/pull/974
 [#987]: https://github.com/Symplify/Symplify/pull/987
 [v4.5.1]: https://github.com/Symplify/Symplify/compare/v4.5.0...v4.5.1
+
+[#1005]: https://github.com/Symplify/Symplify/pull/1005
+[#1004]: https://github.com/Symplify/Symplify/pull/1004
+[#1003]: https://github.com/Symplify/Symplify/pull/1003
+[#1002]: https://github.com/Symplify/Symplify/pull/1002
+[#1001]: https://github.com/Symplify/Symplify/pull/1001
+[#1000]: https://github.com/Symplify/Symplify/pull/1000
+[#999]: https://github.com/Symplify/Symplify/pull/999
+[#998]: https://github.com/Symplify/Symplify/pull/998
+[#996]: https://github.com/Symplify/Symplify/pull/996
+[#995]: https://github.com/Symplify/Symplify/pull/995
+[#994]: https://github.com/Symplify/Symplify/pull/994
+[#993]: https://github.com/Symplify/Symplify/pull/993
+[#992]: https://github.com/Symplify/Symplify/pull/992
+[#989]: https://github.com/Symplify/Symplify/pull/989
+[#988]: https://github.com/Symplify/Symplify/pull/988
+[@sustmi]: https://github.com/sustmi
+[@mantiz]: https://github.com/mantiz
