@@ -39,7 +39,7 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 #### EasyCodingStandard
 
-- [#984] Fix inconsistency between Symplify Fixer and `PHP_Codesniffer`, closes #975
+- [#984] Fix inconsistency between Symplify Fixer and `PHP_Codesniffer`, closes [#975]
 - [#995] Update common and psr12 sets and fix `CheckerTolerantYamlFileLoader` for empty config
 
 #### MonorepoBuilder
@@ -1534,3 +1534,6 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
 [#988]: https://github.com/Symplify/Symplify/pull/988
 [@sustmi]: https://github.com/sustmi
 [@mantiz]: https://github.com/mantiz
+[#984]: https://github.com/Symplify/Symplify/pull/984
+[#975]: https://github.com/Symplify/Symplify/pull/975
+[v4.6.0]: https://github.com/Symplify/Symplify/compare/v4.5.1...v4.6.0
