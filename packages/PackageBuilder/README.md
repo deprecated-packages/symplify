@@ -272,7 +272,7 @@ parameters:
        - skip_that_too
 ```
 
-The result will change with `Symplify\PackageBuilder\Yaml\ParameterMergingYamlFileLoader`:
+The result will change with `Symplify\PackageBuilder\Yaml\FileLoader\ParameterMergingYamlFileLoader`:
 
 ```diff
  parameters:
@@ -295,7 +295,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\Loader\GlobFileLoader;
 use Symfony\Component\HttpKernel\Config\FileLocator;
 use Symfony\Component\HttpKernel\Kernel;
-use Symplify\PackageBuilder\Yaml\ParameterMergingYamlFileLoader;
+use Symplify\PackageBuilder\Yaml\FileLoader\ParameterMergingYamlFileLoader;
 
 final class AppKernel extends Kernel
 {
@@ -316,7 +316,7 @@ final class AppKernel extends Kernel
 }
 ```
 
-In case you need to do more work in YamlFileLoader, just extend the abstract parent `Symplify\PackageBuilder\Yaml\AbstractParameterMergingYamlFileLoader` and add your own logic.
+In case you need to do more work in YamlFileLoader, just extend the abstract parent `Symplify\PackageBuilder\Yaml\FileLoader\AbstractParameterMergingYamlFileLoader` and add your own logic.
 
 #### Do you Need to Merge YAML files Outside Kernel?
 
@@ -325,13 +325,61 @@ Instead of creating all the classes use this helper class:
 ```php
 <?php declare(strict_types=1);
 
-$parametersMergingYamlLoader = new Symplify\PackageBuilder\Yaml\ParametersMergingYamlLoader;
+$parameterMergingYamlLoader = new Symplify\PackageBuilder\Yaml\ParameterMergingYamlLoader;
 
-$parameterBag = $parametersMergingYamlLoader->loadParameterBagFromFile(__DIR__ . '/config.yml');
+$parameterBag = $parameterMergingYamlLoader->loadParameterBagFromFile(__DIR__ . '/config.yml');
 
 var_dump($parameterBag);
 // instance of "Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface"
 ```
+
+### Use `%vendor%` and `%cwd%` in Imports Paths
+
+Instead of 2 paths with `ignore_errors` use `%vendor%` and other parameters in imports paths:
+
+```diff
+ imports:
+-    - { resource: '../../easy-coding-standard/config/psr2.yml', ignore_errors: true }
+-    - { resource: 'vendor/symplify/easy-coding-standard/config/psr2.yml', ignore_errors: true }
++    - { resource: '%vendor%/symplify/easy-coding-standard/config/psr2.yml' }
+```
+
+You can have that with `Symplify\PackageBuilder\Yaml\FileLoader\ParameterImportsYamlFileLoader`:
+
+```php
+<?php declare(strict_types=1);
+
+namespace App;
+
+use Symfony\Component\Config\Loader\DelegatingLoader;
+use Symfony\Component\Config\Loader\LoaderResolver;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\DependencyInjection\Loader\GlobFileLoader;
+use Symfony\Component\HttpKernel\Config\FileLocator;
+use Symfony\Component\HttpKernel\Kernel;
+use Symplify\PackageBuilder\Yaml\FileLoader\ParameterImportsYamlFileLoader;
+
+final class AppKernel extends Kernel
+{
+    /**
+     * @param ContainerInterface|ContainerBuilder $container
+     */
+    protected function getContainerLoader(ContainerInterface $container): DelegatingLoader
+    {
+        $kernelFileLocator = new FileLocator($this);
+
+        $loaderResolver = new LoaderResolver([
+            new GlobFileLoader($container, $kernelFileLocator),
+            new ParameterImportsYamlFileLoader($container, $kernelFileLocator)
+        ]);
+
+        return new DelegatingLoader($loaderResolver);
+    }
+}
+```
+
+In case you need to do more work in YamlFileLoader, just extend the abstract parent `Symplify\PackageBuilder\Yaml\FileLoader\AbstractParameterImportsYamlFileLoader` and add your own logic.
 
 ### Smart Compiler Passes for Lazy Programmers
 

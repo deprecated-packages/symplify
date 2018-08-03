@@ -1,26 +1,26 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\PackageBuilder\Tests\Yaml\ParametersMergingYamlLoader;
+namespace Symplify\PackageBuilder\Tests\Yaml\ParameterMergingYamlLoader;
 
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
-use Symplify\PackageBuilder\Yaml\ParametersMergingYamlLoader;
+use Symplify\PackageBuilder\Yaml\ParameterMergingYamlLoader;
 
-final class ParametersMergingYamlLoaderTest extends TestCase
+final class ParameterMergingYamlLoaderTest extends TestCase
 {
     /**
-     * @var ParametersMergingYamlLoader
+     * @var ParameterMergingYamlLoader
      */
-    private $parametersMergingYamlLoader;
+    private $parameterMergingYamlLoader;
 
     protected function setUp(): void
     {
-        $this->parametersMergingYamlLoader = new ParametersMergingYamlLoader();
+        $this->parameterMergingYamlLoader = new ParameterMergingYamlLoader();
     }
 
     public function test(): void
     {
-        $parametersBag = $this->parametersMergingYamlLoader->loadParameterBagFromFile(
+        $parametersBag = $this->parameterMergingYamlLoader->loadParameterBagFromFile(
             __DIR__ . '/Source/config.yml'
         );
 
