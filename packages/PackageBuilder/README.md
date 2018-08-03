@@ -125,6 +125,8 @@ final class StatieConfiguration
 ### 4. Get Vendor Directory from Anywhere
 
 ```php
+<?php declare(strict_types=1);
+
 Symplify\PackageBuilder\Composer\VendorDirProvider::provide(); // returns path to vendor directory
 ```
 
@@ -242,17 +244,15 @@ if ($configFile) {
 }
 ```
 
-And use like:
+And use like this:
 
 ```bash
 vendor/bin/your-app --level the-config
 ```
 
-### 8. Do you need to merge parameters in `.yaml` files instead of override?
+### 8. Merge Parameters in `.yaml` Files Instead of Override?
 
-Native Symfony approach is *the last wins*, which is bad if you want to decouple your parameters. For more see [the issue](https://github.com/symfony/symfony/issues/26713).
-
-This will be produce with help of `Symplify\PackageBuilder\Yaml\AbstractParameterMergingYamlFileLoader`:
+In Symfony [the last parameter wins by default](https://github.com/symfony/symfony/issues/26713)*, hich is bad if you want to decouple your parameters.
 
 ```yaml
 # first.yml
@@ -271,13 +271,13 @@ parameters:
        - skip_that_too
 ```
 
-The final result will look like this:
+The result will change with `Symplify\PackageBuilder\Yaml\ParameterMergingYamlFileLoader`: 
 
-```yaml
-parameters:
-    another_key:
-       - skip_this # this one is normally missed
-       - skip_that_too
+```diff
+ parameters:
+     another_key:
++       - skip_this
+        - skip_that_too
 ```
 
 How to use it?
@@ -294,12 +294,10 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\Loader\GlobFileLoader;
 use Symfony\Component\HttpKernel\Config\FileLocator;
 use Symfony\Component\HttpKernel\Kernel;
-use Symplify\PackageBuilder\Yaml\AbstractParameterMergingYamlFileLoader;
+use Symplify\PackageBuilder\Yaml\ParameterMergingYamlFileLoader;
 
 final class AppKernel extends Kernel
 {
-    // ...
-
     /**
      * @param ContainerInterface|ContainerBuilder $container
      */
@@ -309,10 +307,7 @@ final class AppKernel extends Kernel
 
         $loaderResolver = new LoaderResolver([
             new GlobFileLoader($container, $kernelFileLocator),
-            // you can 1. create custom YamlFileLoader for other custom tweaks
-            // or 2. use short anonymous class like this
-            new class($container, $kernelFileLocator) extends AbstractParameterMergingYamlFileLoader {
-            },
+            new ParameterMergingYamlFileLoader($container, $kernelFileLocator)
         ]);
 
         return new DelegatingLoader($loaderResolver);
@@ -320,11 +315,15 @@ final class AppKernel extends Kernel
 }
 ```
 
+In case you need to do more work in YamlFileLoader, just extend `Symplify\PackageBuilder\Yaml\AbstractParameterMergingYamlFileLoader` and add your own logic.
+
 #### Can I Use it Without Kernel?
 
 Do you need to load YAML files elsewhere? Instead of creating all the classes, you can use this helper class:
 
 ```php
+<?php
+
 $parametersMergingYamlLoader = new Symplify\PackageBuilder\Yaml\ParametersMergingYamlLoader;
 
 $parameterBag = $parametersMergingYamlLoader->loadParameterBagFromFile(__DIR__ . '/config.yml');

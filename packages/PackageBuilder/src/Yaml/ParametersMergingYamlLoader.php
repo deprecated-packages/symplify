@@ -28,8 +28,7 @@ final class ParametersMergingYamlLoader
 
         $loaderResolver = new LoaderResolver([
             new GlobFileLoader($fileLocator),
-            new class($containerBuilder, $fileLocator) extends AbstractParameterMergingYamlFileLoader {
-            },
+            new ParameterMergingYamlFileLoader($containerBuilder, $fileLocator),
         ]);
 
         $this->delegatingLoader = new DelegatingLoader($loaderResolver);
