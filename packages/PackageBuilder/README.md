@@ -263,86 +263,7 @@ $autoloadFile = Symplify\PackageBuilder\Composer\AutoloadFinder::findNearDirecto
 var_dump($autoloadFile); # contains: __DIR__ . '/vendor`
 ```
 
-### 8. Autowire Singly-Implemented Interfaces
-
-Just like [this PR to Symfony](https://github.com/symfony/symfony/pull/25282), but also covering cases like:
-
-```yaml
-services:
-    OnlyImplementationOfFooInterface: ~
-
-    # is this really needed?
-    FooInterface:
-        alias: OnlyImplementationOfFooInterface
-```
-
-Just register `Symplify\PackageBuilder\DependencyInjection\CompilerPass\AutowireSinglyImplementedCompilerPass` in your `Kernel` instance:
-
-```php
-<?php declare(strict_types=1);
-
-namespace App;
-
-use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\HttpKernel\Kernel;
-use Symplify\PackageBuilder\DependencyInjection\CompilerPass\AutowireSinglyImplementedCompilerPass;
-
-final class AppKernel extends Kernel
-{
-    // ...
-
-    protected function build(ContainerBuilder $containerBuilder): void
-    {
-        $containerBuilder->addCompilerPass(new AutowireSinglyImplementedCompilerPass());
-    }
-}
-```
-
-And then cleanup your configs:
-
-```diff
- services:
-     OnlyImplementationOfFooInterface: ~
--
--    FooInterface:
--        alias: OnlyImplementationOfFooInterface
-```
-
-### 9. Make services public for tests only
-
-Do you use `$container->get(SomeType::class)` in tests and would you like to avoid this:
-
-```yaml
-# app/config/services.yml
-services:
-    _defaults:
-        public: true
-
-    # ...
-```
-
-Just add `PublicForTestsCompilerPass` to your Kernel, that will **make services public only for the tests**.
-
-```php
-<?php declare(strict_types=1);
-
-namespace App;
-
-use Symfony\Component\HttpKernel\Kernel;
-use Symplify\PackageBuilder\DependencyInjection\CompilerPass\PublicForTestsCompilerPass;
-
-final class AppKernel extends Kernel
-{
-    // ...
-
-    protected function build(ContainerBuilder $containerBuilder): void
-    {
-        $containerBuilder->addCompilerPass(new PublicForTestsCompilerPass());
-    }
-}
-```
-
-### 10. Do you need to merge parameters in `.yaml` files instead of override?
+### Do you need to merge parameters in `.yaml` files instead of override?
 
 Native Symfony approach is *the last wins*, which is bad if you want to decouple your parameters. For more see [the issue](https://github.com/symfony/symfony/issues/26713).
 
@@ -427,15 +348,37 @@ var_dump($parameterBag);
 // instance of "Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface"
 ```
 
-### 11. Are you Tired from Binding Parameters Everywhere?
+### 8. Smart Compiler Passes for Lazy Programmers
 
-In Symfony 3.4 [parameters binding](https://symfony.com/blog/new-in-symfony-3-4-local-service-binding) was added. It helps you to prevent writing manually parameters for each particular service. On the other hand, parameters:
+[How to add compiler pass](https://symfony.com/doc/current/service_container/compiler_passes.html#working-with-compiler-passes-in-bundles)?
 
-- have to be defined in the very same single config
-- are bound for that config only, no re-use
-- used or it will throw an exception, sorry lazy parameters
+#### Autowire Singly-Implemented Interfaces
 
-**How to solve these obstacles and keep YAML definitions cleaner?**
+- `Symplify\PackageBuilder\DependencyInjection\CompilerPass\AutowireSinglyImplementedCompilerPass` 
+
+```diff
+ services:
+     OnlyImplementationOfFooInterface: ~
+-
+-    FooInterface:
+-        alias: OnlyImplementationOfFooInterface
+```
+
+#### Use Services in Tests With Ease
+
+- `Symplify\PackageBuilder\DependencyInjection\CompilerPass\PublicForTestsCompilerPass`
+- read [How to Test Private Services in Symfony](https://www.tomasvotruba.cz/blog/2018/05/17/how-to-test-private-services-in-symfony/)
+
+```diff
+ # some config for tests
+ services:
+-    _defaults:
+-        public: true
+```
+
+#### Autobind Parameters
+
+- `Symplify\PackageBuilder\DependencyInjection\CompilerPass\AutoBindParametersCompilerPass`
 
 ```diff
  parameters:
@@ -452,31 +395,9 @@ In Symfony 3.4 [parameters binding](https://symfony.com/blog/new-in-symfony-3-4-
          resource: ..
 ```
 
-Add `Symplify\PackageBuilder\DependencyInjection\CompilerPass\AutoBindParametersCompilerPass` class to your `Kernel`:
+#### Default Default Autowire
 
-```php
-<?php declare(strict_types=1);
-
-namespace App;
-
-use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\HttpKernel\Kernel;
-use Symplify\PackageBuilder\DependencyInjection\CompilerPass\AutoBindParametersCompilerPass;
-
-final class AppKernel extends Kernel
-{
-    // ...
-
-    protected function build(ContainerBuilder $containerBuilder): void
-    {
-        $containerBuilder->addCompilerPass(new AutoBindParametersCompilerPass());
-    }
-}
-```
-
-### 12. Do You Use Default Autowiring Everywhere?
-
-Great job! Why to repeat it in every single config?
+- `Symplify\PackageBuilder\DependencyInjection\CompilerPass\AutowireDefaultCompilerPass`
 
 ```diff
  services:
@@ -487,31 +408,9 @@ Great job! Why to repeat it in every single config?
          resource: '../../src'
 ```
 
-Just use `Symplify\PackageBuilder\DependencyInjection\CompilerPass\AutowireDefaultCompilerPass`:
+#### Use Public Services Only When Really Need
 
-```php
-<?php declare(strict_types=1);
-
-namespace App;
-
-use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\HttpKernel\Kernel;
-use Symplify\PackageBuilder\DependencyInjection\CompilerPass\AutowireDefaultCompilerPass;
-
-final class AppKernel extends Kernel
-{
-    // ...
-
-    protected function build(ContainerBuilder $containerBuilder): void
-    {
-        $containerBuilder->addCompilerPass(new AutowireDefaultCompilerPass());
-    }
-}
-```
-
-### 13. Do You Use Public Services Only When Really Need?
-
-Great job! Why to repeat `public: true` in config everytime you need it?
+- `Symplify\PackageBuilder\DependencyInjection\CompilerPass\PublicDefaultCompilerPass`
 
 ```diff
  services:
@@ -522,26 +421,5 @@ Great job! Why to repeat `public: true` in config everytime you need it?
          resource: '../../src'
 ```
 
-Just use `Symplify\PackageBuilder\DependencyInjection\CompilerPass\PublicDefaultCompilerPass`:
-
-```php
-<?php declare(strict_types=1);
-
-namespace App;
-
-use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\HttpKernel\Kernel;
-use Symplify\PackageBuilder\DependencyInjection\CompilerPass\PublicDefaultCompilerPass;
-
-final class AppKernel extends Kernel
-{
-    // ...
-
-    protected function build(ContainerBuilder $containerBuilder): void
-    {
-        $containerBuilder->addCompilerPass(new PublicDefaultCompilerPass());
-    }
-}
-```
 
 That's all :)
