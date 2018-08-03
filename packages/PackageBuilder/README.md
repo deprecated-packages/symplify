@@ -263,7 +263,7 @@ $autoloadFile = Symplify\PackageBuilder\Composer\AutoloadFinder::findNearDirecto
 var_dump($autoloadFile); # contains: __DIR__ . '/vendor`
 ```
 
-### Do you need to merge parameters in `.yaml` files instead of override?
+### 8. Do you need to merge parameters in `.yaml` files instead of override?
 
 Native Symfony approach is *the last wins*, which is bad if you want to decouple your parameters. For more see [the issue](https://github.com/symfony/symfony/issues/26713).
 
@@ -348,7 +348,7 @@ var_dump($parameterBag);
 // instance of "Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface"
 ```
 
-### 8. Smart Compiler Passes for Lazy Programmers
+### 9. Smart Compiler Passes for Lazy Programmers
 
 [How to add compiler pass](https://symfony.com/doc/current/service_container/compiler_passes.html#working-with-compiler-passes-in-bundles)?
 
