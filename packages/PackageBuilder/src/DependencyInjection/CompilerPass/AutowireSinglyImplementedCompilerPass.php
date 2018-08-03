@@ -30,7 +30,7 @@ final class AutowireSinglyImplementedCompilerPass implements CompilerPassInterfa
 
         foreach ($containerBuilder->getDefinitions() as $definition) {
             $class = $definition->getClass();
-            if (! is_string($class)) {
+            if (! is_string($class) || ! class_exists($class)) {
                 continue;
             }
 
