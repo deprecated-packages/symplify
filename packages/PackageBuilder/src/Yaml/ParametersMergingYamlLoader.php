@@ -24,12 +24,11 @@ final class ParametersMergingYamlLoader
     public function __construct()
     {
         $fileLocator = new FileLocator();
-        $containerBuilder = $this->containerBuilder = new ContainerBuilder();
+        $this->containerBuilder = new ContainerBuilder();
 
         $loaderResolver = new LoaderResolver([
             new GlobFileLoader($fileLocator),
-            new class($containerBuilder, $fileLocator) extends AbstractParameterMergingYamlFileLoader {
-            },
+            new ParameterMergingYamlFileLoader($this->containerBuilder, $fileLocator),
         ]);
 
         $this->delegatingLoader = new DelegatingLoader($loaderResolver);

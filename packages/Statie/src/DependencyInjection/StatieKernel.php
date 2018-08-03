@@ -16,7 +16,7 @@ use Symplify\PackageBuilder\DependencyInjection\CompilerPass\AutowireDefaultComp
 use Symplify\PackageBuilder\DependencyInjection\CompilerPass\AutowireSinglyImplementedCompilerPass;
 use Symplify\PackageBuilder\DependencyInjection\CompilerPass\PublicDefaultCompilerPass;
 use Symplify\PackageBuilder\DependencyInjection\CompilerPass\PublicForTestsCompilerPass;
-use Symplify\PackageBuilder\Yaml\AbstractParameterMergingYamlFileLoader;
+use Symplify\PackageBuilder\Yaml\ParameterMergingYamlFileLoader;
 use Symplify\Statie\DependencyInjection\CompilerPass\CollectorCompilerPass;
 
 final class StatieKernel extends Kernel
@@ -84,8 +84,7 @@ final class StatieKernel extends Kernel
 
         $loaderResolver = new LoaderResolver([
             new GlobFileLoader($kernelFileLocator),
-            new class($container, $kernelFileLocator) extends AbstractParameterMergingYamlFileLoader {
-            },
+            new ParameterMergingYamlFileLoader($container, $kernelFileLocator),
         ]);
 
         return new DelegatingLoader($loaderResolver);

@@ -13,17 +13,22 @@ This tools helps you with Collectors in DependecyInjection, Console shortcuts, P
 composer require symplify/package-builder
 ```
 
-## Usage
+## Use
 
-### 1. Usage in Symfony CompilerPass
+### Collect Services of Certain Type Together
 
-#### Collect Services of Certain Type Together
+How do we load Commands to Console Application without tagging?
+
+- Read [What is tagging for](https://www.tomasvotruba.cz/blog/2017/02/12/drop-all-service-tags-in-your-nette-and-symfony-applications/#what-is-tagging-for)
+- Read [Collector Pattern, The Shortcut Hack to SOLID Code](https://www.tomasvotruba.cz/clusters/#collector-pattern-the-shortcut-hack-to-solid-code)
 
 ```php
 <?php declare(strict_types=1);
 
 namespace App\DependencyInjection\CompilerPass;
 
+use Symfony\Component\Console\Application;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symplify\PackageBuilder\DependencyInjection\DefinitionFinder;
@@ -37,15 +42,15 @@ final class CollectorCompilerPass implements CompilerPassInterface
 
         $definitionCollector->loadCollectorWithType(
             $containerBuilder,
-            EventDispatcher::class,
-            EventSubscriberInterface::class,
-            'addSubscriber'
+            Application::class, // 1 main service
+            Command::class, // many collected services
+            'add' // the adder method called on 1 main service
         );
     }
 }
 ```
 
-#### Add Service if Found
+### Add Service by Interface if Found
 
 ```php
 <?php declare(strict_types=1);
@@ -53,6 +58,8 @@ final class CollectorCompilerPass implements CompilerPassInterface
 namespace App\DependencyInjection\CompilerPass;
 
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Reference;
 use Symplify\PackageBuilder\DependencyInjection\DefinitionFinder;
 
 final class CustomSourceProviderDefinitionCompilerPass implements CompilerPassInterface
@@ -79,11 +86,7 @@ final class CustomSourceProviderDefinitionCompilerPass implements CompilerPassIn
 }
 ```
 
-### 2. All Parameters Available in a Service
-
-Note: System parameters are excluded by default.
-
-Register:
+### Get All Parameters via Service
 
 ```yml
 # app/config/services.yml
@@ -126,13 +129,17 @@ final class StatieConfiguration
 }
 ```
 
-### 3. Do you need a Vendor Directory?
+### Get Vendor Directory from Anywhere
 
 ```php
-Symplify\PackageBuilder\Composer\VendorDirProvider::provide(); // return path to vendor directory
+<?php declare(strict_types=1);
+
+Symplify\PackageBuilder\Composer\VendorDirProvider::provide(); // returns path to vendor directory
 ```
 
-### 4. Load a Config for CLI Application?
+### Load a Config for CLI Application?
+
+- Read [How to Load --config With Services in Symfony Console](https://www.tomasvotruba.cz/blog/2018/05/14/how-to-load-config-with-services-in-symfony-console/#code-argvinput-code-to-the-rescue)
 
 Use in CLI entry file `bin/<app-name>`, e.g. `bin/statie` or `bin/apigen`.
 
@@ -145,8 +152,7 @@ use Symfony\Component\Console\Input\ArgvInput;
 use Symplify\PackageBuilder\Configuration\ConfigFileFinder;
 
 ConfigFileFinder::detectFromInput('statie', new ArgvInput);
-# throws "Symplify\PackageBuilder\Exception\Configuration\FileNotFoundException"
-# exception if no file is found
+# throws "Symplify\PackageBuilder\Exception\Configuration\FileNotFoundException" exception if no file is found
 ```
 
 Where "statie" is key to save the location under. Later you'll use it get the config.
@@ -178,12 +184,9 @@ $config = Symplify\PackageBuilder\Configuration\ConfigFileFinder::provide('stati
 
 This is common practise in CLI applications, e.g. [PHPUnit](https://phpunit.de/) looks for `phpunit.xml`.
 
-### 5. Render Exception to CLI like Application does Anywhere You Need
+### Render Fancy CLI Exception Anywhere You Need
 
-Do you get exception before getting into Symfony\Console Application, but still want to render it like the Application would do?
-E.g in `bin/<app-name>` when ContainerFactory fails.
-
-Use `Symplify\PackageBuilder\Console\ThrowableRenderer`:
+Do you get exception before getting into Symfony\Console Application, but still want to render it with `-v`, `-vv`, `-vvv` options?
 
 ```php
 <?php declare(strict_types=1);
@@ -193,9 +196,6 @@ use Symfony\Component\DependencyInjection\Container;
 use Symplify\PackageBuilder\Console\ThrowableRenderer;
 
 require_once __DIR__ . '/autoload.php';
-
-// performance boost
-gc_disable();
 
 try {
     /** @var Container $container */
@@ -209,7 +209,7 @@ try {
 }
 ```
 
-### 6. Load config via `--level` option in your Console Application
+### Load Config via `--level` Option in CLI App
 
 In you `bin/your-app` you can use `--level` option as shortcut to load config from `/config` directory.
 
@@ -245,108 +245,15 @@ if ($configFile) {
 }
 ```
 
-And use like:
+And use like this:
 
 ```bash
 vendor/bin/your-app --level the-config
 ```
 
-### 7. Find `vendor/autoload.php` in specific directory for BetterReflection
+### Merge Parameters in `.yaml` Files Instead of Override?
 
-When you use [BetterReflection](https://github.com/Roave/BetterReflection/) and [`ComposerSourceLocator`](https://github.com/Roave/BetterReflection/blob/master/UPGRADE.md#source-locators-now-require-additional-dependencies), you need to locate non-locator `/vendor/autoload.php`.
-
-```php
-$autoloadFile = Symplify\PackageBuilder\Composer\AutoloadFinder::findNearDirectories([
-    __DIR__ . '/src'
-]);
-
-var_dump($autoloadFile); # contains: __DIR__ . '/vendor`
-```
-
-### 8. Autowire Singly-Implemented Interfaces
-
-Just like [this PR to Symfony](https://github.com/symfony/symfony/pull/25282), but also covering cases like:
-
-```yaml
-services:
-    OnlyImplementationOfFooInterface: ~
-
-    # is this really needed?
-    FooInterface:
-        alias: OnlyImplementationOfFooInterface
-```
-
-Just register `Symplify\PackageBuilder\DependencyInjection\CompilerPass\AutowireSinglyImplementedCompilerPass` in your `Kernel` instance:
-
-```php
-<?php declare(strict_types=1);
-
-namespace App;
-
-use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\HttpKernel\Kernel;
-use Symplify\PackageBuilder\DependencyInjection\CompilerPass\AutowireSinglyImplementedCompilerPass;
-
-final class AppKernel extends Kernel
-{
-    // ...
-
-    protected function build(ContainerBuilder $containerBuilder): void
-    {
-        $containerBuilder->addCompilerPass(new AutowireSinglyImplementedCompilerPass());
-    }
-}
-```
-
-And then cleanup your configs:
-
-```diff
- services:
-     OnlyImplementationOfFooInterface: ~
--
--    FooInterface:
--        alias: OnlyImplementationOfFooInterface
-```
-
-### 9. Make services public for tests only
-
-Do you use `$container->get(SomeType::class)` in tests and would you like to avoid this:
-
-```yaml
-# app/config/services.yml
-services:
-    _defaults:
-        public: true
-
-    # ...
-```
-
-Just add `PublicForTestsCompilerPass` to your Kernel, that will **make services public only for the tests**.
-
-```php
-<?php declare(strict_types=1);
-
-namespace App;
-
-use Symfony\Component\HttpKernel\Kernel;
-use Symplify\PackageBuilder\DependencyInjection\CompilerPass\PublicForTestsCompilerPass;
-
-final class AppKernel extends Kernel
-{
-    // ...
-
-    protected function build(ContainerBuilder $containerBuilder): void
-    {
-        $containerBuilder->addCompilerPass(new PublicForTestsCompilerPass());
-    }
-}
-```
-
-### 10. Do you need to merge parameters in `.yaml` files instead of override?
-
-Native Symfony approach is *the last wins*, which is bad if you want to decouple your parameters. For more see [the issue](https://github.com/symfony/symfony/issues/26713).
-
-This will be produce with help of `Symplify\PackageBuilder\Yaml\AbstractParameterMergingYamlFileLoader`:
+In Symfony [the last parameter wins by default](https://github.com/symfony/symfony/issues/26713)*, hich is bad if you want to decouple your parameters.
 
 ```yaml
 # first.yml
@@ -365,13 +272,13 @@ parameters:
        - skip_that_too
 ```
 
-The final result will look like this:
+The result will change with `Symplify\PackageBuilder\Yaml\ParameterMergingYamlFileLoader`:
 
-```yaml
-parameters:
-    another_key:
-       - skip_this # this one is normally missed
-       - skip_that_too
+```diff
+ parameters:
+     another_key:
++       - skip_this
+        - skip_that_too
 ```
 
 How to use it?
@@ -388,12 +295,10 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\Loader\GlobFileLoader;
 use Symfony\Component\HttpKernel\Config\FileLocator;
 use Symfony\Component\HttpKernel\Kernel;
-use Symplify\PackageBuilder\Yaml\AbstractParameterMergingYamlFileLoader;
+use Symplify\PackageBuilder\Yaml\ParameterMergingYamlFileLoader;
 
 final class AppKernel extends Kernel
 {
-    // ...
-
     /**
      * @param ContainerInterface|ContainerBuilder $container
      */
@@ -403,10 +308,7 @@ final class AppKernel extends Kernel
 
         $loaderResolver = new LoaderResolver([
             new GlobFileLoader($container, $kernelFileLocator),
-            // you can 1. create custom YamlFileLoader for other custom tweaks
-            // or 2. use short anonymous class like this
-            new class($container, $kernelFileLocator) extends AbstractParameterMergingYamlFileLoader {
-            },
+            new ParameterMergingYamlFileLoader($container, $kernelFileLocator)
         ]);
 
         return new DelegatingLoader($loaderResolver);
@@ -414,11 +316,15 @@ final class AppKernel extends Kernel
 }
 ```
 
-#### Can I Use it Without Kernel?
+In case you need to do more work in YamlFileLoader, just extend the abstract parent `Symplify\PackageBuilder\Yaml\AbstractParameterMergingYamlFileLoader` and add your own logic.
 
-Do you need to load YAML files elsewhere? Instead of creating all the classes, you can use this helper class:
+#### Do you Need to Merge YAML files Outside Kernel?
+
+Instead of creating all the classes use this helper class:
 
 ```php
+<?php declare(strict_types=1);
+
 $parametersMergingYamlLoader = new Symplify\PackageBuilder\Yaml\ParametersMergingYamlLoader;
 
 $parameterBag = $parametersMergingYamlLoader->loadParameterBagFromFile(__DIR__ . '/config.yml');
@@ -427,15 +333,25 @@ var_dump($parameterBag);
 // instance of "Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface"
 ```
 
-### 11. Are you Tired from Binding Parameters Everywhere?
+### Smart Compiler Passes for Lazy Programmers
 
-In Symfony 3.4 [parameters binding](https://symfony.com/blog/new-in-symfony-3-4-local-service-binding) was added. It helps you to prevent writing manually parameters for each particular service. On the other hand, parameters:
+[How to add compiler pass](https://symfony.com/doc/current/service_container/compiler_passes.html#working-with-compiler-passes-in-bundles)?
 
-- have to be defined in the very same single config
-- are bound for that config only, no re-use
-- used or it will throw an exception, sorry lazy parameters
+#### Autowire Singly-Implemented Interfaces
 
-**How to solve these obstacles and keep YAML definitions cleaner?**
+- `Symplify\PackageBuilder\DependencyInjection\CompilerPass\AutowireSinglyImplementedCompilerPass`
+
+```diff
+ services:
+     OnlyImplementationOfFooInterface: ~
+-
+-    FooInterface:
+-        alias: OnlyImplementationOfFooInterface
+```
+
+#### Autobind Parameters
+
+- `Symplify\PackageBuilder\DependencyInjection\CompilerPass\AutoBindParametersCompilerPass`
 
 ```diff
  parameters:
@@ -452,96 +368,42 @@ In Symfony 3.4 [parameters binding](https://symfony.com/blog/new-in-symfony-3-4-
          resource: ..
 ```
 
-Add `Symplify\PackageBuilder\DependencyInjection\CompilerPass\AutoBindParametersCompilerPass` class to your `Kernel`:
+#### Default Default Autowire
 
-```php
-<?php declare(strict_types=1);
-
-namespace App;
-
-use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\HttpKernel\Kernel;
-use Symplify\PackageBuilder\DependencyInjection\CompilerPass\AutoBindParametersCompilerPass;
-
-final class AppKernel extends Kernel
-{
-    // ...
-
-    protected function build(ContainerBuilder $containerBuilder): void
-    {
-        $containerBuilder->addCompilerPass(new AutoBindParametersCompilerPass());
-    }
-}
-```
-
-### 12. Do You Use Default Autowiring Everywhere?
-
-Great job! Why to repeat it in every single config?
+- `Symplify\PackageBuilder\DependencyInjection\CompilerPass\AutowireDefaultCompilerPass`
 
 ```diff
  services:
 -    _defaults:
 -        autowire: true
-
+-
      Symplify\Statie\:
          resource: '../../src'
 ```
 
-Just use `Symplify\PackageBuilder\DependencyInjection\CompilerPass\AutowireDefaultCompilerPass`:
+#### Use Public Services Only When Really Need
 
-```php
-<?php declare(strict_types=1);
-
-namespace App;
-
-use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\HttpKernel\Kernel;
-use Symplify\PackageBuilder\DependencyInjection\CompilerPass\AutowireDefaultCompilerPass;
-
-final class AppKernel extends Kernel
-{
-    // ...
-
-    protected function build(ContainerBuilder $containerBuilder): void
-    {
-        $containerBuilder->addCompilerPass(new AutowireDefaultCompilerPass());
-    }
-}
-```
-
-### 13. Do You Use Public Services Only When Really Need?
-
-Great job! Why to repeat `public: true` in config everytime you need it?
+- `Symplify\PackageBuilder\DependencyInjection\CompilerPass\PublicDefaultCompilerPass`
 
 ```diff
  services:
 -    _defaults:
 -        public: true
-
+-
      Symplify\Statie\:
          resource: '../../src'
 ```
 
-Just use `Symplify\PackageBuilder\DependencyInjection\CompilerPass\PublicDefaultCompilerPass`:
+#### Use Public Services only in Tests
 
-```php
-<?php declare(strict_types=1);
+- `Symplify\PackageBuilder\DependencyInjection\CompilerPass\PublicForTestsCompilerPass`
+- Read [How to Test Private Services in Symfony](https://www.tomasvotruba.cz/blog/2018/05/17/how-to-test-private-services-in-symfony/)
 
-namespace App;
-
-use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\HttpKernel\Kernel;
-use Symplify\PackageBuilder\DependencyInjection\CompilerPass\PublicDefaultCompilerPass;
-
-final class AppKernel extends Kernel
-{
-    // ...
-
-    protected function build(ContainerBuilder $containerBuilder): void
-    {
-        $containerBuilder->addCompilerPass(new PublicDefaultCompilerPass());
-    }
-}
+```diff
+ # some config for tests
+ services:
+-    _defaults:
+-        public: true
 ```
 
 That's all :)
