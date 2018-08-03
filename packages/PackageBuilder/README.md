@@ -13,11 +13,9 @@ This tools helps you with Collectors in DependecyInjection, Console shortcuts, P
 composer require symplify/package-builder
 ```
 
-## Usage
+## Use
 
-### 1. Usage in Symfony CompilerPass
-
-#### Collect Services of Certain Type Together
+### 1. Collect Services of Certain Type Together, Commands to Console Application
 
 ```php
 <?php declare(strict_types=1);
@@ -45,7 +43,7 @@ final class CollectorCompilerPass implements CompilerPassInterface
 }
 ```
 
-#### Add Service if Found
+### 2. Add Service by Interface if Found
 
 ```php
 <?php declare(strict_types=1);
@@ -53,6 +51,8 @@ final class CollectorCompilerPass implements CompilerPassInterface
 namespace App\DependencyInjection\CompilerPass;
 
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Reference;
 use Symplify\PackageBuilder\DependencyInjection\DefinitionFinder;
 
 final class CustomSourceProviderDefinitionCompilerPass implements CompilerPassInterface
@@ -79,11 +79,7 @@ final class CustomSourceProviderDefinitionCompilerPass implements CompilerPassIn
 }
 ```
 
-### 2. All Parameters Available in a Service
-
-Note: System parameters are excluded by default.
-
-Register:
+### 3. Get All Parameters via Service
 
 ```yml
 # app/config/services.yml
@@ -126,13 +122,15 @@ final class StatieConfiguration
 }
 ```
 
-### 3. Do you need a Vendor Directory?
+### 4. Get Vendor Directory from Anywhere
 
 ```php
-Symplify\PackageBuilder\Composer\VendorDirProvider::provide(); // return path to vendor directory
+Symplify\PackageBuilder\Composer\VendorDirProvider::provide(); // returns path to vendor directory
 ```
 
 ### 4. Load a Config for CLI Application?
+
+- Read [How to Load --config With Services in Symfony Console](https://www.tomasvotruba.cz/blog/2018/05/14/how-to-load-config-with-services-in-symfony-console/#code-argvinput-code-to-the-rescue)
 
 Use in CLI entry file `bin/<app-name>`, e.g. `bin/statie` or `bin/apigen`.
 
@@ -145,8 +143,7 @@ use Symfony\Component\Console\Input\ArgvInput;
 use Symplify\PackageBuilder\Configuration\ConfigFileFinder;
 
 ConfigFileFinder::detectFromInput('statie', new ArgvInput);
-# throws "Symplify\PackageBuilder\Exception\Configuration\FileNotFoundException"
-# exception if no file is found
+# throws "Symplify\PackageBuilder\Exception\Configuration\FileNotFoundException" exception if no file is found
 ```
 
 Where "statie" is key to save the location under. Later you'll use it get the config.
@@ -178,7 +175,7 @@ $config = Symplify\PackageBuilder\Configuration\ConfigFileFinder::provide('stati
 
 This is common practise in CLI applications, e.g. [PHPUnit](https://phpunit.de/) looks for `phpunit.xml`.
 
-### 5. Render Exception to CLI like Application does Anywhere You Need
+### 5. Render Fancy CLI Exception Anywhere You Need
 
 Do you get exception before getting into Symfony\Console Application, but still want to render it like the Application would do?
 E.g in `bin/<app-name>` when ContainerFactory fails.
@@ -209,7 +206,7 @@ try {
 }
 ```
 
-### 6. Load config via `--level` option in your Console Application
+### 6. Load Config via `--level` Option in CLI App
 
 In you `bin/your-app` you can use `--level` option as shortcut to load config from `/config` directory.
 
@@ -251,19 +248,7 @@ And use like:
 vendor/bin/your-app --level the-config
 ```
 
-### 7. Find `vendor/autoload.php` in specific directory for BetterReflection
-
-When you use [BetterReflection](https://github.com/Roave/BetterReflection/) and [`ComposerSourceLocator`](https://github.com/Roave/BetterReflection/blob/master/UPGRADE.md#source-locators-now-require-additional-dependencies), you need to locate non-locator `/vendor/autoload.php`.
-
-```php
-$autoloadFile = Symplify\PackageBuilder\Composer\AutoloadFinder::findNearDirectories([
-    __DIR__ . '/src'
-]);
-
-var_dump($autoloadFile); # contains: __DIR__ . '/vendor`
-```
-
-### 8. Do you need to merge parameters in `.yaml` files instead of override?
+### 7. Do you need to merge parameters in `.yaml` files instead of override?
 
 Native Symfony approach is *the last wins*, which is bad if you want to decouple your parameters. For more see [the issue](https://github.com/symfony/symfony/issues/26713).
 
@@ -367,7 +352,7 @@ var_dump($parameterBag);
 #### Use Services in Tests With Ease
 
 - `Symplify\PackageBuilder\DependencyInjection\CompilerPass\PublicForTestsCompilerPass`
-- read [How to Test Private Services in Symfony](https://www.tomasvotruba.cz/blog/2018/05/17/how-to-test-private-services-in-symfony/)
+- Read [How to Test Private Services in Symfony](https://www.tomasvotruba.cz/blog/2018/05/17/how-to-test-private-services-in-symfony/)
 
 ```diff
  # some config for tests
