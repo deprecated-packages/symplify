@@ -8,8 +8,9 @@ use Symfony\Component\Config\Loader\GlobFileLoader;
 use Symfony\Component\Config\Loader\LoaderResolver;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Symplify\PackageBuilder\Yaml\FileLoader\ParameterMergingYamlFileLoader;
 
-final class ParametersMergingYamlLoader
+final class ParameterMergingYamlLoader
 {
     /**
      * @var ContainerBuilder

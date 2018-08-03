@@ -1,12 +1,13 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\PackageBuilder\Yaml;
+namespace Symplify\PackageBuilder\Yaml\FileLoader;
 
 use Symfony\Component\Config\FileLocatorInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symplify\PackageBuilder\Exception\Yaml\InvalidParametersValueException;
 use Symplify\PackageBuilder\Reflection\PrivatesCaller;
+use Symplify\PackageBuilder\Yaml\ParametersMerger;
 
 /**
  * The need:
