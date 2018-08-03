@@ -15,13 +15,20 @@ composer require symplify/package-builder
 
 ## Use
 
-### 1. Collect Services of Certain Type Together, Commands to Console Application
+### Collect Services of Certain Type Together
+
+How do we load Commands to Console Application without tagging?
+
+- Read [What is tagging for](https://www.tomasvotruba.cz/blog/2017/02/12/drop-all-service-tags-in-your-nette-and-symfony-applications/#what-is-tagging-for)
+- Read [Collector Pattern, The Shortcut Hack to SOLID Code](https://www.tomasvotruba.cz/clusters/#collector-pattern-the-shortcut-hack-to-solid-code)
 
 ```php
 <?php declare(strict_types=1);
 
 namespace App\DependencyInjection\CompilerPass;
 
+use Symfony\Component\Console\Application;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symplify\PackageBuilder\DependencyInjection\DefinitionFinder;
@@ -35,15 +42,15 @@ final class CollectorCompilerPass implements CompilerPassInterface
 
         $definitionCollector->loadCollectorWithType(
             $containerBuilder,
-            EventDispatcher::class,
-            EventSubscriberInterface::class,
-            'addSubscriber'
+            Application::class, // 1 main service
+            Command::class, // many collected services
+            'add' // the adder method called on 1 main service
         );
     }
 }
 ```
 
-### 2. Add Service by Interface if Found
+### Add Service by Interface if Found
 
 ```php
 <?php declare(strict_types=1);
@@ -79,7 +86,7 @@ final class CustomSourceProviderDefinitionCompilerPass implements CompilerPassIn
 }
 ```
 
-### 3. Get All Parameters via Service
+### Get All Parameters via Service
 
 ```yml
 # app/config/services.yml
@@ -122,7 +129,7 @@ final class StatieConfiguration
 }
 ```
 
-### 4. Get Vendor Directory from Anywhere
+### Get Vendor Directory from Anywhere
 
 ```php
 <?php declare(strict_types=1);
@@ -130,7 +137,7 @@ final class StatieConfiguration
 Symplify\PackageBuilder\Composer\VendorDirProvider::provide(); // returns path to vendor directory
 ```
 
-### 5. Load a Config for CLI Application?
+### Load a Config for CLI Application?
 
 - Read [How to Load --config With Services in Symfony Console](https://www.tomasvotruba.cz/blog/2018/05/14/how-to-load-config-with-services-in-symfony-console/#code-argvinput-code-to-the-rescue)
 
@@ -177,12 +184,9 @@ $config = Symplify\PackageBuilder\Configuration\ConfigFileFinder::provide('stati
 
 This is common practise in CLI applications, e.g. [PHPUnit](https://phpunit.de/) looks for `phpunit.xml`.
 
-### 6. Render Fancy CLI Exception Anywhere You Need
+### Render Fancy CLI Exception Anywhere You Need
 
-Do you get exception before getting into Symfony\Console Application, but still want to render it like the Application would do?
-E.g in `bin/<app-name>` when ContainerFactory fails.
-
-Use `Symplify\PackageBuilder\Console\ThrowableRenderer`:
+Do you get exception before getting into Symfony\Console Application, but still want to render it with `-v`, `-vv`, `-vvv` options?
 
 ```php
 <?php declare(strict_types=1);
@@ -192,9 +196,6 @@ use Symfony\Component\DependencyInjection\Container;
 use Symplify\PackageBuilder\Console\ThrowableRenderer;
 
 require_once __DIR__ . '/autoload.php';
-
-// performance boost
-gc_disable();
 
 try {
     /** @var Container $container */
@@ -208,7 +209,7 @@ try {
 }
 ```
 
-### 7. Load Config via `--level` Option in CLI App
+### Load Config via `--level` Option in CLI App
 
 In you `bin/your-app` you can use `--level` option as shortcut to load config from `/config` directory.
 
@@ -250,7 +251,7 @@ And use like this:
 vendor/bin/your-app --level the-config
 ```
 
-### 8. Merge Parameters in `.yaml` Files Instead of Override?
+### Merge Parameters in `.yaml` Files Instead of Override?
 
 In Symfony [the last parameter wins by default](https://github.com/symfony/symfony/issues/26713)*, hich is bad if you want to decouple your parameters.
 
@@ -271,7 +272,7 @@ parameters:
        - skip_that_too
 ```
 
-The result will change with `Symplify\PackageBuilder\Yaml\ParameterMergingYamlFileLoader`: 
+The result will change with `Symplify\PackageBuilder\Yaml\ParameterMergingYamlFileLoader`:
 
 ```diff
  parameters:
@@ -315,14 +316,14 @@ final class AppKernel extends Kernel
 }
 ```
 
-In case you need to do more work in YamlFileLoader, just extend `Symplify\PackageBuilder\Yaml\AbstractParameterMergingYamlFileLoader` and add your own logic.
+In case you need to do more work in YamlFileLoader, just extend the abstract parent `Symplify\PackageBuilder\Yaml\AbstractParameterMergingYamlFileLoader` and add your own logic.
 
-#### Can I Use it Without Kernel?
+#### Do you Need to Merge YAML files Outside Kernel?
 
-Do you need to load YAML files elsewhere? Instead of creating all the classes, you can use this helper class:
+Instead of creating all the classes use this helper class:
 
 ```php
-<?php
+<?php declare(strict_types=1);
 
 $parametersMergingYamlLoader = new Symplify\PackageBuilder\Yaml\ParametersMergingYamlLoader;
 
@@ -332,13 +333,13 @@ var_dump($parameterBag);
 // instance of "Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface"
 ```
 
-### 9. Smart Compiler Passes for Lazy Programmers
+### Smart Compiler Passes for Lazy Programmers
 
 [How to add compiler pass](https://symfony.com/doc/current/service_container/compiler_passes.html#working-with-compiler-passes-in-bundles)?
 
 #### Autowire Singly-Implemented Interfaces
 
-- `Symplify\PackageBuilder\DependencyInjection\CompilerPass\AutowireSinglyImplementedCompilerPass` 
+- `Symplify\PackageBuilder\DependencyInjection\CompilerPass\AutowireSinglyImplementedCompilerPass`
 
 ```diff
  services:
