@@ -210,6 +210,15 @@ class SomeClass
         // remove "_"
         $rawName = Strings::replace($rawName, '#_#', '');
 
+        // turns $SOMEUppercase => $someUppercase
+        for ($i = 0; $i <= strlen($rawName); ++$i) {
+            if (ctype_upper($rawName[$i]) && ctype_upper($rawName[$i + 1])) {
+                $rawName[$i] = strtolower($rawName[$i]);
+            } else {
+                break;
+            }
+        }
+
         return lcfirst($rawName);
     }
 
