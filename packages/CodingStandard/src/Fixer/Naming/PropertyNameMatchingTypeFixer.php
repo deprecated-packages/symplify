@@ -187,20 +187,7 @@ class SomeClass
             $rawName = array_pop($rawNameParts);
         }
 
-        // is SomeInterface
-        if (Strings::endsWith($rawName, 'Interface')) {
-            $rawName = Strings::substring($rawName, 0, - strlen('Interface'));
-        }
-
-        // is ISomeClass
-        if ($this->isPrefixedInterface($rawName)) {
-            $rawName = Strings::substring($rawName, 1);
-        }
-
-        // is AbstractClass
-        if (Strings::startsWith($rawName, 'Abstract')) {
-            $rawName = Strings::substring($rawName, strlen('Abstract'));
-        }
+        $rawName = $this->removePrefixesAndSuffixes($rawName);
 
         // if all is upper-cased, it should be lower-cased
         if ($rawName === strtoupper($rawName)) {
@@ -210,15 +197,16 @@ class SomeClass
         // remove "_"
         $rawName = Strings::replace($rawName, '#_#', '');
 
-        return lcfirst($rawName);
-    }
+        // turns $SOMEUppercase => $someUppercase
+        for ($i = 0; $i <= strlen($rawName); ++$i) {
+            if (ctype_upper($rawName[$i]) && ctype_upper($rawName[$i + 1])) {
+                $rawName[$i] = strtolower($rawName[$i]);
+            } else {
+                break;
+            }
+        }
 
-    private function isPrefixedInterface(string $rawName): bool
-    {
-        return strlen($rawName) > 3
-            && Strings::startsWith($rawName, 'I')
-            && ctype_upper($rawName[1])
-            && ctype_lower($rawName[2]);
+        return lcfirst($rawName);
     }
 
     private function shouldSkipClass(string $class): bool
@@ -322,5 +310,33 @@ class SomeClass
         }
 
         return $changedNames;
+    }
+
+    private function removePrefixesAndSuffixes(string $rawName): string
+    {
+        // is SomeInterface
+        if (Strings::endsWith($rawName, 'Interface')) {
+            $rawName = Strings::substring($rawName, 0, -strlen('Interface'));
+        }
+
+        // is ISomeClass
+        if ($this->isPrefixedInterface($rawName)) {
+            $rawName = Strings::substring($rawName, 1);
+        }
+
+        // is AbstractClass
+        if (Strings::startsWith($rawName, 'Abstract')) {
+            $rawName = Strings::substring($rawName, strlen('Abstract'));
+        }
+
+        return $rawName;
+    }
+
+    private function isPrefixedInterface(string $rawName): bool
+    {
+        return strlen($rawName) > 3
+            && Strings::startsWith($rawName, 'I')
+            && ctype_upper($rawName[1])
+            && ctype_lower($rawName[2]);
     }
 }
