@@ -105,16 +105,22 @@ final class ClassNameSuffixByParentSniff implements Sniff
     }
 
     /**
-     * For parent type:
-     * - SomeInterface
-     *
-     * The expected suffix is:
-     * - Some
+     * - SomeInterface => Some
+     * - SomeAbstract => Some
+     * - AbstractSome => Some
      */
     private function resolveExpectedSuffix(string $parentType): string
     {
         if (Strings::endsWith($parentType, 'Interface')) {
-            return substr($parentType, 0, -strlen('Interface'));
+            $parentType = Strings::substring($parentType, 0, -strlen('Interface'));
+        }
+
+        if (Strings::endsWith($parentType, 'Abstract')) {
+            $parentType = Strings::substring($parentType, 0, -strlen('Abstract'));
+        }
+
+        if (Strings::startsWith($parentType, 'Abstract')) {
+            $parentType = Strings::substring($parentType, strlen('Abstract'));
         }
 
         return $parentType;

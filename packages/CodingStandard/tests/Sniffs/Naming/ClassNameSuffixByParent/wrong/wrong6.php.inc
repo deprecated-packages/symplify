@@ -2,6 +2,6 @@
 
 namespace Symplify\Statie\Console\Command;
 
-final class SomethingRandom implements RandomInterface
+final class Something extends RandomAbstract
 {
 }
