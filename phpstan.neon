@@ -89,7 +89,6 @@ parameters:
         - '#Parameter \#1 \$code of static method PhpCsFixer\\Tokenizer\\Tokens::fromCode\(\) expects string, string\|false given#'
         - '#Cannot call method contains\(\) on array<array<string>>\|SplObjectStorage#'
         - '#Cannot call method attach\(\) on array<array<string>>\|SplObjectStorage#'
-        - '#Parameter \#1 \$headers of method Symplify\\EasyCodingStandard\\Console\\Style\\EasyCodingStandardStyle::tableWithColumnWidths\(\) expects array<string>, array<int, int\|string> given#'
         - "#Casting to array something that's already array#"
         - '#Parameter \#1 \$string of function strlen expects string, string\|false given#'
         - '#Method Symplify\\EasyCodingStandard\\Finder\\SourceFinder::find\(\) should return array<Symfony\\Component\\Finder\\SplFileInfo> but returns array<SplFileInfo>#'
