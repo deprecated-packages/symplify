@@ -1,4 +1,8 @@
 services:
+    # for 3rd party usage without autowire defaults compiler pass
+    _defaults:
+        autowire: true
+
     Symplify\BetterPhpDocParser\:
         resource: '../'
         exclude: '../{DependencyInjection,PhpDocParser/Ast/Type/*,*/*Info.php,*Info.php}'
