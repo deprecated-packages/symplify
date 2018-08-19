@@ -1,4 +1,5 @@
 imports:
+    - { resource: 'services.yml' }
     - { resource: '../../packages/**/src/config/config.yml' }
 
 parameters:
@@ -7,21 +8,3 @@ parameters:
         - 'packages'
     data_to_append: []
     data_to_remove: []
-
-services:
-    Symplify\MonorepoBuilder\:
-        resource: '..'
-        exclude: '../{Contract,Exception}'
-
-    Symplify\PackageBuilder\Yaml\ParametersMerger: ~
-
-    Symplify\PackageBuilder\Console\ConfigAwareApplication: ~
-
-    # SymfonyStyle
-    Symfony\Component\Console\Input\ArgvInput: ~
-    Symfony\Component\Console\Input\InputInterface:
-        alias: 'Symfony\Component\Console\Input\ArgvInput'
-    Symfony\Component\Console\Output\ConsoleOutput: ~
-    Symfony\Component\Console\Output\OutputInterface:
-        alias: 'Symfony\Component\Console\Output\ConsoleOutput'
-    Symfony\Component\Console\Style\SymfonyStyle: ~

@@ -1,6 +1,6 @@
 services:
-    # for 3rd party usage without autowire defaults compiler pass
     _defaults:
+        public: true
         autowire: true
 
     Symplify\BetterPhpDocParser\:
