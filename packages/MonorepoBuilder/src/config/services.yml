@@ -3,15 +3,13 @@ services:
         public: true
         autowire: true
 
-    Symplify\ChangelogLinker\:
-        resource: ".."
-        exclude: "../{Contract,Exception,ChangeTree/Change.php}"
-
-    Symplify\PackageBuilder\Console\ConfigAwareApplication: ~
+    Symplify\MonorepoBuilder\:
+        resource: '..'
+        exclude: '../{Contract,Exception}'
 
     Symplify\PackageBuilder\Yaml\ParametersMerger: ~
 
-    GuzzleHttp\Client: ~
+    Symplify\PackageBuilder\Console\ConfigAwareApplication: ~
 
     # SymfonyStyle
     Symfony\Component\Console\Input\ArgvInput: ~

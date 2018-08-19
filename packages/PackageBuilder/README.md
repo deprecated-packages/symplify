@@ -416,32 +416,6 @@ In case you need to do more work in YamlFileLoader, just extend the abstract par
          resource: ..
 ```
 
-#### Default Default Autowire
-
-- `Symplify\PackageBuilder\DependencyInjection\CompilerPass\AutowireDefaultCompilerPass`
-
-```diff
- services:
--    _defaults:
--        autowire: true
--
-     Symplify\Statie\:
-         resource: '../../src'
-```
-
-#### Use Public Services Only When Really Need
-
-- `Symplify\PackageBuilder\DependencyInjection\CompilerPass\PublicDefaultCompilerPass`
-
-```diff
- services:
--    _defaults:
--        public: true
--
-     Symplify\Statie\:
-         resource: '../../src'
-```
-
 #### Use Public Services only in Tests
 
 - `Symplify\PackageBuilder\DependencyInjection\CompilerPass\PublicForTestsCompilerPass`
