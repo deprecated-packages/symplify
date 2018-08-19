@@ -19,8 +19,6 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 #### PackageBuilder
 
-- [#1001] Add `PublicDefaultCompilerPass`
-- [#1000] Add `AutowireDefaultCompilerPass`
 - [#998] Add `AutoBindParametersCompilerPass` [closes [#994]]
 - [#989] Add `ParametersMergingYamlLoader`
 
@@ -1521,8 +1519,6 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
 [#1004]: https://github.com/Symplify/Symplify/pull/1004
 [#1003]: https://github.com/Symplify/Symplify/pull/1003
 [#1002]: https://github.com/Symplify/Symplify/pull/1002
-[#1001]: https://github.com/Symplify/Symplify/pull/1001
-[#1000]: https://github.com/Symplify/Symplify/pull/1000
 [#999]: https://github.com/Symplify/Symplify/pull/999
 [#998]: https://github.com/Symplify/Symplify/pull/998
 [#996]: https://github.com/Symplify/Symplify/pull/996
