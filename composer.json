@@ -15,7 +15,7 @@
         "nette/robot-loader": "^3.0.3",
         "nette/utils": "^2.5",
         "ocramius/package-versions": "^1.3",
-        "phar-io/version": "^1.0.1",
+        "phar-io/version": "^2.0",
         "phpstan/phpdoc-parser": "^0.2|^0.3",
         "slevomat/coding-standard": "^4.6",
         "squizlabs/php_codesniffer": "^3.3",
