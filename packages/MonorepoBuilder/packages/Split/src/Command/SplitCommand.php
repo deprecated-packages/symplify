@@ -51,6 +51,11 @@ final class SplitCommand extends Command
     protected function configure(): void
     {
         $this->setName(CommandNaming::classToName(self::class));
+        $this->setDescription(sprintf(
+            'Splits monorepo packages to standalone repositories as defined in "%s" section of "%s" config.',
+            'parameters > directories_to_repositories',
+            'monorepo-builder.yml'
+        ));
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
