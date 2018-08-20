@@ -9,6 +9,25 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 <!-- changelog-linker -->
 
+## [v4.6.1] - 2018-08-20
+
+### Changed
+
+#### EasyCodingStandard
+
+- [#1013] Move `YamlFileLoader` to `FileLoader` namespace
+
+### Fixed
+
+#### CodingStandard
+
+- [#1020] Fix `ClassNameSuffixByParentSniff` for *Abstract*
+- [#1014] Fix UPPERCASE start name for `PropertyNameMatchingTypeFixer`
+
+#### PackageBuilder
+
+- [#1009] Fix `AutowireSinglyImplementedCompilerPass` for missing class
+
 ## [v4.6.0] - 2018-08-03
 
 ### Added
@@ -1533,3 +1552,12 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
 [#984]: https://github.com/Symplify/Symplify/pull/984
 [#975]: https://github.com/Symplify/Symplify/pull/975
 [v4.6.0]: https://github.com/Symplify/Symplify/compare/v4.5.1...v4.6.0
+[#1023]: https://github.com/Symplify/Symplify/pull/1023
+[#1020]: https://github.com/Symplify/Symplify/pull/1020
+[#1014]: https://github.com/Symplify/Symplify/pull/1014
+[#1013]: https://github.com/Symplify/Symplify/pull/1013
+[#1010]: https://github.com/Symplify/Symplify/pull/1010
+[#1009]: https://github.com/Symplify/Symplify/pull/1009
+[#1001]: https://github.com/Symplify/Symplify/pull/1001
+[#1000]: https://github.com/Symplify/Symplify/pull/1000
+[v4.6.1]: https://github.com/Symplify/Symplify/compare/v4.6.0...v4.6.1
