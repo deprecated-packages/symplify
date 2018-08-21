@@ -67,7 +67,7 @@ This is a [monolithic repository](https://gomonorepo.org/) for Symplify packages
     ```bash
     composer complete-check
 
-    # coding standard issues? fix with
+    # coding standard issues fix with
     composer fix-cs
     ```
 
