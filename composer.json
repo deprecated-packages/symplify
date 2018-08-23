@@ -7,7 +7,7 @@
         "composer/composer": "^1.6",
         "erusev/parsedown": "^1.7",
         "erusev/parsedown-extra": "^0.7.1",
-        "friendsofphp/php-cs-fixer": "^2.12",
+        "friendsofphp/php-cs-fixer": "^2.13",
         "guzzlehttp/guzzle": "^6.3",
         "jean85/pretty-package-versions": "^1.1",
         "latte/latte": "^2.4",

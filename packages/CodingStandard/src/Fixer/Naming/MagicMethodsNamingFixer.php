@@ -4,6 +4,7 @@ namespace Symplify\CodingStandard\Fixer\Naming;
 
 use Nette\Utils\Strings;
 use PhpCsFixer\AbstractFixer;
+use PhpCsFixer\Fixer\PhpUnit\PhpUnitMethodCasingFixer;
 use PhpCsFixer\FixerDefinition\CodeSample;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
@@ -35,6 +36,18 @@ final class MagicMethodsNamingFixer extends AbstractFixer
      * @var string[]
      */
     private $pascalCaseMagicMethods = ['__callStatic', '__toString', '__debugInfo'];
+
+    public function __construct()
+    {
+        parent::__construct();
+
+        trigger_error(sprintf(
+            '"%s" was deprecated and will be removed in Symplify\CodingStandard 5.0. Use "%s" instead."',
+            self::class,
+            PhpUnitMethodCasingFixer::class
+        ), E_USER_DEPRECATED);
+        sleep(3); // inspired at "deprecated interface" Tweet
+    }
 
     public function getDefinition(): FixerDefinitionInterface
     {

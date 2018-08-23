@@ -7,7 +7,7 @@
         "nette/utils": "^2.5",
         "nette/finder": "^2.4",
         "squizlabs/php_codesniffer": "^3.3",
-        "friendsofphp/php-cs-fixer": "^2.12",
+        "friendsofphp/php-cs-fixer": "^2.13",
         "symplify/token-runner": "^4.7"
     },
     "require-dev": {
