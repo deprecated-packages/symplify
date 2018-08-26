@@ -33,6 +33,8 @@ parameters:
         - 'PhpCsFixer\Fixer\PhpTag\BlankLineAfterOpeningTagFixer'
         - 'PhpCsFixer\Fixer\Operator\UnaryOperatorSpacesFixer'
     exclude_files:
+        # tests
+        - 'packages/PackageBuilder/tests/Reflection/Source/SomeClassWithPrivateMethods.php'
         # files
         - 'packages/CodingStandard/tests/Sniffs/DependencyInjection/NoClassInstantiation/Source/EntityClass.php'
         - 'packages/EasyCodingStandard/packages/SniffRunner/tests/Application/FileProcessorSource/ReferenceUsedNamesOnlySniff/FileProvingNeedOfProperSupportOfChangesets*.php'
