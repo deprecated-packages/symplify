@@ -27,7 +27,7 @@ final class DefinitionCollector
         $collectedDefinitions = $this->definitionFinder->findAllByType($containerBuilder, $collectedType);
 
         foreach ($collectorDefinitions as $collectorDefinition) {
-            foreach ($collectedDefinitions as $name => $collectedDefinition) {
+            foreach (array_keys($collectedDefinitions) as $name) {
                 $collectorDefinition->addMethodCall($setterMethod, [new Reference($name)]);
             }
         }

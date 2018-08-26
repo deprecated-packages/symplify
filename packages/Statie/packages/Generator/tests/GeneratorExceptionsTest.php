@@ -32,7 +32,7 @@ final class GeneratorExceptionsTest extends AbstractGeneratorTest
             PostFile::class
         ));
 
-        $value = $post['tite'];
+        $post['tite'];
     }
 
     public function testPostExceptionOnGetNonExistingAllKeys(): void
@@ -45,7 +45,7 @@ final class GeneratorExceptionsTest extends AbstractGeneratorTest
             PostFile::class
         ));
 
-        $value = $post['key'];
+        $post['key'];
     }
 
     protected function getConfig(): string

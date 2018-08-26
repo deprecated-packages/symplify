@@ -25,7 +25,7 @@ final class ParameterProvider
     }
 
     /**
-     * @return null|mixed
+     * @return mixed|null
      */
     public function provideParameter(string $name)
     {

@@ -57,7 +57,7 @@ final class RootRemoveComposerJsonDecorator implements ComposerJsonDecoratorInte
      */
     private function processRequires(array $composerJson, array $requires, string $vendorName, string $key): array
     {
-        foreach ($requires as $package => $version) {
+        foreach (array_keys($requires) as $package) {
             if (! Strings::startsWith($package, $vendorName . '/')) {
                 continue;
             }

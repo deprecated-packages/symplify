@@ -26,7 +26,7 @@ final class RemoverComposerJsonDecorator implements ComposerJsonDecoratorInterfa
      */
     public function decorate(array $composerJson): array
     {
-        foreach ($composerJson as $key => $values) {
+        foreach (array_keys($composerJson) as $key) {
             if (! isset($this->dataToRemove[$key])) {
                 continue;
             }
@@ -48,7 +48,7 @@ final class RemoverComposerJsonDecorator implements ComposerJsonDecoratorInterfa
             return $composerJson;
         }
 
-        foreach ($this->dataToRemove[$key] as $package => $version) {
+        foreach (array_keys($this->dataToRemove[$key]) as $package) {
             unset($composerJson[$key][$package]);
         }
 
@@ -67,7 +67,7 @@ final class RemoverComposerJsonDecorator implements ComposerJsonDecoratorInterfa
 
         foreach ($this->dataToRemove[$key] as $type => $autoloadList) {
             if (is_array($autoloadList)) {
-                foreach ($autoloadList as $namespace => $path) {
+                foreach (array_keys($autoloadList) as $namespace) {
                     unset($composerJson[$key][$type][$namespace]);
                 }
             }

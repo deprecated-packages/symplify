@@ -100,7 +100,7 @@ final class PostFile extends AbstractGeneratorFile implements ArrayAccess
         throw new AccessKeyNotAvailableException(sprintf(
             'Value "%s" was not found for "%s" object. %s',
             $offset,
-            __CLASS__,
+            self::class,
             $help
         ));
     }

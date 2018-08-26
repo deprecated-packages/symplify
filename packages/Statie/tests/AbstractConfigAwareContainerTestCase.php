@@ -18,7 +18,7 @@ abstract class AbstractConfigAwareContainerTestCase extends TestCase
      */
     public function __construct(?string $name = null, array $data = [], string $dataName = '')
     {
-        $this->container = (new ContainerFactory())->createWithConfig(($this->provideConfig()));
+        $this->container = (new ContainerFactory())->createWithConfig($this->provideConfig());
 
         parent::__construct($name, $data, $dataName);
     }
