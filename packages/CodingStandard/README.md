@@ -192,20 +192,6 @@ services:
         inline_short_lines: false # default: true
 ```
 
-### Magic PHP methods (`__*()`) should respect their casing form
-
-- class: [`Symplify\CodingStandard\Fixer\Naming\MagicMethodsNamingFixer`](src/Fixer/Naming/MagicMethodsNamingFixer.php)
-
-```diff
- class SomeClass
- {
--    public function __CONSTRUCT()
-+    public function __construct()
-     {
-     }
- }
-```
-
 ### Property name should match its key, if possible
 
 - :wrench:
