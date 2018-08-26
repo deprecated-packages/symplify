@@ -97,12 +97,6 @@ parameters:
         Symplify\CodingStandard\Sniffs\CleanCode\ForbiddenReferenceSniff:
             # reference for reflection of method with reference
             - 'packages/PackageBuilder/src/Reflection/PrivatesCaller.php'
-            # tests
-            - 'packages/PackageBuilder/tests/Reflection/Source/SomeClassWithPrivateMethods.php'
-
-        SlevomatCodingStandard\Sniffs\Classes\UnusedPrivateElementsSniff.UnusedMethod:
-            # tests
-            - 'packages/PackageBuilder/tests/Reflection/Source/SomeClassWithPrivateMethods.php'
 
         Symplify\CodingStandard\Sniffs\Debug\CommentedOutCodeSniff.Found:
             # useful comments
