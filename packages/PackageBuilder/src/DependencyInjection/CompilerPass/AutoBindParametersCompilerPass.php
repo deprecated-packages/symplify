@@ -48,7 +48,7 @@ final class AutoBindParametersCompilerPass implements CompilerPassInterface
             $boundArgument = new BoundArgument($value);
 
             // set used so it doesn't end on exceptions
-            [$value, $identifier, $isUsed] = $boundArgument->getValues();
+            [$value, $identifier] = $boundArgument->getValues();
             $boundArgument->setValues([$value, $identifier, true]);
 
             $boundArguments[$parameterGuess] = $boundArgument;

@@ -188,7 +188,7 @@ final class ClassWrapper
     {
         $propertyWrappers = [];
 
-        foreach ($this->getProperties() as $propertyPosition => $propertyToken) {
+        foreach (array_keys($this->getProperties()) as $propertyPosition) {
             $propertyWrappers[] = $this->propertyWrapperFactory->createFromTokensAndPosition(
                 $this->tokens,
                 $propertyPosition
@@ -205,7 +205,7 @@ final class ClassWrapper
     {
         $methodWrappers = [];
 
-        foreach ($this->getMethods() as $methodPosition => $methodToken) {
+        foreach (array_keys($this->getMethods()) as $methodPosition) {
             $methodWrappers[] = $this->methodWrapperFactory->createFromTokensAndPosition(
                 $this->tokens,
                 $methodPosition
@@ -270,7 +270,7 @@ final class ClassWrapper
         );
 
         $interfaceNames = [];
-        foreach ($interfacePartialNameTokens as $position => $interfacePartialNameToken) {
+        foreach (array_keys($interfacePartialNameTokens) as $position) {
             $interfaceNames[] = $this->nameFactory->createFromTokensAndStart($this->tokens, $position)->getName();
         }
 

@@ -112,7 +112,7 @@ final class PhpDocModifier
         $oldTag = '@' . ltrim($oldTag, '@');
         $newTag = '@' . ltrim($newTag, '@');
 
-        foreach ($phpDocNode->children as $key => $phpDocChildNode) {
+        foreach ($phpDocNode->children as $phpDocChildNode) {
             if (! $phpDocChildNode instanceof PhpDocTagNode) {
                 continue;
             }

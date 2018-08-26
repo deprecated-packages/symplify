@@ -32,7 +32,7 @@ final class AppenderComposerJsonDecorator implements ComposerJsonDecoratorInterf
      */
     public function decorate(array $composerJson): array
     {
-        foreach ($composerJson as $key => $values) {
+        foreach (array_keys($composerJson) as $key) {
             if (! isset($this->dataToAppend[$key])) {
                 continue;
             }

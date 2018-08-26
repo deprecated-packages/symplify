@@ -20,7 +20,7 @@ final class SortRequireComposerJsonDecorator implements ComposerJsonDecoratorInt
             return $composerJson;
         }
 
-        foreach ($composerJson as $key => $values) {
+        foreach (array_keys($composerJson) as $key) {
             if (! in_array($key, [Section::REQUIRE, Section::REQUIRE_DEV], true)) {
                 continue;
             }

@@ -108,7 +108,7 @@ public $property;')]
     {
         $properties = array_reverse($properties, true);
 
-        foreach ($properties as $index => ['token' => $propertyToken]) {
+        foreach (array_keys($properties) as $index) {
             $docBlockTokenPosition = $this->docBlockFinder->findPreviousPosition($tokens, $index);
             if ($docBlockTokenPosition === null) {
                 continue;

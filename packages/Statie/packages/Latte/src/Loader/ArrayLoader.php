@@ -85,7 +85,7 @@ final class ArrayLoader implements ILoader
     private function getLayoutAndSnippetNames(): array
     {
         $layoutAndSnippetNames = [];
-        foreach ($this->templates as $name => $content) {
+        foreach (array_keys($this->templates) as $name) {
             if (! Strings::match($name, '#(_layouts|_snippets)#')) {
                 continue;
             }
