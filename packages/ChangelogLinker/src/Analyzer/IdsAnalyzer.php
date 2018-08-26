@@ -24,6 +24,6 @@ final class IdsAnalyzer
 
         $ids = array_column($matches, 'id');
 
-        return (int) max(($ids));
+        return (int) max($ids);
     }
 }

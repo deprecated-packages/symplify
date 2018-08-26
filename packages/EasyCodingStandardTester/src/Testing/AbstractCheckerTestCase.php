@@ -42,7 +42,7 @@ abstract class AbstractCheckerTestCase extends TestCase
     protected function setUp(): void
     {
         $this->fileGuard = new FileGuard();
-        $this->fileGuard->ensureFileExists($this->provideConfig(), get_called_class());
+        $this->fileGuard->ensureFileExists($this->provideConfig(), static::class);
 
         $container = $this->getContainer();
 
