@@ -8,7 +8,7 @@ use Symfony\Component\Process\Process;
 final class GitManager
 {
     /**
-     * @var null|string
+     * @var string|null
      */
     private $githubToken;
 

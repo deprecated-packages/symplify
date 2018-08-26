@@ -13,7 +13,7 @@ use Symplify\PackageBuilder\HttpKernel\AbstractCliKernel;
 final class ChangelogLinkerKernel extends AbstractCliKernel
 {
     /**
-     * @var null|string
+     * @var string|null
      */
     private $configFile;
 

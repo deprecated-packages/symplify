@@ -20,7 +20,7 @@ use Symplify\Statie\DependencyInjection\CompilerPass\CollectorCompilerPass;
 final class StatieKernel extends Kernel
 {
     /**
-     * @var null|string
+     * @var string|null
      */
     private $configFile;
 

@@ -102,7 +102,6 @@ parameters:
         - '#Method Symplify\\PackageBuilder\\Tests\\Console\\ThrowableRendererTest::getTestErrorOutput\(\) should return string but returns string\|false#'
         - '#Parameter \#2 \$content of method Symplify\\Statie\\Latte\\Loader\\ArrayLoader::changeContent\(\) expects string, string\|false given#'
         - '#Cannot access offset (.*?) on Symplify\\Statie\\Generator\\Renderable\\File\\AbstractGeneratorFile#'
-        - '#Method Symplify\\Statie\\Latte\\Loader\\ArrayLoader::getLayoutAndSnippetNames\(\) should return array<string> but returns array<int, int\|string>#'
         - '#Parameter \#2 \$template of method Twig_Loader_Array::setTemplate\(\) expects string, string\|false given#'
         - '#Parameter \#1 \$template of method Twig_Environment::createTemplate\(\) expects string, string\|false given#'
         - '#Property Symplify\\Statie\\Configuration\\Configuration::\$sourceDirectory \(string\) does not accept string\|false#'
