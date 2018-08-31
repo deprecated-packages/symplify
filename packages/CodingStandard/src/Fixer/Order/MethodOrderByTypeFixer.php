@@ -2,6 +2,7 @@
 
 namespace Symplify\CodingStandard\Fixer\Order;
 
+use PhpCsFixer\Fixer\ClassNotation\OrderedClassElementsFixer;
 use PhpCsFixer\Fixer\ConfigurationDefinitionFixerInterface;
 use PhpCsFixer\Fixer\DefinedFixerInterface;
 use PhpCsFixer\FixerConfiguration\FixerConfigurationResolver;
@@ -12,6 +13,9 @@ use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
+use Symplify\PackageBuilder\Reflection\PrivatesCaller;
+use Symplify\TokenRunner\Wrapper\FixerWrapper\ClassWrapper;
+use Symplify\TokenRunner\Wrapper\FixerWrapper\ClassWrapperFactory;
 
 final class MethodOrderByTypeFixer implements DefinedFixerInterface, ConfigurationDefinitionFixerInterface
 {
@@ -25,11 +29,30 @@ final class MethodOrderByTypeFixer implements DefinedFixerInterface, Configurati
      */
     private $configuration = [];
 
-    public function __construct()
+    /**
+     * @var OrderedClassElementsFixer
+     */
+    private $orderedClassElementsFixer;
+
+    /**
+     * @var PrivatesCaller
+     */
+    private $privatesCaller;
+
+    /**
+     * @var ClassWrapperFactory
+     */
+    private $classWrapperFactory;
+
+    public function __construct(ClassWrapperFactory $classWrapperFactory)
     {
         // set defaults
         $this->configuration = $this->getConfigurationDefinition()
             ->resolve([]);
+
+        $this->privatesCaller = new PrivatesCaller();
+        $this->orderedClassElementsFixer = new OrderedClassElementsFixer();
+        $this->classWrapperFactory = $classWrapperFactory;
     }
 
     public function getDefinition(): FixerDefinitionInterface
@@ -58,13 +81,64 @@ CODE_SAMPLE
 
     public function isCandidate(Tokens $tokens): bool
     {
-        return $tokens->isTokenKindFound(T_METHOD_C);
+        return $tokens->isAllTokenKindsFound([T_CLASS, T_FUNCTION]) && $tokens->isAnyTokenKindsFound(
+            [T_IMPLEMENTS, T_EXTENDS]
+        );
     }
 
     public function fix(SplFileInfo $file, Tokens $tokens): void
     {
-        dump($tokens);
-        die;
+        for ($i = 1, $count = $tokens->count(); $i < $count; ++$i) {
+            if (! $tokens[$i]->isClassy()) {
+                continue;
+            }
+
+            $classWrapper = $this->classWrapperFactory->createFromTokensArrayStartPosition($tokens, $i);
+
+            $matchedClassType = $this->matchClassType($classWrapper);
+            if ($matchedClassType === null) {
+                continue;
+            }
+
+            $i = $tokens->getNextTokenOfKind($i, ['{']);
+            $elements = $this->privatesCaller->callPrivateMethod(
+                $this->orderedClassElementsFixer,
+                'getElements',
+                $tokens,
+                $i
+            );
+
+            $publicMethodElements = $this->filterPublicMethodElements($elements);
+            $requiredMethodOrder = $this->configuration[self::METHOD_ORDER_BY_TYPE_OPTION][$matchedClassType];
+
+            // A. identical order of all public methods → nothing to sort
+            if (array_keys($publicMethodElements) === $requiredMethodOrder) {
+                return;
+            }
+
+            $sorted = [];
+            foreach ($requiredMethodOrder as $methodName) {
+                $sorted[] = $publicMethodElements[$methodName];
+            }
+
+            // B. the order → nothing to sort
+            if ($sorted === $publicMethodElements) {
+                continue;
+            }
+
+            $endIndex = $elements[count($elements) - 1]['end'];
+
+            if ($sorted !== $elements) {
+                $this->privatesCaller->callPrivateMethod(
+                    $this->orderedClassElementsFixer,
+                    'sortTokens',
+                    $tokens,
+                    $i,
+                    $endIndex,
+                    $sorted
+                );
+            }
+        }
     }
 
     public function isRisky(): bool
@@ -109,5 +183,56 @@ CODE_SAMPLE
             ->getOption();
 
         return new FixerConfigurationResolver([$methodsOrderByTypeOption]);
+    }
+
+    /**
+     * @param mixed[] $elements
+     * @return mixed[]
+     */
+    private function filterPublicMethodElements(array $elements): array
+    {
+        $publicMethods = [];
+        foreach ($elements as $element) {
+            if ($element['type'] !== 'method') {
+                continue;
+            }
+
+            if ($element['visibility'] !== 'public') {
+                continue;
+            }
+
+            $publicMethods[$element['name']] = $element;
+        }
+
+        return $publicMethods;
+    }
+
+    private function isClassWrapperByParentType(ClassWrapper $classWrapper, string $type): bool
+    {
+        if ($classWrapper->getParentClassName()) {
+            if ($classWrapper->getParentClassName() === $type) {
+                return true;
+            }
+        }
+
+        foreach ($classWrapper->getInterfaceNames() as $interfaceName) {
+            if ($interfaceName === $type) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private function matchClassType(ClassWrapper $classWrapper): ?string
+    {
+        /** @var string $type */
+        foreach (array_keys($this->configuration[self::METHOD_ORDER_BY_TYPE_OPTION]) as $type) {
+            if ($this->isClassWrapperByParentType($classWrapper, $type)) {
+                return $type;
+            }
+        }
+
+        return null;
     }
 }

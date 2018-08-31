@@ -2,11 +2,11 @@
 
 class SomeFixer implements FixerInterface
 {
+
     public function firstMethod()
     {
 
     }
-
     public function secondMethod()
     {
 

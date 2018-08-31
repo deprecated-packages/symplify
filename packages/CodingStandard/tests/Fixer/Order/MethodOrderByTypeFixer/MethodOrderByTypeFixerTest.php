@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Fixer\Order\MethodOrderByTypeFixerFixer;
+namespace Symplify\CodingStandard\Tests\Fixer\Order\MethodOrderByTypeFixer;
 
 use Iterator;
 use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;
