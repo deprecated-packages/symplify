@@ -2,6 +2,7 @@
 
 namespace Symplify\CodingStandard\Fixer\Commenting;
 
+use Nette\Utils\Strings;
 use PhpCsFixer\Fixer\DefinedFixerInterface;
 use PhpCsFixer\FixerDefinition\CodeSample;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
@@ -100,10 +101,11 @@ private $property;
     {
         $newLineIndent = $this->whitespacesFixerConfig->getLineEnding() . $this->whitespacesFixerConfig->getIndent();
 
-        return str_replace([' @', '/** ', ' */'], [
-            $newLineIndent . ' * @',
-            $newLineIndent . '/**',
-            $newLineIndent . ' */',
-        ], $docBlock);
+        if (Strings::contains($docBlock, '@')) {
+            return str_replace([' @', ' */'], [$newLineIndent . ' * @', $newLineIndent . ' */'], $docBlock);
+        }
+
+        // in case of missing "@" in the annotations
+        return str_replace(['/** ', ' */'], ['/**' . $newLineIndent . ' * ', $newLineIndent . ' */'], $docBlock);
     }
 }
