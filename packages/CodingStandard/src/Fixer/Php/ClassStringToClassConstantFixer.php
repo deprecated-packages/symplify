@@ -83,9 +83,12 @@ final class ClassStringToClassConstantFixer implements DefinedFixerInterface, Co
         }
     }
 
-    public function isRisky(): bool
+    /**
+     * Run before @see \Symplify\CodingStandard\Fixer\Import\ImportNamespacedNameFixer
+     */
+    public function getPriority(): int
     {
-        return false;
+        return 15;
     }
 
     public function getName(): string
@@ -93,12 +96,9 @@ final class ClassStringToClassConstantFixer implements DefinedFixerInterface, Co
         return self::class;
     }
 
-    /**
-     * Run before @see \Symplify\CodingStandard\Fixer\Import\ImportNamespacedNameFixer
-     */
-    public function getPriority(): int
+    public function isRisky(): bool
     {
-        return 15;
+        return false;
     }
 
     public function supports(SplFileInfo $file): bool

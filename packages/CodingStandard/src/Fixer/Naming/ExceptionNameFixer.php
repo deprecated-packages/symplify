@@ -25,11 +25,6 @@ final class ExceptionNameFixer implements DefinedFixerInterface
         sleep(3); // inspired at "deprecated interface" Tweet
     }
 
-    public function getName(): string
-    {
-        return self::class;
-    }
-
     public function getDefinition(): FixerDefinitionInterface
     {
         return new FixerDefinition('Exception classes should have suffix "Exception".', [
@@ -43,24 +38,6 @@ class SomeClass extends Exception
     public function isCandidate(Tokens $tokens): bool
     {
         return $tokens->isAllTokenKindsFound([T_CLASS, T_EXTENDS, T_STRING]);
-    }
-
-    public function isRisky(): bool
-    {
-        return true;
-    }
-
-    public function supports(SplFileInfo $file): bool
-    {
-        return true;
-    }
-
-    /**
-     * Run before @see Psr4Fixer fixer to fix-up file names if needed.
-     */
-    public function getPriority(): int
-    {
-        return -5;
     }
 
     public function fix(SplFileInfo $file, Tokens $tokens): void
@@ -82,6 +59,29 @@ class SomeClass extends Exception
 
             $this->fixClassName($tokens, $classNamePosition, $classNameToken->getContent());
         }
+    }
+
+    /**
+     * Run before @see Psr4Fixer fixer to fix-up file names if needed.
+     */
+    public function getPriority(): int
+    {
+        return -5;
+    }
+
+    public function getName(): string
+    {
+        return self::class;
+    }
+
+    public function isRisky(): bool
+    {
+        return true;
+    }
+
+    public function supports(SplFileInfo $file): bool
+    {
+        return true;
     }
 
     private function isException(Tokens $tokens, int $index): bool

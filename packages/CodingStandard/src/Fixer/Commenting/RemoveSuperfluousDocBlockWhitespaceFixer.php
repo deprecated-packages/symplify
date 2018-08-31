@@ -62,9 +62,12 @@ public function getCount()
         }
     }
 
-    public function isRisky(): bool
+    /**
+     * Runs before @see \PhpCsFixer\Fixer\Phpdoc\NoEmptyPhpdocFixer.
+     */
+    public function getPriority(): int
     {
-        return false;
+        return 10;
     }
 
     public function getName(): string
@@ -72,12 +75,9 @@ public function getCount()
         return self::class;
     }
 
-    /**
-     * Runs before @see \PhpCsFixer\Fixer\Phpdoc\NoEmptyPhpdocFixer.
-     */
-    public function getPriority(): int
+    public function isRisky(): bool
     {
-        return 10;
+        return false;
     }
 
     public function supports(SplFileInfo $file): bool

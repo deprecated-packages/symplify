@@ -77,9 +77,12 @@ private $property;
         }
     }
 
-    public function isRisky(): bool
+    /**
+     * Must run before @see \PhpCsFixer\Fixer\Phpdoc\PhpdocVarWithoutNameFixer
+     */
+    public function getPriority(): int
     {
-        return false;
+        return 1;
     }
 
     public function getName(): string
@@ -87,12 +90,9 @@ private $property;
         return self::class;
     }
 
-    /**
-     * Must run before @see \PhpCsFixer\Fixer\Phpdoc\PhpdocVarWithoutNameFixer
-     */
-    public function getPriority(): int
+    public function isRisky(): bool
     {
-        return 1;
+        return false;
     }
 
     public function supports(SplFileInfo $file): bool

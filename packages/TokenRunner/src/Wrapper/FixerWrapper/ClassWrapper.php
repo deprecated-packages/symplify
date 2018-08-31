@@ -273,7 +273,6 @@ final class ClassWrapper
             $interfaceNames[] = $this->nameFactory->createFromTokensAndStart($this->tokens, $position)->getName();
         }
 
-
         // use autolaod
         foreach ($interfaceNames as $interfaceName) {
             if (interface_exists($interfaceName)) {

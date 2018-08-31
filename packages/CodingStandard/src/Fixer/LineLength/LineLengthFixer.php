@@ -115,9 +115,12 @@ $array = ["loooooooooooooooooooooooooooooooongArraaaaaaaaaaay", "loooooooooooooo
         }
     }
 
-    public function isRisky(): bool
+    /**
+     * Execute before @see \PhpCsFixer\Fixer\ArrayNotation\TrimArraySpacesFixer::getPriority()
+     */
+    public function getPriority(): int
     {
-        return false;
+        return 5;
     }
 
     public function getName(): string
@@ -125,12 +128,9 @@ $array = ["loooooooooooooooooooooooooooooooongArraaaaaaaaaaay", "loooooooooooooo
         return self::class;
     }
 
-    /**
-     * Execute before @see \PhpCsFixer\Fixer\ArrayNotation\TrimArraySpacesFixer::getPriority()
-     */
-    public function getPriority(): int
+    public function isRisky(): bool
     {
-        return 5;
+        return false;
     }
 
     public function supports(SplFileInfo $file): bool

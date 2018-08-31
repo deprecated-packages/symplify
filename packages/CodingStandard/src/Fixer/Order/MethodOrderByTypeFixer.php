@@ -141,7 +141,6 @@ CODE_SAMPLE
                     'sortTokens',
                     $tokens,
                     $startIndex,
-//                    $i,
                     $endIndex,
                     $sorted
                 );
@@ -149,9 +148,9 @@ CODE_SAMPLE
         }
     }
 
-    public function isRisky(): bool
+    public function getPriority(): int
     {
-        return false;
+        return 0;
     }
 
     public function getName(): string
@@ -159,9 +158,9 @@ CODE_SAMPLE
         return self::class;
     }
 
-    public function getPriority(): int
+    public function isRisky(): bool
     {
-        return 0;
+        return false;
     }
 
     public function supports(SplFileInfo $file): bool

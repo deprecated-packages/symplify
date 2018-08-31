@@ -67,11 +67,6 @@ public $property;')]
             && $tokens->isAnyTokenKindsFound([T_PUBLIC, T_PROTECTED, T_PRIVATE]);
     }
 
-    public function isRisky(): bool
-    {
-        return false;
-    }
-
     public function fix(SplFileInfo $file, Tokens $tokens): void
     {
         for ($index = count($tokens) - 1; $index > 1; --$index) {
@@ -86,14 +81,19 @@ public $property;')]
         }
     }
 
+    public function getPriority(): int
+    {
+        return 0;
+    }
+
     public function getName(): string
     {
         return self::class;
     }
 
-    public function getPriority(): int
+    public function isRisky(): bool
     {
-        return 0;
+        return false;
     }
 
     public function supports(SplFileInfo $file): bool
