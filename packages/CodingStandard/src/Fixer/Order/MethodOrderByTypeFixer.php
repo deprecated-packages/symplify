@@ -108,7 +108,7 @@ CODE_SAMPLE
                 $i
             );
 
-            $publicMethodElements = $this->filterPublicMethodElements($elements);
+            $publicMethodElements = $this->filterPublicMethodElementsFirst($elements);
             $requiredMethodOrder = $this->configuration[self::METHOD_ORDER_BY_TYPE_OPTION][$matchedClassType];
 
             // A. identical order of all public methods → nothing to sort
@@ -119,12 +119,10 @@ CODE_SAMPLE
             $sorted = [];
             foreach ($requiredMethodOrder as $methodName) {
                 $sorted[] = $publicMethodElements[$methodName];
+                unset($publicMethodElements[$methodName]);
             }
 
-            // B. the order → nothing to sort
-            if ($sorted === $publicMethodElements) {
-                continue;
-            }
+            $sorted = array_merge($sorted, $publicMethodElements);
 
             $endIndex = $elements[count($elements) - 1]['end'];
 
@@ -189,22 +187,26 @@ CODE_SAMPLE
      * @param mixed[] $elements
      * @return mixed[]
      */
-    private function filterPublicMethodElements(array $elements): array
+    private function filterPublicMethodElementsFirst(array $elements): array
     {
         $publicMethods = [];
+        $restOfMethods = [];
+
         foreach ($elements as $element) {
             if ($element['type'] !== 'method') {
+                $restOfMethods[$element['name']] = $element;
                 continue;
             }
 
             if ($element['visibility'] !== 'public') {
+                $restOfMethods[$element['name']] = $element;
                 continue;
             }
 
             $publicMethods[$element['name']] = $element;
         }
 
-        return $publicMethods;
+        return array_merge($publicMethods, $restOfMethods);
     }
 
     private function isClassWrapperByParentType(ClassWrapper $classWrapper, string $type): bool
