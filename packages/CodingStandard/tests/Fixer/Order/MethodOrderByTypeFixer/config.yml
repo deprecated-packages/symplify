@@ -5,3 +5,6 @@ services:
                 - 'firstMethod'
                 - 'secondMethod'
 
+            PhpCsFixer\Fixer\FixerInterface:
+                - 'firstMethod'
+                - 'secondMethod'
