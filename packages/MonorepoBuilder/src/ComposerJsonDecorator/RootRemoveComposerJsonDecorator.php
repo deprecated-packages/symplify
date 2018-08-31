@@ -2,8 +2,8 @@
 
 namespace Symplify\MonorepoBuilder\ComposerJsonDecorator;
 
-use Nette\Utils\Strings;
 use Symplify\MonorepoBuilder\Composer\Section;
+use Symplify\MonorepoBuilder\Configuration\MergedPackagesCollector;
 use Symplify\MonorepoBuilder\Contract\ComposerJsonDecoratorInterface;
 
 /**
@@ -14,22 +14,27 @@ use Symplify\MonorepoBuilder\Contract\ComposerJsonDecoratorInterface;
 final class RootRemoveComposerJsonDecorator implements ComposerJsonDecoratorInterface
 {
     /**
+     * @var MergedPackagesCollector
+     */
+    private $mergedPackagesCollector;
+
+    public function __construct(MergedPackagesCollector $mergedPackagesCollector)
+    {
+        $this->mergedPackagesCollector = $mergedPackagesCollector;
+    }
+
+    /**
      * @param mixed[] $composerJson
      * @return mixed[]
      */
     public function decorate(array $composerJson): array
     {
-        $vendorName = $this->resolveVendorNameFromComposerJson($composerJson);
-        if ($vendorName === null) {
-            return $composerJson;
-        }
-
         foreach ($composerJson as $key => $values) {
             if (! in_array($key, [Section::REQUIRE, Section::REQUIRE_DEV], true)) {
                 continue;
             }
 
-            $composerJson = $this->processRequires($composerJson, $values, $vendorName, $key);
+            $composerJson = $this->processRequires($composerJson, $values, $key);
         }
 
         return $composerJson;
@@ -37,28 +42,13 @@ final class RootRemoveComposerJsonDecorator implements ComposerJsonDecoratorInte
 
     /**
      * @param mixed[] $composerJson
-     */
-    private function resolveVendorNameFromComposerJson(array $composerJson): ?string
-    {
-        // no name of monorepo package => nothing to remove
-        if (! isset($composerJson['name'])) {
-            return null;
-        }
-
-        [$vendorName, ] = explode('/', $composerJson['name']);
-
-        return $vendorName;
-    }
-
-    /**
-     * @param mixed[] $composerJson
      * @param string[] $requires
      * @return mixed[]
      */
-    private function processRequires(array $composerJson, array $requires, string $vendorName, string $key): array
+    private function processRequires(array $composerJson, array $requires, string $key): array
     {
         foreach (array_keys($requires) as $package) {
-            if (! Strings::startsWith($package, $vendorName . '/')) {
+            if (! in_array($package, $this->mergedPackagesCollector->getPackages(), true)) {
                 continue;
             }
 

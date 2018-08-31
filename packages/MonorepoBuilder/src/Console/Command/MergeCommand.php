@@ -86,7 +86,10 @@ final class MergeCommand extends Command
             return 0;
         }
 
-        $this->dependenciesMerger->mergeJsonToRootFilePath($merged, getcwd() . DIRECTORY_SEPARATOR . 'composer.json');
+        $this->dependenciesMerger->mergeJsonToRootFilePathAndSave(
+            $merged,
+            getcwd() . DIRECTORY_SEPARATOR . 'composer.json'
+        );
 
         $this->symfonyStyle->success('Main "composer.json" was updated.');
 
