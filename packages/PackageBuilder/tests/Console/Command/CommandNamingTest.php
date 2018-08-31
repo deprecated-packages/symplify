@@ -2,16 +2,25 @@
 
 namespace Symplify\PackageBuilder\Tests\Console\Command;
 
+use Iterator;
 use PHPUnit\Framework\TestCase;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
 
 final class CommandNamingTest extends TestCase
 {
-    public function test(): void
+    /**
+     * @dataProvider provideDataForClassToName()
+     */
+    public function test(string $commandClass, string $expectedCommandName): void
     {
-        $name = CommandNaming::classToName('SomeNameCommand');
-        $this->assertSame('some-name', $name);
-        $name = CommandNaming::classToName('AlsoNamespace\SomeNameCommand');
-        $this->assertSame('some-name', $name);
+        $this->assertSame($expectedCommandName, CommandNaming::classToName($commandClass));
+    }
+
+    public function provideDataForClassToName(): Iterator
+    {
+        yield ['SomeNameCommand', 'some-name'];
+        yield ['AlsoNamespace\SomeNameCommand', 'some-name'];
+        yield ['AlsoNamespace\ECSCommand', 'ecs'];
+        yield ['AlsoNamespace\PHPStanCommand', 'php-stan'];
     }
 }
