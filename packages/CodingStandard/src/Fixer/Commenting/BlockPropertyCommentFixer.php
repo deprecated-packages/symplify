@@ -102,13 +102,17 @@ private $property;
 
     private function convertDocBlockToMultiline(string $docBlock): string
     {
-        $newLineIndent = $this->whitespacesFixerConfig->getLineEnding() . $this->whitespacesFixerConfig->getIndent();
-
-        if (Strings::contains($docBlock, '@')) {
-            return str_replace([' @', ' */'], [$newLineIndent . ' * @', $newLineIndent . ' */'], $docBlock);
+        $match = Strings::match($docBlock, '#\/\*\*(\s+)(?<content>.*?)(\s+)\*\/#');
+        // missed match
+        if (! isset($match['content'])) {
+            return $docBlock;
         }
 
-        // in case of missing "@" in the annotations
-        return str_replace(['/** ', ' */'], ['/**' . $newLineIndent . ' * ', $newLineIndent . ' */'], $docBlock);
+        $newLineIndent = $this->whitespacesFixerConfig->getLineEnding() . $this->whitespacesFixerConfig->getIndent();
+
+        // in case of more annotations ina a row: "@var ... @inject"
+        $docBlockContent = str_replace([' @'], [$newLineIndent . ' * @'], $match['content']);
+
+        return sprintf('/**%s * %s%s */', $newLineIndent, $docBlockContent, $newLineIndent);
     }
 }
