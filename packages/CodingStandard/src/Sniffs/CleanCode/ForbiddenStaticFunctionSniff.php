@@ -11,7 +11,7 @@ final class ForbiddenStaticFunctionSniff implements Sniff
      * @var string[]
      */
     private $allowedStaticFunctions = [
-        'getSubscribedEvents' # Symfony of event subscriber
+        'getSubscribedEvents', # Symfony of event subscriber
     ];
 
     /**

@@ -13,6 +13,9 @@ use PhpCsFixer\WhitespacesFixerConfig;
 use SplFileInfo;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\ClassWrapperFactory;
 
+/**
+ * possible future-successor https://github.com/FriendsOfPHP/PHP-CS-Fixer/pull/3810
+ */
 final class BlockPropertyCommentFixer implements DefinedFixerInterface
 {
     /**

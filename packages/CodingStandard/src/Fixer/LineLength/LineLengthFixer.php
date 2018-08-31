@@ -211,7 +211,16 @@ $array = ["loooooooooooooooooooooooooooooooongArraaaaaaaaaaay", "loooooooooooooo
         $indexedArrayTokens = [new Token([T_DOUBLE_ARROW, '=>'])];
         $hasArrowToken = $tokens->findSequence($indexedArrayTokens, $blockInfo->getStart(), $blockInfo->getEnd());
 
-        return (bool) $hasArrowToken;
+        if ((bool) $hasArrowToken) {
+            return true;
+        }
+
+        // has comments => dangerous to change: https://github.com/Symplify/Symplify/issues/973
+        if ($tokens->findGivenKind(T_COMMENT, $blockInfo->getStart(), $blockInfo->getEnd())) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -259,8 +268,12 @@ $array = ["loooooooooooooooooooooooooooooooongArraaaaaaaaaaay", "loooooooooooooo
         }
 
         $blockInfo = $this->blockFinder->findInTokensByPositionAndContent($tokens, $methodNamePosition, '(');
-
         if ($blockInfo === null) {
+            return;
+        }
+
+        // has comments => dangerous to change: https://github.com/Symplify/Symplify/issues/973
+        if ($tokens->findGivenKind(T_COMMENT, $blockInfo->getStart(), $blockInfo->getEnd())) {
             return;
         }
 
