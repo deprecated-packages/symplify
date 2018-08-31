@@ -2,13 +2,12 @@
 
 namespace Symplify\MonorepoBuilder\Tests\Package;
 
-use PHPUnit\Framework\TestCase;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
 use Symplify\MonorepoBuilder\Package\PackageComposerJsonMerger;
-use Symplify\PackageBuilder\Yaml\ParametersMerger;
+use Symplify\MonorepoBuilder\Tests\AbstractContainerAwareTestCase;
 
-final class PackageComposerJsonMergerTest extends TestCase
+final class PackageComposerJsonMergerTest extends AbstractContainerAwareTestCase
 {
     /**
      * @var PackageComposerJsonMerger
@@ -17,7 +16,7 @@ final class PackageComposerJsonMergerTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->packageComposerJsonMerger = new PackageComposerJsonMerger(new ParametersMerger());
+        $this->packageComposerJsonMerger = $this->container->get(PackageComposerJsonMerger::class);
     }
 
     public function testMergeRequire(): void
