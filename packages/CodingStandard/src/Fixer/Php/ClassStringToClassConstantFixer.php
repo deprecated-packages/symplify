@@ -135,7 +135,7 @@ final class ClassStringToClassConstantFixer implements DefinedFixerInterface, Co
             'Classes allowed to be in string format.'
         );
 
-        $allowedClassesOption = $fixerOptionBuilder->setAllowedTypes(['string[]'])
+        $allowedClassesOption = $fixerOptionBuilder->setAllowedTypes(['array'])
             ->setDefault([])
             ->getOption();
 
