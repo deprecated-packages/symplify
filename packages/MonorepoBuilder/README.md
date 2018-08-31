@@ -86,10 +86,20 @@ You can see this
 
 even if there is already version 3.0 out.
 
-It's super easy to foger this, so this command does this for you:
+Get rid of this manual work! Add this command to your release workflow:
 
 ```bash
 vendor/bin/monorepo-builder package-alias
+```
+
+This will add alias `3.1-dev` to `composer.json` in each package.
+
+If you prefer [`3.1.x-dev`](https://getcomposer.org/doc/articles/aliases.md#branch-alias) over default `3.1-dev`, you can configure it:
+
+```yaml
+# monorepo-builder.yml
+parameters:
+    package_alias_format: '<major>.<minor>.x-dev' # default: "<major>.<minor>-dev"
 ```
 
 ### 5. Split Directories to Git Repositories

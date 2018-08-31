@@ -28,14 +28,21 @@ final class PackageAliasCommand extends Command
      */
     private $devMasterAliasUpdater;
 
+    /**
+     * @var string
+     */
+    private $packageAliasFormat;
+
     public function __construct(
         SymfonyStyle $symfonyStyle,
         PackageComposerFinder $packageComposerFinder,
-        DevMasterAliasUpdater $devMasterAliasUpdater
+        DevMasterAliasUpdater $devMasterAliasUpdater,
+        string $packageAliasFormat
     ) {
         $this->symfonyStyle = $symfonyStyle;
         $this->packageComposerFinder = $packageComposerFinder;
         $this->devMasterAliasUpdater = $devMasterAliasUpdater;
+        $this->packageAliasFormat = $packageAliasFormat;
 
         parent::__construct();
     }
@@ -69,10 +76,10 @@ final class PackageAliasCommand extends Command
 
         $lastTagVersion = new Version($lastTag);
 
-        return sprintf(
-            '%d.%d-dev',
-            $lastTagVersion->getMajor()->getValue(),
-            $lastTagVersion->getMinor()->getValue() + 1
+        return str_replace(
+            ['<major>', '<minor'],
+            [$lastTagVersion->getMajor()->getValue(), $lastTagVersion->getMinor()->getValue() + 1],
+            $this->packageAliasFormat
         );
     }
 }

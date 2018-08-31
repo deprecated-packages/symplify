@@ -8,3 +8,4 @@ parameters:
         - 'packages'
     data_to_append: []
     data_to_remove: []
+    package_alias_format: '<major>.<minor>-dev'
