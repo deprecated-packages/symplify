@@ -2,8 +2,9 @@
 
 namespace Symplify\MonorepoBuilder\Package;
 
-use Nette\Utils\Json;
 use Symfony\Component\Finder\SplFileInfo;
+use Symplify\MonorepoBuilder\Configuration\MergedPackagesCollector;
+use Symplify\MonorepoBuilder\FileSystem\JsonFileManager;
 use Symplify\PackageBuilder\Yaml\ParametersMerger;
 
 final class PackageComposerJsonMerger
@@ -13,9 +14,24 @@ final class PackageComposerJsonMerger
      */
     private $parametersMerger;
 
-    public function __construct(ParametersMerger $parametersMerger)
-    {
+    /**
+     * @var MergedPackagesCollector
+     */
+    private $mergedPackagesCollector;
+
+    /**
+     * @var JsonFileManager
+     */
+    private $jsonFileManager;
+
+    public function __construct(
+        ParametersMerger $parametersMerger,
+        MergedPackagesCollector $mergedPackagesCollector,
+        JsonFileManager $jsonFileManager
+    ) {
         $this->parametersMerger = $parametersMerger;
+        $this->mergedPackagesCollector = $mergedPackagesCollector;
+        $this->jsonFileManager = $jsonFileManager;
     }
 
     /**
@@ -28,7 +44,11 @@ final class PackageComposerJsonMerger
         $merged = [];
 
         foreach ($composerPackageFileInfos as $packageFile) {
-            $packageComposerJson = Json::decode($packageFile->getContents(), Json::FORCE_ARRAY);
+            $packageComposerJson = $this->jsonFileManager->loadFromFileInfo($packageFile);
+
+            if (isset($packageComposerJson['name'])) {
+                $this->mergedPackagesCollector->addPackage($packageComposerJson['name']);
+            }
 
             foreach ($sections as $section) {
                 if (! isset($packageComposerJson[$section])) {
