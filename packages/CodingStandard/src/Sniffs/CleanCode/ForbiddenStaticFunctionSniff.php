@@ -8,6 +8,13 @@ use PHP_CodeSniffer\Sniffs\Sniff;
 final class ForbiddenStaticFunctionSniff implements Sniff
 {
     /**
+     * @var string[]
+     */
+    private $allowedStaticFunctions = [
+        'getSubscribedEvents' # Symfony of event subscriber
+    ];
+
+    /**
      * @return int[]
      */
     public function register(): array
@@ -29,6 +36,10 @@ final class ForbiddenStaticFunctionSniff implements Sniff
         $functionNameToken = $file->getTokens()[$functionNameTokenPosition];
 
         if ($functionNameToken === false) {
+            return;
+        }
+
+        if (in_array($functionNameToken['content'], $this->allowedStaticFunctions, true)) {
             return;
         }
 
