@@ -2,34 +2,31 @@
 
 namespace Symplify\MonorepoBuilder\Tests\DependenciesMerger;
 
-use PHPUnit\Framework\TestCase;
-use Symplify\MonorepoBuilder\Composer\Section;
 use Symplify\MonorepoBuilder\DependenciesMerger;
 use Symplify\MonorepoBuilder\FileSystem\JsonFileManager;
+use Symplify\MonorepoBuilder\Tests\AbstractContainerAwareTestCase;
 
-final class DependenciesMergerTest extends TestCase
+final class DependenciesMergerTest extends AbstractContainerAwareTestCase
 {
     /**
      * @var DependenciesMerger
      */
     private $dependenciesMerger;
 
+    /**
+     * @var JsonFileManager
+     */
+    private $jsonFileManager;
+
     protected function setUp(): void
     {
-        $this->dependenciesMerger = new DependenciesMerger([
-            Section::REQUIRE,
-            Section::REPOSITORIES,
-        ], new JsonFileManager());
-    }
-
-    protected function tearDown(): void
-    {
-        copy(__DIR__ . '/Source/backup-root.json', __DIR__ . '/Source/root.json');
+        $this->dependenciesMerger = $this->container->get(DependenciesMerger::class);
+        $this->jsonFileManager = $this->container->get(JsonFileManager::class);
     }
 
     public function test(): void
     {
-        $this->dependenciesMerger->mergeJsonToRootFilePath([
+        $mergedJson = $this->dependenciesMerger->mergeJsonToRootFilePath([
             'require' => [
                 'php' => '^7.1',
                 'symfony/dependency-injection' => '^4.1',
@@ -40,6 +37,9 @@ final class DependenciesMergerTest extends TestCase
             ],
         ], __DIR__ . '/Source/root.json');
 
-        $this->assertFileEquals(__DIR__ . '/Source/expected-root.json', __DIR__ . '/Source/root.json');
+        $this->assertSame(
+            $mergedJson,
+            $this->jsonFileManager->loadFromFilePath(__DIR__ . '/Source/expected-root.json')
+        );
     }
 }

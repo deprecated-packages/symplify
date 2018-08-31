@@ -1,0 +1,7 @@
+{
+    "name": "symfony/console",
+    "require": {
+        "symfony/dependency-injection": "v1.0.0",
+        "rector/rector": "v1.0.0"
+    }
+}
