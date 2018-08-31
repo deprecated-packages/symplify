@@ -208,10 +208,16 @@ $array = ["loooooooooooooooooooooooooooooooongArraaaaaaaaaaay", "loooooooooooooo
         }
 
         // is array with indexed values "=>"
-        $indexedArrayTokens = [new Token([T_DOUBLE_ARROW, '=>'])];
-        $hasArrowToken = $tokens->findSequence($indexedArrayTokens, $blockInfo->getStart(), $blockInfo->getEnd());
+        if ($tokens->findGivenKind(T_DOUBLE_ARROW, $blockInfo->getStart(), $blockInfo->getEnd())) {
+            return true;
+        }
 
-        return (bool) $hasArrowToken;
+        // has comments => dangerous to change: https://github.com/Symplify/Symplify/issues/973
+        if ($tokens->findGivenKind(T_COMMENT, $blockInfo->getStart(), $blockInfo->getEnd())) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -259,8 +265,12 @@ $array = ["loooooooooooooooooooooooooooooooongArraaaaaaaaaaay", "loooooooooooooo
         }
 
         $blockInfo = $this->blockFinder->findInTokensByPositionAndContent($tokens, $methodNamePosition, '(');
-
         if ($blockInfo === null) {
+            return;
+        }
+
+        // has comments => dangerous to change: https://github.com/Symplify/Symplify/issues/973
+        if ($tokens->findGivenKind(T_COMMENT, $blockInfo->getStart(), $blockInfo->getEnd())) {
             return;
         }
 
