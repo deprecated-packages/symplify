@@ -25,6 +25,11 @@ final class ClassStringToClassConstantFixer implements DefinedFixerInterface, Co
     /**
      * @var string
      */
+    public const ALLOW_CLASES_OPTION = 'allow_classes';
+
+    /**
+     * @var string
+     */
     private const CLASS_PART_PATTERN = '[A-Z]\w*[a-z]\w*';
 
     /**
@@ -125,7 +130,16 @@ final class ClassStringToClassConstantFixer implements DefinedFixerInterface, Co
             ->setDefault(true)
             ->getOption();
 
-        return new FixerConfigurationResolver([$classMustExistOption]);
+        $fixerOptionBuilder = new FixerOptionBuilder(
+            self::ALLOW_CLASES_OPTION,
+            'Classes allowed to be in string format.'
+        );
+
+        $allowedClassesOption = $fixerOptionBuilder->setAllowedTypes(['array'])
+            ->setDefault([])
+            ->getOption();
+
+        return new FixerConfigurationResolver([$classMustExistOption, $allowedClassesOption]);
     }
 
     private function getNameFromToken(Token $token): string
@@ -146,6 +160,12 @@ final class ClassStringToClassConstantFixer implements DefinedFixerInterface, Co
         // lowercase string are not classes; required because class_exists() is case-insensitive
         if (ctype_lower($potentialClassInterfaceOrTrait[0])) {
             return false;
+        }
+
+        foreach ($this->configuration[self::ALLOW_CLASES_OPTION] as $allowedClass) {
+            if ($potentialClassInterfaceOrTrait === $allowedClass) {
+                return false;
+            }
         }
 
         $accepted = class_exists($potentialClassInterfaceOrTrait)

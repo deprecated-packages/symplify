@@ -64,7 +64,7 @@ Just like `PhpCsFixer\Fixer\Phpdoc\NoEmptyPhpdocFixer`, but this one removes all
 This checker keeps 'mixed' and 'object' and other types by default. But if you need, you can **configure it**:
 
 ```yaml
-# easy-coding-standard.yml
+# ecs.yml
 services:
     Symplify\CodingStandard\Fixer\Commenting\RemoveUselessDocBlockFixer:
         useless_types: ['mixed', 'object'] # [] by default
@@ -118,7 +118,7 @@ services:
 This checker imports single name classes like `\Twig_Extension` or `\SplFileInfo` by default. But if you need, you can **configure it**:
 
 ```yaml
-# easy-coding-standard.yml
+# ecs.yml
 services:
     Symplify\CodingStandard\Fixer\Import\ImportNamespacedNameFixer:
         allow_single_names: true # false by default
@@ -127,7 +127,7 @@ services:
 You can also configure to check `/** @var Namespaced\DocBlocks */` as well:
 
 ```yaml
-# easy-coding-standard.yml
+# ecs.yml
 services:
     Symplify\CodingStandard\Fixer\Import\ImportNamespacedNameFixer:
         include_doc_blocks: true # false by default
@@ -184,7 +184,7 @@ class SomeClass
 **Change it**:
 
 ```yaml
-# easy-coding-standard.yml
+# ecs.yml
 services:
     Symplify\CodingStandard\Fixer\LineLength\LineLengthFixer:
         max_line_length: 100 # default: 120
@@ -209,7 +209,7 @@ services:
 This checker ignores few **system classes like `std*` or `Spl*` by default**. In case want to skip more classes, you can **configure it**:
 
 ```yaml
-# easy-coding-standard.yml
+# ecs.yml
 services:
     Symplify\CodingStandard\Fixer\Naming\PropertyNameMatchingTypeFixer:
         extra_skipped_classes:
@@ -229,10 +229,20 @@ services:
 This checker takes **only existing classes by default**. In case want to check another code not loaded by local composer, you can **configure it**:
 
 ```yaml
-# easy-coding-standard.yml
+# ecs.yml
 services:
     Symplify\CodingStandard\Fixer\Php\ClassStringToClassConstantFixer:
         class_must_exist: false # true by default
+```
+
+Do you want to allow some classes to be in string format?
+
+```yaml
+# ecs.yml
+services:
+    Symplify\CodingStandard\Fixer\Php\ClassStringToClassConstantFixer:
+        allow_classes:
+            - 'SomeClass'
 ```
 
 ### Array property should have default value, to prevent undefined array issues
@@ -284,7 +294,7 @@ services:
 In case want check this only for specific interfaces, you can **configure them**:
 
 ```yaml
-# easy-coding-standard.yml
+# ecs.yml
 services:
     Symplify\CodingStandard\Fixer\Solid\FinalInterfaceFixer:
         only_interfaces:
@@ -332,7 +342,7 @@ throw new FileNotFoundException('...');
 - class: [`Symplify\CodingStandard\Sniffs\CleanCode\ForbiddenParentClassSniff`](src/Sniffs/CleanCode/ForbiddenParentClassSniff.php)
 
 ```yaml
-# easy-coding-standard.yml
+# ecs.yml
 services:
     Symplify\CodingStandard\Sniffs\CleanCode\ForbiddenParentClassSniff:
         forbiddenParentClasses:
@@ -479,7 +489,7 @@ return sprintf('Class "%s" was removed from "%s". Use "%s" instead', $oldClass, 
 Is 2 `.` too strict? Just configure it:
 
 ```yaml
-# easy-coding-standard.yml
+# ecs.yml
 services:
     Symplify\CodingStandard\Sniffs\ControlStructure\SprintfOverContactSniff:
         maxConcatCount: 4 # "3" by default
@@ -552,7 +562,7 @@ This checkers ignores by default some classes, see `$allowedClasses` property.
 In case want to exclude more classes, you can **configure it** with class or pattern using [`fnmatch`](http://php.net/manual/en/function.fnmatch.php):
 
 ```yaml
-# easy-coding-standard.yml
+# ecs.yml
 services:
     Symplify\CodingStandard\Fixer\DependencyInjection\NoClassInstantiationSniff:
         extraAllowedClasses:
@@ -562,7 +572,7 @@ services:
 Doctrine entities are skipped as well. You can disable that by:
 
 ```yaml
-# easy-coding-standard.yml
+# ecs.yml
 services:
     Symplify\CodingStandard\Fixer\DependencyInjection\NoClassInstantiationSniff:
         includeEntities: true
@@ -620,7 +630,7 @@ class SomeCommand extends Command
 This checker check few names by default. But if you need, you can **configure it**:
 
 ```yaml
-# easy-coding-standard.yml
+# ecs.yml
 services:
     Symplify\CodingStandard\Sniffs\Naming\ClassNameSuffixByParentSniff:
         parentTypesToSuffixes:
@@ -641,7 +651,7 @@ services:
 Or keep all defaults values by using `extra_parent_types_to_suffixes`:
 
 ```yaml
-# easy-coding-standard.yml
+# ecs.yml
 services:
     Symplify\CodingStandard\Sniffs\Naming\ClassNameSuffixByParentSniff:
         extraParentTypesToSuffixes:
