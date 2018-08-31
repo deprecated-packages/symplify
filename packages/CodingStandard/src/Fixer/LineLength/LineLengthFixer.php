@@ -208,10 +208,7 @@ $array = ["loooooooooooooooooooooooooooooooongArraaaaaaaaaaay", "loooooooooooooo
         }
 
         // is array with indexed values "=>"
-        $indexedArrayTokens = [new Token([T_DOUBLE_ARROW, '=>'])];
-        $hasArrowToken = $tokens->findSequence($indexedArrayTokens, $blockInfo->getStart(), $blockInfo->getEnd());
-
-        if ((bool) $hasArrowToken) {
+        if ($tokens->findGivenKind(T_DOUBLE_ARROW, $blockInfo->getStart(), $blockInfo->getEnd())) {
             return true;
         }
 
