@@ -3,6 +3,7 @@
 namespace Symplify\TokenRunner\Tests\Analyzer\SniffAnalyzer\CognitiveComplexityAnalyzer;
 
 use Iterator;
+use Nette\Utils\FileSystem;
 use PHP_CodeSniffer\Config;
 use PHP_CodeSniffer\Tokenizers\PHP;
 use PHPUnit\Framework\TestCase;
@@ -24,8 +25,9 @@ final class CognitiveComplextyAnalyzerTest extends TestCase
     /**
      * @dataProvider provideTokensAndExpectedCognitiveComplexity()
      */
-    public function test(string $fileContent, int $expectedCognitiveComplexity): void
+    public function test(string $filePath, int $expectedCognitiveComplexity): void
     {
+        $fileContent = FileSystem::read($filePath);
         $tokens = $this->fileToTokens($fileContent);
         $functionTokenPosition = null;
         foreach ($tokens as $position => $token) {
@@ -48,14 +50,14 @@ final class CognitiveComplextyAnalyzerTest extends TestCase
      */
     public function provideTokensAndExpectedCognitiveComplexity(): Iterator
     {
-        yield [file_get_contents(__DIR__ . '/Source/function.php.inc'), 9];
-        yield [file_get_contents(__DIR__ . '/Source/function2.php.inc'), 6];
-        yield [file_get_contents(__DIR__ . '/Source/function3.php.inc'), 1];
-        yield [file_get_contents(__DIR__ . '/Source/function4.php.inc'), 2];
-        yield [file_get_contents(__DIR__ . '/Source/function5.php.inc'), 19];
-        yield [file_get_contents(__DIR__ . '/Source/function6.php.inc'), 0];
-        yield [file_get_contents(__DIR__ . '/Source/function7.php.inc'), 3];
-        yield [file_get_contents(__DIR__ . '/Source/function8.php.inc'), 7];
+        yield [__DIR__ . '/Source/function.php.inc', 9];
+        yield [__DIR__ . '/Source/function2.php.inc', 6];
+        yield [__DIR__ . '/Source/function3.php.inc', 1];
+        yield [__DIR__ . '/Source/function4.php.inc', 2];
+        yield [__DIR__ . '/Source/function5.php.inc', 19];
+        yield [__DIR__ . '/Source/function6.php.inc', 0];
+        yield [__DIR__ . '/Source/function7.php.inc', 3];
+        yield [__DIR__ . '/Source/function8.php.inc', 7];
     }
 
     /**

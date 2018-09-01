@@ -2,6 +2,7 @@
 
 namespace Symplify\BetterPhpDocParser\Tests\PhpDocInfo;
 
+use Nette\Utils\FileSystem;
 use PHPStan\PhpDocParser\Ast\Type\TypeNode;
 use Symplify\BetterPhpDocParser\PhpDocInfo\PhpDocInfo;
 use Symplify\BetterPhpDocParser\PhpDocInfo\PhpDocInfoFactory;
@@ -30,7 +31,7 @@ final class PhpDocInfoTest extends AbstractContainerAwareTestCase
         /** @var PhpDocInfoFactory $phpDocInfoFactory */
         $phpDocInfoFactory = $this->container->get(PhpDocInfoFactory::class);
 
-        $this->phpDocInfo = $phpDocInfoFactory->createFrom(file_get_contents(__DIR__ . '/PhpDocInfoSource/doc.txt'));
+        $this->phpDocInfo = $phpDocInfoFactory->createFrom(FileSystem::read(__DIR__ . '/PhpDocInfoSource/doc.txt'));
 
         $this->phpDocInfoFactory = $phpDocInfoFactory;
 
@@ -75,7 +76,7 @@ final class PhpDocInfoTest extends AbstractContainerAwareTestCase
     public function testReplaceTagByAnother(): void
     {
         $phpDocInfo = $this->phpDocInfoFactory->createFrom(
-            file_get_contents(__DIR__ . '/PhpDocInfoSource/test-tag.txt')
+            FileSystem::read(__DIR__ . '/PhpDocInfoSource/test-tag.txt')
         );
 
         $this->assertFalse($phpDocInfo->hasTag('flow'));

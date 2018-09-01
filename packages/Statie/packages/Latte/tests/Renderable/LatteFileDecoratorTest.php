@@ -2,6 +2,7 @@
 
 namespace Symplify\Statie\Latte\Tests\Renderable;
 
+use Nette\Utils\FileSystem;
 use Symplify\PackageBuilder\Finder\SymfonyFileInfoFactory;
 use Symplify\Statie\Latte\Exception\InvalidLatteSyntaxException;
 use Symplify\Statie\Latte\Loader\ArrayLoader;
@@ -29,7 +30,7 @@ final class LatteFileDecoratorTest extends AbstractContainerAwareTestCase
 
         /** @var ArrayLoader $arrayLoader */
         $arrayLoader = $this->container->get(ArrayLoader::class);
-        $arrayLoader->changeContent('default', file_get_contents(__DIR__ . '/LatteFileDecoratorSource/default.latte'));
+        $arrayLoader->changeContent('default', FileSystem::read(__DIR__ . '/LatteFileDecoratorSource/default.latte'));
     }
 
     public function testDecorateFile(): void
