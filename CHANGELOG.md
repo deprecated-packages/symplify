@@ -33,7 +33,6 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 - [#1041] Fix `LineLengthFixer` for commented parts [closes [#973]]
 - [#1039] Fix `BlockPropertyCommentFixer` for invalid annotation [closes [#972]]
-- [#1032] bump to PHP CS Fixer 2.13, deprecate `MagicMethodsNamingFixer`
 - [#1040] Exclude `getSubscribedEvents()` from static functions [closes [#1030]]
 
 #### EasyCodingStandard
@@ -41,6 +40,10 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 - [#1043] Display relative path in error list [closes [#1034]]
 
 ### Changed
+
+#### CodingStandard
+
+- [#1032] bump to PHP CS Fixer 2.13, deprecate `MagicMethodsNamingFixer`
 
 #### MonorepoBuilder
 
