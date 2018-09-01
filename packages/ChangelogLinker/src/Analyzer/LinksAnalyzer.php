@@ -28,7 +28,7 @@ final class LinksAnalyzer
 
         // [content]
         $this->references = [];
-        foreach (Strings::matchAll($content, '#\[\#?(?<reference>[(\w\d\.]+)\](?!:)(?!\()#') as $match) {
+        foreach (Strings::matchAll($content, '#\[\#?(?<reference>[(@\w\d\.]+)\](?!:)(?!\()#') as $match) {
             $this->references[] = $match['reference'];
         }
         $this->references = array_unique($this->references);

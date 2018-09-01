@@ -34,5 +34,6 @@ final class ChangelogCleanerTest extends AbstractContainerAwareTestCase
         yield [__DIR__ . '/Source/before/01.md', __DIR__ . '/Source/after/01.md'];
         yield [__DIR__ . '/Source/before/02.md', __DIR__ . '/Source/after/02.md'];
         yield [__DIR__ . '/Source/before/03.md', __DIR__ . '/Source/after/03.md'];
+        yield [__DIR__ . '/Source/before/04.md', __DIR__ . '/Source/after/04.md'];
     }
 }
