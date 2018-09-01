@@ -12,6 +12,13 @@ use Symplify\TokenRunner\Naming\Name\NameFactory;
 final class ClassWrapper
 {
     /**
+     * Static cache
+     *
+     * @var string[][]
+     */
+    private static $parentInterfacesPerInterface = [];
+
+    /**
      * @var int
      */
     private $startBracketIndex;
@@ -273,10 +280,15 @@ final class ClassWrapper
             $interfaceNames[] = $this->nameFactory->createFromTokensAndStart($this->tokens, $position)->getName();
         }
 
-        // use autolaod
+        // non-direct parent interfaces via autoload
         foreach ($interfaceNames as $interfaceName) {
-            if (interface_exists($interfaceName)) {
-                $interfaceNames = array_merge($interfaceNames, class_implements($interfaceName));
+            if (isset(self::$parentInterfacesPerInterface[$interfaceName])) {
+                $parentInterfaces = self::$parentInterfacesPerInterface[$interfaceName];
+                $interfaceNames = array_merge($interfaceNames, $parentInterfaces);
+            } elseif (interface_exists($interfaceName)) {
+                $parentInterfaces = class_implements($interfaceName);
+                $interfaceNames = array_merge($interfaceNames, $parentInterfaces);
+                self::$parentInterfacesPerInterface[$interfaceName] = $parentInterfaces;
             }
         }
 
