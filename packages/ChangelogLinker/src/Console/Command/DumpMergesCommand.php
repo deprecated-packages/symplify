@@ -16,6 +16,7 @@ use Symplify\ChangelogLinker\Console\Input\PriorityResolver;
 use Symplify\ChangelogLinker\FileSystem\ChangelogFileSystem;
 use Symplify\ChangelogLinker\Github\GithubApi;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
+use Symplify\PackageBuilder\Parameter\ParameterProvider;
 
 /**
  * @inspired by https://github.com/weierophinney/changelog_generator
@@ -68,6 +69,11 @@ final class DumpMergesCommand extends Command
      */
     private $changelogLinker;
 
+    /**
+     * @var ParameterProvider
+     */
+    private $parameterProvider;
+
     public function __construct(
         GithubApi $githubApi,
         SymfonyStyle $symfonyStyle,
@@ -76,7 +82,8 @@ final class DumpMergesCommand extends Command
         ChangelogLinker $changelogLinker,
         ChangelogFileSystem $changelogFileSystem,
         PriorityResolver $priorityResolver,
-        ChangeResolver $changeResolver
+        ChangeResolver $changeResolver,
+        ParameterProvider $parameterProvider
     ) {
         parent::__construct();
         $this->githubApi = $githubApi;
@@ -87,6 +94,7 @@ final class DumpMergesCommand extends Command
         $this->changelogFileSystem = $changelogFileSystem;
         $this->priorityResolver = $priorityResolver;
         $this->changeResolver = $changeResolver;
+        $this->parameterProvider = $parameterProvider;
     }
 
     protected function configure(): void
@@ -126,6 +134,8 @@ final class DumpMergesCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+        $this->parameterProvider->changeParameter(Option::FILE, $input->getArgument(Option::FILE));
+
         $content = $this->changelogFileSystem->readChangelog();
 
         $highestIdInChangelog = $this->idsAnalyzer->getHighestIdInChangelog($content);
