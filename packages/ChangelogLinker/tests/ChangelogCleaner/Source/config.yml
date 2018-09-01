@@ -1,0 +1,5 @@
+parameters:
+    repository_url: 'https://github.com/dummy/dummy'
+
+    names_to_urls:
+        'SomeThingToLink': 'https://someUrl.com'

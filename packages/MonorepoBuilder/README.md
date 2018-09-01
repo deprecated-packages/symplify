@@ -67,7 +67,7 @@ vendor/bin/monorepo-builder bump-interdependency "^4.0"
 In synchronized monorepo, it's common to use same package version to prevent bugs and WTFs. So if one of your package uses `symfony/console` 3.4 and the other `symfony/console` 4.1, this will tell you:
 
 ```bash
-vendor/bin/monorepo-builder validate-versions
+vendor/bin/monorepo-builder validate
 ```
 
 ### 4. Keep Package Alias Up-To-Date

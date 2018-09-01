@@ -3,6 +3,7 @@
 namespace Symplify\ChangelogLinker\Tests\ChangelogLinker;
 
 use Iterator;
+use Nette\Utils\FileSystem;
 use Symplify\ChangelogLinker\ChangelogLinker;
 use Symplify\ChangelogLinker\DependencyInjection\ContainerFactory;
 use Symplify\ChangelogLinker\Tests\AbstractContainerAwareTestCase;
@@ -33,7 +34,7 @@ final class ChangelogLinkerTest extends AbstractContainerAwareTestCase
      */
     public function test(string $originalFile, string $expectedFile): void
     {
-        $processedFile = $this->changelogLinker->processContentWithLinkAppends(file_get_contents($originalFile));
+        $processedFile = $this->changelogLinker->processContentWithLinkAppends(FileSystem::read($originalFile));
 
         $this->assertStringEqualsFile($expectedFile, $processedFile);
     }

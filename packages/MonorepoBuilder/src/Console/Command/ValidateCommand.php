@@ -11,7 +11,7 @@ use Symplify\MonorepoBuilder\PackageComposerFinder;
 use Symplify\MonorepoBuilder\VersionValidator;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
 
-final class ValidateVersionsCommand extends Command
+final class ValidateCommand extends Command
 {
     /**
      * @var SymfonyStyle

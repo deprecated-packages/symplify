@@ -24,4 +24,13 @@ final class LinksAnalyzerTest extends TestCase
         $this->assertTrue($this->linksAnalyzer->hasLinkedId('5'));
         $this->assertFalse($this->linksAnalyzer->hasLinkedId('10'));
     }
+
+    public function testDeadLinks(): void
+    {
+        $this->linksAnalyzer->analyzeContent(file_get_contents(__DIR__ . '/Source/SomeFileWithDeadlinks.md'));
+
+        $deadLinks = $this->linksAnalyzer->getDeadLinks();
+
+        $this->assertSame(['5', '15'], $deadLinks);
+    }
 }

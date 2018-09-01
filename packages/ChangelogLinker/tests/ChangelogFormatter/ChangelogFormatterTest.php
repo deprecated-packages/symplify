@@ -3,6 +3,7 @@
 namespace Symplify\ChangelogLinker\Tests\ChangelogFormatter;
 
 use Iterator;
+use Nette\Utils\FileSystem;
 use PHPUnit\Framework\TestCase;
 use Symplify\ChangelogLinker\ChangelogFormatter;
 
@@ -23,7 +24,7 @@ final class ChangelogFormatterTest extends TestCase
      */
     public function test(string $fileToFormat, string $expectedFormattedFile): void
     {
-        $fileContentToFormat = file_get_contents($fileToFormat);
+        $fileContentToFormat = FileSystem::read($fileToFormat);
 
         $this->assertStringEqualsFile($expectedFormattedFile, $this->changelogFormatter->format($fileContentToFormat));
     }
