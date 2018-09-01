@@ -9,6 +9,43 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 <!-- changelog-linker -->
 
+## Unreleased
+
+### Added
+
+#### CodingStandard
+
+- [#1044] Add `ForbiddenDoubleAssignSniff` [closes [#1012]]
+- [#1042] Add `MethodOrderByTypeFixer` [closes [#1021]]
+- [#1038] Add `allow_classes` option to `ClassStringToClassConstantFixer` [closes [#1015]]
+
+#### PackageBuilder
+
+- [#1035] Add CommandNaming support for `UPPPERCase` names [closes [#1016]]
+
+#### MonorepoBuilder
+
+- [#1036]  Make branch alias configurable [closes [#997]]
+
+### Fixed
+
+#### CodingStandard
+
+- [#1041] Fix `LineLengthFixer` for commented parts [closes [#973]]
+- [#1039] Fix `BlockPropertyCommentFixer` for invalid annotation [closes [#972]]
+- [#1032] bump to PHP CS Fixer 2.13, deprecate `MagicMethodsNamingFixer`
+- [#1040] Exclude `getSubscribedEvents()` from static functions [closes [#1030]]
+
+#### EasyCodingStandard
+
+- [#1043] Display relative path in error list [closes [#1034]]
+
+### Changed
+
+#### MonorepoBuilder
+
+- [#1037] Remove only packages that were merged to the root [closes [#1007]]
+
 ## [v4.6.1] - 2018-08-20
 
 ### Changed
@@ -1561,3 +1598,28 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
 [#1001]: https://github.com/Symplify/Symplify/pull/1001
 [#1000]: https://github.com/Symplify/Symplify/pull/1000
 [v4.6.1]: https://github.com/Symplify/Symplify/compare/v4.6.0...v4.6.1
+[#1044]: https://github.com/Symplify/Symplify/pull/1044
+[#1043]: https://github.com/Symplify/Symplify/pull/1043
+[#1042]: https://github.com/Symplify/Symplify/pull/1042
+[#1041]: https://github.com/Symplify/Symplify/pull/1041
+[#1040]: https://github.com/Symplify/Symplify/pull/1040
+[#1039]: https://github.com/Symplify/Symplify/pull/1039
+[#1038]: https://github.com/Symplify/Symplify/pull/1038
+[#1037]: https://github.com/Symplify/Symplify/pull/1037
+[#1036]: https://github.com/Symplify/Symplify/pull/1036
+[#1035]: https://github.com/Symplify/Symplify/pull/1035
+[#1034]: https://github.com/Symplify/Symplify/pull/1034
+[#1033]: https://github.com/Symplify/Symplify/pull/1033
+[#1032]: https://github.com/Symplify/Symplify/pull/1032
+[#1030]: https://github.com/Symplify/Symplify/pull/1030
+[#1027]: https://github.com/Symplify/Symplify/pull/1027
+[#1026]: https://github.com/Symplify/Symplify/pull/1026
+[#1021]: https://github.com/Symplify/Symplify/pull/1021
+[#1016]: https://github.com/Symplify/Symplify/pull/1016
+[#1015]: https://github.com/Symplify/Symplify/pull/1015
+[#1012]: https://github.com/Symplify/Symplify/pull/1012
+[#1007]: https://github.com/Symplify/Symplify/pull/1007
+[#997]: https://github.com/Symplify/Symplify/pull/997
+[#973]: https://github.com/Symplify/Symplify/pull/973
+[#972]: https://github.com/Symplify/Symplify/pull/972
+[@TomasLudvik]: https://github.com/TomasLudvik
