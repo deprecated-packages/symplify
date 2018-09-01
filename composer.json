@@ -100,7 +100,7 @@
         "phpstan": "vendor/bin/phpstan analyse packages --level max --configuration phpstan.neon",
         "changelog": [
             "packages/ChangelogLinker/bin/changelog-linker dump-merges --in-categories --in-packages",
-            "packages/ChangelogLinker/bin/changelog-linker linkify",
+            "packages/ChangelogLinker/bin/changelog-linker link",
             "packages/ChangelogLinker/bin/changelog-linker cleanup"
         ]
     },
