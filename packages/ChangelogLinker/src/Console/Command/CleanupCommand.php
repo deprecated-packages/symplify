@@ -5,6 +5,7 @@ namespace Symplify\ChangelogLinker\Console\Command;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Style\SymfonyStyle;
 use Symplify\ChangelogLinker\ChangelogCleaner;
 use Symplify\ChangelogLinker\Configuration\Option;
 use Symplify\ChangelogLinker\FileSystem\ChangelogFileSystem;
@@ -27,16 +28,22 @@ final class CleanupCommand extends Command
      * @var ParameterProvider
      */
     private $parameterProvider;
+    /**
+     * @var SymfonyStyle
+     */
+    private $symfonyStyle;
 
     public function __construct(
         ChangelogFileSystem $changelogFileSystem,
         ChangelogCleaner $changelogCleaner,
-        ParameterProvider $parameterProvider
+        ParameterProvider $parameterProvider,
+       SymfonyStyle $symfonyStyle
     ) {
         parent::__construct();
         $this->changelogFileSystem = $changelogFileSystem;
         $this->changelogCleaner = $changelogCleaner;
         $this->parameterProvider = $parameterProvider;
+        $this->symfonyStyle = $symfonyStyle;
     }
 
     protected function configure(): void
@@ -47,13 +54,16 @@ final class CleanupCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $this->parameterProvider->changeParameter(Option::FILE, $input->getArgument(Option::FILE));
+        $file = $input->getArgument(Option::FILE);
+        $this->parameterProvider->changeParameter(Option::FILE, $file);
 
         $changelogContent = $this->changelogFileSystem->readChangelog();
 
         $processedChangelogContent = $this->changelogCleaner->processContent($changelogContent);
 
         $this->changelogFileSystem->storeChangelog($processedChangelogContent);
+
+        $this->symfonyStyle->success(sprintf('File "%s" is now clean from duplicates!', $file));
 
         // success
         return 0;
