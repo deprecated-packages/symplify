@@ -58,7 +58,7 @@ final class MethodOrderByTypeFixer implements DefinedFixerInterface, Configurati
     public function getDefinition(): FixerDefinitionInterface
     {
         return new FixerDefinition(
-            'Methods should have specific order by interface.',
+            'Methods should have specific order by interface or parent class.',
             [
                 new CodeSample(
 <<<'CODE_SAMPLE'

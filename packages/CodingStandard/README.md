@@ -216,6 +216,42 @@ services:
             - 'MyApp*' # accepts anything like fnmatch
 ```
 
+### Public Methods Should have Specific Order by Interface/Parent Class
+
+- :wrench:
+- class: [`Symplify\CodingStandard\Fixer\Order\MethodOrderByTypeFixer`](src/Fixer/Order/MethodOrderByTypeFixer.php)
+
+```yaml
+# ecs.yml
+services:
+    Symplify\CodingStandard\Fixer\Order\MethodOrderByTypeFixer:
+        method_order_by_type:
+            Rector\Contract\Rector\PhpRectorInterface:
+                - 'getNodeTypes'
+                - 'refactor'
+```
+
+↓
+
+```diff
+ final class SomeRector implements PhpRectorInterface
+ {
+-    public function refactor()
++    public function getNodeTypes()
+     {
+-        // refactoring
++        return ['SomeType'];
+     }
+-
+-    public function getNodeTypes()
++    public function refactor(): void
+     {
+-        return ['SomeType'];
++        // refactoring
+     }
+ }
+```
+
 ### `::class` references should be used over string for classes and interfaces
 
 - :wrench:
