@@ -77,4 +77,4 @@ after_script:
   - git tag
 
 notifications:
-  email: never
+  email: false
