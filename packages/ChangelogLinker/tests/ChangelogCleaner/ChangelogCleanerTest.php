@@ -1,8 +1,9 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\ChangelogCleaner\Tests\ChangelogCleaner;
+namespace Symplify\ChangelogLinker\Tests\ChangelogCleaner;
 
 use Iterator;
+use Nette\Utils\FileSystem;
 use Symplify\ChangelogLinker\ChangelogCleaner;
 use Symplify\ChangelogLinker\Tests\AbstractContainerAwareTestCase;
 
@@ -23,7 +24,7 @@ final class ChangelogCleanerTest extends AbstractContainerAwareTestCase
      */
     public function test(string $originalFile, string $expectedFile): void
     {
-        $processedFile = $this->changelogCleaner->processContent(file_get_contents($originalFile));
+        $processedFile = $this->changelogCleaner->processContent(FileSystem::read($originalFile));
 
         $this->assertStringEqualsFile($expectedFile, $processedFile);
     }
