@@ -6,6 +6,8 @@ use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symplify\MonorepoBuilder\Contract\ComposerJsonDecoratorInterface;
 use Symplify\MonorepoBuilder\DependenciesMerger;
 use Symplify\PackageBuilder\DependencyInjection\DefinitionCollector;
@@ -27,6 +29,7 @@ final class CollectorCompilerPass implements CompilerPassInterface
     {
         $this->collectCommandsToConsoleApplication($containerBuilder);
         $this->collectWorkersToApplication($containerBuilder);
+        $this->collectEventSubscribersToEventDispatcher($containerBuilder);
     }
 
     private function collectCommandsToConsoleApplication(ContainerBuilder $containerBuilder): void
@@ -36,6 +39,16 @@ final class CollectorCompilerPass implements CompilerPassInterface
             Application::class,
             Command::class,
             'add'
+        );
+    }
+
+    private function collectEventSubscribersToEventDispatcher(ContainerBuilder $containerBuilder): void
+    {
+        $this->definitionCollector->loadCollectorWithType(
+            $containerBuilder,
+            EventDispatcherInterface::class,
+            EventSubscriberInterface::class,
+            'addSubscriber'
         );
     }
 

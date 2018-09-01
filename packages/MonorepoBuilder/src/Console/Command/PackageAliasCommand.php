@@ -2,13 +2,13 @@
 
 namespace Symplify\MonorepoBuilder\Console\Command;
 
-use PharIo\Version\Version;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symplify\MonorepoBuilder\DevMasterAliasUpdater;
 use Symplify\MonorepoBuilder\PackageComposerFinder;
+use Symplify\MonorepoBuilder\Utils\Utils;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
 
 final class PackageAliasCommand extends Command
@@ -29,22 +29,22 @@ final class PackageAliasCommand extends Command
     private $devMasterAliasUpdater;
 
     /**
-     * @var string
+     * @var Utils
      */
-    private $packageAliasFormat;
+    private $utils;
 
     public function __construct(
         SymfonyStyle $symfonyStyle,
         PackageComposerFinder $packageComposerFinder,
         DevMasterAliasUpdater $devMasterAliasUpdater,
-        string $packageAliasFormat
+        Utils $utils
     ) {
+        parent::__construct();
+
         $this->symfonyStyle = $symfonyStyle;
         $this->packageComposerFinder = $packageComposerFinder;
         $this->devMasterAliasUpdater = $devMasterAliasUpdater;
-        $this->packageAliasFormat = $packageAliasFormat;
-
-        parent::__construct();
+        $this->utils = $utils;
     }
 
     protected function configure(): void
@@ -74,12 +74,6 @@ final class PackageAliasCommand extends Command
     {
         $lastTag = exec('git describe --abbrev=0 --tags');
 
-        $lastTagVersion = new Version($lastTag);
-
-        return str_replace(
-            ['<major>', '<minor'],
-            [$lastTagVersion->getMajor()->getValue(), $lastTagVersion->getMinor()->getValue() + 1],
-            $this->packageAliasFormat
-        );
+        return $this->utils->getNextVersionDevAliasForVersion($lastTag)->getVersionString();
     }
 }
