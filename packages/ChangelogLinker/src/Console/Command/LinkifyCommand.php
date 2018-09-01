@@ -35,6 +35,10 @@ final class LinkifyCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+        $file = $input->getArgument('file');
+        dump($file);
+        die;
+
         $changelogContent = $this->changelogFileSystem->readChangelog();
 
         $processedChangelogContent = $this->changelogLinker->processContent($changelogContent);
