@@ -113,7 +113,7 @@ CODE_SAMPLE
                 continue;
             }
 
-            $publicMethodElements = $this->filterPublicMethodElementsFirst($methodElements);
+            $publicMethodElements = $this->filterPublicElementsFirst($methodElements);
             $requiredMethodOrder = $this->configuration[self::METHOD_ORDER_BY_TYPE_OPTION][$matchedClassType];
 
             // first method index
@@ -196,55 +196,34 @@ CODE_SAMPLE
      * @param mixed[] $elements
      * @return mixed[]
      */
-    private function filterPublicMethodElementsFirst(array $elements): array
+    private function filterPublicElementsFirst(array $elements): array
     {
-        $publicMethods = [];
+        $publicElements = [];
         $restOfMethods = [];
 
         foreach ($elements as $element) {
-            if ($element['type'] !== 'method') {
-//                $restOfMethods[$element['name']] = $element;
-                continue;
-            }
-
             if ($element['visibility'] === 'public') {
-                $publicMethods[$element['name']] = $element;
+                $publicElements[$element['name']] = $element;
             } else {
                 $restOfMethods[$element['name']] = $element;
             }
-//            $publicMethods[$element['name']] = $element;
         }
 
-        return array_merge($publicMethods, $restOfMethods);
+        return array_merge($publicElements, $restOfMethods);
     }
 
     private function matchClassType(ClassWrapper $classWrapper): ?string
     {
-        /** @var string $type */
-        foreach (array_keys($this->configuration[self::METHOD_ORDER_BY_TYPE_OPTION]) as $type) {
-            if ($this->isClassWrapperByParentType($classWrapper, $type)) {
-                return $type;
-            }
+        $classTypes = array_merge([$classWrapper->getParentClassName()], $classWrapper->getInterfaceNames());
+        $classTypesToCheck = array_keys($this->configuration[self::METHOD_ORDER_BY_TYPE_OPTION]);
+
+        $matchTypes = array_intersect($classTypes, $classTypesToCheck);
+        if (! $matchTypes) {
+            return null;
         }
 
-        return null;
-    }
-
-    private function isClassWrapperByParentType(ClassWrapper $classWrapper, string $type): bool
-    {
-        if ($classWrapper->getParentClassName()) {
-            if ($classWrapper->getParentClassName() === $type) {
-                return true;
-            }
-        }
-
-        foreach ($classWrapper->getInterfaceNames() as $interfaceName) {
-            if ($interfaceName === $type) {
-                return true;
-            }
-        }
-
-        return false;
+        // return first matching type
+        return array_pop($matchTypes);
     }
 
     /**
@@ -253,15 +232,11 @@ CODE_SAMPLE
      */
     private function filterMethodElements(array $elements): array
     {
-        $methodElements = [];
-        foreach ($elements as $element) {
-            if ($element['type'] !== 'method') {
-                continue;
-            }
+        $elements = array_filter($elements, function (array $element) {
+            return $element['type'] === 'method';
+        });
 
-            $methodElements[] = $element;
-        }
-
-        return $methodElements;
+        // re-index from 0
+        return array_values($elements);
     }
 }
