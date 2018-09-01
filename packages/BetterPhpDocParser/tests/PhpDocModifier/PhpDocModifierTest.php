@@ -3,6 +3,7 @@
 namespace Symplify\BetterPhpDocParser\Tests\PhpDocModifier;
 
 use Iterator;
+use Nette\Utils\FileSystem;
 use Symplify\BetterPhpDocParser\PhpDocInfo\PhpDocInfoFactory;
 use Symplify\BetterPhpDocParser\Printer\PhpDocInfoPrinter;
 use Symplify\BetterPhpDocParser\Tests\AbstractContainerAwareTestCase;
@@ -28,8 +29,10 @@ final class PhpDocModifierTest extends AbstractContainerAwareTestCase
     /**
      * @dataProvider provideDataForRemoveTagByName()
      */
-    public function testRemoveTagByName(string $phpDocBefore, string $phpDocAfter, string $tagName): void
+    public function testRemoveTagByName(string $phpDocBeforeFilePath, string $phpDocAfter, string $tagName): void
     {
+        $phpDocBefore = FileSystem::read($phpDocBeforeFilePath);
+
         $phpDocInfo = $this->phpDocInfoFactory->createFrom($phpDocBefore);
 
         $phpDocInfo->removeTagByName($tagName);
@@ -39,19 +42,21 @@ final class PhpDocModifierTest extends AbstractContainerAwareTestCase
 
     public function provideDataForRemoveTagByName(): Iterator
     {
-        yield [file_get_contents(__DIR__ . '/PhpDocModifierSource/before.txt'), '', 'var'];
-        yield [file_get_contents(__DIR__ . '/PhpDocModifierSource/before.txt'), '', '@var'];
+        yield [__DIR__ . '/PhpDocModifierSource/before.txt', '', 'var'];
+        yield [__DIR__ . '/PhpDocModifierSource/before.txt', '', '@var'];
     }
 
     /**
      * @dataProvider provideDataForRemoveTagByNameAndContent()
      */
     public function testRemoveTagByNameAndContent(
-        string $phpDocBefore,
+        string $phpDocBeforeFilePath,
         string $phpDocAfter,
         string $tagName,
         string $tagContent
     ): void {
+        $phpDocBefore = FileSystem::read($phpDocBeforeFilePath);
+
         $phpDocInfo = $this->phpDocInfoFactory->createFrom($phpDocBefore);
 
         $phpDocInfo->removeTagByNameAndContent($tagName, $tagContent);
@@ -61,13 +66,13 @@ final class PhpDocModifierTest extends AbstractContainerAwareTestCase
 
     public function provideDataForRemoveTagByNameAndContent(): Iterator
     {
-        yield [file_get_contents(__DIR__ . '/PhpDocModifierSource/before2.txt'), '', 'method', 'getThis()'];
+        yield [__DIR__ . '/PhpDocModifierSource/before2.txt', '', 'method', 'getThis()'];
     }
 
     public function testRemoveTagByNameAndContentComplex(): void
     {
         $phpDocInfo = $this->phpDocInfoFactory->createFrom(
-            file_get_contents(__DIR__ . '/PhpDocModifierSource/before4.txt')
+            FileSystem::read(__DIR__ . '/PhpDocModifierSource/before4.txt')
         );
 
         $phpDocInfo->removeTagByNameAndContent('method', 'setName');
@@ -85,28 +90,32 @@ final class PhpDocModifierTest extends AbstractContainerAwareTestCase
      * @dataProvider provideDataForRemoveParamTagByParameter()
      */
     public function testRemoveParamTagByParameter(
-        string $phpDocBefore,
-        string $phpDocAfter,
+        string $phpDocBeforeFilePath,
+        string $phpDocAfterFilePath,
         string $parameterName
     ): void {
+        $phpDocBefore = FileSystem::read($phpDocBeforeFilePath);
         $phpDocInfo = $this->phpDocInfoFactory->createFrom($phpDocBefore);
 
         $phpDocInfo->removeParamTagByParameter($parameterName);
 
-        $this->assertSame($phpDocAfter, $this->phpDocInfoPrinter->printFormatPreserving($phpDocInfo));
+        $this->assertStringEqualsFile(
+            $phpDocAfterFilePath,
+            $this->phpDocInfoPrinter->printFormatPreserving($phpDocInfo)
+        );
     }
 
     public function provideDataForRemoveParamTagByParameter(): Iterator
     {
         yield [
-            file_get_contents(__DIR__ . '/PhpDocModifierSource/before3.txt'),
-            file_get_contents(__DIR__ . '/PhpDocModifierSource/after3.txt'),
+            __DIR__ . '/PhpDocModifierSource/before3.txt',
+            __DIR__ . '/PhpDocModifierSource/after3.txt',
             'paramName',
         ];
 
         yield [
-            file_get_contents(__DIR__ . '/PhpDocModifierSource/before3.txt'),
-            file_get_contents(__DIR__ . '/PhpDocModifierSource/after3.txt'),
+            __DIR__ . '/PhpDocModifierSource/before3.txt',
+            __DIR__ . '/PhpDocModifierSource/after3.txt',
             '$paramName',
         ];
     }

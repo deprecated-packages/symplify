@@ -2,6 +2,7 @@
 
 namespace Symplify\Statie\Twig\Tests\TwigFactory;
 
+use Nette\Utils\FileSystem;
 use Symplify\Statie\Tests\AbstractConfigAwareContainerTestCase;
 use Symplify\Statie\Twig\TwigFactory;
 
@@ -21,7 +22,7 @@ final class TwigFactoryTest extends AbstractConfigAwareContainerTestCase
     {
         $twig = $this->twigFactory->create();
 
-        $template = $twig->createTemplate(file_get_contents(__DIR__ . '/Source/someFileToRender.twig'));
+        $template = $twig->createTemplate(FileSystem::read(__DIR__ . '/Source/someFileToRender.twig'));
 
         $renderedTwig = $template->render([
             'var' => 'value',

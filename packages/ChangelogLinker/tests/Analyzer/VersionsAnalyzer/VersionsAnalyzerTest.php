@@ -3,6 +3,7 @@
 namespace Symplify\ChangelogLinker\Tests\Analyzer\VersionsAnalyzer;
 
 use Iterator;
+use Nette\Utils\FileSystem;
 use PHPUnit\Framework\TestCase;
 use Symplify\ChangelogLinker\Analyzer\VersionsAnalyzer;
 
@@ -16,7 +17,7 @@ final class VersionsAnalyzerTest extends TestCase
     protected function setUp(): void
     {
         $this->versionsAnalyzer = new VersionsAnalyzer();
-        $this->versionsAnalyzer->analyzeContent(file_get_contents(__DIR__ . '/Source/SomeFile.md'));
+        $this->versionsAnalyzer->analyzeContent(FileSystem::read(__DIR__ . '/Source/SomeFile.md'));
     }
 
     /**

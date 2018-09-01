@@ -3,6 +3,7 @@
 namespace Symplify\ChangelogLinker\Tests\Analyzer\IdsAnalyzer;
 
 use Iterator;
+use Nette\Utils\FileSystem;
 use PHPUnit\Framework\TestCase;
 use Symplify\ChangelogLinker\Analyzer\IdsAnalyzer;
 
@@ -23,7 +24,7 @@ final class IdsAnalyzerTest extends TestCase
      */
     public function test(string $filePath, int $expectedId): void
     {
-        $content = file_get_contents($filePath);
+        $content = FileSystem::read($filePath);
         $this->assertSame($expectedId, $this->idsAnalyzer->getHighestIdInChangelog($content));
     }
 

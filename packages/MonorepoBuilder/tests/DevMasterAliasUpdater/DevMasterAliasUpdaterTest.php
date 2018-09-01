@@ -30,9 +30,6 @@ final class DevMasterAliasUpdaterTest extends TestCase
 
         $this->devMasterAliasUpdater->updateFileInfosWithAlias($fileInfos, '4.5-dev');
 
-        $this->assertSame(
-            file_get_contents(__DIR__ . '/Source/expected-first.json'),
-            file_get_contents(__DIR__ . '/Source/first.json')
-        );
+        $this->assertFileEquals(__DIR__ . '/Source/expected-first.json', __DIR__ . '/Source/first.json');
     }
 }

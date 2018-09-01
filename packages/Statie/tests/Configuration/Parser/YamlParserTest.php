@@ -2,6 +2,7 @@
 
 namespace Symplify\Statie\Tests\Configuration\Parser;
 
+use Nette\Utils\FileSystem;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Yaml\Exception\ParseException;
 use Symfony\Component\Yaml\Parser;
@@ -21,7 +22,7 @@ final class YamlParserTest extends TestCase
 
     public function testDecode(): void
     {
-        $decodedYaml = $this->yamlParser->decode(file_get_contents(__DIR__ . '/YamlParserSource/config.yml'));
+        $decodedYaml = $this->yamlParser->decode(FileSystem::read(__DIR__ . '/YamlParserSource/config.yml'));
         $this->assertContains('one', $decodedYaml['multiline']);
         $this->assertContains('two', $decodedYaml['multiline']);
 

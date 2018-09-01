@@ -2,6 +2,7 @@
 
 namespace Symplify\Statie\Twig\Tests\Renderable;
 
+use Nette\Utils\FileSystem;
 use Symplify\PackageBuilder\Finder\SymfonyFileInfoFactory;
 use Symplify\Statie\Renderable\File\AbstractFile;
 use Symplify\Statie\Renderable\File\FileFactory;
@@ -29,7 +30,7 @@ final class TwigFileDecoratorTest extends AbstractContainerAwareTestCase
 
         /** @var ArrayLoader $arrayLoader */
         $arrayLoader = $this->container->get(ArrayLoader::class);
-        $arrayLoader->setTemplate('default', file_get_contents(__DIR__ . '/TwigFileDecoratorSource/default.twig'));
+        $arrayLoader->setTemplate('default', FileSystem::read(__DIR__ . '/TwigFileDecoratorSource/default.twig'));
     }
 
     public function testDecorateFile(): void

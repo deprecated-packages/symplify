@@ -76,11 +76,11 @@ abstract class AbstractGeneratorTest extends TestCase
         $arrayLoader = $this->container->get(ArrayLoader::class);
         $arrayLoader->changeContent(
             '_layouts/post.latte',
-            file_get_contents($this->sourceDirectory . '/_layouts/post.latte')
+            FileSystem::read($this->sourceDirectory . '/_layouts/post.latte')
         );
         $arrayLoader->changeContent(
             '_layouts/lecture.latte',
-            file_get_contents($this->sourceDirectory . '/_layouts/lecture.latte')
+            FileSystem::read($this->sourceDirectory . '/_layouts/lecture.latte')
         );
     }
 }

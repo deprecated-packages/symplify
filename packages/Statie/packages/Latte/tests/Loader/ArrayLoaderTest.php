@@ -2,6 +2,7 @@
 
 namespace Symplify\Statie\Latte\Tests\Loader;
 
+use Nette\Utils\FileSystem;
 use PHPUnit\Framework\TestCase;
 use Symplify\Statie\Latte\Loader\ArrayLoader;
 use Throwable;
@@ -32,7 +33,7 @@ final class ArrayLoaderTest extends TestCase
     private function createStringLoader(): ArrayLoader
     {
         $loader = new ArrayLoader();
-        $loader->changeContent('default', file_get_contents(__DIR__ . '/ArrayLoaderSource/default.latte'));
+        $loader->changeContent('default', FileSystem::read(__DIR__ . '/ArrayLoaderSource/default.latte'));
 
         return $loader;
     }

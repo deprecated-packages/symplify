@@ -2,6 +2,7 @@
 
 namespace Symplify\MonorepoBuilder\FileSystem;
 
+use Nette\Utils\FileSystem;
 use Nette\Utils\Json;
 use Symfony\Component\Finder\SplFileInfo;
 
@@ -20,7 +21,7 @@ final class JsonFileManager
      */
     public function loadFromFilePath(string $filePath): array
     {
-        return Json::decode(file_get_contents($filePath), Json::FORCE_ARRAY);
+        return Json::decode(FileSystem::read($filePath), Json::FORCE_ARRAY);
     }
 
     /**
