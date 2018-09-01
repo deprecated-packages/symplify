@@ -82,9 +82,9 @@ final class StandaloneLineInMultilineArrayFixer implements DefinedFixerInterface
         }
     }
 
-    public function isRisky(): bool
+    public function getPriority(): int
     {
-        return false;
+        return 0;
     }
 
     public function getName(): string
@@ -92,9 +92,9 @@ final class StandaloneLineInMultilineArrayFixer implements DefinedFixerInterface
         return self::class;
     }
 
-    public function getPriority(): int
+    public function isRisky(): bool
     {
-        return 0;
+        return false;
     }
 
     public function supports(SplFileInfo $file): bool

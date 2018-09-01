@@ -108,9 +108,9 @@ CODE
         }
     }
 
-    public function isRisky(): bool
+    public function getPriority(): int
     {
-        return true;
+        return 0;
     }
 
     public function getName(): string
@@ -118,9 +118,9 @@ CODE
         return self::class;
     }
 
-    public function getPriority(): int
+    public function isRisky(): bool
     {
-        return 0;
+        return true;
     }
 
     public function supports(SplFileInfo $file): bool

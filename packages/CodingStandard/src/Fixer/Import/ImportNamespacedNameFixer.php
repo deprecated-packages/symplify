@@ -175,6 +175,24 @@ final class ImportNamespacedNameFixer implements DefinedFixerInterface, Configur
         return 10;
     }
 
+    public function getName(): string
+    {
+        return self::class;
+    }
+
+    /**
+     * There are still some edge cases to be found and improve.
+     */
+    public function isRisky(): bool
+    {
+        return true;
+    }
+
+    public function supports(SplFileInfo $file): bool
+    {
+        return true;
+    }
+
     /**
      * @param mixed[]|null $configuration
      */
@@ -205,24 +223,6 @@ final class ImportNamespacedNameFixer implements DefinedFixerInterface, Configur
             ->getOption();
 
         return new FixerConfigurationResolver([$allowSingleNamesOption, $includeDocBlocksOption]);
-    }
-
-    public function supports(SplFileInfo $file): bool
-    {
-        return true;
-    }
-
-    /**
-     * There are still some edge cases to be found and improve.
-     */
-    public function isRisky(): bool
-    {
-        return true;
-    }
-
-    public function getName(): string
-    {
-        return self::class;
     }
 
     /**

@@ -105,16 +105,6 @@ public function getCount(): int
         }
     }
 
-    public function isRisky(): bool
-    {
-        return false;
-    }
-
-    public function getName(): string
-    {
-        return self::class;
-    }
-
     /**
      * Runs before:
      * - @see \PhpCsFixer\Fixer\Phpdoc\NoEmptyPhpdocFixer (5).
@@ -123,6 +113,16 @@ public function getCount(): int
     public function getPriority(): int
     {
         return 30;
+    }
+
+    public function getName(): string
+    {
+        return self::class;
+    }
+
+    public function isRisky(): bool
+    {
+        return false;
     }
 
     public function supports(SplFileInfo $file): bool

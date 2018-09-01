@@ -82,13 +82,13 @@ namespace SomeNamespace;')]
         return self::class;
     }
 
-    public function supports(SplFileInfo $file): bool
-    {
-        return true;
-    }
-
     public function isRisky(): bool
     {
         return false;
+    }
+
+    public function supports(SplFileInfo $file): bool
+    {
+        return true;
     }
 }

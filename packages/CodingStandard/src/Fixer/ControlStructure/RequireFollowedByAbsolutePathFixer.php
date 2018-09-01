@@ -57,9 +57,12 @@ final class RequireFollowedByAbsolutePathFixer implements DefinedFixerInterface
         }
     }
 
-    public function isRisky(): bool
+    /**
+     * Must run before @see ConcatSpaceFixer.
+     */
+    public function getPriority(): int
     {
-        return false;
+        return 5;
     }
 
     public function getName(): string
@@ -67,12 +70,9 @@ final class RequireFollowedByAbsolutePathFixer implements DefinedFixerInterface
         return self::class;
     }
 
-    /**
-     * Must run before @see ConcatSpaceFixer.
-     */
-    public function getPriority(): int
+    public function isRisky(): bool
     {
-        return 5;
+        return false;
     }
 
     public function supports(SplFileInfo $file): bool

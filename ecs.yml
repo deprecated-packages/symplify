@@ -7,6 +7,17 @@ imports:
     - { resource: 'packages/EasyCodingStandard/config/psr12.yml' }
 
 services:
+    Symplify\CodingStandard\Fixer\Order\MethodOrderByTypeFixer:
+        method_order_by_type:
+            PhpCsFixer\Fixer\FixerInterface:
+                - 'getDefinition'
+                - 'isCandidate'
+                - 'fix'
+                - 'getPriority'
+                - 'getName'
+                - 'isRisky'
+                - 'supports'
+
     Symplify\CodingStandard\Sniffs\CleanCode\CognitiveComplexitySniff:
         maxCognitiveComplexity: 8
 

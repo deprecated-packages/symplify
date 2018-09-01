@@ -254,7 +254,6 @@ final class ClassWrapper
     public function getInterfaceNames(): array
     {
         $implementTokens = $this->tokens->findGivenKind(T_IMPLEMENTS, $this->startIndex, $this->startBracketIndex);
-
         if (! $implementTokens) {
             return [];
         }
@@ -274,7 +273,14 @@ final class ClassWrapper
             $interfaceNames[] = $this->nameFactory->createFromTokensAndStart($this->tokens, $position)->getName();
         }
 
-        return $interfaceNames;
+        // use autolaod
+        foreach ($interfaceNames as $interfaceName) {
+            if (interface_exists($interfaceName)) {
+                $interfaceNames = array_merge($interfaceNames, class_implements($interfaceName));
+            }
+        }
+
+        return array_unique($interfaceNames);
     }
 
     /**
