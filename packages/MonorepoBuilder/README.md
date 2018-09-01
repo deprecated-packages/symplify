@@ -37,7 +37,7 @@ vendor/bin/monorepo-builder merge
 
 Do you need to add or remove some packages only to root `composer.json`?
 
-```markdown
+```yaml
 # monorepo-builder.yml
 parameters:
     data_to_append:
