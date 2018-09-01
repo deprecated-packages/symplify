@@ -501,6 +501,27 @@ class SomeClass
 }
 ```
 
+### Use per line assign instead of multiple ones
+
+- class: [`Symplify\CodingStandard\Sniffs\ControlStructure\ForbiddenDoubleAssignSniff`](src/Sniffs/ControlStructure/ForbiddenDoubleAssignSniff.php)
+
+:x:
+
+```php
+<?php
+
+$value = $anotherValue = [];
+```
+
+:+1:
+
+```php
+<?php
+
+$value = [];
+$anotherValue = [];
+```
+
 ### Prefer `sprintf()` over multiple concats ( . ).
 
 - :wrench:
