@@ -5,11 +5,10 @@ namespace Symplify\ChangelogLinker\Console\Command;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Style\SymfonyStyle;
 use Symplify\ChangelogLinker\ChangelogLinker;
-use Symplify\ChangelogLinker\Configuration\Option;
 use Symplify\ChangelogLinker\FileSystem\ChangelogFileSystem;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
-use Symplify\PackageBuilder\Parameter\ParameterProvider;
 
 final class LinkifyCommand extends Command
 {
@@ -24,19 +23,19 @@ final class LinkifyCommand extends Command
     private $changelogFileSystem;
 
     /**
-     * @var ParameterProvider
+     * @var SymfonyStyle
      */
-    private $parameterProvider;
+    private $symfonyStyle;
 
     public function __construct(
         ChangelogLinker $changelogLinker,
         ChangelogFileSystem $changelogFileSystem,
-        ParameterProvider $parameterProvider
+        SymfonyStyle $symfonyStyle
     ) {
         parent::__construct();
         $this->changelogLinker = $changelogLinker;
         $this->changelogFileSystem = $changelogFileSystem;
-        $this->parameterProvider = $parameterProvider;
+        $this->symfonyStyle = $symfonyStyle;
     }
 
     protected function configure(): void
@@ -46,13 +45,13 @@ final class LinkifyCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $this->parameterProvider->changeParameter(Option::FILE, $input->getArgument(Option::FILE));
-
         $changelogContent = $this->changelogFileSystem->readChangelog();
 
         $processedChangelogContent = $this->changelogLinker->processContent($changelogContent);
 
         $this->changelogFileSystem->storeChangelog($processedChangelogContent);
+
+        $this->symfonyStyle->success('Changelog PRs, links, users and versions are now linked!');
 
         // success
         return 0;
