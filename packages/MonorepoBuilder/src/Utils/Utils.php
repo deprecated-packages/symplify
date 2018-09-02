@@ -38,16 +38,13 @@ final class Utils
     /**
      * @param Version|string $version
      */
-    public function getNextVersionForVersion($version): Version
+    public function getRequiredNextVersionForVersion($version): Version
     {
         if (is_string($version)) {
             $version = new Version($version);
         }
 
-        $startsWithV = Strings::startsWith($version->getVersionString(), 'v');
-
-        $nextVersion = ($startsWithV ? 'v' : '') . $version->getMajor()->getValue() . '.' . ($version->getMinor()->getValue() + 1);
-
+        $nextVersion = '^' . $version->getMajor()->getValue() . '.' . ($version->getMinor()->getValue() + 1);
         return new Version($nextVersion);
     }
 }

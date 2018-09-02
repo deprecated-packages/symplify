@@ -104,7 +104,7 @@ final class ReleaseCommand extends Command
 
         $this->pushTag($version, $isDryRun);
 
-        $this->setMutualDependenciesToVersion($this->utils->getNextVersionForVersion($version));
+        $this->setMutualDependenciesToVersion($this->utils->getRequiredNextVersionForVersion($version));
 
         $this->setBranchAliasesToVersion($this->utils->getNextVersionDevAliasForVersion($version));
 

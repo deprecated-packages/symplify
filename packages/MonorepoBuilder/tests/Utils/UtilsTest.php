@@ -35,17 +35,17 @@ final class UtilsTest extends AbstractContainerAwareTestCase
     }
 
     /**
-     * @dataProvider provideDataNextVersion()
+     * @dataProvider provideDataForRequiredNextVersion()
      */
-    public function testNextVersion(string $currentVersion, string $expectedDevVersion): void
+    public function testRequiredNextVersion(string $currentVersion, string $expectedDevVersion): void
     {
-        $nextDevVersion = $this->utils->getNextVersionForVersion($currentVersion);
+        $nextDevVersion = $this->utils->getRequiredNextVersionForVersion($currentVersion);
         $this->assertSame($expectedDevVersion, $nextDevVersion->getVersionString());
     }
 
-    public function provideDataNextVersion(): Iterator
+    public function provideDataForRequiredNextVersion(): Iterator
     {
-        yield ['v4.0.0', 'v4.1'];
-        yield ['4.0.0', '4.1'];
+        yield ['v4.0.0', '^4.1'];
+        yield ['4.0.0', '^4.1'];
     }
 }
