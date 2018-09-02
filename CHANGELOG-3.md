@@ -1,4 +1,4 @@
-# Changelog
+# Changelog for Symplify 3.x
 
 All notable changes to this project will be documented in this file.
 
