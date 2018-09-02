@@ -46,4 +46,18 @@ final class UtilsTest extends AbstractContainerAwareTestCase
         yield ['v4.0.0', '^4.1'];
         yield ['4.0.0', '^4.1'];
     }
+
+    /**
+     * @dataProvider provideDataForRequiredVersion()
+     */
+    public function testRequiredVersion(string $currentVersion, string $expectedVersion): void
+    {
+        $this->assertSame($expectedVersion, $this->utils->getRequiredFormat($currentVersion));
+    }
+
+    public function provideDataForRequiredVersion(): Iterator
+    {
+        yield ['v4.0.0', '^4.0'];
+        yield ['4.0.0', '^4.0'];
+    }
 }
