@@ -5,6 +5,7 @@ namespace Symplify\ChangelogLinker\Console\Command;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Style\SymfonyStyle;
 use Symplify\ChangelogLinker\ChangelogCleaner;
 use Symplify\ChangelogLinker\FileSystem\ChangelogFileSystem;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
@@ -21,11 +22,20 @@ final class CleanupCommand extends Command
      */
     private $changelogCleaner;
 
-    public function __construct(ChangelogFileSystem $changelogFileSystem, ChangelogCleaner $changelogCleaner)
-    {
+    /**
+     * @var SymfonyStyle
+     */
+    private $symfonyStyle;
+
+    public function __construct(
+        ChangelogFileSystem $changelogFileSystem,
+        ChangelogCleaner $changelogCleaner,
+        SymfonyStyle $symfonyStyle
+    ) {
         parent::__construct();
         $this->changelogFileSystem = $changelogFileSystem;
         $this->changelogCleaner = $changelogCleaner;
+        $this->symfonyStyle = $symfonyStyle;
     }
 
     protected function configure(): void
@@ -41,6 +51,8 @@ final class CleanupCommand extends Command
         $processedChangelogContent = $this->changelogCleaner->processContent($changelogContent);
 
         $this->changelogFileSystem->storeChangelog($processedChangelogContent);
+
+        $this->symfonyStyle->success('Changleog is now clean from duplicates!');
 
         // success
         return 0;

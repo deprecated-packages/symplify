@@ -4,7 +4,9 @@ namespace Symplify\ChangelogLinker\FileSystem;
 
 use Nette\Utils\FileSystem;
 use Symplify\ChangelogLinker\Analyzer\LinksAnalyzer;
+use Symplify\ChangelogLinker\Configuration\Option;
 use Symplify\ChangelogLinker\LinkAppender;
+use Symplify\PackageBuilder\Parameter\ParameterProvider;
 
 final class ChangelogFileSystem
 {
@@ -23,14 +25,21 @@ final class ChangelogFileSystem
      */
     private $linksAnalyzer;
 
+    /**
+     * @var ParameterProvider
+     */
+    private $parameterProvider;
+
     public function __construct(
         LinkAppender $linkAppender,
         ChangelogFileSystemGuard $changelogFileSystemGuard,
-        LinksAnalyzer $linksAnalyzer
+        LinksAnalyzer $linksAnalyzer,
+        ParameterProvider $parameterProvider
     ) {
         $this->linkAppender = $linkAppender;
         $this->changelogFileSystemGuard = $changelogFileSystemGuard;
         $this->linksAnalyzer = $linksAnalyzer;
+        $this->parameterProvider = $parameterProvider;
     }
 
     public function readChangelog(): string
@@ -74,6 +83,11 @@ final class ChangelogFileSystem
 
     private function getChangelogFilePath(): string
     {
+        $fileParameter = $this->parameterProvider->provideParameter(Option::FILE);
+        if (is_string($fileParameter) && file_exists($fileParameter)) {
+            return $fileParameter;
+        }
+
         return getcwd() . '/CHANGELOG.md';
     }
 }

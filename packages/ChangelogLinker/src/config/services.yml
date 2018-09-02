@@ -7,9 +7,8 @@ services:
         resource: ".."
         exclude: "../{Contract,Exception,ChangeTree/Change.php}"
 
-    Symplify\PackageBuilder\Console\ConfigAwareApplication: ~
-
     Symplify\PackageBuilder\Yaml\ParametersMerger: ~
+    Symplify\PackageBuilder\Parameter\ParameterProvider: ~
 
     GuzzleHttp\Client: ~
 

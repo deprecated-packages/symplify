@@ -28,4 +28,9 @@ final class Option
      * @var string
      */
     public const LINKIFY = 'linkify';
+
+    /**
+     * @var string
+     */
+    public const FILE = 'file';
 }
