@@ -3,4 +3,5 @@ parameters:
 
     package_aliases:
         CS: 'CodingStandard'
+        MB: 'MonorepoBuilder'
         ECS: 'EasyCodingStandard'
