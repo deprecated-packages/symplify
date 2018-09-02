@@ -7,9 +7,8 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Symplify\MonorepoBuilder\FileSystem\JsonFileManager;
+use Symplify\MonorepoBuilder\FileSystem\ComposerJsonProvider;
 use Symplify\MonorepoBuilder\InterdependencyUpdater;
-use Symplify\MonorepoBuilder\PackageComposerFinder;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
 
 final class BumpInterdependencyCommand extends Command
@@ -25,32 +24,25 @@ final class BumpInterdependencyCommand extends Command
     private $symfonyStyle;
 
     /**
-     * @var PackageComposerFinder
-     */
-    private $packageComposerFinder;
-
-    /**
-     * @var JsonFileManager
-     */
-    private $jsonFileManager;
-
-    /**
      * @var InterdependencyUpdater
      */
     private $interdependencyUpdater;
 
+    /**
+     * @var ComposerJsonProvider
+     */
+    private $composerJsonProvider;
+
     public function __construct(
         SymfonyStyle $symfonyStyle,
-        PackageComposerFinder $packageComposerFinder,
-        JsonFileManager $jsonFileManager,
-        InterdependencyUpdater $interdependencyUpdater
+        InterdependencyUpdater $interdependencyUpdater,
+        ComposerJsonProvider $composerJsonProvider
     ) {
-        $this->symfonyStyle = $symfonyStyle;
-        $this->packageComposerFinder = $packageComposerFinder;
-        $this->jsonFileManager = $jsonFileManager;
-        $this->interdependencyUpdater = $interdependencyUpdater;
-
         parent::__construct();
+
+        $this->symfonyStyle = $symfonyStyle;
+        $this->interdependencyUpdater = $interdependencyUpdater;
+        $this->composerJsonProvider = $composerJsonProvider;
     }
 
     protected function configure(): void
@@ -66,27 +58,21 @@ final class BumpInterdependencyCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $composerPackageFiles = $this->packageComposerFinder->getPackageComposerFiles();
-        if (! count($composerPackageFiles)) {
-            $this->symfonyStyle->error('No "composer.json" were found in packages.');
-            return 1;
-        }
+        $version = $input->getArgument(self::VERSION_ARGUMENT);
 
-        $rootComposerJson = $this->jsonFileManager->loadFromFilePath(getcwd() . DIRECTORY_SEPARATOR . 'composer.json');
-        if (! isset($rootComposerJson['name'])) {
-            $this->symfonyStyle->error('No "name" found in root "composer.json".');
-            return 1;
-        }
+        $rootComposerJson = $this->composerJsonProvider->getRootComposerJson();
 
+        // @todo resolve better for only found packages
+        // see https://github.com/Symplify/Symplify/pull/1037/files
         [$vendor,] = explode('/', $rootComposerJson['name']);
 
         $this->interdependencyUpdater->updateFileInfosWithVendorAndVersion(
-            $composerPackageFiles,
+            $this->composerJsonProvider->getPackagesComposerJsonFileInfos(),
             $vendor,
-            $input->getArgument(self::VERSION_ARGUMENT)
+            $version
         );
 
-        $this->symfonyStyle->success('Inter-dependencies of packages were updated.');
+        $this->symfonyStyle->success(sprintf('Inter-dependencies of packages were updated to "%s".', $version));
 
         // success
         return 0;

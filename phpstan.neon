@@ -103,6 +103,9 @@ parameters:
         - '#Cannot call method getStartIndex\(\) on PhpCsFixer\\Tokenizer\\Analyzer\\Analysis\\NamespaceUseAnalysis\|null#'
         - '#Cannot call method getContent\(\) on PhpCsFixer\\Tokenizer\\Token\|null#'
 
+        # getcwd
+        - '#Parameter \#1 \$gitDirectory of method Symplify\\MonorepoBuilder\\Split\\Git\\GitManager::getMostRecentTag\(\) expects string, string\|false given#'
+
     excludes_analyse:
         - *packages/CodingStandard/tests/**/correct*
         - *packages/CodingStandard/tests/**/wrong*

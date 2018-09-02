@@ -33,6 +33,16 @@ Merges following sections to the root `composer.json`, so you can only edit `com
 vendor/bin/monorepo-builder merge
 ```
 
+Typical location for packages is `/packages`. But what if you have different naming or extra `/projects` directory?
+
+```yaml
+# monorepo-builder.yml
+parameters:
+    package_directories:
+        - '/packages'
+        - '/projects'
+```
+
 #### After Merge Options
 
 Do you need to add or remove some packages only to root `composer.json`?
