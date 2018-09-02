@@ -98,15 +98,15 @@ final class ReleaseCommand extends Command
 
         $isDryRun = $input->getOption(Option::DRY_RUN);
 
-        $this->setMutualDependenciesToVersion($version);
+        $this->setMutualDependenciesToVersion($this->utils->getRequiredFormat($version));
 
         $this->tagVersion($version, $isDryRun);
 
         $this->pushTag($version, $isDryRun);
 
-        $this->setMutualDependenciesToVersion($this->utils->getRequiredNextVersionForVersion($version));
+        $this->setMutualDependenciesToVersion($this->utils->getRequiredNextFormat($version));
 
-        $this->setBranchAliasesToVersion($this->utils->getNextVersionDevAliasForVersion($version));
+        $this->setBranchAliasesToVersion($this->utils->getNextAliasFormat($version));
 
         $this->symfonyStyle->success(sprintf('Version "%s" is now released!', $version->getVersionString()));
 
@@ -128,11 +128,9 @@ final class ReleaseCommand extends Command
         ));
     }
 
-    private function setMutualDependenciesToVersion(Version $version): void
+    private function setMutualDependenciesToVersion(string $version): void
     {
-        $this->symfonyStyle->note(
-            sprintf('Setting packages mutual dependencies to "%s" version', $version->getVersionString())
-        );
+        $this->symfonyStyle->note(sprintf('Setting packages mutual dependencies to "%s" version', $version));
 
         $rootComposerJson = $this->composerJsonProvider->getRootComposerJson();
 
@@ -143,7 +141,7 @@ final class ReleaseCommand extends Command
         $this->interdependencyUpdater->updateFileInfosWithVendorAndVersion(
             $this->composerJsonProvider->getPackagesComposerJsonFileInfos(),
             $vendor,
-            $version->getVersionString()
+            $version
         );
 
         $this->symfonyStyle->success('Done!');
@@ -185,15 +183,13 @@ final class ReleaseCommand extends Command
         $this->symfonyStyle->success('Done!');
     }
 
-    private function setBranchAliasesToVersion(Version $version): void
+    private function setBranchAliasesToVersion(string $version): void
     {
-        $this->symfonyStyle->note(
-            sprintf('Setting "%s" as branch dev alias to packages', $version->getVersionString())
-        );
+        $this->symfonyStyle->note(sprintf('Setting "%s" as branch dev alias to packages', $version));
 
         $this->devMasterAliasUpdater->updateFileInfosWithAlias(
             $this->composerJsonProvider->getPackagesComposerJsonFileInfos(),
-            $version->getVersionString()
+            $version
         );
 
         $this->symfonyStyle->success('Done!');
