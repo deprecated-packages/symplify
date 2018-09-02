@@ -74,6 +74,6 @@ final class PackageAliasCommand extends Command
     {
         $lastTag = exec('git describe --abbrev=0 --tags');
 
-        return $this->utils->getNextVersionDevAliasForVersion($lastTag)->getVersionString();
+        return $this->utils->getNextAliasFormat($lastTag)->getVersionString();
     }
 }

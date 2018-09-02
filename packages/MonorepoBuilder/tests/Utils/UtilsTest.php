@@ -21,10 +21,9 @@ final class UtilsTest extends AbstractContainerAwareTestCase
     /**
      * @dataProvider provideDataAlias()
      */
-    public function testAlias(string $currentVersion, string $expectedDevVersion): void
+    public function testAlias(string $currentVersion, string $expectedVersion): void
     {
-        $nextDevVersion = $this->utils->getNextVersionDevAliasForVersion($currentVersion);
-        $this->assertSame($expectedDevVersion, $nextDevVersion->getVersionString());
+        $this->assertSame($expectedVersion, $this->utils->getNextAliasFormat($currentVersion));
     }
 
     public function provideDataAlias(): Iterator
@@ -37,15 +36,28 @@ final class UtilsTest extends AbstractContainerAwareTestCase
     /**
      * @dataProvider provideDataForRequiredNextVersion()
      */
-    public function testRequiredNextVersion(string $currentVersion, string $expectedDevVersion): void
+    public function testRequiredNextVersion(string $currentVersion, string $expectedVersion): void
     {
-        $nextDevVersion = $this->utils->getRequiredNextVersionForVersion($currentVersion);
-        $this->assertSame($expectedDevVersion, $nextDevVersion->getVersionString());
+        $this->assertSame($expectedVersion, $this->utils->getRequiredNextFormat($currentVersion));
     }
 
     public function provideDataForRequiredNextVersion(): Iterator
     {
         yield ['v4.0.0', '^4.1'];
         yield ['4.0.0', '^4.1'];
+    }
+
+    /**
+     * @dataProvider provideDataForRequiredVersion()
+     */
+    public function testRequiredVersion(string $currentVersion, string $expectedVersion): void
+    {
+        $this->assertSame($expectedVersion, $this->utils->getRequiredFormat($currentVersion));
+    }
+
+    public function provideDataForRequiredVersion(): Iterator
+    {
+        yield ['v4.0.0', '^4.0'];
+        yield ['4.0.0', '^4.0'];
     }
 }

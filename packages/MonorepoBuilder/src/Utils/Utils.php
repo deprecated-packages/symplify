@@ -2,7 +2,6 @@
 
 namespace Symplify\MonorepoBuilder\Utils;
 
-use Nette\Utils\Strings;
 use PharIo\Version\Version;
 
 final class Utils
@@ -20,31 +19,40 @@ final class Utils
     /**
      * @param Version|string $version
      */
-    public function getNextVersionDevAliasForVersion($version): Version
+    public function getNextAliasFormat($version): string
     {
         if (is_string($version)) {
             $version = new Version($version);
         }
 
-        $nextDevVersion = str_replace(
+        return str_replace(
             ['<major>', '<minor>'],
             [$version->getMajor()->getValue(), $version->getMinor()->getValue() + 1],
             $this->packageAliasFormat
         );
-
-        return new Version($nextDevVersion);
     }
 
     /**
      * @param Version|string $version
      */
-    public function getRequiredNextVersionForVersion($version): Version
+    public function getRequiredNextFormat($version): string
     {
         if (is_string($version)) {
             $version = new Version($version);
         }
 
-        $nextVersion = '^' . $version->getMajor()->getValue() . '.' . ($version->getMinor()->getValue() + 1);
-        return new Version($nextVersion);
+        return '^' . $version->getMajor()->getValue() . '.' . ($version->getMinor()->getValue() + 1);
+    }
+
+    /**
+     * @param Version|string $version
+     */
+    public function getRequiredFormat($version): string
+    {
+        if (is_string($version)) {
+            $version = new Version($version);
+        }
+
+        return '^' . $version->getMajor()->getValue() . '.' . ($version->getMinor()->getValue());
     }
 }
