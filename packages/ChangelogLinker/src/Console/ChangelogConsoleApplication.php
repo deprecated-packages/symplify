@@ -33,7 +33,6 @@ final class ChangelogConsoleApplication extends Application
         // required to merge application + command definitions
         $command->mergeApplicationDefinition();
 
-        $input = new ArgvInput();
         $input->bind($command->getDefinition());
 
         $this->parameterProvider->changeParameter(Option::FILE, $input->getArgument(Option::FILE));

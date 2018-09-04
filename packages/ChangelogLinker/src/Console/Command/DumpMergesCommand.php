@@ -187,7 +187,7 @@ final class DumpMergesCommand extends Command
     {
         $sinceId = $input->getOption(Option::SINCE_ID);
         if ($sinceId) {
-            return $sinceId;
+            return (int) $sinceId;
         }
 
         return $this->idsAnalyzer->getHighestIdInChangelog($content);
