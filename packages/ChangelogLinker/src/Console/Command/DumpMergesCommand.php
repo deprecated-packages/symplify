@@ -122,22 +122,28 @@ final class DumpMergesCommand extends Command
             InputOption::VALUE_REQUIRED,
             'Github Token to overcome request limit.'
         );
+
+        $this->addOption(
+            Option::SINCE_ID,
+            null,
+            InputOption::VALUE_REQUIRED,
+            'Include pull-request with provided ID and higher. The ID is detected in CHANGELOG.md otherwise.'
+        );
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $content = $this->changelogFileSystem->readChangelog();
 
-        $highestIdInChangelog = $this->idsAnalyzer->getHighestIdInChangelog($content);
-
         if ($input->getOption(Option::TOKEN)) {
             $this->githubApi->authorizeWithToken($input->getOption(Option::TOKEN));
         }
 
-        $pullRequests = $this->githubApi->getClosedPullRequestsSinceId($highestIdInChangelog);
+        $sinceId = $this->getSinceIdFromInputAndContent($input, $content);
+        $pullRequests = $this->githubApi->getClosedPullRequestsSinceId($sinceId);
         if (count($pullRequests) === 0) {
             $this->symfonyStyle->note(
-                sprintf('There are no new pull requests to be added since ID "%d".', $highestIdInChangelog)
+                sprintf('There are no new pull requests to be added since ID "%d".', $sinceId)
             );
 
             // success
@@ -175,5 +181,15 @@ final class DumpMergesCommand extends Command
 
         // success
         return 0;
+    }
+
+    private function getSinceIdFromInputAndContent(InputInterface $input, string $content): int
+    {
+        $sinceId = $input->getOption(Option::SINCE_ID);
+        if ($sinceId) {
+            return $sinceId;
+        }
+
+        return $this->idsAnalyzer->getHighestIdInChangelog($content);
     }
 }
