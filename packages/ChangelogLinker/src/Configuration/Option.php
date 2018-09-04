@@ -33,4 +33,9 @@ final class Option
      * @var string
      */
     public const FILE = 'file';
+
+    /**
+     * @var string
+     */
+    public const SINCE_ID = 'since-id';
 }
