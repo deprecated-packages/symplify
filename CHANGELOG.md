@@ -9,7 +9,7 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 <!-- changelog-linker -->
 
-## Unreleased
+## [v4.7.0] - 2018-09-04
 
 ### Added
 
@@ -23,9 +23,16 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 - [#1035] Add CommandNaming support for `UPPPERCase` names [closes [#1016]]
 
+#### ChangelogLinker
+
+- [#1054] Add `--since-id` option to `dump-merges` command
+- [#1047] Allow to specify path to `CHANGELOG.md` as argument
+- [#1045] Add `cleanup` command
+
 #### MonorepoBuilder
 
-- [#1036]  Make branch alias configurable [closes [#997]]
+- [#1048] Add `release` command
+- [#1036] Make branch alias configurable [closes [#997]]
 
 ### Fixed
 
@@ -39,7 +46,14 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 - [#1043] Display relative path in error list [closes [#1034]]
 
+#### MonorepoBuilder
+
+- [#1049] Git tag version fixes
+
 ### Changed
+
+- [#1050] Use new Sniff from Slevomat/CS 4.7, Thanks to [@carusogabriel]
+- [#1046] Use `FileSystem` instead of file_get_contents
 
 #### CodingStandard
 
@@ -915,3 +929,10 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
 [#997]: https://github.com/Symplify/Symplify/pull/997
 [#973]: https://github.com/Symplify/Symplify/pull/973
 [#972]: https://github.com/Symplify/Symplify/pull/972
+[#1054]: https://github.com/Symplify/Symplify/pull/1054
+[#1050]: https://github.com/Symplify/Symplify/pull/1050
+[#1049]: https://github.com/Symplify/Symplify/pull/1049
+[#1048]: https://github.com/Symplify/Symplify/pull/1048
+[#1047]: https://github.com/Symplify/Symplify/pull/1047
+[#1046]: https://github.com/Symplify/Symplify/pull/1046
+[#1045]: https://github.com/Symplify/Symplify/pull/1045
