@@ -3,6 +3,8 @@
 namespace Symplify\ChangelogLinker\Console;
 
 use Symfony\Component\Console\Application;
+use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputInterface;
@@ -26,12 +28,17 @@ final class ChangelogConsoleApplication extends Application
         $this->parameterProvider = $parameterProvider;
     }
 
-    public function doRun(InputInterface $input, OutputInterface $output): int
+    protected function doRunCommand(Command $command, InputInterface $input, OutputInterface $output): int
     {
-        $input->bind($this->getDefinition());
+        // required to merge application + command definitions
+        $command->mergeApplicationDefinition();
+
+        $input = new ArgvInput();
+        $input->bind($command->getDefinition());
+
         $this->parameterProvider->changeParameter(Option::FILE, $input->getArgument(Option::FILE));
 
-        return parent::doRun($input, $output);
+        return parent::doRunCommand($command, $input, $output);
     }
 
     protected function getDefaultInputDefinition(): InputDefinition
