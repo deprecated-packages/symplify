@@ -8,12 +8,12 @@
         "nette/finder": "^2.4",
         "squizlabs/php_codesniffer": "^3.3",
         "friendsofphp/php-cs-fixer": "^2.13",
-        "symplify/token-runner": "^4.7"
+        "symplify/token-runner": "^4.8"
     },
     "require-dev": {
         "nette/application": "^2.4",
-        "symplify/easy-coding-standard-tester": "^4.7",
-        "symplify/package-builder": "^4.7",
+        "symplify/easy-coding-standard-tester": "^4.8",
+        "symplify/package-builder": "^4.8",
         "phpunit/phpunit": "^7.3"
     },
     "autoload": {
@@ -28,7 +28,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "4.7-dev"
+            "dev-master": "4.8-dev"
         }
     },
     "minimum-stability": "dev",
