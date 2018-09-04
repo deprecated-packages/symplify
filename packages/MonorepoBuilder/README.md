@@ -39,8 +39,8 @@ Typical location for packages is `/packages`. But what if you have different nam
 # monorepo-builder.yml
 parameters:
     package_directories:
-        - '/packages'
-        - '/projects'
+        - 'packages'
+        - 'projects'
 ```
 
 #### After Merge Options
