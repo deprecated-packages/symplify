@@ -35,11 +35,13 @@ vendor/bin/changelog-linker dump-mergers
 
 ### Write or Dry-run?
 
-First thing you need to know, it has a `--dry-run` option that only prints the result to the output.
+The `--dry-run` option prints the result to the output. Without that, I looks for `<!-- changelog-linker -->` in the `CHANGELOG.md` to replace with the content.
 
-Without that, I looks for `<!-- changelog-linker -->` in the `CHANGELOG.md` to replace with the content.
+It finds the last #ID in the `CHANGELOG.md`, than looks on Github via API and dumps all the merged PRs since the last #ID in nice format. In case you want to **specify minimal PR id yourself**, use this:
 
-This command finds the last #ID in the `CHANGELOG.md`, than looks on Github via API and dumps all the merged PRs since the last #ID in nice format.
+```bash
+vendor/bin/changelog-linker dump-mergers --since-id 125
+```
 
 But that is a mash-up of everything. Not very nice:
 
