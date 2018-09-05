@@ -119,3 +119,9 @@ parameters:
         - %currentWorkingDirectory%/tests/bootstrap.php
         - packages/EasyCodingStandard/packages/ChangedFilesDetector/tests/ChangedFilesDetectorSource/OneClass.php
         - packages/EasyCodingStandard/tests/Finder/SourceFinderSource/Source/SomeClass.php
+
+services:
+    errorFormatter.stats:
+        class: 'Symplify\PHPStan\ErrorFormatter\StatsErrorFormatter'
+
+    - Symfony\Component\Console\Terminal

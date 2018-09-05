@@ -66,6 +66,7 @@
     },
     "autoload-dev": {
         "psr-4": {
+            "Symplify\\PHPStan\\": "src/PHPStan",
             "Symplify\\BetterPhpDocParser\\Tests\\": "packages/BetterPhpDocParser/tests",
             "Symplify\\ChangelogLinker\\Tests\\": "packages/ChangelogLinker/tests",
             "Symplify\\CodingStandard\\Tests\\": "packages/CodingStandard/tests",
@@ -92,12 +93,12 @@
             "@fix-cs",
             "@phpstan"
         ],
-        "check-cs": "packages/EasyCodingStandard/bin/ecs check packages",
+        "check-cs": "packages/EasyCodingStandard/bin/ecs check src packages",
         "fix-cs": [
-            "packages/EasyCodingStandard/bin/ecs check packages --fix",
+            "packages/EasyCodingStandard/bin/ecs check src packages --fix",
             "bin/clear_readmes.sh"
         ],
-        "phpstan": "vendor/bin/phpstan analyse packages --level max --configuration phpstan.neon",
+        "phpstan": "vendor/bin/phpstan analyse src packages --level max --error-format stats",
         "changelog": [
             "packages/ChangelogLinker/bin/changelog-linker dump-merges --in-categories --in-packages",
             "packages/ChangelogLinker/bin/changelog-linker link",
