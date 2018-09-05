@@ -72,7 +72,10 @@ final class ChangeFactoryTest extends TestCase
         yield from $this->provideDataForCategoryKeywords(['delete', 'deletes', 'deleted', 'deleting'], 'Removed');
         yield from $this->provideDataForCategoryKeywords(['drop', 'drops', 'dropped', 'dropping'], 'Removed');
     }
-    
+
+    /**
+     * @param string[] $keywords
+     */
     private function provideDataForCategoryKeywords(array $keywords, string $expectedCategory): Iterator
     {
         foreach ($keywords as $keyword) {
