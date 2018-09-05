@@ -13,6 +13,11 @@ final class GitCommitDateTagResolver
     private $tagsToDates = [];
 
     /**
+     * @var string[]
+     */
+    private $commitHashToTag = [];
+
+    /**
      * @inspiration https://stackoverflow.com/a/6900369/1348344
      */
     public function __construct()
@@ -48,10 +53,14 @@ final class GitCommitDateTagResolver
      */
     public function resolveCommitToTag(string $commitHash): string
     {
-        $process = new Process('git describe --contains ' . $commitHash);
-        $process->run();
-
-        $tag = trim($process->getOutput());
+        if (isset($this->commitHashToTag[$commitHash])) {
+            $tag = $this->commitHashToTag[$commitHash];
+        } else {
+            $process = new Process('git describe --contains ' . $commitHash);
+            $process->run();
+            $tag = trim($process->getOutput());
+            $this->commitHashToTag[$commitHash] = $tag;
+        }
 
         if (empty($tag)) {
             return 'Unreleased';
