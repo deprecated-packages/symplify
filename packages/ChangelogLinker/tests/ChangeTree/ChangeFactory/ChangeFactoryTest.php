@@ -10,13 +10,24 @@ use Symplify\ChangelogLinker\Git\GitCommitDateTagResolver;
 final class ChangeFactoryTest extends TestCase
 {
     /**
+     * @var ChangeFactory|null
+     */
+    private static $cachedChangeFactory;
+
+    /**
      * @var ChangeFactory
      */
     private $changeFactory;
 
     protected function setUp(): void
     {
-        $this->changeFactory = new ChangeFactory(new GitCommitDateTagResolver(), ['A' => 'Aliased'], ['ego']);
+        // this is needed, because every item in dataProviders resets $changeFactory property to null
+        if (self::$cachedChangeFactory) {
+            $this->changeFactory = self::$cachedChangeFactory;
+        } else {
+            $this->changeFactory = new ChangeFactory(new GitCommitDateTagResolver(), ['A' => 'Aliased'], ['ego']);
+            self::$cachedChangeFactory = $this->changeFactory;
+        }
     }
 
     /**
@@ -123,7 +134,7 @@ final class ChangeFactoryTest extends TestCase
     public function testTagDetection(): void
     {
         if (! defined('SYMPLIFY_MONOREPO')) {
-            $this->markTestSkipped('This can be tested only with merge commit in monorepo, not split.');
+            $this->markTestSkipped('Can be tested only with merge commit in monorepo, not in split where are no PRs.');
         }
 
         $pullRequest = [
