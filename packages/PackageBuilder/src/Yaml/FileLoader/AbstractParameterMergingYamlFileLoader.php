@@ -50,6 +50,8 @@ abstract class AbstractParameterMergingYamlFileLoader extends YamlFileLoader
     public function load($resource, $type = null): void
     {
         $path = $this->locator->locate($resource);
+
+        /** @var mixed[]|null $content */
         $content = $this->loadFile($path);
         $this->container->fileExists($path);
 

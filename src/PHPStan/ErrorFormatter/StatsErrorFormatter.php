@@ -43,9 +43,8 @@ final class StatsErrorFormatter implements ErrorFormatter
 
         foreach ($topMessagesToFrequency as $info) {
             $info['files'] = $this->relativizePaths($info['files']);
-
-            $outputStyle->section(sprintf('%d x - "%s"', count($info['files']), $info['message']));
-            $outputStyle->listing($info['files']);
+            $filesOutput = '- ' . implode(PHP_EOL . '- ', $info['files']);
+            $outputStyle->table([sprintf('%d x', count($info['files'])), $info['message']], [['', $filesOutput]]);
         }
 
         $outputStyle->newLine();

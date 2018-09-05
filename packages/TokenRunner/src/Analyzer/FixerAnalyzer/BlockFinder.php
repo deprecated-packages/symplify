@@ -51,6 +51,11 @@ final class BlockFinder
             }
         }
 
+        // some invalid code
+        if ($position === null) {
+            return null;
+        }
+
         $blockType = $this->getBlockTypeByToken($token);
 
         try {
