@@ -48,8 +48,9 @@ final class StatsErrorFormatter implements ErrorFormatter
         $topMessagesToFrequency = $this->cutTopXItems($messagesToFrequency, self::LIMIT);
         $tableData = $this->transformToTableData($topMessagesToFrequency);
 
+        $outputStyle->title(sprintf('These are %d most frequent errors', count($topMessagesToFrequency)));
         $outputStyle->table(['Message', 'Count'], $tableData);
-        $outputStyle->error(sprintf('Found top %d most frequent errors', count($topMessagesToFrequency)));
+        $outputStyle->error(sprintf('Found %d errors', $analysisResult->getTotalErrorsCount()));
 
         // fail
         return 1;

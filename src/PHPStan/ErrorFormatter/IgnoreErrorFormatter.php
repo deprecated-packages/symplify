@@ -40,7 +40,7 @@ final class IgnoreErrorFormatter implements ErrorFormatter
 
         $ignoredMessages = [];
         foreach ($messagesToFrequency as $message => $frequency) {
-            $ignoredMessages[] = '\'#' . preg_quote(rtrim($message, '.'), '#') . '#\' # ' . $frequency;
+            $ignoredMessages[] = sprintf('\'#%s#\'# found %dx', preg_quote(rtrim($message, '.'), '#'), $frequency);
         }
 
         $outputStyle->title('Add to "parameters > ignoreErrors" section in "phpstan.neon"');
