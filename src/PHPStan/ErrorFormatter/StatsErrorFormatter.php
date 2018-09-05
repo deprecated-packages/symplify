@@ -6,6 +6,7 @@ use PHPStan\Command\AnalysisResult;
 use PHPStan\Command\ErrorFormatter\ErrorFormatter;
 use Symfony\Component\Console\Style\OutputStyle;
 use Symfony\Component\Console\Terminal;
+use Symplify\PHPStan\Error\ErrorGrouper;
 
 final class StatsErrorFormatter implements ErrorFormatter
 {
@@ -20,51 +21,38 @@ final class StatsErrorFormatter implements ErrorFormatter
      */
     private $terminal;
 
-    public function __construct(Terminal $terminal)
+    /**
+     * @var ErrorGrouper
+     */
+    private $errorGrouper;
+
+    public function __construct(Terminal $terminal, ErrorGrouper $errorGrouper)
     {
         $this->terminal = $terminal;
+        $this->errorGrouper = $errorGrouper;
     }
 
     public function formatErrors(AnalysisResult $analysisResult, OutputStyle $outputStyle): int
     {
         if ($analysisResult->getTotalErrorsCount() === 0) {
+            $outputStyle->success('No errors');
             // success
             return 0;
         }
 
-        $errorMessages = [];
-        foreach ($analysisResult->getFileSpecificErrors() as $error) {
-            $errorMessages[] = $error->getMessage();
-        }
+        $messagesToFrequency = $this->errorGrouper->groupErrorsToMessagesToFrequency(
+            $analysisResult->getFileSpecificErrors()
+        );
 
-        $messagesToFrequency = $this->groupAndSortByMostFrequent($errorMessages);
-        if (! $messagesToFrequency) {
-            // success
-            return 0;
-        }
-
-        $tableData = $this->transformToTableData($messagesToFrequency);
+        // pick top X items
+        $topMessagesToFrequency = $this->cutTopXItems($messagesToFrequency, self::LIMIT);
+        $tableData = $this->transformToTableData($topMessagesToFrequency);
 
         $outputStyle->table(['Message', 'Count'], $tableData);
-        $outputStyle->error(sprintf('Found top %d most frequent errors', count($messagesToFrequency)));
+        $outputStyle->error(sprintf('Found top %d most frequent errors', count($topMessagesToFrequency)));
 
         // fail
         return 1;
-    }
-
-    /**
-     * @param string[] $errorMessages
-     * @return int[]
-     */
-    private function groupAndSortByMostFrequent(array $errorMessages): array
-    {
-        $errorMessagesCounts = array_count_values($errorMessages);
-
-        // sort with most frequent items first
-        arsort($errorMessagesCounts);
-
-        // pick top X items
-        return array_slice($errorMessagesCounts, 0, min(count($errorMessagesCounts), self::LIMIT), true);
     }
 
     /**
@@ -85,5 +73,14 @@ final class StatsErrorFormatter implements ErrorFormatter
     private function wrapMessageSoItFitsTheColumnWidth(string $message): string
     {
         return wordwrap($message, $this->terminal->getWidth() - 12, PHP_EOL);
+    }
+
+    /**
+     * @param mixed[] $items
+     * @return mixed[]
+     */
+    private function cutTopXItems(array $items, int $limit): array
+    {
+        return array_slice($items, 0, min(count($items), $limit), true);
     }
 }

@@ -1,0 +1,6 @@
+services:
+    errorFormatter.stats:
+        class: 'Symplify\PHPStan\ErrorFormatter\StatsErrorFormatter'
+
+    - Symfony\Component\Console\Terminal
+    - Symplify\PHPStan\Error\ErrorFrequencyGrouper
