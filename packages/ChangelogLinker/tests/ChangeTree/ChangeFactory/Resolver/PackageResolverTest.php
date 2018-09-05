@@ -12,8 +12,7 @@ final class PackageResolverTest extends AbstractChangeFactoryTest
      */
     public function test(string $message, string $expectedPackage): void
     {
-        $this->pullRequest['title'] = $message;
-        $change = $this->changeFactory->createFromPullRequest($this->pullRequest);
+        $change = $this->createChangeForTitle($message);
         $this->assertSame($expectedPackage, $change->getPackage());
     }
 
@@ -23,5 +22,6 @@ final class PackageResolverTest extends AbstractChangeFactoryTest
         yield ['[A] Some message', 'Aliased'];
         yield ['[CodingStandard] Add feature', 'CodingStandard'];
         yield ['[Skeleton] Deletes unnecessary templates', 'Skeleton'];
+        yield ['[coding-standards] Deletes unnecessary templates', 'coding-standards'];
     }
 }

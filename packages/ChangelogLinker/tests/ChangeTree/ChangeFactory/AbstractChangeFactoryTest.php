@@ -2,6 +2,7 @@
 
 namespace Symplify\ChangelogLinker\Tests\ChangeTree\ChangeFactory;
 
+use Symplify\ChangelogLinker\ChangeTree\Change;
 use Symplify\ChangelogLinker\ChangeTree\ChangeFactory;
 use Symplify\ChangelogLinker\Tests\AbstractConfigAwareContainerTestCase;
 
@@ -40,5 +41,12 @@ abstract class AbstractChangeFactoryTest extends AbstractConfigAwareContainerTes
     public function provideConfig(): string
     {
         return __DIR__ . '/config/config.yml';
+    }
+
+    protected function createChangeForTitle(string $title): Change
+    {
+        $this->pullRequest['title'] = $title;
+
+        return $this->changeFactory->createFromPullRequest($this->pullRequest);
     }
 }
