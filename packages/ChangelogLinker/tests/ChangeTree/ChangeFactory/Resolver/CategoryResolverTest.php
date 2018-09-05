@@ -14,7 +14,7 @@ final class CategoryResolverTest extends AbstractChangeFactoryTest
      */
     public function testAdded(string $title): void
     {
-        $change = $this->createChangeWithTitle($title);
+        $change = $this->createChangeForTitle($title);
         $this->assertSame(Category::ADDED, $change->getCategory());
     }
 
@@ -32,7 +32,7 @@ final class CategoryResolverTest extends AbstractChangeFactoryTest
      */
     public function testChanged(string $title): void
     {
-        $change = $this->createChangeWithTitle($title);
+        $change = $this->createChangeForTitle($title);
         $this->assertSame(Category::CHANGED, $change->getCategory());
     }
 
@@ -79,7 +79,7 @@ final class CategoryResolverTest extends AbstractChangeFactoryTest
      */
     public function testFixed(string $title): void
     {
-        $change = $this->createChangeWithTitle($title);
+        $change = $this->createChangeForTitle($title);
         $this->assertSame(Category::FIXED, $change->getCategory());
     }
 
@@ -97,7 +97,7 @@ final class CategoryResolverTest extends AbstractChangeFactoryTest
      */
     public function testRemoved(string $title): void
     {
-        $change = $this->createChangeWithTitle($title);
+        $change = $this->createChangeForTitle($title);
         $this->assertSame(Category::REMOVED, $change->getCategory());
     }
 
@@ -126,7 +126,7 @@ final class CategoryResolverTest extends AbstractChangeFactoryTest
      */
     public function testUnknownCategory(string $title): void
     {
-        $change = $this->createChangeWithTitle($title);
+        $change = $this->createChangeForTitle($title);
         $this->assertSame(Category::UNKNOWN, $change->getCategory(), $title);
     }
 
@@ -143,12 +143,5 @@ final class CategoryResolverTest extends AbstractChangeFactoryTest
         yield ['doubledrop'];
         yield ['unremove'];
         yield ['unreturned'];
-    }
-
-    private function createChangeWithTitle(string $title): Change
-    {
-        $this->pullRequest['title'] = $title;
-
-        return $this->changeFactory->createFromPullRequest($this->pullRequest);
     }
 }
