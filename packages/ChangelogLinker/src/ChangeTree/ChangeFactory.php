@@ -10,22 +10,22 @@ final class ChangeFactory
     /**
      * @var string
      */
-    private const ADDED_PATTERN = '#(add|added|adds) #i';
+    private const ADDED_PATTERN = '#\b(add(s|ed|ing)?)\b#i';
 
     /**
      * @var string
      */
-    private const FIXED_PATTERN = '#(fix(es|ed)?)#i';
+    private const FIXED_PATTERN = '#\b(fix(es|ed|ing)?)\b#i';
 
     /**
      * @var string
      */
-    private const CHANGED_PATTERN = '#( change| improve|( now )|bump|improve|allow|return|rename|decouple)#i';
+    private const CHANGED_PATTERN = '#\b(chang(e|es|ed|ing)|improv(e|es|ed|ing)|bump(s|ed|ing)?|(dis)?allow(s|ed|ing)?|return(s|ed|ing)?|renam(e|es|ed|ing)|decoupl(e|es|ed|ing)|now)\b#i';
 
     /**
      * @var string
      */
-    private const REMOVED_PATTERN = '#remove(d)?|delete(d)|drop|dropped?#i';
+    private const REMOVED_PATTERN = '#\b(remov(e|es|ed|ing)|delet(e|es|ed|ing|)|drop(s|ped|ping)?)\b#i';
 
     /**
      * @var GitCommitDateTagResolver
