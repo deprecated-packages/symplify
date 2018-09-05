@@ -1,8 +1,9 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\ChangelogLinker\Tests\ChangeTree\ChangeFactory;
+namespace Symplify\ChangelogLinker\Tests\ChangeTree\ChangeFactory\Resolver;
 
 use Iterator;
+use Symplify\ChangelogLinker\Tests\ChangeTree\ChangeFactory\AbstractChangeFactoryTest;
 
 final class PackageResolverTest extends AbstractChangeFactoryTest
 {

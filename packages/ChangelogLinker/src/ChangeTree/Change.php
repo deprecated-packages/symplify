@@ -7,16 +7,6 @@ final class Change
     /**
      * @var string
      */
-    public const UNKNOWN_PACKAGE = 'Unknown Package';
-
-    /**
-     * @var string
-     */
-    public const UNKNOWN_CATEGORY = 'Unknown Category';
-
-    /**
-     * @var string
-     */
     private $message;
 
     /**
