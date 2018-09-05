@@ -16,8 +16,8 @@ final class ContainerFactory
 
     public function createWithConfig(string $config): ContainerInterface
     {
-        $appKernel = new ChangelogLinkerKernel();
-        $appKernel->bootWithConfig($config);
+        $appKernel = new ChangelogLinkerKernel($config);
+        $appKernel->boot();
 
         return $appKernel->getContainer();
     }

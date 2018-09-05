@@ -2,13 +2,10 @@
 
 namespace Symplify\ChangelogLinker\Tests\ChangeTree\ChangeFactory;
 
-use PHPUnit\Framework\TestCase;
 use Symplify\ChangelogLinker\ChangeTree\ChangeFactory;
-use Symplify\ChangelogLinker\ChangeTree\Resolver\CategoryResolver;
-use Symplify\ChangelogLinker\ChangeTree\Resolver\PackageResolver;
-use Symplify\ChangelogLinker\Git\GitCommitDateTagResolver;
+use Symplify\ChangelogLinker\Tests\AbstractConfigAwareContainerTestCase;
 
-abstract class AbstractChangeFactoryTest extends TestCase
+abstract class AbstractChangeFactoryTest extends AbstractConfigAwareContainerTestCase
 {
     /**
      * @var ChangeFactory
@@ -35,14 +32,13 @@ abstract class AbstractChangeFactoryTest extends TestCase
         if (self::$cachedChangeFactory) {
             $this->changeFactory = self::$cachedChangeFactory;
         } else {
-            $this->changeFactory = new ChangeFactory(
-                new GitCommitDateTagResolver(),
-                new CategoryResolver(),
-                new PackageResolver(['A' => 'Aliased']),
-                ['ego']
-            );
-
+            $this->changeFactory = $this->container->get(ChangeFactory::class);
             self::$cachedChangeFactory = $this->changeFactory;
         }
+    }
+
+    public function provideConfig(): string
+    {
+        return __DIR__ . '/config/config.yml';
     }
 }
