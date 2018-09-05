@@ -12,24 +12,18 @@ final class ErrorGrouper
      */
     public function groupErrorsToMessagesToFrequency(array $errors): array
     {
-        $errorMessages = [];
-        foreach ($errors as $error) {
-            $errorMessages[] = $error->getMessage();
-        }
-
-        $errorMessagesWithCounts = array_count_values($errorMessages);
-
-        // sort with most frequent items first
-        arsort($errorMessagesWithCounts);
-
-        $errorMessagesWithCountsAndFiles = [];
+        $errorMessagesWithFiles = [];
 
         foreach ($errors as $error) {
-            $errorMessagesWithCountsAndFiles[$error->getMessage()]['message'] = $error->getMessage();
-            $errorMessagesWithCountsAndFiles[$error->getMessage()]['count'] = $errorMessagesWithCounts[$error->getMessage()];
-            $errorMessagesWithCountsAndFiles[$error->getMessage()]['files'][] = $error->getFile() . ':' . $error->getLine();
+            $errorMessagesWithFiles[$error->getMessage()]['message'] = $error->getMessage();
+            $errorMessagesWithFiles[$error->getMessage()]['files'][] = $error->getFile() . ':' . $error->getLine();
         }
 
-        return $errorMessagesWithCountsAndFiles;
+        // sort with most frequent first
+        usort($errorMessagesWithFiles, function ($firstErrorMessageWithFiles, $secondErrorMessageWithFiles) {
+            return count($firstErrorMessageWithFiles['files']) < count($secondErrorMessageWithFiles['files']);
+        });
+
+        return $errorMessagesWithFiles;
     }
 }
