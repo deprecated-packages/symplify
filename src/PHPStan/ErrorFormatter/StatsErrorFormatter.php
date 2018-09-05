@@ -14,7 +14,7 @@ final class StatsErrorFormatter implements ErrorFormatter
      * Number of top errors to display
      * @var int
      */
-    private const LIMIT = 10;
+    private const LIMIT = 5;
 
     /**
      * @var ErrorGrouper

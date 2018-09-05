@@ -18,9 +18,9 @@ parameters:
 
     ignoreErrors:
         # 0.10.2 false positives - all: (new SplFileInfo(...))->getRealPath()
-        - '#Parameter \#1 \$absoluteFilePath of method Symplify\\EasyCodingStandard\\Skipper::fileMatchesPattern\(\) expects string, string\|false given#' # 1
-        - '#Parameter \#1 \$file of method Symplify\\LatteToTwigConverter\\LatteToTwigConverter::convertFile\(\) expects string, string\|false given#' # 1
-        - '#Method Symplify\\PackageBuilder\\Configuration\\LevelFileFinder::detectFromInputAndDirectory\(\) should return string|null but returns string\|false#' # 1
+        - '#Parameter \#1 \$absoluteFilePath of method Symplify\\EasyCodingStandard\\Skipper::fileMatchesPattern\(\) expects string, string\|false given#'
+        - '#Parameter \#1 \$file of method Symplify\\LatteToTwigConverter\\LatteToTwigConverter::convertFile\(\) expects string, string\|false given#'
+        - '#Method Symplify\\PackageBuilder\\Configuration\\LevelFileFinder::detectFromInputAndDirectory\(\) should return string|null but returns string\|false#'
         - '#Parameter \#1 \$filename of function filesize expects string, string\|false given#'
         - '#Parameter \#1 \$str of function substr expects string, string\|false given#'
         - '#Parameter \#1 \$relativePath of method Symplify\\EasyCodingStandard\\Skipper::removeFileFromUnused\(\) expects string, string\|false given#'
