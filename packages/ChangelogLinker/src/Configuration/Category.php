@@ -23,4 +23,9 @@ final class Category
      * @var string
      */
     public const REMOVED = 'Removed';
+
+    /**
+     * @var string
+     */
+    public const UNKNOWN = 'Unknown Category';
 }
