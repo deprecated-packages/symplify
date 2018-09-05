@@ -2,7 +2,7 @@
 
 namespace Symplify\PHPStan\Error;
 
-use Symplify\EasyCodingStandard\Error\Error;
+use PHPStan\Analyser\Error;
 
 final class ErrorGrouper
 {
