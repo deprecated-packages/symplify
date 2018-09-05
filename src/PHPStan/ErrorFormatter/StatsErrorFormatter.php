@@ -5,7 +5,6 @@ namespace Symplify\PHPStan\ErrorFormatter;
 use PHPStan\Command\AnalysisResult;
 use PHPStan\Command\ErrorFormatter\ErrorFormatter;
 use Symfony\Component\Console\Style\OutputStyle;
-use Symfony\Component\Console\Terminal;
 use Symplify\PHPStan\Error\ErrorGrouper;
 
 final class StatsErrorFormatter implements ErrorFormatter
@@ -17,18 +16,12 @@ final class StatsErrorFormatter implements ErrorFormatter
     private const LIMIT = 10;
 
     /**
-     * @var Terminal
-     */
-    private $terminal;
-
-    /**
      * @var ErrorGrouper
      */
     private $errorGrouper;
 
-    public function __construct(Terminal $terminal, ErrorGrouper $errorGrouper)
+    public function __construct(ErrorGrouper $errorGrouper)
     {
-        $this->terminal = $terminal;
         $this->errorGrouper = $errorGrouper;
     }
 
@@ -44,36 +37,20 @@ final class StatsErrorFormatter implements ErrorFormatter
             $analysisResult->getFileSpecificErrors()
         );
 
-        // pick top X items
         $topMessagesToFrequency = $this->cutTopXItems($messagesToFrequency, self::LIMIT);
-        $tableData = $this->transformToTableData($topMessagesToFrequency);
-
         $outputStyle->title(sprintf('These are %d most frequent errors', count($topMessagesToFrequency)));
-        $outputStyle->table(['Message', 'Count'], $tableData);
+
+        foreach ($messagesToFrequency as $info) {
+            $outputStyle->writeln(sprintf('<options=bold>%d x - "%s"</>', $info['count'], $info['message']));
+            $outputStyle->newLine();
+            $outputStyle->listing($info['files']);
+        }
+
+        $outputStyle->newLine();
         $outputStyle->error(sprintf('Found %d errors', $analysisResult->getTotalErrorsCount()));
 
         // fail
         return 1;
-    }
-
-    /**
-     * @param int[] $messagesToFrequency
-     * @return int[][]|string[][]
-     */
-    private function transformToTableData(array $messagesToFrequency): array
-    {
-        $errorTable = [];
-        foreach ($messagesToFrequency as $message => $frequency) {
-            $message = $this->wrapMessageSoItFitsTheColumnWidth($message);
-            $errorTable[] = [$message, (string) $frequency . 'x'];
-        }
-
-        return $errorTable;
-    }
-
-    private function wrapMessageSoItFitsTheColumnWidth(string $message): string
-    {
-        return wordwrap($message, $this->terminal->getWidth() - 12, PHP_EOL);
     }
 
     /**
