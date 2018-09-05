@@ -49,6 +49,34 @@ final class ChangeFactoryTest extends TestCase
         yield ['Improve behavior', 'Changed', 'Unknown Package'];
         yield ['Remove this', 'Removed', 'Unknown Package'];
         yield ['All was deleted', 'Removed', 'Unknown Package'];
+
+        yield ['New design of a hydroplane', 'Unknown Category', 'Unknown Package'];
+        yield ['Removing all classes ending "Adapter" for no reason', 'Removed', 'Unknown Package'];
+        yield ['[Skeleton] Deletes unnecessary templates', 'Removed', 'Skeleton'];
+
+        yield from $this->provideDataForCategoryKeywords(['add', 'adds', 'added', 'adding'], 'Added');
+
+        yield from $this->provideDataForCategoryKeywords(['fix', 'fixes', 'fixed', 'fixing'], 'Fixed');
+
+        yield from $this->provideDataForCategoryKeywords(['change', 'changes', 'changed', 'changing'], 'Changed');
+        yield from $this->provideDataForCategoryKeywords(['improve', 'improves', 'improved', 'improving'], 'Changed');
+        yield from $this->provideDataForCategoryKeywords(['bump', 'bumps', 'bumped', 'bumping'], 'Changed');
+        yield from $this->provideDataForCategoryKeywords(['allow', 'allows', 'allowed', 'allowing'], 'Changed');
+        yield from $this->provideDataForCategoryKeywords(
+            ['disallow', 'disallows', 'disallowed', 'disallowing'],
+            'Changed'
+        );
+        yield from $this->provideDataForCategoryKeywords(['return', 'returns', 'returned', 'returning'], 'Changed');
+        yield from $this->provideDataForCategoryKeywords(['rename', 'renames', 'renamed', 'renaming'], 'Changed');
+        yield from $this->provideDataForCategoryKeywords(
+            ['decouple', 'decouples', 'decoupled', 'decoupling'],
+            'Changed'
+        );
+        yield from $this->provideDataForCategoryKeywords(['now'], 'Changed');
+
+        yield from $this->provideDataForCategoryKeywords(['remove', 'removes', 'removed', 'removing'], 'Removed');
+        yield from $this->provideDataForCategoryKeywords(['delete', 'deletes', 'deleted', 'deleting'], 'Removed');
+        yield from $this->provideDataForCategoryKeywords(['drop', 'drops', 'dropped', 'dropping'], 'Removed');
     }
 
     public function testEgoTag(): void
@@ -106,5 +134,17 @@ final class ChangeFactoryTest extends TestCase
         $change = $this->changeFactory->createFromPullRequest($pullRequest);
 
         $this->assertSame('v4.2.0', $change->getTag());
+    }
+
+    /**
+     * @param string[] $keywords
+     */
+    private function provideDataForCategoryKeywords(array $keywords, string $expectedCategory): Iterator
+    {
+        foreach ($keywords as $keyword) {
+            yield [$keyword, $expectedCategory, 'Unknown Package'];
+            yield ['prefix' . $keyword, 'Unknown Category', 'Unknown Package'];
+            yield [$keyword . 'postfix', 'Unknown Category', 'Unknown Package'];
+        }
     }
 }
