@@ -2,6 +2,20 @@ includes:
     - 'src/PHPStan/config/config.neon'
 
 parameters:
+    excludes_analyse:
+        - *packages/CodingStandard/tests/**/correct*
+        - *packages/CodingStandard/tests/**/wrong*
+        # tests
+        - packages/EasyCodingStandard/tests/Finder/FinderSanitizerSource/NestedDirectory/FileWithClass.php
+        - packages/EasyCodingStandard/packages/SniffRunner/tests/Application/FileProcessorSource/ReferenceUsedNamesOnlySniff/
+        # Symfony workaround
+        - packages/ChangelogLinker/src/DependencyInjection/Dummy/ResolveAutowiringExceptionHelper.php
+
+    autoload_files:
+        - %currentWorkingDirectory%/tests/bootstrap.php
+        - packages/EasyCodingStandard/packages/ChangedFilesDetector/tests/ChangedFilesDetectorSource/OneClass.php
+        - packages/EasyCodingStandard/tests/Finder/SourceFinderSource/Source/SomeClass.php
+
     ignoreErrors:
         # 0.10.2 false positives - all: (new SplFileInfo(...))->getRealPath()
         - '#Parameter \#1 \$absoluteFilePath of method Symplify\\EasyCodingStandard\\Skipper::fileMatchesPattern\(\) expects string, string\|false given#' # 1
@@ -108,17 +122,3 @@ parameters:
 
         # getcwd
         - '#Parameter \#1 \$gitDirectory of method Symplify\\MonorepoBuilder\\Split\\Git\\GitManager::getMostRecentTag\(\) expects string, string\|false given#'
-
-    excludes_analyse:
-        - *packages/CodingStandard/tests/**/correct*
-        - *packages/CodingStandard/tests/**/wrong*
-        # tests
-        - packages/EasyCodingStandard/tests/Finder/FinderSanitizerSource/NestedDirectory/FileWithClass.php
-        - packages/EasyCodingStandard/packages/SniffRunner/tests/Application/FileProcessorSource/ReferenceUsedNamesOnlySniff/
-        # Symfony workaround
-        - packages/ChangelogLinker/src/DependencyInjection/Dummy/ResolveAutowiringExceptionHelper.php
-
-    autoload_files:
-        - %currentWorkingDirectory%/tests/bootstrap.php
-        - packages/EasyCodingStandard/packages/ChangedFilesDetector/tests/ChangedFilesDetectorSource/OneClass.php
-        - packages/EasyCodingStandard/tests/Finder/SourceFinderSource/Source/SomeClass.php

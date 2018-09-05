@@ -8,14 +8,14 @@ includes:
     - 'src/PHPStan/config/config.neon'
 ```
 
-## 1. Stat Formatter - the Best Way to Start with PHPStan
+## 1. Stats Formatter - the Best Way to Start with PHPStan
 
 Do you have zillion errors in you project? That's common... and frustrating. Why not start with the most wide-spread errors? **Solve one type of problem to get rid of dozens of errors**.
 
 Run:
 
 ```bash
-vendor/bin/phpstan analyse src --level max --error-format ignore
+vendor/bin/phpstan analyse src --level max --error-format stats
 ```
 
 to get this nice overview of top 10 errors:
