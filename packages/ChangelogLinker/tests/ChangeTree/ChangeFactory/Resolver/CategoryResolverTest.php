@@ -3,7 +3,6 @@
 namespace Symplify\ChangelogLinker\Tests\ChangeTree\ChangeFactory\Resolver;
 
 use Iterator;
-use Symplify\ChangelogLinker\ChangeTree\Change;
 use Symplify\ChangelogLinker\Configuration\Category;
 use Symplify\ChangelogLinker\Tests\ChangeTree\ChangeFactory\AbstractChangeFactoryTest;
 

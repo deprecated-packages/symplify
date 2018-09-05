@@ -25,7 +25,7 @@ final class PackageResolver
      */
     public function resolvePackage(string $message): ?string
     {
-        $match = Strings::match($message, '#\[(?<package>\w+)\]#');
+        $match = Strings::match($message, '#\[(?<package>[-\w]+)\]#');
         if (! isset($match['package'])) {
             return Package::UNKNOWN;
         }
