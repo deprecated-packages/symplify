@@ -4,6 +4,8 @@ namespace Symplify\ChangelogLinker\Tests\ChangeTree\ChangeFactory;
 
 use PHPUnit\Framework\TestCase;
 use Symplify\ChangelogLinker\ChangeTree\ChangeFactory;
+use Symplify\ChangelogLinker\ChangeTree\Resolver\CategoryResolver;
+use Symplify\ChangelogLinker\ChangeTree\Resolver\PackageResolver;
 use Symplify\ChangelogLinker\Git\GitCommitDateTagResolver;
 
 abstract class AbstractChangeFactoryTest extends TestCase
@@ -33,7 +35,13 @@ abstract class AbstractChangeFactoryTest extends TestCase
         if (self::$cachedChangeFactory) {
             $this->changeFactory = self::$cachedChangeFactory;
         } else {
-            $this->changeFactory = new ChangeFactory(new GitCommitDateTagResolver(), ['A' => 'Aliased'], ['ego']);
+            $this->changeFactory = new ChangeFactory(
+                new GitCommitDateTagResolver(),
+                new CategoryResolver(),
+                new PackageResolver(['A' => 'Aliased']),
+                ['ego']
+            );
+
             self::$cachedChangeFactory = $this->changeFactory;
         }
     }
