@@ -3,6 +3,7 @@
 namespace Symplify\ChangelogLinker\Tests\ChangeTree\ChangeFactory;
 
 use Iterator;
+use Symplify\ChangelogLinker\ChangeTree\Change;
 use Symplify\ChangelogLinker\Configuration\Category;
 
 final class CategoryResolverTest extends AbstractChangeFactoryTest
@@ -12,9 +13,17 @@ final class CategoryResolverTest extends AbstractChangeFactoryTest
      */
     public function testAdded(string $title): void
     {
-        $this->pullRequest['title'] = $title;
-        $change = $this->changeFactory->createFromPullRequest($this->pullRequest);
+        $change = $this->createChangeWithTitle($title);
         $this->assertSame(Category::ADDED, $change->getCategory());
+    }
+
+    public function provideDataAdded(): Iterator
+    {
+        yield ['[CodingStandard] Add feature'];
+        yield ['add'];
+        yield ['adds'];
+        yield ['added'];
+        yield ['adding'];
     }
 
     /**
@@ -22,9 +31,46 @@ final class CategoryResolverTest extends AbstractChangeFactoryTest
      */
     public function testChanged(string $title): void
     {
-        $this->pullRequest['title'] = $title;
-        $change = $this->changeFactory->createFromPullRequest($this->pullRequest);
+        $change = $this->createChangeWithTitle($title);
         $this->assertSame(Category::CHANGED, $change->getCategory());
+    }
+
+    public function provideDataChanged(): Iterator
+    {
+        yield ['Improve behavior'];
+        yield ['change'];
+        yield ['changes'];
+        yield ['changed'];
+        yield ['changing'];
+        yield ['improve'];
+        yield ['improves'];
+        yield ['improved'];
+        yield ['improving'];
+        yield ['bump'];
+        yield ['bumps'];
+        yield ['bumped'];
+        yield ['bumping'];
+        yield ['allow'];
+        yield ['allows'];
+        yield ['allowed'];
+        yield ['allowing'];
+        yield ['disallow'];
+        yield ['disallows'];
+        yield ['disallowed'];
+        yield ['disallowing'];
+        yield ['return'];
+        yield ['returns'];
+        yield ['returned'];
+        yield ['returning'];
+        yield ['rename'];
+        yield ['renames'];
+        yield ['renamed'];
+        yield ['renaming'];
+        yield ['decouple'];
+        yield ['decouples'];
+        yield ['decoupled'];
+        yield ['decoupling'];
+        yield ['now'];
     }
 
     /**
@@ -32,9 +78,17 @@ final class CategoryResolverTest extends AbstractChangeFactoryTest
      */
     public function testFixed(string $title): void
     {
-        $this->pullRequest['title'] = $title;
-        $change = $this->changeFactory->createFromPullRequest($this->pullRequest);
+        $change = $this->createChangeWithTitle($title);
         $this->assertSame(Category::FIXED, $change->getCategory());
+    }
+
+    public function provideDataFixed(): Iterator
+    {
+        yield ['This fixed some bug'];
+        yield ['fix'];
+        yield ['fixes'];
+        yield ['fixed'];
+        yield ['fixing'];
     }
 
     /**
@@ -42,50 +96,8 @@ final class CategoryResolverTest extends AbstractChangeFactoryTest
      */
     public function testRemoved(string $title): void
     {
-        $this->pullRequest['title'] = $title;
-        $change = $this->changeFactory->createFromPullRequest($this->pullRequest);
+        $change = $this->createChangeWithTitle($title);
         $this->assertSame(Category::REMOVED, $change->getCategory());
-    }
-
-    /**
-     * @dataProvider provideDataRemoved()
-     */
-    public function testUnknonw(string $title): void
-    {
-        $this->pullRequest['title'] = $title;
-        $change = $this->changeFactory->createFromPullRequest($this->pullRequest);
-        $this->assertSame('Unknown Category', $change->getCategory());
-    }
-
-    public function provideDataUnknownCategory(): Iterator
-    {
-        yield ['New design of a hydroplane', 'Unknown Category'];
-    }
-
-    public function provideDataAdded(): Iterator
-    {
-        yield ['[CodingStandard] Add feature'];
-        yield from $this->provideDataForCategoryKeywords(['add', 'adds', 'added', 'adding']);
-    }
-
-    public function provideDataChanged(): Iterator
-    {
-        yield ['Improve behavior'];
-        yield from $this->provideDataForCategoryKeywords(['change', 'changes', 'changed', 'changing']);
-        yield from $this->provideDataForCategoryKeywords(['improve', 'improves', 'improved', 'improving']);
-        yield from $this->provideDataForCategoryKeywords(['bump', 'bumps', 'bumped', 'bumping']);
-        yield from $this->provideDataForCategoryKeywords(['allow', 'allows', 'allowed', 'allowing']);
-        yield from $this->provideDataForCategoryKeywords(['disallow', 'disallows', 'disallowed', 'disallowing']);
-        yield from $this->provideDataForCategoryKeywords(['return', 'returns', 'returned', 'returning']);
-        yield from $this->provideDataForCategoryKeywords(['rename', 'renames', 'renamed', 'renaming']);
-        yield from $this->provideDataForCategoryKeywords(['decouple', 'decouples', 'decoupled', 'decoupling']);
-        yield from $this->provideDataForCategoryKeywords(['now']);
-    }
-
-    public function provideDataFixed(): Iterator
-    {
-        yield ['This fixed some bug'];
-        yield from $this->provideDataForCategoryKeywords(['fix', 'fixes', 'fixed', 'fixing']);
     }
 
     public function provideDataRemoved(): Iterator
@@ -94,20 +106,48 @@ final class CategoryResolverTest extends AbstractChangeFactoryTest
         yield ['All was deleted'];
         yield ['Removing all classes ending "Adapter" for no reason'];
         yield ['[Skeleton] Deletes unnecessary templates'];
-        yield from $this->provideDataForCategoryKeywords(['remove', 'removes', 'removed', 'removing']);
-        yield from $this->provideDataForCategoryKeywords(['delete', 'deletes', 'deleted', 'deleting']);
-        yield from $this->provideDataForCategoryKeywords(['drop', 'drops', 'dropped', 'dropping']);
+        yield ['remove'];
+        yield ['removes'];
+        yield ['removed'];
+        yield ['removing'];
+        yield ['delete'];
+        yield ['deletes'];
+        yield ['deleted'];
+        yield ['deleting'];
+        yield ['drop'];
+        yield ['drops'];
+        yield ['dropped'];
+        yield ['dropping'];
     }
 
     /**
-     * @param string[] $keywords
+     * @dataProvider provideDataUnknownCategory()
      */
-    private function provideDataForCategoryKeywords(array $keywords): Iterator
+    public function testUnknownCategory(string $title): void
     {
-        foreach ($keywords as $keyword) {
-            yield [$keyword, $expectedCategory];
-            yield ['prefix' . $keyword, 'Unknown Category'];
-            yield [$keyword . 'postfix', 'Unknown Category'];
-        }
+        $change = $this->createChangeWithTitle($title);
+        $this->assertSame(Category::UNKNOWN, $change->getCategory(), $title);
+    }
+
+    public function provideDataUnknownCategory(): Iterator
+    {
+        yield ['New design of a hydroplane'];
+        yield ['changelog'];
+        yield ['exchanged'];
+        yield ['addidas'];
+        yield ['sexchanging'];
+        yield ['improvesation'];
+        yield ['disimproves'];
+        yield ['bumpage'];
+        yield ['doubledrop'];
+        yield ['unremove'];
+        yield ['unreturned'];
+    }
+
+    private function createChangeWithTitle(string $title): Change
+    {
+        $this->pullRequest['title'] = $title;
+
+        return $this->changeFactory->createFromPullRequest($this->pullRequest);
     }
 }
