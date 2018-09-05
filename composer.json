@@ -98,7 +98,7 @@
             "packages/EasyCodingStandard/bin/ecs check src packages --fix",
             "bin/clear_readmes.sh"
         ],
-        "phpstan": "vendor/bin/phpstan analyse src packages --level max --error-format stats",
+        "phpstan": "vendor/bin/phpstan analyse src packages --level max",
         "changelog": [
             "packages/ChangelogLinker/bin/changelog-linker dump-merges --in-categories --in-packages",
             "packages/ChangelogLinker/bin/changelog-linker link",
