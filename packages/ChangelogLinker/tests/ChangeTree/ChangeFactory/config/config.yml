@@ -1,0 +1,5 @@
+parameters:
+    authors_to_ignore: ['ego']
+
+    package_aliases:
+        A: 'Aliased'

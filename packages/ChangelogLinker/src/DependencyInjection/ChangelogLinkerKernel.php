@@ -4,18 +4,27 @@ namespace Symplify\ChangelogLinker\DependencyInjection;
 
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\HttpKernel\Bundle\BundleInterface;
+use Symfony\Component\HttpKernel\Kernel;
 use Symplify\ChangelogLinker\DependencyInjection\CompilerPass\CollectorCompilerPass;
 use Symplify\ChangelogLinker\DependencyInjection\CompilerPass\DetectParametersCompilerPass;
 use Symplify\PackageBuilder\DependencyInjection\CompilerPass\AutoBindParametersCompilerPass;
 use Symplify\PackageBuilder\DependencyInjection\CompilerPass\PublicForTestsCompilerPass;
-use Symplify\PackageBuilder\HttpKernel\AbstractCliKernel;
 
-final class ChangelogLinkerKernel extends AbstractCliKernel
+final class ChangelogLinkerKernel extends Kernel
 {
     /**
      * @var string|null
      */
     private $configFile;
+
+    public function __construct(?string $configFile = null)
+    {
+        $this->configFile = $configFile;
+        $configFilesHash = md5($configFile);
+
+        parent::__construct('cli_' . $configFilesHash, true);
+    }
 
     public function registerContainerConfiguration(LoaderInterface $loader): void
     {
@@ -40,6 +49,14 @@ final class ChangelogLinkerKernel extends AbstractCliKernel
     {
         $this->configFile = $config;
         $this->boot();
+    }
+
+    /**
+     * @return BundleInterface[]
+     */
+    public function registerBundles(): array
+    {
+        return [];
     }
 
     /**
