@@ -6,7 +6,6 @@ use Nette\Utils\Strings;
 use PHPStan\Command\AnalysisResult;
 use PHPStan\Command\ErrorFormatter\ErrorFormatter;
 use Symfony\Component\Console\Style\OutputStyle;
-use Symfony\Component\Console\Terminal;
 use Symplify\PHPStan\Error\ErrorGrouper;
 
 final class StatsErrorFormatter implements ErrorFormatter
@@ -22,15 +21,9 @@ final class StatsErrorFormatter implements ErrorFormatter
      */
     private $errorGrouper;
 
-    /**
-     * @var Terminal
-     */
-    private $terminal;
-
-    public function __construct(ErrorGrouper $errorGrouper, Terminal $terminal)
+    public function __construct(ErrorGrouper $errorGrouper)
     {
         $this->errorGrouper = $errorGrouper;
-        $this->terminal = $terminal;
     }
 
     public function formatErrors(AnalysisResult $analysisResult, OutputStyle $outputStyle): int

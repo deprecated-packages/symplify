@@ -6,10 +6,10 @@ use PhpCsFixer\Fixer\DefinedFixerInterface;
 use PhpCsFixer\FixerDefinition\CodeSample;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
+use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use PhpCsFixer\WhitespacesFixerConfig;
 use SplFileInfo;
-use Symplify\TokenRunner\Builder\FixerBuilder\TokenBuilder;
 
 /**
  * Inspired at https://github.com/aidantwoods/PHP-CS-Fixer/tree/feature/DeclareStrictTypesFixer-split
@@ -19,18 +19,17 @@ use Symplify\TokenRunner\Builder\FixerBuilder\TokenBuilder;
 final class BlankLineAfterStrictTypesFixer implements DefinedFixerInterface
 {
     /**
+     * @var Token[]|null
+     */
+    private static $cachedDeclareStrictTypeTokens;
+
+    /**
      * @var WhitespacesFixerConfig
      */
     private $whitespacesFixerConfig;
 
-    /**
-     * @var TokenBuilder
-     */
-    private $tokenBuilder;
-
-    public function __construct(TokenBuilder $tokenBuilder, WhitespacesFixerConfig $whitespacesFixerConfig)
+    public function __construct(WhitespacesFixerConfig $whitespacesFixerConfig)
     {
-        $this->tokenBuilder = $tokenBuilder;
         $this->whitespacesFixerConfig = $whitespacesFixerConfig;
     }
 
@@ -51,7 +50,7 @@ namespace SomeNamespace;')]
 
     public function fix(SplFileInfo $file, Tokens $tokens): void
     {
-        $sequenceLocation = $tokens->findSequence($this->tokenBuilder->getDeclareStrictTypeSequence(), 1, 15);
+        $sequenceLocation = $tokens->findSequence($this->getDeclareStrictTypeSequence(), 1, 15);
         if ($sequenceLocation === null) {
             return;
         }
@@ -90,5 +89,29 @@ namespace SomeNamespace;')]
     public function supports(SplFileInfo $file): bool
     {
         return true;
+    }
+
+    /**
+     * Generates: "declare(strict_types=1);"
+     *
+     * @return Token[]
+     */
+    public function getDeclareStrictTypeSequence(): array
+    {
+        if (self::$cachedDeclareStrictTypeTokens) {
+            return self::$cachedDeclareStrictTypeTokens;
+        }
+
+        $tokens = [
+            new Token([T_DECLARE, 'declare']),
+            new Token('('),
+            new Token([T_STRING, 'strict_types']),
+            new Token('='),
+            new Token([T_LNUMBER, '1']),
+            new Token(')'),
+            new Token(';'),
+        ];
+
+        return self::$cachedDeclareStrictTypeTokens = $tokens;
     }
 }

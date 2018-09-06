@@ -104,7 +104,6 @@ parameters:
         - '#Method Symplify\\MonorepoBuilder\\Package\\PackageComposerJsonMerger::mergeFileInfos\(\) should return array<string> but returns array<string, array\|string>#'
         - '#Parameter \#1 \$path of function dirname expects string, string\|false given#'
         - '#Method Symplify\\PackageBuilder\\Console\\Command\\CommandNaming::getShortClassName\(\) should return string but returns string\|null#'
-        - '#Parameter \#1 \$object_or_string of function is_a expects object\|string, int\|string given#'
         - '#Method Symplify\\PackageBuilder\\Tests\\Console\\ThrowableRendererTest::getTestErrorOutput\(\) should return string but returns string\|false#'
         - '#Cannot access offset (.*?) on Symplify\\Statie\\Generator\\Renderable\\File\\AbstractGeneratorFile#'
         - '#Property Symplify\\Statie\\Configuration\\Configuration::\$sourceDirectory \(string\) does not accept string\|false#'
