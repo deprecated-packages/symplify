@@ -4,6 +4,5 @@ imports:
 parameters:
     authors_to_ignore: []
     names_to_urls: []
-
     package_aliases: []
-    # e.g. [CS] => [CodingStandard]
+    # e.g.: CS: 'CodingStandard'

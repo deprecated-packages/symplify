@@ -17,10 +17,7 @@ composer require symplify/changelog-linker --dev
 Create `changelog-linker.yml` with configuration:
 
 ```yaml
-# changelog-linker.yml:
 parameters:
-    authors_to_ignore: ['TomasVotruba'] # usually core maintainers; to make external contributors more credit
-
     # this is detected from "git origin", but you can change it
     repository_url: 'https://github.com/symplify/symplify'
 ```
@@ -54,13 +51,13 @@ But that is a mash-up of everything. Not very nice:
 - [#864] [MonorepoBuilder] improve coverage
 ```
 
-What if we'd have *Added*, *Changed*... and all that standard categories?
+What if we'd have *Added*, *Changed*... all the standard categories?
 
 ```
 vendor/bin/changelog-linker dump-merges --in-categories
 ```
 
-Nice, now everything is nicely grouped:
+↓
 
 ```markdown
 ## Unreleased
@@ -71,55 +68,65 @@ Nice, now everything is nicely grouped:
 - [#840] [ChangelogLinker] Add LinkifyWorker
 ```
 
-*(Technical secret: it reacts to *add* and few other keywords.)*
+Nice, now everything is nicely grouped.
 
-But what about monorepo packages - can we have list grouped by each of them?
+*(Do you want to know how we detect the category? [Follow me](https://github.com/Symplify/Symplify/blob/master/packages/ChangelogLinker/src/ChangeTree/Resolver/CategoryResolver.php))*
+
+What about packages - can we have group them as well? Sure:
+
+```
+vendor/bin/changelog-linker dump-merges --in-packages
+```
+
+↓
 
 ```markdown
 ## Unreleased
 
 ### CodingStandard
 
-- [#851] [CodingStandard] Add _ support to PropertyNameMatchingTypeFixer
-- [#860] [CS] Add test case for #855, Thanks to @OndraM
+- [#851] Add _ support to PropertyNameMatchingTypeFixer
+- [#860] Add test case for #855, Thanks to @OndraM
 ```
 
 *(Technical secret: it reacts to *[Package]* in PR title.)*
 
-But that's kind of useless without combination, right? Let's join them together:
+Let's take it one step further!
 
 ```
 vendor/bin/changelog-linker dump-merges --in-packages --in-categories
 ```
 
-Finally what we needed:
+↓
 
 ```markdown
 ## Unreleased
 
-### TokenRunner
+### CodingStandard
 
-#### Changed
+#### Added
 
-- [#863] [TokenRunner] anonymous class now returns null on name [fixes #855]
+- [#851] Add _ support to PropertyNameMatchingTypeFixer
+- [#860] Add test case for #855, Thanks to @OndraM
 ```
 
-Or do you prefer it the other way?
+Do you prefer categories first? Just switch the order:
 
 ```
-vendor/bin/changelog-linker dump-merges --in-packages --in-categories
+vendor/bin/changelog-linker dump-merges --in-categories --in-packages
 ```
 
-Yes you can:
+↓
 
 ```markdown
 ## Unreleased
 
-### Fixed
+### Added
 
 #### EasyCodingStandard
 
-- [#848] [ECS] Fix single file processing
+- [#851] Add _ support to PropertyNameMatchingTypeFixer
+- [#860] Add test case for #855, Thanks to @OndraM
 ```
 
 ### Github API Overload?
@@ -130,34 +137,6 @@ In case you cross the API rate limit and get denied, create [new Github Token](h
 vendor/bin/changelog-linker dump-merges --token super-secret-token
 ```
 
-```markdown
-## v4.4.1 - 2018-06-07
-
-- [#853] Add test case for #777
-```
-
-**Combination with `--in-packages` and `--in-categories`** is allowed and recommended:
-
-```
-vendor/bin/changelog-linker dump-merges --in-tags --in-categories --in-packages
-```
-
-Will result into this beautiful:
-
-```markdown
-## v4.4.0 - 2018-06-03
-
-### Added
-
-#### EasyCodingStandard
-
-- [#852] Add support for line_ending configuration
-
-[#852]: https://github.com/symplify/symplify/pull/852
-```
-
-You'll get the output with links to PRs and "thanks" by default.
-
 ## B. Decorate `CHANGELOG.md`
 
 ```bash
@@ -165,8 +144,6 @@ vendor/bin/changelog-linker linkify
 ```
 
 ### 1. Link PR and Issues
-
-- `Symplify\ChangelogLinker\Worker\LinksToReferencesWorker`
 
 ```diff
  ### Added
@@ -191,9 +168,9 @@ vendor/bin/changelog-linker linkify
 +[v2.0.0]: https://github.com/Symplify/Symplify/compare/v1.5.0...v2.0.0
 ```
 
-### 3. Link Thanks to Users
+### 3. Can I Thank My Contributors?
 
-Credit is much more valuable with link to follow:
+Give your contributors credit they deserve:
 
 ```diff
  ### [v2.0.0] - 2017-12-31
@@ -204,11 +181,20 @@ Credit is much more valuable with link to follow:
 +[@SpacePossum]: https://github.com/SpacePossum
 ```
 
-### 4. Add Links to Specific Words
+You can exclude core maintainers, to give external contributors more credit:
+
+```yaml
+# changelog-linker.yml
+parameters:
+    authors_to_ignore: ['TomasVotruba']
+```
+
+### 4. How to Link Specific Words?
 
 In Symplify, I need that every `EasyCodingStandard` word leads to `https://github.com/Symplify/EasyCodingStandard/`.
 
 ```yaml
+# changelog-linker.yml
 parameters:
     names_to_urls:
         EasyCodingStandard: 'https://github.com/Symplify/EasyCodingStandard/'
@@ -224,3 +210,18 @@ parameters:
 +
 +[EasyCodingStandard]: https://github.com/Symplify/EasyCodingStandard/
 ```
+
+### 5. Can I Write Shorter PR Titles?
+
+![ECS-Run](docs/alias.png)
+
+Just add alias to config:
+
+```yaml
+# changelog-linker.yml
+parameters:
+    package_aliases:
+        CS: 'CodingStandard'
+```
+
+...and it will be resolved to `CodingStandard` package.
