@@ -67,6 +67,9 @@ final class NoClassInstantiationSniff implements Sniff
         // value objects or build elements, like SplFileInfo
         '*Info',
         '*Node',
+
+        // Doctrine
+        'Doctrine\ORM\Query\Expr',
     ];
 
     /**
