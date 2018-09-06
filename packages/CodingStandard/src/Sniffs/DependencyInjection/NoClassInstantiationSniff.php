@@ -117,6 +117,9 @@ final class NoClassInstantiationSniff implements Sniff
         return [T_NEW];
     }
 
+    /**
+     * @param int $position
+     */
     public function process(File $file, $position): void
     {
         $this->file = $file;

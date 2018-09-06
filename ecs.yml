@@ -31,12 +31,15 @@ services:
     Symplify\CodingStandard\Sniffs\DependencyInjection\NoClassInstantiationSniff:
         extraAllowedClasses:
             - 'Symplify\EasyCodingStandard\Error\Error'
+            - 'Symplify\EasyCodingStandard\Yaml\*'
             - 'Symplify\PackageBuilder\*'
             - 'phpDocumentor\Reflection\Fqsen'
+            - 'PharIo\Version\Version'
+            # Symfony\DependencyInjection
             - 'Symfony\Component\DependencyInjection\ContainerBuilder'
             - 'Symfony\Component\DependencyInjection\ParameterBag\ParameterBag'
-            - 'Symplify\EasyCodingStandard\Yaml\*'
-            - 'PharIo\Version\Version'
+            - 'Symfony\Component\*\Exception\*'
+            - 'Symfony\Component\Config\Loader\*'
 
 parameters:
     exclude_checkers:
