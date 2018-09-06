@@ -49,7 +49,7 @@ final class ChangeFactory
      */
     public function createFromPullRequest(array $pullRequest): Change
     {
-        $message = sprintf('- [#%s] %s', $pullRequest['number'], $pullRequest['title']);
+        $message = sprintf('- [#%s] %s', $pullRequest['number'], trim($pullRequest['title']));
 
         $author = $pullRequest['user']['login'] ?? '';
 

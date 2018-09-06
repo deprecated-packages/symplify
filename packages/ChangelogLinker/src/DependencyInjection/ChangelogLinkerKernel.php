@@ -21,9 +21,9 @@ final class ChangelogLinkerKernel extends Kernel
     public function __construct(?string $configFile = null)
     {
         $this->configFile = $configFile;
-        $configFilesHash = $configFile ? md5($configFile) : '';
+        $configFilesHash = $configFile ? '_' . md5($configFile) : '';
 
-        parent::__construct('cli_' . $configFilesHash, true);
+        parent::__construct('changelog_linker' . $configFilesHash, true);
     }
 
     public function registerContainerConfiguration(LoaderInterface $loader): void
