@@ -17,6 +17,11 @@ use Symplify\TokenRunner\Wrapper\FixerWrapper\DocBlockWrapperFactory;
 final class ArrayPropertyDefaultValueFixer implements DefinedFixerInterface
 {
     /**
+     * @var Tokens|null
+     */
+    private static $cachedDefaultArrayTokens;
+
+    /**
      * @var ClassWrapperFactory
      */
     private $classWrapperFactory;
@@ -135,12 +140,20 @@ public $property;')]
 
     private function createDefaultArrayTokens(): Tokens
     {
-        return Tokens::fromArray([
+        if (self::$cachedDefaultArrayTokens) {
+            return self::$cachedDefaultArrayTokens;
+        }
+
+        $tokens = Tokens::fromArray([
             new Token([T_WHITESPACE, ' ']),
             new Token('='),
             new Token([T_WHITESPACE, ' ']),
             new Token([CT::T_ARRAY_SQUARE_BRACE_OPEN, '[']),
             new Token([CT::T_ARRAY_SQUARE_BRACE_CLOSE, ']']),
         ]);
+
+        self::$cachedDefaultArrayTokens = $tokens;
+
+        return $tokens;
     }
 }
