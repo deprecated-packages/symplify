@@ -25,10 +25,12 @@ final class ChangeSorterTest extends TestCase
         $sortedChanges = $this->changeSorter->sort($changes, ChangeSorter::PRIORITY_CATEGORIES);
         $this->assertNotSame($changes, $sortedChanges);
 
+        /** @var Change $firstChange */
         $firstChange = array_shift($sortedChanges);
         $this->assertSame('Added', $firstChange->getCategory());
         $this->assertSame('B', $firstChange->getPackage());
 
+        /** @var Change $secondChange */
         $secondChange = array_shift($sortedChanges);
         $this->assertSame('Changed', $secondChange->getCategory());
         $this->assertSame('B', $secondChange->getPackage());
@@ -41,10 +43,12 @@ final class ChangeSorterTest extends TestCase
         $sortedChanges = $this->changeSorter->sort($changes, ChangeSorter::PRIORITY_PACKAGES);
         $this->assertNotSame($changes, $sortedChanges);
 
+        /** @var Change $firstChange */
         $firstChange = array_shift($sortedChanges);
         $this->assertSame('A', $firstChange->getPackage());
         $this->assertSame('Removed', $firstChange->getCategory());
 
+        /** @var Change $secondChange */
         $secondChange = array_shift($sortedChanges);
         $this->assertSame('B', $secondChange->getPackage());
         $this->assertSame('Added', $secondChange->getCategory());

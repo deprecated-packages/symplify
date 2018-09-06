@@ -54,7 +54,7 @@ final class SprintfOverContactSniff implements Sniff
         $concatCount = 1;
 
         $currentPosition = $position + 1;
-        while ($currentPosition = $file->findNext(T_STRING_CONCAT, $currentPosition, $endOfExpression)) {
+        while ($currentPosition = $file->findNext([T_STRING_CONCAT], $currentPosition, $endOfExpression)) {
             ++$currentPosition;
             ++$concatCount;
         }

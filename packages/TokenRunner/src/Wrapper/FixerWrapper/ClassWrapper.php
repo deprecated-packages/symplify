@@ -139,10 +139,11 @@ final class ClassWrapper
 
         /** @var Token[] $stringTokens */
         $stringTokens = $this->tokens->findGivenKind(T_STRING, $extendsPosition);
-        if (! $stringTokens) {
+        if (count($stringTokens) === 0) {
             return null;
         }
 
+        /** @var Token $parentClassNameToken */
         $parentClassNameToken = array_shift($stringTokens);
 
         return $parentClassNameToken->getContent();
@@ -293,6 +294,11 @@ final class ClassWrapper
         }
 
         return array_unique($interfaceNames);
+    }
+
+    public function getStartBracketIndex(): int
+    {
+        return $this->startBracketIndex;
     }
 
     /**

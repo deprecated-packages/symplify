@@ -6,16 +6,21 @@ use PhpCsFixer\Fixer\DefinedFixerInterface;
 use PhpCsFixer\FixerDefinition\CodeSample;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
+use PhpCsFixer\Tokenizer\CT;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
 use Symplify\TokenRunner\Analyzer\FixerAnalyzer\DocBlockFinder;
-use Symplify\TokenRunner\Builder\FixerBuilder\TokenBuilder;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\ClassWrapperFactory;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\DocBlockWrapperFactory;
 
 final class ArrayPropertyDefaultValueFixer implements DefinedFixerInterface
 {
+    /**
+     * @var Tokens|null
+     */
+    private static $cachedDefaultArrayTokens;
+
     /**
      * @var ClassWrapperFactory
      */
@@ -31,21 +36,14 @@ final class ArrayPropertyDefaultValueFixer implements DefinedFixerInterface
      */
     private $docBlockFinder;
 
-    /**
-     * @var TokenBuilder
-     */
-    private $tokenBuilder;
-
     public function __construct(
         ClassWrapperFactory $classWrapperFactory,
         DocBlockWrapperFactory $docBlockWrapperFactory,
-        DocBlockFinder $docBlockFinder,
-        TokenBuilder $tokenBuilder
+        DocBlockFinder $docBlockFinder
     ) {
         $this->classWrapperFactory = $classWrapperFactory;
         $this->docBlockWrapperFactory = $docBlockWrapperFactory;
         $this->docBlockFinder = $docBlockFinder;
-        $this->tokenBuilder = $tokenBuilder;
     }
 
     public function getDefinition(): FixerDefinitionInterface
@@ -131,12 +129,31 @@ public $property;')]
                 continue;
             }
 
-            $tokens->insertAt($semicolonTokenPosition, $this->tokenBuilder->createDefaultArrayTokens());
+            $tokens->insertAt($semicolonTokenPosition, $this->createDefaultArrayTokens());
         }
     }
 
     private function isDefaultDefinitionSet(?int $equalTokenPosition, int $semicolonTokenPosition): bool
     {
         return is_numeric($equalTokenPosition) && $equalTokenPosition < $semicolonTokenPosition;
+    }
+
+    private function createDefaultArrayTokens(): Tokens
+    {
+        if (self::$cachedDefaultArrayTokens) {
+            return self::$cachedDefaultArrayTokens;
+        }
+
+        $tokens = Tokens::fromArray([
+            new Token([T_WHITESPACE, ' ']),
+            new Token('='),
+            new Token([T_WHITESPACE, ' ']),
+            new Token([CT::T_ARRAY_SQUARE_BRACE_OPEN, '[']),
+            new Token([CT::T_ARRAY_SQUARE_BRACE_CLOSE, ']']),
+        ]);
+
+        self::$cachedDefaultArrayTokens = $tokens;
+
+        return $tokens;
     }
 }

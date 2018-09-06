@@ -16,6 +16,10 @@ final class DefinitionFinder
         $definitions = [];
         foreach ($containerBuilder->getDefinitions() as $name => $definition) {
             $class = $definition->getClass() ?: $name;
+            if (! is_string($class)) {
+                continue;
+            }
+
             if (is_a($class, $type, true)) {
                 $definitions[$name] = $definition;
             }
@@ -38,6 +42,10 @@ final class DefinitionFinder
     {
         foreach ($containerBuilder->getDefinitions() as $name => $definition) {
             $class = $definition->getClass() ?: $name;
+            if (! is_string($class)) {
+                continue;
+            }
+
             if (is_a($class, $type, true)) {
                 return $definition;
             }

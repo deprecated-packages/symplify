@@ -179,10 +179,7 @@ final class ClassStringToClassConstantFixer implements DefinedFixerInterface, Co
         return $accepted;
     }
 
-    /**
-     * @return Token[]
-     */
-    private function convertNameToTokens(string $classInterfaceOrTraitName): array
+    private function convertNameToTokens(string $classInterfaceOrTraitName): Tokens
     {
         $tokens = [];
 
@@ -195,7 +192,7 @@ final class ClassStringToClassConstantFixer implements DefinedFixerInterface, Co
         $tokens[] = new Token([T_DOUBLE_COLON, '::']);
         $tokens[] = new Token([CT::T_CLASS_CONSTANT, 'class']);
 
-        return $tokens;
+        return Tokens::fromArray($tokens);
     }
 
     private function getClassyPattern(): string

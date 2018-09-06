@@ -100,12 +100,11 @@ CODE_SAMPLE
                 continue;
             }
 
-            $i = $tokens->getNextTokenOfKind($i, ['{']);
             $elements = $this->privatesCaller->callPrivateMethod(
                 $this->orderedClassElementsFixer,
                 'getElements',
                 $tokens,
-                $i
+                $classWrapper->getStartBracketIndex()
             );
 
             $methodElements = $this->filterMethodElements($elements);

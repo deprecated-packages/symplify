@@ -239,6 +239,7 @@ class SomeClass
             return true;
         }
 
+        /** @var string $type */
         $type = array_pop($types);
 
         if ($this->typeAnalyzer->isPhpReservedType($type)) {
@@ -298,6 +299,7 @@ class SomeClass
                 continue;
             }
 
+            /** @var string $type */
             $type = array_pop($types);
             $expectedName = $this->getExpectedNameFromTypes($type);
             if ($expectedName === '') {

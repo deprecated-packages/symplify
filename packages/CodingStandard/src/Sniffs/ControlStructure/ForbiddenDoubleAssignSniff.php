@@ -30,8 +30,12 @@ final class ForbiddenDoubleAssignSniff implements Sniff
             $position
         );
 
-        $hasMultipleSemicolon = $file->findNext(T_EQUAL, $position + 1, $endPosition);
-        if (! $hasMultipleSemicolon) {
+        if (! is_int($endPosition)) {
+            return;
+        }
+
+        $hasMultipleAssigns = $file->findNext([T_EQUAL], $position + 1, $endPosition);
+        if (! $hasMultipleAssigns) {
             return;
         }
 

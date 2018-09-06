@@ -127,9 +127,11 @@ final class RouteFileDecorator implements FileDecoratorInterface
             return $outputPath;
         }
 
-        $outputPath = preg_replace('#:year#', $file->getDateInFormat('Y'), $outputPath);
-        $outputPath = preg_replace('#:month#', $file->getDateInFormat('m'), $outputPath);
-        return preg_replace('#:day#', $file->getDateInFormat('d'), $outputPath);
+        return str_replace(
+            [':year', ':month', ':day'],
+            [$file->getDateInFormat('Y'), $file->getDateInFormat('m'), $file->getDateInFormat('d')],
+            $outputPath
+        );
     }
 
     private function isRootIndex(AbstractFile $file): bool

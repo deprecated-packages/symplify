@@ -1,0 +1,9 @@
+services:
+    errorFormatter.stats:
+        class: 'Symplify\PHPStanExtensions\ErrorFormatter\StatsErrorFormatter'
+
+    errorFormatter.ignore:
+        class: 'Symplify\PHPStanExtensions\ErrorFormatter\IgnoreErrorFormatter'
+
+    - Symfony\Component\Console\Terminal
+    - Symplify\PHPStanExtensions\Error\ErrorGrouper
