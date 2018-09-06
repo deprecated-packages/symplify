@@ -5,3 +5,4 @@ parameters:
         CS: 'CodingStandard'
         MB: 'MonorepoBuilder'
         ECS: 'EasyCodingStandard'
+        CL: 'ChangelogLinker'
