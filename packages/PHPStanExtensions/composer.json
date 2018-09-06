@@ -1,0 +1,13 @@
+{
+    "name": "symplify/phpstan-extensions",
+    "license": "MIT",
+    "require": {
+        "php": "^7.1",
+        "nette/utils": "^2.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "Symplify\\PHPStanExtensions\\": "src"
+        }
+    }
+}

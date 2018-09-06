@@ -1,11 +1,11 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\PHPStan\ErrorFormatter;
+namespace Symplify\PHPStanExtensions\ErrorFormatter;
 
 use PHPStan\Command\AnalysisResult;
 use PHPStan\Command\ErrorFormatter\ErrorFormatter;
 use Symfony\Component\Console\Style\OutputStyle;
-use Symplify\PHPStan\Error\ErrorGrouper;
+use Symplify\PHPStanExtensions\Error\ErrorGrouper;
 
 final class IgnoreErrorFormatter implements ErrorFormatter
 {

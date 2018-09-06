@@ -1,5 +1,5 @@
 includes:
-    - 'src/PHPStan/config/config.neon'
+    - 'packages/PHPStanExtensions/src/config/config.neon'
 
 parameters:
     excludes_analyse:

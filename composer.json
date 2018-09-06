@@ -56,6 +56,7 @@
             "Symplify\\LatteToTwigConverter\\": "packages/LatteToTwigConverter/src",
             "Symplify\\MonorepoBuilder\\": "packages/MonorepoBuilder/src",
             "Symplify\\MonorepoBuilder\\Split\\": "packages/MonorepoBuilder/packages/Split/src",
+            "Symplify\\PHPStanExtensions\\": "packages/PHPStanExtensions/src",
             "Symplify\\PackageBuilder\\": "packages/PackageBuilder/src",
             "Symplify\\Statie\\": "packages/Statie/src",
             "Symplify\\Statie\\Generator\\": "packages/Statie/packages/Generator/src",
@@ -66,7 +67,6 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Symplify\\PHPStan\\": "src/PHPStan",
             "Symplify\\BetterPhpDocParser\\Tests\\": "packages/BetterPhpDocParser/tests",
             "Symplify\\ChangelogLinker\\Tests\\": "packages/ChangelogLinker/tests",
             "Symplify\\CodingStandard\\Tests\\": "packages/CodingStandard/tests",
@@ -93,13 +93,13 @@
             "@fix-cs",
             "@phpstan"
         ],
-        "check-cs": "packages/EasyCodingStandard/bin/ecs check src packages",
+        "check-cs": "packages/EasyCodingStandard/bin/ecs check packages",
         "fix-cs": [
-            "packages/EasyCodingStandard/bin/ecs check src packages --fix",
+            "packages/EasyCodingStandard/bin/ecs check packages --fix",
             "bin/clear_readmes.sh"
         ],
-        "phpstan": "vendor/bin/phpstan analyse src packages --level max",
-        "phpstan-stats": "vendor/bin/phpstan analyse src packages --level max --error-format stats",
+        "phpstan": "vendor/bin/phpstan analyse packages --level max",
+        "phpstan-stats": "vendor/bin/phpstan analyse packages --level max --error-format stats",
         "changelog": [
             "packages/ChangelogLinker/bin/changelog-linker dump-merges --in-categories --in-packages",
             "packages/ChangelogLinker/bin/changelog-linker link",
