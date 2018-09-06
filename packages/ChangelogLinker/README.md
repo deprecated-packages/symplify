@@ -170,7 +170,7 @@ vendor/bin/changelog-linker linkify
 
 ### 3. Can I Thank My Contributors?
 
-Give your contributors credit they deserve:
+Of course! Give your contributors credit they deserve:
 
 ```diff
  ### [v2.0.0] - 2017-12-31
