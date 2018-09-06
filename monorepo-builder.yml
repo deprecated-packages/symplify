@@ -7,7 +7,7 @@ parameters:
         require-dev:
             phpstan/phpstan: '^0.10.3|^0.9'
             tracy/tracy: '^2.4'
-            slam/php-cs-fixer-extensions: '^1.15'
+            slam/php-cs-fixer-extensions: '^1.17'
 
     # remove these to merge of packages' composer.json
     data_to_remove:
