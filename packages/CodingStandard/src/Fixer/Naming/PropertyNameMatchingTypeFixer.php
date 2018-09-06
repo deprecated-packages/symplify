@@ -98,13 +98,13 @@ class SomeClass
                 continue;
             }
 
-            $classTokensAnalyzer = $this->classWrapperFactory->createFromTokensArrayStartPosition($tokens, $index);
+            $classWrapper = $this->classWrapperFactory->createFromTokensArrayStartPosition($tokens, $index);
 
-            if ($classTokensAnalyzer->isGivenKind([T_CLASS, T_TRAIT])) {
-                $this->fixClassProperties($classTokensAnalyzer);
+            if ($classWrapper->isGivenKind([T_CLASS, T_TRAIT])) {
+                $this->fixClassProperties($classWrapper);
             }
 
-            $this->fixClassMethods($classTokensAnalyzer);
+            $this->fixClassMethods($classWrapper);
         }
     }
 
