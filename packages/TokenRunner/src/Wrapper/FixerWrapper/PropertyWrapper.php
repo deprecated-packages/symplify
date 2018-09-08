@@ -25,13 +25,6 @@ final class PropertyWrapper extends AbstractVariableWrapper
         $this->nameFactory = $nameFactory;
     }
 
-    public function getName(): string
-    {
-        $propertyNameToken = $this->tokens[$this->getNamePosition()];
-
-        return ltrim($propertyNameToken->getContent(), '$');
-    }
-
     public function getFqnType(): ?string
     {
         if ($this->getTypes() === []) {
@@ -64,8 +57,9 @@ final class PropertyWrapper extends AbstractVariableWrapper
 
     protected function getNamePosition(): int
     {
-        $nextVariableTokens = $this->tokens->findGivenKind([T_VARIABLE], $this->index, $this->index + 5);
+        $expressionEndPosition = $this->tokens->getNextTokenOfKind($this->index, [';']);
 
+        $nextVariableTokens = $this->tokens->findGivenKind([T_VARIABLE], $this->index, $expressionEndPosition);
         $nextVariableToken = array_pop($nextVariableTokens);
 
         return (int) key($nextVariableToken);
