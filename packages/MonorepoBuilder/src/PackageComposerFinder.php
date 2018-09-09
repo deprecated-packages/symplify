@@ -4,7 +4,6 @@ namespace Symplify\MonorepoBuilder;
 
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
-use Symplify\MonorepoBuilder\Exception\Validator\MissingRootComposerJsonException;
 
 final class PackageComposerFinder
 {

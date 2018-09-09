@@ -4,20 +4,19 @@ namespace Symplify\MonorepoBuilder;
 
 use Symfony\Component\Finder\SplFileInfo;
 use Symplify\MonorepoBuilder\Composer\Section;
-use Symplify\MonorepoBuilder\Exception\AmbiguousVersionException;
 use Symplify\MonorepoBuilder\FileSystem\JsonFileManager;
 
 final class VersionValidator
 {
     /**
-     * @var mixed[]
-     */
-    private $requiredPackages = [];
-
-    /**
      * @var JsonFileManager
      */
     private $jsonFileManager;
+
+    /**
+     * @var string[]
+     */
+    private $sections = [Section::REQUIRE, Section::REQUIRE_DEV];
 
     public function __construct(JsonFileManager $jsonFileManager)
     {
@@ -26,54 +25,36 @@ final class VersionValidator
 
     /**
      * @param SplFileInfo[] $fileInfos
+     * @return string[][]
      */
-    public function validateFileInfos(array $fileInfos): void
+    public function findConflictingPackageInFileInfos(array $fileInfos): array
     {
+        $packageVersionsPerFile = [];
+
         foreach ($fileInfos as $fileInfo) {
             $json = $this->jsonFileManager->loadFromFileInfo($fileInfo);
 
-            foreach ($this->requiredPackages as $packageName => $packageVersion) {
-                $this->processSection($json, $packageName, $packageVersion, $fileInfo, Section::REQUIRE);
-                $this->processSection($json, $packageName, $packageVersion, $fileInfo, Section::REQUIRE_DEV);
+            foreach ($this->sections as $section) {
+                if (! isset($json[$section])) {
+                    continue;
+                }
+
+                foreach ($json[$section] as $packageName => $packageVersion) {
+                    $packageVersionsPerFile[$packageName][$fileInfo->getPathname()] = $packageVersion;
+                }
+            }
+        }
+
+        $conflictingPackageVersionsPerFile = [];
+        foreach ($packageVersionsPerFile as $packageName => $filesToVersions) {
+            $uniqueVersions = array_unique($filesToVersions);
+            if (count($uniqueVersions) <= 1) {
+                continue;
             }
 
-            $this->requiredPackages += $json[Section::REQUIRE] ?? [];
-            $this->requiredPackages += $json[Section::REQUIRE_DEV] ?? [];
-        }
-    }
-
-    /**
-     * @param mixed[] $json
-     */
-    private function processSection(
-        array $json,
-        string $packageName,
-        string $packageVersion,
-        SplFileInfo $composerPackageFile,
-        string $section
-    ): void {
-        if ($this->shouldSkip($json, $packageName, $packageVersion, $section)) {
-            return;
+            $conflictingPackageVersionsPerFile[$packageName] = $filesToVersions;
         }
 
-        throw new AmbiguousVersionException(sprintf(
-            'Version "%s" for package "%s" is different than previously found "%s" in "%s" file',
-            $json[$section][$packageName],
-            $packageName,
-            $packageVersion,
-            $composerPackageFile->getPathname()
-        ));
-    }
-
-    /**
-     * @param mixed[] $json
-     */
-    private function shouldSkip(array $json, string $packageName, string $packageVersion, string $section): bool
-    {
-        if (! isset($json[$section][$packageName])) {
-            return true;
-        }
-
-        return $json[$section][$packageName] === $packageVersion;
+        return $conflictingPackageVersionsPerFile;
     }
 }

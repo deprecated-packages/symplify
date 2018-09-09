@@ -10,7 +10,7 @@
         "composer/composer": "^1.6",
         "nette/utils": "^2.5",
         "phar-io/version": "^2.0",
-        "symfony/finder": "^3.4|^4.0",
+        "symfony/finder": "^3.3|^4.0",
         "symfony/dependency-injection": "^3.4|^4.0",
         "symfony/console": "^3.4|^4.0",
         "symplify/package-builder": "^4.8"
