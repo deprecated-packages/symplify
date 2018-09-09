@@ -23,6 +23,11 @@ final class ComposerJsonProvider
         $this->packageComposerFinder = $packageComposerFinder;
     }
 
+    public function getRootComposerJsonFileInfo(): SplFileInfo
+    {
+        return $this->packageComposerFinder->getRootPackageComposerFile();
+    }
+
     /**
      * @return mixed[]
      */
