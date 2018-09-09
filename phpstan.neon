@@ -101,7 +101,6 @@ parameters:
         - '#Method Symplify\\EasyCodingStandard\\Finder\\SourceFinder::find\(\) should return array<Symfony\\Component\\Finder\\SplFileInfo> but returns array<SplFileInfo>#'
         - '#Property Symplify\\EasyCodingStandard\\Yaml\\CheckerServiceParametersShifter::\$serviceKeywords \(array<string>\) does not accept ReflectionProperty#'
         - '#Method Symplify\\EasyCodingStandard\\Tests\\Indentation\\IndentationTest::getIndentationTypeFixerFromContainer\(\) should return PhpCsFixer\\Fixer\\Whitespace\\IndentationTypeFixer but returns PhpCsFixer\\Fixer\\FixerInterface\|null#'
-        - '#Method Symplify\\MonorepoBuilder\\Package\\PackageComposerJsonMerger::mergeFileInfos\(\) should return array<string> but returns array<string, array\|string>#'
         - '#Parameter \#1 \$path of function dirname expects string, string\|false given#'
         - '#Method Symplify\\PackageBuilder\\Console\\Command\\CommandNaming::getShortClassName\(\) should return string but returns string\|null#'
         - '#Method Symplify\\PackageBuilder\\Tests\\Console\\ThrowableRendererTest::getTestErrorOutput\(\) should return string but returns string\|false#'
@@ -116,3 +115,6 @@ parameters:
 
         # getcwd
         - '#Parameter \#1 \$gitDirectory of method Symplify\\MonorepoBuilder\\Split\\Git\\GitManager::getMostRecentTag\(\) expects string, string\|false given#'
+
+        # mixed type
+        - '#Call to an undefined method Psr\\Container\\ContainerInterface::getParameter\(\)#'

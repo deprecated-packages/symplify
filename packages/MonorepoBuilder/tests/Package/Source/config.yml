@@ -1,0 +1,5 @@
+parameters:
+    merge_sections:
+        - 'require'
+        - 'autoload'
+        - 'minimum-stability'

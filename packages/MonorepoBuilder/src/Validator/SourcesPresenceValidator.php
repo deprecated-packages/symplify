@@ -19,12 +19,12 @@ final class SourcesPresenceValidator
 
     public function validate(): void
     {
-        $composerPackageFiles = $this->composerJsonProvider->getPackagesComposerJsonFileInfos();
+        $composerPackageFiles = $this->composerJsonProvider->getPackagesFileInfos();
         if (! count($composerPackageFiles)) {
             throw new InvalidComposerJsonSetupException('No "composer.json" were found in packages.');
         }
 
-        $rootComposerJson = $this->composerJsonProvider->getRootComposerJson();
+        $rootComposerJson = $this->composerJsonProvider->getRootJson();
         if (! isset($rootComposerJson['name'])) {
             throw new InvalidComposerJsonSetupException('Complete "name" to your root "composer.json".');
         }

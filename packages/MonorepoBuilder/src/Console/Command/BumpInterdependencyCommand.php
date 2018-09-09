@@ -60,14 +60,14 @@ final class BumpInterdependencyCommand extends Command
     {
         $version = $input->getArgument(self::VERSION_ARGUMENT);
 
-        $rootComposerJson = $this->composerJsonProvider->getRootComposerJson();
+        $rootComposerJson = $this->composerJsonProvider->getRootJson();
 
         // @todo resolve better for only found packages
         // see https://github.com/Symplify/Symplify/pull/1037/files
         [$vendor,] = explode('/', $rootComposerJson['name']);
 
         $this->interdependencyUpdater->updateFileInfosWithVendorAndVersion(
-            $this->composerJsonProvider->getPackagesComposerJsonFileInfos(),
+            $this->composerJsonProvider->getPackagesFileInfos(),
             $vendor,
             $version
         );

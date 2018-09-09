@@ -2,11 +2,11 @@
 
 namespace Symplify\MonorepoBuilder\Tests\FileSystem\JsonFileManager;
 
-use PHPUnit\Framework\TestCase;
 use Symfony\Component\Finder\SplFileInfo;
 use Symplify\MonorepoBuilder\FileSystem\JsonFileManager;
+use Symplify\MonorepoBuilder\Tests\AbstractContainerAwareTestCase;
 
-final class JsonFileManagerTest extends TestCase
+final class JsonFileManagerTest extends AbstractContainerAwareTestCase
 {
     /**
      * @var JsonFileManager
@@ -15,7 +15,7 @@ final class JsonFileManagerTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->jsonFileManager = new JsonFileManager();
+        $this->jsonFileManager = $this->container->get(JsonFileManager::class);
     }
 
     protected function tearDown(): void

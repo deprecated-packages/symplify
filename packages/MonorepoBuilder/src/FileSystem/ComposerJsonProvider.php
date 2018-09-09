@@ -23,15 +23,10 @@ final class ComposerJsonProvider
         $this->packageComposerFinder = $packageComposerFinder;
     }
 
-    public function getRootComposerJsonFileInfo(): SplFileInfo
-    {
-        return $this->packageComposerFinder->getRootPackageComposerFile();
-    }
-
     /**
      * @return mixed[]
      */
-    public function getRootComposerJson(): array
+    public function getRootJson(): array
     {
         return $this->jsonFileManager->loadFromFilePath(getcwd() . '/composer.json');
     }
@@ -39,8 +34,16 @@ final class ComposerJsonProvider
     /**
      * @return SplFileInfo[]
      */
-    public function getPackagesComposerJsonFileInfos(): array
+    public function getPackagesFileInfos(): array
     {
         return $this->packageComposerFinder->getPackageComposerFiles();
+    }
+
+    /**
+     * @return SplFileInfo[]
+     */
+    public function getRootAndPackageFileInfos(): array
+    {
+        return array_merge($this->getPackagesFileInfos(), [$this->packageComposerFinder->getRootPackageComposerFile()]);
     }
 }

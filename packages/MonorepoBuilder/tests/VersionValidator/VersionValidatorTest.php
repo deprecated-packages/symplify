@@ -2,12 +2,11 @@
 
 namespace Symplify\MonorepoBuilder\Tests\VersionValidator;
 
-use PHPUnit\Framework\TestCase;
 use Symfony\Component\Finder\Finder;
-use Symplify\MonorepoBuilder\FileSystem\JsonFileManager;
+use Symplify\MonorepoBuilder\Tests\AbstractContainerAwareTestCase;
 use Symplify\MonorepoBuilder\VersionValidator;
 
-final class VersionValidatorTest extends TestCase
+final class VersionValidatorTest extends AbstractContainerAwareTestCase
 {
     /**
      * @var VersionValidator
@@ -16,14 +15,16 @@ final class VersionValidatorTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->versionValidator = new VersionValidator(new JsonFileManager());
+        $this->versionValidator = $this->container->get(VersionValidator::class);
     }
 
     public function test(): void
     {
         $fileInfos = iterator_to_array(Finder::create()->name('*.json')->in(__DIR__ . '/Source') ->getIterator());
 
-        $conflictingPackageVersionsPerFile = $this->versionValidator->findConflictingPackageInFileInfos($fileInfos);
+        $conflictingPackageVersionsPerFile = $this->versionValidator->findConflictingPackageVersionsInFileInfos(
+            $fileInfos
+        );
 
         $this->assertArrayHasKey('some/package', $conflictingPackageVersionsPerFile);
 

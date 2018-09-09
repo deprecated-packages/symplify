@@ -27,3 +27,5 @@ services:
     # alias needed for Symfony Console setter
     Symfony\Component\EventDispatcher\EventDispatcherInterface:
         alias: 'Symfony\Component\EventDispatcher\EventDispatcher'
+
+    Symfony\Component\Filesystem\Filesystem: ~

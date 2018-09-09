@@ -55,12 +55,32 @@ final class PackageComposerJsonMerger
                     continue;
                 }
 
-                $merged[$section] = $this->parametersMerger->merge(
-                    $merged[$section] ?? [],
-                    $packageComposerJson[$section]
-                );
+                $merged = $this->mergeSection($packageComposerJson, $section, $merged);
             }
         }
+
+        return $merged;
+    }
+
+    /**
+     * @param mixed[] $packageComposerJson
+     * @param mixed[] $merged
+     * @return mixed[]
+     */
+    private function mergeSection(array $packageComposerJson, string $section, array $merged): array
+    {
+        // array sections
+        if (is_array($packageComposerJson[$section])) {
+            $merged[$section] = $this->parametersMerger->merge(
+                $merged[$section] ?? [],
+                $packageComposerJson[$section]
+            );
+
+            return $merged;
+        }
+
+        // key: value sections, like "minimum-stability: dev"
+        $merged[$section] = $packageComposerJson[$section];
 
         return $merged;
     }

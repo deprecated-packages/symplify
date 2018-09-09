@@ -132,14 +132,14 @@ final class ReleaseCommand extends Command
     {
         $this->symfonyStyle->note(sprintf('Setting packages mutual dependencies to "%s" version', $version));
 
-        $rootComposerJson = $this->composerJsonProvider->getRootComposerJson();
+        $rootComposerJson = $this->composerJsonProvider->getRootJson();
 
         // @todo resolve better for only found packages
         // see https://github.com/Symplify/Symplify/pull/1037/files
         [$vendor,] = explode('/', $rootComposerJson['name']);
 
         $this->interdependencyUpdater->updateFileInfosWithVendorAndVersion(
-            $this->composerJsonProvider->getPackagesComposerJsonFileInfos(),
+            $this->composerJsonProvider->getPackagesFileInfos(),
             $vendor,
             $version
         );
@@ -188,7 +188,7 @@ final class ReleaseCommand extends Command
         $this->symfonyStyle->note(sprintf('Setting "%s" as branch dev alias to packages', $version));
 
         $this->devMasterAliasUpdater->updateFileInfosWithAlias(
-            $this->composerJsonProvider->getPackagesComposerJsonFileInfos(),
+            $this->composerJsonProvider->getPackagesFileInfos(),
             $version
         );
 

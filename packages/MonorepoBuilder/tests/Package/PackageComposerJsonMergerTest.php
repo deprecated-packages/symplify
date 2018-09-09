@@ -5,9 +5,9 @@ namespace Symplify\MonorepoBuilder\Tests\Package;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
 use Symplify\MonorepoBuilder\Package\PackageComposerJsonMerger;
-use Symplify\MonorepoBuilder\Tests\AbstractContainerAwareTestCase;
+use Symplify\MonorepoBuilder\Tests\AbstractConfigAwareContainerTestCase;
 
-final class PackageComposerJsonMergerTest extends AbstractContainerAwareTestCase
+final class PackageComposerJsonMergerTest extends AbstractConfigAwareContainerTestCase
 {
     /**
      * @var PackageComposerJsonMerger
@@ -19,33 +19,31 @@ final class PackageComposerJsonMergerTest extends AbstractContainerAwareTestCase
         $this->packageComposerJsonMerger = $this->container->get(PackageComposerJsonMerger::class);
     }
 
-    public function testMergeRequire(): void
+    public function test(): void
     {
-        $files = $this->getFileInfos();
-        $merged = $this->packageComposerJsonMerger->mergeFileInfos($files, ['require']);
+        $merged = $this->packageComposerJsonMerger->mergeFileInfos(
+            $this->getFileInfos(),
+            $this->container->getParameter('merge_sections')
+        );
 
         $this->assertSame([
             'require' => [
                 'rector/rector' => '^2.0',
                 'symplify/symplify' => '^2.0',
             ],
-        ], $merged);
-    }
-
-    public function testMergeAutoload(): void
-    {
-        $files = $this->getFileInfos();
-
-        $merged = $this->packageComposerJsonMerger->mergeFileInfos($files, ['autoload']);
-
-        $this->assertSame([
             'autoload' => [
                 'psr-4' => [
                     'Symplify\Statie\\' => 'src',
                     'Symplify\MonorepoBuilder\\' => 'src',
                 ],
             ],
+            'minimum-stability' => 'dev',
         ], $merged);
+    }
+
+    protected function provideConfig(): string
+    {
+        return __DIR__ . '/Source/config.yml';
     }
 
     /**
@@ -55,6 +53,7 @@ final class PackageComposerJsonMergerTest extends AbstractContainerAwareTestCase
     {
         $iterator = Finder::create()->files()
             ->in(__DIR__ . '/Source')
+            ->name('*.json')
             ->getIterator();
 
         return iterator_to_array($iterator);
