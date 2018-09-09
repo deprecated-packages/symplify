@@ -22,7 +22,7 @@ final class PackageComposerFinder
 
     public function getRootPackageComposerFile(): SplFileInfo
     {
-        return new SplFileInfo( 'composer.json', '', 'composer.json');
+        return new SplFileInfo('composer.json', '', 'composer.json');
     }
 
     /**

@@ -45,12 +45,24 @@ final class VersionValidator
             }
         }
 
+        return $this->filterConflictingPackageVersionsPerFile($packageVersionsPerFile);
+    }
+
+    /**
+     * @param mixed[] $packageVersionsPerFile
+     * @return mixed[]
+     */
+    private function filterConflictingPackageVersionsPerFile(array $packageVersionsPerFile): array
+    {
         $conflictingPackageVersionsPerFile = [];
         foreach ($packageVersionsPerFile as $packageName => $filesToVersions) {
             $uniqueVersions = array_unique($filesToVersions);
             if (count($uniqueVersions) <= 1) {
                 continue;
             }
+
+            // sort by versions to make more readable
+            asort($filesToVersions);
 
             $conflictingPackageVersionsPerFile[$packageName] = $filesToVersions;
         }

@@ -28,10 +28,13 @@ final class VersionValidatorTest extends TestCase
         $this->assertArrayHasKey('some/package', $conflictingPackageVersionsPerFile);
 
         $expectedConflictingPackageVersionsPerFile = [
-            __DIR__ . '/Source/second.json' => '^2.0',
             __DIR__ . '/Source/first.json' => '^1.0',
+            __DIR__ . '/Source/second.json' => '^2.0',
         ];
 
-        $this->assertSame($expectedConflictingPackageVersionsPerFile, $conflictingPackageVersionsPerFile['some/package']);
+        $this->assertSame(
+            $expectedConflictingPackageVersionsPerFile,
+            $conflictingPackageVersionsPerFile['some/package']
+        );
     }
 }
