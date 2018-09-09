@@ -45,7 +45,7 @@ Do you need to ignore few errors but don't want to play with regex? Run:
 vendor/bin/phpstan analyse src --level max --error-format ignore
 ```
 
-to get it on silver plate, ready for copy-paste: 
+to get it on silver plate, ready for copy-paste:
 
 ```bash
 
