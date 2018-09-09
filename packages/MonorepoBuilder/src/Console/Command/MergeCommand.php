@@ -94,7 +94,7 @@ final class MergeCommand extends Command
             return 1;
         }
 
-        $allComposerJsonFiles[] = $composerPackageFiles + [$this->composerJsonProvider->getRootComposerJsonFileInfo()];
+        $allComposerJsonFiles = $composerPackageFiles + [$this->composerJsonProvider->getRootComposerJsonFileInfo()];
 
         $conflictingPackageVersions = $this->versionValidator->findConflictingPackageVersionsInFileInfos(
             $allComposerJsonFiles

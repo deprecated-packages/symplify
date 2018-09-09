@@ -18,16 +18,32 @@ composer require symplify/monorepo-builder --dev
 
 ### 1. Merge local `composer.json` to the Root One
 
-Merges following sections to the root `composer.json`, so you can only edit `composer.json` of particular packages and let script to synchronize it.
+Merges configured sections to the root `composer.json`, so you can only edit `composer.json` of particular packages and let script to synchronize it.
 
-- 'require'
-- 'require-dev'
-- 'autoload'
-- 'autoload-dev'
-- 'repositories'
-- 'scripts'
-- 'extra'
-- ...
+```yaml
+# monorepo-builder.yml
+parameters:
+    merge_sections:
+        # default values
+        - 'require'
+        - 'require-dev'
+        - 'autoload'
+        - 'autoload-dev'
+        - 'repositories'
+```
+
+You can configure it and add `minimum-stablity` for example or remove any of those default values:
+
+```yaml
+# monorepo-builder.yml
+parameters:
+    merge_sections:
+        - 'require'
+        - 'require-dev'
+        - 'minimum-stability'
+```
+
+To merge just run:
 
 ```bash
 vendor/bin/monorepo-builder merge
