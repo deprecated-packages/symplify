@@ -35,7 +35,7 @@ final class ComposerJsonFilesGuard
 
         throw new MissingComposerJsonFilesException(sprintf(
             'No package "composer.json" was found in "%s" directories. Add "composer.json" or configure another directory in "parameters > package_directories"',
-            $this->packageDirectories
+            implode('", "', $this->packageDirectories)
         ));
     }
 }
