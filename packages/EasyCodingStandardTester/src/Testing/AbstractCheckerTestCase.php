@@ -146,8 +146,6 @@ abstract class AbstractCheckerTestCase extends TestCase
             return self::$cachedContainers[$fileHash];
         }
 
-        return self::$cachedContainers[$fileHash] = (new ContainerFactory())->createWithConfigs(
-            [$this->provideConfig()]
-        );
+        return self::$cachedContainers[$fileHash] = (new ContainerFactory())->createWithConfigs([$this->provideConfig()]);
     }
 }
