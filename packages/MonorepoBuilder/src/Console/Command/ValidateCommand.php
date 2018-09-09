@@ -6,6 +6,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symplify\MonorepoBuilder\Console\Reporter\ConflictingPackageVersionsReporter;
 use Symplify\MonorepoBuilder\FileSystem\ComposerJsonProvider;
 use Symplify\MonorepoBuilder\VersionValidator;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
@@ -27,16 +28,22 @@ final class ValidateCommand extends Command
      */
     private $composerJsonProvider;
 
+    /**
+     * @var ConflictingPackageVersionsReporter
+     */
+    private $conflictingPackageVersionsReporter;
+
     public function __construct(
         SymfonyStyle $symfonyStyle,
         ComposerJsonProvider $composerJsonProvider,
-        VersionValidator $versionValidator
+        VersionValidator $versionValidator,
+        ConflictingPackageVersionsReporter $conflictingPackageVersionsReporter
     ) {
+        parent::__construct();
         $this->symfonyStyle = $symfonyStyle;
         $this->versionValidator = $versionValidator;
         $this->composerJsonProvider = $composerJsonProvider;
-
-        parent::__construct();
+        $this->conflictingPackageVersionsReporter = $conflictingPackageVersionsReporter;
     }
 
     protected function configure(): void
@@ -55,25 +62,17 @@ final class ValidateCommand extends Command
 
         $composerFileInfos[] = $this->composerJsonProvider->getRootComposerJsonFileInfo();
 
-        $conflictingPackage = $this->versionValidator->findConflictingPackageInFileInfos($composerFileInfos);
-        if ($conflictingPackage === []) {
+        $conflictingPackageVersions = $this->versionValidator->findConflictingPackageVersionsInFileInfos(
+            $composerFileInfos
+        );
+        if ($conflictingPackageVersions === []) {
             $this->symfonyStyle->success('All packages "composer.json" files use same package versions.');
 
             // success
             return 0;
         }
 
-        foreach ($conflictingPackage as $packageName => $filesToVersions) {
-            $tableData = [];
-            foreach ($filesToVersions as $file => $version) {
-                $tableData[] = [$file, $version];
-            }
-
-            $this->symfonyStyle->title(sprintf('Package "%s" has various version', $packageName));
-            $this->symfonyStyle->table(['File', 'Version'], $tableData);
-        }
-
-        $this->symfonyStyle->error('Found conflicting package versions, fix them first.');
+        $this->conflictingPackageVersionsReporter->report($conflictingPackageVersions);
 
         // fail
         return 1;

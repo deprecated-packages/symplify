@@ -23,7 +23,9 @@ final class VersionValidatorTest extends TestCase
     {
         $fileInfos = iterator_to_array(Finder::create()->name('*.json')->in(__DIR__ . '/Source') ->getIterator());
 
-        $conflictingPackageVersionsPerFile = $this->versionValidator->findConflictingPackageInFileInfos($fileInfos);
+        $conflictingPackageVersionsPerFile = $this->versionValidator->findConflictingPackageVersionsInFileInfos(
+            $fileInfos
+        );
 
         $this->assertArrayHasKey('some/package', $conflictingPackageVersionsPerFile);
 
