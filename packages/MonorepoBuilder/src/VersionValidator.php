@@ -27,7 +27,7 @@ final class VersionValidator
      * @param SplFileInfo[] $fileInfos
      * @return string[][]
      */
-    public function findConflictingPackageInFileInfos(array $fileInfos): array
+    public function findConflictingPackageVersionsInFileInfos(array $fileInfos): array
     {
         $packageVersionsPerFile = [];
 

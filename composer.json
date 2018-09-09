@@ -36,6 +36,7 @@
         "nette/application": "^2.4",
         "phpstan/phpstan": "^0.10.3|^0.9",
         "phpunit/phpunit": "^7.3",
+        "slam/php-cs-fixer-extensions": "^1.17",
         "tracy/tracy": "^2.4"
     },
     "replace": {

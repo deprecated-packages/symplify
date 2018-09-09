@@ -4,7 +4,7 @@ namespace Symplify\MonorepoBuilder\Console\Reporter;
 
 use Symfony\Component\Console\Style\SymfonyStyle;
 
-final class ConflictingVersionsReporter
+final class ConflictingPackageVersionsReporter
 {
     /**
      * @var SymfonyStyle
@@ -19,7 +19,7 @@ final class ConflictingVersionsReporter
     /**
      * @param mixed[] $conflictingPackages
      */
-    public function reportConflictingPackages(array $conflictingPackages): void
+    public function report(array $conflictingPackages): void
     {
         foreach ($conflictingPackages as $packageName => $filesToVersions) {
             $tableData = [];
@@ -30,5 +30,7 @@ final class ConflictingVersionsReporter
             $this->symfonyStyle->title(sprintf('Package "%s" has various version', $packageName));
             $this->symfonyStyle->table(['File', 'Version'], $tableData);
         }
+
+        $this->symfonyStyle->error('Found conflicting package versions, fix them first.');
     }
 }
