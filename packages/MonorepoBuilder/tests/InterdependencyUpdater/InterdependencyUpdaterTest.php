@@ -2,12 +2,11 @@
 
 namespace Symplify\MonorepoBuilder\Tests\InterdependencyUpdater;
 
-use PHPUnit\Framework\TestCase;
 use Symfony\Component\Finder\SplFileInfo;
-use Symplify\MonorepoBuilder\FileSystem\JsonFileManager;
 use Symplify\MonorepoBuilder\InterdependencyUpdater;
+use Symplify\MonorepoBuilder\Tests\AbstractContainerAwareTestCase;
 
-final class InterdependencyUpdaterTest extends TestCase
+final class InterdependencyUpdaterTest extends AbstractContainerAwareTestCase
 {
     /**
      * @var InterdependencyUpdater
@@ -16,7 +15,7 @@ final class InterdependencyUpdaterTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->interdependencyUpdater = new InterdependencyUpdater(new JsonFileManager());
+        $this->interdependencyUpdater = $this->container->get(InterdependencyUpdater::class);
     }
 
     protected function tearDown(): void

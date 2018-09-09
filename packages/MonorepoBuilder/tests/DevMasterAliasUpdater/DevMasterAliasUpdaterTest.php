@@ -2,12 +2,11 @@
 
 namespace Symplify\MonorepoBuilder\Tests\DevMasterAliasUpdater;
 
-use PHPUnit\Framework\TestCase;
 use Symfony\Component\Finder\SplFileInfo;
 use Symplify\MonorepoBuilder\DevMasterAliasUpdater;
-use Symplify\MonorepoBuilder\FileSystem\JsonFileManager;
+use Symplify\MonorepoBuilder\Tests\AbstractContainerAwareTestCase;
 
-final class DevMasterAliasUpdaterTest extends TestCase
+final class DevMasterAliasUpdaterTest extends AbstractContainerAwareTestCase
 {
     /**
      * @var DevMasterAliasUpdater
@@ -16,7 +15,7 @@ final class DevMasterAliasUpdaterTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->devMasterAliasUpdater = new DevMasterAliasUpdater(new JsonFileManager());
+        $this->devMasterAliasUpdater = $this->container->get(DevMasterAliasUpdater::class);
     }
 
     protected function tearDown(): void

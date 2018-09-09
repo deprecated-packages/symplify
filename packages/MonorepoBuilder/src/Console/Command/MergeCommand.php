@@ -89,8 +89,9 @@ final class MergeCommand extends Command
 
         if ($this->mergeSections === []) {
             $this->symfonyStyle->error(
-                'The "parameters > merge_sections:" is empty, add "require", "require-dev", "autoload", "autoload-dev" and or "repositories" to your config'
+                'The "parameters > merge_sections:" is empty. Add sections you want to merge there, e.g. "require", "require-dev", "autoload", "autoload-dev" or "repositories".'
             );
+
             return 1;
         }
 

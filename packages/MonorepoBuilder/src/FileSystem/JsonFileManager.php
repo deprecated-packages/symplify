@@ -4,10 +4,21 @@ namespace Symplify\MonorepoBuilder\FileSystem;
 
 use Nette\Utils\FileSystem;
 use Nette\Utils\Json;
+use Symfony\Component\Filesystem\Filesystem as SymfonyFilesystem;
 use Symfony\Component\Finder\SplFileInfo;
 
 final class JsonFileManager
 {
+    /**
+     * @var SymfonyFilesystem
+     */
+    private $symfonyFilesystem;
+
+    public function __construct(SymfonyFilesystem $symfonyFilesystem)
+    {
+        $this->symfonyFilesystem = $symfonyFilesystem;
+    }
+
     /**
      * @return mixed[]
      */
@@ -29,7 +40,7 @@ final class JsonFileManager
      */
     public function saveJsonWithFileInfo(array $json, SplFileInfo $fileInfo): void
     {
-        file_put_contents($fileInfo->getPathname(), $this->encodeJsonToFileContent($json));
+        $this->symfonyFilesystem->dumpFile($fileInfo->getPathname(), $this->encodeJsonToFileContent($json));
     }
 
     /**
@@ -37,7 +48,7 @@ final class JsonFileManager
      */
     public function saveJsonWithFilePath(array $json, string $filePath): void
     {
-        file_put_contents($filePath, $this->encodeJsonToFileContent($json));
+        $this->symfonyFilesystem->dumpFile($filePath, $this->encodeJsonToFileContent($json));
     }
 
     /**

@@ -6,5 +6,6 @@
         "psr-4": {
             "Symplify\\Statie\\": "src"
         }
-    }
+    },
+    "minimum-stability": "dev"
 }
