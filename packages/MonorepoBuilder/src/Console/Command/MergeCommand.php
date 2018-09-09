@@ -9,6 +9,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 use Symplify\MonorepoBuilder\Console\Reporter\ConflictingPackageVersionsReporter;
 use Symplify\MonorepoBuilder\DependenciesMerger;
 use Symplify\MonorepoBuilder\FileSystem\ComposerJsonProvider;
+use Symplify\MonorepoBuilder\Guard\ComposerJsonFilesGuard;
 use Symplify\MonorepoBuilder\Package\PackageComposerJsonMerger;
 use Symplify\MonorepoBuilder\VersionValidator;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
@@ -51,6 +52,11 @@ final class MergeCommand extends Command
     private $conflictingPackageVersionsReporter;
 
     /**
+     * @var ComposerJsonFilesGuard
+     */
+    private $composerJsonFilesGuard;
+
+    /**
      * @param string[] $mergeSections
      */
     public function __construct(
@@ -60,7 +66,8 @@ final class MergeCommand extends Command
         DependenciesMerger $dependenciesMerger,
         VersionValidator $versionValidator,
         ComposerJsonProvider $composerJsonProvider,
-        ConflictingPackageVersionsReporter $conflictingPackageVersionsReporter
+        ConflictingPackageVersionsReporter $conflictingPackageVersionsReporter,
+        ComposerJsonFilesGuard $composerJsonFilesGuard
     ) {
         parent::__construct();
         $this->symfonyStyle = $symfonyStyle;
@@ -71,6 +78,7 @@ final class MergeCommand extends Command
         $this->composerJsonProvider = $composerJsonProvider;
 
         $this->conflictingPackageVersionsReporter = $conflictingPackageVersionsReporter;
+        $this->composerJsonFilesGuard = $composerJsonFilesGuard;
     }
 
     protected function configure(): void
@@ -81,26 +89,11 @@ final class MergeCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $composerPackageFiles = $this->composerJsonProvider->getPackagesComposerJsonFileInfos();
-        if (! count($composerPackageFiles)) {
-            $this->symfonyStyle->error('No "composer.json" were found in packages.');
-            return 1;
-        }
-
-        if ($this->mergeSections === []) {
-            $this->symfonyStyle->error(
-                'The "parameters > merge_sections:" is empty. Add sections you want to merge there, e.g. "require", "require-dev", "autoload", "autoload-dev" or "repositories".'
-            );
-
-            return 1;
-        }
-
-        $allComposerJsonFiles = $composerPackageFiles + [$this->composerJsonProvider->getRootComposerJsonFileInfo()];
+        $this->composerJsonFilesGuard->ensurePackageJsonFilesAreFound();
 
         $conflictingPackageVersions = $this->versionValidator->findConflictingPackageVersionsInFileInfos(
-            $allComposerJsonFiles
+            $this->composerJsonProvider->getRootAndPackageFileInfos()
         );
-
         if (count($conflictingPackageVersions) > 0) {
             $this->conflictingPackageVersionsReporter->report($conflictingPackageVersions);
 
@@ -108,7 +101,11 @@ final class MergeCommand extends Command
             return 1;
         }
 
-        $merged = $this->packageComposerJsonMerger->mergeFileInfos($composerPackageFiles, $this->mergeSections);
+        $merged = $this->packageComposerJsonMerger->mergeFileInfos(
+            $this->composerJsonProvider->getPackagesFileInfos(),
+            $this->mergeSections
+        );
+
         if ($merged === []) {
             $this->symfonyStyle->note('Nothing to merge.');
             // success

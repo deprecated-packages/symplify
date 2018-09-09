@@ -54,13 +54,13 @@ final class ValidateCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $composerFileInfos = $this->composerJsonProvider->getPackagesComposerJsonFileInfos();
+        $composerFileInfos = $this->composerJsonProvider->getPackagesFileInfos();
         if (! count($composerFileInfos)) {
             $this->symfonyStyle->error('No package "composer.json" were found.');
             return 1;
         }
 
-        $composerFileInfos[] = $this->composerJsonProvider->getRootComposerJsonFileInfo();
+        $composerFileInfos[] = $this->composerJsonProvider->getRootFileInfo();
 
         $conflictingPackageVersions = $this->versionValidator->findConflictingPackageVersionsInFileInfos(
             $composerFileInfos
