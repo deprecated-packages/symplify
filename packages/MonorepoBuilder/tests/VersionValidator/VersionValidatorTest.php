@@ -4,7 +4,6 @@ namespace Symplify\MonorepoBuilder\Tests\VersionValidator;
 
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Finder\Finder;
-use Symplify\MonorepoBuilder\Exception\AmbiguousVersionException;
 use Symplify\MonorepoBuilder\FileSystem\JsonFileManager;
 use Symplify\MonorepoBuilder\VersionValidator;
 
@@ -22,9 +21,20 @@ final class VersionValidatorTest extends TestCase
 
     public function test(): void
     {
-        $fileInfos = iterator_to_array(Finder::create() ->name('*.json') ->in(__DIR__ . '/Source') ->getIterator());
+        $fileInfos = iterator_to_array(Finder::create()->name('*.json')->in(__DIR__ . '/Source') ->getIterator());
 
-        $this->expectException(AmbiguousVersionException::class);
-        $this->versionValidator->validateFileInfos($fileInfos);
+        $conflictingPackageVersionsPerFile = $this->versionValidator->findConflictingPackageInFileInfos($fileInfos);
+
+        $this->assertArrayHasKey('some/package', $conflictingPackageVersionsPerFile);
+
+        $expectedConflictingPackageVersionsPerFile = [
+            __DIR__ . '/Source/first.json' => '^1.0',
+            __DIR__ . '/Source/second.json' => '^2.0',
+        ];
+
+        $this->assertSame(
+            $expectedConflictingPackageVersionsPerFile,
+            $conflictingPackageVersionsPerFile['some/package']
+        );
     }
 }

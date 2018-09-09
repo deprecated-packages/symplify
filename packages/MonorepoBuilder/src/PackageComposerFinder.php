@@ -20,6 +20,11 @@ final class PackageComposerFinder
         $this->packageDirectories = $packageDirectories;
     }
 
+    public function getRootPackageComposerFile(): SplFileInfo
+    {
+        return new SplFileInfo('composer.json', '', 'composer.json');
+    }
+
     /**
      * @return SplFileInfo[]
      */
