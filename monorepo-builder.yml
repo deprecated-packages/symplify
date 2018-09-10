@@ -26,4 +26,4 @@ parameters:
         packages/Statie: 'git@github.com:Symplify/Statie.git'
         packages/ChangelogLinker: 'git@github.com:Symplify/ChangelogLinker.git'
         packages/MonorepoBuilder: 'git@github.com:Symplify/MonorepoBuilder.git'
-        packages/PHSPtanExtensions: 'git@github.com:TomasVotruba/PHPStanExtensions.git'
+        packages/PHSPtanExtensions: 'git@github.com:Symplify/PHPStanExtensions.git'
