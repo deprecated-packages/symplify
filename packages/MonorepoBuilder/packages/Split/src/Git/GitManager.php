@@ -14,6 +14,8 @@ final class GitManager
 
     public function __construct(?string $githubToken)
     {
+        var_dump($githubToken);
+        
         $this->githubToken = $githubToken;
     }
 
