@@ -32,5 +32,7 @@ final class IdsAnalyzerTest extends TestCase
     {
         yield [__DIR__ . '/Source/SomeFile.md', 15];
         yield [__DIR__ . '/Source/SomeFileWithLinks.md', 20];
+        yield [__DIR__ . '/Source/SomeFileWithAnotherType.md', 428];
+        yield [__DIR__ . '/Source/ShopsysChangelog.md', 449];
     }
 }
