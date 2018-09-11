@@ -13,6 +13,7 @@ use Symplify\ChangelogLinker\ChangelogLinker;
 use Symplify\ChangelogLinker\ChangeTree\ChangeResolver;
 use Symplify\ChangelogLinker\Configuration\Option;
 use Symplify\ChangelogLinker\Console\Input\PriorityResolver;
+use Symplify\ChangelogLinker\Exception\DeprecatedException;
 use Symplify\ChangelogLinker\FileSystem\ChangelogFileSystem;
 use Symplify\ChangelogLinker\Github\GithubApi;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
@@ -117,26 +118,26 @@ final class DumpMergesCommand extends Command
         );
 
         $this->addOption(
-            Option::TOKEN,
-            null,
-            InputOption::VALUE_REQUIRED,
-            'Github Token to overcome request limit.'
-        );
-
-        $this->addOption(
             Option::SINCE_ID,
             null,
             InputOption::VALUE_REQUIRED,
             'Include pull-request with provided ID and higher. The ID is detected in CHANGELOG.md otherwise.'
         );
+
+        // deprecated
+        $this->addOption('token', null, InputOption::VALUE_REQUIRED, '[Deprecated] Add Gitub token');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $content = $this->changelogFileSystem->readChangelog();
 
-        if ($input->getOption(Option::TOKEN)) {
-            $this->githubApi->authorizeWithToken($input->getOption(Option::TOKEN));
+        // deprecated
+        if ($input->getOption('token')) {
+            throw new DeprecatedException(sprintf(
+                'Passing token via "--token" is deprecated.' . PHP_EOL .
+                'Use ENV variable GITHUB_TOKEN instead, e.g. "GITHUB_TOKEN=secret vendor/bin/changelog-linker dump-merges'
+            ));
         }
 
         $sinceId = $this->getSinceIdFromInputAndContent($input, $content);
