@@ -16,6 +16,17 @@ composer require symplify/monorepo-builder --dev
 
 ## Usage
 
+### 0. Are you New to Monorepo?
+
+The best to lean-in fast is to read basic intro at [goMonorepo.com](https://gomonorepo.org/).
+We also made a simple command to make that easy for you:
+
+```bash
+vendor/bin/monorepo-builder init
+```
+
+And the basic setup is done!
+
 ### 1. Merge local `composer.json` to the Root One
 
 Merges configured sections to the root `composer.json`, so you can only edit `composer.json` of particular packages and let script to synchronize it.
