@@ -38,8 +38,11 @@ final class AppenderComposerJsonDecorator implements ComposerJsonDecoratorInterf
             }
 
             $composerJson[$key] = $this->parametersMerger->merge($this->dataToAppend[$key], $composerJson[$key]);
+
+            unset($this->dataToAppend[$key]);
         }
 
-        return $composerJson;
+        // add what was skipped
+        return array_merge($composerJson, $this->dataToAppend);
     }
 }

@@ -9,9 +9,11 @@ services:
 
     Symplify\PackageBuilder\Yaml\ParametersMerger: ~
 
-    Symplify\PackageBuilder\Console\ConfigAwareApplication:
+    Symplify\MonorepoBuilder\Console\MonorepoBuilderApplication:
         calls:
-            - ['setDispatcher', ['@Symfony\Component\EventDispatcher\EventDispatcher']]
+        - ['setDispatcher', ['@Symfony\Component\EventDispatcher\EventDispatcher']]
+    Symfony\Component\Console\Application:
+        alias: 'Symplify\MonorepoBuilder\Console\MonorepoBuilderApplication'
 
     # SymfonyStyle
     Symfony\Component\Console\Input\ArgvInput: ~
@@ -22,9 +24,9 @@ services:
         alias: 'Symfony\Component\Console\Output\ConsoleOutput'
     Symfony\Component\Console\Style\SymfonyStyle: ~
 
-    Symfony\Component\EventDispatcher\EventDispatcher: ~
 
     # alias needed for Symfony Console setter
+    Symfony\Component\EventDispatcher\EventDispatcher: ~
     Symfony\Component\EventDispatcher\EventDispatcherInterface:
         alias: 'Symfony\Component\EventDispatcher\EventDispatcher'
 

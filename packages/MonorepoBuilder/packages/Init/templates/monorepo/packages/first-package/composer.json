@@ -1,0 +1,12 @@
+{
+    "name": "your-monorepo/first-package",
+    "require": {
+        "php": "^7.1",
+        "symfony/http-kernel": "^4.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "YourMonorepo\\FirstPackage\\": "src"
+        }
+    }
+}
