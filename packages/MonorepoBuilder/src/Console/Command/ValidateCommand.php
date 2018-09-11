@@ -8,7 +8,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symplify\MonorepoBuilder\Console\Reporter\ConflictingPackageVersionsReporter;
 use Symplify\MonorepoBuilder\FileSystem\ComposerJsonProvider;
-use Symplify\MonorepoBuilder\Guard\ComposerJsonFilesGuard;
 use Symplify\MonorepoBuilder\VersionValidator;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
 
@@ -34,24 +33,17 @@ final class ValidateCommand extends Command
      */
     private $conflictingPackageVersionsReporter;
 
-    /**
-     * @var ComposerJsonFilesGuard
-     */
-    private $composerJsonFilesGuard;
-
     public function __construct(
         SymfonyStyle $symfonyStyle,
         ComposerJsonProvider $composerJsonProvider,
         VersionValidator $versionValidator,
-        ConflictingPackageVersionsReporter $conflictingPackageVersionsReporter,
-        ComposerJsonFilesGuard $composerJsonFilesGuard
+        ConflictingPackageVersionsReporter $conflictingPackageVersionsReporter
     ) {
         parent::__construct();
         $this->symfonyStyle = $symfonyStyle;
         $this->versionValidator = $versionValidator;
         $this->composerJsonProvider = $composerJsonProvider;
         $this->conflictingPackageVersionsReporter = $conflictingPackageVersionsReporter;
-        $this->composerJsonFilesGuard = $composerJsonFilesGuard;
     }
 
     protected function configure(): void
@@ -62,8 +54,6 @@ final class ValidateCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $this->composerJsonFilesGuard->ensurePackageJsonFilesAreFound();
-
         $conflictingPackageVersions = $this->versionValidator->findConflictingPackageVersionsInFileInfos(
             $this->composerJsonProvider->getRootAndPackageFileInfos()
         );

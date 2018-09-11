@@ -4,6 +4,6 @@ namespace Symplify\MonorepoBuilder\Exception;
 
 use Exception;
 
-final class MissingComposerJsonFilesException extends Exception
+final class MissingDirectoryException extends Exception
 {
 }

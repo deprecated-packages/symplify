@@ -33,6 +33,7 @@ final class PackageComposerFinder
         $finder = Finder::create()
             ->files()
             ->in($this->packageDirectories)
+            ->exclude('templates') // "init" command template data
             ->name('composer.json');
 
         if (! $this->isPHPUnit()) {

@@ -3,6 +3,7 @@ includes:
 
 parameters:
     excludes_analyse:
+        - *packages/MonorepoBuilder/packages/Init/templates/*
         - *packages/CodingStandard/tests/**/correct*
         - *packages/CodingStandard/tests/**/wrong*
         # tests
@@ -115,6 +116,7 @@ parameters:
 
         # getcwd
         - '#Parameter \#1 \$gitDirectory of method Symplify\\MonorepoBuilder\\Split\\Git\\GitManager::getMostRecentTag\(\) expects string, string\|false given#'
+        - '#Parameter \#1 \$str of function rtrim expects string, string\|false given#'
 
         # mixed type
         - '#Call to an undefined method Psr\\Container\\ContainerInterface::getParameter\(\)#'

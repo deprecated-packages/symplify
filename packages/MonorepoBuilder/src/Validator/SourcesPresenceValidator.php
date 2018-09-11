@@ -12,16 +12,28 @@ final class SourcesPresenceValidator
      */
     private $composerJsonProvider;
 
-    public function __construct(ComposerJsonProvider $composerJsonProvider)
+    /**
+     * @var string[]
+     */
+    private $packageDirectories = [];
+
+    /**
+     * @param string[] $packageDirectories
+     */
+    public function __construct(ComposerJsonProvider $composerJsonProvider, array $packageDirectories)
     {
         $this->composerJsonProvider = $composerJsonProvider;
+        $this->packageDirectories = $packageDirectories;
     }
 
     public function validate(): void
     {
         $composerPackageFiles = $this->composerJsonProvider->getPackagesFileInfos();
         if (! count($composerPackageFiles)) {
-            throw new InvalidComposerJsonSetupException('No "composer.json" were found in packages.');
+            throw new InvalidComposerJsonSetupException(sprintf(
+                'No package "composer.json" was found in package directories: "%s". Add "composer.json" or configure another directory in "parameters > package_directories"',
+                implode('", "', $this->packageDirectories)
+            ));
         }
 
         $rootComposerJson = $this->composerJsonProvider->getRootJson();
