@@ -140,7 +140,7 @@ final class DumpMergesCommand extends Command
         }
 
         $sinceId = $this->getSinceIdFromInputAndContent($input, $content);
-        $pullRequests = $this->githubApi->getClosedPullRequestsSinceId($sinceId);
+        $pullRequests = $this->githubApi->getMergedPullRequestsSinceId($sinceId);
         if (count($pullRequests) === 0) {
             $this->symfonyStyle->note(
                 sprintf('There are no new pull requests to be added since ID "%d".', $sinceId)

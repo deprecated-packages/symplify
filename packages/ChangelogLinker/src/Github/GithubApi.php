@@ -4,10 +4,10 @@ namespace Symplify\ChangelogLinker\Github;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
-use Nette\Utils\Json;
 use Nette\Utils\Strings;
 use Psr\Http\Message\ResponseInterface;
 use Symplify\ChangelogLinker\Exception\Github\GithubApiException;
+use Symplify\ChangelogLinker\Guzzle\ResponseFormatter;
 
 final class GithubApi
 {
@@ -31,22 +31,28 @@ final class GithubApi
      */
     private $options = [];
 
-    public function __construct(Client $client, string $repositoryName)
+    /**
+     * @var ResponseFormatter
+     */
+    private $responseFormatter;
+
+    public function __construct(Client $client, string $repositoryName, ResponseFormatter $responseFormatter)
     {
         $this->client = $client;
         $this->repositoryName = $repositoryName;
+        $this->responseFormatter = $responseFormatter;
     }
 
     /**
      * @return mixed[]
      */
-    public function getClosedPullRequestsSinceId(int $id): array
+    public function getMergedPullRequestsSinceId(int $id): array
     {
         $url = sprintf(self::URL_PULL_REQUESTS, $this->repositoryName);
 
         $response = $this->getResponseToUrl($url);
 
-        $result = $this->createJsonArrayFromResponse($response);
+        $result = $this->responseFormatter->formatToJson($response);
         $result = $this->filterOutUnmergedPullRequests($result);
 
         return $this->filterOutPullRequestsWithIdLesserThan($result, $id);
@@ -58,14 +64,6 @@ final class GithubApi
     public function authorizeWithToken(string $token): void
     {
         $this->options['headers']['Authorization'] = 'token ' . $token;
-    }
-
-    /**
-     * @return mixed[]
-     */
-    private function createJsonArrayFromResponse(ResponseInterface $response): array
-    {
-        return Json::decode((string) $response->getBody(), Json::FORCE_ARRAY);
     }
 
     private function getResponseToUrl(string $url): ResponseInterface
@@ -111,7 +109,7 @@ final class GithubApi
     private function filterOutUnmergedPullRequests(array $pullRequests): array
     {
         return array_filter($pullRequests, function (array $pullRequest) {
-            return isset($pullRequest['merged_at']);
+            return isset($pullRequest['merged_at']) || $pullRequest['merged_at'] === null;
         });
     }
 }
