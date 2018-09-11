@@ -9,7 +9,6 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 use Symplify\MonorepoBuilder\Console\Reporter\ConflictingPackageVersionsReporter;
 use Symplify\MonorepoBuilder\DependenciesMerger;
 use Symplify\MonorepoBuilder\FileSystem\ComposerJsonProvider;
-use Symplify\MonorepoBuilder\Guard\ComposerJsonFilesGuard;
 use Symplify\MonorepoBuilder\Package\PackageComposerJsonMerger;
 use Symplify\MonorepoBuilder\VersionValidator;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
@@ -52,11 +51,6 @@ final class MergeCommand extends Command
     private $conflictingPackageVersionsReporter;
 
     /**
-     * @var ComposerJsonFilesGuard
-     */
-    private $composerJsonFilesGuard;
-
-    /**
      * @param string[] $mergeSections
      */
     public function __construct(
@@ -66,8 +60,7 @@ final class MergeCommand extends Command
         DependenciesMerger $dependenciesMerger,
         VersionValidator $versionValidator,
         ComposerJsonProvider $composerJsonProvider,
-        ConflictingPackageVersionsReporter $conflictingPackageVersionsReporter,
-        ComposerJsonFilesGuard $composerJsonFilesGuard
+        ConflictingPackageVersionsReporter $conflictingPackageVersionsReporter
     ) {
         parent::__construct();
         $this->symfonyStyle = $symfonyStyle;
@@ -78,7 +71,6 @@ final class MergeCommand extends Command
         $this->composerJsonProvider = $composerJsonProvider;
 
         $this->conflictingPackageVersionsReporter = $conflictingPackageVersionsReporter;
-        $this->composerJsonFilesGuard = $composerJsonFilesGuard;
     }
 
     protected function configure(): void
@@ -89,8 +81,6 @@ final class MergeCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $this->composerJsonFilesGuard->ensurePackageJsonFilesAreFound();
-
         $conflictingPackageVersions = $this->versionValidator->findConflictingPackageVersionsInFileInfos(
             $this->composerJsonProvider->getRootAndPackageFileInfos()
         );

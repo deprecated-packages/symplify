@@ -23,7 +23,7 @@ final class ValidateBeforeCommandEventSubscriber implements EventSubscriberInter
      */
     public static function getSubscribedEvents(): array
     {
-        return [ConsoleEvents::COMMAND, 'validate'];
+        return [ConsoleEvents::COMMAND => 'validate'];
     }
 
     public function validate(): void

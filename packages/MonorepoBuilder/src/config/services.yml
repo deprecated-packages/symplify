@@ -11,7 +11,7 @@ services:
 
     Symplify\PackageBuilder\Console\ConfigAwareApplication:
         calls:
-            - ['setDispatcher']
+            - ['setDispatcher', ['@Symfony\Component\EventDispatcher\EventDispatcher']]
 
     # SymfonyStyle
     Symfony\Component\Console\Input\ArgvInput: ~
