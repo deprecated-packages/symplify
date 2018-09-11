@@ -2,6 +2,8 @@
 
 namespace Symplify\ChangelogLinker\Tests\ChangeTree\ChangeFactory;
 
+use Iterator;
+
 final class ChangeFactoryTest extends AbstractChangeFactoryTest
 {
     public function testeEgoTag(): void
@@ -31,18 +33,30 @@ final class ChangeFactoryTest extends AbstractChangeFactoryTest
         $this->assertSame('- [#10] Add cool feature', $change->getMessage());
     }
 
-    public function testGetMessageWithoutPackage(): void
-    {
+    /**
+     * @dataProvider provideDataForMessageWithoutPackage()
+     */
+    public function testGetMessageWithoutPackage(
+        string $title,
+        string $expectedMessage,
+        string $expectedMessageWithoutPackage
+    ): void {
         $pullRequest = [
             'number' => 10,
-            'title' => '[SomePackage] SomeMessage',
+            'title' => $title,
             'merge_commit_sha' => 'random',
         ];
 
         $change = $this->changeFactory->createFromPullRequest($pullRequest);
 
-        $this->assertSame('- [#10] [SomePackage] SomeMessage', $change->getMessage());
-        $this->assertSame('- [#10] SomeMessage', $change->getMessageWithoutPackage());
+        $this->assertSame($expectedMessage, $change->getMessage());
+        $this->assertSame($expectedMessageWithoutPackage, $change->getMessageWithoutPackage());
+    }
+
+    public function provideDataForMessageWithoutPackage(): Iterator
+    {
+        yield ['[SomePackage] SomeMessage', '- [#10] [SomePackage] SomeMessage', '- [#10] SomeMessage'];
+        yield ['[coding-standards] SomeMessage', '- [#10] [coding-standards] SomeMessage', '- [#10] SomeMessage'];
     }
 
     public function testTagDetection(): void

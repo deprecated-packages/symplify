@@ -60,7 +60,7 @@ final class ChangeFactory
 
         $category = $this->categoryResolver->resolveCategory($pullRequest['title']);
         $package = $this->packageResolver->resolvePackage($pullRequest['title']);
-        $messageWithoutPackage = $this->resolveMessageWithoutPackage($message);
+        $messageWithoutPackage = $this->resolveMessageWithoutPackage($message, $package);
 
         // @todo 'merge_commit_sha' || 'head'
         $pullRequestTag = $this->gitCommitDateTagResolver->resolveCommitToTag($pullRequest['merge_commit_sha']);
@@ -68,14 +68,12 @@ final class ChangeFactory
         return new Change($message, $category, $package, $messageWithoutPackage, $pullRequestTag);
     }
 
-    private function resolveMessageWithoutPackage(string $message): string
+    private function resolveMessageWithoutPackage(string $message, ?string $package): string
     {
-        $match = Strings::match($message, '#\[(?<package>\w+)\]#');
-
-        if (! isset($match['package'])) {
+        if ($package === null) {
             return $message;
         }
 
-        return Strings::replace($message, '#\[' . $match['package'] . '\]\s+#');
+        return Strings::replace($message, '#\[' . $package . '\]\s+#');
     }
 }
