@@ -131,10 +131,10 @@ vendor/bin/changelog-linker dump-merges --in-categories --in-packages
 
 ### Github API Overload?
 
-In case you cross the API rate limit and get denied, create [new Github Token](https://github.com/settings/tokens) and pass it via `--token` option.
+In case you cross the API rate limit and get denied, create [new Github Token](https://github.com/settings/tokens) and run it via `GITHUB_TOKEN` ENV variable.
 
 ```
-vendor/bin/changelog-linker dump-merges --token super-secret-token
+GITHUB_TOKEN super-secret-token vendor/bin/changelog-linker dump-merges
 ```
 
 ## B. Decorate `CHANGELOG.md`

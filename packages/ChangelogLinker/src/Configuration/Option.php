@@ -17,11 +17,6 @@ final class Option
     /**
      * @var string
      */
-    public const TOKEN = 'token';
-
-    /**
-     * @var string
-     */
     public const DRY_RUN = 'dry-run';
 
     /**
