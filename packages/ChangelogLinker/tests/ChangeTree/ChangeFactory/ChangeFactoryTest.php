@@ -56,7 +56,9 @@ final class ChangeFactoryTest extends AbstractChangeFactoryTest
     public function provideDataForMessageWithoutPackage(): Iterator
     {
         yield ['[SomePackage] SomeMessage', '- [#10] [SomePackage] SomeMessage', '- [#10] SomeMessage'];
+        yield ['[aliased-package] SomeMessage', '- [#10] [aliased-package] SomeMessage', '- [#10] SomeMessage'];
         yield ['[coding-standards] SomeMessage', '- [#10] [coding-standards] SomeMessage', '- [#10] SomeMessage'];
+        yield ['[shopsys\framework] SomeMessage', '- [#10] [shopsys\framework] SomeMessage', '- [#10] SomeMessage'];
         yield ['[framework] javascript stuff', '- [#10] [framework] javascript stuff', '- [#10] javascript stuff'];
         yield ['*SomeMessage', '- [#10] \*SomeMessage', '- [#10] \*SomeMessage'];
         yield ['*SomeMessage**', '- [#10] \*SomeMessage\*\*', '- [#10] \*SomeMessage\*\*'];

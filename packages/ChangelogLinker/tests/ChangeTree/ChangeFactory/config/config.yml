@@ -3,3 +3,4 @@ parameters:
 
     package_aliases:
         A: 'Aliased'
+        aliased-package: 'Aliased'
