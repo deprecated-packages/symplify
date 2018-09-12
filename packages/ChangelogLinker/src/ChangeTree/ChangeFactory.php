@@ -74,7 +74,8 @@ final class ChangeFactory
             return $message;
         }
 
-        return Strings::replace($message, '#\[' . $package . '\]\s+#');
+        // can be aliased (not the $package variable), so we need to check any naming
+        return Strings::replace($message, PackageResolver::PACKAGE_NAME_PATTERN);
     }
 
     private function escapeMarkdown(string $content): string
