@@ -37,7 +37,7 @@ final class InitCommand extends Command
     protected function configure(): void
     {
         $this->setName(CommandNaming::classToName(self::class));
-        $this->addArgument(self::OUTPUT, InputArgument::REQUIRED, 'Directory to generate monorepo into.', getcwd());
+        $this->addArgument(self::OUTPUT, InputArgument::OPTIONAL, 'Directory to generate monorepo into.', getcwd());
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): void
