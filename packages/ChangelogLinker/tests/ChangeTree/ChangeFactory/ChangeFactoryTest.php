@@ -57,6 +57,8 @@ final class ChangeFactoryTest extends AbstractChangeFactoryTest
     {
         yield ['[SomePackage] SomeMessage', '- [#10] [SomePackage] SomeMessage', '- [#10] SomeMessage'];
         yield ['[coding-standards] SomeMessage', '- [#10] [coding-standards] SomeMessage', '- [#10] SomeMessage'];
+        yield ['*SomeMessage', '- [#10] \*SomeMessage', '- [#10] \*SomeMessage'];
+        yield ['*SomeMessage**', '- [#10] \*SomeMessage\*\*', '- [#10] \*SomeMessage\*\*'];
     }
 
     public function testTagDetection(): void
