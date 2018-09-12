@@ -1,6 +1,6 @@
 {
     "name": "symplify/changelog-linker",
-    "description": "Add links to issues, PRs, versions, commits and users in your CHANGELOG.md",
+    "description": "Generates beautiful CHANGELOG.md with links to PRs, versions and users grouped in Added/Changed/Fixed/Removed categories.",
     "license": "MIT",
     "bin": [
         "bin/changelog-linker"
