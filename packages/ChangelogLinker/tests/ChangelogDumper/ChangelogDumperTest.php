@@ -36,9 +36,9 @@ final class ChangelogDumperTest extends TestCase
     }
 
     /**
-     * @dataProvider provideDataForReportChangesWithHeadlines()
+     * @dataProvider provideDataForReportBothWithPriority()
      */
-    public function testReportBothWithCategoriesPriority(
+    public function testReportBothWithPriority(
         bool $withCategories,
         bool $withPackages,
         string $priority,
@@ -54,7 +54,7 @@ final class ChangelogDumperTest extends TestCase
         $this->assertStringEqualsFile($expectedOutputFile, $content);
     }
 
-    public function provideDataForReportChangesWithHeadlines(): Iterator
+    public function provideDataForReportBothWithPriority(): Iterator
     {
         yield [true, false, 'categories', __DIR__ . '/ChangelogDumperSource/expected2.md'];
         yield [false, true, 'packages', __DIR__ . '/ChangelogDumperSource/expected3.md'];
