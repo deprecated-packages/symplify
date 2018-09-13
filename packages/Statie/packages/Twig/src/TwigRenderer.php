@@ -55,7 +55,7 @@ final class TwigRenderer implements RendererInterface
                 'Invalid Twig syntax found or missing value in "%s" file: %s',
                 $file->getFilePath(),
                 $throwable->getMessage()
-            ));
+            ), $throwable->getCode(), $throwable);
         }
     }
 }

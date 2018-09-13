@@ -119,6 +119,9 @@ final class Configuration
         $this->options[self::OPTION_MARKDOWN_HEADLINE_ANCHORS] = false;
     }
 
+    /**
+     * @param mixed $value
+     */
     public function addOption(string $name, $value): void
     {
         $this->options[$name] = $value;

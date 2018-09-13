@@ -1,5 +1,7 @@
 includes:
     - 'packages/PHPStanExtensions/src/config/config.neon'
+    - 'vendor/thecodingmachine/phpstan-strict-rules/phpstan-strict-rules.neon'
+#    - 'vendor/thecodingmachine/phpstan-safe-rule/phpstan-safe-rule.neon'
 
 parameters:
     excludes_analyse:
@@ -120,3 +122,7 @@ parameters:
 
         # mixed type
         - '#Call to an undefined method Psr\\Container\\ContainerInterface::getParameter\(\)#'
+
+        # variadic
+        - '#In method (.*?), parameter (.*?) can be type-hinted to "array"#'
+        - '#PHPDoc tag \@param for parameter (.*?) with type array is not subtype of native type array<int, mixed>#'

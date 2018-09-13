@@ -8,6 +8,7 @@ use Nette\Utils\Strings;
 use Psr\Http\Message\ResponseInterface;
 use Symplify\ChangelogLinker\Exception\Github\GithubApiException;
 use Symplify\ChangelogLinker\Guzzle\ResponseFormatter;
+use Throwable;
 
 final class GithubApi
 {
@@ -82,12 +83,12 @@ final class GithubApi
             $response = $this->client->request('GET', $url, $this->options);
         } catch (RequestException $requestException) {
             if (Strings::contains($requestException->getMessage(), 'API rate limit exceeded')) {
-                throw $this->createGithubApiTokenException('Github API rate limit exceeded.');
+                throw $this->createGithubApiTokenException('Github API rate limit exceeded.', $requestException);
             }
 
             // un-authorized access → provide token
             if ($requestException->getCode() === 401) {
-                throw $this->createGithubApiTokenException('Github API un-authorized access.');
+                throw $this->createGithubApiTokenException('Github API un-authorized access.', $requestException);
             }
 
             throw $requestException;
@@ -135,11 +136,11 @@ final class GithubApi
         return $json['merged_at'];
     }
 
-    private function createGithubApiTokenException(string $reason): GithubApiException
+    private function createGithubApiTokenException(string $reason, Throwable $throwable): GithubApiException
     {
         $message = $reason . PHP_EOL . 'Create a token at https://github.com/settings/tokens/new with only repository scope and use it as ENV variable: "GITHUB_TOKEN=... vendor/bin/changelog-linker ..." option.';
 
-        return new GithubApiException($message);
+        return new GithubApiException($message, $throwable->getCode(), $throwable);
     }
 
     /**

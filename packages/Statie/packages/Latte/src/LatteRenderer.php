@@ -56,7 +56,7 @@ final class LatteRenderer implements RendererInterface
                 'Invalid Latte syntax found or missing value in "%s" file: %s',
                 $file->getFilePath(),
                 $exception->getMessage()
-            ));
+            ), $exception->getCode(), $exception);
         }
     }
 }

@@ -37,7 +37,7 @@ final class YamlParser
                 'Invalid YAML syntax found in "%s": %s',
                 $source,
                 $parseException->getMessage()
-            ));
+            ), $parseException->getParsedLine(), null, null, $parseException);
         }
     }
 
