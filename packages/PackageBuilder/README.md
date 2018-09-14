@@ -205,7 +205,7 @@ try {
     exit($application->run());
 } catch (Throwable $throwable) {
     (new ThrowableRenderer())->render($throwable);
-    exit(1);
+    exit($throwable->getCode());
 }
 ```
 
