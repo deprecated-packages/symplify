@@ -21,7 +21,7 @@ final class ClassWrapperTest extends AbstractContainerAwareTestCase
 
     public function testGet(): void
     {
-        $tokens = Tokens::fromCode(file_get_contents(__DIR__ . '/Source/SomeClass.php'));
+        $tokens = Tokens::fromCode(file_get_contents(__DIR__ . '/Source/AbstractSomeClass.php'));
         $classTokens = $tokens->findGivenKind([T_CLASS], 0);
 
         $classTokenPosition = key(array_pop($classTokens));
