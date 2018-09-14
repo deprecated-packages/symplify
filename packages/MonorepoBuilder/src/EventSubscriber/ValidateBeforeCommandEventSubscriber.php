@@ -5,7 +5,9 @@ namespace Symplify\MonorepoBuilder\EventSubscriber;
 use Symfony\Component\Console\ConsoleEvents;
 use Symfony\Component\Console\Event\ConsoleEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symplify\MonorepoBuilder\Console\Command\BumpInterdependencyCommand;
 use Symplify\MonorepoBuilder\Console\Command\MergeCommand;
+use Symplify\MonorepoBuilder\Console\Command\ReleaseCommand;
 use Symplify\MonorepoBuilder\Console\Command\ValidateCommand;
 use Symplify\MonorepoBuilder\Validator\SourcesPresenceValidator;
 
@@ -35,10 +37,12 @@ final class ValidateBeforeCommandEventSubscriber implements EventSubscriberInter
             return;
         }
 
-        if (! in_array($consoleEvent->getCommand(), [ValidateCommand::class, MergeCommand::class], true)) {
-            return;
+        if (in_array($consoleEvent->getCommand(), [ValidateCommand::class, MergeCommand::class], true)) {
+            $this->sourcesPresenceValidator->validatePackageComposerJsons();
         }
 
-        $this->sourcesPresenceValidator->validate();
+        if (in_array($consoleEvent->getCommand(), [BumpInterdependencyCommand::class, ReleaseCommand::class], true)) {
+            $this->sourcesPresenceValidator->validateRootComposerJsonName();
+        }
     }
 }
