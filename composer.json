@@ -39,10 +39,6 @@
         "slam/php-cs-fixer-extensions": "^1.17",
         "tracy/tracy": "^2.4"
     },
-    "replace": {
-        "symplify/statie": "self.version",
-        "symplify/easy-coding-standard": "self.version"
-    },
     "autoload": {
         "psr-4": {
             "Symplify\\BetterPhpDocParser\\": "packages/BetterPhpDocParser/src",
@@ -89,6 +85,10 @@
             "Symplify\\TokenRunner\\Tests\\": "packages/TokenRunner/tests"
         }
     },
+    "replace": {
+        "symplify/statie": "self.version",
+        "symplify/easy-coding-standard": "self.version"
+    },
     "scripts": {
         "complete-check": [
             "phpunit",
@@ -106,6 +106,9 @@
             "packages/ChangelogLinker/bin/changelog-linker dump-merges --in-categories --in-packages",
             "packages/ChangelogLinker/bin/changelog-linker link",
             "packages/ChangelogLinker/bin/changelog-linker cleanup"
+        ],
+        "merge": [
+            "packages/MonorepoBuilder/bin/monorepo-builder merge"
         ]
     },
     "config": {
