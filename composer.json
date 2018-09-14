@@ -37,7 +37,6 @@
         "nette/application": "^2.4",
         "phpstan/phpstan": "^0.10.3|^0.9",
         "phpunit/phpunit": "^7.3",
-        "rector/rector": "^0.3.5",
         "slam/php-cs-fixer-extensions": "^1.17",
         "thecodingmachine/phpstan-safe-rule": "@dev",
         "thecodingmachine/phpstan-strict-rules": "^0.10.3",
