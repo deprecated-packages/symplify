@@ -1,4 +1,0 @@
-services:
-    Symplify\CodingStandard\Fixer\Import\ImportNamespacedNameFixer:
-        include_doc_blocks: true
-        allow_single_names: true
