@@ -17,7 +17,7 @@ trait SimpleKernelTrait
      */
     public function __construct()
     {
-        parent::__construct($this->getUnderscoredKernelName() . random_int(1, 10000), true);
+        parent::__construct($this->getUniqueKernelKey() . random_int(1, 10000), true);
     }
 
     /**
@@ -33,18 +33,18 @@ trait SimpleKernelTrait
 
     public function getCacheDir(): string
     {
-        return sys_get_temp_dir() . '/' . $this->getUnderscoredKernelName();
+        return sys_get_temp_dir() . '/' . $this->getUniqueKernelKey();
     }
 
     public function getLogDir(): string
     {
-        return sys_get_temp_dir() . '/' . $this->getUnderscoredKernelName() . '_logs';
+        return sys_get_temp_dir() . '/' . $this->getUniqueKernelKey() . '_logs';
     }
 
     /**
      * E.g. "TokenRunnerKernel" => "token_runner"
      */
-    private function getUnderscoredKernelName(): string
+    private function getUniqueKernelKey(): string
     {
         if ($this->undescoredKernelName !== null) {
             return $this->undescoredKernelName;

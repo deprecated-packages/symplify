@@ -4,12 +4,14 @@ namespace Symplify\PackageBuilder\Tests;
 
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 use Symfony\Component\HttpKernel\Kernel;
+use Symplify\PackageBuilder\HttpKernel\SimpleKernelTrait;
 use Symplify\PackageBuilder\Parameter\ParameterProvider;
 
-final class AppKernel extends Kernel
+final class PackageBuilderTestKernel extends Kernel
 {
+    use SimpleKernelTrait;
+
     /**
      * @var string
      */
@@ -18,15 +20,7 @@ final class AppKernel extends Kernel
     public function __construct(string $configPath)
     {
         $this->configPath = $configPath;
-        parent::__construct('dev' . random_int(1, 10000), true);
-    }
-
-    /**
-     * @return BundleInterface[]
-     */
-    public function registerBundles(): array
-    {
-        return [];
+        parent::__construct($this->getUniqueKernelKey() . random_int(1, 10000), true);
     }
 
     public function registerContainerConfiguration(LoaderInterface $loader): void
