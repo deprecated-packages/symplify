@@ -1,0 +1,15 @@
+parameters:
+    exclude_paths:
+        # demo data
+        - '*/tests/*'
+
+    autoload_files:
+        - 'tests/bootstrap.php'
+
+services:
+    Rector\Rector\Function_\FunctionReplaceRector:
+        $oldFunctionToNewFunction:
+            define: 'Safe\define'
+            substr: 'Safe\substr'
+            class_implements: 'Safe\class_implements'
+            sprintf: 'Safe\sprintf'
