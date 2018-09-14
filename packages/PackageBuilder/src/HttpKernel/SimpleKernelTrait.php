@@ -12,6 +12,11 @@ trait SimpleKernelTrait
      */
     private $undescoredKernelName;
 
+    public function __construct()
+    {
+        parent::__construct($this->getUnderscoredKernelName() . random_int(1, 10000), true);
+    }
+
     /**
      * Default method to prevent forcing using it
      * when no bundles are needed.
