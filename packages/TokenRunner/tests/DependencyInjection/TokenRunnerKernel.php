@@ -22,7 +22,7 @@ final class TokenRunnerKernel extends Kernel
         $this->configFile = $configFile;
     }
 
-    public function registerContainerConfiguration(LoaderInterface $loader)
+    public function registerContainerConfiguration(LoaderInterface $loader): void
     {
         $loader->load(__DIR__ . '/../../src/config/config.yml');
         $loader->load($this->configFile);

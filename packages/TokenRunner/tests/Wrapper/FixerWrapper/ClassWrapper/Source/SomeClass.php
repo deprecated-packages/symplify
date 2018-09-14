@@ -12,6 +12,9 @@ final class SomeClass extends AbstractRector
     {
     }
 
+    /**
+     * @return string[]
+     */
     public function getNodeTypes(): array
     {
     }
