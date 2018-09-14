@@ -5,6 +5,7 @@ namespace Symplify\MonorepoBuilder;
 use Symfony\Component\Finder\SplFileInfo;
 use Symplify\MonorepoBuilder\Composer\Section;
 use Symplify\MonorepoBuilder\FileSystem\JsonFileManager;
+use function Safe\asort;
 
 final class VersionValidator
 {

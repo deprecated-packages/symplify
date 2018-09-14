@@ -5,6 +5,7 @@ namespace Symplify\BetterPhpDocParser\Printer;
 use Nette\Utils\Strings;
 use PHPStan\PhpDocParser\Lexer\Lexer;
 use Symplify\BetterPhpDocParser\PhpDocNodeInfo;
+use function Safe\substr;
 
 final class OriginalSpacingRestorer
 {

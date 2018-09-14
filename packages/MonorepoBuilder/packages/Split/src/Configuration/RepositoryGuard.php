@@ -6,6 +6,7 @@ use Nette\Utils\Strings;
 use Symplify\MonorepoBuilder\Split\Exception\DirectoryNotFoundException;
 use Symplify\MonorepoBuilder\Split\Exception\InvalidGitRepositoryException;
 use Symplify\MonorepoBuilder\Split\Exception\InvalidRepositoryFormatException;
+use function Safe\sprintf;
 
 final class RepositoryGuard
 {
@@ -25,10 +26,7 @@ final class RepositoryGuard
             return;
         }
 
-        throw new InvalidRepositoryFormatException(sprintf(
-            '"%s" is not format for repository',
-            $possibleRepository
-        ));
+        throw new InvalidRepositoryFormatException(sprintf('"%s" is not format for repository', $possibleRepository));
     }
 
     public function ensureIsRepositoryDirectory(string $repositoryDirectory): void

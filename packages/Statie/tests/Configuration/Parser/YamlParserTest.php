@@ -7,6 +7,7 @@ use PHPUnit\Framework\TestCase;
 use Symfony\Component\Yaml\Exception\ParseException;
 use Symfony\Component\Yaml\Parser;
 use Symplify\Statie\Configuration\Parser\YamlParser;
+use function Safe\sprintf;
 
 final class YamlParserTest extends TestCase
 {
@@ -35,10 +36,12 @@ final class YamlParserTest extends TestCase
         $brokenYamlFilePath = __DIR__ . '/YamlParserSource/broken-config.yml';
 
         $this->expectException(ParseException::class);
-        $this->expectExceptionMessage(sprintf(
-            'A colon cannot be used in an unquoted mapping value in "%s" at line 2 (near " another_key: value").',
-            $brokenYamlFilePath
-        ));
+        $this->expectExceptionMessage(
+            sprintf(
+                'A colon cannot be used in an unquoted mapping value in "%s" at line 2 (near " another_key: value").',
+                $brokenYamlFilePath
+            )
+        );
 
         $this->yamlParser->decodeFile(__DIR__ . '/YamlParserSource/broken-config.yml');
     }

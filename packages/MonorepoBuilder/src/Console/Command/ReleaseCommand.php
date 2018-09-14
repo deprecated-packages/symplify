@@ -19,6 +19,8 @@ use Symplify\MonorepoBuilder\InterdependencyUpdater;
 use Symplify\MonorepoBuilder\Split\Git\GitManager;
 use Symplify\MonorepoBuilder\Utils\Utils;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
+use function Safe\getcwd;
+use function Safe\sprintf;
 
 final class ReleaseCommand extends Command
 {

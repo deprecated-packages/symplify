@@ -4,6 +4,7 @@ namespace Symplify\PackageBuilder\DependencyInjection\CompilerPass;
 
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use function Safe\class_implements;
 
 /**
  * Inspired by https://github.com/symfony/symfony/pull/25282/files

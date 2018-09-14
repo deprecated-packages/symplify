@@ -11,6 +11,8 @@ use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
+use function Safe\sleep;
+use function Safe\sprintf;
 
 final class MagicMethodsNamingFixer extends AbstractFixer
 {
@@ -41,11 +43,14 @@ final class MagicMethodsNamingFixer extends AbstractFixer
     {
         parent::__construct();
 
-        trigger_error(sprintf(
-            '"%s" was deprecated and will be removed in Symplify\CodingStandard 5.0. Use "%s" instead."',
-            self::class,
-            MagicMethodCasingFixer::class
-        ), E_USER_DEPRECATED);
+        trigger_error(
+            sprintf(
+                '"%s" was deprecated and will be removed in Symplify\CodingStandard 5.0. Use "%s" instead."',
+                self::class,
+                MagicMethodCasingFixer::class
+            ),
+            E_USER_DEPRECATED
+        );
         sleep(3); // inspired at "deprecated interface" Tweet
     }
 

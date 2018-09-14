@@ -7,6 +7,7 @@ use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use Symplify\TokenRunner\Exception\MissingImplementationException;
 use Throwable;
+use function Safe\sprintf;
 
 final class BlockFinder
 {

@@ -4,6 +4,8 @@ namespace Symplify\ChangelogLinker\Github;
 
 use Nette\Utils\Strings;
 use Symplify\ChangelogLinker\Exception\Git\InvalidGitRemoteException;
+use function Safe\sprintf;
+use function Safe\substr;
 
 final class GithubRepositoryFromRemoteResolver
 {

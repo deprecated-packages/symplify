@@ -10,6 +10,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 use Symplify\MonorepoBuilder\FileSystem\ComposerJsonProvider;
 use Symplify\MonorepoBuilder\InterdependencyUpdater;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
+use function Safe\sprintf;
 
 final class BumpInterdependencyCommand extends Command
 {

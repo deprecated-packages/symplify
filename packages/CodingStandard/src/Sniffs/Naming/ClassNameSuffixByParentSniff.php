@@ -6,6 +6,7 @@ use Nette\Utils\Strings;
 use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Sniffs\Sniff;
 use Symplify\TokenRunner\Wrapper\SnifferWrapper\ClassWrapperFactory;
+use function Safe\sprintf;
 
 final class ClassNameSuffixByParentSniff implements Sniff
 {

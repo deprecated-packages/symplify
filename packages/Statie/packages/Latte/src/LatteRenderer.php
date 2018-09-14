@@ -10,6 +10,7 @@ use Symplify\Statie\Latte\Exception\InvalidLatteSyntaxException;
 use Symplify\Statie\Latte\Loader\ArrayLoader;
 use Symplify\Statie\Renderable\CodeBlocksProtector;
 use Symplify\Statie\Renderable\File\AbstractFile;
+use function Safe\sprintf;
 
 final class LatteRenderer implements RendererInterface
 {

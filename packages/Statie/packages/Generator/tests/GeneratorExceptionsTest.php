@@ -5,6 +5,7 @@ namespace Symplify\Statie\Generator\Tests;
 use Symplify\Statie\Exception\Renderable\File\AccessKeyNotAvailableException;
 use Symplify\Statie\Exception\Renderable\File\UnsupportedMethodException;
 use Symplify\Statie\Renderable\File\PostFile;
+use function Safe\sprintf;
 
 final class GeneratorExceptionsTest extends AbstractGeneratorTest
 {
@@ -27,10 +28,9 @@ final class GeneratorExceptionsTest extends AbstractGeneratorTest
         $post = $this->getPost();
 
         $this->expectException(AccessKeyNotAvailableException::class);
-        $this->expectExceptionMessage(sprintf(
-            'Value "tite" was not found for "%s" object. Did you mean "title"?',
-            PostFile::class
-        ));
+        $this->expectExceptionMessage(
+            sprintf('Value "tite" was not found for "%s" object. Did you mean "title"?', PostFile::class)
+        );
 
         $post['tite'];
     }
@@ -40,10 +40,12 @@ final class GeneratorExceptionsTest extends AbstractGeneratorTest
         $post = $this->getPost();
 
         $this->expectException(AccessKeyNotAvailableException::class);
-        $this->expectExceptionMessage(sprintf(
-            'Value "key" was not found for "%s" object. Available keys are: "id", "title", "relativeUrl".',
-            PostFile::class
-        ));
+        $this->expectExceptionMessage(
+            sprintf(
+                'Value "key" was not found for "%s" object. Available keys are: "id", "title", "relativeUrl".',
+                PostFile::class
+            )
+        );
 
         $post['key'];
     }

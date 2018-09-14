@@ -4,6 +4,7 @@ namespace Symplify\ChangelogLinker;
 
 use Nette\Utils\Strings;
 use Symplify\ChangelogLinker\Analyzer\LinksAnalyzer;
+use function Safe\sprintf;
 
 final class ChangelogCleaner
 {

@@ -9,6 +9,7 @@ use Psr\Http\Message\ResponseInterface;
 use Symplify\ChangelogLinker\Exception\Github\GithubApiException;
 use Symplify\ChangelogLinker\Guzzle\ResponseFormatter;
 use Throwable;
+use function Safe\sprintf;
 
 final class GithubApi
 {

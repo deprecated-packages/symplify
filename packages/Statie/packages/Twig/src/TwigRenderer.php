@@ -9,6 +9,7 @@ use Symplify\Statie\Twig\Exception\InvalidTwigSyntaxException;
 use Throwable;
 use Twig\Environment;
 use Twig\Loader\ArrayLoader;
+use function Safe\sprintf;
 
 final class TwigRenderer implements RendererInterface
 {

@@ -5,6 +5,7 @@ namespace Symplify\Statie\Generator\Configuration;
 use Symplify\Statie\Configuration\Configuration;
 use Symplify\Statie\Generator\FileNameObjectSorter;
 use Symplify\Statie\Generator\Renderable\File\GeneratorFile;
+use function Safe\realpath;
 
 final class GeneratorElementFactory
 {

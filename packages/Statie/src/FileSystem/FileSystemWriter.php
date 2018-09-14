@@ -6,6 +6,8 @@ use Nette\Utils\FileSystem;
 use Symfony\Component\Finder\SplFileInfo;
 use Symplify\Statie\Configuration\Configuration;
 use Symplify\Statie\Renderable\File\AbstractFile;
+use function Safe\getcwd;
+use function Safe\substr;
 
 final class FileSystemWriter
 {
@@ -45,8 +47,7 @@ final class FileSystemWriter
                 . DIRECTORY_SEPARATOR
                 . $file->getOutputPath();
 
-            FileSystem::createDir(dirname($absoluteDestination));
-            file_put_contents($absoluteDestination, $file->getContent());
+            FileSystem::write($absoluteDestination, $file->getContent());
         }
     }
 }

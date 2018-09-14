@@ -2,6 +2,7 @@
 
 namespace Symplify\MonorepoBuilder\Tests\FileSystem\JsonFileManager;
 
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\SplFileInfo;
 use Symplify\MonorepoBuilder\FileSystem\JsonFileManager;
 use Symplify\MonorepoBuilder\Tests\AbstractContainerAwareTestCase;
@@ -13,15 +14,21 @@ final class JsonFileManagerTest extends AbstractContainerAwareTestCase
      */
     private $jsonFileManager;
 
+    /**
+     * @var Filesystem
+     */
+    private $filesystem;
+
     protected function setUp(): void
     {
         $this->jsonFileManager = $this->container->get(JsonFileManager::class);
+        $this->filesystem = $this->container->get(Filesystem::class);
     }
 
     protected function tearDown(): void
     {
-        @unlink(__DIR__ . '/Source/second.json');
-        @unlink(__DIR__ . '/Source/third.json');
+        $this->filesystem->remove(__DIR__ . '/Source/second.json');
+        $this->filesystem->remove(__DIR__ . '/Source/third.json');
     }
 
     public function testLoad(): void

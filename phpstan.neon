@@ -11,6 +11,7 @@ parameters:
         # tests
         - packages/EasyCodingStandard/tests/Finder/FinderSanitizerSource/NestedDirectory/FileWithClass.php
         - packages/EasyCodingStandard/packages/SniffRunner/tests/Application/FileProcessorSource/ReferenceUsedNamesOnlySniff/
+        - packages/TokenRunner/tests/Wrapper/FixerWrapper/ClassWrapper/Source/AbstractSomeClass.php
         # Symfony workaround
         - packages/ChangelogLinker/src/DependencyInjection/Dummy/ResolveAutowiringExceptionHelper.php
 
@@ -20,15 +21,13 @@ parameters:
         - packages/EasyCodingStandard/tests/Finder/SourceFinderSource/Source/SomeClass.php
 
     ignoreErrors:
-        # 0.10.2 false positives - all: (new SplFileInfo(...))->getRealPath()
+        # (new SplFileInfo(...))->getRealPath()
         - '#Parameter \#1 \$absoluteFilePath of method Symplify\\EasyCodingStandard\\Skipper::fileMatchesPattern\(\) expects string, string\|false given#'
         - '#Parameter \#1 \$file of method Symplify\\LatteToTwigConverter\\LatteToTwigConverter::convertFile\(\) expects string, string\|false given#'
         - '#Method Symplify\\PackageBuilder\\Configuration\\LevelFileFinder::detectFromInputAndDirectory\(\) should return string|null but returns string\|false#'
         - '#Parameter \#1 \$filename of function filesize expects string, string\|false given#'
-        - '#Parameter \#1 \$str of function substr expects string, string\|false given#'
         - '#Parameter \#1 \$relativePath of method Symplify\\EasyCodingStandard\\Skipper::removeFileFromUnused\(\) expects string, string\|false given#'
         - '#Parameter \#1 \$filename of function md5_file expects string, string\|false given#'
-        - '#Parameter \#1 \$(.*?) of function (substr|file_put_contents) expects string, string\|false given#'
         - '#Parameter \#2 \$absoluteFilePath of method Symplify\\EasyCodingStandard\\Skipper::shouldSkipCodeAndFile\(\) expects string, string\|false given#'
         - '#Parameter \#2 \$absoluteFilePath of method Symplify\\EasyCodingStandard\\Skipper::shouldSkipCheckerAndFile\(\) expects string, string\|false given#'
         - '#Parameter \#1 \$filePath of method Symplify\\EasyCodingStandard\\FixerRunner\\Parser\\FileToTokensParser::parseFromFilePath\(\) expects string, string\|false given#'
@@ -94,31 +93,22 @@ parameters:
         - '#Parameter \#1 \$children of class PHPStan\\PhpDocParser\\Ast\\PhpDoc\\PhpDocNode constructor expects array<PHPStan\\PhpDocParser\\Ast\\PhpDoc\\PhpDocChildNode>, array<int, PHPStan\\PhpDocParser\\Ast\\Node> given#'
         - '#Property Symplify\\BetterPhpDocParser\\Printer\\PhpDocInfoPrinter::\$nodeWithPositionsObjectStorage \(iterable<Symplify\\BetterPhpDocParser\\PhpDocNodeInfo>\&Symplify\\BetterPhpDocParser\\PhpDocParser\\Storage\\NodeWithPositionsObjectStorage\) does not accept Symplify\\BetterPhpDocParser\\PhpDocParser\\Storage\\NodeWithPositionsObjectStorage#'
         - '#Cannot access property \$name on PHPStan\\PhpDocParser\\Ast\\Type\\TypeNode\|null#'
-        - '#Parameter \#3 \$length of function substr expects int, int\|false given#'
         - '#If condition is always false#'
         - '#If condition is always true#'
         - '#Cannot call method contains\(\) on array<array<string>>\|SplObjectStorage#'
         - '#Cannot call method attach\(\) on array<array<string>>\|SplObjectStorage#'
         - "#Casting to array something that's already array#"
-        - '#Parameter \#1 \$string of function strlen expects string, string\|false given#'
-        - '#Method Symplify\\EasyCodingStandard\\Finder\\SourceFinder::find\(\) should return array<Symfony\\Component\\Finder\\SplFileInfo> but returns array<SplFileInfo>#'
         - '#Property Symplify\\EasyCodingStandard\\Yaml\\CheckerServiceParametersShifter::\$serviceKeywords \(array<string>\) does not accept ReflectionProperty#'
         - '#Method Symplify\\EasyCodingStandard\\Tests\\Indentation\\IndentationTest::getIndentationTypeFixerFromContainer\(\) should return PhpCsFixer\\Fixer\\Whitespace\\IndentationTypeFixer but returns PhpCsFixer\\Fixer\\FixerInterface\|null#'
         - '#Parameter \#1 \$path of function dirname expects string, string\|false given#'
         - '#Method Symplify\\PackageBuilder\\Console\\Command\\CommandNaming::getShortClassName\(\) should return string but returns string\|null#'
-        - '#Method Symplify\\PackageBuilder\\Tests\\Console\\ThrowableRendererTest::getTestErrorOutput\(\) should return string but returns string\|false#'
         - '#Cannot access offset (.*?) on Symplify\\Statie\\Generator\\Renderable\\File\\AbstractGeneratorFile#'
-        - '#Property Symplify\\Statie\\Configuration\\Configuration::\$sourceDirectory \(string\) does not accept string\|false#'
         - '#Parameter \#1 \$stack of function array_pop expects array, array<int, string>\|false given#'
         - '#Cannot call method getContent\(\) on Symplify\\Statie\\Renderable\\File\\AbstractFile\|null#'
         - '#Cannot call method getStart\(\) on Symplify\\TokenRunner\\Analyzer\\FixerAnalyzer\\BlockInfo\|null#'
         - '#Method Symplify\\TokenRunner\\Analyzer\\SnifferAnalyzer\\CognitiveComplexityAnalyzer::getMeasuredNestingLevel\(\) should return int but returns float\|int#'
         - '#Cannot call method getEndIndex\(\) on PhpCsFixer\\Tokenizer\\Analyzer\\Analysis\\NamespaceAnalysis\|null#'
         - '#Cannot call method getStartIndex\(\) on PhpCsFixer\\Tokenizer\\Analyzer\\Analysis\\NamespaceUseAnalysis\|null#'
-
-        # getcwd
-        - '#Parameter \#1 \$gitDirectory of method Symplify\\MonorepoBuilder\\Split\\Git\\GitManager::getMostRecentTag\(\) expects string, string\|false given#'
-        - '#Parameter \#1 \$str of function rtrim expects string, string\|false given#'
 
         # mixed type
         - '#Call to an undefined method Psr\\Container\\ContainerInterface::getParameter\(\)#'

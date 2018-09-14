@@ -8,6 +8,7 @@ use PhpCsFixer\Tokenizer\Tokens;
 use PhpCsFixer\Tokenizer\TokensAnalyzer;
 use Symplify\TokenRunner\Analyzer\FixerAnalyzer\DocBlockFinder;
 use Symplify\TokenRunner\Naming\Name\NameFactory;
+use function Safe\class_implements;
 
 final class ClassWrapper
 {

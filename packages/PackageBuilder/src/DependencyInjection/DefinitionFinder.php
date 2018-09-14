@@ -5,6 +5,7 @@ namespace Symplify\PackageBuilder\DependencyInjection;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symplify\PackageBuilder\Exception\DependencyInjection\DefinitionForTypeNotFoundException;
+use function Safe\sprintf;
 
 final class DefinitionFinder
 {

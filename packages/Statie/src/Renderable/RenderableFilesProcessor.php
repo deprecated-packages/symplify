@@ -11,6 +11,7 @@ use Symplify\Statie\Latte\Renderable\LatteFileDecorator;
 use Symplify\Statie\Renderable\File\AbstractFile;
 use Symplify\Statie\Renderable\File\FileFactory;
 use Symplify\Statie\Twig\Renderable\TwigFileDecorator;
+use function Safe\usort;
 
 final class RenderableFilesProcessor
 {

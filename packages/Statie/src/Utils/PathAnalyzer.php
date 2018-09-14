@@ -4,7 +4,9 @@ namespace Symplify\Statie\Utils;
 
 use DateTime;
 use DateTimeInterface;
+use Nette\Utils\Strings;
 use SplFileInfo;
+use function Safe\sprintf;
 
 final class PathAnalyzer
 {
@@ -20,13 +22,12 @@ final class PathAnalyzer
 
     public function detectDate(SplFileInfo $fileInfo): ?DateTimeInterface
     {
-        preg_match('#' . self::DATE_PATTERN . '#', $fileInfo->getFilename(), $matches);
-
-        if (count($matches) <= 3) {
+        $match = Strings::match($fileInfo->getFilename(), '#' . self::DATE_PATTERN . '#');
+        if ($match === null) {
             return null;
         }
 
-        $date = sprintf('%d-%d-%d', $matches['year'], $matches['month'], $matches['day']);
+        $date = sprintf('%d-%d-%d', $match['year'], $match['month'], $match['day']);
 
         return new DateTime($date);
     }
@@ -37,9 +38,9 @@ final class PathAnalyzer
         if ($date) {
             $dateAndNamePattern = sprintf('#%s-%s#', self::DATE_PATTERN, self::NAME_PATTERN);
 
-            preg_match($dateAndNamePattern, $fileInfo->getFilename(), $matches);
+            $match = Strings::match($fileInfo->getFilename(), $dateAndNamePattern);
 
-            return $matches['name'];
+            return $match['name'];
         }
 
         return $fileInfo->getBasename('.' . $fileInfo->getExtension());

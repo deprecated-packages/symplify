@@ -8,6 +8,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
 use Symplify\Statie\Renderable\RenderableFilesProcessor;
+use function Safe\sprintf;
 
 final class DumpFileDecoratorsCommand extends Command
 {

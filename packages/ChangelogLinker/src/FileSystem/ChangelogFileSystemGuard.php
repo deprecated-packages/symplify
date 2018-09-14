@@ -5,6 +5,7 @@ namespace Symplify\ChangelogLinker\FileSystem;
 use Nette\Utils\Strings;
 use Symplify\ChangelogLinker\Exception\FileNotFoundException;
 use Symplify\ChangelogLinker\Exception\MissingPlaceholderInChangelogException;
+use function Safe\sprintf;
 
 final class ChangelogFileSystemGuard
 {

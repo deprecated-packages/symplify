@@ -8,6 +8,7 @@ use Symplify\PackageBuilder\Finder\SymfonyFileInfoFactory;
 use Symplify\Statie\Renderable\ConfigurationFileDecorator;
 use Symplify\Statie\Renderable\File\FileFactory;
 use Symplify\Statie\Tests\AbstractContainerAwareTestCase;
+use function Safe\sprintf;
 
 final class ConfigurationFileDecoratorTest extends AbstractContainerAwareTestCase
 {
@@ -51,11 +52,8 @@ final class ConfigurationFileDecoratorTest extends AbstractContainerAwareTestCas
         $file = $this->fileFactory->createFromFileInfo($fileInfo);
 
         $this->expectException(ParseException::class);
-        $this->expectExceptionMessage(sprintf(
-            'Invalid YAML syntax found in "%s": '
-            . 'A colon cannot be used in an unquoted mapping value at line 2 (near "  another_key: value") at line 2.',
-            $brokenYamlFilePath
-        ));
+        $this->expectExceptionMessage(sprintf('Invalid YAML syntax found in "%s": '
+        . 'A colon cannot be used in an unquoted mapping value at line 2 (near "  another_key: value") at line 2.', $brokenYamlFilePath));
 
         $this->configurationFileDecorator->decorateFiles([$file]);
     }

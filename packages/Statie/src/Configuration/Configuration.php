@@ -5,6 +5,10 @@ namespace Symplify\Statie\Configuration;
 use Symplify\PackageBuilder\Parameter\ParameterProvider;
 use Symplify\Statie\Exception\Configuration\MissingGithubRepositorySlugException;
 use Symplify\Statie\FileSystem\FileSystemGuard;
+use function Safe\getcwd;
+use function Safe\realpath;
+use function Safe\sleep;
+use function Safe\sprintf;
 
 final class Configuration
 {
@@ -104,11 +108,14 @@ final class Configuration
 
     public function enableMarkdownHeadlineAnchors(): void
     {
-        trigger_error(sprintf(
-            '"%s" was deprecated and will be removed in Symplify\Statie 5.0. Use own plugin instead, e.g. %s"',
-            __METHOD__,
-            'https://github.com/TomasVotruba/tomasvotruba.cz/tree/master/src/PostHeadlineLinker'
-        ), E_USER_DEPRECATED);
+        trigger_error(
+            sprintf(
+                '"%s" was deprecated and will be removed in Symplify\Statie 5.0. Use own plugin instead, e.g. %s"',
+                __METHOD__,
+                'https://github.com/TomasVotruba/tomasvotruba.cz/tree/master/src/PostHeadlineLinker'
+            ),
+            E_USER_DEPRECATED
+        );
         sleep(3); // inspired at "deprecated interface" Tweet
 
         $this->options[self::OPTION_MARKDOWN_HEADLINE_ANCHORS] = true;

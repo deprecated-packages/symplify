@@ -4,6 +4,7 @@ namespace Symplify\TokenRunner\Guard;
 
 use PhpCsFixer\Tokenizer\Token;
 use Symplify\TokenRunner\Exception\UnexpectedTokenException;
+use function Safe\sprintf;
 
 final class TokenTypeGuard
 {

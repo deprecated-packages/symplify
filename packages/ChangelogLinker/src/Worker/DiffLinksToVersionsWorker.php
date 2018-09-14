@@ -6,6 +6,7 @@ use Symplify\ChangelogLinker\Analyzer\LinksAnalyzer;
 use Symplify\ChangelogLinker\Analyzer\VersionsAnalyzer;
 use Symplify\ChangelogLinker\Contract\Worker\WorkerInterface;
 use Symplify\ChangelogLinker\LinkAppender;
+use function Safe\sprintf;
 
 final class DiffLinksToVersionsWorker implements WorkerInterface
 {

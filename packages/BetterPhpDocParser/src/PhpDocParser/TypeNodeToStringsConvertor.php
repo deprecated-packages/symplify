@@ -8,6 +8,7 @@ use PHPStan\PhpDocParser\Ast\Type\ThisTypeNode;
 use PHPStan\PhpDocParser\Ast\Type\TypeNode;
 use PHPStan\PhpDocParser\Ast\Type\UnionTypeNode;
 use Symplify\BetterPhpDocParser\Exception\NotImplementedYetException;
+use function Safe\sprintf;
 
 final class TypeNodeToStringsConvertor
 {

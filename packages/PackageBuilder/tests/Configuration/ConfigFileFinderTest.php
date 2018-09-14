@@ -7,6 +7,8 @@ use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symplify\PackageBuilder\Configuration\ConfigFileFinder;
 use Symplify\PackageBuilder\Exception\Configuration\FileNotFoundException;
+use function Safe\getcwd;
+use function Safe\sprintf;
 
 final class ConfigFileFinderTest extends TestCase
 {
@@ -45,11 +47,9 @@ final class ConfigFileFinderTest extends TestCase
     public function testMissingFileInInput(): void
     {
         $this->expectException(FileNotFoundException::class);
-        $this->expectExceptionMessage(sprintf(
-            'File "%s" not found in "%s"',
-            getcwd() . '/someFile.yml',
-            'someFile.yml'
-        ));
+        $this->expectExceptionMessage(
+            sprintf('File "%s" not found in "%s"', getcwd() . '/someFile.yml', 'someFile.yml')
+        );
 
         ConfigFileFinder::detectFromInput('name', new ArrayInput(['--config' => 'someFile.yml']));
     }

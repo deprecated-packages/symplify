@@ -4,6 +4,7 @@ namespace Symplify\Statie\Generator\Renderable\File;
 
 use Symfony\Component\Finder\SplFileInfo;
 use Symplify\Statie\Generator\Exception\Configuration\GeneratorException;
+use function Safe\sprintf;
 
 final class GeneratorFileGuard
 {
@@ -52,7 +53,7 @@ final class GeneratorFileGuard
 
         throw new GeneratorException(sprintf(
             'File "%s" must have "id: [0-9]+" in the header in --- blocks.',
-            $fileInfo->getRealPath()
+            (string) $fileInfo->getRealPath()
         ));
     }
 }
