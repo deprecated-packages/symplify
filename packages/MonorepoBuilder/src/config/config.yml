@@ -10,3 +10,19 @@ parameters:
     data_to_append: []
     data_to_remove: []
     package_alias_format: '<major>.<minor>-dev'
+
+    section_order:
+        - 'name'
+        - 'description'
+        - 'license'
+        - 'bin'
+        - 'require'
+        - 'require-dev'
+        - 'autoload'
+        - 'autoload-dev'
+        - 'repositories'
+        - 'replace'
+        - 'scripts'
+        - 'config'
+        - 'minimum-stability'
+        - 'prefer-stable'

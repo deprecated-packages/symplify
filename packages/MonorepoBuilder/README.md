@@ -70,6 +70,18 @@ parameters:
         - 'projects'
 ```
 
+Sections are nicely sorted by saint defaults. Do you want to order them yourself?
+
+```yaml
+parameters:
+    section_order:
+        - 'name'
+        - 'autoload'
+        - 'autoload-dev'
+        - 'require'
+        - 'require-dev'
+```
+
 #### After Merge Options
 
 Do you need to add or remove some packages only to root `composer.json`?
