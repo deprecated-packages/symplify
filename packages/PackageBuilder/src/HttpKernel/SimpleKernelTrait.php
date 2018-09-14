@@ -12,6 +12,9 @@ trait SimpleKernelTrait
      */
     private $undescoredKernelName;
 
+    /**
+     * Default constructor to disable caching, used mainly for tests.
+     */
     public function __construct()
     {
         parent::__construct($this->getUnderscoredKernelName() . random_int(1, 10000), true);

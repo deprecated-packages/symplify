@@ -4,15 +4,17 @@ namespace Symplify\ChangelogLinker\DependencyInjection;
 
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 use Symfony\Component\HttpKernel\Kernel;
 use Symplify\ChangelogLinker\DependencyInjection\CompilerPass\CollectorCompilerPass;
 use Symplify\ChangelogLinker\DependencyInjection\CompilerPass\DetectParametersCompilerPass;
 use Symplify\PackageBuilder\DependencyInjection\CompilerPass\AutoBindParametersCompilerPass;
 use Symplify\PackageBuilder\DependencyInjection\CompilerPass\PublicForTestsCompilerPass;
+use Symplify\PackageBuilder\HttpKernel\SimpleKernelTrait;
 
 final class ChangelogLinkerKernel extends Kernel
 {
+    use SimpleKernelTrait;
+
     /**
      * @var string|null
      */
@@ -35,28 +37,10 @@ final class ChangelogLinkerKernel extends Kernel
         }
     }
 
-    public function getCacheDir(): string
-    {
-        return sys_get_temp_dir() . '/_changelog_linker';
-    }
-
-    public function getLogDir(): string
-    {
-        return sys_get_temp_dir() . '/_changelog_linker_logs';
-    }
-
     public function bootWithConfig(string $config): void
     {
         $this->configFile = $config;
         $this->boot();
-    }
-
-    /**
-     * @return BundleInterface[]
-     */
-    public function registerBundles(): array
-    {
-        return [];
     }
 
     /**

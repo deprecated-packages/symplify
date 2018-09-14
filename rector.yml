@@ -24,3 +24,4 @@ services:
             ksort: 'Safe\ksort'
             uasort: 'Safe\uasort'
             krsort: 'Safe\krsort'
+            uksort: 'Safe\uksort'

@@ -9,7 +9,6 @@ use Symplify\MonorepoBuilder\DependencyInjection\CompilerPass\CollectorCompilerP
 use Symplify\MonorepoBuilder\Split\DependencyInjection\CompilerPass\DetectParametersCompilerPass;
 use Symplify\PackageBuilder\DependencyInjection\CompilerPass\AutoBindParametersCompilerPass;
 use Symplify\PackageBuilder\DependencyInjection\CompilerPass\PublicForTestsCompilerPass;
-use Symplify\PackageBuilder\HttpKernel\AbstractCliKernel;
 use Symplify\PackageBuilder\HttpKernel\SimpleKernelTrait;
 
 final class MonorepoBuilderKernel extends Kernel
