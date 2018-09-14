@@ -9,7 +9,7 @@
 ```yaml
 # phpstan.neon
 includes:
-    - 'packages/PHPStanExtensions/src/config/config.neon'
+    - 'vendor/symplify/phpstan-extensions/config/config.neon'
 ```
 
 ## 1. Stats Formatter - the Best Way to Start with PHPStan
