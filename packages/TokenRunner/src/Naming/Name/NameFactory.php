@@ -37,6 +37,7 @@ final class NameFactory
         // resolve fully qualified name - as argument?
         $name = $this->resolveForName($tokens, $name);
 
+        /** @var int $previousTokenPointer */
         return new Name($previousTokenPointer, $end, $name, $nameTokens, $tokens);
     }
 
@@ -128,13 +129,11 @@ final class NameFactory
         reset($namespaceToken);
         $namespacePosition = (int) key($namespaceToken);
 
-        [$nameTokens, ] = $this->collectNameTokens($tokens, $namespacePosition + 2);
-
         $namespaceName = '';
-
-        /** @var Token[] $nameTokens */
-        foreach ($nameTokens as $nameToken) {
-            $namespaceName .= $nameToken->getContent();
+        $position = $namespacePosition + 2;
+        while ($tokens[$position]->isGivenKind([T_NS_SEPARATOR, T_STRING])) {
+            $namespaceName .= $tokens[$position]->getContent();
+            ++$position;
         }
 
         return $namespaceName . '\\' . $className;

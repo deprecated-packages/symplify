@@ -9,6 +9,8 @@ use Symplify\MonorepoBuilder\Split\Git\GitManager;
 use Symplify\MonorepoBuilder\Split\Process\ProcessFactory;
 use Symplify\MonorepoBuilder\Split\Process\SplitProcessInfo;
 use Symplify\PackageBuilder\FileSystem\FileSystemGuard;
+use function Safe\sleep;
+use function Safe\sprintf;
 
 final class PackageToRepositorySplitter
 {
@@ -116,13 +118,15 @@ final class PackageToRepositorySplitter
                 throw new PackageToRepositorySplitException($message);
             }
 
-            $this->symfonyStyle->success(sprintf(
-                'Push of "%s" directory to "%s" repository was successful: %s "%s"',
-                $processInfo->getLocalDirectory(),
-                $processInfo->getRemoteRepository(),
-                PHP_EOL . PHP_EOL,
-                $process->getOutput()
-            ));
+            $this->symfonyStyle->success(
+                sprintf(
+                    'Push of "%s" directory to "%s" repository was successful: %s "%s"',
+                    $processInfo->getLocalDirectory(),
+                    $processInfo->getRemoteRepository(),
+                    PHP_EOL . PHP_EOL,
+                    $process->getOutput()
+                )
+            );
         }
     }
 }

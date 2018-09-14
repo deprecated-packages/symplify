@@ -2,6 +2,7 @@
 
 namespace Symplify\CodingStandard\Fixer\Commenting;
 
+use Nette\Utils\Strings;
 use PhpCsFixer\AbstractFixer;
 use PhpCsFixer\FixerDefinition\CodeSample;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
@@ -46,7 +47,7 @@ final class RemoveEmptyDocBlockFixer extends AbstractFixer
                 $previousWhitespaceContent = $previousToken->getContent();
 
                 $lastLineBreak = strrpos($previousWhitespaceContent, PHP_EOL);
-                $newWhitespaceContent = substr($previousWhitespaceContent, 0, $lastLineBreak);
+                $newWhitespaceContent = Strings::substring($previousWhitespaceContent, 0, $lastLineBreak);
                 if ($newWhitespaceContent) {
                     $tokens[$index - 1] = new Token([T_WHITESPACE, $newWhitespaceContent]);
                 } else {
@@ -67,6 +68,6 @@ final class RemoveEmptyDocBlockFixer extends AbstractFixer
             return true;
         }
 
-        return ! preg_match('#^/\*\*[\s\*]*\*/$#', $token->getContent());
+        return ! Strings::match($token->getContent(), '#^/\*\*[\s\*]*\*/$#');
     }
 }

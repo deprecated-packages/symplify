@@ -10,6 +10,7 @@ use SlevomatCodingStandard\Helpers\ClassHelper;
 use SlevomatCodingStandard\Helpers\TokenHelper;
 use SplFileInfo;
 use Symplify\TokenRunner\Analyzer\SnifferAnalyzer\Naming;
+use function Safe\sprintf;
 
 final class NoClassInstantiationSniff implements Sniff
 {

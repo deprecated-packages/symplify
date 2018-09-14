@@ -12,6 +12,7 @@ use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
 use Symplify\LatteToTwigConverter\LatteToTwigConverter;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
+use function Safe\sprintf;
 
 final class ConvertCommand extends Command
 {

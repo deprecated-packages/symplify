@@ -9,6 +9,7 @@ use Symplify\Statie\Twig\Exception\InvalidTwigSyntaxException;
 use Throwable;
 use Twig\Environment;
 use Twig\Loader\ArrayLoader;
+use function Safe\sprintf;
 
 final class TwigRenderer implements RendererInterface
 {
@@ -55,7 +56,7 @@ final class TwigRenderer implements RendererInterface
                 'Invalid Twig syntax found or missing value in "%s" file: %s',
                 $file->getFilePath(),
                 $throwable->getMessage()
-            ));
+            ), $throwable->getCode(), $throwable);
         }
     }
 }

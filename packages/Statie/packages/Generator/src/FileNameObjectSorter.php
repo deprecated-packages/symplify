@@ -4,6 +4,7 @@ namespace Symplify\Statie\Generator;
 
 use Symplify\Statie\Generator\Contract\ObjectSorterInterface;
 use Symplify\Statie\Generator\Renderable\File\AbstractGeneratorFile;
+use function Safe\uasort;
 
 final class FileNameObjectSorter implements ObjectSorterInterface
 {

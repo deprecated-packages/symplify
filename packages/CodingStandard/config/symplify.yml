@@ -3,8 +3,14 @@ services:
     # class has to be final, abstract or Doctrine entity
     SlamCsFixer\FinalInternalClassFixer: ~
 
+    # import namespaces for classes, constants and functions
+    # configuration: https://github.com/slevomat/coding-standard#slevomatcodingstandardnamespacesreferenceusednamesonly-
+    SlevomatCodingStandard\Sniffs\Namespaces\ReferenceUsedNamesOnlySniff:
+        allowFallbackGlobalFunctions: true
+        allowFallbackGlobalConstants: true
+
     # see https://github.com/symplify/codingstandard to see all loaded Symplify checkers
     Symplify\CodingStandard\:
         resource: '../src'
         # deprecated checkers, to be removed in Symplify 5.0 + sniffs that needs configuration to run
-        exclude: '../src/{Fixer/Naming/ClassNameSuffixByParentFixer.php,Fixer/Naming/ExceptionNameFixer.php,Fixer/Naming/MagicMethodsNamingFixer.php,Sniffs/DeadCode/UnusedPublicMethodSniff.php,Sniffs/CleanCode/ForbiddenParentClassSniff.php,Fixer/Order/MethodOrderByTypeFixer.php}'
+        exclude: '../src/{Fixer/Naming/ClassNameSuffixByParentFixer.php,Fixer/Naming/ExceptionNameFixer.php,Fixer/Naming/MagicMethodsNamingFixer.php,Sniffs/DeadCode/UnusedPublicMethodSniff.php,Sniffs/CleanCode/ForbiddenParentClassSniff.php,Fixer/Order/MethodOrderByTypeFixer.php,Fixer/Import/ImportNamespacedNameFixer.php}'

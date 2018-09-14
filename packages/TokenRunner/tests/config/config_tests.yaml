@@ -1,0 +1,5 @@
+services:
+    PhpCsFixer\Tokenizer\Analyzer\NamespaceUsesAnalyzer: ~
+    PhpCsFixer\Tokenizer\Analyzer\NamespacesAnalyzer: ~
+
+    PhpCsFixer\WhitespacesFixerConfig: ~

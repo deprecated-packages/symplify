@@ -10,6 +10,7 @@ use Symplify\MonorepoBuilder\DevMasterAliasUpdater;
 use Symplify\MonorepoBuilder\PackageComposerFinder;
 use Symplify\MonorepoBuilder\Utils\Utils;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
+use function Safe\sprintf;
 
 final class PackageAliasCommand extends Command
 {

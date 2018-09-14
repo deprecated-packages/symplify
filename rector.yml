@@ -1,0 +1,27 @@
+parameters:
+    autoload_files:
+        - 'tests/bootstrap.php'
+        - 'packages/EasyCodingStandard/tests/Finder/SourceFinderSource/Source/SomeClass.php'
+
+services:
+    Rector\Rector\Function_\FunctionReplaceRector:
+        $oldFunctionToNewFunction:
+            define: 'Safe\define'
+            substr: 'Safe\substr'
+            class_implements: 'Safe\class_implements'
+            sprintf: 'Safe\sprintf'
+            sleep: 'Safe\sleep'
+            tmpfile: 'Safe\tmpfile'
+            fread: 'Safe\fread'
+            fclose: 'Safe\fclose'
+            putenv: 'Safe\putenv'
+            getcwd: 'Safe\getcwd'
+            realpath: 'Safe\realpath'
+            # sorts
+            sort: 'Safe\sort'
+            usort: 'Safe\usort'
+            asort: 'Safe\asort'
+            ksort: 'Safe\ksort'
+            uasort: 'Safe\uasort'
+            krsort: 'Safe\krsort'
+            uksort: 'Safe\uksort'

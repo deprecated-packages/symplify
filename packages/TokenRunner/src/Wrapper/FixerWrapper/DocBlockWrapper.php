@@ -2,6 +2,7 @@
 
 namespace Symplify\TokenRunner\Wrapper\FixerWrapper;
 
+use Nette\Utils\Strings;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use PHPStan\PhpDocParser\Ast\Type\ArrayTypeNode;
@@ -135,7 +136,7 @@ final class DocBlockWrapper
             $previousWhitespaceContent = $previousToken->getContent();
 
             $lastLineBreak = strrpos($previousWhitespaceContent, PHP_EOL);
-            $newWhitespaceContent = substr($previousWhitespaceContent, 0, $lastLineBreak);
+            $newWhitespaceContent = Strings::substring($previousWhitespaceContent, 0, $lastLineBreak);
             if ($newWhitespaceContent) {
                 $this->tokens[$this->position - 1] = new Token([T_WHITESPACE, $newWhitespaceContent]);
             } else {

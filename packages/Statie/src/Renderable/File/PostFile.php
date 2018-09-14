@@ -10,6 +10,7 @@ use Nette\Utils\Strings;
 use Symplify\Statie\Exception\Renderable\File\AccessKeyNotAvailableException;
 use Symplify\Statie\Exception\Renderable\File\UnsupportedMethodException;
 use Symplify\Statie\Generator\Renderable\File\AbstractGeneratorFile;
+use function Safe\sprintf;
 
 final class PostFile extends AbstractGeneratorFile implements ArrayAccess
 {

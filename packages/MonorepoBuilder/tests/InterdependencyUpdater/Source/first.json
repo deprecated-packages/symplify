@@ -1,5 +1,5 @@
 {
     "require": {
-        "symplify/coding-standard": "^3.0"
+        "symplify/coding-standard": "^4.0"
     }
 }

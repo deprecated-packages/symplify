@@ -6,6 +6,7 @@ use PHPStan\Command\AnalysisResult;
 use PHPStan\Command\ErrorFormatter\ErrorFormatter;
 use Symfony\Component\Console\Style\OutputStyle;
 use Symplify\PHPStanExtensions\Error\ErrorGrouper;
+use function Safe\sprintf;
 
 final class IgnoreErrorFormatter implements ErrorFormatter
 {

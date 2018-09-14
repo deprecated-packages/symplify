@@ -4,6 +4,7 @@ namespace Symplify\Statie\Configuration\Parser;
 
 use Symfony\Component\Yaml\Exception\ParseException;
 use Symfony\Component\Yaml\Parser;
+use function Safe\sprintf;
 
 final class YamlParser
 {
@@ -37,7 +38,7 @@ final class YamlParser
                 'Invalid YAML syntax found in "%s": %s',
                 $source,
                 $parseException->getMessage()
-            ));
+            ), $parseException->getParsedLine(), null, null, $parseException);
         }
     }
 

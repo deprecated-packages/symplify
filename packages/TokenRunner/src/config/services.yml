@@ -1,3 +1,9 @@
+imports:
+    # A. in monorepo
+    - { resource: '../../../BetterPhpDocParser/src/config/services.yml', ignore_errors: true }
+    # B. as dependency
+    - { resource: '%vendor%/symplify/better-phpdoc-parser/src/config/services.yml', ignore_errors: true }
+
 services:
     _defaults:
         autowire: true
@@ -5,4 +11,4 @@ services:
 
     Symplify\TokenRunner\:
         resource: '..'
-        exclude: '../{Naming/Name/Name.php,Analyzer/FixerAnalyzer/BlockInfo.php,Wrapper/*Wrapper/*Wrapper.php}'
+        exclude: '../{Naming/Name/Name.php,Analyzer/FixerAnalyzer/BlockInfo.php,Wrapper/*Wrapper/*Wrapper.php,DependencyInjection/*}'

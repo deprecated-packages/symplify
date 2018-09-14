@@ -72,6 +72,8 @@ parameters:
             - 'packages/CodingStandard/src/Sniffs/Naming/ClassNameSuffixByParentSniff.php'
             # class might not exist
             - '*packages/EasyCodingStandard/src/DependencyInjection/CompilerPass/*CompilerPass.php'
+            # tests
+            - 'packages/TokenRunner/tests/Wrapper/FixerWrapper/ClassWrapper/ClassWrapperTest.php'
 
         Symplify\CodingStandard\Sniffs\DependencyInjection\NoClassInstantiationSniff:
             # static helper

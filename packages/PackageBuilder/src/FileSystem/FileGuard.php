@@ -3,6 +3,7 @@
 namespace Symplify\PackageBuilder\FileSystem;
 
 use Symplify\PackageBuilder\Exception\Configuration\FileNotFoundException;
+use function Safe\sprintf;
 
 final class FileGuard
 {

@@ -9,6 +9,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symplify\Statie\Console\Application;
 use Symplify\Statie\Tests\AbstractContainerAwareTestCase;
+use function Safe\sprintf;
 
 final class GenerateCommandTest extends AbstractContainerAwareTestCase
 {

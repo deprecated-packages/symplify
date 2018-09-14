@@ -19,6 +19,7 @@ use RuntimeException;
 use Throwable;
 use UnderflowException;
 use UnexpectedValueException;
+use function Safe\sprintf;
 
 final class ExplicitExceptionSniff implements Sniff
 {
@@ -50,10 +51,11 @@ final class ExplicitExceptionSniff implements Sniff
             return;
         }
 
-        $file->addError(sprintf(
-            'Use explicit and informative exception names over generic ones like "%s".',
-            $exceptionName
-        ), $position, self::class);
+        $file->addError(
+            sprintf('Use explicit and informative exception names over generic ones like "%s".', $exceptionName),
+            $position,
+            self::class
+        );
     }
 
     /**

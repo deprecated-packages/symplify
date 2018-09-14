@@ -10,6 +10,7 @@ use Symplify\Statie\Latte\Renderable\LatteFileDecorator;
 use Symplify\Statie\Renderable\File\File;
 use Symplify\Statie\Renderable\File\FileFactory;
 use Symplify\Statie\Tests\AbstractContainerAwareTestCase;
+use function Safe\sprintf;
 
 final class LatteFileDecoratorTest extends AbstractContainerAwareTestCase
 {
@@ -67,10 +68,12 @@ final class LatteFileDecoratorTest extends AbstractContainerAwareTestCase
         $file = $this->createFileFromFilePath($fileWithInvalidLatteSyntax);
 
         $this->expectException(InvalidLatteSyntaxException::class);
-        $this->expectExceptionMessage(sprintf(
-            'Invalid Latte syntax found or missing value in "%s" file: Unknown macro {iff}, did you mean {if}?',
-            $fileWithInvalidLatteSyntax
-        ));
+        $this->expectExceptionMessage(
+            sprintf(
+                'Invalid Latte syntax found or missing value in "%s" file: Unknown macro {iff}, did you mean {if}?',
+                $fileWithInvalidLatteSyntax
+            )
+        );
 
         $this->latteFileDecorator->decorateFiles([$file]);
     }

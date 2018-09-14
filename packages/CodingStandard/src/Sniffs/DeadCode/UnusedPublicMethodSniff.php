@@ -7,6 +7,7 @@ use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Sniffs\Sniff;
 use Symplify\EasyCodingStandard\Contract\Application\DualRunInterface;
 use Symplify\TokenRunner\Wrapper\SnifferWrapper\ClassWrapperFactory;
+use function Safe\sprintf;
 
 /**
  * @experimental
@@ -177,6 +178,9 @@ final class UnusedPublicMethodSniff implements Sniff, DualRunInterface
         $this->file->addError(sprintf(self::MESSAGE, $methodName), $this->position, self::class);
     }
 
+    /**
+     * @param mixed[] $token
+     */
     private function isPublicMethodToken(array $token): bool
     {
         if ($token['code'] !== T_FUNCTION) {

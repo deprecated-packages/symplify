@@ -8,7 +8,7 @@ final class ContainerFactory
 {
     public function createWithConfig(string $configPath): ContainerInterface
     {
-        $appKernel = new AppKernel($configPath);
+        $appKernel = new PackageBuilderTestKernel($configPath);
         $appKernel->boot();
 
         return $appKernel->getContainer();

@@ -10,6 +10,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
 use Symplify\Statie\Application\StatieApplication;
+use function Safe\getcwd;
+use function Safe\sprintf;
 
 final class GenerateCommand extends Command
 {
@@ -60,11 +62,11 @@ final class GenerateCommand extends Command
     {
         $this->statieApplication->run($input->getArgument(self::OPTION_SOURCE), $input->getOption(self::OPTION_OUTPUT));
 
-        $this->symfonyStyle->success(sprintf(
-            'Web was generated from "%s" source to "%s" output',
-            $input->getArgument(self::OPTION_SOURCE),
-            $input->getOption(self::OPTION_OUTPUT)
-        ));
+        $this->symfonyStyle->success(
+            sprintf('Web was generated from "%s" source to "%s" output', $input->getArgument(
+                self::OPTION_SOURCE
+            ), $input->getOption(self::OPTION_OUTPUT))
+        );
 
         return 0;
     }

@@ -4,6 +4,7 @@ namespace Symplify\MonorepoBuilder\FileSystem;
 
 use Symfony\Component\Finder\SplFileInfo;
 use Symplify\MonorepoBuilder\PackageComposerFinder;
+use function Safe\getcwd;
 
 final class ComposerJsonProvider
 {

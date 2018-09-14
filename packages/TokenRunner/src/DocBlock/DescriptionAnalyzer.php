@@ -6,6 +6,8 @@ use Nette\Utils\Strings;
 use PHPStan\PhpDocParser\Ast\Type\TypeNode;
 use Symplify\BetterPhpDocParser\PhpDocParser\TypeNodeAnalyzer;
 use Symplify\BetterPhpDocParser\PhpDocParser\TypeNodeToStringsConvertor;
+use function Safe\sprintf;
+use function Safe\substr;
 
 final class DescriptionAnalyzer
 {

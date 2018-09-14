@@ -5,6 +5,7 @@ namespace Symplify\Statie\Generator\Configuration;
 use Symplify\Statie\Generator\Contract\ObjectSorterInterface;
 use Symplify\Statie\Generator\Exception\Configuration\InvalidGeneratorElementDefinitionException;
 use Symplify\Statie\Renderable\File\AbstractFile;
+use function Safe\sprintf;
 
 final class GeneratorElementGuard
 {

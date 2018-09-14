@@ -4,14 +4,17 @@ namespace Symplify\MonorepoBuilder\DependencyInjection;
 
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\HttpKernel\Kernel;
 use Symplify\MonorepoBuilder\DependencyInjection\CompilerPass\CollectorCompilerPass;
 use Symplify\MonorepoBuilder\Split\DependencyInjection\CompilerPass\DetectParametersCompilerPass;
 use Symplify\PackageBuilder\DependencyInjection\CompilerPass\AutoBindParametersCompilerPass;
 use Symplify\PackageBuilder\DependencyInjection\CompilerPass\PublicForTestsCompilerPass;
-use Symplify\PackageBuilder\HttpKernel\AbstractCliKernel;
+use Symplify\PackageBuilder\HttpKernel\SimpleKernelTrait;
 
-final class MonorepoBuilderKernel extends AbstractCliKernel
+final class MonorepoBuilderKernel extends Kernel
 {
+    use SimpleKernelTrait;
+
     /**
      * @var string|null
      */
@@ -24,16 +27,6 @@ final class MonorepoBuilderKernel extends AbstractCliKernel
         if ($this->configFile) {
             $loader->load($this->configFile);
         }
-    }
-
-    public function getCacheDir(): string
-    {
-        return sys_get_temp_dir() . '/_monorepo_builder_linker';
-    }
-
-    public function getLogDir(): string
-    {
-        return sys_get_temp_dir() . '/_monorepo_builder_linker_logs';
     }
 
     public function bootWithConfig(string $config): void

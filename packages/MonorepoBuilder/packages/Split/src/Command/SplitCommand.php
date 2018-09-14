@@ -8,6 +8,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symplify\MonorepoBuilder\Split\Configuration\RepositoryGuard;
 use Symplify\MonorepoBuilder\Split\PackageToRepositorySplitter;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
+use function Safe\sprintf;
 
 final class SplitCommand extends Command
 {
@@ -51,11 +52,13 @@ final class SplitCommand extends Command
     protected function configure(): void
     {
         $this->setName(CommandNaming::classToName(self::class));
-        $this->setDescription(sprintf(
-            'Splits monorepo packages to standalone repositories as defined in "%s" section of "%s" config.',
-            'parameters > directories_to_repositories',
-            'monorepo-builder.yml'
-        ));
+        $this->setDescription(
+            sprintf(
+                'Splits monorepo packages to standalone repositories as defined in "%s" section of "%s" config.',
+                'parameters > directories_to_repositories',
+                'monorepo-builder.yml'
+            )
+        );
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int

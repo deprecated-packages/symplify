@@ -12,16 +12,21 @@ use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
 use Symplify\CodingStandard\Sniffs\Naming\ClassNameSuffixByParentSniff;
+use function Safe\sleep;
+use function Safe\sprintf;
 
 final class ExceptionNameFixer implements DefinedFixerInterface
 {
     public function __construct()
     {
-        trigger_error(sprintf(
-            '"%s" was deprecated and will be removed in Symplify\CodingStandard 5.0. Use "%s" instead."',
-            self::class,
-            ClassNameSuffixByParentSniff::class
-        ), E_USER_DEPRECATED);
+        trigger_error(
+            sprintf(
+                '"%s" was deprecated and will be removed in Symplify\CodingStandard 5.0. Use "%s" instead."',
+                self::class,
+                ClassNameSuffixByParentSniff::class
+            ),
+            E_USER_DEPRECATED
+        );
         sleep(3); // inspired at "deprecated interface" Tweet
     }
 

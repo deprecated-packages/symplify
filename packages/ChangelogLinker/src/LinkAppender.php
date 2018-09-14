@@ -3,6 +3,7 @@
 namespace Symplify\ChangelogLinker;
 
 use Symplify\ChangelogLinker\Analyzer\LinksAnalyzer;
+use function Safe\krsort;
 
 final class LinkAppender
 {

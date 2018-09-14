@@ -3,6 +3,7 @@
 namespace Symplify\MonorepoBuilder\ComposerJsonDecorator;
 
 use Symplify\MonorepoBuilder\Contract\ComposerJsonDecoratorInterface;
+use function Safe\uksort;
 
 final class SortComposerJsonDecorator implements ComposerJsonDecoratorInterface
 {

@@ -4,6 +4,7 @@ namespace Symplify\MonorepoBuilder\ComposerJsonDecorator;
 
 use Symplify\MonorepoBuilder\Composer\Section;
 use Symplify\MonorepoBuilder\Contract\ComposerJsonDecoratorInterface;
+use function Safe\ksort;
 
 final class SortAutoloadComposerJsonDecorator implements ComposerJsonDecoratorInterface
 {

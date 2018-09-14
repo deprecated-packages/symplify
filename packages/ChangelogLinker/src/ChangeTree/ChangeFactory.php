@@ -6,6 +6,7 @@ use Nette\Utils\Strings;
 use Symplify\ChangelogLinker\ChangeTree\Resolver\CategoryResolver;
 use Symplify\ChangelogLinker\ChangeTree\Resolver\PackageResolver;
 use Symplify\ChangelogLinker\Git\GitCommitDateTagResolver;
+use function Safe\sprintf;
 
 final class ChangeFactory
 {

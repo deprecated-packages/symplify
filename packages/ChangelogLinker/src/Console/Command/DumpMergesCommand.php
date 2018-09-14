@@ -17,6 +17,7 @@ use Symplify\ChangelogLinker\Exception\DeprecatedException;
 use Symplify\ChangelogLinker\FileSystem\ChangelogFileSystem;
 use Symplify\ChangelogLinker\Github\GithubApi;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
+use function Safe\sprintf;
 
 /**
  * @inspired by https://github.com/weierophinney/changelog_generator

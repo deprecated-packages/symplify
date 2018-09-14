@@ -7,6 +7,7 @@ use Symplify\Statie\Configuration\Parser\YamlParser;
 use Symplify\Statie\Contract\Renderable\FileDecoratorInterface;
 use Symplify\Statie\Generator\Configuration\GeneratorElement;
 use Symplify\Statie\Renderable\File\AbstractFile;
+use function Safe\sprintf;
 
 final class ConfigurationFileDecorator implements FileDecoratorInterface
 {

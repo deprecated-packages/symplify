@@ -5,6 +5,7 @@ namespace Symplify\CodingStandard\Sniffs\CleanCode;
 use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Sniffs\Sniff;
 use Symplify\TokenRunner\Analyzer\SnifferAnalyzer\CognitiveComplexityAnalyzer;
+use function Safe\sprintf;
 
 final class CognitiveComplexitySniff implements Sniff
 {

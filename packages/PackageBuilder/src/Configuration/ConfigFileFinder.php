@@ -2,8 +2,11 @@
 
 namespace Symplify\PackageBuilder\Configuration;
 
+use Nette\Utils\Strings;
 use Symfony\Component\Console\Input\InputInterface;
 use Symplify\PackageBuilder\Exception\Configuration\FileNotFoundException;
+use function Safe\getcwd;
+use function Safe\sprintf;
 
 final class ConfigFileFinder
 {
@@ -54,7 +57,7 @@ final class ConfigFileFinder
 
     public static function makeAbsolutePath(string $relativeFilePath): string
     {
-        return preg_match('#/|\\\\|[a-z]:#iA', $relativeFilePath)
+        return Strings::match($relativeFilePath, '#/|\\\\|[a-z]:#iA')
             ? $relativeFilePath
             : getcwd() . DIRECTORY_SEPARATOR . $relativeFilePath;
     }

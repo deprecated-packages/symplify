@@ -3,6 +3,7 @@
 namespace Symplify\PHPStanExtensions\Error;
 
 use PHPStan\Analyser\Error;
+use function Safe\usort;
 
 final class ErrorGrouper
 {

@@ -8,6 +8,7 @@ use PhpCsFixer\Tokenizer\Tokens;
 use PhpCsFixer\Tokenizer\TokensAnalyzer;
 use Symplify\TokenRunner\Analyzer\FixerAnalyzer\DocBlockFinder;
 use Symplify\TokenRunner\Naming\Name\NameFactory;
+use function Safe\class_implements;
 
 final class ClassWrapper
 {
@@ -138,15 +139,15 @@ final class ClassWrapper
         $extendsPosition = key($extendsTokens);
 
         /** @var Token[] $stringTokens */
-        $stringTokens = $this->tokens->findGivenKind(T_STRING, $extendsPosition);
+        $stringTokens = $this->tokens->findGivenKind(T_STRING, $extendsPosition, $this->startBracketIndex);
         if (count($stringTokens) === 0) {
             return null;
         }
 
-        /** @var Token $parentClassNameToken */
-        $parentClassNameToken = array_shift($stringTokens);
+        $parentClassNamePosition = key($stringTokens);
+        $parentClassName = $this->nameFactory->createFromTokensAndStart($this->tokens, $parentClassNamePosition);
 
-        return $parentClassNameToken->getContent();
+        return $parentClassName->getName();
     }
 
     /**

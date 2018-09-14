@@ -14,11 +14,20 @@ abstract class AbstractContainerAwareTestCase extends TestCase
     protected $container;
 
     /**
+     * @var ContainerInterface|null
+     */
+    private static $cachedContainer;
+
+    /**
      * @param mixed[] $data
      */
     public function __construct(?string $name = null, array $data = [], string $dataName = '')
     {
-        $this->container = (new ContainerFactory())->create();
+        if (self::$cachedContainer === null) {
+            self::$cachedContainer = (new ContainerFactory())->create();
+        }
+
+        $this->container = self::$cachedContainer;
 
         parent::__construct($name, $data, $dataName);
     }

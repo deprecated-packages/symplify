@@ -2,6 +2,7 @@
 
 namespace Symplify\CodingStandard\Fixer\Php;
 
+use Nette\Utils\Strings;
 use PhpCsFixer\Fixer\ConfigurationDefinitionFixerInterface;
 use PhpCsFixer\Fixer\DefinedFixerInterface;
 use PhpCsFixer\FixerConfiguration\FixerConfigurationResolver;
@@ -14,6 +15,8 @@ use PhpCsFixer\Tokenizer\CT;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
+use function Safe\sprintf;
+use function Safe\substr;
 
 final class ClassStringToClassConstantFixer implements DefinedFixerInterface, ConfigurationDefinitionFixerInterface
 {
@@ -173,7 +176,7 @@ final class ClassStringToClassConstantFixer implements DefinedFixerInterface, Co
             || trait_exists($potentialClassInterfaceOrTrait);
 
         if ($this->configuration[self::CLASS_MUST_EXIST_OPTION] === false) {
-            $accepted = (bool) preg_match($this->getClassyPattern(), $potentialClassInterfaceOrTrait);
+            $accepted = (bool) Strings::match($potentialClassInterfaceOrTrait, $this->getClassyPattern());
         }
 
         return $accepted;

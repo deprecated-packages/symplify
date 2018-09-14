@@ -2,6 +2,7 @@
 
 namespace Symplify\MonorepoBuilder\Tests\DevMasterAliasUpdater;
 
+use Nette\Utils\FileSystem;
 use Symfony\Component\Finder\SplFileInfo;
 use Symplify\MonorepoBuilder\DevMasterAliasUpdater;
 use Symplify\MonorepoBuilder\Tests\AbstractContainerAwareTestCase;
@@ -16,11 +17,12 @@ final class DevMasterAliasUpdaterTest extends AbstractContainerAwareTestCase
     protected function setUp(): void
     {
         $this->devMasterAliasUpdater = $this->container->get(DevMasterAliasUpdater::class);
+        $this->devMasterAliasUpdater = $this->container->get(DevMasterAliasUpdater::class);
     }
 
     protected function tearDown(): void
     {
-        copy(__DIR__ . '/Source/backup-first.json', __DIR__ . '/Source/first.json');
+        FileSystem::copy(__DIR__ . '/Source/backup-first.json', __DIR__ . '/Source/first.json');
     }
 
     public function test(): void

@@ -4,6 +4,7 @@ namespace Symplify\MonorepoBuilder\Split\Git;
 
 use Nette\Utils\Strings;
 use Symfony\Component\Process\Process;
+use function Safe\sprintf;
 
 final class GitManager
 {
