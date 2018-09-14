@@ -65,11 +65,6 @@ final class DependenciesMerger
             }
 
             // section in root composer.json is empty, just set and go
-            if (! isset($rootComposerJson[$sectionToMerge])) {
-                $rootComposerJson[$sectionToMerge] = $jsonToMerge[$sectionToMerge];
-                break;
-            }
-
             $rootComposerJson[$sectionToMerge] = $jsonToMerge[$sectionToMerge];
         }
 
