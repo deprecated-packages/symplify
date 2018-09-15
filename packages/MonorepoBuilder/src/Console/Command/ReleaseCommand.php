@@ -158,6 +158,18 @@ final class ReleaseCommand extends Command
     {
         $this->symfonyStyle->note(sprintf('Tagging version "%s"', $version->getVersionString()));
 
+        // commit previous changes
+        $process = new Process('git add . && git commit -m "prepare release" && git push origin master');
+        if ($isDryRun) {
+            $this->symfonyStyle->note('Would run: ' . $process->getCommandLine());
+        } else {
+            $process->run();
+
+            if (! $process->isSuccessful()) {
+                throw new ProcessFailedException($process);
+            }
+        }
+
         $process = new Process(sprintf('git tag %s', $version->getVersionString()));
         if ($isDryRun) {
             $this->symfonyStyle->note('Would run: ' . $process->getCommandLine());
