@@ -7,16 +7,10 @@ use Symplify\Statie\Exception\Configuration\MissingGithubRepositorySlugException
 use Symplify\Statie\FileSystem\FileSystemGuard;
 use function Safe\getcwd;
 use function Safe\realpath;
-use function Safe\sleep;
 use function Safe\sprintf;
 
 final class Configuration
 {
-    /**
-     * @var string
-     */
-    private const OPTION_MARKDOWN_HEADLINE_ANCHORS = 'markdown_headline_anchors';
-
     /**
      * @var string
      */
@@ -93,37 +87,12 @@ final class Configuration
         ));
     }
 
-    public function isMarkdownHeadlineAnchors(): bool
-    {
-        return $this->options[self::OPTION_MARKDOWN_HEADLINE_ANCHORS] ?? false;
-    }
-
     /**
      * @return mixed[]
      */
     public function getOptions(): array
     {
         return $this->options;
-    }
-
-    public function enableMarkdownHeadlineAnchors(): void
-    {
-        trigger_error(
-            sprintf(
-                '"%s" was deprecated and will be removed in Symplify\Statie 5.0. Use own plugin instead, e.g. %s"',
-                __METHOD__,
-                'https://github.com/TomasVotruba/tomasvotruba.cz/tree/master/src/PostHeadlineLinker'
-            ),
-            E_USER_DEPRECATED
-        );
-        sleep(3); // inspired at "deprecated interface" Tweet
-
-        $this->options[self::OPTION_MARKDOWN_HEADLINE_ANCHORS] = true;
-    }
-
-    public function disableMarkdownHeadlineAnchors(): void
-    {
-        $this->options[self::OPTION_MARKDOWN_HEADLINE_ANCHORS] = false;
     }
 
     /**

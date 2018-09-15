@@ -38,23 +38,7 @@ final class NameFactory
         $name = $this->resolveForName($tokens, $name);
 
         /** @var int $previousTokenPointer */
-        return new Name($previousTokenPointer, $end, $name, $nameTokens, $tokens);
-    }
-
-    public function createFromStringAndTokens(string $name, Tokens $tokens): Name
-    {
-        $nameTokens = [];
-        $name = ltrim($name, '\\');
-
-        foreach (explode('\\', $name) as $namePart) {
-            $nameTokens[] = new Token([T_NS_SEPARATOR, '\\']);
-            $nameTokens[] = new Token([T_STRING, $namePart]);
-        }
-
-        // remove first pre slash
-        unset($nameTokens[0]);
-
-        return new Name(null, null, $name, $nameTokens, $tokens);
+        return new Name($previousTokenPointer, $end, $name, $tokens);
     }
 
     /**
@@ -95,7 +79,7 @@ final class NameFactory
         // resolve fully qualified name - as argument?
         $name = $this->resolveForName($tokens, $name, $prependNamespace);
 
-        return new Name($nextTokenPointer, $start, $name, $nameTokens, $tokens);
+        return new Name($nextTokenPointer, $start, $name, $tokens);
     }
 
     public function resolveForName(Tokens $tokens, string $className, ?bool $prependNamespace = false): string

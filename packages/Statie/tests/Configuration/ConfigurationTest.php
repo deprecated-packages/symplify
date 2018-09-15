@@ -16,7 +16,6 @@ final class ConfigurationTest extends TestCase
         /** @var Configuration $configuration */
         $configuration = $container->get(Configuration::class);
 
-        $this->assertTrue($configuration->isMarkdownHeadlineAnchors());
         $this->assertSame(
             'https://github.com/TomasVotruba/tomasvotruba.cz/tree/master/source',
             $configuration->getGithubRepositorySourceDirectory()
