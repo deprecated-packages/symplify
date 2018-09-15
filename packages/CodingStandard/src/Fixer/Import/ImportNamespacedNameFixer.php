@@ -29,6 +29,8 @@ use Symplify\TokenRunner\Naming\Name\Name;
 use Symplify\TokenRunner\Naming\Name\NameAnalyzer;
 use Symplify\TokenRunner\Naming\Name\NameFactory;
 use Symplify\TokenRunner\Transformer\FixerTransformer\UseImportsTransformer;
+use function Safe\sleep;
+use function Safe\sprintf;
 
 /**
  * Possible cases:
@@ -119,6 +121,16 @@ final class ImportNamespacedNameFixer implements DefinedFixerInterface, Configur
             ->resolve([]);
         $this->phpDocInfoPrinter = $phpDocInfoPrinter;
         $this->phpDocInfoFactory = $phpDocInfoFactory;
+
+        trigger_error(
+            sprintf(
+                '"%s" was deprecated and will be removed in Symplify\CodingStandard 5.0. Use "%s" instead."',
+                self::class,
+                'SlevomatCodingStandard\Sniffs\Namespaces\ReferenceUsedNamesOnlySniff'
+            ),
+            E_USER_DEPRECATED
+        );
+        sleep(3); // inspired at "deprecated interface" Tweet
     }
 
     public function getDefinition(): FixerDefinitionInterface
