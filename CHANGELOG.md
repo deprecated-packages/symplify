@@ -11,6 +11,8 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 ## Unreleased
 
+**This is the last release in 4.x row. The next will be Symplify 5.0 without BC layer.**
+
 ### Added
 
 - [#1102] Add `thecodingmachine/safe`

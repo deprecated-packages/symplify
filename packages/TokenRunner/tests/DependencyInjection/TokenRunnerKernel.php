@@ -2,9 +2,16 @@
 
 namespace Symplify\TokenRunner\Tests\DependencyInjection;
 
+use Symfony\Component\Config\Loader\DelegatingLoader;
+use Symfony\Component\Config\Loader\GlobFileLoader;
 use Symfony\Component\Config\Loader\LoaderInterface;
+use Symfony\Component\Config\Loader\LoaderResolver;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\HttpKernel\Config\FileLocator;
 use Symfony\Component\HttpKernel\Kernel;
 use Symplify\PackageBuilder\HttpKernel\SimpleKernelTrait;
+use Symplify\PackageBuilder\Yaml\FileLoader\ParameterImportsYamlFileLoader;
 
 final class TokenRunnerKernel extends Kernel
 {
@@ -26,5 +33,20 @@ final class TokenRunnerKernel extends Kernel
     {
         $loader->load(__DIR__ . '/../../src/config/config.yml');
         $loader->load($this->configFile);
+    }
+
+    /**
+     * @param ContainerBuilder $container
+     */
+    protected function getContainerLoader(ContainerInterface $container): DelegatingLoader
+    {
+        $kernelFileLocator = new FileLocator($this);
+
+        $loaderResolver = new LoaderResolver([
+            new GlobFileLoader($container, $kernelFileLocator),
+            new ParameterImportsYamlFileLoader($container, $kernelFileLocator),
+        ]);
+
+        return new DelegatingLoader($loaderResolver);
     }
 }
