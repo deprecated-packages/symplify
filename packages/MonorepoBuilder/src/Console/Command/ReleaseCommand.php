@@ -2,6 +2,9 @@
 
 namespace Symplify\MonorepoBuilder\Console\Command;
 
+use DateTime;
+use Nette\Utils\FileSystem;
+use Nette\Utils\Strings;
 use PharIo\Version\Version;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -102,6 +105,8 @@ final class ReleaseCommand extends Command
 
         $this->setMutualDependenciesToVersion($this->utils->getRequiredFormat($version));
 
+        $this->addTagToChangelog($version);
+
         $this->tagVersion($version, $isDryRun);
 
         $this->pushTag($version, $isDryRun);
@@ -193,6 +198,26 @@ final class ReleaseCommand extends Command
             $this->composerJsonProvider->getPackagesFileInfos(),
             $version
         );
+
+        $this->symfonyStyle->success('Done!');
+    }
+
+    private function addTagToChangelog(Version $version): void
+    {
+        $changelogFilePath = getcwd() . '/CHANGELOG.md';
+        if (! file_exists($changelogFilePath)) {
+            return;
+        }
+
+        $newHeadline = '## ' . $version->getVersionString() . ' - ' . (new DateTime())->format('Y-m-d');
+
+        $this->symfonyStyle->note(
+            sprintf('Replacing "## Unreleased" headline in CHANGELOG.md with "%s"', $newHeadline)
+        );
+
+        $changelogFileContent = FileSystem::read($changelogFilePath);
+        $changelogFileContent = Strings::replace($changelogFileContent, '#\#\# Unreleased#', $newHeadline);
+        FileSystem::write($changelogFilePath, $changelogFileContent);
 
         $this->symfonyStyle->success('Done!');
     }
