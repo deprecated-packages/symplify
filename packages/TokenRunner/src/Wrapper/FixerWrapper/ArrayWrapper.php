@@ -36,11 +36,6 @@ final class ArrayWrapper
         $this->tokenSkipper = $tokenSkipper;
     }
 
-    public function getStartIndex(): int
-    {
-        return $this->startIndex;
-    }
-
     public function isAssociativeArray(): bool
     {
         for ($i = $this->startIndex + 1; $i <= $this->endIndex - 1; ++$i) {

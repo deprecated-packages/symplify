@@ -7,7 +7,6 @@ use Symplify\Statie\Exception\Configuration\MissingGithubRepositorySlugException
 use Symplify\Statie\FileSystem\FileSystemGuard;
 use function Safe\getcwd;
 use function Safe\realpath;
-use function Safe\sleep;
 use function Safe\sprintf;
 
 final class Configuration
@@ -96,6 +95,9 @@ final class Configuration
         return $this->options;
     }
 
+    /**
+     * @param mixed $value
+     */
     public function addOption(string $name, $value): void
     {
         $this->options[$name] = $value;

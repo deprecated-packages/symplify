@@ -6,7 +6,6 @@ use ParsedownExtra;
 use Symplify\Statie\Contract\Renderable\FileDecoratorInterface;
 use Symplify\Statie\Generator\Configuration\GeneratorElement;
 use Symplify\Statie\Renderable\File\AbstractFile;
-use function Safe\sprintf;
 use function Safe\substr;
 
 final class MarkdownFileDecorator implements FileDecoratorInterface
