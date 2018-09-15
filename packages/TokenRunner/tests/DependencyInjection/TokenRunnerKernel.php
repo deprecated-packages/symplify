@@ -43,7 +43,7 @@ final class TokenRunnerKernel extends Kernel
         $kernelFileLocator = new FileLocator($this);
 
         $loaderResolver = new LoaderResolver([
-            new GlobFileLoader($container, $kernelFileLocator),
+            new GlobFileLoader($kernelFileLocator),
             new ParameterImportsYamlFileLoader($container, $kernelFileLocator),
         ]);
 
