@@ -6,8 +6,8 @@
         "php": "^7.1",
         "nette/utils": "^2.5",
         "nette/finder": "^2.4",
-        "symplify/package-builder": "^4.8",
-        "symplify/better-phpdoc-parser": "^4.8",
+        "symplify/package-builder": "^4.9",
+        "symplify/better-phpdoc-parser": "^4.9",
         "friendsofphp/php-cs-fixer": "^2.13",
         "squizlabs/php_codesniffer": "^3.3",
         "thecodingmachine/safe": "^0.1.3"
@@ -27,7 +27,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "4.8-dev"
+            "dev-master": "4.9-dev"
         }
     },
     "minimum-stability": "dev",
