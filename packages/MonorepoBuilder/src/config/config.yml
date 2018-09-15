@@ -26,3 +26,4 @@ parameters:
         - 'config'
         - 'minimum-stability'
         - 'prefer-stable'
+        - 'extra'
