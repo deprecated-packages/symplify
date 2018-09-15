@@ -9,6 +9,80 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 <!-- changelog-linker -->
 
+## Unreleased
+
+### Added
+
+- [#1102] Add `thecodingmachine/safe`
+
+#### ChangelogLinker
+
+- [#1067] Improve readme, add `package_aliases` [closes [#1066]]
+
+#### CodingStandard
+
+- [#1068] Add `Doctrine\ORM\Query\Expr` to allowed instantiable classes [closes [#1063]]
+- [#1073] Add own `symplify.yml` set, grouping also other sniffs
+
+#### MonorepoBuilder
+
+- [#1081] Add validation into merge command [closes [#1071]]
+- [#1106] Add SortComposerJsonDecorator
+- [#1088] Add init command [closes [#1082]]
+
+#### PHPStanExtensions
+
+- [#1060] Add `stats` and `ignore` to `--error-format` options [closes [#1051]]
+
+#### Statie
+
+- [#1075] Add function support to `TwigFactory` via `FilterProvider`, 1:1 compat with Latte
+
+#### EasycodingStandard
+
+- [#1092] add section for integration with phpstorm, Thanks to [@azdanov]
+
+### Changed
+
+#### ChangelogLinker
+
+- [#1064] improve regexes for guessing the type of change [surpasses #1059]
+
+#### EasyCodingStandard
+
+- [#1078] Allow combination of `--level` and `--config` [closes [#1072]]
+
+#### MonorepoBuilder
+
+- [#1104] Now validate only merge and validate command
+- [#1079] Show versions from all `composer.json` files when calling validate
+- [#1105] Make validation of command needs more precise
+
+### Fixed
+
+#### ChangelogLinker
+
+- [#1094] Fix aliasing spaced and category resolving with spacing and slash
+- [#1093] Fix merge title with markdown signs spacing
+- [#1065] Fix package name resolving
+- [#1069] Fix detection of Repository url from Git
+- [#1090] Fix package message without package resolving [closes [#1089]]
+- [#1085] Resolve new pull-request from merge date instead of id
+
+#### CodingStandard
+
+- [#1074] Fix wrong class reference to MagicMethodCasingFixer, Thanks to [@OndraM]
+
+#### EasyCodingStandard
+
+- [#1101] Fix Undefined property [closes [#1097]]
+
+### Deprecated
+
+#### CodingStandard
+
+- [#1110] Deprecated `ImportNamespacedNameFixer`, use `ReferenceUsedNamesOnlySniff`
+
 ## [v4.7.0] - 2018-09-04
 
 ### Added
@@ -936,3 +1010,39 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
 [#1047]: https://github.com/Symplify/Symplify/pull/1047
 [#1046]: https://github.com/Symplify/Symplify/pull/1046
 [#1045]: https://github.com/Symplify/Symplify/pull/1045
+
+[#1110]: https://github.com/Symplify/Symplify/pull/1110
+[#1106]: https://github.com/Symplify/Symplify/pull/1106
+[#1105]: https://github.com/Symplify/Symplify/pull/1105
+[#1104]: https://github.com/Symplify/Symplify/pull/1104
+[#1102]: https://github.com/Symplify/Symplify/pull/1102
+[#1101]: https://github.com/Symplify/Symplify/pull/1101
+[#1098]: https://github.com/Symplify/Symplify/pull/1098
+[#1097]: https://github.com/Symplify/Symplify/pull/1097
+[#1094]: https://github.com/Symplify/Symplify/pull/1094
+[#1093]: https://github.com/Symplify/Symplify/pull/1093
+[#1092]: https://github.com/Symplify/Symplify/pull/1092
+[#1090]: https://github.com/Symplify/Symplify/pull/1090
+[#1089]: https://github.com/Symplify/Symplify/pull/1089
+[#1088]: https://github.com/Symplify/Symplify/pull/1088
+[#1085]: https://github.com/Symplify/Symplify/pull/1085
+[#1082]: https://github.com/Symplify/Symplify/pull/1082
+[#1081]: https://github.com/Symplify/Symplify/pull/1081
+[#1079]: https://github.com/Symplify/Symplify/pull/1079
+[#1078]: https://github.com/Symplify/Symplify/pull/1078
+[#1075]: https://github.com/Symplify/Symplify/pull/1075
+[#1074]: https://github.com/Symplify/Symplify/pull/1074
+[#1073]: https://github.com/Symplify/Symplify/pull/1073
+[#1072]: https://github.com/Symplify/Symplify/pull/1072
+[#1071]: https://github.com/Symplify/Symplify/pull/1071
+[#1069]: https://github.com/Symplify/Symplify/pull/1069
+[#1068]: https://github.com/Symplify/Symplify/pull/1068
+[#1067]: https://github.com/Symplify/Symplify/pull/1067
+[#1066]: https://github.com/Symplify/Symplify/pull/1066
+[#1065]: https://github.com/Symplify/Symplify/pull/1065
+[#1064]: https://github.com/Symplify/Symplify/pull/1064
+[#1063]: https://github.com/Symplify/Symplify/pull/1063
+[#1060]: https://github.com/Symplify/Symplify/pull/1060
+[#1051]: https://github.com/Symplify/Symplify/pull/1051
+[@azdanov]: https://github.com/azdanov
+[v4.7.0]: https://github.com/Symplify/Symplify/compare/v4.6.1...v4.7.0
