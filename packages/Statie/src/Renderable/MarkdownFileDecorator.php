@@ -2,11 +2,11 @@
 
 namespace Symplify\Statie\Renderable;
 
+use Nette\Utils\Strings;
 use ParsedownExtra;
 use Symplify\Statie\Contract\Renderable\FileDecoratorInterface;
 use Symplify\Statie\Generator\Configuration\GeneratorElement;
 use Symplify\Statie\Renderable\File\AbstractFile;
-use function Safe\substr;
 
 final class MarkdownFileDecorator implements FileDecoratorInterface
 {
@@ -70,11 +70,13 @@ final class MarkdownFileDecorator implements FileDecoratorInterface
             return;
         }
 
-        $markdownedPerexInParagraph = $this->parsedownExtra->text($configuration['perex']);
+        if ($configuration['perex']) {
+            $markdownedPerex = $this->parsedownExtra->text($configuration['perex']);
 
-        // remove <p></p>
-        $markdownedPerex = substr($markdownedPerexInParagraph, 3, -4);
-        $configuration['perex'] = $markdownedPerex;
+            // remove <p></p>
+            $markdownedPerex = Strings::substring($markdownedPerex, 3, -4);
+            $configuration['perex'] = $markdownedPerex;
+        }
 
         $file->addConfiguration($configuration);
     }
