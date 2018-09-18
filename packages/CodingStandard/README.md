@@ -30,6 +30,8 @@ composer require symplify/coding-standard --dev
 +];
 ```
 
+<br>
+
 ### There should not be empty PHPDoc blocks
 
 Just like `PhpCsFixer\Fixer\Phpdoc\NoEmptyPhpdocFixer`, but this one removes all doc block lines.
@@ -43,6 +45,8 @@ Just like `PhpCsFixer\Fixer\Phpdoc\NoEmptyPhpdocFixer`, but this one removes all
  {
  }
 ```
+
+<br>
 
 ### Block comment should only contain useful information about types
 
@@ -70,6 +74,8 @@ services:
         useless_types: ['mixed', 'object'] # [] by default
 ```
 
+<br>
+
 ### Block comment should not have 2 empty lines in a row
 
 - class: [`Symplify\CodingStandard\Fixer\Commenting\RemoveSuperfluousDocBlockWhitespaceFixer`](src/Fixer/Commenting/RemoveSuperfluousDocBlockWhitespaceFixer.php)
@@ -86,6 +92,8 @@ services:
  }
 ```
 
+<br>
+
 ### Include/Require should be followed by absolute path
 
 - class: [`Symplify\CodingStandard\Fixer\ControlStructure\RequireFollowedByAbsolutePathFixer`](src/Fixer/ControlStructure/RequireFollowedByAbsolutePathFixer.php)
@@ -94,6 +102,8 @@ services:
 -require 'vendor/autoload.php';
 +require __DIR__.'/vendor/autoload.php';
 ```
+
+<br>
 
 ### Parameters, arguments and array items should be on the same/standalone line to fit line length
 
@@ -135,6 +145,8 @@ services:
         inline_short_lines: false # default: true
 ```
 
+<br>
+
 ### Property name should match its key, if possible
 
 - :wrench:
@@ -158,6 +170,8 @@ services:
         extra_skipped_classes:
             - 'MyApp*' # accepts anything like fnmatch
 ```
+
+<br>
 
 ### Public Methods Should have Specific Order by Interface/Parent Class
 
@@ -195,6 +209,8 @@ services:
  }
 ```
 
+<br>
+
 ### `::class` references should be used over string for classes and interfaces
 
 - :wrench:
@@ -224,6 +240,8 @@ services:
             - 'SomeClass'
 ```
 
+<br>
+
 ### Array property should have default value, to prevent undefined array issues
 
 - class: [`Symplify\CodingStandard\Fixer\Property\ArrayPropertyDefaultValueFixer`](src/Fixer/Property/ArrayPropertyDefaultValueFixer.php)
@@ -245,6 +263,8 @@ services:
      }
  }
 ```
+
+<br>
 
 ### Strict types declaration has to be followed by empty line
 
@@ -281,6 +301,8 @@ services:
             - 'Nette\Application\IPresenter'
 ```
 
+<br>
+
 ### Block comment should be used instead of one liner
 
 - class: [`Symplify\CodingStandard\Fixer\Commenting\BlockPropertyCommentFixer`](src/Fixer/Commenting/BlockPropertyCommentFixer.php)
@@ -295,6 +317,8 @@ services:
      public $count;
  }
 ```
+
+<br>
 
 ### Use explicit and informative exception names over generic ones
 
@@ -315,6 +339,8 @@ throw new RuntimeException('...');
 
 throw new FileNotFoundException('...');
 ```
+
+<br>
 
 ### Class "X" cannot be parent class. Use composition over inheritance instead.
 
@@ -363,6 +389,8 @@ final class ProductRepository
 }
 ```
 
+<br>
+
 ### Use explicit return values over magic "&$variable" reference
 
 - class: [`Symplify\CodingStandard\Sniffs\CleanCode\ForbiddenReferenceSniff`](src/Sniffs/CleanCode/ForbiddenReferenceSniff.php)
@@ -388,6 +416,8 @@ function someFunction($var)
     return $var + 1;
 }
 ```
+
+<br>
 
 ### Use services and constructor injection over static method
 
@@ -419,6 +449,8 @@ class SomeClass
 }
 ```
 
+<br>
+
 ### Constant should have docblock comment
 
 - class: [`Symplify\CodingStandard\Sniffs\Commenting\VarConstantCommentSniff`](src/Sniffs/Commenting/VarConstantCommentSniff.php)
@@ -444,6 +476,8 @@ class SomeClass
 }
 ```
 
+<br>
+
 ### Use per line assign instead of multiple ones
 
 - class: [`Symplify\CodingStandard\Sniffs\ControlStructure\ForbiddenDoubleAssignSniff`](src/Sniffs/ControlStructure/ForbiddenDoubleAssignSniff.php)
@@ -464,6 +498,8 @@ $value = $anotherValue = [];
 $value = [];
 $anotherValue = [];
 ```
+
+<br>
 
 ### Prefer `sprintf()` over multiple concats ( . ).
 
@@ -495,6 +531,8 @@ services:
         maxConcatCount: 4 # "3" by default
 ```
 
+<br>
+
 ### There should not be comments with valid code
 
 - class: [`Symplify\CodingStandard\Sniffs\Debug\CommentedOutCodeSniff`](src/Sniffs/Debug/CommentedOutCodeSniff.php)
@@ -507,6 +545,8 @@ services:
 // $file = new File;
 // $directory = new Diretory([$file]);
 ```
+
+<br>
 
 ### Debug functions should not be left in the code
 
@@ -522,6 +562,8 @@ dd($value);
 dump($value);
 var_dump($value);
 ```
+
+<br>
 
 ### Use service and constructor injection rather than instantiation with new
 
@@ -578,6 +620,8 @@ services:
         includeEntities: true
 ```
 
+<br>
+
 ### Abstract class should have prefix "Abstract"
 
 - class: [`Symplify\CodingStandard\Sniffs\Naming\AbstractClassNameSniff`](src/Sniffs/Naming/AbstractClassNameSniff.php)
@@ -601,6 +645,8 @@ abstract class AbstractSomeClass
 {
 }
 ```
+
+<br>
 
 ### Class should have suffix by parent class/interface
 
@@ -660,6 +706,8 @@ services:
 
 It also covers `Interface` suffix as well, e.g `EventSubscriber` checks for `EventSubscriberInterface` as well.
 
+<br>
+
 ### Interface should have suffix "Interface"
 
 - class: [`Symplify\CodingStandard\Sniffs\Naming\InterfaceNameSniff`](src/Sniffs/Naming/InterfaceNameSniff.php)
@@ -683,6 +731,8 @@ interface SomeInterface
 {
 }
 ```
+
+<br>
 
 ### Trait should have suffix "Trait"
 
@@ -708,13 +758,15 @@ trait SomeTrait
 }
 ```
 
+<br>
+
 ## Brave Checkers
 
 ### Possible Unused Public Method
 
 - class: [`Symplify\CodingStandard\Sniffs\DeadCode\UnusedPublicMethodSniff`](src/Sniffs/DeadCode/UnusedPublicMethodSniff.php)
 
-- **Requires ECS due *double run* feature**.
+- **Requires ECS due *double run* feature**, use with `--clear-cache` so all files are included.
 
 :x:
 
