@@ -5,6 +5,7 @@ namespace Symplify\BetterPhpDocParser\Tests\PhpDocParser;
 use Iterator;
 use PHPStan\PhpDocParser\Ast\Type\ArrayTypeNode;
 use PHPStan\PhpDocParser\Ast\Type\IdentifierTypeNode;
+use PHPStan\PhpDocParser\Ast\Type\IntersectionTypeNode;
 use PHPStan\PhpDocParser\Ast\Type\TypeNode;
 use PHPStan\PhpDocParser\Ast\Type\UnionTypeNode;
 use Symplify\BetterPhpDocParser\PhpDocParser\TypeNodeToStringsConvertor;
@@ -38,8 +39,10 @@ final class TypeNodeToStringsConvertorTest extends AbstractContainerAwareTestCas
 
         yield [$identifierTypeNode, ['int']];
         yield [new UnionTypeNode([$identifierTypeNode, $anotherIdentifierTypeNode]), ['int', 'string']];
+        yield [new IntersectionTypeNode([$identifierTypeNode, $anotherIdentifierTypeNode]), ['int&string']];
 
         $arrayTypeNode = new ArrayTypeNode($anotherIdentifierTypeNode);
         yield [new UnionTypeNode([$identifierTypeNode, $arrayTypeNode]), ['int', 'string[]']];
+        yield [new IntersectionTypeNode([$identifierTypeNode, $arrayTypeNode]), ['int&string[]']];
     }
 }
