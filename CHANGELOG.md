@@ -9,7 +9,34 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 <!-- changelog-linker -->
 
-## v4.8.0 - 2018-09-15
+## Unreleased
+
+### Added
+
+#### TokenRunner
+
+- [#1120] Add `getClassTypes()` to `ClassWrapper` + `getClassName()` now returns FQN
+
+#### BettePhpDocParser
+
+- [#1116] Add support for `IntersectionTypeNode`, Thanks to [@enumag]
+
+### Changed
+
+#### CodingStandard
+
+- [#1119] Now skip Abstract classes for `MethodOrderByTypeFixer`
+- [#1121] Make `MethodOrderByTypeFixer` use `getClassTypes()`
+
+#### EasyCodingStandard
+
+- [#1113] Add readme section for vscode integration, Thanks to [@azdanov]
+
+## [v5.0.0] - 2018-09-15
+
+Same as 4.8, just without BC layer. Thanks Symfony for inspiration!
+
+## [v4.8.0] - 2018-09-15
 
 **This is the last release in 4.x row. The next will be Symplify 5.0 without BC layer.**
 
@@ -29,7 +56,7 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 #### MonorepoBuilder
 
 - [#1081] Add validation into merge command [closes [#1071]]
-- [#1106] Add SortComposerJsonDecorator
+- [#1106] Add `SortComposerJsonDecorator`
 - [#1088] Add init command [closes [#1082]]
 
 #### PHPStanExtensions
@@ -48,7 +75,7 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 #### ChangelogLinker
 
-- [#1064] improve regexes for guessing the type of change [surpasses #1059]
+- [#1064] improve regexes for guessing the type of change, Thanks to [@petrheinz]
 
 #### EasyCodingStandard
 
@@ -1019,7 +1046,6 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
 [#1104]: https://github.com/Symplify/Symplify/pull/1104
 [#1102]: https://github.com/Symplify/Symplify/pull/1102
 [#1101]: https://github.com/Symplify/Symplify/pull/1101
-[#1098]: https://github.com/Symplify/Symplify/pull/1098
 [#1097]: https://github.com/Symplify/Symplify/pull/1097
 [#1094]: https://github.com/Symplify/Symplify/pull/1094
 [#1093]: https://github.com/Symplify/Symplify/pull/1093
@@ -1048,3 +1074,12 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
 [#1051]: https://github.com/Symplify/Symplify/pull/1051
 [@azdanov]: https://github.com/azdanov
 [v4.7.0]: https://github.com/Symplify/Symplify/compare/v4.6.1...v4.7.0
+[#1121]: https://github.com/Symplify/Symplify/pull/1121
+[#1120]: https://github.com/Symplify/Symplify/pull/1120
+[#1119]: https://github.com/Symplify/Symplify/pull/1119
+[#1116]: https://github.com/Symplify/Symplify/pull/1116
+[#1113]: https://github.com/Symplify/Symplify/pull/1113
+[#1112]: https://github.com/Symplify/Symplify/pull/1112
+[#990]: https://github.com/Symplify/Symplify/pull/990
+[v5.0.0]: https://github.com/Symplify/Symplify/compare/v4.8.0...v5.0.0
+[@petrheinz]: https://github.com/petrheinz
