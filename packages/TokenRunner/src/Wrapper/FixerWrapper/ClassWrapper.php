@@ -3,9 +3,11 @@
 namespace Symplify\TokenRunner\Wrapper\FixerWrapper;
 
 use Nette\Utils\Strings;
+use PhpCsFixer\Fixer\ClassNotation\OrderedClassElementsFixer;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use PhpCsFixer\Tokenizer\TokensAnalyzer;
+use Symplify\PackageBuilder\Reflection\PrivatesCaller;
 use Symplify\TokenRunner\Analyzer\FixerAnalyzer\DocBlockFinder;
 use Symplify\TokenRunner\Naming\Name\NameFactory;
 use function Safe\class_implements;
@@ -78,6 +80,21 @@ final class ClassWrapper
      * @var NameFactory
      */
     private $nameFactory;
+
+    /**
+     * @var mixed[]
+     *
+     * Rich information about methods, e.g.:
+     *
+     *  0 => array (6)
+     *     |  start => 18
+     *     |  visibility => "public" (6)
+     *     |  static => FALSE
+     *     |  type => "method" (6)
+     *     |  name => "secondMethod" (12)
+     *     |  end => 29
+     */
+    private $methodElements = [];
 
     public function __construct(
         Tokens $tokens,
@@ -300,6 +317,32 @@ final class ClassWrapper
     public function getStartBracketIndex(): int
     {
         return $this->startBracketIndex;
+    }
+
+    /**
+     * @return mixed[]
+     */
+    public function getMethodElements(): array
+    {
+        if ($this->methodElements) {
+            return $this->methodElements;
+        }
+
+        $elements = (new PrivatesCaller())->callPrivateMethod(
+            new OrderedClassElementsFixer(),
+            'getElements',
+            $this->tokens,
+            $this->startBracketIndex
+        );
+
+        $methodElements = array_filter($elements, function (array $element) {
+            return $element['type'] === 'method';
+        });
+
+        // re-index from 0
+        $methodElements = array_values($methodElements);
+
+        return $this->methodElements = $methodElements;
     }
 
     /**

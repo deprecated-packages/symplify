@@ -8,3 +8,8 @@ services:
             PhpCsFixer\Fixer\FixerInterface:
                 - 'firstMethod'
                 - 'secondMethod'
+
+            Rector\Contract\Rector\PhpRectorInterface:
+                - 'getDefinition'
+                - 'getNodeTypes'
+                - 'refactor'
