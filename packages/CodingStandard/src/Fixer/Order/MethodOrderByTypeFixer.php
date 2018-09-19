@@ -108,16 +108,10 @@ CODE_SAMPLE
                 continue;
             }
 
-            $sorted = [];
-            foreach ($requiredMethodOrder as $methodName) {
-                $sorted[] = $publicMethodElements[$methodName];
-                unset($publicMethodElements[$methodName]);
-            }
-
-            $sorted = array_merge($sorted, $publicMethodElements);
+            $sortedMethodElements = $this->sortMethodElementsAsExpected($publicMethodElements, $requiredMethodOrder);
 
             // nothing to sort
-            if ($sorted === $methodElements) {
+            if ($sortedMethodElements === $methodElements) {
                 continue;
             }
 
@@ -129,7 +123,7 @@ CODE_SAMPLE
                 $methodElements[0]['start'] - 1,
                 // last method index
                 $methodElements[count($methodElements) - 1]['end'],
-                $sorted
+                $sortedMethodElements
             );
         }
     }
@@ -200,10 +194,9 @@ CODE_SAMPLE
 
     private function matchClassType(ClassWrapper $classWrapper): ?string
     {
-        $classTypes = array_merge([$classWrapper->getParentClassName()], $classWrapper->getInterfaceNames());
         $classTypesToCheck = array_keys($this->configuration[self::METHOD_ORDER_BY_TYPE_OPTION]);
 
-        $matchTypes = array_intersect($classTypes, $classTypesToCheck);
+        $matchTypes = array_intersect($classWrapper->getClassTypes(), $classTypesToCheck);
         if (! $matchTypes) {
             return null;
         }
@@ -237,5 +230,24 @@ CODE_SAMPLE
         $matchedClassType = $this->matchClassType($classWrapper);
 
         return $this->configuration[self::METHOD_ORDER_BY_TYPE_OPTION][$matchedClassType];
+    }
+
+    /**
+     * @param mixed[] $methodElements
+     * @param string[] $methodOrder
+     * @return mixed[]
+     */
+    private function sortMethodElementsAsExpected(array $methodElements, array $methodOrder): array
+    {
+        $sorted = [];
+
+        foreach ($methodOrder as $methodName) {
+            if (isset($methodElements[$methodName])) {
+                $sorted[] = $methodElements[$methodName];
+                unset($methodElements[$methodName]);
+            }
+        }
+
+        return array_merge($sorted, $methodElements);
     }
 }

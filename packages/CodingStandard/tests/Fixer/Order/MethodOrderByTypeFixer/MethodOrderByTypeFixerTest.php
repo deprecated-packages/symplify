@@ -20,7 +20,8 @@ final class MethodOrderByTypeFixerTest extends AbstractCheckerTestCase
 
     public function provideCorrectCases(): Iterator
     {
-        yield [__DIR__ . '/correct/AbstractClass.php.inc'];
+        yield [__DIR__ . '/Correct/AbstractClass.php.inc'];
+        yield [__DIR__ . '/Correct/FixerWithAbstractParent.php'];
     }
 
     /**
@@ -33,9 +34,8 @@ final class MethodOrderByTypeFixerTest extends AbstractCheckerTestCase
 
     public function provideWrongToFixedCases(): Iterator
     {
-        yield [__DIR__ . '/wrong/wrong.php.inc', __DIR__ . '/fixed/fixed.php.inc'];
-        yield [__DIR__ . '/wrong/wrong2.php.inc', __DIR__ . '/fixed/fixed2.php.inc'];
-        yield [__DIR__ . '/wrong/wrong3.php.inc', __DIR__ . '/fixed/fixed3.php.inc'];
+        yield [__DIR__ . '/Wrong/SomeFixer.php', __DIR__ . '/fixed/fixed.php.inc'];
+        yield [__DIR__ . '/Wrong/RealFixer.php', __DIR__ . '/fixed/fixed2.php.inc'];
     }
 
     protected function provideConfig(): string
