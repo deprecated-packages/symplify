@@ -11,14 +11,27 @@ use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;
 final class MethodOrderByTypeFixerTest extends AbstractCheckerTestCase
 {
     /**
-     * @dataProvider wrongToFixedCases()
+     * @dataProvider provideCorrectCases()
      */
-    public function test(string $wrongFile, string $fixedFile): void
+    public function testCorrect(string $correctFile): void
+    {
+        $this->doTestCorrectFile($correctFile);
+    }
+
+    public function provideCorrectCases(): Iterator
+    {
+        yield [__DIR__ . '/correct/AbstractClass.php.inc'];
+    }
+
+    /**
+     * @dataProvider provideWrongToFixedCases()
+     */
+    public function testWrongToFixed(string $wrongFile, string $fixedFile): void
     {
         $this->doTestWrongToFixedFile($wrongFile, $fixedFile);
     }
 
-    public function wrongToFixedCases(): Iterator
+    public function provideWrongToFixedCases(): Iterator
     {
         yield [__DIR__ . '/wrong/wrong.php.inc', __DIR__ . '/fixed/fixed.php.inc'];
         yield [__DIR__ . '/wrong/wrong2.php.inc', __DIR__ . '/fixed/fixed2.php.inc'];

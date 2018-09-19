@@ -94,34 +94,18 @@ CODE_SAMPLE
             }
 
             $classWrapper = $this->classWrapperFactory->createFromTokensArrayStartPosition($tokens, $i);
-
-            $matchedClassType = $this->matchClassType($classWrapper);
-            if ($matchedClassType === null) {
+            if ($this->shouldSkip($classWrapper)) {
                 continue;
             }
 
-            $elements = $this->privatesCaller->callPrivateMethod(
-                $this->orderedClassElementsFixer,
-                'getElements',
-                $tokens,
-                $classWrapper->getStartBracketIndex()
-            );
+            $methodElements = $classWrapper->getMethodElements();
+            $publicMethodElements = $this->filterPublicMethodsFirst($methodElements);
 
-            $methodElements = $this->filterMethodElements($elements);
-            if (! $methodElements) {
-                continue;
-            }
+            $requiredMethodOrder = $this->getRequiredMethodOrder($classWrapper);
 
-            $publicMethodElements = $this->filterPublicElementsFirst($methodElements);
-            $requiredMethodOrder = $this->configuration[self::METHOD_ORDER_BY_TYPE_OPTION][$matchedClassType];
-
-            // first method index
-            $firstMethodElement = $methodElements[0];
-            $startIndex = $firstMethodElement['start'] - 1;
-
-            // A. identical order of all public methods → nothing to sort
+            // identical order of all public methods → nothing to sort
             if (array_keys($publicMethodElements) === $requiredMethodOrder) {
-                return;
+                continue;
             }
 
             $sorted = [];
@@ -132,18 +116,21 @@ CODE_SAMPLE
 
             $sorted = array_merge($sorted, $publicMethodElements);
 
-            $endIndex = $methodElements[count($methodElements) - 1]['end'];
-
-            if ($sorted !== $methodElements) {
-                $this->privatesCaller->callPrivateMethod(
-                    $this->orderedClassElementsFixer,
-                    'sortTokens',
-                    $tokens,
-                    $startIndex,
-                    $endIndex,
-                    $sorted
-                );
+            // nothing to sort
+            if ($sorted === $methodElements) {
+                continue;
             }
+
+            $this->privatesCaller->callPrivateMethod(
+                $this->orderedClassElementsFixer,
+                'sortTokens',
+                $tokens,
+                // first method index
+                $methodElements[0]['start'] - 1,
+                // last method index
+                $methodElements[count($methodElements) - 1]['end'],
+                $sorted
+            );
         }
     }
 
@@ -192,23 +179,23 @@ CODE_SAMPLE
     }
 
     /**
-     * @param mixed[] $elements
+     * @param mixed[] $methodElements
      * @return mixed[]
      */
-    private function filterPublicElementsFirst(array $elements): array
+    private function filterPublicMethodsFirst(array $methodElements): array
     {
-        $publicElements = [];
+        $publicMethodElements = [];
         $restOfMethods = [];
 
-        foreach ($elements as $element) {
+        foreach ($methodElements as $element) {
             if ($element['visibility'] === 'public') {
-                $publicElements[$element['name']] = $element;
+                $publicMethodElements[$element['name']] = $element;
             } else {
                 $restOfMethods[$element['name']] = $element;
             }
         }
 
-        return array_merge($publicElements, $restOfMethods);
+        return array_merge($publicMethodElements, $restOfMethods);
     }
 
     private function matchClassType(ClassWrapper $classWrapper): ?string
@@ -225,17 +212,30 @@ CODE_SAMPLE
         return array_pop($matchTypes);
     }
 
-    /**
-     * @param mixed[] $elements
-     * @return mixed[]
-     */
-    private function filterMethodElements(array $elements): array
+    private function shouldSkip(ClassWrapper $classWrapper): bool
     {
-        $elements = array_filter($elements, function (array $element) {
-            return $element['type'] === 'method';
-        });
+        // we cannot check abstract classes, since they don't contain all
+        if ($classWrapper->isAbstract()) {
+            return true;
+        }
 
-        // re-index from 0
-        return array_values($elements);
+        // no type matches
+        $matchedClassType = $this->matchClassType($classWrapper);
+        if ($matchedClassType === null) {
+            return true;
+        }
+
+        // there are no methods to sort
+        return ! $classWrapper->getMethodElements();
+    }
+
+    /**
+     * @return string[]
+     */
+    private function getRequiredMethodOrder(ClassWrapper $classWrapper): array
+    {
+        $matchedClassType = $this->matchClassType($classWrapper);
+
+        return $this->configuration[self::METHOD_ORDER_BY_TYPE_OPTION][$matchedClassType];
     }
 }
