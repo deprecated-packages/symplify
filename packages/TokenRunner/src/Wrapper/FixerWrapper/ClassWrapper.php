@@ -23,6 +23,11 @@ final class ClassWrapper
     private static $parentInterfacesPerInterface = [];
 
     /**
+     * @var string|null
+     */
+    private $className;
+
+    /**
      * @var int
      */
     private $startBracketIndex;
@@ -127,12 +132,17 @@ final class ClassWrapper
 
     public function getClassName(): ?string
     {
+        if ($this->className) {
+            return $this->className;
+        }
+
         if (! $this->getNamePosition()) {
             return null;
         }
 
         $className = $this->nameFactory->createFromTokensAndStart($this->tokens, $this->getNamePosition());
-        return $className->getName();
+
+        return $this->className = $className->getName();
     }
 
     public function getParentClassName(): ?string
@@ -334,6 +344,11 @@ final class ClassWrapper
     {
         if ($this->classTypes) {
             return $this->classTypes;
+        }
+
+        // we can't handle anonymous classes
+        if (! $this->getClassName()) {
+            return [];
         }
 
         $classTypes = array_merge(

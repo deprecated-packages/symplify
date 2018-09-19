@@ -13,42 +13,34 @@ use function Safe\file_get_contents;
 
 final class ClassWrapperTest extends AbstractContainerAwareTestCase
 {
-    /**
-     * @var ClassWrapperFactory
-     */
-    private $classWrapperFactory;
-
-    /**
-     * @var ClassWrapper
-     */
-    private $classWrapper;
-
-    protected function setUp(): void
+    public function testGetNames(): void
     {
-        $this->classWrapperFactory = $this->container->get(ClassWrapperFactory::class);
+        $classWrapper = $this->createClassWrapperFromFile(__DIR__ . '/Source/SomeClass.php');
 
-        $tokens = Tokens::fromCode(file_get_contents(__DIR__ . '/Source/SomeClass.php'));
-        $classTokens = $tokens->findGivenKind([T_CLASS], 0);
-        $classTokenPosition = key(array_pop($classTokens));
+        $this->assertSame(SomeClass::class, $classWrapper->getClassName());
+        $this->assertSame(AbstractClass::class, $classWrapper->getParentClassName());
 
-        $this->classWrapper = $this->classWrapperFactory->createFromTokensArrayStartPosition(
-            $tokens,
-            $classTokenPosition
+        $this->assertSame(
+            [SomeClass::class, AbstractClass::class, SomeInterface::class],
+            $classWrapper->getClassTypes()
         );
     }
 
-    public function testGetNames(): void
+    public function testGetClassTypesWithoutParentClass(): void
     {
-        $this->assertSame(SomeClass::class, $this->classWrapper->getClassName());
-        $this->assertSame(AbstractClass::class, $this->classWrapper->getParentClassName());
+        $classWrapper = $this->createClassWrapperFromFile(__DIR__ . '/Source/ContainerFactory.php');
+
+        $this->assertSame([], $classWrapper->getClassTypes());
     }
 
-    public function testGetClassTypes(): void
+    private function createClassWrapperFromFile(string $filePath): ClassWrapper
     {
-        $this->assertSame([
-            SomeClass::class,
-            AbstractClass::class,
-            SomeInterface::class,
-        ], $this->classWrapper->getClassTypes());
+        $classWrapperFactory = $this->container->get(ClassWrapperFactory::class);
+
+        $tokens = Tokens::fromCode(file_get_contents($filePath));
+        $classTokens = $tokens->findGivenKind([T_CLASS], 0);
+        $classTokenPosition = key(array_pop($classTokens));
+
+        return $classWrapperFactory->createFromTokensArrayStartPosition($tokens, $classTokenPosition);
     }
 }
