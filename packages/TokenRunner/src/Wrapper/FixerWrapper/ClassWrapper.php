@@ -11,6 +11,7 @@ use Symplify\PackageBuilder\Reflection\PrivatesCaller;
 use Symplify\TokenRunner\Analyzer\FixerAnalyzer\DocBlockFinder;
 use Symplify\TokenRunner\Naming\Name\NameFactory;
 use function Safe\class_implements;
+use function Safe\class_parents;
 
 final class ClassWrapper
 {
@@ -96,6 +97,11 @@ final class ClassWrapper
      */
     private $methodElements = [];
 
+    /**
+     * @var string[]
+     */
+    private $classTypes = [];
+
     public function __construct(
         Tokens $tokens,
         int $startIndex,
@@ -125,24 +131,8 @@ final class ClassWrapper
             return null;
         }
 
-        $nameToken = $this->tokens[$this->getNamePosition()];
-
-        return $nameToken->getContent();
-    }
-
-    public function getNamePosition(): ?int
-    {
-        if ((new TokensAnalyzer($this->tokens))->isAnonymousClass($this->startIndex)) {
-            return null;
-        }
-
-        $stringTokens = $this->tokens->findGivenKind(T_STRING, $this->startIndex);
-        if (! count($stringTokens)) {
-            return null;
-        }
-        reset($stringTokens);
-
-        return (int) key($stringTokens);
+        $className = $this->nameFactory->createFromTokensAndStart($this->tokens, $this->getNamePosition());
+        return $className->getName();
     }
 
     public function getParentClassName(): ?string
@@ -335,6 +325,40 @@ final class ClassWrapper
         $methodElements = array_values($methodElements);
 
         return $this->methodElements = $methodElements;
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getClassTypes(): array
+    {
+        if ($this->classTypes) {
+            return $this->classTypes;
+        }
+
+        $classTypes = array_merge(
+            [$this->getClassName()],
+            class_parents($this->getClassName()),
+            class_implements($this->getClassName())
+        );
+
+        // unique + reindex from 0
+        return $this->classTypes = array_values(array_unique($classTypes));
+    }
+
+    private function getNamePosition(): ?int
+    {
+        if ((new TokensAnalyzer($this->tokens))->isAnonymousClass($this->startIndex)) {
+            return null;
+        }
+
+        $stringTokens = $this->tokens->findGivenKind(T_STRING, $this->startIndex);
+        if (! count($stringTokens)) {
+            return null;
+        }
+        reset($stringTokens);
+
+        return (int) key($stringTokens);
     }
 
     /**
