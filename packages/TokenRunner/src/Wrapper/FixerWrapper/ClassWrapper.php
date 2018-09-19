@@ -175,14 +175,6 @@ final class ClassWrapper
         return $this->filterClassyTokens($this->getClassyElements(), ['property']);
     }
 
-    /**
-     * @return mixed[]
-     */
-    public function getMethods(): array
-    {
-        return $this->filterClassyTokens($this->getClassyElements(), ['method']);
-    }
-
     public function renameEveryPropertyOccurrence(string $oldName, string $newName): void
     {
         for ($i = $this->startBracketIndex + 1; $i < $this->endBracketIndex; ++$i) {
@@ -343,6 +335,14 @@ final class ClassWrapper
         $methodElements = array_values($methodElements);
 
         return $this->methodElements = $methodElements;
+    }
+
+    /**
+     * @return mixed[]
+     */
+    private function getMethods(): array
+    {
+        return $this->filterClassyTokens($this->getClassyElements(), ['method']);
     }
 
     /**
