@@ -9,12 +9,17 @@ class RealFixer implements DefinedFixerInterface
 {
     private $property;
 
-    public function firstMethod()
+    public function secondMethod()
     {
 
     }
 
-    public function secondMethod()
+    public function someExtraMethod()
+    {
+
+    }
+
+    public function firstMethod()
     {
 
     }
@@ -25,11 +30,6 @@ class RealFixer implements DefinedFixerInterface
 
     public function isCandidate(Tokens $tokens)
     {
-    }
-
-    public function someExtraMethod()
-    {
-
     }
 
     public function isRisky()
