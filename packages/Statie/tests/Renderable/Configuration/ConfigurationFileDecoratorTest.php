@@ -4,7 +4,7 @@ namespace Symplify\Statie\Tests\Renderable\Configuration;
 
 use Iterator;
 use Symfony\Component\Yaml\Exception\ParseException;
-use Symplify\PackageBuilder\Finder\SymfonyFileInfoFactory;
+use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
 use Symplify\Statie\Renderable\ConfigurationFileDecorator;
 use Symplify\Statie\Renderable\File\FileFactory;
 use Symplify\Statie\Tests\AbstractContainerAwareTestCase;
@@ -34,7 +34,7 @@ final class ConfigurationFileDecoratorTest extends AbstractContainerAwareTestCas
      */
     public function testDecorateFile(string $filePath, string $fileContent, array $expectedConfiguration): void
     {
-        $fileInfo = SymfonyFileInfoFactory::createFromFilePath($filePath);
+        $fileInfo = new SmartFileInfo($filePath);
         $file = $this->fileFactory->createFromFileInfo($fileInfo);
 
         $this->assertSame([], $file->getConfiguration());
@@ -48,7 +48,7 @@ final class ConfigurationFileDecoratorTest extends AbstractContainerAwareTestCas
     public function testInvalidYamlSyntax(): void
     {
         $brokenYamlFilePath = __DIR__ . '/ConfigurationFileDecoratorSource/someFileWithBrokenConfigurationSyntax.latte';
-        $fileInfo = SymfonyFileInfoFactory::createFromFilePath($brokenYamlFilePath);
+        $fileInfo = new SmartFileInfo($brokenYamlFilePath);
         $file = $this->fileFactory->createFromFileInfo($fileInfo);
 
         $this->expectException(ParseException::class);

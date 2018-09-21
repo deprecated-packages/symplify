@@ -2,7 +2,8 @@
 
 namespace Symplify\Statie\Renderable\File;
 
-use Symfony\Component\Finder\SplFileInfo;
+use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
+use Symplify\Statie\Configuration\Configuration;
 use Symplify\Statie\Utils\PathAnalyzer;
 
 final class FileFactory
@@ -12,13 +13,19 @@ final class FileFactory
      */
     private $pathAnalyzer;
 
-    public function __construct(PathAnalyzer $pathAnalyzer)
+    /**
+     * @var Configuration
+     */
+    private $configuration;
+
+    public function __construct(PathAnalyzer $pathAnalyzer, Configuration $configuration)
     {
         $this->pathAnalyzer = $pathAnalyzer;
+        $this->configuration = $configuration;
     }
 
     /**
-     * @param SplFileInfo[] $fileInfos
+     * @param SmartFileInfo[] $fileInfos
      * @return AbstractFile[]
      */
     public function createFromFileInfos(array $fileInfos): array
@@ -31,14 +38,14 @@ final class FileFactory
         return $files;
     }
 
-    public function createFromFileInfo(SplFileInfo $fileInfo): AbstractFile
+    public function createFromFileInfo(SmartFileInfo $smartFileInfo): AbstractFile
     {
         return new File(
-            $fileInfo,
-            $fileInfo->getRelativePathname(),
-            $fileInfo->getPathname(),
-            $this->pathAnalyzer->detectFilenameWithoutDate($fileInfo),
-            $this->pathAnalyzer->detectDate($fileInfo)
+            $smartFileInfo,
+            $smartFileInfo->getRelativeFilePathFromDirectory($this->configuration->getSourceDirectory()),
+            $smartFileInfo->getRealPath(),
+            $this->pathAnalyzer->detectFilenameWithoutDate($smartFileInfo),
+            $this->pathAnalyzer->detectDate($smartFileInfo)
         );
     }
 }

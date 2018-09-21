@@ -3,7 +3,7 @@
 namespace Symplify\Statie\Latte\Tests\Renderable;
 
 use Nette\Utils\FileSystem;
-use Symplify\PackageBuilder\Finder\SymfonyFileInfoFactory;
+use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
 use Symplify\Statie\Latte\Exception\InvalidLatteSyntaxException;
 use Symplify\Statie\Latte\Loader\ArrayLoader;
 use Symplify\Statie\Latte\Renderable\LatteFileDecorator;
@@ -96,7 +96,7 @@ final class LatteFileDecoratorTest extends AbstractContainerAwareTestCase
 
     private function createFileFromFilePath(string $filePath): File
     {
-        $fileInfo = SymfonyFileInfoFactory::createFromFilePath($filePath);
+        $fileInfo = new SmartFileInfo($filePath);
 
         return $this->fileFactory->createFromFileInfo($fileInfo);
     }

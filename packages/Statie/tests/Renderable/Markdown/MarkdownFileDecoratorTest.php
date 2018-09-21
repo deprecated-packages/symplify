@@ -3,7 +3,7 @@
 namespace Symplify\Statie\Tests\Renderable\Markdown;
 
 use Iterator;
-use Symplify\PackageBuilder\Finder\SymfonyFileInfoFactory;
+use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
 use Symplify\Statie\Renderable\File\FileFactory;
 use Symplify\Statie\Renderable\MarkdownFileDecorator;
 use Symplify\Statie\Tests\AbstractContainerAwareTestCase;
@@ -32,7 +32,7 @@ final class MarkdownFileDecoratorTest extends AbstractContainerAwareTestCase
      */
     public function testNotMarkdown(string $file, string $expectedContent, string $message): void
     {
-        $fileInfo = SymfonyFileInfoFactory::createFromFilePath($file);
+        $fileInfo = new SmartFileInfo($file);
         $file = $this->fileFactory->createFromFileInfo($fileInfo);
 
         $this->markdownFileDecorator->decorateFiles([$file]);
@@ -56,7 +56,7 @@ final class MarkdownFileDecoratorTest extends AbstractContainerAwareTestCase
 
     public function testMarkdownPerex(): void
     {
-        $fileInfo = SymfonyFileInfoFactory::createFromFilePath(__DIR__ . '/MarkdownFileDecoratorSource/someFile.md');
+        $fileInfo = new SmartFileInfo(__DIR__ . '/MarkdownFileDecoratorSource/someFile.md');
         $file = $this->fileFactory->createFromFileInfo($fileInfo);
 
         $file->addConfiguration([

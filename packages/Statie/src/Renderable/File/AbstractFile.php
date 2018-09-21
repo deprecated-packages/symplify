@@ -4,12 +4,12 @@ namespace Symplify\Statie\Renderable\File;
 
 use DateTimeInterface;
 use Nette\Utils\FileSystem;
-use SplFileInfo;
+use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
 
 abstract class AbstractFile
 {
     /**
-     * @var SplFileInfo
+     * @var SmartFileInfo
      */
     protected $fileInfo;
 
@@ -49,7 +49,7 @@ abstract class AbstractFile
     private $filenameWithoutDate;
 
     public function __construct(
-        SplFileInfo $fileInfo,
+        SmartFileInfo $fileInfo,
         string $relativeSource,
         string $filePath,
         string $filenameWithoutDate,
@@ -57,6 +57,7 @@ abstract class AbstractFile
     ) {
         $this->relativeSource = $relativeSource;
         $this->fileInfo = $fileInfo;
+
         $this->filePath = $filePath;
         $this->content = FileSystem::read($fileInfo->getRealPath());
 

@@ -4,7 +4,8 @@ namespace Symplify\Statie\FileSystem;
 
 use SplFileInfo as NativeSplFileInfo;
 use Symfony\Component\Finder\Finder;
-use Symfony\Component\Finder\SplFileInfo;
+use Symplify\PackageBuilder\FileSystem\FinderSanitizer;
+use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
 
 final class FileFinder
 {
@@ -18,7 +19,17 @@ final class FileFinder
     ];
 
     /**
-     * @return SplFileInfo[]
+     * @var FinderSanitizer
+     */
+    private $finderSanitizer;
+
+    public function __construct(FinderSanitizer $finderSanitizer)
+    {
+        $this->finderSanitizer = $finderSanitizer;
+    }
+
+    /**
+     * @return SmartFileInfo[]
      */
     public function findLayoutsAndSnippets(string $directory): array
     {
@@ -31,7 +42,7 @@ final class FileFinder
     }
 
     /**
-     * @return SplFileInfo[]
+     * @return SmartFileInfo[]
      */
     public function findInDirectoryForGenerator(string $directoryPath): array
     {
@@ -47,7 +58,7 @@ final class FileFinder
     }
 
     /**
-     * @return SplFileInfo[]
+     * @return SmartFileInfo[]
      */
     public function findStaticFiles(string $directory): array
     {
@@ -62,7 +73,7 @@ final class FileFinder
     }
 
     /**
-     * @return SplFileInfo[]
+     * @return SmartFileInfo[]
      */
     public function findRestOfRenderableFiles(string $directory): array
     {
@@ -80,16 +91,11 @@ final class FileFinder
     }
 
     /**
-     * @return SplFileInfo[]
+     * @return SmartFileInfo[]
      */
     private function getFilesFromFinder(Finder $finder): array
     {
-        $files = [];
-        foreach ($finder->getIterator() as $key => $file) {
-            $files[$key] = $file;
-        }
-
-        return $files;
+        return $this->finderSanitizer->sanitize($finder);
     }
 
     private function normalizePath(string $path): string
