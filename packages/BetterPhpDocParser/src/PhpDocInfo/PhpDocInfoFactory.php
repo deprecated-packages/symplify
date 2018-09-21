@@ -27,11 +27,6 @@ final class PhpDocInfoFactory
     private $phpDocModifier;
 
     /**
-     * @var PhpDocInfo[]
-     */
-    private $phpDocInfosByContentHash = [];
-
-    /**
      * @var PhpDocInfoDecoratorInterface[]
      */
     private $phpDocInfoDecorators = [];
@@ -60,11 +55,6 @@ final class PhpDocInfoFactory
 
     public function createFrom(string $content): PhpDocInfo
     {
-        $contentHash = sha1($content);
-        if (isset($this->phpDocInfosByContentHash[$contentHash])) {
-            return $this->phpDocInfosByContentHash[$contentHash];
-        }
-
         $tokens = $this->lexer->tokenize($content);
         $tokenIterator = new TokenIterator($tokens);
         $phpDocNode = $this->phpDocParser->parse($tokenIterator);
@@ -81,6 +71,6 @@ final class PhpDocInfoFactory
             $phpDocInfoDecorator->decorate($phpDocInfo);
         }
 
-        return $this->phpDocInfosByContentHash[$contentHash] = $phpDocInfo;
+        return $phpDocInfo;
     }
 }
