@@ -8,11 +8,14 @@ use PHPStan\Reflection\MethodReflection;
 use PHPStan\Type\DynamicMethodReturnTypeExtension;
 use PHPStan\Type\StringType;
 use PHPStan\Type\Type;
-use SplFileInfo;
+use Symfony\Component\Finder\SplFileInfo;
 
 /**
- * SplFileInfo->getRealPath() always exists, since it comes from Finder, that finds only existing files
- * This removes many false positives that have to be excluded manually otherwise.
+ * Symfony provided Symfony\Component\Finder\SplFileInfo always exists,
+ * so checking every single $splFileInfo->getRealPath() has no added value.
+ * Just pollutes code and config and makes it unreadable.
+ *
+ * This narrows validation only to custom created SplFileInfo.
  */
 final class SplFileInfoTolerantDynamicMethodReturnTypeExtension implements DynamicMethodReturnTypeExtension
 {
