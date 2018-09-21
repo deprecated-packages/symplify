@@ -22,9 +22,6 @@ parameters:
         - packages/EasyCodingStandard/tests/Finder/SourceFinderSource/Source/SomeClass.php
 
     ignoreErrors:
-        # part of test / bugged
-        - '#Parameter \#1 \$finder of method Symplify\\EasyCodingStandard\\Finder\\FinderSanitizer::sanitize\(\) expects \(iterable<SplFileInfo>&Nette\\Utils\\Finder\)\|Symfony\\Component\\Finder\\Finder, (array<int, SplFileInfo>|array<Symfony\\Component\\Finder\\SplFileInfo>|(Nette\\Utils\\Finder\|Symfony\\Component\\Finder\\Finder)) given#'
-
         # temporary
         - '#Parameter \#1 \$e of method Symfony\\Component\\Console\\Application::renderException\(\) expects Exception, Throwable given#'
 
@@ -54,7 +51,6 @@ parameters:
         - '#Parameter \#2 \$start of method PHP_CodeSniffer\\Files\\File::findNext\(\) expects int, int\|true given#'
         - '#Variable \$processedFileContent might not be defined#'
         - '#Property Symplify\\TokenRunner\\Wrapper\\FixerWrapper\\ClassWrapper::\$startBracketIndex \(int\) does not accept int\|null#'
-        - '#Method Symplify\\EasyCodingStandard\\Finder\\FinderSanitizer::turnInfoSymfonyFileInfos\(\) should return array<Symfony\\Component\\Finder\\SplFileInfo> but returns array<SplFileInfo>#'
         - '#Method Symplify\\Statie\\Latte\\Tests\\Renderable\\LatteFileDecoratorTest::createFileFromFilePath\(\) should return Symplify\\Statie\\Renderable\\File\\File but returns Symplify\\Statie\\Renderable\\File\\AbstractFile#'
 
         # known values
@@ -100,6 +96,12 @@ parameters:
         # variadic
         - '#In method (.*?), parameter (.*?) can be type-hinted to "array"#'
         - '#PHPDoc tag \@param for parameter (.*?) with type array is not subtype of native type array<int, mixed>#'
+
+        # mixed up iterables
+        - '#Parameter \#1 \$files of method Symplify\\EasyCodingStandard\\Finder\\FinderSanitizer\:\:sanitize\(\) expects \(iterable<SplFileInfo\|string\>&Nette\\Utils\\Finder\)\|Symfony\\Component\\Finder\\Finder, (array<int, SplFileInfo\>|iterable<SplFileInfo\|string>) given#'
+
+        # not for a BC
+        - '#In method "Symplify\\EasyCodingStandard\\Contract\\Finder\\CustomSourceProviderInterface::find", a "iterable\<SplFileInfo\|string\>" return type can be added#'
 
 services:
     -

@@ -10,7 +10,7 @@ use Symplify\EasyCodingStandard\Error\ErrorAndDiffCollector;
 use Symplify\EasyCodingStandard\FixerRunner\Application\FixerFileProcessor;
 use Symplify\EasyCodingStandard\SniffRunner\Application\SniffFileProcessor;
 use Symplify\PackageBuilder\FileSystem\FileGuard;
-use Symplify\PackageBuilder\Finder\SymfonyFileInfoFactory;
+use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
 
 abstract class AbstractCheckerTestCase extends TestCase
 {
@@ -67,7 +67,7 @@ abstract class AbstractCheckerTestCase extends TestCase
         $this->ensureSomeCheckersAreRegistered();
         $this->fileGuard->ensureFileExists($correctFile, __METHOD__);
 
-        $symfonyFileInfo = SymfonyFileInfoFactory::createFromFilePath($correctFile);
+        $symfonyFileInfo = new SmartFileInfo($correctFile);
 
         if ($this->fixerFileProcessor->getCheckers()) {
             $processedFileContent = $this->fixerFileProcessor->processFile($symfonyFileInfo);
@@ -92,17 +92,17 @@ abstract class AbstractCheckerTestCase extends TestCase
         $this->fileGuard->ensureFileExists($wrongFile, __METHOD__);
         $this->fileGuard->ensureFileExists($fixedFile, __METHOD__);
 
-        $symfonyFileInfo = SymfonyFileInfoFactory::createFromFilePath($wrongFile);
+        $smartFileInfo = new SmartFileInfo($wrongFile);
 
         if ($this->fixerFileProcessor->getCheckers()) {
-            $processedFileContent = $this->fixerFileProcessor->processFile($symfonyFileInfo);
+            $processedFileContent = $this->fixerFileProcessor->processFile($smartFileInfo);
             $this->assertStringEqualsFile($fixedFile, $processedFileContent);
         }
 
         if ($this->sniffFileProcessor->getCheckers()) {
-            $processedFileContent = $this->sniffFileProcessor->processFile($symfonyFileInfo);
+            $processedFileContent = $this->sniffFileProcessor->processFile($smartFileInfo);
             if ($this->sniffFileProcessor->getDualRunCheckers()) {
-                $processedFileContent = $this->sniffFileProcessor->processFileSecondRun($symfonyFileInfo);
+                $processedFileContent = $this->sniffFileProcessor->processFileSecondRun($smartFileInfo);
             }
         }
 
@@ -116,11 +116,11 @@ abstract class AbstractCheckerTestCase extends TestCase
     {
         $this->ensureSomeCheckersAreRegistered();
 
-        $symfonyFileInfo = SymfonyFileInfoFactory::createFromFilePath($wrongFile);
+        $smartFileInfo = new SmartFileInfo($wrongFile);
 
-        $this->sniffFileProcessor->processFile($symfonyFileInfo);
+        $this->sniffFileProcessor->processFile($smartFileInfo);
         if ($this->sniffFileProcessor->getDualRunCheckers()) {
-            $this->sniffFileProcessor->processFileSecondRun($symfonyFileInfo);
+            $this->sniffFileProcessor->processFileSecondRun($smartFileInfo);
         }
 
         $this->assertGreaterThanOrEqual(1, $this->errorAndDiffCollector->getErrorCount());
