@@ -22,20 +22,6 @@ parameters:
         - packages/EasyCodingStandard/tests/Finder/SourceFinderSource/Source/SomeClass.php
 
     ignoreErrors:
-        # (new SplFileInfo(...))->getRealPath()
-        - '#Parameter \#1 \$absoluteFilePath of method Symplify\\EasyCodingStandard\\Skipper::fileMatchesPattern\(\) expects string, string\|false given#'
-        - '#Parameter \#1 \$file of method Symplify\\LatteToTwigConverter\\LatteToTwigConverter::convertFile\(\) expects string, string\|false given#'
-        - '#Method Symplify\\PackageBuilder\\Configuration\\LevelFileFinder::detectFromInputAndDirectory\(\) should return string|null but returns string\|false#'
-        - '#Parameter \#1 \$filename of function filesize expects string, string\|false given#'
-        - '#Parameter \#1 \$relativePath of method Symplify\\EasyCodingStandard\\Skipper::removeFileFromUnused\(\) expects string, string\|false given#'
-        - '#Parameter \#1 \$filename of function md5_file expects string, string\|false given#'
-        - '#Parameter \#2 \$absoluteFilePath of method Symplify\\EasyCodingStandard\\Skipper::shouldSkipCodeAndFile\(\) expects string, string\|false given#'
-        - '#Parameter \#2 \$absoluteFilePath of method Symplify\\EasyCodingStandard\\Skipper::shouldSkipCheckerAndFile\(\) expects string, string\|false given#'
-        - '#Parameter \#1 \$filePath of method Symplify\\EasyCodingStandard\\FixerRunner\\Parser\\FileToTokensParser::parseFromFilePath\(\) expects string, string\|false given#'
-        - '#Parameter \#1 \$filePath of method Symplify\\EasyCodingStandard\\ChangedFilesDetector\\FileHashComputer::compute\(\) expects string, string\|false given#'
-        - '#Parameter \#1 \$str of function sha1 expects string, string\|false given#'
-        # end
-
         # part of test / bugged
         - '#Parameter \#1 \$finder of method Symplify\\EasyCodingStandard\\Finder\\FinderSanitizer::sanitize\(\) expects \(iterable<SplFileInfo>&Nette\\Utils\\Finder\)\|Symfony\\Component\\Finder\\Finder, (array<int, SplFileInfo>|array<Symfony\\Component\\Finder\\SplFileInfo>|(Nette\\Utils\\Finder\|Symfony\\Component\\Finder\\Finder)) given#'
 
@@ -114,3 +100,9 @@ parameters:
         # variadic
         - '#In method (.*?), parameter (.*?) can be type-hinted to "array"#'
         - '#PHPDoc tag \@param for parameter (.*?) with type array is not subtype of native type array<int, mixed>#'
+
+services:
+    -
+        class: Symplify\PHPStanExtensions\Type\SplFileInfoTolerantDynamicMethodReturnTypeExtension
+        tags:
+            - phpstan.broker.dynamicMethodReturnTypeExtension

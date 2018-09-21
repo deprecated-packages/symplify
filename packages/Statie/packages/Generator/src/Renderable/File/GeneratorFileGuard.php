@@ -53,7 +53,7 @@ final class GeneratorFileGuard
 
         throw new GeneratorException(sprintf(
             'File "%s" must have "id: [0-9]+" in the header in --- blocks.',
-            (string) $fileInfo->getRealPath()
+            $fileInfo->getRealPath()
         ));
     }
 }
