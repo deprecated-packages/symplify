@@ -1,13 +1,13 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\EasyCodingStandard\Tests\Finder;
+namespace Symplify\PackageBuilder\Tests\FileSystem;
 
 use Nette\Utils\Finder as NetteFinder;
 use PHPUnit\Framework\TestCase;
 use SplFileInfo;
 use Symfony\Component\Finder\Finder as SymfonyFinder;
 use Symfony\Component\Finder\SplFileInfo as SymfonySplFileInfo;
-use Symplify\EasyCodingStandard\Finder\FinderSanitizer;
+use Symplify\PackageBuilder\FileSystem\FinderSanitizer;
 use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
 
 final class FinderSanitizerTest extends TestCase

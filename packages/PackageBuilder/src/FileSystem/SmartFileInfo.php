@@ -39,4 +39,9 @@ final class SmartFileInfo extends SplFileInfo
     {
         return $this->getRelativePath();
     }
+
+    public function getRelativeFilePathFromDirectory(string $directory): string
+    {
+        return Strings::substring($this->getRealPath(), strlen($directory) + 1);
+    }
 }

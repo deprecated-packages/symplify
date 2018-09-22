@@ -3,7 +3,7 @@
 namespace Symplify\Statie\Twig\Tests\Renderable;
 
 use Nette\Utils\FileSystem;
-use Symplify\PackageBuilder\Finder\SymfonyFileInfoFactory;
+use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
 use Symplify\Statie\Renderable\File\AbstractFile;
 use Symplify\Statie\Renderable\File\FileFactory;
 use Symplify\Statie\Tests\AbstractContainerAwareTestCase;
@@ -93,7 +93,7 @@ final class TwigFileDecoratorTest extends AbstractContainerAwareTestCase
 
     private function createFileFromFilePath(string $filePath): AbstractFile
     {
-        $fileInfo = SymfonyFileInfoFactory::createFromFilePath($filePath);
+        $fileInfo = new SmartFileInfo($filePath);
 
         return $this->fileFactory->createFromFileInfo($fileInfo);
     }

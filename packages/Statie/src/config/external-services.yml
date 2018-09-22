@@ -7,6 +7,7 @@ services:
         class: ParsedownExtra
 
     Symplify\PackageBuilder\Parameter\ParameterProvider: ~
+    Symplify\PackageBuilder\FileSystem\FinderSanitizer: ~
 
     Symfony\Component\EventDispatcher\EventDispatcher: ~
 

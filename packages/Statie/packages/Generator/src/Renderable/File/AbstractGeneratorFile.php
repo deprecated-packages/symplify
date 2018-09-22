@@ -3,7 +3,7 @@
 namespace Symplify\Statie\Generator\Renderable\File;
 
 use DateTimeInterface;
-use Symfony\Component\Finder\SplFileInfo;
+use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
 use Symplify\Statie\Renderable\File\AbstractFile;
 
 abstract class AbstractGeneratorFile extends AbstractFile
@@ -15,14 +15,14 @@ abstract class AbstractGeneratorFile extends AbstractFile
 
     public function __construct(
         int $id,
-        SplFileInfo $fileInfo,
+        SmartFileInfo $smartFileInfo,
         string $relativeSource,
         string $filePath,
         string $filenameWithoutDate,
         ?DateTimeInterface $dateTime
     ) {
         $this->id = $id;
-        parent::__construct($fileInfo, $relativeSource, $filePath, $filenameWithoutDate, $dateTime);
+        parent::__construct($smartFileInfo, $relativeSource, $filePath, $filenameWithoutDate, $dateTime);
     }
 
     public function getId(): int

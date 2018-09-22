@@ -36,6 +36,7 @@ final class PropertyNameMatchingTypeFixer implements DefinedFixerInterface, Conf
         'this',
         '*DateTime*',
         '*Spl*',
+        '*FileInfo',
         'std*',
         'Iterator*',
         'SimpleXML*',

@@ -111,14 +111,16 @@ final class StatieApplication
     private function loadLayoutsAndSnippetsFromSource(string $source): void
     {
         foreach ($this->fileFinder->findLayoutsAndSnippets($source) as $fileInfo) {
+            $relativePathInSource = $fileInfo->getRelativeFilePathFromDirectory($source);
+
             if ($fileInfo->getExtension() === 'twig') {
-                $this->twigArrayLoader->setTemplate($fileInfo->getRelativePathname(), $fileInfo->getContents());
+                $this->twigArrayLoader->setTemplate($relativePathInSource, $fileInfo->getContents());
             }
 
             if ($fileInfo->getExtension() === 'latte') {
                 // before: "post"
                 // now: "_layouts/post.latte"
-                $this->latteArrayLoader->changeContent($fileInfo->getRelativePathname(), $fileInfo->getContents());
+                $this->latteArrayLoader->changeContent($relativePathInSource, $fileInfo->getContents());
             }
         }
     }

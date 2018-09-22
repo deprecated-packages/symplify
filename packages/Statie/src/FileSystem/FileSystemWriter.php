@@ -3,11 +3,9 @@
 namespace Symplify\Statie\FileSystem;
 
 use Nette\Utils\FileSystem;
-use Symfony\Component\Finder\SplFileInfo;
+use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
 use Symplify\Statie\Configuration\Configuration;
 use Symplify\Statie\Renderable\File\AbstractFile;
-use function Safe\getcwd;
-use function Safe\substr;
 
 final class FileSystemWriter
 {
@@ -22,18 +20,15 @@ final class FileSystemWriter
     }
 
     /**
-     * @param SplFileInfo[] $files
+     * @param SmartFileInfo[] $files
      */
     public function copyStaticFiles(array $files): void
     {
         foreach ($files as $file) {
-            $relativeSource = substr($this->configuration->getSourceDirectory(), strlen(getcwd()) + 1);
-            $relativeFileSource = $relativeSource . DIRECTORY_SEPARATOR . $file->getRelativePathname();
-            $absoluteDestination = $this->configuration->getOutputDirectory() .
-                DIRECTORY_SEPARATOR .
-                $file->getRelativePathname();
+            $relativePathToSource = $file->getRelativeFilePathFromDirectory($this->configuration->getSourceDirectory());
+            $absoluteDestination = $this->configuration->getOutputDirectory() . DIRECTORY_SEPARATOR . $relativePathToSource;
 
-            FileSystem::copy($relativeFileSource, $absoluteDestination, true);
+            FileSystem::copy($file->getRelativeFilePath(), $absoluteDestination, true);
         }
     }
 

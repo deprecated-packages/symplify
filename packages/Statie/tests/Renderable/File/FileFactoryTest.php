@@ -2,7 +2,7 @@
 
 namespace Symplify\Statie\Tests\Renderable\File;
 
-use Symplify\PackageBuilder\Finder\SymfonyFileInfoFactory;
+use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
 use Symplify\Statie\Configuration\Configuration;
 use Symplify\Statie\Renderable\File\File;
 use Symplify\Statie\Renderable\File\FileFactory;
@@ -27,7 +27,7 @@ final class FileFactoryTest extends AbstractContainerAwareTestCase
 
     public function testCreateFromFileInfo(): void
     {
-        $fileInfo = SymfonyFileInfoFactory::createFromFilePath(__DIR__ . '/FileFactorySource/someFile.latte');
+        $fileInfo = new SmartFileInfo(__DIR__ . '/FileFactorySource/someFile.latte');
         $file = $this->fileFactory->createFromFileInfo($fileInfo);
 
         $this->assertInstanceOf(File::class, $file);

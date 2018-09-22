@@ -3,7 +3,7 @@
 namespace Symplify\Statie\Tests\FileSystem;
 
 use Nette\Utils\FileSystem;
-use Symplify\PackageBuilder\Finder\SymfonyFileInfoFactory;
+use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
 use Symplify\Statie\Configuration\Configuration;
 use Symplify\Statie\FileSystem\FileSystemWriter;
 use Symplify\Statie\Renderable\File\FileFactory;
@@ -50,7 +50,7 @@ final class FileSystemWriterTest extends AbstractContainerAwareTestCase
 
     public function testCopyStaticFiles(): void
     {
-        $file = SymfonyFileInfoFactory::createFromFilePath($this->sourceDirectory . '/index.html');
+        $file = new SmartFileInfo($this->sourceDirectory . '/index.html');
         $this->fileSystemWriter->copyStaticFiles([$file]);
 
         $this->assertFileEquals($this->sourceDirectory . '/index.html', $this->outputDirectory . '/index.html');
@@ -58,7 +58,7 @@ final class FileSystemWriterTest extends AbstractContainerAwareTestCase
 
     public function testCopyRenderableFiles(): void
     {
-        $fileInfo = SymfonyFileInfoFactory::createFromFilePath($this->sourceDirectory . '/contact.latte');
+        $fileInfo = new SmartFileInfo($this->sourceDirectory . '/contact.latte');
         $file = $this->fileFactory->createFromFileInfo($fileInfo);
         $file->setOutputPath('contact.html');
 

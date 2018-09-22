@@ -5,7 +5,7 @@ namespace Symplify\Statie\Latte\Tests\Filter;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\DependencyInjection\Container;
-use Symfony\Component\Finder\Finder;
+use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
 use Symplify\Statie\Configuration\Configuration;
 use Symplify\Statie\DependencyInjection\ContainerFactory;
 use Symplify\Statie\Latte\Filter\GithubPrLinkFilterProvider;
@@ -51,12 +51,9 @@ final class GithubPrLinkFilterProviderTest extends TestCase
 
     private function getFile(): AbstractFile
     {
-        $finder = Finder::create()
-            ->files()
-            ->in(__DIR__ . '/GithubPrLinkFilterProviderSource/source');
-
-        $fileInfos = iterator_to_array($finder->getIterator());
-        $fileInfo = array_pop($fileInfos);
+        $fileInfo = new SmartFileInfo(
+            __DIR__ . '/GithubPrLinkFilterProviderSource/source/_posts/2017-12-31-happy-new-years.md'
+        );
 
         return $this->fileFactory->createFromFileInfo($fileInfo);
     }

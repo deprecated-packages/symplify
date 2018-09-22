@@ -3,7 +3,7 @@
 namespace Symplify\Statie\Tests\Renderable\Routing;
 
 use Iterator;
-use Symplify\PackageBuilder\Finder\SymfonyFileInfoFactory;
+use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
 use Symplify\Statie\Configuration\Configuration;
 use Symplify\Statie\Renderable\File\FileFactory;
 use Symplify\Statie\Renderable\RouteFileDecorator;
@@ -36,7 +36,7 @@ final class RouteFileDecoratorTest extends AbstractContainerAwareTestCase
      */
     public function test(string $fileName, string $relativeUrl, string $outputPath): void
     {
-        $fileInfo = SymfonyFileInfoFactory::createFromFilePath($fileName);
+        $fileInfo = new SmartFileInfo($fileName);
         $file = $this->fileFactory->createFromFileInfo($fileInfo);
         $this->routeFileDecorator->decorateFiles([$file]);
 

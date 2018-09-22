@@ -2,7 +2,7 @@
 
 namespace Symplify\Statie\Latte\Tests;
 
-use Symfony\Component\Finder\SplFileInfo;
+use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
 use Symplify\Statie\Latte\LatteRenderer;
 use Symplify\Statie\Renderable\File\FileFactory;
 use Symplify\Statie\Tests\AbstractContainerAwareTestCase;
@@ -28,7 +28,7 @@ final class LatteRendererTest extends AbstractContainerAwareTestCase
     public function test(): void
     {
         $file = $this->fileFactory->createFromFileInfo(
-            new SplFileInfo(__DIR__ . '/LatteRendererSource/latteWithCodeToHighlight.latte', '', '')
+            new SmartFileInfo(__DIR__ . '/LatteRendererSource/latteWithCodeToHighlight.latte')
         );
 
         $rendered = $this->latteRenderer->renderFileWithParameters($file, [

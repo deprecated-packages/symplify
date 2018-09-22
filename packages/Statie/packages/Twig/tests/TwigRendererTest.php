@@ -2,7 +2,7 @@
 
 namespace Symplify\Statie\Twig\Tests;
 
-use Symfony\Component\Finder\SplFileInfo;
+use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
 use Symplify\Statie\Renderable\File\FileFactory;
 use Symplify\Statie\Tests\AbstractContainerAwareTestCase;
 use Symplify\Statie\Twig\TwigRenderer;
@@ -28,7 +28,7 @@ final class TwigRendererTest extends AbstractContainerAwareTestCase
     public function test(): void
     {
         $file = $this->fileFactory->createFromFileInfo(
-            new SplFileInfo(__DIR__ . '/TwigRendererSource/codeToHighlight.twig', '', '')
+            new SmartFileInfo(__DIR__ . '/TwigRendererSource/codeToHighlight.twig')
         );
 
         $rendered = $this->twigRenderer->renderFileWithParameters($file, [

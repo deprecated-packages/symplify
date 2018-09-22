@@ -2,7 +2,7 @@
 
 namespace Symplify\Statie\Renderable;
 
-use Symfony\Component\Finder\SplFileInfo;
+use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
 use Symplify\Statie\Configuration\Configuration;
 use Symplify\Statie\Contract\Renderable\FileDecoratorInterface;
 use Symplify\Statie\Generator\Configuration\GeneratorElement;
@@ -51,7 +51,7 @@ final class RenderableFilesProcessor
     }
 
     /**
-     * @param SplFileInfo[] $fileInfos
+     * @param SmartFileInfo[] $fileInfos
      * @return AbstractFile[]
      */
     public function processFileInfos(array $fileInfos): array
