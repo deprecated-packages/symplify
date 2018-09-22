@@ -70,6 +70,7 @@ final class TwigFactory implements FilterProvidersAwareInterface
     {
         foreach ($this->filterExecutor->getAll() as $name => $filter) {
             $twigEnvironment->addFilter(new Twig_Filter($name, $this->filterExecutor->{$filter}));
+            $twigEnvironment->addFunction(new Twig_Function($name, $this->filterExecutor->{$filter}));
         }
     }
 }
