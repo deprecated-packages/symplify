@@ -38,7 +38,7 @@ final class FileFinder
             # @todo turn to parameters
             ->path('#(_layouts|_snippets)#');
 
-        return $this->getFilesFromFinder($finder);
+        return $this->finderSanitizer->sanitize($finder);
     }
 
     /**
@@ -54,7 +54,7 @@ final class FileFinder
             ->in($directoryInfo->getPath())
             ->path($pathPattern);
 
-        return $this->getFilesFromFinder($finder);
+        return $this->finderSanitizer->sanitize($finder);
     }
 
     /**
@@ -69,7 +69,7 @@ final class FileFinder
             $finder->name($name);
         }
 
-        return $this->getFilesFromFinder($finder);
+        return $this->finderSanitizer->sanitize($finder);
     }
 
     /**
@@ -87,14 +87,6 @@ final class FileFinder
             ->notPath('#(_layouts|_snippets)#')
             ->in($directory);
 
-        return $this->getFilesFromFinder($finder);
-    }
-
-    /**
-     * @return SmartFileInfo[]
-     */
-    private function getFilesFromFinder(Finder $finder): array
-    {
         return $this->finderSanitizer->sanitize($finder);
     }
 
