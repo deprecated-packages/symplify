@@ -1,4 +1,8 @@
-# Statie - Modern and Simple Static Site Generator in PHP
+<p align="center">
+    <img src="docs/logo.svg">
+</p>
+
+<h1 align="center">Statie - Modern and Simple Static Site Generator in PHP</h1>
 
 [![Build Status](https://img.shields.io/travis/Symplify/Statie/master.svg?style=flat-square)](https://travis-ci.org/Symplify/Statie)
 [![Downloads](https://img.shields.io/packagist/dt/symplify/statie.svg?style=flat-square)](https://packagist.org/packages/symplify/statie/stats)
@@ -32,7 +36,7 @@ php -S localhost:8000 -t output
 
 ## Configuration
 
-### `statie.yml ` Config
+### `statie.yml` Config
 
 This is basically `config.yml` Symfony Kernel that you know from Symfony apps. You can.
 
