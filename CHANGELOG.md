@@ -9,7 +9,24 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 <!-- changelog-linker -->
 
-## v5.0.1 - 2018-09-19
+## Unreleased
+
+### Added
+
+#### PHPStanExtensions
+
+- [#1123] Add `SplFileInfoTolerantDynamicMethodReturnTypeExtension`
+
+#### PackageBuilder
+
+- [#1126] Apply `SmartFileInfo`
+- [#1125] Add `SmartFileInfo`
+
+#### Statie
+
+- [#1127] Add logo, Thanks to [@crazko]
+
+## [v5.0.1] - 2018-09-19
 
 ### Added
 
@@ -1079,7 +1096,11 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
 [#1119]: https://github.com/Symplify/Symplify/pull/1119
 [#1116]: https://github.com/Symplify/Symplify/pull/1116
 [#1113]: https://github.com/Symplify/Symplify/pull/1113
-[#1112]: https://github.com/Symplify/Symplify/pull/1112
-[#990]: https://github.com/Symplify/Symplify/pull/990
 [v5.0.0]: https://github.com/Symplify/Symplify/compare/v4.8.0...v5.0.0
 [@petrheinz]: https://github.com/petrheinz
+
+[#1127]: https://github.com/Symplify/Symplify/pull/1127
+[#1126]: https://github.com/Symplify/Symplify/pull/1126
+[#1125]: https://github.com/Symplify/Symplify/pull/1125
+[#1123]: https://github.com/Symplify/Symplify/pull/1123
+[@crazko]: https://github.com/crazko
