@@ -16,15 +16,10 @@ final class VersionsAnalyzer
     {
         $this->versions = [];
 
-        $matches = Strings::matchAll($content, '#\#\# \[' . RegexPattern::VERSION . '\]#');
+        $matches = Strings::matchAll($content, '#\#\# (\[)?' . RegexPattern::VERSION . '(\])?#');
         foreach ($matches as $match) {
             $this->versions[] = $match['version'];
         }
-    }
-
-    public function hasLinkedVersion(string $version): bool
-    {
-        return in_array($version, $this->versions, true);
     }
 
     /**
@@ -33,10 +28,5 @@ final class VersionsAnalyzer
     public function getVersions(): array
     {
         return $this->versions;
-    }
-
-    public function isLastVersion(string $version): bool
-    {
-        return array_search($version, $this->versions, true) === 0;
     }
 }
