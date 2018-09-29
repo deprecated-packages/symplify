@@ -49,8 +49,9 @@ final class DiffLinksToVersionsWorker implements WorkerInterface
             return $content;
         }
 
-        foreach ($this->versionsAnalyzer->getVersions() as $index => $version) {
-            if ($this->shouldSkip($version)) {
+        $versions = $this->versionsAnalyzer->getVersions();
+        foreach ($versions as $index => $version) {
+            if ($this->shouldSkip($versions, $index)) {
                 continue;
             }
 
@@ -74,12 +75,17 @@ final class DiffLinksToVersionsWorker implements WorkerInterface
         return 800;
     }
 
-    private function shouldSkip(string $version): bool
+    /**
+     * @param string[] $versions
+     */
+    private function shouldSkip(array $versions, int $index): bool
     {
-        if ($this->linksAnalyzer->hasLinkedId($version)) {
+        // there is no next version to compare this with
+        if (! isset($versions[$index + 1])) {
             return true;
         }
 
-        return $this->versionsAnalyzer->isLastVersion($version);
+        $version = $versions[$index];
+        return $this->linksAnalyzer->hasLinkedId($version);
     }
 }

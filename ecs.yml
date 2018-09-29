@@ -99,7 +99,6 @@ parameters:
             - 'packages/PackageBuilder/tests/Console/ThrowableRendererTest.php'
 
         Symplify\CodingStandard\Sniffs\CleanCode\ForbiddenStaticFunctionSniff:
-            - 'packages/PackageBuilder/src/Finder/SymfonyFileInfoFactory.php' # @todo test and cover relative path againts getcwd()
             - 'packages/PackageBuilder/src/Console/Command/CommandNaming.php'
             - 'packages/PackageBuilder/src/Configuration/ConfigFileFinder.php'
             - 'packages/PackageBuilder/src/Composer/VendorDirProvider.php'

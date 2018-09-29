@@ -22,21 +22,11 @@ final class VersionsAnalyzer
         }
     }
 
-    public function hasLinkedVersion(string $version): bool
-    {
-        return in_array($version, $this->versions, true);
-    }
-
     /**
      * @return string[]
      */
     public function getVersions(): array
     {
         return $this->versions;
-    }
-
-    public function isLastVersion(string $version): bool
-    {
-        return array_search($version, $this->versions, true) === 0;
     }
 }
