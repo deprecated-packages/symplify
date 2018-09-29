@@ -101,6 +101,9 @@ parameters:
         - '#Parameter \#1 \$files of method Symplify\\EasyCodingStandard\\Finder\\FinderSanitizer\:\:sanitize\(\) expects \(iterable<SplFileInfo\|string\>&Nette\\Utils\\Finder\)\|Symfony\\Component\\Finder\\Finder, (array<int, SplFileInfo\>|iterable<SplFileInfo\|string>) given#'
         - '#Parameter \#1 \$files of method Symplify\\PackageBuilder\\FileSystem\\FinderSanitizer::sanitize\(\) expects \(iterable<SplFileInfo|string>&Nette\\Utils\\Finder\)\|Symfony\\Component\\Finder\\Finder, array<int, SplFileInfo> given#'
 
+        # intentionally
+        - '#Empty catch block#'
+
         # not for a BC
         - '#In method "Symplify\\EasyCodingStandard\\Contract\\Finder\\CustomSourceProviderInterface::find", a "iterable\<SplFileInfo\|string\>" return type can be added#'
 
