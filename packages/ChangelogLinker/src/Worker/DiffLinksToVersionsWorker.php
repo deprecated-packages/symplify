@@ -80,6 +80,6 @@ final class DiffLinksToVersionsWorker implements WorkerInterface
             return true;
         }
 
-        return ! $this->versionsAnalyzer->isLastVersion($version);
+        return $this->versionsAnalyzer->isLastVersion($version);
     }
 }

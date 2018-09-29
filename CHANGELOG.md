@@ -1105,3 +1105,5 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
 [#1123]: https://github.com/Symplify/Symplify/pull/1123
 [@crazko]: https://github.com/crazko
 [v5.1.0]: https://github.com/Symplify/Symplify/compare/v5.0.1...v5.1.0
+[v5.0.1]: https://github.com/Symplify/Symplify/compare/v5.0.0...v5.0.1
+[v4.8.0]: https://github.com/Symplify/Symplify/compare/v4.7.0...v4.8.0
