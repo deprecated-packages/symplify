@@ -16,7 +16,7 @@ final class VersionsAnalyzer
     {
         $this->versions = [];
 
-        $matches = Strings::matchAll($content, '#\#\# \[' . RegexPattern::VERSION . '\]#');
+        $matches = Strings::matchAll($content, '#\#\# (\[)?' . RegexPattern::VERSION . '(\])?#');
         foreach ($matches as $match) {
             $this->versions[] = $match['version'];
         }
