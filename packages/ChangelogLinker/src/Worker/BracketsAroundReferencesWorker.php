@@ -14,6 +14,7 @@ final class BracketsAroundReferencesWorker implements WorkerInterface
 {
     /**
      * @var string[]
+     * @see https://help.github.com/articles/closing-issues-using-keywords/
      */
     private $closesKeywords = [
         'close',
@@ -57,10 +58,6 @@ final class BracketsAroundReferencesWorker implements WorkerInterface
         return 1000;
     }
 
-    /**
-     * @see https://help.github.com/articles/closing-issues-using-keywords/
-     * closes references
-     */
     private function wrapClosesKeywordIds(string $content): string
     {
         return Strings::replace(
