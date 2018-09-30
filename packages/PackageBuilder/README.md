@@ -424,6 +424,23 @@ In case you need to do more work in YamlFileLoader, just extend the abstract par
 
 [How to add compiler pass](https://symfony.com/doc/current/service_container/compiler_passes.html#working-with-compiler-passes-in-bundles)?
 
+#### Collect Services in Short Configs
+
+- `Symplify\PackageBuilder\DependencyInjection\CompilerPass\ConfigurableCollectorCompilerPass`
+
+Must-have for PHP CLI Apps without FrameworkBundle. Collect services by type, e.g. Console Commands to Application, EventSubscribers to EventDispatcher.
+
+```yaml
+parameters:
+    collectors:
+        -
+            main_type: 'Symplify\BetterPhpDocParser\PhpDocInfo\PhpDocInfoFactory'
+            collected_type: 'Symplify\BetterPhpDocParser\Contract\PhpDocInfoDecoratorInterface'
+            add_method: 'addPhpDocInfoDecorator'
+```
+
+Read more about [collector pattern](https://www.tomasvotruba.cz/clusters/#collector-pattern-the-shortcut-hack-to-solid-code) to know how and when to use it.
+
 #### Autowire Singly-Implemented Interfaces
 
 - `Symplify\PackageBuilder\DependencyInjection\CompilerPass\AutowireSinglyImplementedCompilerPass`
