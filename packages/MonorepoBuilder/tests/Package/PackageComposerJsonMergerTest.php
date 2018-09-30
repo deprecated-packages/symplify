@@ -29,6 +29,7 @@ final class PackageComposerJsonMergerTest extends AbstractConfigAwareContainerTe
         $this->assertSame([
             'require' => [
                 'rector/rector' => '^2.0',
+                'phpunit/phpunit' => '^2.0',
                 'symplify/symplify' => '^2.0',
             ],
             'autoload' => [

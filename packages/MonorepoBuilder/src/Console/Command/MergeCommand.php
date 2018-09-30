@@ -12,6 +12,7 @@ use Symplify\MonorepoBuilder\FileSystem\ComposerJsonProvider;
 use Symplify\MonorepoBuilder\Package\PackageComposerJsonMerger;
 use Symplify\MonorepoBuilder\VersionValidator;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
+use Symplify\PackageBuilder\Console\ShellCode;
 use function Safe\getcwd;
 
 final class MergeCommand extends Command
@@ -88,8 +89,7 @@ final class MergeCommand extends Command
         if (count($conflictingPackageVersions) > 0) {
             $this->conflictingPackageVersionsReporter->report($conflictingPackageVersions);
 
-            // fail
-            return 1;
+            return ShellCode::ERROR;
         }
 
         $merged = $this->packageComposerJsonMerger->mergeFileInfos(
@@ -99,15 +99,14 @@ final class MergeCommand extends Command
 
         if ($merged === []) {
             $this->symfonyStyle->note('Nothing to merge.');
-            // success
-            return 0;
+
+            return ShellCode::SUCCESS;
         }
 
         $this->dependenciesMerger->mergeJsonToRootFilePathAndSave($merged, getcwd() . '/composer.json');
 
         $this->symfonyStyle->success('Main "composer.json" was updated.');
 
-        // success
-        return 0;
+        return ShellCode::SUCCESS;
     }
 }
