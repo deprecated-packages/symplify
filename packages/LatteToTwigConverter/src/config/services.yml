@@ -3,14 +3,11 @@ services:
         public: true
         autowire: true
 
-    Symplify\ChangelogLinker\:
+    Symplify\LatteToTwigConverter\:
         resource: ".."
-        exclude: "../{Contract,DependencyInjection/CompilerPass,Exception,ChangeTree/Change.php}"
+        exclude: "../{Contract}"
 
-    Symplify\PackageBuilder\Yaml\ParametersMerger: ~
-    Symplify\PackageBuilder\Parameter\ParameterProvider: ~
-
-    GuzzleHttp\Client: ~
+    Symfony\Component\Console\Application: ~
 
     # SymfonyStyle
     Symfony\Component\Console\Input\ArgvInput: ~

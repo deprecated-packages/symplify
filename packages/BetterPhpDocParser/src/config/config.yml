@@ -1,0 +1,9 @@
+imports:
+    - { resource: 'services.yml' }
+
+parameters:
+    collectors:
+        -
+            main_type: 'Symplify\BetterPhpDocParser\PhpDocInfo\PhpDocInfoFactory'
+            collected_type: 'Symplify\BetterPhpDocParser\Contract\PhpDocInfoDecoratorInterface'
+            add_method: 'addPhpDocInfoDecorator'

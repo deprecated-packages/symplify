@@ -1,19 +1,9 @@
-services:
-    _defaults:
-        public: true
-        autowire: true
+imports:
+    - { resource: 'services.yml' }
 
-    Symplify\LatteToTwigConverter\:
-        resource: ".."
-        exclude: "../{Contract}"
-
-    Symfony\Component\Console\Application: ~
-
-    # SymfonyStyle
-    Symfony\Component\Console\Input\ArgvInput: ~
-    Symfony\Component\Console\Input\InputInterface:
-        alias: 'Symfony\Component\Console\Input\ArgvInput'
-    Symfony\Component\Console\Output\ConsoleOutput: ~
-    Symfony\Component\Console\Output\OutputInterface:
-        alias: 'Symfony\Component\Console\Output\ConsoleOutput'
-    Symfony\Component\Console\Style\SymfonyStyle: ~
+parameters:
+    collectors:
+        -
+            main_type: 'Symplify\LatteToTwigConverter\LatteToTwigConverter'
+            collected_type: 'Symplify\LatteToTwigConverter\Contract\CaseConverter\CaseConverterInterface'
+            add_method: 'addCaseConverter'

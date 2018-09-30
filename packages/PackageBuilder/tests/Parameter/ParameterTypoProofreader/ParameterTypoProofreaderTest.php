@@ -28,6 +28,8 @@ final class ParameterTypoProofreaderTest extends TestCase
         $application->setCatchExceptions(false);
 
         $this->expectException(ParameterTypoException::class);
+        $this->expectExceptionMessage('Parameter "parameters > typo" does not exist.
+Use "parameters > correct" instead.');
 
         $application->run(new ArrayInput(['command' => 'list']));
     }

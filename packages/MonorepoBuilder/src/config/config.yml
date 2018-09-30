@@ -33,3 +33,9 @@ parameters:
         - 'minimum-stability'
         - 'prefer-stable'
         - 'extra'
+
+    collectors:
+        -
+            main_type: 'Symplify\MonorepoBuilder\DependenciesMerger'
+            collected_type: 'Symplify\MonorepoBuilder\Contract\ComposerJsonDecoratorInterface'
+            add_method: 'addComposerJsonDecorator'

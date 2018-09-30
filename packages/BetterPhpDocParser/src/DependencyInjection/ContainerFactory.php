@@ -13,7 +13,7 @@ final class ContainerFactory
      */
     public function create(): ContainerInterface
     {
-        $appKernel = new BetterPhpDocParserKernel('dev', true);
+        $appKernel = new BetterPhpDocParserKernel();
         $appKernel->boot();
 
         return $appKernel->getContainer();
