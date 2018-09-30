@@ -1,5 +1,6 @@
 {
     "name": "symplify/phpstan-extensions",
+    "description": "'stats' and 'ignore' error format, solid Symfony SplFileInfo and other useful extensions for PHPStan.",
     "license": "MIT",
     "require": {
         "php": "^7.1",
@@ -9,6 +10,11 @@
     "autoload": {
         "psr-4": {
             "Symplify\\PHPStanExtensions\\": "src"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "5.2-dev"
         }
     }
 }
