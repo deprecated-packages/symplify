@@ -3,6 +3,7 @@
 namespace Symplify\MonorepoBuilder\Package;
 
 use Symfony\Component\Finder\SplFileInfo;
+use Symplify\MonorepoBuilder\Composer\Section;
 use Symplify\MonorepoBuilder\Configuration\MergedPackagesCollector;
 use Symplify\MonorepoBuilder\FileSystem\JsonFileManager;
 use Symplify\PackageBuilder\Yaml\ParametersMerger;
@@ -59,7 +60,7 @@ final class PackageComposerJsonMerger
             }
         }
 
-        return $merged;
+        return $this->filterOutDuplicatesRequireAndRequireDev($merged);
     }
 
     /**
@@ -83,5 +84,34 @@ final class PackageComposerJsonMerger
         $merged[$section] = $packageComposerJson[$section];
 
         return $merged;
+    }
+
+    /**
+     * @param mixed[] $composerJson
+     * @return mixed[]
+     */
+    private function filterOutDuplicatesRequireAndRequireDev(array $composerJson): array
+    {
+        if (! isset($composerJson[Section::REQUIRE]) || ! isset($composerJson[Section::REQUIRE_DEV])) {
+            return $composerJson;
+        }
+
+        $duplicatedPackages = array_intersect(
+            array_keys($composerJson[Section::REQUIRE]),
+            array_keys($composerJson[Section::REQUIRE_DEV])
+        );
+
+        foreach (array_keys($composerJson[Section::REQUIRE_DEV]) as $package) {
+            if (in_array($package, $duplicatedPackages, true)) {
+                unset($composerJson[Section::REQUIRE_DEV][$package]);
+            }
+        }
+
+        // remove empty "require-dev"
+        if (! count($composerJson[Section::REQUIRE_DEV])) {
+            unset($composerJson[Section::REQUIRE_DEV]);
+        }
+
+        return $composerJson;
     }
 }

@@ -12,8 +12,8 @@ use Symplify\MonorepoBuilder\FileSystem\ComposerJsonProvider;
 use Symplify\MonorepoBuilder\Package\PackageComposerJsonMerger;
 use Symplify\MonorepoBuilder\VersionValidator;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
-use function Safe\getcwd;
 use Symplify\PackageBuilder\Console\ShellCode;
+use function Safe\getcwd;
 
 final class MergeCommand extends Command
 {
