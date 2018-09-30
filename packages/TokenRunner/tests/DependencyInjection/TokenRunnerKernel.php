@@ -10,6 +10,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpKernel\Config\FileLocator;
 use Symfony\Component\HttpKernel\Kernel;
+use Symplify\PackageBuilder\DependencyInjection\CompilerPass\ConfigurableCollectorCompilerPass;
 use Symplify\PackageBuilder\HttpKernel\SimpleKernelTrait;
 use Symplify\PackageBuilder\Yaml\FileLoader\ParameterImportsYamlFileLoader;
 
@@ -33,6 +34,12 @@ final class TokenRunnerKernel extends Kernel
     {
         $loader->load(__DIR__ . '/../../src/config/config.yml');
         $loader->load($this->configFile);
+    }
+
+    protected function build(ContainerBuilder $containerBuilder): void
+    {
+        // needed for by "symplify/better-phpdoc-parser"
+        $containerBuilder->addCompilerPass(new ConfigurableCollectorCompilerPass());
     }
 
     /**
