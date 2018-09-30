@@ -45,16 +45,17 @@ final class ConfigurableCollectorCompilerPass implements CompilerPassInterface
 
     public function process(ContainerBuilder $containerBuilder): void
     {
-        $collectorsParameter = $containerBuilder->getParameterBag()->get('collectors');
-        if ($collectorsParameter === null) {
-            return;
-        }
+        $parameterBag = $containerBuilder->getParameterBag();
 
-        foreach ($collectorsParameter as $collector) {
+        foreach ($this->defaultCollectors as $collector) {
             $this->loadCollector($containerBuilder, $collector);
         }
 
-        foreach ($this->defaultCollectors as $collector) {
+        if (! $parameterBag->has('collectors')) {
+            return;
+        }
+
+        foreach ((array) $parameterBag->get('collectors') as $collector) {
             $this->loadCollector($containerBuilder, $collector);
         }
     }
