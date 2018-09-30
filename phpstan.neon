@@ -107,6 +107,9 @@ parameters:
         # not for a BC
         - '#In method "Symplify\\EasyCodingStandard\\Contract\\Finder\\CustomSourceProviderInterface::find", a "iterable\<SplFileInfo\|string\>" return type can be added#'
 
+        # known values
+        - '#(.*)ContainerFactory::(create(.*?))\(\) should return (.*)\\ContainerInterface but returns Symfony\\Component\\DependencyInjection\\ContainerInterface\|null#'
+
 services:
     -
         class: Symplify\PHPStanExtensions\Type\SplFileInfoTolerantDynamicMethodReturnTypeExtension

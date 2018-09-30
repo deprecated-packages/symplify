@@ -43,6 +43,7 @@ final class InitCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): void
     {
+        /** @var string $output */
         $output = $input->getArgument(self::OUTPUT);
 
         $this->filesystem->mirror(__DIR__ . '/../../templates/monorepo', $output);

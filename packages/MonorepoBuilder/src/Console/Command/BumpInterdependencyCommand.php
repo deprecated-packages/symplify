@@ -59,6 +59,7 @@ final class BumpInterdependencyCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+        /** @var string $version */
         $version = $input->getArgument(self::VERSION_ARGUMENT);
 
         $rootComposerJson = $this->composerJsonProvider->getRootJson();

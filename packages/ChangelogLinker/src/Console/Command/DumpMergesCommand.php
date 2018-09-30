@@ -149,8 +149,8 @@ final class DumpMergesCommand extends Command
 
         $content = $this->changelogDumper->reportChangesWithHeadlines(
             $changes,
-            $input->getOption(Option::IN_CATEGORIES),
-            $input->getOption(Option::IN_PACKAGES),
+            (bool) $input->getOption(Option::IN_CATEGORIES),
+            (bool) $input->getOption(Option::IN_PACKAGES),
             $sortPriority
         );
 
@@ -175,6 +175,7 @@ final class DumpMergesCommand extends Command
 
     private function getSinceIdFromInputAndContent(InputInterface $input, string $content): int
     {
+        /** @var string|int $sinceId */
         $sinceId = $input->getOption(Option::SINCE_ID);
         if ($sinceId) {
             return (int) $sinceId;

@@ -97,11 +97,14 @@ final class ReleaseCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+        /** @var string $versionArgument */
+        $versionArgument = $input->getArgument(Option::VERSION);
+
         // this object performs validation of version
-        $version = new Version($input->getArgument(Option::VERSION));
+        $version = new Version($versionArgument);
         $this->ensureVersionIsNewerThanLastOne($version);
 
-        $isDryRun = $input->getOption(Option::DRY_RUN);
+        $isDryRun = (bool) $input->getOption(Option::DRY_RUN);
 
         $this->setMutualDependenciesToVersion($this->utils->getRequiredFormat($version));
 
