@@ -30,6 +30,12 @@ final class ConfigurableCollectorCompilerPass implements CompilerPassInterface
             'collected_type' => 'Symfony\Component\EventDispatcher\EventSubscriberInterface',
             'add_method' => 'addSubscriber',
         ],
+        # symfony/console → symfony/event-subscribers
+        [
+            'main_type' => 'Symfony\Component\Console\Application',
+            'collected_type' => 'Symfony\Component\EventDispatcher\EventDispatcherInterface',
+            'add_method' => 'setDispatcher',
+        ],
     ];
 
     /**
