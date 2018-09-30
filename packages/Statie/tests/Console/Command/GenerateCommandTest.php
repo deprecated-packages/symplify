@@ -8,6 +8,7 @@ use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symplify\Statie\Console\Application;
+use Symplify\Statie\Exception\Utils\MissingDirectoryException;
 use Symplify\Statie\Tests\AbstractContainerAwareTestCase;
 use function Safe\sprintf;
 
@@ -26,6 +27,7 @@ final class GenerateCommandTest extends AbstractContainerAwareTestCase
     protected function setUp(): void
     {
         $this->application = $this->container->get(Application::class);
+        $this->application->setCatchExceptions(false);
         $this->application->setAutoExit(false);
 
         /** @var SymfonyStyle $symfonyStyle */
@@ -43,17 +45,18 @@ final class GenerateCommandTest extends AbstractContainerAwareTestCase
         $stringInput = ['generate', __DIR__ . '/GenerateCommandSource/source', '--output', $this->outputDirectory];
         $input = new StringInput(implode(' ', $stringInput));
 
-        $result = $this->application->run($input, new NullOutput());
-        $this->assertSame(0, $result);
+        $this->application->run($input, new NullOutput());
 
         $this->assertFileExists($this->outputDirectory . '/index.html');
     }
 
     public function testException(): void
     {
-        $stringInput = sprintf('generate --source %s', __DIR__ . '/GenerateCommandSource/missing');
+        $stringInput = sprintf('generate %s', __DIR__ . '/GenerateCommandSource/missing');
         $input = new StringInput($stringInput);
 
-        $this->assertSame(1, $this->application->run($input, new NullOutput()));
+        $this->expectException(MissingDirectoryException::class);
+
+        $this->application->run($input, new NullOutput());
     }
 }

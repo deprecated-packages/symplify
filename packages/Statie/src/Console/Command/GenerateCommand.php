@@ -64,7 +64,7 @@ final class GenerateCommand extends Command
         $source = $input->getArgument(self::OPTION_SOURCE);
 
         /** @var string $output */
-        $output = $input->getArgument(self::OPTION_OUTPUT);
+        $output = $input->getOption(self::OPTION_OUTPUT);
 
         $this->statieApplication->run($source, $output);
 
