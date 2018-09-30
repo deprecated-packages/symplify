@@ -15,6 +15,43 @@ composer require symplify/package-builder
 
 ## Use
 
+### Prevent Parameter Typos
+
+Was it `ignoreFiles`? Or `ignored_files`? Or `ignore_file`? Are you lazy to ready every `README.md` to find out the corrent name?
+Make developer's live happy by helping them.
+
+```yaml
+parameters:
+    correctKey: 'value'
+
+services:
+    _defaults:
+        public: true
+        autowire: true
+
+    # this subscribe will check parameters on every Console and Kernel run
+    Symplify\PackageBuilder\EventSubscriber\ParameterTypoProofreaderEventSubscriber: ~
+
+    Symplify\PackageBuilder\Parameter\ParameterTypoProofreader:
+        $correctToTypos:
+            # correct key name
+            correct_key:
+                # the most common typos that people make
+                - 'correctKey'
+
+                # regexp also works!
+                - '#correctKey(s)?#i'
+```
+
+This way user is informed on every typo he or she makes via exception:
+
+```bash
+Parameter "parameters > correctKey" does not exist.
+Use "parameters > correct_key" instead.
+```
+
+They can focus less on remembering all the keys and more on programming.
+
 ### Collect Services of Certain Type Together
 
 How do we load Commands to Console Application without tagging?
@@ -38,7 +75,7 @@ final class CollectorCompilerPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $containerBuilder): void
     {
-        $definitionCollector = new DefinitionCollector(new DefinitionFinder);
+        $definitionCollector = new DefinitionCollector(new DefinitionFinder());
 
         $definitionCollector->loadCollectorWithType(
             $containerBuilder,
@@ -60,6 +97,8 @@ namespace App\DependencyInjection\CompilerPass;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
+use Symplify\EasyCodingStandard\Contract\Finder\CustomSourceProviderInterface;
+use Symplify\EasyCodingStandard\Finder\SourceFinder;
 use Symplify\PackageBuilder\DependencyInjection\DefinitionFinder;
 
 final class CustomSourceProviderDefinitionCompilerPass implements CompilerPassInterface
