@@ -4,12 +4,16 @@
 [![Coverage Status](https://img.shields.io/coveralls/Symplify/Symplify/master.svg?style=flat-square)](https://coveralls.io/github/Symplify/Symplify?branch=master)
 [![Subscribe](https://img.shields.io/badge/subscribe-to--releases-green.svg?style=flat-square)](https://libraries.io/packagist/symplify%2Fsymplify)
 
+<br>
+
 ## [Coding Standard](https://github.com/Symplify/CodingStandard)
 
 [![Build Status](https://img.shields.io/travis/Symplify/CodingStandard/master.svg?style=flat-square)](https://travis-ci.org/Symplify/CodingStandard)
 [![Downloads](https://img.shields.io/packagist/dt/symplify/coding-standard.svg?style=flat-square)](https://packagist.org/packages/symplify/coding-standard/stats)
 
 [Final interface](http://ocramius.github.io/blog/when-to-declare-classes-final/), [`::class` Constant](https://www.tomasvotruba.cz/blog/2017/08/21/5-useful-rules-from-symplify-coding-standard/#3-class-constant-fixer) and other useful Checkers for [PHP-CS-Fixer](https://github.com/friendsofphp/php-cs-fixer) and [PHP_CodeSniffer](https://github.com/squizlabs/PHP_CodeSniffer).
+
+<br>
 
 ## [Easy Coding Standard](https://github.com/Symplify/EasyCodingStandard)
 
@@ -22,6 +26,8 @@ The best and easiest way to start coding standard with. Combined both [PHP-CS-Fi
 
 ![ECS-Run](packages/EasyCodingStandard/docs/run-and-fix.gif)
 
+<br>
+
 ## [Statie](https://github.com/Symplify/Statie) - [www.statie.org](https://www.statie.org)
 
 [![Build Status](https://img.shields.io/travis/Symplify/Statie/master.svg?style=flat-square)](https://travis-ci.org/Symplify/Statie)
@@ -31,6 +37,8 @@ Statie helps you to host and develop your blog on Github.
 A static site generator with aim on community websites.
 
 [Pehapkari.cz](https://pehapkari.cz/) ([Github repo](https://github.com/pehapkari/pehapkari.cz)) and [TomasVotruba.cz](https://www.tomasvotruba.cz/) ([Github repo](https://github.com/tomasvotruba/tomasvotruba.cz)).
+
+<br>
 
 ### Other Utils Packages
 
