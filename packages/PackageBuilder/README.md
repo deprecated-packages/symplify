@@ -29,8 +29,8 @@ services:
         public: true
         autowire: true
 
-    # this subscribe will check parameters on every Console and Kernel run
     Symfony\Component\EventDispatcher\EventDispatcher: ~
+    # this subscribe will check parameters on every Console and Kernel run
     Symplify\PackageBuilder\EventSubscriber\ParameterTypoProofreaderEventSubscriber: ~
 
     Symplify\PackageBuilder\Parameter\ParameterTypoProofreader:
