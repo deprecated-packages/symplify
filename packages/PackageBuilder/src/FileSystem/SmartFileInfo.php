@@ -4,6 +4,7 @@ namespace Symplify\PackageBuilder\FileSystem;
 
 use Nette\Utils\Strings;
 use Symfony\Component\Finder\SplFileInfo;
+use Symplify\PackageBuilder\Exception\FileSystem\DirectoryNotFoundException;
 use Symplify\PackageBuilder\Exception\FileSystem\FileNotFoundException;
 use function Safe\getcwd;
 use function Safe\realpath;
@@ -42,6 +43,10 @@ final class SmartFileInfo extends SplFileInfo
 
     public function getRelativeFilePathFromDirectory(string $directory): string
     {
-        return Strings::substring($this->getRealPath(), strlen($directory) + 1);
+        if (! file_exists($directory)) {
+            throw new DirectoryNotFoundException(sprintf('Directory "%s" was not found.', $directory, self::class));
+        }
+
+        return Strings::substring($this->getRealPath(), strlen(realpath($directory)) + 1);
     }
 }

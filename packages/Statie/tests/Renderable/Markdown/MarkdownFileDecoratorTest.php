@@ -4,6 +4,7 @@ namespace Symplify\Statie\Tests\Renderable\Markdown;
 
 use Iterator;
 use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
+use Symplify\Statie\Configuration\Configuration;
 use Symplify\Statie\Renderable\File\FileFactory;
 use Symplify\Statie\Renderable\MarkdownFileDecorator;
 use Symplify\Statie\Tests\AbstractContainerAwareTestCase;
@@ -23,8 +24,11 @@ final class MarkdownFileDecoratorTest extends AbstractContainerAwareTestCase
     protected function setUp(): void
     {
         $this->markdownFileDecorator = $this->container->get(MarkdownFileDecorator::class);
-
         $this->fileFactory = $this->container->get(FileFactory::class);
+
+        /** @var Configuration $configuration */
+        $configuration = $this->container->get(Configuration::class);
+        $configuration->setSourceDirectory(__DIR__ . '/MarkdownFileDecoratorSource');
     }
 
     /**

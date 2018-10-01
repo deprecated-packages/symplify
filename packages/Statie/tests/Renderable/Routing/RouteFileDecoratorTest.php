@@ -29,6 +29,10 @@ final class RouteFileDecoratorTest extends AbstractContainerAwareTestCase
 
         $this->fileFactory = $this->container->get(FileFactory::class);
         $this->routeFileDecorator = $this->container->get(RouteFileDecorator::class);
+
+        /** @var Configuration $configuration */
+        $configuration = $this->container->get(Configuration::class);
+        $configuration->setSourceDirectory(__DIR__ . '/RouteFileDecoratorSource');
     }
 
     /**
