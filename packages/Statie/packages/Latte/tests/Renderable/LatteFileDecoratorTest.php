@@ -4,6 +4,7 @@ namespace Symplify\Statie\Latte\Tests\Renderable;
 
 use Nette\Utils\FileSystem;
 use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
+use Symplify\Statie\Configuration\Configuration;
 use Symplify\Statie\Latte\Exception\InvalidLatteSyntaxException;
 use Symplify\Statie\Latte\Loader\ArrayLoader;
 use Symplify\Statie\Latte\Renderable\LatteFileDecorator;
@@ -28,6 +29,10 @@ final class LatteFileDecoratorTest extends AbstractContainerAwareTestCase
     {
         $this->latteFileDecorator = $this->container->get(LatteFileDecorator::class);
         $this->fileFactory = $this->container->get(FileFactory::class);
+
+        /** @var Configuration $configuration */
+        $configuration = $this->container->get(Configuration::class);
+        $configuration->setSourceDirectory(__DIR__ . '/LatteFileDecoratorSource');
 
         /** @var ArrayLoader $arrayLoader */
         $arrayLoader = $this->container->get(ArrayLoader::class);
