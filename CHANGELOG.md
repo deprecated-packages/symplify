@@ -9,6 +9,29 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 <!-- changelog-linker -->
 
+## [v5.1.1] - 2018-10-01
+
+### Added
+
+#### PackageBuilder
+
+- [#1133] Add `ConfigurableCollectorCompilerPass`
+- [#1131] Add `ParameterTypoProofreader` [closes [#1128]]
+
+### Fixed
+
+#### ChanglogLinker
+
+- [#1129] Fix version linking - order + matching new versions
+
+#### MonorepoBuilder
+
+- [#1135] Fix duplicated `require` and `require-dev` items
+
+#### PackageBuilder
+
+- [#1137] Fix `SmartFileInfo` invalid dir argument
+
 ## [v5.1.0] - 2018-09-28
 
 ### Added
@@ -1107,3 +1130,11 @@ This change was finished in [Statie](https://github.com/Symplify/Statie) and [Ea
 [v5.1.0]: https://github.com/Symplify/Symplify/compare/v5.0.1...v5.1.0
 [v5.0.1]: https://github.com/Symplify/Symplify/compare/v5.0.0...v5.0.1
 [v4.8.0]: https://github.com/Symplify/Symplify/compare/v4.7.0...v4.8.0
+[#1137]: https://github.com/Symplify/Symplify/pull/1137
+[#1135]: https://github.com/Symplify/Symplify/pull/1135
+[#1134]: https://github.com/Symplify/Symplify/pull/1134
+[#1133]: https://github.com/Symplify/Symplify/pull/1133
+[#1131]: https://github.com/Symplify/Symplify/pull/1131
+[#1129]: https://github.com/Symplify/Symplify/pull/1129
+[#1128]: https://github.com/Symplify/Symplify/pull/1128
+[v5.1.1]: https://github.com/Symplify/Symplify/compare/v5.1.0...v5.1.1
