@@ -40,6 +40,6 @@ final class SmartFileInfoTest extends TestCase
         $smartFileInfo = new SmartFileInfo(__FILE__);
 
         $this->expectException(DirectoryNotFoundException::class);
-        $smartFileInfo->getRelativeFilePathFromDirectory('tests/FileSystem');
+        $smartFileInfo->getRelativeFilePathFromDirectory('non-existing-path');
     }
 }
