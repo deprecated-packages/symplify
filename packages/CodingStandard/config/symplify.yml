@@ -9,6 +9,7 @@ services:
         searchAnnotations: true
         allowFallbackGlobalFunctions: true
         allowFallbackGlobalConstants: true
+        allowPartialUses: false
 
     # see https://github.com/symplify/codingstandard to see all loaded Symplify checkers
     Symplify\CodingStandard\:
