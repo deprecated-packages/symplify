@@ -17,16 +17,6 @@ parameters:
             # an object that will wrap it's logic, you can add helper methods into it and use it in templates
             object: 'Symplify\Statie\Renderable\File\PostFile'
 
-    collectors:
-        -
-            main_type: 'Symplify\Statie\Contract\Templating\FilterProvidersAwareInterface'
-            collected_type: 'Symplify\Statie\Contract\Templating\FilterProviderInterface'
-            add_method: 'addFilterProvider'
-        -
-            main_type: 'Symplify\Statie\Renderable\RenderableFilesProcessor'
-            collected_type: 'Symplify\Statie\Contract\Renderable\FileDecoratorInterface'
-            add_method: 'addFileDecorator'
-
 imports:
     - { resource: '../../packages/**/src/config/services.yml' }
     - { resource: 'services.yml' }

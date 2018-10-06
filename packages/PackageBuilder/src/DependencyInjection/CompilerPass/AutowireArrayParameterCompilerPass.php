@@ -2,8 +2,10 @@
 
 namespace Symplify\PackageBuilder\DependencyInjection\CompilerPass;
 
+use Nette\Application\UI\MethodReflection;
 use Nette\Utils\Reflection;
 use Nette\Utils\Strings;
+use ReflectionClass;
 use ReflectionMethod;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -33,7 +35,9 @@ final class AutowireArrayParameterCompilerPass implements CompilerPassInterface
                 continue;
             }
 
+            /** @var ReflectionClass $reflectionClass */
             $reflectionClass = $containerBuilder->getReflectionClass($definition->getClass());
+            /** @var MethodReflection $constructorMethodReflection */
             $constructorMethodReflection = $reflectionClass->getConstructor();
 
             $this->processParameters($containerBuilder, $constructorMethodReflection, $definition);
@@ -105,10 +109,15 @@ final class AutowireArrayParameterCompilerPass implements CompilerPassInterface
         }
 
         $reflectionClass = $containerBuilder->getReflectionClass($definition->getClass());
+        if ($reflectionClass === null) {
+            return true;
+        }
+
         if (! $reflectionClass->hasMethod('__construct')) {
             return true;
         }
 
+        /** @var MethodReflection $constructorMethodReflection */
         $constructorMethodReflection = $reflectionClass->getConstructor();
         if (! $constructorMethodReflection->getParameters()) {
             return true;

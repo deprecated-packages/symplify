@@ -30,24 +30,17 @@ final class RenderableFilesProcessor
      */
     private $configuration;
 
-    public function __construct(FileFactory $fileFactory, Configuration $configuration)
+    /**
+     * @param FileDecoratorInterface[] $fileDecorators
+     */
+    public function __construct(FileFactory $fileFactory, Configuration $configuration, array $fileDecorators)
     {
         $this->fileFactory = $fileFactory;
         $this->configuration = $configuration;
-    }
 
-    public function addFileDecorator(FileDecoratorInterface $fileDecorator): void
-    {
-        $templating = $this->configuration->getOption('templating');
-        if ($templating === 'latte' && $fileDecorator instanceof TwigFileDecorator) {
-            return;
+        foreach ($fileDecorators as $fileDecorator) {
+            $this->addFileDecorator($fileDecorator);
         }
-
-        if ($templating === 'twig' && $fileDecorator instanceof LatteFileDecorator) {
-            return;
-        }
-
-        $this->fileDecorators[] = $fileDecorator;
     }
 
     /**
@@ -99,6 +92,20 @@ final class RenderableFilesProcessor
         $this->sortFileDecorators();
 
         return $this->fileDecorators;
+    }
+
+    private function addFileDecorator(FileDecoratorInterface $fileDecorator): void
+    {
+        $templating = $this->configuration->getOption('templating');
+        if ($templating === 'latte' && $fileDecorator instanceof TwigFileDecorator) {
+            return;
+        }
+
+        if ($templating === 'twig' && $fileDecorator instanceof LatteFileDecorator) {
+            return;
+        }
+
+        $this->fileDecorators[] = $fileDecorator;
     }
 
     private function sortFileDecorators(): void

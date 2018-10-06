@@ -4,14 +4,13 @@ namespace Symplify\Statie\Twig;
 
 use Latte\Runtime\FilterExecutor;
 use Symplify\Statie\Contract\Templating\FilterProviderInterface;
-use Symplify\Statie\Contract\Templating\FilterProvidersAwareInterface;
 use Twig\Environment;
 use Twig\Loader\ArrayLoader;
 use Twig\Loader\LoaderInterface;
 use Twig_Filter;
 use Twig_Function;
 
-final class TwigFactory implements FilterProvidersAwareInterface
+final class TwigFactory
 {
     /**
      * @var LoaderInterface
@@ -33,16 +32,19 @@ final class TwigFactory implements FilterProvidersAwareInterface
      */
     private $filterExecutor;
 
-    public function __construct(ArrayLoader $arrayLoader, string $twigCacheDirectory, FilterExecutor $filterExecutor)
-    {
+    /**
+     * @param FilterProviderInterface[] $filterProviders
+     */
+    public function __construct(
+        ArrayLoader $arrayLoader,
+        string $twigCacheDirectory,
+        FilterExecutor $filterExecutor,
+        array $filterProviders
+    ) {
         $this->arrayLoader = $arrayLoader;
         $this->twigCacheDirectory = $twigCacheDirectory;
         $this->filterExecutor = $filterExecutor;
-    }
-
-    public function addFilterProvider(FilterProviderInterface $filterProvider): void
-    {
-        $this->filterProviders[] = $filterProvider;
+        $this->filterProviders = $filterProviders;
     }
 
     public function create(): Environment
