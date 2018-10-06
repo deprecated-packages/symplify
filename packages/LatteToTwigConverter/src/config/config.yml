@@ -1,9 +1,2 @@
 imports:
     - { resource: 'services.yml' }
-
-parameters:
-    collectors:
-        -
-            main_type: 'Symplify\LatteToTwigConverter\LatteToTwigConverter'
-            collected_type: 'Symplify\LatteToTwigConverter\Contract\CaseConverter\CaseConverterInterface'
-            add_method: 'addCaseConverter'

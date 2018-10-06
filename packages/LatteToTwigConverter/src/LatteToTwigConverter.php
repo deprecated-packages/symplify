@@ -13,9 +13,12 @@ final class LatteToTwigConverter
      */
     private $caseConverters = [];
 
-    public function addCaseConverter(CaseConverterInterface $caseConverter): void
+    /**
+     * @param CaseConverterInterface[] $caseConverters
+     */
+    public function __construct(array $caseConverters)
     {
-        $this->caseConverters[] = $caseConverter;
+        $this->caseConverters = $caseConverters;
     }
 
     public function convertFile(string $file): string
