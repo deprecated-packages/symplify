@@ -36,7 +36,7 @@ final class ChangelogLinker
         LinksAnalyzer $linksAnalyzer,
         LinkAppender $linkAppender,
         VersionsAnalyzer $versionsAnalyzer,
-        array $workers
+        array $workers = []
     ) {
         $this->linksAnalyzer = $linksAnalyzer;
         $this->linkAppender = $linkAppender;

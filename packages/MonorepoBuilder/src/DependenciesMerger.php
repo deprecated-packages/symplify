@@ -36,7 +36,7 @@ final class DependenciesMerger
         array $mergeSections,
         JsonFileManager $jsonFileManager,
         MergedPackagesCollector $mergedPackagesCollector,
-        array $composerJsonDecorators
+        array $composerJsonDecorators = []
     ) {
         $this->mergeSections = $mergeSections;
         $this->jsonFileManager = $jsonFileManager;
