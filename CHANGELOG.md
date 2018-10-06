@@ -9,6 +9,27 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 <!-- changelog-linker -->
 
+## Unreleased
+
+### Added
+
+#### PackageBuilder
+
+- [#1145] Add `AutowireArrayParameterCompilerPass`
+- [#1144] Add `AutowireInterfacesCompilerPass`
+
+### Changed
+
+#### EasyCodingStandard
+
+- [#1139] Allow `NoExtraBlankLinesFixer` in PSR-12, Thanks to [@mynameisbogdan]
+
+### Fixed
+
+#### CodingStandard
+
+- [#1140] Fix missing forbidden partial namespace use Symplify set
+
 ## [v5.1.1] - 2018-10-01
 
 ### Added
@@ -97,7 +118,6 @@ Same as 4.8, just without BC layer. Thanks Symfony for inspiration!
 [@crazko]: https://github.com/crazko
 [v5.1.0]: https://github.com/Symplify/Symplify/compare/v5.0.1...v5.1.0
 [v5.0.1]: https://github.com/Symplify/Symplify/compare/v5.0.0...v5.0.1
-[v4.8.0]: https://github.com/Symplify/Symplify/compare/v4.7.0...v4.8.0
 [#1137]: https://github.com/Symplify/Symplify/pull/1137
 [#1135]: https://github.com/Symplify/Symplify/pull/1135
 [#1133]: https://github.com/Symplify/Symplify/pull/1133
@@ -105,3 +125,8 @@ Same as 4.8, just without BC layer. Thanks Symfony for inspiration!
 [#1129]: https://github.com/Symplify/Symplify/pull/1129
 [#1128]: https://github.com/Symplify/Symplify/pull/1128
 [v5.1.1]: https://github.com/Symplify/Symplify/compare/v5.1.0...v5.1.1
+[#1145]: https://github.com/Symplify/Symplify/pull/1145
+[#1144]: https://github.com/Symplify/Symplify/pull/1144
+[#1140]: https://github.com/Symplify/Symplify/pull/1140
+[#1139]: https://github.com/Symplify/Symplify/pull/1139
+[@mynameisbogdan]: https://github.com/mynameisbogdan
