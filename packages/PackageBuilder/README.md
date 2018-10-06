@@ -473,6 +473,27 @@ Read more about [collector pattern](https://www.tomasvotruba.cz/clusters/#collec
          resource: ..
 ```
 
+#### Always Autowire this Type
+
+Do you want to allow users to register services without worrying about autowiring? After all, they might forget it and that would break their code. Set types to always autowire:
+
+```php
+<?php
+
+// ...
+
+use PhpCsFixer\Fixer\FixerInterface;
+use Symplify\PackageBuilder\DependencyInjection\CompilerPass\AutowireInterfacesCompilerPass;
+
+// ...
+
+        $containerBuilder->addCompilerPass(new AutowireInterfacesCompilerPass([
+            FixerInterface::class,
+        ]));
+```
+
+This will make sure, that `PhpCsFixer\Fixer\FixerInterface` is always registered.
+
 #### Use Public Services only in Tests
 
 - `Symplify\PackageBuilder\DependencyInjection\CompilerPass\PublicForTestsCompilerPass`
