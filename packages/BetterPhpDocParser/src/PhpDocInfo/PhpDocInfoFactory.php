@@ -36,21 +36,21 @@ final class PhpDocInfoFactory
      */
     private $typeNodeToStringsConvertor;
 
+    /**
+     * @param PhpDocInfoDecoratorInterface[] $phpDocInfoDecorators
+     */
     public function __construct(
         PhpDocParser $phpDocParser,
         Lexer $lexer,
         PhpDocModifier $phpDocModifier,
-        TypeNodeToStringsConvertor $typeNodeToStringsConvertor
+        TypeNodeToStringsConvertor $typeNodeToStringsConvertor,
+        array $phpDocInfoDecorators = []
     ) {
         $this->phpDocParser = $phpDocParser;
         $this->lexer = $lexer;
         $this->phpDocModifier = $phpDocModifier;
         $this->typeNodeToStringsConvertor = $typeNodeToStringsConvertor;
-    }
-
-    public function addPhpDocInfoDecorator(PhpDocInfoDecoratorInterface $phpDocInfoDecorator): void
-    {
-        $this->phpDocInfoDecorators[] = $phpDocInfoDecorator;
+        $this->phpDocInfoDecorators = $phpDocInfoDecorators;
     }
 
     public function createFrom(string $content): PhpDocInfo
