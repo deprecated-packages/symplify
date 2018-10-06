@@ -29,19 +29,19 @@ final class ChangelogLinker
      */
     private $versionsAnalyzer;
 
+    /**
+     * @param WorkerInterface[] $workers
+     */
     public function __construct(
         LinksAnalyzer $linksAnalyzer,
         LinkAppender $linkAppender,
-        VersionsAnalyzer $versionsAnalyzer
+        VersionsAnalyzer $versionsAnalyzer,
+        array $workers = []
     ) {
         $this->linksAnalyzer = $linksAnalyzer;
         $this->linkAppender = $linkAppender;
         $this->versionsAnalyzer = $versionsAnalyzer;
-    }
-
-    public function addWorker(WorkerInterface $worker): void
-    {
-        $this->workers[] = $worker;
+        $this->workers = $workers;
     }
 
     public function processContent(string $content): string

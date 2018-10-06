@@ -30,20 +30,18 @@ final class DependenciesMerger
 
     /**
      * @param string[] $mergeSections
+     * @param ComposerJsonDecoratorInterface[] $composerJsonDecorators
      */
     public function __construct(
         array $mergeSections,
         JsonFileManager $jsonFileManager,
-        MergedPackagesCollector $mergedPackagesCollector
+        MergedPackagesCollector $mergedPackagesCollector,
+        array $composerJsonDecorators = []
     ) {
         $this->mergeSections = $mergeSections;
         $this->jsonFileManager = $jsonFileManager;
         $this->mergedPackagesCollector = $mergedPackagesCollector;
-    }
-
-    public function addComposerJsonDecorator(ComposerJsonDecoratorInterface $composerJsonDecorator): void
-    {
-        $this->composerJsonDecorators[] = $composerJsonDecorator;
+        $this->composerJsonDecorators = $composerJsonDecorators;
     }
 
     /**

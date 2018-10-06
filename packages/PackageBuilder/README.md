@@ -53,6 +53,8 @@ Use "parameters > correct_key" instead.
 
 They can focus less on remembering all the keys and more on programming.
 
+<br>
+
 ### Collect Services of Certain Type Together
 
 How do we load Commands to Console Application without tagging?
@@ -87,6 +89,8 @@ final class CollectorCompilerPass implements CompilerPassInterface
     }
 }
 ```
+
+<br>
 
 ### Add Service by Interface if Found
 
@@ -125,6 +129,8 @@ final class CustomSourceProviderDefinitionCompilerPass implements CompilerPassIn
     }
 }
 ```
+
+<br>
 
 ### Get All Parameters via Service
 
@@ -169,6 +175,8 @@ final class StatieConfiguration
 }
 ```
 
+<br>
+
 ### Get Vendor Directory from Anywhere
 
 ```php
@@ -176,6 +184,8 @@ final class StatieConfiguration
 
 Symplify\PackageBuilder\Composer\VendorDirProvider::provide(); // returns path to vendor directory
 ```
+
+<br>
 
 ### Load a Config for CLI Application?
 
@@ -224,6 +234,8 @@ $config = Symplify\PackageBuilder\Configuration\ConfigFileFinder::provide('stati
 
 This is common practise in CLI applications, e.g. [PHPUnit](https://phpunit.de/) looks for `phpunit.xml`.
 
+<br>
+
 ### Render Fancy CLI Exception Anywhere You Need
 
 Do you get exception before getting into Symfony\Console Application, but still want to render it with `-v`, `-vv`, `-vvv` options?
@@ -248,6 +260,8 @@ try {
     exit($throwable->getCode());
 }
 ```
+
+<br>
 
 ### Load Config via `--level` Option in CLI App
 
@@ -290,6 +304,8 @@ And use like this:
 ```bash
 vendor/bin/your-app --level the-config
 ```
+
+<br>
 
 ### Merge Parameters in `.yaml` Files Instead of Override?
 
@@ -358,6 +374,8 @@ final class AppKernel extends Kernel
 
 In case you need to do more work in YamlFileLoader, just extend the abstract parent `Symplify\PackageBuilder\Yaml\FileLoader\AbstractParameterMergingYamlFileLoader` and add your own logic.
 
+<br>
+
 #### Do you Need to Merge YAML files Outside Kernel?
 
 Instead of creating all the classes use this helper class:
@@ -372,6 +390,8 @@ $parameterBag = $parameterMergingYamlLoader->loadParameterBagFromFile(__DIR__ . 
 var_dump($parameterBag);
 // instance of "Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface"
 ```
+
+<br>
 
 ### Use `%vendor%` and `%cwd%` in Imports Paths
 
@@ -421,9 +441,13 @@ final class AppKernel extends Kernel
 
 In case you need to do more work in YamlFileLoader, just extend the abstract parent `Symplify\PackageBuilder\Yaml\FileLoader\AbstractParameterImportsYamlFileLoader` and add your own logic.
 
+<br>
+
 ### Smart Compiler Passes for Lazy Programmers
 
 [How to add compiler pass](https://symfony.com/doc/current/service_container/compiler_passes.html#working-with-compiler-passes-in-bundles)?
+
+<br>
 
 #### Collect Services in Short Configs
 
@@ -442,6 +466,8 @@ parameters:
 
 Read more about [collector pattern](https://www.tomasvotruba.cz/clusters/#collector-pattern-the-shortcut-hack-to-solid-code) to know how and when to use it.
 
+<br>
+
 #### Autowire Singly-Implemented Interfaces
 
 - `Symplify\PackageBuilder\DependencyInjection\CompilerPass\AutowireSinglyImplementedCompilerPass`
@@ -453,6 +479,8 @@ Read more about [collector pattern](https://www.tomasvotruba.cz/clusters/#collec
 -    FooInterface:
 -        alias: OnlyImplementationOfFooInterface
 ```
+
+<br>
 
 #### Autobind Parameters
 
@@ -493,6 +521,8 @@ use Symplify\PackageBuilder\DependencyInjection\CompilerPass\AutowireInterfacesC
 ```
 
 This will make sure, that `PhpCsFixer\Fixer\FixerInterface` is always registered.
+
+<br>
 
 #### Use Public Services only in Tests
 

@@ -5,9 +5,8 @@ namespace Symplify\Statie\Latte;
 use Latte\Engine;
 use Latte\ILoader;
 use Symplify\Statie\Contract\Templating\FilterProviderInterface;
-use Symplify\Statie\Contract\Templating\FilterProvidersAwareInterface;
 
-final class LatteFactory implements FilterProvidersAwareInterface
+final class LatteFactory
 {
     /**
      * @var ILoader
@@ -19,14 +18,13 @@ final class LatteFactory implements FilterProvidersAwareInterface
      */
     private $filterProviders = [];
 
-    public function __construct(ILoader $loader)
+    /**
+     * @param FilterProviderInterface[] $filterProviders
+     */
+    public function __construct(ILoader $loader, array $filterProviders)
     {
         $this->loader = $loader;
-    }
-
-    public function addFilterProvider(FilterProviderInterface $filterProvider): void
-    {
-        $this->filterProviders[] = $filterProvider;
+        $this->filterProviders = $filterProviders;
     }
 
     public function create(): Engine

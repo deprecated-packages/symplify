@@ -11,9 +11,3 @@ parameters:
     # use in cli like: "GITHUB_TOKEN=%s vendor/bin/changelog-linker dump-merges ..."
     env(GITHUB_TOKEN): null
     github_token: '%env(GITHUB_TOKEN)%'
-
-    collectors:
-        -
-            main_type: 'Symplify\ChangelogLinker\ChangelogLinker'
-            collected_type: 'Symplify\ChangelogLinker\Contract\Worker\WorkerInterface'
-            add_method: 'addWorker'
