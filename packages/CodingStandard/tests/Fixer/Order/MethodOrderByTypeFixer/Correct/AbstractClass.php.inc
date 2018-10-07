@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Rector\Rector;
+namespace RandomNamespace;
 
 use PhpParser\Node;
 use PhpParser\NodeTraverser;
@@ -9,7 +9,7 @@ use Rector\Builder\ExpressionAdder;
 use Rector\Builder\PropertyAdder;
 use Rector\Contract\Rector\PhpRectorInterface;
 
-abstract class AbstractRector extends NodeVisitorAbstract implements PhpRectorInterface
+abstract class SomeRectorClass extends NodeVisitorAbstract implements PhpRectorInterface
 {
     /**
      * @param Node[] $nodes
