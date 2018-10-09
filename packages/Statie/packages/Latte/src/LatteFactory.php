@@ -21,7 +21,7 @@ final class LatteFactory
     /**
      * @param FilterProviderInterface[] $filterProviders
      */
-    public function __construct(ILoader $loader, array $filterProviders)
+    public function __construct(ILoader $loader, array $filterProviders = [])
     {
         $this->loader = $loader;
         $this->filterProviders = $filterProviders;

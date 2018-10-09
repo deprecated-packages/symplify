@@ -33,7 +33,7 @@ final class RenderableFilesProcessor
     /**
      * @param FileDecoratorInterface[] $fileDecorators
      */
-    public function __construct(FileFactory $fileFactory, Configuration $configuration, array $fileDecorators)
+    public function __construct(FileFactory $fileFactory, Configuration $configuration, array $fileDecorators = [])
     {
         $this->fileFactory = $fileFactory;
         $this->configuration = $configuration;
