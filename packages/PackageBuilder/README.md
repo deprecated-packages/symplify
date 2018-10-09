@@ -309,7 +309,7 @@ vendor/bin/your-app --level the-config
 
 ### Merge Parameters in `.yaml` Files Instead of Override?
 
-In Symfony [the last parameter wins by default](https://github.com/symfony/symfony/issues/26713)*, hich is bad if you want to decouple your parameters.
+In Symfony [the last parameter wins by default](https://github.com/symfony/symfony/issues/26713)*, which is bad if you want to decouple your parameters.
 
 ```yaml
 # first.yml
