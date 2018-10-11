@@ -4,6 +4,8 @@ namespace Symplify\Statie\Generator\Renderable\File;
 
 use Nette\Utils\Strings;
 use Symfony\Component\Finder\SplFileInfo;
+use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
+use Symplify\Statie\Configuration\Configuration;
 use Symplify\Statie\Utils\PathAnalyzer;
 
 final class GeneratorFileFactory
@@ -24,14 +26,23 @@ final class GeneratorFileFactory
      */
     private $generatorFileGuard;
 
-    public function __construct(PathAnalyzer $pathAnalyzer, GeneratorFileGuard $generatorFileGuard)
-    {
+    /**
+     * @var Configuration
+     */
+    private $configuration;
+
+    public function __construct(
+        PathAnalyzer $pathAnalyzer,
+        GeneratorFileGuard $generatorFileGuard,
+        Configuration $configuration
+    ) {
         $this->pathAnalyzer = $pathAnalyzer;
         $this->generatorFileGuard = $generatorFileGuard;
+        $this->configuration = $configuration;
     }
 
     /**
-     * @param SplFileInfo[] $fileInfos
+     * @param SmartFileInfo[] $fileInfos
      * @return AbstractGeneratorFile[]
      */
     public function createFromFileInfosAndClass(array $fileInfos, string $class): array
@@ -48,17 +59,19 @@ final class GeneratorFileFactory
         return $objects;
     }
 
-    private function createFromClassNameAndFileInfo(string $className, SplFileInfo $fileInfo): AbstractGeneratorFile
-    {
-        $id = $this->findAndGetValidId($fileInfo, $className);
+    private function createFromClassNameAndFileInfo(
+        string $className,
+        SmartFileInfo $smartFileInfo
+    ): AbstractGeneratorFile {
+        $id = $this->findAndGetValidId($smartFileInfo, $className);
 
         return new $className(
             $id,
-            $fileInfo,
-            $fileInfo->getRelativePathname(),
-            $fileInfo->getPathname(),
-            $this->pathAnalyzer->detectFilenameWithoutDate($fileInfo),
-            $this->pathAnalyzer->detectDate($fileInfo)
+            $smartFileInfo,
+            $smartFileInfo->getRelativeFilePathFromDirectory($this->configuration->getSourceDirectory()),
+            $smartFileInfo->getPathname(),
+            $this->pathAnalyzer->detectFilenameWithoutDate($smartFileInfo),
+            $this->pathAnalyzer->detectDate($smartFileInfo)
         );
     }
 
