@@ -18,17 +18,16 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 - [#1145] Add `AutowireArrayParameterCompilerPass`
 - [#1144] Add `AutowireInterfacesCompilerPass`
 
-### Changed
-
-#### EasyCodingStandard
-
-- [#1139] Allow `NoExtraBlankLinesFixer` in PSR-12, Thanks to [@mynameisbogdan]
-
 ### Fixed
 
 #### CodingStandard
 
+- [#1139] Allow `NoExtraBlankLinesFixer` in PSR-12, Thanks to [@mynameisbogdan]
 - [#1140] Fix missing forbidden partial namespace use Symplify set
+
+#### Statie
+
+- [#1152] Fix relative path to generated file
 
 ## [v5.1.1] - 2018-10-01
 
@@ -130,3 +129,6 @@ Same as 4.8, just without BC layer. Thanks Symfony for inspiration!
 [#1140]: https://github.com/Symplify/Symplify/pull/1140
 [#1139]: https://github.com/Symplify/Symplify/pull/1139
 [@mynameisbogdan]: https://github.com/mynameisbogdan
+[#1152]: https://github.com/Symplify/Symplify/pull/1152
+[#1147]: https://github.com/Symplify/Symplify/pull/1147
+[@veewee]: https://github.com/veewee
