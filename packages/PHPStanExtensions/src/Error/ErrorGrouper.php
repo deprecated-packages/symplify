@@ -21,9 +21,12 @@ final class ErrorGrouper
         }
 
         // sort with most frequent first
-        usort($errorMessagesWithFiles, function ($firstErrorMessageWithFiles, $secondErrorMessageWithFiles) {
-            return count($firstErrorMessageWithFiles['files']) < count($secondErrorMessageWithFiles['files']);
-        });
+        usort(
+            $errorMessagesWithFiles,
+            function (array $firstErrorMessageWithFiles, array $secondErrorMessageWithFiles): int {
+                return count($secondErrorMessageWithFiles['files']) <=> count($firstErrorMessageWithFiles['files']);
+            }
+        );
 
         return $errorMessagesWithFiles;
     }

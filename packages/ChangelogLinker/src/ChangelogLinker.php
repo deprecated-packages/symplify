@@ -68,8 +68,8 @@ final class ChangelogLinker
      */
     private function getSortedWorkers(): array
     {
-        usort($this->workers, function (WorkerInterface $firstWorker, WorkerInterface $secondWorker): bool {
-            return $firstWorker->getPriority() < $secondWorker->getPriority();
+        usort($this->workers, function (WorkerInterface $firstWorker, WorkerInterface $secondWorker): int {
+            return $secondWorker->getPriority() <=> $firstWorker->getPriority();
         });
 
         return $this->workers;

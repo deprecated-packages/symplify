@@ -110,8 +110,8 @@ final class RenderableFilesProcessor
 
     private function sortFileDecorators(): void
     {
-        usort($this->fileDecorators, function (FileDecoratorInterface $first, FileDecoratorInterface $second) {
-            return $first->getPriority() < $second->getPriority();
+        usort($this->fileDecorators, function (FileDecoratorInterface $first, FileDecoratorInterface $second): int {
+            return $second->getPriority() <=> $first->getPriority();
         });
     }
 }
