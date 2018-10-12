@@ -15,7 +15,6 @@ use PhpCsFixer\Tokenizer\CT;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
-use function Safe\sprintf;
 use function Safe\substr;
 
 final class ClassStringToClassConstantFixer implements DefinedFixerInterface, ConfigurationDefinitionFixerInterface
@@ -29,11 +28,6 @@ final class ClassStringToClassConstantFixer implements DefinedFixerInterface, Co
      * @var string
      */
     public const ALLOW_CLASES_OPTION = 'allow_classes';
-
-    /**
-     * @var string
-     */
-    private const CLASS_PART_PATTERN = '[A-Z]\w*[a-z]\w*';
 
     /**
      * @var mixed[]
@@ -171,15 +165,17 @@ final class ClassStringToClassConstantFixer implements DefinedFixerInterface, Co
             }
         }
 
-        $accepted = class_exists($potentialClassInterfaceOrTrait)
-            || interface_exists($potentialClassInterfaceOrTrait)
-            || trait_exists($potentialClassInterfaceOrTrait);
-
-        if ($this->configuration[self::CLASS_MUST_EXIST_OPTION] === false) {
-            $accepted = (bool) Strings::match($potentialClassInterfaceOrTrait, $this->getClassyPattern());
+        if (! (bool) Strings::match($potentialClassInterfaceOrTrait, $this->getClassyPattern())) {
+            return false;
         }
 
-        return $accepted;
+        if ($this->configuration[self::CLASS_MUST_EXIST_OPTION] === false) {
+            return true;
+        }
+
+        return class_exists($potentialClassInterfaceOrTrait)
+                || interface_exists($potentialClassInterfaceOrTrait)
+                || trait_exists($potentialClassInterfaceOrTrait);
     }
 
     private function convertNameToTokens(string $classInterfaceOrTraitName): Tokens
@@ -200,6 +196,6 @@ final class ClassStringToClassConstantFixer implements DefinedFixerInterface, Co
 
     private function getClassyPattern(): string
     {
-        return sprintf('#^%s(\\\\%s)+\z#', self::CLASS_PART_PATTERN, self::CLASS_PART_PATTERN);
+        return '#^[\\\\]?[A-Z]\w*(\\\\[A-Z]\w*)*$#';
     }
 }
