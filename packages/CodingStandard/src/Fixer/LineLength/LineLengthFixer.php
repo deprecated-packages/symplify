@@ -12,7 +12,6 @@ use PhpCsFixer\FixerDefinition\CodeSample;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Tokenizer\CT;
-use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
 use Symplify\TokenRunner\Analyzer\FixerAnalyzer\BlockFinder;
@@ -224,7 +223,7 @@ $array = ["loooooooooooooooooooooooooooooooongArraaaaaaaaaaay", "loooooooooooooo
      * We go through tokens from down to up,
      * so we need to find ")" and then the start of function
      */
-    private function matchNamePositionForEndOfFunctionCall(Tokens $tokens, Token $token, int $position): ?int
+    private function matchNamePositionForEndOfFunctionCall(Tokens $tokens, int $position): ?int
     {
         try {
             $blockStart = $tokens->findBlockStart(Tokens::BLOCK_TYPE_PARENTHESIS_BRACE, $position);
@@ -257,9 +256,7 @@ $array = ["loooooooooooooooooooooooooooooooongArraaaaaaaaaaay", "loooooooooooooo
 
     private function processMethodCall(Tokens $tokens, int $position): void
     {
-        $token = $tokens[$position];
-
-        $methodNamePosition = $this->matchNamePositionForEndOfFunctionCall($tokens, $token, $position);
+        $methodNamePosition = $this->matchNamePositionForEndOfFunctionCall($tokens, $position);
         if ($methodNamePosition === null) {
             return;
         }

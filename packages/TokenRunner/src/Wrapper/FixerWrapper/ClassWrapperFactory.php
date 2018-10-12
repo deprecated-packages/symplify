@@ -3,6 +3,7 @@
 namespace Symplify\TokenRunner\Wrapper\FixerWrapper;
 
 use PhpCsFixer\Tokenizer\Tokens;
+use Symplify\PackageBuilder\Types\ClassLikeExistenceChecker;
 use Symplify\TokenRunner\Analyzer\FixerAnalyzer\DocBlockFinder;
 use Symplify\TokenRunner\Guard\TokenTypeGuard;
 use Symplify\TokenRunner\Naming\Name\NameFactory;
@@ -39,13 +40,19 @@ final class ClassWrapperFactory
      */
     private $tokenTypeGuard;
 
+    /**
+     * @var ClassLikeExistenceChecker
+     */
+    private $classLikeExistenceChecker;
+
     public function __construct(
         PropertyWrapperFactory $propertyWrapperFactory,
         MethodWrapperFactory $methodWrapperFactory,
         DocBlockFinder $docBlockFinder,
         PropertyAccessWrapperFactory $propertyAccessWrapperFactory,
         NameFactory $nameFactory,
-        TokenTypeGuard $tokenTypeGuard
+        TokenTypeGuard $tokenTypeGuard,
+        ClassLikeExistenceChecker $classLikeExistenceChecker
     ) {
         $this->propertyWrapperFactory = $propertyWrapperFactory;
         $this->methodWrapperFactory = $methodWrapperFactory;
@@ -53,6 +60,7 @@ final class ClassWrapperFactory
         $this->propertyAccessWrapperFactory = $propertyAccessWrapperFactory;
         $this->nameFactory = $nameFactory;
         $this->tokenTypeGuard = $tokenTypeGuard;
+        $this->classLikeExistenceChecker = $classLikeExistenceChecker;
     }
 
     public function createFromTokensArrayStartPosition(Tokens $tokens, int $startIndex): ClassWrapper
@@ -66,7 +74,8 @@ final class ClassWrapperFactory
             $this->methodWrapperFactory,
             $this->docBlockFinder,
             $this->propertyAccessWrapperFactory,
-            $this->nameFactory
+            $this->nameFactory,
+            $this->classLikeExistenceChecker
         );
     }
 }
