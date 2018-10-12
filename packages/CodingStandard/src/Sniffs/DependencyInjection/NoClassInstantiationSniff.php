@@ -9,6 +9,7 @@ use ReflectionClass;
 use SlevomatCodingStandard\Helpers\ClassHelper;
 use SlevomatCodingStandard\Helpers\TokenHelper;
 use SplFileInfo;
+use Symplify\PackageBuilder\Types\ClassLikeExistenceChecker;
 use Symplify\TokenRunner\Analyzer\SnifferAnalyzer\Naming;
 use function Safe\sprintf;
 
@@ -105,9 +106,15 @@ final class NoClassInstantiationSniff implements Sniff
      */
     private $naming;
 
-    public function __construct(Naming $naming)
+    /**
+     * @var ClassLikeExistenceChecker
+     */
+    private $classLikeExistenceChecker;
+
+    public function __construct(Naming $naming, ClassLikeExistenceChecker $classLikeExistenceChecker)
     {
         $this->naming = $naming;
+        $this->classLikeExistenceChecker = $classLikeExistenceChecker;
     }
 
     /**
@@ -159,17 +166,16 @@ final class NoClassInstantiationSniff implements Sniff
     {
         $className = $this->naming->getClassName($this->file, $classTokenPosition);
 
-        if (class_exists($className)) {
-            $classReflection = new ReflectionClass($class);
-            $docComment = $classReflection->getDocComment();
-            if ($docComment === false) {
-                return false;
-            }
-
-            return Strings::contains($docComment, '@ORM\Entity');
+        if (! $this->classLikeExistenceChecker->exists($className)) {
+            return false;
         }
 
-        return false;
+        $docComment = (new ReflectionClass($class))->getDocComment();
+        if ($docComment === false) {
+            return false;
+        }
+
+        return Strings::contains($docComment, '@ORM\Entity');
     }
 
     private function shouldSkipFile(): bool

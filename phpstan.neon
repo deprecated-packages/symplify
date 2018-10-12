@@ -110,6 +110,9 @@ parameters:
         # known values
         - '#(.*)ContainerFactory::(create(.*?))\(\) should return (.*)\\ContainerInterface but returns Symfony\\Component\\DependencyInjection\\ContainerInterface\|null#'
 
+        # intentionally
+        - '#In method (.*?), caught "Throwable" must be rethrown. Either catch a more specific exception or add a "throw" clause in the "catch" block to propagate the exception#'
+
 services:
     -
         class: Symplify\PHPStanExtensions\Type\SplFileInfoTolerantDynamicMethodReturnTypeExtension

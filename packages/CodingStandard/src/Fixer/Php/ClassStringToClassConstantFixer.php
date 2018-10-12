@@ -15,6 +15,7 @@ use PhpCsFixer\Tokenizer\CT;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
+use Symplify\PackageBuilder\Types\ClassLikeExistenceChecker;
 use function Safe\substr;
 
 final class ClassStringToClassConstantFixer implements DefinedFixerInterface, ConfigurationDefinitionFixerInterface
@@ -30,15 +31,27 @@ final class ClassStringToClassConstantFixer implements DefinedFixerInterface, Co
     public const ALLOW_CLASES_OPTION = 'allow_classes';
 
     /**
+     * @var string
+     */
+    private const CLASS_LIKE_REGEX = '#^[\\\\]?[A-Z]\w*(\\\\[A-Z]\w*)*$#';
+
+    /**
      * @var mixed[]
      */
     private $configuration = [];
 
-    public function __construct()
+    /**
+     * @var ClassLikeExistenceChecker
+     */
+    private $classLikeExistenceChecker;
+
+    public function __construct(ClassLikeExistenceChecker $classLikeExistenceChecker)
     {
         // set defaults
         $this->configuration = $this->getConfigurationDefinition()
             ->resolve([]);
+
+        $this->classLikeExistenceChecker = $classLikeExistenceChecker;
     }
 
     public function getDefinition(): FixerDefinitionInterface
@@ -71,7 +84,7 @@ final class ClassStringToClassConstantFixer implements DefinedFixerInterface, Co
             $potentialClassInterfaceOrTrait = $this->getNameFromToken($token);
             $potentialClassInterfaceOrTrait = str_replace('\\\\', '\\', $potentialClassInterfaceOrTrait);
 
-            if (! $this->isClassInterfaceOrTrait($potentialClassInterfaceOrTrait)) {
+            if (! $this->isValidClassLike($potentialClassInterfaceOrTrait)) {
                 continue;
             }
 
@@ -80,9 +93,6 @@ final class ClassStringToClassConstantFixer implements DefinedFixerInterface, Co
         }
     }
 
-    /**
-     * Run before @see \Symplify\CodingStandard\Fixer\Import\ImportNamespacedNameFixer
-     */
     public function getPriority(): int
     {
         return 15;
@@ -148,24 +158,24 @@ final class ClassStringToClassConstantFixer implements DefinedFixerInterface, Co
         return ltrim($name, '\\');
     }
 
-    private function isClassInterfaceOrTrait(string $potentialClassInterfaceOrTrait): bool
+    private function isValidClassLike(string $classLike): bool
     {
-        if ($potentialClassInterfaceOrTrait === '') {
+        if ($classLike === '') {
             return false;
         }
 
         // lowercase string are not classes; required because class_exists() is case-insensitive
-        if (ctype_lower($potentialClassInterfaceOrTrait[0])) {
+        if (ctype_lower($classLike[0])) {
             return false;
         }
 
         foreach ($this->configuration[self::ALLOW_CLASES_OPTION] as $allowedClass) {
-            if ($potentialClassInterfaceOrTrait === $allowedClass) {
+            if ($classLike === $allowedClass) {
                 return false;
             }
         }
 
-        if (! (bool) Strings::match($potentialClassInterfaceOrTrait, $this->getClassyPattern())) {
+        if (! (bool) Strings::match($classLike, self::CLASS_LIKE_REGEX)) {
             return false;
         }
 
@@ -173,9 +183,7 @@ final class ClassStringToClassConstantFixer implements DefinedFixerInterface, Co
             return true;
         }
 
-        return class_exists($potentialClassInterfaceOrTrait)
-                || interface_exists($potentialClassInterfaceOrTrait)
-                || trait_exists($potentialClassInterfaceOrTrait);
+        return $this->classLikeExistenceChecker->exists($classLike);
     }
 
     private function convertNameToTokens(string $classInterfaceOrTraitName): Tokens
@@ -192,10 +200,5 @@ final class ClassStringToClassConstantFixer implements DefinedFixerInterface, Co
         $tokens[] = new Token([CT::T_CLASS_CONSTANT, 'class']);
 
         return Tokens::fromArray($tokens);
-    }
-
-    private function getClassyPattern(): string
-    {
-        return '#^[\\\\]?[A-Z]\w*(\\\\[A-Z]\w*)*$#';
     }
 }

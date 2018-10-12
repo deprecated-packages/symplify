@@ -74,10 +74,5 @@ after_script:
       vendor/bin/phpunit --group api
     fi
 
-  # debug
-  - echo $TRAVIS_EVENT_TYPE
-  - echo $TRAVIS_BRANCH
-  - git tag
-
 notifications:
   email: false

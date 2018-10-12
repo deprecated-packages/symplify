@@ -8,6 +8,7 @@ use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use PhpCsFixer\Tokenizer\TokensAnalyzer;
 use Symplify\PackageBuilder\Reflection\PrivatesCaller;
+use Symplify\PackageBuilder\Types\ClassLikeExistenceChecker;
 use Symplify\TokenRunner\Analyzer\FixerAnalyzer\DocBlockFinder;
 use Symplify\TokenRunner\Naming\Name\NameFactory;
 use function Safe\class_implements;
@@ -107,6 +108,11 @@ final class ClassWrapper
      */
     private $classTypes = [];
 
+    /**
+     * @var ClassLikeExistenceChecker
+     */
+    private $classLikeExistenceChecker;
+
     public function __construct(
         Tokens $tokens,
         int $startIndex,
@@ -114,7 +120,8 @@ final class ClassWrapper
         MethodWrapperFactory $methodWrapperFactory,
         DocBlockFinder $docBlockFinder,
         PropertyAccessWrapperFactory $propertyAccessWrapperFactory,
-        NameFactory $nameFactory
+        NameFactory $nameFactory,
+        ClassLikeExistenceChecker $classLikeExistenceChecker
     ) {
         $this->classToken = $tokens[$startIndex];
         $this->startBracketIndex = $tokens->getNextTokenOfKind($startIndex, ['{']);
@@ -128,6 +135,7 @@ final class ClassWrapper
         $this->docBlockFinder = $docBlockFinder;
         $this->propertyAccessWrapperFactory = $propertyAccessWrapperFactory;
         $this->nameFactory = $nameFactory;
+        $this->classLikeExistenceChecker = $classLikeExistenceChecker;
     }
 
     public function getClassName(): ?string
@@ -342,8 +350,13 @@ final class ClassWrapper
         }
 
         // we can't handle anonymous classes
-        if (! $this->getClassName()) {
+        if ($this->getClassName() === null) {
             return [];
+        }
+
+        // class it not autoloaded, so we can't give more types than just a name
+        if (! $this->classLikeExistenceChecker->exists($this->getClassName())) {
+            return [$this->getClassName()];
         }
 
         $classTypes = array_merge(
