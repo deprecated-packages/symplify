@@ -6,6 +6,11 @@
     <testsuite name="all">
         <directory>packages/**/tests</directory>
     </testsuite>
+    <groups>
+        <exclude>
+            <group>api</group>
+        </exclude>
+    </groups>
     <filter>
         <whitelist processUncoveredFilesFromWhitelist="true">
             <directory suffix=".php">packages/*/src</directory>

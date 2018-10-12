@@ -5,6 +5,9 @@ namespace Symplify\ChangelogLinker\Tests\Github;
 use Symplify\ChangelogLinker\Github\GithubApi;
 use Symplify\ChangelogLinker\Tests\AbstractContainerAwareTestCase;
 
+/**
+ * @group api
+ */
 final class GithubApiTest extends AbstractContainerAwareTestCase
 {
     /**
