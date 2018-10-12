@@ -306,11 +306,6 @@ final class ClassWrapper
         return array_unique($interfaceNames);
     }
 
-    public function getStartBracketIndex(): int
-    {
-        return $this->startBracketIndex;
-    }
-
     /**
      * @return mixed[]
      */
