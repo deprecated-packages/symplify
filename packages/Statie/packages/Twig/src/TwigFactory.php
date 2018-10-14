@@ -39,7 +39,7 @@ final class TwigFactory
         ArrayLoader $arrayLoader,
         string $twigCacheDirectory,
         FilterExecutor $filterExecutor,
-        array $filterProviders = []
+        array $filterProviders
     ) {
         $this->arrayLoader = $arrayLoader;
         $this->twigCacheDirectory = $twigCacheDirectory;
