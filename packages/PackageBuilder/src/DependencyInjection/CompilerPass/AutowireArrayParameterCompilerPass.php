@@ -60,7 +60,7 @@ final class AutowireArrayParameterCompilerPass implements CompilerPassInterface
             }
 
             $parameterType = $this->resolveParameterType($parameterReflection->getName(), $reflectionMethod);
-            if ($parameterType === null || ctype_lower($parameterType[0])) {
+            if ($parameterType === null) {
                 continue;
             }
 
@@ -69,15 +69,9 @@ final class AutowireArrayParameterCompilerPass implements CompilerPassInterface
             }
 
             $definitionsOfType = $this->definitionFinder->findAllByType($containerBuilder, $parameterType);
-            // no services of such type were found
-            if ($definitionsOfType === []) {
-                continue;
-            }
 
-            $definition->setArgument(
-                '$' . $parameterReflection->getName(),
-                $this->createReferencesFromDefinitions($definitionsOfType)
-            );
+            $argumentName = '$' . $parameterReflection->getName();
+            $definition->setArgument($argumentName, $this->createReferencesFromDefinitions($definitionsOfType));
         }
     }
 
@@ -88,6 +82,11 @@ final class AutowireArrayParameterCompilerPass implements CompilerPassInterface
         // copied from https://github.com/nette/di/blob/d1c0598fdecef6d3b01e2ace5f2c30214b3108e6/src/DI/Autowiring.php#L215
         $result = Strings::match((string) $reflectionMethod->getDocComment(), $parameterDocTypeRegex);
         if ($result === null) {
+            return null;
+        }
+
+        // not a class|interface type
+        if (ctype_lower($result['type'][0])) {
             return null;
         }
 

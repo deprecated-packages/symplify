@@ -44,7 +44,7 @@ final class PhpDocInfoFactory
         Lexer $lexer,
         PhpDocModifier $phpDocModifier,
         TypeNodeToStringsConvertor $typeNodeToStringsConvertor,
-        array $phpDocInfoDecorators = []
+        array $phpDocInfoDecorators
     ) {
         $this->phpDocParser = $phpDocParser;
         $this->lexer = $lexer;

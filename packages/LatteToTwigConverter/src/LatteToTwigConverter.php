@@ -16,7 +16,7 @@ final class LatteToTwigConverter
     /**
      * @param CaseConverterInterface[] $caseConverters
      */
-    public function __construct(array $caseConverters = [])
+    public function __construct(array $caseConverters)
     {
         $this->caseConverters = $caseConverters;
     }

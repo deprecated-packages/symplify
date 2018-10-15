@@ -7,6 +7,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Kernel;
 use Symplify\MonorepoBuilder\Split\DependencyInjection\CompilerPass\DetectParametersCompilerPass;
 use Symplify\PackageBuilder\DependencyInjection\CompilerPass\AutoBindParametersCompilerPass;
+use Symplify\PackageBuilder\DependencyInjection\CompilerPass\AutowireArrayParameterCompilerPass;
 use Symplify\PackageBuilder\DependencyInjection\CompilerPass\ConfigurableCollectorCompilerPass;
 use Symplify\PackageBuilder\DependencyInjection\CompilerPass\PublicForTestsCompilerPass;
 use Symplify\PackageBuilder\HttpKernel\SimpleKernelTrait;
@@ -40,6 +41,7 @@ final class MonorepoBuilderKernel extends Kernel
         $containerBuilder->addCompilerPass(new ConfigurableCollectorCompilerPass());
         $containerBuilder->addCompilerPass(new DetectParametersCompilerPass());
         $containerBuilder->addCompilerPass(new PublicForTestsCompilerPass());
+        $containerBuilder->addCompilerPass(new AutowireArrayParameterCompilerPass());
         $containerBuilder->addCompilerPass(new AutoBindParametersCompilerPass());
     }
 }
