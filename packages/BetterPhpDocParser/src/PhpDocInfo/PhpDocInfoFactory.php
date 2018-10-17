@@ -5,7 +5,6 @@ namespace Symplify\BetterPhpDocParser\PhpDocInfo;
 use PHPStan\PhpDocParser\Lexer\Lexer;
 use PHPStan\PhpDocParser\Parser\PhpDocParser;
 use PHPStan\PhpDocParser\Parser\TokenIterator;
-use Symplify\BetterPhpDocParser\Contract\PhpDocInfoDecoratorInterface;
 use Symplify\BetterPhpDocParser\PhpDocModifier;
 use Symplify\BetterPhpDocParser\PhpDocParser\TypeNodeToStringsConvertor;
 
@@ -27,30 +26,20 @@ final class PhpDocInfoFactory
     private $phpDocModifier;
 
     /**
-     * @var PhpDocInfoDecoratorInterface[]
-     */
-    private $phpDocInfoDecorators = [];
-
-    /**
      * @var TypeNodeToStringsConvertor
      */
     private $typeNodeToStringsConvertor;
 
-    /**
-     * @param PhpDocInfoDecoratorInterface[] $phpDocInfoDecorators
-     */
     public function __construct(
         PhpDocParser $phpDocParser,
         Lexer $lexer,
         PhpDocModifier $phpDocModifier,
-        TypeNodeToStringsConvertor $typeNodeToStringsConvertor,
-        array $phpDocInfoDecorators
+        TypeNodeToStringsConvertor $typeNodeToStringsConvertor
     ) {
         $this->phpDocParser = $phpDocParser;
         $this->lexer = $lexer;
         $this->phpDocModifier = $phpDocModifier;
         $this->typeNodeToStringsConvertor = $typeNodeToStringsConvertor;
-        $this->phpDocInfoDecorators = $phpDocInfoDecorators;
     }
 
     public function createFrom(string $content): PhpDocInfo
@@ -59,18 +48,12 @@ final class PhpDocInfoFactory
         $tokenIterator = new TokenIterator($tokens);
         $phpDocNode = $this->phpDocParser->parse($tokenIterator);
 
-        $phpDocInfo = new PhpDocInfo(
+        return new PhpDocInfo(
             $phpDocNode,
             $tokens,
             $content,
             $this->phpDocModifier,
             $this->typeNodeToStringsConvertor
         );
-
-        foreach ($this->phpDocInfoDecorators as $phpDocInfoDecorator) {
-            $phpDocInfoDecorator->decorate($phpDocInfo);
-        }
-
-        return $phpDocInfo;
     }
 }
