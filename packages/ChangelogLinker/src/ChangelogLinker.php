@@ -41,7 +41,7 @@ final class ChangelogLinker
         $this->linksAnalyzer = $linksAnalyzer;
         $this->linkAppender = $linkAppender;
         $this->versionsAnalyzer = $versionsAnalyzer;
-        $this->workers = $workers;
+        $this->workers = $this->sortWorkers($workers);
     }
 
     public function processContent(string $content): string
@@ -49,7 +49,7 @@ final class ChangelogLinker
         $this->versionsAnalyzer->analyzeContent($content);
         $this->linksAnalyzer->analyzeContent($content);
 
-        foreach ($this->getSortedWorkers() as $worker) {
+        foreach ($this->workers as $worker) {
             $content = $worker->processContent($content);
         }
 
@@ -64,15 +64,16 @@ final class ChangelogLinker
     }
 
     /**
+     * @param WorkerInterface[] $workers
      * @return WorkerInterface[]
      */
-    private function getSortedWorkers(): array
+    private function sortWorkers(array $workers): array
     {
-        usort($this->workers, function (WorkerInterface $firstWorker, WorkerInterface $secondWorker): int {
+        usort($workers, function (WorkerInterface $firstWorker, WorkerInterface $secondWorker): int {
             return $secondWorker->getPriority() <=> $firstWorker->getPriority();
         });
 
-        return $this->workers;
+        return $workers;
     }
 
     private function appendLinksToContentIfAny(string $content): string
