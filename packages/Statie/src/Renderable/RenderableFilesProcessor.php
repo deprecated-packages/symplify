@@ -38,6 +38,7 @@ final class RenderableFilesProcessor
         $this->fileFactory = $fileFactory;
         $this->configuration = $configuration;
 
+        $fileDecorators = $this->sortFileDecorators($fileDecorators);
         foreach ($fileDecorators as $fileDecorator) {
             $this->addFileDecorator($fileDecorator);
         }
@@ -89,8 +90,6 @@ final class RenderableFilesProcessor
      */
     public function getFileDecorators(): array
     {
-        $this->sortFileDecorators();
-
         return $this->fileDecorators;
     }
 
@@ -108,10 +107,16 @@ final class RenderableFilesProcessor
         $this->fileDecorators[] = $fileDecorator;
     }
 
-    private function sortFileDecorators(): void
+    /**
+     * @param FileDecoratorInterface[] $fileDecorators
+     * @return FileDecoratorInterface[]
+     */
+    private function sortFileDecorators(array $fileDecorators): array
     {
-        usort($this->fileDecorators, function (FileDecoratorInterface $first, FileDecoratorInterface $second): int {
+        usort($fileDecorators, function (FileDecoratorInterface $first, FileDecoratorInterface $second): int {
             return $second->getPriority() <=> $first->getPriority();
         });
+
+        return $fileDecorators;
     }
 }
