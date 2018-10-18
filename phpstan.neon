@@ -102,9 +102,6 @@ parameters:
         # not for a BC
         - '#In method "Symplify\\EasyCodingStandard\\Contract\\Finder\\CustomSourceProviderInterface::find", a "iterable\<SplFileInfo\|string\>" return type can be added#'
 
-        # known values
-        - '#(.*)ContainerFactory::(create(.*?))\(\) should return (.*)\\ContainerInterface but returns Symfony\\Component\\DependencyInjection\\ContainerInterface\|null#'
-
         # intentionally
         - '#In method (.*?), caught "Throwable" must be rethrown. Either catch a more specific exception or add a "throw" clause in the "catch" block to propagate the exception#'
 
