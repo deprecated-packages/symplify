@@ -38,11 +38,6 @@ parameters:
         - '#Parameter \#3 \$end of method PHP_CodeSniffer\\Files\\File::findNext\(\) expects int\|null, bool\|int given#'
         - '#Parameter \#1 \$generatorFiles of method Symplify\\Statie\\Generator\\Contract\\ObjectSorterInterface::sort\(\) expects array<Symplify\\Statie\\Generator\\Renderable\\File\\AbstractGeneratorFile>, array<Symplify\\Statie\\Renderable\\File\\AbstractFile> given#'
 
-        - '#Parameter \#1 \$phpDocTagValueNode of method Symplify\\BetterPhpDocParser\\PhpDocInfo\\AbstractPhpDocInfoDecorator::isValueNodeWithType\(\) expects PHPStan\\PhpDocParser\\Ast\\PhpDoc\\PhpDocTagValueNode, PHPStan\\PhpDocParser\\Ast\\Node given#'
-        - '#Property PHPStan\\PhpDocParser\\Ast\\PhpDoc\\PhpDocTagNode::\$value \(PHPStan\\PhpDocParser\\Ast\\PhpDoc\\PhpDocTagValueNode\) does not accept PHPStan\\PhpDocParser\\Ast\\Node#'
-        - '#Method Symplify\\BetterPhpDocParser\\PhpDocInfo\\AbstractPhpDocInfoDecorator::traverseTypeNode\(\) should return PHPStan\\PhpDocParser\\Ast\\Type\\TypeNode but returns PHPStan\\PhpDocParser\\Ast\\Node#'
-        - '#Array \(array<PHPStan\\PhpDocParser\\Ast\\Type\\TypeNode>\) does not accept PHPStan\\PhpDocParser\\Ast\\Node#'
-
         # invalid 3rd party-code
         - '#Call to an undefined method Psr\\Cache\\CacheItemInterface::tag\(\)#'
         - '#Parameter \#1 \$types of method PHP_CodeSniffer\\Files\\File::findNext\(\) expects array\|int, string given#'
