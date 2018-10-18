@@ -141,16 +141,20 @@ final class PhpDocInfoPrinter
             $this->currentTokenPosition = $phpDocNodeInfo->getEnd();
         }
 
-        if ($node instanceof PhpDocTagNode) {
+        if ($node instanceof PhpDocTagNode && $phpDocNodeInfo) {
             return $this->printPhpDocTagNode($node, $phpDocNodeInfo, $output);
         }
 
-        if (! $node instanceof PhpDocTextNode && ! $node instanceof GenericTagValueNode) {
+        if (! $node instanceof PhpDocTextNode && ! $node instanceof GenericTagValueNode && $phpDocNodeInfo) {
             return $this->originalSpacingRestorer->restoreInOutputWithTokensAndPhpDocNodeInfo(
                 (string) $node,
                 $this->tokens,
                 $phpDocNodeInfo
             );
+        }
+
+        if ($node instanceof PhpDocTagNode) {
+            return $output . PHP_EOL . '     * ' . (string) $node;
         }
 
         return $output . (string) $node;

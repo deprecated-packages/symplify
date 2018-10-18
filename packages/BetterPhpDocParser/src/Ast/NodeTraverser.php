@@ -1,8 +1,7 @@
 <?php declare(strict_types=1);
 
-namespace Symplify\BetterPhpDocParser\PhpDocInfo;
+namespace Symplify\BetterPhpDocParser\Ast;
 
-use PHPStan\PhpDocParser\Ast\Node;
 use PHPStan\PhpDocParser\Ast\PhpDoc\ParamTagValueNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTagNode;
@@ -13,16 +12,13 @@ use PHPStan\PhpDocParser\Ast\PhpDoc\VarTagValueNode;
 use PHPStan\PhpDocParser\Ast\Type\ArrayTypeNode;
 use PHPStan\PhpDocParser\Ast\Type\TypeNode;
 use PHPStan\PhpDocParser\Ast\Type\UnionTypeNode;
-use Symplify\BetterPhpDocParser\Contract\PhpDocInfoDecoratorInterface;
 
-abstract class AbstractPhpDocInfoDecorator implements PhpDocInfoDecoratorInterface
+final class NodeTraverser
 {
-    abstract protected function traverseNode(Node $node): Node;
-
-    protected function traverseNodes(PhpDocNode $phpDocNode): void
+    public function traverseWithCallable(PhpDocNode $phpDocNode, callable $callable): void
     {
         foreach ($phpDocNode->children as $phpDocChildNode) {
-            $phpDocChildNode = $this->traverseNode($phpDocChildNode);
+            $phpDocChildNode = $callable($phpDocChildNode);
 
             if ($phpDocChildNode instanceof PhpDocTextNode) {
                 continue;
@@ -32,13 +28,13 @@ abstract class AbstractPhpDocInfoDecorator implements PhpDocInfoDecoratorInterfa
                 continue;
             }
 
-            $phpDocChildNode->value = $this->traverseNode($phpDocChildNode->value);
+            $phpDocChildNode->value = $callable($phpDocChildNode->value);
 
             if ($this->isValueNodeWithType($phpDocChildNode->value)) {
                 /** @var ParamTagValueNode|VarTagValueNode|ReturnTagValueNode $valueNode */
                 $valueNode = $phpDocChildNode->value;
 
-                $valueNode->type = $this->traverseTypeNode($valueNode->type);
+                $valueNode->type = $this->traverseTypeNode($valueNode->type, $callable);
             }
         }
     }
@@ -50,17 +46,17 @@ abstract class AbstractPhpDocInfoDecorator implements PhpDocInfoDecoratorInterfa
             $phpDocTagValueNode instanceof VarTagValueNode;
     }
 
-    private function traverseTypeNode(TypeNode $typeNode): TypeNode
+    private function traverseTypeNode(TypeNode $typeNode, callable $callable): TypeNode
     {
-        $typeNode = $this->traverseNode($typeNode);
+        $typeNode = $callable($typeNode);
 
         if ($typeNode instanceof ArrayTypeNode) {
-            $typeNode->type = $this->traverseTypeNode($typeNode->type);
+            $typeNode->type = $this->traverseTypeNode($typeNode->type, $callable);
         }
 
         if ($typeNode instanceof UnionTypeNode) {
             foreach ($typeNode->types as $key => $subTypeNode) {
-                $typeNode->types[$key] = $this->traverseNode($subTypeNode);
+                $typeNode->types[$key] = $callable($subTypeNode);
             }
         }
 

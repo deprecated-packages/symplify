@@ -35,6 +35,7 @@ final class NoClassInstantiationSniff implements Sniff
         'Nette\Loaders\RobotLoader',
         'Nette\Configurator',
         'Nette\DI\Config\Loader',
+        '*DateTime',
 
         // Symfony Console
         'Symfony\Component\Console\Input\InputArgument',
