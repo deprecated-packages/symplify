@@ -9,7 +9,35 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 <!-- changelog-linker -->
 
-## v5.1.2 - 2018-10-11
+## Unreleased
+
+### Added
+
+#### EasyCodingStandard
+
+- [#1148] Add way to suppress specific sniff message, Thanks to [@ostrolucky]
+
+#### LatteToTwigConverter
+
+- [#1163] Add quote in `<script>` support [closes [#1155]]
+
+### Changed
+
+#### BetterPhpDocParser
+
+- [#1161] Decouple `PhpDocInfo` decorators
+
+#### CodingStandard
+
+- [#1154] Improve `ClassStringToClassConstantFixer` class type matching
+
+### Fixed
+
+#### PackageBuilder
+
+- [#1160] Remove need of default `[]` for autowired array arguments
+
+## [v5.1.2] - 2018-10-11
 
 ### Added
 
@@ -130,5 +158,13 @@ Same as 4.8, just without BC layer. Thanks Symfony for inspiration!
 [#1139]: https://github.com/Symplify/Symplify/pull/1139
 [@mynameisbogdan]: https://github.com/mynameisbogdan
 [#1152]: https://github.com/Symplify/Symplify/pull/1152
-[#1147]: https://github.com/Symplify/Symplify/pull/1147
-[@veewee]: https://github.com/veewee
+[#1163]: https://github.com/Symplify/Symplify/pull/1163
+[#1162]: https://github.com/Symplify/Symplify/pull/1162
+[#1161]: https://github.com/Symplify/Symplify/pull/1161
+[#1160]: https://github.com/Symplify/Symplify/pull/1160
+[#1156]: https://github.com/Symplify/Symplify/pull/1156
+[#1155]: https://github.com/Symplify/Symplify/pull/1155
+[#1154]: https://github.com/Symplify/Symplify/pull/1154
+[#1148]: https://github.com/Symplify/Symplify/pull/1148
+[@ostrolucky]: https://github.com/ostrolucky
+[v5.1.2]: https://github.com/Symplify/Symplify/compare/v5.1.1...v5.1.2
