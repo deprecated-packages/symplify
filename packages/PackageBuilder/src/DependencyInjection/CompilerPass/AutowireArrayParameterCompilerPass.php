@@ -55,7 +55,8 @@ final class AutowireArrayParameterCompilerPass implements CompilerPassInterface
             }
 
             // already set
-            if (isset($definition->getArguments()['$' . $parameterReflection->getName()])) {
+            $argumentName = '$' . $parameterReflection->getName();
+            if (isset($definition->getArguments()[$argumentName])) {
                 continue;
             }
 
@@ -70,7 +71,6 @@ final class AutowireArrayParameterCompilerPass implements CompilerPassInterface
 
             $definitionsOfType = $this->definitionFinder->findAllByType($containerBuilder, $parameterType);
 
-            $argumentName = '$' . $parameterReflection->getName();
             $definition->setArgument($argumentName, $this->createReferencesFromDefinitions($definitionsOfType));
         }
     }
@@ -100,6 +100,10 @@ final class AutowireArrayParameterCompilerPass implements CompilerPassInterface
         }
 
         if ($definition->getClass() === null) {
+            return true;
+        }
+
+        if ($definition->getFactory()) {
             return true;
         }
 
