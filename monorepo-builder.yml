@@ -8,7 +8,7 @@ parameters:
             phpstan/phpstan: '^0.10.3|^0.9'
             tracy/tracy: '^2.4'
             thecodingmachine/phpstan-safe-rule: '@@dev'
-            thecodingmachine/phpstan-strict-rules: '^0.10.3'
+            thecodingmachine/phpstan-strict-rules: '0.10.6'
 
     # remove these to merge of packages' composer.json
     data_to_remove:

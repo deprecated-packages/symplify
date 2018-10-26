@@ -102,12 +102,13 @@ parameters:
 
         # intentionally
         - '#Empty catch block#'
+        - '#In method (.*?), caught "Throwable" must be rethrown. Either catch a more specific exception or add a "throw" clause in the "catch" block to propagate the exception#'
 
         # not for a BC
         - '#In method "Symplify\\EasyCodingStandard\\Contract\\Finder\\CustomSourceProviderInterface::find", a "iterable\<SplFileInfo\|string\>" return type can be added#'
 
-        # intentionally
-        - '#In method (.*?), caught "Throwable" must be rethrown. Either catch a more specific exception or add a "throw" clause in the "catch" block to propagate the exception#'
+        # unclear
+        - '#Parameter \#1 \$string of function strlen expects string, string\|false given#'
 
 services:
     -
