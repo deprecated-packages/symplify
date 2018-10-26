@@ -2,7 +2,6 @@
 
 [![Build Status](https://img.shields.io/travis/Symplify/PHPStanExtensions/master.svg?style=flat-square)](https://travis-ci.org/Symplify/PHPStanExtensions)
 [![Downloads total](https://img.shields.io/packagist/dt/symplify/phpstan-extensions.svg?style=flat-square)](https://packagist.org/packages/symplify/phpstan-extensions/stats)
-[![Subscribe](https://img.shields.io/badge/subscribe-to--releases-green.svg?style=flat-square)](https://libraries.io/packagist/symplify%2Fphpstan-extensions)
 
 ## Install
 
