@@ -3,23 +3,29 @@
 namespace Symplify\PackageBuilder\Composer;
 
 use Composer\Autoload\ClassLoader;
+use Nette\Utils\Strings;
 use ReflectionClass;
 
 final class VendorDirProvider
 {
-    /**
-     * @var string
-     */
-    private static $vendorDir;
-
     public static function provide(): string
     {
-        if (self::$vendorDir) {
-            return self::$vendorDir;
+        $path = __DIR__;
+        while (! Strings::endsWith($path, 'vendor') && $path !== '/') {
+            $path = dirname($path);
         }
 
+        if ($path !== '/') {
+            return $path;
+        }
+
+        return self::reflectionFallback();
+    }
+
+    private static function reflectionFallback(): string
+    {
         $classLoaderReflection = new ReflectionClass(ClassLoader::class);
 
-        return self::$vendorDir = dirname(dirname($classLoaderReflection->getFileName()));
+        return dirname(dirname($classLoaderReflection->getFileName()));
     }
 }
