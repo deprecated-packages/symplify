@@ -17,6 +17,37 @@ composer require symplify/coding-standard --dev
 
 - Rules with :wrench: are configurable.
 
+### Prefer Another Class
+
+- :wrench:
+- class: [`Symplify\CodingStandard\Sniffs\Architecture\PreferredClassSniff`](src/Sniffs/Architecture/PreferredClassSniff.php)
+
+```yaml
+# ecs.yml
+services:
+    Symplify\CodingStandard\Sniffs\Architecture\PreferredClassSniff:
+        oldToPreferredClasses:
+            DateTime: 'Nette\Utils\DateTime'
+```
+
+:x:
+
+```php
+<?php
+
+$dateTime = new DateTime('now');
+```
+
+:+1:
+
+```php
+<?php
+
+$dateTime = new Nette\Utils\DateTime('now');
+```
+
+<br>
+
 ### Indexed PHP arrays should have 1 item per line
 
 - class: [`Symplify\CodingStandard\Fixer\ArrayNotation\StandaloneLineInMultilineArrayFixer`](src/Fixer/ArrayNotation/StandaloneLineInMultilineArrayFixer.php)
