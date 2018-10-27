@@ -17,9 +17,24 @@
 
 The best and easiest way to start coding standard with. Combined both [PHP-CS-Fixer](https://github.com/friendsofphp/php-cs-fixer) and [PHP_CodeSniffer](https://github.com/squizlabs/PHP_CodeSniffer).
 
-**Used by [Shopsys](https://github.com/shopsys/coding-standards), [Nette](https://github.com/nette/coding-standard), [Sylius](https://github.com/SyliusLabs/CodingStandard), [php-ai/php-ml](https://github.com/php-ai/php-ml/), [LMC](https://github.com/lmc-eu/php-coding-standard) and [Sunfox](https://github.com/sunfoxcz/coding-standard).**
-
 ![ECS-Run](packages/EasyCodingStandard/docs/run-and-fix.gif)
+
+**Used by:**
+
+<p align="center">
+    <a href="https://github.com/lmc-eu/php-coding-standard"><img src="/packages/EasyCodingStandard/docs/logos/lmc.png"></a>
+    <img src="/packages/EasyCodingStandard/docs/logos/space.png">
+    <a href="https://github.com/nette/coding-standard"><img src="/packages/EasyCodingStandard/docs/logos/nette.png"></a>
+    <img src="/packages/EasyCodingStandard/docs/logos/space.png">
+    <a href="https://github.com/php-ai/php-ml/"><img src="/packages/EasyCodingStandard/docs/logos/phpai.png"></a>
+    <br>
+    <br>
+    <a href="https://github.com/shopsys/coding-standards"><img src="/packages/EasyCodingStandard/docs/logos/shopsys.png"></a>
+    <img src="/packages/EasyCodingStandard/docs/logos/space.png">
+    <a href="https://github.com/sunfoxcz/coding-standard"><img src="/packages/EasyCodingStandard/docs/logos/sunfox.jpg"></a>
+    <img src="/packages/EasyCodingStandard/docs/logos/space.png">
+    <a href="https://github.com/SyliusLabs/CodingStandard"><img src="/packages/EasyCodingStandard/docs/logos/sylius.png"></a>
+</p>
 
 <br>
 
