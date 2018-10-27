@@ -1,7 +1,12 @@
-# Symplify main repository
-
-[![Build Status](https://img.shields.io/travis/Symplify/Symplify/master.svg?style=flat-square)](https://travis-ci.org/Symplify/Symplify)
-[![Coverage Status](https://img.shields.io/coveralls/Symplify/Symplify/master.svg?style=flat-square)](https://coveralls.io/github/Symplify/Symplify?branch=master)
+<div align="center">
+    <h1>Symplify Monorepo</h1>
+    <a href="https://travis-ci.org/Symplify/Symplify">
+        <img src="https://img.shields.io/travis/Symplify/Symplify/master.svg?style=flat-square" alt="CI Status">
+    </a>
+    <a href="https://coveralls.io/github/Symplify/Symplify?branch=master">
+        <img src="https://img.shields.io/coveralls/Symplify/Symplify/master.svg?style=flat-square" alt="Coverage Status">
+    </a>
+</div>
 
 <br>
 
