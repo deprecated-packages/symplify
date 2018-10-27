@@ -9,6 +9,18 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 <!-- changelog-linker -->
 
+## Unreleased
+
+### Fixed
+
+#### EasyCodingStandard
+
+- [#1168] Add conflicting constants checkers [ref #1167]
+
+#### PackageBuilder
+
+- [#1166] Make `VendorDirProvider` work for global installs
+
 ## v5.1.3 - 2018-10-19
 
 ### Added
@@ -159,12 +171,13 @@ Same as 4.8, just without BC layer. Thanks Symfony for inspiration!
 [@mynameisbogdan]: https://github.com/mynameisbogdan
 [#1152]: https://github.com/Symplify/Symplify/pull/1152
 [#1163]: https://github.com/Symplify/Symplify/pull/1163
-[#1162]: https://github.com/Symplify/Symplify/pull/1162
 [#1161]: https://github.com/Symplify/Symplify/pull/1161
 [#1160]: https://github.com/Symplify/Symplify/pull/1160
-[#1156]: https://github.com/Symplify/Symplify/pull/1156
 [#1155]: https://github.com/Symplify/Symplify/pull/1155
 [#1154]: https://github.com/Symplify/Symplify/pull/1154
 [#1148]: https://github.com/Symplify/Symplify/pull/1148
 [@ostrolucky]: https://github.com/ostrolucky
 [v5.1.2]: https://github.com/Symplify/Symplify/compare/v5.1.1...v5.1.2
+[#1168]: https://github.com/Symplify/Symplify/pull/1168
+[#1166]: https://github.com/Symplify/Symplify/pull/1166
+[v5.1.3]: https://github.com/Symplify/Symplify/compare/v5.1.2...v5.1.3
