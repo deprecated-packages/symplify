@@ -9,14 +9,14 @@ use Symplify\Statie\Contract\Templating\FilterProviderInterface;
 final class LatteFactory
 {
     /**
-     * @var ILoader
-     */
-    private $loader;
-
-    /**
      * @var FilterProviderInterface[]
      */
     private $filterProviders = [];
+
+    /**
+     * @var ILoader
+     */
+    private $loader;
 
     /**
      * @param FilterProviderInterface[] $filterProviders

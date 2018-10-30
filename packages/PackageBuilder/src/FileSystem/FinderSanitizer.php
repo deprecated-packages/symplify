@@ -6,6 +6,7 @@ use Nette\Utils\Finder as NetteFinder;
 use SplFileInfo;
 use Symfony\Component\Finder\Finder as SymfonyFinder;
 use Symfony\Component\Finder\SplFileInfo as SymfonySplFileInfo;
+use function Safe\filesize;
 
 final class FinderSanitizer
 {

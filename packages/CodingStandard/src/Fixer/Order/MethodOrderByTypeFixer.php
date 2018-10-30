@@ -2,7 +2,6 @@
 
 namespace Symplify\CodingStandard\Fixer\Order;
 
-use PhpCsFixer\Fixer\ClassNotation\OrderedClassElementsFixer;
 use PhpCsFixer\Fixer\ConfigurationDefinitionFixerInterface;
 use PhpCsFixer\Fixer\DefinedFixerInterface;
 use PhpCsFixer\FixerConfiguration\FixerConfigurationResolver;
@@ -13,10 +12,13 @@ use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
-use Symplify\PackageBuilder\Reflection\PrivatesCaller;
+use Symplify\TokenRunner\Transformer\FixerTransformer\ClassElementSorter;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\ClassWrapper;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\ClassWrapperFactory;
 
+/**
+ * Inspiration @see \PhpCsFixer\Fixer\ClassNotation\OrderedClassElementsFixer
+ */
 final class MethodOrderByTypeFixer implements DefinedFixerInterface, ConfigurationDefinitionFixerInterface
 {
     /**
@@ -30,29 +32,23 @@ final class MethodOrderByTypeFixer implements DefinedFixerInterface, Configurati
     private $configuration = [];
 
     /**
-     * @var OrderedClassElementsFixer
-     */
-    private $orderedClassElementsFixer;
-
-    /**
-     * @var PrivatesCaller
-     */
-    private $privatesCaller;
-
-    /**
      * @var ClassWrapperFactory
      */
     private $classWrapperFactory;
 
-    public function __construct(ClassWrapperFactory $classWrapperFactory)
+    /**
+     * @var ClassElementSorter
+     */
+    private $classElementSorter;
+
+    public function __construct(ClassWrapperFactory $classWrapperFactory, ClassElementSorter $classElementSorter)
     {
         // set defaults
         $this->configuration = $this->getConfigurationDefinition()
             ->resolve([]);
 
-        $this->privatesCaller = new PrivatesCaller();
-        $this->orderedClassElementsFixer = new OrderedClassElementsFixer();
         $this->classWrapperFactory = $classWrapperFactory;
+        $this->classElementSorter = $classElementSorter;
     }
 
     public function getDefinition(): FixerDefinitionInterface
@@ -110,21 +106,7 @@ CODE_SAMPLE
 
             $sortedMethodElements = $this->sortMethodElementsAsExpected($publicMethodElements, $requiredMethodOrder);
 
-            // nothing to sort
-            if ($sortedMethodElements === $methodElements) {
-                continue;
-            }
-
-            $this->privatesCaller->callPrivateMethod(
-                $this->orderedClassElementsFixer,
-                'sortTokens',
-                $tokens,
-                // first method index
-                $methodElements[0]['start'] - 1,
-                // last method index
-                $methodElements[count($methodElements) - 1]['end'],
-                $sortedMethodElements
-            );
+            $this->classElementSorter->apply($tokens, $methodElements, $sortedMethodElements);
         }
     }
 

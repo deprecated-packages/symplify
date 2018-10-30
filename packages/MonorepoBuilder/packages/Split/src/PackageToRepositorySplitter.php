@@ -15,11 +15,6 @@ use function Safe\sprintf;
 final class PackageToRepositorySplitter
 {
     /**
-     * @var SymfonyStyle
-     */
-    private $symfonyStyle;
-
-    /**
      * @var Process[]
      */
     private $activeProcesses = [];
@@ -28,6 +23,11 @@ final class PackageToRepositorySplitter
      * @var SplitProcessInfo[]
      */
     private $processInfos = [];
+
+    /**
+     * @var SymfonyStyle
+     */
+    private $symfonyStyle;
 
     /**
      * @var FileSystemGuard

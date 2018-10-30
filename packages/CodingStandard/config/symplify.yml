@@ -18,3 +18,5 @@ services:
         exclude: '../src/{Sniffs/DeadCode/UnusedPublicMethodSniff.php,Sniffs/CleanCode/ForbiddenParentClassSniff.php,Fixer/Order/MethodOrderByTypeFixer.php}'
 
     Symplify\PackageBuilder\Types\ClassLikeExistenceChecker: ~
+
+    Symplify\TokenRunner\Transformer\FixerTransformer\ClassElementSorter: ~

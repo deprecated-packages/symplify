@@ -13,9 +13,9 @@ use function Safe\sprintf;
 final class SplitCommand extends Command
 {
     /**
-     * @var RepositoryGuard
+     * @var string
      */
-    private $repositoryGuard;
+    private $rootDirectory;
 
     /**
      * @var string[]
@@ -23,9 +23,9 @@ final class SplitCommand extends Command
     private $directoriesToRepositories = [];
 
     /**
-     * @var string
+     * @var RepositoryGuard
      */
-    private $rootDirectory;
+    private $repositoryGuard;
 
     /**
      * @var PackageToRepositorySplitter

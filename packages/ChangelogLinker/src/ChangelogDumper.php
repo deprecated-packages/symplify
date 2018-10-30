@@ -24,14 +24,14 @@ final class ChangelogDumper
     private $previousTag;
 
     /**
-     * @var GitCommitDateTagResolver
-     */
-    private $gitCommitDateTagResolver;
-
-    /**
      * @var string
      */
     private $content;
+
+    /**
+     * @var GitCommitDateTagResolver
+     */
+    private $gitCommitDateTagResolver;
 
     /**
      * @var ChangelogFormatter

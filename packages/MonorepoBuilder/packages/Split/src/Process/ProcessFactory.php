@@ -17,9 +17,9 @@ final class ProcessFactory
     private const SUBSPLIT_BASH_FILE = __DIR__ . '/../../bash/subsplit.sh';
 
     /**
-     * @var RepositoryGuard
+     * @var string
      */
-    private $repositoryGuard;
+    private $repository;
 
     /**
      * @var string
@@ -27,9 +27,9 @@ final class ProcessFactory
     private $subsplitCacheDirectory;
 
     /**
-     * @var string
+     * @var RepositoryGuard
      */
-    private $repository;
+    private $repositoryGuard;
 
     public function __construct(
         RepositoryGuard $repositoryGuard,

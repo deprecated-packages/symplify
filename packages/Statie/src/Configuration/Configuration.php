@@ -32,14 +32,14 @@ final class Configuration
     private $outputDirectory;
 
     /**
-     * @var FileSystemGuard
-     */
-    private $fileSystemGuard;
-
-    /**
      * @var bool
      */
     private $isDryRun = false;
+
+    /**
+     * @var FileSystemGuard
+     */
+    private $fileSystemGuard;
 
     public function __construct(ParameterProvider $parameterProvider, FileSystemGuard $fileSystemGuard)
     {

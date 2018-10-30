@@ -14,14 +14,14 @@ final class InterfaceNameSniff implements Sniff
     private const ERROR_MESSAGE = 'Interface should have suffix "Interface".';
 
     /**
-     * @var File
-     */
-    private $file;
-
-    /**
      * @var int
      */
     private $position;
+
+    /**
+     * @var File
+     */
+    private $file;
 
     /**
      * @return int[]

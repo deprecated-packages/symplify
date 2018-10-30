@@ -11,6 +11,11 @@ use function Safe\sprintf;
 final class DiffLinksToVersionsWorker implements WorkerInterface
 {
     /**
+     * @var string
+     */
+    private $repositoryUrl;
+
+    /**
      * @var LinkAppender
      */
     private $linkAppender;
@@ -24,11 +29,6 @@ final class DiffLinksToVersionsWorker implements WorkerInterface
      * @var LinksAnalyzer
      */
     private $linksAnalyzer;
-
-    /**
-     * @var string
-     */
-    private $repositoryUrl;
 
     public function __construct(
         LinkAppender $linkAppender,

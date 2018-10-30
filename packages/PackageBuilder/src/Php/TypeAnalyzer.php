@@ -16,6 +16,7 @@ final class TypeAnalyzer
                 'mixed',
                 'object',
                 'iterable',
+                'resource',
                 'array',
                 'float',
                 'int',
@@ -25,6 +26,7 @@ final class TypeAnalyzer
                 'null',
                 'false',
                 'true',
+                'mixed',
             ],
             true
         );
@@ -33,5 +35,10 @@ final class TypeAnalyzer
     public function isNullableType(string $type): bool
     {
         return Strings::startsWith($type, '?');
+    }
+
+    public function isIterableType(string $type): bool
+    {
+        return Strings::endsWith($type, '[]');
     }
 }

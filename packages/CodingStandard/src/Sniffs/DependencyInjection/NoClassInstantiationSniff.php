@@ -21,6 +21,11 @@ final class NoClassInstantiationSniff implements Sniff
     private const ERROR_MESSAGE = 'Use service and constructor injection rather than instantiation with "new %s".';
 
     /**
+     * @var bool
+     */
+    public $includeEntities = false;
+
+    /**
      * @var string[]
      */
     public $allowedClasses = [
@@ -91,11 +96,6 @@ final class NoClassInstantiationSniff implements Sniff
         '*Kernel',
         '*CompilerPass',
     ];
-
-    /**
-     * @var bool
-     */
-    public $includeEntities = false;
 
     /**
      * @var File

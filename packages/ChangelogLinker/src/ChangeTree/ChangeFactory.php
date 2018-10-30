@@ -11,14 +11,14 @@ use function Safe\sprintf;
 final class ChangeFactory
 {
     /**
-     * @var GitCommitDateTagResolver
-     */
-    private $gitCommitDateTagResolver;
-
-    /**
      * @var string[]
      */
     private $authorsToIgnore = [];
+
+    /**
+     * @var GitCommitDateTagResolver
+     */
+    private $gitCommitDateTagResolver;
 
     /**
      * @var CategoryResolver

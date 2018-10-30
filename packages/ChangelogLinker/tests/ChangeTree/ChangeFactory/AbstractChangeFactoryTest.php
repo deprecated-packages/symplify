@@ -9,11 +9,6 @@ use Symplify\ChangelogLinker\Tests\AbstractConfigAwareContainerTestCase;
 abstract class AbstractChangeFactoryTest extends AbstractConfigAwareContainerTestCase
 {
     /**
-     * @var ChangeFactory
-     */
-    protected $changeFactory;
-
-    /**
      * @var mixed[]
      */
     protected $pullRequest = [
@@ -21,6 +16,11 @@ abstract class AbstractChangeFactoryTest extends AbstractConfigAwareContainerTes
         'title' => 'Blind title',
         'merge_commit_sha' => 'random',
     ];
+
+    /**
+     * @var ChangeFactory
+     */
+    protected $changeFactory;
 
     /**
      * @var ChangeFactory|null

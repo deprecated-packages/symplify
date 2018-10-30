@@ -6,41 +6,31 @@ use Nette\Utils\Strings;
 use PhpCsFixer\Tokenizer\CT;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
+use Symplify\PackageBuilder\Php\TypeAnalyzer;
 use Symplify\TokenRunner\Naming\Name\NameFactory;
 
 abstract class AbstractVariableWrapper
 {
-    /**
-     * @var Tokens
-     */
-    protected $tokens;
-
     /**
      * @var int
      */
     protected $index;
 
     /**
-     * @todo make use of TypeAnalyzer
-     * @var string[]
+     * @var Tokens
      */
-    private $simpleTypes = [
-        'string',
-        'int',
-        'bool',
-        'null',
-        'array',
-        'iterable',
-        'integer',
-        'boolean',
-        'resource',
-        'mixed',
-    ];
+    protected $tokens;
+
+    /**
+     * @var TypeAnalyzer
+     */
+    private $typeAnalyzer;
 
     public function __construct(Tokens $tokens, int $index)
     {
         $this->tokens = $tokens;
         $this->index = $index;
+        $this->typeAnalyzer = new TypeAnalyzer();
     }
 
     public function getName(): string
@@ -57,14 +47,14 @@ abstract class AbstractVariableWrapper
             return false;
         }
 
-        // just a simple type
-        if (array_intersect($types, $this->simpleTypes)) {
-            return false;
+        foreach ($types as $type) {
+            if ($this->typeAnalyzer->isPhpReservedType($type)) {
+                return false;
+            }
         }
 
-        // @todo make use of TypeAnalyzer
         foreach ($types as $type) {
-            if (Strings::contains($type, '[]')) {
+            if ($this->typeAnalyzer->isIterableType($type)) {
                 return false;
             }
         }

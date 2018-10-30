@@ -17,11 +17,9 @@ use function Safe\class_parents;
 final class ClassWrapper
 {
     /**
-     * Static cache
-     *
-     * @var string[][]
+     * @var int
      */
-    private static $parentInterfacesPerInterface = [];
+    private $startIndex;
 
     /**
      * @var string|null
@@ -39,54 +37,16 @@ final class ClassWrapper
     private $endBracketIndex;
 
     /**
-     * @var TokensAnalyzer
+     * Static cache
+     *
+     * @var string[][]
      */
-    private $tokensAnalyzer;
+    private static $parentInterfacesPerInterface = [];
 
     /**
-     * @var Tokens
+     * @var string[]
      */
-    private $tokens;
-
-    /**
-     * @var Token
-     */
-    private $classToken;
-
-    /**
-     * @var int
-     */
-    private $startIndex;
-
-    /**
-     * @var mixed[]
-     */
-    private $classyElements = [];
-
-    /**
-     * @var PropertyWrapperFactory
-     */
-    private $propertyWrapperFactory;
-
-    /**
-     * @var MethodWrapperFactory
-     */
-    private $methodWrapperFactory;
-
-    /**
-     * @var DocBlockFinder
-     */
-    private $docBlockFinder;
-
-    /**
-     * @var PropertyAccessWrapperFactory
-     */
-    private $propertyAccessWrapperFactory;
-
-    /**
-     * @var NameFactory
-     */
-    private $nameFactory;
+    private $classTypes = [];
 
     /**
      * @var mixed[]
@@ -104,14 +64,59 @@ final class ClassWrapper
     private $methodElements = [];
 
     /**
-     * @var string[]
+     * @var mixed[]
      */
-    private $classTypes = [];
+    private $propertyElements = [];
+
+    /**
+     * @var mixed[]
+     */
+    private $classyElements = [];
+
+    /**
+     * @var PropertyAccessWrapperFactory
+     */
+    private $propertyAccessWrapperFactory;
+
+    /**
+     * @var MethodWrapperFactory
+     */
+    private $methodWrapperFactory;
+
+    /**
+     * @var DocBlockFinder
+     */
+    private $docBlockFinder;
+
+    /**
+     * @var Tokens
+     */
+    private $tokens;
+
+    /**
+     * @var NameFactory
+     */
+    private $nameFactory;
+
+    /**
+     * @var Token
+     */
+    private $classToken;
+
+    /**
+     * @var TokensAnalyzer
+     */
+    private $tokensAnalyzer;
 
     /**
      * @var ClassLikeExistenceChecker
      */
     private $classLikeExistenceChecker;
+
+    /**
+     * @var PropertyWrapperFactory
+     */
+    private $propertyWrapperFactory;
 
     public function __construct(
         Tokens $tokens,
@@ -275,6 +280,18 @@ final class ClassWrapper
     }
 
     /**
+     * @return mixed[]
+     */
+    public function getPropertyElements(): array
+    {
+        if ($this->propertyElements) {
+            return $this->propertyElements;
+        }
+
+        return $this->propertyElements = $this->getElementsByType('property');
+    }
+
+    /**
      * @return string[]
      */
     public function getInterfaceNames(): array
@@ -323,21 +340,7 @@ final class ClassWrapper
             return $this->methodElements;
         }
 
-        $elements = (new PrivatesCaller())->callPrivateMethod(
-            new OrderedClassElementsFixer(),
-            'getElements',
-            $this->tokens,
-            $this->startBracketIndex
-        );
-
-        $methodElements = array_filter($elements, function (array $element) {
-            return $element['type'] === 'method';
-        });
-
-        // re-index from 0
-        $methodElements = array_values($methodElements);
-
-        return $this->methodElements = $methodElements;
+        return $this->methodElements = $this->getElementsByType('method');
     }
 
     /**
@@ -439,5 +442,25 @@ final class ClassWrapper
         }
 
         return $this->classyElements = $this->tokensAnalyzer->getClassyElements();
+    }
+
+    /**
+     * @return mixed[]
+     */
+    private function getElementsByType(string $type): array
+    {
+        $elements = (new PrivatesCaller())->callPrivateMethod(
+            new OrderedClassElementsFixer(),
+            'getElements',
+            $this->tokens,
+            $this->startBracketIndex
+        );
+
+        $methodElements = array_filter($elements, function (array $element) use ($type) {
+            return $element['type'] === $type;
+        });
+
+        // re-index from 0
+        return array_values($methodElements);
     }
 }

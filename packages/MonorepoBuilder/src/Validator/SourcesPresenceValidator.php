@@ -9,14 +9,14 @@ use function Safe\sprintf;
 final class SourcesPresenceValidator
 {
     /**
-     * @var ComposerJsonProvider
-     */
-    private $composerJsonProvider;
-
-    /**
      * @var string[]
      */
     private $packageDirectories = [];
+
+    /**
+     * @var ComposerJsonProvider
+     */
+    private $composerJsonProvider;
 
     /**
      * @param string[] $packageDirectories

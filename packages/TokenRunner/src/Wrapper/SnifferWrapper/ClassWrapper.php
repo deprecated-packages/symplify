@@ -9,14 +9,14 @@ use Symplify\TokenRunner\Analyzer\SnifferAnalyzer\Naming;
 final class ClassWrapper
 {
     /**
-     * @var File
-     */
-    private $file;
-
-    /**
      * @var int
      */
     private $position;
+
+    /**
+     * @var File
+     */
+    private $file;
 
     /**
      * @var Naming

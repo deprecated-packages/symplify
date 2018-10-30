@@ -15,14 +15,14 @@ use Symplify\BetterPhpDocParser\Printer\PhpDocInfoPrinter;
 final class DocBlockWrapper
 {
     /**
-     * @var Tokens
-     */
-    private $tokens;
-
-    /**
      * @var int
      */
     private $position;
+
+    /**
+     * @var Tokens
+     */
+    private $tokens;
 
     /**
      * @var PhpDocInfo

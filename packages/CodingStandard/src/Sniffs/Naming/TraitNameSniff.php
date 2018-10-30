@@ -14,14 +14,14 @@ final class TraitNameSniff implements Sniff
     private const ERROR_MESSAGE = 'Trait should have suffix "Trait".';
 
     /**
-     * @var File
-     */
-    private $file;
-
-    /**
      * @var int
      */
     private $position;
+
+    /**
+     * @var File
+     */
+    private $file;
 
     /**
      * @return int[]

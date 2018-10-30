@@ -10,9 +10,9 @@ use Symplify\PackageBuilder\DependencyInjection\DefinitionFinder;
 final class ConfigurableCollectorCompilerPass implements CompilerPassInterface
 {
     /**
-     * @var DefinitionCollector
+     * @var bool
      */
-    private $definitionCollector;
+    private $enableCommonCollectors = false;
 
     /**
      * @var string[][]
@@ -39,9 +39,9 @@ final class ConfigurableCollectorCompilerPass implements CompilerPassInterface
     ];
 
     /**
-     * @var bool
+     * @var DefinitionCollector
      */
-    private $enableCommonCollectors = false;
+    private $definitionCollector;
 
     public function __construct(bool $enableCommonCollectors = true)
     {

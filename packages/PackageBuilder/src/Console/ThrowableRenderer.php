@@ -14,6 +14,15 @@ use Throwable;
 final class ThrowableRenderer
 {
     /**
+     * @var int[]
+     */
+    private $verbosityOptionToLevel = [
+        '-v' => OutputInterface::VERBOSITY_VERBOSE,
+        '-vv' => OutputInterface::VERBOSITY_VERY_VERBOSE,
+        '-vvv' => OutputInterface::VERBOSITY_DEBUG,
+    ];
+
+    /**
      * @var Application
      */
     private $application;
@@ -27,15 +36,6 @@ final class ThrowableRenderer
      * @var InputInterface
      */
     private $input;
-
-    /**
-     * @var int[]
-     */
-    private $verbosityOptionToLevel = [
-        '-v' => OutputInterface::VERBOSITY_VERBOSE,
-        '-vv' => OutputInterface::VERBOSITY_VERY_VERBOSE,
-        '-vvv' => OutputInterface::VERBOSITY_DEBUG,
-    ];
 
     public function __construct(?OutputInterface $output = null, ?InputInterface $input = null)
     {
