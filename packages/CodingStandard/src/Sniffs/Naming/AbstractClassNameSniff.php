@@ -14,14 +14,14 @@ final class AbstractClassNameSniff implements Sniff
     private const ERROR_MESSAGE = 'Abstract class should have prefix "Abstract".';
 
     /**
-     * @var File
-     */
-    private $file;
-
-    /**
      * @var int
      */
     private $position;
+
+    /**
+     * @var File
+     */
+    private $file;
 
     /**
      * @return int[]

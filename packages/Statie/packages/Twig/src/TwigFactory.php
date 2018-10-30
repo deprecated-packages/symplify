@@ -13,11 +13,6 @@ use Twig_Function;
 final class TwigFactory
 {
     /**
-     * @var LoaderInterface
-     */
-    private $arrayLoader;
-
-    /**
      * @var string
      */
     private $twigCacheDirectory;
@@ -26,6 +21,11 @@ final class TwigFactory
      * @var FilterProviderInterface[]
      */
     private $filterProviders = [];
+
+    /**
+     * @var LoaderInterface
+     */
+    private $arrayLoader;
 
     /**
      * @var FilterExecutor

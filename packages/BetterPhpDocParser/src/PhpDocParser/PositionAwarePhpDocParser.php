@@ -18,6 +18,11 @@ use Symplify\PackageBuilder\Reflection\PrivatesCaller;
 final class PositionAwarePhpDocParser extends PhpDocParser
 {
     /**
+     * @var bool
+     */
+    private $isComment = false;
+
+    /**
      * @var PrivatesCaller
      */
     private $privatesCaller;
@@ -31,11 +36,6 @@ final class PositionAwarePhpDocParser extends PhpDocParser
      * @var PrivatesAccessor
      */
     private $privatesAccessor;
-
-    /**
-     * @var bool
-     */
-    private $isComment = false;
 
     public function __construct(
         TypeParser $typeParser,

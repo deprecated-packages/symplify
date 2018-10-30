@@ -12,14 +12,14 @@ final class GeneratorConfiguration
     private const CONFIG_KEY = 'generators';
 
     /**
-     * @var ParameterProvider
-     */
-    private $parameterProvider;
-
-    /**
      * @var GeneratorElement[]
      */
     private $generatorElements = [];
+
+    /**
+     * @var ParameterProvider
+     */
+    private $parameterProvider;
 
     /**
      * @var GeneratorElementFactory

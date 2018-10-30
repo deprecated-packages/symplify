@@ -18,6 +18,11 @@ use function Safe\getcwd;
 final class MergeCommand extends Command
 {
     /**
+     * @var string[]
+     */
+    private $mergeSections = [];
+
+    /**
      * @var SymfonyStyle
      */
     private $symfonyStyle;
@@ -26,11 +31,6 @@ final class MergeCommand extends Command
      * @var PackageComposerJsonMerger
      */
     private $packageComposerJsonMerger;
-
-    /**
-     * @var string[]
-     */
-    private $mergeSections = [];
 
     /**
      * @var DependenciesMerger

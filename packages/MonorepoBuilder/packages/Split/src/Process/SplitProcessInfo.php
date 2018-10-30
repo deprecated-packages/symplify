@@ -7,9 +7,9 @@ use Symfony\Component\Process\Process;
 final class SplitProcessInfo
 {
     /**
-     * @var Process
+     * @var string
      */
-    private $process;
+    private $remoteRepository;
 
     /**
      * @var string
@@ -17,9 +17,9 @@ final class SplitProcessInfo
     private $localDirectory;
 
     /**
-     * @var string
+     * @var Process
      */
-    private $remoteRepository;
+    private $process;
 
     public function __construct(Process $process, string $localDirectory, string $remoteRepository)
     {

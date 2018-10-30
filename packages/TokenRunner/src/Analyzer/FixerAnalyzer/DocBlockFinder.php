@@ -11,12 +11,12 @@ final class DocBlockFinder
         for ($i = $index; $i > 0; --$i) {
             $token = $tokens[$i];
 
-            if ($token->getContent() === ';') {
+            if ($token->equals(';')) {
                 return null;
             }
 
             // another block starts -> skip
-            if ($token->getContent() === '}') {
+            if ($token->equals('}')) {
                 return null;
             }
 
@@ -26,5 +26,9 @@ final class DocBlockFinder
         }
 
         return null;
+    }
+
+    public function findRelatedPosition(Tokens $tokens, int $index): ?int
+    {
     }
 }

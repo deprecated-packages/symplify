@@ -37,6 +37,11 @@ final class LineLengthFixer implements DefinedFixerInterface, ConfigurationDefin
     private const INLINE_SHORT_LINES_OPTION = 'inline_short_lines';
 
     /**
+     * @var mixed[]
+     */
+    private $configuration = [];
+
+    /**
      * @var LineLengthTransformer
      */
     private $lineLengthTransformer;
@@ -45,11 +50,6 @@ final class LineLengthFixer implements DefinedFixerInterface, ConfigurationDefin
      * @var BlockFinder
      */
     private $blockFinder;
-
-    /**
-     * @var mixed[]
-     */
-    private $configuration = [];
 
     public function __construct(LineLengthTransformer $lineLengthTransformer, BlockFinder $blockFinder)
     {

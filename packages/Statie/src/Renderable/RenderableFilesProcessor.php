@@ -16,14 +16,14 @@ use function Safe\usort;
 final class RenderableFilesProcessor
 {
     /**
-     * @var FileFactory
-     */
-    private $fileFactory;
-
-    /**
      * @var FileDecoratorInterface[]
      */
     private $fileDecorators = [];
+
+    /**
+     * @var FileFactory
+     */
+    private $fileFactory;
 
     /**
      * @var Configuration

@@ -10,14 +10,14 @@ use function Safe\sprintf;
 final class LinkifyWorker implements WorkerInterface
 {
     /**
-     * @var LinkAppender
-     */
-    private $linkAppender;
-
-    /**
      * @var string[]
      */
     private $namesToUrls = [];
+
+    /**
+     * @var LinkAppender
+     */
+    private $linkAppender;
 
     /**
      * @param string[] $namesToUrls

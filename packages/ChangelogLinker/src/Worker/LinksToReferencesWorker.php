@@ -11,14 +11,14 @@ use function Safe\sprintf;
 final class LinksToReferencesWorker implements WorkerInterface
 {
     /**
-     * @var LinkAppender
-     */
-    private $linkAppender;
-
-    /**
      * @var string
      */
     private $repositoryUrl;
+
+    /**
+     * @var LinkAppender
+     */
+    private $linkAppender;
 
     public function __construct(string $repositoryUrl, LinkAppender $linkAppender)
     {

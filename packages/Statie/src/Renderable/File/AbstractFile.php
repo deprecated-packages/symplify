@@ -9,14 +9,14 @@ use Symplify\PackageBuilder\FileSystem\SmartFileInfo;
 abstract class AbstractFile
 {
     /**
-     * @var SmartFileInfo
-     */
-    protected $fileInfo;
-
-    /**
      * @var mixed[]
      */
     protected $configuration = [];
+
+    /**
+     * @var SmartFileInfo
+     */
+    protected $fileInfo;
 
     /**
      * @var string
@@ -39,14 +39,14 @@ abstract class AbstractFile
     private $filePath;
 
     /**
-     * @var DateTimeInterface|null
-     */
-    private $dateTime;
-
-    /**
      * @var string
      */
     private $filenameWithoutDate;
+
+    /**
+     * @var DateTimeInterface|null
+     */
+    private $dateTime;
 
     public function __construct(
         SmartFileInfo $fileInfo,

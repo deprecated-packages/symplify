@@ -10,11 +10,6 @@ use PhpCsFixer\Tokenizer\Tokens;
 final class MethodWrapper
 {
     /**
-     * @var Tokens
-     */
-    private $tokens;
-
-    /**
      * @var int
      */
     private $index;
@@ -34,14 +29,19 @@ final class MethodWrapper
     private $bodyEnd;
 
     /**
-     * @var DocBlockWrapper|null
-     */
-    private $docBlockWrapper;
-
-    /**
      * @var ArgumentWrapper[]
      */
     private $argumentWrappers = [];
+
+    /**
+     * @var Tokens
+     */
+    private $tokens;
+
+    /**
+     * @var DocBlockWrapper|null
+     */
+    private $docBlockWrapper;
 
     /**
      * @param ArgumentWrapper[] $argumentWrappers

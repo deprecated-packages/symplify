@@ -9,9 +9,9 @@ use Symplify\TokenRunner\Analyzer\FixerAnalyzer\TokenSkipper;
 final class ArrayWrapper
 {
     /**
-     * @var Tokens
+     * @var int
      */
-    private $tokens;
+    private $endIndex;
 
     /**
      * @var int
@@ -19,9 +19,9 @@ final class ArrayWrapper
     private $startIndex;
 
     /**
-     * @var int
+     * @var Tokens
      */
-    private $endIndex;
+    private $tokens;
 
     /**
      * @var TokenSkipper

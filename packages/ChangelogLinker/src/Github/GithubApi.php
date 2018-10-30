@@ -26,11 +26,6 @@ final class GithubApi
     private const URL_PULL_REQUEST_BY_ID = 'https://api.github.com/repos/%s/pulls/%d';
 
     /**
-     * @var Client
-     */
-    private $client;
-
-    /**
      * @var string
      */
     private $repositoryName;
@@ -39,6 +34,11 @@ final class GithubApi
      * @var mixed[]
      */
     private $options = [];
+
+    /**
+     * @var Client
+     */
+    private $client;
 
     /**
      * @var ResponseFormatter

@@ -10,14 +10,14 @@ use function Safe\asort;
 final class VersionValidator
 {
     /**
-     * @var JsonFileManager
-     */
-    private $jsonFileManager;
-
-    /**
      * @var string[]
      */
     private $sections = [Section::REQUIRE, Section::REQUIRE_DEV];
+
+    /**
+     * @var JsonFileManager
+     */
+    private $jsonFileManager;
 
     public function __construct(JsonFileManager $jsonFileManager)
     {

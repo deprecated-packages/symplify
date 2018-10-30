@@ -21,16 +21,6 @@ use Symplify\BetterPhpDocParser\PhpDocParser\Storage\NodeWithPositionsObjectStor
 final class PhpDocInfoPrinter
 {
     /**
-     * @var NodeWithPositionsObjectStorage|PhpDocNodeInfo[]
-     */
-    private $nodeWithPositionsObjectStorage;
-
-    /**
-     * @var mixed[]
-     */
-    private $tokens = [];
-
-    /**
      * @var int
      */
     private $tokenCount;
@@ -41,6 +31,21 @@ final class PhpDocInfoPrinter
     private $currentTokenPosition;
 
     /**
+     * @var mixed[]
+     */
+    private $tokens = [];
+
+    /**
+     * @var PhpDocNodeInfo[]
+     */
+    private $removedNodePositions = [];
+
+    /**
+     * @var NodeWithPositionsObjectStorage|PhpDocNodeInfo[]
+     */
+    private $nodeWithPositionsObjectStorage;
+
+    /**
      * @var PhpDocNode
      */
     private $phpDocNode;
@@ -49,11 +54,6 @@ final class PhpDocInfoPrinter
      * @var PhpDocNode
      */
     private $originalPhpDocNode;
-
-    /**
-     * @var PhpDocNodeInfo[]
-     */
-    private $removedNodePositions = [];
 
     /**
      * @var OriginalSpacingRestorer

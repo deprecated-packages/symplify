@@ -29,6 +29,11 @@ final class UnusedPublicMethodSniff implements Sniff, DualRunInterface
     private $runNumber = 1;
 
     /**
+     * @var int
+     */
+    private $position;
+
+    /**
      * @var string[]
      */
     private $publicMethodNames = [];
@@ -37,16 +42,6 @@ final class UnusedPublicMethodSniff implements Sniff, DualRunInterface
      * @var string[]
      */
     private $calledMethodNames = [];
-
-    /**
-     * @var File
-     */
-    private $file;
-
-    /**
-     * @var int
-     */
-    private $position;
 
     /**
      * @var mixed[]
@@ -61,14 +56,19 @@ final class UnusedPublicMethodSniff implements Sniff, DualRunInterface
     private $methodsToIgnore = ['__*', 'test*', 'provide*', 'offset*'];
 
     /**
-     * @var ClassWrapperFactory
-     */
-    private $classWrapperFactory;
-
-    /**
      * @var string[]
      */
     private $unusedMethodNames = [];
+
+    /**
+     * @var File
+     */
+    private $file;
+
+    /**
+     * @var ClassWrapperFactory
+     */
+    private $classWrapperFactory;
 
     public function __construct(ClassWrapperFactory $classWrapperFactory)
     {

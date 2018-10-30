@@ -18,9 +18,9 @@ use Symplify\BetterPhpDocParser\PhpDocParser\TypeNodeToStringsConvertor;
 final class PhpDocInfo
 {
     /**
-     * @var PhpDocNode
+     * @var string
      */
-    private $phpDocNode;
+    private $originalContent;
 
     /**
      * @var mixed[]
@@ -30,12 +30,12 @@ final class PhpDocInfo
     /**
      * @var PhpDocNode
      */
-    private $originalPhpDocNode;
+    private $phpDocNode;
 
     /**
-     * @var string
+     * @var PhpDocNode
      */
-    private $originalContent;
+    private $originalPhpDocNode;
 
     /**
      * @var PhpDocModifier

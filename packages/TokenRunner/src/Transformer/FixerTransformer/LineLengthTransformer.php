@@ -14,11 +14,6 @@ use Symplify\TokenRunner\Analyzer\FixerAnalyzer\TokenSkipper;
 final class LineLengthTransformer
 {
     /**
-     * @var IndentDetector
-     */
-    private $indentDetector;
-
-    /**
      * @var string
      */
     private $indentWhitespace;
@@ -32,6 +27,11 @@ final class LineLengthTransformer
      * @var string
      */
     private $closingBracketNewlineIndentWhitespace;
+
+    /**
+     * @var IndentDetector
+     */
+    private $indentDetector;
 
     /**
      * @var TokenSkipper
