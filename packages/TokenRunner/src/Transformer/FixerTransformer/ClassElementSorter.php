@@ -16,6 +16,8 @@ final class ClassElementSorter
             return;
         }
 
+        $elements = array_values($elements);
+
         $startIndex = $elements[0]['start'] - 1;
         $endIndex = $elements[count($elements) - 1]['end'];
 

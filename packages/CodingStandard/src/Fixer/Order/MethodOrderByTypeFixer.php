@@ -2,6 +2,7 @@
 
 namespace Symplify\CodingStandard\Fixer\Order;
 
+use PhpCsFixer\AbstractFixer;
 use PhpCsFixer\Fixer\ConfigurableFixerInterface;
 use PhpCsFixer\Fixer\DefinedFixerInterface;
 use PhpCsFixer\FixerDefinition\CodeSample;
@@ -16,7 +17,7 @@ use Symplify\TokenRunner\Wrapper\FixerWrapper\ClassWrapperFactory;
 /**
  * Inspiration @see \PhpCsFixer\Fixer\ClassNotation\OrderedClassElementsFixer
  */
-final class MethodOrderByTypeFixer implements DefinedFixerInterface, ConfigurableFixerInterface
+final class MethodOrderByTypeFixer extends AbstractFixer implements ConfigurableFixerInterface
 {
     /**
      * @var string[][]
@@ -35,6 +36,7 @@ final class MethodOrderByTypeFixer implements DefinedFixerInterface, Configurabl
 
     public function __construct(ClassWrapperFactory $classWrapperFactory, ClassElementSorter $classElementSorter)
     {
+        parent::__construct();
         $this->classWrapperFactory = $classWrapperFactory;
         $this->classElementSorter = $classElementSorter;
     }
@@ -70,7 +72,7 @@ CODE_SAMPLE
         );
     }
 
-    public function fix(SplFileInfo $file, Tokens $tokens): void
+    protected function applyFix(SplFileInfo $file, Tokens $tokens): void
     {
         for ($i = 1, $count = $tokens->count(); $i < $count; ++$i) {
             if (! $tokens[$i]->isClassy()) {
@@ -126,6 +128,23 @@ CODE_SAMPLE
         $this->methodOrderByType = $configuration['method_order_by_type'] ?? [];
     }
 
+    private function shouldSkip(ClassWrapper $classWrapper): bool
+    {
+        // we cannot check abstract classes, since they don't contain all
+        if ($classWrapper->isAbstract()) {
+            return true;
+        }
+
+        // no type matches
+        $matchedClassType = $this->matchClassType($classWrapper);
+        if ($matchedClassType === null) {
+            return true;
+        }
+
+        // there are no methods to sort
+        return ! $classWrapper->getMethodElements();
+    }
+
     /**
      * @param mixed[] $methodElements
      * @return mixed[]
@@ -157,23 +176,6 @@ CODE_SAMPLE
 
         // return first matching type
         return array_pop($matchTypes);
-    }
-
-    private function shouldSkip(ClassWrapper $classWrapper): bool
-    {
-        // we cannot check abstract classes, since they don't contain all
-        if ($classWrapper->isAbstract()) {
-            return true;
-        }
-
-        // no type matches
-        $matchedClassType = $this->matchClassType($classWrapper);
-        if ($matchedClassType === null) {
-            return true;
-        }
-
-        // there are no methods to sort
-        return ! $classWrapper->getMethodElements();
     }
 
     /**

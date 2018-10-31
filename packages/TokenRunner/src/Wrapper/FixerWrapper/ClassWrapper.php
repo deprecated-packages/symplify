@@ -344,6 +344,16 @@ final class ClassWrapper
     }
 
     /**
+     * @return mixed[]
+     */
+    public function getPrivateMethodElements(): array
+    {
+        return array_filter($this->getMethodElements(), function (array $element) {
+           return $element['visibility'] === 'private';
+        });
+    }
+
+    /**
      * @return string[]
      */
     public function getClassTypes(): array
@@ -462,5 +472,38 @@ final class ClassWrapper
 
         // re-index from 0
         return array_values($methodElements);
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getThisMethodCallsByOrderOfAppearance(): array
+    {
+        $methodCalls = [];
+        for ($i = $this->startBracketIndex; $i < $this->endBracketIndex; ++$i) {
+
+            if (! $this->isThisMethodCall($this->tokens, $i)) {
+                continue;
+            }
+            $token = $this->tokens[$i];
+            $methodCalls[] = $token->getContent();
+        }
+
+        return array_unique($methodCalls);
+    }
+
+    private function isThisMethodCall(Tokens $tokens, int $index): bool
+    {
+        $prevIndex = $tokens->getPrevMeaningfulToken($index);
+        if (! $tokens[$prevIndex]->equals([T_OBJECT_OPERATOR, '->'])) {
+            return false;
+        }
+
+        $prevPrevIndex = $tokens->getPrevMeaningfulToken($prevIndex);
+        if ($tokens[$prevPrevIndex]->getContent() !== '$this') {
+            return false;
+        }
+
+        return $tokens[$tokens->getNextMeaningfulToken($index)]->equals('(');
     }
 }
