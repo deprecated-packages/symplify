@@ -2,11 +2,8 @@
 
 namespace Symplify\CodingStandard\Fixer\Commenting;
 
-use PhpCsFixer\Fixer\ConfigurationDefinitionFixerInterface;
+use PhpCsFixer\Fixer\ConfigurableFixerInterface;
 use PhpCsFixer\Fixer\DefinedFixerInterface;
-use PhpCsFixer\FixerConfiguration\FixerConfigurationResolver;
-use PhpCsFixer\FixerConfiguration\FixerConfigurationResolverInterface;
-use PhpCsFixer\FixerConfiguration\FixerOptionBuilder;
 use PhpCsFixer\FixerDefinition\CodeSample;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
@@ -21,13 +18,8 @@ use Symplify\TokenRunner\Wrapper\FixerWrapper\DocBlockWrapper;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\MethodWrapper;
 use Symplify\TokenRunner\Wrapper\FixerWrapper\MethodWrapperFactory;
 
-final class RemoveUselessDocBlockFixer implements DefinedFixerInterface, ConfigurationDefinitionFixerInterface
+final class RemoveUselessDocBlockFixer implements DefinedFixerInterface, ConfigurableFixerInterface
 {
-    /**
-     * @var string
-     */
-    public const USELESS_TYPES_OPTION = 'useless_types';
-
     /**
      * @var DescriptionAnalyzer
      */
@@ -58,8 +50,6 @@ final class RemoveUselessDocBlockFixer implements DefinedFixerInterface, Configu
         $this->paramAndReturnTagAnalyzer = $paramAndReturnTagAnalyzer;
         $this->methodWrapperFactory = $methodWrapperFactory;
         $this->typeNodeAnalyzer = $typeNodeAnalyzer;
-
-        $this->configure([]);
     }
 
     public function getDefinition(): FixerDefinitionInterface
@@ -135,23 +125,7 @@ public function getCount(): int
      */
     public function configure(?array $configuration = null): void
     {
-        if ($configuration === null) {
-            return;
-        }
-
-        $configuration = $this->getConfigurationDefinition()
-            ->resolve($configuration);
-
-        $this->paramAndReturnTagAnalyzer->setUselessTypes($configuration[self::USELESS_TYPES_OPTION]);
-    }
-
-    public function getConfigurationDefinition(): FixerConfigurationResolverInterface
-    {
-        $option = (new FixerOptionBuilder(self::USELESS_TYPES_OPTION, 'List of types to remove.'))
-            ->setDefault([])
-            ->getOption();
-
-        return new FixerConfigurationResolver([$option]);
+        $this->paramAndReturnTagAnalyzer->setUselessTypes($configuration['useless_types'] ?? []);
     }
 
     private function processReturnTag(MethodWrapper $methodWrapper, DocBlockWrapper $docBlockWrapper): void

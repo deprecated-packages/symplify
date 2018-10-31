@@ -10,7 +10,7 @@
         "friendsofphp/php-cs-fixer": "^2.13",
         "symplify/token-runner": "^5.2",
         "slam/php-cs-fixer-extensions": "^1.17",
-        "thecodingmachine/safe": "^0.1.3"
+        "thecodingmachine/safe": "^0.1.6"
     },
     "require-dev": {
         "nette/application": "^2.4",

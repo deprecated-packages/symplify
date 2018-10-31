@@ -2,11 +2,8 @@
 
 namespace Symplify\CodingStandard\Fixer\Order;
 
-use PhpCsFixer\Fixer\ConfigurationDefinitionFixerInterface;
+use PhpCsFixer\Fixer\ConfigurableFixerInterface;
 use PhpCsFixer\Fixer\DefinedFixerInterface;
-use PhpCsFixer\FixerConfiguration\FixerConfigurationResolver;
-use PhpCsFixer\FixerConfiguration\FixerConfigurationResolverInterface;
-use PhpCsFixer\FixerConfiguration\FixerOptionBuilder;
 use PhpCsFixer\FixerDefinition\CodeSample;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
@@ -19,17 +16,12 @@ use Symplify\TokenRunner\Wrapper\FixerWrapper\ClassWrapperFactory;
 /**
  * Inspiration @see \PhpCsFixer\Fixer\ClassNotation\OrderedClassElementsFixer
  */
-final class MethodOrderByTypeFixer implements DefinedFixerInterface, ConfigurationDefinitionFixerInterface
+final class MethodOrderByTypeFixer implements DefinedFixerInterface, ConfigurableFixerInterface
 {
     /**
-     * @var string
+     * @var string[][]
      */
-    public const METHOD_ORDER_BY_TYPE_OPTION = 'method_order_by_type';
-
-    /**
-     * @var mixed[]
-     */
-    private $configuration = [];
+    private $methodOrderByType = [];
 
     /**
      * @var ClassWrapperFactory
@@ -43,10 +35,6 @@ final class MethodOrderByTypeFixer implements DefinedFixerInterface, Configurati
 
     public function __construct(ClassWrapperFactory $classWrapperFactory, ClassElementSorter $classElementSorter)
     {
-        // set defaults
-        $this->configuration = $this->getConfigurationDefinition()
-            ->resolve([]);
-
         $this->classWrapperFactory = $classWrapperFactory;
         $this->classElementSorter = $classElementSorter;
     }
@@ -135,23 +123,7 @@ CODE_SAMPLE
      */
     public function configure(?array $configuration = null): void
     {
-        if ($configuration === null) {
-            return;
-        }
-
-        $this->configuration = $this->getConfigurationDefinition()
-            ->resolve($configuration);
-    }
-
-    public function getConfigurationDefinition(): FixerConfigurationResolverInterface
-    {
-        $fixerOptionBuilder = new FixerOptionBuilder(self::METHOD_ORDER_BY_TYPE_OPTION, 'Methods order by type.');
-
-        $methodsOrderByTypeOption = $fixerOptionBuilder->setAllowedTypes(['array'])
-            ->setDefault([])
-            ->getOption();
-
-        return new FixerConfigurationResolver([$methodsOrderByTypeOption]);
+        $this->methodOrderByType = $configuration['method_order_by_type'] ?? [];
     }
 
     /**
@@ -176,7 +148,7 @@ CODE_SAMPLE
 
     private function matchClassType(ClassWrapper $classWrapper): ?string
     {
-        $classTypesToCheck = array_keys($this->configuration[self::METHOD_ORDER_BY_TYPE_OPTION]);
+        $classTypesToCheck = array_keys($this->methodOrderByType);
 
         $matchTypes = array_intersect($classWrapper->getClassTypes(), $classTypesToCheck);
         if (! $matchTypes) {
@@ -211,7 +183,7 @@ CODE_SAMPLE
     {
         $matchedClassType = $this->matchClassType($classWrapper);
 
-        return $this->configuration[self::METHOD_ORDER_BY_TYPE_OPTION][$matchedClassType];
+        return $this->methodOrderByType[$matchedClassType];
     }
 
     /**

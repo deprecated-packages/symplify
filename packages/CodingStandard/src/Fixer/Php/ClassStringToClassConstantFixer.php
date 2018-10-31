@@ -3,11 +3,8 @@
 namespace Symplify\CodingStandard\Fixer\Php;
 
 use Nette\Utils\Strings;
-use PhpCsFixer\Fixer\ConfigurationDefinitionFixerInterface;
+use PhpCsFixer\Fixer\ConfigurableFixerInterface;
 use PhpCsFixer\Fixer\DefinedFixerInterface;
-use PhpCsFixer\FixerConfiguration\FixerConfigurationResolver;
-use PhpCsFixer\FixerConfiguration\FixerConfigurationResolverInterface;
-use PhpCsFixer\FixerConfiguration\FixerOptionBuilder;
 use PhpCsFixer\FixerDefinition\CodeSample;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
@@ -18,27 +15,24 @@ use SplFileInfo;
 use Symplify\PackageBuilder\Types\ClassLikeExistenceChecker;
 use function Safe\substr;
 
-final class ClassStringToClassConstantFixer implements DefinedFixerInterface, ConfigurationDefinitionFixerInterface
+final class ClassStringToClassConstantFixer implements DefinedFixerInterface, ConfigurableFixerInterface
 {
-    /**
-     * @var string
-     */
-    public const CLASS_MUST_EXIST_OPTION = 'class_must_exist';
-
-    /**
-     * @var string
-     */
-    public const ALLOW_CLASES_OPTION = 'allow_classes';
-
     /**
      * @var string
      */
     private const CLASS_LIKE_REGEX = '#^[\\\\]?[A-Z]\w*(\\\\[A-Z]\w*)*$#';
 
     /**
-     * @var mixed[]
+     * @var bool
      */
-    private $configuration = [];
+    private $classMustExists = true;
+
+    /**
+     * Classes allowed to be in string format
+     *
+     * @var string[]
+     */
+    private $allowClasses = [];
 
     /**
      * @var ClassLikeExistenceChecker
@@ -47,10 +41,6 @@ final class ClassStringToClassConstantFixer implements DefinedFixerInterface, Co
 
     public function __construct(ClassLikeExistenceChecker $classLikeExistenceChecker)
     {
-        // set defaults
-        $this->configuration = $this->getConfigurationDefinition()
-            ->resolve([]);
-
         $this->classLikeExistenceChecker = $classLikeExistenceChecker;
     }
 
@@ -118,35 +108,8 @@ final class ClassStringToClassConstantFixer implements DefinedFixerInterface, Co
      */
     public function configure(?array $configuration = null): void
     {
-        if ($configuration === null) {
-            return;
-        }
-
-        $this->configuration = $this->getConfigurationDefinition()
-            ->resolve($configuration);
-    }
-
-    public function getConfigurationDefinition(): FixerConfigurationResolverInterface
-    {
-        $fixerOptionBuilder = new FixerOptionBuilder(
-            self::CLASS_MUST_EXIST_OPTION,
-            'Whether class has to exist or not.'
-        );
-
-        $classMustExistOption = $fixerOptionBuilder->setAllowedValues([true, false])
-            ->setDefault(true)
-            ->getOption();
-
-        $fixerOptionBuilder = new FixerOptionBuilder(
-            self::ALLOW_CLASES_OPTION,
-            'Classes allowed to be in string format.'
-        );
-
-        $allowedClassesOption = $fixerOptionBuilder->setAllowedTypes(['array'])
-            ->setDefault([])
-            ->getOption();
-
-        return new FixerConfigurationResolver([$classMustExistOption, $allowedClassesOption]);
+        $this->classMustExists = $configuration['class_must_exist'] ?? [];
+        $this->allowClasses = $configuration['allow_classes'] ?? [];
     }
 
     private function getNameFromToken(Token $token): string
@@ -169,7 +132,7 @@ final class ClassStringToClassConstantFixer implements DefinedFixerInterface, Co
             return false;
         }
 
-        foreach ($this->configuration[self::ALLOW_CLASES_OPTION] as $allowedClass) {
+        foreach ($this->allowClasses as $allowedClass) {
             if ($classLike === $allowedClass) {
                 return false;
             }
@@ -179,7 +142,7 @@ final class ClassStringToClassConstantFixer implements DefinedFixerInterface, Co
             return false;
         }
 
-        if ($this->configuration[self::CLASS_MUST_EXIST_OPTION] === false) {
+        if ($this->classMustExists === false) {
             return true;
         }
 
