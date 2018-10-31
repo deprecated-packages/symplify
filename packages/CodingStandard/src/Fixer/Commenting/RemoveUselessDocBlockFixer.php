@@ -128,6 +128,19 @@ public function getCount(): int
         $this->paramAndReturnTagAnalyzer->setUselessTypes($configuration['useless_types'] ?? []);
     }
 
+    private function isNamedFunctionToken(Tokens $tokens, Token $token, int $index): bool
+    {
+        if (! $token->isGivenKind(T_FUNCTION)) {
+            return false;
+        }
+
+        $possibleNamePosition = $tokens->getNextMeaningfulToken($index);
+
+        $possibleNameToken = $tokens[$possibleNamePosition];
+
+        return $possibleNameToken->isGivenKind(T_STRING);
+    }
+
     private function processReturnTag(MethodWrapper $methodWrapper, DocBlockWrapper $docBlockWrapper): void
     {
         $returnTagValue = $docBlockWrapper->getPhpDocInfo()->getReturnTagValue();
@@ -199,6 +212,32 @@ public function getCount(): int
         }
     }
 
+    private function removeTagForMissingParameters(MethodWrapper $methodWrapper, DocBlockWrapper $docBlockWrapper): void
+    {
+        $argumentNames = $methodWrapper->getArgumentNames();
+
+        foreach ($docBlockWrapper->getPhpDocInfo()->getParamTagValues() as $paramTagValue) {
+            if (in_array(ltrim($paramTagValue->parameterName, '$'), $argumentNames, true)) {
+                continue;
+            }
+
+            $docBlockWrapper->removeParamType($paramTagValue->parameterName);
+        }
+    }
+
+    /**
+     * @param string[] $returnTypehintTypes
+     * @param string[] $returnDocTypes
+     */
+    private function isUselessNullableTypehint(array $returnTypehintTypes, array $returnDocTypes): bool
+    {
+        if (count($returnTypehintTypes) !== count($returnDocTypes)) {
+            return false;
+        }
+
+        return count(array_intersect($returnDocTypes, $returnTypehintTypes)) === count($returnTypehintTypes);
+    }
+
     private function shouldSkip(?TypeNode $typeNode, ?string $argumentDescription): bool
     {
         if ($argumentDescription === null || $typeNode === null) {
@@ -214,44 +253,5 @@ public function getCount(): int
         }
 
         return false;
-    }
-
-    private function removeTagForMissingParameters(MethodWrapper $methodWrapper, DocBlockWrapper $docBlockWrapper): void
-    {
-        $argumentNames = $methodWrapper->getArgumentNames();
-
-        foreach ($docBlockWrapper->getPhpDocInfo()->getParamTagValues() as $paramTagValue) {
-            if (in_array(ltrim($paramTagValue->parameterName, '$'), $argumentNames, true)) {
-                continue;
-            }
-
-            $docBlockWrapper->removeParamType($paramTagValue->parameterName);
-        }
-    }
-
-    private function isNamedFunctionToken(Tokens $tokens, Token $token, int $index): bool
-    {
-        if (! $token->isGivenKind(T_FUNCTION)) {
-            return false;
-        }
-
-        $possibleNamePosition = $tokens->getNextMeaningfulToken($index);
-
-        $possibleNameToken = $tokens[$possibleNamePosition];
-
-        return $possibleNameToken->isGivenKind(T_STRING);
-    }
-
-    /**
-     * @param string[] $returnTypehintTypes
-     * @param string[] $returnDocTypes
-     */
-    private function isUselessNullableTypehint(array $returnTypehintTypes, array $returnDocTypes): bool
-    {
-        if (count($returnTypehintTypes) !== count($returnDocTypes)) {
-            return false;
-        }
-
-        return count(array_intersect($returnDocTypes, $returnTypehintTypes)) === count($returnTypehintTypes);
     }
 }

@@ -39,6 +39,17 @@ final class LevelFileFinder
         return $iterator->current();
     }
 
+    private function reportLevelNotFound(string $configDirectory, string $levelName): void
+    {
+        $allLevels = $this->findAllLevelsInDirectory($configDirectory);
+
+        throw new LevelNotFoundException(sprintf(
+            'Level "%s" was not found. Pick one of: "%s"',
+            $levelName,
+            implode('", "', $allLevels)
+        ));
+    }
+
     /**
      * @return string[]
      */
@@ -56,16 +67,5 @@ final class LevelFileFinder
         sort($levels);
 
         return array_unique($levels);
-    }
-
-    private function reportLevelNotFound(string $configDirectory, string $levelName): void
-    {
-        $allLevels = $this->findAllLevelsInDirectory($configDirectory);
-
-        throw new LevelNotFoundException(sprintf(
-            'Level "%s" was not found. Pick one of: "%s"',
-            $levelName,
-            implode('", "', $allLevels)
-        ));
     }
 }

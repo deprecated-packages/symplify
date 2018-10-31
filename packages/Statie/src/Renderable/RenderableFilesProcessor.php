@@ -93,6 +93,19 @@ final class RenderableFilesProcessor
         return $this->fileDecorators;
     }
 
+    /**
+     * @param FileDecoratorInterface[] $fileDecorators
+     * @return FileDecoratorInterface[]
+     */
+    private function sortFileDecorators(array $fileDecorators): array
+    {
+        usort($fileDecorators, function (FileDecoratorInterface $first, FileDecoratorInterface $second): int {
+            return $second->getPriority() <=> $first->getPriority();
+        });
+
+        return $fileDecorators;
+    }
+
     private function addFileDecorator(FileDecoratorInterface $fileDecorator): void
     {
         $templating = $this->configuration->getOption('templating');
@@ -105,18 +118,5 @@ final class RenderableFilesProcessor
         }
 
         $this->fileDecorators[] = $fileDecorator;
-    }
-
-    /**
-     * @param FileDecoratorInterface[] $fileDecorators
-     * @return FileDecoratorInterface[]
-     */
-    private function sortFileDecorators(array $fileDecorators): array
-    {
-        usort($fileDecorators, function (FileDecoratorInterface $first, FileDecoratorInterface $second): int {
-            return $second->getPriority() <=> $first->getPriority();
-        });
-
-        return $fileDecorators;
     }
 }

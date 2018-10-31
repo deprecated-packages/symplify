@@ -45,9 +45,6 @@ final class LineLengthFixer implements DefinedFixerInterface, ConfigurableFixerI
 
     public function __construct(LineLengthTransformer $lineLengthTransformer, BlockFinder $blockFinder)
     {
-        // defaults
-        $this->configure([]);
-
         $this->lineLengthTransformer = $lineLengthTransformer;
         $this->blockFinder = $blockFinder;
     }
@@ -139,6 +136,32 @@ $array = ["loooooooooooooooooooooooooooooooongArraaaaaaaaaaay", "loooooooooooooo
         $this->inlineShortLines = $configuration['inline_short_lines'] ?? true;
     }
 
+    private function processMethodCall(Tokens $tokens, int $position): void
+    {
+        $methodNamePosition = $this->matchNamePositionForEndOfFunctionCall($tokens, $position);
+        if ($methodNamePosition === null) {
+            return;
+        }
+
+        $blockInfo = $this->blockFinder->findInTokensByPositionAndContent($tokens, $methodNamePosition, '(');
+        if ($blockInfo === null) {
+            return;
+        }
+
+        // has comments => dangerous to change: https://github.com/Symplify/Symplify/issues/973
+        if ($tokens->findGivenKind(T_COMMENT, $blockInfo->getStart(), $blockInfo->getEnd())) {
+            return;
+        }
+
+        $this->lineLengthTransformer->fixStartPositionToEndPosition(
+            $blockInfo,
+            $tokens,
+            $this->lineLength,
+            $this->breakLongLines,
+            $this->inlineShortLines
+        );
+    }
+
     private function processFunctionOrArray(Tokens $tokens, int $position): void
     {
         $blockInfo = $this->blockFinder->findInTokensByEdge($tokens, $position);
@@ -157,34 +180,6 @@ $array = ["loooooooooooooooooooooooooooooooongArraaaaaaaaaaay", "loooooooooooooo
             $this->breakLongLines,
             $this->inlineShortLines
         );
-    }
-
-    private function shouldSkip(Tokens $tokens, BlockInfo $blockInfo): bool
-    {
-        // no items inside => skip
-        if (($blockInfo->getEnd() - $blockInfo->getStart()) <= 1) {
-            return true;
-        }
-
-        // nowdoc => skip
-        $nextTokenPosition = $tokens->getNextMeaningfulToken($blockInfo->getStart());
-        $nextToken = $tokens[$nextTokenPosition];
-
-        if (Strings::startsWith($nextToken->getContent(), '<<<')) {
-            return true;
-        }
-
-        // is array with indexed values "=>"
-        if ($tokens->findGivenKind(T_DOUBLE_ARROW, $blockInfo->getStart(), $blockInfo->getEnd())) {
-            return true;
-        }
-
-        // has comments => dangerous to change: https://github.com/Symplify/Symplify/issues/973
-        if ($tokens->findGivenKind(T_COMMENT, $blockInfo->getStart(), $blockInfo->getEnd())) {
-            return true;
-        }
-
-        return false;
     }
 
     /**
@@ -222,29 +217,31 @@ $array = ["loooooooooooooooooooooooooooooooongArraaaaaaaaaaay", "loooooooooooooo
         return $previousTokenPosition;
     }
 
-    private function processMethodCall(Tokens $tokens, int $position): void
+    private function shouldSkip(Tokens $tokens, BlockInfo $blockInfo): bool
     {
-        $methodNamePosition = $this->matchNamePositionForEndOfFunctionCall($tokens, $position);
-        if ($methodNamePosition === null) {
-            return;
+        // no items inside => skip
+        if (($blockInfo->getEnd() - $blockInfo->getStart()) <= 1) {
+            return true;
         }
 
-        $blockInfo = $this->blockFinder->findInTokensByPositionAndContent($tokens, $methodNamePosition, '(');
-        if ($blockInfo === null) {
-            return;
+        // nowdoc => skip
+        $nextTokenPosition = $tokens->getNextMeaningfulToken($blockInfo->getStart());
+        $nextToken = $tokens[$nextTokenPosition];
+
+        if (Strings::startsWith($nextToken->getContent(), '<<<')) {
+            return true;
+        }
+
+        // is array with indexed values "=>"
+        if ($tokens->findGivenKind(T_DOUBLE_ARROW, $blockInfo->getStart(), $blockInfo->getEnd())) {
+            return true;
         }
 
         // has comments => dangerous to change: https://github.com/Symplify/Symplify/issues/973
         if ($tokens->findGivenKind(T_COMMENT, $blockInfo->getStart(), $blockInfo->getEnd())) {
-            return;
+            return true;
         }
 
-        $this->lineLengthTransformer->fixStartPositionToEndPosition(
-            $blockInfo,
-            $tokens,
-            $this->lineLength,
-            $this->breakLongLines,
-            $this->inlineShortLines
-        );
+        return false;
     }
 }

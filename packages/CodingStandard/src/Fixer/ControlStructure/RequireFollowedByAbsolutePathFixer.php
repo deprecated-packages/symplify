@@ -80,16 +80,6 @@ final class RequireFollowedByAbsolutePathFixer implements DefinedFixerInterface
         return true;
     }
 
-    private function startsWithPhar(Token $nextToken): bool
-    {
-        return Strings::startsWith($nextToken->getContent(), "'phar://");
-    }
-
-    private function startsWithSlash(Token $nextToken): bool
-    {
-        return Strings::startsWith($nextToken->getContent(), "'/");
-    }
-
     private function shouldSkipToken(Token $token): bool
     {
         if (! $token->isGivenKind(T_CONSTANT_ENCAPSED_STRING)) {
@@ -112,5 +102,15 @@ final class RequireFollowedByAbsolutePathFixer implements DefinedFixerInterface
 
         unset($tokens[$tokenPosition]);
         $tokens->insertAt($tokenPosition, $tokensToAdd);
+    }
+
+    private function startsWithPhar(Token $nextToken): bool
+    {
+        return Strings::startsWith($nextToken->getContent(), "'phar://");
+    }
+
+    private function startsWithSlash(Token $nextToken): bool
+    {
+        return Strings::startsWith($nextToken->getContent(), "'/");
     }
 }

@@ -108,16 +108,6 @@ final class RouteFileDecorator implements FileDecoratorInterface
         $file->setRelativeUrl($relativeDirectory . DIRECTORY_SEPARATOR . $file->getBaseName());
     }
 
-    private function getRelativeDirectory(AbstractFile $file): string
-    {
-        $sourceParts = explode(DIRECTORY_SEPARATOR, $this->configuration->getSourceDirectory());
-        $sourceDirectory = array_pop($sourceParts);
-
-        $relativeParts = explode($sourceDirectory, $file->getRelativeDirectory());
-
-        return array_pop($relativeParts);
-    }
-
     /**
      * Only if the date is part of file name
      */
@@ -140,5 +130,15 @@ final class RouteFileDecorator implements FileDecoratorInterface
             $file->getFilePath(),
             $this->configuration->getSourceDirectory() . DIRECTORY_SEPARATOR . 'index'
         );
+    }
+
+    private function getRelativeDirectory(AbstractFile $file): string
+    {
+        $sourceParts = explode(DIRECTORY_SEPARATOR, $this->configuration->getSourceDirectory());
+        $sourceDirectory = array_pop($sourceParts);
+
+        $relativeParts = explode($sourceDirectory, $file->getRelativeDirectory());
+
+        return array_pop($relativeParts);
     }
 }

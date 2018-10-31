@@ -157,6 +157,26 @@ final class ReleaseCommand extends Command
         $this->symfonyStyle->success('Done!');
     }
 
+    private function addTagToChangelog(Version $version): void
+    {
+        $changelogFilePath = getcwd() . '/CHANGELOG.md';
+        if (! file_exists($changelogFilePath)) {
+            return;
+        }
+
+        $newHeadline = '## ' . $version->getVersionString() . ' - ' . (new DateTime())->format('Y-m-d');
+
+        $this->symfonyStyle->note(
+            sprintf('Replacing "## Unreleased" headline in CHANGELOG.md with "%s"', $newHeadline)
+        );
+
+        $changelogFileContent = FileSystem::read($changelogFilePath);
+        $changelogFileContent = Strings::replace($changelogFileContent, '#\#\# Unreleased#', $newHeadline);
+        FileSystem::write($changelogFilePath, $changelogFileContent);
+
+        $this->symfonyStyle->success('Done!');
+    }
+
     private function tagVersion(Version $version, bool $isDryRun): void
     {
         $this->symfonyStyle->note(sprintf('Tagging version "%s"', $version->getVersionString()));
@@ -213,26 +233,6 @@ final class ReleaseCommand extends Command
             $this->composerJsonProvider->getPackagesFileInfos(),
             $version
         );
-
-        $this->symfonyStyle->success('Done!');
-    }
-
-    private function addTagToChangelog(Version $version): void
-    {
-        $changelogFilePath = getcwd() . '/CHANGELOG.md';
-        if (! file_exists($changelogFilePath)) {
-            return;
-        }
-
-        $newHeadline = '## ' . $version->getVersionString() . ' - ' . (new DateTime())->format('Y-m-d');
-
-        $this->symfonyStyle->note(
-            sprintf('Replacing "## Unreleased" headline in CHANGELOG.md with "%s"', $newHeadline)
-        );
-
-        $changelogFileContent = FileSystem::read($changelogFilePath);
-        $changelogFileContent = Strings::replace($changelogFileContent, '#\#\# Unreleased#', $newHeadline);
-        FileSystem::write($changelogFilePath, $changelogFileContent);
 
         $this->symfonyStyle->success('Done!');
     }

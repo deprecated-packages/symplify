@@ -160,40 +160,6 @@ CODE_SAMPLE
     }
 
     /**
-     * @param mixed[] $propertyElements
-     * @return mixed[]
-     */
-    private function sortPropertyWrappers(array $propertyElements): array
-    {
-        usort($propertyElements, function (array $firstPropertyElement, array $secondPropertyElement) {
-            return $firstPropertyElement['rating'] <=> $secondPropertyElement['rating'];
-        });
-
-        return $propertyElements;
-    }
-
-    /**
-     * @param string[] $types
-     */
-    private function getTypeRating(array $types): int
-    {
-        $rating = 0;
-        foreach ($types as $type) {
-            if ($this->typeAnalyzer->isPhpReservedType($type)) {
-                $rating = max($rating, 1);
-            } elseif ($this->typeAnalyzer->isIterableType($type)) {
-                $rating = max($rating, 2);
-            } elseif (ctype_upper($type[0])) {
-                // probably class type
-                $rating = max($rating, 3);
-                continue;
-            }
-        }
-
-        return $rating;
-    }
-
-    /**
      * @param mixed[] $propertyElement
      */
     private function resolveRatingFromDocType(Tokens $tokens, array $propertyElement): ?int
@@ -228,5 +194,39 @@ CODE_SAMPLE
         }
 
         return true;
+    }
+
+    /**
+     * @param mixed[] $propertyElements
+     * @return mixed[]
+     */
+    private function sortPropertyWrappers(array $propertyElements): array
+    {
+        usort($propertyElements, function (array $firstPropertyElement, array $secondPropertyElement) {
+            return $firstPropertyElement['rating'] <=> $secondPropertyElement['rating'];
+        });
+
+        return $propertyElements;
+    }
+
+    /**
+     * @param string[] $types
+     */
+    private function getTypeRating(array $types): int
+    {
+        $rating = 0;
+        foreach ($types as $type) {
+            if ($this->typeAnalyzer->isPhpReservedType($type)) {
+                $rating = max($rating, 1);
+            } elseif ($this->typeAnalyzer->isIterableType($type)) {
+                $rating = max($rating, 2);
+            } elseif (ctype_upper($type[0])) {
+                // probably class type
+                $rating = max($rating, 3);
+                continue;
+            }
+        }
+
+        return $rating;
     }
 }

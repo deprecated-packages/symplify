@@ -126,6 +126,23 @@ CODE_SAMPLE
         $this->methodOrderByType = $configuration['method_order_by_type'] ?? [];
     }
 
+    private function shouldSkip(ClassWrapper $classWrapper): bool
+    {
+        // we cannot check abstract classes, since they don't contain all
+        if ($classWrapper->isAbstract()) {
+            return true;
+        }
+
+        // no type matches
+        $matchedClassType = $this->matchClassType($classWrapper);
+        if ($matchedClassType === null) {
+            return true;
+        }
+
+        // there are no methods to sort
+        return ! $classWrapper->getMethodElements();
+    }
+
     /**
      * @param mixed[] $methodElements
      * @return mixed[]
@@ -144,36 +161,6 @@ CODE_SAMPLE
         }
 
         return array_merge($publicMethodElements, $restOfMethods);
-    }
-
-    private function matchClassType(ClassWrapper $classWrapper): ?string
-    {
-        $classTypesToCheck = array_keys($this->methodOrderByType);
-
-        $matchTypes = array_intersect($classWrapper->getClassTypes(), $classTypesToCheck);
-        if (! $matchTypes) {
-            return null;
-        }
-
-        // return first matching type
-        return array_pop($matchTypes);
-    }
-
-    private function shouldSkip(ClassWrapper $classWrapper): bool
-    {
-        // we cannot check abstract classes, since they don't contain all
-        if ($classWrapper->isAbstract()) {
-            return true;
-        }
-
-        // no type matches
-        $matchedClassType = $this->matchClassType($classWrapper);
-        if ($matchedClassType === null) {
-            return true;
-        }
-
-        // there are no methods to sort
-        return ! $classWrapper->getMethodElements();
     }
 
     /**
@@ -203,5 +190,18 @@ CODE_SAMPLE
         }
 
         return array_merge($sorted, $methodElements);
+    }
+
+    private function matchClassType(ClassWrapper $classWrapper): ?string
+    {
+        $classTypesToCheck = array_keys($this->methodOrderByType);
+
+        $matchTypes = array_intersect($classWrapper->getClassTypes(), $classTypesToCheck);
+        if (! $matchTypes) {
+            return null;
+        }
+
+        // return first matching type
+        return array_pop($matchTypes);
     }
 }

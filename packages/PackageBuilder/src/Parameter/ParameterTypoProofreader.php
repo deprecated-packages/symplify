@@ -51,6 +51,17 @@ final class ParameterTypoProofreader
     }
 
     /**
+     * @param string[] $parameterNames
+     * @return string[]
+     */
+    private function filterOutSystemParameterNames(array $parameterNames): array
+    {
+        return array_filter($parameterNames, function ($parameterName) {
+            return ! (bool) Strings::match($parameterName, '#^(kernel|container)\.#');
+        });
+    }
+
+    /**
      * @param string[] $missplacedNames
      */
     private function processParameter(array $missplacedNames, string $parameterName, string $correctParameterName): void
@@ -68,17 +79,6 @@ final class ParameterTypoProofreader
                 $this->throwException($parameterName, $correctParameterName);
             }
         }
-    }
-
-    /**
-     * @param string[] $parameterNames
-     * @return string[]
-     */
-    private function filterOutSystemParameterNames(array $parameterNames): array
-    {
-        return array_filter($parameterNames, function ($parameterName) {
-            return ! (bool) Strings::match($parameterName, '#^(kernel|container)\.#');
-        });
     }
 
     private function throwException(string $providedParameterName, string $correctParameterName): void

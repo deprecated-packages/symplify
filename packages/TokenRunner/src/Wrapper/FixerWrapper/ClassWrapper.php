@@ -344,6 +344,16 @@ final class ClassWrapper
     }
 
     /**
+     * @return mixed[]
+     */
+    public function getPrivateMethodElements(): array
+    {
+        return array_filter($this->getMethodElements(), function (array $element) {
+            return $element['visibility'] === 'private';
+        });
+    }
+
+    /**
      * @return string[]
      */
     public function getClassTypes(): array
@@ -372,6 +382,23 @@ final class ClassWrapper
         return $this->classTypes = array_values(array_unique($classTypes));
     }
 
+    /**
+     * @return string[]
+     */
+    public function getThisMethodCallsByOrderOfAppearance(): array
+    {
+        $methodCalls = [];
+        for ($i = $this->startBracketIndex; $i < $this->endBracketIndex; ++$i) {
+            if (! $this->isThisMethodCall($this->tokens, $i)) {
+                continue;
+            }
+            $token = $this->tokens[$i];
+            $methodCalls[] = $token->getContent();
+        }
+
+        return array_unique($methodCalls);
+    }
+
     private function getNamePosition(): ?int
     {
         if ((new TokensAnalyzer($this->tokens))->isAnonymousClass($this->startIndex)) {
@@ -385,14 +412,6 @@ final class ClassWrapper
         reset($stringTokens);
 
         return (int) key($stringTokens);
-    }
-
-    /**
-     * @return mixed[]
-     */
-    private function getMethods(): array
-    {
-        return $this->filterClassyTokens($this->getClassyElements(), ['method']);
     }
 
     /**
@@ -419,19 +438,6 @@ final class ClassWrapper
         return $filteredClassyTokens;
     }
 
-    private function isInClassRange(int $index): bool
-    {
-        if ($index < $this->startBracketIndex) {
-            return false;
-        }
-
-        if ($index > $this->endBracketIndex) {
-            return false;
-        }
-
-        return true;
-    }
-
     /**
      * @return mixed[]
      */
@@ -442,6 +448,14 @@ final class ClassWrapper
         }
 
         return $this->classyElements = $this->tokensAnalyzer->getClassyElements();
+    }
+
+    /**
+     * @return mixed[]
+     */
+    private function getMethods(): array
+    {
+        return $this->filterClassyTokens($this->getClassyElements(), ['method']);
     }
 
     /**
@@ -462,5 +476,33 @@ final class ClassWrapper
 
         // re-index from 0
         return array_values($methodElements);
+    }
+
+    private function isThisMethodCall(Tokens $tokens, int $index): bool
+    {
+        $prevIndex = $tokens->getPrevMeaningfulToken($index);
+        if (! $tokens[$prevIndex]->equals([T_OBJECT_OPERATOR, '->'])) {
+            return false;
+        }
+
+        $prevPrevIndex = $tokens->getPrevMeaningfulToken($prevIndex);
+        if ($tokens[$prevPrevIndex]->getContent() !== '$this') {
+            return false;
+        }
+
+        return $tokens[$tokens->getNextMeaningfulToken($index)]->equals('(');
+    }
+
+    private function isInClassRange(int $index): bool
+    {
+        if ($index < $this->startBracketIndex) {
+            return false;
+        }
+
+        if ($index > $this->endBracketIndex) {
+            return false;
+        }
+
+        return true;
     }
 }

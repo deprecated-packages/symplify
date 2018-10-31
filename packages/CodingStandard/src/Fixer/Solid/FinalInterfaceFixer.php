@@ -61,7 +61,7 @@ class SomeClass implements SomeInterface {};')]
                 continue;
             }
 
-            $this->fixClass($tokens, $index);
+            $tokens->insertAt($index, [new Token([T_FINAL, 'final']), new Token([T_WHITESPACE, ' '])]);
         }
     }
 
@@ -97,11 +97,6 @@ class SomeClass implements SomeInterface {};')]
         $this->onlyInterfaces = $configuration['only_interfaces'] ?? [];
     }
 
-    private function fixClass(Tokens $tokens, int $position): void
-    {
-        $tokens->insertAt($position, [new Token([T_FINAL, 'final']), new Token([T_WHITESPACE, ' '])]);
-    }
-
     private function shouldBeSkipped(ClassWrapper $classWrapper): bool
     {
         if (! $classWrapper->implementsInterface()) {
@@ -117,7 +112,7 @@ class SomeClass implements SomeInterface {};')]
         }
 
         if ($this->onlyInterfaces) {
-            return ! (bool) array_intersect($this->onlyInterfaces, $classWrapper->getInterfaceNames());
+            return ! array_intersect($this->onlyInterfaces, $classWrapper->getInterfaceNames());
         }
 
         return false;

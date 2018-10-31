@@ -107,19 +107,6 @@ final class LineLengthTransformer
         $this->insertNewlineAfterOpeningIfNeeded($tokens, $blockInfo->getStart());
     }
 
-    private function prepareIndentWhitespaces(Tokens $tokens, int $arrayStartIndex): void
-    {
-        $indentLevel = $this->indentDetector->detectOnPosition($tokens, $arrayStartIndex);
-
-        $this->indentWhitespace = str_repeat($this->whitespacesFixerConfig->getIndent(), $indentLevel + 1);
-        $this->closingBracketNewlineIndentWhitespace = $this->whitespacesFixerConfig->getLineEnding() . str_repeat(
-            $this->whitespacesFixerConfig->getIndent(),
-            $indentLevel
-        );
-
-        $this->newlineIndentWhitespace = $this->whitespacesFixerConfig->getLineEnding() . $this->indentWhitespace;
-    }
-
     private function getFirstLineLength(int $startPosition, Tokens $tokens): int
     {
         $lineLength = 0;
@@ -170,29 +157,6 @@ final class LineLengthTransformer
         return $lineLength;
     }
 
-    private function inlineItems(BlockInfo $blockInfo, Tokens $tokens): void
-    {
-        // replace PHP_EOL with " "
-        for ($i = $blockInfo->getStart() + 1; $i < $blockInfo->getEnd(); ++$i) {
-            $currentToken = $tokens[$i];
-            $i = $this->tokenSkipper->skipBlocks($tokens, $i);
-            if (! $currentToken->isGivenKind(T_WHITESPACE)) {
-                continue;
-            }
-
-            $previousToken = $tokens[$i - 1];
-            $nextToken = $tokens[$i + 1];
-
-            // clear space after opening and before closing bracket
-            if ($this->isBlockStartOrEnd($previousToken, $nextToken)) {
-                $tokens->clearAt($i);
-                continue;
-            }
-
-            $tokens[$i] = new Token([T_WHITESPACE, ' ']);
-        }
-    }
-
     private function getLengthFromStartEnd(BlockInfo $blockInfo, Tokens $tokens): int
     {
         $lineLength = 0;
@@ -233,23 +197,40 @@ final class LineLengthTransformer
         return $lineLength;
     }
 
-    private function isEndOFArgumentsLine(Tokens $tokens, int $position): bool
+    private function inlineItems(BlockInfo $blockInfo, Tokens $tokens): void
     {
-        if (Strings::startsWith($tokens[$position]->getContent(), PHP_EOL)) {
-            return true;
-        }
+        // replace PHP_EOL with " "
+        for ($i = $blockInfo->getStart() + 1; $i < $blockInfo->getEnd(); ++$i) {
+            $currentToken = $tokens[$i];
+            $i = $this->tokenSkipper->skipBlocks($tokens, $i);
+            if (! $currentToken->isGivenKind(T_WHITESPACE)) {
+                continue;
+            }
 
-        return $tokens[$position]->isGivenKind(CT::T_USE_LAMBDA);
+            $previousToken = $tokens[$i - 1];
+            $nextToken = $tokens[$i + 1];
+
+            // clear space after opening and before closing bracket
+            if ($this->isBlockStartOrEnd($previousToken, $nextToken)) {
+                $tokens->clearAt($i);
+                continue;
+            }
+
+            $tokens[$i] = new Token([T_WHITESPACE, ' ']);
+        }
     }
 
-    private function insertNewlineAfterOpeningIfNeeded(Tokens $tokens, int $arrayStartIndex): void
+    private function prepareIndentWhitespaces(Tokens $tokens, int $arrayStartIndex): void
     {
-        if ($tokens[$arrayStartIndex + 1]->isGivenKind(T_WHITESPACE)) {
-            $tokens->ensureWhitespaceAtIndex($arrayStartIndex + 1, 0, $this->newlineIndentWhitespace);
-            return;
-        }
+        $indentLevel = $this->indentDetector->detectOnPosition($tokens, $arrayStartIndex);
 
-        $tokens->ensureWhitespaceAtIndex($arrayStartIndex, 1, $this->newlineIndentWhitespace);
+        $this->indentWhitespace = str_repeat($this->whitespacesFixerConfig->getIndent(), $indentLevel + 1);
+        $this->closingBracketNewlineIndentWhitespace = $this->whitespacesFixerConfig->getLineEnding() . str_repeat(
+            $this->whitespacesFixerConfig->getIndent(),
+            $indentLevel
+        );
+
+        $this->newlineIndentWhitespace = $this->whitespacesFixerConfig->getLineEnding() . $this->indentWhitespace;
     }
 
     private function insertNewlineBeforeClosingIfNeeded(Tokens $tokens, int $arrayEndIndex): void
@@ -282,6 +263,16 @@ final class LineLengthTransformer
         return false;
     }
 
+    private function insertNewlineAfterOpeningIfNeeded(Tokens $tokens, int $arrayStartIndex): void
+    {
+        if ($tokens[$arrayStartIndex + 1]->isGivenKind(T_WHITESPACE)) {
+            $tokens->ensureWhitespaceAtIndex($arrayStartIndex + 1, 0, $this->newlineIndentWhitespace);
+            return;
+        }
+
+        $tokens->ensureWhitespaceAtIndex($arrayStartIndex, 1, $this->newlineIndentWhitespace);
+    }
+
     private function isNewLineOrOpenTag(Tokens $tokens, int $position): bool
     {
         if (Strings::startsWith($tokens[$position]->getContent(), PHP_EOL)) {
@@ -289,6 +280,15 @@ final class LineLengthTransformer
         }
 
         return $tokens[$position]->isGivenKind(T_OPEN_TAG);
+    }
+
+    private function isEndOFArgumentsLine(Tokens $tokens, int $position): bool
+    {
+        if (Strings::startsWith($tokens[$position]->getContent(), PHP_EOL)) {
+            return true;
+        }
+
+        return $tokens[$position]->isGivenKind(CT::T_USE_LAMBDA);
     }
 
     private function isBlockStartOrEnd(Token $previousToken, Token $nextToken): bool

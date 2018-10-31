@@ -78,32 +78,34 @@ final class GithubApi
         return $this->filterPullRequestsNewerThanMergedAt($mergedPullRequests, $this->getMergedAtByPullRequest($id));
     }
 
-    private function getResponseToUrl(string $url): ResponseInterface
+    /**
+     * @return mixed[]
+     */
+    private function getPullRequestsSinceId(int $id): array
     {
-        try {
-            $response = $this->client->request('GET', $url, $this->options);
-        } catch (RequestException $requestException) {
-            if (Strings::contains($requestException->getMessage(), 'API rate limit exceeded')) {
-                throw $this->createGithubApiTokenException('Github API rate limit exceeded.', $requestException);
+        $maxPage = 10; // max. 1000 merge requests to dump
+
+        $pullRequests = [];
+        for ($i = 1; $i <= $maxPage; ++$i) {
+            $url = sprintf(self::URL_CLOSED_PULL_REQUESTS, $this->repositoryName) . '&page=' . $i;
+            $response = $this->getResponseToUrl($url);
+
+            // already no more pages → stop
+            $newPullRequests = $this->responseFormatter->formatToJson($response);
+            if (! count($newPullRequests)) {
+                break;
             }
 
-            // un-authorized access → provide token
-            if ($requestException->getCode() === 401) {
-                throw $this->createGithubApiTokenException('Github API un-authorized access.', $requestException);
+            $pullRequests = array_merge($pullRequests, $newPullRequests);
+
+            // our id was found → stop after this one
+            $pullRequestIds = array_column($newPullRequests, 'number');
+            if (in_array($id, $pullRequestIds, true)) {
+                break;
             }
-
-            throw $requestException;
         }
 
-        if ($response->getStatusCode() !== 200) {
-            throw new GithubApiException(sprintf(
-                'Response to GET request "%s" failed: "%s"',
-                $url,
-                $response->getReasonPhrase()
-            ));
-        }
-
-        return $response;
+        return $pullRequests;
     }
 
     /**
@@ -137,40 +139,38 @@ final class GithubApi
         return $json['merged_at'];
     }
 
+    private function getResponseToUrl(string $url): ResponseInterface
+    {
+        try {
+            $response = $this->client->request('GET', $url, $this->options);
+        } catch (RequestException $requestException) {
+            if (Strings::contains($requestException->getMessage(), 'API rate limit exceeded')) {
+                throw $this->createGithubApiTokenException('Github API rate limit exceeded.', $requestException);
+            }
+
+            // un-authorized access → provide token
+            if ($requestException->getCode() === 401) {
+                throw $this->createGithubApiTokenException('Github API un-authorized access.', $requestException);
+            }
+
+            throw $requestException;
+        }
+
+        if ($response->getStatusCode() !== 200) {
+            throw new GithubApiException(sprintf(
+                'Response to GET request "%s" failed: "%s"',
+                $url,
+                $response->getReasonPhrase()
+            ));
+        }
+
+        return $response;
+    }
+
     private function createGithubApiTokenException(string $reason, Throwable $throwable): GithubApiException
     {
         $message = $reason . PHP_EOL . 'Create a token at https://github.com/settings/tokens/new with only repository scope and use it as ENV variable: "GITHUB_TOKEN=... vendor/bin/changelog-linker ..." option.';
 
         return new GithubApiException($message, $throwable->getCode(), $throwable);
-    }
-
-    /**
-     * @return mixed[]
-     */
-    private function getPullRequestsSinceId(int $id): array
-    {
-        $maxPage = 10; // max. 1000 merge requests to dump
-
-        $pullRequests = [];
-        for ($i = 1; $i <= $maxPage; ++$i) {
-            $url = sprintf(self::URL_CLOSED_PULL_REQUESTS, $this->repositoryName) . '&page=' . $i;
-            $response = $this->getResponseToUrl($url);
-
-            // already no more pages → stop
-            $newPullRequests = $this->responseFormatter->formatToJson($response);
-            if (! count($newPullRequests)) {
-                break;
-            }
-
-            $pullRequests = array_merge($pullRequests, $newPullRequests);
-
-            // our id was found → stop after this one
-            $pullRequestIds = array_column($newPullRequests, 'number');
-            if (in_array($id, $pullRequestIds, true)) {
-                break;
-            }
-        }
-
-        return $pullRequests;
     }
 }

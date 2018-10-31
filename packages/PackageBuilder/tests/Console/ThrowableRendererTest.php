@@ -64,6 +64,12 @@ final class ThrowableRendererTest extends TestCase
         );
     }
 
+    private function createStreamOutput(): StreamOutput
+    {
+        $this->tempFile = tmpfile();
+        return new StreamOutput($this->tempFile);
+    }
+
     /**
      * Inspired by http://alexandre-salome.fr/blog/Test-your-commands-in-Symfony2
      */
@@ -74,11 +80,5 @@ final class ThrowableRendererTest extends TestCase
         fclose($this->tempFile);
 
         return $output;
-    }
-
-    private function createStreamOutput(): StreamOutput
-    {
-        $this->tempFile = tmpfile();
-        return new StreamOutput($this->tempFile);
     }
 }
